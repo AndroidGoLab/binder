@@ -99,6 +99,7 @@ func (p *TunerFilterProxy) GetId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterGetId)
@@ -128,6 +129,7 @@ func (p *TunerFilterProxy) GetId64Bit(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterGetId64Bit)
@@ -157,6 +159,7 @@ func (p *TunerFilterProxy) GetQueueDesc(
 ) (fmq.MQDescriptor, error) {
 	var _result fmq.MQDescriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterGetQueueDesc)
@@ -191,6 +194,7 @@ func (p *TunerFilterProxy) Configure(
 	settings tvTuner.DemuxFilterSettings,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 	_data.WriteInt32(1)
 	if _err := settings.MarshalParcel(_data); _err != nil {
@@ -220,6 +224,7 @@ func (p *TunerFilterProxy) ConfigureMonitorEvent(
 	monitorEventTypes int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 	_data.WriteInt32(monitorEventTypes)
 
@@ -246,6 +251,7 @@ func (p *TunerFilterProxy) ConfigureIpFilterContextId(
 	cid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 	_data.WriteInt32(cid)
 
@@ -272,6 +278,7 @@ func (p *TunerFilterProxy) ConfigureAvStreamType(
 	avStreamType tvTuner.AvStreamType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 	_data.WriteInt32(1)
 	if _err := avStreamType.MarshalParcel(_data); _err != nil {
@@ -302,6 +309,7 @@ func (p *TunerFilterProxy) GetAvSharedHandle(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterGetAvSharedHandle)
@@ -318,8 +326,16 @@ func (p *TunerFilterProxy) GetAvSharedHandle(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = avMemory.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = avMemory.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadInt64()
@@ -335,6 +351,7 @@ func (p *TunerFilterProxy) ReleaseAvHandle(
 	avDataId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
@@ -365,6 +382,7 @@ func (p *TunerFilterProxy) SetDataSource(
 	filter ITunerFilter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.Remote.Transport())
 
@@ -390,6 +408,7 @@ func (p *TunerFilterProxy) Start(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterStart)
@@ -414,6 +433,7 @@ func (p *TunerFilterProxy) Stop(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterStop)
@@ -438,6 +458,7 @@ func (p *TunerFilterProxy) Flush(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterFlush)
@@ -462,6 +483,7 @@ func (p *TunerFilterProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterClose)
@@ -487,6 +509,7 @@ func (p *TunerFilterProxy) AcquireSharedFilterToken(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterAcquireSharedFilterToken)
@@ -516,6 +539,7 @@ func (p *TunerFilterProxy) FreeSharedFilterToken(
 	filterToken string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 	_data.WriteString16(filterToken)
 
@@ -542,6 +566,7 @@ func (p *TunerFilterProxy) GetFilterType(
 ) (tvTuner.DemuxFilterType, error) {
 	var _result tvTuner.DemuxFilterType
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterGetFilterType)
@@ -576,6 +601,7 @@ func (p *TunerFilterProxy) SetDelayHint(
 	hint tvTuner.FilterDelayHint,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 	_data.WriteInt32(1)
 	if _err := hint.MarshalParcel(_data); _err != nil {
@@ -603,7 +629,8 @@ func (p *TunerFilterProxy) SetDelayHint(
 // TunerFilterStub dispatches incoming binder transactions
 // to a typed ITunerFilter implementation.
 type TunerFilterStub struct {
-	Impl ITunerFilter
+	Impl      ITunerFilter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TunerFilterStub)(nil)
@@ -617,11 +644,12 @@ func (s *TunerFilterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITunerFilterGetId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -632,9 +660,6 @@ func (s *TunerFilterStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITunerFilterGetId64Bit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetId64Bit(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -645,9 +670,6 @@ func (s *TunerFilterStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionITunerFilterGetQueueDesc:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetQueueDesc(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -661,9 +683,6 @@ func (s *TunerFilterStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITunerFilterConfigure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_settings tvTuner.DemuxFilterSettings
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -685,9 +704,6 @@ func (s *TunerFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFilterConfigureMonitorEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_monitorEventTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -701,9 +717,6 @@ func (s *TunerFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFilterConfigureIpFilterContextId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -717,9 +730,6 @@ func (s *TunerFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFilterConfigureAvStreamType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_avStreamType tvTuner.AvStreamType
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -741,9 +751,6 @@ func (s *TunerFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFilterGetAvSharedHandle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_avMemory common.NativeHandle
 		_result, _err := s.Impl.GetAvSharedHandle(ctx, _arg_avMemory)
 		_reply := parcel.New()
@@ -753,11 +760,12 @@ func (s *TunerFilterStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt64(_result)
-		return _reply, nil
-	case TransactionITunerFilterReleaseAvHandle:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_avMemory.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionITunerFilterReleaseAvHandle:
 		var _arg_handle common.NativeHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -783,12 +791,14 @@ func (s *TunerFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFilterSetDataSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_filter ITunerFilter
-		_ = _arg_filter
+		{
+			_filterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_filter = NewTunerFilterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _filterHandle))
+		}
 		_err := s.Impl.SetDataSource(ctx, _arg_filter)
 		_reply := parcel.New()
 		if _err != nil {
@@ -798,9 +808,6 @@ func (s *TunerFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFilterStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Start(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -810,9 +817,6 @@ func (s *TunerFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFilterStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Stop(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -822,9 +826,6 @@ func (s *TunerFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFilterFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Flush(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -834,9 +835,6 @@ func (s *TunerFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFilterClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -846,9 +844,6 @@ func (s *TunerFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFilterAcquireSharedFilterToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.AcquireSharedFilterToken(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -859,9 +854,6 @@ func (s *TunerFilterStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITunerFilterFreeSharedFilterToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_filterToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -875,9 +867,6 @@ func (s *TunerFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFilterGetFilterType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetFilterType(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -891,9 +880,6 @@ func (s *TunerFilterStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITunerFilterSetDelayHint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_hint tvTuner.FilterDelayHint
 		{
 			_nullInd, _err := _data.ReadInt32()

@@ -1,0 +1,49 @@
+package: android.os.logcat
+go_package: android/os/logcat
+interfaces:
+    - name: ILogcatManagerService
+      descriptor: android.os.logcat.ILogcatManagerService
+      oneway: true
+      methods:
+        - name: startThread
+          transaction_code_offset: 0
+          params:
+            - name: uid
+              type:
+                name: int
+              direction: in
+            - name: gid
+              type:
+                name: int
+              direction: in
+            - name: pid
+              type:
+                name: int
+              direction: in
+            - name: fd
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: finishThread
+          transaction_code_offset: 1
+          params:
+            - name: uid
+              type:
+                name: int
+              direction: in
+            - name: gid
+              type:
+                name: int
+              direction: in
+            - name: pid
+              type:
+                name: int
+              direction: in
+            - name: fd
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void

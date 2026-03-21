@@ -65,6 +65,7 @@ func (p *RadioMessagingIndicationProxy) CdmaNewSms(
 	msg CdmaSmsMessage,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingIndication)
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(1)
@@ -86,6 +87,7 @@ func (p *RadioMessagingIndicationProxy) CdmaRuimSmsStorageFull(
 	type_ radio.RadioIndicationType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingIndication)
 	_data.WriteInt32(int32(type_))
 
@@ -104,16 +106,10 @@ func (p *RadioMessagingIndicationProxy) NewBroadcastSms(
 	data []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingIndication)
 	_data.WriteInt32(int32(type_))
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationNewBroadcastSms)
 	if _err != nil {
@@ -130,16 +126,10 @@ func (p *RadioMessagingIndicationProxy) NewSms(
 	pdu []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingIndication)
 	_data.WriteInt32(int32(type_))
-	if pdu == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(pdu)))
-		for _, _item := range pdu {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(pdu)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationNewSms)
 	if _err != nil {
@@ -156,6 +146,7 @@ func (p *RadioMessagingIndicationProxy) NewSmsOnSim(
 	recordNumber int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingIndication)
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(recordNumber)
@@ -175,16 +166,10 @@ func (p *RadioMessagingIndicationProxy) NewSmsStatusReport(
 	pdu []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingIndication)
 	_data.WriteInt32(int32(type_))
-	if pdu == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(pdu)))
-		for _, _item := range pdu {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(pdu)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationNewSmsStatusReport)
 	if _err != nil {
@@ -200,6 +185,7 @@ func (p *RadioMessagingIndicationProxy) SimSmsStorageFull(
 	type_ radio.RadioIndicationType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingIndication)
 	_data.WriteInt32(int32(type_))
 
@@ -215,7 +201,8 @@ func (p *RadioMessagingIndicationProxy) SimSmsStorageFull(
 // RadioMessagingIndicationStub dispatches incoming binder transactions
 // to a typed IRadioMessagingIndication implementation.
 type RadioMessagingIndicationStub struct {
-	Impl IRadioMessagingIndication
+	Impl      IRadioMessagingIndication
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RadioMessagingIndicationStub)(nil)
@@ -229,11 +216,12 @@ func (s *RadioMessagingIndicationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRadioMessagingIndicationCdmaNewSms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -252,54 +240,48 @@ func (s *RadioMessagingIndicationStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.CdmaNewSms(ctx, _arg_type_, _arg_msg)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingIndicationCdmaRuimSmsStorageFull:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		_err = s.Impl.CdmaRuimSmsStorageFull(ctx, _arg_type_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingIndicationNewBroadcastSms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
-		_err = s.Impl.NewBroadcastSms(ctx, _arg_type_, _arg_data)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioMessagingIndicationNewSms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
 		}
+		_err = s.Impl.NewBroadcastSms(ctx, _arg_type_, _arg_data)
+		return nil, _err
+	case TransactionIRadioMessagingIndicationNewSms:
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pdu []byte
-		_ = _arg_pdu
-		_err = s.Impl.NewSms(ctx, _arg_type_, _arg_pdu)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioMessagingIndicationNewSmsOnSim:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_pdu = _bytes
 		}
+		_err = s.Impl.NewSms(ctx, _arg_type_, _arg_pdu)
+		return nil, _err
+	case TransactionIRadioMessagingIndicationNewSmsOnSim:
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -310,35 +292,31 @@ func (s *RadioMessagingIndicationStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NewSmsOnSim(ctx, _arg_type_, _arg_recordNumber)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingIndicationNewSmsStatusReport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pdu []byte
-		_ = _arg_pdu
-		_err = s.Impl.NewSmsStatusReport(ctx, _arg_type_, _arg_pdu)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioMessagingIndicationSimSmsStorageFull:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_pdu = _bytes
 		}
+		_err = s.Impl.NewSmsStatusReport(ctx, _arg_type_, _arg_pdu)
+		return nil, _err
+	case TransactionIRadioMessagingIndicationSimSmsStorageFull:
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		_err = s.Impl.SimSmsStorageFull(ctx, _arg_type_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

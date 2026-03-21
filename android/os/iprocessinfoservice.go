@@ -49,6 +49,7 @@ func (p *ProcessInfoServiceProxy) GetProcessStatesFromPids(
 	states []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessInfoService)
 	if pids == nil {
 		_data.WriteInt32(-1)
@@ -77,6 +78,9 @@ func (p *ProcessInfoServiceProxy) GetProcessStatesFromPids(
 	if _err != nil {
 		return _err
 	}
+	if _outCount0 > 1000000 {
+		return fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		states = make([]int32, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -97,6 +101,7 @@ func (p *ProcessInfoServiceProxy) GetProcessStatesAndOomScoresFromPids(
 	scores []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessInfoService)
 	if pids == nil {
 		_data.WriteInt32(-1)
@@ -125,6 +130,9 @@ func (p *ProcessInfoServiceProxy) GetProcessStatesAndOomScoresFromPids(
 	if _err != nil {
 		return _err
 	}
+	if _outCount0 > 1000000 {
+		return fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		states = make([]int32, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -137,6 +145,9 @@ func (p *ProcessInfoServiceProxy) GetProcessStatesAndOomScoresFromPids(
 	_outCount1, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+	if _outCount1 > 1000000 {
+		return fmt.Errorf("array count too large: %d", _outCount1)
 	}
 	if _outCount1 >= 0 {
 		scores = make([]int32, _outCount1)
@@ -154,7 +165,8 @@ func (p *ProcessInfoServiceProxy) GetProcessStatesAndOomScoresFromPids(
 // ProcessInfoServiceStub dispatches incoming binder transactions
 // to a typed IProcessInfoService implementation.
 type ProcessInfoServiceStub struct {
-	Impl IProcessInfoService
+	Impl      IProcessInfoService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ProcessInfoServiceStub)(nil)
@@ -168,14 +180,31 @@ func (s *ProcessInfoServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIProcessInfoServiceGetProcessStatesFromPids:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pids []int32
-		_ = _arg_pids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_pids = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_pids[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_states []int32
 		_err := s.Impl.GetProcessStatesFromPids(ctx, _arg_pids, _arg_states)
 		_reply := parcel.New()
@@ -184,14 +213,35 @@ func (s *ProcessInfoServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		if _arg_states == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_states)))
+			for _, _item := range _arg_states {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIProcessInfoServiceGetProcessStatesAndOomScoresFromPids:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pids []int32
-		_ = _arg_pids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_pids = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_pids[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_states []int32
 		var _arg_scores []int32
 		_err := s.Impl.GetProcessStatesAndOomScoresFromPids(ctx, _arg_pids, _arg_states, _arg_scores)
@@ -201,6 +251,22 @@ func (s *ProcessInfoServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		if _arg_states == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_states)))
+			for _, _item := range _arg_states {
+				_reply.WriteInt32(_item)
+			}
+		}
+		if _arg_scores == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_scores)))
+			for _, _item := range _arg_scores {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

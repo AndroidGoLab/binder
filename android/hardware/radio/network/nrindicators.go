@@ -34,14 +34,29 @@ func (s *NrIndicators) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsEndcAvailable, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsDcNrRestricted, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.IsNrAvailable, _err = p.ReadBool()

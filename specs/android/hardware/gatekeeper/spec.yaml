@@ -1,0 +1,113 @@
+package: android.hardware.gatekeeper
+go_package: android/hardware/gatekeeper
+interfaces:
+    - name: IGatekeeper
+      descriptor: android.hardware.gatekeeper.IGatekeeper
+      methods:
+        - name: deleteAllUsers
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: deleteUser
+          transaction_code_offset: 1
+          params:
+            - name: uid
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: enroll
+          transaction_code_offset: 2
+          params:
+            - name: uid
+              type:
+                name: int
+              direction: in
+            - name: currentPasswordHandle
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: currentPassword
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: desiredPassword
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: GatekeeperEnrollResponse
+        - name: verify
+          transaction_code_offset: 3
+          params:
+            - name: uid
+              type:
+                name: int
+              direction: in
+            - name: challenge
+              type:
+                name: long
+              direction: in
+            - name: enrolledPasswordHandle
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: providedPassword
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: GatekeeperVerifyResponse
+      constants:
+        - name: STATUS_REENROLL
+          type: int
+          value: "1"
+        - name: STATUS_OK
+          type: int
+          value: "0"
+        - name: ERROR_GENERAL_FAILURE
+          type: int
+          value: "-1"
+        - name: ERROR_RETRY_TIMEOUT
+          type: int
+          value: "-2"
+        - name: ERROR_NOT_IMPLEMENTED
+          type: int
+          value: "-3"
+parcelables:
+    - name: GatekeeperEnrollResponse
+      fields:
+        - name: statusCode
+          type:
+            name: int
+        - name: timeoutMs
+          type:
+            name: int
+        - name: secureUserId
+          type:
+            name: long
+        - name: data
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: GatekeeperVerifyResponse
+      fields:
+        - name: statusCode
+          type:
+            name: int
+        - name: timeoutMs
+          type:
+            name: int
+        - name: hardwareAuthToken
+          type:
+            name: HardwareAuthToken
+      annotations:
+        - VintfStability

@@ -69,6 +69,7 @@ func (p *ImsRegistrationProxy) GetRegistrationTechnology(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistration, MethodIImsRegistrationGetRegistrationTechnology)
@@ -98,6 +99,7 @@ func (p *ImsRegistrationProxy) AddRegistrationCallback(
 	c IImsRegistrationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 
@@ -115,6 +117,7 @@ func (p *ImsRegistrationProxy) RemoveRegistrationCallback(
 	c IImsRegistrationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 
@@ -132,6 +135,7 @@ func (p *ImsRegistrationProxy) AddEmergencyRegistrationCallback(
 	c IImsRegistrationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 
@@ -149,6 +153,7 @@ func (p *ImsRegistrationProxy) RemoveEmergencyRegistrationCallback(
 	c IImsRegistrationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 
@@ -167,6 +172,7 @@ func (p *ImsRegistrationProxy) TriggerFullNetworkRegistration(
 	sipReason string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 	_data.WriteInt32(sipCode)
 	_data.WriteString16(sipReason)
@@ -184,6 +190,7 @@ func (p *ImsRegistrationProxy) TriggerUpdateSipDelegateRegistration(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistration, MethodIImsRegistrationTriggerUpdateSipDelegateRegistration)
@@ -199,6 +206,7 @@ func (p *ImsRegistrationProxy) TriggerSipDelegateDeregistration(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistration, MethodIImsRegistrationTriggerSipDelegateDeregistration)
@@ -215,6 +223,7 @@ func (p *ImsRegistrationProxy) TriggerDeregistration(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 	_data.WriteInt32(reason)
 
@@ -230,7 +239,8 @@ func (p *ImsRegistrationProxy) TriggerDeregistration(
 // ImsRegistrationStub dispatches incoming binder transactions
 // to a typed IImsRegistration implementation.
 type ImsRegistrationStub struct {
-	Impl IImsRegistration
+	Impl      IImsRegistration
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsRegistrationStub)(nil)
@@ -244,11 +254,12 @@ func (s *ImsRegistrationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsRegistrationGetRegistrationTechnology:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRegistrationTechnology(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -259,49 +270,50 @@ func (s *ImsRegistrationStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsRegistrationAddRegistrationCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IImsRegistrationCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewImsRegistrationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err := s.Impl.AddRegistrationCallback(ctx, _arg_c)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationRemoveRegistrationCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IImsRegistrationCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewImsRegistrationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err := s.Impl.RemoveRegistrationCallback(ctx, _arg_c)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationAddEmergencyRegistrationCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IImsRegistrationCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewImsRegistrationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err := s.Impl.AddEmergencyRegistrationCallback(ctx, _arg_c)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationRemoveEmergencyRegistrationCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IImsRegistrationCallback
-		_ = _arg_c
-		_err := s.Impl.RemoveEmergencyRegistrationCallback(ctx, _arg_c)
-		_ = _err
-		return nil, nil
-	case TransactionIImsRegistrationTriggerFullNetworkRegistration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewImsRegistrationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
 		}
+		_err := s.Impl.RemoveEmergencyRegistrationCallback(ctx, _arg_c)
+		return nil, _err
+	case TransactionIImsRegistrationTriggerFullNetworkRegistration:
 		_arg_sipCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -311,33 +323,20 @@ func (s *ImsRegistrationStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.TriggerFullNetworkRegistration(ctx, _arg_sipCode, _arg_sipReason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationTriggerUpdateSipDelegateRegistration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.TriggerUpdateSipDelegateRegistration(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationTriggerSipDelegateDeregistration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.TriggerSipDelegateDeregistration(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationTriggerDeregistration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.TriggerDeregistration(ctx, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

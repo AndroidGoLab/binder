@@ -32,9 +32,19 @@ func (s *RttLcrInformation) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.CountryCode, _err = p.ReadFixedByteArray(2)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.CivicInfo, _err = p.ReadString16()

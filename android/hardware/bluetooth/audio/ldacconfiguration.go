@@ -36,9 +36,19 @@ func (s *LdacConfiguration) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SampleRateHz, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_channelModeRaw, _err := p.ReadPaddedByte()
@@ -47,11 +57,21 @@ func (s *LdacConfiguration) UnmarshalParcel(
 	}
 	s.ChannelMode = LdacChannelMode(_channelModeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_qualityIndexRaw, _err := p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}
 	s.QualityIndex = LdacQualityIndex(_qualityIndexRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.BitsPerSample, _err = p.ReadPaddedByte()
 	if _err != nil {

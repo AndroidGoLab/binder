@@ -34,17 +34,32 @@ func (s *FileProperties) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_integrityRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Integrity = FileIntegrity(_integrityRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_availabilityRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Availability = FileAvailability(_availabilityRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.Persistent, _err = p.ReadBool()
 	if _err != nil {

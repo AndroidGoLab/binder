@@ -1,6 +1,7 @@
 package media
 
 import (
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -9,9 +10,9 @@ import (
 
 type CreateTrackRequest struct {
 	Attr                   AudioAttributes
-	Config                 interface{}
+	Config                 common.AudioConfig
 	ClientInfo             AudioClient
-	SharedBuffer           SharedFileRegion
+	SharedBuffer           *SharedFileRegion
 	NotificationsPerBuffer int32
 	Speed                  float32
 	AudioTrackCallback     IAudioTrackCallback
@@ -32,11 +33,19 @@ func (s *CreateTrackRequest) MarshalParcel(
 	if _err := s.Attr.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	if _err := s.Config.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	if _err := s.ClientInfo.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if _err := s.SharedBuffer.MarshalParcel(p); _err != nil {
-		return _err
+	if s.SharedBuffer == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.SharedBuffer.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	p.WriteInt32(s.NotificationsPerBuffer)
 	p.WriteFloat32(s.Speed)
@@ -64,16 +73,55 @@ func (s *CreateTrackRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Attr.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.Config.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.ClientInfo.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
-	if _err = s.SharedBuffer.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val SharedFileRegion
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.SharedBuffer = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.NotificationsPerBuffer, _err = p.ReadInt32()
@@ -81,9 +129,19 @@ func (s *CreateTrackRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Speed, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_audioTrackCallbackHandle, _err := p.ReadStrongBinder()
@@ -92,9 +150,19 @@ func (s *CreateTrackRequest) UnmarshalParcel(
 	}
 	s.AudioTrackCallback = NewAudioTrackCallbackProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _audioTrackCallbackHandle))
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.OpPackageName, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Flags, _err = p.ReadInt32()
@@ -102,9 +170,19 @@ func (s *CreateTrackRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.FrameCount, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.NotificationFrameCount, _err = p.ReadInt64()
@@ -112,9 +190,19 @@ func (s *CreateTrackRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SelectedDeviceId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SessionId, _err = p.ReadInt32()

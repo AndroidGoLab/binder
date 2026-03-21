@@ -73,6 +73,7 @@ func (p *DataServiceCallbackProxy) OnSetupDataCallComplete(
 	dataCallResponse DataCallResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	_data.WriteInt32(result)
 	_data.WriteInt32(1)
@@ -94,6 +95,7 @@ func (p *DataServiceCallbackProxy) OnDeactivateDataCallComplete(
 	result int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	_data.WriteInt32(result)
 
@@ -111,6 +113,7 @@ func (p *DataServiceCallbackProxy) OnSetInitialAttachApnComplete(
 	result int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	_data.WriteInt32(result)
 
@@ -128,6 +131,7 @@ func (p *DataServiceCallbackProxy) OnSetDataProfileComplete(
 	result int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	_data.WriteInt32(result)
 
@@ -146,6 +150,7 @@ func (p *DataServiceCallbackProxy) OnRequestDataCallListComplete(
 	dataCallList []DataCallResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	_data.WriteInt32(result)
 	if dataCallList == nil {
@@ -174,6 +179,7 @@ func (p *DataServiceCallbackProxy) OnDataCallListChanged(
 	dataCallList []DataCallResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	if dataCallList == nil {
 		_data.WriteInt32(-1)
@@ -201,6 +207,7 @@ func (p *DataServiceCallbackProxy) OnHandoverStarted(
 	result int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	_data.WriteInt32(result)
 
@@ -218,6 +225,7 @@ func (p *DataServiceCallbackProxy) OnHandoverCancelled(
 	result int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	_data.WriteInt32(result)
 
@@ -235,6 +243,7 @@ func (p *DataServiceCallbackProxy) OnApnUnthrottled(
 	apn string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	_data.WriteString16(apn)
 
@@ -252,6 +261,7 @@ func (p *DataServiceCallbackProxy) OnDataProfileUnthrottled(
 	dp DataProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	_data.WriteInt32(1)
 	if _err := dp.MarshalParcel(_data); _err != nil {
@@ -270,7 +280,8 @@ func (p *DataServiceCallbackProxy) OnDataProfileUnthrottled(
 // DataServiceCallbackStub dispatches incoming binder transactions
 // to a typed IDataServiceCallback implementation.
 type DataServiceCallbackStub struct {
-	Impl IDataServiceCallback
+	Impl      IDataServiceCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DataServiceCallbackStub)(nil)
@@ -284,11 +295,12 @@ func (s *DataServiceCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDataServiceCallbackOnSetupDataCallComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -306,102 +318,102 @@ func (s *DataServiceCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnSetupDataCallComplete(ctx, _arg_result, _arg_dataCallResponse)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceCallbackOnDeactivateDataCallComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDeactivateDataCallComplete(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceCallbackOnSetInitialAttachApnComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSetInitialAttachApnComplete(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceCallbackOnSetDataProfileComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSetDataProfileComplete(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceCallbackOnRequestDataCallListComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_dataCallList []DataCallResponse
-		_ = _arg_dataCallList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_dataCallList = make([]DataCallResponse, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_dataCallList[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.OnRequestDataCallListComplete(ctx, _arg_result, _arg_dataCallList)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceCallbackOnDataCallListChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_dataCallList []DataCallResponse
-		_ = _arg_dataCallList
-		_err := s.Impl.OnDataCallListChanged(ctx, _arg_dataCallList)
-		_ = _err
-		return nil, nil
-	case TransactionIDataServiceCallbackOnHandoverStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_dataCallList = make([]DataCallResponse, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_dataCallList[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnDataCallListChanged(ctx, _arg_dataCallList)
+		return nil, _err
+	case TransactionIDataServiceCallbackOnHandoverStarted:
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnHandoverStarted(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceCallbackOnHandoverCancelled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnHandoverCancelled(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceCallbackOnApnUnthrottled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_apn, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnApnUnthrottled(ctx, _arg_apn)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceCallbackOnDataProfileUnthrottled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_dp DataProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -415,8 +427,7 @@ func (s *DataServiceCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDataProfileUnthrottled(ctx, _arg_dp)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

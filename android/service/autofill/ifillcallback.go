@@ -28,7 +28,7 @@ type IFillCallback interface {
 	AsBinder() binder.IBinder
 	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
 	OnSuccess(ctx context.Context, response FillResponse) error
-	OnFailure(ctx context.Context, requestId int32, message interface{}) error
+	OnFailure(ctx context.Context, requestId int32, message string) error
 }
 
 type FillCallbackProxy struct {
@@ -52,6 +52,7 @@ func (p *FillCallbackProxy) OnCancellable(
 	cancellation common.ICancellationSignal,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFillCallback)
 	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
 
@@ -69,6 +70,7 @@ func (p *FillCallbackProxy) OnSuccess(
 	response FillResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFillCallback)
 	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
@@ -87,11 +89,13 @@ func (p *FillCallbackProxy) OnSuccess(
 func (p *FillCallbackProxy) OnFailure(
 	ctx context.Context,
 	requestId int32,
-	message interface{},
+	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFillCallback)
 	_data.WriteInt32(requestId)
+	_data.WriteString16(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFillCallback, MethodIFillCallbackOnFailure)
 	if _err != nil {
@@ -105,7 +109,8 @@ func (p *FillCallbackProxy) OnFailure(
 // FillCallbackStub dispatches incoming binder transactions
 // to a typed IFillCallback implementation.
 type FillCallbackStub struct {
-	Impl IFillCallback
+	Impl      IFillCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FillCallbackStub)(nil)
@@ -119,21 +124,23 @@ func (s *FillCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFillCallbackOnCancellable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cancellation common.ICancellationSignal
-		_ = _arg_cancellation
-		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
-		_ = _err
-		return nil, nil
-	case TransactionIFillCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_cancellationHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cancellation = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
 		}
+		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
+		return nil, _err
+	case TransactionIFillCallbackOnSuccess:
 		var _arg_response FillResponse
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -147,20 +154,18 @@ func (s *FillCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSuccess(ctx, _arg_response)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFillCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_message interface{}
+		_arg_message, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		_err = s.Impl.OnFailure(ctx, _arg_requestId, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -172,7 +177,7 @@ func (s *FillCallbackStub) OnTransaction(
 type IFillCallbackServer interface {
 	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
 	OnSuccess(ctx context.Context, response FillResponse) error
-	OnFailure(ctx context.Context, requestId int32, message interface{}) error
+	OnFailure(ctx context.Context, requestId int32, message string) error
 }
 
 type fillCallbackStubWrapper struct {
@@ -201,7 +206,7 @@ func (w *fillCallbackStubWrapper) OnSuccess(
 func (w *fillCallbackStubWrapper) OnFailure(
 	ctx context.Context,
 	requestId int32,
-	message interface{},
+	message string,
 ) error {
 	return w.impl.OnFailure(ctx, requestId, message)
 }

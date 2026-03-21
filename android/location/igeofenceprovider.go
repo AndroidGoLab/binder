@@ -46,6 +46,7 @@ func (p *GeofenceProviderProxy) SetGeofenceHardware(
 	proxy hardwareLocation.IGeofenceHardware,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceProvider)
 	binder.WriteBinderToParcel(ctx, _data, proxy.AsBinder(), p.Remote.Transport())
 
@@ -61,7 +62,8 @@ func (p *GeofenceProviderProxy) SetGeofenceHardware(
 // GeofenceProviderStub dispatches incoming binder transactions
 // to a typed IGeofenceProvider implementation.
 type GeofenceProviderStub struct {
-	Impl IGeofenceProvider
+	Impl      IGeofenceProvider
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GeofenceProviderStub)(nil)
@@ -75,17 +77,22 @@ func (s *GeofenceProviderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGeofenceProviderSetGeofenceHardware:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_proxy hardwareLocation.IGeofenceHardware
-		_ = _arg_proxy
+		{
+			_proxyHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_proxy = hardwareLocation.NewGeofenceHardwareProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _proxyHandle))
+		}
 		_err := s.Impl.SetGeofenceHardware(ctx, _arg_proxy)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

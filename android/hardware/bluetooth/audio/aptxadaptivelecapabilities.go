@@ -59,9 +59,19 @@ func (s *AptxAdaptiveLeCapabilities) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PcmBitDepth, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count1 int32
@@ -79,6 +89,11 @@ func (s *AptxAdaptiveLeCapabilities) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count2 int32
 	_count2, _err = p.ReadInt32()
 	if _err != nil {
@@ -94,6 +109,11 @@ func (s *AptxAdaptiveLeCapabilities) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count3 int32
 	_count3, _err = p.ReadInt32()
 	if _err != nil {
@@ -107,6 +127,11 @@ func (s *AptxAdaptiveLeCapabilities) UnmarshalParcel(
 				return _err
 			}
 		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.BlocksPerSdu, _err = p.ReadByteArray()

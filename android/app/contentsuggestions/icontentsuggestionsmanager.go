@@ -74,6 +74,7 @@ func (p *ContentSuggestionsManagerProxy) ProvideContextImage(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(taskId)
@@ -98,6 +99,7 @@ func (p *ContentSuggestionsManagerProxy) ProvideContextBitmap(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -125,6 +127,7 @@ func (p *ContentSuggestionsManagerProxy) SuggestContentSelections(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -149,6 +152,7 @@ func (p *ContentSuggestionsManagerProxy) ClassifyContentSelections(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -173,6 +177,7 @@ func (p *ContentSuggestionsManagerProxy) NotifyInteraction(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(requestId)
@@ -196,6 +201,7 @@ func (p *ContentSuggestionsManagerProxy) IsEnabled(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
 	_data.WriteInt32(_identity.UserID)
 	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
@@ -214,6 +220,7 @@ func (p *ContentSuggestionsManagerProxy) ResetTemporaryService(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -233,6 +240,7 @@ func (p *ContentSuggestionsManagerProxy) SetTemporaryService(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(serviceName)
@@ -253,6 +261,7 @@ func (p *ContentSuggestionsManagerProxy) SetDefaultServiceEnabled(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(enabled)
@@ -269,7 +278,8 @@ func (p *ContentSuggestionsManagerProxy) SetDefaultServiceEnabled(
 // ContentSuggestionsManagerStub dispatches incoming binder transactions
 // to a typed IContentSuggestionsManager implementation.
 type ContentSuggestionsManagerStub struct {
-	Impl IContentSuggestionsManager
+	Impl      IContentSuggestionsManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ContentSuggestionsManagerStub)(nil)
@@ -283,11 +293,12 @@ func (s *ContentSuggestionsManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIContentSuggestionsManagerProvideContextImage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -308,12 +319,8 @@ func (s *ContentSuggestionsManagerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.ProvideContextImage(ctx, _arg_taskId, _arg_imageContextRequestExtras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentSuggestionsManagerProvideContextBitmap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -342,12 +349,8 @@ func (s *ContentSuggestionsManagerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ProvideContextBitmap(ctx, _arg_bitmap, _arg_imageContextRequestExtras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentSuggestionsManagerSuggestContentSelections:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -363,16 +366,17 @@ func (s *ContentSuggestionsManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISelectionsCallback
-		_ = _arg_callback
-		_err := s.Impl.SuggestContentSelections(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIContentSuggestionsManagerClassifyContentSelections:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSelectionsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.SuggestContentSelections(ctx, _arg_request, _arg_callback)
+		return nil, _err
+	case TransactionIContentSuggestionsManagerClassifyContentSelections:
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -388,16 +392,17 @@ func (s *ContentSuggestionsManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IClassificationsCallback
-		_ = _arg_callback
-		_err := s.Impl.ClassifyContentSelections(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIContentSuggestionsManagerNotifyInteraction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewClassificationsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.ClassifyContentSelections(ctx, _arg_request, _arg_callback)
+		return nil, _err
+	case TransactionIContentSuggestionsManagerNotifyInteraction:
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -418,35 +423,28 @@ func (s *ContentSuggestionsManagerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyInteraction(ctx, _arg_requestId, _arg_interaction)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentSuggestionsManagerIsEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver internalOs.IResultReceiver
-		_ = _arg_receiver
-		_err := s.Impl.IsEnabled(ctx, _arg_receiver)
-		_ = _err
-		return nil, nil
-	case TransactionIContentSuggestionsManagerResetTemporaryService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = internalOs.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
 		}
+		_err := s.Impl.IsEnabled(ctx, _arg_receiver)
+		return nil, _err
+	case TransactionIContentSuggestionsManagerResetTemporaryService:
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetTemporaryService(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentSuggestionsManagerSetTemporaryService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -459,12 +457,8 @@ func (s *ContentSuggestionsManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetTemporaryService(ctx, _arg_serviceName, _arg_duration)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentSuggestionsManagerSetDefaultServiceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -473,8 +467,7 @@ func (s *ContentSuggestionsManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetDefaultServiceEnabled(ctx, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

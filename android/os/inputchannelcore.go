@@ -39,9 +39,19 @@ func (s *InputChannelCore) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Name, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Fd, _err = p.ReadFileDescriptor()
@@ -49,11 +59,18 @@ func (s *InputChannelCore) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_tokenHandle, _err := p.ReadStrongBinder()
 	if _err != nil {
 		return _err
 	}
-	s.Token = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _tokenHandle)
+	if _tokenHandle != 0 {
+		s.Token = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _tokenHandle)
+	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

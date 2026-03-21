@@ -1,0 +1,708 @@
+package: android.hardware.broadcastradio
+go_package: android/hardware/broadcastradio
+interfaces:
+    - name: IAnnouncementListener
+      descriptor: android.hardware.broadcastradio.IAnnouncementListener
+      methods:
+        - name: onListUpdated
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: announcements
+              type:
+                name: Announcement
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IBroadcastRadio
+      descriptor: android.hardware.broadcastradio.IBroadcastRadio
+      methods:
+        - name: getProperties
+          transaction_code_offset: 0
+          return_type:
+            name: Properties
+        - name: getAmFmRegionConfig
+          transaction_code_offset: 1
+          params:
+            - name: full
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: AmFmRegionConfig
+        - name: getDabRegionConfig
+          transaction_code_offset: 2
+          return_type:
+            name: DabTableEntry
+            is_array: true
+        - name: setTunerCallback
+          transaction_code_offset: 3
+          params:
+            - name: callback
+              type:
+                name: ITunerCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unsetTunerCallback
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: tune
+          transaction_code_offset: 5
+          params:
+            - name: program
+              type:
+                name: ProgramSelector
+              direction: in
+          return_type:
+            name: void
+        - name: seek
+          transaction_code_offset: 6
+          params:
+            - name: directionUp
+              type:
+                name: boolean
+              direction: in
+            - name: skipSubChannel
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: step
+          transaction_code_offset: 7
+          params:
+            - name: directionUp
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: cancel
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: startProgramListUpdates
+          transaction_code_offset: 9
+          params:
+            - name: filter
+              type:
+                name: ProgramFilter
+              direction: in
+          return_type:
+            name: void
+        - name: stopProgramListUpdates
+          transaction_code_offset: 10
+          return_type:
+            name: void
+        - name: isConfigFlagSet
+          transaction_code_offset: 11
+          params:
+            - name: flag
+              type:
+                name: ConfigFlag
+              direction: in
+          return_type:
+            name: boolean
+        - name: setConfigFlag
+          transaction_code_offset: 12
+          params:
+            - name: flag
+              type:
+                name: ConfigFlag
+              direction: in
+            - name: value
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setParameters
+          transaction_code_offset: 13
+          params:
+            - name: parameters
+              type:
+                name: VendorKeyValue
+                is_array: true
+              direction: in
+          return_type:
+            name: VendorKeyValue
+            is_array: true
+        - name: getParameters
+          transaction_code_offset: 14
+          params:
+            - name: keys
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: VendorKeyValue
+            is_array: true
+        - name: getImage
+          transaction_code_offset: 15
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: registerAnnouncementListener
+          transaction_code_offset: 16
+          params:
+            - name: listener
+              type:
+                name: IAnnouncementListener
+              direction: in
+            - name: enabled
+              type:
+                name: AnnouncementType
+                is_array: true
+              direction: in
+          return_type:
+            name: ICloseHandle
+      constants:
+        - name: INVALID_IMAGE
+          type: int
+          value: "0"
+        - name: ANTENNA_STATE_CHANGE_TIMEOUT_MS
+          type: int
+          value: "100"
+        - name: LIST_COMPLETE_TIMEOUT_MS
+          type: int
+          value: "300000"
+        - name: TUNER_TIMEOUT_MS
+          type: int
+          value: "30000"
+    - name: ICloseHandle
+      descriptor: android.hardware.broadcastradio.ICloseHandle
+      methods:
+        - name: close
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: ITunerCallback
+      descriptor: android.hardware.broadcastradio.ITunerCallback
+      oneway: true
+      methods:
+        - name: onTuneFailed
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: Result
+              direction: in
+            - name: selector
+              type:
+                name: ProgramSelector
+              direction: in
+          return_type:
+            name: void
+        - name: onCurrentProgramInfoChanged
+          transaction_code_offset: 1
+          params:
+            - name: info
+              type:
+                name: ProgramInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onProgramListUpdated
+          transaction_code_offset: 2
+          params:
+            - name: chunk
+              type:
+                name: ProgramListChunk
+              direction: in
+          return_type:
+            name: void
+        - name: onAntennaStateChange
+          transaction_code_offset: 3
+          params:
+            - name: connected
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: onConfigFlagUpdated
+          transaction_code_offset: 4
+          params:
+            - name: flag
+              type:
+                name: ConfigFlag
+              direction: in
+            - name: value
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: onParametersUpdated
+          transaction_code_offset: 5
+          params:
+            - name: parameters
+              type:
+                name: VendorKeyValue
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: AmFmBandRange
+      fields:
+        - name: lowerBound
+          type:
+            name: int
+        - name: upperBound
+          type:
+            name: int
+        - name: spacing
+          type:
+            name: int
+        - name: seekSpacing
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: AmFmRegionConfig
+      fields:
+        - name: ranges
+          type:
+            name: AmFmBandRange
+            is_array: true
+        - name: fmDeemphasis
+          type:
+            name: int
+        - name: fmRds
+          type:
+            name: int
+      constants:
+        - name: DEEMPHASIS_D50
+          type: int
+          value: 1 << 0
+        - name: DEEMPHASIS_D75
+          type: int
+          value: 1 << 1
+        - name: RDS
+          type: int
+          value: 1 << 0
+        - name: RBDS
+          type: int
+          value: 1 << 1
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: Announcement
+      fields:
+        - name: selector
+          type:
+            name: ProgramSelector
+        - name: type
+          type:
+            name: AnnouncementType
+          default_value: AnnouncementType.INVALID
+        - name: vendorInfo
+          type:
+            name: VendorKeyValue
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: DabTableEntry
+      fields:
+        - name: label
+          type:
+            name: String
+        - name: frequencyKhz
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: ProgramFilter
+      fields:
+        - name: identifierTypes
+          type:
+            name: IdentifierType
+            is_array: true
+        - name: identifiers
+          type:
+            name: ProgramIdentifier
+            is_array: true
+        - name: includeCategories
+          type:
+            name: boolean
+        - name: excludeModifications
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: ProgramIdentifier
+      fields:
+        - name: type
+          type:
+            name: IdentifierType
+          default_value: IdentifierType.INVALID
+        - name: value
+          type:
+            name: long
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: ProgramInfo
+      fields:
+        - name: selector
+          type:
+            name: ProgramSelector
+        - name: logicallyTunedTo
+          type:
+            name: ProgramIdentifier
+        - name: physicallyTunedTo
+          type:
+            name: ProgramIdentifier
+        - name: relatedContent
+          type:
+            name: ProgramIdentifier
+            is_array: true
+          annotations:
+            - nullable
+        - name: infoFlags
+          type:
+            name: int
+        - name: signalQuality
+          type:
+            name: int
+        - name: metadata
+          type:
+            name: Metadata
+            is_array: true
+        - name: vendorInfo
+          type:
+            name: VendorKeyValue
+            is_array: true
+      constants:
+        - name: FLAG_LIVE
+          type: int
+          value: 1 << 0
+        - name: FLAG_MUTED
+          type: int
+          value: 1 << 1
+        - name: FLAG_TRAFFIC_PROGRAM
+          type: int
+          value: 1 << 2
+        - name: FLAG_TRAFFIC_ANNOUNCEMENT
+          type: int
+          value: 1 << 3
+        - name: FLAG_TUNABLE
+          type: int
+          value: 1 << 4
+        - name: FLAG_STEREO
+          type: int
+          value: 1 << 5
+        - name: FLAG_SIGNAL_ACQUISITION
+          type: int
+          value: 1 << 6
+        - name: FLAG_HD_SIS_ACQUISITION
+          type: int
+          value: 1 << 7
+        - name: FLAG_HD_AUDIO_ACQUISITION
+          type: int
+          value: 1 << 8
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: ProgramListChunk
+      fields:
+        - name: purge
+          type:
+            name: boolean
+        - name: complete
+          type:
+            name: boolean
+        - name: modified
+          type:
+            name: ProgramInfo
+            is_array: true
+        - name: removed
+          type:
+            name: ProgramIdentifier
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: ProgramSelector
+      fields:
+        - name: primaryId
+          type:
+            name: ProgramIdentifier
+        - name: secondaryIds
+          type:
+            name: ProgramIdentifier
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: Properties
+      fields:
+        - name: maker
+          type:
+            name: String
+        - name: product
+          type:
+            name: String
+        - name: version
+          type:
+            name: String
+        - name: serial
+          type:
+            name: String
+        - name: supportedIdentifierTypes
+          type:
+            name: IdentifierType
+            is_array: true
+        - name: vendorInfo
+          type:
+            name: VendorKeyValue
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: VendorKeyValue
+      fields:
+        - name: key
+          type:
+            name: String
+        - name: value
+          type:
+            name: String
+      annotations:
+        - VintfStability
+        - JavaDerive
+enums:
+    - name: AnnouncementType
+      backing_type: byte
+      values:
+        - name: INVALID
+          value: "0"
+        - name: EMERGENCY
+          value: "1"
+        - name: WARNING
+          value: ""
+        - name: TRAFFIC
+          value: ""
+        - name: WEATHER
+          value: ""
+        - name: NEWS
+          value: ""
+        - name: EVENT
+          value: ""
+        - name: SPORT
+          value: ""
+        - name: MISC
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: ConfigFlag
+      backing_type: int
+      values:
+        - name: FORCE_MONO
+          value: "1"
+        - name: FORCE_ANALOG
+          value: ""
+        - name: FORCE_DIGITAL
+          value: ""
+        - name: RDS_AF
+          value: ""
+        - name: RDS_REG
+          value: ""
+        - name: DAB_DAB_LINKING
+          value: ""
+        - name: DAB_FM_LINKING
+          value: ""
+        - name: DAB_DAB_SOFT_LINKING
+          value: ""
+        - name: DAB_FM_SOFT_LINKING
+          value: ""
+        - name: FORCE_ANALOG_FM
+          value: ""
+        - name: FORCE_ANALOG_AM
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: HdSubChannel
+      backing_type: int
+      values:
+        - name: HD1
+          value: "0"
+        - name: HD2
+          value: "1"
+        - name: HD3
+          value: "2"
+        - name: HD4
+          value: "3"
+        - name: HD5
+          value: "4"
+        - name: HD6
+          value: "5"
+        - name: HD7
+          value: "6"
+        - name: HD8
+          value: "7"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: IdentifierType
+      backing_type: int
+      values:
+        - name: VENDOR_START
+          value: "1000"
+        - name: VENDOR_END
+          value: "1999"
+        - name: INVALID
+          value: "0"
+        - name: AMFM_FREQUENCY_KHZ
+          value: ""
+        - name: RDS_PI
+          value: ""
+        - name: HD_STATION_ID_EXT
+          value: ""
+        - name: HD_STATION_NAME
+          value: ""
+        - name: DAB_SID_EXT
+          value: ""
+        - name: DAB_ENSEMBLE
+          value: ""
+        - name: DAB_SCID
+          value: ""
+        - name: DAB_FREQUENCY_KHZ
+          value: ""
+        - name: DRMO_SERVICE_ID
+          value: ""
+        - name: DRMO_FREQUENCY_KHZ
+          value: ""
+        - name: SXM_SERVICE_ID
+          value: DRMO_FREQUENCY_KHZ + 2
+        - name: SXM_CHANNEL
+          value: ""
+        - name: HD_STATION_LOCATION
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: Result
+      backing_type: int
+      values:
+        - name: OK
+          value: "0"
+        - name: INTERNAL_ERROR
+          value: ""
+        - name: INVALID_ARGUMENTS
+          value: ""
+        - name: INVALID_STATE
+          value: ""
+        - name: NOT_SUPPORTED
+          value: ""
+        - name: TIMEOUT
+          value: ""
+        - name: CANCELED
+          value: ""
+        - name: UNKNOWN_ERROR
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+unions:
+    - name: Metadata
+      fields:
+        - name: rdsPs
+          type:
+            name: String
+        - name: rdsPty
+          type:
+            name: int
+        - name: rbdsPty
+          type:
+            name: int
+        - name: rdsRt
+          type:
+            name: String
+        - name: songTitle
+          type:
+            name: String
+        - name: songArtist
+          type:
+            name: String
+        - name: songAlbum
+          type:
+            name: String
+        - name: stationIcon
+          type:
+            name: int
+        - name: albumArt
+          type:
+            name: int
+        - name: programName
+          type:
+            name: String
+        - name: dabEnsembleName
+          type:
+            name: String
+        - name: dabEnsembleNameShort
+          type:
+            name: String
+        - name: dabServiceName
+          type:
+            name: String
+        - name: dabServiceNameShort
+          type:
+            name: String
+        - name: dabComponentName
+          type:
+            name: String
+        - name: dabComponentNameShort
+          type:
+            name: String
+        - name: genre
+          type:
+            name: String
+        - name: commentShortDescription
+          type:
+            name: String
+        - name: commentActualText
+          type:
+            name: String
+        - name: commercial
+          type:
+            name: String
+        - name: ufids
+          type:
+            name: String
+            is_array: true
+        - name: hdStationNameShort
+          type:
+            name: String
+        - name: hdStationNameLong
+          type:
+            name: String
+        - name: hdSubChannelsAvailable
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive

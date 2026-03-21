@@ -4,7 +4,10 @@ package e2e
 
 import (
 	"context"
+	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/servicemanager"
@@ -62,11 +65,9 @@ import (
 	genSe "github.com/xaionaro-go/binder/android/se/omapi"
 	genSearchUI "github.com/xaionaro-go/binder/android/app/search"
 	genSecurity "github.com/xaionaro-go/binder/android/security"
-	genSensorPrivacy "github.com/xaionaro-go/binder/android/hardware"
 	genSession "github.com/xaionaro-go/binder/android/media/session"
 	genSlice "github.com/xaionaro-go/binder/android/app/slice"
 	genSmartspace "github.com/xaionaro-go/binder/android/app/smartspace"
-	genSoundTriggerMiddleware "github.com/xaionaro-go/binder/android/media/soundtrigger_middleware"
 	genSpeechTts "github.com/xaionaro-go/binder/android/speech/tts"
 	genSvcTextClassifier "github.com/xaionaro-go/binder/android/service/textclassifier"
 	genTimeDetector "github.com/xaionaro-go/binder/android/app/timedetector"
@@ -94,11 +95,8 @@ import (
 	genHwBiometricsFingerprint "github.com/xaionaro-go/binder/android/hardware/biometrics/fingerprint"
 	genHwBt "github.com/xaionaro-go/binder/android/hardware/bluetooth"
 	genHwBtAudio "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio"
-	genC2 "github.com/xaionaro-go/binder/android/hardware/media/c2"
 	genCameraProvider "github.com/xaionaro-go/binder/android/hardware/camera/provider"
 	genCas "github.com/xaionaro-go/binder/android/hardware/cas"
-	genComposer3 "github.com/xaionaro-go/binder/android/hardware/graphics/composer3"
-	genContextHub "github.com/xaionaro-go/binder/android/hardware/contexthub"
 	genDrm "github.com/xaionaro-go/binder/android/hardware/drm"
 	genGnss "github.com/xaionaro-go/binder/android/hardware/gnss"
 	genHealth "github.com/xaionaro-go/binder/android/hardware/health"
@@ -135,6 +133,130 @@ type serviceEntry struct {
 	constructor func(binder.IBinder) interface{}
 }
 
+// safeServicePrefixes lists service name prefixes that are safe to smoke-test.
+// Only framework services with permission checks are included. HAL services
+// (android.hardware.*), system services (android.system.*), and specific
+// dangerous services (installd, SurfaceFlinger) are excluded.
+//
+// This allowlist exists because calling arbitrary methods with zero-value
+// arguments on unprotected services bricked a phone: IKeyMintDevice.DeleteAllKeys()
+// destroyed hardware crypto keys, IKeyMintDevice.DestroyAttestationIds() permanently
+// destroyed attestation identity, and installd.DestroyUserData() wiped user 0 data.
+var safeServicePrefixes = []string{
+	"accessibility",
+	"account",
+	"activity",
+	"alarm",
+	"app",
+	"audio",
+	"autofill",
+	"battery",
+	"bluetooth_manager",
+	"clipboard",
+	"connectivity",
+	"content",
+	"country_detector",
+	"device_policy",
+	"display",
+	"dreams",
+	"dropbox",
+	"ethernet",
+	"font",
+	"gpu",
+	"input",
+	"input_method",
+	"jobscheduler",
+	"launcherapps",
+	"location",
+	"media",
+	"midi",
+	"mount",
+	"netpolicy",
+	"netstats",
+	"network_management",
+	"network_score",
+	"notification",
+	"overlay",
+	"package",
+	"permission",
+	"phone",
+	"power",
+	"print",
+	"search",
+	"sensor_privacy",
+	"serial",
+	"settings",
+	"shortcut",
+	"statusbar",
+	"telecom",
+	"telephony",
+	"trust",
+	"uimode",
+	"uri_grants",
+	"usagestats",
+	"user",
+	"vibrator_manager",
+	"voiceinteraction",
+	"wallpaper",
+	"webviewupdate",
+	"wifi",
+	"window",
+}
+
+// dangerousMethodSubstrings lists method name substrings that are never safe
+// to call with zero-value arguments, even on allowlisted services. These
+// methods can destroy data, reset hardware state, or power-cycle the device.
+var dangerousMethodSubstrings = []string{
+	"Delete",
+	"Destroy",
+	"Wipe",
+	"Erase",
+	"Reset",
+	"Shutdown",
+	"Reboot",
+	"Format",
+	"Kill",
+}
+
+// isServiceSafe returns true if the service name matches any safe prefix
+// and does not match any known-dangerous service pattern.
+func isServiceSafe(name string) bool {
+	// HAL services talk directly to hardware with no permission checks.
+	if strings.Contains(name, "android.hardware.") {
+		return false
+	}
+
+	// System services (vold, netd, etc.) are low-level and unprotected.
+	if strings.Contains(name, "android.system.") {
+		return false
+	}
+
+	// Specific dangerous services.
+	switch name {
+	case "installd", "SurfaceFlinger", "SurfaceFlingerAIDL":
+		return false
+	}
+
+	for _, prefix := range safeServicePrefixes {
+		if strings.HasPrefix(name, prefix) {
+			return true
+		}
+	}
+
+	return false
+}
+
+// isMethodSafe returns true if the method name does not contain any
+// dangerous substring.
+func isMethodSafe(methodName string) bool {
+	for _, substr := range dangerousMethodSubstrings {
+		if strings.Contains(methodName, substr) {
+			return false
+		}
+	}
+	return true
+}
+
 // serviceRegistry maps Android service names to typed proxy constructors.
 // Framework services use short names (e.g. "power"), HAL services use
 // VINTF-style names (e.g. "android.hardware.health.IHealth/default").
@@ -154,7 +276,6 @@ var serviceRegistry = []serviceEntry{
 	{"app_integrity", func(b binder.IBinder) interface{} { return genIntegrity.NewAppIntegrityManagerProxy(b) }},
 	{"app_prediction", func(b binder.IBinder) interface{} { return genPrediction.NewPredictionManagerProxy(b) }},
 	{"appops", func(b binder.IBinder) interface{} { return genInternalApp.NewAppOpsServiceProxy(b) }},
-	{"audio", func(b binder.IBinder) interface{} { return genMedia.NewAudioServiceProxy(b) }},
 	{"auth", func(b binder.IBinder) interface{} { return genBiometrics.NewAuthServiceProxy(b) }},
 	{"autofill", func(b binder.IBinder) interface{} { return genAutofill.NewAutoFillManagerProxy(b) }},
 	{"background_install_control", func(b binder.IBinder) interface{} { return genPm.NewBackgroundInstallControlServiceProxy(b) }},
@@ -234,10 +355,8 @@ var serviceRegistry = []serviceEntry{
 	{"search_ui", func(b binder.IBinder) interface{} { return genSearchUI.NewSearchUiManagerProxy(b) }},
 	{"secure_element", func(b binder.IBinder) interface{} { return genSe.NewSecureElementServiceProxy(b) }},
 	{"security_state", func(b binder.IBinder) interface{} { return genOs.NewSecurityStateManagerProxy(b) }},
-	{"sensor_privacy", func(b binder.IBinder) interface{} { return genSensorPrivacy.NewSensorPrivacyManagerProxy(b) }},
 	{"slice", func(b binder.IBinder) interface{} { return genSlice.NewSliceManagerProxy(b) }},
 	{"smartspace", func(b binder.IBinder) interface{} { return genSmartspace.NewSmartspaceManagerProxy(b) }},
-	{"soundtrigger_middleware", func(b binder.IBinder) interface{} { return genSoundTriggerMiddleware.NewSoundTriggerMiddlewareServiceProxy(b) }},
 	{"storagestats", func(b binder.IBinder) interface{} { return genUsage.NewStorageStatsManagerProxy(b) }},
 	{"SurfaceFlingerAIDL", func(b binder.IBinder) interface{} { return genGui.NewSurfaceComposerProxy(b) }},
 	{"system_config", func(b binder.IBinder) interface{} { return genOs.NewSystemConfigProxy(b) }},
@@ -273,14 +392,11 @@ var serviceRegistry = []serviceEntry{
 	{"android.hardware.bluetooth.audio.IBluetoothAudioProviderFactory/default", func(b binder.IBinder) interface{} { return genHwBtAudio.NewBluetoothAudioProviderFactoryProxy(b) }},
 	{"android.hardware.camera.provider.ICameraProvider/internal/0", func(b binder.IBinder) interface{} { return genCameraProvider.NewCameraProviderProxy(b) }},
 	{"android.hardware.cas.IMediaCasService/default", func(b binder.IBinder) interface{} { return genCas.NewMediaCasServiceProxy(b) }},
-	{"android.hardware.contexthub.IContextHub/default", func(b binder.IBinder) interface{} { return genContextHub.NewContextHubProxy(b) }},
 	{"android.hardware.drm.IDrmFactory/widevine", func(b binder.IBinder) interface{} { return genDrm.NewDrmFactoryProxy(b) }},
 	{"android.hardware.gnss.IGnss/default", func(b binder.IBinder) interface{} { return genGnss.NewGnssProxy(b) }},
-	{"android.hardware.graphics.composer3.IComposer/default", func(b binder.IBinder) interface{} { return genComposer3.NewComposerProxy(b) }},
 	{"android.hardware.health.IHealth/default", func(b binder.IBinder) interface{} { return genHealth.NewHealthProxy(b) }},
 	{"android.hardware.identity.IIdentityCredentialStore/default", func(b binder.IBinder) interface{} { return genIdentity.NewIdentityCredentialStoreProxy(b) }},
 	{"android.hardware.light.ILights/default", func(b binder.IBinder) interface{} { return genHwLight.NewLightsProxy(b) }},
-	{"android.hardware.media.c2.IComponentStore/software", func(b binder.IBinder) interface{} { return genC2.NewComponentStoreProxy(b) }},
 	{"android.hardware.neuralnetworks.IDevice/nnapi-sample_all", func(b binder.IBinder) interface{} { return genNN.NewDeviceProxy(b) }},
 	{"android.hardware.power.IPower/default", func(b binder.IBinder) interface{} { return genHwPower.NewPowerProxy(b) }},
 	{"android.hardware.power.stats.IPowerStats/default", func(b binder.IBinder) interface{} { return genHwPowerStats.NewPowerStatsProxy(b) }},
@@ -324,6 +440,14 @@ func TestE2E_SmokeAllServiceMethods(t *testing.T) {
 	for _, entry := range serviceRegistry {
 		totalServices++
 		entry := entry
+
+		if !isServiceSafe(entry.name) {
+			t.Run(entry.name, func(t *testing.T) {
+				t.Skipf("service %s not in safe allowlist (see bricking incident)", entry.name)
+			})
+			continue
+		}
+
 		t.Run(entry.name, func(t *testing.T) {
 			svc, err := sm.GetService(ctx, servicemanager.ServiceName(entry.name))
 			if err != nil {
@@ -337,7 +461,7 @@ func TestE2E_SmokeAllServiceMethods(t *testing.T) {
 			testedServices++
 
 			proxy := entry.constructor(svc)
-			result := testutil.SmokeTestAllMethods(t, proxy)
+			result := testutil.SmokeTestAllMethods(t, proxy, testutil.WithMethodFilter(isMethodSafe))
 
 			totalMethods += result.Total
 			passedMethods += result.Passed
@@ -353,4 +477,5 @@ func TestE2E_SmokeAllServiceMethods(t *testing.T) {
 	t.Logf("Services: %d registered, %d tested", totalServices, testedServices)
 	t.Logf("Methods: %d total, %d passed, %d panicked, %d failed",
 		totalMethods, passedMethods, panickedMethods, failedMethods)
+	assert.Equal(t, 0, panickedMethods, "proxy methods should not panic with zero-value arguments")
 }

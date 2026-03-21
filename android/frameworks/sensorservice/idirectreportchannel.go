@@ -3,7 +3,7 @@ package sensorservice
 import (
 	"context"
 	"fmt"
-	ISensors "github.com/xaionaro-go/binder/android/hardware/sensors/ISensors"
+	sensors "github.com/xaionaro-go/binder/android/hardware/sensors"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -22,7 +22,7 @@ const (
 
 type IDirectReportChannel interface {
 	AsBinder() binder.IBinder
-	Configure(ctx context.Context, sensorHandle int32, rate ISensors.RateLevel) (int32, error)
+	Configure(ctx context.Context, sensorHandle int32, rate sensors.ISensorsRateLevel) (int32, error)
 }
 
 type DirectReportChannelProxy struct {
@@ -44,10 +44,11 @@ var _ IDirectReportChannel = (*DirectReportChannelProxy)(nil)
 func (p *DirectReportChannelProxy) Configure(
 	ctx context.Context,
 	sensorHandle int32,
-	rate ISensors.RateLevel,
+	rate sensors.ISensorsRateLevel,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDirectReportChannel)
 	_data.WriteInt32(sensorHandle)
 	_data.WriteInt32(int32(rate))
@@ -77,7 +78,8 @@ func (p *DirectReportChannelProxy) Configure(
 // DirectReportChannelStub dispatches incoming binder transactions
 // to a typed IDirectReportChannel implementation.
 type DirectReportChannelStub struct {
-	Impl IDirectReportChannel
+	Impl      IDirectReportChannel
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DirectReportChannelStub)(nil)
@@ -91,11 +93,12 @@ func (s *DirectReportChannelStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDirectReportChannelConfigure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -104,7 +107,7 @@ func (s *DirectReportChannelStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rate := ISensors.RateLevel(_raw_rate)
+		_arg_rate := sensors.ISensorsRateLevel(_raw_rate)
 		_result, _err := s.Impl.Configure(ctx, _arg_sensorHandle, _arg_rate)
 		_reply := parcel.New()
 		if _err != nil {
@@ -123,7 +126,7 @@ func (s *DirectReportChannelStub) OnTransaction(
 // provide to NewDirectReportChannelStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IDirectReportChannelServer interface {
-	Configure(ctx context.Context, sensorHandle int32, rate ISensors.RateLevel) (int32, error)
+	Configure(ctx context.Context, sensorHandle int32, rate sensors.ISensorsRateLevel) (int32, error)
 }
 
 type directReportChannelStubWrapper struct {
@@ -138,7 +141,7 @@ func (w *directReportChannelStubWrapper) AsBinder() binder.IBinder {
 func (w *directReportChannelStubWrapper) Configure(
 	ctx context.Context,
 	sensorHandle int32,
-	rate ISensors.RateLevel,
+	rate sensors.ISensorsRateLevel,
 ) (int32, error) {
 	return w.impl.Configure(ctx, sensorHandle, rate)
 }

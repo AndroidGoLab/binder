@@ -1,6 +1,7 @@
 package extension
 
 import (
+	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type CameraSessionConfig struct {
 	OutputConfigs     []CameraOutputConfig
-	SessionParameter  interface{}
+	SessionParameter  impl.CameraMetadataNative
 	SessionTemplateId int32
 	SessionType       int32
 }
@@ -30,6 +31,9 @@ func (s *CameraSessionConfig) MarshalParcel(
 			}
 		}
 	}
+	if _err := s.SessionParameter.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.SessionTemplateId)
 	p.WriteInt32(s.SessionType)
 
@@ -43,6 +47,11 @@ func (s *CameraSessionConfig) UnmarshalParcel(
 	_endPos, _err := parcel.ReadParcelableHeader(p)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -62,9 +71,28 @@ func (s *CameraSessionConfig) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.SessionParameter.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SessionTemplateId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SessionType, _err = p.ReadInt32()

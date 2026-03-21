@@ -54,6 +54,7 @@ func (p *AttentionServiceProxy) CheckAttention(
 	callback IAttentionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttentionService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -71,6 +72,7 @@ func (p *AttentionServiceProxy) CancelAttentionCheck(
 	callback IAttentionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttentionService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -88,6 +90,7 @@ func (p *AttentionServiceProxy) OnStartProximityUpdates(
 	callback IProximityUpdateCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttentionService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -104,6 +107,7 @@ func (p *AttentionServiceProxy) OnStopProximityUpdates(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttentionService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttentionService, MethodIAttentionServiceOnStopProximityUpdates)
@@ -118,7 +122,8 @@ func (p *AttentionServiceProxy) OnStopProximityUpdates(
 // AttentionServiceStub dispatches incoming binder transactions
 // to a typed IAttentionService implementation.
 type AttentionServiceStub struct {
-	Impl IAttentionService
+	Impl      IAttentionService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AttentionServiceStub)(nil)
@@ -132,44 +137,47 @@ func (s *AttentionServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAttentionServiceCheckAttention:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAttentionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAttentionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.CheckAttention(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAttentionServiceCancelAttentionCheck:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAttentionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAttentionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.CancelAttentionCheck(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAttentionServiceOnStartProximityUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IProximityUpdateCallback
-		_ = _arg_callback
-		_err := s.Impl.OnStartProximityUpdates(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIAttentionServiceOnStopProximityUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewProximityUpdateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.OnStartProximityUpdates(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIAttentionServiceOnStopProximityUpdates:
 		_err := s.Impl.OnStopProximityUpdates(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

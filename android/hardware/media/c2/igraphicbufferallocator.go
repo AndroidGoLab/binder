@@ -3,7 +3,6 @@ package c2
 import (
 	"context"
 	"fmt"
-	c2IGraphicBufferAllocator "github.com/xaionaro-go/binder/android/hardware/media/c2/IGraphicBufferAllocator"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -26,7 +25,7 @@ const (
 
 type IGraphicBufferAllocator interface {
 	AsBinder() binder.IBinder
-	Allocate(ctx context.Context, desc c2IGraphicBufferAllocator.Description) (c2IGraphicBufferAllocator.Allocation, error)
+	Allocate(ctx context.Context, desc IGraphicBufferAllocatorDescription) (IGraphicBufferAllocatorAllocation, error)
 	Deallocate(ctx context.Context, id int64) (bool, error)
 	GetWaitableFd(ctx context.Context) (int32, error)
 }
@@ -49,10 +48,11 @@ var _ IGraphicBufferAllocator = (*GraphicBufferAllocatorProxy)(nil)
 
 func (p *GraphicBufferAllocatorProxy) Allocate(
 	ctx context.Context,
-	desc c2IGraphicBufferAllocator.Description,
-) (c2IGraphicBufferAllocator.Allocation, error) {
-	var _result c2IGraphicBufferAllocator.Allocation
+	desc IGraphicBufferAllocatorDescription,
+) (IGraphicBufferAllocatorAllocation, error) {
+	var _result IGraphicBufferAllocatorAllocation
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferAllocator)
 	_data.WriteInt32(1)
 	if _err := desc.MarshalParcel(_data); _err != nil {
@@ -92,6 +92,7 @@ func (p *GraphicBufferAllocatorProxy) Deallocate(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferAllocator)
 	_data.WriteInt64(id)
 
@@ -122,6 +123,7 @@ func (p *GraphicBufferAllocatorProxy) GetWaitableFd(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferAllocator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferAllocator, MethodIGraphicBufferAllocatorGetWaitableFd)
@@ -149,7 +151,8 @@ func (p *GraphicBufferAllocatorProxy) GetWaitableFd(
 // GraphicBufferAllocatorStub dispatches incoming binder transactions
 // to a typed IGraphicBufferAllocator implementation.
 type GraphicBufferAllocatorStub struct {
-	Impl IGraphicBufferAllocator
+	Impl      IGraphicBufferAllocator
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GraphicBufferAllocatorStub)(nil)
@@ -163,12 +166,13 @@ func (s *GraphicBufferAllocatorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGraphicBufferAllocatorAllocate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_desc c2IGraphicBufferAllocator.Description
+		var _arg_desc IGraphicBufferAllocatorDescription
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -193,9 +197,6 @@ func (s *GraphicBufferAllocatorStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIGraphicBufferAllocatorDeallocate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -210,9 +211,6 @@ func (s *GraphicBufferAllocatorStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIGraphicBufferAllocatorGetWaitableFd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWaitableFd(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -231,7 +229,7 @@ func (s *GraphicBufferAllocatorStub) OnTransaction(
 // provide to NewGraphicBufferAllocatorStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IGraphicBufferAllocatorServer interface {
-	Allocate(ctx context.Context, desc c2IGraphicBufferAllocator.Description) (c2IGraphicBufferAllocator.Allocation, error)
+	Allocate(ctx context.Context, desc IGraphicBufferAllocatorDescription) (IGraphicBufferAllocatorAllocation, error)
 	Deallocate(ctx context.Context, id int64) (bool, error)
 	GetWaitableFd(ctx context.Context) (int32, error)
 }
@@ -247,8 +245,8 @@ func (w *graphicBufferAllocatorStubWrapper) AsBinder() binder.IBinder {
 
 func (w *graphicBufferAllocatorStubWrapper) Allocate(
 	ctx context.Context,
-	desc c2IGraphicBufferAllocator.Description,
-) (c2IGraphicBufferAllocator.Allocation, error) {
+	desc IGraphicBufferAllocatorDescription,
+) (IGraphicBufferAllocatorAllocation, error) {
 	return w.impl.Allocate(ctx, desc)
 }
 

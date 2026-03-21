@@ -53,8 +53,18 @@ func (s *KeyMetadata) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Key.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_keySecurityLevelRaw, _err := p.ReadInt32()
@@ -62,6 +72,11 @@ func (s *KeyMetadata) UnmarshalParcel(
 		return _err
 	}
 	s.KeySecurityLevel = drm.SecurityLevel(_keySecurityLevelRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
@@ -80,14 +95,29 @@ func (s *KeyMetadata) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Certificate, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.CertificateChain, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ModificationTimeMs, _err = p.ReadInt64()

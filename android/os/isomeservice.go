@@ -45,6 +45,7 @@ func (p *SomeServiceProxy) ReadDisk(
 	times int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISomeService)
 	_data.WriteInt32(times)
 
@@ -69,7 +70,8 @@ func (p *SomeServiceProxy) ReadDisk(
 // SomeServiceStub dispatches incoming binder transactions
 // to a typed ISomeService implementation.
 type SomeServiceStub struct {
-	Impl ISomeService
+	Impl      ISomeService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SomeServiceStub)(nil)
@@ -83,11 +85,12 @@ func (s *SomeServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISomeServiceReadDisk:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_times, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

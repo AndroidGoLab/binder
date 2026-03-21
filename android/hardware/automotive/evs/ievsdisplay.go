@@ -57,6 +57,7 @@ func (p *EvsDisplayProxy) GetDisplayInfo(
 ) (DisplayDesc, error) {
 	var _result DisplayDesc
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsDisplay)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsDisplay, MethodIEvsDisplayGetDisplayInfo)
@@ -91,6 +92,7 @@ func (p *EvsDisplayProxy) GetDisplayState(
 ) (DisplayState, error) {
 	var _result DisplayState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsDisplay)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsDisplay, MethodIEvsDisplayGetDisplayState)
@@ -121,6 +123,7 @@ func (p *EvsDisplayProxy) GetTargetBuffer(
 ) (BufferDesc, error) {
 	var _result BufferDesc
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsDisplay)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsDisplay, MethodIEvsDisplayGetTargetBuffer)
@@ -155,6 +158,7 @@ func (p *EvsDisplayProxy) ReturnTargetBufferForDisplay(
 	buffer BufferDesc,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsDisplay)
 	_data.WriteInt32(1)
 	if _err := buffer.MarshalParcel(_data); _err != nil {
@@ -184,6 +188,7 @@ func (p *EvsDisplayProxy) SetDisplayState(
 	state DisplayState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsDisplay)
 	_data.WriteInt32(int32(state))
 
@@ -208,7 +213,8 @@ func (p *EvsDisplayProxy) SetDisplayState(
 // EvsDisplayStub dispatches incoming binder transactions
 // to a typed IEvsDisplay implementation.
 type EvsDisplayStub struct {
-	Impl IEvsDisplay
+	Impl      IEvsDisplay
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EvsDisplayStub)(nil)
@@ -222,11 +228,12 @@ func (s *EvsDisplayStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEvsDisplayGetDisplayInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDisplayInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -240,9 +247,6 @@ func (s *EvsDisplayStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEvsDisplayGetDisplayState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDisplayState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -253,9 +257,6 @@ func (s *EvsDisplayStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIEvsDisplayGetTargetBuffer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetTargetBuffer(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -269,9 +270,6 @@ func (s *EvsDisplayStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEvsDisplayReturnTargetBufferForDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_buffer BufferDesc
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -293,9 +291,6 @@ func (s *EvsDisplayStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsDisplaySetDisplayState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

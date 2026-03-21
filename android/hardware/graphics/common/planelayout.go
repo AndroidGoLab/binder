@@ -56,6 +56,11 @@ func (s *PlaneLayout) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
 	if _err != nil {
@@ -73,9 +78,19 @@ func (s *PlaneLayout) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.OffsetInBytes, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SampleIncrementInBits, _err = p.ReadInt64()
@@ -83,9 +98,19 @@ func (s *PlaneLayout) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.StrideInBytes, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.WidthInSamples, _err = p.ReadInt64()
@@ -93,9 +118,19 @@ func (s *PlaneLayout) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.HeightInSamples, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.TotalSizeInBytes, _err = p.ReadInt64()
@@ -103,9 +138,19 @@ func (s *PlaneLayout) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.HorizontalSubsampling, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.VerticalSubsampling, _err = p.ReadInt64()

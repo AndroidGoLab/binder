@@ -32,11 +32,21 @@ func (s *BrakingPwle) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_brakingRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Braking = Braking(_brakingRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.Duration, _err = p.ReadInt32()
 	if _err != nil {

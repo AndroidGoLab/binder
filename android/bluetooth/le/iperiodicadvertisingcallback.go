@@ -3,6 +3,7 @@ package le
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/bluetooth/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -29,10 +30,10 @@ const (
 
 type IPeriodicAdvertisingCallback interface {
 	AsBinder() binder.IBinder
-	OnSyncEstablished(ctx context.Context, syncHandle int32, device interface{}, advertisingSid int32, skip int32, timeout int32, status int32) error
+	OnSyncEstablished(ctx context.Context, syncHandle int32, device types.BluetoothDevice, advertisingSid int32, skip int32, timeout int32, status int32) error
 	OnPeriodicAdvertisingReport(ctx context.Context, report PeriodicAdvertisingReport) error
 	OnSyncLost(ctx context.Context, syncHandle int32) error
-	OnSyncTransferred(ctx context.Context, device interface{}, status int32) error
+	OnSyncTransferred(ctx context.Context, device types.BluetoothDevice, status int32) error
 	OnBigInfoAdvertisingReport(ctx context.Context, syncHandle int32, encrypted bool) error
 }
 
@@ -55,15 +56,17 @@ var _ IPeriodicAdvertisingCallback = (*PeriodicAdvertisingCallbackProxy)(nil)
 func (p *PeriodicAdvertisingCallbackProxy) OnSyncEstablished(
 	ctx context.Context,
 	syncHandle int32,
-	device interface{},
+	device types.BluetoothDevice,
 	advertisingSid int32,
 	skip int32,
 	timeout int32,
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeriodicAdvertisingCallback)
 	_data.WriteInt32(syncHandle)
+	// WARNING: param device (type types.BluetoothDevice) cannot be serialized — type not resolved
 	_data.WriteInt32(advertisingSid)
 	_data.WriteInt32(skip)
 	_data.WriteInt32(timeout)
@@ -83,6 +86,7 @@ func (p *PeriodicAdvertisingCallbackProxy) OnPeriodicAdvertisingReport(
 	report PeriodicAdvertisingReport,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeriodicAdvertisingCallback)
 	_data.WriteInt32(1)
 	if _err := report.MarshalParcel(_data); _err != nil {
@@ -103,6 +107,7 @@ func (p *PeriodicAdvertisingCallbackProxy) OnSyncLost(
 	syncHandle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeriodicAdvertisingCallback)
 	_data.WriteInt32(syncHandle)
 
@@ -117,11 +122,13 @@ func (p *PeriodicAdvertisingCallbackProxy) OnSyncLost(
 
 func (p *PeriodicAdvertisingCallbackProxy) OnSyncTransferred(
 	ctx context.Context,
-	device interface{},
+	device types.BluetoothDevice,
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeriodicAdvertisingCallback)
+	// WARNING: param device (type types.BluetoothDevice) cannot be serialized — type not resolved
 	_data.WriteInt32(status)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnSyncTransferred)
@@ -139,6 +146,7 @@ func (p *PeriodicAdvertisingCallbackProxy) OnBigInfoAdvertisingReport(
 	encrypted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeriodicAdvertisingCallback)
 	_data.WriteInt32(syncHandle)
 	_data.WriteBool(encrypted)
@@ -155,7 +163,8 @@ func (p *PeriodicAdvertisingCallbackProxy) OnBigInfoAdvertisingReport(
 // PeriodicAdvertisingCallbackStub dispatches incoming binder transactions
 // to a typed IPeriodicAdvertisingCallback implementation.
 type PeriodicAdvertisingCallbackStub struct {
-	Impl IPeriodicAdvertisingCallback
+	Impl      IPeriodicAdvertisingCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PeriodicAdvertisingCallbackStub)(nil)
@@ -169,16 +178,17 @@ func (s *PeriodicAdvertisingCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPeriodicAdvertisingCallbackOnSyncEstablished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_syncHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_device interface{}
+		var _arg_device types.BluetoothDevice
 		_arg_advertisingSid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -196,12 +206,8 @@ func (s *PeriodicAdvertisingCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSyncEstablished(ctx, _arg_syncHandle, _arg_device, _arg_advertisingSid, _arg_skip, _arg_timeout, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPeriodicAdvertisingCallbackOnPeriodicAdvertisingReport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_report PeriodicAdvertisingReport
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -215,35 +221,23 @@ func (s *PeriodicAdvertisingCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnPeriodicAdvertisingReport(ctx, _arg_report)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPeriodicAdvertisingCallbackOnSyncLost:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_syncHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSyncLost(ctx, _arg_syncHandle)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPeriodicAdvertisingCallbackOnSyncTransferred:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_device interface{}
+		var _arg_device types.BluetoothDevice
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSyncTransferred(ctx, _arg_device, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPeriodicAdvertisingCallbackOnBigInfoAdvertisingReport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_syncHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -253,8 +247,7 @@ func (s *PeriodicAdvertisingCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnBigInfoAdvertisingReport(ctx, _arg_syncHandle, _arg_encrypted)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -264,10 +257,10 @@ func (s *PeriodicAdvertisingCallbackStub) OnTransaction(
 // provide to NewPeriodicAdvertisingCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IPeriodicAdvertisingCallbackServer interface {
-	OnSyncEstablished(ctx context.Context, syncHandle int32, device interface{}, advertisingSid int32, skip int32, timeout int32, status int32) error
+	OnSyncEstablished(ctx context.Context, syncHandle int32, device types.BluetoothDevice, advertisingSid int32, skip int32, timeout int32, status int32) error
 	OnPeriodicAdvertisingReport(ctx context.Context, report PeriodicAdvertisingReport) error
 	OnSyncLost(ctx context.Context, syncHandle int32) error
-	OnSyncTransferred(ctx context.Context, device interface{}, status int32) error
+	OnSyncTransferred(ctx context.Context, device types.BluetoothDevice, status int32) error
 	OnBigInfoAdvertisingReport(ctx context.Context, syncHandle int32, encrypted bool) error
 }
 
@@ -283,7 +276,7 @@ func (w *periodicAdvertisingCallbackStubWrapper) AsBinder() binder.IBinder {
 func (w *periodicAdvertisingCallbackStubWrapper) OnSyncEstablished(
 	ctx context.Context,
 	syncHandle int32,
-	device interface{},
+	device types.BluetoothDevice,
 	advertisingSid int32,
 	skip int32,
 	timeout int32,
@@ -308,7 +301,7 @@ func (w *periodicAdvertisingCallbackStubWrapper) OnSyncLost(
 
 func (w *periodicAdvertisingCallbackStubWrapper) OnSyncTransferred(
 	ctx context.Context,
-	device interface{},
+	device types.BluetoothDevice,
 	status int32,
 ) error {
 	return w.impl.OnSyncTransferred(ctx, device, status)

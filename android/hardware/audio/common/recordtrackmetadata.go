@@ -10,7 +10,7 @@ import (
 type RecordTrackMetadata struct {
 	Source            audioCommon.AudioSource
 	Gain              float32
-	DestinationDevice audioCommon.AudioDevice
+	DestinationDevice *audioCommon.AudioDevice
 	ChannelMask       audioCommon.AudioChannelLayout
 	Tags              []string
 }
@@ -23,8 +23,13 @@ func (s *RecordTrackMetadata) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(int32(s.Source))
 	p.WriteFloat32(s.Gain)
-	if _err := s.DestinationDevice.MarshalParcel(p); _err != nil {
-		return _err
+	if s.DestinationDevice == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.DestinationDevice.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	if _err := s.ChannelMask.MarshalParcel(p); _err != nil {
 		return _err
@@ -50,23 +55,58 @@ func (s *RecordTrackMetadata) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_sourceRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Source = audioCommon.AudioSource(_sourceRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Gain, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err
 	}
 
-	if _err = s.DestinationDevice.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val audioCommon.AudioDevice
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.DestinationDevice = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.ChannelMask.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32

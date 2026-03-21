@@ -1,0 +1,27 @@
+package: com.android.systemui.notetask
+go_package: com/android/systemui/notetask
+interfaces:
+    - name: INoteTaskBubblesService
+      descriptor: com.android.systemui.notetask.INoteTaskBubblesService
+      methods:
+        - name: areBubblesAvailable
+          transaction_code_offset: 0
+          return_type:
+            name: boolean
+        - name: showOrHideAppBubble
+          transaction_code_offset: 1
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: userHandle
+              type:
+                name: UserHandle
+              direction: in
+            - name: icon
+              type:
+                name: Icon
+              direction: in
+          return_type:
+            name: void

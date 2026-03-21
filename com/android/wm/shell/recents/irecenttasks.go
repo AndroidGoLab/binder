@@ -62,6 +62,7 @@ func (p *RecentTasksProxy) RegisterRecentTasksListener(
 	listener IRecentTasksListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -79,6 +80,7 @@ func (p *RecentTasksProxy) UnregisterRecentTasksListener(
 	listener IRecentTasksListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -99,6 +101,7 @@ func (p *RecentTasksProxy) GetRecentTasks(
 	var _result []util.GroupedRecentTaskInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
 	_data.WriteInt32(maxNum)
 	_data.WriteInt32(flags)
@@ -123,6 +126,9 @@ func (p *RecentTasksProxy) GetRecentTasks(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]util.GroupedRecentTaskInfo, _count)
@@ -144,6 +150,7 @@ func (p *RecentTasksProxy) GetRunningTasks(
 ) ([]app.ActivityManagerRunningTaskInfo, error) {
 	var _result []app.ActivityManagerRunningTaskInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
 	_data.WriteInt32(maxNum)
 
@@ -165,6 +172,9 @@ func (p *RecentTasksProxy) GetRunningTasks(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -190,6 +200,7 @@ func (p *RecentTasksProxy) StartRecentsTransition(
 	listener view.IRecentsAnimationRunner,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -218,7 +229,8 @@ func (p *RecentTasksProxy) StartRecentsTransition(
 // RecentTasksStub dispatches incoming binder transactions
 // to a typed IRecentTasks implementation.
 type RecentTasksStub struct {
-	Impl IRecentTasks
+	Impl      IRecentTasks
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RecentTasksStub)(nil)
@@ -232,31 +244,34 @@ func (s *RecentTasksStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRecentTasksRegisterRecentTasksListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IRecentTasksListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewRecentTasksListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterRecentTasksListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecentTasksUnregisterRecentTasksListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IRecentTasksListener
-		_ = _arg_listener
-		_err := s.Impl.UnregisterRecentTasksListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionIRecentTasksGetRecentTasks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewRecentTasksListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err := s.Impl.UnregisterRecentTasksListener(ctx, _arg_listener)
+		return nil, _err
+	case TransactionIRecentTasksGetRecentTasks:
 		_arg_maxNum, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -275,13 +290,19 @@ func (s *RecentTasksStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIRecentTasksGetRunningTasks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_maxNum, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -293,13 +314,19 @@ func (s *RecentTasksStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIRecentTasksStartRecentsTransition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent app.PendingIntent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -336,15 +363,24 @@ func (s *RecentTasksStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_appThread app.IApplicationThread
-		_ = _arg_appThread
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_appThreadHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_appThread = app.NewApplicationThreadProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _appThreadHandle))
+		}
 		var _arg_listener view.IRecentsAnimationRunner
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = view.NewRecentsAnimationRunnerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.StartRecentsTransition(ctx, _arg_intent, _arg_fillIn, _arg_options, _arg_appThread, _arg_listener)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

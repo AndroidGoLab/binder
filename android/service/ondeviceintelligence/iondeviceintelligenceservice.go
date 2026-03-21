@@ -70,6 +70,7 @@ func (p *OnDeviceIntelligenceServiceProxy) GetVersion(
 	remoteCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
 	_data.WriteInt32(1)
 	if _err := remoteCallback.MarshalParcel(_data); _err != nil {
@@ -91,6 +92,7 @@ func (p *OnDeviceIntelligenceServiceProxy) GetFeature(
 	featureCallback appOndeviceintelligence.IFeatureCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
 	_data.WriteInt32(featureId)
 	binder.WriteBinderToParcel(ctx, _data, featureCallback.AsBinder(), p.Remote.Transport())
@@ -109,6 +111,7 @@ func (p *OnDeviceIntelligenceServiceProxy) ListFeatures(
 	listFeaturesCallback appOndeviceintelligence.IListFeaturesCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
 	binder.WriteBinderToParcel(ctx, _data, listFeaturesCallback.AsBinder(), p.Remote.Transport())
 
@@ -127,6 +130,7 @@ func (p *OnDeviceIntelligenceServiceProxy) GetFeatureDetails(
 	featureDetailsCallback appOndeviceintelligence.IFeatureDetailsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
 	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
@@ -149,6 +153,7 @@ func (p *OnDeviceIntelligenceServiceProxy) GetReadOnlyFileDescriptor(
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
 	_data.WriteString16(fileName)
 	_data.WriteInt32(1)
@@ -171,6 +176,7 @@ func (p *OnDeviceIntelligenceServiceProxy) GetReadOnlyFeatureFileDescriptorMap(
 	remoteCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
 	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
@@ -197,6 +203,7 @@ func (p *OnDeviceIntelligenceServiceProxy) RequestFeatureDownload(
 	downloadCallback appOndeviceintelligence.IDownloadCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
 	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
@@ -219,6 +226,7 @@ func (p *OnDeviceIntelligenceServiceProxy) RegisterRemoteServices(
 	remoteProcessingService IRemoteProcessingService,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
 	binder.WriteBinderToParcel(ctx, _data, remoteProcessingService.AsBinder(), p.Remote.Transport())
 
@@ -234,7 +242,8 @@ func (p *OnDeviceIntelligenceServiceProxy) RegisterRemoteServices(
 // OnDeviceIntelligenceServiceStub dispatches incoming binder transactions
 // to a typed IOnDeviceIntelligenceService implementation.
 type OnDeviceIntelligenceServiceStub struct {
-	Impl IOnDeviceIntelligenceService
+	Impl      IOnDeviceIntelligenceService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OnDeviceIntelligenceServiceStub)(nil)
@@ -248,11 +257,12 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOnDeviceIntelligenceServiceGetVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_remoteCallback os.RemoteCallback
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -266,36 +276,34 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetVersion(ctx, _arg_remoteCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnDeviceIntelligenceServiceGetFeature:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_featureId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_featureCallback appOndeviceintelligence.IFeatureCallback
-		_ = _arg_featureCallback
+		{
+			_featureCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_featureCallback = appOndeviceintelligence.NewFeatureCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _featureCallbackHandle))
+		}
 		_err = s.Impl.GetFeature(ctx, _arg_featureId, _arg_featureCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnDeviceIntelligenceServiceListFeatures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listFeaturesCallback appOndeviceintelligence.IListFeaturesCallback
-		_ = _arg_listFeaturesCallback
-		_err := s.Impl.ListFeatures(ctx, _arg_listFeaturesCallback)
-		_ = _err
-		return nil, nil
-	case TransactionIOnDeviceIntelligenceServiceGetFeatureDetails:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listFeaturesCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listFeaturesCallback = appOndeviceintelligence.NewListFeaturesCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listFeaturesCallbackHandle))
 		}
+		_err := s.Impl.ListFeatures(ctx, _arg_listFeaturesCallback)
+		return nil, _err
+	case TransactionIOnDeviceIntelligenceServiceGetFeatureDetails:
 		var _arg_feature appOndeviceintelligence.Feature
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -308,16 +316,17 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_featureDetailsCallback appOndeviceintelligence.IFeatureDetailsCallback
-		_ = _arg_featureDetailsCallback
-		_err := s.Impl.GetFeatureDetails(ctx, _arg_feature, _arg_featureDetailsCallback)
-		_ = _err
-		return nil, nil
-	case TransactionIOnDeviceIntelligenceServiceGetReadOnlyFileDescriptor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_featureDetailsCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_featureDetailsCallback = appOndeviceintelligence.NewFeatureDetailsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _featureDetailsCallbackHandle))
 		}
+		_err := s.Impl.GetFeatureDetails(ctx, _arg_feature, _arg_featureDetailsCallback)
+		return nil, _err
+	case TransactionIOnDeviceIntelligenceServiceGetReadOnlyFileDescriptor:
 		_arg_fileName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -335,12 +344,8 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.GetReadOnlyFileDescriptor(ctx, _arg_fileName, _arg_future)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnDeviceIntelligenceServiceGetReadOnlyFeatureFileDescriptorMap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_feature appOndeviceintelligence.Feature
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -366,12 +371,8 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetReadOnlyFeatureFileDescriptorMap(ctx, _arg_feature, _arg_remoteCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnDeviceIntelligenceServiceRequestFeatureDownload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_feature appOndeviceintelligence.Feature
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -384,25 +385,35 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cancellationSignal common.ICancellationSignal
-		_ = _arg_cancellationSignal
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_downloadCallback appOndeviceintelligence.IDownloadCallback
-		_ = _arg_downloadCallback
-		_err := s.Impl.RequestFeatureDownload(ctx, _arg_feature, _arg_cancellationSignal, _arg_downloadCallback)
-		_ = _err
-		return nil, nil
-	case TransactionIOnDeviceIntelligenceServiceRegisterRemoteServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_cancellationSignalHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cancellationSignal = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_downloadCallback appOndeviceintelligence.IDownloadCallback
+		{
+			_downloadCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_downloadCallback = appOndeviceintelligence.NewDownloadCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _downloadCallbackHandle))
+		}
+		_err := s.Impl.RequestFeatureDownload(ctx, _arg_feature, _arg_cancellationSignal, _arg_downloadCallback)
+		return nil, _err
+	case TransactionIOnDeviceIntelligenceServiceRegisterRemoteServices:
 		var _arg_remoteProcessingService IRemoteProcessingService
-		_ = _arg_remoteProcessingService
+		{
+			_remoteProcessingServiceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_remoteProcessingService = NewRemoteProcessingServiceProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _remoteProcessingServiceHandle))
+		}
 		_err := s.Impl.RegisterRemoteServices(ctx, _arg_remoteProcessingService)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

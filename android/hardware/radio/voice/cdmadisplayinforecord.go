@@ -34,6 +34,11 @@ func (s *CdmaDisplayInfoRecord) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.AlphaBuf, _err = p.ReadString16()
 	if _err != nil {
 		return _err

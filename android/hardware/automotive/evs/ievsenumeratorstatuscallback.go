@@ -45,6 +45,7 @@ func (p *EvsEnumeratorStatusCallbackProxy) DeviceStatusChanged(
 	status []DeviceStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumeratorStatusCallback)
 	if status == nil {
 		_data.WriteInt32(-1)
@@ -70,7 +71,8 @@ func (p *EvsEnumeratorStatusCallbackProxy) DeviceStatusChanged(
 // EvsEnumeratorStatusCallbackStub dispatches incoming binder transactions
 // to a typed IEvsEnumeratorStatusCallback implementation.
 type EvsEnumeratorStatusCallbackStub struct {
-	Impl IEvsEnumeratorStatusCallback
+	Impl      IEvsEnumeratorStatusCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EvsEnumeratorStatusCallbackStub)(nil)
@@ -84,17 +86,35 @@ func (s *EvsEnumeratorStatusCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEvsEnumeratorStatusCallbackDeviceStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_status []DeviceStatus
-		_ = _arg_status
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_status = make([]DeviceStatus, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_status[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.DeviceStatusChanged(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

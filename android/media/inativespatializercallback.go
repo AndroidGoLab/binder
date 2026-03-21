@@ -3,7 +3,7 @@ package media
 import (
 	"context"
 	"fmt"
-	Spatialization "github.com/xaionaro-go/binder/android/media/audio/common/Spatialization"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,7 +24,7 @@ const (
 
 type INativeSpatializerCallback interface {
 	AsBinder() binder.IBinder
-	OnLevelChanged(ctx context.Context, level Spatialization.Level) error
+	OnLevelChanged(ctx context.Context, level common.SpatializationLevel) error
 	OnOutputChanged(ctx context.Context, output int32) error
 }
 
@@ -46,10 +46,12 @@ var _ INativeSpatializerCallback = (*NativeSpatializerCallbackProxy)(nil)
 
 func (p *NativeSpatializerCallbackProxy) OnLevelChanged(
 	ctx context.Context,
-	level Spatialization.Level,
+	level common.SpatializationLevel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINativeSpatializerCallback)
+	_data.WritePaddedByte(byte(level))
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINativeSpatializerCallback, MethodINativeSpatializerCallbackOnLevelChanged)
 	if _err != nil {
@@ -65,6 +67,7 @@ func (p *NativeSpatializerCallbackProxy) OnOutputChanged(
 	output int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINativeSpatializerCallback)
 	_data.WriteInt32(output)
 
@@ -80,7 +83,8 @@ func (p *NativeSpatializerCallbackProxy) OnOutputChanged(
 // NativeSpatializerCallbackStub dispatches incoming binder transactions
 // to a typed INativeSpatializerCallback implementation.
 type NativeSpatializerCallbackStub struct {
-	Impl INativeSpatializerCallback
+	Impl      INativeSpatializerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NativeSpatializerCallbackStub)(nil)
@@ -94,26 +98,26 @@ func (s *NativeSpatializerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINativeSpatializerCallbackOnLevelChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_raw_level, _err := _data.ReadPaddedByte()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_level Spatialization.Level
-		_err := s.Impl.OnLevelChanged(ctx, _arg_level)
-		_ = _err
-		return nil, nil
+		_arg_level := common.SpatializationLevel(_raw_level)
+		_err = s.Impl.OnLevelChanged(ctx, _arg_level)
+		return nil, _err
 	case TransactionINativeSpatializerCallbackOnOutputChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_output, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnOutputChanged(ctx, _arg_output)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -123,7 +127,7 @@ func (s *NativeSpatializerCallbackStub) OnTransaction(
 // provide to NewNativeSpatializerCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type INativeSpatializerCallbackServer interface {
-	OnLevelChanged(ctx context.Context, level Spatialization.Level) error
+	OnLevelChanged(ctx context.Context, level common.SpatializationLevel) error
 	OnOutputChanged(ctx context.Context, output int32) error
 }
 
@@ -138,7 +142,7 @@ func (w *nativeSpatializerCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *nativeSpatializerCallbackStubWrapper) OnLevelChanged(
 	ctx context.Context,
-	level Spatialization.Level,
+	level common.SpatializationLevel,
 ) error {
 	return w.impl.OnLevelChanged(ctx, level)
 }

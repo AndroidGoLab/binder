@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"fmt"
+	net "github.com/xaionaro-go/binder/android/net"
 	telephony "github.com/xaionaro-go/binder/android/telephony"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -50,7 +51,7 @@ type IDataService interface {
 	AsBinder() binder.IBinder
 	CreateDataServiceProvider(ctx context.Context, slotId int32) error
 	RemoveDataServiceProvider(ctx context.Context, slotId int32) error
-	SetupDataCall(ctx context.Context, slotId int32, accessNetwork int32, dataProfile DataProfile, isRoaming bool, allowRoaming bool, reason int32, linkProperties interface{}, pduSessionId int32, sliceInfo NetworkSliceInfo, trafficDescriptor TrafficDescriptor, matchAllRuleAllowed bool, callback IDataServiceCallback) error
+	SetupDataCall(ctx context.Context, slotId int32, accessNetwork int32, dataProfile DataProfile, isRoaming bool, allowRoaming bool, reason int32, linkProperties net.LinkProperties, pduSessionId int32, sliceInfo NetworkSliceInfo, trafficDescriptor TrafficDescriptor, matchAllRuleAllowed bool, callback IDataServiceCallback) error
 	DeactivateDataCall(ctx context.Context, slotId int32, cid int32, reason int32, callback IDataServiceCallback) error
 	SetInitialAttachApn(ctx context.Context, slotId int32, dataProfile DataProfile, isRoaming bool, callback IDataServiceCallback) error
 	SetDataProfile(ctx context.Context, slotId int32, dps []DataProfile, isRoaming bool, callback IDataServiceCallback) error
@@ -85,6 +86,7 @@ func (p *DataServiceProxy) CreateDataServiceProvider(
 	slotId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 
@@ -102,6 +104,7 @@ func (p *DataServiceProxy) RemoveDataServiceProvider(
 	slotId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 
@@ -122,7 +125,7 @@ func (p *DataServiceProxy) SetupDataCall(
 	isRoaming bool,
 	allowRoaming bool,
 	reason int32,
-	linkProperties interface{},
+	linkProperties net.LinkProperties,
 	pduSessionId int32,
 	sliceInfo NetworkSliceInfo,
 	trafficDescriptor TrafficDescriptor,
@@ -130,6 +133,7 @@ func (p *DataServiceProxy) SetupDataCall(
 	callback IDataServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(accessNetwork)
@@ -140,6 +144,10 @@ func (p *DataServiceProxy) SetupDataCall(
 	_data.WriteBool(isRoaming)
 	_data.WriteBool(allowRoaming)
 	_data.WriteInt32(reason)
+	_data.WriteInt32(1)
+	if _err := linkProperties.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(pduSessionId)
 	_data.WriteInt32(1)
 	if _err := sliceInfo.MarshalParcel(_data); _err != nil {
@@ -169,6 +177,7 @@ func (p *DataServiceProxy) DeactivateDataCall(
 	callback IDataServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(cid)
@@ -192,6 +201,7 @@ func (p *DataServiceProxy) SetInitialAttachApn(
 	callback IDataServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(1)
@@ -218,6 +228,7 @@ func (p *DataServiceProxy) SetDataProfile(
 	callback IDataServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 	if dps == nil {
@@ -249,6 +260,7 @@ func (p *DataServiceProxy) RequestDataCallList(
 	callback IDataServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -268,6 +280,7 @@ func (p *DataServiceProxy) RegisterForDataCallListChanged(
 	callback IDataServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -287,6 +300,7 @@ func (p *DataServiceProxy) UnregisterForDataCallListChanged(
 	callback IDataServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -307,6 +321,7 @@ func (p *DataServiceProxy) StartHandover(
 	callback IDataServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(cid)
@@ -328,6 +343,7 @@ func (p *DataServiceProxy) CancelHandover(
 	callback IDataServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(cid)
@@ -348,6 +364,7 @@ func (p *DataServiceProxy) RegisterForUnthrottleApn(
 	callback IDataServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotIndex)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -367,6 +384,7 @@ func (p *DataServiceProxy) UnregisterForUnthrottleApn(
 	callback IDataServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotIndex)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -387,6 +405,7 @@ func (p *DataServiceProxy) RequestNetworkValidation(
 	callback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(cid)
@@ -404,7 +423,8 @@ func (p *DataServiceProxy) RequestNetworkValidation(
 // DataServiceStub dispatches incoming binder transactions
 // to a typed IDataService implementation.
 type DataServiceStub struct {
-	Impl IDataService
+	Impl      IDataService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DataServiceStub)(nil)
@@ -418,33 +438,26 @@ func (s *DataServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDataServiceCreateDataServiceProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.CreateDataServiceProvider(ctx, _arg_slotId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceRemoveDataServiceProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RemoveDataServiceProvider(ctx, _arg_slotId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceSetupDataCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -477,7 +490,18 @@ func (s *DataServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_linkProperties interface{}
+		var _arg_linkProperties net.LinkProperties
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_linkProperties.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_pduSessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -510,16 +534,17 @@ func (s *DataServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDataServiceCallback
-		_ = _arg_callback
-		_err = s.Impl.SetupDataCall(ctx, _arg_slotId, _arg_accessNetwork, _arg_dataProfile, _arg_isRoaming, _arg_allowRoaming, _arg_reason, _arg_linkProperties, _arg_pduSessionId, _arg_sliceInfo, _arg_trafficDescriptor, _arg_matchAllRuleAllowed, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIDataServiceDeactivateDataCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDataServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.SetupDataCall(ctx, _arg_slotId, _arg_accessNetwork, _arg_dataProfile, _arg_isRoaming, _arg_allowRoaming, _arg_reason, _arg_linkProperties, _arg_pduSessionId, _arg_sliceInfo, _arg_trafficDescriptor, _arg_matchAllRuleAllowed, _arg_callback)
+		return nil, _err
+	case TransactionIDataServiceDeactivateDataCall:
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -532,16 +557,17 @@ func (s *DataServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDataServiceCallback
-		_ = _arg_callback
-		_err = s.Impl.DeactivateDataCall(ctx, _arg_slotId, _arg_cid, _arg_reason, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIDataServiceSetInitialAttachApn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDataServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.DeactivateDataCall(ctx, _arg_slotId, _arg_cid, _arg_reason, _arg_callback)
+		return nil, _err
+	case TransactionIDataServiceSetInitialAttachApn:
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -562,79 +588,102 @@ func (s *DataServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDataServiceCallback
-		_ = _arg_callback
-		_err = s.Impl.SetInitialAttachApn(ctx, _arg_slotId, _arg_dataProfile, _arg_isRoaming, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIDataServiceSetDataProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDataServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.SetInitialAttachApn(ctx, _arg_slotId, _arg_dataProfile, _arg_isRoaming, _arg_callback)
+		return nil, _err
+	case TransactionIDataServiceSetDataProfile:
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_dps []DataProfile
-		_ = _arg_dps
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_dps = make([]DataProfile, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_dps[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_isRoaming, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDataServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDataServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.SetDataProfile(ctx, _arg_slotId, _arg_dps, _arg_isRoaming, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceRequestDataCallList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDataServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDataServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RequestDataCallList(ctx, _arg_slotId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceRegisterForDataCallListChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDataServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDataServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RegisterForDataCallListChanged(ctx, _arg_slotId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceUnregisterForDataCallListChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDataServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDataServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.UnregisterForDataCallListChanged(ctx, _arg_slotId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceStartHandover:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -643,16 +692,17 @@ func (s *DataServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDataServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDataServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.StartHandover(ctx, _arg_slotId, _arg_cid, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceCancelHandover:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -661,44 +711,47 @@ func (s *DataServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDataServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDataServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.CancelHandover(ctx, _arg_slotId, _arg_cid, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceRegisterForUnthrottleApn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDataServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDataServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RegisterForUnthrottleApn(ctx, _arg_slotIndex, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataServiceUnregisterForUnthrottleApn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDataServiceCallback
-		_ = _arg_callback
-		_err = s.Impl.UnregisterForUnthrottleApn(ctx, _arg_slotIndex, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIDataServiceRequestNetworkValidation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDataServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.UnregisterForUnthrottleApn(ctx, _arg_slotIndex, _arg_callback)
+		return nil, _err
+	case TransactionIDataServiceRequestNetworkValidation:
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -707,12 +760,16 @@ func (s *DataServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback telephony.IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RequestNetworkValidation(ctx, _arg_slotId, _arg_cid, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -724,7 +781,7 @@ func (s *DataServiceStub) OnTransaction(
 type IDataServiceServer interface {
 	CreateDataServiceProvider(ctx context.Context, slotId int32) error
 	RemoveDataServiceProvider(ctx context.Context, slotId int32) error
-	SetupDataCall(ctx context.Context, slotId int32, accessNetwork int32, dataProfile DataProfile, isRoaming bool, allowRoaming bool, reason int32, linkProperties interface{}, pduSessionId int32, sliceInfo NetworkSliceInfo, trafficDescriptor TrafficDescriptor, matchAllRuleAllowed bool, callback IDataServiceCallback) error
+	SetupDataCall(ctx context.Context, slotId int32, accessNetwork int32, dataProfile DataProfile, isRoaming bool, allowRoaming bool, reason int32, linkProperties net.LinkProperties, pduSessionId int32, sliceInfo NetworkSliceInfo, trafficDescriptor TrafficDescriptor, matchAllRuleAllowed bool, callback IDataServiceCallback) error
 	DeactivateDataCall(ctx context.Context, slotId int32, cid int32, reason int32, callback IDataServiceCallback) error
 	SetInitialAttachApn(ctx context.Context, slotId int32, dataProfile DataProfile, isRoaming bool, callback IDataServiceCallback) error
 	SetDataProfile(ctx context.Context, slotId int32, dps []DataProfile, isRoaming bool, callback IDataServiceCallback) error
@@ -769,7 +826,7 @@ func (w *dataServiceStubWrapper) SetupDataCall(
 	isRoaming bool,
 	allowRoaming bool,
 	reason int32,
-	linkProperties interface{},
+	linkProperties net.LinkProperties,
 	pduSessionId int32,
 	sliceInfo NetworkSliceInfo,
 	trafficDescriptor TrafficDescriptor,

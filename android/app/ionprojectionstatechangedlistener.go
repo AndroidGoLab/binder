@@ -46,6 +46,7 @@ func (p *OnProjectionStateChangedListenerProxy) OnProjectionStateChanged(
 	projectingPackages []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnProjectionStateChangedListener)
 	_data.WriteInt32(activeProjectionTypes)
 	if projectingPackages == nil {
@@ -69,7 +70,8 @@ func (p *OnProjectionStateChangedListenerProxy) OnProjectionStateChanged(
 // OnProjectionStateChangedListenerStub dispatches incoming binder transactions
 // to a typed IOnProjectionStateChangedListener implementation.
 type OnProjectionStateChangedListenerStub struct {
-	Impl IOnProjectionStateChangedListener
+	Impl      IOnProjectionStateChangedListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OnProjectionStateChangedListenerStub)(nil)
@@ -83,21 +85,37 @@ func (s *OnProjectionStateChangedListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOnProjectionStateChangedListenerOnProjectionStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_activeProjectionTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_projectingPackages []string
-		_ = _arg_projectingPackages
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_projectingPackages = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_projectingPackages[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.OnProjectionStateChanged(ctx, _arg_activeProjectionTypes, _arg_projectingPackages)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

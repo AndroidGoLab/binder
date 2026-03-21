@@ -81,6 +81,7 @@ func (p *BluetoothLeBroadcastAssistantCallbackProxy) OnSearchStarted(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistantCallback)
 	_data.WriteInt32(reason)
 
@@ -107,6 +108,7 @@ func (p *BluetoothLeBroadcastAssistantCallbackProxy) OnSearchStartFailed(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistantCallback)
 	_data.WriteInt32(reason)
 
@@ -133,6 +135,7 @@ func (p *BluetoothLeBroadcastAssistantCallbackProxy) OnSearchStopped(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistantCallback)
 	_data.WriteInt32(reason)
 
@@ -159,6 +162,7 @@ func (p *BluetoothLeBroadcastAssistantCallbackProxy) OnSearchStopFailed(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistantCallback)
 	_data.WriteInt32(reason)
 
@@ -185,6 +189,7 @@ func (p *BluetoothLeBroadcastAssistantCallbackProxy) OnSourceFound(
 	source BluetoothLeBroadcastMetadata,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistantCallback)
 	_data.WriteInt32(1)
 	if _err := source.MarshalParcel(_data); _err != nil {
@@ -216,6 +221,7 @@ func (p *BluetoothLeBroadcastAssistantCallbackProxy) OnSourceAdded(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistantCallback)
 	_data.WriteInt32(1)
 	if _err := sink.MarshalParcel(_data); _err != nil {
@@ -249,6 +255,7 @@ func (p *BluetoothLeBroadcastAssistantCallbackProxy) OnSourceAddFailed(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistantCallback)
 	_data.WriteInt32(1)
 	if _err := sink.MarshalParcel(_data); _err != nil {
@@ -285,6 +292,7 @@ func (p *BluetoothLeBroadcastAssistantCallbackProxy) OnSourceModified(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistantCallback)
 	_data.WriteInt32(1)
 	if _err := sink.MarshalParcel(_data); _err != nil {
@@ -318,6 +326,7 @@ func (p *BluetoothLeBroadcastAssistantCallbackProxy) OnSourceModifyFailed(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistantCallback)
 	_data.WriteInt32(1)
 	if _err := sink.MarshalParcel(_data); _err != nil {
@@ -351,6 +360,7 @@ func (p *BluetoothLeBroadcastAssistantCallbackProxy) OnSourceRemoved(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistantCallback)
 	_data.WriteInt32(1)
 	if _err := sink.MarshalParcel(_data); _err != nil {
@@ -384,6 +394,7 @@ func (p *BluetoothLeBroadcastAssistantCallbackProxy) OnSourceRemoveFailed(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistantCallback)
 	_data.WriteInt32(1)
 	if _err := sink.MarshalParcel(_data); _err != nil {
@@ -417,6 +428,7 @@ func (p *BluetoothLeBroadcastAssistantCallbackProxy) OnReceiveStateChanged(
 	state BluetoothLeBroadcastReceiveState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistantCallback)
 	_data.WriteInt32(1)
 	if _err := sink.MarshalParcel(_data); _err != nil {
@@ -451,6 +463,7 @@ func (p *BluetoothLeBroadcastAssistantCallbackProxy) OnSourceLost(
 	broadcastId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistantCallback)
 	_data.WriteInt32(broadcastId)
 
@@ -475,7 +488,8 @@ func (p *BluetoothLeBroadcastAssistantCallbackProxy) OnSourceLost(
 // BluetoothLeBroadcastAssistantCallbackStub dispatches incoming binder transactions
 // to a typed IBluetoothLeBroadcastAssistantCallback implementation.
 type BluetoothLeBroadcastAssistantCallbackStub struct {
-	Impl IBluetoothLeBroadcastAssistantCallback
+	Impl      IBluetoothLeBroadcastAssistantCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothLeBroadcastAssistantCallbackStub)(nil)
@@ -489,11 +503,12 @@ func (s *BluetoothLeBroadcastAssistantCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothLeBroadcastAssistantCallbackOnSearchStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -507,9 +522,6 @@ func (s *BluetoothLeBroadcastAssistantCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantCallbackOnSearchStartFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -523,9 +535,6 @@ func (s *BluetoothLeBroadcastAssistantCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantCallbackOnSearchStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -539,9 +548,6 @@ func (s *BluetoothLeBroadcastAssistantCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantCallbackOnSearchStopFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -555,9 +561,6 @@ func (s *BluetoothLeBroadcastAssistantCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantCallbackOnSourceFound:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_source BluetoothLeBroadcastMetadata
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -579,9 +582,6 @@ func (s *BluetoothLeBroadcastAssistantCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantCallbackOnSourceAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sink BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -611,9 +611,6 @@ func (s *BluetoothLeBroadcastAssistantCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantCallbackOnSourceAddFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sink BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -651,9 +648,6 @@ func (s *BluetoothLeBroadcastAssistantCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantCallbackOnSourceModified:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sink BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -683,9 +677,6 @@ func (s *BluetoothLeBroadcastAssistantCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantCallbackOnSourceModifyFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sink BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -715,9 +706,6 @@ func (s *BluetoothLeBroadcastAssistantCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantCallbackOnSourceRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sink BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -747,9 +735,6 @@ func (s *BluetoothLeBroadcastAssistantCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantCallbackOnSourceRemoveFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sink BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -779,9 +764,6 @@ func (s *BluetoothLeBroadcastAssistantCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantCallbackOnReceiveStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sink BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -819,9 +801,6 @@ func (s *BluetoothLeBroadcastAssistantCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantCallbackOnSourceLost:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_broadcastId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

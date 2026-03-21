@@ -60,6 +60,7 @@ func (p *OnsProxy) SetEnable(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOns)
 	_data.WriteBool(enable)
 	_data.WriteString16(_identity.PackageName)
@@ -92,6 +93,7 @@ func (p *OnsProxy) IsEnabled(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOns)
 	_data.WriteString16(_identity.PackageName)
 
@@ -125,6 +127,7 @@ func (p *OnsProxy) SetPreferredDataSubscriptionId(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOns)
 	_data.WriteInt32(subId)
 	_data.WriteBool(needValidation)
@@ -155,6 +158,7 @@ func (p *OnsProxy) GetPreferredDataSubscriptionId(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOns)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -188,6 +192,7 @@ func (p *OnsProxy) UpdateAvailableNetworks(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOns)
 	if availableNetworks == nil {
 		_data.WriteInt32(-1)
@@ -224,7 +229,8 @@ func (p *OnsProxy) UpdateAvailableNetworks(
 // OnsStub dispatches incoming binder transactions
 // to a typed IOns implementation.
 type OnsStub struct {
-	Impl IOns
+	Impl      IOns
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OnsStub)(nil)
@@ -238,11 +244,12 @@ func (s *OnsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOnsSetEnable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -263,9 +270,6 @@ func (s *OnsStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -276,9 +280,6 @@ func (s *OnsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIOnsSetPreferredDataSubscriptionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -287,9 +288,14 @@ func (s *OnsStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbackStub ISetOpportunisticDataCallback
-		_ = _arg_callbackStub
+		{
+			_callbackStubHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbackStub = NewSetOpportunisticDataCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackStubHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -308,9 +314,6 @@ func (s *OnsStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPreferredDataSubscriptionId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -321,15 +324,35 @@ func (s *OnsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIOnsUpdateAvailableNetworks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_availableNetworks []androidTelephony.AvailableNetworkInfo
-		_ = _arg_availableNetworks
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_availableNetworks = make([]androidTelephony.AvailableNetworkInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_availableNetworks[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_callbackStub IUpdateAvailableNetworksCallback
-		_ = _arg_callbackStub
+		{
+			_callbackStubHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbackStub = NewUpdateAvailableNetworksCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackStubHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}

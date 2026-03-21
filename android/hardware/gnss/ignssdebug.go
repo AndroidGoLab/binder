@@ -3,7 +3,6 @@ package gnss
 import (
 	"context"
 	"fmt"
-	gnssIGnssDebug "github.com/xaionaro-go/binder/android/hardware/gnss/IGnssDebug"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -22,7 +21,7 @@ const (
 
 type IGnssDebug interface {
 	AsBinder() binder.IBinder
-	GetDebugData(ctx context.Context) (gnssIGnssDebug.DebugData, error)
+	GetDebugData(ctx context.Context) (IGnssDebugDebugData, error)
 }
 
 type GnssDebugProxy struct {
@@ -43,9 +42,10 @@ var _ IGnssDebug = (*GnssDebugProxy)(nil)
 
 func (p *GnssDebugProxy) GetDebugData(
 	ctx context.Context,
-) (gnssIGnssDebug.DebugData, error) {
-	var _result gnssIGnssDebug.DebugData
+) (IGnssDebugDebugData, error) {
+	var _result IGnssDebugDebugData
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssDebug)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssDebug, MethodIGnssDebugGetDebugData)
@@ -78,7 +78,8 @@ func (p *GnssDebugProxy) GetDebugData(
 // GnssDebugStub dispatches incoming binder transactions
 // to a typed IGnssDebug implementation.
 type GnssDebugStub struct {
-	Impl IGnssDebug
+	Impl      IGnssDebug
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssDebugStub)(nil)
@@ -92,11 +93,12 @@ func (s *GnssDebugStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssDebugGetDebugData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDebugData(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -118,7 +120,7 @@ func (s *GnssDebugStub) OnTransaction(
 // provide to NewGnssDebugStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IGnssDebugServer interface {
-	GetDebugData(ctx context.Context) (gnssIGnssDebug.DebugData, error)
+	GetDebugData(ctx context.Context) (IGnssDebugDebugData, error)
 }
 
 type gnssDebugStubWrapper struct {
@@ -132,7 +134,7 @@ func (w *gnssDebugStubWrapper) AsBinder() binder.IBinder {
 
 func (w *gnssDebugStubWrapper) GetDebugData(
 	ctx context.Context,
-) (gnssIGnssDebug.DebugData, error) {
+) (IGnssDebugDebugData, error) {
 	return w.impl.GetDebugData(ctx)
 }
 

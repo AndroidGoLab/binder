@@ -1,0 +1,104 @@
+package: android.hardware.graphics.allocator
+go_package: android/hardware/graphics/allocator
+interfaces:
+    - name: IAllocator
+      descriptor: android.hardware.graphics.allocator.IAllocator
+      methods:
+        - name: allocate
+          transaction_code_offset: 0
+          params:
+            - name: descriptor
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: count
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: AllocationResult
+        - name: allocate2
+          transaction_code_offset: 1
+          params:
+            - name: descriptor
+              type:
+                name: BufferDescriptorInfo
+              direction: in
+            - name: count
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: AllocationResult
+        - name: isSupported
+          transaction_code_offset: 2
+          params:
+            - name: descriptor
+              type:
+                name: BufferDescriptorInfo
+              direction: in
+          return_type:
+            name: boolean
+        - name: getIMapperLibrarySuffix
+          transaction_code_offset: 3
+          return_type:
+            name: String
+parcelables:
+    - name: AllocationResult
+      fields:
+        - name: stride
+          type:
+            name: int
+        - name: buffers
+          type:
+            name: NativeHandle
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: BufferDescriptorInfo
+      fields:
+        - name: name
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "128"
+        - name: width
+          type:
+            name: int
+        - name: height
+          type:
+            name: int
+        - name: layerCount
+          type:
+            name: int
+        - name: format
+          type:
+            name: PixelFormat
+          default_value: PixelFormat.UNSPECIFIED
+        - name: usage
+          type:
+            name: BufferUsage
+          default_value: BufferUsage.CPU_READ_NEVER
+        - name: reservedSize
+          type:
+            name: long
+        - name: additionalOptions
+          type:
+            name: ExtendableType
+            is_array: true
+      annotations:
+        - VintfStability
+enums:
+    - name: AllocationError
+      backing_type: int
+      values:
+        - name: BAD_DESCRIPTOR
+          value: ""
+        - name: NO_RESOURCES
+          value: ""
+        - name: UNSUPPORTED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing

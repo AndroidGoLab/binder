@@ -72,6 +72,7 @@ func (p *ImsUtListenerProxy) UtConfigurationUpdated(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
 	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
@@ -92,6 +93,7 @@ func (p *ImsUtListenerProxy) UtConfigurationUpdateFailed(
 	error_ ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
 	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
@@ -116,6 +118,7 @@ func (p *ImsUtListenerProxy) UtConfigurationQueried(
 	ssInfo os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
 	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
@@ -140,6 +143,7 @@ func (p *ImsUtListenerProxy) UtConfigurationQueryFailed(
 	error_ ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
 	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
@@ -163,6 +167,7 @@ func (p *ImsUtListenerProxy) LineIdentificationSupplementaryServiceResponse(
 	config ims.ImsSsInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
 	_data.WriteInt32(id)
 	_data.WriteInt32(1)
@@ -186,6 +191,7 @@ func (p *ImsUtListenerProxy) UtConfigurationCallBarringQueried(
 	cbInfo []ims.ImsSsInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
 	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
@@ -217,6 +223,7 @@ func (p *ImsUtListenerProxy) UtConfigurationCallForwardQueried(
 	cfInfo []ims.ImsCallForwardInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
 	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
@@ -248,6 +255,7 @@ func (p *ImsUtListenerProxy) UtConfigurationCallWaitingQueried(
 	cwInfo []ims.ImsSsInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
 	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
@@ -277,6 +285,7 @@ func (p *ImsUtListenerProxy) OnSupplementaryServiceIndication(
 	ssData ims.ImsSsData,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
 	_data.WriteInt32(1)
 	if _err := ssData.MarshalParcel(_data); _err != nil {
@@ -295,7 +304,8 @@ func (p *ImsUtListenerProxy) OnSupplementaryServiceIndication(
 // ImsUtListenerStub dispatches incoming binder transactions
 // to a typed IImsUtListener implementation.
 type ImsUtListenerStub struct {
-	Impl IImsUtListener
+	Impl      IImsUtListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsUtListenerStub)(nil)
@@ -309,28 +319,35 @@ func (s *ImsUtListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsUtListenerUtConfigurationUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_ut IImsUt
-		_ = _arg_ut
+		{
+			_utHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_ut = NewImsUtProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _utHandle))
+		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.UtConfigurationUpdated(ctx, _arg_ut, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsUtListenerUtConfigurationUpdateFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_ut IImsUt
-		_ = _arg_ut
+		{
+			_utHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_ut = NewImsUtProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _utHandle))
+		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -348,15 +365,16 @@ func (s *ImsUtListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.UtConfigurationUpdateFailed(ctx, _arg_ut, _arg_id, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsUtListenerUtConfigurationQueried:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_ut IImsUt
-		_ = _arg_ut
+		{
+			_utHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_ut = NewImsUtProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _utHandle))
+		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -374,15 +392,16 @@ func (s *ImsUtListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.UtConfigurationQueried(ctx, _arg_ut, _arg_id, _arg_ssInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsUtListenerUtConfigurationQueryFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_ut IImsUt
-		_ = _arg_ut
+		{
+			_utHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_ut = NewImsUtProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _utHandle))
+		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -400,12 +419,8 @@ func (s *ImsUtListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.UtConfigurationQueryFailed(ctx, _arg_ut, _arg_id, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsUtListenerLineIdentificationSupplementaryServiceResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -423,63 +438,116 @@ func (s *ImsUtListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.LineIdentificationSupplementaryServiceResponse(ctx, _arg_id, _arg_config)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsUtListenerUtConfigurationCallBarringQueried:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_ut IImsUt
-		_ = _arg_ut
+		{
+			_utHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_ut = NewImsUtProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _utHandle))
+		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_cbInfo []ims.ImsSsInfo
-		_ = _arg_cbInfo
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_cbInfo = make([]ims.ImsSsInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_cbInfo[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.UtConfigurationCallBarringQueried(ctx, _arg_ut, _arg_id, _arg_cbInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsUtListenerUtConfigurationCallForwardQueried:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_ut IImsUt
-		_ = _arg_ut
+		{
+			_utHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_ut = NewImsUtProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _utHandle))
+		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_cfInfo []ims.ImsCallForwardInfo
-		_ = _arg_cfInfo
-		_err = s.Impl.UtConfigurationCallForwardQueried(ctx, _arg_ut, _arg_id, _arg_cfInfo)
-		_ = _err
-		return nil, nil
-	case TransactionIImsUtListenerUtConfigurationCallWaitingQueried:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_cfInfo = make([]ims.ImsCallForwardInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_cfInfo[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err = s.Impl.UtConfigurationCallForwardQueried(ctx, _arg_ut, _arg_id, _arg_cfInfo)
+		return nil, _err
+	case TransactionIImsUtListenerUtConfigurationCallWaitingQueried:
 		var _arg_ut IImsUt
-		_ = _arg_ut
+		{
+			_utHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_ut = NewImsUtProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _utHandle))
+		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_cwInfo []ims.ImsSsInfo
-		_ = _arg_cwInfo
-		_err = s.Impl.UtConfigurationCallWaitingQueried(ctx, _arg_ut, _arg_id, _arg_cwInfo)
-		_ = _err
-		return nil, nil
-	case TransactionIImsUtListenerOnSupplementaryServiceIndication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_cwInfo = make([]ims.ImsSsInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_cwInfo[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.UtConfigurationCallWaitingQueried(ctx, _arg_ut, _arg_id, _arg_cwInfo)
+		return nil, _err
+	case TransactionIImsUtListenerOnSupplementaryServiceIndication:
 		var _arg_ssData ims.ImsSsData
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -493,8 +561,7 @@ func (s *ImsUtListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSupplementaryServiceIndication(ctx, _arg_ssData)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

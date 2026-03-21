@@ -51,6 +51,7 @@ func (p *ConsumerIrServiceProxy) HasIrEmitter(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConsumerIrService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConsumerIrService, MethodIConsumerIrServiceHasIrEmitter)
@@ -82,6 +83,7 @@ func (p *ConsumerIrServiceProxy) Transmit(
 	pattern []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConsumerIrService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(carrierFrequency)
@@ -117,6 +119,7 @@ func (p *ConsumerIrServiceProxy) GetCarrierFrequencies(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConsumerIrService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConsumerIrService, MethodIConsumerIrServiceGetCarrierFrequencies)
@@ -138,6 +141,9 @@ func (p *ConsumerIrServiceProxy) GetCarrierFrequencies(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -154,7 +160,8 @@ func (p *ConsumerIrServiceProxy) GetCarrierFrequencies(
 // ConsumerIrServiceStub dispatches incoming binder transactions
 // to a typed IConsumerIrService implementation.
 type ConsumerIrServiceStub struct {
-	Impl IConsumerIrService
+	Impl      IConsumerIrService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ConsumerIrServiceStub)(nil)
@@ -168,11 +175,12 @@ func (s *ConsumerIrServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIConsumerIrServiceHasIrEmitter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.HasIrEmitter(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -183,9 +191,6 @@ func (s *ConsumerIrServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIConsumerIrServiceTransmit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -194,9 +199,25 @@ func (s *ConsumerIrServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pattern []int32
-		_ = _arg_pattern
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_pattern = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_pattern[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.Transmit(ctx, _arg_packageName, _arg_carrierFrequency, _arg_pattern)
 		_reply := parcel.New()
 		if _err != nil {
@@ -206,9 +227,6 @@ func (s *ConsumerIrServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIConsumerIrServiceGetCarrierFrequencies:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCarrierFrequencies(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -216,8 +234,14 @@ func (s *ConsumerIrServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

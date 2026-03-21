@@ -36,9 +36,19 @@ func (s *FrontendAtscSettings) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Frequency, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.EndFrequency, _err = p.ReadInt64()
@@ -46,11 +56,21 @@ func (s *FrontendAtscSettings) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_inversionRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Inversion = FrontendSpectralInversion(_inversionRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_modulationRaw, _err := p.ReadInt32()
 	if _err != nil {

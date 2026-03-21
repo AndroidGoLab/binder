@@ -48,9 +48,19 @@ func (s *SuspendInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SuspendAttemptCount, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.FailedSuspendCount, _err = p.ReadInt64()
@@ -58,9 +68,19 @@ func (s *SuspendInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ShortSuspendCount, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SuspendTimeMillis, _err = p.ReadInt64()
@@ -68,9 +88,19 @@ func (s *SuspendInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ShortSuspendTimeMillis, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SuspendOverheadTimeMillis, _err = p.ReadInt64()
@@ -78,9 +108,19 @@ func (s *SuspendInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.FailedSuspendOverheadTimeMillis, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.NewBackoffCount, _err = p.ReadInt64()
@@ -88,9 +128,19 @@ func (s *SuspendInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.BackoffContinueCount, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SleepTimeMillis, _err = p.ReadInt64()

@@ -46,8 +46,18 @@ func (s *Announcement) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Selector.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_typeRaw, _err := p.ReadPaddedByte()
@@ -55,6 +65,11 @@ func (s *Announcement) UnmarshalParcel(
 		return _err
 	}
 	s.Type = AnnouncementType(_typeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()

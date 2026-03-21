@@ -50,6 +50,7 @@ func (p *KeyAttestationApplicationIdProviderProxy) GetKeyAttestationApplicationI
 ) (KeyAttestationApplicationId, error) {
 	var _result KeyAttestationApplicationId
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyAttestationApplicationIdProvider)
 	_data.WriteInt32(uid)
 
@@ -83,7 +84,8 @@ func (p *KeyAttestationApplicationIdProviderProxy) GetKeyAttestationApplicationI
 // KeyAttestationApplicationIdProviderStub dispatches incoming binder transactions
 // to a typed IKeyAttestationApplicationIdProvider implementation.
 type KeyAttestationApplicationIdProviderStub struct {
-	Impl IKeyAttestationApplicationIdProvider
+	Impl      IKeyAttestationApplicationIdProvider
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*KeyAttestationApplicationIdProviderStub)(nil)
@@ -97,11 +99,12 @@ func (s *KeyAttestationApplicationIdProviderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIKeyAttestationApplicationIdProviderGetKeyAttestationApplicationId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

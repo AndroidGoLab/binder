@@ -49,6 +49,7 @@ func (p *LightsProxy) SetLightState(
 	state HwLightState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILights)
 	_data.WriteInt32(id)
 	_data.WriteInt32(1)
@@ -79,6 +80,7 @@ func (p *LightsProxy) GetLights(
 ) ([]HwLight, error) {
 	var _result []HwLight
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILights)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILights, MethodILightsGetLights)
@@ -100,6 +102,9 @@ func (p *LightsProxy) GetLights(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]HwLight, _count)
@@ -118,7 +123,8 @@ func (p *LightsProxy) GetLights(
 // LightsStub dispatches incoming binder transactions
 // to a typed ILights implementation.
 type LightsStub struct {
-	Impl ILights
+	Impl      ILights
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LightsStub)(nil)
@@ -132,11 +138,12 @@ func (s *LightsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILightsSetLightState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -162,9 +169,6 @@ func (s *LightsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILightsGetLights:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLights(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -172,8 +176,17 @@ func (s *LightsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

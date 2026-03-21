@@ -1,0 +1,60 @@
+package: android.dvr
+go_package: android/dvr
+interfaces:
+    - name: IVirtualTouchpadService
+      descriptor: android.dvr.IVirtualTouchpadService
+      methods:
+        - name: attach
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: detach
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: touch
+          transaction_code_offset: 2
+          params:
+            - name: touchpad
+              type:
+                name: int
+            - name: x
+              type:
+                name: float
+            - name: "y"
+              type:
+                name: float
+            - name: pressure
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: buttonState
+          transaction_code_offset: 3
+          params:
+            - name: touchpad
+              type:
+                name: int
+            - name: buttons
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: scroll
+          transaction_code_offset: 4
+          params:
+            - name: touchpad
+              type:
+                name: int
+            - name: x
+              type:
+                name: float
+            - name: "y"
+              type:
+                name: float
+          return_type:
+            name: void
+      constants:
+        - name: SERVICE_NAME
+          type: String
+          value: '"virtual_touchpad"'

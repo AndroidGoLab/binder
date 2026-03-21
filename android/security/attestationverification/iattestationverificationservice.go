@@ -49,19 +49,13 @@ func (p *AttestationVerificationServiceProxy) OnVerifyAttestation(
 	callback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttestationVerificationService)
 	_data.WriteInt32(1)
 	if _err := requirements.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	if attestation == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(attestation)))
-		for _, _item := range attestation {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(attestation)
 	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
@@ -79,7 +73,8 @@ func (p *AttestationVerificationServiceProxy) OnVerifyAttestation(
 // AttestationVerificationServiceStub dispatches incoming binder transactions
 // to a typed IAttestationVerificationService implementation.
 type AttestationVerificationServiceStub struct {
-	Impl IAttestationVerificationService
+	Impl      IAttestationVerificationService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AttestationVerificationServiceStub)(nil)
@@ -93,11 +88,12 @@ func (s *AttestationVerificationServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAttestationVerificationServiceOnVerifyAttestation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_requirements os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -110,9 +106,14 @@ func (s *AttestationVerificationServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_attestation []byte
-		_ = _arg_attestation
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_attestation = _bytes
+		}
 		var _arg_callback infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -126,8 +127,7 @@ func (s *AttestationVerificationServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnVerifyAttestation(ctx, _arg_requirements, _arg_attestation, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

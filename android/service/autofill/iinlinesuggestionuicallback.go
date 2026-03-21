@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	androidContent "github.com/xaionaro-go/binder/android/content"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -34,7 +35,7 @@ type IInlineSuggestionUiCallback interface {
 	AsBinder() binder.IBinder
 	OnClick(ctx context.Context) error
 	OnLongClick(ctx context.Context) error
-	OnContent(ctx context.Context, content IInlineSuggestionUi, surface interface{}, width int32, height int32) error
+	OnContent(ctx context.Context, content IInlineSuggestionUi, surface view.SurfaceControlViewHostSurfacePackage, width int32, height int32) error
 	OnError(ctx context.Context) error
 	OnTransferTouchFocusToImeWindow(ctx context.Context, sourceInputToken binder.IBinder, displayId int32) error
 	OnStartIntentSender(ctx context.Context, intentSender androidContent.IntentSender) error
@@ -60,6 +61,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnClick(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnClick)
@@ -75,6 +77,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnLongClick(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnLongClick)
@@ -89,13 +92,18 @@ func (p *InlineSuggestionUiCallbackProxy) OnLongClick(
 func (p *InlineSuggestionUiCallbackProxy) OnContent(
 	ctx context.Context,
 	content IInlineSuggestionUi,
-	surface interface{},
+	surface view.SurfaceControlViewHostSurfacePackage,
 	width int32,
 	height int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
 	binder.WriteBinderToParcel(ctx, _data, content.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
 
@@ -112,6 +120,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnError(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnError)
@@ -129,6 +138,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnTransferTouchFocusToImeWindow(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
 	binder.WriteBinderToParcel(ctx, _data, sourceInputToken, p.Remote.Transport())
 	_data.WriteInt32(displayId)
@@ -147,6 +157,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnStartIntentSender(
 	intentSender androidContent.IntentSender,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
 	_data.WriteInt32(1)
 	if _err := intentSender.MarshalParcel(_data); _err != nil {
@@ -165,7 +176,8 @@ func (p *InlineSuggestionUiCallbackProxy) OnStartIntentSender(
 // InlineSuggestionUiCallbackStub dispatches incoming binder transactions
 // to a typed IInlineSuggestionUiCallback implementation.
 type InlineSuggestionUiCallbackStub struct {
-	Impl IInlineSuggestionUiCallback
+	Impl      IInlineSuggestionUiCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InlineSuggestionUiCallbackStub)(nil)
@@ -179,29 +191,38 @@ func (s *InlineSuggestionUiCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInlineSuggestionUiCallbackOnClick:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnClick(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineSuggestionUiCallbackOnLongClick:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnLongClick(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineSuggestionUiCallbackOnContent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_content IInlineSuggestionUi
-		_ = _arg_content
-		var _arg_surface interface{}
+		{
+			_contentHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_content = NewInlineSuggestionUiProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _contentHandle))
+		}
+		var _arg_surface view.SurfaceControlViewHostSurfacePackage
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -211,33 +232,26 @@ func (s *InlineSuggestionUiCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnContent(ctx, _arg_content, _arg_surface, _arg_width, _arg_height)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineSuggestionUiCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnError(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineSuggestionUiCallbackOnTransferTouchFocusToImeWindow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sourceInputToken binder.IBinder
-		_ = _arg_sourceInputToken
+		{
+			_sourceInputTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sourceInputToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sourceInputTokenHandle)
+		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTransferTouchFocusToImeWindow(ctx, _arg_sourceInputToken, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineSuggestionUiCallbackOnStartIntentSender:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intentSender androidContent.IntentSender
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -251,8 +265,7 @@ func (s *InlineSuggestionUiCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnStartIntentSender(ctx, _arg_intentSender)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -264,7 +277,7 @@ func (s *InlineSuggestionUiCallbackStub) OnTransaction(
 type IInlineSuggestionUiCallbackServer interface {
 	OnClick(ctx context.Context) error
 	OnLongClick(ctx context.Context) error
-	OnContent(ctx context.Context, content IInlineSuggestionUi, surface interface{}, width int32, height int32) error
+	OnContent(ctx context.Context, content IInlineSuggestionUi, surface view.SurfaceControlViewHostSurfacePackage, width int32, height int32) error
 	OnError(ctx context.Context) error
 	OnTransferTouchFocusToImeWindow(ctx context.Context, sourceInputToken binder.IBinder, displayId int32) error
 	OnStartIntentSender(ctx context.Context, intentSender androidContent.IntentSender) error
@@ -294,7 +307,7 @@ func (w *inlineSuggestionUiCallbackStubWrapper) OnLongClick(
 func (w *inlineSuggestionUiCallbackStubWrapper) OnContent(
 	ctx context.Context,
 	content IInlineSuggestionUi,
-	surface interface{},
+	surface view.SurfaceControlViewHostSurfacePackage,
 	width int32,
 	height int32,
 ) error {

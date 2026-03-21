@@ -60,6 +60,7 @@ func (p *BiometricServiceReceiverProxy) OnAuthenticationSucceeded(
 	authenticationType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricServiceReceiver)
 	_data.WriteInt32(authenticationType)
 
@@ -76,6 +77,7 @@ func (p *BiometricServiceReceiverProxy) OnAuthenticationFailed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricServiceReceiver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricServiceReceiver, MethodIBiometricServiceReceiverOnAuthenticationFailed)
@@ -94,6 +96,7 @@ func (p *BiometricServiceReceiverProxy) OnError(
 	vendorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricServiceReceiver)
 	_data.WriteInt32(modality)
 	_data.WriteInt32(error_)
@@ -114,6 +117,7 @@ func (p *BiometricServiceReceiverProxy) OnAcquired(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricServiceReceiver)
 	_data.WriteInt32(acquiredInfo)
 	_data.WriteString16(message)
@@ -132,6 +136,7 @@ func (p *BiometricServiceReceiverProxy) OnDialogDismissed(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricServiceReceiver)
 	_data.WriteInt32(reason)
 
@@ -149,6 +154,7 @@ func (p *BiometricServiceReceiverProxy) OnSystemEvent(
 	event int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricServiceReceiver)
 	_data.WriteInt32(event)
 
@@ -164,7 +170,8 @@ func (p *BiometricServiceReceiverProxy) OnSystemEvent(
 // BiometricServiceReceiverStub dispatches incoming binder transactions
 // to a typed IBiometricServiceReceiver implementation.
 type BiometricServiceReceiverStub struct {
-	Impl IBiometricServiceReceiver
+	Impl      IBiometricServiceReceiver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BiometricServiceReceiverStub)(nil)
@@ -178,29 +185,22 @@ func (s *BiometricServiceReceiverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBiometricServiceReceiverOnAuthenticationSucceeded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_authenticationType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAuthenticationSucceeded(ctx, _arg_authenticationType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBiometricServiceReceiverOnAuthenticationFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnAuthenticationFailed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBiometricServiceReceiverOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modality, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -214,12 +214,8 @@ func (s *BiometricServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_modality, _arg_error_, _arg_vendorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBiometricServiceReceiverOnAcquired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_acquiredInfo, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -229,30 +225,21 @@ func (s *BiometricServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAcquired(ctx, _arg_acquiredInfo, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBiometricServiceReceiverOnDialogDismissed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDialogDismissed(ctx, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBiometricServiceReceiverOnSystemEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSystemEvent(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

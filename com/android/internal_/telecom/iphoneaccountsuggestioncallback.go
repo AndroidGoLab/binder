@@ -47,6 +47,7 @@ func (p *PhoneAccountSuggestionCallbackProxy) SuggestPhoneAccounts(
 	suggestions []androidTelecom.PhoneAccountSuggestion,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneAccountSuggestionCallback)
 	_data.WriteString16(number)
 	if suggestions == nil {
@@ -73,7 +74,8 @@ func (p *PhoneAccountSuggestionCallbackProxy) SuggestPhoneAccounts(
 // PhoneAccountSuggestionCallbackStub dispatches incoming binder transactions
 // to a typed IPhoneAccountSuggestionCallback implementation.
 type PhoneAccountSuggestionCallbackStub struct {
-	Impl IPhoneAccountSuggestionCallback
+	Impl      IPhoneAccountSuggestionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PhoneAccountSuggestionCallbackStub)(nil)
@@ -87,21 +89,39 @@ func (s *PhoneAccountSuggestionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPhoneAccountSuggestionCallbackSuggestPhoneAccounts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_suggestions []androidTelecom.PhoneAccountSuggestion
-		_ = _arg_suggestions
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_suggestions = make([]androidTelecom.PhoneAccountSuggestion, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_suggestions[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.SuggestPhoneAccounts(ctx, _arg_number, _arg_suggestions)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

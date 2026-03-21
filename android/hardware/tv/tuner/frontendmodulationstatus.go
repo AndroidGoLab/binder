@@ -37,8 +37,7 @@ func (u *FrontendModulationStatus) GetDvbc() (FrontendDvbcModulation, bool) {
 func (u *FrontendModulationStatus) SetDvbc(
 	v FrontendDvbcModulation,
 ) {
-	u.Tag = FrontendModulationStatusTagDvbc
-	u.Dvbc = v
+	*u = FrontendModulationStatus{Tag: FrontendModulationStatusTagDvbc, Dvbc: v}
 }
 
 func (u *FrontendModulationStatus) GetDvbs() (FrontendDvbsModulation, bool) {
@@ -52,8 +51,7 @@ func (u *FrontendModulationStatus) GetDvbs() (FrontendDvbsModulation, bool) {
 func (u *FrontendModulationStatus) SetDvbs(
 	v FrontendDvbsModulation,
 ) {
-	u.Tag = FrontendModulationStatusTagDvbs
-	u.Dvbs = v
+	*u = FrontendModulationStatus{Tag: FrontendModulationStatusTagDvbs, Dvbs: v}
 }
 
 func (u *FrontendModulationStatus) GetIsdbs() (FrontendIsdbsModulation, bool) {
@@ -67,8 +65,7 @@ func (u *FrontendModulationStatus) GetIsdbs() (FrontendIsdbsModulation, bool) {
 func (u *FrontendModulationStatus) SetIsdbs(
 	v FrontendIsdbsModulation,
 ) {
-	u.Tag = FrontendModulationStatusTagIsdbs
-	u.Isdbs = v
+	*u = FrontendModulationStatus{Tag: FrontendModulationStatusTagIsdbs, Isdbs: v}
 }
 
 func (u *FrontendModulationStatus) GetIsdbs3() (FrontendIsdbs3Modulation, bool) {
@@ -82,8 +79,7 @@ func (u *FrontendModulationStatus) GetIsdbs3() (FrontendIsdbs3Modulation, bool) 
 func (u *FrontendModulationStatus) SetIsdbs3(
 	v FrontendIsdbs3Modulation,
 ) {
-	u.Tag = FrontendModulationStatusTagIsdbs3
-	u.Isdbs3 = v
+	*u = FrontendModulationStatus{Tag: FrontendModulationStatusTagIsdbs3, Isdbs3: v}
 }
 
 func (u *FrontendModulationStatus) GetIsdbt() (FrontendIsdbtModulation, bool) {
@@ -97,8 +93,7 @@ func (u *FrontendModulationStatus) GetIsdbt() (FrontendIsdbtModulation, bool) {
 func (u *FrontendModulationStatus) SetIsdbt(
 	v FrontendIsdbtModulation,
 ) {
-	u.Tag = FrontendModulationStatusTagIsdbt
-	u.Isdbt = v
+	*u = FrontendModulationStatus{Tag: FrontendModulationStatusTagIsdbt, Isdbt: v}
 }
 
 func (u *FrontendModulationStatus) MarshalParcel(

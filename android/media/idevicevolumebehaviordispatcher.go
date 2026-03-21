@@ -46,6 +46,7 @@ func (p *DeviceVolumeBehaviorDispatcherProxy) DispatchDeviceVolumeBehaviorChange
 	deviceVolumeBehavior int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceVolumeBehaviorDispatcher)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -65,7 +66,8 @@ func (p *DeviceVolumeBehaviorDispatcherProxy) DispatchDeviceVolumeBehaviorChange
 // DeviceVolumeBehaviorDispatcherStub dispatches incoming binder transactions
 // to a typed IDeviceVolumeBehaviorDispatcher implementation.
 type DeviceVolumeBehaviorDispatcherStub struct {
-	Impl IDeviceVolumeBehaviorDispatcher
+	Impl      IDeviceVolumeBehaviorDispatcher
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DeviceVolumeBehaviorDispatcherStub)(nil)
@@ -79,11 +81,12 @@ func (s *DeviceVolumeBehaviorDispatcherStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDeviceVolumeBehaviorDispatcherDispatchDeviceVolumeBehaviorChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device AudioDeviceAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -101,8 +104,7 @@ func (s *DeviceVolumeBehaviorDispatcherStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.DispatchDeviceVolumeBehaviorChanged(ctx, _arg_device, _arg_deviceVolumeBehavior)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

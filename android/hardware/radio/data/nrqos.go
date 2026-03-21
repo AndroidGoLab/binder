@@ -50,17 +50,37 @@ func (s *NrQos) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.FiveQi, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.Downlink.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Uplink.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Qfi, _err = p.ReadPaddedByte()
@@ -68,11 +88,21 @@ func (s *NrQos) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_averagingWindowMsRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.AveragingWindowMs = uint16(_averagingWindowMsRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.AveragingWindowMillis, _err = p.ReadInt32()
 	if _err != nil {

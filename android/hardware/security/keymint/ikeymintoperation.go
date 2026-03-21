@@ -57,16 +57,11 @@ func (p *KeyMintOperationProxy) UpdateAad(
 	timeStampToken *secureclock.TimeStampToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintOperation)
-	if input == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(input)))
-		for _, _item := range input {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(input)
 	if authToken != nil {
+		_data.WriteInt32(1)
 		if _err := (*authToken).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -74,6 +69,7 @@ func (p *KeyMintOperationProxy) UpdateAad(
 		_data.WriteInt32(-1)
 	}
 	if timeStampToken != nil {
+		_data.WriteInt32(1)
 		if _err := (*timeStampToken).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -107,16 +103,11 @@ func (p *KeyMintOperationProxy) Update(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintOperation)
-	if input == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(input)))
-		for _, _item := range input {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(input)
 	if authToken != nil {
+		_data.WriteInt32(1)
 		if _err := (*authToken).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
@@ -124,6 +115,7 @@ func (p *KeyMintOperationProxy) Update(
 		_data.WriteInt32(-1)
 	}
 	if timeStampToken != nil {
+		_data.WriteInt32(1)
 		if _err := (*timeStampToken).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
@@ -146,19 +138,9 @@ func (p *KeyMintOperationProxy) Update(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -173,24 +155,12 @@ func (p *KeyMintOperationProxy) Finish(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintOperation)
-	if input == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(input)))
-		for _, _item := range input {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if signature == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(signature)))
-		for _, _item := range signature {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(input)
+	_data.WriteByteArray(signature)
 	if authToken != nil {
+		_data.WriteInt32(1)
 		if _err := (*authToken).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
@@ -198,20 +168,14 @@ func (p *KeyMintOperationProxy) Finish(
 		_data.WriteInt32(-1)
 	}
 	if timestampToken != nil {
+		_data.WriteInt32(1)
 		if _err := (*timestampToken).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
 	} else {
 		_data.WriteInt32(-1)
 	}
-	if confirmationToken == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(confirmationToken)))
-		for _, _item := range confirmationToken {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(confirmationToken)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintOperation, MethodIKeyMintOperationFinish)
 	if _err != nil {
@@ -228,19 +192,9 @@ func (p *KeyMintOperationProxy) Finish(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -249,6 +203,7 @@ func (p *KeyMintOperationProxy) Abort(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintOperation)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintOperation, MethodIKeyMintOperationAbort)
@@ -272,7 +227,8 @@ func (p *KeyMintOperationProxy) Abort(
 // KeyMintOperationStub dispatches incoming binder transactions
 // to a typed IKeyMintOperation implementation.
 type KeyMintOperationStub struct {
-	Impl IKeyMintOperation
+	Impl      IKeyMintOperation
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*KeyMintOperationStub)(nil)
@@ -286,14 +242,20 @@ func (s *KeyMintOperationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIKeyMintOperationUpdateAad:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_input []byte
-		_ = _arg_input
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_input = _bytes
+		}
 		var _arg_authToken *HardwareAuthToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -301,6 +263,7 @@ func (s *KeyMintOperationStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_authToken = new(HardwareAuthToken)
 				if _err = _arg_authToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -313,6 +276,7 @@ func (s *KeyMintOperationStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_timeStampToken = new(secureclock.TimeStampToken)
 				if _err = _arg_timeStampToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -327,12 +291,14 @@ func (s *KeyMintOperationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyMintOperationUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_input []byte
-		_ = _arg_input
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_input = _bytes
+		}
 		var _arg_authToken *HardwareAuthToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -340,6 +306,7 @@ func (s *KeyMintOperationStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_authToken = new(HardwareAuthToken)
 				if _err = _arg_authToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -352,6 +319,7 @@ func (s *KeyMintOperationStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_timeStampToken = new(secureclock.TimeStampToken)
 				if _err = _arg_timeStampToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -364,19 +332,25 @@ func (s *KeyMintOperationStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIKeyMintOperationFinish:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_input []byte
-		_ = _arg_input
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_input = _bytes
+		}
 		var _arg_signature []byte
-		_ = _arg_signature
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_signature = _bytes
+		}
 		var _arg_authToken *HardwareAuthToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -384,6 +358,7 @@ func (s *KeyMintOperationStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_authToken = new(HardwareAuthToken)
 				if _err = _arg_authToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -396,14 +371,20 @@ func (s *KeyMintOperationStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_timestampToken = new(secureclock.TimeStampToken)
 				if _err = _arg_timestampToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_confirmationToken []byte
-		_ = _arg_confirmationToken
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_confirmationToken = _bytes
+		}
 		_result, _err := s.Impl.Finish(ctx, _arg_input, _arg_signature, _arg_authToken, _arg_timestampToken, _arg_confirmationToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -411,13 +392,9 @@ func (s *KeyMintOperationStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIKeyMintOperationAbort:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Abort(ctx)
 		_reply := parcel.New()
 		if _err != nil {

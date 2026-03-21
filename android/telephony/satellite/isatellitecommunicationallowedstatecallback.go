@@ -45,6 +45,7 @@ func (p *SatelliteCommunicationAllowedStateCallbackProxy) OnSatelliteCommunicati
 	isAllowed bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteCommunicationAllowedStateCallback)
 	_data.WriteBool(isAllowed)
 
@@ -60,7 +61,8 @@ func (p *SatelliteCommunicationAllowedStateCallbackProxy) OnSatelliteCommunicati
 // SatelliteCommunicationAllowedStateCallbackStub dispatches incoming binder transactions
 // to a typed ISatelliteCommunicationAllowedStateCallback implementation.
 type SatelliteCommunicationAllowedStateCallbackStub struct {
-	Impl ISatelliteCommunicationAllowedStateCallback
+	Impl      ISatelliteCommunicationAllowedStateCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SatelliteCommunicationAllowedStateCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *SatelliteCommunicationAllowedStateCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISatelliteCommunicationAllowedStateCallbackOnSatelliteCommunicationAllowedStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isAllowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSatelliteCommunicationAllowedStateChanged(ctx, _arg_isAllowed)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

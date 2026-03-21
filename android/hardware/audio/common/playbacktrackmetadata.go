@@ -12,7 +12,7 @@ type PlaybackTrackMetadata struct {
 	ContentType  audioCommon.AudioContentType
 	Gain         float32
 	ChannelMask  audioCommon.AudioChannelLayout
-	SourceDevice audioCommon.AudioDevice
+	SourceDevice *audioCommon.AudioDevice
 	Tags         []string
 }
 
@@ -28,8 +28,13 @@ func (s *PlaybackTrackMetadata) MarshalParcel(
 	if _err := s.ChannelMask.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if _err := s.SourceDevice.MarshalParcel(p); _err != nil {
-		return _err
+	if s.SourceDevice == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.SourceDevice.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	if s.Tags == nil {
 		p.WriteInt32(-1)
@@ -52,11 +57,21 @@ func (s *PlaybackTrackMetadata) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_usageRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Usage = audioCommon.AudioUsage(_usageRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_contentTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -64,17 +79,47 @@ func (s *PlaybackTrackMetadata) UnmarshalParcel(
 	}
 	s.ContentType = audioCommon.AudioContentType(_contentTypeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Gain, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.ChannelMask.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
-	if _err = s.SourceDevice.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val audioCommon.AudioDevice
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.SourceDevice = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32

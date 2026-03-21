@@ -1,0 +1,65 @@
+package: com.android.onemedia
+go_package: com/android/onemedia
+interfaces:
+    - name: IPlayerCallback
+      descriptor: com.android.onemedia.IPlayerCallback
+      methods:
+        - name: onSessionChanged
+          transaction_code_offset: 0
+          params:
+            - name: session
+              type:
+                name: MediaSession.Token
+              direction: in
+          return_type:
+            name: void
+    - name: IPlayerService
+      descriptor: com.android.onemedia.IPlayerService
+      methods:
+        - name: getSessionToken
+          transaction_code_offset: 0
+          return_type:
+            name: MediaSession.Token
+        - name: registerCallback
+          transaction_code_offset: 1
+          params:
+            - name: cb
+              type:
+                name: IPlayerCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterCallback
+          transaction_code_offset: 2
+          params:
+            - name: cb
+              type:
+                name: IPlayerCallback
+              direction: in
+          return_type:
+            name: void
+        - name: sendRequest
+          transaction_code_offset: 3
+          params:
+            - name: action
+              type:
+                name: String
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+            - name: cb
+              type:
+                name: IRequestCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setIcon
+          transaction_code_offset: 4
+          params:
+            - name: icon
+              type:
+                name: Bitmap
+              direction: in
+          return_type:
+            name: void

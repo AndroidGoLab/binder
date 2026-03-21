@@ -54,6 +54,7 @@ func (p *DomainSelectionServiceControllerProxy) SelectDomain(
 	callback ITransportSelectorCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainSelectionServiceController)
 	_data.WriteInt32(1)
 	if _err := attr.MarshalParcel(_data); _err != nil {
@@ -77,6 +78,7 @@ func (p *DomainSelectionServiceControllerProxy) UpdateServiceState(
 	serviceState androidTelephony.ServiceState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainSelectionServiceController)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(subId)
@@ -101,6 +103,7 @@ func (p *DomainSelectionServiceControllerProxy) UpdateBarringInfo(
 	info network.BarringInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainSelectionServiceController)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(subId)
@@ -121,7 +124,8 @@ func (p *DomainSelectionServiceControllerProxy) UpdateBarringInfo(
 // DomainSelectionServiceControllerStub dispatches incoming binder transactions
 // to a typed IDomainSelectionServiceController implementation.
 type DomainSelectionServiceControllerStub struct {
-	Impl IDomainSelectionServiceController
+	Impl      IDomainSelectionServiceController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DomainSelectionServiceControllerStub)(nil)
@@ -135,11 +139,12 @@ func (s *DomainSelectionServiceControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDomainSelectionServiceControllerSelectDomain:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_attr androidTelephony.DomainSelectionServiceSelectionAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -152,16 +157,17 @@ func (s *DomainSelectionServiceControllerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITransportSelectorCallback
-		_ = _arg_callback
-		_err := s.Impl.SelectDomain(ctx, _arg_attr, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIDomainSelectionServiceControllerUpdateServiceState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTransportSelectorCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.SelectDomain(ctx, _arg_attr, _arg_callback)
+		return nil, _err
+	case TransactionIDomainSelectionServiceControllerUpdateServiceState:
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -183,12 +189,8 @@ func (s *DomainSelectionServiceControllerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.UpdateServiceState(ctx, _arg_slotId, _arg_subId, _arg_serviceState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDomainSelectionServiceControllerUpdateBarringInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -210,8 +212,7 @@ func (s *DomainSelectionServiceControllerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.UpdateBarringInfo(ctx, _arg_slotId, _arg_subId, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

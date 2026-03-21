@@ -3,6 +3,7 @@ package inputmethod
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
@@ -39,11 +40,11 @@ const (
 
 type IRemoteAccessibilityInputConnection interface {
 	AsBinder() binder.IBinder
-	CommitText(ctx context.Context, header InputConnectionCommandHeader, text interface{}, newCursorPosition int32, textAttribute viewInputmethod.TextAttribute) error
+	CommitText(ctx context.Context, header InputConnectionCommandHeader, text string, newCursorPosition int32, textAttribute viewInputmethod.TextAttribute) error
 	SetSelection(ctx context.Context, header InputConnectionCommandHeader, start int32, end int32) error
 	GetSurroundingText(ctx context.Context, header InputConnectionCommandHeader, beforeLength int32, afterLength int32, flags int32, future infra.AndroidFuture) error
 	DeleteSurroundingText(ctx context.Context, header InputConnectionCommandHeader, beforeLength int32, afterLength int32) error
-	SendKeyEvent(ctx context.Context, header InputConnectionCommandHeader, event interface{}) error
+	SendKeyEvent(ctx context.Context, header InputConnectionCommandHeader, event view.KeyEvent) error
 	PerformEditorAction(ctx context.Context, header InputConnectionCommandHeader, actionCode int32) error
 	PerformContextMenuAction(ctx context.Context, header InputConnectionCommandHeader, id int32) error
 	GetCursorCapsMode(ctx context.Context, header InputConnectionCommandHeader, reqModes int32, future infra.AndroidFuture) error
@@ -69,16 +70,18 @@ var _ IRemoteAccessibilityInputConnection = (*RemoteAccessibilityInputConnection
 func (p *RemoteAccessibilityInputConnectionProxy) CommitText(
 	ctx context.Context,
 	header InputConnectionCommandHeader,
-	text interface{},
+	text string,
 	newCursorPosition int32,
 	textAttribute viewInputmethod.TextAttribute,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
 	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteString16(text)
 	_data.WriteInt32(newCursorPosition)
 	_data.WriteInt32(1)
 	if _err := textAttribute.MarshalParcel(_data); _err != nil {
@@ -101,6 +104,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) SetSelection(
 	end int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
 	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
@@ -127,6 +131,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) GetSurroundingText(
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
 	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
@@ -156,6 +161,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) DeleteSurroundingText(
 	afterLength int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
 	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
@@ -176,12 +182,17 @@ func (p *RemoteAccessibilityInputConnectionProxy) DeleteSurroundingText(
 func (p *RemoteAccessibilityInputConnectionProxy) SendKeyEvent(
 	ctx context.Context,
 	header InputConnectionCommandHeader,
-	event interface{},
+	event view.KeyEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
 	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -200,6 +211,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) PerformEditorAction(
 	actionCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
 	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
@@ -222,6 +234,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) PerformContextMenuAction(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
 	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
@@ -245,6 +258,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) GetCursorCapsMode(
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
 	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
@@ -271,6 +285,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) ClearMetaKeyStates(
 	states int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
 	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
@@ -290,7 +305,8 @@ func (p *RemoteAccessibilityInputConnectionProxy) ClearMetaKeyStates(
 // RemoteAccessibilityInputConnectionStub dispatches incoming binder transactions
 // to a typed IRemoteAccessibilityInputConnection implementation.
 type RemoteAccessibilityInputConnectionStub struct {
-	Impl IRemoteAccessibilityInputConnection
+	Impl      IRemoteAccessibilityInputConnection
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RemoteAccessibilityInputConnectionStub)(nil)
@@ -304,11 +320,12 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRemoteAccessibilityInputConnectionCommitText:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_header InputConnectionCommandHeader
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -321,7 +338,10 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_text interface{}
+		_arg_text, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		_arg_newCursorPosition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -339,12 +359,8 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.CommitText(ctx, _arg_header, _arg_text, _arg_newCursorPosition, _arg_textAttribute)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRemoteAccessibilityInputConnectionSetSelection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_header InputConnectionCommandHeader
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -366,12 +382,8 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetSelection(ctx, _arg_header, _arg_start, _arg_end)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRemoteAccessibilityInputConnectionGetSurroundingText:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_header InputConnectionCommandHeader
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -409,12 +421,8 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.GetSurroundingText(ctx, _arg_header, _arg_beforeLength, _arg_afterLength, _arg_flags, _arg_future)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRemoteAccessibilityInputConnectionDeleteSurroundingText:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_header InputConnectionCommandHeader
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -436,12 +444,8 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.DeleteSurroundingText(ctx, _arg_header, _arg_beforeLength, _arg_afterLength)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRemoteAccessibilityInputConnectionSendKeyEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_header InputConnectionCommandHeader
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -454,14 +458,21 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_event interface{}
-		_err := s.Impl.SendKeyEvent(ctx, _arg_header, _arg_event)
-		_ = _err
-		return nil, nil
-	case TransactionIRemoteAccessibilityInputConnectionPerformEditorAction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_event view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		_err := s.Impl.SendKeyEvent(ctx, _arg_header, _arg_event)
+		return nil, _err
+	case TransactionIRemoteAccessibilityInputConnectionPerformEditorAction:
 		var _arg_header InputConnectionCommandHeader
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -479,12 +490,8 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.PerformEditorAction(ctx, _arg_header, _arg_actionCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRemoteAccessibilityInputConnectionPerformContextMenuAction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_header InputConnectionCommandHeader
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -502,12 +509,8 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.PerformContextMenuAction(ctx, _arg_header, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRemoteAccessibilityInputConnectionGetCursorCapsMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_header InputConnectionCommandHeader
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -537,12 +540,8 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.GetCursorCapsMode(ctx, _arg_header, _arg_reqModes, _arg_future)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRemoteAccessibilityInputConnectionClearMetaKeyStates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_header InputConnectionCommandHeader
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -560,8 +559,7 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ClearMetaKeyStates(ctx, _arg_header, _arg_states)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -571,11 +569,11 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 // provide to NewRemoteAccessibilityInputConnectionStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IRemoteAccessibilityInputConnectionServer interface {
-	CommitText(ctx context.Context, header InputConnectionCommandHeader, text interface{}, newCursorPosition int32, textAttribute viewInputmethod.TextAttribute) error
+	CommitText(ctx context.Context, header InputConnectionCommandHeader, text string, newCursorPosition int32, textAttribute viewInputmethod.TextAttribute) error
 	SetSelection(ctx context.Context, header InputConnectionCommandHeader, start int32, end int32) error
 	GetSurroundingText(ctx context.Context, header InputConnectionCommandHeader, beforeLength int32, afterLength int32, flags int32, future infra.AndroidFuture) error
 	DeleteSurroundingText(ctx context.Context, header InputConnectionCommandHeader, beforeLength int32, afterLength int32) error
-	SendKeyEvent(ctx context.Context, header InputConnectionCommandHeader, event interface{}) error
+	SendKeyEvent(ctx context.Context, header InputConnectionCommandHeader, event view.KeyEvent) error
 	PerformEditorAction(ctx context.Context, header InputConnectionCommandHeader, actionCode int32) error
 	PerformContextMenuAction(ctx context.Context, header InputConnectionCommandHeader, id int32) error
 	GetCursorCapsMode(ctx context.Context, header InputConnectionCommandHeader, reqModes int32, future infra.AndroidFuture) error
@@ -594,7 +592,7 @@ func (w *remoteAccessibilityInputConnectionStubWrapper) AsBinder() binder.IBinde
 func (w *remoteAccessibilityInputConnectionStubWrapper) CommitText(
 	ctx context.Context,
 	header InputConnectionCommandHeader,
-	text interface{},
+	text string,
 	newCursorPosition int32,
 	textAttribute viewInputmethod.TextAttribute,
 ) error {
@@ -633,7 +631,7 @@ func (w *remoteAccessibilityInputConnectionStubWrapper) DeleteSurroundingText(
 func (w *remoteAccessibilityInputConnectionStubWrapper) SendKeyEvent(
 	ctx context.Context,
 	header InputConnectionCommandHeader,
-	event interface{},
+	event view.KeyEvent,
 ) error {
 	return w.impl.SendKeyEvent(ctx, header, event)
 }

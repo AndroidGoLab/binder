@@ -34,7 +34,8 @@ var _ ICarrierMessagingClientService = (*CarrierMessagingClientServiceProxy)(nil
 // CarrierMessagingClientServiceStub dispatches incoming binder transactions
 // to a typed ICarrierMessagingClientService implementation.
 type CarrierMessagingClientServiceStub struct {
-	Impl ICarrierMessagingClientService
+	Impl      ICarrierMessagingClientService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CarrierMessagingClientServiceStub)(nil)
@@ -48,6 +49,10 @@ func (s *CarrierMessagingClientServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

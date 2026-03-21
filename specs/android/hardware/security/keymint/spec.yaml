@@ -1,0 +1,1156 @@
+package: android.hardware.security.keymint
+go_package: android/hardware/security/keymint
+interfaces:
+    - name: IKeyMintDevice
+      descriptor: android.hardware.security.keymint.IKeyMintDevice
+      methods:
+        - name: getHardwareInfo
+          transaction_code_offset: 0
+          return_type:
+            name: KeyMintHardwareInfo
+        - name: addRngEntropy
+          transaction_code_offset: 1
+          params:
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: generateKey
+          transaction_code_offset: 2
+          params:
+            - name: keyParams
+              type:
+                name: KeyParameter
+                is_array: true
+              direction: in
+            - name: attestationKey
+              type:
+                name: AttestationKey
+                is_nullable: true
+              direction: in
+          return_type:
+            name: KeyCreationResult
+        - name: importKey
+          transaction_code_offset: 3
+          params:
+            - name: keyParams
+              type:
+                name: KeyParameter
+                is_array: true
+              direction: in
+            - name: keyFormat
+              type:
+                name: KeyFormat
+              direction: in
+            - name: keyData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: attestationKey
+              type:
+                name: AttestationKey
+                is_nullable: true
+              direction: in
+          return_type:
+            name: KeyCreationResult
+        - name: importWrappedKey
+          transaction_code_offset: 4
+          params:
+            - name: wrappedKeyData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: wrappingKeyBlob
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: maskingKey
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: unwrappingParams
+              type:
+                name: KeyParameter
+                is_array: true
+              direction: in
+            - name: passwordSid
+              type:
+                name: long
+              direction: in
+            - name: biometricSid
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: KeyCreationResult
+        - name: upgradeKey
+          transaction_code_offset: 5
+          params:
+            - name: keyBlobToUpgrade
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: upgradeParams
+              type:
+                name: KeyParameter
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: deleteKey
+          transaction_code_offset: 6
+          params:
+            - name: keyBlob
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: deleteAllKeys
+          transaction_code_offset: 7
+          return_type:
+            name: void
+        - name: destroyAttestationIds
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: begin
+          transaction_code_offset: 9
+          params:
+            - name: purpose
+              type:
+                name: KeyPurpose
+              direction: in
+            - name: keyBlob
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: params
+              type:
+                name: KeyParameter
+                is_array: true
+              direction: in
+            - name: authToken
+              type:
+                name: HardwareAuthToken
+                is_nullable: true
+              direction: in
+          return_type:
+            name: BeginResult
+        - name: deviceLocked
+          transaction_code_offset: 10
+          params:
+            - name: passwordOnly
+              type:
+                name: boolean
+              direction: in
+            - name: timestampToken
+              type:
+                name: TimeStampToken
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: earlyBootEnded
+          transaction_code_offset: 11
+          return_type:
+            name: void
+        - name: convertStorageKeyToEphemeral
+          transaction_code_offset: 12
+          params:
+            - name: storageKeyBlob
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: getKeyCharacteristics
+          transaction_code_offset: 13
+          params:
+            - name: keyBlob
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: appId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: appData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: KeyCharacteristics
+            is_array: true
+        - name: getRootOfTrustChallenge
+          transaction_code_offset: 14
+          return_type:
+            name: byte
+            is_array: true
+            fixed_size: "16"
+        - name: getRootOfTrust
+          transaction_code_offset: 15
+          params:
+            - name: challenge
+              type:
+                name: byte
+                is_array: true
+                fixed_size: "16"
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: sendRootOfTrust
+          transaction_code_offset: 16
+          params:
+            - name: rootOfTrust
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: AUTH_TOKEN_MAC_LENGTH
+          type: int
+          value: "32"
+    - name: IKeyMintOperation
+      descriptor: android.hardware.security.keymint.IKeyMintOperation
+      methods:
+        - name: updateAad
+          transaction_code_offset: 0
+          params:
+            - name: input
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: authToken
+              type:
+                name: HardwareAuthToken
+                is_nullable: true
+              direction: in
+            - name: timeStampToken
+              type:
+                name: TimeStampToken
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: update
+          transaction_code_offset: 1
+          params:
+            - name: input
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: authToken
+              type:
+                name: HardwareAuthToken
+                is_nullable: true
+              direction: in
+            - name: timeStampToken
+              type:
+                name: TimeStampToken
+                is_nullable: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: finish
+          transaction_code_offset: 2
+          params:
+            - name: input
+              type:
+                name: byte
+                is_array: true
+                is_nullable: true
+              direction: in
+            - name: signature
+              type:
+                name: byte
+                is_array: true
+                is_nullable: true
+              direction: in
+            - name: authToken
+              type:
+                name: HardwareAuthToken
+                is_nullable: true
+              direction: in
+            - name: timestampToken
+              type:
+                name: TimeStampToken
+                is_nullable: true
+              direction: in
+            - name: confirmationToken
+              type:
+                name: byte
+                is_array: true
+                is_nullable: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: abort
+          transaction_code_offset: 3
+          return_type:
+            name: void
+    - name: IRemotelyProvisionedComponent
+      descriptor: android.hardware.security.keymint.IRemotelyProvisionedComponent
+      methods:
+        - name: getHardwareInfo
+          transaction_code_offset: 0
+          return_type:
+            name: RpcHardwareInfo
+        - name: generateEcdsaP256KeyPair
+          transaction_code_offset: 1
+          params:
+            - name: testMode
+              type:
+                name: boolean
+              direction: in
+            - name: macedPublicKey
+              type:
+                name: MacedPublicKey
+              direction: out
+          return_type:
+            name: byte
+            is_array: true
+        - name: generateCertificateRequest
+          transaction_code_offset: 2
+          params:
+            - name: testMode
+              type:
+                name: boolean
+              direction: in
+            - name: keysToSign
+              type:
+                name: MacedPublicKey
+                is_array: true
+              direction: in
+            - name: endpointEncryptionCertChain
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: challenge
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: deviceInfo
+              type:
+                name: DeviceInfo
+              direction: out
+            - name: protectedData
+              type:
+                name: ProtectedData
+              direction: out
+          return_type:
+            name: byte
+            is_array: true
+        - name: generateCertificateRequestV2
+          transaction_code_offset: 3
+          params:
+            - name: keysToSign
+              type:
+                name: MacedPublicKey
+                is_array: true
+              direction: in
+            - name: challenge
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+      constants:
+        - name: STATUS_FAILED
+          type: int
+          value: "1"
+        - name: STATUS_INVALID_MAC
+          type: int
+          value: "2"
+        - name: STATUS_PRODUCTION_KEY_IN_TEST_REQUEST
+          type: int
+          value: "3"
+        - name: STATUS_TEST_KEY_IN_PRODUCTION_REQUEST
+          type: int
+          value: "4"
+        - name: STATUS_INVALID_EEK
+          type: int
+          value: "5"
+        - name: STATUS_REMOVED
+          type: int
+          value: "6"
+parcelables:
+    - name: AttestationKey
+      fields:
+        - name: keyBlob
+          type:
+            name: byte
+            is_array: true
+        - name: attestKeyParams
+          type:
+            name: KeyParameter
+            is_array: true
+        - name: issuerSubjectName
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+        - RustDerive
+    - name: BeginResult
+      fields:
+        - name: challenge
+          type:
+            name: long
+        - name: params
+          type:
+            name: KeyParameter
+            is_array: true
+        - name: operation
+          type:
+            name: IKeyMintOperation
+      annotations:
+        - VintfStability
+    - name: Certificate
+      fields:
+        - name: encodedCertificate
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: DeviceInfo
+      fields:
+        - name: deviceInfo
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: HardwareAuthToken
+      fields:
+        - name: challenge
+          type:
+            name: long
+        - name: userId
+          type:
+            name: long
+        - name: authenticatorId
+          type:
+            name: long
+        - name: authenticatorType
+          type:
+            name: HardwareAuthenticatorType
+          default_value: HardwareAuthenticatorType.NONE
+        - name: timestamp
+          type:
+            name: Timestamp
+        - name: mac
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+        - RustDerive
+    - name: KeyCharacteristics
+      fields:
+        - name: securityLevel
+          type:
+            name: SecurityLevel
+          default_value: SecurityLevel.SOFTWARE
+        - name: authorizations
+          type:
+            name: KeyParameter
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: KeyCreationResult
+      fields:
+        - name: keyBlob
+          type:
+            name: byte
+            is_array: true
+        - name: keyCharacteristics
+          type:
+            name: KeyCharacteristics
+            is_array: true
+        - name: certificateChain
+          type:
+            name: Certificate
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: KeyMintHardwareInfo
+      fields:
+        - name: versionNumber
+          type:
+            name: int
+        - name: securityLevel
+          type:
+            name: SecurityLevel
+          default_value: SecurityLevel.SOFTWARE
+        - name: keyMintName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: keyMintAuthorName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: timestampTokenRequired
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+        - RustDerive
+    - name: KeyParameter
+      fields:
+        - name: tag
+          type:
+            name: Tag
+          default_value: Tag.INVALID
+        - name: value
+          type:
+            name: KeyParameterValue
+      annotations:
+        - VintfStability
+        - RustDerive
+    - name: MacedPublicKey
+      fields:
+        - name: macedKey
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: ProtectedData
+      fields:
+        - name: protectedData
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: RpcHardwareInfo
+      fields:
+        - name: versionNumber
+          type:
+            name: int
+        - name: rpcAuthorName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: supportedEekCurve
+          type:
+            name: int
+          default_value: CURVE_NONE
+        - name: uniqueId
+          type:
+            name: String
+          annotations:
+            - nullable
+            - utf8InCpp
+        - name: supportedNumKeysInCsr
+          type:
+            name: int
+          default_value: "4"
+      constants:
+        - name: CURVE_NONE
+          type: int
+          value: "0"
+        - name: CURVE_P256
+          type: int
+          value: "1"
+        - name: CURVE_25519
+          type: int
+          value: "2"
+        - name: MIN_SUPPORTED_NUM_KEYS_IN_CSR
+          type: int
+          value: "20"
+      annotations:
+        - VintfStability
+        - RustDerive
+enums:
+    - name: Algorithm
+      backing_type: int
+      values:
+        - name: RSA
+          value: "1"
+        - name: EC
+          value: "3"
+        - name: AES
+          value: "32"
+        - name: TRIPLE_DES
+          value: "33"
+        - name: HMAC
+          value: "128"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BlockMode
+      backing_type: int
+      values:
+        - name: ECB
+          value: "1"
+        - name: CBC
+          value: "2"
+        - name: CTR
+          value: "3"
+        - name: GCM
+          value: "32"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Digest
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: MD5
+          value: "1"
+        - name: SHA1
+          value: "2"
+        - name: SHA_2_224
+          value: "3"
+        - name: SHA_2_256
+          value: "4"
+        - name: SHA_2_384
+          value: "5"
+        - name: SHA_2_512
+          value: "6"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EcCurve
+      backing_type: int
+      values:
+        - name: P_224
+          value: "0"
+        - name: P_256
+          value: "1"
+        - name: P_384
+          value: "2"
+        - name: P_521
+          value: "3"
+        - name: CURVE_25519
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ErrorCode
+      backing_type: int
+      values:
+        - name: OK
+          value: "0"
+        - name: ROOT_OF_TRUST_ALREADY_SET
+          value: "-1"
+        - name: UNSUPPORTED_PURPOSE
+          value: "-2"
+        - name: INCOMPATIBLE_PURPOSE
+          value: "-3"
+        - name: UNSUPPORTED_ALGORITHM
+          value: "-4"
+        - name: INCOMPATIBLE_ALGORITHM
+          value: "-5"
+        - name: UNSUPPORTED_KEY_SIZE
+          value: "-6"
+        - name: UNSUPPORTED_BLOCK_MODE
+          value: "-7"
+        - name: INCOMPATIBLE_BLOCK_MODE
+          value: "-8"
+        - name: UNSUPPORTED_MAC_LENGTH
+          value: "-9"
+        - name: UNSUPPORTED_PADDING_MODE
+          value: "-10"
+        - name: INCOMPATIBLE_PADDING_MODE
+          value: "-11"
+        - name: UNSUPPORTED_DIGEST
+          value: "-12"
+        - name: INCOMPATIBLE_DIGEST
+          value: "-13"
+        - name: INVALID_EXPIRATION_TIME
+          value: "-14"
+        - name: INVALID_USER_ID
+          value: "-15"
+        - name: INVALID_AUTHORIZATION_TIMEOUT
+          value: "-16"
+        - name: UNSUPPORTED_KEY_FORMAT
+          value: "-17"
+        - name: INCOMPATIBLE_KEY_FORMAT
+          value: "-18"
+        - name: UNSUPPORTED_KEY_ENCRYPTION_ALGORITHM
+          value: "-19"
+        - name: UNSUPPORTED_KEY_VERIFICATION_ALGORITHM
+          value: "-20"
+        - name: INVALID_INPUT_LENGTH
+          value: "-21"
+        - name: KEY_EXPORT_OPTIONS_INVALID
+          value: "-22"
+        - name: DELEGATION_NOT_ALLOWED
+          value: "-23"
+        - name: KEY_NOT_YET_VALID
+          value: "-24"
+        - name: KEY_EXPIRED
+          value: "-25"
+        - name: KEY_USER_NOT_AUTHENTICATED
+          value: "-26"
+        - name: OUTPUT_PARAMETER_NULL
+          value: "-27"
+        - name: INVALID_OPERATION_HANDLE
+          value: "-28"
+        - name: INSUFFICIENT_BUFFER_SPACE
+          value: "-29"
+        - name: VERIFICATION_FAILED
+          value: "-30"
+        - name: TOO_MANY_OPERATIONS
+          value: "-31"
+        - name: UNEXPECTED_NULL_POINTER
+          value: "-32"
+        - name: INVALID_KEY_BLOB
+          value: "-33"
+        - name: IMPORTED_KEY_NOT_ENCRYPTED
+          value: "-34"
+        - name: IMPORTED_KEY_DECRYPTION_FAILED
+          value: "-35"
+        - name: IMPORTED_KEY_NOT_SIGNED
+          value: "-36"
+        - name: IMPORTED_KEY_VERIFICATION_FAILED
+          value: "-37"
+        - name: INVALID_ARGUMENT
+          value: "-38"
+        - name: UNSUPPORTED_TAG
+          value: "-39"
+        - name: INVALID_TAG
+          value: "-40"
+        - name: MEMORY_ALLOCATION_FAILED
+          value: "-41"
+        - name: IMPORT_PARAMETER_MISMATCH
+          value: "-44"
+        - name: SECURE_HW_ACCESS_DENIED
+          value: "-45"
+        - name: OPERATION_CANCELLED
+          value: "-46"
+        - name: CONCURRENT_ACCESS_CONFLICT
+          value: "-47"
+        - name: SECURE_HW_BUSY
+          value: "-48"
+        - name: SECURE_HW_COMMUNICATION_FAILED
+          value: "-49"
+        - name: UNSUPPORTED_EC_FIELD
+          value: "-50"
+        - name: MISSING_NONCE
+          value: "-51"
+        - name: INVALID_NONCE
+          value: "-52"
+        - name: MISSING_MAC_LENGTH
+          value: "-53"
+        - name: KEY_RATE_LIMIT_EXCEEDED
+          value: "-54"
+        - name: CALLER_NONCE_PROHIBITED
+          value: "-55"
+        - name: KEY_MAX_OPS_EXCEEDED
+          value: "-56"
+        - name: INVALID_MAC_LENGTH
+          value: "-57"
+        - name: MISSING_MIN_MAC_LENGTH
+          value: "-58"
+        - name: UNSUPPORTED_MIN_MAC_LENGTH
+          value: "-59"
+        - name: UNSUPPORTED_KDF
+          value: "-60"
+        - name: UNSUPPORTED_EC_CURVE
+          value: "-61"
+        - name: KEY_REQUIRES_UPGRADE
+          value: "-62"
+        - name: ATTESTATION_CHALLENGE_MISSING
+          value: "-63"
+        - name: KEYMINT_NOT_CONFIGURED
+          value: "-64"
+        - name: ATTESTATION_APPLICATION_ID_MISSING
+          value: "-65"
+        - name: CANNOT_ATTEST_IDS
+          value: "-66"
+        - name: ROLLBACK_RESISTANCE_UNAVAILABLE
+          value: "-67"
+        - name: HARDWARE_TYPE_UNAVAILABLE
+          value: "-68"
+        - name: PROOF_OF_PRESENCE_REQUIRED
+          value: "-69"
+        - name: CONCURRENT_PROOF_OF_PRESENCE_REQUESTED
+          value: "-70"
+        - name: NO_USER_CONFIRMATION
+          value: "-71"
+        - name: DEVICE_LOCKED
+          value: "-72"
+        - name: EARLY_BOOT_ENDED
+          value: "-73"
+        - name: ATTESTATION_KEYS_NOT_PROVISIONED
+          value: "-74"
+        - name: ATTESTATION_IDS_NOT_PROVISIONED
+          value: "-75"
+        - name: INVALID_OPERATION
+          value: "-76"
+        - name: STORAGE_KEY_UNSUPPORTED
+          value: "-77"
+        - name: INCOMPATIBLE_MGF_DIGEST
+          value: "-78"
+        - name: UNSUPPORTED_MGF_DIGEST
+          value: "-79"
+        - name: MISSING_NOT_BEFORE
+          value: "-80"
+        - name: MISSING_NOT_AFTER
+          value: "-81"
+        - name: MISSING_ISSUER_SUBJECT
+          value: "-82"
+        - name: INVALID_ISSUER_SUBJECT
+          value: "-83"
+        - name: BOOT_LEVEL_EXCEEDED
+          value: "-84"
+        - name: HARDWARE_NOT_YET_AVAILABLE
+          value: "-85"
+        - name: UNIMPLEMENTED
+          value: "-100"
+        - name: VERSION_MISMATCH
+          value: "-101"
+        - name: UNKNOWN_ERROR
+          value: "-1000"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: HardwareAuthenticatorType
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: PASSWORD
+          value: 1 << 0
+        - name: FINGERPRINT
+          value: 1 << 1
+        - name: ANY
+          value: "0xFFFFFFFF"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: KeyFormat
+      backing_type: int
+      values:
+        - name: X509
+          value: "0"
+        - name: PKCS8
+          value: "1"
+        - name: RAW
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: KeyOrigin
+      backing_type: int
+      values:
+        - name: GENERATED
+          value: "0"
+        - name: DERIVED
+          value: "1"
+        - name: IMPORTED
+          value: "2"
+        - name: RESERVED
+          value: "3"
+        - name: SECURELY_IMPORTED
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: KeyPurpose
+      backing_type: int
+      values:
+        - name: ENCRYPT
+          value: "0"
+        - name: DECRYPT
+          value: "1"
+        - name: SIGN
+          value: "2"
+        - name: VERIFY
+          value: "3"
+        - name: WRAP_KEY
+          value: "5"
+        - name: AGREE_KEY
+          value: "6"
+        - name: ATTEST_KEY
+          value: "7"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PaddingMode
+      backing_type: int
+      values:
+        - name: NONE
+          value: "1"
+        - name: RSA_OAEP
+          value: "2"
+        - name: RSA_PSS
+          value: "3"
+        - name: RSA_PKCS1_1_5_ENCRYPT
+          value: "4"
+        - name: RSA_PKCS1_1_5_SIGN
+          value: "5"
+        - name: PKCS7
+          value: "64"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SecurityLevel
+      backing_type: int
+      values:
+        - name: SOFTWARE
+          value: "0"
+        - name: TRUSTED_ENVIRONMENT
+          value: "1"
+        - name: STRONGBOX
+          value: "2"
+        - name: KEYSTORE
+          value: "100"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Tag
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "0"
+        - name: PURPOSE
+          value: TagType.ENUM_REP | 1
+        - name: ALGORITHM
+          value: TagType.ENUM | 2
+        - name: KEY_SIZE
+          value: TagType.UINT | 3
+        - name: BLOCK_MODE
+          value: TagType.ENUM_REP | 4
+        - name: DIGEST
+          value: TagType.ENUM_REP | 5
+        - name: PADDING
+          value: TagType.ENUM_REP | 6
+        - name: CALLER_NONCE
+          value: TagType.BOOL | 7
+        - name: MIN_MAC_LENGTH
+          value: TagType.UINT | 8
+        - name: EC_CURVE
+          value: TagType.ENUM | 10
+        - name: RSA_PUBLIC_EXPONENT
+          value: TagType.ULONG | 200
+        - name: INCLUDE_UNIQUE_ID
+          value: TagType.BOOL | 202
+        - name: RSA_OAEP_MGF_DIGEST
+          value: TagType.ENUM_REP | 203
+        - name: BOOTLOADER_ONLY
+          value: TagType.BOOL | 302
+        - name: ROLLBACK_RESISTANCE
+          value: TagType.BOOL | 303
+        - name: HARDWARE_TYPE
+          value: TagType.ENUM | 304
+        - name: EARLY_BOOT_ONLY
+          value: TagType.BOOL | 305
+        - name: ACTIVE_DATETIME
+          value: TagType.DATE | 400
+        - name: ORIGINATION_EXPIRE_DATETIME
+          value: TagType.DATE | 401
+        - name: USAGE_EXPIRE_DATETIME
+          value: TagType.DATE | 402
+        - name: MIN_SECONDS_BETWEEN_OPS
+          value: TagType.UINT | 403
+        - name: MAX_USES_PER_BOOT
+          value: TagType.UINT | 404
+        - name: USAGE_COUNT_LIMIT
+          value: TagType.UINT | 405
+        - name: USER_ID
+          value: TagType.UINT | 501
+        - name: USER_SECURE_ID
+          value: TagType.ULONG_REP | 502
+        - name: NO_AUTH_REQUIRED
+          value: TagType.BOOL | 503
+        - name: USER_AUTH_TYPE
+          value: TagType.ENUM | 504
+        - name: AUTH_TIMEOUT
+          value: TagType.UINT | 505
+        - name: ALLOW_WHILE_ON_BODY
+          value: TagType.BOOL | 506
+        - name: TRUSTED_USER_PRESENCE_REQUIRED
+          value: TagType.BOOL | 507
+        - name: TRUSTED_CONFIRMATION_REQUIRED
+          value: TagType.BOOL | 508
+        - name: UNLOCKED_DEVICE_REQUIRED
+          value: TagType.BOOL | 509
+        - name: APPLICATION_ID
+          value: TagType.BYTES | 601
+        - name: APPLICATION_DATA
+          value: TagType.BYTES | 700
+        - name: CREATION_DATETIME
+          value: TagType.DATE | 701
+        - name: ORIGIN
+          value: TagType.ENUM | 702
+        - name: ROOT_OF_TRUST
+          value: TagType.BYTES | 704
+        - name: OS_VERSION
+          value: TagType.UINT | 705
+        - name: OS_PATCHLEVEL
+          value: TagType.UINT | 706
+        - name: UNIQUE_ID
+          value: TagType.BYTES | 707
+        - name: ATTESTATION_CHALLENGE
+          value: TagType.BYTES | 708
+        - name: ATTESTATION_APPLICATION_ID
+          value: TagType.BYTES | 709
+        - name: ATTESTATION_ID_BRAND
+          value: TagType.BYTES | 710
+        - name: ATTESTATION_ID_DEVICE
+          value: TagType.BYTES | 711
+        - name: ATTESTATION_ID_PRODUCT
+          value: TagType.BYTES | 712
+        - name: ATTESTATION_ID_SERIAL
+          value: TagType.BYTES | 713
+        - name: ATTESTATION_ID_IMEI
+          value: TagType.BYTES | 714
+        - name: ATTESTATION_ID_MEID
+          value: TagType.BYTES | 715
+        - name: ATTESTATION_ID_MANUFACTURER
+          value: TagType.BYTES | 716
+        - name: ATTESTATION_ID_MODEL
+          value: TagType.BYTES | 717
+        - name: VENDOR_PATCHLEVEL
+          value: TagType.UINT | 718
+        - name: BOOT_PATCHLEVEL
+          value: TagType.UINT | 719
+        - name: DEVICE_UNIQUE_ATTESTATION
+          value: TagType.BOOL | 720
+        - name: IDENTITY_CREDENTIAL_KEY
+          value: TagType.BOOL | 721
+        - name: STORAGE_KEY
+          value: TagType.BOOL | 722
+        - name: ATTESTATION_ID_SECOND_IMEI
+          value: TagType.BYTES | 723
+        - name: ASSOCIATED_DATA
+          value: TagType.BYTES | 1000
+        - name: NONCE
+          value: TagType.BYTES | 1001
+        - name: MAC_LENGTH
+          value: TagType.UINT | 1003
+        - name: RESET_SINCE_ID_ROTATION
+          value: TagType.BOOL | 1004
+        - name: CONFIRMATION_TOKEN
+          value: TagType.BYTES | 1005
+        - name: CERTIFICATE_SERIAL
+          value: TagType.BIGNUM | 1006
+        - name: CERTIFICATE_SUBJECT
+          value: TagType.BYTES | 1007
+        - name: CERTIFICATE_NOT_BEFORE
+          value: TagType.DATE | 1008
+        - name: CERTIFICATE_NOT_AFTER
+          value: TagType.DATE | 1009
+        - name: MAX_BOOT_LEVEL
+          value: TagType.UINT | 1010
+      annotations:
+        - VintfStability
+        - Backing
+    - name: TagType
+      backing_type: int
+      values:
+        - name: INVALID
+          value: 0 << 28
+        - name: ENUM
+          value: 1 << 28
+        - name: ENUM_REP
+          value: 2 << 28
+        - name: UINT
+          value: 3 << 28
+        - name: UINT_REP
+          value: 4 << 28
+        - name: ULONG
+          value: 5 << 28
+        - name: DATE
+          value: 6 << 28
+        - name: BOOL
+          value: 7 << 28
+        - name: BIGNUM
+          value: 8 << 28
+        - name: BYTES
+          value: 9 << 28
+        - name: ULONG_REP
+          value: 10 << 28
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: KeyParameterValue
+      fields:
+        - name: invalid
+          type:
+            name: int
+        - name: algorithm
+          type:
+            name: Algorithm
+        - name: blockMode
+          type:
+            name: BlockMode
+        - name: paddingMode
+          type:
+            name: PaddingMode
+        - name: digest
+          type:
+            name: Digest
+        - name: ecCurve
+          type:
+            name: EcCurve
+        - name: origin
+          type:
+            name: KeyOrigin
+        - name: keyPurpose
+          type:
+            name: KeyPurpose
+        - name: hardwareAuthenticatorType
+          type:
+            name: HardwareAuthenticatorType
+        - name: securityLevel
+          type:
+            name: SecurityLevel
+        - name: boolValue
+          type:
+            name: boolean
+        - name: integer
+          type:
+            name: int
+        - name: longInteger
+          type:
+            name: long
+        - name: dateTime
+          type:
+            name: long
+        - name: blob
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+        - RustDerive

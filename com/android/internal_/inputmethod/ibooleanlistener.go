@@ -45,6 +45,7 @@ func (p *BooleanListenerProxy) OnResult(
 	value bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBooleanListener)
 	_data.WriteBool(value)
 
@@ -60,7 +61,8 @@ func (p *BooleanListenerProxy) OnResult(
 // BooleanListenerStub dispatches incoming binder transactions
 // to a typed IBooleanListener implementation.
 type BooleanListenerStub struct {
-	Impl IBooleanListener
+	Impl      IBooleanListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BooleanListenerStub)(nil)
@@ -74,18 +76,18 @@ func (s *BooleanListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBooleanListenerOnResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_value, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnResult(ctx, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

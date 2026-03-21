@@ -245,6 +245,7 @@ func (p *SupplicantStaIfaceProxy) AddDppPeerUri(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteString16(uri)
 
@@ -278,6 +279,7 @@ func (p *SupplicantStaIfaceProxy) AddExtRadioWork(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteString16(name)
 	_data.WriteInt32(freqInMhz)
@@ -310,6 +312,7 @@ func (p *SupplicantStaIfaceProxy) AddNetwork(
 ) (ISupplicantStaNetwork, error) {
 	var _result ISupplicantStaNetwork
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceAddNetwork)
@@ -340,6 +343,7 @@ func (p *SupplicantStaIfaceProxy) AddRxFilter(
 	type_ RxFilterType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WritePaddedByte(byte(type_))
 
@@ -365,6 +369,7 @@ func (p *SupplicantStaIfaceProxy) CancelWps(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceCancelWps)
@@ -389,6 +394,7 @@ func (p *SupplicantStaIfaceProxy) Disconnect(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceDisconnect)
@@ -414,6 +420,7 @@ func (p *SupplicantStaIfaceProxy) EnableAutoReconnect(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteBool(enable)
 
@@ -441,23 +448,10 @@ func (p *SupplicantStaIfaceProxy) FilsHlpAddRequest(
 	pkt []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	if dst_mac == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(dst_mac)))
-		for _, _item := range dst_mac {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if pkt == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(pkt)))
-		for _, _item := range pkt {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(dst_mac)
+	_data.WriteByteArray(pkt)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceFilsHlpAddRequest)
 	if _err != nil {
@@ -481,6 +475,7 @@ func (p *SupplicantStaIfaceProxy) FilsHlpFlushRequest(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceFilsHlpFlushRequest)
@@ -509,15 +504,9 @@ func (p *SupplicantStaIfaceProxy) GenerateDppBootstrapInfoForResponder(
 ) (DppResponderBootstrapInfo, error) {
 	var _result DppResponderBootstrapInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	if macAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(macAddress)))
-		for _, _item := range macAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(macAddress)
 	_data.WriteString16(deviceInfo)
 	_data.WriteInt32(int32(curve))
 
@@ -554,16 +543,10 @@ func (p *SupplicantStaIfaceProxy) GenerateSelfDppConfiguration(
 	privEcKey []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteString16(ssid)
-	if privEcKey == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(privEcKey)))
-		for _, _item := range privEcKey {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(privEcKey)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGenerateSelfDppConfiguration)
 	if _err != nil {
@@ -588,6 +571,7 @@ func (p *SupplicantStaIfaceProxy) GetConnectionCapabilities(
 ) (ConnectionCapabilities, error) {
 	var _result ConnectionCapabilities
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetConnectionCapabilities)
@@ -622,6 +606,7 @@ func (p *SupplicantStaIfaceProxy) GetConnectionMloLinksInfo(
 ) (MloLinksInfo, error) {
 	var _result MloLinksInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetConnectionMloLinksInfo)
@@ -656,6 +641,7 @@ func (p *SupplicantStaIfaceProxy) GetKeyMgmtCapabilities(
 ) (KeyMgmtMask, error) {
 	var _result KeyMgmtMask
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetKeyMgmtCapabilities)
@@ -686,6 +672,7 @@ func (p *SupplicantStaIfaceProxy) GetMacAddress(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetMacAddress)
@@ -703,19 +690,9 @@ func (p *SupplicantStaIfaceProxy) GetMacAddress(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -725,6 +702,7 @@ func (p *SupplicantStaIfaceProxy) GetName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetName)
@@ -755,6 +733,7 @@ func (p *SupplicantStaIfaceProxy) GetNetwork(
 ) (ISupplicantStaNetwork, error) {
 	var _result ISupplicantStaNetwork
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(id)
 
@@ -786,6 +765,7 @@ func (p *SupplicantStaIfaceProxy) GetType(
 ) (IfaceType, error) {
 	var _result IfaceType
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetType)
@@ -816,6 +796,7 @@ func (p *SupplicantStaIfaceProxy) GetWpaDriverCapabilities(
 ) (WpaDriverCapabilitiesMask, error) {
 	var _result WpaDriverCapabilitiesMask
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetWpaDriverCapabilities)
@@ -848,15 +829,9 @@ func (p *SupplicantStaIfaceProxy) InitiateAnqpQuery(
 	subTypes []Hs20AnqpSubtypes,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	if macAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(macAddress)))
-		for _, _item := range macAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(macAddress)
 	if infoElements == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -898,15 +873,9 @@ func (p *SupplicantStaIfaceProxy) InitiateHs20IconQuery(
 	fileName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	if macAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(macAddress)))
-		for _, _item := range macAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(macAddress)
 	_data.WriteString16(fileName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateHs20IconQuery)
@@ -932,15 +901,9 @@ func (p *SupplicantStaIfaceProxy) InitiateTdlsDiscover(
 	macAddress []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	if macAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(macAddress)))
-		for _, _item := range macAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(macAddress)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateTdlsDiscover)
 	if _err != nil {
@@ -965,15 +928,9 @@ func (p *SupplicantStaIfaceProxy) InitiateTdlsSetup(
 	macAddress []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	if macAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(macAddress)))
-		for _, _item := range macAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(macAddress)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateTdlsSetup)
 	if _err != nil {
@@ -998,15 +955,9 @@ func (p *SupplicantStaIfaceProxy) InitiateTdlsTeardown(
 	macAddress []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	if macAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(macAddress)))
-		for _, _item := range macAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(macAddress)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateTdlsTeardown)
 	if _err != nil {
@@ -1031,15 +982,9 @@ func (p *SupplicantStaIfaceProxy) InitiateVenueUrlAnqpQuery(
 	macAddress []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	if macAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(macAddress)))
-		for _, _item := range macAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(macAddress)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateVenueUrlAnqpQuery)
 	if _err != nil {
@@ -1064,6 +1009,7 @@ func (p *SupplicantStaIfaceProxy) ListNetworks(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceListNetworks)
@@ -1085,6 +1031,9 @@ func (p *SupplicantStaIfaceProxy) ListNetworks(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -1102,6 +1051,7 @@ func (p *SupplicantStaIfaceProxy) Reassociate(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceReassociate)
@@ -1126,6 +1076,7 @@ func (p *SupplicantStaIfaceProxy) Reconnect(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceReconnect)
@@ -1151,6 +1102,7 @@ func (p *SupplicantStaIfaceProxy) RegisterCallback(
 	callback ISupplicantStaIfaceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -1177,6 +1129,7 @@ func (p *SupplicantStaIfaceProxy) SetQosPolicyFeatureEnabled(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteBool(enable)
 
@@ -1205,6 +1158,7 @@ func (p *SupplicantStaIfaceProxy) SendQosPolicyResponse(
 	qosPolicyStatusList []QosPolicyStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(qosPolicyRequestId)
 	_data.WriteBool(morePolicies)
@@ -1242,6 +1196,7 @@ func (p *SupplicantStaIfaceProxy) RemoveAllQosPolicies(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceRemoveAllQosPolicies)
@@ -1267,6 +1222,7 @@ func (p *SupplicantStaIfaceProxy) RemoveDppUri(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(id)
 
@@ -1293,6 +1249,7 @@ func (p *SupplicantStaIfaceProxy) RemoveExtRadioWork(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(id)
 
@@ -1319,6 +1276,7 @@ func (p *SupplicantStaIfaceProxy) RemoveNetwork(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(id)
 
@@ -1345,6 +1303,7 @@ func (p *SupplicantStaIfaceProxy) RemoveRxFilter(
 	type_ RxFilterType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WritePaddedByte(byte(type_))
 
@@ -1371,6 +1330,7 @@ func (p *SupplicantStaIfaceProxy) SetBtCoexistenceMode(
 	mode BtCoexistenceMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WritePaddedByte(byte(mode))
 
@@ -1397,6 +1357,7 @@ func (p *SupplicantStaIfaceProxy) SetBtCoexistenceScanModeEnabled(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteBool(enable)
 
@@ -1423,15 +1384,9 @@ func (p *SupplicantStaIfaceProxy) SetCountryCode(
 	code []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	if code == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(code)))
-		for _, _item := range code {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(code)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetCountryCode)
 	if _err != nil {
@@ -1456,6 +1411,7 @@ func (p *SupplicantStaIfaceProxy) SetExternalSim(
 	useExternalSim bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteBool(useExternalSim)
 
@@ -1482,6 +1438,7 @@ func (p *SupplicantStaIfaceProxy) SetMboCellularDataStatus(
 	available bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteBool(available)
 
@@ -1508,6 +1465,7 @@ func (p *SupplicantStaIfaceProxy) SetPowerSave(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteBool(enable)
 
@@ -1534,6 +1492,7 @@ func (p *SupplicantStaIfaceProxy) SetSuspendModeEnabled(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteBool(enable)
 
@@ -1560,6 +1519,7 @@ func (p *SupplicantStaIfaceProxy) SetWpsConfigMethods(
 	configMethods WpsConfigMethods,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(int32(configMethods))
 
@@ -1586,6 +1546,7 @@ func (p *SupplicantStaIfaceProxy) SetWpsDeviceName(
 	name string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteString16(name)
 
@@ -1612,15 +1573,9 @@ func (p *SupplicantStaIfaceProxy) SetWpsDeviceType(
 	type_ []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	if type_ == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(type_)))
-		for _, _item := range type_ {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(type_)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetWpsDeviceType)
 	if _err != nil {
@@ -1645,6 +1600,7 @@ func (p *SupplicantStaIfaceProxy) SetWpsManufacturer(
 	manufacturer string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteString16(manufacturer)
 
@@ -1671,6 +1627,7 @@ func (p *SupplicantStaIfaceProxy) SetWpsModelName(
 	modelName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteString16(modelName)
 
@@ -1697,6 +1654,7 @@ func (p *SupplicantStaIfaceProxy) SetWpsModelNumber(
 	modelNumber string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteString16(modelNumber)
 
@@ -1723,6 +1681,7 @@ func (p *SupplicantStaIfaceProxy) SetWpsSerialNumber(
 	serialNumber string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteString16(serialNumber)
 
@@ -1757,6 +1716,7 @@ func (p *SupplicantStaIfaceProxy) StartDppConfiguratorInitiator(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(peerBootstrapId)
 	_data.WriteInt32(ownBootstrapId)
@@ -1765,14 +1725,7 @@ func (p *SupplicantStaIfaceProxy) StartDppConfiguratorInitiator(
 	_data.WriteString16(psk)
 	_data.WriteInt32(int32(netRole))
 	_data.WriteInt32(int32(securityAkm))
-	if privEcKey == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(privEcKey)))
-		for _, _item := range privEcKey {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(privEcKey)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartDppConfiguratorInitiator)
 	if _err != nil {
@@ -1789,19 +1742,9 @@ func (p *SupplicantStaIfaceProxy) StartDppConfiguratorInitiator(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -1812,6 +1755,7 @@ func (p *SupplicantStaIfaceProxy) StartDppEnrolleeInitiator(
 	ownBootstrapId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(peerBootstrapId)
 	_data.WriteInt32(ownBootstrapId)
@@ -1839,6 +1783,7 @@ func (p *SupplicantStaIfaceProxy) StartDppEnrolleeResponder(
 	listenChannel int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(listenChannel)
 
@@ -1864,6 +1809,7 @@ func (p *SupplicantStaIfaceProxy) StartRxFilter(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartRxFilter)
@@ -1889,15 +1835,9 @@ func (p *SupplicantStaIfaceProxy) StartWpsPbc(
 	bssid []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	if bssid == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(bssid)))
-		for _, _item := range bssid {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(bssid)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartWpsPbc)
 	if _err != nil {
@@ -1923,15 +1863,9 @@ func (p *SupplicantStaIfaceProxy) StartWpsPinDisplay(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	if bssid == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(bssid)))
-		for _, _item := range bssid {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(bssid)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartWpsPinDisplay)
 	if _err != nil {
@@ -1960,6 +1894,7 @@ func (p *SupplicantStaIfaceProxy) StartWpsPinKeypad(
 	pin string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteString16(pin)
 
@@ -1987,15 +1922,9 @@ func (p *SupplicantStaIfaceProxy) StartWpsRegistrar(
 	pin string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	if bssid == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(bssid)))
-		for _, _item := range bssid {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(bssid)
 	_data.WriteString16(pin)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartWpsRegistrar)
@@ -2020,6 +1949,7 @@ func (p *SupplicantStaIfaceProxy) StopDppInitiator(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStopDppInitiator)
@@ -2045,6 +1975,7 @@ func (p *SupplicantStaIfaceProxy) StopDppResponder(
 	ownBootstrapId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(ownBootstrapId)
 
@@ -2070,6 +2001,7 @@ func (p *SupplicantStaIfaceProxy) StopRxFilter(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStopRxFilter)
@@ -2095,6 +2027,7 @@ func (p *SupplicantStaIfaceProxy) GetSignalPollResults(
 ) ([]SignalPollResult, error) {
 	var _result []SignalPollResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetSignalPollResults)
@@ -2115,6 +2048,9 @@ func (p *SupplicantStaIfaceProxy) GetSignalPollResults(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -2137,6 +2073,7 @@ func (p *SupplicantStaIfaceProxy) AddQosPolicyRequestForScs(
 ) ([]QosPolicyScsRequestStatus, error) {
 	var _result []QosPolicyScsRequestStatus
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	if qosPolicyData == nil {
 		_data.WriteInt32(-1)
@@ -2169,6 +2106,9 @@ func (p *SupplicantStaIfaceProxy) AddQosPolicyRequestForScs(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]QosPolicyScsRequestStatus, _count)
@@ -2190,15 +2130,9 @@ func (p *SupplicantStaIfaceProxy) RemoveQosPolicyForScs(
 ) ([]QosPolicyScsRequestStatus, error) {
 	var _result []QosPolicyScsRequestStatus
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	if scsPolicyIds == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(scsPolicyIds)))
-		for _, _item := range scsPolicyIds {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(scsPolicyIds)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceRemoveQosPolicyForScs)
 	if _err != nil {
@@ -2218,6 +2152,9 @@ func (p *SupplicantStaIfaceProxy) RemoveQosPolicyForScs(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -2239,6 +2176,7 @@ func (p *SupplicantStaIfaceProxy) ConfigureMscs(
 	params MscsParams,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -2267,6 +2205,7 @@ func (p *SupplicantStaIfaceProxy) DisableMscs(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceDisableMscs)
@@ -2290,7 +2229,8 @@ func (p *SupplicantStaIfaceProxy) DisableMscs(
 // SupplicantStaIfaceStub dispatches incoming binder transactions
 // to a typed ISupplicantStaIface implementation.
 type SupplicantStaIfaceStub struct {
-	Impl ISupplicantStaIface
+	Impl      ISupplicantStaIface
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SupplicantStaIfaceStub)(nil)
@@ -2304,11 +2244,12 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISupplicantStaIfaceAddDppPeerUri:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2323,9 +2264,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceAddExtRadioWork:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2348,9 +2286,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceAddNetwork:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.AddNetwork(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2358,13 +2293,9 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceAddRxFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -2379,9 +2310,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceCancelWps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CancelWps(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2391,9 +2319,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceDisconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Disconnect(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2403,9 +2328,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceEnableAutoReconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2419,15 +2341,22 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceFilsHlpAddRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_dst_mac []byte
-		_ = _arg_dst_mac
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_dst_mac = _bytes
+		}
 		var _arg_pkt []byte
-		_ = _arg_pkt
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_pkt = _bytes
+		}
 		_err := s.Impl.FilsHlpAddRequest(ctx, _arg_dst_mac, _arg_pkt)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2437,9 +2366,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceFilsHlpFlushRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.FilsHlpFlushRequest(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2449,12 +2375,14 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceGenerateDppBootstrapInfoForResponder:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_macAddress []byte
-		_ = _arg_macAddress
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_macAddress = _bytes
+		}
 		_arg_deviceInfo, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2477,16 +2405,18 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISupplicantStaIfaceGenerateSelfDppConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ssid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_privEcKey []byte
-		_ = _arg_privEcKey
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_privEcKey = _bytes
+		}
 		_err = s.Impl.GenerateSelfDppConfiguration(ctx, _arg_ssid, _arg_privEcKey)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2496,9 +2426,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceGetConnectionCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetConnectionCapabilities(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2512,9 +2439,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISupplicantStaIfaceGetConnectionMloLinksInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetConnectionMloLinksInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2528,9 +2452,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISupplicantStaIfaceGetKeyMgmtCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetKeyMgmtCapabilities(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2541,9 +2462,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantStaIfaceGetMacAddress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMacAddress(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2551,13 +2469,9 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceGetName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2568,9 +2482,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceGetNetwork:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2582,13 +2493,9 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceGetType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetType(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2599,9 +2506,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantStaIfaceGetWpaDriverCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWpaDriverCapabilities(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2612,18 +2516,54 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantStaIfaceInitiateAnqpQuery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_macAddress []byte
-		_ = _arg_macAddress
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_macAddress = _bytes
+		}
 		var _arg_infoElements []AnqpInfoId
-		_ = _arg_infoElements
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_infoElements = make([]AnqpInfoId, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_raw, _err := _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_infoElements[_i] = AnqpInfoId(_raw)
+				}
+			}
+		}
 		var _arg_subTypes []Hs20AnqpSubtypes
-		_ = _arg_subTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_subTypes = make([]Hs20AnqpSubtypes, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_raw, _err := _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_subTypes[_i] = Hs20AnqpSubtypes(_raw)
+				}
+			}
+		}
 		_err := s.Impl.InitiateAnqpQuery(ctx, _arg_macAddress, _arg_infoElements, _arg_subTypes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2633,12 +2573,14 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceInitiateHs20IconQuery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_macAddress []byte
-		_ = _arg_macAddress
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_macAddress = _bytes
+		}
 		_arg_fileName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2652,12 +2594,14 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceInitiateTdlsDiscover:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_macAddress []byte
-		_ = _arg_macAddress
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_macAddress = _bytes
+		}
 		_err := s.Impl.InitiateTdlsDiscover(ctx, _arg_macAddress)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2667,12 +2611,14 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceInitiateTdlsSetup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_macAddress []byte
-		_ = _arg_macAddress
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_macAddress = _bytes
+		}
 		_err := s.Impl.InitiateTdlsSetup(ctx, _arg_macAddress)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2682,12 +2628,14 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceInitiateTdlsTeardown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_macAddress []byte
-		_ = _arg_macAddress
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_macAddress = _bytes
+		}
 		_err := s.Impl.InitiateTdlsTeardown(ctx, _arg_macAddress)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2697,12 +2645,14 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceInitiateVenueUrlAnqpQuery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_macAddress []byte
-		_ = _arg_macAddress
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_macAddress = _bytes
+		}
 		_err := s.Impl.InitiateVenueUrlAnqpQuery(ctx, _arg_macAddress)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2712,9 +2662,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceListNetworks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ListNetworks(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2722,13 +2669,16 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionISupplicantStaIfaceReassociate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Reassociate(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2738,9 +2688,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceReconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Reconnect(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2750,12 +2697,14 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISupplicantStaIfaceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSupplicantStaIfaceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2765,9 +2714,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceSetQosPolicyFeatureEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2781,9 +2727,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceSendQosPolicyResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_qosPolicyRequestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2792,9 +2735,27 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_qosPolicyStatusList []QosPolicyStatus
-		_ = _arg_qosPolicyStatusList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_qosPolicyStatusList = make([]QosPolicyStatus, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_qosPolicyStatusList[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.SendQosPolicyResponse(ctx, _arg_qosPolicyRequestId, _arg_morePolicies, _arg_qosPolicyStatusList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2804,9 +2765,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceRemoveAllQosPolicies:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RemoveAllQosPolicies(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2816,9 +2774,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceRemoveDppUri:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2832,9 +2787,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceRemoveExtRadioWork:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2848,9 +2800,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceRemoveNetwork:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2864,9 +2813,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceRemoveRxFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -2881,9 +2827,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceSetBtCoexistenceMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_mode, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -2898,9 +2841,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceSetBtCoexistenceScanModeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2914,12 +2854,14 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceSetCountryCode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_code []byte
-		_ = _arg_code
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_code = _bytes
+		}
 		_err := s.Impl.SetCountryCode(ctx, _arg_code)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2929,9 +2871,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceSetExternalSim:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_useExternalSim, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2945,9 +2884,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceSetMboCellularDataStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_available, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2961,9 +2897,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceSetPowerSave:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2977,9 +2910,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceSetSuspendModeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2993,9 +2923,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceSetWpsConfigMethods:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_configMethods, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3010,9 +2937,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceSetWpsDeviceName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3026,12 +2950,14 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceSetWpsDeviceType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_type_ []byte
-		_ = _arg_type_
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_type_ = _bytes
+		}
 		_err := s.Impl.SetWpsDeviceType(ctx, _arg_type_)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3041,9 +2967,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceSetWpsManufacturer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_manufacturer, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3057,9 +2980,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceSetWpsModelName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3073,9 +2993,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceSetWpsModelNumber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelNumber, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3089,9 +3006,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceSetWpsSerialNumber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serialNumber, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3105,9 +3019,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceStartDppConfiguratorInitiator:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_peerBootstrapId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3138,9 +3049,14 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_securityAkm := DppAkm(_raw_securityAkm)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_privEcKey []byte
-		_ = _arg_privEcKey
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_privEcKey = _bytes
+		}
 		_result, _err := s.Impl.StartDppConfiguratorInitiator(ctx, _arg_peerBootstrapId, _arg_ownBootstrapId, _arg_ssid, _arg_password, _arg_psk, _arg_netRole, _arg_securityAkm, _arg_privEcKey)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3148,13 +3064,9 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceStartDppEnrolleeInitiator:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_peerBootstrapId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3172,9 +3084,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceStartDppEnrolleeResponder:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_listenChannel, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3188,9 +3097,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceStartRxFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StartRxFilter(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3200,12 +3106,14 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceStartWpsPbc:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bssid []byte
-		_ = _arg_bssid
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_bssid = _bytes
+		}
 		_err := s.Impl.StartWpsPbc(ctx, _arg_bssid)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3215,12 +3123,14 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceStartWpsPinDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bssid []byte
-		_ = _arg_bssid
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_bssid = _bytes
+		}
 		_result, _err := s.Impl.StartWpsPinDisplay(ctx, _arg_bssid)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3231,9 +3141,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceStartWpsPinKeypad:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pin, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3247,12 +3154,14 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceStartWpsRegistrar:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bssid []byte
-		_ = _arg_bssid
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_bssid = _bytes
+		}
 		_arg_pin, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3266,9 +3175,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceStopDppInitiator:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopDppInitiator(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3278,9 +3184,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceStopDppResponder:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ownBootstrapId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3294,9 +3197,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceStopRxFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopRxFilter(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3306,9 +3206,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceGetSignalPollResults:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSignalPollResults(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3316,16 +3213,40 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISupplicantStaIfaceAddQosPolicyRequestForScs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_qosPolicyData []QosPolicyScsData
-		_ = _arg_qosPolicyData
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_qosPolicyData = make([]QosPolicyScsData, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_qosPolicyData[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.AddQosPolicyRequestForScs(ctx, _arg_qosPolicyData)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3333,16 +3254,27 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISupplicantStaIfaceRemoveQosPolicyForScs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_scsPolicyIds []byte
-		_ = _arg_scsPolicyIds
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_scsPolicyIds = _bytes
+		}
 		_result, _err := s.Impl.RemoveQosPolicyForScs(ctx, _arg_scsPolicyIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3350,13 +3282,19 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISupplicantStaIfaceConfigureMscs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_params MscsParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3378,9 +3316,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaIfaceDisableMscs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DisableMscs(ctx)
 		_reply := parcel.New()
 		if _err != nil {

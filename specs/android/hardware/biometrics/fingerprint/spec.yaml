@@ -1,0 +1,559 @@
+package: android.hardware.biometrics.fingerprint
+go_package: android/hardware/biometrics/fingerprint
+interfaces:
+    - name: IFingerprint
+      descriptor: android.hardware.biometrics.fingerprint.IFingerprint
+      methods:
+        - name: getSensorProps
+          transaction_code_offset: 0
+          return_type:
+            name: SensorProps
+            is_array: true
+        - name: createSession
+          transaction_code_offset: 1
+          params:
+            - name: sensorId
+              type:
+                name: int
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+            - name: cb
+              type:
+                name: ISessionCallback
+              direction: in
+          return_type:
+            name: ISession
+    - name: ISession
+      descriptor: android.hardware.biometrics.fingerprint.ISession
+      methods:
+        - name: generateChallenge
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: revokeChallenge
+          transaction_code_offset: 1
+          params:
+            - name: challenge
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: enroll
+          transaction_code_offset: 2
+          params:
+            - name: hat
+              type:
+                name: HardwareAuthToken
+              direction: in
+          return_type:
+            name: ICancellationSignal
+        - name: authenticate
+          transaction_code_offset: 3
+          params:
+            - name: operationId
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: ICancellationSignal
+        - name: detectInteraction
+          transaction_code_offset: 4
+          return_type:
+            name: ICancellationSignal
+        - name: enumerateEnrollments
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: removeEnrollments
+          transaction_code_offset: 6
+          params:
+            - name: enrollmentIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getAuthenticatorId
+          transaction_code_offset: 7
+          return_type:
+            name: void
+        - name: invalidateAuthenticatorId
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: resetLockout
+          transaction_code_offset: 9
+          params:
+            - name: hat
+              type:
+                name: HardwareAuthToken
+              direction: in
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 10
+          return_type:
+            name: void
+        - name: onPointerDown
+          transaction_code_offset: 11
+          params:
+            - name: pointerId
+              type:
+                name: int
+              direction: in
+            - name: x
+              type:
+                name: int
+              direction: in
+            - name: "y"
+              type:
+                name: int
+              direction: in
+            - name: minor
+              type:
+                name: float
+              direction: in
+            - name: major
+              type:
+                name: float
+              direction: in
+          return_type:
+            name: void
+        - name: onPointerUp
+          transaction_code_offset: 12
+          params:
+            - name: pointerId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onUiReady
+          transaction_code_offset: 13
+          return_type:
+            name: void
+        - name: authenticateWithContext
+          transaction_code_offset: 14
+          params:
+            - name: operationId
+              type:
+                name: long
+              direction: in
+            - name: context
+              type:
+                name: OperationContext
+              direction: in
+          return_type:
+            name: ICancellationSignal
+        - name: enrollWithContext
+          transaction_code_offset: 15
+          params:
+            - name: hat
+              type:
+                name: HardwareAuthToken
+              direction: in
+            - name: context
+              type:
+                name: OperationContext
+              direction: in
+          return_type:
+            name: ICancellationSignal
+        - name: detectInteractionWithContext
+          transaction_code_offset: 16
+          params:
+            - name: context
+              type:
+                name: OperationContext
+              direction: in
+          return_type:
+            name: ICancellationSignal
+        - name: onPointerDownWithContext
+          transaction_code_offset: 17
+          params:
+            - name: context
+              type:
+                name: PointerContext
+              direction: in
+          return_type:
+            name: void
+        - name: onPointerUpWithContext
+          transaction_code_offset: 18
+          params:
+            - name: context
+              type:
+                name: PointerContext
+              direction: in
+          return_type:
+            name: void
+        - name: onContextChanged
+          transaction_code_offset: 19
+          params:
+            - name: context
+              type:
+                name: OperationContext
+              direction: in
+          return_type:
+            name: void
+        - name: onPointerCancelWithContext
+          transaction_code_offset: 20
+          params:
+            - name: context
+              type:
+                name: PointerContext
+              direction: in
+          return_type:
+            name: void
+        - name: setIgnoreDisplayTouches
+          transaction_code_offset: 21
+          params:
+            - name: shouldIgnore
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+    - name: ISessionCallback
+      descriptor: android.hardware.biometrics.fingerprint.ISessionCallback
+      methods:
+        - name: onChallengeGenerated
+          transaction_code_offset: 0
+          params:
+            - name: challenge
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: onChallengeRevoked
+          transaction_code_offset: 1
+          params:
+            - name: challenge
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: onAcquired
+          transaction_code_offset: 2
+          params:
+            - name: info
+              type:
+                name: AcquiredInfo
+              direction: in
+            - name: vendorCode
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 3
+          params:
+            - name: error
+              type:
+                name: Error
+              direction: in
+            - name: vendorCode
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onEnrollmentProgress
+          transaction_code_offset: 4
+          params:
+            - name: enrollmentId
+              type:
+                name: int
+              direction: in
+            - name: remaining
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAuthenticationSucceeded
+          transaction_code_offset: 5
+          params:
+            - name: enrollmentId
+              type:
+                name: int
+              direction: in
+            - name: hat
+              type:
+                name: HardwareAuthToken
+              direction: in
+          return_type:
+            name: void
+        - name: onAuthenticationFailed
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: onLockoutTimed
+          transaction_code_offset: 7
+          params:
+            - name: durationMillis
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: onLockoutPermanent
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: onLockoutCleared
+          transaction_code_offset: 9
+          return_type:
+            name: void
+        - name: onInteractionDetected
+          transaction_code_offset: 10
+          return_type:
+            name: void
+        - name: onEnrollmentsEnumerated
+          transaction_code_offset: 11
+          params:
+            - name: enrollmentIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onEnrollmentsRemoved
+          transaction_code_offset: 12
+          params:
+            - name: enrollmentIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onAuthenticatorIdRetrieved
+          transaction_code_offset: 13
+          params:
+            - name: authenticatorId
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: onAuthenticatorIdInvalidated
+          transaction_code_offset: 14
+          params:
+            - name: newAuthenticatorId
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: onSessionClosed
+          transaction_code_offset: 15
+          return_type:
+            name: void
+parcelables:
+    - name: PointerContext
+      fields:
+        - name: pointerId
+          type:
+            name: int
+          default_value: "-1"
+        - name: x
+          type:
+            name: float
+          default_value: 0f
+        - name: "y"
+          type:
+            name: float
+          default_value: 0f
+        - name: minor
+          type:
+            name: float
+          default_value: 0f
+        - name: major
+          type:
+            name: float
+          default_value: 0f
+        - name: orientation
+          type:
+            name: float
+          default_value: 0f
+        - name: isAod
+          type:
+            name: boolean
+          default_value: "false"
+        - name: time
+          type:
+            name: long
+          default_value: "0"
+        - name: gestureStart
+          type:
+            name: long
+          default_value: "0"
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: SensorLocation
+      fields:
+        - name: displayId
+          type:
+            name: int
+        - name: sensorLocationX
+          type:
+            name: int
+        - name: sensorLocationY
+          type:
+            name: int
+        - name: sensorRadius
+          type:
+            name: int
+        - name: display
+          type:
+            name: String
+          default_value: '""'
+        - name: sensorShape
+          type:
+            name: SensorShape
+          default_value: SensorShape.CIRCLE
+      annotations:
+        - VintfStability
+    - name: SensorProps
+      fields:
+        - name: commonProps
+          type:
+            name: CommonProps
+        - name: sensorType
+          type:
+            name: FingerprintSensorType
+          default_value: FingerprintSensorType.UNKNOWN
+        - name: sensorLocations
+          type:
+            name: SensorLocation
+            is_array: true
+        - name: supportsNavigationGestures
+          type:
+            name: boolean
+        - name: supportsDetectInteraction
+          type:
+            name: boolean
+        - name: halHandlesDisplayTouches
+          type:
+            name: boolean
+        - name: halControlsIllumination
+          type:
+            name: boolean
+        - name: touchDetectionParameters
+          type:
+            name: TouchDetectionParameters
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: TouchDetectionParameters
+      fields:
+        - name: targetSize
+          type:
+            name: float
+          default_value: 1.0f
+        - name: minOverlap
+          type:
+            name: float
+          default_value: 0.0f
+      annotations:
+        - VintfStability
+enums:
+    - name: AcquiredInfo
+      backing_type: byte
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: GOOD
+          value: ""
+        - name: PARTIAL
+          value: ""
+        - name: INSUFFICIENT
+          value: ""
+        - name: SENSOR_DIRTY
+          value: ""
+        - name: TOO_SLOW
+          value: ""
+        - name: TOO_FAST
+          value: ""
+        - name: VENDOR
+          value: ""
+        - name: START
+          value: ""
+        - name: TOO_DARK
+          value: ""
+        - name: TOO_BRIGHT
+          value: ""
+        - name: IMMOBILE
+          value: ""
+        - name: RETRYING_CAPTURE
+          value: ""
+        - name: LIFT_TOO_SOON
+          value: ""
+        - name: POWER_PRESS
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Error
+      backing_type: byte
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: HW_UNAVAILABLE
+          value: ""
+        - name: UNABLE_TO_PROCESS
+          value: ""
+        - name: TIMEOUT
+          value: ""
+        - name: NO_SPACE
+          value: ""
+        - name: CANCELED
+          value: ""
+        - name: UNABLE_TO_REMOVE
+          value: ""
+        - name: VENDOR
+          value: ""
+        - name: BAD_CALIBRATION
+          value: ""
+        - name: POWER_PRESS
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FingerprintSensorType
+      backing_type: byte
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: REAR
+          value: ""
+        - name: UNDER_DISPLAY_ULTRASONIC
+          value: ""
+        - name: UNDER_DISPLAY_OPTICAL
+          value: ""
+        - name: POWER_BUTTON
+          value: ""
+        - name: HOME_BUTTON
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SensorShape
+      backing_type: byte
+      values:
+        - name: SQUARE
+          value: ""
+        - name: CIRCLE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing

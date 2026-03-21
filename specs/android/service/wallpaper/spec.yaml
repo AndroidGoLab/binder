@@ -1,0 +1,281 @@
+package: android.service.wallpaper
+go_package: android/service/wallpaper
+interfaces:
+    - name: IWallpaperConnection
+      descriptor: android.service.wallpaper.IWallpaperConnection
+      methods:
+        - name: attachEngine
+          transaction_code_offset: 0
+          params:
+            - name: engine
+              type:
+                name: IWallpaperEngine
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: engineShown
+          transaction_code_offset: 1
+          params:
+            - name: engine
+              type:
+                name: IWallpaperEngine
+          return_type:
+            name: void
+        - name: setWallpaper
+          transaction_code_offset: 2
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: ParcelFileDescriptor
+        - name: onWallpaperColorsChanged
+          transaction_code_offset: 3
+          params:
+            - name: colors
+              type:
+                name: WallpaperColors
+              direction: in
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onLocalWallpaperColorsChanged
+          transaction_code_offset: 4
+          params:
+            - name: area
+              type:
+                name: RectF
+              direction: in
+            - name: colors
+              type:
+                name: WallpaperColors
+              direction: in
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IWallpaperEngine
+      descriptor: android.service.wallpaper.IWallpaperEngine
+      methods:
+        - name: setDesiredSize
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setDisplayPadding
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: padding
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: setVisibility
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: visible
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onScreenTurningOn
+          transaction_code_offset: 3
+          oneway: true
+          return_type:
+            name: void
+        - name: onScreenTurnedOn
+          transaction_code_offset: 4
+          oneway: true
+          return_type:
+            name: void
+        - name: setInAmbientMode
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: inAmbientDisplay
+              type:
+                name: boolean
+            - name: animationDuration
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: dispatchPointer
+          transaction_code_offset: 6
+          oneway: true
+          params:
+            - name: event
+              type:
+                name: MotionEvent
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: dispatchWallpaperCommand
+          transaction_code_offset: 7
+          oneway: true
+          params:
+            - name: action
+              type:
+                name: String
+            - name: x
+              type:
+                name: int
+            - name: "y"
+              type:
+                name: int
+            - name: z
+              type:
+                name: int
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: requestWallpaperColors
+          transaction_code_offset: 8
+          oneway: true
+          return_type:
+            name: void
+        - name: destroy
+          transaction_code_offset: 9
+          oneway: true
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setZoomOut
+          transaction_code_offset: 10
+          oneway: true
+          params:
+            - name: scale
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: resizePreview
+          transaction_code_offset: 11
+          oneway: true
+          params:
+            - name: positionInWindow
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: removeLocalColorsAreas
+          transaction_code_offset: 12
+          oneway: true
+          params:
+            - name: regions
+              type:
+                name: List
+                type_args:
+                    - name: RectF
+              direction: in
+          return_type:
+            name: void
+        - name: addLocalColorsAreas
+          transaction_code_offset: 13
+          oneway: true
+          params:
+            - name: regions
+              type:
+                name: List
+                type_args:
+                    - name: RectF
+              direction: in
+          return_type:
+            name: void
+        - name: mirrorSurfaceControl
+          transaction_code_offset: 14
+          return_type:
+            name: SurfaceControl
+        - name: applyDimming
+          transaction_code_offset: 15
+          oneway: true
+          params:
+            - name: dimAmount
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: setWallpaperFlags
+          transaction_code_offset: 16
+          oneway: true
+          params:
+            - name: which
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IWallpaperService
+      descriptor: android.service.wallpaper.IWallpaperService
+      oneway: true
+      methods:
+        - name: attach
+          transaction_code_offset: 0
+          params:
+            - name: connection
+              type:
+                name: IWallpaperConnection
+            - name: windowToken
+              type:
+                name: IBinder
+            - name: windowType
+              type:
+                name: int
+            - name: isPreview
+              type:
+                name: boolean
+            - name: reqWidth
+              type:
+                name: int
+            - name: reqHeight
+              type:
+                name: int
+            - name: padding
+              type:
+                name: Rect
+              direction: in
+            - name: displayId
+              type:
+                name: int
+            - name: which
+              type:
+                name: int
+            - name: info
+              type:
+                name: WallpaperInfo
+              direction: in
+          return_type:
+            name: void
+        - name: detach
+          transaction_code_offset: 1
+          params:
+            - name: windowToken
+              type:
+                name: IBinder
+          return_type:
+            name: void

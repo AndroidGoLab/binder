@@ -1,0 +1,17 @@
+package: android.tests.binder
+go_package: android/tests/binder
+interfaces:
+    - name: IBenchmark
+      descriptor: android.tests.binder.IBenchmark
+      methods:
+        - name: sendVec
+          transaction_code_offset: 0
+          params:
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true

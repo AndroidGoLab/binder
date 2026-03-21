@@ -53,6 +53,7 @@ func (p *InputProcessorProxy) Classify(
 ) (common.Classification, error) {
 	var _result common.Classification
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputProcessor)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -86,6 +87,7 @@ func (p *InputProcessorProxy) Reset(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputProcessor)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputProcessor, MethodIInputProcessorReset)
@@ -111,6 +113,7 @@ func (p *InputProcessorProxy) ResetDevice(
 	deviceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputProcessor)
 	_data.WriteInt32(deviceId)
 
@@ -135,7 +138,8 @@ func (p *InputProcessorProxy) ResetDevice(
 // InputProcessorStub dispatches incoming binder transactions
 // to a typed IInputProcessor implementation.
 type InputProcessorStub struct {
-	Impl IInputProcessor
+	Impl      IInputProcessor
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputProcessorStub)(nil)
@@ -149,11 +153,12 @@ func (s *InputProcessorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputProcessorClassify:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event common.MotionEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -176,9 +181,6 @@ func (s *InputProcessorStub) OnTransaction(
 		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionIInputProcessorReset:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Reset(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -188,9 +190,6 @@ func (s *InputProcessorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputProcessorResetDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

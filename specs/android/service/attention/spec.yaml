@@ -1,0 +1,70 @@
+package: android.service.attention
+go_package: android/service/attention
+interfaces:
+    - name: IAttentionCallback
+      descriptor: android.service.attention.IAttentionCallback
+      oneway: true
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: int
+            - name: timestamp
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 1
+          params:
+            - name: error
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IAttentionService
+      descriptor: android.service.attention.IAttentionService
+      oneway: true
+      methods:
+        - name: checkAttention
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IAttentionCallback
+          return_type:
+            name: void
+        - name: cancelAttentionCheck
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IAttentionCallback
+          return_type:
+            name: void
+        - name: onStartProximityUpdates
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: IProximityUpdateCallback
+          return_type:
+            name: void
+        - name: onStopProximityUpdates
+          transaction_code_offset: 3
+          return_type:
+            name: void
+    - name: IProximityUpdateCallback
+      descriptor: android.service.attention.IProximityUpdateCallback
+      oneway: true
+      methods:
+        - name: onProximityUpdate
+          transaction_code_offset: 0
+          params:
+            - name: distance
+              type:
+                name: double
+          return_type:
+            name: void

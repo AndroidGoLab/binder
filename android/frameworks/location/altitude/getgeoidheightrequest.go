@@ -32,9 +32,19 @@ func (s *GetGeoidHeightRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.LatitudeDegrees, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.LongitudeDegrees, _err = p.ReadFloat64()

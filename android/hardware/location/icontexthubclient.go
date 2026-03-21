@@ -61,6 +61,7 @@ func (p *ContextHubClientProxy) SendMessageToNanoApp(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClient)
 	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
@@ -93,6 +94,7 @@ func (p *ContextHubClientProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClient, MethodIContextHubClientClose)
@@ -118,6 +120,7 @@ func (p *ContextHubClientProxy) GetId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClient, MethodIContextHubClientGetId)
@@ -146,6 +149,7 @@ func (p *ContextHubClientProxy) CallbackFinished(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClient, MethodIContextHubClientCallbackFinished)
@@ -172,6 +176,7 @@ func (p *ContextHubClientProxy) ReliableMessageCallbackFinished(
 	errorCode byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClient)
 	_data.WriteInt32(messageSequenceNumber)
 	_data.WritePaddedByte(errorCode)
@@ -201,6 +206,7 @@ func (p *ContextHubClientProxy) SendReliableMessageToNanoApp(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClient)
 	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
@@ -233,7 +239,8 @@ func (p *ContextHubClientProxy) SendReliableMessageToNanoApp(
 // ContextHubClientStub dispatches incoming binder transactions
 // to a typed IContextHubClient implementation.
 type ContextHubClientStub struct {
-	Impl IContextHubClient
+	Impl      IContextHubClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ContextHubClientStub)(nil)
@@ -247,11 +254,12 @@ func (s *ContextHubClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIContextHubClientSendMessageToNanoApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_message NanoAppMessage
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -274,9 +282,6 @@ func (s *ContextHubClientStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIContextHubClientClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -286,9 +291,6 @@ func (s *ContextHubClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubClientGetId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -299,9 +301,6 @@ func (s *ContextHubClientStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIContextHubClientCallbackFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CallbackFinished(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -311,9 +310,6 @@ func (s *ContextHubClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubClientReliableMessageCallbackFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_messageSequenceNumber, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -331,9 +327,6 @@ func (s *ContextHubClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubClientSendReliableMessageToNanoApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_message NanoAppMessage
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -346,9 +339,14 @@ func (s *ContextHubClientStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transactionCallback IContextHubTransactionCallback
-		_ = _arg_transactionCallback
+		{
+			_transactionCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transactionCallback = NewContextHubTransactionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transactionCallbackHandle))
+		}
 		_result, _err := s.Impl.SendReliableMessageToNanoApp(ctx, _arg_message, _arg_transactionCallback)
 		_reply := parcel.New()
 		if _err != nil {

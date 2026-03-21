@@ -34,14 +34,29 @@ func (s *NanBootstrappingResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.BootstrappingInstanceId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.AcceptRequest, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.DiscoverySessionId, _err = p.ReadPaddedByte()

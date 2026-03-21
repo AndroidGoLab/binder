@@ -8,7 +8,7 @@ import (
 
 type BusConfig struct {
 	Name        string
-	InterfaceId interface{}
+	InterfaceId BusConfigInterfaceId
 	Bitrate     int32
 }
 
@@ -19,6 +19,9 @@ func (s *BusConfig) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString16(s.Name)
+	if _err := s.InterfaceId.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.Bitrate)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -33,9 +36,28 @@ func (s *BusConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Name, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.InterfaceId.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Bitrate, _err = p.ReadInt32()

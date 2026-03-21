@@ -9,7 +9,7 @@ import (
 type ChannelMessage struct {
 	SessionID      int32
 	TimeStampNanos int64
-	Data           interface{}
+	Data           ChannelMessageChannelMessageContents
 }
 
 var _ parcel.Parcelable = (*ChannelMessage)(nil)
@@ -20,6 +20,9 @@ func (s *ChannelMessage) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.SessionID)
 	p.WriteInt64(s.TimeStampNanos)
+	if _err := s.Data.MarshalParcel(p); _err != nil {
+		return _err
+	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -33,13 +36,32 @@ func (s *ChannelMessage) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SessionID, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.TimeStampNanos, _err = p.ReadInt64()
 	if _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.Data.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

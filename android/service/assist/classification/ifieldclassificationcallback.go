@@ -58,6 +58,7 @@ func (p *FieldClassificationCallbackProxy) OnCancellable(
 	cancellation common.ICancellationSignal,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationCallback)
 	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
 
@@ -84,6 +85,7 @@ func (p *FieldClassificationCallbackProxy) OnSuccess(
 	response FieldClassificationResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationCallback)
 	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
@@ -112,6 +114,7 @@ func (p *FieldClassificationCallbackProxy) OnFailure(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackOnFailure)
@@ -137,6 +140,7 @@ func (p *FieldClassificationCallbackProxy) IsCompleted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackIsCompleted)
@@ -165,6 +169,7 @@ func (p *FieldClassificationCallbackProxy) Cancel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackCancel)
@@ -188,7 +193,8 @@ func (p *FieldClassificationCallbackProxy) Cancel(
 // FieldClassificationCallbackStub dispatches incoming binder transactions
 // to a typed IFieldClassificationCallback implementation.
 type FieldClassificationCallbackStub struct {
-	Impl IFieldClassificationCallback
+	Impl      IFieldClassificationCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FieldClassificationCallbackStub)(nil)
@@ -202,14 +208,20 @@ func (s *FieldClassificationCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFieldClassificationCallbackOnCancellable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cancellation common.ICancellationSignal
-		_ = _arg_cancellation
+		{
+			_cancellationHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cancellation = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
+		}
 		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
 		_reply := parcel.New()
 		if _err != nil {
@@ -219,9 +231,6 @@ func (s *FieldClassificationCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFieldClassificationCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_response FieldClassificationResponse
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -243,9 +252,6 @@ func (s *FieldClassificationCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFieldClassificationCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnFailure(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -255,9 +261,6 @@ func (s *FieldClassificationCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFieldClassificationCallbackIsCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsCompleted(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -268,9 +271,6 @@ func (s *FieldClassificationCallbackStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFieldClassificationCallbackCancel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Cancel(ctx)
 		_reply := parcel.New()
 		if _err != nil {

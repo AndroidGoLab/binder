@@ -1,0 +1,10 @@
+package: com.android.wm.shell.draganddrop
+go_package: com/android/wm/shell/draganddrop
+interfaces:
+    - name: IDragAndDrop
+      descriptor: com.android.wm.shell.draganddrop.IDragAndDrop
+      methods:
+        - name: isReadyToHandleDrag
+          transaction_code_offset: 0
+          return_type:
+            name: boolean

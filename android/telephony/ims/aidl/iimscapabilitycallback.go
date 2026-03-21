@@ -53,6 +53,7 @@ func (p *ImsCapabilityCallbackProxy) OnQueryCapabilityConfiguration(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCapabilityCallback)
 	_data.WriteInt32(capability)
 	_data.WriteInt32(radioTech)
@@ -74,6 +75,7 @@ func (p *ImsCapabilityCallbackProxy) OnChangeCapabilityConfigurationError(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCapabilityCallback)
 	_data.WriteInt32(capability)
 	_data.WriteInt32(radioTech)
@@ -93,6 +95,7 @@ func (p *ImsCapabilityCallbackProxy) OnCapabilitiesStatusChanged(
 	config int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCapabilityCallback)
 	_data.WriteInt32(config)
 
@@ -108,7 +111,8 @@ func (p *ImsCapabilityCallbackProxy) OnCapabilitiesStatusChanged(
 // ImsCapabilityCallbackStub dispatches incoming binder transactions
 // to a typed IImsCapabilityCallback implementation.
 type ImsCapabilityCallbackStub struct {
-	Impl IImsCapabilityCallback
+	Impl      IImsCapabilityCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsCapabilityCallbackStub)(nil)
@@ -122,11 +126,12 @@ func (s *ImsCapabilityCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsCapabilityCallbackOnQueryCapabilityConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -140,12 +145,8 @@ func (s *ImsCapabilityCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnQueryCapabilityConfiguration(ctx, _arg_capability, _arg_radioTech, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCapabilityCallbackOnChangeCapabilityConfigurationError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -159,19 +160,14 @@ func (s *ImsCapabilityCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnChangeCapabilityConfigurationError(ctx, _arg_capability, _arg_radioTech, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCapabilityCallbackOnCapabilitiesStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_config, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnCapabilitiesStatusChanged(ctx, _arg_config)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

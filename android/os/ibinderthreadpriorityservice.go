@@ -54,6 +54,7 @@ func (p *BinderThreadPriorityServiceProxy) GetThreadPriority(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinderThreadPriorityService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderThreadPriorityService, MethodIBinderThreadPriorityServiceGetThreadPriority)
@@ -83,6 +84,7 @@ func (p *BinderThreadPriorityServiceProxy) GetThreadSchedulerGroup(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinderThreadPriorityService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderThreadPriorityService, MethodIBinderThreadPriorityServiceGetThreadSchedulerGroup)
@@ -112,6 +114,7 @@ func (p *BinderThreadPriorityServiceProxy) CallBack(
 	recurse IBinderThreadPriorityService,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinderThreadPriorityService)
 	binder.WriteBinderToParcel(ctx, _data, recurse.AsBinder(), p.Remote.Transport())
 
@@ -139,6 +142,7 @@ func (p *BinderThreadPriorityServiceProxy) SetPriorityAndCallBack(
 	recurse IBinderThreadPriorityService,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinderThreadPriorityService)
 	_data.WriteInt32(priority)
 	binder.WriteBinderToParcel(ctx, _data, recurse.AsBinder(), p.Remote.Transport())
@@ -164,7 +168,8 @@ func (p *BinderThreadPriorityServiceProxy) SetPriorityAndCallBack(
 // BinderThreadPriorityServiceStub dispatches incoming binder transactions
 // to a typed IBinderThreadPriorityService implementation.
 type BinderThreadPriorityServiceStub struct {
-	Impl IBinderThreadPriorityService
+	Impl      IBinderThreadPriorityService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BinderThreadPriorityServiceStub)(nil)
@@ -178,11 +183,12 @@ func (s *BinderThreadPriorityServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBinderThreadPriorityServiceGetThreadPriority:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetThreadPriority(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -193,9 +199,6 @@ func (s *BinderThreadPriorityServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBinderThreadPriorityServiceGetThreadSchedulerGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetThreadSchedulerGroup(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -206,12 +209,14 @@ func (s *BinderThreadPriorityServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBinderThreadPriorityServiceCallBack:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_recurse IBinderThreadPriorityService
-		_ = _arg_recurse
+		{
+			_recurseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_recurse = NewBinderThreadPriorityServiceProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _recurseHandle))
+		}
 		_err := s.Impl.CallBack(ctx, _arg_recurse)
 		_reply := parcel.New()
 		if _err != nil {
@@ -221,16 +226,18 @@ func (s *BinderThreadPriorityServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderThreadPriorityServiceSetPriorityAndCallBack:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_priority, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_recurse IBinderThreadPriorityService
-		_ = _arg_recurse
+		{
+			_recurseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_recurse = NewBinderThreadPriorityServiceProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _recurseHandle))
+		}
 		_err = s.Impl.SetPriorityAndCallBack(ctx, _arg_priority, _arg_recurse)
 		_reply := parcel.New()
 		if _err != nil {

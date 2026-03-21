@@ -50,9 +50,19 @@ func (s *RangingResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ResultMeters, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ErrorMeters, _err = p.ReadFloat64()
@@ -60,9 +70,19 @@ func (s *RangingResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.AzimuthDegrees, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ErrorAzimuthDegrees, _err = p.ReadFloat64()
@@ -70,9 +90,19 @@ func (s *RangingResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.AltitudeDegrees, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ErrorAltitudeDegrees, _err = p.ReadFloat64()
@@ -80,14 +110,29 @@ func (s *RangingResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.DelaySpreadMeters, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ConfidenceLevel, _err = p.ReadPaddedByte()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_detectedAttackLevelRaw, _err := p.ReadPaddedByte()
@@ -96,9 +141,19 @@ func (s *RangingResult) UnmarshalParcel(
 	}
 	s.DetectedAttackLevel = Nadm(_detectedAttackLevelRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.VelocityMetersPerSecond, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.VendorSpecificCsRangingResultsData, _err = p.ReadByteArray()

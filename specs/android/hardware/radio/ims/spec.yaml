@@ -1,0 +1,555 @@
+package: android.hardware.radio.ims
+go_package: android/hardware/radio/ims
+interfaces:
+    - name: IRadioIms
+      descriptor: android.hardware.radio.ims.IRadioIms
+      oneway: true
+      methods:
+        - name: setSrvccCallInfo
+          transaction_code_offset: 0
+          params:
+            - name: serial
+              type:
+                name: int
+            - name: srvccCalls
+              type:
+                name: SrvccCall
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: updateImsRegistrationInfo
+          transaction_code_offset: 1
+          params:
+            - name: serial
+              type:
+                name: int
+            - name: imsRegistration
+              type:
+                name: ImsRegistration
+              direction: in
+          return_type:
+            name: void
+        - name: startImsTraffic
+          transaction_code_offset: 2
+          params:
+            - name: serial
+              type:
+                name: int
+            - name: token
+              type:
+                name: int
+            - name: imsTrafficType
+              type:
+                name: ImsTrafficType
+            - name: accessNetworkType
+              type:
+                name: AccessNetwork
+            - name: trafficDirection
+              type:
+                name: ImsCall.Direction
+          return_type:
+            name: void
+        - name: stopImsTraffic
+          transaction_code_offset: 3
+          params:
+            - name: serial
+              type:
+                name: int
+            - name: token
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: triggerEpsFallback
+          transaction_code_offset: 4
+          params:
+            - name: serial
+              type:
+                name: int
+            - name: reason
+              type:
+                name: EpsFallbackReason
+              direction: in
+          return_type:
+            name: void
+        - name: setResponseFunctions
+          transaction_code_offset: 5
+          params:
+            - name: radioImsResponse
+              type:
+                name: IRadioImsResponse
+              direction: in
+            - name: radioImsIndication
+              type:
+                name: IRadioImsIndication
+              direction: in
+          return_type:
+            name: void
+        - name: sendAnbrQuery
+          transaction_code_offset: 6
+          params:
+            - name: serial
+              type:
+                name: int
+            - name: mediaType
+              type:
+                name: ImsStreamType
+            - name: direction
+              type:
+                name: ImsStreamDirection
+            - name: bitsPerSecond
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: updateImsCallStatus
+          transaction_code_offset: 7
+          params:
+            - name: serial
+              type:
+                name: int
+            - name: imsCalls
+              type:
+                name: ImsCall
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IRadioImsIndication
+      descriptor: android.hardware.radio.ims.IRadioImsIndication
+      oneway: true
+      methods:
+        - name: onConnectionSetupFailure
+          transaction_code_offset: 0
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: token
+              type:
+                name: int
+            - name: info
+              type:
+                name: ConnectionFailureInfo
+              direction: in
+          return_type:
+            name: void
+        - name: notifyAnbr
+          transaction_code_offset: 1
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: mediaType
+              type:
+                name: ImsStreamType
+              direction: in
+            - name: direction
+              type:
+                name: ImsStreamDirection
+              direction: in
+            - name: bitsPerSecond
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: triggerImsDeregistration
+          transaction_code_offset: 2
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: reason
+              type:
+                name: ImsDeregistrationReason
+              direction: in
+          return_type:
+            name: void
+    - name: IRadioImsResponse
+      descriptor: android.hardware.radio.ims.IRadioImsResponse
+      oneway: true
+      methods:
+        - name: setSrvccCallInfoResponse
+          transaction_code_offset: 0
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: updateImsRegistrationInfoResponse
+          transaction_code_offset: 1
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: startImsTrafficResponse
+          transaction_code_offset: 2
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: failureInfo
+              type:
+                name: ConnectionFailureInfo
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: stopImsTrafficResponse
+          transaction_code_offset: 3
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: triggerEpsFallbackResponse
+          transaction_code_offset: 4
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: sendAnbrQueryResponse
+          transaction_code_offset: 5
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: updateImsCallStatusResponse
+          transaction_code_offset: 6
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: ConnectionFailureInfo
+      fields:
+        - name: failureReason
+          type:
+            name: ConnectionFailureReason
+        - name: causeCode
+          type:
+            name: int
+        - name: waitTimeMillis
+          type:
+            name: int
+      nested_types:
+        - ConnectionFailureInfo.ConnectionFailureReason
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: ImsCall
+      fields:
+        - name: index
+          type:
+            name: int
+        - name: callType
+          type:
+            name: CallType
+        - name: accessNetwork
+          type:
+            name: AccessNetwork
+        - name: callState
+          type:
+            name: CallState
+        - name: direction
+          type:
+            name: Direction
+        - name: isHeldByRemote
+          type:
+            name: boolean
+      nested_types:
+        - ImsCall.CallType
+        - ImsCall.CallState
+        - ImsCall.Direction
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: ImsRegistration
+      fields:
+        - name: regState
+          type:
+            name: ImsRegistrationState
+        - name: accessNetworkType
+          type:
+            name: AccessNetwork
+        - name: suggestedAction
+          type:
+            name: SuggestedAction
+        - name: capabilities
+          type:
+            name: int
+      constants:
+        - name: IMS_MMTEL_CAPABILITY_NONE
+          type: int
+          value: "0"
+        - name: IMS_MMTEL_CAPABILITY_VOICE
+          type: int
+          value: 1 << 0
+        - name: IMS_MMTEL_CAPABILITY_VIDEO
+          type: int
+          value: 1 << 1
+        - name: IMS_MMTEL_CAPABILITY_SMS
+          type: int
+          value: 1 << 2
+        - name: IMS_RCS_CAPABILITIES
+          type: int
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SrvccCall
+      fields:
+        - name: index
+          type:
+            name: int
+        - name: callType
+          type:
+            name: CallType
+        - name: callState
+          type:
+            name: int
+        - name: callSubstate
+          type:
+            name: CallSubState
+        - name: ringbackToneType
+          type:
+            name: ToneType
+        - name: isMpty
+          type:
+            name: boolean
+        - name: isMT
+          type:
+            name: boolean
+        - name: number
+          type:
+            name: String
+        - name: numPresentation
+          type:
+            name: int
+        - name: name
+          type:
+            name: String
+        - name: namePresentation
+          type:
+            name: int
+      nested_types:
+        - SrvccCall.CallType
+        - SrvccCall.CallSubState
+        - SrvccCall.ToneType
+      annotations:
+        - VintfStability
+        - JavaDerive
+enums:
+    - name: ConnectionFailureInfo.ConnectionFailureReason
+      backing_type: int
+      values:
+        - name: REASON_ACCESS_DENIED
+          value: "1"
+        - name: REASON_NAS_FAILURE
+          value: "2"
+        - name: REASON_RACH_FAILURE
+          value: "3"
+        - name: REASON_RLC_FAILURE
+          value: "4"
+        - name: REASON_RRC_REJECT
+          value: "5"
+        - name: REASON_RRC_TIMEOUT
+          value: "6"
+        - name: REASON_NO_SERVICE
+          value: "7"
+        - name: REASON_PDN_NOT_AVAILABLE
+          value: "8"
+        - name: REASON_RF_BUSY
+          value: "9"
+        - name: REASON_UNSPECIFIED
+          value: "0xFFFF"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EpsFallbackReason
+      backing_type: int
+      values:
+        - name: NO_NETWORK_TRIGGER
+          value: "1"
+        - name: NO_NETWORK_RESPONSE
+          value: "2"
+      annotations:
+        - VintfStability
+        - JavaDerive
+        - Backing
+    - name: ImsCall.CallState
+      backing_type: int
+      values:
+        - name: ACTIVE
+          value: ""
+        - name: HOLDING
+          value: ""
+        - name: DIALING
+          value: ""
+        - name: ALERTING
+          value: ""
+        - name: INCOMING
+          value: ""
+        - name: WAITING
+          value: ""
+        - name: DISCONNECTING
+          value: ""
+        - name: DISCONNECTED
+          value: ""
+      annotations:
+        - Backing
+    - name: ImsCall.CallType
+      backing_type: int
+      values:
+        - name: NORMAL
+          value: ""
+        - name: EMERGENCY
+          value: ""
+      annotations:
+        - Backing
+    - name: ImsCall.Direction
+      backing_type: int
+      values:
+        - name: INCOMING
+          value: ""
+        - name: OUTGOING
+          value: ""
+      annotations:
+        - Backing
+    - name: ImsDeregistrationReason
+      backing_type: int
+      values:
+        - name: REASON_SIM_REMOVED
+          value: "1"
+        - name: REASON_SIM_REFRESH
+          value: "2"
+        - name: REASON_ALLOWED_NETWORK_TYPES_CHANGED
+          value: "3"
+      annotations:
+        - VintfStability
+        - JavaDerive
+        - Backing
+    - name: ImsRegistrationState
+      backing_type: int
+      values:
+        - name: NOT_REGISTERED
+          value: ""
+        - name: REGISTERED
+          value: ""
+      annotations:
+        - VintfStability
+        - JavaDerive
+        - Backing
+    - name: ImsStreamDirection
+      backing_type: int
+      values:
+        - name: UPLINK
+          value: "1"
+        - name: DOWNLINK
+          value: "2"
+      annotations:
+        - VintfStability
+        - JavaDerive
+        - Backing
+    - name: ImsStreamType
+      backing_type: int
+      values:
+        - name: AUDIO
+          value: "1"
+        - name: VIDEO
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: ImsTrafficType
+      backing_type: int
+      values:
+        - name: EMERGENCY
+          value: ""
+        - name: EMERGENCY_SMS
+          value: ""
+        - name: VOICE
+          value: ""
+        - name: VIDEO
+          value: ""
+        - name: SMS
+          value: ""
+        - name: REGISTRATION
+          value: ""
+        - name: UT_XCAP
+          value: ""
+      annotations:
+        - VintfStability
+        - JavaDerive
+        - Backing
+    - name: SrvccCall.CallSubState
+      backing_type: int
+      values:
+        - name: NONE
+          value: ""
+        - name: PREALERTING
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SrvccCall.CallType
+      backing_type: int
+      values:
+        - name: NORMAL
+          value: ""
+        - name: EMERGENCY
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SrvccCall.ToneType
+      backing_type: int
+      values:
+        - name: NONE
+          value: ""
+        - name: LOCAL
+          value: ""
+        - name: NETWORK
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SuggestedAction
+      backing_type: int
+      values:
+        - name: NONE
+          value: ""
+        - name: TRIGGER_PLMN_BLOCK
+          value: ""
+        - name: TRIGGER_PLMN_BLOCK_WITH_TIMEOUT
+          value: ""
+        - name: TRIGGER_RAT_BLOCK
+          value: ""
+        - name: TRIGGER_CLEAR_RAT_BLOCKS
+          value: ""
+      annotations:
+        - VintfStability
+        - JavaDerive
+        - Backing

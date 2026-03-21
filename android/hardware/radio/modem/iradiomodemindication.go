@@ -62,6 +62,7 @@ func (p *RadioModemIndicationProxy) HardwareConfigChanged(
 	configs []HardwareConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemIndication)
 	_data.WriteInt32(int32(type_))
 	if configs == nil {
@@ -91,6 +92,7 @@ func (p *RadioModemIndicationProxy) ModemReset(
 	reason string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemIndication)
 	_data.WriteInt32(int32(type_))
 	_data.WriteString16(reason)
@@ -110,6 +112,7 @@ func (p *RadioModemIndicationProxy) RadioCapabilityIndication(
 	rc RadioCapability,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemIndication)
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(1)
@@ -132,6 +135,7 @@ func (p *RadioModemIndicationProxy) RadioStateChanged(
 	radioState RadioState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemIndication)
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(int32(radioState))
@@ -150,6 +154,7 @@ func (p *RadioModemIndicationProxy) RilConnected(
 	type_ radio.RadioIndicationType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemIndication)
 	_data.WriteInt32(int32(type_))
 
@@ -168,6 +173,7 @@ func (p *RadioModemIndicationProxy) OnImeiMappingChanged(
 	imeiInfo ImeiInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModemIndication)
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(1)
@@ -187,7 +193,8 @@ func (p *RadioModemIndicationProxy) OnImeiMappingChanged(
 // RadioModemIndicationStub dispatches incoming binder transactions
 // to a typed IRadioModemIndication implementation.
 type RadioModemIndicationStub struct {
-	Impl IRadioModemIndication
+	Impl      IRadioModemIndication
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RadioModemIndicationStub)(nil)
@@ -201,26 +208,41 @@ func (s *RadioModemIndicationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRadioModemIndicationHardwareConfigChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_configs []HardwareConfig
-		_ = _arg_configs
-		_err = s.Impl.HardwareConfigChanged(ctx, _arg_type_, _arg_configs)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioModemIndicationModemReset:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_configs = make([]HardwareConfig, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_configs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.HardwareConfigChanged(ctx, _arg_type_, _arg_configs)
+		return nil, _err
+	case TransactionIRadioModemIndicationModemReset:
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -231,12 +253,8 @@ func (s *RadioModemIndicationStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ModemReset(ctx, _arg_type_, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemIndicationRadioCapabilityIndication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -255,12 +273,8 @@ func (s *RadioModemIndicationStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.RadioCapabilityIndication(ctx, _arg_type_, _arg_rc)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemIndicationRadioStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -272,24 +286,16 @@ func (s *RadioModemIndicationStub) OnTransaction(
 		}
 		_arg_radioState := RadioState(_raw_radioState)
 		_err = s.Impl.RadioStateChanged(ctx, _arg_type_, _arg_radioState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemIndicationRilConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		_err = s.Impl.RilConnected(ctx, _arg_type_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemIndicationOnImeiMappingChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -308,8 +314,7 @@ func (s *RadioModemIndicationStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnImeiMappingChanged(ctx, _arg_type_, _arg_imeiInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

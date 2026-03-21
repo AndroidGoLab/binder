@@ -1,0 +1,5055 @@
+package: android.hardware.wifi
+go_package: android/hardware/wifi
+interfaces:
+    - name: IWifi
+      descriptor: android.hardware.wifi.IWifi
+      methods:
+        - name: getChip
+          transaction_code_offset: 0
+          params:
+            - name: chipId
+              type:
+                name: int
+          return_type:
+            name: IWifiChip
+          annotations:
+            - PropagateAllowBlocking
+        - name: getChipIds
+          transaction_code_offset: 1
+          return_type:
+            name: int
+            is_array: true
+        - name: isStarted
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+        - name: registerEventCallback
+          transaction_code_offset: 3
+          params:
+            - name: callback
+              type:
+                name: IWifiEventCallback
+              direction: in
+          return_type:
+            name: void
+        - name: start
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: stop
+          transaction_code_offset: 5
+          return_type:
+            name: void
+    - name: IWifiApIface
+      descriptor: android.hardware.wifi.IWifiApIface
+      methods:
+        - name: getName
+          transaction_code_offset: 0
+          return_type:
+            name: String
+        - name: getBridgedInstances
+          transaction_code_offset: 1
+          return_type:
+            name: String
+            is_array: true
+        - name: getFactoryMacAddress
+          transaction_code_offset: 2
+          return_type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: setCountryCode
+          transaction_code_offset: 3
+          params:
+            - name: code
+              type:
+                name: byte
+                is_array: true
+                fixed_size: "2"
+              direction: in
+          return_type:
+            name: void
+        - name: resetToFactoryMacAddress
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: setMacAddress
+          transaction_code_offset: 5
+          params:
+            - name: mac
+              type:
+                name: byte
+                is_array: true
+                fixed_size: "6"
+              direction: in
+          return_type:
+            name: void
+        - name: usesMlo
+          transaction_code_offset: 6
+          return_type:
+            name: boolean
+    - name: IWifiChip
+      descriptor: android.hardware.wifi.IWifiChip
+      methods:
+        - name: configureChip
+          transaction_code_offset: 0
+          params:
+            - name: modeId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: createApIface
+          transaction_code_offset: 1
+          return_type:
+            name: IWifiApIface
+          annotations:
+            - PropagateAllowBlocking
+        - name: createBridgedApIface
+          transaction_code_offset: 2
+          return_type:
+            name: IWifiApIface
+          annotations:
+            - PropagateAllowBlocking
+        - name: createNanIface
+          transaction_code_offset: 3
+          return_type:
+            name: IWifiNanIface
+          annotations:
+            - PropagateAllowBlocking
+        - name: createP2pIface
+          transaction_code_offset: 4
+          return_type:
+            name: IWifiP2pIface
+          annotations:
+            - PropagateAllowBlocking
+        - name: createRttController
+          transaction_code_offset: 5
+          params:
+            - name: boundIface
+              type:
+                name: IWifiStaIface
+              direction: in
+          return_type:
+            name: IWifiRttController
+          annotations:
+            - PropagateAllowBlocking
+        - name: createStaIface
+          transaction_code_offset: 6
+          return_type:
+            name: IWifiStaIface
+          annotations:
+            - PropagateAllowBlocking
+        - name: enableDebugErrorAlerts
+          transaction_code_offset: 7
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: flushRingBufferToFile
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: forceDumpToDebugRingBuffer
+          transaction_code_offset: 9
+          params:
+            - name: ringName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getApIface
+          transaction_code_offset: 10
+          params:
+            - name: ifname
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: IWifiApIface
+          annotations:
+            - PropagateAllowBlocking
+        - name: getApIfaceNames
+          transaction_code_offset: 11
+          return_type:
+            name: String
+            is_array: true
+        - name: getAvailableModes
+          transaction_code_offset: 12
+          return_type:
+            name: ChipMode
+            is_array: true
+        - name: getFeatureSet
+          transaction_code_offset: 13
+          return_type:
+            name: int
+        - name: getDebugHostWakeReasonStats
+          transaction_code_offset: 14
+          return_type:
+            name: WifiDebugHostWakeReasonStats
+        - name: getDebugRingBuffersStatus
+          transaction_code_offset: 15
+          return_type:
+            name: WifiDebugRingBufferStatus
+            is_array: true
+        - name: getId
+          transaction_code_offset: 16
+          return_type:
+            name: int
+        - name: getMode
+          transaction_code_offset: 17
+          return_type:
+            name: int
+        - name: getNanIface
+          transaction_code_offset: 18
+          params:
+            - name: ifname
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: IWifiNanIface
+          annotations:
+            - PropagateAllowBlocking
+        - name: getNanIfaceNames
+          transaction_code_offset: 19
+          return_type:
+            name: String
+            is_array: true
+        - name: getP2pIface
+          transaction_code_offset: 20
+          params:
+            - name: ifname
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: IWifiP2pIface
+          annotations:
+            - PropagateAllowBlocking
+        - name: getP2pIfaceNames
+          transaction_code_offset: 21
+          return_type:
+            name: String
+            is_array: true
+        - name: getStaIface
+          transaction_code_offset: 22
+          params:
+            - name: ifname
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: IWifiStaIface
+          annotations:
+            - PropagateAllowBlocking
+        - name: getStaIfaceNames
+          transaction_code_offset: 23
+          return_type:
+            name: String
+            is_array: true
+        - name: getSupportedRadioCombinations
+          transaction_code_offset: 24
+          return_type:
+            name: WifiRadioCombination
+            is_array: true
+        - name: getWifiChipCapabilities
+          transaction_code_offset: 25
+          return_type:
+            name: WifiChipCapabilities
+        - name: getUsableChannels
+          transaction_code_offset: 26
+          params:
+            - name: band
+              type:
+                name: WifiBand
+              direction: in
+            - name: ifaceModeMask
+              type:
+                name: int
+              direction: in
+            - name: filterMask
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: WifiUsableChannel
+            is_array: true
+        - name: setAfcChannelAllowance
+          transaction_code_offset: 27
+          params:
+            - name: afcChannelAllowance
+              type:
+                name: AfcChannelAllowance
+              direction: in
+          return_type:
+            name: void
+        - name: registerEventCallback
+          transaction_code_offset: 28
+          params:
+            - name: callback
+              type:
+                name: IWifiChipEventCallback
+              direction: in
+          return_type:
+            name: void
+        - name: removeApIface
+          transaction_code_offset: 29
+          params:
+            - name: ifname
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: removeIfaceInstanceFromBridgedApIface
+          transaction_code_offset: 30
+          params:
+            - name: brIfaceName
+              type:
+                name: String
+              direction: in
+            - name: ifaceInstanceName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: removeNanIface
+          transaction_code_offset: 31
+          params:
+            - name: ifname
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: removeP2pIface
+          transaction_code_offset: 32
+          params:
+            - name: ifname
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: removeStaIface
+          transaction_code_offset: 33
+          params:
+            - name: ifname
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: requestChipDebugInfo
+          transaction_code_offset: 34
+          return_type:
+            name: ChipDebugInfo
+        - name: requestDriverDebugDump
+          transaction_code_offset: 35
+          return_type:
+            name: byte
+            is_array: true
+        - name: requestFirmwareDebugDump
+          transaction_code_offset: 36
+          return_type:
+            name: byte
+            is_array: true
+        - name: resetTxPowerScenario
+          transaction_code_offset: 37
+          return_type:
+            name: void
+        - name: selectTxPowerScenario
+          transaction_code_offset: 38
+          params:
+            - name: scenario
+              type:
+                name: TxPowerScenario
+              direction: in
+          return_type:
+            name: void
+        - name: setCoexUnsafeChannels
+          transaction_code_offset: 39
+          params:
+            - name: unsafeChannels
+              type:
+                name: CoexUnsafeChannel
+                is_array: true
+              direction: in
+            - name: restrictions
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setCountryCode
+          transaction_code_offset: 40
+          params:
+            - name: code
+              type:
+                name: byte
+                is_array: true
+                fixed_size: "2"
+              direction: in
+          return_type:
+            name: void
+        - name: setLatencyMode
+          transaction_code_offset: 41
+          params:
+            - name: mode
+              type:
+                name: LatencyMode
+              direction: in
+          return_type:
+            name: void
+        - name: setMultiStaPrimaryConnection
+          transaction_code_offset: 42
+          params:
+            - name: ifName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setMultiStaUseCase
+          transaction_code_offset: 43
+          params:
+            - name: useCase
+              type:
+                name: MultiStaUseCase
+              direction: in
+          return_type:
+            name: void
+        - name: startLoggingToDebugRingBuffer
+          transaction_code_offset: 44
+          params:
+            - name: ringName
+              type:
+                name: String
+              direction: in
+            - name: verboseLevel
+              type:
+                name: WifiDebugRingBufferVerboseLevel
+              direction: in
+            - name: maxIntervalInSec
+              type:
+                name: int
+              direction: in
+            - name: minDataSizeInBytes
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: stopLoggingToDebugRingBuffer
+          transaction_code_offset: 45
+          return_type:
+            name: void
+        - name: triggerSubsystemRestart
+          transaction_code_offset: 46
+          return_type:
+            name: void
+        - name: enableStaChannelForPeerNetwork
+          transaction_code_offset: 47
+          params:
+            - name: channelCategoryEnableFlag
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setMloMode
+          transaction_code_offset: 48
+          params:
+            - name: mode
+              type:
+                name: ChipMloMode
+              direction: in
+          return_type:
+            name: void
+        - name: createApOrBridgedApIface
+          transaction_code_offset: 49
+          params:
+            - name: iface
+              type:
+                name: IfaceConcurrencyType
+              direction: in
+            - name: vendorData
+              type:
+                name: OuiKeyedData
+                is_array: true
+              direction: in
+          return_type:
+            name: IWifiApIface
+          annotations:
+            - PropagateAllowBlocking
+        - name: setVoipMode
+          transaction_code_offset: 50
+          params:
+            - name: mode
+              type:
+                name: VoipMode
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: NO_POWER_CAP_CONSTANT
+          type: int
+          value: "0x7FFFFFFF"
+    - name: IWifiChipEventCallback
+      descriptor: android.hardware.wifi.IWifiChipEventCallback
+      oneway: true
+      methods:
+        - name: onChipReconfigureFailure
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: WifiStatusCode
+              direction: in
+          return_type:
+            name: void
+        - name: onChipReconfigured
+          transaction_code_offset: 1
+          params:
+            - name: modeId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onDebugErrorAlert
+          transaction_code_offset: 2
+          params:
+            - name: errorCode
+              type:
+                name: int
+              direction: in
+            - name: debugData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onDebugRingBufferDataAvailable
+          transaction_code_offset: 3
+          params:
+            - name: status
+              type:
+                name: WifiDebugRingBufferStatus
+              direction: in
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onIfaceAdded
+          transaction_code_offset: 4
+          params:
+            - name: type
+              type:
+                name: IfaceType
+              direction: in
+            - name: name
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onIfaceRemoved
+          transaction_code_offset: 5
+          params:
+            - name: type
+              type:
+                name: IfaceType
+              direction: in
+            - name: name
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onRadioModeChange
+          transaction_code_offset: 6
+          params:
+            - name: radioModeInfos
+              type:
+                name: RadioModeInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IWifiEventCallback
+      descriptor: android.hardware.wifi.IWifiEventCallback
+      oneway: true
+      methods:
+        - name: onFailure
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: WifiStatusCode
+              direction: in
+          return_type:
+            name: void
+        - name: onStart
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onStop
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onSubsystemRestart
+          transaction_code_offset: 3
+          params:
+            - name: status
+              type:
+                name: WifiStatusCode
+              direction: in
+          return_type:
+            name: void
+    - name: IWifiNanIface
+      descriptor: android.hardware.wifi.IWifiNanIface
+      methods:
+        - name: getName
+          transaction_code_offset: 0
+          return_type:
+            name: String
+        - name: configRequest
+          transaction_code_offset: 1
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: msg1
+              type:
+                name: NanConfigRequest
+              direction: in
+            - name: msg2
+              type:
+                name: NanConfigRequestSupplemental
+              direction: in
+          return_type:
+            name: void
+        - name: createDataInterfaceRequest
+          transaction_code_offset: 2
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: ifaceName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: deleteDataInterfaceRequest
+          transaction_code_offset: 3
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: ifaceName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: disableRequest
+          transaction_code_offset: 4
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+          return_type:
+            name: void
+        - name: enableRequest
+          transaction_code_offset: 5
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: msg1
+              type:
+                name: NanEnableRequest
+              direction: in
+            - name: msg2
+              type:
+                name: NanConfigRequestSupplemental
+              direction: in
+          return_type:
+            name: void
+        - name: getCapabilitiesRequest
+          transaction_code_offset: 6
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+          return_type:
+            name: void
+        - name: initiateDataPathRequest
+          transaction_code_offset: 7
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: msg
+              type:
+                name: NanInitiateDataPathRequest
+              direction: in
+          return_type:
+            name: void
+        - name: registerEventCallback
+          transaction_code_offset: 8
+          params:
+            - name: callback
+              type:
+                name: IWifiNanIfaceEventCallback
+              direction: in
+          return_type:
+            name: void
+        - name: respondToDataPathIndicationRequest
+          transaction_code_offset: 9
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: msg
+              type:
+                name: NanRespondToDataPathIndicationRequest
+              direction: in
+          return_type:
+            name: void
+        - name: startPublishRequest
+          transaction_code_offset: 10
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: msg
+              type:
+                name: NanPublishRequest
+              direction: in
+          return_type:
+            name: void
+        - name: startSubscribeRequest
+          transaction_code_offset: 11
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: msg
+              type:
+                name: NanSubscribeRequest
+              direction: in
+          return_type:
+            name: void
+        - name: stopPublishRequest
+          transaction_code_offset: 12
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: sessionId
+              type:
+                name: byte
+              direction: in
+          return_type:
+            name: void
+        - name: stopSubscribeRequest
+          transaction_code_offset: 13
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: sessionId
+              type:
+                name: byte
+              direction: in
+          return_type:
+            name: void
+        - name: terminateDataPathRequest
+          transaction_code_offset: 14
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: ndpInstanceId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: suspendRequest
+          transaction_code_offset: 15
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: sessionId
+              type:
+                name: byte
+              direction: in
+          return_type:
+            name: void
+        - name: resumeRequest
+          transaction_code_offset: 16
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: sessionId
+              type:
+                name: byte
+              direction: in
+          return_type:
+            name: void
+        - name: transmitFollowupRequest
+          transaction_code_offset: 17
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: msg
+              type:
+                name: NanTransmitFollowupRequest
+              direction: in
+          return_type:
+            name: void
+        - name: initiatePairingRequest
+          transaction_code_offset: 18
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: msg
+              type:
+                name: NanPairingRequest
+              direction: in
+          return_type:
+            name: void
+        - name: respondToPairingIndicationRequest
+          transaction_code_offset: 19
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: msg
+              type:
+                name: NanRespondToPairingIndicationRequest
+              direction: in
+          return_type:
+            name: void
+        - name: initiateBootstrappingRequest
+          transaction_code_offset: 20
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: msg
+              type:
+                name: NanBootstrappingRequest
+              direction: in
+          return_type:
+            name: void
+        - name: respondToBootstrappingIndicationRequest
+          transaction_code_offset: 21
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: msg
+              type:
+                name: NanBootstrappingResponse
+              direction: in
+          return_type:
+            name: void
+        - name: terminatePairingRequest
+          transaction_code_offset: 22
+          params:
+            - name: cmdId
+              type:
+                name: char
+              direction: in
+            - name: pairingInstanceId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: MIN_DATA_PATH_CONFIG_PASSPHRASE_LENGTH
+          type: int
+          value: "8"
+        - name: MAX_DATA_PATH_CONFIG_PASSPHRASE_LENGTH
+          type: int
+          value: "63"
+    - name: IWifiNanIfaceEventCallback
+      descriptor: android.hardware.wifi.IWifiNanIfaceEventCallback
+      oneway: true
+      methods:
+        - name: eventClusterEvent
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: NanClusterEventInd
+              direction: in
+          return_type:
+            name: void
+        - name: eventDataPathConfirm
+          transaction_code_offset: 1
+          params:
+            - name: event
+              type:
+                name: NanDataPathConfirmInd
+              direction: in
+          return_type:
+            name: void
+        - name: eventDataPathRequest
+          transaction_code_offset: 2
+          params:
+            - name: event
+              type:
+                name: NanDataPathRequestInd
+              direction: in
+          return_type:
+            name: void
+        - name: eventDataPathScheduleUpdate
+          transaction_code_offset: 3
+          params:
+            - name: event
+              type:
+                name: NanDataPathScheduleUpdateInd
+              direction: in
+          return_type:
+            name: void
+        - name: eventDataPathTerminated
+          transaction_code_offset: 4
+          params:
+            - name: ndpInstanceId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: eventDisabled
+          transaction_code_offset: 5
+          params:
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: eventFollowupReceived
+          transaction_code_offset: 6
+          params:
+            - name: event
+              type:
+                name: NanFollowupReceivedInd
+              direction: in
+          return_type:
+            name: void
+        - name: eventMatch
+          transaction_code_offset: 7
+          params:
+            - name: event
+              type:
+                name: NanMatchInd
+              direction: in
+          return_type:
+            name: void
+        - name: eventMatchExpired
+          transaction_code_offset: 8
+          params:
+            - name: discoverySessionId
+              type:
+                name: byte
+              direction: in
+            - name: peerId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: eventPublishTerminated
+          transaction_code_offset: 9
+          params:
+            - name: sessionId
+              type:
+                name: byte
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: eventSubscribeTerminated
+          transaction_code_offset: 10
+          params:
+            - name: sessionId
+              type:
+                name: byte
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: eventTransmitFollowup
+          transaction_code_offset: 11
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: eventSuspensionModeChanged
+          transaction_code_offset: 12
+          params:
+            - name: event
+              type:
+                name: NanSuspensionModeChangeInd
+              direction: in
+          return_type:
+            name: void
+        - name: notifyCapabilitiesResponse
+          transaction_code_offset: 13
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+            - name: capabilities
+              type:
+                name: NanCapabilities
+              direction: in
+          return_type:
+            name: void
+        - name: notifyConfigResponse
+          transaction_code_offset: 14
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: notifyCreateDataInterfaceResponse
+          transaction_code_offset: 15
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: notifyDeleteDataInterfaceResponse
+          transaction_code_offset: 16
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: notifyDisableResponse
+          transaction_code_offset: 17
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: notifyEnableResponse
+          transaction_code_offset: 18
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: notifyInitiateDataPathResponse
+          transaction_code_offset: 19
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+            - name: ndpInstanceId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: notifyRespondToDataPathIndicationResponse
+          transaction_code_offset: 20
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: notifyStartPublishResponse
+          transaction_code_offset: 21
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+            - name: sessionId
+              type:
+                name: byte
+              direction: in
+          return_type:
+            name: void
+        - name: notifyStartSubscribeResponse
+          transaction_code_offset: 22
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+            - name: sessionId
+              type:
+                name: byte
+              direction: in
+          return_type:
+            name: void
+        - name: notifyStopPublishResponse
+          transaction_code_offset: 23
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: notifyStopSubscribeResponse
+          transaction_code_offset: 24
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: notifyTerminateDataPathResponse
+          transaction_code_offset: 25
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: notifySuspendResponse
+          transaction_code_offset: 26
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: notifyResumeResponse
+          transaction_code_offset: 27
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: notifyTransmitFollowupResponse
+          transaction_code_offset: 28
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: eventPairingRequest
+          transaction_code_offset: 29
+          params:
+            - name: event
+              type:
+                name: NanPairingRequestInd
+              direction: in
+          return_type:
+            name: void
+        - name: eventPairingConfirm
+          transaction_code_offset: 30
+          params:
+            - name: event
+              type:
+                name: NanPairingConfirmInd
+              direction: in
+          return_type:
+            name: void
+        - name: notifyInitiatePairingResponse
+          transaction_code_offset: 31
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+            - name: pairingInstanceId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: notifyRespondToPairingIndicationResponse
+          transaction_code_offset: 32
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: eventBootstrappingRequest
+          transaction_code_offset: 33
+          params:
+            - name: event
+              type:
+                name: NanBootstrappingRequestInd
+              direction: in
+          return_type:
+            name: void
+        - name: eventBootstrappingConfirm
+          transaction_code_offset: 34
+          params:
+            - name: event
+              type:
+                name: NanBootstrappingConfirmInd
+              direction: in
+          return_type:
+            name: void
+        - name: notifyInitiateBootstrappingResponse
+          transaction_code_offset: 35
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+            - name: bootstrappingInstanceId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: notifyRespondToBootstrappingIndicationResponse
+          transaction_code_offset: 36
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+        - name: notifyTerminatePairingResponse
+          transaction_code_offset: 37
+          params:
+            - name: id
+              type:
+                name: char
+              direction: in
+            - name: status
+              type:
+                name: NanStatus
+              direction: in
+          return_type:
+            name: void
+    - name: IWifiP2pIface
+      descriptor: android.hardware.wifi.IWifiP2pIface
+      methods:
+        - name: getName
+          transaction_code_offset: 0
+          return_type:
+            name: String
+    - name: IWifiRttController
+      descriptor: android.hardware.wifi.IWifiRttController
+      methods:
+        - name: disableResponder
+          transaction_code_offset: 0
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: enableResponder
+          transaction_code_offset: 1
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: channelHint
+              type:
+                name: WifiChannelInfo
+              direction: in
+            - name: maxDurationInSeconds
+              type:
+                name: int
+              direction: in
+            - name: info
+              type:
+                name: RttResponder
+              direction: in
+          return_type:
+            name: void
+        - name: getBoundIface
+          transaction_code_offset: 2
+          return_type:
+            name: IWifiStaIface
+        - name: getCapabilities
+          transaction_code_offset: 3
+          return_type:
+            name: RttCapabilities
+        - name: getResponderInfo
+          transaction_code_offset: 4
+          return_type:
+            name: RttResponder
+        - name: rangeCancel
+          transaction_code_offset: 5
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: addrs
+              type:
+                name: MacAddress
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: rangeRequest
+          transaction_code_offset: 6
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: rttConfigs
+              type:
+                name: RttConfig
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: registerEventCallback
+          transaction_code_offset: 7
+          params:
+            - name: callback
+              type:
+                name: IWifiRttControllerEventCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setLci
+          transaction_code_offset: 8
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: lci
+              type:
+                name: RttLciInformation
+              direction: in
+          return_type:
+            name: void
+        - name: setLcr
+          transaction_code_offset: 9
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: lcr
+              type:
+                name: RttLcrInformation
+              direction: in
+          return_type:
+            name: void
+    - name: IWifiRttControllerEventCallback
+      descriptor: android.hardware.wifi.IWifiRttControllerEventCallback
+      oneway: true
+      methods:
+        - name: onResults
+          transaction_code_offset: 0
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: results
+              type:
+                name: RttResult
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IWifiStaIface
+      descriptor: android.hardware.wifi.IWifiStaIface
+      methods:
+        - name: getName
+          transaction_code_offset: 0
+          return_type:
+            name: String
+        - name: configureRoaming
+          transaction_code_offset: 1
+          params:
+            - name: config
+              type:
+                name: StaRoamingConfig
+              direction: in
+          return_type:
+            name: void
+        - name: disableLinkLayerStatsCollection
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: enableLinkLayerStatsCollection
+          transaction_code_offset: 3
+          params:
+            - name: debug
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: enableNdOffload
+          transaction_code_offset: 4
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: getApfPacketFilterCapabilities
+          transaction_code_offset: 5
+          return_type:
+            name: StaApfPacketFilterCapabilities
+        - name: getBackgroundScanCapabilities
+          transaction_code_offset: 6
+          return_type:
+            name: StaBackgroundScanCapabilities
+        - name: getFeatureSet
+          transaction_code_offset: 7
+          return_type:
+            name: int
+        - name: getDebugRxPacketFates
+          transaction_code_offset: 8
+          return_type:
+            name: WifiDebugRxPacketFateReport
+            is_array: true
+        - name: getDebugTxPacketFates
+          transaction_code_offset: 9
+          return_type:
+            name: WifiDebugTxPacketFateReport
+            is_array: true
+        - name: getFactoryMacAddress
+          transaction_code_offset: 10
+          return_type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: getLinkLayerStats
+          transaction_code_offset: 11
+          return_type:
+            name: StaLinkLayerStats
+        - name: getRoamingCapabilities
+          transaction_code_offset: 12
+          return_type:
+            name: StaRoamingCapabilities
+        - name: installApfPacketFilter
+          transaction_code_offset: 13
+          params:
+            - name: program
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: readApfPacketFilterData
+          transaction_code_offset: 14
+          return_type:
+            name: byte
+            is_array: true
+        - name: registerEventCallback
+          transaction_code_offset: 15
+          params:
+            - name: callback
+              type:
+                name: IWifiStaIfaceEventCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setMacAddress
+          transaction_code_offset: 16
+          params:
+            - name: mac
+              type:
+                name: byte
+                is_array: true
+                fixed_size: "6"
+              direction: in
+          return_type:
+            name: void
+        - name: setRoamingState
+          transaction_code_offset: 17
+          params:
+            - name: state
+              type:
+                name: StaRoamingState
+              direction: in
+          return_type:
+            name: void
+        - name: setScanMode
+          transaction_code_offset: 18
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: startBackgroundScan
+          transaction_code_offset: 19
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: params
+              type:
+                name: StaBackgroundScanParameters
+              direction: in
+          return_type:
+            name: void
+        - name: startDebugPacketFateMonitoring
+          transaction_code_offset: 20
+          return_type:
+            name: void
+        - name: startRssiMonitoring
+          transaction_code_offset: 21
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: maxRssi
+              type:
+                name: int
+              direction: in
+            - name: minRssi
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: startSendingKeepAlivePackets
+          transaction_code_offset: 22
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: ipPacketData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: etherType
+              type:
+                name: char
+              direction: in
+            - name: srcAddress
+              type:
+                name: byte
+                is_array: true
+                fixed_size: "6"
+              direction: in
+            - name: dstAddress
+              type:
+                name: byte
+                is_array: true
+                fixed_size: "6"
+              direction: in
+            - name: periodInMs
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: stopBackgroundScan
+          transaction_code_offset: 23
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: stopRssiMonitoring
+          transaction_code_offset: 24
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: stopSendingKeepAlivePackets
+          transaction_code_offset: 25
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setDtimMultiplier
+          transaction_code_offset: 26
+          params:
+            - name: multiplier
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getCachedScanData
+          transaction_code_offset: 27
+          return_type:
+            name: CachedScanData
+        - name: twtGetCapabilities
+          transaction_code_offset: 28
+          return_type:
+            name: TwtCapabilities
+        - name: twtSessionSetup
+          transaction_code_offset: 29
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: twtRequest
+              type:
+                name: TwtRequest
+              direction: in
+          return_type:
+            name: void
+        - name: twtSessionUpdate
+          transaction_code_offset: 30
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: sessionId
+              type:
+                name: int
+              direction: in
+            - name: twtRequest
+              type:
+                name: TwtRequest
+              direction: in
+          return_type:
+            name: void
+        - name: twtSessionSuspend
+          transaction_code_offset: 31
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: sessionId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: twtSessionResume
+          transaction_code_offset: 32
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: sessionId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: twtSessionTeardown
+          transaction_code_offset: 33
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: sessionId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: twtSessionGetStats
+          transaction_code_offset: 34
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: sessionId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IWifiStaIfaceEventCallback
+      descriptor: android.hardware.wifi.IWifiStaIfaceEventCallback
+      oneway: true
+      methods:
+        - name: onBackgroundFullScanResult
+          transaction_code_offset: 0
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: bucketsScanned
+              type:
+                name: int
+              direction: in
+            - name: result
+              type:
+                name: StaScanResult
+              direction: in
+          return_type:
+            name: void
+        - name: onBackgroundScanFailure
+          transaction_code_offset: 1
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onBackgroundScanResults
+          transaction_code_offset: 2
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: scanDatas
+              type:
+                name: StaScanData
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onRssiThresholdBreached
+          transaction_code_offset: 3
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: currBssid
+              type:
+                name: byte
+                is_array: true
+                fixed_size: "6"
+              direction: in
+            - name: currRssi
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onTwtFailure
+          transaction_code_offset: 4
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: error
+              type:
+                name: TwtErrorCode
+              direction: in
+          return_type:
+            name: void
+        - name: onTwtSessionCreate
+          transaction_code_offset: 5
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: twtSession
+              type:
+                name: TwtSession
+              direction: in
+          return_type:
+            name: void
+        - name: onTwtSessionUpdate
+          transaction_code_offset: 6
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: twtSession
+              type:
+                name: TwtSession
+              direction: in
+          return_type:
+            name: void
+        - name: onTwtSessionTeardown
+          transaction_code_offset: 7
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: twtSessionId
+              type:
+                name: int
+              direction: in
+            - name: reasonCode
+              type:
+                name: TwtTeardownReasonCode
+              direction: in
+          return_type:
+            name: void
+        - name: onTwtSessionStats
+          transaction_code_offset: 8
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: twtSessionId
+              type:
+                name: int
+              direction: in
+            - name: twtSessionStats
+              type:
+                name: TwtSessionStats
+              direction: in
+          return_type:
+            name: void
+        - name: onTwtSessionSuspend
+          transaction_code_offset: 9
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: twtSessionId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onTwtSessionResume
+          transaction_code_offset: 10
+          params:
+            - name: cmdId
+              type:
+                name: int
+              direction: in
+            - name: twtSessionId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: AfcChannelAllowance
+      fields:
+        - name: availableAfcFrequencyInfos
+          type:
+            name: AvailableAfcFrequencyInfo
+            is_array: true
+        - name: availableAfcChannelInfos
+          type:
+            name: AvailableAfcChannelInfo
+            is_array: true
+        - name: availabilityExpireTimeMs
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: AvailableAfcChannelInfo
+      fields:
+        - name: globalOperatingClass
+          type:
+            name: int
+        - name: channelCfi
+          type:
+            name: int
+        - name: maxEirpDbm
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: AvailableAfcFrequencyInfo
+      fields:
+        - name: startFrequencyMhz
+          type:
+            name: int
+        - name: endFrequencyMhz
+          type:
+            name: int
+        - name: maxPsd
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: CachedScanData
+      fields:
+        - name: scannedFrequenciesMhz
+          type:
+            name: int
+            is_array: true
+        - name: cachedScanResults
+          type:
+            name: CachedScanResult
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: CachedScanResult
+      fields:
+        - name: timeStampInUs
+          type:
+            name: long
+        - name: ssid
+          type:
+            name: byte
+            is_array: true
+        - name: bssid
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: rssiDbm
+          type:
+            name: int
+        - name: frequencyMhz
+          type:
+            name: int
+        - name: channelWidthMhz
+          type:
+            name: WifiChannelWidthInMhz
+        - name: preambleType
+          type:
+            name: WifiRatePreamble
+      annotations:
+        - VintfStability
+    - name: IWifiChip.ChipConcurrencyCombination
+      fields:
+        - name: limits
+          type:
+            name: ChipConcurrencyCombinationLimit
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: IWifiChip.ChipConcurrencyCombinationLimit
+      fields:
+        - name: types
+          type:
+            name: IfaceConcurrencyType
+            is_array: true
+        - name: maxIfaces
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: IWifiChip.ChipDebugInfo
+      fields:
+        - name: driverDescription
+          type:
+            name: String
+        - name: firmwareDescription
+          type:
+            name: String
+      annotations:
+        - VintfStability
+    - name: IWifiChip.ChipIfaceCombination
+      fields:
+        - name: limits
+          type:
+            name: ChipIfaceCombinationLimit
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: IWifiChip.ChipIfaceCombinationLimit
+      fields:
+        - name: types
+          type:
+            name: IfaceType
+            is_array: true
+        - name: maxIfaces
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: IWifiChip.ChipMode
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: availableCombinations
+          type:
+            name: ChipConcurrencyCombination
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: IWifiChip.CoexUnsafeChannel
+      fields:
+        - name: band
+          type:
+            name: WifiBand
+        - name: channel
+          type:
+            name: int
+        - name: powerCapDbm
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: IWifiChipEventCallback.IfaceInfo
+      fields:
+        - name: name
+          type:
+            name: String
+        - name: channel
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: IWifiChipEventCallback.RadioModeInfo
+      fields:
+        - name: radioId
+          type:
+            name: int
+        - name: bandInfo
+          type:
+            name: WifiBand
+        - name: ifaceInfos
+          type:
+            name: IfaceInfo
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: MacAddress
+      fields:
+        - name: data
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+      annotations:
+        - VintfStability
+    - name: NanBandSpecificConfig
+      fields:
+        - name: rssiClose
+          type:
+            name: byte
+        - name: rssiMiddle
+          type:
+            name: byte
+        - name: rssiCloseProximity
+          type:
+            name: byte
+        - name: dwellTimeMs
+          type:
+            name: char
+        - name: scanPeriodSec
+          type:
+            name: char
+        - name: validDiscoveryWindowIntervalVal
+          type:
+            name: boolean
+        - name: discoveryWindowIntervalVal
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+    - name: NanBootstrappingConfirmInd
+      fields:
+        - name: bootstrappingInstanceId
+          type:
+            name: int
+        - name: responseCode
+          type:
+            name: NanBootstrappingResponseCode
+        - name: reasonCode
+          type:
+            name: NanStatus
+        - name: comeBackDelay
+          type:
+            name: int
+        - name: cookie
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: NanBootstrappingRequest
+      fields:
+        - name: peerId
+          type:
+            name: int
+        - name: peerDiscMacAddr
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: requestBootstrappingMethod
+          type:
+            name: NanBootstrappingMethod
+        - name: cookie
+          type:
+            name: byte
+            is_array: true
+        - name: isComeback
+          type:
+            name: boolean
+        - name: discoverySessionId
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+    - name: NanBootstrappingRequestInd
+      fields:
+        - name: discoverySessionId
+          type:
+            name: byte
+        - name: peerId
+          type:
+            name: int
+        - name: peerDiscMacAddr
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: bootstrappingInstanceId
+          type:
+            name: int
+        - name: requestBootstrappingMethod
+          type:
+            name: NanBootstrappingMethod
+      annotations:
+        - VintfStability
+    - name: NanBootstrappingResponse
+      fields:
+        - name: bootstrappingInstanceId
+          type:
+            name: int
+        - name: acceptRequest
+          type:
+            name: boolean
+        - name: discoverySessionId
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+    - name: NanCapabilities
+      fields:
+        - name: maxConcurrentClusters
+          type:
+            name: int
+        - name: maxPublishes
+          type:
+            name: int
+        - name: maxSubscribes
+          type:
+            name: int
+        - name: maxServiceNameLen
+          type:
+            name: int
+        - name: maxMatchFilterLen
+          type:
+            name: int
+        - name: maxTotalMatchFilterLen
+          type:
+            name: int
+        - name: maxServiceSpecificInfoLen
+          type:
+            name: int
+        - name: maxExtendedServiceSpecificInfoLen
+          type:
+            name: int
+        - name: maxNdiInterfaces
+          type:
+            name: int
+        - name: maxNdpSessions
+          type:
+            name: int
+        - name: maxAppInfoLen
+          type:
+            name: int
+        - name: maxQueuedTransmitFollowupMsgs
+          type:
+            name: int
+        - name: maxSubscribeInterfaceAddresses
+          type:
+            name: int
+        - name: supportedCipherSuites
+          type:
+            name: int
+        - name: instantCommunicationModeSupportFlag
+          type:
+            name: boolean
+        - name: supports6g
+          type:
+            name: boolean
+        - name: supportsHe
+          type:
+            name: boolean
+        - name: supportsPairing
+          type:
+            name: boolean
+        - name: supportsSetClusterId
+          type:
+            name: boolean
+        - name: supportsSuspension
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: NanClusterEventInd
+      fields:
+        - name: eventType
+          type:
+            name: NanClusterEventType
+        - name: addr
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+      annotations:
+        - VintfStability
+    - name: NanConfigRequest
+      fields:
+        - name: masterPref
+          type:
+            name: byte
+        - name: disableDiscoveryAddressChangeIndication
+          type:
+            name: boolean
+        - name: disableStartedClusterIndication
+          type:
+            name: boolean
+        - name: disableJoinedClusterIndication
+          type:
+            name: boolean
+        - name: includePublishServiceIdsInBeacon
+          type:
+            name: boolean
+        - name: numberOfPublishServiceIdsInBeacon
+          type:
+            name: byte
+        - name: includeSubscribeServiceIdsInBeacon
+          type:
+            name: boolean
+        - name: numberOfSubscribeServiceIdsInBeacon
+          type:
+            name: byte
+        - name: rssiWindowSize
+          type:
+            name: char
+        - name: macAddressRandomizationIntervalSec
+          type:
+            name: int
+        - name: bandSpecificConfig
+          type:
+            name: NanBandSpecificConfig
+            is_array: true
+            fixed_size: "3"
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: NanConfigRequestSupplemental
+      fields:
+        - name: discoveryBeaconIntervalMs
+          type:
+            name: int
+        - name: numberOfSpatialStreamsInDiscovery
+          type:
+            name: int
+        - name: enableDiscoveryWindowEarlyTermination
+          type:
+            name: boolean
+        - name: enableRanging
+          type:
+            name: boolean
+        - name: enableInstantCommunicationMode
+          type:
+            name: boolean
+        - name: instantModeChannel
+          type:
+            name: int
+        - name: clusterId
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: NanDataPathChannelInfo
+      fields:
+        - name: channelFreq
+          type:
+            name: int
+        - name: channelBandwidth
+          type:
+            name: WifiChannelWidthInMhz
+        - name: numSpatialStreams
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: NanDataPathConfirmInd
+      fields:
+        - name: ndpInstanceId
+          type:
+            name: int
+        - name: dataPathSetupSuccess
+          type:
+            name: boolean
+        - name: peerNdiMacAddr
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: appInfo
+          type:
+            name: byte
+            is_array: true
+        - name: status
+          type:
+            name: NanStatus
+        - name: channelInfo
+          type:
+            name: NanDataPathChannelInfo
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: NanDataPathRequestInd
+      fields:
+        - name: discoverySessionId
+          type:
+            name: byte
+        - name: peerDiscMacAddr
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: ndpInstanceId
+          type:
+            name: int
+        - name: securityRequired
+          type:
+            name: boolean
+        - name: appInfo
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: NanDataPathScheduleUpdateInd
+      fields:
+        - name: peerDiscoveryAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: channelInfo
+          type:
+            name: NanDataPathChannelInfo
+            is_array: true
+        - name: ndpInstanceIds
+          type:
+            name: int
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: NanDataPathSecurityConfig
+      fields:
+        - name: securityType
+          type:
+            name: NanDataPathSecurityType
+        - name: cipherType
+          type:
+            name: NanCipherSuiteType
+        - name: pmk
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "32"
+        - name: passphrase
+          type:
+            name: byte
+            is_array: true
+        - name: scid
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "16"
+        - name: enable16ReplyCountersForTksa
+          type:
+            name: boolean
+        - name: enable16ReplyCountersForGtksa
+          type:
+            name: boolean
+        - name: supportGtkAndIgtk
+          type:
+            name: boolean
+        - name: supportBigtksa
+          type:
+            name: boolean
+        - name: enableNcsBip256
+          type:
+            name: boolean
+        - name: requiresEnhancedFrameProtection
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: NanDebugConfig
+      fields:
+        - name: validClusterIdVals
+          type:
+            name: boolean
+        - name: clusterIdBottomRangeVal
+          type:
+            name: char
+        - name: clusterIdTopRangeVal
+          type:
+            name: char
+        - name: validIntfAddrVal
+          type:
+            name: boolean
+        - name: intfAddrVal
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: validOuiVal
+          type:
+            name: boolean
+        - name: ouiVal
+          type:
+            name: int
+        - name: validRandomFactorForceVal
+          type:
+            name: boolean
+        - name: randomFactorForceVal
+          type:
+            name: byte
+        - name: validHopCountForceVal
+          type:
+            name: boolean
+        - name: hopCountForceVal
+          type:
+            name: byte
+        - name: validDiscoveryChannelVal
+          type:
+            name: boolean
+        - name: discoveryChannelMhzVal
+          type:
+            name: int
+            is_array: true
+            fixed_size: "3"
+        - name: validUseBeaconsInBandVal
+          type:
+            name: boolean
+        - name: useBeaconsInBandVal
+          type:
+            name: boolean
+            is_array: true
+            fixed_size: "3"
+        - name: validUseSdfInBandVal
+          type:
+            name: boolean
+        - name: useSdfInBandVal
+          type:
+            name: boolean
+            is_array: true
+            fixed_size: "3"
+      annotations:
+        - VintfStability
+    - name: NanDiscoveryCommonConfig
+      fields:
+        - name: sessionId
+          type:
+            name: byte
+        - name: ttlSec
+          type:
+            name: char
+        - name: discoveryWindowPeriod
+          type:
+            name: char
+        - name: discoveryCount
+          type:
+            name: byte
+        - name: serviceName
+          type:
+            name: byte
+            is_array: true
+        - name: discoveryMatchIndicator
+          type:
+            name: NanMatchAlg
+        - name: serviceSpecificInfo
+          type:
+            name: byte
+            is_array: true
+        - name: extendedServiceSpecificInfo
+          type:
+            name: byte
+            is_array: true
+        - name: rxMatchFilter
+          type:
+            name: byte
+            is_array: true
+        - name: txMatchFilter
+          type:
+            name: byte
+            is_array: true
+        - name: useRssiThreshold
+          type:
+            name: boolean
+        - name: disableDiscoveryTerminationIndication
+          type:
+            name: boolean
+        - name: disableMatchExpirationIndication
+          type:
+            name: boolean
+        - name: disableFollowupReceivedIndication
+          type:
+            name: boolean
+        - name: securityConfig
+          type:
+            name: NanDataPathSecurityConfig
+        - name: rangingRequired
+          type:
+            name: boolean
+        - name: rangingIntervalMs
+          type:
+            name: int
+        - name: configRangingIndications
+          type:
+            name: int
+        - name: distanceIngressCm
+          type:
+            name: char
+        - name: distanceEgressCm
+          type:
+            name: char
+        - name: enableSessionSuspendability
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: NanEnableRequest
+      fields:
+        - name: operateInBand
+          type:
+            name: boolean
+            is_array: true
+            fixed_size: "3"
+        - name: hopCountMax
+          type:
+            name: byte
+        - name: configParams
+          type:
+            name: NanConfigRequest
+        - name: debugConfigs
+          type:
+            name: NanDebugConfig
+      annotations:
+        - VintfStability
+    - name: NanFollowupReceivedInd
+      fields:
+        - name: discoverySessionId
+          type:
+            name: byte
+        - name: peerId
+          type:
+            name: int
+        - name: addr
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: receivedInFaw
+          type:
+            name: boolean
+        - name: serviceSpecificInfo
+          type:
+            name: byte
+            is_array: true
+        - name: extendedServiceSpecificInfo
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: NanIdentityResolutionAttribute
+      fields:
+        - name: nonce
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "8"
+        - name: tag
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "8"
+      annotations:
+        - VintfStability
+    - name: NanInitiateDataPathRequest
+      fields:
+        - name: peerId
+          type:
+            name: int
+        - name: peerDiscMacAddr
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: channelRequestType
+          type:
+            name: NanDataPathChannelCfg
+        - name: channel
+          type:
+            name: int
+        - name: ifaceName
+          type:
+            name: String
+        - name: securityConfig
+          type:
+            name: NanDataPathSecurityConfig
+        - name: appInfo
+          type:
+            name: byte
+            is_array: true
+        - name: serviceNameOutOfBand
+          type:
+            name: byte
+            is_array: true
+        - name: discoverySessionId
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+    - name: NanMatchInd
+      fields:
+        - name: discoverySessionId
+          type:
+            name: byte
+        - name: peerId
+          type:
+            name: int
+        - name: addr
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: serviceSpecificInfo
+          type:
+            name: byte
+            is_array: true
+        - name: extendedServiceSpecificInfo
+          type:
+            name: byte
+            is_array: true
+        - name: matchFilter
+          type:
+            name: byte
+            is_array: true
+        - name: matchOccurredInBeaconFlag
+          type:
+            name: boolean
+        - name: outOfResourceFlag
+          type:
+            name: boolean
+        - name: rssiValue
+          type:
+            name: byte
+        - name: peerCipherType
+          type:
+            name: NanCipherSuiteType
+        - name: peerRequiresSecurityEnabledInNdp
+          type:
+            name: boolean
+        - name: peerRequiresRanging
+          type:
+            name: boolean
+        - name: rangingMeasurementInMm
+          type:
+            name: int
+        - name: rangingIndicationType
+          type:
+            name: int
+        - name: scid
+          type:
+            name: byte
+            is_array: true
+        - name: peerPairingConfig
+          type:
+            name: NanPairingConfig
+        - name: peerNira
+          type:
+            name: NanIdentityResolutionAttribute
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: NanPairingConfig
+      fields:
+        - name: enablePairingSetup
+          type:
+            name: boolean
+        - name: enablePairingCache
+          type:
+            name: boolean
+        - name: enablePairingVerification
+          type:
+            name: boolean
+        - name: supportedBootstrappingMethods
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: NanPairingConfirmInd
+      fields:
+        - name: pairingInstanceId
+          type:
+            name: int
+        - name: pairingSuccess
+          type:
+            name: boolean
+        - name: status
+          type:
+            name: NanStatus
+        - name: requestType
+          type:
+            name: NanPairingRequestType
+        - name: enablePairingCache
+          type:
+            name: boolean
+        - name: npksa
+          type:
+            name: NpkSecurityAssociation
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: NanPairingRequest
+      fields:
+        - name: peerId
+          type:
+            name: int
+        - name: peerDiscMacAddr
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: requestType
+          type:
+            name: NanPairingRequestType
+        - name: enablePairingCache
+          type:
+            name: boolean
+        - name: pairingIdentityKey
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "16"
+        - name: securityConfig
+          type:
+            name: NanPairingSecurityConfig
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: NanPairingRequestInd
+      fields:
+        - name: discoverySessionId
+          type:
+            name: byte
+        - name: peerId
+          type:
+            name: int
+        - name: peerDiscMacAddr
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: pairingInstanceId
+          type:
+            name: int
+        - name: requestType
+          type:
+            name: NanPairingRequestType
+        - name: enablePairingCache
+          type:
+            name: boolean
+        - name: peerNira
+          type:
+            name: NanIdentityResolutionAttribute
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: NanPairingSecurityConfig
+      fields:
+        - name: securityType
+          type:
+            name: NanPairingSecurityType
+        - name: pmk
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "32"
+        - name: passphrase
+          type:
+            name: byte
+            is_array: true
+        - name: akm
+          type:
+            name: NanPairingAkm
+        - name: cipherType
+          type:
+            name: NanCipherSuiteType
+      annotations:
+        - VintfStability
+    - name: NanPublishRequest
+      fields:
+        - name: baseConfigs
+          type:
+            name: NanDiscoveryCommonConfig
+        - name: publishType
+          type:
+            name: NanPublishType
+        - name: txType
+          type:
+            name: NanTxType
+        - name: autoAcceptDataPathRequests
+          type:
+            name: boolean
+        - name: pairingConfig
+          type:
+            name: NanPairingConfig
+        - name: identityKey
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "16"
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: NanRespondToDataPathIndicationRequest
+      fields:
+        - name: acceptRequest
+          type:
+            name: boolean
+        - name: ndpInstanceId
+          type:
+            name: int
+        - name: ifaceName
+          type:
+            name: String
+        - name: securityConfig
+          type:
+            name: NanDataPathSecurityConfig
+        - name: appInfo
+          type:
+            name: byte
+            is_array: true
+        - name: serviceNameOutOfBand
+          type:
+            name: byte
+            is_array: true
+        - name: discoverySessionId
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+    - name: NanRespondToPairingIndicationRequest
+      fields:
+        - name: acceptRequest
+          type:
+            name: boolean
+        - name: pairingInstanceId
+          type:
+            name: int
+        - name: requestType
+          type:
+            name: NanPairingRequestType
+        - name: enablePairingCache
+          type:
+            name: boolean
+        - name: pairingIdentityKey
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "16"
+        - name: securityConfig
+          type:
+            name: NanPairingSecurityConfig
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: NanStatus
+      fields:
+        - name: status
+          type:
+            name: NanStatusCode
+        - name: description
+          type:
+            name: String
+      annotations:
+        - VintfStability
+    - name: NanSubscribeRequest
+      fields:
+        - name: baseConfigs
+          type:
+            name: NanDiscoveryCommonConfig
+        - name: subscribeType
+          type:
+            name: NanSubscribeType
+        - name: srfType
+          type:
+            name: NanSrfType
+        - name: srfRespondIfInAddressSet
+          type:
+            name: boolean
+        - name: shouldUseSrf
+          type:
+            name: boolean
+        - name: isSsiRequiredForMatch
+          type:
+            name: boolean
+        - name: intfAddr
+          type:
+            name: MacAddress
+            is_array: true
+        - name: pairingConfig
+          type:
+            name: NanPairingConfig
+        - name: identityKey
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "16"
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: NanSuspensionModeChangeInd
+      fields:
+        - name: isSuspended
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: NanTransmitFollowupRequest
+      fields:
+        - name: discoverySessionId
+          type:
+            name: byte
+        - name: peerId
+          type:
+            name: int
+        - name: addr
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: isHighPriority
+          type:
+            name: boolean
+        - name: shouldUseDiscoveryWindow
+          type:
+            name: boolean
+        - name: serviceSpecificInfo
+          type:
+            name: byte
+            is_array: true
+        - name: extendedServiceSpecificInfo
+          type:
+            name: byte
+            is_array: true
+        - name: disableFollowupResultIndication
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: NpkSecurityAssociation
+      fields:
+        - name: peerNanIdentityKey
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "16"
+        - name: localNanIdentityKey
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "16"
+        - name: npk
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "32"
+        - name: akm
+          type:
+            name: NanPairingAkm
+        - name: cipherType
+          type:
+            name: NanCipherSuiteType
+      annotations:
+        - VintfStability
+    - name: RttCapabilities
+      fields:
+        - name: rttOneSidedSupported
+          type:
+            name: boolean
+        - name: rttFtmSupported
+          type:
+            name: boolean
+        - name: lciSupported
+          type:
+            name: boolean
+        - name: lcrSupported
+          type:
+            name: boolean
+        - name: responderSupported
+          type:
+            name: boolean
+        - name: preambleSupport
+          type:
+            name: RttPreamble
+        - name: bwSupport
+          type:
+            name: RttBw
+        - name: mcVersion
+          type:
+            name: byte
+        - name: azPreambleSupport
+          type:
+            name: int
+        - name: azBwSupport
+          type:
+            name: int
+        - name: ntbInitiatorSupported
+          type:
+            name: boolean
+        - name: ntbResponderSupported
+          type:
+            name: boolean
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: RttConfig
+      fields:
+        - name: addr
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: type
+          type:
+            name: RttType
+        - name: peer
+          type:
+            name: RttPeerType
+        - name: channel
+          type:
+            name: WifiChannelInfo
+        - name: burstPeriod
+          type:
+            name: int
+        - name: numBurst
+          type:
+            name: int
+        - name: numFramesPerBurst
+          type:
+            name: int
+        - name: numRetriesPerRttFrame
+          type:
+            name: int
+        - name: numRetriesPerFtmr
+          type:
+            name: int
+        - name: mustRequestLci
+          type:
+            name: boolean
+        - name: mustRequestLcr
+          type:
+            name: boolean
+        - name: burstDuration
+          type:
+            name: int
+        - name: preamble
+          type:
+            name: RttPreamble
+        - name: bw
+          type:
+            name: RttBw
+        - name: ntbMinMeasurementTime
+          type:
+            name: long
+        - name: ntbMaxMeasurementTime
+          type:
+            name: long
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: RttLciInformation
+      fields:
+        - name: latitude
+          type:
+            name: long
+        - name: longitude
+          type:
+            name: long
+        - name: altitude
+          type:
+            name: int
+        - name: latitudeUnc
+          type:
+            name: byte
+        - name: longitudeUnc
+          type:
+            name: byte
+        - name: altitudeUnc
+          type:
+            name: byte
+        - name: motionPattern
+          type:
+            name: RttMotionPattern
+        - name: floor
+          type:
+            name: int
+        - name: heightAboveFloor
+          type:
+            name: int
+        - name: heightUnc
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: RttLcrInformation
+      fields:
+        - name: countryCode
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "2"
+        - name: civicInfo
+          type:
+            name: String
+      annotations:
+        - VintfStability
+    - name: RttResponder
+      fields:
+        - name: channel
+          type:
+            name: WifiChannelInfo
+        - name: preamble
+          type:
+            name: RttPreamble
+      annotations:
+        - VintfStability
+    - name: RttResult
+      fields:
+        - name: addr
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: burstNum
+          type:
+            name: int
+        - name: measurementNumber
+          type:
+            name: int
+        - name: successNumber
+          type:
+            name: int
+        - name: numberPerBurstPeer
+          type:
+            name: byte
+        - name: status
+          type:
+            name: RttStatus
+        - name: retryAfterDuration
+          type:
+            name: byte
+        - name: type
+          type:
+            name: RttType
+        - name: rssi
+          type:
+            name: int
+        - name: rssiSpread
+          type:
+            name: int
+        - name: txRate
+          type:
+            name: WifiRateInfo
+        - name: rxRate
+          type:
+            name: WifiRateInfo
+        - name: rtt
+          type:
+            name: long
+        - name: rttSd
+          type:
+            name: long
+        - name: rttSpread
+          type:
+            name: long
+        - name: distanceInMm
+          type:
+            name: int
+        - name: distanceSdInMm
+          type:
+            name: int
+        - name: distanceSpreadInMm
+          type:
+            name: int
+        - name: timeStampInUs
+          type:
+            name: long
+        - name: burstDurationInMs
+          type:
+            name: int
+        - name: negotiatedBurstNum
+          type:
+            name: int
+        - name: lci
+          type:
+            name: WifiInformationElement
+        - name: lcr
+          type:
+            name: WifiInformationElement
+        - name: channelFreqMHz
+          type:
+            name: int
+        - name: packetBw
+          type:
+            name: RttBw
+        - name: i2rTxLtfRepetitionCount
+          type:
+            name: byte
+        - name: r2iTxLtfRepetitionCount
+          type:
+            name: byte
+        - name: ntbMinMeasurementTime
+          type:
+            name: long
+        - name: ntbMaxMeasurementTime
+          type:
+            name: long
+        - name: numTxSpatialStreams
+          type:
+            name: byte
+        - name: numRxSpatialStreams
+          type:
+            name: byte
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: Ssid
+      fields:
+        - name: data
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "32"
+      annotations:
+        - VintfStability
+    - name: StaApfPacketFilterCapabilities
+      fields:
+        - name: version
+          type:
+            name: int
+        - name: maxLength
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: StaBackgroundScanBucketParameters
+      fields:
+        - name: bucketIdx
+          type:
+            name: int
+        - name: band
+          type:
+            name: WifiBand
+        - name: frequencies
+          type:
+            name: int
+            is_array: true
+        - name: periodInMs
+          type:
+            name: int
+        - name: eventReportScheme
+          type:
+            name: int
+        - name: exponentialMaxPeriodInMs
+          type:
+            name: int
+        - name: exponentialBase
+          type:
+            name: int
+        - name: exponentialStepCount
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: StaBackgroundScanCapabilities
+      fields:
+        - name: maxCacheSize
+          type:
+            name: int
+        - name: maxBuckets
+          type:
+            name: int
+        - name: maxApCachePerScan
+          type:
+            name: int
+        - name: maxReportingThreshold
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: StaBackgroundScanParameters
+      fields:
+        - name: basePeriodInMs
+          type:
+            name: int
+        - name: maxApPerScan
+          type:
+            name: int
+        - name: reportThresholdPercent
+          type:
+            name: int
+        - name: reportThresholdNumScans
+          type:
+            name: int
+        - name: buckets
+          type:
+            name: StaBackgroundScanBucketParameters
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: StaLinkLayerIfaceContentionTimeStats
+      fields:
+        - name: contentionTimeMinInUsec
+          type:
+            name: int
+        - name: contentionTimeMaxInUsec
+          type:
+            name: int
+        - name: contentionTimeAvgInUsec
+          type:
+            name: int
+        - name: contentionNumSamples
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: StaLinkLayerIfacePacketStats
+      fields:
+        - name: rxMpdu
+          type:
+            name: long
+        - name: txMpdu
+          type:
+            name: long
+        - name: lostMpdu
+          type:
+            name: long
+        - name: retries
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: StaLinkLayerIfaceStats
+      fields:
+        - name: links
+          type:
+            name: StaLinkLayerLinkStats
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: StaLinkLayerLinkStats
+      fields:
+        - name: linkId
+          type:
+            name: int
+        - name: radioId
+          type:
+            name: int
+        - name: frequencyMhz
+          type:
+            name: int
+        - name: beaconRx
+          type:
+            name: int
+        - name: avgRssiMgmt
+          type:
+            name: int
+        - name: wmeBePktStats
+          type:
+            name: StaLinkLayerIfacePacketStats
+        - name: wmeBkPktStats
+          type:
+            name: StaLinkLayerIfacePacketStats
+        - name: wmeViPktStats
+          type:
+            name: StaLinkLayerIfacePacketStats
+        - name: wmeVoPktStats
+          type:
+            name: StaLinkLayerIfacePacketStats
+        - name: timeSliceDutyCycleInPercent
+          type:
+            name: byte
+        - name: wmeBeContentionTimeStats
+          type:
+            name: StaLinkLayerIfaceContentionTimeStats
+        - name: wmeBkContentionTimeStats
+          type:
+            name: StaLinkLayerIfaceContentionTimeStats
+        - name: wmeViContentionTimeStats
+          type:
+            name: StaLinkLayerIfaceContentionTimeStats
+        - name: wmeVoContentionTimeStats
+          type:
+            name: StaLinkLayerIfaceContentionTimeStats
+        - name: peers
+          type:
+            name: StaPeerInfo
+            is_array: true
+        - name: state
+          type:
+            name: StaLinkState
+      nested_types:
+        - StaLinkLayerLinkStats.StaLinkState
+      annotations:
+        - VintfStability
+    - name: StaLinkLayerRadioStats
+      fields:
+        - name: onTimeInMs
+          type:
+            name: int
+        - name: txTimeInMs
+          type:
+            name: int
+        - name: txTimeInMsPerLevel
+          type:
+            name: int
+            is_array: true
+        - name: rxTimeInMs
+          type:
+            name: int
+        - name: onTimeInMsForScan
+          type:
+            name: int
+        - name: onTimeInMsForNanScan
+          type:
+            name: int
+        - name: onTimeInMsForBgScan
+          type:
+            name: int
+        - name: onTimeInMsForRoamScan
+          type:
+            name: int
+        - name: onTimeInMsForPnoScan
+          type:
+            name: int
+        - name: onTimeInMsForHs20Scan
+          type:
+            name: int
+        - name: channelStats
+          type:
+            name: WifiChannelStats
+            is_array: true
+        - name: radioId
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: StaLinkLayerStats
+      fields:
+        - name: iface
+          type:
+            name: StaLinkLayerIfaceStats
+        - name: radios
+          type:
+            name: StaLinkLayerRadioStats
+            is_array: true
+        - name: timeStampInMs
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: StaPeerInfo
+      fields:
+        - name: staCount
+          type:
+            name: char
+        - name: chanUtil
+          type:
+            name: char
+        - name: rateStats
+          type:
+            name: StaRateStat
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: StaRateStat
+      fields:
+        - name: rateInfo
+          type:
+            name: WifiRateInfo
+        - name: txMpdu
+          type:
+            name: int
+        - name: rxMpdu
+          type:
+            name: int
+        - name: mpduLost
+          type:
+            name: int
+        - name: retries
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: StaRoamingCapabilities
+      fields:
+        - name: maxBlocklistSize
+          type:
+            name: int
+        - name: maxAllowlistSize
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: StaRoamingConfig
+      fields:
+        - name: bssidBlocklist
+          type:
+            name: MacAddress
+            is_array: true
+        - name: ssidAllowlist
+          type:
+            name: Ssid
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: StaScanData
+      fields:
+        - name: flags
+          type:
+            name: int
+        - name: bucketsScanned
+          type:
+            name: int
+        - name: results
+          type:
+            name: StaScanResult
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: StaScanResult
+      fields:
+        - name: timeStampInUs
+          type:
+            name: long
+        - name: ssid
+          type:
+            name: byte
+            is_array: true
+        - name: bssid
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: rssi
+          type:
+            name: int
+        - name: frequency
+          type:
+            name: int
+        - name: beaconPeriodInMs
+          type:
+            name: char
+        - name: capability
+          type:
+            name: char
+        - name: informationElements
+          type:
+            name: WifiInformationElement
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: TwtCapabilities
+      fields:
+        - name: isTwtRequesterSupported
+          type:
+            name: boolean
+        - name: isTwtResponderSupported
+          type:
+            name: boolean
+        - name: isBroadcastTwtSupported
+          type:
+            name: boolean
+        - name: isFlexibleTwtScheduleSupported
+          type:
+            name: boolean
+        - name: minWakeDurationUs
+          type:
+            name: int
+        - name: maxWakeDurationUs
+          type:
+            name: int
+        - name: minWakeIntervalUs
+          type:
+            name: long
+        - name: maxWakeIntervalUs
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: TwtRequest
+      fields:
+        - name: mloLinkId
+          type:
+            name: int
+        - name: minWakeDurationUs
+          type:
+            name: int
+        - name: maxWakeDurationUs
+          type:
+            name: int
+        - name: minWakeIntervalUs
+          type:
+            name: long
+        - name: maxWakeIntervalUs
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: TwtSession
+      fields:
+        - name: sessionId
+          type:
+            name: int
+        - name: mloLinkId
+          type:
+            name: int
+        - name: wakeDurationUs
+          type:
+            name: int
+        - name: wakeIntervalUs
+          type:
+            name: long
+        - name: negotiationType
+          type:
+            name: TwtNegotiationType
+        - name: isTriggerEnabled
+          type:
+            name: boolean
+        - name: isAnnounced
+          type:
+            name: boolean
+        - name: isImplicit
+          type:
+            name: boolean
+        - name: isProtected
+          type:
+            name: boolean
+        - name: isUpdatable
+          type:
+            name: boolean
+        - name: isSuspendable
+          type:
+            name: boolean
+        - name: isResponderPmModeEnabled
+          type:
+            name: boolean
+      nested_types:
+        - TwtSession.TwtNegotiationType
+      annotations:
+        - VintfStability
+    - name: TwtSessionStats
+      fields:
+        - name: avgTxPktCount
+          type:
+            name: int
+        - name: avgRxPktCount
+          type:
+            name: int
+        - name: avgTxPktSize
+          type:
+            name: int
+        - name: avgRxPktSize
+          type:
+            name: int
+        - name: avgEospDurationUs
+          type:
+            name: int
+        - name: eospCount
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: WifiChannelInfo
+      fields:
+        - name: width
+          type:
+            name: WifiChannelWidthInMhz
+        - name: centerFreq
+          type:
+            name: int
+        - name: centerFreq0
+          type:
+            name: int
+        - name: centerFreq1
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: WifiChannelStats
+      fields:
+        - name: channel
+          type:
+            name: WifiChannelInfo
+        - name: onTimeInMs
+          type:
+            name: int
+        - name: ccaBusyTimeInMs
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: WifiChipCapabilities
+      fields:
+        - name: maxMloAssociationLinkCount
+          type:
+            name: int
+        - name: maxMloStrLinkCount
+          type:
+            name: int
+        - name: maxConcurrentTdlsSessionCount
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: WifiDebugHostWakeReasonRxIcmpPacketDetails
+      fields:
+        - name: icmpPkt
+          type:
+            name: int
+        - name: icmp6Pkt
+          type:
+            name: int
+        - name: icmp6Ra
+          type:
+            name: int
+        - name: icmp6Na
+          type:
+            name: int
+        - name: icmp6Ns
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: WifiDebugHostWakeReasonRxMulticastPacketDetails
+      fields:
+        - name: ipv4RxMulticastAddrCnt
+          type:
+            name: int
+        - name: ipv6RxMulticastAddrCnt
+          type:
+            name: int
+        - name: otherRxMulticastAddrCnt
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: WifiDebugHostWakeReasonRxPacketDetails
+      fields:
+        - name: rxUnicastCnt
+          type:
+            name: int
+        - name: rxMulticastCnt
+          type:
+            name: int
+        - name: rxBroadcastCnt
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: WifiDebugHostWakeReasonStats
+      fields:
+        - name: totalCmdEventWakeCnt
+          type:
+            name: int
+        - name: cmdEventWakeCntPerType
+          type:
+            name: int
+            is_array: true
+        - name: totalDriverFwLocalWakeCnt
+          type:
+            name: int
+        - name: driverFwLocalWakeCntPerType
+          type:
+            name: int
+            is_array: true
+        - name: totalRxPacketWakeCnt
+          type:
+            name: int
+        - name: rxPktWakeDetails
+          type:
+            name: WifiDebugHostWakeReasonRxPacketDetails
+        - name: rxMulticastPkWakeDetails
+          type:
+            name: WifiDebugHostWakeReasonRxMulticastPacketDetails
+        - name: rxIcmpPkWakeDetails
+          type:
+            name: WifiDebugHostWakeReasonRxIcmpPacketDetails
+      annotations:
+        - VintfStability
+    - name: WifiDebugPacketFateFrameInfo
+      fields:
+        - name: frameType
+          type:
+            name: WifiDebugPacketFateFrameType
+        - name: frameLen
+          type:
+            name: long
+        - name: driverTimestampUsec
+          type:
+            name: long
+        - name: firmwareTimestampUsec
+          type:
+            name: long
+        - name: frameContent
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: WifiDebugRingBufferStatus
+      fields:
+        - name: ringName
+          type:
+            name: String
+        - name: flags
+          type:
+            name: int
+        - name: ringId
+          type:
+            name: int
+        - name: sizeInBytes
+          type:
+            name: int
+        - name: freeSizeInBytes
+          type:
+            name: int
+        - name: verboseLevel
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: WifiDebugRxPacketFateReport
+      fields:
+        - name: fate
+          type:
+            name: WifiDebugRxPacketFate
+        - name: frameInfo
+          type:
+            name: WifiDebugPacketFateFrameInfo
+      annotations:
+        - VintfStability
+    - name: WifiDebugTxPacketFateReport
+      fields:
+        - name: fate
+          type:
+            name: WifiDebugTxPacketFate
+        - name: frameInfo
+          type:
+            name: WifiDebugPacketFateFrameInfo
+      annotations:
+        - VintfStability
+    - name: WifiInformationElement
+      fields:
+        - name: id
+          type:
+            name: byte
+        - name: data
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: WifiRadioCombination
+      fields:
+        - name: radioConfigurations
+          type:
+            name: WifiRadioConfiguration
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: WifiRadioConfiguration
+      fields:
+        - name: bandInfo
+          type:
+            name: WifiBand
+        - name: antennaMode
+          type:
+            name: WifiAntennaMode
+      annotations:
+        - VintfStability
+    - name: WifiRateInfo
+      fields:
+        - name: preamble
+          type:
+            name: WifiRatePreamble
+        - name: nss
+          type:
+            name: WifiRateNss
+        - name: bw
+          type:
+            name: WifiChannelWidthInMhz
+        - name: rateMcsIdx
+          type:
+            name: byte
+        - name: bitRateInKbps
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: WifiUsableChannel
+      fields:
+        - name: channel
+          type:
+            name: int
+        - name: channelBandwidth
+          type:
+            name: WifiChannelWidthInMhz
+        - name: ifaceModeMask
+          type:
+            name: int
+      annotations:
+        - VintfStability
+enums:
+    - name: IWifiChip.ChannelCategoryMask
+      backing_type: int
+      values:
+        - name: INDOOR_CHANNEL
+          value: 1 << 0
+        - name: DFS_CHANNEL
+          value: 1 << 1
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IWifiChip.ChipMloMode
+      backing_type: int
+      values:
+        - name: DEFAULT
+          value: "0"
+        - name: LOW_LATENCY
+          value: "1"
+        - name: HIGH_THROUGHPUT
+          value: "2"
+        - name: LOW_POWER
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IWifiChip.CoexRestriction
+      backing_type: int
+      values:
+        - name: WIFI_DIRECT
+          value: 1 << 0
+        - name: SOFTAP
+          value: 1 << 1
+        - name: WIFI_AWARE
+          value: 1 << 2
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IWifiChip.FeatureSetMask
+      backing_type: int
+      values:
+        - name: SET_TX_POWER_LIMIT
+          value: 1 << 0
+        - name: D2D_RTT
+          value: 1 << 1
+        - name: D2AP_RTT
+          value: 1 << 2
+        - name: USE_BODY_HEAD_SAR
+          value: 1 << 3
+        - name: SET_LATENCY_MODE
+          value: 1 << 4
+        - name: P2P_RAND_MAC
+          value: 1 << 5
+        - name: WIGIG
+          value: 1 << 6
+        - name: SET_AFC_CHANNEL_ALLOWANCE
+          value: 1 << 7
+        - name: T2LM_NEGOTIATION
+          value: 1 << 8
+        - name: SET_VOIP_MODE
+          value: 1 << 9
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IWifiChip.LatencyMode
+      backing_type: int
+      values:
+        - name: NORMAL
+          value: "0"
+        - name: LOW
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IWifiChip.MultiStaUseCase
+      backing_type: byte
+      values:
+        - name: DUAL_STA_TRANSIENT_PREFER_PRIMARY
+          value: "0"
+        - name: DUAL_STA_NON_TRANSIENT_UNBIASED
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IWifiChip.TxPowerScenario
+      backing_type: int
+      values:
+        - name: VOICE_CALL
+          value: "0"
+        - name: ON_HEAD_CELL_OFF
+          value: "1"
+        - name: ON_HEAD_CELL_ON
+          value: "2"
+        - name: ON_BODY_CELL_OFF
+          value: "3"
+        - name: ON_BODY_CELL_ON
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IWifiChip.UsableChannelFilter
+      backing_type: int
+      values:
+        - name: CELLULAR_COEXISTENCE
+          value: 1 << 0
+        - name: CONCURRENCY
+          value: 1 << 1
+        - name: NAN_INSTANT_MODE
+          value: 1 << 2
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IWifiChip.VoipMode
+      backing_type: int
+      values:
+        - name: "OFF"
+          value: "0"
+        - name: VOICE
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IWifiStaIface.FeatureSetMask
+      backing_type: int
+      values:
+        - name: APF
+          value: 1 << 0
+        - name: BACKGROUND_SCAN
+          value: 1 << 1
+        - name: LINK_LAYER_STATS
+          value: 1 << 2
+        - name: RSSI_MONITOR
+          value: 1 << 3
+        - name: CONTROL_ROAMING
+          value: 1 << 4
+        - name: PROBE_IE_ALLOWLIST
+          value: 1 << 5
+        - name: SCAN_RAND
+          value: 1 << 6
+        - name: STA_5G
+          value: 1 << 7
+        - name: HOTSPOT
+          value: 1 << 8
+        - name: PNO
+          value: 1 << 9
+        - name: TDLS
+          value: 1 << 10
+        - name: TDLS_OFFCHANNEL
+          value: 1 << 11
+        - name: ND_OFFLOAD
+          value: 1 << 12
+        - name: KEEP_ALIVE
+          value: 1 << 13
+        - name: ROAMING_MODE_CONTROL
+          value: 1 << 14
+        - name: CACHED_SCAN_DATA
+          value: 1 << 15
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IWifiStaIfaceEventCallback.TwtErrorCode
+      backing_type: byte
+      values:
+        - name: FAILURE_UNKNOWN
+          value: ""
+        - name: ALREADY_RESUMED
+          value: ""
+        - name: ALREADY_SUSPENDED
+          value: ""
+        - name: INVALID_PARAMS
+          value: ""
+        - name: MAX_SESSION_REACHED
+          value: ""
+        - name: NOT_AVAILABLE
+          value: ""
+        - name: NOT_SUPPORTED
+          value: ""
+        - name: PEER_NOT_SUPPORTED
+          value: ""
+        - name: PEER_REJECTED
+          value: ""
+        - name: TIMEOUT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IWifiStaIfaceEventCallback.TwtTeardownReasonCode
+      backing_type: byte
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: LOCALLY_REQUESTED
+          value: ""
+        - name: INTERNALLY_INITIATED
+          value: ""
+        - name: PEER_INITIATED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IfaceConcurrencyType
+      backing_type: int
+      values:
+        - name: STA
+          value: ""
+        - name: AP
+          value: ""
+        - name: AP_BRIDGED
+          value: ""
+        - name: P2P
+          value: ""
+        - name: NAN_IFACE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IfaceType
+      backing_type: int
+      values:
+        - name: STA
+          value: ""
+        - name: AP
+          value: ""
+        - name: P2P
+          value: ""
+        - name: NAN_IFACE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanBandIndex
+      backing_type: int
+      values:
+        - name: NAN_BAND_24GHZ
+          value: "0"
+        - name: NAN_BAND_5GHZ
+          value: ""
+        - name: NAN_BAND_6GHZ
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanBootstrappingMethod
+      backing_type: int
+      values:
+        - name: BOOTSTRAPPING_OPPORTUNISTIC_MASK
+          value: 1 << 0
+        - name: BOOTSTRAPPING_PIN_CODE_DISPLAY_MASK
+          value: 1 << 1
+        - name: BOOTSTRAPPING_PASSPHRASE_DISPLAY_MASK
+          value: 1 << 2
+        - name: BOOTSTRAPPING_QR_DISPLAY_MASK
+          value: 1 << 3
+        - name: BOOTSTRAPPING_NFC_TAG_MASK
+          value: 1 << 4
+        - name: BOOTSTRAPPING_PIN_CODE_KEYPAD_MASK
+          value: 1 << 5
+        - name: BOOTSTRAPPING_PASSPHRASE_KEYPAD_MASK
+          value: 1 << 6
+        - name: BOOTSTRAPPING_QR_SCAN_MASK
+          value: 1 << 7
+        - name: BOOTSTRAPPING_NFC_READER_MASK
+          value: 1 << 8
+        - name: BOOTSTRAPPING_SERVICE_MANAGED_MASK
+          value: 1 << 14
+        - name: BOOTSTRAPPING_HANDSHAKE_SHIP_MASK
+          value: 1 << 15
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanBootstrappingResponseCode
+      backing_type: int
+      values:
+        - name: NAN_BOOTSTRAPPING_REQUEST_ACCEPT
+          value: "0"
+        - name: NAN_BOOTSTRAPPING_REQUEST_REJECT
+          value: ""
+        - name: NAN_BOOTSTRAPPING_REQUEST_COMEBACK
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanCipherSuiteType
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: SHARED_KEY_128_MASK
+          value: 1 << 0
+        - name: SHARED_KEY_256_MASK
+          value: 1 << 1
+        - name: PUBLIC_KEY_2WDH_128_MASK
+          value: 1 << 2
+        - name: PUBLIC_KEY_2WDH_256_MASK
+          value: 1 << 3
+        - name: PUBLIC_KEY_PASN_128_MASK
+          value: 1 << 6
+        - name: PUBLIC_KEY_PASN_256_MASK
+          value: 1 << 7
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanClusterEventType
+      backing_type: int
+      values:
+        - name: DISCOVERY_MAC_ADDRESS_CHANGED
+          value: "0"
+        - name: STARTED_CLUSTER
+          value: ""
+        - name: JOINED_CLUSTER
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanDataPathChannelCfg
+      backing_type: int
+      values:
+        - name: CHANNEL_NOT_REQUESTED
+          value: "0"
+        - name: REQUEST_CHANNEL_SETUP
+          value: ""
+        - name: FORCE_CHANNEL_SETUP
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanDataPathSecurityType
+      backing_type: int
+      values:
+        - name: OPEN
+          value: ""
+        - name: PMK
+          value: ""
+        - name: PASSPHRASE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanMatchAlg
+      backing_type: int
+      values:
+        - name: MATCH_ONCE
+          value: "0"
+        - name: MATCH_CONTINUOUS
+          value: ""
+        - name: MATCH_NEVER
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanPairingAkm
+      backing_type: int
+      values:
+        - name: SAE
+          value: "0"
+        - name: PASN
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanPairingRequestType
+      backing_type: int
+      values:
+        - name: NAN_PAIRING_SETUP
+          value: "0"
+        - name: NAN_PAIRING_VERIFICATION
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanPairingSecurityType
+      backing_type: int
+      values:
+        - name: OPPORTUNISTIC
+          value: ""
+        - name: PMK
+          value: ""
+        - name: PASSPHRASE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanPublishType
+      backing_type: int
+      values:
+        - name: UNSOLICITED
+          value: "0"
+        - name: SOLICITED
+          value: ""
+        - name: UNSOLICITED_SOLICITED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanRangingIndication
+      backing_type: int
+      values:
+        - name: CONTINUOUS_INDICATION_MASK
+          value: 1 << 0
+        - name: INGRESS_MET_MASK
+          value: 1 << 1
+        - name: EGRESS_MET_MASK
+          value: 1 << 2
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanSrfType
+      backing_type: int
+      values:
+        - name: BLOOM_FILTER
+          value: "0"
+        - name: PARTIAL_MAC_ADDR
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanStatusCode
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: "0"
+        - name: INTERNAL_FAILURE
+          value: "1"
+        - name: PROTOCOL_FAILURE
+          value: "2"
+        - name: INVALID_SESSION_ID
+          value: "3"
+        - name: NO_RESOURCES_AVAILABLE
+          value: "4"
+        - name: INVALID_ARGS
+          value: "5"
+        - name: INVALID_PEER_ID
+          value: "6"
+        - name: INVALID_NDP_ID
+          value: "7"
+        - name: NAN_NOT_ALLOWED
+          value: "8"
+        - name: NO_OTA_ACK
+          value: "9"
+        - name: ALREADY_ENABLED
+          value: "10"
+        - name: FOLLOWUP_TX_QUEUE_FULL
+          value: "11"
+        - name: UNSUPPORTED_CONCURRENCY_NAN_DISABLED
+          value: "12"
+        - name: INVALID_PAIRING_ID
+          value: "13"
+        - name: INVALID_BOOTSTRAPPING_ID
+          value: "14"
+        - name: REDUNDANT_REQUEST
+          value: "15"
+        - name: NOT_SUPPORTED
+          value: "16"
+        - name: NO_CONNECTION
+          value: "17"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanSubscribeType
+      backing_type: int
+      values:
+        - name: PASSIVE
+          value: "0"
+        - name: ACTIVE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NanTxType
+      backing_type: int
+      values:
+        - name: BROADCAST
+          value: "0"
+        - name: UNICAST
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RttBw
+      backing_type: int
+      values:
+        - name: BW_UNSPECIFIED
+          value: "0x0"
+        - name: BW_5MHZ
+          value: "0x01"
+        - name: BW_10MHZ
+          value: "0x02"
+        - name: BW_20MHZ
+          value: "0x04"
+        - name: BW_40MHZ
+          value: "0x08"
+        - name: BW_80MHZ
+          value: "0x10"
+        - name: BW_160MHZ
+          value: "0x20"
+        - name: BW_320MHZ
+          value: "0x40"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RttMotionPattern
+      backing_type: int
+      values:
+        - name: NOT_EXPECTED
+          value: "0"
+        - name: EXPECTED
+          value: "1"
+        - name: UNKNOWN
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RttPeerType
+      backing_type: int
+      values:
+        - name: AP
+          value: "1"
+        - name: STA
+          value: "2"
+        - name: P2P_GO
+          value: "3"
+        - name: P2P_CLIENT
+          value: "4"
+        - name: NAN_TYPE
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RttPreamble
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "0"
+        - name: LEGACY
+          value: "0x1"
+        - name: HT
+          value: "0x2"
+        - name: VHT
+          value: "0x4"
+        - name: HE
+          value: "0x8"
+        - name: EHT
+          value: "0x10"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RttStatus
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: "0"
+        - name: FAILURE
+          value: "1"
+        - name: FAIL_NO_RSP
+          value: "2"
+        - name: FAIL_REJECTED
+          value: "3"
+        - name: FAIL_NOT_SCHEDULED_YET
+          value: "4"
+        - name: FAIL_TM_TIMEOUT
+          value: "5"
+        - name: FAIL_AP_ON_DIFF_CHANNEL
+          value: "6"
+        - name: FAIL_NO_CAPABILITY
+          value: "7"
+        - name: ABORTED
+          value: "8"
+        - name: FAIL_INVALID_TS
+          value: "9"
+        - name: FAIL_PROTOCOL
+          value: "10"
+        - name: FAIL_SCHEDULE
+          value: "11"
+        - name: FAIL_BUSY_TRY_LATER
+          value: "12"
+        - name: INVALID_REQ
+          value: "13"
+        - name: NO_WIFI
+          value: "14"
+        - name: FAIL_FTM_PARAM_OVERRIDE
+          value: "15"
+        - name: NAN_RANGING_PROTOCOL_FAILURE
+          value: "16"
+        - name: NAN_RANGING_CONCURRENCY_NOT_SUPPORTED
+          value: "17"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RttType
+      backing_type: int
+      values:
+        - name: ONE_SIDED
+          value: "1"
+        - name: TWO_SIDED
+          value: "2"
+        - name: TWO_SIDED_11MC
+          value: TWO_SIDED
+        - name: TWO_SIDED_11AZ_NTB
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StaBackgroundScanBucketEventReportSchemeMask
+      backing_type: int
+      values:
+        - name: EACH_SCAN
+          value: 1 << 0
+        - name: FULL_RESULTS
+          value: 1 << 1
+        - name: NO_BATCH
+          value: 1 << 2
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StaBackgroundScanLimits
+      backing_type: int
+      values:
+        - name: MAX_CHANNELS
+          value: "16"
+        - name: MAX_BUCKETS
+          value: "16"
+        - name: MAX_AP_CACHE_PER_SCAN
+          value: "32"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StaLinkLayerLinkStats.StaLinkState
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: NOT_IN_USE
+          value: 1 << 0
+        - name: IN_USE
+          value: 1 << 1
+      annotations:
+        - Backing
+        - VintfStability
+    - name: StaRoamingState
+      backing_type: byte
+      values:
+        - name: DISABLED
+          value: "0"
+        - name: ENABLED
+          value: "1"
+        - name: AGGRESSIVE
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StaScanDataFlagMask
+      backing_type: int
+      values:
+        - name: INTERRUPTED
+          value: 1 << 0
+      annotations:
+        - VintfStability
+        - Backing
+    - name: TwtSession.TwtNegotiationType
+      backing_type: byte
+      values:
+        - name: INDIVIDUAL
+          value: "0"
+        - name: BROADCAST
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WifiAntennaMode
+      backing_type: int
+      values:
+        - name: WIFI_ANTENNA_MODE_UNSPECIFIED
+          value: "0"
+        - name: WIFI_ANTENNA_MODE_1X1
+          value: "1"
+        - name: WIFI_ANTENNA_MODE_2X2
+          value: "2"
+        - name: WIFI_ANTENNA_MODE_3X3
+          value: "3"
+        - name: WIFI_ANTENNA_MODE_4X4
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WifiBand
+      backing_type: int
+      values:
+        - name: BAND_UNSPECIFIED
+          value: "0"
+        - name: BAND_24GHZ
+          value: "1"
+        - name: BAND_5GHZ
+          value: "2"
+        - name: BAND_5GHZ_DFS
+          value: "4"
+        - name: BAND_5GHZ_WITH_DFS
+          value: "6"
+        - name: BAND_24GHZ_5GHZ
+          value: "3"
+        - name: BAND_24GHZ_5GHZ_WITH_DFS
+          value: "7"
+        - name: BAND_6GHZ
+          value: "8"
+        - name: BAND_5GHZ_6GHZ
+          value: "10"
+        - name: BAND_24GHZ_5GHZ_6GHZ
+          value: "11"
+        - name: BAND_24GHZ_5GHZ_WITH_DFS_6GHZ
+          value: "15"
+        - name: BAND_60GHZ
+          value: "16"
+        - name: BAND_24GHZ_5GHZ_6GHZ_60GHZ
+          value: "27"
+        - name: BAND_24GHZ_5GHZ_WITH_DFS_6GHZ_60GHZ
+          value: "31"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WifiChannelWidthInMhz
+      backing_type: int
+      values:
+        - name: WIDTH_INVALID
+          value: "-1"
+        - name: WIDTH_20
+          value: "0"
+        - name: WIDTH_40
+          value: "1"
+        - name: WIDTH_80
+          value: "2"
+        - name: WIDTH_160
+          value: "3"
+        - name: WIDTH_80P80
+          value: "4"
+        - name: WIDTH_5
+          value: "5"
+        - name: WIDTH_10
+          value: "6"
+        - name: WIDTH_320
+          value: "7"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WifiDebugPacketFateFrameType
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: ETHERNET_II
+          value: ""
+        - name: MGMT_80211
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WifiDebugRingBufferFlags
+      backing_type: int
+      values:
+        - name: HAS_BINARY_ENTRIES
+          value: 1 << 0
+        - name: HAS_ASCII_ENTRIES
+          value: 1 << 1
+        - name: HAS_PER_PACKET_ENTRIES
+          value: 1 << 2
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WifiDebugRingBufferVerboseLevel
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: DEFAULT
+          value: "1"
+        - name: VERBOSE
+          value: "2"
+        - name: EXCESSIVE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WifiDebugRxPacketFate
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: ""
+        - name: FW_QUEUED
+          value: ""
+        - name: FW_DROP_FILTER
+          value: ""
+        - name: FW_DROP_INVALID
+          value: ""
+        - name: FW_DROP_NOBUFS
+          value: ""
+        - name: FW_DROP_OTHER
+          value: ""
+        - name: DRV_QUEUED
+          value: ""
+        - name: DRV_DROP_FILTER
+          value: ""
+        - name: DRV_DROP_INVALID
+          value: ""
+        - name: DRV_DROP_NOBUFS
+          value: ""
+        - name: DRV_DROP_OTHER
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WifiDebugTxPacketFate
+      backing_type: int
+      values:
+        - name: ACKED
+          value: ""
+        - name: SENT
+          value: ""
+        - name: FW_QUEUED
+          value: ""
+        - name: FW_DROP_INVALID
+          value: ""
+        - name: FW_DROP_NOBUFS
+          value: ""
+        - name: FW_DROP_OTHER
+          value: ""
+        - name: DRV_QUEUED
+          value: ""
+        - name: DRV_DROP_INVALID
+          value: ""
+        - name: DRV_DROP_NOBUFS
+          value: ""
+        - name: DRV_DROP_OTHER
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WifiIfaceMode
+      backing_type: int
+      values:
+        - name: IFACE_MODE_STA
+          value: 1 << 0
+        - name: IFACE_MODE_SOFTAP
+          value: 1 << 1
+        - name: IFACE_MODE_IBSS
+          value: 1 << 2
+        - name: IFACE_MODE_P2P_CLIENT
+          value: 1 << 3
+        - name: IFACE_MODE_P2P_GO
+          value: 1 << 4
+        - name: IFACE_MODE_NAN
+          value: 1 << 5
+        - name: IFACE_MODE_MESH
+          value: 1 << 6
+        - name: IFACE_MODE_TDLS
+          value: 1 << 7
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WifiRateNss
+      backing_type: int
+      values:
+        - name: NSS_1x1
+          value: "0"
+        - name: NSS_2x2
+          value: "1"
+        - name: NSS_3x3
+          value: "2"
+        - name: NSS_4x4
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WifiRatePreamble
+      backing_type: int
+      values:
+        - name: OFDM
+          value: "0"
+        - name: CCK
+          value: "1"
+        - name: HT
+          value: "2"
+        - name: VHT
+          value: "3"
+        - name: RESERVED
+          value: "4"
+        - name: HE
+          value: "5"
+        - name: EHT
+          value: "6"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WifiStatusCode
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: ""
+        - name: ERROR_WIFI_CHIP_INVALID
+          value: ""
+        - name: ERROR_WIFI_IFACE_INVALID
+          value: ""
+        - name: ERROR_WIFI_RTT_CONTROLLER_INVALID
+          value: ""
+        - name: ERROR_NOT_SUPPORTED
+          value: ""
+        - name: ERROR_NOT_AVAILABLE
+          value: ""
+        - name: ERROR_NOT_STARTED
+          value: ""
+        - name: ERROR_INVALID_ARGS
+          value: ""
+        - name: ERROR_BUSY
+          value: ""
+        - name: ERROR_UNKNOWN
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing

@@ -1,0 +1,8 @@
+package: android.view.textservice
+go_package: android/view/textservice
+parcelables:
+    - name: SentenceSuggestionsInfo
+    - name: SpellCheckerInfo
+    - name: SpellCheckerSubtype
+    - name: SuggestionsInfo
+    - name: TextInfo

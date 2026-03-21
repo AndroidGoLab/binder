@@ -54,6 +54,7 @@ func (p *EffectClientProxy) ControlStatusChanged(
 	controlGranted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffectClient)
 	_data.WriteBool(controlGranted)
 
@@ -71,6 +72,7 @@ func (p *EffectClientProxy) EnableStatusChanged(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffectClient)
 	_data.WriteBool(enabled)
 
@@ -90,24 +92,11 @@ func (p *EffectClientProxy) CommandExecuted(
 	replyData []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffectClient)
 	_data.WriteInt32(cmdCode)
-	if cmdData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(cmdData)))
-		for _, _item := range cmdData {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if replyData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(replyData)))
-		for _, _item := range replyData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(cmdData)
+	_data.WriteByteArray(replyData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffectClient, MethodIEffectClientCommandExecuted)
 	if _err != nil {
@@ -123,6 +112,7 @@ func (p *EffectClientProxy) FramesProcessed(
 	frames int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffectClient)
 	_data.WriteInt32(frames)
 
@@ -138,7 +128,8 @@ func (p *EffectClientProxy) FramesProcessed(
 // EffectClientStub dispatches incoming binder transactions
 // to a typed IEffectClient implementation.
 type EffectClientStub struct {
-	Impl IEffectClient
+	Impl      IEffectClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EffectClientStub)(nil)
@@ -152,57 +143,55 @@ func (s *EffectClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEffectClientControlStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_controlGranted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ControlStatusChanged(ctx, _arg_controlGranted)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEffectClientEnableStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.EnableStatusChanged(ctx, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEffectClientCommandExecuted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_cmdData []byte
-		_ = _arg_cmdData
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_replyData []byte
-		_ = _arg_replyData
-		_err = s.Impl.CommandExecuted(ctx, _arg_cmdCode, _arg_cmdData, _arg_replyData)
-		_ = _err
-		return nil, nil
-	case TransactionIEffectClientFramesProcessed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cmdData = _bytes
 		}
+		var _arg_replyData []byte
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_replyData = _bytes
+		}
+		_err = s.Impl.CommandExecuted(ctx, _arg_cmdCode, _arg_cmdData, _arg_replyData)
+		return nil, _err
+	case TransactionIEffectClientFramesProcessed:
 		_arg_frames, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.FramesProcessed(ctx, _arg_frames)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

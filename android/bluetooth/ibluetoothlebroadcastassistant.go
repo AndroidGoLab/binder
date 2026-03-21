@@ -89,6 +89,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetConnectionState(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	_data.WriteInt32(1)
 	if _err := sink.MarshalParcel(_data); _err != nil {
@@ -123,6 +124,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetDevicesMatchingConnectionStates(
 ) ([]BluetoothDevice, error) {
 	var _result []BluetoothDevice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	if states == nil {
 		_data.WriteInt32(-1)
@@ -152,6 +154,9 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetDevicesMatchingConnectionStates(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]BluetoothDevice, _count)
@@ -172,6 +177,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetConnectedDevices(
 ) ([]BluetoothDevice, error) {
 	var _result []BluetoothDevice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastAssistant, MethodIBluetoothLeBroadcastAssistantGetConnectedDevices)
@@ -192,6 +198,9 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetConnectedDevices(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -215,6 +224,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) SetConnectionPolicy(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -250,6 +260,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetConnectionPolicy(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -283,6 +294,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) RegisterCallback(
 	cb IBluetoothLeBroadcastAssistantCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
@@ -309,6 +321,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) UnregisterCallback(
 	cb IBluetoothLeBroadcastAssistantCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
@@ -335,6 +348,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) StartSearchingForSources(
 	filters []le.ScanFilter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	if filters == nil {
 		_data.WriteInt32(-1)
@@ -370,6 +384,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) StopSearchingForSources(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastAssistant, MethodIBluetoothLeBroadcastAssistantStopSearchingForSources)
@@ -395,6 +410,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) IsSearchInProgress(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastAssistant, MethodIBluetoothLeBroadcastAssistantIsSearchInProgress)
@@ -426,6 +442,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) AddSource(
 	isGroupOp bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	_data.WriteInt32(1)
 	if _err := sink.MarshalParcel(_data); _err != nil {
@@ -462,6 +479,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) ModifySource(
 	updatedMetadata BluetoothLeBroadcastMetadata,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	_data.WriteInt32(1)
 	if _err := sink.MarshalParcel(_data); _err != nil {
@@ -497,6 +515,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) RemoveSource(
 	sourceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	_data.WriteInt32(1)
 	if _err := sink.MarshalParcel(_data); _err != nil {
@@ -528,6 +547,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetAllSources(
 ) ([]BluetoothLeBroadcastReceiveState, error) {
 	var _result []BluetoothLeBroadcastReceiveState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	_data.WriteInt32(1)
 	if _err := sink.MarshalParcel(_data); _err != nil {
@@ -553,6 +573,9 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetAllSources(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]BluetoothLeBroadcastReceiveState, _count)
@@ -574,6 +597,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetMaximumSourceCapacity(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastAssistant)
 	_data.WriteInt32(1)
 	if _err := sink.MarshalParcel(_data); _err != nil {
@@ -605,7 +629,8 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetMaximumSourceCapacity(
 // BluetoothLeBroadcastAssistantStub dispatches incoming binder transactions
 // to a typed IBluetoothLeBroadcastAssistant implementation.
 type BluetoothLeBroadcastAssistantStub struct {
-	Impl IBluetoothLeBroadcastAssistant
+	Impl      IBluetoothLeBroadcastAssistant
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothLeBroadcastAssistantStub)(nil)
@@ -619,11 +644,12 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothLeBroadcastAssistantGetConnectionState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sink BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -646,12 +672,25 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantGetDevicesMatchingConnectionStates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_states []int32
-		_ = _arg_states
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_states = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_states[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states)
 		_reply := parcel.New()
 		if _err != nil {
@@ -659,13 +698,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantGetConnectedDevices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetConnectedDevices(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -673,13 +718,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantSetConnectionPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -706,9 +757,6 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantGetConnectionPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -731,12 +779,14 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IBluetoothLeBroadcastAssistantCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewBluetoothLeBroadcastAssistantCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -746,12 +796,14 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantUnregisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IBluetoothLeBroadcastAssistantCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewBluetoothLeBroadcastAssistantCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err := s.Impl.UnregisterCallback(ctx, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -761,12 +813,27 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantStartSearchingForSources:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_filters []le.ScanFilter
-		_ = _arg_filters
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_filters = make([]le.ScanFilter, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_filters[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.StartSearchingForSources(ctx, _arg_filters)
 		_reply := parcel.New()
 		if _err != nil {
@@ -776,9 +843,6 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantStopSearchingForSources:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopSearchingForSources(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -788,9 +852,6 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantIsSearchInProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsSearchInProgress(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -801,9 +862,6 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantAddSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sink BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -841,9 +899,6 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantModifySource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sink BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -881,9 +936,6 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantRemoveSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sink BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -909,9 +961,6 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantGetAllSources:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sink BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -931,13 +980,19 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantGetMaximumSourceCapacity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sink BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()

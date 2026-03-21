@@ -28,7 +28,7 @@ const (
 type IMbmsGroupCallSessionCallback interface {
 	AsBinder() binder.IBinder
 	OnError(ctx context.Context, errorCode int32, message string) error
-	OnAvailableSaisUpdated(ctx context.Context, currentSai []interface{}, availableSais []interface{}) error
+	OnAvailableSaisUpdated(ctx context.Context, currentSai []any, availableSais []any) error
 	OnServiceInterfaceAvailable(ctx context.Context, interfaceName string, index int32) error
 	OnMiddlewareReady(ctx context.Context) error
 }
@@ -55,6 +55,7 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnError(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallSessionCallback)
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(message)
@@ -70,10 +71,11 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnError(
 
 func (p *MbmsGroupCallSessionCallbackProxy) OnAvailableSaisUpdated(
 	ctx context.Context,
-	currentSai []interface{},
-	availableSais []interface{},
+	currentSai []any,
+	availableSais []any,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallSessionCallback)
 	if currentSai == nil {
 		_data.WriteInt32(-1)
@@ -101,6 +103,7 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnServiceInterfaceAvailable(
 	index int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallSessionCallback)
 	_data.WriteString16(interfaceName)
 	_data.WriteInt32(index)
@@ -118,6 +121,7 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnMiddlewareReady(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallSessionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallSessionCallback, MethodIMbmsGroupCallSessionCallbackOnMiddlewareReady)
@@ -132,7 +136,8 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnMiddlewareReady(
 // MbmsGroupCallSessionCallbackStub dispatches incoming binder transactions
 // to a typed IMbmsGroupCallSessionCallback implementation.
 type MbmsGroupCallSessionCallbackStub struct {
-	Impl IMbmsGroupCallSessionCallback
+	Impl      IMbmsGroupCallSessionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MbmsGroupCallSessionCallbackStub)(nil)
@@ -146,11 +151,12 @@ func (s *MbmsGroupCallSessionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMbmsGroupCallSessionCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -160,25 +166,37 @@ func (s *MbmsGroupCallSessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_errorCode, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMbmsGroupCallSessionCallbackOnAvailableSaisUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_currentSai []any
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_currentSai = make([]any, _count)
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_currentSai []interface{}
-		_ = _arg_currentSai
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_availableSais []interface{}
-		_ = _arg_availableSais
+		var _arg_availableSais []any
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_availableSais = make([]any, _count)
+			}
+		}
 		_err := s.Impl.OnAvailableSaisUpdated(ctx, _arg_currentSai, _arg_availableSais)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMbmsGroupCallSessionCallbackOnServiceInterfaceAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_interfaceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -188,15 +206,10 @@ func (s *MbmsGroupCallSessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnServiceInterfaceAvailable(ctx, _arg_interfaceName, _arg_index)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMbmsGroupCallSessionCallbackOnMiddlewareReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnMiddlewareReady(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -207,7 +220,7 @@ func (s *MbmsGroupCallSessionCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IMbmsGroupCallSessionCallbackServer interface {
 	OnError(ctx context.Context, errorCode int32, message string) error
-	OnAvailableSaisUpdated(ctx context.Context, currentSai []interface{}, availableSais []interface{}) error
+	OnAvailableSaisUpdated(ctx context.Context, currentSai []any, availableSais []any) error
 	OnServiceInterfaceAvailable(ctx context.Context, interfaceName string, index int32) error
 	OnMiddlewareReady(ctx context.Context) error
 }
@@ -231,8 +244,8 @@ func (w *mbmsGroupCallSessionCallbackStubWrapper) OnError(
 
 func (w *mbmsGroupCallSessionCallbackStubWrapper) OnAvailableSaisUpdated(
 	ctx context.Context,
-	currentSai []interface{},
-	availableSais []interface{},
+	currentSai []any,
+	availableSais []any,
 ) error {
 	return w.impl.OnAvailableSaisUpdated(ctx, currentSai, availableSais)
 }

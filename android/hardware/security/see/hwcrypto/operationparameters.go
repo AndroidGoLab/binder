@@ -34,8 +34,7 @@ func (u *OperationParameters) GetSymmetricAuthCrypto() (types.SymmetricAuthOpera
 func (u *OperationParameters) SetSymmetricAuthCrypto(
 	v types.SymmetricAuthOperationParameters,
 ) {
-	u.Tag = OperationParametersTagSymmetricAuthCrypto
-	u.SymmetricAuthCrypto = v
+	*u = OperationParameters{Tag: OperationParametersTagSymmetricAuthCrypto, SymmetricAuthCrypto: v}
 }
 
 func (u *OperationParameters) GetSymmetricCrypto() (types.SymmetricOperationParameters, bool) {
@@ -49,8 +48,7 @@ func (u *OperationParameters) GetSymmetricCrypto() (types.SymmetricOperationPara
 func (u *OperationParameters) SetSymmetricCrypto(
 	v types.SymmetricOperationParameters,
 ) {
-	u.Tag = OperationParametersTagSymmetricCrypto
-	u.SymmetricCrypto = v
+	*u = OperationParameters{Tag: OperationParametersTagSymmetricCrypto, SymmetricCrypto: v}
 }
 
 func (u *OperationParameters) GetHmac() (types.HmacOperationParameters, bool) {
@@ -64,8 +62,7 @@ func (u *OperationParameters) GetHmac() (types.HmacOperationParameters, bool) {
 func (u *OperationParameters) SetHmac(
 	v types.HmacOperationParameters,
 ) {
-	u.Tag = OperationParametersTagHmac
-	u.Hmac = v
+	*u = OperationParameters{Tag: OperationParametersTagHmac, Hmac: v}
 }
 
 func (u *OperationParameters) MarshalParcel(

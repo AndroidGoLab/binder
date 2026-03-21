@@ -3,6 +3,7 @@ package telephony
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/os/types"
 	cdma "github.com/xaionaro-go/binder/android/telephony/cdma"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -30,8 +31,8 @@ type ICellBroadcastService interface {
 	AsBinder() binder.IBinder
 	HandleGsmCellBroadcastSms(ctx context.Context, slotId int32, message []byte) error
 	HandleCdmaCellBroadcastSms(ctx context.Context, slotId int32, bearerData []byte, serviceCategory int32) error
-	HandleCdmaScpMessage(ctx context.Context, slotId int32, programData []cdma.CdmaSmsCbProgramData, originatingAddress string, callback interface{}) error
-	GetCellBroadcastAreaInfo(ctx context.Context, slotIndex int32) (interface{}, error)
+	HandleCdmaScpMessage(ctx context.Context, slotId int32, programData []cdma.CdmaSmsCbProgramData, originatingAddress string, callback types.RemoteCallback) error
+	GetCellBroadcastAreaInfo(ctx context.Context, slotIndex int32) (string, error)
 }
 
 type CellBroadcastServiceProxy struct {
@@ -56,16 +57,10 @@ func (p *CellBroadcastServiceProxy) HandleGsmCellBroadcastSms(
 	message []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICellBroadcastService)
 	_data.WriteInt32(slotId)
-	if message == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(message)))
-		for _, _item := range message {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICellBroadcastService, MethodICellBroadcastServiceHandleGsmCellBroadcastSms)
 	if _err != nil {
@@ -83,16 +78,10 @@ func (p *CellBroadcastServiceProxy) HandleCdmaCellBroadcastSms(
 	serviceCategory int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICellBroadcastService)
 	_data.WriteInt32(slotId)
-	if bearerData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(bearerData)))
-		for _, _item := range bearerData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(bearerData)
 	_data.WriteInt32(serviceCategory)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICellBroadcastService, MethodICellBroadcastServiceHandleCdmaCellBroadcastSms)
@@ -109,9 +98,10 @@ func (p *CellBroadcastServiceProxy) HandleCdmaScpMessage(
 	slotId int32,
 	programData []cdma.CdmaSmsCbProgramData,
 	originatingAddress string,
-	callback interface{},
+	callback types.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICellBroadcastService)
 	_data.WriteInt32(slotId)
 	if programData == nil {
@@ -126,6 +116,7 @@ func (p *CellBroadcastServiceProxy) HandleCdmaScpMessage(
 		}
 	}
 	_data.WriteString16(originatingAddress)
+	// WARNING: param callback (type types.RemoteCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICellBroadcastService, MethodICellBroadcastServiceHandleCdmaScpMessage)
 	if _err != nil {
@@ -139,9 +130,10 @@ func (p *CellBroadcastServiceProxy) HandleCdmaScpMessage(
 func (p *CellBroadcastServiceProxy) GetCellBroadcastAreaInfo(
 	ctx context.Context,
 	slotIndex int32,
-) (interface{}, error) {
-	var _result interface{}
+) (string, error) {
+	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICellBroadcastService)
 	_data.WriteInt32(slotIndex)
 
@@ -160,13 +152,18 @@ func (p *CellBroadcastServiceProxy) GetCellBroadcastAreaInfo(
 		return _result, _err
 	}
 
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
 	return _result, nil
 }
 
 // CellBroadcastServiceStub dispatches incoming binder transactions
 // to a typed ICellBroadcastService implementation.
 type CellBroadcastServiceStub struct {
-	Impl ICellBroadcastService
+	Impl      ICellBroadcastService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CellBroadcastServiceStub)(nil)
@@ -180,62 +177,79 @@ func (s *CellBroadcastServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICellBroadcastServiceHandleGsmCellBroadcastSms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_message []byte
-		_ = _arg_message
-		_err = s.Impl.HandleGsmCellBroadcastSms(ctx, _arg_slotId, _arg_message)
-		_ = _err
-		return nil, nil
-	case TransactionICellBroadcastServiceHandleCdmaCellBroadcastSms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_message = _bytes
 		}
+		_err = s.Impl.HandleGsmCellBroadcastSms(ctx, _arg_slotId, _arg_message)
+		return nil, _err
+	case TransactionICellBroadcastServiceHandleCdmaCellBroadcastSms:
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bearerData []byte
-		_ = _arg_bearerData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_bearerData = _bytes
+		}
 		_arg_serviceCategory, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.HandleCdmaCellBroadcastSms(ctx, _arg_slotId, _arg_bearerData, _arg_serviceCategory)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICellBroadcastServiceHandleCdmaScpMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_programData []cdma.CdmaSmsCbProgramData
-		_ = _arg_programData
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_programData = make([]cdma.CdmaSmsCbProgramData, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_programData[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_originatingAddress, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		var _arg_callback types.RemoteCallback
 		_err = s.Impl.HandleCdmaScpMessage(ctx, _arg_slotId, _arg_programData, _arg_originatingAddress, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICellBroadcastServiceGetCellBroadcastAreaInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -247,7 +261,7 @@ func (s *CellBroadcastServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteString16(_result)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -260,8 +274,8 @@ func (s *CellBroadcastServiceStub) OnTransaction(
 type ICellBroadcastServiceServer interface {
 	HandleGsmCellBroadcastSms(ctx context.Context, slotId int32, message []byte) error
 	HandleCdmaCellBroadcastSms(ctx context.Context, slotId int32, bearerData []byte, serviceCategory int32) error
-	HandleCdmaScpMessage(ctx context.Context, slotId int32, programData []cdma.CdmaSmsCbProgramData, originatingAddress string, callback interface{}) error
-	GetCellBroadcastAreaInfo(ctx context.Context, slotIndex int32) (interface{}, error)
+	HandleCdmaScpMessage(ctx context.Context, slotId int32, programData []cdma.CdmaSmsCbProgramData, originatingAddress string, callback types.RemoteCallback) error
+	GetCellBroadcastAreaInfo(ctx context.Context, slotIndex int32) (string, error)
 }
 
 type cellBroadcastServiceStubWrapper struct {
@@ -295,7 +309,7 @@ func (w *cellBroadcastServiceStubWrapper) HandleCdmaScpMessage(
 	slotId int32,
 	programData []cdma.CdmaSmsCbProgramData,
 	originatingAddress string,
-	callback interface{},
+	callback types.RemoteCallback,
 ) error {
 	return w.impl.HandleCdmaScpMessage(ctx, slotId, programData, originatingAddress, callback)
 }
@@ -303,7 +317,7 @@ func (w *cellBroadcastServiceStubWrapper) HandleCdmaScpMessage(
 func (w *cellBroadcastServiceStubWrapper) GetCellBroadcastAreaInfo(
 	ctx context.Context,
 	slotIndex int32,
-) (interface{}, error) {
+) (string, error) {
 	return w.impl.GetCellBroadcastAreaInfo(ctx, slotIndex)
 }
 

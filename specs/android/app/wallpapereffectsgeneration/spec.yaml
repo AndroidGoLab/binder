@@ -1,0 +1,45 @@
+package: android.app.wallpapereffectsgeneration
+go_package: android/app/wallpapereffectsgeneration
+interfaces:
+    - name: ICinematicEffectListener
+      descriptor: android.app.wallpapereffectsgeneration.ICinematicEffectListener
+      oneway: true
+      methods:
+        - name: onCinematicEffectGenerated
+          transaction_code_offset: 0
+          params:
+            - name: response
+              type:
+                name: CinematicEffectResponse
+              direction: in
+          return_type:
+            name: void
+    - name: IWallpaperEffectsGenerationManager
+      descriptor: android.app.wallpapereffectsgeneration.IWallpaperEffectsGenerationManager
+      oneway: true
+      methods:
+        - name: generateCinematicEffect
+          transaction_code_offset: 0
+          params:
+            - name: request
+              type:
+                name: CinematicEffectRequest
+              direction: in
+            - name: listener
+              type:
+                name: ICinematicEffectListener
+              direction: in
+          return_type:
+            name: void
+        - name: returnCinematicEffectResponse
+          transaction_code_offset: 1
+          params:
+            - name: response
+              type:
+                name: CinematicEffectResponse
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: CinematicEffectRequest
+    - name: CinematicEffectResponse

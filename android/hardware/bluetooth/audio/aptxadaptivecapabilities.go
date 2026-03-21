@@ -71,6 +71,11 @@ func (s *AptxAdaptiveCapabilities) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
 	if _err != nil {
@@ -84,6 +89,11 @@ func (s *AptxAdaptiveCapabilities) UnmarshalParcel(
 				return _err
 			}
 		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count1 int32
@@ -102,9 +112,19 @@ func (s *AptxAdaptiveCapabilities) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.BitsPerSample, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count3 int32
@@ -123,12 +143,27 @@ func (s *AptxAdaptiveCapabilities) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.SinkBufferingMs.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Ttp.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_inputModeRaw, _err := p.ReadInt32()
@@ -137,9 +172,19 @@ func (s *AptxAdaptiveCapabilities) UnmarshalParcel(
 	}
 	s.InputMode = AptxAdaptiveInputMode(_inputModeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.InputFadeDurationMs, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.AptxAdaptiveConfigStream, _err = p.ReadByteArray()

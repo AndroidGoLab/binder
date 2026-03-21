@@ -66,9 +66,19 @@ func (s *DisplayContentSample) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.FrameCount, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -86,6 +96,11 @@ func (s *DisplayContentSample) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count1 int32
 	_count1, _err = p.ReadInt32()
 	if _err != nil {
@@ -101,6 +116,11 @@ func (s *DisplayContentSample) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count2 int32
 	_count2, _err = p.ReadInt32()
 	if _err != nil {
@@ -114,6 +134,11 @@ func (s *DisplayContentSample) UnmarshalParcel(
 				return _err
 			}
 		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count3 int32

@@ -1,0 +1,41 @@
+package: android.hardware.common
+go_package: android/hardware/common
+parcelables:
+    - name: Ashmem
+      fields:
+        - name: fd
+          type:
+            name: ParcelFileDescriptor
+        - name: size
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: MappableFile
+      fields:
+        - name: length
+          type:
+            name: long
+        - name: prot
+          type:
+            name: int
+        - name: fd
+          type:
+            name: ParcelFileDescriptor
+        - name: offset
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: NativeHandle
+      fields:
+        - name: fds
+          type:
+            name: ParcelFileDescriptor
+            is_array: true
+        - name: ints
+          type:
+            name: int
+            is_array: true
+      annotations:
+        - VintfStability

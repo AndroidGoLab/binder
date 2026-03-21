@@ -1,0 +1,7 @@
+package: android.os.connectivity
+go_package: android/os/connectivity
+parcelables:
+    - name: CellularBatteryStats
+    - name: GpsBatteryStats
+    - name: WifiActivityEnergyInfo
+    - name: WifiBatteryStats

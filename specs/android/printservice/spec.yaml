@@ -1,0 +1,228 @@
+package: android.printservice
+go_package: android/printservice
+interfaces:
+    - name: IPrintService
+      descriptor: android.printservice.IPrintService
+      oneway: true
+      methods:
+        - name: setClient
+          transaction_code_offset: 0
+          params:
+            - name: client
+              type:
+                name: IPrintServiceClient
+          return_type:
+            name: void
+        - name: requestCancelPrintJob
+          transaction_code_offset: 1
+          params:
+            - name: printJobInfo
+              type:
+                name: PrintJobInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onPrintJobQueued
+          transaction_code_offset: 2
+          params:
+            - name: printJobInfo
+              type:
+                name: PrintJobInfo
+              direction: in
+          return_type:
+            name: void
+        - name: createPrinterDiscoverySession
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: startPrinterDiscovery
+          transaction_code_offset: 4
+          params:
+            - name: priorityList
+              type:
+                name: List
+                type_args:
+                    - name: PrinterId
+              direction: in
+          return_type:
+            name: void
+        - name: stopPrinterDiscovery
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: validatePrinters
+          transaction_code_offset: 6
+          params:
+            - name: printerIds
+              type:
+                name: List
+                type_args:
+                    - name: PrinterId
+              direction: in
+          return_type:
+            name: void
+        - name: startPrinterStateTracking
+          transaction_code_offset: 7
+          params:
+            - name: printerId
+              type:
+                name: PrinterId
+              direction: in
+          return_type:
+            name: void
+        - name: requestCustomPrinterIcon
+          transaction_code_offset: 8
+          params:
+            - name: printerId
+              type:
+                name: PrinterId
+              direction: in
+          return_type:
+            name: void
+        - name: stopPrinterStateTracking
+          transaction_code_offset: 9
+          params:
+            - name: printerId
+              type:
+                name: PrinterId
+              direction: in
+          return_type:
+            name: void
+        - name: destroyPrinterDiscoverySession
+          transaction_code_offset: 10
+          return_type:
+            name: void
+    - name: IPrintServiceClient
+      descriptor: android.printservice.IPrintServiceClient
+      methods:
+        - name: getPrintJobInfos
+          transaction_code_offset: 0
+          return_type:
+            name: List
+            type_args:
+                - name: PrintJobInfo
+        - name: getPrintJobInfo
+          transaction_code_offset: 1
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+          return_type:
+            name: PrintJobInfo
+        - name: setPrintJobState
+          transaction_code_offset: 2
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+            - name: state
+              type:
+                name: int
+            - name: error
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: setPrintJobTag
+          transaction_code_offset: 3
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+            - name: tag
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: writePrintJobData
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: fd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+          return_type:
+            name: void
+        - name: setProgress
+          transaction_code_offset: 5
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+            - name: progress
+              type:
+                name: float
+              direction: in
+          return_type:
+            name: void
+        - name: setStatus
+          transaction_code_offset: 6
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+            - name: status
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+        - name: setStatusRes
+          transaction_code_offset: 7
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+            - name: status
+              type:
+                name: int
+            - name: appPackageName
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+        - name: onPrintersAdded
+          transaction_code_offset: 8
+          params:
+            - name: printers
+              type:
+                name: ParceledListSlice
+              direction: in
+          return_type:
+            name: void
+        - name: onPrintersRemoved
+          transaction_code_offset: 9
+          params:
+            - name: printerIds
+              type:
+                name: ParceledListSlice
+              direction: in
+          return_type:
+            name: void
+        - name: onCustomPrinterIconLoaded
+          transaction_code_offset: 10
+          params:
+            - name: printerId
+              type:
+                name: PrinterId
+              direction: in
+            - name: icon
+              type:
+                name: Icon
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: PrintServiceInfo

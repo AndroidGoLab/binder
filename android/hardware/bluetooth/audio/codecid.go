@@ -2,8 +2,7 @@ package audio
 
 import (
 	"fmt"
-	AuthenticateReason "github.com/xaionaro-go/binder/android/hardware/biometrics/common/AuthenticateReason"
-	audioCodecId "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/CodecId"
+	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -17,56 +16,53 @@ const (
 
 type CodecId struct {
 	Tag    int32
-	A2dp   audioCodecId.A2dp
-	Core   audioCodecId.Core
-	Vendor AuthenticateReason.Vendor
+	A2dp   CodecIdA2dp
+	Core   CodecIdCore
+	Vendor common.AuthenticateReasonVendor
 }
 
 var _ parcel.Parcelable = (*CodecId)(nil)
 
-func (u *CodecId) GetA2dp() (audioCodecId.A2dp, bool) {
+func (u *CodecId) GetA2dp() (CodecIdA2dp, bool) {
 	if u.Tag != CodecIdTagA2dp {
-		var _zero audioCodecId.A2dp
+		var _zero CodecIdA2dp
 		return _zero, false
 	}
 	return u.A2dp, true
 }
 
 func (u *CodecId) SetA2dp(
-	v audioCodecId.A2dp,
+	v CodecIdA2dp,
 ) {
-	u.Tag = CodecIdTagA2dp
-	u.A2dp = v
+	*u = CodecId{Tag: CodecIdTagA2dp, A2dp: v}
 }
 
-func (u *CodecId) GetCore() (audioCodecId.Core, bool) {
+func (u *CodecId) GetCore() (CodecIdCore, bool) {
 	if u.Tag != CodecIdTagCore {
-		var _zero audioCodecId.Core
+		var _zero CodecIdCore
 		return _zero, false
 	}
 	return u.Core, true
 }
 
 func (u *CodecId) SetCore(
-	v audioCodecId.Core,
+	v CodecIdCore,
 ) {
-	u.Tag = CodecIdTagCore
-	u.Core = v
+	*u = CodecId{Tag: CodecIdTagCore, Core: v}
 }
 
-func (u *CodecId) GetVendor() (AuthenticateReason.Vendor, bool) {
+func (u *CodecId) GetVendor() (common.AuthenticateReasonVendor, bool) {
 	if u.Tag != CodecIdTagVendor {
-		var _zero AuthenticateReason.Vendor
+		var _zero common.AuthenticateReasonVendor
 		return _zero, false
 	}
 	return u.Vendor, true
 }
 
 func (u *CodecId) SetVendor(
-	v AuthenticateReason.Vendor,
+	v common.AuthenticateReasonVendor,
 ) {
-	u.Tag = CodecIdTagVendor
-	u.Vendor = v
+	*u = CodecId{Tag: CodecIdTagVendor, Vendor: v}
 }
 
 func (u *CodecId) MarshalParcel(
@@ -112,13 +108,13 @@ func (u *CodecId) UnmarshalParcel(
 		if _err != nil {
 			return _err
 		}
-		u.A2dp = audioCodecId.A2dp(_raw)
+		u.A2dp = CodecIdA2dp(_raw)
 	case CodecIdTagCore:
 		_raw, _err := p.ReadInt32()
 		if _err != nil {
 			return _err
 		}
-		u.Core = audioCodecId.Core(_raw)
+		u.Core = CodecIdCore(_raw)
 	case CodecIdTagVendor:
 		if _, _err = p.ReadInt32(); _err != nil {
 			return _err

@@ -3,6 +3,7 @@ package media
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -113,7 +114,7 @@ type IMediaRouterService interface {
 	SetDiscoveryRequestWithRouter2(ctx context.Context, router IMediaRouter2, preference RouteDiscoveryPreference) error
 	SetRouteListingPreference(ctx context.Context, router IMediaRouter2, routeListingPreference *RouteListingPreference) error
 	SetRouteVolumeWithRouter2(ctx context.Context, router IMediaRouter2, route MediaRoute2Info, volume int32) error
-	RequestCreateSessionWithRouter2(ctx context.Context, router IMediaRouter2, requestId int32, managerRequestId int64, oldSession RoutingSessionInfo, route MediaRoute2Info, sessionHints *interface{}, transferInitiatorUserHandle interface{}, transferInitiatorPackageName string) error
+	RequestCreateSessionWithRouter2(ctx context.Context, router IMediaRouter2, requestId int32, managerRequestId int64, oldSession RoutingSessionInfo, route MediaRoute2Info, sessionHints *os.Bundle, transferInitiatorUserHandle os.UserHandle, transferInitiatorPackageName string) error
 	SelectRouteWithRouter2(ctx context.Context, router IMediaRouter2, sessionId string, route MediaRoute2Info) error
 	DeselectRouteWithRouter2(ctx context.Context, router IMediaRouter2, sessionId string, route MediaRoute2Info) error
 	TransferToRouteWithRouter2(ctx context.Context, router IMediaRouter2, sessionId string, route MediaRoute2Info) error
@@ -122,14 +123,14 @@ type IMediaRouterService interface {
 	GetRemoteSessions(ctx context.Context, manager IMediaRouter2Manager) ([]RoutingSessionInfo, error)
 	GetSystemSessionInfoForPackage(ctx context.Context, packageName string) (RoutingSessionInfo, error)
 	RegisterManager(ctx context.Context, manager IMediaRouter2Manager, packageName string) error
-	RegisterProxyRouter(ctx context.Context, manager IMediaRouter2Manager, callingPackageName string, targetPackageName string, targetUser interface{}) error
+	RegisterProxyRouter(ctx context.Context, manager IMediaRouter2Manager, callingPackageName string, targetPackageName string, targetUser os.UserHandle) error
 	UnregisterManager(ctx context.Context, manager IMediaRouter2Manager) error
 	SetRouteVolumeWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, route MediaRoute2Info, volume int32) error
 	UpdateScanningState(ctx context.Context, manager IMediaRouter2Manager, scanningState int32) error
-	RequestCreateSessionWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, oldSession RoutingSessionInfo, route *MediaRoute2Info, transferInitiatorUserHandle interface{}, transferInitiatorPackageName string) error
+	RequestCreateSessionWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, oldSession RoutingSessionInfo, route *MediaRoute2Info, transferInitiatorUserHandle os.UserHandle, transferInitiatorPackageName string) error
 	SelectRouteWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string, route MediaRoute2Info) error
 	DeselectRouteWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string, route MediaRoute2Info) error
-	TransferToRouteWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string, route MediaRoute2Info, transferInitiatorUserHandle interface{}, transferInitiatorPackageName string) error
+	TransferToRouteWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string, route MediaRoute2Info, transferInitiatorUserHandle os.UserHandle, transferInitiatorPackageName string) error
 	SetSessionVolumeWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string, volume int32) error
 	ReleaseSessionWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string) error
 	ShowMediaOutputSwitcher(ctx context.Context, packageName string) (bool, error)
@@ -158,6 +159,7 @@ func (p *MediaRouterServiceProxy) RegisterClientAsUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(packageName)
@@ -186,6 +188,7 @@ func (p *MediaRouterServiceProxy) UnregisterClient(
 	client IMediaRouterClient,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
@@ -213,6 +216,7 @@ func (p *MediaRouterServiceProxy) RegisterClientGroupId(
 	groupId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(groupId)
@@ -241,6 +245,7 @@ func (p *MediaRouterServiceProxy) GetState(
 ) (MediaRouterClientState, error) {
 	var _result MediaRouterClientState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
@@ -277,6 +282,7 @@ func (p *MediaRouterServiceProxy) IsPlaybackActive(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
@@ -308,6 +314,7 @@ func (p *MediaRouterServiceProxy) SetBluetoothA2dpOn(
 	on bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(on)
@@ -337,6 +344,7 @@ func (p *MediaRouterServiceProxy) SetDiscoveryRequest(
 	activeScan bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(routeTypes)
@@ -367,6 +375,7 @@ func (p *MediaRouterServiceProxy) SetSelectedRoute(
 	explicit bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(routeId)
@@ -397,6 +406,7 @@ func (p *MediaRouterServiceProxy) RequestSetVolume(
 	volume int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(routeId)
@@ -427,6 +437,7 @@ func (p *MediaRouterServiceProxy) RequestUpdateVolume(
 	direction int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(routeId)
@@ -455,6 +466,7 @@ func (p *MediaRouterServiceProxy) GetSystemRoutes(
 ) ([]MediaRoute2Info, error) {
 	var _result []MediaRoute2Info
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouterService, MethodIMediaRouterServiceGetSystemRoutes)
@@ -476,6 +488,9 @@ func (p *MediaRouterServiceProxy) GetSystemRoutes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]MediaRoute2Info, _count)
@@ -496,6 +511,7 @@ func (p *MediaRouterServiceProxy) GetSystemSessionInfo(
 ) (RoutingSessionInfo, error) {
 	var _result RoutingSessionInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouterService, MethodIMediaRouterServiceGetSystemSessionInfo)
@@ -531,6 +547,7 @@ func (p *MediaRouterServiceProxy) RegisterRouter2(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, router.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(packageName)
@@ -558,6 +575,7 @@ func (p *MediaRouterServiceProxy) UnregisterRouter2(
 	router IMediaRouter2,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, router.AsBinder(), p.Remote.Transport())
 
@@ -585,6 +603,7 @@ func (p *MediaRouterServiceProxy) UpdateScanningStateWithRouter2(
 	scanningState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, router.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(scanningState)
@@ -613,6 +632,7 @@ func (p *MediaRouterServiceProxy) SetDiscoveryRequestWithRouter2(
 	preference RouteDiscoveryPreference,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, router.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -644,9 +664,11 @@ func (p *MediaRouterServiceProxy) SetRouteListingPreference(
 	routeListingPreference *RouteListingPreference,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, router.AsBinder(), p.Remote.Transport())
 	if routeListingPreference != nil {
+		_data.WriteInt32(1)
 		if _err := (*routeListingPreference).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -679,6 +701,7 @@ func (p *MediaRouterServiceProxy) SetRouteVolumeWithRouter2(
 	volume int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, router.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -712,11 +735,12 @@ func (p *MediaRouterServiceProxy) RequestCreateSessionWithRouter2(
 	managerRequestId int64,
 	oldSession RoutingSessionInfo,
 	route MediaRoute2Info,
-	sessionHints *interface{},
-	transferInitiatorUserHandle interface{},
+	sessionHints *os.Bundle,
+	transferInitiatorUserHandle os.UserHandle,
 	transferInitiatorPackageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, router.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(requestId)
@@ -727,6 +751,18 @@ func (p *MediaRouterServiceProxy) RequestCreateSessionWithRouter2(
 	}
 	_data.WriteInt32(1)
 	if _err := route.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	if sessionHints != nil {
+		_data.WriteInt32(1)
+		if _err := (*sessionHints).MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
+	_data.WriteInt32(1)
+	if _err := transferInitiatorUserHandle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(transferInitiatorPackageName)
@@ -756,6 +792,7 @@ func (p *MediaRouterServiceProxy) SelectRouteWithRouter2(
 	route MediaRoute2Info,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, router.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(sessionId)
@@ -789,6 +826,7 @@ func (p *MediaRouterServiceProxy) DeselectRouteWithRouter2(
 	route MediaRoute2Info,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, router.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(sessionId)
@@ -822,6 +860,7 @@ func (p *MediaRouterServiceProxy) TransferToRouteWithRouter2(
 	route MediaRoute2Info,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, router.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(sessionId)
@@ -855,6 +894,7 @@ func (p *MediaRouterServiceProxy) SetSessionVolumeWithRouter2(
 	volume int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, router.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(sessionId)
@@ -884,6 +924,7 @@ func (p *MediaRouterServiceProxy) ReleaseSessionWithRouter2(
 	sessionId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, router.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(sessionId)
@@ -912,6 +953,7 @@ func (p *MediaRouterServiceProxy) GetRemoteSessions(
 ) ([]RoutingSessionInfo, error) {
 	var _result []RoutingSessionInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 
@@ -934,6 +976,9 @@ func (p *MediaRouterServiceProxy) GetRemoteSessions(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]RoutingSessionInfo, _count)
@@ -955,6 +1000,7 @@ func (p *MediaRouterServiceProxy) GetSystemSessionInfoForPackage(
 ) (RoutingSessionInfo, error) {
 	var _result RoutingSessionInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	_data.WriteString16(packageName)
 
@@ -991,6 +1037,7 @@ func (p *MediaRouterServiceProxy) RegisterManager(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(packageName)
@@ -1018,13 +1065,18 @@ func (p *MediaRouterServiceProxy) RegisterProxyRouter(
 	manager IMediaRouter2Manager,
 	callingPackageName string,
 	targetPackageName string,
-	targetUser interface{},
+	targetUser os.UserHandle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(callingPackageName)
 	_data.WriteString16(targetPackageName)
+	_data.WriteInt32(1)
+	if _err := targetUser.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouterService, MethodIMediaRouterServiceRegisterProxyRouter)
 	if _err != nil {
@@ -1049,6 +1101,7 @@ func (p *MediaRouterServiceProxy) UnregisterManager(
 	manager IMediaRouter2Manager,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 
@@ -1078,6 +1131,7 @@ func (p *MediaRouterServiceProxy) SetRouteVolumeWithManager(
 	volume int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(requestId)
@@ -1111,6 +1165,7 @@ func (p *MediaRouterServiceProxy) UpdateScanningState(
 	scanningState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(scanningState)
@@ -1139,10 +1194,11 @@ func (p *MediaRouterServiceProxy) RequestCreateSessionWithManager(
 	requestId int32,
 	oldSession RoutingSessionInfo,
 	route *MediaRoute2Info,
-	transferInitiatorUserHandle interface{},
+	transferInitiatorUserHandle os.UserHandle,
 	transferInitiatorPackageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(requestId)
@@ -1151,11 +1207,16 @@ func (p *MediaRouterServiceProxy) RequestCreateSessionWithManager(
 		return _err
 	}
 	if route != nil {
+		_data.WriteInt32(1)
 		if _err := (*route).MarshalParcel(_data); _err != nil {
 			return _err
 		}
 	} else {
 		_data.WriteInt32(-1)
+	}
+	_data.WriteInt32(1)
+	if _err := transferInitiatorUserHandle.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 	_data.WriteString16(transferInitiatorPackageName)
 
@@ -1185,6 +1246,7 @@ func (p *MediaRouterServiceProxy) SelectRouteWithManager(
 	route MediaRoute2Info,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(requestId)
@@ -1220,6 +1282,7 @@ func (p *MediaRouterServiceProxy) DeselectRouteWithManager(
 	route MediaRoute2Info,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(requestId)
@@ -1253,16 +1316,21 @@ func (p *MediaRouterServiceProxy) TransferToRouteWithManager(
 	requestId int32,
 	sessionId string,
 	route MediaRoute2Info,
-	transferInitiatorUserHandle interface{},
+	transferInitiatorUserHandle os.UserHandle,
 	transferInitiatorPackageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(requestId)
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(1)
 	if _err := route.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := transferInitiatorUserHandle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(transferInitiatorPackageName)
@@ -1293,6 +1361,7 @@ func (p *MediaRouterServiceProxy) SetSessionVolumeWithManager(
 	volume int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(requestId)
@@ -1324,6 +1393,7 @@ func (p *MediaRouterServiceProxy) ReleaseSessionWithManager(
 	sessionId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(requestId)
@@ -1353,6 +1423,7 @@ func (p *MediaRouterServiceProxy) ShowMediaOutputSwitcher(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	_data.WriteString16(packageName)
 
@@ -1381,7 +1452,8 @@ func (p *MediaRouterServiceProxy) ShowMediaOutputSwitcher(
 // MediaRouterServiceStub dispatches incoming binder transactions
 // to a typed IMediaRouterService implementation.
 type MediaRouterServiceStub struct {
-	Impl IMediaRouterService
+	Impl      IMediaRouterService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaRouterServiceStub)(nil)
@@ -1395,14 +1467,20 @@ func (s *MediaRouterServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaRouterServiceRegisterClientAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewMediaRouterClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1419,12 +1497,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceUnregisterClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewMediaRouterClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_err := s.Impl.UnregisterClient(ctx, _arg_client)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1434,12 +1514,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceRegisterClientGroupId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewMediaRouterClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_arg_groupId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1453,12 +1535,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceGetState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewMediaRouterClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_result, _err := s.Impl.GetState(ctx, _arg_client)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1472,12 +1556,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMediaRouterServiceIsPlaybackActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewMediaRouterClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_result, _err := s.Impl.IsPlaybackActive(ctx, _arg_client)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1488,12 +1574,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetBluetoothA2dpOn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewMediaRouterClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_arg_on, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1507,12 +1595,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetDiscoveryRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewMediaRouterClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_arg_routeTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1530,12 +1620,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetSelectedRoute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewMediaRouterClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_arg_routeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1553,12 +1645,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceRequestSetVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewMediaRouterClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_arg_routeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1576,12 +1670,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceRequestUpdateVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewMediaRouterClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_arg_routeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1599,9 +1695,6 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceGetSystemRoutes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSystemRoutes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1609,13 +1702,19 @@ func (s *MediaRouterServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIMediaRouterServiceGetSystemSessionInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSystemSessionInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1629,12 +1728,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMediaRouterServiceRegisterRouter2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
-		_ = _arg_router
+		{
+			_routerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_router = NewMediaRouter2Proxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _routerHandle))
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1648,12 +1749,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceUnregisterRouter2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
-		_ = _arg_router
+		{
+			_routerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_router = NewMediaRouter2Proxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _routerHandle))
+		}
 		_err := s.Impl.UnregisterRouter2(ctx, _arg_router)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1663,12 +1766,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceUpdateScanningStateWithRouter2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
-		_ = _arg_router
+		{
+			_routerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_router = NewMediaRouter2Proxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _routerHandle))
+		}
 		_arg_scanningState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1682,12 +1787,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetDiscoveryRequestWithRouter2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
-		_ = _arg_router
+		{
+			_routerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_router = NewMediaRouter2Proxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _routerHandle))
+		}
 		var _arg_preference RouteDiscoveryPreference
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1709,12 +1816,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetRouteListingPreference:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
-		_ = _arg_router
+		{
+			_routerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_router = NewMediaRouter2Proxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _routerHandle))
+		}
 		var _arg_routeListingPreference *RouteListingPreference
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1722,6 +1831,7 @@ func (s *MediaRouterServiceStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_routeListingPreference = new(RouteListingPreference)
 				if _err = _arg_routeListingPreference.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -1736,12 +1846,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetRouteVolumeWithRouter2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
-		_ = _arg_router
+		{
+			_routerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_router = NewMediaRouter2Proxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _routerHandle))
+		}
 		var _arg_route MediaRoute2Info
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1767,12 +1879,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceRequestCreateSessionWithRouter2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
-		_ = _arg_router
+		{
+			_routerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_router = NewMediaRouter2Proxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _routerHandle))
+		}
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1805,8 +1919,31 @@ func (s *MediaRouterServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_sessionHints *interface{}
-		var _arg_transferInitiatorUserHandle interface{}
+		var _arg_sessionHints *os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				_arg_sessionHints = new(os.Bundle)
+				if _err = _arg_sessionHints.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_transferInitiatorUserHandle os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_transferInitiatorUserHandle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_transferInitiatorPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1820,12 +1957,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSelectRouteWithRouter2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
-		_ = _arg_router
+		{
+			_routerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_router = NewMediaRouter2Proxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _routerHandle))
+		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1851,12 +1990,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceDeselectRouteWithRouter2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
-		_ = _arg_router
+		{
+			_routerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_router = NewMediaRouter2Proxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _routerHandle))
+		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1882,12 +2023,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceTransferToRouteWithRouter2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
-		_ = _arg_router
+		{
+			_routerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_router = NewMediaRouter2Proxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _routerHandle))
+		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1913,12 +2056,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetSessionVolumeWithRouter2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
-		_ = _arg_router
+		{
+			_routerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_router = NewMediaRouter2Proxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _routerHandle))
+		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1936,12 +2081,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceReleaseSessionWithRouter2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
-		_ = _arg_router
+		{
+			_routerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_router = NewMediaRouter2Proxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _routerHandle))
+		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1955,12 +2102,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceGetRemoteSessions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
-		_ = _arg_manager
+		{
+			_managerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_manager = NewMediaRouter2ManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _managerHandle))
+		}
 		_result, _err := s.Impl.GetRemoteSessions(ctx, _arg_manager)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1968,13 +2117,19 @@ func (s *MediaRouterServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIMediaRouterServiceGetSystemSessionInfoForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1992,12 +2147,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMediaRouterServiceRegisterManager:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
-		_ = _arg_manager
+		{
+			_managerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_manager = NewMediaRouter2ManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _managerHandle))
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2011,12 +2168,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceRegisterProxyRouter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
-		_ = _arg_manager
+		{
+			_managerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_manager = NewMediaRouter2ManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _managerHandle))
+		}
 		_arg_callingPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2025,7 +2184,18 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_targetUser interface{}
+		var _arg_targetUser os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_targetUser.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.RegisterProxyRouter(ctx, _arg_manager, _arg_callingPackageName, _arg_targetPackageName, _arg_targetUser)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2035,12 +2205,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceUnregisterManager:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
-		_ = _arg_manager
+		{
+			_managerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_manager = NewMediaRouter2ManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _managerHandle))
+		}
 		_err := s.Impl.UnregisterManager(ctx, _arg_manager)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2050,12 +2222,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetRouteVolumeWithManager:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
-		_ = _arg_manager
+		{
+			_managerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_manager = NewMediaRouter2ManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _managerHandle))
+		}
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2085,12 +2259,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceUpdateScanningState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
-		_ = _arg_manager
+		{
+			_managerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_manager = NewMediaRouter2ManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _managerHandle))
+		}
 		_arg_scanningState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2104,12 +2280,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceRequestCreateSessionWithManager:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
-		_ = _arg_manager
+		{
+			_managerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_manager = NewMediaRouter2ManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _managerHandle))
+		}
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2133,12 +2311,24 @@ func (s *MediaRouterServiceStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_route = new(MediaRoute2Info)
 				if _err = _arg_route.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		var _arg_transferInitiatorUserHandle interface{}
+		var _arg_transferInitiatorUserHandle os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_transferInitiatorUserHandle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_transferInitiatorPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2152,12 +2342,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSelectRouteWithManager:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
-		_ = _arg_manager
+		{
+			_managerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_manager = NewMediaRouter2ManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _managerHandle))
+		}
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2187,12 +2379,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceDeselectRouteWithManager:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
-		_ = _arg_manager
+		{
+			_managerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_manager = NewMediaRouter2ManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _managerHandle))
+		}
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2222,12 +2416,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceTransferToRouteWithManager:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
-		_ = _arg_manager
+		{
+			_managerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_manager = NewMediaRouter2ManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _managerHandle))
+		}
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2248,7 +2444,18 @@ func (s *MediaRouterServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_transferInitiatorUserHandle interface{}
+		var _arg_transferInitiatorUserHandle os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_transferInitiatorUserHandle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_transferInitiatorPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2262,12 +2469,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetSessionVolumeWithManager:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
-		_ = _arg_manager
+		{
+			_managerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_manager = NewMediaRouter2ManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _managerHandle))
+		}
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2289,12 +2498,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceReleaseSessionWithManager:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
-		_ = _arg_manager
+		{
+			_managerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_manager = NewMediaRouter2ManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _managerHandle))
+		}
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2312,9 +2523,6 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceShowMediaOutputSwitcher:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2355,7 +2563,7 @@ type IMediaRouterServiceServer interface {
 	SetDiscoveryRequestWithRouter2(ctx context.Context, router IMediaRouter2, preference RouteDiscoveryPreference) error
 	SetRouteListingPreference(ctx context.Context, router IMediaRouter2, routeListingPreference *RouteListingPreference) error
 	SetRouteVolumeWithRouter2(ctx context.Context, router IMediaRouter2, route MediaRoute2Info, volume int32) error
-	RequestCreateSessionWithRouter2(ctx context.Context, router IMediaRouter2, requestId int32, managerRequestId int64, oldSession RoutingSessionInfo, route MediaRoute2Info, sessionHints *interface{}, transferInitiatorUserHandle interface{}, transferInitiatorPackageName string) error
+	RequestCreateSessionWithRouter2(ctx context.Context, router IMediaRouter2, requestId int32, managerRequestId int64, oldSession RoutingSessionInfo, route MediaRoute2Info, sessionHints *os.Bundle, transferInitiatorUserHandle os.UserHandle, transferInitiatorPackageName string) error
 	SelectRouteWithRouter2(ctx context.Context, router IMediaRouter2, sessionId string, route MediaRoute2Info) error
 	DeselectRouteWithRouter2(ctx context.Context, router IMediaRouter2, sessionId string, route MediaRoute2Info) error
 	TransferToRouteWithRouter2(ctx context.Context, router IMediaRouter2, sessionId string, route MediaRoute2Info) error
@@ -2364,14 +2572,14 @@ type IMediaRouterServiceServer interface {
 	GetRemoteSessions(ctx context.Context, manager IMediaRouter2Manager) ([]RoutingSessionInfo, error)
 	GetSystemSessionInfoForPackage(ctx context.Context, packageName string) (RoutingSessionInfo, error)
 	RegisterManager(ctx context.Context, manager IMediaRouter2Manager, packageName string) error
-	RegisterProxyRouter(ctx context.Context, manager IMediaRouter2Manager, callingPackageName string, targetPackageName string, targetUser interface{}) error
+	RegisterProxyRouter(ctx context.Context, manager IMediaRouter2Manager, callingPackageName string, targetPackageName string, targetUser os.UserHandle) error
 	UnregisterManager(ctx context.Context, manager IMediaRouter2Manager) error
 	SetRouteVolumeWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, route MediaRoute2Info, volume int32) error
 	UpdateScanningState(ctx context.Context, manager IMediaRouter2Manager, scanningState int32) error
-	RequestCreateSessionWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, oldSession RoutingSessionInfo, route *MediaRoute2Info, transferInitiatorUserHandle interface{}, transferInitiatorPackageName string) error
+	RequestCreateSessionWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, oldSession RoutingSessionInfo, route *MediaRoute2Info, transferInitiatorUserHandle os.UserHandle, transferInitiatorPackageName string) error
 	SelectRouteWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string, route MediaRoute2Info) error
 	DeselectRouteWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string, route MediaRoute2Info) error
-	TransferToRouteWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string, route MediaRoute2Info, transferInitiatorUserHandle interface{}, transferInitiatorPackageName string) error
+	TransferToRouteWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string, route MediaRoute2Info, transferInitiatorUserHandle os.UserHandle, transferInitiatorPackageName string) error
 	SetSessionVolumeWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string, volume int32) error
 	ReleaseSessionWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string) error
 	ShowMediaOutputSwitcher(ctx context.Context, packageName string) (bool, error)
@@ -2534,8 +2742,8 @@ func (w *mediaRouterServiceStubWrapper) RequestCreateSessionWithRouter2(
 	managerRequestId int64,
 	oldSession RoutingSessionInfo,
 	route MediaRoute2Info,
-	sessionHints *interface{},
-	transferInitiatorUserHandle interface{},
+	sessionHints *os.Bundle,
+	transferInitiatorUserHandle os.UserHandle,
 	transferInitiatorPackageName string,
 ) error {
 	return w.impl.RequestCreateSessionWithRouter2(ctx, router, requestId, managerRequestId, oldSession, route, sessionHints, transferInitiatorUserHandle, transferInitiatorPackageName)
@@ -2612,7 +2820,7 @@ func (w *mediaRouterServiceStubWrapper) RegisterProxyRouter(
 	manager IMediaRouter2Manager,
 	callingPackageName string,
 	targetPackageName string,
-	targetUser interface{},
+	targetUser os.UserHandle,
 ) error {
 	return w.impl.RegisterProxyRouter(ctx, manager, callingPackageName, targetPackageName, targetUser)
 }
@@ -2648,7 +2856,7 @@ func (w *mediaRouterServiceStubWrapper) RequestCreateSessionWithManager(
 	requestId int32,
 	oldSession RoutingSessionInfo,
 	route *MediaRoute2Info,
-	transferInitiatorUserHandle interface{},
+	transferInitiatorUserHandle os.UserHandle,
 	transferInitiatorPackageName string,
 ) error {
 	return w.impl.RequestCreateSessionWithManager(ctx, manager, requestId, oldSession, route, transferInitiatorUserHandle, transferInitiatorPackageName)
@@ -2680,7 +2888,7 @@ func (w *mediaRouterServiceStubWrapper) TransferToRouteWithManager(
 	requestId int32,
 	sessionId string,
 	route MediaRoute2Info,
-	transferInitiatorUserHandle interface{},
+	transferInitiatorUserHandle os.UserHandle,
 	transferInitiatorPackageName string,
 ) error {
 	return w.impl.TransferToRouteWithManager(ctx, manager, requestId, sessionId, route, transferInitiatorUserHandle, transferInitiatorPackageName)

@@ -3,6 +3,7 @@ package media
 import (
 	"context"
 	"fmt"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -67,12 +68,12 @@ type IAudioTrack interface {
 	Signal(ctx context.Context) error
 	ApplyVolumeShaper(ctx context.Context, configuration VolumeShaperConfiguration, operation VolumeShaperOperation) (int32, error)
 	GetVolumeShaperState(ctx context.Context, id int32) (VolumeShaperState, error)
-	GetDualMonoMode(ctx context.Context) (interface{}, error)
-	SetDualMonoMode(ctx context.Context, mode interface{}) error
+	GetDualMonoMode(ctx context.Context) (common.AudioDualMonoMode, error)
+	SetDualMonoMode(ctx context.Context, mode common.AudioDualMonoMode) error
 	GetAudioDescriptionMixLevel(ctx context.Context) (float32, error)
 	SetAudioDescriptionMixLevel(ctx context.Context, leveldB float32) error
-	GetPlaybackRateParameters(ctx context.Context) (interface{}, error)
-	SetPlaybackRateParameters(ctx context.Context, playbackRate interface{}) error
+	GetPlaybackRateParameters(ctx context.Context) (common.AudioPlaybackRate, error)
+	SetPlaybackRateParameters(ctx context.Context, playbackRate common.AudioPlaybackRate) error
 }
 
 type AudioTrackProxy struct {
@@ -96,6 +97,7 @@ func (p *AudioTrackProxy) GetCblk(
 ) (SharedFileRegion, error) {
 	var _result SharedFileRegion
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackGetCblk)
@@ -130,6 +132,7 @@ func (p *AudioTrackProxy) Start(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackStart)
@@ -158,6 +161,7 @@ func (p *AudioTrackProxy) Stop(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackStop)
@@ -182,6 +186,7 @@ func (p *AudioTrackProxy) Flush(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackFlush)
@@ -206,6 +211,7 @@ func (p *AudioTrackProxy) Pause(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackPause)
@@ -232,6 +238,7 @@ func (p *AudioTrackProxy) AttachAuxEffect(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
 	_data.WriteInt32(effectId)
 
@@ -263,6 +270,7 @@ func (p *AudioTrackProxy) SetParameters(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
 	_data.WriteString16(keyValuePairs)
 
@@ -295,6 +303,7 @@ func (p *AudioTrackProxy) SelectPresentation(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
 	_data.WriteInt32(presentationId)
 	_data.WriteInt32(programId)
@@ -327,6 +336,7 @@ func (p *AudioTrackProxy) GetTimestamp(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackGetTimestamp)
@@ -343,8 +353,16 @@ func (p *AudioTrackProxy) GetTimestamp(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = timestamp.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = timestamp.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadInt32()
@@ -358,6 +376,7 @@ func (p *AudioTrackProxy) Signal(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackSignal)
@@ -385,6 +404,7 @@ func (p *AudioTrackProxy) ApplyVolumeShaper(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
 	_data.WriteInt32(1)
 	if _err := configuration.MarshalParcel(_data); _err != nil {
@@ -423,6 +443,7 @@ func (p *AudioTrackProxy) GetVolumeShaperState(
 ) (VolumeShaperState, error) {
 	var _result VolumeShaperState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
 	_data.WriteInt32(id)
 
@@ -455,9 +476,10 @@ func (p *AudioTrackProxy) GetVolumeShaperState(
 
 func (p *AudioTrackProxy) GetDualMonoMode(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (common.AudioDualMonoMode, error) {
+	var _result common.AudioDualMonoMode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackGetDualMonoMode)
@@ -475,15 +497,22 @@ func (p *AudioTrackProxy) GetDualMonoMode(
 		return _result, _err
 	}
 
+	_raw, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = common.AudioDualMonoMode(_raw)
 	return _result, nil
 }
 
 func (p *AudioTrackProxy) SetDualMonoMode(
 	ctx context.Context,
-	mode interface{},
+	mode common.AudioDualMonoMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
+	_data.WriteInt32(int32(mode))
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackSetDualMonoMode)
 	if _err != nil {
@@ -508,6 +537,7 @@ func (p *AudioTrackProxy) GetAudioDescriptionMixLevel(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackGetAudioDescriptionMixLevel)
@@ -537,6 +567,7 @@ func (p *AudioTrackProxy) SetAudioDescriptionMixLevel(
 	leveldB float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
 	_data.WriteFloat32(leveldB)
 
@@ -560,9 +591,10 @@ func (p *AudioTrackProxy) SetAudioDescriptionMixLevel(
 
 func (p *AudioTrackProxy) GetPlaybackRateParameters(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (common.AudioPlaybackRate, error) {
+	var _result common.AudioPlaybackRate
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackGetPlaybackRateParameters)
@@ -580,15 +612,29 @@ func (p *AudioTrackProxy) GetPlaybackRateParameters(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *AudioTrackProxy) SetPlaybackRateParameters(
 	ctx context.Context,
-	playbackRate interface{},
+	playbackRate common.AudioPlaybackRate,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioTrack)
+	_data.WriteInt32(1)
+	if _err := playbackRate.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrack, MethodIAudioTrackSetPlaybackRateParameters)
 	if _err != nil {
@@ -611,7 +657,8 @@ func (p *AudioTrackProxy) SetPlaybackRateParameters(
 // AudioTrackStub dispatches incoming binder transactions
 // to a typed IAudioTrack implementation.
 type AudioTrackStub struct {
-	Impl IAudioTrack
+	Impl      IAudioTrack
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AudioTrackStub)(nil)
@@ -625,11 +672,12 @@ func (s *AudioTrackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAudioTrackGetCblk:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCblk(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -643,9 +691,6 @@ func (s *AudioTrackStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioTrackStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Start(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -656,9 +701,6 @@ func (s *AudioTrackStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioTrackStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Stop(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -668,9 +710,6 @@ func (s *AudioTrackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioTrackFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Flush(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -680,9 +719,6 @@ func (s *AudioTrackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioTrackPause:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Pause(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -692,9 +728,6 @@ func (s *AudioTrackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioTrackAttachAuxEffect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_effectId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -709,9 +742,6 @@ func (s *AudioTrackStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioTrackSetParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_keyValuePairs, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -726,9 +756,6 @@ func (s *AudioTrackStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioTrackSelectPresentation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_presentationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -747,9 +774,6 @@ func (s *AudioTrackStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioTrackGetTimestamp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_timestamp AudioTimestampInternal
 		_result, _err := s.Impl.GetTimestamp(ctx, _arg_timestamp)
 		_reply := parcel.New()
@@ -759,11 +783,12 @@ func (s *AudioTrackStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIAudioTrackSignal:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_timestamp.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIAudioTrackSignal:
 		_err := s.Impl.Signal(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -773,9 +798,6 @@ func (s *AudioTrackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioTrackApplyVolumeShaper:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_configuration VolumeShaperConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -810,9 +832,6 @@ func (s *AudioTrackStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioTrackGetVolumeShaperState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -830,9 +849,6 @@ func (s *AudioTrackStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioTrackGetDualMonoMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDualMonoMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -840,14 +856,15 @@ func (s *AudioTrackStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIAudioTrackSetDualMonoMode:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_raw_mode, _err := _data.ReadInt32()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_mode interface{}
-		_err := s.Impl.SetDualMonoMode(ctx, _arg_mode)
+		_arg_mode := common.AudioDualMonoMode(_raw_mode)
+		_err = s.Impl.SetDualMonoMode(ctx, _arg_mode)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -856,9 +873,6 @@ func (s *AudioTrackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioTrackGetAudioDescriptionMixLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAudioDescriptionMixLevel(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -869,9 +883,6 @@ func (s *AudioTrackStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIAudioTrackSetAudioDescriptionMixLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_leveldB, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -885,9 +896,6 @@ func (s *AudioTrackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioTrackGetPlaybackRateParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPlaybackRateParameters(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -895,13 +903,24 @@ func (s *AudioTrackStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIAudioTrackSetPlaybackRateParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
-		var _arg_playbackRate interface{}
+		return _reply, nil
+	case TransactionIAudioTrackSetPlaybackRateParameters:
+		var _arg_playbackRate common.AudioPlaybackRate
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_playbackRate.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SetPlaybackRateParameters(ctx, _arg_playbackRate)
 		_reply := parcel.New()
 		if _err != nil {
@@ -931,12 +950,12 @@ type IAudioTrackServer interface {
 	Signal(ctx context.Context) error
 	ApplyVolumeShaper(ctx context.Context, configuration VolumeShaperConfiguration, operation VolumeShaperOperation) (int32, error)
 	GetVolumeShaperState(ctx context.Context, id int32) (VolumeShaperState, error)
-	GetDualMonoMode(ctx context.Context) (interface{}, error)
-	SetDualMonoMode(ctx context.Context, mode interface{}) error
+	GetDualMonoMode(ctx context.Context) (common.AudioDualMonoMode, error)
+	SetDualMonoMode(ctx context.Context, mode common.AudioDualMonoMode) error
 	GetAudioDescriptionMixLevel(ctx context.Context) (float32, error)
 	SetAudioDescriptionMixLevel(ctx context.Context, leveldB float32) error
-	GetPlaybackRateParameters(ctx context.Context) (interface{}, error)
-	SetPlaybackRateParameters(ctx context.Context, playbackRate interface{}) error
+	GetPlaybackRateParameters(ctx context.Context) (common.AudioPlaybackRate, error)
+	SetPlaybackRateParameters(ctx context.Context, playbackRate common.AudioPlaybackRate) error
 }
 
 type audioTrackStubWrapper struct {
@@ -1030,13 +1049,13 @@ func (w *audioTrackStubWrapper) GetVolumeShaperState(
 
 func (w *audioTrackStubWrapper) GetDualMonoMode(
 	ctx context.Context,
-) (interface{}, error) {
+) (common.AudioDualMonoMode, error) {
 	return w.impl.GetDualMonoMode(ctx)
 }
 
 func (w *audioTrackStubWrapper) SetDualMonoMode(
 	ctx context.Context,
-	mode interface{},
+	mode common.AudioDualMonoMode,
 ) error {
 	return w.impl.SetDualMonoMode(ctx, mode)
 }
@@ -1056,13 +1075,13 @@ func (w *audioTrackStubWrapper) SetAudioDescriptionMixLevel(
 
 func (w *audioTrackStubWrapper) GetPlaybackRateParameters(
 	ctx context.Context,
-) (interface{}, error) {
+) (common.AudioPlaybackRate, error) {
 	return w.impl.GetPlaybackRateParameters(ctx)
 }
 
 func (w *audioTrackStubWrapper) SetPlaybackRateParameters(
 	ctx context.Context,
-	playbackRate interface{},
+	playbackRate common.AudioPlaybackRate,
 ) error {
 	return w.impl.SetPlaybackRateParameters(ctx, playbackRate)
 }

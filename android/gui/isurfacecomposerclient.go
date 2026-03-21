@@ -31,7 +31,7 @@ const (
 
 type ISurfaceComposerClient interface {
 	AsBinder() binder.IBinder
-	CreateSurface(ctx context.Context, name string, flags int32, parent binder.IBinder, metadata interface{}) (CreateSurfaceResult, error)
+	CreateSurface(ctx context.Context, name string, flags int32, parent binder.IBinder, metadata LayerMetadata) (CreateSurfaceResult, error)
 	ClearLayerFrameStats(ctx context.Context, handle binder.IBinder) error
 	GetLayerFrameStats(ctx context.Context, handle binder.IBinder) (FrameStats, error)
 	MirrorSurface(ctx context.Context, mirrorFromHandle binder.IBinder) (CreateSurfaceResult, error)
@@ -78,14 +78,19 @@ func (p *SurfaceComposerClientProxy) CreateSurface(
 	name string,
 	flags int32,
 	parent binder.IBinder,
-	metadata interface{},
+	metadata LayerMetadata,
 ) (CreateSurfaceResult, error) {
 	var _result CreateSurfaceResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
 	_data.WriteString16(name)
 	_data.WriteInt32(flags)
 	binder.WriteBinderToParcel(ctx, _data, parent, p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := metadata.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientCreateSurface)
 	if _err != nil {
@@ -119,6 +124,7 @@ func (p *SurfaceComposerClientProxy) ClearLayerFrameStats(
 	handle binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
 	binder.WriteBinderToParcel(ctx, _data, handle, p.Remote.Transport())
 
@@ -146,6 +152,7 @@ func (p *SurfaceComposerClientProxy) GetLayerFrameStats(
 ) (FrameStats, error) {
 	var _result FrameStats
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
 	binder.WriteBinderToParcel(ctx, _data, handle, p.Remote.Transport())
 
@@ -182,6 +189,7 @@ func (p *SurfaceComposerClientProxy) MirrorSurface(
 ) (CreateSurfaceResult, error) {
 	var _result CreateSurfaceResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
 	binder.WriteBinderToParcel(ctx, _data, mirrorFromHandle, p.Remote.Transport())
 
@@ -218,6 +226,7 @@ func (p *SurfaceComposerClientProxy) MirrorDisplay(
 ) (CreateSurfaceResult, error) {
 	var _result CreateSurfaceResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
 	_data.WriteInt64(displayId)
 
@@ -253,6 +262,7 @@ func (p *SurfaceComposerClientProxy) GetSchedulingPolicy(
 ) (SchedulingPolicy, error) {
 	var _result SchedulingPolicy
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientGetSchedulingPolicy)
@@ -285,7 +295,8 @@ func (p *SurfaceComposerClientProxy) GetSchedulingPolicy(
 // SurfaceComposerClientStub dispatches incoming binder transactions
 // to a typed ISurfaceComposerClient implementation.
 type SurfaceComposerClientStub struct {
-	Impl ISurfaceComposerClient
+	Impl      ISurfaceComposerClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SurfaceComposerClientStub)(nil)
@@ -299,11 +310,12 @@ func (s *SurfaceComposerClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISurfaceComposerClientCreateSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -312,10 +324,26 @@ func (s *SurfaceComposerClientStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_parent binder.IBinder
-		_ = _arg_parent
-		var _arg_metadata interface{}
+		{
+			_parentHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_parent = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _parentHandle)
+		}
+		var _arg_metadata LayerMetadata
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_metadata.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.CreateSurface(ctx, _arg_name, _arg_flags, _arg_parent, _arg_metadata)
 		_reply := parcel.New()
 		if _err != nil {
@@ -329,12 +357,14 @@ func (s *SurfaceComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerClientClearLayerFrameStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_handle binder.IBinder
-		_ = _arg_handle
+		{
+			_handleHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_handle = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _handleHandle)
+		}
 		_err := s.Impl.ClearLayerFrameStats(ctx, _arg_handle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -344,12 +374,14 @@ func (s *SurfaceComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerClientGetLayerFrameStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_handle binder.IBinder
-		_ = _arg_handle
+		{
+			_handleHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_handle = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _handleHandle)
+		}
 		_result, _err := s.Impl.GetLayerFrameStats(ctx, _arg_handle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -363,12 +395,14 @@ func (s *SurfaceComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerClientMirrorSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_mirrorFromHandle binder.IBinder
-		_ = _arg_mirrorFromHandle
+		{
+			_mirrorFromHandleHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_mirrorFromHandle = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _mirrorFromHandleHandle)
+		}
 		_result, _err := s.Impl.MirrorSurface(ctx, _arg_mirrorFromHandle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -382,9 +416,6 @@ func (s *SurfaceComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerClientMirrorDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -402,9 +433,6 @@ func (s *SurfaceComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerClientGetSchedulingPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSchedulingPolicy(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -426,7 +454,7 @@ func (s *SurfaceComposerClientStub) OnTransaction(
 // provide to NewSurfaceComposerClientStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ISurfaceComposerClientServer interface {
-	CreateSurface(ctx context.Context, name string, flags int32, parent binder.IBinder, metadata interface{}) (CreateSurfaceResult, error)
+	CreateSurface(ctx context.Context, name string, flags int32, parent binder.IBinder, metadata LayerMetadata) (CreateSurfaceResult, error)
 	ClearLayerFrameStats(ctx context.Context, handle binder.IBinder) error
 	GetLayerFrameStats(ctx context.Context, handle binder.IBinder) (FrameStats, error)
 	MirrorSurface(ctx context.Context, mirrorFromHandle binder.IBinder) (CreateSurfaceResult, error)
@@ -448,7 +476,7 @@ func (w *surfaceComposerClientStubWrapper) CreateSurface(
 	name string,
 	flags int32,
 	parent binder.IBinder,
-	metadata interface{},
+	metadata LayerMetadata,
 ) (CreateSurfaceResult, error) {
 	return w.impl.CreateSurface(ctx, name, flags, parent, metadata)
 }

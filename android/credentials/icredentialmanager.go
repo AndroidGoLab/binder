@@ -83,6 +83,7 @@ func (p *CredentialManagerProxy) ExecuteGetCredential(
 	var _result common.ICancellationSignal
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -123,6 +124,7 @@ func (p *CredentialManagerProxy) ExecutePrepareGetCredential(
 	var _result common.ICancellationSignal
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -163,6 +165,7 @@ func (p *CredentialManagerProxy) ExecuteCreateCredential(
 	var _result common.ICancellationSignal
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -203,6 +206,7 @@ func (p *CredentialManagerProxy) GetCandidateCredentials(
 	var _result common.ICancellationSignal
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -243,6 +247,7 @@ func (p *CredentialManagerProxy) ClearCredentialState(
 	var _result common.ICancellationSignal
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -282,6 +287,7 @@ func (p *CredentialManagerProxy) SetEnabledProviders(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	if primaryProviders == nil {
 		_data.WriteInt32(-1)
@@ -326,6 +332,7 @@ func (p *CredentialManagerProxy) RegisterCredentialDescription(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -357,6 +364,7 @@ func (p *CredentialManagerProxy) UnregisterCredentialDescription(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -389,6 +397,7 @@ func (p *CredentialManagerProxy) IsEnabledCredentialProviderService(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
@@ -425,6 +434,7 @@ func (p *CredentialManagerProxy) GetCredentialProviderServices(
 	var _result []CredentialProviderInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(providerFilter)
@@ -448,6 +458,9 @@ func (p *CredentialManagerProxy) GetCredentialProviderServices(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]CredentialProviderInfo, _count)
@@ -469,6 +482,7 @@ func (p *CredentialManagerProxy) GetCredentialProviderServicesForTesting(
 ) ([]CredentialProviderInfo, error) {
 	var _result []CredentialProviderInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(providerFilter)
 
@@ -491,6 +505,9 @@ func (p *CredentialManagerProxy) GetCredentialProviderServicesForTesting(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]CredentialProviderInfo, _count)
@@ -511,6 +528,7 @@ func (p *CredentialManagerProxy) IsServiceEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerIsServiceEnabled)
@@ -538,7 +556,8 @@ func (p *CredentialManagerProxy) IsServiceEnabled(
 // CredentialManagerStub dispatches incoming binder transactions
 // to a typed ICredentialManager implementation.
 type CredentialManagerStub struct {
-	Impl ICredentialManager
+	Impl      ICredentialManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CredentialManagerStub)(nil)
@@ -552,11 +571,12 @@ func (s *CredentialManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICredentialManagerExecuteGetCredential:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request GetCredentialRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -569,9 +589,14 @@ func (s *CredentialManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetCredentialCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetCredentialCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -582,13 +607,9 @@ func (s *CredentialManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionICredentialManagerExecutePrepareGetCredential:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request GetCredentialRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -601,12 +622,22 @@ func (s *CredentialManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_prepareGetCredentialCallback IPrepareGetCredentialCallback
-		_ = _arg_prepareGetCredentialCallback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_prepareGetCredentialCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_prepareGetCredentialCallback = NewPrepareGetCredentialCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _prepareGetCredentialCallbackHandle))
+		}
 		var _arg_getCredentialCallback IGetCredentialCallback
-		_ = _arg_getCredentialCallback
+		{
+			_getCredentialCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_getCredentialCallback = NewGetCredentialCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _getCredentialCallbackHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -617,13 +648,9 @@ func (s *CredentialManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionICredentialManagerExecuteCreateCredential:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request CreateCredentialRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -636,9 +663,14 @@ func (s *CredentialManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICreateCredentialCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCreateCredentialCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -649,13 +681,9 @@ func (s *CredentialManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionICredentialManagerGetCandidateCredentials:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request GetCredentialRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -668,12 +696,22 @@ func (s *CredentialManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetCandidateCredentialsCallback
-		_ = _arg_callback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetCandidateCredentialsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_clientCallback binder.IBinder
-		_ = _arg_clientCallback
+		{
+			_clientCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientCallback = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientCallbackHandle)
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -684,13 +722,9 @@ func (s *CredentialManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionICredentialManagerClearCredentialState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request ClearCredentialStateRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -703,9 +737,14 @@ func (s *CredentialManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IClearCredentialStateCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewClearCredentialStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -716,25 +755,58 @@ func (s *CredentialManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionICredentialManagerSetEnabledProviders:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_primaryProviders []string
-		_ = _arg_primaryProviders
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_primaryProviders = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_primaryProviders[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_providers []string
-		_ = _arg_providers
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_providers = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_providers[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISetEnabledProvidersCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSetEnabledProvidersCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetEnabledProviders(ctx, _arg_primaryProviders, _arg_providers, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -744,9 +816,6 @@ func (s *CredentialManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICredentialManagerRegisterCredentialDescription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request RegisterCredentialDescriptionRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -771,9 +840,6 @@ func (s *CredentialManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICredentialManagerUnregisterCredentialDescription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request UnregisterCredentialDescriptionRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -798,9 +864,6 @@ func (s *CredentialManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICredentialManagerIsEnabledCredentialProviderService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -826,9 +889,6 @@ func (s *CredentialManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICredentialManagerGetCredentialProviderServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -843,13 +903,19 @@ func (s *CredentialManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionICredentialManagerGetCredentialProviderServicesForTesting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_providerFilter, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -861,13 +927,19 @@ func (s *CredentialManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionICredentialManagerIsServiceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsServiceEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {

@@ -31,8 +31,7 @@ func (u *HmacKey) GetSha256() ([]byte, bool) {
 func (u *HmacKey) SetSha256(
 	v []byte,
 ) {
-	u.Tag = HmacKeyTagSha256
-	u.Sha256 = v
+	*u = HmacKey{Tag: HmacKeyTagSha256, Sha256: v}
 }
 
 func (u *HmacKey) GetSha512() ([]byte, bool) {
@@ -46,8 +45,7 @@ func (u *HmacKey) GetSha512() ([]byte, bool) {
 func (u *HmacKey) SetSha512(
 	v []byte,
 ) {
-	u.Tag = HmacKeyTagSha512
-	u.Sha512 = v
+	*u = HmacKey{Tag: HmacKeyTagSha512, Sha512: v}
 }
 
 func (u *HmacKey) MarshalParcel(

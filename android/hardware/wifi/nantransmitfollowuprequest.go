@@ -44,9 +44,19 @@ func (s *NanTransmitFollowupRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.DiscoverySessionId, _err = p.ReadPaddedByte()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.PeerId, _err = p.ReadInt32()
@@ -54,9 +64,19 @@ func (s *NanTransmitFollowupRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Addr, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.IsHighPriority, _err = p.ReadBool()
@@ -64,9 +84,19 @@ func (s *NanTransmitFollowupRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ShouldUseDiscoveryWindow, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ServiceSpecificInfo, _err = p.ReadByteArray()
@@ -74,9 +104,19 @@ func (s *NanTransmitFollowupRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ExtendedServiceSpecificInfo, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.DisableFollowupResultIndication, _err = p.ReadBool()

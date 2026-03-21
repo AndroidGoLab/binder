@@ -63,6 +63,7 @@ func (p *MediaTranscodingServiceProxy) RegisterClient(
 	var _result ITranscodingClient
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaTranscodingService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(clientName)
@@ -96,6 +97,7 @@ func (p *MediaTranscodingServiceProxy) GetNumOfClients(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaTranscodingService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaTranscodingService, MethodIMediaTranscodingServiceGetNumOfClients)
@@ -123,7 +125,8 @@ func (p *MediaTranscodingServiceProxy) GetNumOfClients(
 // MediaTranscodingServiceStub dispatches incoming binder transactions
 // to a typed IMediaTranscodingService implementation.
 type MediaTranscodingServiceStub struct {
-	Impl IMediaTranscodingService
+	Impl      IMediaTranscodingService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaTranscodingServiceStub)(nil)
@@ -137,14 +140,20 @@ func (s *MediaTranscodingServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaTranscodingServiceRegisterClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITranscodingClientCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTranscodingClientCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_clientName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -159,13 +168,9 @@ func (s *MediaTranscodingServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIMediaTranscodingServiceGetNumOfClients:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetNumOfClients(ctx)
 		_reply := parcel.New()
 		if _err != nil {

@@ -68,6 +68,7 @@ func (p *TranscodingClientCallbackProxy) OpenFileDescriptor(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
 	_data.WriteString16(fileUri)
 	_data.WriteString16(mode)
@@ -99,6 +100,7 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingStarted(
 	sessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
 	_data.WriteInt32(sessionId)
 
@@ -116,6 +118,7 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingPaused(
 	sessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
 	_data.WriteInt32(sessionId)
 
@@ -133,6 +136,7 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingResumed(
 	sessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
 	_data.WriteInt32(sessionId)
 
@@ -151,6 +155,7 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingFinished(
 	result TranscodingResultParcel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -173,6 +178,7 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingFailed(
 	errorCode TranscodingErrorCode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(int32(errorCode))
@@ -193,6 +199,7 @@ func (p *TranscodingClientCallbackProxy) OnAwaitNumberOfSessionsChanged(
 	newAwaitNumber int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(oldAwaitNumber)
@@ -213,6 +220,7 @@ func (p *TranscodingClientCallbackProxy) OnProgressUpdate(
 	progress int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(progress)
@@ -229,7 +237,8 @@ func (p *TranscodingClientCallbackProxy) OnProgressUpdate(
 // TranscodingClientCallbackStub dispatches incoming binder transactions
 // to a typed ITranscodingClientCallback implementation.
 type TranscodingClientCallbackStub struct {
-	Impl ITranscodingClientCallback
+	Impl      ITranscodingClientCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TranscodingClientCallbackStub)(nil)
@@ -243,11 +252,12 @@ func (s *TranscodingClientCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITranscodingClientCallbackOpenFileDescriptor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fileUri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -266,42 +276,27 @@ func (s *TranscodingClientCallbackStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionITranscodingClientCallbackOnTranscodingStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTranscodingStarted(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITranscodingClientCallbackOnTranscodingPaused:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTranscodingPaused(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITranscodingClientCallbackOnTranscodingResumed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTranscodingResumed(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITranscodingClientCallbackOnTranscodingFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -319,12 +314,8 @@ func (s *TranscodingClientCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnTranscodingFinished(ctx, _arg_sessionId, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITranscodingClientCallbackOnTranscodingFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -335,12 +326,8 @@ func (s *TranscodingClientCallbackStub) OnTransaction(
 		}
 		_arg_errorCode := TranscodingErrorCode(_raw_errorCode)
 		_err = s.Impl.OnTranscodingFailed(ctx, _arg_sessionId, _arg_errorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITranscodingClientCallbackOnAwaitNumberOfSessionsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -354,12 +341,8 @@ func (s *TranscodingClientCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAwaitNumberOfSessionsChanged(ctx, _arg_sessionId, _arg_oldAwaitNumber, _arg_newAwaitNumber)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITranscodingClientCallbackOnProgressUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -369,8 +352,7 @@ func (s *TranscodingClientCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnProgressUpdate(ctx, _arg_sessionId, _arg_progress)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

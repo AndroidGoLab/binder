@@ -3,7 +3,6 @@ package netd
 import (
 	"context"
 	"fmt"
-	netdINetd "github.com/xaionaro-go/binder/android/system/net/netd/INetd"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -38,7 +37,7 @@ type INetd interface {
 	AsBinder() binder.IBinder
 	AddInterfaceToOemNetwork(ctx context.Context, networkHandle int64, ifname string) error
 	AddRouteToOemNetwork(ctx context.Context, networkHandle int64, ifname string, destination string, nexthop string) error
-	CreateOemNetwork(ctx context.Context) (netdINetd.OemNetwork, error)
+	CreateOemNetwork(ctx context.Context) (INetdOemNetwork, error)
 	DestroyOemNetwork(ctx context.Context, networkHandle int64) error
 	RemoveInterfaceFromOemNetwork(ctx context.Context, networkHandle int64, ifname string) error
 	RemoveRouteFromOemNetwork(ctx context.Context, networkHandle int64, ifname string, destination string, nexthop string) error
@@ -76,6 +75,7 @@ func (p *NetdProxy) AddInterfaceToOemNetwork(
 	ifname string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetd)
 	_data.WriteInt64(networkHandle)
 	_data.WriteString16(ifname)
@@ -106,6 +106,7 @@ func (p *NetdProxy) AddRouteToOemNetwork(
 	nexthop string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetd)
 	_data.WriteInt64(networkHandle)
 	_data.WriteString16(ifname)
@@ -132,9 +133,10 @@ func (p *NetdProxy) AddRouteToOemNetwork(
 
 func (p *NetdProxy) CreateOemNetwork(
 	ctx context.Context,
-) (netdINetd.OemNetwork, error) {
-	var _result netdINetd.OemNetwork
+) (INetdOemNetwork, error) {
+	var _result INetdOemNetwork
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetd)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetd, MethodINetdCreateOemNetwork)
@@ -169,6 +171,7 @@ func (p *NetdProxy) DestroyOemNetwork(
 	networkHandle int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetd)
 	_data.WriteInt64(networkHandle)
 
@@ -196,6 +199,7 @@ func (p *NetdProxy) RemoveInterfaceFromOemNetwork(
 	ifname string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetd)
 	_data.WriteInt64(networkHandle)
 	_data.WriteString16(ifname)
@@ -226,6 +230,7 @@ func (p *NetdProxy) RemoveRouteFromOemNetwork(
 	nexthop string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetd)
 	_data.WriteInt64(networkHandle)
 	_data.WriteString16(ifname)
@@ -257,6 +262,7 @@ func (p *NetdProxy) SetForwardingBetweenInterfaces(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetd)
 	_data.WriteString16(inputIfName)
 	_data.WriteString16(outputIfName)
@@ -285,6 +291,7 @@ func (p *NetdProxy) SetIpForwardEnable(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetd)
 	_data.WriteBool(enable)
 
@@ -309,7 +316,8 @@ func (p *NetdProxy) SetIpForwardEnable(
 // NetdStub dispatches incoming binder transactions
 // to a typed INetd implementation.
 type NetdStub struct {
-	Impl INetd
+	Impl      INetd
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NetdStub)(nil)
@@ -323,11 +331,12 @@ func (s *NetdStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINetdAddInterfaceToOemNetwork:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_networkHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -345,9 +354,6 @@ func (s *NetdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetdAddRouteToOemNetwork:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_networkHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -373,9 +379,6 @@ func (s *NetdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetdCreateOemNetwork:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CreateOemNetwork(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -389,9 +392,6 @@ func (s *NetdStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINetdDestroyOemNetwork:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_networkHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -405,9 +405,6 @@ func (s *NetdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetdRemoveInterfaceFromOemNetwork:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_networkHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -425,9 +422,6 @@ func (s *NetdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetdRemoveRouteFromOemNetwork:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_networkHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -453,9 +447,6 @@ func (s *NetdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetdSetForwardingBetweenInterfaces:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputIfName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -477,9 +468,6 @@ func (s *NetdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetdSetIpForwardEnable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -503,7 +491,7 @@ func (s *NetdStub) OnTransaction(
 type INetdServer interface {
 	AddInterfaceToOemNetwork(ctx context.Context, networkHandle int64, ifname string) error
 	AddRouteToOemNetwork(ctx context.Context, networkHandle int64, ifname string, destination string, nexthop string) error
-	CreateOemNetwork(ctx context.Context) (netdINetd.OemNetwork, error)
+	CreateOemNetwork(ctx context.Context) (INetdOemNetwork, error)
 	DestroyOemNetwork(ctx context.Context, networkHandle int64) error
 	RemoveInterfaceFromOemNetwork(ctx context.Context, networkHandle int64, ifname string) error
 	RemoveRouteFromOemNetwork(ctx context.Context, networkHandle int64, ifname string, destination string, nexthop string) error
@@ -540,7 +528,7 @@ func (w *netdStubWrapper) AddRouteToOemNetwork(
 
 func (w *netdStubWrapper) CreateOemNetwork(
 	ctx context.Context,
-) (netdINetd.OemNetwork, error) {
+) (INetdOemNetwork, error) {
 	return w.impl.CreateOemNetwork(ctx)
 }
 

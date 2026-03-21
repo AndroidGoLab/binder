@@ -34,11 +34,21 @@ func (s *OperandPerformance) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_typeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Type = OperandType(_typeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	if _err = s.Info.UnmarshalParcel(p); _err != nil {
 		return _err

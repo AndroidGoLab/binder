@@ -49,6 +49,7 @@ func (p *HdrLayerInfoListenerProxy) OnHdrLayerInfoChanged(
 	maxDesiredHdrSdrRatio float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdrLayerInfoListener)
 	_data.WriteInt32(numberOfHdrLayers)
 	_data.WriteInt32(maxW)
@@ -68,7 +69,8 @@ func (p *HdrLayerInfoListenerProxy) OnHdrLayerInfoChanged(
 // HdrLayerInfoListenerStub dispatches incoming binder transactions
 // to a typed IHdrLayerInfoListener implementation.
 type HdrLayerInfoListenerStub struct {
-	Impl IHdrLayerInfoListener
+	Impl      IHdrLayerInfoListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HdrLayerInfoListenerStub)(nil)
@@ -82,11 +84,12 @@ func (s *HdrLayerInfoListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHdrLayerInfoListenerOnHdrLayerInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_numberOfHdrLayers, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -108,8 +111,7 @@ func (s *HdrLayerInfoListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnHdrLayerInfoChanged(ctx, _arg_numberOfHdrLayers, _arg_maxW, _arg_maxH, _arg_flags, _arg_maxDesiredHdrSdrRatio)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

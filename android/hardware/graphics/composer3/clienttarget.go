@@ -50,8 +50,18 @@ func (s *ClientTarget) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Buffer.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_dataspaceRaw, _err := p.ReadInt32()
@@ -59,6 +69,11 @@ func (s *ClientTarget) UnmarshalParcel(
 		return _err
 	}
 	s.Dataspace = common.Dataspace(_dataspaceRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
@@ -75,6 +90,11 @@ func (s *ClientTarget) UnmarshalParcel(
 				return _err
 			}
 		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.HdrSdrRatio, _err = p.ReadFloat32()

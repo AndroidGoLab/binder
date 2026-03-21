@@ -57,6 +57,7 @@ func (p *TunerTimeFilterProxy) SetTimeStamp(
 	timeStamp int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerTimeFilter)
 	_data.WriteInt64(timeStamp)
 
@@ -82,6 +83,7 @@ func (p *TunerTimeFilterProxy) ClearTimeStamp(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerTimeFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerTimeFilter, MethodITunerTimeFilterClearTimeStamp)
@@ -107,6 +109,7 @@ func (p *TunerTimeFilterProxy) GetSourceTime(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerTimeFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerTimeFilter, MethodITunerTimeFilterGetSourceTime)
@@ -136,6 +139,7 @@ func (p *TunerTimeFilterProxy) GetTimeStamp(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerTimeFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerTimeFilter, MethodITunerTimeFilterGetTimeStamp)
@@ -164,6 +168,7 @@ func (p *TunerTimeFilterProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerTimeFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerTimeFilter, MethodITunerTimeFilterClose)
@@ -187,7 +192,8 @@ func (p *TunerTimeFilterProxy) Close(
 // TunerTimeFilterStub dispatches incoming binder transactions
 // to a typed ITunerTimeFilter implementation.
 type TunerTimeFilterStub struct {
-	Impl ITunerTimeFilter
+	Impl      ITunerTimeFilter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TunerTimeFilterStub)(nil)
@@ -201,11 +207,12 @@ func (s *TunerTimeFilterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITunerTimeFilterSetTimeStamp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeStamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -219,9 +226,6 @@ func (s *TunerTimeFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerTimeFilterClearTimeStamp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ClearTimeStamp(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -231,9 +235,6 @@ func (s *TunerTimeFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerTimeFilterGetSourceTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSourceTime(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -244,9 +245,6 @@ func (s *TunerTimeFilterStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionITunerTimeFilterGetTimeStamp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetTimeStamp(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -257,9 +255,6 @@ func (s *TunerTimeFilterStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionITunerTimeFilterClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {

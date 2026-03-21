@@ -89,6 +89,7 @@ func (p *SupplicantProxy) AddP2pInterface(
 ) (ISupplicantP2pIface, error) {
 	var _result ISupplicantP2pIface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 	_data.WriteString16(ifName)
 
@@ -121,6 +122,7 @@ func (p *SupplicantProxy) AddStaInterface(
 ) (ISupplicantStaIface, error) {
 	var _result ISupplicantStaIface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 	_data.WriteString16(ifName)
 
@@ -152,6 +154,7 @@ func (p *SupplicantProxy) GetDebugLevel(
 ) (DebugLevel, error) {
 	var _result DebugLevel
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantGetDebugLevel)
@@ -183,6 +186,7 @@ func (p *SupplicantProxy) GetP2pInterface(
 ) (ISupplicantP2pIface, error) {
 	var _result ISupplicantP2pIface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 	_data.WriteString16(ifName)
 
@@ -215,6 +219,7 @@ func (p *SupplicantProxy) GetStaInterface(
 ) (ISupplicantStaIface, error) {
 	var _result ISupplicantStaIface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 	_data.WriteString16(ifName)
 
@@ -246,6 +251,7 @@ func (p *SupplicantProxy) IsDebugShowKeysEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantIsDebugShowKeysEnabled)
@@ -275,6 +281,7 @@ func (p *SupplicantProxy) IsDebugShowTimestampEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantIsDebugShowTimestampEnabled)
@@ -304,6 +311,7 @@ func (p *SupplicantProxy) ListInterfaces(
 ) ([]IfaceInfo, error) {
 	var _result []IfaceInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantListInterfaces)
@@ -325,6 +333,9 @@ func (p *SupplicantProxy) ListInterfaces(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]IfaceInfo, _count)
@@ -345,6 +356,7 @@ func (p *SupplicantProxy) RegisterCallback(
 	callback ISupplicantCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -371,6 +383,7 @@ func (p *SupplicantProxy) RemoveInterface(
 	ifaceInfo IfaceInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 	_data.WriteInt32(1)
 	if _err := ifaceInfo.MarshalParcel(_data); _err != nil {
@@ -400,6 +413,7 @@ func (p *SupplicantProxy) SetConcurrencyPriority(
 	type_ IfaceType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 	_data.WriteInt32(int32(type_))
 
@@ -428,6 +442,7 @@ func (p *SupplicantProxy) SetDebugParams(
 	showKeys bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 	_data.WriteInt32(int32(level))
 	_data.WriteBool(showTimestamp)
@@ -455,6 +470,7 @@ func (p *SupplicantProxy) Terminate(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantTerminate)
@@ -471,6 +487,7 @@ func (p *SupplicantProxy) RegisterNonStandardCertCallback(
 	callback INonStandardCertCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -495,7 +512,8 @@ func (p *SupplicantProxy) RegisterNonStandardCertCallback(
 // SupplicantStub dispatches incoming binder transactions
 // to a typed ISupplicant implementation.
 type SupplicantStub struct {
-	Impl ISupplicant
+	Impl      ISupplicant
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SupplicantStub)(nil)
@@ -509,11 +527,12 @@ func (s *SupplicantStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISupplicantAddP2pInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ifName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -525,13 +544,9 @@ func (s *SupplicantStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISupplicantAddStaInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ifName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -543,13 +558,9 @@ func (s *SupplicantStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISupplicantGetDebugLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDebugLevel(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -560,9 +571,6 @@ func (s *SupplicantStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantGetP2pInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ifName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -574,13 +582,9 @@ func (s *SupplicantStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISupplicantGetStaInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ifName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -592,13 +596,9 @@ func (s *SupplicantStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISupplicantIsDebugShowKeysEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsDebugShowKeysEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -609,9 +609,6 @@ func (s *SupplicantStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISupplicantIsDebugShowTimestampEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsDebugShowTimestampEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -622,9 +619,6 @@ func (s *SupplicantStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISupplicantListInterfaces:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ListInterfaces(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -632,16 +626,27 @@ func (s *SupplicantStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISupplicantRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISupplicantCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSupplicantCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -651,9 +656,6 @@ func (s *SupplicantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantRemoveInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_ifaceInfo IfaceInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -675,9 +677,6 @@ func (s *SupplicantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantSetConcurrencyPriority:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -692,9 +691,6 @@ func (s *SupplicantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantSetDebugParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_level, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -717,19 +713,17 @@ func (s *SupplicantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantTerminate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Terminate(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISupplicantRegisterNonStandardCertCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback INonStandardCertCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewNonStandardCertCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterNonStandardCertCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

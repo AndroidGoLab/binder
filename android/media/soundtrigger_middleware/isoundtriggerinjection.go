@@ -81,6 +81,7 @@ func (p *SoundTriggerInjectionProxy) RegisterGlobalEventInjection(
 	globalInjection IInjectGlobalEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	binder.WriteBinderToParcel(ctx, _data, globalInjection.AsBinder(), p.Remote.Transport())
 
@@ -98,6 +99,7 @@ func (p *SoundTriggerInjectionProxy) OnRestarted(
 	globalSession IInjectGlobalEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	binder.WriteBinderToParcel(ctx, _data, globalSession.AsBinder(), p.Remote.Transport())
 
@@ -115,6 +117,7 @@ func (p *SoundTriggerInjectionProxy) OnFrameworkDetached(
 	globalSession IInjectGlobalEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	binder.WriteBinderToParcel(ctx, _data, globalSession.AsBinder(), p.Remote.Transport())
 
@@ -133,6 +136,7 @@ func (p *SoundTriggerInjectionProxy) OnClientAttached(
 	globalSession IInjectGlobalEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, globalSession.AsBinder(), p.Remote.Transport())
@@ -151,6 +155,7 @@ func (p *SoundTriggerInjectionProxy) OnClientDetached(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -171,6 +176,7 @@ func (p *SoundTriggerInjectionProxy) OnSoundModelLoaded(
 	globalSession IInjectGlobalEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	_data.WriteInt32(1)
 	if _err := model.MarshalParcel(_data); _err != nil {
@@ -206,6 +212,7 @@ func (p *SoundTriggerInjectionProxy) OnParamSet(
 	modelSession IInjectModelEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	_data.WriteInt32(modelParam)
 	_data.WriteInt32(value)
@@ -228,6 +235,7 @@ func (p *SoundTriggerInjectionProxy) OnRecognitionStarted(
 	modelSession IInjectModelEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	_data.WriteInt32(audioSessionToken)
 	_data.WriteInt32(1)
@@ -251,6 +259,7 @@ func (p *SoundTriggerInjectionProxy) OnRecognitionStopped(
 	recognitionSession IInjectRecognitionEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	binder.WriteBinderToParcel(ctx, _data, recognitionSession.AsBinder(), p.Remote.Transport())
 
@@ -268,6 +277,7 @@ func (p *SoundTriggerInjectionProxy) OnSoundModelUnloaded(
 	modelSession IInjectModelEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	binder.WriteBinderToParcel(ctx, _data, modelSession.AsBinder(), p.Remote.Transport())
 
@@ -284,6 +294,7 @@ func (p *SoundTriggerInjectionProxy) OnPreempted(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerInjection, MethodISoundTriggerInjectionOnPreempted)
@@ -298,7 +309,8 @@ func (p *SoundTriggerInjectionProxy) OnPreempted(
 // SoundTriggerInjectionStub dispatches incoming binder transactions
 // to a typed ISoundTriggerInjection implementation.
 type SoundTriggerInjectionStub struct {
-	Impl ISoundTriggerInjection
+	Impl      ISoundTriggerInjection
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SoundTriggerInjectionStub)(nil)
@@ -312,64 +324,75 @@ func (s *SoundTriggerInjectionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISoundTriggerInjectionRegisterGlobalEventInjection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_globalInjection IInjectGlobalEvent
-		_ = _arg_globalInjection
+		{
+			_globalInjectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_globalInjection = NewInjectGlobalEventProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _globalInjectionHandle))
+		}
 		_err := s.Impl.RegisterGlobalEventInjection(ctx, _arg_globalInjection)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundTriggerInjectionOnRestarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_globalSession IInjectGlobalEvent
-		_ = _arg_globalSession
+		{
+			_globalSessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_globalSession = NewInjectGlobalEventProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _globalSessionHandle))
+		}
 		_err := s.Impl.OnRestarted(ctx, _arg_globalSession)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundTriggerInjectionOnFrameworkDetached:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_globalSession IInjectGlobalEvent
-		_ = _arg_globalSession
+		{
+			_globalSessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_globalSession = NewInjectGlobalEventProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _globalSessionHandle))
+		}
 		_err := s.Impl.OnFrameworkDetached(ctx, _arg_globalSession)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundTriggerInjectionOnClientAttached:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_globalSession IInjectGlobalEvent
-		_ = _arg_globalSession
+		{
+			_globalSessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_globalSession = NewInjectGlobalEventProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _globalSessionHandle))
+		}
 		_err := s.Impl.OnClientAttached(ctx, _arg_token, _arg_globalSession)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundTriggerInjectionOnClientDetached:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		_err := s.Impl.OnClientDetached(ctx, _arg_token)
-		_ = _err
-		return nil, nil
-	case TransactionISoundTriggerInjectionOnSoundModelLoaded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
 		}
+		_err := s.Impl.OnClientDetached(ctx, _arg_token)
+		return nil, _err
+	case TransactionISoundTriggerInjectionOnSoundModelLoaded:
 		var _arg_model soundtrigger.SoundModel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -382,22 +405,46 @@ func (s *SoundTriggerInjectionStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_phrases []soundtrigger.Phrase
-		_ = _arg_phrases
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_modelInjection IInjectModelEvent
-		_ = _arg_modelInjection
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_globalSession IInjectGlobalEvent
-		_ = _arg_globalSession
-		_err := s.Impl.OnSoundModelLoaded(ctx, _arg_model, _arg_phrases, _arg_modelInjection, _arg_globalSession)
-		_ = _err
-		return nil, nil
-	case TransactionISoundTriggerInjectionOnParamSet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_phrases = make([]soundtrigger.Phrase, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_phrases[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		var _arg_modelInjection IInjectModelEvent
+		{
+			_modelInjectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_modelInjection = NewInjectModelEventProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _modelInjectionHandle))
+		}
+		var _arg_globalSession IInjectGlobalEvent
+		{
+			_globalSessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_globalSession = NewInjectGlobalEventProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _globalSessionHandle))
+		}
+		_err := s.Impl.OnSoundModelLoaded(ctx, _arg_model, _arg_phrases, _arg_modelInjection, _arg_globalSession)
+		return nil, _err
+	case TransactionISoundTriggerInjectionOnParamSet:
 		_arg_modelParam, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -406,16 +453,17 @@ func (s *SoundTriggerInjectionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_modelSession IInjectModelEvent
-		_ = _arg_modelSession
-		_err = s.Impl.OnParamSet(ctx, _arg_modelParam, _arg_value, _arg_modelSession)
-		_ = _err
-		return nil, nil
-	case TransactionISoundTriggerInjectionOnRecognitionStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_modelSessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_modelSession = NewInjectModelEventProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _modelSessionHandle))
 		}
+		_err = s.Impl.OnParamSet(ctx, _arg_modelParam, _arg_value, _arg_modelSession)
+		return nil, _err
+	case TransactionISoundTriggerInjectionOnRecognitionStarted:
 		_arg_audioSessionToken, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -432,42 +480,49 @@ func (s *SoundTriggerInjectionStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_recognitionInjection IInjectRecognitionEvent
-		_ = _arg_recognitionInjection
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_recognitionInjectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_recognitionInjection = NewInjectRecognitionEventProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _recognitionInjectionHandle))
+		}
 		var _arg_modelSession IInjectModelEvent
-		_ = _arg_modelSession
+		{
+			_modelSessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_modelSession = NewInjectModelEventProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _modelSessionHandle))
+		}
 		_err = s.Impl.OnRecognitionStarted(ctx, _arg_audioSessionToken, _arg_config, _arg_recognitionInjection, _arg_modelSession)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundTriggerInjectionOnRecognitionStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_recognitionSession IInjectRecognitionEvent
-		_ = _arg_recognitionSession
+		{
+			_recognitionSessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_recognitionSession = NewInjectRecognitionEventProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _recognitionSessionHandle))
+		}
 		_err := s.Impl.OnRecognitionStopped(ctx, _arg_recognitionSession)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundTriggerInjectionOnSoundModelUnloaded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_modelSession IInjectModelEvent
-		_ = _arg_modelSession
-		_err := s.Impl.OnSoundModelUnloaded(ctx, _arg_modelSession)
-		_ = _err
-		return nil, nil
-	case TransactionISoundTriggerInjectionOnPreempted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_modelSessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_modelSession = NewInjectModelEventProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _modelSessionHandle))
 		}
+		_err := s.Impl.OnSoundModelUnloaded(ctx, _arg_modelSession)
+		return nil, _err
+	case TransactionISoundTriggerInjectionOnPreempted:
 		_err := s.Impl.OnPreempted(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

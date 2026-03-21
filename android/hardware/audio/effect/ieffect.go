@@ -3,8 +3,6 @@ package effect
 import (
 	"context"
 	"fmt"
-	effectIEffect "github.com/xaionaro-go/binder/android/hardware/audio/effect/IEffect"
-	effectParameter "github.com/xaionaro-go/binder/android/hardware/audio/effect/Parameter"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -37,14 +35,14 @@ const (
 
 type IEffect interface {
 	AsBinder() binder.IBinder
-	Open(ctx context.Context, common effectParameter.Common, specific *effectParameter.Specific) (effectIEffect.OpenEffectReturn, error)
+	Open(ctx context.Context, common ParameterCommon, specific *ParameterSpecific) (IEffectOpenEffectReturn, error)
 	Close(ctx context.Context) error
 	GetDescriptor(ctx context.Context) (Descriptor, error)
 	Command(ctx context.Context, commandId CommandId) error
 	GetState(ctx context.Context) (State, error)
 	SetParameter(ctx context.Context, param Parameter) error
-	GetParameter(ctx context.Context, paramId effectParameter.Id) (Parameter, error)
-	Reopen(ctx context.Context) (effectIEffect.OpenEffectReturn, error)
+	GetParameter(ctx context.Context, paramId ParameterId) (Parameter, error)
+	Reopen(ctx context.Context) (IEffectOpenEffectReturn, error)
 }
 
 type EffectProxy struct {
@@ -65,17 +63,19 @@ var _ IEffect = (*EffectProxy)(nil)
 
 func (p *EffectProxy) Open(
 	ctx context.Context,
-	common effectParameter.Common,
-	specific *effectParameter.Specific,
-) (effectIEffect.OpenEffectReturn, error) {
-	var _result effectIEffect.OpenEffectReturn
+	common ParameterCommon,
+	specific *ParameterSpecific,
+) (IEffectOpenEffectReturn, error) {
+	var _result IEffectOpenEffectReturn
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 	_data.WriteInt32(1)
 	if _err := common.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	if specific != nil {
+		_data.WriteInt32(1)
 		if _err := (*specific).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
@@ -114,6 +114,7 @@ func (p *EffectProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectClose)
@@ -139,6 +140,7 @@ func (p *EffectProxy) GetDescriptor(
 ) (Descriptor, error) {
 	var _result Descriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectGetDescriptor)
@@ -173,6 +175,7 @@ func (p *EffectProxy) Command(
 	commandId CommandId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 	_data.WriteInt32(int32(commandId))
 
@@ -199,6 +202,7 @@ func (p *EffectProxy) GetState(
 ) (State, error) {
 	var _result State
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectGetState)
@@ -229,6 +233,7 @@ func (p *EffectProxy) SetParameter(
 	param Parameter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 	_data.WriteInt32(1)
 	if _err := param.MarshalParcel(_data); _err != nil {
@@ -255,10 +260,11 @@ func (p *EffectProxy) SetParameter(
 
 func (p *EffectProxy) GetParameter(
 	ctx context.Context,
-	paramId effectParameter.Id,
+	paramId ParameterId,
 ) (Parameter, error) {
 	var _result Parameter
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 	_data.WriteInt32(1)
 	if _err := paramId.MarshalParcel(_data); _err != nil {
@@ -294,9 +300,10 @@ func (p *EffectProxy) GetParameter(
 
 func (p *EffectProxy) Reopen(
 	ctx context.Context,
-) (effectIEffect.OpenEffectReturn, error) {
-	var _result effectIEffect.OpenEffectReturn
+) (IEffectOpenEffectReturn, error) {
+	var _result IEffectOpenEffectReturn
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectReopen)
@@ -329,7 +336,8 @@ func (p *EffectProxy) Reopen(
 // EffectStub dispatches incoming binder transactions
 // to a typed IEffect implementation.
 type EffectStub struct {
-	Impl IEffect
+	Impl      IEffect
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EffectStub)(nil)
@@ -343,12 +351,13 @@ func (s *EffectStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEffectOpen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_common effectParameter.Common
+		var _arg_common ParameterCommon
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -360,13 +369,14 @@ func (s *EffectStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_specific *effectParameter.Specific
+		var _arg_specific *ParameterSpecific
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_specific = new(ParameterSpecific)
 				if _err = _arg_specific.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -385,9 +395,6 @@ func (s *EffectStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEffectClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -397,9 +404,6 @@ func (s *EffectStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEffectGetDescriptor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDescriptor(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -413,9 +417,6 @@ func (s *EffectStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEffectCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_commandId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -430,9 +431,6 @@ func (s *EffectStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEffectGetState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -443,9 +441,6 @@ func (s *EffectStub) OnTransaction(
 		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionIEffectSetParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_param Parameter
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -467,10 +462,7 @@ func (s *EffectStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEffectGetParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_paramId effectParameter.Id
+		var _arg_paramId ParameterId
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -495,9 +487,6 @@ func (s *EffectStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEffectReopen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Reopen(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -519,14 +508,14 @@ func (s *EffectStub) OnTransaction(
 // provide to NewEffectStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IEffectServer interface {
-	Open(ctx context.Context, common effectParameter.Common, specific *effectParameter.Specific) (effectIEffect.OpenEffectReturn, error)
+	Open(ctx context.Context, common ParameterCommon, specific *ParameterSpecific) (IEffectOpenEffectReturn, error)
 	Close(ctx context.Context) error
 	GetDescriptor(ctx context.Context) (Descriptor, error)
 	Command(ctx context.Context, commandId CommandId) error
 	GetState(ctx context.Context) (State, error)
 	SetParameter(ctx context.Context, param Parameter) error
-	GetParameter(ctx context.Context, paramId effectParameter.Id) (Parameter, error)
-	Reopen(ctx context.Context) (effectIEffect.OpenEffectReturn, error)
+	GetParameter(ctx context.Context, paramId ParameterId) (Parameter, error)
+	Reopen(ctx context.Context) (IEffectOpenEffectReturn, error)
 }
 
 type effectStubWrapper struct {
@@ -540,9 +529,9 @@ func (w *effectStubWrapper) AsBinder() binder.IBinder {
 
 func (w *effectStubWrapper) Open(
 	ctx context.Context,
-	common effectParameter.Common,
-	specific *effectParameter.Specific,
-) (effectIEffect.OpenEffectReturn, error) {
+	common ParameterCommon,
+	specific *ParameterSpecific,
+) (IEffectOpenEffectReturn, error) {
 	return w.impl.Open(ctx, common, specific)
 }
 
@@ -580,14 +569,14 @@ func (w *effectStubWrapper) SetParameter(
 
 func (w *effectStubWrapper) GetParameter(
 	ctx context.Context,
-	paramId effectParameter.Id,
+	paramId ParameterId,
 ) (Parameter, error) {
 	return w.impl.GetParameter(ctx, paramId)
 }
 
 func (w *effectStubWrapper) Reopen(
 	ctx context.Context,
-) (effectIEffect.OpenEffectReturn, error) {
+) (IEffectOpenEffectReturn, error) {
 	return w.impl.Reopen(ctx)
 }
 

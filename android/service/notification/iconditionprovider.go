@@ -51,6 +51,7 @@ func (p *ConditionProviderProxy) OnConnected(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConditionProvider)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConditionProvider, MethodIConditionProviderOnConnected)
@@ -67,6 +68,7 @@ func (p *ConditionProviderProxy) OnSubscribe(
 	conditionId net.Uri,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConditionProvider)
 	_data.WriteInt32(1)
 	if _err := conditionId.MarshalParcel(_data); _err != nil {
@@ -87,6 +89,7 @@ func (p *ConditionProviderProxy) OnUnsubscribe(
 	conditionId net.Uri,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConditionProvider)
 	_data.WriteInt32(1)
 	if _err := conditionId.MarshalParcel(_data); _err != nil {
@@ -105,7 +108,8 @@ func (p *ConditionProviderProxy) OnUnsubscribe(
 // ConditionProviderStub dispatches incoming binder transactions
 // to a typed IConditionProvider implementation.
 type ConditionProviderStub struct {
-	Impl IConditionProvider
+	Impl      IConditionProvider
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ConditionProviderStub)(nil)
@@ -119,18 +123,15 @@ func (s *ConditionProviderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIConditionProviderOnConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnConnected(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConditionProviderOnSubscribe:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_conditionId net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -144,12 +145,8 @@ func (s *ConditionProviderStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSubscribe(ctx, _arg_conditionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConditionProviderOnUnsubscribe:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_conditionId net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -163,8 +160,7 @@ func (s *ConditionProviderStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnUnsubscribe(ctx, _arg_conditionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -3,6 +3,8 @@ package translation
 import (
 	"context"
 	"fmt"
+	androidOs "github.com/xaionaro-go/binder/android/os"
+	types "github.com/xaionaro-go/binder/android/view/translation/types"
 	"github.com/xaionaro-go/binder/binder"
 	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
@@ -30,8 +32,8 @@ type ITranslationService interface {
 	AsBinder() binder.IBinder
 	OnConnected(ctx context.Context, callback binder.IBinder) error
 	OnDisconnected(ctx context.Context) error
-	OnCreateTranslationSession(ctx context.Context, translationContext interface{}, sessionId int32, receiver os.IResultReceiver) error
-	OnTranslationCapabilitiesRequest(ctx context.Context, sourceFormat int32, targetFormat int32, receiver interface{}) error
+	OnCreateTranslationSession(ctx context.Context, translationContext types.TranslationContext, sessionId int32, receiver os.IResultReceiver) error
+	OnTranslationCapabilitiesRequest(ctx context.Context, sourceFormat int32, targetFormat int32, receiver androidOs.ResultReceiver) error
 }
 
 type TranslationServiceProxy struct {
@@ -55,6 +57,7 @@ func (p *TranslationServiceProxy) OnConnected(
 	callback binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranslationService)
 	binder.WriteBinderToParcel(ctx, _data, callback, p.Remote.Transport())
 
@@ -71,6 +74,7 @@ func (p *TranslationServiceProxy) OnDisconnected(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranslationService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationService, MethodITranslationServiceOnDisconnected)
@@ -84,12 +88,14 @@ func (p *TranslationServiceProxy) OnDisconnected(
 
 func (p *TranslationServiceProxy) OnCreateTranslationSession(
 	ctx context.Context,
-	translationContext interface{},
+	translationContext types.TranslationContext,
 	sessionId int32,
 	receiver os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranslationService)
+	// WARNING: param translationContext (type types.TranslationContext) cannot be serialized — type not resolved
 	_data.WriteInt32(sessionId)
 	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 
@@ -106,12 +112,17 @@ func (p *TranslationServiceProxy) OnTranslationCapabilitiesRequest(
 	ctx context.Context,
 	sourceFormat int32,
 	targetFormat int32,
-	receiver interface{},
+	receiver androidOs.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranslationService)
 	_data.WriteInt32(sourceFormat)
 	_data.WriteInt32(targetFormat)
+	_data.WriteInt32(1)
+	if _err := receiver.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationService, MethodITranslationServiceOnTranslationCapabilitiesRequest)
 	if _err != nil {
@@ -125,7 +136,8 @@ func (p *TranslationServiceProxy) OnTranslationCapabilitiesRequest(
 // TranslationServiceStub dispatches incoming binder transactions
 // to a typed ITranslationService implementation.
 type TranslationServiceStub struct {
-	Impl ITranslationService
+	Impl      ITranslationService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TranslationServiceStub)(nil)
@@ -139,43 +151,42 @@ func (s *TranslationServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITranslationServiceOnConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback binder.IBinder
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle)
+		}
 		_err := s.Impl.OnConnected(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITranslationServiceOnDisconnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDisconnected(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITranslationServiceOnCreateTranslationSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_translationContext interface{}
+		var _arg_translationContext types.TranslationContext
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver os.IResultReceiver
-		_ = _arg_receiver
-		_err = s.Impl.OnCreateTranslationSession(ctx, _arg_translationContext, _arg_sessionId, _arg_receiver)
-		_ = _err
-		return nil, nil
-	case TransactionITranslationServiceOnTranslationCapabilitiesRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
 		}
+		_err = s.Impl.OnCreateTranslationSession(ctx, _arg_translationContext, _arg_sessionId, _arg_receiver)
+		return nil, _err
+	case TransactionITranslationServiceOnTranslationCapabilitiesRequest:
 		_arg_sourceFormat, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -184,10 +195,20 @@ func (s *TranslationServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_receiver interface{}
+		var _arg_receiver androidOs.ResultReceiver
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnTranslationCapabilitiesRequest(ctx, _arg_sourceFormat, _arg_targetFormat, _arg_receiver)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -199,8 +220,8 @@ func (s *TranslationServiceStub) OnTransaction(
 type ITranslationServiceServer interface {
 	OnConnected(ctx context.Context, callback binder.IBinder) error
 	OnDisconnected(ctx context.Context) error
-	OnCreateTranslationSession(ctx context.Context, translationContext interface{}, sessionId int32, receiver os.IResultReceiver) error
-	OnTranslationCapabilitiesRequest(ctx context.Context, sourceFormat int32, targetFormat int32, receiver interface{}) error
+	OnCreateTranslationSession(ctx context.Context, translationContext types.TranslationContext, sessionId int32, receiver os.IResultReceiver) error
+	OnTranslationCapabilitiesRequest(ctx context.Context, sourceFormat int32, targetFormat int32, receiver androidOs.ResultReceiver) error
 }
 
 type translationServiceStubWrapper struct {
@@ -227,7 +248,7 @@ func (w *translationServiceStubWrapper) OnDisconnected(
 
 func (w *translationServiceStubWrapper) OnCreateTranslationSession(
 	ctx context.Context,
-	translationContext interface{},
+	translationContext types.TranslationContext,
 	sessionId int32,
 	receiver os.IResultReceiver,
 ) error {
@@ -238,7 +259,7 @@ func (w *translationServiceStubWrapper) OnTranslationCapabilitiesRequest(
 	ctx context.Context,
 	sourceFormat int32,
 	targetFormat int32,
-	receiver interface{},
+	receiver androidOs.ResultReceiver,
 ) error {
 	return w.impl.OnTranslationCapabilitiesRequest(ctx, sourceFormat, targetFormat, receiver)
 }

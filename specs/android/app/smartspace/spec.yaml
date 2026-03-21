@@ -1,0 +1,99 @@
+package: android.app.smartspace
+go_package: android/app/smartspace
+interfaces:
+    - name: ISmartspaceCallback
+      descriptor: android.app.smartspace.ISmartspaceCallback
+      oneway: true
+      methods:
+        - name: onResult
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: ParceledListSlice
+              direction: in
+          return_type:
+            name: void
+    - name: ISmartspaceManager
+      descriptor: android.app.smartspace.ISmartspaceManager
+      oneway: true
+      methods:
+        - name: createSmartspaceSession
+          transaction_code_offset: 0
+          params:
+            - name: config
+              type:
+                name: SmartspaceConfig
+              direction: in
+            - name: sessionId
+              type:
+                name: SmartspaceSessionId
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: notifySmartspaceEvent
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: SmartspaceSessionId
+              direction: in
+            - name: event
+              type:
+                name: SmartspaceTargetEvent
+              direction: in
+          return_type:
+            name: void
+        - name: requestSmartspaceUpdate
+          transaction_code_offset: 2
+          params:
+            - name: sessionId
+              type:
+                name: SmartspaceSessionId
+              direction: in
+          return_type:
+            name: void
+        - name: registerSmartspaceUpdates
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: SmartspaceSessionId
+              direction: in
+            - name: callback
+              type:
+                name: ISmartspaceCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterSmartspaceUpdates
+          transaction_code_offset: 4
+          params:
+            - name: sessionId
+              type:
+                name: SmartspaceSessionId
+              direction: in
+            - name: callback
+              type:
+                name: ISmartspaceCallback
+              direction: in
+          return_type:
+            name: void
+        - name: destroySmartspaceSession
+          transaction_code_offset: 5
+          params:
+            - name: sessionId
+              type:
+                name: SmartspaceSessionId
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: SmartspaceConfig
+    - name: SmartspaceSessionId
+    - name: SmartspaceTarget
+    - name: SmartspaceTargetEvent

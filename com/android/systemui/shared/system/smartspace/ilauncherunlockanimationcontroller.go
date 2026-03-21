@@ -63,6 +63,7 @@ func (p *LauncherUnlockAnimationControllerProxy) PrepareForUnlock(
 	selectedPage int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherUnlockAnimationController)
 	_data.WriteBool(animateSmartspace)
 	_data.WriteInt32(1)
@@ -95,6 +96,7 @@ func (p *LauncherUnlockAnimationControllerProxy) SetUnlockAmount(
 	forceIfAnimating bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherUnlockAnimationController)
 	_data.WriteFloat32(amount)
 	_data.WriteBool(forceIfAnimating)
@@ -115,6 +117,7 @@ func (p *LauncherUnlockAnimationControllerProxy) PlayUnlockAnimation(
 	startDelay int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherUnlockAnimationController)
 	_data.WriteBool(unlocked)
 	_data.WriteInt64(duration)
@@ -134,6 +137,7 @@ func (p *LauncherUnlockAnimationControllerProxy) SetSmartspaceSelectedPage(
 	selectedPage int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherUnlockAnimationController)
 	_data.WriteInt32(selectedPage)
 
@@ -151,6 +155,7 @@ func (p *LauncherUnlockAnimationControllerProxy) SetSmartspaceVisibility(
 	visibility int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherUnlockAnimationController)
 	_data.WriteInt32(visibility)
 
@@ -176,6 +181,7 @@ func (p *LauncherUnlockAnimationControllerProxy) DispatchSmartspaceStateToSysui(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILauncherUnlockAnimationController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILauncherUnlockAnimationController, MethodILauncherUnlockAnimationControllerDispatchSmartspaceStateToSysui)
@@ -190,7 +196,8 @@ func (p *LauncherUnlockAnimationControllerProxy) DispatchSmartspaceStateToSysui(
 // LauncherUnlockAnimationControllerStub dispatches incoming binder transactions
 // to a typed ILauncherUnlockAnimationController implementation.
 type LauncherUnlockAnimationControllerStub struct {
-	Impl ILauncherUnlockAnimationController
+	Impl      ILauncherUnlockAnimationController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LauncherUnlockAnimationControllerStub)(nil)
@@ -204,11 +211,12 @@ func (s *LauncherUnlockAnimationControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILauncherUnlockAnimationControllerPrepareForUnlock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_animateSmartspace, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -238,9 +246,6 @@ func (s *LauncherUnlockAnimationControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILauncherUnlockAnimationControllerSetUnlockAmount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_amount, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -250,12 +255,8 @@ func (s *LauncherUnlockAnimationControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetUnlockAmount(ctx, _arg_amount, _arg_forceIfAnimating)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionILauncherUnlockAnimationControllerPlayUnlockAnimation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_unlocked, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -269,23 +270,15 @@ func (s *LauncherUnlockAnimationControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.PlayUnlockAnimation(ctx, _arg_unlocked, _arg_duration, _arg_startDelay)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionILauncherUnlockAnimationControllerSetSmartspaceSelectedPage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_selectedPage, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetSmartspaceSelectedPage(ctx, _arg_selectedPage)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionILauncherUnlockAnimationControllerSetSmartspaceVisibility:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_visibility, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -299,12 +292,8 @@ func (s *LauncherUnlockAnimationControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILauncherUnlockAnimationControllerDispatchSmartspaceStateToSysui:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DispatchSmartspaceStateToSysui(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

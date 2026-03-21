@@ -53,6 +53,7 @@ func (p *InputFlingerProxy) CreateInputChannel(
 ) (InputChannelCore, error) {
 	var _result InputChannelCore
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFlinger)
 	_data.WriteString16(name)
 
@@ -88,6 +89,7 @@ func (p *InputFlingerProxy) RemoveInputChannel(
 	connectionToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFlinger)
 	binder.WriteBinderToParcel(ctx, _data, connectionToken, p.Remote.Transport())
 
@@ -114,6 +116,7 @@ func (p *InputFlingerProxy) SetFocusedWindow(
 	request gui.FocusRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFlinger)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -132,7 +135,8 @@ func (p *InputFlingerProxy) SetFocusedWindow(
 // InputFlingerStub dispatches incoming binder transactions
 // to a typed IInputFlinger implementation.
 type InputFlingerStub struct {
-	Impl IInputFlinger
+	Impl      IInputFlinger
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputFlingerStub)(nil)
@@ -146,11 +150,12 @@ func (s *InputFlingerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputFlingerCreateInputChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -168,12 +173,14 @@ func (s *InputFlingerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputFlingerRemoveInputChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_connectionToken binder.IBinder
-		_ = _arg_connectionToken
+		{
+			_connectionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_connectionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _connectionTokenHandle)
+		}
 		_err := s.Impl.RemoveInputChannel(ctx, _arg_connectionToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -183,9 +190,6 @@ func (s *InputFlingerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputFlingerSetFocusedWindow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request gui.FocusRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -199,8 +203,7 @@ func (s *InputFlingerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetFocusedWindow(ctx, _arg_request)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

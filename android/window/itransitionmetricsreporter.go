@@ -46,6 +46,7 @@ func (p *TransitionMetricsReporterProxy) ReportAnimationStart(
 	startTime int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransitionMetricsReporter)
 	binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
 	_data.WriteInt64(startTime)
@@ -62,7 +63,8 @@ func (p *TransitionMetricsReporterProxy) ReportAnimationStart(
 // TransitionMetricsReporterStub dispatches incoming binder transactions
 // to a typed ITransitionMetricsReporter implementation.
 type TransitionMetricsReporterStub struct {
-	Impl ITransitionMetricsReporter
+	Impl      ITransitionMetricsReporter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TransitionMetricsReporterStub)(nil)
@@ -76,21 +78,26 @@ func (s *TransitionMetricsReporterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITransitionMetricsReporterReportAnimationStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transitionToken binder.IBinder
-		_ = _arg_transitionToken
+		{
+			_transitionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transitionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transitionTokenHandle)
+		}
 		_arg_startTime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ReportAnimationStart(ctx, _arg_transitionToken, _arg_startTime)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

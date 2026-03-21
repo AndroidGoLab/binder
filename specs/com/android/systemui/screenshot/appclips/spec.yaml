@@ -1,0 +1,19 @@
+package: com.android.systemui.screenshot.appclips
+go_package: com/android/systemui/screenshot/appclips
+interfaces:
+    - name: IAppClipsScreenshotHelperService
+      descriptor: com.android.systemui.screenshot.appclips.IAppClipsScreenshotHelperService
+      methods:
+        - name: takeScreenshot
+          transaction_code_offset: 0
+          params:
+            - name: displayId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: ScreenshotHardwareBufferInternal
+          annotations:
+            - nullable
+parcelables:
+    - name: ScreenshotHardwareBufferInternal

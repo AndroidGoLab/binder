@@ -45,11 +45,21 @@ func (s *AudioAttributes) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_contentTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.ContentType = AudioContentType(_contentTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_usageRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -57,15 +67,30 @@ func (s *AudioAttributes) UnmarshalParcel(
 	}
 	s.Usage = AudioUsage(_usageRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_sourceRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Source = AudioSource(_sourceRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Flags, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32

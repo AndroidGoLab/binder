@@ -47,6 +47,7 @@ func (p *IncidentAuthListenerProxy) OnReportApproved(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentAuthListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentAuthListener, MethodIIncidentAuthListenerOnReportApproved)
@@ -62,6 +63,7 @@ func (p *IncidentAuthListenerProxy) OnReportDenied(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentAuthListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentAuthListener, MethodIIncidentAuthListenerOnReportDenied)
@@ -76,7 +78,8 @@ func (p *IncidentAuthListenerProxy) OnReportDenied(
 // IncidentAuthListenerStub dispatches incoming binder transactions
 // to a typed IIncidentAuthListener implementation.
 type IncidentAuthListenerStub struct {
-	Impl IIncidentAuthListener
+	Impl      IIncidentAuthListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*IncidentAuthListenerStub)(nil)
@@ -90,21 +93,17 @@ func (s *IncidentAuthListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIIncidentAuthListenerOnReportApproved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnReportApproved(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIIncidentAuthListenerOnReportDenied:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnReportDenied(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

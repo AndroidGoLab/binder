@@ -123,6 +123,7 @@ func (p *UiModeManagerProxy) AddCallback(
 	callback IUiModeManagerCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -151,6 +152,7 @@ func (p *UiModeManagerProxy) EnableCarMode(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	_data.WriteInt32(flags)
 	_data.WriteInt32(priority)
@@ -179,6 +181,7 @@ func (p *UiModeManagerProxy) DisableCarMode(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	_data.WriteInt32(flags)
 
@@ -206,6 +209,7 @@ func (p *UiModeManagerProxy) DisableCarModeByCallingPackage(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	_data.WriteInt32(flags)
 	_data.WriteString16(_identity.PackageName)
@@ -233,6 +237,7 @@ func (p *UiModeManagerProxy) GetCurrentModeType(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerGetCurrentModeType)
@@ -262,6 +267,7 @@ func (p *UiModeManagerProxy) SetNightMode(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	_data.WriteInt32(mode)
 
@@ -288,6 +294,7 @@ func (p *UiModeManagerProxy) GetNightMode(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerGetNightMode)
@@ -317,6 +324,7 @@ func (p *UiModeManagerProxy) SetNightModeCustomType(
 	nightModeCustomType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	_data.WriteInt32(nightModeCustomType)
 
@@ -343,6 +351,7 @@ func (p *UiModeManagerProxy) GetNightModeCustomType(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerGetNightModeCustomType)
@@ -372,6 +381,7 @@ func (p *UiModeManagerProxy) SetAttentionModeThemeOverlay(
 	attentionModeThemeOverlayType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	_data.WriteInt32(attentionModeThemeOverlayType)
 
@@ -398,6 +408,7 @@ func (p *UiModeManagerProxy) GetAttentionModeThemeOverlay(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerGetAttentionModeThemeOverlay)
@@ -427,6 +438,7 @@ func (p *UiModeManagerProxy) SetApplicationNightMode(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	_data.WriteInt32(mode)
 
@@ -453,6 +465,7 @@ func (p *UiModeManagerProxy) IsUiModeLocked(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerIsUiModeLocked)
@@ -482,6 +495,7 @@ func (p *UiModeManagerProxy) IsNightModeLocked(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerIsNightModeLocked)
@@ -513,6 +527,7 @@ func (p *UiModeManagerProxy) SetNightModeActivatedForCustomMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	_data.WriteInt32(nightModeCustom)
 	_data.WriteBool(active)
@@ -545,6 +560,7 @@ func (p *UiModeManagerProxy) SetNightModeActivated(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	_data.WriteBool(active)
 
@@ -575,6 +591,7 @@ func (p *UiModeManagerProxy) GetCustomNightModeStart(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerGetCustomNightModeStart)
@@ -604,6 +621,7 @@ func (p *UiModeManagerProxy) SetCustomNightModeStart(
 	time int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	_data.WriteInt64(time)
 
@@ -630,6 +648,7 @@ func (p *UiModeManagerProxy) GetCustomNightModeEnd(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerGetCustomNightModeEnd)
@@ -659,6 +678,7 @@ func (p *UiModeManagerProxy) SetCustomNightModeEnd(
 	time int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	_data.WriteInt64(time)
 
@@ -688,6 +708,7 @@ func (p *UiModeManagerProxy) RequestProjection(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
 	_data.WriteInt32(projectionType)
@@ -722,6 +743,7 @@ func (p *UiModeManagerProxy) ReleaseProjection(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	_data.WriteInt32(projectionType)
 	_data.WriteString16(_identity.PackageName)
@@ -754,6 +776,7 @@ func (p *UiModeManagerProxy) AddOnProjectionStateChangedListener(
 	projectionType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(projectionType)
@@ -781,6 +804,7 @@ func (p *UiModeManagerProxy) RemoveOnProjectionStateChangedListener(
 	listener IOnProjectionStateChangedListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -808,6 +832,7 @@ func (p *UiModeManagerProxy) GetProjectingPackages(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 	_data.WriteInt32(projectionType)
 
@@ -830,6 +855,9 @@ func (p *UiModeManagerProxy) GetProjectingPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -848,6 +876,7 @@ func (p *UiModeManagerProxy) GetActiveProjectionTypes(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerGetActiveProjectionTypes)
@@ -877,6 +906,7 @@ func (p *UiModeManagerProxy) GetContrast(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiModeManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManager, MethodIUiModeManagerGetContrast)
@@ -904,7 +934,8 @@ func (p *UiModeManagerProxy) GetContrast(
 // UiModeManagerStub dispatches incoming binder transactions
 // to a typed IUiModeManager implementation.
 type UiModeManagerStub struct {
-	Impl IUiModeManager
+	Impl      IUiModeManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UiModeManagerStub)(nil)
@@ -918,14 +949,20 @@ func (s *UiModeManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUiModeManagerAddCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IUiModeManagerCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewUiModeManagerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.AddCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -935,9 +972,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerEnableCarMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -958,9 +992,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerDisableCarMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -974,9 +1005,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerDisableCarModeByCallingPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -993,9 +1021,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerGetCurrentModeType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentModeType(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1006,9 +1031,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerSetNightMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1022,9 +1044,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerGetNightMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetNightMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1035,9 +1054,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerSetNightModeCustomType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nightModeCustomType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1051,9 +1067,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerGetNightModeCustomType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetNightModeCustomType(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1064,9 +1077,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerSetAttentionModeThemeOverlay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_attentionModeThemeOverlayType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1080,9 +1090,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerGetAttentionModeThemeOverlay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAttentionModeThemeOverlay(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1093,9 +1100,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerSetApplicationNightMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1109,9 +1113,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerIsUiModeLocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsUiModeLocked(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1122,9 +1123,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerIsNightModeLocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsNightModeLocked(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1135,9 +1133,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerSetNightModeActivatedForCustomMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nightModeCustom, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1156,9 +1151,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerSetNightModeActivated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1173,9 +1165,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerGetCustomNightModeStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCustomNightModeStart(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1186,9 +1175,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerSetCustomNightModeStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_time, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1202,9 +1188,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerGetCustomNightModeEnd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCustomNightModeEnd(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1215,9 +1198,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerSetCustomNightModeEnd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_time, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1231,12 +1211,14 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerRequestProjection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_binder_ binder.IBinder
-		_ = _arg_binder_
+		{
+			_binderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_binder_ = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _binderHandle)
+		}
 		_arg_projectionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1254,9 +1236,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerReleaseProjection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_projectionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1274,12 +1253,14 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerAddOnProjectionStateChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnProjectionStateChangedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnProjectionStateChangedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_projectionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1293,12 +1274,14 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerRemoveOnProjectionStateChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnProjectionStateChangedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnProjectionStateChangedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveOnProjectionStateChangedListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1308,9 +1291,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerGetProjectingPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_projectionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1322,13 +1302,16 @@ func (s *UiModeManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIUiModeManagerGetActiveProjectionTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetActiveProjectionTypes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1339,9 +1322,6 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerGetContrast:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetContrast(ctx)
 		_reply := parcel.New()
 		if _err != nil {

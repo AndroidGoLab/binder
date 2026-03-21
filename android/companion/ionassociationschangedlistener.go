@@ -45,6 +45,7 @@ func (p *OnAssociationsChangedListenerProxy) OnAssociationsChanged(
 	associations []AssociationInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnAssociationsChangedListener)
 	if associations == nil {
 		_data.WriteInt32(-1)
@@ -79,7 +80,8 @@ func (p *OnAssociationsChangedListenerProxy) OnAssociationsChanged(
 // OnAssociationsChangedListenerStub dispatches incoming binder transactions
 // to a typed IOnAssociationsChangedListener implementation.
 type OnAssociationsChangedListenerStub struct {
-	Impl IOnAssociationsChangedListener
+	Impl      IOnAssociationsChangedListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OnAssociationsChangedListenerStub)(nil)
@@ -93,14 +95,33 @@ func (s *OnAssociationsChangedListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOnAssociationsChangedListenerOnAssociationsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_associations []AssociationInfo
-		_ = _arg_associations
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_associations = make([]AssociationInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_associations[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnAssociationsChanged(ctx, _arg_associations)
 		_reply := parcel.New()
 		if _err != nil {

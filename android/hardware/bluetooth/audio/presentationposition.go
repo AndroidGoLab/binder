@@ -1,7 +1,6 @@
 package audio
 
 import (
-	audioPresentationPosition "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/PresentationPosition"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,7 +9,7 @@ import (
 type PresentationPosition struct {
 	RemoteDeviceAudioDelayNanos int64
 	TransmittedOctets           int64
-	TransmittedOctetsTimestamp  audioPresentationPosition.TimeSpec
+	TransmittedOctetsTimestamp  PresentationPositionTimeSpec
 }
 
 var _ parcel.Parcelable = (*PresentationPosition)(nil)
@@ -37,14 +36,29 @@ func (s *PresentationPosition) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.RemoteDeviceAudioDelayNanos, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.TransmittedOctets, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.TransmittedOctetsTimestamp.UnmarshalParcel(p); _err != nil {

@@ -57,6 +57,7 @@ func (p *DockedStackListenerProxy) OnDividerVisibilityChanged(
 	visible bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDockedStackListener)
 	_data.WriteBool(visible)
 
@@ -74,6 +75,7 @@ func (p *DockedStackListenerProxy) OnDockedStackExistsChanged(
 	exists bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDockedStackListener)
 	_data.WriteBool(exists)
 
@@ -93,6 +95,7 @@ func (p *DockedStackListenerProxy) OnDockedStackMinimizedChanged(
 	isHomeStackResizable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDockedStackListener)
 	_data.WriteBool(minimized)
 	_data.WriteInt64(animDuration)
@@ -113,6 +116,7 @@ func (p *DockedStackListenerProxy) OnAdjustedForImeChanged(
 	animDuration int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDockedStackListener)
 	_data.WriteBool(adjustedForIme)
 	_data.WriteInt64(animDuration)
@@ -131,6 +135,7 @@ func (p *DockedStackListenerProxy) OnDockSideChanged(
 	newDockSide int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDockedStackListener)
 	_data.WriteInt32(newDockSide)
 
@@ -146,7 +151,8 @@ func (p *DockedStackListenerProxy) OnDockSideChanged(
 // DockedStackListenerStub dispatches incoming binder transactions
 // to a typed IDockedStackListener implementation.
 type DockedStackListenerStub struct {
-	Impl IDockedStackListener
+	Impl      IDockedStackListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DockedStackListenerStub)(nil)
@@ -160,33 +166,26 @@ func (s *DockedStackListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDockedStackListenerOnDividerVisibilityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDividerVisibilityChanged(ctx, _arg_visible)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDockedStackListenerOnDockedStackExistsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_exists, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDockedStackExistsChanged(ctx, _arg_exists)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDockedStackListenerOnDockedStackMinimizedChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_minimized, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -200,12 +199,8 @@ func (s *DockedStackListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnDockedStackMinimizedChanged(ctx, _arg_minimized, _arg_animDuration, _arg_isHomeStackResizable)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDockedStackListenerOnAdjustedForImeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_adjustedForIme, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -215,19 +210,14 @@ func (s *DockedStackListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAdjustedForImeChanged(ctx, _arg_adjustedForIme, _arg_animDuration)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDockedStackListenerOnDockSideChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_newDockSide, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDockSideChanged(ctx, _arg_newDockSide)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

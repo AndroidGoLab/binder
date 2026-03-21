@@ -1,0 +1,525 @@
+package: android.net.wifi.nl80211
+go_package: android/net/wifi/nl80211
+interfaces:
+    - name: IApInterface
+      descriptor: android.net.wifi.nl80211.IApInterface
+      methods:
+        - name: registerCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IApInterfaceEventCallback
+          return_type:
+            name: boolean
+        - name: getInterfaceName
+          transaction_code_offset: 1
+          return_type:
+            name: String
+          annotations:
+            - utf8InCpp
+      constants:
+        - name: ENCRYPTION_TYPE_NONE
+          type: int
+          value: "0"
+        - name: ENCRYPTION_TYPE_WPA
+          type: int
+          value: "1"
+        - name: ENCRYPTION_TYPE_WPA2
+          type: int
+          value: "2"
+    - name: IApInterfaceEventCallback
+      descriptor: android.net.wifi.nl80211.IApInterfaceEventCallback
+      oneway: true
+      methods:
+        - name: onConnectedClientsChanged
+          transaction_code_offset: 0
+          params:
+            - name: client
+              type:
+                name: NativeWifiClient
+              direction: in
+            - name: isConnected
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: onSoftApChannelSwitched
+          transaction_code_offset: 1
+          params:
+            - name: frequency
+              type:
+                name: int
+            - name: bandwidth
+              type:
+                name: int
+          return_type:
+            name: void
+      constants:
+        - name: BANDWIDTH_INVALID
+          type: int
+          value: "0"
+        - name: BANDWIDTH_20_NOHT
+          type: int
+          value: "1"
+        - name: BANDWIDTH_20
+          type: int
+          value: "2"
+        - name: BANDWIDTH_40
+          type: int
+          value: "3"
+        - name: BANDWIDTH_80
+          type: int
+          value: "4"
+        - name: BANDWIDTH_80P80
+          type: int
+          value: "5"
+        - name: BANDWIDTH_160
+          type: int
+          value: "6"
+        - name: BANDWIDTH_320
+          type: int
+          value: "7"
+    - name: IClientInterface
+      descriptor: android.net.wifi.nl80211.IClientInterface
+      methods:
+        - name: getPacketCounters
+          transaction_code_offset: 0
+          return_type:
+            name: int
+            is_array: true
+        - name: signalPoll
+          transaction_code_offset: 1
+          return_type:
+            name: int
+            is_array: true
+        - name: getMacAddress
+          transaction_code_offset: 2
+          return_type:
+            name: byte
+            is_array: true
+        - name: getInterfaceName
+          transaction_code_offset: 3
+          return_type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: getWifiScannerImpl
+          transaction_code_offset: 4
+          return_type:
+            name: IWifiScannerImpl
+          annotations:
+            - nullable
+        - name: SendMgmtFrame
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: frame
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: callback
+              type:
+                name: ISendMgmtFrameEvent
+              direction: in
+            - name: mcs
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IInterfaceEventCallback
+      descriptor: android.net.wifi.nl80211.IInterfaceEventCallback
+      methods:
+        - name: OnClientInterfaceReady
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: network_interface
+              type:
+                name: IClientInterface
+          return_type:
+            name: void
+        - name: OnApInterfaceReady
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: network_interface
+              type:
+                name: IApInterface
+          return_type:
+            name: void
+        - name: OnClientTorndownEvent
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: network_interface
+              type:
+                name: IClientInterface
+          return_type:
+            name: void
+        - name: OnApTorndownEvent
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: network_interface
+              type:
+                name: IApInterface
+          return_type:
+            name: void
+    - name: IPnoScanEvent
+      descriptor: android.net.wifi.nl80211.IPnoScanEvent
+      methods:
+        - name: OnPnoNetworkFound
+          transaction_code_offset: 0
+          oneway: true
+          return_type:
+            name: void
+        - name: OnPnoScanFailed
+          transaction_code_offset: 1
+          oneway: true
+          return_type:
+            name: void
+    - name: IScanEvent
+      descriptor: android.net.wifi.nl80211.IScanEvent
+      methods:
+        - name: OnScanResultReady
+          transaction_code_offset: 0
+          oneway: true
+          return_type:
+            name: void
+        - name: OnScanFailed
+          transaction_code_offset: 1
+          oneway: true
+          return_type:
+            name: void
+        - name: OnScanRequestFailed
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: errorCode
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ISendMgmtFrameEvent
+      descriptor: android.net.wifi.nl80211.ISendMgmtFrameEvent
+      methods:
+        - name: OnAck
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: elapsedTimeMs
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: OnFailure
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+      constants:
+        - name: SEND_MGMT_FRAME_ERROR_UNKNOWN
+          type: int
+          value: "1"
+        - name: SEND_MGMT_FRAME_ERROR_MCS_UNSUPPORTED
+          type: int
+          value: "2"
+        - name: SEND_MGMT_FRAME_ERROR_NO_ACK
+          type: int
+          value: "3"
+        - name: SEND_MGMT_FRAME_ERROR_TIMEOUT
+          type: int
+          value: "4"
+        - name: SEND_MGMT_FRAME_ERROR_ALREADY_STARTED
+          type: int
+          value: "5"
+    - name: IWifiScannerImpl
+      descriptor: android.net.wifi.nl80211.IWifiScannerImpl
+      methods:
+        - name: getScanResults
+          transaction_code_offset: 0
+          return_type:
+            name: NativeScanResult
+            is_array: true
+        - name: getPnoScanResults
+          transaction_code_offset: 1
+          return_type:
+            name: NativeScanResult
+            is_array: true
+        - name: getMaxSsidsPerScan
+          transaction_code_offset: 2
+          return_type:
+            name: int
+        - name: scan
+          transaction_code_offset: 3
+          params:
+            - name: scanSettings
+              type:
+                name: SingleScanSettings
+              direction: in
+          return_type:
+            name: boolean
+        - name: scanRequest
+          transaction_code_offset: 4
+          params:
+            - name: scanSettings
+              type:
+                name: SingleScanSettings
+              direction: in
+          return_type:
+            name: int
+        - name: subscribeScanEvents
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: handler
+              type:
+                name: IScanEvent
+          return_type:
+            name: void
+        - name: unsubscribeScanEvents
+          transaction_code_offset: 6
+          oneway: true
+          return_type:
+            name: void
+        - name: subscribePnoScanEvents
+          transaction_code_offset: 7
+          oneway: true
+          params:
+            - name: handler
+              type:
+                name: IPnoScanEvent
+          return_type:
+            name: void
+        - name: unsubscribePnoScanEvents
+          transaction_code_offset: 8
+          oneway: true
+          return_type:
+            name: void
+        - name: startPnoScan
+          transaction_code_offset: 9
+          params:
+            - name: pnoSettings
+              type:
+                name: PnoSettings
+              direction: in
+          return_type:
+            name: boolean
+        - name: stopPnoScan
+          transaction_code_offset: 10
+          return_type:
+            name: boolean
+        - name: abortScan
+          transaction_code_offset: 11
+          return_type:
+            name: void
+      constants:
+        - name: SCAN_TYPE_LOW_SPAN
+          type: int
+          value: "0"
+        - name: SCAN_TYPE_LOW_POWER
+          type: int
+          value: "1"
+        - name: SCAN_TYPE_HIGH_ACCURACY
+          type: int
+          value: "2"
+        - name: SCAN_STATUS_SUCCESS
+          type: int
+          value: "0"
+        - name: SCAN_STATUS_FAILED_GENERIC
+          type: int
+          value: "1"
+        - name: SCAN_STATUS_FAILED_BUSY
+          type: int
+          value: "2"
+        - name: SCAN_STATUS_FAILED_ABORT
+          type: int
+          value: "3"
+        - name: SCAN_STATUS_FAILED_NODEV
+          type: int
+          value: "4"
+        - name: SCAN_STATUS_FAILED_INVALID_ARGS
+          type: int
+          value: "5"
+        - name: SCAN_TYPE_DEFAULT
+          type: int
+          value: "-1"
+    - name: IWificond
+      descriptor: android.net.wifi.nl80211.IWificond
+      methods:
+        - name: createApInterface
+          transaction_code_offset: 0
+          params:
+            - name: iface_name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: IApInterface
+          annotations:
+            - nullable
+        - name: createClientInterface
+          transaction_code_offset: 1
+          params:
+            - name: iface_name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: IClientInterface
+          annotations:
+            - nullable
+        - name: tearDownApInterface
+          transaction_code_offset: 2
+          params:
+            - name: iface_name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: boolean
+        - name: tearDownClientInterface
+          transaction_code_offset: 3
+          params:
+            - name: iface_name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: boolean
+        - name: tearDownInterfaces
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: GetClientInterfaces
+          transaction_code_offset: 5
+          return_type:
+            name: List
+            type_args:
+                - name: IBinder
+        - name: GetApInterfaces
+          transaction_code_offset: 6
+          return_type:
+            name: List
+            type_args:
+                - name: IBinder
+        - name: getAvailable2gChannels
+          transaction_code_offset: 7
+          return_type:
+            name: int
+            is_array: true
+          annotations:
+            - nullable
+        - name: getAvailable5gNonDFSChannels
+          transaction_code_offset: 8
+          return_type:
+            name: int
+            is_array: true
+          annotations:
+            - nullable
+        - name: getAvailableDFSChannels
+          transaction_code_offset: 9
+          return_type:
+            name: int
+            is_array: true
+          annotations:
+            - nullable
+        - name: getAvailable6gChannels
+          transaction_code_offset: 10
+          return_type:
+            name: int
+            is_array: true
+          annotations:
+            - nullable
+        - name: getAvailable60gChannels
+          transaction_code_offset: 11
+          return_type:
+            name: int
+            is_array: true
+          annotations:
+            - nullable
+        - name: RegisterCallback
+          transaction_code_offset: 12
+          oneway: true
+          params:
+            - name: callback
+              type:
+                name: IInterfaceEventCallback
+          return_type:
+            name: void
+        - name: UnregisterCallback
+          transaction_code_offset: 13
+          oneway: true
+          params:
+            - name: callback
+              type:
+                name: IInterfaceEventCallback
+          return_type:
+            name: void
+        - name: registerWificondEventCallback
+          transaction_code_offset: 14
+          oneway: true
+          params:
+            - name: callback
+              type:
+                name: IWificondEventCallback
+          return_type:
+            name: void
+        - name: unregisterWificondEventCallback
+          transaction_code_offset: 15
+          oneway: true
+          params:
+            - name: callback
+              type:
+                name: IWificondEventCallback
+          return_type:
+            name: void
+        - name: getDeviceWiphyCapabilities
+          transaction_code_offset: 16
+          params:
+            - name: iface_name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: DeviceWiphyCapabilities
+          annotations:
+            - nullable
+        - name: notifyCountryCodeChanged
+          transaction_code_offset: 17
+          oneway: true
+          return_type:
+            name: void
+    - name: IWificondEventCallback
+      descriptor: android.net.wifi.nl80211.IWificondEventCallback
+      methods:
+        - name: OnRegDomainChanged
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: countryCode
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+parcelables:
+    - name: DeviceWiphyCapabilities
+    - name: NativeScanResult
+    - name: NativeWifiClient
+    - name: PnoNetwork
+    - name: PnoSettings
+    - name: SingleScanSettings

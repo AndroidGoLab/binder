@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/xaionaro-go/binder/binder"
+	types "github.com/xaionaro-go/binder/com/android/internal_/telephony/types"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -21,7 +22,7 @@ const (
 
 type ISatelliteDatagramCallback interface {
 	AsBinder() binder.IBinder
-	OnSatelliteDatagramReceived(ctx context.Context, datagramId int64, datagram SatelliteDatagram, pendingCount int32, callback interface{}) error
+	OnSatelliteDatagramReceived(ctx context.Context, datagramId int64, datagram SatelliteDatagram, pendingCount int32, callback types.IVoidConsumer) error
 }
 
 type SatelliteDatagramCallbackProxy struct {
@@ -45,9 +46,10 @@ func (p *SatelliteDatagramCallbackProxy) OnSatelliteDatagramReceived(
 	datagramId int64,
 	datagram SatelliteDatagram,
 	pendingCount int32,
-	callback interface{},
+	callback types.IVoidConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteDatagramCallback)
 	_data.WriteInt64(datagramId)
 	_data.WriteInt32(1)
@@ -55,6 +57,7 @@ func (p *SatelliteDatagramCallbackProxy) OnSatelliteDatagramReceived(
 		return _err
 	}
 	_data.WriteInt32(pendingCount)
+	// WARNING: param callback (type types.IVoidConsumer) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteDatagramCallback, MethodISatelliteDatagramCallbackOnSatelliteDatagramReceived)
 	if _err != nil {
@@ -68,7 +71,8 @@ func (p *SatelliteDatagramCallbackProxy) OnSatelliteDatagramReceived(
 // SatelliteDatagramCallbackStub dispatches incoming binder transactions
 // to a typed ISatelliteDatagramCallback implementation.
 type SatelliteDatagramCallbackStub struct {
-	Impl ISatelliteDatagramCallback
+	Impl      ISatelliteDatagramCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SatelliteDatagramCallbackStub)(nil)
@@ -82,11 +86,12 @@ func (s *SatelliteDatagramCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISatelliteDatagramCallbackOnSatelliteDatagramReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_datagramId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -107,10 +112,9 @@ func (s *SatelliteDatagramCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		var _arg_callback types.IVoidConsumer
 		_err = s.Impl.OnSatelliteDatagramReceived(ctx, _arg_datagramId, _arg_datagram, _arg_pendingCount, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -120,7 +124,7 @@ func (s *SatelliteDatagramCallbackStub) OnTransaction(
 // provide to NewSatelliteDatagramCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ISatelliteDatagramCallbackServer interface {
-	OnSatelliteDatagramReceived(ctx context.Context, datagramId int64, datagram SatelliteDatagram, pendingCount int32, callback interface{}) error
+	OnSatelliteDatagramReceived(ctx context.Context, datagramId int64, datagram SatelliteDatagram, pendingCount int32, callback types.IVoidConsumer) error
 }
 
 type satelliteDatagramCallbackStubWrapper struct {
@@ -137,7 +141,7 @@ func (w *satelliteDatagramCallbackStubWrapper) OnSatelliteDatagramReceived(
 	datagramId int64,
 	datagram SatelliteDatagram,
 	pendingCount int32,
-	callback interface{},
+	callback types.IVoidConsumer,
 ) error {
 	return w.impl.OnSatelliteDatagramReceived(ctx, datagramId, datagram, pendingCount, callback)
 }

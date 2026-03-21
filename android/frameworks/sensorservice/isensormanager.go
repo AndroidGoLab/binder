@@ -71,6 +71,7 @@ func (p *SensorManagerProxy) CreateAshmemDirectChannel(
 ) (IDirectReportChannel, error) {
 	var _result IDirectReportChannel
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorManager)
 	_data.WriteInt32(1)
 	if _err := mem.MarshalParcel(_data); _err != nil {
@@ -107,6 +108,7 @@ func (p *SensorManagerProxy) CreateEventQueue(
 ) (IEventQueue, error) {
 	var _result IEventQueue
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -140,6 +142,7 @@ func (p *SensorManagerProxy) CreateGrallocDirectChannel(
 ) (IDirectReportChannel, error) {
 	var _result IDirectReportChannel
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorManager)
 	_data.WriteFileDescriptor(buffer)
 	_data.WriteInt64(size)
@@ -173,6 +176,7 @@ func (p *SensorManagerProxy) GetDefaultSensor(
 ) (sensors.SensorInfo, error) {
 	var _result sensors.SensorInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorManager)
 	_data.WriteInt32(int32(type_))
 
@@ -208,6 +212,7 @@ func (p *SensorManagerProxy) GetSensorList(
 ) ([]sensors.SensorInfo, error) {
 	var _result []sensors.SensorInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorManager, MethodISensorManagerGetSensorList)
@@ -229,6 +234,9 @@ func (p *SensorManagerProxy) GetSensorList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]sensors.SensorInfo, _count)
@@ -247,7 +255,8 @@ func (p *SensorManagerProxy) GetSensorList(
 // SensorManagerStub dispatches incoming binder transactions
 // to a typed ISensorManager implementation.
 type SensorManagerStub struct {
-	Impl ISensorManager
+	Impl      ISensorManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SensorManagerStub)(nil)
@@ -261,11 +270,12 @@ func (s *SensorManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISensorManagerCreateAshmemDirectChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_mem common.Ashmem
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -289,16 +299,17 @@ func (s *SensorManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISensorManagerCreateEventQueue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IEventQueueCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewEventQueueCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.CreateEventQueue(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -306,13 +317,9 @@ func (s *SensorManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISensorManagerCreateGrallocDirectChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_buffer, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -328,13 +335,9 @@ func (s *SensorManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISensorManagerGetDefaultSensor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -353,9 +356,6 @@ func (s *SensorManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISensorManagerGetSensorList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSensorList(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -363,8 +363,17 @@ func (s *SensorManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

@@ -15,6 +15,21 @@ var skippedMethods = map[string]bool{
 	"InterfaceDescriptor": true,
 }
 
+// SmokeOption configures SmokeTestAllMethods behavior.
+type SmokeOption func(*smokeConfig)
+
+type smokeConfig struct {
+	methodFilter func(string) bool
+}
+
+// WithMethodFilter sets a predicate that decides whether a method should
+// be tested. Methods for which the filter returns false are skipped.
+func WithMethodFilter(filter func(string) bool) SmokeOption {
+	return func(cfg *smokeConfig) {
+		cfg.methodFilter = filter
+	}
+}
+
 // SmokeTestAllMethods calls every exported method on proxy with
 // zero-value arguments and classifies the results. Each method
 // is run as a t.Run sub-test. Panics (e.g. nil interface dereference)
@@ -22,8 +37,14 @@ var skippedMethods = map[string]bool{
 func SmokeTestAllMethods(
 	t *testing.T,
 	proxy any,
+	opts ...SmokeOption,
 ) SmokeResult {
 	t.Helper()
+
+	var cfg smokeConfig
+	for _, opt := range opts {
+		opt(&cfg)
+	}
 
 	v := reflect.ValueOf(proxy)
 	typ := v.Type()
@@ -32,6 +53,13 @@ func SmokeTestAllMethods(
 	for i := 0; i < typ.NumMethod(); i++ {
 		method := typ.Method(i)
 		if skippedMethods[method.Name] {
+			continue
+		}
+
+		if cfg.methodFilter != nil && !cfg.methodFilter(method.Name) {
+			t.Run(method.Name, func(t *testing.T) {
+				t.Skipf("method %s skipped by method filter (dangerous method name)", method.Name)
+			})
 			continue
 		}
 
@@ -48,6 +76,9 @@ func SmokeTestAllMethods(
 			case outcomePanicked:
 				result.Panicked++
 				t.Logf("method %s panicked (nil interface arg)", methodName)
+			case outcomeFailed:
+				result.Failed++
+				t.Logf("method %s returned an error", methodName)
 			case outcomePassed:
 				result.Passed++
 			}
@@ -96,12 +127,13 @@ func callWithRecover(
 }
 
 // classifyError decides whether an error means "passed" or "failed".
-// Any error from the proxy method counts as passed — the method was
-// exercised and the marshaling/transport code path was reached.
-// StatusError (SecurityException, etc.) and binder-level errors
-// are both expected outcomes when calling with zero-value args.
-func classifyError(_ error) outcome {
-	return outcomePassed
+// A nil error means the method completed successfully (passed).
+// A non-nil error means the method returned an error (failed).
+func classifyError(err error) outcome {
+	if err == nil {
+		return outcomePassed
+	}
+	return outcomeFailed
 }
 
 var (

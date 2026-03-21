@@ -44,6 +44,7 @@ func (p *ImsStreamMediaSessionProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsStreamMediaSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsStreamMediaSession, MethodIImsStreamMediaSessionClose)
@@ -67,7 +68,8 @@ func (p *ImsStreamMediaSessionProxy) Close(
 // ImsStreamMediaSessionStub dispatches incoming binder transactions
 // to a typed IImsStreamMediaSession implementation.
 type ImsStreamMediaSessionStub struct {
-	Impl IImsStreamMediaSession
+	Impl      IImsStreamMediaSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsStreamMediaSessionStub)(nil)
@@ -81,11 +83,12 @@ func (s *ImsStreamMediaSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsStreamMediaSessionClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {

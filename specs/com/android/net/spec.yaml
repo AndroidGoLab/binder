@@ -1,0 +1,50 @@
+package: com.android.net
+go_package: com/android/net
+interfaces:
+    - name: IProxyCallback
+      descriptor: com.android.net.IProxyCallback
+      methods:
+        - name: getProxyPort
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: callback
+              type:
+                name: IBinder
+          return_type:
+            name: void
+    - name: IProxyPortListener
+      descriptor: com.android.net.IProxyPortListener
+      methods:
+        - name: setProxyPort
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: port
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IProxyService
+      descriptor: com.android.net.IProxyService
+      methods:
+        - name: resolvePacFile
+          transaction_code_offset: 0
+          params:
+            - name: host
+              type:
+                name: String
+            - name: url
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: setPacFile
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: scriptContents
+              type:
+                name: String
+          return_type:
+            name: void

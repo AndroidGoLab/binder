@@ -43,6 +43,11 @@ func (s *HdrCapabilities) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
 	if _err != nil {
@@ -58,14 +63,29 @@ func (s *HdrCapabilities) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.MaxLuminance, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.MaxAverageLuminance, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.MinLuminance, _err = p.ReadFloat32()

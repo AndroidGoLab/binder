@@ -1,0 +1,1656 @@
+package: com.android.internal.inputmethod
+go_package: com/android/internal_/inputmethod
+interfaces:
+    - name: IAccessibilityInputMethodSession
+      descriptor: com.android.internal.inputmethod.IAccessibilityInputMethodSession
+      oneway: true
+      methods:
+        - name: updateSelection
+          transaction_code_offset: 0
+          params:
+            - name: oldSelStart
+              type:
+                name: int
+            - name: oldSelEnd
+              type:
+                name: int
+            - name: newSelStart
+              type:
+                name: int
+            - name: newSelEnd
+              type:
+                name: int
+            - name: candidatesStart
+              type:
+                name: int
+            - name: candidatesEnd
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: finishInput
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: finishSession
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: invalidateInput
+          transaction_code_offset: 3
+          params:
+            - name: editorInfo
+              type:
+                name: EditorInfo
+              direction: in
+            - name: connection
+              type:
+                name: IRemoteAccessibilityInputConnection
+              direction: in
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IAccessibilityInputMethodSessionCallback
+      descriptor: com.android.internal.inputmethod.IAccessibilityInputMethodSessionCallback
+      oneway: true
+      methods:
+        - name: sessionCreated
+          transaction_code_offset: 0
+          params:
+            - name: session
+              type:
+                name: IAccessibilityInputMethodSession
+            - name: id
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IBooleanListener
+      descriptor: com.android.internal.inputmethod.IBooleanListener
+      oneway: true
+      methods:
+        - name: onResult
+          transaction_code_offset: 0
+          params:
+            - name: value
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IConnectionlessHandwritingCallback
+      descriptor: com.android.internal.inputmethod.IConnectionlessHandwritingCallback
+      oneway: true
+      methods:
+        - name: onResult
+          transaction_code_offset: 0
+          params:
+            - name: text
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 1
+          params:
+            - name: errorCode
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IImeTracker
+      descriptor: com.android.internal.inputmethod.IImeTracker
+      methods:
+        - name: onStart
+          transaction_code_offset: 0
+          params:
+            - name: tag
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+            - name: type
+              type:
+                name: int
+            - name: origin
+              type:
+                name: int
+            - name: reason
+              type:
+                name: int
+            - name: fromUser
+              type:
+                name: boolean
+          return_type:
+            name: ImeTracker.Token
+        - name: onProgress
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: binder
+              type:
+                name: IBinder
+              direction: in
+            - name: phase
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onFailed
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: statsToken
+              type:
+                name: ImeTracker.Token
+              direction: in
+            - name: phase
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCancelled
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: statsToken
+              type:
+                name: ImeTracker.Token
+              direction: in
+            - name: phase
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onShown
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: statsToken
+              type:
+                name: ImeTracker.Token
+              direction: in
+          return_type:
+            name: void
+        - name: onHidden
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: statsToken
+              type:
+                name: ImeTracker.Token
+              direction: in
+          return_type:
+            name: void
+        - name: hasPendingImeVisibilityRequests
+          transaction_code_offset: 6
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+    - name: IInlineSuggestionsRequestCallback
+      descriptor: com.android.internal.inputmethod.IInlineSuggestionsRequestCallback
+      oneway: true
+      methods:
+        - name: onInlineSuggestionsUnsupported
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onInlineSuggestionsRequest
+          transaction_code_offset: 1
+          params:
+            - name: request
+              type:
+                name: InlineSuggestionsRequest
+              direction: in
+            - name: callback
+              type:
+                name: IInlineSuggestionsResponseCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onInputMethodStartInput
+          transaction_code_offset: 2
+          params:
+            - name: imeFieldId
+              type:
+                name: AutofillId
+              direction: in
+          return_type:
+            name: void
+        - name: onInputMethodShowInputRequested
+          transaction_code_offset: 3
+          params:
+            - name: requestResult
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onInputMethodStartInputView
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: onInputMethodFinishInputView
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: onInputMethodFinishInput
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: onInlineSuggestionsSessionInvalidated
+          transaction_code_offset: 7
+          return_type:
+            name: void
+    - name: IInlineSuggestionsResponseCallback
+      descriptor: com.android.internal.inputmethod.IInlineSuggestionsResponseCallback
+      oneway: true
+      methods:
+        - name: onInlineSuggestionsResponse
+          transaction_code_offset: 0
+          params:
+            - name: fieldId
+              type:
+                name: AutofillId
+              direction: in
+            - name: response
+              type:
+                name: InlineSuggestionsResponse
+              direction: in
+          return_type:
+            name: void
+    - name: IInputContentUriToken
+      descriptor: com.android.internal.inputmethod.IInputContentUriToken
+      methods:
+        - name: take
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: release
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: IInputMethod
+      descriptor: com.android.internal.inputmethod.IInputMethod
+      oneway: true
+      methods:
+        - name: initializeInternal
+          transaction_code_offset: 0
+          params:
+            - name: params
+              type:
+                name: InitParams
+              direction: in
+          return_type:
+            name: void
+        - name: onCreateInlineSuggestionsRequest
+          transaction_code_offset: 1
+          params:
+            - name: requestInfo
+              type:
+                name: InlineSuggestionsRequestInfo
+              direction: in
+            - name: cb
+              type:
+                name: IInlineSuggestionsRequestCallback
+              direction: in
+          return_type:
+            name: void
+        - name: bindInput
+          transaction_code_offset: 2
+          params:
+            - name: binding
+              type:
+                name: InputBinding
+              direction: in
+          return_type:
+            name: void
+        - name: unbindInput
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: startInput
+          transaction_code_offset: 4
+          params:
+            - name: params
+              type:
+                name: StartInputParams
+              direction: in
+          return_type:
+            name: void
+        - name: onNavButtonFlagsChanged
+          transaction_code_offset: 5
+          params:
+            - name: navButtonFlags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: createSession
+          transaction_code_offset: 6
+          params:
+            - name: channel
+              type:
+                name: InputChannel
+              direction: in
+            - name: callback
+              type:
+                name: IInputMethodSessionCallback
+          return_type:
+            name: void
+        - name: setSessionEnabled
+          transaction_code_offset: 7
+          params:
+            - name: session
+              type:
+                name: IInputMethodSession
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: showSoftInput
+          transaction_code_offset: 8
+          params:
+            - name: showInputToken
+              type:
+                name: IBinder
+              direction: in
+            - name: statsToken
+              type:
+                name: ImeTracker.Token
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: resultReceiver
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: hideSoftInput
+          transaction_code_offset: 9
+          params:
+            - name: hideInputToken
+              type:
+                name: IBinder
+              direction: in
+            - name: statsToken
+              type:
+                name: ImeTracker.Token
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: resultReceiver
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: updateEditorToolType
+          transaction_code_offset: 10
+          params:
+            - name: toolType
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: changeInputMethodSubtype
+          transaction_code_offset: 11
+          params:
+            - name: subtype
+              type:
+                name: InputMethodSubtype
+              direction: in
+          return_type:
+            name: void
+        - name: canStartStylusHandwriting
+          transaction_code_offset: 12
+          params:
+            - name: requestId
+              type:
+                name: int
+            - name: connectionlessCallback
+              type:
+                name: IConnectionlessHandwritingCallback
+              direction: in
+            - name: cursorAnchorInfo
+              type:
+                name: CursorAnchorInfo
+              direction: in
+            - name: isConnectionlessForDelegation
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: startStylusHandwriting
+          transaction_code_offset: 13
+          params:
+            - name: requestId
+              type:
+                name: int
+            - name: channel
+              type:
+                name: InputChannel
+              direction: in
+            - name: events
+              type:
+                name: List
+                type_args:
+                    - name: MotionEvent
+              direction: in
+          return_type:
+            name: void
+        - name: commitHandwritingDelegationTextIfAvailable
+          transaction_code_offset: 14
+          return_type:
+            name: void
+        - name: discardHandwritingDelegationText
+          transaction_code_offset: 15
+          return_type:
+            name: void
+        - name: initInkWindow
+          transaction_code_offset: 16
+          return_type:
+            name: void
+        - name: finishStylusHandwriting
+          transaction_code_offset: 17
+          return_type:
+            name: void
+        - name: removeStylusHandwritingWindow
+          transaction_code_offset: 18
+          return_type:
+            name: void
+        - name: setStylusWindowIdleTimeoutForTest
+          transaction_code_offset: 19
+          params:
+            - name: timeout
+              type:
+                name: long
+          return_type:
+            name: void
+    - name: IInputMethodClient
+      descriptor: com.android.internal.inputmethod.IInputMethodClient
+      oneway: true
+      methods:
+        - name: onBindMethod
+          transaction_code_offset: 0
+          params:
+            - name: res
+              type:
+                name: InputBindResult
+              direction: in
+          return_type:
+            name: void
+        - name: onStartInputResult
+          transaction_code_offset: 1
+          params:
+            - name: res
+              type:
+                name: InputBindResult
+              direction: in
+            - name: startInputSeq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onBindAccessibilityService
+          transaction_code_offset: 2
+          params:
+            - name: res
+              type:
+                name: InputBindResult
+              direction: in
+            - name: id
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onUnbindMethod
+          transaction_code_offset: 3
+          params:
+            - name: sequence
+              type:
+                name: int
+            - name: unbindReason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onUnbindAccessibilityService
+          transaction_code_offset: 4
+          params:
+            - name: sequence
+              type:
+                name: int
+            - name: id
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setActive
+          transaction_code_offset: 5
+          params:
+            - name: active
+              type:
+                name: boolean
+            - name: fullscreen
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setInteractive
+          transaction_code_offset: 6
+          params:
+            - name: active
+              type:
+                name: boolean
+            - name: fullscreen
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: scheduleStartInputIfNecessary
+          transaction_code_offset: 7
+          params:
+            - name: fullscreen
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: reportFullscreenMode
+          transaction_code_offset: 8
+          params:
+            - name: fullscreen
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setImeTraceEnabled
+          transaction_code_offset: 9
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: throwExceptionFromSystem
+          transaction_code_offset: 10
+          params:
+            - name: message
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IInputMethodPrivilegedOperations
+      descriptor: com.android.internal.inputmethod.IInputMethodPrivilegedOperations
+      oneway: true
+      methods:
+        - name: setImeWindowStatusAsync
+          transaction_code_offset: 0
+          params:
+            - name: vis
+              type:
+                name: int
+            - name: backDisposition
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportStartInputAsync
+          transaction_code_offset: 1
+          params:
+            - name: startInputToken
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: createInputContentUriToken
+          transaction_code_offset: 2
+          params:
+            - name: contentUri
+              type:
+                name: Uri
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: reportFullscreenModeAsync
+          transaction_code_offset: 3
+          params:
+            - name: fullscreen
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setInputMethod
+          transaction_code_offset: 4
+          params:
+            - name: id
+              type:
+                name: String
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: setInputMethodAndSubtype
+          transaction_code_offset: 5
+          params:
+            - name: id
+              type:
+                name: String
+            - name: subtype
+              type:
+                name: InputMethodSubtype
+              direction: in
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: hideMySoftInput
+          transaction_code_offset: 6
+          params:
+            - name: statsToken
+              type:
+                name: ImeTracker.Token
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: reason
+              type:
+                name: int
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: showMySoftInput
+          transaction_code_offset: 7
+          params:
+            - name: statsToken
+              type:
+                name: ImeTracker.Token
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: reason
+              type:
+                name: int
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: updateStatusIconAsync
+          transaction_code_offset: 8
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: iconId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: switchToPreviousInputMethod
+          transaction_code_offset: 9
+          params:
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: switchToNextInputMethod
+          transaction_code_offset: 10
+          params:
+            - name: onlyCurrentIme
+              type:
+                name: boolean
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: shouldOfferSwitchingToNextInputMethod
+          transaction_code_offset: 11
+          params:
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: notifyUserActionAsync
+          transaction_code_offset: 12
+          return_type:
+            name: void
+        - name: applyImeVisibilityAsync
+          transaction_code_offset: 13
+          params:
+            - name: showOrHideInputToken
+              type:
+                name: IBinder
+            - name: setVisible
+              type:
+                name: boolean
+            - name: statsToken
+              type:
+                name: ImeTracker.Token
+              direction: in
+          return_type:
+            name: void
+        - name: onStylusHandwritingReady
+          transaction_code_offset: 14
+          params:
+            - name: requestId
+              type:
+                name: int
+            - name: pid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: resetStylusHandwriting
+          transaction_code_offset: 15
+          params:
+            - name: requestId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: switchKeyboardLayoutAsync
+          transaction_code_offset: 16
+          params:
+            - name: direction
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IInputMethodSession
+      descriptor: com.android.internal.inputmethod.IInputMethodSession
+      oneway: true
+      methods:
+        - name: updateExtractedText
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: int
+            - name: text
+              type:
+                name: ExtractedText
+              direction: in
+          return_type:
+            name: void
+        - name: updateSelection
+          transaction_code_offset: 1
+          params:
+            - name: oldSelStart
+              type:
+                name: int
+            - name: oldSelEnd
+              type:
+                name: int
+            - name: newSelStart
+              type:
+                name: int
+            - name: newSelEnd
+              type:
+                name: int
+            - name: candidatesStart
+              type:
+                name: int
+            - name: candidatesEnd
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: viewClicked
+          transaction_code_offset: 2
+          params:
+            - name: focusChanged
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: updateCursor
+          transaction_code_offset: 3
+          params:
+            - name: newCursor
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: displayCompletions
+          transaction_code_offset: 4
+          params:
+            - name: completions
+              type:
+                name: CompletionInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: appPrivateCommand
+          transaction_code_offset: 5
+          params:
+            - name: action
+              type:
+                name: String
+            - name: data
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: finishSession
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: updateCursorAnchorInfo
+          transaction_code_offset: 7
+          params:
+            - name: cursorAnchorInfo
+              type:
+                name: CursorAnchorInfo
+              direction: in
+          return_type:
+            name: void
+        - name: removeImeSurface
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: finishInput
+          transaction_code_offset: 9
+          return_type:
+            name: void
+        - name: invalidateInput
+          transaction_code_offset: 10
+          params:
+            - name: editorInfo
+              type:
+                name: EditorInfo
+              direction: in
+            - name: inputConnection
+              type:
+                name: IRemoteInputConnection
+              direction: in
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IInputMethodSessionCallback
+      descriptor: com.android.internal.inputmethod.IInputMethodSessionCallback
+      oneway: true
+      methods:
+        - name: sessionCreated
+          transaction_code_offset: 0
+          params:
+            - name: session
+              type:
+                name: IInputMethodSession
+          return_type:
+            name: void
+    - name: IRemoteAccessibilityInputConnection
+      descriptor: com.android.internal.inputmethod.IRemoteAccessibilityInputConnection
+      oneway: true
+      methods:
+        - name: commitText
+          transaction_code_offset: 0
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: text
+              type:
+                name: CharSequence
+            - name: newCursorPosition
+              type:
+                name: int
+            - name: textAttribute
+              type:
+                name: TextAttribute
+              direction: in
+          return_type:
+            name: void
+        - name: setSelection
+          transaction_code_offset: 1
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: start
+              type:
+                name: int
+            - name: end
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getSurroundingText
+          transaction_code_offset: 2
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: beforeLength
+              type:
+                name: int
+            - name: afterLength
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: deleteSurroundingText
+          transaction_code_offset: 3
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: beforeLength
+              type:
+                name: int
+            - name: afterLength
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendKeyEvent
+          transaction_code_offset: 4
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: event
+              type:
+                name: KeyEvent
+              direction: in
+          return_type:
+            name: void
+        - name: performEditorAction
+          transaction_code_offset: 5
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: actionCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: performContextMenuAction
+          transaction_code_offset: 6
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: id
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getCursorCapsMode
+          transaction_code_offset: 7
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: reqModes
+              type:
+                name: int
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: clearMetaKeyStates
+          transaction_code_offset: 8
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: states
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IRemoteInputConnection
+      descriptor: com.android.internal.inputmethod.IRemoteInputConnection
+      oneway: true
+      methods:
+        - name: getTextBeforeCursor
+          transaction_code_offset: 0
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: length
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: getTextAfterCursor
+          transaction_code_offset: 1
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: length
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: getCursorCapsMode
+          transaction_code_offset: 2
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: reqModes
+              type:
+                name: int
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: getExtractedText
+          transaction_code_offset: 3
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: request
+              type:
+                name: ExtractedTextRequest
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: deleteSurroundingText
+          transaction_code_offset: 4
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: beforeLength
+              type:
+                name: int
+            - name: afterLength
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: deleteSurroundingTextInCodePoints
+          transaction_code_offset: 5
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: beforeLength
+              type:
+                name: int
+            - name: afterLength
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setComposingText
+          transaction_code_offset: 6
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: text
+              type:
+                name: CharSequence
+            - name: newCursorPosition
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setComposingTextWithTextAttribute
+          transaction_code_offset: 7
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: text
+              type:
+                name: CharSequence
+            - name: newCursorPosition
+              type:
+                name: int
+            - name: textAttribute
+              type:
+                name: TextAttribute
+              direction: in
+          return_type:
+            name: void
+        - name: finishComposingText
+          transaction_code_offset: 8
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+          return_type:
+            name: void
+        - name: commitText
+          transaction_code_offset: 9
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: text
+              type:
+                name: CharSequence
+            - name: newCursorPosition
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: commitTextWithTextAttribute
+          transaction_code_offset: 10
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: text
+              type:
+                name: CharSequence
+            - name: newCursorPosition
+              type:
+                name: int
+            - name: textAttribute
+              type:
+                name: TextAttribute
+              direction: in
+          return_type:
+            name: void
+        - name: commitCompletion
+          transaction_code_offset: 11
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: completion
+              type:
+                name: CompletionInfo
+              direction: in
+          return_type:
+            name: void
+        - name: commitCorrection
+          transaction_code_offset: 12
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: correction
+              type:
+                name: CorrectionInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setSelection
+          transaction_code_offset: 13
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: start
+              type:
+                name: int
+            - name: end
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: performEditorAction
+          transaction_code_offset: 14
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: actionCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: performContextMenuAction
+          transaction_code_offset: 15
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: id
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: beginBatchEdit
+          transaction_code_offset: 16
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+          return_type:
+            name: void
+        - name: endBatchEdit
+          transaction_code_offset: 17
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+          return_type:
+            name: void
+        - name: sendKeyEvent
+          transaction_code_offset: 18
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: event
+              type:
+                name: KeyEvent
+              direction: in
+          return_type:
+            name: void
+        - name: clearMetaKeyStates
+          transaction_code_offset: 19
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: states
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: performSpellCheck
+          transaction_code_offset: 20
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+          return_type:
+            name: void
+        - name: performPrivateCommand
+          transaction_code_offset: 21
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: action
+              type:
+                name: String
+            - name: data
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: performHandwritingGesture
+          transaction_code_offset: 22
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: gesture
+              type:
+                name: ParcelableHandwritingGesture
+              direction: in
+            - name: resultReceiver
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: previewHandwritingGesture
+          transaction_code_offset: 23
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: gesture
+              type:
+                name: ParcelableHandwritingGesture
+              direction: in
+            - name: cancellationSignal
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: setComposingRegion
+          transaction_code_offset: 24
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: start
+              type:
+                name: int
+            - name: end
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setComposingRegionWithTextAttribute
+          transaction_code_offset: 25
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: start
+              type:
+                name: int
+            - name: end
+              type:
+                name: int
+            - name: textAttribute
+              type:
+                name: TextAttribute
+              direction: in
+          return_type:
+            name: void
+        - name: getSelectedText
+          transaction_code_offset: 26
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: requestCursorUpdates
+          transaction_code_offset: 27
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: cursorUpdateMode
+              type:
+                name: int
+            - name: imeDisplayId
+              type:
+                name: int
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: requestCursorUpdatesWithFilter
+          transaction_code_offset: 28
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: cursorUpdateMode
+              type:
+                name: int
+            - name: cursorUpdateFilter
+              type:
+                name: int
+            - name: imeDisplayId
+              type:
+                name: int
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: requestTextBoundsInfo
+          transaction_code_offset: 29
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: bounds
+              type:
+                name: RectF
+              direction: in
+            - name: resultReceiver
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: commitContent
+          transaction_code_offset: 30
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: inputContentInfo
+              type:
+                name: InputContentInfo
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: opts
+              type:
+                name: Bundle
+              direction: in
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: getSurroundingText
+          transaction_code_offset: 31
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: beforeLength
+              type:
+                name: int
+            - name: afterLength
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: setImeConsumesInput
+          transaction_code_offset: 32
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: imeConsumesInput
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: replaceText
+          transaction_code_offset: 33
+          params:
+            - name: header
+              type:
+                name: InputConnectionCommandHeader
+              direction: in
+            - name: start
+              type:
+                name: int
+            - name: end
+              type:
+                name: int
+            - name: text
+              type:
+                name: CharSequence
+            - name: newCursorPosition
+              type:
+                name: int
+            - name: textAttribute
+              type:
+                name: TextAttribute
+              direction: in
+          return_type:
+            name: void
+        - name: cancelCancellationSignal
+          transaction_code_offset: 34
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: forgetCancellationSignal
+          transaction_code_offset: 35
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: IInputMethod.InitParams
+      fields:
+        - name: token
+          type:
+            name: IBinder
+        - name: privilegedOperations
+          type:
+            name: IInputMethodPrivilegedOperations
+        - name: navigationBarFlags
+          type:
+            name: int
+    - name: IInputMethod.StartInputParams
+      fields:
+        - name: startInputToken
+          type:
+            name: IBinder
+        - name: remoteInputConnection
+          type:
+            name: IRemoteInputConnection
+        - name: editorInfo
+          type:
+            name: EditorInfo
+        - name: restarting
+          type:
+            name: boolean
+        - name: navigationBarFlags
+          type:
+            name: int
+        - name: imeDispatcher
+          type:
+            name: ImeOnBackInvokedDispatcher
+    - name: InlineSuggestionsRequestInfo
+    - name: InputBindResult
+    - name: InputConnectionCommandHeader
+    - name: InputMethodSubtypeHandle

@@ -33,11 +33,21 @@ func (s *ReadbackBufferAttributes) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_formatRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Format = common.PixelFormat(_formatRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_dataspaceRaw, _err := p.ReadInt32()
 	if _err != nil {

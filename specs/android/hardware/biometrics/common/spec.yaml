@@ -1,0 +1,257 @@
+package: android.hardware.biometrics.common
+go_package: android/hardware/biometrics/common
+interfaces:
+    - name: ICancellationSignal
+      descriptor: android.hardware.biometrics.common.ICancellationSignal
+      oneway: true
+      methods:
+        - name: cancel
+          transaction_code_offset: 0
+          return_type:
+            name: void
+parcelables:
+    - name: AuthenticateReason.Vendor
+      fields:
+        - name: extension
+          type:
+            name: ParcelableHolder
+      annotations:
+        - VintfStability
+    - name: CommonProps
+      fields:
+        - name: sensorId
+          type:
+            name: int
+        - name: sensorStrength
+          type:
+            name: SensorStrength
+          default_value: SensorStrength.CONVENIENCE
+        - name: maxEnrollmentsPerUser
+          type:
+            name: int
+        - name: componentInfo
+          type:
+            name: ComponentInfo
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: ComponentInfo
+      fields:
+        - name: componentId
+          type:
+            name: String
+        - name: hardwareVersion
+          type:
+            name: String
+        - name: firmwareVersion
+          type:
+            name: String
+        - name: serialNumber
+          type:
+            name: String
+        - name: softwareVersion
+          type:
+            name: String
+      annotations:
+        - VintfStability
+    - name: OperationContext
+      fields:
+        - name: id
+          type:
+            name: int
+          default_value: "0"
+        - name: reason
+          type:
+            name: OperationReason
+          default_value: OperationReason.UNKNOWN
+        - name: isAod
+          type:
+            name: boolean
+          default_value: "false"
+        - name: isCrypto
+          type:
+            name: boolean
+          default_value: "false"
+        - name: wakeReason
+          type:
+            name: WakeReason
+          default_value: WakeReason.UNKNOWN
+        - name: displayState
+          type:
+            name: DisplayState
+          default_value: DisplayState.UNKNOWN
+        - name: authenticateReason
+          type:
+            name: AuthenticateReason
+          annotations:
+            - nullable
+        - name: foldState
+          type:
+            name: FoldState
+          default_value: FoldState.UNKNOWN
+        - name: operationState
+          type:
+            name: OperationState
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: OperationState.FaceOperationState
+      fields:
+        - name: extension
+          type:
+            name: ParcelableHolder
+      annotations:
+        - VintfStability
+    - name: OperationState.FingerprintOperationState
+      fields:
+        - name: extension
+          type:
+            name: ParcelableHolder
+        - name: isHardwareIgnoringTouches
+          type:
+            name: boolean
+          default_value: "false"
+      annotations:
+        - VintfStability
+enums:
+    - name: AuthenticateReason.Face
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: STARTED_WAKING_UP
+          value: ""
+        - name: PRIMARY_BOUNCER_SHOWN
+          value: ""
+        - name: ASSISTANT_VISIBLE
+          value: ""
+        - name: ALTERNATE_BIOMETRIC_BOUNCER_SHOWN
+          value: ""
+        - name: NOTIFICATION_PANEL_CLICKED
+          value: ""
+        - name: OCCLUDING_APP_REQUESTED
+          value: ""
+        - name: PICK_UP_GESTURE_TRIGGERED
+          value: ""
+        - name: QS_EXPANDED
+          value: ""
+        - name: SWIPE_UP_ON_BOUNCER
+          value: ""
+        - name: UDFPS_POINTER_DOWN
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AuthenticateReason.Fingerprint
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DisplayState
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: LOCKSCREEN
+          value: ""
+        - name: NO_UI
+          value: ""
+        - name: SCREENSAVER
+          value: ""
+        - name: AOD
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FoldState
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: HALF_OPENED
+          value: ""
+        - name: FULLY_OPENED
+          value: ""
+        - name: FULLY_CLOSED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: OperationReason
+      backing_type: byte
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: BIOMETRIC_PROMPT
+          value: ""
+        - name: KEYGUARD
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SensorStrength
+      backing_type: byte
+      values:
+        - name: CONVENIENCE
+          value: ""
+        - name: WEAK
+          value: ""
+        - name: STRONG
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WakeReason
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: POWER_BUTTON
+          value: ""
+        - name: GESTURE
+          value: ""
+        - name: WAKE_KEY
+          value: ""
+        - name: WAKE_MOTION
+          value: ""
+        - name: LID
+          value: ""
+        - name: DISPLAY_GROUP_ADDED
+          value: ""
+        - name: TAP
+          value: ""
+        - name: LIFT
+          value: ""
+        - name: BIOMETRIC
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: AuthenticateReason
+      fields:
+        - name: vendorAuthenticateReason
+          type:
+            name: AuthenticateReason.Vendor
+        - name: faceAuthenticateReason
+          type:
+            name: AuthenticateReason.Face
+        - name: fingerprintAuthenticateReason
+          type:
+            name: AuthenticateReason.Fingerprint
+      annotations:
+        - VintfStability
+    - name: OperationState
+      fields:
+        - name: fingerprintOperationState
+          type:
+            name: OperationState.FingerprintOperationState
+        - name: faceOperationState
+          type:
+            name: OperationState.FaceOperationState
+      annotations:
+        - VintfStability

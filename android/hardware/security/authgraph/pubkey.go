@@ -31,8 +31,7 @@ func (u *PubKey) GetPlainKey() (PlainPubKey, bool) {
 func (u *PubKey) SetPlainKey(
 	v PlainPubKey,
 ) {
-	u.Tag = PubKeyTagPlainKey
-	u.PlainKey = v
+	*u = PubKey{Tag: PubKeyTagPlainKey, PlainKey: v}
 }
 
 func (u *PubKey) GetSignedKey() (SignedPubKey, bool) {
@@ -46,8 +45,7 @@ func (u *PubKey) GetSignedKey() (SignedPubKey, bool) {
 func (u *PubKey) SetSignedKey(
 	v SignedPubKey,
 ) {
-	u.Tag = PubKeyTagSignedKey
-	u.SignedKey = v
+	*u = PubKey{Tag: PubKeyTagSignedKey, SignedKey: v}
 }
 
 func (u *PubKey) MarshalParcel(

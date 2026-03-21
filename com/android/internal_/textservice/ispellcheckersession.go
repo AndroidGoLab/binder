@@ -57,6 +57,7 @@ func (p *SpellCheckerSessionProxy) OnGetSuggestionsMultiple(
 	multipleWords bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpellCheckerSession)
 	if textInfos == nil {
 		_data.WriteInt32(-1)
@@ -87,6 +88,7 @@ func (p *SpellCheckerSessionProxy) OnGetSentenceSuggestionsMultiple(
 	suggestionsLimit int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpellCheckerSession)
 	if textInfos == nil {
 		_data.WriteInt32(-1)
@@ -114,6 +116,7 @@ func (p *SpellCheckerSessionProxy) OnCancel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpellCheckerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpellCheckerSession, MethodISpellCheckerSessionOnCancel)
@@ -129,6 +132,7 @@ func (p *SpellCheckerSessionProxy) OnClose(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpellCheckerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpellCheckerSession, MethodISpellCheckerSessionOnClose)
@@ -143,7 +147,8 @@ func (p *SpellCheckerSessionProxy) OnClose(
 // SpellCheckerSessionStub dispatches incoming binder transactions
 // to a typed ISpellCheckerSession implementation.
 type SpellCheckerSessionStub struct {
-	Impl ISpellCheckerSession
+	Impl      ISpellCheckerSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SpellCheckerSessionStub)(nil)
@@ -157,14 +162,33 @@ func (s *SpellCheckerSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISpellCheckerSessionOnGetSuggestionsMultiple:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_textInfos []viewTextservice.TextInfo
-		_ = _arg_textInfos
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_textInfos = make([]viewTextservice.TextInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_textInfos[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_suggestionsLimit, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -174,36 +198,41 @@ func (s *SpellCheckerSessionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGetSuggestionsMultiple(ctx, _arg_textInfos, _arg_suggestionsLimit, _arg_multipleWords)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISpellCheckerSessionOnGetSentenceSuggestionsMultiple:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_textInfos []viewTextservice.TextInfo
-		_ = _arg_textInfos
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_textInfos = make([]viewTextservice.TextInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_textInfos[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_suggestionsLimit, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnGetSentenceSuggestionsMultiple(ctx, _arg_textInfos, _arg_suggestionsLimit)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISpellCheckerSessionOnCancel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnCancel(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISpellCheckerSessionOnClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnClose(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

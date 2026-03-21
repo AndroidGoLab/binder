@@ -48,6 +48,7 @@ func (p *ShellCallbackProxy) OpenFile(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShellCallback)
 	_data.WriteString16(path)
 	_data.WriteString16(seLinuxContext)
@@ -78,7 +79,8 @@ func (p *ShellCallbackProxy) OpenFile(
 // ShellCallbackStub dispatches incoming binder transactions
 // to a typed IShellCallback implementation.
 type ShellCallbackStub struct {
-	Impl IShellCallback
+	Impl      IShellCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ShellCallbackStub)(nil)
@@ -92,11 +94,12 @@ func (s *ShellCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIShellCallbackOpenFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

@@ -1,0 +1,386 @@
+package: android.media.soundtrigger
+go_package: android/media/soundtrigger
+interfaces:
+    - name: ISoundTriggerDetectionService
+      descriptor: android.media.soundtrigger.ISoundTriggerDetectionService
+      oneway: true
+      methods:
+        - name: setClient
+          transaction_code_offset: 0
+          params:
+            - name: uuid
+              type:
+                name: ParcelUuid
+              direction: in
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+            - name: client
+              type:
+                name: ISoundTriggerDetectionServiceClient
+              direction: in
+          return_type:
+            name: void
+        - name: removeClient
+          transaction_code_offset: 1
+          params:
+            - name: uuid
+              type:
+                name: ParcelUuid
+              direction: in
+          return_type:
+            name: void
+        - name: onGenericRecognitionEvent
+          transaction_code_offset: 2
+          params:
+            - name: uuid
+              type:
+                name: ParcelUuid
+              direction: in
+            - name: opId
+              type:
+                name: int
+            - name: event
+              type:
+                name: SoundTrigger.GenericRecognitionEvent
+              direction: in
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 3
+          params:
+            - name: uuid
+              type:
+                name: ParcelUuid
+              direction: in
+            - name: opId
+              type:
+                name: int
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onStopOperation
+          transaction_code_offset: 4
+          params:
+            - name: uuid
+              type:
+                name: ParcelUuid
+              direction: in
+            - name: opId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ISoundTriggerDetectionServiceClient
+      descriptor: android.media.soundtrigger.ISoundTriggerDetectionServiceClient
+      oneway: true
+      methods:
+        - name: onOpFinished
+          transaction_code_offset: 0
+          params:
+            - name: opId
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: ConfidenceLevel
+      fields:
+        - name: userId
+          type:
+            name: int
+        - name: levelPercent
+          type:
+            name: int
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: ModelParameterRange
+      fields:
+        - name: minInclusive
+          type:
+            name: int
+        - name: maxInclusive
+          type:
+            name: int
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: Phrase
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: recognitionModes
+          type:
+            name: int
+        - name: users
+          type:
+            name: int
+            is_array: true
+        - name: locale
+          type:
+            name: String
+        - name: text
+          type:
+            name: String
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: PhraseRecognitionEvent
+      fields:
+        - name: common
+          type:
+            name: RecognitionEvent
+        - name: phraseExtras
+          type:
+            name: PhraseRecognitionExtra
+            is_array: true
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: PhraseRecognitionExtra
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: recognitionModes
+          type:
+            name: int
+        - name: confidenceLevel
+          type:
+            name: int
+        - name: levels
+          type:
+            name: ConfidenceLevel
+            is_array: true
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: PhraseSoundModel
+      fields:
+        - name: common
+          type:
+            name: SoundModel
+        - name: phrases
+          type:
+            name: Phrase
+            is_array: true
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: Properties
+      fields:
+        - name: implementor
+          type:
+            name: String
+        - name: description
+          type:
+            name: String
+        - name: version
+          type:
+            name: int
+        - name: uuid
+          type:
+            name: String
+        - name: supportedModelArch
+          type:
+            name: String
+        - name: maxSoundModels
+          type:
+            name: int
+        - name: maxKeyPhrases
+          type:
+            name: int
+        - name: maxUsers
+          type:
+            name: int
+        - name: recognitionModes
+          type:
+            name: int
+        - name: captureTransition
+          type:
+            name: boolean
+        - name: maxBufferMs
+          type:
+            name: int
+        - name: concurrentCapture
+          type:
+            name: boolean
+        - name: triggerInEvent
+          type:
+            name: boolean
+        - name: powerConsumptionMw
+          type:
+            name: int
+        - name: audioCapabilities
+          type:
+            name: int
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: RecognitionConfig
+      fields:
+        - name: captureRequested
+          type:
+            name: boolean
+        - name: phraseRecognitionExtras
+          type:
+            name: PhraseRecognitionExtra
+            is_array: true
+        - name: audioCapabilities
+          type:
+            name: int
+        - name: data
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: RecognitionEvent
+      fields:
+        - name: status
+          type:
+            name: RecognitionStatus
+          default_value: RecognitionStatus.INVALID
+        - name: type
+          type:
+            name: SoundModelType
+          default_value: SoundModelType.INVALID
+        - name: captureAvailable
+          type:
+            name: boolean
+        - name: captureDelayMs
+          type:
+            name: int
+        - name: capturePreambleMs
+          type:
+            name: int
+        - name: triggerInData
+          type:
+            name: boolean
+        - name: audioConfig
+          type:
+            name: AudioConfig
+          annotations:
+            - nullable
+        - name: data
+          type:
+            name: byte
+            is_array: true
+        - name: recognitionStillActive
+          type:
+            name: boolean
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: SoundModel
+      fields:
+        - name: type
+          type:
+            name: SoundModelType
+          default_value: SoundModelType.INVALID
+        - name: uuid
+          type:
+            name: String
+        - name: vendorUuid
+          type:
+            name: String
+        - name: data
+          type:
+            name: ParcelFileDescriptor
+          annotations:
+            - nullable
+        - name: dataSize
+          type:
+            name: int
+      annotations:
+        - JavaDerive
+        - VintfStability
+enums:
+    - name: AudioCapabilities
+      backing_type: int
+      values:
+        - name: ECHO_CANCELLATION
+          value: 1 << 0
+        - name: NOISE_SUPPRESSION
+          value: 1 << 1
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ModelParameter
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "-1"
+        - name: THRESHOLD_FACTOR
+          value: "0"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RecognitionMode
+      backing_type: int
+      values:
+        - name: VOICE_TRIGGER
+          value: "0x1"
+        - name: USER_IDENTIFICATION
+          value: "0x2"
+        - name: USER_AUTHENTICATION
+          value: "0x4"
+        - name: GENERIC_TRIGGER
+          value: "0x8"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RecognitionStatus
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "-1"
+        - name: SUCCESS
+          value: "0"
+        - name: ABORTED
+          value: "1"
+        - name: FAILURE
+          value: "2"
+        - name: FORCED
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SoundModelType
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "-1"
+        - name: KEYPHRASE
+          value: "0"
+        - name: GENERIC
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Status
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "-1"
+        - name: SUCCESS
+          value: "0"
+        - name: RESOURCE_CONTENTION
+          value: "1"
+        - name: OPERATION_NOT_SUPPORTED
+          value: "2"
+        - name: TEMPORARY_PERMISSION_DENIED
+          value: "3"
+        - name: DEAD_OBJECT
+          value: "4"
+        - name: INTERNAL_ERROR
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing

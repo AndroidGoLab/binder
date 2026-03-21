@@ -3,7 +3,7 @@ package security
 import (
 	"context"
 	"fmt"
-	IInstalld "github.com/xaionaro-go/binder/android/os/IInstalld"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -30,8 +30,8 @@ type IFileIntegrityService interface {
 	AsBinder() binder.IBinder
 	IsApkVeritySupported(ctx context.Context) (bool, error)
 	IsAppSourceCertificateTrusted(ctx context.Context, certificateBytes []byte, packageName string) (bool, error)
-	CreateAuthToken(ctx context.Context, authFd int32) (IInstalld.IFsveritySetupAuthToken, error)
-	SetupFsverity(ctx context.Context, authToken IInstalld.IFsveritySetupAuthToken, filePath string, packageName string) (int32, error)
+	CreateAuthToken(ctx context.Context, authFd int32) (os.IInstalldIFsveritySetupAuthToken, error)
+	SetupFsverity(ctx context.Context, authToken os.IInstalldIFsveritySetupAuthToken, filePath string, packageName string) (int32, error)
 }
 
 type FileIntegrityServiceProxy struct {
@@ -55,6 +55,7 @@ func (p *FileIntegrityServiceProxy) IsApkVeritySupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFileIntegrityService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFileIntegrityService, MethodIFileIntegrityServiceIsApkVeritySupported)
@@ -86,15 +87,9 @@ func (p *FileIntegrityServiceProxy) IsAppSourceCertificateTrusted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFileIntegrityService)
-	if certificateBytes == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(certificateBytes)))
-		for _, _item := range certificateBytes {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(certificateBytes)
 	_data.WriteString16(packageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFileIntegrityService, MethodIFileIntegrityServiceIsAppSourceCertificateTrusted)
@@ -122,9 +117,10 @@ func (p *FileIntegrityServiceProxy) IsAppSourceCertificateTrusted(
 func (p *FileIntegrityServiceProxy) CreateAuthToken(
 	ctx context.Context,
 	authFd int32,
-) (IInstalld.IFsveritySetupAuthToken, error) {
-	var _result IInstalld.IFsveritySetupAuthToken
+) (os.IInstalldIFsveritySetupAuthToken, error) {
+	var _result os.IInstalldIFsveritySetupAuthToken
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFileIntegrityService)
 	_data.WriteFileDescriptor(authFd)
 
@@ -143,18 +139,25 @@ func (p *FileIntegrityServiceProxy) CreateAuthToken(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = os.NewInstalldIFsveritySetupAuthTokenProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *FileIntegrityServiceProxy) SetupFsverity(
 	ctx context.Context,
-	authToken IInstalld.IFsveritySetupAuthToken,
+	authToken os.IInstalldIFsveritySetupAuthToken,
 	filePath string,
 	packageName string,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFileIntegrityService)
+	binder.WriteBinderToParcel(ctx, _data, authToken.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(filePath)
 	_data.WriteString16(packageName)
 
@@ -183,7 +186,8 @@ func (p *FileIntegrityServiceProxy) SetupFsverity(
 // FileIntegrityServiceStub dispatches incoming binder transactions
 // to a typed IFileIntegrityService implementation.
 type FileIntegrityServiceStub struct {
-	Impl IFileIntegrityService
+	Impl      IFileIntegrityService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FileIntegrityServiceStub)(nil)
@@ -197,11 +201,12 @@ func (s *FileIntegrityServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFileIntegrityServiceIsApkVeritySupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsApkVeritySupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -212,12 +217,14 @@ func (s *FileIntegrityServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFileIntegrityServiceIsAppSourceCertificateTrusted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_certificateBytes []byte
-		_ = _arg_certificateBytes
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_certificateBytes = _bytes
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -232,9 +239,6 @@ func (s *FileIntegrityServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFileIntegrityServiceCreateAuthToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_authFd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -246,13 +250,17 @@ func (s *FileIntegrityServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIFileIntegrityServiceSetupFsverity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_authToken os.IInstalldIFsveritySetupAuthToken
+		{
+			_authTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_authToken = os.NewInstalldIFsveritySetupAuthTokenProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _authTokenHandle))
 		}
-		var _arg_authToken IInstalld.IFsveritySetupAuthToken
 		_arg_filePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -281,8 +289,8 @@ func (s *FileIntegrityServiceStub) OnTransaction(
 type IFileIntegrityServiceServer interface {
 	IsApkVeritySupported(ctx context.Context) (bool, error)
 	IsAppSourceCertificateTrusted(ctx context.Context, certificateBytes []byte, packageName string) (bool, error)
-	CreateAuthToken(ctx context.Context, authFd int32) (IInstalld.IFsveritySetupAuthToken, error)
-	SetupFsverity(ctx context.Context, authToken IInstalld.IFsveritySetupAuthToken, filePath string, packageName string) (int32, error)
+	CreateAuthToken(ctx context.Context, authFd int32) (os.IInstalldIFsveritySetupAuthToken, error)
+	SetupFsverity(ctx context.Context, authToken os.IInstalldIFsveritySetupAuthToken, filePath string, packageName string) (int32, error)
 }
 
 type fileIntegrityServiceStubWrapper struct {
@@ -311,13 +319,13 @@ func (w *fileIntegrityServiceStubWrapper) IsAppSourceCertificateTrusted(
 func (w *fileIntegrityServiceStubWrapper) CreateAuthToken(
 	ctx context.Context,
 	authFd int32,
-) (IInstalld.IFsveritySetupAuthToken, error) {
+) (os.IInstalldIFsveritySetupAuthToken, error) {
 	return w.impl.CreateAuthToken(ctx, authFd)
 }
 
 func (w *fileIntegrityServiceStubWrapper) SetupFsverity(
 	ctx context.Context,
-	authToken IInstalld.IFsveritySetupAuthToken,
+	authToken os.IInstalldIFsveritySetupAuthToken,
 	filePath string,
 	packageName string,
 ) (int32, error) {

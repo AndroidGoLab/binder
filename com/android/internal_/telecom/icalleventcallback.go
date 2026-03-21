@@ -86,6 +86,7 @@ func (p *CallEventCallbackProxy) OnAddCallControl(
 	exception androidTelecom.CallException,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 	_data.WriteInt32(resultCode)
@@ -110,6 +111,7 @@ func (p *CallEventCallbackProxy) OnSetActive(
 	callback os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -132,6 +134,7 @@ func (p *CallEventCallbackProxy) OnSetInactive(
 	callback os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -155,6 +158,7 @@ func (p *CallEventCallbackProxy) OnAnswer(
 	callback os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 	_data.WriteInt32(videoState)
@@ -179,6 +183,7 @@ func (p *CallEventCallbackProxy) OnDisconnect(
 	callback os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -205,6 +210,7 @@ func (p *CallEventCallbackProxy) OnCallStreamingStarted(
 	callback os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -227,6 +233,7 @@ func (p *CallEventCallbackProxy) OnCallStreamingFailed(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 	_data.WriteInt32(reason)
@@ -246,6 +253,7 @@ func (p *CallEventCallbackProxy) OnCallEndpointChanged(
 	endpoint androidTelecom.CallEndpoint,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -268,6 +276,7 @@ func (p *CallEventCallbackProxy) OnAvailableCallEndpointsChanged(
 	endpoint []androidTelecom.CallEndpoint,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 	if endpoint == nil {
@@ -297,6 +306,7 @@ func (p *CallEventCallbackProxy) OnMuteStateChanged(
 	isMuted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 	_data.WriteBool(isMuted)
@@ -316,6 +326,7 @@ func (p *CallEventCallbackProxy) OnVideoStateChanged(
 	videoState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 	_data.WriteInt32(videoState)
@@ -336,6 +347,7 @@ func (p *CallEventCallbackProxy) OnEvent(
 	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 	_data.WriteString16(event)
@@ -358,6 +370,7 @@ func (p *CallEventCallbackProxy) RemoveCallFromTransactionalServiceWrapper(
 	callId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 
@@ -373,7 +386,8 @@ func (p *CallEventCallbackProxy) RemoveCallFromTransactionalServiceWrapper(
 // CallEventCallbackStub dispatches incoming binder transactions
 // to a typed ICallEventCallback implementation.
 type CallEventCallbackStub struct {
-	Impl ICallEventCallback
+	Impl      ICallEventCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CallEventCallbackStub)(nil)
@@ -387,11 +401,12 @@ func (s *CallEventCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICallEventCallbackOnAddCallControl:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -400,9 +415,14 @@ func (s *CallEventCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callControl ICallControl
-		_ = _arg_callControl
+		{
+			_callControlHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callControl = NewCallControlProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callControlHandle))
+		}
 		var _arg_exception androidTelecom.CallException
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -416,12 +436,8 @@ func (s *CallEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnAddCallControl(ctx, _arg_callId, _arg_resultCode, _arg_callControl, _arg_exception)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallEventCallbackOnSetActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -439,12 +455,8 @@ func (s *CallEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnSetActive(ctx, _arg_callId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallEventCallbackOnSetInactive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -462,12 +474,8 @@ func (s *CallEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnSetInactive(ctx, _arg_callId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallEventCallbackOnAnswer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -489,12 +497,8 @@ func (s *CallEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnAnswer(ctx, _arg_callId, _arg_videoState, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallEventCallbackOnDisconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -524,12 +528,8 @@ func (s *CallEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnDisconnect(ctx, _arg_callId, _arg_cause, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallEventCallbackOnCallStreamingStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -547,12 +547,8 @@ func (s *CallEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnCallStreamingStarted(ctx, _arg_callId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallEventCallbackOnCallStreamingFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -562,12 +558,8 @@ func (s *CallEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnCallStreamingFailed(ctx, _arg_callId, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallEventCallbackOnCallEndpointChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -585,26 +577,36 @@ func (s *CallEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnCallEndpointChanged(ctx, _arg_callId, _arg_endpoint)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallEventCallbackOnAvailableCallEndpointsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_endpoint []androidTelecom.CallEndpoint
-		_ = _arg_endpoint
-		_err = s.Impl.OnAvailableCallEndpointsChanged(ctx, _arg_callId, _arg_endpoint)
-		_ = _err
-		return nil, nil
-	case TransactionICallEventCallbackOnMuteStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_endpoint = make([]androidTelecom.CallEndpoint, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_endpoint[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.OnAvailableCallEndpointsChanged(ctx, _arg_callId, _arg_endpoint)
+		return nil, _err
+	case TransactionICallEventCallbackOnMuteStateChanged:
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -614,12 +616,8 @@ func (s *CallEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnMuteStateChanged(ctx, _arg_callId, _arg_isMuted)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallEventCallbackOnVideoStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -629,12 +627,8 @@ func (s *CallEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnVideoStateChanged(ctx, _arg_callId, _arg_videoState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallEventCallbackOnEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -656,19 +650,14 @@ func (s *CallEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnEvent(ctx, _arg_callId, _arg_event, _arg_extras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallEventCallbackRemoveCallFromTransactionalServiceWrapper:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RemoveCallFromTransactionalServiceWrapper(ctx, _arg_callId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

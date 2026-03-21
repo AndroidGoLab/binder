@@ -92,6 +92,7 @@ func (p *StreamOutProxy) GetStreamCommon(
 ) (IStreamCommon, error) {
 	var _result IStreamCommon
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamOut, MethodIStreamOutGetStreamCommon)
@@ -122,6 +123,7 @@ func (p *StreamOutProxy) UpdateMetadata(
 	sourceMetadata common.SourceMetadata,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 	_data.WriteInt32(1)
 	if _err := sourceMetadata.MarshalParcel(_data); _err != nil {
@@ -151,6 +153,7 @@ func (p *StreamOutProxy) UpdateOffloadMetadata(
 	offloadMetadata common.AudioOffloadMetadata,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 	_data.WriteInt32(1)
 	if _err := offloadMetadata.MarshalParcel(_data); _err != nil {
@@ -180,6 +183,7 @@ func (p *StreamOutProxy) GetHwVolume(
 ) ([]float32, error) {
 	var _result []float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamOut, MethodIStreamOutGetHwVolume)
@@ -201,6 +205,9 @@ func (p *StreamOutProxy) GetHwVolume(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]float32, _count)
@@ -219,6 +226,7 @@ func (p *StreamOutProxy) SetHwVolume(
 	channelVolumes []float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 	if channelVolumes == nil {
 		_data.WriteInt32(-1)
@@ -252,6 +260,7 @@ func (p *StreamOutProxy) GetAudioDescriptionMixLevel(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamOut, MethodIStreamOutGetAudioDescriptionMixLevel)
@@ -281,6 +290,7 @@ func (p *StreamOutProxy) SetAudioDescriptionMixLevel(
 	leveldB float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 	_data.WriteFloat32(leveldB)
 
@@ -307,6 +317,7 @@ func (p *StreamOutProxy) GetDualMonoMode(
 ) (audioCommon.AudioDualMonoMode, error) {
 	var _result audioCommon.AudioDualMonoMode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamOut, MethodIStreamOutGetDualMonoMode)
@@ -337,6 +348,7 @@ func (p *StreamOutProxy) SetDualMonoMode(
 	mode audioCommon.AudioDualMonoMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 	_data.WriteInt32(int32(mode))
 
@@ -363,6 +375,7 @@ func (p *StreamOutProxy) GetRecommendedLatencyModes(
 ) ([]audioCommon.AudioLatencyMode, error) {
 	var _result []audioCommon.AudioLatencyMode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamOut, MethodIStreamOutGetRecommendedLatencyModes)
@@ -384,6 +397,9 @@ func (p *StreamOutProxy) GetRecommendedLatencyModes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]audioCommon.AudioLatencyMode, _count)
@@ -403,6 +419,7 @@ func (p *StreamOutProxy) SetLatencyMode(
 	mode audioCommon.AudioLatencyMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 	_data.WritePaddedByte(byte(mode))
 
@@ -429,6 +446,7 @@ func (p *StreamOutProxy) GetPlaybackRateParameters(
 ) (audioCommon.AudioPlaybackRate, error) {
 	var _result audioCommon.AudioPlaybackRate
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamOut, MethodIStreamOutGetPlaybackRateParameters)
@@ -463,6 +481,7 @@ func (p *StreamOutProxy) SetPlaybackRateParameters(
 	playbackRate audioCommon.AudioPlaybackRate,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 	_data.WriteInt32(1)
 	if _err := playbackRate.MarshalParcel(_data); _err != nil {
@@ -493,6 +512,7 @@ func (p *StreamOutProxy) SelectPresentation(
 	programId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 	_data.WriteInt32(presentationId)
 	_data.WriteInt32(programId)
@@ -518,7 +538,8 @@ func (p *StreamOutProxy) SelectPresentation(
 // StreamOutStub dispatches incoming binder transactions
 // to a typed IStreamOut implementation.
 type StreamOutStub struct {
-	Impl IStreamOut
+	Impl      IStreamOut
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StreamOutStub)(nil)
@@ -532,11 +553,12 @@ func (s *StreamOutStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStreamOutGetStreamCommon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetStreamCommon(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -544,13 +566,9 @@ func (s *StreamOutStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIStreamOutUpdateMetadata:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sourceMetadata common.SourceMetadata
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -572,9 +590,6 @@ func (s *StreamOutStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamOutUpdateOffloadMetadata:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_offloadMetadata common.AudioOffloadMetadata
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -596,9 +611,6 @@ func (s *StreamOutStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamOutGetHwVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHwVolume(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -606,16 +618,35 @@ func (s *StreamOutStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteFloat32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIStreamOutSetHwVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_channelVolumes []float32
-		_ = _arg_channelVolumes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_channelVolumes = make([]float32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_channelVolumes[_i], _err = _data.ReadFloat32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetHwVolume(ctx, _arg_channelVolumes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -625,9 +656,6 @@ func (s *StreamOutStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamOutGetAudioDescriptionMixLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAudioDescriptionMixLevel(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -638,9 +666,6 @@ func (s *StreamOutStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIStreamOutSetAudioDescriptionMixLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_leveldB, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -654,9 +679,6 @@ func (s *StreamOutStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamOutGetDualMonoMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDualMonoMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -667,9 +689,6 @@ func (s *StreamOutStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIStreamOutSetDualMonoMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -684,9 +703,6 @@ func (s *StreamOutStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamOutGetRecommendedLatencyModes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRecommendedLatencyModes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -694,13 +710,16 @@ func (s *StreamOutStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WritePaddedByte(byte(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionIStreamOutSetLatencyMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_mode, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -715,9 +734,6 @@ func (s *StreamOutStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamOutGetPlaybackRateParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPlaybackRateParameters(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -731,9 +747,6 @@ func (s *StreamOutStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIStreamOutSetPlaybackRateParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_playbackRate audioCommon.AudioPlaybackRate
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -755,9 +768,6 @@ func (s *StreamOutStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamOutSelectPresentation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_presentationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

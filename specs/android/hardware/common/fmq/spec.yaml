@@ -1,0 +1,48 @@
+package: android.hardware.common.fmq
+go_package: android/hardware/common/fmq
+parcelables:
+    - name: GrantorDescriptor
+      fields:
+        - name: fdIndex
+          type:
+            name: int
+        - name: offset
+          type:
+            name: int
+        - name: extent
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: MQDescriptor
+      fields:
+        - name: grantors
+          type:
+            name: GrantorDescriptor
+            is_array: true
+        - name: handle
+          type:
+            name: NativeHandle
+        - name: quantum
+          type:
+            name: int
+        - name: flags
+          type:
+            name: int
+      annotations:
+        - VintfStability
+enums:
+    - name: SynchronizedReadWrite
+      backing_type: ""
+      values:
+        - name: EMPTY
+          value: ""
+      annotations:
+        - VintfStability
+    - name: UnsynchronizedWrite
+      backing_type: ""
+      values:
+        - name: EMPTY
+          value: ""
+      annotations:
+        - VintfStability

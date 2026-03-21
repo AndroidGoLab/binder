@@ -46,6 +46,7 @@ func (p *RcsUcePublishStateCallbackProxy) OnPublishUpdated(
 	attributes ims.PublishAttributes,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRcsUcePublishStateCallback)
 	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
@@ -64,7 +65,8 @@ func (p *RcsUcePublishStateCallbackProxy) OnPublishUpdated(
 // RcsUcePublishStateCallbackStub dispatches incoming binder transactions
 // to a typed IRcsUcePublishStateCallback implementation.
 type RcsUcePublishStateCallbackStub struct {
-	Impl IRcsUcePublishStateCallback
+	Impl      IRcsUcePublishStateCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RcsUcePublishStateCallbackStub)(nil)
@@ -78,11 +80,12 @@ func (s *RcsUcePublishStateCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRcsUcePublishStateCallbackOnPublishUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_attributes ims.PublishAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -96,8 +99,7 @@ func (s *RcsUcePublishStateCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnPublishUpdated(ctx, _arg_attributes)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

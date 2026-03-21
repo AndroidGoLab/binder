@@ -1,0 +1,1571 @@
+package: android.media.audio.common
+go_package: android/media/audio/common
+parcelables:
+    - name: AudioAttributes
+      fields:
+        - name: contentType
+          type:
+            name: AudioContentType
+          default_value: AudioContentType.UNKNOWN
+        - name: usage
+          type:
+            name: AudioUsage
+          default_value: AudioUsage.UNKNOWN
+        - name: source
+          type:
+            name: AudioSource
+          default_value: AudioSource.DEFAULT
+        - name: flags
+          type:
+            name: int
+          default_value: AudioFlag.NONE
+        - name: tags
+          type:
+            name: String
+            is_array: true
+          annotations:
+            - utf8InCpp
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioConfig
+      fields:
+        - name: base
+          type:
+            name: AudioConfigBase
+        - name: offloadInfo
+          type:
+            name: AudioOffloadInfo
+        - name: frameCount
+          type:
+            name: long
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioConfigBase
+      fields:
+        - name: sampleRate
+          type:
+            name: int
+        - name: channelMask
+          type:
+            name: AudioChannelLayout
+        - name: format
+          type:
+            name: AudioFormatDescription
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioDevice
+      fields:
+        - name: type
+          type:
+            name: AudioDeviceDescription
+        - name: address
+          type:
+            name: AudioDeviceAddress
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioDeviceDescription
+      fields:
+        - name: type
+          type:
+            name: AudioDeviceType
+          default_value: AudioDeviceType.NONE
+        - name: connection
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      constants:
+        - name: CONNECTION_ANALOG
+          type: String
+          value: '"analog"'
+        - name: CONNECTION_BT_A2DP
+          type: String
+          value: '"bt-a2dp"'
+        - name: CONNECTION_BT_LE
+          type: String
+          value: '"bt-le"'
+        - name: CONNECTION_BT_SCO
+          type: String
+          value: '"bt-sco"'
+        - name: CONNECTION_BUS
+          type: String
+          value: '"bus"'
+        - name: CONNECTION_HDMI
+          type: String
+          value: '"hdmi"'
+        - name: CONNECTION_HDMI_ARC
+          type: String
+          value: '"hdmi-arc"'
+        - name: CONNECTION_HDMI_EARC
+          type: String
+          value: '"hdmi-earc"'
+        - name: CONNECTION_IP_V4
+          type: String
+          value: '"ip-v4"'
+        - name: CONNECTION_SPDIF
+          type: String
+          value: '"spdif"'
+        - name: CONNECTION_WIRELESS
+          type: String
+          value: '"wireless"'
+        - name: CONNECTION_USB
+          type: String
+          value: '"usb"'
+        - name: CONNECTION_VIRTUAL
+          type: String
+          value: '"virtual"'
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioFormatDescription
+      fields:
+        - name: type
+          type:
+            name: AudioFormatType
+          default_value: AudioFormatType.DEFAULT
+        - name: pcm
+          type:
+            name: PcmType
+          default_value: PcmType.DEFAULT
+        - name: encoding
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioGain
+      fields:
+        - name: mode
+          type:
+            name: int
+        - name: channelMask
+          type:
+            name: AudioChannelLayout
+        - name: minValue
+          type:
+            name: int
+        - name: maxValue
+          type:
+            name: int
+        - name: defaultValue
+          type:
+            name: int
+        - name: stepValue
+          type:
+            name: int
+        - name: minRampMs
+          type:
+            name: int
+        - name: maxRampMs
+          type:
+            name: int
+        - name: useForVolume
+          type:
+            name: boolean
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioGainConfig
+      fields:
+        - name: index
+          type:
+            name: int
+        - name: mode
+          type:
+            name: int
+        - name: channelMask
+          type:
+            name: AudioChannelLayout
+        - name: values
+          type:
+            name: int
+            is_array: true
+        - name: rampDurationMs
+          type:
+            name: int
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioHalAttributesGroup
+      fields:
+        - name: streamType
+          type:
+            name: AudioStreamType
+          default_value: AudioStreamType.INVALID
+        - name: volumeGroupName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: attributes
+          type:
+            name: AudioAttributes
+            is_array: true
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioHalCapCriterion
+      fields:
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: criterionTypeName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: defaultLiteralValue
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioHalCapCriterionType
+      fields:
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: isInclusive
+          type:
+            name: boolean
+        - name: values
+          type:
+            name: String
+            is_array: true
+          annotations:
+            - utf8InCpp
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioHalEngineConfig
+      fields:
+        - name: defaultProductStrategyId
+          type:
+            name: int
+          default_value: AudioProductStrategyType.SYS_RESERVED_NONE
+        - name: productStrategies
+          type:
+            name: AudioHalProductStrategy
+            is_array: true
+        - name: volumeGroups
+          type:
+            name: AudioHalVolumeGroup
+            is_array: true
+        - name: capSpecificConfig
+          type:
+            name: CapSpecificConfig
+          annotations:
+            - nullable
+      nested_types:
+        - AudioHalEngineConfig.CapSpecificConfig
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioHalEngineConfig.CapSpecificConfig
+      fields:
+        - name: criteria
+          type:
+            name: AudioHalCapCriterion
+            is_array: true
+        - name: criterionTypes
+          type:
+            name: AudioHalCapCriterionType
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: AudioHalProductStrategy
+      fields:
+        - name: id
+          type:
+            name: int
+          default_value: AudioProductStrategyType.SYS_RESERVED_NONE
+        - name: attributesGroups
+          type:
+            name: AudioHalAttributesGroup
+            is_array: true
+      constants:
+        - name: VENDOR_STRATEGY_ID_START
+          type: int
+          value: "1000"
+      annotations:
+        - SuppressWarnings
+        - JavaDerive
+        - VintfStability
+    - name: AudioHalVolumeCurve
+      fields:
+        - name: deviceCategory
+          type:
+            name: DeviceCategory
+          default_value: DeviceCategory.SPEAKER
+        - name: curvePoints
+          type:
+            name: CurvePoint
+            is_array: true
+      nested_types:
+        - AudioHalVolumeCurve.DeviceCategory
+        - AudioHalVolumeCurve.CurvePoint
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioHalVolumeCurve.CurvePoint
+      fields:
+        - name: index
+          type:
+            name: byte
+        - name: attenuationMb
+          type:
+            name: int
+      constants:
+        - name: MIN_INDEX
+          type: byte
+          value: "0"
+        - name: MAX_INDEX
+          type: byte
+          value: "100"
+      annotations:
+        - VintfStability
+    - name: AudioHalVolumeGroup
+      fields:
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: minIndex
+          type:
+            name: int
+        - name: maxIndex
+          type:
+            name: int
+        - name: volumeCurves
+          type:
+            name: AudioHalVolumeCurve
+            is_array: true
+      constants:
+        - name: INDEX_DEFERRED_TO_AUDIO_SERVICE
+          type: int
+          value: "-1"
+      annotations:
+        - SuppressWarnings
+        - JavaDerive
+        - VintfStability
+    - name: AudioMMapPolicyInfo
+      fields:
+        - name: device
+          type:
+            name: AudioDevice
+        - name: mmapPolicy
+          type:
+            name: AudioMMapPolicy
+          default_value: AudioMMapPolicy.UNSPECIFIED
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioOffloadInfo
+      fields:
+        - name: base
+          type:
+            name: AudioConfigBase
+        - name: streamType
+          type:
+            name: AudioStreamType
+          default_value: AudioStreamType.INVALID
+        - name: bitRatePerSecond
+          type:
+            name: int
+        - name: durationUs
+          type:
+            name: long
+        - name: hasVideo
+          type:
+            name: boolean
+        - name: isStreaming
+          type:
+            name: boolean
+        - name: bitWidth
+          type:
+            name: int
+          default_value: "16"
+        - name: offloadBufferSize
+          type:
+            name: int
+        - name: usage
+          type:
+            name: AudioUsage
+          default_value: AudioUsage.INVALID
+        - name: encapsulationMode
+          type:
+            name: AudioEncapsulationMode
+          default_value: AudioEncapsulationMode.INVALID
+        - name: contentId
+          type:
+            name: int
+        - name: syncId
+          type:
+            name: int
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioPlaybackRate
+      fields:
+        - name: speed
+          type:
+            name: float
+        - name: pitch
+          type:
+            name: float
+        - name: timestretchMode
+          type:
+            name: TimestretchMode
+          default_value: TimestretchMode.DEFAULT
+        - name: fallbackMode
+          type:
+            name: TimestretchFallbackMode
+          default_value: TimestretchFallbackMode.SYS_RESERVED_DEFAULT
+      nested_types:
+        - AudioPlaybackRate.TimestretchMode
+        - AudioPlaybackRate.TimestretchFallbackMode
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioPort
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: profiles
+          type:
+            name: AudioProfile
+            is_array: true
+        - name: flags
+          type:
+            name: AudioIoFlags
+        - name: extraAudioDescriptors
+          type:
+            name: ExtraAudioDescriptor
+            is_array: true
+        - name: gains
+          type:
+            name: AudioGain
+            is_array: true
+        - name: ext
+          type:
+            name: AudioPortExt
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioPortConfig
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: portId
+          type:
+            name: int
+        - name: sampleRate
+          type:
+            name: Int
+          annotations:
+            - nullable
+        - name: channelMask
+          type:
+            name: AudioChannelLayout
+          annotations:
+            - nullable
+        - name: format
+          type:
+            name: AudioFormatDescription
+          annotations:
+            - nullable
+        - name: gain
+          type:
+            name: AudioGainConfig
+          annotations:
+            - nullable
+        - name: flags
+          type:
+            name: AudioIoFlags
+          annotations:
+            - nullable
+        - name: ext
+          type:
+            name: AudioPortExt
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioPortDeviceExt
+      fields:
+        - name: device
+          type:
+            name: AudioDevice
+        - name: flags
+          type:
+            name: int
+        - name: encodedFormats
+          type:
+            name: AudioFormatDescription
+            is_array: true
+        - name: encapsulationModes
+          type:
+            name: int
+        - name: encapsulationMetadataTypes
+          type:
+            name: int
+      constants:
+        - name: FLAG_INDEX_DEFAULT_DEVICE
+          type: int
+          value: "0"
+      annotations:
+        - SuppressWarnings
+        - JavaDerive
+        - VintfStability
+    - name: AudioPortMixExt
+      fields:
+        - name: handle
+          type:
+            name: int
+        - name: usecase
+          type:
+            name: AudioPortMixExtUseCase
+        - name: maxOpenStreamCount
+          type:
+            name: int
+        - name: maxActiveStreamCount
+          type:
+            name: int
+        - name: recommendedMuteDurationMs
+          type:
+            name: int
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioProfile
+      fields:
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: format
+          type:
+            name: AudioFormatDescription
+        - name: channelMasks
+          type:
+            name: AudioChannelLayout
+            is_array: true
+        - name: sampleRates
+          type:
+            name: int
+            is_array: true
+        - name: encapsulationType
+          type:
+            name: AudioEncapsulationType
+          default_value: AudioEncapsulationType.NONE
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioUuid
+      fields:
+        - name: timeLow
+          type:
+            name: int
+        - name: timeMid
+          type:
+            name: int
+        - name: timeHiAndVersion
+          type:
+            name: int
+        - name: clockSeq
+          type:
+            name: int
+        - name: node
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: Boolean
+      fields:
+        - name: value
+          type:
+            name: boolean
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: Byte
+      fields:
+        - name: value
+          type:
+            name: byte
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: Double
+      fields:
+        - name: value
+          type:
+            name: double
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: ExtraAudioDescriptor
+      fields:
+        - name: standard
+          type:
+            name: AudioStandard
+          default_value: AudioStandard.NONE
+        - name: audioDescriptor
+          type:
+            name: byte
+            is_array: true
+        - name: encapsulationType
+          type:
+            name: AudioEncapsulationType
+          default_value: AudioEncapsulationType.NONE
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: Float
+      fields:
+        - name: value
+          type:
+            name: float
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: HeadTracking
+      nested_types:
+        - HeadTracking.Mode
+        - HeadTracking.ConnectionMode
+        - HeadTracking.SensorData
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: Int
+      fields:
+        - name: value
+          type:
+            name: int
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: Long
+      fields:
+        - name: value
+          type:
+            name: long
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: MicrophoneDynamicInfo
+      fields:
+        - name: id
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: channelMapping
+          type:
+            name: ChannelMapping
+            is_array: true
+      nested_types:
+        - MicrophoneDynamicInfo.ChannelMapping
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: MicrophoneInfo
+      fields:
+        - name: id
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: device
+          type:
+            name: AudioDevice
+        - name: location
+          type:
+            name: Location
+          default_value: Location.UNKNOWN
+        - name: group
+          type:
+            name: int
+          default_value: GROUP_UNKNOWN
+        - name: indexInTheGroup
+          type:
+            name: int
+          default_value: INDEX_IN_THE_GROUP_UNKNOWN
+        - name: sensitivity
+          type:
+            name: Sensitivity
+          annotations:
+            - nullable
+        - name: directionality
+          type:
+            name: Directionality
+          default_value: Directionality.UNKNOWN
+        - name: frequencyResponse
+          type:
+            name: FrequencyResponsePoint
+            is_array: true
+        - name: position
+          type:
+            name: Coordinate
+          annotations:
+            - nullable
+        - name: orientation
+          type:
+            name: Coordinate
+          annotations:
+            - nullable
+      constants:
+        - name: GROUP_UNKNOWN
+          type: int
+          value: "-1"
+        - name: INDEX_IN_THE_GROUP_UNKNOWN
+          type: int
+          value: "-1"
+      nested_types:
+        - MicrophoneInfo.Location
+        - MicrophoneInfo.Sensitivity
+        - MicrophoneInfo.Directionality
+        - MicrophoneInfo.FrequencyResponsePoint
+        - MicrophoneInfo.Coordinate
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: MicrophoneInfo.Coordinate
+      fields:
+        - name: x
+          type:
+            name: float
+        - name: "y"
+          type:
+            name: float
+        - name: z
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: MicrophoneInfo.FrequencyResponsePoint
+      fields:
+        - name: frequencyHz
+          type:
+            name: float
+        - name: leveldB
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: MicrophoneInfo.Sensitivity
+      fields:
+        - name: leveldBFS
+          type:
+            name: float
+        - name: maxSpldB
+          type:
+            name: float
+        - name: minSpldB
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: Spatialization
+      nested_types:
+        - Spatialization.Level
+        - Spatialization.Mode
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: Void
+      annotations:
+        - JavaDerive
+        - VintfStability
+        - FixedSize
+enums:
+    - name: AudioContentType
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: SPEECH
+          value: "1"
+        - name: MUSIC
+          value: "2"
+        - name: MOVIE
+          value: "3"
+        - name: SONIFICATION
+          value: "4"
+        - name: ULTRASOUND
+          value: "1997"
+      annotations:
+        - Backing
+        - VintfStability
+    - name: AudioDeviceType
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: IN_DEFAULT
+          value: "1"
+        - name: IN_ACCESSORY
+          value: "2"
+        - name: IN_AFE_PROXY
+          value: "3"
+        - name: IN_DEVICE
+          value: "4"
+        - name: IN_ECHO_REFERENCE
+          value: "5"
+        - name: IN_FM_TUNER
+          value: "6"
+        - name: IN_HEADSET
+          value: "7"
+        - name: IN_LOOPBACK
+          value: "8"
+        - name: IN_MICROPHONE
+          value: "9"
+        - name: IN_MICROPHONE_BACK
+          value: "10"
+        - name: IN_SUBMIX
+          value: "11"
+        - name: IN_TELEPHONY_RX
+          value: "12"
+        - name: IN_TV_TUNER
+          value: "13"
+        - name: IN_DOCK
+          value: "14"
+        - name: IN_BUS
+          value: IN_DEVICE
+        - name: OUT_DEFAULT
+          value: "129"
+        - name: OUT_ACCESSORY
+          value: "130"
+        - name: OUT_AFE_PROXY
+          value: "131"
+        - name: OUT_CARKIT
+          value: "132"
+        - name: OUT_DEVICE
+          value: "133"
+        - name: OUT_ECHO_CANCELLER
+          value: "134"
+        - name: OUT_FM
+          value: "135"
+        - name: OUT_HEADPHONE
+          value: "136"
+        - name: OUT_HEADSET
+          value: "137"
+        - name: OUT_HEARING_AID
+          value: "138"
+        - name: OUT_LINE_AUX
+          value: "139"
+        - name: OUT_SPEAKER
+          value: "140"
+        - name: OUT_SPEAKER_EARPIECE
+          value: "141"
+        - name: OUT_SPEAKER_SAFE
+          value: "142"
+        - name: OUT_SUBMIX
+          value: "143"
+        - name: OUT_TELEPHONY_TX
+          value: "144"
+        - name: OUT_DOCK
+          value: "145"
+        - name: OUT_BROADCAST
+          value: "146"
+        - name: OUT_BUS
+          value: OUT_DEVICE
+      annotations:
+        - SuppressWarnings
+        - VintfStability
+        - Backing
+    - name: AudioDualMonoMode
+      backing_type: int
+      values:
+        - name: "OFF"
+          value: "0"
+        - name: LR
+          value: "1"
+        - name: LL
+          value: "2"
+        - name: RR
+          value: "3"
+      annotations:
+        - Backing
+        - VintfStability
+    - name: AudioEncapsulationMetadataType
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: FRAMEWORK_TUNER
+          value: "1"
+        - name: DVB_AD_DESCRIPTOR
+          value: "2"
+      annotations:
+        - Backing
+        - VintfStability
+    - name: AudioEncapsulationMode
+      backing_type: byte
+      values:
+        - name: INVALID
+          value: "-1"
+        - name: NONE
+          value: "0"
+        - name: ELEMENTARY_STREAM
+          value: "1"
+        - name: HANDLE
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AudioEncapsulationType
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: IEC61937
+          value: "1"
+        - name: PCM
+          value: "2"
+      annotations:
+        - Backing
+        - VintfStability
+    - name: AudioFlag
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0x0"
+        - name: AUDIBILITY_ENFORCED
+          value: 0x1 << 0
+        - name: SCO
+          value: 0x1 << 2
+        - name: BEACON
+          value: 0x1 << 3
+        - name: HW_AV_SYNC
+          value: 0x1 << 4
+        - name: HW_HOTWORD
+          value: 0x1 << 5
+        - name: BYPASS_INTERRUPTION_POLICY
+          value: 0x1 << 6
+        - name: BYPASS_MUTE
+          value: 0x1 << 7
+        - name: LOW_LATENCY
+          value: 0x1 << 8
+        - name: DEEP_BUFFER
+          value: 0x1 << 9
+        - name: NO_MEDIA_PROJECTION
+          value: 0x1 << 10
+        - name: MUTE_HAPTIC
+          value: 0x1 << 11
+        - name: NO_SYSTEM_CAPTURE
+          value: 0x1 << 12
+        - name: CAPTURE_PRIVATE
+          value: 0x1 << 13
+        - name: CONTENT_SPATIALIZED
+          value: 0x1 << 14
+        - name: NEVER_SPATIALIZE
+          value: 0x1 << 15
+        - name: CALL_REDIRECTION
+          value: 0x1 << 16
+      annotations:
+        - Backing
+        - VintfStability
+    - name: AudioFormatType
+      backing_type: byte
+      values:
+        - name: DEFAULT
+          value: "0"
+        - name: NON_PCM
+          value: DEFAULT
+        - name: PCM
+          value: "1"
+        - name: SYS_RESERVED_INVALID
+          value: "-1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AudioGainMode
+      backing_type: byte
+      values:
+        - name: JOINT
+          value: "0"
+        - name: CHANNELS
+          value: "1"
+        - name: RAMP
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AudioHalVolumeCurve.DeviceCategory
+      backing_type: byte
+      values:
+        - name: HEADSET
+          value: "0"
+        - name: SPEAKER
+          value: "1"
+        - name: EARPIECE
+          value: "2"
+        - name: EXT_MEDIA
+          value: "3"
+        - name: HEARING_AID
+          value: "4"
+      annotations:
+        - Backing
+        - VintfStability
+    - name: AudioInputFlags
+      backing_type: int
+      values:
+        - name: FAST
+          value: "0"
+        - name: HW_HOTWORD
+          value: "1"
+        - name: RAW
+          value: "2"
+        - name: SYNC
+          value: "3"
+        - name: MMAP_NOIRQ
+          value: "4"
+        - name: VOIP_TX
+          value: "5"
+        - name: HW_AV_SYNC
+          value: "6"
+        - name: DIRECT
+          value: "7"
+        - name: ULTRASOUND
+          value: "8"
+        - name: HOTWORD_TAP
+          value: "9"
+        - name: HW_LOOKBACK
+          value: "10"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AudioLatencyMode
+      backing_type: byte
+      values:
+        - name: FREE
+          value: "0"
+        - name: LOW
+          value: "1"
+        - name: DYNAMIC_SPATIAL_AUDIO_SOFTWARE
+          value: "2"
+        - name: DYNAMIC_SPATIAL_AUDIO_HARDWARE
+          value: "3"
+      annotations:
+        - SuppressWarnings
+        - Backing
+        - VintfStability
+    - name: AudioMMapPolicy
+      backing_type: int
+      values:
+        - name: UNSPECIFIED
+          value: "0"
+        - name: NEVER
+          value: "1"
+        - name: AUTO
+          value: "2"
+        - name: ALWAYS
+          value: "3"
+      annotations:
+        - Backing
+        - VintfStability
+    - name: AudioMMapPolicyType
+      backing_type: int
+      values:
+        - name: DEFAULT
+          value: "1"
+        - name: EXCLUSIVE
+          value: "2"
+      annotations:
+        - Backing
+        - VintfStability
+    - name: AudioMode
+      backing_type: int
+      values:
+        - name: SYS_RESERVED_INVALID
+          value: "-2"
+        - name: SYS_RESERVED_CURRENT
+          value: "-1"
+        - name: NORMAL
+          value: "0"
+        - name: RINGTONE
+          value: "1"
+        - name: IN_CALL
+          value: "2"
+        - name: IN_COMMUNICATION
+          value: "3"
+        - name: CALL_SCREEN
+          value: "4"
+        - name: SYS_RESERVED_CALL_REDIRECT
+          value: "5"
+        - name: SYS_RESERVED_COMMUNICATION_REDIRECT
+          value: "6"
+      annotations:
+        - Backing
+        - VintfStability
+    - name: AudioOutputFlags
+      backing_type: int
+      values:
+        - name: DIRECT
+          value: "0"
+        - name: PRIMARY
+          value: "1"
+        - name: FAST
+          value: "2"
+        - name: DEEP_BUFFER
+          value: "3"
+        - name: COMPRESS_OFFLOAD
+          value: "4"
+        - name: NON_BLOCKING
+          value: "5"
+        - name: HW_AV_SYNC
+          value: "6"
+        - name: TTS
+          value: "7"
+        - name: RAW
+          value: "8"
+        - name: SYNC
+          value: "9"
+        - name: IEC958_NONAUDIO
+          value: "10"
+        - name: DIRECT_PCM
+          value: "11"
+        - name: MMAP_NOIRQ
+          value: "12"
+        - name: VOIP_RX
+          value: "13"
+        - name: INCALL_MUSIC
+          value: "14"
+        - name: GAPLESS_OFFLOAD
+          value: "15"
+        - name: SPATIALIZER
+          value: "16"
+        - name: ULTRASOUND
+          value: "17"
+        - name: BIT_PERFECT
+          value: "18"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AudioPlaybackRate.TimestretchFallbackMode
+      backing_type: int
+      values:
+        - name: SYS_RESERVED_CUT_REPEAT
+          value: "-1"
+        - name: SYS_RESERVED_DEFAULT
+          value: "0"
+        - name: MUTE
+          value: "1"
+        - name: FAIL
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AudioPlaybackRate.TimestretchMode
+      backing_type: int
+      values:
+        - name: DEFAULT
+          value: "0"
+        - name: VOICE
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AudioProductStrategyType
+      backing_type: byte
+      values:
+        - name: SYS_RESERVED_NONE
+          value: "-1"
+        - name: MEDIA
+          value: "0"
+        - name: PHONE
+          value: "1"
+        - name: SONIFICATION
+          value: "2"
+        - name: SONIFICATION_RESPECTFUL
+          value: "3"
+        - name: DTMF
+          value: "4"
+        - name: ENFORCED_AUDIBLE
+          value: "5"
+        - name: TRANSMITTED_THROUGH_SPEAKER
+          value: "6"
+        - name: ACCESSIBILITY
+          value: "7"
+        - name: SYS_RESERVED_REROUTING
+          value: "8"
+        - name: SYS_RESERVED_CALL_ASSISTANT
+          value: "9"
+      annotations:
+        - Backing
+        - VintfStability
+    - name: AudioSource
+      backing_type: int
+      values:
+        - name: SYS_RESERVED_INVALID
+          value: "-1"
+        - name: DEFAULT
+          value: "0"
+        - name: MIC
+          value: "1"
+        - name: VOICE_UPLINK
+          value: "2"
+        - name: VOICE_DOWNLINK
+          value: "3"
+        - name: VOICE_CALL
+          value: "4"
+        - name: CAMCORDER
+          value: "5"
+        - name: VOICE_RECOGNITION
+          value: "6"
+        - name: VOICE_COMMUNICATION
+          value: "7"
+        - name: REMOTE_SUBMIX
+          value: "8"
+        - name: UNPROCESSED
+          value: "9"
+        - name: VOICE_PERFORMANCE
+          value: "10"
+        - name: ECHO_REFERENCE
+          value: "1997"
+        - name: FM_TUNER
+          value: "1998"
+        - name: HOTWORD
+          value: "1999"
+        - name: ULTRASOUND
+          value: "2000"
+      annotations:
+        - Backing
+        - VintfStability
+    - name: AudioStandard
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: EDID
+          value: "1"
+        - name: SADB
+          value: "2"
+        - name: VSADB
+          value: "3"
+      annotations:
+        - Backing
+        - VintfStability
+    - name: AudioStreamType
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "-2"
+        - name: SYS_RESERVED_DEFAULT
+          value: "-1"
+        - name: VOICE_CALL
+          value: "0"
+        - name: SYSTEM
+          value: "1"
+        - name: RING
+          value: "2"
+        - name: MUSIC
+          value: "3"
+        - name: ALARM
+          value: "4"
+        - name: NOTIFICATION
+          value: "5"
+        - name: BLUETOOTH_SCO
+          value: "6"
+        - name: ENFORCED_AUDIBLE
+          value: "7"
+        - name: DTMF
+          value: "8"
+        - name: TTS
+          value: "9"
+        - name: ACCESSIBILITY
+          value: "10"
+        - name: ASSISTANT
+          value: "11"
+        - name: SYS_RESERVED_REROUTING
+          value: "12"
+        - name: SYS_RESERVED_PATCH
+          value: "13"
+        - name: CALL_ASSISTANT
+          value: "14"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AudioUsage
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "-1"
+        - name: UNKNOWN
+          value: "0"
+        - name: MEDIA
+          value: "1"
+        - name: VOICE_COMMUNICATION
+          value: "2"
+        - name: VOICE_COMMUNICATION_SIGNALLING
+          value: "3"
+        - name: ALARM
+          value: "4"
+        - name: NOTIFICATION
+          value: "5"
+        - name: NOTIFICATION_TELEPHONY_RINGTONE
+          value: "6"
+        - name: SYS_RESERVED_NOTIFICATION_COMMUNICATION_REQUEST
+          value: "7"
+        - name: SYS_RESERVED_NOTIFICATION_COMMUNICATION_INSTANT
+          value: "8"
+        - name: SYS_RESERVED_NOTIFICATION_COMMUNICATION_DELAYED
+          value: "9"
+        - name: NOTIFICATION_EVENT
+          value: "10"
+        - name: ASSISTANCE_ACCESSIBILITY
+          value: "11"
+        - name: ASSISTANCE_NAVIGATION_GUIDANCE
+          value: "12"
+        - name: ASSISTANCE_SONIFICATION
+          value: "13"
+        - name: GAME
+          value: "14"
+        - name: VIRTUAL_SOURCE
+          value: "15"
+        - name: ASSISTANT
+          value: "16"
+        - name: CALL_ASSISTANT
+          value: "17"
+        - name: EMERGENCY
+          value: "1000"
+        - name: SAFETY
+          value: "1001"
+        - name: VEHICLE_STATUS
+          value: "1002"
+        - name: ANNOUNCEMENT
+          value: "1003"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: HeadTracking.ConnectionMode
+      backing_type: byte
+      values:
+        - name: FRAMEWORK_PROCESSED
+          value: "0"
+        - name: DIRECT_TO_SENSOR_SW
+          value: "1"
+        - name: DIRECT_TO_SENSOR_TUNNEL
+          value: "2"
+      annotations:
+        - Backing
+    - name: HeadTracking.Mode
+      backing_type: byte
+      values:
+        - name: OTHER
+          value: "0"
+        - name: DISABLED
+          value: "1"
+        - name: RELATIVE_WORLD
+          value: "2"
+        - name: RELATIVE_SCREEN
+          value: "3"
+      annotations:
+        - Backing
+    - name: MicrophoneDynamicInfo.ChannelMapping
+      backing_type: int
+      values:
+        - name: UNUSED
+          value: "0"
+        - name: DIRECT
+          value: "1"
+        - name: PROCESSED
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: MicrophoneInfo.Directionality
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: OMNI
+          value: "1"
+        - name: BI_DIRECTIONAL
+          value: "2"
+        - name: CARDIOID
+          value: "3"
+        - name: HYPER_CARDIOID
+          value: "4"
+        - name: SUPER_CARDIOID
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: MicrophoneInfo.Location
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: MAINBODY
+          value: "1"
+        - name: MAINBODY_MOVABLE
+          value: "2"
+        - name: PERIPHERAL
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PcmType
+      backing_type: byte
+      values:
+        - name: DEFAULT
+          value: "0"
+        - name: UINT_8_BIT
+          value: DEFAULT
+        - name: INT_16_BIT
+          value: "1"
+        - name: INT_32_BIT
+          value: "2"
+        - name: FIXED_Q_8_24
+          value: "3"
+        - name: FLOAT_32_BIT
+          value: "4"
+        - name: INT_24_BIT
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Spatialization.Level
+      backing_type: byte
+      values:
+        - name: NONE
+          value: "0"
+        - name: MULTICHANNEL
+          value: "1"
+        - name: BED_PLUS_OBJECTS
+          value: "2"
+      annotations:
+        - Backing
+    - name: Spatialization.Mode
+      backing_type: byte
+      values:
+        - name: BINAURAL
+          value: "0"
+        - name: TRANSAURAL
+          value: "1"
+      annotations:
+        - Backing
+unions:
+    - name: AudioChannelLayout
+      fields:
+        - name: none
+          type:
+            name: int
+          default_value: "0"
+        - name: invalid
+          type:
+            name: int
+          default_value: "0"
+        - name: indexMask
+          type:
+            name: int
+        - name: layoutMask
+          type:
+            name: int
+        - name: voiceMask
+          type:
+            name: int
+      annotations:
+        - SuppressWarnings
+        - JavaDerive
+        - VintfStability
+    - name: AudioDeviceAddress
+      fields:
+        - name: id
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: mac
+          type:
+            name: byte
+            is_array: true
+        - name: ipv4
+          type:
+            name: byte
+            is_array: true
+        - name: ipv6
+          type:
+            name: int
+            is_array: true
+        - name: alsa
+          type:
+            name: int
+            is_array: true
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioIoFlags
+      fields:
+        - name: input
+          type:
+            name: int
+        - name: output
+          type:
+            name: int
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioPortExt
+      fields:
+        - name: unspecified
+          type:
+            name: boolean
+        - name: device
+          type:
+            name: AudioPortDeviceExt
+        - name: mix
+          type:
+            name: AudioPortMixExt
+        - name: session
+          type:
+            name: int
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioPortMixExtUseCase
+      fields:
+        - name: unspecified
+          type:
+            name: boolean
+        - name: stream
+          type:
+            name: AudioStreamType
+        - name: source
+          type:
+            name: AudioSource
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: HeadTracking.SensorData
+      fields:
+        - name: headToStage
+          type:
+            name: float
+            is_array: true
+            fixed_size: "6"
+          default_value: 0f , 0f , 0f , 0f , 0f , 0f

@@ -50,6 +50,7 @@ func (p *FontManagerProxy) GetFontConfig(
 ) (text.FontConfig, error) {
 	var _result text.FontConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFontManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFontManager, MethodIFontManagerGetFontConfig)
@@ -86,6 +87,7 @@ func (p *FontManagerProxy) UpdateFontFamily(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFontManager)
 	if request == nil {
 		_data.WriteInt32(-1)
@@ -125,7 +127,8 @@ func (p *FontManagerProxy) UpdateFontFamily(
 // FontManagerStub dispatches incoming binder transactions
 // to a typed IFontManager implementation.
 type FontManagerStub struct {
-	Impl IFontManager
+	Impl      IFontManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FontManagerStub)(nil)
@@ -139,11 +142,12 @@ func (s *FontManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFontManagerGetFontConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetFontConfig(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -157,12 +161,27 @@ func (s *FontManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIFontManagerUpdateFontFamily:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_request []graphicsFonts.FontUpdateRequest
-		_ = _arg_request
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_request = make([]graphicsFonts.FontUpdateRequest, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_request[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_baseVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

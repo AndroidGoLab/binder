@@ -3,6 +3,7 @@ package voice
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ const (
 
 type IVoiceInteractionSessionService interface {
 	AsBinder() binder.IBinder
-	NewSession(ctx context.Context, token binder.IBinder, args interface{}, startFlags int32) error
+	NewSession(ctx context.Context, token binder.IBinder, args os.Bundle, startFlags int32) error
 }
 
 type VoiceInteractionSessionServiceProxy struct {
@@ -43,12 +44,17 @@ var _ IVoiceInteractionSessionService = (*VoiceInteractionSessionServiceProxy)(n
 func (p *VoiceInteractionSessionServiceProxy) NewSession(
 	ctx context.Context,
 	token binder.IBinder,
-	args interface{},
+	args os.Bundle,
 	startFlags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSessionService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(startFlags)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSessionService, MethodIVoiceInteractionSessionServiceNewSession)
@@ -63,7 +69,8 @@ func (p *VoiceInteractionSessionServiceProxy) NewSession(
 // VoiceInteractionSessionServiceStub dispatches incoming binder transactions
 // to a typed IVoiceInteractionSessionService implementation.
 type VoiceInteractionSessionServiceStub struct {
-	Impl IVoiceInteractionSessionService
+	Impl      IVoiceInteractionSessionService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VoiceInteractionSessionServiceStub)(nil)
@@ -77,22 +84,38 @@ func (s *VoiceInteractionSessionServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVoiceInteractionSessionServiceNewSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		var _arg_args interface{}
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
+		var _arg_args os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_startFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NewSession(ctx, _arg_token, _arg_args, _arg_startFlags)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -102,7 +125,7 @@ func (s *VoiceInteractionSessionServiceStub) OnTransaction(
 // provide to NewVoiceInteractionSessionServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IVoiceInteractionSessionServiceServer interface {
-	NewSession(ctx context.Context, token binder.IBinder, args interface{}, startFlags int32) error
+	NewSession(ctx context.Context, token binder.IBinder, args os.Bundle, startFlags int32) error
 }
 
 type voiceInteractionSessionServiceStubWrapper struct {
@@ -117,7 +140,7 @@ func (w *voiceInteractionSessionServiceStubWrapper) AsBinder() binder.IBinder {
 func (w *voiceInteractionSessionServiceStubWrapper) NewSession(
 	ctx context.Context,
 	token binder.IBinder,
-	args interface{},
+	args os.Bundle,
 	startFlags int32,
 ) error {
 	return w.impl.NewSession(ctx, token, args, startFlags)

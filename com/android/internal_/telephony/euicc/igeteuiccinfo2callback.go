@@ -46,16 +46,10 @@ func (p *GetEuiccInfo2CallbackProxy) OnComplete(
 	info []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetEuiccInfo2Callback)
 	_data.WriteInt32(resultCode)
-	if info == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(info)))
-		for _, _item := range info {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(info)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetEuiccInfo2Callback, MethodIGetEuiccInfo2CallbackOnComplete)
 	if _err != nil {
@@ -69,7 +63,8 @@ func (p *GetEuiccInfo2CallbackProxy) OnComplete(
 // GetEuiccInfo2CallbackStub dispatches incoming binder transactions
 // to a typed IGetEuiccInfo2Callback implementation.
 type GetEuiccInfo2CallbackStub struct {
-	Impl IGetEuiccInfo2Callback
+	Impl      IGetEuiccInfo2Callback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GetEuiccInfo2CallbackStub)(nil)
@@ -83,21 +78,26 @@ func (s *GetEuiccInfo2CallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGetEuiccInfo2CallbackOnComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_info []byte
-		_ = _arg_info
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_info = _bytes
+		}
 		_err = s.Impl.OnComplete(ctx, _arg_resultCode, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

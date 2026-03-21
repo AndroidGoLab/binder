@@ -1,0 +1,4 @@
+package: com.android.internal.util
+go_package: com/android/internal_/util
+parcelables:
+    - name: ScreenshotRequest

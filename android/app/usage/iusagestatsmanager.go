@@ -5,6 +5,7 @@ import (
 	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -129,7 +130,7 @@ type IUsageStatsManager interface {
 	ReportPastUsageStart(ctx context.Context, activity binder.IBinder, token string, timeAgoMs int64) error
 	ReportUsageStop(ctx context.Context, activity binder.IBinder, token string) error
 	ReportUserInteraction(ctx context.Context, packageName string) error
-	ReportUserInteractionWithBundle(ctx context.Context, packageName string, eventExtras interface{}) error
+	ReportUserInteractionWithBundle(ctx context.Context, packageName string, eventExtras os.PersistableBundle) error
 	GetUsageSource(ctx context.Context) (int32, error)
 	ForceUsageSourceSettingRead(ctx context.Context) error
 	GetLastTimeAnyComponentUsed(ctx context.Context, packageName string) (int64, error)
@@ -165,6 +166,7 @@ func (p *UsageStatsManagerProxy) QueryUsageStats(
 	var _result pm.ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteInt32(bucketType)
 	_data.WriteInt64(beginTime)
@@ -208,6 +210,7 @@ func (p *UsageStatsManagerProxy) QueryConfigurationStats(
 	var _result pm.ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteInt32(bucketType)
 	_data.WriteInt64(beginTime)
@@ -250,6 +253,7 @@ func (p *UsageStatsManagerProxy) QueryEventStats(
 	var _result pm.ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteInt32(bucketType)
 	_data.WriteInt64(beginTime)
@@ -291,6 +295,7 @@ func (p *UsageStatsManagerProxy) QueryEvents(
 	var _result UsageEvents
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteInt64(beginTime)
 	_data.WriteInt64(endTime)
@@ -331,6 +336,7 @@ func (p *UsageStatsManagerProxy) QueryEventsForPackage(
 	var _result UsageEvents
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteInt64(beginTime)
 	_data.WriteInt64(endTime)
@@ -371,6 +377,7 @@ func (p *UsageStatsManagerProxy) QueryEventsForUser(
 	var _result UsageEvents
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteInt64(beginTime)
 	_data.WriteInt64(endTime)
@@ -413,6 +420,7 @@ func (p *UsageStatsManagerProxy) QueryEventsForPackageForUser(
 	var _result UsageEvents
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteInt64(beginTime)
 	_data.WriteInt64(endTime)
@@ -454,6 +462,7 @@ func (p *UsageStatsManagerProxy) QueryEventsWithFilter(
 	var _result UsageEvents
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteInt32(1)
 	if _err := query.MarshalParcel(_data); _err != nil {
@@ -495,6 +504,7 @@ func (p *UsageStatsManagerProxy) SetAppInactive(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(inactive)
@@ -523,6 +533,7 @@ func (p *UsageStatsManagerProxy) IsAppStandbyEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerIsAppStandbyEnabled)
@@ -554,6 +565,7 @@ func (p *UsageStatsManagerProxy) IsAppInactive(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -585,6 +597,7 @@ func (p *UsageStatsManagerProxy) OnCarrierPrivilegedAppsChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerOnCarrierPrivilegedAppsChanged)
@@ -614,6 +627,7 @@ func (p *UsageStatsManagerProxy) ReportChooserSelection(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -653,6 +667,7 @@ func (p *UsageStatsManagerProxy) GetAppStandbyBucket(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(_identity.PackageName)
@@ -687,6 +702,7 @@ func (p *UsageStatsManagerProxy) SetAppStandbyBucket(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(bucket)
@@ -716,6 +732,7 @@ func (p *UsageStatsManagerProxy) GetAppStandbyBuckets(
 	var _result pm.ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
@@ -753,6 +770,7 @@ func (p *UsageStatsManagerProxy) SetAppStandbyBuckets(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteInt32(1)
 	if _err := appBuckets.MarshalParcel(_data); _err != nil {
@@ -785,6 +803,7 @@ func (p *UsageStatsManagerProxy) GetAppMinStandbyBucket(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(_identity.PackageName)
@@ -819,6 +838,7 @@ func (p *UsageStatsManagerProxy) SetEstimatedLaunchTime(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt64(estimatedLaunchTime)
@@ -848,6 +868,7 @@ func (p *UsageStatsManagerProxy) SetEstimatedLaunchTimes(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteInt32(1)
 	if _err := appLaunchTimes.MarshalParcel(_data); _err != nil {
@@ -882,6 +903,7 @@ func (p *UsageStatsManagerProxy) RegisterAppUsageObserver(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteInt32(observerId)
 	if packages == nil {
@@ -923,6 +945,7 @@ func (p *UsageStatsManagerProxy) UnregisterAppUsageObserver(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteInt32(observerId)
 	_data.WriteString16(_identity.PackageName)
@@ -956,6 +979,7 @@ func (p *UsageStatsManagerProxy) RegisterUsageSessionObserver(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteInt32(sessionObserverId)
 	if observed == nil {
@@ -1002,6 +1026,7 @@ func (p *UsageStatsManagerProxy) UnregisterUsageSessionObserver(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteInt32(sessionObserverId)
 	_data.WriteString16(_identity.PackageName)
@@ -1034,6 +1059,7 @@ func (p *UsageStatsManagerProxy) RegisterAppUsageLimitObserver(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteInt32(observerId)
 	if packages == nil {
@@ -1076,6 +1102,7 @@ func (p *UsageStatsManagerProxy) UnregisterAppUsageLimitObserver(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteInt32(observerId)
 	_data.WriteString16(_identity.PackageName)
@@ -1105,6 +1132,7 @@ func (p *UsageStatsManagerProxy) ReportUsageStart(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	binder.WriteBinderToParcel(ctx, _data, activity, p.Remote.Transport())
 	_data.WriteString16(token)
@@ -1136,6 +1164,7 @@ func (p *UsageStatsManagerProxy) ReportPastUsageStart(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	binder.WriteBinderToParcel(ctx, _data, activity, p.Remote.Transport())
 	_data.WriteString16(token)
@@ -1167,6 +1196,7 @@ func (p *UsageStatsManagerProxy) ReportUsageStop(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	binder.WriteBinderToParcel(ctx, _data, activity, p.Remote.Transport())
 	_data.WriteString16(token)
@@ -1196,6 +1226,7 @@ func (p *UsageStatsManagerProxy) ReportUserInteraction(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -1221,13 +1252,18 @@ func (p *UsageStatsManagerProxy) ReportUserInteraction(
 func (p *UsageStatsManagerProxy) ReportUserInteractionWithBundle(
 	ctx context.Context,
 	packageName string,
-	eventExtras interface{},
+	eventExtras os.PersistableBundle,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
+	_data.WriteInt32(1)
+	if _err := eventExtras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerReportUserInteractionWithBundle)
 	if _err != nil {
@@ -1252,6 +1288,7 @@ func (p *UsageStatsManagerProxy) GetUsageSource(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerGetUsageSource)
@@ -1280,6 +1317,7 @@ func (p *UsageStatsManagerProxy) ForceUsageSourceSettingRead(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsageStatsManager, MethodIUsageStatsManagerForceUsageSourceSettingRead)
@@ -1307,6 +1345,7 @@ func (p *UsageStatsManagerProxy) GetLastTimeAnyComponentUsed(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(_identity.PackageName)
@@ -1341,6 +1380,7 @@ func (p *UsageStatsManagerProxy) QueryBroadcastResponseStats(
 	var _result BroadcastResponseStatsList
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt64(id)
@@ -1381,6 +1421,7 @@ func (p *UsageStatsManagerProxy) ClearBroadcastResponseStats(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt64(id)
@@ -1410,6 +1451,7 @@ func (p *UsageStatsManagerProxy) ClearBroadcastEvents(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
@@ -1439,6 +1481,7 @@ func (p *UsageStatsManagerProxy) IsPackageExemptedFromBroadcastResponseStats(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -1471,6 +1514,7 @@ func (p *UsageStatsManagerProxy) GetAppStandbyConstant(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
 	_data.WriteString16(key)
 
@@ -1499,7 +1543,8 @@ func (p *UsageStatsManagerProxy) GetAppStandbyConstant(
 // UsageStatsManagerStub dispatches incoming binder transactions
 // to a typed IUsageStatsManager implementation.
 type UsageStatsManagerStub struct {
-	Impl IUsageStatsManager
+	Impl      IUsageStatsManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UsageStatsManagerStub)(nil)
@@ -1513,11 +1558,12 @@ func (s *UsageStatsManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUsageStatsManagerQueryUsageStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_bucketType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1549,9 +1595,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUsageStatsManagerQueryConfigurationStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_bucketType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1580,9 +1623,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUsageStatsManagerQueryEventStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_bucketType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1611,9 +1651,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUsageStatsManagerQueryEvents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_beginTime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1638,9 +1675,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUsageStatsManagerQueryEventsForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_beginTime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1665,9 +1699,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUsageStatsManagerQueryEventsForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_beginTime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1695,9 +1726,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUsageStatsManagerQueryEventsForPackageForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_beginTime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1729,9 +1757,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUsageStatsManagerQueryEventsWithFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_query UsageEventsQuery
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1760,9 +1785,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUsageStatsManagerSetAppInactive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1783,9 +1805,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerIsAppStandbyEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsAppStandbyEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1796,9 +1815,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsageStatsManagerIsAppInactive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1819,9 +1835,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsageStatsManagerOnCarrierPrivilegedAppsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnCarrierPrivilegedAppsChanged(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1831,9 +1844,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerReportChooserSelection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1845,9 +1855,25 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_annotations []string
-		_ = _arg_annotations
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_annotations = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_annotations[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_action, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1861,9 +1887,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerGetAppStandbyBucket:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1884,9 +1907,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUsageStatsManagerSetAppStandbyBucket:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1910,9 +1930,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1929,9 +1946,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUsageStatsManagerSetAppStandbyBuckets:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_appBuckets pm.ParceledListSlice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1956,9 +1970,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerGetAppMinStandbyBucket:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1979,9 +1990,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUsageStatsManagerSetEstimatedLaunchTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2002,9 +2010,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerSetEstimatedLaunchTimes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_appLaunchTimes pm.ParceledListSlice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2029,16 +2034,29 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerRegisterAppUsageObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_observerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packages []string
-		_ = _arg_packages
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packages = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packages[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_timeLimitMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2067,9 +2085,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerUnregisterAppUsageObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_observerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2086,16 +2101,29 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerRegisterUsageSessionObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionObserverId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_observed []string
-		_ = _arg_observed
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_observed = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_observed[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_timeLimitMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2140,9 +2168,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerUnregisterUsageSessionObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionObserverId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2159,16 +2184,29 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerRegisterAppUsageLimitObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_observerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packages []string
-		_ = _arg_packages
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packages = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packages[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_timeLimitMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2201,9 +2239,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerUnregisterAppUsageLimitObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_observerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2220,12 +2255,14 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerReportUsageStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activity binder.IBinder
-		_ = _arg_activity
+		{
+			_activityHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activity = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityHandle)
+		}
 		_arg_token, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2242,12 +2279,14 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerReportPastUsageStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activity binder.IBinder
-		_ = _arg_activity
+		{
+			_activityHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activity = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityHandle)
+		}
 		_arg_token, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2268,12 +2307,14 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerReportUsageStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activity binder.IBinder
-		_ = _arg_activity
+		{
+			_activityHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activity = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityHandle)
+		}
 		_arg_token, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2290,9 +2331,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerReportUserInteraction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2309,9 +2347,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerReportUserInteractionWithBundle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2319,7 +2354,18 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		var _arg_eventExtras interface{}
+		var _arg_eventExtras os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_eventExtras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.ReportUserInteractionWithBundle(ctx, _arg_packageName, _arg_eventExtras)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2329,9 +2375,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerGetUsageSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetUsageSource(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2342,9 +2385,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUsageStatsManagerForceUsageSourceSettingRead:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ForceUsageSourceSettingRead(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2354,9 +2394,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerGetLastTimeAnyComponentUsed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2374,9 +2411,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIUsageStatsManagerQueryBroadcastResponseStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2404,9 +2438,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUsageStatsManagerClearBroadcastResponseStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2433,9 +2464,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2448,9 +2476,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsageStatsManagerIsPackageExemptedFromBroadcastResponseStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2468,9 +2493,6 @@ func (s *UsageStatsManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsageStatsManagerGetAppStandbyConstant:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2523,7 +2545,7 @@ type IUsageStatsManagerServer interface {
 	ReportPastUsageStart(ctx context.Context, activity binder.IBinder, token string, timeAgoMs int64) error
 	ReportUsageStop(ctx context.Context, activity binder.IBinder, token string) error
 	ReportUserInteraction(ctx context.Context, packageName string) error
-	ReportUserInteractionWithBundle(ctx context.Context, packageName string, eventExtras interface{}) error
+	ReportUserInteractionWithBundle(ctx context.Context, packageName string, eventExtras os.PersistableBundle) error
 	GetUsageSource(ctx context.Context) (int32, error)
 	ForceUsageSourceSettingRead(ctx context.Context) error
 	GetLastTimeAnyComponentUsed(ctx context.Context, packageName string) (int64, error)
@@ -2786,7 +2808,7 @@ func (w *usageStatsManagerStubWrapper) ReportUserInteraction(
 func (w *usageStatsManagerStubWrapper) ReportUserInteractionWithBundle(
 	ctx context.Context,
 	packageName string,
-	eventExtras interface{},
+	eventExtras os.PersistableBundle,
 ) error {
 	return w.impl.ReportUserInteractionWithBundle(ctx, packageName, eventExtras)
 }

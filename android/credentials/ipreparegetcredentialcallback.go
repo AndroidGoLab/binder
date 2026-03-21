@@ -48,6 +48,7 @@ func (p *PrepareGetCredentialCallbackProxy) OnResponse(
 	response PrepareGetCredentialResponseInternal,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrepareGetCredentialCallback)
 	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
@@ -69,6 +70,7 @@ func (p *PrepareGetCredentialCallbackProxy) OnError(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrepareGetCredentialCallback)
 	_data.WriteString16(errorType)
 	_data.WriteString16(message)
@@ -85,7 +87,8 @@ func (p *PrepareGetCredentialCallbackProxy) OnError(
 // PrepareGetCredentialCallbackStub dispatches incoming binder transactions
 // to a typed IPrepareGetCredentialCallback implementation.
 type PrepareGetCredentialCallbackStub struct {
-	Impl IPrepareGetCredentialCallback
+	Impl      IPrepareGetCredentialCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PrepareGetCredentialCallbackStub)(nil)
@@ -99,11 +102,12 @@ func (s *PrepareGetCredentialCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPrepareGetCredentialCallbackOnResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_response PrepareGetCredentialResponseInternal
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -117,12 +121,8 @@ func (s *PrepareGetCredentialCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnResponse(ctx, _arg_response)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrepareGetCredentialCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -132,8 +132,7 @@ func (s *PrepareGetCredentialCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_errorType, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

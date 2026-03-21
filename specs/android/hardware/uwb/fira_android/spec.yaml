@@ -1,0 +1,245 @@
+package: android.hardware.uwb.fira_android
+go_package: android/hardware/uwb/fira_android
+enums:
+    - name: UwbVendorCapabilityTlvTypes
+      backing_type: int
+      values:
+        - name: SUPPORTED_POWER_STATS_QUERY
+          value: "0xC0"
+        - name: CCC_SUPPORTED_CHAPS_PER_SLOT
+          value: "0xA0"
+        - name: CCC_SUPPORTED_SYNC_CODES
+          value: "0xA1"
+        - name: CCC_SUPPORTED_HOPPING_CONFIG_MODES_AND_SEQUENCES
+          value: "0xA2"
+        - name: CCC_SUPPORTED_CHANNELS
+          value: "0xA3"
+        - name: CCC_SUPPORTED_VERSIONS
+          value: "0xA4"
+        - name: CCC_SUPPORTED_UWB_CONFIGS
+          value: "0xA5"
+        - name: CCC_SUPPORTED_PULSE_SHAPE_COMBOS
+          value: "0xA6"
+        - name: CCC_SUPPORTED_RAN_MULTIPLIER
+          value: "0xA7"
+        - name: CCC_SUPPORTED_MAX_RANGING_SESSION_NUMBER
+          value: "0xA8"
+        - name: CCC_SUPPORTED_MIN_UWB_INITIATION_TIME_MS
+          value: "0xA9"
+        - name: CCC_PRIORITIZED_CHANNEL_LIST
+          value: "0xAA"
+        - name: CCC_SUPPORTED_UWBS_MAX_PPM
+          value: "0xAB"
+        - name: RADAR_SUPPORT
+          value: "0xB0"
+        - name: SUPPORTED_AOA_RESULT_REQ_ANTENNA_INTERLEAVING
+          value: "0xE3"
+        - name: SUPPORTED_MIN_RANGING_INTERVAL_MS
+          value: "0xE4"
+        - name: SUPPORTED_RANGE_DATA_NTF_CONFIG
+          value: "0xE5"
+        - name: SUPPORTED_RSSI_REPORTING
+          value: "0xE6"
+        - name: SUPPORTED_DIAGNOSTICS
+          value: "0xE7"
+        - name: SUPPORTED_MIN_SLOT_DURATION_RSTU
+          value: "0xE8"
+        - name: SUPPORTED_MAX_RANGING_SESSION_NUMBER
+          value: "0xE9"
+        - name: SUPPORTED_CHANNELS_AOA
+          value: "0xEA"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UwbVendorCapabilityTlvValues
+      backing_type: long
+      values:
+        - name: UWB_CONFIG_0
+          value: "0"
+        - name: UWB_CONFIG_1
+          value: "1"
+        - name: PULSE_SHAPE_SYMMETRICAL_ROOT_RAISED_COSINE
+          value: "0"
+        - name: PULSE_SHAPE_PRECURSOR_FREE
+          value: "1"
+        - name: PULSE_SHAPE_PRECURSOR_FREE_SPECIAL
+          value: "2"
+        - name: CHAPS_PER_SLOT_3
+          value: "1"
+        - name: CHAPS_PER_SLOT_4
+          value: 1 << 1
+        - name: CHAPS_PER_SLOT_6
+          value: 1 << 2
+        - name: CHAPS_PER_SLOT_8
+          value: 1 << 3
+        - name: CHAPS_PER_SLOT_9
+          value: 1 << 4
+        - name: CHAPS_PER_SLOT_12
+          value: 1 << 5
+        - name: CHAPS_PER_SLOT_24
+          value: 1 << 6
+        - name: HOPPING_SEQUENCE_DEFAULT
+          value: 1 << 4
+        - name: HOPPING_SEQUENCE_AES
+          value: 1 << 3
+        - name: HOPPING_CONFIG_MODE_NONE
+          value: 1 << 7
+        - name: HOPPING_CONFIG_MODE_CONTINUOUS
+          value: 1 << 6
+        - name: HOPPING_CONFIG_MODE_ADAPTIVE
+          value: 1 << 5
+        - name: CCC_CHANNEL_5
+          value: "1"
+        - name: CCC_CHANNEL_9
+          value: 1 << 1
+        - name: RADAR_NOT_SUPPORTED
+          value: "0"
+        - name: RADAR_SWEEP_SAMPLES_SUPPORTED
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UwbVendorDataPacketFormat
+      backing_type: byte
+      values:
+        - name: RADAR_DATA_MESSAGE
+          value: "0xF"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UwbVendorGidAndroidOids
+      backing_type: byte
+      values:
+        - name: ANDROID_GET_POWER_STATS
+          value: "0x0"
+        - name: ANDROID_SET_COUNTRY_CODE
+          value: "0x1"
+        - name: ANDROID_RANGE_DIAGNOSTICS
+          value: "0x2"
+        - name: RADAR_SET_APP_CONFIG
+          value: "0x11"
+        - name: RADAR_GET_APP_CONFIG
+          value: "0x12"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UwbVendorGids
+      backing_type: byte
+      values:
+        - name: ANDROID
+          value: "0xC"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UwbVendorRadarAppConfigTlvTypes
+      backing_type: int
+      values:
+        - name: RADAR_TIMING_PARAMS
+          value: "0x0"
+        - name: SAMPLES_PER_SWEEP
+          value: "0x1"
+        - name: RADAR_CHANNEL_NUMBER
+          value: "0x2"
+        - name: SWEEP_OFFSET
+          value: "0x3"
+        - name: RADAR_RFRAME_CONFIG
+          value: "0x4"
+        - name: RADAR_PREAMBLE_DURATION
+          value: "0x5"
+        - name: RADAR_PREAMBLE_CODE_INDEX
+          value: "0x6"
+        - name: RADAR_SESSION_PRIORITY
+          value: "0x7"
+        - name: BITS_PER_SAMPLE
+          value: "0x8"
+        - name: RADAR_PRF_MODE
+          value: "0x9"
+        - name: NUMBER_OF_BURSTS
+          value: "0xA"
+        - name: RADAR_DATA_TYPE
+          value: "0xB"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UwbVendorRadarAppConfigTlvValues
+      backing_type: int
+      values:
+        - name: RADAR_DATA_TYPE_RADAR_SWEEP_SAMPLES
+          value: "0x0"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UwbVendorReasonCodes
+      backing_type: int
+      values:
+        - name: REASON_ERROR_INVALID_CHANNEL_WITH_AOA
+          value: "0x80"
+        - name: REASON_ERROR_STOPPED_DUE_TO_OTHER_SESSION_CONFLICT
+          value: "0x81"
+        - name: REASON_REGULATION_UWB_OFF
+          value: "0x82"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UwbVendorSessionAppConfigTlvTypes
+      backing_type: int
+      values:
+        - name: CCC_HOP_MODE_KEY
+          value: "0xA0"
+        - name: CCC_UWB_TIME0
+          value: "0xA1"
+        - name: CCC_RANGING_PROTOCOL_VER
+          value: "0xA3"
+        - name: CCC_UWB_CONFIG_ID
+          value: "0xA4"
+        - name: CCC_PULSESHAPE_COMBO
+          value: "0xA5"
+        - name: CCC_URSK_TTL
+          value: "0xA6"
+        - name: CCC_LAST_INDEX_USED
+          value: "0xA8"
+        - name: NB_OF_RANGE_MEASUREMENTS
+          value: "0xE3"
+        - name: NB_OF_AZIMUTH_MEASUREMENTS
+          value: "0xE4"
+        - name: NB_OF_ELEVATION_MEASUREMENTS
+          value: "0xE5"
+        - name: ENABLE_DIAGNOSTICS
+          value: "0xE8"
+        - name: DIAGRAMS_FRAME_REPORTS_FIELDS
+          value: "0xE9"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UwbVendorSessionAppConfigTlvValues
+      backing_type: int
+      values:
+        - name: AOA_RESULT_REQ_ANTENNA_INTERLEAVING
+          value: "0xF0"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UwbVendorSessionInitSessionType
+      backing_type: int
+      values:
+        - name: CCC
+          value: "0xA0"
+        - name: RADAR
+          value: "0xA1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UwbVendorStatusCodes
+      backing_type: byte
+      values:
+        - name: STATUS_ERROR_CCC_SE_BUSY
+          value: "0x50"
+        - name: STATUS_ERROR_CCC_LIFECYCLE
+          value: "0x51"
+        - name: STATUS_ERROR_STOPPED_DUE_TO_OTHER_SESSION_CONFLICT
+          value: "0x52"
+        - name: STATUS_REGULATION_UWB_OFF
+          value: "0x53"
+      annotations:
+        - VintfStability
+        - Backing

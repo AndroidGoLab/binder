@@ -1,0 +1,504 @@
+package: android.hardware.cas
+go_package: android/hardware/cas
+interfaces:
+    - name: ICas
+      descriptor: android.hardware.cas.ICas
+      methods:
+        - name: closeSession
+          transaction_code_offset: 0
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: openSessionDefault
+          transaction_code_offset: 1
+          return_type:
+            name: byte
+            is_array: true
+        - name: openSession
+          transaction_code_offset: 2
+          params:
+            - name: intent
+              type:
+                name: SessionIntent
+              direction: in
+            - name: mode
+              type:
+                name: ScramblingMode
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: processEcm
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: ecm
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: processEmm
+          transaction_code_offset: 4
+          params:
+            - name: emm
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: provision
+          transaction_code_offset: 5
+          params:
+            - name: provisionString
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: refreshEntitlements
+          transaction_code_offset: 6
+          params:
+            - name: refreshType
+              type:
+                name: int
+              direction: in
+            - name: refreshData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: release
+          transaction_code_offset: 7
+          return_type:
+            name: void
+        - name: sendEvent
+          transaction_code_offset: 8
+          params:
+            - name: event
+              type:
+                name: int
+              direction: in
+            - name: arg
+              type:
+                name: int
+              direction: in
+            - name: eventData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: sendSessionEvent
+          transaction_code_offset: 9
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: event
+              type:
+                name: int
+              direction: in
+            - name: arg
+              type:
+                name: int
+              direction: in
+            - name: eventData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setPrivateData
+          transaction_code_offset: 10
+          params:
+            - name: pvtData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setSessionPrivateData
+          transaction_code_offset: 11
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: pvtData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: ICasListener
+      descriptor: android.hardware.cas.ICasListener
+      methods:
+        - name: onEvent
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: int
+              direction: in
+            - name: arg
+              type:
+                name: int
+              direction: in
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onSessionEvent
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: event
+              type:
+                name: int
+              direction: in
+            - name: arg
+              type:
+                name: int
+              direction: in
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onStatusUpdate
+          transaction_code_offset: 2
+          params:
+            - name: event
+              type:
+                name: StatusEvent
+              direction: in
+            - name: number
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IDescrambler
+      descriptor: android.hardware.cas.IDescrambler
+      methods:
+        - name: descramble
+          transaction_code_offset: 0
+          params:
+            - name: scramblingControl
+              type:
+                name: ScramblingControl
+              direction: in
+            - name: subSamples
+              type:
+                name: SubSample
+                is_array: true
+              direction: in
+            - name: srcBuffer
+              type:
+                name: SharedBuffer
+              direction: in
+            - name: srcOffset
+              type:
+                name: long
+              direction: in
+            - name: dstBuffer
+              type:
+                name: DestinationBuffer
+              direction: in
+            - name: dstOffset
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: int
+        - name: release
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: requiresSecureDecoderComponent
+          transaction_code_offset: 2
+          params:
+            - name: mime
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: setMediaCasSession
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IMediaCasService
+      descriptor: android.hardware.cas.IMediaCasService
+      methods:
+        - name: createDescrambler
+          transaction_code_offset: 0
+          params:
+            - name: CA_system_id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: IDescrambler
+        - name: createPlugin
+          transaction_code_offset: 1
+          params:
+            - name: CA_system_id
+              type:
+                name: int
+              direction: in
+            - name: listener
+              type:
+                name: ICasListener
+              direction: in
+          return_type:
+            name: ICas
+        - name: enumeratePlugins
+          transaction_code_offset: 2
+          return_type:
+            name: AidlCasPluginDescriptor
+            is_array: true
+        - name: isDescramblerSupported
+          transaction_code_offset: 3
+          params:
+            - name: CA_system_id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: isSystemIdSupported
+          transaction_code_offset: 4
+          params:
+            - name: CA_system_id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+parcelables:
+    - name: AidlCasPluginDescriptor
+      fields:
+        - name: caSystemId
+          type:
+            name: int
+        - name: name
+          type:
+            name: String
+      annotations:
+        - VintfStability
+    - name: SharedBuffer
+      fields:
+        - name: heapBase
+          type:
+            name: Ashmem
+        - name: offset
+          type:
+            name: long
+        - name: size
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: Status
+      constants:
+        - name: OK
+          type: int
+          value: "0"
+        - name: ERROR_CAS_NO_LICENSE
+          type: int
+          value: "1"
+        - name: ERROR_CAS_LICENSE_EXPIRED
+          type: int
+          value: "2"
+        - name: ERROR_CAS_SESSION_NOT_OPENED
+          type: int
+          value: "3"
+        - name: ERROR_CAS_CANNOT_HANDLE
+          type: int
+          value: "4"
+        - name: ERROR_CAS_INVALID_STATE
+          type: int
+          value: "5"
+        - name: BAD_VALUE
+          type: int
+          value: "6"
+        - name: ERROR_CAS_NOT_PROVISIONED
+          type: int
+          value: "7"
+        - name: ERROR_CAS_RESOURCE_BUSY
+          type: int
+          value: "8"
+        - name: ERROR_CAS_INSUFFICIENT_OUTPUT_PROTECTION
+          type: int
+          value: "9"
+        - name: ERROR_CAS_TAMPER_DETECTED
+          type: int
+          value: "10"
+        - name: ERROR_CAS_DEVICE_REVOKED
+          type: int
+          value: "11"
+        - name: ERROR_CAS_DECRYPT_UNIT_NOT_INITIALIZED
+          type: int
+          value: "12"
+        - name: ERROR_CAS_DECRYPT
+          type: int
+          value: "13"
+        - name: ERROR_CAS_UNKNOWN
+          type: int
+          value: "14"
+        - name: ERROR_CAS_NEED_ACTIVATION
+          type: int
+          value: "15"
+        - name: ERROR_CAS_NEED_PAIRING
+          type: int
+          value: "16"
+        - name: ERROR_CAS_NO_CARD
+          type: int
+          value: "17"
+        - name: ERROR_CAS_CARD_MUTE
+          type: int
+          value: "18"
+        - name: ERROR_CAS_CARD_INVALID
+          type: int
+          value: "19"
+        - name: ERROR_CAS_BLACKOUT
+          type: int
+          value: "20"
+        - name: ERROR_CAS_REBOOTING
+          type: int
+          value: "21"
+      annotations:
+        - VintfStability
+    - name: SubSample
+      fields:
+        - name: numBytesOfClearData
+          type:
+            name: int
+        - name: numBytesOfEncryptedData
+          type:
+            name: int
+      annotations:
+        - VintfStability
+enums:
+    - name: ScramblingControl
+      backing_type: int
+      values:
+        - name: UNSCRAMBLED
+          value: "0"
+        - name: RESERVED
+          value: "1"
+        - name: EVENKEY
+          value: "2"
+        - name: ODDKEY
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ScramblingMode
+      backing_type: int
+      values:
+        - name: RESERVED
+          value: "0"
+        - name: DVB_CSA1
+          value: ""
+        - name: DVB_CSA2
+          value: ""
+        - name: DVB_CSA3_STANDARD
+          value: ""
+        - name: DVB_CSA3_MINIMAL
+          value: ""
+        - name: DVB_CSA3_ENHANCE
+          value: ""
+        - name: DVB_CISSA_V1
+          value: ""
+        - name: DVB_IDSA
+          value: ""
+        - name: MULTI2
+          value: ""
+        - name: AES128
+          value: ""
+        - name: AES_ECB
+          value: ""
+        - name: AES_SCTE52
+          value: ""
+        - name: TDES_ECB
+          value: ""
+        - name: TDES_SCTE52
+          value: ""
+        - name: AES_CBC
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SessionIntent
+      backing_type: int
+      values:
+        - name: LIVE
+          value: ""
+        - name: PLAYBACK
+          value: ""
+        - name: RECORD
+          value: ""
+        - name: TIMESHIFT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StatusEvent
+      backing_type: byte
+      values:
+        - name: PLUGIN_PHYSICAL_MODULE_CHANGED
+          value: ""
+        - name: PLUGIN_SESSION_NUMBER_CHANGED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: DestinationBuffer
+      fields:
+        - name: nonsecureMemory
+          type:
+            name: SharedBuffer
+        - name: secureMemory
+          type:
+            name: NativeHandle
+      annotations:
+        - VintfStability

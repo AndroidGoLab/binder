@@ -68,6 +68,7 @@ func (p *OnDeviceIntelligenceManagerProxy) GetVersion(
 	remoteCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
 	_data.WriteInt32(1)
 	if _err := remoteCallback.MarshalParcel(_data); _err != nil {
@@ -89,6 +90,7 @@ func (p *OnDeviceIntelligenceManagerProxy) GetFeature(
 	remoteCallback IFeatureCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
 	_data.WriteInt32(featureId)
 	binder.WriteBinderToParcel(ctx, _data, remoteCallback.AsBinder(), p.Remote.Transport())
@@ -107,6 +109,7 @@ func (p *OnDeviceIntelligenceManagerProxy) ListFeatures(
 	listFeaturesCallback IListFeaturesCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
 	binder.WriteBinderToParcel(ctx, _data, listFeaturesCallback.AsBinder(), p.Remote.Transport())
 
@@ -125,6 +128,7 @@ func (p *OnDeviceIntelligenceManagerProxy) GetFeatureDetails(
 	featureDetailsCallback IFeatureDetailsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
 	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
@@ -148,6 +152,7 @@ func (p *OnDeviceIntelligenceManagerProxy) RequestFeatureDownload(
 	callback IDownloadCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
 	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
@@ -173,6 +178,7 @@ func (p *OnDeviceIntelligenceManagerProxy) RequestTokenCount(
 	tokenCountcallback ITokenCountCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
 	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
@@ -204,6 +210,7 @@ func (p *OnDeviceIntelligenceManagerProxy) ProcessRequest(
 	responseCallback IResponseCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
 	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
@@ -237,6 +244,7 @@ func (p *OnDeviceIntelligenceManagerProxy) ProcessRequestStreaming(
 	streamingCallback IStreamingResponseCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
 	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
@@ -263,7 +271,8 @@ func (p *OnDeviceIntelligenceManagerProxy) ProcessRequestStreaming(
 // OnDeviceIntelligenceManagerStub dispatches incoming binder transactions
 // to a typed IOnDeviceIntelligenceManager implementation.
 type OnDeviceIntelligenceManagerStub struct {
-	Impl IOnDeviceIntelligenceManager
+	Impl      IOnDeviceIntelligenceManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OnDeviceIntelligenceManagerStub)(nil)
@@ -277,11 +286,12 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOnDeviceIntelligenceManagerGetVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_remoteCallback os.RemoteCallback
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -295,36 +305,34 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetVersion(ctx, _arg_remoteCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnDeviceIntelligenceManagerGetFeature:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_featureId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_remoteCallback IFeatureCallback
-		_ = _arg_remoteCallback
+		{
+			_remoteCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_remoteCallback = NewFeatureCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _remoteCallbackHandle))
+		}
 		_err = s.Impl.GetFeature(ctx, _arg_featureId, _arg_remoteCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnDeviceIntelligenceManagerListFeatures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listFeaturesCallback IListFeaturesCallback
-		_ = _arg_listFeaturesCallback
+		{
+			_listFeaturesCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listFeaturesCallback = NewListFeaturesCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listFeaturesCallbackHandle))
+		}
 		_err := s.Impl.ListFeatures(ctx, _arg_listFeaturesCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnDeviceIntelligenceManagerGetFeatureDetails:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_feature Feature
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -337,16 +345,17 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_featureDetailsCallback IFeatureDetailsCallback
-		_ = _arg_featureDetailsCallback
+		{
+			_featureDetailsCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_featureDetailsCallback = NewFeatureDetailsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _featureDetailsCallbackHandle))
+		}
 		_err := s.Impl.GetFeatureDetails(ctx, _arg_feature, _arg_featureDetailsCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnDeviceIntelligenceManagerRequestFeatureDownload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_feature Feature
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -359,19 +368,25 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_signal common.ICancellationSignal
-		_ = _arg_signal
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_signalHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_signal = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _signalHandle))
+		}
 		var _arg_callback IDownloadCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDownloadCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RequestFeatureDownload(ctx, _arg_feature, _arg_signal, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnDeviceIntelligenceManagerRequestTokenCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_feature Feature
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -396,19 +411,25 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_signal common.ICancellationSignal
-		_ = _arg_signal
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_signalHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_signal = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _signalHandle))
+		}
 		var _arg_tokenCountcallback ITokenCountCallback
-		_ = _arg_tokenCountcallback
+		{
+			_tokenCountcallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tokenCountcallback = NewTokenCountCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenCountcallbackHandle))
+		}
 		_err := s.Impl.RequestTokenCount(ctx, _arg_feature, _arg_request, _arg_signal, _arg_tokenCountcallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnDeviceIntelligenceManagerProcessRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_feature Feature
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -437,22 +458,33 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cancellationSignal common.ICancellationSignal
-		_ = _arg_cancellationSignal
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_cancellationSignalHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cancellationSignal = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
+		}
 		var _arg_signal IProcessingSignal
-		_ = _arg_signal
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_signalHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_signal = NewProcessingSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _signalHandle))
+		}
 		var _arg_responseCallback IResponseCallback
-		_ = _arg_responseCallback
-		_err = s.Impl.ProcessRequest(ctx, _arg_feature, _arg_request, _arg_requestType, _arg_cancellationSignal, _arg_signal, _arg_responseCallback)
-		_ = _err
-		return nil, nil
-	case TransactionIOnDeviceIntelligenceManagerProcessRequestStreaming:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_responseCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_responseCallback = NewResponseCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseCallbackHandle))
 		}
+		_err = s.Impl.ProcessRequest(ctx, _arg_feature, _arg_request, _arg_requestType, _arg_cancellationSignal, _arg_signal, _arg_responseCallback)
+		return nil, _err
+	case TransactionIOnDeviceIntelligenceManagerProcessRequestStreaming:
 		var _arg_feature Feature
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -481,18 +513,32 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cancellationSignal common.ICancellationSignal
-		_ = _arg_cancellationSignal
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_cancellationSignalHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cancellationSignal = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
+		}
 		var _arg_signal IProcessingSignal
-		_ = _arg_signal
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_signalHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_signal = NewProcessingSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _signalHandle))
+		}
 		var _arg_streamingCallback IStreamingResponseCallback
-		_ = _arg_streamingCallback
+		{
+			_streamingCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_streamingCallback = NewStreamingResponseCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _streamingCallbackHandle))
+		}
 		_err = s.Impl.ProcessRequestStreaming(ctx, _arg_feature, _arg_request, _arg_requestType, _arg_cancellationSignal, _arg_signal, _arg_streamingCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

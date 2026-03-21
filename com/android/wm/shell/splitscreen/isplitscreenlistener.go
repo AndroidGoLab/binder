@@ -49,6 +49,7 @@ func (p *SplitScreenListenerProxy) OnStagePositionChanged(
 	position int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreenListener)
 	_data.WriteInt32(stage)
 	_data.WriteInt32(position)
@@ -69,6 +70,7 @@ func (p *SplitScreenListenerProxy) OnTaskStageChanged(
 	visible bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreenListener)
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(stage)
@@ -86,7 +88,8 @@ func (p *SplitScreenListenerProxy) OnTaskStageChanged(
 // SplitScreenListenerStub dispatches incoming binder transactions
 // to a typed ISplitScreenListener implementation.
 type SplitScreenListenerStub struct {
-	Impl ISplitScreenListener
+	Impl      ISplitScreenListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SplitScreenListenerStub)(nil)
@@ -100,11 +103,12 @@ func (s *SplitScreenListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISplitScreenListenerOnStagePositionChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_stage, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -114,12 +118,8 @@ func (s *SplitScreenListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStagePositionChanged(ctx, _arg_stage, _arg_position)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenListenerOnTaskStageChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -133,8 +133,7 @@ func (s *SplitScreenListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTaskStageChanged(ctx, _arg_taskId, _arg_stage, _arg_visible)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

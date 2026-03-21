@@ -25,8 +25,8 @@ const (
 
 type IMidiDeviceListener interface {
 	AsBinder() binder.IBinder
-	OnDeviceAdded(ctx context.Context, device interface{}) error
-	OnDeviceRemoved(ctx context.Context, device interface{}) error
+	OnDeviceAdded(ctx context.Context, device MidiDeviceInfo) error
+	OnDeviceRemoved(ctx context.Context, device MidiDeviceInfo) error
 	OnDeviceStatusChanged(ctx context.Context, status MidiDeviceStatus) error
 }
 
@@ -48,10 +48,15 @@ var _ IMidiDeviceListener = (*MidiDeviceListenerProxy)(nil)
 
 func (p *MidiDeviceListenerProxy) OnDeviceAdded(
 	ctx context.Context,
-	device interface{},
+	device MidiDeviceInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiDeviceListener)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiDeviceListener, MethodIMidiDeviceListenerOnDeviceAdded)
 	if _err != nil {
@@ -64,10 +69,15 @@ func (p *MidiDeviceListenerProxy) OnDeviceAdded(
 
 func (p *MidiDeviceListenerProxy) OnDeviceRemoved(
 	ctx context.Context,
-	device interface{},
+	device MidiDeviceInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiDeviceListener)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiDeviceListener, MethodIMidiDeviceListenerOnDeviceRemoved)
 	if _err != nil {
@@ -83,6 +93,7 @@ func (p *MidiDeviceListenerProxy) OnDeviceStatusChanged(
 	status MidiDeviceStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiDeviceListener)
 	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
@@ -101,7 +112,8 @@ func (p *MidiDeviceListenerProxy) OnDeviceStatusChanged(
 // MidiDeviceListenerStub dispatches incoming binder transactions
 // to a typed IMidiDeviceListener implementation.
 type MidiDeviceListenerStub struct {
-	Impl IMidiDeviceListener
+	Impl      IMidiDeviceListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MidiDeviceListenerStub)(nil)
@@ -115,27 +127,42 @@ func (s *MidiDeviceListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMidiDeviceListenerOnDeviceAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_device MidiDeviceInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_device interface{}
 		_err := s.Impl.OnDeviceAdded(ctx, _arg_device)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMidiDeviceListenerOnDeviceRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_device MidiDeviceInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_device interface{}
 		_err := s.Impl.OnDeviceRemoved(ctx, _arg_device)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMidiDeviceListenerOnDeviceStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_status MidiDeviceStatus
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -149,8 +176,7 @@ func (s *MidiDeviceListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDeviceStatusChanged(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -160,8 +186,8 @@ func (s *MidiDeviceListenerStub) OnTransaction(
 // provide to NewMidiDeviceListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IMidiDeviceListenerServer interface {
-	OnDeviceAdded(ctx context.Context, device interface{}) error
-	OnDeviceRemoved(ctx context.Context, device interface{}) error
+	OnDeviceAdded(ctx context.Context, device MidiDeviceInfo) error
+	OnDeviceRemoved(ctx context.Context, device MidiDeviceInfo) error
 	OnDeviceStatusChanged(ctx context.Context, status MidiDeviceStatus) error
 }
 
@@ -176,14 +202,14 @@ func (w *midiDeviceListenerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *midiDeviceListenerStubWrapper) OnDeviceAdded(
 	ctx context.Context,
-	device interface{},
+	device MidiDeviceInfo,
 ) error {
 	return w.impl.OnDeviceAdded(ctx, device)
 }
 
 func (w *midiDeviceListenerStubWrapper) OnDeviceRemoved(
 	ctx context.Context,
-	device interface{},
+	device MidiDeviceInfo,
 ) error {
 	return w.impl.OnDeviceRemoved(ctx, device)
 }

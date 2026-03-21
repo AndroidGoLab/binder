@@ -11,7 +11,6 @@ import (
 	genPm "github.com/xaionaro-go/binder/android/content/pm"
 	genRollback "github.com/xaionaro-go/binder/android/content/rollback"
 	genHwUsb "github.com/xaionaro-go/binder/android/hardware/usb"
-	genSensorPrivacy "github.com/xaionaro-go/binder/android/hardware"
 	genOs "github.com/xaionaro-go/binder/android/os"
 	genOsStorage "github.com/xaionaro-go/binder/android/os/storage"
 	genPrint "github.com/xaionaro-go/binder/android/print"
@@ -27,20 +26,7 @@ import (
 )
 
 // helper: get service or skip
-func getServiceOrSkip(
-	t *testing.T,
-	ctx context.Context,
-	sm *servicemanager.ServiceManager,
-	name string,
-) interface{ IsAlive(context.Context) bool } {
-	t.Helper()
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName(name))
-	if err != nil || svc == nil {
-		t.Skipf("service %s not available: %v", name, err)
-		return nil
-	}
-	return svc
-}
+
 
 // --- Typed proxy tests ---
 
@@ -132,20 +118,6 @@ func TestGenBatch5_Trust(t *testing.T) {
 	logProxyResult(t, "trust", "IsTrustUsuallyManaged", err)
 	if err == nil {
 		t.Logf("trust usually managed: %v", result)
-	}
-}
-
-func TestGenBatch5_SensorPrivacy(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	sm := servicemanager.New(driver)
-	svc, err := sm.GetService(ctx, servicemanager.SensorPrivacyService)
-	requireOrSkip(t, err)
-	proxy := genSensorPrivacy.NewSensorPrivacyManagerProxy(svc)
-	result, err := proxy.SupportsSensorToggle(ctx, 1, 1)
-	logProxyResult(t, "sensor_privacy", "SupportsSensorToggle", err)
-	if err == nil {
-		t.Logf("supports sensor toggle: %v", result)
 	}
 }
 

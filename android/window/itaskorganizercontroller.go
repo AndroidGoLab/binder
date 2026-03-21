@@ -3,7 +3,8 @@ package window
 import (
 	"context"
 	"fmt"
-	app "github.com/xaionaro-go/binder/android/app"
+	appTypes "github.com/xaionaro-go/binder/android/app/types"
+	types "github.com/xaionaro-go/binder/android/content/pm/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -40,12 +41,12 @@ const (
 
 type ITaskOrganizerController interface {
 	AsBinder() binder.IBinder
-	RegisterTaskOrganizer(ctx context.Context, organizer ITaskOrganizer) (interface{}, error)
+	RegisterTaskOrganizer(ctx context.Context, organizer ITaskOrganizer) (types.ParceledListSlice, error)
 	UnregisterTaskOrganizer(ctx context.Context, organizer ITaskOrganizer) error
 	CreateRootTask(ctx context.Context, displayId int32, windowingMode int32, launchCookie binder.IBinder, removeWithTaskOrganizer bool) error
 	DeleteRootTask(ctx context.Context, task WindowContainerToken) (bool, error)
-	GetChildTasks(ctx context.Context, parent WindowContainerToken, activityTypes []int32) ([]app.ActivityManagerRunningTaskInfo, error)
-	GetRootTasks(ctx context.Context, displayId int32, activityTypes []int32) ([]app.ActivityManagerRunningTaskInfo, error)
+	GetChildTasks(ctx context.Context, parent WindowContainerToken, activityTypes []int32) ([]appTypes.ActivityManagerRunningTaskInfo, error)
+	GetRootTasks(ctx context.Context, displayId int32, activityTypes []int32) ([]appTypes.ActivityManagerRunningTaskInfo, error)
 	GetImeTarget(ctx context.Context, display int32) (WindowContainerToken, error)
 	SetInterceptBackPressedOnTaskRoot(ctx context.Context, task WindowContainerToken, interceptBackPressed bool) error
 	RestartTaskTopActivityProcessIfVisible(ctx context.Context, task WindowContainerToken) error
@@ -71,9 +72,10 @@ var _ ITaskOrganizerController = (*TaskOrganizerControllerProxy)(nil)
 func (p *TaskOrganizerControllerProxy) RegisterTaskOrganizer(
 	ctx context.Context,
 	organizer ITaskOrganizer,
-) (interface{}, error) {
-	var _result interface{}
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
 	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 
@@ -92,6 +94,17 @@ func (p *TaskOrganizerControllerProxy) RegisterTaskOrganizer(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -100,6 +113,7 @@ func (p *TaskOrganizerControllerProxy) UnregisterTaskOrganizer(
 	organizer ITaskOrganizer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
 	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 
@@ -129,6 +143,7 @@ func (p *TaskOrganizerControllerProxy) CreateRootTask(
 	removeWithTaskOrganizer bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(windowingMode)
@@ -159,6 +174,7 @@ func (p *TaskOrganizerControllerProxy) DeleteRootTask(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
 	_data.WriteInt32(1)
 	if _err := task.MarshalParcel(_data); _err != nil {
@@ -191,9 +207,10 @@ func (p *TaskOrganizerControllerProxy) GetChildTasks(
 	ctx context.Context,
 	parent WindowContainerToken,
 	activityTypes []int32,
-) ([]app.ActivityManagerRunningTaskInfo, error) {
-	var _result []app.ActivityManagerRunningTaskInfo
+) ([]appTypes.ActivityManagerRunningTaskInfo, error) {
+	var _result []appTypes.ActivityManagerRunningTaskInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
 	_data.WriteInt32(1)
 	if _err := parent.MarshalParcel(_data); _err != nil {
@@ -227,16 +244,21 @@ func (p *TaskOrganizerControllerProxy) GetChildTasks(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]app.ActivityManagerRunningTaskInfo, _count)
+		_result = make([]appTypes.ActivityManagerRunningTaskInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
 			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			if _err != nil {
 				return _result, _err
 			}
+			parcel.SkipToParcelableEnd(_reply, _endPos)
 		}
 	}
 	return _result, nil
@@ -246,9 +268,10 @@ func (p *TaskOrganizerControllerProxy) GetRootTasks(
 	ctx context.Context,
 	displayId int32,
 	activityTypes []int32,
-) ([]app.ActivityManagerRunningTaskInfo, error) {
-	var _result []app.ActivityManagerRunningTaskInfo
+) ([]appTypes.ActivityManagerRunningTaskInfo, error) {
+	var _result []appTypes.ActivityManagerRunningTaskInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
 	_data.WriteInt32(displayId)
 	if activityTypes == nil {
@@ -279,16 +302,21 @@ func (p *TaskOrganizerControllerProxy) GetRootTasks(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]app.ActivityManagerRunningTaskInfo, _count)
+		_result = make([]appTypes.ActivityManagerRunningTaskInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
 			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			if _err != nil {
 				return _result, _err
 			}
+			parcel.SkipToParcelableEnd(_reply, _endPos)
 		}
 	}
 	return _result, nil
@@ -300,6 +328,7 @@ func (p *TaskOrganizerControllerProxy) GetImeTarget(
 ) (WindowContainerToken, error) {
 	var _result WindowContainerToken
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
 	_data.WriteInt32(display)
 
@@ -336,6 +365,7 @@ func (p *TaskOrganizerControllerProxy) SetInterceptBackPressedOnTaskRoot(
 	interceptBackPressed bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
 	_data.WriteInt32(1)
 	if _err := task.MarshalParcel(_data); _err != nil {
@@ -366,6 +396,7 @@ func (p *TaskOrganizerControllerProxy) RestartTaskTopActivityProcessIfVisible(
 	task WindowContainerToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
 	_data.WriteInt32(1)
 	if _err := task.MarshalParcel(_data); _err != nil {
@@ -396,6 +427,7 @@ func (p *TaskOrganizerControllerProxy) UpdateCameraCompatControlState(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
 	_data.WriteInt32(1)
 	if _err := task.MarshalParcel(_data); _err != nil {
@@ -424,7 +456,8 @@ func (p *TaskOrganizerControllerProxy) UpdateCameraCompatControlState(
 // TaskOrganizerControllerStub dispatches incoming binder transactions
 // to a typed ITaskOrganizerController implementation.
 type TaskOrganizerControllerStub struct {
-	Impl ITaskOrganizerController
+	Impl      ITaskOrganizerController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TaskOrganizerControllerStub)(nil)
@@ -438,14 +471,20 @@ func (s *TaskOrganizerControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITaskOrganizerControllerRegisterTaskOrganizer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_organizer ITaskOrganizer
-		_ = _arg_organizer
+		{
+			_organizerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_organizer = NewTaskOrganizerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _organizerHandle))
+		}
 		_result, _err := s.Impl.RegisterTaskOrganizer(ctx, _arg_organizer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -456,12 +495,14 @@ func (s *TaskOrganizerControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITaskOrganizerControllerUnregisterTaskOrganizer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_organizer ITaskOrganizer
-		_ = _arg_organizer
+		{
+			_organizerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_organizer = NewTaskOrganizerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _organizerHandle))
+		}
 		_err := s.Impl.UnregisterTaskOrganizer(ctx, _arg_organizer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -471,9 +512,6 @@ func (s *TaskOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITaskOrganizerControllerCreateRootTask:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -482,9 +520,14 @@ func (s *TaskOrganizerControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_launchCookie binder.IBinder
-		_ = _arg_launchCookie
+		{
+			_launchCookieHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_launchCookie = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _launchCookieHandle)
+		}
 		_arg_removeWithTaskOrganizer, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -498,9 +541,6 @@ func (s *TaskOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITaskOrganizerControllerDeleteRootTask:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_task WindowContainerToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -523,9 +563,6 @@ func (s *TaskOrganizerControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITaskOrganizerControllerGetChildTasks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_parent WindowContainerToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -538,9 +575,25 @@ func (s *TaskOrganizerControllerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_activityTypes []int32
-		_ = _arg_activityTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_activityTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_activityTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetChildTasks(ctx, _arg_parent, _arg_activityTypes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -548,20 +601,36 @@ func (s *TaskOrganizerControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	case TransactionITaskOrganizerControllerGetRootTasks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_activityTypes []int32
-		_ = _arg_activityTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_activityTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_activityTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetRootTasks(ctx, _arg_displayId, _arg_activityTypes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -569,13 +638,13 @@ func (s *TaskOrganizerControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	case TransactionITaskOrganizerControllerGetImeTarget:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -593,9 +662,6 @@ func (s *TaskOrganizerControllerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITaskOrganizerControllerSetInterceptBackPressedOnTaskRoot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_task WindowContainerToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -621,9 +687,6 @@ func (s *TaskOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITaskOrganizerControllerRestartTaskTopActivityProcessIfVisible:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_task WindowContainerToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -645,9 +708,6 @@ func (s *TaskOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITaskOrganizerControllerUpdateCameraCompatControlState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_task WindowContainerToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -681,12 +741,12 @@ func (s *TaskOrganizerControllerStub) OnTransaction(
 // provide to NewTaskOrganizerControllerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ITaskOrganizerControllerServer interface {
-	RegisterTaskOrganizer(ctx context.Context, organizer ITaskOrganizer) (interface{}, error)
+	RegisterTaskOrganizer(ctx context.Context, organizer ITaskOrganizer) (types.ParceledListSlice, error)
 	UnregisterTaskOrganizer(ctx context.Context, organizer ITaskOrganizer) error
 	CreateRootTask(ctx context.Context, displayId int32, windowingMode int32, launchCookie binder.IBinder, removeWithTaskOrganizer bool) error
 	DeleteRootTask(ctx context.Context, task WindowContainerToken) (bool, error)
-	GetChildTasks(ctx context.Context, parent WindowContainerToken, activityTypes []int32) ([]app.ActivityManagerRunningTaskInfo, error)
-	GetRootTasks(ctx context.Context, displayId int32, activityTypes []int32) ([]app.ActivityManagerRunningTaskInfo, error)
+	GetChildTasks(ctx context.Context, parent WindowContainerToken, activityTypes []int32) ([]appTypes.ActivityManagerRunningTaskInfo, error)
+	GetRootTasks(ctx context.Context, displayId int32, activityTypes []int32) ([]appTypes.ActivityManagerRunningTaskInfo, error)
 	GetImeTarget(ctx context.Context, display int32) (WindowContainerToken, error)
 	SetInterceptBackPressedOnTaskRoot(ctx context.Context, task WindowContainerToken, interceptBackPressed bool) error
 	RestartTaskTopActivityProcessIfVisible(ctx context.Context, task WindowContainerToken) error
@@ -705,7 +765,7 @@ func (w *taskOrganizerControllerStubWrapper) AsBinder() binder.IBinder {
 func (w *taskOrganizerControllerStubWrapper) RegisterTaskOrganizer(
 	ctx context.Context,
 	organizer ITaskOrganizer,
-) (interface{}, error) {
+) (types.ParceledListSlice, error) {
 	return w.impl.RegisterTaskOrganizer(ctx, organizer)
 }
 
@@ -737,7 +797,7 @@ func (w *taskOrganizerControllerStubWrapper) GetChildTasks(
 	ctx context.Context,
 	parent WindowContainerToken,
 	activityTypes []int32,
-) ([]app.ActivityManagerRunningTaskInfo, error) {
+) ([]appTypes.ActivityManagerRunningTaskInfo, error) {
 	return w.impl.GetChildTasks(ctx, parent, activityTypes)
 }
 
@@ -745,7 +805,7 @@ func (w *taskOrganizerControllerStubWrapper) GetRootTasks(
 	ctx context.Context,
 	displayId int32,
 	activityTypes []int32,
-) ([]app.ActivityManagerRunningTaskInfo, error) {
+) ([]appTypes.ActivityManagerRunningTaskInfo, error) {
 	return w.impl.GetRootTasks(ctx, displayId, activityTypes)
 }
 

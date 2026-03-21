@@ -48,6 +48,7 @@ func (p *ServiceConnectionProxy) Connected(
 	dead bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceConnection)
 	_data.WriteInt32(1)
 	if _err := name.MarshalParcel(_data); _err != nil {
@@ -68,7 +69,8 @@ func (p *ServiceConnectionProxy) Connected(
 // ServiceConnectionStub dispatches incoming binder transactions
 // to a typed IServiceConnection implementation.
 type ServiceConnectionStub struct {
-	Impl IServiceConnection
+	Impl      IServiceConnection
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ServiceConnectionStub)(nil)
@@ -82,11 +84,12 @@ func (s *ServiceConnectionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIServiceConnectionConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_name content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -99,16 +102,20 @@ func (s *ServiceConnectionStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_service binder.IBinder
-		_ = _arg_service
+		{
+			_serviceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_service = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _serviceHandle)
+		}
 		_arg_dead, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Connected(ctx, _arg_name, _arg_service, _arg_dead)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

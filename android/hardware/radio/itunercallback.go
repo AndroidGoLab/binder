@@ -81,6 +81,7 @@ func (p *TunerCallbackProxy) OnError(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteInt32(status)
 
@@ -99,6 +100,7 @@ func (p *TunerCallbackProxy) OnTuneFailed(
 	selector ProgramSelector,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteInt32(result)
 	_data.WriteInt32(1)
@@ -120,6 +122,7 @@ func (p *TunerCallbackProxy) OnConfigurationChanged(
 	config RadioManagerBandConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -140,6 +143,7 @@ func (p *TunerCallbackProxy) OnCurrentProgramInfoChanged(
 	info RadioManagerProgramInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -160,6 +164,7 @@ func (p *TunerCallbackProxy) OnTrafficAnnouncement(
 	active bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteBool(active)
 
@@ -177,6 +182,7 @@ func (p *TunerCallbackProxy) OnEmergencyAnnouncement(
 	active bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteBool(active)
 
@@ -194,6 +200,7 @@ func (p *TunerCallbackProxy) OnAntennaState(
 	connected bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteBool(connected)
 
@@ -211,6 +218,7 @@ func (p *TunerCallbackProxy) OnBackgroundScanAvailabilityChange(
 	isAvailable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteBool(isAvailable)
 
@@ -227,6 +235,7 @@ func (p *TunerCallbackProxy) OnBackgroundScanComplete(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnBackgroundScanComplete)
@@ -242,6 +251,7 @@ func (p *TunerCallbackProxy) OnProgramListChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerCallback, MethodITunerCallbackOnProgramListChanged)
@@ -258,6 +268,7 @@ func (p *TunerCallbackProxy) OnProgramListUpdated(
 	chunk ProgramListChunk,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteInt32(1)
 	if _err := chunk.MarshalParcel(_data); _err != nil {
@@ -279,6 +290,7 @@ func (p *TunerCallbackProxy) OnConfigFlagUpdated(
 	value bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteInt32(flag)
 	_data.WriteBool(value)
@@ -297,6 +309,7 @@ func (p *TunerCallbackProxy) OnParametersUpdated(
 	parameters map[string]string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	if parameters == nil {
 		_data.WriteInt32(-1)
@@ -320,7 +333,8 @@ func (p *TunerCallbackProxy) OnParametersUpdated(
 // TunerCallbackStub dispatches incoming binder transactions
 // to a typed ITunerCallback implementation.
 type TunerCallbackStub struct {
-	Impl ITunerCallback
+	Impl      ITunerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TunerCallbackStub)(nil)
@@ -334,22 +348,19 @@ func (s *TunerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITunerCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnTuneFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -367,12 +378,8 @@ func (s *TunerCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnTuneFailed(ctx, _arg_result, _arg_selector)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnConfigurationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config RadioManagerBandConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -386,12 +393,8 @@ func (s *TunerCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnConfigurationChanged(ctx, _arg_config)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnCurrentProgramInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info RadioManagerProgramInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -405,70 +408,42 @@ func (s *TunerCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnCurrentProgramInfoChanged(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnTrafficAnnouncement:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTrafficAnnouncement(ctx, _arg_active)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnEmergencyAnnouncement:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnEmergencyAnnouncement(ctx, _arg_active)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnAntennaState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_connected, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAntennaState(ctx, _arg_connected)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnBackgroundScanAvailabilityChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isAvailable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnBackgroundScanAvailabilityChange(ctx, _arg_isAvailable)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnBackgroundScanComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnBackgroundScanComplete(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnProgramListChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnProgramListChanged(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnProgramListUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_chunk ProgramListChunk
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -482,12 +457,8 @@ func (s *TunerCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnProgramListUpdated(ctx, _arg_chunk)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnConfigFlagUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -497,18 +468,31 @@ func (s *TunerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnConfigFlagUpdated(ctx, _arg_flag, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnParametersUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: map param unmarshaling not yet supported in stubs
 		var _arg_parameters map[string]string
-		_ = _arg_parameters
+		{
+			_mapCount, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _mapCount >= 0 {
+				_arg_parameters = make(map[string]string, _mapCount)
+				for _mi := int32(0); _mi < _mapCount; _mi++ {
+					_mk, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_mv, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_parameters[_mk] = _mv
+				}
+			}
+		}
 		_err := s.Impl.OnParametersUpdated(ctx, _arg_parameters)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

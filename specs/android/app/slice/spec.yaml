@@ -1,0 +1,182 @@
+package: android.app.slice
+go_package: android/app/slice
+interfaces:
+    - name: ISliceListener
+      descriptor: android.app.slice.ISliceListener
+      oneway: true
+      methods:
+        - name: onSliceUpdated
+          transaction_code_offset: 0
+          params:
+            - name: s
+              type:
+                name: Slice
+              direction: in
+          return_type:
+            name: void
+    - name: ISliceManager
+      descriptor: android.app.slice.ISliceManager
+      methods:
+        - name: pinSlice
+          transaction_code_offset: 0
+          params:
+            - name: pkg
+              type:
+                name: String
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+            - name: specs
+              type:
+                name: SliceSpec
+                is_array: true
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: unpinSlice
+          transaction_code_offset: 1
+          params:
+            - name: pkg
+              type:
+                name: String
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: hasSliceAccess
+          transaction_code_offset: 2
+          params:
+            - name: pkg
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getPinnedSpecs
+          transaction_code_offset: 3
+          params:
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+            - name: pkg
+              type:
+                name: String
+          return_type:
+            name: SliceSpec
+            is_array: true
+        - name: getPinnedSlices
+          transaction_code_offset: 4
+          params:
+            - name: pkg
+              type:
+                name: String
+          return_type:
+            name: Uri
+            is_array: true
+        - name: getBackupPayload
+          transaction_code_offset: 5
+          params:
+            - name: user
+              type:
+                name: int
+          return_type:
+            name: byte
+            is_array: true
+        - name: applyRestore
+          transaction_code_offset: 6
+          params:
+            - name: payload
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: user
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: grantSlicePermission
+          transaction_code_offset: 7
+          params:
+            - name: callingPkg
+              type:
+                name: String
+            - name: toPkg
+              type:
+                name: String
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+          return_type:
+            name: void
+        - name: revokeSlicePermission
+          transaction_code_offset: 8
+          params:
+            - name: callingPkg
+              type:
+                name: String
+            - name: toPkg
+              type:
+                name: String
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+          return_type:
+            name: void
+        - name: checkSlicePermission
+          transaction_code_offset: 9
+          params:
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+            - name: callingPkg
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: autoGrantPermissions
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: int
+        - name: grantPermissionFromUser
+          transaction_code_offset: 10
+          params:
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+            - name: pkg
+              type:
+                name: String
+            - name: callingPkg
+              type:
+                name: String
+            - name: allSlices
+              type:
+                name: boolean
+          return_type:
+            name: void
+parcelables:
+    - name: Slice
+    - name: SliceSpec

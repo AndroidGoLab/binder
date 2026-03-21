@@ -45,6 +45,7 @@ func (p *GnssMeasurementCallbackProxy) GnssMeasurementCb(
 	data GnssData,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssMeasurementCallback)
 	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
@@ -72,7 +73,8 @@ func (p *GnssMeasurementCallbackProxy) GnssMeasurementCb(
 // GnssMeasurementCallbackStub dispatches incoming binder transactions
 // to a typed IGnssMeasurementCallback implementation.
 type GnssMeasurementCallbackStub struct {
-	Impl IGnssMeasurementCallback
+	Impl      IGnssMeasurementCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssMeasurementCallbackStub)(nil)
@@ -86,11 +88,12 @@ func (s *GnssMeasurementCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssMeasurementCallbackGnssMeasurementCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_data GnssData
 		{
 			_nullInd, _err := _data.ReadInt32()

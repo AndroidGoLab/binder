@@ -33,8 +33,7 @@ func (u *PortRole) GetPowerRole() (PortPowerRole, bool) {
 func (u *PortRole) SetPowerRole(
 	v PortPowerRole,
 ) {
-	u.Tag = PortRoleTagPowerRole
-	u.PowerRole = v
+	*u = PortRole{Tag: PortRoleTagPowerRole, PowerRole: v}
 }
 
 func (u *PortRole) GetDataRole() (PortDataRole, bool) {
@@ -48,8 +47,7 @@ func (u *PortRole) GetDataRole() (PortDataRole, bool) {
 func (u *PortRole) SetDataRole(
 	v PortDataRole,
 ) {
-	u.Tag = PortRoleTagDataRole
-	u.DataRole = v
+	*u = PortRole{Tag: PortRoleTagDataRole, DataRole: v}
 }
 
 func (u *PortRole) GetMode() (PortMode, bool) {
@@ -63,8 +61,7 @@ func (u *PortRole) GetMode() (PortMode, bool) {
 func (u *PortRole) SetMode(
 	v PortMode,
 ) {
-	u.Tag = PortRoleTagMode
-	u.Mode = v
+	*u = PortRole{Tag: PortRoleTagMode, Mode: v}
 }
 
 func (u *PortRole) MarshalParcel(

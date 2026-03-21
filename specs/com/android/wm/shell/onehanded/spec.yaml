@@ -1,0 +1,16 @@
+package: com.android.wm.shell.onehanded
+go_package: com/android/wm/shell/onehanded
+interfaces:
+    - name: IOneHanded
+      descriptor: com.android.wm.shell.onehanded.IOneHanded
+      methods:
+        - name: startOneHanded
+          transaction_code_offset: 0
+          oneway: true
+          return_type:
+            name: void
+        - name: stopOneHanded
+          transaction_code_offset: 1
+          oneway: true
+          return_type:
+            name: void

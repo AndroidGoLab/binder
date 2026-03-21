@@ -1,6 +1,7 @@
 package media
 
 import (
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,7 +11,7 @@ type GetInputForAttrResponse struct {
 	Input            int32
 	SelectedDeviceId int32
 	PortId           int32
-	Config           interface{}
+	Config           common.AudioConfigBase
 }
 
 var _ parcel.Parcelable = (*GetInputForAttrResponse)(nil)
@@ -22,6 +23,9 @@ func (s *GetInputForAttrResponse) MarshalParcel(
 	p.WriteInt32(s.Input)
 	p.WriteInt32(s.SelectedDeviceId)
 	p.WriteInt32(s.PortId)
+	if _err := s.Config.MarshalParcel(p); _err != nil {
+		return _err
+	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -35,9 +39,19 @@ func (s *GetInputForAttrResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Input, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SelectedDeviceId, _err = p.ReadInt32()
@@ -45,8 +59,22 @@ func (s *GetInputForAttrResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PortId, _err = p.ReadInt32()
 	if _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.Config.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

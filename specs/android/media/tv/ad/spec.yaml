@@ -1,0 +1,810 @@
+package: android.media.tv.ad
+go_package: android/media/tv/ad
+interfaces:
+    - name: ITvAdClient
+      descriptor: android.media.tv.ad.ITvAdClient
+      oneway: true
+      methods:
+        - name: onSessionCreated
+          transaction_code_offset: 0
+          params:
+            - name: serviceId
+              type:
+                name: String
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+            - name: channel
+              type:
+                name: InputChannel
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSessionReleased
+          transaction_code_offset: 1
+          params:
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onLayoutSurface
+          transaction_code_offset: 2
+          params:
+            - name: left
+              type:
+                name: int
+            - name: top
+              type:
+                name: int
+            - name: right
+              type:
+                name: int
+            - name: bottom
+              type:
+                name: int
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestCurrentVideoBounds
+          transaction_code_offset: 3
+          params:
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestCurrentChannelUri
+          transaction_code_offset: 4
+          params:
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestTrackInfoList
+          transaction_code_offset: 5
+          params:
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestCurrentTvInputId
+          transaction_code_offset: 6
+          params:
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestSigning
+          transaction_code_offset: 7
+          params:
+            - name: id
+              type:
+                name: String
+              direction: in
+            - name: algorithm
+              type:
+                name: String
+              direction: in
+            - name: alias
+              type:
+                name: String
+              direction: in
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onTvAdSessionData
+          transaction_code_offset: 8
+          params:
+            - name: type
+              type:
+                name: String
+              direction: in
+            - name: data
+              type:
+                name: Bundle
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ITvAdManager
+      descriptor: android.media.tv.ad.ITvAdManager
+      methods:
+        - name: getTvAdServiceList
+          transaction_code_offset: 0
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: TvAdServiceInfo
+        - name: sendAppLinkCommand
+          transaction_code_offset: 1
+          params:
+            - name: serviceId
+              type:
+                name: String
+            - name: command
+              type:
+                name: Bundle
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: createSession
+          transaction_code_offset: 2
+          params:
+            - name: client
+              type:
+                name: ITvAdClient
+              direction: in
+            - name: serviceId
+              type:
+                name: String
+              direction: in
+            - name: type
+              type:
+                name: String
+              direction: in
+            - name: seq
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: releaseSession
+          transaction_code_offset: 3
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: startAdService
+          transaction_code_offset: 4
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: stopAdService
+          transaction_code_offset: 5
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: resetAdService
+          transaction_code_offset: 6
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setSurface
+          transaction_code_offset: 7
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: surface
+              type:
+                name: Surface
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: dispatchSurfaceChanged
+          transaction_code_offset: 8
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: format
+              type:
+                name: int
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendCurrentVideoBounds
+          transaction_code_offset: 9
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: bounds
+              type:
+                name: Rect
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendCurrentChannelUri
+          transaction_code_offset: 10
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: channelUri
+              type:
+                name: Uri
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendTrackInfoList
+          transaction_code_offset: 11
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: tracks
+              type:
+                name: List
+                type_args:
+                    - name: TvTrackInfo
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendCurrentTvInputId
+          transaction_code_offset: 12
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: inputId
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendSigningResult
+          transaction_code_offset: 13
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: signingId
+              type:
+                name: String
+              direction: in
+            - name: result
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyError
+          transaction_code_offset: 14
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: errMsg
+              type:
+                name: String
+              direction: in
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyTvMessage
+          transaction_code_offset: 15
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: type
+              type:
+                name: int
+              direction: in
+            - name: data
+              type:
+                name: Bundle
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: registerCallback
+          transaction_code_offset: 16
+          params:
+            - name: callback
+              type:
+                name: ITvAdManagerCallback
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: unregisterCallback
+          transaction_code_offset: 17
+          params:
+            - name: callback
+              type:
+                name: ITvAdManagerCallback
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: createMediaView
+          transaction_code_offset: 18
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: windowToken
+              type:
+                name: IBinder
+              direction: in
+            - name: frame
+              type:
+                name: Rect
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: relayoutMediaView
+          transaction_code_offset: 19
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: frame
+              type:
+                name: Rect
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removeMediaView
+          transaction_code_offset: 20
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyTvInputSessionData
+          transaction_code_offset: 21
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: type
+              type:
+                name: String
+              direction: in
+            - name: data
+              type:
+                name: Bundle
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ITvAdManagerCallback
+      descriptor: android.media.tv.ad.ITvAdManagerCallback
+      oneway: true
+      methods:
+        - name: onAdServiceAdded
+          transaction_code_offset: 0
+          params:
+            - name: serviceId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onAdServiceRemoved
+          transaction_code_offset: 1
+          params:
+            - name: serviceId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onAdServiceUpdated
+          transaction_code_offset: 2
+          params:
+            - name: serviceId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+    - name: ITvAdService
+      descriptor: android.media.tv.ad.ITvAdService
+      oneway: true
+      methods:
+        - name: registerCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: ITvAdServiceCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterCallback
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: ITvAdServiceCallback
+              direction: in
+          return_type:
+            name: void
+        - name: createSession
+          transaction_code_offset: 2
+          params:
+            - name: channel
+              type:
+                name: InputChannel
+              direction: in
+            - name: callback
+              type:
+                name: ITvAdSessionCallback
+              direction: in
+            - name: serviceId
+              type:
+                name: String
+              direction: in
+            - name: type
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: sendAppLinkCommand
+          transaction_code_offset: 3
+          params:
+            - name: command
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+    - name: ITvAdServiceCallback
+      descriptor: android.media.tv.ad.ITvAdServiceCallback
+      oneway: true
+    - name: ITvAdSession
+      descriptor: android.media.tv.ad.ITvAdSession
+      oneway: true
+      methods:
+        - name: release
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: startAdService
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: stopAdService
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: resetAdService
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: setSurface
+          transaction_code_offset: 4
+          params:
+            - name: surface
+              type:
+                name: Surface
+              direction: in
+          return_type:
+            name: void
+        - name: dispatchSurfaceChanged
+          transaction_code_offset: 5
+          params:
+            - name: format
+              type:
+                name: int
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendCurrentVideoBounds
+          transaction_code_offset: 6
+          params:
+            - name: bounds
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: sendCurrentChannelUri
+          transaction_code_offset: 7
+          params:
+            - name: channelUri
+              type:
+                name: Uri
+              direction: in
+          return_type:
+            name: void
+        - name: sendTrackInfoList
+          transaction_code_offset: 8
+          params:
+            - name: tracks
+              type:
+                name: List
+                type_args:
+                    - name: TvTrackInfo
+              direction: in
+          return_type:
+            name: void
+        - name: sendCurrentTvInputId
+          transaction_code_offset: 9
+          params:
+            - name: inputId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: sendSigningResult
+          transaction_code_offset: 10
+          params:
+            - name: signingId
+              type:
+                name: String
+              direction: in
+            - name: result
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: notifyError
+          transaction_code_offset: 11
+          params:
+            - name: errMsg
+              type:
+                name: String
+              direction: in
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: notifyTvMessage
+          transaction_code_offset: 12
+          params:
+            - name: type
+              type:
+                name: int
+            - name: data
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: createMediaView
+          transaction_code_offset: 13
+          params:
+            - name: windowToken
+              type:
+                name: IBinder
+              direction: in
+            - name: frame
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: relayoutMediaView
+          transaction_code_offset: 14
+          params:
+            - name: frame
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: removeMediaView
+          transaction_code_offset: 15
+          return_type:
+            name: void
+        - name: notifyTvInputSessionData
+          transaction_code_offset: 16
+          params:
+            - name: type
+              type:
+                name: String
+              direction: in
+            - name: data
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+    - name: ITvAdSessionCallback
+      descriptor: android.media.tv.ad.ITvAdSessionCallback
+      oneway: true
+      methods:
+        - name: onSessionCreated
+          transaction_code_offset: 0
+          params:
+            - name: session
+              type:
+                name: ITvAdSession
+              direction: in
+          return_type:
+            name: void
+        - name: onLayoutSurface
+          transaction_code_offset: 1
+          params:
+            - name: left
+              type:
+                name: int
+            - name: top
+              type:
+                name: int
+            - name: right
+              type:
+                name: int
+            - name: bottom
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestCurrentVideoBounds
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onRequestCurrentChannelUri
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: onRequestTrackInfoList
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: onRequestCurrentTvInputId
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: onRequestSigning
+          transaction_code_offset: 6
+          params:
+            - name: id
+              type:
+                name: String
+              direction: in
+            - name: algorithm
+              type:
+                name: String
+              direction: in
+            - name: alias
+              type:
+                name: String
+              direction: in
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onTvAdSessionData
+          transaction_code_offset: 7
+          params:
+            - name: type
+              type:
+                name: String
+              direction: in
+            - name: data
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: TvAdServiceInfo

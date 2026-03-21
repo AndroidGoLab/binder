@@ -1,0 +1,97 @@
+package: com.android.systemui.shared.system.smartspace
+go_package: com/android/systemui/shared/system/smartspace
+interfaces:
+    - name: ILauncherUnlockAnimationController
+      descriptor: com.android.systemui.shared.system.smartspace.ILauncherUnlockAnimationController
+      methods:
+        - name: prepareForUnlock
+          transaction_code_offset: 0
+          params:
+            - name: animateSmartspace
+              type:
+                name: boolean
+            - name: lockscreenSmartspaceBounds
+              type:
+                name: Rect
+              direction: in
+            - name: selectedPage
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setUnlockAmount
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: amount
+              type:
+                name: float
+            - name: forceIfAnimating
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: playUnlockAnimation
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: unlocked
+              type:
+                name: boolean
+            - name: duration
+              type:
+                name: long
+            - name: startDelay
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: setSmartspaceSelectedPage
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: selectedPage
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setSmartspaceVisibility
+          transaction_code_offset: 4
+          params:
+            - name: visibility
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: dispatchSmartspaceStateToSysui
+          transaction_code_offset: 5
+          oneway: true
+          return_type:
+            name: void
+    - name: ISysuiUnlockAnimationController
+      descriptor: com.android.systemui.shared.system.smartspace.ISysuiUnlockAnimationController
+      methods:
+        - name: setLauncherUnlockController
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: activityClass
+              type:
+                name: String
+            - name: callback
+              type:
+                name: ILauncherUnlockAnimationController
+          return_type:
+            name: void
+        - name: onLauncherSmartspaceStateUpdated
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: state
+              type:
+                name: SmartspaceState
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: SmartspaceState

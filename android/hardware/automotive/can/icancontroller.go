@@ -54,6 +54,7 @@ func (p *CanControllerProxy) GetSupportedInterfaceTypes(
 ) ([]InterfaceType, error) {
 	var _result []InterfaceType
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICanController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICanController, MethodICanControllerGetSupportedInterfaceTypes)
@@ -75,6 +76,9 @@ func (p *CanControllerProxy) GetSupportedInterfaceTypes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]InterfaceType, _count)
@@ -95,6 +99,7 @@ func (p *CanControllerProxy) GetInterfaceName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICanController)
 	_data.WriteString16(busName)
 
@@ -126,6 +131,7 @@ func (p *CanControllerProxy) UpBus(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICanController)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -159,6 +165,7 @@ func (p *CanControllerProxy) DownBus(
 	name string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICanController)
 	_data.WriteString16(name)
 
@@ -183,7 +190,8 @@ func (p *CanControllerProxy) DownBus(
 // CanControllerStub dispatches incoming binder transactions
 // to a typed ICanController implementation.
 type CanControllerStub struct {
-	Impl ICanController
+	Impl      ICanController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CanControllerStub)(nil)
@@ -197,11 +205,12 @@ func (s *CanControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICanControllerGetSupportedInterfaceTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedInterfaceTypes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -209,13 +218,16 @@ func (s *CanControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WritePaddedByte(byte(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionICanControllerGetInterfaceName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_busName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -230,9 +242,6 @@ func (s *CanControllerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionICanControllerUpBus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config BusConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -255,9 +264,6 @@ func (s *CanControllerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionICanControllerDownBus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

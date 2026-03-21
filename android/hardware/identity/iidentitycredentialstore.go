@@ -74,6 +74,7 @@ func (p *IdentityCredentialStoreProxy) GetHardwareInformation(
 ) (HardwareInformation, error) {
 	var _result HardwareInformation
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredentialStore)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreGetHardwareInformation)
@@ -110,6 +111,7 @@ func (p *IdentityCredentialStoreProxy) CreateCredential(
 ) (IWritableIdentityCredential, error) {
 	var _result IWritableIdentityCredential
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredentialStore)
 	_data.WriteString16(docType)
 	_data.WriteBool(testCredential)
@@ -144,16 +146,10 @@ func (p *IdentityCredentialStoreProxy) GetCredential(
 ) (IIdentityCredential, error) {
 	var _result IIdentityCredential
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredentialStore)
 	_data.WriteInt32(int32(cipherSuite))
-	if credentialData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(credentialData)))
-		for _, _item := range credentialData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(credentialData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreGetCredential)
 	if _err != nil {
@@ -184,6 +180,7 @@ func (p *IdentityCredentialStoreProxy) CreatePresentationSession(
 ) (IPresentationSession, error) {
 	var _result IPresentationSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredentialStore)
 	_data.WriteInt32(int32(cipherSuite))
 
@@ -215,6 +212,7 @@ func (p *IdentityCredentialStoreProxy) GetRemotelyProvisionedComponent(
 ) (keymint.IRemotelyProvisionedComponent, error) {
 	var _result keymint.IRemotelyProvisionedComponent
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredentialStore)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreGetRemotelyProvisionedComponent)
@@ -243,7 +241,8 @@ func (p *IdentityCredentialStoreProxy) GetRemotelyProvisionedComponent(
 // IdentityCredentialStoreStub dispatches incoming binder transactions
 // to a typed IIdentityCredentialStore implementation.
 type IdentityCredentialStoreStub struct {
-	Impl IIdentityCredentialStore
+	Impl      IIdentityCredentialStore
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*IdentityCredentialStoreStub)(nil)
@@ -257,11 +256,12 @@ func (s *IdentityCredentialStoreStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIIdentityCredentialStoreGetHardwareInformation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHardwareInformation(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -275,9 +275,6 @@ func (s *IdentityCredentialStoreStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIIdentityCredentialStoreCreateCredential:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_docType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -293,21 +290,22 @@ func (s *IdentityCredentialStoreStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIIdentityCredentialStoreGetCredential:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_cipherSuite, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cipherSuite := CipherSuite(_raw_cipherSuite)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_credentialData []byte
-		_ = _arg_credentialData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_credentialData = _bytes
+		}
 		_result, _err := s.Impl.GetCredential(ctx, _arg_cipherSuite, _arg_credentialData)
 		_reply := parcel.New()
 		if _err != nil {
@@ -315,13 +313,9 @@ func (s *IdentityCredentialStoreStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIIdentityCredentialStoreCreatePresentationSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_cipherSuite, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -334,13 +328,9 @@ func (s *IdentityCredentialStoreStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIIdentityCredentialStoreGetRemotelyProvisionedComponent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRemotelyProvisionedComponent(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -348,8 +338,7 @@ func (s *IdentityCredentialStoreStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

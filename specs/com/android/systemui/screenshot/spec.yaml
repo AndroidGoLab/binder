@@ -1,0 +1,45 @@
+package: com.android.systemui.screenshot
+go_package: com/android/systemui/screenshot
+interfaces:
+    - name: ICrossProfileService
+      descriptor: com.android.systemui.screenshot.ICrossProfileService
+      methods:
+        - name: launchIntent
+          transaction_code_offset: 0
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: bundle
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+    - name: IOnDoneCallback
+      descriptor: com.android.systemui.screenshot.IOnDoneCallback
+      methods:
+        - name: onDone
+          transaction_code_offset: 0
+          params:
+            - name: success
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IScreenshotProxy
+      descriptor: com.android.systemui.screenshot.IScreenshotProxy
+      methods:
+        - name: isNotificationShadeExpanded
+          transaction_code_offset: 0
+          return_type:
+            name: boolean
+        - name: dismissKeyguard
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IOnDoneCallback
+          return_type:
+            name: void

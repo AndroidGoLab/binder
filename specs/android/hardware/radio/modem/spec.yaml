@@ -1,0 +1,826 @@
+package: android.hardware.radio.modem
+go_package: android/hardware/radio/modem
+interfaces:
+    - name: IRadioModem
+      descriptor: android.hardware.radio.modem.IRadioModem
+      oneway: true
+      methods:
+        - name: enableModem
+          transaction_code_offset: 0
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: "on"
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: getBasebandVersion
+          transaction_code_offset: 1
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getDeviceIdentity
+          transaction_code_offset: 2
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getHardwareConfig
+          transaction_code_offset: 3
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getModemActivityInfo
+          transaction_code_offset: 4
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getModemStackStatus
+          transaction_code_offset: 5
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getRadioCapability
+          transaction_code_offset: 6
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: nvReadItem
+          transaction_code_offset: 7
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: itemId
+              type:
+                name: NvItem
+              direction: in
+          return_type:
+            name: void
+        - name: nvResetConfig
+          transaction_code_offset: 8
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: resetType
+              type:
+                name: ResetNvType
+              direction: in
+          return_type:
+            name: void
+        - name: nvWriteCdmaPrl
+          transaction_code_offset: 9
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: prl
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: nvWriteItem
+          transaction_code_offset: 10
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: item
+              type:
+                name: NvWriteItem
+              direction: in
+          return_type:
+            name: void
+        - name: requestShutdown
+          transaction_code_offset: 11
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: responseAcknowledgement
+          transaction_code_offset: 12
+          return_type:
+            name: void
+        - name: sendDeviceState
+          transaction_code_offset: 13
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: deviceStateType
+              type:
+                name: DeviceStateType
+              direction: in
+            - name: state
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setRadioCapability
+          transaction_code_offset: 14
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: rc
+              type:
+                name: RadioCapability
+              direction: in
+          return_type:
+            name: void
+        - name: setRadioPower
+          transaction_code_offset: 15
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: powerOn
+              type:
+                name: boolean
+              direction: in
+            - name: forEmergencyCall
+              type:
+                name: boolean
+              direction: in
+            - name: preferredForEmergencyCall
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setResponseFunctions
+          transaction_code_offset: 16
+          params:
+            - name: radioModemResponse
+              type:
+                name: IRadioModemResponse
+              direction: in
+            - name: radioModemIndication
+              type:
+                name: IRadioModemIndication
+              direction: in
+          return_type:
+            name: void
+        - name: getImei
+          transaction_code_offset: 17
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IRadioModemIndication
+      descriptor: android.hardware.radio.modem.IRadioModemIndication
+      oneway: true
+      methods:
+        - name: hardwareConfigChanged
+          transaction_code_offset: 0
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: configs
+              type:
+                name: HardwareConfig
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: modemReset
+          transaction_code_offset: 1
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: reason
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: radioCapabilityIndication
+          transaction_code_offset: 2
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: rc
+              type:
+                name: RadioCapability
+              direction: in
+          return_type:
+            name: void
+        - name: radioStateChanged
+          transaction_code_offset: 3
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: radioState
+              type:
+                name: RadioState
+              direction: in
+          return_type:
+            name: void
+        - name: rilConnected
+          transaction_code_offset: 4
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+          return_type:
+            name: void
+        - name: onImeiMappingChanged
+          transaction_code_offset: 5
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: imeiInfo
+              type:
+                name: ImeiInfo
+              direction: in
+          return_type:
+            name: void
+    - name: IRadioModemResponse
+      descriptor: android.hardware.radio.modem.IRadioModemResponse
+      oneway: true
+      methods:
+        - name: acknowledgeRequest
+          transaction_code_offset: 0
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: enableModemResponse
+          transaction_code_offset: 1
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: getBasebandVersionResponse
+          transaction_code_offset: 2
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: version
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getDeviceIdentityResponse
+          transaction_code_offset: 3
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: imei
+              type:
+                name: String
+              direction: in
+            - name: imeisv
+              type:
+                name: String
+              direction: in
+            - name: esn
+              type:
+                name: String
+              direction: in
+            - name: meid
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getHardwareConfigResponse
+          transaction_code_offset: 4
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: config
+              type:
+                name: HardwareConfig
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getModemActivityInfoResponse
+          transaction_code_offset: 5
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: activityInfo
+              type:
+                name: ActivityStatsInfo
+              direction: in
+          return_type:
+            name: void
+        - name: getModemStackStatusResponse
+          transaction_code_offset: 6
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: isEnabled
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: getRadioCapabilityResponse
+          transaction_code_offset: 7
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: rc
+              type:
+                name: RadioCapability
+              direction: in
+          return_type:
+            name: void
+        - name: nvReadItemResponse
+          transaction_code_offset: 8
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: result
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: nvResetConfigResponse
+          transaction_code_offset: 9
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: nvWriteCdmaPrlResponse
+          transaction_code_offset: 10
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: nvWriteItemResponse
+          transaction_code_offset: 11
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: requestShutdownResponse
+          transaction_code_offset: 12
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: sendDeviceStateResponse
+          transaction_code_offset: 13
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setRadioCapabilityResponse
+          transaction_code_offset: 14
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: rc
+              type:
+                name: RadioCapability
+              direction: in
+          return_type:
+            name: void
+        - name: setRadioPowerResponse
+          transaction_code_offset: 15
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: getImeiResponse
+          transaction_code_offset: 16
+          params:
+            - name: responseInfo
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: imeiInfo
+              type:
+                name: ImeiInfo
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: ActivityStatsInfo
+      fields:
+        - name: sleepModeTimeMs
+          type:
+            name: int
+        - name: idleModeTimeMs
+          type:
+            name: int
+        - name: techSpecificInfo
+          type:
+            name: ActivityStatsTechSpecificInfo
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: ActivityStatsTechSpecificInfo
+      fields:
+        - name: rat
+          type:
+            name: AccessNetwork
+        - name: frequencyRange
+          type:
+            name: int
+        - name: txmModetimeMs
+          type:
+            name: int
+            is_array: true
+        - name: rxModeTimeMs
+          type:
+            name: int
+      constants:
+        - name: FREQUENCY_RANGE_UNKNOWN
+          type: int
+          value: "0"
+        - name: FREQUENCY_RANGE_LOW
+          type: int
+          value: "1"
+        - name: FREQUENCY_RANGE_MID
+          type: int
+          value: "2"
+        - name: FREQUENCY_RANGE_HIGH
+          type: int
+          value: "3"
+        - name: FREQUENCY_RANGE_MMWAVE
+          type: int
+          value: "4"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: HardwareConfig
+      fields:
+        - name: type
+          type:
+            name: int
+        - name: uuid
+          type:
+            name: String
+        - name: state
+          type:
+            name: int
+        - name: modem
+          type:
+            name: HardwareConfigModem
+            is_array: true
+        - name: sim
+          type:
+            name: HardwareConfigSim
+            is_array: true
+      constants:
+        - name: STATE_ENABLED
+          type: int
+          value: "0"
+        - name: STATE_STANDBY
+          type: int
+          value: "1"
+        - name: STATE_DISABLED
+          type: int
+          value: "2"
+        - name: TYPE_MODEM
+          type: int
+          value: "0"
+        - name: TYPE_SIM
+          type: int
+          value: "1"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: HardwareConfigModem
+      fields:
+        - name: rilModel
+          type:
+            name: int
+        - name: rat
+          type:
+            name: RadioTechnology
+        - name: maxVoiceCalls
+          type:
+            name: int
+        - name: maxDataCalls
+          type:
+            name: int
+        - name: maxStandby
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: HardwareConfigSim
+      fields:
+        - name: modemUuid
+          type:
+            name: String
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: ImeiInfo
+      fields:
+        - name: type
+          type:
+            name: ImeiType
+        - name: imei
+          type:
+            name: String
+        - name: svn
+          type:
+            name: String
+      nested_types:
+        - ImeiInfo.ImeiType
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: NvWriteItem
+      fields:
+        - name: itemId
+          type:
+            name: NvItem
+        - name: value
+          type:
+            name: String
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: RadioCapability
+      fields:
+        - name: session
+          type:
+            name: int
+        - name: phase
+          type:
+            name: int
+        - name: raf
+          type:
+            name: int
+        - name: logicalModemUuid
+          type:
+            name: String
+        - name: status
+          type:
+            name: int
+      constants:
+        - name: PHASE_CONFIGURED
+          type: int
+          value: "0"
+        - name: PHASE_START
+          type: int
+          value: "1"
+        - name: PHASE_APPLY
+          type: int
+          value: "2"
+        - name: PHASE_UNSOL_RSP
+          type: int
+          value: "3"
+        - name: PHASE_FINISH
+          type: int
+          value: "4"
+        - name: STATUS_NONE
+          type: int
+          value: "0"
+        - name: STATUS_SUCCESS
+          type: int
+          value: "1"
+        - name: STATUS_FAIL
+          type: int
+          value: "2"
+      annotations:
+        - VintfStability
+        - JavaDerive
+enums:
+    - name: DeviceStateType
+      backing_type: int
+      values:
+        - name: POWER_SAVE_MODE
+          value: ""
+        - name: CHARGING_STATE
+          value: ""
+        - name: LOW_DATA_EXPECTED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: ImeiInfo.ImeiType
+      backing_type: int
+      values:
+        - name: PRIMARY
+          value: "1"
+        - name: SECONDARY
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NvItem
+      backing_type: int
+      values:
+        - name: CDMA_MEID
+          value: "1"
+        - name: CDMA_MIN
+          value: "2"
+        - name: CDMA_MDN
+          value: "3"
+        - name: CDMA_ACCOLC
+          value: "4"
+        - name: DEVICE_MSL
+          value: "11"
+        - name: RTN_RECONDITIONED_STATUS
+          value: "12"
+        - name: RTN_ACTIVATION_DATE
+          value: "13"
+        - name: RTN_LIFE_TIMER
+          value: "14"
+        - name: RTN_LIFE_CALLS
+          value: "15"
+        - name: RTN_LIFE_DATA_TX
+          value: "16"
+        - name: RTN_LIFE_DATA_RX
+          value: "17"
+        - name: OMADM_HFA_LEVEL
+          value: "18"
+        - name: MIP_PROFILE_NAI
+          value: "31"
+        - name: MIP_PROFILE_HOME_ADDRESS
+          value: "32"
+        - name: MIP_PROFILE_AAA_AUTH
+          value: "33"
+        - name: MIP_PROFILE_HA_AUTH
+          value: "34"
+        - name: MIP_PROFILE_PRI_HA_ADDR
+          value: "35"
+        - name: MIP_PROFILE_SEC_HA_ADDR
+          value: "36"
+        - name: MIP_PROFILE_REV_TUN_PREF
+          value: "37"
+        - name: MIP_PROFILE_HA_SPI
+          value: "38"
+        - name: MIP_PROFILE_AAA_SPI
+          value: "39"
+        - name: MIP_PROFILE_MN_HA_SS
+          value: "40"
+        - name: MIP_PROFILE_MN_AAA_SS
+          value: "41"
+        - name: CDMA_PRL_VERSION
+          value: "51"
+        - name: CDMA_BC10
+          value: "52"
+        - name: CDMA_BC14
+          value: "53"
+        - name: CDMA_SO68
+          value: "54"
+        - name: CDMA_SO73_COP0
+          value: "55"
+        - name: CDMA_SO73_COP1TO7
+          value: "56"
+        - name: CDMA_1X_ADVANCED_ENABLED
+          value: "57"
+        - name: CDMA_EHRPD_ENABLED
+          value: "58"
+        - name: CDMA_EHRPD_FORCED
+          value: "59"
+        - name: LTE_BAND_ENABLE_25
+          value: "71"
+        - name: LTE_BAND_ENABLE_26
+          value: "72"
+        - name: LTE_BAND_ENABLE_41
+          value: "73"
+        - name: LTE_SCAN_PRIORITY_25
+          value: "74"
+        - name: LTE_SCAN_PRIORITY_26
+          value: "75"
+        - name: LTE_SCAN_PRIORITY_41
+          value: "76"
+        - name: LTE_HIDDEN_BAND_PRIORITY_25
+          value: "77"
+        - name: LTE_HIDDEN_BAND_PRIORITY_26
+          value: "78"
+        - name: LTE_HIDDEN_BAND_PRIORITY_41
+          value: "79"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: RadioState
+      backing_type: int
+      values:
+        - name: "OFF"
+          value: "0"
+        - name: UNAVAILABLE
+          value: "1"
+        - name: "ON"
+          value: "10"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: ResetNvType
+      backing_type: int
+      values:
+        - name: RELOAD
+          value: ""
+        - name: ERASE
+          value: ""
+        - name: FACTORY_RESET
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive

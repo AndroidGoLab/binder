@@ -7,6 +7,7 @@ import (
 	media "github.com/xaionaro-go/binder/android/media"
 	net "github.com/xaionaro-go/binder/android/net"
 	os "github.com/xaionaro-go/binder/android/os"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -97,7 +98,7 @@ type ITvInputSession interface {
 	AsBinder() binder.IBinder
 	Release(ctx context.Context) error
 	SetMain(ctx context.Context, isMain bool) error
-	SetSurface(ctx context.Context, surface interface{}) error
+	SetSurface(ctx context.Context, surface view.Surface) error
 	DispatchSurfaceChanged(ctx context.Context, format int32, width int32, height int32) error
 	SetVolume(ctx context.Context, volume float32) error
 	Tune(ctx context.Context, channelUri net.Uri, params os.Bundle) error
@@ -153,6 +154,7 @@ func (p *TvInputSessionProxy) Release(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputSession, MethodITvInputSessionRelease)
@@ -169,6 +171,7 @@ func (p *TvInputSessionProxy) SetMain(
 	isMain bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteBool(isMain)
 
@@ -183,10 +186,15 @@ func (p *TvInputSessionProxy) SetMain(
 
 func (p *TvInputSessionProxy) SetSurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputSession, MethodITvInputSessionSetSurface)
 	if _err != nil {
@@ -204,6 +212,7 @@ func (p *TvInputSessionProxy) DispatchSurfaceChanged(
 	height int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(format)
 	_data.WriteInt32(width)
@@ -223,6 +232,7 @@ func (p *TvInputSessionProxy) SetVolume(
 	volume float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteFloat32(volume)
 
@@ -241,6 +251,7 @@ func (p *TvInputSessionProxy) Tune(
 	params os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
@@ -265,6 +276,7 @@ func (p *TvInputSessionProxy) SetCaptionEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteBool(enabled)
 
@@ -283,6 +295,7 @@ func (p *TvInputSessionProxy) SelectAudioPresentation(
 	programId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(presentationId)
 	_data.WriteInt32(programId)
@@ -302,6 +315,7 @@ func (p *TvInputSessionProxy) SelectTrack(
 	trackId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(type_)
 	_data.WriteString16(trackId)
@@ -320,6 +334,7 @@ func (p *TvInputSessionProxy) SetInteractiveAppNotificationEnabled(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteBool(enable)
 
@@ -338,6 +353,7 @@ func (p *TvInputSessionProxy) AppPrivateCommand(
 	data os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteString16(action)
 	_data.WriteInt32(1)
@@ -360,6 +376,7 @@ func (p *TvInputSessionProxy) CreateOverlayView(
 	frame graphics.Rect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -381,6 +398,7 @@ func (p *TvInputSessionProxy) RelayoutOverlayView(
 	frame graphics.Rect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
@@ -400,6 +418,7 @@ func (p *TvInputSessionProxy) RemoveOverlayView(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputSession, MethodITvInputSessionRemoveOverlayView)
@@ -416,6 +435,7 @@ func (p *TvInputSessionProxy) UnblockContent(
 	unblockedRating string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteString16(unblockedRating)
 
@@ -433,6 +453,7 @@ func (p *TvInputSessionProxy) TimeShiftPlay(
 	recordedProgramUri net.Uri,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(1)
 	if _err := recordedProgramUri.MarshalParcel(_data); _err != nil {
@@ -452,6 +473,7 @@ func (p *TvInputSessionProxy) TimeShiftPause(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputSession, MethodITvInputSessionTimeShiftPause)
@@ -467,6 +489,7 @@ func (p *TvInputSessionProxy) TimeShiftResume(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputSession, MethodITvInputSessionTimeShiftResume)
@@ -483,6 +506,7 @@ func (p *TvInputSessionProxy) TimeShiftSeekTo(
 	timeMs int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt64(timeMs)
 
@@ -500,6 +524,7 @@ func (p *TvInputSessionProxy) TimeShiftSetPlaybackParams(
 	params media.PlaybackParams,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -520,6 +545,7 @@ func (p *TvInputSessionProxy) TimeShiftSetMode(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(mode)
 
@@ -537,6 +563,7 @@ func (p *TvInputSessionProxy) TimeShiftEnablePositionTracking(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteBool(enable)
 
@@ -553,6 +580,7 @@ func (p *TvInputSessionProxy) ResumePlayback(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputSession, MethodITvInputSessionResumePlayback)
@@ -569,6 +597,7 @@ func (p *TvInputSessionProxy) StopPlayback(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(mode)
 
@@ -587,6 +616,7 @@ func (p *TvInputSessionProxy) StartRecording(
 	params os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(1)
 	if _err := programUri.MarshalParcel(_data); _err != nil {
@@ -610,6 +640,7 @@ func (p *TvInputSessionProxy) StopRecording(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputSession, MethodITvInputSessionStopRecording)
@@ -626,6 +657,7 @@ func (p *TvInputSessionProxy) PauseRecording(
 	params os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -646,6 +678,7 @@ func (p *TvInputSessionProxy) ResumeRecording(
 	params os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -666,6 +699,7 @@ func (p *TvInputSessionProxy) RequestBroadcastInfo(
 	request BroadcastInfoRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -686,6 +720,7 @@ func (p *TvInputSessionProxy) RemoveBroadcastInfo(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(id)
 
@@ -703,6 +738,7 @@ func (p *TvInputSessionProxy) RequestAd(
 	request AdRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -723,6 +759,7 @@ func (p *TvInputSessionProxy) NotifyAdBufferReady(
 	buffer AdBuffer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(1)
 	if _err := buffer.MarshalParcel(_data); _err != nil {
@@ -744,6 +781,7 @@ func (p *TvInputSessionProxy) NotifyTvMessage(
 	data os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(type_)
 	_data.WriteInt32(1)
@@ -766,6 +804,7 @@ func (p *TvInputSessionProxy) SetTvMessageEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteInt32(type_)
 	_data.WriteBool(enabled)
@@ -784,6 +823,7 @@ func (p *TvInputSessionProxy) SetVideoFrozen(
 	isFrozen bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteBool(isFrozen)
 
@@ -802,6 +842,7 @@ func (p *TvInputSessionProxy) NotifyTvAdSessionData(
 	data os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSession)
 	_data.WriteString16(type_)
 	_data.WriteInt32(1)
@@ -821,7 +862,8 @@ func (p *TvInputSessionProxy) NotifyTvAdSessionData(
 // TvInputSessionStub dispatches incoming binder transactions
 // to a typed ITvInputSession implementation.
 type TvInputSessionStub struct {
-	Impl ITvInputSession
+	Impl      ITvInputSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvInputSessionStub)(nil)
@@ -835,37 +877,37 @@ func (s *TvInputSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvInputSessionRelease:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Release(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionSetMain:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isMain, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetMain(ctx, _arg_isMain)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionSetSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_surface view.Surface
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_surface interface{}
 		_err := s.Impl.SetSurface(ctx, _arg_surface)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionDispatchSurfaceChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_format, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -879,23 +921,15 @@ func (s *TvInputSessionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.DispatchSurfaceChanged(ctx, _arg_format, _arg_width, _arg_height)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionSetVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volume, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetVolume(ctx, _arg_volume)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionTune:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_channelUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -921,23 +955,15 @@ func (s *TvInputSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.Tune(ctx, _arg_channelUri, _arg_params)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionSetCaptionEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetCaptionEnabled(ctx, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionSelectAudioPresentation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_presentationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -947,12 +973,8 @@ func (s *TvInputSessionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SelectAudioPresentation(ctx, _arg_presentationId, _arg_programId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionSelectTrack:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -962,23 +984,15 @@ func (s *TvInputSessionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SelectTrack(ctx, _arg_type_, _arg_trackId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionSetInteractiveAppNotificationEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetInteractiveAppNotificationEnabled(ctx, _arg_enable)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionAppPrivateCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_action, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -996,15 +1010,16 @@ func (s *TvInputSessionStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.AppPrivateCommand(ctx, _arg_action, _arg_data)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCreateOverlayView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
+		}
 		var _arg_frame graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1018,12 +1033,8 @@ func (s *TvInputSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CreateOverlayView(ctx, _arg_windowToken, _arg_frame)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionRelayoutOverlayView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_frame graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1037,30 +1048,18 @@ func (s *TvInputSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RelayoutOverlayView(ctx, _arg_frame)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionRemoveOverlayView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RemoveOverlayView(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionUnblockContent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_unblockedRating, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.UnblockContent(ctx, _arg_unblockedRating)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionTimeShiftPlay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_recordedProgramUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1074,37 +1073,21 @@ func (s *TvInputSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.TimeShiftPlay(ctx, _arg_recordedProgramUri)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionTimeShiftPause:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.TimeShiftPause(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionTimeShiftResume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.TimeShiftResume(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionTimeShiftSeekTo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.TimeShiftSeekTo(ctx, _arg_timeMs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionTimeShiftSetPlaybackParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_params media.PlaybackParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1118,52 +1101,32 @@ func (s *TvInputSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.TimeShiftSetPlaybackParams(ctx, _arg_params)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionTimeShiftSetMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.TimeShiftSetMode(ctx, _arg_mode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionTimeShiftEnablePositionTracking:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.TimeShiftEnablePositionTracking(ctx, _arg_enable)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionResumePlayback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResumePlayback(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionStopPlayback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.StopPlayback(ctx, _arg_mode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionStartRecording:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_programUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1189,19 +1152,11 @@ func (s *TvInputSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.StartRecording(ctx, _arg_programUri, _arg_params)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionStopRecording:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopRecording(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionPauseRecording:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_params os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1215,12 +1170,8 @@ func (s *TvInputSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.PauseRecording(ctx, _arg_params)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionResumeRecording:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_params os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1234,12 +1185,8 @@ func (s *TvInputSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ResumeRecording(ctx, _arg_params)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionRequestBroadcastInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request BroadcastInfoRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1253,23 +1200,15 @@ func (s *TvInputSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RequestBroadcastInfo(ctx, _arg_request)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionRemoveBroadcastInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RemoveBroadcastInfo(ctx, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionRequestAd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request AdRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1283,12 +1222,8 @@ func (s *TvInputSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RequestAd(ctx, _arg_request)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionNotifyAdBufferReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_buffer AdBuffer
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1302,12 +1237,8 @@ func (s *TvInputSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NotifyAdBufferReady(ctx, _arg_buffer)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionNotifyTvMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1325,12 +1256,8 @@ func (s *TvInputSessionStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyTvMessage(ctx, _arg_type_, _arg_data)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionSetTvMessageEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1340,23 +1267,15 @@ func (s *TvInputSessionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetTvMessageEnabled(ctx, _arg_type_, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionSetVideoFrozen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isFrozen, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetVideoFrozen(ctx, _arg_isFrozen)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionNotifyTvAdSessionData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1374,8 +1293,7 @@ func (s *TvInputSessionStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyTvAdSessionData(ctx, _arg_type_, _arg_data)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1387,7 +1305,7 @@ func (s *TvInputSessionStub) OnTransaction(
 type ITvInputSessionServer interface {
 	Release(ctx context.Context) error
 	SetMain(ctx context.Context, isMain bool) error
-	SetSurface(ctx context.Context, surface interface{}) error
+	SetSurface(ctx context.Context, surface view.Surface) error
 	DispatchSurfaceChanged(ctx context.Context, format int32, width int32, height int32) error
 	SetVolume(ctx context.Context, volume float32) error
 	Tune(ctx context.Context, channelUri net.Uri, params os.Bundle) error
@@ -1447,7 +1365,7 @@ func (w *tvInputSessionStubWrapper) SetMain(
 
 func (w *tvInputSessionStubWrapper) SetSurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 ) error {
 	return w.impl.SetSurface(ctx, surface)
 }

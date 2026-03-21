@@ -46,6 +46,7 @@ func (p *StorageLoadingProgressListenerProxy) OnStorageLoadingProgressChanged(
 	progress float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageLoadingProgressListener)
 	_data.WriteInt32(storageId)
 	_data.WriteFloat32(progress)
@@ -62,7 +63,8 @@ func (p *StorageLoadingProgressListenerProxy) OnStorageLoadingProgressChanged(
 // StorageLoadingProgressListenerStub dispatches incoming binder transactions
 // to a typed IStorageLoadingProgressListener implementation.
 type StorageLoadingProgressListenerStub struct {
-	Impl IStorageLoadingProgressListener
+	Impl      IStorageLoadingProgressListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StorageLoadingProgressListenerStub)(nil)
@@ -76,11 +78,12 @@ func (s *StorageLoadingProgressListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStorageLoadingProgressListenerOnStorageLoadingProgressChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -90,8 +93,7 @@ func (s *StorageLoadingProgressListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStorageLoadingProgressChanged(ctx, _arg_storageId, _arg_progress)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

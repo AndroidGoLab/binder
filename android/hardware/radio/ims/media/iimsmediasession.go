@@ -69,6 +69,7 @@ func (p *ImsMediaSessionProxy) SetListener(
 	sessionListener IImsMediaSessionListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSession)
 	binder.WriteBinderToParcel(ctx, _data, sessionListener.AsBinder(), p.Remote.Transport())
 
@@ -86,6 +87,7 @@ func (p *ImsMediaSessionProxy) ModifySession(
 	config RtpConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSession)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -107,6 +109,7 @@ func (p *ImsMediaSessionProxy) SendDtmf(
 	duration int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSession)
 	_data.WriteInt32(int32(dtmfDigit))
 	_data.WriteInt32(duration)
@@ -125,6 +128,7 @@ func (p *ImsMediaSessionProxy) StartDtmf(
 	dtmfDigit uint16,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSession)
 	_data.WriteInt32(int32(dtmfDigit))
 
@@ -141,6 +145,7 @@ func (p *ImsMediaSessionProxy) StopDtmf(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMediaSession, MethodIImsMediaSessionStopDtmf)
@@ -157,6 +162,7 @@ func (p *ImsMediaSessionProxy) SendHeaderExtension(
 	extensions []RtpHeaderExtension,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSession)
 	if extensions == nil {
 		_data.WriteInt32(-1)
@@ -184,6 +190,7 @@ func (p *ImsMediaSessionProxy) SetMediaQualityThreshold(
 	threshold MediaQualityThreshold,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSession)
 	_data.WriteInt32(1)
 	if _err := threshold.MarshalParcel(_data); _err != nil {
@@ -204,6 +211,7 @@ func (p *ImsMediaSessionProxy) RequestRtpReceptionStats(
 	intervalMs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSession)
 	_data.WriteInt32(intervalMs)
 
@@ -221,6 +229,7 @@ func (p *ImsMediaSessionProxy) AdjustDelay(
 	delayMs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSession)
 	_data.WriteInt32(delayMs)
 
@@ -236,7 +245,8 @@ func (p *ImsMediaSessionProxy) AdjustDelay(
 // ImsMediaSessionStub dispatches incoming binder transactions
 // to a typed IImsMediaSession implementation.
 type ImsMediaSessionStub struct {
-	Impl IImsMediaSession
+	Impl      IImsMediaSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsMediaSessionStub)(nil)
@@ -250,21 +260,23 @@ func (s *ImsMediaSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsMediaSessionSetListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionListener IImsMediaSessionListener
-		_ = _arg_sessionListener
-		_err := s.Impl.SetListener(ctx, _arg_sessionListener)
-		_ = _err
-		return nil, nil
-	case TransactionIImsMediaSessionModifySession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_sessionListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionListener = NewImsMediaSessionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionListenerHandle))
 		}
+		_err := s.Impl.SetListener(ctx, _arg_sessionListener)
+		return nil, _err
+	case TransactionIImsMediaSessionModifySession:
 		var _arg_config RtpConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -278,12 +290,8 @@ func (s *ImsMediaSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ModifySession(ctx, _arg_config)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMediaSessionSendDtmf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_dtmfDigit, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -294,41 +302,43 @@ func (s *ImsMediaSessionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SendDtmf(ctx, _arg_dtmfDigit, _arg_duration)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMediaSessionStartDtmf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_dtmfDigit, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_dtmfDigit := uint16(_raw_dtmfDigit)
 		_err = s.Impl.StartDtmf(ctx, _arg_dtmfDigit)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMediaSessionStopDtmf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopDtmf(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMediaSessionSendHeaderExtension:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_extensions []RtpHeaderExtension
-		_ = _arg_extensions
-		_err := s.Impl.SendHeaderExtension(ctx, _arg_extensions)
-		_ = _err
-		return nil, nil
-	case TransactionIImsMediaSessionSetMediaQualityThreshold:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_extensions = make([]RtpHeaderExtension, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_extensions[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.SendHeaderExtension(ctx, _arg_extensions)
+		return nil, _err
+	case TransactionIImsMediaSessionSetMediaQualityThreshold:
 		var _arg_threshold MediaQualityThreshold
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -342,30 +352,21 @@ func (s *ImsMediaSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetMediaQualityThreshold(ctx, _arg_threshold)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMediaSessionRequestRtpReceptionStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_intervalMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RequestRtpReceptionStats(ctx, _arg_intervalMs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMediaSessionAdjustDelay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_delayMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AdjustDelay(ctx, _arg_delayMs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

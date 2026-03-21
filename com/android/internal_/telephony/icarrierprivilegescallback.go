@@ -49,6 +49,7 @@ func (p *CarrierPrivilegesCallbackProxy) OnCarrierPrivilegesChanged(
 	privilegedUids []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierPrivilegesCallback)
 	if privilegedPackageNames == nil {
 		_data.WriteInt32(-1)
@@ -82,6 +83,7 @@ func (p *CarrierPrivilegesCallbackProxy) OnCarrierServiceChanged(
 	carrierServiceUid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierPrivilegesCallback)
 	_data.WriteString16(carrierServicePackageName)
 	_data.WriteInt32(carrierServiceUid)
@@ -98,7 +100,8 @@ func (p *CarrierPrivilegesCallbackProxy) OnCarrierServiceChanged(
 // CarrierPrivilegesCallbackStub dispatches incoming binder transactions
 // to a typed ICarrierPrivilegesCallback implementation.
 type CarrierPrivilegesCallbackStub struct {
-	Impl ICarrierPrivilegesCallback
+	Impl      ICarrierPrivilegesCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CarrierPrivilegesCallbackStub)(nil)
@@ -112,24 +115,53 @@ func (s *CarrierPrivilegesCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICarrierPrivilegesCallbackOnCarrierPrivilegesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_privilegedPackageNames []string
-		_ = _arg_privilegedPackageNames
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_privilegedUids []int32
-		_ = _arg_privilegedUids
-		_err := s.Impl.OnCarrierPrivilegesChanged(ctx, _arg_privilegedPackageNames, _arg_privilegedUids)
-		_ = _err
-		return nil, nil
-	case TransactionICarrierPrivilegesCallbackOnCarrierServiceChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_privilegedPackageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_privilegedPackageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		var _arg_privilegedUids []int32
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_privilegedUids = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_privilegedUids[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		_err := s.Impl.OnCarrierPrivilegesChanged(ctx, _arg_privilegedPackageNames, _arg_privilegedUids)
+		return nil, _err
+	case TransactionICarrierPrivilegesCallbackOnCarrierServiceChanged:
 		_arg_carrierServicePackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -139,8 +171,7 @@ func (s *CarrierPrivilegesCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnCarrierServiceChanged(ctx, _arg_carrierServicePackageName, _arg_carrierServiceUid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

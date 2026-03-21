@@ -45,6 +45,7 @@ func (p *EconomyManagerProxy) GetEnabledMode(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEconomyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEconomyManager, MethodIEconomyManagerGetEnabledMode)
@@ -72,7 +73,8 @@ func (p *EconomyManagerProxy) GetEnabledMode(
 // EconomyManagerStub dispatches incoming binder transactions
 // to a typed IEconomyManager implementation.
 type EconomyManagerStub struct {
-	Impl IEconomyManager
+	Impl      IEconomyManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EconomyManagerStub)(nil)
@@ -86,11 +88,12 @@ func (s *EconomyManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEconomyManagerGetEnabledMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEnabledMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {

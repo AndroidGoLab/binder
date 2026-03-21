@@ -34,7 +34,8 @@ var _ ITestRemoteCallback = (*TestRemoteCallbackProxy)(nil)
 // TestRemoteCallbackStub dispatches incoming binder transactions
 // to a typed ITestRemoteCallback implementation.
 type TestRemoteCallbackStub struct {
-	Impl ITestRemoteCallback
+	Impl      ITestRemoteCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TestRemoteCallbackStub)(nil)
@@ -48,6 +49,10 @@ func (s *TestRemoteCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

@@ -54,6 +54,7 @@ func (p *MusicRecognitionManagerCallbackProxy) OnRecognitionSucceeded(
 	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionManagerCallback)
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -78,6 +79,7 @@ func (p *MusicRecognitionManagerCallbackProxy) OnRecognitionFailed(
 	failureCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionManagerCallback)
 	_data.WriteInt32(failureCode)
 
@@ -94,6 +96,7 @@ func (p *MusicRecognitionManagerCallbackProxy) OnAudioStreamClosed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionManagerCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMusicRecognitionManagerCallback, MethodIMusicRecognitionManagerCallbackOnAudioStreamClosed)
@@ -108,7 +111,8 @@ func (p *MusicRecognitionManagerCallbackProxy) OnAudioStreamClosed(
 // MusicRecognitionManagerCallbackStub dispatches incoming binder transactions
 // to a typed IMusicRecognitionManagerCallback implementation.
 type MusicRecognitionManagerCallbackStub struct {
-	Impl IMusicRecognitionManagerCallback
+	Impl      IMusicRecognitionManagerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MusicRecognitionManagerCallbackStub)(nil)
@@ -122,11 +126,12 @@ func (s *MusicRecognitionManagerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMusicRecognitionManagerCallbackOnRecognitionSucceeded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_result media.MediaMetadata
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -152,26 +157,17 @@ func (s *MusicRecognitionManagerCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnRecognitionSucceeded(ctx, _arg_result, _arg_extras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMusicRecognitionManagerCallbackOnRecognitionFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_failureCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRecognitionFailed(ctx, _arg_failureCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMusicRecognitionManagerCallbackOnAudioStreamClosed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnAudioStreamClosed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

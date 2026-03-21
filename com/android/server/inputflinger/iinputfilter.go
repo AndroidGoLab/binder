@@ -54,6 +54,7 @@ func (p *InputFilterProxy) IsEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilter, MethodIInputFilterIsEnabled)
@@ -83,6 +84,7 @@ func (p *InputFilterProxy) NotifyKey(
 	event KeyEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -112,6 +114,7 @@ func (p *InputFilterProxy) NotifyInputDevicesChanged(
 	deviceInfos []DeviceInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
 	if deviceInfos == nil {
 		_data.WriteInt32(-1)
@@ -148,6 +151,7 @@ func (p *InputFilterProxy) NotifyConfigurationChanged(
 	config InputFilterConfiguration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -175,7 +179,8 @@ func (p *InputFilterProxy) NotifyConfigurationChanged(
 // InputFilterStub dispatches incoming binder transactions
 // to a typed IInputFilter implementation.
 type InputFilterStub struct {
-	Impl IInputFilter
+	Impl      IInputFilter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputFilterStub)(nil)
@@ -189,11 +194,12 @@ func (s *InputFilterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputFilterIsEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -204,9 +210,6 @@ func (s *InputFilterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputFilterNotifyKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event KeyEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -228,12 +231,27 @@ func (s *InputFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputFilterNotifyInputDevicesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_deviceInfos []DeviceInfo
-		_ = _arg_deviceInfos
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_deviceInfos = make([]DeviceInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_deviceInfos[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.NotifyInputDevicesChanged(ctx, _arg_deviceInfos)
 		_reply := parcel.New()
 		if _err != nil {
@@ -243,9 +261,6 @@ func (s *InputFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputFilterNotifyConfigurationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config InputFilterConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()

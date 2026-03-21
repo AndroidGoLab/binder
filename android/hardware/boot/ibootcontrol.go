@@ -80,6 +80,7 @@ func (p *BootControlProxy) GetActiveBootSlot(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBootControl, MethodIBootControlGetActiveBootSlot)
@@ -109,6 +110,7 @@ func (p *BootControlProxy) GetCurrentSlot(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBootControl, MethodIBootControlGetCurrentSlot)
@@ -138,6 +140,7 @@ func (p *BootControlProxy) GetNumberSlots(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBootControl, MethodIBootControlGetNumberSlots)
@@ -167,6 +170,7 @@ func (p *BootControlProxy) GetSnapshotMergeStatus(
 ) (MergeStatus, error) {
 	var _result MergeStatus
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBootControl, MethodIBootControlGetSnapshotMergeStatus)
@@ -198,6 +202,7 @@ func (p *BootControlProxy) GetSuffix(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 	_data.WriteInt32(slot)
 
@@ -229,6 +234,7 @@ func (p *BootControlProxy) IsSlotBootable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 	_data.WriteInt32(slot)
 
@@ -260,6 +266,7 @@ func (p *BootControlProxy) IsSlotMarkedSuccessful(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 	_data.WriteInt32(slot)
 
@@ -289,6 +296,7 @@ func (p *BootControlProxy) MarkBootSuccessful(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBootControl, MethodIBootControlMarkBootSuccessful)
@@ -314,6 +322,7 @@ func (p *BootControlProxy) SetActiveBootSlot(
 	slot int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 	_data.WriteInt32(slot)
 
@@ -340,6 +349,7 @@ func (p *BootControlProxy) SetSlotAsUnbootable(
 	slot int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 	_data.WriteInt32(slot)
 
@@ -366,6 +376,7 @@ func (p *BootControlProxy) SetSnapshotMergeStatus(
 	status MergeStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 	_data.WriteInt32(int32(status))
 
@@ -390,7 +401,8 @@ func (p *BootControlProxy) SetSnapshotMergeStatus(
 // BootControlStub dispatches incoming binder transactions
 // to a typed IBootControl implementation.
 type BootControlStub struct {
-	Impl IBootControl
+	Impl      IBootControl
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BootControlStub)(nil)
@@ -404,11 +416,12 @@ func (s *BootControlStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBootControlGetActiveBootSlot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetActiveBootSlot(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -419,9 +432,6 @@ func (s *BootControlStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBootControlGetCurrentSlot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentSlot(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -432,9 +442,6 @@ func (s *BootControlStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBootControlGetNumberSlots:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetNumberSlots(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -445,9 +452,6 @@ func (s *BootControlStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBootControlGetSnapshotMergeStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSnapshotMergeStatus(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -458,9 +462,6 @@ func (s *BootControlStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIBootControlGetSuffix:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slot, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -475,9 +476,6 @@ func (s *BootControlStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBootControlIsSlotBootable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slot, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -492,9 +490,6 @@ func (s *BootControlStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBootControlIsSlotMarkedSuccessful:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slot, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -509,9 +504,6 @@ func (s *BootControlStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBootControlMarkBootSuccessful:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.MarkBootSuccessful(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -521,9 +513,6 @@ func (s *BootControlStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBootControlSetActiveBootSlot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slot, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -537,9 +526,6 @@ func (s *BootControlStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBootControlSetSlotAsUnbootable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slot, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -553,9 +539,6 @@ func (s *BootControlStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBootControlSetSnapshotMergeStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

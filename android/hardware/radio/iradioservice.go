@@ -51,6 +51,7 @@ func (p *RadioServiceProxy) ListModules(
 ) ([]RadioManagerModuleProperties, error) {
 	var _result []RadioManagerModuleProperties
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioService, MethodIRadioServiceListModules)
@@ -71,6 +72,9 @@ func (p *RadioServiceProxy) ListModules(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -96,6 +100,7 @@ func (p *RadioServiceProxy) OpenTuner(
 ) (ITuner, error) {
 	var _result ITuner
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioService)
 	_data.WriteInt32(moduleId)
 	_data.WriteInt32(1)
@@ -135,6 +140,7 @@ func (p *RadioServiceProxy) AddAnnouncementListener(
 ) (ICloseHandle, error) {
 	var _result ICloseHandle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioService)
 	if enabledTypes == nil {
 		_data.WriteInt32(-1)
@@ -172,7 +178,8 @@ func (p *RadioServiceProxy) AddAnnouncementListener(
 // RadioServiceStub dispatches incoming binder transactions
 // to a typed IRadioService implementation.
 type RadioServiceStub struct {
-	Impl IRadioService
+	Impl      IRadioService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RadioServiceStub)(nil)
@@ -186,11 +193,12 @@ func (s *RadioServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRadioServiceListModules:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ListModules(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -198,13 +206,19 @@ func (s *RadioServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIRadioServiceOpenTuner:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_moduleId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -225,9 +239,14 @@ func (s *RadioServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITunerCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTunerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.OpenTuner(ctx, _arg_moduleId, _arg_bandConfig, _arg_withAudio, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -235,19 +254,36 @@ func (s *RadioServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIRadioServiceAddAnnouncementListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_enabledTypes []int32
-		_ = _arg_enabledTypes
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_enabledTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_enabledTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_listener IAnnouncementListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewAnnouncementListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.AddAnnouncementListener(ctx, _arg_enabledTypes, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -255,8 +291,7 @@ func (s *RadioServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

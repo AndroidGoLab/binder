@@ -1,0 +1,177 @@
+package: android
+go_package: android
+interfaces:
+    - name: IDataSource
+      descriptor: android.IDataSource
+    - name: IGraphicBufferSource
+      descriptor: android.IGraphicBufferSource
+      methods:
+        - name: configure
+          transaction_code_offset: 0
+          params:
+            - name: omxNode
+              type:
+                name: IOMXNode
+            - name: dataSpace
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setSuspend
+          transaction_code_offset: 1
+          params:
+            - name: suspend
+              type:
+                name: boolean
+            - name: suspendTimeUs
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: setRepeatPreviousFrameDelayUs
+          transaction_code_offset: 2
+          params:
+            - name: repeatAfterUs
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: setMaxFps
+          transaction_code_offset: 3
+          params:
+            - name: maxFps
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: setTimeLapseConfig
+          transaction_code_offset: 4
+          params:
+            - name: fps
+              type:
+                name: double
+            - name: captureFps
+              type:
+                name: double
+          return_type:
+            name: void
+        - name: setStartTimeUs
+          transaction_code_offset: 5
+          params:
+            - name: startTimeUs
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: setStopTimeUs
+          transaction_code_offset: 6
+          params:
+            - name: stopTimeUs
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: getStopTimeOffsetUs
+          transaction_code_offset: 7
+          return_type:
+            name: long
+        - name: setColorAspects
+          transaction_code_offset: 8
+          params:
+            - name: aspects
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setTimeOffsetUs
+          transaction_code_offset: 9
+          params:
+            - name: timeOffsetsUs
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: signalEndOfInputStream
+          transaction_code_offset: 10
+          return_type:
+            name: void
+    - name: IMediaExtractor
+      descriptor: android.IMediaExtractor
+    - name: IMediaExtractorService
+      descriptor: android.IMediaExtractorService
+      methods:
+        - name: makeExtractor
+          transaction_code_offset: 0
+          params:
+            - name: source
+              type:
+                name: IDataSource
+            - name: mime
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+          return_type:
+            name: IMediaExtractor
+        - name: makeIDataSource
+          transaction_code_offset: 1
+          params:
+            - name: fd
+              type:
+                name: FileDescriptor
+              direction: in
+            - name: offset
+              type:
+                name: long
+            - name: length
+              type:
+                name: long
+          return_type:
+            name: IDataSource
+        - name: getSupportedTypes
+          transaction_code_offset: 2
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - utf8InCpp
+    - name: IOMXBufferSource
+      descriptor: android.IOMXBufferSource
+      methods:
+        - name: onOmxExecuting
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onOmxIdle
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onOmxLoaded
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onInputBufferAdded
+          transaction_code_offset: 3
+          params:
+            - name: bufferID
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onInputBufferEmptied
+          transaction_code_offset: 4
+          params:
+            - name: bufferID
+              type:
+                name: int
+            - name: fenceParcel
+              type:
+                name: OMXFenceParcelable
+              direction: in
+          return_type:
+            name: void
+    - name: IOMXNode
+      descriptor: android.IOMXNode
+parcelables:
+    - name: OMXFenceParcelable

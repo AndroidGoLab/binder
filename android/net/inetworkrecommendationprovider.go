@@ -45,6 +45,7 @@ func (p *NetworkRecommendationProviderProxy) RequestScores(
 	networks []NetworkKey,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkRecommendationProvider)
 	if networks == nil {
 		_data.WriteInt32(-1)
@@ -70,7 +71,8 @@ func (p *NetworkRecommendationProviderProxy) RequestScores(
 // NetworkRecommendationProviderStub dispatches incoming binder transactions
 // to a typed INetworkRecommendationProvider implementation.
 type NetworkRecommendationProviderStub struct {
-	Impl INetworkRecommendationProvider
+	Impl      INetworkRecommendationProvider
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NetworkRecommendationProviderStub)(nil)
@@ -84,17 +86,35 @@ func (s *NetworkRecommendationProviderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINetworkRecommendationProviderRequestScores:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_networks []NetworkKey
-		_ = _arg_networks
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_networks = make([]NetworkKey, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_networks[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.RequestScores(ctx, _arg_networks)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -34,7 +34,7 @@ type IOpaqueKey interface {
 	ExportWrappedKey(ctx context.Context, wrappingKey IOpaqueKey) ([]byte, error)
 	GetKeyPolicy(ctx context.Context) (KeyPolicy, error)
 	GetPublicKey(ctx context.Context) ([]byte, error)
-	GetShareableToken(ctx context.Context, sealingDicePolicy []byte) (types.OpaqueKeyToken, error)
+	GetShareableToken(ctx context.Context, sealingDicePolicy []byte) (OpaqueKeyToken, error)
 	SetProtectionId(ctx context.Context, protectionId types.ProtectionId, allowedOperations []neuralnetworks.OperationType) error
 }
 
@@ -60,6 +60,7 @@ func (p *OpaqueKeyProxy) ExportWrappedKey(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOpaqueKey)
 	binder.WriteBinderToParcel(ctx, _data, wrappingKey.AsBinder(), p.Remote.Transport())
 
@@ -78,19 +79,9 @@ func (p *OpaqueKeyProxy) ExportWrappedKey(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -100,6 +91,7 @@ func (p *OpaqueKeyProxy) GetKeyPolicy(
 ) (KeyPolicy, error) {
 	var _result KeyPolicy
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOpaqueKey)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOpaqueKey, MethodIOpaqueKeyGetKeyPolicy)
@@ -134,6 +126,7 @@ func (p *OpaqueKeyProxy) GetPublicKey(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOpaqueKey)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOpaqueKey, MethodIOpaqueKeyGetPublicKey)
@@ -151,19 +144,9 @@ func (p *OpaqueKeyProxy) GetPublicKey(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -171,18 +154,12 @@ func (p *OpaqueKeyProxy) GetPublicKey(
 func (p *OpaqueKeyProxy) GetShareableToken(
 	ctx context.Context,
 	sealingDicePolicy []byte,
-) (types.OpaqueKeyToken, error) {
-	var _result types.OpaqueKeyToken
+) (OpaqueKeyToken, error) {
+	var _result OpaqueKeyToken
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOpaqueKey)
-	if sealingDicePolicy == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sealingDicePolicy)))
-		for _, _item := range sealingDicePolicy {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sealingDicePolicy)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOpaqueKey, MethodIOpaqueKeyGetShareableToken)
 	if _err != nil {
@@ -217,6 +194,7 @@ func (p *OpaqueKeyProxy) SetProtectionId(
 	allowedOperations []neuralnetworks.OperationType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOpaqueKey)
 	_data.WriteInt32(int32(protectionId))
 	if allowedOperations == nil {
@@ -249,7 +227,8 @@ func (p *OpaqueKeyProxy) SetProtectionId(
 // OpaqueKeyStub dispatches incoming binder transactions
 // to a typed IOpaqueKey implementation.
 type OpaqueKeyStub struct {
-	Impl IOpaqueKey
+	Impl      IOpaqueKey
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OpaqueKeyStub)(nil)
@@ -263,14 +242,20 @@ func (s *OpaqueKeyStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOpaqueKeyExportWrappedKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_wrappingKey IOpaqueKey
-		_ = _arg_wrappingKey
+		{
+			_wrappingKeyHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_wrappingKey = NewOpaqueKeyProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _wrappingKeyHandle))
+		}
 		_result, _err := s.Impl.ExportWrappedKey(ctx, _arg_wrappingKey)
 		_reply := parcel.New()
 		if _err != nil {
@@ -278,13 +263,9 @@ func (s *OpaqueKeyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIOpaqueKeyGetKeyPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetKeyPolicy(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -298,9 +279,6 @@ func (s *OpaqueKeyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIOpaqueKeyGetPublicKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPublicKey(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -308,16 +286,17 @@ func (s *OpaqueKeyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIOpaqueKeyGetShareableToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sealingDicePolicy []byte
-		_ = _arg_sealingDicePolicy
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sealingDicePolicy = _bytes
+		}
 		_result, _err := s.Impl.GetShareableToken(ctx, _arg_sealingDicePolicy)
 		_reply := parcel.New()
 		if _err != nil {
@@ -331,17 +310,31 @@ func (s *OpaqueKeyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIOpaqueKeySetProtectionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_protectionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_protectionId := types.ProtectionId(_raw_protectionId)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_allowedOperations []neuralnetworks.OperationType
-		_ = _arg_allowedOperations
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_allowedOperations = make([]neuralnetworks.OperationType, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_raw, _err := _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_allowedOperations[_i] = neuralnetworks.OperationType(_raw)
+				}
+			}
+		}
 		_err = s.Impl.SetProtectionId(ctx, _arg_protectionId, _arg_allowedOperations)
 		_reply := parcel.New()
 		if _err != nil {
@@ -362,7 +355,7 @@ type IOpaqueKeyServer interface {
 	ExportWrappedKey(ctx context.Context, wrappingKey IOpaqueKey) ([]byte, error)
 	GetKeyPolicy(ctx context.Context) (KeyPolicy, error)
 	GetPublicKey(ctx context.Context) ([]byte, error)
-	GetShareableToken(ctx context.Context, sealingDicePolicy []byte) (types.OpaqueKeyToken, error)
+	GetShareableToken(ctx context.Context, sealingDicePolicy []byte) (OpaqueKeyToken, error)
 	SetProtectionId(ctx context.Context, protectionId types.ProtectionId, allowedOperations []neuralnetworks.OperationType) error
 }
 
@@ -397,7 +390,7 @@ func (w *opaqueKeyStubWrapper) GetPublicKey(
 func (w *opaqueKeyStubWrapper) GetShareableToken(
 	ctx context.Context,
 	sealingDicePolicy []byte,
-) (types.OpaqueKeyToken, error) {
+) (OpaqueKeyToken, error) {
 	return w.impl.GetShareableToken(ctx, sealingDicePolicy)
 }
 

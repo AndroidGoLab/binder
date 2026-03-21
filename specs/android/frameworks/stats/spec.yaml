@@ -1,0 +1,192 @@
+package: android.frameworks.stats
+go_package: android/frameworks/stats
+interfaces:
+    - name: IStats
+      descriptor: android.frameworks.stats.IStats
+      methods:
+        - name: reportVendorAtom
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: vendorAtom
+              type:
+                name: VendorAtom
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: Annotation
+      fields:
+        - name: annotationId
+          type:
+            name: AnnotationId
+          default_value: AnnotationId.UNKNOWN
+        - name: value
+          type:
+            name: AnnotationValue
+      annotations:
+        - VintfStability
+    - name: AnnotationSet
+      fields:
+        - name: valueIndex
+          type:
+            name: int
+        - name: annotations
+          type:
+            name: Annotation
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: VendorAtom
+      fields:
+        - name: reverseDomainName
+          type:
+            name: String
+        - name: atomId
+          type:
+            name: int
+        - name: values
+          type:
+            name: VendorAtomValue
+            is_array: true
+        - name: valuesAnnotations
+          type:
+            name: AnnotationSet
+            is_array: true
+          annotations:
+            - nullable
+        - name: atomAnnotations
+          type:
+            name: Annotation
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+enums:
+    - name: AnnotationId
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: IS_UID
+          value: "1"
+        - name: TRUNCATE_TIMESTAMP
+          value: "2"
+        - name: PRIMARY_FIELD
+          value: "3"
+        - name: EXCLUSIVE_STATE
+          value: "4"
+        - name: PRIMARY_FIELD_FIRST_UID
+          value: "5"
+        - name: DEFAULT_STATE
+          value: "6"
+        - name: TRIGGER_STATE_RESET
+          value: "7"
+        - name: STATE_NESTED
+          value: "8"
+        - name: RESTRICTION_CATEGORY
+          value: "9"
+        - name: FIELD_RESTRICTION_PERIPHERAL_DEVICE_INFO
+          value: "10"
+        - name: FIELD_RESTRICTION_APP_USAGE
+          value: "11"
+        - name: FIELD_RESTRICTION_APP_ACTIVITY
+          value: "12"
+        - name: FIELD_RESTRICTION_HEALTH_CONNECT
+          value: "13"
+        - name: FIELD_RESTRICTION_ACCESSIBILITY
+          value: "14"
+        - name: FIELD_RESTRICTION_SYSTEM_SEARCH
+          value: "15"
+        - name: FIELD_RESTRICTION_USER_ENGAGEMENT
+          value: "16"
+        - name: FIELD_RESTRICTION_AMBIENT_SENSING
+          value: "17"
+        - name: FIELD_RESTRICTION_DEMOGRAPHIC_CLASSIFICATION
+          value: "18"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RestrictionCategory
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: DIAGNOSTIC
+          value: "1"
+        - name: SYSTEM_INTELLIGENCE
+          value: "2"
+        - name: AUTHENTICATION
+          value: "3"
+        - name: FRAUD_AND_ABUSE
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: AnnotationValue
+      fields:
+        - name: intValue
+          type:
+            name: int
+        - name: boolValue
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: VendorAtomValue
+      fields:
+        - name: intValue
+          type:
+            name: int
+        - name: longValue
+          type:
+            name: long
+        - name: floatValue
+          type:
+            name: float
+        - name: stringValue
+          type:
+            name: String
+        - name: boolValue
+          type:
+            name: boolean
+        - name: repeatedIntValue
+          type:
+            name: int
+            is_array: true
+          annotations:
+            - nullable
+        - name: repeatedLongValue
+          type:
+            name: long
+            is_array: true
+          annotations:
+            - nullable
+        - name: repeatedFloatValue
+          type:
+            name: float
+            is_array: true
+          annotations:
+            - nullable
+        - name: repeatedStringValue
+          type:
+            name: String
+            is_array: true
+          annotations:
+            - nullable
+        - name: repeatedBoolValue
+          type:
+            name: boolean
+            is_array: true
+          annotations:
+            - nullable
+        - name: byteArrayValue
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability

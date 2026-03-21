@@ -3,6 +3,8 @@ package extension
 import (
 	"context"
 	"fmt"
+	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -27,10 +29,10 @@ const (
 
 type IRequestUpdateProcessorImpl interface {
 	AsBinder() binder.IBinder
-	OnOutputSurface(ctx context.Context, surface interface{}, imageFormat int32) error
+	OnOutputSurface(ctx context.Context, surface view.Surface, imageFormat int32) error
 	OnResolutionUpdate(ctx context.Context, size Size) error
 	OnImageFormatUpdate(ctx context.Context, imageFormat int32) error
-	Process(ctx context.Context, result interface{}, sequenceId int32) (CaptureStageImpl, error)
+	Process(ctx context.Context, result impl.CameraMetadataNative, sequenceId int32) (CaptureStageImpl, error)
 }
 
 type RequestUpdateProcessorImplProxy struct {
@@ -51,11 +53,16 @@ var _ IRequestUpdateProcessorImpl = (*RequestUpdateProcessorImplProxy)(nil)
 
 func (p *RequestUpdateProcessorImplProxy) OnOutputSurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 	imageFormat int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestUpdateProcessorImpl)
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(imageFormat)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplOnOutputSurface)
@@ -81,6 +88,7 @@ func (p *RequestUpdateProcessorImplProxy) OnResolutionUpdate(
 	size Size,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestUpdateProcessorImpl)
 	_data.WriteInt32(1)
 	if _err := size.MarshalParcel(_data); _err != nil {
@@ -110,6 +118,7 @@ func (p *RequestUpdateProcessorImplProxy) OnImageFormatUpdate(
 	imageFormat int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestUpdateProcessorImpl)
 	_data.WriteInt32(imageFormat)
 
@@ -133,12 +142,17 @@ func (p *RequestUpdateProcessorImplProxy) OnImageFormatUpdate(
 
 func (p *RequestUpdateProcessorImplProxy) Process(
 	ctx context.Context,
-	result interface{},
+	result impl.CameraMetadataNative,
 	sequenceId int32,
 ) (CaptureStageImpl, error) {
 	var _result CaptureStageImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestUpdateProcessorImpl)
+	_data.WriteInt32(1)
+	if _err := result.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(sequenceId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplProcess)
@@ -171,7 +185,8 @@ func (p *RequestUpdateProcessorImplProxy) Process(
 // RequestUpdateProcessorImplStub dispatches incoming binder transactions
 // to a typed IRequestUpdateProcessorImpl implementation.
 type RequestUpdateProcessorImplStub struct {
-	Impl IRequestUpdateProcessorImpl
+	Impl      IRequestUpdateProcessorImpl
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RequestUpdateProcessorImplStub)(nil)
@@ -185,12 +200,24 @@ func (s *RequestUpdateProcessorImplStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRequestUpdateProcessorImplOnOutputSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_surface view.Surface
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_surface interface{}
 		_arg_imageFormat, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -204,9 +231,6 @@ func (s *RequestUpdateProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestUpdateProcessorImplOnResolutionUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_size Size
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -228,9 +252,6 @@ func (s *RequestUpdateProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestUpdateProcessorImplOnImageFormatUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_imageFormat, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -244,10 +265,18 @@ func (s *RequestUpdateProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestUpdateProcessorImplProcess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_result impl.CameraMetadataNative
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_result interface{}
 		_arg_sequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -273,10 +302,10 @@ func (s *RequestUpdateProcessorImplStub) OnTransaction(
 // provide to NewRequestUpdateProcessorImplStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IRequestUpdateProcessorImplServer interface {
-	OnOutputSurface(ctx context.Context, surface interface{}, imageFormat int32) error
+	OnOutputSurface(ctx context.Context, surface view.Surface, imageFormat int32) error
 	OnResolutionUpdate(ctx context.Context, size Size) error
 	OnImageFormatUpdate(ctx context.Context, imageFormat int32) error
-	Process(ctx context.Context, result interface{}, sequenceId int32) (CaptureStageImpl, error)
+	Process(ctx context.Context, result impl.CameraMetadataNative, sequenceId int32) (CaptureStageImpl, error)
 }
 
 type requestUpdateProcessorImplStubWrapper struct {
@@ -290,7 +319,7 @@ func (w *requestUpdateProcessorImplStubWrapper) AsBinder() binder.IBinder {
 
 func (w *requestUpdateProcessorImplStubWrapper) OnOutputSurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 	imageFormat int32,
 ) error {
 	return w.impl.OnOutputSurface(ctx, surface, imageFormat)
@@ -312,7 +341,7 @@ func (w *requestUpdateProcessorImplStubWrapper) OnImageFormatUpdate(
 
 func (w *requestUpdateProcessorImplStubWrapper) Process(
 	ctx context.Context,
-	result interface{},
+	result impl.CameraMetadataNative,
 	sequenceId int32,
 ) (CaptureStageImpl, error) {
 	return w.impl.Process(ctx, result, sequenceId)

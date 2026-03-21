@@ -1,0 +1,6 @@
+package: com.android.ims.internal.uce.common
+go_package: com/android/ims/internal_/uce/common
+parcelables:
+    - name: CapInfo
+    - name: StatusCode
+    - name: UceLong

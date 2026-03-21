@@ -10,7 +10,7 @@ const (
 	AudioFocusChangeGainTransient          AudioFocusChange = 2
 	AudioFocusChangeGainTransientMayDuck   AudioFocusChange = 3
 	AudioFocusChangeGainTransientExclusive AudioFocusChange = 4
-	AudioFocusChangeLOSS                   AudioFocusChange = (-1 * AudioFocusChangeGAIN)
-	AudioFocusChangeLossTransient          AudioFocusChange = (-1 * AudioFocusChangeGainTransient)
-	AudioFocusChangeLossTransientCanDuck   AudioFocusChange = (-1 * AudioFocusChangeGainTransientMayDuck)
+	AudioFocusChangeLOSS                   AudioFocusChange = -(1 * AudioFocusChangeGAIN)
+	AudioFocusChangeLossTransient          AudioFocusChange = -(1 * AudioFocusChangeGainTransient)
+	AudioFocusChangeLossTransientCanDuck   AudioFocusChange = -(1 * AudioFocusChangeGainTransientMayDuck)
 )

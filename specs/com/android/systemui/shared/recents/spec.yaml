@@ -1,0 +1,336 @@
+package: com.android.systemui.shared.recents
+go_package: com/android/systemui/shared/recents
+interfaces:
+    - name: IOverviewProxy
+      descriptor: com.android.systemui.shared.recents.IOverviewProxy
+      oneway: true
+      methods:
+        - name: onActiveNavBarRegionChanges
+          transaction_code_offset: 10
+          params:
+            - name: activeRegion
+              type:
+                name: Region
+              direction: in
+          return_type:
+            name: void
+        - name: onInitialize
+          transaction_code_offset: 11
+          params:
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onOverviewToggle
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: onOverviewShown
+          transaction_code_offset: 6
+          params:
+            - name: triggeredFromAltTab
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onOverviewHidden
+          transaction_code_offset: 7
+          params:
+            - name: triggeredFromAltTab
+              type:
+                name: boolean
+            - name: triggeredFromHomeKey
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onAssistantAvailable
+          transaction_code_offset: 12
+          params:
+            - name: available
+              type:
+                name: boolean
+            - name: longPressHomeEnabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onAssistantVisibilityChanged
+          transaction_code_offset: 13
+          params:
+            - name: visibility
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: onAssistantOverrideInvoked
+          transaction_code_offset: 27
+          params:
+            - name: invocationType
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSystemUiStateChanged
+          transaction_code_offset: 15
+          params:
+            - name: stateFlags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRotationProposal
+          transaction_code_offset: 17
+          params:
+            - name: rotation
+              type:
+                name: int
+            - name: isValid
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: disable
+          transaction_code_offset: 18
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: state1
+              type:
+                name: int
+            - name: state2
+              type:
+                name: int
+            - name: animate
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onSystemBarAttributesChanged
+          transaction_code_offset: 19
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: behavior
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onNavButtonsDarkIntensityChanged
+          transaction_code_offset: 21
+          params:
+            - name: darkIntensity
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: onNavigationBarLumaSamplingEnabled
+          transaction_code_offset: 22
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: enterStageSplitFromRunningApp
+          transaction_code_offset: 24
+          params:
+            - name: leftOrTop
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onTaskbarToggled
+          transaction_code_offset: 26
+          return_type:
+            name: void
+    - name: ISystemUiProxy
+      descriptor: com.android.systemui.shared.recents.ISystemUiProxy
+      methods:
+        - name: startScreenPinning
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: taskId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onOverviewShown
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: fromHome
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onStatusBarTouchEvent
+          transaction_code_offset: 8
+          oneway: true
+          params:
+            - name: event
+              type:
+                name: MotionEvent
+              direction: in
+          return_type:
+            name: void
+        - name: onAssistantProgress
+          transaction_code_offset: 11
+          oneway: true
+          params:
+            - name: progress
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: onAssistantGestureCompletion
+          transaction_code_offset: 17
+          oneway: true
+          params:
+            - name: velocity
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: startAssistant
+          transaction_code_offset: 12
+          oneway: true
+          params:
+            - name: bundle
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: setAssistantOverridesRequested
+          transaction_code_offset: 52
+          oneway: true
+          params:
+            - name: invocationTypes
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: notifyAccessibilityButtonClicked
+          transaction_code_offset: 14
+          oneway: true
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyAccessibilityButtonLongClicked
+          transaction_code_offset: 15
+          oneway: true
+          return_type:
+            name: void
+        - name: stopScreenPinning
+          transaction_code_offset: 16
+          oneway: true
+          return_type:
+            name: void
+        - name: notifyPrioritizedRotation
+          transaction_code_offset: 24
+          oneway: true
+          params:
+            - name: rotation
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: expandNotificationPanel
+          transaction_code_offset: 28
+          oneway: true
+          return_type:
+            name: void
+        - name: onBackPressed
+          transaction_code_offset: 43
+          oneway: true
+          return_type:
+            name: void
+        - name: setHomeRotationEnabled
+          transaction_code_offset: 44
+          oneway: true
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: notifyTaskbarStatus
+          transaction_code_offset: 46
+          oneway: true
+          params:
+            - name: visible
+              type:
+                name: boolean
+            - name: stashed
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: notifyTaskbarAutohideSuspend
+          transaction_code_offset: 47
+          oneway: true
+          params:
+            - name: suspend
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onImeSwitcherPressed
+          transaction_code_offset: 48
+          oneway: true
+          return_type:
+            name: void
+        - name: toggleNotificationPanel
+          transaction_code_offset: 49
+          oneway: true
+          return_type:
+            name: void
+        - name: takeScreenshot
+          transaction_code_offset: 50
+          oneway: true
+          params:
+            - name: request
+              type:
+                name: ScreenshotRequest
+              direction: in
+          return_type:
+            name: void
+        - name: onStatusBarTrackpadEvent
+          transaction_code_offset: 51
+          oneway: true
+          params:
+            - name: event
+              type:
+                name: MotionEvent
+              direction: in
+          return_type:
+            name: void
+        - name: animateNavBarLongPress
+          transaction_code_offset: 53
+          oneway: true
+          params:
+            - name: isTouchDown
+              type:
+                name: boolean
+            - name: shrink
+              type:
+                name: boolean
+            - name: durationMs
+              type:
+                name: long
+          return_type:
+            name: void

@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/content/pm/types"
 	res "github.com/xaionaro-go/binder/android/content/res"
 	"github.com/xaionaro-go/binder/binder"
 	os "github.com/xaionaro-go/binder/com/android/internal_/os"
@@ -30,7 +31,7 @@ const (
 type IMediaContainerService interface {
 	AsBinder() binder.IBinder
 	CopyPackage(ctx context.Context, packagePath string, target os.IParcelFileDescriptorFactory) (int32, error)
-	GetMinimalPackageInfo(ctx context.Context, packagePath string, flags int32, abiOverride string) (interface{}, error)
+	GetMinimalPackageInfo(ctx context.Context, packagePath string, flags int32, abiOverride string) (types.PackageInfoLite, error)
 	GetObbInfo(ctx context.Context, filename string) (res.ObbInfo, error)
 	CalculateInstalledSize(ctx context.Context, packagePath string, abiOverride string) (int64, error)
 }
@@ -58,6 +59,7 @@ func (p *MediaContainerServiceProxy) CopyPackage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaContainerService)
 	_data.WriteString16(packagePath)
 	binder.WriteBinderToParcel(ctx, _data, target.AsBinder(), p.Remote.Transport())
@@ -89,9 +91,10 @@ func (p *MediaContainerServiceProxy) GetMinimalPackageInfo(
 	packagePath string,
 	flags int32,
 	abiOverride string,
-) (interface{}, error) {
-	var _result interface{}
+) (types.PackageInfoLite, error) {
+	var _result types.PackageInfoLite
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaContainerService)
 	_data.WriteString16(packagePath)
 	_data.WriteInt32(flags)
@@ -112,6 +115,17 @@ func (p *MediaContainerServiceProxy) GetMinimalPackageInfo(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -121,6 +135,7 @@ func (p *MediaContainerServiceProxy) GetObbInfo(
 ) (res.ObbInfo, error) {
 	var _result res.ObbInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaContainerService)
 	_data.WriteString16(filename)
 
@@ -158,6 +173,7 @@ func (p *MediaContainerServiceProxy) CalculateInstalledSize(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaContainerService)
 	_data.WriteString16(packagePath)
 	_data.WriteString16(abiOverride)
@@ -187,7 +203,8 @@ func (p *MediaContainerServiceProxy) CalculateInstalledSize(
 // MediaContainerServiceStub dispatches incoming binder transactions
 // to a typed IMediaContainerService implementation.
 type MediaContainerServiceStub struct {
-	Impl IMediaContainerService
+	Impl      IMediaContainerService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaContainerServiceStub)(nil)
@@ -201,18 +218,24 @@ func (s *MediaContainerServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaContainerServiceCopyPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packagePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_target os.IParcelFileDescriptorFactory
-		_ = _arg_target
+		{
+			_targetHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_target = os.NewParcelFileDescriptorFactoryProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _targetHandle))
+		}
 		_result, _err := s.Impl.CopyPackage(ctx, _arg_packagePath, _arg_target)
 		_reply := parcel.New()
 		if _err != nil {
@@ -223,9 +246,6 @@ func (s *MediaContainerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMediaContainerServiceGetMinimalPackageInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packagePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -248,9 +268,6 @@ func (s *MediaContainerServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaContainerServiceGetObbInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_filename, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -268,9 +285,6 @@ func (s *MediaContainerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMediaContainerServiceCalculateInstalledSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packagePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -298,7 +312,7 @@ func (s *MediaContainerServiceStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IMediaContainerServiceServer interface {
 	CopyPackage(ctx context.Context, packagePath string, target os.IParcelFileDescriptorFactory) (int32, error)
-	GetMinimalPackageInfo(ctx context.Context, packagePath string, flags int32, abiOverride string) (interface{}, error)
+	GetMinimalPackageInfo(ctx context.Context, packagePath string, flags int32, abiOverride string) (types.PackageInfoLite, error)
 	GetObbInfo(ctx context.Context, filename string) (res.ObbInfo, error)
 	CalculateInstalledSize(ctx context.Context, packagePath string, abiOverride string) (int64, error)
 }
@@ -325,7 +339,7 @@ func (w *mediaContainerServiceStubWrapper) GetMinimalPackageInfo(
 	packagePath string,
 	flags int32,
 	abiOverride string,
-) (interface{}, error) {
+) (types.PackageInfoLite, error) {
 	return w.impl.GetMinimalPackageInfo(ctx, packagePath, flags, abiOverride)
 }
 

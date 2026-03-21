@@ -51,8 +51,18 @@ func (s *GnssPowerStats) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.ElapsedRealtime.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.TotalEnergyMilliJoule, _err = p.ReadFloat64()
@@ -60,9 +70,19 @@ func (s *GnssPowerStats) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SinglebandTrackingModeEnergyMilliJoule, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.MultibandTrackingModeEnergyMilliJoule, _err = p.ReadFloat64()
@@ -70,14 +90,29 @@ func (s *GnssPowerStats) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SinglebandAcquisitionModeEnergyMilliJoule, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.MultibandAcquisitionModeEnergyMilliJoule, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32

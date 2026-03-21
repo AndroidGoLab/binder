@@ -49,6 +49,7 @@ func (p *DesktopTaskListenerProxy) OnTasksVisibilityChanged(
 	visibleTasksCount int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopTaskListener)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(visibleTasksCount)
@@ -68,6 +69,7 @@ func (p *DesktopTaskListenerProxy) OnStashedChanged(
 	stashed bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopTaskListener)
 	_data.WriteInt32(displayId)
 	_data.WriteBool(stashed)
@@ -84,7 +86,8 @@ func (p *DesktopTaskListenerProxy) OnStashedChanged(
 // DesktopTaskListenerStub dispatches incoming binder transactions
 // to a typed IDesktopTaskListener implementation.
 type DesktopTaskListenerStub struct {
-	Impl IDesktopTaskListener
+	Impl      IDesktopTaskListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DesktopTaskListenerStub)(nil)
@@ -98,11 +101,12 @@ func (s *DesktopTaskListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDesktopTaskListenerOnTasksVisibilityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -112,12 +116,8 @@ func (s *DesktopTaskListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTasksVisibilityChanged(ctx, _arg_displayId, _arg_visibleTasksCount)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDesktopTaskListenerOnStashedChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -127,8 +127,7 @@ func (s *DesktopTaskListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStashedChanged(ctx, _arg_displayId, _arg_stashed)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

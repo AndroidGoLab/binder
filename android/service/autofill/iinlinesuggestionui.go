@@ -48,6 +48,7 @@ func (p *InlineSuggestionUiProxy) GetSurfacePackage(
 	callback ISurfacePackageResultCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUi)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -64,6 +65,7 @@ func (p *InlineSuggestionUiProxy) ReleaseSurfaceControlViewHost(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUi)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionUi, MethodIInlineSuggestionUiReleaseSurfaceControlViewHost)
@@ -78,7 +80,8 @@ func (p *InlineSuggestionUiProxy) ReleaseSurfaceControlViewHost(
 // InlineSuggestionUiStub dispatches incoming binder transactions
 // to a typed IInlineSuggestionUi implementation.
 type InlineSuggestionUiStub struct {
-	Impl IInlineSuggestionUi
+	Impl      IInlineSuggestionUi
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InlineSuggestionUiStub)(nil)
@@ -92,24 +95,25 @@ func (s *InlineSuggestionUiStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInlineSuggestionUiGetSurfacePackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISurfacePackageResultCallback
-		_ = _arg_callback
-		_err := s.Impl.GetSurfacePackage(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIInlineSuggestionUiReleaseSurfaceControlViewHost:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSurfacePackageResultCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.GetSurfacePackage(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIInlineSuggestionUiReleaseSurfaceControlViewHost:
 		_err := s.Impl.ReleaseSurfaceControlViewHost(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

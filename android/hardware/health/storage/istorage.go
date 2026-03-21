@@ -46,6 +46,7 @@ func (p *StorageProxy) GarbageCollect(
 	callback IGarbageCollectCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorage)
 	_data.WriteInt64(timeoutSeconds)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -62,7 +63,8 @@ func (p *StorageProxy) GarbageCollect(
 // StorageStub dispatches incoming binder transactions
 // to a typed IStorage implementation.
 type StorageStub struct {
-	Impl IStorage
+	Impl      IStorage
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StorageStub)(nil)
@@ -76,21 +78,26 @@ func (s *StorageStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStorageGarbageCollect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeoutSeconds, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGarbageCollectCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGarbageCollectCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GarbageCollect(ctx, _arg_timeoutSeconds, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

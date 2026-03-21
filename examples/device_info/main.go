@@ -129,11 +129,13 @@ func main() {
 			fmt.Printf("Vibrators:         %v\n", vibIds)
 		}
 
-		caps, err := vib.GetCapabilities(ctx)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "vibrator caps: %v\n", err)
-		} else {
-			fmt.Printf("Vibrator caps:     0x%x\n", caps)
+		if len(vibIds) > 0 {
+			vibrating, err := vib.IsVibrating(ctx, vibIds[0])
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "vibrator vibrating: %v\n", err)
+			} else {
+				fmt.Printf("Vibrator %d active: %v\n", vibIds[0], vibrating)
+			}
 		}
 	}
 

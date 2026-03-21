@@ -1,0 +1,800 @@
+package: android.hardware.camera.device
+go_package: android/hardware/camera/device
+interfaces:
+    - name: ICameraDevice
+      descriptor: android.hardware.camera.device.ICameraDevice
+      methods:
+        - name: getCameraCharacteristics
+          transaction_code_offset: 0
+          return_type:
+            name: CameraMetadata
+        - name: getPhysicalCameraCharacteristics
+          transaction_code_offset: 1
+          params:
+            - name: physicalCameraId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: CameraMetadata
+        - name: getResourceCost
+          transaction_code_offset: 2
+          return_type:
+            name: CameraResourceCost
+        - name: isStreamCombinationSupported
+          transaction_code_offset: 3
+          params:
+            - name: streams
+              type:
+                name: StreamConfiguration
+              direction: in
+          return_type:
+            name: boolean
+        - name: open
+          transaction_code_offset: 4
+          params:
+            - name: callback
+              type:
+                name: ICameraDeviceCallback
+              direction: in
+          return_type:
+            name: ICameraDeviceSession
+        - name: openInjectionSession
+          transaction_code_offset: 5
+          params:
+            - name: callback
+              type:
+                name: ICameraDeviceCallback
+              direction: in
+          return_type:
+            name: ICameraInjectionSession
+        - name: setTorchMode
+          transaction_code_offset: 6
+          params:
+            - name: "on"
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: turnOnTorchWithStrengthLevel
+          transaction_code_offset: 7
+          params:
+            - name: torchStrength
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getTorchStrengthLevel
+          transaction_code_offset: 8
+          return_type:
+            name: int
+        - name: constructDefaultRequestSettings
+          transaction_code_offset: 9
+          params:
+            - name: type
+              type:
+                name: RequestTemplate
+              direction: in
+          return_type:
+            name: CameraMetadata
+        - name: isStreamCombinationWithSettingsSupported
+          transaction_code_offset: 10
+          params:
+            - name: streams
+              type:
+                name: StreamConfiguration
+              direction: in
+          return_type:
+            name: boolean
+        - name: getSessionCharacteristics
+          transaction_code_offset: 11
+          params:
+            - name: sessionConfig
+              type:
+                name: StreamConfiguration
+              direction: in
+          return_type:
+            name: CameraMetadata
+    - name: ICameraDeviceCallback
+      descriptor: android.hardware.camera.device.ICameraDeviceCallback
+      methods:
+        - name: notify
+          transaction_code_offset: 0
+          params:
+            - name: msgs
+              type:
+                name: NotifyMsg
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: processCaptureResult
+          transaction_code_offset: 1
+          params:
+            - name: results
+              type:
+                name: CaptureResult
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: requestStreamBuffers
+          transaction_code_offset: 2
+          params:
+            - name: bufReqs
+              type:
+                name: BufferRequest
+                is_array: true
+              direction: in
+            - name: buffers
+              type:
+                name: StreamBufferRet
+                is_array: true
+              direction: out
+          return_type:
+            name: BufferRequestStatus
+        - name: returnStreamBuffers
+          transaction_code_offset: 3
+          params:
+            - name: buffers
+              type:
+                name: StreamBuffer
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: ICameraDeviceSession
+      descriptor: android.hardware.camera.device.ICameraDeviceSession
+      methods:
+        - name: close
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: configureStreams
+          transaction_code_offset: 1
+          params:
+            - name: requestedConfiguration
+              type:
+                name: StreamConfiguration
+              direction: in
+          return_type:
+            name: HalStream
+            is_array: true
+        - name: constructDefaultRequestSettings
+          transaction_code_offset: 2
+          params:
+            - name: type
+              type:
+                name: RequestTemplate
+              direction: in
+          return_type:
+            name: CameraMetadata
+        - name: flush
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: getCaptureRequestMetadataQueue
+          transaction_code_offset: 4
+          return_type:
+            name: MQDescriptor
+            type_args:
+                - name: byte
+                - name: SynchronizedReadWrite
+        - name: getCaptureResultMetadataQueue
+          transaction_code_offset: 5
+          return_type:
+            name: MQDescriptor
+            type_args:
+                - name: byte
+                - name: SynchronizedReadWrite
+        - name: isReconfigurationRequired
+          transaction_code_offset: 6
+          params:
+            - name: oldSessionParams
+              type:
+                name: CameraMetadata
+              direction: in
+            - name: newSessionParams
+              type:
+                name: CameraMetadata
+              direction: in
+          return_type:
+            name: boolean
+        - name: processCaptureRequest
+          transaction_code_offset: 7
+          params:
+            - name: requests
+              type:
+                name: CaptureRequest
+                is_array: true
+              direction: in
+            - name: cachesToRemove
+              type:
+                name: BufferCache
+                is_array: true
+              direction: in
+          return_type:
+            name: int
+        - name: signalStreamFlush
+          transaction_code_offset: 8
+          oneway: true
+          params:
+            - name: streamIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: streamConfigCounter
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: switchToOffline
+          transaction_code_offset: 9
+          params:
+            - name: streamsToKeep
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: offlineSessionInfo
+              type:
+                name: CameraOfflineSessionInfo
+              direction: out
+          return_type:
+            name: ICameraOfflineSession
+        - name: repeatingRequestEnd
+          transaction_code_offset: 10
+          params:
+            - name: frameNumber
+              type:
+                name: int
+              direction: in
+            - name: streamIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: configureStreamsV2
+          transaction_code_offset: 11
+          params:
+            - name: requestedConfiguration
+              type:
+                name: StreamConfiguration
+              direction: in
+          return_type:
+            name: ConfigureStreamsRet
+    - name: ICameraInjectionSession
+      descriptor: android.hardware.camera.device.ICameraInjectionSession
+      methods:
+        - name: configureInjectionStreams
+          transaction_code_offset: 0
+          params:
+            - name: requestedConfiguration
+              type:
+                name: StreamConfiguration
+              direction: in
+            - name: characteristics
+              type:
+                name: CameraMetadata
+              direction: in
+          return_type:
+            name: void
+        - name: getCameraDeviceSession
+          transaction_code_offset: 1
+          return_type:
+            name: ICameraDeviceSession
+    - name: ICameraOfflineSession
+      descriptor: android.hardware.camera.device.ICameraOfflineSession
+      methods:
+        - name: close
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: getCaptureResultMetadataQueue
+          transaction_code_offset: 1
+          return_type:
+            name: MQDescriptor
+            type_args:
+                - name: byte
+                - name: SynchronizedReadWrite
+        - name: setCallback
+          transaction_code_offset: 2
+          params:
+            - name: cb
+              type:
+                name: ICameraDeviceCallback
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: BufferCache
+      fields:
+        - name: streamId
+          type:
+            name: int
+        - name: bufferId
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: BufferRequest
+      fields:
+        - name: streamId
+          type:
+            name: int
+        - name: numBuffersRequested
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: CameraBlob
+      fields:
+        - name: blobId
+          type:
+            name: CameraBlobId
+        - name: blobSizeBytes
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: CameraMetadata
+      fields:
+        - name: metadata
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: CameraOfflineSessionInfo
+      fields:
+        - name: offlineStreams
+          type:
+            name: OfflineStream
+            is_array: true
+        - name: offlineRequests
+          type:
+            name: OfflineRequest
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: CaptureRequest
+      fields:
+        - name: frameNumber
+          type:
+            name: int
+        - name: fmqSettingsSize
+          type:
+            name: long
+        - name: settings
+          type:
+            name: CameraMetadata
+        - name: inputBuffer
+          type:
+            name: StreamBuffer
+        - name: inputWidth
+          type:
+            name: int
+        - name: inputHeight
+          type:
+            name: int
+        - name: outputBuffers
+          type:
+            name: StreamBuffer
+            is_array: true
+        - name: physicalCameraSettings
+          type:
+            name: PhysicalCameraSetting
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: CaptureResult
+      fields:
+        - name: frameNumber
+          type:
+            name: int
+        - name: fmqResultSize
+          type:
+            name: long
+        - name: result
+          type:
+            name: CameraMetadata
+        - name: outputBuffers
+          type:
+            name: StreamBuffer
+            is_array: true
+        - name: inputBuffer
+          type:
+            name: StreamBuffer
+        - name: partialResult
+          type:
+            name: int
+        - name: physicalCameraMetadata
+          type:
+            name: PhysicalCameraMetadata
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: ConfigureStreamsRet
+      fields:
+        - name: halStreams
+          type:
+            name: HalStream
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: ErrorMsg
+      fields:
+        - name: frameNumber
+          type:
+            name: int
+        - name: errorStreamId
+          type:
+            name: int
+        - name: errorCode
+          type:
+            name: ErrorCode
+      annotations:
+        - VintfStability
+    - name: HalStream
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: overrideFormat
+          type:
+            name: android.hardware.graphics.common.PixelFormat
+        - name: producerUsage
+          type:
+            name: android.hardware.graphics.common.BufferUsage
+        - name: consumerUsage
+          type:
+            name: android.hardware.graphics.common.BufferUsage
+        - name: maxBuffers
+          type:
+            name: int
+        - name: overrideDataSpace
+          type:
+            name: android.hardware.graphics.common.Dataspace
+        - name: physicalCameraId
+          type:
+            name: String
+        - name: supportOffline
+          type:
+            name: boolean
+        - name: enableHalBufferManager
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: OfflineRequest
+      fields:
+        - name: frameNumber
+          type:
+            name: int
+        - name: pendingStreams
+          type:
+            name: int
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: OfflineStream
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: numOutstandingBuffers
+          type:
+            name: int
+        - name: circulatingBufferIds
+          type:
+            name: long
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: PhysicalCameraMetadata
+      fields:
+        - name: fmqMetadataSize
+          type:
+            name: long
+        - name: physicalCameraId
+          type:
+            name: String
+        - name: metadata
+          type:
+            name: CameraMetadata
+      annotations:
+        - VintfStability
+    - name: PhysicalCameraSetting
+      fields:
+        - name: fmqSettingsSize
+          type:
+            name: long
+        - name: physicalCameraId
+          type:
+            name: String
+        - name: settings
+          type:
+            name: CameraMetadata
+      annotations:
+        - VintfStability
+    - name: ShutterMsg
+      fields:
+        - name: frameNumber
+          type:
+            name: int
+        - name: timestamp
+          type:
+            name: long
+        - name: readoutTimestamp
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: Stream
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: streamType
+          type:
+            name: StreamType
+        - name: width
+          type:
+            name: int
+        - name: height
+          type:
+            name: int
+        - name: format
+          type:
+            name: android.hardware.graphics.common.PixelFormat
+        - name: usage
+          type:
+            name: android.hardware.graphics.common.BufferUsage
+        - name: dataSpace
+          type:
+            name: android.hardware.graphics.common.Dataspace
+        - name: rotation
+          type:
+            name: StreamRotation
+        - name: physicalCameraId
+          type:
+            name: String
+        - name: bufferSize
+          type:
+            name: int
+        - name: groupId
+          type:
+            name: int
+        - name: sensorPixelModesUsed
+          type:
+            name: android.hardware.camera.metadata.SensorPixelMode
+            is_array: true
+        - name: dynamicRangeProfile
+          type:
+            name: android.hardware.camera.metadata.RequestAvailableDynamicRangeProfilesMap
+        - name: useCase
+          type:
+            name: android.hardware.camera.metadata.ScalerAvailableStreamUseCases
+        - name: colorSpace
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: StreamBuffer
+      fields:
+        - name: streamId
+          type:
+            name: int
+        - name: bufferId
+          type:
+            name: long
+        - name: buffer
+          type:
+            name: NativeHandle
+        - name: status
+          type:
+            name: BufferStatus
+        - name: acquireFence
+          type:
+            name: NativeHandle
+        - name: releaseFence
+          type:
+            name: NativeHandle
+      annotations:
+        - VintfStability
+    - name: StreamBufferRet
+      fields:
+        - name: streamId
+          type:
+            name: int
+        - name: val
+          type:
+            name: StreamBuffersVal
+      annotations:
+        - VintfStability
+    - name: StreamConfiguration
+      fields:
+        - name: streams
+          type:
+            name: Stream
+            is_array: true
+        - name: operationMode
+          type:
+            name: StreamConfigurationMode
+        - name: sessionParams
+          type:
+            name: CameraMetadata
+        - name: streamConfigCounter
+          type:
+            name: int
+        - name: multiResolutionInputImage
+          type:
+            name: boolean
+        - name: logId
+          type:
+            name: long
+          default_value: "0"
+      annotations:
+        - VintfStability
+enums:
+    - name: BufferRequestStatus
+      backing_type: int
+      values:
+        - name: OK
+          value: "0"
+        - name: FAILED_PARTIAL
+          value: "1"
+        - name: FAILED_CONFIGURING
+          value: "2"
+        - name: FAILED_ILLEGAL_ARGUMENTS
+          value: "3"
+        - name: FAILED_UNKNOWN
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BufferStatus
+      backing_type: int
+      values:
+        - name: OK
+          value: "0"
+        - name: ERROR
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CameraBlobId
+      backing_type: int
+      values:
+        - name: JPEG
+          value: "0x00FF"
+        - name: JPEG_APP_SEGMENTS
+          value: "0x100"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ErrorCode
+      backing_type: int
+      values:
+        - name: ERROR_DEVICE
+          value: "1"
+        - name: ERROR_REQUEST
+          value: "2"
+        - name: ERROR_RESULT
+          value: "3"
+        - name: ERROR_BUFFER
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RequestTemplate
+      backing_type: int
+      values:
+        - name: PREVIEW
+          value: "1"
+        - name: STILL_CAPTURE
+          value: "2"
+        - name: VIDEO_RECORD
+          value: "3"
+        - name: VIDEO_SNAPSHOT
+          value: "4"
+        - name: ZERO_SHUTTER_LAG
+          value: "5"
+        - name: MANUAL
+          value: "6"
+        - name: VENDOR_TEMPLATE_START
+          value: "0x40000000"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StreamBufferRequestError
+      backing_type: int
+      values:
+        - name: NO_BUFFER_AVAILABLE
+          value: "1"
+        - name: MAX_BUFFER_EXCEEDED
+          value: "2"
+        - name: STREAM_DISCONNECTED
+          value: "3"
+        - name: UNKNOWN_ERROR
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StreamConfigurationMode
+      backing_type: int
+      values:
+        - name: NORMAL_MODE
+          value: "0"
+        - name: CONSTRAINED_HIGH_SPEED_MODE
+          value: "1"
+        - name: VENDOR_MODE_0
+          value: "0x8000"
+        - name: VENDOR_MODE_1
+          value: ""
+        - name: VENDOR_MODE_2
+          value: ""
+        - name: VENDOR_MODE_3
+          value: ""
+        - name: VENDOR_MODE_4
+          value: ""
+        - name: VENDOR_MODE_5
+          value: ""
+        - name: VENDOR_MODE_6
+          value: ""
+        - name: VENDOR_MODE_7
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StreamRotation
+      backing_type: int
+      values:
+        - name: ROTATION_0
+          value: "0"
+        - name: ROTATION_90
+          value: "1"
+        - name: ROTATION_180
+          value: "2"
+        - name: ROTATION_270
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StreamType
+      backing_type: int
+      values:
+        - name: OUTPUT
+          value: "0"
+        - name: INPUT
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: NotifyMsg
+      fields:
+        - name: error
+          type:
+            name: ErrorMsg
+        - name: shutter
+          type:
+            name: ShutterMsg
+      annotations:
+        - VintfStability
+    - name: StreamBuffersVal
+      fields:
+        - name: error
+          type:
+            name: StreamBufferRequestError
+          default_value: StreamBufferRequestError.UNKNOWN_ERROR
+        - name: buffers
+          type:
+            name: StreamBuffer
+            is_array: true
+      annotations:
+        - VintfStability

@@ -1,0 +1,1103 @@
+package: android.accounts
+go_package: android/accounts
+interfaces:
+    - name: IAccountAuthenticator
+      descriptor: android.accounts.IAccountAuthenticator
+      oneway: true
+      methods:
+        - name: addAccount
+          transaction_code_offset: 0
+          params:
+            - name: response
+              type:
+                name: IAccountAuthenticatorResponse
+              direction: in
+            - name: accountType
+              type:
+                name: String
+            - name: authTokenType
+              type:
+                name: String
+            - name: requiredFeatures
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - UnsupportedAppUsage
+        - name: confirmCredentials
+          transaction_code_offset: 1
+          params:
+            - name: response
+              type:
+                name: IAccountAuthenticatorResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - UnsupportedAppUsage
+        - name: getAuthToken
+          transaction_code_offset: 2
+          params:
+            - name: response
+              type:
+                name: IAccountAuthenticatorResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authTokenType
+              type:
+                name: String
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - UnsupportedAppUsage
+        - name: getAuthTokenLabel
+          transaction_code_offset: 3
+          params:
+            - name: response
+              type:
+                name: IAccountAuthenticatorResponse
+              direction: in
+            - name: authTokenType
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - UnsupportedAppUsage
+        - name: updateCredentials
+          transaction_code_offset: 4
+          params:
+            - name: response
+              type:
+                name: IAccountAuthenticatorResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authTokenType
+              type:
+                name: String
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - UnsupportedAppUsage
+        - name: editProperties
+          transaction_code_offset: 5
+          params:
+            - name: response
+              type:
+                name: IAccountAuthenticatorResponse
+              direction: in
+            - name: accountType
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - UnsupportedAppUsage
+        - name: hasFeatures
+          transaction_code_offset: 6
+          params:
+            - name: response
+              type:
+                name: IAccountAuthenticatorResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: features
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - UnsupportedAppUsage
+        - name: getAccountRemovalAllowed
+          transaction_code_offset: 7
+          params:
+            - name: response
+              type:
+                name: IAccountAuthenticatorResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - UnsupportedAppUsage
+        - name: getAccountCredentialsForCloning
+          transaction_code_offset: 8
+          params:
+            - name: response
+              type:
+                name: IAccountAuthenticatorResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: addAccountFromCredentials
+          transaction_code_offset: 9
+          params:
+            - name: response
+              type:
+                name: IAccountAuthenticatorResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: accountCredentials
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: startAddAccountSession
+          transaction_code_offset: 10
+          params:
+            - name: response
+              type:
+                name: IAccountAuthenticatorResponse
+              direction: in
+            - name: accountType
+              type:
+                name: String
+            - name: authTokenType
+              type:
+                name: String
+            - name: requiredFeatures
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: startUpdateCredentialsSession
+          transaction_code_offset: 11
+          params:
+            - name: response
+              type:
+                name: IAccountAuthenticatorResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authTokenType
+              type:
+                name: String
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: finishSession
+          transaction_code_offset: 12
+          params:
+            - name: response
+              type:
+                name: IAccountAuthenticatorResponse
+              direction: in
+            - name: accountType
+              type:
+                name: String
+            - name: sessionBundle
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: isCredentialsUpdateSuggested
+          transaction_code_offset: 13
+          params:
+            - name: response
+              type:
+                name: IAccountAuthenticatorResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: statusToken
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+    - name: IAccountAuthenticatorResponse
+      descriptor: android.accounts.IAccountAuthenticatorResponse
+      oneway: true
+      methods:
+        - name: onResult
+          transaction_code_offset: 0
+          params:
+            - name: value
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onRequestContinued
+          transaction_code_offset: 1
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onError
+          transaction_code_offset: 2
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: errorMessage
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IAccountManager
+      descriptor: android.accounts.IAccountManager
+      methods:
+        - name: getPassword
+          transaction_code_offset: 0
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+          return_type:
+            name: String
+        - name: getUserData
+          transaction_code_offset: 1
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: key
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: getAuthenticatorTypes
+          transaction_code_offset: 2
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: AuthenticatorDescription
+            is_array: true
+        - name: getAccountsForPackage
+          transaction_code_offset: 3
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: Account
+            is_array: true
+        - name: getAccountsByTypeForPackage
+          transaction_code_offset: 4
+          params:
+            - name: type
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: Account
+            is_array: true
+        - name: getAccountsAsUser
+          transaction_code_offset: 5
+          params:
+            - name: accountType
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: Account
+            is_array: true
+        - name: hasFeatures
+          transaction_code_offset: 6
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: features
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getAccountByTypeAndFeatures
+          transaction_code_offset: 7
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: accountType
+              type:
+                name: String
+            - name: features
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getAccountsByFeatures
+          transaction_code_offset: 8
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: accountType
+              type:
+                name: String
+            - name: features
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: addAccountExplicitly
+          transaction_code_offset: 9
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: password
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+            - name: opPackageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: removeAccountAsUser
+          transaction_code_offset: 10
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: expectActivityLaunch
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removeAccountExplicitly
+          transaction_code_offset: 11
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+          return_type:
+            name: boolean
+        - name: copyAccountToUser
+          transaction_code_offset: 12
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: userFrom
+              type:
+                name: int
+            - name: userTo
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: invalidateAuthToken
+          transaction_code_offset: 13
+          params:
+            - name: accountType
+              type:
+                name: String
+            - name: authToken
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: peekAuthToken
+          transaction_code_offset: 14
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authTokenType
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: setAuthToken
+          transaction_code_offset: 15
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authTokenType
+              type:
+                name: String
+            - name: authToken
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setPassword
+          transaction_code_offset: 16
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: password
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: clearPassword
+          transaction_code_offset: 17
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+          return_type:
+            name: void
+        - name: setUserData
+          transaction_code_offset: 18
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: key
+              type:
+                name: String
+            - name: value
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: updateAppPermission
+          transaction_code_offset: 19
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authTokenType
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+            - name: value
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getAuthToken
+          transaction_code_offset: 20
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authTokenType
+              type:
+                name: String
+            - name: notifyOnAuthFailure
+              type:
+                name: boolean
+            - name: expectActivityLaunch
+              type:
+                name: boolean
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: addAccount
+          transaction_code_offset: 21
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: accountType
+              type:
+                name: String
+            - name: authTokenType
+              type:
+                name: String
+            - name: requiredFeatures
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: expectActivityLaunch
+              type:
+                name: boolean
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: addAccountAsUser
+          transaction_code_offset: 22
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: accountType
+              type:
+                name: String
+            - name: authTokenType
+              type:
+                name: String
+            - name: requiredFeatures
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: expectActivityLaunch
+              type:
+                name: boolean
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: updateCredentials
+          transaction_code_offset: 23
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authTokenType
+              type:
+                name: String
+            - name: expectActivityLaunch
+              type:
+                name: boolean
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: editProperties
+          transaction_code_offset: 24
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: accountType
+              type:
+                name: String
+            - name: expectActivityLaunch
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: confirmCredentialsAsUser
+          transaction_code_offset: 25
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+            - name: expectActivityLaunch
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: accountAuthenticated
+          transaction_code_offset: 26
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+          return_type:
+            name: boolean
+        - name: getAuthTokenLabel
+          transaction_code_offset: 27
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: accountType
+              type:
+                name: String
+            - name: authTokenType
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: addSharedAccountsFromParentUser
+          transaction_code_offset: 28
+          params:
+            - name: parentUserId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: renameAccount
+          transaction_code_offset: 29
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: accountToRename
+              type:
+                name: Account
+              direction: in
+            - name: newName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getPreviousName
+          transaction_code_offset: 30
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+          return_type:
+            name: String
+        - name: startAddAccountSession
+          transaction_code_offset: 31
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: accountType
+              type:
+                name: String
+            - name: authTokenType
+              type:
+                name: String
+            - name: requiredFeatures
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: expectActivityLaunch
+              type:
+                name: boolean
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: startUpdateCredentialsSession
+          transaction_code_offset: 32
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authTokenType
+              type:
+                name: String
+            - name: expectActivityLaunch
+              type:
+                name: boolean
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: finishSessionAsUser
+          transaction_code_offset: 33
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: sessionBundle
+              type:
+                name: Bundle
+              direction: in
+            - name: expectActivityLaunch
+              type:
+                name: boolean
+            - name: appInfo
+              type:
+                name: Bundle
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: someUserHasAccount
+          transaction_code_offset: 34
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+          return_type:
+            name: boolean
+        - name: isCredentialsUpdateSuggested
+          transaction_code_offset: 35
+          params:
+            - name: response
+              type:
+                name: IAccountManagerResponse
+              direction: in
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: statusToken
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getPackagesAndVisibilityForAccount
+          transaction_code_offset: 36
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+          return_type:
+            name: Map
+          annotations:
+            - SuppressWarnings
+        - name: addAccountExplicitlyWithVisibility
+          transaction_code_offset: 37
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: password
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+            - name: visibility
+              type:
+                name: Map
+              direction: in
+            - name: opPackageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - SuppressWarnings
+        - name: setAccountVisibility
+          transaction_code_offset: 38
+          params:
+            - name: a
+              type:
+                name: Account
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: newVisibility
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getAccountVisibility
+          transaction_code_offset: 39
+          params:
+            - name: a
+              type:
+                name: Account
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: getAccountsAndVisibilityForPackage
+          transaction_code_offset: 40
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: accountType
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: Map
+          annotations:
+            - SuppressWarnings
+        - name: registerAccountListener
+          transaction_code_offset: 41
+          params:
+            - name: accountTypes
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: unregisterAccountListener
+          transaction_code_offset: 42
+          params:
+            - name: accountTypes
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: hasAccountAccess
+          transaction_code_offset: 43
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: userHandle
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: boolean
+        - name: createRequestAccountAccessIntentSenderAsUser
+          transaction_code_offset: 44
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: userHandle
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: IntentSender
+        - name: onAccountAccessed
+          transaction_code_offset: 45
+          params:
+            - name: token
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IAccountManagerResponse
+      descriptor: android.accounts.IAccountManagerResponse
+      oneway: true
+      methods:
+        - name: onResult
+          transaction_code_offset: 0
+          params:
+            - name: value
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onError
+          transaction_code_offset: 1
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: errorMessage
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+parcelables:
+    - name: Account
+    - name: AuthenticatorDescription

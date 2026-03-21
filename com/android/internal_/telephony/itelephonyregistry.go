@@ -212,6 +212,7 @@ func (p *TelephonyRegistryProxy) AddOnSubscriptionsChangedListener(
 	callback IOnSubscriptionsChangedListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteString16(pkg)
 	_data.WriteString16(featureId)
@@ -242,6 +243,7 @@ func (p *TelephonyRegistryProxy) AddOnOpportunisticSubscriptionsChangedListener(
 	callback IOnSubscriptionsChangedListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteString16(pkg)
 	_data.WriteString16(featureId)
@@ -271,6 +273,7 @@ func (p *TelephonyRegistryProxy) RemoveOnSubscriptionsChangedListener(
 	callback IOnSubscriptionsChangedListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteString16(pkg)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -305,6 +308,7 @@ func (p *TelephonyRegistryProxy) ListenWithEventList(
 	notifyNow bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteBool(renounceFineLocationAccess)
 	_data.WriteBool(renounceCoarseLocationAccess)
@@ -346,6 +350,7 @@ func (p *TelephonyRegistryProxy) NotifyCallStateForAllSubs(
 	incomingNumber string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(state)
 	_data.WriteString16(incomingNumber)
@@ -376,6 +381,7 @@ func (p *TelephonyRegistryProxy) NotifyCallState(
 	incomingNumber string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -407,6 +413,7 @@ func (p *TelephonyRegistryProxy) NotifyServiceStateForPhoneId(
 	state androidTelephony.ServiceState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -440,6 +447,7 @@ func (p *TelephonyRegistryProxy) NotifySignalStrengthForPhoneId(
 	signalStrength network.SignalStrength,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -473,6 +481,7 @@ func (p *TelephonyRegistryProxy) NotifyMessageWaitingChangedForPhoneId(
 	mwi bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -501,6 +510,7 @@ func (p *TelephonyRegistryProxy) NotifyCallForwardingChanged(
 	cfi bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteBool(cfi)
 
@@ -528,6 +538,7 @@ func (p *TelephonyRegistryProxy) NotifyCallForwardingChangedForSubscriber(
 	cfi bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(subId)
 	_data.WriteBool(cfi)
@@ -556,6 +567,7 @@ func (p *TelephonyRegistryProxy) NotifyDataActivityForSubscriber(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(state)
@@ -585,6 +597,7 @@ func (p *TelephonyRegistryProxy) NotifyDataActivityForSubscriberWithSlot(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -615,6 +628,7 @@ func (p *TelephonyRegistryProxy) NotifyDataConnectionForSubscriber(
 	preciseState androidTelephony.PreciseDataConnectionState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -647,6 +661,7 @@ func (p *TelephonyRegistryProxy) NotifyCellLocationForSubscriber(
 	cellLocation network.CellIdentity,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -677,6 +692,7 @@ func (p *TelephonyRegistryProxy) NotifyCellInfo(
 	cellInfo []network.CellInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	if cellInfo == nil {
 		_data.WriteInt32(-1)
@@ -718,6 +734,7 @@ func (p *TelephonyRegistryProxy) NotifyPreciseCallState(
 	imsCallTypes []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -780,6 +797,7 @@ func (p *TelephonyRegistryProxy) NotifyDisconnectCause(
 	preciseDisconnectCause int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -810,6 +828,7 @@ func (p *TelephonyRegistryProxy) NotifyCellInfoForSubscriber(
 	cellInfo []network.CellInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(subId)
 	if cellInfo == nil {
@@ -848,6 +867,7 @@ func (p *TelephonyRegistryProxy) NotifySrvccStateChanged(
 	lteState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(lteState)
@@ -878,6 +898,7 @@ func (p *TelephonyRegistryProxy) NotifySimActivationStateChangedForPhoneId(
 	activationType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -909,17 +930,11 @@ func (p *TelephonyRegistryProxy) NotifyOemHookRawEventForSubscriber(
 	rawData []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
-	if rawData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(rawData)))
-		for _, _item := range rawData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(rawData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyOemHookRawEventForSubscriber)
 	if _err != nil {
@@ -943,6 +958,7 @@ func (p *TelephonyRegistryProxy) NotifySubscriptionInfoChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifySubscriptionInfoChanged)
@@ -967,6 +983,7 @@ func (p *TelephonyRegistryProxy) NotifyOpportunisticSubscriptionInfoChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephonyRegistry, MethodITelephonyRegistryNotifyOpportunisticSubscriptionInfoChanged)
@@ -992,6 +1009,7 @@ func (p *TelephonyRegistryProxy) NotifyCarrierNetworkChange(
 	active bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteBool(active)
 
@@ -1019,6 +1037,7 @@ func (p *TelephonyRegistryProxy) NotifyCarrierNetworkChangeWithSubId(
 	active bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(subId)
 	_data.WriteBool(active)
@@ -1048,6 +1067,7 @@ func (p *TelephonyRegistryProxy) NotifyUserMobileDataStateChangedForPhoneId(
 	state bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -1078,6 +1098,7 @@ func (p *TelephonyRegistryProxy) NotifyDisplayInfoChanged(
 	telephonyDisplayInfo androidTelephony.TelephonyDisplayInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(slotIndex)
 	_data.WriteInt32(subId)
@@ -1109,6 +1130,7 @@ func (p *TelephonyRegistryProxy) NotifyPhoneCapabilityChanged(
 	capability config.PhoneCapability,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(1)
 	if _err := capability.MarshalParcel(_data); _err != nil {
@@ -1138,6 +1160,7 @@ func (p *TelephonyRegistryProxy) NotifyActiveDataSubIdChanged(
 	activeDataSubId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(activeDataSubId)
 
@@ -1166,6 +1189,7 @@ func (p *TelephonyRegistryProxy) NotifyRadioPowerStateChanged(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -1195,6 +1219,7 @@ func (p *TelephonyRegistryProxy) NotifyEmergencyNumberList(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -1224,6 +1249,7 @@ func (p *TelephonyRegistryProxy) NotifyOutgoingEmergencyCall(
 	emergencyNumber voice.EmergencyNumber,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -1257,6 +1283,7 @@ func (p *TelephonyRegistryProxy) NotifyOutgoingEmergencySms(
 	emergencyNumber voice.EmergencyNumber,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -1291,6 +1318,7 @@ func (p *TelephonyRegistryProxy) NotifyCallQualityChanged(
 	callNetworkType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(1)
 	if _err := callQuality.MarshalParcel(_data); _err != nil {
@@ -1325,6 +1353,7 @@ func (p *TelephonyRegistryProxy) NotifyMediaQualityStatusChanged(
 	status media.MediaQualityStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -1357,6 +1386,7 @@ func (p *TelephonyRegistryProxy) NotifyImsDisconnectCause(
 	imsReasonInfo ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -1393,6 +1423,7 @@ func (p *TelephonyRegistryProxy) NotifyRegistrationFailed(
 	additionalCauseCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(slotIndex)
 	_data.WriteInt32(subId)
@@ -1430,6 +1461,7 @@ func (p *TelephonyRegistryProxy) NotifyBarringInfoChanged(
 	barringInfo network.BarringInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(slotIndex)
 	_data.WriteInt32(subId)
@@ -1463,6 +1495,7 @@ func (p *TelephonyRegistryProxy) NotifyPhysicalChannelConfigForSubscriber(
 	configs []network.PhysicalChannelConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -1504,6 +1537,7 @@ func (p *TelephonyRegistryProxy) NotifyDataEnabled(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -1536,6 +1570,7 @@ func (p *TelephonyRegistryProxy) NotifyAllowedNetworkTypesChanged(
 	allowedNetworkType int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -1567,6 +1602,7 @@ func (p *TelephonyRegistryProxy) NotifyLinkCapacityEstimateChanged(
 	linkCapacityEstimateList []network.LinkCapacityEstimate,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -1605,6 +1641,7 @@ func (p *TelephonyRegistryProxy) NotifySimultaneousCellularCallingSubscriptionsC
 	subIds []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	if subIds == nil {
 		_data.WriteInt32(-1)
@@ -1641,6 +1678,7 @@ func (p *TelephonyRegistryProxy) AddCarrierPrivilegesCallback(
 	featureId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -1671,6 +1709,7 @@ func (p *TelephonyRegistryProxy) RemoveCarrierPrivilegesCallback(
 	pkg string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(pkg)
@@ -1700,6 +1739,7 @@ func (p *TelephonyRegistryProxy) NotifyCarrierPrivilegesChanged(
 	privilegedUids []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	if privilegedPackageNames == nil {
@@ -1744,6 +1784,7 @@ func (p *TelephonyRegistryProxy) NotifyCarrierServiceChanged(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteString16(packageName)
@@ -1774,6 +1815,7 @@ func (p *TelephonyRegistryProxy) AddCarrierConfigChangeListener(
 	featureId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(pkg)
@@ -1803,6 +1845,7 @@ func (p *TelephonyRegistryProxy) RemoveCarrierConfigChangeListener(
 	pkg string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(pkg)
@@ -1833,6 +1876,7 @@ func (p *TelephonyRegistryProxy) NotifyCarrierConfigChanged(
 	specificCarrierId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -1864,6 +1908,7 @@ func (p *TelephonyRegistryProxy) NotifyCallbackModeStarted(
 	type_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -1895,6 +1940,7 @@ func (p *TelephonyRegistryProxy) NotifyCallbackModeStopped(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
@@ -1925,6 +1971,7 @@ func (p *TelephonyRegistryProxy) NotifyCarrierRoamingNtnModeChanged(
 	active bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(subId)
 	_data.WriteBool(active)
@@ -1950,7 +1997,8 @@ func (p *TelephonyRegistryProxy) NotifyCarrierRoamingNtnModeChanged(
 // TelephonyRegistryStub dispatches incoming binder transactions
 // to a typed ITelephonyRegistry implementation.
 type TelephonyRegistryStub struct {
-	Impl ITelephonyRegistry
+	Impl      ITelephonyRegistry
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TelephonyRegistryStub)(nil)
@@ -1964,11 +2012,12 @@ func (s *TelephonyRegistryStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITelephonyRegistryAddOnSubscriptionsChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1977,9 +2026,14 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IOnSubscriptionsChangedListener
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewOnSubscriptionsChangedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.AddOnSubscriptionsChangedListener(ctx, _arg_pkg, _arg_featureId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1989,9 +2043,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryAddOnOpportunisticSubscriptionsChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2000,9 +2051,14 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IOnSubscriptionsChangedListener
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewOnSubscriptionsChangedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.AddOnOpportunisticSubscriptionsChangedListener(ctx, _arg_pkg, _arg_featureId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2012,16 +2068,18 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryRemoveOnSubscriptionsChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IOnSubscriptionsChangedListener
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewOnSubscriptionsChangedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RemoveOnSubscriptionsChangedListener(ctx, _arg_pkg, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2031,9 +2089,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryListenWithEventList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_renounceFineLocationAccess, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2054,12 +2109,33 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPhoneStateListener
-		_ = _arg_callback
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPhoneStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_events []int32
-		_ = _arg_events
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_events = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_events[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_notifyNow, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2073,9 +2149,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCallStateForAllSubs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2093,9 +2166,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCallState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2121,9 +2191,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyServiceStateForPhoneId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2153,9 +2220,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifySignalStrengthForPhoneId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2185,9 +2249,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyMessageWaitingChangedForPhoneId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2209,9 +2270,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCallForwardingChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cfi, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2225,9 +2283,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCallForwardingChangedForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2245,9 +2300,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyDataActivityForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2265,9 +2317,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyDataActivityForSubscriberWithSlot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2289,9 +2338,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyDataConnectionForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2321,9 +2367,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCellLocationForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2349,12 +2392,27 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCellInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_cellInfo []network.CellInfo
-		_ = _arg_cellInfo
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_cellInfo = make([]network.CellInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_cellInfo[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.NotifyCellInfo(ctx, _arg_cellInfo)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2364,9 +2422,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyPreciseCallState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2375,18 +2430,82 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_callStates []int32
-		_ = _arg_callStates
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_callStates = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_callStates[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_imsCallIds []string
-		_ = _arg_imsCallIds
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_imsCallIds = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_imsCallIds[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_imsCallServiceTypes []int32
-		_ = _arg_imsCallServiceTypes
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_imsCallServiceTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_imsCallServiceTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_imsCallTypes []int32
-		_ = _arg_imsCallTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_imsCallTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_imsCallTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.NotifyPreciseCallState(ctx, _arg_phoneId, _arg_subId, _arg_callStates, _arg_imsCallIds, _arg_imsCallServiceTypes, _arg_imsCallTypes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2396,9 +2515,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyDisconnectCause:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2424,16 +2540,31 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCellInfoForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_cellInfo []network.CellInfo
-		_ = _arg_cellInfo
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_cellInfo = make([]network.CellInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_cellInfo[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.NotifyCellInfoForSubscriber(ctx, _arg_subId, _arg_cellInfo)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2443,9 +2574,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifySrvccStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2463,9 +2591,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifySimActivationStateChangedForPhoneId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2491,9 +2616,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyOemHookRawEventForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2502,9 +2624,14 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_rawData []byte
-		_ = _arg_rawData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_rawData = _bytes
+		}
 		_err = s.Impl.NotifyOemHookRawEventForSubscriber(ctx, _arg_phoneId, _arg_subId, _arg_rawData)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2514,9 +2641,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifySubscriptionInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NotifySubscriptionInfoChanged(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2526,9 +2650,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyOpportunisticSubscriptionInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NotifyOpportunisticSubscriptionInfoChanged(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2538,9 +2659,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCarrierNetworkChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2554,9 +2672,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCarrierNetworkChangeWithSubId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2574,9 +2689,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyUserMobileDataStateChangedForPhoneId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2598,9 +2710,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyDisplayInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2630,9 +2739,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyPhoneCapabilityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_capability config.PhoneCapability
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2654,9 +2760,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyActiveDataSubIdChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_activeDataSubId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2670,9 +2773,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyRadioPowerStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2694,9 +2794,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyEmergencyNumberList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2714,9 +2811,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyOutgoingEmergencyCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2746,9 +2840,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyOutgoingEmergencySms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2778,9 +2869,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCallQualityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_callQuality media.CallQuality
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2814,9 +2902,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyMediaQualityStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2846,9 +2931,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyImsDisconnectCause:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2874,9 +2956,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyRegistrationFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2922,9 +3001,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyBarringInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2954,9 +3030,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyPhysicalChannelConfigForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2965,9 +3038,27 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_configs []network.PhysicalChannelConfig
-		_ = _arg_configs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_configs = make([]network.PhysicalChannelConfig, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_configs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.NotifyPhysicalChannelConfigForSubscriber(ctx, _arg_phoneId, _arg_subId, _arg_configs)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2977,9 +3068,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyDataEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3005,9 +3093,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyAllowedNetworkTypesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3033,9 +3118,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyLinkCapacityEstimateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3044,9 +3126,27 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_linkCapacityEstimateList []network.LinkCapacityEstimate
-		_ = _arg_linkCapacityEstimateList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_linkCapacityEstimateList = make([]network.LinkCapacityEstimate, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_linkCapacityEstimateList[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.NotifyLinkCapacityEstimateChanged(ctx, _arg_phoneId, _arg_subId, _arg_linkCapacityEstimateList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3056,12 +3156,25 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifySimultaneousCellularCallingSubscriptionsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_subIds []int32
-		_ = _arg_subIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_subIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_subIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.NotifySimultaneousCellularCallingSubscriptionsChanged(ctx, _arg_subIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3071,16 +3184,18 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryAddCarrierPrivilegesCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICarrierPrivilegesCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCarrierPrivilegesCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3098,12 +3213,14 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryRemoveCarrierPrivilegesCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICarrierPrivilegesCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCarrierPrivilegesCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3117,19 +3234,48 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCarrierPrivilegesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_privilegedPackageNames []string
-		_ = _arg_privilegedPackageNames
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_privilegedPackageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_privilegedPackageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_privilegedUids []int32
-		_ = _arg_privilegedUids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_privilegedUids = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_privilegedUids[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.NotifyCarrierPrivilegesChanged(ctx, _arg_phoneId, _arg_privilegedPackageNames, _arg_privilegedUids)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3139,9 +3285,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCarrierServiceChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3163,12 +3306,14 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryAddCarrierConfigChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ICarrierConfigChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewCarrierConfigChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3186,12 +3331,14 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryRemoveCarrierConfigChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ICarrierConfigChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewCarrierConfigChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3205,9 +3352,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCarrierConfigChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3233,9 +3377,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCallbackModeStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3257,9 +3398,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCallbackModeStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3285,9 +3423,6 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCarrierRoamingNtnModeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

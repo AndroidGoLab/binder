@@ -49,7 +49,7 @@ type IWearableSensingService interface {
 	AsBinder() binder.IBinder
 	ProvideSecureConnection(ctx context.Context, parcelFileDescriptor int32, callback os.RemoteCallback) error
 	ProvideDataStream(ctx context.Context, parcelFileDescriptor int32, callback os.RemoteCallback) error
-	ProvideData(ctx context.Context, data interface{}, sharedMemory os.SharedMemory, callback os.RemoteCallback) error
+	ProvideData(ctx context.Context, data os.PersistableBundle, sharedMemory os.SharedMemory, callback os.RemoteCallback) error
 	RegisterDataRequestObserver(ctx context.Context, dataType int32, dataRequestCallback os.RemoteCallback, dataRequestObserverId int32, packageName string, statusCallback os.RemoteCallback) error
 	UnregisterDataRequestObserver(ctx context.Context, dataType int32, dataRequestObserverId int32, packageName string, statusCallback os.RemoteCallback) error
 	StartHotwordRecognition(ctx context.Context, wearableHotwordCallback os.RemoteCallback, statusCallback os.RemoteCallback) error
@@ -84,6 +84,7 @@ func (p *WearableSensingServiceProxy) ProvideSecureConnection(
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	_data.WriteFileDescriptor(parcelFileDescriptor)
 	_data.WriteInt32(1)
@@ -106,6 +107,7 @@ func (p *WearableSensingServiceProxy) ProvideDataStream(
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	_data.WriteFileDescriptor(parcelFileDescriptor)
 	_data.WriteInt32(1)
@@ -124,12 +126,17 @@ func (p *WearableSensingServiceProxy) ProvideDataStream(
 
 func (p *WearableSensingServiceProxy) ProvideData(
 	ctx context.Context,
-	data interface{},
+	data os.PersistableBundle,
 	sharedMemory os.SharedMemory,
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
+	_data.WriteInt32(1)
+	if _err := data.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := sharedMemory.MarshalParcel(_data); _err != nil {
 		return _err
@@ -157,6 +164,7 @@ func (p *WearableSensingServiceProxy) RegisterDataRequestObserver(
 	statusCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	_data.WriteInt32(dataType)
 	_data.WriteInt32(1)
@@ -187,6 +195,7 @@ func (p *WearableSensingServiceProxy) UnregisterDataRequestObserver(
 	statusCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	_data.WriteInt32(dataType)
 	_data.WriteInt32(dataRequestObserverId)
@@ -211,6 +220,7 @@ func (p *WearableSensingServiceProxy) StartHotwordRecognition(
 	statusCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	_data.WriteInt32(1)
 	if _err := wearableHotwordCallback.MarshalParcel(_data); _err != nil {
@@ -235,6 +245,7 @@ func (p *WearableSensingServiceProxy) StopHotwordRecognition(
 	statusCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	_data.WriteInt32(1)
 	if _err := statusCallback.MarshalParcel(_data); _err != nil {
@@ -254,6 +265,7 @@ func (p *WearableSensingServiceProxy) OnValidatedByHotwordDetectionService(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceOnValidatedByHotwordDetectionService)
@@ -269,6 +281,7 @@ func (p *WearableSensingServiceProxy) StopActiveHotwordAudio(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceStopActiveHotwordAudio)
@@ -288,6 +301,7 @@ func (p *WearableSensingServiceProxy) StartDetection(
 	statusCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -317,6 +331,7 @@ func (p *WearableSensingServiceProxy) StopDetection(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	_data.WriteString16(packageName)
 
@@ -336,6 +351,7 @@ func (p *WearableSensingServiceProxy) QueryServiceStatus(
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	if eventTypes == nil {
 		_data.WriteInt32(-1)
@@ -364,6 +380,7 @@ func (p *WearableSensingServiceProxy) KillProcess(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceKillProcess)
@@ -378,7 +395,8 @@ func (p *WearableSensingServiceProxy) KillProcess(
 // WearableSensingServiceStub dispatches incoming binder transactions
 // to a typed IWearableSensingService implementation.
 type WearableSensingServiceStub struct {
-	Impl IWearableSensingService
+	Impl      IWearableSensingService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WearableSensingServiceStub)(nil)
@@ -392,11 +410,12 @@ func (s *WearableSensingServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWearableSensingServiceProvideSecureConnection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_parcelFileDescriptor, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -414,12 +433,8 @@ func (s *WearableSensingServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.ProvideSecureConnection(ctx, _arg_parcelFileDescriptor, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWearableSensingServiceProvideDataStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_parcelFileDescriptor, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -437,13 +452,20 @@ func (s *WearableSensingServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.ProvideDataStream(ctx, _arg_parcelFileDescriptor, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWearableSensingServiceProvideData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_data os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_data interface{}
 		var _arg_sharedMemory os.SharedMemory
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -469,12 +491,8 @@ func (s *WearableSensingServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ProvideData(ctx, _arg_data, _arg_sharedMemory, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWearableSensingServiceRegisterDataRequestObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dataType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -512,12 +530,8 @@ func (s *WearableSensingServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.RegisterDataRequestObserver(ctx, _arg_dataType, _arg_dataRequestCallback, _arg_dataRequestObserverId, _arg_packageName, _arg_statusCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWearableSensingServiceUnregisterDataRequestObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dataType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -543,12 +557,8 @@ func (s *WearableSensingServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.UnregisterDataRequestObserver(ctx, _arg_dataType, _arg_dataRequestObserverId, _arg_packageName, _arg_statusCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWearableSensingServiceStartHotwordRecognition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_wearableHotwordCallback os.RemoteCallback
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -574,12 +584,8 @@ func (s *WearableSensingServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.StartHotwordRecognition(ctx, _arg_wearableHotwordCallback, _arg_statusCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWearableSensingServiceStopHotwordRecognition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_statusCallback os.RemoteCallback
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -593,26 +599,14 @@ func (s *WearableSensingServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.StopHotwordRecognition(ctx, _arg_statusCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWearableSensingServiceOnValidatedByHotwordDetectionService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnValidatedByHotwordDetectionService(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWearableSensingServiceStopActiveHotwordAudio:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopActiveHotwordAudio(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWearableSensingServiceStartDetection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request ambientcontext.AmbientContextEventRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -654,26 +648,34 @@ func (s *WearableSensingServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StartDetection(ctx, _arg_request, _arg_packageName, _arg_detectionResultCallback, _arg_statusCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWearableSensingServiceStopDetection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.StopDetection(ctx, _arg_packageName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWearableSensingServiceQueryServiceStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_eventTypes []int32
-		_ = _arg_eventTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_eventTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_eventTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -691,15 +693,10 @@ func (s *WearableSensingServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.QueryServiceStatus(ctx, _arg_eventTypes, _arg_packageName, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWearableSensingServiceKillProcess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.KillProcess(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -711,7 +708,7 @@ func (s *WearableSensingServiceStub) OnTransaction(
 type IWearableSensingServiceServer interface {
 	ProvideSecureConnection(ctx context.Context, parcelFileDescriptor int32, callback os.RemoteCallback) error
 	ProvideDataStream(ctx context.Context, parcelFileDescriptor int32, callback os.RemoteCallback) error
-	ProvideData(ctx context.Context, data interface{}, sharedMemory os.SharedMemory, callback os.RemoteCallback) error
+	ProvideData(ctx context.Context, data os.PersistableBundle, sharedMemory os.SharedMemory, callback os.RemoteCallback) error
 	RegisterDataRequestObserver(ctx context.Context, dataType int32, dataRequestCallback os.RemoteCallback, dataRequestObserverId int32, packageName string, statusCallback os.RemoteCallback) error
 	UnregisterDataRequestObserver(ctx context.Context, dataType int32, dataRequestObserverId int32, packageName string, statusCallback os.RemoteCallback) error
 	StartHotwordRecognition(ctx context.Context, wearableHotwordCallback os.RemoteCallback, statusCallback os.RemoteCallback) error
@@ -751,7 +748,7 @@ func (w *wearableSensingServiceStubWrapper) ProvideDataStream(
 
 func (w *wearableSensingServiceStubWrapper) ProvideData(
 	ctx context.Context,
-	data interface{},
+	data os.PersistableBundle,
 	sharedMemory os.SharedMemory,
 	callback os.RemoteCallback,
 ) error {

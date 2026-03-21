@@ -1,6 +1,7 @@
 package media
 
 import (
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -10,9 +11,9 @@ import (
 type AudioMix struct {
 	Criteria                            []AudioMixMatchCriterion
 	MixType                             AudioMixType
-	Format                              interface{}
+	Format                              common.AudioConfig
 	RouteFlags                          int32
-	Device                              interface{}
+	Device                              common.AudioDevice
 	CbFlags                             int32
 	AllowPrivilegedMediaPlaybackCapture bool
 	VoiceCommunicationCaptureAllowed    bool
@@ -37,7 +38,13 @@ func (s *AudioMix) MarshalParcel(
 		}
 	}
 	p.WriteInt32(int32(s.MixType))
+	if _err := s.Format.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.RouteFlags)
+	if _err := s.Device.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.CbFlags)
 	p.WriteBool(s.AllowPrivilegedMediaPlaybackCapture)
 	p.WriteBool(s.VoiceCommunicationCaptureAllowed)
@@ -59,6 +66,11 @@ func (s *AudioMix) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
 	if _err != nil {
@@ -76,15 +88,48 @@ func (s *AudioMix) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_mixTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.MixType = AudioMixType(_mixTypeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.Format.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.RouteFlags, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.Device.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.CbFlags, _err = p.ReadInt32()
@@ -92,9 +137,19 @@ func (s *AudioMix) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.AllowPrivilegedMediaPlaybackCapture, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.VoiceCommunicationCaptureAllowed, _err = p.ReadBool()
@@ -102,11 +157,18 @@ func (s *AudioMix) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_mTokenHandle, _err := p.ReadStrongBinder()
 	if _err != nil {
 		return _err
 	}
-	s.MToken = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _mTokenHandle)
+	if _mTokenHandle != 0 {
+		s.MToken = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _mTokenHandle)
+	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

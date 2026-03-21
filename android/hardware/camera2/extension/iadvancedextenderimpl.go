@@ -3,6 +3,7 @@ package extension
 import (
 	"context"
 	"fmt"
+	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -43,18 +44,18 @@ const (
 
 type IAdvancedExtenderImpl interface {
 	AsBinder() binder.IBinder
-	IsExtensionAvailable(ctx context.Context, cameraId string, charsMap map[string]interface{}) (bool, error)
-	Init(ctx context.Context, cameraId string, charsMap map[string]interface{}) error
+	IsExtensionAvailable(ctx context.Context, cameraId string, charsMap map[string]impl.CameraMetadataNative) (bool, error)
+	Init(ctx context.Context, cameraId string, charsMap map[string]impl.CameraMetadataNative) error
 	GetEstimatedCaptureLatencyRange(ctx context.Context, cameraId string, outputSize Size, format int32) (LatencyRange, error)
 	GetSupportedPreviewOutputResolutions(ctx context.Context, cameraId string) ([]SizeList, error)
 	GetSupportedCaptureOutputResolutions(ctx context.Context, cameraId string) ([]SizeList, error)
 	GetSupportedPostviewResolutions(ctx context.Context, captureSize Size) ([]SizeList, error)
 	GetSessionProcessor(ctx context.Context) (ISessionProcessorImpl, error)
-	GetAvailableCaptureRequestKeys(ctx context.Context, cameraId string) (interface{}, error)
-	GetAvailableCaptureResultKeys(ctx context.Context, cameraId string) (interface{}, error)
+	GetAvailableCaptureRequestKeys(ctx context.Context, cameraId string) (impl.CameraMetadataNative, error)
+	GetAvailableCaptureResultKeys(ctx context.Context, cameraId string) (impl.CameraMetadataNative, error)
 	IsCaptureProcessProgressAvailable(ctx context.Context) (bool, error)
 	IsPostviewAvailable(ctx context.Context) (bool, error)
-	GetAvailableCharacteristicsKeyValues(ctx context.Context, cameraId string) (interface{}, error)
+	GetAvailableCharacteristicsKeyValues(ctx context.Context, cameraId string) (impl.CameraMetadataNative, error)
 }
 
 type AdvancedExtenderImplProxy struct {
@@ -76,16 +77,24 @@ var _ IAdvancedExtenderImpl = (*AdvancedExtenderImplProxy)(nil)
 func (p *AdvancedExtenderImplProxy) IsExtensionAvailable(
 	ctx context.Context,
 	cameraId string,
-	charsMap map[string]interface{},
+	charsMap map[string]impl.CameraMetadataNative,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 	_data.WriteString16(cameraId)
 	if charsMap == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(charsMap)))
+		for _k, _v := range charsMap {
+			_data.WriteString16(_k)
+			_data.WriteInt32(1)
+			if _err := _v.MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplIsExtensionAvailable)
@@ -113,15 +122,23 @@ func (p *AdvancedExtenderImplProxy) IsExtensionAvailable(
 func (p *AdvancedExtenderImplProxy) Init(
 	ctx context.Context,
 	cameraId string,
-	charsMap map[string]interface{},
+	charsMap map[string]impl.CameraMetadataNative,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 	_data.WriteString16(cameraId)
 	if charsMap == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(charsMap)))
+		for _k, _v := range charsMap {
+			_data.WriteString16(_k)
+			_data.WriteInt32(1)
+			if _err := _v.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplInit)
@@ -150,6 +167,7 @@ func (p *AdvancedExtenderImplProxy) GetEstimatedCaptureLatencyRange(
 ) (LatencyRange, error) {
 	var _result LatencyRange
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 	_data.WriteString16(cameraId)
 	_data.WriteInt32(1)
@@ -191,6 +209,7 @@ func (p *AdvancedExtenderImplProxy) GetSupportedPreviewOutputResolutions(
 ) ([]SizeList, error) {
 	var _result []SizeList
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 	_data.WriteString16(cameraId)
 
@@ -213,6 +232,9 @@ func (p *AdvancedExtenderImplProxy) GetSupportedPreviewOutputResolutions(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]SizeList, _count)
@@ -234,6 +256,7 @@ func (p *AdvancedExtenderImplProxy) GetSupportedCaptureOutputResolutions(
 ) ([]SizeList, error) {
 	var _result []SizeList
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 	_data.WriteString16(cameraId)
 
@@ -256,6 +279,9 @@ func (p *AdvancedExtenderImplProxy) GetSupportedCaptureOutputResolutions(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]SizeList, _count)
@@ -277,6 +303,7 @@ func (p *AdvancedExtenderImplProxy) GetSupportedPostviewResolutions(
 ) ([]SizeList, error) {
 	var _result []SizeList
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 	_data.WriteInt32(1)
 	if _err := captureSize.MarshalParcel(_data); _err != nil {
@@ -302,6 +329,9 @@ func (p *AdvancedExtenderImplProxy) GetSupportedPostviewResolutions(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]SizeList, _count)
@@ -322,6 +352,7 @@ func (p *AdvancedExtenderImplProxy) GetSessionProcessor(
 ) (ISessionProcessorImpl, error) {
 	var _result ISessionProcessorImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplGetSessionProcessor)
@@ -350,9 +381,10 @@ func (p *AdvancedExtenderImplProxy) GetSessionProcessor(
 func (p *AdvancedExtenderImplProxy) GetAvailableCaptureRequestKeys(
 	ctx context.Context,
 	cameraId string,
-) (interface{}, error) {
-	var _result interface{}
+) (impl.CameraMetadataNative, error) {
+	var _result impl.CameraMetadataNative
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 	_data.WriteString16(cameraId)
 
@@ -371,15 +403,25 @@ func (p *AdvancedExtenderImplProxy) GetAvailableCaptureRequestKeys(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *AdvancedExtenderImplProxy) GetAvailableCaptureResultKeys(
 	ctx context.Context,
 	cameraId string,
-) (interface{}, error) {
-	var _result interface{}
+) (impl.CameraMetadataNative, error) {
+	var _result impl.CameraMetadataNative
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 	_data.WriteString16(cameraId)
 
@@ -398,6 +440,15 @@ func (p *AdvancedExtenderImplProxy) GetAvailableCaptureResultKeys(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -406,6 +457,7 @@ func (p *AdvancedExtenderImplProxy) IsCaptureProcessProgressAvailable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplIsCaptureProcessProgressAvailable)
@@ -435,6 +487,7 @@ func (p *AdvancedExtenderImplProxy) IsPostviewAvailable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvancedExtenderImpl, MethodIAdvancedExtenderImplIsPostviewAvailable)
@@ -462,9 +515,10 @@ func (p *AdvancedExtenderImplProxy) IsPostviewAvailable(
 func (p *AdvancedExtenderImplProxy) GetAvailableCharacteristicsKeyValues(
 	ctx context.Context,
 	cameraId string,
-) (interface{}, error) {
-	var _result interface{}
+) (impl.CameraMetadataNative, error) {
+	var _result impl.CameraMetadataNative
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 	_data.WriteString16(cameraId)
 
@@ -483,13 +537,23 @@ func (p *AdvancedExtenderImplProxy) GetAvailableCharacteristicsKeyValues(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 // AdvancedExtenderImplStub dispatches incoming binder transactions
 // to a typed IAdvancedExtenderImpl implementation.
 type AdvancedExtenderImplStub struct {
-	Impl IAdvancedExtenderImpl
+	Impl      IAdvancedExtenderImpl
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AdvancedExtenderImplStub)(nil)
@@ -503,18 +567,40 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAdvancedExtenderImplIsExtensionAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: map param unmarshaling not yet supported in stubs
-		var _arg_charsMap map[string]interface{}
-		_ = _arg_charsMap
+		var _arg_charsMap map[string]impl.CameraMetadataNative
+		{
+			_mapCount, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _mapCount >= 0 {
+				_arg_charsMap = make(map[string]impl.CameraMetadataNative, _mapCount)
+				for _mi := int32(0); _mi < _mapCount; _mi++ {
+					_mk, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					var _mv impl.CameraMetadataNative
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _mv.UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+					_arg_charsMap[_mk] = _mv
+				}
+			}
+		}
 		_result, _err := s.Impl.IsExtensionAvailable(ctx, _arg_cameraId, _arg_charsMap)
 		_reply := parcel.New()
 		if _err != nil {
@@ -525,16 +611,34 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplInit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: map param unmarshaling not yet supported in stubs
-		var _arg_charsMap map[string]interface{}
-		_ = _arg_charsMap
+		var _arg_charsMap map[string]impl.CameraMetadataNative
+		{
+			_mapCount, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _mapCount >= 0 {
+				_arg_charsMap = make(map[string]impl.CameraMetadataNative, _mapCount)
+				for _mi := int32(0); _mi < _mapCount; _mi++ {
+					_mk, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					var _mv impl.CameraMetadataNative
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _mv.UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+					_arg_charsMap[_mk] = _mv
+				}
+			}
+		}
 		_err = s.Impl.Init(ctx, _arg_cameraId, _arg_charsMap)
 		_reply := parcel.New()
 		if _err != nil {
@@ -544,9 +648,6 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplGetEstimatedCaptureLatencyRange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -580,9 +681,6 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplGetSupportedPreviewOutputResolutions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -594,13 +692,19 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplGetSupportedCaptureOutputResolutions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -612,13 +716,19 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplGetSupportedPostviewResolutions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_captureSize Size
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -638,13 +748,19 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplGetSessionProcessor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSessionProcessor(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -652,13 +768,9 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplGetAvailableCaptureRequestKeys:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -670,12 +782,12 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIAdvancedExtenderImplGetAvailableCaptureResultKeys:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIAdvancedExtenderImplGetAvailableCaptureResultKeys:
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -687,12 +799,12 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIAdvancedExtenderImplIsCaptureProcessProgressAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIAdvancedExtenderImplIsCaptureProcessProgressAvailable:
 		_result, _err := s.Impl.IsCaptureProcessProgressAvailable(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -703,9 +815,6 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplIsPostviewAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsPostviewAvailable(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -716,9 +825,6 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplGetAvailableCharacteristicsKeyValues:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -730,7 +836,10 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -741,18 +850,18 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 // provide to NewAdvancedExtenderImplStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAdvancedExtenderImplServer interface {
-	IsExtensionAvailable(ctx context.Context, cameraId string, charsMap map[string]interface{}) (bool, error)
-	Init(ctx context.Context, cameraId string, charsMap map[string]interface{}) error
+	IsExtensionAvailable(ctx context.Context, cameraId string, charsMap map[string]impl.CameraMetadataNative) (bool, error)
+	Init(ctx context.Context, cameraId string, charsMap map[string]impl.CameraMetadataNative) error
 	GetEstimatedCaptureLatencyRange(ctx context.Context, cameraId string, outputSize Size, format int32) (LatencyRange, error)
 	GetSupportedPreviewOutputResolutions(ctx context.Context, cameraId string) ([]SizeList, error)
 	GetSupportedCaptureOutputResolutions(ctx context.Context, cameraId string) ([]SizeList, error)
 	GetSupportedPostviewResolutions(ctx context.Context, captureSize Size) ([]SizeList, error)
 	GetSessionProcessor(ctx context.Context) (ISessionProcessorImpl, error)
-	GetAvailableCaptureRequestKeys(ctx context.Context, cameraId string) (interface{}, error)
-	GetAvailableCaptureResultKeys(ctx context.Context, cameraId string) (interface{}, error)
+	GetAvailableCaptureRequestKeys(ctx context.Context, cameraId string) (impl.CameraMetadataNative, error)
+	GetAvailableCaptureResultKeys(ctx context.Context, cameraId string) (impl.CameraMetadataNative, error)
 	IsCaptureProcessProgressAvailable(ctx context.Context) (bool, error)
 	IsPostviewAvailable(ctx context.Context) (bool, error)
-	GetAvailableCharacteristicsKeyValues(ctx context.Context, cameraId string) (interface{}, error)
+	GetAvailableCharacteristicsKeyValues(ctx context.Context, cameraId string) (impl.CameraMetadataNative, error)
 }
 
 type advancedExtenderImplStubWrapper struct {
@@ -767,7 +876,7 @@ func (w *advancedExtenderImplStubWrapper) AsBinder() binder.IBinder {
 func (w *advancedExtenderImplStubWrapper) IsExtensionAvailable(
 	ctx context.Context,
 	cameraId string,
-	charsMap map[string]interface{},
+	charsMap map[string]impl.CameraMetadataNative,
 ) (bool, error) {
 	return w.impl.IsExtensionAvailable(ctx, cameraId, charsMap)
 }
@@ -775,7 +884,7 @@ func (w *advancedExtenderImplStubWrapper) IsExtensionAvailable(
 func (w *advancedExtenderImplStubWrapper) Init(
 	ctx context.Context,
 	cameraId string,
-	charsMap map[string]interface{},
+	charsMap map[string]impl.CameraMetadataNative,
 ) error {
 	return w.impl.Init(ctx, cameraId, charsMap)
 }
@@ -819,14 +928,14 @@ func (w *advancedExtenderImplStubWrapper) GetSessionProcessor(
 func (w *advancedExtenderImplStubWrapper) GetAvailableCaptureRequestKeys(
 	ctx context.Context,
 	cameraId string,
-) (interface{}, error) {
+) (impl.CameraMetadataNative, error) {
 	return w.impl.GetAvailableCaptureRequestKeys(ctx, cameraId)
 }
 
 func (w *advancedExtenderImplStubWrapper) GetAvailableCaptureResultKeys(
 	ctx context.Context,
 	cameraId string,
-) (interface{}, error) {
+) (impl.CameraMetadataNative, error) {
 	return w.impl.GetAvailableCaptureResultKeys(ctx, cameraId)
 }
 
@@ -845,7 +954,7 @@ func (w *advancedExtenderImplStubWrapper) IsPostviewAvailable(
 func (w *advancedExtenderImplStubWrapper) GetAvailableCharacteristicsKeyValues(
 	ctx context.Context,
 	cameraId string,
-) (interface{}, error) {
+) (impl.CameraMetadataNative, error) {
 	return w.impl.GetAvailableCharacteristicsKeyValues(ctx, cameraId)
 }
 

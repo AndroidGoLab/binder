@@ -37,8 +37,7 @@ func (u *FrontendBandwidth) GetAtsc3() (FrontendAtsc3Bandwidth, bool) {
 func (u *FrontendBandwidth) SetAtsc3(
 	v FrontendAtsc3Bandwidth,
 ) {
-	u.Tag = FrontendBandwidthTagAtsc3
-	u.Atsc3 = v
+	*u = FrontendBandwidth{Tag: FrontendBandwidthTagAtsc3, Atsc3: v}
 }
 
 func (u *FrontendBandwidth) GetDvbc() (FrontendDvbcBandwidth, bool) {
@@ -52,8 +51,7 @@ func (u *FrontendBandwidth) GetDvbc() (FrontendDvbcBandwidth, bool) {
 func (u *FrontendBandwidth) SetDvbc(
 	v FrontendDvbcBandwidth,
 ) {
-	u.Tag = FrontendBandwidthTagDvbc
-	u.Dvbc = v
+	*u = FrontendBandwidth{Tag: FrontendBandwidthTagDvbc, Dvbc: v}
 }
 
 func (u *FrontendBandwidth) GetDvbt() (FrontendDvbtBandwidth, bool) {
@@ -67,8 +65,7 @@ func (u *FrontendBandwidth) GetDvbt() (FrontendDvbtBandwidth, bool) {
 func (u *FrontendBandwidth) SetDvbt(
 	v FrontendDvbtBandwidth,
 ) {
-	u.Tag = FrontendBandwidthTagDvbt
-	u.Dvbt = v
+	*u = FrontendBandwidth{Tag: FrontendBandwidthTagDvbt, Dvbt: v}
 }
 
 func (u *FrontendBandwidth) GetIsdbt() (FrontendIsdbtBandwidth, bool) {
@@ -82,8 +79,7 @@ func (u *FrontendBandwidth) GetIsdbt() (FrontendIsdbtBandwidth, bool) {
 func (u *FrontendBandwidth) SetIsdbt(
 	v FrontendIsdbtBandwidth,
 ) {
-	u.Tag = FrontendBandwidthTagIsdbt
-	u.Isdbt = v
+	*u = FrontendBandwidth{Tag: FrontendBandwidthTagIsdbt, Isdbt: v}
 }
 
 func (u *FrontendBandwidth) GetDtmb() (FrontendDtmbBandwidth, bool) {
@@ -97,8 +93,7 @@ func (u *FrontendBandwidth) GetDtmb() (FrontendDtmbBandwidth, bool) {
 func (u *FrontendBandwidth) SetDtmb(
 	v FrontendDtmbBandwidth,
 ) {
-	u.Tag = FrontendBandwidthTagDtmb
-	u.Dtmb = v
+	*u = FrontendBandwidth{Tag: FrontendBandwidthTagDtmb, Dtmb: v}
 }
 
 func (u *FrontendBandwidth) MarshalParcel(

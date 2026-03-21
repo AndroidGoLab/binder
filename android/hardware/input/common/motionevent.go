@@ -96,9 +96,19 @@ func (s *MotionEvent) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.DeviceId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_sourceRaw, _err := p.ReadInt32()
@@ -107,9 +117,19 @@ func (s *MotionEvent) UnmarshalParcel(
 	}
 	s.Source = Source(_sourceRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.DisplayId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.DownTime, _err = p.ReadInt64()
@@ -117,9 +137,19 @@ func (s *MotionEvent) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.EventTime, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_actionRaw, _err := p.ReadInt32()
@@ -128,9 +158,19 @@ func (s *MotionEvent) UnmarshalParcel(
 	}
 	s.Action = Action(_actionRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ActionIndex, _err = p.ReadPaddedByte()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_actionButtonRaw, _err := p.ReadInt32()
@@ -139,11 +179,21 @@ func (s *MotionEvent) UnmarshalParcel(
 	}
 	s.ActionButton = Button(_actionButtonRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_flagsRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Flags = Flag(_flagsRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_policyFlagsRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -151,11 +201,21 @@ func (s *MotionEvent) UnmarshalParcel(
 	}
 	s.PolicyFlags = PolicyFlag(_policyFlagsRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_edgeFlagsRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.EdgeFlags = EdgeFlag(_edgeFlagsRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_metaStateRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -163,20 +223,40 @@ func (s *MotionEvent) UnmarshalParcel(
 	}
 	s.MetaState = Meta(_metaStateRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_buttonStateRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.ButtonState = Button(_buttonStateRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.XPrecision, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.YPrecision, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -196,6 +276,11 @@ func (s *MotionEvent) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count1 int32
 	_count1, _err = p.ReadInt32()
 	if _err != nil {
@@ -213,9 +298,19 @@ func (s *MotionEvent) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.DeviceTimestamp, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count2 int32

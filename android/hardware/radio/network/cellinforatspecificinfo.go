@@ -39,8 +39,7 @@ func (u *CellInfoRatSpecificInfo) GetGsm() (CellInfoGsm, bool) {
 func (u *CellInfoRatSpecificInfo) SetGsm(
 	v CellInfoGsm,
 ) {
-	u.Tag = CellInfoRatSpecificInfoTagGsm
-	u.Gsm = v
+	*u = CellInfoRatSpecificInfo{Tag: CellInfoRatSpecificInfoTagGsm, Gsm: v}
 }
 
 func (u *CellInfoRatSpecificInfo) GetWcdma() (CellInfoWcdma, bool) {
@@ -54,8 +53,7 @@ func (u *CellInfoRatSpecificInfo) GetWcdma() (CellInfoWcdma, bool) {
 func (u *CellInfoRatSpecificInfo) SetWcdma(
 	v CellInfoWcdma,
 ) {
-	u.Tag = CellInfoRatSpecificInfoTagWcdma
-	u.Wcdma = v
+	*u = CellInfoRatSpecificInfo{Tag: CellInfoRatSpecificInfoTagWcdma, Wcdma: v}
 }
 
 func (u *CellInfoRatSpecificInfo) GetTdscdma() (CellInfoTdscdma, bool) {
@@ -69,8 +67,7 @@ func (u *CellInfoRatSpecificInfo) GetTdscdma() (CellInfoTdscdma, bool) {
 func (u *CellInfoRatSpecificInfo) SetTdscdma(
 	v CellInfoTdscdma,
 ) {
-	u.Tag = CellInfoRatSpecificInfoTagTdscdma
-	u.Tdscdma = v
+	*u = CellInfoRatSpecificInfo{Tag: CellInfoRatSpecificInfoTagTdscdma, Tdscdma: v}
 }
 
 func (u *CellInfoRatSpecificInfo) GetLte() (CellInfoLte, bool) {
@@ -84,8 +81,7 @@ func (u *CellInfoRatSpecificInfo) GetLte() (CellInfoLte, bool) {
 func (u *CellInfoRatSpecificInfo) SetLte(
 	v CellInfoLte,
 ) {
-	u.Tag = CellInfoRatSpecificInfoTagLte
-	u.Lte = v
+	*u = CellInfoRatSpecificInfo{Tag: CellInfoRatSpecificInfoTagLte, Lte: v}
 }
 
 func (u *CellInfoRatSpecificInfo) GetNr() (CellInfoNr, bool) {
@@ -99,8 +95,7 @@ func (u *CellInfoRatSpecificInfo) GetNr() (CellInfoNr, bool) {
 func (u *CellInfoRatSpecificInfo) SetNr(
 	v CellInfoNr,
 ) {
-	u.Tag = CellInfoRatSpecificInfoTagNr
-	u.Nr = v
+	*u = CellInfoRatSpecificInfo{Tag: CellInfoRatSpecificInfoTagNr, Nr: v}
 }
 
 func (u *CellInfoRatSpecificInfo) GetCdma() (CellInfoCdma, bool) {
@@ -114,8 +109,7 @@ func (u *CellInfoRatSpecificInfo) GetCdma() (CellInfoCdma, bool) {
 func (u *CellInfoRatSpecificInfo) SetCdma(
 	v CellInfoCdma,
 ) {
-	u.Tag = CellInfoRatSpecificInfoTagCdma
-	u.Cdma = v
+	*u = CellInfoRatSpecificInfo{Tag: CellInfoRatSpecificInfoTagCdma, Cdma: v}
 }
 
 func (u *CellInfoRatSpecificInfo) MarshalParcel(

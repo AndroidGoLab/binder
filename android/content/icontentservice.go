@@ -6,6 +6,7 @@ import (
 	accounts "github.com/xaionaro-go/binder/android/accounts"
 	database "github.com/xaionaro-go/binder/android/database"
 	net "github.com/xaionaro-go/binder/android/net"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -107,7 +108,7 @@ type IContentService interface {
 	UnregisterContentObserver(ctx context.Context, observer database.IContentObserver) error
 	RegisterContentObserver(ctx context.Context, uri net.Uri, notifyForDescendants bool, observer database.IContentObserver, targetSdkVersion int32) error
 	NotifyChange(ctx context.Context, uris []net.Uri, observer database.IContentObserver, observerWantsSelfNotifications bool, flags int32, targetSdkVersion int32) error
-	RequestSync(ctx context.Context, account accounts.Account, authority string, extras interface{}) error
+	RequestSync(ctx context.Context, account accounts.Account, authority string, extras os.Bundle) error
 	Sync(ctx context.Context, request SyncRequest) error
 	SyncAsUser(ctx context.Context, request SyncRequest) error
 	CancelSync(ctx context.Context, account accounts.Account, authority string, cname ComponentName) error
@@ -118,8 +119,8 @@ type IContentService interface {
 	SetSyncAutomatically(ctx context.Context, account accounts.Account, providerName string, sync bool) error
 	SetSyncAutomaticallyAsUser(ctx context.Context, account accounts.Account, providerName string, sync bool) error
 	GetPeriodicSyncs(ctx context.Context, account accounts.Account, providerName string, cname ComponentName) ([]PeriodicSync, error)
-	AddPeriodicSync(ctx context.Context, account accounts.Account, providerName string, extras interface{}, pollFrequency int64) error
-	RemovePeriodicSync(ctx context.Context, account accounts.Account, providerName string, extras interface{}) error
+	AddPeriodicSync(ctx context.Context, account accounts.Account, providerName string, extras os.Bundle, pollFrequency int64) error
+	RemovePeriodicSync(ctx context.Context, account accounts.Account, providerName string, extras os.Bundle) error
 	GetIsSyncable(ctx context.Context, account accounts.Account, providerName string) (int32, error)
 	GetIsSyncableAsUser(ctx context.Context, account accounts.Account, providerName string) (int32, error)
 	SetIsSyncable(ctx context.Context, account accounts.Account, providerName string, syncable int32) error
@@ -141,8 +142,8 @@ type IContentService interface {
 	IsSyncPendingAsUser(ctx context.Context, account accounts.Account, authority string, cname ComponentName) (bool, error)
 	AddStatusChangeListener(ctx context.Context, mask int32, callback ISyncStatusObserver) error
 	RemoveStatusChangeListener(ctx context.Context, callback ISyncStatusObserver) error
-	PutCache(ctx context.Context, packageName string, key net.Uri, value interface{}) error
-	GetCache(ctx context.Context, packageName string, key net.Uri) (interface{}, error)
+	PutCache(ctx context.Context, packageName string, key net.Uri, value os.Bundle) error
+	GetCache(ctx context.Context, packageName string, key net.Uri) (os.Bundle, error)
 	ResetTodayStats(ctx context.Context) error
 	OnDbCorruption(ctx context.Context, tag string, message string, stacktrace string) error
 }
@@ -168,6 +169,7 @@ func (p *ContentServiceProxy) UnregisterContentObserver(
 	observer database.IContentObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
@@ -198,6 +200,7 @@ func (p *ContentServiceProxy) RegisterContentObserver(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
@@ -236,6 +239,7 @@ func (p *ContentServiceProxy) NotifyChange(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	if uris == nil {
 		_data.WriteInt32(-1)
@@ -277,16 +281,21 @@ func (p *ContentServiceProxy) RequestSync(
 	ctx context.Context,
 	account accounts.Account,
 	authority string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(authority)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceRequestSync)
@@ -313,6 +322,7 @@ func (p *ContentServiceProxy) Sync(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -344,6 +354,7 @@ func (p *ContentServiceProxy) SyncAsUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -377,6 +388,7 @@ func (p *ContentServiceProxy) CancelSync(
 	cname ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -414,6 +426,7 @@ func (p *ContentServiceProxy) CancelSyncAsUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -449,6 +462,7 @@ func (p *ContentServiceProxy) CancelRequest(
 	request SyncRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -480,6 +494,7 @@ func (p *ContentServiceProxy) GetSyncAutomatically(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -517,6 +532,7 @@ func (p *ContentServiceProxy) GetSyncAutomaticallyAsUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -554,6 +570,7 @@ func (p *ContentServiceProxy) SetSyncAutomatically(
 	sync bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -588,6 +605,7 @@ func (p *ContentServiceProxy) SetSyncAutomaticallyAsUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -623,6 +641,7 @@ func (p *ContentServiceProxy) GetPeriodicSyncs(
 ) ([]PeriodicSync, error) {
 	var _result []PeriodicSync
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -653,6 +672,9 @@ func (p *ContentServiceProxy) GetPeriodicSyncs(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]PeriodicSync, _count)
@@ -672,16 +694,21 @@ func (p *ContentServiceProxy) AddPeriodicSync(
 	ctx context.Context,
 	account accounts.Account,
 	providerName string,
-	extras interface{},
+	extras os.Bundle,
 	pollFrequency int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(providerName)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt64(pollFrequency)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceAddPeriodicSync)
@@ -706,15 +733,20 @@ func (p *ContentServiceProxy) RemovePeriodicSync(
 	ctx context.Context,
 	account accounts.Account,
 	providerName string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(providerName)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceRemovePeriodicSync)
 	if _err != nil {
@@ -741,6 +773,7 @@ func (p *ContentServiceProxy) GetIsSyncable(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -778,6 +811,7 @@ func (p *ContentServiceProxy) GetIsSyncableAsUser(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -815,6 +849,7 @@ func (p *ContentServiceProxy) SetIsSyncable(
 	syncable int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -849,6 +884,7 @@ func (p *ContentServiceProxy) SetIsSyncableAsUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -881,6 +917,7 @@ func (p *ContentServiceProxy) SetMasterSyncAutomatically(
 	flag bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteBool(flag)
 
@@ -908,6 +945,7 @@ func (p *ContentServiceProxy) SetMasterSyncAutomaticallyAsUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteBool(flag)
 	_data.WriteInt32(_identity.UserID)
@@ -935,6 +973,7 @@ func (p *ContentServiceProxy) GetMasterSyncAutomatically(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceGetMasterSyncAutomatically)
@@ -965,6 +1004,7 @@ func (p *ContentServiceProxy) GetMasterSyncAutomaticallyAsUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(_identity.UserID)
 
@@ -995,6 +1035,7 @@ func (p *ContentServiceProxy) GetCurrentSyncs(
 ) ([]SyncInfo, error) {
 	var _result []SyncInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceGetCurrentSyncs)
@@ -1015,6 +1056,9 @@ func (p *ContentServiceProxy) GetCurrentSyncs(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -1037,6 +1081,7 @@ func (p *ContentServiceProxy) GetCurrentSyncsAsUser(
 	var _result []SyncInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1059,6 +1104,9 @@ func (p *ContentServiceProxy) GetCurrentSyncsAsUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]SyncInfo, _count)
@@ -1079,6 +1127,7 @@ func (p *ContentServiceProxy) GetSyncAdapterTypes(
 ) ([]SyncAdapterType, error) {
 	var _result []SyncAdapterType
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceGetSyncAdapterTypes)
@@ -1099,6 +1148,9 @@ func (p *ContentServiceProxy) GetSyncAdapterTypes(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -1121,6 +1173,7 @@ func (p *ContentServiceProxy) GetSyncAdapterTypesAsUser(
 	var _result []SyncAdapterType
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1142,6 +1195,9 @@ func (p *ContentServiceProxy) GetSyncAdapterTypesAsUser(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -1165,6 +1221,7 @@ func (p *ContentServiceProxy) GetSyncAdapterPackagesForAuthorityAsUser(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteString16(authority)
 	_data.WriteInt32(_identity.UserID)
@@ -1188,6 +1245,9 @@ func (p *ContentServiceProxy) GetSyncAdapterPackagesForAuthorityAsUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1209,6 +1269,7 @@ func (p *ContentServiceProxy) GetSyncAdapterPackageAsUser(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteString16(accountType)
 	_data.WriteString16(authority)
@@ -1244,6 +1305,7 @@ func (p *ContentServiceProxy) IsSyncActive(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -1285,6 +1347,7 @@ func (p *ContentServiceProxy) GetSyncStatus(
 ) (SyncStatusInfo, error) {
 	var _result SyncStatusInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -1332,6 +1395,7 @@ func (p *ContentServiceProxy) GetSyncStatusAsUser(
 	var _result SyncStatusInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -1379,6 +1443,7 @@ func (p *ContentServiceProxy) IsSyncPending(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -1421,6 +1486,7 @@ func (p *ContentServiceProxy) IsSyncPendingAsUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -1461,6 +1527,7 @@ func (p *ContentServiceProxy) AddStatusChangeListener(
 	callback ISyncStatusObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteInt32(mask)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -1488,6 +1555,7 @@ func (p *ContentServiceProxy) RemoveStatusChangeListener(
 	callback ISyncStatusObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -1513,14 +1581,19 @@ func (p *ContentServiceProxy) PutCache(
 	ctx context.Context,
 	packageName string,
 	key net.Uri,
-	value interface{},
+	value os.Bundle,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := value.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(_identity.UserID)
@@ -1547,10 +1620,11 @@ func (p *ContentServiceProxy) GetCache(
 	ctx context.Context,
 	packageName string,
 	key net.Uri,
-) (interface{}, error) {
-	var _result interface{}
+) (os.Bundle, error) {
+	var _result os.Bundle
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -1574,6 +1648,15 @@ func (p *ContentServiceProxy) GetCache(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -1581,6 +1664,7 @@ func (p *ContentServiceProxy) ResetTodayStats(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentService, MethodIContentServiceResetTodayStats)
@@ -1608,6 +1692,7 @@ func (p *ContentServiceProxy) OnDbCorruption(
 	stacktrace string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteString16(tag)
 	_data.WriteString16(message)
@@ -1634,7 +1719,8 @@ func (p *ContentServiceProxy) OnDbCorruption(
 // ContentServiceStub dispatches incoming binder transactions
 // to a typed IContentService implementation.
 type ContentServiceStub struct {
-	Impl IContentService
+	Impl      IContentService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ContentServiceStub)(nil)
@@ -1648,14 +1734,20 @@ func (s *ContentServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIContentServiceUnregisterContentObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer database.IContentObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = database.NewContentObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_err := s.Impl.UnregisterContentObserver(ctx, _arg_observer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1665,9 +1757,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceRegisterContentObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_uri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1684,9 +1773,14 @@ func (s *ContentServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer database.IContentObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = database.NewContentObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1703,15 +1797,35 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceNotifyChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_uris []net.Uri
-		_ = _arg_uris
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_uris = make([]net.Uri, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_uris[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_observer database.IContentObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = database.NewContentObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_arg_observerWantsSelfNotifications, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1739,9 +1853,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceRequestSync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1758,7 +1869,18 @@ func (s *ContentServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1771,9 +1893,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceSync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request SyncRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1798,9 +1917,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceSyncAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request SyncRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1828,9 +1944,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceCancelSync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1868,9 +1981,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceCancelSyncAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1911,9 +2021,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceCancelRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request SyncRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1935,9 +2042,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceGetSyncAutomatically:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1964,9 +2068,6 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIContentServiceGetSyncAutomaticallyAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1996,9 +2097,6 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIContentServiceSetSyncAutomatically:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2028,9 +2126,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceSetSyncAutomaticallyAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2063,9 +2158,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceGetPeriodicSyncs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2101,13 +2193,19 @@ func (s *ContentServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIContentServiceAddPeriodicSync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2124,7 +2222,18 @@ func (s *ContentServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_pollFrequency, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2138,9 +2247,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceRemovePeriodicSync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2157,7 +2263,18 @@ func (s *ContentServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.RemovePeriodicSync(ctx, _arg_account, _arg_providerName, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2167,9 +2284,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceGetIsSyncable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2196,9 +2310,6 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIContentServiceGetIsSyncableAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2228,9 +2339,6 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIContentServiceSetIsSyncable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2260,9 +2368,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceSetIsSyncableAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2295,9 +2400,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceSetMasterSyncAutomatically:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flag, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2311,9 +2413,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceSetMasterSyncAutomaticallyAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flag, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2330,9 +2429,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceGetMasterSyncAutomatically:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMasterSyncAutomatically(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2343,9 +2439,6 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIContentServiceGetMasterSyncAutomaticallyAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2359,9 +2452,6 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIContentServiceGetCurrentSyncs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentSyncs(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2369,13 +2459,19 @@ func (s *ContentServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIContentServiceGetCurrentSyncsAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2386,13 +2482,19 @@ func (s *ContentServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIContentServiceGetSyncAdapterTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSyncAdapterTypes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2400,13 +2502,19 @@ func (s *ContentServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIContentServiceGetSyncAdapterTypesAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2417,13 +2525,19 @@ func (s *ContentServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIContentServiceGetSyncAdapterPackagesForAuthorityAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_authority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2438,13 +2552,16 @@ func (s *ContentServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIContentServiceGetSyncAdapterPackageAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2466,9 +2583,6 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIContentServiceIsSyncActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2507,9 +2621,6 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIContentServiceGetSyncStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2551,9 +2662,6 @@ func (s *ContentServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIContentServiceGetSyncStatusAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2598,9 +2706,6 @@ func (s *ContentServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIContentServiceIsSyncPending:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2639,9 +2744,6 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIContentServiceIsSyncPendingAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account accounts.Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2683,16 +2785,18 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIContentServiceAddStatusChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISyncStatusObserver
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSyncStatusObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.AddStatusChangeListener(ctx, _arg_mask, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2702,12 +2806,14 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceRemoveStatusChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISyncStatusObserver
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSyncStatusObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RemoveStatusChangeListener(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2717,9 +2823,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServicePutCache:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2736,7 +2839,18 @@ func (s *ContentServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_value interface{}
+		var _arg_value os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_value.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2749,9 +2863,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceGetCache:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2778,12 +2889,12 @@ func (s *ContentServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIContentServiceResetTodayStats:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIContentServiceResetTodayStats:
 		_err := s.Impl.ResetTodayStats(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2793,9 +2904,6 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceOnDbCorruption:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2828,7 +2936,7 @@ type IContentServiceServer interface {
 	UnregisterContentObserver(ctx context.Context, observer database.IContentObserver) error
 	RegisterContentObserver(ctx context.Context, uri net.Uri, notifyForDescendants bool, observer database.IContentObserver, targetSdkVersion int32) error
 	NotifyChange(ctx context.Context, uris []net.Uri, observer database.IContentObserver, observerWantsSelfNotifications bool, flags int32, targetSdkVersion int32) error
-	RequestSync(ctx context.Context, account accounts.Account, authority string, extras interface{}) error
+	RequestSync(ctx context.Context, account accounts.Account, authority string, extras os.Bundle) error
 	Sync(ctx context.Context, request SyncRequest) error
 	SyncAsUser(ctx context.Context, request SyncRequest) error
 	CancelSync(ctx context.Context, account accounts.Account, authority string, cname ComponentName) error
@@ -2839,8 +2947,8 @@ type IContentServiceServer interface {
 	SetSyncAutomatically(ctx context.Context, account accounts.Account, providerName string, sync bool) error
 	SetSyncAutomaticallyAsUser(ctx context.Context, account accounts.Account, providerName string, sync bool) error
 	GetPeriodicSyncs(ctx context.Context, account accounts.Account, providerName string, cname ComponentName) ([]PeriodicSync, error)
-	AddPeriodicSync(ctx context.Context, account accounts.Account, providerName string, extras interface{}, pollFrequency int64) error
-	RemovePeriodicSync(ctx context.Context, account accounts.Account, providerName string, extras interface{}) error
+	AddPeriodicSync(ctx context.Context, account accounts.Account, providerName string, extras os.Bundle, pollFrequency int64) error
+	RemovePeriodicSync(ctx context.Context, account accounts.Account, providerName string, extras os.Bundle) error
 	GetIsSyncable(ctx context.Context, account accounts.Account, providerName string) (int32, error)
 	GetIsSyncableAsUser(ctx context.Context, account accounts.Account, providerName string) (int32, error)
 	SetIsSyncable(ctx context.Context, account accounts.Account, providerName string, syncable int32) error
@@ -2862,8 +2970,8 @@ type IContentServiceServer interface {
 	IsSyncPendingAsUser(ctx context.Context, account accounts.Account, authority string, cname ComponentName) (bool, error)
 	AddStatusChangeListener(ctx context.Context, mask int32, callback ISyncStatusObserver) error
 	RemoveStatusChangeListener(ctx context.Context, callback ISyncStatusObserver) error
-	PutCache(ctx context.Context, packageName string, key net.Uri, value interface{}) error
-	GetCache(ctx context.Context, packageName string, key net.Uri) (interface{}, error)
+	PutCache(ctx context.Context, packageName string, key net.Uri, value os.Bundle) error
+	GetCache(ctx context.Context, packageName string, key net.Uri) (os.Bundle, error)
 	ResetTodayStats(ctx context.Context) error
 	OnDbCorruption(ctx context.Context, tag string, message string, stacktrace string) error
 }
@@ -2909,7 +3017,7 @@ func (w *contentServiceStubWrapper) RequestSync(
 	ctx context.Context,
 	account accounts.Account,
 	authority string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.RequestSync(ctx, account, authority, extras)
 }
@@ -3000,7 +3108,7 @@ func (w *contentServiceStubWrapper) AddPeriodicSync(
 	ctx context.Context,
 	account accounts.Account,
 	providerName string,
-	extras interface{},
+	extras os.Bundle,
 	pollFrequency int64,
 ) error {
 	return w.impl.AddPeriodicSync(ctx, account, providerName, extras, pollFrequency)
@@ -3010,7 +3118,7 @@ func (w *contentServiceStubWrapper) RemovePeriodicSync(
 	ctx context.Context,
 	account accounts.Account,
 	providerName string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.RemovePeriodicSync(ctx, account, providerName, extras)
 }
@@ -3178,7 +3286,7 @@ func (w *contentServiceStubWrapper) PutCache(
 	ctx context.Context,
 	packageName string,
 	key net.Uri,
-	value interface{},
+	value os.Bundle,
 ) error {
 	return w.impl.PutCache(ctx, packageName, key, value)
 }
@@ -3187,7 +3295,7 @@ func (w *contentServiceStubWrapper) GetCache(
 	ctx context.Context,
 	packageName string,
 	key net.Uri,
-) (interface{}, error) {
+) (os.Bundle, error) {
 	return w.impl.GetCache(ctx, packageName, key)
 }
 

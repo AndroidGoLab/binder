@@ -1,0 +1,23 @@
+package: src.com.android.commands.uinput
+go_package: src/com/android/commands/uinput
+parcelables:
+    - name: InputAbsInfo
+      fields:
+        - name: value
+          type:
+            name: int
+        - name: minimum
+          type:
+            name: int
+        - name: maximum
+          type:
+            name: int
+        - name: fuzz
+          type:
+            name: int
+        - name: flat
+          type:
+            name: int
+        - name: resolution
+          type:
+            name: int

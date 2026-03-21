@@ -1,0 +1,596 @@
+package: android.hardware.bluetooth.ranging
+go_package: android/hardware/bluetooth/ranging
+interfaces:
+    - name: IBluetoothChannelSounding
+      descriptor: android.hardware.bluetooth.ranging.IBluetoothChannelSounding
+      methods:
+        - name: getVendorSpecificData
+          transaction_code_offset: 0
+          return_type:
+            name: VendorSpecificData
+            is_array: true
+          annotations:
+            - nullable
+        - name: getSupportedSessionTypes
+          transaction_code_offset: 1
+          return_type:
+            name: SessionType
+            is_array: true
+          annotations:
+            - nullable
+        - name: getMaxSupportedCsSecurityLevel
+          transaction_code_offset: 2
+          return_type:
+            name: CsSecurityLevel
+        - name: openSession
+          transaction_code_offset: 3
+          params:
+            - name: params
+              type:
+                name: BluetoothChannelSoundingParameters
+              direction: in
+            - name: callback
+              type:
+                name: IBluetoothChannelSoundingSessionCallback
+              direction: in
+          return_type:
+            name: IBluetoothChannelSoundingSession
+          annotations:
+            - nullable
+    - name: IBluetoothChannelSoundingSession
+      descriptor: android.hardware.bluetooth.ranging.IBluetoothChannelSoundingSession
+      methods:
+        - name: getVendorSpecificReplies
+          transaction_code_offset: 0
+          return_type:
+            name: VendorSpecificData
+            is_array: true
+          annotations:
+            - nullable
+        - name: getSupportedResultTypes
+          transaction_code_offset: 1
+          return_type:
+            name: ResultType
+            is_array: true
+        - name: isAbortedProcedureRequired
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+        - name: writeRawData
+          transaction_code_offset: 3
+          params:
+            - name: rawData
+              type:
+                name: ChannelSoudingRawData
+              direction: in
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 4
+          params:
+            - name: reason
+              type:
+                name: Reason
+          return_type:
+            name: void
+    - name: IBluetoothChannelSoundingSessionCallback
+      descriptor: android.hardware.bluetooth.ranging.IBluetoothChannelSoundingSessionCallback
+      methods:
+        - name: onOpened
+          transaction_code_offset: 0
+          params:
+            - name: reason
+              type:
+                name: Reason
+          return_type:
+            name: void
+        - name: onOpenFailed
+          transaction_code_offset: 1
+          params:
+            - name: reason
+              type:
+                name: Reason
+          return_type:
+            name: void
+        - name: onResult
+          transaction_code_offset: 2
+          params:
+            - name: result
+              type:
+                name: RangingResult
+              direction: in
+          return_type:
+            name: void
+        - name: onClose
+          transaction_code_offset: 3
+          params:
+            - name: reason
+              type:
+                name: Reason
+          return_type:
+            name: void
+        - name: onCloseFailed
+          transaction_code_offset: 4
+          params:
+            - name: reason
+              type:
+                name: Reason
+          return_type:
+            name: void
+parcelables:
+    - name: BluetoothChannelSoundingParameters
+      fields:
+        - name: sessionType
+          type:
+            name: SessionType
+        - name: aclHandle
+          type:
+            name: int
+        - name: l2capCid
+          type:
+            name: int
+        - name: realTimeProcedureDataAttHandle
+          type:
+            name: int
+        - name: role
+          type:
+            name: Role
+        - name: localSupportsSoundingPhaseBasedRanging
+          type:
+            name: boolean
+        - name: remoteSupportsSoundingPhaseBaseRanging
+          type:
+            name: boolean
+        - name: config
+          type:
+            name: Config
+        - name: address
+          type:
+            name: DeviceAddress
+        - name: vendorSpecificData
+          type:
+            name: VendorSpecificData
+            is_array: true
+          annotations:
+            - nullable
+        - name: locationType
+          type:
+            name: LocationType
+        - name: sightType
+          type:
+            name: SightType
+      annotations:
+        - VintfStability
+    - name: ChannelSoudingRawData
+      fields:
+        - name: procedureCounter
+          type:
+            name: int
+        - name: frequencyCompensation
+          type:
+            name: int
+            is_array: true
+        - name: aborted
+          type:
+            name: boolean
+        - name: initiatorData
+          type:
+            name: ChannelSoundingSingleSideData
+        - name: reflectorData
+          type:
+            name: ChannelSoundingSingleSideData
+        - name: stepChannels
+          type:
+            name: byte
+            is_array: true
+        - name: toaTodInitiator
+          type:
+            name: int
+            is_array: true
+          annotations:
+            - nullable
+        - name: todToaReflector
+          type:
+            name: int
+            is_array: true
+          annotations:
+            - nullable
+        - name: stepMode
+          type:
+            name: ModeType
+            is_array: true
+        - name: numAntennaPaths
+          type:
+            name: byte
+        - name: timestampMs
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: ChannelSoundingSingleSideData
+      fields:
+        - name: stepTonePcts
+          type:
+            name: StepTonePct
+            is_array: true
+          annotations:
+            - nullable
+        - name: packetQuality
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+        - name: packetRssiDbm
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+        - name: packetNadm
+          type:
+            name: Nadm
+            is_array: true
+          annotations:
+            - nullable
+        - name: measuredFreqOffset
+          type:
+            name: int
+            is_array: true
+          annotations:
+            - nullable
+        - name: packetPct1
+          type:
+            name: ComplexNumber
+            is_array: true
+          annotations:
+            - nullable
+        - name: packetPct2
+          type:
+            name: ComplexNumber
+            is_array: true
+          annotations:
+            - nullable
+        - name: referencePowerDbm
+          type:
+            name: byte
+        - name: vendorSpecificCsSingleSidedata
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: ComplexNumber
+      fields:
+        - name: real
+          type:
+            name: double
+        - name: imaginary
+          type:
+            name: double
+      annotations:
+        - VintfStability
+    - name: Config
+      fields:
+        - name: modeType
+          type:
+            name: ModeType
+        - name: subModeType
+          type:
+            name: SubModeType
+        - name: rttType
+          type:
+            name: RttType
+        - name: channelMap
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "10"
+      annotations:
+        - VintfStability
+    - name: DeviceAddress
+      fields:
+        - name: addressType
+          type:
+            name: AddressType
+        - name: address
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+      annotations:
+        - VintfStability
+    - name: RangingResult
+      fields:
+        - name: resultMeters
+          type:
+            name: double
+        - name: errorMeters
+          type:
+            name: double
+        - name: azimuthDegrees
+          type:
+            name: double
+        - name: errorAzimuthDegrees
+          type:
+            name: double
+        - name: altitudeDegrees
+          type:
+            name: double
+        - name: errorAltitudeDegrees
+          type:
+            name: double
+        - name: delaySpreadMeters
+          type:
+            name: double
+        - name: confidenceLevel
+          type:
+            name: byte
+        - name: detectedAttackLevel
+          type:
+            name: Nadm
+        - name: velocityMetersPerSecond
+          type:
+            name: double
+        - name: vendorSpecificCsRangingResultsData
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: StepTonePct
+      fields:
+        - name: tonePcts
+          type:
+            name: List
+            type_args:
+                - name: ComplexNumber
+        - name: toneQualityIndicator
+          type:
+            name: byte
+            is_array: true
+        - name: toneExtensionAntennaIndex
+          type:
+            name: byte
+      constants:
+        - name: TONE_QUALITY_GOOD
+          type: int
+          value: "0"
+        - name: TONE_QUALITY_MEDIUM
+          type: int
+          value: "1"
+        - name: TONE_QUALITY_LOW
+          type: int
+          value: "2"
+        - name: TONE_QUALITY_UNAVAILABLE
+          type: int
+          value: "3"
+        - name: EXTENSION_SLOT_NONE
+          type: int
+          value: "0"
+        - name: EXTENSION_SLOT_TONE_NOT_EXPECTED_TO_BE_PRESENT
+          type: int
+          value: "1"
+        - name: EXTENSION_SLOT_TONE_EXPECTED_TO_BE_PRESENT
+          type: int
+          value: "2"
+        - name: EXTENSION_SLOT_SHIFT_AMOUNT
+          type: int
+          value: "4"
+        - name: TONE_EXTENSION_ANTENNA_1
+          type: byte
+          value: "0x0"
+        - name: TONE_EXTENSION_ANTENNA_2
+          type: byte
+          value: "0x1"
+        - name: TONE_EXTENSION_ANTENNA_3
+          type: byte
+          value: "0x2"
+        - name: TONE_EXTENSION_ANTENNA_4
+          type: byte
+          value: "0x3"
+        - name: TONE_EXTENSION_UNUSED
+          type: byte
+          value: 0xFFu8
+      annotations:
+        - VintfStability
+    - name: VendorSpecificData
+      fields:
+        - name: characteristicUuid
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "16"
+        - name: opaqueValue
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+enums:
+    - name: AddressType
+      backing_type: int
+      values:
+        - name: PUBLIC
+          value: "0x00"
+        - name: RANDOM
+          value: "0x01"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CsSecurityLevel
+      backing_type: int
+      values:
+        - name: NOT_SUPPORTED
+          value: "0x00"
+        - name: ONE
+          value: "0x01"
+        - name: TWO
+          value: "0x02"
+        - name: THREE
+          value: "0x03"
+        - name: FOUR
+          value: "0x04"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LocationType
+      backing_type: byte
+      values:
+        - name: UNKNOWN
+          value: "0x00"
+        - name: INDOOR
+          value: "0x01"
+        - name: OUTDOOR
+          value: "0x02"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ModeType
+      backing_type: byte
+      values:
+        - name: ZERO
+          value: "0x00"
+        - name: ONE
+          value: "0x01"
+        - name: TWO
+          value: "0x02"
+        - name: THREE
+          value: "0x03"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Nadm
+      backing_type: byte
+      values:
+        - name: ATTACK_IS_EXTREMELY_UNLIKELY
+          value: "0x00"
+        - name: ATTACK_IS_VERY_UNLIKELY
+          value: "0x01"
+        - name: ATTACK_IS_UNLIKELY
+          value: "0x02"
+        - name: ATTACK_IS_POSSIBLE
+          value: "0x03"
+        - name: ATTACK_IS_LIKELY
+          value: "0x04"
+        - name: ATTACK_IS_VERY_LIKELY
+          value: "0x05"
+        - name: ATTACK_IS_EXTREMELY_LIKELY
+          value: "0x06"
+        - name: UNKNOWN
+          value: 0xFFu8
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Reason
+      backing_type: int
+      values:
+        - name: LOCAL_STACK_REQUEST
+          value: ""
+        - name: HAL_INITIATED
+          value: ""
+        - name: HARDWARE_INITIATED
+          value: ""
+        - name: ERROR_INVALID_PARAMETER
+          value: ""
+        - name: ERROR_UNKNOWN
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ResultType
+      backing_type: int
+      values:
+        - name: RESULT_METERS
+          value: "0x00"
+        - name: ERROR_METERS
+          value: "0x01"
+        - name: AZIMUTH_DEGREES
+          value: "0x02"
+        - name: ERROR_AZIMUTH_DEGREES
+          value: "0x03"
+        - name: ALTITUDE_DEGREES
+          value: "0x04"
+        - name: ERROR_ALTITUDE_DEGREES
+          value: "0x05"
+        - name: DELAY_SPREAD_METERS
+          value: "0x06"
+        - name: CONFIDENCE_LEVEL
+          value: "0x07"
+        - name: SECURITY_LEVEL
+          value: "0x08"
+        - name: VELOCITY
+          value: "0x09"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Role
+      backing_type: int
+      values:
+        - name: INITIATOR
+          value: "0"
+        - name: REFLECTOR
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RttType
+      backing_type: int
+      values:
+        - name: AA_COARSE
+          value: "0x00"
+        - name: WITH_32_BIT_SOUNDING_SEQUENCE
+          value: "0x01"
+        - name: WITH_96_BIT_SOUNDING_SEQUENCE
+          value: "0x02"
+        - name: WITH_32_BIT_RANDOM_SEQUENCE
+          value: "0x03"
+        - name: WITH_64_BIT_RANDOM_SEQUENCE
+          value: "0x04"
+        - name: WITH_96_BIT_RANDOM_SEQUENCE
+          value: "0x05"
+        - name: WITH_128_BIT_RANDOM_SEQUENCE
+          value: "0x06"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SessionType
+      backing_type: int
+      values:
+        - name: SOFTWARE_STACK_DATA_PARSING
+          value: "0"
+        - name: HARDWARE_OFFLOAD_DATA_PARSING
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SightType
+      backing_type: byte
+      values:
+        - name: UNKNOWN
+          value: "0x00"
+        - name: LINE_OF_SIGHT
+          value: "0x01"
+        - name: NON_LINE_OF_SIGHT
+          value: "0x02"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SubModeType
+      backing_type: byte
+      values:
+        - name: ONE
+          value: "0x01"
+        - name: TWO
+          value: "0x02"
+        - name: THREE
+          value: "0x03"
+        - name: UNUSED
+          value: 0xffu8
+      annotations:
+        - VintfStability
+        - Backing

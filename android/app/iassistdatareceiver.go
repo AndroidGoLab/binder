@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,7 +25,7 @@ const (
 
 type IAssistDataReceiver interface {
 	AsBinder() binder.IBinder
-	OnHandleAssistData(ctx context.Context, resultData interface{}) error
+	OnHandleAssistData(ctx context.Context, resultData os.Bundle) error
 	OnHandleAssistScreenshot(ctx context.Context, screenshot graphics.Bitmap) error
 }
 
@@ -46,10 +47,15 @@ var _ IAssistDataReceiver = (*AssistDataReceiverProxy)(nil)
 
 func (p *AssistDataReceiverProxy) OnHandleAssistData(
 	ctx context.Context,
-	resultData interface{},
+	resultData os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAssistDataReceiver)
+	_data.WriteInt32(1)
+	if _err := resultData.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAssistDataReceiver, MethodIAssistDataReceiverOnHandleAssistData)
 	if _err != nil {
@@ -65,6 +71,7 @@ func (p *AssistDataReceiverProxy) OnHandleAssistScreenshot(
 	screenshot graphics.Bitmap,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAssistDataReceiver)
 	_data.WriteInt32(1)
 	if _err := screenshot.MarshalParcel(_data); _err != nil {
@@ -83,7 +90,8 @@ func (p *AssistDataReceiverProxy) OnHandleAssistScreenshot(
 // AssistDataReceiverStub dispatches incoming binder transactions
 // to a typed IAssistDataReceiver implementation.
 type AssistDataReceiverStub struct {
-	Impl IAssistDataReceiver
+	Impl      IAssistDataReceiver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AssistDataReceiverStub)(nil)
@@ -97,19 +105,27 @@ func (s *AssistDataReceiverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAssistDataReceiverOnHandleAssistData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_resultData os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultData.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_resultData interface{}
 		_err := s.Impl.OnHandleAssistData(ctx, _arg_resultData)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAssistDataReceiverOnHandleAssistScreenshot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_screenshot graphics.Bitmap
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -123,8 +139,7 @@ func (s *AssistDataReceiverStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnHandleAssistScreenshot(ctx, _arg_screenshot)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -134,7 +149,7 @@ func (s *AssistDataReceiverStub) OnTransaction(
 // provide to NewAssistDataReceiverStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAssistDataReceiverServer interface {
-	OnHandleAssistData(ctx context.Context, resultData interface{}) error
+	OnHandleAssistData(ctx context.Context, resultData os.Bundle) error
 	OnHandleAssistScreenshot(ctx context.Context, screenshot graphics.Bitmap) error
 }
 
@@ -149,7 +164,7 @@ func (w *assistDataReceiverStubWrapper) AsBinder() binder.IBinder {
 
 func (w *assistDataReceiverStubWrapper) OnHandleAssistData(
 	ctx context.Context,
-	resultData interface{},
+	resultData os.Bundle,
 ) error {
 	return w.impl.OnHandleAssistData(ctx, resultData)
 }

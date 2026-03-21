@@ -1,0 +1,194 @@
+package: android.content.om
+go_package: android/content/om
+interfaces:
+    - name: IOverlayManager
+      descriptor: android.content.om.IOverlayManager
+      methods:
+        - name: getAllOverlays
+          transaction_code_offset: 0
+          params:
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: Map
+            type_args:
+                - name: String
+                - name: List
+                  type_args:
+                    - name: OverlayInfo
+          annotations:
+            - UnsupportedAppUsage
+        - name: getOverlayInfosForTarget
+          transaction_code_offset: 1
+          params:
+            - name: targetPackageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: OverlayInfo
+        - name: getOverlayInfo
+          transaction_code_offset: 2
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: OverlayInfo
+          annotations:
+            - UnsupportedAppUsage
+        - name: getOverlayInfoByIdentifier
+          transaction_code_offset: 3
+          params:
+            - name: packageName
+              type:
+                name: OverlayIdentifier
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: OverlayInfo
+        - name: setEnabled
+          transaction_code_offset: 4
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: setEnabledExclusive
+          transaction_code_offset: 5
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: setEnabledExclusiveInCategory
+          transaction_code_offset: 6
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: setPriority
+          transaction_code_offset: 7
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: newParentPackageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: setHighestPriority
+          transaction_code_offset: 8
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: setLowestPriority
+          transaction_code_offset: 9
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: getDefaultOverlayPackages
+          transaction_code_offset: 10
+          return_type:
+            name: String
+            is_array: true
+        - name: invalidateCachesForOverlay
+          transaction_code_offset: 11
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: commit
+          transaction_code_offset: 12
+          params:
+            - name: transaction
+              type:
+                name: OverlayManagerTransaction
+              direction: in
+          return_type:
+            name: void
+        - name: getPartitionOrder
+          transaction_code_offset: 13
+          return_type:
+            name: String
+        - name: isDefaultPartitionOrder
+          transaction_code_offset: 14
+          return_type:
+            name: boolean
+parcelables:
+    - name: OverlayIdentifier
+    - name: OverlayInfo
+    - name: OverlayManagerTransaction

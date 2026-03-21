@@ -49,6 +49,7 @@ func (p *AudioFocusDispatcherProxy) DispatchAudioFocusChange(
 	clientId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFocusDispatcher)
 	_data.WriteInt32(focusChange)
 	_data.WriteString16(clientId)
@@ -68,6 +69,7 @@ func (p *AudioFocusDispatcherProxy) DispatchFocusResultFromExtPolicy(
 	clientId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFocusDispatcher)
 	_data.WriteInt32(requestResult)
 	_data.WriteString16(clientId)
@@ -84,7 +86,8 @@ func (p *AudioFocusDispatcherProxy) DispatchFocusResultFromExtPolicy(
 // AudioFocusDispatcherStub dispatches incoming binder transactions
 // to a typed IAudioFocusDispatcher implementation.
 type AudioFocusDispatcherStub struct {
-	Impl IAudioFocusDispatcher
+	Impl      IAudioFocusDispatcher
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AudioFocusDispatcherStub)(nil)
@@ -98,11 +101,12 @@ func (s *AudioFocusDispatcherStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAudioFocusDispatcherDispatchAudioFocusChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_focusChange, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -112,12 +116,8 @@ func (s *AudioFocusDispatcherStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.DispatchAudioFocusChange(ctx, _arg_focusChange, _arg_clientId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioFocusDispatcherDispatchFocusResultFromExtPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestResult, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -127,8 +127,7 @@ func (s *AudioFocusDispatcherStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.DispatchFocusResultFromExtPolicy(ctx, _arg_requestResult, _arg_clientId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

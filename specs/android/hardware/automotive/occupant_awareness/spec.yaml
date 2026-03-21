@@ -1,0 +1,265 @@
+package: android.hardware.automotive.occupant_awareness
+go_package: android/hardware/automotive/occupant_awareness
+interfaces:
+    - name: IOccupantAwareness
+      descriptor: android.hardware.automotive.occupant_awareness.IOccupantAwareness
+      methods:
+        - name: startDetection
+          transaction_code_offset: 0
+          return_type:
+            name: OccupantAwarenessStatus
+        - name: stopDetection
+          transaction_code_offset: 1
+          return_type:
+            name: OccupantAwarenessStatus
+        - name: getCapabilityForRole
+          transaction_code_offset: 2
+          params:
+            - name: occupantRole
+              type:
+                name: Role
+              direction: in
+          return_type:
+            name: int
+        - name: getState
+          transaction_code_offset: 3
+          params:
+            - name: occupantRole
+              type:
+                name: Role
+              direction: in
+            - name: detectionCapability
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: OccupantAwarenessStatus
+        - name: setCallback
+          transaction_code_offset: 4
+          params:
+            - name: callback
+              type:
+                name: IOccupantAwarenessClientCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getLatestDetection
+          transaction_code_offset: 5
+          params:
+            - name: detections
+              type:
+                name: OccupantDetections
+              direction: out
+          return_type:
+            name: void
+      constants:
+        - name: CAP_NONE
+          type: int
+          value: "0"
+        - name: CAP_PRESENCE_DETECTION
+          type: int
+          value: 1 << 0
+        - name: CAP_GAZE_DETECTION
+          type: int
+          value: 1 << 1
+        - name: CAP_DRIVER_MONITORING_DETECTION
+          type: int
+          value: 1 << 2
+    - name: IOccupantAwarenessClientCallback
+      descriptor: android.hardware.automotive.occupant_awareness.IOccupantAwarenessClientCallback
+      methods:
+        - name: onSystemStatusChanged
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: detectionFlags
+              type:
+                name: int
+              direction: in
+            - name: status
+              type:
+                name: OccupantAwarenessStatus
+              direction: in
+          return_type:
+            name: void
+        - name: onDetectionEvent
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: detections
+              type:
+                name: OccupantDetections
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: DriverMonitoringDetection
+      fields:
+        - name: confidenceScore
+          type:
+            name: ConfidenceLevel
+        - name: isLookingOnRoad
+          type:
+            name: boolean
+        - name: gazeDurationMillis
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: GazeDetection
+      fields:
+        - name: gazeConfidence
+          type:
+            name: ConfidenceLevel
+        - name: headPosition
+          type:
+            name: double
+            is_array: true
+        - name: headAngleUnitVector
+          type:
+            name: double
+            is_array: true
+        - name: gazeAngleUnitVector
+          type:
+            name: double
+            is_array: true
+        - name: gazeTarget
+          type:
+            name: VehicleRegion
+        - name: customGazeTarget
+          type:
+            name: String
+        - name: timeOnTargetMillis
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: OccupantDetection
+      fields:
+        - name: role
+          type:
+            name: Role
+        - name: presenceData
+          type:
+            name: PresenceDetection
+            is_array: true
+        - name: gazeData
+          type:
+            name: GazeDetection
+            is_array: true
+        - name: attentionData
+          type:
+            name: DriverMonitoringDetection
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: OccupantDetections
+      fields:
+        - name: timeStampMillis
+          type:
+            name: long
+        - name: detections
+          type:
+            name: OccupantDetection
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: PresenceDetection
+      fields:
+        - name: isOccupantDetected
+          type:
+            name: boolean
+        - name: detectionDurationMillis
+          type:
+            name: long
+      annotations:
+        - VintfStability
+enums:
+    - name: ConfidenceLevel
+      backing_type: byte
+      values:
+        - name: NONE
+          value: ""
+        - name: LOW
+          value: ""
+        - name: HIGH
+          value: ""
+        - name: MAX
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: OccupantAwarenessStatus
+      backing_type: byte
+      values:
+        - name: READY
+          value: "0"
+        - name: NOT_SUPPORTED
+          value: "1"
+        - name: NOT_INITIALIZED
+          value: "2"
+        - name: FAILURE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Role
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "0"
+        - name: UNKNOWN
+          value: 1 << 0
+        - name: FRONT_PASSENGER
+          value: 1 << 1
+        - name: DRIVER
+          value: 1 << 2
+        - name: ROW_2_PASSENGER_LEFT
+          value: 1 << 3
+        - name: ROW_2_PASSENGER_CENTER
+          value: 1 << 4
+        - name: ROW_2_PASSENGER_RIGHT
+          value: 1 << 5
+        - name: ROW_3_PASSENGER_LEFT
+          value: 1 << 6
+        - name: ROW_3_PASSENGER_CENTER
+          value: 1 << 7
+        - name: ROW_3_PASSENGER_RIGHT
+          value: 1 << 8
+        - name: FRONT_OCCUPANTS
+          value: 1 << 1 | 1 << 2
+        - name: ROW_2_OCCUPANTS
+          value: 1 << 3 | 1 << 4 | 1 << 5
+        - name: ROW_3_OCCUPANTS
+          value: 1 << 6 | 1 << 7 | 1 << 8
+        - name: ALL_OCCUPANTS
+          value: "0x1FF"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleRegion
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: INSTRUMENT_CLUSTER
+          value: "1"
+        - name: REAR_VIEW_MIRROR
+          value: "2"
+        - name: LEFT_SIDE_MIRROR
+          value: "3"
+        - name: RIGHT_SIDE_MIRROR
+          value: "4"
+        - name: FORWARD_ROADWAY
+          value: "5"
+        - name: LEFT_ROADWAY
+          value: "6"
+        - name: RIGHT_ROADWAY
+          value: "7"
+        - name: HEAD_UNIT_DISPLAY
+          value: "8"
+        - name: CUSTOM_TARGET
+          value: "200"
+      annotations:
+        - VintfStability
+        - Backing

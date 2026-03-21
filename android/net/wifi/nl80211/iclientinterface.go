@@ -60,6 +60,7 @@ func (p *ClientInterfaceProxy) GetPacketCounters(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClientInterface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientInterface, MethodIClientInterfaceGetPacketCounters)
@@ -81,6 +82,9 @@ func (p *ClientInterfaceProxy) GetPacketCounters(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -99,6 +103,7 @@ func (p *ClientInterfaceProxy) SignalPoll(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClientInterface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientInterface, MethodIClientInterfaceSignalPoll)
@@ -120,6 +125,9 @@ func (p *ClientInterfaceProxy) SignalPoll(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -138,6 +146,7 @@ func (p *ClientInterfaceProxy) GetMacAddress(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClientInterface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientInterface, MethodIClientInterfaceGetMacAddress)
@@ -155,19 +164,9 @@ func (p *ClientInterfaceProxy) GetMacAddress(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -177,6 +176,7 @@ func (p *ClientInterfaceProxy) GetInterfaceName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClientInterface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientInterface, MethodIClientInterfaceGetInterfaceName)
@@ -206,6 +206,7 @@ func (p *ClientInterfaceProxy) GetWifiScannerImpl(
 ) (IWifiScannerImpl, error) {
 	var _result IWifiScannerImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClientInterface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientInterface, MethodIClientInterfaceGetWifiScannerImpl)
@@ -238,15 +239,9 @@ func (p *ClientInterfaceProxy) SendMgmtFrame(
 	mcs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClientInterface)
-	if frame == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(frame)))
-		for _, _item := range frame {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(frame)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(mcs)
 
@@ -262,7 +257,8 @@ func (p *ClientInterfaceProxy) SendMgmtFrame(
 // ClientInterfaceStub dispatches incoming binder transactions
 // to a typed IClientInterface implementation.
 type ClientInterfaceStub struct {
-	Impl IClientInterface
+	Impl      IClientInterface
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ClientInterfaceStub)(nil)
@@ -276,11 +272,12 @@ func (s *ClientInterfaceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIClientInterfaceGetPacketCounters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPacketCounters(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -288,13 +285,16 @@ func (s *ClientInterfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIClientInterfaceSignalPoll:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.SignalPoll(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -302,13 +302,16 @@ func (s *ClientInterfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIClientInterfaceGetMacAddress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMacAddress(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -316,13 +319,9 @@ func (s *ClientInterfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIClientInterfaceGetInterfaceName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetInterfaceName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -333,9 +332,6 @@ func (s *ClientInterfaceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIClientInterfaceGetWifiScannerImpl:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWifiScannerImpl(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -343,26 +339,31 @@ func (s *ClientInterfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIClientInterfaceSendMgmtFrame:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_frame []byte
-		_ = _arg_frame
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_frame = _bytes
+		}
 		var _arg_callback ISendMgmtFrameEvent
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSendMgmtFrameEventProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_mcs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SendMgmtFrame(ctx, _arg_frame, _arg_callback, _arg_mcs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

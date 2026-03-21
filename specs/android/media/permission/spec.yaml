@@ -1,0 +1,27 @@
+package: android.media.permission
+go_package: android/media/permission
+parcelables:
+    - name: Identity
+      fields:
+        - name: uid
+          type:
+            name: int
+          default_value: "-1"
+        - name: pid
+          type:
+            name: int
+          default_value: "-1"
+        - name: packageName
+          type:
+            name: String
+          annotations:
+            - nullable
+            - utf8InCpp
+        - name: attributionTag
+          type:
+            name: String
+          annotations:
+            - nullable
+            - utf8InCpp
+      annotations:
+        - JavaDerive

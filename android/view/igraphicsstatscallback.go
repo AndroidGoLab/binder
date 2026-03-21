@@ -44,6 +44,7 @@ func (p *GraphicsStatsCallbackProxy) OnRotateGraphicsStatsBuffer(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicsStatsCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicsStatsCallback, MethodIGraphicsStatsCallbackOnRotateGraphicsStatsBuffer)
@@ -58,7 +59,8 @@ func (p *GraphicsStatsCallbackProxy) OnRotateGraphicsStatsBuffer(
 // GraphicsStatsCallbackStub dispatches incoming binder transactions
 // to a typed IGraphicsStatsCallback implementation.
 type GraphicsStatsCallbackStub struct {
-	Impl IGraphicsStatsCallback
+	Impl      IGraphicsStatsCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GraphicsStatsCallbackStub)(nil)
@@ -72,14 +74,14 @@ func (s *GraphicsStatsCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGraphicsStatsCallbackOnRotateGraphicsStatsBuffer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnRotateGraphicsStatsBuffer(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

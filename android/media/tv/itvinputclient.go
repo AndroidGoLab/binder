@@ -139,6 +139,7 @@ func (p *TvInputClientProxy) OnSessionCreated(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteString16(inputId)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -162,6 +163,7 @@ func (p *TvInputClientProxy) OnSessionReleased(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(seq)
 
@@ -181,6 +183,7 @@ func (p *TvInputClientProxy) OnSessionEvent(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteString16(name)
 	_data.WriteInt32(1)
@@ -204,6 +207,7 @@ func (p *TvInputClientProxy) OnChannelRetuned(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
@@ -226,6 +230,7 @@ func (p *TvInputClientProxy) OnAudioPresentationsChanged(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	if AudioPresentations == nil {
 		_data.WriteInt32(-1)
@@ -256,6 +261,7 @@ func (p *TvInputClientProxy) OnAudioPresentationSelected(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(presentationId)
 	_data.WriteInt32(programId)
@@ -276,6 +282,7 @@ func (p *TvInputClientProxy) OnTracksChanged(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	if tracks == nil {
 		_data.WriteInt32(-1)
@@ -306,6 +313,7 @@ func (p *TvInputClientProxy) OnTrackSelected(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(type_)
 	_data.WriteString16(trackId)
@@ -325,6 +333,7 @@ func (p *TvInputClientProxy) OnVideoAvailable(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(seq)
 
@@ -343,6 +352,7 @@ func (p *TvInputClientProxy) OnVideoUnavailable(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(reason)
 	_data.WriteInt32(seq)
@@ -362,6 +372,7 @@ func (p *TvInputClientProxy) OnVideoFreezeUpdated(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteBool(isFrozen)
 	_data.WriteInt32(seq)
@@ -380,6 +391,7 @@ func (p *TvInputClientProxy) OnContentAllowed(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(seq)
 
@@ -398,6 +410,7 @@ func (p *TvInputClientProxy) OnContentBlocked(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteString16(rating)
 	_data.WriteInt32(seq)
@@ -420,6 +433,7 @@ func (p *TvInputClientProxy) OnLayoutSurface(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(left)
 	_data.WriteInt32(top)
@@ -442,6 +456,7 @@ func (p *TvInputClientProxy) OnTimeShiftStatusChanged(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(status)
 	_data.WriteInt32(seq)
@@ -461,6 +476,7 @@ func (p *TvInputClientProxy) OnTimeShiftStartPositionChanged(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt64(timeMs)
 	_data.WriteInt32(seq)
@@ -480,6 +496,7 @@ func (p *TvInputClientProxy) OnTimeShiftCurrentPositionChanged(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt64(timeMs)
 	_data.WriteInt32(seq)
@@ -499,6 +516,7 @@ func (p *TvInputClientProxy) OnAitInfoUpdated(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(1)
 	if _err := aitInfo.MarshalParcel(_data); _err != nil {
@@ -521,6 +539,7 @@ func (p *TvInputClientProxy) OnSignalStrength(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(stength)
 	_data.WriteInt32(seq)
@@ -540,6 +559,7 @@ func (p *TvInputClientProxy) OnCueingMessageAvailability(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteBool(available)
 	_data.WriteInt32(seq)
@@ -559,6 +579,7 @@ func (p *TvInputClientProxy) OnTimeShiftMode(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(mode)
 	_data.WriteInt32(seq)
@@ -578,6 +599,7 @@ func (p *TvInputClientProxy) OnAvailableSpeeds(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	if speeds == nil {
 		_data.WriteInt32(-1)
@@ -605,6 +627,7 @@ func (p *TvInputClientProxy) OnTvMessage(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(type_)
 	_data.WriteInt32(1)
@@ -628,6 +651,7 @@ func (p *TvInputClientProxy) OnTuned(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
@@ -650,6 +674,7 @@ func (p *TvInputClientProxy) OnRecordingStopped(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(1)
 	if _err := recordedProgramUri.MarshalParcel(_data); _err != nil {
@@ -672,6 +697,7 @@ func (p *TvInputClientProxy) OnError(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(error_)
 	_data.WriteInt32(seq)
@@ -691,6 +717,7 @@ func (p *TvInputClientProxy) OnBroadcastInfoResponse(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
@@ -713,6 +740,7 @@ func (p *TvInputClientProxy) OnAdResponse(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
@@ -735,6 +763,7 @@ func (p *TvInputClientProxy) OnAdBufferConsumed(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteInt32(1)
 	if _err := buffer.MarshalParcel(_data); _err != nil {
@@ -758,6 +787,7 @@ func (p *TvInputClientProxy) OnTvInputSessionData(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputClient)
 	_data.WriteString16(type_)
 	_data.WriteInt32(1)
@@ -778,7 +808,8 @@ func (p *TvInputClientProxy) OnTvInputSessionData(
 // TvInputClientStub dispatches incoming binder transactions
 // to a typed ITvInputClient implementation.
 type TvInputClientStub struct {
-	Impl ITvInputClient
+	Impl      ITvInputClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvInputClientStub)(nil)
@@ -792,18 +823,24 @@ func (s *TvInputClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvInputClientOnSessionCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_channel view.InputChannel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -821,23 +858,15 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSessionCreated(ctx, _arg_inputId, _arg_token, _arg_channel, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnSessionReleased:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSessionReleased(ctx, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnSessionEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -859,12 +888,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSessionEvent(ctx, _arg_name, _arg_args, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnChannelRetuned:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_channelUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -882,26 +907,36 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnChannelRetuned(ctx, _arg_channelUri, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnAudioPresentationsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_AudioPresentations []tuner.AudioPresentation
-		_ = _arg_AudioPresentations
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_AudioPresentations = make([]tuner.AudioPresentation, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_AudioPresentations[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAudioPresentationsChanged(ctx, _arg_AudioPresentations, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnAudioPresentationSelected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_presentationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -915,26 +950,36 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAudioPresentationSelected(ctx, _arg_presentationId, _arg_programId, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnTracksChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_tracks []TvTrackInfo
-		_ = _arg_tracks
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_tracks = make([]TvTrackInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_tracks[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTracksChanged(ctx, _arg_tracks, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnTrackSelected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -948,23 +993,15 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTrackSelected(ctx, _arg_type_, _arg_trackId, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnVideoAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnVideoAvailable(ctx, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnVideoUnavailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -974,12 +1011,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnVideoUnavailable(ctx, _arg_reason, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnVideoFreezeUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isFrozen, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -989,23 +1022,15 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnVideoFreezeUpdated(ctx, _arg_isFrozen, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnContentAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnContentAllowed(ctx, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnContentBlocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rating, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1015,12 +1040,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnContentBlocked(ctx, _arg_rating, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnLayoutSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_left, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1042,12 +1063,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnLayoutSurface(ctx, _arg_left, _arg_top, _arg_right, _arg_bottom, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnTimeShiftStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1057,12 +1074,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTimeShiftStatusChanged(ctx, _arg_status, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnTimeShiftStartPositionChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1072,12 +1085,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTimeShiftStartPositionChanged(ctx, _arg_timeMs, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnTimeShiftCurrentPositionChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1087,12 +1096,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTimeShiftCurrentPositionChanged(ctx, _arg_timeMs, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnAitInfoUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_aitInfo AitInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1110,12 +1115,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAitInfoUpdated(ctx, _arg_aitInfo, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnSignalStrength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_stength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1125,12 +1126,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSignalStrength(ctx, _arg_stength, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnCueingMessageAvailability:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_available, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1140,12 +1137,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnCueingMessageAvailability(ctx, _arg_available, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnTimeShiftMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1155,26 +1148,34 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTimeShiftMode(ctx, _arg_mode, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnAvailableSpeeds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_speeds []float32
-		_ = _arg_speeds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_speeds = make([]float32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_speeds[_i], _err = _data.ReadFloat32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAvailableSpeeds(ctx, _arg_speeds, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnTvMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1196,12 +1197,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTvMessage(ctx, _arg_type_, _arg_data, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnTuned:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_channelUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1219,12 +1216,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTuned(ctx, _arg_channelUri, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnRecordingStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_recordedProgramUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1242,12 +1235,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnRecordingStopped(ctx, _arg_recordedProgramUri, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1257,12 +1246,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_error_, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnBroadcastInfoResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_response BroadcastInfoResponse
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1280,12 +1265,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnBroadcastInfoResponse(ctx, _arg_response, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnAdResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_response AdResponse
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1303,12 +1284,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAdResponse(ctx, _arg_response, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnAdBufferConsumed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_buffer AdBuffer
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1326,12 +1303,8 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAdBufferConsumed(ctx, _arg_buffer, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputClientOnTvInputSessionData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1353,8 +1326,7 @@ func (s *TvInputClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTvInputSessionData(ctx, _arg_type_, _arg_data, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

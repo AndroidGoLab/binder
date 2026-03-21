@@ -47,6 +47,7 @@ func (p *SystemDataTransferCallbackProxy) OnResult(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemDataTransferCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemDataTransferCallback, MethodISystemDataTransferCallbackOnResult)
@@ -63,6 +64,7 @@ func (p *SystemDataTransferCallbackProxy) OnError(
 	error_ string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemDataTransferCallback)
 	_data.WriteString16(error_)
 
@@ -78,7 +80,8 @@ func (p *SystemDataTransferCallbackProxy) OnError(
 // SystemDataTransferCallbackStub dispatches incoming binder transactions
 // to a typed ISystemDataTransferCallback implementation.
 type SystemDataTransferCallbackStub struct {
-	Impl ISystemDataTransferCallback
+	Impl      ISystemDataTransferCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SystemDataTransferCallbackStub)(nil)
@@ -92,25 +95,21 @@ func (s *SystemDataTransferCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISystemDataTransferCallbackOnResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnResult(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemDataTransferCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_error_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

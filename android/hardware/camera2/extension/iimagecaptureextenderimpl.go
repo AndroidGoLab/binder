@@ -3,6 +3,7 @@ package extension
 import (
 	"context"
 	"fmt"
+	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -57,22 +58,22 @@ const (
 
 type IImageCaptureExtenderImpl interface {
 	AsBinder() binder.IBinder
-	OnInit(ctx context.Context, token binder.IBinder, cameraId string, cameraCharacteristics interface{}) error
+	OnInit(ctx context.Context, token binder.IBinder, cameraId string, cameraCharacteristics impl.CameraMetadataNative) error
 	OnDeInit(ctx context.Context, token binder.IBinder) error
 	OnPresetSession(ctx context.Context) (CaptureStageImpl, error)
 	OnEnableSession(ctx context.Context) (CaptureStageImpl, error)
 	OnDisableSession(ctx context.Context) (CaptureStageImpl, error)
 	GetSessionType(ctx context.Context) (int32, error)
-	IsExtensionAvailable(ctx context.Context, cameraId string, chars interface{}) (bool, error)
-	Init(ctx context.Context, cameraId string, chars interface{}) error
+	IsExtensionAvailable(ctx context.Context, cameraId string, chars impl.CameraMetadataNative) (bool, error)
+	Init(ctx context.Context, cameraId string, chars impl.CameraMetadataNative) error
 	GetCaptureProcessor(ctx context.Context) (ICaptureProcessorImpl, error)
 	GetCaptureStages(ctx context.Context) ([]CaptureStageImpl, error)
 	GetMaxCaptureStage(ctx context.Context) (int32, error)
 	GetSupportedResolutions(ctx context.Context) ([]SizeList, error)
 	GetSupportedPostviewResolutions(ctx context.Context, captureSize Size) ([]SizeList, error)
 	GetEstimatedCaptureLatencyRange(ctx context.Context, outputSize Size) (LatencyRange, error)
-	GetAvailableCaptureRequestKeys(ctx context.Context) (interface{}, error)
-	GetAvailableCaptureResultKeys(ctx context.Context) (interface{}, error)
+	GetAvailableCaptureRequestKeys(ctx context.Context) (impl.CameraMetadataNative, error)
+	GetAvailableCaptureResultKeys(ctx context.Context) (impl.CameraMetadataNative, error)
 	IsCaptureProcessProgressAvailable(ctx context.Context) (bool, error)
 	GetRealtimeCaptureLatency(ctx context.Context) (LatencyPair, error)
 	IsPostviewAvailable(ctx context.Context) (bool, error)
@@ -98,12 +99,17 @@ func (p *ImageCaptureExtenderImplProxy) OnInit(
 	ctx context.Context,
 	token binder.IBinder,
 	cameraId string,
-	cameraCharacteristics interface{},
+	cameraCharacteristics impl.CameraMetadataNative,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(cameraId)
+	_data.WriteInt32(1)
+	if _err := cameraCharacteristics.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplOnInit)
 	if _err != nil {
@@ -128,6 +134,7 @@ func (p *ImageCaptureExtenderImplProxy) OnDeInit(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -154,6 +161,7 @@ func (p *ImageCaptureExtenderImplProxy) OnPresetSession(
 ) (CaptureStageImpl, error) {
 	var _result CaptureStageImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplOnPresetSession)
@@ -188,6 +196,7 @@ func (p *ImageCaptureExtenderImplProxy) OnEnableSession(
 ) (CaptureStageImpl, error) {
 	var _result CaptureStageImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplOnEnableSession)
@@ -222,6 +231,7 @@ func (p *ImageCaptureExtenderImplProxy) OnDisableSession(
 ) (CaptureStageImpl, error) {
 	var _result CaptureStageImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplOnDisableSession)
@@ -256,6 +266,7 @@ func (p *ImageCaptureExtenderImplProxy) GetSessionType(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplGetSessionType)
@@ -283,12 +294,17 @@ func (p *ImageCaptureExtenderImplProxy) GetSessionType(
 func (p *ImageCaptureExtenderImplProxy) IsExtensionAvailable(
 	ctx context.Context,
 	cameraId string,
-	chars interface{},
+	chars impl.CameraMetadataNative,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 	_data.WriteString16(cameraId)
+	_data.WriteInt32(1)
+	if _err := chars.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplIsExtensionAvailable)
 	if _err != nil {
@@ -315,11 +331,16 @@ func (p *ImageCaptureExtenderImplProxy) IsExtensionAvailable(
 func (p *ImageCaptureExtenderImplProxy) Init(
 	ctx context.Context,
 	cameraId string,
-	chars interface{},
+	chars impl.CameraMetadataNative,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 	_data.WriteString16(cameraId)
+	_data.WriteInt32(1)
+	if _err := chars.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplInit)
 	if _err != nil {
@@ -344,6 +365,7 @@ func (p *ImageCaptureExtenderImplProxy) GetCaptureProcessor(
 ) (ICaptureProcessorImpl, error) {
 	var _result ICaptureProcessorImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplGetCaptureProcessor)
@@ -374,6 +396,7 @@ func (p *ImageCaptureExtenderImplProxy) GetCaptureStages(
 ) ([]CaptureStageImpl, error) {
 	var _result []CaptureStageImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplGetCaptureStages)
@@ -395,6 +418,9 @@ func (p *ImageCaptureExtenderImplProxy) GetCaptureStages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]CaptureStageImpl, _count)
@@ -415,6 +441,7 @@ func (p *ImageCaptureExtenderImplProxy) GetMaxCaptureStage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplGetMaxCaptureStage)
@@ -444,6 +471,7 @@ func (p *ImageCaptureExtenderImplProxy) GetSupportedResolutions(
 ) ([]SizeList, error) {
 	var _result []SizeList
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplGetSupportedResolutions)
@@ -464,6 +492,9 @@ func (p *ImageCaptureExtenderImplProxy) GetSupportedResolutions(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -486,6 +517,7 @@ func (p *ImageCaptureExtenderImplProxy) GetSupportedPostviewResolutions(
 ) ([]SizeList, error) {
 	var _result []SizeList
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 	_data.WriteInt32(1)
 	if _err := captureSize.MarshalParcel(_data); _err != nil {
@@ -511,6 +543,9 @@ func (p *ImageCaptureExtenderImplProxy) GetSupportedPostviewResolutions(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]SizeList, _count)
@@ -532,6 +567,7 @@ func (p *ImageCaptureExtenderImplProxy) GetEstimatedCaptureLatencyRange(
 ) (LatencyRange, error) {
 	var _result LatencyRange
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 	_data.WriteInt32(1)
 	if _err := outputSize.MarshalParcel(_data); _err != nil {
@@ -567,9 +603,10 @@ func (p *ImageCaptureExtenderImplProxy) GetEstimatedCaptureLatencyRange(
 
 func (p *ImageCaptureExtenderImplProxy) GetAvailableCaptureRequestKeys(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (impl.CameraMetadataNative, error) {
+	var _result impl.CameraMetadataNative
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplGetAvailableCaptureRequestKeys)
@@ -587,14 +624,24 @@ func (p *ImageCaptureExtenderImplProxy) GetAvailableCaptureRequestKeys(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *ImageCaptureExtenderImplProxy) GetAvailableCaptureResultKeys(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (impl.CameraMetadataNative, error) {
+	var _result impl.CameraMetadataNative
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplGetAvailableCaptureResultKeys)
@@ -612,6 +659,15 @@ func (p *ImageCaptureExtenderImplProxy) GetAvailableCaptureResultKeys(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -620,6 +676,7 @@ func (p *ImageCaptureExtenderImplProxy) IsCaptureProcessProgressAvailable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplIsCaptureProcessProgressAvailable)
@@ -649,6 +706,7 @@ func (p *ImageCaptureExtenderImplProxy) GetRealtimeCaptureLatency(
 ) (LatencyPair, error) {
 	var _result LatencyPair
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplGetRealtimeCaptureLatency)
@@ -683,6 +741,7 @@ func (p *ImageCaptureExtenderImplProxy) IsPostviewAvailable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageCaptureExtenderImpl, MethodIImageCaptureExtenderImplIsPostviewAvailable)
@@ -710,7 +769,8 @@ func (p *ImageCaptureExtenderImplProxy) IsPostviewAvailable(
 // ImageCaptureExtenderImplStub dispatches incoming binder transactions
 // to a typed IImageCaptureExtenderImpl implementation.
 type ImageCaptureExtenderImplStub struct {
-	Impl IImageCaptureExtenderImpl
+	Impl      IImageCaptureExtenderImpl
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImageCaptureExtenderImplStub)(nil)
@@ -724,19 +784,36 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImageCaptureExtenderImplOnInit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_cameraCharacteristics interface{}
+		var _arg_cameraCharacteristics impl.CameraMetadataNative
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cameraCharacteristics.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnInit(ctx, _arg_token, _arg_cameraId, _arg_cameraCharacteristics)
 		_reply := parcel.New()
 		if _err != nil {
@@ -746,12 +823,14 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplOnDeInit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.OnDeInit(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -761,9 +840,6 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplOnPresetSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.OnPresetSession(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -777,9 +853,6 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplOnEnableSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.OnEnableSession(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -793,9 +866,6 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplOnDisableSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.OnDisableSession(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -809,9 +879,6 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetSessionType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSessionType(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -822,14 +889,22 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplIsExtensionAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_chars interface{}
+		var _arg_chars impl.CameraMetadataNative
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_chars.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.IsExtensionAvailable(ctx, _arg_cameraId, _arg_chars)
 		_reply := parcel.New()
 		if _err != nil {
@@ -840,14 +915,22 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplInit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_chars interface{}
+		var _arg_chars impl.CameraMetadataNative
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_chars.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.Init(ctx, _arg_cameraId, _arg_chars)
 		_reply := parcel.New()
 		if _err != nil {
@@ -857,9 +940,6 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetCaptureProcessor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCaptureProcessor(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -867,13 +947,9 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetCaptureStages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCaptureStages(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -881,13 +957,19 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetMaxCaptureStage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMaxCaptureStage(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -898,9 +980,6 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetSupportedResolutions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedResolutions(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -908,13 +987,19 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetSupportedPostviewResolutions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_captureSize Size
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -934,13 +1019,19 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetEstimatedCaptureLatencyRange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_outputSize Size
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -966,9 +1057,6 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetAvailableCaptureRequestKeys:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAvailableCaptureRequestKeys(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -976,12 +1064,12 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIImageCaptureExtenderImplGetAvailableCaptureResultKeys:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIImageCaptureExtenderImplGetAvailableCaptureResultKeys:
 		_result, _err := s.Impl.GetAvailableCaptureResultKeys(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -989,12 +1077,12 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIImageCaptureExtenderImplIsCaptureProcessProgressAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIImageCaptureExtenderImplIsCaptureProcessProgressAvailable:
 		_result, _err := s.Impl.IsCaptureProcessProgressAvailable(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1005,9 +1093,6 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetRealtimeCaptureLatency:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRealtimeCaptureLatency(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1021,9 +1106,6 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplIsPostviewAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsPostviewAvailable(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1042,22 +1124,22 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 // provide to NewImageCaptureExtenderImplStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IImageCaptureExtenderImplServer interface {
-	OnInit(ctx context.Context, token binder.IBinder, cameraId string, cameraCharacteristics interface{}) error
+	OnInit(ctx context.Context, token binder.IBinder, cameraId string, cameraCharacteristics impl.CameraMetadataNative) error
 	OnDeInit(ctx context.Context, token binder.IBinder) error
 	OnPresetSession(ctx context.Context) (CaptureStageImpl, error)
 	OnEnableSession(ctx context.Context) (CaptureStageImpl, error)
 	OnDisableSession(ctx context.Context) (CaptureStageImpl, error)
 	GetSessionType(ctx context.Context) (int32, error)
-	IsExtensionAvailable(ctx context.Context, cameraId string, chars interface{}) (bool, error)
-	Init(ctx context.Context, cameraId string, chars interface{}) error
+	IsExtensionAvailable(ctx context.Context, cameraId string, chars impl.CameraMetadataNative) (bool, error)
+	Init(ctx context.Context, cameraId string, chars impl.CameraMetadataNative) error
 	GetCaptureProcessor(ctx context.Context) (ICaptureProcessorImpl, error)
 	GetCaptureStages(ctx context.Context) ([]CaptureStageImpl, error)
 	GetMaxCaptureStage(ctx context.Context) (int32, error)
 	GetSupportedResolutions(ctx context.Context) ([]SizeList, error)
 	GetSupportedPostviewResolutions(ctx context.Context, captureSize Size) ([]SizeList, error)
 	GetEstimatedCaptureLatencyRange(ctx context.Context, outputSize Size) (LatencyRange, error)
-	GetAvailableCaptureRequestKeys(ctx context.Context) (interface{}, error)
-	GetAvailableCaptureResultKeys(ctx context.Context) (interface{}, error)
+	GetAvailableCaptureRequestKeys(ctx context.Context) (impl.CameraMetadataNative, error)
+	GetAvailableCaptureResultKeys(ctx context.Context) (impl.CameraMetadataNative, error)
 	IsCaptureProcessProgressAvailable(ctx context.Context) (bool, error)
 	GetRealtimeCaptureLatency(ctx context.Context) (LatencyPair, error)
 	IsPostviewAvailable(ctx context.Context) (bool, error)
@@ -1076,7 +1158,7 @@ func (w *imageCaptureExtenderImplStubWrapper) OnInit(
 	ctx context.Context,
 	token binder.IBinder,
 	cameraId string,
-	cameraCharacteristics interface{},
+	cameraCharacteristics impl.CameraMetadataNative,
 ) error {
 	return w.impl.OnInit(ctx, token, cameraId, cameraCharacteristics)
 }
@@ -1115,7 +1197,7 @@ func (w *imageCaptureExtenderImplStubWrapper) GetSessionType(
 func (w *imageCaptureExtenderImplStubWrapper) IsExtensionAvailable(
 	ctx context.Context,
 	cameraId string,
-	chars interface{},
+	chars impl.CameraMetadataNative,
 ) (bool, error) {
 	return w.impl.IsExtensionAvailable(ctx, cameraId, chars)
 }
@@ -1123,7 +1205,7 @@ func (w *imageCaptureExtenderImplStubWrapper) IsExtensionAvailable(
 func (w *imageCaptureExtenderImplStubWrapper) Init(
 	ctx context.Context,
 	cameraId string,
-	chars interface{},
+	chars impl.CameraMetadataNative,
 ) error {
 	return w.impl.Init(ctx, cameraId, chars)
 }
@@ -1168,13 +1250,13 @@ func (w *imageCaptureExtenderImplStubWrapper) GetEstimatedCaptureLatencyRange(
 
 func (w *imageCaptureExtenderImplStubWrapper) GetAvailableCaptureRequestKeys(
 	ctx context.Context,
-) (interface{}, error) {
+) (impl.CameraMetadataNative, error) {
 	return w.impl.GetAvailableCaptureRequestKeys(ctx)
 }
 
 func (w *imageCaptureExtenderImplStubWrapper) GetAvailableCaptureResultKeys(
 	ctx context.Context,
-) (interface{}, error) {
+) (impl.CameraMetadataNative, error) {
 	return w.impl.GetAvailableCaptureResultKeys(ctx)
 }
 

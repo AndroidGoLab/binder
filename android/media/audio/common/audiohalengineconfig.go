@@ -1,7 +1,6 @@
 package common
 
 import (
-	commonAudioHalEngineConfig "github.com/xaionaro-go/binder/android/media/audio/common/AudioHalEngineConfig"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -11,7 +10,7 @@ type AudioHalEngineConfig struct {
 	DefaultProductStrategyId int32
 	ProductStrategies        []AudioHalProductStrategy
 	VolumeGroups             []AudioHalVolumeGroup
-	CapSpecificConfig        commonAudioHalEngineConfig.CapSpecificConfig
+	CapSpecificConfig        *AudioHalEngineConfigCapSpecificConfig
 }
 
 var _ parcel.Parcelable = (*AudioHalEngineConfig)(nil)
@@ -43,8 +42,13 @@ func (s *AudioHalEngineConfig) MarshalParcel(
 			}
 		}
 	}
-	if _err := s.CapSpecificConfig.MarshalParcel(p); _err != nil {
-		return _err
+	if s.CapSpecificConfig == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.CapSpecificConfig.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -59,9 +63,19 @@ func (s *AudioHalEngineConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.DefaultProductStrategyId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -81,6 +95,11 @@ func (s *AudioHalEngineConfig) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count1 int32
 	_count1, _err = p.ReadInt32()
 	if _err != nil {
@@ -98,8 +117,23 @@ func (s *AudioHalEngineConfig) UnmarshalParcel(
 		}
 	}
 
-	if _err = s.CapSpecificConfig.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val AudioHalEngineConfigCapSpecificConfig
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.CapSpecificConfig = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

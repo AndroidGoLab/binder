@@ -62,6 +62,7 @@ func (p *ImsRegistrationCallbackProxy) OnRegistered(
 	attr ims.ImsRegistrationAttributes,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationCallback)
 	_data.WriteInt32(1)
 	if _err := attr.MarshalParcel(_data); _err != nil {
@@ -82,6 +83,7 @@ func (p *ImsRegistrationCallbackProxy) OnRegistering(
 	attr ims.ImsRegistrationAttributes,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationCallback)
 	_data.WriteInt32(1)
 	if _err := attr.MarshalParcel(_data); _err != nil {
@@ -104,6 +106,7 @@ func (p *ImsRegistrationCallbackProxy) OnDeregistered(
 	imsRadioTech int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationCallback)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -129,6 +132,7 @@ func (p *ImsRegistrationCallbackProxy) OnDeregisteredWithDetails(
 	detail ims.SipDetails,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationCallback)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -156,6 +160,7 @@ func (p *ImsRegistrationCallbackProxy) OnTechnologyChangeFailed(
 	info ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationCallback)
 	_data.WriteInt32(imsRadioTech)
 	_data.WriteInt32(1)
@@ -177,6 +182,7 @@ func (p *ImsRegistrationCallbackProxy) OnSubscriberAssociatedUriChanged(
 	uris []net.Uri,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationCallback)
 	if uris == nil {
 		_data.WriteInt32(-1)
@@ -202,7 +208,8 @@ func (p *ImsRegistrationCallbackProxy) OnSubscriberAssociatedUriChanged(
 // ImsRegistrationCallbackStub dispatches incoming binder transactions
 // to a typed IImsRegistrationCallback implementation.
 type ImsRegistrationCallbackStub struct {
-	Impl IImsRegistrationCallback
+	Impl      IImsRegistrationCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsRegistrationCallbackStub)(nil)
@@ -216,11 +223,12 @@ func (s *ImsRegistrationCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsRegistrationCallbackOnRegistered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_attr ims.ImsRegistrationAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -234,12 +242,8 @@ func (s *ImsRegistrationCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnRegistered(ctx, _arg_attr)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationCallbackOnRegistering:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_attr ims.ImsRegistrationAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -253,12 +257,8 @@ func (s *ImsRegistrationCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnRegistering(ctx, _arg_attr)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationCallbackOnDeregistered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info ims.ImsReasonInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -280,12 +280,8 @@ func (s *ImsRegistrationCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnDeregistered(ctx, _arg_info, _arg_suggestedAction, _arg_imsRadioTech)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationCallbackOnDeregisteredWithDetails:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info ims.ImsReasonInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -319,12 +315,8 @@ func (s *ImsRegistrationCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnDeregisteredWithDetails(ctx, _arg_info, _arg_suggestedAction, _arg_imsRadioTech, _arg_detail)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationCallbackOnTechnologyChangeFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_imsRadioTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -342,18 +334,31 @@ func (s *ImsRegistrationCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnTechnologyChangeFailed(ctx, _arg_imsRadioTech, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationCallbackOnSubscriberAssociatedUriChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_uris []net.Uri
-		_ = _arg_uris
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_uris = make([]net.Uri, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_uris[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnSubscriberAssociatedUriChanged(ctx, _arg_uris)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

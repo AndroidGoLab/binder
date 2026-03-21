@@ -61,6 +61,7 @@ func (p *SecretkeeperProxy) GetAuthGraphKe(
 ) (authgraph.IAuthGraphKeyExchange, error) {
 	var _result authgraph.IAuthGraphKeyExchange
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecretkeeper)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecretkeeper, MethodISecretkeeperGetAuthGraphKe)
@@ -92,15 +93,9 @@ func (p *SecretkeeperProxy) ProcessSecretManagementRequest(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecretkeeper)
-	if request == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(request)))
-		for _, _item := range request {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(request)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecretkeeper, MethodISecretkeeperProcessSecretManagementRequest)
 	if _err != nil {
@@ -117,19 +112,9 @@ func (p *SecretkeeperProxy) ProcessSecretManagementRequest(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -139,6 +124,7 @@ func (p *SecretkeeperProxy) DeleteIds(
 	ids []SecretId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecretkeeper)
 	if ids == nil {
 		_data.WriteInt32(-1)
@@ -174,6 +160,7 @@ func (p *SecretkeeperProxy) DeleteAll(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecretkeeper)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecretkeeper, MethodISecretkeeperDeleteAll)
@@ -197,7 +184,8 @@ func (p *SecretkeeperProxy) DeleteAll(
 // SecretkeeperStub dispatches incoming binder transactions
 // to a typed ISecretkeeper implementation.
 type SecretkeeperStub struct {
-	Impl ISecretkeeper
+	Impl      ISecretkeeper
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SecretkeeperStub)(nil)
@@ -211,11 +199,12 @@ func (s *SecretkeeperStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISecretkeeperGetAuthGraphKe:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAuthGraphKe(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -223,16 +212,17 @@ func (s *SecretkeeperStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISecretkeeperProcessSecretManagementRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_request []byte
-		_ = _arg_request
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_request = _bytes
+		}
 		_result, _err := s.Impl.ProcessSecretManagementRequest(ctx, _arg_request)
 		_reply := parcel.New()
 		if _err != nil {
@@ -240,16 +230,30 @@ func (s *SecretkeeperStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISecretkeeperDeleteIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ids []SecretId
-		_ = _arg_ids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ids = make([]SecretId, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_ids[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.DeleteIds(ctx, _arg_ids)
 		_reply := parcel.New()
 		if _err != nil {
@@ -259,9 +263,6 @@ func (s *SecretkeeperStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISecretkeeperDeleteAll:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DeleteAll(ctx)
 		_reply := parcel.New()
 		if _err != nil {

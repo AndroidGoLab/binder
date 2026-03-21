@@ -67,6 +67,7 @@ func (p *NetdEventCallbackProxy) OnDnsEvent(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetdEventCallback)
 	_data.WriteInt32(netId)
 	_data.WriteInt32(eventType)
@@ -101,6 +102,7 @@ func (p *NetdEventCallbackProxy) OnNat64PrefixEvent(
 	prefixLength int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetdEventCallback)
 	_data.WriteInt32(netId)
 	_data.WriteBool(added)
@@ -124,6 +126,7 @@ func (p *NetdEventCallbackProxy) OnPrivateDnsValidationEvent(
 	validated bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetdEventCallback)
 	_data.WriteInt32(netId)
 	_data.WriteString16(ipAddress)
@@ -147,6 +150,7 @@ func (p *NetdEventCallbackProxy) OnConnectEvent(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetdEventCallback)
 	_data.WriteString16(ipAddr)
 	_data.WriteInt32(port)
@@ -165,7 +169,8 @@ func (p *NetdEventCallbackProxy) OnConnectEvent(
 // NetdEventCallbackStub dispatches incoming binder transactions
 // to a typed INetdEventCallback implementation.
 type NetdEventCallbackStub struct {
-	Impl INetdEventCallback
+	Impl      INetdEventCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NetdEventCallbackStub)(nil)
@@ -179,11 +184,12 @@ func (s *NetdEventCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINetdEventCallbackOnDnsEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_netId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -200,9 +206,25 @@ func (s *NetdEventCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ipAddresses []string
-		_ = _arg_ipAddresses
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ipAddresses = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_ipAddresses[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_ipAddressesCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -216,12 +238,8 @@ func (s *NetdEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnDnsEvent(ctx, _arg_netId, _arg_eventType, _arg_returnCode, _arg_hostname, _arg_ipAddresses, _arg_ipAddressesCount, _arg_timestamp, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetdEventCallbackOnNat64PrefixEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_netId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -239,12 +257,8 @@ func (s *NetdEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnNat64PrefixEvent(ctx, _arg_netId, _arg_added, _arg_prefixString, _arg_prefixLength)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetdEventCallbackOnPrivateDnsValidationEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_netId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -262,12 +276,8 @@ func (s *NetdEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPrivateDnsValidationEvent(ctx, _arg_netId, _arg_ipAddress, _arg_hostname, _arg_validated)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetdEventCallbackOnConnectEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ipAddr, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -285,8 +295,7 @@ func (s *NetdEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnConnectEvent(ctx, _arg_ipAddr, _arg_port, _arg_timestamp, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -73,6 +73,7 @@ func (p *PredictionManagerProxy) CreatePredictionSession(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
 	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
@@ -108,6 +109,7 @@ func (p *PredictionManagerProxy) NotifyAppTargetEvent(
 	event AppTargetEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -143,6 +145,7 @@ func (p *PredictionManagerProxy) NotifyLaunchLocationShown(
 	targetIds pm.ParceledListSlice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -179,6 +182,7 @@ func (p *PredictionManagerProxy) SortAppTargets(
 	callback IPredictionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -214,6 +218,7 @@ func (p *PredictionManagerProxy) RegisterPredictionUpdates(
 	callback IPredictionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -245,6 +250,7 @@ func (p *PredictionManagerProxy) UnregisterPredictionUpdates(
 	callback IPredictionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -275,6 +281,7 @@ func (p *PredictionManagerProxy) RequestPredictionUpdate(
 	sessionId AppPredictionSessionId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -304,6 +311,7 @@ func (p *PredictionManagerProxy) OnDestroyPredictionSession(
 	sessionId AppPredictionSessionId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -334,6 +342,7 @@ func (p *PredictionManagerProxy) RequestServiceFeatures(
 	callback os.IRemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPredictionManager)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -362,7 +371,8 @@ func (p *PredictionManagerProxy) RequestServiceFeatures(
 // PredictionManagerStub dispatches incoming binder transactions
 // to a typed IPredictionManager implementation.
 type PredictionManagerStub struct {
-	Impl IPredictionManager
+	Impl      IPredictionManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PredictionManagerStub)(nil)
@@ -376,11 +386,12 @@ func (s *PredictionManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPredictionManagerCreatePredictionSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_context_ AppPredictionContext
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -405,9 +416,14 @@ func (s *PredictionManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.CreatePredictionSession(ctx, _arg_context_, _arg_sessionId, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -417,9 +433,6 @@ func (s *PredictionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPredictionManagerNotifyAppTargetEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId AppPredictionSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -453,9 +466,6 @@ func (s *PredictionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPredictionManagerNotifyLaunchLocationShown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId AppPredictionSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -493,9 +503,6 @@ func (s *PredictionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPredictionManagerSortAppTargets:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId AppPredictionSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -520,9 +527,14 @@ func (s *PredictionManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPredictionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPredictionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SortAppTargets(ctx, _arg_sessionId, _arg_targets, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -532,9 +544,6 @@ func (s *PredictionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPredictionManagerRegisterPredictionUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId AppPredictionSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -547,9 +556,14 @@ func (s *PredictionManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPredictionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPredictionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterPredictionUpdates(ctx, _arg_sessionId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -559,9 +573,6 @@ func (s *PredictionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPredictionManagerUnregisterPredictionUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId AppPredictionSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -574,9 +585,14 @@ func (s *PredictionManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPredictionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPredictionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UnregisterPredictionUpdates(ctx, _arg_sessionId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -586,9 +602,6 @@ func (s *PredictionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPredictionManagerRequestPredictionUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId AppPredictionSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -610,9 +623,6 @@ func (s *PredictionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPredictionManagerOnDestroyPredictionSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId AppPredictionSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -634,9 +644,6 @@ func (s *PredictionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPredictionManagerRequestServiceFeatures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId AppPredictionSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -649,9 +656,14 @@ func (s *PredictionManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback os.IRemoteCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = os.NewRemoteCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RequestServiceFeatures(ctx, _arg_sessionId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

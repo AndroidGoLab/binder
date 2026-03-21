@@ -32,8 +32,7 @@ func (u *DestinationBuffer) GetNonsecureMemory() (SharedBuffer, bool) {
 func (u *DestinationBuffer) SetNonsecureMemory(
 	v SharedBuffer,
 ) {
-	u.Tag = DestinationBufferTagNonsecureMemory
-	u.NonsecureMemory = v
+	*u = DestinationBuffer{Tag: DestinationBufferTagNonsecureMemory, NonsecureMemory: v}
 }
 
 func (u *DestinationBuffer) GetSecureMemory() (common.NativeHandle, bool) {
@@ -47,8 +46,7 @@ func (u *DestinationBuffer) GetSecureMemory() (common.NativeHandle, bool) {
 func (u *DestinationBuffer) SetSecureMemory(
 	v common.NativeHandle,
 ) {
-	u.Tag = DestinationBufferTagSecureMemory
-	u.SecureMemory = v
+	*u = DestinationBuffer{Tag: DestinationBufferTagSecureMemory, SecureMemory: v}
 }
 
 func (u *DestinationBuffer) MarshalParcel(

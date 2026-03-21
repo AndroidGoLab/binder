@@ -50,9 +50,19 @@ func (s *NetworkScanResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Status, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_errorRaw, _err := p.ReadInt32()
@@ -60,6 +70,11 @@ func (s *NetworkScanResult) UnmarshalParcel(
 		return _err
 	}
 	s.Error = radio.RadioError(_errorRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()

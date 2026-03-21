@@ -47,6 +47,7 @@ func (p *ImageProcessorImplProxy) OnNextImageAvailable(
 	physicalCameraId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImageProcessorImpl)
 	_data.WriteInt32(1)
 	if _err := outputConfigId.MarshalParcel(_data); _err != nil {
@@ -79,7 +80,8 @@ func (p *ImageProcessorImplProxy) OnNextImageAvailable(
 // ImageProcessorImplStub dispatches incoming binder transactions
 // to a typed IImageProcessorImpl implementation.
 type ImageProcessorImplStub struct {
-	Impl IImageProcessorImpl
+	Impl      IImageProcessorImpl
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImageProcessorImplStub)(nil)
@@ -93,11 +95,12 @@ func (s *ImageProcessorImplStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImageProcessorImplOnNextImageAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_outputConfigId OutputConfigId
 		{
 			_nullInd, _err := _data.ReadInt32()

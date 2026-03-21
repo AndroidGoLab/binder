@@ -32,11 +32,21 @@ func (s *NanStatus) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_statusRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Status = NanStatusCode(_statusRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.Description, _err = p.ReadString16()
 	if _err != nil {

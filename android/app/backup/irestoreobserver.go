@@ -54,6 +54,7 @@ func (p *RestoreObserverProxy) RestoreSetsAvailable(
 	result []RestoreSet,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreObserver)
 	if result == nil {
 		_data.WriteInt32(-1)
@@ -81,6 +82,7 @@ func (p *RestoreObserverProxy) RestoreStarting(
 	numPackages int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreObserver)
 	_data.WriteInt32(numPackages)
 
@@ -99,6 +101,7 @@ func (p *RestoreObserverProxy) OnUpdate(
 	curentPackage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreObserver)
 	_data.WriteInt32(nowBeingRestored)
 	_data.WriteString16(curentPackage)
@@ -117,6 +120,7 @@ func (p *RestoreObserverProxy) RestoreFinished(
 	error_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreObserver)
 	_data.WriteInt32(error_)
 
@@ -132,7 +136,8 @@ func (p *RestoreObserverProxy) RestoreFinished(
 // RestoreObserverStub dispatches incoming binder transactions
 // to a typed IRestoreObserver implementation.
 type RestoreObserverStub struct {
-	Impl IRestoreObserver
+	Impl      IRestoreObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RestoreObserverStub)(nil)
@@ -146,32 +151,43 @@ func (s *RestoreObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRestoreObserverRestoreSetsAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_result []RestoreSet
-		_ = _arg_result
-		_err := s.Impl.RestoreSetsAvailable(ctx, _arg_result)
-		_ = _err
-		return nil, nil
-	case TransactionIRestoreObserverRestoreStarting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_result = make([]RestoreSet, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_result[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.RestoreSetsAvailable(ctx, _arg_result)
+		return nil, _err
+	case TransactionIRestoreObserverRestoreStarting:
 		_arg_numPackages, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RestoreStarting(ctx, _arg_numPackages)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRestoreObserverOnUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nowBeingRestored, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -181,19 +197,14 @@ func (s *RestoreObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnUpdate(ctx, _arg_nowBeingRestored, _arg_curentPackage)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRestoreObserverRestoreFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RestoreFinished(ctx, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

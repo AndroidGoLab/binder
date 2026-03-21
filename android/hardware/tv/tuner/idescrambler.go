@@ -57,6 +57,7 @@ func (p *DescramblerProxy) SetDemuxSource(
 	demuxId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
 	_data.WriteInt32(demuxId)
 
@@ -83,15 +84,9 @@ func (p *DescramblerProxy) SetKeyToken(
 	keyToken []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
-	if keyToken == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyToken)))
-		for _, _item := range keyToken {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(keyToken)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerSetKeyToken)
 	if _err != nil {
@@ -117,6 +112,7 @@ func (p *DescramblerProxy) AddPid(
 	optionalSourceFilter IFilter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
 	_data.WriteInt32(1)
 	if _err := pid.MarshalParcel(_data); _err != nil {
@@ -148,6 +144,7 @@ func (p *DescramblerProxy) RemovePid(
 	optionalSourceFilter IFilter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
 	_data.WriteInt32(1)
 	if _err := pid.MarshalParcel(_data); _err != nil {
@@ -177,6 +174,7 @@ func (p *DescramblerProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerClose)
@@ -200,7 +198,8 @@ func (p *DescramblerProxy) Close(
 // DescramblerStub dispatches incoming binder transactions
 // to a typed IDescrambler implementation.
 type DescramblerStub struct {
-	Impl IDescrambler
+	Impl      IDescrambler
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DescramblerStub)(nil)
@@ -214,11 +213,12 @@ func (s *DescramblerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDescramblerSetDemuxSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_demuxId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -232,12 +232,14 @@ func (s *DescramblerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDescramblerSetKeyToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyToken []byte
-		_ = _arg_keyToken
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyToken = _bytes
+		}
 		_err := s.Impl.SetKeyToken(ctx, _arg_keyToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -247,9 +249,6 @@ func (s *DescramblerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDescramblerAddPid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_pid DemuxPid
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -262,9 +261,14 @@ func (s *DescramblerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_optionalSourceFilter IFilter
-		_ = _arg_optionalSourceFilter
+		{
+			_optionalSourceFilterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_optionalSourceFilter = NewFilterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _optionalSourceFilterHandle))
+		}
 		_err := s.Impl.AddPid(ctx, _arg_pid, _arg_optionalSourceFilter)
 		_reply := parcel.New()
 		if _err != nil {
@@ -274,9 +278,6 @@ func (s *DescramblerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDescramblerRemovePid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_pid DemuxPid
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -289,9 +290,14 @@ func (s *DescramblerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_optionalSourceFilter IFilter
-		_ = _arg_optionalSourceFilter
+		{
+			_optionalSourceFilterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_optionalSourceFilter = NewFilterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _optionalSourceFilterHandle))
+		}
 		_err := s.Impl.RemovePid(ctx, _arg_pid, _arg_optionalSourceFilter)
 		_reply := parcel.New()
 		if _err != nil {
@@ -301,9 +307,6 @@ func (s *DescramblerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDescramblerClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {

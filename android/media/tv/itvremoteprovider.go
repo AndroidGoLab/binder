@@ -48,6 +48,7 @@ func (p *TvRemoteProviderProxy) SetRemoteServiceInputSink(
 	tvServiceInput ITvRemoteServiceInput,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteProvider)
 	binder.WriteBinderToParcel(ctx, _data, tvServiceInput.AsBinder(), p.Remote.Transport())
 
@@ -65,6 +66,7 @@ func (p *TvRemoteProviderProxy) OnInputBridgeConnected(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteProvider)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -80,7 +82,8 @@ func (p *TvRemoteProviderProxy) OnInputBridgeConnected(
 // TvRemoteProviderStub dispatches incoming binder transactions
 // to a typed ITvRemoteProvider implementation.
 type TvRemoteProviderStub struct {
-	Impl ITvRemoteProvider
+	Impl      ITvRemoteProvider
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvRemoteProviderStub)(nil)
@@ -94,27 +97,33 @@ func (s *TvRemoteProviderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvRemoteProviderSetRemoteServiceInputSink:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_tvServiceInput ITvRemoteServiceInput
-		_ = _arg_tvServiceInput
-		_err := s.Impl.SetRemoteServiceInputSink(ctx, _arg_tvServiceInput)
-		_ = _err
-		return nil, nil
-	case TransactionITvRemoteProviderOnInputBridgeConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_tvServiceInputHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tvServiceInput = NewTvRemoteServiceInputProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tvServiceInputHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err := s.Impl.SetRemoteServiceInputSink(ctx, _arg_tvServiceInput)
+		return nil, _err
+	case TransactionITvRemoteProviderOnInputBridgeConnected:
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.OnInputBridgeConnected(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

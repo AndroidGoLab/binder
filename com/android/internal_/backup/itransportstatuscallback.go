@@ -48,6 +48,7 @@ func (p *TransportStatusCallbackProxy) OnOperationCompleteWithStatus(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransportStatusCallback)
 	_data.WriteInt32(status)
 
@@ -64,6 +65,7 @@ func (p *TransportStatusCallbackProxy) OnOperationComplete(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransportStatusCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransportStatusCallback, MethodITransportStatusCallbackOnOperationComplete)
@@ -78,7 +80,8 @@ func (p *TransportStatusCallbackProxy) OnOperationComplete(
 // TransportStatusCallbackStub dispatches incoming binder transactions
 // to a typed ITransportStatusCallback implementation.
 type TransportStatusCallbackStub struct {
-	Impl ITransportStatusCallback
+	Impl      ITransportStatusCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TransportStatusCallbackStub)(nil)
@@ -92,25 +95,21 @@ func (s *TransportStatusCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITransportStatusCallbackOnOperationCompleteWithStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnOperationCompleteWithStatus(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITransportStatusCallbackOnOperationComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnOperationComplete(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

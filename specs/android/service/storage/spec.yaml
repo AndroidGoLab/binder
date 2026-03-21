@@ -1,0 +1,108 @@
+package: android.service.storage
+go_package: android/service/storage
+interfaces:
+    - name: IExternalStorageService
+      descriptor: android.service.storage.IExternalStorageService
+      oneway: true
+      methods:
+        - name: startSession
+          transaction_code_offset: 0
+          params:
+            - name: sessionId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: type
+              type:
+                name: int
+            - name: deviceFd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: upperPath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: lowerPath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: endSession
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: notifyVolumeStateChanged
+          transaction_code_offset: 2
+          params:
+            - name: sessionId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: vol
+              type:
+                name: StorageVolume
+              direction: in
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: freeCache
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: volumeUuid
+              type:
+                name: String
+              direction: in
+            - name: bytes
+              type:
+                name: long
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: notifyAnrDelayStarted
+          transaction_code_offset: 4
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+            - name: tid
+              type:
+                name: int
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void

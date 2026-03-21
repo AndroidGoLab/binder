@@ -1,0 +1,3813 @@
+package: com.android.internal.app
+go_package: com/android/internal_/app
+interfaces:
+    - name: IAppOpsActiveCallback
+      descriptor: com.android.internal.app.IAppOpsActiveCallback
+      oneway: true
+      methods:
+        - name: opActiveChanged
+          transaction_code_offset: 0
+          params:
+            - name: op
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: virtualDeviceId
+              type:
+                name: int
+            - name: active
+              type:
+                name: boolean
+            - name: attributionFlags
+              type:
+                name: int
+            - name: attributionChainId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IAppOpsAsyncNotedCallback
+      descriptor: com.android.internal.app.IAppOpsAsyncNotedCallback
+      oneway: true
+      methods:
+        - name: opNoted
+          transaction_code_offset: 0
+          params:
+            - name: op
+              type:
+                name: AsyncNotedAppOp
+              direction: in
+          return_type:
+            name: void
+    - name: IAppOpsCallback
+      descriptor: com.android.internal.app.IAppOpsCallback
+      oneway: true
+      methods:
+        - name: opChanged
+          transaction_code_offset: 0
+          params:
+            - name: op
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: persistentDeviceId
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IAppOpsNotedCallback
+      descriptor: com.android.internal.app.IAppOpsNotedCallback
+      oneway: true
+      methods:
+        - name: opNoted
+          transaction_code_offset: 0
+          params:
+            - name: op
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: virtualDeviceId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: mode
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IAppOpsService
+      descriptor: com.android.internal.app.IAppOpsService
+      methods:
+        - name: checkOperation
+          transaction_code_offset: 0
+          params:
+            - name: code
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: noteOperation
+          transaction_code_offset: 1
+          params:
+            - name: code
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+            - name: shouldCollectAsyncNotedOp
+              type:
+                name: boolean
+            - name: message
+              type:
+                name: String
+            - name: shouldCollectMessage
+              type:
+                name: boolean
+          return_type:
+            name: SyncNotedAppOp
+        - name: startOperation
+          transaction_code_offset: 2
+          params:
+            - name: clientId
+              type:
+                name: IBinder
+            - name: code
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+            - name: startIfModeDefault
+              type:
+                name: boolean
+            - name: shouldCollectAsyncNotedOp
+              type:
+                name: boolean
+            - name: message
+              type:
+                name: String
+            - name: shouldCollectMessage
+              type:
+                name: boolean
+            - name: attributionFlags
+              type:
+                name: int
+            - name: attributionChainId
+              type:
+                name: int
+          return_type:
+            name: SyncNotedAppOp
+        - name: finishOperation
+          transaction_code_offset: 3
+          params:
+            - name: clientId
+              type:
+                name: IBinder
+            - name: code
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: startWatchingMode
+          transaction_code_offset: 4
+          params:
+            - name: op
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IAppOpsCallback
+          return_type:
+            name: void
+        - name: stopWatchingMode
+          transaction_code_offset: 5
+          params:
+            - name: callback
+              type:
+                name: IAppOpsCallback
+          return_type:
+            name: void
+        - name: permissionToOpCode
+          transaction_code_offset: 6
+          params:
+            - name: permission
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: checkAudioOperation
+          transaction_code_offset: 7
+          params:
+            - name: code
+              type:
+                name: int
+            - name: usage
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: shouldCollectNotes
+          transaction_code_offset: 8
+          params:
+            - name: opCode
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setCameraAudioRestriction
+          transaction_code_offset: 9
+          params:
+            - name: mode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: startWatchingModeWithFlags
+          transaction_code_offset: 10
+          params:
+            - name: op
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IAppOpsCallback
+          return_type:
+            name: void
+        - name: noteProxyOperation
+          transaction_code_offset: 11
+          params:
+            - name: code
+              type:
+                name: int
+            - name: attributionSource
+              type:
+                name: AttributionSource
+              direction: in
+            - name: shouldCollectAsyncNotedOp
+              type:
+                name: boolean
+            - name: message
+              type:
+                name: String
+            - name: shouldCollectMessage
+              type:
+                name: boolean
+            - name: skipProxyOperation
+              type:
+                name: boolean
+          return_type:
+            name: SyncNotedAppOp
+        - name: startProxyOperation
+          transaction_code_offset: 12
+          params:
+            - name: clientId
+              type:
+                name: IBinder
+            - name: code
+              type:
+                name: int
+            - name: attributionSource
+              type:
+                name: AttributionSource
+              direction: in
+            - name: startIfModeDefault
+              type:
+                name: boolean
+            - name: shouldCollectAsyncNotedOp
+              type:
+                name: boolean
+            - name: message
+              type:
+                name: String
+            - name: shouldCollectMessage
+              type:
+                name: boolean
+            - name: skipProxyOperation
+              type:
+                name: boolean
+            - name: proxyAttributionFlags
+              type:
+                name: int
+            - name: proxiedAttributionFlags
+              type:
+                name: int
+            - name: attributionChainId
+              type:
+                name: int
+          return_type:
+            name: SyncNotedAppOp
+        - name: finishProxyOperation
+          transaction_code_offset: 13
+          params:
+            - name: clientId
+              type:
+                name: IBinder
+            - name: code
+              type:
+                name: int
+            - name: attributionSource
+              type:
+                name: AttributionSource
+              direction: in
+            - name: skipProxyOperation
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: checkPackage
+          transaction_code_offset: 14
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: collectRuntimeAppOpAccessMessage
+          transaction_code_offset: 15
+          return_type:
+            name: RuntimeAppOpAccessMessage
+        - name: reportRuntimeAppOpAccessMessageAndGetConfig
+          transaction_code_offset: 16
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: appOp
+              type:
+                name: SyncNotedAppOp
+              direction: in
+            - name: message
+              type:
+                name: String
+          return_type:
+            name: MessageSamplingConfig
+        - name: getPackagesForOps
+          transaction_code_offset: 17
+          params:
+            - name: ops
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: AppOpsManager.PackageOps
+          annotations:
+            - UnsupportedAppUsage
+        - name: getOpsForPackage
+          transaction_code_offset: 18
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: ops
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: AppOpsManager.PackageOps
+          annotations:
+            - UnsupportedAppUsage
+        - name: getHistoricalOps
+          transaction_code_offset: 19
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: ops
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: historyFlags
+              type:
+                name: int
+            - name: filter
+              type:
+                name: int
+            - name: beginTimeMillis
+              type:
+                name: long
+            - name: endTimeMillis
+              type:
+                name: long
+            - name: flags
+              type:
+                name: int
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getHistoricalOpsFromDiskRaw
+          transaction_code_offset: 20
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: ops
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: historyFlags
+              type:
+                name: int
+            - name: filter
+              type:
+                name: int
+            - name: beginTimeMillis
+              type:
+                name: long
+            - name: endTimeMillis
+              type:
+                name: long
+            - name: flags
+              type:
+                name: int
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: offsetHistory
+          transaction_code_offset: 21
+          params:
+            - name: duration
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setHistoryParameters
+          transaction_code_offset: 22
+          params:
+            - name: mode
+              type:
+                name: int
+            - name: baseSnapshotInterval
+              type:
+                name: long
+            - name: compressionStep
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: addHistoricalOps
+          transaction_code_offset: 23
+          params:
+            - name: ops
+              type:
+                name: AppOpsManager.HistoricalOps
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: resetHistoryParameters
+          transaction_code_offset: 24
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: resetPackageOpsNoHistory
+          transaction_code_offset: 25
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: clearHistory
+          transaction_code_offset: 26
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: rebootHistory
+          transaction_code_offset: 27
+          params:
+            - name: offlineDurationMillis
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getUidOps
+          transaction_code_offset: 28
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: ops
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: AppOpsManager.PackageOps
+        - name: setUidMode
+          transaction_code_offset: 29
+          params:
+            - name: code
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: mode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setMode
+          transaction_code_offset: 30
+          params:
+            - name: code
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: mode
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: resetAllModes
+          transaction_code_offset: 31
+          params:
+            - name: reqUserId
+              type:
+                name: int
+            - name: reqPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setAudioRestriction
+          transaction_code_offset: 32
+          params:
+            - name: code
+              type:
+                name: int
+            - name: usage
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: mode
+              type:
+                name: int
+            - name: exceptionPackages
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setUserRestrictions
+          transaction_code_offset: 33
+          params:
+            - name: restrictions
+              type:
+                name: Bundle
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setUserRestriction
+          transaction_code_offset: 34
+          params:
+            - name: code
+              type:
+                name: int
+            - name: restricted
+              type:
+                name: boolean
+            - name: token
+              type:
+                name: IBinder
+            - name: userHandle
+              type:
+                name: int
+            - name: excludedPackageTags
+              type:
+                name: PackageTagsList
+              direction: in
+          return_type:
+            name: void
+        - name: removeUser
+          transaction_code_offset: 35
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: startWatchingActive
+          transaction_code_offset: 36
+          params:
+            - name: ops
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: callback
+              type:
+                name: IAppOpsActiveCallback
+          return_type:
+            name: void
+        - name: stopWatchingActive
+          transaction_code_offset: 37
+          params:
+            - name: callback
+              type:
+                name: IAppOpsActiveCallback
+          return_type:
+            name: void
+        - name: isOperationActive
+          transaction_code_offset: 38
+          params:
+            - name: code
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: isProxying
+          transaction_code_offset: 39
+          params:
+            - name: op
+              type:
+                name: int
+            - name: proxyPackageName
+              type:
+                name: String
+            - name: proxyAttributionTag
+              type:
+                name: String
+            - name: proxiedUid
+              type:
+                name: int
+            - name: proxiedPackageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: startWatchingStarted
+          transaction_code_offset: 40
+          params:
+            - name: ops
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: callback
+              type:
+                name: IAppOpsStartedCallback
+          return_type:
+            name: void
+        - name: stopWatchingStarted
+          transaction_code_offset: 41
+          params:
+            - name: callback
+              type:
+                name: IAppOpsStartedCallback
+          return_type:
+            name: void
+        - name: startWatchingNoted
+          transaction_code_offset: 42
+          params:
+            - name: ops
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: callback
+              type:
+                name: IAppOpsNotedCallback
+          return_type:
+            name: void
+        - name: stopWatchingNoted
+          transaction_code_offset: 43
+          params:
+            - name: callback
+              type:
+                name: IAppOpsNotedCallback
+          return_type:
+            name: void
+        - name: startWatchingAsyncNoted
+          transaction_code_offset: 44
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IAppOpsAsyncNotedCallback
+          return_type:
+            name: void
+        - name: stopWatchingAsyncNoted
+          transaction_code_offset: 45
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IAppOpsAsyncNotedCallback
+          return_type:
+            name: void
+        - name: extractAsyncOps
+          transaction_code_offset: 46
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: AsyncNotedAppOp
+        - name: checkOperationRaw
+          transaction_code_offset: 47
+          params:
+            - name: code
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+          return_type:
+            name: int
+        - name: reloadNonHistoricalState
+          transaction_code_offset: 48
+          return_type:
+            name: void
+        - name: collectNoteOpCallsForValidation
+          transaction_code_offset: 49
+          params:
+            - name: stackTrace
+              type:
+                name: String
+            - name: op
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: version
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: noteProxyOperationWithState
+          transaction_code_offset: 50
+          params:
+            - name: code
+              type:
+                name: int
+            - name: attributionSourceStateState
+              type:
+                name: AttributionSourceState
+              direction: in
+            - name: shouldCollectAsyncNotedOp
+              type:
+                name: boolean
+            - name: message
+              type:
+                name: String
+            - name: shouldCollectMessage
+              type:
+                name: boolean
+            - name: skipProxyOperation
+              type:
+                name: boolean
+          return_type:
+            name: SyncNotedAppOp
+        - name: startProxyOperationWithState
+          transaction_code_offset: 51
+          params:
+            - name: clientId
+              type:
+                name: IBinder
+            - name: code
+              type:
+                name: int
+            - name: attributionSourceStateState
+              type:
+                name: AttributionSourceState
+              direction: in
+            - name: startIfModeDefault
+              type:
+                name: boolean
+            - name: shouldCollectAsyncNotedOp
+              type:
+                name: boolean
+            - name: message
+              type:
+                name: String
+            - name: shouldCollectMessage
+              type:
+                name: boolean
+            - name: skipProxyOperation
+              type:
+                name: boolean
+            - name: proxyAttributionFlags
+              type:
+                name: int
+            - name: proxiedAttributionFlags
+              type:
+                name: int
+            - name: attributionChainId
+              type:
+                name: int
+          return_type:
+            name: SyncNotedAppOp
+        - name: finishProxyOperationWithState
+          transaction_code_offset: 52
+          params:
+            - name: clientId
+              type:
+                name: IBinder
+            - name: code
+              type:
+                name: int
+            - name: attributionSourceStateState
+              type:
+                name: AttributionSourceState
+              direction: in
+            - name: skipProxyOperation
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: checkOperationRawForDevice
+          transaction_code_offset: 53
+          params:
+            - name: code
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+            - name: virtualDeviceId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: checkOperationForDevice
+          transaction_code_offset: 54
+          params:
+            - name: code
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: virtualDeviceId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: noteOperationForDevice
+          transaction_code_offset: 55
+          params:
+            - name: code
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+            - name: virtualDeviceId
+              type:
+                name: int
+            - name: shouldCollectAsyncNotedOp
+              type:
+                name: boolean
+            - name: message
+              type:
+                name: String
+            - name: shouldCollectMessage
+              type:
+                name: boolean
+          return_type:
+            name: SyncNotedAppOp
+        - name: startOperationForDevice
+          transaction_code_offset: 56
+          params:
+            - name: clientId
+              type:
+                name: IBinder
+            - name: code
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+            - name: virtualDeviceId
+              type:
+                name: int
+            - name: startIfModeDefault
+              type:
+                name: boolean
+            - name: shouldCollectAsyncNotedOp
+              type:
+                name: boolean
+            - name: message
+              type:
+                name: String
+            - name: shouldCollectMessage
+              type:
+                name: boolean
+            - name: attributionFlags
+              type:
+                name: int
+            - name: attributionChainId
+              type:
+                name: int
+          return_type:
+            name: SyncNotedAppOp
+        - name: finishOperationForDevice
+          transaction_code_offset: 57
+          params:
+            - name: clientId
+              type:
+                name: IBinder
+            - name: code
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+            - name: virtualDeviceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getPackagesForOpsForDevice
+          transaction_code_offset: 58
+          params:
+            - name: ops
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: persistentDeviceId
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: AppOpsManager.PackageOps
+    - name: IAppOpsStartedCallback
+      descriptor: com.android.internal.app.IAppOpsStartedCallback
+      oneway: true
+      methods:
+        - name: opStarted
+          transaction_code_offset: 0
+          params:
+            - name: op
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: virtualDeviceId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: mode
+              type:
+                name: int
+            - name: startedType
+              type:
+                name: int
+            - name: attributionFlags
+              type:
+                name: int
+            - name: attributionChainId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IBatteryStats
+      descriptor: com.android.internal.app.IBatteryStats
+      methods:
+        - name: noteStartSensor
+          transaction_code_offset: 0
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: sensor
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteStopSensor
+          transaction_code_offset: 1
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: sensor
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteStartVideo
+          transaction_code_offset: 2
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteStopVideo
+          transaction_code_offset: 3
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteStartAudio
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteStopAudio
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteResetVideo
+          transaction_code_offset: 6
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteResetAudio
+          transaction_code_offset: 7
+          oneway: true
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteFlashlightOn
+          transaction_code_offset: 8
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteFlashlightOff
+          transaction_code_offset: 9
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteStartCamera
+          transaction_code_offset: 10
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteStopCamera
+          transaction_code_offset: 11
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteResetCamera
+          transaction_code_offset: 12
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteResetFlashlight
+          transaction_code_offset: 13
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWakeupSensorEvent
+          transaction_code_offset: 14
+          params:
+            - name: elapsedNanos
+              type:
+                name: long
+            - name: uid
+              type:
+                name: int
+            - name: handle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getBatteryUsageStats
+          transaction_code_offset: 15
+          params:
+            - name: queries
+              type:
+                name: List
+                type_args:
+                    - name: BatteryUsageStatsQuery
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: BatteryUsageStats
+          annotations:
+            - EnforcePermission
+        - name: isCharging
+          transaction_code_offset: 16
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+            - RequiresNoPermission
+        - name: computeBatteryTimeRemaining
+          transaction_code_offset: 17
+          return_type:
+            name: long
+          annotations:
+            - RequiresNoPermission
+        - name: computeChargeTimeRemaining
+          transaction_code_offset: 18
+          return_type:
+            name: long
+          annotations:
+            - UnsupportedAppUsage
+            - RequiresNoPermission
+        - name: computeBatteryScreenOffRealtimeMs
+          transaction_code_offset: 19
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: getScreenOffDischargeMah
+          transaction_code_offset: 20
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: noteEvent
+          transaction_code_offset: 21
+          params:
+            - name: code
+              type:
+                name: int
+            - name: name
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteSyncStart
+          transaction_code_offset: 22
+          params:
+            - name: name
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteSyncFinish
+          transaction_code_offset: 23
+          params:
+            - name: name
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteJobStart
+          transaction_code_offset: 24
+          params:
+            - name: name
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteJobFinish
+          transaction_code_offset: 25
+          params:
+            - name: name
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+            - name: stopReason
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteStartWakelock
+          transaction_code_offset: 26
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: pid
+              type:
+                name: int
+            - name: name
+              type:
+                name: String
+            - name: historyName
+              type:
+                name: String
+            - name: type
+              type:
+                name: int
+            - name: unimportantForLogging
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteStopWakelock
+          transaction_code_offset: 27
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: pid
+              type:
+                name: int
+            - name: name
+              type:
+                name: String
+            - name: historyName
+              type:
+                name: String
+            - name: type
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteStartWakelockFromSource
+          transaction_code_offset: 28
+          params:
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+            - name: pid
+              type:
+                name: int
+            - name: name
+              type:
+                name: String
+            - name: historyName
+              type:
+                name: String
+            - name: type
+              type:
+                name: int
+            - name: unimportantForLogging
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteChangeWakelockFromSource
+          transaction_code_offset: 29
+          params:
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+            - name: pid
+              type:
+                name: int
+            - name: name
+              type:
+                name: String
+            - name: histyoryName
+              type:
+                name: String
+            - name: type
+              type:
+                name: int
+            - name: newWs
+              type:
+                name: WorkSource
+              direction: in
+            - name: newPid
+              type:
+                name: int
+            - name: newName
+              type:
+                name: String
+            - name: newHistoryName
+              type:
+                name: String
+            - name: newType
+              type:
+                name: int
+            - name: newUnimportantForLogging
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteStopWakelockFromSource
+          transaction_code_offset: 30
+          params:
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+            - name: pid
+              type:
+                name: int
+            - name: name
+              type:
+                name: String
+            - name: historyName
+              type:
+                name: String
+            - name: type
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteLongPartialWakelockStart
+          transaction_code_offset: 31
+          params:
+            - name: name
+              type:
+                name: String
+            - name: historyName
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteLongPartialWakelockStartFromSource
+          transaction_code_offset: 32
+          params:
+            - name: name
+              type:
+                name: String
+            - name: historyName
+              type:
+                name: String
+            - name: workSource
+              type:
+                name: WorkSource
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteLongPartialWakelockFinish
+          transaction_code_offset: 33
+          params:
+            - name: name
+              type:
+                name: String
+            - name: historyName
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteLongPartialWakelockFinishFromSource
+          transaction_code_offset: 34
+          params:
+            - name: name
+              type:
+                name: String
+            - name: historyName
+              type:
+                name: String
+            - name: workSource
+              type:
+                name: WorkSource
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteVibratorOn
+          transaction_code_offset: 35
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: durationMillis
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteVibratorOff
+          transaction_code_offset: 36
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteGpsChanged
+          transaction_code_offset: 37
+          params:
+            - name: oldSource
+              type:
+                name: WorkSource
+              direction: in
+            - name: newSource
+              type:
+                name: WorkSource
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteGpsSignalQuality
+          transaction_code_offset: 38
+          params:
+            - name: signalLevel
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteScreenState
+          transaction_code_offset: 39
+          params:
+            - name: state
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteScreenBrightness
+          transaction_code_offset: 40
+          params:
+            - name: brightness
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteUserActivity
+          transaction_code_offset: 41
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: event
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWakeUp
+          transaction_code_offset: 42
+          params:
+            - name: reason
+              type:
+                name: String
+            - name: reasonUid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteInteractive
+          transaction_code_offset: 43
+          params:
+            - name: interactive
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteConnectivityChanged
+          transaction_code_offset: 44
+          params:
+            - name: type
+              type:
+                name: int
+            - name: extra
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteMobileRadioPowerState
+          transaction_code_offset: 45
+          params:
+            - name: powerState
+              type:
+                name: int
+            - name: timestampNs
+              type:
+                name: long
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: notePhoneOn
+          transaction_code_offset: 46
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: notePhoneOff
+          transaction_code_offset: 47
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: notePhoneSignalStrength
+          transaction_code_offset: 48
+          params:
+            - name: signalStrength
+              type:
+                name: SignalStrength
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: notePhoneDataConnectionState
+          transaction_code_offset: 49
+          params:
+            - name: dataType
+              type:
+                name: int
+            - name: hasData
+              type:
+                name: boolean
+            - name: serviceType
+              type:
+                name: int
+            - name: nrState
+              type:
+                name: int
+            - name: nrFrequency
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: notePhoneState
+          transaction_code_offset: 50
+          params:
+            - name: phoneState
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiOn
+          transaction_code_offset: 51
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiOff
+          transaction_code_offset: 52
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiRunning
+          transaction_code_offset: 53
+          params:
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiRunningChanged
+          transaction_code_offset: 54
+          params:
+            - name: oldWs
+              type:
+                name: WorkSource
+              direction: in
+            - name: newWs
+              type:
+                name: WorkSource
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiStopped
+          transaction_code_offset: 55
+          params:
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiState
+          transaction_code_offset: 56
+          params:
+            - name: wifiState
+              type:
+                name: int
+            - name: accessPoint
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiSupplicantStateChanged
+          transaction_code_offset: 57
+          params:
+            - name: supplState
+              type:
+                name: int
+            - name: failedAuth
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiRssiChanged
+          transaction_code_offset: 58
+          params:
+            - name: newRssi
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteFullWifiLockAcquired
+          transaction_code_offset: 59
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteFullWifiLockReleased
+          transaction_code_offset: 60
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiScanStarted
+          transaction_code_offset: 61
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiScanStopped
+          transaction_code_offset: 62
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiMulticastEnabled
+          transaction_code_offset: 63
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiMulticastDisabled
+          transaction_code_offset: 64
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteFullWifiLockAcquiredFromSource
+          transaction_code_offset: 65
+          params:
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteFullWifiLockReleasedFromSource
+          transaction_code_offset: 66
+          params:
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiScanStartedFromSource
+          transaction_code_offset: 67
+          params:
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiScanStoppedFromSource
+          transaction_code_offset: 68
+          params:
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiBatchedScanStartedFromSource
+          transaction_code_offset: 69
+          params:
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+            - name: csph
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiBatchedScanStoppedFromSource
+          transaction_code_offset: 70
+          params:
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiRadioPowerState
+          transaction_code_offset: 71
+          params:
+            - name: powerState
+              type:
+                name: int
+            - name: timestampNs
+              type:
+                name: long
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteNetworkInterfaceForTransports
+          transaction_code_offset: 72
+          params:
+            - name: iface
+              type:
+                name: String
+            - name: transportTypes
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteNetworkStatsEnabled
+          transaction_code_offset: 73
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteDeviceIdleMode
+          transaction_code_offset: 74
+          params:
+            - name: mode
+              type:
+                name: int
+            - name: activeReason
+              type:
+                name: String
+            - name: activeUid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setBatteryState
+          transaction_code_offset: 75
+          params:
+            - name: status
+              type:
+                name: int
+            - name: health
+              type:
+                name: int
+            - name: plugType
+              type:
+                name: int
+            - name: level
+              type:
+                name: int
+            - name: temp
+              type:
+                name: int
+            - name: volt
+              type:
+                name: int
+            - name: chargeUAh
+              type:
+                name: int
+            - name: chargeFullUAh
+              type:
+                name: int
+            - name: chargeTimeToFullSeconds
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getAwakeTimeBattery
+          transaction_code_offset: 76
+          return_type:
+            name: long
+          annotations:
+            - UnsupportedAppUsage
+            - EnforcePermission
+        - name: getAwakeTimePlugged
+          transaction_code_offset: 77
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: noteBleScanStarted
+          transaction_code_offset: 78
+          params:
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+            - name: isUnoptimized
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteBleScanStopped
+          transaction_code_offset: 79
+          params:
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+            - name: isUnoptimized
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteBleScanReset
+          transaction_code_offset: 80
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteBleScanResults
+          transaction_code_offset: 81
+          params:
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+            - name: numNewResults
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getCellularBatteryStats
+          transaction_code_offset: 82
+          return_type:
+            name: CellularBatteryStats
+          annotations:
+            - EnforcePermission
+        - name: getWifiBatteryStats
+          transaction_code_offset: 83
+          return_type:
+            name: WifiBatteryStats
+          annotations:
+            - EnforcePermission
+        - name: getGpsBatteryStats
+          transaction_code_offset: 84
+          return_type:
+            name: GpsBatteryStats
+          annotations:
+            - EnforcePermission
+        - name: getWakeLockStats
+          transaction_code_offset: 85
+          return_type:
+            name: WakeLockStats
+          annotations:
+            - EnforcePermission
+        - name: getBluetoothBatteryStats
+          transaction_code_offset: 86
+          return_type:
+            name: BluetoothBatteryStats
+          annotations:
+            - EnforcePermission
+        - name: takeUidSnapshot
+          transaction_code_offset: 87
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: HealthStatsParceler
+          annotations:
+            - PermissionManuallyEnforced
+        - name: takeUidSnapshots
+          transaction_code_offset: 88
+          params:
+            - name: uid
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: HealthStatsParceler
+            is_array: true
+          annotations:
+            - PermissionManuallyEnforced
+        - name: noteBluetoothControllerActivity
+          transaction_code_offset: 89
+          oneway: true
+          params:
+            - name: info
+              type:
+                name: BluetoothActivityEnergyInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteModemControllerActivity
+          transaction_code_offset: 90
+          oneway: true
+          params:
+            - name: info
+              type:
+                name: ModemActivityInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: noteWifiControllerActivity
+          transaction_code_offset: 91
+          oneway: true
+          params:
+            - name: info
+              type:
+                name: WifiActivityEnergyInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setChargingStateUpdateDelayMillis
+          transaction_code_offset: 92
+          params:
+            - name: delay
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: setChargerAcOnline
+          transaction_code_offset: 93
+          params:
+            - name: online
+              type:
+                name: boolean
+            - name: forceUpdate
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setBatteryLevel
+          transaction_code_offset: 94
+          params:
+            - name: level
+              type:
+                name: int
+            - name: forceUpdate
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: unplugBattery
+          transaction_code_offset: 95
+          params:
+            - name: forceUpdate
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: resetBattery
+          transaction_code_offset: 96
+          params:
+            - name: forceUpdate
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: suspendBatteryInput
+          transaction_code_offset: 97
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+    - name: IHotwordRecognitionStatusCallback
+      descriptor: com.android.internal.app.IHotwordRecognitionStatusCallback
+      oneway: true
+      methods:
+        - name: onKeyphraseDetected
+          transaction_code_offset: 0
+          params:
+            - name: recognitionEvent
+              type:
+                name: SoundTrigger.KeyphraseRecognitionEvent
+              direction: in
+            - name: result
+              type:
+                name: HotwordDetectedResult
+              direction: in
+          return_type:
+            name: void
+        - name: onKeyphraseDetectedFromExternalSource
+          transaction_code_offset: 1
+          params:
+            - name: result
+              type:
+                name: HotwordDetectedResult
+              direction: in
+          return_type:
+            name: void
+        - name: onGenericSoundTriggerDetected
+          transaction_code_offset: 2
+          params:
+            - name: recognitionEvent
+              type:
+                name: SoundTrigger.GenericRecognitionEvent
+              direction: in
+          return_type:
+            name: void
+        - name: onRejected
+          transaction_code_offset: 3
+          params:
+            - name: result
+              type:
+                name: HotwordRejectedResult
+              direction: in
+          return_type:
+            name: void
+        - name: onHotwordDetectionServiceFailure
+          transaction_code_offset: 4
+          params:
+            - name: hotwordDetectionServiceFailure
+              type:
+                name: HotwordDetectionServiceFailure
+              direction: in
+          return_type:
+            name: void
+        - name: onVisualQueryDetectionServiceFailure
+          transaction_code_offset: 5
+          params:
+            - name: visualQueryDetectionServiceFailure
+              type:
+                name: VisualQueryDetectionServiceFailure
+              direction: in
+          return_type:
+            name: void
+        - name: onSoundTriggerFailure
+          transaction_code_offset: 6
+          params:
+            - name: soundTriggerFailure
+              type:
+                name: SoundTriggerFailure
+              direction: in
+          return_type:
+            name: void
+        - name: onUnknownFailure
+          transaction_code_offset: 7
+          params:
+            - name: errorMessage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onRecognitionPaused
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: onRecognitionResumed
+          transaction_code_offset: 9
+          return_type:
+            name: void
+        - name: onStatusReported
+          transaction_code_offset: 10
+          params:
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onProcessRestarted
+          transaction_code_offset: 11
+          return_type:
+            name: void
+        - name: onOpenFile
+          transaction_code_offset: 12
+          params:
+            - name: filename
+              type:
+                name: String
+              direction: in
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+    - name: ILogAccessDialogCallback
+      descriptor: com.android.internal.app.ILogAccessDialogCallback
+      oneway: true
+      methods:
+        - name: approveAccessForClient
+          transaction_code_offset: 0
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: declineAccessForClient
+          transaction_code_offset: 1
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IMediaContainerService
+      descriptor: com.android.internal.app.IMediaContainerService
+      methods:
+        - name: copyPackage
+          transaction_code_offset: 0
+          params:
+            - name: packagePath
+              type:
+                name: String
+            - name: target
+              type:
+                name: IParcelFileDescriptorFactory
+              direction: in
+          return_type:
+            name: int
+        - name: getMinimalPackageInfo
+          transaction_code_offset: 1
+          params:
+            - name: packagePath
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+            - name: abiOverride
+              type:
+                name: String
+          return_type:
+            name: PackageInfoLite
+        - name: getObbInfo
+          transaction_code_offset: 2
+          params:
+            - name: filename
+              type:
+                name: String
+          return_type:
+            name: ObbInfo
+        - name: calculateInstalledSize
+          transaction_code_offset: 3
+          params:
+            - name: packagePath
+              type:
+                name: String
+            - name: abiOverride
+              type:
+                name: String
+          return_type:
+            name: long
+    - name: ISoundTriggerService
+      descriptor: com.android.internal.app.ISoundTriggerService
+      methods:
+        - name: attachAsOriginator
+          transaction_code_offset: 0
+          params:
+            - name: originatorIdentity
+              type:
+                name: Identity
+              direction: in
+            - name: moduleProperties
+              type:
+                name: SoundTrigger.ModuleProperties
+              direction: in
+            - name: client
+              type:
+                name: IBinder
+          return_type:
+            name: ISoundTriggerSession
+        - name: attachAsMiddleman
+          transaction_code_offset: 1
+          params:
+            - name: middlemanIdentity
+              type:
+                name: Identity
+              direction: in
+            - name: originatorIdentity
+              type:
+                name: Identity
+              direction: in
+            - name: moduleProperties
+              type:
+                name: SoundTrigger.ModuleProperties
+              direction: in
+            - name: client
+              type:
+                name: IBinder
+          return_type:
+            name: ISoundTriggerSession
+        - name: listModuleProperties
+          transaction_code_offset: 2
+          params:
+            - name: originatorIdentity
+              type:
+                name: Identity
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: SoundTrigger.ModuleProperties
+        - name: attachInjection
+          transaction_code_offset: 3
+          params:
+            - name: injection
+              type:
+                name: ISoundTriggerInjection
+          return_type:
+            name: void
+        - name: setInPhoneCallState
+          transaction_code_offset: 4
+          params:
+            - name: isInPhoneCall
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: ISoundTriggerSession
+      descriptor: com.android.internal.app.ISoundTriggerSession
+      methods:
+        - name: getSoundModel
+          transaction_code_offset: 0
+          params:
+            - name: soundModelId
+              type:
+                name: ParcelUuid
+              direction: in
+          return_type:
+            name: SoundTrigger.GenericSoundModel
+        - name: updateSoundModel
+          transaction_code_offset: 1
+          params:
+            - name: soundModel
+              type:
+                name: SoundTrigger.GenericSoundModel
+              direction: in
+          return_type:
+            name: void
+        - name: deleteSoundModel
+          transaction_code_offset: 2
+          params:
+            - name: soundModelId
+              type:
+                name: ParcelUuid
+              direction: in
+          return_type:
+            name: void
+        - name: startRecognition
+          transaction_code_offset: 3
+          params:
+            - name: soundModel
+              type:
+                name: SoundTrigger.GenericSoundModel
+              direction: in
+            - name: callback
+              type:
+                name: IRecognitionStatusCallback
+              direction: in
+            - name: config
+              type:
+                name: SoundTrigger.RecognitionConfig
+              direction: in
+            - name: runInBatterySaver
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: stopRecognition
+          transaction_code_offset: 4
+          params:
+            - name: soundModelId
+              type:
+                name: ParcelUuid
+              direction: in
+            - name: callback
+              type:
+                name: IRecognitionStatusCallback
+              direction: in
+          return_type:
+            name: int
+        - name: loadGenericSoundModel
+          transaction_code_offset: 5
+          params:
+            - name: soundModel
+              type:
+                name: SoundTrigger.GenericSoundModel
+              direction: in
+          return_type:
+            name: int
+        - name: loadKeyphraseSoundModel
+          transaction_code_offset: 6
+          params:
+            - name: soundModel
+              type:
+                name: SoundTrigger.KeyphraseSoundModel
+              direction: in
+          return_type:
+            name: int
+        - name: startRecognitionForService
+          transaction_code_offset: 7
+          params:
+            - name: soundModelId
+              type:
+                name: ParcelUuid
+              direction: in
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+            - name: callbackIntent
+              type:
+                name: ComponentName
+              direction: in
+            - name: config
+              type:
+                name: SoundTrigger.RecognitionConfig
+              direction: in
+          return_type:
+            name: int
+        - name: stopRecognitionForService
+          transaction_code_offset: 8
+          params:
+            - name: soundModelId
+              type:
+                name: ParcelUuid
+              direction: in
+          return_type:
+            name: int
+        - name: unloadSoundModel
+          transaction_code_offset: 9
+          params:
+            - name: soundModelId
+              type:
+                name: ParcelUuid
+              direction: in
+          return_type:
+            name: int
+        - name: isRecognitionActive
+          transaction_code_offset: 10
+          params:
+            - name: parcelUuid
+              type:
+                name: ParcelUuid
+              direction: in
+          return_type:
+            name: boolean
+        - name: getModelState
+          transaction_code_offset: 11
+          params:
+            - name: soundModelId
+              type:
+                name: ParcelUuid
+              direction: in
+          return_type:
+            name: int
+        - name: getModuleProperties
+          transaction_code_offset: 12
+          return_type:
+            name: SoundTrigger.ModuleProperties
+          annotations:
+            - nullable
+        - name: setParameter
+          transaction_code_offset: 13
+          params:
+            - name: soundModelId
+              type:
+                name: ParcelUuid
+              direction: in
+            - name: modelParam
+              type:
+                name: ModelParams
+              direction: in
+            - name: value
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getParameter
+          transaction_code_offset: 14
+          params:
+            - name: soundModelId
+              type:
+                name: ParcelUuid
+              direction: in
+            - name: modelParam
+              type:
+                name: ModelParams
+              direction: in
+          return_type:
+            name: int
+        - name: queryParameter
+          transaction_code_offset: 15
+          params:
+            - name: soundModelId
+              type:
+                name: ParcelUuid
+              direction: in
+            - name: modelParam
+              type:
+                name: ModelParams
+              direction: in
+          return_type:
+            name: SoundTrigger.ModelParamRange
+          annotations:
+            - nullable
+    - name: IVisualQueryDetectionAttentionListener
+      descriptor: com.android.internal.app.IVisualQueryDetectionAttentionListener
+      oneway: true
+      methods:
+        - name: onAttentionGained
+          transaction_code_offset: 0
+          params:
+            - name: attentionResult
+              type:
+                name: VisualQueryAttentionResult
+              direction: in
+          return_type:
+            name: void
+        - name: onAttentionLost
+          transaction_code_offset: 1
+          params:
+            - name: interactionIntention
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IVisualQueryRecognitionStatusListener
+      descriptor: com.android.internal.app.IVisualQueryRecognitionStatusListener
+      oneway: true
+      methods:
+        - name: onStartPerceiving
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onStopPerceiving
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: IVoiceActionCheckCallback
+      descriptor: com.android.internal.app.IVoiceActionCheckCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: voiceActions
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+    - name: IVoiceInteractionAccessibilitySettingsListener
+      descriptor: com.android.internal.app.IVoiceInteractionAccessibilitySettingsListener
+      oneway: true
+      methods:
+        - name: onAccessibilityDetectionChanged
+          transaction_code_offset: 0
+          params:
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IVoiceInteractionManagerService
+      descriptor: com.android.internal.app.IVoiceInteractionManagerService
+      methods:
+        - name: showSession
+          transaction_code_offset: 0
+          params:
+            - name: sessionArgs
+              type:
+                name: Bundle
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: attributionTag
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: deliverNewSession
+          transaction_code_offset: 1
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: session
+              type:
+                name: IVoiceInteractionSession
+            - name: interactor
+              type:
+                name: IVoiceInteractor
+          return_type:
+            name: boolean
+        - name: showSessionFromSession
+          transaction_code_offset: 2
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: sessionArgs
+              type:
+                name: Bundle
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: attributionTag
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: hideSessionFromSession
+          transaction_code_offset: 3
+          params:
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: boolean
+        - name: startVoiceActivity
+          transaction_code_offset: 4
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: resolvedType
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: startAssistantActivity
+          transaction_code_offset: 5
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: resolvedType
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: bundle
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: int
+        - name: setKeepAwake
+          transaction_code_offset: 6
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: keepAwake
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: closeSystemDialogs
+          transaction_code_offset: 7
+          params:
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: finish
+          transaction_code_offset: 8
+          params:
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: setDisabledShowContext
+          transaction_code_offset: 9
+          params:
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getDisabledShowContext
+          transaction_code_offset: 10
+          return_type:
+            name: int
+        - name: getUserDisabledShowContext
+          transaction_code_offset: 11
+          return_type:
+            name: int
+        - name: getKeyphraseSoundModel
+          transaction_code_offset: 12
+          params:
+            - name: keyphraseId
+              type:
+                name: int
+            - name: bcp47Locale
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: SoundTrigger.KeyphraseSoundModel
+          annotations:
+            - UnsupportedAppUsage
+        - name: updateKeyphraseSoundModel
+          transaction_code_offset: 13
+          params:
+            - name: model
+              type:
+                name: SoundTrigger.KeyphraseSoundModel
+              direction: in
+          return_type:
+            name: int
+        - name: deleteKeyphraseSoundModel
+          transaction_code_offset: 14
+          params:
+            - name: keyphraseId
+              type:
+                name: int
+            - name: bcp47Locale
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: setModelDatabaseForTestEnabled
+          transaction_code_offset: 15
+          params:
+            - name: enabled
+              type:
+                name: boolean
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: isEnrolledForKeyphrase
+          transaction_code_offset: 16
+          params:
+            - name: keyphraseId
+              type:
+                name: int
+            - name: bcp47Locale
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getEnrolledKeyphraseMetadata
+          transaction_code_offset: 17
+          params:
+            - name: keyphrase
+              type:
+                name: String
+            - name: bcp47Locale
+              type:
+                name: String
+          return_type:
+            name: KeyphraseMetadata
+        - name: getActiveServiceComponentName
+          transaction_code_offset: 18
+          return_type:
+            name: ComponentName
+        - name: showSessionForActiveService
+          transaction_code_offset: 19
+          params:
+            - name: args
+              type:
+                name: Bundle
+              direction: in
+            - name: sourceFlags
+              type:
+                name: int
+            - name: attributionTag
+              type:
+                name: String
+            - name: showCallback
+              type:
+                name: IVoiceInteractionSessionShowCallback
+            - name: activityToken
+              type:
+                name: IBinder
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: hideCurrentSession
+          transaction_code_offset: 20
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: launchVoiceAssistFromKeyguard
+          transaction_code_offset: 21
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: isSessionRunning
+          transaction_code_offset: 22
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: activeServiceSupportsAssist
+          transaction_code_offset: 23
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: activeServiceSupportsLaunchFromKeyguard
+          transaction_code_offset: 24
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: onLockscreenShown
+          transaction_code_offset: 25
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: registerVoiceInteractionSessionListener
+          transaction_code_offset: 26
+          params:
+            - name: listener
+              type:
+                name: IVoiceInteractionSessionListener
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getActiveServiceSupportedActions
+          transaction_code_offset: 27
+          params:
+            - name: voiceActions
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: callback
+              type:
+                name: IVoiceActionCheckCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setUiHints
+          transaction_code_offset: 28
+          params:
+            - name: hints
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: requestDirectActions
+          transaction_code_offset: 29
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: taskId
+              type:
+                name: int
+            - name: assistToken
+              type:
+                name: IBinder
+            - name: cancellationCallback
+              type:
+                name: RemoteCallback
+              direction: in
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: performDirectAction
+          transaction_code_offset: 30
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: actionId
+              type:
+                name: String
+            - name: arguments
+              type:
+                name: Bundle
+              direction: in
+            - name: taskId
+              type:
+                name: int
+            - name: assistToken
+              type:
+                name: IBinder
+            - name: cancellationCallback
+              type:
+                name: RemoteCallback
+              direction: in
+            - name: resultCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setDisabled
+          transaction_code_offset: 31
+          params:
+            - name: disabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: createSoundTriggerSessionAsOriginator
+          transaction_code_offset: 32
+          params:
+            - name: originatorIdentity
+              type:
+                name: Identity
+              direction: in
+            - name: client
+              type:
+                name: IBinder
+            - name: moduleProperties
+              type:
+                name: SoundTrigger.ModuleProperties
+              direction: in
+          return_type:
+            name: IVoiceInteractionSoundTriggerSession
+        - name: listModuleProperties
+          transaction_code_offset: 33
+          params:
+            - name: originatorIdentity
+              type:
+                name: Identity
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: SoundTrigger.ModuleProperties
+        - name: updateState
+          transaction_code_offset: 34
+          params:
+            - name: options
+              type:
+                name: PersistableBundle
+              direction: in
+            - name: sharedMemory
+              type:
+                name: SharedMemory
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: initAndVerifyDetector
+          transaction_code_offset: 35
+          params:
+            - name: originatorIdentity
+              type:
+                name: Identity
+              direction: in
+            - name: options
+              type:
+                name: PersistableBundle
+              direction: in
+            - name: sharedMemory
+              type:
+                name: SharedMemory
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: callback
+              type:
+                name: IHotwordRecognitionStatusCallback
+              direction: in
+            - name: detectorType
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: destroyDetector
+          transaction_code_offset: 36
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: shutdownHotwordDetectionService
+          transaction_code_offset: 37
+          return_type:
+            name: void
+        - name: subscribeVisualQueryRecognitionStatus
+          transaction_code_offset: 38
+          params:
+            - name: listener
+              type:
+                name: IVisualQueryRecognitionStatusListener
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: enableVisualQueryDetection
+          transaction_code_offset: 39
+          params:
+            - name: Listener
+              type:
+                name: IVisualQueryDetectionAttentionListener
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: disableVisualQueryDetection
+          transaction_code_offset: 40
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: startPerceiving
+          transaction_code_offset: 41
+          params:
+            - name: callback
+              type:
+                name: IVisualQueryDetectionVoiceInteractionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: stopPerceiving
+          transaction_code_offset: 42
+          return_type:
+            name: void
+        - name: startListeningFromMic
+          transaction_code_offset: 43
+          params:
+            - name: audioFormat
+              type:
+                name: AudioFormat
+              direction: in
+            - name: callback
+              type:
+                name: IMicrophoneHotwordDetectionVoiceInteractionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: stopListeningFromMic
+          transaction_code_offset: 44
+          return_type:
+            name: void
+        - name: startListeningFromExternalSource
+          transaction_code_offset: 45
+          params:
+            - name: audioStream
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: audioFormat
+              type:
+                name: AudioFormat
+              direction: in
+            - name: options
+              type:
+                name: PersistableBundle
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: callback
+              type:
+                name: IMicrophoneHotwordDetectionVoiceInteractionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: triggerHardwareRecognitionEventForTest
+          transaction_code_offset: 46
+          params:
+            - name: event
+              type:
+                name: SoundTrigger.KeyphraseRecognitionEvent
+              direction: in
+            - name: callback
+              type:
+                name: IHotwordRecognitionStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: startListeningVisibleActivityChanged
+          transaction_code_offset: 47
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: stopListeningVisibleActivityChanged
+          transaction_code_offset: 48
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: setSessionWindowVisible
+          transaction_code_offset: 49
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: visible
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: notifyActivityEventChanged
+          transaction_code_offset: 50
+          oneway: true
+          params:
+            - name: activityToken
+              type:
+                name: IBinder
+              direction: in
+            - name: type
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getAccessibilityDetectionEnabled
+          transaction_code_offset: 51
+          return_type:
+            name: boolean
+        - name: registerAccessibilityDetectionSettingsListener
+          transaction_code_offset: 52
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: IVoiceInteractionAccessibilitySettingsListener
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterAccessibilityDetectionSettingsListener
+          transaction_code_offset: 53
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: IVoiceInteractionAccessibilitySettingsListener
+              direction: in
+          return_type:
+            name: void
+    - name: IVoiceInteractionSessionListener
+      descriptor: com.android.internal.app.IVoiceInteractionSessionListener
+      oneway: true
+      methods:
+        - name: onVoiceSessionShown
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onVoiceSessionHidden
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onVoiceSessionWindowVisibilityChanged
+          transaction_code_offset: 2
+          params:
+            - name: visible
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onSetUiHints
+          transaction_code_offset: 3
+          params:
+            - name: args
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+    - name: IVoiceInteractionSessionShowCallback
+      descriptor: com.android.internal.app.IVoiceInteractionSessionShowCallback
+      oneway: true
+      methods:
+        - name: onFailed
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onShown
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: IVoiceInteractionSoundTriggerSession
+      descriptor: com.android.internal.app.IVoiceInteractionSoundTriggerSession
+      methods:
+        - name: getDspModuleProperties
+          transaction_code_offset: 0
+          return_type:
+            name: SoundTrigger.ModuleProperties
+        - name: startRecognition
+          transaction_code_offset: 1
+          params:
+            - name: keyphraseId
+              type:
+                name: int
+            - name: bcp47Locale
+              type:
+                name: String
+              direction: in
+            - name: callback
+              type:
+                name: IHotwordRecognitionStatusCallback
+              direction: in
+            - name: recognitionConfig
+              type:
+                name: SoundTrigger.RecognitionConfig
+              direction: in
+            - name: runInBatterySaver
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: stopRecognition
+          transaction_code_offset: 2
+          params:
+            - name: keyphraseId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IHotwordRecognitionStatusCallback
+              direction: in
+          return_type:
+            name: int
+        - name: setParameter
+          transaction_code_offset: 3
+          params:
+            - name: keyphraseId
+              type:
+                name: int
+            - name: modelParam
+              type:
+                name: ModelParams
+              direction: in
+            - name: value
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getParameter
+          transaction_code_offset: 4
+          params:
+            - name: keyphraseId
+              type:
+                name: int
+            - name: modelParam
+              type:
+                name: ModelParams
+              direction: in
+          return_type:
+            name: int
+        - name: queryParameter
+          transaction_code_offset: 5
+          params:
+            - name: keyphraseId
+              type:
+                name: int
+            - name: modelParam
+              type:
+                name: ModelParams
+              direction: in
+          return_type:
+            name: SoundTrigger.ModelParamRange
+          annotations:
+            - nullable
+        - name: detach
+          transaction_code_offset: 6
+          return_type:
+            name: void
+    - name: IVoiceInteractor
+      descriptor: com.android.internal.app.IVoiceInteractor
+      methods:
+        - name: startConfirmation
+          transaction_code_offset: 0
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IVoiceInteractorCallback
+            - name: prompt
+              type:
+                name: VoiceInteractor.Prompt
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: IVoiceInteractorRequest
+        - name: startPickOption
+          transaction_code_offset: 1
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IVoiceInteractorCallback
+            - name: prompt
+              type:
+                name: VoiceInteractor.Prompt
+              direction: in
+            - name: options
+              type:
+                name: VoiceInteractor.PickOptionRequest.Option
+                is_array: true
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: IVoiceInteractorRequest
+        - name: startCompleteVoice
+          transaction_code_offset: 2
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IVoiceInteractorCallback
+            - name: prompt
+              type:
+                name: VoiceInteractor.Prompt
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: IVoiceInteractorRequest
+        - name: startAbortVoice
+          transaction_code_offset: 3
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IVoiceInteractorCallback
+            - name: prompt
+              type:
+                name: VoiceInteractor.Prompt
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: IVoiceInteractorRequest
+        - name: startCommand
+          transaction_code_offset: 4
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IVoiceInteractorCallback
+            - name: command
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: IVoiceInteractorRequest
+        - name: supportsCommands
+          transaction_code_offset: 5
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: commands
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: boolean
+            is_array: true
+        - name: notifyDirectActionsChanged
+          transaction_code_offset: 6
+          params:
+            - name: taskId
+              type:
+                name: int
+            - name: assistToken
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: setKillCallback
+          transaction_code_offset: 7
+          params:
+            - name: callback
+              type:
+                name: ICancellationSignal
+              direction: in
+          return_type:
+            name: void
+    - name: IVoiceInteractorCallback
+      descriptor: com.android.internal.app.IVoiceInteractorCallback
+      oneway: true
+      methods:
+        - name: deliverConfirmationResult
+          transaction_code_offset: 0
+          params:
+            - name: request
+              type:
+                name: IVoiceInteractorRequest
+            - name: confirmed
+              type:
+                name: boolean
+            - name: result
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: deliverPickOptionResult
+          transaction_code_offset: 1
+          params:
+            - name: request
+              type:
+                name: IVoiceInteractorRequest
+            - name: finished
+              type:
+                name: boolean
+            - name: selections
+              type:
+                name: VoiceInteractor.PickOptionRequest.Option
+                is_array: true
+              direction: in
+            - name: result
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: deliverCompleteVoiceResult
+          transaction_code_offset: 2
+          params:
+            - name: request
+              type:
+                name: IVoiceInteractorRequest
+            - name: result
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: deliverAbortVoiceResult
+          transaction_code_offset: 3
+          params:
+            - name: request
+              type:
+                name: IVoiceInteractorRequest
+            - name: result
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: deliverCommandResult
+          transaction_code_offset: 4
+          params:
+            - name: request
+              type:
+                name: IVoiceInteractorRequest
+            - name: finished
+              type:
+                name: boolean
+            - name: result
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: deliverCancel
+          transaction_code_offset: 5
+          params:
+            - name: request
+              type:
+                name: IVoiceInteractorRequest
+          return_type:
+            name: void
+        - name: destroy
+          transaction_code_offset: 6
+          return_type:
+            name: void
+    - name: IVoiceInteractorRequest
+      descriptor: com.android.internal.app.IVoiceInteractorRequest
+      methods:
+        - name: cancel
+          transaction_code_offset: 0
+          return_type:
+            name: void
+parcelables:
+    - name: MessageSamplingConfig

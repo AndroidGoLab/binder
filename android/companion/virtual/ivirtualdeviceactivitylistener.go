@@ -51,6 +51,7 @@ func (p *VirtualDeviceActivityListenerProxy) OnTopActivityChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceActivityListener)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(1)
@@ -73,6 +74,7 @@ func (p *VirtualDeviceActivityListenerProxy) OnDisplayEmpty(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceActivityListener)
 	_data.WriteInt32(displayId)
 
@@ -88,7 +90,8 @@ func (p *VirtualDeviceActivityListenerProxy) OnDisplayEmpty(
 // VirtualDeviceActivityListenerStub dispatches incoming binder transactions
 // to a typed IVirtualDeviceActivityListener implementation.
 type VirtualDeviceActivityListenerStub struct {
-	Impl IVirtualDeviceActivityListener
+	Impl      IVirtualDeviceActivityListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VirtualDeviceActivityListenerStub)(nil)
@@ -102,11 +105,12 @@ func (s *VirtualDeviceActivityListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVirtualDeviceActivityListenerOnTopActivityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -127,19 +131,14 @@ func (s *VirtualDeviceActivityListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTopActivityChanged(ctx, _arg_displayId, _arg_topActivity)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVirtualDeviceActivityListenerOnDisplayEmpty:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDisplayEmpty(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

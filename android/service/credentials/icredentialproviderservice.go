@@ -52,6 +52,7 @@ func (p *CredentialProviderServiceProxy) OnBeginGetCredential(
 	callback IBeginGetCredentialCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialProviderService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -74,6 +75,7 @@ func (p *CredentialProviderServiceProxy) OnBeginCreateCredential(
 	callback IBeginCreateCredentialCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialProviderService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -96,6 +98,7 @@ func (p *CredentialProviderServiceProxy) OnClearCredentialState(
 	callback IClearCredentialStateCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICredentialProviderService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -115,7 +118,8 @@ func (p *CredentialProviderServiceProxy) OnClearCredentialState(
 // CredentialProviderServiceStub dispatches incoming binder transactions
 // to a typed ICredentialProviderService implementation.
 type CredentialProviderServiceStub struct {
-	Impl ICredentialProviderService
+	Impl      ICredentialProviderService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CredentialProviderServiceStub)(nil)
@@ -129,11 +133,12 @@ func (s *CredentialProviderServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICredentialProviderServiceOnBeginGetCredential:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request BeginGetCredentialRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -146,16 +151,17 @@ func (s *CredentialProviderServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IBeginGetCredentialCallback
-		_ = _arg_callback
-		_err := s.Impl.OnBeginGetCredential(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionICredentialProviderServiceOnBeginCreateCredential:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewBeginGetCredentialCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.OnBeginGetCredential(ctx, _arg_request, _arg_callback)
+		return nil, _err
+	case TransactionICredentialProviderServiceOnBeginCreateCredential:
 		var _arg_request BeginCreateCredentialRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -168,16 +174,17 @@ func (s *CredentialProviderServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IBeginCreateCredentialCallback
-		_ = _arg_callback
-		_err := s.Impl.OnBeginCreateCredential(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionICredentialProviderServiceOnClearCredentialState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewBeginCreateCredentialCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.OnBeginCreateCredential(ctx, _arg_request, _arg_callback)
+		return nil, _err
+	case TransactionICredentialProviderServiceOnClearCredentialState:
 		var _arg_request ClearCredentialStateRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -190,12 +197,16 @@ func (s *CredentialProviderServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IClearCredentialStateCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewClearCredentialStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.OnClearCredentialState(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

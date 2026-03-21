@@ -45,6 +45,7 @@ func (p *WifiP2pIfaceProxy) GetName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiP2pIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiP2pIface, MethodIWifiP2pIfaceGetName)
@@ -72,7 +73,8 @@ func (p *WifiP2pIfaceProxy) GetName(
 // WifiP2pIfaceStub dispatches incoming binder transactions
 // to a typed IWifiP2pIface implementation.
 type WifiP2pIfaceStub struct {
-	Impl IWifiP2pIface
+	Impl      IWifiP2pIface
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WifiP2pIfaceStub)(nil)
@@ -86,11 +88,12 @@ func (s *WifiP2pIfaceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWifiP2pIfaceGetName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetName(ctx)
 		_reply := parcel.New()
 		if _err != nil {

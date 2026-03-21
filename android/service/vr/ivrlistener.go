@@ -48,6 +48,7 @@ func (p *VrListenerProxy) FocusedActivityChanged(
 	pid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVrListener)
 	_data.WriteInt32(1)
 	if _err := component.MarshalParcel(_data); _err != nil {
@@ -68,7 +69,8 @@ func (p *VrListenerProxy) FocusedActivityChanged(
 // VrListenerStub dispatches incoming binder transactions
 // to a typed IVrListener implementation.
 type VrListenerStub struct {
-	Impl IVrListener
+	Impl      IVrListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VrListenerStub)(nil)
@@ -82,11 +84,12 @@ func (s *VrListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVrListenerFocusedActivityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_component content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -108,8 +111,7 @@ func (s *VrListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.FocusedActivityChanged(ctx, _arg_component, _arg_running2dInVr, _arg_pid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

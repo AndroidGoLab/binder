@@ -49,6 +49,7 @@ func (p *TunerFilterCallbackProxy) OnFilterStatus(
 	status tvTuner.DemuxFilterStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilterCallback)
 	_data.WritePaddedByte(byte(status))
 
@@ -75,6 +76,7 @@ func (p *TunerFilterCallbackProxy) OnFilterEvent(
 	events []tvTuner.DemuxFilterEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFilterCallback)
 	if events == nil {
 		_data.WriteInt32(-1)
@@ -109,7 +111,8 @@ func (p *TunerFilterCallbackProxy) OnFilterEvent(
 // TunerFilterCallbackStub dispatches incoming binder transactions
 // to a typed ITunerFilterCallback implementation.
 type TunerFilterCallbackStub struct {
-	Impl ITunerFilterCallback
+	Impl      ITunerFilterCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TunerFilterCallbackStub)(nil)
@@ -123,11 +126,12 @@ func (s *TunerFilterCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITunerFilterCallbackOnFilterStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_status, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -142,12 +146,27 @@ func (s *TunerFilterCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFilterCallbackOnFilterEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_events []tvTuner.DemuxFilterEvent
-		_ = _arg_events
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_events = make([]tvTuner.DemuxFilterEvent, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_events[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnFilterEvent(ctx, _arg_events)
 		_reply := parcel.New()
 		if _err != nil {

@@ -1,0 +1,2218 @@
+package: android.hardware.gnss
+go_package: android/hardware/gnss
+interfaces:
+    - name: IAGnss
+      descriptor: android.hardware.gnss.IAGnss
+      methods:
+        - name: setCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IAGnssCallback
+              direction: in
+          return_type:
+            name: void
+        - name: dataConnClosed
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: dataConnFailed
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: setServer
+          transaction_code_offset: 3
+          params:
+            - name: type
+              type:
+                name: AGnssType
+              direction: in
+            - name: hostname
+              type:
+                name: String
+              direction: in
+            - name: port
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: dataConnOpen
+          transaction_code_offset: 4
+          params:
+            - name: networkHandle
+              type:
+                name: long
+              direction: in
+            - name: apn
+              type:
+                name: String
+              direction: in
+            - name: apnIpType
+              type:
+                name: ApnIpType
+              direction: in
+          return_type:
+            name: void
+    - name: IAGnssCallback
+      descriptor: android.hardware.gnss.IAGnssCallback
+      methods:
+        - name: agnssStatusCb
+          transaction_code_offset: 0
+          params:
+            - name: type
+              type:
+                name: AGnssType
+              direction: in
+            - name: status
+              type:
+                name: AGnssStatusValue
+              direction: in
+          return_type:
+            name: void
+    - name: IAGnssRil
+      descriptor: android.hardware.gnss.IAGnssRil
+      methods:
+        - name: setCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IAGnssRilCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setRefLocation
+          transaction_code_offset: 1
+          params:
+            - name: agnssReflocation
+              type:
+                name: AGnssRefLocation
+              direction: in
+          return_type:
+            name: void
+        - name: setSetId
+          transaction_code_offset: 2
+          params:
+            - name: type
+              type:
+                name: SetIdType
+              direction: in
+            - name: setid
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: updateNetworkState
+          transaction_code_offset: 3
+          params:
+            - name: attributes
+              type:
+                name: NetworkAttributes
+              direction: in
+          return_type:
+            name: void
+        - name: injectNiSuplMessageData
+          transaction_code_offset: 4
+          params:
+            - name: msgData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: slotIndex
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: NETWORK_CAPABILITY_NOT_METERED
+          type: int
+          value: "0x01"
+        - name: NETWORK_CAPABILITY_NOT_ROAMING
+          type: int
+          value: "0x02"
+    - name: IAGnssRilCallback
+      descriptor: android.hardware.gnss.IAGnssRilCallback
+      methods:
+        - name: requestSetIdCb
+          transaction_code_offset: 0
+          params:
+            - name: setIdflag
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: requestRefLocCb
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: IGnss
+      descriptor: android.hardware.gnss.IGnss
+      methods:
+        - name: setCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IGnssCallback
+              direction: in
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: getExtensionPsds
+          transaction_code_offset: 2
+          return_type:
+            name: IGnssPsds
+          annotations:
+            - nullable
+        - name: getExtensionGnssConfiguration
+          transaction_code_offset: 3
+          return_type:
+            name: IGnssConfiguration
+        - name: getExtensionGnssMeasurement
+          transaction_code_offset: 4
+          return_type:
+            name: IGnssMeasurementInterface
+        - name: getExtensionGnssPowerIndication
+          transaction_code_offset: 5
+          return_type:
+            name: IGnssPowerIndication
+        - name: getExtensionGnssBatching
+          transaction_code_offset: 6
+          return_type:
+            name: IGnssBatching
+          annotations:
+            - nullable
+        - name: getExtensionGnssGeofence
+          transaction_code_offset: 7
+          return_type:
+            name: IGnssGeofence
+          annotations:
+            - nullable
+        - name: getExtensionGnssNavigationMessage
+          transaction_code_offset: 8
+          return_type:
+            name: IGnssNavigationMessageInterface
+          annotations:
+            - nullable
+        - name: getExtensionAGnss
+          transaction_code_offset: 9
+          return_type:
+            name: IAGnss
+        - name: getExtensionAGnssRil
+          transaction_code_offset: 10
+          return_type:
+            name: IAGnssRil
+        - name: getExtensionGnssDebug
+          transaction_code_offset: 11
+          return_type:
+            name: IGnssDebug
+        - name: getExtensionGnssVisibilityControl
+          transaction_code_offset: 12
+          return_type:
+            name: IGnssVisibilityControl
+        - name: start
+          transaction_code_offset: 13
+          return_type:
+            name: void
+        - name: stop
+          transaction_code_offset: 14
+          return_type:
+            name: void
+        - name: injectTime
+          transaction_code_offset: 15
+          params:
+            - name: timeMs
+              type:
+                name: long
+              direction: in
+            - name: timeReferenceMs
+              type:
+                name: long
+              direction: in
+            - name: uncertaintyMs
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: injectLocation
+          transaction_code_offset: 16
+          params:
+            - name: location
+              type:
+                name: GnssLocation
+              direction: in
+          return_type:
+            name: void
+        - name: injectBestLocation
+          transaction_code_offset: 17
+          params:
+            - name: location
+              type:
+                name: GnssLocation
+              direction: in
+          return_type:
+            name: void
+        - name: deleteAidingData
+          transaction_code_offset: 18
+          params:
+            - name: aidingDataFlags
+              type:
+                name: GnssAidingData
+              direction: in
+          return_type:
+            name: void
+        - name: setPositionMode
+          transaction_code_offset: 19
+          params:
+            - name: options
+              type:
+                name: PositionModeOptions
+              direction: in
+          return_type:
+            name: void
+        - name: getExtensionGnssAntennaInfo
+          transaction_code_offset: 20
+          return_type:
+            name: IGnssAntennaInfo
+        - name: getExtensionMeasurementCorrections
+          transaction_code_offset: 21
+          return_type:
+            name: IMeasurementCorrectionsInterface
+          annotations:
+            - nullable
+        - name: startSvStatus
+          transaction_code_offset: 22
+          return_type:
+            name: void
+        - name: stopSvStatus
+          transaction_code_offset: 23
+          return_type:
+            name: void
+        - name: startNmea
+          transaction_code_offset: 24
+          return_type:
+            name: void
+        - name: stopNmea
+          transaction_code_offset: 25
+          return_type:
+            name: void
+      constants:
+        - name: ERROR_INVALID_ARGUMENT
+          type: int
+          value: "1"
+        - name: ERROR_ALREADY_INIT
+          type: int
+          value: "2"
+        - name: ERROR_GENERIC
+          type: int
+          value: "3"
+    - name: IGnssAntennaInfo
+      descriptor: android.hardware.gnss.IGnssAntennaInfo
+      methods:
+        - name: setCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IGnssAntennaInfoCallback
+              direction: in
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: IGnssAntennaInfoCallback
+      descriptor: android.hardware.gnss.IGnssAntennaInfoCallback
+      methods:
+        - name: gnssAntennaInfoCb
+          transaction_code_offset: 0
+          params:
+            - name: gnssAntennaInfos
+              type:
+                name: GnssAntennaInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IGnssBatching
+      descriptor: android.hardware.gnss.IGnssBatching
+      methods:
+        - name: init
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IGnssBatchingCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getBatchSize
+          transaction_code_offset: 1
+          return_type:
+            name: int
+        - name: start
+          transaction_code_offset: 2
+          params:
+            - name: options
+              type:
+                name: Options
+              direction: in
+          return_type:
+            name: void
+        - name: flush
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: stop
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: cleanup
+          transaction_code_offset: 5
+          return_type:
+            name: void
+      constants:
+        - name: WAKEUP_ON_FIFO_FULL
+          type: int
+          value: "0x01"
+    - name: IGnssBatchingCallback
+      descriptor: android.hardware.gnss.IGnssBatchingCallback
+      methods:
+        - name: gnssLocationBatchCb
+          transaction_code_offset: 0
+          params:
+            - name: locations
+              type:
+                name: GnssLocation
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IGnssCallback
+      descriptor: android.hardware.gnss.IGnssCallback
+      methods:
+        - name: gnssSetCapabilitiesCb
+          transaction_code_offset: 0
+          params:
+            - name: capabilities
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: gnssStatusCb
+          transaction_code_offset: 1
+          params:
+            - name: status
+              type:
+                name: GnssStatusValue
+              direction: in
+          return_type:
+            name: void
+        - name: gnssSvStatusCb
+          transaction_code_offset: 2
+          params:
+            - name: svInfoList
+              type:
+                name: GnssSvInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: gnssLocationCb
+          transaction_code_offset: 3
+          params:
+            - name: location
+              type:
+                name: GnssLocation
+              direction: in
+          return_type:
+            name: void
+        - name: gnssNmeaCb
+          transaction_code_offset: 4
+          params:
+            - name: timestamp
+              type:
+                name: long
+              direction: in
+            - name: nmea
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: gnssAcquireWakelockCb
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: gnssReleaseWakelockCb
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: gnssSetSystemInfoCb
+          transaction_code_offset: 7
+          params:
+            - name: info
+              type:
+                name: GnssSystemInfo
+              direction: in
+          return_type:
+            name: void
+        - name: gnssRequestTimeCb
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: gnssRequestLocationCb
+          transaction_code_offset: 9
+          params:
+            - name: independentFromGnss
+              type:
+                name: boolean
+              direction: in
+            - name: isUserEmergency
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: gnssSetSignalTypeCapabilitiesCb
+          transaction_code_offset: 10
+          params:
+            - name: gnssSignalTypes
+              type:
+                name: GnssSignalType
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: CAPABILITY_SCHEDULING
+          type: int
+          value: 1 << 0
+        - name: CAPABILITY_MSB
+          type: int
+          value: 1 << 1
+        - name: CAPABILITY_MSA
+          type: int
+          value: 1 << 2
+        - name: CAPABILITY_SINGLE_SHOT
+          type: int
+          value: 1 << 3
+        - name: CAPABILITY_ON_DEMAND_TIME
+          type: int
+          value: 1 << 4
+        - name: CAPABILITY_GEOFENCING
+          type: int
+          value: 1 << 5
+        - name: CAPABILITY_MEASUREMENTS
+          type: int
+          value: 1 << 6
+        - name: CAPABILITY_NAV_MESSAGES
+          type: int
+          value: 1 << 7
+        - name: CAPABILITY_LOW_POWER_MODE
+          type: int
+          value: 1 << 8
+        - name: CAPABILITY_SATELLITE_BLOCKLIST
+          type: int
+          value: 1 << 9
+        - name: CAPABILITY_MEASUREMENT_CORRECTIONS
+          type: int
+          value: 1 << 10
+        - name: CAPABILITY_ANTENNA_INFO
+          type: int
+          value: 1 << 11
+        - name: CAPABILITY_CORRELATION_VECTOR
+          type: int
+          value: 1 << 12
+        - name: CAPABILITY_SATELLITE_PVT
+          type: int
+          value: 1 << 13
+        - name: CAPABILITY_MEASUREMENT_CORRECTIONS_FOR_DRIVING
+          type: int
+          value: 1 << 14
+        - name: CAPABILITY_ACCUMULATED_DELTA_RANGE
+          type: int
+          value: 1 << 15
+    - name: IGnssConfiguration
+      descriptor: android.hardware.gnss.IGnssConfiguration
+      methods:
+        - name: setSuplVersion
+          transaction_code_offset: 0
+          params:
+            - name: version
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setSuplMode
+          transaction_code_offset: 1
+          params:
+            - name: mode
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setLppProfile
+          transaction_code_offset: 2
+          params:
+            - name: lppProfile
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setGlonassPositioningProtocol
+          transaction_code_offset: 3
+          params:
+            - name: protocol
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setEmergencySuplPdn
+          transaction_code_offset: 4
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setEsExtensionSec
+          transaction_code_offset: 5
+          params:
+            - name: emergencyExtensionSeconds
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setBlocklist
+          transaction_code_offset: 6
+          params:
+            - name: blocklist
+              type:
+                name: BlocklistedSource
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: SUPL_MODE_MSB
+          type: int
+          value: "0x01"
+        - name: SUPL_MODE_MSA
+          type: int
+          value: "0x02"
+        - name: LPP_PROFILE_USER_PLANE
+          type: int
+          value: "0x01"
+        - name: LPP_PROFILE_CONTROL_PLANE
+          type: int
+          value: "0x02"
+        - name: GLONASS_POS_PROTOCOL_RRC_CPLANE
+          type: int
+          value: "0x01"
+        - name: GLONASS_POS_PROTOCOL_RRLP_UPLANE
+          type: int
+          value: "0x02"
+        - name: GLONASS_POS_PROTOCOL_LPP_UPLANE
+          type: int
+          value: "0x04"
+    - name: IGnssDebug
+      descriptor: android.hardware.gnss.IGnssDebug
+      methods:
+        - name: getDebugData
+          transaction_code_offset: 0
+          return_type:
+            name: DebugData
+    - name: IGnssGeofence
+      descriptor: android.hardware.gnss.IGnssGeofence
+      methods:
+        - name: setCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IGnssGeofenceCallback
+              direction: in
+          return_type:
+            name: void
+        - name: addGeofence
+          transaction_code_offset: 1
+          params:
+            - name: geofenceId
+              type:
+                name: int
+              direction: in
+            - name: latitudeDegrees
+              type:
+                name: double
+              direction: in
+            - name: longitudeDegrees
+              type:
+                name: double
+              direction: in
+            - name: radiusMeters
+              type:
+                name: double
+              direction: in
+            - name: lastTransition
+              type:
+                name: int
+              direction: in
+            - name: monitorTransitions
+              type:
+                name: int
+              direction: in
+            - name: notificationResponsivenessMs
+              type:
+                name: int
+              direction: in
+            - name: unknownTimerMs
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: pauseGeofence
+          transaction_code_offset: 2
+          params:
+            - name: geofenceId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: resumeGeofence
+          transaction_code_offset: 3
+          params:
+            - name: geofenceId
+              type:
+                name: int
+              direction: in
+            - name: monitorTransitions
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: removeGeofence
+          transaction_code_offset: 4
+          params:
+            - name: geofenceId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IGnssGeofenceCallback
+      descriptor: android.hardware.gnss.IGnssGeofenceCallback
+      methods:
+        - name: gnssGeofenceTransitionCb
+          transaction_code_offset: 0
+          params:
+            - name: geofenceId
+              type:
+                name: int
+              direction: in
+            - name: location
+              type:
+                name: GnssLocation
+              direction: in
+            - name: transition
+              type:
+                name: int
+              direction: in
+            - name: timestampMillis
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: gnssGeofenceStatusCb
+          transaction_code_offset: 1
+          params:
+            - name: availability
+              type:
+                name: int
+              direction: in
+            - name: lastLocation
+              type:
+                name: GnssLocation
+              direction: in
+          return_type:
+            name: void
+        - name: gnssGeofenceAddCb
+          transaction_code_offset: 2
+          params:
+            - name: geofenceId
+              type:
+                name: int
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: gnssGeofenceRemoveCb
+          transaction_code_offset: 3
+          params:
+            - name: geofenceId
+              type:
+                name: int
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: gnssGeofencePauseCb
+          transaction_code_offset: 4
+          params:
+            - name: geofenceId
+              type:
+                name: int
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: gnssGeofenceResumeCb
+          transaction_code_offset: 5
+          params:
+            - name: geofenceId
+              type:
+                name: int
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: ENTERED
+          type: int
+          value: 1 << 0
+        - name: EXITED
+          type: int
+          value: 1 << 1
+        - name: UNCERTAIN
+          type: int
+          value: 1 << 2
+        - name: UNAVAILABLE
+          type: int
+          value: 1 << 0
+        - name: AVAILABLE
+          type: int
+          value: 1 << 1
+        - name: OPERATION_SUCCESS
+          type: int
+          value: "0"
+        - name: ERROR_TOO_MANY_GEOFENCES
+          type: int
+          value: "-100"
+        - name: ERROR_ID_EXISTS
+          type: int
+          value: "-101"
+        - name: ERROR_ID_UNKNOWN
+          type: int
+          value: "-102"
+        - name: ERROR_INVALID_TRANSITION
+          type: int
+          value: "-103"
+        - name: ERROR_GENERIC
+          type: int
+          value: "-149"
+    - name: IGnssMeasurementCallback
+      descriptor: android.hardware.gnss.IGnssMeasurementCallback
+      methods:
+        - name: gnssMeasurementCb
+          transaction_code_offset: 0
+          params:
+            - name: data
+              type:
+                name: GnssData
+              direction: in
+          return_type:
+            name: void
+    - name: IGnssMeasurementInterface
+      descriptor: android.hardware.gnss.IGnssMeasurementInterface
+      methods:
+        - name: setCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IGnssMeasurementCallback
+              direction: in
+            - name: enableFullTracking
+              type:
+                name: boolean
+              direction: in
+            - name: enableCorrVecOutputs
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: setCallbackWithOptions
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: IGnssMeasurementCallback
+              direction: in
+            - name: options
+              type:
+                name: Options
+              direction: in
+          return_type:
+            name: void
+    - name: IGnssNavigationMessageCallback
+      descriptor: android.hardware.gnss.IGnssNavigationMessageCallback
+      methods:
+        - name: gnssNavigationMessageCb
+          transaction_code_offset: 0
+          params:
+            - name: message
+              type:
+                name: GnssNavigationMessage
+              direction: in
+          return_type:
+            name: void
+    - name: IGnssNavigationMessageInterface
+      descriptor: android.hardware.gnss.IGnssNavigationMessageInterface
+      methods:
+        - name: setCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IGnssNavigationMessageCallback
+              direction: in
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: IGnssPowerIndication
+      descriptor: android.hardware.gnss.IGnssPowerIndication
+      methods:
+        - name: setCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IGnssPowerIndicationCallback
+              direction: in
+          return_type:
+            name: void
+        - name: requestGnssPowerStats
+          transaction_code_offset: 1
+          oneway: true
+          return_type:
+            name: void
+    - name: IGnssPowerIndicationCallback
+      descriptor: android.hardware.gnss.IGnssPowerIndicationCallback
+      methods:
+        - name: setCapabilitiesCb
+          transaction_code_offset: 0
+          params:
+            - name: capabilities
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: gnssPowerStatsCb
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: gnssPowerStats
+              type:
+                name: GnssPowerStats
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: CAPABILITY_TOTAL
+          type: int
+          value: 1 << 0
+        - name: CAPABILITY_SINGLEBAND_TRACKING
+          type: int
+          value: 1 << 1
+        - name: CAPABILITY_MULTIBAND_TRACKING
+          type: int
+          value: 1 << 2
+        - name: CAPABILITY_SINGLEBAND_ACQUISITION
+          type: int
+          value: 1 << 3
+        - name: CAPABILITY_MULTIBAND_ACQUISITION
+          type: int
+          value: 1 << 4
+        - name: CAPABILITY_OTHER_MODES
+          type: int
+          value: 1 << 5
+    - name: IGnssPsds
+      descriptor: android.hardware.gnss.IGnssPsds
+      methods:
+        - name: injectPsdsData
+          transaction_code_offset: 0
+          params:
+            - name: psdsType
+              type:
+                name: PsdsType
+              direction: in
+            - name: psdsData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setCallback
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IGnssPsdsCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IGnssPsdsCallback
+      descriptor: android.hardware.gnss.IGnssPsdsCallback
+      methods:
+        - name: downloadRequestCb
+          transaction_code_offset: 0
+          params:
+            - name: psdsType
+              type:
+                name: PsdsType
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: BlocklistedSource
+      fields:
+        - name: constellation
+          type:
+            name: GnssConstellationType
+          default_value: GnssConstellationType.UNKNOWN
+        - name: svid
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: CorrelationVector
+      fields:
+        - name: frequencyOffsetMps
+          type:
+            name: double
+        - name: samplingWidthM
+          type:
+            name: double
+        - name: samplingStartM
+          type:
+            name: double
+        - name: magnitude
+          type:
+            name: int
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: ElapsedRealtime
+      fields:
+        - name: flags
+          type:
+            name: int
+        - name: timestampNs
+          type:
+            name: long
+        - name: timeUncertaintyNs
+          type:
+            name: double
+      constants:
+        - name: HAS_TIMESTAMP_NS
+          type: int
+          value: 1 << 0
+        - name: HAS_TIME_UNCERTAINTY_NS
+          type: int
+          value: 1 << 1
+      annotations:
+        - VintfStability
+    - name: GnssClock
+      fields:
+        - name: gnssClockFlags
+          type:
+            name: int
+        - name: leapSecond
+          type:
+            name: int
+        - name: timeNs
+          type:
+            name: long
+        - name: timeUncertaintyNs
+          type:
+            name: double
+        - name: fullBiasNs
+          type:
+            name: long
+        - name: biasNs
+          type:
+            name: double
+        - name: biasUncertaintyNs
+          type:
+            name: double
+        - name: driftNsps
+          type:
+            name: double
+        - name: driftUncertaintyNsps
+          type:
+            name: double
+        - name: hwClockDiscontinuityCount
+          type:
+            name: int
+        - name: referenceSignalTypeForIsb
+          type:
+            name: GnssSignalType
+      constants:
+        - name: HAS_LEAP_SECOND
+          type: int
+          value: 1 << 0
+        - name: HAS_TIME_UNCERTAINTY
+          type: int
+          value: 1 << 1
+        - name: HAS_FULL_BIAS
+          type: int
+          value: 1 << 2
+        - name: HAS_BIAS
+          type: int
+          value: 1 << 3
+        - name: HAS_BIAS_UNCERTAINTY
+          type: int
+          value: 1 << 4
+        - name: HAS_DRIFT
+          type: int
+          value: 1 << 5
+        - name: HAS_DRIFT_UNCERTAINTY
+          type: int
+          value: 1 << 6
+      annotations:
+        - VintfStability
+    - name: GnssData
+      fields:
+        - name: measurements
+          type:
+            name: GnssMeasurement
+            is_array: true
+        - name: clock
+          type:
+            name: GnssClock
+        - name: elapsedRealtime
+          type:
+            name: ElapsedRealtime
+        - name: gnssAgcs
+          type:
+            name: GnssAgc
+            is_array: true
+          default_value: '{}'
+        - name: isFullTracking
+          type:
+            name: boolean
+      nested_types:
+        - GnssData.GnssAgc
+      annotations:
+        - VintfStability
+    - name: GnssData.GnssAgc
+      fields:
+        - name: agcLevelDb
+          type:
+            name: double
+        - name: constellation
+          type:
+            name: GnssConstellationType
+          default_value: GnssConstellationType.UNKNOWN
+        - name: carrierFrequencyHz
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: GnssLocation
+      fields:
+        - name: gnssLocationFlags
+          type:
+            name: int
+        - name: latitudeDegrees
+          type:
+            name: double
+        - name: longitudeDegrees
+          type:
+            name: double
+        - name: altitudeMeters
+          type:
+            name: double
+        - name: speedMetersPerSec
+          type:
+            name: double
+        - name: bearingDegrees
+          type:
+            name: double
+        - name: horizontalAccuracyMeters
+          type:
+            name: double
+        - name: verticalAccuracyMeters
+          type:
+            name: double
+        - name: speedAccuracyMetersPerSecond
+          type:
+            name: double
+        - name: bearingAccuracyDegrees
+          type:
+            name: double
+        - name: timestampMillis
+          type:
+            name: long
+        - name: elapsedRealtime
+          type:
+            name: ElapsedRealtime
+      constants:
+        - name: HAS_LAT_LONG
+          type: int
+          value: "0x0001"
+        - name: HAS_ALTITUDE
+          type: int
+          value: "0x0002"
+        - name: HAS_SPEED
+          type: int
+          value: "0x0004"
+        - name: HAS_BEARING
+          type: int
+          value: "0x0008"
+        - name: HAS_HORIZONTAL_ACCURACY
+          type: int
+          value: "0x0010"
+        - name: HAS_VERTICAL_ACCURACY
+          type: int
+          value: "0x0020"
+        - name: HAS_SPEED_ACCURACY
+          type: int
+          value: "0x0040"
+        - name: HAS_BEARING_ACCURACY
+          type: int
+          value: "0x0080"
+      annotations:
+        - VintfStability
+    - name: GnssMeasurement
+      fields:
+        - name: flags
+          type:
+            name: int
+        - name: svid
+          type:
+            name: int
+        - name: signalType
+          type:
+            name: GnssSignalType
+        - name: timeOffsetNs
+          type:
+            name: double
+        - name: state
+          type:
+            name: int
+        - name: receivedSvTimeInNs
+          type:
+            name: long
+        - name: receivedSvTimeUncertaintyInNs
+          type:
+            name: long
+        - name: antennaCN0DbHz
+          type:
+            name: double
+        - name: basebandCN0DbHz
+          type:
+            name: double
+        - name: pseudorangeRateMps
+          type:
+            name: double
+        - name: pseudorangeRateUncertaintyMps
+          type:
+            name: double
+        - name: accumulatedDeltaRangeState
+          type:
+            name: int
+        - name: accumulatedDeltaRangeM
+          type:
+            name: double
+        - name: accumulatedDeltaRangeUncertaintyM
+          type:
+            name: double
+        - name: carrierCycles
+          type:
+            name: long
+        - name: carrierPhase
+          type:
+            name: double
+        - name: carrierPhaseUncertainty
+          type:
+            name: double
+        - name: multipathIndicator
+          type:
+            name: GnssMultipathIndicator
+          default_value: GnssMultipathIndicator.UNKNOWN
+        - name: snrDb
+          type:
+            name: double
+        - name: agcLevelDb
+          type:
+            name: double
+        - name: fullInterSignalBiasNs
+          type:
+            name: double
+        - name: fullInterSignalBiasUncertaintyNs
+          type:
+            name: double
+        - name: satelliteInterSignalBiasNs
+          type:
+            name: double
+        - name: satelliteInterSignalBiasUncertaintyNs
+          type:
+            name: double
+        - name: satellitePvt
+          type:
+            name: SatellitePvt
+        - name: correlationVectors
+          type:
+            name: CorrelationVector
+            is_array: true
+      constants:
+        - name: HAS_SNR
+          type: int
+          value: 1 << 0
+        - name: HAS_CARRIER_FREQUENCY
+          type: int
+          value: 1 << 9
+        - name: HAS_CARRIER_CYCLES
+          type: int
+          value: 1 << 10
+        - name: HAS_CARRIER_PHASE
+          type: int
+          value: 1 << 11
+        - name: HAS_CARRIER_PHASE_UNCERTAINTY
+          type: int
+          value: 1 << 12
+        - name: HAS_AUTOMATIC_GAIN_CONTROL
+          type: int
+          value: 1 << 13
+        - name: HAS_FULL_ISB
+          type: int
+          value: 1 << 16
+        - name: HAS_FULL_ISB_UNCERTAINTY
+          type: int
+          value: 1 << 17
+        - name: HAS_SATELLITE_ISB
+          type: int
+          value: 1 << 18
+        - name: HAS_SATELLITE_ISB_UNCERTAINTY
+          type: int
+          value: 1 << 19
+        - name: HAS_SATELLITE_PVT
+          type: int
+          value: 1 << 20
+        - name: HAS_CORRELATION_VECTOR
+          type: int
+          value: 1 << 21
+        - name: STATE_UNKNOWN
+          type: int
+          value: "0"
+        - name: STATE_CODE_LOCK
+          type: int
+          value: 1 << 0
+        - name: STATE_BIT_SYNC
+          type: int
+          value: 1 << 1
+        - name: STATE_SUBFRAME_SYNC
+          type: int
+          value: 1 << 2
+        - name: STATE_TOW_DECODED
+          type: int
+          value: 1 << 3
+        - name: STATE_MSEC_AMBIGUOUS
+          type: int
+          value: 1 << 4
+        - name: STATE_SYMBOL_SYNC
+          type: int
+          value: 1 << 5
+        - name: STATE_GLO_STRING_SYNC
+          type: int
+          value: 1 << 6
+        - name: STATE_GLO_TOD_DECODED
+          type: int
+          value: 1 << 7
+        - name: STATE_BDS_D2_BIT_SYNC
+          type: int
+          value: 1 << 8
+        - name: STATE_BDS_D2_SUBFRAME_SYNC
+          type: int
+          value: 1 << 9
+        - name: STATE_GAL_E1BC_CODE_LOCK
+          type: int
+          value: 1 << 10
+        - name: STATE_GAL_E1C_2ND_CODE_LOCK
+          type: int
+          value: 1 << 11
+        - name: STATE_GAL_E1B_PAGE_SYNC
+          type: int
+          value: 1 << 12
+        - name: STATE_SBAS_SYNC
+          type: int
+          value: 1 << 13
+        - name: STATE_TOW_KNOWN
+          type: int
+          value: 1 << 14
+        - name: STATE_GLO_TOD_KNOWN
+          type: int
+          value: 1 << 15
+        - name: STATE_2ND_CODE_LOCK
+          type: int
+          value: 1 << 16
+        - name: ADR_STATE_UNKNOWN
+          type: int
+          value: "0"
+        - name: ADR_STATE_VALID
+          type: int
+          value: 1 << 0
+        - name: ADR_STATE_RESET
+          type: int
+          value: 1 << 1
+        - name: ADR_STATE_CYCLE_SLIP
+          type: int
+          value: 1 << 2
+        - name: ADR_STATE_HALF_CYCLE_RESOLVED
+          type: int
+          value: 1 << 3
+      annotations:
+        - VintfStability
+    - name: GnssPowerStats
+      fields:
+        - name: elapsedRealtime
+          type:
+            name: ElapsedRealtime
+        - name: totalEnergyMilliJoule
+          type:
+            name: double
+        - name: singlebandTrackingModeEnergyMilliJoule
+          type:
+            name: double
+        - name: multibandTrackingModeEnergyMilliJoule
+          type:
+            name: double
+        - name: singlebandAcquisitionModeEnergyMilliJoule
+          type:
+            name: double
+        - name: multibandAcquisitionModeEnergyMilliJoule
+          type:
+            name: double
+        - name: otherModesEnergyMilliJoule
+          type:
+            name: double
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: GnssSignalType
+      fields:
+        - name: constellation
+          type:
+            name: GnssConstellationType
+          default_value: GnssConstellationType.UNKNOWN
+        - name: carrierFrequencyHz
+          type:
+            name: double
+        - name: codeType
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      constants:
+        - name: CODE_TYPE_A
+          type: String
+          value: '"A"'
+        - name: CODE_TYPE_B
+          type: String
+          value: '"B"'
+        - name: CODE_TYPE_C
+          type: String
+          value: '"C"'
+        - name: CODE_TYPE_D
+          type: String
+          value: '"D"'
+        - name: CODE_TYPE_E
+          type: String
+          value: '"E"'
+        - name: CODE_TYPE_I
+          type: String
+          value: '"I"'
+        - name: CODE_TYPE_L
+          type: String
+          value: '"L"'
+        - name: CODE_TYPE_M
+          type: String
+          value: '"M"'
+        - name: CODE_TYPE_N
+          type: String
+          value: '"N"'
+        - name: CODE_TYPE_P
+          type: String
+          value: '"P"'
+        - name: CODE_TYPE_Q
+          type: String
+          value: '"Q"'
+        - name: CODE_TYPE_S
+          type: String
+          value: '"S"'
+        - name: CODE_TYPE_W
+          type: String
+          value: '"W"'
+        - name: CODE_TYPE_X
+          type: String
+          value: '"X"'
+        - name: CODE_TYPE_Y
+          type: String
+          value: '"Y"'
+        - name: CODE_TYPE_Z
+          type: String
+          value: '"Z"'
+        - name: CODE_TYPE_UNKNOWN
+          type: String
+          value: '"UNKNOWN"'
+      annotations:
+        - VintfStability
+    - name: IAGnssRil.AGnssRefLocation
+      fields:
+        - name: type
+          type:
+            name: AGnssRefLocationType
+        - name: cellID
+          type:
+            name: AGnssRefLocationCellID
+      annotations:
+        - VintfStability
+    - name: IAGnssRil.AGnssRefLocationCellID
+      fields:
+        - name: type
+          type:
+            name: AGnssRefLocationType
+        - name: mcc
+          type:
+            name: int
+        - name: mnc
+          type:
+            name: int
+        - name: lac
+          type:
+            name: int
+        - name: cid
+          type:
+            name: long
+        - name: tac
+          type:
+            name: int
+        - name: pcid
+          type:
+            name: int
+        - name: arfcn
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: IAGnssRil.NetworkAttributes
+      fields:
+        - name: networkHandle
+          type:
+            name: long
+        - name: isConnected
+          type:
+            name: boolean
+        - name: capabilities
+          type:
+            name: int
+        - name: apn
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      annotations:
+        - VintfStability
+    - name: IGnss.PositionModeOptions
+      fields:
+        - name: mode
+          type:
+            name: GnssPositionMode
+        - name: recurrence
+          type:
+            name: GnssPositionRecurrence
+        - name: minIntervalMs
+          type:
+            name: int
+        - name: preferredAccuracyMeters
+          type:
+            name: int
+        - name: preferredTimeMs
+          type:
+            name: int
+        - name: lowPowerMode
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: IGnssAntennaInfoCallback.Coord
+      fields:
+        - name: x
+          type:
+            name: double
+        - name: xUncertainty
+          type:
+            name: double
+        - name: "y"
+          type:
+            name: double
+        - name: yUncertainty
+          type:
+            name: double
+        - name: z
+          type:
+            name: double
+        - name: zUncertainty
+          type:
+            name: double
+      annotations:
+        - VintfStability
+    - name: IGnssAntennaInfoCallback.GnssAntennaInfo
+      fields:
+        - name: carrierFrequencyHz
+          type:
+            name: long
+        - name: phaseCenterOffsetCoordinateMillimeters
+          type:
+            name: Coord
+        - name: phaseCenterVariationCorrectionMillimeters
+          type:
+            name: Row
+            is_array: true
+        - name: phaseCenterVariationCorrectionUncertaintyMillimeters
+          type:
+            name: Row
+            is_array: true
+        - name: signalGainCorrectionDbi
+          type:
+            name: Row
+            is_array: true
+        - name: signalGainCorrectionUncertaintyDbi
+          type:
+            name: Row
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: IGnssAntennaInfoCallback.Row
+      fields:
+        - name: row
+          type:
+            name: double
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: IGnssBatching.Options
+      fields:
+        - name: periodNanos
+          type:
+            name: long
+        - name: minDistanceMeters
+          type:
+            name: float
+        - name: flags
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: IGnssCallback.GnssSvInfo
+      fields:
+        - name: svid
+          type:
+            name: int
+        - name: constellation
+          type:
+            name: GnssConstellationType
+        - name: cN0Dbhz
+          type:
+            name: float
+        - name: basebandCN0DbHz
+          type:
+            name: float
+        - name: elevationDegrees
+          type:
+            name: float
+        - name: azimuthDegrees
+          type:
+            name: float
+        - name: carrierFrequencyHz
+          type:
+            name: long
+        - name: svFlag
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: IGnssCallback.GnssSystemInfo
+      fields:
+        - name: yearOfHw
+          type:
+            name: int
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      annotations:
+        - VintfStability
+    - name: IGnssDebug.DebugData
+      fields:
+        - name: position
+          type:
+            name: PositionDebug
+        - name: time
+          type:
+            name: TimeDebug
+        - name: satelliteDataArray
+          type:
+            name: List
+            type_args:
+                - name: SatelliteData
+      annotations:
+        - VintfStability
+    - name: IGnssDebug.PositionDebug
+      fields:
+        - name: valid
+          type:
+            name: boolean
+        - name: latitudeDegrees
+          type:
+            name: double
+        - name: longitudeDegrees
+          type:
+            name: double
+        - name: altitudeMeters
+          type:
+            name: float
+        - name: speedMetersPerSec
+          type:
+            name: float
+        - name: bearingDegrees
+          type:
+            name: float
+        - name: horizontalAccuracyMeters
+          type:
+            name: double
+        - name: verticalAccuracyMeters
+          type:
+            name: double
+        - name: speedAccuracyMetersPerSecond
+          type:
+            name: double
+        - name: bearingAccuracyDegrees
+          type:
+            name: double
+        - name: ageSeconds
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: IGnssDebug.SatelliteData
+      fields:
+        - name: svid
+          type:
+            name: int
+        - name: constellation
+          type:
+            name: GnssConstellationType
+        - name: ephemerisType
+          type:
+            name: SatelliteEphemerisType
+        - name: ephemerisSource
+          type:
+            name: SatelliteEphemerisSource
+        - name: ephemerisHealth
+          type:
+            name: SatelliteEphemerisHealth
+        - name: ephemerisAgeSeconds
+          type:
+            name: float
+        - name: serverPredictionIsAvailable
+          type:
+            name: boolean
+        - name: serverPredictionAgeSeconds
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: IGnssDebug.TimeDebug
+      fields:
+        - name: timeEstimateMs
+          type:
+            name: long
+        - name: timeUncertaintyNs
+          type:
+            name: float
+        - name: frequencyUncertaintyNsPerSec
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: IGnssMeasurementInterface.Options
+      fields:
+        - name: enableFullTracking
+          type:
+            name: boolean
+        - name: enableCorrVecOutputs
+          type:
+            name: boolean
+        - name: intervalMs
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: IGnssNavigationMessageCallback.GnssNavigationMessage
+      fields:
+        - name: svid
+          type:
+            name: int
+        - name: type
+          type:
+            name: GnssNavigationMessageType
+        - name: status
+          type:
+            name: int
+        - name: messageId
+          type:
+            name: int
+        - name: submessageId
+          type:
+            name: int
+        - name: data
+          type:
+            name: byte
+            is_array: true
+      constants:
+        - name: STATUS_PARITY_PASSED
+          type: int
+          value: 1 << 0
+        - name: STATUS_PARITY_REBUILT
+          type: int
+          value: 1 << 1
+        - name: STATUS_UNKNOWN
+          type: int
+          value: "0"
+      nested_types:
+        - IGnssNavigationMessageCallback.GnssNavigationMessage.GnssNavigationMessageType
+      annotations:
+        - VintfStability
+    - name: SatelliteClockInfo
+      fields:
+        - name: satHardwareCodeBiasMeters
+          type:
+            name: double
+        - name: satTimeCorrectionMeters
+          type:
+            name: double
+        - name: satClkDriftMps
+          type:
+            name: double
+      annotations:
+        - VintfStability
+    - name: SatellitePositionEcef
+      fields:
+        - name: posXMeters
+          type:
+            name: double
+        - name: posYMeters
+          type:
+            name: double
+        - name: posZMeters
+          type:
+            name: double
+        - name: ureMeters
+          type:
+            name: double
+      annotations:
+        - VintfStability
+    - name: SatellitePvt
+      fields:
+        - name: flags
+          type:
+            name: int
+        - name: satPosEcef
+          type:
+            name: SatellitePositionEcef
+        - name: satVelEcef
+          type:
+            name: SatelliteVelocityEcef
+        - name: satClockInfo
+          type:
+            name: SatelliteClockInfo
+        - name: ionoDelayMeters
+          type:
+            name: double
+        - name: tropoDelayMeters
+          type:
+            name: double
+        - name: timeOfClockSeconds
+          type:
+            name: long
+        - name: issueOfDataClock
+          type:
+            name: int
+        - name: timeOfEphemerisSeconds
+          type:
+            name: long
+        - name: issueOfDataEphemeris
+          type:
+            name: int
+        - name: ephemerisSource
+          type:
+            name: SatelliteEphemerisSource
+          default_value: SatelliteEphemerisSource.OTHER
+      constants:
+        - name: HAS_POSITION_VELOCITY_CLOCK_INFO
+          type: int
+          value: 1 << 0
+        - name: HAS_IONO
+          type: int
+          value: 1 << 1
+        - name: HAS_TROPO
+          type: int
+          value: 1 << 2
+      nested_types:
+        - SatellitePvt.SatelliteEphemerisSource
+      annotations:
+        - VintfStability
+    - name: SatelliteVelocityEcef
+      fields:
+        - name: velXMps
+          type:
+            name: double
+        - name: velYMps
+          type:
+            name: double
+        - name: velZMps
+          type:
+            name: double
+        - name: ureRateMps
+          type:
+            name: double
+      annotations:
+        - VintfStability
+enums:
+    - name: GnssConstellationType
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: GPS
+          value: "1"
+        - name: SBAS
+          value: "2"
+        - name: GLONASS
+          value: "3"
+        - name: QZSS
+          value: "4"
+        - name: BEIDOU
+          value: "5"
+        - name: GALILEO
+          value: "6"
+        - name: IRNSS
+          value: "7"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: GnssMultipathIndicator
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: PRESENT
+          value: "1"
+        - name: NOT_PRESENT
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IAGnss.ApnIpType
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "0"
+        - name: IPV4
+          value: "1"
+        - name: IPV6
+          value: "2"
+        - name: IPV4V6
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IAGnssCallback.AGnssStatusValue
+      backing_type: int
+      values:
+        - name: REQUEST_AGNSS_DATA_CONN
+          value: "1"
+        - name: RELEASE_AGNSS_DATA_CONN
+          value: "2"
+        - name: AGNSS_DATA_CONNECTED
+          value: "3"
+        - name: AGNSS_DATA_CONN_DONE
+          value: "4"
+        - name: AGNSS_DATA_CONN_FAILED
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IAGnssCallback.AGnssType
+      backing_type: int
+      values:
+        - name: SUPL
+          value: "1"
+        - name: C2K
+          value: "2"
+        - name: SUPL_EIMS
+          value: "3"
+        - name: SUPL_IMS
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IAGnssRil.AGnssRefLocationType
+      backing_type: int
+      values:
+        - name: GSM_CELLID
+          value: "1"
+        - name: UMTS_CELLID
+          value: "2"
+        - name: LTE_CELLID
+          value: "4"
+        - name: NR_CELLID
+          value: "8"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IAGnssRil.SetIdType
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: IMSI
+          value: "1"
+        - name: MSISDM
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IGnss.GnssAidingData
+      backing_type: int
+      values:
+        - name: EPHEMERIS
+          value: "0x0001"
+        - name: ALMANAC
+          value: "0x0002"
+        - name: POSITION
+          value: "0x0004"
+        - name: TIME
+          value: "0x0008"
+        - name: IONO
+          value: "0x0010"
+        - name: UTC
+          value: "0x0020"
+        - name: HEALTH
+          value: "0x0040"
+        - name: SVDIR
+          value: "0x0080"
+        - name: SVSTEER
+          value: "0x0100"
+        - name: SADATA
+          value: "0x0200"
+        - name: RTI
+          value: "0x0400"
+        - name: CELLDB_INFO
+          value: "0x8000"
+        - name: ALL
+          value: "0xFFFF"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IGnss.GnssPositionMode
+      backing_type: int
+      values:
+        - name: STANDALONE
+          value: "0"
+        - name: MS_BASED
+          value: "1"
+        - name: MS_ASSISTED
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IGnss.GnssPositionRecurrence
+      backing_type: int
+      values:
+        - name: RECURRENCE_PERIODIC
+          value: "0"
+        - name: RECURRENCE_SINGLE
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IGnssCallback.GnssStatusValue
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: SESSION_BEGIN
+          value: "1"
+        - name: SESSION_END
+          value: "2"
+        - name: ENGINE_ON
+          value: "3"
+        - name: ENGINE_OFF
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IGnssCallback.GnssSvFlags
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: HAS_EPHEMERIS_DATA
+          value: 1 << 0
+        - name: HAS_ALMANAC_DATA
+          value: 1 << 1
+        - name: USED_IN_FIX
+          value: 1 << 2
+        - name: HAS_CARRIER_FREQUENCY
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IGnssDebug.SatelliteEphemerisHealth
+      backing_type: int
+      values:
+        - name: GOOD
+          value: "0"
+        - name: BAD
+          value: "1"
+        - name: UNKNOWN
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IGnssDebug.SatelliteEphemerisType
+      backing_type: int
+      values:
+        - name: EPHEMERIS
+          value: "0"
+        - name: ALMANAC_ONLY
+          value: "1"
+        - name: NOT_AVAILABLE
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IGnssNavigationMessageCallback.GnssNavigationMessage.GnssNavigationMessageType
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: GPS_L1CA
+          value: "0x0101"
+        - name: GPS_L2CNAV
+          value: "0x0102"
+        - name: GPS_L5CNAV
+          value: "0x0103"
+        - name: SBS
+          value: "0x0201"
+        - name: GPS_CNAV2
+          value: "0x0104"
+        - name: GLO_L1CA
+          value: "0x0301"
+        - name: QZS_L1CA
+          value: "0x0401"
+        - name: BDS_D1
+          value: "0x0501"
+        - name: BDS_D2
+          value: "0x0502"
+        - name: BDS_CNAV1
+          value: "0x0503"
+        - name: BDS_CNAV2
+          value: "0x0504"
+        - name: GAL_I
+          value: "0x0601"
+        - name: GAL_F
+          value: "0x0602"
+        - name: IRN_L5CA
+          value: "0x0701"
+        - name: IRN_L5
+          value: "0x0702"
+        - name: IRN_L1
+          value: "0x0703"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PsdsType
+      backing_type: int
+      values:
+        - name: LONG_TERM
+          value: "1"
+        - name: NORMAL
+          value: "2"
+        - name: REALTIME
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SatellitePvt.SatelliteEphemerisSource
+      backing_type: int
+      values:
+        - name: DEMODULATED
+          value: "0"
+        - name: SERVER_NORMAL
+          value: "1"
+        - name: SERVER_LONG_TERM
+          value: "2"
+        - name: OTHER
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing

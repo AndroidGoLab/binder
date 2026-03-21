@@ -3,6 +3,7 @@ package projection
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -66,8 +67,8 @@ type IMediaProjectionManager interface {
 	NotifyActiveProjectionCapturedContentVisibilityChanged(ctx context.Context, isVisible bool) error
 	AddCallback(ctx context.Context, callback IMediaProjectionWatcherCallback) (MediaProjectionInfo, error)
 	RemoveCallback(ctx context.Context, callback IMediaProjectionWatcherCallback) error
-	SetContentRecordingSession(ctx context.Context, incomingSession interface{}, projection IMediaProjection) (bool, error)
-	SetUserReviewGrantedConsentResult(ctx context.Context, consentResult ReviewGrantedConsentResult, projection *IMediaProjection) error
+	SetContentRecordingSession(ctx context.Context, incomingSession view.ContentRecordingSession, projection IMediaProjection) (bool, error)
+	SetUserReviewGrantedConsentResult(ctx context.Context, consentResult ReviewGrantedConsentResult, projection IMediaProjection) error
 	NotifyPermissionRequestInitiated(ctx context.Context, hostProcessUid int32, sessionCreationSource int32) error
 	NotifyPermissionRequestDisplayed(ctx context.Context, hostProcessUid int32) error
 	NotifyPermissionRequestCancelled(ctx context.Context, hostProcessUid int32) error
@@ -103,6 +104,7 @@ func (p *MediaProjectionManagerProxy) HasProjectionPermission(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	_data.WriteInt32(processUid)
 	_data.WriteString16(packageName)
@@ -138,6 +140,7 @@ func (p *MediaProjectionManagerProxy) CreateProjection(
 ) (IMediaProjection, error) {
 	var _result IMediaProjection
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	_data.WriteInt32(processUid)
 	_data.WriteString16(packageName)
@@ -174,6 +177,7 @@ func (p *MediaProjectionManagerProxy) GetProjection(
 ) (IMediaProjection, error) {
 	var _result IMediaProjection
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	_data.WriteInt32(processUid)
 	_data.WriteString16(packageName)
@@ -207,6 +211,7 @@ func (p *MediaProjectionManagerProxy) IsCurrentProjection(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
 
@@ -237,6 +242,7 @@ func (p *MediaProjectionManagerProxy) RequestConsentForInvalidProjection(
 	projection IMediaProjection,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
 
@@ -263,6 +269,7 @@ func (p *MediaProjectionManagerProxy) GetActiveProjectionInfo(
 ) (MediaProjectionInfo, error) {
 	var _result MediaProjectionInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerGetActiveProjectionInfo)
@@ -296,6 +303,7 @@ func (p *MediaProjectionManagerProxy) StopActiveProjection(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerStopActiveProjection)
@@ -322,6 +330,7 @@ func (p *MediaProjectionManagerProxy) NotifyActiveProjectionCapturedContentResiz
 	height int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
@@ -349,6 +358,7 @@ func (p *MediaProjectionManagerProxy) NotifyActiveProjectionCapturedContentVisib
 	isVisible bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	_data.WriteBool(isVisible)
 
@@ -376,6 +386,7 @@ func (p *MediaProjectionManagerProxy) AddCallback(
 ) (MediaProjectionInfo, error) {
 	var _result MediaProjectionInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -411,6 +422,7 @@ func (p *MediaProjectionManagerProxy) RemoveCallback(
 	callback IMediaProjectionWatcherCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -434,12 +446,17 @@ func (p *MediaProjectionManagerProxy) RemoveCallback(
 
 func (p *MediaProjectionManagerProxy) SetContentRecordingSession(
 	ctx context.Context,
-	incomingSession interface{},
+	incomingSession view.ContentRecordingSession,
 	projection IMediaProjection,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
+	_data.WriteInt32(1)
+	if _err := incomingSession.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerSetContentRecordingSession)
@@ -467,16 +484,13 @@ func (p *MediaProjectionManagerProxy) SetContentRecordingSession(
 func (p *MediaProjectionManagerProxy) SetUserReviewGrantedConsentResult(
 	ctx context.Context,
 	consentResult ReviewGrantedConsentResult,
-	projection *IMediaProjection,
+	projection IMediaProjection,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	_data.WriteInt32(int32(consentResult))
-	if projection != nil {
-		_data.WriteStrongBinder((*projection).AsBinder().Handle())
-	} else {
-		_data.WriteInt32(-1)
-	}
+	binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerSetUserReviewGrantedConsentResult)
 	if _err != nil {
@@ -502,6 +516,7 @@ func (p *MediaProjectionManagerProxy) NotifyPermissionRequestInitiated(
 	sessionCreationSource int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	_data.WriteInt32(hostProcessUid)
 	_data.WriteInt32(sessionCreationSource)
@@ -520,6 +535,7 @@ func (p *MediaProjectionManagerProxy) NotifyPermissionRequestDisplayed(
 	hostProcessUid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	_data.WriteInt32(hostProcessUid)
 
@@ -537,6 +553,7 @@ func (p *MediaProjectionManagerProxy) NotifyPermissionRequestCancelled(
 	hostProcessUid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	_data.WriteInt32(hostProcessUid)
 
@@ -554,6 +571,7 @@ func (p *MediaProjectionManagerProxy) NotifyAppSelectorDisplayed(
 	hostProcessUid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	_data.WriteInt32(hostProcessUid)
 
@@ -573,6 +591,7 @@ func (p *MediaProjectionManagerProxy) NotifyWindowingModeChanged(
 	windowingMode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	_data.WriteInt32(contentToRecord)
 	_data.WriteInt32(targetProcessUid)
@@ -599,7 +618,8 @@ func (p *MediaProjectionManagerProxy) NotifyWindowingModeChanged(
 // MediaProjectionManagerStub dispatches incoming binder transactions
 // to a typed IMediaProjectionManager implementation.
 type MediaProjectionManagerStub struct {
-	Impl IMediaProjectionManager
+	Impl      IMediaProjectionManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaProjectionManagerStub)(nil)
@@ -613,11 +633,12 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaProjectionManagerHasProjectionPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_processUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -636,9 +657,6 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaProjectionManagerCreateProjection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_processUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -662,13 +680,9 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIMediaProjectionManagerGetProjection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_processUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -684,16 +698,17 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIMediaProjectionManagerIsCurrentProjection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_projection IMediaProjection
-		_ = _arg_projection
+		{
+			_projectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_projection = NewMediaProjectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _projectionHandle))
+		}
 		_result, _err := s.Impl.IsCurrentProjection(ctx, _arg_projection)
 		_reply := parcel.New()
 		if _err != nil {
@@ -704,12 +719,14 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaProjectionManagerRequestConsentForInvalidProjection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_projection IMediaProjection
-		_ = _arg_projection
+		{
+			_projectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_projection = NewMediaProjectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _projectionHandle))
+		}
 		_err := s.Impl.RequestConsentForInvalidProjection(ctx, _arg_projection)
 		_reply := parcel.New()
 		if _err != nil {
@@ -719,9 +736,6 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaProjectionManagerGetActiveProjectionInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetActiveProjectionInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -735,9 +749,6 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMediaProjectionManagerStopActiveProjection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopActiveProjection(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -747,9 +758,6 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaProjectionManagerNotifyActiveProjectionCapturedContentResized:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -767,9 +775,6 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaProjectionManagerNotifyActiveProjectionCapturedContentVisibilityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isVisible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -783,12 +788,14 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaProjectionManagerAddCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IMediaProjectionWatcherCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewMediaProjectionWatcherCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.AddCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -802,12 +809,14 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMediaProjectionManagerRemoveCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IMediaProjectionWatcherCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewMediaProjectionWatcherCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RemoveCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -817,13 +826,26 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaProjectionManagerSetContentRecordingSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_incomingSession view.ContentRecordingSession
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_incomingSession.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_incomingSession interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_projection IMediaProjection
-		_ = _arg_projection
+		{
+			_projectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_projection = NewMediaProjectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _projectionHandle))
+		}
 		_result, _err := s.Impl.SetContentRecordingSession(ctx, _arg_incomingSession, _arg_projection)
 		_reply := parcel.New()
 		if _err != nil {
@@ -834,17 +856,19 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaProjectionManagerSetUserReviewGrantedConsentResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_consentResult, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_consentResult := ReviewGrantedConsentResult(_raw_consentResult)
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_projection *IMediaProjection
-		_ = _arg_projection
+		var _arg_projection IMediaProjection
+		{
+			_projectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_projection = NewMediaProjectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _projectionHandle))
+		}
 		_err = s.Impl.SetUserReviewGrantedConsentResult(ctx, _arg_consentResult, _arg_projection)
 		_reply := parcel.New()
 		if _err != nil {
@@ -854,9 +878,6 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaProjectionManagerNotifyPermissionRequestInitiated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_hostProcessUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -866,45 +887,29 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyPermissionRequestInitiated(ctx, _arg_hostProcessUid, _arg_sessionCreationSource)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaProjectionManagerNotifyPermissionRequestDisplayed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_hostProcessUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyPermissionRequestDisplayed(ctx, _arg_hostProcessUid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaProjectionManagerNotifyPermissionRequestCancelled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_hostProcessUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyPermissionRequestCancelled(ctx, _arg_hostProcessUid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaProjectionManagerNotifyAppSelectorDisplayed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_hostProcessUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyAppSelectorDisplayed(ctx, _arg_hostProcessUid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaProjectionManagerNotifyWindowingModeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_contentToRecord, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -945,8 +950,8 @@ type IMediaProjectionManagerServer interface {
 	NotifyActiveProjectionCapturedContentVisibilityChanged(ctx context.Context, isVisible bool) error
 	AddCallback(ctx context.Context, callback IMediaProjectionWatcherCallback) (MediaProjectionInfo, error)
 	RemoveCallback(ctx context.Context, callback IMediaProjectionWatcherCallback) error
-	SetContentRecordingSession(ctx context.Context, incomingSession interface{}, projection IMediaProjection) (bool, error)
-	SetUserReviewGrantedConsentResult(ctx context.Context, consentResult ReviewGrantedConsentResult, projection *IMediaProjection) error
+	SetContentRecordingSession(ctx context.Context, incomingSession view.ContentRecordingSession, projection IMediaProjection) (bool, error)
+	SetUserReviewGrantedConsentResult(ctx context.Context, consentResult ReviewGrantedConsentResult, projection IMediaProjection) error
 	NotifyPermissionRequestInitiated(ctx context.Context, hostProcessUid int32, sessionCreationSource int32) error
 	NotifyPermissionRequestDisplayed(ctx context.Context, hostProcessUid int32) error
 	NotifyPermissionRequestCancelled(ctx context.Context, hostProcessUid int32) error
@@ -1046,7 +1051,7 @@ func (w *mediaProjectionManagerStubWrapper) RemoveCallback(
 
 func (w *mediaProjectionManagerStubWrapper) SetContentRecordingSession(
 	ctx context.Context,
-	incomingSession interface{},
+	incomingSession view.ContentRecordingSession,
 	projection IMediaProjection,
 ) (bool, error) {
 	return w.impl.SetContentRecordingSession(ctx, incomingSession, projection)
@@ -1055,7 +1060,7 @@ func (w *mediaProjectionManagerStubWrapper) SetContentRecordingSession(
 func (w *mediaProjectionManagerStubWrapper) SetUserReviewGrantedConsentResult(
 	ctx context.Context,
 	consentResult ReviewGrantedConsentResult,
-	projection *IMediaProjection,
+	projection IMediaProjection,
 ) error {
 	return w.impl.SetUserReviewGrantedConsentResult(ctx, consentResult, projection)
 }

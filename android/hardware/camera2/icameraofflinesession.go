@@ -44,6 +44,7 @@ func (p *CameraOfflineSessionProxy) Disconnect(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraOfflineSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraOfflineSession, MethodICameraOfflineSessionDisconnect)
@@ -67,7 +68,8 @@ func (p *CameraOfflineSessionProxy) Disconnect(
 // CameraOfflineSessionStub dispatches incoming binder transactions
 // to a typed ICameraOfflineSession implementation.
 type CameraOfflineSessionStub struct {
-	Impl ICameraOfflineSession
+	Impl      ICameraOfflineSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CameraOfflineSessionStub)(nil)
@@ -81,11 +83,12 @@ func (s *CameraOfflineSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICameraOfflineSessionDisconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Disconnect(ctx)
 		_reply := parcel.New()
 		if _err != nil {

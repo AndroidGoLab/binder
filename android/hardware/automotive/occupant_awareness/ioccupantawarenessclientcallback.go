@@ -49,6 +49,7 @@ func (p *OccupantAwarenessClientCallbackProxy) OnSystemStatusChanged(
 	status OccupantAwarenessStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwarenessClientCallback)
 	_data.WriteInt32(detectionFlags)
 	_data.WritePaddedByte(byte(status))
@@ -67,6 +68,7 @@ func (p *OccupantAwarenessClientCallbackProxy) OnDetectionEvent(
 	detections OccupantDetections,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwarenessClientCallback)
 	_data.WriteInt32(1)
 	if _err := detections.MarshalParcel(_data); _err != nil {
@@ -85,7 +87,8 @@ func (p *OccupantAwarenessClientCallbackProxy) OnDetectionEvent(
 // OccupantAwarenessClientCallbackStub dispatches incoming binder transactions
 // to a typed IOccupantAwarenessClientCallback implementation.
 type OccupantAwarenessClientCallbackStub struct {
-	Impl IOccupantAwarenessClientCallback
+	Impl      IOccupantAwarenessClientCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OccupantAwarenessClientCallbackStub)(nil)
@@ -99,11 +102,12 @@ func (s *OccupantAwarenessClientCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOccupantAwarenessClientCallbackOnSystemStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_detectionFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -114,12 +118,8 @@ func (s *OccupantAwarenessClientCallbackStub) OnTransaction(
 		}
 		_arg_status := OccupantAwarenessStatus(_raw_status)
 		_err = s.Impl.OnSystemStatusChanged(ctx, _arg_detectionFlags, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOccupantAwarenessClientCallbackOnDetectionEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_detections OccupantDetections
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -133,8 +133,7 @@ func (s *OccupantAwarenessClientCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDetectionEvent(ctx, _arg_detections)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

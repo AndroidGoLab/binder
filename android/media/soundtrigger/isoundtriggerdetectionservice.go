@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	hardwareSoundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -30,11 +31,11 @@ const (
 
 type ISoundTriggerDetectionService interface {
 	AsBinder() binder.IBinder
-	SetClient(ctx context.Context, uuid interface{}, params interface{}, client ISoundTriggerDetectionServiceClient) error
-	RemoveClient(ctx context.Context, uuid interface{}) error
-	OnGenericRecognitionEvent(ctx context.Context, uuid interface{}, opId int32, event hardwareSoundtrigger.SoundTriggerGenericRecognitionEvent) error
-	OnError(ctx context.Context, uuid interface{}, opId int32, status int32) error
-	OnStopOperation(ctx context.Context, uuid interface{}, opId int32) error
+	SetClient(ctx context.Context, uuid os.ParcelUuid, params os.Bundle, client ISoundTriggerDetectionServiceClient) error
+	RemoveClient(ctx context.Context, uuid os.ParcelUuid) error
+	OnGenericRecognitionEvent(ctx context.Context, uuid os.ParcelUuid, opId int32, event hardwareSoundtrigger.SoundTriggerGenericRecognitionEvent) error
+	OnError(ctx context.Context, uuid os.ParcelUuid, opId int32, status int32) error
+	OnStopOperation(ctx context.Context, uuid os.ParcelUuid, opId int32) error
 }
 
 type SoundTriggerDetectionServiceProxy struct {
@@ -55,12 +56,21 @@ var _ ISoundTriggerDetectionService = (*SoundTriggerDetectionServiceProxy)(nil)
 
 func (p *SoundTriggerDetectionServiceProxy) SetClient(
 	ctx context.Context,
-	uuid interface{},
-	params interface{},
+	uuid os.ParcelUuid,
+	params os.Bundle,
 	client ISoundTriggerDetectionServiceClient,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerDetectionService)
+	_data.WriteInt32(1)
+	if _err := uuid.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := params.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerDetectionService, MethodISoundTriggerDetectionServiceSetClient)
@@ -74,10 +84,15 @@ func (p *SoundTriggerDetectionServiceProxy) SetClient(
 
 func (p *SoundTriggerDetectionServiceProxy) RemoveClient(
 	ctx context.Context,
-	uuid interface{},
+	uuid os.ParcelUuid,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerDetectionService)
+	_data.WriteInt32(1)
+	if _err := uuid.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerDetectionService, MethodISoundTriggerDetectionServiceRemoveClient)
 	if _err != nil {
@@ -90,12 +105,17 @@ func (p *SoundTriggerDetectionServiceProxy) RemoveClient(
 
 func (p *SoundTriggerDetectionServiceProxy) OnGenericRecognitionEvent(
 	ctx context.Context,
-	uuid interface{},
+	uuid os.ParcelUuid,
 	opId int32,
 	event hardwareSoundtrigger.SoundTriggerGenericRecognitionEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerDetectionService)
+	_data.WriteInt32(1)
+	if _err := uuid.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(opId)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -113,12 +133,17 @@ func (p *SoundTriggerDetectionServiceProxy) OnGenericRecognitionEvent(
 
 func (p *SoundTriggerDetectionServiceProxy) OnError(
 	ctx context.Context,
-	uuid interface{},
+	uuid os.ParcelUuid,
 	opId int32,
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerDetectionService)
+	_data.WriteInt32(1)
+	if _err := uuid.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(opId)
 	_data.WriteInt32(status)
 
@@ -133,11 +158,16 @@ func (p *SoundTriggerDetectionServiceProxy) OnError(
 
 func (p *SoundTriggerDetectionServiceProxy) OnStopOperation(
 	ctx context.Context,
-	uuid interface{},
+	uuid os.ParcelUuid,
 	opId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerDetectionService)
+	_data.WriteInt32(1)
+	if _err := uuid.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(opId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerDetectionService, MethodISoundTriggerDetectionServiceOnStopOperation)
@@ -152,7 +182,8 @@ func (p *SoundTriggerDetectionServiceProxy) OnStopOperation(
 // SoundTriggerDetectionServiceStub dispatches incoming binder transactions
 // to a typed ISoundTriggerDetectionService implementation.
 type SoundTriggerDetectionServiceStub struct {
-	Impl ISoundTriggerDetectionService
+	Impl      ISoundTriggerDetectionService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SoundTriggerDetectionServiceStub)(nil)
@@ -166,32 +197,74 @@ func (s *SoundTriggerDetectionServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISoundTriggerDetectionServiceSetClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_uuid os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uuid.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_uuid interface{}
-		var _arg_params interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_params os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_client ISoundTriggerDetectionServiceClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewSoundTriggerDetectionServiceClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_err := s.Impl.SetClient(ctx, _arg_uuid, _arg_params, _arg_client)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundTriggerDetectionServiceRemoveClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_uuid os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uuid.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_uuid interface{}
 		_err := s.Impl.RemoveClient(ctx, _arg_uuid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundTriggerDetectionServiceOnGenericRecognitionEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_uuid os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uuid.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_uuid interface{}
 		_arg_opId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -209,13 +282,20 @@ func (s *SoundTriggerDetectionServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnGenericRecognitionEvent(ctx, _arg_uuid, _arg_opId, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundTriggerDetectionServiceOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_uuid os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uuid.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_uuid interface{}
 		_arg_opId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -225,20 +305,26 @@ func (s *SoundTriggerDetectionServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_uuid, _arg_opId, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundTriggerDetectionServiceOnStopOperation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_uuid os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uuid.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_uuid interface{}
 		_arg_opId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnStopOperation(ctx, _arg_uuid, _arg_opId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -248,11 +334,11 @@ func (s *SoundTriggerDetectionServiceStub) OnTransaction(
 // provide to NewSoundTriggerDetectionServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ISoundTriggerDetectionServiceServer interface {
-	SetClient(ctx context.Context, uuid interface{}, params interface{}, client ISoundTriggerDetectionServiceClient) error
-	RemoveClient(ctx context.Context, uuid interface{}) error
-	OnGenericRecognitionEvent(ctx context.Context, uuid interface{}, opId int32, event hardwareSoundtrigger.SoundTriggerGenericRecognitionEvent) error
-	OnError(ctx context.Context, uuid interface{}, opId int32, status int32) error
-	OnStopOperation(ctx context.Context, uuid interface{}, opId int32) error
+	SetClient(ctx context.Context, uuid os.ParcelUuid, params os.Bundle, client ISoundTriggerDetectionServiceClient) error
+	RemoveClient(ctx context.Context, uuid os.ParcelUuid) error
+	OnGenericRecognitionEvent(ctx context.Context, uuid os.ParcelUuid, opId int32, event hardwareSoundtrigger.SoundTriggerGenericRecognitionEvent) error
+	OnError(ctx context.Context, uuid os.ParcelUuid, opId int32, status int32) error
+	OnStopOperation(ctx context.Context, uuid os.ParcelUuid, opId int32) error
 }
 
 type soundTriggerDetectionServiceStubWrapper struct {
@@ -266,8 +352,8 @@ func (w *soundTriggerDetectionServiceStubWrapper) AsBinder() binder.IBinder {
 
 func (w *soundTriggerDetectionServiceStubWrapper) SetClient(
 	ctx context.Context,
-	uuid interface{},
-	params interface{},
+	uuid os.ParcelUuid,
+	params os.Bundle,
 	client ISoundTriggerDetectionServiceClient,
 ) error {
 	return w.impl.SetClient(ctx, uuid, params, client)
@@ -275,14 +361,14 @@ func (w *soundTriggerDetectionServiceStubWrapper) SetClient(
 
 func (w *soundTriggerDetectionServiceStubWrapper) RemoveClient(
 	ctx context.Context,
-	uuid interface{},
+	uuid os.ParcelUuid,
 ) error {
 	return w.impl.RemoveClient(ctx, uuid)
 }
 
 func (w *soundTriggerDetectionServiceStubWrapper) OnGenericRecognitionEvent(
 	ctx context.Context,
-	uuid interface{},
+	uuid os.ParcelUuid,
 	opId int32,
 	event hardwareSoundtrigger.SoundTriggerGenericRecognitionEvent,
 ) error {
@@ -291,7 +377,7 @@ func (w *soundTriggerDetectionServiceStubWrapper) OnGenericRecognitionEvent(
 
 func (w *soundTriggerDetectionServiceStubWrapper) OnError(
 	ctx context.Context,
-	uuid interface{},
+	uuid os.ParcelUuid,
 	opId int32,
 	status int32,
 ) error {
@@ -300,7 +386,7 @@ func (w *soundTriggerDetectionServiceStubWrapper) OnError(
 
 func (w *soundTriggerDetectionServiceStubWrapper) OnStopOperation(
 	ctx context.Context,
-	uuid interface{},
+	uuid os.ParcelUuid,
 	opId int32,
 ) error {
 	return w.impl.OnStopOperation(ctx, uuid, opId)

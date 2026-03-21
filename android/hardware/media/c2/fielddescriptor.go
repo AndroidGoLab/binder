@@ -1,8 +1,7 @@
 package c2
 
 import (
-	CameraExtensionSessionStats "github.com/xaionaro-go/binder/android/hardware/CameraExtensionSessionStats"
-	c2FieldDescriptor "github.com/xaionaro-go/binder/android/hardware/media/c2/FieldDescriptor"
+	hardware "github.com/xaionaro-go/binder/android/hardware"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,11 +9,11 @@ import (
 
 type FieldDescriptor struct {
 	FieldId     FieldId
-	Type        CameraExtensionSessionStats.Type
+	Type        hardware.CameraExtensionSessionStatsType
 	StructIndex int32
 	Extent      int32
 	Name        string
-	NamedValues []c2FieldDescriptor.NamedValue
+	NamedValues []FieldDescriptorNamedValue
 }
 
 var _ parcel.Parcelable = (*FieldDescriptor)(nil)
@@ -54,19 +53,39 @@ func (s *FieldDescriptor) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.FieldId.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_typeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.Type = CameraExtensionSessionStats.Type(_typeRaw)
+	s.Type = hardware.CameraExtensionSessionStatsType(_typeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.StructIndex, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Extent, _err = p.ReadInt32()
@@ -74,9 +93,19 @@ func (s *FieldDescriptor) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Name, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -85,7 +114,7 @@ func (s *FieldDescriptor) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.NamedValues = make([]c2FieldDescriptor.NamedValue, _count0)
+		s.NamedValues = make([]FieldDescriptorNamedValue, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
 			if _, _err = p.ReadInt32(); _err != nil {
 				return _err

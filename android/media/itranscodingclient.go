@@ -62,6 +62,7 @@ func (p *TranscodingClientProxy) SubmitRequest(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClient)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -82,8 +83,16 @@ func (p *TranscodingClientProxy) SubmitRequest(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = session.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = session.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadBool()
@@ -99,6 +108,7 @@ func (p *TranscodingClientProxy) CancelSession(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClient)
 	_data.WriteInt32(sessionId)
 
@@ -131,6 +141,7 @@ func (p *TranscodingClientProxy) GetSessionWithId(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClient)
 	_data.WriteInt32(sessionId)
 
@@ -148,8 +159,16 @@ func (p *TranscodingClientProxy) GetSessionWithId(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = session.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = session.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadBool()
@@ -166,6 +185,7 @@ func (p *TranscodingClientProxy) AddClientUid(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClient)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(clientUid)
@@ -198,6 +218,7 @@ func (p *TranscodingClientProxy) GetClientUids(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClient)
 	_data.WriteInt32(sessionId)
 
@@ -220,6 +241,9 @@ func (p *TranscodingClientProxy) GetClientUids(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -237,6 +261,7 @@ func (p *TranscodingClientProxy) Unregister(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranscodingClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClient, MethodITranscodingClientUnregister)
@@ -260,7 +285,8 @@ func (p *TranscodingClientProxy) Unregister(
 // TranscodingClientStub dispatches incoming binder transactions
 // to a typed ITranscodingClient implementation.
 type TranscodingClientStub struct {
-	Impl ITranscodingClient
+	Impl      ITranscodingClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TranscodingClientStub)(nil)
@@ -274,11 +300,12 @@ func (s *TranscodingClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITranscodingClientSubmitRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request TranscodingRequestParcel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -300,11 +327,12 @@ func (s *TranscodingClientStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
-		return _reply, nil
-	case TransactionITranscodingClientCancelSession:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_session.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionITranscodingClientCancelSession:
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -319,9 +347,6 @@ func (s *TranscodingClientStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITranscodingClientGetSessionWithId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -335,11 +360,12 @@ func (s *TranscodingClientStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
-		return _reply, nil
-	case TransactionITranscodingClientAddClientUid:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_session.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionITranscodingClientAddClientUid:
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -358,9 +384,6 @@ func (s *TranscodingClientStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITranscodingClientGetClientUids:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -372,13 +395,16 @@ func (s *TranscodingClientStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITranscodingClientUnregister:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Unregister(ctx)
 		_reply := parcel.New()
 		if _err != nil {

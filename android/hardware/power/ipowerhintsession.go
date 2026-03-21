@@ -69,6 +69,7 @@ func (p *PowerHintSessionProxy) UpdateTargetWorkDuration(
 	targetDurationNanos int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
 	_data.WriteInt64(targetDurationNanos)
 
@@ -86,6 +87,7 @@ func (p *PowerHintSessionProxy) ReportActualWorkDuration(
 	durations []WorkDuration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
 	if durations == nil {
 		_data.WriteInt32(-1)
@@ -112,6 +114,7 @@ func (p *PowerHintSessionProxy) Pause(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionPause)
@@ -127,6 +130,7 @@ func (p *PowerHintSessionProxy) Resume(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionResume)
@@ -142,6 +146,7 @@ func (p *PowerHintSessionProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionClose)
@@ -158,6 +163,7 @@ func (p *PowerHintSessionProxy) SendHint(
 	hint SessionHint,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
 	_data.WriteInt32(int32(hint))
 
@@ -175,6 +181,7 @@ func (p *PowerHintSessionProxy) SetThreads(
 	threadIds []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
 	if threadIds == nil {
 		_data.WriteInt32(-1)
@@ -209,6 +216,7 @@ func (p *PowerHintSessionProxy) SetMode(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
 	_data.WriteInt32(int32(type_))
 	_data.WriteBool(enabled)
@@ -227,6 +235,7 @@ func (p *PowerHintSessionProxy) GetSessionConfig(
 ) (SessionConfig, error) {
 	var _result SessionConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionGetSessionConfig)
@@ -259,7 +268,8 @@ func (p *PowerHintSessionProxy) GetSessionConfig(
 // PowerHintSessionStub dispatches incoming binder transactions
 // to a typed IPowerHintSession implementation.
 type PowerHintSessionStub struct {
-	Impl IPowerHintSession
+	Impl      IPowerHintSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PowerHintSessionStub)(nil)
@@ -273,68 +283,79 @@ func (s *PowerHintSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPowerHintSessionUpdateTargetWorkDuration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_targetDurationNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.UpdateTargetWorkDuration(ctx, _arg_targetDurationNanos)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPowerHintSessionReportActualWorkDuration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_durations []WorkDuration
-		_ = _arg_durations
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_durations = make([]WorkDuration, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_durations[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.ReportActualWorkDuration(ctx, _arg_durations)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPowerHintSessionPause:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Pause(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPowerHintSessionResume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Resume(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPowerHintSessionClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPowerHintSessionSendHint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_hint, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_hint := SessionHint(_raw_hint)
 		_err = s.Impl.SendHint(ctx, _arg_hint)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPowerHintSessionSetThreads:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_threadIds []int32
-		_ = _arg_threadIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_threadIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_threadIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetThreads(ctx, _arg_threadIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -344,9 +365,6 @@ func (s *PowerHintSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerHintSessionSetMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -357,12 +375,8 @@ func (s *PowerHintSessionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetMode(ctx, _arg_type_, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPowerHintSessionGetSessionConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSessionConfig(ctx)
 		_reply := parcel.New()
 		if _err != nil {

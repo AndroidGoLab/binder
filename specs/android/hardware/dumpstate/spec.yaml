@@ -1,0 +1,67 @@
+package: android.hardware.dumpstate
+go_package: android/hardware/dumpstate
+interfaces:
+    - name: IDumpstateDevice
+      descriptor: android.hardware.dumpstate.IDumpstateDevice
+      methods:
+        - name: dumpstateBoard
+          transaction_code_offset: 0
+          params:
+            - name: fd
+              type:
+                name: ParcelFileDescriptor
+                is_array: true
+              direction: in
+            - name: mode
+              type:
+                name: DumpstateMode
+              direction: in
+            - name: timeoutMillis
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: getVerboseLoggingEnabled
+          transaction_code_offset: 1
+          return_type:
+            name: boolean
+        - name: setVerboseLoggingEnabled
+          transaction_code_offset: 2
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: ERROR_UNSUPPORTED_MODE
+          type: int
+          value: "1"
+        - name: ERROR_DEVICE_LOGGING_NOT_ENABLED
+          type: int
+          value: "2"
+enums:
+    - name: IDumpstateDevice.DumpstateMode
+      backing_type: int
+      values:
+        - name: FULL
+          value: "0"
+        - name: INTERACTIVE
+          value: "1"
+        - name: REMOTE
+          value: "2"
+        - name: WEAR
+          value: "3"
+        - name: CONNECTIVITY
+          value: "4"
+        - name: WIFI
+          value: "5"
+        - name: DEFAULT
+          value: "6"
+        - name: PROTO
+          value: "7"
+      annotations:
+        - VintfStability
+        - Backing

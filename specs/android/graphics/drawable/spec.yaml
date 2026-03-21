@@ -1,0 +1,4 @@
+package: android.graphics.drawable
+go_package: android/graphics/drawable
+parcelables:
+    - name: Icon

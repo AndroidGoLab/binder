@@ -45,6 +45,7 @@ func (p *GbaServiceProxy) AuthenticationRequest(
 	request GbaAuthRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGbaService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *GbaServiceProxy) AuthenticationRequest(
 // GbaServiceStub dispatches incoming binder transactions
 // to a typed IGbaService implementation.
 type GbaServiceStub struct {
-	Impl IGbaService
+	Impl      IGbaService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GbaServiceStub)(nil)
@@ -77,11 +79,12 @@ func (s *GbaServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGbaServiceAuthenticationRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request GbaAuthRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *GbaServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.AuthenticationRequest(ctx, _arg_request)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

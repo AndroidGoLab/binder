@@ -1,0 +1,126 @@
+package: android.hardware.tv.hdmi.connection
+go_package: android/hardware/tv/hdmi/connection
+interfaces:
+    - name: IHdmiConnection
+      descriptor: android.hardware.tv.hdmi.connection.IHdmiConnection
+      methods:
+        - name: getPortInfo
+          transaction_code_offset: 0
+          return_type:
+            name: HdmiPortInfo
+            is_array: true
+        - name: isConnected
+          transaction_code_offset: 1
+          params:
+            - name: portId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: setCallback
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: IHdmiConnectionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setHpdSignal
+          transaction_code_offset: 3
+          params:
+            - name: signal
+              type:
+                name: HpdSignal
+            - name: portId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getHpdSignal
+          transaction_code_offset: 4
+          params:
+            - name: portId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: HpdSignal
+    - name: IHdmiConnectionCallback
+      descriptor: android.hardware.tv.hdmi.connection.IHdmiConnectionCallback
+      oneway: true
+      methods:
+        - name: onHotplugEvent
+          transaction_code_offset: 0
+          params:
+            - name: connected
+              type:
+                name: boolean
+              direction: in
+            - name: portId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: HdmiPortInfo
+      fields:
+        - name: type
+          type:
+            name: HdmiPortType
+        - name: portId
+          type:
+            name: int
+        - name: cecSupported
+          type:
+            name: boolean
+        - name: arcSupported
+          type:
+            name: boolean
+        - name: eArcSupported
+          type:
+            name: boolean
+        - name: physicalAddress
+          type:
+            name: int
+      annotations:
+        - VintfStability
+enums:
+    - name: HdmiPortType
+      backing_type: byte
+      values:
+        - name: INPUT
+          value: "0"
+        - name: OUTPUT
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: HpdSignal
+      backing_type: byte
+      values:
+        - name: HDMI_HPD_PHYSICAL
+          value: "0"
+        - name: HDMI_HPD_STATUS_BIT
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Result
+      backing_type: ""
+      values:
+        - name: SUCCESS
+          value: "0"
+        - name: FAILURE_UNKNOWN
+          value: "1"
+        - name: FAILURE_INVALID_ARGS
+          value: "2"
+        - name: FAILURE_INVALID_STATE
+          value: "3"
+        - name: FAILURE_NOT_SUPPORTED
+          value: "4"
+      annotations:
+        - VintfStability

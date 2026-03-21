@@ -77,8 +77,14 @@ func run(
 	gen := codegen.NewGenerator(r, outputDir)
 	gen.SetSkipErrors(true)
 	if err := gen.GenerateAll(); err != nil {
-		codegenErrors := strings.Split(err.Error(), "\n")
-		fmt.Fprintf(os.Stderr, "Codegen completed with %d definition errors (skipped)\n", len(codegenErrors))
+		// errors.Join returns an error implementing Unwrap() []error.
+		// Use comma-ok to avoid panicking if the error type changes.
+		multi, ok := err.(interface{ Unwrap() []error })
+		if !ok {
+			return fmt.Errorf("codegen failed: %w", err)
+		}
+		joinedErrs := multi.Unwrap()
+		fmt.Fprintf(os.Stderr, "Codegen completed with %d definition errors (skipped)\n", len(joinedErrs))
 	}
 
 	if smokeTests {
@@ -89,9 +95,9 @@ func run(
 		}
 	}
 
-	genCount, err := countGeneratedFiles(outputDir)
+	genCount, err := countGoFiles(outputDir)
 	if err != nil {
-		return fmt.Errorf("counting generated files: %w", err)
+		return fmt.Errorf("counting Go files: %w", err)
 	}
 	fmt.Fprintf(os.Stderr, "Generated %d Go files\n", genCount)
 
@@ -141,6 +147,7 @@ func convertInterfaceToAST(
 	decl := &parser.InterfaceDecl{
 		IntfName: iface.Name,
 		Oneway:   iface.Oneway,
+		Annots:   convertAnnotationNamesToAST(iface.Annotations),
 	}
 
 	for _, m := range iface.Methods {
@@ -216,6 +223,11 @@ func convertTypeRefToAST(
 
 	if tr.IsNullable {
 		ts.Annots = append(ts.Annots, &parser.Annotation{Name: "nullable"})
+	}
+
+	// Restore type-level annotations beyond @nullable.
+	for _, name := range tr.Annotations {
+		ts.Annots = append(ts.Annots, &parser.Annotation{Name: name})
 	}
 
 	for _, arg := range tr.TypeArgs {
@@ -301,6 +313,10 @@ func convertUnionToAST(
 		decl.Fields = append(decl.Fields, convertFieldToAST(f))
 	}
 
+	for _, c := range union.Constants {
+		decl.Constants = append(decl.Constants, convertConstantToAST(c))
+	}
+
 	return decl
 }
 
@@ -377,19 +393,50 @@ func parseConstExpr(
 		return &parser.IntegerLiteral{Value: value}
 	}
 
-	// Negative numbers: -<integer>
-	if len(value) > 1 && value[0] == '-' && looksLikeInteger(value[1:]) {
-		return &parser.UnaryExpr{
-			Op:      parser.TokenMinus,
-			Operand: &parser.IntegerLiteral{Value: value[1:]},
+	// Parenthesized expressions: (...)
+	if len(value) >= 2 && value[0] == '(' && value[len(value)-1] == ')' {
+		// Verify the parens are balanced (the closing paren matches the opening one).
+		if findMatchingParen(value) == len(value)-1 {
+			return parseConstExpr(value[1 : len(value)-1])
 		}
 	}
 
-	// Bitwise NOT: ~<expr>
-	if len(value) > 1 && value[0] == '~' {
-		return &parser.UnaryExpr{
-			Op:      parser.TokenTilde,
-			Operand: parseConstExpr(value[1:]),
+	// Unary operators: -, +, ~, !
+	if len(value) > 1 {
+		switch value[0] {
+		case '-':
+			inner := value[1:]
+			if looksLikeInteger(inner) {
+				return &parser.UnaryExpr{
+					Op:      parser.TokenMinus,
+					Operand: &parser.IntegerLiteral{Value: inner},
+				}
+			}
+			if looksLikeFloat(inner) {
+				return &parser.UnaryExpr{
+					Op:      parser.TokenMinus,
+					Operand: &parser.FloatLiteral{Value: inner},
+				}
+			}
+			return &parser.UnaryExpr{
+				Op:      parser.TokenMinus,
+				Operand: parseConstExpr(inner),
+			}
+		case '+':
+			return &parser.UnaryExpr{
+				Op:      parser.TokenPlus,
+				Operand: parseConstExpr(value[1:]),
+			}
+		case '~':
+			return &parser.UnaryExpr{
+				Op:      parser.TokenTilde,
+				Operand: parseConstExpr(value[1:]),
+			}
+		case '!':
+			return &parser.UnaryExpr{
+				Op:      parser.TokenBang,
+				Operand: parseConstExpr(value[1:]),
+			}
 		}
 	}
 
@@ -469,6 +516,8 @@ func isHexDigit(c rune) bool {
 }
 
 // looksLikeFloat returns true if the value looks like a floating-point literal.
+// This includes values with a dot, exponent, or Java/AIDL float suffix
+// (e.g., "1.0", "1e5", "1f", "1.5d"), as well as hex floats (e.g., "0x1.Ap+3").
 func looksLikeFloat(
 	value string,
 ) bool {
@@ -476,11 +525,18 @@ func looksLikeFloat(
 		return false
 	}
 
+	// Hex float: 0x<hex>[.<hex>]p[+-]<dec>[fFdD]
+	if len(value) > 2 && value[0] == '0' && (value[1] == 'x' || value[1] == 'X') {
+		return looksLikeHexFloat(value)
+	}
+
 	s := value
+	hasSuffix := false
 	// Strip Java/AIDL float suffixes.
 	last := s[len(s)-1]
 	if last == 'f' || last == 'F' || last == 'd' || last == 'D' {
 		s = s[:len(s)-1]
+		hasSuffix = true
 	}
 
 	hasDot := false
@@ -508,56 +564,217 @@ func looksLikeFloat(
 			return false
 		}
 	}
-	return hasDigit && (hasDot || hasE)
+	// A float needs digits plus at least one float indicator: dot, exponent, or suffix.
+	return hasDigit && (hasDot || hasE || hasSuffix)
 }
 
-// binaryOps lists operators to try when parsing binary expressions,
-// ordered from lowest to highest precedence so outer operators are
-// split first.
-var binaryOps = []struct {
-	Symbol string
-	Token  parser.TokenKind
-}{
-	{"||", parser.TokenPipePipe},
-	{"&&", parser.TokenAmpAmp},
-	{"|", parser.TokenPipe},
-	{"^", parser.TokenCaret},
-	{"&", parser.TokenAmp},
-	{"<<", parser.TokenLShift},
-	{">>", parser.TokenRShift},
-	{"+", parser.TokenPlus},
-	{"-", parser.TokenMinus},
-	{"*", parser.TokenStar},
-	{"/", parser.TokenSlash},
-	{"%", parser.TokenPercent},
+// looksLikeHexFloat returns true if the value looks like a hex float literal
+// (e.g., "0x1.Ap+3", "0xABp-2f"). Hex floats require a binary exponent (p/P).
+func looksLikeHexFloat(
+	value string,
+) bool {
+	s := value[2:] // skip "0x"/"0X"
+	if len(s) == 0 {
+		return false
+	}
+
+	// Strip optional float suffix.
+	last := s[len(s)-1]
+	if last == 'f' || last == 'F' || last == 'd' || last == 'D' {
+		s = s[:len(s)-1]
+	}
+
+	// Must contain 'p' or 'P' (binary exponent).
+	pIdx := strings.IndexAny(s, "pP")
+	if pIdx < 0 {
+		return false
+	}
+
+	mantissa := s[:pIdx]
+	exponent := s[pIdx+1:]
+
+	// Mantissa: hex digits with optional dot.
+	hasHexDigit := false
+	for _, c := range mantissa {
+		switch {
+		case isHexDigit(c):
+			hasHexDigit = true
+		case c == '.':
+			// allow dot
+		default:
+			return false
+		}
+	}
+	if !hasHexDigit {
+		return false
+	}
+
+	// Exponent: optional sign, then decimal digits.
+	if len(exponent) == 0 {
+		return false
+	}
+	if exponent[0] == '+' || exponent[0] == '-' {
+		exponent = exponent[1:]
+	}
+	if len(exponent) == 0 {
+		return false
+	}
+	for _, c := range exponent {
+		if c < '0' || c > '9' {
+			return false
+		}
+	}
+	return true
+}
+
+// binaryOpGroup is a set of operators at the same precedence level.
+// Within a group, the rightmost match is used so that left-to-right
+// associativity is preserved (e.g., "a - b + c" → "(a - b) + c").
+type binaryOpGroup struct {
+	Ops []struct {
+		Symbol string
+		Token  parser.TokenKind
+	}
+}
+
+// binaryOpGroups lists operator groups from lowest to highest precedence.
+// Multi-character operators must appear before single-character operators
+// that are their prefixes within the same group (e.g., ">=" before ">").
+var binaryOpGroups = []binaryOpGroup{
+	{Ops: []struct {
+		Symbol string
+		Token  parser.TokenKind
+	}{
+		{"||", parser.TokenPipePipe},
+	}},
+	{Ops: []struct {
+		Symbol string
+		Token  parser.TokenKind
+	}{
+		{"&&", parser.TokenAmpAmp},
+	}},
+	{Ops: []struct {
+		Symbol string
+		Token  parser.TokenKind
+	}{
+		{"|", parser.TokenPipe},
+	}},
+	{Ops: []struct {
+		Symbol string
+		Token  parser.TokenKind
+	}{
+		{"^", parser.TokenCaret},
+	}},
+	{Ops: []struct {
+		Symbol string
+		Token  parser.TokenKind
+	}{
+		{"&", parser.TokenAmp},
+	}},
+	{Ops: []struct {
+		Symbol string
+		Token  parser.TokenKind
+	}{
+		{"==", parser.TokenEqEq},
+		{"!=", parser.TokenBangEq},
+	}},
+	{Ops: []struct {
+		Symbol string
+		Token  parser.TokenKind
+	}{
+		{"<=", parser.TokenLessEq},
+		{">=", parser.TokenGreaterEq},
+		{"<", parser.TokenLAngle},
+		{">", parser.TokenRAngle},
+	}},
+	{Ops: []struct {
+		Symbol string
+		Token  parser.TokenKind
+	}{
+		{"<<", parser.TokenLShift},
+		{">>", parser.TokenRShift},
+	}},
+	{Ops: []struct {
+		Symbol string
+		Token  parser.TokenKind
+	}{
+		{"+", parser.TokenPlus},
+		{"-", parser.TokenMinus},
+	}},
+	{Ops: []struct {
+		Symbol string
+		Token  parser.TokenKind
+	}{
+		{"*", parser.TokenStar},
+		{"/", parser.TokenSlash},
+		{"%", parser.TokenPercent},
+	}},
 }
 
 // tryParseBinaryExpr attempts to parse "left OP right" binary expressions.
 // Returns nil if the value does not look like a binary expression.
+//
+// Operators are tried from lowest to highest precedence. Within each
+// precedence group, the rightmost match of any operator in the group is
+// used, which produces a left-associative parse tree.
 func tryParseBinaryExpr(
 	value string,
 ) parser.ConstExpr {
-	// Try each operator from lowest to highest precedence.
-	for _, op := range binaryOps {
-		padded := " " + op.Symbol + " "
-		idx := strings.LastIndex(value, padded)
-		if idx < 0 {
+	for _, group := range binaryOpGroups {
+		bestIdx := -1
+		bestLen := 0
+		var bestToken parser.TokenKind
+
+		for _, op := range group.Ops {
+			padded := " " + op.Symbol + " "
+			idx := strings.LastIndex(value, padded)
+			if idx < 0 {
+				continue
+			}
+			if idx > bestIdx {
+				bestIdx = idx
+				bestLen = len(padded)
+				bestToken = op.Token
+			}
+		}
+
+		if bestIdx < 0 {
 			continue
 		}
 
-		left := strings.TrimSpace(value[:idx])
-		right := strings.TrimSpace(value[idx+len(padded):])
+		left := strings.TrimSpace(value[:bestIdx])
+		right := strings.TrimSpace(value[bestIdx+bestLen:])
 		if left == "" || right == "" {
 			continue
 		}
 
 		return &parser.BinaryExpr{
-			Op:    op.Token,
+			Op:    bestToken,
 			Left:  parseConstExpr(left),
 			Right: parseConstExpr(right),
 		}
 	}
 	return nil
+}
+
+// findMatchingParen returns the index of the closing ')' that matches
+// the opening '(' at index 0. Returns -1 if not found.
+func findMatchingParen(
+	s string,
+) int {
+	depth := 0
+	for i, c := range s {
+		switch c {
+		case '(':
+			depth++
+		case ')':
+			depth--
+			if depth == 0 {
+				return i
+			}
+		}
+	}
+	return -1
 }
 
 // tryParseTernaryExpr attempts to parse "cond ? then : else".
@@ -786,8 +1003,8 @@ func generateSource(
 	return formatted, nil
 }
 
-// countGeneratedFiles counts .go files in the output directory tree.
-func countGeneratedFiles(
+// countGoFiles counts .go files in the output directory tree.
+func countGoFiles(
 	dir string,
 ) (int, error) {
 	count := 0

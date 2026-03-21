@@ -1,0 +1,556 @@
+package: android.telephony.satellite.stub
+go_package: android/telephony/satellite/stub
+interfaces:
+    - name: INtnSignalStrengthConsumer
+      descriptor: android.telephony.satellite.stub.INtnSignalStrengthConsumer
+      oneway: true
+      methods:
+        - name: accept
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: NtnSignalStrength
+              direction: in
+          return_type:
+            name: void
+    - name: ISatellite
+      descriptor: android.telephony.satellite.stub.ISatellite
+      oneway: true
+      methods:
+        - name: setSatelliteListener
+          transaction_code_offset: 0
+          params:
+            - name: listener
+              type:
+                name: ISatelliteListener
+              direction: in
+          return_type:
+            name: void
+        - name: requestSatelliteListeningEnabled
+          transaction_code_offset: 1
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+            - name: timeout
+              type:
+                name: int
+              direction: in
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: enableCellularModemWhileSatelliteModeIsOn
+          transaction_code_offset: 2
+          params:
+            - name: enabled
+              type:
+                name: boolean
+              direction: in
+            - name: errorCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: requestSatelliteEnabled
+          transaction_code_offset: 3
+          params:
+            - name: enableSatellite
+              type:
+                name: boolean
+              direction: in
+            - name: enableDemoMode
+              type:
+                name: boolean
+              direction: in
+            - name: isEmergency
+              type:
+                name: boolean
+              direction: in
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: requestIsSatelliteEnabled
+          transaction_code_offset: 4
+          params:
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+            - name: callback
+              type:
+                name: IBooleanConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: requestIsSatelliteSupported
+          transaction_code_offset: 5
+          params:
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+            - name: callback
+              type:
+                name: IBooleanConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: requestSatelliteCapabilities
+          transaction_code_offset: 6
+          params:
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+            - name: callback
+              type:
+                name: ISatelliteCapabilitiesConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: startSendingSatellitePointingInfo
+          transaction_code_offset: 7
+          params:
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: stopSendingSatellitePointingInfo
+          transaction_code_offset: 8
+          params:
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: provisionSatelliteService
+          transaction_code_offset: 9
+          params:
+            - name: token
+              type:
+                name: String
+              direction: in
+            - name: provisionData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: deprovisionSatelliteService
+          transaction_code_offset: 10
+          params:
+            - name: token
+              type:
+                name: String
+              direction: in
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: requestIsSatelliteProvisioned
+          transaction_code_offset: 11
+          params:
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+            - name: callback
+              type:
+                name: IBooleanConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: pollPendingSatelliteDatagrams
+          transaction_code_offset: 12
+          params:
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: sendSatelliteDatagram
+          transaction_code_offset: 13
+          params:
+            - name: datagram
+              type:
+                name: SatelliteDatagram
+              direction: in
+            - name: isEmergency
+              type:
+                name: boolean
+              direction: in
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: requestSatelliteModemState
+          transaction_code_offset: 14
+          params:
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+            - name: callback
+              type:
+                name: IIntegerConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: requestTimeForNextSatelliteVisibility
+          transaction_code_offset: 15
+          params:
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+            - name: callback
+              type:
+                name: IIntegerConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: setSatellitePlmn
+          transaction_code_offset: 16
+          params:
+            - name: simSlot
+              type:
+                name: int
+            - name: carrierPlmnList
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: allSatellitePlmnList
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: setSatelliteEnabledForCarrier
+          transaction_code_offset: 17
+          params:
+            - name: simSlot
+              type:
+                name: int
+            - name: satelliteEnabled
+              type:
+                name: boolean
+            - name: callback
+              type:
+                name: IIntegerConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: requestIsSatelliteEnabledForCarrier
+          transaction_code_offset: 18
+          params:
+            - name: simSlot
+              type:
+                name: int
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+            - name: callback
+              type:
+                name: IBooleanConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: requestSignalStrength
+          transaction_code_offset: 19
+          params:
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+            - name: callback
+              type:
+                name: INtnSignalStrengthConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: startSendingNtnSignalStrength
+          transaction_code_offset: 20
+          params:
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: stopSendingNtnSignalStrength
+          transaction_code_offset: 21
+          params:
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+          return_type:
+            name: void
+        - name: abortSendingSatelliteDatagrams
+          transaction_code_offset: 22
+          params:
+            - name: resultCallback
+              type:
+                name: IIntegerConsumer
+              direction: in
+          return_type:
+            name: void
+    - name: ISatelliteCapabilitiesConsumer
+      descriptor: android.telephony.satellite.stub.ISatelliteCapabilitiesConsumer
+      oneway: true
+      methods:
+        - name: accept
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: SatelliteCapabilities
+              direction: in
+          return_type:
+            name: void
+    - name: ISatelliteGateway
+      descriptor: android.telephony.satellite.stub.ISatelliteGateway
+      oneway: true
+    - name: ISatelliteListener
+      descriptor: android.telephony.satellite.stub.ISatelliteListener
+      oneway: true
+      methods:
+        - name: onSatelliteProvisionStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: provisioned
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: onSatelliteDatagramReceived
+          transaction_code_offset: 1
+          params:
+            - name: datagram
+              type:
+                name: SatelliteDatagram
+              direction: in
+            - name: pendingCount
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onPendingDatagrams
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onSatellitePositionChanged
+          transaction_code_offset: 3
+          params:
+            - name: pointingInfo
+              type:
+                name: PointingInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onSatelliteModemStateChanged
+          transaction_code_offset: 4
+          params:
+            - name: state
+              type:
+                name: SatelliteModemState
+              direction: in
+          return_type:
+            name: void
+        - name: onNtnSignalStrengthChanged
+          transaction_code_offset: 5
+          params:
+            - name: ntnSignalStrength
+              type:
+                name: NtnSignalStrength
+              direction: in
+          return_type:
+            name: void
+        - name: onSatelliteCapabilitiesChanged
+          transaction_code_offset: 6
+          params:
+            - name: capabilities
+              type:
+                name: SatelliteCapabilities
+              direction: in
+          return_type:
+            name: void
+        - name: onSatelliteSupportedStateChanged
+          transaction_code_offset: 7
+          params:
+            - name: supported
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: NtnSignalStrength
+      fields:
+        - name: signalStrengthLevel
+          type:
+            name: NtnSignalStrengthLevel
+    - name: PointingInfo
+      fields:
+        - name: satelliteAzimuth
+          type:
+            name: float
+        - name: satelliteElevation
+          type:
+            name: float
+    - name: SatelliteCapabilities
+      fields:
+        - name: supportedRadioTechnologies
+          type:
+            name: NTRadioTechnology
+            is_array: true
+        - name: isPointingRequired
+          type:
+            name: boolean
+        - name: maxBytesPerOutgoingDatagram
+          type:
+            name: int
+        - name: antennaPositionKeys
+          type:
+            name: int
+            is_array: true
+        - name: antennaPositionValues
+          type:
+            name: AntennaPosition
+            is_array: true
+    - name: SatelliteDatagram
+      fields:
+        - name: data
+          type:
+            name: byte
+            is_array: true
+enums:
+    - name: NTRadioTechnology
+      backing_type: int
+      values:
+        - name: NB_IOT_NTN
+          value: "0"
+        - name: NR_NTN
+          value: "1"
+        - name: EMTC_NTN
+          value: "2"
+        - name: PROPRIETARY
+          value: "3"
+        - name: UNKNOWN
+          value: "-1"
+      annotations:
+        - Backing
+    - name: NtnSignalStrengthLevel
+      backing_type: int
+      values:
+        - name: NTN_SIGNAL_STRENGTH_NONE
+          value: "0"
+        - name: NTN_SIGNAL_STRENGTH_POOR
+          value: "1"
+        - name: NTN_SIGNAL_STRENGTH_MODERATE
+          value: "2"
+        - name: NTN_SIGNAL_STRENGTH_GOOD
+          value: "3"
+        - name: NTN_SIGNAL_STRENGTH_GREAT
+          value: "4"
+      annotations:
+        - Backing
+    - name: SatelliteModemState
+      backing_type: int
+      values:
+        - name: SATELLITE_MODEM_STATE_IDLE
+          value: "0"
+        - name: SATELLITE_MODEM_STATE_LISTENING
+          value: "1"
+        - name: SATELLITE_MODEM_STATE_DATAGRAM_TRANSFERRING
+          value: "2"
+        - name: SATELLITE_MODEM_STATE_DATAGRAM_RETRYING
+          value: "3"
+        - name: SATELLITE_MODEM_STATE_OFF
+          value: "4"
+        - name: SATELLITE_MODEM_STATE_UNAVAILABLE
+          value: "5"
+        - name: SATELLITE_MODEM_STATE_NOT_CONNECTED
+          value: "6"
+        - name: SATELLITE_MODEM_STATE_CONNECTED
+          value: "7"
+        - name: SATELLITE_MODEM_STATE_UNKNOWN
+          value: "-1"
+      annotations:
+        - Backing
+    - name: SatelliteResult
+      backing_type: int
+      values:
+        - name: SATELLITE_RESULT_SUCCESS
+          value: "0"
+        - name: SATELLITE_RESULT_ERROR
+          value: "1"
+        - name: SATELLITE_RESULT_SERVER_ERROR
+          value: "2"
+        - name: SATELLITE_RESULT_SERVICE_ERROR
+          value: "3"
+        - name: SATELLITE_RESULT_MODEM_ERROR
+          value: "4"
+        - name: SATELLITE_RESULT_NETWORK_ERROR
+          value: "5"
+        - name: SATELLITE_RESULT_INVALID_MODEM_STATE
+          value: "6"
+        - name: SATELLITE_RESULT_INVALID_ARGUMENTS
+          value: "7"
+        - name: SATELLITE_RESULT_REQUEST_FAILED
+          value: "8"
+        - name: SATELLITE_RESULT_RADIO_NOT_AVAILABLE
+          value: "9"
+        - name: SATELLITE_RESULT_REQUEST_NOT_SUPPORTED
+          value: "10"
+        - name: SATELLITE_RESULT_NO_RESOURCES
+          value: "11"
+        - name: SATELLITE_RESULT_SERVICE_NOT_PROVISIONED
+          value: "12"
+        - name: SATELLITE_RESULT_SERVICE_PROVISION_IN_PROGRESS
+          value: "13"
+        - name: SATELLITE_RESULT_REQUEST_ABORTED
+          value: "14"
+        - name: SATELLITE_RESULT_ACCESS_BARRED
+          value: "15"
+        - name: SATELLITE_RESULT_NETWORK_TIMEOUT
+          value: "16"
+        - name: SATELLITE_RESULT_NOT_REACHABLE
+          value: "17"
+        - name: SATELLITE_RESULT_NOT_AUTHORIZED
+          value: "18"
+      annotations:
+        - Backing

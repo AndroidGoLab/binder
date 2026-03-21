@@ -3,6 +3,7 @@ package view
 import (
 	"context"
 	"fmt"
+	window "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
 	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
@@ -43,7 +44,7 @@ const (
 type IRecentsAnimationController interface {
 	AsBinder() binder.IBinder
 	ScreenshotTask(ctx context.Context, taskId int32) (WindowManagerTaskSnapshot, error)
-	SetFinishTaskTransaction(ctx context.Context, taskId int32, finishTransaction interface{}, overlay SurfaceControl) error
+	SetFinishTaskTransaction(ctx context.Context, taskId int32, finishTransaction window.PictureInPictureSurfaceTransaction, overlay SurfaceControl) error
 	Finish(ctx context.Context, moveHomeToTop bool, sendUserLeaveHint bool, finishCb os.IResultReceiver) error
 	SetInputConsumerEnabled(ctx context.Context, enabled bool) error
 	SetAnimationTargetsBehindSystemBars(ctx context.Context, behindSystemBars bool) error
@@ -77,6 +78,7 @@ func (p *RecentsAnimationControllerProxy) ScreenshotTask(
 ) (WindowManagerTaskSnapshot, error) {
 	var _result WindowManagerTaskSnapshot
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 	_data.WriteInt32(taskId)
 
@@ -110,12 +112,17 @@ func (p *RecentsAnimationControllerProxy) ScreenshotTask(
 func (p *RecentsAnimationControllerProxy) SetFinishTaskTransaction(
 	ctx context.Context,
 	taskId int32,
-	finishTransaction interface{},
+	finishTransaction window.PictureInPictureSurfaceTransaction,
 	overlay SurfaceControl,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
+	if _err := finishTransaction.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := overlay.MarshalParcel(_data); _err != nil {
 		return _err
@@ -146,6 +153,7 @@ func (p *RecentsAnimationControllerProxy) Finish(
 	finishCb os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 	_data.WriteBool(moveHomeToTop)
 	_data.WriteBool(sendUserLeaveHint)
@@ -174,6 +182,7 @@ func (p *RecentsAnimationControllerProxy) SetInputConsumerEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 	_data.WriteBool(enabled)
 
@@ -200,6 +209,7 @@ func (p *RecentsAnimationControllerProxy) SetAnimationTargetsBehindSystemBars(
 	behindSystemBars bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 	_data.WriteBool(behindSystemBars)
 
@@ -225,6 +235,7 @@ func (p *RecentsAnimationControllerProxy) CleanupScreenshot(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerCleanupScreenshot)
@@ -251,6 +262,7 @@ func (p *RecentsAnimationControllerProxy) SetDeferCancelUntilNextTransition(
 	screenshot bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 	_data.WriteBool(defer_)
 	_data.WriteBool(screenshot)
@@ -278,6 +290,7 @@ func (p *RecentsAnimationControllerProxy) SetWillFinishToHome(
 	willFinishToHome bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 	_data.WriteBool(willFinishToHome)
 
@@ -305,6 +318,7 @@ func (p *RecentsAnimationControllerProxy) RemoveTask(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 	_data.WriteInt32(taskId)
 
@@ -335,6 +349,7 @@ func (p *RecentsAnimationControllerProxy) DetachNavigationBarFromApp(
 	moveHomeToTop bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 	_data.WriteBool(moveHomeToTop)
 
@@ -361,6 +376,7 @@ func (p *RecentsAnimationControllerProxy) AnimateNavigationBarToApp(
 	duration int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 	_data.WriteInt64(duration)
 
@@ -385,7 +401,8 @@ func (p *RecentsAnimationControllerProxy) AnimateNavigationBarToApp(
 // RecentsAnimationControllerStub dispatches incoming binder transactions
 // to a typed IRecentsAnimationController implementation.
 type RecentsAnimationControllerStub struct {
-	Impl IRecentsAnimationController
+	Impl      IRecentsAnimationController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RecentsAnimationControllerStub)(nil)
@@ -399,11 +416,12 @@ func (s *RecentsAnimationControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRecentsAnimationControllerScreenshotTask:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -421,14 +439,22 @@ func (s *RecentsAnimationControllerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIRecentsAnimationControllerSetFinishTaskTransaction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_finishTransaction interface{}
+		var _arg_finishTransaction window.PictureInPictureSurfaceTransaction
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_finishTransaction.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_overlay SurfaceControl
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -450,9 +476,6 @@ func (s *RecentsAnimationControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRecentsAnimationControllerFinish:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_moveHomeToTop, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -461,9 +484,14 @@ func (s *RecentsAnimationControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_finishCb os.IResultReceiver
-		_ = _arg_finishCb
+		{
+			_finishCbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_finishCb = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _finishCbHandle))
+		}
 		_err = s.Impl.Finish(ctx, _arg_moveHomeToTop, _arg_sendUserLeaveHint, _arg_finishCb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -473,9 +501,6 @@ func (s *RecentsAnimationControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRecentsAnimationControllerSetInputConsumerEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -489,9 +514,6 @@ func (s *RecentsAnimationControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRecentsAnimationControllerSetAnimationTargetsBehindSystemBars:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_behindSystemBars, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -505,9 +527,6 @@ func (s *RecentsAnimationControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRecentsAnimationControllerCleanupScreenshot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CleanupScreenshot(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -517,9 +536,6 @@ func (s *RecentsAnimationControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRecentsAnimationControllerSetDeferCancelUntilNextTransition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_defer_, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -537,9 +553,6 @@ func (s *RecentsAnimationControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRecentsAnimationControllerSetWillFinishToHome:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_willFinishToHome, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -553,9 +566,6 @@ func (s *RecentsAnimationControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRecentsAnimationControllerRemoveTask:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -570,9 +580,6 @@ func (s *RecentsAnimationControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRecentsAnimationControllerDetachNavigationBarFromApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_moveHomeToTop, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -586,9 +593,6 @@ func (s *RecentsAnimationControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRecentsAnimationControllerAnimateNavigationBarToApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_duration, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -611,7 +615,7 @@ func (s *RecentsAnimationControllerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IRecentsAnimationControllerServer interface {
 	ScreenshotTask(ctx context.Context, taskId int32) (WindowManagerTaskSnapshot, error)
-	SetFinishTaskTransaction(ctx context.Context, taskId int32, finishTransaction interface{}, overlay SurfaceControl) error
+	SetFinishTaskTransaction(ctx context.Context, taskId int32, finishTransaction window.PictureInPictureSurfaceTransaction, overlay SurfaceControl) error
 	Finish(ctx context.Context, moveHomeToTop bool, sendUserLeaveHint bool, finishCb os.IResultReceiver) error
 	SetInputConsumerEnabled(ctx context.Context, enabled bool) error
 	SetAnimationTargetsBehindSystemBars(ctx context.Context, behindSystemBars bool) error
@@ -642,7 +646,7 @@ func (w *recentsAnimationControllerStubWrapper) ScreenshotTask(
 func (w *recentsAnimationControllerStubWrapper) SetFinishTaskTransaction(
 	ctx context.Context,
 	taskId int32,
-	finishTransaction interface{},
+	finishTransaction window.PictureInPictureSurfaceTransaction,
 	overlay SurfaceControl,
 ) error {
 	return w.impl.SetFinishTaskTransaction(ctx, taskId, finishTransaction, overlay)

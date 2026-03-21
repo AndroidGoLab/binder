@@ -47,6 +47,7 @@ func (p *UserRestrictionsListenerProxy) OnUserRestrictionsChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserRestrictionsListener)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -70,7 +71,8 @@ func (p *UserRestrictionsListenerProxy) OnUserRestrictionsChanged(
 // UserRestrictionsListenerStub dispatches incoming binder transactions
 // to a typed IUserRestrictionsListener implementation.
 type UserRestrictionsListenerStub struct {
-	Impl IUserRestrictionsListener
+	Impl      IUserRestrictionsListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UserRestrictionsListenerStub)(nil)
@@ -84,11 +86,12 @@ func (s *UserRestrictionsListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUserRestrictionsListenerOnUserRestrictionsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -117,8 +120,7 @@ func (s *UserRestrictionsListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnUserRestrictionsChanged(ctx, _arg_newRestrictions, _arg_prevRestrictions)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

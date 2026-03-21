@@ -1,0 +1,5 @@
+package: android.telephony.ims.feature
+go_package: android/telephony/ims/feature
+parcelables:
+    - name: CapabilityChangeRequest
+    - name: ConnectionFailureInfo

@@ -3,6 +3,9 @@ package pm
 import (
 	"context"
 	"fmt"
+	app "github.com/xaionaro-go/binder/android/app"
+	content "github.com/xaionaro-go/binder/android/content"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -39,9 +42,9 @@ const (
 
 type ICrossProfileApps interface {
 	AsBinder() binder.IBinder
-	StartActivityAsUser(ctx context.Context, caller interface{}, component interface{}, launchMainActivity bool, task binder.IBinder, options interface{}) error
-	StartActivityAsUserByIntent(ctx context.Context, caller interface{}, intent interface{}, callingActivity binder.IBinder, options interface{}) error
-	GetTargetUserProfiles(ctx context.Context) ([]interface{}, error)
+	StartActivityAsUser(ctx context.Context, caller app.IApplicationThread, component content.ComponentName, launchMainActivity bool, task binder.IBinder, options os.Bundle) error
+	StartActivityAsUserByIntent(ctx context.Context, caller app.IApplicationThread, intent content.Intent, callingActivity binder.IBinder, options os.Bundle) error
+	GetTargetUserProfiles(ctx context.Context) ([]os.UserHandle, error)
 	CanInteractAcrossProfiles(ctx context.Context) (bool, error)
 	CanRequestInteractAcrossProfiles(ctx context.Context) (bool, error)
 	SetInteractAcrossProfilesAppOp(ctx context.Context, packageName string, newMode int32) error
@@ -69,20 +72,30 @@ var _ ICrossProfileApps = (*CrossProfileAppsProxy)(nil)
 
 func (p *CrossProfileAppsProxy) StartActivityAsUser(
 	ctx context.Context,
-	caller interface{},
-	component interface{},
+	caller app.IApplicationThread,
+	component content.ComponentName,
 	launchMainActivity bool,
 	task binder.IBinder,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICrossProfileApps)
+	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
+	_data.WriteInt32(1)
+	if _err := component.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(launchMainActivity)
 	binder.WriteBinderToParcel(ctx, _data, task, p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICrossProfileApps, MethodICrossProfileAppsStartActivityAsUser)
 	if _err != nil {
@@ -104,18 +117,28 @@ func (p *CrossProfileAppsProxy) StartActivityAsUser(
 
 func (p *CrossProfileAppsProxy) StartActivityAsUserByIntent(
 	ctx context.Context,
-	caller interface{},
-	intent interface{},
+	caller app.IApplicationThread,
+	intent content.Intent,
 	callingActivity binder.IBinder,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICrossProfileApps)
+	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 	binder.WriteBinderToParcel(ctx, _data, callingActivity, p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICrossProfileApps, MethodICrossProfileAppsStartActivityAsUserByIntent)
 	if _err != nil {
@@ -137,10 +160,11 @@ func (p *CrossProfileAppsProxy) StartActivityAsUserByIntent(
 
 func (p *CrossProfileAppsProxy) GetTargetUserProfiles(
 	ctx context.Context,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]os.UserHandle, error) {
+	var _result []os.UserHandle
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICrossProfileApps)
 	_data.WriteString16(_identity.PackageName)
 
@@ -163,10 +187,19 @@ func (p *CrossProfileAppsProxy) GetTargetUserProfiles(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]os.UserHandle, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -178,6 +211,7 @@ func (p *CrossProfileAppsProxy) CanInteractAcrossProfiles(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICrossProfileApps)
 	_data.WriteString16(_identity.PackageName)
 
@@ -209,6 +243,7 @@ func (p *CrossProfileAppsProxy) CanRequestInteractAcrossProfiles(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICrossProfileApps)
 	_data.WriteString16(_identity.PackageName)
 
@@ -241,6 +276,7 @@ func (p *CrossProfileAppsProxy) SetInteractAcrossProfilesAppOp(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICrossProfileApps)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
@@ -271,6 +307,7 @@ func (p *CrossProfileAppsProxy) CanConfigureInteractAcrossProfiles(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICrossProfileApps)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
@@ -304,6 +341,7 @@ func (p *CrossProfileAppsProxy) CanUserAttemptToConfigureInteractAcrossProfiles(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICrossProfileApps)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
@@ -336,6 +374,7 @@ func (p *CrossProfileAppsProxy) ResetInteractAcrossProfilesAppOps(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICrossProfileApps)
 	_data.WriteInt32(_identity.UserID)
 	if packageNames == nil {
@@ -370,6 +409,7 @@ func (p *CrossProfileAppsProxy) ClearInteractAcrossProfilesAppOps(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICrossProfileApps)
 	_data.WriteInt32(_identity.UserID)
 
@@ -394,7 +434,8 @@ func (p *CrossProfileAppsProxy) ClearInteractAcrossProfilesAppOps(
 // CrossProfileAppsStub dispatches incoming binder transactions
 // to a typed ICrossProfileApps implementation.
 type CrossProfileAppsStub struct {
-	Impl ICrossProfileApps
+	Impl      ICrossProfileApps
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CrossProfileAppsStub)(nil)
@@ -408,19 +449,38 @@ func (s *CrossProfileAppsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICrossProfileAppsStartActivityAsUser:
+		var _arg_caller app.IApplicationThread
+		{
+			_callerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_caller = app.NewApplicationThreadProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callerHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_caller interface{}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_component content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_component.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_component interface{}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -428,10 +488,26 @@ func (s *CrossProfileAppsStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_task binder.IBinder
-		_ = _arg_task
-		var _arg_options interface{}
+		{
+			_taskHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_task = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _taskHandle)
+		}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.StartActivityAsUser(ctx, _arg_caller, _arg_component, _arg_launchMainActivity, _arg_task, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -441,24 +517,55 @@ func (s *CrossProfileAppsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICrossProfileAppsStartActivityAsUserByIntent:
+		var _arg_caller app.IApplicationThread
+		{
+			_callerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_caller = app.NewApplicationThreadProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callerHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_caller interface{}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_intent interface{}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callingActivity binder.IBinder
-		_ = _arg_callingActivity
-		var _arg_options interface{}
+		{
+			_callingActivityHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callingActivity = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callingActivityHandle)
+		}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.StartActivityAsUserByIntent(ctx, _arg_caller, _arg_intent, _arg_callingActivity, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -471,9 +578,6 @@ func (s *CrossProfileAppsStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetTargetUserProfiles(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -481,13 +585,19 @@ func (s *CrossProfileAppsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionICrossProfileAppsCanInteractAcrossProfiles:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -504,9 +614,6 @@ func (s *CrossProfileAppsStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CanRequestInteractAcrossProfiles(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -517,9 +624,6 @@ func (s *CrossProfileAppsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICrossProfileAppsSetInteractAcrossProfilesAppOp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -540,9 +644,6 @@ func (s *CrossProfileAppsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICrossProfileAppsCanConfigureInteractAcrossProfiles:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -560,9 +661,6 @@ func (s *CrossProfileAppsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICrossProfileAppsCanUserAttemptToConfigureInteractAcrossProfiles:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -580,15 +678,28 @@ func (s *CrossProfileAppsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICrossProfileAppsResetInteractAcrossProfilesAppOps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.ResetInteractAcrossProfilesAppOps(ctx, _arg_packageNames)
 		_reply := parcel.New()
 		if _err != nil {
@@ -598,9 +709,6 @@ func (s *CrossProfileAppsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICrossProfileAppsClearInteractAcrossProfilesAppOps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -621,9 +729,9 @@ func (s *CrossProfileAppsStub) OnTransaction(
 // provide to NewCrossProfileAppsStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ICrossProfileAppsServer interface {
-	StartActivityAsUser(ctx context.Context, caller interface{}, component interface{}, launchMainActivity bool, task binder.IBinder, options interface{}) error
-	StartActivityAsUserByIntent(ctx context.Context, caller interface{}, intent interface{}, callingActivity binder.IBinder, options interface{}) error
-	GetTargetUserProfiles(ctx context.Context) ([]interface{}, error)
+	StartActivityAsUser(ctx context.Context, caller app.IApplicationThread, component content.ComponentName, launchMainActivity bool, task binder.IBinder, options os.Bundle) error
+	StartActivityAsUserByIntent(ctx context.Context, caller app.IApplicationThread, intent content.Intent, callingActivity binder.IBinder, options os.Bundle) error
+	GetTargetUserProfiles(ctx context.Context) ([]os.UserHandle, error)
 	CanInteractAcrossProfiles(ctx context.Context) (bool, error)
 	CanRequestInteractAcrossProfiles(ctx context.Context) (bool, error)
 	SetInteractAcrossProfilesAppOp(ctx context.Context, packageName string, newMode int32) error
@@ -644,28 +752,28 @@ func (w *crossProfileAppsStubWrapper) AsBinder() binder.IBinder {
 
 func (w *crossProfileAppsStubWrapper) StartActivityAsUser(
 	ctx context.Context,
-	caller interface{},
-	component interface{},
+	caller app.IApplicationThread,
+	component content.ComponentName,
 	launchMainActivity bool,
 	task binder.IBinder,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.StartActivityAsUser(ctx, caller, component, launchMainActivity, task, options)
 }
 
 func (w *crossProfileAppsStubWrapper) StartActivityAsUserByIntent(
 	ctx context.Context,
-	caller interface{},
-	intent interface{},
+	caller app.IApplicationThread,
+	intent content.Intent,
 	callingActivity binder.IBinder,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.StartActivityAsUserByIntent(ctx, caller, intent, callingActivity, options)
 }
 
 func (w *crossProfileAppsStubWrapper) GetTargetUserProfiles(
 	ctx context.Context,
-) ([]interface{}, error) {
+) ([]os.UserHandle, error) {
 	return w.impl.GetTargetUserProfiles(ctx)
 }
 

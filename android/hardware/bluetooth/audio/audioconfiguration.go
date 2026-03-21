@@ -39,8 +39,7 @@ func (u *AudioConfiguration) GetPcmConfig() (PcmConfiguration, bool) {
 func (u *AudioConfiguration) SetPcmConfig(
 	v PcmConfiguration,
 ) {
-	u.Tag = AudioConfigurationTagPcmConfig
-	u.PcmConfig = v
+	*u = AudioConfiguration{Tag: AudioConfigurationTagPcmConfig, PcmConfig: v}
 }
 
 func (u *AudioConfiguration) GetA2dpConfig() (CodecConfiguration, bool) {
@@ -54,8 +53,7 @@ func (u *AudioConfiguration) GetA2dpConfig() (CodecConfiguration, bool) {
 func (u *AudioConfiguration) SetA2dpConfig(
 	v CodecConfiguration,
 ) {
-	u.Tag = AudioConfigurationTagA2dpConfig
-	u.A2dpConfig = v
+	*u = AudioConfiguration{Tag: AudioConfigurationTagA2dpConfig, A2dpConfig: v}
 }
 
 func (u *AudioConfiguration) GetLeAudioConfig() (LeAudioConfiguration, bool) {
@@ -69,8 +67,7 @@ func (u *AudioConfiguration) GetLeAudioConfig() (LeAudioConfiguration, bool) {
 func (u *AudioConfiguration) SetLeAudioConfig(
 	v LeAudioConfiguration,
 ) {
-	u.Tag = AudioConfigurationTagLeAudioConfig
-	u.LeAudioConfig = v
+	*u = AudioConfiguration{Tag: AudioConfigurationTagLeAudioConfig, LeAudioConfig: v}
 }
 
 func (u *AudioConfiguration) GetLeAudioBroadcastConfig() (LeAudioBroadcastConfiguration, bool) {
@@ -84,8 +81,7 @@ func (u *AudioConfiguration) GetLeAudioBroadcastConfig() (LeAudioBroadcastConfig
 func (u *AudioConfiguration) SetLeAudioBroadcastConfig(
 	v LeAudioBroadcastConfiguration,
 ) {
-	u.Tag = AudioConfigurationTagLeAudioBroadcastConfig
-	u.LeAudioBroadcastConfig = v
+	*u = AudioConfiguration{Tag: AudioConfigurationTagLeAudioBroadcastConfig, LeAudioBroadcastConfig: v}
 }
 
 func (u *AudioConfiguration) GetHfpConfig() (HfpConfiguration, bool) {
@@ -99,8 +95,7 @@ func (u *AudioConfiguration) GetHfpConfig() (HfpConfiguration, bool) {
 func (u *AudioConfiguration) SetHfpConfig(
 	v HfpConfiguration,
 ) {
-	u.Tag = AudioConfigurationTagHfpConfig
-	u.HfpConfig = v
+	*u = AudioConfiguration{Tag: AudioConfigurationTagHfpConfig, HfpConfig: v}
 }
 
 func (u *AudioConfiguration) GetA2dp() (A2dpStreamConfiguration, bool) {
@@ -114,8 +109,7 @@ func (u *AudioConfiguration) GetA2dp() (A2dpStreamConfiguration, bool) {
 func (u *AudioConfiguration) SetA2dp(
 	v A2dpStreamConfiguration,
 ) {
-	u.Tag = AudioConfigurationTagA2dp
-	u.A2dp = v
+	*u = AudioConfiguration{Tag: AudioConfigurationTagA2dp, A2dp: v}
 }
 
 func (u *AudioConfiguration) MarshalParcel(

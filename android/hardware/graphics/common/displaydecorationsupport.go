@@ -32,11 +32,21 @@ func (s *DisplayDecorationSupport) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_formatRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Format = PixelFormat(_formatRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_alphaInterpretationRaw, _err := p.ReadInt32()
 	if _err != nil {

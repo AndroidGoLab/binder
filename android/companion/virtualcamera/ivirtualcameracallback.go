@@ -3,6 +3,7 @@ package virtualcamera
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -25,7 +26,7 @@ const (
 
 type IVirtualCameraCallback interface {
 	AsBinder() binder.IBinder
-	OnStreamConfigured(ctx context.Context, streamId int32, surface interface{}, width int32, height int32, pixelFormat Format) error
+	OnStreamConfigured(ctx context.Context, streamId int32, surface view.Surface, width int32, height int32, pixelFormat Format) error
 	OnProcessCaptureRequest(ctx context.Context, streamId int32, frameId int32) error
 	OnStreamClosed(ctx context.Context, streamId int32) error
 }
@@ -49,14 +50,19 @@ var _ IVirtualCameraCallback = (*VirtualCameraCallbackProxy)(nil)
 func (p *VirtualCameraCallbackProxy) OnStreamConfigured(
 	ctx context.Context,
 	streamId int32,
-	surface interface{},
+	surface view.Surface,
 	width int32,
 	height int32,
 	pixelFormat Format,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualCameraCallback)
 	_data.WriteInt32(streamId)
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
 	_data.WriteInt32(int32(pixelFormat))
@@ -76,6 +82,7 @@ func (p *VirtualCameraCallbackProxy) OnProcessCaptureRequest(
 	frameId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualCameraCallback)
 	_data.WriteInt32(streamId)
 	_data.WriteInt32(frameId)
@@ -94,6 +101,7 @@ func (p *VirtualCameraCallbackProxy) OnStreamClosed(
 	streamId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualCameraCallback)
 	_data.WriteInt32(streamId)
 
@@ -109,7 +117,8 @@ func (p *VirtualCameraCallbackProxy) OnStreamClosed(
 // VirtualCameraCallbackStub dispatches incoming binder transactions
 // to a typed IVirtualCameraCallback implementation.
 type VirtualCameraCallbackStub struct {
-	Impl IVirtualCameraCallback
+	Impl      IVirtualCameraCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VirtualCameraCallbackStub)(nil)
@@ -123,16 +132,28 @@ func (s *VirtualCameraCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVirtualCameraCallbackOnStreamConfigured:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_surface interface{}
+		var _arg_surface view.Surface
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -147,12 +168,8 @@ func (s *VirtualCameraCallbackStub) OnTransaction(
 		}
 		_arg_pixelFormat := Format(_raw_pixelFormat)
 		_err = s.Impl.OnStreamConfigured(ctx, _arg_streamId, _arg_surface, _arg_width, _arg_height, _arg_pixelFormat)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVirtualCameraCallbackOnProcessCaptureRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -162,19 +179,14 @@ func (s *VirtualCameraCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnProcessCaptureRequest(ctx, _arg_streamId, _arg_frameId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVirtualCameraCallbackOnStreamClosed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnStreamClosed(ctx, _arg_streamId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -184,7 +196,7 @@ func (s *VirtualCameraCallbackStub) OnTransaction(
 // provide to NewVirtualCameraCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IVirtualCameraCallbackServer interface {
-	OnStreamConfigured(ctx context.Context, streamId int32, surface interface{}, width int32, height int32, pixelFormat Format) error
+	OnStreamConfigured(ctx context.Context, streamId int32, surface view.Surface, width int32, height int32, pixelFormat Format) error
 	OnProcessCaptureRequest(ctx context.Context, streamId int32, frameId int32) error
 	OnStreamClosed(ctx context.Context, streamId int32) error
 }
@@ -201,7 +213,7 @@ func (w *virtualCameraCallbackStubWrapper) AsBinder() binder.IBinder {
 func (w *virtualCameraCallbackStubWrapper) OnStreamConfigured(
 	ctx context.Context,
 	streamId int32,
-	surface interface{},
+	surface view.Surface,
 	width int32,
 	height int32,
 	pixelFormat Format,

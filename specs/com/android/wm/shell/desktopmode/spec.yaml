@@ -1,0 +1,97 @@
+package: com.android.wm.shell.desktopmode
+go_package: com/android/wm/shell/desktopmode
+interfaces:
+    - name: IDesktopMode
+      descriptor: com.android.wm.shell.desktopmode.IDesktopMode
+      methods:
+        - name: showDesktopApps
+          transaction_code_offset: 0
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: remoteTransition
+              type:
+                name: RemoteTransition
+              direction: in
+          return_type:
+            name: void
+        - name: stashDesktopApps
+          transaction_code_offset: 1
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: hideStashedDesktopApps
+          transaction_code_offset: 2
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: showDesktopApp
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: taskId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getVisibleTaskCount
+          transaction_code_offset: 4
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: onDesktopSplitSelectAnimComplete
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: taskInfo
+              type:
+                name: RunningTaskInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setTaskListener
+          transaction_code_offset: 6
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: IDesktopTaskListener
+          return_type:
+            name: void
+    - name: IDesktopTaskListener
+      descriptor: com.android.wm.shell.desktopmode.IDesktopTaskListener
+      methods:
+        - name: onTasksVisibilityChanged
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: visibleTasksCount
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onStashedChanged
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: stashed
+              type:
+                name: boolean
+          return_type:
+            name: void

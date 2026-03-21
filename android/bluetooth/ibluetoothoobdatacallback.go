@@ -49,6 +49,7 @@ func (p *BluetoothOobDataCallbackProxy) OnOobData(
 	oobData OobData,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothOobDataCallback)
 	_data.WriteInt32(transport)
 	_data.WriteInt32(1)
@@ -70,6 +71,7 @@ func (p *BluetoothOobDataCallbackProxy) OnError(
 	errorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothOobDataCallback)
 	_data.WriteInt32(errorCode)
 
@@ -85,7 +87,8 @@ func (p *BluetoothOobDataCallbackProxy) OnError(
 // BluetoothOobDataCallbackStub dispatches incoming binder transactions
 // to a typed IBluetoothOobDataCallback implementation.
 type BluetoothOobDataCallbackStub struct {
-	Impl IBluetoothOobDataCallback
+	Impl      IBluetoothOobDataCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothOobDataCallbackStub)(nil)
@@ -99,11 +102,12 @@ func (s *BluetoothOobDataCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothOobDataCallbackOnOobData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_transport, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -121,19 +125,14 @@ func (s *BluetoothOobDataCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnOobData(ctx, _arg_transport, _arg_oobData)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothOobDataCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_errorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

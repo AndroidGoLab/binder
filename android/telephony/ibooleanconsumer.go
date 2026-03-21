@@ -45,6 +45,7 @@ func (p *BooleanConsumerProxy) Accept(
 	result bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBooleanConsumer)
 	_data.WriteBool(result)
 
@@ -60,7 +61,8 @@ func (p *BooleanConsumerProxy) Accept(
 // BooleanConsumerStub dispatches incoming binder transactions
 // to a typed IBooleanConsumer implementation.
 type BooleanConsumerStub struct {
-	Impl IBooleanConsumer
+	Impl      IBooleanConsumer
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BooleanConsumerStub)(nil)
@@ -74,18 +76,18 @@ func (s *BooleanConsumerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBooleanConsumerAccept:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Accept(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

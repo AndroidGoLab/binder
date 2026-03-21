@@ -49,9 +49,19 @@ func (s *IccLogicalChannelRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SubId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SlotIndex, _err = p.ReadInt32()
@@ -59,9 +69,19 @@ func (s *IccLogicalChannelRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PortIndex, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.CallingPackage, _err = p.ReadString16()
@@ -69,9 +89,19 @@ func (s *IccLogicalChannelRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Aid, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.P2, _err = p.ReadInt32()
@@ -79,16 +109,28 @@ func (s *IccLogicalChannelRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Channel, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_binderHandle, _err := p.ReadStrongBinder()
 	if _err != nil {
 		return _err
 	}
-	s.Binder = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _binderHandle)
+	if _binderHandle != 0 {
+		s.Binder = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _binderHandle)
+	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

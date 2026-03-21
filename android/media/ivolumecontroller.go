@@ -63,6 +63,7 @@ func (p *VolumeControllerProxy) DisplaySafeVolumeWarning(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
 	_data.WriteInt32(flags)
 
@@ -81,6 +82,7 @@ func (p *VolumeControllerProxy) VolumeChanged(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
 	_data.WriteInt32(streamType)
 	_data.WriteInt32(flags)
@@ -99,6 +101,7 @@ func (p *VolumeControllerProxy) MasterMuteChanged(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
 	_data.WriteInt32(flags)
 
@@ -116,6 +119,7 @@ func (p *VolumeControllerProxy) SetLayoutDirection(
 	layoutDirection int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
 	_data.WriteInt32(layoutDirection)
 
@@ -132,6 +136,7 @@ func (p *VolumeControllerProxy) Dismiss(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVolumeController, MethodIVolumeControllerDismiss)
@@ -148,6 +153,7 @@ func (p *VolumeControllerProxy) SetA11yMode(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
 	_data.WriteInt32(mode)
 
@@ -166,6 +172,7 @@ func (p *VolumeControllerProxy) DisplayCsdWarning(
 	displayDurationMs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
 	_data.WriteInt32(warning)
 	_data.WriteInt32(displayDurationMs)
@@ -182,7 +189,8 @@ func (p *VolumeControllerProxy) DisplayCsdWarning(
 // VolumeControllerStub dispatches incoming binder transactions
 // to a typed IVolumeController implementation.
 type VolumeControllerStub struct {
-	Impl IVolumeController
+	Impl      IVolumeController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VolumeControllerStub)(nil)
@@ -196,22 +204,19 @@ func (s *VolumeControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVolumeControllerDisplaySafeVolumeWarning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DisplaySafeVolumeWarning(ctx, _arg_flags)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVolumeControllerVolumeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_streamType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -221,52 +226,32 @@ func (s *VolumeControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.VolumeChanged(ctx, _arg_streamType, _arg_flags)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVolumeControllerMasterMuteChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.MasterMuteChanged(ctx, _arg_flags)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVolumeControllerSetLayoutDirection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_layoutDirection, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetLayoutDirection(ctx, _arg_layoutDirection)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVolumeControllerDismiss:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Dismiss(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVolumeControllerSetA11yMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetA11yMode(ctx, _arg_mode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVolumeControllerDisplayCsdWarning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_warning, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -276,8 +261,7 @@ func (s *VolumeControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.DisplayCsdWarning(ctx, _arg_warning, _arg_displayDurationMs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

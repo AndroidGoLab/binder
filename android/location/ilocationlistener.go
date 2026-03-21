@@ -26,7 +26,7 @@ const (
 
 type ILocationListener interface {
 	AsBinder() binder.IBinder
-	OnLocationChanged(ctx context.Context, locations []Location, onCompleteCallback *os.IRemoteCallback) error
+	OnLocationChanged(ctx context.Context, locations []Location, onCompleteCallback os.IRemoteCallback) error
 	OnProviderEnabledChanged(ctx context.Context, provider string, enabled bool) error
 	OnFlushComplete(ctx context.Context, requestCode int32) error
 }
@@ -50,9 +50,10 @@ var _ ILocationListener = (*LocationListenerProxy)(nil)
 func (p *LocationListenerProxy) OnLocationChanged(
 	ctx context.Context,
 	locations []Location,
-	onCompleteCallback *os.IRemoteCallback,
+	onCompleteCallback os.IRemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationListener)
 	if locations == nil {
 		_data.WriteInt32(-1)
@@ -65,11 +66,7 @@ func (p *LocationListenerProxy) OnLocationChanged(
 			}
 		}
 	}
-	if onCompleteCallback != nil {
-		_data.WriteStrongBinder((*onCompleteCallback).AsBinder().Handle())
-	} else {
-		_data.WriteInt32(-1)
-	}
+	binder.WriteBinderToParcel(ctx, _data, onCompleteCallback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationListener, MethodILocationListenerOnLocationChanged)
 	if _err != nil {
@@ -86,6 +83,7 @@ func (p *LocationListenerProxy) OnProviderEnabledChanged(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationListener)
 	_data.WriteString16(provider)
 	_data.WriteBool(enabled)
@@ -104,6 +102,7 @@ func (p *LocationListenerProxy) OnFlushComplete(
 	requestCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationListener)
 	_data.WriteInt32(requestCode)
 
@@ -119,7 +118,8 @@ func (p *LocationListenerProxy) OnFlushComplete(
 // LocationListenerStub dispatches incoming binder transactions
 // to a typed ILocationListener implementation.
 type LocationListenerStub struct {
-	Impl ILocationListener
+	Impl      ILocationListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LocationListenerStub)(nil)
@@ -133,24 +133,44 @@ func (s *LocationListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILocationListenerOnLocationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_locations []Location
-		_ = _arg_locations
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_onCompleteCallback *os.IRemoteCallback
-		_ = _arg_onCompleteCallback
-		_err := s.Impl.OnLocationChanged(ctx, _arg_locations, _arg_onCompleteCallback)
-		_ = _err
-		return nil, nil
-	case TransactionILocationListenerOnProviderEnabledChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_locations = make([]Location, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_locations[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		var _arg_onCompleteCallback os.IRemoteCallback
+		{
+			_onCompleteCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_onCompleteCallback = os.NewRemoteCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _onCompleteCallbackHandle))
+		}
+		_err := s.Impl.OnLocationChanged(ctx, _arg_locations, _arg_onCompleteCallback)
+		return nil, _err
+	case TransactionILocationListenerOnProviderEnabledChanged:
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -160,19 +180,14 @@ func (s *LocationListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnProviderEnabledChanged(ctx, _arg_provider, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionILocationListenerOnFlushComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnFlushComplete(ctx, _arg_requestCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -182,7 +197,7 @@ func (s *LocationListenerStub) OnTransaction(
 // provide to NewLocationListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ILocationListenerServer interface {
-	OnLocationChanged(ctx context.Context, locations []Location, onCompleteCallback *os.IRemoteCallback) error
+	OnLocationChanged(ctx context.Context, locations []Location, onCompleteCallback os.IRemoteCallback) error
 	OnProviderEnabledChanged(ctx context.Context, provider string, enabled bool) error
 	OnFlushComplete(ctx context.Context, requestCode int32) error
 }
@@ -199,7 +214,7 @@ func (w *locationListenerStubWrapper) AsBinder() binder.IBinder {
 func (w *locationListenerStubWrapper) OnLocationChanged(
 	ctx context.Context,
 	locations []Location,
-	onCompleteCallback *os.IRemoteCallback,
+	onCompleteCallback os.IRemoteCallback,
 ) error {
 	return w.impl.OnLocationChanged(ctx, locations, onCompleteCallback)
 }

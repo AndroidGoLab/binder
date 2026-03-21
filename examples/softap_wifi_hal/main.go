@@ -112,11 +112,12 @@ func printChipInfo(
 
 	// List AP interfaces — these are the SoftAP interfaces.
 	apNames, err := chip.GetApIfaceNames(ctx)
-	if err != nil {
+	switch {
+	case err != nil:
 		fmt.Fprintf(os.Stderr, "  GetApIfaceNames: %v\n", err)
-	} else if len(apNames) == 0 {
+	case len(apNames) == 0:
 		fmt.Printf("  AP interfaces: (none — no hotspot active)\n")
-	} else {
+	default:
 		fmt.Printf("  AP interfaces:\n")
 		for _, name := range apNames {
 			printApIfaceInfo(ctx, chip, name)

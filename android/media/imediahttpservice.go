@@ -45,6 +45,7 @@ func (p *MediaHTTPServiceProxy) MakeHTTPConnection(
 ) (IMediaHTTPConnection, error) {
 	var _result IMediaHTTPConnection
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaHTTPService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaHTTPService, MethodIMediaHTTPServiceMakeHTTPConnection)
@@ -73,7 +74,8 @@ func (p *MediaHTTPServiceProxy) MakeHTTPConnection(
 // MediaHTTPServiceStub dispatches incoming binder transactions
 // to a typed IMediaHTTPService implementation.
 type MediaHTTPServiceStub struct {
-	Impl IMediaHTTPService
+	Impl      IMediaHTTPService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaHTTPServiceStub)(nil)
@@ -87,11 +89,12 @@ func (s *MediaHTTPServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaHTTPServiceMakeHTTPConnection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.MakeHTTPConnection(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -99,8 +102,7 @@ func (s *MediaHTTPServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

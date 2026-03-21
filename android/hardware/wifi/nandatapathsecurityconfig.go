@@ -50,11 +50,21 @@ func (s *NanDataPathSecurityConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_securityTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.SecurityType = NanDataPathSecurityType(_securityTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_cipherTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -62,9 +72,19 @@ func (s *NanDataPathSecurityConfig) UnmarshalParcel(
 	}
 	s.CipherType = NanCipherSuiteType(_cipherTypeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Pmk, _err = p.ReadFixedByteArray(32)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Passphrase, _err = p.ReadByteArray()
@@ -72,9 +92,19 @@ func (s *NanDataPathSecurityConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Scid, _err = p.ReadFixedByteArray(16)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Enable16ReplyCountersForTksa, _err = p.ReadBool()
@@ -82,9 +112,19 @@ func (s *NanDataPathSecurityConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Enable16ReplyCountersForGtksa, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SupportGtkAndIgtk, _err = p.ReadBool()
@@ -92,14 +132,29 @@ func (s *NanDataPathSecurityConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SupportBigtksa, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.EnableNcsBip256, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.RequiresEnhancedFrameProtection, _err = p.ReadBool()

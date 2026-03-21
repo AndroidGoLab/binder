@@ -56,11 +56,21 @@ func (s *PhysicalChannelConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_statusRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Status = CellConnectionStatus(_statusRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_ratRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -68,9 +78,19 @@ func (s *PhysicalChannelConfig) UnmarshalParcel(
 	}
 	s.Rat = radio.RadioTechnology(_ratRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.DownlinkChannelNumber, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.UplinkChannelNumber, _err = p.ReadInt32()
@@ -78,14 +98,29 @@ func (s *PhysicalChannelConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.CellBandwidthDownlinkKhz, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.CellBandwidthUplinkKhz, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -103,9 +138,19 @@ func (s *PhysicalChannelConfig) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PhysicalCellId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.Band.UnmarshalParcel(p); _err != nil {

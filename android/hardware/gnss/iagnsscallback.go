@@ -3,7 +3,6 @@ package gnss
 import (
 	"context"
 	"fmt"
-	gnssIAGnssCallback "github.com/xaionaro-go/binder/android/hardware/gnss/IAGnssCallback"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -22,7 +21,7 @@ const (
 
 type IAGnssCallback interface {
 	AsBinder() binder.IBinder
-	AgnssStatusCb(ctx context.Context, type_ gnssIAGnssCallback.AGnssType, status gnssIAGnssCallback.AGnssStatusValue) error
+	AgnssStatusCb(ctx context.Context, type_ IAGnssCallbackAGnssType, status IAGnssCallbackAGnssStatusValue) error
 }
 
 type AGnssCallbackProxy struct {
@@ -43,10 +42,11 @@ var _ IAGnssCallback = (*AGnssCallbackProxy)(nil)
 
 func (p *AGnssCallbackProxy) AgnssStatusCb(
 	ctx context.Context,
-	type_ gnssIAGnssCallback.AGnssType,
-	status gnssIAGnssCallback.AGnssStatusValue,
+	type_ IAGnssCallbackAGnssType,
+	status IAGnssCallbackAGnssStatusValue,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnssCallback)
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(int32(status))
@@ -72,7 +72,8 @@ func (p *AGnssCallbackProxy) AgnssStatusCb(
 // AGnssCallbackStub dispatches incoming binder transactions
 // to a typed IAGnssCallback implementation.
 type AGnssCallbackStub struct {
-	Impl IAGnssCallback
+	Impl      IAGnssCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AGnssCallbackStub)(nil)
@@ -86,21 +87,22 @@ func (s *AGnssCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAGnssCallbackAgnssStatusCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_type_ := gnssIAGnssCallback.AGnssType(_raw_type_)
+		_arg_type_ := IAGnssCallbackAGnssType(_raw_type_)
 		_raw_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status := gnssIAGnssCallback.AGnssStatusValue(_raw_status)
+		_arg_status := IAGnssCallbackAGnssStatusValue(_raw_status)
 		_err = s.Impl.AgnssStatusCb(ctx, _arg_type_, _arg_status)
 		_reply := parcel.New()
 		if _err != nil {
@@ -118,7 +120,7 @@ func (s *AGnssCallbackStub) OnTransaction(
 // provide to NewAGnssCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAGnssCallbackServer interface {
-	AgnssStatusCb(ctx context.Context, type_ gnssIAGnssCallback.AGnssType, status gnssIAGnssCallback.AGnssStatusValue) error
+	AgnssStatusCb(ctx context.Context, type_ IAGnssCallbackAGnssType, status IAGnssCallbackAGnssStatusValue) error
 }
 
 type aGnssCallbackStubWrapper struct {
@@ -132,8 +134,8 @@ func (w *aGnssCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *aGnssCallbackStubWrapper) AgnssStatusCb(
 	ctx context.Context,
-	type_ gnssIAGnssCallback.AGnssType,
-	status gnssIAGnssCallback.AGnssStatusValue,
+	type_ IAGnssCallbackAGnssType,
+	status IAGnssCallbackAGnssStatusValue,
 ) error {
 	return w.impl.AgnssStatusCb(ctx, type_, status)
 }

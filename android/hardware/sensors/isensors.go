@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	fmq "github.com/xaionaro-go/binder/android/hardware/common/fmq"
-	sensorsISensors "github.com/xaionaro-go/binder/android/hardware/sensors/ISensors"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -43,13 +42,13 @@ type ISensors interface {
 	AsBinder() binder.IBinder
 	Activate(ctx context.Context, sensorHandle int32, enabled bool) error
 	Batch(ctx context.Context, sensorHandle int32, samplingPeriodNs int64, maxReportLatencyNs int64) error
-	ConfigDirectReport(ctx context.Context, sensorHandle int32, channelHandle int32, rate sensorsISensors.RateLevel) (int32, error)
+	ConfigDirectReport(ctx context.Context, sensorHandle int32, channelHandle int32, rate ISensorsRateLevel) (int32, error)
 	Flush(ctx context.Context, sensorHandle int32) error
 	GetSensorsList(ctx context.Context) ([]SensorInfo, error)
 	Initialize(ctx context.Context, eventQueueDescriptor fmq.MQDescriptor, wakeLockDescriptor fmq.MQDescriptor, sensorsCallback ISensorsCallback) error
 	InjectSensorData(ctx context.Context, event Event) error
-	RegisterDirectChannel(ctx context.Context, mem sensorsISensors.SharedMemInfo) (int32, error)
-	SetOperationMode(ctx context.Context, mode sensorsISensors.OperationMode) error
+	RegisterDirectChannel(ctx context.Context, mem ISensorsSharedMemInfo) (int32, error)
+	SetOperationMode(ctx context.Context, mode ISensorsOperationMode) error
 	UnregisterDirectChannel(ctx context.Context, channelHandle int32) error
 }
 
@@ -94,6 +93,7 @@ func (p *SensorsProxy) Activate(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
 	_data.WriteInt32(sensorHandle)
 	_data.WriteBool(enabled)
@@ -123,6 +123,7 @@ func (p *SensorsProxy) Batch(
 	maxReportLatencyNs int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
 	_data.WriteInt32(sensorHandle)
 	_data.WriteInt64(samplingPeriodNs)
@@ -150,10 +151,11 @@ func (p *SensorsProxy) ConfigDirectReport(
 	ctx context.Context,
 	sensorHandle int32,
 	channelHandle int32,
-	rate sensorsISensors.RateLevel,
+	rate ISensorsRateLevel,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
 	_data.WriteInt32(sensorHandle)
 	_data.WriteInt32(channelHandle)
@@ -186,6 +188,7 @@ func (p *SensorsProxy) Flush(
 	sensorHandle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
 	_data.WriteInt32(sensorHandle)
 
@@ -212,6 +215,7 @@ func (p *SensorsProxy) GetSensorsList(
 ) ([]SensorInfo, error) {
 	var _result []SensorInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensors, MethodISensorsGetSensorsList)
@@ -232,6 +236,9 @@ func (p *SensorsProxy) GetSensorsList(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -255,6 +262,7 @@ func (p *SensorsProxy) Initialize(
 	sensorsCallback ISensorsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
 	_data.WriteInt32(1)
 	if _err := eventQueueDescriptor.MarshalParcel(_data); _err != nil {
@@ -289,6 +297,7 @@ func (p *SensorsProxy) InjectSensorData(
 	event Event,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -315,10 +324,11 @@ func (p *SensorsProxy) InjectSensorData(
 
 func (p *SensorsProxy) RegisterDirectChannel(
 	ctx context.Context,
-	mem sensorsISensors.SharedMemInfo,
+	mem ISensorsSharedMemInfo,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
 	_data.WriteInt32(1)
 	if _err := mem.MarshalParcel(_data); _err != nil {
@@ -349,9 +359,10 @@ func (p *SensorsProxy) RegisterDirectChannel(
 
 func (p *SensorsProxy) SetOperationMode(
 	ctx context.Context,
-	mode sensorsISensors.OperationMode,
+	mode ISensorsOperationMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
 	_data.WriteInt32(int32(mode))
 
@@ -378,6 +389,7 @@ func (p *SensorsProxy) UnregisterDirectChannel(
 	channelHandle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensors)
 	_data.WriteInt32(channelHandle)
 
@@ -402,7 +414,8 @@ func (p *SensorsProxy) UnregisterDirectChannel(
 // SensorsStub dispatches incoming binder transactions
 // to a typed ISensors implementation.
 type SensorsStub struct {
-	Impl ISensors
+	Impl      ISensors
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SensorsStub)(nil)
@@ -416,11 +429,12 @@ func (s *SensorsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISensorsActivate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -438,9 +452,6 @@ func (s *SensorsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorsBatch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -462,9 +473,6 @@ func (s *SensorsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorsConfigDirectReport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -477,7 +485,7 @@ func (s *SensorsStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rate := sensorsISensors.RateLevel(_raw_rate)
+		_arg_rate := ISensorsRateLevel(_raw_rate)
 		_result, _err := s.Impl.ConfigDirectReport(ctx, _arg_sensorHandle, _arg_channelHandle, _arg_rate)
 		_reply := parcel.New()
 		if _err != nil {
@@ -488,9 +496,6 @@ func (s *SensorsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISensorsFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -504,9 +509,6 @@ func (s *SensorsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorsGetSensorsList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSensorsList(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -514,13 +516,19 @@ func (s *SensorsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISensorsInitialize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_eventQueueDescriptor fmq.MQDescriptor
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -545,9 +553,14 @@ func (s *SensorsStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sensorsCallback ISensorsCallback
-		_ = _arg_sensorsCallback
+		{
+			_sensorsCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sensorsCallback = NewSensorsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sensorsCallbackHandle))
+		}
 		_err := s.Impl.Initialize(ctx, _arg_eventQueueDescriptor, _arg_wakeLockDescriptor, _arg_sensorsCallback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -557,9 +570,6 @@ func (s *SensorsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorsInjectSensorData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event Event
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -581,10 +591,7 @@ func (s *SensorsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorsRegisterDirectChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_mem sensorsISensors.SharedMemInfo
+		var _arg_mem ISensorsSharedMemInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -606,14 +613,11 @@ func (s *SensorsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISensorsSetOperationMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode := sensorsISensors.OperationMode(_raw_mode)
+		_arg_mode := ISensorsOperationMode(_raw_mode)
 		_err = s.Impl.SetOperationMode(ctx, _arg_mode)
 		_reply := parcel.New()
 		if _err != nil {
@@ -623,9 +627,6 @@ func (s *SensorsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorsUnregisterDirectChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_channelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -649,13 +650,13 @@ func (s *SensorsStub) OnTransaction(
 type ISensorsServer interface {
 	Activate(ctx context.Context, sensorHandle int32, enabled bool) error
 	Batch(ctx context.Context, sensorHandle int32, samplingPeriodNs int64, maxReportLatencyNs int64) error
-	ConfigDirectReport(ctx context.Context, sensorHandle int32, channelHandle int32, rate sensorsISensors.RateLevel) (int32, error)
+	ConfigDirectReport(ctx context.Context, sensorHandle int32, channelHandle int32, rate ISensorsRateLevel) (int32, error)
 	Flush(ctx context.Context, sensorHandle int32) error
 	GetSensorsList(ctx context.Context) ([]SensorInfo, error)
 	Initialize(ctx context.Context, eventQueueDescriptor fmq.MQDescriptor, wakeLockDescriptor fmq.MQDescriptor, sensorsCallback ISensorsCallback) error
 	InjectSensorData(ctx context.Context, event Event) error
-	RegisterDirectChannel(ctx context.Context, mem sensorsISensors.SharedMemInfo) (int32, error)
-	SetOperationMode(ctx context.Context, mode sensorsISensors.OperationMode) error
+	RegisterDirectChannel(ctx context.Context, mem ISensorsSharedMemInfo) (int32, error)
+	SetOperationMode(ctx context.Context, mode ISensorsOperationMode) error
 	UnregisterDirectChannel(ctx context.Context, channelHandle int32) error
 }
 
@@ -689,7 +690,7 @@ func (w *sensorsStubWrapper) ConfigDirectReport(
 	ctx context.Context,
 	sensorHandle int32,
 	channelHandle int32,
-	rate sensorsISensors.RateLevel,
+	rate ISensorsRateLevel,
 ) (int32, error) {
 	return w.impl.ConfigDirectReport(ctx, sensorHandle, channelHandle, rate)
 }
@@ -725,14 +726,14 @@ func (w *sensorsStubWrapper) InjectSensorData(
 
 func (w *sensorsStubWrapper) RegisterDirectChannel(
 	ctx context.Context,
-	mem sensorsISensors.SharedMemInfo,
+	mem ISensorsSharedMemInfo,
 ) (int32, error) {
 	return w.impl.RegisterDirectChannel(ctx, mem)
 }
 
 func (w *sensorsStubWrapper) SetOperationMode(
 	ctx context.Context,
-	mode sensorsISensors.OperationMode,
+	mode ISensorsOperationMode,
 ) error {
 	return w.impl.SetOperationMode(ctx, mode)
 }

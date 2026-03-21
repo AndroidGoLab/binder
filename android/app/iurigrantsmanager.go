@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/content/pm/types"
 	net "github.com/xaionaro-go/binder/android/net"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -37,9 +38,9 @@ type IUriGrantsManager interface {
 	TakePersistableUriPermission(ctx context.Context, uri net.Uri, modeFlags int32, toPackage string) error
 	ReleasePersistableUriPermission(ctx context.Context, uri net.Uri, modeFlags int32, toPackage string) error
 	GrantUriPermissionFromOwner(ctx context.Context, owner binder.IBinder, fromUid int32, targetPkg string, uri net.Uri, mode int32, sourceUserId int32, targetUserId int32) error
-	GetGrantedUriPermissions(ctx context.Context, packageName string) (interface{}, error)
+	GetGrantedUriPermissions(ctx context.Context, packageName string) (types.ParceledListSlice, error)
 	ClearGrantedUriPermissions(ctx context.Context, packageName string) error
-	GetUriPermissions(ctx context.Context, packageName string, incoming bool, persistedOnly bool) (interface{}, error)
+	GetUriPermissions(ctx context.Context, packageName string, incoming bool, persistedOnly bool) (types.ParceledListSlice, error)
 	CheckGrantUriPermission_ignoreNonSystem(ctx context.Context, sourceUid int32, targetPkg string, uri net.Uri, modeFlags int32) (int32, error)
 }
 
@@ -67,6 +68,7 @@ func (p *UriGrantsManagerProxy) TakePersistableUriPermission(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
@@ -102,6 +104,7 @@ func (p *UriGrantsManagerProxy) ReleasePersistableUriPermission(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
@@ -140,6 +143,7 @@ func (p *UriGrantsManagerProxy) GrantUriPermissionFromOwner(
 	targetUserId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
 	binder.WriteBinderToParcel(ctx, _data, owner, p.Remote.Transport())
 	_data.WriteInt32(fromUid)
@@ -173,10 +177,11 @@ func (p *UriGrantsManagerProxy) GrantUriPermissionFromOwner(
 func (p *UriGrantsManagerProxy) GetGrantedUriPermissions(
 	ctx context.Context,
 	packageName string,
-) (interface{}, error) {
-	var _result interface{}
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -196,6 +201,17 @@ func (p *UriGrantsManagerProxy) GetGrantedUriPermissions(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -205,6 +221,7 @@ func (p *UriGrantsManagerProxy) ClearGrantedUriPermissions(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -232,9 +249,10 @@ func (p *UriGrantsManagerProxy) GetUriPermissions(
 	packageName string,
 	incoming bool,
 	persistedOnly bool,
-) (interface{}, error) {
-	var _result interface{}
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(incoming)
@@ -255,6 +273,17 @@ func (p *UriGrantsManagerProxy) GetUriPermissions(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -268,6 +297,7 @@ func (p *UriGrantsManagerProxy) CheckGrantUriPermission_ignoreNonSystem(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
 	_data.WriteInt32(sourceUid)
 	_data.WriteString16(targetPkg)
@@ -303,7 +333,8 @@ func (p *UriGrantsManagerProxy) CheckGrantUriPermission_ignoreNonSystem(
 // UriGrantsManagerStub dispatches incoming binder transactions
 // to a typed IUriGrantsManager implementation.
 type UriGrantsManagerStub struct {
-	Impl IUriGrantsManager
+	Impl      IUriGrantsManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UriGrantsManagerStub)(nil)
@@ -317,11 +348,12 @@ func (s *UriGrantsManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUriGrantsManagerTakePersistableUriPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_uri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -354,9 +386,6 @@ func (s *UriGrantsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUriGrantsManagerReleasePersistableUriPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_uri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -389,12 +418,14 @@ func (s *UriGrantsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUriGrantsManagerGrantUriPermissionFromOwner:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_owner binder.IBinder
-		_ = _arg_owner
+		{
+			_ownerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_owner = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _ownerHandle)
+		}
 		_arg_fromUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -436,9 +467,6 @@ func (s *UriGrantsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUriGrantsManagerGetGrantedUriPermissions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -456,9 +484,6 @@ func (s *UriGrantsManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUriGrantsManagerClearGrantedUriPermissions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -475,9 +500,6 @@ func (s *UriGrantsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUriGrantsManagerGetUriPermissions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -500,9 +522,6 @@ func (s *UriGrantsManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUriGrantsManagerCheckGrantUriPermission_ignoreNonSystem:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sourceUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -551,9 +570,9 @@ type IUriGrantsManagerServer interface {
 	TakePersistableUriPermission(ctx context.Context, uri net.Uri, modeFlags int32, toPackage string) error
 	ReleasePersistableUriPermission(ctx context.Context, uri net.Uri, modeFlags int32, toPackage string) error
 	GrantUriPermissionFromOwner(ctx context.Context, owner binder.IBinder, fromUid int32, targetPkg string, uri net.Uri, mode int32, sourceUserId int32, targetUserId int32) error
-	GetGrantedUriPermissions(ctx context.Context, packageName string) (interface{}, error)
+	GetGrantedUriPermissions(ctx context.Context, packageName string) (types.ParceledListSlice, error)
 	ClearGrantedUriPermissions(ctx context.Context, packageName string) error
-	GetUriPermissions(ctx context.Context, packageName string, incoming bool, persistedOnly bool) (interface{}, error)
+	GetUriPermissions(ctx context.Context, packageName string, incoming bool, persistedOnly bool) (types.ParceledListSlice, error)
 	CheckGrantUriPermission_ignoreNonSystem(ctx context.Context, sourceUid int32, targetPkg string, uri net.Uri, modeFlags int32) (int32, error)
 }
 
@@ -600,7 +619,7 @@ func (w *uriGrantsManagerStubWrapper) GrantUriPermissionFromOwner(
 func (w *uriGrantsManagerStubWrapper) GetGrantedUriPermissions(
 	ctx context.Context,
 	packageName string,
-) (interface{}, error) {
+) (types.ParceledListSlice, error) {
 	return w.impl.GetGrantedUriPermissions(ctx, packageName)
 }
 
@@ -616,7 +635,7 @@ func (w *uriGrantsManagerStubWrapper) GetUriPermissions(
 	packageName string,
 	incoming bool,
 	persistedOnly bool,
-) (interface{}, error) {
+) (types.ParceledListSlice, error) {
 	return w.impl.GetUriPermissions(ctx, packageName, incoming, persistedOnly)
 }
 

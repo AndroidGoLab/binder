@@ -47,6 +47,7 @@ func (p *MediaScannerListenerProxy) ScanCompleted(
 	uri net.Uri,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaScannerListener)
 	_data.WriteString16(path)
 	_data.WriteInt32(1)
@@ -66,7 +67,8 @@ func (p *MediaScannerListenerProxy) ScanCompleted(
 // MediaScannerListenerStub dispatches incoming binder transactions
 // to a typed IMediaScannerListener implementation.
 type MediaScannerListenerStub struct {
-	Impl IMediaScannerListener
+	Impl      IMediaScannerListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaScannerListenerStub)(nil)
@@ -80,11 +82,12 @@ func (s *MediaScannerListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaScannerListenerScanCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -102,8 +105,7 @@ func (s *MediaScannerListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.ScanCompleted(ctx, _arg_path, _arg_uri)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

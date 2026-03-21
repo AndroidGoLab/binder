@@ -45,6 +45,7 @@ func (p *ThermalStatusListenerProxy) OnStatusChange(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalStatusListener)
 	_data.WriteInt32(status)
 
@@ -60,7 +61,8 @@ func (p *ThermalStatusListenerProxy) OnStatusChange(
 // ThermalStatusListenerStub dispatches incoming binder transactions
 // to a typed IThermalStatusListener implementation.
 type ThermalStatusListenerStub struct {
-	Impl IThermalStatusListener
+	Impl      IThermalStatusListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ThermalStatusListenerStub)(nil)
@@ -74,18 +76,18 @@ func (s *ThermalStatusListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIThermalStatusListenerOnStatusChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnStatusChange(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

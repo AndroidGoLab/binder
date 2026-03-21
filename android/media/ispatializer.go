@@ -3,8 +3,7 @@ package media
 import (
 	"context"
 	"fmt"
-	HeadTracking "github.com/xaionaro-go/binder/android/media/audio/common/HeadTracking"
-	Spatialization "github.com/xaionaro-go/binder/android/media/audio/common/Spatialization"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -62,13 +61,13 @@ const (
 type ISpatializer interface {
 	AsBinder() binder.IBinder
 	Release(ctx context.Context) error
-	GetSupportedLevels(ctx context.Context) ([]Spatialization.Level, error)
-	SetLevel(ctx context.Context, level Spatialization.Level) error
-	GetLevel(ctx context.Context) (Spatialization.Level, error)
+	GetSupportedLevels(ctx context.Context) ([]common.SpatializationLevel, error)
+	SetLevel(ctx context.Context, level common.SpatializationLevel) error
+	GetLevel(ctx context.Context) (common.SpatializationLevel, error)
 	IsHeadTrackingSupported(ctx context.Context) (bool, error)
-	GetSupportedHeadTrackingModes(ctx context.Context) ([]HeadTracking.Mode, error)
-	SetDesiredHeadTrackingMode(ctx context.Context, mode HeadTracking.Mode) error
-	GetActualHeadTrackingMode(ctx context.Context) (HeadTracking.Mode, error)
+	GetSupportedHeadTrackingModes(ctx context.Context) ([]common.HeadTrackingMode, error)
+	SetDesiredHeadTrackingMode(ctx context.Context, mode common.HeadTrackingMode) error
+	GetActualHeadTrackingMode(ctx context.Context) (common.HeadTrackingMode, error)
 	RecenterHeadTracker(ctx context.Context) error
 	SetGlobalTransform(ctx context.Context, screenToStage []float32) error
 	SetHeadSensor(ctx context.Context, sensorHandle int32) error
@@ -76,7 +75,7 @@ type ISpatializer interface {
 	SetDisplayOrientation(ctx context.Context, physicalToLogicalAngle float32) error
 	SetHingeAngle(ctx context.Context, hingeAngle float32) error
 	SetFoldState(ctx context.Context, folded bool) error
-	GetSupportedModes(ctx context.Context) ([]Spatialization.Mode, error)
+	GetSupportedModes(ctx context.Context) ([]common.SpatializationMode, error)
 	RegisterHeadTrackingCallback(ctx context.Context, callback ISpatializerHeadTrackingCallback) error
 	SetParameter(ctx context.Context, key int32, value []byte) error
 	GetParameter(ctx context.Context, key int32, value []byte) error
@@ -103,6 +102,7 @@ func (p *SpatializerProxy) Release(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerRelease)
@@ -125,9 +125,10 @@ func (p *SpatializerProxy) Release(
 
 func (p *SpatializerProxy) GetSupportedLevels(
 	ctx context.Context,
-) ([]Spatialization.Level, error) {
-	var _result []Spatialization.Level
+) ([]common.SpatializationLevel, error) {
+	var _result []common.SpatializationLevel
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerGetSupportedLevels)
@@ -149,10 +150,18 @@ func (p *SpatializerProxy) GetSupportedLevels(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]Spatialization.Level, _count)
+		_result = make([]common.SpatializationLevel, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			_raw, _err := _reply.ReadPaddedByte()
+			if _err != nil {
+				return _result, _err
+			}
+			_result[_i] = common.SpatializationLevel(_raw)
 		}
 	}
 	return _result, nil
@@ -160,10 +169,12 @@ func (p *SpatializerProxy) GetSupportedLevels(
 
 func (p *SpatializerProxy) SetLevel(
 	ctx context.Context,
-	level Spatialization.Level,
+	level common.SpatializationLevel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
+	_data.WritePaddedByte(byte(level))
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetLevel)
 	if _err != nil {
@@ -185,9 +196,10 @@ func (p *SpatializerProxy) SetLevel(
 
 func (p *SpatializerProxy) GetLevel(
 	ctx context.Context,
-) (Spatialization.Level, error) {
-	var _result Spatialization.Level
+) (common.SpatializationLevel, error) {
+	var _result common.SpatializationLevel
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerGetLevel)
@@ -205,6 +217,11 @@ func (p *SpatializerProxy) GetLevel(
 		return _result, _err
 	}
 
+	_raw, _err := _reply.ReadPaddedByte()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = common.SpatializationLevel(_raw)
 	return _result, nil
 }
 
@@ -213,6 +230,7 @@ func (p *SpatializerProxy) IsHeadTrackingSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerIsHeadTrackingSupported)
@@ -239,9 +257,10 @@ func (p *SpatializerProxy) IsHeadTrackingSupported(
 
 func (p *SpatializerProxy) GetSupportedHeadTrackingModes(
 	ctx context.Context,
-) ([]HeadTracking.Mode, error) {
-	var _result []HeadTracking.Mode
+) ([]common.HeadTrackingMode, error) {
+	var _result []common.HeadTrackingMode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerGetSupportedHeadTrackingModes)
@@ -263,10 +282,18 @@ func (p *SpatializerProxy) GetSupportedHeadTrackingModes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]HeadTracking.Mode, _count)
+		_result = make([]common.HeadTrackingMode, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			_raw, _err := _reply.ReadPaddedByte()
+			if _err != nil {
+				return _result, _err
+			}
+			_result[_i] = common.HeadTrackingMode(_raw)
 		}
 	}
 	return _result, nil
@@ -274,10 +301,12 @@ func (p *SpatializerProxy) GetSupportedHeadTrackingModes(
 
 func (p *SpatializerProxy) SetDesiredHeadTrackingMode(
 	ctx context.Context,
-	mode HeadTracking.Mode,
+	mode common.HeadTrackingMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
+	_data.WritePaddedByte(byte(mode))
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetDesiredHeadTrackingMode)
 	if _err != nil {
@@ -299,9 +328,10 @@ func (p *SpatializerProxy) SetDesiredHeadTrackingMode(
 
 func (p *SpatializerProxy) GetActualHeadTrackingMode(
 	ctx context.Context,
-) (HeadTracking.Mode, error) {
-	var _result HeadTracking.Mode
+) (common.HeadTrackingMode, error) {
+	var _result common.HeadTrackingMode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerGetActualHeadTrackingMode)
@@ -319,6 +349,11 @@ func (p *SpatializerProxy) GetActualHeadTrackingMode(
 		return _result, _err
 	}
 
+	_raw, _err := _reply.ReadPaddedByte()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = common.HeadTrackingMode(_raw)
 	return _result, nil
 }
 
@@ -326,6 +361,7 @@ func (p *SpatializerProxy) RecenterHeadTracker(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerRecenterHeadTracker)
@@ -351,6 +387,7 @@ func (p *SpatializerProxy) SetGlobalTransform(
 	screenToStage []float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 	if screenToStage == nil {
 		_data.WriteInt32(-1)
@@ -384,6 +421,7 @@ func (p *SpatializerProxy) SetHeadSensor(
 	sensorHandle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 	_data.WriteInt32(sensorHandle)
 
@@ -410,6 +448,7 @@ func (p *SpatializerProxy) SetScreenSensor(
 	sensorHandle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 	_data.WriteInt32(sensorHandle)
 
@@ -436,6 +475,7 @@ func (p *SpatializerProxy) SetDisplayOrientation(
 	physicalToLogicalAngle float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 	_data.WriteFloat32(physicalToLogicalAngle)
 
@@ -462,6 +502,7 @@ func (p *SpatializerProxy) SetHingeAngle(
 	hingeAngle float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 	_data.WriteFloat32(hingeAngle)
 
@@ -488,6 +529,7 @@ func (p *SpatializerProxy) SetFoldState(
 	folded bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 	_data.WriteBool(folded)
 
@@ -511,9 +553,10 @@ func (p *SpatializerProxy) SetFoldState(
 
 func (p *SpatializerProxy) GetSupportedModes(
 	ctx context.Context,
-) ([]Spatialization.Mode, error) {
-	var _result []Spatialization.Mode
+) ([]common.SpatializationMode, error) {
+	var _result []common.SpatializationMode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerGetSupportedModes)
@@ -535,10 +578,18 @@ func (p *SpatializerProxy) GetSupportedModes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]Spatialization.Mode, _count)
+		_result = make([]common.SpatializationMode, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			_raw, _err := _reply.ReadPaddedByte()
+			if _err != nil {
+				return _result, _err
+			}
+			_result[_i] = common.SpatializationMode(_raw)
 		}
 	}
 	return _result, nil
@@ -549,6 +600,7 @@ func (p *SpatializerProxy) RegisterHeadTrackingCallback(
 	callback ISpatializerHeadTrackingCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -576,16 +628,10 @@ func (p *SpatializerProxy) SetParameter(
 	value []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 	_data.WriteInt32(key)
-	if value == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(value)))
-		for _, _item := range value {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(value)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetParameter)
 	if _err != nil {
@@ -611,16 +657,10 @@ func (p *SpatializerProxy) GetParameter(
 	value []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 	_data.WriteInt32(key)
-	if value == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(value)))
-		for _, _item := range value {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(value)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerGetParameter)
 	if _err != nil {
@@ -636,18 +676,9 @@ func (p *SpatializerProxy) GetParameter(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
-	_outCount0, _err := _reply.ReadInt32()
+	value, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _outCount0 >= 0 {
-		value = make([]byte, _outCount0)
-		for _i := int32(0); _i < _outCount0; _i++ {
-			value[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	return nil
@@ -658,6 +689,7 @@ func (p *SpatializerProxy) GetOutput(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerGetOutput)
@@ -685,7 +717,8 @@ func (p *SpatializerProxy) GetOutput(
 // SpatializerStub dispatches incoming binder transactions
 // to a typed ISpatializer implementation.
 type SpatializerStub struct {
-	Impl ISpatializer
+	Impl      ISpatializer
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SpatializerStub)(nil)
@@ -699,11 +732,12 @@ func (s *SpatializerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISpatializerRelease:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Release(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -713,9 +747,6 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerGetSupportedLevels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedLevels(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -723,15 +754,22 @@ func (s *SpatializerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WritePaddedByte(byte(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionISpatializerSetLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_raw_level, _err := _data.ReadPaddedByte()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_level Spatialization.Level
-		_err := s.Impl.SetLevel(ctx, _arg_level)
+		_arg_level := common.SpatializationLevel(_raw_level)
+		_err = s.Impl.SetLevel(ctx, _arg_level)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -740,9 +778,6 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerGetLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLevel(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -750,12 +785,9 @@ func (s *SpatializerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionISpatializerIsHeadTrackingSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsHeadTrackingSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -766,9 +798,6 @@ func (s *SpatializerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISpatializerGetSupportedHeadTrackingModes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedHeadTrackingModes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -776,15 +805,22 @@ func (s *SpatializerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WritePaddedByte(byte(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionISpatializerSetDesiredHeadTrackingMode:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_raw_mode, _err := _data.ReadPaddedByte()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_mode HeadTracking.Mode
-		_err := s.Impl.SetDesiredHeadTrackingMode(ctx, _arg_mode)
+		_arg_mode := common.HeadTrackingMode(_raw_mode)
+		_err = s.Impl.SetDesiredHeadTrackingMode(ctx, _arg_mode)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -793,9 +829,6 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerGetActualHeadTrackingMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetActualHeadTrackingMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -803,12 +836,9 @@ func (s *SpatializerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionISpatializerRecenterHeadTracker:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RecenterHeadTracker(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -818,12 +848,25 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerSetGlobalTransform:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_screenToStage []float32
-		_ = _arg_screenToStage
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_screenToStage = make([]float32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_screenToStage[_i], _err = _data.ReadFloat32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetGlobalTransform(ctx, _arg_screenToStage)
 		_reply := parcel.New()
 		if _err != nil {
@@ -833,9 +876,6 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerSetHeadSensor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -849,9 +889,6 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerSetScreenSensor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -865,9 +902,6 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerSetDisplayOrientation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_physicalToLogicalAngle, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -881,9 +915,6 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerSetHingeAngle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_hingeAngle, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -897,9 +928,6 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerSetFoldState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_folded, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -913,9 +941,6 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerGetSupportedModes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedModes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -923,16 +948,24 @@ func (s *SpatializerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WritePaddedByte(byte(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionISpatializerRegisterHeadTrackingCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISpatializerHeadTrackingCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSpatializerHeadTrackingCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterHeadTrackingCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -942,16 +975,18 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerSetParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_value []byte
-		_ = _arg_value
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_value = _bytes
+		}
 		_err = s.Impl.SetParameter(ctx, _arg_key, _arg_value)
 		_reply := parcel.New()
 		if _err != nil {
@@ -961,16 +996,18 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerGetParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_value []byte
-		_ = _arg_value
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_value = _bytes
+		}
 		_err = s.Impl.GetParameter(ctx, _arg_key, _arg_value)
 		_reply := parcel.New()
 		if _err != nil {
@@ -978,11 +1015,9 @@ func (s *SpatializerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		_reply.WriteByteArray(_arg_value)
 		return _reply, nil
 	case TransactionISpatializerGetOutput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetOutput(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1002,13 +1037,13 @@ func (s *SpatializerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type ISpatializerServer interface {
 	Release(ctx context.Context) error
-	GetSupportedLevels(ctx context.Context) ([]Spatialization.Level, error)
-	SetLevel(ctx context.Context, level Spatialization.Level) error
-	GetLevel(ctx context.Context) (Spatialization.Level, error)
+	GetSupportedLevels(ctx context.Context) ([]common.SpatializationLevel, error)
+	SetLevel(ctx context.Context, level common.SpatializationLevel) error
+	GetLevel(ctx context.Context) (common.SpatializationLevel, error)
 	IsHeadTrackingSupported(ctx context.Context) (bool, error)
-	GetSupportedHeadTrackingModes(ctx context.Context) ([]HeadTracking.Mode, error)
-	SetDesiredHeadTrackingMode(ctx context.Context, mode HeadTracking.Mode) error
-	GetActualHeadTrackingMode(ctx context.Context) (HeadTracking.Mode, error)
+	GetSupportedHeadTrackingModes(ctx context.Context) ([]common.HeadTrackingMode, error)
+	SetDesiredHeadTrackingMode(ctx context.Context, mode common.HeadTrackingMode) error
+	GetActualHeadTrackingMode(ctx context.Context) (common.HeadTrackingMode, error)
 	RecenterHeadTracker(ctx context.Context) error
 	SetGlobalTransform(ctx context.Context, screenToStage []float32) error
 	SetHeadSensor(ctx context.Context, sensorHandle int32) error
@@ -1016,7 +1051,7 @@ type ISpatializerServer interface {
 	SetDisplayOrientation(ctx context.Context, physicalToLogicalAngle float32) error
 	SetHingeAngle(ctx context.Context, hingeAngle float32) error
 	SetFoldState(ctx context.Context, folded bool) error
-	GetSupportedModes(ctx context.Context) ([]Spatialization.Mode, error)
+	GetSupportedModes(ctx context.Context) ([]common.SpatializationMode, error)
 	RegisterHeadTrackingCallback(ctx context.Context, callback ISpatializerHeadTrackingCallback) error
 	SetParameter(ctx context.Context, key int32, value []byte) error
 	GetParameter(ctx context.Context, key int32, value []byte) error
@@ -1040,20 +1075,20 @@ func (w *spatializerStubWrapper) Release(
 
 func (w *spatializerStubWrapper) GetSupportedLevels(
 	ctx context.Context,
-) ([]Spatialization.Level, error) {
+) ([]common.SpatializationLevel, error) {
 	return w.impl.GetSupportedLevels(ctx)
 }
 
 func (w *spatializerStubWrapper) SetLevel(
 	ctx context.Context,
-	level Spatialization.Level,
+	level common.SpatializationLevel,
 ) error {
 	return w.impl.SetLevel(ctx, level)
 }
 
 func (w *spatializerStubWrapper) GetLevel(
 	ctx context.Context,
-) (Spatialization.Level, error) {
+) (common.SpatializationLevel, error) {
 	return w.impl.GetLevel(ctx)
 }
 
@@ -1065,20 +1100,20 @@ func (w *spatializerStubWrapper) IsHeadTrackingSupported(
 
 func (w *spatializerStubWrapper) GetSupportedHeadTrackingModes(
 	ctx context.Context,
-) ([]HeadTracking.Mode, error) {
+) ([]common.HeadTrackingMode, error) {
 	return w.impl.GetSupportedHeadTrackingModes(ctx)
 }
 
 func (w *spatializerStubWrapper) SetDesiredHeadTrackingMode(
 	ctx context.Context,
-	mode HeadTracking.Mode,
+	mode common.HeadTrackingMode,
 ) error {
 	return w.impl.SetDesiredHeadTrackingMode(ctx, mode)
 }
 
 func (w *spatializerStubWrapper) GetActualHeadTrackingMode(
 	ctx context.Context,
-) (HeadTracking.Mode, error) {
+) (common.HeadTrackingMode, error) {
 	return w.impl.GetActualHeadTrackingMode(ctx)
 }
 
@@ -1132,7 +1167,7 @@ func (w *spatializerStubWrapper) SetFoldState(
 
 func (w *spatializerStubWrapper) GetSupportedModes(
 	ctx context.Context,
-) ([]Spatialization.Mode, error) {
+) ([]common.SpatializationMode, error) {
 	return w.impl.GetSupportedModes(ctx)
 }
 

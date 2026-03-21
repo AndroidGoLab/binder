@@ -9,7 +9,7 @@ import (
 type BarringInfo struct {
 	ServiceType             int32
 	BarringType             int32
-	BarringTypeSpecificInfo BarringTypeSpecificInfo
+	BarringTypeSpecificInfo *BarringTypeSpecificInfo
 }
 
 const (
@@ -68,8 +68,13 @@ func (s *BarringInfo) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.ServiceType)
 	p.WriteInt32(s.BarringType)
-	if _err := s.BarringTypeSpecificInfo.MarshalParcel(p); _err != nil {
-		return _err
+	if s.BarringTypeSpecificInfo == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.BarringTypeSpecificInfo.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -84,9 +89,19 @@ func (s *BarringInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ServiceType, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.BarringType, _err = p.ReadInt32()
@@ -94,8 +109,23 @@ func (s *BarringInfo) UnmarshalParcel(
 		return _err
 	}
 
-	if _err = s.BarringTypeSpecificInfo.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val BarringTypeSpecificInfo
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.BarringTypeSpecificInfo = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

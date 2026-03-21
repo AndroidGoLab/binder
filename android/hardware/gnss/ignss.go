@@ -3,7 +3,6 @@ package gnss
 import (
 	"context"
 	"fmt"
-	gnssIGnss "github.com/xaionaro-go/binder/android/hardware/gnss/IGnss"
 	measurement_corrections "github.com/xaionaro-go/binder/android/hardware/gnss/measurement_corrections"
 	visibility_control "github.com/xaionaro-go/binder/android/hardware/gnss/visibility_control"
 	"github.com/xaionaro-go/binder/binder"
@@ -92,8 +91,8 @@ type IGnss interface {
 	InjectTime(ctx context.Context, timeMs int64, timeReferenceMs int64, uncertaintyMs int32) error
 	InjectLocation(ctx context.Context, location GnssLocation) error
 	InjectBestLocation(ctx context.Context, location GnssLocation) error
-	DeleteAidingData(ctx context.Context, aidingDataFlags gnssIGnss.GnssAidingData) error
-	SetPositionMode(ctx context.Context, options gnssIGnss.PositionModeOptions) error
+	DeleteAidingData(ctx context.Context, aidingDataFlags IGnssGnssAidingData) error
+	SetPositionMode(ctx context.Context, options IGnssPositionModeOptions) error
 	GetExtensionGnssAntennaInfo(ctx context.Context) (IGnssAntennaInfo, error)
 	GetExtensionMeasurementCorrections(ctx context.Context) (measurement_corrections.IMeasurementCorrectionsInterface, error)
 	StartSvStatus(ctx context.Context) error
@@ -129,6 +128,7 @@ func (p *GnssProxy) SetCallback(
 	callback IGnssCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -154,6 +154,7 @@ func (p *GnssProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssClose)
@@ -179,6 +180,7 @@ func (p *GnssProxy) GetExtensionPsds(
 ) (IGnssPsds, error) {
 	var _result IGnssPsds
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionPsds)
@@ -209,6 +211,7 @@ func (p *GnssProxy) GetExtensionGnssConfiguration(
 ) (IGnssConfiguration, error) {
 	var _result IGnssConfiguration
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssConfiguration)
@@ -239,6 +242,7 @@ func (p *GnssProxy) GetExtensionGnssMeasurement(
 ) (IGnssMeasurementInterface, error) {
 	var _result IGnssMeasurementInterface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssMeasurement)
@@ -269,6 +273,7 @@ func (p *GnssProxy) GetExtensionGnssPowerIndication(
 ) (IGnssPowerIndication, error) {
 	var _result IGnssPowerIndication
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssPowerIndication)
@@ -299,6 +304,7 @@ func (p *GnssProxy) GetExtensionGnssBatching(
 ) (IGnssBatching, error) {
 	var _result IGnssBatching
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssBatching)
@@ -329,6 +335,7 @@ func (p *GnssProxy) GetExtensionGnssGeofence(
 ) (IGnssGeofence, error) {
 	var _result IGnssGeofence
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssGeofence)
@@ -359,6 +366,7 @@ func (p *GnssProxy) GetExtensionGnssNavigationMessage(
 ) (IGnssNavigationMessageInterface, error) {
 	var _result IGnssNavigationMessageInterface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssNavigationMessage)
@@ -389,6 +397,7 @@ func (p *GnssProxy) GetExtensionAGnss(
 ) (IAGnss, error) {
 	var _result IAGnss
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionAGnss)
@@ -419,6 +428,7 @@ func (p *GnssProxy) GetExtensionAGnssRil(
 ) (IAGnssRil, error) {
 	var _result IAGnssRil
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionAGnssRil)
@@ -449,6 +459,7 @@ func (p *GnssProxy) GetExtensionGnssDebug(
 ) (IGnssDebug, error) {
 	var _result IGnssDebug
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssDebug)
@@ -479,6 +490,7 @@ func (p *GnssProxy) GetExtensionGnssVisibilityControl(
 ) (visibility_control.IGnssVisibilityControl, error) {
 	var _result visibility_control.IGnssVisibilityControl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssVisibilityControl)
@@ -508,6 +520,7 @@ func (p *GnssProxy) Start(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssStart)
@@ -532,6 +545,7 @@ func (p *GnssProxy) Stop(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssStop)
@@ -559,6 +573,7 @@ func (p *GnssProxy) InjectTime(
 	uncertaintyMs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 	_data.WriteInt64(timeMs)
 	_data.WriteInt64(timeReferenceMs)
@@ -587,6 +602,7 @@ func (p *GnssProxy) InjectLocation(
 	location GnssLocation,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 	_data.WriteInt32(1)
 	if _err := location.MarshalParcel(_data); _err != nil {
@@ -616,6 +632,7 @@ func (p *GnssProxy) InjectBestLocation(
 	location GnssLocation,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 	_data.WriteInt32(1)
 	if _err := location.MarshalParcel(_data); _err != nil {
@@ -642,9 +659,10 @@ func (p *GnssProxy) InjectBestLocation(
 
 func (p *GnssProxy) DeleteAidingData(
 	ctx context.Context,
-	aidingDataFlags gnssIGnss.GnssAidingData,
+	aidingDataFlags IGnssGnssAidingData,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 	_data.WriteInt32(int32(aidingDataFlags))
 
@@ -668,9 +686,10 @@ func (p *GnssProxy) DeleteAidingData(
 
 func (p *GnssProxy) SetPositionMode(
 	ctx context.Context,
-	options gnssIGnss.PositionModeOptions,
+	options IGnssPositionModeOptions,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
@@ -700,6 +719,7 @@ func (p *GnssProxy) GetExtensionGnssAntennaInfo(
 ) (IGnssAntennaInfo, error) {
 	var _result IGnssAntennaInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssAntennaInfo)
@@ -730,6 +750,7 @@ func (p *GnssProxy) GetExtensionMeasurementCorrections(
 ) (measurement_corrections.IMeasurementCorrectionsInterface, error) {
 	var _result measurement_corrections.IMeasurementCorrectionsInterface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionMeasurementCorrections)
@@ -759,6 +780,7 @@ func (p *GnssProxy) StartSvStatus(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssStartSvStatus)
@@ -783,6 +805,7 @@ func (p *GnssProxy) StopSvStatus(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssStopSvStatus)
@@ -807,6 +830,7 @@ func (p *GnssProxy) StartNmea(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssStartNmea)
@@ -831,6 +855,7 @@ func (p *GnssProxy) StopNmea(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssStopNmea)
@@ -854,7 +879,8 @@ func (p *GnssProxy) StopNmea(
 // GnssStub dispatches incoming binder transactions
 // to a typed IGnss implementation.
 type GnssStub struct {
-	Impl IGnss
+	Impl      IGnss
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssStub)(nil)
@@ -868,14 +894,20 @@ func (s *GnssStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGnssCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGnssCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -885,9 +917,6 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -897,9 +926,6 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGetExtensionPsds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetExtensionPsds(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -907,13 +933,9 @@ func (s *GnssStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetExtensionGnssConfiguration(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -921,13 +943,9 @@ func (s *GnssStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssMeasurement:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetExtensionGnssMeasurement(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -935,13 +953,9 @@ func (s *GnssStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssPowerIndication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetExtensionGnssPowerIndication(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -949,13 +963,9 @@ func (s *GnssStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssBatching:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetExtensionGnssBatching(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -963,13 +973,9 @@ func (s *GnssStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssGeofence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetExtensionGnssGeofence(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -977,13 +983,9 @@ func (s *GnssStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssNavigationMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetExtensionGnssNavigationMessage(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -991,13 +993,9 @@ func (s *GnssStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIGnssGetExtensionAGnss:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetExtensionAGnss(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1005,13 +1003,9 @@ func (s *GnssStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIGnssGetExtensionAGnssRil:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetExtensionAGnssRil(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1019,13 +1013,9 @@ func (s *GnssStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssDebug:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetExtensionGnssDebug(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1033,13 +1023,9 @@ func (s *GnssStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssVisibilityControl:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetExtensionGnssVisibilityControl(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1047,13 +1033,9 @@ func (s *GnssStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIGnssStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Start(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1063,9 +1045,6 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Stop(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1075,9 +1054,6 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssInjectTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1099,9 +1075,6 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssInjectLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_location GnssLocation
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1123,9 +1096,6 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssInjectBestLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_location GnssLocation
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1147,14 +1117,11 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssDeleteAidingData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_aidingDataFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_aidingDataFlags := gnssIGnss.GnssAidingData(_raw_aidingDataFlags)
+		_arg_aidingDataFlags := IGnssGnssAidingData(_raw_aidingDataFlags)
 		_err = s.Impl.DeleteAidingData(ctx, _arg_aidingDataFlags)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1164,10 +1131,7 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssSetPositionMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_options gnssIGnss.PositionModeOptions
+		var _arg_options IGnssPositionModeOptions
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1188,9 +1152,6 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssAntennaInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetExtensionGnssAntennaInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1198,13 +1159,9 @@ func (s *GnssStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIGnssGetExtensionMeasurementCorrections:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetExtensionMeasurementCorrections(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1212,13 +1169,9 @@ func (s *GnssStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIGnssStartSvStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StartSvStatus(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1228,9 +1181,6 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssStopSvStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopSvStatus(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1240,9 +1190,6 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssStartNmea:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StartNmea(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1252,9 +1199,6 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssStopNmea:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopNmea(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1290,8 +1234,8 @@ type IGnssServer interface {
 	InjectTime(ctx context.Context, timeMs int64, timeReferenceMs int64, uncertaintyMs int32) error
 	InjectLocation(ctx context.Context, location GnssLocation) error
 	InjectBestLocation(ctx context.Context, location GnssLocation) error
-	DeleteAidingData(ctx context.Context, aidingDataFlags gnssIGnss.GnssAidingData) error
-	SetPositionMode(ctx context.Context, options gnssIGnss.PositionModeOptions) error
+	DeleteAidingData(ctx context.Context, aidingDataFlags IGnssGnssAidingData) error
+	SetPositionMode(ctx context.Context, options IGnssPositionModeOptions) error
 	GetExtensionGnssAntennaInfo(ctx context.Context) (IGnssAntennaInfo, error)
 	GetExtensionMeasurementCorrections(ctx context.Context) (measurement_corrections.IMeasurementCorrectionsInterface, error)
 	StartSvStatus(ctx context.Context) error
@@ -1425,14 +1369,14 @@ func (w *gnssStubWrapper) InjectBestLocation(
 
 func (w *gnssStubWrapper) DeleteAidingData(
 	ctx context.Context,
-	aidingDataFlags gnssIGnss.GnssAidingData,
+	aidingDataFlags IGnssGnssAidingData,
 ) error {
 	return w.impl.DeleteAidingData(ctx, aidingDataFlags)
 }
 
 func (w *gnssStubWrapper) SetPositionMode(
 	ctx context.Context,
-	options gnssIGnss.PositionModeOptions,
+	options IGnssPositionModeOptions,
 ) error {
 	return w.impl.SetPositionMode(ctx, options)
 }

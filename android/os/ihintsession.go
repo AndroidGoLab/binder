@@ -36,7 +36,7 @@ type IHintSession interface {
 	Close(ctx context.Context) error
 	SendHint(ctx context.Context, hint int32) error
 	SetMode(ctx context.Context, mode int32, enabled bool) error
-	ReportActualWorkDuration2(ctx context.Context, workDurations []interface{}) error
+	ReportActualWorkDuration2(ctx context.Context, workDurations []WorkDuration) error
 }
 
 type HintSessionProxy struct {
@@ -60,6 +60,7 @@ func (p *HintSessionProxy) UpdateTargetWorkDuration(
 	targetDurationNanos int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintSession)
 	_data.WriteInt64(targetDurationNanos)
 
@@ -78,6 +79,7 @@ func (p *HintSessionProxy) ReportActualWorkDuration(
 	timeStampNanos []int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintSession)
 	if actualDurationNanos == nil {
 		_data.WriteInt32(-1)
@@ -109,6 +111,7 @@ func (p *HintSessionProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintSession, MethodIHintSessionClose)
@@ -125,6 +128,7 @@ func (p *HintSessionProxy) SendHint(
 	hint int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintSession)
 	_data.WriteInt32(hint)
 
@@ -143,6 +147,7 @@ func (p *HintSessionProxy) SetMode(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintSession)
 	_data.WriteInt32(mode)
 	_data.WriteBool(enabled)
@@ -158,14 +163,21 @@ func (p *HintSessionProxy) SetMode(
 
 func (p *HintSessionProxy) ReportActualWorkDuration2(
 	ctx context.Context,
-	workDurations []interface{},
+	workDurations []WorkDuration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintSession)
 	if workDurations == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(workDurations)))
+		for _, _item := range workDurations {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintSession, MethodIHintSessionReportActualWorkDuration2)
@@ -180,7 +192,8 @@ func (p *HintSessionProxy) ReportActualWorkDuration2(
 // HintSessionStub dispatches incoming binder transactions
 // to a typed IHintSession implementation.
 type HintSessionStub struct {
-	Impl IHintSession
+	Impl      IHintSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HintSessionStub)(nil)
@@ -194,53 +207,70 @@ func (s *HintSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHintSessionUpdateTargetWorkDuration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_targetDurationNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.UpdateTargetWorkDuration(ctx, _arg_targetDurationNanos)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHintSessionReportActualWorkDuration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_actualDurationNanos []int64
-		_ = _arg_actualDurationNanos
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_actualDurationNanos = make([]int64, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_actualDurationNanos[_i], _err = _data.ReadInt64()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_timeStampNanos []int64
-		_ = _arg_timeStampNanos
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_timeStampNanos = make([]int64, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_timeStampNanos[_i], _err = _data.ReadInt64()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.ReportActualWorkDuration(ctx, _arg_actualDurationNanos, _arg_timeStampNanos)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHintSessionClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHintSessionSendHint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_hint, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SendHint(ctx, _arg_hint)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHintSessionSetMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -250,18 +280,31 @@ func (s *HintSessionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetMode(ctx, _arg_mode, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHintSessionReportActualWorkDuration2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_workDurations []WorkDuration
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_workDurations = make([]WorkDuration, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_workDurations[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_workDurations []interface{}
-		_ = _arg_workDurations
 		_err := s.Impl.ReportActualWorkDuration2(ctx, _arg_workDurations)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -276,7 +319,7 @@ type IHintSessionServer interface {
 	Close(ctx context.Context) error
 	SendHint(ctx context.Context, hint int32) error
 	SetMode(ctx context.Context, mode int32, enabled bool) error
-	ReportActualWorkDuration2(ctx context.Context, workDurations []interface{}) error
+	ReportActualWorkDuration2(ctx context.Context, workDurations []WorkDuration) error
 }
 
 type hintSessionStubWrapper struct {
@@ -326,7 +369,7 @@ func (w *hintSessionStubWrapper) SetMode(
 
 func (w *hintSessionStubWrapper) ReportActualWorkDuration2(
 	ctx context.Context,
-	workDurations []interface{},
+	workDurations []WorkDuration,
 ) error {
 	return w.impl.ReportActualWorkDuration2(ctx, workDurations)
 }

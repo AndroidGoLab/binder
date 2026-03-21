@@ -55,6 +55,7 @@ func (p *DataLoaderManagerProxy) BindToDataLoader(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataLoaderManager)
 	_data.WriteInt32(id)
 	_data.WriteInt32(1)
@@ -92,6 +93,7 @@ func (p *DataLoaderManagerProxy) GetDataLoader(
 ) (IDataLoader, error) {
 	var _result IDataLoader
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataLoaderManager)
 	_data.WriteInt32(dataLoaderId)
 
@@ -123,6 +125,7 @@ func (p *DataLoaderManagerProxy) UnbindFromDataLoader(
 	dataLoaderId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataLoaderManager)
 	_data.WriteInt32(dataLoaderId)
 
@@ -147,7 +150,8 @@ func (p *DataLoaderManagerProxy) UnbindFromDataLoader(
 // DataLoaderManagerStub dispatches incoming binder transactions
 // to a typed IDataLoaderManager implementation.
 type DataLoaderManagerStub struct {
-	Impl IDataLoaderManager
+	Impl      IDataLoaderManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DataLoaderManagerStub)(nil)
@@ -161,11 +165,12 @@ func (s *DataLoaderManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDataLoaderManagerBindToDataLoader:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -186,9 +191,14 @@ func (s *DataLoaderManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDataLoaderStatusListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewDataLoaderStatusListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.BindToDataLoader(ctx, _arg_id, _arg_params, _arg_bindDelayMs, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -199,9 +209,6 @@ func (s *DataLoaderManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDataLoaderManagerGetDataLoader:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dataLoaderId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -213,13 +220,9 @@ func (s *DataLoaderManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIDataLoaderManagerUnbindFromDataLoader:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dataLoaderId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

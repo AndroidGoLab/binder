@@ -47,6 +47,7 @@ func (p *OneHandedProxy) StartOneHanded(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOneHanded)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOneHanded, MethodIOneHandedStartOneHanded)
@@ -62,6 +63,7 @@ func (p *OneHandedProxy) StopOneHanded(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOneHanded)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOneHanded, MethodIOneHandedStopOneHanded)
@@ -76,7 +78,8 @@ func (p *OneHandedProxy) StopOneHanded(
 // OneHandedStub dispatches incoming binder transactions
 // to a typed IOneHanded implementation.
 type OneHandedStub struct {
-	Impl IOneHanded
+	Impl      IOneHanded
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OneHandedStub)(nil)
@@ -90,21 +93,17 @@ func (s *OneHandedStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOneHandedStartOneHanded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StartOneHanded(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOneHandedStopOneHanded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopOneHanded(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

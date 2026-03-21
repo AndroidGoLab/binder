@@ -1,7 +1,6 @@
 package composer3
 
 import (
-	composer3DisplayRequest "github.com/xaionaro-go/binder/android/hardware/graphics/composer3/DisplayRequest"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,7 +9,7 @@ import (
 type DisplayRequest struct {
 	Display       int64
 	Mask          int32
-	LayerRequests []composer3DisplayRequest.LayerRequest
+	LayerRequests []DisplayRequestLayerRequest
 }
 
 const (
@@ -50,14 +49,29 @@ func (s *DisplayRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Display, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Mask, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -66,7 +80,7 @@ func (s *DisplayRequest) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.LayerRequests = make([]composer3DisplayRequest.LayerRequest, _count0)
+		s.LayerRequests = make([]DisplayRequestLayerRequest, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
 			if _, _err = p.ReadInt32(); _err != nil {
 				return _err

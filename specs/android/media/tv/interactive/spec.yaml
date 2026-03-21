@@ -1,0 +1,2381 @@
+package: android.media.tv.interactive
+go_package: android/media/tv/interactive
+interfaces:
+    - name: ITvInteractiveAppClient
+      descriptor: android.media.tv.interactive.ITvInteractiveAppClient
+      oneway: true
+      methods:
+        - name: onSessionCreated
+          transaction_code_offset: 0
+          params:
+            - name: iAppServiceId
+              type:
+                name: String
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+            - name: channel
+              type:
+                name: InputChannel
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSessionReleased
+          transaction_code_offset: 1
+          params:
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onLayoutSurface
+          transaction_code_offset: 2
+          params:
+            - name: left
+              type:
+                name: int
+            - name: top
+              type:
+                name: int
+            - name: right
+              type:
+                name: int
+            - name: bottom
+              type:
+                name: int
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onBroadcastInfoRequest
+          transaction_code_offset: 3
+          params:
+            - name: request
+              type:
+                name: BroadcastInfoRequest
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRemoveBroadcastInfo
+          transaction_code_offset: 4
+          params:
+            - name: id
+              type:
+                name: int
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSessionStateChanged
+          transaction_code_offset: 5
+          params:
+            - name: state
+              type:
+                name: int
+            - name: err
+              type:
+                name: int
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onBiInteractiveAppCreated
+          transaction_code_offset: 6
+          params:
+            - name: biIAppUri
+              type:
+                name: Uri
+              direction: in
+            - name: biIAppId
+              type:
+                name: String
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onTeletextAppStateChanged
+          transaction_code_offset: 7
+          params:
+            - name: state
+              type:
+                name: int
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAdBufferReady
+          transaction_code_offset: 8
+          params:
+            - name: buffer
+              type:
+                name: AdBuffer
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCommandRequest
+          transaction_code_offset: 9
+          params:
+            - name: cmdType
+              type:
+                name: String
+              direction: in
+            - name: parameters
+              type:
+                name: Bundle
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onTimeShiftCommandRequest
+          transaction_code_offset: 10
+          params:
+            - name: cmdType
+              type:
+                name: String
+              direction: in
+            - name: parameters
+              type:
+                name: Bundle
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSetVideoBounds
+          transaction_code_offset: 11
+          params:
+            - name: rect
+              type:
+                name: Rect
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestCurrentVideoBounds
+          transaction_code_offset: 12
+          params:
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestCurrentChannelUri
+          transaction_code_offset: 13
+          params:
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestCurrentChannelLcn
+          transaction_code_offset: 14
+          params:
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestStreamVolume
+          transaction_code_offset: 15
+          params:
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestTrackInfoList
+          transaction_code_offset: 16
+          params:
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestSelectedTrackInfo
+          transaction_code_offset: 17
+          params:
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestCurrentTvInputId
+          transaction_code_offset: 18
+          params:
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestTimeShiftMode
+          transaction_code_offset: 19
+          params:
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestAvailableSpeeds
+          transaction_code_offset: 20
+          params:
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestStartRecording
+          transaction_code_offset: 21
+          params:
+            - name: requestId
+              type:
+                name: String
+              direction: in
+            - name: programUri
+              type:
+                name: Uri
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestStopRecording
+          transaction_code_offset: 22
+          params:
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestScheduleRecording
+          transaction_code_offset: 23
+          params:
+            - name: requestId
+              type:
+                name: String
+              direction: in
+            - name: inputId
+              type:
+                name: String
+              direction: in
+            - name: channelUri
+              type:
+                name: Uri
+              direction: in
+            - name: programUri
+              type:
+                name: Uri
+              direction: in
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestScheduleRecording2
+          transaction_code_offset: 24
+          params:
+            - name: requestId
+              type:
+                name: String
+              direction: in
+            - name: inputId
+              type:
+                name: String
+              direction: in
+            - name: channelUri
+              type:
+                name: Uri
+              direction: in
+            - name: start
+              type:
+                name: long
+            - name: duration
+              type:
+                name: long
+            - name: repeat
+              type:
+                name: int
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSetTvRecordingInfo
+          transaction_code_offset: 25
+          params:
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: recordingInfo
+              type:
+                name: TvRecordingInfo
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestTvRecordingInfo
+          transaction_code_offset: 26
+          params:
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestTvRecordingInfoList
+          transaction_code_offset: 27
+          params:
+            - name: type
+              type:
+                name: int
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestSigning
+          transaction_code_offset: 28
+          params:
+            - name: id
+              type:
+                name: String
+              direction: in
+            - name: algorithm
+              type:
+                name: String
+              direction: in
+            - name: alias
+              type:
+                name: String
+              direction: in
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestSigning2
+          transaction_code_offset: 29
+          params:
+            - name: id
+              type:
+                name: String
+              direction: in
+            - name: algorithm
+              type:
+                name: String
+              direction: in
+            - name: host
+              type:
+                name: String
+              direction: in
+            - name: port
+              type:
+                name: int
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestCertificate
+          transaction_code_offset: 30
+          params:
+            - name: host
+              type:
+                name: String
+              direction: in
+            - name: port
+              type:
+                name: int
+            - name: seq
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAdRequest
+          transaction_code_offset: 31
+          params:
+            - name: request
+              type:
+                name: AdRequest
+              direction: in
+            - name: Seq
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ITvInteractiveAppManager
+      descriptor: android.media.tv.interactive.ITvInteractiveAppManager
+      methods:
+        - name: getTvInteractiveAppServiceList
+          transaction_code_offset: 0
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: TvInteractiveAppServiceInfo
+        - name: getAppLinkInfoList
+          transaction_code_offset: 1
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: AppLinkInfo
+        - name: registerAppLinkInfo
+          transaction_code_offset: 2
+          params:
+            - name: tiasId
+              type:
+                name: String
+            - name: info
+              type:
+                name: AppLinkInfo
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: unregisterAppLinkInfo
+          transaction_code_offset: 3
+          params:
+            - name: tiasId
+              type:
+                name: String
+            - name: info
+              type:
+                name: AppLinkInfo
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendAppLinkCommand
+          transaction_code_offset: 4
+          params:
+            - name: tiasId
+              type:
+                name: String
+            - name: command
+              type:
+                name: Bundle
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: startInteractiveApp
+          transaction_code_offset: 5
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: stopInteractiveApp
+          transaction_code_offset: 6
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: resetInteractiveApp
+          transaction_code_offset: 7
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: createBiInteractiveApp
+          transaction_code_offset: 8
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: biIAppUri
+              type:
+                name: Uri
+              direction: in
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: destroyBiInteractiveApp
+          transaction_code_offset: 9
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: biIAppId
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setTeletextAppEnabled
+          transaction_code_offset: 10
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendCurrentVideoBounds
+          transaction_code_offset: 11
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: bounds
+              type:
+                name: Rect
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendCurrentChannelUri
+          transaction_code_offset: 12
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: channelUri
+              type:
+                name: Uri
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendCurrentChannelLcn
+          transaction_code_offset: 13
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: lcn
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendStreamVolume
+          transaction_code_offset: 14
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: volume
+              type:
+                name: float
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendTrackInfoList
+          transaction_code_offset: 15
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: tracks
+              type:
+                name: List
+                type_args:
+                    - name: TvTrackInfo
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendCurrentTvInputId
+          transaction_code_offset: 16
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: inputId
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendTimeShiftMode
+          transaction_code_offset: 17
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: mode
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendAvailableSpeeds
+          transaction_code_offset: 18
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: speeds
+              type:
+                name: float
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendSigningResult
+          transaction_code_offset: 19
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: signingId
+              type:
+                name: String
+              direction: in
+            - name: result
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendCertificate
+          transaction_code_offset: 20
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: host
+              type:
+                name: String
+              direction: in
+            - name: port
+              type:
+                name: int
+            - name: certBundle
+              type:
+                name: Bundle
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendTvRecordingInfo
+          transaction_code_offset: 21
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: recordingInfo
+              type:
+                name: TvRecordingInfo
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendTvRecordingInfoList
+          transaction_code_offset: 22
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: recordingInfoList
+              type:
+                name: List
+                type_args:
+                    - name: TvRecordingInfo
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyError
+          transaction_code_offset: 23
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: errMsg
+              type:
+                name: String
+              direction: in
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyTimeShiftPlaybackParams
+          transaction_code_offset: 24
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: params
+              type:
+                name: PlaybackParams
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyTimeShiftStatusChanged
+          transaction_code_offset: 25
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: inputId
+              type:
+                name: String
+              direction: in
+            - name: status
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyTimeShiftStartPositionChanged
+          transaction_code_offset: 26
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: inputId
+              type:
+                name: String
+              direction: in
+            - name: timeMs
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyTimeShiftCurrentPositionChanged
+          transaction_code_offset: 27
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: inputId
+              type:
+                name: String
+              direction: in
+            - name: timeMs
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyRecordingConnectionFailed
+          transaction_code_offset: 28
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: inputId
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyRecordingDisconnected
+          transaction_code_offset: 29
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: inputId
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyRecordingTuned
+          transaction_code_offset: 30
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: channelUri
+              type:
+                name: Uri
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyRecordingError
+          transaction_code_offset: 31
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: err
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyRecordingScheduled
+          transaction_code_offset: 32
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: requestId
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: createSession
+          transaction_code_offset: 33
+          params:
+            - name: client
+              type:
+                name: ITvInteractiveAppClient
+              direction: in
+            - name: iAppServiceId
+              type:
+                name: String
+              direction: in
+            - name: type
+              type:
+                name: int
+            - name: seq
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: releaseSession
+          transaction_code_offset: 34
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyTuned
+          transaction_code_offset: 35
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: channelUri
+              type:
+                name: Uri
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyTrackSelected
+          transaction_code_offset: 36
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: type
+              type:
+                name: int
+            - name: trackId
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyTracksChanged
+          transaction_code_offset: 37
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: tracks
+              type:
+                name: List
+                type_args:
+                    - name: TvTrackInfo
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyVideoAvailable
+          transaction_code_offset: 38
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyVideoUnavailable
+          transaction_code_offset: 39
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: reason
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyVideoFreezeUpdated
+          transaction_code_offset: 40
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: isFrozen
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyContentAllowed
+          transaction_code_offset: 41
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyContentBlocked
+          transaction_code_offset: 42
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: rating
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifySignalStrength
+          transaction_code_offset: 43
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: stength
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyRecordingStarted
+          transaction_code_offset: 44
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: requestId
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyRecordingStopped
+          transaction_code_offset: 45
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyTvMessage
+          transaction_code_offset: 46
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: type
+              type:
+                name: int
+              direction: in
+            - name: data
+              type:
+                name: Bundle
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setSurface
+          transaction_code_offset: 47
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: surface
+              type:
+                name: Surface
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: dispatchSurfaceChanged
+          transaction_code_offset: 48
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: format
+              type:
+                name: int
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyBroadcastInfoResponse
+          transaction_code_offset: 49
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: response
+              type:
+                name: BroadcastInfoResponse
+              direction: in
+            - name: UserId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyAdResponse
+          transaction_code_offset: 50
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: response
+              type:
+                name: AdResponse
+              direction: in
+            - name: UserId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyAdBufferConsumed
+          transaction_code_offset: 51
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: buffer
+              type:
+                name: AdBuffer
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendSelectedTrackInfo
+          transaction_code_offset: 52
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: tracks
+              type:
+                name: List
+                type_args:
+                    - name: TvTrackInfo
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: createMediaView
+          transaction_code_offset: 53
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: windowToken
+              type:
+                name: IBinder
+              direction: in
+            - name: frame
+              type:
+                name: Rect
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: relayoutMediaView
+          transaction_code_offset: 54
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: frame
+              type:
+                name: Rect
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removeMediaView
+          transaction_code_offset: 55
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: registerCallback
+          transaction_code_offset: 56
+          params:
+            - name: callback
+              type:
+                name: ITvInteractiveAppManagerCallback
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: unregisterCallback
+          transaction_code_offset: 57
+          params:
+            - name: callback
+              type:
+                name: ITvInteractiveAppManagerCallback
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ITvInteractiveAppManagerCallback
+      descriptor: android.media.tv.interactive.ITvInteractiveAppManagerCallback
+      oneway: true
+      methods:
+        - name: onInteractiveAppServiceAdded
+          transaction_code_offset: 0
+          params:
+            - name: iAppServiceId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onInteractiveAppServiceRemoved
+          transaction_code_offset: 1
+          params:
+            - name: iAppServiceId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onInteractiveAppServiceUpdated
+          transaction_code_offset: 2
+          params:
+            - name: iAppServiceId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onTvInteractiveAppServiceInfoUpdated
+          transaction_code_offset: 3
+          params:
+            - name: tvIAppInfo
+              type:
+                name: TvInteractiveAppServiceInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onStateChanged
+          transaction_code_offset: 4
+          params:
+            - name: iAppServiceId
+              type:
+                name: String
+              direction: in
+            - name: type
+              type:
+                name: int
+            - name: state
+              type:
+                name: int
+            - name: err
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ITvInteractiveAppService
+      descriptor: android.media.tv.interactive.ITvInteractiveAppService
+      oneway: true
+      methods:
+        - name: registerCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: ITvInteractiveAppServiceCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterCallback
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: ITvInteractiveAppServiceCallback
+              direction: in
+          return_type:
+            name: void
+        - name: createSession
+          transaction_code_offset: 2
+          params:
+            - name: channel
+              type:
+                name: InputChannel
+              direction: in
+            - name: callback
+              type:
+                name: ITvInteractiveAppSessionCallback
+              direction: in
+            - name: iAppServiceId
+              type:
+                name: String
+              direction: in
+            - name: type
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: registerAppLinkInfo
+          transaction_code_offset: 3
+          params:
+            - name: info
+              type:
+                name: AppLinkInfo
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterAppLinkInfo
+          transaction_code_offset: 4
+          params:
+            - name: info
+              type:
+                name: AppLinkInfo
+              direction: in
+          return_type:
+            name: void
+        - name: sendAppLinkCommand
+          transaction_code_offset: 5
+          params:
+            - name: command
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+    - name: ITvInteractiveAppServiceCallback
+      descriptor: android.media.tv.interactive.ITvInteractiveAppServiceCallback
+      oneway: true
+      methods:
+        - name: onStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: type
+              type:
+                name: int
+            - name: state
+              type:
+                name: int
+            - name: error
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ITvInteractiveAppSession
+      descriptor: android.media.tv.interactive.ITvInteractiveAppSession
+      oneway: true
+      methods:
+        - name: startInteractiveApp
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: stopInteractiveApp
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: resetInteractiveApp
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: createBiInteractiveApp
+          transaction_code_offset: 3
+          params:
+            - name: biIAppUri
+              type:
+                name: Uri
+              direction: in
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: destroyBiInteractiveApp
+          transaction_code_offset: 4
+          params:
+            - name: biIAppId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setTeletextAppEnabled
+          transaction_code_offset: 5
+          params:
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: sendCurrentVideoBounds
+          transaction_code_offset: 6
+          params:
+            - name: bounds
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: sendCurrentChannelUri
+          transaction_code_offset: 7
+          params:
+            - name: channelUri
+              type:
+                name: Uri
+              direction: in
+          return_type:
+            name: void
+        - name: sendCurrentChannelLcn
+          transaction_code_offset: 8
+          params:
+            - name: lcn
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendStreamVolume
+          transaction_code_offset: 9
+          params:
+            - name: volume
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: sendTrackInfoList
+          transaction_code_offset: 10
+          params:
+            - name: tracks
+              type:
+                name: List
+                type_args:
+                    - name: TvTrackInfo
+              direction: in
+          return_type:
+            name: void
+        - name: sendCurrentTvInputId
+          transaction_code_offset: 11
+          params:
+            - name: inputId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: sendTimeShiftMode
+          transaction_code_offset: 12
+          params:
+            - name: mode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendAvailableSpeeds
+          transaction_code_offset: 13
+          params:
+            - name: speeds
+              type:
+                name: float
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: sendSigningResult
+          transaction_code_offset: 14
+          params:
+            - name: signingId
+              type:
+                name: String
+              direction: in
+            - name: result
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: sendCertificate
+          transaction_code_offset: 15
+          params:
+            - name: host
+              type:
+                name: String
+              direction: in
+            - name: port
+              type:
+                name: int
+            - name: certBundle
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: sendTvRecordingInfo
+          transaction_code_offset: 16
+          params:
+            - name: recordingInfo
+              type:
+                name: TvRecordingInfo
+              direction: in
+          return_type:
+            name: void
+        - name: sendTvRecordingInfoList
+          transaction_code_offset: 17
+          params:
+            - name: recordingInfoList
+              type:
+                name: List
+                type_args:
+                    - name: TvRecordingInfo
+              direction: in
+          return_type:
+            name: void
+        - name: notifyError
+          transaction_code_offset: 18
+          params:
+            - name: errMsg
+              type:
+                name: String
+              direction: in
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: notifyTimeShiftPlaybackParams
+          transaction_code_offset: 19
+          params:
+            - name: params
+              type:
+                name: PlaybackParams
+              direction: in
+          return_type:
+            name: void
+        - name: notifyTimeShiftStatusChanged
+          transaction_code_offset: 20
+          params:
+            - name: inputId
+              type:
+                name: String
+              direction: in
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyTimeShiftStartPositionChanged
+          transaction_code_offset: 21
+          params:
+            - name: inputId
+              type:
+                name: String
+              direction: in
+            - name: timeMs
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: notifyTimeShiftCurrentPositionChanged
+          transaction_code_offset: 22
+          params:
+            - name: inputId
+              type:
+                name: String
+              direction: in
+            - name: timeMs
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: notifyRecordingConnectionFailed
+          transaction_code_offset: 23
+          params:
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: inputId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: notifyRecordingDisconnected
+          transaction_code_offset: 24
+          params:
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: inputId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: notifyRecordingTuned
+          transaction_code_offset: 25
+          params:
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: channelUri
+              type:
+                name: Uri
+              direction: in
+          return_type:
+            name: void
+        - name: notifyRecordingError
+          transaction_code_offset: 26
+          params:
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: err
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyRecordingScheduled
+          transaction_code_offset: 27
+          params:
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: requestId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: release
+          transaction_code_offset: 28
+          return_type:
+            name: void
+        - name: notifyTuned
+          transaction_code_offset: 29
+          params:
+            - name: channelUri
+              type:
+                name: Uri
+              direction: in
+          return_type:
+            name: void
+        - name: notifyTrackSelected
+          transaction_code_offset: 30
+          params:
+            - name: type
+              type:
+                name: int
+            - name: trackId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: notifyTracksChanged
+          transaction_code_offset: 31
+          params:
+            - name: tracks
+              type:
+                name: List
+                type_args:
+                    - name: TvTrackInfo
+              direction: in
+          return_type:
+            name: void
+        - name: notifyVideoAvailable
+          transaction_code_offset: 32
+          return_type:
+            name: void
+        - name: notifyVideoUnavailable
+          transaction_code_offset: 33
+          params:
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyVideoFreezeUpdated
+          transaction_code_offset: 34
+          params:
+            - name: isFrozen
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: notifyContentAllowed
+          transaction_code_offset: 35
+          return_type:
+            name: void
+        - name: notifyContentBlocked
+          transaction_code_offset: 36
+          params:
+            - name: rating
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: notifySignalStrength
+          transaction_code_offset: 37
+          params:
+            - name: strength
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyRecordingStarted
+          transaction_code_offset: 38
+          params:
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: requestId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: notifyRecordingStopped
+          transaction_code_offset: 39
+          params:
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: notifyTvMessage
+          transaction_code_offset: 40
+          params:
+            - name: type
+              type:
+                name: int
+            - name: data
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: setSurface
+          transaction_code_offset: 41
+          params:
+            - name: surface
+              type:
+                name: Surface
+              direction: in
+          return_type:
+            name: void
+        - name: dispatchSurfaceChanged
+          transaction_code_offset: 42
+          params:
+            - name: format
+              type:
+                name: int
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyBroadcastInfoResponse
+          transaction_code_offset: 43
+          params:
+            - name: response
+              type:
+                name: BroadcastInfoResponse
+              direction: in
+          return_type:
+            name: void
+        - name: notifyAdResponse
+          transaction_code_offset: 44
+          params:
+            - name: response
+              type:
+                name: AdResponse
+              direction: in
+          return_type:
+            name: void
+        - name: notifyAdBufferConsumed
+          transaction_code_offset: 45
+          params:
+            - name: buffer
+              type:
+                name: AdBuffer
+              direction: in
+          return_type:
+            name: void
+        - name: sendSelectedTrackInfo
+          transaction_code_offset: 46
+          params:
+            - name: tracks
+              type:
+                name: List
+                type_args:
+                    - name: TvTrackInfo
+              direction: in
+          return_type:
+            name: void
+        - name: createMediaView
+          transaction_code_offset: 47
+          params:
+            - name: windowToken
+              type:
+                name: IBinder
+              direction: in
+            - name: frame
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: relayoutMediaView
+          transaction_code_offset: 48
+          params:
+            - name: frame
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: removeMediaView
+          transaction_code_offset: 49
+          return_type:
+            name: void
+    - name: ITvInteractiveAppSessionCallback
+      descriptor: android.media.tv.interactive.ITvInteractiveAppSessionCallback
+      oneway: true
+      methods:
+        - name: onSessionCreated
+          transaction_code_offset: 0
+          params:
+            - name: session
+              type:
+                name: ITvInteractiveAppSession
+              direction: in
+          return_type:
+            name: void
+        - name: onLayoutSurface
+          transaction_code_offset: 1
+          params:
+            - name: left
+              type:
+                name: int
+            - name: top
+              type:
+                name: int
+            - name: right
+              type:
+                name: int
+            - name: bottom
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onBroadcastInfoRequest
+          transaction_code_offset: 2
+          params:
+            - name: request
+              type:
+                name: BroadcastInfoRequest
+              direction: in
+          return_type:
+            name: void
+        - name: onRemoveBroadcastInfo
+          transaction_code_offset: 3
+          params:
+            - name: id
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSessionStateChanged
+          transaction_code_offset: 4
+          params:
+            - name: state
+              type:
+                name: int
+            - name: err
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onBiInteractiveAppCreated
+          transaction_code_offset: 5
+          params:
+            - name: biIAppUri
+              type:
+                name: Uri
+              direction: in
+            - name: biIAppId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onTeletextAppStateChanged
+          transaction_code_offset: 6
+          params:
+            - name: state
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAdBufferReady
+          transaction_code_offset: 7
+          params:
+            - name: buffer
+              type:
+                name: AdBuffer
+              direction: in
+          return_type:
+            name: void
+        - name: onCommandRequest
+          transaction_code_offset: 8
+          params:
+            - name: cmdType
+              type:
+                name: String
+              direction: in
+            - name: parameters
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onTimeShiftCommandRequest
+          transaction_code_offset: 9
+          params:
+            - name: cmdType
+              type:
+                name: String
+              direction: in
+            - name: parameters
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onSetVideoBounds
+          transaction_code_offset: 10
+          params:
+            - name: rect
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: onRequestCurrentVideoBounds
+          transaction_code_offset: 11
+          return_type:
+            name: void
+        - name: onRequestCurrentChannelUri
+          transaction_code_offset: 12
+          return_type:
+            name: void
+        - name: onRequestCurrentChannelLcn
+          transaction_code_offset: 13
+          return_type:
+            name: void
+        - name: onRequestStreamVolume
+          transaction_code_offset: 14
+          return_type:
+            name: void
+        - name: onRequestTrackInfoList
+          transaction_code_offset: 15
+          return_type:
+            name: void
+        - name: onRequestCurrentTvInputId
+          transaction_code_offset: 16
+          return_type:
+            name: void
+        - name: onRequestTimeShiftMode
+          transaction_code_offset: 17
+          return_type:
+            name: void
+        - name: onRequestAvailableSpeeds
+          transaction_code_offset: 18
+          return_type:
+            name: void
+        - name: onRequestSelectedTrackInfo
+          transaction_code_offset: 19
+          return_type:
+            name: void
+        - name: onRequestStartRecording
+          transaction_code_offset: 20
+          params:
+            - name: requestId
+              type:
+                name: String
+              direction: in
+            - name: programUri
+              type:
+                name: Uri
+              direction: in
+          return_type:
+            name: void
+        - name: onRequestStopRecording
+          transaction_code_offset: 21
+          params:
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onRequestScheduleRecording
+          transaction_code_offset: 22
+          params:
+            - name: requestId
+              type:
+                name: String
+              direction: in
+            - name: inputId
+              type:
+                name: String
+              direction: in
+            - name: channelUri
+              type:
+                name: Uri
+              direction: in
+            - name: programUri
+              type:
+                name: Uri
+              direction: in
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onRequestScheduleRecording2
+          transaction_code_offset: 23
+          params:
+            - name: requestId
+              type:
+                name: String
+              direction: in
+            - name: inputId
+              type:
+                name: String
+              direction: in
+            - name: channelUri
+              type:
+                name: Uri
+              direction: in
+            - name: start
+              type:
+                name: long
+            - name: duration
+              type:
+                name: long
+            - name: repeat
+              type:
+                name: int
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onSetTvRecordingInfo
+          transaction_code_offset: 24
+          params:
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+            - name: recordingInfo
+              type:
+                name: TvRecordingInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onRequestTvRecordingInfo
+          transaction_code_offset: 25
+          params:
+            - name: recordingId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onRequestTvRecordingInfoList
+          transaction_code_offset: 26
+          params:
+            - name: type
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onRequestSigning
+          transaction_code_offset: 27
+          params:
+            - name: id
+              type:
+                name: String
+              direction: in
+            - name: algorithm
+              type:
+                name: String
+              direction: in
+            - name: alias
+              type:
+                name: String
+              direction: in
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onRequestSigning2
+          transaction_code_offset: 28
+          params:
+            - name: id
+              type:
+                name: String
+              direction: in
+            - name: algorithm
+              type:
+                name: String
+              direction: in
+            - name: host
+              type:
+                name: String
+              direction: in
+            - name: port
+              type:
+                name: int
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onRequestCertificate
+          transaction_code_offset: 29
+          params:
+            - name: host
+              type:
+                name: String
+              direction: in
+            - name: port
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAdRequest
+          transaction_code_offset: 30
+          params:
+            - name: request
+              type:
+                name: AdRequest
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: AppLinkInfo
+    - name: TvInteractiveAppServiceInfo

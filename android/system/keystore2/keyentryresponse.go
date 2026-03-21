@@ -39,11 +39,21 @@ func (s *KeyEntryResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_iSecurityLevelHandle, _err := p.ReadStrongBinder()
 	if _err != nil {
 		return _err
 	}
 	s.ISecurityLevel = NewKeystoreSecurityLevelProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _iSecurityLevelHandle))
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	if _err = s.Metadata.UnmarshalParcel(p); _err != nil {
 		return _err

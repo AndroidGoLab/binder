@@ -45,6 +45,7 @@ func (p *TranslationServiceCallbackProxy) UpdateTranslationCapability(
 	capability TranslationCapability,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranslationServiceCallback)
 	_data.WriteInt32(1)
 	if _err := capability.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *TranslationServiceCallbackProxy) UpdateTranslationCapability(
 // TranslationServiceCallbackStub dispatches incoming binder transactions
 // to a typed ITranslationServiceCallback implementation.
 type TranslationServiceCallbackStub struct {
-	Impl ITranslationServiceCallback
+	Impl      ITranslationServiceCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TranslationServiceCallbackStub)(nil)
@@ -77,11 +79,12 @@ func (s *TranslationServiceCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITranslationServiceCallbackUpdateTranslationCapability:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_capability TranslationCapability
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *TranslationServiceCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.UpdateTranslationCapability(ctx, _arg_capability)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

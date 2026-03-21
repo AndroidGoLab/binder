@@ -53,6 +53,7 @@ func (p *SoundTriggerHwCallbackProxy) ModelUnloaded(
 	model int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHwCallback)
 	_data.WriteInt32(model)
 
@@ -80,6 +81,7 @@ func (p *SoundTriggerHwCallbackProxy) PhraseRecognitionCallback(
 	event soundtrigger.PhraseRecognitionEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHwCallback)
 	_data.WriteInt32(model)
 	_data.WriteInt32(1)
@@ -111,6 +113,7 @@ func (p *SoundTriggerHwCallbackProxy) RecognitionCallback(
 	event hardwareSoundtrigger.SoundTriggerRecognitionEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHwCallback)
 	_data.WriteInt32(model)
 	_data.WriteInt32(1)
@@ -139,7 +142,8 @@ func (p *SoundTriggerHwCallbackProxy) RecognitionCallback(
 // SoundTriggerHwCallbackStub dispatches incoming binder transactions
 // to a typed ISoundTriggerHwCallback implementation.
 type SoundTriggerHwCallbackStub struct {
-	Impl ISoundTriggerHwCallback
+	Impl      ISoundTriggerHwCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SoundTriggerHwCallbackStub)(nil)
@@ -153,11 +157,12 @@ func (s *SoundTriggerHwCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISoundTriggerHwCallbackModelUnloaded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_model, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -171,9 +176,6 @@ func (s *SoundTriggerHwCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundTriggerHwCallbackPhraseRecognitionCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_model, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -199,9 +201,6 @@ func (s *SoundTriggerHwCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundTriggerHwCallbackRecognitionCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_model, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

@@ -42,8 +42,18 @@ func (s *RecognitionEventSys) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.RecognitionEvent.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.HalEventReceivedMillis, _err = p.ReadInt64()
@@ -51,11 +61,18 @@ func (s *RecognitionEventSys) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_tokenHandle, _err := p.ReadStrongBinder()
 	if _err != nil {
 		return _err
 	}
-	s.Token = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _tokenHandle)
+	if _tokenHandle != 0 {
+		s.Token = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _tokenHandle)
+	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

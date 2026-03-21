@@ -51,8 +51,8 @@ const (
 
 type ITextToSpeechService interface {
 	AsBinder() binder.IBinder
-	Speak(ctx context.Context, callingInstance binder.IBinder, text interface{}, queueMode int32, params os.Bundle, utteranceId string) (int32, error)
-	SynthesizeToFileDescriptor(ctx context.Context, callingInstance binder.IBinder, text interface{}, fileDescriptor int32, params os.Bundle, utteranceId string) (int32, error)
+	Speak(ctx context.Context, callingInstance binder.IBinder, text string, queueMode int32, params os.Bundle, utteranceId string) (int32, error)
+	SynthesizeToFileDescriptor(ctx context.Context, callingInstance binder.IBinder, text string, fileDescriptor int32, params os.Bundle, utteranceId string) (int32, error)
 	PlayAudio(ctx context.Context, callingInstance binder.IBinder, audioUri net.Uri, queueMode int32, params os.Bundle, utteranceId string) (int32, error)
 	PlaySilence(ctx context.Context, callingInstance binder.IBinder, duration int64, queueMode int32, utteranceId string) (int32, error)
 	IsSpeaking(ctx context.Context) (bool, error)
@@ -87,15 +87,17 @@ var _ ITextToSpeechService = (*TextToSpeechServiceProxy)(nil)
 func (p *TextToSpeechServiceProxy) Speak(
 	ctx context.Context,
 	callingInstance binder.IBinder,
-	text interface{},
+	text string,
 	queueMode int32,
 	params os.Bundle,
 	utteranceId string,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
+	_data.WriteString16(text)
 	_data.WriteInt32(queueMode)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -128,15 +130,17 @@ func (p *TextToSpeechServiceProxy) Speak(
 func (p *TextToSpeechServiceProxy) SynthesizeToFileDescriptor(
 	ctx context.Context,
 	callingInstance binder.IBinder,
-	text interface{},
+	text string,
 	fileDescriptor int32,
 	params os.Bundle,
 	utteranceId string,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
+	_data.WriteString16(text)
 	_data.WriteFileDescriptor(fileDescriptor)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -176,6 +180,7 @@ func (p *TextToSpeechServiceProxy) PlayAudio(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -220,6 +225,7 @@ func (p *TextToSpeechServiceProxy) PlaySilence(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
 	_data.WriteInt64(duration)
@@ -253,6 +259,7 @@ func (p *TextToSpeechServiceProxy) IsSpeaking(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceIsSpeaking)
@@ -283,6 +290,7 @@ func (p *TextToSpeechServiceProxy) Stop(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
 
@@ -313,6 +321,7 @@ func (p *TextToSpeechServiceProxy) GetLanguage(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceGetLanguage)
@@ -334,6 +343,9 @@ func (p *TextToSpeechServiceProxy) GetLanguage(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -352,6 +364,7 @@ func (p *TextToSpeechServiceProxy) GetClientDefaultLanguage(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceGetClientDefaultLanguage)
@@ -372,6 +385,9 @@ func (p *TextToSpeechServiceProxy) GetClientDefaultLanguage(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -394,6 +410,7 @@ func (p *TextToSpeechServiceProxy) IsLanguageAvailable(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 	_data.WriteString16(lang)
 	_data.WriteString16(country)
@@ -429,6 +446,7 @@ func (p *TextToSpeechServiceProxy) GetFeaturesForLanguage(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 	_data.WriteString16(lang)
 	_data.WriteString16(country)
@@ -453,6 +471,9 @@ func (p *TextToSpeechServiceProxy) GetFeaturesForLanguage(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -475,6 +496,7 @@ func (p *TextToSpeechServiceProxy) LoadLanguage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 	binder.WriteBinderToParcel(ctx, _data, caller, p.Remote.Transport())
 	_data.WriteString16(lang)
@@ -509,6 +531,7 @@ func (p *TextToSpeechServiceProxy) SetCallback(
 	cb ITextToSpeechCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 	binder.WriteBinderToParcel(ctx, _data, caller, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
@@ -536,6 +559,7 @@ func (p *TextToSpeechServiceProxy) GetVoices(
 ) ([]Voice, error) {
 	var _result []Voice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceGetVoices)
@@ -556,6 +580,9 @@ func (p *TextToSpeechServiceProxy) GetVoices(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -579,6 +606,7 @@ func (p *TextToSpeechServiceProxy) LoadVoice(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 	binder.WriteBinderToParcel(ctx, _data, caller, p.Remote.Transport())
 	_data.WriteString16(voiceName)
@@ -613,6 +641,7 @@ func (p *TextToSpeechServiceProxy) GetDefaultVoiceNameFor(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 	_data.WriteString16(lang)
 	_data.WriteString16(country)
@@ -643,7 +672,8 @@ func (p *TextToSpeechServiceProxy) GetDefaultVoiceNameFor(
 // TextToSpeechServiceStub dispatches incoming binder transactions
 // to a typed ITextToSpeechService implementation.
 type TextToSpeechServiceStub struct {
-	Impl ITextToSpeechService
+	Impl      ITextToSpeechService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TextToSpeechServiceStub)(nil)
@@ -657,15 +687,24 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITextToSpeechServiceSpeak:
-		if _, _err := _data.ReadString16(); _err != nil {
+		var _arg_callingInstance binder.IBinder
+		{
+			_callingInstanceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callingInstance = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callingInstanceHandle)
+		}
+		_arg_text, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callingInstance binder.IBinder
-		_ = _arg_callingInstance
-		var _arg_text interface{}
 		_arg_queueMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -696,13 +735,18 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServiceSynthesizeToFileDescriptor:
-		if _, _err := _data.ReadString16(); _err != nil {
+		var _arg_callingInstance binder.IBinder
+		{
+			_callingInstanceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callingInstance = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callingInstanceHandle)
+		}
+		_arg_text, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callingInstance binder.IBinder
-		_ = _arg_callingInstance
-		var _arg_text interface{}
 		_arg_fileDescriptor, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -733,12 +777,14 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServicePlayAudio:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callingInstance binder.IBinder
-		_ = _arg_callingInstance
+		{
+			_callingInstanceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callingInstance = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callingInstanceHandle)
+		}
 		var _arg_audioUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -781,12 +827,14 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServicePlaySilence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callingInstance binder.IBinder
-		_ = _arg_callingInstance
+		{
+			_callingInstanceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callingInstance = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callingInstanceHandle)
+		}
 		_arg_duration, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -809,9 +857,6 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServiceIsSpeaking:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsSpeaking(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -822,12 +867,14 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServiceStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callingInstance binder.IBinder
-		_ = _arg_callingInstance
+		{
+			_callingInstanceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callingInstance = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callingInstanceHandle)
+		}
 		_result, _err := s.Impl.Stop(ctx, _arg_callingInstance)
 		_reply := parcel.New()
 		if _err != nil {
@@ -838,9 +885,6 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServiceGetLanguage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLanguage(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -848,13 +892,16 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITextToSpeechServiceGetClientDefaultLanguage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetClientDefaultLanguage(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -862,13 +909,16 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITextToSpeechServiceIsLanguageAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_lang, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -891,9 +941,6 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServiceGetFeaturesForLanguage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_lang, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -913,16 +960,24 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITextToSpeechServiceLoadLanguage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_caller binder.IBinder
-		_ = _arg_caller
+		{
+			_callerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_caller = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callerHandle)
+		}
 		_arg_lang, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -945,15 +1000,22 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServiceSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_caller binder.IBinder
-		_ = _arg_caller
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_callerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_caller = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callerHandle)
+		}
 		var _arg_cb ITextToSpeechCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewTextToSpeechCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err := s.Impl.SetCallback(ctx, _arg_caller, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -963,9 +1025,6 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITextToSpeechServiceGetVoices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVoices(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -973,16 +1032,27 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITextToSpeechServiceLoadVoice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_caller binder.IBinder
-		_ = _arg_caller
+		{
+			_callerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_caller = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callerHandle)
+		}
 		_arg_voiceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -997,9 +1067,6 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServiceGetDefaultVoiceNameFor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_lang, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1030,8 +1097,8 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 // provide to NewTextToSpeechServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ITextToSpeechServiceServer interface {
-	Speak(ctx context.Context, callingInstance binder.IBinder, text interface{}, queueMode int32, params os.Bundle, utteranceId string) (int32, error)
-	SynthesizeToFileDescriptor(ctx context.Context, callingInstance binder.IBinder, text interface{}, fileDescriptor int32, params os.Bundle, utteranceId string) (int32, error)
+	Speak(ctx context.Context, callingInstance binder.IBinder, text string, queueMode int32, params os.Bundle, utteranceId string) (int32, error)
+	SynthesizeToFileDescriptor(ctx context.Context, callingInstance binder.IBinder, text string, fileDescriptor int32, params os.Bundle, utteranceId string) (int32, error)
 	PlayAudio(ctx context.Context, callingInstance binder.IBinder, audioUri net.Uri, queueMode int32, params os.Bundle, utteranceId string) (int32, error)
 	PlaySilence(ctx context.Context, callingInstance binder.IBinder, duration int64, queueMode int32, utteranceId string) (int32, error)
 	IsSpeaking(ctx context.Context) (bool, error)
@@ -1059,7 +1126,7 @@ func (w *textToSpeechServiceStubWrapper) AsBinder() binder.IBinder {
 func (w *textToSpeechServiceStubWrapper) Speak(
 	ctx context.Context,
 	callingInstance binder.IBinder,
-	text interface{},
+	text string,
 	queueMode int32,
 	params os.Bundle,
 	utteranceId string,
@@ -1070,7 +1137,7 @@ func (w *textToSpeechServiceStubWrapper) Speak(
 func (w *textToSpeechServiceStubWrapper) SynthesizeToFileDescriptor(
 	ctx context.Context,
 	callingInstance binder.IBinder,
-	text interface{},
+	text string,
 	fileDescriptor int32,
 	params os.Bundle,
 	utteranceId string,

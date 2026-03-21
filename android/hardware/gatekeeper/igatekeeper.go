@@ -61,6 +61,7 @@ func (p *GatekeeperProxy) DeleteAllUsers(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGatekeeper)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGatekeeper, MethodIGatekeeperDeleteAllUsers)
@@ -86,6 +87,7 @@ func (p *GatekeeperProxy) DeleteUser(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGatekeeper)
 	_data.WriteInt32(uid)
 
@@ -116,32 +118,12 @@ func (p *GatekeeperProxy) Enroll(
 ) (GatekeeperEnrollResponse, error) {
 	var _result GatekeeperEnrollResponse
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGatekeeper)
 	_data.WriteInt32(uid)
-	if currentPasswordHandle == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(currentPasswordHandle)))
-		for _, _item := range currentPasswordHandle {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if currentPassword == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(currentPassword)))
-		for _, _item := range currentPassword {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if desiredPassword == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(desiredPassword)))
-		for _, _item := range desiredPassword {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(currentPasswordHandle)
+	_data.WriteByteArray(currentPassword)
+	_data.WriteByteArray(desiredPassword)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGatekeeper, MethodIGatekeeperEnroll)
 	if _err != nil {
@@ -179,25 +161,12 @@ func (p *GatekeeperProxy) Verify(
 ) (GatekeeperVerifyResponse, error) {
 	var _result GatekeeperVerifyResponse
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGatekeeper)
 	_data.WriteInt32(uid)
 	_data.WriteInt64(challenge)
-	if enrolledPasswordHandle == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(enrolledPasswordHandle)))
-		for _, _item := range enrolledPasswordHandle {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if providedPassword == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(providedPassword)))
-		for _, _item := range providedPassword {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(enrolledPasswordHandle)
+	_data.WriteByteArray(providedPassword)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGatekeeper, MethodIGatekeeperVerify)
 	if _err != nil {
@@ -229,7 +198,8 @@ func (p *GatekeeperProxy) Verify(
 // GatekeeperStub dispatches incoming binder transactions
 // to a typed IGatekeeper implementation.
 type GatekeeperStub struct {
-	Impl IGatekeeper
+	Impl      IGatekeeper
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GatekeeperStub)(nil)
@@ -243,11 +213,12 @@ func (s *GatekeeperStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGatekeeperDeleteAllUsers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DeleteAllUsers(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -257,9 +228,6 @@ func (s *GatekeeperStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGatekeeperDeleteUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -273,22 +241,34 @@ func (s *GatekeeperStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGatekeeperEnroll:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_currentPasswordHandle []byte
-		_ = _arg_currentPasswordHandle
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_currentPasswordHandle = _bytes
+		}
 		var _arg_currentPassword []byte
-		_ = _arg_currentPassword
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_currentPassword = _bytes
+		}
 		var _arg_desiredPassword []byte
-		_ = _arg_desiredPassword
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_desiredPassword = _bytes
+		}
 		_result, _err := s.Impl.Enroll(ctx, _arg_uid, _arg_currentPasswordHandle, _arg_currentPassword, _arg_desiredPassword)
 		_reply := parcel.New()
 		if _err != nil {
@@ -302,9 +282,6 @@ func (s *GatekeeperStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIGatekeeperVerify:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -313,12 +290,22 @@ func (s *GatekeeperStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_enrolledPasswordHandle []byte
-		_ = _arg_enrolledPasswordHandle
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_enrolledPasswordHandle = _bytes
+		}
 		var _arg_providedPassword []byte
-		_ = _arg_providedPassword
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_providedPassword = _bytes
+		}
 		_result, _err := s.Impl.Verify(ctx, _arg_uid, _arg_challenge, _arg_enrolledPasswordHandle, _arg_providedPassword)
 		_reply := parcel.New()
 		if _err != nil {

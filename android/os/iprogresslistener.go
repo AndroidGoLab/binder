@@ -52,6 +52,7 @@ func (p *ProgressListenerProxy) OnStarted(
 	extras Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProgressListener)
 	_data.WriteInt32(id)
 	_data.WriteInt32(1)
@@ -75,6 +76,7 @@ func (p *ProgressListenerProxy) OnProgress(
 	extras Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProgressListener)
 	_data.WriteInt32(id)
 	_data.WriteInt32(progress)
@@ -98,6 +100,7 @@ func (p *ProgressListenerProxy) OnFinished(
 	extras Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProgressListener)
 	_data.WriteInt32(id)
 	_data.WriteInt32(1)
@@ -117,7 +120,8 @@ func (p *ProgressListenerProxy) OnFinished(
 // ProgressListenerStub dispatches incoming binder transactions
 // to a typed IProgressListener implementation.
 type ProgressListenerStub struct {
-	Impl IProgressListener
+	Impl      IProgressListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ProgressListenerStub)(nil)
@@ -131,11 +135,12 @@ func (s *ProgressListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIProgressListenerOnStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -153,12 +158,8 @@ func (s *ProgressListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnStarted(ctx, _arg_id, _arg_extras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIProgressListenerOnProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -180,12 +181,8 @@ func (s *ProgressListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnProgress(ctx, _arg_id, _arg_progress, _arg_extras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIProgressListenerOnFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -203,8 +200,7 @@ func (s *ProgressListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnFinished(ctx, _arg_id, _arg_extras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

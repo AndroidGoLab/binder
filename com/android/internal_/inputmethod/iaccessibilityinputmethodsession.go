@@ -60,6 +60,7 @@ func (p *AccessibilityInputMethodSessionProxy) UpdateSelection(
 	candidatesEnd int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInputMethodSession)
 	_data.WriteInt32(oldSelStart)
 	_data.WriteInt32(oldSelEnd)
@@ -81,6 +82,7 @@ func (p *AccessibilityInputMethodSessionProxy) FinishInput(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInputMethodSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInputMethodSession, MethodIAccessibilityInputMethodSessionFinishInput)
@@ -96,6 +98,7 @@ func (p *AccessibilityInputMethodSessionProxy) FinishSession(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInputMethodSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInputMethodSession, MethodIAccessibilityInputMethodSessionFinishSession)
@@ -114,6 +117,7 @@ func (p *AccessibilityInputMethodSessionProxy) InvalidateInput(
 	sessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInputMethodSession)
 	_data.WriteInt32(1)
 	if _err := editorInfo.MarshalParcel(_data); _err != nil {
@@ -134,7 +138,8 @@ func (p *AccessibilityInputMethodSessionProxy) InvalidateInput(
 // AccessibilityInputMethodSessionStub dispatches incoming binder transactions
 // to a typed IAccessibilityInputMethodSession implementation.
 type AccessibilityInputMethodSessionStub struct {
-	Impl IAccessibilityInputMethodSession
+	Impl      IAccessibilityInputMethodSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AccessibilityInputMethodSessionStub)(nil)
@@ -148,11 +153,12 @@ func (s *AccessibilityInputMethodSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAccessibilityInputMethodSessionUpdateSelection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_oldSelStart, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -178,26 +184,14 @@ func (s *AccessibilityInputMethodSessionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.UpdateSelection(ctx, _arg_oldSelStart, _arg_oldSelEnd, _arg_newSelStart, _arg_newSelEnd, _arg_candidatesStart, _arg_candidatesEnd)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityInputMethodSessionFinishInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.FinishInput(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityInputMethodSessionFinishSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.FinishSession(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityInputMethodSessionInvalidateInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_editorInfo viewInputmethod.EditorInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -210,16 +204,20 @@ func (s *AccessibilityInputMethodSessionStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_connection IRemoteAccessibilityInputConnection
-		_ = _arg_connection
+		{
+			_connectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_connection = NewRemoteAccessibilityInputConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _connectionHandle))
+		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.InvalidateInput(ctx, _arg_editorInfo, _arg_connection, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

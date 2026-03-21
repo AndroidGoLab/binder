@@ -56,24 +56,11 @@ func (p *DrmPluginListenerProxy) OnEvent(
 	data []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPluginListener)
 	_data.WriteInt32(int32(eventType))
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPluginListener, MethodIDrmPluginListenerOnEvent)
 	if _err != nil {
@@ -90,15 +77,9 @@ func (p *DrmPluginListenerProxy) OnExpirationUpdate(
 	expiryTimeInMS int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPluginListener)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 	_data.WriteInt64(expiryTimeInMS)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPluginListener, MethodIDrmPluginListenerOnExpirationUpdate)
@@ -117,15 +98,9 @@ func (p *DrmPluginListenerProxy) OnKeysChange(
 	hasNewUsableKey bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPluginListener)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 	if keyStatusList == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -153,15 +128,9 @@ func (p *DrmPluginListenerProxy) OnSessionLostState(
 	sessionId []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPluginListener)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPluginListener, MethodIDrmPluginListenerOnSessionLostState)
 	if _err != nil {
@@ -175,7 +144,8 @@ func (p *DrmPluginListenerProxy) OnSessionLostState(
 // DrmPluginListenerStub dispatches incoming binder transactions
 // to a typed IDrmPluginListener implementation.
 type DrmPluginListenerStub struct {
-	Impl IDrmPluginListener
+	Impl      IDrmPluginListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DrmPluginListenerStub)(nil)
@@ -189,66 +159,97 @@ func (s *DrmPluginListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDrmPluginListenerOnEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_eventType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_eventType := EventType(_raw_eventType)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_data []byte
-		_ = _arg_data
-		_err = s.Impl.OnEvent(ctx, _arg_eventType, _arg_sessionId, _arg_data)
-		_ = _err
-		return nil, nil
-	case TransactionIDrmPluginListenerOnExpirationUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []byte
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
+		_err = s.Impl.OnEvent(ctx, _arg_eventType, _arg_sessionId, _arg_data)
+		return nil, _err
+	case TransactionIDrmPluginListenerOnExpirationUpdate:
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		_arg_expiryTimeInMS, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnExpirationUpdate(ctx, _arg_sessionId, _arg_expiryTimeInMS)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDrmPluginListenerOnKeysChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		var _arg_keyStatusList []KeyStatus
-		_ = _arg_keyStatusList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_keyStatusList = make([]KeyStatus, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_keyStatusList[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_hasNewUsableKey, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnKeysChange(ctx, _arg_sessionId, _arg_keyStatusList, _arg_hasNewUsableKey)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDrmPluginListenerOnSessionLostState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		_err := s.Impl.OnSessionLostState(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -47,6 +47,7 @@ func (p *PnoScanEventProxy) OnPnoNetworkFound(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPnoScanEvent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPnoScanEvent, MethodIPnoScanEventOnPnoNetworkFound)
@@ -62,6 +63,7 @@ func (p *PnoScanEventProxy) OnPnoScanFailed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPnoScanEvent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPnoScanEvent, MethodIPnoScanEventOnPnoScanFailed)
@@ -76,7 +78,8 @@ func (p *PnoScanEventProxy) OnPnoScanFailed(
 // PnoScanEventStub dispatches incoming binder transactions
 // to a typed IPnoScanEvent implementation.
 type PnoScanEventStub struct {
-	Impl IPnoScanEvent
+	Impl      IPnoScanEvent
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PnoScanEventStub)(nil)
@@ -90,21 +93,17 @@ func (s *PnoScanEventStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPnoScanEventOnPnoNetworkFound:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnPnoNetworkFound(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPnoScanEventOnPnoScanFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnPnoScanFailed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

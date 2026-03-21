@@ -30,6 +30,11 @@ func (s *Float) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Value, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err

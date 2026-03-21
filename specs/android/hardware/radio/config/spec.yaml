@@ -1,0 +1,321 @@
+package: android.hardware.radio.config
+go_package: android/hardware/radio/config
+interfaces:
+    - name: IRadioConfig
+      descriptor: android.hardware.radio.config.IRadioConfig
+      oneway: true
+      methods:
+        - name: getHalDeviceCapabilities
+          transaction_code_offset: 0
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getNumOfLiveModems
+          transaction_code_offset: 1
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getPhoneCapability
+          transaction_code_offset: 2
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getSimSlotsStatus
+          transaction_code_offset: 3
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setNumOfLiveModems
+          transaction_code_offset: 4
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: numOfLiveModems
+              type:
+                name: byte
+              direction: in
+          return_type:
+            name: void
+        - name: setPreferredDataModem
+          transaction_code_offset: 5
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: modemId
+              type:
+                name: byte
+              direction: in
+          return_type:
+            name: void
+        - name: setResponseFunctions
+          transaction_code_offset: 6
+          params:
+            - name: radioConfigResponse
+              type:
+                name: IRadioConfigResponse
+              direction: in
+            - name: radioConfigIndication
+              type:
+                name: IRadioConfigIndication
+              direction: in
+          return_type:
+            name: void
+        - name: setSimSlotsMapping
+          transaction_code_offset: 7
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: slotMap
+              type:
+                name: SlotPortMapping
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getSimultaneousCallingSupport
+          transaction_code_offset: 8
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IRadioConfigIndication
+      descriptor: android.hardware.radio.config.IRadioConfigIndication
+      oneway: true
+      methods:
+        - name: simSlotsStatusChanged
+          transaction_code_offset: 0
+          params:
+            - name: type
+              type:
+                name: android.hardware.radio.RadioIndicationType
+              direction: in
+            - name: slotStatus
+              type:
+                name: SimSlotStatus
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onSimultaneousCallingSupportChanged
+          transaction_code_offset: 1
+          params:
+            - name: enabledLogicalSlots
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IRadioConfigResponse
+      descriptor: android.hardware.radio.config.IRadioConfigResponse
+      oneway: true
+      methods:
+        - name: getHalDeviceCapabilitiesResponse
+          transaction_code_offset: 0
+          params:
+            - name: info
+              type:
+                name: android.hardware.radio.RadioResponseInfo
+              direction: in
+            - name: modemReducedFeatureSet1
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: getNumOfLiveModemsResponse
+          transaction_code_offset: 1
+          params:
+            - name: info
+              type:
+                name: android.hardware.radio.RadioResponseInfo
+              direction: in
+            - name: numOfLiveModems
+              type:
+                name: byte
+              direction: in
+          return_type:
+            name: void
+        - name: getPhoneCapabilityResponse
+          transaction_code_offset: 2
+          params:
+            - name: info
+              type:
+                name: android.hardware.radio.RadioResponseInfo
+              direction: in
+            - name: phoneCapability
+              type:
+                name: PhoneCapability
+              direction: in
+          return_type:
+            name: void
+        - name: getSimSlotsStatusResponse
+          transaction_code_offset: 3
+          params:
+            - name: info
+              type:
+                name: android.hardware.radio.RadioResponseInfo
+              direction: in
+            - name: slotStatus
+              type:
+                name: SimSlotStatus
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setNumOfLiveModemsResponse
+          transaction_code_offset: 4
+          params:
+            - name: info
+              type:
+                name: android.hardware.radio.RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setPreferredDataModemResponse
+          transaction_code_offset: 5
+          params:
+            - name: info
+              type:
+                name: android.hardware.radio.RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setSimSlotsMappingResponse
+          transaction_code_offset: 6
+          params:
+            - name: info
+              type:
+                name: android.hardware.radio.RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: getSimultaneousCallingSupportResponse
+          transaction_code_offset: 7
+          params:
+            - name: info
+              type:
+                name: android.hardware.radio.RadioResponseInfo
+              direction: in
+            - name: enabledLogicalSlots
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: PhoneCapability
+      fields:
+        - name: maxActiveData
+          type:
+            name: byte
+        - name: maxActiveInternetData
+          type:
+            name: byte
+        - name: isInternetLingeringSupported
+          type:
+            name: boolean
+        - name: logicalModemIds
+          type:
+            name: byte
+            is_array: true
+        - name: maxActiveVoice
+          type:
+            name: byte
+          default_value: UNKNOWN
+      constants:
+        - name: UNKNOWN
+          type: byte
+          value: "-1"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SimPortInfo
+      fields:
+        - name: iccId
+          type:
+            name: String
+        - name: logicalSlotId
+          type:
+            name: int
+        - name: portActive
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SimSlotStatus
+      fields:
+        - name: cardState
+          type:
+            name: int
+        - name: atr
+          type:
+            name: String
+        - name: eid
+          type:
+            name: String
+        - name: portInfo
+          type:
+            name: SimPortInfo
+            is_array: true
+        - name: supportedMepMode
+          type:
+            name: MultipleEnabledProfilesMode
+          default_value: MultipleEnabledProfilesMode.NONE
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SlotPortMapping
+      fields:
+        - name: physicalSlotId
+          type:
+            name: int
+        - name: portId
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+enums:
+    - name: MultipleEnabledProfilesMode
+      backing_type: int
+      values:
+        - name: NONE
+          value: ""
+        - name: MEP_A1
+          value: ""
+        - name: MEP_A2
+          value: ""
+        - name: MEP_B
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive

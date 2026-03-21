@@ -3,7 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
-	view "github.com/xaionaro-go/binder/android/view"
+	types "github.com/xaionaro-go/binder/android/view/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -22,7 +22,7 @@ const (
 
 type IWindowContainerTransactionCallback interface {
 	AsBinder() binder.IBinder
-	OnTransactionReady(ctx context.Context, id int32, t view.SurfaceControlTransaction) error
+	OnTransactionReady(ctx context.Context, id int32, t types.SurfaceControlTransaction) error
 }
 
 type WindowContainerTransactionCallbackProxy struct {
@@ -44,15 +44,13 @@ var _ IWindowContainerTransactionCallback = (*WindowContainerTransactionCallback
 func (p *WindowContainerTransactionCallbackProxy) OnTransactionReady(
 	ctx context.Context,
 	id int32,
-	t view.SurfaceControlTransaction,
+	t types.SurfaceControlTransaction,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowContainerTransactionCallback)
 	_data.WriteInt32(id)
-	_data.WriteInt32(1)
-	if _err := t.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param t (type types.SurfaceControlTransaction) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowContainerTransactionCallback, MethodIWindowContainerTransactionCallbackOnTransactionReady)
 	if _err != nil {
@@ -66,7 +64,8 @@ func (p *WindowContainerTransactionCallbackProxy) OnTransactionReady(
 // WindowContainerTransactionCallbackStub dispatches incoming binder transactions
 // to a typed IWindowContainerTransactionCallback implementation.
 type WindowContainerTransactionCallbackStub struct {
-	Impl IWindowContainerTransactionCallback
+	Impl      IWindowContainerTransactionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WindowContainerTransactionCallbackStub)(nil)
@@ -80,30 +79,19 @@ func (s *WindowContainerTransactionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWindowContainerTransactionCallbackOnTransactionReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_t view.SurfaceControlTransaction
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_t types.SurfaceControlTransaction
 		_err = s.Impl.OnTransactionReady(ctx, _arg_id, _arg_t)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -113,7 +101,7 @@ func (s *WindowContainerTransactionCallbackStub) OnTransaction(
 // provide to NewWindowContainerTransactionCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IWindowContainerTransactionCallbackServer interface {
-	OnTransactionReady(ctx context.Context, id int32, t view.SurfaceControlTransaction) error
+	OnTransactionReady(ctx context.Context, id int32, t types.SurfaceControlTransaction) error
 }
 
 type windowContainerTransactionCallbackStubWrapper struct {
@@ -128,7 +116,7 @@ func (w *windowContainerTransactionCallbackStubWrapper) AsBinder() binder.IBinde
 func (w *windowContainerTransactionCallbackStubWrapper) OnTransactionReady(
 	ctx context.Context,
 	id int32,
-	t view.SurfaceControlTransaction,
+	t types.SurfaceControlTransaction,
 ) error {
 	return w.impl.OnTransactionReady(ctx, id, t)
 }

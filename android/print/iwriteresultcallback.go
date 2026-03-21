@@ -30,7 +30,7 @@ type IWriteResultCallback interface {
 	AsBinder() binder.IBinder
 	OnWriteStarted(ctx context.Context, cancellation common.ICancellationSignal, sequence int32) error
 	OnWriteFinished(ctx context.Context, pages []PageRange, sequence int32) error
-	OnWriteFailed(ctx context.Context, error_ interface{}, sequence int32) error
+	OnWriteFailed(ctx context.Context, error_ string, sequence int32) error
 	OnWriteCanceled(ctx context.Context, sequence int32) error
 }
 
@@ -56,6 +56,7 @@ func (p *WriteResultCallbackProxy) OnWriteStarted(
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWriteResultCallback)
 	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(sequence)
@@ -75,6 +76,7 @@ func (p *WriteResultCallbackProxy) OnWriteFinished(
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWriteResultCallback)
 	if pages == nil {
 		_data.WriteInt32(-1)
@@ -100,11 +102,13 @@ func (p *WriteResultCallbackProxy) OnWriteFinished(
 
 func (p *WriteResultCallbackProxy) OnWriteFailed(
 	ctx context.Context,
-	error_ interface{},
+	error_ string,
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWriteResultCallback)
+	_data.WriteString16(error_)
 	_data.WriteInt32(sequence)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteFailed)
@@ -121,6 +125,7 @@ func (p *WriteResultCallbackProxy) OnWriteCanceled(
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWriteResultCallback)
 	_data.WriteInt32(sequence)
 
@@ -136,7 +141,8 @@ func (p *WriteResultCallbackProxy) OnWriteCanceled(
 // WriteResultCallbackStub dispatches incoming binder transactions
 // to a typed IWriteResultCallback implementation.
 type WriteResultCallbackStub struct {
-	Impl IWriteResultCallback
+	Impl      IWriteResultCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WriteResultCallbackStub)(nil)
@@ -150,58 +156,72 @@ func (s *WriteResultCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWriteResultCallbackOnWriteStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cancellation common.ICancellationSignal
-		_ = _arg_cancellation
+		{
+			_cancellationHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cancellation = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
+		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnWriteStarted(ctx, _arg_cancellation, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWriteResultCallbackOnWriteFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pages []PageRange
-		_ = _arg_pages
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_pages = make([]PageRange, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_pages[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnWriteFinished(ctx, _arg_pages, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWriteResultCallbackOnWriteFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_error_, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_error_ interface{}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnWriteFailed(ctx, _arg_error_, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWriteResultCallbackOnWriteCanceled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnWriteCanceled(ctx, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -213,7 +233,7 @@ func (s *WriteResultCallbackStub) OnTransaction(
 type IWriteResultCallbackServer interface {
 	OnWriteStarted(ctx context.Context, cancellation common.ICancellationSignal, sequence int32) error
 	OnWriteFinished(ctx context.Context, pages []PageRange, sequence int32) error
-	OnWriteFailed(ctx context.Context, error_ interface{}, sequence int32) error
+	OnWriteFailed(ctx context.Context, error_ string, sequence int32) error
 	OnWriteCanceled(ctx context.Context, sequence int32) error
 }
 
@@ -244,7 +264,7 @@ func (w *writeResultCallbackStubWrapper) OnWriteFinished(
 
 func (w *writeResultCallbackStubWrapper) OnWriteFailed(
 	ctx context.Context,
-	error_ interface{},
+	error_ string,
 	sequence int32,
 ) error {
 	return w.impl.OnWriteFailed(ctx, error_, sequence)

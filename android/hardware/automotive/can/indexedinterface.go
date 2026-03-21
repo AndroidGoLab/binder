@@ -30,6 +30,11 @@ func (s *IndexedInterface) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Index, _err = p.ReadPaddedByte()
 	if _err != nil {
 		return _err

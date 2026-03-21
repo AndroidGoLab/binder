@@ -57,6 +57,7 @@ func (p *CarrierMessagingCallbackProxy) OnFilterComplete(
 	result int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingCallback)
 	_data.WriteInt32(result)
 
@@ -75,6 +76,7 @@ func (p *CarrierMessagingCallbackProxy) OnSendSmsComplete(
 	messageRef int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingCallback)
 	_data.WriteInt32(result)
 	_data.WriteInt32(messageRef)
@@ -94,6 +96,7 @@ func (p *CarrierMessagingCallbackProxy) OnSendMultipartSmsComplete(
 	messageRefs []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingCallback)
 	_data.WriteInt32(result)
 	if messageRefs == nil {
@@ -120,16 +123,10 @@ func (p *CarrierMessagingCallbackProxy) OnSendMmsComplete(
 	sendConfPdu []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingCallback)
 	_data.WriteInt32(result)
-	if sendConfPdu == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sendConfPdu)))
-		for _, _item := range sendConfPdu {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sendConfPdu)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnSendMmsComplete)
 	if _err != nil {
@@ -145,6 +142,7 @@ func (p *CarrierMessagingCallbackProxy) OnDownloadMmsComplete(
 	result int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingCallback)
 	_data.WriteInt32(result)
 
@@ -160,7 +158,8 @@ func (p *CarrierMessagingCallbackProxy) OnDownloadMmsComplete(
 // CarrierMessagingCallbackStub dispatches incoming binder transactions
 // to a typed ICarrierMessagingCallback implementation.
 type CarrierMessagingCallbackStub struct {
-	Impl ICarrierMessagingCallback
+	Impl      ICarrierMessagingCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CarrierMessagingCallbackStub)(nil)
@@ -174,22 +173,19 @@ func (s *CarrierMessagingCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICarrierMessagingCallbackOnFilterComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnFilterComplete(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICarrierMessagingCallbackOnSendSmsComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -199,47 +195,55 @@ func (s *CarrierMessagingCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSendSmsComplete(ctx, _arg_result, _arg_messageRef)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICarrierMessagingCallbackOnSendMultipartSmsComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_messageRefs []int32
-		_ = _arg_messageRefs
-		_err = s.Impl.OnSendMultipartSmsComplete(ctx, _arg_result, _arg_messageRefs)
-		_ = _err
-		return nil, nil
-	case TransactionICarrierMessagingCallbackOnSendMmsComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_messageRefs = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_messageRefs[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.OnSendMultipartSmsComplete(ctx, _arg_result, _arg_messageRefs)
+		return nil, _err
+	case TransactionICarrierMessagingCallbackOnSendMmsComplete:
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sendConfPdu []byte
-		_ = _arg_sendConfPdu
-		_err = s.Impl.OnSendMmsComplete(ctx, _arg_result, _arg_sendConfPdu)
-		_ = _err
-		return nil, nil
-	case TransactionICarrierMessagingCallbackOnDownloadMmsComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sendConfPdu = _bytes
 		}
+		_err = s.Impl.OnSendMmsComplete(ctx, _arg_result, _arg_sendConfPdu)
+		return nil, _err
+	case TransactionICarrierMessagingCallbackOnDownloadMmsComplete:
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDownloadMmsComplete(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -1,0 +1,39 @@
+package: android.hardware.bluetooth.finder
+go_package: android/hardware/bluetooth/finder
+interfaces:
+    - name: IBluetoothFinder
+      descriptor: android.hardware.bluetooth.finder.IBluetoothFinder
+      methods:
+        - name: sendEids
+          transaction_code_offset: 0
+          params:
+            - name: eids
+              type:
+                name: Eid
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setPoweredOffFinderMode
+          transaction_code_offset: 1
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: getPoweredOffFinderMode
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+parcelables:
+    - name: Eid
+      fields:
+        - name: bytes
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "20"
+      annotations:
+        - VintfStability

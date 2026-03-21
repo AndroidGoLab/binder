@@ -63,6 +63,7 @@ func (p *OemLockServiceProxy) GetLockName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemLockService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemLockService, MethodIOemLockServiceGetLockName)
@@ -93,16 +94,10 @@ func (p *OemLockServiceProxy) SetOemUnlockAllowedByCarrier(
 	signature []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemLockService)
 	_data.WriteBool(allowed)
-	if signature == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(signature)))
-		for _, _item := range signature {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(signature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemLockService, MethodIOemLockServiceSetOemUnlockAllowedByCarrier)
 	if _err != nil {
@@ -127,6 +122,7 @@ func (p *OemLockServiceProxy) IsOemUnlockAllowedByCarrier(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemLockService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemLockService, MethodIOemLockServiceIsOemUnlockAllowedByCarrier)
@@ -156,6 +152,7 @@ func (p *OemLockServiceProxy) SetOemUnlockAllowedByUser(
 	allowed bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemLockService)
 	_data.WriteBool(allowed)
 
@@ -182,6 +179,7 @@ func (p *OemLockServiceProxy) IsOemUnlockAllowedByUser(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemLockService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemLockService, MethodIOemLockServiceIsOemUnlockAllowedByUser)
@@ -211,6 +209,7 @@ func (p *OemLockServiceProxy) IsOemUnlockAllowed(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemLockService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemLockService, MethodIOemLockServiceIsOemUnlockAllowed)
@@ -240,6 +239,7 @@ func (p *OemLockServiceProxy) IsDeviceOemUnlocked(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemLockService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemLockService, MethodIOemLockServiceIsDeviceOemUnlocked)
@@ -267,7 +267,8 @@ func (p *OemLockServiceProxy) IsDeviceOemUnlocked(
 // OemLockServiceStub dispatches incoming binder transactions
 // to a typed IOemLockService implementation.
 type OemLockServiceStub struct {
-	Impl IOemLockService
+	Impl      IOemLockService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OemLockServiceStub)(nil)
@@ -281,11 +282,12 @@ func (s *OemLockServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOemLockServiceGetLockName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLockName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -296,16 +298,18 @@ func (s *OemLockServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIOemLockServiceSetOemUnlockAllowedByCarrier:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_signature []byte
-		_ = _arg_signature
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_signature = _bytes
+		}
 		_err = s.Impl.SetOemUnlockAllowedByCarrier(ctx, _arg_allowed, _arg_signature)
 		_reply := parcel.New()
 		if _err != nil {
@@ -315,9 +319,6 @@ func (s *OemLockServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOemLockServiceIsOemUnlockAllowedByCarrier:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsOemUnlockAllowedByCarrier(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -328,9 +329,6 @@ func (s *OemLockServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIOemLockServiceSetOemUnlockAllowedByUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -344,9 +342,6 @@ func (s *OemLockServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOemLockServiceIsOemUnlockAllowedByUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsOemUnlockAllowedByUser(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -357,9 +352,6 @@ func (s *OemLockServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIOemLockServiceIsOemUnlockAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsOemUnlockAllowed(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -370,9 +362,6 @@ func (s *OemLockServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIOemLockServiceIsDeviceOemUnlocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsDeviceOemUnlocked(ctx)
 		_reply := parcel.New()
 		if _err != nil {

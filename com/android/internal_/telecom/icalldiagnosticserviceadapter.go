@@ -27,10 +27,10 @@ const (
 
 type ICallDiagnosticServiceAdapter interface {
 	AsBinder() binder.IBinder
-	DisplayDiagnosticMessage(ctx context.Context, callId string, messageId int32, message interface{}) error
+	DisplayDiagnosticMessage(ctx context.Context, callId string, messageId int32, message string) error
 	ClearDiagnosticMessage(ctx context.Context, callId string, messageId int32) error
 	SendDeviceToDeviceMessage(ctx context.Context, callId string, message int32, value int32) error
-	OverrideDisconnectMessage(ctx context.Context, callId string, message interface{}) error
+	OverrideDisconnectMessage(ctx context.Context, callId string, message string) error
 }
 
 type CallDiagnosticServiceAdapterProxy struct {
@@ -53,12 +53,14 @@ func (p *CallDiagnosticServiceAdapterProxy) DisplayDiagnosticMessage(
 	ctx context.Context,
 	callId string,
 	messageId int32,
-	message interface{},
+	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(messageId)
+	_data.WriteString16(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterDisplayDiagnosticMessage)
 	if _err != nil {
@@ -75,6 +77,7 @@ func (p *CallDiagnosticServiceAdapterProxy) ClearDiagnosticMessage(
 	messageId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(messageId)
@@ -95,6 +98,7 @@ func (p *CallDiagnosticServiceAdapterProxy) SendDeviceToDeviceMessage(
 	value int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(message)
@@ -112,11 +116,13 @@ func (p *CallDiagnosticServiceAdapterProxy) SendDeviceToDeviceMessage(
 func (p *CallDiagnosticServiceAdapterProxy) OverrideDisconnectMessage(
 	ctx context.Context,
 	callId string,
-	message interface{},
+	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteString16(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterOverrideDisconnectMessage)
 	if _err != nil {
@@ -130,7 +136,8 @@ func (p *CallDiagnosticServiceAdapterProxy) OverrideDisconnectMessage(
 // CallDiagnosticServiceAdapterStub dispatches incoming binder transactions
 // to a typed ICallDiagnosticServiceAdapter implementation.
 type CallDiagnosticServiceAdapterStub struct {
-	Impl ICallDiagnosticServiceAdapter
+	Impl      ICallDiagnosticServiceAdapter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CallDiagnosticServiceAdapterStub)(nil)
@@ -144,11 +151,12 @@ func (s *CallDiagnosticServiceAdapterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICallDiagnosticServiceAdapterDisplayDiagnosticMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -157,14 +165,13 @@ func (s *CallDiagnosticServiceAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_message interface{}
-		_err = s.Impl.DisplayDiagnosticMessage(ctx, _arg_callId, _arg_messageId, _arg_message)
-		_ = _err
-		return nil, nil
-	case TransactionICallDiagnosticServiceAdapterClearDiagnosticMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_message, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
+		_err = s.Impl.DisplayDiagnosticMessage(ctx, _arg_callId, _arg_messageId, _arg_message)
+		return nil, _err
+	case TransactionICallDiagnosticServiceAdapterClearDiagnosticMessage:
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -174,12 +181,8 @@ func (s *CallDiagnosticServiceAdapterStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ClearDiagnosticMessage(ctx, _arg_callId, _arg_messageId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallDiagnosticServiceAdapterSendDeviceToDeviceMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -193,20 +196,18 @@ func (s *CallDiagnosticServiceAdapterStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SendDeviceToDeviceMessage(ctx, _arg_callId, _arg_message, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallDiagnosticServiceAdapterOverrideDisconnectMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_message interface{}
+		_arg_message, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		_err = s.Impl.OverrideDisconnectMessage(ctx, _arg_callId, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -216,10 +217,10 @@ func (s *CallDiagnosticServiceAdapterStub) OnTransaction(
 // provide to NewCallDiagnosticServiceAdapterStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ICallDiagnosticServiceAdapterServer interface {
-	DisplayDiagnosticMessage(ctx context.Context, callId string, messageId int32, message interface{}) error
+	DisplayDiagnosticMessage(ctx context.Context, callId string, messageId int32, message string) error
 	ClearDiagnosticMessage(ctx context.Context, callId string, messageId int32) error
 	SendDeviceToDeviceMessage(ctx context.Context, callId string, message int32, value int32) error
-	OverrideDisconnectMessage(ctx context.Context, callId string, message interface{}) error
+	OverrideDisconnectMessage(ctx context.Context, callId string, message string) error
 }
 
 type callDiagnosticServiceAdapterStubWrapper struct {
@@ -235,7 +236,7 @@ func (w *callDiagnosticServiceAdapterStubWrapper) DisplayDiagnosticMessage(
 	ctx context.Context,
 	callId string,
 	messageId int32,
-	message interface{},
+	message string,
 ) error {
 	return w.impl.DisplayDiagnosticMessage(ctx, callId, messageId, message)
 }
@@ -260,7 +261,7 @@ func (w *callDiagnosticServiceAdapterStubWrapper) SendDeviceToDeviceMessage(
 func (w *callDiagnosticServiceAdapterStubWrapper) OverrideDisconnectMessage(
 	ctx context.Context,
 	callId string,
-	message interface{},
+	message string,
 ) error {
 	return w.impl.OverrideDisconnectMessage(ctx, callId, message)
 }

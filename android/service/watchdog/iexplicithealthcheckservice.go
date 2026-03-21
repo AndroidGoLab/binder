@@ -58,8 +58,10 @@ func (p *ExplicitHealthCheckServiceProxy) SetCallback(
 	callback *os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExplicitHealthCheckService)
 	if callback != nil {
+		_data.WriteInt32(1)
 		if _err := (*callback).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -81,6 +83,7 @@ func (p *ExplicitHealthCheckServiceProxy) Request(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExplicitHealthCheckService)
 	_data.WriteString16(packageName)
 
@@ -98,6 +101,7 @@ func (p *ExplicitHealthCheckServiceProxy) Cancel(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExplicitHealthCheckService)
 	_data.WriteString16(packageName)
 
@@ -115,6 +119,7 @@ func (p *ExplicitHealthCheckServiceProxy) GetSupportedPackages(
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExplicitHealthCheckService)
 	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
@@ -135,6 +140,7 @@ func (p *ExplicitHealthCheckServiceProxy) GetRequestedPackages(
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExplicitHealthCheckService)
 	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
@@ -153,7 +159,8 @@ func (p *ExplicitHealthCheckServiceProxy) GetRequestedPackages(
 // ExplicitHealthCheckServiceStub dispatches incoming binder transactions
 // to a typed IExplicitHealthCheckService implementation.
 type ExplicitHealthCheckServiceStub struct {
-	Impl IExplicitHealthCheckService
+	Impl      IExplicitHealthCheckService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ExplicitHealthCheckServiceStub)(nil)
@@ -167,11 +174,12 @@ func (s *ExplicitHealthCheckServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIExplicitHealthCheckServiceSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_callback *os.RemoteCallback
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -179,40 +187,29 @@ func (s *ExplicitHealthCheckServiceStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_callback = new(os.RemoteCallback)
 				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		_err := s.Impl.SetCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIExplicitHealthCheckServiceRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Request(ctx, _arg_packageName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIExplicitHealthCheckServiceCancel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Cancel(ctx, _arg_packageName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIExplicitHealthCheckServiceGetSupportedPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_callback os.RemoteCallback
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -226,12 +223,8 @@ func (s *ExplicitHealthCheckServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetSupportedPackages(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIExplicitHealthCheckServiceGetRequestedPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_callback os.RemoteCallback
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -245,8 +238,7 @@ func (s *ExplicitHealthCheckServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetRequestedPackages(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

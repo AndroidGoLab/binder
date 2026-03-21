@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -39,7 +40,7 @@ const (
 
 type IAlarmManager interface {
 	AsBinder() binder.IBinder
-	Set(ctx context.Context, type_ int32, triggerAtTime int64, windowLength int64, interval int64, flags int32, operation PendingIntent, listener IAlarmListener, listenerTag string, workSource interface{}, alarmClock AlarmManagerAlarmClockInfo) error
+	Set(ctx context.Context, type_ int32, triggerAtTime int64, windowLength int64, interval int64, flags int32, operation PendingIntent, listener IAlarmListener, listenerTag string, workSource os.WorkSource, alarmClock AlarmManagerAlarmClockInfo) error
 	SetTime(ctx context.Context, millis int64) (bool, error)
 	SetTimeZone(ctx context.Context, zone string) error
 	Remove(ctx context.Context, operation PendingIntent, listener IAlarmListener) error
@@ -77,11 +78,12 @@ func (p *AlarmManagerProxy) Set(
 	operation PendingIntent,
 	listener IAlarmListener,
 	listenerTag string,
-	workSource interface{},
+	workSource os.WorkSource,
 	alarmClock AlarmManagerAlarmClockInfo,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(type_)
@@ -95,6 +97,10 @@ func (p *AlarmManagerProxy) Set(
 	}
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(listenerTag)
+	_data.WriteInt32(1)
+	if _err := workSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := alarmClock.MarshalParcel(_data); _err != nil {
 		return _err
@@ -124,6 +130,7 @@ func (p *AlarmManagerProxy) SetTime(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
 	_data.WriteInt64(millis)
 
@@ -154,6 +161,7 @@ func (p *AlarmManagerProxy) SetTimeZone(
 	zone string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
 	_data.WriteString16(zone)
 
@@ -181,6 +189,7 @@ func (p *AlarmManagerProxy) Remove(
 	listener IAlarmListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
 	_data.WriteInt32(1)
 	if _err := operation.MarshalParcel(_data); _err != nil {
@@ -211,6 +220,7 @@ func (p *AlarmManagerProxy) RemoveAll(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
 	_data.WriteString16(packageName)
 
@@ -237,6 +247,7 @@ func (p *AlarmManagerProxy) GetNextWakeFromIdleTime(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAlarmManager, MethodIAlarmManagerGetNextWakeFromIdleTime)
@@ -267,6 +278,7 @@ func (p *AlarmManagerProxy) GetNextAlarmClock(
 	var _result AlarmManagerAlarmClockInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -303,6 +315,7 @@ func (p *AlarmManagerProxy) CanScheduleExactAlarms(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
 	_data.WriteString16(packageName)
 
@@ -335,6 +348,7 @@ func (p *AlarmManagerProxy) HasScheduleExactAlarm(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -366,6 +380,7 @@ func (p *AlarmManagerProxy) GetConfigVersion(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAlarmManager, MethodIAlarmManagerGetConfigVersion)
@@ -393,7 +408,8 @@ func (p *AlarmManagerProxy) GetConfigVersion(
 // AlarmManagerStub dispatches incoming binder transactions
 // to a typed IAlarmManager implementation.
 type AlarmManagerStub struct {
-	Impl IAlarmManager
+	Impl      IAlarmManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AlarmManagerStub)(nil)
@@ -407,11 +423,12 @@ func (s *AlarmManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAlarmManagerSet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -447,14 +464,30 @@ func (s *AlarmManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IAlarmListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewAlarmListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_listenerTag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_workSource interface{}
+		var _arg_workSource os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_workSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_alarmClock AlarmManagerAlarmClockInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -476,9 +509,6 @@ func (s *AlarmManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAlarmManagerSetTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_millis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -493,9 +523,6 @@ func (s *AlarmManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAlarmManagerSetTimeZone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_zone, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -509,9 +536,6 @@ func (s *AlarmManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAlarmManagerRemove:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_operation PendingIntent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -524,9 +548,14 @@ func (s *AlarmManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IAlarmListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewAlarmListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.Remove(ctx, _arg_operation, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -536,9 +565,6 @@ func (s *AlarmManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAlarmManagerRemoveAll:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -552,9 +578,6 @@ func (s *AlarmManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAlarmManagerGetNextWakeFromIdleTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetNextWakeFromIdleTime(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -565,9 +588,6 @@ func (s *AlarmManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIAlarmManagerGetNextAlarmClock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -584,9 +604,6 @@ func (s *AlarmManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAlarmManagerCanScheduleExactAlarms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -601,9 +618,6 @@ func (s *AlarmManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAlarmManagerHasScheduleExactAlarm:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -621,9 +635,6 @@ func (s *AlarmManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAlarmManagerGetConfigVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetConfigVersion(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -642,7 +653,7 @@ func (s *AlarmManagerStub) OnTransaction(
 // provide to NewAlarmManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAlarmManagerServer interface {
-	Set(ctx context.Context, type_ int32, triggerAtTime int64, windowLength int64, interval int64, flags int32, operation PendingIntent, listener IAlarmListener, listenerTag string, workSource interface{}, alarmClock AlarmManagerAlarmClockInfo) error
+	Set(ctx context.Context, type_ int32, triggerAtTime int64, windowLength int64, interval int64, flags int32, operation PendingIntent, listener IAlarmListener, listenerTag string, workSource os.WorkSource, alarmClock AlarmManagerAlarmClockInfo) error
 	SetTime(ctx context.Context, millis int64) (bool, error)
 	SetTimeZone(ctx context.Context, zone string) error
 	Remove(ctx context.Context, operation PendingIntent, listener IAlarmListener) error
@@ -673,7 +684,7 @@ func (w *alarmManagerStubWrapper) Set(
 	operation PendingIntent,
 	listener IAlarmListener,
 	listenerTag string,
-	workSource interface{},
+	workSource os.WorkSource,
 	alarmClock AlarmManagerAlarmClockInfo,
 ) error {
 	return w.impl.Set(ctx, type_, triggerAtTime, windowLength, interval, flags, operation, listener, listenerTag, workSource, alarmClock)

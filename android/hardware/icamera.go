@@ -44,6 +44,7 @@ func (p *CameraProxy) Disconnect(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICamera)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamera, MethodICameraDisconnect)
@@ -67,7 +68,8 @@ func (p *CameraProxy) Disconnect(
 // CameraStub dispatches incoming binder transactions
 // to a typed ICamera implementation.
 type CameraStub struct {
-	Impl ICamera
+	Impl      ICamera
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CameraStub)(nil)
@@ -81,11 +83,12 @@ func (s *CameraStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICameraDisconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Disconnect(ctx)
 		_reply := parcel.New()
 		if _err != nil {

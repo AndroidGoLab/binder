@@ -59,6 +59,7 @@ func (p *RestoreSessionProxy) GetAvailableRestoreSets(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreSession)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
@@ -93,6 +94,7 @@ func (p *RestoreSessionProxy) RestoreAll(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreSession)
 	_data.WriteInt64(token)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
@@ -129,6 +131,7 @@ func (p *RestoreSessionProxy) RestorePackages(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreSession)
 	_data.WriteInt64(token)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
@@ -172,6 +175,7 @@ func (p *RestoreSessionProxy) RestorePackage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreSession)
 	_data.WriteString16(packageName)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
@@ -203,6 +207,7 @@ func (p *RestoreSessionProxy) EndRestoreSession(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestoreSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreSession, MethodIRestoreSessionEndRestoreSession)
@@ -226,7 +231,8 @@ func (p *RestoreSessionProxy) EndRestoreSession(
 // RestoreSessionStub dispatches incoming binder transactions
 // to a typed IRestoreSession implementation.
 type RestoreSessionStub struct {
-	Impl IRestoreSession
+	Impl      IRestoreSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RestoreSessionStub)(nil)
@@ -240,17 +246,28 @@ func (s *RestoreSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRestoreSessionGetAvailableRestoreSets:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IRestoreObserver
-		_ = _arg_observer
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewRestoreObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		var _arg_monitor IBackupManagerMonitor
-		_ = _arg_monitor
+		{
+			_monitorHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_monitor = NewBackupManagerMonitorProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _monitorHandle))
+		}
 		_result, _err := s.Impl.GetAvailableRestoreSets(ctx, _arg_observer, _arg_monitor)
 		_reply := parcel.New()
 		if _err != nil {
@@ -261,19 +278,26 @@ func (s *RestoreSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRestoreSessionRestoreAll:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IRestoreObserver
-		_ = _arg_observer
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewRestoreObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		var _arg_monitor IBackupManagerMonitor
-		_ = _arg_monitor
+		{
+			_monitorHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_monitor = NewBackupManagerMonitorProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _monitorHandle))
+		}
 		_result, _err := s.Impl.RestoreAll(ctx, _arg_token, _arg_observer, _arg_monitor)
 		_reply := parcel.New()
 		if _err != nil {
@@ -284,22 +308,45 @@ func (s *RestoreSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRestoreSessionRestorePackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IRestoreObserver
-		_ = _arg_observer
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewRestoreObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		var _arg_packages []string
-		_ = _arg_packages
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packages = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packages[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_monitor IBackupManagerMonitor
-		_ = _arg_monitor
+		{
+			_monitorHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_monitor = NewBackupManagerMonitorProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _monitorHandle))
+		}
 		_result, _err := s.Impl.RestorePackages(ctx, _arg_token, _arg_observer, _arg_packages, _arg_monitor)
 		_reply := parcel.New()
 		if _err != nil {
@@ -310,19 +357,26 @@ func (s *RestoreSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRestoreSessionRestorePackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IRestoreObserver
-		_ = _arg_observer
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewRestoreObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		var _arg_monitor IBackupManagerMonitor
-		_ = _arg_monitor
+		{
+			_monitorHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_monitor = NewBackupManagerMonitorProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _monitorHandle))
+		}
 		_result, _err := s.Impl.RestorePackage(ctx, _arg_packageName, _arg_observer, _arg_monitor)
 		_reply := parcel.New()
 		if _err != nil {
@@ -333,9 +387,6 @@ func (s *RestoreSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRestoreSessionEndRestoreSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.EndRestoreSession(ctx)
 		_reply := parcel.New()
 		if _err != nil {

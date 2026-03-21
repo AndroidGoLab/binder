@@ -2,6 +2,7 @@ package extension
 
 import (
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	hardware "github.com/xaionaro-go/binder/android/hardware"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -16,7 +17,7 @@ type ParcelImage struct {
 	Timestamp   int64
 	PlaneCount  int32
 	Crop        graphics.Rect
-	Buffer      interface{}
+	Buffer      hardware.HardwareBuffer
 	Fence       int32
 }
 
@@ -36,6 +37,9 @@ func (s *ParcelImage) MarshalParcel(
 	if _err := s.Crop.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	if _err := s.Buffer.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteFileDescriptor(s.Fence)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -50,9 +54,19 @@ func (s *ParcelImage) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Format, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Width, _err = p.ReadInt32()
@@ -60,9 +74,19 @@ func (s *ParcelImage) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Height, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Transform, _err = p.ReadInt32()
@@ -70,9 +94,19 @@ func (s *ParcelImage) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ScalingMode, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Timestamp, _err = p.ReadInt64()
@@ -80,13 +114,37 @@ func (s *ParcelImage) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PlaneCount, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Crop.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.Buffer.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Fence, _err = p.ReadFileDescriptor()

@@ -101,6 +101,7 @@ func (p *NfcTagProxy) Connect(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt32(nativeHandle)
 	_data.WriteInt32(technology)
@@ -133,6 +134,7 @@ func (p *NfcTagProxy) Reconnect(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt32(nativeHandle)
 
@@ -164,6 +166,7 @@ func (p *NfcTagProxy) GetTechList(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt32(nativeHandle)
 
@@ -186,6 +189,9 @@ func (p *NfcTagProxy) GetTechList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -205,6 +211,7 @@ func (p *NfcTagProxy) IsNdef(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt32(nativeHandle)
 
@@ -236,6 +243,7 @@ func (p *NfcTagProxy) IsPresent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt32(nativeHandle)
 
@@ -269,16 +277,10 @@ func (p *NfcTagProxy) Transceive(
 ) (TransceiveResult, error) {
 	var _result TransceiveResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt32(nativeHandle)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 	_data.WriteBool(raw)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagTransceive)
@@ -314,6 +316,7 @@ func (p *NfcTagProxy) NdefRead(
 ) (NdefMessage, error) {
 	var _result NdefMessage
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt32(nativeHandle)
 
@@ -351,6 +354,7 @@ func (p *NfcTagProxy) NdefWrite(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt32(nativeHandle)
 	_data.WriteInt32(1)
@@ -386,6 +390,7 @@ func (p *NfcTagProxy) NdefMakeReadOnly(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt32(nativeHandle)
 
@@ -417,6 +422,7 @@ func (p *NfcTagProxy) NdefIsWritable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt32(nativeHandle)
 
@@ -449,16 +455,10 @@ func (p *NfcTagProxy) FormatNdef(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt32(nativeHandle)
-	if key == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(key)))
-		for _, _item := range key {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(key)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagFormatNdef)
 	if _err != nil {
@@ -488,6 +488,7 @@ func (p *NfcTagProxy) Rediscover(
 ) (Tag, error) {
 	var _result Tag
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt32(nativehandle)
 
@@ -525,6 +526,7 @@ func (p *NfcTagProxy) SetTimeout(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt32(technology)
 	_data.WriteInt32(timeout)
@@ -557,6 +559,7 @@ func (p *NfcTagProxy) GetTimeout(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt32(technology)
 
@@ -586,6 +589,7 @@ func (p *NfcTagProxy) ResetTimeouts(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagResetTimeouts)
@@ -612,6 +616,7 @@ func (p *NfcTagProxy) CanMakeReadOnly(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt32(ndefType)
 
@@ -643,6 +648,7 @@ func (p *NfcTagProxy) GetMaxTransceiveLength(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt32(technology)
 
@@ -673,6 +679,7 @@ func (p *NfcTagProxy) GetExtendedLengthApdusSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcTag, MethodINfcTagGetExtendedLengthApdusSupported)
@@ -703,6 +710,7 @@ func (p *NfcTagProxy) IsTagUpToDate(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcTag)
 	_data.WriteInt64(cookie)
 
@@ -731,7 +739,8 @@ func (p *NfcTagProxy) IsTagUpToDate(
 // NfcTagStub dispatches incoming binder transactions
 // to a typed INfcTag implementation.
 type NfcTagStub struct {
-	Impl INfcTag
+	Impl      INfcTag
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NfcTagStub)(nil)
@@ -745,11 +754,12 @@ func (s *NfcTagStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINfcTagConnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nativeHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -768,9 +778,6 @@ func (s *NfcTagStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINfcTagReconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nativeHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -785,9 +792,6 @@ func (s *NfcTagStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINfcTagGetTechList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nativeHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -799,13 +803,16 @@ func (s *NfcTagStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionINfcTagIsNdef:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nativeHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -820,9 +827,6 @@ func (s *NfcTagStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcTagIsPresent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nativeHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -837,16 +841,18 @@ func (s *NfcTagStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcTagTransceive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nativeHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_arg_raw, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -864,9 +870,6 @@ func (s *NfcTagStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINfcTagNdefRead:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nativeHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -884,9 +887,6 @@ func (s *NfcTagStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINfcTagNdefWrite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nativeHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -913,9 +913,6 @@ func (s *NfcTagStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINfcTagNdefMakeReadOnly:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nativeHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -930,9 +927,6 @@ func (s *NfcTagStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINfcTagNdefIsWritable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nativeHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -947,16 +941,18 @@ func (s *NfcTagStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcTagFormatNdef:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nativeHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_key []byte
-		_ = _arg_key
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_key = _bytes
+		}
 		_result, _err := s.Impl.FormatNdef(ctx, _arg_nativeHandle, _arg_key)
 		_reply := parcel.New()
 		if _err != nil {
@@ -967,9 +963,6 @@ func (s *NfcTagStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINfcTagRediscover:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nativehandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -987,9 +980,6 @@ func (s *NfcTagStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINfcTagSetTimeout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_technology, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1008,9 +998,6 @@ func (s *NfcTagStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINfcTagGetTimeout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_technology, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1025,9 +1012,6 @@ func (s *NfcTagStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINfcTagResetTimeouts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResetTimeouts(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1037,9 +1021,6 @@ func (s *NfcTagStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcTagCanMakeReadOnly:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ndefType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1054,9 +1035,6 @@ func (s *NfcTagStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcTagGetMaxTransceiveLength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_technology, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1071,9 +1049,6 @@ func (s *NfcTagStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINfcTagGetExtendedLengthApdusSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetExtendedLengthApdusSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1084,9 +1059,6 @@ func (s *NfcTagStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcTagIsTagUpToDate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cookie, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err

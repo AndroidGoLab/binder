@@ -34,7 +34,8 @@ var _ IFoo = (*FooProxy)(nil)
 // FooStub dispatches incoming binder transactions
 // to a typed IFoo implementation.
 type FooStub struct {
-	Impl IFoo
+	Impl      IFoo
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FooStub)(nil)
@@ -48,6 +49,10 @@ func (s *FooStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

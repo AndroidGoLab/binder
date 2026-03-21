@@ -50,6 +50,7 @@ func (p *StreamCallbackProxy) OnTransferReady(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCallback, MethodIStreamCallbackOnTransferReady)
@@ -65,6 +66,7 @@ func (p *StreamCallbackProxy) OnError(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCallback, MethodIStreamCallbackOnError)
@@ -80,6 +82,7 @@ func (p *StreamCallbackProxy) OnDrainReady(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCallback, MethodIStreamCallbackOnDrainReady)
@@ -94,7 +97,8 @@ func (p *StreamCallbackProxy) OnDrainReady(
 // StreamCallbackStub dispatches incoming binder transactions
 // to a typed IStreamCallback implementation.
 type StreamCallbackStub struct {
-	Impl IStreamCallback
+	Impl      IStreamCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StreamCallbackStub)(nil)
@@ -108,28 +112,20 @@ func (s *StreamCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStreamCallbackOnTransferReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnTransferReady(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStreamCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnError(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStreamCallbackOnDrainReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDrainReady(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

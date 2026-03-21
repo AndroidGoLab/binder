@@ -44,6 +44,7 @@ func (p *PrintDocumentAdapterObserverProxy) OnDestroy(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapterObserver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintDocumentAdapterObserver, MethodIPrintDocumentAdapterObserverOnDestroy)
@@ -58,7 +59,8 @@ func (p *PrintDocumentAdapterObserverProxy) OnDestroy(
 // PrintDocumentAdapterObserverStub dispatches incoming binder transactions
 // to a typed IPrintDocumentAdapterObserver implementation.
 type PrintDocumentAdapterObserverStub struct {
-	Impl IPrintDocumentAdapterObserver
+	Impl      IPrintDocumentAdapterObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PrintDocumentAdapterObserverStub)(nil)
@@ -72,14 +74,14 @@ func (s *PrintDocumentAdapterObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPrintDocumentAdapterObserverOnDestroy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDestroy(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

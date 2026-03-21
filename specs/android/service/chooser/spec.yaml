@@ -1,0 +1,40 @@
+package: android.service.chooser
+go_package: android/service/chooser
+interfaces:
+    - name: IChooserTargetResult
+      descriptor: android.service.chooser.IChooserTargetResult
+      oneway: true
+      methods:
+        - name: sendResult
+          transaction_code_offset: 0
+          params:
+            - name: targets
+              type:
+                name: List
+                type_args:
+                    - name: ChooserTarget
+              direction: in
+          return_type:
+            name: void
+    - name: IChooserTargetService
+      descriptor: android.service.chooser.IChooserTargetService
+      oneway: true
+      methods:
+        - name: getChooserTargets
+          transaction_code_offset: 0
+          params:
+            - name: targetComponentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: matchedFilter
+              type:
+                name: IntentFilter
+              direction: in
+            - name: result
+              type:
+                name: IChooserTargetResult
+          return_type:
+            name: void
+parcelables:
+    - name: ChooserTarget

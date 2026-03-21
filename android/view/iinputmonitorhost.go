@@ -47,6 +47,7 @@ func (p *InputMonitorHostProxy) PilferPointers(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMonitorHost)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMonitorHost, MethodIInputMonitorHostPilferPointers)
@@ -62,6 +63,7 @@ func (p *InputMonitorHostProxy) Dispose(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMonitorHost)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMonitorHost, MethodIInputMonitorHostDispose)
@@ -76,7 +78,8 @@ func (p *InputMonitorHostProxy) Dispose(
 // InputMonitorHostStub dispatches incoming binder transactions
 // to a typed IInputMonitorHost implementation.
 type InputMonitorHostStub struct {
-	Impl IInputMonitorHost
+	Impl      IInputMonitorHost
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputMonitorHostStub)(nil)
@@ -90,21 +93,17 @@ func (s *InputMonitorHostStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputMonitorHostPilferPointers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.PilferPointers(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMonitorHostDispose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Dispose(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

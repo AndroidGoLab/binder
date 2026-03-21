@@ -3,6 +3,7 @@ package os
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/os/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -32,8 +33,8 @@ type IDropBoxManagerService interface {
 	AddData(ctx context.Context, tag string, data []byte, flags int32) error
 	AddFile(ctx context.Context, tag string, fd int32, flags int32) error
 	IsTagEnabled(ctx context.Context, tag string) (bool, error)
-	GetNextEntry(ctx context.Context, tag string, millis int64, packageName string) (interface{}, error)
-	GetNextEntryWithAttribution(ctx context.Context, tag string, millis int64, packageName string) (interface{}, error)
+	GetNextEntry(ctx context.Context, tag string, millis int64, packageName string) (types.DropBoxManagerEntry, error)
+	GetNextEntryWithAttribution(ctx context.Context, tag string, millis int64, packageName string) (types.DropBoxManagerEntry, error)
 }
 
 type DropBoxManagerServiceProxy struct {
@@ -59,16 +60,10 @@ func (p *DropBoxManagerServiceProxy) AddData(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDropBoxManagerService)
 	_data.WriteString16(tag)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 	_data.WriteInt32(flags)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceAddData)
@@ -96,6 +91,7 @@ func (p *DropBoxManagerServiceProxy) AddFile(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDropBoxManagerService)
 	_data.WriteString16(tag)
 	_data.WriteFileDescriptor(fd)
@@ -125,6 +121,7 @@ func (p *DropBoxManagerServiceProxy) IsTagEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDropBoxManagerService)
 	_data.WriteString16(tag)
 
@@ -155,9 +152,10 @@ func (p *DropBoxManagerServiceProxy) GetNextEntry(
 	tag string,
 	millis int64,
 	packageName string,
-) (interface{}, error) {
-	var _result interface{}
+) (types.DropBoxManagerEntry, error) {
+	var _result types.DropBoxManagerEntry
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDropBoxManagerService)
 	_data.WriteString16(tag)
 	_data.WriteInt64(millis)
@@ -178,6 +176,17 @@ func (p *DropBoxManagerServiceProxy) GetNextEntry(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -186,10 +195,11 @@ func (p *DropBoxManagerServiceProxy) GetNextEntryWithAttribution(
 	tag string,
 	millis int64,
 	packageName string,
-) (interface{}, error) {
-	var _result interface{}
+) (types.DropBoxManagerEntry, error) {
+	var _result types.DropBoxManagerEntry
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDropBoxManagerService)
 	_data.WriteString16(tag)
 	_data.WriteInt64(millis)
@@ -211,13 +221,25 @@ func (p *DropBoxManagerServiceProxy) GetNextEntryWithAttribution(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
 // DropBoxManagerServiceStub dispatches incoming binder transactions
 // to a typed IDropBoxManagerService implementation.
 type DropBoxManagerServiceStub struct {
-	Impl IDropBoxManagerService
+	Impl      IDropBoxManagerService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DropBoxManagerServiceStub)(nil)
@@ -231,18 +253,24 @@ func (s *DropBoxManagerServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDropBoxManagerServiceAddData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -256,9 +284,6 @@ func (s *DropBoxManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDropBoxManagerServiceAddFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -280,9 +305,6 @@ func (s *DropBoxManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDropBoxManagerServiceIsTagEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -297,9 +319,6 @@ func (s *DropBoxManagerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDropBoxManagerServiceGetNextEntry:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -322,9 +341,6 @@ func (s *DropBoxManagerServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDropBoxManagerServiceGetNextEntryWithAttribution:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -361,8 +377,8 @@ type IDropBoxManagerServiceServer interface {
 	AddData(ctx context.Context, tag string, data []byte, flags int32) error
 	AddFile(ctx context.Context, tag string, fd int32, flags int32) error
 	IsTagEnabled(ctx context.Context, tag string) (bool, error)
-	GetNextEntry(ctx context.Context, tag string, millis int64, packageName string) (interface{}, error)
-	GetNextEntryWithAttribution(ctx context.Context, tag string, millis int64, packageName string) (interface{}, error)
+	GetNextEntry(ctx context.Context, tag string, millis int64, packageName string) (types.DropBoxManagerEntry, error)
+	GetNextEntryWithAttribution(ctx context.Context, tag string, millis int64, packageName string) (types.DropBoxManagerEntry, error)
 }
 
 type dropBoxManagerServiceStubWrapper struct {
@@ -404,7 +420,7 @@ func (w *dropBoxManagerServiceStubWrapper) GetNextEntry(
 	tag string,
 	millis int64,
 	packageName string,
-) (interface{}, error) {
+) (types.DropBoxManagerEntry, error) {
 	return w.impl.GetNextEntry(ctx, tag, millis, packageName)
 }
 
@@ -413,7 +429,7 @@ func (w *dropBoxManagerServiceStubWrapper) GetNextEntryWithAttribution(
 	tag string,
 	millis int64,
 	packageName string,
-) (interface{}, error) {
+) (types.DropBoxManagerEntry, error) {
 	return w.impl.GetNextEntryWithAttribution(ctx, tag, millis, packageName)
 }
 

@@ -52,6 +52,7 @@ func (p *ComposerProxy) CreateClient(
 ) (IComposerClient, error) {
 	var _result IComposerClient
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposer, MethodIComposerCreateClient)
@@ -82,6 +83,7 @@ func (p *ComposerProxy) GetCapabilities(
 ) ([]Capability, error) {
 	var _result []Capability
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposer, MethodIComposerGetCapabilities)
@@ -103,6 +105,9 @@ func (p *ComposerProxy) GetCapabilities(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]Capability, _count)
@@ -120,7 +125,8 @@ func (p *ComposerProxy) GetCapabilities(
 // ComposerStub dispatches incoming binder transactions
 // to a typed IComposer implementation.
 type ComposerStub struct {
-	Impl IComposer
+	Impl      IComposer
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ComposerStub)(nil)
@@ -134,11 +140,12 @@ func (s *ComposerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIComposerCreateClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CreateClient(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -146,13 +153,9 @@ func (s *ComposerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIComposerGetCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCapabilities(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -160,8 +163,14 @@ func (s *ComposerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

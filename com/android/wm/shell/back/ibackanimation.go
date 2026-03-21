@@ -55,6 +55,7 @@ func (p *BackAnimationProxy) SetBackToLauncherCallback(
 	runner view.IRemoteAnimationRunner,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackAnimation)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, runner.AsBinder(), p.Remote.Transport())
@@ -81,6 +82,7 @@ func (p *BackAnimationProxy) ClearBackToLauncherCallback(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackAnimation)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackAnimation, MethodIBackAnimationClearBackToLauncherCallback)
@@ -106,6 +108,7 @@ func (p *BackAnimationProxy) CustomizeStatusBarAppearance(
 	appearance internalView.AppearanceRegion,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackAnimation)
 	_data.WriteInt32(1)
 	if _err := appearance.MarshalParcel(_data); _err != nil {
@@ -133,7 +136,8 @@ func (p *BackAnimationProxy) CustomizeStatusBarAppearance(
 // BackAnimationStub dispatches incoming binder transactions
 // to a typed IBackAnimation implementation.
 type BackAnimationStub struct {
-	Impl IBackAnimation
+	Impl      IBackAnimation
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BackAnimationStub)(nil)
@@ -147,17 +151,28 @@ func (s *BackAnimationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBackAnimationSetBackToLauncherCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback window.IOnBackInvokedCallback
-		_ = _arg_callback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = window.NewOnBackInvokedCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_runner view.IRemoteAnimationRunner
-		_ = _arg_runner
+		{
+			_runnerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_runner = view.NewRemoteAnimationRunnerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _runnerHandle))
+		}
 		_err := s.Impl.SetBackToLauncherCallback(ctx, _arg_callback, _arg_runner)
 		_reply := parcel.New()
 		if _err != nil {
@@ -167,9 +182,6 @@ func (s *BackAnimationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackAnimationClearBackToLauncherCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ClearBackToLauncherCallback(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -179,9 +191,6 @@ func (s *BackAnimationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackAnimationCustomizeStatusBarAppearance:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_appearance internalView.AppearanceRegion
 		{
 			_nullInd, _err := _data.ReadInt32()

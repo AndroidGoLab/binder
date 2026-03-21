@@ -45,6 +45,7 @@ func (p *AudioRoutesObserverProxy) DispatchAudioRoutesChanged(
 	newRoutes AudioRoutesInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioRoutesObserver)
 	_data.WriteInt32(1)
 	if _err := newRoutes.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *AudioRoutesObserverProxy) DispatchAudioRoutesChanged(
 // AudioRoutesObserverStub dispatches incoming binder transactions
 // to a typed IAudioRoutesObserver implementation.
 type AudioRoutesObserverStub struct {
-	Impl IAudioRoutesObserver
+	Impl      IAudioRoutesObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AudioRoutesObserverStub)(nil)
@@ -77,11 +79,12 @@ func (s *AudioRoutesObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAudioRoutesObserverDispatchAudioRoutesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_newRoutes AudioRoutesInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *AudioRoutesObserverStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.DispatchAudioRoutesChanged(ctx, _arg_newRoutes)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

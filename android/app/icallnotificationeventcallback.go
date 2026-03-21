@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -23,8 +24,8 @@ const (
 
 type ICallNotificationEventCallback interface {
 	AsBinder() binder.IBinder
-	OnCallNotificationPosted(ctx context.Context, packageName string, userHandle interface{}) error
-	OnCallNotificationRemoved(ctx context.Context, packageName string, userHandle interface{}) error
+	OnCallNotificationPosted(ctx context.Context, packageName string, userHandle os.UserHandle) error
+	OnCallNotificationRemoved(ctx context.Context, packageName string, userHandle os.UserHandle) error
 }
 
 type CallNotificationEventCallbackProxy struct {
@@ -46,11 +47,16 @@ var _ ICallNotificationEventCallback = (*CallNotificationEventCallbackProxy)(nil
 func (p *CallNotificationEventCallbackProxy) OnCallNotificationPosted(
 	ctx context.Context,
 	packageName string,
-	userHandle interface{},
+	userHandle os.UserHandle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallNotificationEventCallback)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := userHandle.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallNotificationEventCallback, MethodICallNotificationEventCallbackOnCallNotificationPosted)
 	if _err != nil {
@@ -64,11 +70,16 @@ func (p *CallNotificationEventCallbackProxy) OnCallNotificationPosted(
 func (p *CallNotificationEventCallbackProxy) OnCallNotificationRemoved(
 	ctx context.Context,
 	packageName string,
-	userHandle interface{},
+	userHandle os.UserHandle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallNotificationEventCallback)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := userHandle.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallNotificationEventCallback, MethodICallNotificationEventCallbackOnCallNotificationRemoved)
 	if _err != nil {
@@ -82,7 +93,8 @@ func (p *CallNotificationEventCallbackProxy) OnCallNotificationRemoved(
 // CallNotificationEventCallbackStub dispatches incoming binder transactions
 // to a typed ICallNotificationEventCallback implementation.
 type CallNotificationEventCallbackStub struct {
-	Impl ICallNotificationEventCallback
+	Impl      ICallNotificationEventCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CallNotificationEventCallbackStub)(nil)
@@ -96,31 +108,49 @@ func (s *CallNotificationEventCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICallNotificationEventCallbackOnCallNotificationPosted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_userHandle interface{}
+		var _arg_userHandle os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnCallNotificationPosted(ctx, _arg_packageName, _arg_userHandle)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallNotificationEventCallbackOnCallNotificationRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_userHandle interface{}
+		var _arg_userHandle os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnCallNotificationRemoved(ctx, _arg_packageName, _arg_userHandle)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -130,8 +160,8 @@ func (s *CallNotificationEventCallbackStub) OnTransaction(
 // provide to NewCallNotificationEventCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ICallNotificationEventCallbackServer interface {
-	OnCallNotificationPosted(ctx context.Context, packageName string, userHandle interface{}) error
-	OnCallNotificationRemoved(ctx context.Context, packageName string, userHandle interface{}) error
+	OnCallNotificationPosted(ctx context.Context, packageName string, userHandle os.UserHandle) error
+	OnCallNotificationRemoved(ctx context.Context, packageName string, userHandle os.UserHandle) error
 }
 
 type callNotificationEventCallbackStubWrapper struct {
@@ -146,7 +176,7 @@ func (w *callNotificationEventCallbackStubWrapper) AsBinder() binder.IBinder {
 func (w *callNotificationEventCallbackStubWrapper) OnCallNotificationPosted(
 	ctx context.Context,
 	packageName string,
-	userHandle interface{},
+	userHandle os.UserHandle,
 ) error {
 	return w.impl.OnCallNotificationPosted(ctx, packageName, userHandle)
 }
@@ -154,7 +184,7 @@ func (w *callNotificationEventCallbackStubWrapper) OnCallNotificationPosted(
 func (w *callNotificationEventCallbackStubWrapper) OnCallNotificationRemoved(
 	ctx context.Context,
 	packageName string,
-	userHandle interface{},
+	userHandle os.UserHandle,
 ) error {
 	return w.impl.OnCallNotificationRemoved(ctx, packageName, userHandle)
 }

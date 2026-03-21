@@ -45,6 +45,7 @@ func (p *ThermalChangedCallbackProxy) NotifyThrottling(
 	temperature Temperature,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalChangedCallback)
 	_data.WriteInt32(1)
 	if _err := temperature.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *ThermalChangedCallbackProxy) NotifyThrottling(
 // ThermalChangedCallbackStub dispatches incoming binder transactions
 // to a typed IThermalChangedCallback implementation.
 type ThermalChangedCallbackStub struct {
-	Impl IThermalChangedCallback
+	Impl      IThermalChangedCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ThermalChangedCallbackStub)(nil)
@@ -77,11 +79,12 @@ func (s *ThermalChangedCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIThermalChangedCallbackNotifyThrottling:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_temperature Temperature
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *ThermalChangedCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NotifyThrottling(ctx, _arg_temperature)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -3,6 +3,7 @@ package domain
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -44,8 +45,8 @@ type IDomainVerificationManager interface {
 	SetDomainVerificationStatus(ctx context.Context, domainSetId string, domains DomainSet, state int32) (int32, error)
 	SetDomainVerificationLinkHandlingAllowed(ctx context.Context, packageName string, allowed bool) error
 	SetDomainVerificationUserSelection(ctx context.Context, domainSetId string, domains DomainSet, enabled bool) (int32, error)
-	SetUriRelativeFilterGroups(ctx context.Context, packageName string, domainToGroupsBundle interface{}) error
-	GetUriRelativeFilterGroups(ctx context.Context, packageName string, domains []string) (interface{}, error)
+	SetUriRelativeFilterGroups(ctx context.Context, packageName string, domainToGroupsBundle os.Bundle) error
+	GetUriRelativeFilterGroups(ctx context.Context, packageName string, domains []string) (os.Bundle, error)
 }
 
 type DomainVerificationManagerProxy struct {
@@ -69,6 +70,7 @@ func (p *DomainVerificationManagerProxy) QueryValidVerificationPackageNames(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerQueryValidVerificationPackageNames)
@@ -90,6 +92,9 @@ func (p *DomainVerificationManagerProxy) QueryValidVerificationPackageNames(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -109,6 +114,7 @@ func (p *DomainVerificationManagerProxy) GetDomainVerificationInfo(
 ) (DomainVerificationInfo, error) {
 	var _result DomainVerificationInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(packageName)
 
@@ -146,6 +152,7 @@ func (p *DomainVerificationManagerProxy) GetDomainVerificationUserState(
 	var _result DomainVerificationUserState
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -184,6 +191,7 @@ func (p *DomainVerificationManagerProxy) GetOwnersForDomain(
 	var _result []DomainOwner
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(domain)
 	_data.WriteInt32(_identity.UserID)
@@ -206,6 +214,9 @@ func (p *DomainVerificationManagerProxy) GetOwnersForDomain(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -230,6 +241,7 @@ func (p *DomainVerificationManagerProxy) SetDomainVerificationStatus(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(domainSetId)
 	_data.WriteInt32(1)
@@ -267,6 +279,7 @@ func (p *DomainVerificationManagerProxy) SetDomainVerificationLinkHandlingAllowe
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(allowed)
@@ -299,6 +312,7 @@ func (p *DomainVerificationManagerProxy) SetDomainVerificationUserSelection(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(domainSetId)
 	_data.WriteInt32(1)
@@ -333,11 +347,16 @@ func (p *DomainVerificationManagerProxy) SetDomainVerificationUserSelection(
 func (p *DomainVerificationManagerProxy) SetUriRelativeFilterGroups(
 	ctx context.Context,
 	packageName string,
-	domainToGroupsBundle interface{},
+	domainToGroupsBundle os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := domainToGroupsBundle.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetUriRelativeFilterGroups)
 	if _err != nil {
@@ -361,9 +380,10 @@ func (p *DomainVerificationManagerProxy) GetUriRelativeFilterGroups(
 	ctx context.Context,
 	packageName string,
 	domains []string,
-) (interface{}, error) {
-	var _result interface{}
+) (os.Bundle, error) {
+	var _result os.Bundle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(packageName)
 	if domains == nil {
@@ -390,13 +410,23 @@ func (p *DomainVerificationManagerProxy) GetUriRelativeFilterGroups(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 // DomainVerificationManagerStub dispatches incoming binder transactions
 // to a typed IDomainVerificationManager implementation.
 type DomainVerificationManagerStub struct {
-	Impl IDomainVerificationManager
+	Impl      IDomainVerificationManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DomainVerificationManagerStub)(nil)
@@ -410,11 +440,12 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDomainVerificationManagerQueryValidVerificationPackageNames:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.QueryValidVerificationPackageNames(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -422,13 +453,16 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDomainVerificationManagerGetDomainVerificationInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -446,9 +480,6 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDomainVerificationManagerGetDomainVerificationUserState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -469,9 +500,6 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDomainVerificationManagerGetOwnersForDomain:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_domain, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -486,13 +514,19 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDomainVerificationManagerSetDomainVerificationStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_domainSetId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -523,9 +557,6 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDomainVerificationManagerSetDomainVerificationLinkHandlingAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -546,9 +577,6 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDomainVerificationManagerSetDomainVerificationUserSelection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_domainSetId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -582,14 +610,22 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDomainVerificationManagerSetUriRelativeFilterGroups:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_domainToGroupsBundle interface{}
+		var _arg_domainToGroupsBundle os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_domainToGroupsBundle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SetUriRelativeFilterGroups(ctx, _arg_packageName, _arg_domainToGroupsBundle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -599,16 +635,29 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDomainVerificationManagerGetUriRelativeFilterGroups:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_domains []string
-		_ = _arg_domains
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_domains = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_domains[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetUriRelativeFilterGroups(ctx, _arg_packageName, _arg_domains)
 		_reply := parcel.New()
 		if _err != nil {
@@ -616,7 +665,10 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -634,8 +686,8 @@ type IDomainVerificationManagerServer interface {
 	SetDomainVerificationStatus(ctx context.Context, domainSetId string, domains DomainSet, state int32) (int32, error)
 	SetDomainVerificationLinkHandlingAllowed(ctx context.Context, packageName string, allowed bool) error
 	SetDomainVerificationUserSelection(ctx context.Context, domainSetId string, domains DomainSet, enabled bool) (int32, error)
-	SetUriRelativeFilterGroups(ctx context.Context, packageName string, domainToGroupsBundle interface{}) error
-	GetUriRelativeFilterGroups(ctx context.Context, packageName string, domains []string) (interface{}, error)
+	SetUriRelativeFilterGroups(ctx context.Context, packageName string, domainToGroupsBundle os.Bundle) error
+	GetUriRelativeFilterGroups(ctx context.Context, packageName string, domains []string) (os.Bundle, error)
 }
 
 type domainVerificationManagerStubWrapper struct {
@@ -703,7 +755,7 @@ func (w *domainVerificationManagerStubWrapper) SetDomainVerificationUserSelectio
 func (w *domainVerificationManagerStubWrapper) SetUriRelativeFilterGroups(
 	ctx context.Context,
 	packageName string,
-	domainToGroupsBundle interface{},
+	domainToGroupsBundle os.Bundle,
 ) error {
 	return w.impl.SetUriRelativeFilterGroups(ctx, packageName, domainToGroupsBundle)
 }
@@ -712,7 +764,7 @@ func (w *domainVerificationManagerStubWrapper) GetUriRelativeFilterGroups(
 	ctx context.Context,
 	packageName string,
 	domains []string,
-) (interface{}, error) {
+) (os.Bundle, error) {
 	return w.impl.GetUriRelativeFilterGroups(ctx, packageName, domains)
 }
 

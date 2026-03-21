@@ -65,6 +65,7 @@ func (p *NetworkPolicyListenerProxy) OnUidRulesChanged(
 	uidRules int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(uidRules)
@@ -83,6 +84,7 @@ func (p *NetworkPolicyListenerProxy) OnMeteredIfacesChanged(
 	meteredIfaces []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
 	if meteredIfaces == nil {
 		_data.WriteInt32(-1)
@@ -107,6 +109,7 @@ func (p *NetworkPolicyListenerProxy) OnRestrictBackgroundChanged(
 	restrictBackground bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
 	_data.WriteBool(restrictBackground)
 
@@ -125,6 +128,7 @@ func (p *NetworkPolicyListenerProxy) OnUidPoliciesChanged(
 	uidPolicies int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(uidPolicies)
@@ -146,6 +150,7 @@ func (p *NetworkPolicyListenerProxy) OnSubscriptionOverride(
 	networkTypes []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(overrideMask)
@@ -174,6 +179,7 @@ func (p *NetworkPolicyListenerProxy) OnSubscriptionPlansChanged(
 	plans []telephony.SubscriptionPlan,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
 	_data.WriteInt32(subId)
 	if plans == nil {
@@ -204,6 +210,7 @@ func (p *NetworkPolicyListenerProxy) OnBlockedReasonChanged(
 	newBlockedReason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(oldBlockedReason)
@@ -221,7 +228,8 @@ func (p *NetworkPolicyListenerProxy) OnBlockedReasonChanged(
 // NetworkPolicyListenerStub dispatches incoming binder transactions
 // to a typed INetworkPolicyListener implementation.
 type NetworkPolicyListenerStub struct {
-	Impl INetworkPolicyListener
+	Impl      INetworkPolicyListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NetworkPolicyListenerStub)(nil)
@@ -235,11 +243,12 @@ func (s *NetworkPolicyListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINetworkPolicyListenerOnUidRulesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -249,33 +258,37 @@ func (s *NetworkPolicyListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnUidRulesChanged(ctx, _arg_uid, _arg_uidRules)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkPolicyListenerOnMeteredIfacesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_meteredIfaces []string
-		_ = _arg_meteredIfaces
-		_err := s.Impl.OnMeteredIfacesChanged(ctx, _arg_meteredIfaces)
-		_ = _err
-		return nil, nil
-	case TransactionINetworkPolicyListenerOnRestrictBackgroundChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_meteredIfaces = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_meteredIfaces[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnMeteredIfacesChanged(ctx, _arg_meteredIfaces)
+		return nil, _err
+	case TransactionINetworkPolicyListenerOnRestrictBackgroundChanged:
 		_arg_restrictBackground, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRestrictBackgroundChanged(ctx, _arg_restrictBackground)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkPolicyListenerOnUidPoliciesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -285,12 +298,8 @@ func (s *NetworkPolicyListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnUidPoliciesChanged(ctx, _arg_uid, _arg_uidPolicies)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkPolicyListenerOnSubscriptionOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -303,30 +312,56 @@ func (s *NetworkPolicyListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_networkTypes []int32
-		_ = _arg_networkTypes
-		_err = s.Impl.OnSubscriptionOverride(ctx, _arg_subId, _arg_overrideMask, _arg_overrideValue, _arg_networkTypes)
-		_ = _err
-		return nil, nil
-	case TransactionINetworkPolicyListenerOnSubscriptionPlansChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_networkTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_networkTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.OnSubscriptionOverride(ctx, _arg_subId, _arg_overrideMask, _arg_overrideValue, _arg_networkTypes)
+		return nil, _err
+	case TransactionINetworkPolicyListenerOnSubscriptionPlansChanged:
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_plans []telephony.SubscriptionPlan
-		_ = _arg_plans
-		_err = s.Impl.OnSubscriptionPlansChanged(ctx, _arg_subId, _arg_plans)
-		_ = _err
-		return nil, nil
-	case TransactionINetworkPolicyListenerOnBlockedReasonChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_plans = make([]telephony.SubscriptionPlan, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_plans[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.OnSubscriptionPlansChanged(ctx, _arg_subId, _arg_plans)
+		return nil, _err
+	case TransactionINetworkPolicyListenerOnBlockedReasonChanged:
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -340,8 +375,7 @@ func (s *NetworkPolicyListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnBlockedReasonChanged(ctx, _arg_uid, _arg_oldBlockedReason, _arg_newBlockedReason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

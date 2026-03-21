@@ -37,8 +37,7 @@ func (u *AudioDeviceAddress) GetId() (string, bool) {
 func (u *AudioDeviceAddress) SetId(
 	v string,
 ) {
-	u.Tag = AudioDeviceAddressTagId
-	u.Id = v
+	*u = AudioDeviceAddress{Tag: AudioDeviceAddressTagId, Id: v}
 }
 
 func (u *AudioDeviceAddress) GetMac() ([]byte, bool) {
@@ -52,8 +51,7 @@ func (u *AudioDeviceAddress) GetMac() ([]byte, bool) {
 func (u *AudioDeviceAddress) SetMac(
 	v []byte,
 ) {
-	u.Tag = AudioDeviceAddressTagMac
-	u.Mac = v
+	*u = AudioDeviceAddress{Tag: AudioDeviceAddressTagMac, Mac: v}
 }
 
 func (u *AudioDeviceAddress) GetIpv4() ([]byte, bool) {
@@ -67,8 +65,7 @@ func (u *AudioDeviceAddress) GetIpv4() ([]byte, bool) {
 func (u *AudioDeviceAddress) SetIpv4(
 	v []byte,
 ) {
-	u.Tag = AudioDeviceAddressTagIpv4
-	u.Ipv4 = v
+	*u = AudioDeviceAddress{Tag: AudioDeviceAddressTagIpv4, Ipv4: v}
 }
 
 func (u *AudioDeviceAddress) GetIpv6() ([]int32, bool) {
@@ -82,8 +79,7 @@ func (u *AudioDeviceAddress) GetIpv6() ([]int32, bool) {
 func (u *AudioDeviceAddress) SetIpv6(
 	v []int32,
 ) {
-	u.Tag = AudioDeviceAddressTagIpv6
-	u.Ipv6 = v
+	*u = AudioDeviceAddress{Tag: AudioDeviceAddressTagIpv6, Ipv6: v}
 }
 
 func (u *AudioDeviceAddress) GetAlsa() ([]int32, bool) {
@@ -97,8 +93,7 @@ func (u *AudioDeviceAddress) GetAlsa() ([]int32, bool) {
 func (u *AudioDeviceAddress) SetAlsa(
 	v []int32,
 ) {
-	u.Tag = AudioDeviceAddressTagAlsa
-	u.Alsa = v
+	*u = AudioDeviceAddress{Tag: AudioDeviceAddressTagAlsa, Alsa: v}
 }
 
 func (u *AudioDeviceAddress) MarshalParcel(

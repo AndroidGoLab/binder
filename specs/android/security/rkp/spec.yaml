@@ -1,0 +1,153 @@
+package: android.security.rkp
+go_package: android/security/rkp
+interfaces:
+    - name: IGetKeyCallback
+      descriptor: android.security.rkp.IGetKeyCallback
+      oneway: true
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: key
+              type:
+                name: RemotelyProvisionedKey
+              direction: in
+          return_type:
+            name: void
+        - name: onCancel
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 2
+          params:
+            - name: error
+              type:
+                name: ErrorCode
+            - name: description
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IGetRegistrationCallback
+      descriptor: android.security.rkp.IGetRegistrationCallback
+      oneway: true
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: registration
+              type:
+                name: IRegistration
+              direction: in
+          return_type:
+            name: void
+        - name: onCancel
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 2
+          params:
+            - name: error
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IRegistration
+      descriptor: android.security.rkp.IRegistration
+      oneway: true
+      methods:
+        - name: getKey
+          transaction_code_offset: 0
+          params:
+            - name: keyId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IGetKeyCallback
+          return_type:
+            name: void
+        - name: cancelGetKey
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IGetKeyCallback
+          return_type:
+            name: void
+        - name: storeUpgradedKeyAsync
+          transaction_code_offset: 2
+          params:
+            - name: oldKeyBlob
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: newKeyBlob
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: callback
+              type:
+                name: IStoreUpgradedKeyCallback
+          return_type:
+            name: void
+    - name: IRemoteProvisioning
+      descriptor: android.security.rkp.IRemoteProvisioning
+      oneway: true
+      methods:
+        - name: getRegistration
+          transaction_code_offset: 0
+          params:
+            - name: irpcName
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IGetRegistrationCallback
+          return_type:
+            name: void
+    - name: IStoreUpgradedKeyCallback
+      descriptor: android.security.rkp.IStoreUpgradedKeyCallback
+      oneway: true
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 1
+          params:
+            - name: error
+              type:
+                name: String
+          return_type:
+            name: void
+parcelables:
+    - name: RemotelyProvisionedKey
+      fields:
+        - name: keyBlob
+          type:
+            name: byte
+            is_array: true
+        - name: encodedCertChain
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - RustDerive
+enums:
+    - name: IGetKeyCallback.ErrorCode
+      backing_type: ""
+      values:
+        - name: ERROR_UNKNOWN
+          value: "1"
+        - name: ERROR_REQUIRES_SECURITY_PATCH
+          value: "2"
+        - name: ERROR_PENDING_INTERNET_CONNECTIVITY
+          value: "3"
+        - name: ERROR_PERMANENT
+          value: "5"

@@ -1,0 +1,491 @@
+package: android.media.tv.tunerresourcemanager
+go_package: android/media/tv/tunerresourcemanager
+interfaces:
+    - name: IResourcesReclaimListener
+      descriptor: android.media.tv.tunerresourcemanager.IResourcesReclaimListener
+      methods:
+        - name: onReclaimResources
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: ITunerResourceManager
+      descriptor: android.media.tv.tunerresourcemanager.ITunerResourceManager
+      methods:
+        - name: registerClientProfile
+          transaction_code_offset: 0
+          params:
+            - name: profile
+              type:
+                name: ResourceClientProfile
+              direction: in
+            - name: listener
+              type:
+                name: IResourcesReclaimListener
+            - name: clientId
+              type:
+                name: int
+                is_array: true
+              direction: out
+          return_type:
+            name: void
+        - name: unregisterClientProfile
+          transaction_code_offset: 1
+          params:
+            - name: clientId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: updateClientPriority
+          transaction_code_offset: 2
+          params:
+            - name: clientId
+              type:
+                name: int
+              direction: in
+            - name: priority
+              type:
+                name: int
+              direction: in
+            - name: niceValue
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: hasUnusedFrontend
+          transaction_code_offset: 3
+          params:
+            - name: frontendType
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: isLowestPriority
+          transaction_code_offset: 4
+          params:
+            - name: clientId
+              type:
+                name: int
+              direction: in
+            - name: frontendType
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: setFrontendInfoList
+          transaction_code_offset: 5
+          params:
+            - name: infos
+              type:
+                name: TunerFrontendInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: updateCasInfo
+          transaction_code_offset: 6
+          params:
+            - name: casSystemId
+              type:
+                name: int
+              direction: in
+            - name: maxSessionNum
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setDemuxInfoList
+          transaction_code_offset: 7
+          params:
+            - name: infos
+              type:
+                name: TunerDemuxInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setLnbInfoList
+          transaction_code_offset: 8
+          params:
+            - name: lnbIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: requestFrontend
+          transaction_code_offset: 9
+          params:
+            - name: request
+              type:
+                name: TunerFrontendRequest
+              direction: in
+            - name: frontendHandle
+              type:
+                name: int
+                is_array: true
+              direction: out
+          return_type:
+            name: boolean
+        - name: setMaxNumberOfFrontends
+          transaction_code_offset: 10
+          params:
+            - name: frontendType
+              type:
+                name: int
+              direction: in
+            - name: maxNum
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: getMaxNumberOfFrontends
+          transaction_code_offset: 11
+          params:
+            - name: frontendType
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: int
+        - name: shareFrontend
+          transaction_code_offset: 12
+          params:
+            - name: selfClientId
+              type:
+                name: int
+              direction: in
+            - name: targetClientId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: transferOwner
+          transaction_code_offset: 13
+          params:
+            - name: resourceType
+              type:
+                name: int
+              direction: in
+            - name: currentOwnerId
+              type:
+                name: int
+              direction: in
+            - name: newOwnerId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: requestDemux
+          transaction_code_offset: 14
+          params:
+            - name: request
+              type:
+                name: TunerDemuxRequest
+              direction: in
+            - name: demuxHandle
+              type:
+                name: int
+                is_array: true
+              direction: out
+          return_type:
+            name: boolean
+        - name: requestDescrambler
+          transaction_code_offset: 15
+          params:
+            - name: request
+              type:
+                name: TunerDescramblerRequest
+              direction: in
+            - name: descramblerHandle
+              type:
+                name: int
+                is_array: true
+              direction: out
+          return_type:
+            name: boolean
+        - name: requestCasSession
+          transaction_code_offset: 16
+          params:
+            - name: request
+              type:
+                name: CasSessionRequest
+              direction: in
+            - name: casSessionHandle
+              type:
+                name: int
+                is_array: true
+              direction: out
+          return_type:
+            name: boolean
+        - name: requestCiCam
+          transaction_code_offset: 17
+          params:
+            - name: request
+              type:
+                name: TunerCiCamRequest
+              direction: in
+            - name: ciCamHandle
+              type:
+                name: int
+                is_array: true
+              direction: out
+          return_type:
+            name: boolean
+        - name: requestLnb
+          transaction_code_offset: 18
+          params:
+            - name: request
+              type:
+                name: TunerLnbRequest
+              direction: in
+            - name: lnbHandle
+              type:
+                name: int
+                is_array: true
+              direction: out
+          return_type:
+            name: boolean
+        - name: releaseFrontend
+          transaction_code_offset: 19
+          params:
+            - name: frontendHandle
+              type:
+                name: int
+              direction: in
+            - name: clientId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: releaseDemux
+          transaction_code_offset: 20
+          params:
+            - name: demuxHandle
+              type:
+                name: int
+              direction: in
+            - name: clientId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: releaseDescrambler
+          transaction_code_offset: 21
+          params:
+            - name: descramblerHandle
+              type:
+                name: int
+              direction: in
+            - name: clientId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: releaseCasSession
+          transaction_code_offset: 22
+          params:
+            - name: casSessionHandle
+              type:
+                name: int
+              direction: in
+            - name: clientId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: releaseCiCam
+          transaction_code_offset: 23
+          params:
+            - name: ciCamHandle
+              type:
+                name: int
+              direction: in
+            - name: clientId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: releaseLnb
+          transaction_code_offset: 24
+          params:
+            - name: lnbHandle
+              type:
+                name: int
+              direction: in
+            - name: clientId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isHigherPriority
+          transaction_code_offset: 25
+          params:
+            - name: challengerProfile
+              type:
+                name: ResourceClientProfile
+              direction: in
+            - name: holderProfile
+              type:
+                name: ResourceClientProfile
+              direction: in
+          return_type:
+            name: boolean
+        - name: storeResourceMap
+          transaction_code_offset: 26
+          params:
+            - name: resourceType
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: clearResourceMap
+          transaction_code_offset: 27
+          params:
+            - name: resourceType
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: restoreResourceMap
+          transaction_code_offset: 28
+          params:
+            - name: resourceType
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: acquireLock
+          transaction_code_offset: 29
+          params:
+            - name: clientId
+              type:
+                name: int
+              direction: in
+            - name: clientThreadId
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: boolean
+        - name: releaseLock
+          transaction_code_offset: 30
+          params:
+            - name: clientId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: getClientPriority
+          transaction_code_offset: 31
+          params:
+            - name: useCase
+              type:
+                name: int
+            - name: pid
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getConfigPriority
+          transaction_code_offset: 32
+          params:
+            - name: useCase
+              type:
+                name: int
+            - name: isForeground
+              type:
+                name: boolean
+          return_type:
+            name: int
+parcelables:
+    - name: CasSessionRequest
+      fields:
+        - name: clientId
+          type:
+            name: int
+        - name: casSystemId
+          type:
+            name: int
+    - name: ResourceClientProfile
+      fields:
+        - name: tvInputSessionId
+          type:
+            name: String
+        - name: useCase
+          type:
+            name: int
+    - name: TunerCiCamRequest
+      fields:
+        - name: clientId
+          type:
+            name: int
+        - name: ciCamId
+          type:
+            name: int
+    - name: TunerDemuxInfo
+      fields:
+        - name: handle
+          type:
+            name: int
+        - name: filterTypes
+          type:
+            name: int
+    - name: TunerDemuxRequest
+      fields:
+        - name: clientId
+          type:
+            name: int
+        - name: desiredFilterTypes
+          type:
+            name: int
+    - name: TunerDescramblerRequest
+      fields:
+        - name: clientId
+          type:
+            name: int
+    - name: TunerFrontendInfo
+      fields:
+        - name: handle
+          type:
+            name: int
+        - name: type
+          type:
+            name: int
+        - name: exclusiveGroupId
+          type:
+            name: int
+    - name: TunerFrontendRequest
+      fields:
+        - name: clientId
+          type:
+            name: int
+        - name: frontendType
+          type:
+            name: int
+        - name: desiredId
+          type:
+            name: int
+          default_value: DEFAULT_DESIRED_ID
+      constants:
+        - name: DEFAULT_DESIRED_ID
+          type: int
+          value: "0xFFFFFFFF"
+    - name: TunerLnbRequest
+      fields:
+        - name: clientId
+          type:
+            name: int

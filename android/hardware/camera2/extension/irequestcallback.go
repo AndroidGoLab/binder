@@ -65,6 +65,7 @@ func (p *RequestCallbackProxy) OnCaptureStarted(
 	timestamp int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
 	_data.WriteInt32(requestId)
 	_data.WriteInt64(frameNumber)
@@ -94,6 +95,7 @@ func (p *RequestCallbackProxy) OnCaptureProgressed(
 	partialResult ParcelCaptureResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
 	_data.WriteInt32(requestId)
 	_data.WriteInt32(1)
@@ -125,6 +127,7 @@ func (p *RequestCallbackProxy) OnCaptureCompleted(
 	totalCaptureResult ParcelTotalCaptureResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
 	_data.WriteInt32(requestId)
 	_data.WriteInt32(1)
@@ -156,6 +159,7 @@ func (p *RequestCallbackProxy) OnCaptureFailed(
 	captureFailure CaptureFailure,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
 	_data.WriteInt32(requestId)
 	_data.WriteInt32(1)
@@ -188,6 +192,7 @@ func (p *RequestCallbackProxy) OnCaptureBufferLost(
 	outputStreamId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
 	_data.WriteInt32(requestId)
 	_data.WriteInt64(frameNumber)
@@ -217,6 +222,7 @@ func (p *RequestCallbackProxy) OnCaptureSequenceCompleted(
 	frameNumber int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
 	_data.WriteInt32(sequenceId)
 	_data.WriteInt64(frameNumber)
@@ -244,6 +250,7 @@ func (p *RequestCallbackProxy) OnCaptureSequenceAborted(
 	sequenceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
 	_data.WriteInt32(sequenceId)
 
@@ -268,7 +275,8 @@ func (p *RequestCallbackProxy) OnCaptureSequenceAborted(
 // RequestCallbackStub dispatches incoming binder transactions
 // to a typed IRequestCallback implementation.
 type RequestCallbackStub struct {
-	Impl IRequestCallback
+	Impl      IRequestCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RequestCallbackStub)(nil)
@@ -282,11 +290,12 @@ func (s *RequestCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRequestCallbackOnCaptureStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -308,9 +317,6 @@ func (s *RequestCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestCallbackOnCaptureProgressed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -336,9 +342,6 @@ func (s *RequestCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestCallbackOnCaptureCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -364,9 +367,6 @@ func (s *RequestCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestCallbackOnCaptureFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -392,9 +392,6 @@ func (s *RequestCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestCallbackOnCaptureBufferLost:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -416,9 +413,6 @@ func (s *RequestCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestCallbackOnCaptureSequenceCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -436,9 +430,6 @@ func (s *RequestCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestCallbackOnCaptureSequenceAborted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

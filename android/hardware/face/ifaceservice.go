@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	biometrics "github.com/xaionaro-go/binder/android/hardware/biometrics"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -101,7 +102,7 @@ type IFaceService interface {
 	CancelAuthentication(ctx context.Context, token binder.IBinder, requestId int64) error
 	CancelFaceDetect(ctx context.Context, token binder.IBinder, requestId int64) error
 	CancelAuthenticationFromService(ctx context.Context, sensorId int32, token binder.IBinder, requestId int64) error
-	Enroll(ctx context.Context, token binder.IBinder, hardwareAuthToken []byte, receiver IFaceServiceReceiver, disabledFeatures []int32, previewSurface interface{}, debugConsent bool, options FaceEnrollOptions) (int64, error)
+	Enroll(ctx context.Context, token binder.IBinder, hardwareAuthToken []byte, receiver IFaceServiceReceiver, disabledFeatures []int32, previewSurface view.Surface, debugConsent bool, options FaceEnrollOptions) (int64, error)
 	EnrollRemotely(ctx context.Context, token binder.IBinder, hardwareAuthToken []byte, receiver IFaceServiceReceiver, disabledFeatures []int32) (int64, error)
 	CancelEnrollment(ctx context.Context, token binder.IBinder, requestId int64) error
 	Remove(ctx context.Context, token binder.IBinder, faceId int32, receiver IFaceServiceReceiver) error
@@ -151,6 +152,7 @@ func (p *FaceServiceProxy) CreateTestSession(
 	var _result biometrics.ITestSession
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteInt32(sensorId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -186,6 +188,7 @@ func (p *FaceServiceProxy) DumpSensorServiceStateProto(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteInt32(sensorId)
 	_data.WriteBool(clearSchedulerBuffer)
@@ -205,19 +208,9 @@ func (p *FaceServiceProxy) DumpSensorServiceStateProto(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -228,6 +221,7 @@ func (p *FaceServiceProxy) GetSensorPropertiesInternal(
 	var _result []FaceSensorPropertiesInternal
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteString16(_identity.PackageName)
 
@@ -249,6 +243,9 @@ func (p *FaceServiceProxy) GetSensorPropertiesInternal(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -272,6 +269,7 @@ func (p *FaceServiceProxy) GetSensorProperties(
 	var _result FaceSensorPropertiesInternal
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteInt32(sensorId)
 	_data.WriteString16(_identity.PackageName)
@@ -312,6 +310,7 @@ func (p *FaceServiceProxy) Authenticate(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt64(operationId)
@@ -351,6 +350,7 @@ func (p *FaceServiceProxy) DetectFace(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
@@ -393,6 +393,7 @@ func (p *FaceServiceProxy) PrepareForAuthentication(
 	allowBackgroundAuthentication bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteBool(requireConfirmation)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -430,6 +431,7 @@ func (p *FaceServiceProxy) StartPreparedClient(
 	cookie int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(cookie)
@@ -459,6 +461,7 @@ func (p *FaceServiceProxy) CancelAuthentication(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
@@ -489,6 +492,7 @@ func (p *FaceServiceProxy) CancelFaceDetect(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
@@ -520,6 +524,7 @@ func (p *FaceServiceProxy) CancelAuthenticationFromService(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteInt32(sensorId)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -550,24 +555,18 @@ func (p *FaceServiceProxy) Enroll(
 	hardwareAuthToken []byte,
 	receiver IFaceServiceReceiver,
 	disabledFeatures []int32,
-	previewSurface interface{},
+	previewSurface view.Surface,
 	debugConsent bool,
 	options FaceEnrollOptions,
 ) (int64, error) {
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteInt32(_identity.UserID)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	if hardwareAuthToken == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(hardwareAuthToken)))
-		for _, _item := range hardwareAuthToken {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(hardwareAuthToken)
 	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	if disabledFeatures == nil {
@@ -577,6 +576,10 @@ func (p *FaceServiceProxy) Enroll(
 		for _, _item := range disabledFeatures {
 			_data.WriteInt32(_item)
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := previewSurface.MarshalParcel(_data); _err != nil {
+		return _result, _err
 	}
 	_data.WriteBool(debugConsent)
 	_data.WriteInt32(1)
@@ -616,17 +619,11 @@ func (p *FaceServiceProxy) EnrollRemotely(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteInt32(_identity.UserID)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
-	if hardwareAuthToken == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(hardwareAuthToken)))
-		for _, _item := range hardwareAuthToken {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(hardwareAuthToken)
 	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	if disabledFeatures == nil {
@@ -666,6 +663,7 @@ func (p *FaceServiceProxy) CancelEnrollment(
 	requestId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt64(requestId)
@@ -696,6 +694,7 @@ func (p *FaceServiceProxy) Remove(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(faceId)
@@ -728,6 +727,7 @@ func (p *FaceServiceProxy) RemoveAll(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -759,6 +759,7 @@ func (p *FaceServiceProxy) GetEnrolledFaces(
 	var _result []Face
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(_identity.UserID)
@@ -783,6 +784,9 @@ func (p *FaceServiceProxy) GetEnrolledFaces(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]Face, _count)
@@ -805,6 +809,7 @@ func (p *FaceServiceProxy) IsHardwareDetected(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteInt32(sensorId)
 	_data.WriteString16(_identity.PackageName)
@@ -839,6 +844,7 @@ func (p *FaceServiceProxy) GenerateChallenge(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(sensorId)
@@ -872,6 +878,7 @@ func (p *FaceServiceProxy) RevokeChallenge(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(sensorId)
@@ -904,6 +911,7 @@ func (p *FaceServiceProxy) HasEnrolledFaces(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(_identity.UserID)
@@ -938,6 +946,7 @@ func (p *FaceServiceProxy) GetLockoutModeForUser(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(_identity.UserID)
@@ -971,6 +980,7 @@ func (p *FaceServiceProxy) InvalidateAuthenticatorId(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(_identity.UserID)
@@ -1001,6 +1011,7 @@ func (p *FaceServiceProxy) GetAuthenticatorId(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(_identity.UserID)
@@ -1035,18 +1046,12 @@ func (p *FaceServiceProxy) ResetLockout(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(_identity.UserID)
-	if hardwareAuthToken == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(hardwareAuthToken)))
-		for _, _item := range hardwareAuthToken {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(hardwareAuthToken)
 	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFaceService, MethodIFaceServiceResetLockout)
@@ -1073,6 +1078,7 @@ func (p *FaceServiceProxy) AddLockoutResetCallback(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
@@ -1105,19 +1111,13 @@ func (p *FaceServiceProxy) SetFeature(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(feature)
 	_data.WriteBool(enabled)
-	if hardwareAuthToken == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(hardwareAuthToken)))
-		for _, _item := range hardwareAuthToken {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(hardwareAuthToken)
 	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 
@@ -1147,6 +1147,7 @@ func (p *FaceServiceProxy) GetFeature(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -1177,6 +1178,7 @@ func (p *FaceServiceProxy) RegisterAuthenticators(
 	hidlSensors []FaceSensorPropertiesInternal,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	if hidlSensors == nil {
 		_data.WriteInt32(-1)
@@ -1213,6 +1215,7 @@ func (p *FaceServiceProxy) RegisterAuthenticatorsLegacy(
 	faceSensorConfigurations FaceSensorConfigurations,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteInt32(1)
 	if _err := faceSensorConfigurations.MarshalParcel(_data); _err != nil {
@@ -1242,6 +1245,7 @@ func (p *FaceServiceProxy) AddAuthenticatorsRegisteredCallback(
 	callback IFaceAuthenticatorsRegisteredCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -1268,6 +1272,7 @@ func (p *FaceServiceProxy) RegisterAuthenticationStateListener(
 	listener biometrics.AuthenticationStateListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1294,6 +1299,7 @@ func (p *FaceServiceProxy) UnregisterAuthenticationStateListener(
 	listener biometrics.AuthenticationStateListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1320,6 +1326,7 @@ func (p *FaceServiceProxy) RegisterBiometricStateListener(
 	listener biometrics.IBiometricStateListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1345,6 +1352,7 @@ func (p *FaceServiceProxy) ScheduleWatchdog(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFaceService, MethodIFaceServiceScheduleWatchdog)
@@ -1359,7 +1367,8 @@ func (p *FaceServiceProxy) ScheduleWatchdog(
 // FaceServiceStub dispatches incoming binder transactions
 // to a typed IFaceService implementation.
 type FaceServiceStub struct {
-	Impl IFaceService
+	Impl      IFaceService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FaceServiceStub)(nil)
@@ -1373,18 +1382,24 @@ func (s *FaceServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFaceServiceCreateTestSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback biometrics.ITestSessionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = biometrics.NewTestSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1395,13 +1410,9 @@ func (s *FaceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIFaceServiceDumpSensorServiceStateProto:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1417,13 +1428,9 @@ func (s *FaceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIFaceServiceGetSensorPropertiesInternal:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1434,13 +1441,19 @@ func (s *FaceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIFaceServiceGetSensorProperties:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1461,19 +1474,26 @@ func (s *FaceServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIFaceServiceAuthenticate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_operationId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IFaceServiceReceiver
-		_ = _arg_receiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = NewFaceServiceReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
+		}
 		var _arg_options FaceAuthenticateOptions
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1496,15 +1516,22 @@ func (s *FaceServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFaceServiceDetectFace:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_receiver IFaceServiceReceiver
-		_ = _arg_receiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = NewFaceServiceReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
+		}
 		var _arg_options FaceAuthenticateOptions
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1527,23 +1554,30 @@ func (s *FaceServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFaceServicePrepareForAuthentication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requireConfirmation, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_operationId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sensorReceiver biometrics.IBiometricSensorReceiver
-		_ = _arg_sensorReceiver
+		{
+			_sensorReceiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sensorReceiver = biometrics.NewBiometricSensorReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sensorReceiverHandle))
+		}
 		var _arg_options FaceAuthenticateOptions
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1577,9 +1611,6 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceStartPreparedClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1597,12 +1628,14 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceCancelAuthentication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1619,12 +1652,14 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceCancelFaceDetect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1641,16 +1676,18 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceCancelAuthenticationFromService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1667,28 +1704,67 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceEnroll:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_hardwareAuthToken []byte
-		_ = _arg_hardwareAuthToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hardwareAuthToken = _bytes
+		}
 		var _arg_receiver IFaceServiceReceiver
-		_ = _arg_receiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = NewFaceServiceReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_disabledFeatures []int32
-		_ = _arg_disabledFeatures
-		var _arg_previewSurface interface{}
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_disabledFeatures = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_disabledFeatures[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_previewSurface view.Surface
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_previewSurface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_debugConsent, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1715,27 +1791,55 @@ func (s *FaceServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFaceServiceEnrollRemotely:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_hardwareAuthToken []byte
-		_ = _arg_hardwareAuthToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hardwareAuthToken = _bytes
+		}
 		var _arg_receiver IFaceServiceReceiver
-		_ = _arg_receiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = NewFaceServiceReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_disabledFeatures []int32
-		_ = _arg_disabledFeatures
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_disabledFeatures = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_disabledFeatures[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.EnrollRemotely(ctx, _arg_token, _arg_hardwareAuthToken, _arg_receiver, _arg_disabledFeatures)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1746,12 +1850,14 @@ func (s *FaceServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFaceServiceCancelEnrollment:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1765,12 +1871,14 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceRemove:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_faceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1778,9 +1886,14 @@ func (s *FaceServiceStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IFaceServiceReceiver
-		_ = _arg_receiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = NewFaceServiceReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1793,18 +1906,25 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceRemoveAll:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IFaceServiceReceiver
-		_ = _arg_receiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = NewFaceServiceReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1817,9 +1937,6 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceGetEnrolledFaces:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1837,13 +1954,19 @@ func (s *FaceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIFaceServiceIsHardwareDetected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1861,12 +1984,14 @@ func (s *FaceServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFaceServiceGenerateChallenge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1874,9 +1999,14 @@ func (s *FaceServiceStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IFaceServiceReceiver
-		_ = _arg_receiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = NewFaceServiceReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1889,12 +2019,14 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceRevokeChallenge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1918,9 +2050,6 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceHasEnrolledFaces:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1941,9 +2070,6 @@ func (s *FaceServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFaceServiceGetLockoutModeForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1961,9 +2087,6 @@ func (s *FaceServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIFaceServiceInvalidateAuthenticatorId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1971,9 +2094,14 @@ func (s *FaceServiceStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback biometrics.IInvalidationCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = biometrics.NewInvalidationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.InvalidateAuthenticatorId(ctx, _arg_sensorId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1983,9 +2111,6 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceGetAuthenticatorId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2003,12 +2128,14 @@ func (s *FaceServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFaceServiceResetLockout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2016,9 +2143,14 @@ func (s *FaceServiceStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_hardwareAuthToken []byte
-		_ = _arg_hardwareAuthToken
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hardwareAuthToken = _bytes
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -2031,12 +2163,14 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceAddLockoutResetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback biometrics.IBiometricServiceLockoutResetCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = biometrics.NewBiometricServiceLockoutResetCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -2049,12 +2183,14 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceSetFeature:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2066,12 +2202,22 @@ func (s *FaceServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_hardwareAuthToken []byte
-		_ = _arg_hardwareAuthToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hardwareAuthToken = _bytes
+		}
 		var _arg_receiver IFaceServiceReceiver
-		_ = _arg_receiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = NewFaceServiceReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -2084,12 +2230,14 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceGetFeature:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2097,9 +2245,14 @@ func (s *FaceServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IFaceServiceReceiver
-		_ = _arg_receiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = NewFaceServiceReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -2112,12 +2265,27 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceRegisterAuthenticators:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_hidlSensors []FaceSensorPropertiesInternal
-		_ = _arg_hidlSensors
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_hidlSensors = make([]FaceSensorPropertiesInternal, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_hidlSensors[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.RegisterAuthenticators(ctx, _arg_hidlSensors)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2127,9 +2295,6 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceRegisterAuthenticatorsLegacy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_faceSensorConfigurations FaceSensorConfigurations
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2151,12 +2316,14 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceAddAuthenticatorsRegisteredCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IFaceAuthenticatorsRegisteredCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewFaceAuthenticatorsRegisteredCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.AddAuthenticatorsRegisteredCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2166,12 +2333,14 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceRegisterAuthenticationStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener biometrics.AuthenticationStateListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = biometrics.NewAuthenticationStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterAuthenticationStateListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2181,12 +2350,14 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceUnregisterAuthenticationStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener biometrics.AuthenticationStateListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = biometrics.NewAuthenticationStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.UnregisterAuthenticationStateListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2196,12 +2367,14 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceRegisterBiometricStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener biometrics.IBiometricStateListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = biometrics.NewBiometricStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterBiometricStateListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2211,12 +2384,8 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceScheduleWatchdog:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ScheduleWatchdog(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -2237,7 +2406,7 @@ type IFaceServiceServer interface {
 	CancelAuthentication(ctx context.Context, token binder.IBinder, requestId int64) error
 	CancelFaceDetect(ctx context.Context, token binder.IBinder, requestId int64) error
 	CancelAuthenticationFromService(ctx context.Context, sensorId int32, token binder.IBinder, requestId int64) error
-	Enroll(ctx context.Context, token binder.IBinder, hardwareAuthToken []byte, receiver IFaceServiceReceiver, disabledFeatures []int32, previewSurface interface{}, debugConsent bool, options FaceEnrollOptions) (int64, error)
+	Enroll(ctx context.Context, token binder.IBinder, hardwareAuthToken []byte, receiver IFaceServiceReceiver, disabledFeatures []int32, previewSurface view.Surface, debugConsent bool, options FaceEnrollOptions) (int64, error)
 	EnrollRemotely(ctx context.Context, token binder.IBinder, hardwareAuthToken []byte, receiver IFaceServiceReceiver, disabledFeatures []int32) (int64, error)
 	CancelEnrollment(ctx context.Context, token binder.IBinder, requestId int64) error
 	Remove(ctx context.Context, token binder.IBinder, faceId int32, receiver IFaceServiceReceiver) error
@@ -2373,7 +2542,7 @@ func (w *faceServiceStubWrapper) Enroll(
 	hardwareAuthToken []byte,
 	receiver IFaceServiceReceiver,
 	disabledFeatures []int32,
-	previewSurface interface{},
+	previewSurface view.Surface,
 	debugConsent bool,
 	options FaceEnrollOptions,
 ) (int64, error) {

@@ -3,6 +3,7 @@ package device
 import (
 	display "github.com/xaionaro-go/binder/android/frameworks/automotive/display"
 	common "github.com/xaionaro-go/binder/android/hardware/common"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -16,7 +17,7 @@ type OutputConfiguration struct {
 	Width            int32
 	Height           int32
 	IsDeferred       bool
-	Surfaces         []interface{}
+	Surfaces         []view.Surface
 }
 
 var _ parcel.Parcelable = (*OutputConfiguration)(nil)
@@ -46,6 +47,12 @@ func (s *OutputConfiguration) MarshalParcel(
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.Surfaces)))
+		for _, _item := range s.Surfaces {
+			p.WriteInt32(1)
+			if _err := _item.MarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -58,6 +65,11 @@ func (s *OutputConfiguration) UnmarshalParcel(
 	_endPos, _err := parcel.ReadParcelableHeader(p)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -77,15 +89,30 @@ func (s *OutputConfiguration) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_rotationRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Rotation = display.Rotation(_rotationRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.WindowGroupId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.PhysicalCameraId, _err = p.ReadString16()
@@ -93,9 +120,19 @@ func (s *OutputConfiguration) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Width, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Height, _err = p.ReadInt32()
@@ -103,9 +140,19 @@ func (s *OutputConfiguration) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsDeferred, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count1 int32
@@ -114,8 +161,14 @@ func (s *OutputConfiguration) UnmarshalParcel(
 		return _err
 	}
 	if _count1 >= 0 {
-		s.Surfaces = make([]interface{}, _count1)
+		s.Surfaces = make([]view.Surface, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
+			if _err = s.Surfaces[_i].UnmarshalParcel(p); _err != nil {
+				return _err
+			}
 		}
 	}
 

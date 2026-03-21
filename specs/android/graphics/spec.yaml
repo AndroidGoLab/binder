@@ -1,0 +1,11 @@
+package: android.graphics
+go_package: android/graphics
+parcelables:
+    - name: Bitmap
+    - name: GraphicBuffer
+    - name: Insets
+    - name: Point
+    - name: PointF
+    - name: Rect
+    - name: RectF
+    - name: Region

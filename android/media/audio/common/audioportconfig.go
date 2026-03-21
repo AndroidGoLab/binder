@@ -9,11 +9,11 @@ import (
 type AudioPortConfig struct {
 	Id          int32
 	PortId      int32
-	SampleRate  Int
-	ChannelMask AudioChannelLayout
-	Format      AudioFormatDescription
-	Gain        AudioGainConfig
-	Flags       AudioIoFlags
+	SampleRate  *Int
+	ChannelMask *AudioChannelLayout
+	Format      *AudioFormatDescription
+	Gain        *AudioGainConfig
+	Flags       *AudioIoFlags
 	Ext         AudioPortExt
 }
 
@@ -25,20 +25,45 @@ func (s *AudioPortConfig) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Id)
 	p.WriteInt32(s.PortId)
-	if _err := s.SampleRate.MarshalParcel(p); _err != nil {
-		return _err
+	if s.SampleRate == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.SampleRate.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.ChannelMask.MarshalParcel(p); _err != nil {
-		return _err
+	if s.ChannelMask == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.ChannelMask.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.Format.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Format == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Format.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.Gain.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Gain == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Gain.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.Flags.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Flags == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Flags.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	if _err := s.Ext.MarshalParcel(p); _err != nil {
 		return _err
@@ -56,9 +81,19 @@ func (s *AudioPortConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Id, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.PortId, _err = p.ReadInt32()
@@ -66,24 +101,104 @@ func (s *AudioPortConfig) UnmarshalParcel(
 		return _err
 	}
 
-	if _err = s.SampleRate.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
-	if _err = s.ChannelMask.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val Int
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.SampleRate = &_val
+		}
 	}
 
-	if _err = s.Format.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
-	if _err = s.Gain.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val AudioChannelLayout
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.ChannelMask = &_val
+		}
 	}
 
-	if _err = s.Flags.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val AudioFormatDescription
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Format = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val AudioGainConfig
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Gain = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val AudioIoFlags
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Flags = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.Ext.UnmarshalParcel(p); _err != nil {

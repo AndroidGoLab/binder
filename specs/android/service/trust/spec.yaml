@@ -1,0 +1,230 @@
+package: android.service.trust
+go_package: android/service/trust
+interfaces:
+    - name: ITrustAgentService
+      descriptor: android.service.trust.ITrustAgentService
+      methods:
+        - name: onUnlockAttempt
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: successful
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onUserRequestedUnlock
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: dismissKeyguard
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onUserMayRequestUnlock
+          transaction_code_offset: 2
+          oneway: true
+          return_type:
+            name: void
+        - name: onUnlockLockout
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: timeoutMs
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onTrustTimeout
+          transaction_code_offset: 4
+          oneway: true
+          return_type:
+            name: void
+        - name: onDeviceLocked
+          transaction_code_offset: 5
+          oneway: true
+          return_type:
+            name: void
+        - name: onDeviceUnlocked
+          transaction_code_offset: 6
+          oneway: true
+          return_type:
+            name: void
+        - name: onConfigure
+          transaction_code_offset: 7
+          oneway: true
+          params:
+            - name: options
+              type:
+                name: List
+                type_args:
+                    - name: PersistableBundle
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: setCallback
+          transaction_code_offset: 8
+          oneway: true
+          params:
+            - name: callback
+              type:
+                name: ITrustAgentServiceCallback
+          return_type:
+            name: void
+        - name: onEscrowTokenAdded
+          transaction_code_offset: 9
+          oneway: true
+          params:
+            - name: token
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: handle
+              type:
+                name: long
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: void
+        - name: onTokenStateReceived
+          transaction_code_offset: 10
+          oneway: true
+          params:
+            - name: handle
+              type:
+                name: long
+            - name: tokenState
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onEscrowTokenRemoved
+          transaction_code_offset: 11
+          oneway: true
+          params:
+            - name: handle
+              type:
+                name: long
+            - name: successful
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: ITrustAgentServiceCallback
+      descriptor: android.service.trust.ITrustAgentServiceCallback
+      oneway: true
+      methods:
+        - name: grantTrust
+          transaction_code_offset: 0
+          params:
+            - name: message
+              type:
+                name: CharSequence
+            - name: durationMs
+              type:
+                name: long
+            - name: flags
+              type:
+                name: int
+            - name: resultCallback
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: revokeTrust
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: lockUser
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: setManagingTrust
+          transaction_code_offset: 3
+          params:
+            - name: managingTrust
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onConfigureCompleted
+          transaction_code_offset: 4
+          params:
+            - name: result
+              type:
+                name: boolean
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: addEscrowToken
+          transaction_code_offset: 5
+          params:
+            - name: token
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isEscrowTokenActive
+          transaction_code_offset: 6
+          params:
+            - name: handle
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removeEscrowToken
+          transaction_code_offset: 7
+          params:
+            - name: handle
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: unlockUserWithToken
+          transaction_code_offset: 8
+          params:
+            - name: handle
+              type:
+                name: long
+            - name: token
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: showKeyguardErrorMessage
+          transaction_code_offset: 9
+          params:
+            - name: message
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: GrantTrustResult

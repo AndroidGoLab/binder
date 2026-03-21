@@ -46,6 +46,7 @@ func (p *UserVisibleJobObserverProxy) OnUserVisibleJobStateChanged(
 	isRunning bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserVisibleJobObserver)
 	_data.WriteInt32(1)
 	if _err := summary.MarshalParcel(_data); _err != nil {
@@ -65,7 +66,8 @@ func (p *UserVisibleJobObserverProxy) OnUserVisibleJobStateChanged(
 // UserVisibleJobObserverStub dispatches incoming binder transactions
 // to a typed IUserVisibleJobObserver implementation.
 type UserVisibleJobObserverStub struct {
-	Impl IUserVisibleJobObserver
+	Impl      IUserVisibleJobObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UserVisibleJobObserverStub)(nil)
@@ -79,11 +81,12 @@ func (s *UserVisibleJobObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUserVisibleJobObserverOnUserVisibleJobStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_summary UserVisibleJobSummary
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -101,8 +104,7 @@ func (s *UserVisibleJobObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnUserVisibleJobStateChanged(ctx, _arg_summary, _arg_isRunning)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

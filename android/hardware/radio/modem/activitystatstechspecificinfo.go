@@ -52,15 +52,30 @@ func (s *ActivityStatsTechSpecificInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_ratRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Rat = radio.AccessNetwork(_ratRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.FrequencyRange, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -76,6 +91,11 @@ func (s *ActivityStatsTechSpecificInfo) UnmarshalParcel(
 				return _err
 			}
 		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.RxModeTimeMs, _err = p.ReadInt32()

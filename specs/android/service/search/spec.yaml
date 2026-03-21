@@ -1,0 +1,89 @@
+package: android.service.search
+go_package: android/service/search
+interfaces:
+    - name: ISearchUiService
+      descriptor: android.service.search.ISearchUiService
+      oneway: true
+      methods:
+        - name: onCreateSearchSession
+          transaction_code_offset: 0
+          params:
+            - name: context
+              type:
+                name: SearchContext
+              direction: in
+            - name: sessionId
+              type:
+                name: SearchSessionId
+              direction: in
+          return_type:
+            name: void
+        - name: onQuery
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: SearchSessionId
+              direction: in
+            - name: input
+              type:
+                name: Query
+              direction: in
+            - name: callback
+              type:
+                name: ISearchCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onNotifyEvent
+          transaction_code_offset: 2
+          params:
+            - name: sessionId
+              type:
+                name: SearchSessionId
+              direction: in
+            - name: input
+              type:
+                name: Query
+              direction: in
+            - name: event
+              type:
+                name: SearchTargetEvent
+              direction: in
+          return_type:
+            name: void
+        - name: onRegisterEmptyQueryResultUpdateCallback
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: SearchSessionId
+              direction: in
+            - name: callback
+              type:
+                name: ISearchCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onUnregisterEmptyQueryResultUpdateCallback
+          transaction_code_offset: 4
+          params:
+            - name: sessionId
+              type:
+                name: SearchSessionId
+              direction: in
+            - name: callback
+              type:
+                name: ISearchCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onDestroy
+          transaction_code_offset: 5
+          params:
+            - name: sessionId
+              type:
+                name: SearchSessionId
+              direction: in
+          return_type:
+            name: void

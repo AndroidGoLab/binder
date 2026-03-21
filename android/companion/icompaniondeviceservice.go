@@ -51,6 +51,7 @@ func (p *CompanionDeviceServiceProxy) OnDeviceAppeared(
 	associationInfo AssociationInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceService)
 	_data.WriteInt32(1)
 	if _err := associationInfo.MarshalParcel(_data); _err != nil {
@@ -71,6 +72,7 @@ func (p *CompanionDeviceServiceProxy) OnDeviceDisappeared(
 	associationInfo AssociationInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceService)
 	_data.WriteInt32(1)
 	if _err := associationInfo.MarshalParcel(_data); _err != nil {
@@ -91,6 +93,7 @@ func (p *CompanionDeviceServiceProxy) OnDevicePresenceEvent(
 	event DevicePresenceEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceService)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -109,7 +112,8 @@ func (p *CompanionDeviceServiceProxy) OnDevicePresenceEvent(
 // CompanionDeviceServiceStub dispatches incoming binder transactions
 // to a typed ICompanionDeviceService implementation.
 type CompanionDeviceServiceStub struct {
-	Impl ICompanionDeviceService
+	Impl      ICompanionDeviceService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CompanionDeviceServiceStub)(nil)
@@ -123,11 +127,12 @@ func (s *CompanionDeviceServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICompanionDeviceServiceOnDeviceAppeared:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_associationInfo AssociationInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -141,12 +146,8 @@ func (s *CompanionDeviceServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDeviceAppeared(ctx, _arg_associationInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICompanionDeviceServiceOnDeviceDisappeared:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_associationInfo AssociationInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -160,12 +161,8 @@ func (s *CompanionDeviceServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDeviceDisappeared(ctx, _arg_associationInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICompanionDeviceServiceOnDevicePresenceEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event DevicePresenceEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -179,8 +176,7 @@ func (s *CompanionDeviceServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDevicePresenceEvent(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

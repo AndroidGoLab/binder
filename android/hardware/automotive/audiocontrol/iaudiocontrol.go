@@ -78,6 +78,7 @@ func (p *AudioControlProxy) OnAudioFocusChange(
 	focusChange AudioFocusChange,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
 	_data.WriteString16(usage)
 	_data.WriteInt32(zoneId)
@@ -97,6 +98,7 @@ func (p *AudioControlProxy) OnDevicesToDuckChange(
 	duckingInfos []DuckingInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
 	if duckingInfos == nil {
 		_data.WriteInt32(-1)
@@ -124,6 +126,7 @@ func (p *AudioControlProxy) OnDevicesToMuteChange(
 	mutingInfos []MutingInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
 	if mutingInfos == nil {
 		_data.WriteInt32(-1)
@@ -151,6 +154,7 @@ func (p *AudioControlProxy) RegisterFocusListener(
 	listener IFocusListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -168,6 +172,7 @@ func (p *AudioControlProxy) SetBalanceTowardRight(
 	value float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
 	_data.WriteFloat32(value)
 
@@ -185,6 +190,7 @@ func (p *AudioControlProxy) SetFadeTowardFront(
 	value float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
 	_data.WriteFloat32(value)
 
@@ -204,6 +210,7 @@ func (p *AudioControlProxy) OnAudioFocusChangeWithMetaData(
 	focusChange AudioFocusChange,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
 	_data.WriteInt32(1)
 	if _err := playbackMetaData.MarshalParcel(_data); _err != nil {
@@ -227,6 +234,7 @@ func (p *AudioControlProxy) SetAudioDeviceGainsChanged(
 	gains []AudioGainConfigInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
 	if reasons == nil {
 		_data.WriteInt32(-1)
@@ -262,6 +270,7 @@ func (p *AudioControlProxy) RegisterGainCallback(
 	callback IAudioGainCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -279,6 +288,7 @@ func (p *AudioControlProxy) SetModuleChangeCallback(
 	callback IModuleChangeCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -304,6 +314,7 @@ func (p *AudioControlProxy) ClearModuleChangeCallback(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioControl, MethodIAudioControlClearModuleChangeCallback)
@@ -327,7 +338,8 @@ func (p *AudioControlProxy) ClearModuleChangeCallback(
 // AudioControlStub dispatches incoming binder transactions
 // to a typed IAudioControl implementation.
 type AudioControlStub struct {
-	Impl IAudioControl
+	Impl      IAudioControl
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AudioControlStub)(nil)
@@ -341,11 +353,12 @@ func (s *AudioControlStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAudioControlOnAudioFocusChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_usage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -360,64 +373,81 @@ func (s *AudioControlStub) OnTransaction(
 		}
 		_arg_focusChange := AudioFocusChange(_raw_focusChange)
 		_err = s.Impl.OnAudioFocusChange(ctx, _arg_usage, _arg_zoneId, _arg_focusChange)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioControlOnDevicesToDuckChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_duckingInfos []DuckingInfo
-		_ = _arg_duckingInfos
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_duckingInfos = make([]DuckingInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_duckingInfos[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnDevicesToDuckChange(ctx, _arg_duckingInfos)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioControlOnDevicesToMuteChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_mutingInfos []MutingInfo
-		_ = _arg_mutingInfos
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_mutingInfos = make([]MutingInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_mutingInfos[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnDevicesToMuteChange(ctx, _arg_mutingInfos)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioControlRegisterFocusListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IFocusListener
-		_ = _arg_listener
-		_err := s.Impl.RegisterFocusListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionIAudioControlSetBalanceTowardRight:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewFocusListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err := s.Impl.RegisterFocusListener(ctx, _arg_listener)
+		return nil, _err
+	case TransactionIAudioControlSetBalanceTowardRight:
 		_arg_value, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetBalanceTowardRight(ctx, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioControlSetFadeTowardFront:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_value, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetFadeTowardFront(ctx, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioControlOnAudioFocusChangeWithMetaData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_playbackMetaData common.PlaybackTrackMetadata
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -440,38 +470,71 @@ func (s *AudioControlStub) OnTransaction(
 		}
 		_arg_focusChange := AudioFocusChange(_raw_focusChange)
 		_err = s.Impl.OnAudioFocusChangeWithMetaData(ctx, _arg_playbackMetaData, _arg_zoneId, _arg_focusChange)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioControlSetAudioDeviceGainsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_reasons []Reasons
-		_ = _arg_reasons
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_reasons = make([]Reasons, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_raw, _err := _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_reasons[_i] = Reasons(_raw)
+				}
+			}
+		}
 		var _arg_gains []AudioGainConfigInfo
-		_ = _arg_gains
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_gains = make([]AudioGainConfigInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_gains[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetAudioDeviceGainsChanged(ctx, _arg_reasons, _arg_gains)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioControlRegisterGainCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAudioGainCallback
-		_ = _arg_callback
-		_err := s.Impl.RegisterGainCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIAudioControlSetModuleChangeCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAudioGainCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err := s.Impl.RegisterGainCallback(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIAudioControlSetModuleChangeCallback:
 		var _arg_callback IModuleChangeCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewModuleChangeCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetModuleChangeCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -481,9 +544,6 @@ func (s *AudioControlStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioControlClearModuleChangeCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ClearModuleChangeCallback(ctx)
 		_reply := parcel.New()
 		if _err != nil {

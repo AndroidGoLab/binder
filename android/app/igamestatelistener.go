@@ -47,6 +47,7 @@ func (p *GameStateListenerProxy) OnGameStateChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameStateListener)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -67,7 +68,8 @@ func (p *GameStateListenerProxy) OnGameStateChanged(
 // GameStateListenerStub dispatches incoming binder transactions
 // to a typed IGameStateListener implementation.
 type GameStateListenerStub struct {
-	Impl IGameStateListener
+	Impl      IGameStateListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GameStateListenerStub)(nil)
@@ -81,11 +83,12 @@ func (s *GameStateListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGameStateListenerOnGameStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -106,8 +109,7 @@ func (s *GameStateListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGameStateChanged(ctx, _arg_packageName, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

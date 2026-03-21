@@ -1,0 +1,21 @@
+package: android.hardware.rebootescrow
+go_package: android/hardware/rebootescrow
+interfaces:
+    - name: IRebootEscrow
+      descriptor: android.hardware.rebootescrow.IRebootEscrow
+      methods:
+        - name: storeKey
+          transaction_code_offset: 0
+          params:
+            - name: kek
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: retrieveKey
+          transaction_code_offset: 1
+          return_type:
+            name: byte
+            is_array: true

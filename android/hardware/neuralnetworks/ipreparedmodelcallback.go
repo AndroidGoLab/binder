@@ -46,6 +46,7 @@ func (p *PreparedModelCallbackProxy) Notify(
 	preparedModel IPreparedModel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreparedModelCallback)
 	_data.WriteInt32(int32(status))
 	binder.WriteBinderToParcel(ctx, _data, preparedModel.AsBinder(), p.Remote.Transport())
@@ -71,7 +72,8 @@ func (p *PreparedModelCallbackProxy) Notify(
 // PreparedModelCallbackStub dispatches incoming binder transactions
 // to a typed IPreparedModelCallback implementation.
 type PreparedModelCallbackStub struct {
-	Impl IPreparedModelCallback
+	Impl      IPreparedModelCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PreparedModelCallbackStub)(nil)
@@ -85,19 +87,25 @@ func (s *PreparedModelCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPreparedModelCallbackNotify:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_status := ErrorStatus(_raw_status)
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_preparedModel IPreparedModel
-		_ = _arg_preparedModel
+		{
+			_preparedModelHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_preparedModel = NewPreparedModelProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _preparedModelHandle))
+		}
 		_err = s.Impl.Notify(ctx, _arg_status, _arg_preparedModel)
 		_reply := parcel.New()
 		if _err != nil {

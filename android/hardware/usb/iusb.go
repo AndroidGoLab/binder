@@ -68,6 +68,7 @@ func (p *UsbProxy) EnableContaminantPresenceDetection(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsb)
 	_data.WriteString16(portName)
 	_data.WriteBool(enable)
@@ -89,6 +90,7 @@ func (p *UsbProxy) EnableUsbData(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsb)
 	_data.WriteString16(portName)
 	_data.WriteBool(enable)
@@ -109,6 +111,7 @@ func (p *UsbProxy) EnableUsbDataWhileDocked(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsb)
 	_data.WriteString16(portName)
 	_data.WriteInt64(transactionId)
@@ -127,6 +130,7 @@ func (p *UsbProxy) QueryPortStatus(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsb)
 	_data.WriteInt64(transactionId)
 
@@ -144,6 +148,7 @@ func (p *UsbProxy) SetCallback(
 	callback IUsbCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsb)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -163,6 +168,7 @@ func (p *UsbProxy) SwitchRole(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsb)
 	_data.WriteString16(portName)
 	_data.WriteInt32(1)
@@ -187,6 +193,7 @@ func (p *UsbProxy) LimitPowerTransfer(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsb)
 	_data.WriteString16(portName)
 	_data.WriteBool(limit)
@@ -207,6 +214,7 @@ func (p *UsbProxy) ResetUsbPort(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsb)
 	_data.WriteString16(portName)
 	_data.WriteInt64(transactionId)
@@ -223,7 +231,8 @@ func (p *UsbProxy) ResetUsbPort(
 // UsbStub dispatches incoming binder transactions
 // to a typed IUsb implementation.
 type UsbStub struct {
-	Impl IUsb
+	Impl      IUsb
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UsbStub)(nil)
@@ -237,11 +246,12 @@ func (s *UsbStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUsbEnableContaminantPresenceDetection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -255,12 +265,8 @@ func (s *UsbStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.EnableContaminantPresenceDetection(ctx, _arg_portName, _arg_enable, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUsbEnableUsbData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -274,12 +280,8 @@ func (s *UsbStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.EnableUsbData(ctx, _arg_portName, _arg_enable, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUsbEnableUsbDataWhileDocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -289,33 +291,26 @@ func (s *UsbStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.EnableUsbDataWhileDocked(ctx, _arg_portName, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUsbQueryPortStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.QueryPortStatus(ctx, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUsbSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IUsbCallback
-		_ = _arg_callback
-		_err := s.Impl.SetCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIUsbSwitchRole:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewUsbCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.SetCallback(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIUsbSwitchRole:
 		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -337,12 +332,8 @@ func (s *UsbStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SwitchRole(ctx, _arg_portName, _arg_role, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUsbLimitPowerTransfer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -356,12 +347,8 @@ func (s *UsbStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.LimitPowerTransfer(ctx, _arg_portName, _arg_limit, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUsbResetUsbPort:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -371,8 +358,7 @@ func (s *UsbStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ResetUsbPort(ctx, _arg_portName, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

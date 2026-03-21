@@ -45,6 +45,7 @@ func (p *ScreenRecordingCallbackProxy) OnScreenRecordingStateChanged(
 	visibleInScreenRecording bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScreenRecordingCallback)
 	_data.WriteBool(visibleInScreenRecording)
 
@@ -60,7 +61,8 @@ func (p *ScreenRecordingCallbackProxy) OnScreenRecordingStateChanged(
 // ScreenRecordingCallbackStub dispatches incoming binder transactions
 // to a typed IScreenRecordingCallback implementation.
 type ScreenRecordingCallbackStub struct {
-	Impl IScreenRecordingCallback
+	Impl      IScreenRecordingCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ScreenRecordingCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *ScreenRecordingCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIScreenRecordingCallbackOnScreenRecordingStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_visibleInScreenRecording, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnScreenRecordingStateChanged(ctx, _arg_visibleInScreenRecording)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

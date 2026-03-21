@@ -45,6 +45,7 @@ func (p *KeyChainAliasCallbackProxy) Alias(
 	alias string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyChainAliasCallback)
 	_data.WriteString16(alias)
 
@@ -60,7 +61,8 @@ func (p *KeyChainAliasCallbackProxy) Alias(
 // KeyChainAliasCallbackStub dispatches incoming binder transactions
 // to a typed IKeyChainAliasCallback implementation.
 type KeyChainAliasCallbackStub struct {
-	Impl IKeyChainAliasCallback
+	Impl      IKeyChainAliasCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*KeyChainAliasCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *KeyChainAliasCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIKeyChainAliasCallbackAlias:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Alias(ctx, _arg_alias)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -53,15 +53,30 @@ func (s *ConnectionCapabilities) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_technologyRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Technology = WifiTechnology(_technologyRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ChannelBandwidth, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.MaxNumberTxSpatialStreams, _err = p.ReadInt32()
@@ -69,9 +84,19 @@ func (s *ConnectionCapabilities) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.MaxNumberRxSpatialStreams, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_legacyModeRaw, _err := p.ReadInt32()
@@ -80,9 +105,19 @@ func (s *ConnectionCapabilities) UnmarshalParcel(
 	}
 	s.LegacyMode = LegacyMode(_legacyModeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ApTidToLinkMapNegotiationSupported, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32

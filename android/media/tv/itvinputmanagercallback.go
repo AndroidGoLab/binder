@@ -60,6 +60,7 @@ func (p *TvInputManagerCallbackProxy) OnInputAdded(
 	inputId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManagerCallback)
 	_data.WriteString16(inputId)
 
@@ -77,6 +78,7 @@ func (p *TvInputManagerCallbackProxy) OnInputRemoved(
 	inputId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManagerCallback)
 	_data.WriteString16(inputId)
 
@@ -94,6 +96,7 @@ func (p *TvInputManagerCallbackProxy) OnInputUpdated(
 	inputId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManagerCallback)
 	_data.WriteString16(inputId)
 
@@ -112,6 +115,7 @@ func (p *TvInputManagerCallbackProxy) OnInputStateChanged(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManagerCallback)
 	_data.WriteString16(inputId)
 	_data.WriteInt32(state)
@@ -130,6 +134,7 @@ func (p *TvInputManagerCallbackProxy) OnTvInputInfoUpdated(
 	TvInputInfo TvInputInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManagerCallback)
 	_data.WriteInt32(1)
 	if _err := TvInputInfo.MarshalParcel(_data); _err != nil {
@@ -150,6 +155,7 @@ func (p *TvInputManagerCallbackProxy) OnCurrentTunedInfosUpdated(
 	currentTunedInfos []TunedInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManagerCallback)
 	if currentTunedInfos == nil {
 		_data.WriteInt32(-1)
@@ -175,7 +181,8 @@ func (p *TvInputManagerCallbackProxy) OnCurrentTunedInfosUpdated(
 // TvInputManagerCallbackStub dispatches incoming binder transactions
 // to a typed ITvInputManagerCallback implementation.
 type TvInputManagerCallbackStub struct {
-	Impl ITvInputManagerCallback
+	Impl      ITvInputManagerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvInputManagerCallbackStub)(nil)
@@ -189,44 +196,33 @@ func (s *TvInputManagerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvInputManagerCallbackOnInputAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnInputAdded(ctx, _arg_inputId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputManagerCallbackOnInputRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnInputRemoved(ctx, _arg_inputId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputManagerCallbackOnInputUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnInputUpdated(ctx, _arg_inputId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputManagerCallbackOnInputStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -236,12 +232,8 @@ func (s *TvInputManagerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnInputStateChanged(ctx, _arg_inputId, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputManagerCallbackOnTvInputInfoUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_TvInputInfo TvInputInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -255,18 +247,31 @@ func (s *TvInputManagerCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnTvInputInfoUpdated(ctx, _arg_TvInputInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputManagerCallbackOnCurrentTunedInfosUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_currentTunedInfos []TunedInfo
-		_ = _arg_currentTunedInfos
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_currentTunedInfos = make([]TunedInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_currentTunedInfos[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnCurrentTunedInfosUpdated(ctx, _arg_currentTunedInfos)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

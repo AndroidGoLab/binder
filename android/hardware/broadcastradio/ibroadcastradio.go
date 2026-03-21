@@ -100,6 +100,7 @@ func (p *BroadcastRadioProxy) GetProperties(
 ) (Properties, error) {
 	var _result Properties
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioGetProperties)
@@ -135,6 +136,7 @@ func (p *BroadcastRadioProxy) GetAmFmRegionConfig(
 ) (AmFmRegionConfig, error) {
 	var _result AmFmRegionConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 	_data.WriteBool(full)
 
@@ -170,6 +172,7 @@ func (p *BroadcastRadioProxy) GetDabRegionConfig(
 ) ([]DabTableEntry, error) {
 	var _result []DabTableEntry
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioGetDabRegionConfig)
@@ -191,6 +194,9 @@ func (p *BroadcastRadioProxy) GetDabRegionConfig(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]DabTableEntry, _count)
@@ -211,6 +217,7 @@ func (p *BroadcastRadioProxy) SetTunerCallback(
 	callback ITunerCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -236,6 +243,7 @@ func (p *BroadcastRadioProxy) UnsetTunerCallback(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioUnsetTunerCallback)
@@ -261,6 +269,7 @@ func (p *BroadcastRadioProxy) Tune(
 	program ProgramSelector,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 	_data.WriteInt32(1)
 	if _err := program.MarshalParcel(_data); _err != nil {
@@ -291,6 +300,7 @@ func (p *BroadcastRadioProxy) Seek(
 	skipSubChannel bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 	_data.WriteBool(directionUp)
 	_data.WriteBool(skipSubChannel)
@@ -318,6 +328,7 @@ func (p *BroadcastRadioProxy) Step(
 	directionUp bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 	_data.WriteBool(directionUp)
 
@@ -343,6 +354,7 @@ func (p *BroadcastRadioProxy) Cancel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioCancel)
@@ -368,6 +380,7 @@ func (p *BroadcastRadioProxy) StartProgramListUpdates(
 	filter ProgramFilter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 	_data.WriteInt32(1)
 	if _err := filter.MarshalParcel(_data); _err != nil {
@@ -396,6 +409,7 @@ func (p *BroadcastRadioProxy) StopProgramListUpdates(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioStopProgramListUpdates)
@@ -422,6 +436,7 @@ func (p *BroadcastRadioProxy) IsConfigFlagSet(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 	_data.WriteInt32(int32(flag))
 
@@ -453,6 +468,7 @@ func (p *BroadcastRadioProxy) SetConfigFlag(
 	value bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 	_data.WriteInt32(int32(flag))
 	_data.WriteBool(value)
@@ -481,6 +497,7 @@ func (p *BroadcastRadioProxy) SetParameters(
 ) ([]VendorKeyValue, error) {
 	var _result []VendorKeyValue
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 	if parameters == nil {
 		_data.WriteInt32(-1)
@@ -513,6 +530,9 @@ func (p *BroadcastRadioProxy) SetParameters(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]VendorKeyValue, _count)
@@ -534,6 +554,7 @@ func (p *BroadcastRadioProxy) GetParameters(
 ) ([]VendorKeyValue, error) {
 	var _result []VendorKeyValue
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 	if keys == nil {
 		_data.WriteInt32(-1)
@@ -563,6 +584,9 @@ func (p *BroadcastRadioProxy) GetParameters(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]VendorKeyValue, _count)
@@ -584,6 +608,7 @@ func (p *BroadcastRadioProxy) GetImage(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 	_data.WriteInt32(id)
 
@@ -602,19 +627,9 @@ func (p *BroadcastRadioProxy) GetImage(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -626,6 +641,7 @@ func (p *BroadcastRadioProxy) RegisterAnnouncementListener(
 ) (ICloseHandle, error) {
 	var _result ICloseHandle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	if enabled == nil {
@@ -663,7 +679,8 @@ func (p *BroadcastRadioProxy) RegisterAnnouncementListener(
 // BroadcastRadioStub dispatches incoming binder transactions
 // to a typed IBroadcastRadio implementation.
 type BroadcastRadioStub struct {
-	Impl IBroadcastRadio
+	Impl      IBroadcastRadio
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BroadcastRadioStub)(nil)
@@ -677,11 +694,12 @@ func (s *BroadcastRadioStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBroadcastRadioGetProperties:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetProperties(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -695,9 +713,6 @@ func (s *BroadcastRadioStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBroadcastRadioGetAmFmRegionConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_full, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -715,9 +730,6 @@ func (s *BroadcastRadioStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBroadcastRadioGetDabRegionConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDabRegionConfig(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -725,16 +737,27 @@ func (s *BroadcastRadioStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIBroadcastRadioSetTunerCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITunerCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTunerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetTunerCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -744,9 +767,6 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioUnsetTunerCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.UnsetTunerCallback(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -756,9 +776,6 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioTune:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_program ProgramSelector
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -780,9 +797,6 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioSeek:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_directionUp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -800,9 +814,6 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioStep:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_directionUp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -816,9 +827,6 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioCancel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Cancel(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -828,9 +836,6 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioStartProgramListUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_filter ProgramFilter
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -852,9 +857,6 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioStopProgramListUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopProgramListUpdates(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -864,9 +866,6 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioIsConfigFlagSet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -882,9 +881,6 @@ func (s *BroadcastRadioStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBroadcastRadioSetConfigFlag:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -903,12 +899,27 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioSetParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_parameters []VendorKeyValue
-		_ = _arg_parameters
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_parameters = make([]VendorKeyValue, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_parameters[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.SetParameters(ctx, _arg_parameters)
 		_reply := parcel.New()
 		if _err != nil {
@@ -916,16 +927,38 @@ func (s *BroadcastRadioStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIBroadcastRadioGetParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keys []string
-		_ = _arg_keys
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_keys = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_keys[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetParameters(ctx, _arg_keys)
 		_reply := parcel.New()
 		if _err != nil {
@@ -933,13 +966,19 @@ func (s *BroadcastRadioStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIBroadcastRadioGetImage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -951,19 +990,37 @@ func (s *BroadcastRadioStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIBroadcastRadioRegisterAnnouncementListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IAnnouncementListener
-		_ = _arg_listener
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewAnnouncementListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		var _arg_enabled []AnnouncementType
-		_ = _arg_enabled
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_enabled = make([]AnnouncementType, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_raw, _err := _data.ReadPaddedByte()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_enabled[_i] = AnnouncementType(_raw)
+				}
+			}
+		}
 		_result, _err := s.Impl.RegisterAnnouncementListener(ctx, _arg_listener, _arg_enabled)
 		_reply := parcel.New()
 		if _err != nil {
@@ -971,8 +1028,7 @@ func (s *BroadcastRadioStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

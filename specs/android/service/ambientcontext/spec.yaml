@@ -1,0 +1,58 @@
+package: android.service.ambientcontext
+go_package: android/service/ambientcontext
+interfaces:
+    - name: IAmbientContextDetectionService
+      descriptor: android.service.ambientcontext.IAmbientContextDetectionService
+      oneway: true
+      methods:
+        - name: startDetection
+          transaction_code_offset: 0
+          params:
+            - name: request
+              type:
+                name: AmbientContextEventRequest
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: detectionResultCallback
+              type:
+                name: RemoteCallback
+              direction: in
+            - name: statusCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: stopDetection
+          transaction_code_offset: 1
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: queryServiceStatus
+          transaction_code_offset: 2
+          params:
+            - name: eventTypes
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: AmbientContextDetectionResult
+    - name: AmbientContextDetectionServiceStatus

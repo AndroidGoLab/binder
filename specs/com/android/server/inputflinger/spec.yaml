@@ -1,0 +1,180 @@
+package: com.android.server.inputflinger
+go_package: com/android/server/inputflinger
+interfaces:
+    - name: IInputFilter
+      descriptor: com.android.server.inputflinger.IInputFilter
+      methods:
+        - name: isEnabled
+          transaction_code_offset: 0
+          return_type:
+            name: boolean
+        - name: notifyKey
+          transaction_code_offset: 1
+          params:
+            - name: event
+              type:
+                name: KeyEvent
+              direction: in
+          return_type:
+            name: void
+        - name: notifyInputDevicesChanged
+          transaction_code_offset: 2
+          params:
+            - name: deviceInfos
+              type:
+                name: DeviceInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: notifyConfigurationChanged
+          transaction_code_offset: 3
+          params:
+            - name: config
+              type:
+                name: InputFilterConfiguration
+              direction: in
+          return_type:
+            name: void
+    - name: IInputFilter.IInputFilterCallbacks
+      descriptor: com.android.server.inputflinger.IInputFilter.IInputFilterCallbacks
+      methods:
+        - name: sendKeyEvent
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: KeyEvent
+              direction: in
+          return_type:
+            name: void
+        - name: onModifierStateChanged
+          transaction_code_offset: 1
+          params:
+            - name: modifierState
+              type:
+                name: int
+            - name: lockedModifierState
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: createInputFilterThread
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: IInputThreadCallback
+              direction: in
+          return_type:
+            name: IInputThread
+    - name: IInputFlingerRust
+      descriptor: com.android.server.inputflinger.IInputFlingerRust
+      methods:
+        - name: createInputFilter
+          transaction_code_offset: 0
+          params:
+            - name: callbacks
+              type:
+                name: IInputFilterCallbacks
+          return_type:
+            name: IInputFilter
+    - name: IInputFlingerRust.IInputFlingerRustBootstrapCallback
+      descriptor: com.android.server.inputflinger.IInputFlingerRust.IInputFlingerRustBootstrapCallback
+      methods:
+        - name: onProvideInputFlingerRust
+          transaction_code_offset: 0
+          params:
+            - name: inputFlingerRust
+              type:
+                name: IInputFlingerRust
+              direction: in
+          return_type:
+            name: void
+    - name: IInputThread
+      descriptor: com.android.server.inputflinger.IInputThread
+      methods:
+        - name: finish
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: IInputThread.IInputThreadCallback
+      descriptor: com.android.server.inputflinger.IInputThread.IInputThreadCallback
+      methods:
+        - name: loopOnce
+          transaction_code_offset: 0
+          return_type:
+            name: void
+parcelables:
+    - name: DeviceInfo
+      fields:
+        - name: deviceId
+          type:
+            name: int
+        - name: external
+          type:
+            name: boolean
+    - name: InputFilterConfiguration
+      fields:
+        - name: bounceKeysThresholdNs
+          type:
+            name: long
+        - name: stickyKeysEnabled
+          type:
+            name: boolean
+        - name: slowKeysThresholdNs
+          type:
+            name: long
+    - name: KeyEvent
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: deviceId
+          type:
+            name: int
+        - name: downTime
+          type:
+            name: long
+        - name: readTime
+          type:
+            name: long
+        - name: eventTime
+          type:
+            name: long
+        - name: source
+          type:
+            name: Source
+        - name: displayId
+          type:
+            name: int
+        - name: policyFlags
+          type:
+            name: int
+        - name: action
+          type:
+            name: KeyEventAction
+        - name: flags
+          type:
+            name: int
+        - name: keyCode
+          type:
+            name: int
+        - name: scanCode
+          type:
+            name: int
+        - name: metaState
+          type:
+            name: int
+      annotations:
+        - RustDerive
+enums:
+    - name: KeyEventAction
+      backing_type: ""
+      values:
+        - name: DOWN
+          value: "0"
+        - name: UP
+          value: "1"
+        - name: MULTIPLE
+          value: "2"

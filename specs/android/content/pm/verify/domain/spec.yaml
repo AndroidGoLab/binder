@@ -1,0 +1,128 @@
+package: android.content.pm.verify.domain
+go_package: android/content/pm/verify/domain
+interfaces:
+    - name: IDomainVerificationManager
+      descriptor: android.content.pm.verify.domain.IDomainVerificationManager
+      methods:
+        - name: queryValidVerificationPackageNames
+          transaction_code_offset: 0
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getDomainVerificationInfo
+          transaction_code_offset: 1
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: DomainVerificationInfo
+          annotations:
+            - nullable
+        - name: getDomainVerificationUserState
+          transaction_code_offset: 2
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: DomainVerificationUserState
+          annotations:
+            - nullable
+        - name: getOwnersForDomain
+          transaction_code_offset: 3
+          params:
+            - name: domain
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: DomainOwner
+          annotations:
+            - nullable
+        - name: setDomainVerificationStatus
+          transaction_code_offset: 4
+          params:
+            - name: domainSetId
+              type:
+                name: String
+            - name: domains
+              type:
+                name: DomainSet
+              direction: in
+            - name: state
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setDomainVerificationLinkHandlingAllowed
+          transaction_code_offset: 5
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: allowed
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setDomainVerificationUserSelection
+          transaction_code_offset: 6
+          params:
+            - name: domainSetId
+              type:
+                name: String
+            - name: domains
+              type:
+                name: DomainSet
+              direction: in
+            - name: enabled
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setUriRelativeFilterGroups
+          transaction_code_offset: 7
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: domainToGroupsBundle
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: getUriRelativeFilterGroups
+          transaction_code_offset: 8
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: domains
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: Bundle
+parcelables:
+    - name: DomainOwner
+    - name: DomainSet
+    - name: DomainVerificationInfo
+    - name: DomainVerificationUserState

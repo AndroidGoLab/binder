@@ -48,6 +48,7 @@ func (p *ImsStateCallbackProxy) OnUnavailable(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsStateCallback)
 	_data.WriteInt32(reason)
 
@@ -64,6 +65,7 @@ func (p *ImsStateCallbackProxy) OnAvailable(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsStateCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsStateCallback, MethodIImsStateCallbackOnAvailable)
@@ -78,7 +80,8 @@ func (p *ImsStateCallbackProxy) OnAvailable(
 // ImsStateCallbackStub dispatches incoming binder transactions
 // to a typed IImsStateCallback implementation.
 type ImsStateCallbackStub struct {
-	Impl IImsStateCallback
+	Impl      IImsStateCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsStateCallbackStub)(nil)
@@ -92,25 +95,21 @@ func (s *ImsStateCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsStateCallbackOnUnavailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnUnavailable(ctx, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsStateCallbackOnAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnAvailable(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

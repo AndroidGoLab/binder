@@ -51,6 +51,7 @@ func (p *DataShareReadAdapterProxy) Start(
 	fd int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataShareReadAdapter)
 	_data.WriteFileDescriptor(fd)
 
@@ -68,6 +69,7 @@ func (p *DataShareReadAdapterProxy) Error(
 	errorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataShareReadAdapter)
 	_data.WriteInt32(errorCode)
 
@@ -84,6 +86,7 @@ func (p *DataShareReadAdapterProxy) Finish(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataShareReadAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataShareReadAdapter, MethodIDataShareReadAdapterFinish)
@@ -98,7 +101,8 @@ func (p *DataShareReadAdapterProxy) Finish(
 // DataShareReadAdapterStub dispatches incoming binder transactions
 // to a typed IDataShareReadAdapter implementation.
 type DataShareReadAdapterStub struct {
-	Impl IDataShareReadAdapter
+	Impl      IDataShareReadAdapter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DataShareReadAdapterStub)(nil)
@@ -112,36 +116,28 @@ func (s *DataShareReadAdapterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDataShareReadAdapterStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Start(ctx, _arg_fd)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataShareReadAdapterError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Error(ctx, _arg_errorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataShareReadAdapterFinish:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Finish(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

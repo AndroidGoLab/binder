@@ -45,6 +45,7 @@ func (p *NtnSignalStrengthConsumerProxy) Accept(
 	result NtnSignalStrength,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINtnSignalStrengthConsumer)
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *NtnSignalStrengthConsumerProxy) Accept(
 // NtnSignalStrengthConsumerStub dispatches incoming binder transactions
 // to a typed INtnSignalStrengthConsumer implementation.
 type NtnSignalStrengthConsumerStub struct {
-	Impl INtnSignalStrengthConsumer
+	Impl      INtnSignalStrengthConsumer
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NtnSignalStrengthConsumerStub)(nil)
@@ -77,11 +79,12 @@ func (s *NtnSignalStrengthConsumerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINtnSignalStrengthConsumerAccept:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_result NtnSignalStrength
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *NtnSignalStrengthConsumerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.Accept(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

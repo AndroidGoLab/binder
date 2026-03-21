@@ -45,6 +45,7 @@ func (p *IncidentDumpCallbackProxy) OnDumpSection(
 	fd int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentDumpCallback)
 	_data.WriteFileDescriptor(fd)
 
@@ -60,7 +61,8 @@ func (p *IncidentDumpCallbackProxy) OnDumpSection(
 // IncidentDumpCallbackStub dispatches incoming binder transactions
 // to a typed IIncidentDumpCallback implementation.
 type IncidentDumpCallbackStub struct {
-	Impl IIncidentDumpCallback
+	Impl      IIncidentDumpCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*IncidentDumpCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *IncidentDumpCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIIncidentDumpCallbackOnDumpSection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDumpSection(ctx, _arg_fd)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

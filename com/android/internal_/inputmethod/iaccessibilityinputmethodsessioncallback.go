@@ -46,6 +46,7 @@ func (p *AccessibilityInputMethodSessionCallbackProxy) SessionCreated(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInputMethodSessionCallback)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
@@ -62,7 +63,8 @@ func (p *AccessibilityInputMethodSessionCallbackProxy) SessionCreated(
 // AccessibilityInputMethodSessionCallbackStub dispatches incoming binder transactions
 // to a typed IAccessibilityInputMethodSessionCallback implementation.
 type AccessibilityInputMethodSessionCallbackStub struct {
-	Impl IAccessibilityInputMethodSessionCallback
+	Impl      IAccessibilityInputMethodSessionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AccessibilityInputMethodSessionCallbackStub)(nil)
@@ -76,21 +78,26 @@ func (s *AccessibilityInputMethodSessionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAccessibilityInputMethodSessionCallbackSessionCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IAccessibilityInputMethodSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewAccessibilityInputMethodSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SessionCreated(ctx, _arg_session, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

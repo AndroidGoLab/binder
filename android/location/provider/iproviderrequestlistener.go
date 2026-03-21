@@ -46,6 +46,7 @@ func (p *ProviderRequestListenerProxy) OnProviderRequestChanged(
 	request ProviderRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProviderRequestListener)
 	_data.WriteString16(provider)
 	_data.WriteInt32(1)
@@ -65,7 +66,8 @@ func (p *ProviderRequestListenerProxy) OnProviderRequestChanged(
 // ProviderRequestListenerStub dispatches incoming binder transactions
 // to a typed IProviderRequestListener implementation.
 type ProviderRequestListenerStub struct {
-	Impl IProviderRequestListener
+	Impl      IProviderRequestListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ProviderRequestListenerStub)(nil)
@@ -79,11 +81,12 @@ func (s *ProviderRequestListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIProviderRequestListenerOnProviderRequestChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -101,8 +104,7 @@ func (s *ProviderRequestListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnProviderRequestChanged(ctx, _arg_provider, _arg_request)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -47,6 +47,7 @@ func (p *SoundDoseFactoryProxy) GetSoundDose(
 ) (coreSounddose.ISoundDose, error) {
 	var _result coreSounddose.ISoundDose
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDoseFactory)
 	_data.WriteString16(module)
 
@@ -76,7 +77,8 @@ func (p *SoundDoseFactoryProxy) GetSoundDose(
 // SoundDoseFactoryStub dispatches incoming binder transactions
 // to a typed ISoundDoseFactory implementation.
 type SoundDoseFactoryStub struct {
-	Impl ISoundDoseFactory
+	Impl      ISoundDoseFactory
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SoundDoseFactoryStub)(nil)
@@ -90,11 +92,12 @@ func (s *SoundDoseFactoryStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISoundDoseFactoryGetSoundDose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_module, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -106,8 +109,7 @@ func (s *SoundDoseFactoryStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

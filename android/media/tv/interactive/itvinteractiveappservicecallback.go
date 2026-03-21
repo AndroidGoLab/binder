@@ -47,6 +47,7 @@ func (p *TvInteractiveAppServiceCallbackProxy) OnStateChanged(
 	error_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppServiceCallback)
 	_data.WriteInt32(type_)
 	_data.WriteInt32(state)
@@ -64,7 +65,8 @@ func (p *TvInteractiveAppServiceCallbackProxy) OnStateChanged(
 // TvInteractiveAppServiceCallbackStub dispatches incoming binder transactions
 // to a typed ITvInteractiveAppServiceCallback implementation.
 type TvInteractiveAppServiceCallbackStub struct {
-	Impl ITvInteractiveAppServiceCallback
+	Impl      ITvInteractiveAppServiceCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvInteractiveAppServiceCallbackStub)(nil)
@@ -78,11 +80,12 @@ func (s *TvInteractiveAppServiceCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvInteractiveAppServiceCallbackOnStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -96,8 +99,7 @@ func (s *TvInteractiveAppServiceCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStateChanged(ctx, _arg_type_, _arg_state, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

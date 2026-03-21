@@ -47,6 +47,7 @@ func (p *DownloadStatusListenerProxy) OnStatusUpdated(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDownloadStatusListener)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -79,7 +80,8 @@ func (p *DownloadStatusListenerProxy) OnStatusUpdated(
 // DownloadStatusListenerStub dispatches incoming binder transactions
 // to a typed IDownloadStatusListener implementation.
 type DownloadStatusListenerStub struct {
-	Impl IDownloadStatusListener
+	Impl      IDownloadStatusListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DownloadStatusListenerStub)(nil)
@@ -93,11 +95,12 @@ func (s *DownloadStatusListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDownloadStatusListenerOnStatusUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request DownloadRequest
 		{
 			_nullInd, _err := _data.ReadInt32()

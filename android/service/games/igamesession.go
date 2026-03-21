@@ -50,6 +50,7 @@ func (p *GameSessionProxy) OnDestroyed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameSession, MethodIGameSessionOnDestroyed)
@@ -66,6 +67,7 @@ func (p *GameSessionProxy) OnTransientSystemBarVisibilityFromRevealGestureChange
 	visibleDueToGesture bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameSession)
 	_data.WriteBool(visibleDueToGesture)
 
@@ -83,6 +85,7 @@ func (p *GameSessionProxy) OnTaskFocusChanged(
 	focused bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameSession)
 	_data.WriteBool(focused)
 
@@ -98,7 +101,8 @@ func (p *GameSessionProxy) OnTaskFocusChanged(
 // GameSessionStub dispatches incoming binder transactions
 // to a typed IGameSession implementation.
 type GameSessionStub struct {
-	Impl IGameSession
+	Impl      IGameSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GameSessionStub)(nil)
@@ -112,36 +116,28 @@ func (s *GameSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGameSessionOnDestroyed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDestroyed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGameSessionOnTransientSystemBarVisibilityFromRevealGestureChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_visibleDueToGesture, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTransientSystemBarVisibilityFromRevealGestureChanged(ctx, _arg_visibleDueToGesture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGameSessionOnTaskFocusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_focused, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTaskFocusChanged(ctx, _arg_focused)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

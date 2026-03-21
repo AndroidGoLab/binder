@@ -48,6 +48,7 @@ func (p *VcnStatusCallbackProxy) OnVcnStatusChanged(
 	statusCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnStatusCallback)
 	_data.WriteInt32(statusCode)
 
@@ -68,6 +69,7 @@ func (p *VcnStatusCallbackProxy) OnGatewayConnectionError(
 	exceptionMessage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnStatusCallback)
 	_data.WriteString16(gatewayConnectionName)
 	_data.WriteInt32(errorCode)
@@ -86,7 +88,8 @@ func (p *VcnStatusCallbackProxy) OnGatewayConnectionError(
 // VcnStatusCallbackStub dispatches incoming binder transactions
 // to a typed IVcnStatusCallback implementation.
 type VcnStatusCallbackStub struct {
-	Impl IVcnStatusCallback
+	Impl      IVcnStatusCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VcnStatusCallbackStub)(nil)
@@ -100,22 +103,19 @@ func (s *VcnStatusCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVcnStatusCallbackOnVcnStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_statusCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnVcnStatusChanged(ctx, _arg_statusCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVcnStatusCallbackOnGatewayConnectionError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_gatewayConnectionName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -133,8 +133,7 @@ func (s *VcnStatusCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGatewayConnectionError(ctx, _arg_gatewayConnectionName, _arg_errorCode, _arg_exceptionClass, _arg_exceptionMessage)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -1,0 +1,42 @@
+package: android.hardware.security.sharedsecret
+go_package: android/hardware/security/sharedsecret
+interfaces:
+    - name: ISharedSecret
+      descriptor: android.hardware.security.sharedsecret.ISharedSecret
+      methods:
+        - name: getSharedSecretParameters
+          transaction_code_offset: 0
+          return_type:
+            name: SharedSecretParameters
+        - name: computeSharedSecret
+          transaction_code_offset: 1
+          params:
+            - name: params
+              type:
+                name: SharedSecretParameters
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+      constants:
+        - name: KEY_AGREEMENT_LABEL
+          type: String
+          value: '"KeymasterSharedMac"'
+        - name: KEY_CHECK_LABEL
+          type: String
+          value: '"Keymaster HMAC Verification"'
+parcelables:
+    - name: SharedSecretParameters
+      fields:
+        - name: seed
+          type:
+            name: byte
+            is_array: true
+        - name: nonce
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+        - RustDerive

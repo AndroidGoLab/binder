@@ -1,0 +1,6 @@
+package: android.hardware.camera2.utils
+go_package: android/hardware/camera2/utils
+parcelables:
+    - name: CameraIdAndSessionConfiguration
+    - name: ConcurrentCameraIdCombination
+    - name: SubmitInfo

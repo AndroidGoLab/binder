@@ -1,0 +1,120 @@
+package: android.service.quickaccesswallet
+go_package: android/service/quickaccesswallet
+interfaces:
+    - name: IQuickAccessWalletService
+      descriptor: android.service.quickaccesswallet.IQuickAccessWalletService
+      methods:
+        - name: onWalletCardsRequested
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: request
+              type:
+                name: GetWalletCardsRequest
+              direction: in
+            - name: callback
+              type:
+                name: IQuickAccessWalletServiceCallbacks
+              direction: in
+          return_type:
+            name: void
+        - name: onWalletCardSelected
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: request
+              type:
+                name: SelectWalletCardRequest
+              direction: in
+          return_type:
+            name: void
+        - name: onWalletDismissed
+          transaction_code_offset: 2
+          oneway: true
+          return_type:
+            name: void
+        - name: registerWalletServiceEventListener
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: request
+              type:
+                name: WalletServiceEventListenerRequest
+              direction: in
+            - name: callback
+              type:
+                name: IQuickAccessWalletServiceCallbacks
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterWalletServiceEventListener
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: request
+              type:
+                name: WalletServiceEventListenerRequest
+              direction: in
+          return_type:
+            name: void
+        - name: onTargetActivityIntentRequested
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: callbacks
+              type:
+                name: IQuickAccessWalletServiceCallbacks
+              direction: in
+          return_type:
+            name: void
+    - name: IQuickAccessWalletServiceCallbacks
+      descriptor: android.service.quickaccesswallet.IQuickAccessWalletServiceCallbacks
+      methods:
+        - name: onGetWalletCardsSuccess
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: response
+              type:
+                name: GetWalletCardsResponse
+              direction: in
+          return_type:
+            name: void
+        - name: onGetWalletCardsFailure
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: error
+              type:
+                name: GetWalletCardsError
+              direction: in
+          return_type:
+            name: void
+        - name: onWalletServiceEvent
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: event
+              type:
+                name: WalletServiceEvent
+              direction: in
+          return_type:
+            name: void
+        - name: onTargetActivityPendingIntentReceived
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: pendingIntent
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: GetWalletCardsError
+    - name: GetWalletCardsRequest
+    - name: GetWalletCardsResponse
+    - name: SelectWalletCardRequest
+    - name: WalletCard
+    - name: WalletServiceEvent
+    - name: WalletServiceEventListenerRequest

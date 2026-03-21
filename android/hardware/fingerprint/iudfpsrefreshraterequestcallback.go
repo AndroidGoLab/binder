@@ -51,6 +51,7 @@ func (p *UdfpsRefreshRateRequestCallbackProxy) OnRequestEnabled(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsRefreshRateRequestCallback)
 	_data.WriteInt32(displayId)
 
@@ -68,6 +69,7 @@ func (p *UdfpsRefreshRateRequestCallbackProxy) OnRequestDisabled(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsRefreshRateRequestCallback)
 	_data.WriteInt32(displayId)
 
@@ -86,6 +88,7 @@ func (p *UdfpsRefreshRateRequestCallbackProxy) OnAuthenticationPossible(
 	isPossible bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsRefreshRateRequestCallback)
 	_data.WriteInt32(displayId)
 	_data.WriteBool(isPossible)
@@ -102,7 +105,8 @@ func (p *UdfpsRefreshRateRequestCallbackProxy) OnAuthenticationPossible(
 // UdfpsRefreshRateRequestCallbackStub dispatches incoming binder transactions
 // to a typed IUdfpsRefreshRateRequestCallback implementation.
 type UdfpsRefreshRateRequestCallbackStub struct {
-	Impl IUdfpsRefreshRateRequestCallback
+	Impl      IUdfpsRefreshRateRequestCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UdfpsRefreshRateRequestCallbackStub)(nil)
@@ -116,33 +120,26 @@ func (s *UdfpsRefreshRateRequestCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUdfpsRefreshRateRequestCallbackOnRequestEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRequestEnabled(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUdfpsRefreshRateRequestCallbackOnRequestDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRequestDisabled(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUdfpsRefreshRateRequestCallbackOnAuthenticationPossible:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -152,8 +149,7 @@ func (s *UdfpsRefreshRateRequestCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAuthenticationPossible(ctx, _arg_displayId, _arg_isPossible)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

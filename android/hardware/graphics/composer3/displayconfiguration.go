@@ -1,7 +1,6 @@
 package composer3
 
 import (
-	composer3DisplayConfiguration "github.com/xaionaro-go/binder/android/hardware/graphics/composer3/DisplayConfiguration"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -11,10 +10,10 @@ type DisplayConfiguration struct {
 	ConfigId    int32
 	Width       int32
 	Height      int32
-	Dpi         composer3DisplayConfiguration.Dpi
+	Dpi         *DisplayConfigurationDpi
 	ConfigGroup int32
 	VsyncPeriod int32
-	VrrConfig   VrrConfig
+	VrrConfig   *VrrConfig
 }
 
 var _ parcel.Parcelable = (*DisplayConfiguration)(nil)
@@ -26,13 +25,23 @@ func (s *DisplayConfiguration) MarshalParcel(
 	p.WriteInt32(s.ConfigId)
 	p.WriteInt32(s.Width)
 	p.WriteInt32(s.Height)
-	if _err := s.Dpi.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Dpi == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Dpi.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	p.WriteInt32(s.ConfigGroup)
 	p.WriteInt32(s.VsyncPeriod)
-	if _err := s.VrrConfig.MarshalParcel(p); _err != nil {
-		return _err
+	if s.VrrConfig == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.VrrConfig.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -47,9 +56,19 @@ func (s *DisplayConfiguration) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ConfigId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Width, _err = p.ReadInt32()
@@ -57,13 +76,38 @@ func (s *DisplayConfiguration) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Height, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
-	if _err = s.Dpi.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val DisplayConfigurationDpi
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Dpi = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ConfigGroup, _err = p.ReadInt32()
@@ -71,13 +115,33 @@ func (s *DisplayConfiguration) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.VsyncPeriod, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
-	if _err = s.VrrConfig.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val VrrConfig
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.VrrConfig = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

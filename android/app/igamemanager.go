@@ -45,6 +45,7 @@ func (p *GameManagerProxy) GetGameMode(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameManager, MethodIGameManagerGetGameMode)
@@ -72,7 +73,8 @@ func (p *GameManagerProxy) GetGameMode(
 // GameManagerStub dispatches incoming binder transactions
 // to a typed IGameManager implementation.
 type GameManagerStub struct {
-	Impl IGameManager
+	Impl      IGameManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GameManagerStub)(nil)
@@ -86,11 +88,12 @@ func (s *GameManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGameManagerGetGameMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetGameMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {

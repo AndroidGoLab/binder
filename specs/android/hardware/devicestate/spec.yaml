@@ -1,0 +1,107 @@
+package: android.hardware.devicestate
+go_package: android/hardware/devicestate
+interfaces:
+    - name: IDeviceStateManager
+      descriptor: android.hardware.devicestate.IDeviceStateManager
+      methods:
+        - name: getDeviceStateInfo
+          transaction_code_offset: 0
+          return_type:
+            name: DeviceStateInfo
+        - name: registerCallback
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IDeviceStateManagerCallback
+              direction: in
+          return_type:
+            name: void
+        - name: requestState
+          transaction_code_offset: 2
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: state
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: cancelStateRequest
+          transaction_code_offset: 3
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: requestBaseStateOverride
+          transaction_code_offset: 4
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: state
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: cancelBaseStateOverride
+          transaction_code_offset: 5
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: onStateRequestOverlayDismissed
+          transaction_code_offset: 6
+          params:
+            - name: shouldCancelRequest
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+    - name: IDeviceStateManagerCallback
+      descriptor: android.hardware.devicestate.IDeviceStateManagerCallback
+      methods:
+        - name: onDeviceStateInfoChanged
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: info
+              type:
+                name: DeviceStateInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onRequestActive
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: onRequestCanceled
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+parcelables:
+    - name: DeviceStateInfo

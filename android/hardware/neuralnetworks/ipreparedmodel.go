@@ -69,6 +69,7 @@ func (p *PreparedModelProxy) ExecuteSynchronously(
 ) (ExecutionResult, error) {
 	var _result ExecutionResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreparedModel)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -116,6 +117,7 @@ func (p *PreparedModelProxy) ExecuteFenced(
 ) (FencedExecutionResult, error) {
 	var _result FencedExecutionResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreparedModel)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -166,6 +168,7 @@ func (p *PreparedModelProxy) ConfigureExecutionBurst(
 ) (IBurst, error) {
 	var _result IBurst
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreparedModel)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreparedModel, MethodIPreparedModelConfigureExecutionBurst)
@@ -198,6 +201,7 @@ func (p *PreparedModelProxy) CreateReusableExecution(
 ) (IExecution, error) {
 	var _result IExecution
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreparedModel)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -239,6 +243,7 @@ func (p *PreparedModelProxy) ExecuteSynchronouslyWithConfig(
 ) (ExecutionResult, error) {
 	var _result ExecutionResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreparedModel)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -287,6 +292,7 @@ func (p *PreparedModelProxy) ExecuteFencedWithConfig(
 ) (FencedExecutionResult, error) {
 	var _result FencedExecutionResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreparedModel)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -337,7 +343,8 @@ func (p *PreparedModelProxy) ExecuteFencedWithConfig(
 // PreparedModelStub dispatches incoming binder transactions
 // to a typed IPreparedModel implementation.
 type PreparedModelStub struct {
-	Impl IPreparedModel
+	Impl      IPreparedModel
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PreparedModelStub)(nil)
@@ -351,11 +358,12 @@ func (s *PreparedModelStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPreparedModelExecuteSynchronously:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request Request
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -393,9 +401,6 @@ func (s *PreparedModelStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPreparedModelExecuteFenced:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request Request
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -408,9 +413,25 @@ func (s *PreparedModelStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_waitFor []int32
-		_ = _arg_waitFor
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_waitFor = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_waitFor[_i], _err = _data.ReadFileDescriptor()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_measureTiming, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -440,9 +461,6 @@ func (s *PreparedModelStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPreparedModelConfigureExecutionBurst:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ConfigureExecutionBurst(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -450,13 +468,9 @@ func (s *PreparedModelStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIPreparedModelCreateReusableExecution:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request Request
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -488,13 +502,9 @@ func (s *PreparedModelStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIPreparedModelExecuteSynchronouslyWithConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request Request
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -536,9 +546,6 @@ func (s *PreparedModelStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPreparedModelExecuteFencedWithConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request Request
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -551,9 +558,25 @@ func (s *PreparedModelStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_waitFor []int32
-		_ = _arg_waitFor
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_waitFor = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_waitFor[_i], _err = _data.ReadFileDescriptor()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_config ExecutionConfig
 		{
 			_nullInd, _err := _data.ReadInt32()

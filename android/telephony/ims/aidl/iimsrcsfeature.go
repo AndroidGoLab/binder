@@ -74,6 +74,7 @@ func (p *ImsRcsFeatureProxy) QueryCapabilityStatus(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeatureQueryCapabilityStatus)
@@ -103,6 +104,7 @@ func (p *ImsRcsFeatureProxy) GetFeatureState(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRcsFeature, MethodIImsRcsFeatureGetFeatureState)
@@ -132,6 +134,7 @@ func (p *ImsRcsFeatureProxy) AddCapabilityCallback(
 	c IImsCapabilityCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 
@@ -149,6 +152,7 @@ func (p *ImsRcsFeatureProxy) RemoveCapabilityCallback(
 	c IImsCapabilityCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 
@@ -167,6 +171,7 @@ func (p *ImsRcsFeatureProxy) ChangeCapabilitiesConfiguration(
 	c IImsCapabilityCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
 	_data.WriteInt32(1)
 	if _err := r.MarshalParcel(_data); _err != nil {
@@ -190,6 +195,7 @@ func (p *ImsRcsFeatureProxy) QueryCapabilityConfiguration(
 	c IImsCapabilityCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
 	_data.WriteInt32(capability)
 	_data.WriteInt32(radioTech)
@@ -209,6 +215,7 @@ func (p *ImsRcsFeatureProxy) SetCapabilityExchangeEventListener(
 	listener ICapabilityExchangeEventListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -227,6 +234,7 @@ func (p *ImsRcsFeatureProxy) PublishCapabilities(
 	cb IPublishResponseCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
 	_data.WriteString16(pidfXml)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
@@ -246,6 +254,7 @@ func (p *ImsRcsFeatureProxy) SubscribeForCapabilities(
 	cb ISubscribeResponseCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
 	if uris == nil {
 		_data.WriteInt32(-1)
@@ -276,6 +285,7 @@ func (p *ImsRcsFeatureProxy) SendOptionsCapabilityRequest(
 	cb IOptionsResponseCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
 	_data.WriteInt32(1)
 	if _err := contactUri.MarshalParcel(_data); _err != nil {
@@ -303,7 +313,8 @@ func (p *ImsRcsFeatureProxy) SendOptionsCapabilityRequest(
 // ImsRcsFeatureStub dispatches incoming binder transactions
 // to a typed IImsRcsFeature implementation.
 type ImsRcsFeatureStub struct {
-	Impl IImsRcsFeature
+	Impl      IImsRcsFeature
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsRcsFeatureStub)(nil)
@@ -317,11 +328,12 @@ func (s *ImsRcsFeatureStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsRcsFeatureQueryCapabilityStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.QueryCapabilityStatus(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -332,9 +344,6 @@ func (s *ImsRcsFeatureStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsRcsFeatureGetFeatureState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetFeatureState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -345,29 +354,28 @@ func (s *ImsRcsFeatureStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsRcsFeatureAddCapabilityCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IImsCapabilityCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewImsCapabilityCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err := s.Impl.AddCapabilityCallback(ctx, _arg_c)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRcsFeatureRemoveCapabilityCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IImsCapabilityCallback
-		_ = _arg_c
-		_err := s.Impl.RemoveCapabilityCallback(ctx, _arg_c)
-		_ = _err
-		return nil, nil
-	case TransactionIImsRcsFeatureChangeCapabilitiesConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewImsCapabilityCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
 		}
+		_err := s.Impl.RemoveCapabilityCallback(ctx, _arg_c)
+		return nil, _err
+	case TransactionIImsRcsFeatureChangeCapabilitiesConfiguration:
 		var _arg_r feature.CapabilityChangeRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -380,16 +388,17 @@ func (s *ImsRcsFeatureStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IImsCapabilityCallback
-		_ = _arg_c
-		_err := s.Impl.ChangeCapabilitiesConfiguration(ctx, _arg_r, _arg_c)
-		_ = _err
-		return nil, nil
-	case TransactionIImsRcsFeatureQueryCapabilityConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewImsCapabilityCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
 		}
+		_err := s.Impl.ChangeCapabilitiesConfiguration(ctx, _arg_r, _arg_c)
+		return nil, _err
+	case TransactionIImsRcsFeatureQueryCapabilityConfiguration:
 		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -398,53 +407,75 @@ func (s *ImsRcsFeatureStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IImsCapabilityCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewImsCapabilityCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err = s.Impl.QueryCapabilityConfiguration(ctx, _arg_capability, _arg_radioTech, _arg_c)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRcsFeatureSetCapabilityExchangeEventListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ICapabilityExchangeEventListener
-		_ = _arg_listener
-		_err := s.Impl.SetCapabilityExchangeEventListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionIImsRcsFeaturePublishCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewCapabilityExchangeEventListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err := s.Impl.SetCapabilityExchangeEventListener(ctx, _arg_listener)
+		return nil, _err
+	case TransactionIImsRcsFeaturePublishCapabilities:
 		_arg_pidfXml, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IPublishResponseCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewPublishResponseCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err = s.Impl.PublishCapabilities(ctx, _arg_pidfXml, _arg_cb)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRcsFeatureSubscribeForCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_uris []net.Uri
-		_ = _arg_uris
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_cb ISubscribeResponseCallback
-		_ = _arg_cb
-		_err := s.Impl.SubscribeForCapabilities(ctx, _arg_uris, _arg_cb)
-		_ = _err
-		return nil, nil
-	case TransactionIImsRcsFeatureSendOptionsCapabilityRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_uris = make([]net.Uri, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_uris[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		var _arg_cb ISubscribeResponseCallback
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewSubscribeResponseCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
+		_err := s.Impl.SubscribeForCapabilities(ctx, _arg_uris, _arg_cb)
+		return nil, _err
+	case TransactionIImsRcsFeatureSendOptionsCapabilityRequest:
 		var _arg_contactUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -457,15 +488,35 @@ func (s *ImsRcsFeatureStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_myCapabilities []string
-		_ = _arg_myCapabilities
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_myCapabilities = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_myCapabilities[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_cb IOptionsResponseCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewOptionsResponseCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err := s.Impl.SendOptionsCapabilityRequest(ctx, _arg_contactUri, _arg_myCapabilities, _arg_cb)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

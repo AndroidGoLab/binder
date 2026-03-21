@@ -122,15 +122,13 @@ func (p *Parcel) ReadFloat64() (float64, error) {
 	return math.Float64frombits(v), nil
 }
 
-// WritePaddedByte writes a single byte (padded to 4 bytes).
+// WritePaddedByte writes a single byte as a sign-extended int32
+// (4 bytes, little-endian), matching AOSP's wire format.
 func (p *Parcel) WritePaddedByte(
 	v byte,
 ) {
 	buf := p.grow(4)
-	buf[0] = v
-	buf[1] = 0
-	buf[2] = 0
-	buf[3] = 0
+	binary.LittleEndian.PutUint32(buf, uint32(int32(int8(v))))
 }
 
 // ReadPaddedByte reads a single byte (consuming 4 bytes with padding).
@@ -163,14 +161,25 @@ func (p *Parcel) WriteByteArray(
 		return
 	}
 
+	if len(data) > math.MaxInt32 {
+		return
+	}
+
 	p.WriteInt32(int32(len(data)))
 	if len(data) > 0 {
 		copy(p.grow(len(data)), data)
 	}
 }
 
+// maxByteArrayLen is the maximum allowed length for ReadByteArray.
+// Prevents allocating unreasonable amounts of memory from a malicious
+// or corrupted parcel. 4 MB matches Android's Parcel size limit.
+const maxByteArrayLen = 4 * 1024 * 1024
+
 // ReadByteArray reads a byte array with an int32 length prefix.
 // Returns nil if the length is -1.
+// A length of 0 returns an empty non-nil slice, distinguishing
+// "present but empty" from "absent" (nil).
 func (p *Parcel) ReadByteArray() ([]byte, error) {
 	length, err := p.ReadInt32()
 	if err != nil {
@@ -179,6 +188,10 @@ func (p *Parcel) ReadByteArray() ([]byte, error) {
 
 	if length < 0 {
 		return nil, nil
+	}
+
+	if length > maxByteArrayLen {
+		return nil, fmt.Errorf("parcel: byte array length %d exceeds maximum %d", length, maxByteArrayLen)
 	}
 
 	b, err := p.read(int(length))
@@ -199,6 +212,10 @@ func (p *Parcel) WriteFixedByteArray(
 	data []byte,
 	fixedSize int,
 ) {
+	if fixedSize <= 0 {
+		return
+	}
+
 	p.WriteInt32(int32(fixedSize))
 	buf := p.grow(fixedSize)
 	n := copy(buf, data)

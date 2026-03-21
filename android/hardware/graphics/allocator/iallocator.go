@@ -56,15 +56,9 @@ func (p *AllocatorProxy) Allocate(
 ) (AllocationResult, error) {
 	var _result AllocationResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAllocator)
-	if descriptor == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(descriptor)))
-		for _, _item := range descriptor {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(descriptor)
 	_data.WriteInt32(count)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAllocator, MethodIAllocatorAllocate)
@@ -101,6 +95,7 @@ func (p *AllocatorProxy) Allocate2(
 ) (AllocationResult, error) {
 	var _result AllocationResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAllocator)
 	_data.WriteInt32(1)
 	if _err := descriptor.MarshalParcel(_data); _err != nil {
@@ -141,6 +136,7 @@ func (p *AllocatorProxy) IsSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAllocator)
 	_data.WriteInt32(1)
 	if _err := descriptor.MarshalParcel(_data); _err != nil {
@@ -174,6 +170,7 @@ func (p *AllocatorProxy) GetIMapperLibrarySuffix(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAllocator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAllocator, MethodIAllocatorGetIMapperLibrarySuffix)
@@ -201,7 +198,8 @@ func (p *AllocatorProxy) GetIMapperLibrarySuffix(
 // AllocatorStub dispatches incoming binder transactions
 // to a typed IAllocator implementation.
 type AllocatorStub struct {
-	Impl IAllocator
+	Impl      IAllocator
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AllocatorStub)(nil)
@@ -215,14 +213,20 @@ func (s *AllocatorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAllocatorAllocate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_descriptor []byte
-		_ = _arg_descriptor
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_descriptor = _bytes
+		}
 		_arg_count, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -240,9 +244,6 @@ func (s *AllocatorStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAllocatorAllocate2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_descriptor BufferDescriptorInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -272,9 +273,6 @@ func (s *AllocatorStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAllocatorIsSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_descriptor BufferDescriptorInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -297,9 +295,6 @@ func (s *AllocatorStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAllocatorGetIMapperLibrarySuffix:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetIMapperLibrarySuffix(ctx)
 		_reply := parcel.New()
 		if _err != nil {

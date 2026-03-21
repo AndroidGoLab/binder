@@ -31,8 +31,7 @@ func (u *NotifyMsg) GetError() (ErrorMsg, bool) {
 func (u *NotifyMsg) SetError(
 	v ErrorMsg,
 ) {
-	u.Tag = NotifyMsgTagError
-	u.Error = v
+	*u = NotifyMsg{Tag: NotifyMsgTagError, Error: v}
 }
 
 func (u *NotifyMsg) GetShutter() (ShutterMsg, bool) {
@@ -46,8 +45,7 @@ func (u *NotifyMsg) GetShutter() (ShutterMsg, bool) {
 func (u *NotifyMsg) SetShutter(
 	v ShutterMsg,
 ) {
-	u.Tag = NotifyMsgTagShutter
-	u.Shutter = v
+	*u = NotifyMsg{Tag: NotifyMsgTagShutter, Shutter: v}
 }
 
 func (u *NotifyMsg) MarshalParcel(

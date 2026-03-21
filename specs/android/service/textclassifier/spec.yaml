@@ -1,0 +1,165 @@
+package: android.service.textclassifier
+go_package: android/service/textclassifier
+interfaces:
+    - name: ITextClassifierCallback
+      descriptor: android.service.textclassifier.ITextClassifierCallback
+      oneway: true
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: ITextClassifierService
+      descriptor: android.service.textclassifier.ITextClassifierService
+      oneway: true
+      methods:
+        - name: onSuggestSelection
+          transaction_code_offset: 0
+          params:
+            - name: sessionId
+              type:
+                name: TextClassificationSessionId
+              direction: in
+            - name: request
+              type:
+                name: TextSelection.Request
+              direction: in
+            - name: callback
+              type:
+                name: ITextClassifierCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onClassifyText
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: TextClassificationSessionId
+              direction: in
+            - name: request
+              type:
+                name: TextClassification.Request
+              direction: in
+            - name: callback
+              type:
+                name: ITextClassifierCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onGenerateLinks
+          transaction_code_offset: 2
+          params:
+            - name: sessionId
+              type:
+                name: TextClassificationSessionId
+              direction: in
+            - name: request
+              type:
+                name: TextLinks.Request
+              direction: in
+            - name: callback
+              type:
+                name: ITextClassifierCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onSelectionEvent
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: TextClassificationSessionId
+              direction: in
+            - name: event
+              type:
+                name: SelectionEvent
+              direction: in
+          return_type:
+            name: void
+        - name: onTextClassifierEvent
+          transaction_code_offset: 4
+          params:
+            - name: sessionId
+              type:
+                name: TextClassificationSessionId
+              direction: in
+            - name: event
+              type:
+                name: TextClassifierEvent
+              direction: in
+          return_type:
+            name: void
+        - name: onCreateTextClassificationSession
+          transaction_code_offset: 5
+          params:
+            - name: context
+              type:
+                name: TextClassificationContext
+              direction: in
+            - name: sessionId
+              type:
+                name: TextClassificationSessionId
+              direction: in
+          return_type:
+            name: void
+        - name: onDestroyTextClassificationSession
+          transaction_code_offset: 6
+          params:
+            - name: sessionId
+              type:
+                name: TextClassificationSessionId
+              direction: in
+          return_type:
+            name: void
+        - name: onDetectLanguage
+          transaction_code_offset: 7
+          params:
+            - name: sessionId
+              type:
+                name: TextClassificationSessionId
+              direction: in
+            - name: request
+              type:
+                name: TextLanguage.Request
+              direction: in
+            - name: callback
+              type:
+                name: ITextClassifierCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onSuggestConversationActions
+          transaction_code_offset: 8
+          params:
+            - name: sessionId
+              type:
+                name: TextClassificationSessionId
+              direction: in
+            - name: request
+              type:
+                name: ConversationActions.Request
+              direction: in
+            - name: callback
+              type:
+                name: ITextClassifierCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onConnectedStateChanged
+          transaction_code_offset: 9
+          params:
+            - name: connected
+              type:
+                name: int
+          return_type:
+            name: void

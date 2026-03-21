@@ -3,8 +3,8 @@ package os
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/os/types"
 	"github.com/xaionaro-go/binder/binder"
-	osIBinaryTransparencyService "github.com/xaionaro-go/binder/com/android/internal_/os/IBinaryTransparencyService"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -32,9 +32,9 @@ type IBinaryTransparencyService interface {
 	AsBinder() binder.IBinder
 	GetSignedImageInfo(ctx context.Context) (string, error)
 	RecordMeasurementsForAllPackages(ctx context.Context) error
-	CollectAllApexInfo(ctx context.Context, includeTestOnly bool) ([]osIBinaryTransparencyService.ApexInfo, error)
-	CollectAllUpdatedPreloadInfo(ctx context.Context, packagesToSkip interface{}) ([]osIBinaryTransparencyService.AppInfo, error)
-	CollectAllSilentInstalledMbaInfo(ctx context.Context, packagesToSkip interface{}) ([]osIBinaryTransparencyService.AppInfo, error)
+	CollectAllApexInfo(ctx context.Context, includeTestOnly bool) ([]IBinaryTransparencyServiceApexInfo, error)
+	CollectAllUpdatedPreloadInfo(ctx context.Context, packagesToSkip types.Bundle) ([]IBinaryTransparencyServiceAppInfo, error)
+	CollectAllSilentInstalledMbaInfo(ctx context.Context, packagesToSkip types.Bundle) ([]IBinaryTransparencyServiceAppInfo, error)
 }
 
 type BinaryTransparencyServiceProxy struct {
@@ -58,6 +58,7 @@ func (p *BinaryTransparencyServiceProxy) GetSignedImageInfo(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceGetSignedImageInfo)
@@ -86,6 +87,7 @@ func (p *BinaryTransparencyServiceProxy) RecordMeasurementsForAllPackages(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceRecordMeasurementsForAllPackages)
@@ -109,9 +111,10 @@ func (p *BinaryTransparencyServiceProxy) RecordMeasurementsForAllPackages(
 func (p *BinaryTransparencyServiceProxy) CollectAllApexInfo(
 	ctx context.Context,
 	includeTestOnly bool,
-) ([]osIBinaryTransparencyService.ApexInfo, error) {
-	var _result []osIBinaryTransparencyService.ApexInfo
+) ([]IBinaryTransparencyServiceApexInfo, error) {
+	var _result []IBinaryTransparencyServiceApexInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
 	_data.WriteBool(includeTestOnly)
 
@@ -134,9 +137,12 @@ func (p *BinaryTransparencyServiceProxy) CollectAllApexInfo(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]osIBinaryTransparencyService.ApexInfo, _count)
+		_result = make([]IBinaryTransparencyServiceApexInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
 			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
@@ -151,11 +157,13 @@ func (p *BinaryTransparencyServiceProxy) CollectAllApexInfo(
 
 func (p *BinaryTransparencyServiceProxy) CollectAllUpdatedPreloadInfo(
 	ctx context.Context,
-	packagesToSkip interface{},
-) ([]osIBinaryTransparencyService.AppInfo, error) {
-	var _result []osIBinaryTransparencyService.AppInfo
+	packagesToSkip types.Bundle,
+) ([]IBinaryTransparencyServiceAppInfo, error) {
+	var _result []IBinaryTransparencyServiceAppInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
+	// WARNING: param packagesToSkip (type types.Bundle) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceCollectAllUpdatedPreloadInfo)
 	if _err != nil {
@@ -176,9 +184,12 @@ func (p *BinaryTransparencyServiceProxy) CollectAllUpdatedPreloadInfo(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]osIBinaryTransparencyService.AppInfo, _count)
+		_result = make([]IBinaryTransparencyServiceAppInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
 			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
@@ -193,11 +204,13 @@ func (p *BinaryTransparencyServiceProxy) CollectAllUpdatedPreloadInfo(
 
 func (p *BinaryTransparencyServiceProxy) CollectAllSilentInstalledMbaInfo(
 	ctx context.Context,
-	packagesToSkip interface{},
-) ([]osIBinaryTransparencyService.AppInfo, error) {
-	var _result []osIBinaryTransparencyService.AppInfo
+	packagesToSkip types.Bundle,
+) ([]IBinaryTransparencyServiceAppInfo, error) {
+	var _result []IBinaryTransparencyServiceAppInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
+	// WARNING: param packagesToSkip (type types.Bundle) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceCollectAllSilentInstalledMbaInfo)
 	if _err != nil {
@@ -218,9 +231,12 @@ func (p *BinaryTransparencyServiceProxy) CollectAllSilentInstalledMbaInfo(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]osIBinaryTransparencyService.AppInfo, _count)
+		_result = make([]IBinaryTransparencyServiceAppInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
 			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
@@ -236,7 +252,8 @@ func (p *BinaryTransparencyServiceProxy) CollectAllSilentInstalledMbaInfo(
 // BinaryTransparencyServiceStub dispatches incoming binder transactions
 // to a typed IBinaryTransparencyService implementation.
 type BinaryTransparencyServiceStub struct {
-	Impl IBinaryTransparencyService
+	Impl      IBinaryTransparencyService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BinaryTransparencyServiceStub)(nil)
@@ -250,11 +267,12 @@ func (s *BinaryTransparencyServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBinaryTransparencyServiceGetSignedImageInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSignedImageInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -265,9 +283,6 @@ func (s *BinaryTransparencyServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBinaryTransparencyServiceRecordMeasurementsForAllPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RecordMeasurementsForAllPackages(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -277,9 +292,6 @@ func (s *BinaryTransparencyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinaryTransparencyServiceCollectAllApexInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_includeTestOnly, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -291,14 +303,20 @@ func (s *BinaryTransparencyServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIBinaryTransparencyServiceCollectAllUpdatedPreloadInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_packagesToSkip interface{}
+		var _arg_packagesToSkip types.Bundle
 		_result, _err := s.Impl.CollectAllUpdatedPreloadInfo(ctx, _arg_packagesToSkip)
 		_reply := parcel.New()
 		if _err != nil {
@@ -306,14 +324,20 @@ func (s *BinaryTransparencyServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIBinaryTransparencyServiceCollectAllSilentInstalledMbaInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_packagesToSkip interface{}
+		var _arg_packagesToSkip types.Bundle
 		_result, _err := s.Impl.CollectAllSilentInstalledMbaInfo(ctx, _arg_packagesToSkip)
 		_reply := parcel.New()
 		if _err != nil {
@@ -321,8 +345,17 @@ func (s *BinaryTransparencyServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -335,9 +368,9 @@ func (s *BinaryTransparencyServiceStub) OnTransaction(
 type IBinaryTransparencyServiceServer interface {
 	GetSignedImageInfo(ctx context.Context) (string, error)
 	RecordMeasurementsForAllPackages(ctx context.Context) error
-	CollectAllApexInfo(ctx context.Context, includeTestOnly bool) ([]osIBinaryTransparencyService.ApexInfo, error)
-	CollectAllUpdatedPreloadInfo(ctx context.Context, packagesToSkip interface{}) ([]osIBinaryTransparencyService.AppInfo, error)
-	CollectAllSilentInstalledMbaInfo(ctx context.Context, packagesToSkip interface{}) ([]osIBinaryTransparencyService.AppInfo, error)
+	CollectAllApexInfo(ctx context.Context, includeTestOnly bool) ([]IBinaryTransparencyServiceApexInfo, error)
+	CollectAllUpdatedPreloadInfo(ctx context.Context, packagesToSkip types.Bundle) ([]IBinaryTransparencyServiceAppInfo, error)
+	CollectAllSilentInstalledMbaInfo(ctx context.Context, packagesToSkip types.Bundle) ([]IBinaryTransparencyServiceAppInfo, error)
 }
 
 type binaryTransparencyServiceStubWrapper struct {
@@ -364,21 +397,21 @@ func (w *binaryTransparencyServiceStubWrapper) RecordMeasurementsForAllPackages(
 func (w *binaryTransparencyServiceStubWrapper) CollectAllApexInfo(
 	ctx context.Context,
 	includeTestOnly bool,
-) ([]osIBinaryTransparencyService.ApexInfo, error) {
+) ([]IBinaryTransparencyServiceApexInfo, error) {
 	return w.impl.CollectAllApexInfo(ctx, includeTestOnly)
 }
 
 func (w *binaryTransparencyServiceStubWrapper) CollectAllUpdatedPreloadInfo(
 	ctx context.Context,
-	packagesToSkip interface{},
-) ([]osIBinaryTransparencyService.AppInfo, error) {
+	packagesToSkip types.Bundle,
+) ([]IBinaryTransparencyServiceAppInfo, error) {
 	return w.impl.CollectAllUpdatedPreloadInfo(ctx, packagesToSkip)
 }
 
 func (w *binaryTransparencyServiceStubWrapper) CollectAllSilentInstalledMbaInfo(
 	ctx context.Context,
-	packagesToSkip interface{},
-) ([]osIBinaryTransparencyService.AppInfo, error) {
+	packagesToSkip types.Bundle,
+) ([]IBinaryTransparencyServiceAppInfo, error) {
 	return w.impl.CollectAllSilentInstalledMbaInfo(ctx, packagesToSkip)
 }
 

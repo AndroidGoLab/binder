@@ -66,6 +66,7 @@ func (p *RecognitionStatusCallbackProxy) OnKeyphraseDetected(
 	recognitionEvent SoundTriggerKeyphraseRecognitionEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
 	_data.WriteInt32(1)
 	if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
@@ -86,6 +87,7 @@ func (p *RecognitionStatusCallbackProxy) OnGenericSoundTriggerDetected(
 	recognitionEvent SoundTriggerGenericRecognitionEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
 	_data.WriteInt32(1)
 	if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
@@ -105,6 +107,7 @@ func (p *RecognitionStatusCallbackProxy) OnRecognitionPaused(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnRecognitionPaused)
@@ -120,6 +123,7 @@ func (p *RecognitionStatusCallbackProxy) OnRecognitionResumed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnRecognitionResumed)
@@ -135,6 +139,7 @@ func (p *RecognitionStatusCallbackProxy) OnPreempted(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnPreempted)
@@ -150,6 +155,7 @@ func (p *RecognitionStatusCallbackProxy) OnModuleDied(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnModuleDied)
@@ -166,6 +172,7 @@ func (p *RecognitionStatusCallbackProxy) OnResumeFailed(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
 	_data.WriteInt32(status)
 
@@ -183,6 +190,7 @@ func (p *RecognitionStatusCallbackProxy) OnPauseFailed(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
 	_data.WriteInt32(status)
 
@@ -198,7 +206,8 @@ func (p *RecognitionStatusCallbackProxy) OnPauseFailed(
 // RecognitionStatusCallbackStub dispatches incoming binder transactions
 // to a typed IRecognitionStatusCallback implementation.
 type RecognitionStatusCallbackStub struct {
-	Impl IRecognitionStatusCallback
+	Impl      IRecognitionStatusCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RecognitionStatusCallbackStub)(nil)
@@ -212,11 +221,12 @@ func (s *RecognitionStatusCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRecognitionStatusCallbackOnKeyphraseDetected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_recognitionEvent SoundTriggerKeyphraseRecognitionEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -230,12 +240,8 @@ func (s *RecognitionStatusCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnKeyphraseDetected(ctx, _arg_recognitionEvent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionStatusCallbackOnGenericSoundTriggerDetected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_recognitionEvent SoundTriggerGenericRecognitionEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -249,58 +255,33 @@ func (s *RecognitionStatusCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnGenericSoundTriggerDetected(ctx, _arg_recognitionEvent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionStatusCallbackOnRecognitionPaused:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnRecognitionPaused(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionStatusCallbackOnRecognitionResumed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnRecognitionResumed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionStatusCallbackOnPreempted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnPreempted(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionStatusCallbackOnModuleDied:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnModuleDied(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionStatusCallbackOnResumeFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnResumeFailed(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionStatusCallbackOnPauseFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnPauseFailed(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

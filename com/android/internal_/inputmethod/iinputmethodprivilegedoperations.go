@@ -97,6 +97,7 @@ func (p *InputMethodPrivilegedOperationsProxy) SetImeWindowStatusAsync(
 	backDisposition int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteInt32(vis)
 	_data.WriteInt32(backDisposition)
@@ -115,6 +116,7 @@ func (p *InputMethodPrivilegedOperationsProxy) ReportStartInputAsync(
 	startInputToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	binder.WriteBinderToParcel(ctx, _data, startInputToken, p.Remote.Transport())
 
@@ -134,6 +136,7 @@ func (p *InputMethodPrivilegedOperationsProxy) CreateInputContentUriToken(
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteInt32(1)
 	if _err := contentUri.MarshalParcel(_data); _err != nil {
@@ -159,6 +162,7 @@ func (p *InputMethodPrivilegedOperationsProxy) ReportFullscreenModeAsync(
 	fullscreen bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteBool(fullscreen)
 
@@ -177,6 +181,7 @@ func (p *InputMethodPrivilegedOperationsProxy) SetInputMethod(
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteString16(id)
 	_data.WriteInt32(1)
@@ -200,6 +205,7 @@ func (p *InputMethodPrivilegedOperationsProxy) SetInputMethodAndSubtype(
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteString16(id)
 	_data.WriteInt32(1)
@@ -228,6 +234,7 @@ func (p *InputMethodPrivilegedOperationsProxy) HideMySoftInput(
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
@@ -257,6 +264,7 @@ func (p *InputMethodPrivilegedOperationsProxy) ShowMySoftInput(
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
@@ -284,6 +292,7 @@ func (p *InputMethodPrivilegedOperationsProxy) UpdateStatusIconAsync(
 	iconId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(iconId)
@@ -302,6 +311,7 @@ func (p *InputMethodPrivilegedOperationsProxy) SwitchToPreviousInputMethod(
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
@@ -323,6 +333,7 @@ func (p *InputMethodPrivilegedOperationsProxy) SwitchToNextInputMethod(
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteBool(onlyCurrentIme)
 	_data.WriteInt32(1)
@@ -344,6 +355,7 @@ func (p *InputMethodPrivilegedOperationsProxy) ShouldOfferSwitchingToNextInputMe
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
@@ -363,6 +375,7 @@ func (p *InputMethodPrivilegedOperationsProxy) NotifyUserActionAsync(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsNotifyUserActionAsync)
@@ -381,6 +394,7 @@ func (p *InputMethodPrivilegedOperationsProxy) ApplyImeVisibilityAsync(
 	statsToken viewInputmethod.ImeTrackerToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	binder.WriteBinderToParcel(ctx, _data, showOrHideInputToken, p.Remote.Transport())
 	_data.WriteBool(setVisible)
@@ -404,6 +418,7 @@ func (p *InputMethodPrivilegedOperationsProxy) OnStylusHandwritingReady(
 	pid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteInt32(requestId)
 	_data.WriteInt32(pid)
@@ -422,6 +437,7 @@ func (p *InputMethodPrivilegedOperationsProxy) ResetStylusHandwriting(
 	requestId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteInt32(requestId)
 
@@ -439,6 +455,7 @@ func (p *InputMethodPrivilegedOperationsProxy) SwitchKeyboardLayoutAsync(
 	direction int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteInt32(direction)
 
@@ -454,7 +471,8 @@ func (p *InputMethodPrivilegedOperationsProxy) SwitchKeyboardLayoutAsync(
 // InputMethodPrivilegedOperationsStub dispatches incoming binder transactions
 // to a typed IInputMethodPrivilegedOperations implementation.
 type InputMethodPrivilegedOperationsStub struct {
-	Impl IInputMethodPrivilegedOperations
+	Impl      IInputMethodPrivilegedOperations
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputMethodPrivilegedOperationsStub)(nil)
@@ -468,11 +486,12 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputMethodPrivilegedOperationsSetImeWindowStatusAsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_vis, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -482,22 +501,19 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetImeWindowStatusAsync(ctx, _arg_vis, _arg_backDisposition)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodPrivilegedOperationsReportStartInputAsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_startInputToken binder.IBinder
-		_ = _arg_startInputToken
-		_err := s.Impl.ReportStartInputAsync(ctx, _arg_startInputToken)
-		_ = _err
-		return nil, nil
-	case TransactionIInputMethodPrivilegedOperationsCreateInputContentUriToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_startInputTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_startInputToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _startInputTokenHandle)
 		}
+		_err := s.Impl.ReportStartInputAsync(ctx, _arg_startInputToken)
+		return nil, _err
+	case TransactionIInputMethodPrivilegedOperationsCreateInputContentUriToken:
 		var _arg_contentUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -527,23 +543,15 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.CreateInputContentUriToken(ctx, _arg_contentUri, _arg_packageName, _arg_future)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodPrivilegedOperationsReportFullscreenModeAsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fullscreen, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ReportFullscreenModeAsync(ctx, _arg_fullscreen)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodPrivilegedOperationsSetInputMethod:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -561,12 +569,8 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetInputMethod(ctx, _arg_id, _arg_future)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodPrivilegedOperationsSetInputMethodAndSubtype:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -596,12 +600,8 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetInputMethodAndSubtype(ctx, _arg_id, _arg_subtype, _arg_future)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodPrivilegedOperationsHideMySoftInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -635,12 +635,8 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.HideMySoftInput(ctx, _arg_statsToken, _arg_flags, _arg_reason, _arg_future)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodPrivilegedOperationsShowMySoftInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -674,12 +670,8 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.ShowMySoftInput(ctx, _arg_statsToken, _arg_flags, _arg_reason, _arg_future)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodPrivilegedOperationsUpdateStatusIconAsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -689,12 +681,8 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.UpdateStatusIconAsync(ctx, _arg_packageName, _arg_iconId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodPrivilegedOperationsSwitchToPreviousInputMethod:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_future infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -708,12 +696,8 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SwitchToPreviousInputMethod(ctx, _arg_future)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodPrivilegedOperationsSwitchToNextInputMethod:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_onlyCurrentIme, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -731,12 +715,8 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SwitchToNextInputMethod(ctx, _arg_onlyCurrentIme, _arg_future)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodPrivilegedOperationsShouldOfferSwitchingToNextInputMethod:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_future infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -750,22 +730,19 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ShouldOfferSwitchingToNextInputMethod(ctx, _arg_future)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodPrivilegedOperationsNotifyUserActionAsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NotifyUserActionAsync(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodPrivilegedOperationsApplyImeVisibilityAsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_showOrHideInputToken binder.IBinder
-		_ = _arg_showOrHideInputToken
+		{
+			_showOrHideInputTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_showOrHideInputToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _showOrHideInputTokenHandle)
+		}
 		_arg_setVisible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -783,12 +760,8 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.ApplyImeVisibilityAsync(ctx, _arg_showOrHideInputToken, _arg_setVisible, _arg_statsToken)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodPrivilegedOperationsOnStylusHandwritingReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -798,30 +771,21 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStylusHandwritingReady(ctx, _arg_requestId, _arg_pid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodPrivilegedOperationsResetStylusHandwriting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ResetStylusHandwriting(ctx, _arg_requestId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodPrivilegedOperationsSwitchKeyboardLayoutAsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_direction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SwitchKeyboardLayoutAsync(ctx, _arg_direction)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

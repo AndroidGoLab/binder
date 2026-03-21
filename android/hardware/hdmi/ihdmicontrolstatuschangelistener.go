@@ -46,6 +46,7 @@ func (p *HdmiControlStatusChangeListenerProxy) OnStatusChange(
 	isCecAvailable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlStatusChangeListener)
 	_data.WriteInt32(isCecEnabled)
 	_data.WriteBool(isCecAvailable)
@@ -62,7 +63,8 @@ func (p *HdmiControlStatusChangeListenerProxy) OnStatusChange(
 // HdmiControlStatusChangeListenerStub dispatches incoming binder transactions
 // to a typed IHdmiControlStatusChangeListener implementation.
 type HdmiControlStatusChangeListenerStub struct {
-	Impl IHdmiControlStatusChangeListener
+	Impl      IHdmiControlStatusChangeListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HdmiControlStatusChangeListenerStub)(nil)
@@ -76,11 +78,12 @@ func (s *HdmiControlStatusChangeListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHdmiControlStatusChangeListenerOnStatusChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isCecEnabled, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -90,8 +93,7 @@ func (s *HdmiControlStatusChangeListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStatusChange(ctx, _arg_isCecEnabled, _arg_isCecAvailable)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

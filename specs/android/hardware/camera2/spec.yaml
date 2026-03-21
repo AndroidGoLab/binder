@@ -1,0 +1,395 @@
+package: android.hardware.camera2
+go_package: android/hardware/camera2
+interfaces:
+    - name: ICameraDeviceCallbacks
+      descriptor: android.hardware.camera2.ICameraDeviceCallbacks
+      methods:
+        - name: onDeviceError
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: resultExtras
+              type:
+                name: CaptureResultExtras
+              direction: in
+          return_type:
+            name: void
+        - name: onDeviceIdle
+          transaction_code_offset: 1
+          oneway: true
+          return_type:
+            name: void
+        - name: onCaptureStarted
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: resultExtras
+              type:
+                name: CaptureResultExtras
+              direction: in
+            - name: timestamp
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onResultReceived
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: result
+              type:
+                name: CameraMetadataNative
+              direction: in
+            - name: resultExtras
+              type:
+                name: CaptureResultExtras
+              direction: in
+            - name: physicalCaptureResultInfos
+              type:
+                name: PhysicalCaptureResultInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onPrepared
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: streamId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRepeatingRequestError
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: lastFrameNumber
+              type:
+                name: long
+              direction: in
+            - name: repeatingRequestId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onRequestQueueEmpty
+          transaction_code_offset: 6
+          oneway: true
+          return_type:
+            name: void
+      constants:
+        - name: ERROR_CAMERA_INVALID_ERROR
+          type: int
+          value: "-1"
+        - name: ERROR_CAMERA_DISCONNECTED
+          type: int
+          value: "0"
+        - name: ERROR_CAMERA_DEVICE
+          type: int
+          value: "1"
+        - name: ERROR_CAMERA_SERVICE
+          type: int
+          value: "2"
+        - name: ERROR_CAMERA_REQUEST
+          type: int
+          value: "3"
+        - name: ERROR_CAMERA_RESULT
+          type: int
+          value: "4"
+        - name: ERROR_CAMERA_BUFFER
+          type: int
+          value: "5"
+        - name: ERROR_CAMERA_DISABLED
+          type: int
+          value: "6"
+    - name: ICameraDeviceUser
+      descriptor: android.hardware.camera2.ICameraDeviceUser
+      methods:
+        - name: disconnect
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: submitRequest
+          transaction_code_offset: 1
+          params:
+            - name: request
+              type:
+                name: CaptureRequest
+              direction: in
+            - name: streaming
+              type:
+                name: boolean
+          return_type:
+            name: SubmitInfo
+        - name: submitRequestList
+          transaction_code_offset: 2
+          params:
+            - name: requestList
+              type:
+                name: CaptureRequest
+                is_array: true
+              direction: in
+            - name: streaming
+              type:
+                name: boolean
+          return_type:
+            name: SubmitInfo
+        - name: cancelRequest
+          transaction_code_offset: 3
+          params:
+            - name: requestId
+              type:
+                name: int
+          return_type:
+            name: long
+        - name: beginConfigure
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: endConfigure
+          transaction_code_offset: 5
+          params:
+            - name: operatingMode
+              type:
+                name: int
+            - name: sessionParams
+              type:
+                name: CameraMetadataNative
+              direction: in
+            - name: startTimeMs
+              type:
+                name: long
+          return_type:
+            name: int
+            is_array: true
+        - name: isSessionConfigurationSupported
+          transaction_code_offset: 6
+          params:
+            - name: sessionConfiguration
+              type:
+                name: SessionConfiguration
+              direction: in
+          return_type:
+            name: boolean
+        - name: deleteStream
+          transaction_code_offset: 7
+          params:
+            - name: streamId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: createStream
+          transaction_code_offset: 8
+          params:
+            - name: outputConfiguration
+              type:
+                name: OutputConfiguration
+              direction: in
+          return_type:
+            name: int
+        - name: createInputStream
+          transaction_code_offset: 9
+          params:
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+            - name: format
+              type:
+                name: int
+            - name: isMultiResolution
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: getInputSurface
+          transaction_code_offset: 10
+          return_type:
+            name: Surface
+        - name: createDefaultRequest
+          transaction_code_offset: 11
+          params:
+            - name: templateId
+              type:
+                name: int
+          return_type:
+            name: CameraMetadataNative
+        - name: getCameraInfo
+          transaction_code_offset: 12
+          return_type:
+            name: CameraMetadataNative
+        - name: waitUntilIdle
+          transaction_code_offset: 13
+          return_type:
+            name: void
+        - name: flush
+          transaction_code_offset: 14
+          return_type:
+            name: long
+        - name: prepare
+          transaction_code_offset: 15
+          params:
+            - name: streamId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: tearDown
+          transaction_code_offset: 16
+          params:
+            - name: streamId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: prepare2
+          transaction_code_offset: 17
+          params:
+            - name: maxCount
+              type:
+                name: int
+            - name: streamId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: updateOutputConfiguration
+          transaction_code_offset: 18
+          params:
+            - name: streamId
+              type:
+                name: int
+            - name: outputConfiguration
+              type:
+                name: OutputConfiguration
+              direction: in
+          return_type:
+            name: void
+        - name: finalizeOutputConfigurations
+          transaction_code_offset: 19
+          params:
+            - name: streamId
+              type:
+                name: int
+            - name: outputConfiguration
+              type:
+                name: OutputConfiguration
+              direction: in
+          return_type:
+            name: void
+        - name: setCameraAudioRestriction
+          transaction_code_offset: 20
+          params:
+            - name: mode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getGlobalAudioRestriction
+          transaction_code_offset: 21
+          return_type:
+            name: int
+        - name: switchToOffline
+          transaction_code_offset: 22
+          params:
+            - name: callbacks
+              type:
+                name: ICameraDeviceCallbacks
+              direction: in
+            - name: offlineOutputIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: ICameraOfflineSession
+      constants:
+        - name: NO_IN_FLIGHT_REPEATING_FRAMES
+          type: int
+          value: "-1"
+        - name: NORMAL_MODE
+          type: int
+          value: "0"
+        - name: CONSTRAINED_HIGH_SPEED_MODE
+          type: int
+          value: "1"
+        - name: VENDOR_MODE_START
+          type: int
+          value: "0x8000"
+        - name: TEMPLATE_PREVIEW
+          type: int
+          value: "1"
+        - name: TEMPLATE_STILL_CAPTURE
+          type: int
+          value: "2"
+        - name: TEMPLATE_RECORD
+          type: int
+          value: "3"
+        - name: TEMPLATE_VIDEO_SNAPSHOT
+          type: int
+          value: "4"
+        - name: TEMPLATE_ZERO_SHUTTER_LAG
+          type: int
+          value: "5"
+        - name: TEMPLATE_MANUAL
+          type: int
+          value: "6"
+        - name: AUDIO_RESTRICTION_NONE
+          type: int
+          value: "0"
+        - name: AUDIO_RESTRICTION_VIBRATION
+          type: int
+          value: "1"
+        - name: AUDIO_RESTRICTION_VIBRATION_SOUND
+          type: int
+          value: "3"
+    - name: ICameraInjectionCallback
+      descriptor: android.hardware.camera2.ICameraInjectionCallback
+      methods:
+        - name: onInjectionError
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: errorCode
+              type:
+                name: int
+          return_type:
+            name: void
+      constants:
+        - name: ERROR_INJECTION_INVALID_ERROR
+          type: int
+          value: "-1"
+        - name: ERROR_INJECTION_SESSION
+          type: int
+          value: "0"
+        - name: ERROR_INJECTION_SERVICE
+          type: int
+          value: "1"
+        - name: ERROR_INJECTION_UNSUPPORTED
+          type: int
+          value: "2"
+    - name: ICameraInjectionSession
+      descriptor: android.hardware.camera2.ICameraInjectionSession
+      methods:
+        - name: stopInjection
+          transaction_code_offset: 0
+          oneway: true
+          return_type:
+            name: void
+    - name: ICameraOfflineSession
+      descriptor: android.hardware.camera2.ICameraOfflineSession
+      methods:
+        - name: disconnect
+          transaction_code_offset: 0
+          return_type:
+            name: void
+parcelables:
+    - name: CaptureRequest

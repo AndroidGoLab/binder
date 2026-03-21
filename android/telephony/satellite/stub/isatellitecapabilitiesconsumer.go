@@ -45,6 +45,7 @@ func (p *SatelliteCapabilitiesConsumerProxy) Accept(
 	result SatelliteCapabilities,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteCapabilitiesConsumer)
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *SatelliteCapabilitiesConsumerProxy) Accept(
 // SatelliteCapabilitiesConsumerStub dispatches incoming binder transactions
 // to a typed ISatelliteCapabilitiesConsumer implementation.
 type SatelliteCapabilitiesConsumerStub struct {
-	Impl ISatelliteCapabilitiesConsumer
+	Impl      ISatelliteCapabilitiesConsumer
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SatelliteCapabilitiesConsumerStub)(nil)
@@ -77,11 +79,12 @@ func (s *SatelliteCapabilitiesConsumerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISatelliteCapabilitiesConsumerAccept:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_result SatelliteCapabilities
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *SatelliteCapabilitiesConsumerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.Accept(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

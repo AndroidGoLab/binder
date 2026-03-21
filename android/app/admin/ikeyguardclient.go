@@ -46,6 +46,7 @@ func (p *KeyguardClientProxy) OnCreateKeyguardSurface(
 	keyguardCallback IKeyguardCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardClient)
 	binder.WriteBinderToParcel(ctx, _data, hostInputToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, keyguardCallback.AsBinder(), p.Remote.Transport())
@@ -62,7 +63,8 @@ func (p *KeyguardClientProxy) OnCreateKeyguardSurface(
 // KeyguardClientStub dispatches incoming binder transactions
 // to a typed IKeyguardClient implementation.
 type KeyguardClientStub struct {
-	Impl IKeyguardClient
+	Impl      IKeyguardClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*KeyguardClientStub)(nil)
@@ -76,20 +78,30 @@ func (s *KeyguardClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIKeyguardClientOnCreateKeyguardSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_hostInputToken binder.IBinder
-		_ = _arg_hostInputToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_hostInputTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hostInputToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _hostInputTokenHandle)
+		}
 		var _arg_keyguardCallback IKeyguardCallback
-		_ = _arg_keyguardCallback
+		{
+			_keyguardCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyguardCallback = NewKeyguardCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _keyguardCallbackHandle))
+		}
 		_err := s.Impl.OnCreateKeyguardSurface(ctx, _arg_hostInputToken, _arg_keyguardCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

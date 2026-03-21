@@ -1,0 +1,75 @@
+package: android.hardware.audio.core.sounddose
+go_package: android/hardware/audio/core/sounddose
+interfaces:
+    - name: ISoundDose
+      descriptor: android.hardware.audio.core.sounddose.ISoundDose
+      methods:
+        - name: setOutputRs2UpperBound
+          transaction_code_offset: 0
+          params:
+            - name: rs2ValueDbA
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: getOutputRs2UpperBound
+          transaction_code_offset: 1
+          return_type:
+            name: float
+        - name: registerSoundDoseCallback
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: IHalSoundDoseCallback
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: DEFAULT_MAX_RS2
+          type: int
+          value: "100"
+        - name: MIN_RS2
+          type: int
+          value: "80"
+    - name: ISoundDose.IHalSoundDoseCallback
+      descriptor: android.hardware.audio.core.sounddose.ISoundDose.IHalSoundDoseCallback
+      oneway: true
+      methods:
+        - name: onMomentaryExposureWarning
+          transaction_code_offset: 0
+          params:
+            - name: currentDbA
+              type:
+                name: float
+            - name: audioDevice
+              type:
+                name: AudioDevice
+              direction: in
+          return_type:
+            name: void
+        - name: onNewMelValues
+          transaction_code_offset: 1
+          params:
+            - name: melRecord
+              type:
+                name: MelRecord
+              direction: in
+            - name: audioDevice
+              type:
+                name: AudioDevice
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: ISoundDose.IHalSoundDoseCallback.MelRecord
+      fields:
+        - name: melValues
+          type:
+            name: float
+            is_array: true
+        - name: timestamp
+          type:
+            name: long
+      annotations:
+        - VintfStability

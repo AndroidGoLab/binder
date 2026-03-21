@@ -1,0 +1,362 @@
+package: com.android.internal.compat
+go_package: com/android/internal_/compat
+interfaces:
+    - name: IOverrideValidator
+      descriptor: com.android.internal.compat.IOverrideValidator
+      methods:
+        - name: getOverrideAllowedState
+          transaction_code_offset: 0
+          params:
+            - name: changeId
+              type:
+                name: long
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: OverrideAllowedState
+    - name: IPlatformCompat
+      descriptor: com.android.internal.compat.IPlatformCompat
+      methods:
+        - name: reportChange
+          transaction_code_offset: 0
+          params:
+            - name: changeId
+              type:
+                name: long
+            - name: appInfo
+              type:
+                name: ApplicationInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: reportChangeByPackageName
+          transaction_code_offset: 1
+          params:
+            - name: changeId
+              type:
+                name: long
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: reportChangeByUid
+          transaction_code_offset: 2
+          params:
+            - name: changeId
+              type:
+                name: long
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: isChangeEnabled
+          transaction_code_offset: 3
+          params:
+            - name: changeId
+              type:
+                name: long
+            - name: appInfo
+              type:
+                name: ApplicationInfo
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: isChangeEnabledByPackageName
+          transaction_code_offset: 4
+          params:
+            - name: changeId
+              type:
+                name: long
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: isChangeEnabledByUid
+          transaction_code_offset: 5
+          params:
+            - name: changeId
+              type:
+                name: long
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: setOverrides
+          transaction_code_offset: 6
+          params:
+            - name: overrides
+              type:
+                name: CompatibilityChangeConfig
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: putAllOverridesOnReleaseBuilds
+          transaction_code_offset: 7
+          params:
+            - name: overridesByPackage
+              type:
+                name: CompatibilityOverridesByPackageConfig
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: putOverridesOnReleaseBuilds
+          transaction_code_offset: 8
+          params:
+            - name: overrides
+              type:
+                name: CompatibilityOverrideConfig
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setOverridesForTest
+          transaction_code_offset: 9
+          params:
+            - name: overrides
+              type:
+                name: CompatibilityChangeConfig
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: clearOverride
+          transaction_code_offset: 10
+          params:
+            - name: changeId
+              type:
+                name: long
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: clearOverrideForTest
+          transaction_code_offset: 11
+          params:
+            - name: changeId
+              type:
+                name: long
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: removeAllOverridesOnReleaseBuilds
+          transaction_code_offset: 12
+          params:
+            - name: overridesToRemoveByPackage
+              type:
+                name: CompatibilityOverridesToRemoveByPackageConfig
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: removeOverridesOnReleaseBuilds
+          transaction_code_offset: 13
+          params:
+            - name: overridesToRemove
+              type:
+                name: CompatibilityOverridesToRemoveConfig
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: enableTargetSdkChanges
+          transaction_code_offset: 14
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: targetSdkVersion
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: disableTargetSdkChanges
+          transaction_code_offset: 15
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: targetSdkVersion
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: clearOverrides
+          transaction_code_offset: 16
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: clearOverridesForTest
+          transaction_code_offset: 17
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getAppConfig
+          transaction_code_offset: 18
+          params:
+            - name: appInfo
+              type:
+                name: ApplicationInfo
+              direction: in
+          return_type:
+            name: CompatibilityChangeConfig
+          annotations:
+            - EnforcePermission
+        - name: listAllChanges
+          transaction_code_offset: 19
+          return_type:
+            name: CompatibilityChangeInfo
+            is_array: true
+          annotations:
+            - EnforcePermission
+        - name: listUIChanges
+          transaction_code_offset: 20
+          return_type:
+            name: CompatibilityChangeInfo
+            is_array: true
+          annotations:
+            - RequiresNoPermission
+        - name: getOverrideValidator
+          transaction_code_offset: 21
+          return_type:
+            name: IOverrideValidator
+          annotations:
+            - RequiresNoPermission
+    - name: IPlatformCompatNative
+      descriptor: com.android.internal.compat.IPlatformCompatNative
+      methods:
+        - name: reportChangeByPackageName
+          transaction_code_offset: 0
+          params:
+            - name: changeId
+              type:
+                name: long
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportChangeByUid
+          transaction_code_offset: 1
+          params:
+            - name: changeId
+              type:
+                name: long
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isChangeEnabledByPackageName
+          transaction_code_offset: 2
+          params:
+            - name: changeId
+              type:
+                name: long
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isChangeEnabledByUid
+          transaction_code_offset: 3
+          params:
+            - name: changeId
+              type:
+                name: long
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: boolean
+parcelables:
+    - name: CompatibilityChangeConfig
+    - name: CompatibilityChangeInfo
+    - name: CompatibilityOverrideConfig
+    - name: CompatibilityOverridesByPackageConfig
+    - name: CompatibilityOverridesToRemoveByPackageConfig
+    - name: CompatibilityOverridesToRemoveConfig
+    - name: OverrideAllowedState

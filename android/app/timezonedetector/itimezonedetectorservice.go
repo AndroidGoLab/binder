@@ -70,6 +70,7 @@ func (p *TimeZoneDetectorServiceProxy) GetCapabilitiesAndConfig(
 ) (time.TimeZoneCapabilitiesAndConfig, error) {
 	var _result time.TimeZoneCapabilitiesAndConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceGetCapabilitiesAndConfig)
@@ -104,6 +105,7 @@ func (p *TimeZoneDetectorServiceProxy) AddListener(
 	listener time.ITimeZoneDetectorListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -130,6 +132,7 @@ func (p *TimeZoneDetectorServiceProxy) RemoveListener(
 	listener time.ITimeZoneDetectorListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -157,6 +160,7 @@ func (p *TimeZoneDetectorServiceProxy) UpdateConfiguration(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 	_data.WriteInt32(1)
 	if _err := configuration.MarshalParcel(_data); _err != nil {
@@ -190,6 +194,7 @@ func (p *TimeZoneDetectorServiceProxy) GetTimeZoneState(
 ) (time.TimeZoneState, error) {
 	var _result time.TimeZoneState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceGetTimeZoneState)
@@ -225,6 +230,7 @@ func (p *TimeZoneDetectorServiceProxy) ConfirmTimeZone(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 	_data.WriteString16(timeZoneId)
 
@@ -256,6 +262,7 @@ func (p *TimeZoneDetectorServiceProxy) SetManualTimeZone(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 	_data.WriteInt32(1)
 	if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
@@ -290,6 +297,7 @@ func (p *TimeZoneDetectorServiceProxy) SuggestManualTimeZone(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 	_data.WriteInt32(1)
 	if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
@@ -323,6 +331,7 @@ func (p *TimeZoneDetectorServiceProxy) SuggestTelephonyTimeZone(
 	timeZoneSuggestion TelephonyTimeZoneSuggestion,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 	_data.WriteInt32(1)
 	if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
@@ -350,7 +359,8 @@ func (p *TimeZoneDetectorServiceProxy) SuggestTelephonyTimeZone(
 // TimeZoneDetectorServiceStub dispatches incoming binder transactions
 // to a typed ITimeZoneDetectorService implementation.
 type TimeZoneDetectorServiceStub struct {
-	Impl ITimeZoneDetectorService
+	Impl      ITimeZoneDetectorService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TimeZoneDetectorServiceStub)(nil)
@@ -364,11 +374,12 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITimeZoneDetectorServiceGetCapabilitiesAndConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCapabilitiesAndConfig(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -382,12 +393,14 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITimeZoneDetectorServiceAddListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener time.ITimeZoneDetectorListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = time.NewTimeZoneDetectorListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -397,12 +410,14 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITimeZoneDetectorServiceRemoveListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener time.ITimeZoneDetectorListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = time.NewTimeZoneDetectorListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -412,9 +427,6 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITimeZoneDetectorServiceUpdateConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_configuration time.TimeZoneConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -437,9 +449,6 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITimeZoneDetectorServiceGetTimeZoneState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetTimeZoneState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -453,9 +462,6 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITimeZoneDetectorServiceConfirmTimeZone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeZoneId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -470,9 +476,6 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITimeZoneDetectorServiceSetManualTimeZone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_timeZoneSuggestion ManualTimeZoneSuggestion
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -495,9 +498,6 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITimeZoneDetectorServiceSuggestManualTimeZone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_timeZoneSuggestion ManualTimeZoneSuggestion
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -520,9 +520,6 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITimeZoneDetectorServiceSuggestTelephonyTimeZone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_timeZoneSuggestion TelephonyTimeZoneSuggestion
 		{
 			_nullInd, _err := _data.ReadInt32()

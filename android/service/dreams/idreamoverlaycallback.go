@@ -44,6 +44,7 @@ func (p *DreamOverlayCallbackProxy) OnExitRequested(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamOverlayCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamOverlayCallback, MethodIDreamOverlayCallbackOnExitRequested)
@@ -67,7 +68,8 @@ func (p *DreamOverlayCallbackProxy) OnExitRequested(
 // DreamOverlayCallbackStub dispatches incoming binder transactions
 // to a typed IDreamOverlayCallback implementation.
 type DreamOverlayCallbackStub struct {
-	Impl IDreamOverlayCallback
+	Impl      IDreamOverlayCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DreamOverlayCallbackStub)(nil)
@@ -81,11 +83,12 @@ func (s *DreamOverlayCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDreamOverlayCallbackOnExitRequested:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnExitRequested(ctx)
 		_reply := parcel.New()
 		if _err != nil {

@@ -60,6 +60,7 @@ func (p *RecognitionServiceProxy) StartListening(
 	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionService)
 	_data.WriteInt32(1)
 	if _err := recognizerIntent.MarshalParcel(_data); _err != nil {
@@ -85,6 +86,7 @@ func (p *RecognitionServiceProxy) StopListening(
 	listener IRecognitionListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -103,6 +105,7 @@ func (p *RecognitionServiceProxy) Cancel(
 	isShutdown bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(isShutdown)
@@ -123,6 +126,7 @@ func (p *RecognitionServiceProxy) CheckRecognitionSupport(
 	listener IRecognitionSupportCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionService)
 	_data.WriteInt32(1)
 	if _err := recognizerIntent.MarshalParcel(_data); _err != nil {
@@ -150,6 +154,7 @@ func (p *RecognitionServiceProxy) TriggerModelDownload(
 	listener IModelDownloadListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionService)
 	_data.WriteInt32(1)
 	if _err := recognizerIntent.MarshalParcel(_data); _err != nil {
@@ -173,7 +178,8 @@ func (p *RecognitionServiceProxy) TriggerModelDownload(
 // RecognitionServiceStub dispatches incoming binder transactions
 // to a typed IRecognitionService implementation.
 type RecognitionServiceStub struct {
-	Impl IRecognitionService
+	Impl      IRecognitionService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RecognitionServiceStub)(nil)
@@ -187,11 +193,12 @@ func (s *RecognitionServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRecognitionServiceStartListening:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_recognizerIntent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -204,9 +211,14 @@ func (s *RecognitionServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IRecognitionListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewRecognitionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		var _arg_attributionSource content.AttributionSource
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -220,36 +232,34 @@ func (s *RecognitionServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.StartListening(ctx, _arg_recognizerIntent, _arg_listener, _arg_attributionSource)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionServiceStopListening:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IRecognitionListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewRecognitionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.StopListening(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionServiceCancel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IRecognitionListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewRecognitionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_isShutdown, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Cancel(ctx, _arg_listener, _arg_isShutdown)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionServiceCheckRecognitionSupport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_recognizerIntent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -274,16 +284,17 @@ func (s *RecognitionServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IRecognitionSupportCallback
-		_ = _arg_listener
-		_err := s.Impl.CheckRecognitionSupport(ctx, _arg_recognizerIntent, _arg_attributionSource, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionIRecognitionServiceTriggerModelDownload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewRecognitionSupportCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err := s.Impl.CheckRecognitionSupport(ctx, _arg_recognizerIntent, _arg_attributionSource, _arg_listener)
+		return nil, _err
+	case TransactionIRecognitionServiceTriggerModelDownload:
 		var _arg_recognizerIntent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -308,12 +319,16 @@ func (s *RecognitionServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IModelDownloadListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewModelDownloadListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.TriggerModelDownload(ctx, _arg_recognizerIntent, _arg_attributionSource, _arg_listener)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

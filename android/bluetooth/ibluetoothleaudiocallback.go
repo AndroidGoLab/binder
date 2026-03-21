@@ -58,6 +58,7 @@ func (p *BluetoothLeAudioCallbackProxy) OnCodecConfigChanged(
 	status BluetoothLeAudioCodecStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeAudioCallback)
 	_data.WriteInt32(groupId)
 	_data.WriteInt32(1)
@@ -80,6 +81,7 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupNodeAdded(
 	groupId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeAudioCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -102,6 +104,7 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupNodeRemoved(
 	groupId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeAudioCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -124,6 +127,7 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupStatusChanged(
 	groupStatus int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeAudioCallback)
 	_data.WriteInt32(groupId)
 	_data.WriteInt32(groupStatus)
@@ -143,6 +147,7 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupStreamStatusChanged(
 	groupStreamStatus int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeAudioCallback)
 	_data.WriteInt32(groupId)
 	_data.WriteInt32(groupStreamStatus)
@@ -159,7 +164,8 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupStreamStatusChanged(
 // BluetoothLeAudioCallbackStub dispatches incoming binder transactions
 // to a typed IBluetoothLeAudioCallback implementation.
 type BluetoothLeAudioCallbackStub struct {
-	Impl IBluetoothLeAudioCallback
+	Impl      IBluetoothLeAudioCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothLeAudioCallbackStub)(nil)
@@ -173,11 +179,12 @@ func (s *BluetoothLeAudioCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothLeAudioCallbackOnCodecConfigChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_groupId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -195,12 +202,8 @@ func (s *BluetoothLeAudioCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnCodecConfigChanged(ctx, _arg_groupId, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothLeAudioCallbackOnGroupNodeAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -218,12 +221,8 @@ func (s *BluetoothLeAudioCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGroupNodeAdded(ctx, _arg_device, _arg_groupId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothLeAudioCallbackOnGroupNodeRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -241,12 +240,8 @@ func (s *BluetoothLeAudioCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGroupNodeRemoved(ctx, _arg_device, _arg_groupId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothLeAudioCallbackOnGroupStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_groupId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -256,12 +251,8 @@ func (s *BluetoothLeAudioCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGroupStatusChanged(ctx, _arg_groupId, _arg_groupStatus)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothLeAudioCallbackOnGroupStreamStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_groupId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -271,8 +262,7 @@ func (s *BluetoothLeAudioCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGroupStreamStatusChanged(ctx, _arg_groupId, _arg_groupStreamStatus)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

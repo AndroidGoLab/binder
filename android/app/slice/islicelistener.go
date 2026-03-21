@@ -45,6 +45,7 @@ func (p *SliceListenerProxy) OnSliceUpdated(
 	s_ Slice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceListener)
 	_data.WriteInt32(1)
 	if _err := s_.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *SliceListenerProxy) OnSliceUpdated(
 // SliceListenerStub dispatches incoming binder transactions
 // to a typed ISliceListener implementation.
 type SliceListenerStub struct {
-	Impl ISliceListener
+	Impl      ISliceListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SliceListenerStub)(nil)
@@ -77,11 +79,12 @@ func (s *SliceListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISliceListenerOnSliceUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_s_ Slice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *SliceListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSliceUpdated(ctx, _arg_s_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

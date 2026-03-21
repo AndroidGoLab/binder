@@ -54,6 +54,7 @@ func (p *RadioImsIndicationProxy) OnConnectionSetupFailure(
 	info ConnectionFailureInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioImsIndication)
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(token)
@@ -79,6 +80,7 @@ func (p *RadioImsIndicationProxy) NotifyAnbr(
 	bitsPerSecond int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioImsIndication)
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(int32(mediaType))
@@ -100,6 +102,7 @@ func (p *RadioImsIndicationProxy) TriggerImsDeregistration(
 	reason ImsDeregistrationReason,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioImsIndication)
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(int32(reason))
@@ -116,7 +119,8 @@ func (p *RadioImsIndicationProxy) TriggerImsDeregistration(
 // RadioImsIndicationStub dispatches incoming binder transactions
 // to a typed IRadioImsIndication implementation.
 type RadioImsIndicationStub struct {
-	Impl IRadioImsIndication
+	Impl      IRadioImsIndication
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RadioImsIndicationStub)(nil)
@@ -130,11 +134,12 @@ func (s *RadioImsIndicationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRadioImsIndicationOnConnectionSetupFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -157,12 +162,8 @@ func (s *RadioImsIndicationStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnConnectionSetupFailure(ctx, _arg_type_, _arg_token, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioImsIndicationNotifyAnbr:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -183,12 +184,8 @@ func (s *RadioImsIndicationStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyAnbr(ctx, _arg_type_, _arg_mediaType, _arg_direction, _arg_bitsPerSecond)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioImsIndicationTriggerImsDeregistration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -200,8 +197,7 @@ func (s *RadioImsIndicationStub) OnTransaction(
 		}
 		_arg_reason := ImsDeregistrationReason(_raw_reason)
 		_err = s.Impl.TriggerImsDeregistration(ctx, _arg_type_, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

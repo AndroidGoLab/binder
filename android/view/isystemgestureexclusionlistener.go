@@ -48,6 +48,7 @@ func (p *SystemGestureExclusionListenerProxy) OnSystemGestureExclusionChanged(
 	systemGestureExclusionUnrestricted graphics.Region,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemGestureExclusionListener)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(1)
@@ -71,7 +72,8 @@ func (p *SystemGestureExclusionListenerProxy) OnSystemGestureExclusionChanged(
 // SystemGestureExclusionListenerStub dispatches incoming binder transactions
 // to a typed ISystemGestureExclusionListener implementation.
 type SystemGestureExclusionListenerStub struct {
-	Impl ISystemGestureExclusionListener
+	Impl      ISystemGestureExclusionListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SystemGestureExclusionListenerStub)(nil)
@@ -85,11 +87,12 @@ func (s *SystemGestureExclusionListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISystemGestureExclusionListenerOnSystemGestureExclusionChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -119,8 +122,7 @@ func (s *SystemGestureExclusionListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnSystemGestureExclusionChanged(ctx, _arg_displayId, _arg_systemGestureExclusion, _arg_systemGestureExclusionUnrestricted)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

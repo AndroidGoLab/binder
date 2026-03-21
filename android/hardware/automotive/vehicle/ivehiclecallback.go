@@ -54,6 +54,7 @@ func (p *VehicleCallbackProxy) OnGetValues(
 	responses GetValueResults,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicleCallback)
 	_data.WriteInt32(1)
 	if _err := responses.MarshalParcel(_data); _err != nil {
@@ -74,6 +75,7 @@ func (p *VehicleCallbackProxy) OnSetValues(
 	responses SetValueResults,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicleCallback)
 	_data.WriteInt32(1)
 	if _err := responses.MarshalParcel(_data); _err != nil {
@@ -95,6 +97,7 @@ func (p *VehicleCallbackProxy) OnPropertyEvent(
 	sharedMemoryFileCount int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicleCallback)
 	_data.WriteInt32(1)
 	if _err := propValues.MarshalParcel(_data); _err != nil {
@@ -116,6 +119,7 @@ func (p *VehicleCallbackProxy) OnPropertySetError(
 	errors VehiclePropErrors,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicleCallback)
 	_data.WriteInt32(1)
 	if _err := errors.MarshalParcel(_data); _err != nil {
@@ -134,7 +138,8 @@ func (p *VehicleCallbackProxy) OnPropertySetError(
 // VehicleCallbackStub dispatches incoming binder transactions
 // to a typed IVehicleCallback implementation.
 type VehicleCallbackStub struct {
-	Impl IVehicleCallback
+	Impl      IVehicleCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VehicleCallbackStub)(nil)
@@ -148,11 +153,12 @@ func (s *VehicleCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVehicleCallbackOnGetValues:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_responses GetValueResults
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -166,12 +172,8 @@ func (s *VehicleCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnGetValues(ctx, _arg_responses)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVehicleCallbackOnSetValues:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_responses SetValueResults
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -185,12 +187,8 @@ func (s *VehicleCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSetValues(ctx, _arg_responses)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVehicleCallbackOnPropertyEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_propValues VehiclePropValues
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -208,12 +206,8 @@ func (s *VehicleCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPropertyEvent(ctx, _arg_propValues, _arg_sharedMemoryFileCount)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVehicleCallbackOnPropertySetError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_errors VehiclePropErrors
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -227,8 +221,7 @@ func (s *VehicleCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnPropertySetError(ctx, _arg_errors)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

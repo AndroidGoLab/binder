@@ -80,6 +80,7 @@ func (p *BlobStoreSessionProxy) OpenWrite(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 	_data.WriteInt64(offsetBytes)
 	_data.WriteInt64(lengthBytes)
@@ -111,6 +112,7 @@ func (p *BlobStoreSessionProxy) OpenRead(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionOpenRead)
@@ -141,16 +143,10 @@ func (p *BlobStoreSessionProxy) AllowPackageAccess(
 	certificate []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 	_data.WriteString16(packageName)
-	if certificate == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(certificate)))
-		for _, _item := range certificate {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(certificate)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionAllowPackageAccess)
 	if _err != nil {
@@ -174,6 +170,7 @@ func (p *BlobStoreSessionProxy) AllowSameSignatureAccess(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionAllowSameSignatureAccess)
@@ -198,6 +195,7 @@ func (p *BlobStoreSessionProxy) AllowPublicAccess(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionAllowPublicAccess)
@@ -225,16 +223,10 @@ func (p *BlobStoreSessionProxy) IsPackageAccessAllowed(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 	_data.WriteString16(packageName)
-	if certificate == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(certificate)))
-		for _, _item := range certificate {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(certificate)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionIsPackageAccessAllowed)
 	if _err != nil {
@@ -263,6 +255,7 @@ func (p *BlobStoreSessionProxy) IsSameSignatureAccessAllowed(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionIsSameSignatureAccessAllowed)
@@ -292,6 +285,7 @@ func (p *BlobStoreSessionProxy) IsPublicAccessAllowed(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionIsPublicAccessAllowed)
@@ -321,6 +315,7 @@ func (p *BlobStoreSessionProxy) GetSize(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionGetSize)
@@ -349,6 +344,7 @@ func (p *BlobStoreSessionProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionClose)
@@ -373,6 +369,7 @@ func (p *BlobStoreSessionProxy) Abandon(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionAbandon)
@@ -398,6 +395,7 @@ func (p *BlobStoreSessionProxy) Commit(
 	callback IBlobCommitCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -422,7 +420,8 @@ func (p *BlobStoreSessionProxy) Commit(
 // BlobStoreSessionStub dispatches incoming binder transactions
 // to a typed IBlobStoreSession implementation.
 type BlobStoreSessionStub struct {
-	Impl IBlobStoreSession
+	Impl      IBlobStoreSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BlobStoreSessionStub)(nil)
@@ -436,11 +435,12 @@ func (s *BlobStoreSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBlobStoreSessionOpenWrite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_offsetBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -459,9 +459,6 @@ func (s *BlobStoreSessionStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIBlobStoreSessionOpenRead:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.OpenRead(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -472,16 +469,18 @@ func (s *BlobStoreSessionStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIBlobStoreSessionAllowPackageAccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_certificate []byte
-		_ = _arg_certificate
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_certificate = _bytes
+		}
 		_err = s.Impl.AllowPackageAccess(ctx, _arg_packageName, _arg_certificate)
 		_reply := parcel.New()
 		if _err != nil {
@@ -491,9 +490,6 @@ func (s *BlobStoreSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBlobStoreSessionAllowSameSignatureAccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.AllowSameSignatureAccess(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -503,9 +499,6 @@ func (s *BlobStoreSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBlobStoreSessionAllowPublicAccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.AllowPublicAccess(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -515,16 +508,18 @@ func (s *BlobStoreSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBlobStoreSessionIsPackageAccessAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_certificate []byte
-		_ = _arg_certificate
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_certificate = _bytes
+		}
 		_result, _err := s.Impl.IsPackageAccessAllowed(ctx, _arg_packageName, _arg_certificate)
 		_reply := parcel.New()
 		if _err != nil {
@@ -535,9 +530,6 @@ func (s *BlobStoreSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBlobStoreSessionIsSameSignatureAccessAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsSameSignatureAccessAllowed(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -548,9 +540,6 @@ func (s *BlobStoreSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBlobStoreSessionIsPublicAccessAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsPublicAccessAllowed(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -561,9 +550,6 @@ func (s *BlobStoreSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBlobStoreSessionGetSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSize(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -574,9 +560,6 @@ func (s *BlobStoreSessionStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIBlobStoreSessionClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -586,9 +569,6 @@ func (s *BlobStoreSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBlobStoreSessionAbandon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Abandon(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -598,12 +578,14 @@ func (s *BlobStoreSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBlobStoreSessionCommit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IBlobCommitCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewBlobCommitCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.Commit(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

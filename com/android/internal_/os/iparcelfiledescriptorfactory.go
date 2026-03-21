@@ -47,6 +47,7 @@ func (p *ParcelFileDescriptorFactoryProxy) Open(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIParcelFileDescriptorFactory)
 	_data.WriteString16(name)
 	_data.WriteInt32(mode)
@@ -76,7 +77,8 @@ func (p *ParcelFileDescriptorFactoryProxy) Open(
 // ParcelFileDescriptorFactoryStub dispatches incoming binder transactions
 // to a typed IParcelFileDescriptorFactory implementation.
 type ParcelFileDescriptorFactoryStub struct {
-	Impl IParcelFileDescriptorFactory
+	Impl      IParcelFileDescriptorFactory
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ParcelFileDescriptorFactoryStub)(nil)
@@ -90,11 +92,12 @@ func (s *ParcelFileDescriptorFactoryStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIParcelFileDescriptorFactoryOpen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

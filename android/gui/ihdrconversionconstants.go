@@ -40,7 +40,8 @@ var _ IHdrConversionConstants = (*HdrConversionConstantsProxy)(nil)
 // HdrConversionConstantsStub dispatches incoming binder transactions
 // to a typed IHdrConversionConstants implementation.
 type HdrConversionConstantsStub struct {
-	Impl IHdrConversionConstants
+	Impl      IHdrConversionConstants
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HdrConversionConstantsStub)(nil)
@@ -54,6 +55,10 @@ func (s *HdrConversionConstantsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

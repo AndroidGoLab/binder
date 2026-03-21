@@ -31,8 +31,7 @@ func (u *DemuxFilterSectionSettingsCondition) GetSectionBits() (DemuxFilterSecti
 func (u *DemuxFilterSectionSettingsCondition) SetSectionBits(
 	v DemuxFilterSectionBits,
 ) {
-	u.Tag = DemuxFilterSectionSettingsConditionTagSectionBits
-	u.SectionBits = v
+	*u = DemuxFilterSectionSettingsCondition{Tag: DemuxFilterSectionSettingsConditionTagSectionBits, SectionBits: v}
 }
 
 func (u *DemuxFilterSectionSettingsCondition) GetTableInfo() (DemuxFilterSectionSettingsConditionTableInfo, bool) {
@@ -46,8 +45,7 @@ func (u *DemuxFilterSectionSettingsCondition) GetTableInfo() (DemuxFilterSection
 func (u *DemuxFilterSectionSettingsCondition) SetTableInfo(
 	v DemuxFilterSectionSettingsConditionTableInfo,
 ) {
-	u.Tag = DemuxFilterSectionSettingsConditionTagTableInfo
-	u.TableInfo = v
+	*u = DemuxFilterSectionSettingsCondition{Tag: DemuxFilterSectionSettingsConditionTagTableInfo, TableInfo: v}
 }
 
 func (u *DemuxFilterSectionSettingsCondition) MarshalParcel(

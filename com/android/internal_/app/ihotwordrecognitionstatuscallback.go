@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	soundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
-	voice "github.com/xaionaro-go/binder/android/service/voice"
+	types "github.com/xaionaro-go/binder/android/service/voice/types"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
 	"github.com/xaionaro-go/binder/parcel"
@@ -48,13 +48,13 @@ const (
 
 type IHotwordRecognitionStatusCallback interface {
 	AsBinder() binder.IBinder
-	OnKeyphraseDetected(ctx context.Context, recognitionEvent soundtrigger.SoundTriggerKeyphraseRecognitionEvent, result voice.HotwordDetectedResult) error
-	OnKeyphraseDetectedFromExternalSource(ctx context.Context, result voice.HotwordDetectedResult) error
+	OnKeyphraseDetected(ctx context.Context, recognitionEvent soundtrigger.SoundTriggerKeyphraseRecognitionEvent, result types.HotwordDetectedResult) error
+	OnKeyphraseDetectedFromExternalSource(ctx context.Context, result types.HotwordDetectedResult) error
 	OnGenericSoundTriggerDetected(ctx context.Context, recognitionEvent soundtrigger.SoundTriggerGenericRecognitionEvent) error
-	OnRejected(ctx context.Context, result voice.HotwordRejectedResult) error
-	OnHotwordDetectionServiceFailure(ctx context.Context, hotwordDetectionServiceFailure voice.HotwordDetectionServiceFailure) error
-	OnVisualQueryDetectionServiceFailure(ctx context.Context, visualQueryDetectionServiceFailure voice.VisualQueryDetectionServiceFailure) error
-	OnSoundTriggerFailure(ctx context.Context, soundTriggerFailure voice.SoundTriggerFailure) error
+	OnRejected(ctx context.Context, result types.HotwordRejectedResult) error
+	OnHotwordDetectionServiceFailure(ctx context.Context, hotwordDetectionServiceFailure types.HotwordDetectionServiceFailure) error
+	OnVisualQueryDetectionServiceFailure(ctx context.Context, visualQueryDetectionServiceFailure types.VisualQueryDetectionServiceFailure) error
+	OnSoundTriggerFailure(ctx context.Context, soundTriggerFailure types.SoundTriggerFailure) error
 	OnUnknownFailure(ctx context.Context, errorMessage string) error
 	OnRecognitionPaused(ctx context.Context) error
 	OnRecognitionResumed(ctx context.Context) error
@@ -82,18 +82,16 @@ var _ IHotwordRecognitionStatusCallback = (*HotwordRecognitionStatusCallbackProx
 func (p *HotwordRecognitionStatusCallbackProxy) OnKeyphraseDetected(
 	ctx context.Context,
 	recognitionEvent soundtrigger.SoundTriggerKeyphraseRecognitionEvent,
-	result voice.HotwordDetectedResult,
+	result types.HotwordDetectedResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
 	_data.WriteInt32(1)
 	if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param result (type types.HotwordDetectedResult) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnKeyphraseDetected)
 	if _err != nil {
@@ -106,14 +104,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnKeyphraseDetected(
 
 func (p *HotwordRecognitionStatusCallbackProxy) OnKeyphraseDetectedFromExternalSource(
 	ctx context.Context,
-	result voice.HotwordDetectedResult,
+	result types.HotwordDetectedResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param result (type types.HotwordDetectedResult) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnKeyphraseDetectedFromExternalSource)
 	if _err != nil {
@@ -129,6 +125,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnGenericSoundTriggerDetected(
 	recognitionEvent soundtrigger.SoundTriggerGenericRecognitionEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
 	_data.WriteInt32(1)
 	if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
@@ -146,14 +143,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnGenericSoundTriggerDetected(
 
 func (p *HotwordRecognitionStatusCallbackProxy) OnRejected(
 	ctx context.Context,
-	result voice.HotwordRejectedResult,
+	result types.HotwordRejectedResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param result (type types.HotwordRejectedResult) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnRejected)
 	if _err != nil {
@@ -166,14 +161,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnRejected(
 
 func (p *HotwordRecognitionStatusCallbackProxy) OnHotwordDetectionServiceFailure(
 	ctx context.Context,
-	hotwordDetectionServiceFailure voice.HotwordDetectionServiceFailure,
+	hotwordDetectionServiceFailure types.HotwordDetectionServiceFailure,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	_data.WriteInt32(1)
-	if _err := hotwordDetectionServiceFailure.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param hotwordDetectionServiceFailure (type types.HotwordDetectionServiceFailure) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnHotwordDetectionServiceFailure)
 	if _err != nil {
@@ -186,14 +179,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnHotwordDetectionServiceFailure
 
 func (p *HotwordRecognitionStatusCallbackProxy) OnVisualQueryDetectionServiceFailure(
 	ctx context.Context,
-	visualQueryDetectionServiceFailure voice.VisualQueryDetectionServiceFailure,
+	visualQueryDetectionServiceFailure types.VisualQueryDetectionServiceFailure,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	_data.WriteInt32(1)
-	if _err := visualQueryDetectionServiceFailure.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param visualQueryDetectionServiceFailure (type types.VisualQueryDetectionServiceFailure) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnVisualQueryDetectionServiceFailure)
 	if _err != nil {
@@ -206,14 +197,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnVisualQueryDetectionServiceFai
 
 func (p *HotwordRecognitionStatusCallbackProxy) OnSoundTriggerFailure(
 	ctx context.Context,
-	soundTriggerFailure voice.SoundTriggerFailure,
+	soundTriggerFailure types.SoundTriggerFailure,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
-	_data.WriteInt32(1)
-	if _err := soundTriggerFailure.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param soundTriggerFailure (type types.SoundTriggerFailure) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnSoundTriggerFailure)
 	if _err != nil {
@@ -229,6 +218,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnUnknownFailure(
 	errorMessage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
 	_data.WriteString16(errorMessage)
 
@@ -245,6 +235,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnRecognitionPaused(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnRecognitionPaused)
@@ -260,6 +251,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnRecognitionResumed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnRecognitionResumed)
@@ -276,6 +268,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnStatusReported(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
 	_data.WriteInt32(status)
 
@@ -292,6 +285,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnProcessRestarted(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnProcessRestarted)
@@ -309,6 +303,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnOpenFile(
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
 	_data.WriteString16(filename)
 	_data.WriteInt32(1)
@@ -328,7 +323,8 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnOpenFile(
 // HotwordRecognitionStatusCallbackStub dispatches incoming binder transactions
 // to a typed IHotwordRecognitionStatusCallback implementation.
 type HotwordRecognitionStatusCallbackStub struct {
-	Impl IHotwordRecognitionStatusCallback
+	Impl      IHotwordRecognitionStatusCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HotwordRecognitionStatusCallbackStub)(nil)
@@ -342,11 +338,12 @@ func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHotwordRecognitionStatusCallbackOnKeyphraseDetected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_recognitionEvent soundtrigger.SoundTriggerKeyphraseRecognitionEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -359,44 +356,14 @@ func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_result voice.HotwordDetectedResult
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_result types.HotwordDetectedResult
 		_err := s.Impl.OnKeyphraseDetected(ctx, _arg_recognitionEvent, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnKeyphraseDetectedFromExternalSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_result voice.HotwordDetectedResult
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_result types.HotwordDetectedResult
 		_err := s.Impl.OnKeyphraseDetectedFromExternalSource(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnGenericSoundTriggerDetected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_recognitionEvent soundtrigger.SoundTriggerGenericRecognitionEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -410,131 +377,47 @@ func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnGenericSoundTriggerDetected(ctx, _arg_recognitionEvent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnRejected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_result voice.HotwordRejectedResult
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_result types.HotwordRejectedResult
 		_err := s.Impl.OnRejected(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnHotwordDetectionServiceFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_hotwordDetectionServiceFailure voice.HotwordDetectionServiceFailure
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_hotwordDetectionServiceFailure.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_hotwordDetectionServiceFailure types.HotwordDetectionServiceFailure
 		_err := s.Impl.OnHotwordDetectionServiceFailure(ctx, _arg_hotwordDetectionServiceFailure)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnVisualQueryDetectionServiceFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_visualQueryDetectionServiceFailure voice.VisualQueryDetectionServiceFailure
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_visualQueryDetectionServiceFailure.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_visualQueryDetectionServiceFailure types.VisualQueryDetectionServiceFailure
 		_err := s.Impl.OnVisualQueryDetectionServiceFailure(ctx, _arg_visualQueryDetectionServiceFailure)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnSoundTriggerFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_soundTriggerFailure voice.SoundTriggerFailure
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_soundTriggerFailure.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_soundTriggerFailure types.SoundTriggerFailure
 		_err := s.Impl.OnSoundTriggerFailure(ctx, _arg_soundTriggerFailure)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnUnknownFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorMessage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnUnknownFailure(ctx, _arg_errorMessage)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnRecognitionPaused:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnRecognitionPaused(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnRecognitionResumed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnRecognitionResumed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnStatusReported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnStatusReported(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnProcessRestarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnProcessRestarted(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHotwordRecognitionStatusCallbackOnOpenFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_filename, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -552,8 +435,7 @@ func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnOpenFile(ctx, _arg_filename, _arg_future)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -563,13 +445,13 @@ func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 // provide to NewHotwordRecognitionStatusCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IHotwordRecognitionStatusCallbackServer interface {
-	OnKeyphraseDetected(ctx context.Context, recognitionEvent soundtrigger.SoundTriggerKeyphraseRecognitionEvent, result voice.HotwordDetectedResult) error
-	OnKeyphraseDetectedFromExternalSource(ctx context.Context, result voice.HotwordDetectedResult) error
+	OnKeyphraseDetected(ctx context.Context, recognitionEvent soundtrigger.SoundTriggerKeyphraseRecognitionEvent, result types.HotwordDetectedResult) error
+	OnKeyphraseDetectedFromExternalSource(ctx context.Context, result types.HotwordDetectedResult) error
 	OnGenericSoundTriggerDetected(ctx context.Context, recognitionEvent soundtrigger.SoundTriggerGenericRecognitionEvent) error
-	OnRejected(ctx context.Context, result voice.HotwordRejectedResult) error
-	OnHotwordDetectionServiceFailure(ctx context.Context, hotwordDetectionServiceFailure voice.HotwordDetectionServiceFailure) error
-	OnVisualQueryDetectionServiceFailure(ctx context.Context, visualQueryDetectionServiceFailure voice.VisualQueryDetectionServiceFailure) error
-	OnSoundTriggerFailure(ctx context.Context, soundTriggerFailure voice.SoundTriggerFailure) error
+	OnRejected(ctx context.Context, result types.HotwordRejectedResult) error
+	OnHotwordDetectionServiceFailure(ctx context.Context, hotwordDetectionServiceFailure types.HotwordDetectionServiceFailure) error
+	OnVisualQueryDetectionServiceFailure(ctx context.Context, visualQueryDetectionServiceFailure types.VisualQueryDetectionServiceFailure) error
+	OnSoundTriggerFailure(ctx context.Context, soundTriggerFailure types.SoundTriggerFailure) error
 	OnUnknownFailure(ctx context.Context, errorMessage string) error
 	OnRecognitionPaused(ctx context.Context) error
 	OnRecognitionResumed(ctx context.Context) error
@@ -590,14 +472,14 @@ func (w *hotwordRecognitionStatusCallbackStubWrapper) AsBinder() binder.IBinder 
 func (w *hotwordRecognitionStatusCallbackStubWrapper) OnKeyphraseDetected(
 	ctx context.Context,
 	recognitionEvent soundtrigger.SoundTriggerKeyphraseRecognitionEvent,
-	result voice.HotwordDetectedResult,
+	result types.HotwordDetectedResult,
 ) error {
 	return w.impl.OnKeyphraseDetected(ctx, recognitionEvent, result)
 }
 
 func (w *hotwordRecognitionStatusCallbackStubWrapper) OnKeyphraseDetectedFromExternalSource(
 	ctx context.Context,
-	result voice.HotwordDetectedResult,
+	result types.HotwordDetectedResult,
 ) error {
 	return w.impl.OnKeyphraseDetectedFromExternalSource(ctx, result)
 }
@@ -611,28 +493,28 @@ func (w *hotwordRecognitionStatusCallbackStubWrapper) OnGenericSoundTriggerDetec
 
 func (w *hotwordRecognitionStatusCallbackStubWrapper) OnRejected(
 	ctx context.Context,
-	result voice.HotwordRejectedResult,
+	result types.HotwordRejectedResult,
 ) error {
 	return w.impl.OnRejected(ctx, result)
 }
 
 func (w *hotwordRecognitionStatusCallbackStubWrapper) OnHotwordDetectionServiceFailure(
 	ctx context.Context,
-	hotwordDetectionServiceFailure voice.HotwordDetectionServiceFailure,
+	hotwordDetectionServiceFailure types.HotwordDetectionServiceFailure,
 ) error {
 	return w.impl.OnHotwordDetectionServiceFailure(ctx, hotwordDetectionServiceFailure)
 }
 
 func (w *hotwordRecognitionStatusCallbackStubWrapper) OnVisualQueryDetectionServiceFailure(
 	ctx context.Context,
-	visualQueryDetectionServiceFailure voice.VisualQueryDetectionServiceFailure,
+	visualQueryDetectionServiceFailure types.VisualQueryDetectionServiceFailure,
 ) error {
 	return w.impl.OnVisualQueryDetectionServiceFailure(ctx, visualQueryDetectionServiceFailure)
 }
 
 func (w *hotwordRecognitionStatusCallbackStubWrapper) OnSoundTriggerFailure(
 	ctx context.Context,
-	soundTriggerFailure voice.SoundTriggerFailure,
+	soundTriggerFailure types.SoundTriggerFailure,
 ) error {
 	return w.impl.OnSoundTriggerFailure(ctx, soundTriggerFailure)
 }

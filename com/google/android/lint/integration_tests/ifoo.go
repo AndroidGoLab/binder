@@ -44,6 +44,7 @@ func (p *FooProxy) Method(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFoo)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFoo, MethodIFooMethod)
@@ -67,7 +68,8 @@ func (p *FooProxy) Method(
 // FooStub dispatches incoming binder transactions
 // to a typed IFoo implementation.
 type FooStub struct {
-	Impl IFoo
+	Impl      IFoo
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FooStub)(nil)
@@ -81,11 +83,12 @@ func (s *FooStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFooMethod:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Method(ctx)
 		_reply := parcel.New()
 		if _err != nil {

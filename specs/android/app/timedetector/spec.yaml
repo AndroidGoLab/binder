@@ -1,0 +1,91 @@
+package: android.app.timedetector
+go_package: android/app/timedetector
+interfaces:
+    - name: ITimeDetectorService
+      descriptor: android.app.timedetector.ITimeDetectorService
+      methods:
+        - name: getCapabilitiesAndConfig
+          transaction_code_offset: 0
+          return_type:
+            name: TimeCapabilitiesAndConfig
+        - name: addListener
+          transaction_code_offset: 1
+          params:
+            - name: listener
+              type:
+                name: ITimeDetectorListener
+          return_type:
+            name: void
+        - name: removeListener
+          transaction_code_offset: 2
+          params:
+            - name: listener
+              type:
+                name: ITimeDetectorListener
+          return_type:
+            name: void
+        - name: updateConfiguration
+          transaction_code_offset: 3
+          params:
+            - name: timeConfiguration
+              type:
+                name: TimeConfiguration
+              direction: in
+          return_type:
+            name: boolean
+        - name: getTimeState
+          transaction_code_offset: 4
+          return_type:
+            name: TimeState
+        - name: confirmTime
+          transaction_code_offset: 5
+          params:
+            - name: time
+              type:
+                name: UnixEpochTime
+              direction: in
+          return_type:
+            name: boolean
+        - name: setManualTime
+          transaction_code_offset: 6
+          params:
+            - name: timeZoneSuggestion
+              type:
+                name: ManualTimeSuggestion
+              direction: in
+          return_type:
+            name: boolean
+        - name: suggestExternalTime
+          transaction_code_offset: 7
+          params:
+            - name: timeSuggestion
+              type:
+                name: ExternalTimeSuggestion
+              direction: in
+          return_type:
+            name: void
+        - name: suggestManualTime
+          transaction_code_offset: 8
+          params:
+            - name: timeSuggestion
+              type:
+                name: ManualTimeSuggestion
+              direction: in
+          return_type:
+            name: boolean
+        - name: suggestTelephonyTime
+          transaction_code_offset: 9
+          params:
+            - name: timeSuggestion
+              type:
+                name: TelephonyTimeSuggestion
+              direction: in
+          return_type:
+            name: void
+        - name: latestNetworkTime
+          transaction_code_offset: 10
+          return_type:
+            name: UnixEpochTime
+parcelables:
+    - name: ManualTimeSuggestion
+    - name: TelephonyTimeSuggestion

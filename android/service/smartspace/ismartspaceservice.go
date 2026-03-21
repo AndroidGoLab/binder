@@ -62,6 +62,7 @@ func (p *SmartspaceServiceProxy) OnCreateSmartspaceSession(
 	sessionId appSmartspace.SmartspaceSessionId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISmartspaceService)
 	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
@@ -87,6 +88,7 @@ func (p *SmartspaceServiceProxy) NotifySmartspaceEvent(
 	event appSmartspace.SmartspaceTargetEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISmartspaceService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -111,6 +113,7 @@ func (p *SmartspaceServiceProxy) RequestSmartspaceUpdate(
 	sessionId appSmartspace.SmartspaceSessionId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISmartspaceService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -132,6 +135,7 @@ func (p *SmartspaceServiceProxy) RegisterSmartspaceUpdates(
 	callback appSmartspace.ISmartspaceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISmartspaceService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -154,6 +158,7 @@ func (p *SmartspaceServiceProxy) UnregisterSmartspaceUpdates(
 	callback appSmartspace.ISmartspaceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISmartspaceService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -175,6 +180,7 @@ func (p *SmartspaceServiceProxy) OnDestroySmartspaceSession(
 	sessionId appSmartspace.SmartspaceSessionId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISmartspaceService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -193,7 +199,8 @@ func (p *SmartspaceServiceProxy) OnDestroySmartspaceSession(
 // SmartspaceServiceStub dispatches incoming binder transactions
 // to a typed ISmartspaceService implementation.
 type SmartspaceServiceStub struct {
-	Impl ISmartspaceService
+	Impl      ISmartspaceService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SmartspaceServiceStub)(nil)
@@ -207,11 +214,12 @@ func (s *SmartspaceServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISmartspaceServiceOnCreateSmartspaceSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_context_ appSmartspace.SmartspaceConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -237,12 +245,8 @@ func (s *SmartspaceServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnCreateSmartspaceSession(ctx, _arg_context_, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISmartspaceServiceNotifySmartspaceEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId appSmartspace.SmartspaceSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -268,12 +272,8 @@ func (s *SmartspaceServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NotifySmartspaceEvent(ctx, _arg_sessionId, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISmartspaceServiceRequestSmartspaceUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId appSmartspace.SmartspaceSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -287,12 +287,8 @@ func (s *SmartspaceServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RequestSmartspaceUpdate(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISmartspaceServiceRegisterSmartspaceUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId appSmartspace.SmartspaceSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -305,16 +301,17 @@ func (s *SmartspaceServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback appSmartspace.ISmartspaceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = appSmartspace.NewSmartspaceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterSmartspaceUpdates(ctx, _arg_sessionId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISmartspaceServiceUnregisterSmartspaceUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId appSmartspace.SmartspaceSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -327,16 +324,17 @@ func (s *SmartspaceServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback appSmartspace.ISmartspaceCallback
-		_ = _arg_callback
-		_err := s.Impl.UnregisterSmartspaceUpdates(ctx, _arg_sessionId, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionISmartspaceServiceOnDestroySmartspaceSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = appSmartspace.NewSmartspaceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.UnregisterSmartspaceUpdates(ctx, _arg_sessionId, _arg_callback)
+		return nil, _err
+	case TransactionISmartspaceServiceOnDestroySmartspaceSession:
 		var _arg_sessionId appSmartspace.SmartspaceSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -350,8 +348,7 @@ func (s *SmartspaceServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDestroySmartspaceSession(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -2,7 +2,6 @@ package effect
 
 import (
 	"fmt"
-	effectRange "github.com/xaionaro-go/binder/android/hardware/audio/effect/Range"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -30,280 +29,263 @@ const (
 
 type Range struct {
 	Tag                    int32
-	VendorExtension        []effectRange.VendorExtensionRange
-	AcousticEchoCanceler   []effectRange.AcousticEchoCancelerRange
-	AutomaticGainControlV1 []effectRange.AutomaticGainControlV1Range
-	AutomaticGainControlV2 []effectRange.AutomaticGainControlV2Range
-	BassBoost              []effectRange.BassBoostRange
-	Downmix                []effectRange.DownmixRange
-	DynamicsProcessing     []effectRange.DynamicsProcessingRange
-	EnvironmentalReverb    []effectRange.EnvironmentalReverbRange
-	Equalizer              []effectRange.EqualizerRange
-	HapticGenerator        []effectRange.HapticGeneratorRange
-	LoudnessEnhancer       []effectRange.LoudnessEnhancerRange
-	NoiseSuppression       []effectRange.NoiseSuppressionRange
-	PresetReverb           []effectRange.PresetReverbRange
-	Virtualizer            []effectRange.VirtualizerRange
-	Visualizer             []effectRange.VisualizerRange
-	Volume                 []effectRange.VolumeRange
-	Spatializer            []effectRange.SpatializerRange
+	VendorExtension        []RangeVendorExtensionRange
+	AcousticEchoCanceler   []RangeAcousticEchoCancelerRange
+	AutomaticGainControlV1 []RangeAutomaticGainControlV1Range
+	AutomaticGainControlV2 []RangeAutomaticGainControlV2Range
+	BassBoost              []RangeBassBoostRange
+	Downmix                []RangeDownmixRange
+	DynamicsProcessing     []RangeDynamicsProcessingRange
+	EnvironmentalReverb    []RangeEnvironmentalReverbRange
+	Equalizer              []RangeEqualizerRange
+	HapticGenerator        []RangeHapticGeneratorRange
+	LoudnessEnhancer       []RangeLoudnessEnhancerRange
+	NoiseSuppression       []RangeNoiseSuppressionRange
+	PresetReverb           []RangePresetReverbRange
+	Virtualizer            []RangeVirtualizerRange
+	Visualizer             []RangeVisualizerRange
+	Volume                 []RangeVolumeRange
+	Spatializer            []RangeSpatializerRange
 }
 
 var _ parcel.Parcelable = (*Range)(nil)
 
-func (u *Range) GetVendorExtension() ([]effectRange.VendorExtensionRange, bool) {
+func (u *Range) GetVendorExtension() ([]RangeVendorExtensionRange, bool) {
 	if u.Tag != RangeTagVendorExtension {
-		var _zero []effectRange.VendorExtensionRange
+		var _zero []RangeVendorExtensionRange
 		return _zero, false
 	}
 	return u.VendorExtension, true
 }
 
 func (u *Range) SetVendorExtension(
-	v []effectRange.VendorExtensionRange,
+	v []RangeVendorExtensionRange,
 ) {
-	u.Tag = RangeTagVendorExtension
-	u.VendorExtension = v
+	*u = Range{Tag: RangeTagVendorExtension, VendorExtension: v}
 }
 
-func (u *Range) GetAcousticEchoCanceler() ([]effectRange.AcousticEchoCancelerRange, bool) {
+func (u *Range) GetAcousticEchoCanceler() ([]RangeAcousticEchoCancelerRange, bool) {
 	if u.Tag != RangeTagAcousticEchoCanceler {
-		var _zero []effectRange.AcousticEchoCancelerRange
+		var _zero []RangeAcousticEchoCancelerRange
 		return _zero, false
 	}
 	return u.AcousticEchoCanceler, true
 }
 
 func (u *Range) SetAcousticEchoCanceler(
-	v []effectRange.AcousticEchoCancelerRange,
+	v []RangeAcousticEchoCancelerRange,
 ) {
-	u.Tag = RangeTagAcousticEchoCanceler
-	u.AcousticEchoCanceler = v
+	*u = Range{Tag: RangeTagAcousticEchoCanceler, AcousticEchoCanceler: v}
 }
 
-func (u *Range) GetAutomaticGainControlV1() ([]effectRange.AutomaticGainControlV1Range, bool) {
+func (u *Range) GetAutomaticGainControlV1() ([]RangeAutomaticGainControlV1Range, bool) {
 	if u.Tag != RangeTagAutomaticGainControlV1 {
-		var _zero []effectRange.AutomaticGainControlV1Range
+		var _zero []RangeAutomaticGainControlV1Range
 		return _zero, false
 	}
 	return u.AutomaticGainControlV1, true
 }
 
 func (u *Range) SetAutomaticGainControlV1(
-	v []effectRange.AutomaticGainControlV1Range,
+	v []RangeAutomaticGainControlV1Range,
 ) {
-	u.Tag = RangeTagAutomaticGainControlV1
-	u.AutomaticGainControlV1 = v
+	*u = Range{Tag: RangeTagAutomaticGainControlV1, AutomaticGainControlV1: v}
 }
 
-func (u *Range) GetAutomaticGainControlV2() ([]effectRange.AutomaticGainControlV2Range, bool) {
+func (u *Range) GetAutomaticGainControlV2() ([]RangeAutomaticGainControlV2Range, bool) {
 	if u.Tag != RangeTagAutomaticGainControlV2 {
-		var _zero []effectRange.AutomaticGainControlV2Range
+		var _zero []RangeAutomaticGainControlV2Range
 		return _zero, false
 	}
 	return u.AutomaticGainControlV2, true
 }
 
 func (u *Range) SetAutomaticGainControlV2(
-	v []effectRange.AutomaticGainControlV2Range,
+	v []RangeAutomaticGainControlV2Range,
 ) {
-	u.Tag = RangeTagAutomaticGainControlV2
-	u.AutomaticGainControlV2 = v
+	*u = Range{Tag: RangeTagAutomaticGainControlV2, AutomaticGainControlV2: v}
 }
 
-func (u *Range) GetBassBoost() ([]effectRange.BassBoostRange, bool) {
+func (u *Range) GetBassBoost() ([]RangeBassBoostRange, bool) {
 	if u.Tag != RangeTagBassBoost {
-		var _zero []effectRange.BassBoostRange
+		var _zero []RangeBassBoostRange
 		return _zero, false
 	}
 	return u.BassBoost, true
 }
 
 func (u *Range) SetBassBoost(
-	v []effectRange.BassBoostRange,
+	v []RangeBassBoostRange,
 ) {
-	u.Tag = RangeTagBassBoost
-	u.BassBoost = v
+	*u = Range{Tag: RangeTagBassBoost, BassBoost: v}
 }
 
-func (u *Range) GetDownmix() ([]effectRange.DownmixRange, bool) {
+func (u *Range) GetDownmix() ([]RangeDownmixRange, bool) {
 	if u.Tag != RangeTagDownmix {
-		var _zero []effectRange.DownmixRange
+		var _zero []RangeDownmixRange
 		return _zero, false
 	}
 	return u.Downmix, true
 }
 
 func (u *Range) SetDownmix(
-	v []effectRange.DownmixRange,
+	v []RangeDownmixRange,
 ) {
-	u.Tag = RangeTagDownmix
-	u.Downmix = v
+	*u = Range{Tag: RangeTagDownmix, Downmix: v}
 }
 
-func (u *Range) GetDynamicsProcessing() ([]effectRange.DynamicsProcessingRange, bool) {
+func (u *Range) GetDynamicsProcessing() ([]RangeDynamicsProcessingRange, bool) {
 	if u.Tag != RangeTagDynamicsProcessing {
-		var _zero []effectRange.DynamicsProcessingRange
+		var _zero []RangeDynamicsProcessingRange
 		return _zero, false
 	}
 	return u.DynamicsProcessing, true
 }
 
 func (u *Range) SetDynamicsProcessing(
-	v []effectRange.DynamicsProcessingRange,
+	v []RangeDynamicsProcessingRange,
 ) {
-	u.Tag = RangeTagDynamicsProcessing
-	u.DynamicsProcessing = v
+	*u = Range{Tag: RangeTagDynamicsProcessing, DynamicsProcessing: v}
 }
 
-func (u *Range) GetEnvironmentalReverb() ([]effectRange.EnvironmentalReverbRange, bool) {
+func (u *Range) GetEnvironmentalReverb() ([]RangeEnvironmentalReverbRange, bool) {
 	if u.Tag != RangeTagEnvironmentalReverb {
-		var _zero []effectRange.EnvironmentalReverbRange
+		var _zero []RangeEnvironmentalReverbRange
 		return _zero, false
 	}
 	return u.EnvironmentalReverb, true
 }
 
 func (u *Range) SetEnvironmentalReverb(
-	v []effectRange.EnvironmentalReverbRange,
+	v []RangeEnvironmentalReverbRange,
 ) {
-	u.Tag = RangeTagEnvironmentalReverb
-	u.EnvironmentalReverb = v
+	*u = Range{Tag: RangeTagEnvironmentalReverb, EnvironmentalReverb: v}
 }
 
-func (u *Range) GetEqualizer() ([]effectRange.EqualizerRange, bool) {
+func (u *Range) GetEqualizer() ([]RangeEqualizerRange, bool) {
 	if u.Tag != RangeTagEqualizer {
-		var _zero []effectRange.EqualizerRange
+		var _zero []RangeEqualizerRange
 		return _zero, false
 	}
 	return u.Equalizer, true
 }
 
 func (u *Range) SetEqualizer(
-	v []effectRange.EqualizerRange,
+	v []RangeEqualizerRange,
 ) {
-	u.Tag = RangeTagEqualizer
-	u.Equalizer = v
+	*u = Range{Tag: RangeTagEqualizer, Equalizer: v}
 }
 
-func (u *Range) GetHapticGenerator() ([]effectRange.HapticGeneratorRange, bool) {
+func (u *Range) GetHapticGenerator() ([]RangeHapticGeneratorRange, bool) {
 	if u.Tag != RangeTagHapticGenerator {
-		var _zero []effectRange.HapticGeneratorRange
+		var _zero []RangeHapticGeneratorRange
 		return _zero, false
 	}
 	return u.HapticGenerator, true
 }
 
 func (u *Range) SetHapticGenerator(
-	v []effectRange.HapticGeneratorRange,
+	v []RangeHapticGeneratorRange,
 ) {
-	u.Tag = RangeTagHapticGenerator
-	u.HapticGenerator = v
+	*u = Range{Tag: RangeTagHapticGenerator, HapticGenerator: v}
 }
 
-func (u *Range) GetLoudnessEnhancer() ([]effectRange.LoudnessEnhancerRange, bool) {
+func (u *Range) GetLoudnessEnhancer() ([]RangeLoudnessEnhancerRange, bool) {
 	if u.Tag != RangeTagLoudnessEnhancer {
-		var _zero []effectRange.LoudnessEnhancerRange
+		var _zero []RangeLoudnessEnhancerRange
 		return _zero, false
 	}
 	return u.LoudnessEnhancer, true
 }
 
 func (u *Range) SetLoudnessEnhancer(
-	v []effectRange.LoudnessEnhancerRange,
+	v []RangeLoudnessEnhancerRange,
 ) {
-	u.Tag = RangeTagLoudnessEnhancer
-	u.LoudnessEnhancer = v
+	*u = Range{Tag: RangeTagLoudnessEnhancer, LoudnessEnhancer: v}
 }
 
-func (u *Range) GetNoiseSuppression() ([]effectRange.NoiseSuppressionRange, bool) {
+func (u *Range) GetNoiseSuppression() ([]RangeNoiseSuppressionRange, bool) {
 	if u.Tag != RangeTagNoiseSuppression {
-		var _zero []effectRange.NoiseSuppressionRange
+		var _zero []RangeNoiseSuppressionRange
 		return _zero, false
 	}
 	return u.NoiseSuppression, true
 }
 
 func (u *Range) SetNoiseSuppression(
-	v []effectRange.NoiseSuppressionRange,
+	v []RangeNoiseSuppressionRange,
 ) {
-	u.Tag = RangeTagNoiseSuppression
-	u.NoiseSuppression = v
+	*u = Range{Tag: RangeTagNoiseSuppression, NoiseSuppression: v}
 }
 
-func (u *Range) GetPresetReverb() ([]effectRange.PresetReverbRange, bool) {
+func (u *Range) GetPresetReverb() ([]RangePresetReverbRange, bool) {
 	if u.Tag != RangeTagPresetReverb {
-		var _zero []effectRange.PresetReverbRange
+		var _zero []RangePresetReverbRange
 		return _zero, false
 	}
 	return u.PresetReverb, true
 }
 
 func (u *Range) SetPresetReverb(
-	v []effectRange.PresetReverbRange,
+	v []RangePresetReverbRange,
 ) {
-	u.Tag = RangeTagPresetReverb
-	u.PresetReverb = v
+	*u = Range{Tag: RangeTagPresetReverb, PresetReverb: v}
 }
 
-func (u *Range) GetVirtualizer() ([]effectRange.VirtualizerRange, bool) {
+func (u *Range) GetVirtualizer() ([]RangeVirtualizerRange, bool) {
 	if u.Tag != RangeTagVirtualizer {
-		var _zero []effectRange.VirtualizerRange
+		var _zero []RangeVirtualizerRange
 		return _zero, false
 	}
 	return u.Virtualizer, true
 }
 
 func (u *Range) SetVirtualizer(
-	v []effectRange.VirtualizerRange,
+	v []RangeVirtualizerRange,
 ) {
-	u.Tag = RangeTagVirtualizer
-	u.Virtualizer = v
+	*u = Range{Tag: RangeTagVirtualizer, Virtualizer: v}
 }
 
-func (u *Range) GetVisualizer() ([]effectRange.VisualizerRange, bool) {
+func (u *Range) GetVisualizer() ([]RangeVisualizerRange, bool) {
 	if u.Tag != RangeTagVisualizer {
-		var _zero []effectRange.VisualizerRange
+		var _zero []RangeVisualizerRange
 		return _zero, false
 	}
 	return u.Visualizer, true
 }
 
 func (u *Range) SetVisualizer(
-	v []effectRange.VisualizerRange,
+	v []RangeVisualizerRange,
 ) {
-	u.Tag = RangeTagVisualizer
-	u.Visualizer = v
+	*u = Range{Tag: RangeTagVisualizer, Visualizer: v}
 }
 
-func (u *Range) GetVolume() ([]effectRange.VolumeRange, bool) {
+func (u *Range) GetVolume() ([]RangeVolumeRange, bool) {
 	if u.Tag != RangeTagVolume {
-		var _zero []effectRange.VolumeRange
+		var _zero []RangeVolumeRange
 		return _zero, false
 	}
 	return u.Volume, true
 }
 
 func (u *Range) SetVolume(
-	v []effectRange.VolumeRange,
+	v []RangeVolumeRange,
 ) {
-	u.Tag = RangeTagVolume
-	u.Volume = v
+	*u = Range{Tag: RangeTagVolume, Volume: v}
 }
 
-func (u *Range) GetSpatializer() ([]effectRange.SpatializerRange, bool) {
+func (u *Range) GetSpatializer() ([]RangeSpatializerRange, bool) {
 	if u.Tag != RangeTagSpatializer {
-		var _zero []effectRange.SpatializerRange
+		var _zero []RangeSpatializerRange
 		return _zero, false
 	}
 	return u.Spatializer, true
 }
 
 func (u *Range) SetSpatializer(
-	v []effectRange.SpatializerRange,
+	v []RangeSpatializerRange,
 ) {
-	u.Tag = RangeTagSpatializer
-	u.Spatializer = v
+	*u = Range{Tag: RangeTagSpatializer, Spatializer: v}
 }
 
 func (u *Range) MarshalParcel(
@@ -547,7 +529,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count0 >= 0 {
-			u.VendorExtension = make([]effectRange.VendorExtensionRange, _count0)
+			u.VendorExtension = make([]RangeVendorExtensionRange, _count0)
 			for _i := int32(0); _i < _count0; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err
@@ -565,7 +547,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count1 >= 0 {
-			u.AcousticEchoCanceler = make([]effectRange.AcousticEchoCancelerRange, _count1)
+			u.AcousticEchoCanceler = make([]RangeAcousticEchoCancelerRange, _count1)
 			for _i := int32(0); _i < _count1; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err
@@ -583,7 +565,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count2 >= 0 {
-			u.AutomaticGainControlV1 = make([]effectRange.AutomaticGainControlV1Range, _count2)
+			u.AutomaticGainControlV1 = make([]RangeAutomaticGainControlV1Range, _count2)
 			for _i := int32(0); _i < _count2; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err
@@ -601,7 +583,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count3 >= 0 {
-			u.AutomaticGainControlV2 = make([]effectRange.AutomaticGainControlV2Range, _count3)
+			u.AutomaticGainControlV2 = make([]RangeAutomaticGainControlV2Range, _count3)
 			for _i := int32(0); _i < _count3; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err
@@ -619,7 +601,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count4 >= 0 {
-			u.BassBoost = make([]effectRange.BassBoostRange, _count4)
+			u.BassBoost = make([]RangeBassBoostRange, _count4)
 			for _i := int32(0); _i < _count4; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err
@@ -637,7 +619,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count5 >= 0 {
-			u.Downmix = make([]effectRange.DownmixRange, _count5)
+			u.Downmix = make([]RangeDownmixRange, _count5)
 			for _i := int32(0); _i < _count5; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err
@@ -655,7 +637,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count6 >= 0 {
-			u.DynamicsProcessing = make([]effectRange.DynamicsProcessingRange, _count6)
+			u.DynamicsProcessing = make([]RangeDynamicsProcessingRange, _count6)
 			for _i := int32(0); _i < _count6; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err
@@ -673,7 +655,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count7 >= 0 {
-			u.EnvironmentalReverb = make([]effectRange.EnvironmentalReverbRange, _count7)
+			u.EnvironmentalReverb = make([]RangeEnvironmentalReverbRange, _count7)
 			for _i := int32(0); _i < _count7; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err
@@ -691,7 +673,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count8 >= 0 {
-			u.Equalizer = make([]effectRange.EqualizerRange, _count8)
+			u.Equalizer = make([]RangeEqualizerRange, _count8)
 			for _i := int32(0); _i < _count8; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err
@@ -709,7 +691,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count9 >= 0 {
-			u.HapticGenerator = make([]effectRange.HapticGeneratorRange, _count9)
+			u.HapticGenerator = make([]RangeHapticGeneratorRange, _count9)
 			for _i := int32(0); _i < _count9; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err
@@ -727,7 +709,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count10 >= 0 {
-			u.LoudnessEnhancer = make([]effectRange.LoudnessEnhancerRange, _count10)
+			u.LoudnessEnhancer = make([]RangeLoudnessEnhancerRange, _count10)
 			for _i := int32(0); _i < _count10; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err
@@ -745,7 +727,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count11 >= 0 {
-			u.NoiseSuppression = make([]effectRange.NoiseSuppressionRange, _count11)
+			u.NoiseSuppression = make([]RangeNoiseSuppressionRange, _count11)
 			for _i := int32(0); _i < _count11; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err
@@ -763,7 +745,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count12 >= 0 {
-			u.PresetReverb = make([]effectRange.PresetReverbRange, _count12)
+			u.PresetReverb = make([]RangePresetReverbRange, _count12)
 			for _i := int32(0); _i < _count12; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err
@@ -781,7 +763,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count13 >= 0 {
-			u.Virtualizer = make([]effectRange.VirtualizerRange, _count13)
+			u.Virtualizer = make([]RangeVirtualizerRange, _count13)
 			for _i := int32(0); _i < _count13; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err
@@ -799,7 +781,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count14 >= 0 {
-			u.Visualizer = make([]effectRange.VisualizerRange, _count14)
+			u.Visualizer = make([]RangeVisualizerRange, _count14)
 			for _i := int32(0); _i < _count14; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err
@@ -817,7 +799,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count15 >= 0 {
-			u.Volume = make([]effectRange.VolumeRange, _count15)
+			u.Volume = make([]RangeVolumeRange, _count15)
 			for _i := int32(0); _i < _count15; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err
@@ -835,7 +817,7 @@ func (u *Range) UnmarshalParcel(
 			return _err
 		}
 		if _count16 >= 0 {
-			u.Spatializer = make([]effectRange.SpatializerRange, _count16)
+			u.Spatializer = make([]RangeSpatializerRange, _count16)
 			for _i := int32(0); _i < _count16; _i++ {
 				if _, _err = p.ReadInt32(); _err != nil {
 					return _err

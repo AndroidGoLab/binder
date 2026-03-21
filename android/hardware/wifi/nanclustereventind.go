@@ -32,11 +32,21 @@ func (s *NanClusterEventInd) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_eventTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.EventType = NanClusterEventType(_eventTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.Addr, _err = p.ReadFixedByteArray(6)
 	if _err != nil {

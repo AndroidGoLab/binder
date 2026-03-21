@@ -45,6 +45,7 @@ func (p *OtaStatusChangedCallbackProxy) OnOtaStatusChanged(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOtaStatusChangedCallback)
 	_data.WriteInt32(status)
 
@@ -60,7 +61,8 @@ func (p *OtaStatusChangedCallbackProxy) OnOtaStatusChanged(
 // OtaStatusChangedCallbackStub dispatches incoming binder transactions
 // to a typed IOtaStatusChangedCallback implementation.
 type OtaStatusChangedCallbackStub struct {
-	Impl IOtaStatusChangedCallback
+	Impl      IOtaStatusChangedCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OtaStatusChangedCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *OtaStatusChangedCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOtaStatusChangedCallbackOnOtaStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnOtaStatusChanged(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

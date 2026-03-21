@@ -48,6 +48,7 @@ func (p *GetAvailableMemoryInBytesCallbackProxy) OnSuccess(
 	availableMemoryInBytes int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetAvailableMemoryInBytesCallback)
 	_data.WriteInt64(availableMemoryInBytes)
 
@@ -65,6 +66,7 @@ func (p *GetAvailableMemoryInBytesCallbackProxy) OnUnsupportedOperationException
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetAvailableMemoryInBytesCallback)
 	_data.WriteString16(message)
 
@@ -80,7 +82,8 @@ func (p *GetAvailableMemoryInBytesCallbackProxy) OnUnsupportedOperationException
 // GetAvailableMemoryInBytesCallbackStub dispatches incoming binder transactions
 // to a typed IGetAvailableMemoryInBytesCallback implementation.
 type GetAvailableMemoryInBytesCallbackStub struct {
-	Impl IGetAvailableMemoryInBytesCallback
+	Impl      IGetAvailableMemoryInBytesCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GetAvailableMemoryInBytesCallbackStub)(nil)
@@ -94,29 +97,25 @@ func (s *GetAvailableMemoryInBytesCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGetAvailableMemoryInBytesCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_availableMemoryInBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSuccess(ctx, _arg_availableMemoryInBytes)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGetAvailableMemoryInBytesCallbackOnUnsupportedOperationException:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnUnsupportedOperationException(ctx, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

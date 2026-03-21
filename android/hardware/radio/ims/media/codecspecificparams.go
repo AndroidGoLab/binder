@@ -31,8 +31,7 @@ func (u *CodecSpecificParams) GetAmr() (AmrParams, bool) {
 func (u *CodecSpecificParams) SetAmr(
 	v AmrParams,
 ) {
-	u.Tag = CodecSpecificParamsTagAmr
-	u.Amr = v
+	*u = CodecSpecificParams{Tag: CodecSpecificParamsTagAmr, Amr: v}
 }
 
 func (u *CodecSpecificParams) GetEvs() (EvsParams, bool) {
@@ -46,8 +45,7 @@ func (u *CodecSpecificParams) GetEvs() (EvsParams, bool) {
 func (u *CodecSpecificParams) SetEvs(
 	v EvsParams,
 ) {
-	u.Tag = CodecSpecificParamsTagEvs
-	u.Evs = v
+	*u = CodecSpecificParams{Tag: CodecSpecificParamsTagEvs, Evs: v}
 }
 
 func (u *CodecSpecificParams) MarshalParcel(

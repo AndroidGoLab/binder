@@ -66,6 +66,7 @@ func (p *NfcAdapterExtrasProxy) Open(
 ) (os.Bundle, error) {
 	var _result os.Bundle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapterExtras)
 	_data.WriteString16(pkg)
 	binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
@@ -104,6 +105,7 @@ func (p *NfcAdapterExtrasProxy) Close(
 ) (os.Bundle, error) {
 	var _result os.Bundle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapterExtras)
 	_data.WriteString16(pkg)
 	binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
@@ -142,16 +144,10 @@ func (p *NfcAdapterExtrasProxy) Transceive(
 ) (os.Bundle, error) {
 	var _result os.Bundle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapterExtras)
 	_data.WriteString16(pkg)
-	if data_in == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data_in)))
-		for _, _item := range data_in {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data_in)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapterExtras, MethodINfcAdapterExtrasTransceive)
 	if _err != nil {
@@ -186,6 +182,7 @@ func (p *NfcAdapterExtrasProxy) GetCardEmulationRoute(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapterExtras)
 	_data.WriteString16(pkg)
 
@@ -217,6 +214,7 @@ func (p *NfcAdapterExtrasProxy) SetCardEmulationRoute(
 	route int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapterExtras)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(route)
@@ -245,16 +243,10 @@ func (p *NfcAdapterExtrasProxy) Authenticate(
 	token []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapterExtras)
 	_data.WriteString16(pkg)
-	if token == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(token)))
-		for _, _item := range token {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(token)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapterExtras, MethodINfcAdapterExtrasAuthenticate)
 	if _err != nil {
@@ -280,6 +272,7 @@ func (p *NfcAdapterExtrasProxy) GetDriverName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapterExtras)
 	_data.WriteString16(pkg)
 
@@ -308,7 +301,8 @@ func (p *NfcAdapterExtrasProxy) GetDriverName(
 // NfcAdapterExtrasStub dispatches incoming binder transactions
 // to a typed INfcAdapterExtras implementation.
 type NfcAdapterExtrasStub struct {
-	Impl INfcAdapterExtras
+	Impl      INfcAdapterExtras
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NfcAdapterExtrasStub)(nil)
@@ -322,18 +316,24 @@ func (s *NfcAdapterExtrasStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINfcAdapterExtrasOpen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_b binder.IBinder
-		_ = _arg_b
+		{
+			_bHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_b = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _bHandle)
+		}
 		_result, _err := s.Impl.Open(ctx, _arg_pkg, _arg_b)
 		_reply := parcel.New()
 		if _err != nil {
@@ -347,16 +347,18 @@ func (s *NfcAdapterExtrasStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINfcAdapterExtrasClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_b binder.IBinder
-		_ = _arg_b
+		{
+			_bHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_b = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _bHandle)
+		}
 		_result, _err := s.Impl.Close(ctx, _arg_pkg, _arg_b)
 		_reply := parcel.New()
 		if _err != nil {
@@ -370,16 +372,18 @@ func (s *NfcAdapterExtrasStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINfcAdapterExtrasTransceive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data_in []byte
-		_ = _arg_data_in
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data_in = _bytes
+		}
 		_result, _err := s.Impl.Transceive(ctx, _arg_pkg, _arg_data_in)
 		_reply := parcel.New()
 		if _err != nil {
@@ -393,9 +397,6 @@ func (s *NfcAdapterExtrasStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINfcAdapterExtrasGetCardEmulationRoute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -410,9 +411,6 @@ func (s *NfcAdapterExtrasStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINfcAdapterExtrasSetCardEmulationRoute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -430,16 +428,18 @@ func (s *NfcAdapterExtrasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterExtrasAuthenticate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_token []byte
-		_ = _arg_token
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = _bytes
+		}
 		_err = s.Impl.Authenticate(ctx, _arg_pkg, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -449,9 +449,6 @@ func (s *NfcAdapterExtrasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterExtrasGetDriverName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

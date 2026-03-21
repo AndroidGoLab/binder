@@ -3,7 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
-	view "github.com/xaionaro-go/binder/android/view"
+	types "github.com/xaionaro-go/binder/android/view/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -22,7 +22,7 @@ const (
 
 type IWindowlessStartingSurfaceCallback interface {
 	AsBinder() binder.IBinder
-	OnSurfaceAdded(ctx context.Context, addedSurface view.SurfaceControl) error
+	OnSurfaceAdded(ctx context.Context, addedSurface types.SurfaceControl) error
 }
 
 type WindowlessStartingSurfaceCallbackProxy struct {
@@ -43,14 +43,12 @@ var _ IWindowlessStartingSurfaceCallback = (*WindowlessStartingSurfaceCallbackPr
 
 func (p *WindowlessStartingSurfaceCallbackProxy) OnSurfaceAdded(
 	ctx context.Context,
-	addedSurface view.SurfaceControl,
+	addedSurface types.SurfaceControl,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowlessStartingSurfaceCallback)
-	_data.WriteInt32(1)
-	if _err := addedSurface.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param addedSurface (type types.SurfaceControl) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowlessStartingSurfaceCallback, MethodIWindowlessStartingSurfaceCallbackOnSurfaceAdded)
 	if _err != nil {
@@ -73,7 +71,8 @@ func (p *WindowlessStartingSurfaceCallbackProxy) OnSurfaceAdded(
 // WindowlessStartingSurfaceCallbackStub dispatches incoming binder transactions
 // to a typed IWindowlessStartingSurfaceCallback implementation.
 type WindowlessStartingSurfaceCallbackStub struct {
-	Impl IWindowlessStartingSurfaceCallback
+	Impl      IWindowlessStartingSurfaceCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WindowlessStartingSurfaceCallbackStub)(nil)
@@ -87,23 +86,13 @@ func (s *WindowlessStartingSurfaceCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWindowlessStartingSurfaceCallbackOnSurfaceAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_addedSurface view.SurfaceControl
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_addedSurface.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_addedSurface types.SurfaceControl
 		_err := s.Impl.OnSurfaceAdded(ctx, _arg_addedSurface)
 		_reply := parcel.New()
 		if _err != nil {
@@ -121,7 +110,7 @@ func (s *WindowlessStartingSurfaceCallbackStub) OnTransaction(
 // provide to NewWindowlessStartingSurfaceCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IWindowlessStartingSurfaceCallbackServer interface {
-	OnSurfaceAdded(ctx context.Context, addedSurface view.SurfaceControl) error
+	OnSurfaceAdded(ctx context.Context, addedSurface types.SurfaceControl) error
 }
 
 type windowlessStartingSurfaceCallbackStubWrapper struct {
@@ -135,7 +124,7 @@ func (w *windowlessStartingSurfaceCallbackStubWrapper) AsBinder() binder.IBinder
 
 func (w *windowlessStartingSurfaceCallbackStubWrapper) OnSurfaceAdded(
 	ctx context.Context,
-	addedSurface view.SurfaceControl,
+	addedSurface types.SurfaceControl,
 ) error {
 	return w.impl.OnSurfaceAdded(ctx, addedSurface)
 }

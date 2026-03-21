@@ -51,6 +51,7 @@ func (p *GameServiceProxy) Connected(
 	gameServiceController IGameServiceController,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameService)
 	binder.WriteBinderToParcel(ctx, _data, gameServiceController.AsBinder(), p.Remote.Transport())
 
@@ -67,6 +68,7 @@ func (p *GameServiceProxy) Disconnected(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameService, MethodIGameServiceDisconnected)
@@ -83,6 +85,7 @@ func (p *GameServiceProxy) GameStarted(
 	gameStartedEvent GameStartedEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameService)
 	_data.WriteInt32(1)
 	if _err := gameStartedEvent.MarshalParcel(_data); _err != nil {
@@ -101,7 +104,8 @@ func (p *GameServiceProxy) GameStarted(
 // GameServiceStub dispatches incoming binder transactions
 // to a typed IGameService implementation.
 type GameServiceStub struct {
-	Impl IGameService
+	Impl      IGameService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GameServiceStub)(nil)
@@ -115,28 +119,26 @@ func (s *GameServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGameServiceConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_gameServiceController IGameServiceController
-		_ = _arg_gameServiceController
+		{
+			_gameServiceControllerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_gameServiceController = NewGameServiceControllerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _gameServiceControllerHandle))
+		}
 		_err := s.Impl.Connected(ctx, _arg_gameServiceController)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGameServiceDisconnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Disconnected(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGameServiceGameStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_gameStartedEvent GameStartedEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -150,8 +152,7 @@ func (s *GameServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GameStarted(ctx, _arg_gameStartedEvent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

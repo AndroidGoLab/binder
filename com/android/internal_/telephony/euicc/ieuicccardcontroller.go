@@ -113,6 +113,7 @@ func (p *EuiccCardControllerProxy) GetAllProfiles(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -135,6 +136,7 @@ func (p *EuiccCardControllerProxy) GetProfile(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -158,6 +160,7 @@ func (p *EuiccCardControllerProxy) GetEnabledProfile(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -182,6 +185,7 @@ func (p *EuiccCardControllerProxy) DisableProfile(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -208,6 +212,7 @@ func (p *EuiccCardControllerProxy) SwitchToProfile(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -234,6 +239,7 @@ func (p *EuiccCardControllerProxy) SetNickname(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -258,6 +264,7 @@ func (p *EuiccCardControllerProxy) DeleteProfile(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -281,6 +288,7 @@ func (p *EuiccCardControllerProxy) ResetMemory(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -303,6 +311,7 @@ func (p *EuiccCardControllerProxy) GetDefaultSmdpAddress(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -324,6 +333,7 @@ func (p *EuiccCardControllerProxy) GetSmdsAddress(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -346,6 +356,7 @@ func (p *EuiccCardControllerProxy) SetDefaultSmdpAddress(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -368,6 +379,7 @@ func (p *EuiccCardControllerProxy) GetRulesAuthTable(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -389,6 +401,7 @@ func (p *EuiccCardControllerProxy) GetEuiccChallenge(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -410,6 +423,7 @@ func (p *EuiccCardControllerProxy) GetEuiccInfo1(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -431,6 +445,7 @@ func (p *EuiccCardControllerProxy) GetEuiccInfo2(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -457,42 +472,15 @@ func (p *EuiccCardControllerProxy) AuthenticateServer(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
 	_data.WriteString16(matchingId)
-	if serverSigned1 == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(serverSigned1)))
-		for _, _item := range serverSigned1 {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if serverSignature1 == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(serverSignature1)))
-		for _, _item := range serverSignature1 {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if euiccCiPkIdToBeUsed == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(euiccCiPkIdToBeUsed)))
-		for _, _item := range euiccCiPkIdToBeUsed {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if serverCertificatein == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(serverCertificatein)))
-		for _, _item := range serverCertificatein {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(serverSigned1)
+	_data.WriteByteArray(serverSignature1)
+	_data.WriteByteArray(euiccCiPkIdToBeUsed)
+	_data.WriteByteArray(serverCertificatein)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerAuthenticateServer)
@@ -515,41 +503,14 @@ func (p *EuiccCardControllerProxy) PrepareDownload(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
-	if hashCc == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(hashCc)))
-		for _, _item := range hashCc {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if smdpSigned2 == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(smdpSigned2)))
-		for _, _item := range smdpSigned2 {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if smdpSignature2 == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(smdpSignature2)))
-		for _, _item := range smdpSignature2 {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if smdpCertificate == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(smdpCertificate)))
-		for _, _item := range smdpCertificate {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(hashCc)
+	_data.WriteByteArray(smdpSigned2)
+	_data.WriteByteArray(smdpSignature2)
+	_data.WriteByteArray(smdpCertificate)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerPrepareDownload)
@@ -569,17 +530,11 @@ func (p *EuiccCardControllerProxy) LoadBoundProfilePackage(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
-	if boundProfilePackage == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(boundProfilePackage)))
-		for _, _item := range boundProfilePackage {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(boundProfilePackage)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccCardController, MethodIEuiccCardControllerLoadBoundProfilePackage)
@@ -600,17 +555,11 @@ func (p *EuiccCardControllerProxy) CancelSession(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
-	if transactionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(transactionId)))
-		for _, _item := range transactionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(transactionId)
 	_data.WriteInt32(reason)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -631,6 +580,7 @@ func (p *EuiccCardControllerProxy) ListNotifications(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -654,6 +604,7 @@ func (p *EuiccCardControllerProxy) RetrieveNotificationList(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -677,6 +628,7 @@ func (p *EuiccCardControllerProxy) RetrieveNotification(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -700,6 +652,7 @@ func (p *EuiccCardControllerProxy) RemoveNotificationFromList(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccCardController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(cardId)
@@ -718,7 +671,8 @@ func (p *EuiccCardControllerProxy) RemoveNotificationFromList(
 // EuiccCardControllerStub dispatches incoming binder transactions
 // to a typed IEuiccCardController implementation.
 type EuiccCardControllerStub struct {
-	Impl IEuiccCardController
+	Impl      IEuiccCardController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EuiccCardControllerStub)(nil)
@@ -732,31 +686,33 @@ func (s *EuiccCardControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEuiccCardControllerGetAllProfiles:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetAllProfilesCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetAllProfilesCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetAllProfiles(ctx, _arg_cardId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccCardControllerGetProfile:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -765,19 +721,20 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetProfileCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetProfileCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetProfile(ctx, _arg_cardId, _arg_iccid, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccCardControllerGetEnabledProfile:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -786,19 +743,20 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetProfileCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetProfileCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetEnabledProfile(ctx, _arg_cardId, _arg_portIndex, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccCardControllerDisableProfile:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -811,16 +769,17 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDisableProfileCallback
-		_ = _arg_callback
-		_err = s.Impl.DisableProfile(ctx, _arg_cardId, _arg_iccid, _arg_refresh, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIEuiccCardControllerSwitchToProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDisableProfileCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.DisableProfile(ctx, _arg_cardId, _arg_iccid, _arg_refresh, _arg_callback)
+		return nil, _err
+	case TransactionIEuiccCardControllerSwitchToProfile:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -840,16 +799,17 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISwitchToProfileCallback
-		_ = _arg_callback
-		_err = s.Impl.SwitchToProfile(ctx, _arg_cardId, _arg_iccid, _arg_portIndex, _arg_refresh, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIEuiccCardControllerSetNickname:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSwitchToProfileCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.SwitchToProfile(ctx, _arg_cardId, _arg_iccid, _arg_portIndex, _arg_refresh, _arg_callback)
+		return nil, _err
+	case TransactionIEuiccCardControllerSetNickname:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -865,16 +825,17 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISetNicknameCallback
-		_ = _arg_callback
-		_err = s.Impl.SetNickname(ctx, _arg_cardId, _arg_iccid, _arg_nickname, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIEuiccCardControllerDeleteProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSetNicknameCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.SetNickname(ctx, _arg_cardId, _arg_iccid, _arg_nickname, _arg_callback)
+		return nil, _err
+	case TransactionIEuiccCardControllerDeleteProfile:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -886,16 +847,17 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDeleteProfileCallback
-		_ = _arg_callback
-		_err = s.Impl.DeleteProfile(ctx, _arg_cardId, _arg_iccid, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIEuiccCardControllerResetMemory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDeleteProfileCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.DeleteProfile(ctx, _arg_cardId, _arg_iccid, _arg_callback)
+		return nil, _err
+	case TransactionIEuiccCardControllerResetMemory:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -907,50 +869,53 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IResetMemoryCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewResetMemoryCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.ResetMemory(ctx, _arg_cardId, _arg_options, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccCardControllerGetDefaultSmdpAddress:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetDefaultSmdpAddressCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetDefaultSmdpAddressCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetDefaultSmdpAddress(ctx, _arg_cardId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccCardControllerGetSmdsAddress:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetSmdsAddressCallback
-		_ = _arg_callback
-		_err = s.Impl.GetSmdsAddress(ctx, _arg_cardId, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIEuiccCardControllerSetDefaultSmdpAddress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetSmdsAddressCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.GetSmdsAddress(ctx, _arg_cardId, _arg_callback)
+		return nil, _err
+	case TransactionIEuiccCardControllerSetDefaultSmdpAddress:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -962,84 +927,89 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISetDefaultSmdpAddressCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSetDefaultSmdpAddressCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.SetDefaultSmdpAddress(ctx, _arg_cardId, _arg_address, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccCardControllerGetRulesAuthTable:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetRulesAuthTableCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetRulesAuthTableCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetRulesAuthTable(ctx, _arg_cardId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccCardControllerGetEuiccChallenge:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetEuiccChallengeCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetEuiccChallengeCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetEuiccChallenge(ctx, _arg_cardId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccCardControllerGetEuiccInfo1:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetEuiccInfo1Callback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetEuiccInfo1CallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetEuiccInfo1(ctx, _arg_cardId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccCardControllerGetEuiccInfo2:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetEuiccInfo2Callback
-		_ = _arg_callback
-		_err = s.Impl.GetEuiccInfo2(ctx, _arg_cardId, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIEuiccCardControllerAuthenticateServer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetEuiccInfo2CallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.GetEuiccInfo2(ctx, _arg_cardId, _arg_callback)
+		return nil, _err
+	case TransactionIEuiccCardControllerAuthenticateServer:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1051,104 +1021,158 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_serverSigned1 []byte
-		_ = _arg_serverSigned1
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_serverSigned1 = _bytes
+		}
 		var _arg_serverSignature1 []byte
-		_ = _arg_serverSignature1
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_serverSignature1 = _bytes
+		}
 		var _arg_euiccCiPkIdToBeUsed []byte
-		_ = _arg_euiccCiPkIdToBeUsed
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_euiccCiPkIdToBeUsed = _bytes
+		}
 		var _arg_serverCertificatein []byte
-		_ = _arg_serverCertificatein
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_serverCertificatein = _bytes
+		}
 		var _arg_callback IAuthenticateServerCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAuthenticateServerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.AuthenticateServer(ctx, _arg_cardId, _arg_matchingId, _arg_serverSigned1, _arg_serverSignature1, _arg_euiccCiPkIdToBeUsed, _arg_serverCertificatein, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccCardControllerPrepareDownload:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_hashCc []byte
-		_ = _arg_hashCc
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hashCc = _bytes
+		}
 		var _arg_smdpSigned2 []byte
-		_ = _arg_smdpSigned2
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_smdpSigned2 = _bytes
+		}
 		var _arg_smdpSignature2 []byte
-		_ = _arg_smdpSignature2
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_smdpSignature2 = _bytes
+		}
 		var _arg_smdpCertificate []byte
-		_ = _arg_smdpCertificate
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_smdpCertificate = _bytes
+		}
 		var _arg_callback IPrepareDownloadCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPrepareDownloadCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.PrepareDownload(ctx, _arg_cardId, _arg_hashCc, _arg_smdpSigned2, _arg_smdpSignature2, _arg_smdpCertificate, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccCardControllerLoadBoundProfilePackage:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_boundProfilePackage []byte
-		_ = _arg_boundProfilePackage
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_boundProfilePackage = _bytes
+		}
 		var _arg_callback ILoadBoundProfilePackageCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewLoadBoundProfilePackageCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.LoadBoundProfilePackage(ctx, _arg_cardId, _arg_boundProfilePackage, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccCardControllerCancelSession:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_transactionId []byte
-		_ = _arg_transactionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transactionId = _bytes
+		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICancelSessionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCancelSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.CancelSession(ctx, _arg_cardId, _arg_transactionId, _arg_reason, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccCardControllerListNotifications:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1157,19 +1181,20 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IListNotificationsCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewListNotificationsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.ListNotifications(ctx, _arg_cardId, _arg_events, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccCardControllerRetrieveNotificationList:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1178,19 +1203,20 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IRetrieveNotificationListCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRetrieveNotificationListCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RetrieveNotificationList(ctx, _arg_cardId, _arg_events, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccCardControllerRetrieveNotification:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1199,19 +1225,20 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IRetrieveNotificationCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRetrieveNotificationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RetrieveNotification(ctx, _arg_cardId, _arg_seqNumber, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccCardControllerRemoveNotificationFromList:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1220,12 +1247,16 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IRemoveNotificationFromListCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRemoveNotificationFromListCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RemoveNotificationFromList(ctx, _arg_cardId, _arg_seqNumber, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -1,0 +1,763 @@
+package: android.hardware.display
+go_package: android/hardware/display
+interfaces:
+    - name: IColorDisplayManager
+      descriptor: android.hardware.display.IColorDisplayManager
+      methods:
+        - name: isDeviceColorManaged
+          transaction_code_offset: 0
+          return_type:
+            name: boolean
+        - name: setSaturationLevel
+          transaction_code_offset: 1
+          params:
+            - name: saturationLevel
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setAppSaturationLevel
+          transaction_code_offset: 2
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: saturationLevel
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: isSaturationActivated
+          transaction_code_offset: 3
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: getTransformCapabilities
+          transaction_code_offset: 4
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: isNightDisplayActivated
+          transaction_code_offset: 5
+          return_type:
+            name: boolean
+        - name: setNightDisplayActivated
+          transaction_code_offset: 6
+          params:
+            - name: activated
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: getNightDisplayColorTemperature
+          transaction_code_offset: 7
+          return_type:
+            name: int
+        - name: setNightDisplayColorTemperature
+          transaction_code_offset: 8
+          params:
+            - name: temperature
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: getNightDisplayAutoMode
+          transaction_code_offset: 9
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: getNightDisplayAutoModeRaw
+          transaction_code_offset: 10
+          return_type:
+            name: int
+        - name: setNightDisplayAutoMode
+          transaction_code_offset: 11
+          params:
+            - name: autoMode
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: getNightDisplayCustomStartTime
+          transaction_code_offset: 12
+          return_type:
+            name: Time
+        - name: setNightDisplayCustomStartTime
+          transaction_code_offset: 13
+          params:
+            - name: time
+              type:
+                name: Time
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: getNightDisplayCustomEndTime
+          transaction_code_offset: 14
+          return_type:
+            name: Time
+        - name: setNightDisplayCustomEndTime
+          transaction_code_offset: 15
+          params:
+            - name: time
+              type:
+                name: Time
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: getColorMode
+          transaction_code_offset: 16
+          return_type:
+            name: int
+        - name: setColorMode
+          transaction_code_offset: 17
+          params:
+            - name: colorMode
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: isDisplayWhiteBalanceEnabled
+          transaction_code_offset: 18
+          return_type:
+            name: boolean
+        - name: setDisplayWhiteBalanceEnabled
+          transaction_code_offset: 19
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: isReduceBrightColorsActivated
+          transaction_code_offset: 20
+          return_type:
+            name: boolean
+        - name: setReduceBrightColorsActivated
+          transaction_code_offset: 21
+          params:
+            - name: activated
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: getReduceBrightColorsStrength
+          transaction_code_offset: 22
+          return_type:
+            name: int
+        - name: setReduceBrightColorsStrength
+          transaction_code_offset: 23
+          params:
+            - name: strength
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: getReduceBrightColorsOffsetFactor
+          transaction_code_offset: 24
+          return_type:
+            name: float
+    - name: IDeviceProductInfoConstants
+      descriptor: android.hardware.display.IDeviceProductInfoConstants
+      constants:
+        - name: CONNECTION_TO_SINK_UNKNOWN
+          type: int
+          value: "0"
+        - name: CONNECTION_TO_SINK_BUILT_IN
+          type: int
+          value: "1"
+        - name: CONNECTION_TO_SINK_DIRECT
+          type: int
+          value: "2"
+        - name: CONNECTION_TO_SINK_TRANSITIVE
+          type: int
+          value: "3"
+    - name: IDisplayManager
+      descriptor: android.hardware.display.IDisplayManager
+      methods:
+        - name: getDisplayInfo
+          transaction_code_offset: 0
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: DisplayInfo
+          annotations:
+            - UnsupportedAppUsage
+        - name: getDisplayIds
+          transaction_code_offset: 1
+          params:
+            - name: includeDisabled
+              type:
+                name: boolean
+          return_type:
+            name: int
+            is_array: true
+        - name: isUidPresentOnDisplay
+          transaction_code_offset: 2
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: registerCallback
+          transaction_code_offset: 3
+          params:
+            - name: callback
+              type:
+                name: IDisplayManagerCallback
+              direction: in
+          return_type:
+            name: void
+        - name: registerCallbackWithEventMask
+          transaction_code_offset: 4
+          params:
+            - name: callback
+              type:
+                name: IDisplayManagerCallback
+              direction: in
+            - name: eventsMask
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: startWifiDisplayScan
+          transaction_code_offset: 5
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: stopWifiDisplayScan
+          transaction_code_offset: 6
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: connectWifiDisplay
+          transaction_code_offset: 7
+          params:
+            - name: address
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: disconnectWifiDisplay
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: renameWifiDisplay
+          transaction_code_offset: 9
+          params:
+            - name: address
+              type:
+                name: String
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: forgetWifiDisplay
+          transaction_code_offset: 10
+          params:
+            - name: address
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: pauseWifiDisplay
+          transaction_code_offset: 11
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: resumeWifiDisplay
+          transaction_code_offset: 12
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getWifiDisplayStatus
+          transaction_code_offset: 13
+          return_type:
+            name: WifiDisplayStatus
+        - name: setUserDisabledHdrTypes
+          transaction_code_offset: 14
+          params:
+            - name: userDisabledTypes
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setAreUserDisabledHdrTypesAllowed
+          transaction_code_offset: 15
+          params:
+            - name: areUserDisabledHdrTypesAllowed
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: areUserDisabledHdrTypesAllowed
+          transaction_code_offset: 16
+          return_type:
+            name: boolean
+        - name: getUserDisabledHdrTypes
+          transaction_code_offset: 17
+          return_type:
+            name: int
+            is_array: true
+        - name: overrideHdrTypes
+          transaction_code_offset: 18
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: modes
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: requestColorMode
+          transaction_code_offset: 19
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: colorMode
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: createVirtualDisplay
+          transaction_code_offset: 20
+          params:
+            - name: virtualDisplayConfig
+              type:
+                name: VirtualDisplayConfig
+              direction: in
+            - name: callback
+              type:
+                name: IVirtualDisplayCallback
+              direction: in
+            - name: projectionToken
+              type:
+                name: IMediaProjection
+              direction: in
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: resizeVirtualDisplay
+          transaction_code_offset: 21
+          params:
+            - name: token
+              type:
+                name: IVirtualDisplayCallback
+              direction: in
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+            - name: densityDpi
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setVirtualDisplaySurface
+          transaction_code_offset: 22
+          params:
+            - name: token
+              type:
+                name: IVirtualDisplayCallback
+              direction: in
+            - name: surface
+              type:
+                name: Surface
+              direction: in
+          return_type:
+            name: void
+        - name: releaseVirtualDisplay
+          transaction_code_offset: 23
+          params:
+            - name: token
+              type:
+                name: IVirtualDisplayCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setVirtualDisplayState
+          transaction_code_offset: 24
+          params:
+            - name: token
+              type:
+                name: IVirtualDisplayCallback
+              direction: in
+            - name: isOn
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getStableDisplaySize
+          transaction_code_offset: 25
+          return_type:
+            name: Point
+        - name: getBrightnessEvents
+          transaction_code_offset: 26
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+          annotations:
+            - EnforcePermission
+        - name: getAmbientBrightnessStats
+          transaction_code_offset: 27
+          return_type:
+            name: ParceledListSlice
+          annotations:
+            - EnforcePermission
+        - name: setBrightnessConfigurationForUser
+          transaction_code_offset: 28
+          params:
+            - name: c
+              type:
+                name: BrightnessConfiguration
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setBrightnessConfigurationForDisplay
+          transaction_code_offset: 29
+          params:
+            - name: c
+              type:
+                name: BrightnessConfiguration
+              direction: in
+            - name: uniqueDisplayId
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getBrightnessConfigurationForDisplay
+          transaction_code_offset: 30
+          params:
+            - name: uniqueDisplayId
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: BrightnessConfiguration
+          annotations:
+            - EnforcePermission
+        - name: getBrightnessConfigurationForUser
+          transaction_code_offset: 31
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: BrightnessConfiguration
+        - name: getDefaultBrightnessConfiguration
+          transaction_code_offset: 32
+          return_type:
+            name: BrightnessConfiguration
+          annotations:
+            - EnforcePermission
+        - name: isMinimalPostProcessingRequested
+          transaction_code_offset: 33
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setTemporaryBrightness
+          transaction_code_offset: 34
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: brightness
+              type:
+                name: float
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setBrightness
+          transaction_code_offset: 35
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: brightness
+              type:
+                name: float
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getBrightness
+          transaction_code_offset: 36
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: float
+        - name: setTemporaryAutoBrightnessAdjustment
+          transaction_code_offset: 37
+          params:
+            - name: adjustment
+              type:
+                name: float
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getMinimumBrightnessCurve
+          transaction_code_offset: 38
+          return_type:
+            name: Curve
+        - name: getBrightnessInfo
+          transaction_code_offset: 39
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: BrightnessInfo
+          annotations:
+            - EnforcePermission
+        - name: getPreferredWideGamutColorSpaceId
+          transaction_code_offset: 40
+          return_type:
+            name: int
+        - name: setUserPreferredDisplayMode
+          transaction_code_offset: 41
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: mode
+              type:
+                name: Mode
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getUserPreferredDisplayMode
+          transaction_code_offset: 42
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: Mode
+        - name: getSystemPreferredDisplayMode
+          transaction_code_offset: 43
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: Mode
+        - name: setHdrConversionMode
+          transaction_code_offset: 44
+          params:
+            - name: hdrConversionMode
+              type:
+                name: HdrConversionMode
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: getHdrConversionModeSetting
+          transaction_code_offset: 45
+          return_type:
+            name: HdrConversionMode
+        - name: getHdrConversionMode
+          transaction_code_offset: 46
+          return_type:
+            name: HdrConversionMode
+        - name: getSupportedHdrOutputTypes
+          transaction_code_offset: 47
+          return_type:
+            name: int
+            is_array: true
+        - name: setShouldAlwaysRespectAppRequestedMode
+          transaction_code_offset: 48
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: shouldAlwaysRespectAppRequestedMode
+          transaction_code_offset: 49
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: setRefreshRateSwitchingType
+          transaction_code_offset: 50
+          params:
+            - name: newValue
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getRefreshRateSwitchingType
+          transaction_code_offset: 51
+          return_type:
+            name: int
+        - name: getDisplayDecorationSupport
+          transaction_code_offset: 52
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: DisplayDecorationSupport
+        - name: setDisplayIdToMirror
+          transaction_code_offset: 53
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getOverlaySupport
+          transaction_code_offset: 54
+          return_type:
+            name: OverlayProperties
+        - name: enableConnectedDisplay
+          transaction_code_offset: 55
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: disableConnectedDisplay
+          transaction_code_offset: 56
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+    - name: IDisplayManagerCallback
+      descriptor: android.hardware.display.IDisplayManagerCallback
+      methods:
+        - name: onDisplayEvent
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: event
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IVirtualDisplayCallback
+      descriptor: android.hardware.display.IVirtualDisplayCallback
+      oneway: true
+      methods:
+        - name: onPaused
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onResumed
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onStopped
+          transaction_code_offset: 2
+          return_type:
+            name: void
+parcelables:
+    - name: AmbientBrightnessDayStats
+    - name: BrightnessChangeEvent
+    - name: BrightnessConfiguration
+    - name: BrightnessCorrection
+    - name: BrightnessInfo
+    - name: Curve
+    - name: HdrConversionMode
+    - name: Time
+    - name: VirtualDisplayConfig
+    - name: WifiDisplay
+    - name: WifiDisplayStatus

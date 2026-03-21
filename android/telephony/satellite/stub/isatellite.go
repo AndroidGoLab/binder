@@ -112,6 +112,7 @@ func (p *SatelliteProxy) SetSatelliteListener(
 	listener ISatelliteListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -131,6 +132,7 @@ func (p *SatelliteProxy) RequestSatelliteListeningEnabled(
 	resultCallback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	_data.WriteBool(enable)
 	_data.WriteInt32(timeout)
@@ -151,6 +153,7 @@ func (p *SatelliteProxy) EnableCellularModemWhileSatelliteModeIsOn(
 	errorCallback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	_data.WriteBool(enabled)
 	binder.WriteBinderToParcel(ctx, _data, errorCallback.AsBinder(), p.Remote.Transport())
@@ -172,6 +175,7 @@ func (p *SatelliteProxy) RequestSatelliteEnabled(
 	resultCallback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	_data.WriteBool(enableSatellite)
 	_data.WriteBool(enableDemoMode)
@@ -193,6 +197,7 @@ func (p *SatelliteProxy) RequestIsSatelliteEnabled(
 	callback telephony.IBooleanConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -212,6 +217,7 @@ func (p *SatelliteProxy) RequestIsSatelliteSupported(
 	callback telephony.IBooleanConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -231,6 +237,7 @@ func (p *SatelliteProxy) RequestSatelliteCapabilities(
 	callback ISatelliteCapabilitiesConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -249,6 +256,7 @@ func (p *SatelliteProxy) StartSendingSatellitePointingInfo(
 	resultCallback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
@@ -266,6 +274,7 @@ func (p *SatelliteProxy) StopSendingSatellitePointingInfo(
 	resultCallback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
@@ -285,16 +294,10 @@ func (p *SatelliteProxy) ProvisionSatelliteService(
 	resultCallback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	_data.WriteString16(token)
-	if provisionData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(provisionData)))
-		for _, _item := range provisionData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(provisionData)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteProvisionSatelliteService)
@@ -312,6 +315,7 @@ func (p *SatelliteProxy) DeprovisionSatelliteService(
 	resultCallback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	_data.WriteString16(token)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
@@ -331,6 +335,7 @@ func (p *SatelliteProxy) RequestIsSatelliteProvisioned(
 	callback telephony.IBooleanConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -349,6 +354,7 @@ func (p *SatelliteProxy) PollPendingSatelliteDatagrams(
 	resultCallback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
@@ -368,6 +374,7 @@ func (p *SatelliteProxy) SendSatelliteDatagram(
 	resultCallback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	_data.WriteInt32(1)
 	if _err := datagram.MarshalParcel(_data); _err != nil {
@@ -391,6 +398,7 @@ func (p *SatelliteProxy) RequestSatelliteModemState(
 	callback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -410,6 +418,7 @@ func (p *SatelliteProxy) RequestTimeForNextSatelliteVisibility(
 	callback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -431,6 +440,7 @@ func (p *SatelliteProxy) SetSatellitePlmn(
 	resultCallback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	_data.WriteInt32(simSlot)
 	if carrierPlmnList == nil {
@@ -467,6 +477,7 @@ func (p *SatelliteProxy) SetSatelliteEnabledForCarrier(
 	callback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	_data.WriteInt32(simSlot)
 	_data.WriteBool(satelliteEnabled)
@@ -488,6 +499,7 @@ func (p *SatelliteProxy) RequestIsSatelliteEnabledForCarrier(
 	callback telephony.IBooleanConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	_data.WriteInt32(simSlot)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
@@ -508,6 +520,7 @@ func (p *SatelliteProxy) RequestSignalStrength(
 	callback INtnSignalStrengthConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -526,6 +539,7 @@ func (p *SatelliteProxy) StartSendingNtnSignalStrength(
 	resultCallback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
@@ -543,6 +557,7 @@ func (p *SatelliteProxy) StopSendingNtnSignalStrength(
 	resultCallback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
@@ -560,6 +575,7 @@ func (p *SatelliteProxy) AbortSendingSatelliteDatagrams(
 	resultCallback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
@@ -575,7 +591,8 @@ func (p *SatelliteProxy) AbortSendingSatelliteDatagrams(
 // SatelliteStub dispatches incoming binder transactions
 // to a typed ISatellite implementation.
 type SatelliteStub struct {
-	Impl ISatellite
+	Impl      ISatellite
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SatelliteStub)(nil)
@@ -589,21 +606,23 @@ func (s *SatelliteStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISatelliteSetSatelliteListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISatelliteListener
-		_ = _arg_listener
-		_err := s.Impl.SetSatelliteListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionISatelliteRequestSatelliteListeningEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewSatelliteListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err := s.Impl.SetSatelliteListener(ctx, _arg_listener)
+		return nil, _err
+	case TransactionISatelliteRequestSatelliteListeningEnabled:
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -612,30 +631,32 @@ func (s *SatelliteStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
-		_err = s.Impl.RequestSatelliteListeningEnabled(ctx, _arg_enable, _arg_timeout, _arg_resultCallback)
-		_ = _err
-		return nil, nil
-	case TransactionISatelliteEnableCellularModemWhileSatelliteModeIsOn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
 		}
+		_err = s.Impl.RequestSatelliteListeningEnabled(ctx, _arg_enable, _arg_timeout, _arg_resultCallback)
+		return nil, _err
+	case TransactionISatelliteEnableCellularModemWhileSatelliteModeIsOn:
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_errorCallback telephony.IIntegerConsumer
-		_ = _arg_errorCallback
-		_err = s.Impl.EnableCellularModemWhileSatelliteModeIsOn(ctx, _arg_enabled, _arg_errorCallback)
-		_ = _err
-		return nil, nil
-	case TransactionISatelliteRequestSatelliteEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_errorCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_errorCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _errorCallbackHandle))
 		}
+		_err = s.Impl.EnableCellularModemWhileSatelliteModeIsOn(ctx, _arg_enabled, _arg_errorCallback)
+		return nil, _err
+	case TransactionISatelliteRequestSatelliteEnabled:
 		_arg_enableSatellite, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -648,129 +669,164 @@ func (s *SatelliteStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		_err = s.Impl.RequestSatelliteEnabled(ctx, _arg_enableSatellite, _arg_enableDemoMode, _arg_isEmergency, _arg_resultCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteRequestIsSatelliteEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		var _arg_callback telephony.IBooleanConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = telephony.NewBooleanConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RequestIsSatelliteEnabled(ctx, _arg_resultCallback, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteRequestIsSatelliteSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		var _arg_callback telephony.IBooleanConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = telephony.NewBooleanConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RequestIsSatelliteSupported(ctx, _arg_resultCallback, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteRequestSatelliteCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		var _arg_callback ISatelliteCapabilitiesConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSatelliteCapabilitiesConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RequestSatelliteCapabilities(ctx, _arg_resultCallback, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteStartSendingSatellitePointingInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		_err := s.Impl.StartSendingSatellitePointingInfo(ctx, _arg_resultCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteStopSendingSatellitePointingInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		_err := s.Impl.StopSendingSatellitePointingInfo(ctx, _arg_resultCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteProvisionSatelliteService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_provisionData []byte
-		_ = _arg_provisionData
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
-		_err = s.Impl.ProvisionSatelliteService(ctx, _arg_token, _arg_provisionData, _arg_resultCallback)
-		_ = _err
-		return nil, nil
-	case TransactionISatelliteDeprovisionSatelliteService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_provisionData = _bytes
 		}
+		var _arg_resultCallback telephony.IIntegerConsumer
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
+		_err = s.Impl.ProvisionSatelliteService(ctx, _arg_token, _arg_provisionData, _arg_resultCallback)
+		return nil, _err
+	case TransactionISatelliteDeprovisionSatelliteService:
 		_arg_token, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		_err = s.Impl.DeprovisionSatelliteService(ctx, _arg_token, _arg_resultCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteRequestIsSatelliteProvisioned:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		var _arg_callback telephony.IBooleanConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = telephony.NewBooleanConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RequestIsSatelliteProvisioned(ctx, _arg_resultCallback, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatellitePollPendingSatelliteDatagrams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
-		_err := s.Impl.PollPendingSatelliteDatagrams(ctx, _arg_resultCallback)
-		_ = _err
-		return nil, nil
-	case TransactionISatelliteSendSatelliteDatagram:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
 		}
+		_err := s.Impl.PollPendingSatelliteDatagrams(ctx, _arg_resultCallback)
+		return nil, _err
+	case TransactionISatelliteSendSatelliteDatagram:
 		var _arg_datagram SatelliteDatagram
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -787,62 +843,108 @@ func (s *SatelliteStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		_err = s.Impl.SendSatelliteDatagram(ctx, _arg_datagram, _arg_isEmergency, _arg_resultCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteRequestSatelliteModemState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		var _arg_callback telephony.IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RequestSatelliteModemState(ctx, _arg_resultCallback, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteRequestTimeForNextSatelliteVisibility:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback telephony.IIntegerConsumer
-		_ = _arg_callback
-		_err := s.Impl.RequestTimeForNextSatelliteVisibility(ctx, _arg_resultCallback, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionISatelliteSetSatellitePlmn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
 		}
+		var _arg_callback telephony.IIntegerConsumer
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
+		_err := s.Impl.RequestTimeForNextSatelliteVisibility(ctx, _arg_resultCallback, _arg_callback)
+		return nil, _err
+	case TransactionISatelliteSetSatellitePlmn:
 		_arg_simSlot, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_carrierPlmnList []string
-		_ = _arg_carrierPlmnList
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_allSatellitePlmnList []string
-		_ = _arg_allSatellitePlmnList
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
-		_err = s.Impl.SetSatellitePlmn(ctx, _arg_simSlot, _arg_carrierPlmnList, _arg_allSatellitePlmnList, _arg_resultCallback)
-		_ = _err
-		return nil, nil
-	case TransactionISatelliteSetSatelliteEnabledForCarrier:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_carrierPlmnList = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_carrierPlmnList[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		var _arg_allSatellitePlmnList []string
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_allSatellitePlmnList = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_allSatellitePlmnList[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_resultCallback telephony.IIntegerConsumer
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
+		_err = s.Impl.SetSatellitePlmn(ctx, _arg_simSlot, _arg_carrierPlmnList, _arg_allSatellitePlmnList, _arg_resultCallback)
+		return nil, _err
+	case TransactionISatelliteSetSatelliteEnabledForCarrier:
 		_arg_simSlot, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -851,72 +953,91 @@ func (s *SatelliteStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback telephony.IIntegerConsumer
-		_ = _arg_callback
-		_err = s.Impl.SetSatelliteEnabledForCarrier(ctx, _arg_simSlot, _arg_satelliteEnabled, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionISatelliteRequestIsSatelliteEnabledForCarrier:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.SetSatelliteEnabledForCarrier(ctx, _arg_simSlot, _arg_satelliteEnabled, _arg_callback)
+		return nil, _err
+	case TransactionISatelliteRequestIsSatelliteEnabledForCarrier:
 		_arg_simSlot, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		var _arg_callback telephony.IBooleanConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = telephony.NewBooleanConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RequestIsSatelliteEnabledForCarrier(ctx, _arg_simSlot, _arg_resultCallback, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteRequestSignalStrength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		var _arg_callback INtnSignalStrengthConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewNtnSignalStrengthConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RequestSignalStrength(ctx, _arg_resultCallback, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteStartSendingNtnSignalStrength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		_err := s.Impl.StartSendingNtnSignalStrength(ctx, _arg_resultCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteStopSendingNtnSignalStrength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		_err := s.Impl.StopSendingNtnSignalStrength(ctx, _arg_resultCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteAbortSendingSatelliteDatagrams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		_err := s.Impl.AbortSendingSatelliteDatagrams(ctx, _arg_resultCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

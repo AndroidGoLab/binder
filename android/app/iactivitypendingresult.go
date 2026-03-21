@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ const (
 
 type IActivityPendingResult interface {
 	AsBinder() binder.IBinder
-	SendResult(ctx context.Context, code int32, data string, ex interface{}) (bool, error)
+	SendResult(ctx context.Context, code int32, data string, ex os.Bundle) (bool, error)
 }
 
 type ActivityPendingResultProxy struct {
@@ -44,13 +45,18 @@ func (p *ActivityPendingResultProxy) SendResult(
 	ctx context.Context,
 	code int32,
 	data string,
-	ex interface{},
+	ex os.Bundle,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityPendingResult)
 	_data.WriteInt32(code)
 	_data.WriteString16(data)
+	_data.WriteInt32(1)
+	if _err := ex.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityPendingResult, MethodIActivityPendingResultSendResult)
 	if _err != nil {
@@ -77,7 +83,8 @@ func (p *ActivityPendingResultProxy) SendResult(
 // ActivityPendingResultStub dispatches incoming binder transactions
 // to a typed IActivityPendingResult implementation.
 type ActivityPendingResultStub struct {
-	Impl IActivityPendingResult
+	Impl      IActivityPendingResult
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ActivityPendingResultStub)(nil)
@@ -91,11 +98,12 @@ func (s *ActivityPendingResultStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIActivityPendingResultSendResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -104,7 +112,18 @@ func (s *ActivityPendingResultStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_ex interface{}
+		var _arg_ex os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ex.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.SendResult(ctx, _arg_code, _arg_data, _arg_ex)
 		_reply := parcel.New()
 		if _err != nil {
@@ -123,7 +142,7 @@ func (s *ActivityPendingResultStub) OnTransaction(
 // provide to NewActivityPendingResultStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IActivityPendingResultServer interface {
-	SendResult(ctx context.Context, code int32, data string, ex interface{}) (bool, error)
+	SendResult(ctx context.Context, code int32, data string, ex os.Bundle) (bool, error)
 }
 
 type activityPendingResultStubWrapper struct {
@@ -139,7 +158,7 @@ func (w *activityPendingResultStubWrapper) SendResult(
 	ctx context.Context,
 	code int32,
 	data string,
-	ex interface{},
+	ex os.Bundle,
 ) (bool, error) {
 	return w.impl.SendResult(ctx, code, data, ex)
 }

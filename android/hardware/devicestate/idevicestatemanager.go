@@ -63,6 +63,7 @@ func (p *DeviceStateManagerProxy) GetDeviceStateInfo(
 ) (DeviceStateInfo, error) {
 	var _result DeviceStateInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceStateManager, MethodIDeviceStateManagerGetDeviceStateInfo)
@@ -97,6 +98,7 @@ func (p *DeviceStateManagerProxy) RegisterCallback(
 	callback IDeviceStateManagerCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -125,6 +127,7 @@ func (p *DeviceStateManagerProxy) RequestState(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(state)
@@ -152,6 +155,7 @@ func (p *DeviceStateManagerProxy) CancelStateRequest(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceStateManager, MethodIDeviceStateManagerCancelStateRequest)
@@ -179,6 +183,7 @@ func (p *DeviceStateManagerProxy) RequestBaseStateOverride(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(state)
@@ -206,6 +211,7 @@ func (p *DeviceStateManagerProxy) CancelBaseStateOverride(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceStateManager, MethodIDeviceStateManagerCancelBaseStateOverride)
@@ -231,6 +237,7 @@ func (p *DeviceStateManagerProxy) OnStateRequestOverlayDismissed(
 	shouldCancelRequest bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
 	_data.WriteBool(shouldCancelRequest)
 
@@ -255,7 +262,8 @@ func (p *DeviceStateManagerProxy) OnStateRequestOverlayDismissed(
 // DeviceStateManagerStub dispatches incoming binder transactions
 // to a typed IDeviceStateManager implementation.
 type DeviceStateManagerStub struct {
-	Impl IDeviceStateManager
+	Impl      IDeviceStateManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DeviceStateManagerStub)(nil)
@@ -269,11 +277,12 @@ func (s *DeviceStateManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDeviceStateManagerGetDeviceStateInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDeviceStateInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -287,12 +296,14 @@ func (s *DeviceStateManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDeviceStateManagerRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDeviceStateManagerCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDeviceStateManagerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -302,12 +313,14 @@ func (s *DeviceStateManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceStateManagerRequestState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -325,9 +338,6 @@ func (s *DeviceStateManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceStateManagerCancelStateRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CancelStateRequest(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -337,12 +347,14 @@ func (s *DeviceStateManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceStateManagerRequestBaseStateOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -360,9 +372,6 @@ func (s *DeviceStateManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceStateManagerCancelBaseStateOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CancelBaseStateOverride(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -372,9 +381,6 @@ func (s *DeviceStateManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceStateManagerOnStateRequestOverlayDismissed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_shouldCancelRequest, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err

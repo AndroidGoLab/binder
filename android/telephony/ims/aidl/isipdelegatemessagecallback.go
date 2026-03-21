@@ -52,6 +52,7 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageReceived(
 	message ims.SipMessage,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateMessageCallback)
 	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
@@ -72,6 +73,7 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageSent(
 	viaTransactionId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateMessageCallback)
 	_data.WriteString16(viaTransactionId)
 
@@ -90,6 +92,7 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageSendFailure(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateMessageCallback)
 	_data.WriteString16(viaTransactionId)
 	_data.WriteInt32(reason)
@@ -106,7 +109,8 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageSendFailure(
 // SipDelegateMessageCallbackStub dispatches incoming binder transactions
 // to a typed ISipDelegateMessageCallback implementation.
 type SipDelegateMessageCallbackStub struct {
-	Impl ISipDelegateMessageCallback
+	Impl      ISipDelegateMessageCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SipDelegateMessageCallbackStub)(nil)
@@ -120,11 +124,12 @@ func (s *SipDelegateMessageCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISipDelegateMessageCallbackOnMessageReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_message ims.SipMessage
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -138,23 +143,15 @@ func (s *SipDelegateMessageCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnMessageReceived(ctx, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISipDelegateMessageCallbackOnMessageSent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_viaTransactionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnMessageSent(ctx, _arg_viaTransactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISipDelegateMessageCallbackOnMessageSendFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_viaTransactionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -164,8 +161,7 @@ func (s *SipDelegateMessageCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnMessageSendFailure(ctx, _arg_viaTransactionId, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

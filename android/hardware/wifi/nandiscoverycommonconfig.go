@@ -72,9 +72,19 @@ func (s *NanDiscoveryCommonConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SessionId, _err = p.ReadPaddedByte()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_ttlSecRaw, _err := p.ReadInt32()
@@ -83,20 +93,40 @@ func (s *NanDiscoveryCommonConfig) UnmarshalParcel(
 	}
 	s.TtlSec = uint16(_ttlSecRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_discoveryWindowPeriodRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.DiscoveryWindowPeriod = uint16(_discoveryWindowPeriodRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.DiscoveryCount, _err = p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ServiceName, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_discoveryMatchIndicatorRaw, _err := p.ReadInt32()
@@ -105,9 +135,19 @@ func (s *NanDiscoveryCommonConfig) UnmarshalParcel(
 	}
 	s.DiscoveryMatchIndicator = NanMatchAlg(_discoveryMatchIndicatorRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ServiceSpecificInfo, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ExtendedServiceSpecificInfo, _err = p.ReadByteArray()
@@ -115,9 +155,19 @@ func (s *NanDiscoveryCommonConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.RxMatchFilter, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.TxMatchFilter, _err = p.ReadByteArray()
@@ -125,9 +175,19 @@ func (s *NanDiscoveryCommonConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.UseRssiThreshold, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.DisableDiscoveryTerminationIndication, _err = p.ReadBool()
@@ -135,9 +195,19 @@ func (s *NanDiscoveryCommonConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.DisableMatchExpirationIndication, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.DisableFollowupReceivedIndication, _err = p.ReadBool()
@@ -145,8 +215,18 @@ func (s *NanDiscoveryCommonConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.SecurityConfig.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.RangingRequired, _err = p.ReadBool()
@@ -154,14 +234,29 @@ func (s *NanDiscoveryCommonConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.RangingIntervalMs, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ConfigRangingIndications, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_distanceIngressCmRaw, _err := p.ReadInt32()
@@ -170,11 +265,21 @@ func (s *NanDiscoveryCommonConfig) UnmarshalParcel(
 	}
 	s.DistanceIngressCm = uint16(_distanceIngressCmRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_distanceEgressCmRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.DistanceEgressCm = uint16(_distanceEgressCmRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.EnableSessionSuspendability, _err = p.ReadBool()
 	if _err != nil {

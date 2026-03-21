@@ -46,6 +46,7 @@ func (p *MediaResourceMonitorProxy) NotifyResourceGranted(
 	type_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaResourceMonitor)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(type_)
@@ -62,7 +63,8 @@ func (p *MediaResourceMonitorProxy) NotifyResourceGranted(
 // MediaResourceMonitorStub dispatches incoming binder transactions
 // to a typed IMediaResourceMonitor implementation.
 type MediaResourceMonitorStub struct {
-	Impl IMediaResourceMonitor
+	Impl      IMediaResourceMonitor
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaResourceMonitorStub)(nil)
@@ -76,11 +78,12 @@ func (s *MediaResourceMonitorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaResourceMonitorNotifyResourceGranted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -90,8 +93,7 @@ func (s *MediaResourceMonitorStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyResourceGranted(ctx, _arg_pid, _arg_type_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -87,6 +87,7 @@ func (p *CameraDeviceUserProxy) BeginConfigure(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserBeginConfigure)
@@ -112,6 +113,7 @@ func (p *CameraDeviceUserProxy) CancelRepeatingRequest(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserCancelRepeatingRequest)
@@ -142,6 +144,7 @@ func (p *CameraDeviceUserProxy) CreateDefaultRequest(
 ) (CameraMetadata, error) {
 	var _result CameraMetadata
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 	_data.WriteInt32(int32(templateId))
 
@@ -178,6 +181,7 @@ func (p *CameraDeviceUserProxy) CreateStream(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 	_data.WriteInt32(1)
 	if _err := outputConfiguration.MarshalParcel(_data); _err != nil {
@@ -211,6 +215,7 @@ func (p *CameraDeviceUserProxy) DeleteStream(
 	streamId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 	_data.WriteInt32(streamId)
 
@@ -236,6 +241,7 @@ func (p *CameraDeviceUserProxy) Disconnect(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserDisconnect)
@@ -263,6 +269,7 @@ func (p *CameraDeviceUserProxy) EndConfigure(
 	startTimeNs int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 	_data.WriteInt32(int32(operatingMode))
 	_data.WriteInt32(1)
@@ -294,6 +301,7 @@ func (p *CameraDeviceUserProxy) Flush(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserFlush)
@@ -323,6 +331,7 @@ func (p *CameraDeviceUserProxy) GetCaptureRequestMetadataQueue(
 ) (fmq.MQDescriptor, error) {
 	var _result fmq.MQDescriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserGetCaptureRequestMetadataQueue)
@@ -357,6 +366,7 @@ func (p *CameraDeviceUserProxy) GetCaptureResultMetadataQueue(
 ) (fmq.MQDescriptor, error) {
 	var _result fmq.MQDescriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserGetCaptureResultMetadataQueue)
@@ -392,6 +402,7 @@ func (p *CameraDeviceUserProxy) IsSessionConfigurationSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 	_data.WriteInt32(1)
 	if _err := sessionConfiguration.MarshalParcel(_data); _err != nil {
@@ -425,6 +436,7 @@ func (p *CameraDeviceUserProxy) Prepare(
 	streamId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 	_data.WriteInt32(streamId)
 
@@ -453,6 +465,7 @@ func (p *CameraDeviceUserProxy) SubmitRequestList(
 ) (SubmitInfo, error) {
 	var _result SubmitInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 	if requestList == nil {
 		_data.WriteInt32(-1)
@@ -500,6 +513,7 @@ func (p *CameraDeviceUserProxy) UpdateOutputConfiguration(
 	outputConfiguration OutputConfiguration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 	_data.WriteInt32(streamId)
 	_data.WriteInt32(1)
@@ -529,6 +543,7 @@ func (p *CameraDeviceUserProxy) WaitUntilIdle(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserWaitUntilIdle)
@@ -552,7 +567,8 @@ func (p *CameraDeviceUserProxy) WaitUntilIdle(
 // CameraDeviceUserStub dispatches incoming binder transactions
 // to a typed ICameraDeviceUser implementation.
 type CameraDeviceUserStub struct {
-	Impl ICameraDeviceUser
+	Impl      ICameraDeviceUser
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CameraDeviceUserStub)(nil)
@@ -566,11 +582,12 @@ func (s *CameraDeviceUserStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICameraDeviceUserBeginConfigure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.BeginConfigure(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -580,9 +597,6 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceUserCancelRepeatingRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CancelRepeatingRequest(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -593,9 +607,6 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionICameraDeviceUserCreateDefaultRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_templateId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -614,9 +625,6 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceUserCreateStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_outputConfiguration OutputConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -639,9 +647,6 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICameraDeviceUserDeleteStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -655,9 +660,6 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceUserDisconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Disconnect(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -667,9 +669,6 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceUserEndConfigure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_operatingMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -700,9 +699,6 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceUserFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Flush(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -713,9 +709,6 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionICameraDeviceUserGetCaptureRequestMetadataQueue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCaptureRequestMetadataQueue(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -729,9 +722,6 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceUserGetCaptureResultMetadataQueue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCaptureResultMetadataQueue(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -745,9 +735,6 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceUserIsSessionConfigurationSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionConfiguration SessionConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -770,9 +757,6 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraDeviceUserPrepare:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -786,12 +770,27 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceUserSubmitRequestList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_requestList []CaptureRequest
-		_ = _arg_requestList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_requestList = make([]CaptureRequest, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_requestList[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_isRepeating, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -809,9 +808,6 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceUserUpdateOutputConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -837,9 +833,6 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceUserWaitUntilIdle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.WaitUntilIdle(ctx)
 		_reply := parcel.New()
 		if _err != nil {

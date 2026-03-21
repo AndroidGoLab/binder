@@ -45,6 +45,7 @@ func (p *StatusBarNotificationHolderProxy) Get(
 ) (StatusBarNotification, error) {
 	var _result StatusBarNotification
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarNotificationHolder)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarNotificationHolder, MethodIStatusBarNotificationHolderGet)
@@ -77,7 +78,8 @@ func (p *StatusBarNotificationHolderProxy) Get(
 // StatusBarNotificationHolderStub dispatches incoming binder transactions
 // to a typed IStatusBarNotificationHolder implementation.
 type StatusBarNotificationHolderStub struct {
-	Impl IStatusBarNotificationHolder
+	Impl      IStatusBarNotificationHolder
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StatusBarNotificationHolderStub)(nil)
@@ -91,11 +93,12 @@ func (s *StatusBarNotificationHolderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStatusBarNotificationHolderGet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Get(ctx)
 		_reply := parcel.New()
 		if _err != nil {

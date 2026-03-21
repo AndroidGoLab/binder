@@ -24,7 +24,7 @@ const (
 type ISystemUpdateManager interface {
 	AsBinder() binder.IBinder
 	RetrieveSystemUpdateInfo(ctx context.Context) (Bundle, error)
-	UpdateSystemUpdateInfo(ctx context.Context, data interface{}) error
+	UpdateSystemUpdateInfo(ctx context.Context, data PersistableBundle) error
 }
 
 type SystemUpdateManagerProxy struct {
@@ -48,6 +48,7 @@ func (p *SystemUpdateManagerProxy) RetrieveSystemUpdateInfo(
 ) (Bundle, error) {
 	var _result Bundle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUpdateManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUpdateManager, MethodISystemUpdateManagerRetrieveSystemUpdateInfo)
@@ -79,10 +80,15 @@ func (p *SystemUpdateManagerProxy) RetrieveSystemUpdateInfo(
 
 func (p *SystemUpdateManagerProxy) UpdateSystemUpdateInfo(
 	ctx context.Context,
-	data interface{},
+	data PersistableBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUpdateManager)
+	_data.WriteInt32(1)
+	if _err := data.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUpdateManager, MethodISystemUpdateManagerUpdateSystemUpdateInfo)
 	if _err != nil {
@@ -105,7 +111,8 @@ func (p *SystemUpdateManagerProxy) UpdateSystemUpdateInfo(
 // SystemUpdateManagerStub dispatches incoming binder transactions
 // to a typed ISystemUpdateManager implementation.
 type SystemUpdateManagerStub struct {
-	Impl ISystemUpdateManager
+	Impl      ISystemUpdateManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SystemUpdateManagerStub)(nil)
@@ -119,11 +126,12 @@ func (s *SystemUpdateManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISystemUpdateManagerRetrieveSystemUpdateInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.RetrieveSystemUpdateInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -137,10 +145,18 @@ func (s *SystemUpdateManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISystemUpdateManagerUpdateSystemUpdateInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_data PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_data interface{}
 		_err := s.Impl.UpdateSystemUpdateInfo(ctx, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -159,7 +175,7 @@ func (s *SystemUpdateManagerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type ISystemUpdateManagerServer interface {
 	RetrieveSystemUpdateInfo(ctx context.Context) (Bundle, error)
-	UpdateSystemUpdateInfo(ctx context.Context, data interface{}) error
+	UpdateSystemUpdateInfo(ctx context.Context, data PersistableBundle) error
 }
 
 type systemUpdateManagerStubWrapper struct {
@@ -179,7 +195,7 @@ func (w *systemUpdateManagerStubWrapper) RetrieveSystemUpdateInfo(
 
 func (w *systemUpdateManagerStubWrapper) UpdateSystemUpdateInfo(
 	ctx context.Context,
-	data interface{},
+	data PersistableBundle,
 ) error {
 	return w.impl.UpdateSystemUpdateInfo(ctx, data)
 }

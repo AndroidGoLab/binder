@@ -1,0 +1,43 @@
+package: android.service.remotelockscreenvalidation
+go_package: android/service/remotelockscreenvalidation
+interfaces:
+    - name: IRemoteLockscreenValidationCallback
+      descriptor: android.service.remotelockscreenvalidation.IRemoteLockscreenValidationCallback
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: result
+              type:
+                name: RemoteLockscreenValidationResult
+              direction: in
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: message
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+    - name: IRemoteLockscreenValidationService
+      descriptor: android.service.remotelockscreenvalidation.IRemoteLockscreenValidationService
+      methods:
+        - name: validateLockscreenGuess
+          transaction_code_offset: 0
+          params:
+            - name: guess
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: callback
+              type:
+                name: IRemoteLockscreenValidationCallback
+              direction: in
+          return_type:
+            name: void

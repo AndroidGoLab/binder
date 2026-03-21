@@ -45,6 +45,7 @@ func (p *BluetoothAvrcpTargetProxy) SendVolumeChanged(
 	volume int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAvrcpTarget)
 	_data.WriteInt32(volume)
 
@@ -69,7 +70,8 @@ func (p *BluetoothAvrcpTargetProxy) SendVolumeChanged(
 // BluetoothAvrcpTargetStub dispatches incoming binder transactions
 // to a typed IBluetoothAvrcpTarget implementation.
 type BluetoothAvrcpTargetStub struct {
-	Impl IBluetoothAvrcpTarget
+	Impl      IBluetoothAvrcpTarget
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothAvrcpTargetStub)(nil)
@@ -83,11 +85,12 @@ func (s *BluetoothAvrcpTargetStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothAvrcpTargetSendVolumeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volume, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

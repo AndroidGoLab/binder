@@ -45,6 +45,7 @@ func (p *VibratorStateListenerProxy) OnVibrating(
 	vibrating bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorStateListener)
 	_data.WriteBool(vibrating)
 
@@ -60,7 +61,8 @@ func (p *VibratorStateListenerProxy) OnVibrating(
 // VibratorStateListenerStub dispatches incoming binder transactions
 // to a typed IVibratorStateListener implementation.
 type VibratorStateListenerStub struct {
-	Impl IVibratorStateListener
+	Impl      IVibratorStateListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VibratorStateListenerStub)(nil)
@@ -74,18 +76,18 @@ func (s *VibratorStateListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVibratorStateListenerOnVibrating:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_vibrating, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnVibrating(ctx, _arg_vibrating)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

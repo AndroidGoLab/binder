@@ -1,19 +1,14 @@
 package codegen
 
 import (
+	"bufio"
+	"os"
+	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/xaionaro-go/binder/tools/pkg/parser"
 	"github.com/xaionaro-go/binder/tools/pkg/resolver"
-)
-
-// dfsColor represents the state of a node during depth-first search.
-type dfsColor int
-
-const (
-	white dfsColor = iota // not visited
-	gray                  // in progress (on the DFS stack)
-	black                 // finished
 )
 
 // ImportGraph represents the directed dependency graph between AIDL packages.
@@ -127,7 +122,13 @@ func (g *ImportGraph) computeSCCs() {
 		stack = append(stack, v)
 		onStack[v] = true
 
+		// Sort neighbors for deterministic SCC computation.
+		sortedEdges := make([]string, 0, len(g.Edges[v]))
 		for w := range g.Edges[v] {
+			sortedEdges = append(sortedEdges, w)
+		}
+		sort.Strings(sortedEdges)
+		for _, w := range sortedEdges {
 			_, visited := nodeIndex[w]
 			switch {
 			case !visited:
@@ -165,7 +166,12 @@ func (g *ImportGraph) computeSCCs() {
 		}
 	}
 
+	sortedNodes := make([]string, 0, len(nodes))
 	for node := range nodes {
+		sortedNodes = append(sortedNodes, node)
+	}
+	sort.Strings(sortedNodes)
+	for _, node := range sortedNodes {
 		if _, visited := nodeIndex[node]; !visited {
 			strongConnect(node)
 		}
@@ -186,6 +192,7 @@ func (g *ImportGraph) computeBackEdges() {
 	}
 
 	for _, members := range sccMembers {
+		sort.Strings(members)
 		memberSet := make(map[string]bool, len(members))
 		for _, m := range members {
 			memberSet[m] = true
@@ -196,10 +203,15 @@ func (g *ImportGraph) computeBackEdges() {
 		var dfs func(u string)
 		dfs = func(u string) {
 			color[u] = gray
+			// Sort neighbors for deterministic back-edge selection.
+			neighbors := make([]string, 0, len(g.Edges[u]))
 			for v := range g.Edges[u] {
-				if !memberSet[v] {
-					continue
+				if memberSet[v] {
+					neighbors = append(neighbors, v)
 				}
+			}
+			sort.Strings(neighbors)
+			for _, v := range neighbors {
 				switch color[v] {
 				case white:
 					dfs(v)
@@ -220,6 +232,178 @@ func (g *ImportGraph) computeBackEdges() {
 			}
 		}
 	}
+}
+
+// StrictForSCC creates a copy of the import graph that treats ALL
+// intra-SCC edges as cycle-causing for the SCC containing the given
+// package. This is used when generating types sub-packages, where any
+// cross-package import within the SCC could create a cycle.
+func (g *ImportGraph) StrictForSCC(pkg string) *ImportGraph {
+	sccIdx, inSCC := g.CyclePkgs[pkg]
+	if !inSCC {
+		return g // not in an SCC — no strict mode needed
+	}
+
+	// Build the set of packages in this SCC.
+	sccPkgs := make(map[string]bool)
+	for p, idx := range g.CyclePkgs {
+		if idx == sccIdx {
+			sccPkgs[p] = true
+		}
+	}
+
+	// Create a new graph where ALL edges between SCC members are
+	// marked as back-edges (cycle-causing).
+	strict := &ImportGraph{
+		Edges:     g.Edges,
+		CyclePkgs: g.CyclePkgs,
+		BackEdges: make(map[string]map[string]bool),
+	}
+
+	// Copy existing back-edges.
+	for src, targets := range g.BackEdges {
+		strict.BackEdges[src] = make(map[string]bool)
+		for tgt := range targets {
+			strict.BackEdges[src][tgt] = true
+		}
+	}
+
+	// Add ALL intra-SCC edges as back-edges.
+	for src := range sccPkgs {
+		for tgt := range g.Edges[src] {
+			if sccPkgs[tgt] {
+				if strict.BackEdges[src] == nil {
+					strict.BackEdges[src] = make(map[string]bool)
+				}
+				strict.BackEdges[src][tgt] = true
+			}
+		}
+	}
+
+	return strict
+}
+
+// AugmentFromGoFiles scans Go files in outputDir for import statements
+// and adds edges to the import graph. This ensures the graph includes
+// dependencies from existing generated code (from previous runs), not
+// just spec-defined types.
+func (g *ImportGraph) AugmentFromGoFiles(outputDir string) {
+	_ = filepath.Walk(outputDir, func(
+		path string,
+		info os.FileInfo,
+		err error,
+	) error {
+		if err != nil || info.IsDir() || !strings.HasSuffix(path, ".go") {
+			return nil
+		}
+
+		relPath, err := filepath.Rel(outputDir, path)
+		if err != nil {
+			return nil
+		}
+
+		if !strings.HasPrefix(relPath, "android/") && !strings.HasPrefix(relPath, "com/") {
+			return nil
+		}
+
+		dir := filepath.Dir(relPath)
+		// Skip types sub-packages — they can't create cycles (types-only
+		// graph is acyclic) and including them would pollute the SCC
+		// computation.
+		if strings.HasSuffix(dir, "/types") || strings.Contains(dir, "/types/") {
+			return nil
+		}
+		srcPkg := goPathToAIDLPkg(dir)
+
+		f, fErr := os.Open(path)
+		if fErr != nil {
+			return nil
+		}
+		defer f.Close()
+
+		scanner := bufio.NewScanner(f)
+		inImport := false
+		for scanner.Scan() {
+			line := strings.TrimSpace(scanner.Text())
+
+			if line == "import (" {
+				inImport = true
+				continue
+			}
+			if inImport && line == ")" {
+				inImport = false
+				continue
+			}
+
+			if strings.HasPrefix(line, "import ") {
+				importPath := extractImportPath(line[7:])
+				targetPkg := importPathToAIDLPkg(importPath)
+				if targetPkg != "" && targetPkg != srcPkg && !isTypesPkg(targetPkg) {
+					if g.Edges[srcPkg] == nil {
+						g.Edges[srcPkg] = make(map[string]bool)
+					}
+					g.Edges[srcPkg][targetPkg] = true
+				}
+				continue
+			}
+
+			if inImport && line != "" {
+				importPath := extractImportPath(line)
+				targetPkg := importPathToAIDLPkg(importPath)
+				if targetPkg != "" && targetPkg != srcPkg && !isTypesPkg(targetPkg) {
+					if g.Edges[srcPkg] == nil {
+						g.Edges[srcPkg] = make(map[string]bool)
+					}
+					g.Edges[srcPkg][targetPkg] = true
+				}
+			}
+		}
+
+		return nil
+	})
+}
+
+// goPathToAIDLPkg converts a Go directory path to an AIDL package name.
+func goPathToAIDLPkg(goPath string) string {
+	segments := strings.Split(goPath, string(filepath.Separator))
+	for i, seg := range segments {
+		if seg == "internal_" {
+			segments[i] = "internal"
+		}
+	}
+	return strings.Join(segments, ".")
+}
+
+// importPathToAIDLPkg extracts an AIDL package name from a Go import path.
+func importPathToAIDLPkg(importPath string) string {
+	const prefix = goModulePath + "/"
+	if !strings.HasPrefix(importPath, prefix) {
+		return ""
+	}
+	goSubPath := importPath[len(prefix):]
+	if !strings.HasPrefix(goSubPath, "android/") && !strings.HasPrefix(goSubPath, "com/") {
+		return ""
+	}
+	return goPathToAIDLPkg(goSubPath)
+}
+
+// isTypesPkg returns true if the AIDL package name is a "types" sub-package.
+func isTypesPkg(aidlPkg string) bool {
+	return strings.HasSuffix(aidlPkg, ".types")
+}
+
+// extractImportPath extracts the import path from a Go import line.
+func extractImportPath(line string) string {
+	line = strings.TrimSpace(line)
+	start := strings.IndexByte(line, '"')
+	if start < 0 {
+		return ""
+	}
+	end := strings.IndexByte(line[start+1:], '"')
+	if end < 0 {
+		return ""
+	}
+	return line[start+1 : start+1+end]
 }
 
 // collectTypeNames extracts all type names referenced by a definition.

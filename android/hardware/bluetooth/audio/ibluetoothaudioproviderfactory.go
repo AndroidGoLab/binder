@@ -53,6 +53,7 @@ func (p *BluetoothAudioProviderFactoryProxy) GetProviderCapabilities(
 ) ([]AudioCapabilities, error) {
 	var _result []AudioCapabilities
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProviderFactory)
 	_data.WritePaddedByte(byte(sessionType))
 
@@ -75,6 +76,9 @@ func (p *BluetoothAudioProviderFactoryProxy) GetProviderCapabilities(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]AudioCapabilities, _count)
@@ -96,6 +100,7 @@ func (p *BluetoothAudioProviderFactoryProxy) OpenProvider(
 ) (IBluetoothAudioProvider, error) {
 	var _result IBluetoothAudioProvider
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProviderFactory)
 	_data.WritePaddedByte(byte(sessionType))
 
@@ -128,6 +133,7 @@ func (p *BluetoothAudioProviderFactoryProxy) GetProviderInfo(
 ) (pm.ProviderInfo, error) {
 	var _result pm.ProviderInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProviderFactory)
 	_data.WritePaddedByte(byte(sessionType))
 
@@ -161,7 +167,8 @@ func (p *BluetoothAudioProviderFactoryProxy) GetProviderInfo(
 // BluetoothAudioProviderFactoryStub dispatches incoming binder transactions
 // to a typed IBluetoothAudioProviderFactory implementation.
 type BluetoothAudioProviderFactoryStub struct {
-	Impl IBluetoothAudioProviderFactory
+	Impl      IBluetoothAudioProviderFactory
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothAudioProviderFactoryStub)(nil)
@@ -175,11 +182,12 @@ func (s *BluetoothAudioProviderFactoryStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothAudioProviderFactoryGetProviderCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_sessionType, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -192,13 +200,19 @@ func (s *BluetoothAudioProviderFactoryStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderFactoryOpenProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_sessionType, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -211,13 +225,9 @@ func (s *BluetoothAudioProviderFactoryStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderFactoryGetProviderInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_sessionType, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err

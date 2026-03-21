@@ -49,6 +49,7 @@ func (p *DomainSelectorProxy) ReselectDomain(
 	attr androidTelephony.DomainSelectionServiceSelectionAttributes,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainSelector)
 	_data.WriteInt32(1)
 	if _err := attr.MarshalParcel(_data); _err != nil {
@@ -68,6 +69,7 @@ func (p *DomainSelectorProxy) FinishSelection(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDomainSelector)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainSelector, MethodIDomainSelectorFinishSelection)
@@ -82,7 +84,8 @@ func (p *DomainSelectorProxy) FinishSelection(
 // DomainSelectorStub dispatches incoming binder transactions
 // to a typed IDomainSelector implementation.
 type DomainSelectorStub struct {
-	Impl IDomainSelector
+	Impl      IDomainSelector
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DomainSelectorStub)(nil)
@@ -96,11 +99,12 @@ func (s *DomainSelectorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDomainSelectorReselectDomain:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_attr androidTelephony.DomainSelectionServiceSelectionAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -114,15 +118,10 @@ func (s *DomainSelectorStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ReselectDomain(ctx, _arg_attr)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDomainSelectorFinishSelection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.FinishSelection(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

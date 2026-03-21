@@ -36,15 +36,30 @@ func (s *RadioResponseInfoModem) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_typeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Type = RadioResponseType(_typeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Serial, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_errorRaw, _err := p.ReadInt32()
@@ -52,6 +67,11 @@ func (s *RadioResponseInfoModem) UnmarshalParcel(
 		return _err
 	}
 	s.Error = RadioError(_errorRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.IsEnabled, _err = p.ReadBool()
 	if _err != nil {

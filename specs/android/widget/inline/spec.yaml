@@ -1,0 +1,4 @@
+package: android.widget.inline
+go_package: android/widget/inline
+parcelables:
+    - name: InlinePresentationSpec

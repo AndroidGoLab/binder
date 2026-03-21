@@ -52,6 +52,7 @@ func (p *ArtManagerProxy) SnapshotRuntimeProfile(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIArtManager)
 	_data.WriteInt32(profileType)
 	_data.WriteString16(packageName)
@@ -84,6 +85,7 @@ func (p *ArtManagerProxy) IsRuntimeProfilingEnabled(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIArtManager)
 	_data.WriteInt32(profileType)
 	_data.WriteString16(_identity.PackageName)
@@ -113,7 +115,8 @@ func (p *ArtManagerProxy) IsRuntimeProfilingEnabled(
 // ArtManagerStub dispatches incoming binder transactions
 // to a typed IArtManager implementation.
 type ArtManagerStub struct {
-	Impl IArtManager
+	Impl      IArtManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ArtManagerStub)(nil)
@@ -127,11 +130,12 @@ func (s *ArtManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIArtManagerSnapshotRuntimeProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_profileType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -144,9 +148,14 @@ func (s *ArtManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISnapshotRuntimeProfileCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSnapshotRuntimeProfileCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -159,9 +168,6 @@ func (s *ArtManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIArtManagerIsRuntimeProfilingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_profileType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

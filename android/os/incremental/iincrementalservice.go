@@ -3,6 +3,8 @@ package incremental
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/content/pm/types"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -70,9 +72,9 @@ const (
 type IIncrementalService interface {
 	AsBinder() binder.IBinder
 	OpenStorage(ctx context.Context, path string) (int32, error)
-	CreateStorage(ctx context.Context, path string, params interface{}, createMode int32) (int32, error)
+	CreateStorage(ctx context.Context, path string, params types.DataLoaderParamsParcel, createMode int32) (int32, error)
 	CreateLinkedStorage(ctx context.Context, path string, otherStorageId int32, createMode int32) (int32, error)
-	StartLoading(ctx context.Context, storageId int32, params interface{}, statusListener interface{}, healthCheckParams StorageHealthCheckParams, healthListener IStorageHealthListener, perUidReadTimeouts []PerUidReadTimeouts) (bool, error)
+	StartLoading(ctx context.Context, storageId int32, params types.DataLoaderParamsParcel, statusListener types.IDataLoaderStatusListener, healthCheckParams StorageHealthCheckParams, healthListener IStorageHealthListener, perUidReadTimeouts []PerUidReadTimeouts) (bool, error)
 	OnInstallationComplete(ctx context.Context, storageId int32) error
 	MakeBindMount(ctx context.Context, storageId int32, sourcePath string, targetFullPath string, bindType int32) (int32, error)
 	DeleteBindMount(ctx context.Context, storageId int32, targetFullPath string) (int32, error)
@@ -93,7 +95,7 @@ type IIncrementalService interface {
 	WaitForNativeBinariesExtraction(ctx context.Context, storageId int32) (bool, error)
 	RegisterLoadingProgressListener(ctx context.Context, storageId int32, listener IStorageLoadingProgressListener) (bool, error)
 	UnregisterLoadingProgressListener(ctx context.Context, storageId int32) (bool, error)
-	GetMetrics(ctx context.Context, storageId int32) (interface{}, error)
+	GetMetrics(ctx context.Context, storageId int32) (os.PersistableBundle, error)
 }
 
 const (
@@ -139,6 +141,7 @@ func (p *IncrementalServiceProxy) OpenStorage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteString16(path)
 
@@ -167,13 +170,15 @@ func (p *IncrementalServiceProxy) OpenStorage(
 func (p *IncrementalServiceProxy) CreateStorage(
 	ctx context.Context,
 	path string,
-	params interface{},
+	params types.DataLoaderParamsParcel,
 	createMode int32,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteString16(path)
+	// WARNING: param params (type types.DataLoaderParamsParcel) cannot be serialized — type not resolved
 	_data.WriteInt32(createMode)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceCreateStorage)
@@ -206,6 +211,7 @@ func (p *IncrementalServiceProxy) CreateLinkedStorage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteString16(path)
 	_data.WriteInt32(otherStorageId)
@@ -236,16 +242,19 @@ func (p *IncrementalServiceProxy) CreateLinkedStorage(
 func (p *IncrementalServiceProxy) StartLoading(
 	ctx context.Context,
 	storageId int32,
-	params interface{},
-	statusListener interface{},
+	params types.DataLoaderParamsParcel,
+	statusListener types.IDataLoaderStatusListener,
 	healthCheckParams StorageHealthCheckParams,
 	healthListener IStorageHealthListener,
 	perUidReadTimeouts []PerUidReadTimeouts,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
+	// WARNING: param params (type types.DataLoaderParamsParcel) cannot be serialized — type not resolved
+	// WARNING: param statusListener (type types.IDataLoaderStatusListener) cannot be serialized — type not resolved
 	_data.WriteInt32(1)
 	if _err := healthCheckParams.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -290,6 +299,7 @@ func (p *IncrementalServiceProxy) OnInstallationComplete(
 	storageId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 
@@ -320,6 +330,7 @@ func (p *IncrementalServiceProxy) MakeBindMount(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 	_data.WriteString16(sourcePath)
@@ -355,6 +366,7 @@ func (p *IncrementalServiceProxy) DeleteBindMount(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 	_data.WriteString16(targetFullPath)
@@ -388,6 +400,7 @@ func (p *IncrementalServiceProxy) MakeDirectory(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 	_data.WriteString16(path)
@@ -421,6 +434,7 @@ func (p *IncrementalServiceProxy) MakeDirectories(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 	_data.WriteString16(path)
@@ -457,6 +471,7 @@ func (p *IncrementalServiceProxy) MakeFile(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 	_data.WriteString16(path)
@@ -465,14 +480,7 @@ func (p *IncrementalServiceProxy) MakeFile(
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	if content == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(content)))
-		for _, _item := range content {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(content)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceMakeFile)
 	if _err != nil {
@@ -506,6 +514,7 @@ func (p *IncrementalServiceProxy) MakeFileFromRange(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 	_data.WriteString16(targetPath)
@@ -544,6 +553,7 @@ func (p *IncrementalServiceProxy) MakeLink(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(sourceStorageId)
 	_data.WriteString16(sourcePath)
@@ -579,6 +589,7 @@ func (p *IncrementalServiceProxy) Unlink(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 	_data.WriteString16(path)
@@ -612,6 +623,7 @@ func (p *IncrementalServiceProxy) IsFileFullyLoaded(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 	_data.WriteString16(path)
@@ -644,6 +656,7 @@ func (p *IncrementalServiceProxy) IsFullyLoaded(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 
@@ -675,6 +688,7 @@ func (p *IncrementalServiceProxy) GetLoadingProgress(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 
@@ -707,6 +721,7 @@ func (p *IncrementalServiceProxy) GetMetadataByPath(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 	_data.WriteString16(path)
@@ -726,19 +741,9 @@ func (p *IncrementalServiceProxy) GetMetadataByPath(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -750,16 +755,10 @@ func (p *IncrementalServiceProxy) GetMetadataById(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
-	if fileId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(fileId)))
-		for _, _item := range fileId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(fileId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalService, MethodIIncrementalServiceGetMetadataById)
 	if _err != nil {
@@ -776,19 +775,9 @@ func (p *IncrementalServiceProxy) GetMetadataById(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -798,6 +787,7 @@ func (p *IncrementalServiceProxy) DeleteStorage(
 	storageId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 
@@ -824,6 +814,7 @@ func (p *IncrementalServiceProxy) DisallowReadLogs(
 	storageId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 
@@ -855,6 +846,7 @@ func (p *IncrementalServiceProxy) ConfigureNativeBinaries(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 	_data.WriteString16(apkFullPath)
@@ -890,6 +882,7 @@ func (p *IncrementalServiceProxy) WaitForNativeBinariesExtraction(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 
@@ -922,6 +915,7 @@ func (p *IncrementalServiceProxy) RegisterLoadingProgressListener(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -954,6 +948,7 @@ func (p *IncrementalServiceProxy) UnregisterLoadingProgressListener(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 
@@ -982,9 +977,10 @@ func (p *IncrementalServiceProxy) UnregisterLoadingProgressListener(
 func (p *IncrementalServiceProxy) GetMetrics(
 	ctx context.Context,
 	storageId int32,
-) (interface{}, error) {
-	var _result interface{}
+) (os.PersistableBundle, error) {
+	var _result os.PersistableBundle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 
@@ -1003,13 +999,23 @@ func (p *IncrementalServiceProxy) GetMetrics(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 // IncrementalServiceStub dispatches incoming binder transactions
 // to a typed IIncrementalService implementation.
 type IncrementalServiceStub struct {
-	Impl IIncrementalService
+	Impl      IIncrementalService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*IncrementalServiceStub)(nil)
@@ -1023,11 +1029,12 @@ func (s *IncrementalServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIIncrementalServiceOpenStorage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1042,14 +1049,11 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceCreateStorage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_params interface{}
+		var _arg_params types.DataLoaderParamsParcel
 		_arg_createMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1064,9 +1068,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceCreateLinkedStorage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1089,15 +1090,12 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceStartLoading:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_params interface{}
-		var _arg_statusListener interface{}
+		var _arg_params types.DataLoaderParamsParcel
+		var _arg_statusListener types.IDataLoaderStatusListener
 		var _arg_healthCheckParams StorageHealthCheckParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1110,12 +1108,35 @@ func (s *IncrementalServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_healthListener IStorageHealthListener
-		_ = _arg_healthListener
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_healthListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_healthListener = NewStorageHealthListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _healthListenerHandle))
+		}
 		var _arg_perUidReadTimeouts []PerUidReadTimeouts
-		_ = _arg_perUidReadTimeouts
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_perUidReadTimeouts = make([]PerUidReadTimeouts, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_perUidReadTimeouts[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.StartLoading(ctx, _arg_storageId, _arg_params, _arg_statusListener, _arg_healthCheckParams, _arg_healthListener, _arg_perUidReadTimeouts)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1126,9 +1147,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceOnInstallationComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1142,9 +1160,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIncrementalServiceMakeBindMount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1171,9 +1186,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceDeleteBindMount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1192,9 +1204,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceMakeDirectory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1213,9 +1222,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceMakeDirectories:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1234,9 +1240,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceMakeFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1261,9 +1264,14 @@ func (s *IncrementalServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_content []byte
-		_ = _arg_content
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_content = _bytes
+		}
 		_result, _err := s.Impl.MakeFile(ctx, _arg_storageId, _arg_path, _arg_mode, _arg_params, _arg_content)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1274,9 +1282,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceMakeFileFromRange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1307,9 +1312,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceMakeLink:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sourceStorageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1336,9 +1338,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceUnlink:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1357,9 +1356,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceIsFileFullyLoaded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1378,9 +1374,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceIsFullyLoaded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1395,9 +1388,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceGetLoadingProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1412,9 +1402,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceGetMetadataByPath:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1430,20 +1417,21 @@ func (s *IncrementalServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceGetMetadataById:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_fileId []byte
-		_ = _arg_fileId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_fileId = _bytes
+		}
 		_result, _err := s.Impl.GetMetadataById(ctx, _arg_storageId, _arg_fileId)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1451,13 +1439,9 @@ func (s *IncrementalServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceDeleteStorage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1471,9 +1455,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIncrementalServiceDisallowReadLogs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1487,9 +1468,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIncrementalServiceConfigureNativeBinaries:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1520,9 +1498,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceWaitForNativeBinariesExtraction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1537,16 +1512,18 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceRegisterLoadingProgressListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IStorageLoadingProgressListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewStorageLoadingProgressListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.RegisterLoadingProgressListener(ctx, _arg_storageId, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1557,9 +1534,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceUnregisterLoadingProgressListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1574,9 +1548,6 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceGetMetrics:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1588,7 +1559,10 @@ func (s *IncrementalServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -1600,9 +1574,9 @@ func (s *IncrementalServiceStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IIncrementalServiceServer interface {
 	OpenStorage(ctx context.Context, path string) (int32, error)
-	CreateStorage(ctx context.Context, path string, params interface{}, createMode int32) (int32, error)
+	CreateStorage(ctx context.Context, path string, params types.DataLoaderParamsParcel, createMode int32) (int32, error)
 	CreateLinkedStorage(ctx context.Context, path string, otherStorageId int32, createMode int32) (int32, error)
-	StartLoading(ctx context.Context, storageId int32, params interface{}, statusListener interface{}, healthCheckParams StorageHealthCheckParams, healthListener IStorageHealthListener, perUidReadTimeouts []PerUidReadTimeouts) (bool, error)
+	StartLoading(ctx context.Context, storageId int32, params types.DataLoaderParamsParcel, statusListener types.IDataLoaderStatusListener, healthCheckParams StorageHealthCheckParams, healthListener IStorageHealthListener, perUidReadTimeouts []PerUidReadTimeouts) (bool, error)
 	OnInstallationComplete(ctx context.Context, storageId int32) error
 	MakeBindMount(ctx context.Context, storageId int32, sourcePath string, targetFullPath string, bindType int32) (int32, error)
 	DeleteBindMount(ctx context.Context, storageId int32, targetFullPath string) (int32, error)
@@ -1623,7 +1597,7 @@ type IIncrementalServiceServer interface {
 	WaitForNativeBinariesExtraction(ctx context.Context, storageId int32) (bool, error)
 	RegisterLoadingProgressListener(ctx context.Context, storageId int32, listener IStorageLoadingProgressListener) (bool, error)
 	UnregisterLoadingProgressListener(ctx context.Context, storageId int32) (bool, error)
-	GetMetrics(ctx context.Context, storageId int32) (interface{}, error)
+	GetMetrics(ctx context.Context, storageId int32) (os.PersistableBundle, error)
 }
 
 type incrementalServiceStubWrapper struct {
@@ -1645,7 +1619,7 @@ func (w *incrementalServiceStubWrapper) OpenStorage(
 func (w *incrementalServiceStubWrapper) CreateStorage(
 	ctx context.Context,
 	path string,
-	params interface{},
+	params types.DataLoaderParamsParcel,
 	createMode int32,
 ) (int32, error) {
 	return w.impl.CreateStorage(ctx, path, params, createMode)
@@ -1663,8 +1637,8 @@ func (w *incrementalServiceStubWrapper) CreateLinkedStorage(
 func (w *incrementalServiceStubWrapper) StartLoading(
 	ctx context.Context,
 	storageId int32,
-	params interface{},
-	statusListener interface{},
+	params types.DataLoaderParamsParcel,
+	statusListener types.IDataLoaderStatusListener,
 	healthCheckParams StorageHealthCheckParams,
 	healthListener IStorageHealthListener,
 	perUidReadTimeouts []PerUidReadTimeouts,
@@ -1841,7 +1815,7 @@ func (w *incrementalServiceStubWrapper) UnregisterLoadingProgressListener(
 func (w *incrementalServiceStubWrapper) GetMetrics(
 	ctx context.Context,
 	storageId int32,
-) (interface{}, error) {
+) (os.PersistableBundle, error) {
 	return w.impl.GetMetrics(ctx, storageId)
 }
 

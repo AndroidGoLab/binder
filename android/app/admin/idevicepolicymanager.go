@@ -871,7 +871,7 @@ type IDevicePolicyManager interface {
 	SendLostModeLocationUpdate(ctx context.Context, future infra.AndroidFuture) error
 	SetGlobalProxy(ctx context.Context, admin content.ComponentName, proxySpec string, exclusionList string) (content.ComponentName, error)
 	GetGlobalProxyAdmin(ctx context.Context) (content.ComponentName, error)
-	SetRecommendedGlobalProxy(ctx context.Context, admin content.ComponentName, proxyInfo interface{}) error
+	SetRecommendedGlobalProxy(ctx context.Context, admin content.ComponentName, proxyInfo net.ProxyInfo) error
 	SetStorageEncryption(ctx context.Context, who content.ComponentName, encrypt bool) (int32, error)
 	GetStorageEncryption(ctx context.Context, who content.ComponentName) (bool, error)
 	GetStorageEncryptionStatus(ctx context.Context, callerPackage string) (int32, error)
@@ -919,8 +919,8 @@ type IDevicePolicyManager interface {
 	HasUserSetupCompleted(ctx context.Context) (bool, error)
 	IsOrganizationOwnedDeviceWithManagedProfile(ctx context.Context) (bool, error)
 	CheckDeviceIdentifierAccess(ctx context.Context, packageName string, pid int32, uid int32) (bool, error)
-	SetDeviceOwnerLockScreenInfo(ctx context.Context, who content.ComponentName, deviceOwnerInfo interface{}) error
-	GetDeviceOwnerLockScreenInfo(ctx context.Context) (interface{}, error)
+	SetDeviceOwnerLockScreenInfo(ctx context.Context, who content.ComponentName, deviceOwnerInfo string) error
+	GetDeviceOwnerLockScreenInfo(ctx context.Context) (string, error)
 	SetPackagesSuspended(ctx context.Context, admin content.ComponentName, callerPackage string, packageNames []string, suspended bool) ([]string, error)
 	IsPackageSuspended(ctx context.Context, admin content.ComponentName, callerPackage string, packageName string) (bool, error)
 	ListPolicyExemptApps(ctx context.Context) ([]string, error)
@@ -979,7 +979,7 @@ type IDevicePolicyManager interface {
 	GetEnforcingAdminsForRestriction(ctx context.Context, restriction string) ([]EnforcingAdmin, error)
 	SetApplicationHidden(ctx context.Context, admin content.ComponentName, callerPackage string, packageName string, hidden bool, parent bool) (bool, error)
 	IsApplicationHidden(ctx context.Context, admin content.ComponentName, callerPackage string, packageName string, parent bool) (bool, error)
-	CreateAndManageUser(ctx context.Context, who content.ComponentName, name string, profileOwner content.ComponentName, adminExtras interface{}, flags int32) (os.UserHandle, error)
+	CreateAndManageUser(ctx context.Context, who content.ComponentName, name string, profileOwner content.ComponentName, adminExtras os.PersistableBundle, flags int32) (os.UserHandle, error)
 	RemoveUser(ctx context.Context, who content.ComponentName, userHandle os.UserHandle) (bool, error)
 	SwitchUser(ctx context.Context, who content.ComponentName, userHandle os.UserHandle) (bool, error)
 	StartUserInBackground(ctx context.Context, who content.ComponentName, userHandle os.UserHandle) (int32, error)
@@ -1036,8 +1036,8 @@ type IDevicePolicyManager interface {
 	SetBluetoothContactSharingDisabled(ctx context.Context, who content.ComponentName, disabled bool) error
 	GetBluetoothContactSharingDisabled(ctx context.Context, who content.ComponentName) (bool, error)
 	GetBluetoothContactSharingDisabledForUser(ctx context.Context) (bool, error)
-	SetTrustAgentConfiguration(ctx context.Context, admin content.ComponentName, callerPackageName string, agent content.ComponentName, args interface{}, parent bool) error
-	GetTrustAgentConfiguration(ctx context.Context, admin content.ComponentName, agent content.ComponentName, parent bool) ([]interface{}, error)
+	SetTrustAgentConfiguration(ctx context.Context, admin content.ComponentName, callerPackageName string, agent content.ComponentName, args os.PersistableBundle, parent bool) error
+	GetTrustAgentConfiguration(ctx context.Context, admin content.ComponentName, agent content.ComponentName, parent bool) ([]os.PersistableBundle, error)
 	AddCrossProfileWidgetProvider(ctx context.Context, admin content.ComponentName, callerPackageName string, packageName string) (bool, error)
 	RemoveCrossProfileWidgetProvider(ctx context.Context, admin content.ComponentName, callerPackageName string, packageName string) (bool, error)
 	GetCrossProfileWidgetProviders(ctx context.Context, admin content.ComponentName, callerPackageName string) ([]string, error)
@@ -1071,21 +1071,21 @@ type IDevicePolicyManager interface {
 	IsManagedProfile(ctx context.Context, admin content.ComponentName) (bool, error)
 	GetWifiMacAddress(ctx context.Context, admin content.ComponentName, callerPackageName string) (string, error)
 	Reboot(ctx context.Context, admin content.ComponentName) error
-	SetShortSupportMessage(ctx context.Context, admin content.ComponentName, callerPackageName string, message interface{}) error
-	GetShortSupportMessage(ctx context.Context, admin content.ComponentName, callerPackageName string) (interface{}, error)
-	SetLongSupportMessage(ctx context.Context, admin content.ComponentName, message interface{}) error
-	GetLongSupportMessage(ctx context.Context, admin content.ComponentName) (interface{}, error)
-	GetShortSupportMessageForUser(ctx context.Context, admin content.ComponentName) (interface{}, error)
-	GetLongSupportMessageForUser(ctx context.Context, admin content.ComponentName) (interface{}, error)
+	SetShortSupportMessage(ctx context.Context, admin content.ComponentName, callerPackageName string, message string) error
+	GetShortSupportMessage(ctx context.Context, admin content.ComponentName, callerPackageName string) (string, error)
+	SetLongSupportMessage(ctx context.Context, admin content.ComponentName, message string) error
+	GetLongSupportMessage(ctx context.Context, admin content.ComponentName) (string, error)
+	GetShortSupportMessageForUser(ctx context.Context, admin content.ComponentName) (string, error)
+	GetLongSupportMessageForUser(ctx context.Context, admin content.ComponentName) (string, error)
 	SetOrganizationColor(ctx context.Context, admin content.ComponentName, color int32) error
 	SetOrganizationColorForUser(ctx context.Context, color int32) error
 	ClearOrganizationIdForUser(ctx context.Context) error
 	GetOrganizationColor(ctx context.Context, admin content.ComponentName) (int32, error)
 	GetOrganizationColorForUser(ctx context.Context) (int32, error)
-	SetOrganizationName(ctx context.Context, admin content.ComponentName, callerPackageName string, title interface{}) error
-	GetOrganizationName(ctx context.Context, admin content.ComponentName, callerPackageName string) (interface{}, error)
-	GetDeviceOwnerOrganizationName(ctx context.Context) (interface{}, error)
-	GetOrganizationNameForUser(ctx context.Context) (interface{}, error)
+	SetOrganizationName(ctx context.Context, admin content.ComponentName, callerPackageName string, title string) error
+	GetOrganizationName(ctx context.Context, admin content.ComponentName, callerPackageName string) (string, error)
+	GetDeviceOwnerOrganizationName(ctx context.Context) (string, error)
+	GetOrganizationNameForUser(ctx context.Context) (string, error)
 	GetUserProvisioningState(ctx context.Context) (int32, error)
 	SetUserProvisioningState(ctx context.Context, state int32) error
 	SetAffiliationIds(ctx context.Context, admin content.ComponentName, ids []string) error
@@ -1128,12 +1128,12 @@ type IDevicePolicyManager interface {
 	SetLogoutEnabled(ctx context.Context, admin content.ComponentName, enabled bool) error
 	IsLogoutEnabled(ctx context.Context) (bool, error)
 	GetDisallowedSystemApps(ctx context.Context, admin content.ComponentName, provisioningAction string) ([]string, error)
-	TransferOwnership(ctx context.Context, admin content.ComponentName, target content.ComponentName, bundle interface{}) error
-	GetTransferOwnershipBundle(ctx context.Context) (interface{}, error)
-	SetStartUserSessionMessage(ctx context.Context, admin content.ComponentName, startUserSessionMessage interface{}) error
-	SetEndUserSessionMessage(ctx context.Context, admin content.ComponentName, endUserSessionMessage interface{}) error
-	GetStartUserSessionMessage(ctx context.Context, admin content.ComponentName) (interface{}, error)
-	GetEndUserSessionMessage(ctx context.Context, admin content.ComponentName) (interface{}, error)
+	TransferOwnership(ctx context.Context, admin content.ComponentName, target content.ComponentName, bundle os.PersistableBundle) error
+	GetTransferOwnershipBundle(ctx context.Context) (os.PersistableBundle, error)
+	SetStartUserSessionMessage(ctx context.Context, admin content.ComponentName, startUserSessionMessage string) error
+	SetEndUserSessionMessage(ctx context.Context, admin content.ComponentName, endUserSessionMessage string) error
+	GetStartUserSessionMessage(ctx context.Context, admin content.ComponentName) (string, error)
+	GetEndUserSessionMessage(ctx context.Context, admin content.ComponentName) (string, error)
 	SetMeteredDataDisabledPackages(ctx context.Context, admin content.ComponentName, packageNames []string) ([]string, error)
 	GetMeteredDataDisabledPackages(ctx context.Context, admin content.ComponentName) ([]string, error)
 	AddOverrideApn(ctx context.Context, admin content.ComponentName, apnSetting data.ApnSetting) (int32, error)
@@ -1246,6 +1246,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordQuality(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1280,6 +1281,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordQuality(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1317,6 +1319,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumLength(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1351,6 +1354,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumLength(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1388,6 +1392,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumUpperCase(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1422,6 +1427,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumUpperCase(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1459,6 +1465,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumLowerCase(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1493,6 +1500,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumLowerCase(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1530,6 +1538,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumLetters(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1564,6 +1573,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumLetters(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1601,6 +1611,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumNumeric(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1635,6 +1646,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumNumeric(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1672,6 +1684,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumSymbols(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1706,6 +1719,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumSymbols(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1743,6 +1757,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumNonLetter(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1777,6 +1792,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumNonLetter(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1814,6 +1830,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumMetrics(
 	var _result PasswordMetrics
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(deviceWideOnly)
@@ -1852,6 +1869,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordHistoryLength(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1886,6 +1904,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordHistoryLength(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1924,6 +1943,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordExpirationTimeout(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1959,6 +1979,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordExpirationTimeout(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -1997,6 +2018,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordExpiration(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -2035,6 +2057,7 @@ func (p *DevicePolicyManagerProxy) IsActivePasswordSufficient(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackageName)
 	_data.WriteInt32(_identity.UserID)
@@ -2067,6 +2090,7 @@ func (p *DevicePolicyManagerProxy) IsActivePasswordSufficientForDeviceRequiremen
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsActivePasswordSufficientForDeviceRequirement)
@@ -2098,6 +2122,7 @@ func (p *DevicePolicyManagerProxy) IsPasswordSufficientAfterProfileUnification(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(profileUser)
@@ -2130,6 +2155,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordComplexity(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteBool(parent)
 
@@ -2162,6 +2188,7 @@ func (p *DevicePolicyManagerProxy) SetRequiredPasswordComplexity(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackageName)
 	_data.WriteInt32(passwordComplexity)
@@ -2192,6 +2219,7 @@ func (p *DevicePolicyManagerProxy) GetRequiredPasswordComplexity(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackageName)
 	_data.WriteBool(parent)
@@ -2225,6 +2253,7 @@ func (p *DevicePolicyManagerProxy) GetAggregatedPasswordComplexityForUser(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(deviceWideOnly)
@@ -2257,6 +2286,7 @@ func (p *DevicePolicyManagerProxy) IsUsingUnifiedPassword(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -2293,6 +2323,7 @@ func (p *DevicePolicyManagerProxy) GetCurrentFailedPasswordAttempts(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackageName)
 	_data.WriteInt32(_identity.UserID)
@@ -2327,6 +2358,7 @@ func (p *DevicePolicyManagerProxy) GetProfileWithMinimumFailedPasswordsForWipe(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(parent)
@@ -2361,6 +2393,7 @@ func (p *DevicePolicyManagerProxy) SetMaximumFailedPasswordsForWipe(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -2396,6 +2429,7 @@ func (p *DevicePolicyManagerProxy) GetMaximumFailedPasswordsForWipe(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -2433,6 +2467,7 @@ func (p *DevicePolicyManagerProxy) ResetPassword(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(password)
 	_data.WriteInt32(flags)
@@ -2467,6 +2502,7 @@ func (p *DevicePolicyManagerProxy) SetMaximumTimeToLock(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -2502,6 +2538,7 @@ func (p *DevicePolicyManagerProxy) GetMaximumTimeToLock(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -2540,6 +2577,7 @@ func (p *DevicePolicyManagerProxy) SetRequiredStrongAuthTimeout(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -2575,6 +2613,7 @@ func (p *DevicePolicyManagerProxy) GetRequiredStrongAuthTimeout(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -2612,6 +2651,7 @@ func (p *DevicePolicyManagerProxy) LockNow(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(flags)
 	_data.WriteString16(callerPackageName)
@@ -2644,6 +2684,7 @@ func (p *DevicePolicyManagerProxy) WipeDataWithReason(
 	factoryReset bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackageName)
 	_data.WriteInt32(flags)
@@ -2676,6 +2717,7 @@ func (p *DevicePolicyManagerProxy) SetFactoryResetProtectionPolicy(
 	policy FactoryResetProtectionPolicy,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -2711,6 +2753,7 @@ func (p *DevicePolicyManagerProxy) GetFactoryResetProtectionPolicy(
 ) (FactoryResetProtectionPolicy, error) {
 	var _result FactoryResetProtectionPolicy
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -2749,6 +2792,7 @@ func (p *DevicePolicyManagerProxy) IsFactoryResetProtectionPolicySupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsFactoryResetProtectionPolicySupported)
@@ -2778,6 +2822,7 @@ func (p *DevicePolicyManagerProxy) SendLostModeLocationUpdate(
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
@@ -2810,6 +2855,7 @@ func (p *DevicePolicyManagerProxy) SetGlobalProxy(
 ) (content.ComponentName, error) {
 	var _result content.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -2851,6 +2897,7 @@ func (p *DevicePolicyManagerProxy) GetGlobalProxyAdmin(
 	var _result content.ComponentName
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -2884,12 +2931,17 @@ func (p *DevicePolicyManagerProxy) GetGlobalProxyAdmin(
 func (p *DevicePolicyManagerProxy) SetRecommendedGlobalProxy(
 	ctx context.Context,
 	admin content.ComponentName,
-	proxyInfo interface{},
+	proxyInfo net.ProxyInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := proxyInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -2918,6 +2970,7 @@ func (p *DevicePolicyManagerProxy) SetStorageEncryption(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -2954,6 +3007,7 @@ func (p *DevicePolicyManagerProxy) GetStorageEncryption(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -2990,6 +3044,7 @@ func (p *DevicePolicyManagerProxy) GetStorageEncryptionStatus(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 	_data.WriteInt32(_identity.UserID)
@@ -3022,6 +3077,7 @@ func (p *DevicePolicyManagerProxy) RequestBugreport(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -3058,6 +3114,7 @@ func (p *DevicePolicyManagerProxy) SetCameraDisabled(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -3094,6 +3151,7 @@ func (p *DevicePolicyManagerProxy) GetCameraDisabled(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -3133,6 +3191,7 @@ func (p *DevicePolicyManagerProxy) SetScreenCaptureDisabled(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -3168,6 +3227,7 @@ func (p *DevicePolicyManagerProxy) GetScreenCaptureDisabled(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -3203,6 +3263,7 @@ func (p *DevicePolicyManagerProxy) SetNearbyNotificationStreamingPolicy(
 	policy int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(policy)
 
@@ -3230,6 +3291,7 @@ func (p *DevicePolicyManagerProxy) GetNearbyNotificationStreamingPolicy(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -3260,6 +3322,7 @@ func (p *DevicePolicyManagerProxy) SetNearbyAppStreamingPolicy(
 	policy int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(policy)
 
@@ -3287,6 +3350,7 @@ func (p *DevicePolicyManagerProxy) GetNearbyAppStreamingPolicy(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -3320,6 +3384,7 @@ func (p *DevicePolicyManagerProxy) SetKeyguardDisabledFeatures(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -3355,6 +3420,7 @@ func (p *DevicePolicyManagerProxy) GetKeyguardDisabledFeatures(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -3392,6 +3458,7 @@ func (p *DevicePolicyManagerProxy) SetActiveAdmin(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
@@ -3425,6 +3492,7 @@ func (p *DevicePolicyManagerProxy) IsAdminActive(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
@@ -3460,6 +3528,7 @@ func (p *DevicePolicyManagerProxy) GetActiveAdmins(
 	var _result []content.ComponentName
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -3481,6 +3550,9 @@ func (p *DevicePolicyManagerProxy) GetActiveAdmins(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -3504,6 +3576,7 @@ func (p *DevicePolicyManagerProxy) PackageHasActiveAdmins(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -3537,6 +3610,7 @@ func (p *DevicePolicyManagerProxy) GetRemoveWarning(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
@@ -3572,6 +3646,7 @@ func (p *DevicePolicyManagerProxy) RemoveActiveAdmin(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
@@ -3603,6 +3678,7 @@ func (p *DevicePolicyManagerProxy) ForceRemoveActiveAdmin(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
@@ -3636,6 +3712,7 @@ func (p *DevicePolicyManagerProxy) HasGrantedPolicy(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
@@ -3672,6 +3749,7 @@ func (p *DevicePolicyManagerProxy) ReportPasswordChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := metrics.MarshalParcel(_data); _err != nil {
@@ -3703,6 +3781,7 @@ func (p *DevicePolicyManagerProxy) ReportFailedPasswordAttempt(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(parent)
@@ -3730,6 +3809,7 @@ func (p *DevicePolicyManagerProxy) ReportSuccessfulPasswordAttempt(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -3756,6 +3836,7 @@ func (p *DevicePolicyManagerProxy) ReportFailedBiometricAttempt(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -3782,6 +3863,7 @@ func (p *DevicePolicyManagerProxy) ReportSuccessfulBiometricAttempt(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -3808,6 +3890,7 @@ func (p *DevicePolicyManagerProxy) ReportKeyguardDismissed(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -3834,6 +3917,7 @@ func (p *DevicePolicyManagerProxy) ReportKeyguardSecured(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -3863,6 +3947,7 @@ func (p *DevicePolicyManagerProxy) SetDeviceOwner(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -3899,6 +3984,7 @@ func (p *DevicePolicyManagerProxy) GetDeviceOwnerComponent(
 ) (content.ComponentName, error) {
 	var _result content.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteBool(callingUserOnly)
 
@@ -3935,6 +4021,7 @@ func (p *DevicePolicyManagerProxy) GetDeviceOwnerComponentOnUser(
 	var _result content.ComponentName
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -3970,6 +4057,7 @@ func (p *DevicePolicyManagerProxy) HasDeviceOwner(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerHasDeviceOwner)
@@ -3999,6 +4087,7 @@ func (p *DevicePolicyManagerProxy) GetDeviceOwnerName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDeviceOwnerName)
@@ -4028,6 +4117,7 @@ func (p *DevicePolicyManagerProxy) ClearDeviceOwner(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(packageName)
 
@@ -4054,6 +4144,7 @@ func (p *DevicePolicyManagerProxy) GetDeviceOwnerUserId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDeviceOwnerUserId)
@@ -4085,6 +4176,7 @@ func (p *DevicePolicyManagerProxy) SetProfileOwner(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -4120,6 +4212,7 @@ func (p *DevicePolicyManagerProxy) GetProfileOwnerAsUser(
 	var _result content.ComponentName
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -4156,6 +4249,7 @@ func (p *DevicePolicyManagerProxy) GetProfileOwnerOrDeviceOwnerSupervisionCompon
 ) (content.ComponentName, error) {
 	var _result content.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
@@ -4195,6 +4289,7 @@ func (p *DevicePolicyManagerProxy) IsSupervisionComponent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -4229,6 +4324,7 @@ func (p *DevicePolicyManagerProxy) GetProfileOwnerName(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -4259,6 +4355,7 @@ func (p *DevicePolicyManagerProxy) SetProfileEnabled(
 	who content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -4289,6 +4386,7 @@ func (p *DevicePolicyManagerProxy) SetProfileName(
 	profileName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -4319,6 +4417,7 @@ func (p *DevicePolicyManagerProxy) ClearProfileOwner(
 	who content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -4348,6 +4447,7 @@ func (p *DevicePolicyManagerProxy) HasUserSetupCompleted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerHasUserSetupCompleted)
@@ -4377,6 +4477,7 @@ func (p *DevicePolicyManagerProxy) IsOrganizationOwnedDeviceWithManagedProfile(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsOrganizationOwnedDeviceWithManagedProfile)
@@ -4409,6 +4510,7 @@ func (p *DevicePolicyManagerProxy) CheckDeviceIdentifierAccess(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
@@ -4439,14 +4541,16 @@ func (p *DevicePolicyManagerProxy) CheckDeviceIdentifierAccess(
 func (p *DevicePolicyManagerProxy) SetDeviceOwnerLockScreenInfo(
 	ctx context.Context,
 	who content.ComponentName,
-	deviceOwnerInfo interface{},
+	deviceOwnerInfo string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteString16(deviceOwnerInfo)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetDeviceOwnerLockScreenInfo)
 	if _err != nil {
@@ -4468,9 +4572,10 @@ func (p *DevicePolicyManagerProxy) SetDeviceOwnerLockScreenInfo(
 
 func (p *DevicePolicyManagerProxy) GetDeviceOwnerLockScreenInfo(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (string, error) {
+	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDeviceOwnerLockScreenInfo)
@@ -4488,6 +4593,10 @@ func (p *DevicePolicyManagerProxy) GetDeviceOwnerLockScreenInfo(
 		return _result, _err
 	}
 
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
 	return _result, nil
 }
 
@@ -4500,6 +4609,7 @@ func (p *DevicePolicyManagerProxy) SetPackagesSuspended(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -4535,6 +4645,9 @@ func (p *DevicePolicyManagerProxy) SetPackagesSuspended(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -4556,6 +4669,7 @@ func (p *DevicePolicyManagerProxy) IsPackageSuspended(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -4591,6 +4705,7 @@ func (p *DevicePolicyManagerProxy) ListPolicyExemptApps(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerListPolicyExemptApps)
@@ -4611,6 +4726,9 @@ func (p *DevicePolicyManagerProxy) ListPolicyExemptApps(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -4633,20 +4751,14 @@ func (p *DevicePolicyManagerProxy) InstallCaCert(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteString16(callerPackage)
-	if certBuffer == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(certBuffer)))
-		for _, _item := range certBuffer {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(certBuffer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerInstallCaCert)
 	if _err != nil {
@@ -4677,6 +4789,7 @@ func (p *DevicePolicyManagerProxy) UninstallCaCerts(
 	aliases []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -4716,6 +4829,7 @@ func (p *DevicePolicyManagerProxy) EnforceCanManageCaCerts(
 	callerPackage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -4749,6 +4863,7 @@ func (p *DevicePolicyManagerProxy) ApproveCaCert(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(alias)
 	_data.WriteInt32(_identity.UserID)
@@ -4783,6 +4898,7 @@ func (p *DevicePolicyManagerProxy) IsCaCertApproved(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(alias)
 	_data.WriteInt32(_identity.UserID)
@@ -4822,36 +4938,16 @@ func (p *DevicePolicyManagerProxy) InstallKeyPair(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteString16(callerPackage)
-	if privKeyBuffer == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(privKeyBuffer)))
-		for _, _item := range privKeyBuffer {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if certBuffer == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(certBuffer)))
-		for _, _item := range certBuffer {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if certChainBuffer == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(certChainBuffer)))
-		for _, _item := range certChainBuffer {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(privKeyBuffer)
+	_data.WriteByteArray(certBuffer)
+	_data.WriteByteArray(certChainBuffer)
 	_data.WriteString16(alias)
 	_data.WriteBool(requestAccess)
 	_data.WriteBool(isUserSelectable)
@@ -4886,6 +4982,7 @@ func (p *DevicePolicyManagerProxy) RemoveKeyPair(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -4923,6 +5020,7 @@ func (p *DevicePolicyManagerProxy) HasKeyPair(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 	_data.WriteString16(alias)
@@ -4960,6 +5058,7 @@ func (p *DevicePolicyManagerProxy) GenerateKeyPair(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -4987,8 +5086,16 @@ func (p *DevicePolicyManagerProxy) GenerateKeyPair(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = attestationChain.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = attestationChain.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadBool()
@@ -5009,6 +5116,7 @@ func (p *DevicePolicyManagerProxy) SetKeyPairCertificate(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -5016,22 +5124,8 @@ func (p *DevicePolicyManagerProxy) SetKeyPairCertificate(
 	}
 	_data.WriteString16(callerPackage)
 	_data.WriteString16(alias)
-	if certBuffer == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(certBuffer)))
-		for _, _item := range certBuffer {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if certChainBuffer == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(certChainBuffer)))
-		for _, _item := range certChainBuffer {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(certBuffer)
+	_data.WriteByteArray(certChainBuffer)
 	_data.WriteBool(isUserSelectable)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetKeyPairCertificate)
@@ -5064,6 +5158,7 @@ func (p *DevicePolicyManagerProxy) ChoosePrivateKeyAlias(
 	aliasCallback binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(1)
@@ -5098,6 +5193,7 @@ func (p *DevicePolicyManagerProxy) SetDelegatedScopes(
 	scopes []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -5138,6 +5234,7 @@ func (p *DevicePolicyManagerProxy) GetDelegatedScopes(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -5164,6 +5261,9 @@ func (p *DevicePolicyManagerProxy) GetDelegatedScopes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -5184,6 +5284,7 @@ func (p *DevicePolicyManagerProxy) GetDelegatePackages(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -5210,6 +5311,9 @@ func (p *DevicePolicyManagerProxy) GetDelegatePackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -5229,6 +5333,7 @@ func (p *DevicePolicyManagerProxy) SetCertInstallerPackage(
 	installerPackage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -5260,6 +5365,7 @@ func (p *DevicePolicyManagerProxy) GetCertInstallerPackage(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -5297,6 +5403,7 @@ func (p *DevicePolicyManagerProxy) SetAlwaysOnVpnPackage(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -5341,6 +5448,7 @@ func (p *DevicePolicyManagerProxy) GetAlwaysOnVpnPackage(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -5375,6 +5483,7 @@ func (p *DevicePolicyManagerProxy) GetAlwaysOnVpnPackageForUser(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -5406,6 +5515,7 @@ func (p *DevicePolicyManagerProxy) IsAlwaysOnVpnLockdownEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -5440,6 +5550,7 @@ func (p *DevicePolicyManagerProxy) IsAlwaysOnVpnLockdownEnabledForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -5471,6 +5582,7 @@ func (p *DevicePolicyManagerProxy) GetAlwaysOnVpnLockdownAllowlist(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -5496,6 +5608,9 @@ func (p *DevicePolicyManagerProxy) GetAlwaysOnVpnLockdownAllowlist(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -5517,6 +5632,7 @@ func (p *DevicePolicyManagerProxy) AddPersistentPreferredActivity(
 	activity content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -5557,6 +5673,7 @@ func (p *DevicePolicyManagerProxy) ClearPackagePersistentPreferredActivities(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -5591,6 +5708,7 @@ func (p *DevicePolicyManagerProxy) SetDefaultSmsApplication(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -5623,6 +5741,7 @@ func (p *DevicePolicyManagerProxy) SetDefaultDialerApplication(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(packageName)
 
@@ -5652,6 +5771,7 @@ func (p *DevicePolicyManagerProxy) SetApplicationRestrictions(
 	settings os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -5690,6 +5810,7 @@ func (p *DevicePolicyManagerProxy) GetApplicationRestrictions(
 ) (os.Bundle, error) {
 	var _result os.Bundle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -5732,6 +5853,7 @@ func (p *DevicePolicyManagerProxy) SetApplicationRestrictionsManagingPackage(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -5767,6 +5889,7 @@ func (p *DevicePolicyManagerProxy) GetApplicationRestrictionsManagingPackage(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -5801,6 +5924,7 @@ func (p *DevicePolicyManagerProxy) IsCallerApplicationRestrictionsManagingPackag
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 
@@ -5832,6 +5956,7 @@ func (p *DevicePolicyManagerProxy) SetRestrictionsProvider(
 	provider content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -5866,6 +5991,7 @@ func (p *DevicePolicyManagerProxy) GetRestrictionsProvider(
 	var _result content.ComponentName
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -5905,6 +6031,7 @@ func (p *DevicePolicyManagerProxy) SetUserRestriction(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -5939,6 +6066,7 @@ func (p *DevicePolicyManagerProxy) SetUserRestrictionGlobally(
 	key string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 	_data.WriteString16(key)
@@ -5969,6 +6097,7 @@ func (p *DevicePolicyManagerProxy) GetUserRestrictions(
 ) (os.Bundle, error) {
 	var _result os.Bundle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -6010,6 +6139,7 @@ func (p *DevicePolicyManagerProxy) GetUserRestrictionsGlobally(
 ) (os.Bundle, error) {
 	var _result os.Bundle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 
@@ -6048,6 +6178,7 @@ func (p *DevicePolicyManagerProxy) AddCrossProfileIntentFilter(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -6084,6 +6215,7 @@ func (p *DevicePolicyManagerProxy) ClearCrossProfileIntentFilters(
 	callerPackageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -6116,6 +6248,7 @@ func (p *DevicePolicyManagerProxy) SetPermittedAccessibilityServices(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -6158,6 +6291,7 @@ func (p *DevicePolicyManagerProxy) GetPermittedAccessibilityServices(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -6183,6 +6317,9 @@ func (p *DevicePolicyManagerProxy) GetPermittedAccessibilityServices(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -6202,6 +6339,7 @@ func (p *DevicePolicyManagerProxy) GetPermittedAccessibilityServicesForUser(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -6224,6 +6362,9 @@ func (p *DevicePolicyManagerProxy) GetPermittedAccessibilityServicesForUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -6245,6 +6386,7 @@ func (p *DevicePolicyManagerProxy) IsAccessibilityServicePermittedByAdmin(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -6284,6 +6426,7 @@ func (p *DevicePolicyManagerProxy) SetPermittedInputMethods(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -6330,6 +6473,7 @@ func (p *DevicePolicyManagerProxy) GetPermittedInputMethods(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -6357,6 +6501,9 @@ func (p *DevicePolicyManagerProxy) GetPermittedInputMethods(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -6376,6 +6523,7 @@ func (p *DevicePolicyManagerProxy) GetPermittedInputMethodsAsUser(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -6397,6 +6545,9 @@ func (p *DevicePolicyManagerProxy) GetPermittedInputMethodsAsUser(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -6420,6 +6571,7 @@ func (p *DevicePolicyManagerProxy) IsInputMethodPermittedByAdmin(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -6458,6 +6610,7 @@ func (p *DevicePolicyManagerProxy) SetPermittedCrossProfileNotificationListeners
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -6500,6 +6653,7 @@ func (p *DevicePolicyManagerProxy) GetPermittedCrossProfileNotificationListeners
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -6525,6 +6679,9 @@ func (p *DevicePolicyManagerProxy) GetPermittedCrossProfileNotificationListeners
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -6545,6 +6702,7 @@ func (p *DevicePolicyManagerProxy) IsNotificationListenerServicePermitted(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -6577,6 +6735,7 @@ func (p *DevicePolicyManagerProxy) CreateAdminSupportIntent(
 ) (content.Intent, error) {
 	var _result content.Intent
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(restriction)
 
@@ -6614,6 +6773,7 @@ func (p *DevicePolicyManagerProxy) GetEnforcingAdminAndUserDetails(
 	var _result os.Bundle
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(restriction)
@@ -6652,6 +6812,7 @@ func (p *DevicePolicyManagerProxy) GetEnforcingAdminsForRestriction(
 	var _result []EnforcingAdmin
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(restriction)
@@ -6674,6 +6835,9 @@ func (p *DevicePolicyManagerProxy) GetEnforcingAdminsForRestriction(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -6700,6 +6864,7 @@ func (p *DevicePolicyManagerProxy) SetApplicationHidden(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -6741,6 +6906,7 @@ func (p *DevicePolicyManagerProxy) IsApplicationHidden(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -6777,11 +6943,12 @@ func (p *DevicePolicyManagerProxy) CreateAndManageUser(
 	who content.ComponentName,
 	name string,
 	profileOwner content.ComponentName,
-	adminExtras interface{},
+	adminExtras os.PersistableBundle,
 	flags int32,
 ) (os.UserHandle, error) {
 	var _result os.UserHandle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -6790,6 +6957,10 @@ func (p *DevicePolicyManagerProxy) CreateAndManageUser(
 	_data.WriteString16(name)
 	_data.WriteInt32(1)
 	if _err := profileOwner.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := adminExtras.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteInt32(flags)
@@ -6828,6 +6999,7 @@ func (p *DevicePolicyManagerProxy) RemoveUser(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -6867,6 +7039,7 @@ func (p *DevicePolicyManagerProxy) SwitchUser(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -6906,6 +7079,7 @@ func (p *DevicePolicyManagerProxy) StartUserInBackground(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -6945,6 +7119,7 @@ func (p *DevicePolicyManagerProxy) StopUser(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -6983,6 +7158,7 @@ func (p *DevicePolicyManagerProxy) LogoutUser(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -7016,6 +7192,7 @@ func (p *DevicePolicyManagerProxy) LogoutUserInternal(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerLogoutUserInternal)
@@ -7045,6 +7222,7 @@ func (p *DevicePolicyManagerProxy) GetLogoutUserId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetLogoutUserId)
@@ -7075,6 +7253,7 @@ func (p *DevicePolicyManagerProxy) GetSecondaryUsers(
 ) ([]os.UserHandle, error) {
 	var _result []os.UserHandle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -7100,6 +7279,9 @@ func (p *DevicePolicyManagerProxy) GetSecondaryUsers(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]os.UserHandle, _count)
@@ -7120,6 +7302,7 @@ func (p *DevicePolicyManagerProxy) AcknowledgeNewUserDisclaimer(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -7147,6 +7330,7 @@ func (p *DevicePolicyManagerProxy) IsNewUserDisclaimerAcknowledged(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -7179,6 +7363,7 @@ func (p *DevicePolicyManagerProxy) EnableSystemApp(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -7213,6 +7398,7 @@ func (p *DevicePolicyManagerProxy) EnableSystemAppWithIntent(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -7254,6 +7440,7 @@ func (p *DevicePolicyManagerProxy) InstallExistingPackage(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -7293,6 +7480,7 @@ func (p *DevicePolicyManagerProxy) SetAccountManagementDisabled(
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -7327,6 +7515,7 @@ func (p *DevicePolicyManagerProxy) GetAccountTypesWithManagementDisabled(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackageName)
 
@@ -7349,6 +7538,9 @@ func (p *DevicePolicyManagerProxy) GetAccountTypesWithManagementDisabled(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -7370,6 +7562,7 @@ func (p *DevicePolicyManagerProxy) GetAccountTypesWithManagementDisabledAsUser(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(callerPackageName)
@@ -7394,6 +7587,9 @@ func (p *DevicePolicyManagerProxy) GetAccountTypesWithManagementDisabledAsUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -7413,6 +7609,7 @@ func (p *DevicePolicyManagerProxy) SetSecondaryLockscreenEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -7444,6 +7641,7 @@ func (p *DevicePolicyManagerProxy) IsSecondaryLockscreenEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
@@ -7477,6 +7675,7 @@ func (p *DevicePolicyManagerProxy) SetPreferentialNetworkServiceConfigs(
 	preferentialNetworkServiceConfigs []PreferentialNetworkServiceConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	if preferentialNetworkServiceConfigs == nil {
 		_data.WriteInt32(-1)
@@ -7513,6 +7712,7 @@ func (p *DevicePolicyManagerProxy) GetPreferentialNetworkServiceConfigs(
 ) ([]PreferentialNetworkServiceConfig, error) {
 	var _result []PreferentialNetworkServiceConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetPreferentialNetworkServiceConfigs)
@@ -7533,6 +7733,9 @@ func (p *DevicePolicyManagerProxy) GetPreferentialNetworkServiceConfigs(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -7556,6 +7759,7 @@ func (p *DevicePolicyManagerProxy) SetLockTaskPackages(
 	packages []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -7596,6 +7800,7 @@ func (p *DevicePolicyManagerProxy) GetLockTaskPackages(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -7622,6 +7827,9 @@ func (p *DevicePolicyManagerProxy) GetLockTaskPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -7641,6 +7849,7 @@ func (p *DevicePolicyManagerProxy) IsLockTaskPermitted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(pkg)
 
@@ -7673,6 +7882,7 @@ func (p *DevicePolicyManagerProxy) SetLockTaskFeatures(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -7706,6 +7916,7 @@ func (p *DevicePolicyManagerProxy) GetLockTaskFeatures(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -7742,6 +7953,7 @@ func (p *DevicePolicyManagerProxy) SetGlobalSetting(
 	value string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -7775,6 +7987,7 @@ func (p *DevicePolicyManagerProxy) SetSystemSetting(
 	value string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -7808,6 +8021,7 @@ func (p *DevicePolicyManagerProxy) SetSecureSetting(
 	value string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -7841,6 +8055,7 @@ func (p *DevicePolicyManagerProxy) SetConfiguredNetworksLockdownState(
 	lockdown bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -7873,6 +8088,7 @@ func (p *DevicePolicyManagerProxy) HasLockdownAdminConfiguredNetworks(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -7907,6 +8123,7 @@ func (p *DevicePolicyManagerProxy) SetLocationEnabled(
 	locationEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -7940,6 +8157,7 @@ func (p *DevicePolicyManagerProxy) SetTime(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -7978,6 +8196,7 @@ func (p *DevicePolicyManagerProxy) SetTimeZone(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -8014,6 +8233,7 @@ func (p *DevicePolicyManagerProxy) SetMasterVolumeMuted(
 	on bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -8045,6 +8265,7 @@ func (p *DevicePolicyManagerProxy) IsMasterVolumeMuted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -8080,6 +8301,7 @@ func (p *DevicePolicyManagerProxy) NotifyLockTaskModeChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteBool(isEnabled)
 	_data.WriteString16(pkg)
@@ -8111,6 +8333,7 @@ func (p *DevicePolicyManagerProxy) SetUninstallBlocked(
 	uninstallBlocked bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -8144,6 +8367,7 @@ func (p *DevicePolicyManagerProxy) IsUninstallBlocked(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(packageName)
 
@@ -8175,6 +8399,7 @@ func (p *DevicePolicyManagerProxy) SetCrossProfileCallerIdDisabled(
 	disabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -8206,6 +8431,7 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileCallerIdDisabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -8240,6 +8466,7 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileCallerIdDisabledForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -8271,6 +8498,7 @@ func (p *DevicePolicyManagerProxy) SetCrossProfileContactsSearchDisabled(
 	disabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -8302,6 +8530,7 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileContactsSearchDisabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -8336,6 +8565,7 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileContactsSearchDisabledForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -8370,6 +8600,7 @@ func (p *DevicePolicyManagerProxy) StartManagedQuickContact(
 	originalIntent content.Intent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(lookupKey)
 	_data.WriteInt64(contactId)
@@ -8403,6 +8634,7 @@ func (p *DevicePolicyManagerProxy) SetManagedProfileCallerIdAccessPolicy(
 	policy PackagePolicy,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := policy.MarshalParcel(_data); _err != nil {
@@ -8432,6 +8664,7 @@ func (p *DevicePolicyManagerProxy) GetManagedProfileCallerIdAccessPolicy(
 ) (PackagePolicy, error) {
 	var _result PackagePolicy
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetManagedProfileCallerIdAccessPolicy)
@@ -8468,6 +8701,7 @@ func (p *DevicePolicyManagerProxy) HasManagedProfileCallerIdAccess(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
@@ -8499,6 +8733,7 @@ func (p *DevicePolicyManagerProxy) SetCredentialManagerPolicy(
 	policy PackagePolicy,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := policy.MarshalParcel(_data); _err != nil {
@@ -8529,6 +8764,7 @@ func (p *DevicePolicyManagerProxy) GetCredentialManagerPolicy(
 	var _result PackagePolicy
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -8564,6 +8800,7 @@ func (p *DevicePolicyManagerProxy) SetManagedProfileContactsAccessPolicy(
 	policy PackagePolicy,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := policy.MarshalParcel(_data); _err != nil {
@@ -8593,6 +8830,7 @@ func (p *DevicePolicyManagerProxy) GetManagedProfileContactsAccessPolicy(
 ) (PackagePolicy, error) {
 	var _result PackagePolicy
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetManagedProfileContactsAccessPolicy)
@@ -8629,6 +8867,7 @@ func (p *DevicePolicyManagerProxy) HasManagedProfileContactsAccess(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
@@ -8661,6 +8900,7 @@ func (p *DevicePolicyManagerProxy) SetBluetoothContactSharingDisabled(
 	disabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -8692,6 +8932,7 @@ func (p *DevicePolicyManagerProxy) GetBluetoothContactSharingDisabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -8726,6 +8967,7 @@ func (p *DevicePolicyManagerProxy) GetBluetoothContactSharingDisabledForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -8756,10 +8998,11 @@ func (p *DevicePolicyManagerProxy) SetTrustAgentConfiguration(
 	admin content.ComponentName,
 	callerPackageName string,
 	agent content.ComponentName,
-	args interface{},
+	args os.PersistableBundle,
 	parent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -8768,6 +9011,10 @@ func (p *DevicePolicyManagerProxy) SetTrustAgentConfiguration(
 	_data.WriteString16(callerPackageName)
 	_data.WriteInt32(1)
 	if _err := agent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteBool(parent)
@@ -8795,10 +9042,11 @@ func (p *DevicePolicyManagerProxy) GetTrustAgentConfiguration(
 	admin content.ComponentName,
 	agent content.ComponentName,
 	parent bool,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]os.PersistableBundle, error) {
+	var _result []os.PersistableBundle
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -8830,10 +9078,19 @@ func (p *DevicePolicyManagerProxy) GetTrustAgentConfiguration(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]os.PersistableBundle, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -8847,6 +9104,7 @@ func (p *DevicePolicyManagerProxy) AddCrossProfileWidgetProvider(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -8885,6 +9143,7 @@ func (p *DevicePolicyManagerProxy) RemoveCrossProfileWidgetProvider(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -8922,6 +9181,7 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileWidgetProviders(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -8948,6 +9208,9 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileWidgetProviders(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -8967,6 +9230,7 @@ func (p *DevicePolicyManagerProxy) SetAutoTimeRequired(
 	required bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -8997,6 +9261,7 @@ func (p *DevicePolicyManagerProxy) GetAutoTimeRequired(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetAutoTimeRequired)
@@ -9028,6 +9293,7 @@ func (p *DevicePolicyManagerProxy) SetAutoTimeEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -9061,6 +9327,7 @@ func (p *DevicePolicyManagerProxy) GetAutoTimeEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -9097,6 +9364,7 @@ func (p *DevicePolicyManagerProxy) SetAutoTimeZoneEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -9130,6 +9398,7 @@ func (p *DevicePolicyManagerProxy) GetAutoTimeZoneEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -9165,6 +9434,7 @@ func (p *DevicePolicyManagerProxy) SetForceEphemeralUsers(
 	forceEpehemeralUsers bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -9196,6 +9466,7 @@ func (p *DevicePolicyManagerProxy) GetForceEphemeralUsers(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -9231,6 +9502,7 @@ func (p *DevicePolicyManagerProxy) IsRemovingAdmin(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := adminReceiver.MarshalParcel(_data); _err != nil {
@@ -9266,6 +9538,7 @@ func (p *DevicePolicyManagerProxy) SetUserIcon(
 	icon graphics.Bitmap,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -9301,6 +9574,7 @@ func (p *DevicePolicyManagerProxy) SetSystemUpdatePolicy(
 	policy SystemUpdatePolicy,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -9335,6 +9609,7 @@ func (p *DevicePolicyManagerProxy) GetSystemUpdatePolicy(
 ) (SystemUpdatePolicy, error) {
 	var _result SystemUpdatePolicy
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetSystemUpdatePolicy)
@@ -9368,6 +9643,7 @@ func (p *DevicePolicyManagerProxy) ClearSystemUpdatePolicyFreezePeriodRecord(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerClearSystemUpdatePolicyFreezePeriodRecord)
@@ -9395,6 +9671,7 @@ func (p *DevicePolicyManagerProxy) SetKeyguardDisabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -9432,6 +9709,7 @@ func (p *DevicePolicyManagerProxy) SetStatusBarDisabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -9468,6 +9746,7 @@ func (p *DevicePolicyManagerProxy) IsStatusBarDisabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 
@@ -9498,6 +9777,7 @@ func (p *DevicePolicyManagerProxy) GetDoNotAskCredentialsOnBoot(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDoNotAskCredentialsOnBoot)
@@ -9527,6 +9807,7 @@ func (p *DevicePolicyManagerProxy) NotifyPendingSystemUpdate(
 	info SystemUpdateInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -9558,6 +9839,7 @@ func (p *DevicePolicyManagerProxy) GetPendingSystemUpdate(
 ) (SystemUpdateInfo, error) {
 	var _result SystemUpdateInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -9599,6 +9881,7 @@ func (p *DevicePolicyManagerProxy) SetPermissionPolicy(
 	policy int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -9631,6 +9914,7 @@ func (p *DevicePolicyManagerProxy) GetPermissionPolicy(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -9669,6 +9953,7 @@ func (p *DevicePolicyManagerProxy) SetPermissionGrantState(
 	resultReceiver os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -9710,6 +9995,7 @@ func (p *DevicePolicyManagerProxy) GetPermissionGrantState(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -9748,6 +10034,7 @@ func (p *DevicePolicyManagerProxy) IsProvisioningAllowed(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(action)
 	_data.WriteString16(packageName)
@@ -9781,6 +10068,7 @@ func (p *DevicePolicyManagerProxy) CheckProvisioningPrecondition(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(action)
 	_data.WriteString16(packageName)
@@ -9814,6 +10102,7 @@ func (p *DevicePolicyManagerProxy) SetKeepUninstalledPackages(
 	packageList []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -9854,6 +10143,7 @@ func (p *DevicePolicyManagerProxy) GetKeepUninstalledPackages(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -9880,6 +10170,9 @@ func (p *DevicePolicyManagerProxy) GetKeepUninstalledPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -9899,6 +10192,7 @@ func (p *DevicePolicyManagerProxy) IsManagedProfile(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -9934,6 +10228,7 @@ func (p *DevicePolicyManagerProxy) GetWifiMacAddress(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -9968,6 +10263,7 @@ func (p *DevicePolicyManagerProxy) Reboot(
 	admin content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -9996,15 +10292,17 @@ func (p *DevicePolicyManagerProxy) SetShortSupportMessage(
 	ctx context.Context,
 	admin content.ComponentName,
 	callerPackageName string,
-	message interface{},
+	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(callerPackageName)
+	_data.WriteString16(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetShortSupportMessage)
 	if _err != nil {
@@ -10028,9 +10326,10 @@ func (p *DevicePolicyManagerProxy) GetShortSupportMessage(
 	ctx context.Context,
 	admin content.ComponentName,
 	callerPackageName string,
-) (interface{}, error) {
-	var _result interface{}
+) (string, error) {
+	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -10053,20 +10352,26 @@ func (p *DevicePolicyManagerProxy) GetShortSupportMessage(
 		return _result, _err
 	}
 
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
 	return _result, nil
 }
 
 func (p *DevicePolicyManagerProxy) SetLongSupportMessage(
 	ctx context.Context,
 	admin content.ComponentName,
-	message interface{},
+	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteString16(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetLongSupportMessage)
 	if _err != nil {
@@ -10089,9 +10394,10 @@ func (p *DevicePolicyManagerProxy) SetLongSupportMessage(
 func (p *DevicePolicyManagerProxy) GetLongSupportMessage(
 	ctx context.Context,
 	admin content.ComponentName,
-) (interface{}, error) {
-	var _result interface{}
+) (string, error) {
+	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -10113,16 +10419,21 @@ func (p *DevicePolicyManagerProxy) GetLongSupportMessage(
 		return _result, _err
 	}
 
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
 	return _result, nil
 }
 
 func (p *DevicePolicyManagerProxy) GetShortSupportMessageForUser(
 	ctx context.Context,
 	admin content.ComponentName,
-) (interface{}, error) {
-	var _result interface{}
+) (string, error) {
+	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -10145,16 +10456,21 @@ func (p *DevicePolicyManagerProxy) GetShortSupportMessageForUser(
 		return _result, _err
 	}
 
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
 	return _result, nil
 }
 
 func (p *DevicePolicyManagerProxy) GetLongSupportMessageForUser(
 	ctx context.Context,
 	admin content.ComponentName,
-) (interface{}, error) {
-	var _result interface{}
+) (string, error) {
+	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -10177,6 +10493,10 @@ func (p *DevicePolicyManagerProxy) GetLongSupportMessageForUser(
 		return _result, _err
 	}
 
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
 	return _result, nil
 }
 
@@ -10186,6 +10506,7 @@ func (p *DevicePolicyManagerProxy) SetOrganizationColor(
 	color int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -10217,6 +10538,7 @@ func (p *DevicePolicyManagerProxy) SetOrganizationColorForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(color)
 	_data.WriteInt32(_identity.UserID)
@@ -10244,6 +10566,7 @@ func (p *DevicePolicyManagerProxy) ClearOrganizationIdForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -10271,6 +10594,7 @@ func (p *DevicePolicyManagerProxy) GetOrganizationColor(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -10305,6 +10629,7 @@ func (p *DevicePolicyManagerProxy) GetOrganizationColorForUser(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -10334,15 +10659,17 @@ func (p *DevicePolicyManagerProxy) SetOrganizationName(
 	ctx context.Context,
 	admin content.ComponentName,
 	callerPackageName string,
-	title interface{},
+	title string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(callerPackageName)
+	_data.WriteString16(title)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetOrganizationName)
 	if _err != nil {
@@ -10366,9 +10693,10 @@ func (p *DevicePolicyManagerProxy) GetOrganizationName(
 	ctx context.Context,
 	admin content.ComponentName,
 	callerPackageName string,
-) (interface{}, error) {
-	var _result interface{}
+) (string, error) {
+	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -10391,14 +10719,19 @@ func (p *DevicePolicyManagerProxy) GetOrganizationName(
 		return _result, _err
 	}
 
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
 	return _result, nil
 }
 
 func (p *DevicePolicyManagerProxy) GetDeviceOwnerOrganizationName(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (string, error) {
+	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDeviceOwnerOrganizationName)
@@ -10416,15 +10749,20 @@ func (p *DevicePolicyManagerProxy) GetDeviceOwnerOrganizationName(
 		return _result, _err
 	}
 
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
 	return _result, nil
 }
 
 func (p *DevicePolicyManagerProxy) GetOrganizationNameForUser(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (string, error) {
+	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -10443,6 +10781,10 @@ func (p *DevicePolicyManagerProxy) GetOrganizationNameForUser(
 		return _result, _err
 	}
 
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
 	return _result, nil
 }
 
@@ -10452,6 +10794,7 @@ func (p *DevicePolicyManagerProxy) GetUserProvisioningState(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -10483,6 +10826,7 @@ func (p *DevicePolicyManagerProxy) SetUserProvisioningState(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(state)
 	_data.WriteInt32(_identity.UserID)
@@ -10511,6 +10855,7 @@ func (p *DevicePolicyManagerProxy) SetAffiliationIds(
 	ids []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -10549,6 +10894,7 @@ func (p *DevicePolicyManagerProxy) GetAffiliationIds(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -10574,6 +10920,9 @@ func (p *DevicePolicyManagerProxy) GetAffiliationIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -10592,6 +10941,7 @@ func (p *DevicePolicyManagerProxy) IsCallingUserAffiliated(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsCallingUserAffiliated)
@@ -10622,6 +10972,7 @@ func (p *DevicePolicyManagerProxy) IsAffiliatedUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -10654,6 +11005,7 @@ func (p *DevicePolicyManagerProxy) SetSecurityLoggingEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -10687,6 +11039,7 @@ func (p *DevicePolicyManagerProxy) IsSecurityLoggingEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -10723,6 +11076,7 @@ func (p *DevicePolicyManagerProxy) RetrieveSecurityLogs(
 ) (pm.ParceledListSlice, error) {
 	var _result pm.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -10764,6 +11118,7 @@ func (p *DevicePolicyManagerProxy) RetrievePreRebootSecurityLogs(
 ) (pm.ParceledListSlice, error) {
 	var _result pm.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -10803,6 +11158,7 @@ func (p *DevicePolicyManagerProxy) ForceNetworkLogs(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerForceNetworkLogs)
@@ -10832,6 +11188,7 @@ func (p *DevicePolicyManagerProxy) ForceSecurityLogs(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerForceSecurityLogs)
@@ -10862,6 +11219,7 @@ func (p *DevicePolicyManagerProxy) SetAuditLogEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 	_data.WriteBool(enabled)
@@ -10890,6 +11248,7 @@ func (p *DevicePolicyManagerProxy) IsAuditLogEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 
@@ -10921,6 +11280,7 @@ func (p *DevicePolicyManagerProxy) SetAuditLogEventsCallback(
 	callback IAuditLogEventsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -10949,6 +11309,7 @@ func (p *DevicePolicyManagerProxy) IsUninstallInQueue(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(packageName)
 
@@ -10979,6 +11340,7 @@ func (p *DevicePolicyManagerProxy) UninstallPackageWithActiveAdmins(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(packageName)
 
@@ -11005,6 +11367,7 @@ func (p *DevicePolicyManagerProxy) IsDeviceProvisioned(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsDeviceProvisioned)
@@ -11034,6 +11397,7 @@ func (p *DevicePolicyManagerProxy) IsDeviceProvisioningConfigApplied(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsDeviceProvisioningConfigApplied)
@@ -11062,6 +11426,7 @@ func (p *DevicePolicyManagerProxy) SetDeviceProvisioningConfigApplied(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetDeviceProvisioningConfigApplied)
@@ -11087,6 +11452,7 @@ func (p *DevicePolicyManagerProxy) ForceUpdateUserSetupComplete(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -11114,6 +11480,7 @@ func (p *DevicePolicyManagerProxy) SetBackupServiceEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -11145,6 +11512,7 @@ func (p *DevicePolicyManagerProxy) IsBackupServiceEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -11180,6 +11548,7 @@ func (p *DevicePolicyManagerProxy) SetNetworkLoggingEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -11213,6 +11582,7 @@ func (p *DevicePolicyManagerProxy) IsNetworkLoggingEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -11250,6 +11620,7 @@ func (p *DevicePolicyManagerProxy) RetrieveNetworkLogs(
 ) ([]NetworkEvent, error) {
 	var _result []NetworkEvent
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -11276,6 +11647,9 @@ func (p *DevicePolicyManagerProxy) RetrieveNetworkLogs(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -11304,6 +11678,7 @@ func (p *DevicePolicyManagerProxy) BindDeviceAdminServiceAsUser(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -11347,6 +11722,7 @@ func (p *DevicePolicyManagerProxy) GetBindDeviceAdminTargetUsers(
 ) ([]os.UserHandle, error) {
 	var _result []os.UserHandle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -11372,6 +11748,9 @@ func (p *DevicePolicyManagerProxy) GetBindDeviceAdminTargetUsers(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]os.UserHandle, _count)
@@ -11393,6 +11772,7 @@ func (p *DevicePolicyManagerProxy) IsEphemeralUser(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -11426,6 +11806,7 @@ func (p *DevicePolicyManagerProxy) GetLastSecurityLogRetrievalTime(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetLastSecurityLogRetrievalTime)
@@ -11455,6 +11836,7 @@ func (p *DevicePolicyManagerProxy) GetLastBugReportRequestTime(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetLastBugReportRequestTime)
@@ -11484,6 +11866,7 @@ func (p *DevicePolicyManagerProxy) GetLastNetworkLogRetrievalTime(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetLastNetworkLogRetrievalTime)
@@ -11516,20 +11899,14 @@ func (p *DevicePolicyManagerProxy) SetResetPasswordToken(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteString16(callerPackageName)
-	if token == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(token)))
-		for _, _item := range token {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(token)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetResetPasswordToken)
 	if _err != nil {
@@ -11560,6 +11937,7 @@ func (p *DevicePolicyManagerProxy) ClearResetPasswordToken(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -11596,6 +11974,7 @@ func (p *DevicePolicyManagerProxy) IsResetPasswordTokenActive(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -11635,6 +12014,7 @@ func (p *DevicePolicyManagerProxy) ResetPasswordWithToken(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -11642,14 +12022,7 @@ func (p *DevicePolicyManagerProxy) ResetPasswordWithToken(
 	}
 	_data.WriteString16(callerPackageName)
 	_data.WriteString16(password)
-	if token == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(token)))
-		for _, _item := range token {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(token)
 	_data.WriteInt32(flags)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerResetPasswordWithToken)
@@ -11679,6 +12052,7 @@ func (p *DevicePolicyManagerProxy) IsCurrentInputMethodSetByOwner(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsCurrentInputMethodSetByOwner)
@@ -11709,6 +12083,7 @@ func (p *DevicePolicyManagerProxy) GetOwnerInstalledCaCerts(
 ) (pm.StringParceledListSlice, error) {
 	var _result pm.StringParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
@@ -11749,6 +12124,7 @@ func (p *DevicePolicyManagerProxy) ClearApplicationUserData(
 	callback pm.IPackageDataObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -11781,6 +12157,7 @@ func (p *DevicePolicyManagerProxy) SetLogoutEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -11811,6 +12188,7 @@ func (p *DevicePolicyManagerProxy) IsLogoutEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsLogoutEnabled)
@@ -11843,6 +12221,7 @@ func (p *DevicePolicyManagerProxy) GetDisallowedSystemApps(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -11870,6 +12249,9 @@ func (p *DevicePolicyManagerProxy) GetDisallowedSystemApps(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -11887,9 +12269,10 @@ func (p *DevicePolicyManagerProxy) TransferOwnership(
 	ctx context.Context,
 	admin content.ComponentName,
 	target content.ComponentName,
-	bundle interface{},
+	bundle os.PersistableBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -11897,6 +12280,10 @@ func (p *DevicePolicyManagerProxy) TransferOwnership(
 	}
 	_data.WriteInt32(1)
 	if _err := target.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := bundle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -11920,9 +12307,10 @@ func (p *DevicePolicyManagerProxy) TransferOwnership(
 
 func (p *DevicePolicyManagerProxy) GetTransferOwnershipBundle(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (os.PersistableBundle, error) {
+	var _result os.PersistableBundle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetTransferOwnershipBundle)
@@ -11940,20 +12328,31 @@ func (p *DevicePolicyManagerProxy) GetTransferOwnershipBundle(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *DevicePolicyManagerProxy) SetStartUserSessionMessage(
 	ctx context.Context,
 	admin content.ComponentName,
-	startUserSessionMessage interface{},
+	startUserSessionMessage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteString16(startUserSessionMessage)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetStartUserSessionMessage)
 	if _err != nil {
@@ -11976,14 +12375,16 @@ func (p *DevicePolicyManagerProxy) SetStartUserSessionMessage(
 func (p *DevicePolicyManagerProxy) SetEndUserSessionMessage(
 	ctx context.Context,
 	admin content.ComponentName,
-	endUserSessionMessage interface{},
+	endUserSessionMessage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteString16(endUserSessionMessage)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetEndUserSessionMessage)
 	if _err != nil {
@@ -12006,9 +12407,10 @@ func (p *DevicePolicyManagerProxy) SetEndUserSessionMessage(
 func (p *DevicePolicyManagerProxy) GetStartUserSessionMessage(
 	ctx context.Context,
 	admin content.ComponentName,
-) (interface{}, error) {
-	var _result interface{}
+) (string, error) {
+	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12030,15 +12432,20 @@ func (p *DevicePolicyManagerProxy) GetStartUserSessionMessage(
 		return _result, _err
 	}
 
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
 	return _result, nil
 }
 
 func (p *DevicePolicyManagerProxy) GetEndUserSessionMessage(
 	ctx context.Context,
 	admin content.ComponentName,
-) (interface{}, error) {
-	var _result interface{}
+) (string, error) {
+	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12060,6 +12467,10 @@ func (p *DevicePolicyManagerProxy) GetEndUserSessionMessage(
 		return _result, _err
 	}
 
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
 	return _result, nil
 }
 
@@ -12070,6 +12481,7 @@ func (p *DevicePolicyManagerProxy) SetMeteredDataDisabledPackages(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12103,6 +12515,9 @@ func (p *DevicePolicyManagerProxy) SetMeteredDataDisabledPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -12122,6 +12537,7 @@ func (p *DevicePolicyManagerProxy) GetMeteredDataDisabledPackages(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12147,6 +12563,9 @@ func (p *DevicePolicyManagerProxy) GetMeteredDataDisabledPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -12167,6 +12586,7 @@ func (p *DevicePolicyManagerProxy) AddOverrideApn(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12207,6 +12627,7 @@ func (p *DevicePolicyManagerProxy) UpdateOverrideApn(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12247,6 +12668,7 @@ func (p *DevicePolicyManagerProxy) RemoveOverrideApn(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12282,6 +12704,7 @@ func (p *DevicePolicyManagerProxy) GetOverrideApns(
 ) ([]data.ApnSetting, error) {
 	var _result []data.ApnSetting
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12307,6 +12730,9 @@ func (p *DevicePolicyManagerProxy) GetOverrideApns(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]data.ApnSetting, _count)
@@ -12328,6 +12754,7 @@ func (p *DevicePolicyManagerProxy) SetOverrideApnsEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12359,6 +12786,7 @@ func (p *DevicePolicyManagerProxy) IsOverrideApnEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12395,6 +12823,7 @@ func (p *DevicePolicyManagerProxy) IsMeteredDataDisabledPackageForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12433,6 +12862,7 @@ func (p *DevicePolicyManagerProxy) SetGlobalPrivateDns(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12469,6 +12899,7 @@ func (p *DevicePolicyManagerProxy) GetGlobalPrivateDnsMode(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12503,6 +12934,7 @@ func (p *DevicePolicyManagerProxy) GetGlobalPrivateDnsHost(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12538,6 +12970,7 @@ func (p *DevicePolicyManagerProxy) SetProfileOwnerOnOrganizationOwnedDevice(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -12572,6 +13005,7 @@ func (p *DevicePolicyManagerProxy) InstallUpdateFromFile(
 	listener StartInstallingUpdateCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12605,6 +13039,7 @@ func (p *DevicePolicyManagerProxy) SetCrossProfileCalendarPackages(
 	packageNames []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12643,6 +13078,7 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileCalendarPackages(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12668,6 +13104,9 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileCalendarPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -12688,6 +13127,7 @@ func (p *DevicePolicyManagerProxy) IsPackageAllowedToAccessCalendarForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -12720,6 +13160,7 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileCalendarPackagesForUser(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -12742,6 +13183,9 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileCalendarPackagesForUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -12761,6 +13205,7 @@ func (p *DevicePolicyManagerProxy) SetCrossProfilePackages(
 	packageNames []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12799,6 +13244,7 @@ func (p *DevicePolicyManagerProxy) GetCrossProfilePackages(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -12824,6 +13270,9 @@ func (p *DevicePolicyManagerProxy) GetCrossProfilePackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -12843,6 +13292,7 @@ func (p *DevicePolicyManagerProxy) GetAllCrossProfilePackages(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -12865,6 +13315,9 @@ func (p *DevicePolicyManagerProxy) GetAllCrossProfilePackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -12883,6 +13336,7 @@ func (p *DevicePolicyManagerProxy) GetDefaultCrossProfilePackages(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDefaultCrossProfilePackages)
@@ -12904,6 +13358,9 @@ func (p *DevicePolicyManagerProxy) GetDefaultCrossProfilePackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -12922,6 +13379,7 @@ func (p *DevicePolicyManagerProxy) IsManagedKiosk(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsManagedKiosk)
@@ -12951,6 +13409,7 @@ func (p *DevicePolicyManagerProxy) IsUnattendedManagedKiosk(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsUnattendedManagedKiosk)
@@ -12986,6 +13445,7 @@ func (p *DevicePolicyManagerProxy) StartViewCalendarEventInManagedProfile(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt64(eventId)
@@ -13026,6 +13486,7 @@ func (p *DevicePolicyManagerProxy) SetKeyGrantForApp(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -13065,6 +13526,7 @@ func (p *DevicePolicyManagerProxy) GetKeyPairGrants(
 ) (ParcelableGranteeMap, error) {
 	var _result ParcelableGranteeMap
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 	_data.WriteString16(alias)
@@ -13104,6 +13566,7 @@ func (p *DevicePolicyManagerProxy) SetKeyGrantToWifiAuth(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 	_data.WriteString16(alias)
@@ -13138,6 +13601,7 @@ func (p *DevicePolicyManagerProxy) IsKeyPairGrantedToWifiAuth(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 	_data.WriteString16(alias)
@@ -13171,6 +13635,7 @@ func (p *DevicePolicyManagerProxy) SetUserControlDisabledPackages(
 	packages []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -13211,6 +13676,7 @@ func (p *DevicePolicyManagerProxy) GetUserControlDisabledPackages(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -13237,6 +13703,9 @@ func (p *DevicePolicyManagerProxy) GetUserControlDisabledPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -13257,6 +13726,7 @@ func (p *DevicePolicyManagerProxy) SetCommonCriteriaModeEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -13289,6 +13759,7 @@ func (p *DevicePolicyManagerProxy) IsCommonCriteriaModeEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -13323,6 +13794,7 @@ func (p *DevicePolicyManagerProxy) GetPersonalAppsSuspendedReasons(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -13357,6 +13829,7 @@ func (p *DevicePolicyManagerProxy) SetPersonalAppsSuspended(
 	suspended bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -13388,6 +13861,7 @@ func (p *DevicePolicyManagerProxy) GetManagedProfileMaximumTimeOff(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -13422,6 +13896,7 @@ func (p *DevicePolicyManagerProxy) SetManagedProfileMaximumTimeOff(
 	timeoutMs int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -13451,6 +13926,7 @@ func (p *DevicePolicyManagerProxy) AcknowledgeDeviceCompliant(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerAcknowledgeDeviceCompliant)
@@ -13476,6 +13952,7 @@ func (p *DevicePolicyManagerProxy) IsComplianceAcknowledgementRequired(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsComplianceAcknowledgementRequired)
@@ -13506,6 +13983,7 @@ func (p *DevicePolicyManagerProxy) CanProfileOwnerResetPasswordWhenLocked(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -13537,6 +14015,7 @@ func (p *DevicePolicyManagerProxy) SetNextOperationSafety(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(operation)
 	_data.WriteInt32(reason)
@@ -13565,6 +14044,7 @@ func (p *DevicePolicyManagerProxy) IsSafeOperation(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(reason)
 
@@ -13596,6 +14076,7 @@ func (p *DevicePolicyManagerProxy) GetEnrollmentSpecificId(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 
@@ -13628,6 +14109,7 @@ func (p *DevicePolicyManagerProxy) SetOrganizationIdForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 	_data.WriteString16(enterpriseId)
@@ -13658,6 +14140,7 @@ func (p *DevicePolicyManagerProxy) CreateAndProvisionManagedProfile(
 ) (os.UserHandle, error) {
 	var _result os.UserHandle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := provisioningParams.MarshalParcel(_data); _err != nil {
@@ -13698,6 +14181,7 @@ func (p *DevicePolicyManagerProxy) ProvisionFullyManagedDevice(
 	callerPackage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := provisioningParams.MarshalParcel(_data); _err != nil {
@@ -13729,6 +14213,7 @@ func (p *DevicePolicyManagerProxy) FinalizeWorkProfileProvisioning(
 	migratedAccount accounts.Account,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := managedProfileUser.MarshalParcel(_data); _err != nil {
@@ -13763,6 +14248,7 @@ func (p *DevicePolicyManagerProxy) SetDeviceOwnerType(
 	deviceOwnerType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -13794,6 +14280,7 @@ func (p *DevicePolicyManagerProxy) GetDeviceOwnerType(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
@@ -13827,6 +14314,7 @@ func (p *DevicePolicyManagerProxy) ResetDefaultCrossProfileIntentFilters(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -13853,6 +14341,7 @@ func (p *DevicePolicyManagerProxy) CanAdminGrantSensorsPermissions(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerCanAdminGrantSensorsPermissions)
@@ -13883,6 +14372,7 @@ func (p *DevicePolicyManagerProxy) SetUsbDataSignalingEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 	_data.WriteBool(enabled)
@@ -13911,6 +14401,7 @@ func (p *DevicePolicyManagerProxy) IsUsbDataSignalingEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 
@@ -13941,6 +14432,7 @@ func (p *DevicePolicyManagerProxy) CanUsbDataSignalingBeDisabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerCanUsbDataSignalingBeDisabled)
@@ -13971,6 +14463,7 @@ func (p *DevicePolicyManagerProxy) SetMinimumRequiredWifiSecurityLevel(
 	level int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackageName)
 	_data.WriteInt32(level)
@@ -13998,6 +14491,7 @@ func (p *DevicePolicyManagerProxy) GetMinimumRequiredWifiSecurityLevel(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetMinimumRequiredWifiSecurityLevel)
@@ -14028,6 +14522,7 @@ func (p *DevicePolicyManagerProxy) SetWifiSsidPolicy(
 	policy WifiSsidPolicy,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackageName)
 	_data.WriteInt32(1)
@@ -14059,6 +14554,7 @@ func (p *DevicePolicyManagerProxy) GetWifiSsidPolicy(
 ) (WifiSsidPolicy, error) {
 	var _result WifiSsidPolicy
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackageName)
 
@@ -14095,6 +14591,7 @@ func (p *DevicePolicyManagerProxy) IsTheftDetectionTriggered(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackageName)
 
@@ -14125,6 +14622,7 @@ func (p *DevicePolicyManagerProxy) ListForegroundAffiliatedUsers(
 ) ([]os.UserHandle, error) {
 	var _result []os.UserHandle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerListForegroundAffiliatedUsers)
@@ -14146,6 +14644,9 @@ func (p *DevicePolicyManagerProxy) ListForegroundAffiliatedUsers(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]os.UserHandle, _count)
@@ -14166,6 +14667,7 @@ func (p *DevicePolicyManagerProxy) SetDrawables(
 	drawables []DevicePolicyDrawableResource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	if drawables == nil {
 		_data.WriteInt32(-1)
@@ -14202,6 +14704,7 @@ func (p *DevicePolicyManagerProxy) ResetDrawables(
 	drawableIds []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	if drawableIds == nil {
 		_data.WriteInt32(-1)
@@ -14238,6 +14741,7 @@ func (p *DevicePolicyManagerProxy) GetDrawable(
 ) (ParcelableResource, error) {
 	var _result ParcelableResource
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(drawableId)
 	_data.WriteString16(drawableStyle)
@@ -14275,6 +14779,7 @@ func (p *DevicePolicyManagerProxy) IsDpcDownloaded(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerIsDpcDownloaded)
@@ -14304,6 +14809,7 @@ func (p *DevicePolicyManagerProxy) SetDpcDownloaded(
 	downloaded bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteBool(downloaded)
 
@@ -14330,6 +14836,7 @@ func (p *DevicePolicyManagerProxy) SetStrings(
 	strings []DevicePolicyStringResource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	if strings == nil {
 		_data.WriteInt32(-1)
@@ -14366,6 +14873,7 @@ func (p *DevicePolicyManagerProxy) ResetStrings(
 	stringIds []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	if stringIds == nil {
 		_data.WriteInt32(-1)
@@ -14400,6 +14908,7 @@ func (p *DevicePolicyManagerProxy) GetString(
 ) (ParcelableResource, error) {
 	var _result ParcelableResource
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(stringId)
 
@@ -14434,6 +14943,7 @@ func (p *DevicePolicyManagerProxy) ResetShouldAllowBypassingDevicePolicyManageme
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerResetShouldAllowBypassingDevicePolicyManagementRoleQualificationState)
@@ -14459,6 +14969,7 @@ func (p *DevicePolicyManagerProxy) ShouldAllowBypassingDevicePolicyManagementRol
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerShouldAllowBypassingDevicePolicyManagementRoleQualification)
@@ -14489,6 +15000,7 @@ func (p *DevicePolicyManagerProxy) GetPolicyManagedProfiles(
 ) ([]os.UserHandle, error) {
 	var _result []os.UserHandle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
@@ -14514,6 +15026,9 @@ func (p *DevicePolicyManagerProxy) GetPolicyManagedProfiles(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]os.UserHandle, _count)
@@ -14536,6 +15051,7 @@ func (p *DevicePolicyManagerProxy) SetApplicationExemptions(
 	exemptions []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackage)
 	_data.WriteString16(packageName)
@@ -14572,6 +15088,7 @@ func (p *DevicePolicyManagerProxy) GetApplicationExemptions(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(packageName)
 
@@ -14594,6 +15111,9 @@ func (p *DevicePolicyManagerProxy) GetApplicationExemptions(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -14613,6 +15133,7 @@ func (p *DevicePolicyManagerProxy) SetMtePolicy(
 	callerPackageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(flag)
 	_data.WriteString16(callerPackageName)
@@ -14641,6 +15162,7 @@ func (p *DevicePolicyManagerProxy) GetMtePolicy(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackageName)
 
@@ -14671,6 +15193,7 @@ func (p *DevicePolicyManagerProxy) SetManagedSubscriptionsPolicy(
 	policy ManagedSubscriptionsPolicy,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := policy.MarshalParcel(_data); _err != nil {
@@ -14700,6 +15223,7 @@ func (p *DevicePolicyManagerProxy) GetManagedSubscriptionsPolicy(
 ) (ManagedSubscriptionsPolicy, error) {
 	var _result ManagedSubscriptionsPolicy
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetManagedSubscriptionsPolicy)
@@ -14734,6 +15258,7 @@ func (p *DevicePolicyManagerProxy) GetDevicePolicyState(
 ) (DevicePolicyState, error) {
 	var _result DevicePolicyState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerGetDevicePolicyState)
@@ -14769,6 +15294,7 @@ func (p *DevicePolicyManagerProxy) TriggerDevicePolicyEngineMigration(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteBool(forceMigration)
 
@@ -14800,6 +15326,7 @@ func (p *DevicePolicyManagerProxy) IsDeviceFinanced(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackageName)
 
@@ -14831,6 +15358,7 @@ func (p *DevicePolicyManagerProxy) GetFinancedDeviceKioskRoleHolder(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackageName)
 
@@ -14860,6 +15388,7 @@ func (p *DevicePolicyManagerProxy) CalculateHasIncompatibleAccounts(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerCalculateHasIncompatibleAccounts)
@@ -14887,6 +15416,7 @@ func (p *DevicePolicyManagerProxy) SetContentProtectionPolicy(
 	policy int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -14920,6 +15450,7 @@ func (p *DevicePolicyManagerProxy) GetContentProtectionPolicy(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
@@ -14955,6 +15486,7 @@ func (p *DevicePolicyManagerProxy) GetSubscriptionIds(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackageName)
 
@@ -14977,6 +15509,9 @@ func (p *DevicePolicyManagerProxy) GetSubscriptionIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -14996,6 +15531,7 @@ func (p *DevicePolicyManagerProxy) SetMaxPolicyStorageLimit(
 	storageLimit int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(storageLimit)
@@ -15024,6 +15560,7 @@ func (p *DevicePolicyManagerProxy) GetMaxPolicyStorageLimit(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(packageName)
 
@@ -15052,7 +15589,8 @@ func (p *DevicePolicyManagerProxy) GetMaxPolicyStorageLimit(
 // DevicePolicyManagerStub dispatches incoming binder transactions
 // to a typed IDevicePolicyManager implementation.
 type DevicePolicyManagerStub struct {
-	Impl IDevicePolicyManager
+	Impl      IDevicePolicyManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DevicePolicyManagerStub)(nil)
@@ -15066,11 +15604,12 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDevicePolicyManagerSetPasswordQuality:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15100,9 +15639,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPasswordQuality:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15132,9 +15668,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPasswordMinimumLength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15164,9 +15697,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPasswordMinimumLength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15196,9 +15726,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPasswordMinimumUpperCase:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15228,9 +15755,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPasswordMinimumUpperCase:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15260,9 +15784,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPasswordMinimumLowerCase:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15292,9 +15813,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPasswordMinimumLowerCase:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15324,9 +15842,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPasswordMinimumLetters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15356,9 +15871,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPasswordMinimumLetters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15388,9 +15900,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPasswordMinimumNumeric:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15420,9 +15929,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPasswordMinimumNumeric:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15452,9 +15958,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPasswordMinimumSymbols:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15484,9 +15987,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPasswordMinimumSymbols:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15516,9 +16016,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPasswordMinimumNonLetter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15548,9 +16045,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPasswordMinimumNonLetter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15580,9 +16074,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPasswordMinimumMetrics:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -15603,9 +16094,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPasswordHistoryLength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15635,9 +16123,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPasswordHistoryLength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15667,9 +16152,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPasswordExpirationTimeout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15703,9 +16185,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPasswordExpirationTimeout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15735,9 +16214,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPasswordExpiration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15767,9 +16243,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsActivePasswordSufficient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -15791,9 +16264,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsActivePasswordSufficientForDeviceRequirement:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsActivePasswordSufficientForDeviceRequirement(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -15804,9 +16274,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsPasswordSufficientAfterProfileUnification:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -15824,9 +16291,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPasswordComplexity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_parent, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -15841,9 +16305,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetRequiredPasswordComplexity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -15865,9 +16326,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetRequiredPasswordComplexity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -15886,9 +16344,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetAggregatedPasswordComplexityForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -15906,9 +16361,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsUsingUnifiedPassword:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -15931,9 +16383,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetCurrentFailedPasswordAttempts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -15955,9 +16404,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetProfileWithMinimumFailedPasswordsForWipe:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -15975,9 +16421,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetMaximumFailedPasswordsForWipe:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16011,9 +16454,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetMaximumFailedPasswordsForWipe:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16043,9 +16483,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerResetPassword:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_password, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -16064,9 +16501,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetMaximumTimeToLock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16100,9 +16534,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetMaximumTimeToLock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16132,9 +16563,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetRequiredStrongAuthTimeout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16168,9 +16596,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetRequiredStrongAuthTimeout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16200,9 +16625,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerLockNow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16224,9 +16646,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerWipeDataWithReason:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -16256,9 +16675,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetFactoryResetProtectionPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16296,9 +16712,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetFactoryResetProtectionPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16324,9 +16737,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsFactoryResetProtectionPolicySupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsFactoryResetProtectionPolicySupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -16337,9 +16747,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSendLostModeLocationUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_future infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16361,9 +16768,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetGlobalProxy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16397,9 +16801,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetGlobalProxyAdmin:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -16416,9 +16817,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetRecommendedGlobalProxy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16431,7 +16829,18 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_proxyInfo interface{}
+		var _arg_proxyInfo net.ProxyInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_proxyInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SetRecommendedGlobalProxy(ctx, _arg_admin, _arg_proxyInfo)
 		_reply := parcel.New()
 		if _err != nil {
@@ -16441,9 +16850,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetStorageEncryption:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16470,9 +16876,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetStorageEncryption:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16498,9 +16901,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetStorageEncryptionStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -16518,9 +16918,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerRequestBugreport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16543,9 +16940,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetCameraDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16579,9 +16973,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetCameraDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16615,9 +17006,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetScreenCaptureDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16651,9 +17039,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetScreenCaptureDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16683,9 +17068,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetNearbyNotificationStreamingPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_policy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16699,9 +17081,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetNearbyNotificationStreamingPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -16715,9 +17094,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetNearbyAppStreamingPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_policy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16731,9 +17107,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetNearbyAppStreamingPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -16747,9 +17120,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetKeyguardDisabledFeatures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16783,9 +17153,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetKeyguardDisabledFeatures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16815,9 +17182,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetActiveAdmin:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_policyReceiver content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16846,9 +17210,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsAdminActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_policyReceiver content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16874,9 +17235,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetActiveAdmins:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -16887,13 +17245,19 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerPackageHasActiveAdmins:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -16911,9 +17275,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetRemoveWarning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_policyReceiver content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16950,9 +17311,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerRemoveActiveAdmin:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_policyReceiver content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16977,9 +17335,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerForceRemoveActiveAdmin:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_policyReceiver content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17004,9 +17359,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerHasGrantedPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_policyReceiver content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17036,9 +17388,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerReportPasswordChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_metrics PasswordMetrics
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17063,9 +17412,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerReportFailedPasswordAttempt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -17082,9 +17428,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerReportSuccessfulPasswordAttempt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -17097,9 +17440,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerReportFailedBiometricAttempt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -17112,9 +17452,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerReportSuccessfulBiometricAttempt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -17127,9 +17464,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerReportKeyguardDismissed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -17142,9 +17476,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerReportKeyguardSecured:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -17157,9 +17488,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetDeviceOwner:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17189,9 +17517,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetDeviceOwnerComponent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingUserOnly, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -17209,9 +17534,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetDeviceOwnerComponentOnUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -17228,9 +17550,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerHasDeviceOwner:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.HasDeviceOwner(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17241,9 +17560,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetDeviceOwnerName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDeviceOwnerName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17254,9 +17570,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerClearDeviceOwner:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -17270,9 +17583,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetDeviceOwnerUserId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDeviceOwnerUserId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17283,9 +17593,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetProfileOwner:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17311,9 +17618,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetProfileOwnerAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -17330,9 +17634,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetProfileOwnerOrDeviceOwnerSupervisionComponent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_userHandle os.UserHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17358,9 +17659,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsSupervisionComponent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17383,9 +17681,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetProfileOwnerName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -17399,9 +17694,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetProfileEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17423,9 +17715,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetProfileName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17451,9 +17740,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerClearProfileOwner:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17475,9 +17761,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerHasUserSetupCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.HasUserSetupCompleted(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17488,9 +17771,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsOrganizationOwnedDeviceWithManagedProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsOrganizationOwnedDeviceWithManagedProfile(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17501,9 +17781,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerCheckDeviceIdentifierAccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -17526,9 +17803,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetDeviceOwnerLockScreenInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17541,8 +17815,11 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_deviceOwnerInfo interface{}
-		_err := s.Impl.SetDeviceOwnerLockScreenInfo(ctx, _arg_who, _arg_deviceOwnerInfo)
+		_arg_deviceOwnerInfo, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDeviceOwnerLockScreenInfo(ctx, _arg_who, _arg_deviceOwnerInfo)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -17551,9 +17828,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetDeviceOwnerLockScreenInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDeviceOwnerLockScreenInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17561,12 +17835,9 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPackagesSuspended:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17583,9 +17854,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_suspended, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -17597,13 +17884,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsPackageSuspended:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17634,9 +17924,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerListPolicyExemptApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ListPolicyExemptApps(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17644,13 +17931,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerInstallCaCert:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17667,9 +17957,14 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_certBuffer []byte
-		_ = _arg_certBuffer
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_certBuffer = _bytes
+		}
 		_result, _err := s.Impl.InstallCaCert(ctx, _arg_admin, _arg_callerPackage, _arg_certBuffer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17680,9 +17975,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerUninstallCaCerts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17699,9 +17991,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_aliases []string
-		_ = _arg_aliases
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_aliases = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_aliases[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.UninstallCaCerts(ctx, _arg_admin, _arg_callerPackage, _arg_aliases)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17711,9 +18019,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerEnforceCanManageCaCerts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17739,9 +18044,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerApproveCaCert:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -17763,9 +18065,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsCaCertApproved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -17783,9 +18082,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerInstallKeyPair:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17802,15 +18098,30 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_privKeyBuffer []byte
-		_ = _arg_privKeyBuffer
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_privKeyBuffer = _bytes
+		}
 		var _arg_certBuffer []byte
-		_ = _arg_certBuffer
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_certBuffer = _bytes
+		}
 		var _arg_certChainBuffer []byte
-		_ = _arg_certChainBuffer
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_certChainBuffer = _bytes
+		}
 		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -17833,9 +18144,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerRemoveKeyPair:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17866,9 +18174,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerHasKeyPair:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -17887,9 +18192,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGenerateKeyPair:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17935,11 +18237,12 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
-		return _reply, nil
-	case TransactionIDevicePolicyManagerSetKeyPairCertificate:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_attestationChain.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIDevicePolicyManagerSetKeyPairCertificate:
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17960,12 +18263,22 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_certBuffer []byte
-		_ = _arg_certBuffer
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_certBuffer = _bytes
+		}
 		var _arg_certChainBuffer []byte
-		_ = _arg_certChainBuffer
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_certChainBuffer = _bytes
+		}
 		_arg_isUserSelectable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -17980,9 +18293,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerChoosePrivateKeyAlias:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18003,9 +18313,14 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_aliasCallback binder.IBinder
-		_ = _arg_aliasCallback
+		{
+			_aliasCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_aliasCallback = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _aliasCallbackHandle)
+		}
 		_err = s.Impl.ChoosePrivateKeyAlias(ctx, _arg_uid, _arg_uri, _arg_alias, _arg_aliasCallback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -18015,9 +18330,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetDelegatedScopes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18034,9 +18346,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_scopes []string
-		_ = _arg_scopes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_scopes = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_scopes[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.SetDelegatedScopes(ctx, _arg_who, _arg_delegatePackage, _arg_scopes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -18046,9 +18374,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetDelegatedScopes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18072,13 +18397,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetDelegatePackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18102,13 +18430,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetCertInstallerPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18134,9 +18465,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetCertInstallerPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18159,9 +18487,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetAlwaysOnVpnPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18182,9 +18507,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_lockdownAllowlist []string
-		_ = _arg_lockdownAllowlist
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_lockdownAllowlist = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_lockdownAllowlist[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.SetAlwaysOnVpnPackage(ctx, _arg_who, _arg_vpnPackage, _arg_lockdown, _arg_lockdownAllowlist)
 		_reply := parcel.New()
 		if _err != nil {
@@ -18195,9 +18536,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetAlwaysOnVpnPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18220,9 +18558,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetAlwaysOnVpnPackageForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -18236,9 +18571,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsAlwaysOnVpnLockdownEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18261,9 +18593,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsAlwaysOnVpnLockdownEnabledForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -18277,9 +18606,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetAlwaysOnVpnLockdownAllowlist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18299,13 +18625,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerAddPersistentPreferredActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18355,9 +18684,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerClearPackagePersistentPreferredActivities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18387,9 +18713,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetDefaultSmsApplication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18423,9 +18746,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetDefaultDialerApplication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -18439,9 +18759,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetApplicationRestrictions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18483,9 +18800,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetApplicationRestrictions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18519,9 +18833,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetApplicationRestrictionsManagingPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18548,9 +18859,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetApplicationRestrictionsManagingPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18573,9 +18881,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsCallerApplicationRestrictionsManagingPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -18590,9 +18895,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetRestrictionsProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18626,9 +18928,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetRestrictionsProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -18645,9 +18944,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetUserRestriction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18685,9 +18981,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetUserRestrictionGlobally:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -18705,9 +18998,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetUserRestrictions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18741,9 +19031,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetUserRestrictionsGlobally:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -18761,9 +19048,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerAddCrossProfileIntentFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18805,9 +19089,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerClearCrossProfileIntentFilters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18833,9 +19114,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPermittedAccessibilityServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18848,9 +19126,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageList []string
-		_ = _arg_packageList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageList = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageList[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.SetPermittedAccessibilityServices(ctx, _arg_admin, _arg_packageList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -18861,9 +19155,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPermittedAccessibilityServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18883,13 +19174,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPermittedAccessibilityServicesForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -18900,13 +19194,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsAccessibilityServicePermittedByAdmin:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18936,9 +19233,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPermittedInputMethods:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18955,9 +19249,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageList []string
-		_ = _arg_packageList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageList = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageList[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_parent, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -18972,9 +19282,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPermittedInputMethods:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19002,13 +19309,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPermittedInputMethodsAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -19019,13 +19329,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsInputMethodPermittedByAdmin:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19059,9 +19372,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPermittedCrossProfileNotificationListeners:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19074,9 +19384,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageList []string
-		_ = _arg_packageList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageList = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageList[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.SetPermittedCrossProfileNotificationListeners(ctx, _arg_admin, _arg_packageList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19087,9 +19413,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPermittedCrossProfileNotificationListeners:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19109,13 +19432,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsNotificationListenerServicePermitted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -19133,9 +19459,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerCreateAdminSupportIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_restriction, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -19153,9 +19476,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetEnforcingAdminAndUserDetails:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -19176,9 +19496,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetEnforcingAdminsForRestriction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -19193,13 +19510,19 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetApplicationHidden:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19238,9 +19561,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsApplicationHidden:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19275,9 +19595,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerCreateAndManageUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19306,7 +19623,18 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_adminExtras interface{}
+		var _arg_adminExtras os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_adminExtras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19324,9 +19652,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerRemoveUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19361,9 +19686,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSwitchUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19398,9 +19720,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerStartUserInBackground:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19435,9 +19754,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerStopUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19472,9 +19788,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerLogoutUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19497,9 +19810,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerLogoutUserInternal:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.LogoutUserInternal(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19510,9 +19820,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetLogoutUserId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLogoutUserId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19523,9 +19830,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetSecondaryUsers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19545,13 +19849,19 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerAcknowledgeNewUserDisclaimer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -19564,9 +19874,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsNewUserDisclaimerAcknowledged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -19580,9 +19887,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerEnableSystemApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19612,9 +19916,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerEnableSystemAppWithIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19653,9 +19954,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerInstallExistingPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19686,9 +19984,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetAccountManagementDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19726,9 +20021,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetAccountTypesWithManagementDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -19740,13 +20032,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetAccountTypesWithManagementDisabledAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -19765,13 +20060,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetSecondaryLockscreenEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19797,9 +20095,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsSecondaryLockscreenEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_userHandle os.UserHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19822,12 +20117,27 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPreferentialNetworkServiceConfigs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_preferentialNetworkServiceConfigs []PreferentialNetworkServiceConfig
-		_ = _arg_preferentialNetworkServiceConfigs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_preferentialNetworkServiceConfigs = make([]PreferentialNetworkServiceConfig, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_preferentialNetworkServiceConfigs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetPreferentialNetworkServiceConfigs(ctx, _arg_preferentialNetworkServiceConfigs)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19837,9 +20147,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPreferentialNetworkServiceConfigs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPreferentialNetworkServiceConfigs(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19847,13 +20154,19 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetLockTaskPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19870,9 +20183,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packages []string
-		_ = _arg_packages
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packages = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packages[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.SetLockTaskPackages(ctx, _arg_who, _arg_callerPackageName, _arg_packages)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19882,9 +20211,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetLockTaskPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19908,13 +20234,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsLockTaskPermitted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -19929,9 +20258,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetLockTaskFeatures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19961,9 +20287,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetLockTaskFeatures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -19990,9 +20313,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetGlobalSetting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20022,9 +20342,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetSystemSetting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20054,9 +20371,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetSecureSetting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20086,9 +20400,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetConfiguredNetworksLockdownState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20118,9 +20429,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerHasLockdownAdminConfiguredNetworks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20143,9 +20451,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetLocationEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20171,9 +20476,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20204,9 +20506,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetTimeZone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20237,9 +20536,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetMasterVolumeMuted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20265,9 +20561,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsMasterVolumeMuted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20290,9 +20583,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerNotifyLockTaskModeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -20313,9 +20603,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetUninstallBlocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20349,9 +20636,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsUninstallBlocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -20366,9 +20650,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetCrossProfileCallerIdDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20394,9 +20675,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetCrossProfileCallerIdDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20419,9 +20697,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetCrossProfileCallerIdDisabledForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -20435,9 +20710,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetCrossProfileContactsSearchDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20463,9 +20735,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetCrossProfileContactsSearchDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20488,9 +20757,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetCrossProfileContactsSearchDisabledForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -20504,9 +20770,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerStartManagedQuickContact:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_lookupKey, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -20544,9 +20807,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetManagedProfileCallerIdAccessPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_policy PackagePolicy
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20568,9 +20828,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetManagedProfileCallerIdAccessPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetManagedProfileCallerIdAccessPolicy(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -20584,9 +20841,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerHasManagedProfileCallerIdAccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -20604,9 +20858,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetCredentialManagerPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_policy PackagePolicy
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20628,9 +20879,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetCredentialManagerPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -20647,9 +20895,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetManagedProfileContactsAccessPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_policy PackagePolicy
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20671,9 +20916,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetManagedProfileContactsAccessPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetManagedProfileContactsAccessPolicy(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -20687,9 +20929,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerHasManagedProfileContactsAccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -20707,9 +20946,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetBluetoothContactSharingDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20735,9 +20971,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetBluetoothContactSharingDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20760,9 +20993,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetBluetoothContactSharingDisabledForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -20776,9 +21006,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetTrustAgentConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20807,7 +21034,18 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_args interface{}
+		var _arg_args os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_parent, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -20821,9 +21059,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetTrustAgentConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20862,13 +21097,19 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerAddCrossProfileWidgetProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20899,9 +21140,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerRemoveCrossProfileWidgetProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20932,9 +21170,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetCrossProfileWidgetProviders:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20958,13 +21193,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetAutoTimeRequired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -20990,9 +21228,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetAutoTimeRequired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAutoTimeRequired(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21003,9 +21238,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetAutoTimeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21035,9 +21267,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetAutoTimeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21064,9 +21293,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetAutoTimeZoneEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21096,9 +21322,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetAutoTimeZoneEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21125,9 +21348,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetForceEphemeralUsers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21153,9 +21373,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetForceEphemeralUsers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21178,9 +21395,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsRemovingAdmin:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_adminReceiver content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21206,9 +21420,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetUserIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21242,9 +21453,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetSystemUpdatePolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21282,9 +21490,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetSystemUpdatePolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSystemUpdatePolicy(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21298,9 +21503,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerClearSystemUpdatePolicyFreezePeriodRecord:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ClearSystemUpdatePolicyFreezePeriodRecord(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21310,9 +21512,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetKeyguardDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21339,9 +21538,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetStatusBarDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21372,9 +21568,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsStatusBarDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -21389,9 +21582,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetDoNotAskCredentialsOnBoot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDoNotAskCredentialsOnBoot(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21402,9 +21592,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerNotifyPendingSystemUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info SystemUpdateInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21426,9 +21613,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPendingSystemUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21458,9 +21642,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPermissionPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21490,9 +21671,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPermissionPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21515,9 +21693,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPermissionGrantState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21567,9 +21742,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPermissionGrantState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21604,9 +21776,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsProvisioningAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_action, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -21625,9 +21794,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerCheckProvisioningPrecondition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_action, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -21646,9 +21812,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetKeepUninstalledPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21665,9 +21828,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageList []string
-		_ = _arg_packageList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageList = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageList[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.SetKeepUninstalledPackages(ctx, _arg_admin, _arg_callerPackage, _arg_packageList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21677,9 +21856,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetKeepUninstalledPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21703,13 +21879,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsManagedProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21732,9 +21911,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetWifiMacAddress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21761,9 +21937,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerReboot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21785,9 +21958,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetShortSupportMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21804,7 +21974,10 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_message interface{}
+		_arg_message, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		_err = s.Impl.SetShortSupportMessage(ctx, _arg_admin, _arg_callerPackageName, _arg_message)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21814,9 +21987,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetShortSupportMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21840,12 +22010,9 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetLongSupportMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21858,8 +22025,11 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_message interface{}
-		_err := s.Impl.SetLongSupportMessage(ctx, _arg_admin, _arg_message)
+		_arg_message, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetLongSupportMessage(ctx, _arg_admin, _arg_message)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -21868,9 +22038,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetLongSupportMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21890,12 +22057,9 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetShortSupportMessageForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21918,12 +22082,9 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetLongSupportMessageForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21946,12 +22107,9 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetOrganizationColor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21977,9 +22135,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetOrganizationColorForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_color, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21996,9 +22151,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerClearOrganizationIdForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -22011,9 +22163,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetOrganizationColor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22036,9 +22185,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetOrganizationColorForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -22052,9 +22198,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetOrganizationName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22071,7 +22214,10 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_title interface{}
+		_arg_title, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		_err = s.Impl.SetOrganizationName(ctx, _arg_admin, _arg_callerPackageName, _arg_title)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22081,9 +22227,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetOrganizationName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22107,12 +22250,9 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetDeviceOwnerOrganizationName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDeviceOwnerOrganizationName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22120,12 +22260,9 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetOrganizationNameForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -22136,12 +22273,9 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetUserProvisioningState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -22155,9 +22289,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetUserProvisioningState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22174,9 +22305,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetAffiliationIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22189,9 +22317,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ids []string
-		_ = _arg_ids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ids = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_ids[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetAffiliationIds(ctx, _arg_admin, _arg_ids)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22201,9 +22345,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetAffiliationIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22223,13 +22364,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsCallingUserAffiliated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsCallingUserAffiliated(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22240,9 +22384,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsAffiliatedUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -22256,9 +22397,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetSecurityLoggingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22288,9 +22426,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsSecurityLoggingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22317,9 +22452,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerRetrieveSecurityLogs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22349,9 +22481,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerRetrievePreRebootSecurityLogs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22381,9 +22510,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerForceNetworkLogs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ForceNetworkLogs(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22394,9 +22520,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerForceSecurityLogs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ForceSecurityLogs(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22407,9 +22530,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetAuditLogEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -22427,9 +22547,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsAuditLogEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -22444,16 +22561,18 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetAuditLogEventsCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAuditLogEventsCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAuditLogEventsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.SetAuditLogEventsCallback(ctx, _arg_callerPackage, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22463,9 +22582,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsUninstallInQueue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -22480,9 +22596,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerUninstallPackageWithActiveAdmins:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -22496,9 +22609,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsDeviceProvisioned:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsDeviceProvisioned(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22509,9 +22619,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsDeviceProvisioningConfigApplied:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsDeviceProvisioningConfigApplied(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22522,9 +22629,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetDeviceProvisioningConfigApplied:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SetDeviceProvisioningConfigApplied(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22534,9 +22638,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerForceUpdateUserSetupComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -22549,9 +22650,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetBackupServiceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22577,9 +22675,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsBackupServiceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22602,9 +22697,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetNetworkLoggingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22634,9 +22726,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsNetworkLoggingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22663,9 +22752,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerRetrieveNetworkLogs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22693,13 +22779,19 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerBindDeviceAdminServiceAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22712,12 +22804,22 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_caller app.IApplicationThread
-		_ = _arg_caller
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_callerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_caller = app.NewApplicationThreadProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callerHandle))
+		}
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_service content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22730,9 +22832,14 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_connection app.IServiceConnection
-		_ = _arg_connection
+		{
+			_connectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_connection = app.NewServiceConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _connectionHandle))
+		}
 		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -22751,9 +22858,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetBindDeviceAdminTargetUsers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22773,13 +22877,19 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsEphemeralUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22802,9 +22912,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetLastSecurityLogRetrievalTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLastSecurityLogRetrievalTime(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22815,9 +22922,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetLastBugReportRequestTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLastBugReportRequestTime(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22828,9 +22932,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetLastNetworkLogRetrievalTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLastNetworkLogRetrievalTime(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22841,9 +22942,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetResetPasswordToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22860,9 +22958,14 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_token []byte
-		_ = _arg_token
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = _bytes
+		}
 		_result, _err := s.Impl.SetResetPasswordToken(ctx, _arg_admin, _arg_callerPackageName, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22873,9 +22976,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerClearResetPasswordToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22902,9 +23002,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsResetPasswordTokenActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22931,9 +23028,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerResetPasswordWithToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -22954,9 +23048,14 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_token []byte
-		_ = _arg_token
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = _bytes
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22971,9 +23070,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsCurrentInputMethodSetByOwner:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsCurrentInputMethodSetByOwner(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22984,9 +23080,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetOwnerInstalledCaCerts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_user os.UserHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23012,9 +23105,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerClearApplicationUserData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23031,9 +23121,14 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback pm.IPackageDataObserver
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = pm.NewPackageDataObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.ClearApplicationUserData(ctx, _arg_admin, _arg_packageName, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23043,9 +23138,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetLogoutEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23071,9 +23163,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsLogoutEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsLogoutEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23084,9 +23173,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetDisallowedSystemApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23113,13 +23199,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerTransferOwnership:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23144,7 +23233,18 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_bundle interface{}
+		var _arg_bundle os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bundle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.TransferOwnership(ctx, _arg_admin, _arg_target, _arg_bundle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23154,9 +23254,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetTransferOwnershipBundle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetTransferOwnershipBundle(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23164,12 +23261,12 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIDevicePolicyManagerSetStartUserSessionMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIDevicePolicyManagerSetStartUserSessionMessage:
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23182,8 +23279,11 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_startUserSessionMessage interface{}
-		_err := s.Impl.SetStartUserSessionMessage(ctx, _arg_admin, _arg_startUserSessionMessage)
+		_arg_startUserSessionMessage, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetStartUserSessionMessage(ctx, _arg_admin, _arg_startUserSessionMessage)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -23192,9 +23292,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetEndUserSessionMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23207,8 +23304,11 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_endUserSessionMessage interface{}
-		_err := s.Impl.SetEndUserSessionMessage(ctx, _arg_admin, _arg_endUserSessionMessage)
+		_arg_endUserSessionMessage, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetEndUserSessionMessage(ctx, _arg_admin, _arg_endUserSessionMessage)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -23217,9 +23317,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetStartUserSessionMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23239,12 +23336,9 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetEndUserSessionMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23264,12 +23358,9 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetMeteredDataDisabledPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23282,9 +23373,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.SetMeteredDataDisabledPackages(ctx, _arg_admin, _arg_packageNames)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23292,13 +23399,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetMeteredDataDisabledPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23318,13 +23428,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerAddOverrideApn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23359,9 +23472,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerUpdateOverrideApn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23400,9 +23510,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerRemoveOverrideApn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23429,9 +23536,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetOverrideApns:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23451,13 +23555,19 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetOverrideApnsEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23483,9 +23593,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsOverrideApnEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23508,9 +23615,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsMeteredDataDisabledPackageForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23540,9 +23644,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetGlobalPrivateDns:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23573,9 +23674,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetGlobalPrivateDnsMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23598,9 +23696,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetGlobalPrivateDnsHost:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23623,9 +23718,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetProfileOwnerOnOrganizationOwnedDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23654,9 +23746,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerInstallUpdateFromFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23677,9 +23766,14 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener StartInstallingUpdateCallback
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewStartInstallingUpdateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.InstallUpdateFromFile(ctx, _arg_admin, _arg_callerPackageName, _arg_updateFileDescriptor, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23689,9 +23783,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetCrossProfileCalendarPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23704,9 +23795,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetCrossProfileCalendarPackages(ctx, _arg_admin, _arg_packageNames)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23716,9 +23823,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetCrossProfileCalendarPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23738,13 +23842,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsPackageAllowedToAccessCalendarForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -23762,9 +23869,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetCrossProfileCalendarPackagesForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -23775,13 +23879,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetCrossProfilePackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23794,9 +23901,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetCrossProfilePackages(ctx, _arg_admin, _arg_packageNames)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23806,9 +23929,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetCrossProfilePackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23828,13 +23948,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetAllCrossProfilePackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -23845,13 +23968,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetDefaultCrossProfilePackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDefaultCrossProfilePackages(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23859,13 +23985,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsManagedKiosk:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsManagedKiosk(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23876,9 +24005,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsUnattendedManagedKiosk:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsUnattendedManagedKiosk(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23889,9 +24015,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerStartViewCalendarEventInManagedProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -23926,9 +24049,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetKeyGrantForApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23967,9 +24087,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetKeyPairGrants:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -23991,9 +24108,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetKeyGrantToWifiAuth:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -24016,9 +24130,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsKeyPairGrantedToWifiAuth:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -24037,9 +24148,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetUserControlDisabledPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -24056,9 +24164,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packages []string
-		_ = _arg_packages
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packages = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packages[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.SetUserControlDisabledPackages(ctx, _arg_admin, _arg_callerPackageName, _arg_packages)
 		_reply := parcel.New()
 		if _err != nil {
@@ -24068,9 +24192,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetUserControlDisabledPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -24094,13 +24215,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetCommonCriteriaModeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -24130,9 +24254,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsCommonCriteriaModeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -24155,9 +24276,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPersonalAppsSuspendedReasons:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -24180,9 +24298,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetPersonalAppsSuspended:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -24208,9 +24323,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetManagedProfileMaximumTimeOff:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -24233,9 +24345,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetManagedProfileMaximumTimeOff:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -24261,9 +24370,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerAcknowledgeDeviceCompliant:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.AcknowledgeDeviceCompliant(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -24273,9 +24379,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsComplianceAcknowledgementRequired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsComplianceAcknowledgementRequired(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -24286,9 +24389,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerCanProfileOwnerResetPasswordWhenLocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -24302,9 +24402,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetNextOperationSafety:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_operation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -24322,9 +24419,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsSafeOperation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -24339,9 +24433,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetEnrollmentSpecificId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -24356,9 +24447,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetOrganizationIdForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -24379,9 +24467,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerCreateAndProvisionManagedProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_provisioningParams ManagedProfileProvisioningParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -24411,9 +24496,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerProvisionFullyManagedDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_provisioningParams FullyManagedDeviceProvisioningParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -24439,9 +24521,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerFinalizeWorkProfileProvisioning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_managedProfileUser os.UserHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -24475,9 +24554,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetDeviceOwnerType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -24503,9 +24579,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetDeviceOwnerType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_admin content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -24528,9 +24601,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerResetDefaultCrossProfileIntentFilters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -24543,9 +24613,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerCanAdminGrantSensorsPermissions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CanAdminGrantSensorsPermissions(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -24556,9 +24623,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetUsbDataSignalingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -24576,9 +24640,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsUsbDataSignalingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -24593,9 +24654,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerCanUsbDataSignalingBeDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CanUsbDataSignalingBeDisabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -24606,9 +24664,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetMinimumRequiredWifiSecurityLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -24626,9 +24681,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetMinimumRequiredWifiSecurityLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMinimumRequiredWifiSecurityLevel(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -24639,9 +24691,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetWifiSsidPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -24667,9 +24716,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetWifiSsidPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -24687,9 +24733,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsTheftDetectionTriggered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -24704,9 +24747,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerListForegroundAffiliatedUsers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ListForegroundAffiliatedUsers(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -24714,16 +24754,40 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetDrawables:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_drawables []DevicePolicyDrawableResource
-		_ = _arg_drawables
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_drawables = make([]DevicePolicyDrawableResource, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_drawables[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetDrawables(ctx, _arg_drawables)
 		_reply := parcel.New()
 		if _err != nil {
@@ -24733,12 +24797,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerResetDrawables:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_drawableIds []string
-		_ = _arg_drawableIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_drawableIds = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_drawableIds[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.ResetDrawables(ctx, _arg_drawableIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -24748,9 +24825,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetDrawable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_drawableId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -24776,9 +24850,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsDpcDownloaded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsDpcDownloaded(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -24789,9 +24860,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetDpcDownloaded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_downloaded, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -24805,12 +24873,27 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetStrings:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_strings []DevicePolicyStringResource
-		_ = _arg_strings
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_strings = make([]DevicePolicyStringResource, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_strings[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetStrings(ctx, _arg_strings)
 		_reply := parcel.New()
 		if _err != nil {
@@ -24820,12 +24903,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerResetStrings:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_stringIds []string
-		_ = _arg_stringIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_stringIds = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_stringIds[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.ResetStrings(ctx, _arg_stringIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -24835,9 +24931,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetString:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_stringId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -24855,9 +24948,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerResetShouldAllowBypassingDevicePolicyManagementRoleQualificationState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResetShouldAllowBypassingDevicePolicyManagementRoleQualificationState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -24867,9 +24957,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerShouldAllowBypassingDevicePolicyManagementRoleQualification:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ShouldAllowBypassingDevicePolicyManagementRoleQualification(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -24880,9 +24967,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetPolicyManagedProfiles:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_userHandle os.UserHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -24902,13 +24986,19 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetApplicationExemptions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -24917,9 +25007,25 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_exemptions []int32
-		_ = _arg_exemptions
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_exemptions = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_exemptions[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.SetApplicationExemptions(ctx, _arg_callerPackage, _arg_packageName, _arg_exemptions)
 		_reply := parcel.New()
 		if _err != nil {
@@ -24929,9 +25035,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetApplicationExemptions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -24943,13 +25046,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetMtePolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -24967,9 +25073,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetMtePolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -24984,9 +25087,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetManagedSubscriptionsPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_policy ManagedSubscriptionsPolicy
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -25008,9 +25108,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetManagedSubscriptionsPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetManagedSubscriptionsPolicy(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -25024,9 +25121,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetDevicePolicyState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDevicePolicyState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -25040,9 +25134,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerTriggerDevicePolicyEngineMigration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_forceMigration, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -25057,9 +25148,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerIsDeviceFinanced:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -25074,9 +25162,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetFinancedDeviceKioskRoleHolder:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -25091,9 +25176,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerCalculateHasIncompatibleAccounts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CalculateHasIncompatibleAccounts(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -25103,9 +25185,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetContentProtectionPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -25135,9 +25214,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetContentProtectionPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_who content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -25164,9 +25240,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetSubscriptionIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -25178,13 +25251,16 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDevicePolicyManagerSetMaxPolicyStorageLimit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -25202,9 +25278,6 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePolicyManagerGetMaxPolicyStorageLimit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -25274,7 +25347,7 @@ type IDevicePolicyManagerServer interface {
 	SendLostModeLocationUpdate(ctx context.Context, future infra.AndroidFuture) error
 	SetGlobalProxy(ctx context.Context, admin content.ComponentName, proxySpec string, exclusionList string) (content.ComponentName, error)
 	GetGlobalProxyAdmin(ctx context.Context) (content.ComponentName, error)
-	SetRecommendedGlobalProxy(ctx context.Context, admin content.ComponentName, proxyInfo interface{}) error
+	SetRecommendedGlobalProxy(ctx context.Context, admin content.ComponentName, proxyInfo net.ProxyInfo) error
 	SetStorageEncryption(ctx context.Context, who content.ComponentName, encrypt bool) (int32, error)
 	GetStorageEncryption(ctx context.Context, who content.ComponentName) (bool, error)
 	GetStorageEncryptionStatus(ctx context.Context, callerPackage string) (int32, error)
@@ -25322,8 +25395,8 @@ type IDevicePolicyManagerServer interface {
 	HasUserSetupCompleted(ctx context.Context) (bool, error)
 	IsOrganizationOwnedDeviceWithManagedProfile(ctx context.Context) (bool, error)
 	CheckDeviceIdentifierAccess(ctx context.Context, packageName string, pid int32, uid int32) (bool, error)
-	SetDeviceOwnerLockScreenInfo(ctx context.Context, who content.ComponentName, deviceOwnerInfo interface{}) error
-	GetDeviceOwnerLockScreenInfo(ctx context.Context) (interface{}, error)
+	SetDeviceOwnerLockScreenInfo(ctx context.Context, who content.ComponentName, deviceOwnerInfo string) error
+	GetDeviceOwnerLockScreenInfo(ctx context.Context) (string, error)
 	SetPackagesSuspended(ctx context.Context, admin content.ComponentName, callerPackage string, packageNames []string, suspended bool) ([]string, error)
 	IsPackageSuspended(ctx context.Context, admin content.ComponentName, callerPackage string, packageName string) (bool, error)
 	ListPolicyExemptApps(ctx context.Context) ([]string, error)
@@ -25382,7 +25455,7 @@ type IDevicePolicyManagerServer interface {
 	GetEnforcingAdminsForRestriction(ctx context.Context, restriction string) ([]EnforcingAdmin, error)
 	SetApplicationHidden(ctx context.Context, admin content.ComponentName, callerPackage string, packageName string, hidden bool, parent bool) (bool, error)
 	IsApplicationHidden(ctx context.Context, admin content.ComponentName, callerPackage string, packageName string, parent bool) (bool, error)
-	CreateAndManageUser(ctx context.Context, who content.ComponentName, name string, profileOwner content.ComponentName, adminExtras interface{}, flags int32) (os.UserHandle, error)
+	CreateAndManageUser(ctx context.Context, who content.ComponentName, name string, profileOwner content.ComponentName, adminExtras os.PersistableBundle, flags int32) (os.UserHandle, error)
 	RemoveUser(ctx context.Context, who content.ComponentName, userHandle os.UserHandle) (bool, error)
 	SwitchUser(ctx context.Context, who content.ComponentName, userHandle os.UserHandle) (bool, error)
 	StartUserInBackground(ctx context.Context, who content.ComponentName, userHandle os.UserHandle) (int32, error)
@@ -25439,8 +25512,8 @@ type IDevicePolicyManagerServer interface {
 	SetBluetoothContactSharingDisabled(ctx context.Context, who content.ComponentName, disabled bool) error
 	GetBluetoothContactSharingDisabled(ctx context.Context, who content.ComponentName) (bool, error)
 	GetBluetoothContactSharingDisabledForUser(ctx context.Context) (bool, error)
-	SetTrustAgentConfiguration(ctx context.Context, admin content.ComponentName, callerPackageName string, agent content.ComponentName, args interface{}, parent bool) error
-	GetTrustAgentConfiguration(ctx context.Context, admin content.ComponentName, agent content.ComponentName, parent bool) ([]interface{}, error)
+	SetTrustAgentConfiguration(ctx context.Context, admin content.ComponentName, callerPackageName string, agent content.ComponentName, args os.PersistableBundle, parent bool) error
+	GetTrustAgentConfiguration(ctx context.Context, admin content.ComponentName, agent content.ComponentName, parent bool) ([]os.PersistableBundle, error)
 	AddCrossProfileWidgetProvider(ctx context.Context, admin content.ComponentName, callerPackageName string, packageName string) (bool, error)
 	RemoveCrossProfileWidgetProvider(ctx context.Context, admin content.ComponentName, callerPackageName string, packageName string) (bool, error)
 	GetCrossProfileWidgetProviders(ctx context.Context, admin content.ComponentName, callerPackageName string) ([]string, error)
@@ -25474,21 +25547,21 @@ type IDevicePolicyManagerServer interface {
 	IsManagedProfile(ctx context.Context, admin content.ComponentName) (bool, error)
 	GetWifiMacAddress(ctx context.Context, admin content.ComponentName, callerPackageName string) (string, error)
 	Reboot(ctx context.Context, admin content.ComponentName) error
-	SetShortSupportMessage(ctx context.Context, admin content.ComponentName, callerPackageName string, message interface{}) error
-	GetShortSupportMessage(ctx context.Context, admin content.ComponentName, callerPackageName string) (interface{}, error)
-	SetLongSupportMessage(ctx context.Context, admin content.ComponentName, message interface{}) error
-	GetLongSupportMessage(ctx context.Context, admin content.ComponentName) (interface{}, error)
-	GetShortSupportMessageForUser(ctx context.Context, admin content.ComponentName) (interface{}, error)
-	GetLongSupportMessageForUser(ctx context.Context, admin content.ComponentName) (interface{}, error)
+	SetShortSupportMessage(ctx context.Context, admin content.ComponentName, callerPackageName string, message string) error
+	GetShortSupportMessage(ctx context.Context, admin content.ComponentName, callerPackageName string) (string, error)
+	SetLongSupportMessage(ctx context.Context, admin content.ComponentName, message string) error
+	GetLongSupportMessage(ctx context.Context, admin content.ComponentName) (string, error)
+	GetShortSupportMessageForUser(ctx context.Context, admin content.ComponentName) (string, error)
+	GetLongSupportMessageForUser(ctx context.Context, admin content.ComponentName) (string, error)
 	SetOrganizationColor(ctx context.Context, admin content.ComponentName, color int32) error
 	SetOrganizationColorForUser(ctx context.Context, color int32) error
 	ClearOrganizationIdForUser(ctx context.Context) error
 	GetOrganizationColor(ctx context.Context, admin content.ComponentName) (int32, error)
 	GetOrganizationColorForUser(ctx context.Context) (int32, error)
-	SetOrganizationName(ctx context.Context, admin content.ComponentName, callerPackageName string, title interface{}) error
-	GetOrganizationName(ctx context.Context, admin content.ComponentName, callerPackageName string) (interface{}, error)
-	GetDeviceOwnerOrganizationName(ctx context.Context) (interface{}, error)
-	GetOrganizationNameForUser(ctx context.Context) (interface{}, error)
+	SetOrganizationName(ctx context.Context, admin content.ComponentName, callerPackageName string, title string) error
+	GetOrganizationName(ctx context.Context, admin content.ComponentName, callerPackageName string) (string, error)
+	GetDeviceOwnerOrganizationName(ctx context.Context) (string, error)
+	GetOrganizationNameForUser(ctx context.Context) (string, error)
 	GetUserProvisioningState(ctx context.Context) (int32, error)
 	SetUserProvisioningState(ctx context.Context, state int32) error
 	SetAffiliationIds(ctx context.Context, admin content.ComponentName, ids []string) error
@@ -25531,12 +25604,12 @@ type IDevicePolicyManagerServer interface {
 	SetLogoutEnabled(ctx context.Context, admin content.ComponentName, enabled bool) error
 	IsLogoutEnabled(ctx context.Context) (bool, error)
 	GetDisallowedSystemApps(ctx context.Context, admin content.ComponentName, provisioningAction string) ([]string, error)
-	TransferOwnership(ctx context.Context, admin content.ComponentName, target content.ComponentName, bundle interface{}) error
-	GetTransferOwnershipBundle(ctx context.Context) (interface{}, error)
-	SetStartUserSessionMessage(ctx context.Context, admin content.ComponentName, startUserSessionMessage interface{}) error
-	SetEndUserSessionMessage(ctx context.Context, admin content.ComponentName, endUserSessionMessage interface{}) error
-	GetStartUserSessionMessage(ctx context.Context, admin content.ComponentName) (interface{}, error)
-	GetEndUserSessionMessage(ctx context.Context, admin content.ComponentName) (interface{}, error)
+	TransferOwnership(ctx context.Context, admin content.ComponentName, target content.ComponentName, bundle os.PersistableBundle) error
+	GetTransferOwnershipBundle(ctx context.Context) (os.PersistableBundle, error)
+	SetStartUserSessionMessage(ctx context.Context, admin content.ComponentName, startUserSessionMessage string) error
+	SetEndUserSessionMessage(ctx context.Context, admin content.ComponentName, endUserSessionMessage string) error
+	GetStartUserSessionMessage(ctx context.Context, admin content.ComponentName) (string, error)
+	GetEndUserSessionMessage(ctx context.Context, admin content.ComponentName) (string, error)
 	SetMeteredDataDisabledPackages(ctx context.Context, admin content.ComponentName, packageNames []string) ([]string, error)
 	GetMeteredDataDisabledPackages(ctx context.Context, admin content.ComponentName) ([]string, error)
 	AddOverrideApn(ctx context.Context, admin content.ComponentName, apnSetting data.ApnSetting) (int32, error)
@@ -26024,7 +26097,7 @@ func (w *devicePolicyManagerStubWrapper) GetGlobalProxyAdmin(
 func (w *devicePolicyManagerStubWrapper) SetRecommendedGlobalProxy(
 	ctx context.Context,
 	admin content.ComponentName,
-	proxyInfo interface{},
+	proxyInfo net.ProxyInfo,
 ) error {
 	return w.impl.SetRecommendedGlobalProxy(ctx, admin, proxyInfo)
 }
@@ -26366,14 +26439,14 @@ func (w *devicePolicyManagerStubWrapper) CheckDeviceIdentifierAccess(
 func (w *devicePolicyManagerStubWrapper) SetDeviceOwnerLockScreenInfo(
 	ctx context.Context,
 	who content.ComponentName,
-	deviceOwnerInfo interface{},
+	deviceOwnerInfo string,
 ) error {
 	return w.impl.SetDeviceOwnerLockScreenInfo(ctx, who, deviceOwnerInfo)
 }
 
 func (w *devicePolicyManagerStubWrapper) GetDeviceOwnerLockScreenInfo(
 	ctx context.Context,
-) (interface{}, error) {
+) (string, error) {
 	return w.impl.GetDeviceOwnerLockScreenInfo(ctx)
 }
 
@@ -26867,7 +26940,7 @@ func (w *devicePolicyManagerStubWrapper) CreateAndManageUser(
 	who content.ComponentName,
 	name string,
 	profileOwner content.ComponentName,
-	adminExtras interface{},
+	adminExtras os.PersistableBundle,
 	flags int32,
 ) (os.UserHandle, error) {
 	return w.impl.CreateAndManageUser(ctx, who, name, profileOwner, adminExtras, flags)
@@ -27306,7 +27379,7 @@ func (w *devicePolicyManagerStubWrapper) SetTrustAgentConfiguration(
 	admin content.ComponentName,
 	callerPackageName string,
 	agent content.ComponentName,
-	args interface{},
+	args os.PersistableBundle,
 	parent bool,
 ) error {
 	return w.impl.SetTrustAgentConfiguration(ctx, admin, callerPackageName, agent, args, parent)
@@ -27317,7 +27390,7 @@ func (w *devicePolicyManagerStubWrapper) GetTrustAgentConfiguration(
 	admin content.ComponentName,
 	agent content.ComponentName,
 	parent bool,
-) ([]interface{}, error) {
+) ([]os.PersistableBundle, error) {
 	return w.impl.GetTrustAgentConfiguration(ctx, admin, agent, parent)
 }
 
@@ -27588,7 +27661,7 @@ func (w *devicePolicyManagerStubWrapper) SetShortSupportMessage(
 	ctx context.Context,
 	admin content.ComponentName,
 	callerPackageName string,
-	message interface{},
+	message string,
 ) error {
 	return w.impl.SetShortSupportMessage(ctx, admin, callerPackageName, message)
 }
@@ -27597,14 +27670,14 @@ func (w *devicePolicyManagerStubWrapper) GetShortSupportMessage(
 	ctx context.Context,
 	admin content.ComponentName,
 	callerPackageName string,
-) (interface{}, error) {
+) (string, error) {
 	return w.impl.GetShortSupportMessage(ctx, admin, callerPackageName)
 }
 
 func (w *devicePolicyManagerStubWrapper) SetLongSupportMessage(
 	ctx context.Context,
 	admin content.ComponentName,
-	message interface{},
+	message string,
 ) error {
 	return w.impl.SetLongSupportMessage(ctx, admin, message)
 }
@@ -27612,21 +27685,21 @@ func (w *devicePolicyManagerStubWrapper) SetLongSupportMessage(
 func (w *devicePolicyManagerStubWrapper) GetLongSupportMessage(
 	ctx context.Context,
 	admin content.ComponentName,
-) (interface{}, error) {
+) (string, error) {
 	return w.impl.GetLongSupportMessage(ctx, admin)
 }
 
 func (w *devicePolicyManagerStubWrapper) GetShortSupportMessageForUser(
 	ctx context.Context,
 	admin content.ComponentName,
-) (interface{}, error) {
+) (string, error) {
 	return w.impl.GetShortSupportMessageForUser(ctx, admin)
 }
 
 func (w *devicePolicyManagerStubWrapper) GetLongSupportMessageForUser(
 	ctx context.Context,
 	admin content.ComponentName,
-) (interface{}, error) {
+) (string, error) {
 	return w.impl.GetLongSupportMessageForUser(ctx, admin)
 }
 
@@ -27668,7 +27741,7 @@ func (w *devicePolicyManagerStubWrapper) SetOrganizationName(
 	ctx context.Context,
 	admin content.ComponentName,
 	callerPackageName string,
-	title interface{},
+	title string,
 ) error {
 	return w.impl.SetOrganizationName(ctx, admin, callerPackageName, title)
 }
@@ -27677,19 +27750,19 @@ func (w *devicePolicyManagerStubWrapper) GetOrganizationName(
 	ctx context.Context,
 	admin content.ComponentName,
 	callerPackageName string,
-) (interface{}, error) {
+) (string, error) {
 	return w.impl.GetOrganizationName(ctx, admin, callerPackageName)
 }
 
 func (w *devicePolicyManagerStubWrapper) GetDeviceOwnerOrganizationName(
 	ctx context.Context,
-) (interface{}, error) {
+) (string, error) {
 	return w.impl.GetDeviceOwnerOrganizationName(ctx)
 }
 
 func (w *devicePolicyManagerStubWrapper) GetOrganizationNameForUser(
 	ctx context.Context,
-) (interface{}, error) {
+) (string, error) {
 	return w.impl.GetOrganizationNameForUser(ctx)
 }
 
@@ -28009,21 +28082,21 @@ func (w *devicePolicyManagerStubWrapper) TransferOwnership(
 	ctx context.Context,
 	admin content.ComponentName,
 	target content.ComponentName,
-	bundle interface{},
+	bundle os.PersistableBundle,
 ) error {
 	return w.impl.TransferOwnership(ctx, admin, target, bundle)
 }
 
 func (w *devicePolicyManagerStubWrapper) GetTransferOwnershipBundle(
 	ctx context.Context,
-) (interface{}, error) {
+) (os.PersistableBundle, error) {
 	return w.impl.GetTransferOwnershipBundle(ctx)
 }
 
 func (w *devicePolicyManagerStubWrapper) SetStartUserSessionMessage(
 	ctx context.Context,
 	admin content.ComponentName,
-	startUserSessionMessage interface{},
+	startUserSessionMessage string,
 ) error {
 	return w.impl.SetStartUserSessionMessage(ctx, admin, startUserSessionMessage)
 }
@@ -28031,7 +28104,7 @@ func (w *devicePolicyManagerStubWrapper) SetStartUserSessionMessage(
 func (w *devicePolicyManagerStubWrapper) SetEndUserSessionMessage(
 	ctx context.Context,
 	admin content.ComponentName,
-	endUserSessionMessage interface{},
+	endUserSessionMessage string,
 ) error {
 	return w.impl.SetEndUserSessionMessage(ctx, admin, endUserSessionMessage)
 }
@@ -28039,14 +28112,14 @@ func (w *devicePolicyManagerStubWrapper) SetEndUserSessionMessage(
 func (w *devicePolicyManagerStubWrapper) GetStartUserSessionMessage(
 	ctx context.Context,
 	admin content.ComponentName,
-) (interface{}, error) {
+) (string, error) {
 	return w.impl.GetStartUserSessionMessage(ctx, admin)
 }
 
 func (w *devicePolicyManagerStubWrapper) GetEndUserSessionMessage(
 	ctx context.Context,
 	admin content.ComponentName,
-) (interface{}, error) {
+) (string, error) {
 	return w.impl.GetEndUserSessionMessage(ctx, admin)
 }
 

@@ -66,9 +66,19 @@ func (s *CarPowerPolicy) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PolicyId, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -87,6 +97,11 @@ func (s *CarPowerPolicy) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count1 int32
 	_count1, _err = p.ReadInt32()
 	if _err != nil {
@@ -103,6 +118,11 @@ func (s *CarPowerPolicy) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count2 int32
 	_count2, _err = p.ReadInt32()
 	if _err != nil {
@@ -116,6 +136,11 @@ func (s *CarPowerPolicy) UnmarshalParcel(
 				return _err
 			}
 		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count3 int32

@@ -3,6 +3,9 @@ package session
 import (
 	"context"
 	"fmt"
+	pmTypes "github.com/xaionaro-go/binder/android/content/pm/types"
+	types "github.com/xaionaro-go/binder/android/media/types"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -35,13 +38,13 @@ const (
 
 type ISessionControllerCallback interface {
 	AsBinder() binder.IBinder
-	OnEvent(ctx context.Context, event string, extras interface{}) error
+	OnEvent(ctx context.Context, event string, extras os.Bundle) error
 	OnSessionDestroyed(ctx context.Context) error
 	OnPlaybackStateChanged(ctx context.Context, state PlaybackState) error
-	OnMetadataChanged(ctx context.Context, metadata interface{}) error
-	OnQueueChanged(ctx context.Context, queue interface{}) error
-	OnQueueTitleChanged(ctx context.Context, title interface{}) error
-	OnExtrasChanged(ctx context.Context, extras interface{}) error
+	OnMetadataChanged(ctx context.Context, metadata types.MediaMetadata) error
+	OnQueueChanged(ctx context.Context, queue pmTypes.ParceledListSlice) error
+	OnQueueTitleChanged(ctx context.Context, title string) error
+	OnExtrasChanged(ctx context.Context, extras os.Bundle) error
 	OnVolumeInfoChanged(ctx context.Context, info MediaControllerPlaybackInfo) error
 }
 
@@ -64,11 +67,16 @@ var _ ISessionControllerCallback = (*SessionControllerCallbackProxy)(nil)
 func (p *SessionControllerCallbackProxy) OnEvent(
 	ctx context.Context,
 	event string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
 	_data.WriteString16(event)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnEvent)
 	if _err != nil {
@@ -83,6 +91,7 @@ func (p *SessionControllerCallbackProxy) OnSessionDestroyed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnSessionDestroyed)
@@ -99,6 +108,7 @@ func (p *SessionControllerCallbackProxy) OnPlaybackStateChanged(
 	state PlaybackState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
 	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
@@ -116,10 +126,12 @@ func (p *SessionControllerCallbackProxy) OnPlaybackStateChanged(
 
 func (p *SessionControllerCallbackProxy) OnMetadataChanged(
 	ctx context.Context,
-	metadata interface{},
+	metadata types.MediaMetadata,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
+	// WARNING: param metadata (type types.MediaMetadata) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnMetadataChanged)
 	if _err != nil {
@@ -132,10 +144,12 @@ func (p *SessionControllerCallbackProxy) OnMetadataChanged(
 
 func (p *SessionControllerCallbackProxy) OnQueueChanged(
 	ctx context.Context,
-	queue interface{},
+	queue pmTypes.ParceledListSlice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
+	// WARNING: param queue (type pmTypes.ParceledListSlice) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnQueueChanged)
 	if _err != nil {
@@ -148,10 +162,12 @@ func (p *SessionControllerCallbackProxy) OnQueueChanged(
 
 func (p *SessionControllerCallbackProxy) OnQueueTitleChanged(
 	ctx context.Context,
-	title interface{},
+	title string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
+	_data.WriteString16(title)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnQueueTitleChanged)
 	if _err != nil {
@@ -164,10 +180,15 @@ func (p *SessionControllerCallbackProxy) OnQueueTitleChanged(
 
 func (p *SessionControllerCallbackProxy) OnExtrasChanged(
 	ctx context.Context,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnExtrasChanged)
 	if _err != nil {
@@ -183,6 +204,7 @@ func (p *SessionControllerCallbackProxy) OnVolumeInfoChanged(
 	info MediaControllerPlaybackInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -201,7 +223,8 @@ func (p *SessionControllerCallbackProxy) OnVolumeInfoChanged(
 // SessionControllerCallbackStub dispatches incoming binder transactions
 // to a typed ISessionControllerCallback implementation.
 type SessionControllerCallbackStub struct {
-	Impl ISessionControllerCallback
+	Impl      ISessionControllerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SessionControllerCallbackStub)(nil)
@@ -215,30 +238,34 @@ func (s *SessionControllerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISessionControllerCallbackOnEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_event, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnEvent(ctx, _arg_event, _arg_extras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionControllerCallbackOnSessionDestroyed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnSessionDestroyed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionControllerCallbackOnPlaybackStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_state PlaybackState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -252,44 +279,38 @@ func (s *SessionControllerCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnPlaybackStateChanged(ctx, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionControllerCallbackOnMetadataChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_metadata interface{}
+		var _arg_metadata types.MediaMetadata
 		_err := s.Impl.OnMetadataChanged(ctx, _arg_metadata)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionControllerCallbackOnQueueChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_queue interface{}
+		var _arg_queue pmTypes.ParceledListSlice
 		_err := s.Impl.OnQueueChanged(ctx, _arg_queue)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionControllerCallbackOnQueueTitleChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_title, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_title interface{}
-		_err := s.Impl.OnQueueTitleChanged(ctx, _arg_title)
-		_ = _err
-		return nil, nil
+		_err = s.Impl.OnQueueTitleChanged(ctx, _arg_title)
+		return nil, _err
 	case TransactionISessionControllerCallbackOnExtrasChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_extras interface{}
 		_err := s.Impl.OnExtrasChanged(ctx, _arg_extras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionControllerCallbackOnVolumeInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info MediaControllerPlaybackInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -303,8 +324,7 @@ func (s *SessionControllerCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnVolumeInfoChanged(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -314,13 +334,13 @@ func (s *SessionControllerCallbackStub) OnTransaction(
 // provide to NewSessionControllerCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ISessionControllerCallbackServer interface {
-	OnEvent(ctx context.Context, event string, extras interface{}) error
+	OnEvent(ctx context.Context, event string, extras os.Bundle) error
 	OnSessionDestroyed(ctx context.Context) error
 	OnPlaybackStateChanged(ctx context.Context, state PlaybackState) error
-	OnMetadataChanged(ctx context.Context, metadata interface{}) error
-	OnQueueChanged(ctx context.Context, queue interface{}) error
-	OnQueueTitleChanged(ctx context.Context, title interface{}) error
-	OnExtrasChanged(ctx context.Context, extras interface{}) error
+	OnMetadataChanged(ctx context.Context, metadata types.MediaMetadata) error
+	OnQueueChanged(ctx context.Context, queue pmTypes.ParceledListSlice) error
+	OnQueueTitleChanged(ctx context.Context, title string) error
+	OnExtrasChanged(ctx context.Context, extras os.Bundle) error
 	OnVolumeInfoChanged(ctx context.Context, info MediaControllerPlaybackInfo) error
 }
 
@@ -336,7 +356,7 @@ func (w *sessionControllerCallbackStubWrapper) AsBinder() binder.IBinder {
 func (w *sessionControllerCallbackStubWrapper) OnEvent(
 	ctx context.Context,
 	event string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.OnEvent(ctx, event, extras)
 }
@@ -356,28 +376,28 @@ func (w *sessionControllerCallbackStubWrapper) OnPlaybackStateChanged(
 
 func (w *sessionControllerCallbackStubWrapper) OnMetadataChanged(
 	ctx context.Context,
-	metadata interface{},
+	metadata types.MediaMetadata,
 ) error {
 	return w.impl.OnMetadataChanged(ctx, metadata)
 }
 
 func (w *sessionControllerCallbackStubWrapper) OnQueueChanged(
 	ctx context.Context,
-	queue interface{},
+	queue pmTypes.ParceledListSlice,
 ) error {
 	return w.impl.OnQueueChanged(ctx, queue)
 }
 
 func (w *sessionControllerCallbackStubWrapper) OnQueueTitleChanged(
 	ctx context.Context,
-	title interface{},
+	title string,
 ) error {
 	return w.impl.OnQueueTitleChanged(ctx, title)
 }
 
 func (w *sessionControllerCallbackStubWrapper) OnExtrasChanged(
 	ctx context.Context,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.OnExtrasChanged(ctx, extras)
 }

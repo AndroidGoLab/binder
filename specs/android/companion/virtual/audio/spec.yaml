@@ -1,0 +1,43 @@
+package: android.companion.virtual.audio
+go_package: android/companion/virtual/audio
+interfaces:
+    - name: IAudioConfigChangedCallback
+      descriptor: android.companion.virtual.audio.IAudioConfigChangedCallback
+      oneway: true
+      methods:
+        - name: onPlaybackConfigChanged
+          transaction_code_offset: 0
+          params:
+            - name: configs
+              type:
+                name: List
+                type_args:
+                    - name: AudioPlaybackConfiguration
+              direction: in
+          return_type:
+            name: void
+        - name: onRecordingConfigChanged
+          transaction_code_offset: 1
+          params:
+            - name: configs
+              type:
+                name: List
+                type_args:
+                    - name: AudioRecordingConfiguration
+              direction: in
+          return_type:
+            name: void
+    - name: IAudioRoutingCallback
+      descriptor: android.companion.virtual.audio.IAudioRoutingCallback
+      oneway: true
+      methods:
+        - name: onAppsNeedingAudioRoutingChanged
+          transaction_code_offset: 0
+          params:
+            - name: appUids
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void

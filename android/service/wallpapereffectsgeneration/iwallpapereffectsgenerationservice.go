@@ -46,6 +46,7 @@ func (p *WallpaperEffectsGenerationServiceProxy) OnGenerateCinematicEffect(
 	request appWallpapereffectsgeneration.CinematicEffectRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEffectsGenerationService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -64,7 +65,8 @@ func (p *WallpaperEffectsGenerationServiceProxy) OnGenerateCinematicEffect(
 // WallpaperEffectsGenerationServiceStub dispatches incoming binder transactions
 // to a typed IWallpaperEffectsGenerationService implementation.
 type WallpaperEffectsGenerationServiceStub struct {
-	Impl IWallpaperEffectsGenerationService
+	Impl      IWallpaperEffectsGenerationService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WallpaperEffectsGenerationServiceStub)(nil)
@@ -78,11 +80,12 @@ func (s *WallpaperEffectsGenerationServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWallpaperEffectsGenerationServiceOnGenerateCinematicEffect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request appWallpapereffectsgeneration.CinematicEffectRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -96,8 +99,7 @@ func (s *WallpaperEffectsGenerationServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnGenerateCinematicEffect(ctx, _arg_request)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

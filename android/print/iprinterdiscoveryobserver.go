@@ -49,6 +49,7 @@ func (p *PrinterDiscoveryObserverProxy) OnPrintersAdded(
 	printers pm.ParceledListSlice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrinterDiscoveryObserver)
 	_data.WriteInt32(1)
 	if _err := printers.MarshalParcel(_data); _err != nil {
@@ -69,6 +70,7 @@ func (p *PrinterDiscoveryObserverProxy) OnPrintersRemoved(
 	printerIds pm.ParceledListSlice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrinterDiscoveryObserver)
 	_data.WriteInt32(1)
 	if _err := printerIds.MarshalParcel(_data); _err != nil {
@@ -87,7 +89,8 @@ func (p *PrinterDiscoveryObserverProxy) OnPrintersRemoved(
 // PrinterDiscoveryObserverStub dispatches incoming binder transactions
 // to a typed IPrinterDiscoveryObserver implementation.
 type PrinterDiscoveryObserverStub struct {
-	Impl IPrinterDiscoveryObserver
+	Impl      IPrinterDiscoveryObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PrinterDiscoveryObserverStub)(nil)
@@ -101,11 +104,12 @@ func (s *PrinterDiscoveryObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPrinterDiscoveryObserverOnPrintersAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printers pm.ParceledListSlice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -119,12 +123,8 @@ func (s *PrinterDiscoveryObserverStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnPrintersAdded(ctx, _arg_printers)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrinterDiscoveryObserverOnPrintersRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printerIds pm.ParceledListSlice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -138,8 +138,7 @@ func (s *PrinterDiscoveryObserverStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnPrintersRemoved(ctx, _arg_printerIds)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

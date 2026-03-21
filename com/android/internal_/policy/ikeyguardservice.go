@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -73,7 +74,7 @@ type IKeyguardService interface {
 	SetOccluded(ctx context.Context, isOccluded bool, animate bool) error
 	AddStateMonitorCallback(ctx context.Context, callback IKeyguardStateCallback) error
 	VerifyUnlock(ctx context.Context, callback IKeyguardExitCallback) error
-	Dismiss(ctx context.Context, callback IKeyguardDismissCallback, message interface{}) error
+	Dismiss(ctx context.Context, callback IKeyguardDismissCallback, message string) error
 	OnDreamingStarted(ctx context.Context) error
 	OnDreamingStopped(ctx context.Context) error
 	OnStartedGoingToSleep(ctx context.Context, pmSleepReason int32) error
@@ -86,7 +87,7 @@ type IKeyguardService interface {
 	OnScreenTurnedOff(ctx context.Context) error
 	SetKeyguardEnabled(ctx context.Context, enabled bool) error
 	OnSystemReady(ctx context.Context) error
-	DoKeyguardTimeout(ctx context.Context, options interface{}) error
+	DoKeyguardTimeout(ctx context.Context, options os.Bundle) error
 	SetSwitchingUser(ctx context.Context, switching bool) error
 	SetCurrentUser(ctx context.Context) error
 	OnBootCompleted(ctx context.Context) error
@@ -119,6 +120,7 @@ func (p *KeyguardServiceProxy) SetOccluded(
 	animate bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteBool(isOccluded)
 	_data.WriteBool(animate)
@@ -137,6 +139,7 @@ func (p *KeyguardServiceProxy) AddStateMonitorCallback(
 	callback IKeyguardStateCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -154,6 +157,7 @@ func (p *KeyguardServiceProxy) VerifyUnlock(
 	callback IKeyguardExitCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -169,11 +173,13 @@ func (p *KeyguardServiceProxy) VerifyUnlock(
 func (p *KeyguardServiceProxy) Dismiss(
 	ctx context.Context,
 	callback IKeyguardDismissCallback,
-	message interface{},
+	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_data.WriteString16(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceDismiss)
 	if _err != nil {
@@ -188,6 +194,7 @@ func (p *KeyguardServiceProxy) OnDreamingStarted(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnDreamingStarted)
@@ -203,6 +210,7 @@ func (p *KeyguardServiceProxy) OnDreamingStopped(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnDreamingStopped)
@@ -219,6 +227,7 @@ func (p *KeyguardServiceProxy) OnStartedGoingToSleep(
 	pmSleepReason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteInt32(pmSleepReason)
 
@@ -237,6 +246,7 @@ func (p *KeyguardServiceProxy) OnFinishedGoingToSleep(
 	cameraGestureTriggered bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteInt32(pmSleepReason)
 	_data.WriteBool(cameraGestureTriggered)
@@ -256,6 +266,7 @@ func (p *KeyguardServiceProxy) OnStartedWakingUp(
 	cameraGestureTriggered bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteInt32(pmWakeReason)
 	_data.WriteBool(cameraGestureTriggered)
@@ -273,6 +284,7 @@ func (p *KeyguardServiceProxy) OnFinishedWakingUp(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnFinishedWakingUp)
@@ -289,6 +301,7 @@ func (p *KeyguardServiceProxy) OnScreenTurningOn(
 	callback IKeyguardDrawnCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -305,6 +318,7 @@ func (p *KeyguardServiceProxy) OnScreenTurnedOn(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnScreenTurnedOn)
@@ -320,6 +334,7 @@ func (p *KeyguardServiceProxy) OnScreenTurningOff(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnScreenTurningOff)
@@ -335,6 +350,7 @@ func (p *KeyguardServiceProxy) OnScreenTurnedOff(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnScreenTurnedOff)
@@ -351,6 +367,7 @@ func (p *KeyguardServiceProxy) SetKeyguardEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteBool(enabled)
 
@@ -367,6 +384,7 @@ func (p *KeyguardServiceProxy) OnSystemReady(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnSystemReady)
@@ -380,10 +398,15 @@ func (p *KeyguardServiceProxy) OnSystemReady(
 
 func (p *KeyguardServiceProxy) DoKeyguardTimeout(
 	ctx context.Context,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceDoKeyguardTimeout)
 	if _err != nil {
@@ -399,6 +422,7 @@ func (p *KeyguardServiceProxy) SetSwitchingUser(
 	switching bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteBool(switching)
 
@@ -416,6 +440,7 @@ func (p *KeyguardServiceProxy) SetCurrentUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteInt32(_identity.UserID)
 
@@ -432,6 +457,7 @@ func (p *KeyguardServiceProxy) OnBootCompleted(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnBootCompleted)
@@ -449,6 +475,7 @@ func (p *KeyguardServiceProxy) StartKeyguardExitAnimation(
 	fadeoutDuration int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteInt64(startTime)
 	_data.WriteInt64(fadeoutDuration)
@@ -466,6 +493,7 @@ func (p *KeyguardServiceProxy) OnShortPowerPressedGoHome(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceOnShortPowerPressedGoHome)
@@ -482,6 +510,7 @@ func (p *KeyguardServiceProxy) DismissKeyguardToLaunch(
 	intentToLaunch content.Intent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteInt32(1)
 	if _err := intentToLaunch.MarshalParcel(_data); _err != nil {
@@ -502,6 +531,7 @@ func (p *KeyguardServiceProxy) OnSystemKeyPressed(
 	keycode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteInt32(keycode)
 
@@ -518,6 +548,7 @@ func (p *KeyguardServiceProxy) ShowDismissibleKeyguard(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardService, MethodIKeyguardServiceShowDismissibleKeyguard)
@@ -532,7 +563,8 @@ func (p *KeyguardServiceProxy) ShowDismissibleKeyguard(
 // KeyguardServiceStub dispatches incoming binder transactions
 // to a typed IKeyguardService implementation.
 type KeyguardServiceStub struct {
-	Impl IKeyguardService
+	Impl      IKeyguardService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*KeyguardServiceStub)(nil)
@@ -546,11 +578,12 @@ func (s *KeyguardServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIKeyguardServiceSetOccluded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isOccluded, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -560,68 +593,58 @@ func (s *KeyguardServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetOccluded(ctx, _arg_isOccluded, _arg_animate)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceAddStateMonitorCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IKeyguardStateCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewKeyguardStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.AddStateMonitorCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceVerifyUnlock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IKeyguardExitCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewKeyguardExitCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.VerifyUnlock(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceDismiss:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IKeyguardDismissCallback
-		_ = _arg_callback
-		var _arg_message interface{}
-		_err := s.Impl.Dismiss(ctx, _arg_callback, _arg_message)
-		_ = _err
-		return nil, nil
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewKeyguardDismissCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
+		_arg_message, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Dismiss(ctx, _arg_callback, _arg_message)
+		return nil, _err
 	case TransactionIKeyguardServiceOnDreamingStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDreamingStarted(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceOnDreamingStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDreamingStopped(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceOnStartedGoingToSleep:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pmSleepReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnStartedGoingToSleep(ctx, _arg_pmSleepReason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceOnFinishedGoingToSleep:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pmSleepReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -631,12 +654,8 @@ func (s *KeyguardServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnFinishedGoingToSleep(ctx, _arg_pmSleepReason, _arg_cameraGestureTriggered)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceOnStartedWakingUp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pmWakeReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -646,104 +665,72 @@ func (s *KeyguardServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStartedWakingUp(ctx, _arg_pmWakeReason, _arg_cameraGestureTriggered)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceOnFinishedWakingUp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnFinishedWakingUp(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceOnScreenTurningOn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IKeyguardDrawnCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewKeyguardDrawnCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.OnScreenTurningOn(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceOnScreenTurnedOn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnScreenTurnedOn(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceOnScreenTurningOff:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnScreenTurningOff(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceOnScreenTurnedOff:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnScreenTurnedOff(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceSetKeyguardEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetKeyguardEnabled(ctx, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceOnSystemReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnSystemReady(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceDoKeyguardTimeout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_options interface{}
 		_err := s.Impl.DoKeyguardTimeout(ctx, _arg_options)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceSetSwitchingUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_switching, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetSwitchingUser(ctx, _arg_switching)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceSetCurrentUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SetCurrentUser(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceOnBootCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnBootCompleted(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceStartKeyguardExitAnimation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_startTime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -753,19 +740,11 @@ func (s *KeyguardServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.StartKeyguardExitAnimation(ctx, _arg_startTime, _arg_fadeoutDuration)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceOnShortPowerPressedGoHome:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnShortPowerPressedGoHome(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceDismissKeyguardToLaunch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intentToLaunch content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -779,26 +758,17 @@ func (s *KeyguardServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.DismissKeyguardToLaunch(ctx, _arg_intentToLaunch)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceOnSystemKeyPressed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_keycode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSystemKeyPressed(ctx, _arg_keycode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardServiceShowDismissibleKeyguard:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ShowDismissibleKeyguard(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -811,7 +781,7 @@ type IKeyguardServiceServer interface {
 	SetOccluded(ctx context.Context, isOccluded bool, animate bool) error
 	AddStateMonitorCallback(ctx context.Context, callback IKeyguardStateCallback) error
 	VerifyUnlock(ctx context.Context, callback IKeyguardExitCallback) error
-	Dismiss(ctx context.Context, callback IKeyguardDismissCallback, message interface{}) error
+	Dismiss(ctx context.Context, callback IKeyguardDismissCallback, message string) error
 	OnDreamingStarted(ctx context.Context) error
 	OnDreamingStopped(ctx context.Context) error
 	OnStartedGoingToSleep(ctx context.Context, pmSleepReason int32) error
@@ -824,7 +794,7 @@ type IKeyguardServiceServer interface {
 	OnScreenTurnedOff(ctx context.Context) error
 	SetKeyguardEnabled(ctx context.Context, enabled bool) error
 	OnSystemReady(ctx context.Context) error
-	DoKeyguardTimeout(ctx context.Context, options interface{}) error
+	DoKeyguardTimeout(ctx context.Context, options os.Bundle) error
 	SetSwitchingUser(ctx context.Context, switching bool) error
 	SetCurrentUser(ctx context.Context) error
 	OnBootCompleted(ctx context.Context) error
@@ -869,7 +839,7 @@ func (w *keyguardServiceStubWrapper) VerifyUnlock(
 func (w *keyguardServiceStubWrapper) Dismiss(
 	ctx context.Context,
 	callback IKeyguardDismissCallback,
-	message interface{},
+	message string,
 ) error {
 	return w.impl.Dismiss(ctx, callback, message)
 }
@@ -955,7 +925,7 @@ func (w *keyguardServiceStubWrapper) OnSystemReady(
 
 func (w *keyguardServiceStubWrapper) DoKeyguardTimeout(
 	ctx context.Context,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.DoKeyguardTimeout(ctx, options)
 }

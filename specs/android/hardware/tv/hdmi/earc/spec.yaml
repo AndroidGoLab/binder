@@ -1,0 +1,106 @@
+package: android.hardware.tv.hdmi.earc
+go_package: android/hardware/tv/hdmi/earc
+interfaces:
+    - name: IEArc
+      descriptor: android.hardware.tv.hdmi.earc.IEArc
+      methods:
+        - name: setEArcEnabled
+          transaction_code_offset: 0
+          params:
+            - name: enabled
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: isEArcEnabled
+          transaction_code_offset: 1
+          return_type:
+            name: boolean
+        - name: setCallback
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: IEArcCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getState
+          transaction_code_offset: 3
+          params:
+            - name: portId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: IEArcStatus
+        - name: getLastReportedAudioCapabilities
+          transaction_code_offset: 4
+          params:
+            - name: portId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+    - name: IEArcCallback
+      descriptor: android.hardware.tv.hdmi.earc.IEArcCallback
+      oneway: true
+      methods:
+        - name: onStateChange
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: IEArcStatus
+              direction: in
+            - name: portId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onCapabilitiesReported
+          transaction_code_offset: 1
+          params:
+            - name: rawCapabilities
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: portId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+enums:
+    - name: IEArcStatus
+      backing_type: byte
+      values:
+        - name: IDLE
+          value: "0"
+        - name: EARC_PENDING
+          value: "1"
+        - name: ARC_PENDING
+          value: "2"
+        - name: EARC_CONNECTED
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Result
+      backing_type: ""
+      values:
+        - name: SUCCESS
+          value: "0"
+        - name: FAILURE_UNKNOWN
+          value: "1"
+        - name: FAILURE_INVALID_ARGS
+          value: "2"
+        - name: FAILURE_NOT_SUPPORTED
+          value: "4"
+      annotations:
+        - VintfStability

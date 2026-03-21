@@ -3,7 +3,6 @@ package sounddose
 import (
 	"context"
 	"fmt"
-	sounddoseISoundDose "github.com/xaionaro-go/binder/android/hardware/audio/core/sounddose/ISoundDose"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,7 +27,7 @@ type ISoundDose interface {
 	AsBinder() binder.IBinder
 	SetOutputRs2UpperBound(ctx context.Context, rs2ValueDbA float32) error
 	GetOutputRs2UpperBound(ctx context.Context) (float32, error)
-	RegisterSoundDoseCallback(ctx context.Context, callback sounddoseISoundDose.IHalSoundDoseCallback) error
+	RegisterSoundDoseCallback(ctx context.Context, callback ISoundDoseIHalSoundDoseCallback) error
 }
 
 const (
@@ -57,6 +56,7 @@ func (p *SoundDoseProxy) SetOutputRs2UpperBound(
 	rs2ValueDbA float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 	_data.WriteFloat32(rs2ValueDbA)
 
@@ -83,6 +83,7 @@ func (p *SoundDoseProxy) GetOutputRs2UpperBound(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseGetOutputRs2UpperBound)
@@ -109,9 +110,10 @@ func (p *SoundDoseProxy) GetOutputRs2UpperBound(
 
 func (p *SoundDoseProxy) RegisterSoundDoseCallback(
 	ctx context.Context,
-	callback sounddoseISoundDose.IHalSoundDoseCallback,
+	callback ISoundDoseIHalSoundDoseCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -136,7 +138,8 @@ func (p *SoundDoseProxy) RegisterSoundDoseCallback(
 // SoundDoseStub dispatches incoming binder transactions
 // to a typed ISoundDose implementation.
 type SoundDoseStub struct {
-	Impl ISoundDose
+	Impl      ISoundDose
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SoundDoseStub)(nil)
@@ -150,11 +153,12 @@ func (s *SoundDoseStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISoundDoseSetOutputRs2UpperBound:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rs2ValueDbA, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -168,9 +172,6 @@ func (s *SoundDoseStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundDoseGetOutputRs2UpperBound:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetOutputRs2UpperBound(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -181,12 +182,14 @@ func (s *SoundDoseStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionISoundDoseRegisterSoundDoseCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_callback ISoundDoseIHalSoundDoseCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSoundDoseIHalSoundDoseCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback sounddoseISoundDose.IHalSoundDoseCallback
-		_ = _arg_callback
 		_err := s.Impl.RegisterSoundDoseCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -206,7 +209,7 @@ func (s *SoundDoseStub) OnTransaction(
 type ISoundDoseServer interface {
 	SetOutputRs2UpperBound(ctx context.Context, rs2ValueDbA float32) error
 	GetOutputRs2UpperBound(ctx context.Context) (float32, error)
-	RegisterSoundDoseCallback(ctx context.Context, callback sounddoseISoundDose.IHalSoundDoseCallback) error
+	RegisterSoundDoseCallback(ctx context.Context, callback ISoundDoseIHalSoundDoseCallback) error
 }
 
 type soundDoseStubWrapper struct {
@@ -233,7 +236,7 @@ func (w *soundDoseStubWrapper) GetOutputRs2UpperBound(
 
 func (w *soundDoseStubWrapper) RegisterSoundDoseCallback(
 	ctx context.Context,
-	callback sounddoseISoundDose.IHalSoundDoseCallback,
+	callback ISoundDoseIHalSoundDoseCallback,
 ) error {
 	return w.impl.RegisterSoundDoseCallback(ctx, callback)
 }

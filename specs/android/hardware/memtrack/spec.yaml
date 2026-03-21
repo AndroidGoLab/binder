@@ -1,0 +1,93 @@
+package: android.hardware.memtrack
+go_package: android/hardware/memtrack
+interfaces:
+    - name: IMemtrack
+      descriptor: android.hardware.memtrack.IMemtrack
+      methods:
+        - name: getMemory
+          transaction_code_offset: 0
+          params:
+            - name: pid
+              type:
+                name: int
+              direction: in
+            - name: type
+              type:
+                name: MemtrackType
+              direction: in
+          return_type:
+            name: MemtrackRecord
+            is_array: true
+        - name: getGpuDeviceInfo
+          transaction_code_offset: 1
+          return_type:
+            name: DeviceInfo
+            is_array: true
+parcelables:
+    - name: DeviceInfo
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      annotations:
+        - VintfStability
+    - name: MemtrackRecord
+      fields:
+        - name: flags
+          type:
+            name: int
+        - name: sizeInBytes
+          type:
+            name: long
+      constants:
+        - name: FLAG_SMAPS_ACCOUNTED
+          type: int
+          value: 1 << 1
+        - name: FLAG_SMAPS_UNACCOUNTED
+          type: int
+          value: 1 << 2
+        - name: FLAG_SHARED
+          type: int
+          value: 1 << 3
+        - name: FLAG_SHARED_PSS
+          type: int
+          value: 1 << 4
+        - name: FLAG_PRIVATE
+          type: int
+          value: 1 << 5
+        - name: FLAG_SYSTEM
+          type: int
+          value: 1 << 6
+        - name: FLAG_DEDICATED
+          type: int
+          value: 1 << 7
+        - name: FLAG_NONSECURE
+          type: int
+          value: 1 << 8
+        - name: FLAG_SECURE
+          type: int
+          value: 1 << 9
+      annotations:
+        - VintfStability
+enums:
+    - name: MemtrackType
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: GL
+          value: "1"
+        - name: GRAPHICS
+          value: "2"
+        - name: MULTIMEDIA
+          value: "3"
+        - name: CAMERA
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing

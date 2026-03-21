@@ -3,6 +3,8 @@ package app
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/content/pm/types"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -23,8 +25,8 @@ const (
 
 type IInstantAppResolver interface {
 	AsBinder() binder.IBinder
-	GetInstantAppResolveInfoList(ctx context.Context, request interface{}, sequence int32, callback interface{}) error
-	GetInstantAppIntentFilterList(ctx context.Context, request interface{}, callback interface{}) error
+	GetInstantAppResolveInfoList(ctx context.Context, request types.InstantAppRequestInfo, sequence int32, callback os.IRemoteCallback) error
+	GetInstantAppIntentFilterList(ctx context.Context, request types.InstantAppRequestInfo, callback os.IRemoteCallback) error
 }
 
 type InstantAppResolverProxy struct {
@@ -45,13 +47,16 @@ var _ IInstantAppResolver = (*InstantAppResolverProxy)(nil)
 
 func (p *InstantAppResolverProxy) GetInstantAppResolveInfoList(
 	ctx context.Context,
-	request interface{},
+	request types.InstantAppRequestInfo,
 	sequence int32,
-	callback interface{},
+	callback os.IRemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstantAppResolver)
+	// WARNING: param request (type types.InstantAppRequestInfo) cannot be serialized — type not resolved
 	_data.WriteInt32(sequence)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstantAppResolver, MethodIInstantAppResolverGetInstantAppResolveInfoList)
 	if _err != nil {
@@ -64,11 +69,14 @@ func (p *InstantAppResolverProxy) GetInstantAppResolveInfoList(
 
 func (p *InstantAppResolverProxy) GetInstantAppIntentFilterList(
 	ctx context.Context,
-	request interface{},
-	callback interface{},
+	request types.InstantAppRequestInfo,
+	callback os.IRemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstantAppResolver)
+	// WARNING: param request (type types.InstantAppRequestInfo) cannot be serialized — type not resolved
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstantAppResolver, MethodIInstantAppResolverGetInstantAppIntentFilterList)
 	if _err != nil {
@@ -82,7 +90,8 @@ func (p *InstantAppResolverProxy) GetInstantAppIntentFilterList(
 // InstantAppResolverStub dispatches incoming binder transactions
 // to a typed IInstantAppResolver implementation.
 type InstantAppResolverStub struct {
-	Impl IInstantAppResolver
+	Impl      IInstantAppResolver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InstantAppResolverStub)(nil)
@@ -96,29 +105,39 @@ func (s *InstantAppResolverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInstantAppResolverGetInstantAppResolveInfoList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_request interface{}
+		var _arg_request types.InstantAppRequestInfo
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
-		_err = s.Impl.GetInstantAppResolveInfoList(ctx, _arg_request, _arg_sequence, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIInstantAppResolverGetInstantAppIntentFilterList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_callback os.IRemoteCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = os.NewRemoteCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		var _arg_request interface{}
-		var _arg_callback interface{}
+		_err = s.Impl.GetInstantAppResolveInfoList(ctx, _arg_request, _arg_sequence, _arg_callback)
+		return nil, _err
+	case TransactionIInstantAppResolverGetInstantAppIntentFilterList:
+		var _arg_request types.InstantAppRequestInfo
+		var _arg_callback os.IRemoteCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = os.NewRemoteCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.GetInstantAppIntentFilterList(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -128,8 +147,8 @@ func (s *InstantAppResolverStub) OnTransaction(
 // provide to NewInstantAppResolverStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IInstantAppResolverServer interface {
-	GetInstantAppResolveInfoList(ctx context.Context, request interface{}, sequence int32, callback interface{}) error
-	GetInstantAppIntentFilterList(ctx context.Context, request interface{}, callback interface{}) error
+	GetInstantAppResolveInfoList(ctx context.Context, request types.InstantAppRequestInfo, sequence int32, callback os.IRemoteCallback) error
+	GetInstantAppIntentFilterList(ctx context.Context, request types.InstantAppRequestInfo, callback os.IRemoteCallback) error
 }
 
 type instantAppResolverStubWrapper struct {
@@ -143,17 +162,17 @@ func (w *instantAppResolverStubWrapper) AsBinder() binder.IBinder {
 
 func (w *instantAppResolverStubWrapper) GetInstantAppResolveInfoList(
 	ctx context.Context,
-	request interface{},
+	request types.InstantAppRequestInfo,
 	sequence int32,
-	callback interface{},
+	callback os.IRemoteCallback,
 ) error {
 	return w.impl.GetInstantAppResolveInfoList(ctx, request, sequence, callback)
 }
 
 func (w *instantAppResolverStubWrapper) GetInstantAppIntentFilterList(
 	ctx context.Context,
-	request interface{},
-	callback interface{},
+	request types.InstantAppRequestInfo,
+	callback os.IRemoteCallback,
 ) error {
 	return w.impl.GetInstantAppIntentFilterList(ctx, request, callback)
 }

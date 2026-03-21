@@ -3,7 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
-	view "github.com/xaionaro-go/binder/android/view"
+	types "github.com/xaionaro-go/binder/android/view/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -36,7 +36,7 @@ type ITaskFragmentOrganizerController interface {
 	AsBinder() binder.IBinder
 	RegisterOrganizer(ctx context.Context, organizer ITaskFragmentOrganizer, isSystemOrganizer bool) error
 	UnregisterOrganizer(ctx context.Context, organizer ITaskFragmentOrganizer) error
-	RegisterRemoteAnimations(ctx context.Context, organizer ITaskFragmentOrganizer, definition view.RemoteAnimationDefinition) error
+	RegisterRemoteAnimations(ctx context.Context, organizer ITaskFragmentOrganizer, definition types.RemoteAnimationDefinition) error
 	UnregisterRemoteAnimations(ctx context.Context, organizer ITaskFragmentOrganizer) error
 	IsActivityEmbedded(ctx context.Context, activityToken binder.IBinder) (bool, error)
 	OnTransactionHandled(ctx context.Context, transactionToken binder.IBinder, wct WindowContainerTransaction, transitionType int32, shouldApplyIndependently bool) error
@@ -65,6 +65,7 @@ func (p *TaskFragmentOrganizerControllerProxy) RegisterOrganizer(
 	isSystemOrganizer bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
 	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(isSystemOrganizer)
@@ -92,6 +93,7 @@ func (p *TaskFragmentOrganizerControllerProxy) UnregisterOrganizer(
 	organizer ITaskFragmentOrganizer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
 	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 
@@ -116,15 +118,13 @@ func (p *TaskFragmentOrganizerControllerProxy) UnregisterOrganizer(
 func (p *TaskFragmentOrganizerControllerProxy) RegisterRemoteAnimations(
 	ctx context.Context,
 	organizer ITaskFragmentOrganizer,
-	definition view.RemoteAnimationDefinition,
+	definition types.RemoteAnimationDefinition,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
 	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
-	_data.WriteInt32(1)
-	if _err := definition.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param definition (type types.RemoteAnimationDefinition) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerRegisterRemoteAnimations)
 	if _err != nil {
@@ -149,6 +149,7 @@ func (p *TaskFragmentOrganizerControllerProxy) UnregisterRemoteAnimations(
 	organizer ITaskFragmentOrganizer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
 	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 
@@ -176,6 +177,7 @@ func (p *TaskFragmentOrganizerControllerProxy) IsActivityEmbedded(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 
@@ -209,6 +211,7 @@ func (p *TaskFragmentOrganizerControllerProxy) OnTransactionHandled(
 	shouldApplyIndependently bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
 	binder.WriteBinderToParcel(ctx, _data, transactionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -244,6 +247,7 @@ func (p *TaskFragmentOrganizerControllerProxy) ApplyTransaction(
 	remoteTransition RemoteTransition,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
 	_data.WriteInt32(1)
 	if _err := wct.MarshalParcel(_data); _err != nil {
@@ -277,7 +281,8 @@ func (p *TaskFragmentOrganizerControllerProxy) ApplyTransaction(
 // TaskFragmentOrganizerControllerStub dispatches incoming binder transactions
 // to a typed ITaskFragmentOrganizerController implementation.
 type TaskFragmentOrganizerControllerStub struct {
-	Impl ITaskFragmentOrganizerController
+	Impl      ITaskFragmentOrganizerController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TaskFragmentOrganizerControllerStub)(nil)
@@ -291,14 +296,20 @@ func (s *TaskFragmentOrganizerControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITaskFragmentOrganizerControllerRegisterOrganizer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_organizer ITaskFragmentOrganizer
-		_ = _arg_organizer
+		{
+			_organizerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_organizer = NewTaskFragmentOrganizerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _organizerHandle))
+		}
 		_arg_isSystemOrganizer, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -312,12 +323,14 @@ func (s *TaskFragmentOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITaskFragmentOrganizerControllerUnregisterOrganizer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_organizer ITaskFragmentOrganizer
-		_ = _arg_organizer
+		{
+			_organizerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_organizer = NewTaskFragmentOrganizerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _organizerHandle))
+		}
 		_err := s.Impl.UnregisterOrganizer(ctx, _arg_organizer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -327,24 +340,15 @@ func (s *TaskFragmentOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITaskFragmentOrganizerControllerRegisterRemoteAnimations:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_organizer ITaskFragmentOrganizer
-		_ = _arg_organizer
-		var _arg_definition view.RemoteAnimationDefinition
 		{
-			_nullInd, _err := _data.ReadInt32()
+			_organizerHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			if _nullInd != 0 {
-				if _err = _arg_definition.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
+			_arg_organizer = NewTaskFragmentOrganizerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _organizerHandle))
 		}
+		var _arg_definition types.RemoteAnimationDefinition
 		_err := s.Impl.RegisterRemoteAnimations(ctx, _arg_organizer, _arg_definition)
 		_reply := parcel.New()
 		if _err != nil {
@@ -354,12 +358,14 @@ func (s *TaskFragmentOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITaskFragmentOrganizerControllerUnregisterRemoteAnimations:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_organizer ITaskFragmentOrganizer
-		_ = _arg_organizer
+		{
+			_organizerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_organizer = NewTaskFragmentOrganizerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _organizerHandle))
+		}
 		_err := s.Impl.UnregisterRemoteAnimations(ctx, _arg_organizer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -369,12 +375,14 @@ func (s *TaskFragmentOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITaskFragmentOrganizerControllerIsActivityEmbedded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
+		}
 		_result, _err := s.Impl.IsActivityEmbedded(ctx, _arg_activityToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -385,12 +393,14 @@ func (s *TaskFragmentOrganizerControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITaskFragmentOrganizerControllerOnTransactionHandled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transactionToken binder.IBinder
-		_ = _arg_transactionToken
+		{
+			_transactionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transactionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transactionTokenHandle)
+		}
 		var _arg_wct WindowContainerTransaction
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -420,9 +430,6 @@ func (s *TaskFragmentOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITaskFragmentOrganizerControllerApplyTransaction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_wct WindowContainerTransaction
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -474,7 +481,7 @@ func (s *TaskFragmentOrganizerControllerStub) OnTransaction(
 type ITaskFragmentOrganizerControllerServer interface {
 	RegisterOrganizer(ctx context.Context, organizer ITaskFragmentOrganizer, isSystemOrganizer bool) error
 	UnregisterOrganizer(ctx context.Context, organizer ITaskFragmentOrganizer) error
-	RegisterRemoteAnimations(ctx context.Context, organizer ITaskFragmentOrganizer, definition view.RemoteAnimationDefinition) error
+	RegisterRemoteAnimations(ctx context.Context, organizer ITaskFragmentOrganizer, definition types.RemoteAnimationDefinition) error
 	UnregisterRemoteAnimations(ctx context.Context, organizer ITaskFragmentOrganizer) error
 	IsActivityEmbedded(ctx context.Context, activityToken binder.IBinder) (bool, error)
 	OnTransactionHandled(ctx context.Context, transactionToken binder.IBinder, wct WindowContainerTransaction, transitionType int32, shouldApplyIndependently bool) error
@@ -508,7 +515,7 @@ func (w *taskFragmentOrganizerControllerStubWrapper) UnregisterOrganizer(
 func (w *taskFragmentOrganizerControllerStubWrapper) RegisterRemoteAnimations(
 	ctx context.Context,
 	organizer ITaskFragmentOrganizer,
-	definition view.RemoteAnimationDefinition,
+	definition types.RemoteAnimationDefinition,
 ) error {
 	return w.impl.RegisterRemoteAnimations(ctx, organizer, definition)
 }

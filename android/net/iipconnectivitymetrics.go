@@ -31,7 +31,7 @@ type IIpConnectivityMetrics interface {
 	AsBinder() binder.IBinder
 	LogEvent(ctx context.Context, event ConnectivityMetricsEvent) (int32, error)
 	LogDefaultNetworkValidity(ctx context.Context, valid bool) error
-	LogDefaultNetworkEvent(ctx context.Context, defaultNetwork interface{}, score int32, validated bool, lp interface{}, nc interface{}, previousDefaultNetwork interface{}, previousScore int32, previousLp interface{}, previousNc interface{}) error
+	LogDefaultNetworkEvent(ctx context.Context, defaultNetwork Network, score int32, validated bool, lp LinkProperties, nc NetworkCapabilities, previousDefaultNetwork Network, previousScore int32, previousLp LinkProperties, previousNc NetworkCapabilities) error
 	AddNetdEventCallback(ctx context.Context, callerType int32, callback INetdEventCallback) (bool, error)
 	RemoveNetdEventCallback(ctx context.Context, callerType int32) (bool, error)
 }
@@ -58,6 +58,7 @@ func (p *IpConnectivityMetricsProxy) LogEvent(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIpConnectivityMetrics)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -91,6 +92,7 @@ func (p *IpConnectivityMetricsProxy) LogDefaultNetworkValidity(
 	valid bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIpConnectivityMetrics)
 	_data.WriteBool(valid)
 
@@ -114,21 +116,46 @@ func (p *IpConnectivityMetricsProxy) LogDefaultNetworkValidity(
 
 func (p *IpConnectivityMetricsProxy) LogDefaultNetworkEvent(
 	ctx context.Context,
-	defaultNetwork interface{},
+	defaultNetwork Network,
 	score int32,
 	validated bool,
-	lp interface{},
-	nc interface{},
-	previousDefaultNetwork interface{},
+	lp LinkProperties,
+	nc NetworkCapabilities,
+	previousDefaultNetwork Network,
 	previousScore int32,
-	previousLp interface{},
-	previousNc interface{},
+	previousLp LinkProperties,
+	previousNc NetworkCapabilities,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIpConnectivityMetrics)
+	_data.WriteInt32(1)
+	if _err := defaultNetwork.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(score)
 	_data.WriteBool(validated)
+	_data.WriteInt32(1)
+	if _err := lp.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := nc.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := previousDefaultNetwork.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(previousScore)
+	_data.WriteInt32(1)
+	if _err := previousLp.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := previousNc.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsLogDefaultNetworkEvent)
 	if _err != nil {
@@ -155,6 +182,7 @@ func (p *IpConnectivityMetricsProxy) AddNetdEventCallback(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIpConnectivityMetrics)
 	_data.WriteInt32(callerType)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -187,6 +215,7 @@ func (p *IpConnectivityMetricsProxy) RemoveNetdEventCallback(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIpConnectivityMetrics)
 	_data.WriteInt32(callerType)
 
@@ -215,7 +244,8 @@ func (p *IpConnectivityMetricsProxy) RemoveNetdEventCallback(
 // IpConnectivityMetricsStub dispatches incoming binder transactions
 // to a typed IIpConnectivityMetrics implementation.
 type IpConnectivityMetricsStub struct {
-	Impl IIpConnectivityMetrics
+	Impl      IIpConnectivityMetrics
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*IpConnectivityMetricsStub)(nil)
@@ -229,11 +259,12 @@ func (s *IpConnectivityMetricsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIIpConnectivityMetricsLogEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event ConnectivityMetricsEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -256,9 +287,6 @@ func (s *IpConnectivityMetricsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIpConnectivityMetricsLogDefaultNetworkValidity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_valid, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -272,10 +300,18 @@ func (s *IpConnectivityMetricsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIpConnectivityMetricsLogDefaultNetworkEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_defaultNetwork Network
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_defaultNetwork.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_defaultNetwork interface{}
 		_arg_score, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -284,15 +320,70 @@ func (s *IpConnectivityMetricsStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_lp interface{}
-		var _arg_nc interface{}
-		var _arg_previousDefaultNetwork interface{}
+		var _arg_lp LinkProperties
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_lp.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_nc NetworkCapabilities
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_nc.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_previousDefaultNetwork Network
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_previousDefaultNetwork.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_previousScore, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_previousLp interface{}
-		var _arg_previousNc interface{}
+		var _arg_previousLp LinkProperties
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_previousLp.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_previousNc NetworkCapabilities
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_previousNc.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.LogDefaultNetworkEvent(ctx, _arg_defaultNetwork, _arg_score, _arg_validated, _arg_lp, _arg_nc, _arg_previousDefaultNetwork, _arg_previousScore, _arg_previousLp, _arg_previousNc)
 		_reply := parcel.New()
 		if _err != nil {
@@ -302,16 +393,18 @@ func (s *IpConnectivityMetricsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIpConnectivityMetricsAddNetdEventCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback INetdEventCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewNetdEventCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.AddNetdEventCallback(ctx, _arg_callerType, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -322,9 +415,6 @@ func (s *IpConnectivityMetricsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIIpConnectivityMetricsRemoveNetdEventCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -349,7 +439,7 @@ func (s *IpConnectivityMetricsStub) OnTransaction(
 type IIpConnectivityMetricsServer interface {
 	LogEvent(ctx context.Context, event ConnectivityMetricsEvent) (int32, error)
 	LogDefaultNetworkValidity(ctx context.Context, valid bool) error
-	LogDefaultNetworkEvent(ctx context.Context, defaultNetwork interface{}, score int32, validated bool, lp interface{}, nc interface{}, previousDefaultNetwork interface{}, previousScore int32, previousLp interface{}, previousNc interface{}) error
+	LogDefaultNetworkEvent(ctx context.Context, defaultNetwork Network, score int32, validated bool, lp LinkProperties, nc NetworkCapabilities, previousDefaultNetwork Network, previousScore int32, previousLp LinkProperties, previousNc NetworkCapabilities) error
 	AddNetdEventCallback(ctx context.Context, callerType int32, callback INetdEventCallback) (bool, error)
 	RemoveNetdEventCallback(ctx context.Context, callerType int32) (bool, error)
 }
@@ -379,15 +469,15 @@ func (w *ipConnectivityMetricsStubWrapper) LogDefaultNetworkValidity(
 
 func (w *ipConnectivityMetricsStubWrapper) LogDefaultNetworkEvent(
 	ctx context.Context,
-	defaultNetwork interface{},
+	defaultNetwork Network,
 	score int32,
 	validated bool,
-	lp interface{},
-	nc interface{},
-	previousDefaultNetwork interface{},
+	lp LinkProperties,
+	nc NetworkCapabilities,
+	previousDefaultNetwork Network,
 	previousScore int32,
-	previousLp interface{},
-	previousNc interface{},
+	previousLp LinkProperties,
+	previousNc NetworkCapabilities,
 ) error {
 	return w.impl.LogDefaultNetworkEvent(ctx, defaultNetwork, score, validated, lp, nc, previousDefaultNetwork, previousScore, previousLp, previousNc)
 }

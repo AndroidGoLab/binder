@@ -5,6 +5,7 @@ import (
 	"fmt"
 	net "github.com/xaionaro-go/binder/android/net"
 	telecom "github.com/xaionaro-go/binder/android/telecom"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -45,8 +46,8 @@ type IImsVideoCallProvider interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, callback IImsVideoCallCallback) error
 	SetCamera(ctx context.Context, cameraId string, uid int32) error
-	SetPreviewSurface(ctx context.Context, surface interface{}) error
-	SetDisplaySurface(ctx context.Context, surface interface{}) error
+	SetPreviewSurface(ctx context.Context, surface view.Surface) error
+	SetDisplaySurface(ctx context.Context, surface view.Surface) error
 	SetDeviceOrientation(ctx context.Context, rotation int32) error
 	SetZoom(ctx context.Context, value float32) error
 	SendSessionModifyRequest(ctx context.Context, fromProfile telecom.VideoProfile, toProfile telecom.VideoProfile) error
@@ -77,6 +78,7 @@ func (p *ImsVideoCallProviderProxy) SetCallback(
 	callback IImsVideoCallCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -95,6 +97,7 @@ func (p *ImsVideoCallProviderProxy) SetCamera(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
 	_data.WriteString16(cameraId)
 	_data.WriteInt32(uid)
@@ -110,10 +113,15 @@ func (p *ImsVideoCallProviderProxy) SetCamera(
 
 func (p *ImsVideoCallProviderProxy) SetPreviewSurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSetPreviewSurface)
 	if _err != nil {
@@ -126,10 +134,15 @@ func (p *ImsVideoCallProviderProxy) SetPreviewSurface(
 
 func (p *ImsVideoCallProviderProxy) SetDisplaySurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderSetDisplaySurface)
 	if _err != nil {
@@ -145,6 +158,7 @@ func (p *ImsVideoCallProviderProxy) SetDeviceOrientation(
 	rotation int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
 	_data.WriteInt32(rotation)
 
@@ -162,6 +176,7 @@ func (p *ImsVideoCallProviderProxy) SetZoom(
 	value float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
 	_data.WriteFloat32(value)
 
@@ -180,6 +195,7 @@ func (p *ImsVideoCallProviderProxy) SendSessionModifyRequest(
 	toProfile telecom.VideoProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
 	_data.WriteInt32(1)
 	if _err := fromProfile.MarshalParcel(_data); _err != nil {
@@ -204,6 +220,7 @@ func (p *ImsVideoCallProviderProxy) SendSessionModifyResponse(
 	responseProfile telecom.VideoProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
 	_data.WriteInt32(1)
 	if _err := responseProfile.MarshalParcel(_data); _err != nil {
@@ -223,6 +240,7 @@ func (p *ImsVideoCallProviderProxy) RequestCameraCapabilities(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderRequestCameraCapabilities)
@@ -238,6 +256,7 @@ func (p *ImsVideoCallProviderProxy) RequestCallDataUsage(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsVideoCallProvider, MethodIImsVideoCallProviderRequestCallDataUsage)
@@ -254,6 +273,7 @@ func (p *ImsVideoCallProviderProxy) SetPauseImage(
 	uri net.Uri,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
@@ -272,7 +292,8 @@ func (p *ImsVideoCallProviderProxy) SetPauseImage(
 // ImsVideoCallProviderStub dispatches incoming binder transactions
 // to a typed IImsVideoCallProvider implementation.
 type ImsVideoCallProviderStub struct {
-	Impl IImsVideoCallProvider
+	Impl      IImsVideoCallProvider
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsVideoCallProviderStub)(nil)
@@ -286,21 +307,23 @@ func (s *ImsVideoCallProviderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsVideoCallProviderSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IImsVideoCallCallback
-		_ = _arg_callback
-		_err := s.Impl.SetCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIImsVideoCallProviderSetCamera:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewImsVideoCallCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.SetCallback(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIImsVideoCallProviderSetCamera:
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -310,50 +333,52 @@ func (s *ImsVideoCallProviderStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetCamera(ctx, _arg_cameraId, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsVideoCallProviderSetPreviewSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_surface view.Surface
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_surface interface{}
 		_err := s.Impl.SetPreviewSurface(ctx, _arg_surface)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsVideoCallProviderSetDisplaySurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_surface view.Surface
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_surface interface{}
 		_err := s.Impl.SetDisplaySurface(ctx, _arg_surface)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsVideoCallProviderSetDeviceOrientation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetDeviceOrientation(ctx, _arg_rotation)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsVideoCallProviderSetZoom:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_value, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetZoom(ctx, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsVideoCallProviderSendSessionModifyRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_fromProfile telecom.VideoProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -379,12 +404,8 @@ func (s *ImsVideoCallProviderStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SendSessionModifyRequest(ctx, _arg_fromProfile, _arg_toProfile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsVideoCallProviderSendSessionModifyResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_responseProfile telecom.VideoProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -398,26 +419,14 @@ func (s *ImsVideoCallProviderStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SendSessionModifyResponse(ctx, _arg_responseProfile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsVideoCallProviderRequestCameraCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RequestCameraCapabilities(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsVideoCallProviderRequestCallDataUsage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RequestCallDataUsage(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsVideoCallProviderSetPauseImage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_uri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -431,8 +440,7 @@ func (s *ImsVideoCallProviderStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetPauseImage(ctx, _arg_uri)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -444,8 +452,8 @@ func (s *ImsVideoCallProviderStub) OnTransaction(
 type IImsVideoCallProviderServer interface {
 	SetCallback(ctx context.Context, callback IImsVideoCallCallback) error
 	SetCamera(ctx context.Context, cameraId string, uid int32) error
-	SetPreviewSurface(ctx context.Context, surface interface{}) error
-	SetDisplaySurface(ctx context.Context, surface interface{}) error
+	SetPreviewSurface(ctx context.Context, surface view.Surface) error
+	SetDisplaySurface(ctx context.Context, surface view.Surface) error
 	SetDeviceOrientation(ctx context.Context, rotation int32) error
 	SetZoom(ctx context.Context, value float32) error
 	SendSessionModifyRequest(ctx context.Context, fromProfile telecom.VideoProfile, toProfile telecom.VideoProfile) error
@@ -481,14 +489,14 @@ func (w *imsVideoCallProviderStubWrapper) SetCamera(
 
 func (w *imsVideoCallProviderStubWrapper) SetPreviewSurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 ) error {
 	return w.impl.SetPreviewSurface(ctx, surface)
 }
 
 func (w *imsVideoCallProviderStubWrapper) SetDisplaySurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 ) error {
 	return w.impl.SetDisplaySurface(ctx, surface)
 }

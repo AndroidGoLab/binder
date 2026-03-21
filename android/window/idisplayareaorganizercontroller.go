@@ -3,6 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/content/pm/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -27,7 +28,7 @@ const (
 
 type IDisplayAreaOrganizerController interface {
 	AsBinder() binder.IBinder
-	RegisterOrganizer(ctx context.Context, organizer IDisplayAreaOrganizer, displayAreaFeature int32) (interface{}, error)
+	RegisterOrganizer(ctx context.Context, organizer IDisplayAreaOrganizer, displayAreaFeature int32) (types.ParceledListSlice, error)
 	UnregisterOrganizer(ctx context.Context, organizer IDisplayAreaOrganizer) error
 	CreateTaskDisplayArea(ctx context.Context, organizer IDisplayAreaOrganizer, displayId int32, parentFeatureId int32, name string) (DisplayAreaAppearedInfo, error)
 	DeleteTaskDisplayArea(ctx context.Context, taskDisplayArea WindowContainerToken) error
@@ -53,9 +54,10 @@ func (p *DisplayAreaOrganizerControllerProxy) RegisterOrganizer(
 	ctx context.Context,
 	organizer IDisplayAreaOrganizer,
 	displayAreaFeature int32,
-) (interface{}, error) {
-	var _result interface{}
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizerController)
 	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(displayAreaFeature)
@@ -75,6 +77,17 @@ func (p *DisplayAreaOrganizerControllerProxy) RegisterOrganizer(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -83,6 +96,7 @@ func (p *DisplayAreaOrganizerControllerProxy) UnregisterOrganizer(
 	organizer IDisplayAreaOrganizer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizerController)
 	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 
@@ -113,6 +127,7 @@ func (p *DisplayAreaOrganizerControllerProxy) CreateTaskDisplayArea(
 ) (DisplayAreaAppearedInfo, error) {
 	var _result DisplayAreaAppearedInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizerController)
 	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(displayId)
@@ -151,6 +166,7 @@ func (p *DisplayAreaOrganizerControllerProxy) DeleteTaskDisplayArea(
 	taskDisplayArea WindowContainerToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizerController)
 	_data.WriteInt32(1)
 	if _err := taskDisplayArea.MarshalParcel(_data); _err != nil {
@@ -178,7 +194,8 @@ func (p *DisplayAreaOrganizerControllerProxy) DeleteTaskDisplayArea(
 // DisplayAreaOrganizerControllerStub dispatches incoming binder transactions
 // to a typed IDisplayAreaOrganizerController implementation.
 type DisplayAreaOrganizerControllerStub struct {
-	Impl IDisplayAreaOrganizerController
+	Impl      IDisplayAreaOrganizerController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DisplayAreaOrganizerControllerStub)(nil)
@@ -192,14 +209,20 @@ func (s *DisplayAreaOrganizerControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDisplayAreaOrganizerControllerRegisterOrganizer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_organizer IDisplayAreaOrganizer
-		_ = _arg_organizer
+		{
+			_organizerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_organizer = NewDisplayAreaOrganizerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _organizerHandle))
+		}
 		_arg_displayAreaFeature, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -214,12 +237,14 @@ func (s *DisplayAreaOrganizerControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDisplayAreaOrganizerControllerUnregisterOrganizer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_organizer IDisplayAreaOrganizer
-		_ = _arg_organizer
+		{
+			_organizerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_organizer = NewDisplayAreaOrganizerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _organizerHandle))
+		}
 		_err := s.Impl.UnregisterOrganizer(ctx, _arg_organizer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -229,12 +254,14 @@ func (s *DisplayAreaOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayAreaOrganizerControllerCreateTaskDisplayArea:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_organizer IDisplayAreaOrganizer
-		_ = _arg_organizer
+		{
+			_organizerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_organizer = NewDisplayAreaOrganizerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _organizerHandle))
+		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -260,9 +287,6 @@ func (s *DisplayAreaOrganizerControllerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDisplayAreaOrganizerControllerDeleteTaskDisplayArea:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_taskDisplayArea WindowContainerToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -292,7 +316,7 @@ func (s *DisplayAreaOrganizerControllerStub) OnTransaction(
 // provide to NewDisplayAreaOrganizerControllerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IDisplayAreaOrganizerControllerServer interface {
-	RegisterOrganizer(ctx context.Context, organizer IDisplayAreaOrganizer, displayAreaFeature int32) (interface{}, error)
+	RegisterOrganizer(ctx context.Context, organizer IDisplayAreaOrganizer, displayAreaFeature int32) (types.ParceledListSlice, error)
 	UnregisterOrganizer(ctx context.Context, organizer IDisplayAreaOrganizer) error
 	CreateTaskDisplayArea(ctx context.Context, organizer IDisplayAreaOrganizer, displayId int32, parentFeatureId int32, name string) (DisplayAreaAppearedInfo, error)
 	DeleteTaskDisplayArea(ctx context.Context, taskDisplayArea WindowContainerToken) error
@@ -311,7 +335,7 @@ func (w *displayAreaOrganizerControllerStubWrapper) RegisterOrganizer(
 	ctx context.Context,
 	organizer IDisplayAreaOrganizer,
 	displayAreaFeature int32,
-) (interface{}, error) {
+) (types.ParceledListSlice, error) {
 	return w.impl.RegisterOrganizer(ctx, organizer, displayAreaFeature)
 }
 

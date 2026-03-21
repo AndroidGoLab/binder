@@ -110,6 +110,7 @@ func (p *PlatformCompatProxy) ReportChange(
 	appInfo pm.ApplicationInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt64(changeId)
 	_data.WriteInt32(1)
@@ -142,6 +143,7 @@ func (p *PlatformCompatProxy) ReportChangeByPackageName(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt64(changeId)
 	_data.WriteString16(packageName)
@@ -171,6 +173,7 @@ func (p *PlatformCompatProxy) ReportChangeByUid(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt64(changeId)
 	_data.WriteInt32(uid)
@@ -200,6 +203,7 @@ func (p *PlatformCompatProxy) IsChangeEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt64(changeId)
 	_data.WriteInt32(1)
@@ -237,6 +241,7 @@ func (p *PlatformCompatProxy) IsChangeEnabledByPackageName(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt64(changeId)
 	_data.WriteString16(packageName)
@@ -271,6 +276,7 @@ func (p *PlatformCompatProxy) IsChangeEnabledByUid(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt64(changeId)
 	_data.WriteInt32(uid)
@@ -303,6 +309,7 @@ func (p *PlatformCompatProxy) SetOverrides(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt32(1)
 	if _err := overrides.MarshalParcel(_data); _err != nil {
@@ -333,6 +340,7 @@ func (p *PlatformCompatProxy) PutAllOverridesOnReleaseBuilds(
 	overridesByPackage CompatibilityOverridesByPackageConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt32(1)
 	if _err := overridesByPackage.MarshalParcel(_data); _err != nil {
@@ -363,6 +371,7 @@ func (p *PlatformCompatProxy) PutOverridesOnReleaseBuilds(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt32(1)
 	if _err := overrides.MarshalParcel(_data); _err != nil {
@@ -394,6 +403,7 @@ func (p *PlatformCompatProxy) SetOverridesForTest(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt32(1)
 	if _err := overrides.MarshalParcel(_data); _err != nil {
@@ -426,6 +436,7 @@ func (p *PlatformCompatProxy) ClearOverride(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt64(changeId)
 	_data.WriteString16(packageName)
@@ -459,6 +470,7 @@ func (p *PlatformCompatProxy) ClearOverrideForTest(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt64(changeId)
 	_data.WriteString16(packageName)
@@ -490,6 +502,7 @@ func (p *PlatformCompatProxy) RemoveAllOverridesOnReleaseBuilds(
 	overridesToRemoveByPackage CompatibilityOverridesToRemoveByPackageConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt32(1)
 	if _err := overridesToRemoveByPackage.MarshalParcel(_data); _err != nil {
@@ -520,6 +533,7 @@ func (p *PlatformCompatProxy) RemoveOverridesOnReleaseBuilds(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt32(1)
 	if _err := overridesToRemove.MarshalParcel(_data); _err != nil {
@@ -552,6 +566,7 @@ func (p *PlatformCompatProxy) EnableTargetSdkChanges(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(targetSdkVersion)
@@ -585,6 +600,7 @@ func (p *PlatformCompatProxy) DisableTargetSdkChanges(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(targetSdkVersion)
@@ -616,6 +632,7 @@ func (p *PlatformCompatProxy) ClearOverrides(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteString16(packageName)
 
@@ -642,6 +659,7 @@ func (p *PlatformCompatProxy) ClearOverridesForTest(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteString16(packageName)
 
@@ -669,6 +687,7 @@ func (p *PlatformCompatProxy) GetAppConfig(
 ) (CompatibilityChangeConfig, error) {
 	var _result CompatibilityChangeConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt32(1)
 	if _err := appInfo.MarshalParcel(_data); _err != nil {
@@ -707,6 +726,7 @@ func (p *PlatformCompatProxy) ListAllChanges(
 ) ([]CompatibilityChangeInfo, error) {
 	var _result []CompatibilityChangeInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatListAllChanges)
@@ -728,6 +748,9 @@ func (p *PlatformCompatProxy) ListAllChanges(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]CompatibilityChangeInfo, _count)
@@ -748,6 +771,7 @@ func (p *PlatformCompatProxy) ListUIChanges(
 ) ([]CompatibilityChangeInfo, error) {
 	var _result []CompatibilityChangeInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatListUIChanges)
@@ -769,6 +793,9 @@ func (p *PlatformCompatProxy) ListUIChanges(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]CompatibilityChangeInfo, _count)
@@ -789,6 +816,7 @@ func (p *PlatformCompatProxy) GetOverrideValidator(
 ) (IOverrideValidator, error) {
 	var _result IOverrideValidator
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatGetOverrideValidator)
@@ -817,7 +845,8 @@ func (p *PlatformCompatProxy) GetOverrideValidator(
 // PlatformCompatStub dispatches incoming binder transactions
 // to a typed IPlatformCompat implementation.
 type PlatformCompatStub struct {
-	Impl IPlatformCompat
+	Impl      IPlatformCompat
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PlatformCompatStub)(nil)
@@ -831,11 +860,12 @@ func (s *PlatformCompatStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPlatformCompatReportChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -861,9 +891,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatReportChangeByPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -884,9 +911,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatReportChangeByUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -904,9 +928,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatIsChangeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -933,9 +954,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPlatformCompatIsChangeEnabledByPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -957,9 +975,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPlatformCompatIsChangeEnabledByUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -978,9 +993,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPlatformCompatSetOverrides:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_overrides CompatibilityChangeConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1006,9 +1018,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatPutAllOverridesOnReleaseBuilds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_overridesByPackage CompatibilityOverridesByPackageConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1030,9 +1039,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatPutOverridesOnReleaseBuilds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_overrides CompatibilityOverrideConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1058,9 +1064,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatSetOverridesForTest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_overrides CompatibilityChangeConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1086,9 +1089,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatClearOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1107,9 +1107,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPlatformCompatClearOverrideForTest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1128,9 +1125,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPlatformCompatRemoveAllOverridesOnReleaseBuilds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_overridesToRemoveByPackage CompatibilityOverridesToRemoveByPackageConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1152,9 +1146,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatRemoveOverridesOnReleaseBuilds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_overridesToRemove CompatibilityOverridesToRemoveConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1180,9 +1171,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatEnableTargetSdkChanges:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1201,9 +1189,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPlatformCompatDisableTargetSdkChanges:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1222,9 +1207,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPlatformCompatClearOverrides:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1238,9 +1220,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatClearOverridesForTest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1254,9 +1233,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatGetAppConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_appInfo pm.ApplicationInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1282,9 +1258,6 @@ func (s *PlatformCompatStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPlatformCompatListAllChanges:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ListAllChanges(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1292,13 +1265,19 @@ func (s *PlatformCompatStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIPlatformCompatListUIChanges:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ListUIChanges(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1306,13 +1285,19 @@ func (s *PlatformCompatStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIPlatformCompatGetOverrideValidator:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetOverrideValidator(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1320,8 +1305,7 @@ func (s *PlatformCompatStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

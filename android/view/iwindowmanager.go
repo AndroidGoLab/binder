@@ -3,13 +3,16 @@ package view
 import (
 	"context"
 	"fmt"
-	app "github.com/xaionaro-go/binder/android/app"
+	types "github.com/xaionaro-go/binder/android/app/types"
 	content "github.com/xaionaro-go/binder/android/content"
+	pmTypes "github.com/xaionaro-go/binder/android/content/pm/types"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	gui "github.com/xaionaro-go/binder/android/gui"
+	os "github.com/xaionaro-go/binder/android/os"
 	displayhash "github.com/xaionaro-go/binder/android/view/displayhash"
+	androidWindow "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
-	os "github.com/xaionaro-go/binder/com/android/internal_/os"
+	internalOs "github.com/xaionaro-go/binder/com/android/internal_/os"
 	policy "github.com/xaionaro-go/binder/com/android/internal_/policy"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -348,12 +351,12 @@ type IWindowManager interface {
 	SetForcedDisplayScalingMode(ctx context.Context, displayId int32, mode int32) error
 	SetEventDispatching(ctx context.Context, enabled bool) error
 	IsWindowToken(ctx context.Context, binder_ binder.IBinder) (bool, error)
-	AddWindowToken(ctx context.Context, token binder.IBinder, type_ int32, displayId int32, options interface{}) error
+	AddWindowToken(ctx context.Context, token binder.IBinder, type_ int32, displayId int32, options os.Bundle) error
 	RemoveWindowToken(ctx context.Context, token binder.IBinder, displayId int32) error
 	SetDisplayChangeWindowController(ctx context.Context, controller IDisplayChangeWindowController) error
 	AddShellRoot(ctx context.Context, displayId int32, client IWindow, shellRootLayer int32) (SurfaceControl, error)
 	SetShellRootAccessibilityWindow(ctx context.Context, displayId int32, shellRootLayer int32, target IWindow) error
-	OverridePendingAppTransitionMultiThumbFuture(ctx context.Context, specsFuture IAppTransitionAnimationSpecsFuture, startedCallback interface{}, scaleUp bool, displayId int32) error
+	OverridePendingAppTransitionMultiThumbFuture(ctx context.Context, specsFuture IAppTransitionAnimationSpecsFuture, startedCallback os.IRemoteCallback, scaleUp bool, displayId int32) error
 	OverridePendingAppTransitionRemote(ctx context.Context, remoteAnimationAdapter RemoteAnimationAdapter, displayId int32) error
 	EndProlongedAnimations(ctx context.Context) error
 	StartFreezingScreen(ctx context.Context, exitAnim int32, enterAnim int32) error
@@ -363,7 +366,7 @@ type IWindowManager interface {
 	ExitKeyguardSecurely(ctx context.Context, callback IOnKeyguardExitResult) error
 	IsKeyguardLocked(ctx context.Context) (bool, error)
 	IsKeyguardSecure(ctx context.Context) (bool, error)
-	DismissKeyguard(ctx context.Context, callback policy.IKeyguardDismissCallback, message interface{}) error
+	DismissKeyguard(ctx context.Context, callback policy.IKeyguardDismissCallback, message string) error
 	AddKeyguardLockedStateListener(ctx context.Context, listener policy.IKeyguardLockedStateListener) error
 	RemoveKeyguardLockedStateListener(ctx context.Context, listener policy.IKeyguardLockedStateListener) error
 	SetSwitchingUser(ctx context.Context, switching bool) error
@@ -398,22 +401,22 @@ type IWindowManager interface {
 	UnregisterWallpaperVisibilityListener(ctx context.Context, listener IWallpaperVisibilityListener, displayId int32) error
 	RegisterSystemGestureExclusionListener(ctx context.Context, listener ISystemGestureExclusionListener, displayId int32) error
 	UnregisterSystemGestureExclusionListener(ctx context.Context, listener ISystemGestureExclusionListener, displayId int32) error
-	RequestAssistScreenshot(ctx context.Context, receiver app.IAssistDataReceiver) (bool, error)
+	RequestAssistScreenshot(ctx context.Context, receiver types.IAssistDataReceiver) (bool, error)
 	HideTransientBars(ctx context.Context, displayId int32) error
 	SetRecentsVisibility(ctx context.Context, visible bool) error
 	UpdateStaticPrivacyIndicatorBounds(ctx context.Context, displayId int32, staticBounds []graphics.Rect) error
 	SetNavBarVirtualKeyHapticFeedbackEnabled(ctx context.Context, enabled bool) error
 	HasNavigationBar(ctx context.Context, displayId int32) (bool, error)
-	LockNow(ctx context.Context, options interface{}) error
+	LockNow(ctx context.Context, options os.Bundle) error
 	IsSafeModeEnabled(ctx context.Context) (bool, error)
 	ClearWindowContentFrameStats(ctx context.Context, token binder.IBinder) (bool, error)
 	GetWindowContentFrameStats(ctx context.Context, token binder.IBinder) (WindowContentFrameStats, error)
 	GetDockedStackSide(ctx context.Context) (int32, error)
 	RegisterPinnedTaskListener(ctx context.Context, displayId int32, listener IPinnedTaskListener) error
-	RequestAppKeyboardShortcuts(ctx context.Context, receiver os.IResultReceiver, deviceId int32) error
-	RequestImeKeyboardShortcuts(ctx context.Context, receiver os.IResultReceiver, deviceId int32) error
+	RequestAppKeyboardShortcuts(ctx context.Context, receiver internalOs.IResultReceiver, deviceId int32) error
+	RequestImeKeyboardShortcuts(ctx context.Context, receiver internalOs.IResultReceiver, deviceId int32) error
 	GetStableInsets(ctx context.Context, displayId int32, outInsets graphics.Rect) error
-	RegisterShortcutKey(ctx context.Context, shortcutCode int64, keySubscriber interface{}) error
+	RegisterShortcutKey(ctx context.Context, shortcutCode int64, keySubscriber pmTypes.IShortcutService) error
 	CreateInputConsumer(ctx context.Context, token binder.IBinder, name string, displayId int32, inputChannel InputChannel) error
 	DestroyInputConsumer(ctx context.Context, token binder.IBinder, displayId int32) (bool, error)
 	GetCurrentImeTouchRegion(ctx context.Context) (graphics.Region, error)
@@ -454,9 +457,9 @@ type IWindowManager interface {
 	GetSupportedDisplayHashAlgorithms(ctx context.Context) ([]string, error)
 	VerifyDisplayHash(ctx context.Context, displayHash displayhash.DisplayHash) (displayhash.VerifiedDisplayHash, error)
 	SetDisplayHashThrottlingEnabled(ctx context.Context, enable bool) error
-	AttachWindowContextToDisplayArea(ctx context.Context, appThread app.IApplicationThread, clientToken binder.IBinder, type_ int32, displayId int32, options *interface{}) (interface{}, error)
-	AttachWindowContextToWindowToken(ctx context.Context, appThread app.IApplicationThread, clientToken binder.IBinder, token binder.IBinder) (interface{}, error)
-	AttachWindowContextToDisplayContent(ctx context.Context, appThread app.IApplicationThread, clientToken binder.IBinder, displayId int32) (interface{}, error)
+	AttachWindowContextToDisplayArea(ctx context.Context, appThread types.IApplicationThread, clientToken binder.IBinder, type_ int32, displayId int32, options *os.Bundle) (androidWindow.WindowContextInfo, error)
+	AttachWindowContextToWindowToken(ctx context.Context, appThread types.IApplicationThread, clientToken binder.IBinder, token binder.IBinder) (androidWindow.WindowContextInfo, error)
+	AttachWindowContextToDisplayContent(ctx context.Context, appThread types.IApplicationThread, clientToken binder.IBinder, displayId int32) (androidWindow.WindowContextInfo, error)
 	DetachWindowContext(ctx context.Context, clientToken binder.IBinder) error
 	RegisterCrossWindowBlurEnabledListener(ctx context.Context, listener ICrossWindowBlurEnabledListener) (bool, error)
 	UnregisterCrossWindowBlurEnabledListener(ctx context.Context, listener ICrossWindowBlurEnabledListener) error
@@ -465,26 +468,26 @@ type IWindowManager interface {
 	SetTaskSnapshotEnabled(ctx context.Context, enabled bool) error
 	SetTaskTransitionSpec(ctx context.Context, spec TaskTransitionSpec) error
 	ClearTaskTransitionSpec(ctx context.Context) error
-	RegisterTaskFpsCallback(ctx context.Context, taskId int32, callback interface{}) error
-	UnregisterTaskFpsCallback(ctx context.Context, listener interface{}) error
+	RegisterTaskFpsCallback(ctx context.Context, taskId int32, callback androidWindow.ITaskFpsCallback) error
+	UnregisterTaskFpsCallback(ctx context.Context, listener androidWindow.ITaskFpsCallback) error
 	SnapshotTaskForRecents(ctx context.Context, taskId int32) (graphics.Bitmap, error)
 	SetRecentsAppBehindSystemBars(ctx context.Context, behindSystemBars bool) error
 	GetLetterboxBackgroundColorInArgb(ctx context.Context) (int32, error)
 	IsLetterboxBackgroundMultiColored(ctx context.Context) (bool, error)
-	CaptureDisplay(ctx context.Context, displayId int32, captureArgs *interface{}, listener interface{}) error
+	CaptureDisplay(ctx context.Context, displayId int32, captureArgs *androidWindow.ScreenCaptureCaptureArgs, listener androidWindow.ScreenCaptureScreenCaptureListener) error
 	IsGlobalKey(ctx context.Context, keyCode int32) (bool, error)
-	AddToSurfaceSyncGroup(ctx context.Context, syncGroupToken binder.IBinder, parentSyncGroupMerge bool, completedListener *interface{}, addToSurfaceSyncGroupResult interface{}) (bool, error)
+	AddToSurfaceSyncGroup(ctx context.Context, syncGroupToken binder.IBinder, parentSyncGroupMerge bool, completedListener androidWindow.ISurfaceSyncGroupCompletedListener, addToSurfaceSyncGroupResult androidWindow.AddToSurfaceSyncGroupResult) (bool, error)
 	MarkSurfaceSyncGroupReady(ctx context.Context, syncGroupToken binder.IBinder) error
 	NotifyScreenshotListeners(ctx context.Context, displayId int32) ([]content.ComponentName, error)
 	ReplaceContentOnDisplay(ctx context.Context, displayId int32, sc SurfaceControl) (bool, error)
 	RegisterDecorViewGestureListener(ctx context.Context, listener IDecorViewGestureListener, displayId int32) error
 	UnregisterDecorViewGestureListener(ctx context.Context, listener IDecorViewGestureListener, displayId int32) error
-	RegisterTrustedPresentationListener(ctx context.Context, window binder.IBinder, listener interface{}, thresholds gui.TrustedPresentationThresholds, id int32) error
-	UnregisterTrustedPresentationListener(ctx context.Context, listener interface{}, id int32) error
-	RegisterScreenRecordingCallback(ctx context.Context, callback interface{}) (bool, error)
-	UnregisterScreenRecordingCallback(ctx context.Context, callback interface{}) error
-	SetGlobalDragListener(ctx context.Context, listener interface{}) error
-	TransferTouchGesture(ctx context.Context, transferFromToken interface{}, transferToToken interface{}) (bool, error)
+	RegisterTrustedPresentationListener(ctx context.Context, window binder.IBinder, listener androidWindow.ITrustedPresentationListener, thresholds gui.TrustedPresentationThresholds, id int32) error
+	UnregisterTrustedPresentationListener(ctx context.Context, listener androidWindow.ITrustedPresentationListener, id int32) error
+	RegisterScreenRecordingCallback(ctx context.Context, callback androidWindow.IScreenRecordingCallback) (bool, error)
+	UnregisterScreenRecordingCallback(ctx context.Context, callback androidWindow.IScreenRecordingCallback) error
+	SetGlobalDragListener(ctx context.Context, listener androidWindow.IGlobalDragListener) error
+	TransferTouchGesture(ctx context.Context, transferFromToken androidWindow.InputTransferToken, transferToToken androidWindow.InputTransferToken) (bool, error)
 }
 
 const (
@@ -516,6 +519,7 @@ func (p *WindowManagerProxy) StartViewServer(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(port)
 
@@ -546,6 +550,7 @@ func (p *WindowManagerProxy) StopViewServer(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerStopViewServer)
@@ -575,6 +580,7 @@ func (p *WindowManagerProxy) IsViewServerRunning(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerIsViewServerRunning)
@@ -605,6 +611,7 @@ func (p *WindowManagerProxy) OpenSession(
 ) (IWindowSession, error) {
 	var _result IWindowSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -637,6 +644,7 @@ func (p *WindowManagerProxy) GetInitialDisplaySize(
 	size graphics.Point,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -654,8 +662,16 @@ func (p *WindowManagerProxy) GetInitialDisplaySize(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
-	if _err = size.UnmarshalParcel(_reply); _err != nil {
-		return _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _nullInd != 0 {
+			if _err = size.UnmarshalParcel(_reply); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	return nil
@@ -667,6 +683,7 @@ func (p *WindowManagerProxy) GetBaseDisplaySize(
 	size graphics.Point,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -684,8 +701,16 @@ func (p *WindowManagerProxy) GetBaseDisplaySize(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
-	if _err = size.UnmarshalParcel(_reply); _err != nil {
-		return _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _nullInd != 0 {
+			if _err = size.UnmarshalParcel(_reply); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	return nil
@@ -698,6 +723,7 @@ func (p *WindowManagerProxy) SetForcedDisplaySize(
 	height int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(width)
@@ -726,6 +752,7 @@ func (p *WindowManagerProxy) ClearForcedDisplaySize(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -753,6 +780,7 @@ func (p *WindowManagerProxy) GetInitialDisplayDensity(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -784,6 +812,7 @@ func (p *WindowManagerProxy) GetBaseDisplayDensity(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -815,6 +844,7 @@ func (p *WindowManagerProxy) GetDisplayIdByUniqueId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteString16(uniqueId)
 
@@ -847,6 +877,7 @@ func (p *WindowManagerProxy) SetForcedDisplayDensityForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(density)
@@ -876,6 +907,7 @@ func (p *WindowManagerProxy) ClearForcedDisplayDensityForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(_identity.UserID)
@@ -904,6 +936,7 @@ func (p *WindowManagerProxy) SetForcedDisplayScalingMode(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(mode)
@@ -931,6 +964,7 @@ func (p *WindowManagerProxy) SetEventDispatching(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteBool(enabled)
 
@@ -958,6 +992,7 @@ func (p *WindowManagerProxy) IsWindowToken(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
 
@@ -988,13 +1023,18 @@ func (p *WindowManagerProxy) AddWindowToken(
 	token binder.IBinder,
 	type_ int32,
 	displayId int32,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(type_)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerAddWindowToken)
 	if _err != nil {
@@ -1020,6 +1060,7 @@ func (p *WindowManagerProxy) RemoveWindowToken(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(displayId)
@@ -1047,6 +1088,7 @@ func (p *WindowManagerProxy) SetDisplayChangeWindowController(
 	controller IDisplayChangeWindowController,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, controller.AsBinder(), p.Remote.Transport())
 
@@ -1076,6 +1118,7 @@ func (p *WindowManagerProxy) AddShellRoot(
 ) (SurfaceControl, error) {
 	var _result SurfaceControl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
@@ -1115,6 +1158,7 @@ func (p *WindowManagerProxy) SetShellRootAccessibilityWindow(
 	target IWindow,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(shellRootLayer)
@@ -1141,13 +1185,15 @@ func (p *WindowManagerProxy) SetShellRootAccessibilityWindow(
 func (p *WindowManagerProxy) OverridePendingAppTransitionMultiThumbFuture(
 	ctx context.Context,
 	specsFuture IAppTransitionAnimationSpecsFuture,
-	startedCallback interface{},
+	startedCallback os.IRemoteCallback,
 	scaleUp bool,
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, specsFuture.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, startedCallback.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(scaleUp)
 	_data.WriteInt32(displayId)
 
@@ -1175,6 +1221,7 @@ func (p *WindowManagerProxy) OverridePendingAppTransitionRemote(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(1)
 	if _err := remoteAnimationAdapter.MarshalParcel(_data); _err != nil {
@@ -1204,6 +1251,7 @@ func (p *WindowManagerProxy) EndProlongedAnimations(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerEndProlongedAnimations)
@@ -1230,6 +1278,7 @@ func (p *WindowManagerProxy) StartFreezingScreen(
 	enterAnim int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(exitAnim)
 	_data.WriteInt32(enterAnim)
@@ -1256,6 +1305,7 @@ func (p *WindowManagerProxy) StopFreezingScreen(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerStopFreezingScreen)
@@ -1283,6 +1333,7 @@ func (p *WindowManagerProxy) DisableKeyguard(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(tag)
@@ -1312,6 +1363,7 @@ func (p *WindowManagerProxy) ReenableKeyguard(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -1339,6 +1391,7 @@ func (p *WindowManagerProxy) ExitKeyguardSecurely(
 	callback IOnKeyguardExitResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -1365,6 +1418,7 @@ func (p *WindowManagerProxy) IsKeyguardLocked(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerIsKeyguardLocked)
@@ -1395,6 +1449,7 @@ func (p *WindowManagerProxy) IsKeyguardSecure(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1423,11 +1478,13 @@ func (p *WindowManagerProxy) IsKeyguardSecure(
 func (p *WindowManagerProxy) DismissKeyguard(
 	ctx context.Context,
 	callback policy.IKeyguardDismissCallback,
-	message interface{},
+	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_data.WriteString16(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerDismissKeyguard)
 	if _err != nil {
@@ -1452,6 +1509,7 @@ func (p *WindowManagerProxy) AddKeyguardLockedStateListener(
 	listener policy.IKeyguardLockedStateListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1478,6 +1536,7 @@ func (p *WindowManagerProxy) RemoveKeyguardLockedStateListener(
 	listener policy.IKeyguardLockedStateListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1504,6 +1563,7 @@ func (p *WindowManagerProxy) SetSwitchingUser(
 	switching bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteBool(switching)
 
@@ -1530,6 +1590,7 @@ func (p *WindowManagerProxy) CloseSystemDialogs(
 	reason string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteString16(reason)
 
@@ -1557,6 +1618,7 @@ func (p *WindowManagerProxy) GetAnimationScale(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(which)
 
@@ -1587,6 +1649,7 @@ func (p *WindowManagerProxy) GetAnimationScales(
 ) ([]float32, error) {
 	var _result []float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerGetAnimationScales)
@@ -1608,6 +1671,9 @@ func (p *WindowManagerProxy) GetAnimationScales(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]float32, _count)
@@ -1627,6 +1693,7 @@ func (p *WindowManagerProxy) SetAnimationScale(
 	scale float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(which)
 	_data.WriteFloat32(scale)
@@ -1654,6 +1721,7 @@ func (p *WindowManagerProxy) SetAnimationScales(
 	scales []float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	if scales == nil {
 		_data.WriteInt32(-1)
@@ -1687,6 +1755,7 @@ func (p *WindowManagerProxy) GetCurrentAnimatorScale(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerGetCurrentAnimatorScale)
@@ -1717,6 +1786,7 @@ func (p *WindowManagerProxy) SetInTouchMode(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteBool(inTouch)
 	_data.WriteInt32(displayId)
@@ -1744,6 +1814,7 @@ func (p *WindowManagerProxy) SetInTouchModeOnAllDisplays(
 	inTouch bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteBool(inTouch)
 
@@ -1771,6 +1842,7 @@ func (p *WindowManagerProxy) IsInTouchMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -1801,6 +1873,7 @@ func (p *WindowManagerProxy) ShowStrictModeViolation(
 	on bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteBool(on)
 
@@ -1827,6 +1900,7 @@ func (p *WindowManagerProxy) SetStrictModeVisualIndicatorPreference(
 	enabled string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteString16(enabled)
 
@@ -1852,6 +1926,7 @@ func (p *WindowManagerProxy) RefreshScreenCaptureDisabled(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerRefreshScreenCaptureDisabled)
@@ -1877,6 +1952,7 @@ func (p *WindowManagerProxy) GetDefaultDisplayRotation(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerGetDefaultDisplayRotation)
@@ -1908,6 +1984,7 @@ func (p *WindowManagerProxy) WatchRotation(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, watcher.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(displayId)
@@ -1939,6 +2016,7 @@ func (p *WindowManagerProxy) RemoveRotationWatcher(
 	watcher IRotationWatcher,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, watcher.AsBinder(), p.Remote.Transport())
 
@@ -1967,6 +2045,7 @@ func (p *WindowManagerProxy) RegisterProposedRotationListener(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, contextToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -1999,6 +2078,7 @@ func (p *WindowManagerProxy) GetPreferredOptionsPanelGravity(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -2030,6 +2110,7 @@ func (p *WindowManagerProxy) FreezeRotation(
 	caller string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(rotation)
 	_data.WriteString16(caller)
@@ -2057,6 +2138,7 @@ func (p *WindowManagerProxy) ThawRotation(
 	caller string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteString16(caller)
 
@@ -2083,6 +2165,7 @@ func (p *WindowManagerProxy) IsRotationFrozen(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerIsRotationFrozen)
@@ -2114,6 +2197,7 @@ func (p *WindowManagerProxy) FreezeDisplayRotation(
 	caller string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(rotation)
@@ -2143,6 +2227,7 @@ func (p *WindowManagerProxy) ThawDisplayRotation(
 	caller string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	_data.WriteString16(caller)
@@ -2171,6 +2256,7 @@ func (p *WindowManagerProxy) IsDisplayRotationFrozen(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -2202,6 +2288,7 @@ func (p *WindowManagerProxy) SetFixedToUserRotation(
 	fixedToUserRotation int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(fixedToUserRotation)
@@ -2230,6 +2317,7 @@ func (p *WindowManagerProxy) SetIgnoreOrientationRequest(
 	ignoreOrientationRequest bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	_data.WriteBool(ignoreOrientationRequest)
@@ -2257,6 +2345,7 @@ func (p *WindowManagerProxy) ScreenshotWallpaper(
 ) (graphics.Bitmap, error) {
 	var _result graphics.Bitmap
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerScreenshotWallpaper)
@@ -2292,6 +2381,7 @@ func (p *WindowManagerProxy) MirrorWallpaperSurface(
 ) (SurfaceControl, error) {
 	var _result SurfaceControl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -2329,6 +2419,7 @@ func (p *WindowManagerProxy) RegisterWallpaperVisibilityListener(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(displayId)
@@ -2361,6 +2452,7 @@ func (p *WindowManagerProxy) UnregisterWallpaperVisibilityListener(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(displayId)
@@ -2389,6 +2481,7 @@ func (p *WindowManagerProxy) RegisterSystemGestureExclusionListener(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(displayId)
@@ -2417,6 +2510,7 @@ func (p *WindowManagerProxy) UnregisterSystemGestureExclusionListener(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(displayId)
@@ -2441,12 +2535,13 @@ func (p *WindowManagerProxy) UnregisterSystemGestureExclusionListener(
 
 func (p *WindowManagerProxy) RequestAssistScreenshot(
 	ctx context.Context,
-	receiver app.IAssistDataReceiver,
+	receiver types.IAssistDataReceiver,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
-	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
+	// WARNING: param receiver (type types.IAssistDataReceiver) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerRequestAssistScreenshot)
 	if _err != nil {
@@ -2475,6 +2570,7 @@ func (p *WindowManagerProxy) HideTransientBars(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -2492,6 +2588,7 @@ func (p *WindowManagerProxy) SetRecentsVisibility(
 	visible bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteBool(visible)
 
@@ -2510,6 +2607,7 @@ func (p *WindowManagerProxy) UpdateStaticPrivacyIndicatorBounds(
 	staticBounds []graphics.Rect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	if staticBounds == nil {
@@ -2538,6 +2636,7 @@ func (p *WindowManagerProxy) SetNavBarVirtualKeyHapticFeedbackEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteBool(enabled)
 
@@ -2565,6 +2664,7 @@ func (p *WindowManagerProxy) HasNavigationBar(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -2592,10 +2692,15 @@ func (p *WindowManagerProxy) HasNavigationBar(
 
 func (p *WindowManagerProxy) LockNow(
 	ctx context.Context,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerLockNow)
 	if _err != nil {
@@ -2620,6 +2725,7 @@ func (p *WindowManagerProxy) IsSafeModeEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerIsSafeModeEnabled)
@@ -2650,6 +2756,7 @@ func (p *WindowManagerProxy) ClearWindowContentFrameStats(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -2681,6 +2788,7 @@ func (p *WindowManagerProxy) GetWindowContentFrameStats(
 ) (WindowContentFrameStats, error) {
 	var _result WindowContentFrameStats
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -2716,6 +2824,7 @@ func (p *WindowManagerProxy) GetDockedStackSide(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerGetDockedStackSide)
@@ -2746,6 +2855,7 @@ func (p *WindowManagerProxy) RegisterPinnedTaskListener(
 	listener IPinnedTaskListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -2770,10 +2880,11 @@ func (p *WindowManagerProxy) RegisterPinnedTaskListener(
 
 func (p *WindowManagerProxy) RequestAppKeyboardShortcuts(
 	ctx context.Context,
-	receiver os.IResultReceiver,
+	receiver internalOs.IResultReceiver,
 	deviceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(deviceId)
@@ -2798,10 +2909,11 @@ func (p *WindowManagerProxy) RequestAppKeyboardShortcuts(
 
 func (p *WindowManagerProxy) RequestImeKeyboardShortcuts(
 	ctx context.Context,
-	receiver os.IResultReceiver,
+	receiver internalOs.IResultReceiver,
 	deviceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(deviceId)
@@ -2830,6 +2942,7 @@ func (p *WindowManagerProxy) GetStableInsets(
 	outInsets graphics.Rect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -2847,8 +2960,16 @@ func (p *WindowManagerProxy) GetStableInsets(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
-	if _err = outInsets.UnmarshalParcel(_reply); _err != nil {
-		return _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _nullInd != 0 {
+			if _err = outInsets.UnmarshalParcel(_reply); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	return nil
@@ -2857,11 +2978,13 @@ func (p *WindowManagerProxy) GetStableInsets(
 func (p *WindowManagerProxy) RegisterShortcutKey(
 	ctx context.Context,
 	shortcutCode int64,
-	keySubscriber interface{},
+	keySubscriber pmTypes.IShortcutService,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt64(shortcutCode)
+	// WARNING: param keySubscriber (type pmTypes.IShortcutService) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerRegisterShortcutKey)
 	if _err != nil {
@@ -2889,6 +3012,7 @@ func (p *WindowManagerProxy) CreateInputConsumer(
 	inputChannel InputChannel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(name)
@@ -2908,8 +3032,16 @@ func (p *WindowManagerProxy) CreateInputConsumer(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
-	if _err = inputChannel.UnmarshalParcel(_reply); _err != nil {
-		return _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _nullInd != 0 {
+			if _err = inputChannel.UnmarshalParcel(_reply); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	return nil
@@ -2922,6 +3054,7 @@ func (p *WindowManagerProxy) DestroyInputConsumer(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(displayId)
@@ -2953,6 +3086,7 @@ func (p *WindowManagerProxy) GetCurrentImeTouchRegion(
 ) (graphics.Region, error) {
 	var _result graphics.Region
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerGetCurrentImeTouchRegion)
@@ -2987,6 +3121,7 @@ func (p *WindowManagerProxy) RegisterDisplayFoldListener(
 	listener IDisplayFoldListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -3013,6 +3148,7 @@ func (p *WindowManagerProxy) UnregisterDisplayFoldListener(
 	listener IDisplayFoldListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -3040,6 +3176,7 @@ func (p *WindowManagerProxy) RegisterDisplayWindowListener(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -3062,6 +3199,9 @@ func (p *WindowManagerProxy) RegisterDisplayWindowListener(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -3080,6 +3220,7 @@ func (p *WindowManagerProxy) UnregisterDisplayWindowListener(
 	listener IDisplayWindowListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -3105,6 +3246,7 @@ func (p *WindowManagerProxy) StartWindowTrace(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerStartWindowTrace)
@@ -3129,6 +3271,7 @@ func (p *WindowManagerProxy) StopWindowTrace(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerStopWindowTrace)
@@ -3153,6 +3296,7 @@ func (p *WindowManagerProxy) SaveWindowTraceToFile(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerSaveWindowTraceToFile)
@@ -3178,6 +3322,7 @@ func (p *WindowManagerProxy) IsWindowTraceEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerIsWindowTraceEnabled)
@@ -3206,6 +3351,7 @@ func (p *WindowManagerProxy) StartTransitionTrace(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerStartTransitionTrace)
@@ -3230,6 +3376,7 @@ func (p *WindowManagerProxy) StopTransitionTrace(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerStopTransitionTrace)
@@ -3255,6 +3402,7 @@ func (p *WindowManagerProxy) IsTransitionTraceEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerIsTransitionTraceEnabled)
@@ -3285,6 +3433,7 @@ func (p *WindowManagerProxy) GetWindowingMode(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -3316,6 +3465,7 @@ func (p *WindowManagerProxy) SetWindowingMode(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(mode)
@@ -3344,6 +3494,7 @@ func (p *WindowManagerProxy) GetRemoveContentMode(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -3375,6 +3526,7 @@ func (p *WindowManagerProxy) SetRemoveContentMode(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(mode)
@@ -3403,6 +3555,7 @@ func (p *WindowManagerProxy) ShouldShowWithInsecureKeyguard(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -3434,6 +3587,7 @@ func (p *WindowManagerProxy) SetShouldShowWithInsecureKeyguard(
 	shouldShow bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	_data.WriteBool(shouldShow)
@@ -3462,6 +3616,7 @@ func (p *WindowManagerProxy) ShouldShowSystemDecors(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -3493,6 +3648,7 @@ func (p *WindowManagerProxy) SetShouldShowSystemDecors(
 	shouldShow bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	_data.WriteBool(shouldShow)
@@ -3521,6 +3677,7 @@ func (p *WindowManagerProxy) GetDisplayImePolicy(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -3552,6 +3709,7 @@ func (p *WindowManagerProxy) SetDisplayImePolicy(
 	imePolicy int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(imePolicy)
@@ -3579,6 +3737,7 @@ func (p *WindowManagerProxy) SyncInputTransactions(
 	waitForAnimations bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteBool(waitForAnimations)
 
@@ -3605,6 +3764,7 @@ func (p *WindowManagerProxy) IsLayerTracing(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerIsLayerTracing)
@@ -3634,6 +3794,7 @@ func (p *WindowManagerProxy) SetLayerTracing(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteBool(enabled)
 
@@ -3662,6 +3823,7 @@ func (p *WindowManagerProxy) MirrorDisplay(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -3679,8 +3841,16 @@ func (p *WindowManagerProxy) MirrorDisplay(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = outSurfaceControl.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = outSurfaceControl.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadBool()
@@ -3696,6 +3866,7 @@ func (p *WindowManagerProxy) SetDisplayWindowInsetsController(
 	displayWindowInsetsController IDisplayWindowInsetsController,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	binder.WriteBinderToParcel(ctx, _data, displayWindowInsetsController.AsBinder(), p.Remote.Transport())
@@ -3724,6 +3895,7 @@ func (p *WindowManagerProxy) UpdateDisplayWindowRequestedVisibleTypes(
 	requestedVisibleTypes int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(requestedVisibleTypes)
@@ -3754,6 +3926,7 @@ func (p *WindowManagerProxy) GetWindowInsets(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -3772,8 +3945,16 @@ func (p *WindowManagerProxy) GetWindowInsets(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = outInsetsState.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = outInsetsState.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadBool()
@@ -3789,6 +3970,7 @@ func (p *WindowManagerProxy) GetPossibleDisplayInfo(
 ) ([]DisplayInfo, error) {
 	var _result []DisplayInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -3811,6 +3993,9 @@ func (p *WindowManagerProxy) GetPossibleDisplayInfo(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]DisplayInfo, _count)
@@ -3830,6 +4015,7 @@ func (p *WindowManagerProxy) ShowGlobalActions(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerShowGlobalActions)
@@ -3855,6 +4041,7 @@ func (p *WindowManagerProxy) SetLayerTracingFlags(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(flags)
 
@@ -3881,6 +4068,7 @@ func (p *WindowManagerProxy) SetActiveTransactionTracing(
 	active bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteBool(active)
 
@@ -3910,6 +4098,7 @@ func (p *WindowManagerProxy) RequestScrollCapture(
 	listener IScrollCaptureResponseListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	binder.WriteBinderToParcel(ctx, _data, behindClient, p.Remote.Transport())
@@ -3940,6 +4129,7 @@ func (p *WindowManagerProxy) HoldLock(
 	durationMs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(durationMs)
@@ -3967,6 +4157,7 @@ func (p *WindowManagerProxy) GetSupportedDisplayHashAlgorithms(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerGetSupportedDisplayHashAlgorithms)
@@ -3988,6 +4179,9 @@ func (p *WindowManagerProxy) GetSupportedDisplayHashAlgorithms(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -4007,6 +4201,7 @@ func (p *WindowManagerProxy) VerifyDisplayHash(
 ) (displayhash.VerifiedDisplayHash, error) {
 	var _result displayhash.VerifiedDisplayHash
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(1)
 	if _err := displayHash.MarshalParcel(_data); _err != nil {
@@ -4045,6 +4240,7 @@ func (p *WindowManagerProxy) SetDisplayHashThrottlingEnabled(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteBool(enable)
 
@@ -4068,19 +4264,28 @@ func (p *WindowManagerProxy) SetDisplayHashThrottlingEnabled(
 
 func (p *WindowManagerProxy) AttachWindowContextToDisplayArea(
 	ctx context.Context,
-	appThread app.IApplicationThread,
+	appThread types.IApplicationThread,
 	clientToken binder.IBinder,
 	type_ int32,
 	displayId int32,
-	options *interface{},
-) (interface{}, error) {
-	var _result interface{}
+	options *os.Bundle,
+) (androidWindow.WindowContextInfo, error) {
+	var _result androidWindow.WindowContextInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
-	binder.WriteBinderToParcel(ctx, _data, appThread.AsBinder(), p.Remote.Transport())
+	// WARNING: param appThread (type types.IApplicationThread) cannot be serialized — type not resolved
 	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
 	_data.WriteInt32(type_)
 	_data.WriteInt32(displayId)
+	if options != nil {
+		_data.WriteInt32(1)
+		if _err := (*options).MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerAttachWindowContextToDisplayArea)
 	if _err != nil {
@@ -4097,19 +4302,29 @@ func (p *WindowManagerProxy) AttachWindowContextToDisplayArea(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *WindowManagerProxy) AttachWindowContextToWindowToken(
 	ctx context.Context,
-	appThread app.IApplicationThread,
+	appThread types.IApplicationThread,
 	clientToken binder.IBinder,
 	token binder.IBinder,
-) (interface{}, error) {
-	var _result interface{}
+) (androidWindow.WindowContextInfo, error) {
+	var _result androidWindow.WindowContextInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
-	binder.WriteBinderToParcel(ctx, _data, appThread.AsBinder(), p.Remote.Transport())
+	// WARNING: param appThread (type types.IApplicationThread) cannot be serialized — type not resolved
 	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -4128,19 +4343,29 @@ func (p *WindowManagerProxy) AttachWindowContextToWindowToken(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *WindowManagerProxy) AttachWindowContextToDisplayContent(
 	ctx context.Context,
-	appThread app.IApplicationThread,
+	appThread types.IApplicationThread,
 	clientToken binder.IBinder,
 	displayId int32,
-) (interface{}, error) {
-	var _result interface{}
+) (androidWindow.WindowContextInfo, error) {
+	var _result androidWindow.WindowContextInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
-	binder.WriteBinderToParcel(ctx, _data, appThread.AsBinder(), p.Remote.Transport())
+	// WARNING: param appThread (type types.IApplicationThread) cannot be serialized — type not resolved
 	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
 	_data.WriteInt32(displayId)
 
@@ -4159,6 +4384,15 @@ func (p *WindowManagerProxy) AttachWindowContextToDisplayContent(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -4167,6 +4401,7 @@ func (p *WindowManagerProxy) DetachWindowContext(
 	clientToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
 
@@ -4194,6 +4429,7 @@ func (p *WindowManagerProxy) RegisterCrossWindowBlurEnabledListener(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -4224,6 +4460,7 @@ func (p *WindowManagerProxy) UnregisterCrossWindowBlurEnabledListener(
 	listener ICrossWindowBlurEnabledListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -4250,6 +4487,7 @@ func (p *WindowManagerProxy) IsTaskSnapshotSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerIsTaskSnapshotSupported)
@@ -4279,6 +4517,7 @@ func (p *WindowManagerProxy) GetImeDisplayId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerGetImeDisplayId)
@@ -4308,6 +4547,7 @@ func (p *WindowManagerProxy) SetTaskSnapshotEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteBool(enabled)
 
@@ -4334,6 +4574,7 @@ func (p *WindowManagerProxy) SetTaskTransitionSpec(
 	spec TaskTransitionSpec,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(1)
 	if _err := spec.MarshalParcel(_data); _err != nil {
@@ -4362,6 +4603,7 @@ func (p *WindowManagerProxy) ClearTaskTransitionSpec(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerClearTaskTransitionSpec)
@@ -4385,11 +4627,13 @@ func (p *WindowManagerProxy) ClearTaskTransitionSpec(
 func (p *WindowManagerProxy) RegisterTaskFpsCallback(
 	ctx context.Context,
 	taskId int32,
-	callback interface{},
+	callback androidWindow.ITaskFpsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(taskId)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerRegisterTaskFpsCallback)
 	if _err != nil {
@@ -4411,10 +4655,12 @@ func (p *WindowManagerProxy) RegisterTaskFpsCallback(
 
 func (p *WindowManagerProxy) UnregisterTaskFpsCallback(
 	ctx context.Context,
-	listener interface{},
+	listener androidWindow.ITaskFpsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerUnregisterTaskFpsCallback)
 	if _err != nil {
@@ -4440,6 +4686,7 @@ func (p *WindowManagerProxy) SnapshotTaskForRecents(
 ) (graphics.Bitmap, error) {
 	var _result graphics.Bitmap
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(taskId)
 
@@ -4475,6 +4722,7 @@ func (p *WindowManagerProxy) SetRecentsAppBehindSystemBars(
 	behindSystemBars bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteBool(behindSystemBars)
 
@@ -4501,6 +4749,7 @@ func (p *WindowManagerProxy) GetLetterboxBackgroundColorInArgb(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerGetLetterboxBackgroundColorInArgb)
@@ -4530,6 +4779,7 @@ func (p *WindowManagerProxy) IsLetterboxBackgroundMultiColored(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerIsLetterboxBackgroundMultiColored)
@@ -4557,12 +4807,25 @@ func (p *WindowManagerProxy) IsLetterboxBackgroundMultiColored(
 func (p *WindowManagerProxy) CaptureDisplay(
 	ctx context.Context,
 	displayId int32,
-	captureArgs *interface{},
-	listener interface{},
+	captureArgs *androidWindow.ScreenCaptureCaptureArgs,
+	listener androidWindow.ScreenCaptureScreenCaptureListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
+	if captureArgs != nil {
+		_data.WriteInt32(1)
+		if _err := (*captureArgs).MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
+	_data.WriteInt32(1)
+	if _err := listener.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerCaptureDisplay)
 	if _err != nil {
@@ -4579,6 +4842,7 @@ func (p *WindowManagerProxy) IsGlobalKey(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(keyCode)
 
@@ -4608,14 +4872,16 @@ func (p *WindowManagerProxy) AddToSurfaceSyncGroup(
 	ctx context.Context,
 	syncGroupToken binder.IBinder,
 	parentSyncGroupMerge bool,
-	completedListener *interface{},
-	addToSurfaceSyncGroupResult interface{},
+	completedListener androidWindow.ISurfaceSyncGroupCompletedListener,
+	addToSurfaceSyncGroupResult androidWindow.AddToSurfaceSyncGroupResult,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, syncGroupToken, p.Remote.Transport())
 	_data.WriteBool(parentSyncGroupMerge)
+	binder.WriteBinderToParcel(ctx, _data, completedListener.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerAddToSurfaceSyncGroup)
 	if _err != nil {
@@ -4631,6 +4897,17 @@ func (p *WindowManagerProxy) AddToSurfaceSyncGroup(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = addToSurfaceSyncGroupResult.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
+	}
 
 	_result, _err = _reply.ReadBool()
 	if _err != nil {
@@ -4644,6 +4921,7 @@ func (p *WindowManagerProxy) MarkSurfaceSyncGroupReady(
 	syncGroupToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, syncGroupToken, p.Remote.Transport())
 
@@ -4662,6 +4940,7 @@ func (p *WindowManagerProxy) NotifyScreenshotListeners(
 ) ([]content.ComponentName, error) {
 	var _result []content.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 
@@ -4683,6 +4962,9 @@ func (p *WindowManagerProxy) NotifyScreenshotListeners(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -4706,6 +4988,7 @@ func (p *WindowManagerProxy) ReplaceContentOnDisplay(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(1)
@@ -4741,6 +5024,7 @@ func (p *WindowManagerProxy) RegisterDecorViewGestureListener(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(displayId)
@@ -4769,6 +5053,7 @@ func (p *WindowManagerProxy) UnregisterDecorViewGestureListener(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(displayId)
@@ -4794,13 +5079,15 @@ func (p *WindowManagerProxy) UnregisterDecorViewGestureListener(
 func (p *WindowManagerProxy) RegisterTrustedPresentationListener(
 	ctx context.Context,
 	window binder.IBinder,
-	listener interface{},
+	listener androidWindow.ITrustedPresentationListener,
 	thresholds gui.TrustedPresentationThresholds,
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := thresholds.MarshalParcel(_data); _err != nil {
 		return _err
@@ -4827,11 +5114,13 @@ func (p *WindowManagerProxy) RegisterTrustedPresentationListener(
 
 func (p *WindowManagerProxy) UnregisterTrustedPresentationListener(
 	ctx context.Context,
-	listener interface{},
+	listener androidWindow.ITrustedPresentationListener,
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerUnregisterTrustedPresentationListener)
@@ -4854,11 +5143,13 @@ func (p *WindowManagerProxy) UnregisterTrustedPresentationListener(
 
 func (p *WindowManagerProxy) RegisterScreenRecordingCallback(
 	ctx context.Context,
-	callback interface{},
+	callback androidWindow.IScreenRecordingCallback,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerRegisterScreenRecordingCallback)
 	if _err != nil {
@@ -4884,10 +5175,12 @@ func (p *WindowManagerProxy) RegisterScreenRecordingCallback(
 
 func (p *WindowManagerProxy) UnregisterScreenRecordingCallback(
 	ctx context.Context,
-	callback interface{},
+	callback androidWindow.IScreenRecordingCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerUnregisterScreenRecordingCallback)
 	if _err != nil {
@@ -4909,10 +5202,12 @@ func (p *WindowManagerProxy) UnregisterScreenRecordingCallback(
 
 func (p *WindowManagerProxy) SetGlobalDragListener(
 	ctx context.Context,
-	listener interface{},
+	listener androidWindow.IGlobalDragListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerSetGlobalDragListener)
 	if _err != nil {
@@ -4934,12 +5229,21 @@ func (p *WindowManagerProxy) SetGlobalDragListener(
 
 func (p *WindowManagerProxy) TransferTouchGesture(
 	ctx context.Context,
-	transferFromToken interface{},
-	transferToToken interface{},
+	transferFromToken androidWindow.InputTransferToken,
+	transferToToken androidWindow.InputTransferToken,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
+	_data.WriteInt32(1)
+	if _err := transferFromToken.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := transferToToken.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowManager, MethodIWindowManagerTransferTouchGesture)
 	if _err != nil {
@@ -4966,7 +5270,8 @@ func (p *WindowManagerProxy) TransferTouchGesture(
 // WindowManagerStub dispatches incoming binder transactions
 // to a typed IWindowManager implementation.
 type WindowManagerStub struct {
-	Impl IWindowManager
+	Impl      IWindowManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WindowManagerStub)(nil)
@@ -4980,11 +5285,12 @@ func (s *WindowManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWindowManagerStartViewServer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_port, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4999,9 +5305,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerStopViewServer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.StopViewServer(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5012,9 +5315,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerIsViewServerRunning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsViewServerRunning(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5025,12 +5325,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerOpenSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IWindowSessionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewWindowSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.OpenSession(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5038,13 +5340,9 @@ func (s *WindowManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIWindowManagerGetInitialDisplaySize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5057,11 +5355,12 @@ func (s *WindowManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIWindowManagerGetBaseDisplaySize:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_size.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIWindowManagerGetBaseDisplaySize:
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5074,11 +5373,12 @@ func (s *WindowManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIWindowManagerSetForcedDisplaySize:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_size.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIWindowManagerSetForcedDisplaySize:
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5100,9 +5400,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerClearForcedDisplaySize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5116,9 +5413,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetInitialDisplayDensity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5133,9 +5427,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetBaseDisplayDensity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5150,9 +5441,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetDisplayIdByUniqueId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uniqueId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5167,9 +5455,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetForcedDisplayDensityForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5190,9 +5475,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerClearForcedDisplayDensityForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5209,9 +5491,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetForcedDisplayScalingMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5229,9 +5508,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetEventDispatching:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -5245,12 +5521,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsWindowToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_binder_ binder.IBinder
-		_ = _arg_binder_
+		{
+			_binderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_binder_ = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _binderHandle)
+		}
 		_result, _err := s.Impl.IsWindowToken(ctx, _arg_binder_)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5261,12 +5539,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerAddWindowToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5275,7 +5555,18 @@ func (s *WindowManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.AddWindowToken(ctx, _arg_token, _arg_type_, _arg_displayId, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5285,12 +5576,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRemoveWindowToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5304,12 +5597,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetDisplayChangeWindowController:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_controller IDisplayChangeWindowController
-		_ = _arg_controller
+		{
+			_controllerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_controller = NewDisplayChangeWindowControllerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _controllerHandle))
+		}
 		_err := s.Impl.SetDisplayChangeWindowController(ctx, _arg_controller)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5319,16 +5614,18 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerAddShellRoot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IWindow
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewWindowProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_arg_shellRootLayer, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5346,9 +5643,6 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWindowManagerSetShellRootAccessibilityWindow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5357,9 +5651,14 @@ func (s *WindowManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_target IWindow
-		_ = _arg_target
+		{
+			_targetHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_target = NewWindowProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _targetHandle))
+		}
 		_err = s.Impl.SetShellRootAccessibilityWindow(ctx, _arg_displayId, _arg_shellRootLayer, _arg_target)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5369,13 +5668,22 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerOverridePendingAppTransitionMultiThumbFuture:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_specsFuture IAppTransitionAnimationSpecsFuture
-		_ = _arg_specsFuture
-		var _arg_startedCallback interface{}
+		{
+			_specsFutureHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_specsFuture = NewAppTransitionAnimationSpecsFutureProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _specsFutureHandle))
+		}
+		var _arg_startedCallback os.IRemoteCallback
+		{
+			_startedCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_startedCallback = os.NewRemoteCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _startedCallbackHandle))
+		}
 		_arg_scaleUp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -5393,9 +5701,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerOverridePendingAppTransitionRemote:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_remoteAnimationAdapter RemoteAnimationAdapter
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -5421,9 +5726,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerEndProlongedAnimations:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.EndProlongedAnimations(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5433,9 +5735,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerStartFreezingScreen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_exitAnim, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5453,9 +5752,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerStopFreezingScreen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopFreezingScreen(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5465,12 +5761,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerDisableKeyguard:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5487,12 +5785,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerReenableKeyguard:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -5505,12 +5805,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerExitKeyguardSecurely:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IOnKeyguardExitResult
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewOnKeyguardExitResultProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.ExitKeyguardSecurely(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5520,9 +5822,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsKeyguardLocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsKeyguardLocked(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5533,9 +5832,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerIsKeyguardSecure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -5549,14 +5845,19 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerDismissKeyguard:
-		if _, _err := _data.ReadString16(); _err != nil {
+		var _arg_callback policy.IKeyguardDismissCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = policy.NewKeyguardDismissCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
+		_arg_message, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback policy.IKeyguardDismissCallback
-		_ = _arg_callback
-		var _arg_message interface{}
-		_err := s.Impl.DismissKeyguard(ctx, _arg_callback, _arg_message)
+		_err = s.Impl.DismissKeyguard(ctx, _arg_callback, _arg_message)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -5565,12 +5866,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerAddKeyguardLockedStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener policy.IKeyguardLockedStateListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = policy.NewKeyguardLockedStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddKeyguardLockedStateListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5580,12 +5883,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRemoveKeyguardLockedStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener policy.IKeyguardLockedStateListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = policy.NewKeyguardLockedStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveKeyguardLockedStateListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5595,9 +5900,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetSwitchingUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_switching, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -5611,9 +5913,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerCloseSystemDialogs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5627,9 +5926,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetAnimationScale:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5644,9 +5940,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetAnimationScales:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAnimationScales(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5654,13 +5947,16 @@ func (s *WindowManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteFloat32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIWindowManagerSetAnimationScale:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5678,12 +5974,25 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetAnimationScales:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_scales []float32
-		_ = _arg_scales
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_scales = make([]float32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_scales[_i], _err = _data.ReadFloat32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetAnimationScales(ctx, _arg_scales)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5693,9 +6002,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetCurrentAnimatorScale:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentAnimatorScale(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5706,9 +6012,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetInTouchMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inTouch, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -5726,9 +6029,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetInTouchModeOnAllDisplays:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inTouch, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -5742,9 +6042,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsInTouchMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5759,9 +6056,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerShowStrictModeViolation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_on, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -5775,9 +6069,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetStrictModeVisualIndicatorPreference:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5791,9 +6082,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRefreshScreenCaptureDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RefreshScreenCaptureDisabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5803,9 +6091,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetDefaultDisplayRotation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDefaultDisplayRotation(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5816,12 +6101,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerWatchRotation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_watcher IRotationWatcher
-		_ = _arg_watcher
+		{
+			_watcherHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_watcher = NewRotationWatcherProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _watcherHandle))
+		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5836,12 +6123,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerRemoveRotationWatcher:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_watcher IRotationWatcher
-		_ = _arg_watcher
+		{
+			_watcherHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_watcher = NewRotationWatcherProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _watcherHandle))
+		}
 		_err := s.Impl.RemoveRotationWatcher(ctx, _arg_watcher)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5851,15 +6140,22 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterProposedRotationListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_contextToken binder.IBinder
-		_ = _arg_contextToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_contextTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_contextToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _contextTokenHandle)
+		}
 		var _arg_listener IRotationWatcher
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewRotationWatcherProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.RegisterProposedRotationListener(ctx, _arg_contextToken, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5870,9 +6166,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetPreferredOptionsPanelGravity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5887,9 +6180,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerFreezeRotation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5907,9 +6197,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerThawRotation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_caller, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5923,9 +6210,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsRotationFrozen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsRotationFrozen(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5936,9 +6220,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerFreezeDisplayRotation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5960,9 +6241,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerThawDisplayRotation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5980,9 +6258,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsDisplayRotationFrozen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5997,9 +6272,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetFixedToUserRotation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6017,9 +6289,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetIgnoreOrientationRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6037,9 +6306,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerScreenshotWallpaper:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ScreenshotWallpaper(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6053,9 +6319,6 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWindowManagerMirrorWallpaperSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6073,12 +6336,14 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWindowManagerRegisterWallpaperVisibilityListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IWallpaperVisibilityListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewWallpaperVisibilityListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6093,12 +6358,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterWallpaperVisibilityListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IWallpaperVisibilityListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewWallpaperVisibilityListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6112,12 +6379,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterSystemGestureExclusionListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISystemGestureExclusionListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewSystemGestureExclusionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6131,12 +6400,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterSystemGestureExclusionListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISystemGestureExclusionListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewSystemGestureExclusionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6150,12 +6421,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRequestAssistScreenshot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_receiver app.IAssistDataReceiver
-		_ = _arg_receiver
+		var _arg_receiver types.IAssistDataReceiver
 		_result, _err := s.Impl.RequestAssistScreenshot(ctx, _arg_receiver)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6166,45 +6432,48 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerHideTransientBars:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.HideTransientBars(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowManagerSetRecentsVisibility:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetRecentsVisibility(ctx, _arg_visible)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowManagerUpdateStaticPrivacyIndicatorBounds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_staticBounds []graphics.Rect
-		_ = _arg_staticBounds
-		_err = s.Impl.UpdateStaticPrivacyIndicatorBounds(ctx, _arg_displayId, _arg_staticBounds)
-		_ = _err
-		return nil, nil
-	case TransactionIWindowManagerSetNavBarVirtualKeyHapticFeedbackEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_staticBounds = make([]graphics.Rect, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_staticBounds[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.UpdateStaticPrivacyIndicatorBounds(ctx, _arg_displayId, _arg_staticBounds)
+		return nil, _err
+	case TransactionIWindowManagerSetNavBarVirtualKeyHapticFeedbackEnabled:
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -6218,9 +6487,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerHasNavigationBar:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6235,10 +6501,18 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerLockNow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_options interface{}
 		_err := s.Impl.LockNow(ctx, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6248,9 +6522,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsSafeModeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsSafeModeEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6261,12 +6532,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerClearWindowContentFrameStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.ClearWindowContentFrameStats(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6277,12 +6550,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetWindowContentFrameStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.GetWindowContentFrameStats(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6296,9 +6571,6 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWindowManagerGetDockedStackSide:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDockedStackSide(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6309,16 +6581,18 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterPinnedTaskListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IPinnedTaskListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewPinnedTaskListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.RegisterPinnedTaskListener(ctx, _arg_displayId, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6328,12 +6602,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRequestAppKeyboardShortcuts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_receiver internalOs.IResultReceiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = internalOs.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_receiver os.IResultReceiver
-		_ = _arg_receiver
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6347,12 +6623,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRequestImeKeyboardShortcuts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_receiver internalOs.IResultReceiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = internalOs.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_receiver os.IResultReceiver
-		_ = _arg_receiver
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6366,9 +6644,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetStableInsets:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6381,16 +6656,17 @@ func (s *WindowManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIWindowManagerRegisterShortcutKey:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_outInsets.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIWindowManagerRegisterShortcutKey:
 		_arg_shortcutCode, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_keySubscriber interface{}
+		var _arg_keySubscriber pmTypes.IShortcutService
 		_err = s.Impl.RegisterShortcutKey(ctx, _arg_shortcutCode, _arg_keySubscriber)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6400,12 +6676,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerCreateInputConsumer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6422,14 +6700,20 @@ func (s *WindowManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIWindowManagerDestroyInputConsumer:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_inputChannel.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		return _reply, nil
+	case TransactionIWindowManagerDestroyInputConsumer:
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6444,9 +6728,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetCurrentImeTouchRegion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentImeTouchRegion(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6460,12 +6741,14 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWindowManagerRegisterDisplayFoldListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDisplayFoldListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewDisplayFoldListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterDisplayFoldListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6475,12 +6758,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterDisplayFoldListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDisplayFoldListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewDisplayFoldListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.UnregisterDisplayFoldListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6490,12 +6775,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterDisplayWindowListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDisplayWindowListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewDisplayWindowListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.RegisterDisplayWindowListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6503,16 +6790,24 @@ func (s *WindowManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterDisplayWindowListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDisplayWindowListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewDisplayWindowListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.UnregisterDisplayWindowListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6522,9 +6817,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerStartWindowTrace:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StartWindowTrace(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6534,9 +6826,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerStopWindowTrace:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopWindowTrace(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6546,9 +6835,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSaveWindowTraceToFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SaveWindowTraceToFile(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6558,9 +6844,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsWindowTraceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsWindowTraceEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6571,9 +6854,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerStartTransitionTrace:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StartTransitionTrace(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6583,9 +6863,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerStopTransitionTrace:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopTransitionTrace(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6595,9 +6872,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsTransitionTraceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsTransitionTraceEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6608,9 +6882,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetWindowingMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6625,9 +6896,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetWindowingMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6645,9 +6913,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetRemoveContentMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6662,9 +6927,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetRemoveContentMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6682,9 +6944,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerShouldShowWithInsecureKeyguard:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6699,9 +6958,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetShouldShowWithInsecureKeyguard:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6719,9 +6975,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerShouldShowSystemDecors:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6736,9 +6989,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetShouldShowSystemDecors:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6756,9 +7006,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetDisplayImePolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6773,9 +7020,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetDisplayImePolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6793,9 +7037,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSyncInputTransactions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_waitForAnimations, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -6809,9 +7050,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsLayerTracing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsLayerTracing(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6822,9 +7060,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetLayerTracing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -6838,9 +7073,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerMirrorDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6854,18 +7086,24 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
-		return _reply, nil
-	case TransactionIWindowManagerSetDisplayWindowInsetsController:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_outSurfaceControl.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIWindowManagerSetDisplayWindowInsetsController:
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_displayWindowInsetsController IDisplayWindowInsetsController
-		_ = _arg_displayWindowInsetsController
+		{
+			_displayWindowInsetsControllerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_displayWindowInsetsController = NewDisplayWindowInsetsControllerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayWindowInsetsControllerHandle))
+		}
 		_err = s.Impl.SetDisplayWindowInsetsController(ctx, _arg_displayId, _arg_displayWindowInsetsController)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6875,9 +7113,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerUpdateDisplayWindowRequestedVisibleTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6895,16 +7130,18 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetWindowInsets:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_outInsetsState InsetsState
 		_result, _err := s.Impl.GetWindowInsets(ctx, _arg_displayId, _arg_token, _arg_outInsetsState)
 		_reply := parcel.New()
@@ -6914,11 +7151,12 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
-		return _reply, nil
-	case TransactionIWindowManagerGetPossibleDisplayInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_outInsetsState.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIWindowManagerGetPossibleDisplayInfo:
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6930,13 +7168,19 @@ func (s *WindowManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIWindowManagerShowGlobalActions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ShowGlobalActions(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6946,9 +7190,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetLayerTracingFlags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6962,9 +7203,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetActiveTransactionTracing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -6978,23 +7216,30 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRequestScrollCapture:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_behindClient binder.IBinder
-		_ = _arg_behindClient
+		{
+			_behindClientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_behindClient = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _behindClientHandle)
+		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IScrollCaptureResponseListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewScrollCaptureResponseListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.RequestScrollCapture(ctx, _arg_displayId, _arg_behindClient, _arg_taskId, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7004,12 +7249,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerHoldLock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_durationMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -7023,9 +7270,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetSupportedDisplayHashAlgorithms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedDisplayHashAlgorithms(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7033,13 +7277,16 @@ func (s *WindowManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIWindowManagerVerifyDisplayHash:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_displayHash displayhash.DisplayHash
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7065,9 +7312,6 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWindowManagerSetDisplayHashThrottlingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -7081,15 +7325,15 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerAttachWindowContextToDisplayArea:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_appThread app.IApplicationThread
-		_ = _arg_appThread
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_appThread types.IApplicationThread
 		var _arg_clientToken binder.IBinder
-		_ = _arg_clientToken
+		{
+			_clientTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientTokenHandle)
+		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -7098,7 +7342,19 @@ func (s *WindowManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options *interface{}
+		var _arg_options *os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				_arg_options = new(os.Bundle)
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.AttachWindowContextToDisplayArea(ctx, _arg_appThread, _arg_clientToken, _arg_type_, _arg_displayId, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7106,21 +7362,29 @@ func (s *WindowManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIWindowManagerAttachWindowContextToWindowToken:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_appThread app.IApplicationThread
-		_ = _arg_appThread
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		return _reply, nil
+	case TransactionIWindowManagerAttachWindowContextToWindowToken:
+		var _arg_appThread types.IApplicationThread
 		var _arg_clientToken binder.IBinder
-		_ = _arg_clientToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_clientTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientTokenHandle)
+		}
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.AttachWindowContextToWindowToken(ctx, _arg_appThread, _arg_clientToken, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7128,18 +7392,21 @@ func (s *WindowManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIWindowManagerAttachWindowContextToDisplayContent:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_appThread app.IApplicationThread
-		_ = _arg_appThread
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		return _reply, nil
+	case TransactionIWindowManagerAttachWindowContextToDisplayContent:
+		var _arg_appThread types.IApplicationThread
 		var _arg_clientToken binder.IBinder
-		_ = _arg_clientToken
+		{
+			_clientTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientTokenHandle)
+		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -7151,15 +7418,20 @@ func (s *WindowManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIWindowManagerDetachWindowContext:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		return _reply, nil
+	case TransactionIWindowManagerDetachWindowContext:
 		var _arg_clientToken binder.IBinder
-		_ = _arg_clientToken
+		{
+			_clientTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientTokenHandle)
+		}
 		_err := s.Impl.DetachWindowContext(ctx, _arg_clientToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7169,12 +7441,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterCrossWindowBlurEnabledListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ICrossWindowBlurEnabledListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewCrossWindowBlurEnabledListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.RegisterCrossWindowBlurEnabledListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7185,12 +7459,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterCrossWindowBlurEnabledListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ICrossWindowBlurEnabledListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewCrossWindowBlurEnabledListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.UnregisterCrossWindowBlurEnabledListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7200,9 +7476,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsTaskSnapshotSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsTaskSnapshotSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7213,9 +7486,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetImeDisplayId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetImeDisplayId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7226,9 +7496,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetTaskSnapshotEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -7242,9 +7509,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetTaskTransitionSpec:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_spec TaskTransitionSpec
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7266,9 +7530,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerClearTaskTransitionSpec:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ClearTaskTransitionSpec(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7278,14 +7539,18 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterTaskFpsCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		var _arg_callback androidWindow.ITaskFpsCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = androidWindow.NewTaskFpsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RegisterTaskFpsCallback(ctx, _arg_taskId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7295,10 +7560,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterTaskFpsCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_listener androidWindow.ITaskFpsCallback
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = androidWindow.NewTaskFpsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
-		var _arg_listener interface{}
 		_err := s.Impl.UnregisterTaskFpsCallback(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7308,9 +7577,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSnapshotTaskForRecents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -7328,9 +7594,6 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWindowManagerSetRecentsAppBehindSystemBars:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_behindSystemBars, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -7344,9 +7607,6 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetLetterboxBackgroundColorInArgb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLetterboxBackgroundColorInArgb(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7357,9 +7617,6 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerIsLetterboxBackgroundMultiColored:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsLetterboxBackgroundMultiColored(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7370,22 +7627,38 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerCaptureDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_captureArgs *interface{}
-		var _arg_listener interface{}
-		_err = s.Impl.CaptureDisplay(ctx, _arg_displayId, _arg_captureArgs, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionIWindowManagerIsGlobalKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_captureArgs *androidWindow.ScreenCaptureCaptureArgs
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				_arg_captureArgs = new(androidWindow.ScreenCaptureCaptureArgs)
+				if _err = _arg_captureArgs.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		var _arg_listener androidWindow.ScreenCaptureScreenCaptureListener
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_listener.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.CaptureDisplay(ctx, _arg_displayId, _arg_captureArgs, _arg_listener)
+		return nil, _err
+	case TransactionIWindowManagerIsGlobalKey:
 		_arg_keyCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -7400,18 +7673,27 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerAddToSurfaceSyncGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_syncGroupToken binder.IBinder
-		_ = _arg_syncGroupToken
+		{
+			_syncGroupTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_syncGroupToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _syncGroupTokenHandle)
+		}
 		_arg_parentSyncGroupMerge, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_completedListener *interface{}
-		var _arg_addToSurfaceSyncGroupResult interface{}
+		var _arg_completedListener androidWindow.ISurfaceSyncGroupCompletedListener
+		{
+			_completedListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_completedListener = androidWindow.NewSurfaceSyncGroupCompletedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _completedListenerHandle))
+		}
+		var _arg_addToSurfaceSyncGroupResult androidWindow.AddToSurfaceSyncGroupResult
 		_result, _err := s.Impl.AddToSurfaceSyncGroup(ctx, _arg_syncGroupToken, _arg_parentSyncGroupMerge, _arg_completedListener, _arg_addToSurfaceSyncGroupResult)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7420,21 +7702,23 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
+		_reply.WriteInt32(1)
+		if _err := _arg_addToSurfaceSyncGroupResult.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIWindowManagerMarkSurfaceSyncGroupReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_syncGroupToken binder.IBinder
-		_ = _arg_syncGroupToken
-		_err := s.Impl.MarkSurfaceSyncGroupReady(ctx, _arg_syncGroupToken)
-		_ = _err
-		return nil, nil
-	case TransactionIWindowManagerNotifyScreenshotListeners:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_syncGroupTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_syncGroupToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _syncGroupTokenHandle)
 		}
+		_err := s.Impl.MarkSurfaceSyncGroupReady(ctx, _arg_syncGroupToken)
+		return nil, _err
+	case TransactionIWindowManagerNotifyScreenshotListeners:
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -7446,13 +7730,19 @@ func (s *WindowManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIWindowManagerReplaceContentOnDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -7479,12 +7769,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterDecorViewGestureListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDecorViewGestureListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewDecorViewGestureListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -7498,12 +7790,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterDecorViewGestureListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDecorViewGestureListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewDecorViewGestureListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -7517,13 +7811,22 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterTrustedPresentationListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_window binder.IBinder
-		_ = _arg_window
-		var _arg_listener interface{}
+		{
+			_windowHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_window = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowHandle)
+		}
+		var _arg_listener androidWindow.ITrustedPresentationListener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = androidWindow.NewTrustedPresentationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		var _arg_thresholds gui.TrustedPresentationThresholds
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7549,10 +7852,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterTrustedPresentationListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_listener androidWindow.ITrustedPresentationListener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = androidWindow.NewTrustedPresentationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
-		var _arg_listener interface{}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -7566,10 +7873,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterScreenRecordingCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_callback androidWindow.IScreenRecordingCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = androidWindow.NewScreenRecordingCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		var _arg_callback interface{}
 		_result, _err := s.Impl.RegisterScreenRecordingCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7580,10 +7891,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterScreenRecordingCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_callback androidWindow.IScreenRecordingCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = androidWindow.NewScreenRecordingCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		var _arg_callback interface{}
 		_err := s.Impl.UnregisterScreenRecordingCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7593,10 +7908,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetGlobalDragListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_listener androidWindow.IGlobalDragListener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = androidWindow.NewGlobalDragListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
-		var _arg_listener interface{}
 		_err := s.Impl.SetGlobalDragListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7606,11 +7925,30 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerTransferTouchGesture:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_transferFromToken androidWindow.InputTransferToken
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_transferFromToken.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_transferFromToken interface{}
-		var _arg_transferToToken interface{}
+		var _arg_transferToToken androidWindow.InputTransferToken
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_transferToToken.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.TransferTouchGesture(ctx, _arg_transferFromToken, _arg_transferToToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7645,12 +7983,12 @@ type IWindowManagerServer interface {
 	SetForcedDisplayScalingMode(ctx context.Context, displayId int32, mode int32) error
 	SetEventDispatching(ctx context.Context, enabled bool) error
 	IsWindowToken(ctx context.Context, binder_ binder.IBinder) (bool, error)
-	AddWindowToken(ctx context.Context, token binder.IBinder, type_ int32, displayId int32, options interface{}) error
+	AddWindowToken(ctx context.Context, token binder.IBinder, type_ int32, displayId int32, options os.Bundle) error
 	RemoveWindowToken(ctx context.Context, token binder.IBinder, displayId int32) error
 	SetDisplayChangeWindowController(ctx context.Context, controller IDisplayChangeWindowController) error
 	AddShellRoot(ctx context.Context, displayId int32, client IWindow, shellRootLayer int32) (SurfaceControl, error)
 	SetShellRootAccessibilityWindow(ctx context.Context, displayId int32, shellRootLayer int32, target IWindow) error
-	OverridePendingAppTransitionMultiThumbFuture(ctx context.Context, specsFuture IAppTransitionAnimationSpecsFuture, startedCallback interface{}, scaleUp bool, displayId int32) error
+	OverridePendingAppTransitionMultiThumbFuture(ctx context.Context, specsFuture IAppTransitionAnimationSpecsFuture, startedCallback os.IRemoteCallback, scaleUp bool, displayId int32) error
 	OverridePendingAppTransitionRemote(ctx context.Context, remoteAnimationAdapter RemoteAnimationAdapter, displayId int32) error
 	EndProlongedAnimations(ctx context.Context) error
 	StartFreezingScreen(ctx context.Context, exitAnim int32, enterAnim int32) error
@@ -7660,7 +7998,7 @@ type IWindowManagerServer interface {
 	ExitKeyguardSecurely(ctx context.Context, callback IOnKeyguardExitResult) error
 	IsKeyguardLocked(ctx context.Context) (bool, error)
 	IsKeyguardSecure(ctx context.Context) (bool, error)
-	DismissKeyguard(ctx context.Context, callback policy.IKeyguardDismissCallback, message interface{}) error
+	DismissKeyguard(ctx context.Context, callback policy.IKeyguardDismissCallback, message string) error
 	AddKeyguardLockedStateListener(ctx context.Context, listener policy.IKeyguardLockedStateListener) error
 	RemoveKeyguardLockedStateListener(ctx context.Context, listener policy.IKeyguardLockedStateListener) error
 	SetSwitchingUser(ctx context.Context, switching bool) error
@@ -7695,22 +8033,22 @@ type IWindowManagerServer interface {
 	UnregisterWallpaperVisibilityListener(ctx context.Context, listener IWallpaperVisibilityListener, displayId int32) error
 	RegisterSystemGestureExclusionListener(ctx context.Context, listener ISystemGestureExclusionListener, displayId int32) error
 	UnregisterSystemGestureExclusionListener(ctx context.Context, listener ISystemGestureExclusionListener, displayId int32) error
-	RequestAssistScreenshot(ctx context.Context, receiver app.IAssistDataReceiver) (bool, error)
+	RequestAssistScreenshot(ctx context.Context, receiver types.IAssistDataReceiver) (bool, error)
 	HideTransientBars(ctx context.Context, displayId int32) error
 	SetRecentsVisibility(ctx context.Context, visible bool) error
 	UpdateStaticPrivacyIndicatorBounds(ctx context.Context, displayId int32, staticBounds []graphics.Rect) error
 	SetNavBarVirtualKeyHapticFeedbackEnabled(ctx context.Context, enabled bool) error
 	HasNavigationBar(ctx context.Context, displayId int32) (bool, error)
-	LockNow(ctx context.Context, options interface{}) error
+	LockNow(ctx context.Context, options os.Bundle) error
 	IsSafeModeEnabled(ctx context.Context) (bool, error)
 	ClearWindowContentFrameStats(ctx context.Context, token binder.IBinder) (bool, error)
 	GetWindowContentFrameStats(ctx context.Context, token binder.IBinder) (WindowContentFrameStats, error)
 	GetDockedStackSide(ctx context.Context) (int32, error)
 	RegisterPinnedTaskListener(ctx context.Context, displayId int32, listener IPinnedTaskListener) error
-	RequestAppKeyboardShortcuts(ctx context.Context, receiver os.IResultReceiver, deviceId int32) error
-	RequestImeKeyboardShortcuts(ctx context.Context, receiver os.IResultReceiver, deviceId int32) error
+	RequestAppKeyboardShortcuts(ctx context.Context, receiver internalOs.IResultReceiver, deviceId int32) error
+	RequestImeKeyboardShortcuts(ctx context.Context, receiver internalOs.IResultReceiver, deviceId int32) error
 	GetStableInsets(ctx context.Context, displayId int32, outInsets graphics.Rect) error
-	RegisterShortcutKey(ctx context.Context, shortcutCode int64, keySubscriber interface{}) error
+	RegisterShortcutKey(ctx context.Context, shortcutCode int64, keySubscriber pmTypes.IShortcutService) error
 	CreateInputConsumer(ctx context.Context, token binder.IBinder, name string, displayId int32, inputChannel InputChannel) error
 	DestroyInputConsumer(ctx context.Context, token binder.IBinder, displayId int32) (bool, error)
 	GetCurrentImeTouchRegion(ctx context.Context) (graphics.Region, error)
@@ -7751,9 +8089,9 @@ type IWindowManagerServer interface {
 	GetSupportedDisplayHashAlgorithms(ctx context.Context) ([]string, error)
 	VerifyDisplayHash(ctx context.Context, displayHash displayhash.DisplayHash) (displayhash.VerifiedDisplayHash, error)
 	SetDisplayHashThrottlingEnabled(ctx context.Context, enable bool) error
-	AttachWindowContextToDisplayArea(ctx context.Context, appThread app.IApplicationThread, clientToken binder.IBinder, type_ int32, displayId int32, options *interface{}) (interface{}, error)
-	AttachWindowContextToWindowToken(ctx context.Context, appThread app.IApplicationThread, clientToken binder.IBinder, token binder.IBinder) (interface{}, error)
-	AttachWindowContextToDisplayContent(ctx context.Context, appThread app.IApplicationThread, clientToken binder.IBinder, displayId int32) (interface{}, error)
+	AttachWindowContextToDisplayArea(ctx context.Context, appThread types.IApplicationThread, clientToken binder.IBinder, type_ int32, displayId int32, options *os.Bundle) (androidWindow.WindowContextInfo, error)
+	AttachWindowContextToWindowToken(ctx context.Context, appThread types.IApplicationThread, clientToken binder.IBinder, token binder.IBinder) (androidWindow.WindowContextInfo, error)
+	AttachWindowContextToDisplayContent(ctx context.Context, appThread types.IApplicationThread, clientToken binder.IBinder, displayId int32) (androidWindow.WindowContextInfo, error)
 	DetachWindowContext(ctx context.Context, clientToken binder.IBinder) error
 	RegisterCrossWindowBlurEnabledListener(ctx context.Context, listener ICrossWindowBlurEnabledListener) (bool, error)
 	UnregisterCrossWindowBlurEnabledListener(ctx context.Context, listener ICrossWindowBlurEnabledListener) error
@@ -7762,26 +8100,26 @@ type IWindowManagerServer interface {
 	SetTaskSnapshotEnabled(ctx context.Context, enabled bool) error
 	SetTaskTransitionSpec(ctx context.Context, spec TaskTransitionSpec) error
 	ClearTaskTransitionSpec(ctx context.Context) error
-	RegisterTaskFpsCallback(ctx context.Context, taskId int32, callback interface{}) error
-	UnregisterTaskFpsCallback(ctx context.Context, listener interface{}) error
+	RegisterTaskFpsCallback(ctx context.Context, taskId int32, callback androidWindow.ITaskFpsCallback) error
+	UnregisterTaskFpsCallback(ctx context.Context, listener androidWindow.ITaskFpsCallback) error
 	SnapshotTaskForRecents(ctx context.Context, taskId int32) (graphics.Bitmap, error)
 	SetRecentsAppBehindSystemBars(ctx context.Context, behindSystemBars bool) error
 	GetLetterboxBackgroundColorInArgb(ctx context.Context) (int32, error)
 	IsLetterboxBackgroundMultiColored(ctx context.Context) (bool, error)
-	CaptureDisplay(ctx context.Context, displayId int32, captureArgs *interface{}, listener interface{}) error
+	CaptureDisplay(ctx context.Context, displayId int32, captureArgs *androidWindow.ScreenCaptureCaptureArgs, listener androidWindow.ScreenCaptureScreenCaptureListener) error
 	IsGlobalKey(ctx context.Context, keyCode int32) (bool, error)
-	AddToSurfaceSyncGroup(ctx context.Context, syncGroupToken binder.IBinder, parentSyncGroupMerge bool, completedListener *interface{}, addToSurfaceSyncGroupResult interface{}) (bool, error)
+	AddToSurfaceSyncGroup(ctx context.Context, syncGroupToken binder.IBinder, parentSyncGroupMerge bool, completedListener androidWindow.ISurfaceSyncGroupCompletedListener, addToSurfaceSyncGroupResult androidWindow.AddToSurfaceSyncGroupResult) (bool, error)
 	MarkSurfaceSyncGroupReady(ctx context.Context, syncGroupToken binder.IBinder) error
 	NotifyScreenshotListeners(ctx context.Context, displayId int32) ([]content.ComponentName, error)
 	ReplaceContentOnDisplay(ctx context.Context, displayId int32, sc SurfaceControl) (bool, error)
 	RegisterDecorViewGestureListener(ctx context.Context, listener IDecorViewGestureListener, displayId int32) error
 	UnregisterDecorViewGestureListener(ctx context.Context, listener IDecorViewGestureListener, displayId int32) error
-	RegisterTrustedPresentationListener(ctx context.Context, window binder.IBinder, listener interface{}, thresholds gui.TrustedPresentationThresholds, id int32) error
-	UnregisterTrustedPresentationListener(ctx context.Context, listener interface{}, id int32) error
-	RegisterScreenRecordingCallback(ctx context.Context, callback interface{}) (bool, error)
-	UnregisterScreenRecordingCallback(ctx context.Context, callback interface{}) error
-	SetGlobalDragListener(ctx context.Context, listener interface{}) error
-	TransferTouchGesture(ctx context.Context, transferFromToken interface{}, transferToToken interface{}) (bool, error)
+	RegisterTrustedPresentationListener(ctx context.Context, window binder.IBinder, listener androidWindow.ITrustedPresentationListener, thresholds gui.TrustedPresentationThresholds, id int32) error
+	UnregisterTrustedPresentationListener(ctx context.Context, listener androidWindow.ITrustedPresentationListener, id int32) error
+	RegisterScreenRecordingCallback(ctx context.Context, callback androidWindow.IScreenRecordingCallback) (bool, error)
+	UnregisterScreenRecordingCallback(ctx context.Context, callback androidWindow.IScreenRecordingCallback) error
+	SetGlobalDragListener(ctx context.Context, listener androidWindow.IGlobalDragListener) error
+	TransferTouchGesture(ctx context.Context, transferFromToken androidWindow.InputTransferToken, transferToToken androidWindow.InputTransferToken) (bool, error)
 }
 
 type windowManagerStubWrapper struct {
@@ -7914,7 +8252,7 @@ func (w *windowManagerStubWrapper) AddWindowToken(
 	token binder.IBinder,
 	type_ int32,
 	displayId int32,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.AddWindowToken(ctx, token, type_, displayId, options)
 }
@@ -7955,7 +8293,7 @@ func (w *windowManagerStubWrapper) SetShellRootAccessibilityWindow(
 func (w *windowManagerStubWrapper) OverridePendingAppTransitionMultiThumbFuture(
 	ctx context.Context,
 	specsFuture IAppTransitionAnimationSpecsFuture,
-	startedCallback interface{},
+	startedCallback os.IRemoteCallback,
 	scaleUp bool,
 	displayId int32,
 ) error {
@@ -8027,7 +8365,7 @@ func (w *windowManagerStubWrapper) IsKeyguardSecure(
 func (w *windowManagerStubWrapper) DismissKeyguard(
 	ctx context.Context,
 	callback policy.IKeyguardDismissCallback,
-	message interface{},
+	message string,
 ) error {
 	return w.impl.DismissKeyguard(ctx, callback, message)
 }
@@ -8280,7 +8618,7 @@ func (w *windowManagerStubWrapper) UnregisterSystemGestureExclusionListener(
 
 func (w *windowManagerStubWrapper) RequestAssistScreenshot(
 	ctx context.Context,
-	receiver app.IAssistDataReceiver,
+	receiver types.IAssistDataReceiver,
 ) (bool, error) {
 	return w.impl.RequestAssistScreenshot(ctx, receiver)
 }
@@ -8323,7 +8661,7 @@ func (w *windowManagerStubWrapper) HasNavigationBar(
 
 func (w *windowManagerStubWrapper) LockNow(
 	ctx context.Context,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.LockNow(ctx, options)
 }
@@ -8364,7 +8702,7 @@ func (w *windowManagerStubWrapper) RegisterPinnedTaskListener(
 
 func (w *windowManagerStubWrapper) RequestAppKeyboardShortcuts(
 	ctx context.Context,
-	receiver os.IResultReceiver,
+	receiver internalOs.IResultReceiver,
 	deviceId int32,
 ) error {
 	return w.impl.RequestAppKeyboardShortcuts(ctx, receiver, deviceId)
@@ -8372,7 +8710,7 @@ func (w *windowManagerStubWrapper) RequestAppKeyboardShortcuts(
 
 func (w *windowManagerStubWrapper) RequestImeKeyboardShortcuts(
 	ctx context.Context,
-	receiver os.IResultReceiver,
+	receiver internalOs.IResultReceiver,
 	deviceId int32,
 ) error {
 	return w.impl.RequestImeKeyboardShortcuts(ctx, receiver, deviceId)
@@ -8389,7 +8727,7 @@ func (w *windowManagerStubWrapper) GetStableInsets(
 func (w *windowManagerStubWrapper) RegisterShortcutKey(
 	ctx context.Context,
 	shortcutCode int64,
-	keySubscriber interface{},
+	keySubscriber pmTypes.IShortcutService,
 ) error {
 	return w.impl.RegisterShortcutKey(ctx, shortcutCode, keySubscriber)
 }
@@ -8683,30 +9021,30 @@ func (w *windowManagerStubWrapper) SetDisplayHashThrottlingEnabled(
 
 func (w *windowManagerStubWrapper) AttachWindowContextToDisplayArea(
 	ctx context.Context,
-	appThread app.IApplicationThread,
+	appThread types.IApplicationThread,
 	clientToken binder.IBinder,
 	type_ int32,
 	displayId int32,
-	options *interface{},
-) (interface{}, error) {
+	options *os.Bundle,
+) (androidWindow.WindowContextInfo, error) {
 	return w.impl.AttachWindowContextToDisplayArea(ctx, appThread, clientToken, type_, displayId, options)
 }
 
 func (w *windowManagerStubWrapper) AttachWindowContextToWindowToken(
 	ctx context.Context,
-	appThread app.IApplicationThread,
+	appThread types.IApplicationThread,
 	clientToken binder.IBinder,
 	token binder.IBinder,
-) (interface{}, error) {
+) (androidWindow.WindowContextInfo, error) {
 	return w.impl.AttachWindowContextToWindowToken(ctx, appThread, clientToken, token)
 }
 
 func (w *windowManagerStubWrapper) AttachWindowContextToDisplayContent(
 	ctx context.Context,
-	appThread app.IApplicationThread,
+	appThread types.IApplicationThread,
 	clientToken binder.IBinder,
 	displayId int32,
-) (interface{}, error) {
+) (androidWindow.WindowContextInfo, error) {
 	return w.impl.AttachWindowContextToDisplayContent(ctx, appThread, clientToken, displayId)
 }
 
@@ -8766,14 +9104,14 @@ func (w *windowManagerStubWrapper) ClearTaskTransitionSpec(
 func (w *windowManagerStubWrapper) RegisterTaskFpsCallback(
 	ctx context.Context,
 	taskId int32,
-	callback interface{},
+	callback androidWindow.ITaskFpsCallback,
 ) error {
 	return w.impl.RegisterTaskFpsCallback(ctx, taskId, callback)
 }
 
 func (w *windowManagerStubWrapper) UnregisterTaskFpsCallback(
 	ctx context.Context,
-	listener interface{},
+	listener androidWindow.ITaskFpsCallback,
 ) error {
 	return w.impl.UnregisterTaskFpsCallback(ctx, listener)
 }
@@ -8807,8 +9145,8 @@ func (w *windowManagerStubWrapper) IsLetterboxBackgroundMultiColored(
 func (w *windowManagerStubWrapper) CaptureDisplay(
 	ctx context.Context,
 	displayId int32,
-	captureArgs *interface{},
-	listener interface{},
+	captureArgs *androidWindow.ScreenCaptureCaptureArgs,
+	listener androidWindow.ScreenCaptureScreenCaptureListener,
 ) error {
 	return w.impl.CaptureDisplay(ctx, displayId, captureArgs, listener)
 }
@@ -8824,8 +9162,8 @@ func (w *windowManagerStubWrapper) AddToSurfaceSyncGroup(
 	ctx context.Context,
 	syncGroupToken binder.IBinder,
 	parentSyncGroupMerge bool,
-	completedListener *interface{},
-	addToSurfaceSyncGroupResult interface{},
+	completedListener androidWindow.ISurfaceSyncGroupCompletedListener,
+	addToSurfaceSyncGroupResult androidWindow.AddToSurfaceSyncGroupResult,
 ) (bool, error) {
 	return w.impl.AddToSurfaceSyncGroup(ctx, syncGroupToken, parentSyncGroupMerge, completedListener, addToSurfaceSyncGroupResult)
 }
@@ -8871,7 +9209,7 @@ func (w *windowManagerStubWrapper) UnregisterDecorViewGestureListener(
 func (w *windowManagerStubWrapper) RegisterTrustedPresentationListener(
 	ctx context.Context,
 	window binder.IBinder,
-	listener interface{},
+	listener androidWindow.ITrustedPresentationListener,
 	thresholds gui.TrustedPresentationThresholds,
 	id int32,
 ) error {
@@ -8880,7 +9218,7 @@ func (w *windowManagerStubWrapper) RegisterTrustedPresentationListener(
 
 func (w *windowManagerStubWrapper) UnregisterTrustedPresentationListener(
 	ctx context.Context,
-	listener interface{},
+	listener androidWindow.ITrustedPresentationListener,
 	id int32,
 ) error {
 	return w.impl.UnregisterTrustedPresentationListener(ctx, listener, id)
@@ -8888,29 +9226,29 @@ func (w *windowManagerStubWrapper) UnregisterTrustedPresentationListener(
 
 func (w *windowManagerStubWrapper) RegisterScreenRecordingCallback(
 	ctx context.Context,
-	callback interface{},
+	callback androidWindow.IScreenRecordingCallback,
 ) (bool, error) {
 	return w.impl.RegisterScreenRecordingCallback(ctx, callback)
 }
 
 func (w *windowManagerStubWrapper) UnregisterScreenRecordingCallback(
 	ctx context.Context,
-	callback interface{},
+	callback androidWindow.IScreenRecordingCallback,
 ) error {
 	return w.impl.UnregisterScreenRecordingCallback(ctx, callback)
 }
 
 func (w *windowManagerStubWrapper) SetGlobalDragListener(
 	ctx context.Context,
-	listener interface{},
+	listener androidWindow.IGlobalDragListener,
 ) error {
 	return w.impl.SetGlobalDragListener(ctx, listener)
 }
 
 func (w *windowManagerStubWrapper) TransferTouchGesture(
 	ctx context.Context,
-	transferFromToken interface{},
-	transferToToken interface{},
+	transferFromToken androidWindow.InputTransferToken,
+	transferToToken androidWindow.InputTransferToken,
 ) (bool, error) {
 	return w.impl.TransferTouchGesture(ctx, transferFromToken, transferToToken)
 }

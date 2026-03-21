@@ -91,6 +91,7 @@ func (p *TunerServiceProxy) GetFrontendIds(
 	ids []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceGetFrontendIds)
@@ -111,6 +112,9 @@ func (p *TunerServiceProxy) GetFrontendIds(
 	if _err != nil {
 		return _err
 	}
+	if _outCount0 > 1000000 {
+		return fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		ids = make([]int32, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -130,6 +134,7 @@ func (p *TunerServiceProxy) GetFrontendInfo(
 ) (tvTuner.FrontendInfo, error) {
 	var _result tvTuner.FrontendInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 	_data.WriteInt32(frontendId)
 
@@ -166,6 +171,7 @@ func (p *TunerServiceProxy) OpenFrontend(
 ) (ITunerFrontend, error) {
 	var _result ITunerFrontend
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 	_data.WriteInt32(frontendHandle)
 
@@ -198,6 +204,7 @@ func (p *TunerServiceProxy) OpenLnb(
 ) (ITunerLnb, error) {
 	var _result ITunerLnb
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 	_data.WriteInt32(lnbHandle)
 
@@ -230,6 +237,7 @@ func (p *TunerServiceProxy) OpenLnbByName(
 ) (ITunerLnb, error) {
 	var _result ITunerLnb
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 	_data.WriteString16(lnbName)
 
@@ -262,6 +270,7 @@ func (p *TunerServiceProxy) OpenDemux(
 ) (ITunerDemux, error) {
 	var _result ITunerDemux
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 	_data.WriteInt32(demuxHandle)
 
@@ -294,6 +303,7 @@ func (p *TunerServiceProxy) GetDemuxInfo(
 ) (tvTuner.DemuxInfo, error) {
 	var _result tvTuner.DemuxInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 	_data.WriteInt32(demuxHandle)
 
@@ -329,6 +339,7 @@ func (p *TunerServiceProxy) GetDemuxInfoList(
 ) ([]tvTuner.DemuxInfo, error) {
 	var _result []tvTuner.DemuxInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceGetDemuxInfoList)
@@ -350,6 +361,9 @@ func (p *TunerServiceProxy) GetDemuxInfoList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]tvTuner.DemuxInfo, _count)
@@ -370,6 +384,7 @@ func (p *TunerServiceProxy) GetDemuxCaps(
 ) (tvTuner.DemuxCapabilities, error) {
 	var _result tvTuner.DemuxCapabilities
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceGetDemuxCaps)
@@ -405,6 +420,7 @@ func (p *TunerServiceProxy) OpenDescrambler(
 ) (ITunerDescrambler, error) {
 	var _result ITunerDescrambler
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 	_data.WriteInt32(descramblerHandle)
 
@@ -436,6 +452,7 @@ func (p *TunerServiceProxy) GetTunerHalVersion(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceGetTunerHalVersion)
@@ -467,6 +484,7 @@ func (p *TunerServiceProxy) OpenSharedFilter(
 ) (ITunerFilter, error) {
 	var _result ITunerFilter
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 	_data.WriteString16(filterToken)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
@@ -499,6 +517,7 @@ func (p *TunerServiceProxy) IsLnaSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceIsLnaSupported)
@@ -528,6 +547,7 @@ func (p *TunerServiceProxy) SetLna(
 	bEnable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 	_data.WriteBool(bEnable)
 
@@ -555,6 +575,7 @@ func (p *TunerServiceProxy) SetMaxNumberOfFrontends(
 	maxNumber int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 	_data.WriteInt32(int32(frontendType))
 	_data.WriteInt32(maxNumber)
@@ -583,6 +604,7 @@ func (p *TunerServiceProxy) GetMaxNumberOfFrontends(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 	_data.WriteInt32(int32(frontendType))
 
@@ -611,7 +633,8 @@ func (p *TunerServiceProxy) GetMaxNumberOfFrontends(
 // TunerServiceStub dispatches incoming binder transactions
 // to a typed ITunerService implementation.
 type TunerServiceStub struct {
-	Impl ITunerService
+	Impl      ITunerService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TunerServiceStub)(nil)
@@ -625,11 +648,12 @@ func (s *TunerServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITunerServiceGetFrontendIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_ids []int32
 		_err := s.Impl.GetFrontendIds(ctx, _arg_ids)
 		_reply := parcel.New()
@@ -638,11 +662,16 @@ func (s *TunerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		if _arg_ids == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_ids)))
+			for _, _item := range _arg_ids {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITunerServiceGetFrontendInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_frontendId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -660,9 +689,6 @@ func (s *TunerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITunerServiceOpenFrontend:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_frontendHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -674,13 +700,9 @@ func (s *TunerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionITunerServiceOpenLnb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_lnbHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -692,13 +714,9 @@ func (s *TunerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionITunerServiceOpenLnbByName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_lnbName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -710,13 +728,9 @@ func (s *TunerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionITunerServiceOpenDemux:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_demuxHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -728,13 +742,9 @@ func (s *TunerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionITunerServiceGetDemuxInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_demuxHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -752,9 +762,6 @@ func (s *TunerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITunerServiceGetDemuxInfoList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDemuxInfoList(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -762,13 +769,19 @@ func (s *TunerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITunerServiceGetDemuxCaps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDemuxCaps(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -782,9 +795,6 @@ func (s *TunerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITunerServiceOpenDescrambler:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_descramblerHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -796,13 +806,9 @@ func (s *TunerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionITunerServiceGetTunerHalVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetTunerHalVersion(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -813,16 +819,18 @@ func (s *TunerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITunerServiceOpenSharedFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_filterToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb ITunerFilterCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewTunerFilterCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_result, _err := s.Impl.OpenSharedFilter(ctx, _arg_filterToken, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -830,13 +838,9 @@ func (s *TunerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionITunerServiceIsLnaSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsLnaSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -847,9 +851,6 @@ func (s *TunerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerServiceSetLna:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_bEnable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -863,9 +864,6 @@ func (s *TunerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerServiceSetMaxNumberOfFrontends:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_frontendType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -884,9 +882,6 @@ func (s *TunerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerServiceGetMaxNumberOfFrontends:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_frontendType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

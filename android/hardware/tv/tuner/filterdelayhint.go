@@ -32,11 +32,21 @@ func (s *FilterDelayHint) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_hintTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.HintType = FilterDelayHintType(_hintTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.HintValue, _err = p.ReadInt32()
 	if _err != nil {

@@ -3,6 +3,7 @@ package pm
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -23,7 +24,7 @@ const (
 
 type IPackageMoveObserver interface {
 	AsBinder() binder.IBinder
-	OnCreated(ctx context.Context, moveId int32, extras interface{}) error
+	OnCreated(ctx context.Context, moveId int32, extras os.Bundle) error
 	OnStatusChanged(ctx context.Context, moveId int32, status int32, estMillis int64) error
 }
 
@@ -46,11 +47,16 @@ var _ IPackageMoveObserver = (*PackageMoveObserverProxy)(nil)
 func (p *PackageMoveObserverProxy) OnCreated(
 	ctx context.Context,
 	moveId int32,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageMoveObserver)
 	_data.WriteInt32(moveId)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageMoveObserver, MethodIPackageMoveObserverOnCreated)
 	if _err != nil {
@@ -68,6 +74,7 @@ func (p *PackageMoveObserverProxy) OnStatusChanged(
 	estMillis int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageMoveObserver)
 	_data.WriteInt32(moveId)
 	_data.WriteInt32(status)
@@ -85,7 +92,8 @@ func (p *PackageMoveObserverProxy) OnStatusChanged(
 // PackageMoveObserverStub dispatches incoming binder transactions
 // to a typed IPackageMoveObserver implementation.
 type PackageMoveObserverStub struct {
-	Impl IPackageMoveObserver
+	Impl      IPackageMoveObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PackageMoveObserverStub)(nil)
@@ -99,23 +107,31 @@ func (s *PackageMoveObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPackageMoveObserverOnCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_moveId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
-		_err = s.Impl.OnCreated(ctx, _arg_moveId, _arg_extras)
-		_ = _err
-		return nil, nil
-	case TransactionIPackageMoveObserverOnStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		_err = s.Impl.OnCreated(ctx, _arg_moveId, _arg_extras)
+		return nil, _err
+	case TransactionIPackageMoveObserverOnStatusChanged:
 		_arg_moveId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -129,8 +145,7 @@ func (s *PackageMoveObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStatusChanged(ctx, _arg_moveId, _arg_status, _arg_estMillis)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -140,7 +155,7 @@ func (s *PackageMoveObserverStub) OnTransaction(
 // provide to NewPackageMoveObserverStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IPackageMoveObserverServer interface {
-	OnCreated(ctx context.Context, moveId int32, extras interface{}) error
+	OnCreated(ctx context.Context, moveId int32, extras os.Bundle) error
 	OnStatusChanged(ctx context.Context, moveId int32, status int32, estMillis int64) error
 }
 
@@ -156,7 +171,7 @@ func (w *packageMoveObserverStubWrapper) AsBinder() binder.IBinder {
 func (w *packageMoveObserverStubWrapper) OnCreated(
 	ctx context.Context,
 	moveId int32,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.OnCreated(ctx, moveId, extras)
 }

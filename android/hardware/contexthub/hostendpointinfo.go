@@ -1,7 +1,7 @@
 package contexthub
 
 import (
-	CameraExtensionSessionStats "github.com/xaionaro-go/binder/android/hardware/CameraExtensionSessionStats"
+	hardware "github.com/xaionaro-go/binder/android/hardware"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +9,7 @@ import (
 
 type HostEndpointInfo struct {
 	HostEndpointId uint16
-	Type           CameraExtensionSessionStats.Type
+	Type           hardware.CameraExtensionSessionStatsType
 	PackageName    string
 	AttributionTag string
 }
@@ -37,21 +37,41 @@ func (s *HostEndpointInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_hostEndpointIdRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.HostEndpointId = uint16(_hostEndpointIdRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_typeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.Type = CameraExtensionSessionStats.Type(_typeRaw)
+	s.Type = hardware.CameraExtensionSessionStatsType(_typeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.PackageName, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.AttributionTag, _err = p.ReadString16()

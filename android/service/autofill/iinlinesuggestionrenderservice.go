@@ -3,6 +3,7 @@ package autofill
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -26,7 +27,7 @@ const (
 type IInlineSuggestionRenderService interface {
 	AsBinder() binder.IBinder
 	RenderSuggestion(ctx context.Context, callback IInlineSuggestionUiCallback, presentation InlinePresentation, width int32, height int32, hostInputToken binder.IBinder, displayId int32, sessionId int32) error
-	GetInlineSuggestionsRendererInfo(ctx context.Context, callback interface{}) error
+	GetInlineSuggestionsRendererInfo(ctx context.Context, callback os.RemoteCallback) error
 	DestroySuggestionViews(ctx context.Context, sessionId int32) error
 }
 
@@ -58,6 +59,7 @@ func (p *InlineSuggestionRenderServiceProxy) RenderSuggestion(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionRenderService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -82,10 +84,15 @@ func (p *InlineSuggestionRenderServiceProxy) RenderSuggestion(
 
 func (p *InlineSuggestionRenderServiceProxy) GetInlineSuggestionsRendererInfo(
 	ctx context.Context,
-	callback interface{},
+	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionRenderService)
+	_data.WriteInt32(1)
+	if _err := callback.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionRenderService, MethodIInlineSuggestionRenderServiceGetInlineSuggestionsRendererInfo)
 	if _err != nil {
@@ -102,6 +109,7 @@ func (p *InlineSuggestionRenderServiceProxy) DestroySuggestionViews(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionRenderService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(sessionId)
@@ -118,7 +126,8 @@ func (p *InlineSuggestionRenderServiceProxy) DestroySuggestionViews(
 // InlineSuggestionRenderServiceStub dispatches incoming binder transactions
 // to a typed IInlineSuggestionRenderService implementation.
 type InlineSuggestionRenderServiceStub struct {
-	Impl IInlineSuggestionRenderService
+	Impl      IInlineSuggestionRenderService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InlineSuggestionRenderServiceStub)(nil)
@@ -132,14 +141,20 @@ func (s *InlineSuggestionRenderServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInlineSuggestionRenderServiceRenderSuggestion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IInlineSuggestionUiCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewInlineSuggestionUiCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_presentation InlinePresentation
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -160,9 +175,14 @@ func (s *InlineSuggestionRenderServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_hostInputToken binder.IBinder
-		_ = _arg_hostInputToken
+		{
+			_hostInputTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hostInputToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _hostInputTokenHandle)
+		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -175,20 +195,23 @@ func (s *InlineSuggestionRenderServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.RenderSuggestion(ctx, _arg_callback, _arg_presentation, _arg_width, _arg_height, _arg_hostInputToken, _arg_displayId, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineSuggestionRenderServiceGetInlineSuggestionsRendererInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_callback os.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_callback interface{}
 		_err := s.Impl.GetInlineSuggestionsRendererInfo(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineSuggestionRenderServiceDestroySuggestionViews:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -197,8 +220,7 @@ func (s *InlineSuggestionRenderServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.DestroySuggestionViews(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -209,7 +231,7 @@ func (s *InlineSuggestionRenderServiceStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IInlineSuggestionRenderServiceServer interface {
 	RenderSuggestion(ctx context.Context, callback IInlineSuggestionUiCallback, presentation InlinePresentation, width int32, height int32, hostInputToken binder.IBinder, displayId int32, sessionId int32) error
-	GetInlineSuggestionsRendererInfo(ctx context.Context, callback interface{}) error
+	GetInlineSuggestionsRendererInfo(ctx context.Context, callback os.RemoteCallback) error
 	DestroySuggestionViews(ctx context.Context, sessionId int32) error
 }
 
@@ -237,7 +259,7 @@ func (w *inlineSuggestionRenderServiceStubWrapper) RenderSuggestion(
 
 func (w *inlineSuggestionRenderServiceStubWrapper) GetInlineSuggestionsRendererInfo(
 	ctx context.Context,
-	callback interface{},
+	callback os.RemoteCallback,
 ) error {
 	return w.impl.GetInlineSuggestionsRendererInfo(ctx, callback)
 }

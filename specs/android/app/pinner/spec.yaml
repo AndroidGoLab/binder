@@ -1,0 +1,16 @@
+package: android.app.pinner
+go_package: android/app/pinner
+interfaces:
+    - name: IPinnerService
+      descriptor: android.app.pinner.IPinnerService
+      methods:
+        - name: getPinnerStats
+          transaction_code_offset: 0
+          return_type:
+            name: List
+            type_args:
+                - name: PinnedFileStat
+          annotations:
+            - EnforcePermission
+parcelables:
+    - name: PinnedFileStat

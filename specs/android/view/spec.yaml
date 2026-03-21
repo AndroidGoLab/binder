@@ -1,0 +1,3520 @@
+package: android.view
+go_package: android/view
+interfaces:
+    - name: IAppTransitionAnimationSpecsFuture
+      descriptor: android.view.IAppTransitionAnimationSpecsFuture
+      methods:
+        - name: get
+          transaction_code_offset: 0
+          return_type:
+            name: AppTransitionAnimationSpec
+            is_array: true
+    - name: ICrossWindowBlurEnabledListener
+      descriptor: android.view.ICrossWindowBlurEnabledListener
+      oneway: true
+      methods:
+        - name: onCrossWindowBlurEnabledChanged
+          transaction_code_offset: 0
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IDecorViewGestureListener
+      descriptor: android.view.IDecorViewGestureListener
+      oneway: true
+      methods:
+        - name: onInterceptionChanged
+          transaction_code_offset: 0
+          params:
+            - name: windowToken
+              type:
+                name: IBinder
+              direction: in
+            - name: intercepted
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+    - name: IDisplayChangeWindowCallback
+      descriptor: android.view.IDisplayChangeWindowCallback
+      methods:
+        - name: continueDisplayChange
+          transaction_code_offset: 0
+          params:
+            - name: t
+              type:
+                name: WindowContainerTransaction
+              direction: in
+          return_type:
+            name: void
+    - name: IDisplayChangeWindowController
+      descriptor: android.view.IDisplayChangeWindowController
+      oneway: true
+      methods:
+        - name: onDisplayChange
+          transaction_code_offset: 0
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: fromRotation
+              type:
+                name: int
+            - name: toRotation
+              type:
+                name: int
+            - name: newDisplayAreaInfo
+              type:
+                name: DisplayAreaInfo
+              direction: in
+            - name: callback
+              type:
+                name: IDisplayChangeWindowCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IDisplayFoldListener
+      descriptor: android.view.IDisplayFoldListener
+      oneway: true
+      methods:
+        - name: onDisplayFoldChanged
+          transaction_code_offset: 0
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: folded
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IDisplayWindowInsetsController
+      descriptor: android.view.IDisplayWindowInsetsController
+      oneway: true
+      methods:
+        - name: topFocusedWindowChanged
+          transaction_code_offset: 0
+          params:
+            - name: component
+              type:
+                name: ComponentName
+              direction: in
+            - name: requestedVisibleTypes
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: insetsChanged
+          transaction_code_offset: 1
+          params:
+            - name: insetsState
+              type:
+                name: InsetsState
+              direction: in
+          return_type:
+            name: void
+        - name: insetsControlChanged
+          transaction_code_offset: 2
+          params:
+            - name: insetsState
+              type:
+                name: InsetsState
+              direction: in
+            - name: activeControls
+              type:
+                name: InsetsSourceControl
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: showInsets
+          transaction_code_offset: 3
+          params:
+            - name: types
+              type:
+                name: int
+            - name: fromIme
+              type:
+                name: boolean
+            - name: statsToken
+              type:
+                name: ImeTracker.Token
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: hideInsets
+          transaction_code_offset: 4
+          params:
+            - name: types
+              type:
+                name: int
+            - name: fromIme
+              type:
+                name: boolean
+            - name: statsToken
+              type:
+                name: ImeTracker.Token
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+    - name: IDisplayWindowListener
+      descriptor: android.view.IDisplayWindowListener
+      oneway: true
+      methods:
+        - name: onDisplayAdded
+          transaction_code_offset: 0
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onDisplayConfigurationChanged
+          transaction_code_offset: 1
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: newConfig
+              type:
+                name: Configuration
+              direction: in
+          return_type:
+            name: void
+        - name: onDisplayRemoved
+          transaction_code_offset: 2
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onFixedRotationStarted
+          transaction_code_offset: 3
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: newRotation
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onFixedRotationFinished
+          transaction_code_offset: 4
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onKeepClearAreasChanged
+          transaction_code_offset: 5
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: restricted
+              type:
+                name: List
+                type_args:
+                    - name: Rect
+              direction: in
+            - name: unrestricted
+              type:
+                name: List
+                type_args:
+                    - name: Rect
+              direction: in
+          return_type:
+            name: void
+    - name: IDockedStackListener
+      descriptor: android.view.IDockedStackListener
+      oneway: true
+      methods:
+        - name: onDividerVisibilityChanged
+          transaction_code_offset: 0
+          params:
+            - name: visible
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onDockedStackExistsChanged
+          transaction_code_offset: 1
+          params:
+            - name: exists
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onDockedStackMinimizedChanged
+          transaction_code_offset: 2
+          params:
+            - name: minimized
+              type:
+                name: boolean
+            - name: animDuration
+              type:
+                name: long
+            - name: isHomeStackResizable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onAdjustedForImeChanged
+          transaction_code_offset: 3
+          params:
+            - name: adjustedForIme
+              type:
+                name: boolean
+            - name: animDuration
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onDockSideChanged
+          transaction_code_offset: 4
+          params:
+            - name: newDockSide
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IGraphicsStats
+      descriptor: android.view.IGraphicsStats
+      methods:
+        - name: requestBufferForProcess
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IGraphicsStatsCallback
+          return_type:
+            name: ParcelFileDescriptor
+    - name: IGraphicsStatsCallback
+      descriptor: android.view.IGraphicsStatsCallback
+      oneway: true
+      methods:
+        - name: onRotateGraphicsStatsBuffer
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: IInputFilter
+      descriptor: android.view.IInputFilter
+      oneway: true
+      methods:
+        - name: install
+          transaction_code_offset: 0
+          params:
+            - name: host
+              type:
+                name: IInputFilterHost
+          return_type:
+            name: void
+        - name: uninstall
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: filterInputEvent
+          transaction_code_offset: 2
+          params:
+            - name: event
+              type:
+                name: InputEvent
+              direction: in
+            - name: policyFlags
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IInputFilterHost
+      descriptor: android.view.IInputFilterHost
+      oneway: true
+      methods:
+        - name: sendInputEvent
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: InputEvent
+              direction: in
+            - name: policyFlags
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IInputMonitorHost
+      descriptor: android.view.IInputMonitorHost
+      oneway: true
+      methods:
+        - name: pilferPointers
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: dispose
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: IOnKeyguardExitResult
+      descriptor: android.view.IOnKeyguardExitResult
+      oneway: true
+      methods:
+        - name: onKeyguardExitResult
+          transaction_code_offset: 0
+          params:
+            - name: success
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IPinnedTaskListener
+      descriptor: android.view.IPinnedTaskListener
+      oneway: true
+      methods:
+        - name: onMovementBoundsChanged
+          transaction_code_offset: 0
+          params:
+            - name: fromImeAdjustment
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onImeVisibilityChanged
+          transaction_code_offset: 1
+          params:
+            - name: imeVisible
+              type:
+                name: boolean
+            - name: imeHeight
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onActivityHidden
+          transaction_code_offset: 2
+          params:
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+    - name: IRecentsAnimationController
+      descriptor: android.view.IRecentsAnimationController
+      methods:
+        - name: screenshotTask
+          transaction_code_offset: 0
+          params:
+            - name: taskId
+              type:
+                name: int
+          return_type:
+            name: TaskSnapshot
+        - name: setFinishTaskTransaction
+          transaction_code_offset: 1
+          params:
+            - name: taskId
+              type:
+                name: int
+            - name: finishTransaction
+              type:
+                name: PictureInPictureSurfaceTransaction
+              direction: in
+            - name: overlay
+              type:
+                name: SurfaceControl
+              direction: in
+          return_type:
+            name: void
+        - name: finish
+          transaction_code_offset: 2
+          params:
+            - name: moveHomeToTop
+              type:
+                name: boolean
+            - name: sendUserLeaveHint
+              type:
+                name: boolean
+            - name: finishCb
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setInputConsumerEnabled
+          transaction_code_offset: 3
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setAnimationTargetsBehindSystemBars
+          transaction_code_offset: 4
+          params:
+            - name: behindSystemBars
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: cleanupScreenshot
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: setDeferCancelUntilNextTransition
+          transaction_code_offset: 6
+          params:
+            - name: defer
+              type:
+                name: boolean
+            - name: screenshot
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setWillFinishToHome
+          transaction_code_offset: 7
+          params:
+            - name: willFinishToHome
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: removeTask
+          transaction_code_offset: 8
+          params:
+            - name: taskId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: detachNavigationBarFromApp
+          transaction_code_offset: 9
+          params:
+            - name: moveHomeToTop
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: animateNavigationBarToApp
+          transaction_code_offset: 10
+          params:
+            - name: duration
+              type:
+                name: long
+          return_type:
+            name: void
+    - name: IRecentsAnimationRunner
+      descriptor: android.view.IRecentsAnimationRunner
+      oneway: true
+      methods:
+        - name: onAnimationCanceled
+          transaction_code_offset: 0
+          params:
+            - name: taskIds
+              type:
+                name: int
+                is_array: true
+                is_nullable: true
+              direction: in
+            - name: taskSnapshots
+              type:
+                name: TaskSnapshot
+                is_array: true
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: onAnimationStart
+          transaction_code_offset: 1
+          params:
+            - name: controller
+              type:
+                name: IRecentsAnimationController
+              direction: in
+            - name: apps
+              type:
+                name: RemoteAnimationTarget
+                is_array: true
+              direction: in
+            - name: wallpapers
+              type:
+                name: RemoteAnimationTarget
+                is_array: true
+              direction: in
+            - name: homeContentInsets
+              type:
+                name: Rect
+              direction: in
+            - name: minimizedHomeBounds
+              type:
+                name: Rect
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onTasksAppeared
+          transaction_code_offset: 2
+          params:
+            - name: app
+              type:
+                name: RemoteAnimationTarget
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IRemoteAnimationFinishedCallback
+      descriptor: android.view.IRemoteAnimationFinishedCallback
+      oneway: true
+      methods:
+        - name: onAnimationFinished
+          transaction_code_offset: 0
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IRemoteAnimationRunner
+      descriptor: android.view.IRemoteAnimationRunner
+      oneway: true
+      methods:
+        - name: onAnimationStart
+          transaction_code_offset: 0
+          params:
+            - name: transit
+              type:
+                name: int
+            - name: apps
+              type:
+                name: RemoteAnimationTarget
+                is_array: true
+              direction: in
+            - name: wallpapers
+              type:
+                name: RemoteAnimationTarget
+                is_array: true
+              direction: in
+            - name: nonApps
+              type:
+                name: RemoteAnimationTarget
+                is_array: true
+              direction: in
+            - name: finishedCallback
+              type:
+                name: IRemoteAnimationFinishedCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onAnimationCancelled
+          transaction_code_offset: 1
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IRotationWatcher
+      descriptor: android.view.IRotationWatcher
+      oneway: true
+      methods:
+        - name: onRotationChanged
+          transaction_code_offset: 0
+          params:
+            - name: rotation
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IScrollCaptureCallbacks
+      descriptor: android.view.IScrollCaptureCallbacks
+      methods:
+        - name: onCaptureStarted
+          transaction_code_offset: 0
+          oneway: true
+          return_type:
+            name: void
+        - name: onImageRequestCompleted
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: flags
+              type:
+                name: int
+            - name: capturedArea
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: onCaptureEnded
+          transaction_code_offset: 2
+          oneway: true
+          return_type:
+            name: void
+    - name: IScrollCaptureConnection
+      descriptor: android.view.IScrollCaptureConnection
+      methods:
+        - name: startCapture
+          transaction_code_offset: 0
+          params:
+            - name: surface
+              type:
+                name: Surface
+              direction: in
+            - name: callbacks
+              type:
+                name: IScrollCaptureCallbacks
+          return_type:
+            name: ICancellationSignal
+        - name: requestImage
+          transaction_code_offset: 1
+          params:
+            - name: captureArea
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: ICancellationSignal
+        - name: endCapture
+          transaction_code_offset: 2
+          return_type:
+            name: ICancellationSignal
+        - name: close
+          transaction_code_offset: 3
+          oneway: true
+          return_type:
+            name: void
+    - name: IScrollCaptureResponseListener
+      descriptor: android.view.IScrollCaptureResponseListener
+      methods:
+        - name: onScrollCaptureResponse
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: response
+              type:
+                name: ScrollCaptureResponse
+              direction: in
+          return_type:
+            name: void
+    - name: ISensitiveContentProtectionManager
+      descriptor: android.view.ISensitiveContentProtectionManager
+      oneway: true
+      methods:
+        - name: setSensitiveContentProtection
+          transaction_code_offset: 0
+          params:
+            - name: windowToken
+              type:
+                name: IBinder
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: isShowingSensitiveContent
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+    - name: ISurfaceControlViewHost
+      descriptor: android.view.ISurfaceControlViewHost
+      methods:
+        - name: onConfigurationChanged
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: newConfig
+              type:
+                name: Configuration
+              direction: in
+          return_type:
+            name: void
+        - name: onDispatchDetachedFromWindow
+          transaction_code_offset: 1
+          oneway: true
+          return_type:
+            name: void
+        - name: onInsetsChanged
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: state
+              type:
+                name: InsetsState
+              direction: in
+            - name: insetFrame
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: getSurfaceSyncGroup
+          transaction_code_offset: 3
+          return_type:
+            name: ISurfaceSyncGroup
+        - name: attachParentInterface
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: parentInterface
+              type:
+                name: ISurfaceControlViewHostParent
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+    - name: ISurfaceControlViewHostParent
+      descriptor: android.view.ISurfaceControlViewHostParent
+      oneway: true
+      methods:
+        - name: updateParams
+          transaction_code_offset: 0
+          params:
+            - name: childAttrs
+              type:
+                name: WindowManager.LayoutParams
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: forwardBackKeyToParent
+          transaction_code_offset: 1
+          params:
+            - name: keyEvent
+              type:
+                name: KeyEvent
+              direction: in
+          return_type:
+            name: void
+    - name: ISystemGestureExclusionListener
+      descriptor: android.view.ISystemGestureExclusionListener
+      oneway: true
+      methods:
+        - name: onSystemGestureExclusionChanged
+          transaction_code_offset: 0
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: systemGestureExclusion
+              type:
+                name: Region
+              direction: in
+            - name: systemGestureExclusionUnrestricted
+              type:
+                name: Region
+              direction: in
+          return_type:
+            name: void
+    - name: IWallpaperVisibilityListener
+      descriptor: android.view.IWallpaperVisibilityListener
+      oneway: true
+      methods:
+        - name: onWallpaperVisibilityChanged
+          transaction_code_offset: 0
+          params:
+            - name: visible
+              type:
+                name: boolean
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IWindow
+      descriptor: android.view.IWindow
+      oneway: true
+      methods:
+        - name: executeCommand
+          transaction_code_offset: 0
+          params:
+            - name: command
+              type:
+                name: String
+            - name: parameters
+              type:
+                name: String
+            - name: descriptor
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+        - name: resized
+          transaction_code_offset: 1
+          params:
+            - name: frames
+              type:
+                name: ClientWindowFrames
+              direction: in
+            - name: reportDraw
+              type:
+                name: boolean
+            - name: newMergedConfiguration
+              type:
+                name: MergedConfiguration
+              direction: in
+            - name: insetsState
+              type:
+                name: InsetsState
+              direction: in
+            - name: forceLayout
+              type:
+                name: boolean
+            - name: alwaysConsumeSystemBars
+              type:
+                name: boolean
+            - name: displayId
+              type:
+                name: int
+            - name: syncSeqId
+              type:
+                name: int
+            - name: dragResizing
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: insetsControlChanged
+          transaction_code_offset: 2
+          params:
+            - name: insetsState
+              type:
+                name: InsetsState
+              direction: in
+            - name: activeControls
+              type:
+                name: InsetsSourceControl
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: showInsets
+          transaction_code_offset: 3
+          params:
+            - name: types
+              type:
+                name: int
+            - name: fromIme
+              type:
+                name: boolean
+            - name: statsToken
+              type:
+                name: ImeTracker.Token
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: hideInsets
+          transaction_code_offset: 4
+          params:
+            - name: types
+              type:
+                name: int
+            - name: fromIme
+              type:
+                name: boolean
+            - name: statsToken
+              type:
+                name: ImeTracker.Token
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: moved
+          transaction_code_offset: 5
+          params:
+            - name: newX
+              type:
+                name: int
+            - name: newY
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: dispatchAppVisibility
+          transaction_code_offset: 6
+          params:
+            - name: visible
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: dispatchGetNewSurface
+          transaction_code_offset: 7
+          return_type:
+            name: void
+        - name: closeSystemDialogs
+          transaction_code_offset: 8
+          params:
+            - name: reason
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: dispatchWallpaperOffsets
+          transaction_code_offset: 9
+          params:
+            - name: x
+              type:
+                name: float
+            - name: "y"
+              type:
+                name: float
+            - name: xStep
+              type:
+                name: float
+            - name: yStep
+              type:
+                name: float
+            - name: zoom
+              type:
+                name: float
+            - name: sync
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: dispatchWallpaperCommand
+          transaction_code_offset: 10
+          params:
+            - name: action
+              type:
+                name: String
+            - name: x
+              type:
+                name: int
+            - name: "y"
+              type:
+                name: int
+            - name: z
+              type:
+                name: int
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+            - name: sync
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: dispatchDragEvent
+          transaction_code_offset: 11
+          params:
+            - name: event
+              type:
+                name: DragEvent
+              direction: in
+          return_type:
+            name: void
+        - name: updatePointerIcon
+          transaction_code_offset: 12
+          params:
+            - name: x
+              type:
+                name: float
+            - name: "y"
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: dispatchWindowShown
+          transaction_code_offset: 13
+          return_type:
+            name: void
+        - name: requestAppKeyboardShortcuts
+          transaction_code_offset: 14
+          params:
+            - name: receiver
+              type:
+                name: IResultReceiver
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: requestScrollCapture
+          transaction_code_offset: 15
+          params:
+            - name: callbacks
+              type:
+                name: IScrollCaptureResponseListener
+              direction: in
+          return_type:
+            name: void
+    - name: IWindowFocusObserver
+      descriptor: android.view.IWindowFocusObserver
+      oneway: true
+      methods:
+        - name: focusGained
+          transaction_code_offset: 0
+          params:
+            - name: inputToken
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: focusLost
+          transaction_code_offset: 1
+          params:
+            - name: inputToken
+              type:
+                name: IBinder
+          return_type:
+            name: void
+    - name: IWindowId
+      descriptor: android.view.IWindowId
+      methods:
+        - name: registerFocusObserver
+          transaction_code_offset: 0
+          params:
+            - name: observer
+              type:
+                name: IWindowFocusObserver
+          return_type:
+            name: void
+        - name: unregisterFocusObserver
+          transaction_code_offset: 1
+          params:
+            - name: observer
+              type:
+                name: IWindowFocusObserver
+          return_type:
+            name: void
+        - name: isFocused
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+    - name: IWindowManager
+      descriptor: android.view.IWindowManager
+      methods:
+        - name: startViewServer
+          transaction_code_offset: 0
+          params:
+            - name: port
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: stopViewServer
+          transaction_code_offset: 1
+          return_type:
+            name: boolean
+        - name: isViewServerRunning
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+        - name: openSession
+          transaction_code_offset: 3
+          params:
+            - name: callback
+              type:
+                name: IWindowSessionCallback
+              direction: in
+          return_type:
+            name: IWindowSession
+        - name: getInitialDisplaySize
+          transaction_code_offset: 4
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: size
+              type:
+                name: Point
+              direction: out
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: getBaseDisplaySize
+          transaction_code_offset: 5
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: size
+              type:
+                name: Point
+              direction: out
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setForcedDisplaySize
+          transaction_code_offset: 6
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: clearForcedDisplaySize
+          transaction_code_offset: 7
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getInitialDisplayDensity
+          transaction_code_offset: 8
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: getBaseDisplayDensity
+          transaction_code_offset: 9
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getDisplayIdByUniqueId
+          transaction_code_offset: 10
+          params:
+            - name: uniqueId
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: setForcedDisplayDensityForUser
+          transaction_code_offset: 11
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: density
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: clearForcedDisplayDensityForUser
+          transaction_code_offset: 12
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setForcedDisplayScalingMode
+          transaction_code_offset: 13
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: mode
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setEventDispatching
+          transaction_code_offset: 14
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isWindowToken
+          transaction_code_offset: 15
+          params:
+            - name: binder
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: boolean
+        - name: addWindowToken
+          transaction_code_offset: 16
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: type
+              type:
+                name: int
+            - name: displayId
+              type:
+                name: int
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: removeWindowToken
+          transaction_code_offset: 17
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setDisplayChangeWindowController
+          transaction_code_offset: 18
+          params:
+            - name: controller
+              type:
+                name: IDisplayChangeWindowController
+          return_type:
+            name: void
+        - name: addShellRoot
+          transaction_code_offset: 19
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: client
+              type:
+                name: IWindow
+            - name: shellRootLayer
+              type:
+                name: int
+          return_type:
+            name: SurfaceControl
+          annotations:
+            - EnforcePermission
+        - name: setShellRootAccessibilityWindow
+          transaction_code_offset: 20
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: shellRootLayer
+              type:
+                name: int
+            - name: target
+              type:
+                name: IWindow
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: overridePendingAppTransitionMultiThumbFuture
+          transaction_code_offset: 21
+          params:
+            - name: specsFuture
+              type:
+                name: IAppTransitionAnimationSpecsFuture
+            - name: startedCallback
+              type:
+                name: IRemoteCallback
+            - name: scaleUp
+              type:
+                name: boolean
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: overridePendingAppTransitionRemote
+          transaction_code_offset: 22
+          params:
+            - name: remoteAnimationAdapter
+              type:
+                name: RemoteAnimationAdapter
+              direction: in
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: endProlongedAnimations
+          transaction_code_offset: 23
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: startFreezingScreen
+          transaction_code_offset: 24
+          params:
+            - name: exitAnim
+              type:
+                name: int
+            - name: enterAnim
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: stopFreezingScreen
+          transaction_code_offset: 25
+          return_type:
+            name: void
+        - name: disableKeyguard
+          transaction_code_offset: 26
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: tag
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reenableKeyguard
+          transaction_code_offset: 27
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: exitKeyguardSecurely
+          transaction_code_offset: 28
+          params:
+            - name: callback
+              type:
+                name: IOnKeyguardExitResult
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: isKeyguardLocked
+          transaction_code_offset: 29
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: isKeyguardSecure
+          transaction_code_offset: 30
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: dismissKeyguard
+          transaction_code_offset: 31
+          params:
+            - name: callback
+              type:
+                name: IKeyguardDismissCallback
+            - name: message
+              type:
+                name: CharSequence
+          return_type:
+            name: void
+        - name: addKeyguardLockedStateListener
+          transaction_code_offset: 32
+          params:
+            - name: listener
+              type:
+                name: IKeyguardLockedStateListener
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: removeKeyguardLockedStateListener
+          transaction_code_offset: 33
+          params:
+            - name: listener
+              type:
+                name: IKeyguardLockedStateListener
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: setSwitchingUser
+          transaction_code_offset: 34
+          params:
+            - name: switching
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: closeSystemDialogs
+          transaction_code_offset: 35
+          params:
+            - name: reason
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getAnimationScale
+          transaction_code_offset: 36
+          params:
+            - name: which
+              type:
+                name: int
+          return_type:
+            name: float
+          annotations:
+            - UnsupportedAppUsage
+        - name: getAnimationScales
+          transaction_code_offset: 37
+          return_type:
+            name: float
+            is_array: true
+          annotations:
+            - UnsupportedAppUsage
+        - name: setAnimationScale
+          transaction_code_offset: 38
+          params:
+            - name: which
+              type:
+                name: int
+            - name: scale
+              type:
+                name: float
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setAnimationScales
+          transaction_code_offset: 39
+          params:
+            - name: scales
+              type:
+                name: float
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: getCurrentAnimatorScale
+          transaction_code_offset: 40
+          return_type:
+            name: float
+        - name: setInTouchMode
+          transaction_code_offset: 41
+          params:
+            - name: inTouch
+              type:
+                name: boolean
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setInTouchModeOnAllDisplays
+          transaction_code_offset: 42
+          params:
+            - name: inTouch
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isInTouchMode
+          transaction_code_offset: 43
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: showStrictModeViolation
+          transaction_code_offset: 44
+          params:
+            - name: "on"
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setStrictModeVisualIndicatorPreference
+          transaction_code_offset: 45
+          params:
+            - name: enabled
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: refreshScreenCaptureDisabled
+          transaction_code_offset: 46
+          return_type:
+            name: void
+        - name: getDefaultDisplayRotation
+          transaction_code_offset: 47
+          return_type:
+            name: int
+        - name: watchRotation
+          transaction_code_offset: 48
+          params:
+            - name: watcher
+              type:
+                name: IRotationWatcher
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: removeRotationWatcher
+          transaction_code_offset: 49
+          params:
+            - name: watcher
+              type:
+                name: IRotationWatcher
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: registerProposedRotationListener
+          transaction_code_offset: 50
+          params:
+            - name: contextToken
+              type:
+                name: IBinder
+            - name: listener
+              type:
+                name: IRotationWatcher
+          return_type:
+            name: int
+        - name: getPreferredOptionsPanelGravity
+          transaction_code_offset: 51
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: freezeRotation
+          transaction_code_offset: 52
+          params:
+            - name: rotation
+              type:
+                name: int
+            - name: caller
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: thawRotation
+          transaction_code_offset: 53
+          params:
+            - name: caller
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: isRotationFrozen
+          transaction_code_offset: 54
+          return_type:
+            name: boolean
+        - name: freezeDisplayRotation
+          transaction_code_offset: 55
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: rotation
+              type:
+                name: int
+            - name: caller
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: thawDisplayRotation
+          transaction_code_offset: 56
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: caller
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: isDisplayRotationFrozen
+          transaction_code_offset: 57
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setFixedToUserRotation
+          transaction_code_offset: 58
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: fixedToUserRotation
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setIgnoreOrientationRequest
+          transaction_code_offset: 59
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: ignoreOrientationRequest
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: screenshotWallpaper
+          transaction_code_offset: 60
+          return_type:
+            name: Bitmap
+        - name: mirrorWallpaperSurface
+          transaction_code_offset: 61
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: SurfaceControl
+        - name: registerWallpaperVisibilityListener
+          transaction_code_offset: 62
+          params:
+            - name: listener
+              type:
+                name: IWallpaperVisibilityListener
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: unregisterWallpaperVisibilityListener
+          transaction_code_offset: 63
+          params:
+            - name: listener
+              type:
+                name: IWallpaperVisibilityListener
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: registerSystemGestureExclusionListener
+          transaction_code_offset: 64
+          params:
+            - name: listener
+              type:
+                name: ISystemGestureExclusionListener
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: unregisterSystemGestureExclusionListener
+          transaction_code_offset: 65
+          params:
+            - name: listener
+              type:
+                name: ISystemGestureExclusionListener
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: requestAssistScreenshot
+          transaction_code_offset: 66
+          params:
+            - name: receiver
+              type:
+                name: IAssistDataReceiver
+          return_type:
+            name: boolean
+        - name: hideTransientBars
+          transaction_code_offset: 67
+          oneway: true
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setRecentsVisibility
+          transaction_code_offset: 68
+          oneway: true
+          params:
+            - name: visible
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: updateStaticPrivacyIndicatorBounds
+          transaction_code_offset: 69
+          oneway: true
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: staticBounds
+              type:
+                name: Rect
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setNavBarVirtualKeyHapticFeedbackEnabled
+          transaction_code_offset: 70
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - UnsupportedAppUsage
+        - name: hasNavigationBar
+          transaction_code_offset: 71
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: lockNow
+          transaction_code_offset: 72
+          params:
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: isSafeModeEnabled
+          transaction_code_offset: 73
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: clearWindowContentFrameStats
+          transaction_code_offset: 74
+          params:
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: boolean
+        - name: getWindowContentFrameStats
+          transaction_code_offset: 75
+          params:
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: WindowContentFrameStats
+        - name: getDockedStackSide
+          transaction_code_offset: 76
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: registerPinnedTaskListener
+          transaction_code_offset: 77
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IPinnedTaskListener
+          return_type:
+            name: void
+        - name: requestAppKeyboardShortcuts
+          transaction_code_offset: 78
+          params:
+            - name: receiver
+              type:
+                name: IResultReceiver
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: requestImeKeyboardShortcuts
+          transaction_code_offset: 79
+          params:
+            - name: receiver
+              type:
+                name: IResultReceiver
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getStableInsets
+          transaction_code_offset: 80
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: outInsets
+              type:
+                name: Rect
+              direction: out
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: registerShortcutKey
+          transaction_code_offset: 81
+          params:
+            - name: shortcutCode
+              type:
+                name: long
+              direction: in
+            - name: keySubscriber
+              type:
+                name: IShortcutService
+          return_type:
+            name: void
+        - name: createInputConsumer
+          transaction_code_offset: 82
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: name
+              type:
+                name: String
+            - name: displayId
+              type:
+                name: int
+            - name: inputChannel
+              type:
+                name: InputChannel
+              direction: out
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: destroyInputConsumer
+          transaction_code_offset: 83
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: getCurrentImeTouchRegion
+          transaction_code_offset: 84
+          return_type:
+            name: Region
+          annotations:
+            - EnforcePermission
+        - name: registerDisplayFoldListener
+          transaction_code_offset: 85
+          params:
+            - name: listener
+              type:
+                name: IDisplayFoldListener
+          return_type:
+            name: void
+        - name: unregisterDisplayFoldListener
+          transaction_code_offset: 86
+          params:
+            - name: listener
+              type:
+                name: IDisplayFoldListener
+          return_type:
+            name: void
+        - name: registerDisplayWindowListener
+          transaction_code_offset: 87
+          params:
+            - name: listener
+              type:
+                name: IDisplayWindowListener
+          return_type:
+            name: int
+            is_array: true
+        - name: unregisterDisplayWindowListener
+          transaction_code_offset: 88
+          params:
+            - name: listener
+              type:
+                name: IDisplayWindowListener
+          return_type:
+            name: void
+        - name: startWindowTrace
+          transaction_code_offset: 89
+          return_type:
+            name: void
+        - name: stopWindowTrace
+          transaction_code_offset: 90
+          return_type:
+            name: void
+        - name: saveWindowTraceToFile
+          transaction_code_offset: 91
+          return_type:
+            name: void
+        - name: isWindowTraceEnabled
+          transaction_code_offset: 92
+          return_type:
+            name: boolean
+        - name: startTransitionTrace
+          transaction_code_offset: 93
+          return_type:
+            name: void
+        - name: stopTransitionTrace
+          transaction_code_offset: 94
+          return_type:
+            name: void
+        - name: isTransitionTraceEnabled
+          transaction_code_offset: 95
+          return_type:
+            name: boolean
+        - name: getWindowingMode
+          transaction_code_offset: 96
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setWindowingMode
+          transaction_code_offset: 97
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: mode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getRemoveContentMode
+          transaction_code_offset: 98
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setRemoveContentMode
+          transaction_code_offset: 99
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: mode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: shouldShowWithInsecureKeyguard
+          transaction_code_offset: 100
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setShouldShowWithInsecureKeyguard
+          transaction_code_offset: 101
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: shouldShow
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: shouldShowSystemDecors
+          transaction_code_offset: 102
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setShouldShowSystemDecors
+          transaction_code_offset: 103
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: shouldShow
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getDisplayImePolicy
+          transaction_code_offset: 104
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setDisplayImePolicy
+          transaction_code_offset: 105
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: imePolicy
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: syncInputTransactions
+          transaction_code_offset: 106
+          params:
+            - name: waitForAnimations
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isLayerTracing
+          transaction_code_offset: 107
+          return_type:
+            name: boolean
+        - name: setLayerTracing
+          transaction_code_offset: 108
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: mirrorDisplay
+          transaction_code_offset: 109
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: outSurfaceControl
+              type:
+                name: SurfaceControl
+              direction: out
+          return_type:
+            name: boolean
+        - name: setDisplayWindowInsetsController
+          transaction_code_offset: 110
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: displayWindowInsetsController
+              type:
+                name: IDisplayWindowInsetsController
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: updateDisplayWindowRequestedVisibleTypes
+          transaction_code_offset: 111
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: requestedVisibleTypes
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getWindowInsets
+          transaction_code_offset: 112
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: outInsetsState
+              type:
+                name: InsetsState
+              direction: out
+          return_type:
+            name: boolean
+        - name: getPossibleDisplayInfo
+          transaction_code_offset: 113
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: DisplayInfo
+        - name: showGlobalActions
+          transaction_code_offset: 114
+          return_type:
+            name: void
+        - name: setLayerTracingFlags
+          transaction_code_offset: 115
+          params:
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setActiveTransactionTracing
+          transaction_code_offset: 116
+          params:
+            - name: active
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: requestScrollCapture
+          transaction_code_offset: 117
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: behindClient
+              type:
+                name: IBinder
+            - name: taskId
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IScrollCaptureResponseListener
+          return_type:
+            name: void
+        - name: holdLock
+          transaction_code_offset: 118
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: durationMs
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getSupportedDisplayHashAlgorithms
+          transaction_code_offset: 119
+          return_type:
+            name: String
+            is_array: true
+        - name: verifyDisplayHash
+          transaction_code_offset: 120
+          params:
+            - name: displayHash
+              type:
+                name: DisplayHash
+              direction: in
+          return_type:
+            name: VerifiedDisplayHash
+        - name: setDisplayHashThrottlingEnabled
+          transaction_code_offset: 121
+          params:
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: attachWindowContextToDisplayArea
+          transaction_code_offset: 122
+          params:
+            - name: appThread
+              type:
+                name: IApplicationThread
+              direction: in
+            - name: clientToken
+              type:
+                name: IBinder
+            - name: type
+              type:
+                name: int
+            - name: displayId
+              type:
+                name: int
+            - name: options
+              type:
+                name: Bundle
+                is_nullable: true
+              direction: in
+          return_type:
+            name: WindowContextInfo
+          annotations:
+            - nullable
+        - name: attachWindowContextToWindowToken
+          transaction_code_offset: 123
+          params:
+            - name: appThread
+              type:
+                name: IApplicationThread
+              direction: in
+            - name: clientToken
+              type:
+                name: IBinder
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: WindowContextInfo
+          annotations:
+            - nullable
+        - name: attachWindowContextToDisplayContent
+          transaction_code_offset: 124
+          params:
+            - name: appThread
+              type:
+                name: IApplicationThread
+              direction: in
+            - name: clientToken
+              type:
+                name: IBinder
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: WindowContextInfo
+          annotations:
+            - nullable
+        - name: detachWindowContext
+          transaction_code_offset: 125
+          params:
+            - name: clientToken
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: registerCrossWindowBlurEnabledListener
+          transaction_code_offset: 126
+          params:
+            - name: listener
+              type:
+                name: ICrossWindowBlurEnabledListener
+          return_type:
+            name: boolean
+        - name: unregisterCrossWindowBlurEnabledListener
+          transaction_code_offset: 127
+          params:
+            - name: listener
+              type:
+                name: ICrossWindowBlurEnabledListener
+          return_type:
+            name: void
+        - name: isTaskSnapshotSupported
+          transaction_code_offset: 128
+          return_type:
+            name: boolean
+        - name: getImeDisplayId
+          transaction_code_offset: 129
+          return_type:
+            name: int
+        - name: setTaskSnapshotEnabled
+          transaction_code_offset: 130
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setTaskTransitionSpec
+          transaction_code_offset: 131
+          params:
+            - name: spec
+              type:
+                name: TaskTransitionSpec
+              direction: in
+          return_type:
+            name: void
+        - name: clearTaskTransitionSpec
+          transaction_code_offset: 132
+          return_type:
+            name: void
+        - name: registerTaskFpsCallback
+          transaction_code_offset: 133
+          params:
+            - name: taskId
+              type:
+                name: int
+              direction: in
+            - name: callback
+              type:
+                name: ITaskFpsCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterTaskFpsCallback
+          transaction_code_offset: 134
+          params:
+            - name: listener
+              type:
+                name: ITaskFpsCallback
+              direction: in
+          return_type:
+            name: void
+        - name: snapshotTaskForRecents
+          transaction_code_offset: 135
+          params:
+            - name: taskId
+              type:
+                name: int
+          return_type:
+            name: Bitmap
+        - name: setRecentsAppBehindSystemBars
+          transaction_code_offset: 136
+          params:
+            - name: behindSystemBars
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getLetterboxBackgroundColorInArgb
+          transaction_code_offset: 137
+          return_type:
+            name: int
+        - name: isLetterboxBackgroundMultiColored
+          transaction_code_offset: 138
+          return_type:
+            name: boolean
+        - name: captureDisplay
+          transaction_code_offset: 139
+          oneway: true
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: captureArgs
+              type:
+                name: ScreenCapture.CaptureArgs
+                is_nullable: true
+              direction: in
+            - name: listener
+              type:
+                name: ScreenCapture.ScreenCaptureListener
+              direction: in
+          return_type:
+            name: void
+        - name: isGlobalKey
+          transaction_code_offset: 140
+          params:
+            - name: keyCode
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: addToSurfaceSyncGroup
+          transaction_code_offset: 141
+          params:
+            - name: syncGroupToken
+              type:
+                name: IBinder
+              direction: in
+            - name: parentSyncGroupMerge
+              type:
+                name: boolean
+            - name: completedListener
+              type:
+                name: ISurfaceSyncGroupCompletedListener
+                is_nullable: true
+              direction: in
+            - name: addToSurfaceSyncGroupResult
+              type:
+                name: AddToSurfaceSyncGroupResult
+              direction: out
+          return_type:
+            name: boolean
+        - name: markSurfaceSyncGroupReady
+          transaction_code_offset: 142
+          oneway: true
+          params:
+            - name: syncGroupToken
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: notifyScreenshotListeners
+          transaction_code_offset: 143
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: ComponentName
+        - name: replaceContentOnDisplay
+          transaction_code_offset: 144
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: sc
+              type:
+                name: SurfaceControl
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - JavaPassthrough
+        - name: registerDecorViewGestureListener
+          transaction_code_offset: 145
+          params:
+            - name: listener
+              type:
+                name: IDecorViewGestureListener
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: unregisterDecorViewGestureListener
+          transaction_code_offset: 146
+          params:
+            - name: listener
+              type:
+                name: IDecorViewGestureListener
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: registerTrustedPresentationListener
+          transaction_code_offset: 147
+          params:
+            - name: window
+              type:
+                name: IBinder
+              direction: in
+            - name: listener
+              type:
+                name: ITrustedPresentationListener
+              direction: in
+            - name: thresholds
+              type:
+                name: TrustedPresentationThresholds
+              direction: in
+            - name: id
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: unregisterTrustedPresentationListener
+          transaction_code_offset: 148
+          params:
+            - name: listener
+              type:
+                name: ITrustedPresentationListener
+              direction: in
+            - name: id
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: registerScreenRecordingCallback
+          transaction_code_offset: 149
+          params:
+            - name: callback
+              type:
+                name: IScreenRecordingCallback
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: unregisterScreenRecordingCallback
+          transaction_code_offset: 150
+          params:
+            - name: callback
+              type:
+                name: IScreenRecordingCallback
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setGlobalDragListener
+          transaction_code_offset: 151
+          params:
+            - name: listener
+              type:
+                name: IGlobalDragListener
+          return_type:
+            name: void
+        - name: transferTouchGesture
+          transaction_code_offset: 152
+          params:
+            - name: transferFromToken
+              type:
+                name: InputTransferToken
+              direction: in
+            - name: transferToToken
+              type:
+                name: InputTransferToken
+              direction: in
+          return_type:
+            name: boolean
+      constants:
+        - name: FIXED_TO_USER_ROTATION_DEFAULT
+          type: int
+          value: "0"
+        - name: FIXED_TO_USER_ROTATION_DISABLED
+          type: int
+          value: "1"
+        - name: FIXED_TO_USER_ROTATION_ENABLED
+          type: int
+          value: "2"
+        - name: FIXED_TO_USER_ROTATION_IF_NO_AUTO_ROTATION
+          type: int
+          value: "3"
+    - name: IWindowSession
+      descriptor: android.view.IWindowSession
+      methods:
+        - name: addToDisplay
+          transaction_code_offset: 0
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: attrs
+              type:
+                name: WindowManager.LayoutParams
+              direction: in
+            - name: viewVisibility
+              type:
+                name: int
+              direction: in
+            - name: layerStackId
+              type:
+                name: int
+              direction: in
+            - name: requestedVisibleTypes
+              type:
+                name: int
+            - name: outInputChannel
+              type:
+                name: InputChannel
+              direction: out
+            - name: insetsState
+              type:
+                name: InsetsState
+              direction: out
+            - name: activeControls
+              type:
+                name: InsetsSourceControl.Array
+              direction: out
+            - name: attachedFrame
+              type:
+                name: Rect
+              direction: out
+            - name: sizeCompatScale
+              type:
+                name: float
+                is_array: true
+              direction: out
+          return_type:
+            name: int
+        - name: addToDisplayAsUser
+          transaction_code_offset: 1
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: attrs
+              type:
+                name: WindowManager.LayoutParams
+              direction: in
+            - name: viewVisibility
+              type:
+                name: int
+              direction: in
+            - name: layerStackId
+              type:
+                name: int
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+            - name: requestedVisibleTypes
+              type:
+                name: int
+            - name: outInputChannel
+              type:
+                name: InputChannel
+              direction: out
+            - name: insetsState
+              type:
+                name: InsetsState
+              direction: out
+            - name: activeControls
+              type:
+                name: InsetsSourceControl.Array
+              direction: out
+            - name: attachedFrame
+              type:
+                name: Rect
+              direction: out
+            - name: sizeCompatScale
+              type:
+                name: float
+                is_array: true
+              direction: out
+          return_type:
+            name: int
+        - name: addToDisplayWithoutInputChannel
+          transaction_code_offset: 2
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: attrs
+              type:
+                name: WindowManager.LayoutParams
+              direction: in
+            - name: viewVisibility
+              type:
+                name: int
+              direction: in
+            - name: layerStackId
+              type:
+                name: int
+              direction: in
+            - name: insetsState
+              type:
+                name: InsetsState
+              direction: out
+            - name: attachedFrame
+              type:
+                name: Rect
+              direction: out
+            - name: sizeCompatScale
+              type:
+                name: float
+                is_array: true
+              direction: out
+          return_type:
+            name: int
+        - name: remove
+          transaction_code_offset: 3
+          params:
+            - name: clientToken
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: relayout
+          transaction_code_offset: 4
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: attrs
+              type:
+                name: WindowManager.LayoutParams
+              direction: in
+            - name: requestedWidth
+              type:
+                name: int
+            - name: requestedHeight
+              type:
+                name: int
+            - name: viewVisibility
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: seq
+              type:
+                name: int
+            - name: lastSyncSeqId
+              type:
+                name: int
+            - name: outFrames
+              type:
+                name: ClientWindowFrames
+              direction: out
+            - name: outMergedConfiguration
+              type:
+                name: MergedConfiguration
+              direction: out
+            - name: outSurfaceControl
+              type:
+                name: SurfaceControl
+              direction: out
+            - name: insetsState
+              type:
+                name: InsetsState
+              direction: out
+            - name: activeControls
+              type:
+                name: InsetsSourceControl.Array
+              direction: out
+            - name: bundle
+              type:
+                name: Bundle
+              direction: out
+          return_type:
+            name: int
+        - name: relayoutAsync
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: attrs
+              type:
+                name: WindowManager.LayoutParams
+              direction: in
+            - name: requestedWidth
+              type:
+                name: int
+            - name: requestedHeight
+              type:
+                name: int
+            - name: viewVisibility
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: seq
+              type:
+                name: int
+            - name: lastSyncSeqId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: outOfMemory
+          transaction_code_offset: 6
+          params:
+            - name: window
+              type:
+                name: IWindow
+          return_type:
+            name: boolean
+        - name: setInsets
+          transaction_code_offset: 7
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: touchableInsets
+              type:
+                name: int
+            - name: contentInsets
+              type:
+                name: Rect
+              direction: in
+            - name: visibleInsets
+              type:
+                name: Rect
+              direction: in
+            - name: touchableRegion
+              type:
+                name: Region
+              direction: in
+          return_type:
+            name: void
+        - name: finishDrawing
+          transaction_code_offset: 8
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: postDrawTransaction
+              type:
+                name: SurfaceControl.Transaction
+              direction: in
+            - name: seqId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: performHapticFeedback
+          transaction_code_offset: 9
+          params:
+            - name: effectId
+              type:
+                name: int
+            - name: always
+              type:
+                name: boolean
+            - name: fromIme
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: performHapticFeedbackAsync
+          transaction_code_offset: 10
+          oneway: true
+          params:
+            - name: effectId
+              type:
+                name: int
+            - name: always
+              type:
+                name: boolean
+            - name: fromIme
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: performDrag
+          transaction_code_offset: 11
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: flags
+              type:
+                name: int
+            - name: surface
+              type:
+                name: SurfaceControl
+              direction: in
+            - name: touchSource
+              type:
+                name: int
+            - name: touchDeviceId
+              type:
+                name: int
+            - name: touchPointerId
+              type:
+                name: int
+            - name: touchX
+              type:
+                name: float
+            - name: touchY
+              type:
+                name: float
+            - name: thumbCenterX
+              type:
+                name: float
+            - name: thumbCenterY
+              type:
+                name: float
+            - name: data
+              type:
+                name: ClipData
+              direction: in
+          return_type:
+            name: IBinder
+        - name: dropForAccessibility
+          transaction_code_offset: 12
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: x
+              type:
+                name: int
+            - name: "y"
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: reportDropResult
+          transaction_code_offset: 13
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: consumed
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: cancelDragAndDrop
+          transaction_code_offset: 14
+          oneway: true
+          params:
+            - name: dragToken
+              type:
+                name: IBinder
+            - name: skipAnimation
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: dragRecipientEntered
+          transaction_code_offset: 15
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IWindow
+          return_type:
+            name: void
+        - name: dragRecipientExited
+          transaction_code_offset: 16
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IWindow
+          return_type:
+            name: void
+        - name: setWallpaperPosition
+          transaction_code_offset: 17
+          oneway: true
+          params:
+            - name: windowToken
+              type:
+                name: IBinder
+            - name: x
+              type:
+                name: float
+            - name: "y"
+              type:
+                name: float
+            - name: xstep
+              type:
+                name: float
+            - name: ystep
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: setWallpaperZoomOut
+          transaction_code_offset: 18
+          oneway: true
+          params:
+            - name: windowToken
+              type:
+                name: IBinder
+            - name: scale
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: setShouldZoomOutWallpaper
+          transaction_code_offset: 19
+          oneway: true
+          params:
+            - name: windowToken
+              type:
+                name: IBinder
+            - name: shouldZoom
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: wallpaperOffsetsComplete
+          transaction_code_offset: 20
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IBinder
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setWallpaperDisplayOffset
+          transaction_code_offset: 21
+          oneway: true
+          params:
+            - name: windowToken
+              type:
+                name: IBinder
+            - name: x
+              type:
+                name: int
+            - name: "y"
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendWallpaperCommand
+          transaction_code_offset: 22
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IBinder
+            - name: action
+              type:
+                name: String
+            - name: x
+              type:
+                name: int
+            - name: "y"
+              type:
+                name: int
+            - name: z
+              type:
+                name: int
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+            - name: sync
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: wallpaperCommandComplete
+          transaction_code_offset: 23
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IBinder
+            - name: result
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onRectangleOnScreenRequested
+          transaction_code_offset: 24
+          oneway: true
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: rectangle
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: getWindowId
+          transaction_code_offset: 25
+          params:
+            - name: window
+              type:
+                name: IBinder
+          return_type:
+            name: IWindowId
+        - name: pokeDrawLock
+          transaction_code_offset: 26
+          params:
+            - name: window
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: startMovingTask
+          transaction_code_offset: 27
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: startX
+              type:
+                name: float
+            - name: startY
+              type:
+                name: float
+          return_type:
+            name: boolean
+        - name: finishMovingTask
+          transaction_code_offset: 28
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IWindow
+          return_type:
+            name: void
+        - name: updatePointerIcon
+          transaction_code_offset: 29
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IWindow
+          return_type:
+            name: void
+        - name: updateTapExcludeRegion
+          transaction_code_offset: 30
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: region
+              type:
+                name: Region
+              direction: in
+          return_type:
+            name: void
+        - name: updateRequestedVisibleTypes
+          transaction_code_offset: 31
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: requestedVisibleTypes
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportSystemGestureExclusionChanged
+          transaction_code_offset: 32
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: exclusionRects
+              type:
+                name: List
+                type_args:
+                    - name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: reportDecorViewGestureInterceptionChanged
+          transaction_code_offset: 33
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: intercepted
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: reportKeepClearAreasChanged
+          transaction_code_offset: 34
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: restricted
+              type:
+                name: List
+                type_args:
+                    - name: Rect
+              direction: in
+            - name: unrestricted
+              type:
+                name: List
+                type_args:
+                    - name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: grantInputChannel
+          transaction_code_offset: 35
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: surface
+              type:
+                name: SurfaceControl
+              direction: in
+            - name: clientToken
+              type:
+                name: IBinder
+              direction: in
+            - name: hostInputTransferToken
+              type:
+                name: InputTransferToken
+                is_nullable: true
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: privateFlags
+              type:
+                name: int
+            - name: inputFeatures
+              type:
+                name: int
+            - name: type
+              type:
+                name: int
+            - name: windowToken
+              type:
+                name: IBinder
+              direction: in
+            - name: embeddedInputTransferToken
+              type:
+                name: InputTransferToken
+              direction: in
+            - name: inputHandleName
+              type:
+                name: String
+            - name: outInputChannel
+              type:
+                name: InputChannel
+              direction: out
+          return_type:
+            name: void
+        - name: updateInputChannel
+          transaction_code_offset: 36
+          oneway: true
+          params:
+            - name: channelToken
+              type:
+                name: IBinder
+              direction: in
+            - name: displayId
+              type:
+                name: int
+            - name: surface
+              type:
+                name: SurfaceControl
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: privateFlags
+              type:
+                name: int
+            - name: inputFeatures
+              type:
+                name: int
+            - name: region
+              type:
+                name: Region
+              direction: in
+          return_type:
+            name: void
+        - name: grantEmbeddedWindowFocus
+          transaction_code_offset: 37
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: inputToken
+              type:
+                name: InputTransferToken
+              direction: in
+            - name: grantFocus
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: generateDisplayHash
+          transaction_code_offset: 38
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: boundsInWindow
+              type:
+                name: Rect
+              direction: in
+            - name: hashAlgorithm
+              type:
+                name: String
+              direction: in
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setOnBackInvokedCallbackInfo
+          transaction_code_offset: 39
+          oneway: true
+          params:
+            - name: window
+              type:
+                name: IWindow
+            - name: callbackInfo
+              type:
+                name: OnBackInvokedCallbackInfo
+              direction: in
+          return_type:
+            name: void
+        - name: clearTouchableRegion
+          transaction_code_offset: 40
+          params:
+            - name: window
+              type:
+                name: IWindow
+          return_type:
+            name: void
+        - name: cancelDraw
+          transaction_code_offset: 41
+          params:
+            - name: window
+              type:
+                name: IWindow
+          return_type:
+            name: boolean
+        - name: moveFocusToAdjacentWindow
+          transaction_code_offset: 42
+          params:
+            - name: fromWindow
+              type:
+                name: IWindow
+            - name: direction
+              type:
+                name: int
+          return_type:
+            name: boolean
+    - name: IWindowSessionCallback
+      descriptor: android.view.IWindowSessionCallback
+      oneway: true
+      methods:
+        - name: onAnimatorScaleChanged
+          transaction_code_offset: 0
+          params:
+            - name: scale
+              type:
+                name: float
+          return_type:
+            name: void
+parcelables:
+    - name: AnimationRenderStats
+    - name: AppTransitionAnimationSpec
+    - name: ContentRecordingSession
+    - name: Display.Mode
+    - name: DisplayCutout.ParcelableWrapper
+    - name: DisplayInfo
+    - name: DisplayShape
+    - name: DragEvent
+    - name: InputChannel
+    - name: InputDevice
+    - name: InputEvent
+    - name: InputMonitor
+    - name: InsetsSourceControl
+    - name: InsetsSourceControl.Array
+    - name: InsetsState
+    - name: KeyCharacterMap
+    - name: KeyEvent
+      annotations:
+        - JavaOnlyStableParcelable
+    - name: MagnificationSpec
+    - name: MotionEvent
+    - name: PointerIcon
+    - name: RemoteAnimationAdapter
+    - name: RemoteAnimationDefinition
+    - name: RemoteAnimationTarget
+    - name: RoundedCorners
+    - name: ScrollCaptureResponse
+    - name: Surface
+      annotations:
+        - JavaOnlyStableParcelable
+        - NdkOnlyStableParcelable
+        - RustOnlyStableParcelable
+    - name: SurfaceControl
+    - name: SurfaceControl.Transaction
+    - name: SurfaceControlViewHost.SurfacePackage
+    - name: TaskTransitionSpec
+    - name: VerifiedInputEvent
+    - name: VerifiedKeyEvent
+    - name: VerifiedMotionEvent
+    - name: WindowAnimationFrameStats
+    - name: WindowContentFrameStats
+    - name: WindowInfo
+    - name: WindowManager.LayoutParams
+    - name: WindowManager.TaskSnapshot
+enums:
+    - name: LayerMetadataKey
+      backing_type: int
+      values:
+        - name: METADATA_OWNER_UID
+          value: "1"
+        - name: METADATA_WINDOW_TYPE
+          value: "2"
+        - name: METADATA_TASK_ID
+          value: "3"
+        - name: METADATA_MOUSE_CURSOR
+          value: "4"
+        - name: METADATA_ACCESSIBILITY_ID
+          value: "5"
+        - name: METADATA_OWNER_PID
+          value: "6"
+        - name: METADATA_DEQUEUE_TIME
+          value: "7"
+        - name: METADATA_GAME_MODE
+          value: "8"
+      annotations:
+        - Backing

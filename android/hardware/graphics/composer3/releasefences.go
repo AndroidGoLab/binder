@@ -1,7 +1,6 @@
 package composer3
 
 import (
-	composer3ReleaseFences "github.com/xaionaro-go/binder/android/hardware/graphics/composer3/ReleaseFences"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +8,7 @@ import (
 
 type ReleaseFences struct {
 	Display int64
-	Layers  []composer3ReleaseFences.Layer
+	Layers  []ReleaseFencesLayer
 }
 
 var _ parcel.Parcelable = (*ReleaseFences)(nil)
@@ -43,9 +42,19 @@ func (s *ReleaseFences) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Display, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -54,7 +63,7 @@ func (s *ReleaseFences) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.Layers = make([]composer3ReleaseFences.Layer, _count0)
+		s.Layers = make([]ReleaseFencesLayer, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
 			if _, _err = p.ReadInt32(); _err != nil {
 				return _err

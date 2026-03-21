@@ -1,0 +1,67 @@
+package: com.android.test.viewembed
+go_package: com/android/test/viewembed
+interfaces:
+    - name: IAttachEmbeddedWindow
+      descriptor: com.android.test.viewembed.IAttachEmbeddedWindow
+      methods:
+        - name: attachEmbedded
+          transaction_code_offset: 0
+          params:
+            - name: hostToken
+              type:
+                name: IBinder
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IAttachEmbeddedWindowCallback
+              direction: in
+          return_type:
+            name: void
+        - name: relayout
+          transaction_code_offset: 1
+          params:
+            - name: lp
+              type:
+                name: LayoutParams
+              direction: in
+          return_type:
+            name: void
+        - name: attachEmbeddedSurfaceControl
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: parentSurfaceControl
+              type:
+                name: SurfaceControl
+              direction: in
+            - name: displayId
+              type:
+                name: int
+            - name: inputTransferToken
+              type:
+                name: InputTransferToken
+              direction: in
+          return_type:
+            name: void
+        - name: tearDownEmbeddedSurfaceControl
+          transaction_code_offset: 3
+          oneway: true
+          return_type:
+            name: void
+    - name: IAttachEmbeddedWindowCallback
+      descriptor: com.android.test.viewembed.IAttachEmbeddedWindowCallback
+      methods:
+        - name: onEmbeddedWindowAttached
+          transaction_code_offset: 0
+          params:
+            - name: surfacePackage
+              type:
+                name: SurfacePackage
+              direction: in
+          return_type:
+            name: void

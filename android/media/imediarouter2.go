@@ -3,6 +3,7 @@ package media
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -36,7 +37,7 @@ type IMediaRouter2 interface {
 	NotifySessionCreated(ctx context.Context, requestId int32, sessionInfo *RoutingSessionInfo) error
 	NotifySessionInfoChanged(ctx context.Context, sessionInfo RoutingSessionInfo) error
 	NotifySessionReleased(ctx context.Context, sessionInfo RoutingSessionInfo) error
-	RequestCreateSessionByManager(ctx context.Context, uniqueRequestId int64, oldSession RoutingSessionInfo, route MediaRoute2Info, transferInitiatorUserHandle interface{}, transferInitiatorPackageName string) error
+	RequestCreateSessionByManager(ctx context.Context, uniqueRequestId int64, oldSession RoutingSessionInfo, route MediaRoute2Info, transferInitiatorUserHandle os.UserHandle, transferInitiatorPackageName string) error
 }
 
 type MediaRouter2Proxy struct {
@@ -61,6 +62,7 @@ func (p *MediaRouter2Proxy) NotifyRouterRegistered(
 	currentSystemSessionInfo RoutingSessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2)
 	if currentRoutes == nil {
 		_data.WriteInt32(-1)
@@ -92,6 +94,7 @@ func (p *MediaRouter2Proxy) NotifyRoutesUpdated(
 	routes []MediaRoute2Info,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2)
 	if routes == nil {
 		_data.WriteInt32(-1)
@@ -120,9 +123,11 @@ func (p *MediaRouter2Proxy) NotifySessionCreated(
 	sessionInfo *RoutingSessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2)
 	_data.WriteInt32(requestId)
 	if sessionInfo != nil {
+		_data.WriteInt32(1)
 		if _err := (*sessionInfo).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -144,6 +149,7 @@ func (p *MediaRouter2Proxy) NotifySessionInfoChanged(
 	sessionInfo RoutingSessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2)
 	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
@@ -164,6 +170,7 @@ func (p *MediaRouter2Proxy) NotifySessionReleased(
 	sessionInfo RoutingSessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2)
 	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
@@ -184,10 +191,11 @@ func (p *MediaRouter2Proxy) RequestCreateSessionByManager(
 	uniqueRequestId int64,
 	oldSession RoutingSessionInfo,
 	route MediaRoute2Info,
-	transferInitiatorUserHandle interface{},
+	transferInitiatorUserHandle os.UserHandle,
 	transferInitiatorPackageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2)
 	_data.WriteInt64(uniqueRequestId)
 	_data.WriteInt32(1)
@@ -196,6 +204,10 @@ func (p *MediaRouter2Proxy) RequestCreateSessionByManager(
 	}
 	_data.WriteInt32(1)
 	if _err := route.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := transferInitiatorUserHandle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(transferInitiatorPackageName)
@@ -212,7 +224,8 @@ func (p *MediaRouter2Proxy) RequestCreateSessionByManager(
 // MediaRouter2Stub dispatches incoming binder transactions
 // to a typed IMediaRouter2 implementation.
 type MediaRouter2Stub struct {
-	Impl IMediaRouter2
+	Impl      IMediaRouter2
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaRouter2Stub)(nil)
@@ -226,14 +239,33 @@ func (s *MediaRouter2Stub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaRouter2NotifyRouterRegistered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_currentRoutes []MediaRoute2Info
-		_ = _arg_currentRoutes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_currentRoutes = make([]MediaRoute2Info, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_currentRoutes[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_currentSystemSessionInfo RoutingSessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -247,22 +279,32 @@ func (s *MediaRouter2Stub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NotifyRouterRegistered(ctx, _arg_currentRoutes, _arg_currentSystemSessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaRouter2NotifyRoutesUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_routes []MediaRoute2Info
-		_ = _arg_routes
-		_err := s.Impl.NotifyRoutesUpdated(ctx, _arg_routes)
-		_ = _err
-		return nil, nil
-	case TransactionIMediaRouter2NotifySessionCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_routes = make([]MediaRoute2Info, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_routes[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.NotifyRoutesUpdated(ctx, _arg_routes)
+		return nil, _err
+	case TransactionIMediaRouter2NotifySessionCreated:
 		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -274,18 +316,15 @@ func (s *MediaRouter2Stub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_sessionInfo = new(RoutingSessionInfo)
 				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		_err = s.Impl.NotifySessionCreated(ctx, _arg_requestId, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaRouter2NotifySessionInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionInfo RoutingSessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -299,12 +338,8 @@ func (s *MediaRouter2Stub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NotifySessionInfoChanged(ctx, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaRouter2NotifySessionReleased:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionInfo RoutingSessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -318,12 +353,8 @@ func (s *MediaRouter2Stub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NotifySessionReleased(ctx, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaRouter2RequestCreateSessionByManager:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uniqueRequestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -352,14 +383,24 @@ func (s *MediaRouter2Stub) OnTransaction(
 				}
 			}
 		}
-		var _arg_transferInitiatorUserHandle interface{}
+		var _arg_transferInitiatorUserHandle os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_transferInitiatorUserHandle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_transferInitiatorPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RequestCreateSessionByManager(ctx, _arg_uniqueRequestId, _arg_oldSession, _arg_route, _arg_transferInitiatorUserHandle, _arg_transferInitiatorPackageName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -374,7 +415,7 @@ type IMediaRouter2Server interface {
 	NotifySessionCreated(ctx context.Context, requestId int32, sessionInfo *RoutingSessionInfo) error
 	NotifySessionInfoChanged(ctx context.Context, sessionInfo RoutingSessionInfo) error
 	NotifySessionReleased(ctx context.Context, sessionInfo RoutingSessionInfo) error
-	RequestCreateSessionByManager(ctx context.Context, uniqueRequestId int64, oldSession RoutingSessionInfo, route MediaRoute2Info, transferInitiatorUserHandle interface{}, transferInitiatorPackageName string) error
+	RequestCreateSessionByManager(ctx context.Context, uniqueRequestId int64, oldSession RoutingSessionInfo, route MediaRoute2Info, transferInitiatorUserHandle os.UserHandle, transferInitiatorPackageName string) error
 }
 
 type mediaRouter2StubWrapper struct {
@@ -428,7 +469,7 @@ func (w *mediaRouter2StubWrapper) RequestCreateSessionByManager(
 	uniqueRequestId int64,
 	oldSession RoutingSessionInfo,
 	route MediaRoute2Info,
-	transferInitiatorUserHandle interface{},
+	transferInitiatorUserHandle os.UserHandle,
 	transferInitiatorPackageName string,
 ) error {
 	return w.impl.RequestCreateSessionByManager(ctx, uniqueRequestId, oldSession, route, transferInitiatorUserHandle, transferInitiatorPackageName)

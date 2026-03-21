@@ -5,6 +5,7 @@ import (
 	"fmt"
 	bluetooth "github.com/xaionaro-go/binder/android/bluetooth"
 	network "github.com/xaionaro-go/binder/android/hardware/radio/network"
+	os "github.com/xaionaro-go/binder/android/os"
 	connectivity "github.com/xaionaro-go/binder/android/os/connectivity"
 	osHealth "github.com/xaionaro-go/binder/android/os/health"
 	telephony "github.com/xaionaro-go/binder/android/telephony"
@@ -235,7 +236,7 @@ type IBatteryStats interface {
 	NoteResetCamera(ctx context.Context) error
 	NoteResetFlashlight(ctx context.Context) error
 	NoteWakeupSensorEvent(ctx context.Context, elapsedNanos int64, uid int32, handle int32) error
-	GetBatteryUsageStats(ctx context.Context, queries []interface{}) ([]interface{}, error)
+	GetBatteryUsageStats(ctx context.Context, queries []os.BatteryUsageStatsQuery) ([]os.BatteryUsageStats, error)
 	IsCharging(ctx context.Context) (bool, error)
 	ComputeBatteryTimeRemaining(ctx context.Context) (int64, error)
 	ComputeChargeTimeRemaining(ctx context.Context) (int64, error)
@@ -248,16 +249,16 @@ type IBatteryStats interface {
 	NoteJobFinish(ctx context.Context, name string, uid int32, stopReason int32) error
 	NoteStartWakelock(ctx context.Context, uid int32, pid int32, name string, historyName string, type_ int32, unimportantForLogging bool) error
 	NoteStopWakelock(ctx context.Context, uid int32, pid int32, name string, historyName string, type_ int32) error
-	NoteStartWakelockFromSource(ctx context.Context, ws interface{}, pid int32, name string, historyName string, type_ int32, unimportantForLogging bool) error
-	NoteChangeWakelockFromSource(ctx context.Context, ws interface{}, pid int32, name string, histyoryName string, type_ int32, newWs interface{}, newPid int32, newName string, newHistoryName string, newType int32, newUnimportantForLogging bool) error
-	NoteStopWakelockFromSource(ctx context.Context, ws interface{}, pid int32, name string, historyName string, type_ int32) error
+	NoteStartWakelockFromSource(ctx context.Context, ws os.WorkSource, pid int32, name string, historyName string, type_ int32, unimportantForLogging bool) error
+	NoteChangeWakelockFromSource(ctx context.Context, ws os.WorkSource, pid int32, name string, histyoryName string, type_ int32, newWs os.WorkSource, newPid int32, newName string, newHistoryName string, newType int32, newUnimportantForLogging bool) error
+	NoteStopWakelockFromSource(ctx context.Context, ws os.WorkSource, pid int32, name string, historyName string, type_ int32) error
 	NoteLongPartialWakelockStart(ctx context.Context, name string, historyName string, uid int32) error
-	NoteLongPartialWakelockStartFromSource(ctx context.Context, name string, historyName string, workSource interface{}) error
+	NoteLongPartialWakelockStartFromSource(ctx context.Context, name string, historyName string, workSource os.WorkSource) error
 	NoteLongPartialWakelockFinish(ctx context.Context, name string, historyName string, uid int32) error
-	NoteLongPartialWakelockFinishFromSource(ctx context.Context, name string, historyName string, workSource interface{}) error
+	NoteLongPartialWakelockFinishFromSource(ctx context.Context, name string, historyName string, workSource os.WorkSource) error
 	NoteVibratorOn(ctx context.Context, uid int32, durationMillis int64) error
 	NoteVibratorOff(ctx context.Context, uid int32) error
-	NoteGpsChanged(ctx context.Context, oldSource interface{}, newSource interface{}) error
+	NoteGpsChanged(ctx context.Context, oldSource os.WorkSource, newSource os.WorkSource) error
 	NoteGpsSignalQuality(ctx context.Context, signalLevel int32) error
 	NoteScreenState(ctx context.Context, state int32) error
 	NoteScreenBrightness(ctx context.Context, brightness int32) error
@@ -273,9 +274,9 @@ type IBatteryStats interface {
 	NotePhoneState(ctx context.Context, phoneState int32) error
 	NoteWifiOn(ctx context.Context) error
 	NoteWifiOff(ctx context.Context) error
-	NoteWifiRunning(ctx context.Context, ws interface{}) error
-	NoteWifiRunningChanged(ctx context.Context, oldWs interface{}, newWs interface{}) error
-	NoteWifiStopped(ctx context.Context, ws interface{}) error
+	NoteWifiRunning(ctx context.Context, ws os.WorkSource) error
+	NoteWifiRunningChanged(ctx context.Context, oldWs os.WorkSource, newWs os.WorkSource) error
+	NoteWifiStopped(ctx context.Context, ws os.WorkSource) error
 	NoteWifiState(ctx context.Context, wifiState int32, accessPoint string) error
 	NoteWifiSupplicantStateChanged(ctx context.Context, supplState int32, failedAuth bool) error
 	NoteWifiRssiChanged(ctx context.Context, newRssi int32) error
@@ -285,12 +286,12 @@ type IBatteryStats interface {
 	NoteWifiScanStopped(ctx context.Context, uid int32) error
 	NoteWifiMulticastEnabled(ctx context.Context, uid int32) error
 	NoteWifiMulticastDisabled(ctx context.Context, uid int32) error
-	NoteFullWifiLockAcquiredFromSource(ctx context.Context, ws interface{}) error
-	NoteFullWifiLockReleasedFromSource(ctx context.Context, ws interface{}) error
-	NoteWifiScanStartedFromSource(ctx context.Context, ws interface{}) error
-	NoteWifiScanStoppedFromSource(ctx context.Context, ws interface{}) error
-	NoteWifiBatchedScanStartedFromSource(ctx context.Context, ws interface{}, csph int32) error
-	NoteWifiBatchedScanStoppedFromSource(ctx context.Context, ws interface{}) error
+	NoteFullWifiLockAcquiredFromSource(ctx context.Context, ws os.WorkSource) error
+	NoteFullWifiLockReleasedFromSource(ctx context.Context, ws os.WorkSource) error
+	NoteWifiScanStartedFromSource(ctx context.Context, ws os.WorkSource) error
+	NoteWifiScanStoppedFromSource(ctx context.Context, ws os.WorkSource) error
+	NoteWifiBatchedScanStartedFromSource(ctx context.Context, ws os.WorkSource, csph int32) error
+	NoteWifiBatchedScanStoppedFromSource(ctx context.Context, ws os.WorkSource) error
 	NoteWifiRadioPowerState(ctx context.Context, powerState int32, timestampNs int64, uid int32) error
 	NoteNetworkInterfaceForTransports(ctx context.Context, iface string, transportTypes []int32) error
 	NoteNetworkStatsEnabled(ctx context.Context) error
@@ -298,15 +299,15 @@ type IBatteryStats interface {
 	SetBatteryState(ctx context.Context, status int32, health int32, plugType int32, level int32, temp int32, volt int32, chargeUAh int32, chargeFullUAh int32, chargeTimeToFullSeconds int64) error
 	GetAwakeTimeBattery(ctx context.Context) (int64, error)
 	GetAwakeTimePlugged(ctx context.Context) (int64, error)
-	NoteBleScanStarted(ctx context.Context, ws interface{}, isUnoptimized bool) error
-	NoteBleScanStopped(ctx context.Context, ws interface{}, isUnoptimized bool) error
+	NoteBleScanStarted(ctx context.Context, ws os.WorkSource, isUnoptimized bool) error
+	NoteBleScanStopped(ctx context.Context, ws os.WorkSource, isUnoptimized bool) error
 	NoteBleScanReset(ctx context.Context) error
-	NoteBleScanResults(ctx context.Context, ws interface{}, numNewResults int32) error
+	NoteBleScanResults(ctx context.Context, ws os.WorkSource, numNewResults int32) error
 	GetCellularBatteryStats(ctx context.Context) (connectivity.CellularBatteryStats, error)
 	GetWifiBatteryStats(ctx context.Context) (connectivity.WifiBatteryStats, error)
 	GetGpsBatteryStats(ctx context.Context) (connectivity.GpsBatteryStats, error)
-	GetWakeLockStats(ctx context.Context) (interface{}, error)
-	GetBluetoothBatteryStats(ctx context.Context) (interface{}, error)
+	GetWakeLockStats(ctx context.Context) (os.WakeLockStats, error)
+	GetBluetoothBatteryStats(ctx context.Context) (os.BluetoothBatteryStats, error)
 	TakeUidSnapshot(ctx context.Context, uid int32) (osHealth.HealthStatsParceler, error)
 	TakeUidSnapshots(ctx context.Context, uid []int32) ([]osHealth.HealthStatsParceler, error)
 	NoteBluetoothControllerActivity(ctx context.Context, info bluetooth.BluetoothActivityEnergyInfo) error
@@ -342,6 +343,7 @@ func (p *BatteryStatsProxy) NoteStartSensor(
 	sensor int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(sensor)
@@ -370,6 +372,7 @@ func (p *BatteryStatsProxy) NoteStopSensor(
 	sensor int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(sensor)
@@ -397,6 +400,7 @@ func (p *BatteryStatsProxy) NoteStartVideo(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
@@ -423,6 +427,7 @@ func (p *BatteryStatsProxy) NoteStopVideo(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
@@ -449,6 +454,7 @@ func (p *BatteryStatsProxy) NoteStartAudio(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
@@ -466,6 +472,7 @@ func (p *BatteryStatsProxy) NoteStopAudio(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
@@ -482,6 +489,7 @@ func (p *BatteryStatsProxy) NoteResetVideo(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteResetVideo)
@@ -506,6 +514,7 @@ func (p *BatteryStatsProxy) NoteResetAudio(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteResetAudio)
@@ -522,6 +531,7 @@ func (p *BatteryStatsProxy) NoteFlashlightOn(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
@@ -548,6 +558,7 @@ func (p *BatteryStatsProxy) NoteFlashlightOff(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
@@ -574,6 +585,7 @@ func (p *BatteryStatsProxy) NoteStartCamera(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
@@ -600,6 +612,7 @@ func (p *BatteryStatsProxy) NoteStopCamera(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
@@ -625,6 +638,7 @@ func (p *BatteryStatsProxy) NoteResetCamera(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteResetCamera)
@@ -649,6 +663,7 @@ func (p *BatteryStatsProxy) NoteResetFlashlight(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteResetFlashlight)
@@ -676,6 +691,7 @@ func (p *BatteryStatsProxy) NoteWakeupSensorEvent(
 	handle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt64(elapsedNanos)
 	_data.WriteInt32(uid)
@@ -701,15 +717,22 @@ func (p *BatteryStatsProxy) NoteWakeupSensorEvent(
 
 func (p *BatteryStatsProxy) GetBatteryUsageStats(
 	ctx context.Context,
-	queries []interface{},
-) ([]interface{}, error) {
-	var _result []interface{}
+	queries []os.BatteryUsageStatsQuery,
+) ([]os.BatteryUsageStats, error) {
+	var _result []os.BatteryUsageStats
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	if queries == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(queries)))
+		for _, _item := range queries {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsGetBatteryUsageStats)
@@ -731,10 +754,19 @@ func (p *BatteryStatsProxy) GetBatteryUsageStats(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]os.BatteryUsageStats, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -745,6 +777,7 @@ func (p *BatteryStatsProxy) IsCharging(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsIsCharging)
@@ -774,6 +807,7 @@ func (p *BatteryStatsProxy) ComputeBatteryTimeRemaining(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsComputeBatteryTimeRemaining)
@@ -803,6 +837,7 @@ func (p *BatteryStatsProxy) ComputeChargeTimeRemaining(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsComputeChargeTimeRemaining)
@@ -832,6 +867,7 @@ func (p *BatteryStatsProxy) ComputeBatteryScreenOffRealtimeMs(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsComputeBatteryScreenOffRealtimeMs)
@@ -861,6 +897,7 @@ func (p *BatteryStatsProxy) GetScreenOffDischargeMah(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsGetScreenOffDischargeMah)
@@ -892,6 +929,7 @@ func (p *BatteryStatsProxy) NoteEvent(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(code)
 	_data.WriteString16(name)
@@ -921,6 +959,7 @@ func (p *BatteryStatsProxy) NoteSyncStart(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteString16(name)
 	_data.WriteInt32(uid)
@@ -949,6 +988,7 @@ func (p *BatteryStatsProxy) NoteSyncFinish(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteString16(name)
 	_data.WriteInt32(uid)
@@ -977,6 +1017,7 @@ func (p *BatteryStatsProxy) NoteJobStart(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteString16(name)
 	_data.WriteInt32(uid)
@@ -1006,6 +1047,7 @@ func (p *BatteryStatsProxy) NoteJobFinish(
 	stopReason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteString16(name)
 	_data.WriteInt32(uid)
@@ -1039,6 +1081,7 @@ func (p *BatteryStatsProxy) NoteStartWakelock(
 	unimportantForLogging bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(pid)
@@ -1074,6 +1117,7 @@ func (p *BatteryStatsProxy) NoteStopWakelock(
 	type_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(pid)
@@ -1101,7 +1145,7 @@ func (p *BatteryStatsProxy) NoteStopWakelock(
 
 func (p *BatteryStatsProxy) NoteStartWakelockFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 	pid int32,
 	name string,
 	historyName string,
@@ -1109,7 +1153,12 @@ func (p *BatteryStatsProxy) NoteStartWakelockFromSource(
 	unimportantForLogging bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
+	if _err := ws.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(pid)
 	_data.WriteString16(name)
 	_data.WriteString16(historyName)
@@ -1136,12 +1185,12 @@ func (p *BatteryStatsProxy) NoteStartWakelockFromSource(
 
 func (p *BatteryStatsProxy) NoteChangeWakelockFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 	pid int32,
 	name string,
 	histyoryName string,
 	type_ int32,
-	newWs interface{},
+	newWs os.WorkSource,
 	newPid int32,
 	newName string,
 	newHistoryName string,
@@ -1149,11 +1198,20 @@ func (p *BatteryStatsProxy) NoteChangeWakelockFromSource(
 	newUnimportantForLogging bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
+	if _err := ws.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(pid)
 	_data.WriteString16(name)
 	_data.WriteString16(histyoryName)
 	_data.WriteInt32(type_)
+	_data.WriteInt32(1)
+	if _err := newWs.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(newPid)
 	_data.WriteString16(newName)
 	_data.WriteString16(newHistoryName)
@@ -1180,14 +1238,19 @@ func (p *BatteryStatsProxy) NoteChangeWakelockFromSource(
 
 func (p *BatteryStatsProxy) NoteStopWakelockFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 	pid int32,
 	name string,
 	historyName string,
 	type_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
+	if _err := ws.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(pid)
 	_data.WriteString16(name)
 	_data.WriteString16(historyName)
@@ -1218,6 +1281,7 @@ func (p *BatteryStatsProxy) NoteLongPartialWakelockStart(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteString16(name)
 	_data.WriteString16(historyName)
@@ -1245,12 +1309,17 @@ func (p *BatteryStatsProxy) NoteLongPartialWakelockStartFromSource(
 	ctx context.Context,
 	name string,
 	historyName string,
-	workSource interface{},
+	workSource os.WorkSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteString16(name)
 	_data.WriteString16(historyName)
+	_data.WriteInt32(1)
+	if _err := workSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteLongPartialWakelockStartFromSource)
 	if _err != nil {
@@ -1277,6 +1346,7 @@ func (p *BatteryStatsProxy) NoteLongPartialWakelockFinish(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteString16(name)
 	_data.WriteString16(historyName)
@@ -1304,12 +1374,17 @@ func (p *BatteryStatsProxy) NoteLongPartialWakelockFinishFromSource(
 	ctx context.Context,
 	name string,
 	historyName string,
-	workSource interface{},
+	workSource os.WorkSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteString16(name)
 	_data.WriteString16(historyName)
+	_data.WriteInt32(1)
+	if _err := workSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteLongPartialWakelockFinishFromSource)
 	if _err != nil {
@@ -1335,6 +1410,7 @@ func (p *BatteryStatsProxy) NoteVibratorOn(
 	durationMillis int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 	_data.WriteInt64(durationMillis)
@@ -1362,6 +1438,7 @@ func (p *BatteryStatsProxy) NoteVibratorOff(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
@@ -1385,11 +1462,20 @@ func (p *BatteryStatsProxy) NoteVibratorOff(
 
 func (p *BatteryStatsProxy) NoteGpsChanged(
 	ctx context.Context,
-	oldSource interface{},
-	newSource interface{},
+	oldSource os.WorkSource,
+	newSource os.WorkSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
+	if _err := oldSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := newSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteGpsChanged)
 	if _err != nil {
@@ -1414,6 +1500,7 @@ func (p *BatteryStatsProxy) NoteGpsSignalQuality(
 	signalLevel int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(signalLevel)
 
@@ -1440,6 +1527,7 @@ func (p *BatteryStatsProxy) NoteScreenState(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(state)
 
@@ -1466,6 +1554,7 @@ func (p *BatteryStatsProxy) NoteScreenBrightness(
 	brightness int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(brightness)
 
@@ -1493,6 +1582,7 @@ func (p *BatteryStatsProxy) NoteUserActivity(
 	event int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(event)
@@ -1521,6 +1611,7 @@ func (p *BatteryStatsProxy) NoteWakeUp(
 	reasonUid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteString16(reason)
 	_data.WriteInt32(reasonUid)
@@ -1548,6 +1639,7 @@ func (p *BatteryStatsProxy) NoteInteractive(
 	interactive bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteBool(interactive)
 
@@ -1575,6 +1667,7 @@ func (p *BatteryStatsProxy) NoteConnectivityChanged(
 	extra string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(type_)
 	_data.WriteString16(extra)
@@ -1604,6 +1697,7 @@ func (p *BatteryStatsProxy) NoteMobileRadioPowerState(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(powerState)
 	_data.WriteInt64(timestampNs)
@@ -1631,6 +1725,7 @@ func (p *BatteryStatsProxy) NotePhoneOn(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNotePhoneOn)
@@ -1655,6 +1750,7 @@ func (p *BatteryStatsProxy) NotePhoneOff(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNotePhoneOff)
@@ -1680,6 +1776,7 @@ func (p *BatteryStatsProxy) NotePhoneSignalStrength(
 	signalStrength network.SignalStrength,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(1)
 	if _err := signalStrength.MarshalParcel(_data); _err != nil {
@@ -1713,6 +1810,7 @@ func (p *BatteryStatsProxy) NotePhoneDataConnectionState(
 	nrFrequency int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(dataType)
 	_data.WriteBool(hasData)
@@ -1743,6 +1841,7 @@ func (p *BatteryStatsProxy) NotePhoneState(
 	phoneState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(phoneState)
 
@@ -1768,6 +1867,7 @@ func (p *BatteryStatsProxy) NoteWifiOn(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteWifiOn)
@@ -1792,6 +1892,7 @@ func (p *BatteryStatsProxy) NoteWifiOff(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteWifiOff)
@@ -1814,10 +1915,15 @@ func (p *BatteryStatsProxy) NoteWifiOff(
 
 func (p *BatteryStatsProxy) NoteWifiRunning(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
+	if _err := ws.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteWifiRunning)
 	if _err != nil {
@@ -1839,11 +1945,20 @@ func (p *BatteryStatsProxy) NoteWifiRunning(
 
 func (p *BatteryStatsProxy) NoteWifiRunningChanged(
 	ctx context.Context,
-	oldWs interface{},
-	newWs interface{},
+	oldWs os.WorkSource,
+	newWs os.WorkSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
+	if _err := oldWs.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := newWs.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteWifiRunningChanged)
 	if _err != nil {
@@ -1865,10 +1980,15 @@ func (p *BatteryStatsProxy) NoteWifiRunningChanged(
 
 func (p *BatteryStatsProxy) NoteWifiStopped(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
+	if _err := ws.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteWifiStopped)
 	if _err != nil {
@@ -1894,6 +2014,7 @@ func (p *BatteryStatsProxy) NoteWifiState(
 	accessPoint string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(wifiState)
 	_data.WriteString16(accessPoint)
@@ -1922,6 +2043,7 @@ func (p *BatteryStatsProxy) NoteWifiSupplicantStateChanged(
 	failedAuth bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(supplState)
 	_data.WriteBool(failedAuth)
@@ -1949,6 +2071,7 @@ func (p *BatteryStatsProxy) NoteWifiRssiChanged(
 	newRssi int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(newRssi)
 
@@ -1975,6 +2098,7 @@ func (p *BatteryStatsProxy) NoteFullWifiLockAcquired(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
@@ -2001,6 +2125,7 @@ func (p *BatteryStatsProxy) NoteFullWifiLockReleased(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
@@ -2027,6 +2152,7 @@ func (p *BatteryStatsProxy) NoteWifiScanStarted(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
@@ -2053,6 +2179,7 @@ func (p *BatteryStatsProxy) NoteWifiScanStopped(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
@@ -2079,6 +2206,7 @@ func (p *BatteryStatsProxy) NoteWifiMulticastEnabled(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
@@ -2105,6 +2233,7 @@ func (p *BatteryStatsProxy) NoteWifiMulticastDisabled(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
@@ -2128,10 +2257,15 @@ func (p *BatteryStatsProxy) NoteWifiMulticastDisabled(
 
 func (p *BatteryStatsProxy) NoteFullWifiLockAcquiredFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
+	if _err := ws.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteFullWifiLockAcquiredFromSource)
 	if _err != nil {
@@ -2153,10 +2287,15 @@ func (p *BatteryStatsProxy) NoteFullWifiLockAcquiredFromSource(
 
 func (p *BatteryStatsProxy) NoteFullWifiLockReleasedFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
+	if _err := ws.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteFullWifiLockReleasedFromSource)
 	if _err != nil {
@@ -2178,10 +2317,15 @@ func (p *BatteryStatsProxy) NoteFullWifiLockReleasedFromSource(
 
 func (p *BatteryStatsProxy) NoteWifiScanStartedFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
+	if _err := ws.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteWifiScanStartedFromSource)
 	if _err != nil {
@@ -2203,10 +2347,15 @@ func (p *BatteryStatsProxy) NoteWifiScanStartedFromSource(
 
 func (p *BatteryStatsProxy) NoteWifiScanStoppedFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
+	if _err := ws.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteWifiScanStoppedFromSource)
 	if _err != nil {
@@ -2228,11 +2377,16 @@ func (p *BatteryStatsProxy) NoteWifiScanStoppedFromSource(
 
 func (p *BatteryStatsProxy) NoteWifiBatchedScanStartedFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 	csph int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
+	if _err := ws.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(csph)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteWifiBatchedScanStartedFromSource)
@@ -2255,10 +2409,15 @@ func (p *BatteryStatsProxy) NoteWifiBatchedScanStartedFromSource(
 
 func (p *BatteryStatsProxy) NoteWifiBatchedScanStoppedFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
+	if _err := ws.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteWifiBatchedScanStoppedFromSource)
 	if _err != nil {
@@ -2285,6 +2444,7 @@ func (p *BatteryStatsProxy) NoteWifiRadioPowerState(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(powerState)
 	_data.WriteInt64(timestampNs)
@@ -2314,6 +2474,7 @@ func (p *BatteryStatsProxy) NoteNetworkInterfaceForTransports(
 	transportTypes []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteString16(iface)
 	if transportTypes == nil {
@@ -2347,6 +2508,7 @@ func (p *BatteryStatsProxy) NoteNetworkStatsEnabled(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteNetworkStatsEnabled)
@@ -2374,6 +2536,7 @@ func (p *BatteryStatsProxy) NoteDeviceIdleMode(
 	activeUid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(mode)
 	_data.WriteString16(activeReason)
@@ -2410,6 +2573,7 @@ func (p *BatteryStatsProxy) SetBatteryState(
 	chargeTimeToFullSeconds int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(status)
 	_data.WriteInt32(health)
@@ -2444,6 +2608,7 @@ func (p *BatteryStatsProxy) GetAwakeTimeBattery(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsGetAwakeTimeBattery)
@@ -2473,6 +2638,7 @@ func (p *BatteryStatsProxy) GetAwakeTimePlugged(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsGetAwakeTimePlugged)
@@ -2499,11 +2665,16 @@ func (p *BatteryStatsProxy) GetAwakeTimePlugged(
 
 func (p *BatteryStatsProxy) NoteBleScanStarted(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 	isUnoptimized bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
+	if _err := ws.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(isUnoptimized)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteBleScanStarted)
@@ -2526,11 +2697,16 @@ func (p *BatteryStatsProxy) NoteBleScanStarted(
 
 func (p *BatteryStatsProxy) NoteBleScanStopped(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 	isUnoptimized bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
+	if _err := ws.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(isUnoptimized)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteBleScanStopped)
@@ -2555,6 +2731,7 @@ func (p *BatteryStatsProxy) NoteBleScanReset(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteBleScanReset)
@@ -2577,11 +2754,16 @@ func (p *BatteryStatsProxy) NoteBleScanReset(
 
 func (p *BatteryStatsProxy) NoteBleScanResults(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 	numNewResults int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
+	if _err := ws.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(numNewResults)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsNoteBleScanResults)
@@ -2607,6 +2789,7 @@ func (p *BatteryStatsProxy) GetCellularBatteryStats(
 ) (connectivity.CellularBatteryStats, error) {
 	var _result connectivity.CellularBatteryStats
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsGetCellularBatteryStats)
@@ -2641,6 +2824,7 @@ func (p *BatteryStatsProxy) GetWifiBatteryStats(
 ) (connectivity.WifiBatteryStats, error) {
 	var _result connectivity.WifiBatteryStats
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsGetWifiBatteryStats)
@@ -2675,6 +2859,7 @@ func (p *BatteryStatsProxy) GetGpsBatteryStats(
 ) (connectivity.GpsBatteryStats, error) {
 	var _result connectivity.GpsBatteryStats
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsGetGpsBatteryStats)
@@ -2706,9 +2891,10 @@ func (p *BatteryStatsProxy) GetGpsBatteryStats(
 
 func (p *BatteryStatsProxy) GetWakeLockStats(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (os.WakeLockStats, error) {
+	var _result os.WakeLockStats
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsGetWakeLockStats)
@@ -2726,14 +2912,24 @@ func (p *BatteryStatsProxy) GetWakeLockStats(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *BatteryStatsProxy) GetBluetoothBatteryStats(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (os.BluetoothBatteryStats, error) {
+	var _result os.BluetoothBatteryStats
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsGetBluetoothBatteryStats)
@@ -2751,6 +2947,15 @@ func (p *BatteryStatsProxy) GetBluetoothBatteryStats(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -2760,6 +2965,7 @@ func (p *BatteryStatsProxy) TakeUidSnapshot(
 ) (osHealth.HealthStatsParceler, error) {
 	var _result osHealth.HealthStatsParceler
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
@@ -2796,6 +3002,7 @@ func (p *BatteryStatsProxy) TakeUidSnapshots(
 ) ([]osHealth.HealthStatsParceler, error) {
 	var _result []osHealth.HealthStatsParceler
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	if uid == nil {
 		_data.WriteInt32(-1)
@@ -2825,6 +3032,9 @@ func (p *BatteryStatsProxy) TakeUidSnapshots(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]osHealth.HealthStatsParceler, _count)
@@ -2845,6 +3055,7 @@ func (p *BatteryStatsProxy) NoteBluetoothControllerActivity(
 	info bluetooth.BluetoothActivityEnergyInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -2865,6 +3076,7 @@ func (p *BatteryStatsProxy) NoteModemControllerActivity(
 	info telephony.ModemActivityInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -2885,6 +3097,7 @@ func (p *BatteryStatsProxy) NoteWifiControllerActivity(
 	info connectivity.WifiActivityEnergyInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -2906,6 +3119,7 @@ func (p *BatteryStatsProxy) SetChargingStateUpdateDelayMillis(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(delay)
 
@@ -2937,6 +3151,7 @@ func (p *BatteryStatsProxy) SetChargerAcOnline(
 	forceUpdate bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteBool(online)
 	_data.WriteBool(forceUpdate)
@@ -2965,6 +3180,7 @@ func (p *BatteryStatsProxy) SetBatteryLevel(
 	forceUpdate bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(level)
 	_data.WriteBool(forceUpdate)
@@ -2992,6 +3208,7 @@ func (p *BatteryStatsProxy) UnplugBattery(
 	forceUpdate bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteBool(forceUpdate)
 
@@ -3018,6 +3235,7 @@ func (p *BatteryStatsProxy) ResetBattery(
 	forceUpdate bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteBool(forceUpdate)
 
@@ -3043,6 +3261,7 @@ func (p *BatteryStatsProxy) SuspendBatteryInput(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryStats, MethodIBatteryStatsSuspendBatteryInput)
@@ -3066,7 +3285,8 @@ func (p *BatteryStatsProxy) SuspendBatteryInput(
 // BatteryStatsStub dispatches incoming binder transactions
 // to a typed IBatteryStats implementation.
 type BatteryStatsStub struct {
-	Impl IBatteryStats
+	Impl      IBatteryStats
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BatteryStatsStub)(nil)
@@ -3080,11 +3300,12 @@ func (s *BatteryStatsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBatteryStatsNoteStartSensor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3102,9 +3323,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteStopSensor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3122,9 +3340,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteStartVideo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3138,9 +3353,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteStopVideo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3154,31 +3366,20 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteStartAudio:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NoteStartAudio(ctx, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBatteryStatsNoteStopAudio:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NoteStopAudio(ctx, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBatteryStatsNoteResetVideo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NoteResetVideo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3188,16 +3389,9 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteResetAudio:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NoteResetAudio(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBatteryStatsNoteFlashlightOn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3211,9 +3405,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteFlashlightOff:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3227,9 +3418,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteStartCamera:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3243,9 +3431,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteStopCamera:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3259,9 +3444,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteResetCamera:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NoteResetCamera(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3271,9 +3453,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteResetFlashlight:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NoteResetFlashlight(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3283,9 +3462,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWakeupSensorEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_elapsedNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -3307,12 +3483,27 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsGetBatteryUsageStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_queries []os.BatteryUsageStatsQuery
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_queries = make([]os.BatteryUsageStatsQuery, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_queries[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_queries []interface{}
-		_ = _arg_queries
 		_result, _err := s.Impl.GetBatteryUsageStats(ctx, _arg_queries)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3320,13 +3511,19 @@ func (s *BatteryStatsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIBatteryStatsIsCharging:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsCharging(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3337,9 +3534,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBatteryStatsComputeBatteryTimeRemaining:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ComputeBatteryTimeRemaining(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3350,9 +3544,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIBatteryStatsComputeChargeTimeRemaining:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ComputeChargeTimeRemaining(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3363,9 +3554,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIBatteryStatsComputeBatteryScreenOffRealtimeMs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ComputeBatteryScreenOffRealtimeMs(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3376,9 +3564,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIBatteryStatsGetScreenOffDischargeMah:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetScreenOffDischargeMah(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3389,9 +3574,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3413,9 +3595,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteSyncStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3433,9 +3612,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteSyncFinish:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3453,9 +3629,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteJobStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3473,9 +3646,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteJobFinish:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3497,9 +3667,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteStartWakelock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3533,9 +3700,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteStopWakelock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3565,10 +3729,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteStartWakelockFromSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_ws os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ws.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_ws interface{}
 		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3598,10 +3770,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteChangeWakelockFromSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_ws os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ws.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_ws interface{}
 		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3618,7 +3798,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_newWs interface{}
+		var _arg_newWs os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_newWs.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_newPid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3648,10 +3839,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteStopWakelockFromSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_ws os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ws.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_ws interface{}
 		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3677,9 +3876,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteLongPartialWakelockStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3701,9 +3897,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteLongPartialWakelockStartFromSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3712,7 +3905,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_workSource interface{}
+		var _arg_workSource os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_workSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.NoteLongPartialWakelockStartFromSource(ctx, _arg_name, _arg_historyName, _arg_workSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3722,9 +3926,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteLongPartialWakelockFinish:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3746,9 +3947,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteLongPartialWakelockFinishFromSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3757,7 +3955,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_workSource interface{}
+		var _arg_workSource os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_workSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.NoteLongPartialWakelockFinishFromSource(ctx, _arg_name, _arg_historyName, _arg_workSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3767,9 +3976,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteVibratorOn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3787,9 +3993,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteVibratorOff:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3803,11 +4006,30 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteGpsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_oldSource os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_oldSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_oldSource interface{}
-		var _arg_newSource interface{}
+		var _arg_newSource os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_newSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.NoteGpsChanged(ctx, _arg_oldSource, _arg_newSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3817,9 +4039,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteGpsSignalQuality:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_signalLevel, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3833,9 +4052,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteScreenState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3849,9 +4065,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteScreenBrightness:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_brightness, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3865,9 +4078,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteUserActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3885,9 +4095,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWakeUp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3905,9 +4112,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteInteractive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_interactive, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3921,9 +4125,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteConnectivityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3941,9 +4142,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteMobileRadioPowerState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_powerState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3965,9 +4163,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNotePhoneOn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NotePhoneOn(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3977,9 +4172,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNotePhoneOff:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NotePhoneOff(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3989,9 +4181,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNotePhoneSignalStrength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_signalStrength network.SignalStrength
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -4013,9 +4202,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNotePhoneDataConnectionState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dataType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4045,9 +4231,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNotePhoneState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4061,9 +4244,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiOn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NoteWifiOn(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4073,9 +4253,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiOff:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NoteWifiOff(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4085,10 +4262,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiRunning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_ws os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ws.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_ws interface{}
 		_err := s.Impl.NoteWifiRunning(ctx, _arg_ws)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4098,11 +4283,30 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiRunningChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_oldWs os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_oldWs.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_oldWs interface{}
-		var _arg_newWs interface{}
+		var _arg_newWs os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_newWs.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.NoteWifiRunningChanged(ctx, _arg_oldWs, _arg_newWs)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4112,10 +4316,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_ws os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ws.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_ws interface{}
 		_err := s.Impl.NoteWifiStopped(ctx, _arg_ws)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4125,9 +4337,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_wifiState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4145,9 +4354,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiSupplicantStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_supplState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4165,9 +4371,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiRssiChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_newRssi, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4181,9 +4384,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteFullWifiLockAcquired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4197,9 +4397,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteFullWifiLockReleased:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4213,9 +4410,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiScanStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4229,9 +4423,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiScanStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4245,9 +4436,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiMulticastEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4261,9 +4449,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiMulticastDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4277,10 +4462,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteFullWifiLockAcquiredFromSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_ws os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ws.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_ws interface{}
 		_err := s.Impl.NoteFullWifiLockAcquiredFromSource(ctx, _arg_ws)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4290,10 +4483,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteFullWifiLockReleasedFromSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_ws os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ws.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_ws interface{}
 		_err := s.Impl.NoteFullWifiLockReleasedFromSource(ctx, _arg_ws)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4303,10 +4504,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiScanStartedFromSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_ws os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ws.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_ws interface{}
 		_err := s.Impl.NoteWifiScanStartedFromSource(ctx, _arg_ws)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4316,10 +4525,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiScanStoppedFromSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_ws os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ws.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_ws interface{}
 		_err := s.Impl.NoteWifiScanStoppedFromSource(ctx, _arg_ws)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4329,10 +4546,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiBatchedScanStartedFromSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_ws os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ws.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_ws interface{}
 		_arg_csph, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4346,10 +4571,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiBatchedScanStoppedFromSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_ws os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ws.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_ws interface{}
 		_err := s.Impl.NoteWifiBatchedScanStoppedFromSource(ctx, _arg_ws)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4359,9 +4592,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteWifiRadioPowerState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_powerState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4383,16 +4613,29 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteNetworkInterfaceForTransports:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_transportTypes []int32
-		_ = _arg_transportTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_transportTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_transportTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.NoteNetworkInterfaceForTransports(ctx, _arg_iface, _arg_transportTypes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4402,9 +4645,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteNetworkStatsEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NoteNetworkStatsEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4414,9 +4654,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteDeviceIdleMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4438,9 +4675,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsSetBatteryState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4486,9 +4720,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsGetAwakeTimeBattery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAwakeTimeBattery(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4499,9 +4730,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIBatteryStatsGetAwakeTimePlugged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAwakeTimePlugged(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4512,10 +4740,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteBleScanStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_ws os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ws.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_ws interface{}
 		_arg_isUnoptimized, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -4529,10 +4765,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteBleScanStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_ws os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ws.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_ws interface{}
 		_arg_isUnoptimized, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -4546,9 +4790,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteBleScanReset:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NoteBleScanReset(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4558,10 +4799,18 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNoteBleScanResults:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_ws os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ws.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_ws interface{}
 		_arg_numNewResults, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4575,9 +4824,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsGetCellularBatteryStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCellularBatteryStats(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4591,9 +4837,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBatteryStatsGetWifiBatteryStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWifiBatteryStats(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4607,9 +4850,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBatteryStatsGetGpsBatteryStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetGpsBatteryStats(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4623,9 +4863,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBatteryStatsGetWakeLockStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWakeLockStats(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4633,12 +4870,12 @@ func (s *BatteryStatsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIBatteryStatsGetBluetoothBatteryStats:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIBatteryStatsGetBluetoothBatteryStats:
 		_result, _err := s.Impl.GetBluetoothBatteryStats(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4646,12 +4883,12 @@ func (s *BatteryStatsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIBatteryStatsTakeUidSnapshot:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIBatteryStatsTakeUidSnapshot:
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4669,12 +4906,25 @@ func (s *BatteryStatsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBatteryStatsTakeUidSnapshots:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_uid []int32
-		_ = _arg_uid
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_uid = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_uid[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.TakeUidSnapshots(ctx, _arg_uid)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4682,13 +4932,19 @@ func (s *BatteryStatsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIBatteryStatsNoteBluetoothControllerActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info bluetooth.BluetoothActivityEnergyInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -4702,12 +4958,8 @@ func (s *BatteryStatsStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NoteBluetoothControllerActivity(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBatteryStatsNoteModemControllerActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info telephony.ModemActivityInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -4721,12 +4973,8 @@ func (s *BatteryStatsStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NoteModemControllerActivity(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBatteryStatsNoteWifiControllerActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info connectivity.WifiActivityEnergyInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -4740,12 +4988,8 @@ func (s *BatteryStatsStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NoteWifiControllerActivity(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBatteryStatsSetChargingStateUpdateDelayMillis:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_delay, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4760,9 +5004,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBatteryStatsSetChargerAcOnline:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_online, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -4780,9 +5021,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsSetBatteryLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_level, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4800,9 +5038,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsUnplugBattery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_forceUpdate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -4816,9 +5051,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsResetBattery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_forceUpdate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -4832,9 +5064,6 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsSuspendBatteryInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SuspendBatteryInput(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4867,7 +5096,7 @@ type IBatteryStatsServer interface {
 	NoteResetCamera(ctx context.Context) error
 	NoteResetFlashlight(ctx context.Context) error
 	NoteWakeupSensorEvent(ctx context.Context, elapsedNanos int64, uid int32, handle int32) error
-	GetBatteryUsageStats(ctx context.Context, queries []interface{}) ([]interface{}, error)
+	GetBatteryUsageStats(ctx context.Context, queries []os.BatteryUsageStatsQuery) ([]os.BatteryUsageStats, error)
 	IsCharging(ctx context.Context) (bool, error)
 	ComputeBatteryTimeRemaining(ctx context.Context) (int64, error)
 	ComputeChargeTimeRemaining(ctx context.Context) (int64, error)
@@ -4880,16 +5109,16 @@ type IBatteryStatsServer interface {
 	NoteJobFinish(ctx context.Context, name string, uid int32, stopReason int32) error
 	NoteStartWakelock(ctx context.Context, uid int32, pid int32, name string, historyName string, type_ int32, unimportantForLogging bool) error
 	NoteStopWakelock(ctx context.Context, uid int32, pid int32, name string, historyName string, type_ int32) error
-	NoteStartWakelockFromSource(ctx context.Context, ws interface{}, pid int32, name string, historyName string, type_ int32, unimportantForLogging bool) error
-	NoteChangeWakelockFromSource(ctx context.Context, ws interface{}, pid int32, name string, histyoryName string, type_ int32, newWs interface{}, newPid int32, newName string, newHistoryName string, newType int32, newUnimportantForLogging bool) error
-	NoteStopWakelockFromSource(ctx context.Context, ws interface{}, pid int32, name string, historyName string, type_ int32) error
+	NoteStartWakelockFromSource(ctx context.Context, ws os.WorkSource, pid int32, name string, historyName string, type_ int32, unimportantForLogging bool) error
+	NoteChangeWakelockFromSource(ctx context.Context, ws os.WorkSource, pid int32, name string, histyoryName string, type_ int32, newWs os.WorkSource, newPid int32, newName string, newHistoryName string, newType int32, newUnimportantForLogging bool) error
+	NoteStopWakelockFromSource(ctx context.Context, ws os.WorkSource, pid int32, name string, historyName string, type_ int32) error
 	NoteLongPartialWakelockStart(ctx context.Context, name string, historyName string, uid int32) error
-	NoteLongPartialWakelockStartFromSource(ctx context.Context, name string, historyName string, workSource interface{}) error
+	NoteLongPartialWakelockStartFromSource(ctx context.Context, name string, historyName string, workSource os.WorkSource) error
 	NoteLongPartialWakelockFinish(ctx context.Context, name string, historyName string, uid int32) error
-	NoteLongPartialWakelockFinishFromSource(ctx context.Context, name string, historyName string, workSource interface{}) error
+	NoteLongPartialWakelockFinishFromSource(ctx context.Context, name string, historyName string, workSource os.WorkSource) error
 	NoteVibratorOn(ctx context.Context, uid int32, durationMillis int64) error
 	NoteVibratorOff(ctx context.Context, uid int32) error
-	NoteGpsChanged(ctx context.Context, oldSource interface{}, newSource interface{}) error
+	NoteGpsChanged(ctx context.Context, oldSource os.WorkSource, newSource os.WorkSource) error
 	NoteGpsSignalQuality(ctx context.Context, signalLevel int32) error
 	NoteScreenState(ctx context.Context, state int32) error
 	NoteScreenBrightness(ctx context.Context, brightness int32) error
@@ -4905,9 +5134,9 @@ type IBatteryStatsServer interface {
 	NotePhoneState(ctx context.Context, phoneState int32) error
 	NoteWifiOn(ctx context.Context) error
 	NoteWifiOff(ctx context.Context) error
-	NoteWifiRunning(ctx context.Context, ws interface{}) error
-	NoteWifiRunningChanged(ctx context.Context, oldWs interface{}, newWs interface{}) error
-	NoteWifiStopped(ctx context.Context, ws interface{}) error
+	NoteWifiRunning(ctx context.Context, ws os.WorkSource) error
+	NoteWifiRunningChanged(ctx context.Context, oldWs os.WorkSource, newWs os.WorkSource) error
+	NoteWifiStopped(ctx context.Context, ws os.WorkSource) error
 	NoteWifiState(ctx context.Context, wifiState int32, accessPoint string) error
 	NoteWifiSupplicantStateChanged(ctx context.Context, supplState int32, failedAuth bool) error
 	NoteWifiRssiChanged(ctx context.Context, newRssi int32) error
@@ -4917,12 +5146,12 @@ type IBatteryStatsServer interface {
 	NoteWifiScanStopped(ctx context.Context, uid int32) error
 	NoteWifiMulticastEnabled(ctx context.Context, uid int32) error
 	NoteWifiMulticastDisabled(ctx context.Context, uid int32) error
-	NoteFullWifiLockAcquiredFromSource(ctx context.Context, ws interface{}) error
-	NoteFullWifiLockReleasedFromSource(ctx context.Context, ws interface{}) error
-	NoteWifiScanStartedFromSource(ctx context.Context, ws interface{}) error
-	NoteWifiScanStoppedFromSource(ctx context.Context, ws interface{}) error
-	NoteWifiBatchedScanStartedFromSource(ctx context.Context, ws interface{}, csph int32) error
-	NoteWifiBatchedScanStoppedFromSource(ctx context.Context, ws interface{}) error
+	NoteFullWifiLockAcquiredFromSource(ctx context.Context, ws os.WorkSource) error
+	NoteFullWifiLockReleasedFromSource(ctx context.Context, ws os.WorkSource) error
+	NoteWifiScanStartedFromSource(ctx context.Context, ws os.WorkSource) error
+	NoteWifiScanStoppedFromSource(ctx context.Context, ws os.WorkSource) error
+	NoteWifiBatchedScanStartedFromSource(ctx context.Context, ws os.WorkSource, csph int32) error
+	NoteWifiBatchedScanStoppedFromSource(ctx context.Context, ws os.WorkSource) error
 	NoteWifiRadioPowerState(ctx context.Context, powerState int32, timestampNs int64, uid int32) error
 	NoteNetworkInterfaceForTransports(ctx context.Context, iface string, transportTypes []int32) error
 	NoteNetworkStatsEnabled(ctx context.Context) error
@@ -4930,15 +5159,15 @@ type IBatteryStatsServer interface {
 	SetBatteryState(ctx context.Context, status int32, health int32, plugType int32, level int32, temp int32, volt int32, chargeUAh int32, chargeFullUAh int32, chargeTimeToFullSeconds int64) error
 	GetAwakeTimeBattery(ctx context.Context) (int64, error)
 	GetAwakeTimePlugged(ctx context.Context) (int64, error)
-	NoteBleScanStarted(ctx context.Context, ws interface{}, isUnoptimized bool) error
-	NoteBleScanStopped(ctx context.Context, ws interface{}, isUnoptimized bool) error
+	NoteBleScanStarted(ctx context.Context, ws os.WorkSource, isUnoptimized bool) error
+	NoteBleScanStopped(ctx context.Context, ws os.WorkSource, isUnoptimized bool) error
 	NoteBleScanReset(ctx context.Context) error
-	NoteBleScanResults(ctx context.Context, ws interface{}, numNewResults int32) error
+	NoteBleScanResults(ctx context.Context, ws os.WorkSource, numNewResults int32) error
 	GetCellularBatteryStats(ctx context.Context) (connectivity.CellularBatteryStats, error)
 	GetWifiBatteryStats(ctx context.Context) (connectivity.WifiBatteryStats, error)
 	GetGpsBatteryStats(ctx context.Context) (connectivity.GpsBatteryStats, error)
-	GetWakeLockStats(ctx context.Context) (interface{}, error)
-	GetBluetoothBatteryStats(ctx context.Context) (interface{}, error)
+	GetWakeLockStats(ctx context.Context) (os.WakeLockStats, error)
+	GetBluetoothBatteryStats(ctx context.Context) (os.BluetoothBatteryStats, error)
 	TakeUidSnapshot(ctx context.Context, uid int32) (osHealth.HealthStatsParceler, error)
 	TakeUidSnapshots(ctx context.Context, uid []int32) ([]osHealth.HealthStatsParceler, error)
 	NoteBluetoothControllerActivity(ctx context.Context, info bluetooth.BluetoothActivityEnergyInfo) error
@@ -5068,8 +5297,8 @@ func (w *batteryStatsStubWrapper) NoteWakeupSensorEvent(
 
 func (w *batteryStatsStubWrapper) GetBatteryUsageStats(
 	ctx context.Context,
-	queries []interface{},
-) ([]interface{}, error) {
+	queries []os.BatteryUsageStatsQuery,
+) ([]os.BatteryUsageStats, error) {
 	return w.impl.GetBatteryUsageStats(ctx, queries)
 }
 
@@ -5170,7 +5399,7 @@ func (w *batteryStatsStubWrapper) NoteStopWakelock(
 
 func (w *batteryStatsStubWrapper) NoteStartWakelockFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 	pid int32,
 	name string,
 	historyName string,
@@ -5182,12 +5411,12 @@ func (w *batteryStatsStubWrapper) NoteStartWakelockFromSource(
 
 func (w *batteryStatsStubWrapper) NoteChangeWakelockFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 	pid int32,
 	name string,
 	histyoryName string,
 	type_ int32,
-	newWs interface{},
+	newWs os.WorkSource,
 	newPid int32,
 	newName string,
 	newHistoryName string,
@@ -5199,7 +5428,7 @@ func (w *batteryStatsStubWrapper) NoteChangeWakelockFromSource(
 
 func (w *batteryStatsStubWrapper) NoteStopWakelockFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 	pid int32,
 	name string,
 	historyName string,
@@ -5221,7 +5450,7 @@ func (w *batteryStatsStubWrapper) NoteLongPartialWakelockStartFromSource(
 	ctx context.Context,
 	name string,
 	historyName string,
-	workSource interface{},
+	workSource os.WorkSource,
 ) error {
 	return w.impl.NoteLongPartialWakelockStartFromSource(ctx, name, historyName, workSource)
 }
@@ -5239,7 +5468,7 @@ func (w *batteryStatsStubWrapper) NoteLongPartialWakelockFinishFromSource(
 	ctx context.Context,
 	name string,
 	historyName string,
-	workSource interface{},
+	workSource os.WorkSource,
 ) error {
 	return w.impl.NoteLongPartialWakelockFinishFromSource(ctx, name, historyName, workSource)
 }
@@ -5261,8 +5490,8 @@ func (w *batteryStatsStubWrapper) NoteVibratorOff(
 
 func (w *batteryStatsStubWrapper) NoteGpsChanged(
 	ctx context.Context,
-	oldSource interface{},
-	newSource interface{},
+	oldSource os.WorkSource,
+	newSource os.WorkSource,
 ) error {
 	return w.impl.NoteGpsChanged(ctx, oldSource, newSource)
 }
@@ -5379,22 +5608,22 @@ func (w *batteryStatsStubWrapper) NoteWifiOff(
 
 func (w *batteryStatsStubWrapper) NoteWifiRunning(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 ) error {
 	return w.impl.NoteWifiRunning(ctx, ws)
 }
 
 func (w *batteryStatsStubWrapper) NoteWifiRunningChanged(
 	ctx context.Context,
-	oldWs interface{},
-	newWs interface{},
+	oldWs os.WorkSource,
+	newWs os.WorkSource,
 ) error {
 	return w.impl.NoteWifiRunningChanged(ctx, oldWs, newWs)
 }
 
 func (w *batteryStatsStubWrapper) NoteWifiStopped(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 ) error {
 	return w.impl.NoteWifiStopped(ctx, ws)
 }
@@ -5466,35 +5695,35 @@ func (w *batteryStatsStubWrapper) NoteWifiMulticastDisabled(
 
 func (w *batteryStatsStubWrapper) NoteFullWifiLockAcquiredFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 ) error {
 	return w.impl.NoteFullWifiLockAcquiredFromSource(ctx, ws)
 }
 
 func (w *batteryStatsStubWrapper) NoteFullWifiLockReleasedFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 ) error {
 	return w.impl.NoteFullWifiLockReleasedFromSource(ctx, ws)
 }
 
 func (w *batteryStatsStubWrapper) NoteWifiScanStartedFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 ) error {
 	return w.impl.NoteWifiScanStartedFromSource(ctx, ws)
 }
 
 func (w *batteryStatsStubWrapper) NoteWifiScanStoppedFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 ) error {
 	return w.impl.NoteWifiScanStoppedFromSource(ctx, ws)
 }
 
 func (w *batteryStatsStubWrapper) NoteWifiBatchedScanStartedFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 	csph int32,
 ) error {
 	return w.impl.NoteWifiBatchedScanStartedFromSource(ctx, ws, csph)
@@ -5502,7 +5731,7 @@ func (w *batteryStatsStubWrapper) NoteWifiBatchedScanStartedFromSource(
 
 func (w *batteryStatsStubWrapper) NoteWifiBatchedScanStoppedFromSource(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 ) error {
 	return w.impl.NoteWifiBatchedScanStoppedFromSource(ctx, ws)
 }
@@ -5568,7 +5797,7 @@ func (w *batteryStatsStubWrapper) GetAwakeTimePlugged(
 
 func (w *batteryStatsStubWrapper) NoteBleScanStarted(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 	isUnoptimized bool,
 ) error {
 	return w.impl.NoteBleScanStarted(ctx, ws, isUnoptimized)
@@ -5576,7 +5805,7 @@ func (w *batteryStatsStubWrapper) NoteBleScanStarted(
 
 func (w *batteryStatsStubWrapper) NoteBleScanStopped(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 	isUnoptimized bool,
 ) error {
 	return w.impl.NoteBleScanStopped(ctx, ws, isUnoptimized)
@@ -5590,7 +5819,7 @@ func (w *batteryStatsStubWrapper) NoteBleScanReset(
 
 func (w *batteryStatsStubWrapper) NoteBleScanResults(
 	ctx context.Context,
-	ws interface{},
+	ws os.WorkSource,
 	numNewResults int32,
 ) error {
 	return w.impl.NoteBleScanResults(ctx, ws, numNewResults)
@@ -5616,13 +5845,13 @@ func (w *batteryStatsStubWrapper) GetGpsBatteryStats(
 
 func (w *batteryStatsStubWrapper) GetWakeLockStats(
 	ctx context.Context,
-) (interface{}, error) {
+) (os.WakeLockStats, error) {
 	return w.impl.GetWakeLockStats(ctx)
 }
 
 func (w *batteryStatsStubWrapper) GetBluetoothBatteryStats(
 	ctx context.Context,
-) (interface{}, error) {
+) (os.BluetoothBatteryStats, error) {
 	return w.impl.GetBluetoothBatteryStats(ctx)
 }
 

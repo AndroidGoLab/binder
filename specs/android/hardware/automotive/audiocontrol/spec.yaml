@@ -1,0 +1,336 @@
+package: android.hardware.automotive.audiocontrol
+go_package: android/hardware/automotive/audiocontrol
+interfaces:
+    - name: IAudioControl
+      descriptor: android.hardware.automotive.audiocontrol.IAudioControl
+      methods:
+        - name: onAudioFocusChange
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: usage
+              type:
+                name: String
+              direction: in
+            - name: zoneId
+              type:
+                name: int
+              direction: in
+            - name: focusChange
+              type:
+                name: AudioFocusChange
+              direction: in
+          return_type:
+            name: void
+        - name: onDevicesToDuckChange
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: duckingInfos
+              type:
+                name: DuckingInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onDevicesToMuteChange
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: mutingInfos
+              type:
+                name: MutingInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: registerFocusListener
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: IFocusListener
+              direction: in
+          return_type:
+            name: void
+        - name: setBalanceTowardRight
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: value
+              type:
+                name: float
+              direction: in
+          return_type:
+            name: void
+        - name: setFadeTowardFront
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: value
+              type:
+                name: float
+              direction: in
+          return_type:
+            name: void
+        - name: onAudioFocusChangeWithMetaData
+          transaction_code_offset: 6
+          oneway: true
+          params:
+            - name: playbackMetaData
+              type:
+                name: PlaybackTrackMetadata
+              direction: in
+            - name: zoneId
+              type:
+                name: int
+              direction: in
+            - name: focusChange
+              type:
+                name: AudioFocusChange
+              direction: in
+          return_type:
+            name: void
+        - name: setAudioDeviceGainsChanged
+          transaction_code_offset: 7
+          oneway: true
+          params:
+            - name: reasons
+              type:
+                name: Reasons
+                is_array: true
+              direction: in
+            - name: gains
+              type:
+                name: AudioGainConfigInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: registerGainCallback
+          transaction_code_offset: 8
+          oneway: true
+          params:
+            - name: callback
+              type:
+                name: IAudioGainCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setModuleChangeCallback
+          transaction_code_offset: 9
+          params:
+            - name: callback
+              type:
+                name: IModuleChangeCallback
+              direction: in
+          return_type:
+            name: void
+        - name: clearModuleChangeCallback
+          transaction_code_offset: 10
+          return_type:
+            name: void
+    - name: IAudioGainCallback
+      descriptor: android.hardware.automotive.audiocontrol.IAudioGainCallback
+      oneway: true
+      methods:
+        - name: onAudioDeviceGainsChanged
+          transaction_code_offset: 0
+          params:
+            - name: reasons
+              type:
+                name: Reasons
+                is_array: true
+              direction: in
+            - name: gains
+              type:
+                name: AudioGainConfigInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IFocusListener
+      descriptor: android.hardware.automotive.audiocontrol.IFocusListener
+      methods:
+        - name: abandonAudioFocus
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: usage
+              type:
+                name: String
+              direction: in
+            - name: zoneId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: requestAudioFocus
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: usage
+              type:
+                name: String
+              direction: in
+            - name: zoneId
+              type:
+                name: int
+              direction: in
+            - name: focusGain
+              type:
+                name: AudioFocusChange
+              direction: in
+          return_type:
+            name: void
+        - name: abandonAudioFocusWithMetaData
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: playbackMetaData
+              type:
+                name: PlaybackTrackMetadata
+              direction: in
+            - name: zoneId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: requestAudioFocusWithMetaData
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: playbackMetaData
+              type:
+                name: PlaybackTrackMetadata
+              direction: in
+            - name: zoneId
+              type:
+                name: int
+              direction: in
+            - name: focusGain
+              type:
+                name: AudioFocusChange
+              direction: in
+          return_type:
+            name: void
+    - name: IModuleChangeCallback
+      descriptor: android.hardware.automotive.audiocontrol.IModuleChangeCallback
+      oneway: true
+      methods:
+        - name: onAudioPortsChanged
+          transaction_code_offset: 0
+          params:
+            - name: audioPorts
+              type:
+                name: AudioPort
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: AudioGainConfigInfo
+      fields:
+        - name: zoneId
+          type:
+            name: int
+        - name: devicePortAddress
+          type:
+            name: String
+        - name: volumeIndex
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: DuckingInfo
+      fields:
+        - name: zoneId
+          type:
+            name: int
+        - name: deviceAddressesToDuck
+          type:
+            name: String
+            is_array: true
+        - name: deviceAddressesToUnduck
+          type:
+            name: String
+            is_array: true
+        - name: usagesHoldingFocus
+          type:
+            name: String
+            is_array: true
+        - name: playbackMetaDataHoldingFocus
+          type:
+            name: PlaybackTrackMetadata
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: MutingInfo
+      fields:
+        - name: zoneId
+          type:
+            name: int
+        - name: deviceAddressesToMute
+          type:
+            name: String
+            is_array: true
+        - name: deviceAddressesToUnmute
+          type:
+            name: String
+            is_array: true
+      annotations:
+        - VintfStability
+enums:
+    - name: AudioFocusChange
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: GAIN
+          value: "1"
+        - name: GAIN_TRANSIENT
+          value: "2"
+        - name: GAIN_TRANSIENT_MAY_DUCK
+          value: "3"
+        - name: GAIN_TRANSIENT_EXCLUSIVE
+          value: "4"
+        - name: LOSS
+          value: -1 * GAIN
+        - name: LOSS_TRANSIENT
+          value: -1 * GAIN_TRANSIENT
+        - name: LOSS_TRANSIENT_CAN_DUCK
+          value: -1 * GAIN_TRANSIENT_MAY_DUCK
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Reasons
+      backing_type: int
+      values:
+        - name: FORCED_MASTER_MUTE
+          value: "0x1"
+        - name: REMOTE_MUTE
+          value: "0x2"
+        - name: TCU_MUTE
+          value: "0x4"
+        - name: ADAS_DUCKING
+          value: "0x8"
+        - name: NAV_DUCKING
+          value: "0x10"
+        - name: PROJECTION_DUCKING
+          value: "0x20"
+        - name: THERMAL_LIMITATION
+          value: "0x40"
+        - name: SUSPEND_EXIT_VOL_LIMITATION
+          value: "0x80"
+        - name: EXTERNAL_AMP_VOL_FEEDBACK
+          value: "0x100"
+        - name: OTHER
+          value: "0x80000000"
+      annotations:
+        - Backing
+        - VintfStability

@@ -13,7 +13,7 @@ type Operand struct {
 	ZeroPoint   int32
 	Lifetime    OperandLifeTime
 	Location    DataLocation
-	ExtraParams OperandExtraParams
+	ExtraParams *OperandExtraParams
 }
 
 var _ parcel.Parcelable = (*Operand)(nil)
@@ -37,8 +37,13 @@ func (s *Operand) MarshalParcel(
 	if _err := s.Location.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if _err := s.ExtraParams.MarshalParcel(p); _err != nil {
-		return _err
+	if s.ExtraParams == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.ExtraParams.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -53,11 +58,21 @@ func (s *Operand) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_typeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Type = OperandType(_typeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
@@ -74,14 +89,29 @@ func (s *Operand) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Scale, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ZeroPoint, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_lifetimeRaw, _err := p.ReadInt32()
@@ -90,12 +120,32 @@ func (s *Operand) UnmarshalParcel(
 	}
 	s.Lifetime = OperandLifeTime(_lifetimeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Location.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
-	if _err = s.ExtraParams.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val OperandExtraParams
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.ExtraParams = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

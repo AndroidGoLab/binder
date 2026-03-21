@@ -1,0 +1,97 @@
+package: android.hardware.weaver
+go_package: android/hardware/weaver
+interfaces:
+    - name: IWeaver
+      descriptor: android.hardware.weaver.IWeaver
+      methods:
+        - name: getConfig
+          transaction_code_offset: 0
+          return_type:
+            name: WeaverConfig
+        - name: read
+          transaction_code_offset: 1
+          params:
+            - name: slotId
+              type:
+                name: int
+              direction: in
+            - name: key
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: WeaverReadResponse
+        - name: write
+          transaction_code_offset: 2
+          params:
+            - name: slotId
+              type:
+                name: int
+              direction: in
+            - name: key
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: value
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: STATUS_FAILED
+          type: int
+          value: "1"
+        - name: STATUS_INCORRECT_KEY
+          type: int
+          value: "2"
+        - name: STATUS_THROTTLE
+          type: int
+          value: "3"
+parcelables:
+    - name: WeaverConfig
+      fields:
+        - name: slots
+          type:
+            name: int
+        - name: keySize
+          type:
+            name: int
+        - name: valueSize
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: WeaverReadResponse
+      fields:
+        - name: timeout
+          type:
+            name: long
+        - name: value
+          type:
+            name: byte
+            is_array: true
+        - name: status
+          type:
+            name: WeaverReadStatus
+          default_value: WeaverReadStatus.FAILED
+      annotations:
+        - VintfStability
+enums:
+    - name: WeaverReadStatus
+      backing_type: int
+      values:
+        - name: OK
+          value: ""
+        - name: FAILED
+          value: ""
+        - name: INCORRECT_KEY
+          value: ""
+        - name: THROTTLE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing

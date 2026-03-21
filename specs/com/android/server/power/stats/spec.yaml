@@ -1,0 +1,4 @@
+package: com.android.server.power.stats
+go_package: com/android/server/power/stats
+parcelables:
+    - name: BatteryStatsImpl

@@ -2,6 +2,7 @@ package extension
 
 import (
 	device "github.com/xaionaro-go/binder/android/frameworks/cameraservice/device"
+	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +10,7 @@ import (
 
 type ParcelTotalCaptureResult struct {
 	LogicalCameraId string
-	Results         interface{}
+	Results         impl.CameraMetadataNative
 	Parent          device.CaptureRequest
 	SequenceId      int32
 	FrameNumber     int64
@@ -25,6 +26,9 @@ func (s *ParcelTotalCaptureResult) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString16(s.LogicalCameraId)
+	if _err := s.Results.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	if _err := s.Parent.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -66,13 +70,37 @@ func (s *ParcelTotalCaptureResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.LogicalCameraId, _err = p.ReadString16()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.Results.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Parent.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SequenceId, _err = p.ReadInt32()
@@ -80,9 +108,19 @@ func (s *ParcelTotalCaptureResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.FrameNumber, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -102,9 +140,19 @@ func (s *ParcelTotalCaptureResult) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SessionId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count1 int32

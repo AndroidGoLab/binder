@@ -1,0 +1,1300 @@
+package: android.hardware.camera2.extension
+go_package: android/hardware/camera2/extension
+interfaces:
+    - name: IAdvancedExtenderImpl
+      descriptor: android.hardware.camera2.extension.IAdvancedExtenderImpl
+      methods:
+        - name: isExtensionAvailable
+          transaction_code_offset: 0
+          params:
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+            - name: charsMap
+              type:
+                name: Map
+                type_args:
+                    - name: String
+                    - name: CameraMetadataNative
+              direction: in
+          return_type:
+            name: boolean
+        - name: init
+          transaction_code_offset: 1
+          params:
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+            - name: charsMap
+              type:
+                name: Map
+                type_args:
+                    - name: String
+                    - name: CameraMetadataNative
+              direction: in
+          return_type:
+            name: void
+        - name: getEstimatedCaptureLatencyRange
+          transaction_code_offset: 2
+          params:
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+            - name: outputSize
+              type:
+                name: Size
+              direction: in
+            - name: format
+              type:
+                name: int
+          return_type:
+            name: LatencyRange
+        - name: getSupportedPreviewOutputResolutions
+          transaction_code_offset: 3
+          params:
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: SizeList
+          annotations:
+            - nullable
+        - name: getSupportedCaptureOutputResolutions
+          transaction_code_offset: 4
+          params:
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: SizeList
+          annotations:
+            - nullable
+        - name: getSupportedPostviewResolutions
+          transaction_code_offset: 5
+          params:
+            - name: captureSize
+              type:
+                name: Size
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: SizeList
+          annotations:
+            - nullable
+        - name: getSessionProcessor
+          transaction_code_offset: 6
+          return_type:
+            name: ISessionProcessorImpl
+        - name: getAvailableCaptureRequestKeys
+          transaction_code_offset: 7
+          params:
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: CameraMetadataNative
+        - name: getAvailableCaptureResultKeys
+          transaction_code_offset: 8
+          params:
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: CameraMetadataNative
+        - name: isCaptureProcessProgressAvailable
+          transaction_code_offset: 9
+          return_type:
+            name: boolean
+        - name: isPostviewAvailable
+          transaction_code_offset: 10
+          return_type:
+            name: boolean
+        - name: getAvailableCharacteristicsKeyValues
+          transaction_code_offset: 11
+          params:
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: CameraMetadataNative
+    - name: ICameraExtensionsProxyService
+      descriptor: android.hardware.camera2.extension.ICameraExtensionsProxyService
+      methods:
+        - name: registerClient
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: boolean
+        - name: unregisterClient
+          transaction_code_offset: 1
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: advancedExtensionsSupported
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+        - name: initializeSession
+          transaction_code_offset: 3
+          params:
+            - name: cb
+              type:
+                name: IInitializeSessionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: releaseSession
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: initializePreviewExtension
+          transaction_code_offset: 5
+          params:
+            - name: extensionType
+              type:
+                name: int
+          return_type:
+            name: IPreviewExtenderImpl
+          annotations:
+            - nullable
+        - name: initializeImageExtension
+          transaction_code_offset: 6
+          params:
+            - name: extensionType
+              type:
+                name: int
+          return_type:
+            name: IImageCaptureExtenderImpl
+          annotations:
+            - nullable
+        - name: initializeAdvancedExtension
+          transaction_code_offset: 7
+          params:
+            - name: extensionType
+              type:
+                name: int
+          return_type:
+            name: IAdvancedExtenderImpl
+          annotations:
+            - nullable
+    - name: ICaptureCallback
+      descriptor: android.hardware.camera2.extension.ICaptureCallback
+      methods:
+        - name: onCaptureStarted
+          transaction_code_offset: 0
+          params:
+            - name: captureSequenceId
+              type:
+                name: int
+            - name: timestamp
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onCaptureProcessStarted
+          transaction_code_offset: 1
+          params:
+            - name: captureSequenceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCaptureFailed
+          transaction_code_offset: 2
+          params:
+            - name: captureSequenceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCaptureSequenceCompleted
+          transaction_code_offset: 3
+          params:
+            - name: captureSequenceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCaptureSequenceAborted
+          transaction_code_offset: 4
+          params:
+            - name: captureSequenceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCaptureCompleted
+          transaction_code_offset: 5
+          params:
+            - name: shutterTimestamp
+              type:
+                name: long
+            - name: requestId
+              type:
+                name: int
+            - name: results
+              type:
+                name: CameraMetadataNative
+              direction: in
+          return_type:
+            name: void
+        - name: onCaptureProcessProgressed
+          transaction_code_offset: 6
+          params:
+            - name: progress
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCaptureProcessFailed
+          transaction_code_offset: 7
+          params:
+            - name: captureSequenceId
+              type:
+                name: int
+            - name: captureFailureReason
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ICaptureProcessorImpl
+      descriptor: android.hardware.camera2.extension.ICaptureProcessorImpl
+      methods:
+        - name: onOutputSurface
+          transaction_code_offset: 0
+          params:
+            - name: surface
+              type:
+                name: Surface
+              direction: in
+            - name: imageFormat
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onPostviewOutputSurface
+          transaction_code_offset: 1
+          params:
+            - name: surface
+              type:
+                name: Surface
+              direction: in
+          return_type:
+            name: void
+        - name: onResolutionUpdate
+          transaction_code_offset: 2
+          params:
+            - name: size
+              type:
+                name: Size
+              direction: in
+            - name: postviewSize
+              type:
+                name: Size
+              direction: in
+          return_type:
+            name: void
+        - name: onImageFormatUpdate
+          transaction_code_offset: 3
+          params:
+            - name: imageFormat
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: process
+          transaction_code_offset: 4
+          params:
+            - name: capturelist
+              type:
+                name: List
+                type_args:
+                    - name: CaptureBundle
+              direction: in
+            - name: resultCallback
+              type:
+                name: IProcessResultImpl
+              direction: in
+            - name: isPostviewRequested
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IImageCaptureExtenderImpl
+      descriptor: android.hardware.camera2.extension.IImageCaptureExtenderImpl
+      methods:
+        - name: onInit
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+            - name: cameraCharacteristics
+              type:
+                name: CameraMetadataNative
+              direction: in
+          return_type:
+            name: void
+        - name: onDeInit
+          transaction_code_offset: 1
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: onPresetSession
+          transaction_code_offset: 2
+          return_type:
+            name: CaptureStageImpl
+          annotations:
+            - nullable
+        - name: onEnableSession
+          transaction_code_offset: 3
+          return_type:
+            name: CaptureStageImpl
+          annotations:
+            - nullable
+        - name: onDisableSession
+          transaction_code_offset: 4
+          return_type:
+            name: CaptureStageImpl
+          annotations:
+            - nullable
+        - name: getSessionType
+          transaction_code_offset: 5
+          return_type:
+            name: int
+        - name: isExtensionAvailable
+          transaction_code_offset: 6
+          params:
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+            - name: chars
+              type:
+                name: CameraMetadataNative
+              direction: in
+          return_type:
+            name: boolean
+        - name: init
+          transaction_code_offset: 7
+          params:
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+            - name: chars
+              type:
+                name: CameraMetadataNative
+              direction: in
+          return_type:
+            name: void
+        - name: getCaptureProcessor
+          transaction_code_offset: 8
+          return_type:
+            name: ICaptureProcessorImpl
+          annotations:
+            - nullable
+        - name: getCaptureStages
+          transaction_code_offset: 9
+          return_type:
+            name: List
+            type_args:
+                - name: CaptureStageImpl
+          annotations:
+            - nullable
+        - name: getMaxCaptureStage
+          transaction_code_offset: 10
+          return_type:
+            name: int
+        - name: getSupportedResolutions
+          transaction_code_offset: 11
+          return_type:
+            name: List
+            type_args:
+                - name: SizeList
+          annotations:
+            - nullable
+        - name: getSupportedPostviewResolutions
+          transaction_code_offset: 12
+          params:
+            - name: captureSize
+              type:
+                name: Size
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: SizeList
+          annotations:
+            - nullable
+        - name: getEstimatedCaptureLatencyRange
+          transaction_code_offset: 13
+          params:
+            - name: outputSize
+              type:
+                name: Size
+              direction: in
+          return_type:
+            name: LatencyRange
+        - name: getAvailableCaptureRequestKeys
+          transaction_code_offset: 14
+          return_type:
+            name: CameraMetadataNative
+        - name: getAvailableCaptureResultKeys
+          transaction_code_offset: 15
+          return_type:
+            name: CameraMetadataNative
+        - name: isCaptureProcessProgressAvailable
+          transaction_code_offset: 16
+          return_type:
+            name: boolean
+        - name: getRealtimeCaptureLatency
+          transaction_code_offset: 17
+          return_type:
+            name: LatencyPair
+          annotations:
+            - nullable
+        - name: isPostviewAvailable
+          transaction_code_offset: 18
+          return_type:
+            name: boolean
+    - name: IImageProcessorImpl
+      descriptor: android.hardware.camera2.extension.IImageProcessorImpl
+      methods:
+        - name: onNextImageAvailable
+          transaction_code_offset: 0
+          params:
+            - name: outputConfigId
+              type:
+                name: OutputConfigId
+              direction: in
+            - name: image
+              type:
+                name: ParcelImage
+              direction: in
+            - name: physicalCameraId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+    - name: IInitializeSessionCallback
+      descriptor: android.hardware.camera2.extension.IInitializeSessionCallback
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: IOutputSurfaceConfiguration
+      descriptor: android.hardware.camera2.extension.IOutputSurfaceConfiguration
+      methods:
+        - name: getPreviewOutputSurface
+          transaction_code_offset: 0
+          return_type:
+            name: OutputSurface
+        - name: getImageCaptureOutputSurface
+          transaction_code_offset: 1
+          return_type:
+            name: OutputSurface
+        - name: getImageAnalysisOutputSurface
+          transaction_code_offset: 2
+          return_type:
+            name: OutputSurface
+        - name: getPostviewOutputSurface
+          transaction_code_offset: 3
+          return_type:
+            name: OutputSurface
+    - name: IPreviewExtenderImpl
+      descriptor: android.hardware.camera2.extension.IPreviewExtenderImpl
+      methods:
+        - name: onInit
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+            - name: cameraCharacteristics
+              type:
+                name: CameraMetadataNative
+              direction: in
+          return_type:
+            name: void
+        - name: onDeInit
+          transaction_code_offset: 1
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: onPresetSession
+          transaction_code_offset: 2
+          return_type:
+            name: CaptureStageImpl
+          annotations:
+            - nullable
+        - name: onEnableSession
+          transaction_code_offset: 3
+          return_type:
+            name: CaptureStageImpl
+          annotations:
+            - nullable
+        - name: onDisableSession
+          transaction_code_offset: 4
+          return_type:
+            name: CaptureStageImpl
+          annotations:
+            - nullable
+        - name: init
+          transaction_code_offset: 5
+          params:
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+            - name: chars
+              type:
+                name: CameraMetadataNative
+              direction: in
+          return_type:
+            name: void
+        - name: isExtensionAvailable
+          transaction_code_offset: 6
+          params:
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+            - name: chars
+              type:
+                name: CameraMetadataNative
+              direction: in
+          return_type:
+            name: boolean
+        - name: getCaptureStage
+          transaction_code_offset: 7
+          return_type:
+            name: CaptureStageImpl
+          annotations:
+            - nullable
+        - name: getSessionType
+          transaction_code_offset: 8
+          return_type:
+            name: int
+        - name: getProcessorType
+          transaction_code_offset: 9
+          return_type:
+            name: int
+        - name: getPreviewImageProcessor
+          transaction_code_offset: 10
+          return_type:
+            name: IPreviewImageProcessorImpl
+          annotations:
+            - nullable
+        - name: getRequestUpdateProcessor
+          transaction_code_offset: 11
+          return_type:
+            name: IRequestUpdateProcessorImpl
+          annotations:
+            - nullable
+        - name: getSupportedResolutions
+          transaction_code_offset: 12
+          return_type:
+            name: List
+            type_args:
+                - name: SizeList
+          annotations:
+            - nullable
+      constants:
+        - name: PROCESSOR_TYPE_REQUEST_UPDATE_ONLY
+          type: int
+          value: "0"
+        - name: PROCESSOR_TYPE_IMAGE_PROCESSOR
+          type: int
+          value: "1"
+        - name: PROCESSOR_TYPE_NONE
+          type: int
+          value: "2"
+    - name: IPreviewImageProcessorImpl
+      descriptor: android.hardware.camera2.extension.IPreviewImageProcessorImpl
+      methods:
+        - name: onOutputSurface
+          transaction_code_offset: 0
+          params:
+            - name: surface
+              type:
+                name: Surface
+              direction: in
+            - name: imageFormat
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onResolutionUpdate
+          transaction_code_offset: 1
+          params:
+            - name: size
+              type:
+                name: Size
+              direction: in
+          return_type:
+            name: void
+        - name: onImageFormatUpdate
+          transaction_code_offset: 2
+          params:
+            - name: imageFormat
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: process
+          transaction_code_offset: 3
+          params:
+            - name: image
+              type:
+                name: ParcelImage
+              direction: in
+            - name: result
+              type:
+                name: CameraMetadataNative
+              direction: in
+            - name: sequenceId
+              type:
+                name: int
+            - name: resultCallback
+              type:
+                name: IProcessResultImpl
+              direction: in
+          return_type:
+            name: void
+    - name: IProcessResultImpl
+      descriptor: android.hardware.camera2.extension.IProcessResultImpl
+      methods:
+        - name: onCaptureCompleted
+          transaction_code_offset: 0
+          params:
+            - name: shutterTimestamp
+              type:
+                name: long
+            - name: results
+              type:
+                name: CameraMetadataNative
+              direction: in
+          return_type:
+            name: void
+        - name: onCaptureProcessProgressed
+          transaction_code_offset: 1
+          params:
+            - name: progress
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IRequestCallback
+      descriptor: android.hardware.camera2.extension.IRequestCallback
+      methods:
+        - name: onCaptureStarted
+          transaction_code_offset: 0
+          params:
+            - name: requestId
+              type:
+                name: int
+            - name: frameNumber
+              type:
+                name: long
+            - name: timestamp
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onCaptureProgressed
+          transaction_code_offset: 1
+          params:
+            - name: requestId
+              type:
+                name: int
+            - name: partialResult
+              type:
+                name: ParcelCaptureResult
+              direction: in
+          return_type:
+            name: void
+        - name: onCaptureCompleted
+          transaction_code_offset: 2
+          params:
+            - name: requestId
+              type:
+                name: int
+            - name: totalCaptureResult
+              type:
+                name: ParcelTotalCaptureResult
+              direction: in
+          return_type:
+            name: void
+        - name: onCaptureFailed
+          transaction_code_offset: 3
+          params:
+            - name: requestId
+              type:
+                name: int
+            - name: captureFailure
+              type:
+                name: CaptureFailure
+              direction: in
+          return_type:
+            name: void
+        - name: onCaptureBufferLost
+          transaction_code_offset: 4
+          params:
+            - name: requestId
+              type:
+                name: int
+            - name: frameNumber
+              type:
+                name: long
+            - name: outputStreamId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCaptureSequenceCompleted
+          transaction_code_offset: 5
+          params:
+            - name: sequenceId
+              type:
+                name: int
+            - name: frameNumber
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onCaptureSequenceAborted
+          transaction_code_offset: 6
+          params:
+            - name: sequenceId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IRequestProcessorImpl
+      descriptor: android.hardware.camera2.extension.IRequestProcessorImpl
+      methods:
+        - name: setImageProcessor
+          transaction_code_offset: 0
+          params:
+            - name: outputConfigId
+              type:
+                name: OutputConfigId
+              direction: in
+            - name: imageProcessor
+              type:
+                name: IImageProcessorImpl
+              direction: in
+          return_type:
+            name: void
+        - name: submit
+          transaction_code_offset: 1
+          params:
+            - name: request
+              type:
+                name: Request
+              direction: in
+            - name: callback
+              type:
+                name: IRequestCallback
+              direction: in
+          return_type:
+            name: int
+        - name: submitBurst
+          transaction_code_offset: 2
+          params:
+            - name: requests
+              type:
+                name: List
+                type_args:
+                    - name: Request
+              direction: in
+            - name: callback
+              type:
+                name: IRequestCallback
+              direction: in
+          return_type:
+            name: int
+        - name: setRepeating
+          transaction_code_offset: 3
+          params:
+            - name: request
+              type:
+                name: Request
+              direction: in
+            - name: callback
+              type:
+                name: IRequestCallback
+              direction: in
+          return_type:
+            name: int
+        - name: abortCaptures
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: stopRepeating
+          transaction_code_offset: 5
+          return_type:
+            name: void
+    - name: IRequestUpdateProcessorImpl
+      descriptor: android.hardware.camera2.extension.IRequestUpdateProcessorImpl
+      methods:
+        - name: onOutputSurface
+          transaction_code_offset: 0
+          params:
+            - name: surface
+              type:
+                name: Surface
+              direction: in
+            - name: imageFormat
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onResolutionUpdate
+          transaction_code_offset: 1
+          params:
+            - name: size
+              type:
+                name: Size
+              direction: in
+          return_type:
+            name: void
+        - name: onImageFormatUpdate
+          transaction_code_offset: 2
+          params:
+            - name: imageFormat
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: process
+          transaction_code_offset: 3
+          params:
+            - name: result
+              type:
+                name: CameraMetadataNative
+              direction: in
+            - name: sequenceId
+              type:
+                name: int
+          return_type:
+            name: CaptureStageImpl
+          annotations:
+            - nullable
+    - name: ISessionProcessorImpl
+      descriptor: android.hardware.camera2.extension.ISessionProcessorImpl
+      methods:
+        - name: initSession
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+            - name: charsMap
+              type:
+                name: Map
+                type_args:
+                    - name: String
+                    - name: CameraMetadataNative
+              direction: in
+            - name: previewSurface
+              type:
+                name: OutputSurface
+              direction: in
+            - name: imageCaptureSurface
+              type:
+                name: OutputSurface
+              direction: in
+            - name: postviewSurface
+              type:
+                name: OutputSurface
+              direction: in
+          return_type:
+            name: CameraSessionConfig
+        - name: deInitSession
+          transaction_code_offset: 1
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: onCaptureSessionStart
+          transaction_code_offset: 2
+          params:
+            - name: requestProcessor
+              type:
+                name: IRequestProcessorImpl
+            - name: statsKey
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onCaptureSessionEnd
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: startRepeating
+          transaction_code_offset: 4
+          params:
+            - name: callback
+              type:
+                name: ICaptureCallback
+              direction: in
+          return_type:
+            name: int
+        - name: stopRepeating
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: startCapture
+          transaction_code_offset: 6
+          params:
+            - name: callback
+              type:
+                name: ICaptureCallback
+              direction: in
+            - name: isPostviewRequested
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: int
+        - name: setParameters
+          transaction_code_offset: 7
+          params:
+            - name: captureRequest
+              type:
+                name: CaptureRequest
+              direction: in
+          return_type:
+            name: void
+        - name: startTrigger
+          transaction_code_offset: 8
+          params:
+            - name: captureRequest
+              type:
+                name: CaptureRequest
+              direction: in
+            - name: callback
+              type:
+                name: ICaptureCallback
+              direction: in
+          return_type:
+            name: int
+        - name: getRealtimeCaptureLatency
+          transaction_code_offset: 9
+          return_type:
+            name: LatencyPair
+          annotations:
+            - nullable
+parcelables:
+    - name: CameraOutputConfig
+      fields:
+        - name: size
+          type:
+            name: Size
+        - name: surface
+          type:
+            name: Surface
+        - name: imageFormat
+          type:
+            name: int
+        - name: capacity
+          type:
+            name: int
+        - name: usage
+          type:
+            name: long
+        - name: type
+          type:
+            name: int
+        - name: outputId
+          type:
+            name: OutputConfigId
+        - name: surfaceGroupId
+          type:
+            name: int
+        - name: physicalCameraId
+          type:
+            name: String
+        - name: sharedSurfaceConfigs
+          type:
+            name: List
+            type_args:
+                - name: CameraOutputConfig
+        - name: isMultiResolutionOutput
+          type:
+            name: boolean
+      constants:
+        - name: TYPE_SURFACE
+          type: int
+          value: "0"
+        - name: TYPE_IMAGEREADER
+          type: int
+          value: "1"
+        - name: TYPE_MULTIRES_IMAGEREADER
+          type: int
+          value: "2"
+    - name: CameraSessionConfig
+      fields:
+        - name: outputConfigs
+          type:
+            name: List
+            type_args:
+                - name: CameraOutputConfig
+        - name: sessionParameter
+          type:
+            name: CameraMetadataNative
+        - name: sessionTemplateId
+          type:
+            name: int
+        - name: sessionType
+          type:
+            name: int
+    - name: CaptureBundle
+      fields:
+        - name: stage
+          type:
+            name: int
+        - name: sequenceId
+          type:
+            name: int
+        - name: captureResult
+          type:
+            name: CameraMetadataNative
+        - name: captureImage
+          type:
+            name: ParcelImage
+    - name: CaptureFailure
+      fields:
+        - name: request
+          type:
+            name: CaptureRequest
+        - name: reason
+          type:
+            name: int
+        - name: dropped
+          type:
+            name: boolean
+        - name: sequenceId
+          type:
+            name: int
+        - name: frameNumber
+          type:
+            name: long
+        - name: errorPhysicalCameraId
+          type:
+            name: String
+    - name: CaptureStageImpl
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: parameters
+          type:
+            name: CameraMetadataNative
+    - name: LatencyPair
+      fields:
+        - name: first
+          type:
+            name: long
+        - name: second
+          type:
+            name: long
+    - name: LatencyRange
+      fields:
+        - name: min
+          type:
+            name: long
+        - name: max
+          type:
+            name: long
+    - name: OutputConfigId
+      fields:
+        - name: id
+          type:
+            name: int
+    - name: OutputSurface
+      fields:
+        - name: surface
+          type:
+            name: Surface
+        - name: size
+          type:
+            name: Size
+        - name: imageFormat
+          type:
+            name: int
+        - name: dynamicRangeProfile
+          type:
+            name: long
+        - name: colorSpace
+          type:
+            name: int
+    - name: ParcelCaptureResult
+      fields:
+        - name: cameraId
+          type:
+            name: String
+        - name: results
+          type:
+            name: CameraMetadataNative
+        - name: parent
+          type:
+            name: CaptureRequest
+        - name: sequenceId
+          type:
+            name: int
+        - name: frameNumber
+          type:
+            name: long
+    - name: ParcelImage
+      fields:
+        - name: format
+          type:
+            name: int
+        - name: width
+          type:
+            name: int
+        - name: height
+          type:
+            name: int
+        - name: transform
+          type:
+            name: int
+        - name: scalingMode
+          type:
+            name: int
+        - name: timestamp
+          type:
+            name: long
+        - name: planeCount
+          type:
+            name: int
+        - name: crop
+          type:
+            name: Rect
+        - name: buffer
+          type:
+            name: HardwareBuffer
+        - name: fence
+          type:
+            name: ParcelFileDescriptor
+    - name: ParcelTotalCaptureResult
+      fields:
+        - name: logicalCameraId
+          type:
+            name: String
+        - name: results
+          type:
+            name: CameraMetadataNative
+        - name: parent
+          type:
+            name: CaptureRequest
+        - name: sequenceId
+          type:
+            name: int
+        - name: frameNumber
+          type:
+            name: long
+        - name: partials
+          type:
+            name: List
+            type_args:
+                - name: ParcelCaptureResult
+        - name: sessionId
+          type:
+            name: int
+        - name: physicalResult
+          type:
+            name: List
+            type_args:
+                - name: PhysicalCaptureResultInfo
+    - name: Request
+      fields:
+        - name: targetOutputConfigIds
+          type:
+            name: List
+            type_args:
+                - name: OutputConfigId
+        - name: parameters
+          type:
+            name: CameraMetadataNative
+        - name: templateId
+          type:
+            name: int
+        - name: requestId
+          type:
+            name: int
+    - name: Size
+      fields:
+        - name: width
+          type:
+            name: int
+        - name: height
+          type:
+            name: int
+    - name: SizeList
+      fields:
+        - name: format
+          type:
+            name: int
+        - name: sizes
+          type:
+            name: List
+            type_args:
+                - name: Size

@@ -57,6 +57,11 @@ func (s *LdacCapabilities) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
 	if _err != nil {
@@ -70,6 +75,11 @@ func (s *LdacCapabilities) UnmarshalParcel(
 				return _err
 			}
 		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count1 int32
@@ -88,6 +98,11 @@ func (s *LdacCapabilities) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count2 int32
 	_count2, _err = p.ReadInt32()
 	if _err != nil {
@@ -102,6 +117,11 @@ func (s *LdacCapabilities) UnmarshalParcel(
 			}
 			s.QualityIndex[_i] = LdacQualityIndex(_raw)
 		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.BitsPerSample, _err = p.ReadByteArray()

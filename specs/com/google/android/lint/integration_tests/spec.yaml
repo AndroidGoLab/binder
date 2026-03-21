@@ -1,0 +1,12 @@
+package: com.google.android.lint.integration_tests
+go_package: com/google/android/lint/integration_tests
+interfaces:
+    - name: IFoo
+      descriptor: com.google.android.lint.integration_tests.IFoo
+      methods:
+        - name: Method
+          transaction_code_offset: 0
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission

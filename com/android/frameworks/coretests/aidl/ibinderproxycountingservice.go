@@ -48,6 +48,7 @@ func (p *BinderProxyCountingServiceProxy) RegisterCallback(
 	callback ITestRemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinderProxyCountingService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -74,6 +75,7 @@ func (p *BinderProxyCountingServiceProxy) UnregisterCallback(
 	callback ITestRemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinderProxyCountingService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -98,7 +100,8 @@ func (p *BinderProxyCountingServiceProxy) UnregisterCallback(
 // BinderProxyCountingServiceStub dispatches incoming binder transactions
 // to a typed IBinderProxyCountingService implementation.
 type BinderProxyCountingServiceStub struct {
-	Impl IBinderProxyCountingService
+	Impl      IBinderProxyCountingService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BinderProxyCountingServiceStub)(nil)
@@ -112,14 +115,20 @@ func (s *BinderProxyCountingServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBinderProxyCountingServiceRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITestRemoteCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTestRemoteCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -129,12 +138,14 @@ func (s *BinderProxyCountingServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderProxyCountingServiceUnregisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITestRemoteCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTestRemoteCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

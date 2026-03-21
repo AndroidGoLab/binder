@@ -3,8 +3,8 @@ package os
 import (
 	"context"
 	"fmt"
-	content "github.com/xaionaro-go/binder/android/content"
-	pm "github.com/xaionaro-go/binder/android/content/pm"
+	pmTypes "github.com/xaionaro-go/binder/android/content/pm/types"
+	types "github.com/xaionaro-go/binder/android/content/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -40,14 +40,14 @@ const (
 type ISystemConfig interface {
 	AsBinder() binder.IBinder
 	GetDisabledUntilUsedPreinstalledCarrierApps(ctx context.Context) ([]string, error)
-	GetDisabledUntilUsedPreinstalledCarrierAssociatedApps(ctx context.Context) (map[interface{}]interface{}, error)
-	GetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries(ctx context.Context) (map[interface{}]interface{}, error)
+	GetDisabledUntilUsedPreinstalledCarrierAssociatedApps(ctx context.Context) (map[any]any, error)
+	GetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries(ctx context.Context) (map[any]any, error)
 	GetSystemPermissionUids(ctx context.Context, permissionName string) ([]int32, error)
-	GetEnabledComponentOverrides(ctx context.Context, packageName string) ([]content.ComponentName, error)
-	GetDefaultVrComponents(ctx context.Context) ([]content.ComponentName, error)
+	GetEnabledComponentOverrides(ctx context.Context, packageName string) ([]types.ComponentName, error)
+	GetDefaultVrComponents(ctx context.Context) ([]types.ComponentName, error)
 	GetPreventUserDisablePackages(ctx context.Context) ([]string, error)
-	GetEnhancedConfirmationTrustedPackages(ctx context.Context) ([]pm.SignedPackageParcel, error)
-	GetEnhancedConfirmationTrustedInstallers(ctx context.Context) ([]pm.SignedPackageParcel, error)
+	GetEnhancedConfirmationTrustedPackages(ctx context.Context) ([]pmTypes.SignedPackageParcel, error)
+	GetEnhancedConfirmationTrustedInstallers(ctx context.Context) ([]pmTypes.SignedPackageParcel, error)
 }
 
 type SystemConfigProxy struct {
@@ -71,6 +71,7 @@ func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierApps(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemConfig, MethodISystemConfigGetDisabledUntilUsedPreinstalledCarrierApps)
@@ -92,6 +93,9 @@ func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierApps(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -107,9 +111,10 @@ func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierApps(
 
 func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierAssociatedApps(
 	ctx context.Context,
-) (map[interface{}]interface{}, error) {
-	var _result map[interface{}]interface{}
+) (map[any]any, error) {
+	var _result map[any]any
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemConfig, MethodISystemConfigGetDisabledUntilUsedPreinstalledCarrierAssociatedApps)
@@ -127,22 +132,24 @@ func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierAssociatedApp
 		return _result, _err
 	}
 
-	_mapCount, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _mapCount >= 0 {
-		_result = make(map[interface{}]interface{}, _mapCount)
-		for _mi := int32(0); _mi < _mapCount; _mi++ {
-			_mk, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
+	{
+		_mapCount, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _mapCount >= 0 {
+			_result = make(map[any]any, _mapCount)
+			for _mi := int32(0); _mi < _mapCount; _mi++ {
+				_mk, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_mv, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_result[_mk] = _mv
 			}
-			_mv, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
-			}
-			_result[_mk] = _mv
 		}
 	}
 	return _result, nil
@@ -150,9 +157,10 @@ func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierAssociatedApp
 
 func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries(
 	ctx context.Context,
-) (map[interface{}]interface{}, error) {
-	var _result map[interface{}]interface{}
+) (map[any]any, error) {
+	var _result map[any]any
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemConfig, MethodISystemConfigGetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries)
@@ -170,22 +178,24 @@ func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierAssociatedApp
 		return _result, _err
 	}
 
-	_mapCount, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _mapCount >= 0 {
-		_result = make(map[interface{}]interface{}, _mapCount)
-		for _mi := int32(0); _mi < _mapCount; _mi++ {
-			_mk, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
+	{
+		_mapCount, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _mapCount >= 0 {
+			_result = make(map[any]any, _mapCount)
+			for _mi := int32(0); _mi < _mapCount; _mi++ {
+				_mk, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_mv, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_result[_mk] = _mv
 			}
-			_mv, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
-			}
-			_result[_mk] = _mv
 		}
 	}
 	return _result, nil
@@ -197,6 +207,7 @@ func (p *SystemConfigProxy) GetSystemPermissionUids(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 	_data.WriteString16(permissionName)
 
@@ -219,6 +230,9 @@ func (p *SystemConfigProxy) GetSystemPermissionUids(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -235,9 +249,10 @@ func (p *SystemConfigProxy) GetSystemPermissionUids(
 func (p *SystemConfigProxy) GetEnabledComponentOverrides(
 	ctx context.Context,
 	packageName string,
-) ([]content.ComponentName, error) {
-	var _result []content.ComponentName
+) ([]types.ComponentName, error) {
+	var _result []types.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 	_data.WriteString16(packageName)
 
@@ -260,16 +275,21 @@ func (p *SystemConfigProxy) GetEnabledComponentOverrides(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]content.ComponentName, _count)
+		_result = make([]types.ComponentName, _count)
 		for _i := int32(0); _i < _count; _i++ {
 			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			if _err != nil {
 				return _result, _err
 			}
+			parcel.SkipToParcelableEnd(_reply, _endPos)
 		}
 	}
 	return _result, nil
@@ -277,9 +297,10 @@ func (p *SystemConfigProxy) GetEnabledComponentOverrides(
 
 func (p *SystemConfigProxy) GetDefaultVrComponents(
 	ctx context.Context,
-) ([]content.ComponentName, error) {
-	var _result []content.ComponentName
+) ([]types.ComponentName, error) {
+	var _result []types.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemConfig, MethodISystemConfigGetDefaultVrComponents)
@@ -301,16 +322,21 @@ func (p *SystemConfigProxy) GetDefaultVrComponents(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]content.ComponentName, _count)
+		_result = make([]types.ComponentName, _count)
 		for _i := int32(0); _i < _count; _i++ {
 			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			if _err != nil {
 				return _result, _err
 			}
+			parcel.SkipToParcelableEnd(_reply, _endPos)
 		}
 	}
 	return _result, nil
@@ -321,6 +347,7 @@ func (p *SystemConfigProxy) GetPreventUserDisablePackages(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemConfig, MethodISystemConfigGetPreventUserDisablePackages)
@@ -342,6 +369,9 @@ func (p *SystemConfigProxy) GetPreventUserDisablePackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -357,9 +387,10 @@ func (p *SystemConfigProxy) GetPreventUserDisablePackages(
 
 func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedPackages(
 	ctx context.Context,
-) ([]pm.SignedPackageParcel, error) {
-	var _result []pm.SignedPackageParcel
+) ([]pmTypes.SignedPackageParcel, error) {
+	var _result []pmTypes.SignedPackageParcel
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemConfig, MethodISystemConfigGetEnhancedConfirmationTrustedPackages)
@@ -381,16 +412,21 @@ func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]pm.SignedPackageParcel, _count)
+		_result = make([]pmTypes.SignedPackageParcel, _count)
 		for _i := int32(0); _i < _count; _i++ {
 			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			if _err != nil {
 				return _result, _err
 			}
+			parcel.SkipToParcelableEnd(_reply, _endPos)
 		}
 	}
 	return _result, nil
@@ -398,9 +434,10 @@ func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedPackages(
 
 func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedInstallers(
 	ctx context.Context,
-) ([]pm.SignedPackageParcel, error) {
-	var _result []pm.SignedPackageParcel
+) ([]pmTypes.SignedPackageParcel, error) {
+	var _result []pmTypes.SignedPackageParcel
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemConfig, MethodISystemConfigGetEnhancedConfirmationTrustedInstallers)
@@ -422,16 +459,21 @@ func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedInstallers(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]pm.SignedPackageParcel, _count)
+		_result = make([]pmTypes.SignedPackageParcel, _count)
 		for _i := int32(0); _i < _count; _i++ {
 			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
 			}
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			if _err != nil {
 				return _result, _err
 			}
+			parcel.SkipToParcelableEnd(_reply, _endPos)
 		}
 	}
 	return _result, nil
@@ -440,7 +482,8 @@ func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedInstallers(
 // SystemConfigStub dispatches incoming binder transactions
 // to a typed ISystemConfig implementation.
 type SystemConfigStub struct {
-	Impl ISystemConfig
+	Impl      ISystemConfig
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SystemConfigStub)(nil)
@@ -454,11 +497,12 @@ func (s *SystemConfigStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISystemConfigGetDisabledUntilUsedPreinstalledCarrierApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDisabledUntilUsedPreinstalledCarrierApps(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -466,13 +510,16 @@ func (s *SystemConfigStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionISystemConfigGetDisabledUntilUsedPreinstalledCarrierAssociatedApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDisabledUntilUsedPreinstalledCarrierAssociatedApps(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -480,13 +527,17 @@ func (s *SystemConfigStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: map return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _k, _v := range _result {
+				_reply.WriteString16(_k.(string))
+				_reply.WriteString16(_v.(string))
+			}
+		}
 		return _reply, nil
 	case TransactionISystemConfigGetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -494,13 +545,17 @@ func (s *SystemConfigStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: map return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _k, _v := range _result {
+				_reply.WriteString16(_k.(string))
+				_reply.WriteString16(_v.(string))
+			}
+		}
 		return _reply, nil
 	case TransactionISystemConfigGetSystemPermissionUids:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_permissionName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -512,13 +567,16 @@ func (s *SystemConfigStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionISystemConfigGetEnabledComponentOverrides:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -530,13 +588,13 @@ func (s *SystemConfigStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	case TransactionISystemConfigGetDefaultVrComponents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDefaultVrComponents(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -544,13 +602,13 @@ func (s *SystemConfigStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	case TransactionISystemConfigGetPreventUserDisablePackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPreventUserDisablePackages(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -558,13 +616,16 @@ func (s *SystemConfigStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionISystemConfigGetEnhancedConfirmationTrustedPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEnhancedConfirmationTrustedPackages(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -572,13 +633,13 @@ func (s *SystemConfigStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	case TransactionISystemConfigGetEnhancedConfirmationTrustedInstallers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEnhancedConfirmationTrustedInstallers(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -586,8 +647,11 @@ func (s *SystemConfigStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -599,14 +663,14 @@ func (s *SystemConfigStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type ISystemConfigServer interface {
 	GetDisabledUntilUsedPreinstalledCarrierApps(ctx context.Context) ([]string, error)
-	GetDisabledUntilUsedPreinstalledCarrierAssociatedApps(ctx context.Context) (map[interface{}]interface{}, error)
-	GetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries(ctx context.Context) (map[interface{}]interface{}, error)
+	GetDisabledUntilUsedPreinstalledCarrierAssociatedApps(ctx context.Context) (map[any]any, error)
+	GetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries(ctx context.Context) (map[any]any, error)
 	GetSystemPermissionUids(ctx context.Context, permissionName string) ([]int32, error)
-	GetEnabledComponentOverrides(ctx context.Context, packageName string) ([]content.ComponentName, error)
-	GetDefaultVrComponents(ctx context.Context) ([]content.ComponentName, error)
+	GetEnabledComponentOverrides(ctx context.Context, packageName string) ([]types.ComponentName, error)
+	GetDefaultVrComponents(ctx context.Context) ([]types.ComponentName, error)
 	GetPreventUserDisablePackages(ctx context.Context) ([]string, error)
-	GetEnhancedConfirmationTrustedPackages(ctx context.Context) ([]pm.SignedPackageParcel, error)
-	GetEnhancedConfirmationTrustedInstallers(ctx context.Context) ([]pm.SignedPackageParcel, error)
+	GetEnhancedConfirmationTrustedPackages(ctx context.Context) ([]pmTypes.SignedPackageParcel, error)
+	GetEnhancedConfirmationTrustedInstallers(ctx context.Context) ([]pmTypes.SignedPackageParcel, error)
 }
 
 type systemConfigStubWrapper struct {
@@ -626,13 +690,13 @@ func (w *systemConfigStubWrapper) GetDisabledUntilUsedPreinstalledCarrierApps(
 
 func (w *systemConfigStubWrapper) GetDisabledUntilUsedPreinstalledCarrierAssociatedApps(
 	ctx context.Context,
-) (map[interface{}]interface{}, error) {
+) (map[any]any, error) {
 	return w.impl.GetDisabledUntilUsedPreinstalledCarrierAssociatedApps(ctx)
 }
 
 func (w *systemConfigStubWrapper) GetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries(
 	ctx context.Context,
-) (map[interface{}]interface{}, error) {
+) (map[any]any, error) {
 	return w.impl.GetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries(ctx)
 }
 
@@ -646,13 +710,13 @@ func (w *systemConfigStubWrapper) GetSystemPermissionUids(
 func (w *systemConfigStubWrapper) GetEnabledComponentOverrides(
 	ctx context.Context,
 	packageName string,
-) ([]content.ComponentName, error) {
+) ([]types.ComponentName, error) {
 	return w.impl.GetEnabledComponentOverrides(ctx, packageName)
 }
 
 func (w *systemConfigStubWrapper) GetDefaultVrComponents(
 	ctx context.Context,
-) ([]content.ComponentName, error) {
+) ([]types.ComponentName, error) {
 	return w.impl.GetDefaultVrComponents(ctx)
 }
 
@@ -664,13 +728,13 @@ func (w *systemConfigStubWrapper) GetPreventUserDisablePackages(
 
 func (w *systemConfigStubWrapper) GetEnhancedConfirmationTrustedPackages(
 	ctx context.Context,
-) ([]pm.SignedPackageParcel, error) {
+) ([]pmTypes.SignedPackageParcel, error) {
 	return w.impl.GetEnhancedConfirmationTrustedPackages(ctx)
 }
 
 func (w *systemConfigStubWrapper) GetEnhancedConfirmationTrustedInstallers(
 	ctx context.Context,
-) ([]pm.SignedPackageParcel, error) {
+) ([]pmTypes.SignedPackageParcel, error) {
 	return w.impl.GetEnhancedConfirmationTrustedInstallers(ctx)
 }
 

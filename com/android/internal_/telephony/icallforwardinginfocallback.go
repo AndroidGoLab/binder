@@ -49,6 +49,7 @@ func (p *CallForwardingInfoCallbackProxy) OnCallForwardingInfoAvailable(
 	info androidTelephony.CallForwardingInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallForwardingInfoCallback)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -69,6 +70,7 @@ func (p *CallForwardingInfoCallbackProxy) OnError(
 	error_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallForwardingInfoCallback)
 	_data.WriteInt32(error_)
 
@@ -84,7 +86,8 @@ func (p *CallForwardingInfoCallbackProxy) OnError(
 // CallForwardingInfoCallbackStub dispatches incoming binder transactions
 // to a typed ICallForwardingInfoCallback implementation.
 type CallForwardingInfoCallbackStub struct {
-	Impl ICallForwardingInfoCallback
+	Impl      ICallForwardingInfoCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CallForwardingInfoCallbackStub)(nil)
@@ -98,11 +101,12 @@ func (s *CallForwardingInfoCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICallForwardingInfoCallbackOnCallForwardingInfoAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info androidTelephony.CallForwardingInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -116,19 +120,14 @@ func (s *CallForwardingInfoCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnCallForwardingInfoAvailable(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallForwardingInfoCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

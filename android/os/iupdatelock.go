@@ -49,6 +49,7 @@ func (p *UpdateLockProxy) AcquireUpdateLock(
 	tag string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUpdateLock)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(tag)
@@ -76,6 +77,7 @@ func (p *UpdateLockProxy) ReleaseUpdateLock(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUpdateLock)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -100,7 +102,8 @@ func (p *UpdateLockProxy) ReleaseUpdateLock(
 // UpdateLockStub dispatches incoming binder transactions
 // to a typed IUpdateLock implementation.
 type UpdateLockStub struct {
-	Impl IUpdateLock
+	Impl      IUpdateLock
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UpdateLockStub)(nil)
@@ -114,14 +117,20 @@ func (s *UpdateLockStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUpdateLockAcquireUpdateLock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -135,12 +144,14 @@ func (s *UpdateLockStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUpdateLockReleaseUpdateLock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.ReleaseUpdateLock(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {

@@ -45,6 +45,7 @@ func (p *InputDevicesChangedListenerProxy) OnInputDevicesChanged(
 	deviceIdAndGeneration []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputDevicesChangedListener)
 	if deviceIdAndGeneration == nil {
 		_data.WriteInt32(-1)
@@ -67,7 +68,8 @@ func (p *InputDevicesChangedListenerProxy) OnInputDevicesChanged(
 // InputDevicesChangedListenerStub dispatches incoming binder transactions
 // to a typed IInputDevicesChangedListener implementation.
 type InputDevicesChangedListenerStub struct {
-	Impl IInputDevicesChangedListener
+	Impl      IInputDevicesChangedListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputDevicesChangedListenerStub)(nil)
@@ -81,17 +83,33 @@ func (s *InputDevicesChangedListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputDevicesChangedListenerOnInputDevicesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_deviceIdAndGeneration []int32
-		_ = _arg_deviceIdAndGeneration
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_deviceIdAndGeneration = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_deviceIdAndGeneration[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnInputDevicesChanged(ctx, _arg_deviceIdAndGeneration)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

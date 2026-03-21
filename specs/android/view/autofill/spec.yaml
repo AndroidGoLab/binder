@@ -1,0 +1,797 @@
+package: android.view.autofill
+go_package: android/view/autofill
+interfaces:
+    - name: IAugmentedAutofillManagerClient
+      descriptor: android.view.autofill.IAugmentedAutofillManagerClient
+      methods:
+        - name: getViewCoordinates
+          transaction_code_offset: 0
+          params:
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+          return_type:
+            name: Rect
+        - name: getViewNodeParcelable
+          transaction_code_offset: 1
+          params:
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+          return_type:
+            name: AssistStructure.ViewNodeParcelable
+        - name: autofill
+          transaction_code_offset: 2
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: ids
+              type:
+                name: List
+                type_args:
+                    - name: AutofillId
+              direction: in
+            - name: values
+              type:
+                name: List
+                type_args:
+                    - name: AutofillValue
+              direction: in
+            - name: hideHighlight
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: requestShowFillUi
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+            - name: anchorBounds
+              type:
+                name: Rect
+              direction: in
+            - name: presenter
+              type:
+                name: IAutofillWindowPresenter
+              direction: in
+          return_type:
+            name: void
+        - name: requestHideFillUi
+          transaction_code_offset: 4
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+          return_type:
+            name: void
+        - name: requestAutofill
+          transaction_code_offset: 5
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+          return_type:
+            name: boolean
+    - name: IAutoFillManager
+      descriptor: android.view.autofill.IAutoFillManager
+      oneway: true
+      methods:
+        - name: addClient
+          transaction_code_offset: 0
+          params:
+            - name: client
+              type:
+                name: IAutoFillManagerClient
+              direction: in
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: removeClient
+          transaction_code_offset: 1
+          params:
+            - name: client
+              type:
+                name: IAutoFillManagerClient
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: startSession
+          transaction_code_offset: 2
+          params:
+            - name: activityToken
+              type:
+                name: IBinder
+            - name: appCallback
+              type:
+                name: IBinder
+              direction: in
+            - name: autoFillId
+              type:
+                name: AutofillId
+              direction: in
+            - name: bounds
+              type:
+                name: Rect
+              direction: in
+            - name: value
+              type:
+                name: AutofillValue
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: hasCallback
+              type:
+                name: boolean
+            - name: flags
+              type:
+                name: int
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: compatMode
+              type:
+                name: boolean
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: getFillEventHistory
+          transaction_code_offset: 3
+          params:
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: restoreSession
+          transaction_code_offset: 4
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: activityToken
+              type:
+                name: IBinder
+              direction: in
+            - name: appCallback
+              type:
+                name: IBinder
+              direction: in
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: updateSession
+          transaction_code_offset: 5
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+            - name: bounds
+              type:
+                name: Rect
+              direction: in
+            - name: value
+              type:
+                name: AutofillValue
+              direction: in
+            - name: action
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setAutofillFailure
+          transaction_code_offset: 6
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: ids
+              type:
+                name: List
+                type_args:
+                    - name: AutofillId
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: finishSession
+          transaction_code_offset: 7
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: commitReason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: cancelSession
+          transaction_code_offset: 8
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setAuthenticationResult
+          transaction_code_offset: 9
+          params:
+            - name: data
+              type:
+                name: Bundle
+              direction: in
+            - name: sessionId
+              type:
+                name: int
+            - name: authenticationId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setHasCallback
+          transaction_code_offset: 10
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: hasIt
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: disableOwnedAutofillServices
+          transaction_code_offset: 11
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isServiceSupported
+          transaction_code_offset: 12
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: isServiceEnabled
+          transaction_code_offset: 13
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: onPendingSaveUi
+          transaction_code_offset: 14
+          params:
+            - name: operation
+              type:
+                name: int
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: getUserData
+          transaction_code_offset: 15
+          params:
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: getUserDataId
+          transaction_code_offset: 16
+          params:
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: setUserData
+          transaction_code_offset: 17
+          params:
+            - name: userData
+              type:
+                name: UserData
+              direction: in
+          return_type:
+            name: void
+        - name: isFieldClassificationEnabled
+          transaction_code_offset: 18
+          params:
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: getAutofillServiceComponentName
+          transaction_code_offset: 19
+          params:
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: getAvailableFieldClassificationAlgorithms
+          transaction_code_offset: 20
+          params:
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: getDefaultFieldClassificationAlgorithm
+          transaction_code_offset: 21
+          params:
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: setAugmentedAutofillWhitelist
+          transaction_code_offset: 22
+          params:
+            - name: packages
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: activities
+              type:
+                name: List
+                type_args:
+                    - name: ComponentName
+              direction: in
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+    - name: IAutoFillManagerClient
+      descriptor: android.view.autofill.IAutoFillManagerClient
+      oneway: true
+      methods:
+        - name: setState
+          transaction_code_offset: 0
+          params:
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: autofill
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: ids
+              type:
+                name: List
+                type_args:
+                    - name: AutofillId
+              direction: in
+            - name: values
+              type:
+                name: List
+                type_args:
+                    - name: AutofillValue
+              direction: in
+            - name: hideHighlight
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onGetCredentialResponse
+          transaction_code_offset: 2
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+            - name: response
+              type:
+                name: GetCredentialResponse
+              direction: in
+          return_type:
+            name: void
+        - name: onGetCredentialException
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+            - name: errorType
+              type:
+                name: String
+              direction: in
+            - name: errorMsg
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: autofillContent
+          transaction_code_offset: 4
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+            - name: content
+              type:
+                name: ClipData
+              direction: in
+          return_type:
+            name: void
+        - name: authenticate
+          transaction_code_offset: 5
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: authenticationId
+              type:
+                name: int
+            - name: intent
+              type:
+                name: IntentSender
+              direction: in
+            - name: fillInIntent
+              type:
+                name: Intent
+              direction: in
+            - name: authenticateInline
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setTrackedViews
+          transaction_code_offset: 6
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: savableIds
+              type:
+                name: AutofillId
+                is_array: true
+                is_nullable: true
+              direction: in
+            - name: saveOnAllViewsInvisible
+              type:
+                name: boolean
+            - name: saveOnFinish
+              type:
+                name: boolean
+            - name: fillableIds
+              type:
+                name: AutofillId
+                is_array: true
+                is_nullable: true
+              direction: in
+            - name: saveTriggerId
+              type:
+                name: AutofillId
+              direction: in
+          return_type:
+            name: void
+        - name: requestShowFillUi
+          transaction_code_offset: 7
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+            - name: anchorBounds
+              type:
+                name: Rect
+              direction: in
+            - name: presenter
+              type:
+                name: IAutofillWindowPresenter
+              direction: in
+          return_type:
+            name: void
+        - name: requestHideFillUi
+          transaction_code_offset: 8
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+          return_type:
+            name: void
+        - name: requestHideFillUiWhenDestroyed
+          transaction_code_offset: 9
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+          return_type:
+            name: void
+        - name: notifyNoFillUi
+          transaction_code_offset: 10
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+            - name: sessionFinishedState
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyFillUiShown
+          transaction_code_offset: 11
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+          return_type:
+            name: void
+        - name: notifyFillUiHidden
+          transaction_code_offset: 12
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+          return_type:
+            name: void
+        - name: dispatchUnhandledKey
+          transaction_code_offset: 13
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+            - name: keyEvent
+              type:
+                name: KeyEvent
+              direction: in
+          return_type:
+            name: void
+        - name: startIntentSender
+          transaction_code_offset: 14
+          params:
+            - name: intentSender
+              type:
+                name: IntentSender
+              direction: in
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+          return_type:
+            name: void
+        - name: setSaveUiState
+          transaction_code_offset: 15
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: shown
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setSessionFinished
+          transaction_code_offset: 16
+          params:
+            - name: newState
+              type:
+                name: int
+            - name: autofillableIds
+              type:
+                name: List
+                type_args:
+                    - name: AutofillId
+              direction: in
+          return_type:
+            name: void
+        - name: getAugmentedAutofillClient
+          transaction_code_offset: 17
+          params:
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: notifyDisableAutofill
+          transaction_code_offset: 18
+          params:
+            - name: disableDuration
+              type:
+                name: long
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: requestShowSoftInput
+          transaction_code_offset: 19
+          params:
+            - name: id
+              type:
+                name: AutofillId
+              direction: in
+          return_type:
+            name: void
+        - name: notifyFillDialogTriggerIds
+          transaction_code_offset: 20
+          params:
+            - name: ids
+              type:
+                name: List
+                type_args:
+                    - name: AutofillId
+              direction: in
+          return_type:
+            name: void
+    - name: IAutofillWindowPresenter
+      descriptor: android.view.autofill.IAutofillWindowPresenter
+      oneway: true
+      methods:
+        - name: show
+          transaction_code_offset: 0
+          params:
+            - name: p
+              type:
+                name: WindowManager.LayoutParams
+              direction: in
+            - name: transitionEpicenter
+              type:
+                name: Rect
+              direction: in
+            - name: fitsSystemWindows
+              type:
+                name: boolean
+            - name: layoutDirection
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: hide
+          transaction_code_offset: 1
+          params:
+            - name: transitionEpicenter
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: AutofillId
+    - name: AutofillValue

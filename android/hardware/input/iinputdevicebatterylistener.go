@@ -45,6 +45,7 @@ func (p *InputDeviceBatteryListenerProxy) OnBatteryStateChanged(
 	batteryState IInputDeviceBatteryState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputDeviceBatteryListener)
 	_data.WriteInt32(1)
 	if _err := batteryState.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *InputDeviceBatteryListenerProxy) OnBatteryStateChanged(
 // InputDeviceBatteryListenerStub dispatches incoming binder transactions
 // to a typed IInputDeviceBatteryListener implementation.
 type InputDeviceBatteryListenerStub struct {
-	Impl IInputDeviceBatteryListener
+	Impl      IInputDeviceBatteryListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputDeviceBatteryListenerStub)(nil)
@@ -77,11 +79,12 @@ func (s *InputDeviceBatteryListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputDeviceBatteryListenerOnBatteryStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_batteryState IInputDeviceBatteryState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *InputDeviceBatteryListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnBatteryStateChanged(ctx, _arg_batteryState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

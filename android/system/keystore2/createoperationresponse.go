@@ -9,8 +9,8 @@ import (
 
 type CreateOperationResponse struct {
 	IOperation         IKeystoreOperation
-	OperationChallenge OperationChallenge
-	Parameters         KeyParameters
+	OperationChallenge *OperationChallenge
+	Parameters         *KeyParameters
 	UpgradedBlob       []byte
 }
 
@@ -25,11 +25,21 @@ func (s *CreateOperationResponse) MarshalParcel(
 	} else {
 		p.WriteStrongBinder(s.IOperation.AsBinder().Handle())
 	}
-	if _err := s.OperationChallenge.MarshalParcel(p); _err != nil {
-		return _err
+	if s.OperationChallenge == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.OperationChallenge.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.Parameters.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Parameters == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Parameters.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	p.WriteByteArray(s.UpgradedBlob)
 
@@ -45,18 +55,58 @@ func (s *CreateOperationResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_iOperationHandle, _err := p.ReadStrongBinder()
 	if _err != nil {
 		return _err
 	}
 	s.IOperation = NewKeystoreOperationProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _iOperationHandle))
 
-	if _err = s.OperationChallenge.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
-	if _err = s.Parameters.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val OperationChallenge
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.OperationChallenge = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val KeyParameters
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Parameters = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.UpgradedBlob, _err = p.ReadByteArray()

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	common "github.com/xaionaro-go/binder/android/hardware/common"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -37,7 +38,7 @@ type ICarDisplayProxy interface {
 	GetHGraphicBufferProducer(ctx context.Context, id int64) (common.NativeHandle, error)
 	HideWindow(ctx context.Context, id int64) error
 	ShowWindow(ctx context.Context, id int64) error
-	GetSurface(ctx context.Context, id int64) (interface{}, error)
+	GetSurface(ctx context.Context, id int64) (view.Surface, error)
 }
 
 type CarDisplayProxyProxy struct {
@@ -61,6 +62,7 @@ func (p *CarDisplayProxyProxy) GetDisplayIdList(
 ) ([]int64, error) {
 	var _result []int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyGetDisplayIdList)
@@ -82,6 +84,9 @@ func (p *CarDisplayProxyProxy) GetDisplayIdList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int64, _count)
@@ -101,6 +106,7 @@ func (p *CarDisplayProxyProxy) GetDisplayInfo(
 ) (DisplayDesc, error) {
 	var _result DisplayDesc
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
 	_data.WriteInt64(id)
 
@@ -137,6 +143,7 @@ func (p *CarDisplayProxyProxy) GetHGraphicBufferProducer(
 ) (common.NativeHandle, error) {
 	var _result common.NativeHandle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
 	_data.WriteInt64(id)
 
@@ -172,6 +179,7 @@ func (p *CarDisplayProxyProxy) HideWindow(
 	id int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
 	_data.WriteInt64(id)
 
@@ -198,6 +206,7 @@ func (p *CarDisplayProxyProxy) ShowWindow(
 	id int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
 	_data.WriteInt64(id)
 
@@ -222,9 +231,10 @@ func (p *CarDisplayProxyProxy) ShowWindow(
 func (p *CarDisplayProxyProxy) GetSurface(
 	ctx context.Context,
 	id int64,
-) (interface{}, error) {
-	var _result interface{}
+) (view.Surface, error) {
+	var _result view.Surface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
 	_data.WriteInt64(id)
 
@@ -243,13 +253,23 @@ func (p *CarDisplayProxyProxy) GetSurface(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 // CarDisplayProxyStub dispatches incoming binder transactions
 // to a typed ICarDisplayProxy implementation.
 type CarDisplayProxyStub struct {
-	Impl ICarDisplayProxy
+	Impl      ICarDisplayProxy
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CarDisplayProxyStub)(nil)
@@ -263,11 +283,12 @@ func (s *CarDisplayProxyStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICarDisplayProxyGetDisplayIdList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDisplayIdList(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -275,13 +296,16 @@ func (s *CarDisplayProxyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt64(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionICarDisplayProxyGetDisplayInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -299,9 +323,6 @@ func (s *CarDisplayProxyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICarDisplayProxyGetHGraphicBufferProducer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -319,9 +340,6 @@ func (s *CarDisplayProxyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICarDisplayProxyHideWindow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -335,9 +353,6 @@ func (s *CarDisplayProxyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarDisplayProxyShowWindow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -351,9 +366,6 @@ func (s *CarDisplayProxyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarDisplayProxyGetSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -365,7 +377,10 @@ func (s *CarDisplayProxyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -381,7 +396,7 @@ type ICarDisplayProxyServer interface {
 	GetHGraphicBufferProducer(ctx context.Context, id int64) (common.NativeHandle, error)
 	HideWindow(ctx context.Context, id int64) error
 	ShowWindow(ctx context.Context, id int64) error
-	GetSurface(ctx context.Context, id int64) (interface{}, error)
+	GetSurface(ctx context.Context, id int64) (view.Surface, error)
 }
 
 type carDisplayProxyStubWrapper struct {
@@ -430,7 +445,7 @@ func (w *carDisplayProxyStubWrapper) ShowWindow(
 func (w *carDisplayProxyStubWrapper) GetSurface(
 	ctx context.Context,
 	id int64,
-) (interface{}, error) {
+) (view.Surface, error) {
 	return w.impl.GetSurface(ctx, id)
 }
 

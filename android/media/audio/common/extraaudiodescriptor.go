@@ -34,15 +34,30 @@ func (s *ExtraAudioDescriptor) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_standardRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Standard = AudioStandard(_standardRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.AudioDescriptor, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_encapsulationTypeRaw, _err := p.ReadInt32()

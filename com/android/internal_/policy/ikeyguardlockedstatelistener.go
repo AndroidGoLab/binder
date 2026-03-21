@@ -45,6 +45,7 @@ func (p *KeyguardLockedStateListenerProxy) OnKeyguardLockedStateChanged(
 	isKeyguardLocked bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardLockedStateListener)
 	_data.WriteBool(isKeyguardLocked)
 
@@ -60,7 +61,8 @@ func (p *KeyguardLockedStateListenerProxy) OnKeyguardLockedStateChanged(
 // KeyguardLockedStateListenerStub dispatches incoming binder transactions
 // to a typed IKeyguardLockedStateListener implementation.
 type KeyguardLockedStateListenerStub struct {
-	Impl IKeyguardLockedStateListener
+	Impl      IKeyguardLockedStateListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*KeyguardLockedStateListenerStub)(nil)
@@ -74,18 +76,18 @@ func (s *KeyguardLockedStateListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIKeyguardLockedStateListenerOnKeyguardLockedStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isKeyguardLocked, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnKeyguardLockedStateChanged(ctx, _arg_isKeyguardLocked)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -3,6 +3,7 @@ package os
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/os/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ const (
 
 type IResultReceiver interface {
 	AsBinder() binder.IBinder
-	Send(ctx context.Context, resultCode int32, resultData interface{}) error
+	Send(ctx context.Context, resultCode int32, resultData types.Bundle) error
 }
 
 type ResultReceiverProxy struct {
@@ -43,11 +44,13 @@ var _ IResultReceiver = (*ResultReceiverProxy)(nil)
 func (p *ResultReceiverProxy) Send(
 	ctx context.Context,
 	resultCode int32,
-	resultData interface{},
+	resultData types.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResultReceiver)
 	_data.WriteInt32(resultCode)
+	// WARNING: param resultData (type types.Bundle) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResultReceiver, MethodIResultReceiverSend)
 	if _err != nil {
@@ -61,7 +64,8 @@ func (p *ResultReceiverProxy) Send(
 // ResultReceiverStub dispatches incoming binder transactions
 // to a typed IResultReceiver implementation.
 type ResultReceiverStub struct {
-	Impl IResultReceiver
+	Impl      IResultReceiver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ResultReceiverStub)(nil)
@@ -75,19 +79,19 @@ func (s *ResultReceiverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIResultReceiverSend:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_resultData interface{}
+		var _arg_resultData types.Bundle
 		_err = s.Impl.Send(ctx, _arg_resultCode, _arg_resultData)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -97,7 +101,7 @@ func (s *ResultReceiverStub) OnTransaction(
 // provide to NewResultReceiverStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IResultReceiverServer interface {
-	Send(ctx context.Context, resultCode int32, resultData interface{}) error
+	Send(ctx context.Context, resultCode int32, resultData types.Bundle) error
 }
 
 type resultReceiverStubWrapper struct {
@@ -112,7 +116,7 @@ func (w *resultReceiverStubWrapper) AsBinder() binder.IBinder {
 func (w *resultReceiverStubWrapper) Send(
 	ctx context.Context,
 	resultCode int32,
-	resultData interface{},
+	resultData types.Bundle,
 ) error {
 	return w.impl.Send(ctx, resultCode, resultData)
 }

@@ -48,6 +48,7 @@ func (p *TestSessionCallbackProxy) OnCleanupStarted(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITestSessionCallback)
 	_data.WriteInt32(_identity.UserID)
 
@@ -65,6 +66,7 @@ func (p *TestSessionCallbackProxy) OnCleanupFinished(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITestSessionCallback)
 	_data.WriteInt32(_identity.UserID)
 
@@ -80,7 +82,8 @@ func (p *TestSessionCallbackProxy) OnCleanupFinished(
 // TestSessionCallbackStub dispatches incoming binder transactions
 // to a typed ITestSessionCallback implementation.
 type TestSessionCallbackStub struct {
-	Impl ITestSessionCallback
+	Impl      ITestSessionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TestSessionCallbackStub)(nil)
@@ -94,27 +97,23 @@ func (s *TestSessionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITestSessionCallbackOnCleanupStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnCleanupStarted(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITestSessionCallbackOnCleanupFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnCleanupFinished(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

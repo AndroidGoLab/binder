@@ -48,6 +48,7 @@ func (p *CarrierConfigChangeListenerProxy) OnCarrierConfigChanged(
 	specificCarrierId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigChangeListener)
 	_data.WriteInt32(slotIndex)
 	_data.WriteInt32(subId)
@@ -66,7 +67,8 @@ func (p *CarrierConfigChangeListenerProxy) OnCarrierConfigChanged(
 // CarrierConfigChangeListenerStub dispatches incoming binder transactions
 // to a typed ICarrierConfigChangeListener implementation.
 type CarrierConfigChangeListenerStub struct {
-	Impl ICarrierConfigChangeListener
+	Impl      ICarrierConfigChangeListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CarrierConfigChangeListenerStub)(nil)
@@ -80,11 +82,12 @@ func (s *CarrierConfigChangeListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICarrierConfigChangeListenerOnCarrierConfigChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -102,8 +105,7 @@ func (s *CarrierConfigChangeListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnCarrierConfigChanged(ctx, _arg_slotIndex, _arg_subId, _arg_carrierId, _arg_specificCarrierId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -1,0 +1,135 @@
+package: android.frameworks.sensorservice
+go_package: android/frameworks/sensorservice
+interfaces:
+    - name: IDirectReportChannel
+      descriptor: android.frameworks.sensorservice.IDirectReportChannel
+      methods:
+        - name: configure
+          transaction_code_offset: 0
+          params:
+            - name: sensorHandle
+              type:
+                name: int
+              direction: in
+            - name: rate
+              type:
+                name: RateLevel
+              direction: in
+          return_type:
+            name: int
+    - name: IEventQueue
+      descriptor: android.frameworks.sensorservice.IEventQueue
+      methods:
+        - name: disableSensor
+          transaction_code_offset: 0
+          params:
+            - name: sensorHandle
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: enableSensor
+          transaction_code_offset: 1
+          params:
+            - name: sensorHandle
+              type:
+                name: int
+              direction: in
+            - name: samplingPeriodUs
+              type:
+                name: int
+              direction: in
+            - name: maxBatchReportLatencyUs
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+    - name: IEventQueueCallback
+      descriptor: android.frameworks.sensorservice.IEventQueueCallback
+      oneway: true
+      methods:
+        - name: onEvent
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: Event
+              direction: in
+          return_type:
+            name: void
+    - name: ISensorManager
+      descriptor: android.frameworks.sensorservice.ISensorManager
+      methods:
+        - name: createAshmemDirectChannel
+          transaction_code_offset: 0
+          params:
+            - name: mem
+              type:
+                name: Ashmem
+              direction: in
+            - name: size
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: IDirectReportChannel
+        - name: createEventQueue
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IEventQueueCallback
+              direction: in
+          return_type:
+            name: IEventQueue
+        - name: createGrallocDirectChannel
+          transaction_code_offset: 2
+          params:
+            - name: buffer
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: size
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: IDirectReportChannel
+        - name: getDefaultSensor
+          transaction_code_offset: 3
+          params:
+            - name: type
+              type:
+                name: SensorType
+              direction: in
+          return_type:
+            name: SensorInfo
+        - name: getSensorList
+          transaction_code_offset: 4
+          return_type:
+            name: SensorInfo
+            is_array: true
+      constants:
+        - name: RESULT_NOT_EXIST
+          type: int
+          value: "1"
+        - name: RESULT_NO_MEMORY
+          type: int
+          value: "2"
+        - name: RESULT_NO_INIT
+          type: int
+          value: "3"
+        - name: RESULT_PERMISSION_DENIED
+          type: int
+          value: "4"
+        - name: RESULT_BAD_VALUE
+          type: int
+          value: "5"
+        - name: RESULT_INVALID_OPERATION
+          type: int
+          value: "6"
+        - name: RESULT_UNKNOWN_ERROR
+          type: int
+          value: "7"

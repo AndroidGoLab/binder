@@ -62,6 +62,7 @@ func (p *FullBackupRestoreObserverProxy) OnStartBackup(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnStartBackup)
@@ -78,6 +79,7 @@ func (p *FullBackupRestoreObserverProxy) OnBackupPackage(
 	name string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 	_data.WriteString16(name)
 
@@ -94,6 +96,7 @@ func (p *FullBackupRestoreObserverProxy) OnEndBackup(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnEndBackup)
@@ -109,6 +112,7 @@ func (p *FullBackupRestoreObserverProxy) OnStartRestore(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnStartRestore)
@@ -125,6 +129,7 @@ func (p *FullBackupRestoreObserverProxy) OnRestorePackage(
 	name string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 	_data.WriteString16(name)
 
@@ -141,6 +146,7 @@ func (p *FullBackupRestoreObserverProxy) OnEndRestore(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnEndRestore)
@@ -156,6 +162,7 @@ func (p *FullBackupRestoreObserverProxy) OnTimeout(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnTimeout)
@@ -170,7 +177,8 @@ func (p *FullBackupRestoreObserverProxy) OnTimeout(
 // FullBackupRestoreObserverStub dispatches incoming binder transactions
 // to a typed IFullBackupRestoreObserver implementation.
 type FullBackupRestoreObserverStub struct {
-	Impl IFullBackupRestoreObserver
+	Impl      IFullBackupRestoreObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FullBackupRestoreObserverStub)(nil)
@@ -184,64 +192,40 @@ func (s *FullBackupRestoreObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFullBackupRestoreObserverOnStartBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnStartBackup(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFullBackupRestoreObserverOnBackupPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnBackupPackage(ctx, _arg_name)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFullBackupRestoreObserverOnEndBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnEndBackup(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFullBackupRestoreObserverOnStartRestore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnStartRestore(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFullBackupRestoreObserverOnRestorePackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRestorePackage(ctx, _arg_name)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFullBackupRestoreObserverOnEndRestore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnEndRestore(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFullBackupRestoreObserverOnTimeout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnTimeout(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

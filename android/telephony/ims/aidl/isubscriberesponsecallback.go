@@ -58,6 +58,7 @@ func (p *SubscribeResponseCallbackProxy) OnCommandError(
 	code int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISubscribeResponseCallback)
 	_data.WriteInt32(code)
 
@@ -75,6 +76,7 @@ func (p *SubscribeResponseCallbackProxy) OnNetworkResponse(
 	detail ims.SipDetails,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISubscribeResponseCallback)
 	_data.WriteInt32(1)
 	if _err := detail.MarshalParcel(_data); _err != nil {
@@ -95,6 +97,7 @@ func (p *SubscribeResponseCallbackProxy) OnNotifyCapabilitiesUpdate(
 	pidfXmls []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISubscribeResponseCallback)
 	if pidfXmls == nil {
 		_data.WriteInt32(-1)
@@ -119,6 +122,7 @@ func (p *SubscribeResponseCallbackProxy) OnResourceTerminated(
 	uriTerminatedReason []ims.RcsContactTerminatedReason,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISubscribeResponseCallback)
 	if uriTerminatedReason == nil {
 		_data.WriteInt32(-1)
@@ -147,6 +151,7 @@ func (p *SubscribeResponseCallbackProxy) OnTerminated(
 	retryAfterMilliseconds int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISubscribeResponseCallback)
 	_data.WriteString16(reason)
 	_data.WriteInt64(retryAfterMilliseconds)
@@ -163,7 +168,8 @@ func (p *SubscribeResponseCallbackProxy) OnTerminated(
 // SubscribeResponseCallbackStub dispatches incoming binder transactions
 // to a typed ISubscribeResponseCallback implementation.
 type SubscribeResponseCallbackStub struct {
-	Impl ISubscribeResponseCallback
+	Impl      ISubscribeResponseCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SubscribeResponseCallbackStub)(nil)
@@ -177,22 +183,19 @@ func (s *SubscribeResponseCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISubscribeResponseCallbackOnCommandError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnCommandError(ctx, _arg_code)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISubscribeResponseCallbackOnNetworkResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_detail ims.SipDetails
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -206,32 +209,54 @@ func (s *SubscribeResponseCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnNetworkResponse(ctx, _arg_detail)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISubscribeResponseCallbackOnNotifyCapabilitiesUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pidfXmls []string
-		_ = _arg_pidfXmls
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_pidfXmls = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_pidfXmls[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnNotifyCapabilitiesUpdate(ctx, _arg_pidfXmls)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISubscribeResponseCallbackOnResourceTerminated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_uriTerminatedReason []ims.RcsContactTerminatedReason
-		_ = _arg_uriTerminatedReason
-		_err := s.Impl.OnResourceTerminated(ctx, _arg_uriTerminatedReason)
-		_ = _err
-		return nil, nil
-	case TransactionISubscribeResponseCallbackOnTerminated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_uriTerminatedReason = make([]ims.RcsContactTerminatedReason, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_uriTerminatedReason[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnResourceTerminated(ctx, _arg_uriTerminatedReason)
+		return nil, _err
+	case TransactionISubscribeResponseCallbackOnTerminated:
 		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -241,8 +266,7 @@ func (s *SubscribeResponseCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTerminated(ctx, _arg_reason, _arg_retryAfterMilliseconds)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

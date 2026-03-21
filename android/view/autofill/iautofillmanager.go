@@ -5,6 +5,7 @@ import (
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	androidOs "github.com/xaionaro-go/binder/android/os"
 	serviceAutofill "github.com/xaionaro-go/binder/android/service/autofill"
 	"github.com/xaionaro-go/binder/binder"
 	os "github.com/xaionaro-go/binder/com/android/internal_/os"
@@ -78,7 +79,7 @@ type IAutoFillManager interface {
 	SetAutofillFailure(ctx context.Context, sessionId int32, ids []AutofillId) error
 	FinishSession(ctx context.Context, sessionId int32, commitReason int32) error
 	CancelSession(ctx context.Context, sessionId int32) error
-	SetAuthenticationResult(ctx context.Context, data interface{}, sessionId int32, authenticationId int32) error
+	SetAuthenticationResult(ctx context.Context, data androidOs.Bundle, sessionId int32, authenticationId int32) error
 	SetHasCallback(ctx context.Context, sessionId int32, hasIt bool) error
 	DisableOwnedAutofillServices(ctx context.Context) error
 	IsServiceSupported(ctx context.Context, result os.IResultReceiver) error
@@ -118,6 +119,7 @@ func (p *AutoFillManagerProxy) AddClient(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -142,6 +144,7 @@ func (p *AutoFillManagerProxy) RemoveClient(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -170,6 +173,7 @@ func (p *AutoFillManagerProxy) StartSession(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, appCallback, p.Remote.Transport())
@@ -209,6 +213,7 @@ func (p *AutoFillManagerProxy) GetFillEventHistory(
 	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
@@ -229,6 +234,7 @@ func (p *AutoFillManagerProxy) RestoreSession(
 	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(sessionId)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
@@ -255,6 +261,7 @@ func (p *AutoFillManagerProxy) UpdateSession(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -289,6 +296,7 @@ func (p *AutoFillManagerProxy) SetAutofillFailure(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(sessionId)
 	if ids == nil {
@@ -320,6 +328,7 @@ func (p *AutoFillManagerProxy) FinishSession(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(_identity.UserID)
@@ -340,6 +349,7 @@ func (p *AutoFillManagerProxy) CancelSession(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(_identity.UserID)
@@ -355,13 +365,18 @@ func (p *AutoFillManagerProxy) CancelSession(
 
 func (p *AutoFillManagerProxy) SetAuthenticationResult(
 	ctx context.Context,
-	data interface{},
+	data androidOs.Bundle,
 	sessionId int32,
 	authenticationId int32,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
+	_data.WriteInt32(1)
+	if _err := data.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(authenticationId)
 	_data.WriteInt32(_identity.UserID)
@@ -382,6 +397,7 @@ func (p *AutoFillManagerProxy) SetHasCallback(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(_identity.UserID)
@@ -401,6 +417,7 @@ func (p *AutoFillManagerProxy) DisableOwnedAutofillServices(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -419,6 +436,7 @@ func (p *AutoFillManagerProxy) IsServiceSupported(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(_identity.UserID)
 	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
@@ -439,6 +457,7 @@ func (p *AutoFillManagerProxy) IsServiceEnabled(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
@@ -459,6 +478,7 @@ func (p *AutoFillManagerProxy) OnPendingSaveUi(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(operation)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -477,6 +497,7 @@ func (p *AutoFillManagerProxy) GetUserData(
 	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
@@ -494,6 +515,7 @@ func (p *AutoFillManagerProxy) GetUserDataId(
 	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
@@ -511,6 +533,7 @@ func (p *AutoFillManagerProxy) SetUserData(
 	userData serviceAutofill.UserData,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(1)
 	if _err := userData.MarshalParcel(_data); _err != nil {
@@ -531,6 +554,7 @@ func (p *AutoFillManagerProxy) IsFieldClassificationEnabled(
 	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
@@ -548,6 +572,7 @@ func (p *AutoFillManagerProxy) GetAutofillServiceComponentName(
 	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
@@ -565,6 +590,7 @@ func (p *AutoFillManagerProxy) GetAvailableFieldClassificationAlgorithms(
 	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
@@ -582,6 +608,7 @@ func (p *AutoFillManagerProxy) GetDefaultFieldClassificationAlgorithm(
 	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
@@ -601,6 +628,7 @@ func (p *AutoFillManagerProxy) SetAugmentedAutofillWhitelist(
 	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	if packages == nil {
 		_data.WriteInt32(-1)
@@ -635,7 +663,8 @@ func (p *AutoFillManagerProxy) SetAugmentedAutofillWhitelist(
 // AutoFillManagerStub dispatches incoming binder transactions
 // to a typed IAutoFillManager implementation.
 type AutoFillManagerStub struct {
-	Impl IAutoFillManager
+	Impl      IAutoFillManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AutoFillManagerStub)(nil)
@@ -649,14 +678,20 @@ func (s *AutoFillManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAutoFillManagerAddClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IAutoFillManagerClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewAutoFillManagerClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -672,35 +707,47 @@ func (s *AutoFillManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
-		_err := s.Impl.AddClient(ctx, _arg_client, _arg_componentName, _arg_result)
-		_ = _err
-		return nil, nil
-	case TransactionIAutoFillManagerRemoveClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err := s.Impl.AddClient(ctx, _arg_client, _arg_componentName, _arg_result)
+		return nil, _err
+	case TransactionIAutoFillManagerRemoveClient:
 		var _arg_client IAutoFillManagerClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewAutoFillManagerClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RemoveClient(ctx, _arg_client)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerStartSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
+		}
 		var _arg_appCallback binder.IBinder
-		_ = _arg_appCallback
+		{
+			_appCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_appCallback = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _appCallbackHandle)
+		}
 		var _arg_autoFillId AutofillId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -764,46 +811,59 @@ func (s *AutoFillManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
+		}
 		_err = s.Impl.StartSession(ctx, _arg_activityToken, _arg_appCallback, _arg_autoFillId, _arg_bounds, _arg_value, _arg_hasCallback, _arg_flags, _arg_componentName, _arg_compatMode, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerGetFillEventHistory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
-		_err := s.Impl.GetFillEventHistory(ctx, _arg_result)
-		_ = _err
-		return nil, nil
-	case TransactionIAutoFillManagerRestoreSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
 		}
+		_err := s.Impl.GetFillEventHistory(ctx, _arg_result)
+		return nil, _err
+	case TransactionIAutoFillManagerRestoreSession:
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_appCallback binder.IBinder
-		_ = _arg_appCallback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_result os.IResultReceiver
-		_ = _arg_result
-		_err = s.Impl.RestoreSession(ctx, _arg_sessionId, _arg_activityToken, _arg_appCallback, _arg_result)
-		_ = _err
-		return nil, nil
-	case TransactionIAutoFillManagerUpdateSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
 		}
+		var _arg_appCallback binder.IBinder
+		{
+			_appCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_appCallback = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _appCallbackHandle)
+		}
+		var _arg_result os.IResultReceiver
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
+		}
+		_err = s.Impl.RestoreSession(ctx, _arg_sessionId, _arg_activityToken, _arg_appCallback, _arg_result)
+		return nil, _err
+	case TransactionIAutoFillManagerUpdateSession:
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -856,29 +916,39 @@ func (s *AutoFillManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.UpdateSession(ctx, _arg_sessionId, _arg_id, _arg_bounds, _arg_value, _arg_action, _arg_flags)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerSetAutofillFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ids []AutofillId
-		_ = _arg_ids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ids = make([]AutofillId, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_ids[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetAutofillFailure(ctx, _arg_sessionId, _arg_ids)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerFinishSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -891,12 +961,8 @@ func (s *AutoFillManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.FinishSession(ctx, _arg_sessionId, _arg_commitReason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerCancelSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -905,13 +971,20 @@ func (s *AutoFillManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.CancelSession(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerSetAuthenticationResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_data androidOs.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_data interface{}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -924,12 +997,8 @@ func (s *AutoFillManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetAuthenticationResult(ctx, _arg_data, _arg_sessionId, _arg_authenticationId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerSetHasCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -942,35 +1011,28 @@ func (s *AutoFillManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetHasCallback(ctx, _arg_sessionId, _arg_hasIt)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerDisableOwnedAutofillServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DisableOwnedAutofillServices(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerIsServiceSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
-		_err := s.Impl.IsServiceSupported(ctx, _arg_result)
-		_ = _err
-		return nil, nil
-	case TransactionIAutoFillManagerIsServiceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
 		}
+		_err := s.Impl.IsServiceSupported(ctx, _arg_result)
+		return nil, _err
+	case TransactionIAutoFillManagerIsServiceEnabled:
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -978,50 +1040,54 @@ func (s *AutoFillManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
-		_err = s.Impl.IsServiceEnabled(ctx, _arg_packageName, _arg_result)
-		_ = _err
-		return nil, nil
-	case TransactionIAutoFillManagerOnPendingSaveUi:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
 		}
+		_err = s.Impl.IsServiceEnabled(ctx, _arg_packageName, _arg_result)
+		return nil, _err
+	case TransactionIAutoFillManagerOnPendingSaveUi:
 		_arg_operation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err = s.Impl.OnPendingSaveUi(ctx, _arg_operation, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerGetUserData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
+		}
 		_err := s.Impl.GetUserData(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerGetUserDataId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
-		_err := s.Impl.GetUserDataId(ctx, _arg_result)
-		_ = _err
-		return nil, nil
-	case TransactionIAutoFillManagerSetUserData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
 		}
+		_err := s.Impl.GetUserDataId(ctx, _arg_result)
+		return nil, _err
+	case TransactionIAutoFillManagerSetUserData:
 		var _arg_userData serviceAutofill.UserData
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1035,64 +1101,102 @@ func (s *AutoFillManagerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetUserData(ctx, _arg_userData)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerIsFieldClassificationEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
+		}
 		_err := s.Impl.IsFieldClassificationEnabled(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerGetAutofillServiceComponentName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
+		}
 		_err := s.Impl.GetAutofillServiceComponentName(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerGetAvailableFieldClassificationAlgorithms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
+		}
 		_err := s.Impl.GetAvailableFieldClassificationAlgorithms(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerGetDefaultFieldClassificationAlgorithm:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
+		}
 		_err := s.Impl.GetDefaultFieldClassificationAlgorithm(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerSetAugmentedAutofillWhitelist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packages []string
-		_ = _arg_packages
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packages = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packages[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_activities []content.ComponentName
-		_ = _arg_activities
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_activities = make([]content.ComponentName, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_activities[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
+		}
 		_err := s.Impl.SetAugmentedAutofillWhitelist(ctx, _arg_packages, _arg_activities, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1111,7 +1215,7 @@ type IAutoFillManagerServer interface {
 	SetAutofillFailure(ctx context.Context, sessionId int32, ids []AutofillId) error
 	FinishSession(ctx context.Context, sessionId int32, commitReason int32) error
 	CancelSession(ctx context.Context, sessionId int32) error
-	SetAuthenticationResult(ctx context.Context, data interface{}, sessionId int32, authenticationId int32) error
+	SetAuthenticationResult(ctx context.Context, data androidOs.Bundle, sessionId int32, authenticationId int32) error
 	SetHasCallback(ctx context.Context, sessionId int32, hasIt bool) error
 	DisableOwnedAutofillServices(ctx context.Context) error
 	IsServiceSupported(ctx context.Context, result os.IResultReceiver) error
@@ -1222,7 +1326,7 @@ func (w *autoFillManagerStubWrapper) CancelSession(
 
 func (w *autoFillManagerStubWrapper) SetAuthenticationResult(
 	ctx context.Context,
-	data interface{},
+	data androidOs.Bundle,
 	sessionId int32,
 	authenticationId int32,
 ) error {

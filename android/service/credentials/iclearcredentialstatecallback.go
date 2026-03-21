@@ -27,7 +27,7 @@ const (
 type IClearCredentialStateCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context) error
-	OnFailure(ctx context.Context, errorType string, message interface{}) error
+	OnFailure(ctx context.Context, errorType string, message string) error
 	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
 }
 
@@ -51,6 +51,7 @@ func (p *ClearCredentialStateCallbackProxy) OnSuccess(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClearCredentialStateCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClearCredentialStateCallback, MethodIClearCredentialStateCallbackOnSuccess)
@@ -65,11 +66,13 @@ func (p *ClearCredentialStateCallbackProxy) OnSuccess(
 func (p *ClearCredentialStateCallbackProxy) OnFailure(
 	ctx context.Context,
 	errorType string,
-	message interface{},
+	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClearCredentialStateCallback)
 	_data.WriteString16(errorType)
+	_data.WriteString16(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClearCredentialStateCallback, MethodIClearCredentialStateCallbackOnFailure)
 	if _err != nil {
@@ -85,6 +88,7 @@ func (p *ClearCredentialStateCallbackProxy) OnCancellable(
 	cancellation common.ICancellationSignal,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClearCredentialStateCallback)
 	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
 
@@ -100,7 +104,8 @@ func (p *ClearCredentialStateCallbackProxy) OnCancellable(
 // ClearCredentialStateCallbackStub dispatches incoming binder transactions
 // to a typed IClearCredentialStateCallback implementation.
 type ClearCredentialStateCallbackStub struct {
-	Impl IClearCredentialStateCallback
+	Impl      IClearCredentialStateCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ClearCredentialStateCallbackStub)(nil)
@@ -114,36 +119,36 @@ func (s *ClearCredentialStateCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIClearCredentialStateCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnSuccess(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIClearCredentialStateCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_message interface{}
-		_err = s.Impl.OnFailure(ctx, _arg_errorType, _arg_message)
-		_ = _err
-		return nil, nil
-	case TransactionIClearCredentialStateCallbackOnCancellable:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_message, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err = s.Impl.OnFailure(ctx, _arg_errorType, _arg_message)
+		return nil, _err
+	case TransactionIClearCredentialStateCallbackOnCancellable:
 		var _arg_cancellation common.ICancellationSignal
-		_ = _arg_cancellation
+		{
+			_cancellationHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cancellation = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
+		}
 		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -154,7 +159,7 @@ func (s *ClearCredentialStateCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IClearCredentialStateCallbackServer interface {
 	OnSuccess(ctx context.Context) error
-	OnFailure(ctx context.Context, errorType string, message interface{}) error
+	OnFailure(ctx context.Context, errorType string, message string) error
 	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
 }
 
@@ -176,7 +181,7 @@ func (w *clearCredentialStateCallbackStubWrapper) OnSuccess(
 func (w *clearCredentialStateCallbackStubWrapper) OnFailure(
 	ctx context.Context,
 	errorType string,
-	message interface{},
+	message string,
 ) error {
 	return w.impl.OnFailure(ctx, errorType, message)
 }

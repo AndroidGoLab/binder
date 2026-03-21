@@ -3,6 +3,7 @@ package c2
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -25,7 +26,7 @@ const (
 
 type IInputSurface interface {
 	AsBinder() binder.IBinder
-	GetSurface(ctx context.Context) (interface{}, error)
+	GetSurface(ctx context.Context) (view.Surface, error)
 	GetConfigurable(ctx context.Context) (IConfigurable, error)
 	Connect(ctx context.Context, sink IInputSink) (IInputSurfaceConnection, error)
 }
@@ -48,9 +49,10 @@ var _ IInputSurface = (*InputSurfaceProxy)(nil)
 
 func (p *InputSurfaceProxy) GetSurface(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (view.Surface, error) {
+	var _result view.Surface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputSurface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputSurface, MethodIInputSurfaceGetSurface)
@@ -68,6 +70,15 @@ func (p *InputSurfaceProxy) GetSurface(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -76,6 +87,7 @@ func (p *InputSurfaceProxy) GetConfigurable(
 ) (IConfigurable, error) {
 	var _result IConfigurable
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputSurface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputSurface, MethodIInputSurfaceGetConfigurable)
@@ -107,6 +119,7 @@ func (p *InputSurfaceProxy) Connect(
 ) (IInputSurfaceConnection, error) {
 	var _result IInputSurfaceConnection
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputSurface)
 	binder.WriteBinderToParcel(ctx, _data, sink.AsBinder(), p.Remote.Transport())
 
@@ -136,7 +149,8 @@ func (p *InputSurfaceProxy) Connect(
 // InputSurfaceStub dispatches incoming binder transactions
 // to a typed IInputSurface implementation.
 type InputSurfaceStub struct {
-	Impl IInputSurface
+	Impl      IInputSurface
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputSurfaceStub)(nil)
@@ -150,11 +164,12 @@ func (s *InputSurfaceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputSurfaceGetSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSurface(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -162,12 +177,12 @@ func (s *InputSurfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIInputSurfaceGetConfigurable:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIInputSurfaceGetConfigurable:
 		_result, _err := s.Impl.GetConfigurable(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -175,16 +190,17 @@ func (s *InputSurfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIInputSurfaceConnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sink IInputSink
-		_ = _arg_sink
+		{
+			_sinkHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sink = NewInputSinkProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sinkHandle))
+		}
 		_result, _err := s.Impl.Connect(ctx, _arg_sink)
 		_reply := parcel.New()
 		if _err != nil {
@@ -192,8 +208,7 @@ func (s *InputSurfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -204,7 +219,7 @@ func (s *InputSurfaceStub) OnTransaction(
 // provide to NewInputSurfaceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IInputSurfaceServer interface {
-	GetSurface(ctx context.Context) (interface{}, error)
+	GetSurface(ctx context.Context) (view.Surface, error)
 	GetConfigurable(ctx context.Context) (IConfigurable, error)
 	Connect(ctx context.Context, sink IInputSink) (IInputSurfaceConnection, error)
 }
@@ -220,7 +235,7 @@ func (w *inputSurfaceStubWrapper) AsBinder() binder.IBinder {
 
 func (w *inputSurfaceStubWrapper) GetSurface(
 	ctx context.Context,
-) (interface{}, error) {
+) (view.Surface, error) {
 	return w.impl.GetSurface(ctx)
 }
 

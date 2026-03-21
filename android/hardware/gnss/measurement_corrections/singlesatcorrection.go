@@ -1,7 +1,7 @@
 package measurement_corrections
 
 import (
-	measurement_correctionsSingleSatCorrection "github.com/xaionaro-go/binder/android/hardware/gnss/measurement_corrections/SingleSatCorrection"
+	types "github.com/xaionaro-go/binder/android/hardware/gnss/types"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,14 +9,14 @@ import (
 
 type SingleSatCorrection struct {
 	SingleSatCorrectionFlags                  int32
-	Constellation                             interface{}
+	Constellation                             types.GnssConstellationType
 	Svid                                      int32
 	CarrierFrequencyHz                        int64
 	ProbSatIsLos                              float32
 	CombinedExcessPathLengthMeters            float32
 	CombinedExcessPathLengthUncertaintyMeters float32
 	CombinedAttenuationDb                     float32
-	ExcessPathInfos                           []measurement_correctionsSingleSatCorrection.ExcessPathInfo
+	ExcessPathInfos                           []SingleSatCorrectionExcessPathInfo
 }
 
 const (
@@ -63,9 +63,24 @@ func (s *SingleSatCorrection) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SingleSatCorrectionFlags, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Svid, _err = p.ReadInt32()
@@ -73,9 +88,19 @@ func (s *SingleSatCorrection) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.CarrierFrequencyHz, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ProbSatIsLos, _err = p.ReadFloat32()
@@ -83,9 +108,19 @@ func (s *SingleSatCorrection) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.CombinedExcessPathLengthMeters, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.CombinedExcessPathLengthUncertaintyMeters, _err = p.ReadFloat32()
@@ -93,9 +128,19 @@ func (s *SingleSatCorrection) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.CombinedAttenuationDb, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -104,7 +149,7 @@ func (s *SingleSatCorrection) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.ExcessPathInfos = make([]measurement_correctionsSingleSatCorrection.ExcessPathInfo, _count0)
+		s.ExcessPathInfos = make([]SingleSatCorrectionExcessPathInfo, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
 			if _, _err = p.ReadInt32(); _err != nil {
 				return _err

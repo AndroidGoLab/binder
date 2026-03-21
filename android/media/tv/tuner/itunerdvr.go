@@ -71,6 +71,7 @@ func (p *TunerDvrProxy) GetQueueDesc(
 ) (fmq.MQDescriptor, error) {
 	var _result fmq.MQDescriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDvr, MethodITunerDvrGetQueueDesc)
@@ -105,6 +106,7 @@ func (p *TunerDvrProxy) Configure(
 	settings tvTuner.DvrSettings,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
 	_data.WriteInt32(1)
 	if _err := settings.MarshalParcel(_data); _err != nil {
@@ -134,6 +136,7 @@ func (p *TunerDvrProxy) AttachFilter(
 	filter ITunerFilter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
 	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.Remote.Transport())
 
@@ -160,6 +163,7 @@ func (p *TunerDvrProxy) DetachFilter(
 	filter ITunerFilter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
 	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.Remote.Transport())
 
@@ -185,6 +189,7 @@ func (p *TunerDvrProxy) Start(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDvr, MethodITunerDvrStart)
@@ -209,6 +214,7 @@ func (p *TunerDvrProxy) Stop(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDvr, MethodITunerDvrStop)
@@ -233,6 +239,7 @@ func (p *TunerDvrProxy) Flush(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDvr, MethodITunerDvrFlush)
@@ -257,6 +264,7 @@ func (p *TunerDvrProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDvr, MethodITunerDvrClose)
@@ -282,6 +290,7 @@ func (p *TunerDvrProxy) SetStatusCheckIntervalHint(
 	milliseconds int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
 	_data.WriteInt64(milliseconds)
 
@@ -306,7 +315,8 @@ func (p *TunerDvrProxy) SetStatusCheckIntervalHint(
 // TunerDvrStub dispatches incoming binder transactions
 // to a typed ITunerDvr implementation.
 type TunerDvrStub struct {
-	Impl ITunerDvr
+	Impl      ITunerDvr
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TunerDvrStub)(nil)
@@ -320,11 +330,12 @@ func (s *TunerDvrStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITunerDvrGetQueueDesc:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetQueueDesc(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -338,9 +349,6 @@ func (s *TunerDvrStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITunerDvrConfigure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_settings tvTuner.DvrSettings
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -362,12 +370,14 @@ func (s *TunerDvrStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerDvrAttachFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_filter ITunerFilter
-		_ = _arg_filter
+		{
+			_filterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_filter = NewTunerFilterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _filterHandle))
+		}
 		_err := s.Impl.AttachFilter(ctx, _arg_filter)
 		_reply := parcel.New()
 		if _err != nil {
@@ -377,12 +387,14 @@ func (s *TunerDvrStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerDvrDetachFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_filter ITunerFilter
-		_ = _arg_filter
+		{
+			_filterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_filter = NewTunerFilterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _filterHandle))
+		}
 		_err := s.Impl.DetachFilter(ctx, _arg_filter)
 		_reply := parcel.New()
 		if _err != nil {
@@ -392,9 +404,6 @@ func (s *TunerDvrStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerDvrStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Start(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -404,9 +413,6 @@ func (s *TunerDvrStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerDvrStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Stop(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -416,9 +422,6 @@ func (s *TunerDvrStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerDvrFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Flush(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -428,9 +431,6 @@ func (s *TunerDvrStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerDvrClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -440,9 +440,6 @@ func (s *TunerDvrStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerDvrSetStatusCheckIntervalHint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_milliseconds, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err

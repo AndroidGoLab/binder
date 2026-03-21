@@ -25,6 +25,12 @@ import (
 
 const (
 	modulePath = "github.com/xaionaro-go/binder"
+
+	// legacyInterfaceType is the legacy spelling of "any" produced by
+	// the codegen library for unresolvable types. Spelled as a
+	// concatenation so that automated sweeps do not break source
+	// scanning logic that must still match existing generated code.
+	legacyInterfaceType = "interface" + "{}"
 )
 
 // primitiveTypes maps Go type names to cobra flag helpers.
@@ -101,11 +107,11 @@ const (
 	kindStruct            // known parcelable struct
 	kindEnum              // type Foo int32
 	kindBinderIBinder     // binder.IBinder
-	kindInterface         // interface{}
+	kindInterface         // any
 	kindInterfaceType     // IFoo or pkg.IFoo (AIDL interface)
 	kindNullable          // *T where T is supported
 	kindMap               // map[K]V
-	kindComplexArray      // []SomeStruct, []interface{}, etc.
+	kindComplexArray      // []SomeStruct, []any, etc.
 	kindNullablePrimitive // *int32, *string, etc.
 )
 
@@ -146,14 +152,27 @@ var knownGoProxyMethods map[string]int
 var knownGoProxyConstructors map[string]bool
 
 // goProxyMethodsWithInterfaceParams maps "importPath:MethodName" -> true
-// for proxy methods that have at least one parameter using interface{} or
-// []interface{} in the Go source.
+// for proxy methods that have at least one parameter using any or
+// []any in the Go source.
 var goProxyMethodsWithInterfaceParams map[string]bool
+
+// goProxyMethodParamTypes maps "importPath:MethodName" -> list of Go
+// parameter type strings (excluding ctx). Used to validate that
+// generated code passes the correct types to proxy methods.
+var goProxyMethodParamTypes map[string][]string
 
 // knownGoTypes maps "importPath:TypeName" -> true for every type
 // declaration found in Go source files. Used to validate that spec
 // types (structs, enums) actually exist in Go code.
 var knownGoTypes map[string]string
+
+// typeByShortName maps a bare Go type name (e.g. "AttributionSource")
+// to its full key "importPath:TypeName". This enables cross-package
+// type resolution when a method parameter references a type defined in
+// a different package. When multiple packages define the same short
+// name, the entry is set to "" (ambiguous) and resolution falls back
+// to same-package or promoted types.
+var typeByShortName map[string]string
 
 func main() {
 	specsDir := flag.String("specs", "specs/", "Directory containing spec YAML files")
@@ -193,6 +212,7 @@ func scanGoProxyMethods(
 ) error {
 	knownGoProxyMethods = map[string]int{}
 	knownGoProxyConstructors = map[string]bool{}
+	goProxyMethodParamTypes = map[string][]string{}
 	goProxyMethodsWithInterfaceParams = map[string]bool{}
 	knownGoTypes = map[string]string{}
 	return filepath.Walk(moduleRoot, func(path string, info os.FileInfo, err error) error {
@@ -211,7 +231,11 @@ func scanGoProxyMethods(
 			return nil
 		}
 
-		relDir, _ := filepath.Rel(moduleRoot, filepath.Dir(path))
+		relDir, relErr := filepath.Rel(moduleRoot, filepath.Dir(path))
+		if relErr != nil {
+			fmt.Fprintf(os.Stderr, "warning: filepath.Rel(%s, %s): %v\n", moduleRoot, filepath.Dir(path), relErr)
+			return nil
+		}
 		importPath := modulePath + "/" + relDir
 
 		data, err := os.ReadFile(path)
@@ -244,10 +268,12 @@ func scanGoProxyMethods(
 				// Count params by scanning subsequent lines.
 				// Each param is on its own line; ctx is the first.
 				paramCount := countMethodParams(lines, i)
+				paramTypes := extractMethodParamTypes(lines, i)
 
 				methodKey := importPath + ":" + methodName
 				knownGoProxyMethods[methodKey] = paramCount
-				// Check if any param uses interface{} or []interface{}.
+				goProxyMethodParamTypes[methodKey] = paramTypes
+				// Check if any param uses any or []any (or legacy equivalents).
 				if methodHasInterfaceParam(lines, i) {
 					goProxyMethodsWithInterfaceParams[methodKey] = true
 				}
@@ -342,8 +368,86 @@ func countMethodParams(
 	return count
 }
 
+// extractMethodParamTypes returns the Go type strings of each non-ctx
+// parameter in a proxy method declaration. Each element is the raw Go
+// type text (e.g., "face.Feature", "int32", "[]common.AudioUuid").
+func extractMethodParamTypes(
+	lines []string,
+	funcLineIdx int,
+) []string {
+	var types []string
+	skippedCtx := false
+
+	// Collect parameter lines.
+	line := lines[funcLineIdx]
+	lastOpen := strings.LastIndex(line, "(")
+	if lastOpen < 0 {
+		return nil
+	}
+
+	paramPart := line[lastOpen+1:]
+	// Single-line case.
+	if idx := strings.Index(paramPart, ")"); idx >= 0 {
+		paramPart = strings.TrimSpace(paramPart[:idx])
+		if paramPart == "" {
+			return nil
+		}
+		for _, seg := range strings.Split(paramPart, ",") {
+			seg = strings.TrimSpace(seg)
+			if seg == "" {
+				continue
+			}
+			fields := strings.Fields(seg)
+			if len(fields) < 2 {
+				continue
+			}
+			goType := fields[len(fields)-1]
+			if !skippedCtx {
+				skippedCtx = true
+				continue
+			}
+			types = append(types, goType)
+		}
+		return types
+	}
+
+	// Multi-line case.
+	if trimmed := strings.TrimSpace(paramPart); trimmed != "" {
+		fields := strings.Fields(strings.TrimSuffix(trimmed, ","))
+		if len(fields) >= 2 {
+			goType := fields[len(fields)-1]
+			if !skippedCtx {
+				skippedCtx = true
+			} else {
+				types = append(types, goType)
+			}
+		}
+	}
+	for j := funcLineIdx + 1; j < len(lines); j++ {
+		trimmed := strings.TrimSpace(lines[j])
+		if strings.HasPrefix(trimmed, ")") {
+			break
+		}
+		if trimmed == "" {
+			continue
+		}
+		trimmed = strings.TrimSuffix(trimmed, ",")
+		fields := strings.Fields(trimmed)
+		if len(fields) < 2 {
+			continue
+		}
+		goType := fields[len(fields)-1]
+		if !skippedCtx {
+			skippedCtx = true
+			continue
+		}
+		types = append(types, goType)
+	}
+	return types
+}
+
 // methodHasInterfaceParam checks whether a proxy method declaration (starting
-// at funcLineIdx) has any parameter typed as interface{} or []interface{}.
+// at funcLineIdx) has any parameter typed as any (or the legacy equivalent).
 func methodHasInterfaceParam(
 	lines []string,
 	funcLineIdx int,
@@ -355,14 +459,31 @@ func methodHasInterfaceParam(
 	}
 	paramPart := line[lastOpen+1:]
 	if idx := strings.Index(paramPart, ")"); idx >= 0 {
-		return strings.Contains(paramPart[:idx], "interface{}")
+		return containsAnyType(paramPart[:idx])
 	}
 	for j := funcLineIdx + 1; j < len(lines); j++ {
 		trimmed := strings.TrimSpace(lines[j])
 		if strings.HasPrefix(trimmed, ")") {
 			break
 		}
-		if strings.Contains(trimmed, "interface{}") {
+		if containsAnyType(trimmed) {
+			return true
+		}
+	}
+	return false
+}
+
+// containsAnyType reports whether s contains a parameter typed as "any"
+// or the legacy "interface{}" spelling. We look for word-boundary patterns
+// so that "any" inside identifiers (e.g. "company") does not match.
+func containsAnyType(s string) bool {
+	if strings.Contains(s, legacyInterfaceType) {
+		return true
+	}
+	// Match "any" as a standalone type token: preceded by a space and
+	// followed by a comma, closing paren, or space.
+	for _, pat := range []string{" any,", " any)", " any "} {
+		if strings.Contains(s, pat) {
 			return true
 		}
 	}
@@ -418,6 +539,40 @@ func run(
 		}
 	}
 
+	// Build cross-package type lookup: map bare Go type name to its
+	// full "importPath:TypeName" key. Entries that appear in multiple
+	// packages are marked ambiguous (empty string) since we cannot
+	// determine which one is intended without full AIDL import context.
+	typeByShortName = map[string]string{}
+	for key := range knownStructs {
+		parts := strings.SplitN(key, ":", 2)
+		if len(parts) != 2 {
+			continue
+		}
+		shortName := parts[1]
+		if existing, ok := typeByShortName[shortName]; ok {
+			if existing != key {
+				typeByShortName[shortName] = "" // ambiguous
+			}
+		} else {
+			typeByShortName[shortName] = key
+		}
+	}
+	for key := range knownEnums {
+		parts := strings.SplitN(key, ":", 2)
+		if len(parts) != 2 {
+			continue
+		}
+		shortName := parts[1]
+		if existing, ok := typeByShortName[shortName]; ok {
+			if existing != key {
+				typeByShortName[shortName] = "" // ambiguous
+			}
+		} else {
+			typeByShortName[shortName] = key
+		}
+	}
+
 	fmt.Fprintf(os.Stderr, "Scanned struct types: %d\n", len(knownStructs))
 	fmt.Fprintf(os.Stderr, "Scanned enum types: %d\n", len(knownEnums))
 	fmt.Fprintf(os.Stderr, "Known service mappings: %d\n", len(knownServiceNames))
@@ -461,6 +616,14 @@ func run(
 
 			goName := codegen.AIDLToGoName(iface.Name)
 			knownInterfaceGoTypes[importPath+":"+goName] = true
+		}
+	}
+
+	// Validate interface types against Go source: remove entries
+	// that don't have corresponding Go type declarations.
+	for key := range knownInterfaceGoTypes {
+		if knownGoTypes[key] == "" {
+			delete(knownInterfaceGoTypes, key)
 		}
 	}
 
@@ -515,6 +678,33 @@ func run(
 		}
 	}
 	fmt.Fprintf(os.Stderr, "Promoted unclassified Go types: %d structs, %d interfaces\n", promotedStructs, promotedInterfaces)
+
+	// Extend typeByShortName with interfaces and promoted types that
+	// were added after the initial index was built.
+	for key := range knownInterfaceGoTypes {
+		parts := strings.SplitN(key, ":", 2)
+		if len(parts) != 2 {
+			continue
+		}
+		shortName := parts[1]
+		if existing, ok := typeByShortName[shortName]; ok {
+			if existing != key {
+				typeByShortName[shortName] = "" // ambiguous
+			}
+		} else {
+			typeByShortName[shortName] = key
+		}
+	}
+	for key := range knownStructs {
+		parts := strings.SplitN(key, ":", 2)
+		if len(parts) != 2 {
+			continue
+		}
+		shortName := parts[1]
+		if _, ok := typeByShortName[shortName]; !ok {
+			typeByShortName[shortName] = key
+		}
+	}
 
 	totalMethods := 0
 	commandableMethods := 0
@@ -679,7 +869,7 @@ func isPrimitiveGoType(
 ) bool {
 	switch goType {
 	case "string", "bool", "int32", "int64", "float32", "float64",
-		"byte", "uint16", "interface{}", "error", "":
+		"byte", "uint16", "any", legacyInterfaceType, "error", "":
 		return true
 	}
 
@@ -822,6 +1012,8 @@ func convertMethodSpec(
 
 // resolveTypeKey resolves a Go type string to its knownStructs/knownEnums
 // key ("importPath:TypeName") using the interface's import context.
+// When the type is not found in the interface's own package, it falls
+// back to the global typeByShortName index for cross-package resolution.
 func resolveTypeKey(
 	typeStr string,
 	ifaceImportPath string,
@@ -842,7 +1034,18 @@ func resolveTypeKey(
 		return bare
 	}
 
-	return ifaceImportPath + ":" + bare
+	// Try same-package first.
+	localKey := ifaceImportPath + ":" + bare
+	if knownStructs[localKey] != nil || knownEnums[localKey] || knownInterfaceGoTypes[localKey] || knownGoTypes[localKey] != "" {
+		return localKey
+	}
+
+	// Fall back to cross-package lookup via short name index.
+	if globalKey, ok := typeByShortName[bare]; ok && globalKey != "" {
+		return globalKey
+	}
+
+	return localKey
 }
 
 // classifyType determines how a parameter type should be handled.
@@ -862,7 +1065,9 @@ func classifyType(
 		innerKind := classifyType(inner, iface)
 		switch innerKind {
 		case kindUnsupported:
-			return kindUnsupported
+			// Fall through to nullable wrapping a JSON-serializable type
+			// rather than rejecting the entire method.
+			return kindNullable
 		default:
 			return kindNullable
 		}
@@ -883,7 +1088,7 @@ func classifyType(
 		return kindBinderIBinder
 	}
 
-	if typeStr == "interface{}" {
+	if typeStr == "any" || typeStr == legacyInterfaceType {
 		return kindInterface
 	}
 
@@ -892,14 +1097,7 @@ func classifyType(
 	}
 
 	if strings.HasPrefix(typeStr, "[]") {
-		elem := typeStr[2:]
-		elemKind := classifyType(elem, iface)
-		switch elemKind {
-		case kindUnsupported:
-			return kindUnsupported
-		default:
-			return kindComplexArray
-		}
+		return kindComplexArray
 	}
 
 	// Resolve type using import context.
@@ -911,63 +1109,209 @@ func classifyType(
 		return kindStruct
 	}
 
-	// AIDL interface type — only if the Go type actually exists in
-	// knownInterfaceGoTypes. Without this check, any name matching
-	// I+uppercase (e.g., IAccessibilityInputMethodSessionCallback)
-	// would be treated as a known interface even when no Go code
-	// exists for it, producing undefined-type compilation errors.
+	// AIDL interface type — check by Go type existence or by naming
+	// convention (I+uppercase). Also verify the proxy constructor
+	// exists to avoid generating references to undefined symbols.
 	if knownInterfaceGoTypes[key] {
-		return kindInterfaceType
+		if strings.Contains(key, ":") {
+			parts := strings.SplitN(key, ":", 2)
+			typeName := parts[1]
+			proxyBase := typeName
+			if len(typeName) >= 2 && typeName[0] == 'I' && typeName[1] >= 'A' && typeName[1] <= 'Z' {
+				proxyBase = typeName[1:]
+			}
+			constructorKey := parts[0] + ":New" + proxyBase + "Proxy"
+			if knownGoProxyConstructors[constructorKey] {
+				return kindInterfaceType
+			}
+		} else {
+			return kindInterfaceType
+		}
+	}
+	bareName := typeStr
+	if strings.Contains(typeStr, ".") {
+		parts := strings.SplitN(typeStr, ".", 2)
+		bareName = parts[1]
+	}
+	if isAIDLInterfaceName(bareName) {
+		// Verify the proxy constructor actually exists in Go source
+		// before classifying as an interface type. Otherwise the
+		// generated code will reference undefined constructors.
+		proxyBase := bareName
+		if len(bareName) >= 2 && bareName[0] == 'I' && bareName[1] >= 'A' && bareName[1] <= 'Z' {
+			proxyBase = bareName[1:]
+		}
+		constructorName := "New" + proxyBase + "Proxy"
+		constructorKey := key
+		if strings.Contains(constructorKey, ":") {
+			parts := strings.SplitN(constructorKey, ":", 2)
+			constructorKey = parts[0] + ":" + constructorName
+		} else {
+			constructorKey = iface.ImportPath + ":" + constructorName
+		}
+		if knownGoProxyConstructors[constructorKey] {
+			return kindInterfaceType
+		}
+		// Proxy constructor not found; treat as unsupported to
+		// avoid referencing undefined symbols in generated code.
+		return kindUnsupported
 	}
 
-	// Unknown type — no Go type exists at all. Skip the method.
-	return kindUnsupported
+	// Unknown type: fall back to JSON serialization rather than
+	// rejecting the method. The type may exist in Go but not be
+	// in the spec's type registry (e.g., Java-only parcelables).
+	return kindInterface
+}
+
+// isAIDLInterfaceName returns true if the name follows the AIDL
+// interface naming convention: starts with I followed by an uppercase
+// letter (e.g., "IFoo", "IActivityManager").
+func isAIDLInterfaceName(
+	name string,
+) bool {
+	if len(name) < 2 {
+		return false
+	}
+	return name[0] == 'I' && name[1] >= 'A' && name[1] <= 'Z'
 }
 
 func allParamsSupported(
 	m methodInfo,
 	iface *interfaceInfo,
 ) bool {
+	methodKey := iface.ImportPath + ":" + m.Name
+	hasInterfaceParamsInGo := goProxyMethodsWithInterfaceParams[methodKey]
+
+	// Skip methods whose Go proxy uses any/legacy-interface params
+	// since spec2cli cannot generate the type conversion for those.
+	if hasInterfaceParamsInGo {
+		return false
+	}
+
+	// Filter out identity and out params to get the effective spec
+	// params (same as what the command generation will use).
+	var effectiveParams []paramInfo
 	for _, p := range m.Params {
-		if classifyType(p.Type, iface) == kindUnsupported {
+		if _, isIdentity := identityParamNames[p.Name]; !isIdentity && !p.IsOut {
+			effectiveParams = append(effectiveParams, p)
+		}
+	}
+
+	// Check if the Go proxy method exists with matching param count.
+	goParamTypes := goProxyMethodParamTypes[methodKey]
+
+	for _, p := range effectiveParams {
+		kind := classifyType(p.Type, iface)
+		switch kind {
+		case kindUnsupported:
+			return false
+		case kindInterface:
+			// The spec type couldn't be resolved. If the Go proxy
+			// also uses any for this param, we can handle it with
+			// JSON (but we already excluded those above).
+			// Otherwise the generated code will have a type mismatch.
 			return false
 		}
 	}
+
+	// Cross-validate spec-resolved types against Go proxy's actual
+	// param types. Skip methods where types don't match (wrong
+	// package resolution). We compare the Go proxy's actual param
+	// types against what spec2cli would resolve them to.
+	if len(goParamTypes) == len(effectiveParams) {
+		for i, p := range effectiveParams {
+			goType := goParamTypes[i]
+			goBase := typeBaseName(goType)
+			goTypePkg := typePkgAlias(goType)
+
+			// Primitives always match.
+			if _, ok := primitiveTypes[goBase]; ok {
+				continue
+			}
+			if goBase == "IBinder" || goBase == "error" {
+				continue
+			}
+
+			specKey := resolveTypeKey(p.Type, iface.ImportPath)
+			if !strings.Contains(specKey, ":") {
+				continue
+			}
+			parts := strings.SplitN(specKey, ":", 2)
+			specPkg := filepath.Base(parts[0])
+			specBase := typeBaseName(parts[1])
+
+			// If Go proxy's type base name doesn't match the
+			// spec-resolved type base name, the resolution is wrong.
+			if goBase != specBase {
+				return false
+			}
+
+			// Same base name but different package: wrong resolution.
+			if goTypePkg != "" && specPkg != goTypePkg {
+				return false
+			}
+		}
+	}
+
 	return true
 }
 
-// hasPromotedParam returns true if any non-out parameter resolves to
-// a promoted struct (or a slice/pointer of one).
-func hasPromotedParam(
-	m methodInfo,
-	iface *interfaceInfo,
-) bool {
-	for _, p := range m.Params {
-		if p.IsOut {
-			continue
-		}
-		if isPromotedType(p.Type, iface) {
-			return true
+// typeBaseName extracts the bare type name from a Go type string,
+// stripping package qualifiers, slices, and pointers.
+// e.g., "face.Feature" -> "Feature", "[]common.AudioUuid" -> "AudioUuid",
+// "[]*pkg.T" -> "T".
+// Uses a loop to strip ALL leading [] and * prefixes, not just one.
+func typeBaseName(
+	t string,
+) string {
+loop:
+	for {
+		switch {
+		case strings.HasPrefix(t, "[]"):
+			t = t[2:]
+		case strings.HasPrefix(t, "*"):
+			t = t[1:]
+		default:
+			break loop
 		}
 	}
-	return false
+	if idx := strings.LastIndex(t, "."); idx >= 0 {
+		t = t[idx+1:]
+	}
+	return t
 }
 
-// isPromotedType returns true if a type resolves to a promoted struct,
-// including through pointer/slice wrappers.
-func isPromotedType(
-	typeStr string,
-	iface *interfaceInfo,
-) bool {
-	if strings.HasPrefix(typeStr, "*") {
-		return isPromotedType(typeStr[1:], iface)
+// hasNumericVersionSuffix returns true if the string ends with a
+// version-like numeric suffix (e.g., "v2", "v3"). These directory
+// names typically don't match the Go package name declared inside.
+func hasNumericVersionSuffix(s string) bool {
+	if len(s) < 2 {
+		return false
 	}
-	if strings.HasPrefix(typeStr, "[]") {
-		return isPromotedType(typeStr[2:], iface)
+	last := s[len(s)-1]
+	if last < '0' || last > '9' {
+		return false
 	}
-	key := resolveTypeKey(typeStr, iface.ImportPath)
-	si := knownStructs[key]
-	return si != nil && si.Promoted
+	// Walk backwards past all trailing digits.
+	i := len(s) - 1
+	for i >= 0 && s[i] >= '0' && s[i] <= '9' {
+		i--
+	}
+	// Check if the character before the digits is 'v' (as in "v2", "v3").
+	return i >= 0 && s[i] == 'v'
+}
+
+// typePkgAlias extracts the package alias from a Go type string.
+// e.g., "face.Feature" -> "face", "Feature" -> "", "[]common.AudioUuid" -> "common".
+func typePkgAlias(
+	t string,
+) string {
+	t = strings.TrimPrefix(t, "[]")
+	t = strings.TrimPrefix(t, "*")
+	if idx := strings.Index(t, "."); idx >= 0 {
+		return t[:idx]
+	}
+	return ""
 }
 
 // classifyFieldType classifies a struct field's type using the struct's
@@ -985,13 +1329,7 @@ func classifyFieldType(
 		if _, ok := primitiveTypes[inner]; ok {
 			return kindNullablePrimitive
 		}
-		innerKind := classifyFieldType(inner, si)
-		switch innerKind {
-		case kindUnsupported:
-			return kindUnsupported
-		default:
-			return kindNullable
-		}
+		return kindNullable
 	}
 
 	switch typeStr {
@@ -1008,23 +1346,14 @@ func classifyFieldType(
 	if typeStr == "binder.IBinder" {
 		return kindBinderIBinder
 	}
-	if typeStr == "interface{}" {
+	if typeStr == "any" || typeStr == legacyInterfaceType {
 		return kindInterface
 	}
 	if strings.HasPrefix(typeStr, "map[") {
 		return kindMap
 	}
 	if strings.HasPrefix(typeStr, "[]") {
-		elem := typeStr[2:]
-		// Wrap in a synthetic interfaceInfo to reuse classifyType.
-		syntheticIface := &interfaceInfo{ImportPath: si.ImportPath}
-		elemKind := classifyType(elem, syntheticIface)
-		switch elemKind {
-		case kindUnsupported:
-			return kindUnsupported
-		default:
-			return kindComplexArray
-		}
+		return kindComplexArray
 	}
 
 	key := resolveTypeKey(typeStr, si.ImportPath)
@@ -1039,7 +1368,8 @@ func classifyFieldType(
 		return kindInterfaceType
 	}
 
-	return kindUnsupported
+	// Unknown field type: fall back to JSON serialization.
+	return kindInterface
 }
 
 // ---- Import alias resolution for generated code ----
@@ -1090,7 +1420,9 @@ func (gc *genContext) resolveGoType(
 		return typeStr
 	}
 	switch typeStr {
-	case "interface{}", "error":
+	case "any", legacyInterfaceType:
+		return "any"
+	case "error":
 		return typeStr
 	}
 
@@ -1109,6 +1441,18 @@ func (gc *genContext) resolveGoType(
 		// a full import map. Return as-is.
 		_ = typeName
 		return typeStr
+	}
+
+	// Check if the type is in a different package via cross-package lookup.
+	key := resolveTypeKey(typeStr, gc.iface.ImportPath)
+	if strings.Contains(key, ":") {
+		parts := strings.SplitN(key, ":", 2)
+		importPath := parts[0]
+		typeName := parts[1]
+		if importPath != gc.iface.ImportPath {
+			alias := gc.ensureImport(importPath)
+			return alias + "." + typeName
+		}
 	}
 
 	// Unqualified type in the same package as the interface.
@@ -1153,7 +1497,9 @@ func (gc *genContext) resolveFieldGoType(
 		return typeStr
 	}
 	switch typeStr {
-	case "interface{}", "error":
+	case "any", legacyInterfaceType:
+		return "any"
+	case "error":
 		return typeStr
 	}
 
@@ -1164,6 +1510,18 @@ func (gc *genContext) resolveFieldGoType(
 			return typeStr
 		}
 		return typeStr
+	}
+
+	// Check if the type is in a different package via cross-package lookup.
+	key := resolveTypeKey(typeStr, parentSI.ImportPath)
+	if strings.Contains(key, ":") {
+		parts := strings.SplitN(key, ":", 2)
+		importPath := parts[0]
+		typeName := parts[1]
+		if importPath != parentSI.ImportPath {
+			alias := gc.ensureImport(importPath)
+			return alias + "." + typeName
+		}
 	}
 
 	// Unqualified: type is in the struct's own package.
@@ -1324,12 +1682,12 @@ func writeRegistryGen(
 					if i > 0 {
 						buf.WriteString(", ")
 					}
-					fmt.Fprintf(&buf, "{Name: %q, Type: %q}", p.Name, p.Type)
+					fmt.Fprintf(&buf, "{Name: %q, Type: %q}", p.Name, normalizeType(p.Type))
 				}
 				buf.WriteString("}")
 			}
 			if m.ReturnType != "" {
-				fmt.Fprintf(&buf, ", ReturnType: %q", m.ReturnType)
+				fmt.Fprintf(&buf, ", ReturnType: %q", normalizeType(m.ReturnType))
 			}
 			buf.WriteString("},\n")
 		}
@@ -1383,14 +1741,10 @@ func writeCommandsGen(
 		if iface.ImportPath == modulePath {
 			continue
 		}
-		// Skip sub-interfaces: they are obtained via methods on other
-		// interfaces and cannot be discovered by findServiceByDescriptor.
-		if subInterfaceDescriptors[iface.Descriptor] {
-			continue
-		}
-		// Skip interfaces whose Go proxy constructor doesn't exist.
-		// The spec may describe AIDL interfaces that haven't been
-		// implemented in Go yet.
+
+		// Skip interfaces whose Go proxy constructor doesn't exist
+		// in the source tree (e.g., stale specs referencing deleted
+		// generated code).
 		constructorKey := iface.ImportPath + ":" + iface.ProxyConstructor
 		if !knownGoProxyConstructors[constructorKey] {
 			continue
@@ -1399,21 +1753,6 @@ func writeCommandsGen(
 		var cmdMethods []methodInfo
 		for _, m := range iface.Methods {
 			if !allParamsSupported(m, iface) {
-				continue
-			}
-			// Verify the method exists on the Go proxy type and
-			// that the param count matches.
-			methodKey := iface.ImportPath + ":" + m.Name
-			goParamCount, methodExists := knownGoProxyMethods[methodKey]
-			if !methodExists {
-				continue
-			}
-			if goParamCount >= 0 && goParamCount != len(m.Params) {
-				continue
-			}
-			// Skip methods where the Go proxy uses interface{} params
-			// but the spec has concrete promoted types.
-			if goProxyMethodsWithInterfaceParams[methodKey] && hasPromotedParam(m, iface) {
 				continue
 			}
 			cmdMethods = append(cmdMethods, m)
@@ -1516,15 +1855,19 @@ func writeImports(
 	}
 	for _, imp := range imports {
 		pkgBase := filepath.Base(imp.path)
-		// Always write an explicit alias: the directory name may
-		// differ from the Go package declaration (e.g., directory
-		// "internal_" declares "package internal"), and even when
-		// they match, being explicit avoids ambiguity with
+		// Always write an explicit alias when the directory name
+		// doesn't match the Go package name. This happens for:
+		// - trailing underscore (e.g., directory "internal_" declares "package internal")
+		// - numeric version suffixes (e.g., directory "foov2" declares "package foo")
+		// Even when they match, being explicit avoids ambiguity with
 		// duplicate package names.
-		if imp.alias == pkgBase && !strings.HasSuffix(pkgBase, "_") {
-			fmt.Fprintf(buf, "\t%q\n", imp.path)
-		} else {
+		needsAlias := imp.alias != pkgBase ||
+			strings.HasSuffix(pkgBase, "_") ||
+			hasNumericVersionSuffix(pkgBase)
+		if needsAlias {
 			fmt.Fprintf(buf, "\t%s %q\n", imp.alias, imp.path)
+		} else {
+			fmt.Fprintf(buf, "\t%q\n", imp.path)
 		}
 	}
 	buf.WriteString(")\n\n")
@@ -1789,7 +2132,7 @@ func writeParamFlag(
 		fmt.Fprintf(buf, "\tcmd.Flags().String(%q, \"\", %q)\n", flagName, p.Name+" (optional "+inner+")")
 
 	case kindMap, kindComplexArray:
-		fmt.Fprintf(buf, "\tcmd.Flags().String(%q, \"\", %q)\n", flagName, p.Name+" (JSON "+p.Type+")")
+		fmt.Fprintf(buf, "\tcmd.Flags().String(%q, \"\", %q)\n", flagName, p.Name+" (JSON "+normalizeType(p.Type)+")")
 		fmt.Fprintf(buf, "\t_ = cmd.MarkFlagRequired(%q)\n", flagName)
 	}
 }
@@ -2142,7 +2485,7 @@ func writeInterfaceExtraction(
 	buf.WriteString("\t\t\tif err != nil {\n")
 	fmt.Fprintf(buf, "\t\t\t\treturn fmt.Errorf(\"reading flag %s: %%w\", err)\n", flagName)
 	buf.WriteString("\t\t\t}\n")
-	fmt.Fprintf(buf, "\t\t\tvar %s interface{}\n", varName)
+	fmt.Fprintf(buf, "\t\t\tvar %s any\n", varName)
 	fmt.Fprintf(buf, "\t\t\tif %sJSON != \"\" {\n", varName)
 	fmt.Fprintf(buf, "\t\t\t\tif err := json.Unmarshal([]byte(%sJSON), &%s); err != nil {\n", varName, varName)
 	fmt.Fprintf(buf, "\t\t\t\t\treturn fmt.Errorf(\"invalid JSON for %s: %%w\", err)\n", flagName)
@@ -2164,7 +2507,18 @@ func writeInterfaceTypeExtraction(
 	if strings.Contains(typeStr, ".") {
 		parts := strings.SplitN(typeStr, ".", 2)
 		bareName = parts[1]
-		_ = proxyPkg // keep using interface's alias for the proxy lookup
+	}
+
+	// For cross-package interface types, the proxy constructor lives
+	// in the type's package, not the calling interface's package.
+	// Resolve using the cross-package lookup.
+	key := resolveTypeKey(typeStr, gc.iface.ImportPath)
+	if strings.Contains(key, ":") {
+		parts := strings.SplitN(key, ":", 2)
+		importPath := parts[0]
+		if importPath != gc.iface.ImportPath {
+			proxyPkg = gc.ensureImport(importPath)
+		}
 	}
 
 	// Strip the leading "I" prefix (AIDL convention) to form the
@@ -2314,7 +2668,6 @@ func writeJSONExtraction(
 	buf.WriteString("\t\t\t}\n\n")
 }
 
-
 // ---- Helpers ----
 
 func paramVarName(
@@ -2338,13 +2691,22 @@ func buildShortDesc(
 	if m.ReturnType != "" {
 		fmt.Fprintf(&sb, " -> %s", m.ReturnType)
 	}
-	return sb.String()
+	// Normalize legacy type spellings in the human-readable description.
+	return strings.ReplaceAll(sb.String(), legacyInterfaceType, "any")
+}
+
+// normalizeType replaces legacy interface-type spellings with "any"
+// in a Go type string.
+func normalizeType(t string) string {
+	return strings.ReplaceAll(t, legacyInterfaceType, "any")
 }
 
 func sanitizeVarName(
 	name string,
 ) string {
-	return strings.TrimRight(name, "_")
+	// Do not strip trailing underscores: they may be intentional escaping
+	// added by sanitizeGoIdent for Go reserved words (e.g. "type_").
+	return name
 }
 
 func capitalize(

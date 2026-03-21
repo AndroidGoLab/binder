@@ -47,6 +47,7 @@ func (p *SystemSuspendProxy) AcquireWakeLock(
 ) (IWakeLock, error) {
 	var _result IWakeLock
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemSuspend)
 	_data.WriteInt32(int32(type_))
 	_data.WriteString16(name)
@@ -77,7 +78,8 @@ func (p *SystemSuspendProxy) AcquireWakeLock(
 // SystemSuspendStub dispatches incoming binder transactions
 // to a typed ISystemSuspend implementation.
 type SystemSuspendStub struct {
-	Impl ISystemSuspend
+	Impl      ISystemSuspend
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SystemSuspendStub)(nil)
@@ -91,11 +93,12 @@ func (s *SystemSuspendStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISystemSuspendAcquireWakeLock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -112,8 +115,7 @@ func (s *SystemSuspendStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

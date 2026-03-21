@@ -46,6 +46,7 @@ func (p *WeakEscrowTokenActivatedListenerProxy) OnWeakEscrowTokenActivated(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWeakEscrowTokenActivatedListener)
 	_data.WriteInt64(handle)
 	_data.WriteInt32(_identity.UserID)
@@ -62,7 +63,8 @@ func (p *WeakEscrowTokenActivatedListenerProxy) OnWeakEscrowTokenActivated(
 // WeakEscrowTokenActivatedListenerStub dispatches incoming binder transactions
 // to a typed IWeakEscrowTokenActivatedListener implementation.
 type WeakEscrowTokenActivatedListenerStub struct {
-	Impl IWeakEscrowTokenActivatedListener
+	Impl      IWeakEscrowTokenActivatedListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WeakEscrowTokenActivatedListenerStub)(nil)
@@ -76,11 +78,12 @@ func (s *WeakEscrowTokenActivatedListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWeakEscrowTokenActivatedListenerOnWeakEscrowTokenActivated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -89,8 +92,7 @@ func (s *WeakEscrowTokenActivatedListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnWeakEscrowTokenActivated(ctx, _arg_handle)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

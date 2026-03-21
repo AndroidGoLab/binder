@@ -53,6 +53,7 @@ func (p *PdfRendererProxy) OpenDocument(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPdfRenderer)
 	_data.WriteFileDescriptor(source)
 
@@ -87,6 +88,7 @@ func (p *PdfRendererProxy) RenderPage(
 	destination int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPdfRenderer)
 	_data.WriteInt32(pageIndex)
 	_data.WriteInt32(bitmapWidth)
@@ -110,6 +112,7 @@ func (p *PdfRendererProxy) CloseDocument(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPdfRenderer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPdfRenderer, MethodIPdfRendererCloseDocument)
@@ -124,7 +127,8 @@ func (p *PdfRendererProxy) CloseDocument(
 // PdfRendererStub dispatches incoming binder transactions
 // to a typed IPdfRenderer implementation.
 type PdfRendererStub struct {
-	Impl IPdfRenderer
+	Impl      IPdfRenderer
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PdfRendererStub)(nil)
@@ -138,11 +142,12 @@ func (s *PdfRendererStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPdfRendererOpenDocument:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_source, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -157,9 +162,6 @@ func (s *PdfRendererStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPdfRendererRenderPage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pageIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -189,15 +191,10 @@ func (s *PdfRendererStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.RenderPage(ctx, _arg_pageIndex, _arg_bitmapWidth, _arg_bitmapHeight, _arg_attributes, _arg_destination)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPdfRendererCloseDocument:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CloseDocument(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

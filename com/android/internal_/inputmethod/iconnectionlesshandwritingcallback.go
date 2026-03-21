@@ -23,7 +23,7 @@ const (
 
 type IConnectionlessHandwritingCallback interface {
 	AsBinder() binder.IBinder
-	OnResult(ctx context.Context, text interface{}) error
+	OnResult(ctx context.Context, text string) error
 	OnError(ctx context.Context, errorCode int32) error
 }
 
@@ -45,10 +45,12 @@ var _ IConnectionlessHandwritingCallback = (*ConnectionlessHandwritingCallbackPr
 
 func (p *ConnectionlessHandwritingCallbackProxy) OnResult(
 	ctx context.Context,
-	text interface{},
+	text string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionlessHandwritingCallback)
+	_data.WriteString16(text)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionlessHandwritingCallback, MethodIConnectionlessHandwritingCallbackOnResult)
 	if _err != nil {
@@ -64,6 +66,7 @@ func (p *ConnectionlessHandwritingCallbackProxy) OnError(
 	errorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionlessHandwritingCallback)
 	_data.WriteInt32(errorCode)
 
@@ -79,7 +82,8 @@ func (p *ConnectionlessHandwritingCallbackProxy) OnError(
 // ConnectionlessHandwritingCallbackStub dispatches incoming binder transactions
 // to a typed IConnectionlessHandwritingCallback implementation.
 type ConnectionlessHandwritingCallbackStub struct {
-	Impl IConnectionlessHandwritingCallback
+	Impl      IConnectionlessHandwritingCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ConnectionlessHandwritingCallbackStub)(nil)
@@ -93,26 +97,25 @@ func (s *ConnectionlessHandwritingCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIConnectionlessHandwritingCallbackOnResult:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_text, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_text interface{}
-		_err := s.Impl.OnResult(ctx, _arg_text)
-		_ = _err
-		return nil, nil
+		_err = s.Impl.OnResult(ctx, _arg_text)
+		return nil, _err
 	case TransactionIConnectionlessHandwritingCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_errorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -122,7 +125,7 @@ func (s *ConnectionlessHandwritingCallbackStub) OnTransaction(
 // provide to NewConnectionlessHandwritingCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IConnectionlessHandwritingCallbackServer interface {
-	OnResult(ctx context.Context, text interface{}) error
+	OnResult(ctx context.Context, text string) error
 	OnError(ctx context.Context, errorCode int32) error
 }
 
@@ -137,7 +140,7 @@ func (w *connectionlessHandwritingCallbackStubWrapper) AsBinder() binder.IBinder
 
 func (w *connectionlessHandwritingCallbackStubWrapper) OnResult(
 	ctx context.Context,
-	text interface{},
+	text string,
 ) error {
 	return w.impl.OnResult(ctx, text)
 }

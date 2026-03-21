@@ -66,6 +66,7 @@ func (p *DumpstateListenerProxy) OnProgress(
 	progress int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
 	_data.WriteInt32(progress)
 
@@ -83,6 +84,7 @@ func (p *DumpstateListenerProxy) OnError(
 	errorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
 	_data.WriteInt32(errorCode)
 
@@ -100,6 +102,7 @@ func (p *DumpstateListenerProxy) OnFinished(
 	bugreportFile string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
 	_data.WriteString16(bugreportFile)
 
@@ -117,6 +120,7 @@ func (p *DumpstateListenerProxy) OnScreenshotTaken(
 	success bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
 	_data.WriteBool(success)
 
@@ -133,6 +137,7 @@ func (p *DumpstateListenerProxy) OnUiIntensiveBugreportDumpsFinished(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstateListener, MethodIDumpstateListenerOnUiIntensiveBugreportDumpsFinished)
@@ -147,7 +152,8 @@ func (p *DumpstateListenerProxy) OnUiIntensiveBugreportDumpsFinished(
 // DumpstateListenerStub dispatches incoming binder transactions
 // to a typed IDumpstateListener implementation.
 type DumpstateListenerStub struct {
-	Impl IDumpstateListener
+	Impl      IDumpstateListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DumpstateListenerStub)(nil)
@@ -161,58 +167,42 @@ func (s *DumpstateListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDumpstateListenerOnProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_progress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnProgress(ctx, _arg_progress)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDumpstateListenerOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_errorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDumpstateListenerOnFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_bugreportFile, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnFinished(ctx, _arg_bugreportFile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDumpstateListenerOnScreenshotTaken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_success, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnScreenshotTaken(ctx, _arg_success)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDumpstateListenerOnUiIntensiveBugreportDumpsFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnUiIntensiveBugreportDumpsFinished(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

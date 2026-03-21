@@ -82,6 +82,7 @@ func (p *PeopleManagerProxy) GetConversation(
 	var _result ConversationChannel
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -119,6 +120,7 @@ func (p *PeopleManagerProxy) GetRecentConversations(
 ) (pm.ParceledListSlice, error) {
 	var _result pm.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeopleManager, MethodIPeopleManagerGetRecentConversations)
@@ -155,6 +157,7 @@ func (p *PeopleManagerProxy) RemoveRecentConversation(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -182,6 +185,7 @@ func (p *PeopleManagerProxy) RemoveAllRecentConversations(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeopleManager, MethodIPeopleManagerRemoveAllRecentConversations)
@@ -210,6 +214,7 @@ func (p *PeopleManagerProxy) IsConversation(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -245,6 +250,7 @@ func (p *PeopleManagerProxy) GetLastInteraction(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -280,6 +286,7 @@ func (p *PeopleManagerProxy) AddOrUpdateStatus(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -315,6 +322,7 @@ func (p *PeopleManagerProxy) ClearStatus(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -346,6 +354,7 @@ func (p *PeopleManagerProxy) ClearStatuses(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -377,6 +386,7 @@ func (p *PeopleManagerProxy) GetStatuses(
 	var _result pm.ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -417,6 +427,7 @@ func (p *PeopleManagerProxy) RegisterConversationListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -446,6 +457,7 @@ func (p *PeopleManagerProxy) UnregisterConversationListener(
 	callback IConversationListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -470,7 +482,8 @@ func (p *PeopleManagerProxy) UnregisterConversationListener(
 // PeopleManagerStub dispatches incoming binder transactions
 // to a typed IPeopleManager implementation.
 type PeopleManagerStub struct {
-	Impl IPeopleManager
+	Impl      IPeopleManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PeopleManagerStub)(nil)
@@ -484,11 +497,12 @@ func (s *PeopleManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPeopleManagerGetConversation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -513,9 +527,6 @@ func (s *PeopleManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPeopleManagerGetRecentConversations:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRecentConversations(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -529,9 +540,6 @@ func (s *PeopleManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPeopleManagerRemoveRecentConversation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -552,9 +560,6 @@ func (s *PeopleManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPeopleManagerRemoveAllRecentConversations:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RemoveAllRecentConversations(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -564,9 +569,6 @@ func (s *PeopleManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPeopleManagerIsConversation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -588,9 +590,6 @@ func (s *PeopleManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPeopleManagerGetLastInteraction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -612,9 +611,6 @@ func (s *PeopleManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIPeopleManagerAddOrUpdateStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -647,9 +643,6 @@ func (s *PeopleManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPeopleManagerClearStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -674,9 +667,6 @@ func (s *PeopleManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPeopleManagerClearStatuses:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -697,9 +687,6 @@ func (s *PeopleManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPeopleManagerGetStatuses:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -724,9 +711,6 @@ func (s *PeopleManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPeopleManagerRegisterConversationListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -738,9 +722,14 @@ func (s *PeopleManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IConversationListener
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewConversationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RegisterConversationListener(ctx, _arg_packageName, _arg_shortcutId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -750,12 +739,14 @@ func (s *PeopleManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPeopleManagerUnregisterConversationListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IConversationListener
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewConversationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UnregisterConversationListener(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

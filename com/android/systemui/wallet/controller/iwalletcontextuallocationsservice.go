@@ -48,6 +48,7 @@ func (p *WalletContextualLocationsServiceProxy) AddWalletCardsUpdatedListener(
 	listener IWalletCardsUpdatedListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWalletContextualLocationsService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -74,6 +75,7 @@ func (p *WalletContextualLocationsServiceProxy) OnWalletContextualLocationsState
 	storeLocations []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWalletContextualLocationsService)
 	if storeLocations == nil {
 		_data.WriteInt32(-1)
@@ -105,7 +107,8 @@ func (p *WalletContextualLocationsServiceProxy) OnWalletContextualLocationsState
 // WalletContextualLocationsServiceStub dispatches incoming binder transactions
 // to a typed IWalletContextualLocationsService implementation.
 type WalletContextualLocationsServiceStub struct {
-	Impl IWalletContextualLocationsService
+	Impl      IWalletContextualLocationsService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WalletContextualLocationsServiceStub)(nil)
@@ -119,14 +122,20 @@ func (s *WalletContextualLocationsServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWalletContextualLocationsServiceAddWalletCardsUpdatedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IWalletCardsUpdatedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewWalletCardsUpdatedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddWalletCardsUpdatedListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -136,12 +145,25 @@ func (s *WalletContextualLocationsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWalletContextualLocationsServiceOnWalletContextualLocationsStateUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_storeLocations []string
-		_ = _arg_storeLocations
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_storeLocations = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_storeLocations[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnWalletContextualLocationsStateUpdated(ctx, _arg_storeLocations)
 		_reply := parcel.New()
 		if _err != nil {

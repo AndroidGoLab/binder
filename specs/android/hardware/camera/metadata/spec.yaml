@@ -1,0 +1,2137 @@
+package: android.hardware.camera.metadata
+go_package: android/hardware/camera/metadata
+enums:
+    - name: AutomotiveLensFacing
+      backing_type: int
+      values:
+        - name: ANDROID_AUTOMOTIVE_LENS_FACING_EXTERIOR_OTHER
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LENS_FACING_EXTERIOR_FRONT
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LENS_FACING_EXTERIOR_REAR
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LENS_FACING_EXTERIOR_LEFT
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LENS_FACING_EXTERIOR_RIGHT
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LENS_FACING_INTERIOR_OTHER
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LENS_FACING_INTERIOR_SEAT_ROW_1_LEFT
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LENS_FACING_INTERIOR_SEAT_ROW_1_CENTER
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LENS_FACING_INTERIOR_SEAT_ROW_1_RIGHT
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LENS_FACING_INTERIOR_SEAT_ROW_2_LEFT
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LENS_FACING_INTERIOR_SEAT_ROW_2_CENTER
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LENS_FACING_INTERIOR_SEAT_ROW_2_RIGHT
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LENS_FACING_INTERIOR_SEAT_ROW_3_LEFT
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LENS_FACING_INTERIOR_SEAT_ROW_3_CENTER
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LENS_FACING_INTERIOR_SEAT_ROW_3_RIGHT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AutomotiveLocation
+      backing_type: int
+      values:
+        - name: ANDROID_AUTOMOTIVE_LOCATION_INTERIOR
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LOCATION_EXTERIOR_OTHER
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LOCATION_EXTERIOR_FRONT
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LOCATION_EXTERIOR_REAR
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LOCATION_EXTERIOR_LEFT
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LOCATION_EXTERIOR_RIGHT
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LOCATION_EXTRA_OTHER
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LOCATION_EXTRA_FRONT
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LOCATION_EXTRA_REAR
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LOCATION_EXTRA_LEFT
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LOCATION_EXTRA_RIGHT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BlackLevelLock
+      backing_type: int
+      values:
+        - name: ANDROID_BLACK_LEVEL_LOCK_OFF
+          value: ""
+        - name: ANDROID_BLACK_LEVEL_LOCK_ON
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CameraMetadataSection
+      backing_type: int
+      values:
+        - name: ANDROID_COLOR_CORRECTION
+          value: ""
+        - name: ANDROID_CONTROL
+          value: ""
+        - name: ANDROID_DEMOSAIC
+          value: ""
+        - name: ANDROID_EDGE
+          value: ""
+        - name: ANDROID_FLASH
+          value: ""
+        - name: ANDROID_FLASH_INFO
+          value: ""
+        - name: ANDROID_HOT_PIXEL
+          value: ""
+        - name: ANDROID_JPEG
+          value: ""
+        - name: ANDROID_LENS
+          value: ""
+        - name: ANDROID_LENS_INFO
+          value: ""
+        - name: ANDROID_NOISE_REDUCTION
+          value: ""
+        - name: ANDROID_QUIRKS
+          value: ""
+        - name: ANDROID_REQUEST
+          value: ""
+        - name: ANDROID_SCALER
+          value: ""
+        - name: ANDROID_SENSOR
+          value: ""
+        - name: ANDROID_SENSOR_INFO
+          value: ""
+        - name: ANDROID_SHADING
+          value: ""
+        - name: ANDROID_STATISTICS
+          value: ""
+        - name: ANDROID_STATISTICS_INFO
+          value: ""
+        - name: ANDROID_TONEMAP
+          value: ""
+        - name: ANDROID_LED
+          value: ""
+        - name: ANDROID_INFO
+          value: ""
+        - name: ANDROID_BLACK_LEVEL
+          value: ""
+        - name: ANDROID_SYNC
+          value: ""
+        - name: ANDROID_REPROCESS
+          value: ""
+        - name: ANDROID_DEPTH
+          value: ""
+        - name: ANDROID_LOGICAL_MULTI_CAMERA
+          value: ""
+        - name: ANDROID_DISTORTION_CORRECTION
+          value: ""
+        - name: ANDROID_HEIC
+          value: ""
+        - name: ANDROID_HEIC_INFO
+          value: ""
+        - name: ANDROID_AUTOMOTIVE
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LENS
+          value: ""
+        - name: ANDROID_EXTENSION
+          value: ""
+        - name: ANDROID_JPEGR
+          value: ""
+        - name: VENDOR_SECTION
+          value: "0x8000"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CameraMetadataSectionStart
+      backing_type: int
+      values:
+        - name: ANDROID_COLOR_CORRECTION_START
+          value: CameraMetadataSection.ANDROID_COLOR_CORRECTION << 16
+        - name: ANDROID_CONTROL_START
+          value: CameraMetadataSection.ANDROID_CONTROL << 16
+        - name: ANDROID_DEMOSAIC_START
+          value: CameraMetadataSection.ANDROID_DEMOSAIC << 16
+        - name: ANDROID_EDGE_START
+          value: CameraMetadataSection.ANDROID_EDGE << 16
+        - name: ANDROID_FLASH_START
+          value: CameraMetadataSection.ANDROID_FLASH << 16
+        - name: ANDROID_FLASH_INFO_START
+          value: CameraMetadataSection.ANDROID_FLASH_INFO << 16
+        - name: ANDROID_HOT_PIXEL_START
+          value: CameraMetadataSection.ANDROID_HOT_PIXEL << 16
+        - name: ANDROID_JPEG_START
+          value: CameraMetadataSection.ANDROID_JPEG << 16
+        - name: ANDROID_LENS_START
+          value: CameraMetadataSection.ANDROID_LENS << 16
+        - name: ANDROID_LENS_INFO_START
+          value: CameraMetadataSection.ANDROID_LENS_INFO << 16
+        - name: ANDROID_NOISE_REDUCTION_START
+          value: CameraMetadataSection.ANDROID_NOISE_REDUCTION << 16
+        - name: ANDROID_QUIRKS_START
+          value: CameraMetadataSection.ANDROID_QUIRKS << 16
+        - name: ANDROID_REQUEST_START
+          value: CameraMetadataSection.ANDROID_REQUEST << 16
+        - name: ANDROID_SCALER_START
+          value: CameraMetadataSection.ANDROID_SCALER << 16
+        - name: ANDROID_SENSOR_START
+          value: CameraMetadataSection.ANDROID_SENSOR << 16
+        - name: ANDROID_SENSOR_INFO_START
+          value: CameraMetadataSection.ANDROID_SENSOR_INFO << 16
+        - name: ANDROID_SHADING_START
+          value: CameraMetadataSection.ANDROID_SHADING << 16
+        - name: ANDROID_STATISTICS_START
+          value: CameraMetadataSection.ANDROID_STATISTICS << 16
+        - name: ANDROID_STATISTICS_INFO_START
+          value: CameraMetadataSection.ANDROID_STATISTICS_INFO << 16
+        - name: ANDROID_TONEMAP_START
+          value: CameraMetadataSection.ANDROID_TONEMAP << 16
+        - name: ANDROID_LED_START
+          value: CameraMetadataSection.ANDROID_LED << 16
+        - name: ANDROID_INFO_START
+          value: CameraMetadataSection.ANDROID_INFO << 16
+        - name: ANDROID_BLACK_LEVEL_START
+          value: CameraMetadataSection.ANDROID_BLACK_LEVEL << 16
+        - name: ANDROID_SYNC_START
+          value: CameraMetadataSection.ANDROID_SYNC << 16
+        - name: ANDROID_REPROCESS_START
+          value: CameraMetadataSection.ANDROID_REPROCESS << 16
+        - name: ANDROID_DEPTH_START
+          value: CameraMetadataSection.ANDROID_DEPTH << 16
+        - name: ANDROID_LOGICAL_MULTI_CAMERA_START
+          value: CameraMetadataSection.ANDROID_LOGICAL_MULTI_CAMERA << 16
+        - name: ANDROID_DISTORTION_CORRECTION_START
+          value: CameraMetadataSection.ANDROID_DISTORTION_CORRECTION << 16
+        - name: ANDROID_HEIC_START
+          value: CameraMetadataSection.ANDROID_HEIC << 16
+        - name: ANDROID_HEIC_INFO_START
+          value: CameraMetadataSection.ANDROID_HEIC_INFO << 16
+        - name: ANDROID_AUTOMOTIVE_START
+          value: CameraMetadataSection.ANDROID_AUTOMOTIVE << 16
+        - name: ANDROID_AUTOMOTIVE_LENS_START
+          value: CameraMetadataSection.ANDROID_AUTOMOTIVE_LENS << 16
+        - name: ANDROID_EXTENSION_START
+          value: CameraMetadataSection.ANDROID_EXTENSION << 16
+        - name: ANDROID_JPEGR_START
+          value: CameraMetadataSection.ANDROID_JPEGR << 16
+        - name: VENDOR_SECTION_START
+          value: CameraMetadataSection.VENDOR_SECTION << 16
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CameraMetadataTag
+      backing_type: int
+      values:
+        - name: ANDROID_COLOR_CORRECTION_MODE
+          value: CameraMetadataSectionStart.ANDROID_COLOR_CORRECTION_START
+        - name: ANDROID_COLOR_CORRECTION_TRANSFORM
+          value: ""
+        - name: ANDROID_COLOR_CORRECTION_GAINS
+          value: ""
+        - name: ANDROID_COLOR_CORRECTION_ABERRATION_MODE
+          value: ""
+        - name: ANDROID_COLOR_CORRECTION_AVAILABLE_ABERRATION_MODES
+          value: ""
+        - name: ANDROID_CONTROL_AE_ANTIBANDING_MODE
+          value: CameraMetadataSectionStart.ANDROID_CONTROL_START
+        - name: ANDROID_CONTROL_AE_EXPOSURE_COMPENSATION
+          value: ""
+        - name: ANDROID_CONTROL_AE_LOCK
+          value: ""
+        - name: ANDROID_CONTROL_AE_MODE
+          value: ""
+        - name: ANDROID_CONTROL_AE_REGIONS
+          value: ""
+        - name: ANDROID_CONTROL_AE_TARGET_FPS_RANGE
+          value: ""
+        - name: ANDROID_CONTROL_AE_PRECAPTURE_TRIGGER
+          value: ""
+        - name: ANDROID_CONTROL_AF_MODE
+          value: ""
+        - name: ANDROID_CONTROL_AF_REGIONS
+          value: ""
+        - name: ANDROID_CONTROL_AF_TRIGGER
+          value: ""
+        - name: ANDROID_CONTROL_AWB_LOCK
+          value: ""
+        - name: ANDROID_CONTROL_AWB_MODE
+          value: ""
+        - name: ANDROID_CONTROL_AWB_REGIONS
+          value: ""
+        - name: ANDROID_CONTROL_CAPTURE_INTENT
+          value: ""
+        - name: ANDROID_CONTROL_EFFECT_MODE
+          value: ""
+        - name: ANDROID_CONTROL_MODE
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE
+          value: ""
+        - name: ANDROID_CONTROL_VIDEO_STABILIZATION_MODE
+          value: ""
+        - name: ANDROID_CONTROL_AE_AVAILABLE_ANTIBANDING_MODES
+          value: ""
+        - name: ANDROID_CONTROL_AE_AVAILABLE_MODES
+          value: ""
+        - name: ANDROID_CONTROL_AE_AVAILABLE_TARGET_FPS_RANGES
+          value: ""
+        - name: ANDROID_CONTROL_AE_COMPENSATION_RANGE
+          value: ""
+        - name: ANDROID_CONTROL_AE_COMPENSATION_STEP
+          value: ""
+        - name: ANDROID_CONTROL_AF_AVAILABLE_MODES
+          value: ""
+        - name: ANDROID_CONTROL_AVAILABLE_EFFECTS
+          value: ""
+        - name: ANDROID_CONTROL_AVAILABLE_SCENE_MODES
+          value: ""
+        - name: ANDROID_CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES
+          value: ""
+        - name: ANDROID_CONTROL_AWB_AVAILABLE_MODES
+          value: ""
+        - name: ANDROID_CONTROL_MAX_REGIONS
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_OVERRIDES
+          value: ""
+        - name: ANDROID_CONTROL_AE_PRECAPTURE_ID
+          value: ""
+        - name: ANDROID_CONTROL_AE_STATE
+          value: ""
+        - name: ANDROID_CONTROL_AF_STATE
+          value: ""
+        - name: ANDROID_CONTROL_AF_TRIGGER_ID
+          value: ""
+        - name: ANDROID_CONTROL_AWB_STATE
+          value: ""
+        - name: ANDROID_CONTROL_AVAILABLE_HIGH_SPEED_VIDEO_CONFIGURATIONS
+          value: ""
+        - name: ANDROID_CONTROL_AE_LOCK_AVAILABLE
+          value: ""
+        - name: ANDROID_CONTROL_AWB_LOCK_AVAILABLE
+          value: ""
+        - name: ANDROID_CONTROL_AVAILABLE_MODES
+          value: ""
+        - name: ANDROID_CONTROL_POST_RAW_SENSITIVITY_BOOST_RANGE
+          value: ""
+        - name: ANDROID_CONTROL_POST_RAW_SENSITIVITY_BOOST
+          value: ""
+        - name: ANDROID_CONTROL_ENABLE_ZSL
+          value: ""
+        - name: ANDROID_CONTROL_AF_SCENE_CHANGE
+          value: ""
+        - name: ANDROID_CONTROL_AVAILABLE_EXTENDED_SCENE_MODE_MAX_SIZES
+          value: ""
+        - name: ANDROID_CONTROL_AVAILABLE_EXTENDED_SCENE_MODE_ZOOM_RATIO_RANGES
+          value: ""
+        - name: ANDROID_CONTROL_EXTENDED_SCENE_MODE
+          value: ""
+        - name: ANDROID_CONTROL_ZOOM_RATIO_RANGE
+          value: ""
+        - name: ANDROID_CONTROL_ZOOM_RATIO
+          value: ""
+        - name: ANDROID_CONTROL_AVAILABLE_HIGH_SPEED_VIDEO_CONFIGURATIONS_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_CONTROL_SETTINGS_OVERRIDE
+          value: "65588"
+        - name: ANDROID_CONTROL_AVAILABLE_SETTINGS_OVERRIDES
+          value: ""
+        - name: ANDROID_CONTROL_SETTINGS_OVERRIDING_FRAME_NUMBER
+          value: ""
+        - name: ANDROID_CONTROL_AUTOFRAMING
+          value: ""
+        - name: ANDROID_CONTROL_AUTOFRAMING_AVAILABLE
+          value: ""
+        - name: ANDROID_CONTROL_AUTOFRAMING_STATE
+          value: ""
+        - name: ANDROID_CONTROL_LOW_LIGHT_BOOST_INFO_LUMINANCE_RANGE
+          value: ""
+        - name: ANDROID_CONTROL_LOW_LIGHT_BOOST_STATE
+          value: ""
+        - name: ANDROID_DEMOSAIC_MODE
+          value: CameraMetadataSectionStart.ANDROID_DEMOSAIC_START
+        - name: ANDROID_EDGE_MODE
+          value: CameraMetadataSectionStart.ANDROID_EDGE_START
+        - name: ANDROID_EDGE_STRENGTH
+          value: ""
+        - name: ANDROID_EDGE_AVAILABLE_EDGE_MODES
+          value: ""
+        - name: ANDROID_FLASH_FIRING_POWER
+          value: CameraMetadataSectionStart.ANDROID_FLASH_START
+        - name: ANDROID_FLASH_FIRING_TIME
+          value: ""
+        - name: ANDROID_FLASH_MODE
+          value: ""
+        - name: ANDROID_FLASH_COLOR_TEMPERATURE
+          value: ""
+        - name: ANDROID_FLASH_MAX_ENERGY
+          value: ""
+        - name: ANDROID_FLASH_STATE
+          value: ""
+        - name: ANDROID_FLASH_STRENGTH_LEVEL
+          value: ""
+        - name: ANDROID_FLASH_SINGLE_STRENGTH_MAX_LEVEL
+          value: ""
+        - name: ANDROID_FLASH_SINGLE_STRENGTH_DEFAULT_LEVEL
+          value: ""
+        - name: ANDROID_FLASH_TORCH_STRENGTH_MAX_LEVEL
+          value: ""
+        - name: ANDROID_FLASH_TORCH_STRENGTH_DEFAULT_LEVEL
+          value: ""
+        - name: ANDROID_FLASH_INFO_AVAILABLE
+          value: CameraMetadataSectionStart.ANDROID_FLASH_INFO_START
+        - name: ANDROID_FLASH_INFO_CHARGE_DURATION
+          value: ""
+        - name: ANDROID_FLASH_INFO_STRENGTH_MAXIMUM_LEVEL
+          value: ""
+        - name: ANDROID_FLASH_INFO_STRENGTH_DEFAULT_LEVEL
+          value: ""
+        - name: ANDROID_HOT_PIXEL_MODE
+          value: CameraMetadataSectionStart.ANDROID_HOT_PIXEL_START
+        - name: ANDROID_HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES
+          value: ""
+        - name: ANDROID_JPEG_GPS_COORDINATES
+          value: CameraMetadataSectionStart.ANDROID_JPEG_START
+        - name: ANDROID_JPEG_GPS_PROCESSING_METHOD
+          value: ""
+        - name: ANDROID_JPEG_GPS_TIMESTAMP
+          value: ""
+        - name: ANDROID_JPEG_ORIENTATION
+          value: ""
+        - name: ANDROID_JPEG_QUALITY
+          value: ""
+        - name: ANDROID_JPEG_THUMBNAIL_QUALITY
+          value: ""
+        - name: ANDROID_JPEG_THUMBNAIL_SIZE
+          value: ""
+        - name: ANDROID_JPEG_AVAILABLE_THUMBNAIL_SIZES
+          value: ""
+        - name: ANDROID_JPEG_MAX_SIZE
+          value: ""
+        - name: ANDROID_JPEG_SIZE
+          value: ""
+        - name: ANDROID_LENS_APERTURE
+          value: CameraMetadataSectionStart.ANDROID_LENS_START
+        - name: ANDROID_LENS_FILTER_DENSITY
+          value: ""
+        - name: ANDROID_LENS_FOCAL_LENGTH
+          value: ""
+        - name: ANDROID_LENS_FOCUS_DISTANCE
+          value: ""
+        - name: ANDROID_LENS_OPTICAL_STABILIZATION_MODE
+          value: ""
+        - name: ANDROID_LENS_FACING
+          value: ""
+        - name: ANDROID_LENS_POSE_ROTATION
+          value: ""
+        - name: ANDROID_LENS_POSE_TRANSLATION
+          value: ""
+        - name: ANDROID_LENS_FOCUS_RANGE
+          value: ""
+        - name: ANDROID_LENS_STATE
+          value: ""
+        - name: ANDROID_LENS_INTRINSIC_CALIBRATION
+          value: ""
+        - name: ANDROID_LENS_RADIAL_DISTORTION
+          value: ""
+        - name: ANDROID_LENS_POSE_REFERENCE
+          value: ""
+        - name: ANDROID_LENS_DISTORTION
+          value: ""
+        - name: ANDROID_LENS_DISTORTION_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_LENS_INTRINSIC_CALIBRATION_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_LENS_INFO_AVAILABLE_APERTURES
+          value: CameraMetadataSectionStart.ANDROID_LENS_INFO_START
+        - name: ANDROID_LENS_INFO_AVAILABLE_FILTER_DENSITIES
+          value: ""
+        - name: ANDROID_LENS_INFO_AVAILABLE_FOCAL_LENGTHS
+          value: ""
+        - name: ANDROID_LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION
+          value: ""
+        - name: ANDROID_LENS_INFO_HYPERFOCAL_DISTANCE
+          value: ""
+        - name: ANDROID_LENS_INFO_MINIMUM_FOCUS_DISTANCE
+          value: ""
+        - name: ANDROID_LENS_INFO_SHADING_MAP_SIZE
+          value: ""
+        - name: ANDROID_LENS_INFO_FOCUS_DISTANCE_CALIBRATION
+          value: ""
+        - name: ANDROID_NOISE_REDUCTION_MODE
+          value: CameraMetadataSectionStart.ANDROID_NOISE_REDUCTION_START
+        - name: ANDROID_NOISE_REDUCTION_STRENGTH
+          value: ""
+        - name: ANDROID_NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES
+          value: ""
+        - name: ANDROID_QUIRKS_METERING_CROP_REGION
+          value: CameraMetadataSectionStart.ANDROID_QUIRKS_START
+        - name: ANDROID_QUIRKS_TRIGGER_AF_WITH_AUTO
+          value: ""
+        - name: ANDROID_QUIRKS_USE_ZSL_FORMAT
+          value: ""
+        - name: ANDROID_QUIRKS_USE_PARTIAL_RESULT
+          value: ""
+        - name: ANDROID_QUIRKS_PARTIAL_RESULT
+          value: ""
+        - name: ANDROID_REQUEST_FRAME_COUNT
+          value: CameraMetadataSectionStart.ANDROID_REQUEST_START
+        - name: ANDROID_REQUEST_ID
+          value: ""
+        - name: ANDROID_REQUEST_INPUT_STREAMS
+          value: ""
+        - name: ANDROID_REQUEST_METADATA_MODE
+          value: ""
+        - name: ANDROID_REQUEST_OUTPUT_STREAMS
+          value: ""
+        - name: ANDROID_REQUEST_TYPE
+          value: ""
+        - name: ANDROID_REQUEST_MAX_NUM_OUTPUT_STREAMS
+          value: ""
+        - name: ANDROID_REQUEST_MAX_NUM_REPROCESS_STREAMS
+          value: ""
+        - name: ANDROID_REQUEST_MAX_NUM_INPUT_STREAMS
+          value: ""
+        - name: ANDROID_REQUEST_PIPELINE_DEPTH
+          value: ""
+        - name: ANDROID_REQUEST_PIPELINE_MAX_DEPTH
+          value: ""
+        - name: ANDROID_REQUEST_PARTIAL_RESULT_COUNT
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_REQUEST_KEYS
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_RESULT_KEYS
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CHARACTERISTICS_KEYS
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_SESSION_KEYS
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_PHYSICAL_CAMERA_REQUEST_KEYS
+          value: ""
+        - name: ANDROID_REQUEST_CHARACTERISTIC_KEYS_NEEDING_PERMISSION
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES_MAP
+          value: ""
+        - name: ANDROID_REQUEST_RECOMMENDED_TEN_BIT_DYNAMIC_RANGE_PROFILE
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_COLOR_SPACE_PROFILES_MAP
+          value: ""
+        - name: ANDROID_SCALER_CROP_REGION
+          value: CameraMetadataSectionStart.ANDROID_SCALER_START
+        - name: ANDROID_SCALER_AVAILABLE_FORMATS
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_JPEG_MIN_DURATIONS
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_JPEG_SIZES
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_MAX_DIGITAL_ZOOM
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_PROCESSED_MIN_DURATIONS
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_PROCESSED_SIZES
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_RAW_MIN_DURATIONS
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_RAW_SIZES
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_INPUT_OUTPUT_FORMATS_MAP
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_STREAM_CONFIGURATIONS
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_MIN_FRAME_DURATIONS
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_STALL_DURATIONS
+          value: ""
+        - name: ANDROID_SCALER_CROPPING_TYPE
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_RECOMMENDED_STREAM_CONFIGURATIONS
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_RECOMMENDED_INPUT_OUTPUT_FORMATS_MAP
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_ROTATE_AND_CROP_MODES
+          value: ""
+        - name: ANDROID_SCALER_ROTATE_AND_CROP
+          value: ""
+        - name: ANDROID_SCALER_DEFAULT_SECURE_IMAGE_SIZE
+          value: ""
+        - name: ANDROID_SCALER_PHYSICAL_CAMERA_MULTI_RESOLUTION_STREAM_CONFIGURATIONS
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_STREAM_CONFIGURATIONS_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_MIN_FRAME_DURATIONS_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_STALL_DURATIONS_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_INPUT_OUTPUT_FORMATS_MAP_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_SCALER_MULTI_RESOLUTION_STREAM_SUPPORTED
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_STREAM_USE_CASES
+          value: "851994"
+        - name: ANDROID_SCALER_RAW_CROP_REGION
+          value: ""
+        - name: ANDROID_SENSOR_EXPOSURE_TIME
+          value: CameraMetadataSectionStart.ANDROID_SENSOR_START
+        - name: ANDROID_SENSOR_FRAME_DURATION
+          value: ""
+        - name: ANDROID_SENSOR_SENSITIVITY
+          value: ""
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1
+          value: ""
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT2
+          value: ""
+        - name: ANDROID_SENSOR_CALIBRATION_TRANSFORM1
+          value: ""
+        - name: ANDROID_SENSOR_CALIBRATION_TRANSFORM2
+          value: ""
+        - name: ANDROID_SENSOR_COLOR_TRANSFORM1
+          value: ""
+        - name: ANDROID_SENSOR_COLOR_TRANSFORM2
+          value: ""
+        - name: ANDROID_SENSOR_FORWARD_MATRIX1
+          value: ""
+        - name: ANDROID_SENSOR_FORWARD_MATRIX2
+          value: ""
+        - name: ANDROID_SENSOR_BASE_GAIN_FACTOR
+          value: ""
+        - name: ANDROID_SENSOR_BLACK_LEVEL_PATTERN
+          value: ""
+        - name: ANDROID_SENSOR_MAX_ANALOG_SENSITIVITY
+          value: ""
+        - name: ANDROID_SENSOR_ORIENTATION
+          value: ""
+        - name: ANDROID_SENSOR_PROFILE_HUE_SAT_MAP_DIMENSIONS
+          value: ""
+        - name: ANDROID_SENSOR_TIMESTAMP
+          value: ""
+        - name: ANDROID_SENSOR_TEMPERATURE
+          value: ""
+        - name: ANDROID_SENSOR_NEUTRAL_COLOR_POINT
+          value: ""
+        - name: ANDROID_SENSOR_NOISE_PROFILE
+          value: ""
+        - name: ANDROID_SENSOR_PROFILE_HUE_SAT_MAP
+          value: ""
+        - name: ANDROID_SENSOR_PROFILE_TONE_CURVE
+          value: ""
+        - name: ANDROID_SENSOR_GREEN_SPLIT
+          value: ""
+        - name: ANDROID_SENSOR_TEST_PATTERN_DATA
+          value: ""
+        - name: ANDROID_SENSOR_TEST_PATTERN_MODE
+          value: ""
+        - name: ANDROID_SENSOR_AVAILABLE_TEST_PATTERN_MODES
+          value: ""
+        - name: ANDROID_SENSOR_ROLLING_SHUTTER_SKEW
+          value: ""
+        - name: ANDROID_SENSOR_OPTICAL_BLACK_REGIONS
+          value: ""
+        - name: ANDROID_SENSOR_DYNAMIC_BLACK_LEVEL
+          value: ""
+        - name: ANDROID_SENSOR_DYNAMIC_WHITE_LEVEL
+          value: ""
+        - name: ANDROID_SENSOR_OPAQUE_RAW_SIZE
+          value: ""
+        - name: ANDROID_SENSOR_OPAQUE_RAW_SIZE_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_SENSOR_PIXEL_MODE
+          value: ""
+        - name: ANDROID_SENSOR_RAW_BINNING_FACTOR_USED
+          value: ""
+        - name: ANDROID_SENSOR_READOUT_TIMESTAMP
+          value: ""
+        - name: ANDROID_SENSOR_INFO_ACTIVE_ARRAY_SIZE
+          value: CameraMetadataSectionStart.ANDROID_SENSOR_INFO_START
+        - name: ANDROID_SENSOR_INFO_SENSITIVITY_RANGE
+          value: ""
+        - name: ANDROID_SENSOR_INFO_COLOR_FILTER_ARRANGEMENT
+          value: ""
+        - name: ANDROID_SENSOR_INFO_EXPOSURE_TIME_RANGE
+          value: ""
+        - name: ANDROID_SENSOR_INFO_MAX_FRAME_DURATION
+          value: ""
+        - name: ANDROID_SENSOR_INFO_PHYSICAL_SIZE
+          value: ""
+        - name: ANDROID_SENSOR_INFO_PIXEL_ARRAY_SIZE
+          value: ""
+        - name: ANDROID_SENSOR_INFO_WHITE_LEVEL
+          value: ""
+        - name: ANDROID_SENSOR_INFO_TIMESTAMP_SOURCE
+          value: ""
+        - name: ANDROID_SENSOR_INFO_LENS_SHADING_APPLIED
+          value: ""
+        - name: ANDROID_SENSOR_INFO_PRE_CORRECTION_ACTIVE_ARRAY_SIZE
+          value: ""
+        - name: ANDROID_SENSOR_INFO_ACTIVE_ARRAY_SIZE_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_SENSOR_INFO_PIXEL_ARRAY_SIZE_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_SENSOR_INFO_PRE_CORRECTION_ACTIVE_ARRAY_SIZE_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_SENSOR_INFO_BINNING_FACTOR
+          value: ""
+        - name: ANDROID_SHADING_MODE
+          value: CameraMetadataSectionStart.ANDROID_SHADING_START
+        - name: ANDROID_SHADING_STRENGTH
+          value: ""
+        - name: ANDROID_SHADING_AVAILABLE_MODES
+          value: ""
+        - name: ANDROID_STATISTICS_FACE_DETECT_MODE
+          value: CameraMetadataSectionStart.ANDROID_STATISTICS_START
+        - name: ANDROID_STATISTICS_HISTOGRAM_MODE
+          value: ""
+        - name: ANDROID_STATISTICS_SHARPNESS_MAP_MODE
+          value: ""
+        - name: ANDROID_STATISTICS_HOT_PIXEL_MAP_MODE
+          value: ""
+        - name: ANDROID_STATISTICS_FACE_IDS
+          value: ""
+        - name: ANDROID_STATISTICS_FACE_LANDMARKS
+          value: ""
+        - name: ANDROID_STATISTICS_FACE_RECTANGLES
+          value: ""
+        - name: ANDROID_STATISTICS_FACE_SCORES
+          value: ""
+        - name: ANDROID_STATISTICS_HISTOGRAM
+          value: ""
+        - name: ANDROID_STATISTICS_SHARPNESS_MAP
+          value: ""
+        - name: ANDROID_STATISTICS_LENS_SHADING_CORRECTION_MAP
+          value: ""
+        - name: ANDROID_STATISTICS_LENS_SHADING_MAP
+          value: ""
+        - name: ANDROID_STATISTICS_PREDICTED_COLOR_GAINS
+          value: ""
+        - name: ANDROID_STATISTICS_PREDICTED_COLOR_TRANSFORM
+          value: ""
+        - name: ANDROID_STATISTICS_SCENE_FLICKER
+          value: ""
+        - name: ANDROID_STATISTICS_HOT_PIXEL_MAP
+          value: ""
+        - name: ANDROID_STATISTICS_LENS_SHADING_MAP_MODE
+          value: ""
+        - name: ANDROID_STATISTICS_OIS_DATA_MODE
+          value: ""
+        - name: ANDROID_STATISTICS_OIS_TIMESTAMPS
+          value: ""
+        - name: ANDROID_STATISTICS_OIS_X_SHIFTS
+          value: ""
+        - name: ANDROID_STATISTICS_OIS_Y_SHIFTS
+          value: ""
+        - name: ANDROID_STATISTICS_LENS_INTRINSIC_TIMESTAMPS
+          value: ""
+        - name: ANDROID_STATISTICS_LENS_INTRINSIC_SAMPLES
+          value: ""
+        - name: ANDROID_STATISTICS_INFO_AVAILABLE_FACE_DETECT_MODES
+          value: CameraMetadataSectionStart.ANDROID_STATISTICS_INFO_START
+        - name: ANDROID_STATISTICS_INFO_HISTOGRAM_BUCKET_COUNT
+          value: ""
+        - name: ANDROID_STATISTICS_INFO_MAX_FACE_COUNT
+          value: ""
+        - name: ANDROID_STATISTICS_INFO_MAX_HISTOGRAM_COUNT
+          value: ""
+        - name: ANDROID_STATISTICS_INFO_MAX_SHARPNESS_MAP_VALUE
+          value: ""
+        - name: ANDROID_STATISTICS_INFO_SHARPNESS_MAP_SIZE
+          value: ""
+        - name: ANDROID_STATISTICS_INFO_AVAILABLE_HOT_PIXEL_MAP_MODES
+          value: ""
+        - name: ANDROID_STATISTICS_INFO_AVAILABLE_LENS_SHADING_MAP_MODES
+          value: ""
+        - name: ANDROID_STATISTICS_INFO_AVAILABLE_OIS_DATA_MODES
+          value: ""
+        - name: ANDROID_TONEMAP_CURVE_BLUE
+          value: CameraMetadataSectionStart.ANDROID_TONEMAP_START
+        - name: ANDROID_TONEMAP_CURVE_GREEN
+          value: ""
+        - name: ANDROID_TONEMAP_CURVE_RED
+          value: ""
+        - name: ANDROID_TONEMAP_MODE
+          value: ""
+        - name: ANDROID_TONEMAP_MAX_CURVE_POINTS
+          value: ""
+        - name: ANDROID_TONEMAP_AVAILABLE_TONE_MAP_MODES
+          value: ""
+        - name: ANDROID_TONEMAP_GAMMA
+          value: ""
+        - name: ANDROID_TONEMAP_PRESET_CURVE
+          value: ""
+        - name: ANDROID_LED_TRANSMIT
+          value: CameraMetadataSectionStart.ANDROID_LED_START
+        - name: ANDROID_LED_AVAILABLE_LEDS
+          value: ""
+        - name: ANDROID_INFO_SUPPORTED_HARDWARE_LEVEL
+          value: CameraMetadataSectionStart.ANDROID_INFO_START
+        - name: ANDROID_INFO_VERSION
+          value: ""
+        - name: ANDROID_INFO_SUPPORTED_BUFFER_MANAGEMENT_VERSION
+          value: ""
+        - name: ANDROID_INFO_DEVICE_STATE_ORIENTATIONS
+          value: ""
+        - name: ANDROID_BLACK_LEVEL_LOCK
+          value: CameraMetadataSectionStart.ANDROID_BLACK_LEVEL_START
+        - name: ANDROID_SYNC_FRAME_NUMBER
+          value: CameraMetadataSectionStart.ANDROID_SYNC_START
+        - name: ANDROID_SYNC_MAX_LATENCY
+          value: ""
+        - name: ANDROID_REPROCESS_EFFECTIVE_EXPOSURE_FACTOR
+          value: CameraMetadataSectionStart.ANDROID_REPROCESS_START
+        - name: ANDROID_REPROCESS_MAX_CAPTURE_STALL
+          value: ""
+        - name: ANDROID_DEPTH_MAX_DEPTH_SAMPLES
+          value: CameraMetadataSectionStart.ANDROID_DEPTH_START
+        - name: ANDROID_DEPTH_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS
+          value: ""
+        - name: ANDROID_DEPTH_AVAILABLE_DEPTH_MIN_FRAME_DURATIONS
+          value: ""
+        - name: ANDROID_DEPTH_AVAILABLE_DEPTH_STALL_DURATIONS
+          value: ""
+        - name: ANDROID_DEPTH_DEPTH_IS_EXCLUSIVE
+          value: ""
+        - name: ANDROID_DEPTH_AVAILABLE_RECOMMENDED_DEPTH_STREAM_CONFIGURATIONS
+          value: ""
+        - name: ANDROID_DEPTH_AVAILABLE_DYNAMIC_DEPTH_STREAM_CONFIGURATIONS
+          value: ""
+        - name: ANDROID_DEPTH_AVAILABLE_DYNAMIC_DEPTH_MIN_FRAME_DURATIONS
+          value: ""
+        - name: ANDROID_DEPTH_AVAILABLE_DYNAMIC_DEPTH_STALL_DURATIONS
+          value: ""
+        - name: ANDROID_DEPTH_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_DEPTH_AVAILABLE_DEPTH_MIN_FRAME_DURATIONS_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_DEPTH_AVAILABLE_DEPTH_STALL_DURATIONS_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_DEPTH_AVAILABLE_DYNAMIC_DEPTH_STREAM_CONFIGURATIONS_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_DEPTH_AVAILABLE_DYNAMIC_DEPTH_MIN_FRAME_DURATIONS_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_DEPTH_AVAILABLE_DYNAMIC_DEPTH_STALL_DURATIONS_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_LOGICAL_MULTI_CAMERA_PHYSICAL_IDS
+          value: CameraMetadataSectionStart.ANDROID_LOGICAL_MULTI_CAMERA_START
+        - name: ANDROID_LOGICAL_MULTI_CAMERA_SENSOR_SYNC_TYPE
+          value: ""
+        - name: ANDROID_LOGICAL_MULTI_CAMERA_ACTIVE_PHYSICAL_ID
+          value: ""
+        - name: ANDROID_LOGICAL_MULTI_CAMERA_ACTIVE_PHYSICAL_SENSOR_CROP_REGION
+          value: ""
+        - name: ANDROID_DISTORTION_CORRECTION_MODE
+          value: CameraMetadataSectionStart.ANDROID_DISTORTION_CORRECTION_START
+        - name: ANDROID_DISTORTION_CORRECTION_AVAILABLE_MODES
+          value: ""
+        - name: ANDROID_HEIC_AVAILABLE_HEIC_STREAM_CONFIGURATIONS
+          value: CameraMetadataSectionStart.ANDROID_HEIC_START
+        - name: ANDROID_HEIC_AVAILABLE_HEIC_MIN_FRAME_DURATIONS
+          value: ""
+        - name: ANDROID_HEIC_AVAILABLE_HEIC_STALL_DURATIONS
+          value: ""
+        - name: ANDROID_HEIC_AVAILABLE_HEIC_STREAM_CONFIGURATIONS_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_HEIC_AVAILABLE_HEIC_MIN_FRAME_DURATIONS_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_HEIC_AVAILABLE_HEIC_STALL_DURATIONS_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_HEIC_INFO_SUPPORTED
+          value: CameraMetadataSectionStart.ANDROID_HEIC_INFO_START
+        - name: ANDROID_HEIC_INFO_MAX_JPEG_APP_SEGMENTS_COUNT
+          value: ""
+        - name: ANDROID_AUTOMOTIVE_LOCATION
+          value: CameraMetadataSectionStart.ANDROID_AUTOMOTIVE_START
+        - name: ANDROID_AUTOMOTIVE_LENS_FACING
+          value: CameraMetadataSectionStart.ANDROID_AUTOMOTIVE_LENS_START
+        - name: ANDROID_JPEGR_AVAILABLE_JPEG_R_STREAM_CONFIGURATIONS
+          value: CameraMetadataSectionStart.ANDROID_JPEGR_START
+        - name: ANDROID_JPEGR_AVAILABLE_JPEG_R_MIN_FRAME_DURATIONS
+          value: ""
+        - name: ANDROID_JPEGR_AVAILABLE_JPEG_R_STALL_DURATIONS
+          value: ""
+        - name: ANDROID_JPEGR_AVAILABLE_JPEG_R_STREAM_CONFIGURATIONS_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_JPEGR_AVAILABLE_JPEG_R_MIN_FRAME_DURATIONS_MAXIMUM_RESOLUTION
+          value: ""
+        - name: ANDROID_JPEGR_AVAILABLE_JPEG_R_STALL_DURATIONS_MAXIMUM_RESOLUTION
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ColorCorrectionAberrationMode
+      backing_type: int
+      values:
+        - name: ANDROID_COLOR_CORRECTION_ABERRATION_MODE_OFF
+          value: ""
+        - name: ANDROID_COLOR_CORRECTION_ABERRATION_MODE_FAST
+          value: ""
+        - name: ANDROID_COLOR_CORRECTION_ABERRATION_MODE_HIGH_QUALITY
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ColorCorrectionMode
+      backing_type: int
+      values:
+        - name: ANDROID_COLOR_CORRECTION_MODE_TRANSFORM_MATRIX
+          value: ""
+        - name: ANDROID_COLOR_CORRECTION_MODE_FAST
+          value: ""
+        - name: ANDROID_COLOR_CORRECTION_MODE_HIGH_QUALITY
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAeAntibandingMode
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AE_ANTIBANDING_MODE_OFF
+          value: ""
+        - name: ANDROID_CONTROL_AE_ANTIBANDING_MODE_50HZ
+          value: ""
+        - name: ANDROID_CONTROL_AE_ANTIBANDING_MODE_60HZ
+          value: ""
+        - name: ANDROID_CONTROL_AE_ANTIBANDING_MODE_AUTO
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAeLock
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AE_LOCK_OFF
+          value: ""
+        - name: ANDROID_CONTROL_AE_LOCK_ON
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAeLockAvailable
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AE_LOCK_AVAILABLE_FALSE
+          value: ""
+        - name: ANDROID_CONTROL_AE_LOCK_AVAILABLE_TRUE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAeMode
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AE_MODE_OFF
+          value: ""
+        - name: ANDROID_CONTROL_AE_MODE_ON
+          value: ""
+        - name: ANDROID_CONTROL_AE_MODE_ON_AUTO_FLASH
+          value: ""
+        - name: ANDROID_CONTROL_AE_MODE_ON_ALWAYS_FLASH
+          value: ""
+        - name: ANDROID_CONTROL_AE_MODE_ON_AUTO_FLASH_REDEYE
+          value: ""
+        - name: ANDROID_CONTROL_AE_MODE_ON_EXTERNAL_FLASH
+          value: ""
+        - name: ANDROID_CONTROL_AE_MODE_ON_LOW_LIGHT_BOOST_BRIGHTNESS_PRIORITY
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAePrecaptureTrigger
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AE_PRECAPTURE_TRIGGER_IDLE
+          value: ""
+        - name: ANDROID_CONTROL_AE_PRECAPTURE_TRIGGER_START
+          value: ""
+        - name: ANDROID_CONTROL_AE_PRECAPTURE_TRIGGER_CANCEL
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAeState
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AE_STATE_INACTIVE
+          value: ""
+        - name: ANDROID_CONTROL_AE_STATE_SEARCHING
+          value: ""
+        - name: ANDROID_CONTROL_AE_STATE_CONVERGED
+          value: ""
+        - name: ANDROID_CONTROL_AE_STATE_LOCKED
+          value: ""
+        - name: ANDROID_CONTROL_AE_STATE_FLASH_REQUIRED
+          value: ""
+        - name: ANDROID_CONTROL_AE_STATE_PRECAPTURE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAfMode
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AF_MODE_OFF
+          value: ""
+        - name: ANDROID_CONTROL_AF_MODE_AUTO
+          value: ""
+        - name: ANDROID_CONTROL_AF_MODE_MACRO
+          value: ""
+        - name: ANDROID_CONTROL_AF_MODE_CONTINUOUS_VIDEO
+          value: ""
+        - name: ANDROID_CONTROL_AF_MODE_CONTINUOUS_PICTURE
+          value: ""
+        - name: ANDROID_CONTROL_AF_MODE_EDOF
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAfSceneChange
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AF_SCENE_CHANGE_NOT_DETECTED
+          value: ""
+        - name: ANDROID_CONTROL_AF_SCENE_CHANGE_DETECTED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAfState
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AF_STATE_INACTIVE
+          value: ""
+        - name: ANDROID_CONTROL_AF_STATE_PASSIVE_SCAN
+          value: ""
+        - name: ANDROID_CONTROL_AF_STATE_PASSIVE_FOCUSED
+          value: ""
+        - name: ANDROID_CONTROL_AF_STATE_ACTIVE_SCAN
+          value: ""
+        - name: ANDROID_CONTROL_AF_STATE_FOCUSED_LOCKED
+          value: ""
+        - name: ANDROID_CONTROL_AF_STATE_NOT_FOCUSED_LOCKED
+          value: ""
+        - name: ANDROID_CONTROL_AF_STATE_PASSIVE_UNFOCUSED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAfTrigger
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AF_TRIGGER_IDLE
+          value: ""
+        - name: ANDROID_CONTROL_AF_TRIGGER_START
+          value: ""
+        - name: ANDROID_CONTROL_AF_TRIGGER_CANCEL
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAutoframing
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AUTOFRAMING_OFF
+          value: ""
+        - name: ANDROID_CONTROL_AUTOFRAMING_ON
+          value: ""
+        - name: ANDROID_CONTROL_AUTOFRAMING_AUTO
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAutoframingAvailable
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AUTOFRAMING_AVAILABLE_FALSE
+          value: ""
+        - name: ANDROID_CONTROL_AUTOFRAMING_AVAILABLE_TRUE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAutoframingState
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AUTOFRAMING_STATE_INACTIVE
+          value: ""
+        - name: ANDROID_CONTROL_AUTOFRAMING_STATE_FRAMING
+          value: ""
+        - name: ANDROID_CONTROL_AUTOFRAMING_STATE_CONVERGED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAwbLock
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AWB_LOCK_OFF
+          value: ""
+        - name: ANDROID_CONTROL_AWB_LOCK_ON
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAwbLockAvailable
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AWB_LOCK_AVAILABLE_FALSE
+          value: ""
+        - name: ANDROID_CONTROL_AWB_LOCK_AVAILABLE_TRUE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAwbMode
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AWB_MODE_OFF
+          value: ""
+        - name: ANDROID_CONTROL_AWB_MODE_AUTO
+          value: ""
+        - name: ANDROID_CONTROL_AWB_MODE_INCANDESCENT
+          value: ""
+        - name: ANDROID_CONTROL_AWB_MODE_FLUORESCENT
+          value: ""
+        - name: ANDROID_CONTROL_AWB_MODE_WARM_FLUORESCENT
+          value: ""
+        - name: ANDROID_CONTROL_AWB_MODE_DAYLIGHT
+          value: ""
+        - name: ANDROID_CONTROL_AWB_MODE_CLOUDY_DAYLIGHT
+          value: ""
+        - name: ANDROID_CONTROL_AWB_MODE_TWILIGHT
+          value: ""
+        - name: ANDROID_CONTROL_AWB_MODE_SHADE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlAwbState
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_AWB_STATE_INACTIVE
+          value: ""
+        - name: ANDROID_CONTROL_AWB_STATE_SEARCHING
+          value: ""
+        - name: ANDROID_CONTROL_AWB_STATE_CONVERGED
+          value: ""
+        - name: ANDROID_CONTROL_AWB_STATE_LOCKED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlCaptureIntent
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_CAPTURE_INTENT_CUSTOM
+          value: ""
+        - name: ANDROID_CONTROL_CAPTURE_INTENT_PREVIEW
+          value: ""
+        - name: ANDROID_CONTROL_CAPTURE_INTENT_STILL_CAPTURE
+          value: ""
+        - name: ANDROID_CONTROL_CAPTURE_INTENT_VIDEO_RECORD
+          value: ""
+        - name: ANDROID_CONTROL_CAPTURE_INTENT_VIDEO_SNAPSHOT
+          value: ""
+        - name: ANDROID_CONTROL_CAPTURE_INTENT_ZERO_SHUTTER_LAG
+          value: ""
+        - name: ANDROID_CONTROL_CAPTURE_INTENT_MANUAL
+          value: ""
+        - name: ANDROID_CONTROL_CAPTURE_INTENT_MOTION_TRACKING
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlEffectMode
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_EFFECT_MODE_OFF
+          value: ""
+        - name: ANDROID_CONTROL_EFFECT_MODE_MONO
+          value: ""
+        - name: ANDROID_CONTROL_EFFECT_MODE_NEGATIVE
+          value: ""
+        - name: ANDROID_CONTROL_EFFECT_MODE_SOLARIZE
+          value: ""
+        - name: ANDROID_CONTROL_EFFECT_MODE_SEPIA
+          value: ""
+        - name: ANDROID_CONTROL_EFFECT_MODE_POSTERIZE
+          value: ""
+        - name: ANDROID_CONTROL_EFFECT_MODE_WHITEBOARD
+          value: ""
+        - name: ANDROID_CONTROL_EFFECT_MODE_BLACKBOARD
+          value: ""
+        - name: ANDROID_CONTROL_EFFECT_MODE_AQUA
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlEnableZsl
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_ENABLE_ZSL_FALSE
+          value: ""
+        - name: ANDROID_CONTROL_ENABLE_ZSL_TRUE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlExtendedSceneMode
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_EXTENDED_SCENE_MODE_DISABLED
+          value: "0"
+        - name: ANDROID_CONTROL_EXTENDED_SCENE_MODE_BOKEH_STILL_CAPTURE
+          value: ""
+        - name: ANDROID_CONTROL_EXTENDED_SCENE_MODE_BOKEH_CONTINUOUS
+          value: ""
+        - name: ANDROID_CONTROL_EXTENDED_SCENE_MODE_VENDOR_START
+          value: "0x40"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlLowLightBoostState
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_LOW_LIGHT_BOOST_STATE_INACTIVE
+          value: ""
+        - name: ANDROID_CONTROL_LOW_LIGHT_BOOST_STATE_ACTIVE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlMode
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_MODE_OFF
+          value: ""
+        - name: ANDROID_CONTROL_MODE_AUTO
+          value: ""
+        - name: ANDROID_CONTROL_MODE_USE_SCENE_MODE
+          value: ""
+        - name: ANDROID_CONTROL_MODE_OFF_KEEP_STATE
+          value: ""
+        - name: ANDROID_CONTROL_MODE_USE_EXTENDED_SCENE_MODE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlSceneMode
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_SCENE_MODE_DISABLED
+          value: "0"
+        - name: ANDROID_CONTROL_SCENE_MODE_FACE_PRIORITY
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_ACTION
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_PORTRAIT
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_LANDSCAPE
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_NIGHT
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_NIGHT_PORTRAIT
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_THEATRE
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_BEACH
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_SNOW
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_SUNSET
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_STEADYPHOTO
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_FIREWORKS
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_SPORTS
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_PARTY
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_CANDLELIGHT
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_BARCODE
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_HIGH_SPEED_VIDEO
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_HDR
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_FACE_PRIORITY_LOW_LIGHT
+          value: ""
+        - name: ANDROID_CONTROL_SCENE_MODE_DEVICE_CUSTOM_START
+          value: "100"
+        - name: ANDROID_CONTROL_SCENE_MODE_DEVICE_CUSTOM_END
+          value: "127"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlSettingsOverride
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_SETTINGS_OVERRIDE_OFF
+          value: ""
+        - name: ANDROID_CONTROL_SETTINGS_OVERRIDE_ZOOM
+          value: ""
+        - name: ANDROID_CONTROL_SETTINGS_OVERRIDE_VENDOR_START
+          value: "0x4000"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ControlVideoStabilizationMode
+      backing_type: int
+      values:
+        - name: ANDROID_CONTROL_VIDEO_STABILIZATION_MODE_OFF
+          value: ""
+        - name: ANDROID_CONTROL_VIDEO_STABILIZATION_MODE_ON
+          value: ""
+        - name: ANDROID_CONTROL_VIDEO_STABILIZATION_MODE_PREVIEW_STABILIZATION
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemosaicMode
+      backing_type: int
+      values:
+        - name: ANDROID_DEMOSAIC_MODE_FAST
+          value: ""
+        - name: ANDROID_DEMOSAIC_MODE_HIGH_QUALITY
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DepthAvailableDepthStreamConfigurations
+      backing_type: int
+      values:
+        - name: ANDROID_DEPTH_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS_OUTPUT
+          value: ""
+        - name: ANDROID_DEPTH_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS_INPUT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DepthAvailableDepthStreamConfigurationsMaximumResolution
+      backing_type: int
+      values:
+        - name: ANDROID_DEPTH_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS_MAXIMUM_RESOLUTION_OUTPUT
+          value: ""
+        - name: ANDROID_DEPTH_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS_MAXIMUM_RESOLUTION_INPUT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DepthAvailableDynamicDepthStreamConfigurations
+      backing_type: int
+      values:
+        - name: ANDROID_DEPTH_AVAILABLE_DYNAMIC_DEPTH_STREAM_CONFIGURATIONS_OUTPUT
+          value: ""
+        - name: ANDROID_DEPTH_AVAILABLE_DYNAMIC_DEPTH_STREAM_CONFIGURATIONS_INPUT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DepthAvailableDynamicDepthStreamConfigurationsMaximumResolution
+      backing_type: int
+      values:
+        - name: ANDROID_DEPTH_AVAILABLE_DYNAMIC_DEPTH_STREAM_CONFIGURATIONS_MAXIMUM_RESOLUTION_OUTPUT
+          value: ""
+        - name: ANDROID_DEPTH_AVAILABLE_DYNAMIC_DEPTH_STREAM_CONFIGURATIONS_MAXIMUM_RESOLUTION_INPUT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DepthDepthIsExclusive
+      backing_type: int
+      values:
+        - name: ANDROID_DEPTH_DEPTH_IS_EXCLUSIVE_FALSE
+          value: ""
+        - name: ANDROID_DEPTH_DEPTH_IS_EXCLUSIVE_TRUE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DistortionCorrectionMode
+      backing_type: int
+      values:
+        - name: ANDROID_DISTORTION_CORRECTION_MODE_OFF
+          value: ""
+        - name: ANDROID_DISTORTION_CORRECTION_MODE_FAST
+          value: ""
+        - name: ANDROID_DISTORTION_CORRECTION_MODE_HIGH_QUALITY
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EdgeMode
+      backing_type: int
+      values:
+        - name: ANDROID_EDGE_MODE_OFF
+          value: ""
+        - name: ANDROID_EDGE_MODE_FAST
+          value: ""
+        - name: ANDROID_EDGE_MODE_HIGH_QUALITY
+          value: ""
+        - name: ANDROID_EDGE_MODE_ZERO_SHUTTER_LAG
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FlashInfoAvailable
+      backing_type: int
+      values:
+        - name: ANDROID_FLASH_INFO_AVAILABLE_FALSE
+          value: ""
+        - name: ANDROID_FLASH_INFO_AVAILABLE_TRUE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FlashMode
+      backing_type: int
+      values:
+        - name: ANDROID_FLASH_MODE_OFF
+          value: ""
+        - name: ANDROID_FLASH_MODE_SINGLE
+          value: ""
+        - name: ANDROID_FLASH_MODE_TORCH
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FlashState
+      backing_type: int
+      values:
+        - name: ANDROID_FLASH_STATE_UNAVAILABLE
+          value: ""
+        - name: ANDROID_FLASH_STATE_CHARGING
+          value: ""
+        - name: ANDROID_FLASH_STATE_READY
+          value: ""
+        - name: ANDROID_FLASH_STATE_FIRED
+          value: ""
+        - name: ANDROID_FLASH_STATE_PARTIAL
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: HeicAvailableHeicStreamConfigurations
+      backing_type: int
+      values:
+        - name: ANDROID_HEIC_AVAILABLE_HEIC_STREAM_CONFIGURATIONS_OUTPUT
+          value: ""
+        - name: ANDROID_HEIC_AVAILABLE_HEIC_STREAM_CONFIGURATIONS_INPUT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: HeicAvailableHeicStreamConfigurationsMaximumResolution
+      backing_type: int
+      values:
+        - name: ANDROID_HEIC_AVAILABLE_HEIC_STREAM_CONFIGURATIONS_MAXIMUM_RESOLUTION_OUTPUT
+          value: ""
+        - name: ANDROID_HEIC_AVAILABLE_HEIC_STREAM_CONFIGURATIONS_MAXIMUM_RESOLUTION_INPUT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: HeicInfoSupported
+      backing_type: int
+      values:
+        - name: ANDROID_HEIC_INFO_SUPPORTED_FALSE
+          value: ""
+        - name: ANDROID_HEIC_INFO_SUPPORTED_TRUE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: HotPixelMode
+      backing_type: int
+      values:
+        - name: ANDROID_HOT_PIXEL_MODE_OFF
+          value: ""
+        - name: ANDROID_HOT_PIXEL_MODE_FAST
+          value: ""
+        - name: ANDROID_HOT_PIXEL_MODE_HIGH_QUALITY
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: InfoSupportedBufferManagementVersion
+      backing_type: int
+      values:
+        - name: ANDROID_INFO_SUPPORTED_BUFFER_MANAGEMENT_VERSION_AIDL_DEVICE
+          value: ""
+        - name: ANDROID_INFO_SUPPORTED_BUFFER_MANAGEMENT_VERSION_SESSION_CONFIGURABLE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: InfoSupportedHardwareLevel
+      backing_type: int
+      values:
+        - name: ANDROID_INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED
+          value: ""
+        - name: ANDROID_INFO_SUPPORTED_HARDWARE_LEVEL_FULL
+          value: ""
+        - name: ANDROID_INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY
+          value: ""
+        - name: ANDROID_INFO_SUPPORTED_HARDWARE_LEVEL_3
+          value: ""
+        - name: ANDROID_INFO_SUPPORTED_HARDWARE_LEVEL_EXTERNAL
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: JpegrAvailableJpegRStreamConfigurations
+      backing_type: int
+      values:
+        - name: ANDROID_JPEGR_AVAILABLE_JPEG_R_STREAM_CONFIGURATIONS_OUTPUT
+          value: ""
+        - name: ANDROID_JPEGR_AVAILABLE_JPEG_R_STREAM_CONFIGURATIONS_INPUT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: JpegrAvailableJpegRStreamConfigurationsMaximumResolution
+      backing_type: int
+      values:
+        - name: ANDROID_JPEGR_AVAILABLE_JPEG_R_STREAM_CONFIGURATIONS_MAXIMUM_RESOLUTION_OUTPUT
+          value: ""
+        - name: ANDROID_JPEGR_AVAILABLE_JPEG_R_STREAM_CONFIGURATIONS_MAXIMUM_RESOLUTION_INPUT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LedAvailableLeds
+      backing_type: int
+      values:
+        - name: ANDROID_LED_AVAILABLE_LEDS_TRANSMIT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LedTransmit
+      backing_type: int
+      values:
+        - name: ANDROID_LED_TRANSMIT_OFF
+          value: ""
+        - name: ANDROID_LED_TRANSMIT_ON
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LensFacing
+      backing_type: int
+      values:
+        - name: ANDROID_LENS_FACING_FRONT
+          value: ""
+        - name: ANDROID_LENS_FACING_BACK
+          value: ""
+        - name: ANDROID_LENS_FACING_EXTERNAL
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LensInfoFocusDistanceCalibration
+      backing_type: int
+      values:
+        - name: ANDROID_LENS_INFO_FOCUS_DISTANCE_CALIBRATION_UNCALIBRATED
+          value: ""
+        - name: ANDROID_LENS_INFO_FOCUS_DISTANCE_CALIBRATION_APPROXIMATE
+          value: ""
+        - name: ANDROID_LENS_INFO_FOCUS_DISTANCE_CALIBRATION_CALIBRATED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LensOpticalStabilizationMode
+      backing_type: int
+      values:
+        - name: ANDROID_LENS_OPTICAL_STABILIZATION_MODE_OFF
+          value: ""
+        - name: ANDROID_LENS_OPTICAL_STABILIZATION_MODE_ON
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LensPoseReference
+      backing_type: int
+      values:
+        - name: ANDROID_LENS_POSE_REFERENCE_PRIMARY_CAMERA
+          value: ""
+        - name: ANDROID_LENS_POSE_REFERENCE_GYROSCOPE
+          value: ""
+        - name: ANDROID_LENS_POSE_REFERENCE_UNDEFINED
+          value: ""
+        - name: ANDROID_LENS_POSE_REFERENCE_AUTOMOTIVE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LensState
+      backing_type: int
+      values:
+        - name: ANDROID_LENS_STATE_STATIONARY
+          value: ""
+        - name: ANDROID_LENS_STATE_MOVING
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LogicalMultiCameraSensorSyncType
+      backing_type: int
+      values:
+        - name: ANDROID_LOGICAL_MULTI_CAMERA_SENSOR_SYNC_TYPE_APPROXIMATE
+          value: ""
+        - name: ANDROID_LOGICAL_MULTI_CAMERA_SENSOR_SYNC_TYPE_CALIBRATED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NoiseReductionMode
+      backing_type: int
+      values:
+        - name: ANDROID_NOISE_REDUCTION_MODE_OFF
+          value: ""
+        - name: ANDROID_NOISE_REDUCTION_MODE_FAST
+          value: ""
+        - name: ANDROID_NOISE_REDUCTION_MODE_HIGH_QUALITY
+          value: ""
+        - name: ANDROID_NOISE_REDUCTION_MODE_MINIMAL
+          value: ""
+        - name: ANDROID_NOISE_REDUCTION_MODE_ZERO_SHUTTER_LAG
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: QuirksPartialResult
+      backing_type: int
+      values:
+        - name: ANDROID_QUIRKS_PARTIAL_RESULT_FINAL
+          value: ""
+        - name: ANDROID_QUIRKS_PARTIAL_RESULT_PARTIAL
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RequestAvailableCapabilities
+      backing_type: int
+      values:
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_BACKWARD_COMPATIBLE
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_MANUAL_SENSOR
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_MANUAL_POST_PROCESSING
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_RAW
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_PRIVATE_REPROCESSING
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_READ_SENSOR_SETTINGS
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_BURST_CAPTURE
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_YUV_REPROCESSING
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_DEPTH_OUTPUT
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_CONSTRAINED_HIGH_SPEED_VIDEO
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_MOTION_TRACKING
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_LOGICAL_MULTI_CAMERA
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_MONOCHROME
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_SECURE_IMAGE_DATA
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_SYSTEM_CAMERA
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_OFFLINE_PROCESSING
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_ULTRA_HIGH_RESOLUTION_SENSOR
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_REMOSAIC_REPROCESSING
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_DYNAMIC_RANGE_TEN_BIT
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_STREAM_USE_CASE
+          value: ""
+        - name: ANDROID_REQUEST_AVAILABLE_CAPABILITIES_COLOR_SPACE_PROFILES
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RequestAvailableColorSpaceProfilesMap
+      backing_type: long
+      values:
+        - name: ANDROID_REQUEST_AVAILABLE_COLOR_SPACE_PROFILES_MAP_UNSPECIFIED
+          value: -1L
+        - name: ANDROID_REQUEST_AVAILABLE_COLOR_SPACE_PROFILES_MAP_SRGB
+          value: 0L
+        - name: ANDROID_REQUEST_AVAILABLE_COLOR_SPACE_PROFILES_MAP_DISPLAY_P3
+          value: 7L
+        - name: ANDROID_REQUEST_AVAILABLE_COLOR_SPACE_PROFILES_MAP_BT2020_HLG
+          value: 16L
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RequestAvailableDynamicRangeProfilesMap
+      backing_type: long
+      values:
+        - name: ANDROID_REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES_MAP_STANDARD
+          value: 0x1L
+        - name: ANDROID_REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES_MAP_HLG10
+          value: 0x2L
+        - name: ANDROID_REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES_MAP_HDR10
+          value: 0x4L
+        - name: ANDROID_REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES_MAP_HDR10_PLUS
+          value: 0x8L
+        - name: ANDROID_REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES_MAP_DOLBY_VISION_10B_HDR_REF
+          value: 0x10L
+        - name: ANDROID_REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES_MAP_DOLBY_VISION_10B_HDR_REF_PO
+          value: 0x20L
+        - name: ANDROID_REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES_MAP_DOLBY_VISION_10B_HDR_OEM
+          value: 0x40L
+        - name: ANDROID_REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES_MAP_DOLBY_VISION_10B_HDR_OEM_PO
+          value: 0x80L
+        - name: ANDROID_REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES_MAP_DOLBY_VISION_8B_HDR_REF
+          value: 0x100L
+        - name: ANDROID_REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES_MAP_DOLBY_VISION_8B_HDR_REF_PO
+          value: 0x200L
+        - name: ANDROID_REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES_MAP_DOLBY_VISION_8B_HDR_OEM
+          value: 0x400L
+        - name: ANDROID_REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES_MAP_DOLBY_VISION_8B_HDR_OEM_PO
+          value: 0x800L
+        - name: ANDROID_REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES_MAP_MAX
+          value: 0x1000L
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RequestMetadataMode
+      backing_type: int
+      values:
+        - name: ANDROID_REQUEST_METADATA_MODE_NONE
+          value: ""
+        - name: ANDROID_REQUEST_METADATA_MODE_FULL
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RequestType
+      backing_type: int
+      values:
+        - name: ANDROID_REQUEST_TYPE_CAPTURE
+          value: ""
+        - name: ANDROID_REQUEST_TYPE_REPROCESS
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ScalerAvailableFormats
+      backing_type: int
+      values:
+        - name: ANDROID_SCALER_AVAILABLE_FORMATS_RAW16
+          value: "0x20"
+        - name: ANDROID_SCALER_AVAILABLE_FORMATS_RAW_OPAQUE
+          value: "0x24"
+        - name: ANDROID_SCALER_AVAILABLE_FORMATS_YV12
+          value: "0x32315659"
+        - name: ANDROID_SCALER_AVAILABLE_FORMATS_YCrCb_420_SP
+          value: "0x11"
+        - name: ANDROID_SCALER_AVAILABLE_FORMATS_IMPLEMENTATION_DEFINED
+          value: "0x22"
+        - name: ANDROID_SCALER_AVAILABLE_FORMATS_YCbCr_420_888
+          value: "0x23"
+        - name: ANDROID_SCALER_AVAILABLE_FORMATS_BLOB
+          value: "0x21"
+        - name: ANDROID_SCALER_AVAILABLE_FORMATS_RAW10
+          value: "0x25"
+        - name: ANDROID_SCALER_AVAILABLE_FORMATS_RAW12
+          value: "0x26"
+        - name: ANDROID_SCALER_AVAILABLE_FORMATS_Y8
+          value: "0x20203859"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ScalerAvailableRecommendedStreamConfigurations
+      backing_type: int
+      values:
+        - name: ANDROID_SCALER_AVAILABLE_RECOMMENDED_STREAM_CONFIGURATIONS_PREVIEW
+          value: "0x0"
+        - name: ANDROID_SCALER_AVAILABLE_RECOMMENDED_STREAM_CONFIGURATIONS_RECORD
+          value: "0x1"
+        - name: ANDROID_SCALER_AVAILABLE_RECOMMENDED_STREAM_CONFIGURATIONS_VIDEO_SNAPSHOT
+          value: "0x2"
+        - name: ANDROID_SCALER_AVAILABLE_RECOMMENDED_STREAM_CONFIGURATIONS_SNAPSHOT
+          value: "0x3"
+        - name: ANDROID_SCALER_AVAILABLE_RECOMMENDED_STREAM_CONFIGURATIONS_ZSL
+          value: "0x4"
+        - name: ANDROID_SCALER_AVAILABLE_RECOMMENDED_STREAM_CONFIGURATIONS_RAW
+          value: "0x5"
+        - name: ANDROID_SCALER_AVAILABLE_RECOMMENDED_STREAM_CONFIGURATIONS_LOW_LATENCY_SNAPSHOT
+          value: "0x6"
+        - name: ANDROID_SCALER_AVAILABLE_RECOMMENDED_STREAM_CONFIGURATIONS_10BIT_OUTPUT
+          value: "0x8"
+        - name: ANDROID_SCALER_AVAILABLE_RECOMMENDED_STREAM_CONFIGURATIONS_VENDOR_START
+          value: "0x18"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ScalerAvailableStreamConfigurations
+      backing_type: int
+      values:
+        - name: ANDROID_SCALER_AVAILABLE_STREAM_CONFIGURATIONS_OUTPUT
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_STREAM_CONFIGURATIONS_INPUT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ScalerAvailableStreamConfigurationsMaximumResolution
+      backing_type: int
+      values:
+        - name: ANDROID_SCALER_AVAILABLE_STREAM_CONFIGURATIONS_MAXIMUM_RESOLUTION_OUTPUT
+          value: ""
+        - name: ANDROID_SCALER_AVAILABLE_STREAM_CONFIGURATIONS_MAXIMUM_RESOLUTION_INPUT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ScalerAvailableStreamUseCases
+      backing_type: long
+      values:
+        - name: ANDROID_SCALER_AVAILABLE_STREAM_USE_CASES_DEFAULT
+          value: 0x0L
+        - name: ANDROID_SCALER_AVAILABLE_STREAM_USE_CASES_PREVIEW
+          value: 0x1L
+        - name: ANDROID_SCALER_AVAILABLE_STREAM_USE_CASES_STILL_CAPTURE
+          value: 0x2L
+        - name: ANDROID_SCALER_AVAILABLE_STREAM_USE_CASES_VIDEO_RECORD
+          value: 0x3L
+        - name: ANDROID_SCALER_AVAILABLE_STREAM_USE_CASES_PREVIEW_VIDEO_STILL
+          value: 0x4L
+        - name: ANDROID_SCALER_AVAILABLE_STREAM_USE_CASES_VIDEO_CALL
+          value: 0x5L
+        - name: ANDROID_SCALER_AVAILABLE_STREAM_USE_CASES_CROPPED_RAW
+          value: 0x6L
+        - name: ANDROID_SCALER_AVAILABLE_STREAM_USE_CASES_VENDOR_START
+          value: 0x10000L
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ScalerCroppingType
+      backing_type: int
+      values:
+        - name: ANDROID_SCALER_CROPPING_TYPE_CENTER_ONLY
+          value: ""
+        - name: ANDROID_SCALER_CROPPING_TYPE_FREEFORM
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ScalerMultiResolutionStreamSupported
+      backing_type: int
+      values:
+        - name: ANDROID_SCALER_MULTI_RESOLUTION_STREAM_SUPPORTED_FALSE
+          value: ""
+        - name: ANDROID_SCALER_MULTI_RESOLUTION_STREAM_SUPPORTED_TRUE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ScalerPhysicalCameraMultiResolutionStreamConfigurations
+      backing_type: int
+      values:
+        - name: ANDROID_SCALER_PHYSICAL_CAMERA_MULTI_RESOLUTION_STREAM_CONFIGURATIONS_OUTPUT
+          value: ""
+        - name: ANDROID_SCALER_PHYSICAL_CAMERA_MULTI_RESOLUTION_STREAM_CONFIGURATIONS_INPUT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ScalerRotateAndCrop
+      backing_type: int
+      values:
+        - name: ANDROID_SCALER_ROTATE_AND_CROP_NONE
+          value: ""
+        - name: ANDROID_SCALER_ROTATE_AND_CROP_90
+          value: ""
+        - name: ANDROID_SCALER_ROTATE_AND_CROP_180
+          value: ""
+        - name: ANDROID_SCALER_ROTATE_AND_CROP_270
+          value: ""
+        - name: ANDROID_SCALER_ROTATE_AND_CROP_AUTO
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SensorInfoColorFilterArrangement
+      backing_type: int
+      values:
+        - name: ANDROID_SENSOR_INFO_COLOR_FILTER_ARRANGEMENT_RGGB
+          value: ""
+        - name: ANDROID_SENSOR_INFO_COLOR_FILTER_ARRANGEMENT_GRBG
+          value: ""
+        - name: ANDROID_SENSOR_INFO_COLOR_FILTER_ARRANGEMENT_GBRG
+          value: ""
+        - name: ANDROID_SENSOR_INFO_COLOR_FILTER_ARRANGEMENT_BGGR
+          value: ""
+        - name: ANDROID_SENSOR_INFO_COLOR_FILTER_ARRANGEMENT_RGB
+          value: ""
+        - name: ANDROID_SENSOR_INFO_COLOR_FILTER_ARRANGEMENT_MONO
+          value: ""
+        - name: ANDROID_SENSOR_INFO_COLOR_FILTER_ARRANGEMENT_NIR
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SensorInfoLensShadingApplied
+      backing_type: int
+      values:
+        - name: ANDROID_SENSOR_INFO_LENS_SHADING_APPLIED_FALSE
+          value: ""
+        - name: ANDROID_SENSOR_INFO_LENS_SHADING_APPLIED_TRUE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SensorInfoTimestampSource
+      backing_type: int
+      values:
+        - name: ANDROID_SENSOR_INFO_TIMESTAMP_SOURCE_UNKNOWN
+          value: ""
+        - name: ANDROID_SENSOR_INFO_TIMESTAMP_SOURCE_REALTIME
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SensorPixelMode
+      backing_type: int
+      values:
+        - name: ANDROID_SENSOR_PIXEL_MODE_DEFAULT
+          value: ""
+        - name: ANDROID_SENSOR_PIXEL_MODE_MAXIMUM_RESOLUTION
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SensorRawBinningFactorUsed
+      backing_type: int
+      values:
+        - name: ANDROID_SENSOR_RAW_BINNING_FACTOR_USED_TRUE
+          value: ""
+        - name: ANDROID_SENSOR_RAW_BINNING_FACTOR_USED_FALSE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SensorReadoutTimestamp
+      backing_type: int
+      values:
+        - name: ANDROID_SENSOR_READOUT_TIMESTAMP_NOT_SUPPORTED
+          value: ""
+        - name: ANDROID_SENSOR_READOUT_TIMESTAMP_HARDWARE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SensorReferenceIlluminant1
+      backing_type: int
+      values:
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_DAYLIGHT
+          value: "1"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_FLUORESCENT
+          value: "2"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_TUNGSTEN
+          value: "3"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_FLASH
+          value: "4"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_FINE_WEATHER
+          value: "9"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_CLOUDY_WEATHER
+          value: "10"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_SHADE
+          value: "11"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_DAYLIGHT_FLUORESCENT
+          value: "12"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_DAY_WHITE_FLUORESCENT
+          value: "13"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_COOL_WHITE_FLUORESCENT
+          value: "14"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_WHITE_FLUORESCENT
+          value: "15"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_STANDARD_A
+          value: "17"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_STANDARD_B
+          value: "18"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_STANDARD_C
+          value: "19"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_D55
+          value: "20"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_D65
+          value: "21"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_D75
+          value: "22"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_D50
+          value: "23"
+        - name: ANDROID_SENSOR_REFERENCE_ILLUMINANT1_ISO_STUDIO_TUNGSTEN
+          value: "24"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SensorTestPatternMode
+      backing_type: int
+      values:
+        - name: ANDROID_SENSOR_TEST_PATTERN_MODE_OFF
+          value: ""
+        - name: ANDROID_SENSOR_TEST_PATTERN_MODE_SOLID_COLOR
+          value: ""
+        - name: ANDROID_SENSOR_TEST_PATTERN_MODE_COLOR_BARS
+          value: ""
+        - name: ANDROID_SENSOR_TEST_PATTERN_MODE_COLOR_BARS_FADE_TO_GRAY
+          value: ""
+        - name: ANDROID_SENSOR_TEST_PATTERN_MODE_PN9
+          value: ""
+        - name: ANDROID_SENSOR_TEST_PATTERN_MODE_BLACK
+          value: ""
+        - name: ANDROID_SENSOR_TEST_PATTERN_MODE_CUSTOM1
+          value: "256"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ShadingMode
+      backing_type: int
+      values:
+        - name: ANDROID_SHADING_MODE_OFF
+          value: ""
+        - name: ANDROID_SHADING_MODE_FAST
+          value: ""
+        - name: ANDROID_SHADING_MODE_HIGH_QUALITY
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StatisticsFaceDetectMode
+      backing_type: int
+      values:
+        - name: ANDROID_STATISTICS_FACE_DETECT_MODE_OFF
+          value: ""
+        - name: ANDROID_STATISTICS_FACE_DETECT_MODE_SIMPLE
+          value: ""
+        - name: ANDROID_STATISTICS_FACE_DETECT_MODE_FULL
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StatisticsHistogramMode
+      backing_type: int
+      values:
+        - name: ANDROID_STATISTICS_HISTOGRAM_MODE_OFF
+          value: ""
+        - name: ANDROID_STATISTICS_HISTOGRAM_MODE_ON
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StatisticsHotPixelMapMode
+      backing_type: int
+      values:
+        - name: ANDROID_STATISTICS_HOT_PIXEL_MAP_MODE_OFF
+          value: ""
+        - name: ANDROID_STATISTICS_HOT_PIXEL_MAP_MODE_ON
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StatisticsLensShadingMapMode
+      backing_type: int
+      values:
+        - name: ANDROID_STATISTICS_LENS_SHADING_MAP_MODE_OFF
+          value: ""
+        - name: ANDROID_STATISTICS_LENS_SHADING_MAP_MODE_ON
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StatisticsOisDataMode
+      backing_type: int
+      values:
+        - name: ANDROID_STATISTICS_OIS_DATA_MODE_OFF
+          value: ""
+        - name: ANDROID_STATISTICS_OIS_DATA_MODE_ON
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StatisticsSceneFlicker
+      backing_type: int
+      values:
+        - name: ANDROID_STATISTICS_SCENE_FLICKER_NONE
+          value: ""
+        - name: ANDROID_STATISTICS_SCENE_FLICKER_50HZ
+          value: ""
+        - name: ANDROID_STATISTICS_SCENE_FLICKER_60HZ
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StatisticsSharpnessMapMode
+      backing_type: int
+      values:
+        - name: ANDROID_STATISTICS_SHARPNESS_MAP_MODE_OFF
+          value: ""
+        - name: ANDROID_STATISTICS_SHARPNESS_MAP_MODE_ON
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SyncFrameNumber
+      backing_type: int
+      values:
+        - name: ANDROID_SYNC_FRAME_NUMBER_CONVERGING
+          value: "-1"
+        - name: ANDROID_SYNC_FRAME_NUMBER_UNKNOWN
+          value: "-2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SyncMaxLatency
+      backing_type: int
+      values:
+        - name: ANDROID_SYNC_MAX_LATENCY_PER_FRAME_CONTROL
+          value: "0"
+        - name: ANDROID_SYNC_MAX_LATENCY_UNKNOWN
+          value: "-1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: TonemapMode
+      backing_type: int
+      values:
+        - name: ANDROID_TONEMAP_MODE_CONTRAST_CURVE
+          value: ""
+        - name: ANDROID_TONEMAP_MODE_FAST
+          value: ""
+        - name: ANDROID_TONEMAP_MODE_HIGH_QUALITY
+          value: ""
+        - name: ANDROID_TONEMAP_MODE_GAMMA_VALUE
+          value: ""
+        - name: ANDROID_TONEMAP_MODE_PRESET_CURVE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: TonemapPresetCurve
+      backing_type: int
+      values:
+        - name: ANDROID_TONEMAP_PRESET_CURVE_SRGB
+          value: ""
+        - name: ANDROID_TONEMAP_PRESET_CURVE_REC709
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing

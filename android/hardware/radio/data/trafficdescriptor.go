@@ -8,7 +8,7 @@ import (
 
 type TrafficDescriptor struct {
 	Dnn     string
-	OsAppId OsAppId
+	OsAppId *OsAppId
 }
 
 var _ parcel.Parcelable = (*TrafficDescriptor)(nil)
@@ -18,8 +18,13 @@ func (s *TrafficDescriptor) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString16(s.Dnn)
-	if _err := s.OsAppId.MarshalParcel(p); _err != nil {
-		return _err
+	if s.OsAppId == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.OsAppId.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -34,13 +39,33 @@ func (s *TrafficDescriptor) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Dnn, _err = p.ReadString16()
 	if _err != nil {
 		return _err
 	}
 
-	if _err = s.OsAppId.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val OsAppId
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.OsAppId = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

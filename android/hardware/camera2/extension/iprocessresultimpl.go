@@ -3,6 +3,7 @@ package extension
 import (
 	"context"
 	"fmt"
+	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -23,7 +24,7 @@ const (
 
 type IProcessResultImpl interface {
 	AsBinder() binder.IBinder
-	OnCaptureCompleted(ctx context.Context, shutterTimestamp int64, results interface{}) error
+	OnCaptureCompleted(ctx context.Context, shutterTimestamp int64, results impl.CameraMetadataNative) error
 	OnCaptureProcessProgressed(ctx context.Context, progress int32) error
 }
 
@@ -46,11 +47,16 @@ var _ IProcessResultImpl = (*ProcessResultImplProxy)(nil)
 func (p *ProcessResultImplProxy) OnCaptureCompleted(
 	ctx context.Context,
 	shutterTimestamp int64,
-	results interface{},
+	results impl.CameraMetadataNative,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessResultImpl)
 	_data.WriteInt64(shutterTimestamp)
+	_data.WriteInt32(1)
+	if _err := results.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessResultImpl, MethodIProcessResultImplOnCaptureCompleted)
 	if _err != nil {
@@ -75,6 +81,7 @@ func (p *ProcessResultImplProxy) OnCaptureProcessProgressed(
 	progress int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessResultImpl)
 	_data.WriteInt32(progress)
 
@@ -99,7 +106,8 @@ func (p *ProcessResultImplProxy) OnCaptureProcessProgressed(
 // ProcessResultImplStub dispatches incoming binder transactions
 // to a typed IProcessResultImpl implementation.
 type ProcessResultImplStub struct {
-	Impl IProcessResultImpl
+	Impl      IProcessResultImpl
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ProcessResultImplStub)(nil)
@@ -113,16 +121,28 @@ func (s *ProcessResultImplStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIProcessResultImplOnCaptureCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_shutterTimestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_results interface{}
+		var _arg_results impl.CameraMetadataNative
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_results.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnCaptureCompleted(ctx, _arg_shutterTimestamp, _arg_results)
 		_reply := parcel.New()
 		if _err != nil {
@@ -132,9 +152,6 @@ func (s *ProcessResultImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProcessResultImplOnCaptureProcessProgressed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_progress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -156,7 +173,7 @@ func (s *ProcessResultImplStub) OnTransaction(
 // provide to NewProcessResultImplStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IProcessResultImplServer interface {
-	OnCaptureCompleted(ctx context.Context, shutterTimestamp int64, results interface{}) error
+	OnCaptureCompleted(ctx context.Context, shutterTimestamp int64, results impl.CameraMetadataNative) error
 	OnCaptureProcessProgressed(ctx context.Context, progress int32) error
 }
 
@@ -172,7 +189,7 @@ func (w *processResultImplStubWrapper) AsBinder() binder.IBinder {
 func (w *processResultImplStubWrapper) OnCaptureCompleted(
 	ctx context.Context,
 	shutterTimestamp int64,
-	results interface{},
+	results impl.CameraMetadataNative,
 ) error {
 	return w.impl.OnCaptureCompleted(ctx, shutterTimestamp, results)
 }

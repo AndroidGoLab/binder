@@ -1,0 +1,230 @@
+package: com.android.internal.os
+go_package: com/android/internal_/os
+interfaces:
+    - name: IBinaryTransparencyService
+      descriptor: com.android.internal.os.IBinaryTransparencyService
+      methods:
+        - name: getSignedImageInfo
+          transaction_code_offset: 0
+          return_type:
+            name: String
+        - name: recordMeasurementsForAllPackages
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: collectAllApexInfo
+          transaction_code_offset: 2
+          params:
+            - name: includeTestOnly
+              type:
+                name: boolean
+          return_type:
+            name: List
+            type_args:
+                - name: ApexInfo
+        - name: collectAllUpdatedPreloadInfo
+          transaction_code_offset: 3
+          params:
+            - name: packagesToSkip
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: AppInfo
+        - name: collectAllSilentInstalledMbaInfo
+          transaction_code_offset: 4
+          params:
+            - name: packagesToSkip
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: AppInfo
+    - name: IDropBoxManagerService
+      descriptor: com.android.internal.os.IDropBoxManagerService
+      methods:
+        - name: addData
+          transaction_code_offset: 0
+          params:
+            - name: tag
+              type:
+                name: String
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: addFile
+          transaction_code_offset: 1
+          params:
+            - name: tag
+              type:
+                name: String
+            - name: fd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isTagEnabled
+          transaction_code_offset: 2
+          params:
+            - name: tag
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getNextEntry
+          transaction_code_offset: 3
+          params:
+            - name: tag
+              type:
+                name: String
+            - name: millis
+              type:
+                name: long
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: DropBoxManager.Entry
+          annotations:
+            - UnsupportedAppUsage
+        - name: getNextEntryWithAttribution
+          transaction_code_offset: 4
+          params:
+            - name: tag
+              type:
+                name: String
+            - name: millis
+              type:
+                name: long
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+          return_type:
+            name: DropBoxManager.Entry
+    - name: IParcelFileDescriptorFactory
+      descriptor: com.android.internal.os.IParcelFileDescriptorFactory
+      methods:
+        - name: open
+          transaction_code_offset: 0
+          params:
+            - name: name
+              type:
+                name: String
+            - name: mode
+              type:
+                name: int
+          return_type:
+            name: ParcelFileDescriptor
+    - name: IResultReceiver
+      descriptor: com.android.internal.os.IResultReceiver
+      oneway: true
+      methods:
+        - name: send
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: resultData
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+    - name: IShellCallback
+      descriptor: com.android.internal.os.IShellCallback
+      methods:
+        - name: openFile
+          transaction_code_offset: 0
+          params:
+            - name: path
+              type:
+                name: String
+            - name: seLinuxContext
+              type:
+                name: String
+            - name: mode
+              type:
+                name: String
+          return_type:
+            name: ParcelFileDescriptor
+parcelables:
+    - name: AppFuseMount
+    - name: IBinaryTransparencyService.ApexInfo
+      fields:
+        - name: packageName
+          type:
+            name: String
+        - name: longVersion
+          type:
+            name: long
+        - name: digest
+          type:
+            name: byte
+            is_array: true
+        - name: digestAlgorithm
+          type:
+            name: int
+        - name: signerDigests
+          type:
+            name: String
+            is_array: true
+        - name: moduleName
+          type:
+            name: String
+    - name: IBinaryTransparencyService.AppInfo
+      fields:
+        - name: packageName
+          type:
+            name: String
+        - name: longVersion
+          type:
+            name: long
+        - name: splitName
+          type:
+            name: String
+        - name: digest
+          type:
+            name: byte
+            is_array: true
+        - name: digestAlgorithm
+          type:
+            name: int
+        - name: signerDigests
+          type:
+            name: String
+            is_array: true
+        - name: mbaStatus
+          type:
+            name: int
+        - name: initiator
+          type:
+            name: String
+        - name: initiatorSignerDigests
+          type:
+            name: String
+            is_array: true
+        - name: installer
+          type:
+            name: String
+        - name: originator
+          type:
+            name: String

@@ -1,0 +1,13 @@
+package: android.hardware.wifi.common
+go_package: android/hardware/wifi/common
+parcelables:
+    - name: OuiKeyedData
+      fields:
+        - name: oui
+          type:
+            name: int
+        - name: vendorData
+          type:
+            name: PersistableBundle
+      annotations:
+        - VintfStability

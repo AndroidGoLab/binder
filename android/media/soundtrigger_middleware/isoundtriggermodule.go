@@ -75,6 +75,7 @@ func (p *SoundTriggerModuleProxy) LoadModel(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerModule)
 	_data.WriteInt32(1)
 	if _err := model.MarshalParcel(_data); _err != nil {
@@ -109,6 +110,7 @@ func (p *SoundTriggerModuleProxy) LoadPhraseModel(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerModule)
 	_data.WriteInt32(1)
 	if _err := model.MarshalParcel(_data); _err != nil {
@@ -142,6 +144,7 @@ func (p *SoundTriggerModuleProxy) UnloadModel(
 	modelHandle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerModule)
 	_data.WriteInt32(modelHandle)
 
@@ -170,6 +173,7 @@ func (p *SoundTriggerModuleProxy) StartRecognition(
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerModule)
 	_data.WriteInt32(modelHandle)
 	_data.WriteInt32(1)
@@ -205,6 +209,7 @@ func (p *SoundTriggerModuleProxy) StopRecognition(
 	modelHandle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerModule)
 	_data.WriteInt32(modelHandle)
 
@@ -231,6 +236,7 @@ func (p *SoundTriggerModuleProxy) ForceRecognitionEvent(
 	modelHandle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerModule)
 	_data.WriteInt32(modelHandle)
 
@@ -259,6 +265,7 @@ func (p *SoundTriggerModuleProxy) SetModelParameter(
 	value int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerModule)
 	_data.WriteInt32(modelHandle)
 	_data.WriteInt32(int32(modelParam))
@@ -289,6 +296,7 @@ func (p *SoundTriggerModuleProxy) GetModelParameter(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerModule)
 	_data.WriteInt32(modelHandle)
 	_data.WriteInt32(int32(modelParam))
@@ -322,6 +330,7 @@ func (p *SoundTriggerModuleProxy) QueryModelParameterSupport(
 ) (soundtrigger.ModelParameterRange, error) {
 	var _result soundtrigger.ModelParameterRange
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerModule)
 	_data.WriteInt32(modelHandle)
 	_data.WriteInt32(int32(modelParam))
@@ -357,6 +366,7 @@ func (p *SoundTriggerModuleProxy) Detach(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerModule, MethodISoundTriggerModuleDetach)
@@ -380,7 +390,8 @@ func (p *SoundTriggerModuleProxy) Detach(
 // SoundTriggerModuleStub dispatches incoming binder transactions
 // to a typed ISoundTriggerModule implementation.
 type SoundTriggerModuleStub struct {
-	Impl ISoundTriggerModule
+	Impl      ISoundTriggerModule
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SoundTriggerModuleStub)(nil)
@@ -394,11 +405,12 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISoundTriggerModuleLoadModel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_model soundtrigger.SoundModel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -421,9 +433,6 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerModuleLoadPhraseModel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_model soundtrigger.PhraseSoundModel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -446,9 +455,6 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerModuleUnloadModel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -462,9 +468,6 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundTriggerModuleStartRecognition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -488,13 +491,9 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	case TransactionISoundTriggerModuleStopRecognition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -508,9 +507,6 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundTriggerModuleForceRecognitionEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -524,9 +520,6 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundTriggerModuleSetModelParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -549,9 +542,6 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundTriggerModuleGetModelParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -571,9 +561,6 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerModuleQueryModelParameterSupport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -596,9 +583,6 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISoundTriggerModuleDetach:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Detach(ctx)
 		_reply := parcel.New()
 		if _err != nil {

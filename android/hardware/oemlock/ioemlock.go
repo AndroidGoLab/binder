@@ -57,6 +57,7 @@ func (p *OemLockProxy) GetName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemLock)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemLock, MethodIOemLockGetName)
@@ -86,6 +87,7 @@ func (p *OemLockProxy) IsOemUnlockAllowedByCarrier(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemLock)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemLock, MethodIOemLockIsOemUnlockAllowedByCarrier)
@@ -115,6 +117,7 @@ func (p *OemLockProxy) IsOemUnlockAllowedByDevice(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemLock)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemLock, MethodIOemLockIsOemUnlockAllowedByDevice)
@@ -146,16 +149,10 @@ func (p *OemLockProxy) SetOemUnlockAllowedByCarrier(
 ) (OemLockSecureStatus, error) {
 	var _result OemLockSecureStatus
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemLock)
 	_data.WriteBool(allowed)
-	if signature == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(signature)))
-		for _, _item := range signature {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(signature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemLock, MethodIOemLockSetOemUnlockAllowedByCarrier)
 	if _err != nil {
@@ -185,6 +182,7 @@ func (p *OemLockProxy) SetOemUnlockAllowedByDevice(
 	allowed bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemLock)
 	_data.WriteBool(allowed)
 
@@ -209,7 +207,8 @@ func (p *OemLockProxy) SetOemUnlockAllowedByDevice(
 // OemLockStub dispatches incoming binder transactions
 // to a typed IOemLock implementation.
 type OemLockStub struct {
-	Impl IOemLock
+	Impl      IOemLock
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OemLockStub)(nil)
@@ -223,11 +222,12 @@ func (s *OemLockStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOemLockGetName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -238,9 +238,6 @@ func (s *OemLockStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIOemLockIsOemUnlockAllowedByCarrier:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsOemUnlockAllowedByCarrier(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -251,9 +248,6 @@ func (s *OemLockStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIOemLockIsOemUnlockAllowedByDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsOemUnlockAllowedByDevice(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -264,16 +258,18 @@ func (s *OemLockStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIOemLockSetOemUnlockAllowedByCarrier:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_signature []byte
-		_ = _arg_signature
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_signature = _bytes
+		}
 		_result, _err := s.Impl.SetOemUnlockAllowedByCarrier(ctx, _arg_allowed, _arg_signature)
 		_reply := parcel.New()
 		if _err != nil {
@@ -284,9 +280,6 @@ func (s *OemLockStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIOemLockSetOemUnlockAllowedByDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err

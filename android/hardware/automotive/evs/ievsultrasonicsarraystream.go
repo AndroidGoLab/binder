@@ -48,6 +48,7 @@ func (p *EvsUltrasonicsArrayStreamProxy) DeliverDataFrame(
 	dataFrameDesc UltrasonicsDataFrameDesc,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArrayStream)
 	_data.WriteInt32(1)
 	if _err := dataFrameDesc.MarshalParcel(_data); _err != nil {
@@ -68,6 +69,7 @@ func (p *EvsUltrasonicsArrayStreamProxy) Notify(
 	event EvsEventDesc,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArrayStream)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -86,7 +88,8 @@ func (p *EvsUltrasonicsArrayStreamProxy) Notify(
 // EvsUltrasonicsArrayStreamStub dispatches incoming binder transactions
 // to a typed IEvsUltrasonicsArrayStream implementation.
 type EvsUltrasonicsArrayStreamStub struct {
-	Impl IEvsUltrasonicsArrayStream
+	Impl      IEvsUltrasonicsArrayStream
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EvsUltrasonicsArrayStreamStub)(nil)
@@ -100,11 +103,12 @@ func (s *EvsUltrasonicsArrayStreamStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEvsUltrasonicsArrayStreamDeliverDataFrame:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_dataFrameDesc UltrasonicsDataFrameDesc
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -118,12 +122,8 @@ func (s *EvsUltrasonicsArrayStreamStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.DeliverDataFrame(ctx, _arg_dataFrameDesc)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEvsUltrasonicsArrayStreamNotify:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event EvsEventDesc
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -137,8 +137,7 @@ func (s *EvsUltrasonicsArrayStreamStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.Notify(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

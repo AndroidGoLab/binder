@@ -3,6 +3,7 @@ package bluetooth
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ const (
 
 type IBluetoothPreferredAudioProfilesCallback interface {
 	AsBinder() binder.IBinder
-	OnPreferredAudioProfilesChanged(ctx context.Context, device BluetoothDevice, preferredAudioProfiles interface{}, status int32) error
+	OnPreferredAudioProfilesChanged(ctx context.Context, device BluetoothDevice, preferredAudioProfiles os.Bundle, status int32) error
 }
 
 type BluetoothPreferredAudioProfilesCallbackProxy struct {
@@ -43,13 +44,18 @@ var _ IBluetoothPreferredAudioProfilesCallback = (*BluetoothPreferredAudioProfil
 func (p *BluetoothPreferredAudioProfilesCallbackProxy) OnPreferredAudioProfilesChanged(
 	ctx context.Context,
 	device BluetoothDevice,
-	preferredAudioProfiles interface{},
+	preferredAudioProfiles os.Bundle,
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothPreferredAudioProfilesCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := preferredAudioProfiles.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(status)
@@ -66,7 +72,8 @@ func (p *BluetoothPreferredAudioProfilesCallbackProxy) OnPreferredAudioProfilesC
 // BluetoothPreferredAudioProfilesCallbackStub dispatches incoming binder transactions
 // to a typed IBluetoothPreferredAudioProfilesCallback implementation.
 type BluetoothPreferredAudioProfilesCallbackStub struct {
-	Impl IBluetoothPreferredAudioProfilesCallback
+	Impl      IBluetoothPreferredAudioProfilesCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothPreferredAudioProfilesCallbackStub)(nil)
@@ -80,11 +87,12 @@ func (s *BluetoothPreferredAudioProfilesCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothPreferredAudioProfilesCallbackOnPreferredAudioProfilesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -97,14 +105,24 @@ func (s *BluetoothPreferredAudioProfilesCallbackStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_preferredAudioProfiles interface{}
+		var _arg_preferredAudioProfiles os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_preferredAudioProfiles.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnPreferredAudioProfilesChanged(ctx, _arg_device, _arg_preferredAudioProfiles, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -114,7 +132,7 @@ func (s *BluetoothPreferredAudioProfilesCallbackStub) OnTransaction(
 // provide to NewBluetoothPreferredAudioProfilesCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothPreferredAudioProfilesCallbackServer interface {
-	OnPreferredAudioProfilesChanged(ctx context.Context, device BluetoothDevice, preferredAudioProfiles interface{}, status int32) error
+	OnPreferredAudioProfilesChanged(ctx context.Context, device BluetoothDevice, preferredAudioProfiles os.Bundle, status int32) error
 }
 
 type bluetoothPreferredAudioProfilesCallbackStubWrapper struct {
@@ -129,7 +147,7 @@ func (w *bluetoothPreferredAudioProfilesCallbackStubWrapper) AsBinder() binder.I
 func (w *bluetoothPreferredAudioProfilesCallbackStubWrapper) OnPreferredAudioProfilesChanged(
 	ctx context.Context,
 	device BluetoothDevice,
-	preferredAudioProfiles interface{},
+	preferredAudioProfiles os.Bundle,
 	status int32,
 ) error {
 	return w.impl.OnPreferredAudioProfilesChanged(ctx, device, preferredAudioProfiles, status)

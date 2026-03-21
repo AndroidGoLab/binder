@@ -48,6 +48,7 @@ func (p *BluetoothMcpServiceManagerProxy) SetDeviceAuthorized(
 	source content.AttributionSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothMcpServiceManager)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -80,7 +81,8 @@ func (p *BluetoothMcpServiceManagerProxy) SetDeviceAuthorized(
 // BluetoothMcpServiceManagerStub dispatches incoming binder transactions
 // to a typed IBluetoothMcpServiceManager implementation.
 type BluetoothMcpServiceManagerStub struct {
-	Impl IBluetoothMcpServiceManager
+	Impl      IBluetoothMcpServiceManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothMcpServiceManagerStub)(nil)
@@ -94,11 +96,12 @@ func (s *BluetoothMcpServiceManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothMcpServiceManagerSetDeviceAuthorized:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()

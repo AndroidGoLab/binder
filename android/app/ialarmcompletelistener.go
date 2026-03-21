@@ -45,6 +45,7 @@ func (p *AlarmCompleteListenerProxy) AlarmComplete(
 	who binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAlarmCompleteListener)
 	binder.WriteBinderToParcel(ctx, _data, who, p.Remote.Transport())
 
@@ -69,7 +70,8 @@ func (p *AlarmCompleteListenerProxy) AlarmComplete(
 // AlarmCompleteListenerStub dispatches incoming binder transactions
 // to a typed IAlarmCompleteListener implementation.
 type AlarmCompleteListenerStub struct {
-	Impl IAlarmCompleteListener
+	Impl      IAlarmCompleteListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AlarmCompleteListenerStub)(nil)
@@ -83,14 +85,20 @@ func (s *AlarmCompleteListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAlarmCompleteListenerAlarmComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_who binder.IBinder
-		_ = _arg_who
+		{
+			_whoHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_who = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _whoHandle)
+		}
 		_err := s.Impl.AlarmComplete(ctx, _arg_who)
 		_reply := parcel.New()
 		if _err != nil {

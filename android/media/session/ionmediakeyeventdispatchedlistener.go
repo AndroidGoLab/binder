@@ -3,6 +3,7 @@ package session
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ const (
 
 type IOnMediaKeyEventDispatchedListener interface {
 	AsBinder() binder.IBinder
-	OnMediaKeyEventDispatched(ctx context.Context, event interface{}, packageName string, sessionToken MediaSessionToken) error
+	OnMediaKeyEventDispatched(ctx context.Context, event view.KeyEvent, packageName string, sessionToken MediaSessionToken) error
 }
 
 type OnMediaKeyEventDispatchedListenerProxy struct {
@@ -42,12 +43,17 @@ var _ IOnMediaKeyEventDispatchedListener = (*OnMediaKeyEventDispatchedListenerPr
 
 func (p *OnMediaKeyEventDispatchedListenerProxy) OnMediaKeyEventDispatched(
 	ctx context.Context,
-	event interface{},
+	event view.KeyEvent,
 	packageName string,
 	sessionToken MediaSessionToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnMediaKeyEventDispatchedListener)
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
 	if _err := sessionToken.MarshalParcel(_data); _err != nil {
@@ -66,7 +72,8 @@ func (p *OnMediaKeyEventDispatchedListenerProxy) OnMediaKeyEventDispatched(
 // OnMediaKeyEventDispatchedListenerStub dispatches incoming binder transactions
 // to a typed IOnMediaKeyEventDispatchedListener implementation.
 type OnMediaKeyEventDispatchedListenerStub struct {
-	Impl IOnMediaKeyEventDispatchedListener
+	Impl      IOnMediaKeyEventDispatchedListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OnMediaKeyEventDispatchedListenerStub)(nil)
@@ -80,12 +87,24 @@ func (s *OnMediaKeyEventDispatchedListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOnMediaKeyEventDispatchedListenerOnMediaKeyEventDispatched:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_event view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_event interface{}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -103,8 +122,7 @@ func (s *OnMediaKeyEventDispatchedListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnMediaKeyEventDispatched(ctx, _arg_event, _arg_packageName, _arg_sessionToken)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -114,7 +132,7 @@ func (s *OnMediaKeyEventDispatchedListenerStub) OnTransaction(
 // provide to NewOnMediaKeyEventDispatchedListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IOnMediaKeyEventDispatchedListenerServer interface {
-	OnMediaKeyEventDispatched(ctx context.Context, event interface{}, packageName string, sessionToken MediaSessionToken) error
+	OnMediaKeyEventDispatched(ctx context.Context, event view.KeyEvent, packageName string, sessionToken MediaSessionToken) error
 }
 
 type onMediaKeyEventDispatchedListenerStubWrapper struct {
@@ -128,7 +146,7 @@ func (w *onMediaKeyEventDispatchedListenerStubWrapper) AsBinder() binder.IBinder
 
 func (w *onMediaKeyEventDispatchedListenerStubWrapper) OnMediaKeyEventDispatched(
 	ctx context.Context,
-	event interface{},
+	event view.KeyEvent,
 	packageName string,
 	sessionToken MediaSessionToken,
 ) error {

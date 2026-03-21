@@ -1,0 +1,226 @@
+package: android.view.contentcapture
+go_package: android/view/contentcapture
+interfaces:
+    - name: IContentCaptureDirectManager
+      descriptor: android.view.contentcapture.IContentCaptureDirectManager
+      oneway: true
+      methods:
+        - name: sendEvents
+          transaction_code_offset: 0
+          params:
+            - name: events
+              type:
+                name: ParceledListSlice
+              direction: in
+            - name: reason
+              type:
+                name: int
+            - name: options
+              type:
+                name: ContentCaptureOptions
+              direction: in
+          return_type:
+            name: void
+    - name: IContentCaptureManager
+      descriptor: android.view.contentcapture.IContentCaptureManager
+      oneway: true
+      methods:
+        - name: startSession
+          transaction_code_offset: 0
+          params:
+            - name: activityToken
+              type:
+                name: IBinder
+            - name: shareableActivityToken
+              type:
+                name: IBinder
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: sessionId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: finishSession
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getServiceComponentName
+          transaction_code_offset: 2
+          params:
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: removeData
+          transaction_code_offset: 3
+          params:
+            - name: request
+              type:
+                name: DataRemovalRequest
+              direction: in
+          return_type:
+            name: void
+        - name: shareData
+          transaction_code_offset: 4
+          params:
+            - name: request
+              type:
+                name: DataShareRequest
+              direction: in
+            - name: adapter
+              type:
+                name: IDataShareWriteAdapter
+              direction: in
+          return_type:
+            name: void
+        - name: isContentCaptureFeatureEnabled
+          transaction_code_offset: 5
+          params:
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: getServiceSettingsActivity
+          transaction_code_offset: 6
+          params:
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: getContentCaptureConditions
+          transaction_code_offset: 7
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: resetTemporaryService
+          transaction_code_offset: 8
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setTemporaryService
+          transaction_code_offset: 9
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: serviceName
+              type:
+                name: String
+              direction: in
+            - name: duration
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setDefaultServiceEnabled
+          transaction_code_offset: 10
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: registerContentCaptureOptionsCallback
+          transaction_code_offset: 11
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IContentCaptureOptionsCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onLoginDetected
+          transaction_code_offset: 12
+          params:
+            - name: events
+              type:
+                name: ParceledListSlice
+                type_args:
+                    - name: ContentCaptureEvent
+              direction: in
+          return_type:
+            name: void
+    - name: IContentCaptureOptionsCallback
+      descriptor: android.view.contentcapture.IContentCaptureOptionsCallback
+      oneway: true
+      methods:
+        - name: setContentCaptureOptions
+          transaction_code_offset: 0
+          params:
+            - name: options
+              type:
+                name: ContentCaptureOptions
+              direction: in
+          return_type:
+            name: void
+    - name: IDataShareWriteAdapter
+      descriptor: android.view.contentcapture.IDataShareWriteAdapter
+      oneway: true
+      methods:
+        - name: write
+          transaction_code_offset: 0
+          params:
+            - name: destination
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+        - name: error
+          transaction_code_offset: 1
+          params:
+            - name: errorCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: rejected
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: finish
+          transaction_code_offset: 3
+          return_type:
+            name: void
+parcelables:
+    - name: ContentCaptureCondition
+    - name: ContentCaptureContext
+    - name: ContentCaptureEvent
+    - name: DataRemovalRequest
+    - name: DataShareRequest

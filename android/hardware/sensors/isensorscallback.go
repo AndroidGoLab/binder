@@ -48,6 +48,7 @@ func (p *SensorsCallbackProxy) OnDynamicSensorsConnected(
 	sensorInfos []SensorInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorsCallback)
 	if sensorInfos == nil {
 		_data.WriteInt32(-1)
@@ -84,6 +85,7 @@ func (p *SensorsCallbackProxy) OnDynamicSensorsDisconnected(
 	sensorHandles []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorsCallback)
 	if sensorHandles == nil {
 		_data.WriteInt32(-1)
@@ -115,7 +117,8 @@ func (p *SensorsCallbackProxy) OnDynamicSensorsDisconnected(
 // SensorsCallbackStub dispatches incoming binder transactions
 // to a typed ISensorsCallback implementation.
 type SensorsCallbackStub struct {
-	Impl ISensorsCallback
+	Impl      ISensorsCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SensorsCallbackStub)(nil)
@@ -129,14 +132,33 @@ func (s *SensorsCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISensorsCallbackOnDynamicSensorsConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sensorInfos []SensorInfo
-		_ = _arg_sensorInfos
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_sensorInfos = make([]SensorInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_sensorInfos[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnDynamicSensorsConnected(ctx, _arg_sensorInfos)
 		_reply := parcel.New()
 		if _err != nil {
@@ -146,12 +168,25 @@ func (s *SensorsCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorsCallbackOnDynamicSensorsDisconnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sensorHandles []int32
-		_ = _arg_sensorHandles
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_sensorHandles = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_sensorHandles[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnDynamicSensorsDisconnected(ctx, _arg_sensorHandles)
 		_reply := parcel.New()
 		if _err != nil {

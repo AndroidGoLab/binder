@@ -1,0 +1,287 @@
+package: android.telephony
+go_package: android/telephony
+interfaces:
+    - name: IBooleanConsumer
+      descriptor: android.telephony.IBooleanConsumer
+      oneway: true
+      methods:
+        - name: accept
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IBootstrapAuthenticationCallback
+      descriptor: android.telephony.IBootstrapAuthenticationCallback
+      oneway: true
+      methods:
+        - name: onKeysAvailable
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: int
+            - name: gbaKey
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: btId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onAuthenticationFailure
+          transaction_code_offset: 1
+          params:
+            - name: token
+              type:
+                name: int
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ICellBroadcastService
+      descriptor: android.telephony.ICellBroadcastService
+      methods:
+        - name: handleGsmCellBroadcastSms
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: message
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: handleCdmaCellBroadcastSms
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: bearerData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: serviceCategory
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: handleCdmaScpMessage
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: programData
+              type:
+                name: List
+                type_args:
+                    - name: CdmaSmsCbProgramData
+              direction: in
+            - name: originatingAddress
+              type:
+                name: String
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getCellBroadcastAreaInfo
+          transaction_code_offset: 3
+          params:
+            - name: slotIndex
+              type:
+                name: int
+          return_type:
+            name: CharSequence
+    - name: ICellInfoCallback
+      descriptor: android.telephony.ICellInfoCallback
+      oneway: true
+      methods:
+        - name: onCellInfo
+          transaction_code_offset: 0
+          params:
+            - name: state
+              type:
+                name: List
+                type_args:
+                    - name: CellInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 1
+          params:
+            - name: errorCode
+              type:
+                name: int
+              direction: in
+            - name: exceptionName
+              type:
+                name: String
+              direction: in
+            - name: message
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+    - name: IIntegerConsumer
+      descriptor: android.telephony.IIntegerConsumer
+      oneway: true
+      methods:
+        - name: accept
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: INetworkService
+      descriptor: android.telephony.INetworkService
+      oneway: true
+      methods:
+        - name: createNetworkServiceProvider
+          transaction_code_offset: 0
+          params:
+            - name: slotId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removeNetworkServiceProvider
+          transaction_code_offset: 1
+          params:
+            - name: slotId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: requestNetworkRegistrationInfo
+          transaction_code_offset: 2
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: domain
+              type:
+                name: int
+            - name: callback
+              type:
+                name: INetworkServiceCallback
+          return_type:
+            name: void
+        - name: registerForNetworkRegistrationInfoChanged
+          transaction_code_offset: 3
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: INetworkServiceCallback
+          return_type:
+            name: void
+        - name: unregisterForNetworkRegistrationInfoChanged
+          transaction_code_offset: 4
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: INetworkServiceCallback
+          return_type:
+            name: void
+    - name: INetworkServiceCallback
+      descriptor: android.telephony.INetworkServiceCallback
+      oneway: true
+      methods:
+        - name: onRequestNetworkRegistrationInfoComplete
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: int
+            - name: state
+              type:
+                name: NetworkRegistrationInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onNetworkStateChanged
+          transaction_code_offset: 1
+          return_type:
+            name: void
+parcelables:
+    - name: ActivityStatsTechSpecificInfo
+    - name: AvailableNetworkInfo
+    - name: BarringInfo
+    - name: CallAttributes
+    - name: CallForwardingInfo
+    - name: CallQuality
+    - name: CallState
+    - name: CarrierRestrictionRules
+    - name: CellBroadcastIdRange
+    - name: CellIdentity
+    - name: CellIdentityCdma
+    - name: CellIdentityGsm
+    - name: CellIdentityLte
+    - name: CellIdentityTdscdma
+    - name: CellIdentityWcdma
+    - name: CellInfo
+    - name: ClientRequestStats
+    - name: ClosedSubscriberGroupInfo
+    - name: DataConnectionRealTimeInfo
+    - name: DataThrottlingRequest
+    - name: DomainSelectionService.SelectionAttributes
+    - name: EmergencyRegistrationResult
+    - name: IccOpenLogicalChannelResponse
+    - name: ImsiEncryptionInfo
+    - name: LinkCapacityEstimate
+    - name: LteVopsSupportInfo
+    - name: ModemActivityInfo
+    - name: NeighboringCellInfo
+    - name: NetworkRegistrationInfo
+    - name: NetworkScanRequest
+    - name: NrVopsSupportInfo
+    - name: PcoData
+    - name: PhoneCapability
+    - name: PhoneNumberRange
+    - name: PhysicalChannelConfig
+    - name: PreciseCallState
+    - name: PreciseDataConnectionState
+    - name: RadioAccessFamily
+    - name: RadioAccessSpecifier
+    - name: ServiceState
+    - name: SignalStrength
+    - name: SignalStrengthUpdateRequest
+    - name: SubscriptionInfo
+    - name: SubscriptionPlan
+    - name: TelephonyDisplayInfo
+    - name: TelephonyHistogram
+    - name: ThermalMitigationRequest
+    - name: UiccAccessRule
+    - name: UiccCardInfo
+    - name: UiccPortInfo
+    - name: UiccSlotInfo
+    - name: UiccSlotMapping
+    - name: UssdResponse
+    - name: VisualVoicemailSmsFilterSettings
+    - name: VoLteServiceState
+    - name: VopsSupportInfo

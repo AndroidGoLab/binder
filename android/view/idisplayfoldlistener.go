@@ -46,6 +46,7 @@ func (p *DisplayFoldListenerProxy) OnDisplayFoldChanged(
 	folded bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayFoldListener)
 	_data.WriteInt32(displayId)
 	_data.WriteBool(folded)
@@ -62,7 +63,8 @@ func (p *DisplayFoldListenerProxy) OnDisplayFoldChanged(
 // DisplayFoldListenerStub dispatches incoming binder transactions
 // to a typed IDisplayFoldListener implementation.
 type DisplayFoldListenerStub struct {
-	Impl IDisplayFoldListener
+	Impl      IDisplayFoldListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DisplayFoldListenerStub)(nil)
@@ -76,11 +78,12 @@ func (s *DisplayFoldListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDisplayFoldListenerOnDisplayFoldChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -90,8 +93,7 @@ func (s *DisplayFoldListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnDisplayFoldChanged(ctx, _arg_displayId, _arg_folded)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

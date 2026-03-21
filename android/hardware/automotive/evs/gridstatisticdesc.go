@@ -43,11 +43,21 @@ func (s *GridStatisticDesc) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_channelRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Channel = ColorChannel(_channelRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_typeRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -55,12 +65,27 @@ func (s *GridStatisticDesc) UnmarshalParcel(
 	}
 	s.Type = GridStatisticType(_typeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Roi.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.CellSize.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.BitDepth, _err = p.ReadInt32()

@@ -74,6 +74,7 @@ func (p *LegacyPermissionManagerProxy) CheckDeviceIdentifierAccess(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(message)
@@ -113,6 +114,7 @@ func (p *LegacyPermissionManagerProxy) CheckPhoneNumberAccess(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(message)
@@ -148,6 +150,7 @@ func (p *LegacyPermissionManagerProxy) GrantDefaultPermissionsToEnabledCarrierAp
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
 	if packageNames == nil {
 		_data.WriteInt32(-1)
@@ -183,6 +186,7 @@ func (p *LegacyPermissionManagerProxy) GrantDefaultPermissionsToEnabledImsServic
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
 	if packageNames == nil {
 		_data.WriteInt32(-1)
@@ -218,6 +222,7 @@ func (p *LegacyPermissionManagerProxy) GrantDefaultPermissionsToEnabledTelephony
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
 	if packageNames == nil {
 		_data.WriteInt32(-1)
@@ -253,6 +258,7 @@ func (p *LegacyPermissionManagerProxy) RevokeDefaultPermissionsFromDisabledTelep
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
 	if packageNames == nil {
 		_data.WriteInt32(-1)
@@ -288,6 +294,7 @@ func (p *LegacyPermissionManagerProxy) GrantDefaultPermissionsToActiveLuiApp(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -316,6 +323,7 @@ func (p *LegacyPermissionManagerProxy) RevokeDefaultPermissionsFromLuiApps(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
 	if packageNames == nil {
 		_data.WriteInt32(-1)
@@ -351,6 +359,7 @@ func (p *LegacyPermissionManagerProxy) GrantDefaultPermissionsToCarrierServiceAp
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILegacyPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -376,7 +385,8 @@ func (p *LegacyPermissionManagerProxy) GrantDefaultPermissionsToCarrierServiceAp
 // LegacyPermissionManagerStub dispatches incoming binder transactions
 // to a typed ILegacyPermissionManager implementation.
 type LegacyPermissionManagerStub struct {
-	Impl ILegacyPermissionManager
+	Impl      ILegacyPermissionManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LegacyPermissionManagerStub)(nil)
@@ -390,11 +400,12 @@ func (s *LegacyPermissionManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILegacyPermissionManagerCheckDeviceIdentifierAccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -424,9 +435,6 @@ func (s *LegacyPermissionManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionILegacyPermissionManagerCheckPhoneNumberAccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -456,12 +464,25 @@ func (s *LegacyPermissionManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionILegacyPermissionManagerGrantDefaultPermissionsToEnabledCarrierApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -474,12 +495,25 @@ func (s *LegacyPermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILegacyPermissionManagerGrantDefaultPermissionsToEnabledImsServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -492,12 +526,25 @@ func (s *LegacyPermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILegacyPermissionManagerGrantDefaultPermissionsToEnabledTelephonyDataServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -510,12 +557,25 @@ func (s *LegacyPermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILegacyPermissionManagerRevokeDefaultPermissionsFromDisabledTelephonyDataServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -528,9 +588,6 @@ func (s *LegacyPermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILegacyPermissionManagerGrantDefaultPermissionsToActiveLuiApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -547,12 +604,25 @@ func (s *LegacyPermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILegacyPermissionManagerRevokeDefaultPermissionsFromLuiApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -565,9 +635,6 @@ func (s *LegacyPermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILegacyPermissionManagerGrantDefaultPermissionsToCarrierServiceApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

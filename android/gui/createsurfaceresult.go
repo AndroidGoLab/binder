@@ -41,20 +41,42 @@ func (s *CreateSurfaceResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_handleHandle, _err := p.ReadStrongBinder()
 	if _err != nil {
 		return _err
 	}
-	s.Handle = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _handleHandle)
+	if _handleHandle != 0 {
+		s.Handle = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _handleHandle)
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.LayerId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.LayerName, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.TransformHint, _err = p.ReadInt32()

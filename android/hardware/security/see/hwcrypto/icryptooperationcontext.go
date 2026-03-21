@@ -34,7 +34,8 @@ var _ ICryptoOperationContext = (*CryptoOperationContextProxy)(nil)
 // CryptoOperationContextStub dispatches incoming binder transactions
 // to a typed ICryptoOperationContext implementation.
 type CryptoOperationContextStub struct {
-	Impl ICryptoOperationContext
+	Impl      ICryptoOperationContext
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CryptoOperationContextStub)(nil)
@@ -48,6 +49,10 @@ func (s *CryptoOperationContextStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

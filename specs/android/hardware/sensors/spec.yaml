@@ -1,0 +1,864 @@
+package: android.hardware.sensors
+go_package: android/hardware/sensors
+interfaces:
+    - name: ISensors
+      descriptor: android.hardware.sensors.ISensors
+      methods:
+        - name: activate
+          transaction_code_offset: 0
+          params:
+            - name: sensorHandle
+              type:
+                name: int
+              direction: in
+            - name: enabled
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: batch
+          transaction_code_offset: 1
+          params:
+            - name: sensorHandle
+              type:
+                name: int
+              direction: in
+            - name: samplingPeriodNs
+              type:
+                name: long
+              direction: in
+            - name: maxReportLatencyNs
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: configDirectReport
+          transaction_code_offset: 2
+          params:
+            - name: sensorHandle
+              type:
+                name: int
+              direction: in
+            - name: channelHandle
+              type:
+                name: int
+              direction: in
+            - name: rate
+              type:
+                name: RateLevel
+              direction: in
+          return_type:
+            name: int
+        - name: flush
+          transaction_code_offset: 3
+          params:
+            - name: sensorHandle
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getSensorsList
+          transaction_code_offset: 4
+          return_type:
+            name: SensorInfo
+            is_array: true
+        - name: initialize
+          transaction_code_offset: 5
+          params:
+            - name: eventQueueDescriptor
+              type:
+                name: MQDescriptor
+                type_args:
+                    - name: Event
+                    - name: SynchronizedReadWrite
+              direction: in
+            - name: wakeLockDescriptor
+              type:
+                name: MQDescriptor
+                type_args:
+                    - name: int
+                    - name: SynchronizedReadWrite
+              direction: in
+            - name: sensorsCallback
+              type:
+                name: ISensorsCallback
+              direction: in
+          return_type:
+            name: void
+        - name: injectSensorData
+          transaction_code_offset: 6
+          params:
+            - name: event
+              type:
+                name: Event
+              direction: in
+          return_type:
+            name: void
+        - name: registerDirectChannel
+          transaction_code_offset: 7
+          params:
+            - name: mem
+              type:
+                name: SharedMemInfo
+              direction: in
+          return_type:
+            name: int
+        - name: setOperationMode
+          transaction_code_offset: 8
+          params:
+            - name: mode
+              type:
+                name: OperationMode
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterDirectChannel
+          transaction_code_offset: 9
+          params:
+            - name: channelHandle
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: ERROR_NO_MEMORY
+          type: int
+          value: "-12"
+        - name: ERROR_BAD_VALUE
+          type: int
+          value: "-22"
+        - name: WAKE_LOCK_TIMEOUT_SECONDS
+          type: int
+          value: "1"
+        - name: EVENT_QUEUE_FLAG_BITS_READ_AND_PROCESS
+          type: int
+          value: 1 << 0
+        - name: EVENT_QUEUE_FLAG_BITS_EVENTS_READ
+          type: int
+          value: 1 << 1
+        - name: WAKE_LOCK_QUEUE_FLAG_BITS_DATA_WRITTEN
+          type: int
+          value: 1 << 0
+        - name: DIRECT_REPORT_SENSOR_EVENT_OFFSET_SIZE_FIELD
+          type: int
+          value: "0x0"
+        - name: DIRECT_REPORT_SENSOR_EVENT_OFFSET_SIZE_REPORT_TOKEN
+          type: int
+          value: "0x4"
+        - name: DIRECT_REPORT_SENSOR_EVENT_OFFSET_SIZE_SENSOR_TYPE
+          type: int
+          value: "0x8"
+        - name: DIRECT_REPORT_SENSOR_EVENT_OFFSET_SIZE_ATOMIC_COUNTER
+          type: int
+          value: "0xC"
+        - name: DIRECT_REPORT_SENSOR_EVENT_OFFSET_SIZE_TIMESTAMP
+          type: int
+          value: "0x10"
+        - name: DIRECT_REPORT_SENSOR_EVENT_OFFSET_SIZE_DATA
+          type: int
+          value: "0x18"
+        - name: DIRECT_REPORT_SENSOR_EVENT_OFFSET_SIZE_RESERVED
+          type: int
+          value: "0x58"
+        - name: DIRECT_REPORT_SENSOR_EVENT_TOTAL_LENGTH
+          type: int
+          value: "104"
+        - name: RUNTIME_SENSORS_HANDLE_BASE
+          type: int
+          value: "0x5F000000"
+        - name: RUNTIME_SENSORS_HANDLE_END
+          type: int
+          value: "0x5FFFFFFF"
+    - name: ISensorsCallback
+      descriptor: android.hardware.sensors.ISensorsCallback
+      methods:
+        - name: onDynamicSensorsConnected
+          transaction_code_offset: 0
+          params:
+            - name: sensorInfos
+              type:
+                name: SensorInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onDynamicSensorsDisconnected
+          transaction_code_offset: 1
+          params:
+            - name: sensorHandles
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: AdditionalInfo
+      fields:
+        - name: type
+          type:
+            name: AdditionalInfoType
+        - name: serial
+          type:
+            name: int
+        - name: payload
+          type:
+            name: AdditionalInfoPayload
+      nested_types:
+        - AdditionalInfo.AdditionalInfoPayload
+        - AdditionalInfo.AdditionalInfoType
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: AdditionalInfo.AdditionalInfoPayload.FloatValues
+      fields:
+        - name: values
+          type:
+            name: float
+            is_array: true
+            fixed_size: "14"
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: AdditionalInfo.AdditionalInfoPayload.Int32Values
+      fields:
+        - name: values
+          type:
+            name: int
+            is_array: true
+            fixed_size: "14"
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: DynamicSensorInfo
+      fields:
+        - name: connected
+          type:
+            name: boolean
+        - name: sensorHandle
+          type:
+            name: int
+        - name: uuid
+          type:
+            name: Uuid
+      nested_types:
+        - DynamicSensorInfo.Uuid
+      annotations:
+        - VintfStability
+        - FixedSize
+    - name: DynamicSensorInfo.Uuid
+      fields:
+        - name: values
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "16"
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: Event
+      fields:
+        - name: timestamp
+          type:
+            name: long
+        - name: sensorHandle
+          type:
+            name: int
+        - name: sensorType
+          type:
+            name: SensorType
+        - name: payload
+          type:
+            name: EventPayload
+      nested_types:
+        - Event.EventPayload
+      annotations:
+        - VintfStability
+        - FixedSize
+    - name: Event.EventPayload.Data
+      fields:
+        - name: values
+          type:
+            name: float
+            is_array: true
+            fixed_size: "16"
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: Event.EventPayload.HeadTracker
+      fields:
+        - name: rx
+          type:
+            name: float
+        - name: ry
+          type:
+            name: float
+        - name: rz
+          type:
+            name: float
+        - name: vx
+          type:
+            name: float
+        - name: vy
+          type:
+            name: float
+        - name: vz
+          type:
+            name: float
+        - name: discontinuityCount
+          type:
+            name: int
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: Event.EventPayload.Heading
+      fields:
+        - name: heading
+          type:
+            name: float
+        - name: accuracy
+          type:
+            name: float
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: Event.EventPayload.HeartRate
+      fields:
+        - name: bpm
+          type:
+            name: float
+        - name: status
+          type:
+            name: SensorStatus
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: Event.EventPayload.LimitedAxesImu
+      fields:
+        - name: x
+          type:
+            name: float
+        - name: "y"
+          type:
+            name: float
+        - name: z
+          type:
+            name: float
+        - name: xSupported
+          type:
+            name: float
+        - name: ySupported
+          type:
+            name: float
+        - name: zSupported
+          type:
+            name: float
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: Event.EventPayload.LimitedAxesImuUncal
+      fields:
+        - name: x
+          type:
+            name: float
+        - name: "y"
+          type:
+            name: float
+        - name: z
+          type:
+            name: float
+        - name: xBias
+          type:
+            name: float
+        - name: yBias
+          type:
+            name: float
+        - name: zBias
+          type:
+            name: float
+        - name: xSupported
+          type:
+            name: float
+        - name: ySupported
+          type:
+            name: float
+        - name: zSupported
+          type:
+            name: float
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: Event.EventPayload.MetaData
+      fields:
+        - name: what
+          type:
+            name: MetaDataEventType
+      nested_types:
+        - Event.EventPayload.MetaData.MetaDataEventType
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: Event.EventPayload.Pose6Dof
+      fields:
+        - name: values
+          type:
+            name: float
+            is_array: true
+            fixed_size: "15"
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: Event.EventPayload.Uncal
+      fields:
+        - name: x
+          type:
+            name: float
+        - name: "y"
+          type:
+            name: float
+        - name: z
+          type:
+            name: float
+        - name: xBias
+          type:
+            name: float
+        - name: yBias
+          type:
+            name: float
+        - name: zBias
+          type:
+            name: float
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: Event.EventPayload.Vec3
+      fields:
+        - name: x
+          type:
+            name: float
+        - name: "y"
+          type:
+            name: float
+        - name: z
+          type:
+            name: float
+        - name: status
+          type:
+            name: SensorStatus
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: Event.EventPayload.Vec4
+      fields:
+        - name: x
+          type:
+            name: float
+        - name: "y"
+          type:
+            name: float
+        - name: z
+          type:
+            name: float
+        - name: w
+          type:
+            name: float
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: ISensors.SharedMemInfo
+      fields:
+        - name: type
+          type:
+            name: SharedMemType
+        - name: format
+          type:
+            name: SharedMemFormat
+        - name: size
+          type:
+            name: int
+        - name: memoryHandle
+          type:
+            name: NativeHandle
+      nested_types:
+        - ISensors.SharedMemInfo.SharedMemFormat
+        - ISensors.SharedMemInfo.SharedMemType
+      annotations:
+        - VintfStability
+    - name: SensorInfo
+      fields:
+        - name: sensorHandle
+          type:
+            name: int
+        - name: name
+          type:
+            name: String
+        - name: vendor
+          type:
+            name: String
+        - name: version
+          type:
+            name: int
+        - name: type
+          type:
+            name: SensorType
+        - name: typeAsString
+          type:
+            name: String
+        - name: maxRange
+          type:
+            name: float
+        - name: resolution
+          type:
+            name: float
+        - name: power
+          type:
+            name: float
+        - name: minDelayUs
+          type:
+            name: int
+        - name: fifoReservedEventCount
+          type:
+            name: int
+        - name: fifoMaxEventCount
+          type:
+            name: int
+        - name: requiredPermission
+          type:
+            name: String
+        - name: maxDelayUs
+          type:
+            name: int
+        - name: flags
+          type:
+            name: int
+      constants:
+        - name: SENSOR_FLAG_BITS_WAKE_UP
+          type: int
+          value: "1"
+        - name: SENSOR_FLAG_BITS_CONTINUOUS_MODE
+          type: int
+          value: "0"
+        - name: SENSOR_FLAG_BITS_ON_CHANGE_MODE
+          type: int
+          value: "2"
+        - name: SENSOR_FLAG_BITS_ONE_SHOT_MODE
+          type: int
+          value: "4"
+        - name: SENSOR_FLAG_BITS_SPECIAL_REPORTING_MODE
+          type: int
+          value: "6"
+        - name: SENSOR_FLAG_BITS_DATA_INJECTION
+          type: int
+          value: "0x10"
+        - name: SENSOR_FLAG_BITS_DYNAMIC_SENSOR
+          type: int
+          value: "0x20"
+        - name: SENSOR_FLAG_BITS_ADDITIONAL_INFO
+          type: int
+          value: "0x40"
+        - name: SENSOR_FLAG_BITS_DIRECT_CHANNEL_ASHMEM
+          type: int
+          value: "0x400"
+        - name: SENSOR_FLAG_BITS_DIRECT_CHANNEL_GRALLOC
+          type: int
+          value: "0x800"
+        - name: SENSOR_FLAG_BITS_MASK_REPORTING_MODE
+          type: int
+          value: "0xE"
+        - name: SENSOR_FLAG_BITS_MASK_DIRECT_REPORT
+          type: int
+          value: "0x380"
+        - name: SENSOR_FLAG_BITS_MASK_DIRECT_CHANNEL
+          type: int
+          value: "0xC00"
+        - name: SENSOR_FLAG_SHIFT_REPORTING_MODE
+          type: int
+          value: "1"
+        - name: SENSOR_FLAG_SHIFT_DATA_INJECTION
+          type: int
+          value: "4"
+        - name: SENSOR_FLAG_SHIFT_DYNAMIC_SENSOR
+          type: int
+          value: "5"
+        - name: SENSOR_FLAG_SHIFT_ADDITIONAL_INFO
+          type: int
+          value: "6"
+        - name: SENSOR_FLAG_SHIFT_DIRECT_REPORT
+          type: int
+          value: "7"
+        - name: SENSOR_FLAG_SHIFT_DIRECT_CHANNEL
+          type: int
+          value: "10"
+      annotations:
+        - VintfStability
+enums:
+    - name: AdditionalInfo.AdditionalInfoType
+      backing_type: int
+      values:
+        - name: AINFO_BEGIN
+          value: "0"
+        - name: AINFO_END
+          value: "1"
+        - name: AINFO_UNTRACKED_DELAY
+          value: "0x10000"
+        - name: AINFO_INTERNAL_TEMPERATURE
+          value: ""
+        - name: AINFO_VEC3_CALIBRATION
+          value: ""
+        - name: AINFO_SENSOR_PLACEMENT
+          value: ""
+        - name: AINFO_SAMPLING
+          value: ""
+        - name: AINFO_CHANNEL_NOISE
+          value: "0x20000"
+        - name: AINFO_CHANNEL_SAMPLER
+          value: ""
+        - name: AINFO_CHANNEL_FILTER
+          value: ""
+        - name: AINFO_CHANNEL_LINEAR_TRANSFORM
+          value: ""
+        - name: AINFO_CHANNEL_NONLINEAR_MAP
+          value: ""
+        - name: AINFO_CHANNEL_RESAMPLER
+          value: ""
+        - name: AINFO_LOCAL_GEOMAGNETIC_FIELD
+          value: "0x30000"
+        - name: AINFO_LOCAL_GRAVITY
+          value: ""
+        - name: AINFO_DOCK_STATE
+          value: ""
+        - name: AINFO_HIGH_PERFORMANCE_MODE
+          value: ""
+        - name: AINFO_MAGNETIC_FIELD_CALIBRATION
+          value: ""
+        - name: AINFO_CUSTOM_START
+          value: "0x10000000"
+        - name: AINFO_DEBUGGING_START
+          value: "0x40000000"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Event.EventPayload.MetaData.MetaDataEventType
+      backing_type: int
+      values:
+        - name: META_DATA_FLUSH_COMPLETE
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ISensors.OperationMode
+      backing_type: int
+      values:
+        - name: NORMAL
+          value: "0"
+        - name: DATA_INJECTION
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ISensors.RateLevel
+      backing_type: int
+      values:
+        - name: STOP
+          value: ""
+        - name: NORMAL
+          value: ""
+        - name: FAST
+          value: ""
+        - name: VERY_FAST
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ISensors.SharedMemInfo.SharedMemFormat
+      backing_type: int
+      values:
+        - name: SENSORS_EVENT
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ISensors.SharedMemInfo.SharedMemType
+      backing_type: int
+      values:
+        - name: ASHMEM
+          value: "1"
+        - name: GRALLOC
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SensorStatus
+      backing_type: byte
+      values:
+        - name: NO_CONTACT
+          value: "-1"
+        - name: UNRELIABLE
+          value: "0"
+        - name: ACCURACY_LOW
+          value: "1"
+        - name: ACCURACY_MEDIUM
+          value: "2"
+        - name: ACCURACY_HIGH
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SensorType
+      backing_type: int
+      values:
+        - name: META_DATA
+          value: "0"
+        - name: ACCELEROMETER
+          value: "1"
+        - name: MAGNETIC_FIELD
+          value: "2"
+        - name: ORIENTATION
+          value: "3"
+        - name: GYROSCOPE
+          value: "4"
+        - name: LIGHT
+          value: "5"
+        - name: PRESSURE
+          value: "6"
+        - name: PROXIMITY
+          value: "8"
+        - name: GRAVITY
+          value: "9"
+        - name: LINEAR_ACCELERATION
+          value: "10"
+        - name: ROTATION_VECTOR
+          value: "11"
+        - name: RELATIVE_HUMIDITY
+          value: "12"
+        - name: AMBIENT_TEMPERATURE
+          value: "13"
+        - name: MAGNETIC_FIELD_UNCALIBRATED
+          value: "14"
+        - name: GAME_ROTATION_VECTOR
+          value: "15"
+        - name: GYROSCOPE_UNCALIBRATED
+          value: "16"
+        - name: SIGNIFICANT_MOTION
+          value: "17"
+        - name: STEP_DETECTOR
+          value: "18"
+        - name: STEP_COUNTER
+          value: "19"
+        - name: GEOMAGNETIC_ROTATION_VECTOR
+          value: "20"
+        - name: HEART_RATE
+          value: "21"
+        - name: TILT_DETECTOR
+          value: "22"
+        - name: WAKE_GESTURE
+          value: "23"
+        - name: GLANCE_GESTURE
+          value: "24"
+        - name: PICK_UP_GESTURE
+          value: "25"
+        - name: WRIST_TILT_GESTURE
+          value: "26"
+        - name: DEVICE_ORIENTATION
+          value: "27"
+        - name: POSE_6DOF
+          value: "28"
+        - name: STATIONARY_DETECT
+          value: "29"
+        - name: MOTION_DETECT
+          value: "30"
+        - name: HEART_BEAT
+          value: "31"
+        - name: DYNAMIC_SENSOR_META
+          value: "32"
+        - name: ADDITIONAL_INFO
+          value: "33"
+        - name: LOW_LATENCY_OFFBODY_DETECT
+          value: "34"
+        - name: ACCELEROMETER_UNCALIBRATED
+          value: "35"
+        - name: HINGE_ANGLE
+          value: "36"
+        - name: HEAD_TRACKER
+          value: "37"
+        - name: ACCELEROMETER_LIMITED_AXES
+          value: "38"
+        - name: GYROSCOPE_LIMITED_AXES
+          value: "39"
+        - name: ACCELEROMETER_LIMITED_AXES_UNCALIBRATED
+          value: "40"
+        - name: GYROSCOPE_LIMITED_AXES_UNCALIBRATED
+          value: "41"
+        - name: HEADING
+          value: "42"
+        - name: DEVICE_PRIVATE_BASE
+          value: "0x10000"
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: AdditionalInfo.AdditionalInfoPayload
+      fields:
+        - name: dataInt32
+          type:
+            name: Int32Values
+        - name: dataFloat
+          type:
+            name: FloatValues
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: Event.EventPayload
+      fields:
+        - name: vec3
+          type:
+            name: Vec3
+        - name: vec4
+          type:
+            name: Vec4
+        - name: uncal
+          type:
+            name: Uncal
+        - name: meta
+          type:
+            name: MetaData
+        - name: scalar
+          type:
+            name: float
+        - name: stepCount
+          type:
+            name: long
+        - name: heartRate
+          type:
+            name: HeartRate
+        - name: pose6DOF
+          type:
+            name: Pose6Dof
+        - name: dynamic
+          type:
+            name: DynamicSensorInfo
+        - name: additional
+          type:
+            name: AdditionalInfo
+        - name: data
+          type:
+            name: Data
+        - name: headTracker
+          type:
+            name: HeadTracker
+        - name: limitedAxesImu
+          type:
+            name: LimitedAxesImu
+        - name: limitedAxesImuUncal
+          type:
+            name: LimitedAxesImuUncal
+        - name: heading
+          type:
+            name: Heading
+      annotations:
+        - VintfStability
+        - FixedSize

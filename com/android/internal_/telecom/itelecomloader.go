@@ -46,6 +46,7 @@ func (p *TelecomLoaderProxy) CreateTelecomService(
 ) (ITelecomService, error) {
 	var _result ITelecomService
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelecomLoader)
 	binder.WriteBinderToParcel(ctx, _data, retriever.AsBinder(), p.Remote.Transport())
 
@@ -75,7 +76,8 @@ func (p *TelecomLoaderProxy) CreateTelecomService(
 // TelecomLoaderStub dispatches incoming binder transactions
 // to a typed ITelecomLoader implementation.
 type TelecomLoaderStub struct {
-	Impl ITelecomLoader
+	Impl      ITelecomLoader
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TelecomLoaderStub)(nil)
@@ -89,14 +91,20 @@ func (s *TelecomLoaderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITelecomLoaderCreateTelecomService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_retriever IInternalServiceRetriever
-		_ = _arg_retriever
+		{
+			_retrieverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_retriever = NewInternalServiceRetrieverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _retrieverHandle))
+		}
 		_result, _err := s.Impl.CreateTelecomService(ctx, _arg_retriever)
 		_reply := parcel.New()
 		if _err != nil {
@@ -104,8 +112,7 @@ func (s *TelecomLoaderStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

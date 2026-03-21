@@ -1,0 +1,261 @@
+package: android.hardware.tv.input
+go_package: android/hardware/tv/input
+interfaces:
+    - name: ITvInput
+      descriptor: android.hardware.tv.input.ITvInput
+      methods:
+        - name: closeStream
+          transaction_code_offset: 0
+          params:
+            - name: deviceId
+              type:
+                name: int
+              direction: in
+            - name: streamId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getStreamConfigurations
+          transaction_code_offset: 1
+          params:
+            - name: deviceId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: TvStreamConfig
+            is_array: true
+        - name: openStream
+          transaction_code_offset: 2
+          params:
+            - name: deviceId
+              type:
+                name: int
+              direction: in
+            - name: streamId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: NativeHandle
+        - name: setCallback
+          transaction_code_offset: 3
+          params:
+            - name: callback
+              type:
+                name: ITvInputCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setTvMessageEnabled
+          transaction_code_offset: 4
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: streamId
+              type:
+                name: int
+            - name: type
+              type:
+                name: TvMessageEventType
+              direction: in
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getTvMessageQueueDesc
+          transaction_code_offset: 5
+          params:
+            - name: queue
+              type:
+                name: MQDescriptor
+                type_args:
+                    - name: byte
+                    - name: SynchronizedReadWrite
+              direction: out
+            - name: deviceId
+              type:
+                name: int
+            - name: streamId
+              type:
+                name: int
+          return_type:
+            name: void
+      constants:
+        - name: STATUS_UNKNOWN
+          type: int
+          value: "1"
+        - name: STATUS_NO_RESOURCE
+          type: int
+          value: "2"
+        - name: STATUS_INVALID_ARGUMENTS
+          type: int
+          value: "3"
+        - name: STATUS_INVALID_STATE
+          type: int
+          value: "4"
+    - name: ITvInputCallback
+      descriptor: android.hardware.tv.input.ITvInputCallback
+      methods:
+        - name: notify
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: TvInputEvent
+              direction: in
+          return_type:
+            name: void
+        - name: notifyTvMessageEvent
+          transaction_code_offset: 1
+          params:
+            - name: event
+              type:
+                name: TvMessageEvent
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: TvInputDeviceInfo
+      fields:
+        - name: deviceId
+          type:
+            name: int
+        - name: type
+          type:
+            name: TvInputType
+        - name: portId
+          type:
+            name: int
+        - name: cableConnectionStatus
+          type:
+            name: CableConnectionStatus
+        - name: audioDevice
+          type:
+            name: AudioDevice
+      annotations:
+        - VintfStability
+    - name: TvInputEvent
+      fields:
+        - name: type
+          type:
+            name: TvInputEventType
+        - name: deviceInfo
+          type:
+            name: TvInputDeviceInfo
+      annotations:
+        - VintfStability
+    - name: TvMessage
+      fields:
+        - name: subType
+          type:
+            name: String
+        - name: groupId
+          type:
+            name: long
+        - name: dataLengthBytes
+          type:
+            name: int
+      constants:
+        - name: NO_GROUP_ID
+          type: long
+          value: "-1"
+      annotations:
+        - VintfStability
+    - name: TvMessageEvent
+      fields:
+        - name: type
+          type:
+            name: TvMessageEventType
+        - name: streamId
+          type:
+            name: int
+        - name: messages
+          type:
+            name: TvMessage
+            is_array: true
+        - name: deviceId
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: TvStreamConfig
+      fields:
+        - name: streamId
+          type:
+            name: int
+        - name: maxVideoWidth
+          type:
+            name: int
+        - name: maxVideoHeight
+          type:
+            name: int
+      annotations:
+        - VintfStability
+enums:
+    - name: CableConnectionStatus
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: CONNECTED
+          value: "1"
+        - name: DISCONNECTED
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: TvInputEventType
+      backing_type: int
+      values:
+        - name: DEVICE_AVAILABLE
+          value: "1"
+        - name: DEVICE_UNAVAILABLE
+          value: "2"
+        - name: STREAM_CONFIGURATIONS_CHANGED
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: TvInputType
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "1"
+        - name: TUNER
+          value: "2"
+        - name: COMPOSITE
+          value: "3"
+        - name: SVIDEO
+          value: "4"
+        - name: SCART
+          value: "5"
+        - name: COMPONENT
+          value: "6"
+        - name: VGA
+          value: "7"
+        - name: DVI
+          value: "8"
+        - name: HDMI
+          value: "9"
+        - name: DISPLAY_PORT
+          value: "10"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: TvMessageEventType
+      backing_type: int
+      values:
+        - name: WATERMARK
+          value: "1"
+        - name: CLOSED_CAPTION
+          value: "2"
+        - name: OTHER
+          value: "1000"
+      annotations:
+        - VintfStability
+        - Backing

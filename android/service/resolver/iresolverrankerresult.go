@@ -45,6 +45,7 @@ func (p *ResolverRankerResultProxy) SendResult(
 	results []ResolverTarget,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResolverRankerResult)
 	if results == nil {
 		_data.WriteInt32(-1)
@@ -70,7 +71,8 @@ func (p *ResolverRankerResultProxy) SendResult(
 // ResolverRankerResultStub dispatches incoming binder transactions
 // to a typed IResolverRankerResult implementation.
 type ResolverRankerResultStub struct {
-	Impl IResolverRankerResult
+	Impl      IResolverRankerResult
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ResolverRankerResultStub)(nil)
@@ -84,17 +86,35 @@ func (s *ResolverRankerResultStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIResolverRankerResultSendResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_results []ResolverTarget
-		_ = _arg_results
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_results = make([]ResolverTarget, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_results[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SendResult(ctx, _arg_results)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

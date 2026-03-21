@@ -1,0 +1,763 @@
+package: android.hardware.location
+go_package: android/hardware/location
+interfaces:
+    - name: IActivityRecognitionHardware
+      descriptor: android.hardware.location.IActivityRecognitionHardware
+      methods:
+        - name: getSupportedActivities
+          transaction_code_offset: 0
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - EnforcePermission
+        - name: isActivitySupported
+          transaction_code_offset: 1
+          params:
+            - name: activityType
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: registerSink
+          transaction_code_offset: 2
+          params:
+            - name: sink
+              type:
+                name: IActivityRecognitionHardwareSink
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: unregisterSink
+          transaction_code_offset: 3
+          params:
+            - name: sink
+              type:
+                name: IActivityRecognitionHardwareSink
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: enableActivityEvent
+          transaction_code_offset: 4
+          params:
+            - name: activityType
+              type:
+                name: String
+              direction: in
+            - name: eventType
+              type:
+                name: int
+            - name: reportLatencyNs
+              type:
+                name: long
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: disableActivityEvent
+          transaction_code_offset: 5
+          params:
+            - name: activityType
+              type:
+                name: String
+              direction: in
+            - name: eventType
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: flush
+          transaction_code_offset: 6
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+    - name: IActivityRecognitionHardwareClient
+      descriptor: android.hardware.location.IActivityRecognitionHardwareClient
+      oneway: true
+      methods:
+        - name: onAvailabilityChanged
+          transaction_code_offset: 0
+          params:
+            - name: isSupported
+              type:
+                name: boolean
+              direction: in
+            - name: instance
+              type:
+                name: IActivityRecognitionHardware
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IActivityRecognitionHardwareSink
+      descriptor: android.hardware.location.IActivityRecognitionHardwareSink
+      methods:
+        - name: onActivityChanged
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: ActivityChangedEvent
+              direction: in
+          return_type:
+            name: void
+    - name: IActivityRecognitionHardwareWatcher
+      descriptor: android.hardware.location.IActivityRecognitionHardwareWatcher
+      methods:
+        - name: onInstanceChanged
+          transaction_code_offset: 0
+          params:
+            - name: instance
+              type:
+                name: IActivityRecognitionHardware
+              direction: in
+          return_type:
+            name: void
+    - name: IContextHubCallback
+      descriptor: android.hardware.location.IContextHubCallback
+      oneway: true
+      methods:
+        - name: onMessageReceipt
+          transaction_code_offset: 0
+          params:
+            - name: hubId
+              type:
+                name: int
+            - name: nanoAppId
+              type:
+                name: int
+            - name: msg
+              type:
+                name: ContextHubMessage
+              direction: in
+          return_type:
+            name: void
+    - name: IContextHubClient
+      descriptor: android.hardware.location.IContextHubClient
+      methods:
+        - name: sendMessageToNanoApp
+          transaction_code_offset: 0
+          params:
+            - name: message
+              type:
+                name: NanoAppMessage
+              direction: in
+          return_type:
+            name: int
+        - name: close
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: getId
+          transaction_code_offset: 2
+          return_type:
+            name: int
+        - name: callbackFinished
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: reliableMessageCallbackFinished
+          transaction_code_offset: 4
+          params:
+            - name: messageSequenceNumber
+              type:
+                name: int
+            - name: errorCode
+              type:
+                name: byte
+          return_type:
+            name: void
+        - name: sendReliableMessageToNanoApp
+          transaction_code_offset: 5
+          params:
+            - name: message
+              type:
+                name: NanoAppMessage
+              direction: in
+            - name: transactionCallback
+              type:
+                name: IContextHubTransactionCallback
+              direction: in
+          return_type:
+            name: int
+    - name: IContextHubClientCallback
+      descriptor: android.hardware.location.IContextHubClientCallback
+      oneway: true
+      methods:
+        - name: onMessageFromNanoApp
+          transaction_code_offset: 0
+          params:
+            - name: message
+              type:
+                name: NanoAppMessage
+              direction: in
+          return_type:
+            name: void
+        - name: onHubReset
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onNanoAppAborted
+          transaction_code_offset: 2
+          params:
+            - name: nanoAppId
+              type:
+                name: long
+            - name: abortCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onNanoAppLoaded
+          transaction_code_offset: 3
+          params:
+            - name: nanoAppId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onNanoAppUnloaded
+          transaction_code_offset: 4
+          params:
+            - name: nanoAppId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onNanoAppEnabled
+          transaction_code_offset: 5
+          params:
+            - name: nanoAppId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onNanoAppDisabled
+          transaction_code_offset: 6
+          params:
+            - name: nanoAppId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onClientAuthorizationChanged
+          transaction_code_offset: 7
+          params:
+            - name: nanoAppId
+              type:
+                name: long
+            - name: authorization
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IContextHubService
+      descriptor: android.hardware.location.IContextHubService
+      methods:
+        - name: registerCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IContextHubCallback
+              direction: in
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: getContextHubHandles
+          transaction_code_offset: 1
+          return_type:
+            name: int
+            is_array: true
+          annotations:
+            - EnforcePermission
+        - name: getContextHubInfo
+          transaction_code_offset: 2
+          params:
+            - name: contextHubHandle
+              type:
+                name: int
+          return_type:
+            name: ContextHubInfo
+          annotations:
+            - EnforcePermission
+        - name: loadNanoApp
+          transaction_code_offset: 3
+          params:
+            - name: contextHubHandle
+              type:
+                name: int
+            - name: nanoApp
+              type:
+                name: NanoApp
+              direction: in
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: unloadNanoApp
+          transaction_code_offset: 4
+          params:
+            - name: nanoAppHandle
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: getNanoAppInstanceInfo
+          transaction_code_offset: 5
+          params:
+            - name: nanoAppHandle
+              type:
+                name: int
+          return_type:
+            name: NanoAppInstanceInfo
+          annotations:
+            - EnforcePermission
+        - name: findNanoAppOnHub
+          transaction_code_offset: 6
+          params:
+            - name: contextHubHandle
+              type:
+                name: int
+            - name: filter
+              type:
+                name: NanoAppFilter
+              direction: in
+          return_type:
+            name: int
+            is_array: true
+          annotations:
+            - EnforcePermission
+        - name: sendMessage
+          transaction_code_offset: 7
+          params:
+            - name: contextHubHandle
+              type:
+                name: int
+            - name: nanoAppHandle
+              type:
+                name: int
+            - name: msg
+              type:
+                name: ContextHubMessage
+              direction: in
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: createClient
+          transaction_code_offset: 8
+          params:
+            - name: contextHubId
+              type:
+                name: int
+            - name: client
+              type:
+                name: IContextHubClientCallback
+              direction: in
+            - name: attributionTag
+              type:
+                name: String
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: IContextHubClient
+          annotations:
+            - EnforcePermission
+        - name: createPendingIntentClient
+          transaction_code_offset: 9
+          params:
+            - name: contextHubId
+              type:
+                name: int
+            - name: pendingIntent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: nanoAppId
+              type:
+                name: long
+            - name: attributionTag
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: IContextHubClient
+          annotations:
+            - EnforcePermission
+        - name: getContextHubs
+          transaction_code_offset: 10
+          return_type:
+            name: List
+            type_args:
+                - name: ContextHubInfo
+          annotations:
+            - EnforcePermission
+        - name: loadNanoAppOnHub
+          transaction_code_offset: 11
+          params:
+            - name: contextHubId
+              type:
+                name: int
+            - name: transactionCallback
+              type:
+                name: IContextHubTransactionCallback
+              direction: in
+            - name: nanoAppBinary
+              type:
+                name: NanoAppBinary
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: unloadNanoAppFromHub
+          transaction_code_offset: 12
+          params:
+            - name: contextHubId
+              type:
+                name: int
+            - name: transactionCallback
+              type:
+                name: IContextHubTransactionCallback
+              direction: in
+            - name: nanoAppId
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: enableNanoApp
+          transaction_code_offset: 13
+          params:
+            - name: contextHubId
+              type:
+                name: int
+            - name: transactionCallback
+              type:
+                name: IContextHubTransactionCallback
+              direction: in
+            - name: nanoAppId
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: disableNanoApp
+          transaction_code_offset: 14
+          params:
+            - name: contextHubId
+              type:
+                name: int
+            - name: transactionCallback
+              type:
+                name: IContextHubTransactionCallback
+              direction: in
+            - name: nanoAppId
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: queryNanoApps
+          transaction_code_offset: 15
+          params:
+            - name: contextHubId
+              type:
+                name: int
+            - name: transactionCallback
+              type:
+                name: IContextHubTransactionCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getPreloadedNanoAppIds
+          transaction_code_offset: 16
+          params:
+            - name: hubInfo
+              type:
+                name: ContextHubInfo
+              direction: in
+          return_type:
+            name: long
+            is_array: true
+          annotations:
+            - EnforcePermission
+        - name: setTestMode
+          transaction_code_offset: 17
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+    - name: IContextHubTransactionCallback
+      descriptor: android.hardware.location.IContextHubTransactionCallback
+      oneway: true
+      methods:
+        - name: onQueryResponse
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: int
+            - name: nanoappList
+              type:
+                name: List
+                type_args:
+                    - name: NanoAppState
+              direction: in
+          return_type:
+            name: void
+        - name: onTransactionComplete
+          transaction_code_offset: 1
+          params:
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IGeofenceHardware
+      descriptor: android.hardware.location.IGeofenceHardware
+      methods:
+        - name: setGpsGeofenceHardware
+          transaction_code_offset: 0
+          params:
+            - name: service
+              type:
+                name: IGpsGeofenceHardware
+              direction: in
+          return_type:
+            name: void
+        - name: setFusedGeofenceHardware
+          transaction_code_offset: 1
+          params:
+            - name: service
+              type:
+                name: IFusedGeofenceHardware
+              direction: in
+          return_type:
+            name: void
+        - name: getMonitoringTypes
+          transaction_code_offset: 2
+          return_type:
+            name: int
+            is_array: true
+          annotations:
+            - EnforcePermission
+        - name: getStatusOfMonitoringType
+          transaction_code_offset: 3
+          params:
+            - name: monitoringType
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: addCircularFence
+          transaction_code_offset: 4
+          params:
+            - name: monitoringType
+              type:
+                name: int
+            - name: request
+              type:
+                name: GeofenceHardwareRequestParcelable
+              direction: in
+            - name: callback
+              type:
+                name: IGeofenceHardwareCallback
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: removeGeofence
+          transaction_code_offset: 5
+          params:
+            - name: id
+              type:
+                name: int
+            - name: monitoringType
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: pauseGeofence
+          transaction_code_offset: 6
+          params:
+            - name: id
+              type:
+                name: int
+            - name: monitoringType
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: resumeGeofence
+          transaction_code_offset: 7
+          params:
+            - name: id
+              type:
+                name: int
+            - name: monitoringType
+              type:
+                name: int
+            - name: monitorTransitions
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: registerForMonitorStateChangeCallback
+          transaction_code_offset: 8
+          params:
+            - name: monitoringType
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IGeofenceHardwareMonitorCallback
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: unregisterForMonitorStateChangeCallback
+          transaction_code_offset: 9
+          params:
+            - name: monitoringType
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IGeofenceHardwareMonitorCallback
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+    - name: IGeofenceHardwareCallback
+      descriptor: android.hardware.location.IGeofenceHardwareCallback
+      oneway: true
+      methods:
+        - name: onGeofenceTransition
+          transaction_code_offset: 0
+          params:
+            - name: geofenceId
+              type:
+                name: int
+            - name: transition
+              type:
+                name: int
+            - name: location
+              type:
+                name: Location
+              direction: in
+            - name: timestamp
+              type:
+                name: long
+            - name: monitoringType
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onGeofenceAdd
+          transaction_code_offset: 1
+          params:
+            - name: geofenceId
+              type:
+                name: int
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onGeofenceRemove
+          transaction_code_offset: 2
+          params:
+            - name: geofenceId
+              type:
+                name: int
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onGeofencePause
+          transaction_code_offset: 3
+          params:
+            - name: geofenceId
+              type:
+                name: int
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onGeofenceResume
+          transaction_code_offset: 4
+          params:
+            - name: geofenceId
+              type:
+                name: int
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IGeofenceHardwareMonitorCallback
+      descriptor: android.hardware.location.IGeofenceHardwareMonitorCallback
+      oneway: true
+      methods:
+        - name: onMonitoringSystemChange
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: GeofenceHardwareMonitorEvent
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: ActivityChangedEvent
+    - name: ContextHubInfo
+    - name: ContextHubMessage
+    - name: GeofenceHardwareMonitorEvent
+    - name: GeofenceHardwareRequestParcelable
+    - name: NanoApp
+    - name: NanoAppBinary
+    - name: NanoAppFilter
+    - name: NanoAppInstanceInfo
+    - name: NanoAppMessage
+    - name: NanoAppRpcService
+    - name: NanoAppState

@@ -51,6 +51,7 @@ func (p *MusicRecognitionServiceProxy) OnAudioStreamStarted(
 	callback IMusicRecognitionServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionService)
 	_data.WriteFileDescriptor(fd)
 	_data.WriteInt32(1)
@@ -73,6 +74,7 @@ func (p *MusicRecognitionServiceProxy) GetAttributionTag(
 	callback IMusicRecognitionAttributionTagCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -88,7 +90,8 @@ func (p *MusicRecognitionServiceProxy) GetAttributionTag(
 // MusicRecognitionServiceStub dispatches incoming binder transactions
 // to a typed IMusicRecognitionService implementation.
 type MusicRecognitionServiceStub struct {
-	Impl IMusicRecognitionService
+	Impl      IMusicRecognitionService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MusicRecognitionServiceStub)(nil)
@@ -102,11 +105,12 @@ func (s *MusicRecognitionServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMusicRecognitionServiceOnAudioStreamStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -123,22 +127,27 @@ func (s *MusicRecognitionServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IMusicRecognitionServiceCallback
-		_ = _arg_callback
-		_err = s.Impl.OnAudioStreamStarted(ctx, _arg_fd, _arg_audioFormat, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIMusicRecognitionServiceGetAttributionTag:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewMusicRecognitionServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err = s.Impl.OnAudioStreamStarted(ctx, _arg_fd, _arg_audioFormat, _arg_callback)
+		return nil, _err
+	case TransactionIMusicRecognitionServiceGetAttributionTag:
 		var _arg_callback IMusicRecognitionAttributionTagCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewMusicRecognitionAttributionTagCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.GetAttributionTag(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

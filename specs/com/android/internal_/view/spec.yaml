@@ -1,0 +1,600 @@
+package: com.android.internal.view
+go_package: com/android/internal_/view
+interfaces:
+    - name: IDragAndDropPermissions
+      descriptor: com.android.internal.view.IDragAndDropPermissions
+      methods:
+        - name: take
+          transaction_code_offset: 0
+          params:
+            - name: activityToken
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: takeTransient
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: release
+          transaction_code_offset: 2
+          return_type:
+            name: void
+    - name: IInputMethodManager
+      descriptor: com.android.internal.view.IInputMethodManager
+      methods:
+        - name: addClient
+          transaction_code_offset: 0
+          params:
+            - name: client
+              type:
+                name: IInputMethodClient
+              direction: in
+            - name: inputmethod
+              type:
+                name: IRemoteInputConnection
+              direction: in
+            - name: untrustedDisplayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getCurrentInputMethodInfoAsUser
+          transaction_code_offset: 1
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: InputMethodInfo
+          annotations:
+            - JavaPassthrough
+        - name: getInputMethodList
+          transaction_code_offset: 2
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: directBootAwareness
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: InputMethodInfo
+          annotations:
+            - JavaPassthrough
+        - name: getEnabledInputMethodList
+          transaction_code_offset: 3
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: InputMethodInfo
+          annotations:
+            - JavaPassthrough
+        - name: getEnabledInputMethodSubtypeList
+          transaction_code_offset: 4
+          params:
+            - name: imiId
+              type:
+                name: String
+                is_nullable: true
+              direction: in
+            - name: allowsImplicitlyEnabledSubtypes
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: InputMethodSubtype
+          annotations:
+            - JavaPassthrough
+        - name: getLastInputMethodSubtype
+          transaction_code_offset: 5
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: InputMethodSubtype
+          annotations:
+            - JavaPassthrough
+        - name: showSoftInput
+          transaction_code_offset: 6
+          params:
+            - name: client
+              type:
+                name: IInputMethodClient
+              direction: in
+            - name: windowToken
+              type:
+                name: IBinder
+              annotations:
+                - nullable
+            - name: statsToken
+              type:
+                name: ImeTracker.Token
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: lastClickToolType
+              type:
+                name: int
+            - name: resultReceiver
+              type:
+                name: ResultReceiver
+                is_nullable: true
+              direction: in
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: hideSoftInput
+          transaction_code_offset: 7
+          params:
+            - name: client
+              type:
+                name: IInputMethodClient
+              direction: in
+            - name: windowToken
+              type:
+                name: IBinder
+              annotations:
+                - nullable
+            - name: statsToken
+              type:
+                name: ImeTracker.Token
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: resultReceiver
+              type:
+                name: ResultReceiver
+                is_nullable: true
+              direction: in
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: hideSoftInputFromServerForTest
+          transaction_code_offset: 8
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: startInputOrWindowGainedFocus
+          transaction_code_offset: 9
+          params:
+            - name: startInputReason
+              type:
+                name: int
+            - name: client
+              type:
+                name: IInputMethodClient
+              direction: in
+            - name: windowToken
+              type:
+                name: IBinder
+                is_nullable: true
+              direction: in
+            - name: startInputFlags
+              type:
+                name: int
+            - name: softInputMode
+              type:
+                name: int
+            - name: windowFlags
+              type:
+                name: int
+            - name: editorInfo
+              type:
+                name: EditorInfo
+                is_nullable: true
+              direction: in
+            - name: inputConnection
+              type:
+                name: IRemoteInputConnection
+                is_nullable: true
+              direction: in
+            - name: remoteAccessibilityInputConnection
+              type:
+                name: IRemoteAccessibilityInputConnection
+                is_nullable: true
+              direction: in
+            - name: unverifiedTargetSdkVersion
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: imeDispatcher
+              type:
+                name: ImeOnBackInvokedDispatcher
+              direction: in
+          return_type:
+            name: InputBindResult
+          annotations:
+            - JavaPassthrough
+        - name: startInputOrWindowGainedFocusAsync
+          transaction_code_offset: 10
+          params:
+            - name: startInputReason
+              type:
+                name: int
+            - name: client
+              type:
+                name: IInputMethodClient
+              direction: in
+            - name: windowToken
+              type:
+                name: IBinder
+                is_nullable: true
+              direction: in
+            - name: startInputFlags
+              type:
+                name: int
+            - name: softInputMode
+              type:
+                name: int
+            - name: windowFlags
+              type:
+                name: int
+            - name: editorInfo
+              type:
+                name: EditorInfo
+                is_nullable: true
+              direction: in
+            - name: inputConnection
+              type:
+                name: IRemoteInputConnection
+                is_nullable: true
+              direction: in
+            - name: remoteAccessibilityInputConnection
+              type:
+                name: IRemoteAccessibilityInputConnection
+                is_nullable: true
+              direction: in
+            - name: unverifiedTargetSdkVersion
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: imeDispatcher
+              type:
+                name: ImeOnBackInvokedDispatcher
+              direction: in
+            - name: startInputSeq
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: showInputMethodPickerFromClient
+          transaction_code_offset: 11
+          params:
+            - name: client
+              type:
+                name: IInputMethodClient
+              direction: in
+            - name: auxiliarySubtypeMode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: showInputMethodPickerFromSystem
+          transaction_code_offset: 12
+          params:
+            - name: auxiliarySubtypeMode
+              type:
+                name: int
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: isInputMethodPickerShownForTest
+          transaction_code_offset: 13
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: getCurrentInputMethodSubtype
+          transaction_code_offset: 14
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: InputMethodSubtype
+          annotations:
+            - JavaPassthrough
+            - nullable
+        - name: setAdditionalInputMethodSubtypes
+          transaction_code_offset: 15
+          params:
+            - name: id
+              type:
+                name: String
+            - name: subtypes
+              type:
+                name: InputMethodSubtype
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: setExplicitlyEnabledInputMethodSubtypes
+          transaction_code_offset: 16
+          params:
+            - name: imeId
+              type:
+                name: String
+            - name: subtypeHashCodes
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: getInputMethodWindowVisibleHeight
+          transaction_code_offset: 17
+          params:
+            - name: client
+              type:
+                name: IInputMethodClient
+              direction: in
+          return_type:
+            name: int
+        - name: reportPerceptibleAsync
+          transaction_code_offset: 18
+          oneway: true
+          params:
+            - name: windowToken
+              type:
+                name: IBinder
+              direction: in
+            - name: perceptible
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: removeImeSurface
+          transaction_code_offset: 19
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: removeImeSurfaceFromWindowAsync
+          transaction_code_offset: 20
+          oneway: true
+          params:
+            - name: windowToken
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: startProtoDump
+          transaction_code_offset: 21
+          params:
+            - name: protoDump
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: source
+              type:
+                name: int
+            - name: where
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: isImeTraceEnabled
+          transaction_code_offset: 22
+          return_type:
+            name: boolean
+          annotations:
+            - JavaPassthrough
+        - name: startImeTrace
+          transaction_code_offset: 23
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: stopImeTrace
+          transaction_code_offset: 24
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: startStylusHandwriting
+          transaction_code_offset: 25
+          params:
+            - name: client
+              type:
+                name: IInputMethodClient
+              direction: in
+          return_type:
+            name: void
+        - name: startConnectionlessStylusHandwriting
+          transaction_code_offset: 26
+          oneway: true
+          params:
+            - name: client
+              type:
+                name: IInputMethodClient
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: cursorAnchorInfo
+              type:
+                name: CursorAnchorInfo
+              direction: in
+            - name: delegatePackageName
+              type:
+                name: String
+              direction: in
+            - name: delegatorPackageName
+              type:
+                name: String
+              direction: in
+            - name: callback
+              type:
+                name: IConnectionlessHandwritingCallback
+              direction: in
+          return_type:
+            name: void
+        - name: prepareStylusHandwritingDelegation
+          transaction_code_offset: 27
+          params:
+            - name: client
+              type:
+                name: IInputMethodClient
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+            - name: delegatePackageName
+              type:
+                name: String
+              direction: in
+            - name: delegatorPackageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: acceptStylusHandwritingDelegation
+          transaction_code_offset: 28
+          params:
+            - name: client
+              type:
+                name: IInputMethodClient
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+            - name: delegatePackageName
+              type:
+                name: String
+              direction: in
+            - name: delegatorPackageName
+              type:
+                name: String
+              direction: in
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: acceptStylusHandwritingDelegationAsync
+          transaction_code_offset: 29
+          oneway: true
+          params:
+            - name: client
+              type:
+                name: IInputMethodClient
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+            - name: delegatePackageName
+              type:
+                name: String
+              direction: in
+            - name: delegatorPackageName
+              type:
+                name: String
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IBooleanListener
+              direction: in
+          return_type:
+            name: void
+        - name: isStylusHandwritingAvailableAsUser
+          transaction_code_offset: 30
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: connectionless
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+          annotations:
+            - JavaPassthrough
+        - name: addVirtualStylusIdForTestSession
+          transaction_code_offset: 31
+          params:
+            - name: client
+              type:
+                name: IInputMethodClient
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: setStylusWindowIdleTimeoutForTest
+          transaction_code_offset: 32
+          params:
+            - name: client
+              type:
+                name: IInputMethodClient
+              direction: in
+            - name: timeout
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: getImeTrackerService
+          transaction_code_offset: 33
+          return_type:
+            name: IImeTracker
+parcelables:
+    - name: AppearanceRegion

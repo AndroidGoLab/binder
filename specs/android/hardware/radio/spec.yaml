@@ -1,0 +1,736 @@
+package: android.hardware.radio
+go_package: android/hardware/radio
+interfaces:
+    - name: IAnnouncementListener
+      descriptor: android.hardware.radio.IAnnouncementListener
+      oneway: true
+      methods:
+        - name: onListUpdated
+          transaction_code_offset: 0
+          params:
+            - name: activeAnnouncements
+              type:
+                name: List
+                type_args:
+                    - name: Announcement
+              direction: in
+          return_type:
+            name: void
+    - name: ICloseHandle
+      descriptor: android.hardware.radio.ICloseHandle
+      methods:
+        - name: close
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: IRadioService
+      descriptor: android.hardware.radio.IRadioService
+      methods:
+        - name: listModules
+          transaction_code_offset: 0
+          return_type:
+            name: List
+            type_args:
+                - name: RadioManager.ModuleProperties
+        - name: openTuner
+          transaction_code_offset: 1
+          params:
+            - name: moduleId
+              type:
+                name: int
+            - name: bandConfig
+              type:
+                name: RadioManager.BandConfig
+              direction: in
+            - name: withAudio
+              type:
+                name: boolean
+            - name: callback
+              type:
+                name: ITunerCallback
+              direction: in
+          return_type:
+            name: ITuner
+        - name: addAnnouncementListener
+          transaction_code_offset: 2
+          params:
+            - name: enabledTypes
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: listener
+              type:
+                name: IAnnouncementListener
+              direction: in
+          return_type:
+            name: ICloseHandle
+    - name: ITuner
+      descriptor: android.hardware.radio.ITuner
+      methods:
+        - name: close
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: isClosed
+          transaction_code_offset: 1
+          return_type:
+            name: boolean
+        - name: setConfiguration
+          transaction_code_offset: 2
+          params:
+            - name: config
+              type:
+                name: RadioManager.BandConfig
+              direction: in
+          return_type:
+            name: void
+        - name: getConfiguration
+          transaction_code_offset: 3
+          return_type:
+            name: RadioManager.BandConfig
+        - name: setMuted
+          transaction_code_offset: 4
+          params:
+            - name: mute
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isMuted
+          transaction_code_offset: 5
+          return_type:
+            name: boolean
+        - name: step
+          transaction_code_offset: 6
+          params:
+            - name: directionDown
+              type:
+                name: boolean
+            - name: skipSubChannel
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: seek
+          transaction_code_offset: 7
+          params:
+            - name: directionDown
+              type:
+                name: boolean
+            - name: skipSubChannel
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: tune
+          transaction_code_offset: 8
+          params:
+            - name: selector
+              type:
+                name: ProgramSelector
+              direction: in
+          return_type:
+            name: void
+        - name: cancel
+          transaction_code_offset: 9
+          return_type:
+            name: void
+        - name: cancelAnnouncement
+          transaction_code_offset: 10
+          return_type:
+            name: void
+        - name: getImage
+          transaction_code_offset: 11
+          params:
+            - name: id
+              type:
+                name: int
+          return_type:
+            name: Bitmap
+        - name: startBackgroundScan
+          transaction_code_offset: 12
+          return_type:
+            name: boolean
+        - name: startProgramListUpdates
+          transaction_code_offset: 13
+          params:
+            - name: filter
+              type:
+                name: ProgramList.Filter
+              direction: in
+          return_type:
+            name: void
+        - name: stopProgramListUpdates
+          transaction_code_offset: 14
+          return_type:
+            name: void
+        - name: isConfigFlagSupported
+          transaction_code_offset: 15
+          params:
+            - name: flag
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isConfigFlagSet
+          transaction_code_offset: 16
+          params:
+            - name: flag
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setConfigFlag
+          transaction_code_offset: 17
+          params:
+            - name: flag
+              type:
+                name: int
+            - name: value
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setParameters
+          transaction_code_offset: 18
+          params:
+            - name: parameters
+              type:
+                name: Map
+                type_args:
+                    - name: String
+                    - name: String
+              direction: in
+          return_type:
+            name: Map
+            type_args:
+                - name: String
+                - name: String
+        - name: getParameters
+          transaction_code_offset: 19
+          params:
+            - name: keys
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: Map
+            type_args:
+                - name: String
+                - name: String
+    - name: ITunerCallback
+      descriptor: android.hardware.radio.ITunerCallback
+      oneway: true
+      methods:
+        - name: onError
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onTuneFailed
+          transaction_code_offset: 1
+          params:
+            - name: result
+              type:
+                name: int
+            - name: selector
+              type:
+                name: ProgramSelector
+              direction: in
+          return_type:
+            name: void
+        - name: onConfigurationChanged
+          transaction_code_offset: 2
+          params:
+            - name: config
+              type:
+                name: RadioManager.BandConfig
+              direction: in
+          return_type:
+            name: void
+        - name: onCurrentProgramInfoChanged
+          transaction_code_offset: 3
+          params:
+            - name: info
+              type:
+                name: RadioManager.ProgramInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onTrafficAnnouncement
+          transaction_code_offset: 4
+          params:
+            - name: active
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onEmergencyAnnouncement
+          transaction_code_offset: 5
+          params:
+            - name: active
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onAntennaState
+          transaction_code_offset: 6
+          params:
+            - name: connected
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onBackgroundScanAvailabilityChange
+          transaction_code_offset: 7
+          params:
+            - name: isAvailable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onBackgroundScanComplete
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: onProgramListChanged
+          transaction_code_offset: 9
+          return_type:
+            name: void
+        - name: onProgramListUpdated
+          transaction_code_offset: 10
+          params:
+            - name: chunk
+              type:
+                name: ProgramList.Chunk
+              direction: in
+          return_type:
+            name: void
+        - name: onConfigFlagUpdated
+          transaction_code_offset: 11
+          params:
+            - name: flag
+              type:
+                name: int
+            - name: value
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onParametersUpdated
+          transaction_code_offset: 12
+          params:
+            - name: parameters
+              type:
+                name: Map
+                type_args:
+                    - name: String
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: Announcement
+    - name: ProgramList.Chunk
+    - name: ProgramList.Filter
+    - name: ProgramSelector
+    - name: RadioConst
+      constants:
+        - name: MAX_RILDS
+          type: int
+          value: "3"
+        - name: MAX_UUID_LENGTH
+          type: int
+          value: "64"
+        - name: CARD_MAX_APPS
+          type: int
+          value: "8"
+        - name: P2_CONSTANT_NO_P2
+          type: int
+          value: "-1"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: RadioManager.BandConfig
+    - name: RadioManager.BandDescriptor
+    - name: RadioManager.ModuleProperties
+    - name: RadioManager.ProgramInfo
+    - name: RadioMetadata
+    - name: RadioResponseInfo
+      fields:
+        - name: type
+          type:
+            name: RadioResponseType
+        - name: serial
+          type:
+            name: int
+        - name: error
+          type:
+            name: RadioError
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: RadioResponseInfoModem
+      fields:
+        - name: type
+          type:
+            name: RadioResponseType
+        - name: serial
+          type:
+            name: int
+        - name: error
+          type:
+            name: RadioError
+        - name: isEnabled
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: UniqueProgramIdentifier
+enums:
+    - name: AccessNetwork
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: GERAN
+          value: ""
+        - name: UTRAN
+          value: ""
+        - name: EUTRAN
+          value: ""
+        - name: CDMA2000
+          value: ""
+        - name: IWLAN
+          value: ""
+        - name: NGRAN
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: RadioAccessFamily
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: 1 << RadioTechnology.UNKNOWN
+        - name: GPRS
+          value: 1 << RadioTechnology.GPRS
+        - name: EDGE
+          value: 1 << RadioTechnology.EDGE
+        - name: UMTS
+          value: 1 << RadioTechnology.UMTS
+        - name: IS95A
+          value: 1 << RadioTechnology.IS95A
+        - name: IS95B
+          value: 1 << RadioTechnology.IS95B
+        - name: ONE_X_RTT
+          value: 1 << RadioTechnology.ONE_X_RTT
+        - name: EVDO_0
+          value: 1 << RadioTechnology.EVDO_0
+        - name: EVDO_A
+          value: 1 << RadioTechnology.EVDO_A
+        - name: HSDPA
+          value: 1 << RadioTechnology.HSDPA
+        - name: HSUPA
+          value: 1 << RadioTechnology.HSUPA
+        - name: HSPA
+          value: 1 << RadioTechnology.HSPA
+        - name: EVDO_B
+          value: 1 << RadioTechnology.EVDO_B
+        - name: EHRPD
+          value: 1 << RadioTechnology.EHRPD
+        - name: LTE
+          value: 1 << RadioTechnology.LTE
+        - name: HSPAP
+          value: 1 << RadioTechnology.HSPAP
+        - name: GSM
+          value: 1 << RadioTechnology.GSM
+        - name: TD_SCDMA
+          value: 1 << RadioTechnology.TD_SCDMA
+        - name: IWLAN
+          value: 1 << RadioTechnology.IWLAN
+        - name: LTE_CA
+          value: 1 << RadioTechnology.LTE_CA
+        - name: NR
+          value: 1 << RadioTechnology.NR
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: RadioError
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: RADIO_NOT_AVAILABLE
+          value: "1"
+        - name: GENERIC_FAILURE
+          value: "2"
+        - name: PASSWORD_INCORRECT
+          value: "3"
+        - name: SIM_PIN2
+          value: "4"
+        - name: SIM_PUK2
+          value: "5"
+        - name: REQUEST_NOT_SUPPORTED
+          value: "6"
+        - name: CANCELLED
+          value: "7"
+        - name: OP_NOT_ALLOWED_DURING_VOICE_CALL
+          value: "8"
+        - name: OP_NOT_ALLOWED_BEFORE_REG_TO_NW
+          value: "9"
+        - name: SMS_SEND_FAIL_RETRY
+          value: "10"
+        - name: SIM_ABSENT
+          value: "11"
+        - name: SUBSCRIPTION_NOT_AVAILABLE
+          value: "12"
+        - name: MODE_NOT_SUPPORTED
+          value: "13"
+        - name: FDN_CHECK_FAILURE
+          value: "14"
+        - name: ILLEGAL_SIM_OR_ME
+          value: "15"
+        - name: MISSING_RESOURCE
+          value: "16"
+        - name: NO_SUCH_ELEMENT
+          value: "17"
+        - name: DIAL_MODIFIED_TO_USSD
+          value: "18"
+        - name: DIAL_MODIFIED_TO_SS
+          value: "19"
+        - name: DIAL_MODIFIED_TO_DIAL
+          value: "20"
+        - name: USSD_MODIFIED_TO_DIAL
+          value: "21"
+        - name: USSD_MODIFIED_TO_SS
+          value: "22"
+        - name: USSD_MODIFIED_TO_USSD
+          value: "23"
+        - name: SS_MODIFIED_TO_DIAL
+          value: "24"
+        - name: SS_MODIFIED_TO_USSD
+          value: "25"
+        - name: SUBSCRIPTION_NOT_SUPPORTED
+          value: "26"
+        - name: SS_MODIFIED_TO_SS
+          value: "27"
+        - name: LCE_NOT_SUPPORTED
+          value: "36"
+        - name: NO_MEMORY
+          value: "37"
+        - name: INTERNAL_ERR
+          value: "38"
+        - name: SYSTEM_ERR
+          value: "39"
+        - name: MODEM_ERR
+          value: "40"
+        - name: INVALID_STATE
+          value: "41"
+        - name: NO_RESOURCES
+          value: "42"
+        - name: SIM_ERR
+          value: "43"
+        - name: INVALID_ARGUMENTS
+          value: "44"
+        - name: INVALID_SIM_STATE
+          value: "45"
+        - name: INVALID_MODEM_STATE
+          value: "46"
+        - name: INVALID_CALL_ID
+          value: "47"
+        - name: NO_SMS_TO_ACK
+          value: "48"
+        - name: NETWORK_ERR
+          value: "49"
+        - name: REQUEST_RATE_LIMITED
+          value: "50"
+        - name: SIM_BUSY
+          value: "51"
+        - name: SIM_FULL
+          value: "52"
+        - name: NETWORK_REJECT
+          value: "53"
+        - name: OPERATION_NOT_ALLOWED
+          value: "54"
+        - name: EMPTY_RECORD
+          value: "55"
+        - name: INVALID_SMS_FORMAT
+          value: "56"
+        - name: ENCODING_ERR
+          value: "57"
+        - name: INVALID_SMSC_ADDRESS
+          value: "58"
+        - name: NO_SUCH_ENTRY
+          value: "59"
+        - name: NETWORK_NOT_READY
+          value: "60"
+        - name: NOT_PROVISIONED
+          value: "61"
+        - name: NO_SUBSCRIPTION
+          value: "62"
+        - name: NO_NETWORK_FOUND
+          value: "63"
+        - name: DEVICE_IN_USE
+          value: "64"
+        - name: ABORTED
+          value: "65"
+        - name: INVALID_RESPONSE
+          value: "66"
+        - name: OEM_ERROR_1
+          value: "501"
+        - name: OEM_ERROR_2
+          value: "502"
+        - name: OEM_ERROR_3
+          value: "503"
+        - name: OEM_ERROR_4
+          value: "504"
+        - name: OEM_ERROR_5
+          value: "505"
+        - name: OEM_ERROR_6
+          value: "506"
+        - name: OEM_ERROR_7
+          value: "507"
+        - name: OEM_ERROR_8
+          value: "508"
+        - name: OEM_ERROR_9
+          value: "509"
+        - name: OEM_ERROR_10
+          value: "510"
+        - name: OEM_ERROR_11
+          value: "511"
+        - name: OEM_ERROR_12
+          value: "512"
+        - name: OEM_ERROR_13
+          value: "513"
+        - name: OEM_ERROR_14
+          value: "514"
+        - name: OEM_ERROR_15
+          value: "515"
+        - name: OEM_ERROR_16
+          value: "516"
+        - name: OEM_ERROR_17
+          value: "517"
+        - name: OEM_ERROR_18
+          value: "518"
+        - name: OEM_ERROR_19
+          value: "519"
+        - name: OEM_ERROR_20
+          value: "520"
+        - name: OEM_ERROR_21
+          value: "521"
+        - name: OEM_ERROR_22
+          value: "522"
+        - name: OEM_ERROR_23
+          value: "523"
+        - name: OEM_ERROR_24
+          value: "524"
+        - name: OEM_ERROR_25
+          value: "525"
+        - name: SIMULTANEOUS_SMS_AND_CALL_NOT_ALLOWED
+          value: "67"
+        - name: ACCESS_BARRED
+          value: "68"
+        - name: BLOCKED_DUE_TO_CALL
+          value: "69"
+        - name: RF_HARDWARE_ISSUE
+          value: "70"
+        - name: NO_RF_CALIBRATION_INFO
+          value: "71"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: RadioIndicationType
+      backing_type: int
+      values:
+        - name: UNSOLICITED
+          value: ""
+        - name: UNSOLICITED_ACK_EXP
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: RadioResponseType
+      backing_type: int
+      values:
+        - name: SOLICITED
+          value: ""
+        - name: SOLICITED_ACK
+          value: ""
+        - name: SOLICITED_ACK_EXP
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: RadioTechnology
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: GPRS
+          value: ""
+        - name: EDGE
+          value: ""
+        - name: UMTS
+          value: ""
+        - name: IS95A
+          value: ""
+        - name: IS95B
+          value: ""
+        - name: ONE_X_RTT
+          value: ""
+        - name: EVDO_0
+          value: ""
+        - name: EVDO_A
+          value: ""
+        - name: HSDPA
+          value: ""
+        - name: HSUPA
+          value: ""
+        - name: HSPA
+          value: ""
+        - name: EVDO_B
+          value: ""
+        - name: EHRPD
+          value: ""
+        - name: LTE
+          value: ""
+        - name: HSPAP
+          value: ""
+        - name: GSM
+          value: ""
+        - name: TD_SCDMA
+          value: ""
+        - name: IWLAN
+          value: ""
+        - name: LTE_CA
+          value: ""
+        - name: NR
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: RadioTechnologyFamily
+      backing_type: int
+      values:
+        - name: THREE_GPP
+          value: ""
+        - name: THREE_GPP2
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive

@@ -47,6 +47,7 @@ func (p *TvInputHardwareCallbackProxy) OnReleased(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputHardwareCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputHardwareCallback, MethodITvInputHardwareCallbackOnReleased)
@@ -63,6 +64,7 @@ func (p *TvInputHardwareCallbackProxy) OnStreamConfigChanged(
 	configs []TvStreamConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputHardwareCallback)
 	if configs == nil {
 		_data.WriteInt32(-1)
@@ -88,7 +90,8 @@ func (p *TvInputHardwareCallbackProxy) OnStreamConfigChanged(
 // TvInputHardwareCallbackStub dispatches incoming binder transactions
 // to a typed ITvInputHardwareCallback implementation.
 type TvInputHardwareCallbackStub struct {
-	Impl ITvInputHardwareCallback
+	Impl      ITvInputHardwareCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvInputHardwareCallbackStub)(nil)
@@ -102,24 +105,38 @@ func (s *TvInputHardwareCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvInputHardwareCallbackOnReleased:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnReleased(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputHardwareCallbackOnStreamConfigChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_configs []TvStreamConfig
-		_ = _arg_configs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_configs = make([]TvStreamConfig, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_configs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnStreamConfigChanged(ctx, _arg_configs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

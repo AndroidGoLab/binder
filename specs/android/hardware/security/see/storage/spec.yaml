@@ -1,0 +1,283 @@
+package: android.hardware.security.see.storage
+go_package: android/hardware/security/see/storage
+interfaces:
+    - name: IDir
+      descriptor: android.hardware.security.see.storage.IDir
+      methods:
+        - name: readNextFilenames
+          transaction_code_offset: 0
+          params:
+            - name: maxCount
+              type:
+                name: int
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - utf8InCpp
+    - name: IFile
+      descriptor: android.hardware.security.see.storage.IFile
+      methods:
+        - name: read
+          transaction_code_offset: 0
+          params:
+            - name: size
+              type:
+                name: long
+            - name: offset
+              type:
+                name: long
+          return_type:
+            name: byte
+            is_array: true
+        - name: write
+          transaction_code_offset: 1
+          params:
+            - name: offset
+              type:
+                name: long
+            - name: buffer
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: long
+        - name: getSize
+          transaction_code_offset: 2
+          return_type:
+            name: long
+        - name: setSize
+          transaction_code_offset: 3
+          params:
+            - name: newSize
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: rename
+          transaction_code_offset: 4
+          params:
+            - name: destPath
+              type:
+                name: String
+              direction: in
+            - name: destCreateMode
+              type:
+                name: CreationMode
+              direction: in
+          return_type:
+            name: void
+    - name: ISecureStorage
+      descriptor: android.hardware.security.see.storage.ISecureStorage
+      methods:
+        - name: startSession
+          transaction_code_offset: 0
+          params:
+            - name: properties
+              type:
+                name: FileProperties
+              direction: in
+          return_type:
+            name: IStorageSession
+      constants:
+        - name: ERR_UNSUPPORTED_PROPERTIES
+          type: int
+          value: "1"
+        - name: ERR_NOT_FOUND
+          type: int
+          value: "2"
+        - name: ERR_ALREADY_EXISTS
+          type: int
+          value: "3"
+        - name: ERR_BAD_TRANSACTION
+          type: int
+          value: "4"
+        - name: ERR_FS_RESET
+          type: int
+          value: "5"
+        - name: ERR_FS_ROLLED_BACK
+          type: int
+          value: "6"
+        - name: ERR_FS_TAMPERED
+          type: int
+          value: "7"
+    - name: IStorageSession
+      descriptor: android.hardware.security.see.storage.IStorageSession
+      methods:
+        - name: commitChanges
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: abandonChanges
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: openFile
+          transaction_code_offset: 2
+          params:
+            - name: filePath
+              type:
+                name: String
+              direction: in
+            - name: options
+              type:
+                name: OpenOptions
+              direction: in
+          return_type:
+            name: IFile
+        - name: deleteFile
+          transaction_code_offset: 3
+          params:
+            - name: filePath
+              type:
+                name: String
+              direction: in
+            - name: options
+              type:
+                name: DeleteOptions
+              direction: in
+          return_type:
+            name: void
+        - name: renameFile
+          transaction_code_offset: 4
+          params:
+            - name: currentPath
+              type:
+                name: String
+              direction: in
+            - name: destPath
+              type:
+                name: String
+              direction: in
+            - name: options
+              type:
+                name: RenameOptions
+              direction: in
+          return_type:
+            name: void
+        - name: openDir
+          transaction_code_offset: 5
+          params:
+            - name: path
+              type:
+                name: String
+              direction: in
+            - name: readIntegrity
+              type:
+                name: ReadIntegrity
+              direction: in
+          return_type:
+            name: IDir
+parcelables:
+    - name: DeleteOptions
+      fields:
+        - name: readIntegrity
+          type:
+            name: ReadIntegrity
+          default_value: ReadIntegrity.NO_TAMPER
+        - name: allowWritesDuringAbUpdate
+          type:
+            name: boolean
+          default_value: "false"
+    - name: FileProperties
+      fields:
+        - name: integrity
+          type:
+            name: FileIntegrity
+          default_value: FileIntegrity.TAMPER_PROOF_AT_REST
+        - name: availability
+          type:
+            name: FileAvailability
+          default_value: FileAvailability.BEFORE_USERDATA
+        - name: persistent
+          type:
+            name: boolean
+    - name: OpenOptions
+      fields:
+        - name: createMode
+          type:
+            name: CreationMode
+          default_value: CreationMode.NO_CREATE
+        - name: accessMode
+          type:
+            name: FileMode
+          default_value: FileMode.READ_WRITE
+        - name: readIntegrity
+          type:
+            name: ReadIntegrity
+          default_value: ReadIntegrity.NO_TAMPER
+        - name: truncateOnOpen
+          type:
+            name: boolean
+        - name: allowWritesDuringAbUpdate
+          type:
+            name: boolean
+          default_value: "false"
+    - name: RenameOptions
+      fields:
+        - name: destCreateMode
+          type:
+            name: CreationMode
+          default_value: CreationMode.CREATE_EXCLUSIVE
+        - name: readIntegrity
+          type:
+            name: ReadIntegrity
+          default_value: ReadIntegrity.NO_TAMPER
+        - name: allowWritesDuringAbUpdate
+          type:
+            name: boolean
+          default_value: "false"
+enums:
+    - name: CreationMode
+      backing_type: ""
+      values:
+        - name: NO_CREATE
+          value: ""
+        - name: CREATE_EXCLUSIVE
+          value: ""
+        - name: CREATE
+          value: ""
+    - name: FileAvailability
+      backing_type: ""
+      values:
+        - name: BEFORE_USERDATA
+          value: ""
+        - name: AFTER_USERDATA
+          value: ""
+    - name: FileIntegrity
+      backing_type: ""
+      values:
+        - name: TAMPER_PROOF_AT_REST
+          value: ""
+        - name: TAMPER_DETECT
+          value: ""
+        - name: TAMPER_DETECT_IGNORE_RESET
+          value: ""
+    - name: FileMode
+      backing_type: ""
+      values:
+        - name: READ_ONLY
+          value: ""
+        - name: WRITE_ONLY
+          value: ""
+        - name: READ_WRITE
+          value: ""
+    - name: ReadIntegrity
+      backing_type: ""
+      values:
+        - name: NO_TAMPER
+          value: ""
+        - name: IGNORE_RESET
+          value: ""
+        - name: IGNORE_ROLLBACK
+          value: ""
+    - name: Tamper
+      backing_type: ""
+      values:
+        - name: RESET
+          value: ""
+        - name: ROLLBACK
+          value: ""
+        - name: OTHER
+          value: ""

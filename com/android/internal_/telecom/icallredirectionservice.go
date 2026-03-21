@@ -53,6 +53,7 @@ func (p *CallRedirectionServiceProxy) PlaceCall(
 	allowInteractiveResponse bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallRedirectionService)
 	binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -78,6 +79,7 @@ func (p *CallRedirectionServiceProxy) NotifyTimeout(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallRedirectionService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallRedirectionService, MethodICallRedirectionServiceNotifyTimeout)
@@ -92,7 +94,8 @@ func (p *CallRedirectionServiceProxy) NotifyTimeout(
 // CallRedirectionServiceStub dispatches incoming binder transactions
 // to a typed ICallRedirectionService implementation.
 type CallRedirectionServiceStub struct {
-	Impl ICallRedirectionService
+	Impl      ICallRedirectionService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CallRedirectionServiceStub)(nil)
@@ -106,14 +109,20 @@ func (s *CallRedirectionServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICallRedirectionServicePlaceCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_adapter ICallRedirectionAdapter
-		_ = _arg_adapter
+		{
+			_adapterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_adapter = NewCallRedirectionAdapterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _adapterHandle))
+		}
 		var _arg_handle net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -143,15 +152,10 @@ func (s *CallRedirectionServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.PlaceCall(ctx, _arg_adapter, _arg_handle, _arg_initialPhoneAccount, _arg_allowInteractiveResponse)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallRedirectionServiceNotifyTimeout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NotifyTimeout(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

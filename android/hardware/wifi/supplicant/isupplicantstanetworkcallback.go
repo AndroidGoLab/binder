@@ -59,6 +59,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnNetworkEapIdentityRequest(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnNetworkEapIdentityRequest)
@@ -75,6 +76,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnNetworkEapSimGsmAuthRequest(
 	params NetworkRequestEapSimGsmAuthParams,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -95,6 +97,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnNetworkEapSimUmtsAuthRequest(
 	params NetworkRequestEapSimUmtsAuthParams,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -115,6 +118,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnTransitionDisable(
 	ind TransitionDisableIndication,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
 	_data.WriteInt32(int32(ind))
 
@@ -135,32 +139,12 @@ func (p *SupplicantStaNetworkCallbackProxy) OnServerCertificateAvailable(
 	certBlob []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
 	_data.WriteInt32(depth)
-	if subject == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(subject)))
-		for _, _item := range subject {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if certHash == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(certHash)))
-		for _, _item := range certHash {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if certBlob == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(certBlob)))
-		for _, _item := range certBlob {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(subject)
+	_data.WriteByteArray(certHash)
+	_data.WriteByteArray(certBlob)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnServerCertificateAvailable)
 	if _err != nil {
@@ -175,6 +159,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnPermanentIdReqDenied(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnPermanentIdReqDenied)
@@ -189,7 +174,8 @@ func (p *SupplicantStaNetworkCallbackProxy) OnPermanentIdReqDenied(
 // SupplicantStaNetworkCallbackStub dispatches incoming binder transactions
 // to a typed ISupplicantStaNetworkCallback implementation.
 type SupplicantStaNetworkCallbackStub struct {
-	Impl ISupplicantStaNetworkCallback
+	Impl      ISupplicantStaNetworkCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SupplicantStaNetworkCallbackStub)(nil)
@@ -203,18 +189,15 @@ func (s *SupplicantStaNetworkCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISupplicantStaNetworkCallbackOnNetworkEapIdentityRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnNetworkEapIdentityRequest(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISupplicantStaNetworkCallbackOnNetworkEapSimGsmAuthRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_params NetworkRequestEapSimGsmAuthParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -228,12 +211,8 @@ func (s *SupplicantStaNetworkCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnNetworkEapSimGsmAuthRequest(ctx, _arg_params)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISupplicantStaNetworkCallbackOnNetworkEapSimUmtsAuthRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_params NetworkRequestEapSimUmtsAuthParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -247,47 +226,49 @@ func (s *SupplicantStaNetworkCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnNetworkEapSimUmtsAuthRequest(ctx, _arg_params)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISupplicantStaNetworkCallbackOnTransitionDisable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_ind, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_ind := TransitionDisableIndication(_raw_ind)
 		_err = s.Impl.OnTransitionDisable(ctx, _arg_ind)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISupplicantStaNetworkCallbackOnServerCertificateAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_depth, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_subject []byte
-		_ = _arg_subject
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_certHash []byte
-		_ = _arg_certHash
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_certBlob []byte
-		_ = _arg_certBlob
-		_err = s.Impl.OnServerCertificateAvailable(ctx, _arg_depth, _arg_subject, _arg_certHash, _arg_certBlob)
-		_ = _err
-		return nil, nil
-	case TransactionISupplicantStaNetworkCallbackOnPermanentIdReqDenied:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_subject = _bytes
 		}
+		var _arg_certHash []byte
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_certHash = _bytes
+		}
+		var _arg_certBlob []byte
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_certBlob = _bytes
+		}
+		_err = s.Impl.OnServerCertificateAvailable(ctx, _arg_depth, _arg_subject, _arg_certHash, _arg_certBlob)
+		return nil, _err
+	case TransactionISupplicantStaNetworkCallbackOnPermanentIdReqDenied:
 		_err := s.Impl.OnPermanentIdReqDenied(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

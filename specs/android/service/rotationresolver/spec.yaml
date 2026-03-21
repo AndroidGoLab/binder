@@ -1,0 +1,49 @@
+package: android.service.rotationresolver
+go_package: android/service/rotationresolver
+interfaces:
+    - name: IRotationResolverCallback
+      descriptor: android.service.rotationresolver.IRotationResolverCallback
+      oneway: true
+      methods:
+        - name: onCancellable
+          transaction_code_offset: 0
+          params:
+            - name: cancellation
+              type:
+                name: ICancellationSignal
+          return_type:
+            name: void
+        - name: onSuccess
+          transaction_code_offset: 1
+          params:
+            - name: recommendedRotation
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 2
+          params:
+            - name: error
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IRotationResolverService
+      descriptor: android.service.rotationresolver.IRotationResolverService
+      oneway: true
+      methods:
+        - name: resolveRotation
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IRotationResolverCallback
+            - name: request
+              type:
+                name: RotationResolutionRequest
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: RotationResolutionRequest

@@ -1,0 +1,183 @@
+package: android.hardware.soundtrigger3
+go_package: android/hardware/soundtrigger3
+interfaces:
+    - name: ISoundTriggerHw
+      descriptor: android.hardware.soundtrigger3.ISoundTriggerHw
+      methods:
+        - name: getProperties
+          transaction_code_offset: 0
+          return_type:
+            name: Properties
+        - name: registerGlobalCallback
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: ISoundTriggerHwGlobalCallback
+              direction: in
+          return_type:
+            name: void
+        - name: loadSoundModel
+          transaction_code_offset: 2
+          params:
+            - name: soundModel
+              type:
+                name: SoundModel
+              direction: in
+            - name: callback
+              type:
+                name: ISoundTriggerHwCallback
+              direction: in
+          return_type:
+            name: int
+        - name: loadPhraseSoundModel
+          transaction_code_offset: 3
+          params:
+            - name: soundModel
+              type:
+                name: PhraseSoundModel
+              direction: in
+            - name: callback
+              type:
+                name: ISoundTriggerHwCallback
+              direction: in
+          return_type:
+            name: int
+        - name: unloadSoundModel
+          transaction_code_offset: 4
+          params:
+            - name: modelHandle
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: startRecognition
+          transaction_code_offset: 5
+          params:
+            - name: modelHandle
+              type:
+                name: int
+              direction: in
+            - name: deviceHandle
+              type:
+                name: int
+              direction: in
+            - name: ioHandle
+              type:
+                name: int
+              direction: in
+            - name: config
+              type:
+                name: RecognitionConfig
+              direction: in
+          return_type:
+            name: void
+        - name: stopRecognition
+          transaction_code_offset: 6
+          params:
+            - name: modelHandle
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: forceRecognitionEvent
+          transaction_code_offset: 7
+          params:
+            - name: modelHandle
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: queryParameter
+          transaction_code_offset: 8
+          params:
+            - name: modelHandle
+              type:
+                name: int
+              direction: in
+            - name: modelParam
+              type:
+                name: ModelParameter
+              direction: in
+          return_type:
+            name: ModelParameterRange
+          annotations:
+            - nullable
+        - name: getParameter
+          transaction_code_offset: 9
+          params:
+            - name: modelHandle
+              type:
+                name: int
+              direction: in
+            - name: modelParam
+              type:
+                name: ModelParameter
+              direction: in
+          return_type:
+            name: int
+        - name: setParameter
+          transaction_code_offset: 10
+          params:
+            - name: modelHandle
+              type:
+                name: int
+              direction: in
+            - name: modelParam
+              type:
+                name: ModelParameter
+              direction: in
+            - name: value
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: ISoundTriggerHwCallback
+      descriptor: android.hardware.soundtrigger3.ISoundTriggerHwCallback
+      methods:
+        - name: modelUnloaded
+          transaction_code_offset: 0
+          params:
+            - name: model
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: phraseRecognitionCallback
+          transaction_code_offset: 1
+          params:
+            - name: model
+              type:
+                name: int
+              direction: in
+            - name: event
+              type:
+                name: PhraseRecognitionEvent
+              direction: in
+          return_type:
+            name: void
+        - name: recognitionCallback
+          transaction_code_offset: 2
+          params:
+            - name: model
+              type:
+                name: int
+              direction: in
+            - name: event
+              type:
+                name: RecognitionEvent
+              direction: in
+          return_type:
+            name: void
+    - name: ISoundTriggerHwGlobalCallback
+      descriptor: android.hardware.soundtrigger3.ISoundTriggerHwGlobalCallback
+      methods:
+        - name: onResourcesAvailable
+          transaction_code_offset: 0
+          return_type:
+            name: void

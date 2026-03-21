@@ -1,0 +1,40 @@
+package: com.android.systemui.wallet.controller
+go_package: com/android/systemui/wallet/controller
+interfaces:
+    - name: IWalletCardsUpdatedListener
+      descriptor: com.android.systemui.wallet.controller.IWalletCardsUpdatedListener
+      methods:
+        - name: registerNewWalletCards
+          transaction_code_offset: 0
+          params:
+            - name: cards
+              type:
+                name: List
+                type_args:
+                    - name: WalletCard
+              direction: in
+          return_type:
+            name: void
+    - name: IWalletContextualLocationsService
+      descriptor: com.android.systemui.wallet.controller.IWalletContextualLocationsService
+      methods:
+        - name: addWalletCardsUpdatedListener
+          transaction_code_offset: 0
+          params:
+            - name: listener
+              type:
+                name: IWalletCardsUpdatedListener
+              direction: in
+          return_type:
+            name: void
+        - name: onWalletContextualLocationsStateUpdated
+          transaction_code_offset: 1
+          params:
+            - name: storeLocations
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void

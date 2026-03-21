@@ -60,14 +60,29 @@ func (s *FrontendDvbtSettings) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Frequency, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.EndFrequency, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_inversionRaw, _err := p.ReadInt32()
@@ -76,11 +91,21 @@ func (s *FrontendDvbtSettings) UnmarshalParcel(
 	}
 	s.Inversion = FrontendSpectralInversion(_inversionRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_transmissionModeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.TransmissionMode = FrontendDvbtTransmissionMode(_transmissionModeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_bandwidthRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -88,11 +113,21 @@ func (s *FrontendDvbtSettings) UnmarshalParcel(
 	}
 	s.Bandwidth = FrontendDvbtBandwidth(_bandwidthRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_constellationRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Constellation = FrontendDvbtConstellation(_constellationRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_hierarchyRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -100,11 +135,21 @@ func (s *FrontendDvbtSettings) UnmarshalParcel(
 	}
 	s.Hierarchy = FrontendDvbtHierarchy(_hierarchyRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_hpCoderateRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.HpCoderate = FrontendDvbtCoderate(_hpCoderateRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_lpCoderateRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -112,15 +157,30 @@ func (s *FrontendDvbtSettings) UnmarshalParcel(
 	}
 	s.LpCoderate = FrontendDvbtCoderate(_lpCoderateRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_guardIntervalRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.GuardInterval = FrontendDvbtGuardInterval(_guardIntervalRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsHighPriority, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_standardRaw, _err := p.ReadPaddedByte()
@@ -129,9 +189,19 @@ func (s *FrontendDvbtSettings) UnmarshalParcel(
 	}
 	s.Standard = FrontendDvbtStandard(_standardRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsMiso, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_plpModeRaw, _err := p.ReadInt32()
@@ -140,9 +210,19 @@ func (s *FrontendDvbtSettings) UnmarshalParcel(
 	}
 	s.PlpMode = FrontendDvbtPlpMode(_plpModeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PlpId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.PlpGroupId, _err = p.ReadInt32()

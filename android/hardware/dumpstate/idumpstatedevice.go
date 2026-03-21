@@ -3,7 +3,6 @@ package dumpstate
 import (
 	"context"
 	"fmt"
-	dumpstateIDumpstateDevice "github.com/xaionaro-go/binder/android/hardware/dumpstate/IDumpstateDevice"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -26,7 +25,7 @@ const (
 
 type IDumpstateDevice interface {
 	AsBinder() binder.IBinder
-	DumpstateBoard(ctx context.Context, fd []int32, mode dumpstateIDumpstateDevice.DumpstateMode, timeoutMillis int64) error
+	DumpstateBoard(ctx context.Context, fd []int32, mode IDumpstateDeviceDumpstateMode, timeoutMillis int64) error
 	GetVerboseLoggingEnabled(ctx context.Context) (bool, error)
 	SetVerboseLoggingEnabled(ctx context.Context, enable bool) error
 }
@@ -55,10 +54,11 @@ var _ IDumpstateDevice = (*DumpstateDeviceProxy)(nil)
 func (p *DumpstateDeviceProxy) DumpstateBoard(
 	ctx context.Context,
 	fd []int32,
-	mode dumpstateIDumpstateDevice.DumpstateMode,
+	mode IDumpstateDeviceDumpstateMode,
 	timeoutMillis int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstateDevice)
 	if fd == nil {
 		_data.WriteInt32(-1)
@@ -94,6 +94,7 @@ func (p *DumpstateDeviceProxy) GetVerboseLoggingEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstateDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstateDevice, MethodIDumpstateDeviceGetVerboseLoggingEnabled)
@@ -123,6 +124,7 @@ func (p *DumpstateDeviceProxy) SetVerboseLoggingEnabled(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstateDevice)
 	_data.WriteBool(enable)
 
@@ -147,7 +149,8 @@ func (p *DumpstateDeviceProxy) SetVerboseLoggingEnabled(
 // DumpstateDeviceStub dispatches incoming binder transactions
 // to a typed IDumpstateDevice implementation.
 type DumpstateDeviceStub struct {
-	Impl IDumpstateDevice
+	Impl      IDumpstateDevice
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DumpstateDeviceStub)(nil)
@@ -161,19 +164,36 @@ func (s *DumpstateDeviceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDumpstateDeviceDumpstateBoard:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_fd []int32
-		_ = _arg_fd
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_fd = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_fd[_i], _err = _data.ReadFileDescriptor()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_raw_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode := dumpstateIDumpstateDevice.DumpstateMode(_raw_mode)
+		_arg_mode := IDumpstateDeviceDumpstateMode(_raw_mode)
 		_arg_timeoutMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -187,9 +207,6 @@ func (s *DumpstateDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDumpstateDeviceGetVerboseLoggingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVerboseLoggingEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -200,9 +217,6 @@ func (s *DumpstateDeviceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDumpstateDeviceSetVerboseLoggingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -224,7 +238,7 @@ func (s *DumpstateDeviceStub) OnTransaction(
 // provide to NewDumpstateDeviceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IDumpstateDeviceServer interface {
-	DumpstateBoard(ctx context.Context, fd []int32, mode dumpstateIDumpstateDevice.DumpstateMode, timeoutMillis int64) error
+	DumpstateBoard(ctx context.Context, fd []int32, mode IDumpstateDeviceDumpstateMode, timeoutMillis int64) error
 	GetVerboseLoggingEnabled(ctx context.Context) (bool, error)
 	SetVerboseLoggingEnabled(ctx context.Context, enable bool) error
 }
@@ -241,7 +255,7 @@ func (w *dumpstateDeviceStubWrapper) AsBinder() binder.IBinder {
 func (w *dumpstateDeviceStubWrapper) DumpstateBoard(
 	ctx context.Context,
 	fd []int32,
-	mode dumpstateIDumpstateDevice.DumpstateMode,
+	mode IDumpstateDeviceDumpstateMode,
 	timeoutMillis int64,
 ) error {
 	return w.impl.DumpstateBoard(ctx, fd, mode, timeoutMillis)

@@ -3,6 +3,7 @@ package backup
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ const (
 
 type IBackupManagerMonitor interface {
 	AsBinder() binder.IBinder
-	OnEvent(ctx context.Context, event interface{}) error
+	OnEvent(ctx context.Context, event os.Bundle) error
 }
 
 type BackupManagerMonitorProxy struct {
@@ -42,10 +43,15 @@ var _ IBackupManagerMonitor = (*BackupManagerMonitorProxy)(nil)
 
 func (p *BackupManagerMonitorProxy) OnEvent(
 	ctx context.Context,
-	event interface{},
+	event os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManagerMonitor)
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManagerMonitor, MethodIBackupManagerMonitorOnEvent)
 	if _err != nil {
@@ -59,7 +65,8 @@ func (p *BackupManagerMonitorProxy) OnEvent(
 // BackupManagerMonitorStub dispatches incoming binder transactions
 // to a typed IBackupManagerMonitor implementation.
 type BackupManagerMonitorStub struct {
-	Impl IBackupManagerMonitor
+	Impl      IBackupManagerMonitor
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BackupManagerMonitorStub)(nil)
@@ -73,15 +80,26 @@ func (s *BackupManagerMonitorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBackupManagerMonitorOnEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_event os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_event interface{}
 		_err := s.Impl.OnEvent(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -91,7 +109,7 @@ func (s *BackupManagerMonitorStub) OnTransaction(
 // provide to NewBackupManagerMonitorStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBackupManagerMonitorServer interface {
-	OnEvent(ctx context.Context, event interface{}) error
+	OnEvent(ctx context.Context, event os.Bundle) error
 }
 
 type backupManagerMonitorStubWrapper struct {
@@ -105,7 +123,7 @@ func (w *backupManagerMonitorStubWrapper) AsBinder() binder.IBinder {
 
 func (w *backupManagerMonitorStubWrapper) OnEvent(
 	ctx context.Context,
-	event interface{},
+	event os.Bundle,
 ) error {
 	return w.impl.OnEvent(ctx, event)
 }

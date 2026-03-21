@@ -48,6 +48,7 @@ func (p *GnssAntennaInfoProxy) SetCallback(
 	callback IGnssAntennaInfoCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssAntennaInfo)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -73,6 +74,7 @@ func (p *GnssAntennaInfoProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssAntennaInfo)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssAntennaInfo, MethodIGnssAntennaInfoClose)
@@ -96,7 +98,8 @@ func (p *GnssAntennaInfoProxy) Close(
 // GnssAntennaInfoStub dispatches incoming binder transactions
 // to a typed IGnssAntennaInfo implementation.
 type GnssAntennaInfoStub struct {
-	Impl IGnssAntennaInfo
+	Impl      IGnssAntennaInfo
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssAntennaInfoStub)(nil)
@@ -110,14 +113,20 @@ func (s *GnssAntennaInfoStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssAntennaInfoSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGnssAntennaInfoCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGnssAntennaInfoCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -127,9 +136,6 @@ func (s *GnssAntennaInfoStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssAntennaInfoClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {

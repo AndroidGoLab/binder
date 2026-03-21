@@ -3,7 +3,6 @@ package ims
 import (
 	lmp_event "github.com/xaionaro-go/binder/android/hardware/bluetooth/lmp_event"
 	radio "github.com/xaionaro-go/binder/android/hardware/radio"
-	imsImsCall "github.com/xaionaro-go/binder/android/hardware/radio/ims/ImsCall"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -11,9 +10,9 @@ import (
 
 type ImsCall struct {
 	Index          int32
-	CallType       imsImsCall.CallType
+	CallType       ImsCallCallType
 	AccessNetwork  radio.AccessNetwork
-	CallState      imsImsCall.CallState
+	CallState      ImsCallCallState
 	Direction      lmp_event.Direction
 	IsHeldByRemote bool
 }
@@ -43,16 +42,31 @@ func (s *ImsCall) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Index, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_callTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.CallType = imsImsCall.CallType(_callTypeRaw)
+	s.CallType = ImsCallCallType(_callTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_accessNetworkRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -60,17 +74,32 @@ func (s *ImsCall) UnmarshalParcel(
 	}
 	s.AccessNetwork = radio.AccessNetwork(_accessNetworkRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_callStateRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.CallState = imsImsCall.CallState(_callStateRaw)
+	s.CallState = ImsCallCallState(_callStateRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_directionRaw, _err := p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}
 	s.Direction = lmp_event.Direction(_directionRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.IsHeldByRemote, _err = p.ReadBool()
 	if _err != nil {

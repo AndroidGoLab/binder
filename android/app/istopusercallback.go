@@ -48,6 +48,7 @@ func (p *StopUserCallbackProxy) UserStopped(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStopUserCallback)
 	_data.WriteInt32(_identity.UserID)
 
@@ -74,6 +75,7 @@ func (p *StopUserCallbackProxy) UserStopAborted(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStopUserCallback)
 	_data.WriteInt32(_identity.UserID)
 
@@ -98,7 +100,8 @@ func (p *StopUserCallbackProxy) UserStopAborted(
 // StopUserCallbackStub dispatches incoming binder transactions
 // to a typed IStopUserCallback implementation.
 type StopUserCallbackStub struct {
-	Impl IStopUserCallback
+	Impl      IStopUserCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StopUserCallbackStub)(nil)
@@ -112,11 +115,12 @@ func (s *StopUserCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStopUserCallbackUserStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -129,9 +133,6 @@ func (s *StopUserCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStopUserCallbackUserStopAborted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}

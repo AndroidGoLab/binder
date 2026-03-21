@@ -46,6 +46,7 @@ func (p *SearchCallbackProxy) OnResult(
 	result pm.ParceledListSlice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchCallback)
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -64,7 +65,8 @@ func (p *SearchCallbackProxy) OnResult(
 // SearchCallbackStub dispatches incoming binder transactions
 // to a typed ISearchCallback implementation.
 type SearchCallbackStub struct {
-	Impl ISearchCallback
+	Impl      ISearchCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SearchCallbackStub)(nil)
@@ -78,11 +80,12 @@ func (s *SearchCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISearchCallbackOnResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_result pm.ParceledListSlice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -96,8 +99,7 @@ func (s *SearchCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnResult(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

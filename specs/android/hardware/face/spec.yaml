@@ -1,0 +1,773 @@
+package: android.hardware.face
+go_package: android/hardware/face
+interfaces:
+    - name: IFaceAuthenticatorsRegisteredCallback
+      descriptor: android.hardware.face.IFaceAuthenticatorsRegisteredCallback
+      oneway: true
+      methods:
+        - name: onAllAuthenticatorsRegistered
+          transaction_code_offset: 0
+          params:
+            - name: sensors
+              type:
+                name: List
+                type_args:
+                    - name: FaceSensorPropertiesInternal
+              direction: in
+          return_type:
+            name: void
+    - name: IFaceService
+      descriptor: android.hardware.face.IFaceService
+      methods:
+        - name: createTestSession
+          transaction_code_offset: 0
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ITestSessionCallback
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: ITestSession
+          annotations:
+            - EnforcePermission
+        - name: dumpSensorServiceStateProto
+          transaction_code_offset: 1
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: clearSchedulerBuffer
+              type:
+                name: boolean
+          return_type:
+            name: byte
+            is_array: true
+          annotations:
+            - EnforcePermission
+        - name: getSensorPropertiesInternal
+          transaction_code_offset: 2
+          params:
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: FaceSensorPropertiesInternal
+          annotations:
+            - EnforcePermission
+        - name: getSensorProperties
+          transaction_code_offset: 3
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: FaceSensorPropertiesInternal
+          annotations:
+            - EnforcePermission
+        - name: authenticate
+          transaction_code_offset: 4
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: operationId
+              type:
+                name: long
+            - name: receiver
+              type:
+                name: IFaceServiceReceiver
+            - name: options
+              type:
+                name: FaceAuthenticateOptions
+              direction: in
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: detectFace
+          transaction_code_offset: 5
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: receiver
+              type:
+                name: IFaceServiceReceiver
+            - name: options
+              type:
+                name: FaceAuthenticateOptions
+              direction: in
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: prepareForAuthentication
+          transaction_code_offset: 6
+          params:
+            - name: requireConfirmation
+              type:
+                name: boolean
+            - name: token
+              type:
+                name: IBinder
+            - name: operationId
+              type:
+                name: long
+            - name: sensorReceiver
+              type:
+                name: IBiometricSensorReceiver
+            - name: options
+              type:
+                name: FaceAuthenticateOptions
+              direction: in
+            - name: requestId
+              type:
+                name: long
+            - name: cookie
+              type:
+                name: int
+            - name: allowBackgroundAuthentication
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: startPreparedClient
+          transaction_code_offset: 7
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: cookie
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: cancelAuthentication
+          transaction_code_offset: 8
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: opPackageName
+              type:
+                name: String
+            - name: requestId
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: cancelFaceDetect
+          transaction_code_offset: 9
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: opPackageName
+              type:
+                name: String
+            - name: requestId
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: cancelAuthenticationFromService
+          transaction_code_offset: 10
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: token
+              type:
+                name: IBinder
+            - name: opPackageName
+              type:
+                name: String
+            - name: requestId
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: enroll
+          transaction_code_offset: 11
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: token
+              type:
+                name: IBinder
+            - name: hardwareAuthToken
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: receiver
+              type:
+                name: IFaceServiceReceiver
+            - name: opPackageName
+              type:
+                name: String
+            - name: disabledFeatures
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: previewSurface
+              type:
+                name: Surface
+              direction: in
+            - name: debugConsent
+              type:
+                name: boolean
+            - name: options
+              type:
+                name: FaceEnrollOptions
+              direction: in
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: enrollRemotely
+          transaction_code_offset: 12
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: token
+              type:
+                name: IBinder
+            - name: hardwareAuthToken
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: receiver
+              type:
+                name: IFaceServiceReceiver
+            - name: opPackageName
+              type:
+                name: String
+            - name: disabledFeatures
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: cancelEnrollment
+          transaction_code_offset: 13
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: requestId
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: remove
+          transaction_code_offset: 14
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: faceId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: receiver
+              type:
+                name: IFaceServiceReceiver
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: removeAll
+          transaction_code_offset: 15
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: userId
+              type:
+                name: int
+            - name: receiver
+              type:
+                name: IFaceServiceReceiver
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getEnrolledFaces
+          transaction_code_offset: 16
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: Face
+          annotations:
+            - EnforcePermission
+        - name: isHardwareDetected
+          transaction_code_offset: 17
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: generateChallenge
+          transaction_code_offset: 18
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: receiver
+              type:
+                name: IFaceServiceReceiver
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: revokeChallenge
+          transaction_code_offset: 19
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+            - name: challenge
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: hasEnrolledFaces
+          transaction_code_offset: 20
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: getLockoutModeForUser
+          transaction_code_offset: 21
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: invalidateAuthenticatorId
+          transaction_code_offset: 22
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IInvalidationCallback
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getAuthenticatorId
+          transaction_code_offset: 23
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: callingUserId
+              type:
+                name: int
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: resetLockout
+          transaction_code_offset: 24
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: hardwareAuthToken
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: addLockoutResetCallback
+          transaction_code_offset: 25
+          params:
+            - name: callback
+              type:
+                name: IBiometricServiceLockoutResetCallback
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setFeature
+          transaction_code_offset: 26
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: userId
+              type:
+                name: int
+            - name: feature
+              type:
+                name: int
+            - name: enabled
+              type:
+                name: boolean
+            - name: hardwareAuthToken
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: receiver
+              type:
+                name: IFaceServiceReceiver
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getFeature
+          transaction_code_offset: 27
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: userId
+              type:
+                name: int
+            - name: feature
+              type:
+                name: int
+            - name: receiver
+              type:
+                name: IFaceServiceReceiver
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: registerAuthenticators
+          transaction_code_offset: 28
+          params:
+            - name: hidlSensors
+              type:
+                name: List
+                type_args:
+                    - name: FaceSensorPropertiesInternal
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: registerAuthenticatorsLegacy
+          transaction_code_offset: 29
+          params:
+            - name: faceSensorConfigurations
+              type:
+                name: FaceSensorConfigurations
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: addAuthenticatorsRegisteredCallback
+          transaction_code_offset: 30
+          params:
+            - name: callback
+              type:
+                name: IFaceAuthenticatorsRegisteredCallback
+          return_type:
+            name: void
+        - name: registerAuthenticationStateListener
+          transaction_code_offset: 31
+          params:
+            - name: listener
+              type:
+                name: AuthenticationStateListener
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: unregisterAuthenticationStateListener
+          transaction_code_offset: 32
+          params:
+            - name: listener
+              type:
+                name: AuthenticationStateListener
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: registerBiometricStateListener
+          transaction_code_offset: 33
+          params:
+            - name: listener
+              type:
+                name: IBiometricStateListener
+          return_type:
+            name: void
+        - name: scheduleWatchdog
+          transaction_code_offset: 34
+          oneway: true
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+    - name: IFaceServiceReceiver
+      descriptor: android.hardware.face.IFaceServiceReceiver
+      oneway: true
+      methods:
+        - name: onEnrollResult
+          transaction_code_offset: 0
+          params:
+            - name: face
+              type:
+                name: Face
+              direction: in
+            - name: remaining
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAcquired
+          transaction_code_offset: 1
+          params:
+            - name: acquiredInfo
+              type:
+                name: int
+            - name: vendorCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAuthenticationSucceeded
+          transaction_code_offset: 2
+          params:
+            - name: face
+              type:
+                name: Face
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: isStrongBiometric
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onFaceDetected
+          transaction_code_offset: 3
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: isStrongBiometric
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onAuthenticationFailed
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 5
+          params:
+            - name: error
+              type:
+                name: int
+            - name: vendorCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRemoved
+          transaction_code_offset: 6
+          params:
+            - name: face
+              type:
+                name: Face
+              direction: in
+            - name: remaining
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onFeatureSet
+          transaction_code_offset: 7
+          params:
+            - name: success
+              type:
+                name: boolean
+            - name: feature
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onFeatureGet
+          transaction_code_offset: 8
+          params:
+            - name: success
+              type:
+                name: boolean
+            - name: features
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: featureState
+              type:
+                name: boolean
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onChallengeGenerated
+          transaction_code_offset: 9
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: challenge
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onAuthenticationFrame
+          transaction_code_offset: 10
+          params:
+            - name: frame
+              type:
+                name: FaceAuthenticationFrame
+              direction: in
+          return_type:
+            name: void
+        - name: onEnrollmentFrame
+          transaction_code_offset: 11
+          params:
+            - name: frame
+              type:
+                name: FaceEnrollFrame
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: Face
+    - name: FaceAuthenticateOptions
+    - name: FaceAuthenticationFrame
+    - name: FaceEnrollFrame
+    - name: FaceEnrollOptions
+    - name: FaceSensorConfigurations
+    - name: FaceSensorPropertiesInternal

@@ -1,0 +1,28 @@
+package: android.hardware.input.processor
+go_package: android/hardware/input/processor
+interfaces:
+    - name: IInputProcessor
+      descriptor: android.hardware.input.processor.IInputProcessor
+      methods:
+        - name: classify
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: android.hardware.input.common.MotionEvent
+              direction: in
+          return_type:
+            name: android.hardware.input.common.Classification
+        - name: reset
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: resetDevice
+          transaction_code_offset: 2
+          params:
+            - name: deviceId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void

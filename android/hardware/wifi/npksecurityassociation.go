@@ -38,9 +38,19 @@ func (s *NpkSecurityAssociation) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PeerNanIdentityKey, _err = p.ReadFixedByteArray(16)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.LocalNanIdentityKey, _err = p.ReadFixedByteArray(16)
@@ -48,9 +58,19 @@ func (s *NpkSecurityAssociation) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Npk, _err = p.ReadFixedByteArray(32)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_akmRaw, _err := p.ReadInt32()
@@ -58,6 +78,11 @@ func (s *NpkSecurityAssociation) UnmarshalParcel(
 		return _err
 	}
 	s.Akm = NanPairingAkm(_akmRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_cipherTypeRaw, _err := p.ReadInt32()
 	if _err != nil {

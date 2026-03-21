@@ -1,0 +1,923 @@
+package: android.print
+go_package: android/print
+interfaces:
+    - name: ILayoutResultCallback
+      descriptor: android.print.ILayoutResultCallback
+      oneway: true
+      methods:
+        - name: onLayoutStarted
+          transaction_code_offset: 0
+          params:
+            - name: cancellation
+              type:
+                name: ICancellationSignal
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onLayoutFinished
+          transaction_code_offset: 1
+          params:
+            - name: info
+              type:
+                name: PrintDocumentInfo
+              direction: in
+            - name: changed
+              type:
+                name: boolean
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onLayoutFailed
+          transaction_code_offset: 2
+          params:
+            - name: error
+              type:
+                name: CharSequence
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onLayoutCanceled
+          transaction_code_offset: 3
+          params:
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IPrintDocumentAdapter
+      descriptor: android.print.IPrintDocumentAdapter
+      oneway: true
+      methods:
+        - name: setObserver
+          transaction_code_offset: 0
+          params:
+            - name: observer
+              type:
+                name: IPrintDocumentAdapterObserver
+              direction: in
+          return_type:
+            name: void
+        - name: start
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: layout
+          transaction_code_offset: 2
+          params:
+            - name: oldAttributes
+              type:
+                name: PrintAttributes
+              direction: in
+            - name: newAttributes
+              type:
+                name: PrintAttributes
+              direction: in
+            - name: callback
+              type:
+                name: ILayoutResultCallback
+            - name: metadata
+              type:
+                name: Bundle
+              direction: in
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: write
+          transaction_code_offset: 3
+          params:
+            - name: pages
+              type:
+                name: PageRange
+                is_array: true
+              direction: in
+            - name: fd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: callback
+              type:
+                name: IWriteResultCallback
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: finish
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: kill
+          transaction_code_offset: 5
+          params:
+            - name: reason
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IPrintDocumentAdapterObserver
+      descriptor: android.print.IPrintDocumentAdapterObserver
+      oneway: true
+      methods:
+        - name: onDestroy
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: IPrintJobStateChangeListener
+      descriptor: android.print.IPrintJobStateChangeListener
+      oneway: true
+      methods:
+        - name: onPrintJobStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+          return_type:
+            name: void
+    - name: IPrintManager
+      descriptor: android.print.IPrintManager
+      methods:
+        - name: getPrintJobInfos
+          transaction_code_offset: 0
+          params:
+            - name: appId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: PrintJobInfo
+        - name: getPrintJobInfo
+          transaction_code_offset: 1
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+            - name: appId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: PrintJobInfo
+        - name: print
+          transaction_code_offset: 2
+          params:
+            - name: printJobName
+              type:
+                name: String
+            - name: printAdapter
+              type:
+                name: IPrintDocumentAdapter
+              direction: in
+            - name: attributes
+              type:
+                name: PrintAttributes
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: appId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: Bundle
+        - name: cancelPrintJob
+          transaction_code_offset: 3
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+            - name: appId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: restartPrintJob
+          transaction_code_offset: 4
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+            - name: appId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: addPrintJobStateChangeListener
+          transaction_code_offset: 5
+          params:
+            - name: listener
+              type:
+                name: IPrintJobStateChangeListener
+              direction: in
+            - name: appId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removePrintJobStateChangeListener
+          transaction_code_offset: 6
+          params:
+            - name: listener
+              type:
+                name: IPrintJobStateChangeListener
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: addPrintServicesChangeListener
+          transaction_code_offset: 7
+          params:
+            - name: listener
+              type:
+                name: IPrintServicesChangeListener
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removePrintServicesChangeListener
+          transaction_code_offset: 8
+          params:
+            - name: listener
+              type:
+                name: IPrintServicesChangeListener
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getPrintServices
+          transaction_code_offset: 9
+          params:
+            - name: selectionFlags
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: PrintServiceInfo
+        - name: setPrintServiceEnabled
+          transaction_code_offset: 10
+          params:
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+            - name: isEnabled
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isPrintServiceEnabled
+          transaction_code_offset: 11
+          params:
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: addPrintServiceRecommendationsChangeListener
+          transaction_code_offset: 12
+          params:
+            - name: listener
+              type:
+                name: IRecommendationsChangeListener
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removePrintServiceRecommendationsChangeListener
+          transaction_code_offset: 13
+          params:
+            - name: listener
+              type:
+                name: IRecommendationsChangeListener
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getPrintServiceRecommendations
+          transaction_code_offset: 14
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: RecommendationInfo
+        - name: createPrinterDiscoverySession
+          transaction_code_offset: 15
+          params:
+            - name: observer
+              type:
+                name: IPrinterDiscoveryObserver
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: startPrinterDiscovery
+          transaction_code_offset: 16
+          params:
+            - name: observer
+              type:
+                name: IPrinterDiscoveryObserver
+              direction: in
+            - name: priorityList
+              type:
+                name: List
+                type_args:
+                    - name: PrinterId
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: stopPrinterDiscovery
+          transaction_code_offset: 17
+          params:
+            - name: observer
+              type:
+                name: IPrinterDiscoveryObserver
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: validatePrinters
+          transaction_code_offset: 18
+          params:
+            - name: printerIds
+              type:
+                name: List
+                type_args:
+                    - name: PrinterId
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: startPrinterStateTracking
+          transaction_code_offset: 19
+          params:
+            - name: printerId
+              type:
+                name: PrinterId
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getCustomPrinterIcon
+          transaction_code_offset: 20
+          params:
+            - name: printerId
+              type:
+                name: PrinterId
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: Icon
+        - name: stopPrinterStateTracking
+          transaction_code_offset: 21
+          params:
+            - name: printerId
+              type:
+                name: PrinterId
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: destroyPrinterDiscoverySession
+          transaction_code_offset: 22
+          params:
+            - name: observer
+              type:
+                name: IPrinterDiscoveryObserver
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getBindInstantServiceAllowed
+          transaction_code_offset: 23
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setBindInstantServiceAllowed
+          transaction_code_offset: 24
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: allowed
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IPrintServicesChangeListener
+      descriptor: android.print.IPrintServicesChangeListener
+      oneway: true
+      methods:
+        - name: onPrintServicesChanged
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: IPrintSpooler
+      descriptor: android.print.IPrintSpooler
+      oneway: true
+      methods:
+        - name: removeObsoletePrintJobs
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: getPrintJobInfos
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IPrintSpoolerCallbacks
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: state
+              type:
+                name: int
+            - name: appId
+              type:
+                name: int
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getPrintJobInfo
+          transaction_code_offset: 2
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+            - name: callback
+              type:
+                name: IPrintSpoolerCallbacks
+            - name: appId
+              type:
+                name: int
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: createPrintJob
+          transaction_code_offset: 3
+          params:
+            - name: printJob
+              type:
+                name: PrintJobInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setPrintJobState
+          transaction_code_offset: 4
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+            - name: status
+              type:
+                name: int
+            - name: stateReason
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IPrintSpoolerCallbacks
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setProgress
+          transaction_code_offset: 5
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+            - name: progress
+              type:
+                name: float
+              direction: in
+          return_type:
+            name: void
+        - name: setStatus
+          transaction_code_offset: 6
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+            - name: status
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+        - name: setStatusRes
+          transaction_code_offset: 7
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+            - name: status
+              type:
+                name: int
+            - name: appPackageName
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+        - name: onCustomPrinterIconLoaded
+          transaction_code_offset: 8
+          params:
+            - name: printerId
+              type:
+                name: PrinterId
+              direction: in
+            - name: icon
+              type:
+                name: Icon
+              direction: in
+            - name: callbacks
+              type:
+                name: IPrintSpoolerCallbacks
+              direction: in
+            - name: sequence
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getCustomPrinterIcon
+          transaction_code_offset: 9
+          params:
+            - name: printerId
+              type:
+                name: PrinterId
+              direction: in
+            - name: callbacks
+              type:
+                name: IPrintSpoolerCallbacks
+              direction: in
+            - name: sequence
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: clearCustomPrinterIconCache
+          transaction_code_offset: 10
+          params:
+            - name: callbacks
+              type:
+                name: IPrintSpoolerCallbacks
+              direction: in
+            - name: sequence
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setPrintJobTag
+          transaction_code_offset: 11
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+            - name: tag
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IPrintSpoolerCallbacks
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: writePrintJobData
+          transaction_code_offset: 12
+          params:
+            - name: fd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+          return_type:
+            name: void
+        - name: setClient
+          transaction_code_offset: 13
+          params:
+            - name: client
+              type:
+                name: IPrintSpoolerClient
+          return_type:
+            name: void
+        - name: setPrintJobCancelling
+          transaction_code_offset: 14
+          params:
+            - name: printJobId
+              type:
+                name: PrintJobId
+              direction: in
+            - name: cancelling
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: pruneApprovedPrintServices
+          transaction_code_offset: 15
+          params:
+            - name: servicesToKeep
+              type:
+                name: List
+                type_args:
+                    - name: ComponentName
+              direction: in
+          return_type:
+            name: void
+    - name: IPrintSpoolerCallbacks
+      descriptor: android.print.IPrintSpoolerCallbacks
+      oneway: true
+      methods:
+        - name: onGetPrintJobInfosResult
+          transaction_code_offset: 0
+          params:
+            - name: printJob
+              type:
+                name: List
+                type_args:
+                    - name: PrintJobInfo
+              direction: in
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCancelPrintJobResult
+          transaction_code_offset: 1
+          params:
+            - name: canceled
+              type:
+                name: boolean
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSetPrintJobStateResult
+          transaction_code_offset: 2
+          params:
+            - name: success
+              type:
+                name: boolean
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSetPrintJobTagResult
+          transaction_code_offset: 3
+          params:
+            - name: success
+              type:
+                name: boolean
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onGetPrintJobInfoResult
+          transaction_code_offset: 4
+          params:
+            - name: printJob
+              type:
+                name: PrintJobInfo
+              direction: in
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onGetCustomPrinterIconResult
+          transaction_code_offset: 5
+          params:
+            - name: icon
+              type:
+                name: Icon
+              direction: in
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCustomPrinterIconCached
+          transaction_code_offset: 6
+          params:
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: customPrinterIconCacheCleared
+          transaction_code_offset: 7
+          params:
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IPrintSpoolerClient
+      descriptor: android.print.IPrintSpoolerClient
+      oneway: true
+      methods:
+        - name: onPrintJobQueued
+          transaction_code_offset: 0
+          params:
+            - name: printJob
+              type:
+                name: PrintJobInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onAllPrintJobsForServiceHandled
+          transaction_code_offset: 1
+          params:
+            - name: printService
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: onAllPrintJobsHandled
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onPrintJobStateChanged
+          transaction_code_offset: 3
+          params:
+            - name: printJob
+              type:
+                name: PrintJobInfo
+              direction: in
+          return_type:
+            name: void
+    - name: IPrinterDiscoveryObserver
+      descriptor: android.print.IPrinterDiscoveryObserver
+      oneway: true
+      methods:
+        - name: onPrintersAdded
+          transaction_code_offset: 0
+          params:
+            - name: printers
+              type:
+                name: ParceledListSlice
+              direction: in
+          return_type:
+            name: void
+        - name: onPrintersRemoved
+          transaction_code_offset: 1
+          params:
+            - name: printerIds
+              type:
+                name: ParceledListSlice
+              direction: in
+          return_type:
+            name: void
+    - name: IWriteResultCallback
+      descriptor: android.print.IWriteResultCallback
+      oneway: true
+      methods:
+        - name: onWriteStarted
+          transaction_code_offset: 0
+          params:
+            - name: cancellation
+              type:
+                name: ICancellationSignal
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onWriteFinished
+          transaction_code_offset: 1
+          params:
+            - name: pages
+              type:
+                name: PageRange
+                is_array: true
+              direction: in
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onWriteFailed
+          transaction_code_offset: 2
+          params:
+            - name: error
+              type:
+                name: CharSequence
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onWriteCanceled
+          transaction_code_offset: 3
+          params:
+            - name: sequence
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: PageRange
+    - name: PrintAttributes
+    - name: PrintDocumentInfo
+    - name: PrintJobId
+    - name: PrintJobInfo
+    - name: PrinterCapabilitiesInfo
+    - name: PrinterId
+    - name: PrinterInfo

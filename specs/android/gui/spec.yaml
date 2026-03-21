@@ -1,0 +1,1575 @@
+package: android.gui
+go_package: android/gui
+interfaces:
+    - name: IDisplayEventConnection
+      descriptor: android.gui.IDisplayEventConnection
+      methods:
+        - name: stealReceiveChannel
+          transaction_code_offset: 0
+          params:
+            - name: outChannel
+              type:
+                name: BitTube
+              direction: out
+          return_type:
+            name: void
+        - name: setVsyncRate
+          transaction_code_offset: 1
+          params:
+            - name: count
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: requestNextVsync
+          transaction_code_offset: 2
+          oneway: true
+          return_type:
+            name: void
+        - name: getLatestVsyncEventData
+          transaction_code_offset: 3
+          return_type:
+            name: ParcelableVsyncEventData
+        - name: getSchedulingPolicy
+          transaction_code_offset: 4
+          return_type:
+            name: SchedulingPolicy
+    - name: IFpsListener
+      descriptor: android.gui.IFpsListener
+      oneway: true
+      methods:
+        - name: onFpsReported
+          transaction_code_offset: 0
+          params:
+            - name: fps
+              type:
+                name: float
+          return_type:
+            name: void
+    - name: IHdrConversionConstants
+      descriptor: android.gui.IHdrConversionConstants
+      constants:
+        - name: HdrConversionModePassthrough
+          type: int
+          value: "1"
+        - name: HdrConversionModeAuto
+          type: int
+          value: "2"
+        - name: HdrConversionModeForce
+          type: int
+          value: "3"
+    - name: IHdrLayerInfoListener
+      descriptor: android.gui.IHdrLayerInfoListener
+      oneway: true
+      methods:
+        - name: onHdrLayerInfoChanged
+          transaction_code_offset: 0
+          params:
+            - name: numberOfHdrLayers
+              type:
+                name: int
+            - name: maxW
+              type:
+                name: int
+            - name: maxH
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: maxDesiredHdrSdrRatio
+              type:
+                name: float
+          return_type:
+            name: void
+    - name: IRegionSamplingListener
+      descriptor: android.gui.IRegionSamplingListener
+      oneway: true
+      methods:
+        - name: onSampleCollected
+          transaction_code_offset: 0
+          params:
+            - name: medianLuma
+              type:
+                name: float
+          return_type:
+            name: void
+    - name: IScreenCaptureListener
+      descriptor: android.gui.IScreenCaptureListener
+      oneway: true
+      methods:
+        - name: onScreenCaptureCompleted
+          transaction_code_offset: 0
+          params:
+            - name: captureResults
+              type:
+                name: ScreenCaptureResults
+              direction: in
+          return_type:
+            name: void
+    - name: ISurfaceComposer
+      descriptor: android.gui.ISurfaceComposer
+      methods:
+        - name: bootFinished
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: createDisplayEventConnection
+          transaction_code_offset: 1
+          params:
+            - name: vsyncSource
+              type:
+                name: VsyncSource
+            - name: eventRegistration
+              type:
+                name: EventRegistration
+            - name: layerHandle
+              type:
+                name: IBinder
+              annotations:
+                - nullable
+          return_type:
+            name: IDisplayEventConnection
+          annotations:
+            - nullable
+        - name: createConnection
+          transaction_code_offset: 2
+          return_type:
+            name: ISurfaceComposerClient
+          annotations:
+            - nullable
+        - name: createDisplay
+          transaction_code_offset: 3
+          params:
+            - name: displayName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: secure
+              type:
+                name: boolean
+            - name: requestedRefreshRate
+              type:
+                name: float
+          return_type:
+            name: IBinder
+          annotations:
+            - nullable
+        - name: destroyDisplay
+          transaction_code_offset: 4
+          params:
+            - name: display
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: getPhysicalDisplayIds
+          transaction_code_offset: 5
+          return_type:
+            name: long
+            is_array: true
+        - name: getPhysicalDisplayToken
+          transaction_code_offset: 6
+          params:
+            - name: displayId
+              type:
+                name: long
+          return_type:
+            name: IBinder
+          annotations:
+            - nullable
+        - name: getSupportedFrameTimestamps
+          transaction_code_offset: 7
+          return_type:
+            name: FrameEvent
+            is_array: true
+        - name: setPowerMode
+          transaction_code_offset: 8
+          params:
+            - name: display
+              type:
+                name: IBinder
+            - name: mode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getDisplayStats
+          transaction_code_offset: 9
+          params:
+            - name: display
+              type:
+                name: IBinder
+              annotations:
+                - nullable
+          return_type:
+            name: DisplayStatInfo
+        - name: getDisplayState
+          transaction_code_offset: 10
+          params:
+            - name: display
+              type:
+                name: IBinder
+          return_type:
+            name: DisplayState
+        - name: getStaticDisplayInfo
+          transaction_code_offset: 11
+          params:
+            - name: displayId
+              type:
+                name: long
+          return_type:
+            name: StaticDisplayInfo
+        - name: getDynamicDisplayInfoFromId
+          transaction_code_offset: 12
+          params:
+            - name: displayId
+              type:
+                name: long
+          return_type:
+            name: DynamicDisplayInfo
+        - name: getDynamicDisplayInfoFromToken
+          transaction_code_offset: 13
+          params:
+            - name: display
+              type:
+                name: IBinder
+          return_type:
+            name: DynamicDisplayInfo
+        - name: getDisplayNativePrimaries
+          transaction_code_offset: 14
+          params:
+            - name: display
+              type:
+                name: IBinder
+          return_type:
+            name: DisplayPrimaries
+        - name: setActiveColorMode
+          transaction_code_offset: 15
+          params:
+            - name: display
+              type:
+                name: IBinder
+            - name: colorMode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setBootDisplayMode
+          transaction_code_offset: 16
+          params:
+            - name: display
+              type:
+                name: IBinder
+            - name: displayModeId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: clearBootDisplayMode
+          transaction_code_offset: 17
+          params:
+            - name: display
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: getBootDisplayModeSupport
+          transaction_code_offset: 18
+          return_type:
+            name: boolean
+        - name: getHdrConversionCapabilities
+          transaction_code_offset: 19
+          return_type:
+            name: List
+            type_args:
+                - name: HdrConversionCapability
+        - name: setHdrConversionStrategy
+          transaction_code_offset: 20
+          params:
+            - name: hdrConversionStrategy
+              type:
+                name: HdrConversionStrategy
+              direction: in
+          return_type:
+            name: int
+        - name: getHdrOutputConversionSupport
+          transaction_code_offset: 21
+          return_type:
+            name: boolean
+        - name: setAutoLowLatencyMode
+          transaction_code_offset: 22
+          params:
+            - name: display
+              type:
+                name: IBinder
+            - name: "on"
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setGameContentType
+          transaction_code_offset: 23
+          params:
+            - name: display
+              type:
+                name: IBinder
+            - name: "on"
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: captureDisplay
+          transaction_code_offset: 24
+          oneway: true
+          params:
+            - name: args
+              type:
+                name: DisplayCaptureArgs
+              direction: in
+            - name: listener
+              type:
+                name: IScreenCaptureListener
+          return_type:
+            name: void
+        - name: captureDisplayById
+          transaction_code_offset: 25
+          oneway: true
+          params:
+            - name: displayId
+              type:
+                name: long
+            - name: args
+              type:
+                name: CaptureArgs
+              direction: in
+            - name: listener
+              type:
+                name: IScreenCaptureListener
+          return_type:
+            name: void
+        - name: captureLayersSync
+          transaction_code_offset: 26
+          params:
+            - name: args
+              type:
+                name: LayerCaptureArgs
+              direction: in
+          return_type:
+            name: ScreenCaptureResults
+        - name: captureLayers
+          transaction_code_offset: 27
+          oneway: true
+          params:
+            - name: args
+              type:
+                name: LayerCaptureArgs
+              direction: in
+            - name: listener
+              type:
+                name: IScreenCaptureListener
+          return_type:
+            name: void
+        - name: clearAnimationFrameStats
+          transaction_code_offset: 28
+          return_type:
+            name: void
+        - name: getAnimationFrameStats
+          transaction_code_offset: 29
+          return_type:
+            name: FrameStats
+        - name: overrideHdrTypes
+          transaction_code_offset: 30
+          params:
+            - name: display
+              type:
+                name: IBinder
+            - name: hdrTypes
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onPullAtom
+          transaction_code_offset: 31
+          params:
+            - name: atomId
+              type:
+                name: int
+          return_type:
+            name: PullAtomData
+        - name: getLayerDebugInfo
+          transaction_code_offset: 32
+          return_type:
+            name: List
+            type_args:
+                - name: LayerDebugInfo
+        - name: getCompositionPreference
+          transaction_code_offset: 33
+          return_type:
+            name: CompositionPreference
+        - name: getDisplayedContentSamplingAttributes
+          transaction_code_offset: 34
+          params:
+            - name: display
+              type:
+                name: IBinder
+          return_type:
+            name: ContentSamplingAttributes
+        - name: setDisplayContentSamplingEnabled
+          transaction_code_offset: 35
+          params:
+            - name: display
+              type:
+                name: IBinder
+            - name: enable
+              type:
+                name: boolean
+            - name: componentMask
+              type:
+                name: byte
+            - name: maxFrames
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: getDisplayedContentSample
+          transaction_code_offset: 36
+          params:
+            - name: display
+              type:
+                name: IBinder
+            - name: maxFrames
+              type:
+                name: long
+            - name: timestamp
+              type:
+                name: long
+          return_type:
+            name: DisplayedFrameStats
+        - name: getProtectedContentSupport
+          transaction_code_offset: 37
+          return_type:
+            name: boolean
+        - name: isWideColorDisplay
+          transaction_code_offset: 38
+          params:
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: boolean
+        - name: addRegionSamplingListener
+          transaction_code_offset: 39
+          params:
+            - name: samplingArea
+              type:
+                name: ARect
+              direction: in
+            - name: stopLayerHandle
+              type:
+                name: IBinder
+              annotations:
+                - nullable
+            - name: listener
+              type:
+                name: IRegionSamplingListener
+          return_type:
+            name: void
+        - name: removeRegionSamplingListener
+          transaction_code_offset: 40
+          params:
+            - name: listener
+              type:
+                name: IRegionSamplingListener
+          return_type:
+            name: void
+        - name: addFpsListener
+          transaction_code_offset: 41
+          params:
+            - name: taskId
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IFpsListener
+          return_type:
+            name: void
+        - name: removeFpsListener
+          transaction_code_offset: 42
+          params:
+            - name: listener
+              type:
+                name: IFpsListener
+          return_type:
+            name: void
+        - name: addTunnelModeEnabledListener
+          transaction_code_offset: 43
+          params:
+            - name: listener
+              type:
+                name: ITunnelModeEnabledListener
+          return_type:
+            name: void
+        - name: removeTunnelModeEnabledListener
+          transaction_code_offset: 44
+          params:
+            - name: listener
+              type:
+                name: ITunnelModeEnabledListener
+          return_type:
+            name: void
+        - name: setDesiredDisplayModeSpecs
+          transaction_code_offset: 45
+          params:
+            - name: displayToken
+              type:
+                name: IBinder
+            - name: specs
+              type:
+                name: DisplayModeSpecs
+              direction: in
+          return_type:
+            name: void
+        - name: getDesiredDisplayModeSpecs
+          transaction_code_offset: 46
+          params:
+            - name: displayToken
+              type:
+                name: IBinder
+          return_type:
+            name: DisplayModeSpecs
+        - name: getDisplayBrightnessSupport
+          transaction_code_offset: 47
+          params:
+            - name: displayToken
+              type:
+                name: IBinder
+          return_type:
+            name: boolean
+        - name: setDisplayBrightness
+          transaction_code_offset: 48
+          params:
+            - name: displayToken
+              type:
+                name: IBinder
+            - name: brightness
+              type:
+                name: DisplayBrightness
+              direction: in
+          return_type:
+            name: void
+        - name: addHdrLayerInfoListener
+          transaction_code_offset: 49
+          params:
+            - name: displayToken
+              type:
+                name: IBinder
+            - name: listener
+              type:
+                name: IHdrLayerInfoListener
+          return_type:
+            name: void
+        - name: removeHdrLayerInfoListener
+          transaction_code_offset: 50
+          params:
+            - name: displayToken
+              type:
+                name: IBinder
+            - name: listener
+              type:
+                name: IHdrLayerInfoListener
+          return_type:
+            name: void
+        - name: notifyPowerBoost
+          transaction_code_offset: 51
+          oneway: true
+          params:
+            - name: boostId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setGlobalShadowSettings
+          transaction_code_offset: 52
+          oneway: true
+          params:
+            - name: ambientColor
+              type:
+                name: Color
+              direction: in
+            - name: spotColor
+              type:
+                name: Color
+              direction: in
+            - name: lightPosY
+              type:
+                name: float
+            - name: lightPosZ
+              type:
+                name: float
+            - name: lightRadius
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: getDisplayDecorationSupport
+          transaction_code_offset: 53
+          params:
+            - name: displayToken
+              type:
+                name: IBinder
+          return_type:
+            name: DisplayDecorationSupport
+          annotations:
+            - nullable
+        - name: setGameModeFrameRateOverride
+          transaction_code_offset: 54
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: frameRate
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: setGameDefaultFrameRateOverride
+          transaction_code_offset: 55
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: frameRate
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: updateSmallAreaDetection
+          transaction_code_offset: 56
+          oneway: true
+          params:
+            - name: appIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: thresholds
+              type:
+                name: float
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setSmallAreaDetectionThreshold
+          transaction_code_offset: 57
+          oneway: true
+          params:
+            - name: appId
+              type:
+                name: int
+            - name: threshold
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: enableRefreshRateOverlay
+          transaction_code_offset: 58
+          params:
+            - name: active
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setDebugFlash
+          transaction_code_offset: 59
+          params:
+            - name: delay
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: scheduleComposite
+          transaction_code_offset: 60
+          return_type:
+            name: void
+        - name: scheduleCommit
+          transaction_code_offset: 61
+          return_type:
+            name: void
+        - name: forceClientComposition
+          transaction_code_offset: 62
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getGpuContextPriority
+          transaction_code_offset: 63
+          return_type:
+            name: int
+        - name: getMaxAcquiredBufferCount
+          transaction_code_offset: 64
+          return_type:
+            name: int
+        - name: addWindowInfosListener
+          transaction_code_offset: 65
+          params:
+            - name: windowInfosListener
+              type:
+                name: IWindowInfosListener
+          return_type:
+            name: WindowInfosListenerInfo
+        - name: removeWindowInfosListener
+          transaction_code_offset: 66
+          params:
+            - name: windowInfosListener
+              type:
+                name: IWindowInfosListener
+          return_type:
+            name: void
+        - name: getOverlaySupport
+          transaction_code_offset: 67
+          return_type:
+            name: OverlayProperties
+        - name: getStalledTransactionInfo
+          transaction_code_offset: 68
+          params:
+            - name: pid
+              type:
+                name: int
+          return_type:
+            name: StalledTransactionInfo
+          annotations:
+            - nullable
+        - name: getSchedulingPolicy
+          transaction_code_offset: 69
+          return_type:
+            name: SchedulingPolicy
+    - name: ISurfaceComposerClient
+      descriptor: android.gui.ISurfaceComposerClient
+      methods:
+        - name: createSurface
+          transaction_code_offset: 0
+          params:
+            - name: name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: flags
+              type:
+                name: int
+            - name: parent
+              type:
+                name: IBinder
+              annotations:
+                - nullable
+            - name: metadata
+              type:
+                name: LayerMetadata
+              direction: in
+          return_type:
+            name: CreateSurfaceResult
+        - name: clearLayerFrameStats
+          transaction_code_offset: 1
+          params:
+            - name: handle
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: getLayerFrameStats
+          transaction_code_offset: 2
+          params:
+            - name: handle
+              type:
+                name: IBinder
+          return_type:
+            name: FrameStats
+        - name: mirrorSurface
+          transaction_code_offset: 3
+          params:
+            - name: mirrorFromHandle
+              type:
+                name: IBinder
+          return_type:
+            name: CreateSurfaceResult
+        - name: mirrorDisplay
+          transaction_code_offset: 4
+          params:
+            - name: displayId
+              type:
+                name: long
+          return_type:
+            name: CreateSurfaceResult
+        - name: getSchedulingPolicy
+          transaction_code_offset: 5
+          return_type:
+            name: SchedulingPolicy
+      constants:
+        - name: eHidden
+          type: int
+          value: "0x00000004"
+        - name: eDestroyBackbuffer
+          type: int
+          value: "0x00000020"
+        - name: eSkipScreenshot
+          type: int
+          value: "0x00000040"
+        - name: eSecure
+          type: int
+          value: "0x00000080"
+        - name: eNonPremultiplied
+          type: int
+          value: "0x00000100"
+        - name: eOpaque
+          type: int
+          value: "0x00000400"
+        - name: eProtectedByApp
+          type: int
+          value: "0x00000800"
+        - name: eProtectedByDRM
+          type: int
+          value: "0x00001000"
+        - name: eCursorWindow
+          type: int
+          value: "0x00002000"
+        - name: eNoColorFill
+          type: int
+          value: "0x00004000"
+        - name: eFXSurfaceBufferQueue
+          type: int
+          value: "0x00000000"
+        - name: eFXSurfaceEffect
+          type: int
+          value: "0x00020000"
+        - name: eFXSurfaceBufferState
+          type: int
+          value: "0x00040000"
+        - name: eFXSurfaceContainer
+          type: int
+          value: "0x00080000"
+        - name: eFXSurfaceMask
+          type: int
+          value: "0x000F0000"
+    - name: ITunnelModeEnabledListener
+      descriptor: android.gui.ITunnelModeEnabledListener
+      oneway: true
+      methods:
+        - name: onTunnelModeEnabledChanged
+          transaction_code_offset: 0
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IWindowInfosListener
+      descriptor: android.gui.IWindowInfosListener
+      oneway: true
+      methods:
+        - name: onWindowInfosChanged
+          transaction_code_offset: 0
+          params:
+            - name: update
+              type:
+                name: WindowInfosUpdate
+              direction: in
+          return_type:
+            name: void
+    - name: IWindowInfosPublisher
+      descriptor: android.gui.IWindowInfosPublisher
+      oneway: true
+      methods:
+        - name: ackWindowInfosReceived
+          transaction_code_offset: 0
+          params:
+            - name: vsyncId
+              type:
+                name: long
+            - name: listenerId
+              type:
+                name: long
+          return_type:
+            name: void
+    - name: IWindowInfosReportedListener
+      descriptor: android.gui.IWindowInfosReportedListener
+      oneway: true
+      methods:
+        - name: onWindowInfosReported
+          transaction_code_offset: 0
+          return_type:
+            name: void
+parcelables:
+    - name: ARect
+      fields:
+        - name: left
+          type:
+            name: int
+        - name: top
+          type:
+            name: int
+        - name: right
+          type:
+            name: int
+        - name: bottom
+          type:
+            name: int
+    - name: BitTube
+    - name: CaptureArgs
+    - name: Color
+      fields:
+        - name: r
+          type:
+            name: float
+        - name: g
+          type:
+            name: float
+        - name: b
+          type:
+            name: float
+        - name: a
+          type:
+            name: float
+    - name: CompositionPreference
+      fields:
+        - name: defaultDataspace
+          type:
+            name: int
+        - name: defaultPixelFormat
+          type:
+            name: int
+        - name: wideColorGamutDataspace
+          type:
+            name: int
+        - name: wideColorGamutPixelFormat
+          type:
+            name: int
+    - name: ContentSamplingAttributes
+      fields:
+        - name: format
+          type:
+            name: int
+        - name: dataspace
+          type:
+            name: int
+        - name: componentMask
+          type:
+            name: byte
+    - name: CreateSurfaceResult
+      fields:
+        - name: handle
+          type:
+            name: IBinder
+        - name: layerId
+          type:
+            name: int
+        - name: layerName
+          type:
+            name: String
+        - name: transformHint
+          type:
+            name: int
+    - name: DeviceProductInfo
+      fields:
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: manufacturerPnpId
+          type:
+            name: byte
+            is_array: true
+        - name: productId
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: manufactureOrModelDate
+          type:
+            name: ManufactureOrModelDate
+        - name: relativeAddress
+          type:
+            name: byte
+            is_array: true
+      nested_types:
+        - DeviceProductInfo.ModelYear
+        - DeviceProductInfo.ManufactureYear
+        - DeviceProductInfo.ManufactureWeekAndYear
+        - DeviceProductInfo.ManufactureOrModelDate
+    - name: DeviceProductInfo.ManufactureWeekAndYear
+      fields:
+        - name: manufactureYear
+          type:
+            name: ManufactureYear
+        - name: week
+          type:
+            name: int
+    - name: DeviceProductInfo.ManufactureYear
+      fields:
+        - name: modelYear
+          type:
+            name: ModelYear
+    - name: DeviceProductInfo.ModelYear
+      fields:
+        - name: year
+          type:
+            name: int
+    - name: DisplayBrightness
+      fields:
+        - name: sdrWhitePoint
+          type:
+            name: float
+          default_value: 0f
+        - name: sdrWhitePointNits
+          type:
+            name: float
+          default_value: -1f
+        - name: displayBrightness
+          type:
+            name: float
+          default_value: 0f
+        - name: displayBrightnessNits
+          type:
+            name: float
+          default_value: -1f
+    - name: DisplayCaptureArgs
+    - name: DisplayDecorationSupport
+      fields:
+        - name: format
+          type:
+            name: int
+        - name: alphaInterpretation
+          type:
+            name: int
+    - name: DisplayInfo
+    - name: DisplayMode
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: resolution
+          type:
+            name: Size
+        - name: xDpi
+          type:
+            name: float
+          default_value: 0.0f
+        - name: yDpi
+          type:
+            name: float
+          default_value: 0.0f
+        - name: supportedHdrTypes
+          type:
+            name: int
+            is_array: true
+        - name: peakRefreshRate
+          type:
+            name: float
+          default_value: 0.0f
+        - name: vsyncRate
+          type:
+            name: float
+          default_value: 0.0f
+        - name: appVsyncOffset
+          type:
+            name: long
+          default_value: "0"
+        - name: sfVsyncOffset
+          type:
+            name: long
+          default_value: "0"
+        - name: presentationDeadline
+          type:
+            name: long
+          default_value: "0"
+        - name: group
+          type:
+            name: int
+          default_value: "-1"
+    - name: DisplayModeSpecs
+      fields:
+        - name: defaultMode
+          type:
+            name: int
+        - name: allowGroupSwitching
+          type:
+            name: boolean
+        - name: primaryRanges
+          type:
+            name: RefreshRateRanges
+        - name: appRequestRanges
+          type:
+            name: RefreshRateRanges
+      nested_types:
+        - DisplayModeSpecs.RefreshRateRanges
+    - name: DisplayModeSpecs.RefreshRateRanges
+      fields:
+        - name: physical
+          type:
+            name: RefreshRateRange
+        - name: render
+          type:
+            name: RefreshRateRange
+      nested_types:
+        - DisplayModeSpecs.RefreshRateRanges.RefreshRateRange
+    - name: DisplayModeSpecs.RefreshRateRanges.RefreshRateRange
+      fields:
+        - name: min
+          type:
+            name: float
+        - name: max
+          type:
+            name: float
+    - name: DisplayPrimaries
+      fields:
+        - name: red
+          type:
+            name: CieXyz
+        - name: green
+          type:
+            name: CieXyz
+        - name: blue
+          type:
+            name: CieXyz
+        - name: white
+          type:
+            name: CieXyz
+      nested_types:
+        - DisplayPrimaries.CieXyz
+    - name: DisplayPrimaries.CieXyz
+      fields:
+        - name: X
+          type:
+            name: float
+        - name: "Y"
+          type:
+            name: float
+        - name: Z
+          type:
+            name: float
+    - name: DisplayStatInfo
+      fields:
+        - name: vsyncTime
+          type:
+            name: long
+        - name: vsyncPeriod
+          type:
+            name: long
+    - name: DisplayState
+      fields:
+        - name: layerStack
+          type:
+            name: int
+        - name: orientation
+          type:
+            name: Rotation
+          default_value: Rotation.Rotation0
+        - name: layerStackSpaceRect
+          type:
+            name: Size
+    - name: DisplayedFrameStats
+      fields:
+        - name: numFrames
+          type:
+            name: long
+          default_value: "0"
+        - name: component_0_sample
+          type:
+            name: long
+            is_array: true
+        - name: component_1_sample
+          type:
+            name: long
+            is_array: true
+        - name: component_2_sample
+          type:
+            name: long
+            is_array: true
+        - name: component_3_sample
+          type:
+            name: long
+            is_array: true
+    - name: DynamicDisplayInfo
+      fields:
+        - name: supportedDisplayModes
+          type:
+            name: List
+            type_args:
+                - name: DisplayMode
+        - name: activeDisplayModeId
+          type:
+            name: int
+        - name: renderFrameRate
+          type:
+            name: float
+        - name: supportedColorModes
+          type:
+            name: int
+            is_array: true
+        - name: activeColorMode
+          type:
+            name: int
+        - name: hdrCapabilities
+          type:
+            name: HdrCapabilities
+        - name: autoLowLatencyModeSupported
+          type:
+            name: boolean
+        - name: gameContentTypeSupported
+          type:
+            name: boolean
+        - name: preferredBootDisplayMode
+          type:
+            name: int
+    - name: FocusRequest
+      fields:
+        - name: token
+          type:
+            name: IBinder
+          annotations:
+            - nullable
+        - name: windowName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: timestamp
+          type:
+            name: long
+        - name: displayId
+          type:
+            name: int
+    - name: FrameStats
+      fields:
+        - name: refreshPeriodNano
+          type:
+            name: long
+        - name: desiredPresentTimesNano
+          type:
+            name: long
+            is_array: true
+        - name: actualPresentTimesNano
+          type:
+            name: long
+            is_array: true
+        - name: frameReadyTimesNano
+          type:
+            name: long
+            is_array: true
+    - name: FrameTimelineInfo
+      fields:
+        - name: vsyncId
+          type:
+            name: long
+          default_value: INVALID_VSYNC_ID
+        - name: inputEventId
+          type:
+            name: int
+          default_value: "0"
+        - name: startTimeNanos
+          type:
+            name: long
+          default_value: "0"
+        - name: useForRefreshRateSelection
+          type:
+            name: boolean
+          default_value: "false"
+        - name: skippedFrameVsyncId
+          type:
+            name: long
+          default_value: INVALID_VSYNC_ID
+        - name: skippedFrameStartTimeNanos
+          type:
+            name: long
+          default_value: "0"
+      constants:
+        - name: INVALID_VSYNC_ID
+          type: long
+          value: "-1"
+    - name: HdrCapabilities
+      fields:
+        - name: supportedHdrTypes
+          type:
+            name: int
+            is_array: true
+        - name: maxLuminance
+          type:
+            name: float
+        - name: maxAverageLuminance
+          type:
+            name: float
+        - name: minLuminance
+          type:
+            name: float
+    - name: HdrConversionCapability
+      fields:
+        - name: sourceType
+          type:
+            name: int
+        - name: outputType
+          type:
+            name: int
+        - name: addsLatency
+          type:
+            name: boolean
+    - name: InputApplicationInfo
+      fields:
+        - name: token
+          type:
+            name: IBinder
+          annotations:
+            - nullable
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: dispatchingTimeoutMillis
+          type:
+            name: long
+    - name: LayerCaptureArgs
+    - name: LayerDebugInfo
+    - name: LayerMetadata
+    - name: OverlayProperties
+      fields:
+        - name: combinations
+          type:
+            name: SupportedBufferCombinations
+            is_array: true
+        - name: supportMixedColorSpaces
+          type:
+            name: boolean
+      nested_types:
+        - OverlayProperties.SupportedBufferCombinations
+    - name: OverlayProperties.SupportedBufferCombinations
+      fields:
+        - name: pixelFormats
+          type:
+            name: int
+            is_array: true
+        - name: standards
+          type:
+            name: int
+            is_array: true
+        - name: transfers
+          type:
+            name: int
+            is_array: true
+        - name: ranges
+          type:
+            name: int
+            is_array: true
+    - name: ParcelableVsyncEventData
+    - name: PullAtomData
+      fields:
+        - name: data
+          type:
+            name: byte
+            is_array: true
+        - name: success
+          type:
+            name: boolean
+    - name: SchedulingPolicy
+      fields:
+        - name: policy
+          type:
+            name: int
+        - name: priority
+          type:
+            name: int
+    - name: ScreenCaptureResults
+    - name: Size
+      fields:
+        - name: width
+          type:
+            name: int
+          default_value: "-1"
+        - name: height
+          type:
+            name: int
+          default_value: "-1"
+    - name: StalledTransactionInfo
+      fields:
+        - name: layerName
+          type:
+            name: String
+        - name: bufferId
+          type:
+            name: long
+        - name: frameNumber
+          type:
+            name: long
+    - name: StaticDisplayInfo
+      fields:
+        - name: connectionType
+          type:
+            name: DisplayConnectionType
+          default_value: DisplayConnectionType.Internal
+        - name: density
+          type:
+            name: float
+        - name: secure
+          type:
+            name: boolean
+        - name: deviceProductInfo
+          type:
+            name: DeviceProductInfo
+          annotations:
+            - nullable
+        - name: installOrientation
+          type:
+            name: Rotation
+          default_value: Rotation.Rotation0
+    - name: TrustedPresentationThresholds
+      fields:
+        - name: minAlpha
+          type:
+            name: float
+          default_value: -1.0f
+        - name: minFractionRendered
+          type:
+            name: float
+          default_value: -1.0f
+        - name: stabilityRequirementMs
+          type:
+            name: int
+          default_value: "0"
+    - name: WindowInfo
+    - name: WindowInfosListenerInfo
+      fields:
+        - name: listenerId
+          type:
+            name: long
+        - name: windowInfosPublisher
+          type:
+            name: IWindowInfosPublisher
+    - name: WindowInfosUpdate
+enums:
+    - name: CachingHint
+      backing_type: int
+      values:
+        - name: Disabled
+          value: "0"
+        - name: Enabled
+          value: "1"
+      annotations:
+        - Backing
+    - name: DisplayConnectionType
+      backing_type: int
+      values:
+        - name: Internal
+          value: "0"
+        - name: External
+          value: "1"
+      annotations:
+        - Backing
+    - name: DropInputMode
+      backing_type: int
+      values:
+        - name: NONE
+          value: ""
+        - name: ALL
+          value: ""
+        - name: OBSCURED
+          value: ""
+      annotations:
+        - Backing
+    - name: FrameEvent
+      backing_type: int
+      values:
+        - name: POSTED
+          value: "0"
+        - name: REQUESTED_PRESENT
+          value: "1"
+        - name: LATCH
+          value: "2"
+        - name: ACQUIRE
+          value: "3"
+        - name: FIRST_REFRESH_START
+          value: "4"
+        - name: LAST_REFRESH_START
+          value: "5"
+        - name: GPU_COMPOSITION_DONE
+          value: "6"
+        - name: DISPLAY_PRESENT
+          value: "7"
+        - name: DEQUEUE_READY
+          value: "8"
+        - name: RELEASE
+          value: "9"
+        - name: EVENT_COUNT
+          value: "10"
+      annotations:
+        - Backing
+    - name: ISurfaceComposer.EventRegistration
+      backing_type: ""
+      values:
+        - name: modeChanged
+          value: 1 << 0
+        - name: frameRateOverride
+          value: 1 << 1
+    - name: ISurfaceComposer.VsyncSource
+      backing_type: ""
+      values:
+        - name: eVsyncSourceApp
+          value: "0"
+        - name: eVsyncSourceSurfaceFlinger
+          value: "1"
+    - name: Rotation
+      backing_type: int
+      values:
+        - name: Rotation0
+          value: "0"
+        - name: Rotation90
+          value: "1"
+        - name: Rotation180
+          value: "2"
+        - name: Rotation270
+          value: "3"
+      annotations:
+        - Backing
+    - name: TouchOcclusionMode
+      backing_type: int
+      values:
+        - name: BLOCK_UNTRUSTED
+          value: ""
+        - name: USE_OPACITY
+          value: ""
+        - name: ALLOW
+          value: ""
+        - name: ftl_last
+          value: ALLOW
+      annotations:
+        - Backing
+unions:
+    - name: DeviceProductInfo.ManufactureOrModelDate
+      fields:
+        - name: modelYear
+          type:
+            name: ModelYear
+        - name: manufactureYear
+          type:
+            name: ManufactureYear
+        - name: manufactureWeekAndYear
+          type:
+            name: ManufactureWeekAndYear
+    - name: HdrConversionStrategy
+      fields:
+        - name: passthrough
+          type:
+            name: boolean
+          default_value: "true"
+        - name: autoAllowedHdrTypes
+          type:
+            name: int
+            is_array: true
+        - name: forceHdrConversion
+          type:
+            name: int

@@ -31,8 +31,7 @@ func (u *QosFilterIpsecSpi) GetNoinit() (bool, bool) {
 func (u *QosFilterIpsecSpi) SetNoinit(
 	v bool,
 ) {
-	u.Tag = QosFilterIpsecSpiTagNoinit
-	u.Noinit = v
+	*u = QosFilterIpsecSpi{Tag: QosFilterIpsecSpiTagNoinit, Noinit: v}
 }
 
 func (u *QosFilterIpsecSpi) GetValue() (int32, bool) {
@@ -46,8 +45,7 @@ func (u *QosFilterIpsecSpi) GetValue() (int32, bool) {
 func (u *QosFilterIpsecSpi) SetValue(
 	v int32,
 ) {
-	u.Tag = QosFilterIpsecSpiTagValue
-	u.Value = v
+	*u = QosFilterIpsecSpi{Tag: QosFilterIpsecSpiTagValue, Value: v}
 }
 
 func (u *QosFilterIpsecSpi) MarshalParcel(

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	net "github.com/xaionaro-go/binder/android/net"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -43,7 +44,7 @@ type IRingtonePlayer interface {
 	Stop(ctx context.Context, token binder.IBinder) error
 	IsPlaying(ctx context.Context, token binder.IBinder) (bool, error)
 	SetPlaybackProperties(ctx context.Context, token binder.IBinder, volume float32, looping bool, hapticGeneratorEnabled bool) error
-	PlayAsync(ctx context.Context, uri net.Uri, user interface{}, looping bool, aa AudioAttributes, volume float32) error
+	PlayAsync(ctx context.Context, uri net.Uri, user os.UserHandle, looping bool, aa AudioAttributes, volume float32) error
 	StopAsync(ctx context.Context) error
 	GetTitle(ctx context.Context, uri net.Uri) (string, error)
 	OpenRingtone(ctx context.Context, uri net.Uri) (int32, error)
@@ -74,6 +75,7 @@ func (p *RingtonePlayerProxy) Play(
 	looping bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -106,6 +108,7 @@ func (p *RingtonePlayerProxy) PlayWithVolumeShaping(
 	volumeShaperConfig *VolumeShaperConfiguration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -119,6 +122,7 @@ func (p *RingtonePlayerProxy) PlayWithVolumeShaping(
 	_data.WriteFloat32(volume)
 	_data.WriteBool(looping)
 	if volumeShaperConfig != nil {
+		_data.WriteInt32(1)
 		if _err := (*volumeShaperConfig).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -140,6 +144,7 @@ func (p *RingtonePlayerProxy) Stop(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -158,6 +163,7 @@ func (p *RingtonePlayerProxy) IsPlaying(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -191,6 +197,7 @@ func (p *RingtonePlayerProxy) SetPlaybackProperties(
 	hapticGeneratorEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteFloat32(volume)
@@ -209,15 +216,20 @@ func (p *RingtonePlayerProxy) SetPlaybackProperties(
 func (p *RingtonePlayerProxy) PlayAsync(
 	ctx context.Context,
 	uri net.Uri,
-	user interface{},
+	user os.UserHandle,
 	looping bool,
 	aa AudioAttributes,
 	volume float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteBool(looping)
@@ -240,6 +252,7 @@ func (p *RingtonePlayerProxy) StopAsync(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerStopAsync)
@@ -257,6 +270,7 @@ func (p *RingtonePlayerProxy) GetTitle(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
@@ -291,6 +305,7 @@ func (p *RingtonePlayerProxy) OpenRingtone(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
@@ -322,7 +337,8 @@ func (p *RingtonePlayerProxy) OpenRingtone(
 // RingtonePlayerStub dispatches incoming binder transactions
 // to a typed IRingtonePlayer implementation.
 type RingtonePlayerStub struct {
-	Impl IRingtonePlayer
+	Impl      IRingtonePlayer
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RingtonePlayerStub)(nil)
@@ -336,14 +352,20 @@ func (s *RingtonePlayerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRingtonePlayerPlay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_uri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -377,15 +399,16 @@ func (s *RingtonePlayerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.Play(ctx, _arg_token, _arg_uri, _arg_aa, _arg_volume, _arg_looping)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRingtonePlayerPlayWithVolumeShaping:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_uri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -425,31 +448,34 @@ func (s *RingtonePlayerStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_volumeShaperConfig = new(VolumeShaperConfiguration)
 				if _err = _arg_volumeShaperConfig.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		_err = s.Impl.PlayWithVolumeShaping(ctx, _arg_token, _arg_uri, _arg_aa, _arg_volume, _arg_looping, _arg_volumeShaperConfig)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRingtonePlayerStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.Stop(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRingtonePlayerIsPlaying:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.IsPlaying(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -460,12 +486,14 @@ func (s *RingtonePlayerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRingtonePlayerSetPlaybackProperties:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_volume, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -479,12 +507,8 @@ func (s *RingtonePlayerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetPlaybackProperties(ctx, _arg_token, _arg_volume, _arg_looping, _arg_hapticGeneratorEnabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRingtonePlayerPlayAsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_uri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -497,7 +521,18 @@ func (s *RingtonePlayerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_user interface{}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_looping, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -519,19 +554,11 @@ func (s *RingtonePlayerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.PlayAsync(ctx, _arg_uri, _arg_user, _arg_looping, _arg_aa, _arg_volume)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRingtonePlayerStopAsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopAsync(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRingtonePlayerGetTitle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_uri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -554,9 +581,6 @@ func (s *RingtonePlayerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIRingtonePlayerOpenRingtone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_uri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -592,7 +616,7 @@ type IRingtonePlayerServer interface {
 	Stop(ctx context.Context, token binder.IBinder) error
 	IsPlaying(ctx context.Context, token binder.IBinder) (bool, error)
 	SetPlaybackProperties(ctx context.Context, token binder.IBinder, volume float32, looping bool, hapticGeneratorEnabled bool) error
-	PlayAsync(ctx context.Context, uri net.Uri, user interface{}, looping bool, aa AudioAttributes, volume float32) error
+	PlayAsync(ctx context.Context, uri net.Uri, user os.UserHandle, looping bool, aa AudioAttributes, volume float32) error
 	StopAsync(ctx context.Context) error
 	GetTitle(ctx context.Context, uri net.Uri) (string, error)
 	OpenRingtone(ctx context.Context, uri net.Uri) (int32, error)
@@ -657,7 +681,7 @@ func (w *ringtonePlayerStubWrapper) SetPlaybackProperties(
 func (w *ringtonePlayerStubWrapper) PlayAsync(
 	ctx context.Context,
 	uri net.Uri,
-	user interface{},
+	user os.UserHandle,
 	looping bool,
 	aa AudioAttributes,
 	volume float32,

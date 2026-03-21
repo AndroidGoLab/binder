@@ -1,0 +1,32 @@
+package: com.android.wm.shell.back
+go_package: com/android/wm/shell/back
+interfaces:
+    - name: IBackAnimation
+      descriptor: com.android.wm.shell.back.IBackAnimation
+      methods:
+        - name: setBackToLauncherCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IOnBackInvokedCallback
+              direction: in
+            - name: runner
+              type:
+                name: IRemoteAnimationRunner
+              direction: in
+          return_type:
+            name: void
+        - name: clearBackToLauncherCallback
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: customizeStatusBarAppearance
+          transaction_code_offset: 2
+          params:
+            - name: appearance
+              type:
+                name: AppearanceRegion
+              direction: in
+          return_type:
+            name: void

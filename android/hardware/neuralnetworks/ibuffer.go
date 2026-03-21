@@ -49,6 +49,7 @@ func (p *BufferProxy) CopyFrom(
 	dimensions []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBuffer)
 	_data.WriteInt32(1)
 	if _err := src.MarshalParcel(_data); _err != nil {
@@ -86,6 +87,7 @@ func (p *BufferProxy) CopyTo(
 	dst Memory,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBuffer)
 	_data.WriteInt32(1)
 	if _err := dst.MarshalParcel(_data); _err != nil {
@@ -113,7 +115,8 @@ func (p *BufferProxy) CopyTo(
 // BufferStub dispatches incoming binder transactions
 // to a typed IBuffer implementation.
 type BufferStub struct {
-	Impl IBuffer
+	Impl      IBuffer
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BufferStub)(nil)
@@ -127,11 +130,12 @@ func (s *BufferStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBufferCopyFrom:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_src Memory
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -144,9 +148,25 @@ func (s *BufferStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_dimensions []int32
-		_ = _arg_dimensions
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_dimensions = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_dimensions[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.CopyFrom(ctx, _arg_src, _arg_dimensions)
 		_reply := parcel.New()
 		if _err != nil {
@@ -156,9 +176,6 @@ func (s *BufferStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBufferCopyTo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_dst Memory
 		{
 			_nullInd, _err := _data.ReadInt32()

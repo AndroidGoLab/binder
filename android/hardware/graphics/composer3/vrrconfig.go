@@ -1,7 +1,6 @@
 package composer3
 
 import (
-	composer3VrrConfig "github.com/xaionaro-go/binder/android/hardware/graphics/composer3/VrrConfig"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,8 +8,8 @@ import (
 
 type VrrConfig struct {
 	MinFrameIntervalNs          int32
-	FrameIntervalPowerHints     []composer3VrrConfig.FrameIntervalPowerHint
-	NotifyExpectedPresentConfig composer3VrrConfig.NotifyExpectedPresentConfig
+	FrameIntervalPowerHints     []VrrConfigFrameIntervalPowerHint
+	NotifyExpectedPresentConfig *VrrConfigNotifyExpectedPresentConfig
 }
 
 var _ parcel.Parcelable = (*VrrConfig)(nil)
@@ -31,8 +30,13 @@ func (s *VrrConfig) MarshalParcel(
 			}
 		}
 	}
-	if _err := s.NotifyExpectedPresentConfig.MarshalParcel(p); _err != nil {
-		return _err
+	if s.NotifyExpectedPresentConfig == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.NotifyExpectedPresentConfig.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -47,9 +51,19 @@ func (s *VrrConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.MinFrameIntervalNs, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -58,7 +72,7 @@ func (s *VrrConfig) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.FrameIntervalPowerHints = make([]composer3VrrConfig.FrameIntervalPowerHint, _count0)
+		s.FrameIntervalPowerHints = make([]VrrConfigFrameIntervalPowerHint, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
 			if _, _err = p.ReadInt32(); _err != nil {
 				return _err
@@ -69,8 +83,23 @@ func (s *VrrConfig) UnmarshalParcel(
 		}
 	}
 
-	if _err = s.NotifyExpectedPresentConfig.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val VrrConfigNotifyExpectedPresentConfig
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.NotifyExpectedPresentConfig = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

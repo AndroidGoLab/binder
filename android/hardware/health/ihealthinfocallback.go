@@ -45,6 +45,7 @@ func (p *HealthInfoCallbackProxy) HealthInfoChanged(
 	info HealthInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHealthInfoCallback)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *HealthInfoCallbackProxy) HealthInfoChanged(
 // HealthInfoCallbackStub dispatches incoming binder transactions
 // to a typed IHealthInfoCallback implementation.
 type HealthInfoCallbackStub struct {
-	Impl IHealthInfoCallback
+	Impl      IHealthInfoCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HealthInfoCallbackStub)(nil)
@@ -77,11 +79,12 @@ func (s *HealthInfoCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHealthInfoCallbackHealthInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info HealthInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *HealthInfoCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.HealthInfoChanged(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

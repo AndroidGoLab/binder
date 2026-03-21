@@ -46,6 +46,7 @@ func (p *AttachEmbeddedWindowCallbackProxy) OnEmbeddedWindowAttached(
 	surfacePackage view.SurfaceControlViewHostSurfacePackage,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttachEmbeddedWindowCallback)
 	_data.WriteInt32(1)
 	if _err := surfacePackage.MarshalParcel(_data); _err != nil {
@@ -73,7 +74,8 @@ func (p *AttachEmbeddedWindowCallbackProxy) OnEmbeddedWindowAttached(
 // AttachEmbeddedWindowCallbackStub dispatches incoming binder transactions
 // to a typed IAttachEmbeddedWindowCallback implementation.
 type AttachEmbeddedWindowCallbackStub struct {
-	Impl IAttachEmbeddedWindowCallback
+	Impl      IAttachEmbeddedWindowCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AttachEmbeddedWindowCallbackStub)(nil)
@@ -87,11 +89,12 @@ func (s *AttachEmbeddedWindowCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAttachEmbeddedWindowCallbackOnEmbeddedWindowAttached:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_surfacePackage view.SurfaceControlViewHostSurfacePackage
 		{
 			_nullInd, _err := _data.ReadInt32()

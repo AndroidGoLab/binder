@@ -37,8 +37,7 @@ func (u *DemuxTsFilterSettingsFilterSettings) GetNoinit() (bool, bool) {
 func (u *DemuxTsFilterSettingsFilterSettings) SetNoinit(
 	v bool,
 ) {
-	u.Tag = DemuxTsFilterSettingsFilterSettingsTagNoinit
-	u.Noinit = v
+	*u = DemuxTsFilterSettingsFilterSettings{Tag: DemuxTsFilterSettingsFilterSettingsTagNoinit, Noinit: v}
 }
 
 func (u *DemuxTsFilterSettingsFilterSettings) GetSection() (DemuxFilterSectionSettings, bool) {
@@ -52,8 +51,7 @@ func (u *DemuxTsFilterSettingsFilterSettings) GetSection() (DemuxFilterSectionSe
 func (u *DemuxTsFilterSettingsFilterSettings) SetSection(
 	v DemuxFilterSectionSettings,
 ) {
-	u.Tag = DemuxTsFilterSettingsFilterSettingsTagSection
-	u.Section = v
+	*u = DemuxTsFilterSettingsFilterSettings{Tag: DemuxTsFilterSettingsFilterSettingsTagSection, Section: v}
 }
 
 func (u *DemuxTsFilterSettingsFilterSettings) GetAv() (DemuxFilterAvSettings, bool) {
@@ -67,8 +65,7 @@ func (u *DemuxTsFilterSettingsFilterSettings) GetAv() (DemuxFilterAvSettings, bo
 func (u *DemuxTsFilterSettingsFilterSettings) SetAv(
 	v DemuxFilterAvSettings,
 ) {
-	u.Tag = DemuxTsFilterSettingsFilterSettingsTagAv
-	u.Av = v
+	*u = DemuxTsFilterSettingsFilterSettings{Tag: DemuxTsFilterSettingsFilterSettingsTagAv, Av: v}
 }
 
 func (u *DemuxTsFilterSettingsFilterSettings) GetPesData() (DemuxFilterPesDataSettings, bool) {
@@ -82,8 +79,7 @@ func (u *DemuxTsFilterSettingsFilterSettings) GetPesData() (DemuxFilterPesDataSe
 func (u *DemuxTsFilterSettingsFilterSettings) SetPesData(
 	v DemuxFilterPesDataSettings,
 ) {
-	u.Tag = DemuxTsFilterSettingsFilterSettingsTagPesData
-	u.PesData = v
+	*u = DemuxTsFilterSettingsFilterSettings{Tag: DemuxTsFilterSettingsFilterSettingsTagPesData, PesData: v}
 }
 
 func (u *DemuxTsFilterSettingsFilterSettings) GetRecord() (DemuxFilterRecordSettings, bool) {
@@ -97,8 +93,7 @@ func (u *DemuxTsFilterSettingsFilterSettings) GetRecord() (DemuxFilterRecordSett
 func (u *DemuxTsFilterSettingsFilterSettings) SetRecord(
 	v DemuxFilterRecordSettings,
 ) {
-	u.Tag = DemuxTsFilterSettingsFilterSettingsTagRecord
-	u.Record = v
+	*u = DemuxTsFilterSettingsFilterSettings{Tag: DemuxTsFilterSettingsFilterSettingsTagRecord, Record: v}
 }
 
 func (u *DemuxTsFilterSettingsFilterSettings) MarshalParcel(

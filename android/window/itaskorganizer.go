@@ -3,8 +3,8 @@ package window
 import (
 	"context"
 	"fmt"
-	app "github.com/xaionaro-go/binder/android/app"
-	view "github.com/xaionaro-go/binder/android/view"
+	types "github.com/xaionaro-go/binder/android/app/types"
+	viewTypes "github.com/xaionaro-go/binder/android/view/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -43,10 +43,10 @@ type ITaskOrganizer interface {
 	RemoveStartingWindow(ctx context.Context, removalInfo StartingWindowRemovalInfo) error
 	CopySplashScreenView(ctx context.Context, taskId int32) error
 	OnAppSplashScreenViewRemoved(ctx context.Context, taskId int32) error
-	OnTaskAppeared(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo, leash view.SurfaceControl) error
-	OnTaskVanished(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
-	OnTaskInfoChanged(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
-	OnBackPressedOnTaskRoot(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
+	OnTaskAppeared(ctx context.Context, taskInfo types.ActivityManagerRunningTaskInfo, leash viewTypes.SurfaceControl) error
+	OnTaskVanished(ctx context.Context, taskInfo types.ActivityManagerRunningTaskInfo) error
+	OnTaskInfoChanged(ctx context.Context, taskInfo types.ActivityManagerRunningTaskInfo) error
+	OnBackPressedOnTaskRoot(ctx context.Context, taskInfo types.ActivityManagerRunningTaskInfo) error
 	OnImeDrawnOnTask(ctx context.Context, taskId int32) error
 }
 
@@ -71,6 +71,7 @@ func (p *TaskOrganizerProxy) AddStartingWindow(
 	info StartingWindowInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -91,6 +92,7 @@ func (p *TaskOrganizerProxy) RemoveStartingWindow(
 	removalInfo StartingWindowRemovalInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
 	_data.WriteInt32(1)
 	if _err := removalInfo.MarshalParcel(_data); _err != nil {
@@ -111,6 +113,7 @@ func (p *TaskOrganizerProxy) CopySplashScreenView(
 	taskId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
 	_data.WriteInt32(taskId)
 
@@ -128,6 +131,7 @@ func (p *TaskOrganizerProxy) OnAppSplashScreenViewRemoved(
 	taskId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
 	_data.WriteInt32(taskId)
 
@@ -142,19 +146,14 @@ func (p *TaskOrganizerProxy) OnAppSplashScreenViewRemoved(
 
 func (p *TaskOrganizerProxy) OnTaskAppeared(
 	ctx context.Context,
-	taskInfo app.ActivityManagerRunningTaskInfo,
-	leash view.SurfaceControl,
+	taskInfo types.ActivityManagerRunningTaskInfo,
+	leash viewTypes.SurfaceControl,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := leash.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param taskInfo (type types.ActivityManagerRunningTaskInfo) cannot be serialized — type not resolved
+	// WARNING: param leash (type viewTypes.SurfaceControl) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizer, MethodITaskOrganizerOnTaskAppeared)
 	if _err != nil {
@@ -167,14 +166,12 @@ func (p *TaskOrganizerProxy) OnTaskAppeared(
 
 func (p *TaskOrganizerProxy) OnTaskVanished(
 	ctx context.Context,
-	taskInfo app.ActivityManagerRunningTaskInfo,
+	taskInfo types.ActivityManagerRunningTaskInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param taskInfo (type types.ActivityManagerRunningTaskInfo) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizer, MethodITaskOrganizerOnTaskVanished)
 	if _err != nil {
@@ -187,14 +184,12 @@ func (p *TaskOrganizerProxy) OnTaskVanished(
 
 func (p *TaskOrganizerProxy) OnTaskInfoChanged(
 	ctx context.Context,
-	taskInfo app.ActivityManagerRunningTaskInfo,
+	taskInfo types.ActivityManagerRunningTaskInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param taskInfo (type types.ActivityManagerRunningTaskInfo) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizer, MethodITaskOrganizerOnTaskInfoChanged)
 	if _err != nil {
@@ -207,14 +202,12 @@ func (p *TaskOrganizerProxy) OnTaskInfoChanged(
 
 func (p *TaskOrganizerProxy) OnBackPressedOnTaskRoot(
 	ctx context.Context,
-	taskInfo app.ActivityManagerRunningTaskInfo,
+	taskInfo types.ActivityManagerRunningTaskInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param taskInfo (type types.ActivityManagerRunningTaskInfo) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizer, MethodITaskOrganizerOnBackPressedOnTaskRoot)
 	if _err != nil {
@@ -230,6 +223,7 @@ func (p *TaskOrganizerProxy) OnImeDrawnOnTask(
 	taskId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
 	_data.WriteInt32(taskId)
 
@@ -245,7 +239,8 @@ func (p *TaskOrganizerProxy) OnImeDrawnOnTask(
 // TaskOrganizerStub dispatches incoming binder transactions
 // to a typed ITaskOrganizer implementation.
 type TaskOrganizerStub struct {
-	Impl ITaskOrganizer
+	Impl      ITaskOrganizer
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TaskOrganizerStub)(nil)
@@ -259,11 +254,12 @@ func (s *TaskOrganizerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITaskOrganizerAddStartingWindow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info StartingWindowInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -277,12 +273,8 @@ func (s *TaskOrganizerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.AddStartingWindow(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskOrganizerRemoveStartingWindow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_removalInfo StartingWindowRemovalInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -296,129 +288,45 @@ func (s *TaskOrganizerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RemoveStartingWindow(ctx, _arg_removalInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskOrganizerCopySplashScreenView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.CopySplashScreenView(ctx, _arg_taskId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskOrganizerOnAppSplashScreenViewRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAppSplashScreenViewRemoved(ctx, _arg_taskId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskOrganizerOnTaskAppeared:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_taskInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_leash view.SurfaceControl
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_leash.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_taskInfo types.ActivityManagerRunningTaskInfo
+		var _arg_leash viewTypes.SurfaceControl
 		_err := s.Impl.OnTaskAppeared(ctx, _arg_taskInfo, _arg_leash)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskOrganizerOnTaskVanished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_taskInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_taskInfo types.ActivityManagerRunningTaskInfo
 		_err := s.Impl.OnTaskVanished(ctx, _arg_taskInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskOrganizerOnTaskInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_taskInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_taskInfo types.ActivityManagerRunningTaskInfo
 		_err := s.Impl.OnTaskInfoChanged(ctx, _arg_taskInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskOrganizerOnBackPressedOnTaskRoot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_taskInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_taskInfo types.ActivityManagerRunningTaskInfo
 		_err := s.Impl.OnBackPressedOnTaskRoot(ctx, _arg_taskInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskOrganizerOnImeDrawnOnTask:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnImeDrawnOnTask(ctx, _arg_taskId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -432,10 +340,10 @@ type ITaskOrganizerServer interface {
 	RemoveStartingWindow(ctx context.Context, removalInfo StartingWindowRemovalInfo) error
 	CopySplashScreenView(ctx context.Context, taskId int32) error
 	OnAppSplashScreenViewRemoved(ctx context.Context, taskId int32) error
-	OnTaskAppeared(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo, leash view.SurfaceControl) error
-	OnTaskVanished(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
-	OnTaskInfoChanged(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
-	OnBackPressedOnTaskRoot(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
+	OnTaskAppeared(ctx context.Context, taskInfo types.ActivityManagerRunningTaskInfo, leash viewTypes.SurfaceControl) error
+	OnTaskVanished(ctx context.Context, taskInfo types.ActivityManagerRunningTaskInfo) error
+	OnTaskInfoChanged(ctx context.Context, taskInfo types.ActivityManagerRunningTaskInfo) error
+	OnBackPressedOnTaskRoot(ctx context.Context, taskInfo types.ActivityManagerRunningTaskInfo) error
 	OnImeDrawnOnTask(ctx context.Context, taskId int32) error
 }
 
@@ -478,29 +386,29 @@ func (w *taskOrganizerStubWrapper) OnAppSplashScreenViewRemoved(
 
 func (w *taskOrganizerStubWrapper) OnTaskAppeared(
 	ctx context.Context,
-	taskInfo app.ActivityManagerRunningTaskInfo,
-	leash view.SurfaceControl,
+	taskInfo types.ActivityManagerRunningTaskInfo,
+	leash viewTypes.SurfaceControl,
 ) error {
 	return w.impl.OnTaskAppeared(ctx, taskInfo, leash)
 }
 
 func (w *taskOrganizerStubWrapper) OnTaskVanished(
 	ctx context.Context,
-	taskInfo app.ActivityManagerRunningTaskInfo,
+	taskInfo types.ActivityManagerRunningTaskInfo,
 ) error {
 	return w.impl.OnTaskVanished(ctx, taskInfo)
 }
 
 func (w *taskOrganizerStubWrapper) OnTaskInfoChanged(
 	ctx context.Context,
-	taskInfo app.ActivityManagerRunningTaskInfo,
+	taskInfo types.ActivityManagerRunningTaskInfo,
 ) error {
 	return w.impl.OnTaskInfoChanged(ctx, taskInfo)
 }
 
 func (w *taskOrganizerStubWrapper) OnBackPressedOnTaskRoot(
 	ctx context.Context,
-	taskInfo app.ActivityManagerRunningTaskInfo,
+	taskInfo types.ActivityManagerRunningTaskInfo,
 ) error {
 	return w.impl.OnBackPressedOnTaskRoot(ctx, taskInfo)
 }

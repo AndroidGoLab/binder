@@ -45,6 +45,7 @@ func (p *StorageShutdownObserverProxy) OnShutDownComplete(
 	statusCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageShutdownObserver)
 	_data.WriteInt32(statusCode)
 
@@ -69,7 +70,8 @@ func (p *StorageShutdownObserverProxy) OnShutDownComplete(
 // StorageShutdownObserverStub dispatches incoming binder transactions
 // to a typed IStorageShutdownObserver implementation.
 type StorageShutdownObserverStub struct {
-	Impl IStorageShutdownObserver
+	Impl      IStorageShutdownObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StorageShutdownObserverStub)(nil)
@@ -83,11 +85,12 @@ func (s *StorageShutdownObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStorageShutdownObserverOnShutDownComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_statusCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

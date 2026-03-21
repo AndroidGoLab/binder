@@ -73,6 +73,7 @@ func (p *GnssConfigurationProxy) SetSuplVersion(
 	version int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteInt32(version)
 
@@ -99,6 +100,7 @@ func (p *GnssConfigurationProxy) SetSuplMode(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteInt32(mode)
 
@@ -125,6 +127,7 @@ func (p *GnssConfigurationProxy) SetLppProfile(
 	lppProfile int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteInt32(lppProfile)
 
@@ -151,6 +154,7 @@ func (p *GnssConfigurationProxy) SetGlonassPositioningProtocol(
 	protocol int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteInt32(protocol)
 
@@ -177,6 +181,7 @@ func (p *GnssConfigurationProxy) SetEmergencySuplPdn(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteBool(enable)
 
@@ -203,6 +208,7 @@ func (p *GnssConfigurationProxy) SetEsExtensionSec(
 	emergencyExtensionSeconds int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteInt32(emergencyExtensionSeconds)
 
@@ -229,6 +235,7 @@ func (p *GnssConfigurationProxy) SetBlocklist(
 	blocklist []BlocklistedSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	if blocklist == nil {
 		_data.WriteInt32(-1)
@@ -263,7 +270,8 @@ func (p *GnssConfigurationProxy) SetBlocklist(
 // GnssConfigurationStub dispatches incoming binder transactions
 // to a typed IGnssConfiguration implementation.
 type GnssConfigurationStub struct {
-	Impl IGnssConfiguration
+	Impl      IGnssConfiguration
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssConfigurationStub)(nil)
@@ -277,11 +285,12 @@ func (s *GnssConfigurationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssConfigurationSetSuplVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_version, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -295,9 +304,6 @@ func (s *GnssConfigurationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssConfigurationSetSuplMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -311,9 +317,6 @@ func (s *GnssConfigurationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssConfigurationSetLppProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_lppProfile, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -327,9 +330,6 @@ func (s *GnssConfigurationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssConfigurationSetGlonassPositioningProtocol:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_protocol, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -343,9 +343,6 @@ func (s *GnssConfigurationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssConfigurationSetEmergencySuplPdn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -359,9 +356,6 @@ func (s *GnssConfigurationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssConfigurationSetEsExtensionSec:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_emergencyExtensionSeconds, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -375,12 +369,27 @@ func (s *GnssConfigurationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssConfigurationSetBlocklist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_blocklist []BlocklistedSource
-		_ = _arg_blocklist
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_blocklist = make([]BlocklistedSource, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_blocklist[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetBlocklist(ctx, _arg_blocklist)
 		_reply := parcel.New()
 		if _err != nil {

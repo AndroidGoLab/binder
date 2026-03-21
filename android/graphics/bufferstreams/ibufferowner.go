@@ -46,6 +46,7 @@ func (p *BufferOwnerProxy) OnBufferReleased(
 	releaseFence *int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBufferOwner)
 	_data.WriteInt64(bufferId)
 	if releaseFence != nil {
@@ -66,7 +67,8 @@ func (p *BufferOwnerProxy) OnBufferReleased(
 // BufferOwnerStub dispatches incoming binder transactions
 // to a typed IBufferOwner implementation.
 type BufferOwnerStub struct {
-	Impl IBufferOwner
+	Impl      IBufferOwner
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BufferOwnerStub)(nil)
@@ -80,11 +82,12 @@ func (s *BufferOwnerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBufferOwnerOnBufferReleased:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_bufferId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -95,8 +98,7 @@ func (s *BufferOwnerStub) OnTransaction(
 		}
 		_arg_releaseFence := &_raw_releaseFence
 		_err = s.Impl.OnBufferReleased(ctx, _arg_bufferId, _arg_releaseFence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

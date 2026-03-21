@@ -1,7 +1,6 @@
 package gnss
 
 import (
-	gnssSatellitePvt "github.com/xaionaro-go/binder/android/hardware/gnss/SatellitePvt"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -18,7 +17,7 @@ type SatellitePvt struct {
 	IssueOfDataClock       int32
 	TimeOfEphemerisSeconds int64
 	IssueOfDataEphemeris   int32
-	EphemerisSource        gnssSatellitePvt.SatelliteEphemerisSource
+	EphemerisSource        SatellitePvtSatelliteEphemerisSource
 }
 
 const (
@@ -63,21 +62,46 @@ func (s *SatellitePvt) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Flags, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.SatPosEcef.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.SatVelEcef.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.SatClockInfo.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.IonoDelayMeters, _err = p.ReadFloat64()
@@ -85,9 +109,19 @@ func (s *SatellitePvt) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.TropoDelayMeters, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.TimeOfClockSeconds, _err = p.ReadInt64()
@@ -95,9 +129,19 @@ func (s *SatellitePvt) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IssueOfDataClock, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.TimeOfEphemerisSeconds, _err = p.ReadInt64()
@@ -105,16 +149,26 @@ func (s *SatellitePvt) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IssueOfDataEphemeris, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_ephemerisSourceRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.EphemerisSource = gnssSatellitePvt.SatelliteEphemerisSource(_ephemerisSourceRaw)
+	s.EphemerisSource = SatellitePvtSatelliteEphemerisSource(_ephemerisSourceRaw)
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

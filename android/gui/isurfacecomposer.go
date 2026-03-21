@@ -3,7 +3,6 @@ package gui
 import (
 	"context"
 	"fmt"
-	guiISurfaceComposer "github.com/xaionaro-go/binder/android/gui/ISurfaceComposer"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -161,7 +160,7 @@ const (
 type ISurfaceComposer interface {
 	AsBinder() binder.IBinder
 	BootFinished(ctx context.Context) error
-	CreateDisplayEventConnection(ctx context.Context, vsyncSource guiISurfaceComposer.VsyncSource, eventRegistration guiISurfaceComposer.EventRegistration, layerHandle binder.IBinder) (IDisplayEventConnection, error)
+	CreateDisplayEventConnection(ctx context.Context, vsyncSource ISurfaceComposerVsyncSource, eventRegistration ISurfaceComposerEventRegistration, layerHandle binder.IBinder) (IDisplayEventConnection, error)
 	CreateConnection(ctx context.Context) (ISurfaceComposerClient, error)
 	CreateDisplay(ctx context.Context, displayName string, secure bool, requestedRefreshRate float32) (binder.IBinder, error)
 	DestroyDisplay(ctx context.Context, display binder.IBinder) error
@@ -184,15 +183,15 @@ type ISurfaceComposer interface {
 	GetHdrOutputConversionSupport(ctx context.Context) (bool, error)
 	SetAutoLowLatencyMode(ctx context.Context, display binder.IBinder, on bool) error
 	SetGameContentType(ctx context.Context, display binder.IBinder, on bool) error
-	CaptureDisplay(ctx context.Context, args interface{}, listener IScreenCaptureListener) error
-	CaptureDisplayById(ctx context.Context, displayId int64, args interface{}, listener IScreenCaptureListener) error
-	CaptureLayersSync(ctx context.Context, args interface{}) (interface{}, error)
-	CaptureLayers(ctx context.Context, args interface{}, listener IScreenCaptureListener) error
+	CaptureDisplay(ctx context.Context, args DisplayCaptureArgs, listener IScreenCaptureListener) error
+	CaptureDisplayById(ctx context.Context, displayId int64, args CaptureArgs, listener IScreenCaptureListener) error
+	CaptureLayersSync(ctx context.Context, args LayerCaptureArgs) (ScreenCaptureResults, error)
+	CaptureLayers(ctx context.Context, args LayerCaptureArgs, listener IScreenCaptureListener) error
 	ClearAnimationFrameStats(ctx context.Context) error
 	GetAnimationFrameStats(ctx context.Context) (FrameStats, error)
 	OverrideHdrTypes(ctx context.Context, display binder.IBinder, hdrTypes []int32) error
 	OnPullAtom(ctx context.Context, atomId int32) (PullAtomData, error)
-	GetLayerDebugInfo(ctx context.Context) ([]interface{}, error)
+	GetLayerDebugInfo(ctx context.Context) ([]LayerDebugInfo, error)
 	GetCompositionPreference(ctx context.Context) (CompositionPreference, error)
 	GetDisplayedContentSamplingAttributes(ctx context.Context, display binder.IBinder) (ContentSamplingAttributes, error)
 	SetDisplayContentSamplingEnabled(ctx context.Context, display binder.IBinder, enable bool, componentMask byte, maxFrames int64) error
@@ -252,6 +251,7 @@ func (p *SurfaceComposerProxy) BootFinished(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerBootFinished)
@@ -274,12 +274,13 @@ func (p *SurfaceComposerProxy) BootFinished(
 
 func (p *SurfaceComposerProxy) CreateDisplayEventConnection(
 	ctx context.Context,
-	vsyncSource guiISurfaceComposer.VsyncSource,
-	eventRegistration guiISurfaceComposer.EventRegistration,
+	vsyncSource ISurfaceComposerVsyncSource,
+	eventRegistration ISurfaceComposerEventRegistration,
 	layerHandle binder.IBinder,
 ) (IDisplayEventConnection, error) {
 	var _result IDisplayEventConnection
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt32(int32(vsyncSource))
 	_data.WriteInt32(int32(eventRegistration))
@@ -313,6 +314,7 @@ func (p *SurfaceComposerProxy) CreateConnection(
 ) (ISurfaceComposerClient, error) {
 	var _result ISurfaceComposerClient
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerCreateConnection)
@@ -346,6 +348,7 @@ func (p *SurfaceComposerProxy) CreateDisplay(
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteString16(displayName)
 	_data.WriteBool(secure)
@@ -379,6 +382,7 @@ func (p *SurfaceComposerProxy) DestroyDisplay(
 	display binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, display, p.Remote.Transport())
 
@@ -405,6 +409,7 @@ func (p *SurfaceComposerProxy) GetPhysicalDisplayIds(
 ) ([]int64, error) {
 	var _result []int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerGetPhysicalDisplayIds)
@@ -426,6 +431,9 @@ func (p *SurfaceComposerProxy) GetPhysicalDisplayIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int64, _count)
@@ -445,6 +453,7 @@ func (p *SurfaceComposerProxy) GetPhysicalDisplayToken(
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt64(displayId)
 
@@ -476,6 +485,7 @@ func (p *SurfaceComposerProxy) GetSupportedFrameTimestamps(
 ) ([]FrameEvent, error) {
 	var _result []FrameEvent
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerGetSupportedFrameTimestamps)
@@ -497,6 +507,9 @@ func (p *SurfaceComposerProxy) GetSupportedFrameTimestamps(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]FrameEvent, _count)
@@ -517,6 +530,7 @@ func (p *SurfaceComposerProxy) SetPowerMode(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, display, p.Remote.Transport())
 	_data.WriteInt32(mode)
@@ -545,6 +559,7 @@ func (p *SurfaceComposerProxy) GetDisplayStats(
 ) (DisplayStatInfo, error) {
 	var _result DisplayStatInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, display, p.Remote.Transport())
 
@@ -581,6 +596,7 @@ func (p *SurfaceComposerProxy) GetDisplayState(
 ) (DisplayState, error) {
 	var _result DisplayState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, display, p.Remote.Transport())
 
@@ -617,6 +633,7 @@ func (p *SurfaceComposerProxy) GetStaticDisplayInfo(
 ) (StaticDisplayInfo, error) {
 	var _result StaticDisplayInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt64(displayId)
 
@@ -653,6 +670,7 @@ func (p *SurfaceComposerProxy) GetDynamicDisplayInfoFromId(
 ) (DynamicDisplayInfo, error) {
 	var _result DynamicDisplayInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt64(displayId)
 
@@ -689,6 +707,7 @@ func (p *SurfaceComposerProxy) GetDynamicDisplayInfoFromToken(
 ) (DynamicDisplayInfo, error) {
 	var _result DynamicDisplayInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, display, p.Remote.Transport())
 
@@ -725,6 +744,7 @@ func (p *SurfaceComposerProxy) GetDisplayNativePrimaries(
 ) (DisplayPrimaries, error) {
 	var _result DisplayPrimaries
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, display, p.Remote.Transport())
 
@@ -761,6 +781,7 @@ func (p *SurfaceComposerProxy) SetActiveColorMode(
 	colorMode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, display, p.Remote.Transport())
 	_data.WriteInt32(colorMode)
@@ -789,6 +810,7 @@ func (p *SurfaceComposerProxy) SetBootDisplayMode(
 	displayModeId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, display, p.Remote.Transport())
 	_data.WriteInt32(displayModeId)
@@ -816,6 +838,7 @@ func (p *SurfaceComposerProxy) ClearBootDisplayMode(
 	display binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, display, p.Remote.Transport())
 
@@ -842,6 +865,7 @@ func (p *SurfaceComposerProxy) GetBootDisplayModeSupport(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerGetBootDisplayModeSupport)
@@ -871,6 +895,7 @@ func (p *SurfaceComposerProxy) GetHdrConversionCapabilities(
 ) ([]HdrConversionCapability, error) {
 	var _result []HdrConversionCapability
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerGetHdrConversionCapabilities)
@@ -891,6 +916,9 @@ func (p *SurfaceComposerProxy) GetHdrConversionCapabilities(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -913,6 +941,7 @@ func (p *SurfaceComposerProxy) SetHdrConversionStrategy(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt32(1)
 	if _err := hdrConversionStrategy.MarshalParcel(_data); _err != nil {
@@ -946,6 +975,7 @@ func (p *SurfaceComposerProxy) GetHdrOutputConversionSupport(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerGetHdrOutputConversionSupport)
@@ -976,6 +1006,7 @@ func (p *SurfaceComposerProxy) SetAutoLowLatencyMode(
 	on bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, display, p.Remote.Transport())
 	_data.WriteBool(on)
@@ -1004,6 +1035,7 @@ func (p *SurfaceComposerProxy) SetGameContentType(
 	on bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, display, p.Remote.Transport())
 	_data.WriteBool(on)
@@ -1028,11 +1060,16 @@ func (p *SurfaceComposerProxy) SetGameContentType(
 
 func (p *SurfaceComposerProxy) CaptureDisplay(
 	ctx context.Context,
-	args interface{},
+	args DisplayCaptureArgs,
 	listener IScreenCaptureListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerCaptureDisplay)
@@ -1047,12 +1084,17 @@ func (p *SurfaceComposerProxy) CaptureDisplay(
 func (p *SurfaceComposerProxy) CaptureDisplayById(
 	ctx context.Context,
 	displayId int64,
-	args interface{},
+	args CaptureArgs,
 	listener IScreenCaptureListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt64(displayId)
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerCaptureDisplayById)
@@ -1066,11 +1108,16 @@ func (p *SurfaceComposerProxy) CaptureDisplayById(
 
 func (p *SurfaceComposerProxy) CaptureLayersSync(
 	ctx context.Context,
-	args interface{},
-) (interface{}, error) {
-	var _result interface{}
+	args LayerCaptureArgs,
+) (ScreenCaptureResults, error) {
+	var _result ScreenCaptureResults
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerCaptureLayersSync)
 	if _err != nil {
@@ -1087,16 +1134,30 @@ func (p *SurfaceComposerProxy) CaptureLayersSync(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *SurfaceComposerProxy) CaptureLayers(
 	ctx context.Context,
-	args interface{},
+	args LayerCaptureArgs,
 	listener IScreenCaptureListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerCaptureLayers)
@@ -1112,6 +1173,7 @@ func (p *SurfaceComposerProxy) ClearAnimationFrameStats(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerClearAnimationFrameStats)
@@ -1137,6 +1199,7 @@ func (p *SurfaceComposerProxy) GetAnimationFrameStats(
 ) (FrameStats, error) {
 	var _result FrameStats
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerGetAnimationFrameStats)
@@ -1172,6 +1235,7 @@ func (p *SurfaceComposerProxy) OverrideHdrTypes(
 	hdrTypes []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, display, p.Remote.Transport())
 	if hdrTypes == nil {
@@ -1207,6 +1271,7 @@ func (p *SurfaceComposerProxy) OnPullAtom(
 ) (PullAtomData, error) {
 	var _result PullAtomData
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt32(atomId)
 
@@ -1239,9 +1304,10 @@ func (p *SurfaceComposerProxy) OnPullAtom(
 
 func (p *SurfaceComposerProxy) GetLayerDebugInfo(
 	ctx context.Context,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]LayerDebugInfo, error) {
+	var _result []LayerDebugInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerGetLayerDebugInfo)
@@ -1263,10 +1329,19 @@ func (p *SurfaceComposerProxy) GetLayerDebugInfo(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]LayerDebugInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -1277,6 +1352,7 @@ func (p *SurfaceComposerProxy) GetCompositionPreference(
 ) (CompositionPreference, error) {
 	var _result CompositionPreference
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerGetCompositionPreference)
@@ -1312,6 +1388,7 @@ func (p *SurfaceComposerProxy) GetDisplayedContentSamplingAttributes(
 ) (ContentSamplingAttributes, error) {
 	var _result ContentSamplingAttributes
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, display, p.Remote.Transport())
 
@@ -1350,6 +1427,7 @@ func (p *SurfaceComposerProxy) SetDisplayContentSamplingEnabled(
 	maxFrames int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, display, p.Remote.Transport())
 	_data.WriteBool(enable)
@@ -1382,6 +1460,7 @@ func (p *SurfaceComposerProxy) GetDisplayedContentSample(
 ) (DisplayedFrameStats, error) {
 	var _result DisplayedFrameStats
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, display, p.Remote.Transport())
 	_data.WriteInt64(maxFrames)
@@ -1419,6 +1498,7 @@ func (p *SurfaceComposerProxy) GetProtectedContentSupport(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerGetProtectedContentSupport)
@@ -1449,6 +1529,7 @@ func (p *SurfaceComposerProxy) IsWideColorDisplay(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -1481,6 +1562,7 @@ func (p *SurfaceComposerProxy) AddRegionSamplingListener(
 	listener IRegionSamplingListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt32(1)
 	if _err := samplingArea.MarshalParcel(_data); _err != nil {
@@ -1512,6 +1594,7 @@ func (p *SurfaceComposerProxy) RemoveRegionSamplingListener(
 	listener IRegionSamplingListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1539,6 +1622,7 @@ func (p *SurfaceComposerProxy) AddFpsListener(
 	listener IFpsListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt32(taskId)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -1566,6 +1650,7 @@ func (p *SurfaceComposerProxy) RemoveFpsListener(
 	listener IFpsListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1592,6 +1677,7 @@ func (p *SurfaceComposerProxy) AddTunnelModeEnabledListener(
 	listener ITunnelModeEnabledListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1618,6 +1704,7 @@ func (p *SurfaceComposerProxy) RemoveTunnelModeEnabledListener(
 	listener ITunnelModeEnabledListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1645,6 +1732,7 @@ func (p *SurfaceComposerProxy) SetDesiredDisplayModeSpecs(
 	specs DisplayModeSpecs,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, displayToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1676,6 +1764,7 @@ func (p *SurfaceComposerProxy) GetDesiredDisplayModeSpecs(
 ) (DisplayModeSpecs, error) {
 	var _result DisplayModeSpecs
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, displayToken, p.Remote.Transport())
 
@@ -1712,6 +1801,7 @@ func (p *SurfaceComposerProxy) GetDisplayBrightnessSupport(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, displayToken, p.Remote.Transport())
 
@@ -1743,6 +1833,7 @@ func (p *SurfaceComposerProxy) SetDisplayBrightness(
 	brightness DisplayBrightness,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, displayToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1774,6 +1865,7 @@ func (p *SurfaceComposerProxy) AddHdrLayerInfoListener(
 	listener IHdrLayerInfoListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, displayToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -1802,6 +1894,7 @@ func (p *SurfaceComposerProxy) RemoveHdrLayerInfoListener(
 	listener IHdrLayerInfoListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, displayToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -1829,6 +1922,7 @@ func (p *SurfaceComposerProxy) NotifyPowerBoost(
 	boostId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt32(boostId)
 
@@ -1850,6 +1944,7 @@ func (p *SurfaceComposerProxy) SetGlobalShadowSettings(
 	lightRadius float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt32(1)
 	if _err := ambientColor.MarshalParcel(_data); _err != nil {
@@ -1878,6 +1973,7 @@ func (p *SurfaceComposerProxy) GetDisplayDecorationSupport(
 ) (DisplayDecorationSupport, error) {
 	var _result DisplayDecorationSupport
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, displayToken, p.Remote.Transport())
 
@@ -1914,6 +2010,7 @@ func (p *SurfaceComposerProxy) SetGameModeFrameRateOverride(
 	frameRate float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt32(uid)
 	_data.WriteFloat32(frameRate)
@@ -1942,6 +2039,7 @@ func (p *SurfaceComposerProxy) SetGameDefaultFrameRateOverride(
 	frameRate float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt32(uid)
 	_data.WriteFloat32(frameRate)
@@ -1970,6 +2068,7 @@ func (p *SurfaceComposerProxy) UpdateSmallAreaDetection(
 	thresholds []float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	if appIds == nil {
 		_data.WriteInt32(-1)
@@ -2003,6 +2102,7 @@ func (p *SurfaceComposerProxy) SetSmallAreaDetectionThreshold(
 	threshold float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt32(appId)
 	_data.WriteFloat32(threshold)
@@ -2021,6 +2121,7 @@ func (p *SurfaceComposerProxy) EnableRefreshRateOverlay(
 	active bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteBool(active)
 
@@ -2047,6 +2148,7 @@ func (p *SurfaceComposerProxy) SetDebugFlash(
 	delay int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt32(delay)
 
@@ -2072,6 +2174,7 @@ func (p *SurfaceComposerProxy) ScheduleComposite(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerScheduleComposite)
@@ -2096,6 +2199,7 @@ func (p *SurfaceComposerProxy) ScheduleCommit(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerScheduleCommit)
@@ -2121,6 +2225,7 @@ func (p *SurfaceComposerProxy) ForceClientComposition(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteBool(enabled)
 
@@ -2147,6 +2252,7 @@ func (p *SurfaceComposerProxy) GetGpuContextPriority(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerGetGpuContextPriority)
@@ -2176,6 +2282,7 @@ func (p *SurfaceComposerProxy) GetMaxAcquiredBufferCount(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerGetMaxAcquiredBufferCount)
@@ -2206,6 +2313,7 @@ func (p *SurfaceComposerProxy) AddWindowInfosListener(
 ) (WindowInfosListenerInfo, error) {
 	var _result WindowInfosListenerInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, windowInfosListener.AsBinder(), p.Remote.Transport())
 
@@ -2241,6 +2349,7 @@ func (p *SurfaceComposerProxy) RemoveWindowInfosListener(
 	windowInfosListener IWindowInfosListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	binder.WriteBinderToParcel(ctx, _data, windowInfosListener.AsBinder(), p.Remote.Transport())
 
@@ -2267,6 +2376,7 @@ func (p *SurfaceComposerProxy) GetOverlaySupport(
 ) (OverlayProperties, error) {
 	var _result OverlayProperties
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerGetOverlaySupport)
@@ -2302,6 +2412,7 @@ func (p *SurfaceComposerProxy) GetStalledTransactionInfo(
 ) (StalledTransactionInfo, error) {
 	var _result StalledTransactionInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt32(pid)
 
@@ -2337,6 +2448,7 @@ func (p *SurfaceComposerProxy) GetSchedulingPolicy(
 ) (SchedulingPolicy, error) {
 	var _result SchedulingPolicy
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposer, MethodISurfaceComposerGetSchedulingPolicy)
@@ -2369,7 +2481,8 @@ func (p *SurfaceComposerProxy) GetSchedulingPolicy(
 // SurfaceComposerStub dispatches incoming binder transactions
 // to a typed ISurfaceComposer implementation.
 type SurfaceComposerStub struct {
-	Impl ISurfaceComposer
+	Impl      ISurfaceComposer
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SurfaceComposerStub)(nil)
@@ -2383,11 +2496,12 @@ func (s *SurfaceComposerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISurfaceComposerBootFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.BootFinished(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2397,22 +2511,24 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerCreateDisplayEventConnection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_vsyncSource, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_vsyncSource := guiISurfaceComposer.VsyncSource(_raw_vsyncSource)
+		_arg_vsyncSource := ISurfaceComposerVsyncSource(_raw_vsyncSource)
 		_raw_eventRegistration, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_eventRegistration := guiISurfaceComposer.EventRegistration(_raw_eventRegistration)
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_arg_eventRegistration := ISurfaceComposerEventRegistration(_raw_eventRegistration)
 		var _arg_layerHandle binder.IBinder
-		_ = _arg_layerHandle
+		{
+			_layerHandleHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_layerHandle = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _layerHandleHandle)
+		}
 		_result, _err := s.Impl.CreateDisplayEventConnection(ctx, _arg_vsyncSource, _arg_eventRegistration, _arg_layerHandle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2420,13 +2536,9 @@ func (s *SurfaceComposerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISurfaceComposerCreateConnection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CreateConnection(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2434,13 +2546,9 @@ func (s *SurfaceComposerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISurfaceComposerCreateDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2460,16 +2568,17 @@ func (s *SurfaceComposerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	case TransactionISurfaceComposerDestroyDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
-		_ = _arg_display
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle)
+		}
 		_err := s.Impl.DestroyDisplay(ctx, _arg_display)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2479,9 +2588,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetPhysicalDisplayIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPhysicalDisplayIds(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2489,13 +2595,16 @@ func (s *SurfaceComposerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt64(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetPhysicalDisplayToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2507,13 +2616,9 @@ func (s *SurfaceComposerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	case TransactionISurfaceComposerGetSupportedFrameTimestamps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedFrameTimestamps(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2521,16 +2626,24 @@ func (s *SurfaceComposerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionISurfaceComposerSetPowerMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
-		_ = _arg_display
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle)
+		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2544,12 +2657,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetDisplayStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
-		_ = _arg_display
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle)
+		}
 		_result, _err := s.Impl.GetDisplayStats(ctx, _arg_display)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2563,12 +2678,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetDisplayState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
-		_ = _arg_display
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle)
+		}
 		_result, _err := s.Impl.GetDisplayState(ctx, _arg_display)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2582,9 +2699,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetStaticDisplayInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2602,9 +2716,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetDynamicDisplayInfoFromId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2622,12 +2733,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetDynamicDisplayInfoFromToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
-		_ = _arg_display
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle)
+		}
 		_result, _err := s.Impl.GetDynamicDisplayInfoFromToken(ctx, _arg_display)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2641,12 +2754,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetDisplayNativePrimaries:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
-		_ = _arg_display
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle)
+		}
 		_result, _err := s.Impl.GetDisplayNativePrimaries(ctx, _arg_display)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2660,12 +2775,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerSetActiveColorMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
-		_ = _arg_display
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle)
+		}
 		_arg_colorMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2679,12 +2796,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerSetBootDisplayMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
-		_ = _arg_display
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle)
+		}
 		_arg_displayModeId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2698,12 +2817,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerClearBootDisplayMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
-		_ = _arg_display
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle)
+		}
 		_err := s.Impl.ClearBootDisplayMode(ctx, _arg_display)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2713,9 +2834,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetBootDisplayModeSupport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetBootDisplayModeSupport(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2726,9 +2844,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerGetHdrConversionCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHdrConversionCapabilities(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2736,13 +2851,19 @@ func (s *SurfaceComposerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISurfaceComposerSetHdrConversionStrategy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_hdrConversionStrategy HdrConversionStrategy
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2765,9 +2886,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerGetHdrOutputConversionSupport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHdrOutputConversionSupport(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2778,12 +2896,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerSetAutoLowLatencyMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
-		_ = _arg_display
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle)
+		}
 		_arg_on, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2797,12 +2917,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerSetGameContentType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
-		_ = _arg_display
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle)
+		}
 		_arg_on, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2816,36 +2938,68 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerCaptureDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_args DisplayCaptureArgs
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_args interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IScreenCaptureListener
-		_ = _arg_listener
-		_err := s.Impl.CaptureDisplay(ctx, _arg_args, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionISurfaceComposerCaptureDisplayById:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewScreenCaptureListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err := s.Impl.CaptureDisplay(ctx, _arg_args, _arg_listener)
+		return nil, _err
+	case TransactionISurfaceComposerCaptureDisplayById:
 		_arg_displayId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_args interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_listener IScreenCaptureListener
-		_ = _arg_listener
-		_err = s.Impl.CaptureDisplayById(ctx, _arg_displayId, _arg_args, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionISurfaceComposerCaptureLayersSync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_args CaptureArgs
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_args interface{}
+		var _arg_listener IScreenCaptureListener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewScreenCaptureListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
+		_err = s.Impl.CaptureDisplayById(ctx, _arg_displayId, _arg_args, _arg_listener)
+		return nil, _err
+	case TransactionISurfaceComposerCaptureLayersSync:
+		var _arg_args LayerCaptureArgs
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.CaptureLayersSync(ctx, _arg_args)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2853,23 +3007,35 @@ func (s *SurfaceComposerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionISurfaceComposerCaptureLayers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_args LayerCaptureArgs
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_args interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IScreenCaptureListener
-		_ = _arg_listener
-		_err := s.Impl.CaptureLayers(ctx, _arg_args, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionISurfaceComposerClearAnimationFrameStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewScreenCaptureListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err := s.Impl.CaptureLayers(ctx, _arg_args, _arg_listener)
+		return nil, _err
+	case TransactionISurfaceComposerClearAnimationFrameStats:
 		_err := s.Impl.ClearAnimationFrameStats(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2879,9 +3045,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetAnimationFrameStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAnimationFrameStats(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2895,15 +3058,33 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerOverrideHdrTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
-		_ = _arg_display
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle)
+		}
 		var _arg_hdrTypes []int32
-		_ = _arg_hdrTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_hdrTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_hdrTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OverrideHdrTypes(ctx, _arg_display, _arg_hdrTypes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2913,9 +3094,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerOnPullAtom:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_atomId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2933,9 +3111,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetLayerDebugInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLayerDebugInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2943,13 +3118,19 @@ func (s *SurfaceComposerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetCompositionPreference:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCompositionPreference(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2963,12 +3144,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetDisplayedContentSamplingAttributes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
-		_ = _arg_display
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle)
+		}
 		_result, _err := s.Impl.GetDisplayedContentSamplingAttributes(ctx, _arg_display)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2982,12 +3165,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerSetDisplayContentSamplingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
-		_ = _arg_display
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle)
+		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3009,12 +3194,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetDisplayedContentSample:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
-		_ = _arg_display
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle)
+		}
 		_arg_maxFrames, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -3036,9 +3223,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetProtectedContentSupport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetProtectedContentSupport(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3049,12 +3233,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerIsWideColorDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.IsWideColorDisplay(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3065,9 +3251,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerAddRegionSamplingListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_samplingArea ARect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3080,12 +3263,22 @@ func (s *SurfaceComposerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_stopLayerHandle binder.IBinder
-		_ = _arg_stopLayerHandle
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_stopLayerHandleHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_stopLayerHandle = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _stopLayerHandleHandle)
+		}
 		var _arg_listener IRegionSamplingListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewRegionSamplingListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddRegionSamplingListener(ctx, _arg_samplingArea, _arg_stopLayerHandle, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3095,12 +3288,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerRemoveRegionSamplingListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IRegionSamplingListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewRegionSamplingListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveRegionSamplingListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3110,16 +3305,18 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerAddFpsListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IFpsListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewFpsListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.AddFpsListener(ctx, _arg_taskId, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3129,12 +3326,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerRemoveFpsListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IFpsListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewFpsListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveFpsListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3144,12 +3343,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerAddTunnelModeEnabledListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ITunnelModeEnabledListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewTunnelModeEnabledListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddTunnelModeEnabledListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3159,12 +3360,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerRemoveTunnelModeEnabledListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ITunnelModeEnabledListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewTunnelModeEnabledListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveTunnelModeEnabledListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3174,12 +3377,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerSetDesiredDisplayModeSpecs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_displayToken binder.IBinder
-		_ = _arg_displayToken
+		{
+			_displayTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_displayToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayTokenHandle)
+		}
 		var _arg_specs DisplayModeSpecs
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3201,12 +3406,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetDesiredDisplayModeSpecs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_displayToken binder.IBinder
-		_ = _arg_displayToken
+		{
+			_displayTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_displayToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayTokenHandle)
+		}
 		_result, _err := s.Impl.GetDesiredDisplayModeSpecs(ctx, _arg_displayToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3220,12 +3427,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetDisplayBrightnessSupport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_displayToken binder.IBinder
-		_ = _arg_displayToken
+		{
+			_displayTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_displayToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayTokenHandle)
+		}
 		_result, _err := s.Impl.GetDisplayBrightnessSupport(ctx, _arg_displayToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3236,12 +3445,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerSetDisplayBrightness:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_displayToken binder.IBinder
-		_ = _arg_displayToken
+		{
+			_displayTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_displayToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayTokenHandle)
+		}
 		var _arg_brightness DisplayBrightness
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3263,15 +3474,22 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerAddHdrLayerInfoListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_displayToken binder.IBinder
-		_ = _arg_displayToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_displayTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_displayToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayTokenHandle)
+		}
 		var _arg_listener IHdrLayerInfoListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHdrLayerInfoListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddHdrLayerInfoListener(ctx, _arg_displayToken, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3281,15 +3499,22 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerRemoveHdrLayerInfoListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_displayToken binder.IBinder
-		_ = _arg_displayToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_displayTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_displayToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayTokenHandle)
+		}
 		var _arg_listener IHdrLayerInfoListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHdrLayerInfoListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveHdrLayerInfoListener(ctx, _arg_displayToken, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3299,20 +3524,13 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerNotifyPowerBoost:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_boostId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyPowerBoost(ctx, _arg_boostId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISurfaceComposerSetGlobalShadowSettings:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_ambientColor Color
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3350,15 +3568,16 @@ func (s *SurfaceComposerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetGlobalShadowSettings(ctx, _arg_ambientColor, _arg_spotColor, _arg_lightPosY, _arg_lightPosZ, _arg_lightRadius)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISurfaceComposerGetDisplayDecorationSupport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_displayToken binder.IBinder
-		_ = _arg_displayToken
+		{
+			_displayTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_displayToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayTokenHandle)
+		}
 		_result, _err := s.Impl.GetDisplayDecorationSupport(ctx, _arg_displayToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3372,9 +3591,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerSetGameModeFrameRateOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3392,9 +3608,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerSetGameDefaultFrameRateOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3412,22 +3625,47 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerUpdateSmallAreaDetection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_appIds []int32
-		_ = _arg_appIds
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_thresholds []float32
-		_ = _arg_thresholds
-		_err := s.Impl.UpdateSmallAreaDetection(ctx, _arg_appIds, _arg_thresholds)
-		_ = _err
-		return nil, nil
-	case TransactionISurfaceComposerSetSmallAreaDetectionThreshold:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_appIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_appIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		var _arg_thresholds []float32
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_thresholds = make([]float32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_thresholds[_i], _err = _data.ReadFloat32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		_err := s.Impl.UpdateSmallAreaDetection(ctx, _arg_appIds, _arg_thresholds)
+		return nil, _err
+	case TransactionISurfaceComposerSetSmallAreaDetectionThreshold:
 		_arg_appId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3437,12 +3675,8 @@ func (s *SurfaceComposerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetSmallAreaDetectionThreshold(ctx, _arg_appId, _arg_threshold)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISurfaceComposerEnableRefreshRateOverlay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3456,9 +3690,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerSetDebugFlash:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_delay, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3472,9 +3703,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerScheduleComposite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ScheduleComposite(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3484,9 +3712,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerScheduleCommit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ScheduleCommit(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3496,9 +3721,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerForceClientComposition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3512,9 +3734,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetGpuContextPriority:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetGpuContextPriority(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3525,9 +3744,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerGetMaxAcquiredBufferCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMaxAcquiredBufferCount(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3538,12 +3754,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerAddWindowInfosListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowInfosListener IWindowInfosListener
-		_ = _arg_windowInfosListener
+		{
+			_windowInfosListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowInfosListener = NewWindowInfosListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowInfosListenerHandle))
+		}
 		_result, _err := s.Impl.AddWindowInfosListener(ctx, _arg_windowInfosListener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3557,12 +3775,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerRemoveWindowInfosListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowInfosListener IWindowInfosListener
-		_ = _arg_windowInfosListener
+		{
+			_windowInfosListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowInfosListener = NewWindowInfosListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowInfosListenerHandle))
+		}
 		_err := s.Impl.RemoveWindowInfosListener(ctx, _arg_windowInfosListener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3572,9 +3792,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetOverlaySupport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetOverlaySupport(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3588,9 +3805,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetStalledTransactionInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3608,9 +3822,6 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetSchedulingPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSchedulingPolicy(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3633,7 +3844,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type ISurfaceComposerServer interface {
 	BootFinished(ctx context.Context) error
-	CreateDisplayEventConnection(ctx context.Context, vsyncSource guiISurfaceComposer.VsyncSource, eventRegistration guiISurfaceComposer.EventRegistration, layerHandle binder.IBinder) (IDisplayEventConnection, error)
+	CreateDisplayEventConnection(ctx context.Context, vsyncSource ISurfaceComposerVsyncSource, eventRegistration ISurfaceComposerEventRegistration, layerHandle binder.IBinder) (IDisplayEventConnection, error)
 	CreateConnection(ctx context.Context) (ISurfaceComposerClient, error)
 	CreateDisplay(ctx context.Context, displayName string, secure bool, requestedRefreshRate float32) (binder.IBinder, error)
 	DestroyDisplay(ctx context.Context, display binder.IBinder) error
@@ -3656,15 +3867,15 @@ type ISurfaceComposerServer interface {
 	GetHdrOutputConversionSupport(ctx context.Context) (bool, error)
 	SetAutoLowLatencyMode(ctx context.Context, display binder.IBinder, on bool) error
 	SetGameContentType(ctx context.Context, display binder.IBinder, on bool) error
-	CaptureDisplay(ctx context.Context, args interface{}, listener IScreenCaptureListener) error
-	CaptureDisplayById(ctx context.Context, displayId int64, args interface{}, listener IScreenCaptureListener) error
-	CaptureLayersSync(ctx context.Context, args interface{}) (interface{}, error)
-	CaptureLayers(ctx context.Context, args interface{}, listener IScreenCaptureListener) error
+	CaptureDisplay(ctx context.Context, args DisplayCaptureArgs, listener IScreenCaptureListener) error
+	CaptureDisplayById(ctx context.Context, displayId int64, args CaptureArgs, listener IScreenCaptureListener) error
+	CaptureLayersSync(ctx context.Context, args LayerCaptureArgs) (ScreenCaptureResults, error)
+	CaptureLayers(ctx context.Context, args LayerCaptureArgs, listener IScreenCaptureListener) error
 	ClearAnimationFrameStats(ctx context.Context) error
 	GetAnimationFrameStats(ctx context.Context) (FrameStats, error)
 	OverrideHdrTypes(ctx context.Context, display binder.IBinder, hdrTypes []int32) error
 	OnPullAtom(ctx context.Context, atomId int32) (PullAtomData, error)
-	GetLayerDebugInfo(ctx context.Context) ([]interface{}, error)
+	GetLayerDebugInfo(ctx context.Context) ([]LayerDebugInfo, error)
 	GetCompositionPreference(ctx context.Context) (CompositionPreference, error)
 	GetDisplayedContentSamplingAttributes(ctx context.Context, display binder.IBinder) (ContentSamplingAttributes, error)
 	SetDisplayContentSamplingEnabled(ctx context.Context, display binder.IBinder, enable bool, componentMask byte, maxFrames int64) error
@@ -3721,8 +3932,8 @@ func (w *surfaceComposerStubWrapper) BootFinished(
 
 func (w *surfaceComposerStubWrapper) CreateDisplayEventConnection(
 	ctx context.Context,
-	vsyncSource guiISurfaceComposer.VsyncSource,
-	eventRegistration guiISurfaceComposer.EventRegistration,
+	vsyncSource ISurfaceComposerVsyncSource,
+	eventRegistration ISurfaceComposerEventRegistration,
 	layerHandle binder.IBinder,
 ) (IDisplayEventConnection, error) {
 	return w.impl.CreateDisplayEventConnection(ctx, vsyncSource, eventRegistration, layerHandle)
@@ -3885,7 +4096,7 @@ func (w *surfaceComposerStubWrapper) SetGameContentType(
 
 func (w *surfaceComposerStubWrapper) CaptureDisplay(
 	ctx context.Context,
-	args interface{},
+	args DisplayCaptureArgs,
 	listener IScreenCaptureListener,
 ) error {
 	return w.impl.CaptureDisplay(ctx, args, listener)
@@ -3894,7 +4105,7 @@ func (w *surfaceComposerStubWrapper) CaptureDisplay(
 func (w *surfaceComposerStubWrapper) CaptureDisplayById(
 	ctx context.Context,
 	displayId int64,
-	args interface{},
+	args CaptureArgs,
 	listener IScreenCaptureListener,
 ) error {
 	return w.impl.CaptureDisplayById(ctx, displayId, args, listener)
@@ -3902,14 +4113,14 @@ func (w *surfaceComposerStubWrapper) CaptureDisplayById(
 
 func (w *surfaceComposerStubWrapper) CaptureLayersSync(
 	ctx context.Context,
-	args interface{},
-) (interface{}, error) {
+	args LayerCaptureArgs,
+) (ScreenCaptureResults, error) {
 	return w.impl.CaptureLayersSync(ctx, args)
 }
 
 func (w *surfaceComposerStubWrapper) CaptureLayers(
 	ctx context.Context,
-	args interface{},
+	args LayerCaptureArgs,
 	listener IScreenCaptureListener,
 ) error {
 	return w.impl.CaptureLayers(ctx, args, listener)
@@ -3944,7 +4155,7 @@ func (w *surfaceComposerStubWrapper) OnPullAtom(
 
 func (w *surfaceComposerStubWrapper) GetLayerDebugInfo(
 	ctx context.Context,
-) ([]interface{}, error) {
+) ([]LayerDebugInfo, error) {
 	return w.impl.GetLayerDebugInfo(ctx)
 }
 

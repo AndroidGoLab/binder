@@ -70,6 +70,7 @@ func (p *DvrProxy) GetQueueDesc(
 	queue fmq.MQDescriptor,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDvr)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvr, MethodIDvrGetQueueDesc)
@@ -86,8 +87,16 @@ func (p *DvrProxy) GetQueueDesc(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
-	if _err = queue.UnmarshalParcel(_reply); _err != nil {
-		return _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _nullInd != 0 {
+			if _err = queue.UnmarshalParcel(_reply); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	return nil
@@ -98,6 +107,7 @@ func (p *DvrProxy) Configure(
 	settings DvrSettings,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDvr)
 	_data.WriteInt32(1)
 	if _err := settings.MarshalParcel(_data); _err != nil {
@@ -127,6 +137,7 @@ func (p *DvrProxy) AttachFilter(
 	filter IFilter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDvr)
 	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.Remote.Transport())
 
@@ -153,6 +164,7 @@ func (p *DvrProxy) DetachFilter(
 	filter IFilter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDvr)
 	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.Remote.Transport())
 
@@ -178,6 +190,7 @@ func (p *DvrProxy) Start(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDvr)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvr, MethodIDvrStart)
@@ -202,6 +215,7 @@ func (p *DvrProxy) Stop(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDvr)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvr, MethodIDvrStop)
@@ -226,6 +240,7 @@ func (p *DvrProxy) Flush(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDvr)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvr, MethodIDvrFlush)
@@ -250,6 +265,7 @@ func (p *DvrProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDvr)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvr, MethodIDvrClose)
@@ -275,6 +291,7 @@ func (p *DvrProxy) SetStatusCheckIntervalHint(
 	milliseconds int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDvr)
 	_data.WriteInt64(milliseconds)
 
@@ -299,7 +316,8 @@ func (p *DvrProxy) SetStatusCheckIntervalHint(
 // DvrStub dispatches incoming binder transactions
 // to a typed IDvr implementation.
 type DvrStub struct {
-	Impl IDvr
+	Impl      IDvr
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DvrStub)(nil)
@@ -313,11 +331,12 @@ func (s *DvrStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDvrGetQueueDesc:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_queue fmq.MQDescriptor
 		_err := s.Impl.GetQueueDesc(ctx, _arg_queue)
 		_reply := parcel.New()
@@ -326,11 +345,12 @@ func (s *DvrStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIDvrConfigure:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_queue.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIDvrConfigure:
 		var _arg_settings DvrSettings
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -352,12 +372,14 @@ func (s *DvrStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDvrAttachFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_filter IFilter
-		_ = _arg_filter
+		{
+			_filterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_filter = NewFilterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _filterHandle))
+		}
 		_err := s.Impl.AttachFilter(ctx, _arg_filter)
 		_reply := parcel.New()
 		if _err != nil {
@@ -367,12 +389,14 @@ func (s *DvrStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDvrDetachFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_filter IFilter
-		_ = _arg_filter
+		{
+			_filterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_filter = NewFilterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _filterHandle))
+		}
 		_err := s.Impl.DetachFilter(ctx, _arg_filter)
 		_reply := parcel.New()
 		if _err != nil {
@@ -382,9 +406,6 @@ func (s *DvrStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDvrStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Start(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -394,9 +415,6 @@ func (s *DvrStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDvrStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Stop(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -406,9 +424,6 @@ func (s *DvrStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDvrFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Flush(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -418,9 +433,6 @@ func (s *DvrStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDvrClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -430,9 +442,6 @@ func (s *DvrStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDvrSetStatusCheckIntervalHint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_milliseconds, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err

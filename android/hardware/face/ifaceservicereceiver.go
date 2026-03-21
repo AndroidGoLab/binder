@@ -79,6 +79,7 @@ func (p *FaceServiceReceiverProxy) OnEnrollResult(
 	remaining int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
 	_data.WriteInt32(1)
 	if _err := face.MarshalParcel(_data); _err != nil {
@@ -101,6 +102,7 @@ func (p *FaceServiceReceiverProxy) OnAcquired(
 	vendorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
 	_data.WriteInt32(acquiredInfo)
 	_data.WriteInt32(vendorCode)
@@ -121,6 +123,7 @@ func (p *FaceServiceReceiverProxy) OnAuthenticationSucceeded(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
 	_data.WriteInt32(1)
 	if _err := face.MarshalParcel(_data); _err != nil {
@@ -145,6 +148,7 @@ func (p *FaceServiceReceiverProxy) OnFaceDetected(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(_identity.UserID)
@@ -163,6 +167,7 @@ func (p *FaceServiceReceiverProxy) OnAuthenticationFailed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFaceServiceReceiver, MethodIFaceServiceReceiverOnAuthenticationFailed)
@@ -180,6 +185,7 @@ func (p *FaceServiceReceiverProxy) OnError(
 	vendorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
 	_data.WriteInt32(error_)
 	_data.WriteInt32(vendorCode)
@@ -199,6 +205,7 @@ func (p *FaceServiceReceiverProxy) OnRemoved(
 	remaining int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
 	_data.WriteInt32(1)
 	if _err := face.MarshalParcel(_data); _err != nil {
@@ -221,6 +228,7 @@ func (p *FaceServiceReceiverProxy) OnFeatureSet(
 	feature int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
 	_data.WriteBool(success)
 	_data.WriteInt32(feature)
@@ -241,6 +249,7 @@ func (p *FaceServiceReceiverProxy) OnFeatureGet(
 	featureState []bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
 	_data.WriteBool(success)
 	if features == nil {
@@ -276,6 +285,7 @@ func (p *FaceServiceReceiverProxy) OnChallengeGenerated(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(_identity.UserID)
@@ -295,6 +305,7 @@ func (p *FaceServiceReceiverProxy) OnAuthenticationFrame(
 	frame FaceAuthenticationFrame,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
 	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
@@ -315,6 +326,7 @@ func (p *FaceServiceReceiverProxy) OnEnrollmentFrame(
 	frame FaceEnrollFrame,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
 	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
@@ -333,7 +345,8 @@ func (p *FaceServiceReceiverProxy) OnEnrollmentFrame(
 // FaceServiceReceiverStub dispatches incoming binder transactions
 // to a typed IFaceServiceReceiver implementation.
 type FaceServiceReceiverStub struct {
-	Impl IFaceServiceReceiver
+	Impl      IFaceServiceReceiver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FaceServiceReceiverStub)(nil)
@@ -347,11 +360,12 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFaceServiceReceiverOnEnrollResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_face Face
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -369,12 +383,8 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnEnrollResult(ctx, _arg_face, _arg_remaining)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFaceServiceReceiverOnAcquired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_acquiredInfo, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -384,12 +394,8 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAcquired(ctx, _arg_acquiredInfo, _arg_vendorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFaceServiceReceiverOnAuthenticationSucceeded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_face Face
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -410,12 +416,8 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAuthenticationSucceeded(ctx, _arg_face, _arg_isStrongBiometric)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFaceServiceReceiverOnFaceDetected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -428,19 +430,11 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnFaceDetected(ctx, _arg_sensorId, _arg_isStrongBiometric)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFaceServiceReceiverOnAuthenticationFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnAuthenticationFailed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFaceServiceReceiverOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -450,12 +444,8 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_error_, _arg_vendorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFaceServiceReceiverOnRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_face Face
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -473,12 +463,8 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnRemoved(ctx, _arg_face, _arg_remaining)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFaceServiceReceiverOnFeatureSet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_success, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -488,29 +474,53 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnFeatureSet(ctx, _arg_success, _arg_feature)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFaceServiceReceiverOnFeatureGet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_success, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_features []int32
-		_ = _arg_features
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_featureState []bool
-		_ = _arg_featureState
-		_err = s.Impl.OnFeatureGet(ctx, _arg_success, _arg_features, _arg_featureState)
-		_ = _err
-		return nil, nil
-	case TransactionIFaceServiceReceiverOnChallengeGenerated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_features = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_features[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		var _arg_featureState []bool
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_featureState = make([]bool, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_featureState[_i], _err = _data.ReadBool()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		_err = s.Impl.OnFeatureGet(ctx, _arg_success, _arg_features, _arg_featureState)
+		return nil, _err
+	case TransactionIFaceServiceReceiverOnChallengeGenerated:
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -523,12 +533,8 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnChallengeGenerated(ctx, _arg_sensorId, _arg_challenge)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFaceServiceReceiverOnAuthenticationFrame:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_frame FaceAuthenticationFrame
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -542,12 +548,8 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnAuthenticationFrame(ctx, _arg_frame)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFaceServiceReceiverOnEnrollmentFrame:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_frame FaceEnrollFrame
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -561,8 +563,7 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnEnrollmentFrame(ctx, _arg_frame)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

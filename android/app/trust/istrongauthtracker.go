@@ -49,6 +49,7 @@ func (p *StrongAuthTrackerProxy) OnStrongAuthRequiredChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStrongAuthTracker)
 	_data.WriteInt32(strongAuthRequired)
 	_data.WriteInt32(_identity.UserID)
@@ -68,6 +69,7 @@ func (p *StrongAuthTrackerProxy) OnIsNonStrongBiometricAllowedChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStrongAuthTracker)
 	_data.WriteBool(allowed)
 	_data.WriteInt32(_identity.UserID)
@@ -84,7 +86,8 @@ func (p *StrongAuthTrackerProxy) OnIsNonStrongBiometricAllowedChanged(
 // StrongAuthTrackerStub dispatches incoming binder transactions
 // to a typed IStrongAuthTracker implementation.
 type StrongAuthTrackerStub struct {
-	Impl IStrongAuthTracker
+	Impl      IStrongAuthTracker
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StrongAuthTrackerStub)(nil)
@@ -98,11 +101,12 @@ func (s *StrongAuthTrackerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStrongAuthTrackerOnStrongAuthRequiredChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_strongAuthRequired, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -111,12 +115,8 @@ func (s *StrongAuthTrackerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStrongAuthRequiredChanged(ctx, _arg_strongAuthRequired)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStrongAuthTrackerOnIsNonStrongBiometricAllowedChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -125,8 +125,7 @@ func (s *StrongAuthTrackerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnIsNonStrongBiometricAllowedChanged(ctx, _arg_allowed)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

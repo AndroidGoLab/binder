@@ -1,0 +1,43 @@
+package: android.hardware.security.secureclock
+go_package: android/hardware/security/secureclock
+interfaces:
+    - name: ISecureClock
+      descriptor: android.hardware.security.secureclock.ISecureClock
+      methods:
+        - name: generateTimeStamp
+          transaction_code_offset: 0
+          params:
+            - name: challenge
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: TimeStampToken
+      constants:
+        - name: TIME_STAMP_MAC_LABEL
+          type: String
+          value: '"Auth Verification"'
+parcelables:
+    - name: TimeStampToken
+      fields:
+        - name: challenge
+          type:
+            name: long
+        - name: timestamp
+          type:
+            name: Timestamp
+        - name: mac
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+        - RustDerive
+    - name: Timestamp
+      fields:
+        - name: milliSeconds
+          type:
+            name: long
+      annotations:
+        - VintfStability
+        - RustDerive

@@ -57,6 +57,7 @@ func (p *HdmiConnectionProxy) GetPortInfo(
 ) ([]HdmiPortInfo, error) {
 	var _result []HdmiPortInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiConnection, MethodIHdmiConnectionGetPortInfo)
@@ -77,6 +78,9 @@ func (p *HdmiConnectionProxy) GetPortInfo(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -99,6 +103,7 @@ func (p *HdmiConnectionProxy) IsConnected(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
 	_data.WriteInt32(portId)
 
@@ -129,6 +134,7 @@ func (p *HdmiConnectionProxy) SetCallback(
 	callback IHdmiConnectionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -156,6 +162,7 @@ func (p *HdmiConnectionProxy) SetHpdSignal(
 	portId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
 	_data.WritePaddedByte(byte(signal))
 	_data.WriteInt32(portId)
@@ -184,6 +191,7 @@ func (p *HdmiConnectionProxy) GetHpdSignal(
 ) (HpdSignal, error) {
 	var _result HpdSignal
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
 	_data.WriteInt32(portId)
 
@@ -213,7 +221,8 @@ func (p *HdmiConnectionProxy) GetHpdSignal(
 // HdmiConnectionStub dispatches incoming binder transactions
 // to a typed IHdmiConnection implementation.
 type HdmiConnectionStub struct {
-	Impl IHdmiConnection
+	Impl      IHdmiConnection
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HdmiConnectionStub)(nil)
@@ -227,11 +236,12 @@ func (s *HdmiConnectionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHdmiConnectionGetPortInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPortInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -239,13 +249,19 @@ func (s *HdmiConnectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIHdmiConnectionIsConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -260,12 +276,14 @@ func (s *HdmiConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIHdmiConnectionSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IHdmiConnectionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewHdmiConnectionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -275,9 +293,6 @@ func (s *HdmiConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiConnectionSetHpdSignal:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_signal, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -296,9 +311,6 @@ func (s *HdmiConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiConnectionGetHpdSignal:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

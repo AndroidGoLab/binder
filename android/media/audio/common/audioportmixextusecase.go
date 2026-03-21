@@ -33,8 +33,7 @@ func (u *AudioPortMixExtUseCase) GetUnspecified() (bool, bool) {
 func (u *AudioPortMixExtUseCase) SetUnspecified(
 	v bool,
 ) {
-	u.Tag = AudioPortMixExtUseCaseTagUnspecified
-	u.Unspecified = v
+	*u = AudioPortMixExtUseCase{Tag: AudioPortMixExtUseCaseTagUnspecified, Unspecified: v}
 }
 
 func (u *AudioPortMixExtUseCase) GetStream() (AudioStreamType, bool) {
@@ -48,8 +47,7 @@ func (u *AudioPortMixExtUseCase) GetStream() (AudioStreamType, bool) {
 func (u *AudioPortMixExtUseCase) SetStream(
 	v AudioStreamType,
 ) {
-	u.Tag = AudioPortMixExtUseCaseTagStream
-	u.Stream = v
+	*u = AudioPortMixExtUseCase{Tag: AudioPortMixExtUseCaseTagStream, Stream: v}
 }
 
 func (u *AudioPortMixExtUseCase) GetSource() (AudioSource, bool) {
@@ -63,8 +61,7 @@ func (u *AudioPortMixExtUseCase) GetSource() (AudioSource, bool) {
 func (u *AudioPortMixExtUseCase) SetSource(
 	v AudioSource,
 ) {
-	u.Tag = AudioPortMixExtUseCaseTagSource
-	u.Source = v
+	*u = AudioPortMixExtUseCase{Tag: AudioPortMixExtUseCaseTagSource, Source: v}
 }
 
 func (u *AudioPortMixExtUseCase) MarshalParcel(

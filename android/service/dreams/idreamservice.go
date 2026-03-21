@@ -55,6 +55,7 @@ func (p *DreamServiceProxy) Attach(
 	started os.IRemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamService)
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteBool(canDoze)
@@ -74,6 +75,7 @@ func (p *DreamServiceProxy) Detach(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamService, MethodIDreamServiceDetach)
@@ -89,6 +91,7 @@ func (p *DreamServiceProxy) WakeUp(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamService, MethodIDreamServiceWakeUp)
@@ -103,7 +106,8 @@ func (p *DreamServiceProxy) WakeUp(
 // DreamServiceStub dispatches incoming binder transactions
 // to a typed IDreamService implementation.
 type DreamServiceStub struct {
-	Impl IDreamService
+	Impl      IDreamService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DreamServiceStub)(nil)
@@ -117,14 +121,20 @@ func (s *DreamServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDreamServiceAttach:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
+		}
 		_arg_canDoze, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -133,26 +143,22 @@ func (s *DreamServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_started os.IRemoteCallback
-		_ = _arg_started
+		{
+			_startedHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_started = os.NewRemoteCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _startedHandle))
+		}
 		_err = s.Impl.Attach(ctx, _arg_windowToken, _arg_canDoze, _arg_isPreviewMode, _arg_started)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDreamServiceDetach:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Detach(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDreamServiceWakeUp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.WakeUp(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -45,6 +45,7 @@ func (p *RemoteDisplayCallbackProxy) OnStateChanged(
 	state RemoteDisplayState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayCallback)
 	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *RemoteDisplayCallbackProxy) OnStateChanged(
 // RemoteDisplayCallbackStub dispatches incoming binder transactions
 // to a typed IRemoteDisplayCallback implementation.
 type RemoteDisplayCallbackStub struct {
-	Impl IRemoteDisplayCallback
+	Impl      IRemoteDisplayCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RemoteDisplayCallbackStub)(nil)
@@ -77,11 +79,12 @@ func (s *RemoteDisplayCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRemoteDisplayCallbackOnStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_state RemoteDisplayState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *RemoteDisplayCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnStateChanged(ctx, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -1,0 +1,399 @@
+package: android.app.ondeviceintelligence
+go_package: android/app/ondeviceintelligence
+interfaces:
+    - name: IDownloadCallback
+      descriptor: android.app.ondeviceintelligence.IDownloadCallback
+      oneway: true
+      methods:
+        - name: onDownloadStarted
+          transaction_code_offset: 0
+          params:
+            - name: bytesToDownload
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onDownloadProgress
+          transaction_code_offset: 1
+          params:
+            - name: bytesDownloaded
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onDownloadFailed
+          transaction_code_offset: 2
+          params:
+            - name: failureStatus
+              type:
+                name: int
+            - name: errorMessage
+              type:
+                name: String
+            - name: errorParams
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+        - name: onDownloadCompleted
+          transaction_code_offset: 3
+          params:
+            - name: downloadParams
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+    - name: IFeatureCallback
+      descriptor: android.app.ondeviceintelligence.IFeatureCallback
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: Feature
+              direction: in
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 1
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: errorMessage
+              type:
+                name: String
+              direction: in
+            - name: errorParams
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+    - name: IFeatureDetailsCallback
+      descriptor: android.app.ondeviceintelligence.IFeatureDetailsCallback
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: FeatureDetails
+              direction: in
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 1
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: errorMessage
+              type:
+                name: String
+              direction: in
+            - name: errorParams
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+    - name: IListFeaturesCallback
+      descriptor: android.app.ondeviceintelligence.IListFeaturesCallback
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: List
+                type_args:
+                    - name: Feature
+              direction: in
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 1
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: errorMessage
+              type:
+                name: String
+              direction: in
+            - name: errorParams
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+    - name: IOnDeviceIntelligenceManager
+      descriptor: android.app.ondeviceintelligence.IOnDeviceIntelligenceManager
+      oneway: true
+      methods:
+        - name: getVersion
+          transaction_code_offset: 0
+          params:
+            - name: remoteCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: getFeature
+          transaction_code_offset: 1
+          params:
+            - name: featureId
+              type:
+                name: int
+              direction: in
+            - name: remoteCallback
+              type:
+                name: IFeatureCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: listFeatures
+          transaction_code_offset: 2
+          params:
+            - name: listFeaturesCallback
+              type:
+                name: IListFeaturesCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: getFeatureDetails
+          transaction_code_offset: 3
+          params:
+            - name: feature
+              type:
+                name: Feature
+              direction: in
+            - name: featureDetailsCallback
+              type:
+                name: IFeatureDetailsCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: requestFeatureDownload
+          transaction_code_offset: 4
+          params:
+            - name: feature
+              type:
+                name: Feature
+              direction: in
+            - name: signal
+              type:
+                name: ICancellationSignal
+            - name: callback
+              type:
+                name: IDownloadCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: requestTokenCount
+          transaction_code_offset: 5
+          params:
+            - name: feature
+              type:
+                name: Feature
+              direction: in
+            - name: request
+              type:
+                name: Content
+              direction: in
+            - name: signal
+              type:
+                name: ICancellationSignal
+              direction: in
+            - name: tokenCountcallback
+              type:
+                name: ITokenCountCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: processRequest
+          transaction_code_offset: 6
+          params:
+            - name: feature
+              type:
+                name: Feature
+              direction: in
+            - name: request
+              type:
+                name: Content
+              direction: in
+            - name: requestType
+              type:
+                name: int
+            - name: cancellationSignal
+              type:
+                name: ICancellationSignal
+              direction: in
+            - name: signal
+              type:
+                name: IProcessingSignal
+              direction: in
+            - name: responseCallback
+              type:
+                name: IResponseCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: processRequestStreaming
+          transaction_code_offset: 7
+          params:
+            - name: feature
+              type:
+                name: Feature
+              direction: in
+            - name: request
+              type:
+                name: Content
+              direction: in
+            - name: requestType
+              type:
+                name: int
+            - name: cancellationSignal
+              type:
+                name: ICancellationSignal
+              direction: in
+            - name: signal
+              type:
+                name: IProcessingSignal
+              direction: in
+            - name: streamingCallback
+              type:
+                name: IStreamingResponseCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+    - name: IProcessingSignal
+      descriptor: android.app.ondeviceintelligence.IProcessingSignal
+      oneway: true
+      methods:
+        - name: sendSignal
+          transaction_code_offset: 1
+          params:
+            - name: actionParams
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+    - name: IResponseCallback
+      descriptor: android.app.ondeviceintelligence.IResponseCallback
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: Content
+              direction: in
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 1
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: errorMessage
+              type:
+                name: String
+              direction: in
+            - name: errorParams
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+    - name: IStreamingResponseCallback
+      descriptor: android.app.ondeviceintelligence.IStreamingResponseCallback
+      methods:
+        - name: onNewContent
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: Content
+              direction: in
+          return_type:
+            name: void
+        - name: onSuccess
+          transaction_code_offset: 1
+          params:
+            - name: result
+              type:
+                name: Content
+              direction: in
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 2
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: errorMessage
+              type:
+                name: String
+              direction: in
+            - name: errorParams
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+    - name: ITokenCountCallback
+      descriptor: android.app.ondeviceintelligence.ITokenCountCallback
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: tokenCount
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 1
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: errorMessage
+              type:
+                name: String
+              direction: in
+            - name: errorParams
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: Content
+    - name: Feature
+    - name: FeatureDetails

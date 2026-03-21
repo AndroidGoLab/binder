@@ -33,7 +33,7 @@ type IOMXBufferSource interface {
 	OnOmxIdle(ctx context.Context) error
 	OnOmxLoaded(ctx context.Context) error
 	OnInputBufferAdded(ctx context.Context, bufferID int32) error
-	OnInputBufferEmptied(ctx context.Context, bufferID int32, fenceParcel interface{}) error
+	OnInputBufferEmptied(ctx context.Context, bufferID int32, fenceParcel OMXFenceParcelable) error
 }
 
 type OMXBufferSourceProxy struct {
@@ -56,6 +56,7 @@ func (p *OMXBufferSourceProxy) OnOmxExecuting(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOMXBufferSource)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnOmxExecuting)
@@ -80,6 +81,7 @@ func (p *OMXBufferSourceProxy) OnOmxIdle(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOMXBufferSource)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnOmxIdle)
@@ -104,6 +106,7 @@ func (p *OMXBufferSourceProxy) OnOmxLoaded(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOMXBufferSource)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnOmxLoaded)
@@ -129,6 +132,7 @@ func (p *OMXBufferSourceProxy) OnInputBufferAdded(
 	bufferID int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOMXBufferSource)
 	_data.WriteInt32(bufferID)
 
@@ -153,11 +157,16 @@ func (p *OMXBufferSourceProxy) OnInputBufferAdded(
 func (p *OMXBufferSourceProxy) OnInputBufferEmptied(
 	ctx context.Context,
 	bufferID int32,
-	fenceParcel interface{},
+	fenceParcel OMXFenceParcelable,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOMXBufferSource)
 	_data.WriteInt32(bufferID)
+	_data.WriteInt32(1)
+	if _err := fenceParcel.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnInputBufferEmptied)
 	if _err != nil {
@@ -180,7 +189,8 @@ func (p *OMXBufferSourceProxy) OnInputBufferEmptied(
 // OMXBufferSourceStub dispatches incoming binder transactions
 // to a typed IOMXBufferSource implementation.
 type OMXBufferSourceStub struct {
-	Impl IOMXBufferSource
+	Impl      IOMXBufferSource
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OMXBufferSourceStub)(nil)
@@ -194,11 +204,12 @@ func (s *OMXBufferSourceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOMXBufferSourceOnOmxExecuting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnOmxExecuting(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -208,9 +219,6 @@ func (s *OMXBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOMXBufferSourceOnOmxIdle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnOmxIdle(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -220,9 +228,6 @@ func (s *OMXBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOMXBufferSourceOnOmxLoaded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnOmxLoaded(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -232,9 +237,6 @@ func (s *OMXBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOMXBufferSourceOnInputBufferAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_bufferID, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -248,14 +250,22 @@ func (s *OMXBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOMXBufferSourceOnInputBufferEmptied:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_bufferID, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_fenceParcel interface{}
+		var _arg_fenceParcel OMXFenceParcelable
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_fenceParcel.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnInputBufferEmptied(ctx, _arg_bufferID, _arg_fenceParcel)
 		_reply := parcel.New()
 		if _err != nil {
@@ -277,7 +287,7 @@ type IOMXBufferSourceServer interface {
 	OnOmxIdle(ctx context.Context) error
 	OnOmxLoaded(ctx context.Context) error
 	OnInputBufferAdded(ctx context.Context, bufferID int32) error
-	OnInputBufferEmptied(ctx context.Context, bufferID int32, fenceParcel interface{}) error
+	OnInputBufferEmptied(ctx context.Context, bufferID int32, fenceParcel OMXFenceParcelable) error
 }
 
 type oMXBufferSourceStubWrapper struct {
@@ -317,7 +327,7 @@ func (w *oMXBufferSourceStubWrapper) OnInputBufferAdded(
 func (w *oMXBufferSourceStubWrapper) OnInputBufferEmptied(
 	ctx context.Context,
 	bufferID int32,
-	fenceParcel interface{},
+	fenceParcel OMXFenceParcelable,
 ) error {
 	return w.impl.OnInputBufferEmptied(ctx, bufferID, fenceParcel)
 }

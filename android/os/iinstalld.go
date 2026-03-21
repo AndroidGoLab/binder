@@ -3,7 +3,6 @@ package os
 import (
 	"context"
 	"fmt"
-	osIInstalld "github.com/xaionaro-go/binder/android/os/IInstalld"
 	storage "github.com/xaionaro-go/binder/android/os/storage"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -175,8 +174,8 @@ type IInstalld interface {
 	MigrateLegacyObbData(ctx context.Context) error
 	CleanupInvalidPackageDirs(ctx context.Context, uuid string, flags int32) error
 	GetOdexVisibility(ctx context.Context, packageName string, apkPath string, instructionSet string, outputPath string) (int32, error)
-	CreateFsveritySetupAuthToken(ctx context.Context, authFd int32, uid int32) (osIInstalld.IFsveritySetupAuthToken, error)
-	EnableFsverity(ctx context.Context, authToken osIInstalld.IFsveritySetupAuthToken, filePath string, packageName string) (int32, error)
+	CreateFsveritySetupAuthToken(ctx context.Context, authFd int32, uid int32) (IInstalldIFsveritySetupAuthToken, error)
+	EnableFsverity(ctx context.Context, authToken IInstalldIFsveritySetupAuthToken, filePath string, packageName string) (int32, error)
 }
 
 const (
@@ -219,6 +218,7 @@ func (p *InstalldProxy) CreateUserData(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteInt32(_identity.UserID)
@@ -250,6 +250,7 @@ func (p *InstalldProxy) DestroyUserData(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteInt32(_identity.UserID)
@@ -277,6 +278,7 @@ func (p *InstalldProxy) SetFirstBoot(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldSetFirstBoot)
@@ -303,6 +305,7 @@ func (p *InstalldProxy) CreateAppData(
 ) (CreateAppDataResult, error) {
 	var _result CreateAppDataResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteInt32(1)
 	if _err := args.MarshalParcel(_data); _err != nil {
@@ -342,6 +345,7 @@ func (p *InstalldProxy) CreateAppDataBatched(
 ) ([]CreateAppDataResult, error) {
 	var _result []CreateAppDataResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	if args == nil {
 		_data.WriteInt32(-1)
@@ -374,6 +378,9 @@ func (p *InstalldProxy) CreateAppDataBatched(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]CreateAppDataResult, _count)
@@ -394,6 +401,7 @@ func (p *InstalldProxy) ReconcileSdkData(
 	args ReconcileSdkDataArgs,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteInt32(1)
 	if _err := args.MarshalParcel(_data); _err != nil {
@@ -428,6 +436,7 @@ func (p *InstalldProxy) RestoreconAppData(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteString16(packageName)
@@ -462,6 +471,7 @@ func (p *InstalldProxy) MigrateAppData(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteString16(packageName)
@@ -495,6 +505,7 @@ func (p *InstalldProxy) ClearAppData(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteString16(packageName)
@@ -529,6 +540,7 @@ func (p *InstalldProxy) DestroyAppData(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteString16(packageName)
@@ -560,6 +572,7 @@ func (p *InstalldProxy) FixupAppData(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteInt32(flags)
@@ -594,6 +607,7 @@ func (p *InstalldProxy) GetAppSize(
 	var _result []int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	if packageNames == nil {
@@ -643,6 +657,9 @@ func (p *InstalldProxy) GetAppSize(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int64, _count)
@@ -665,6 +682,7 @@ func (p *InstalldProxy) GetUserSize(
 	var _result []int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteInt32(_identity.UserID)
@@ -697,6 +715,9 @@ func (p *InstalldProxy) GetUserSize(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int64, _count)
@@ -719,6 +740,7 @@ func (p *InstalldProxy) GetExternalSize(
 	var _result []int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteInt32(_identity.UserID)
@@ -751,6 +773,9 @@ func (p *InstalldProxy) GetExternalSize(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int64, _count)
@@ -772,6 +797,7 @@ func (p *InstalldProxy) GetAppCrates(
 	var _result []storage.CrateMetadata
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	if packageNames == nil {
@@ -803,6 +829,9 @@ func (p *InstalldProxy) GetAppCrates(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]storage.CrateMetadata, _count)
@@ -825,6 +854,7 @@ func (p *InstalldProxy) GetUserCrates(
 	var _result []storage.CrateMetadata
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteInt32(_identity.UserID)
@@ -847,6 +877,9 @@ func (p *InstalldProxy) GetUserCrates(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -871,6 +904,7 @@ func (p *InstalldProxy) SetAppQuota(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteInt32(_identity.UserID)
@@ -906,6 +940,7 @@ func (p *InstalldProxy) MoveCompleteApp(
 	fromCodePath string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(fromUuid)
 	_data.WriteString16(toUuid)
@@ -954,6 +989,7 @@ func (p *InstalldProxy) Dexopt(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(apkPath)
 	_data.WriteInt32(uid)
@@ -999,6 +1035,7 @@ func (p *InstalldProxy) ControlDexOptBlocking(
 	block bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteBool(block)
 
@@ -1026,6 +1063,7 @@ func (p *InstalldProxy) Rmdex(
 	instructionSet string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(codePath)
 	_data.WriteString16(instructionSet)
@@ -1056,6 +1094,7 @@ func (p *InstalldProxy) MergeProfiles(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
@@ -1093,6 +1132,7 @@ func (p *InstalldProxy) DumpProfiles(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
@@ -1131,6 +1171,7 @@ func (p *InstalldProxy) CopySystemProfile(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(systemProfile)
 	_data.WriteInt32(uid)
@@ -1165,6 +1206,7 @@ func (p *InstalldProxy) ClearAppProfiles(
 	profileName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(packageName)
 	_data.WriteString16(profileName)
@@ -1192,6 +1234,7 @@ func (p *InstalldProxy) DestroyAppProfiles(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(packageName)
 
@@ -1219,6 +1262,7 @@ func (p *InstalldProxy) DeleteReferenceProfile(
 	profileName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(packageName)
 	_data.WriteString16(profileName)
@@ -1250,6 +1294,7 @@ func (p *InstalldProxy) CreateProfileSnapshot(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteInt32(appId)
 	_data.WriteString16(packageName)
@@ -1284,6 +1329,7 @@ func (p *InstalldProxy) DestroyProfileSnapshot(
 	profileName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(packageName)
 	_data.WriteString16(profileName)
@@ -1312,6 +1358,7 @@ func (p *InstalldProxy) RmPackageDir(
 	packageDir string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(packageName)
 	_data.WriteString16(packageDir)
@@ -1341,6 +1388,7 @@ func (p *InstalldProxy) FreeCache(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteInt64(targetFreeBytes)
@@ -1372,6 +1420,7 @@ func (p *InstalldProxy) LinkNativeLibraryDirectory(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteString16(packageName)
@@ -1403,6 +1452,7 @@ func (p *InstalldProxy) CreateOatDir(
 	instructionSet string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(packageName)
 	_data.WriteString16(oatDir)
@@ -1434,6 +1484,7 @@ func (p *InstalldProxy) LinkFile(
 	toBase string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(packageName)
 	_data.WriteString16(relativePath)
@@ -1466,6 +1517,7 @@ func (p *InstalldProxy) MoveAb(
 	outputPath string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(packageName)
 	_data.WriteString16(apkPath)
@@ -1499,6 +1551,7 @@ func (p *InstalldProxy) DeleteOdex(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(packageName)
 	_data.WriteString16(apkPath)
@@ -1538,6 +1591,7 @@ func (p *InstalldProxy) ReconcileSecondaryDexFile(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(dexPath)
 	_data.WriteString16(pkgName)
@@ -1585,6 +1639,7 @@ func (p *InstalldProxy) HashSecondaryDexFile(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(dexPath)
 	_data.WriteString16(pkgName)
@@ -1607,19 +1662,9 @@ func (p *InstalldProxy) HashSecondaryDexFile(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -1628,6 +1673,7 @@ func (p *InstalldProxy) InvalidateMounts(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldInvalidateMounts)
@@ -1654,6 +1700,7 @@ func (p *InstalldProxy) IsQuotaSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 
@@ -1690,6 +1737,7 @@ func (p *InstalldProxy) PrepareAppProfile(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -1730,6 +1778,7 @@ func (p *InstalldProxy) SnapshotAppData(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteString16(packageName)
@@ -1770,6 +1819,7 @@ func (p *InstalldProxy) RestoreAppDataSnapshot(
 	storageflags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteString16(packageName)
@@ -1807,6 +1857,7 @@ func (p *InstalldProxy) DestroyAppDataSnapshot(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteString16(packageName)
@@ -1840,6 +1891,7 @@ func (p *InstalldProxy) DestroyCeSnapshotsNotSpecified(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteInt32(_identity.UserID)
@@ -1875,6 +1927,7 @@ func (p *InstalldProxy) TryMountDataMirror(
 	volumeUuid string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(volumeUuid)
 
@@ -1901,6 +1954,7 @@ func (p *InstalldProxy) OnPrivateVolumeRemoved(
 	volumeUuid string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(volumeUuid)
 
@@ -1926,6 +1980,7 @@ func (p *InstalldProxy) MigrateLegacyObbData(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstalld, MethodIInstalldMigrateLegacyObbData)
@@ -1953,6 +2008,7 @@ func (p *InstalldProxy) CleanupInvalidPackageDirs(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 	_data.WriteInt32(_identity.UserID)
@@ -1985,6 +2041,7 @@ func (p *InstalldProxy) GetOdexVisibility(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(packageName)
 	_data.WriteString16(apkPath)
@@ -2017,9 +2074,10 @@ func (p *InstalldProxy) CreateFsveritySetupAuthToken(
 	ctx context.Context,
 	authFd int32,
 	uid int32,
-) (osIInstalld.IFsveritySetupAuthToken, error) {
-	var _result osIInstalld.IFsveritySetupAuthToken
+) (IInstalldIFsveritySetupAuthToken, error) {
+	var _result IInstalldIFsveritySetupAuthToken
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteFileDescriptor(authFd)
 	_data.WriteInt32(uid)
@@ -2043,18 +2101,19 @@ func (p *InstalldProxy) CreateFsveritySetupAuthToken(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = osIInstalld.NewFsveritySetupAuthTokenProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
+	_result = NewInstalldIFsveritySetupAuthTokenProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *InstalldProxy) EnableFsverity(
 	ctx context.Context,
-	authToken osIInstalld.IFsveritySetupAuthToken,
+	authToken IInstalldIFsveritySetupAuthToken,
 	filePath string,
 	packageName string,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	binder.WriteBinderToParcel(ctx, _data, authToken.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(filePath)
@@ -2085,7 +2144,8 @@ func (p *InstalldProxy) EnableFsverity(
 // InstalldStub dispatches incoming binder transactions
 // to a typed IInstalld implementation.
 type InstalldStub struct {
-	Impl IInstalld
+	Impl      IInstalld
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InstalldStub)(nil)
@@ -2099,11 +2159,12 @@ func (s *InstalldStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInstalldCreateUserData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2128,9 +2189,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldDestroyUserData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2151,9 +2209,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldSetFirstBoot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SetFirstBoot(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2163,9 +2218,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldCreateAppData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_args CreateAppDataArgs
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2191,12 +2243,27 @@ func (s *InstalldStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInstalldCreateAppDataBatched:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_args []CreateAppDataArgs
-		_ = _arg_args
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_args = make([]CreateAppDataArgs, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_args[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.CreateAppDataBatched(ctx, _arg_args)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2204,13 +2271,19 @@ func (s *InstalldStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIInstalldReconcileSdkData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_args ReconcileSdkDataArgs
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2232,9 +2305,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldRestoreconAppData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2267,9 +2337,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldMigrateAppData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2294,9 +2361,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldClearAppData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2325,9 +2389,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldDestroyAppData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2356,9 +2417,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldFixupAppData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2376,16 +2434,29 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldGetAppSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2397,12 +2468,44 @@ func (s *InstalldStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ceDataInodes []int64
-		_ = _arg_ceDataInodes
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ceDataInodes = make([]int64, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_ceDataInodes[_i], _err = _data.ReadInt64()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_codePaths []string
-		_ = _arg_codePaths
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_codePaths = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_codePaths[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetAppSize(ctx, _arg_uuid, _arg_packageNames, _arg_flags, _arg_appId, _arg_ceDataInodes, _arg_codePaths)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2410,13 +2513,16 @@ func (s *InstalldStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt64(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIInstalldGetUserSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2428,9 +2534,25 @@ func (s *InstalldStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_appIds []int32
-		_ = _arg_appIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_appIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_appIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetUserSize(ctx, _arg_uuid, _arg_flags, _arg_appIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2438,13 +2560,16 @@ func (s *InstalldStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt64(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIInstalldGetExternalSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2456,9 +2581,25 @@ func (s *InstalldStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_appIds []int32
-		_ = _arg_appIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_appIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_appIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetExternalSize(ctx, _arg_uuid, _arg_flags, _arg_appIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2466,20 +2607,39 @@ func (s *InstalldStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt64(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIInstalldGetAppCrates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2490,13 +2650,19 @@ func (s *InstalldStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIInstalldGetUserCrates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2511,13 +2677,19 @@ func (s *InstalldStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIInstalldSetAppQuota:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2542,9 +2714,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldMoveCompleteApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fromUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2582,9 +2751,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldDexopt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_apkPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2659,9 +2825,6 @@ func (s *InstalldStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInstalldControlDexOptBlocking:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_block, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2675,9 +2838,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldRmdex:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_codePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2695,9 +2855,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldMergeProfiles:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2720,9 +2877,6 @@ func (s *InstalldStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIInstalldDumpProfiles:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2753,9 +2907,6 @@ func (s *InstalldStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInstalldCopySystemProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_systemProfile, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2782,9 +2933,6 @@ func (s *InstalldStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInstalldClearAppProfiles:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2802,9 +2950,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldDestroyAppProfiles:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2818,9 +2963,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldDeleteReferenceProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2838,9 +2980,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldCreateProfileSnapshot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_appId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2867,9 +3006,6 @@ func (s *InstalldStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInstalldDestroyProfileSnapshot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2887,9 +3023,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldRmPackageDir:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2907,9 +3040,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldFreeCache:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2931,9 +3061,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldLinkNativeLibraryDirectory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2958,9 +3085,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldCreateOatDir:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2982,9 +3106,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldLinkFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3010,9 +3131,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldMoveAb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3038,9 +3156,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldDeleteOdex:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3067,9 +3182,6 @@ func (s *InstalldStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIInstalldReconcileSecondaryDexFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dexPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3082,9 +3194,25 @@ func (s *InstalldStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_isas []string
-		_ = _arg_isas
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_isas = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_isas[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_volume_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3103,9 +3231,6 @@ func (s *InstalldStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInstalldHashSecondaryDexFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dexPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3133,13 +3258,9 @@ func (s *InstalldStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIInstalldInvalidateMounts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.InvalidateMounts(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3149,9 +3270,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldIsQuotaSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3166,9 +3284,6 @@ func (s *InstalldStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInstalldPrepareAppProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3202,9 +3317,6 @@ func (s *InstalldStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInstalldSnapshotAppData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3234,9 +3346,6 @@ func (s *InstalldStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIInstalldRestoreAppDataSnapshot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3274,9 +3383,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldDestroyAppDataSnapshot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3309,9 +3415,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldDestroyCeSnapshotsNotSpecified:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3319,9 +3422,25 @@ func (s *InstalldStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_retainSnapshotIds []int32
-		_ = _arg_retainSnapshotIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_retainSnapshotIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_retainSnapshotIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.DestroyCeSnapshotsNotSpecified(ctx, _arg_uuid, _arg_retainSnapshotIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3331,9 +3450,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldTryMountDataMirror:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3347,9 +3463,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldOnPrivateVolumeRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3363,9 +3476,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldMigrateLegacyObbData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.MigrateLegacyObbData(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3375,9 +3485,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldCleanupInvalidPackageDirs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3398,9 +3505,6 @@ func (s *InstalldStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInstalldGetOdexVisibility:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3427,9 +3531,6 @@ func (s *InstalldStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIInstalldCreateFsveritySetupAuthToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_authFd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -3445,16 +3546,17 @@ func (s *InstalldStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIInstalldEnableFsverity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_authToken IInstalldIFsveritySetupAuthToken
+		{
+			_authTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_authToken = NewInstalldIFsveritySetupAuthTokenProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _authTokenHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_authToken osIInstalld.IFsveritySetupAuthToken
-		_ = _arg_authToken
 		_arg_filePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3531,8 +3633,8 @@ type IInstalldServer interface {
 	MigrateLegacyObbData(ctx context.Context) error
 	CleanupInvalidPackageDirs(ctx context.Context, uuid string, flags int32) error
 	GetOdexVisibility(ctx context.Context, packageName string, apkPath string, instructionSet string, outputPath string) (int32, error)
-	CreateFsveritySetupAuthToken(ctx context.Context, authFd int32, uid int32) (osIInstalld.IFsveritySetupAuthToken, error)
-	EnableFsverity(ctx context.Context, authToken osIInstalld.IFsveritySetupAuthToken, filePath string, packageName string) (int32, error)
+	CreateFsveritySetupAuthToken(ctx context.Context, authFd int32, uid int32) (IInstalldIFsveritySetupAuthToken, error)
+	EnableFsverity(ctx context.Context, authToken IInstalldIFsveritySetupAuthToken, filePath string, packageName string) (int32, error)
 }
 
 type installdStubWrapper struct {
@@ -4007,13 +4109,13 @@ func (w *installdStubWrapper) CreateFsveritySetupAuthToken(
 	ctx context.Context,
 	authFd int32,
 	uid int32,
-) (osIInstalld.IFsveritySetupAuthToken, error) {
+) (IInstalldIFsveritySetupAuthToken, error) {
 	return w.impl.CreateFsveritySetupAuthToken(ctx, authFd, uid)
 }
 
 func (w *installdStubWrapper) EnableFsverity(
 	ctx context.Context,
-	authToken osIInstalld.IFsveritySetupAuthToken,
+	authToken IInstalldIFsveritySetupAuthToken,
 	filePath string,
 	packageName string,
 ) (int32, error) {

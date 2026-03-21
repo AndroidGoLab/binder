@@ -37,8 +37,7 @@ func (u *RadioAccessSpecifierBands) GetNoinit() (bool, bool) {
 func (u *RadioAccessSpecifierBands) SetNoinit(
 	v bool,
 ) {
-	u.Tag = RadioAccessSpecifierBandsTagNoinit
-	u.Noinit = v
+	*u = RadioAccessSpecifierBands{Tag: RadioAccessSpecifierBandsTagNoinit, Noinit: v}
 }
 
 func (u *RadioAccessSpecifierBands) GetGeranBands() ([]GeranBands, bool) {
@@ -52,8 +51,7 @@ func (u *RadioAccessSpecifierBands) GetGeranBands() ([]GeranBands, bool) {
 func (u *RadioAccessSpecifierBands) SetGeranBands(
 	v []GeranBands,
 ) {
-	u.Tag = RadioAccessSpecifierBandsTagGeranBands
-	u.GeranBands = v
+	*u = RadioAccessSpecifierBands{Tag: RadioAccessSpecifierBandsTagGeranBands, GeranBands: v}
 }
 
 func (u *RadioAccessSpecifierBands) GetUtranBands() ([]UtranBands, bool) {
@@ -67,8 +65,7 @@ func (u *RadioAccessSpecifierBands) GetUtranBands() ([]UtranBands, bool) {
 func (u *RadioAccessSpecifierBands) SetUtranBands(
 	v []UtranBands,
 ) {
-	u.Tag = RadioAccessSpecifierBandsTagUtranBands
-	u.UtranBands = v
+	*u = RadioAccessSpecifierBands{Tag: RadioAccessSpecifierBandsTagUtranBands, UtranBands: v}
 }
 
 func (u *RadioAccessSpecifierBands) GetEutranBands() ([]EutranBands, bool) {
@@ -82,8 +79,7 @@ func (u *RadioAccessSpecifierBands) GetEutranBands() ([]EutranBands, bool) {
 func (u *RadioAccessSpecifierBands) SetEutranBands(
 	v []EutranBands,
 ) {
-	u.Tag = RadioAccessSpecifierBandsTagEutranBands
-	u.EutranBands = v
+	*u = RadioAccessSpecifierBands{Tag: RadioAccessSpecifierBandsTagEutranBands, EutranBands: v}
 }
 
 func (u *RadioAccessSpecifierBands) GetNgranBands() ([]NgranBands, bool) {
@@ -97,8 +93,7 @@ func (u *RadioAccessSpecifierBands) GetNgranBands() ([]NgranBands, bool) {
 func (u *RadioAccessSpecifierBands) SetNgranBands(
 	v []NgranBands,
 ) {
-	u.Tag = RadioAccessSpecifierBandsTagNgranBands
-	u.NgranBands = v
+	*u = RadioAccessSpecifierBands{Tag: RadioAccessSpecifierBandsTagNgranBands, NgranBands: v}
 }
 
 func (u *RadioAccessSpecifierBands) MarshalParcel(

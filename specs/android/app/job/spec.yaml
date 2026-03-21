@@ -1,0 +1,416 @@
+package: android.app.job
+go_package: android/app/job
+interfaces:
+    - name: IJobCallback
+      descriptor: android.app.job.IJobCallback
+      methods:
+        - name: acknowledgeGetTransferredDownloadBytesMessage
+          transaction_code_offset: 0
+          params:
+            - name: jobId
+              type:
+                name: int
+            - name: workId
+              type:
+                name: int
+            - name: transferredBytes
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: acknowledgeGetTransferredUploadBytesMessage
+          transaction_code_offset: 1
+          params:
+            - name: jobId
+              type:
+                name: int
+            - name: workId
+              type:
+                name: int
+            - name: transferredBytes
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: acknowledgeStartMessage
+          transaction_code_offset: 2
+          params:
+            - name: jobId
+              type:
+                name: int
+            - name: ongoing
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: acknowledgeStopMessage
+          transaction_code_offset: 3
+          params:
+            - name: jobId
+              type:
+                name: int
+            - name: reschedule
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: dequeueWork
+          transaction_code_offset: 4
+          params:
+            - name: jobId
+              type:
+                name: int
+          return_type:
+            name: JobWorkItem
+          annotations:
+            - UnsupportedAppUsage
+        - name: completeWork
+          transaction_code_offset: 5
+          params:
+            - name: jobId
+              type:
+                name: int
+            - name: workId
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: jobFinished
+          transaction_code_offset: 6
+          params:
+            - name: jobId
+              type:
+                name: int
+            - name: reschedule
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: updateEstimatedNetworkBytes
+          transaction_code_offset: 7
+          params:
+            - name: jobId
+              type:
+                name: int
+            - name: item
+              type:
+                name: JobWorkItem
+              direction: in
+            - name: downloadBytes
+              type:
+                name: long
+            - name: uploadBytes
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: updateTransferredNetworkBytes
+          transaction_code_offset: 8
+          params:
+            - name: jobId
+              type:
+                name: int
+            - name: item
+              type:
+                name: JobWorkItem
+              direction: in
+            - name: transferredDownloadBytes
+              type:
+                name: long
+            - name: transferredUploadBytes
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: setNotification
+          transaction_code_offset: 9
+          params:
+            - name: jobId
+              type:
+                name: int
+            - name: notificationId
+              type:
+                name: int
+            - name: notification
+              type:
+                name: Notification
+              direction: in
+            - name: jobEndNotificationPolicy
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IJobScheduler
+      descriptor: android.app.job.IJobScheduler
+      methods:
+        - name: schedule
+          transaction_code_offset: 0
+          params:
+            - name: namespace
+              type:
+                name: String
+            - name: job
+              type:
+                name: JobInfo
+              direction: in
+          return_type:
+            name: int
+        - name: enqueue
+          transaction_code_offset: 1
+          params:
+            - name: namespace
+              type:
+                name: String
+            - name: job
+              type:
+                name: JobInfo
+              direction: in
+            - name: work
+              type:
+                name: JobWorkItem
+              direction: in
+          return_type:
+            name: int
+        - name: scheduleAsPackage
+          transaction_code_offset: 2
+          params:
+            - name: namespace
+              type:
+                name: String
+            - name: job
+              type:
+                name: JobInfo
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: tag
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: cancel
+          transaction_code_offset: 3
+          params:
+            - name: namespace
+              type:
+                name: String
+            - name: jobId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: cancelAll
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: cancelAllInNamespace
+          transaction_code_offset: 5
+          params:
+            - name: namespace
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getAllPendingJobs
+          transaction_code_offset: 6
+          return_type:
+            name: Map
+            type_args:
+                - name: String
+                - name: ParceledListSlice
+                  type_args:
+                    - name: JobInfo
+        - name: getAllPendingJobsInNamespace
+          transaction_code_offset: 7
+          params:
+            - name: namespace
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+            type_args:
+                - name: JobInfo
+        - name: getPendingJob
+          transaction_code_offset: 8
+          params:
+            - name: namespace
+              type:
+                name: String
+            - name: jobId
+              type:
+                name: int
+          return_type:
+            name: JobInfo
+        - name: getPendingJobReason
+          transaction_code_offset: 9
+          params:
+            - name: namespace
+              type:
+                name: String
+            - name: jobId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: canRunUserInitiatedJobs
+          transaction_code_offset: 10
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: hasRunUserInitiatedJobsPermission
+          transaction_code_offset: 11
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getStartedJobs
+          transaction_code_offset: 12
+          return_type:
+            name: List
+            type_args:
+                - name: JobInfo
+        - name: getAllJobSnapshots
+          transaction_code_offset: 13
+          return_type:
+            name: ParceledListSlice
+        - name: registerUserVisibleJobObserver
+          transaction_code_offset: 14
+          params:
+            - name: observer
+              type:
+                name: IUserVisibleJobObserver
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: unregisterUserVisibleJobObserver
+          transaction_code_offset: 15
+          params:
+            - name: observer
+              type:
+                name: IUserVisibleJobObserver
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: notePendingUserRequestedAppStop
+          transaction_code_offset: 16
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: debugReason
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+    - name: IJobService
+      descriptor: android.app.job.IJobService
+      oneway: true
+      methods:
+        - name: startJob
+          transaction_code_offset: 0
+          params:
+            - name: jobParams
+              type:
+                name: JobParameters
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: stopJob
+          transaction_code_offset: 1
+          params:
+            - name: jobParams
+              type:
+                name: JobParameters
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onNetworkChanged
+          transaction_code_offset: 2
+          params:
+            - name: jobParams
+              type:
+                name: JobParameters
+              direction: in
+          return_type:
+            name: void
+        - name: getTransferredDownloadBytes
+          transaction_code_offset: 3
+          params:
+            - name: jobParams
+              type:
+                name: JobParameters
+              direction: in
+            - name: jobWorkItem
+              type:
+                name: JobWorkItem
+              direction: in
+          return_type:
+            name: void
+        - name: getTransferredUploadBytes
+          transaction_code_offset: 4
+          params:
+            - name: jobParams
+              type:
+                name: JobParameters
+              direction: in
+            - name: jobWorkItem
+              type:
+                name: JobWorkItem
+              direction: in
+          return_type:
+            name: void
+    - name: IUserVisibleJobObserver
+      descriptor: android.app.job.IUserVisibleJobObserver
+      oneway: true
+      methods:
+        - name: onUserVisibleJobStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: summary
+              type:
+                name: UserVisibleJobSummary
+              direction: in
+            - name: isRunning
+              type:
+                name: boolean
+          return_type:
+            name: void
+parcelables:
+    - name: JobInfo
+    - name: JobParameters
+    - name: JobSnapshot
+    - name: JobWorkItem
+    - name: UserVisibleJobSummary

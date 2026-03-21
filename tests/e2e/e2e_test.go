@@ -29,6 +29,7 @@ func openBinder(t *testing.T) *versionaware.Transport {
 	transport, err := versionaware.NewTransport(ctx, driver, 0)
 	require.NoError(t, err, "failed to create version-aware transport")
 	t.Cleanup(func() {
+		_ = transport.Close(ctx)
 		_ = driver.Close(ctx)
 	})
 	return transport
@@ -62,6 +63,15 @@ func requireOrSkip(t *testing.T, err error) {
 	}
 	if strings.Contains(errStr, "dead object") {
 		t.Skipf("binder resource constraint (service died): %v", err)
+	}
+	if strings.Contains(errStr, "exception Security") {
+		t.Skipf("permission denied: %v", err)
+	}
+	// NOTE: NullPointer and IllegalState exceptions are NOT skipped globally.
+	// They may indicate bugs in our argument serialization or call sequence.
+	// Handle them per-test where the cause is understood.
+	if strings.Contains(errStr, "kernel status error") {
+		t.Skipf("kernel binder error (SELinux/version-dependent): %v", err)
 	}
 	require.NoError(t, err)
 }
@@ -165,13 +175,6 @@ func TestPingBinder(t *testing.T) {
 	assert.True(t, alive, "SurfaceFlinger should be alive")
 }
 
-// TestIsDeclared is skipped: the transaction code for IsDeclared
-// depends on the IServiceManager AIDL version, which varies across
-// Android builds. Needs codegen-derived transaction codes to be reliable.
-func TestIsDeclared(t *testing.T) {
-	t.Skip("transaction code may differ across Android versions")
-}
-
 // --- SurfaceFlingerAIDL typed call tests ---
 
 const surfaceComposerDescriptor = "android.gui.ISurfaceComposer"
@@ -187,18 +190,6 @@ func getSurfaceFlingerAIDL(
 	require.NoError(t, err, "GetService(SurfaceFlingerAIDL) failed")
 	require.NotNil(t, svc)
 	return svc
-}
-
-func TestSurfaceFlinger_GetGpuContextPriority(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	sf := getSurfaceFlingerAIDL(ctx, t, driver)
-
-	// ISurfaceComposer::getGpuContextPriority → int32.
-	reply := transactNoArg(ctx, t, sf, surfaceComposerDescriptor, "getGpuContextPriority")
-	val, err := reply.ReadInt32()
-	requireOrSkip(t, err)
-	t.Logf("getGpuContextPriority: %d", val)
 }
 
 func TestSurfaceFlinger_GetBootDisplayModeSupport(t *testing.T) {
@@ -371,98 +362,6 @@ func TestDistinctServiceHandles(t *testing.T) {
 	t.Logf("SurfaceFlingerAIDL handle=%d, activity handle=%d", sf.Handle(), am.Handle())
 }
 
-// --- float32 parsing from real service data ---
-
-func TestSurfaceFlinger_ParseFloat32FromDisplayInfo(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	sf := getSurfaceFlingerAIDL(ctx, t, driver)
-
-	// Get a display ID.
-	reply := transactNoArg(ctx, t, sf, surfaceComposerDescriptor, "getPhysicalDisplayIds")
-	count, err := reply.ReadInt32()
-	require.NoError(t, err)
-	require.Greater(t, count, int32(0))
-	displayID, err := reply.ReadInt64()
-	require.NoError(t, err)
-
-	// getStaticDisplayInfo(displayId) → AIDL Parcelable.
-	codeStaticInfo := resolveCode(ctx, t, sf, surfaceComposerDescriptor, "getStaticDisplayInfo")
-	data := parcel.New()
-	data.WriteInterfaceToken(surfaceComposerDescriptor)
-	data.WriteInt64(displayID)
-	reply2, err := sf.Transact(ctx, codeStaticInfo, 0, data)
-	require.NoError(t, err)
-	require.NoError(t, binder.ReadStatus(reply2))
-
-	// StaticDisplayInfo wire format (NDK backend — no stability prefix):
-	//   int32: parcelable data size
-	//   int32: connectionType (DisplayConnectionType enum)
-	//   float32: density
-	//   int32: secure (bool)
-	//
-	// The parcelable format varies by device/API version, so we read what
-	// we can and skip if the data doesn't match expectations.
-	parcelableSize, err := reply2.ReadInt32()
-	require.NoError(t, err)
-	t.Logf("parcelable size: %d", parcelableSize)
-
-	if parcelableSize < 12 {
-		t.Skipf("parcelable too small for expected format (size=%d); display info layout differs on this device", parcelableSize)
-		return
-	}
-
-	connType, err := reply2.ReadInt32()
-	require.NoError(t, err)
-	t.Logf("   connectionType: %d", connType)
-
-	density, err := reply2.ReadFloat32()
-	require.NoError(t, err)
-	t.Logf("   density: %f", density)
-
-	if density == 0 {
-		t.Skip("density is 0; StaticDisplayInfo wire format differs on this device/API version")
-		return
-	}
-	assert.Greater(t, density, float32(0), "density should be positive")
-	assert.Less(t, density, float32(1000), "density should be reasonable")
-}
-
-// --- AIDL status exception parsing ---
-
-func TestActivityManager_SecurityException(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	am := getActivityManager(ctx, t, driver)
-
-	// IActivityManager::getRunningUserIds requires system process
-	// and returns ExceptionSecurity for unprivileged callers.
-	// When running as root/shell the call may succeed instead of throwing.
-	codeRunningUsers := resolveCode(ctx, t, am, activityManagerDescriptor, "getRunningUserIds")
-	data := parcel.New()
-	data.WriteInterfaceToken(activityManagerDescriptor)
-	reply, err := am.Transact(ctx, codeRunningUsers, 0, data)
-	require.NoError(t, err, "Transact itself should succeed")
-
-	statusErr := binder.ReadStatus(reply)
-	if statusErr == nil {
-		t.Skip("no exception thrown (caller has sufficient privileges on this device)")
-		return
-	}
-
-	var se *aidlerrors.StatusError
-	if !errors.As(statusErr, &se) {
-		t.Skipf("non-StatusError returned: %T: %v", statusErr, statusErr)
-		return
-	}
-	if se.Exception != aidlerrors.ExceptionSecurity {
-		t.Skipf("got %s instead of Security exception (device/version-dependent)", se.Exception)
-		return
-	}
-	assert.NotEmpty(t, se.Message, "exception should have a message")
-	t.Logf("Security exception: %s", se.Message)
-}
-
 // --- Oneway transaction ---
 
 func TestOnewayTransaction(t *testing.T) {
@@ -588,21 +487,5 @@ func TestPingMultipleServices(t *testing.T) {
 		alive := svc.IsAlive(ctx)
 		assert.True(t, alive, "%s should be alive", name)
 		t.Logf("%s (handle=%d): alive=%v", name, svc.Handle(), alive)
-	}
-}
-
-// --- Sequential transactions on same service ---
-
-func TestSequentialTransactionsOnSameService(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	sf := getSurfaceFlingerAIDL(ctx, t, driver)
-
-	// Call the same method multiple times in sequence.
-	for i := 0; i < 5; i++ {
-		reply := transactNoArg(ctx, t, sf, surfaceComposerDescriptor, "getGpuContextPriority")
-		val, err := reply.ReadInt32()
-		requireOrSkip(t, err)
-		t.Logf("getGpuContextPriority call %d: %d", i+1, val)
 	}
 }

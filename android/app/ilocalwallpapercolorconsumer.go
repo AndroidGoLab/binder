@@ -47,6 +47,7 @@ func (p *LocalWallpaperColorConsumerProxy) OnColorsChanged(
 	colors WallpaperColors,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocalWallpaperColorConsumer)
 	_data.WriteInt32(1)
 	if _err := area.MarshalParcel(_data); _err != nil {
@@ -69,7 +70,8 @@ func (p *LocalWallpaperColorConsumerProxy) OnColorsChanged(
 // LocalWallpaperColorConsumerStub dispatches incoming binder transactions
 // to a typed ILocalWallpaperColorConsumer implementation.
 type LocalWallpaperColorConsumerStub struct {
-	Impl ILocalWallpaperColorConsumer
+	Impl      ILocalWallpaperColorConsumer
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LocalWallpaperColorConsumerStub)(nil)
@@ -83,11 +85,12 @@ func (s *LocalWallpaperColorConsumerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILocalWallpaperColorConsumerOnColorsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_area graphics.RectF
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -113,8 +116,7 @@ func (s *LocalWallpaperColorConsumerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnColorsChanged(ctx, _arg_area, _arg_colors)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

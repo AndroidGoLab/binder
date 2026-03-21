@@ -31,8 +31,7 @@ func (u *OperandExtraParams) GetChannelQuant() (SymmPerChannelQuantParams, bool)
 func (u *OperandExtraParams) SetChannelQuant(
 	v SymmPerChannelQuantParams,
 ) {
-	u.Tag = OperandExtraParamsTagChannelQuant
-	u.ChannelQuant = v
+	*u = OperandExtraParams{Tag: OperandExtraParamsTagChannelQuant, ChannelQuant: v}
 }
 
 func (u *OperandExtraParams) GetExtension() ([]byte, bool) {
@@ -46,8 +45,7 @@ func (u *OperandExtraParams) GetExtension() ([]byte, bool) {
 func (u *OperandExtraParams) SetExtension(
 	v []byte,
 ) {
-	u.Tag = OperandExtraParamsTagExtension
-	u.Extension = v
+	*u = OperandExtraParams{Tag: OperandExtraParamsTagExtension, Extension: v}
 }
 
 func (u *OperandExtraParams) MarshalParcel(

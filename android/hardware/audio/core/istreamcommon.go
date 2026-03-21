@@ -63,6 +63,7 @@ func (p *StreamCommonProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCommon, MethodIStreamCommonClose)
@@ -87,6 +88,7 @@ func (p *StreamCommonProxy) PrepareToClose(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCommon, MethodIStreamCommonPrepareToClose)
@@ -112,6 +114,7 @@ func (p *StreamCommonProxy) UpdateHwAvSyncId(
 	hwAvSyncId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
 	_data.WriteInt32(hwAvSyncId)
 
@@ -139,6 +142,7 @@ func (p *StreamCommonProxy) GetVendorParameters(
 ) ([]VendorParameter, error) {
 	var _result []VendorParameter
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
 	if ids == nil {
 		_data.WriteInt32(-1)
@@ -168,6 +172,9 @@ func (p *StreamCommonProxy) GetVendorParameters(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]VendorParameter, _count)
@@ -189,6 +196,7 @@ func (p *StreamCommonProxy) SetVendorParameters(
 	async bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
 	if parameters == nil {
 		_data.WriteInt32(-1)
@@ -226,6 +234,7 @@ func (p *StreamCommonProxy) AddEffect(
 	effect audioEffect.IEffect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
 	binder.WriteBinderToParcel(ctx, _data, effect.AsBinder(), p.Remote.Transport())
 
@@ -252,6 +261,7 @@ func (p *StreamCommonProxy) RemoveEffect(
 	effect audioEffect.IEffect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
 	binder.WriteBinderToParcel(ctx, _data, effect.AsBinder(), p.Remote.Transport())
 
@@ -276,7 +286,8 @@ func (p *StreamCommonProxy) RemoveEffect(
 // StreamCommonStub dispatches incoming binder transactions
 // to a typed IStreamCommon implementation.
 type StreamCommonStub struct {
-	Impl IStreamCommon
+	Impl      IStreamCommon
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StreamCommonStub)(nil)
@@ -290,11 +301,12 @@ func (s *StreamCommonStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStreamCommonClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -304,9 +316,6 @@ func (s *StreamCommonStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamCommonPrepareToClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.PrepareToClose(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -316,9 +325,6 @@ func (s *StreamCommonStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamCommonUpdateHwAvSyncId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_hwAvSyncId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -332,12 +338,25 @@ func (s *StreamCommonStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamCommonGetVendorParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ids []string
-		_ = _arg_ids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ids = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_ids[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetVendorParameters(ctx, _arg_ids)
 		_reply := parcel.New()
 		if _err != nil {
@@ -345,16 +364,40 @@ func (s *StreamCommonStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIStreamCommonSetVendorParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_parameters []VendorParameter
-		_ = _arg_parameters
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_parameters = make([]VendorParameter, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_parameters[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_async, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -368,12 +411,14 @@ func (s *StreamCommonStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamCommonAddEffect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_effect audioEffect.IEffect
-		_ = _arg_effect
+		{
+			_effectHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_effect = audioEffect.NewEffectProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _effectHandle))
+		}
 		_err := s.Impl.AddEffect(ctx, _arg_effect)
 		_reply := parcel.New()
 		if _err != nil {
@@ -383,12 +428,14 @@ func (s *StreamCommonStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamCommonRemoveEffect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_effect audioEffect.IEffect
-		_ = _arg_effect
+		{
+			_effectHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_effect = audioEffect.NewEffectProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _effectHandle))
+		}
 		_err := s.Impl.RemoveEffect(ctx, _arg_effect)
 		_reply := parcel.New()
 		if _err != nil {

@@ -46,14 +46,29 @@ func (s *AssociationRejectionData) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Ssid, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Bssid, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_statusCodeRaw, _err := p.ReadInt32()
@@ -62,14 +77,29 @@ func (s *AssociationRejectionData) UnmarshalParcel(
 	}
 	s.StatusCode = StaIfaceStatusCode(_statusCodeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.TimedOut, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsMboAssocDisallowedReasonCodePresent, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_mboAssocDisallowedReasonRaw, _err := p.ReadPaddedByte()
@@ -78,9 +108,19 @@ func (s *AssociationRejectionData) UnmarshalParcel(
 	}
 	s.MboAssocDisallowedReason = MboAssocDisallowedReasonCode(_mboAssocDisallowedReasonRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsOceRssiBasedAssocRejectAttrPresent, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.OceRssiBasedAssocRejectData.UnmarshalParcel(p); _err != nil {

@@ -1,0 +1,1137 @@
+package: android.view.accessibility
+go_package: android/view/accessibility
+interfaces:
+    - name: IAccessibilityEmbeddedConnection
+      descriptor: android.view.accessibility.IAccessibilityEmbeddedConnection
+      methods:
+        - name: associateEmbeddedHierarchy
+          transaction_code_offset: 0
+          params:
+            - name: hostToken
+              type:
+                name: IBinder
+            - name: sourceId
+              type:
+                name: int
+          return_type:
+            name: IBinder
+        - name: disassociateEmbeddedHierarchy
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: setWindowMatrix
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: matrixValues
+              type:
+                name: float
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IAccessibilityInteractionConnection
+      descriptor: android.view.accessibility.IAccessibilityInteractionConnection
+      oneway: true
+      methods:
+        - name: findAccessibilityNodeInfoByAccessibilityId
+          transaction_code_offset: 0
+          params:
+            - name: accessibilityNodeId
+              type:
+                name: long
+            - name: bounds
+              type:
+                name: Region
+              direction: in
+            - name: interactionId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IAccessibilityInteractionConnectionCallback
+            - name: flags
+              type:
+                name: int
+            - name: interrogatingPid
+              type:
+                name: int
+            - name: interrogatingTid
+              type:
+                name: long
+            - name: spec
+              type:
+                name: MagnificationSpec
+              direction: in
+            - name: matrixValues
+              type:
+                name: float
+                is_array: true
+              direction: in
+            - name: arguments
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: findAccessibilityNodeInfosByViewId
+          transaction_code_offset: 1
+          params:
+            - name: accessibilityNodeId
+              type:
+                name: long
+            - name: viewId
+              type:
+                name: String
+            - name: bounds
+              type:
+                name: Region
+              direction: in
+            - name: interactionId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IAccessibilityInteractionConnectionCallback
+            - name: flags
+              type:
+                name: int
+            - name: interrogatingPid
+              type:
+                name: int
+            - name: interrogatingTid
+              type:
+                name: long
+            - name: spec
+              type:
+                name: MagnificationSpec
+              direction: in
+            - name: matrix
+              type:
+                name: float
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: findAccessibilityNodeInfosByText
+          transaction_code_offset: 2
+          params:
+            - name: accessibilityNodeId
+              type:
+                name: long
+            - name: text
+              type:
+                name: String
+            - name: bounds
+              type:
+                name: Region
+              direction: in
+            - name: interactionId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IAccessibilityInteractionConnectionCallback
+            - name: flags
+              type:
+                name: int
+            - name: interrogatingPid
+              type:
+                name: int
+            - name: interrogatingTid
+              type:
+                name: long
+            - name: spec
+              type:
+                name: MagnificationSpec
+              direction: in
+            - name: matrixValues
+              type:
+                name: float
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: findFocus
+          transaction_code_offset: 3
+          params:
+            - name: accessibilityNodeId
+              type:
+                name: long
+            - name: focusType
+              type:
+                name: int
+            - name: bounds
+              type:
+                name: Region
+              direction: in
+            - name: interactionId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IAccessibilityInteractionConnectionCallback
+            - name: flags
+              type:
+                name: int
+            - name: interrogatingPid
+              type:
+                name: int
+            - name: interrogatingTid
+              type:
+                name: long
+            - name: spec
+              type:
+                name: MagnificationSpec
+              direction: in
+            - name: matrixValues
+              type:
+                name: float
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: focusSearch
+          transaction_code_offset: 4
+          params:
+            - name: accessibilityNodeId
+              type:
+                name: long
+            - name: direction
+              type:
+                name: int
+            - name: bounds
+              type:
+                name: Region
+              direction: in
+            - name: interactionId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IAccessibilityInteractionConnectionCallback
+            - name: flags
+              type:
+                name: int
+            - name: interrogatingPid
+              type:
+                name: int
+            - name: interrogatingTid
+              type:
+                name: long
+            - name: spec
+              type:
+                name: MagnificationSpec
+              direction: in
+            - name: matrixValues
+              type:
+                name: float
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: performAccessibilityAction
+          transaction_code_offset: 5
+          params:
+            - name: accessibilityNodeId
+              type:
+                name: long
+            - name: action
+              type:
+                name: int
+            - name: arguments
+              type:
+                name: Bundle
+              direction: in
+            - name: interactionId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IAccessibilityInteractionConnectionCallback
+            - name: flags
+              type:
+                name: int
+            - name: interrogatingPid
+              type:
+                name: int
+            - name: interrogatingTid
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: clearAccessibilityFocus
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: notifyOutsideTouch
+          transaction_code_offset: 7
+          return_type:
+            name: void
+        - name: takeScreenshotOfWindow
+          transaction_code_offset: 8
+          params:
+            - name: interactionId
+              type:
+                name: int
+            - name: listener
+              type:
+                name: ScreenCapture.ScreenCaptureListener
+              direction: in
+            - name: callback
+              type:
+                name: IAccessibilityInteractionConnectionCallback
+          return_type:
+            name: void
+        - name: attachAccessibilityOverlayToWindow
+          transaction_code_offset: 9
+          params:
+            - name: sc
+              type:
+                name: SurfaceControl
+              direction: in
+            - name: interactionId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IAccessibilityInteractionConnectionCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IAccessibilityInteractionConnectionCallback
+      descriptor: android.view.accessibility.IAccessibilityInteractionConnectionCallback
+      oneway: true
+      methods:
+        - name: setFindAccessibilityNodeInfoResult
+          transaction_code_offset: 0
+          params:
+            - name: info
+              type:
+                name: AccessibilityNodeInfo
+              direction: in
+            - name: interactionId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setFindAccessibilityNodeInfosResult
+          transaction_code_offset: 1
+          params:
+            - name: infos
+              type:
+                name: List
+                type_args:
+                    - name: AccessibilityNodeInfo
+              direction: in
+            - name: interactionId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setPrefetchAccessibilityNodeInfoResult
+          transaction_code_offset: 2
+          params:
+            - name: infos
+              type:
+                name: List
+                type_args:
+                    - name: AccessibilityNodeInfo
+              direction: in
+            - name: interactionId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setPerformAccessibilityActionResult
+          transaction_code_offset: 3
+          params:
+            - name: succeeded
+              type:
+                name: boolean
+            - name: interactionId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: sendTakeScreenshotOfWindowError
+          transaction_code_offset: 4
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: interactionId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendAttachOverlayResult
+          transaction_code_offset: 5
+          params:
+            - name: result
+              type:
+                name: int
+            - name: interactionId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IAccessibilityManager
+      descriptor: android.view.accessibility.IAccessibilityManager
+      methods:
+        - name: interrupt
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendAccessibilityEvent
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: uiEvent
+              type:
+                name: AccessibilityEvent
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: addClient
+          transaction_code_offset: 2
+          params:
+            - name: client
+              type:
+                name: IAccessibilityManagerClient
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: long
+        - name: removeClient
+          transaction_code_offset: 3
+          params:
+            - name: client
+              type:
+                name: IAccessibilityManagerClient
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getInstalledAccessibilityServiceList
+          transaction_code_offset: 4
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+            type_args:
+                - name: AccessibilityServiceInfo
+        - name: getEnabledAccessibilityServiceList
+          transaction_code_offset: 5
+          params:
+            - name: feedbackType
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: AccessibilityServiceInfo
+          annotations:
+            - UnsupportedAppUsage
+        - name: addAccessibilityInteractionConnection
+          transaction_code_offset: 6
+          params:
+            - name: windowToken
+              type:
+                name: IWindow
+            - name: leashToken
+              type:
+                name: IBinder
+            - name: connection
+              type:
+                name: IAccessibilityInteractionConnection
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: removeAccessibilityInteractionConnection
+          transaction_code_offset: 7
+          params:
+            - name: windowToken
+              type:
+                name: IWindow
+          return_type:
+            name: void
+        - name: setPictureInPictureActionReplacingConnection
+          transaction_code_offset: 8
+          params:
+            - name: connection
+              type:
+                name: IAccessibilityInteractionConnection
+              direction: in
+          return_type:
+            name: void
+        - name: registerUiTestAutomationService
+          transaction_code_offset: 9
+          params:
+            - name: owner
+              type:
+                name: IBinder
+            - name: client
+              type:
+                name: IAccessibilityServiceClient
+            - name: info
+              type:
+                name: AccessibilityServiceInfo
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: unregisterUiTestAutomationService
+          transaction_code_offset: 10
+          params:
+            - name: client
+              type:
+                name: IAccessibilityServiceClient
+          return_type:
+            name: void
+        - name: getWindowToken
+          transaction_code_offset: 11
+          params:
+            - name: windowId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: IBinder
+        - name: notifyAccessibilityButtonClicked
+          transaction_code_offset: 12
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: targetName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: notifyAccessibilityButtonVisibilityChanged
+          transaction_code_offset: 13
+          params:
+            - name: available
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: performAccessibilityShortcut
+          transaction_code_offset: 14
+          params:
+            - name: targetName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getAccessibilityShortcutTargets
+          transaction_code_offset: 15
+          params:
+            - name: shortcutType
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: sendFingerprintGesture
+          transaction_code_offset: 16
+          params:
+            - name: gestureKeyCode
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getAccessibilityWindowId
+          transaction_code_offset: 17
+          params:
+            - name: windowToken
+              type:
+                name: IBinder
+          return_type:
+            name: int
+        - name: getRecommendedTimeoutMillis
+          transaction_code_offset: 18
+          return_type:
+            name: long
+        - name: registerSystemAction
+          transaction_code_offset: 19
+          oneway: true
+          params:
+            - name: action
+              type:
+                name: RemoteAction
+              direction: in
+            - name: actionId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: unregisterSystemAction
+          transaction_code_offset: 20
+          oneway: true
+          params:
+            - name: actionId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setMagnificationConnection
+          transaction_code_offset: 21
+          oneway: true
+          params:
+            - name: connection
+              type:
+                name: IMagnificationConnection
+              direction: in
+          return_type:
+            name: void
+        - name: associateEmbeddedHierarchy
+          transaction_code_offset: 22
+          params:
+            - name: host
+              type:
+                name: IBinder
+            - name: embedded
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: disassociateEmbeddedHierarchy
+          transaction_code_offset: 23
+          params:
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: getFocusStrokeWidth
+          transaction_code_offset: 24
+          return_type:
+            name: int
+        - name: getFocusColor
+          transaction_code_offset: 25
+          return_type:
+            name: int
+        - name: isAudioDescriptionByDefaultEnabled
+          transaction_code_offset: 26
+          return_type:
+            name: boolean
+        - name: setSystemAudioCaptioningEnabled
+          transaction_code_offset: 27
+          params:
+            - name: isEnabled
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: isSystemAudioCaptioningUiEnabled
+          transaction_code_offset: 28
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setSystemAudioCaptioningUiEnabled
+          transaction_code_offset: 29
+          params:
+            - name: isEnabled
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: setAccessibilityWindowAttributes
+          transaction_code_offset: 30
+          oneway: true
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: windowId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: attributes
+              type:
+                name: AccessibilityWindowAttributes
+              direction: in
+          return_type:
+            name: void
+        - name: registerProxyForDisplay
+          transaction_code_offset: 31
+          params:
+            - name: proxy
+              type:
+                name: IAccessibilityServiceClient
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - JavaPassthrough
+        - name: unregisterProxyForDisplay
+          transaction_code_offset: 32
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - JavaPassthrough
+        - name: injectInputEventToInputFilter
+          transaction_code_offset: 33
+          params:
+            - name: event
+              type:
+                name: InputEvent
+              direction: in
+          return_type:
+            name: void
+        - name: startFlashNotificationSequence
+          transaction_code_offset: 34
+          params:
+            - name: opPkg
+              type:
+                name: String
+            - name: reason
+              type:
+                name: int
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: boolean
+        - name: stopFlashNotificationSequence
+          transaction_code_offset: 35
+          params:
+            - name: opPkg
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: startFlashNotificationEvent
+          transaction_code_offset: 36
+          params:
+            - name: opPkg
+              type:
+                name: String
+            - name: reason
+              type:
+                name: int
+            - name: reasonPkg
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: isAccessibilityTargetAllowed
+          transaction_code_offset: 37
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: sendRestrictedDialogIntent
+          transaction_code_offset: 38
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isAccessibilityServiceWarningRequired
+          transaction_code_offset: 39
+          params:
+            - name: info
+              type:
+                name: AccessibilityServiceInfo
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - JavaPassthrough
+        - name: getWindowTransformationSpec
+          transaction_code_offset: 40
+          params:
+            - name: windowId
+              type:
+                name: int
+          return_type:
+            name: WindowTransformationSpec
+        - name: attachAccessibilityOverlayToDisplay
+          transaction_code_offset: 41
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: surfaceControl
+              type:
+                name: SurfaceControl
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: notifyQuickSettingsTilesChanged
+          transaction_code_offset: 42
+          oneway: true
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: tileComponentNames
+              type:
+                name: List
+                type_args:
+                    - name: ComponentName
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+    - name: IAccessibilityManagerClient
+      descriptor: android.view.accessibility.IAccessibilityManagerClient
+      oneway: true
+      methods:
+        - name: setState
+          transaction_code_offset: 0
+          params:
+            - name: stateFlags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyServicesStateChanged
+          transaction_code_offset: 1
+          params:
+            - name: updatedUiTimeout
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: setRelevantEventTypes
+          transaction_code_offset: 2
+          params:
+            - name: eventTypes
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setFocusAppearance
+          transaction_code_offset: 3
+          params:
+            - name: strokeWidth
+              type:
+                name: int
+            - name: color
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IMagnificationConnection
+      descriptor: android.view.accessibility.IMagnificationConnection
+      oneway: true
+      methods:
+        - name: enableWindowMagnification
+          transaction_code_offset: 0
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: scale
+              type:
+                name: float
+            - name: centerX
+              type:
+                name: float
+            - name: centerY
+              type:
+                name: float
+            - name: magnificationFrameOffsetRatioX
+              type:
+                name: float
+            - name: magnificationFrameOffsetRatioY
+              type:
+                name: float
+            - name: callback
+              type:
+                name: IRemoteMagnificationAnimationCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setScaleForWindowMagnification
+          transaction_code_offset: 1
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: scale
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: disableWindowMagnification
+          transaction_code_offset: 2
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IRemoteMagnificationAnimationCallback
+              direction: in
+          return_type:
+            name: void
+        - name: moveWindowMagnifier
+          transaction_code_offset: 3
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: offsetX
+              type:
+                name: float
+            - name: offsetY
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: moveWindowMagnifierToPosition
+          transaction_code_offset: 4
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: positionX
+              type:
+                name: float
+            - name: positionY
+              type:
+                name: float
+            - name: callback
+              type:
+                name: IRemoteMagnificationAnimationCallback
+              direction: in
+          return_type:
+            name: void
+        - name: showMagnificationButton
+          transaction_code_offset: 5
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: magnificationMode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removeMagnificationButton
+          transaction_code_offset: 6
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removeMagnificationSettingsPanel
+          transaction_code_offset: 7
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setConnectionCallback
+          transaction_code_offset: 8
+          params:
+            - name: callback
+              type:
+                name: IMagnificationConnectionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onUserMagnificationScaleChanged
+          transaction_code_offset: 9
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: displayId
+              type:
+                name: int
+            - name: scale
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: onFullscreenMagnificationActivationChanged
+          transaction_code_offset: 10
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: activated
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IMagnificationConnectionCallback
+      descriptor: android.view.accessibility.IMagnificationConnectionCallback
+      oneway: true
+      methods:
+        - name: onWindowMagnifierBoundsChanged
+          transaction_code_offset: 0
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: bounds
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: onChangeMagnificationMode
+          transaction_code_offset: 1
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: magnificationMode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSourceBoundsChanged
+          transaction_code_offset: 2
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: sourceBounds
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: onPerformScaleAction
+          transaction_code_offset: 3
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: scale
+              type:
+                name: float
+            - name: updatePersistence
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onAccessibilityActionPerformed
+          transaction_code_offset: 4
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onMove
+          transaction_code_offset: 5
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IRemoteMagnificationAnimationCallback
+      descriptor: android.view.accessibility.IRemoteMagnificationAnimationCallback
+      oneway: true
+      methods:
+        - name: onResult
+          transaction_code_offset: 0
+          params:
+            - name: success
+              type:
+                name: boolean
+          return_type:
+            name: void
+parcelables:
+    - name: AccessibilityEvent
+    - name: AccessibilityNodeInfo
+    - name: AccessibilityNodeInfo.AccessibilityAction
+    - name: AccessibilityRecord
+    - name: AccessibilityWindowAttributes
+    - name: AccessibilityWindowInfo
+    - name: AccessibilityWindowInfo.WindowListSparseArray
+    - name: IAccessibilityManager.WindowTransformationSpec
+      fields:
+        - name: transformationMatrix
+          type:
+            name: float
+            is_array: true
+        - name: magnificationSpec
+          type:
+            name: MagnificationSpec

@@ -45,6 +45,7 @@ func (p *SpatializerHeadTrackerAvailableCallbackProxy) DispatchSpatializerHeadTr
 	available bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadTrackerAvailableCallback)
 	_data.WriteBool(available)
 
@@ -60,7 +61,8 @@ func (p *SpatializerHeadTrackerAvailableCallbackProxy) DispatchSpatializerHeadTr
 // SpatializerHeadTrackerAvailableCallbackStub dispatches incoming binder transactions
 // to a typed ISpatializerHeadTrackerAvailableCallback implementation.
 type SpatializerHeadTrackerAvailableCallbackStub struct {
-	Impl ISpatializerHeadTrackerAvailableCallback
+	Impl      ISpatializerHeadTrackerAvailableCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SpatializerHeadTrackerAvailableCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *SpatializerHeadTrackerAvailableCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISpatializerHeadTrackerAvailableCallbackDispatchSpatializerHeadTrackerAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_available, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DispatchSpatializerHeadTrackerAvailable(ctx, _arg_available)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

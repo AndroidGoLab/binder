@@ -1,0 +1,901 @@
+package: android.hardware.automotive.evs
+go_package: android/hardware/automotive/evs
+interfaces:
+    - name: IEvsCamera
+      descriptor: android.hardware.automotive.evs.IEvsCamera
+      methods:
+        - name: doneWithFrame
+          transaction_code_offset: 0
+          params:
+            - name: buffer
+              type:
+                name: BufferDesc
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: forcePrimaryClient
+          transaction_code_offset: 1
+          params:
+            - name: display
+              type:
+                name: IEvsDisplay
+              direction: in
+          return_type:
+            name: void
+        - name: getCameraInfo
+          transaction_code_offset: 2
+          return_type:
+            name: CameraDesc
+        - name: getExtendedInfo
+          transaction_code_offset: 3
+          params:
+            - name: opaqueIdentifier
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: getIntParameter
+          transaction_code_offset: 4
+          params:
+            - name: id
+              type:
+                name: CameraParam
+              direction: in
+          return_type:
+            name: int
+            is_array: true
+        - name: getIntParameterRange
+          transaction_code_offset: 5
+          params:
+            - name: id
+              type:
+                name: CameraParam
+              direction: in
+          return_type:
+            name: ParameterRange
+        - name: getParameterList
+          transaction_code_offset: 6
+          return_type:
+            name: CameraParam
+            is_array: true
+        - name: getPhysicalCameraInfo
+          transaction_code_offset: 7
+          params:
+            - name: deviceId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: CameraDesc
+        - name: importExternalBuffers
+          transaction_code_offset: 8
+          params:
+            - name: buffers
+              type:
+                name: BufferDesc
+                is_array: true
+              direction: in
+          return_type:
+            name: int
+        - name: pauseVideoStream
+          transaction_code_offset: 9
+          return_type:
+            name: void
+        - name: resumeVideoStream
+          transaction_code_offset: 10
+          return_type:
+            name: void
+        - name: setExtendedInfo
+          transaction_code_offset: 11
+          params:
+            - name: opaqueIdentifier
+              type:
+                name: int
+              direction: in
+            - name: opaqueValue
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setIntParameter
+          transaction_code_offset: 12
+          params:
+            - name: id
+              type:
+                name: CameraParam
+              direction: in
+            - name: value
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: int
+            is_array: true
+        - name: setPrimaryClient
+          transaction_code_offset: 13
+          return_type:
+            name: void
+        - name: setMaxFramesInFlight
+          transaction_code_offset: 14
+          params:
+            - name: bufferCount
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: startVideoStream
+          transaction_code_offset: 15
+          params:
+            - name: receiver
+              type:
+                name: IEvsCameraStream
+              direction: in
+          return_type:
+            name: void
+        - name: stopVideoStream
+          transaction_code_offset: 16
+          return_type:
+            name: void
+        - name: unsetPrimaryClient
+          transaction_code_offset: 17
+          return_type:
+            name: void
+    - name: IEvsCameraStream
+      descriptor: android.hardware.automotive.evs.IEvsCameraStream
+      oneway: true
+      methods:
+        - name: deliverFrame
+          transaction_code_offset: 0
+          params:
+            - name: buffer
+              type:
+                name: BufferDesc
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: notify
+          transaction_code_offset: 1
+          params:
+            - name: event
+              type:
+                name: EvsEventDesc
+              direction: in
+          return_type:
+            name: void
+    - name: IEvsDisplay
+      descriptor: android.hardware.automotive.evs.IEvsDisplay
+      methods:
+        - name: getDisplayInfo
+          transaction_code_offset: 0
+          return_type:
+            name: DisplayDesc
+        - name: getDisplayState
+          transaction_code_offset: 1
+          return_type:
+            name: DisplayState
+        - name: getTargetBuffer
+          transaction_code_offset: 2
+          return_type:
+            name: BufferDesc
+        - name: returnTargetBufferForDisplay
+          transaction_code_offset: 3
+          params:
+            - name: buffer
+              type:
+                name: BufferDesc
+              direction: in
+          return_type:
+            name: void
+        - name: setDisplayState
+          transaction_code_offset: 4
+          params:
+            - name: state
+              type:
+                name: DisplayState
+              direction: in
+          return_type:
+            name: void
+    - name: IEvsEnumerator
+      descriptor: android.hardware.automotive.evs.IEvsEnumerator
+      methods:
+        - name: closeCamera
+          transaction_code_offset: 0
+          params:
+            - name: carCamera
+              type:
+                name: IEvsCamera
+              direction: in
+          return_type:
+            name: void
+        - name: closeDisplay
+          transaction_code_offset: 1
+          params:
+            - name: display
+              type:
+                name: IEvsDisplay
+              direction: in
+          return_type:
+            name: void
+        - name: closeUltrasonicsArray
+          transaction_code_offset: 2
+          params:
+            - name: evsUltrasonicsArray
+              type:
+                name: IEvsUltrasonicsArray
+              direction: in
+          return_type:
+            name: void
+        - name: getCameraList
+          transaction_code_offset: 3
+          return_type:
+            name: CameraDesc
+            is_array: true
+        - name: getDisplayIdList
+          transaction_code_offset: 4
+          return_type:
+            name: byte
+            is_array: true
+        - name: getDisplayState
+          transaction_code_offset: 5
+          return_type:
+            name: DisplayState
+        - name: getStreamList
+          transaction_code_offset: 6
+          params:
+            - name: description
+              type:
+                name: CameraDesc
+              direction: in
+          return_type:
+            name: Stream
+            is_array: true
+        - name: getUltrasonicsArrayList
+          transaction_code_offset: 7
+          return_type:
+            name: UltrasonicsArrayDesc
+            is_array: true
+        - name: isHardware
+          transaction_code_offset: 8
+          return_type:
+            name: boolean
+        - name: openCamera
+          transaction_code_offset: 9
+          params:
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+            - name: streamCfg
+              type:
+                name: Stream
+              direction: in
+          return_type:
+            name: IEvsCamera
+        - name: openDisplay
+          transaction_code_offset: 10
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: IEvsDisplay
+        - name: openUltrasonicsArray
+          transaction_code_offset: 11
+          params:
+            - name: ultrasonicsArrayId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: IEvsUltrasonicsArray
+        - name: registerStatusCallback
+          transaction_code_offset: 12
+          params:
+            - name: callback
+              type:
+                name: IEvsEnumeratorStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getDisplayStateById
+          transaction_code_offset: 13
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: DisplayState
+    - name: IEvsEnumeratorStatusCallback
+      descriptor: android.hardware.automotive.evs.IEvsEnumeratorStatusCallback
+      oneway: true
+      methods:
+        - name: deviceStatusChanged
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: DeviceStatus
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IEvsUltrasonicsArray
+      descriptor: android.hardware.automotive.evs.IEvsUltrasonicsArray
+      methods:
+        - name: doneWithDataFrame
+          transaction_code_offset: 0
+          params:
+            - name: dataFrameDesc
+              type:
+                name: UltrasonicsDataFrameDesc
+              direction: in
+          return_type:
+            name: void
+        - name: getUltrasonicArrayInfo
+          transaction_code_offset: 1
+          return_type:
+            name: UltrasonicsArrayDesc
+        - name: setMaxFramesInFlight
+          transaction_code_offset: 2
+          params:
+            - name: bufferCount
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: startStream
+          transaction_code_offset: 3
+          params:
+            - name: stream
+              type:
+                name: IEvsUltrasonicsArrayStream
+              direction: in
+          return_type:
+            name: void
+        - name: stopStream
+          transaction_code_offset: 4
+          return_type:
+            name: void
+    - name: IEvsUltrasonicsArrayStream
+      descriptor: android.hardware.automotive.evs.IEvsUltrasonicsArrayStream
+      methods:
+        - name: deliverDataFrame
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: dataFrameDesc
+              type:
+                name: UltrasonicsDataFrameDesc
+              direction: in
+          return_type:
+            name: void
+        - name: notify
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: event
+              type:
+                name: EvsEventDesc
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: BufferDesc
+      fields:
+        - name: buffer
+          type:
+            name: HardwareBuffer
+        - name: pixelSizeBytes
+          type:
+            name: int
+        - name: bufferId
+          type:
+            name: int
+        - name: deviceId
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: timestamp
+          type:
+            name: long
+        - name: metadata
+          type:
+            name: byte
+            is_array: true
+        - name: exposureSettings
+          type:
+            name: ExposureParameters
+            is_array: true
+          annotations:
+            - nullable
+        - name: histograms
+          type:
+            name: Histogram
+            is_array: true
+          annotations:
+            - nullable
+        - name: grids
+          type:
+            name: GridStatistics
+            is_array: true
+          annotations:
+            - nullable
+        - name: embeddedData
+          type:
+            name: EmbeddedData
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: CameraDesc
+      fields:
+        - name: id
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: vendorFlags
+          type:
+            name: int
+        - name: metadata
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: DeviceStatus
+      fields:
+        - name: id
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: status
+          type:
+            name: DeviceStatusType
+      annotations:
+        - VintfStability
+    - name: DisplayDesc
+      fields:
+        - name: id
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: width
+          type:
+            name: int
+        - name: height
+          type:
+            name: int
+        - name: orientation
+          type:
+            name: Rotation
+        - name: vendorFlags
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: EmbeddedData
+      fields:
+        - name: widthInBytes
+          type:
+            name: int
+        - name: heightInLines
+          type:
+            name: int
+        - name: data
+          type:
+            name: Ashmem
+      annotations:
+        - VintfStability
+    - name: EvsEventDesc
+      fields:
+        - name: aType
+          type:
+            name: EvsEventType
+        - name: deviceId
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: payload
+          type:
+            name: int
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: ExposureParameters
+      fields:
+        - name: analogGain
+          type:
+            name: float
+            is_array: true
+            fixed_size: "4"
+        - name: digitalGain
+          type:
+            name: float
+            is_array: true
+            fixed_size: "4"
+        - name: coarseIntegrationTimeInLines
+          type:
+            name: long
+        - name: fineIntegrationTimeInPixelClocks
+          type:
+            name: long
+        - name: coarseIntegrationTimeLShift
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: GridStatisticDesc
+      fields:
+        - name: channel
+          type:
+            name: ColorChannel
+        - name: type
+          type:
+            name: GridStatisticType
+        - name: roi
+          type:
+            name: Rect
+        - name: cellSize
+          type:
+            name: Size
+        - name: bitDepth
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: GridStatistics
+      fields:
+        - name: descriptors
+          type:
+            name: GridStatisticDesc
+            is_array: true
+        - name: data
+          type:
+            name: Ashmem
+      annotations:
+        - VintfStability
+    - name: Histogram
+      fields:
+        - name: channel
+          type:
+            name: ColorChannel
+        - name: roi
+          type:
+            name: Rect
+        - name: size
+          type:
+            name: int
+        - name: capacity
+          type:
+            name: int
+        - name: bins
+          type:
+            name: long
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: ParameterRange
+      fields:
+        - name: min
+          type:
+            name: int
+        - name: max
+          type:
+            name: int
+        - name: step
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: RotationQuaternion
+      fields:
+        - name: x
+          type:
+            name: float
+        - name: "y"
+          type:
+            name: float
+        - name: z
+          type:
+            name: float
+        - name: w
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: SensorPose
+      fields:
+        - name: rotation
+          type:
+            name: RotationQuaternion
+        - name: translation
+          type:
+            name: Translation
+      annotations:
+        - VintfStability
+    - name: Size
+      fields:
+        - name: widthInPixels
+          type:
+            name: int
+          default_value: "-1"
+        - name: heightInPixels
+          type:
+            name: int
+          default_value: "-1"
+      annotations:
+        - VintfStability
+    - name: Stream
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: streamType
+          type:
+            name: StreamType
+        - name: width
+          type:
+            name: int
+        - name: height
+          type:
+            name: int
+        - name: framerate
+          type:
+            name: int
+        - name: format
+          type:
+            name: PixelFormat
+        - name: usage
+          type:
+            name: BufferUsage
+        - name: rotation
+          type:
+            name: Rotation
+      annotations:
+        - VintfStability
+    - name: Translation
+      fields:
+        - name: x
+          type:
+            name: float
+        - name: "y"
+          type:
+            name: float
+        - name: z
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: UltrasonicSensor
+      fields:
+        - name: pose
+          type:
+            name: SensorPose
+        - name: maxRangeMm
+          type:
+            name: float
+        - name: angleOfMeasurement
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: UltrasonicsArrayDesc
+      fields:
+        - name: ultrasonicsArrayId
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: maxReadingsPerSensorCount
+          type:
+            name: int
+        - name: maxReceiversCount
+          type:
+            name: int
+        - name: sensors
+          type:
+            name: UltrasonicSensor
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: UltrasonicsDataFrameDesc
+      fields:
+        - name: timestampNs
+          type:
+            name: long
+        - name: id
+          type:
+            name: int
+        - name: transmittersIdList
+          type:
+            name: byte
+            is_array: true
+        - name: receiversIdList
+          type:
+            name: byte
+            is_array: true
+        - name: receiversReadingsCountList
+          type:
+            name: int
+            is_array: true
+        - name: waveformsData
+          type:
+            name: Ashmem
+      annotations:
+        - VintfStability
+enums:
+    - name: CameraParam
+      backing_type: int
+      values:
+        - name: BRIGHTNESS
+          value: ""
+        - name: CONTRAST
+          value: ""
+        - name: AUTOGAIN
+          value: ""
+        - name: GAIN
+          value: ""
+        - name: AUTO_WHITE_BALANCE
+          value: ""
+        - name: WHITE_BALANCE_TEMPERATURE
+          value: ""
+        - name: SHARPNESS
+          value: ""
+        - name: AUTO_EXPOSURE
+          value: ""
+        - name: ABSOLUTE_EXPOSURE
+          value: ""
+        - name: ABSOLUTE_FOCUS
+          value: ""
+        - name: AUTO_FOCUS
+          value: ""
+        - name: ABSOLUTE_ZOOM
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ColorChannel
+      backing_type: int
+      values:
+        - name: R
+          value: ""
+        - name: G_EVEN
+          value: ""
+        - name: B
+          value: ""
+        - name: G_ODD_OR_Y
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DeviceStatusType
+      backing_type: int
+      values:
+        - name: CAMERA_AVAILABLE
+          value: ""
+        - name: CAMERA_NOT_AVAILABLE
+          value: ""
+        - name: DISPLAY_AVAILABLE
+          value: ""
+        - name: DISPLAY_NOT_AVAILABLE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DisplayState
+      backing_type: int
+      values:
+        - name: NOT_OPEN
+          value: "0"
+        - name: NOT_VISIBLE
+          value: ""
+        - name: VISIBLE_ON_NEXT_FRAME
+          value: ""
+        - name: VISIBLE
+          value: ""
+        - name: DEAD
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EvsEventType
+      backing_type: int
+      values:
+        - name: STREAM_STARTED
+          value: "0"
+        - name: STREAM_STOPPED
+          value: ""
+        - name: FRAME_DROPPED
+          value: ""
+        - name: TIMEOUT
+          value: ""
+        - name: PARAMETER_CHANGED
+          value: ""
+        - name: MASTER_RELEASED
+          value: ""
+        - name: STREAM_ERROR
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EvsResult
+      backing_type: int
+      values:
+        - name: OK
+          value: "0"
+        - name: INVALID_ARG
+          value: ""
+        - name: STREAM_ALREADY_RUNNING
+          value: ""
+        - name: BUFFER_NOT_AVAILABLE
+          value: ""
+        - name: OWNERSHIP_LOST
+          value: ""
+        - name: UNDERLYING_SERVICE_ERROR
+          value: ""
+        - name: PERMISSION_DENIED
+          value: ""
+        - name: RESOURCE_NOT_AVAILABLE
+          value: ""
+        - name: RESOURCE_BUSY
+          value: ""
+        - name: NOT_IMPLEMENTED
+          value: ""
+        - name: NOT_SUPPORTED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: GridStatisticType
+      backing_type: int
+      values:
+        - name: USER_DEFINED
+          value: ""
+        - name: AVERAGE
+          value: ""
+        - name: SUM
+          value: ""
+        - name: SATURATION_COUNT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Rotation
+      backing_type: int
+      values:
+        - name: ROTATION_0
+          value: "0"
+        - name: ROTATION_90
+          value: "1"
+        - name: ROTATION_180
+          value: "2"
+        - name: ROTATION_270
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StreamType
+      backing_type: int
+      values:
+        - name: OUTPUT
+          value: "0"
+        - name: INPUT
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing

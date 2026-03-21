@@ -26,7 +26,7 @@ const (
 type IAttestationVerificationManagerService interface {
 	AsBinder() binder.IBinder
 	VerifyAttestation(ctx context.Context, profile AttestationProfile, localBindingType int32, requirements os.Bundle, attestation []byte, resultCallback infra.AndroidFuture) error
-	VerifyToken(ctx context.Context, token VerificationToken, maximumTokenAge interface{}, resultCallback infra.AndroidFuture) error
+	VerifyToken(ctx context.Context, token VerificationToken, maximumTokenAge os.ParcelDuration, resultCallback infra.AndroidFuture) error
 }
 
 type AttestationVerificationManagerServiceProxy struct {
@@ -54,6 +54,7 @@ func (p *AttestationVerificationManagerServiceProxy) VerifyAttestation(
 	resultCallback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttestationVerificationManagerService)
 	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
@@ -64,14 +65,7 @@ func (p *AttestationVerificationManagerServiceProxy) VerifyAttestation(
 	if _err := requirements.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	if attestation == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(attestation)))
-		for _, _item := range attestation {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(attestation)
 	_data.WriteInt32(1)
 	if _err := resultCallback.MarshalParcel(_data); _err != nil {
 		return _err
@@ -89,13 +83,18 @@ func (p *AttestationVerificationManagerServiceProxy) VerifyAttestation(
 func (p *AttestationVerificationManagerServiceProxy) VerifyToken(
 	ctx context.Context,
 	token VerificationToken,
-	maximumTokenAge interface{},
+	maximumTokenAge os.ParcelDuration,
 	resultCallback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttestationVerificationManagerService)
 	_data.WriteInt32(1)
 	if _err := token.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := maximumTokenAge.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(1)
@@ -115,7 +114,8 @@ func (p *AttestationVerificationManagerServiceProxy) VerifyToken(
 // AttestationVerificationManagerServiceStub dispatches incoming binder transactions
 // to a typed IAttestationVerificationManagerService implementation.
 type AttestationVerificationManagerServiceStub struct {
-	Impl IAttestationVerificationManagerService
+	Impl      IAttestationVerificationManagerService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AttestationVerificationManagerServiceStub)(nil)
@@ -129,11 +129,12 @@ func (s *AttestationVerificationManagerServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAttestationVerificationManagerServiceVerifyAttestation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_profile AttestationProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -162,9 +163,14 @@ func (s *AttestationVerificationManagerServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_attestation []byte
-		_ = _arg_attestation
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_attestation = _bytes
+		}
 		var _arg_resultCallback infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -178,12 +184,8 @@ func (s *AttestationVerificationManagerServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.VerifyAttestation(ctx, _arg_profile, _arg_localBindingType, _arg_requirements, _arg_attestation, _arg_resultCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAttestationVerificationManagerServiceVerifyToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_token VerificationToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -196,7 +198,18 @@ func (s *AttestationVerificationManagerServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_maximumTokenAge interface{}
+		var _arg_maximumTokenAge os.ParcelDuration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_maximumTokenAge.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_resultCallback infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -210,8 +223,7 @@ func (s *AttestationVerificationManagerServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.VerifyToken(ctx, _arg_token, _arg_maximumTokenAge, _arg_resultCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -222,7 +234,7 @@ func (s *AttestationVerificationManagerServiceStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IAttestationVerificationManagerServiceServer interface {
 	VerifyAttestation(ctx context.Context, profile AttestationProfile, localBindingType int32, requirements os.Bundle, attestation []byte, resultCallback infra.AndroidFuture) error
-	VerifyToken(ctx context.Context, token VerificationToken, maximumTokenAge interface{}, resultCallback infra.AndroidFuture) error
+	VerifyToken(ctx context.Context, token VerificationToken, maximumTokenAge os.ParcelDuration, resultCallback infra.AndroidFuture) error
 }
 
 type attestationVerificationManagerServiceStubWrapper struct {
@@ -248,7 +260,7 @@ func (w *attestationVerificationManagerServiceStubWrapper) VerifyAttestation(
 func (w *attestationVerificationManagerServiceStubWrapper) VerifyToken(
 	ctx context.Context,
 	token VerificationToken,
-	maximumTokenAge interface{},
+	maximumTokenAge os.ParcelDuration,
 	resultCallback infra.AndroidFuture,
 ) error {
 	return w.impl.VerifyToken(ctx, token, maximumTokenAge, resultCallback)

@@ -57,6 +57,7 @@ func (p *msConfigListenerProxy) OnGetFeatureResponse(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorImsConfigListener)
 	_data.WriteInt32(feature)
 	_data.WriteInt32(network)
@@ -80,6 +81,7 @@ func (p *msConfigListenerProxy) OnSetFeatureResponse(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorImsConfigListener)
 	_data.WriteInt32(feature)
 	_data.WriteInt32(network)
@@ -101,6 +103,7 @@ func (p *msConfigListenerProxy) OnGetVideoQuality(
 	quality int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorImsConfigListener)
 	_data.WriteInt32(status)
 	_data.WriteInt32(quality)
@@ -119,6 +122,7 @@ func (p *msConfigListenerProxy) OnSetVideoQuality(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorImsConfigListener)
 	_data.WriteInt32(status)
 
@@ -134,7 +138,8 @@ func (p *msConfigListenerProxy) OnSetVideoQuality(
 // msConfigListenerStub dispatches incoming binder transactions
 // to a typed ImsConfigListener implementation.
 type msConfigListenerStub struct {
-	Impl ImsConfigListener
+	Impl      ImsConfigListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*msConfigListenerStub)(nil)
@@ -148,11 +153,12 @@ func (s *msConfigListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionImsConfigListenerOnGetFeatureResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_feature, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -170,12 +176,8 @@ func (s *msConfigListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGetFeatureResponse(ctx, _arg_feature, _arg_network, _arg_value, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionImsConfigListenerOnSetFeatureResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_feature, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -193,12 +195,8 @@ func (s *msConfigListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSetFeatureResponse(ctx, _arg_feature, _arg_network, _arg_value, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionImsConfigListenerOnGetVideoQuality:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -208,19 +206,14 @@ func (s *msConfigListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGetVideoQuality(ctx, _arg_status, _arg_quality)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionImsConfigListenerOnSetVideoQuality:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSetVideoQuality(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

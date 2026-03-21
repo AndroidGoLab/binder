@@ -1,0 +1,204 @@
+package: com.android.internal.textservice
+go_package: com/android/internal_/textservice
+interfaces:
+    - name: ISpellCheckerService
+      descriptor: com.android.internal.textservice.ISpellCheckerService
+      oneway: true
+      methods:
+        - name: getISpellCheckerSession
+          transaction_code_offset: 0
+          params:
+            - name: locale
+              type:
+                name: String
+            - name: listener
+              type:
+                name: ISpellCheckerSessionListener
+            - name: bundle
+              type:
+                name: Bundle
+              direction: in
+            - name: supportedAttributes
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ISpellCheckerServiceCallback
+          return_type:
+            name: void
+    - name: ISpellCheckerServiceCallback
+      descriptor: com.android.internal.textservice.ISpellCheckerServiceCallback
+      oneway: true
+      methods:
+        - name: onSessionCreated
+          transaction_code_offset: 0
+          params:
+            - name: newSession
+              type:
+                name: ISpellCheckerSession
+          return_type:
+            name: void
+    - name: ISpellCheckerSession
+      descriptor: com.android.internal.textservice.ISpellCheckerSession
+      oneway: true
+      methods:
+        - name: onGetSuggestionsMultiple
+          transaction_code_offset: 0
+          params:
+            - name: textInfos
+              type:
+                name: TextInfo
+                is_array: true
+              direction: in
+            - name: suggestionsLimit
+              type:
+                name: int
+            - name: multipleWords
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onGetSentenceSuggestionsMultiple
+          transaction_code_offset: 1
+          params:
+            - name: textInfos
+              type:
+                name: TextInfo
+                is_array: true
+              direction: in
+            - name: suggestionsLimit
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCancel
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onClose
+          transaction_code_offset: 3
+          return_type:
+            name: void
+    - name: ISpellCheckerSessionListener
+      descriptor: com.android.internal.textservice.ISpellCheckerSessionListener
+      oneway: true
+      methods:
+        - name: onGetSuggestions
+          transaction_code_offset: 0
+          params:
+            - name: results
+              type:
+                name: SuggestionsInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onGetSentenceSuggestions
+          transaction_code_offset: 1
+          params:
+            - name: result
+              type:
+                name: SentenceSuggestionsInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: ITextServicesManager
+      descriptor: com.android.internal.textservice.ITextServicesManager
+      methods:
+        - name: getCurrentSpellChecker
+          transaction_code_offset: 0
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: locale
+              type:
+                name: String
+          return_type:
+            name: SpellCheckerInfo
+        - name: getCurrentSpellCheckerSubtype
+          transaction_code_offset: 1
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: allowImplicitlySelectedSubtype
+              type:
+                name: boolean
+          return_type:
+            name: SpellCheckerSubtype
+        - name: getSpellCheckerService
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: sciId
+              type:
+                name: String
+            - name: locale
+              type:
+                name: String
+              direction: in
+            - name: tsListener
+              type:
+                name: ITextServicesSessionListener
+              direction: in
+            - name: scListener
+              type:
+                name: ISpellCheckerSessionListener
+              direction: in
+            - name: bundle
+              type:
+                name: Bundle
+              direction: in
+            - name: supportedAttributes
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: finishSpellCheckerService
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: listener
+              type:
+                name: ISpellCheckerSessionListener
+              direction: in
+          return_type:
+            name: void
+        - name: isSpellCheckerEnabled
+          transaction_code_offset: 4
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getEnabledSpellCheckers
+          transaction_code_offset: 5
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: SpellCheckerInfo
+            is_array: true
+    - name: ITextServicesSessionListener
+      descriptor: com.android.internal.textservice.ITextServicesSessionListener
+      methods:
+        - name: onServiceConnected
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: spellCheckerSession
+              type:
+                name: ISpellCheckerSession
+              direction: in
+          return_type:
+            name: void

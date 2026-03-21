@@ -1,0 +1,61 @@
+package: android.content.pm.dex
+go_package: android/content/pm/dex
+interfaces:
+    - name: IArtManager
+      descriptor: android.content.pm.dex.IArtManager
+      methods:
+        - name: snapshotRuntimeProfile
+          transaction_code_offset: 0
+          params:
+            - name: profileType
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: codePath
+              type:
+                name: String
+              direction: in
+            - name: callback
+              type:
+                name: ISnapshotRuntimeProfileCallback
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: isRuntimeProfilingEnabled
+          transaction_code_offset: 1
+          params:
+            - name: profileType
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: boolean
+    - name: ISnapshotRuntimeProfileCallback
+      descriptor: android.content.pm.dex.ISnapshotRuntimeProfileCallback
+      oneway: true
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: profileReadFd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 1
+          params:
+            - name: errCode
+              type:
+                name: int
+          return_type:
+            name: void

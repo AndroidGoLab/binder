@@ -31,8 +31,7 @@ func (u *AnnotationValue) GetIntValue() (int32, bool) {
 func (u *AnnotationValue) SetIntValue(
 	v int32,
 ) {
-	u.Tag = AnnotationValueTagIntValue
-	u.IntValue = v
+	*u = AnnotationValue{Tag: AnnotationValueTagIntValue, IntValue: v}
 }
 
 func (u *AnnotationValue) GetBoolValue() (bool, bool) {
@@ -46,8 +45,7 @@ func (u *AnnotationValue) GetBoolValue() (bool, bool) {
 func (u *AnnotationValue) SetBoolValue(
 	v bool,
 ) {
-	u.Tag = AnnotationValueTagBoolValue
-	u.BoolValue = v
+	*u = AnnotationValue{Tag: AnnotationValueTagBoolValue, BoolValue: v}
 }
 
 func (u *AnnotationValue) MarshalParcel(

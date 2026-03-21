@@ -46,6 +46,7 @@ func (p *GnssNmeaListenerProxy) OnNmeaReceived(
 	nmea string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssNmeaListener)
 	_data.WriteInt64(timestamp)
 	_data.WriteString16(nmea)
@@ -62,7 +63,8 @@ func (p *GnssNmeaListenerProxy) OnNmeaReceived(
 // GnssNmeaListenerStub dispatches incoming binder transactions
 // to a typed IGnssNmeaListener implementation.
 type GnssNmeaListenerStub struct {
-	Impl IGnssNmeaListener
+	Impl      IGnssNmeaListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssNmeaListenerStub)(nil)
@@ -76,11 +78,12 @@ func (s *GnssNmeaListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssNmeaListenerOnNmeaReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -90,8 +93,7 @@ func (s *GnssNmeaListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnNmeaReceived(ctx, _arg_timestamp, _arg_nmea)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

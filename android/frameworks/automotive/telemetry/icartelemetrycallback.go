@@ -45,6 +45,7 @@ func (p *CarTelemetryCallbackProxy) OnChange(
 	ids []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarTelemetryCallback)
 	if ids == nil {
 		_data.WriteInt32(-1)
@@ -76,7 +77,8 @@ func (p *CarTelemetryCallbackProxy) OnChange(
 // CarTelemetryCallbackStub dispatches incoming binder transactions
 // to a typed ICarTelemetryCallback implementation.
 type CarTelemetryCallbackStub struct {
-	Impl ICarTelemetryCallback
+	Impl      ICarTelemetryCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CarTelemetryCallbackStub)(nil)
@@ -90,14 +92,31 @@ func (s *CarTelemetryCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICarTelemetryCallbackOnChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ids []int32
-		_ = _arg_ids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ids = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_ids[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnChange(ctx, _arg_ids)
 		_reply := parcel.New()
 		if _err != nil {

@@ -64,6 +64,7 @@ func (p *BluetoothAudioPortProxy) GetPresentationPosition(
 ) (PresentationPosition, error) {
 	var _result PresentationPosition
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioPort)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortGetPresentationPosition)
@@ -98,6 +99,7 @@ func (p *BluetoothAudioPortProxy) StartStream(
 	isLowLatency bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioPort)
 	_data.WriteBool(isLowLatency)
 
@@ -123,6 +125,7 @@ func (p *BluetoothAudioPortProxy) StopStream(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioPort)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortStopStream)
@@ -147,6 +150,7 @@ func (p *BluetoothAudioPortProxy) SuspendStream(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioPort)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortSuspendStream)
@@ -172,6 +176,7 @@ func (p *BluetoothAudioPortProxy) UpdateSourceMetadata(
 	sourceMetadata common.SourceMetadata,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioPort)
 	_data.WriteInt32(1)
 	if _err := sourceMetadata.MarshalParcel(_data); _err != nil {
@@ -201,6 +206,7 @@ func (p *BluetoothAudioPortProxy) UpdateSinkMetadata(
 	sinkMetadata common.SinkMetadata,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioPort)
 	_data.WriteInt32(1)
 	if _err := sinkMetadata.MarshalParcel(_data); _err != nil {
@@ -230,6 +236,7 @@ func (p *BluetoothAudioPortProxy) SetLatencyMode(
 	latencyMode LatencyMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioPort)
 	_data.WriteInt32(int32(latencyMode))
 
@@ -254,7 +261,8 @@ func (p *BluetoothAudioPortProxy) SetLatencyMode(
 // BluetoothAudioPortStub dispatches incoming binder transactions
 // to a typed IBluetoothAudioPort implementation.
 type BluetoothAudioPortStub struct {
-	Impl IBluetoothAudioPort
+	Impl      IBluetoothAudioPort
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothAudioPortStub)(nil)
@@ -268,11 +276,12 @@ func (s *BluetoothAudioPortStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothAudioPortGetPresentationPosition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPresentationPosition(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -286,9 +295,6 @@ func (s *BluetoothAudioPortStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBluetoothAudioPortStartStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isLowLatency, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -302,9 +308,6 @@ func (s *BluetoothAudioPortStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioPortStopStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopStream(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -314,9 +317,6 @@ func (s *BluetoothAudioPortStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioPortSuspendStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SuspendStream(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -326,9 +326,6 @@ func (s *BluetoothAudioPortStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioPortUpdateSourceMetadata:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sourceMetadata common.SourceMetadata
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -350,9 +347,6 @@ func (s *BluetoothAudioPortStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioPortUpdateSinkMetadata:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sinkMetadata common.SinkMetadata
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -374,9 +368,6 @@ func (s *BluetoothAudioPortStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioPortSetLatencyMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_latencyMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

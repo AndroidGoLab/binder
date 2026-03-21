@@ -52,6 +52,7 @@ func (p *RegistrationProxy) GetKey(
 	callback IGetKeyCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRegistration)
 	_data.WriteInt32(keyId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -70,6 +71,7 @@ func (p *RegistrationProxy) CancelGetKey(
 	callback IGetKeyCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRegistration)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -89,23 +91,10 @@ func (p *RegistrationProxy) StoreUpgradedKeyAsync(
 	callback IStoreUpgradedKeyCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRegistration)
-	if oldKeyBlob == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(oldKeyBlob)))
-		for _, _item := range oldKeyBlob {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if newKeyBlob == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(newKeyBlob)))
-		for _, _item := range newKeyBlob {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(oldKeyBlob)
+	_data.WriteByteArray(newKeyBlob)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRegistration, MethodIRegistrationStoreUpgradedKeyAsync)
@@ -120,7 +109,8 @@ func (p *RegistrationProxy) StoreUpgradedKeyAsync(
 // RegistrationStub dispatches incoming binder transactions
 // to a typed IRegistration implementation.
 type RegistrationStub struct {
-	Impl IRegistration
+	Impl      IRegistration
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RegistrationStub)(nil)
@@ -134,47 +124,64 @@ func (s *RegistrationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRegistrationGetKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_keyId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetKeyCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetKeyCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetKey(ctx, _arg_keyId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRegistrationCancelGetKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetKeyCallback
-		_ = _arg_callback
-		_err := s.Impl.CancelGetKey(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIRegistrationStoreUpgradedKeyAsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetKeyCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		_err := s.Impl.CancelGetKey(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIRegistrationStoreUpgradedKeyAsync:
 		var _arg_oldKeyBlob []byte
-		_ = _arg_oldKeyBlob
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_oldKeyBlob = _bytes
+		}
 		var _arg_newKeyBlob []byte
-		_ = _arg_newKeyBlob
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_newKeyBlob = _bytes
+		}
 		var _arg_callback IStoreUpgradedKeyCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewStoreUpgradedKeyCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.StoreUpgradedKeyAsync(ctx, _arg_oldKeyBlob, _arg_newKeyBlob, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

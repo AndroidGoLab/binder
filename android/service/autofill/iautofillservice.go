@@ -3,6 +3,7 @@ package autofill
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/view/autofill/types"
 	"github.com/xaionaro-go/binder/binder"
 	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
@@ -34,7 +35,7 @@ type IAutoFillService interface {
 	AsBinder() binder.IBinder
 	OnConnectedStateChanged(ctx context.Context, connected bool) error
 	OnFillRequest(ctx context.Context, request FillRequest, callback IFillCallback) error
-	OnFillCredentialRequest(ctx context.Context, request FillRequest, callback IFillCallback, client interface{}) error
+	OnFillCredentialRequest(ctx context.Context, request FillRequest, callback IFillCallback, client types.IAutoFillManagerClient) error
 	OnSaveRequest(ctx context.Context, request SaveRequest, callback ISaveCallback) error
 	OnSavedPasswordCountRequest(ctx context.Context, receiver os.IResultReceiver) error
 	OnConvertCredentialRequest(ctx context.Context, convertCredentialRequest ConvertCredentialRequest, convertCredentialCallback IConvertCredentialCallback) error
@@ -61,6 +62,7 @@ func (p *AutoFillServiceProxy) OnConnectedStateChanged(
 	connected bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
 	_data.WriteBool(connected)
 
@@ -79,6 +81,7 @@ func (p *AutoFillServiceProxy) OnFillRequest(
 	callback IFillCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -99,15 +102,17 @@ func (p *AutoFillServiceProxy) OnFillCredentialRequest(
 	ctx context.Context,
 	request FillRequest,
 	callback IFillCallback,
-	client interface{},
+	client types.IAutoFillManagerClient,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	// WARNING: param client (type types.IAutoFillManagerClient) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillService, MethodIAutoFillServiceOnFillCredentialRequest)
 	if _err != nil {
@@ -124,6 +129,7 @@ func (p *AutoFillServiceProxy) OnSaveRequest(
 	callback ISaveCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -145,6 +151,7 @@ func (p *AutoFillServiceProxy) OnSavedPasswordCountRequest(
 	receiver os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
 	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 
@@ -163,6 +170,7 @@ func (p *AutoFillServiceProxy) OnConvertCredentialRequest(
 	convertCredentialCallback IConvertCredentialCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
 	_data.WriteInt32(1)
 	if _err := convertCredentialRequest.MarshalParcel(_data); _err != nil {
@@ -182,7 +190,8 @@ func (p *AutoFillServiceProxy) OnConvertCredentialRequest(
 // AutoFillServiceStub dispatches incoming binder transactions
 // to a typed IAutoFillService implementation.
 type AutoFillServiceStub struct {
-	Impl IAutoFillService
+	Impl      IAutoFillService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AutoFillServiceStub)(nil)
@@ -196,22 +205,19 @@ func (s *AutoFillServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAutoFillServiceOnConnectedStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_connected, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnConnectedStateChanged(ctx, _arg_connected)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillServiceOnFillRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request FillRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -224,16 +230,17 @@ func (s *AutoFillServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IFillCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewFillCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.OnFillRequest(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillServiceOnFillCredentialRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request FillRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -246,17 +253,18 @@ func (s *AutoFillServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IFillCallback
-		_ = _arg_callback
-		var _arg_client interface{}
-		_err := s.Impl.OnFillCredentialRequest(ctx, _arg_request, _arg_callback, _arg_client)
-		_ = _err
-		return nil, nil
-	case TransactionIAutoFillServiceOnSaveRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewFillCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		var _arg_client types.IAutoFillManagerClient
+		_err := s.Impl.OnFillCredentialRequest(ctx, _arg_request, _arg_callback, _arg_client)
+		return nil, _err
+	case TransactionIAutoFillServiceOnSaveRequest:
 		var _arg_request SaveRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -269,26 +277,28 @@ func (s *AutoFillServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISaveCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSaveCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.OnSaveRequest(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillServiceOnSavedPasswordCountRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver os.IResultReceiver
-		_ = _arg_receiver
-		_err := s.Impl.OnSavedPasswordCountRequest(ctx, _arg_receiver)
-		_ = _err
-		return nil, nil
-	case TransactionIAutoFillServiceOnConvertCredentialRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
 		}
+		_err := s.Impl.OnSavedPasswordCountRequest(ctx, _arg_receiver)
+		return nil, _err
+	case TransactionIAutoFillServiceOnConvertCredentialRequest:
 		var _arg_convertCredentialRequest ConvertCredentialRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -301,12 +311,16 @@ func (s *AutoFillServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_convertCredentialCallback IConvertCredentialCallback
-		_ = _arg_convertCredentialCallback
+		{
+			_convertCredentialCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_convertCredentialCallback = NewConvertCredentialCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _convertCredentialCallbackHandle))
+		}
 		_err := s.Impl.OnConvertCredentialRequest(ctx, _arg_convertCredentialRequest, _arg_convertCredentialCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -318,7 +332,7 @@ func (s *AutoFillServiceStub) OnTransaction(
 type IAutoFillServiceServer interface {
 	OnConnectedStateChanged(ctx context.Context, connected bool) error
 	OnFillRequest(ctx context.Context, request FillRequest, callback IFillCallback) error
-	OnFillCredentialRequest(ctx context.Context, request FillRequest, callback IFillCallback, client interface{}) error
+	OnFillCredentialRequest(ctx context.Context, request FillRequest, callback IFillCallback, client types.IAutoFillManagerClient) error
 	OnSaveRequest(ctx context.Context, request SaveRequest, callback ISaveCallback) error
 	OnSavedPasswordCountRequest(ctx context.Context, receiver os.IResultReceiver) error
 	OnConvertCredentialRequest(ctx context.Context, convertCredentialRequest ConvertCredentialRequest, convertCredentialCallback IConvertCredentialCallback) error
@@ -352,7 +366,7 @@ func (w *autoFillServiceStubWrapper) OnFillCredentialRequest(
 	ctx context.Context,
 	request FillRequest,
 	callback IFillCallback,
-	client interface{},
+	client types.IAutoFillManagerClient,
 ) error {
 	return w.impl.OnFillCredentialRequest(ctx, request, callback, client)
 }

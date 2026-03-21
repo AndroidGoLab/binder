@@ -13,6 +13,8 @@ type CallerIdentity struct {
 }
 
 // DefaultCallerIdentity returns the identity for a shell-user process.
+// The package name defaults to "com.android.shell"; callers should override
+// PackageName for non-shell contexts (e.g., app or system service processes).
 func DefaultCallerIdentity() CallerIdentity {
 	return CallerIdentity{
 		PackageName:    "com.android.shell",

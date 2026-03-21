@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	os "github.com/xaionaro-go/binder/android/os"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -48,7 +49,7 @@ type IInputMethodSession interface {
 	ViewClicked(ctx context.Context, focusChanged bool) error
 	UpdateCursor(ctx context.Context, newCursor graphics.Rect) error
 	DisplayCompletions(ctx context.Context, completions []viewInputmethod.CompletionInfo) error
-	AppPrivateCommand(ctx context.Context, action string, data interface{}) error
+	AppPrivateCommand(ctx context.Context, action string, data os.Bundle) error
 	FinishSession(ctx context.Context) error
 	UpdateCursorAnchorInfo(ctx context.Context, cursorAnchorInfo viewInputmethod.CursorAnchorInfo) error
 	RemoveImeSurface(ctx context.Context) error
@@ -78,6 +79,7 @@ func (p *InputMethodSessionProxy) UpdateExtractedText(
 	text viewInputmethod.ExtractedText,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 	_data.WriteInt32(token)
 	_data.WriteInt32(1)
@@ -104,6 +106,7 @@ func (p *InputMethodSessionProxy) UpdateSelection(
 	candidatesEnd int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 	_data.WriteInt32(oldSelStart)
 	_data.WriteInt32(oldSelEnd)
@@ -126,6 +129,7 @@ func (p *InputMethodSessionProxy) ViewClicked(
 	focusChanged bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 	_data.WriteBool(focusChanged)
 
@@ -143,6 +147,7 @@ func (p *InputMethodSessionProxy) UpdateCursor(
 	newCursor graphics.Rect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 	_data.WriteInt32(1)
 	if _err := newCursor.MarshalParcel(_data); _err != nil {
@@ -163,6 +168,7 @@ func (p *InputMethodSessionProxy) DisplayCompletions(
 	completions []viewInputmethod.CompletionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 	if completions == nil {
 		_data.WriteInt32(-1)
@@ -188,11 +194,16 @@ func (p *InputMethodSessionProxy) DisplayCompletions(
 func (p *InputMethodSessionProxy) AppPrivateCommand(
 	ctx context.Context,
 	action string,
-	data interface{},
+	data os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 	_data.WriteString16(action)
+	_data.WriteInt32(1)
+	if _err := data.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionAppPrivateCommand)
 	if _err != nil {
@@ -207,6 +218,7 @@ func (p *InputMethodSessionProxy) FinishSession(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionFinishSession)
@@ -223,6 +235,7 @@ func (p *InputMethodSessionProxy) UpdateCursorAnchorInfo(
 	cursorAnchorInfo viewInputmethod.CursorAnchorInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 	_data.WriteInt32(1)
 	if _err := cursorAnchorInfo.MarshalParcel(_data); _err != nil {
@@ -242,6 +255,7 @@ func (p *InputMethodSessionProxy) RemoveImeSurface(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionRemoveImeSurface)
@@ -257,6 +271,7 @@ func (p *InputMethodSessionProxy) FinishInput(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionFinishInput)
@@ -275,6 +290,7 @@ func (p *InputMethodSessionProxy) InvalidateInput(
 	sessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 	_data.WriteInt32(1)
 	if _err := editorInfo.MarshalParcel(_data); _err != nil {
@@ -295,7 +311,8 @@ func (p *InputMethodSessionProxy) InvalidateInput(
 // InputMethodSessionStub dispatches incoming binder transactions
 // to a typed IInputMethodSession implementation.
 type InputMethodSessionStub struct {
-	Impl IInputMethodSession
+	Impl      IInputMethodSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputMethodSessionStub)(nil)
@@ -309,11 +326,12 @@ func (s *InputMethodSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputMethodSessionUpdateExtractedText:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -331,12 +349,8 @@ func (s *InputMethodSessionStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.UpdateExtractedText(ctx, _arg_token, _arg_text)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodSessionUpdateSelection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_oldSelStart, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -362,23 +376,15 @@ func (s *InputMethodSessionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.UpdateSelection(ctx, _arg_oldSelStart, _arg_oldSelEnd, _arg_newSelStart, _arg_newSelEnd, _arg_candidatesStart, _arg_candidatesEnd)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodSessionViewClicked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_focusChanged, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ViewClicked(ctx, _arg_focusChanged)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodSessionUpdateCursor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_newCursor graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -392,41 +398,54 @@ func (s *InputMethodSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.UpdateCursor(ctx, _arg_newCursor)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodSessionDisplayCompletions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_completions []viewInputmethod.CompletionInfo
-		_ = _arg_completions
-		_err := s.Impl.DisplayCompletions(ctx, _arg_completions)
-		_ = _err
-		return nil, nil
-	case TransactionIInputMethodSessionAppPrivateCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_completions = make([]viewInputmethod.CompletionInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_completions[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.DisplayCompletions(ctx, _arg_completions)
+		return nil, _err
+	case TransactionIInputMethodSessionAppPrivateCommand:
 		_arg_action, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_data interface{}
+		var _arg_data os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.AppPrivateCommand(ctx, _arg_action, _arg_data)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodSessionFinishSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.FinishSession(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodSessionUpdateCursorAnchorInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_cursorAnchorInfo viewInputmethod.CursorAnchorInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -440,26 +459,14 @@ func (s *InputMethodSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.UpdateCursorAnchorInfo(ctx, _arg_cursorAnchorInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodSessionRemoveImeSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RemoveImeSurface(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodSessionFinishInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.FinishInput(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodSessionInvalidateInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_editorInfo viewInputmethod.EditorInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -472,16 +479,20 @@ func (s *InputMethodSessionStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_inputConnection IRemoteInputConnection
-		_ = _arg_inputConnection
+		{
+			_inputConnectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_inputConnection = NewRemoteInputConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _inputConnectionHandle))
+		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.InvalidateInput(ctx, _arg_editorInfo, _arg_inputConnection, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -496,7 +507,7 @@ type IInputMethodSessionServer interface {
 	ViewClicked(ctx context.Context, focusChanged bool) error
 	UpdateCursor(ctx context.Context, newCursor graphics.Rect) error
 	DisplayCompletions(ctx context.Context, completions []viewInputmethod.CompletionInfo) error
-	AppPrivateCommand(ctx context.Context, action string, data interface{}) error
+	AppPrivateCommand(ctx context.Context, action string, data os.Bundle) error
 	FinishSession(ctx context.Context) error
 	UpdateCursorAnchorInfo(ctx context.Context, cursorAnchorInfo viewInputmethod.CursorAnchorInfo) error
 	RemoveImeSurface(ctx context.Context) error
@@ -557,7 +568,7 @@ func (w *inputMethodSessionStubWrapper) DisplayCompletions(
 func (w *inputMethodSessionStubWrapper) AppPrivateCommand(
 	ctx context.Context,
 	action string,
-	data interface{},
+	data os.Bundle,
 ) error {
 	return w.impl.AppPrivateCommand(ctx, action, data)
 }

@@ -50,6 +50,7 @@ func (p *SurfaceSyncGroupProxy) OnAddedToSyncGroup(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceSyncGroup)
 	binder.WriteBinderToParcel(ctx, _data, parentSyncGroupToken, p.Remote.Transport())
 	_data.WriteBool(parentSyncGroupMerge)
@@ -83,6 +84,7 @@ func (p *SurfaceSyncGroupProxy) AddToSync(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceSyncGroup)
 	binder.WriteBinderToParcel(ctx, _data, surfaceSyncGroup.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(parentSyncGroupMerge)
@@ -112,7 +114,8 @@ func (p *SurfaceSyncGroupProxy) AddToSync(
 // SurfaceSyncGroupStub dispatches incoming binder transactions
 // to a typed ISurfaceSyncGroup implementation.
 type SurfaceSyncGroupStub struct {
-	Impl ISurfaceSyncGroup
+	Impl      ISurfaceSyncGroup
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SurfaceSyncGroupStub)(nil)
@@ -126,14 +129,20 @@ func (s *SurfaceSyncGroupStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISurfaceSyncGroupOnAddedToSyncGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_parentSyncGroupToken binder.IBinder
-		_ = _arg_parentSyncGroupToken
+		{
+			_parentSyncGroupTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_parentSyncGroupToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _parentSyncGroupTokenHandle)
+		}
 		_arg_parentSyncGroupMerge, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -148,12 +157,14 @@ func (s *SurfaceSyncGroupStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISurfaceSyncGroupAddToSync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_surfaceSyncGroup ISurfaceSyncGroup
-		_ = _arg_surfaceSyncGroup
+		{
+			_surfaceSyncGroupHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_surfaceSyncGroup = NewSurfaceSyncGroupProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _surfaceSyncGroupHandle))
+		}
 		_arg_parentSyncGroupMerge, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err

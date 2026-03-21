@@ -74,6 +74,7 @@ func (p *TvAdClientProxy) OnSessionCreated(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
 	_data.WriteString16(serviceId)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -97,6 +98,7 @@ func (p *TvAdClientProxy) OnSessionReleased(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
 	_data.WriteInt32(seq)
 
@@ -118,6 +120,7 @@ func (p *TvAdClientProxy) OnLayoutSurface(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
 	_data.WriteInt32(left)
 	_data.WriteInt32(top)
@@ -139,6 +142,7 @@ func (p *TvAdClientProxy) OnRequestCurrentVideoBounds(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
 	_data.WriteInt32(seq)
 
@@ -156,6 +160,7 @@ func (p *TvAdClientProxy) OnRequestCurrentChannelUri(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
 	_data.WriteInt32(seq)
 
@@ -173,6 +178,7 @@ func (p *TvAdClientProxy) OnRequestTrackInfoList(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
 	_data.WriteInt32(seq)
 
@@ -190,6 +196,7 @@ func (p *TvAdClientProxy) OnRequestCurrentTvInputId(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
 	_data.WriteInt32(seq)
 
@@ -211,18 +218,12 @@ func (p *TvAdClientProxy) OnRequestSigning(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
 	_data.WriteString16(id)
 	_data.WriteString16(algorithm)
 	_data.WriteString16(alias)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 	_data.WriteInt32(seq)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdClient, MethodITvAdClientOnRequestSigning)
@@ -241,6 +242,7 @@ func (p *TvAdClientProxy) OnTvAdSessionData(
 	seq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
 	_data.WriteString16(type_)
 	_data.WriteInt32(1)
@@ -261,7 +263,8 @@ func (p *TvAdClientProxy) OnTvAdSessionData(
 // TvAdClientStub dispatches incoming binder transactions
 // to a typed ITvAdClient implementation.
 type TvAdClientStub struct {
-	Impl ITvAdClient
+	Impl      ITvAdClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvAdClientStub)(nil)
@@ -275,18 +278,24 @@ func (s *TvAdClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvAdClientOnSessionCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_channel view.InputChannel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -304,23 +313,15 @@ func (s *TvAdClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSessionCreated(ctx, _arg_serviceId, _arg_token, _arg_channel, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdClientOnSessionReleased:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSessionReleased(ctx, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdClientOnLayoutSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_left, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -342,56 +343,36 @@ func (s *TvAdClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnLayoutSurface(ctx, _arg_left, _arg_top, _arg_right, _arg_bottom, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdClientOnRequestCurrentVideoBounds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRequestCurrentVideoBounds(ctx, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdClientOnRequestCurrentChannelUri:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRequestCurrentChannelUri(ctx, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdClientOnRequestTrackInfoList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRequestTrackInfoList(ctx, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdClientOnRequestCurrentTvInputId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRequestCurrentTvInputId(ctx, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdClientOnRequestSigning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -404,20 +385,21 @@ func (s *TvAdClientStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRequestSigning(ctx, _arg_id, _arg_algorithm, _arg_alias, _arg_data, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdClientOnTvAdSessionData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -439,8 +421,7 @@ func (s *TvAdClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTvAdSessionData(ctx, _arg_type_, _arg_data, _arg_seq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -96,6 +96,7 @@ func (p *EvsCameraProxy) DoneWithFrame(
 	buffer []BufferDesc,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 	if buffer == nil {
 		_data.WriteInt32(-1)
@@ -132,6 +133,7 @@ func (p *EvsCameraProxy) ForcePrimaryClient(
 	display IEvsDisplay,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 	binder.WriteBinderToParcel(ctx, _data, display.AsBinder(), p.Remote.Transport())
 
@@ -158,6 +160,7 @@ func (p *EvsCameraProxy) GetCameraInfo(
 ) (CameraDesc, error) {
 	var _result CameraDesc
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraGetCameraInfo)
@@ -193,6 +196,7 @@ func (p *EvsCameraProxy) GetExtendedInfo(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 	_data.WriteInt32(opaqueIdentifier)
 
@@ -211,19 +215,9 @@ func (p *EvsCameraProxy) GetExtendedInfo(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -234,6 +228,7 @@ func (p *EvsCameraProxy) GetIntParameter(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 	_data.WriteInt32(int32(id))
 
@@ -256,6 +251,9 @@ func (p *EvsCameraProxy) GetIntParameter(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -275,6 +273,7 @@ func (p *EvsCameraProxy) GetIntParameterRange(
 ) (ParameterRange, error) {
 	var _result ParameterRange
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 	_data.WriteInt32(int32(id))
 
@@ -310,6 +309,7 @@ func (p *EvsCameraProxy) GetParameterList(
 ) ([]CameraParam, error) {
 	var _result []CameraParam
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraGetParameterList)
@@ -331,6 +331,9 @@ func (p *EvsCameraProxy) GetParameterList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]CameraParam, _count)
@@ -351,6 +354,7 @@ func (p *EvsCameraProxy) GetPhysicalCameraInfo(
 ) (CameraDesc, error) {
 	var _result CameraDesc
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 	_data.WriteString16(deviceId)
 
@@ -387,6 +391,7 @@ func (p *EvsCameraProxy) ImportExternalBuffers(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 	if buffers == nil {
 		_data.WriteInt32(-1)
@@ -426,6 +431,7 @@ func (p *EvsCameraProxy) PauseVideoStream(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraPauseVideoStream)
@@ -450,6 +456,7 @@ func (p *EvsCameraProxy) ResumeVideoStream(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraResumeVideoStream)
@@ -476,16 +483,10 @@ func (p *EvsCameraProxy) SetExtendedInfo(
 	opaqueValue []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 	_data.WriteInt32(opaqueIdentifier)
-	if opaqueValue == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(opaqueValue)))
-		for _, _item := range opaqueValue {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(opaqueValue)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraSetExtendedInfo)
 	if _err != nil {
@@ -512,6 +513,7 @@ func (p *EvsCameraProxy) SetIntParameter(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(value)
@@ -535,6 +537,9 @@ func (p *EvsCameraProxy) SetIntParameter(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -552,6 +557,7 @@ func (p *EvsCameraProxy) SetPrimaryClient(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraSetPrimaryClient)
@@ -577,6 +583,7 @@ func (p *EvsCameraProxy) SetMaxFramesInFlight(
 	bufferCount int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 	_data.WriteInt32(bufferCount)
 
@@ -603,6 +610,7 @@ func (p *EvsCameraProxy) StartVideoStream(
 	receiver IEvsCameraStream,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 
@@ -628,6 +636,7 @@ func (p *EvsCameraProxy) StopVideoStream(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraStopVideoStream)
@@ -652,6 +661,7 @@ func (p *EvsCameraProxy) UnsetPrimaryClient(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCamera)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCamera, MethodIEvsCameraUnsetPrimaryClient)
@@ -675,7 +685,8 @@ func (p *EvsCameraProxy) UnsetPrimaryClient(
 // EvsCameraStub dispatches incoming binder transactions
 // to a typed IEvsCamera implementation.
 type EvsCameraStub struct {
-	Impl IEvsCamera
+	Impl      IEvsCamera
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EvsCameraStub)(nil)
@@ -689,14 +700,33 @@ func (s *EvsCameraStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEvsCameraDoneWithFrame:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_buffer []BufferDesc
-		_ = _arg_buffer
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_buffer = make([]BufferDesc, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_buffer[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.DoneWithFrame(ctx, _arg_buffer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -706,12 +736,14 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraForcePrimaryClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display IEvsDisplay
-		_ = _arg_display
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = NewEvsDisplayProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle))
+		}
 		_err := s.Impl.ForcePrimaryClient(ctx, _arg_display)
 		_reply := parcel.New()
 		if _err != nil {
@@ -721,9 +753,6 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraGetCameraInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCameraInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -737,9 +766,6 @@ func (s *EvsCameraStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEvsCameraGetExtendedInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_opaqueIdentifier, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -751,13 +777,9 @@ func (s *EvsCameraStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIEvsCameraGetIntParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -770,13 +792,16 @@ func (s *EvsCameraStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIEvsCameraGetIntParameterRange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -795,9 +820,6 @@ func (s *EvsCameraStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEvsCameraGetParameterList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetParameterList(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -805,13 +827,16 @@ func (s *EvsCameraStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionIEvsCameraGetPhysicalCameraInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -829,12 +854,27 @@ func (s *EvsCameraStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEvsCameraImportExternalBuffers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_buffers []BufferDesc
-		_ = _arg_buffers
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_buffers = make([]BufferDesc, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_buffers[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.ImportExternalBuffers(ctx, _arg_buffers)
 		_reply := parcel.New()
 		if _err != nil {
@@ -845,9 +885,6 @@ func (s *EvsCameraStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIEvsCameraPauseVideoStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.PauseVideoStream(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -857,9 +894,6 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraResumeVideoStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResumeVideoStream(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -869,16 +903,18 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraSetExtendedInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_opaqueIdentifier, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_opaqueValue []byte
-		_ = _arg_opaqueValue
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_opaqueValue = _bytes
+		}
 		_err = s.Impl.SetExtendedInfo(ctx, _arg_opaqueIdentifier, _arg_opaqueValue)
 		_reply := parcel.New()
 		if _err != nil {
@@ -888,9 +924,6 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraSetIntParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -907,13 +940,16 @@ func (s *EvsCameraStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIEvsCameraSetPrimaryClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SetPrimaryClient(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -923,9 +959,6 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraSetMaxFramesInFlight:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_bufferCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -939,12 +972,14 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraStartVideoStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IEvsCameraStream
-		_ = _arg_receiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = NewEvsCameraStreamProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
+		}
 		_err := s.Impl.StartVideoStream(ctx, _arg_receiver)
 		_reply := parcel.New()
 		if _err != nil {
@@ -954,9 +989,6 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraStopVideoStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopVideoStream(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -966,9 +998,6 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraUnsetPrimaryClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.UnsetPrimaryClient(ctx)
 		_reply := parcel.New()
 		if _err != nil {

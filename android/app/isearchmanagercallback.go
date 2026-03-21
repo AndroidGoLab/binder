@@ -47,6 +47,7 @@ func (p *SearchManagerCallbackProxy) OnDismiss(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchManagerCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchManagerCallback, MethodISearchManagerCallbackOnDismiss)
@@ -62,6 +63,7 @@ func (p *SearchManagerCallbackProxy) OnCancel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchManagerCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchManagerCallback, MethodISearchManagerCallbackOnCancel)
@@ -76,7 +78,8 @@ func (p *SearchManagerCallbackProxy) OnCancel(
 // SearchManagerCallbackStub dispatches incoming binder transactions
 // to a typed ISearchManagerCallback implementation.
 type SearchManagerCallbackStub struct {
-	Impl ISearchManagerCallback
+	Impl      ISearchManagerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SearchManagerCallbackStub)(nil)
@@ -90,21 +93,17 @@ func (s *SearchManagerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISearchManagerCallbackOnDismiss:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDismiss(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISearchManagerCallbackOnCancel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnCancel(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

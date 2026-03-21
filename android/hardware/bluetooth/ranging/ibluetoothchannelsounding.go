@@ -54,6 +54,7 @@ func (p *BluetoothChannelSoundingProxy) GetVendorSpecificData(
 ) ([]VendorSpecificData, error) {
 	var _result []VendorSpecificData
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSounding)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothChannelSounding, MethodIBluetoothChannelSoundingGetVendorSpecificData)
@@ -75,6 +76,9 @@ func (p *BluetoothChannelSoundingProxy) GetVendorSpecificData(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]VendorSpecificData, _count)
@@ -95,6 +99,7 @@ func (p *BluetoothChannelSoundingProxy) GetSupportedSessionTypes(
 ) ([]SessionType, error) {
 	var _result []SessionType
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSounding)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothChannelSounding, MethodIBluetoothChannelSoundingGetSupportedSessionTypes)
@@ -116,6 +121,9 @@ func (p *BluetoothChannelSoundingProxy) GetSupportedSessionTypes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]SessionType, _count)
@@ -135,6 +143,7 @@ func (p *BluetoothChannelSoundingProxy) GetMaxSupportedCsSecurityLevel(
 ) (CsSecurityLevel, error) {
 	var _result CsSecurityLevel
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSounding)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothChannelSounding, MethodIBluetoothChannelSoundingGetMaxSupportedCsSecurityLevel)
@@ -167,6 +176,7 @@ func (p *BluetoothChannelSoundingProxy) OpenSession(
 ) (IBluetoothChannelSoundingSession, error) {
 	var _result IBluetoothChannelSoundingSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSounding)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -200,7 +210,8 @@ func (p *BluetoothChannelSoundingProxy) OpenSession(
 // BluetoothChannelSoundingStub dispatches incoming binder transactions
 // to a typed IBluetoothChannelSounding implementation.
 type BluetoothChannelSoundingStub struct {
-	Impl IBluetoothChannelSounding
+	Impl      IBluetoothChannelSounding
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothChannelSoundingStub)(nil)
@@ -214,11 +225,12 @@ func (s *BluetoothChannelSoundingStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothChannelSoundingGetVendorSpecificData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVendorSpecificData(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -226,13 +238,19 @@ func (s *BluetoothChannelSoundingStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingGetSupportedSessionTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedSessionTypes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -240,13 +258,16 @@ func (s *BluetoothChannelSoundingStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingGetMaxSupportedCsSecurityLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMaxSupportedCsSecurityLevel(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -257,9 +278,6 @@ func (s *BluetoothChannelSoundingStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingOpenSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_params BluetoothChannelSoundingParameters
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -272,9 +290,14 @@ func (s *BluetoothChannelSoundingStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IBluetoothChannelSoundingSessionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewBluetoothChannelSoundingSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.OpenSession(ctx, _arg_params, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -282,8 +305,7 @@ func (s *BluetoothChannelSoundingStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

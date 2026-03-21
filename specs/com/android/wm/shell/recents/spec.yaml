@@ -1,0 +1,100 @@
+package: com.android.wm.shell.recents
+go_package: com/android/wm/shell/recents
+interfaces:
+    - name: IRecentTasks
+      descriptor: com.android.wm.shell.recents.IRecentTasks
+      methods:
+        - name: registerRecentTasksListener
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: IRecentTasksListener
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterRecentTasksListener
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: IRecentTasksListener
+              direction: in
+          return_type:
+            name: void
+        - name: getRecentTasks
+          transaction_code_offset: 2
+          params:
+            - name: maxNum
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: GroupedRecentTaskInfo
+            is_array: true
+        - name: getRunningTasks
+          transaction_code_offset: 3
+          params:
+            - name: maxNum
+              type:
+                name: int
+          return_type:
+            name: RunningTaskInfo
+            is_array: true
+        - name: startRecentsTransition
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: intent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: fillIn
+              type:
+                name: Intent
+              direction: in
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+            - name: appThread
+              type:
+                name: IApplicationThread
+            - name: listener
+              type:
+                name: IRecentsAnimationRunner
+          return_type:
+            name: void
+    - name: IRecentTasksListener
+      descriptor: com.android.wm.shell.recents.IRecentTasksListener
+      oneway: true
+      methods:
+        - name: onRecentTasksChanged
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onRunningTaskAppeared
+          transaction_code_offset: 1
+          params:
+            - name: taskInfo
+              type:
+                name: RunningTaskInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onRunningTaskVanished
+          transaction_code_offset: 2
+          params:
+            - name: taskInfo
+              type:
+                name: RunningTaskInfo
+              direction: in
+          return_type:
+            name: void

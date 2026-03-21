@@ -46,6 +46,7 @@ func (p *MidiDeviceOpenCallbackProxy) OnDeviceOpened(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiDeviceOpenCallback)
 	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -62,7 +63,8 @@ func (p *MidiDeviceOpenCallbackProxy) OnDeviceOpened(
 // MidiDeviceOpenCallbackStub dispatches incoming binder transactions
 // to a typed IMidiDeviceOpenCallback implementation.
 type MidiDeviceOpenCallbackStub struct {
-	Impl IMidiDeviceOpenCallback
+	Impl      IMidiDeviceOpenCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MidiDeviceOpenCallbackStub)(nil)
@@ -76,20 +78,30 @@ func (s *MidiDeviceOpenCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMidiDeviceOpenCallbackOnDeviceOpened:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_server IMidiDeviceServer
-		_ = _arg_server
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_serverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_server = NewMidiDeviceServerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _serverHandle))
+		}
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.OnDeviceOpened(ctx, _arg_server, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

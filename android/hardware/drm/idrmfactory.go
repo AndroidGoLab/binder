@@ -53,6 +53,7 @@ func (p *DrmFactoryProxy) CreateDrmPlugin(
 ) (IDrmPlugin, error) {
 	var _result IDrmPlugin
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmFactory)
 	_data.WriteInt32(1)
 	if _err := uuid.MarshalParcel(_data); _err != nil {
@@ -90,19 +91,13 @@ func (p *DrmFactoryProxy) CreateCryptoPlugin(
 ) (ICryptoPlugin, error) {
 	var _result ICryptoPlugin
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmFactory)
 	_data.WriteInt32(1)
 	if _err := uuid.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	if initData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(initData)))
-		for _, _item := range initData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(initData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmFactory, MethodIDrmFactoryCreateCryptoPlugin)
 	if _err != nil {
@@ -132,6 +127,7 @@ func (p *DrmFactoryProxy) GetSupportedCryptoSchemes(
 ) (CryptoSchemes, error) {
 	var _result CryptoSchemes
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmFactory)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmFactory, MethodIDrmFactoryGetSupportedCryptoSchemes)
@@ -164,7 +160,8 @@ func (p *DrmFactoryProxy) GetSupportedCryptoSchemes(
 // DrmFactoryStub dispatches incoming binder transactions
 // to a typed IDrmFactory implementation.
 type DrmFactoryStub struct {
-	Impl IDrmFactory
+	Impl      IDrmFactory
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DrmFactoryStub)(nil)
@@ -178,11 +175,12 @@ func (s *DrmFactoryStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDrmFactoryCreateDrmPlugin:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_uuid Uuid
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -206,13 +204,9 @@ func (s *DrmFactoryStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIDrmFactoryCreateCryptoPlugin:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_uuid Uuid
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -225,9 +219,14 @@ func (s *DrmFactoryStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_initData []byte
-		_ = _arg_initData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_initData = _bytes
+		}
 		_result, _err := s.Impl.CreateCryptoPlugin(ctx, _arg_uuid, _arg_initData)
 		_reply := parcel.New()
 		if _err != nil {
@@ -235,13 +234,9 @@ func (s *DrmFactoryStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIDrmFactoryGetSupportedCryptoSchemes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedCryptoSchemes(ctx)
 		_reply := parcel.New()
 		if _err != nil {

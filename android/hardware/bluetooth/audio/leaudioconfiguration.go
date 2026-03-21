@@ -1,7 +1,6 @@
 package audio
 
 import (
-	audioLeAudioConfiguration "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/LeAudioConfiguration"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +8,7 @@ import (
 
 type LeAudioConfiguration struct {
 	CodecType              CodecType
-	StreamMap              []audioLeAudioConfiguration.StreamMap
+	StreamMap              []LeAudioConfigurationStreamMap
 	PeerDelayUs            int32
 	LeAudioCodecConfig     LeAudioCodecConfiguration
 	VendorSpecificMetadata []byte
@@ -51,11 +50,21 @@ func (s *LeAudioConfiguration) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_codecTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.CodecType = CodecType(_codecTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
@@ -63,7 +72,7 @@ func (s *LeAudioConfiguration) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.StreamMap = make([]audioLeAudioConfiguration.StreamMap, _count0)
+		s.StreamMap = make([]LeAudioConfigurationStreamMap, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
 			if _, _err = p.ReadInt32(); _err != nil {
 				return _err
@@ -74,13 +83,28 @@ func (s *LeAudioConfiguration) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PeerDelayUs, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.LeAudioCodecConfig.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.VendorSpecificMetadata, _err = p.ReadByteArray()

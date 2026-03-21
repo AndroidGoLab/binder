@@ -3,7 +3,6 @@ package biometrics
 import (
 	"context"
 	"fmt"
-	biometricsIBiometricContextListener "github.com/xaionaro-go/binder/android/hardware/biometrics/IBiometricContextListener"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -26,7 +25,7 @@ const (
 
 type IBiometricContextListener interface {
 	AsBinder() binder.IBinder
-	OnFoldChanged(ctx context.Context, FoldState biometricsIBiometricContextListener.FoldState) error
+	OnFoldChanged(ctx context.Context, FoldState IBiometricContextListenerFoldState) error
 	OnDisplayStateChanged(ctx context.Context, displayState int32) error
 	OnHardwareIgnoreTouchesChanged(ctx context.Context, shouldIgnore bool) error
 }
@@ -49,9 +48,10 @@ var _ IBiometricContextListener = (*BiometricContextListenerProxy)(nil)
 
 func (p *BiometricContextListenerProxy) OnFoldChanged(
 	ctx context.Context,
-	FoldState biometricsIBiometricContextListener.FoldState,
+	FoldState IBiometricContextListenerFoldState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricContextListener)
 	_data.WriteInt32(int32(FoldState))
 
@@ -69,6 +69,7 @@ func (p *BiometricContextListenerProxy) OnDisplayStateChanged(
 	displayState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricContextListener)
 	_data.WriteInt32(displayState)
 
@@ -86,6 +87,7 @@ func (p *BiometricContextListenerProxy) OnHardwareIgnoreTouchesChanged(
 	shouldIgnore bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricContextListener)
 	_data.WriteBool(shouldIgnore)
 
@@ -101,7 +103,8 @@ func (p *BiometricContextListenerProxy) OnHardwareIgnoreTouchesChanged(
 // BiometricContextListenerStub dispatches incoming binder transactions
 // to a typed IBiometricContextListener implementation.
 type BiometricContextListenerStub struct {
-	Impl IBiometricContextListener
+	Impl      IBiometricContextListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BiometricContextListenerStub)(nil)
@@ -115,41 +118,33 @@ func (s *BiometricContextListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBiometricContextListenerOnFoldChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_FoldState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_FoldState := biometricsIBiometricContextListener.FoldState(_raw_FoldState)
+		_arg_FoldState := IBiometricContextListenerFoldState(_raw_FoldState)
 		_err = s.Impl.OnFoldChanged(ctx, _arg_FoldState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBiometricContextListenerOnDisplayStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDisplayStateChanged(ctx, _arg_displayState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBiometricContextListenerOnHardwareIgnoreTouchesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_shouldIgnore, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnHardwareIgnoreTouchesChanged(ctx, _arg_shouldIgnore)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -159,7 +154,7 @@ func (s *BiometricContextListenerStub) OnTransaction(
 // provide to NewBiometricContextListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBiometricContextListenerServer interface {
-	OnFoldChanged(ctx context.Context, FoldState biometricsIBiometricContextListener.FoldState) error
+	OnFoldChanged(ctx context.Context, FoldState IBiometricContextListenerFoldState) error
 	OnDisplayStateChanged(ctx context.Context, displayState int32) error
 	OnHardwareIgnoreTouchesChanged(ctx context.Context, shouldIgnore bool) error
 }
@@ -175,7 +170,7 @@ func (w *biometricContextListenerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *biometricContextListenerStubWrapper) OnFoldChanged(
 	ctx context.Context,
-	FoldState biometricsIBiometricContextListener.FoldState,
+	FoldState IBiometricContextListenerFoldState,
 ) error {
 	return w.impl.OnFoldChanged(ctx, FoldState)
 }

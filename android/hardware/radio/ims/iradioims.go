@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	radio "github.com/xaionaro-go/binder/android/hardware/radio"
-	imsImsCall "github.com/xaionaro-go/binder/android/hardware/radio/ims/ImsCall"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -39,7 +38,7 @@ type IRadioIms interface {
 	AsBinder() binder.IBinder
 	SetSrvccCallInfo(ctx context.Context, serial int32, srvccCalls []SrvccCall) error
 	UpdateImsRegistrationInfo(ctx context.Context, serial int32, imsRegistration ImsRegistration) error
-	StartImsTraffic(ctx context.Context, serial int32, token int32, imsTrafficType ImsTrafficType, accessNetworkType radio.AccessNetwork, trafficDirection imsImsCall.Direction) error
+	StartImsTraffic(ctx context.Context, serial int32, token int32, imsTrafficType ImsTrafficType, accessNetworkType radio.AccessNetwork, trafficDirection ImsCallDirection) error
 	StopImsTraffic(ctx context.Context, serial int32, token int32) error
 	TriggerEpsFallback(ctx context.Context, serial int32, reason EpsFallbackReason) error
 	SetResponseFunctions(ctx context.Context, radioImsResponse IRadioImsResponse, radioImsIndication IRadioImsIndication) error
@@ -69,6 +68,7 @@ func (p *RadioImsProxy) SetSrvccCallInfo(
 	srvccCalls []SrvccCall,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioIms)
 	_data.WriteInt32(serial)
 	if srvccCalls == nil {
@@ -98,6 +98,7 @@ func (p *RadioImsProxy) UpdateImsRegistrationInfo(
 	imsRegistration ImsRegistration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioIms)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(1)
@@ -120,9 +121,10 @@ func (p *RadioImsProxy) StartImsTraffic(
 	token int32,
 	imsTrafficType ImsTrafficType,
 	accessNetworkType radio.AccessNetwork,
-	trafficDirection imsImsCall.Direction,
+	trafficDirection ImsCallDirection,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioIms)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(token)
@@ -145,6 +147,7 @@ func (p *RadioImsProxy) StopImsTraffic(
 	token int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioIms)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(token)
@@ -164,6 +167,7 @@ func (p *RadioImsProxy) TriggerEpsFallback(
 	reason EpsFallbackReason,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioIms)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(reason))
@@ -183,6 +187,7 @@ func (p *RadioImsProxy) SetResponseFunctions(
 	radioImsIndication IRadioImsIndication,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioIms)
 	binder.WriteBinderToParcel(ctx, _data, radioImsResponse.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, radioImsIndication.AsBinder(), p.Remote.Transport())
@@ -204,6 +209,7 @@ func (p *RadioImsProxy) SendAnbrQuery(
 	bitsPerSecond int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioIms)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(mediaType))
@@ -225,6 +231,7 @@ func (p *RadioImsProxy) UpdateImsCallStatus(
 	imsCalls []ImsCall,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioIms)
 	_data.WriteInt32(serial)
 	if imsCalls == nil {
@@ -251,7 +258,8 @@ func (p *RadioImsProxy) UpdateImsCallStatus(
 // RadioImsStub dispatches incoming binder transactions
 // to a typed IRadioIms implementation.
 type RadioImsStub struct {
-	Impl IRadioIms
+	Impl      IRadioIms
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RadioImsStub)(nil)
@@ -265,25 +273,40 @@ func (s *RadioImsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRadioImsSetSrvccCallInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_srvccCalls []SrvccCall
-		_ = _arg_srvccCalls
-		_err = s.Impl.SetSrvccCallInfo(ctx, _arg_serial, _arg_srvccCalls)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioImsUpdateImsRegistrationInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_srvccCalls = make([]SrvccCall, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_srvccCalls[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.SetSrvccCallInfo(ctx, _arg_serial, _arg_srvccCalls)
+		return nil, _err
+	case TransactionIRadioImsUpdateImsRegistrationInfo:
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -301,12 +324,8 @@ func (s *RadioImsStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.UpdateImsRegistrationInfo(ctx, _arg_serial, _arg_imsRegistration)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioImsStartImsTraffic:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -329,14 +348,10 @@ func (s *RadioImsStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_trafficDirection := imsImsCall.Direction(_raw_trafficDirection)
+		_arg_trafficDirection := ImsCallDirection(_raw_trafficDirection)
 		_err = s.Impl.StartImsTraffic(ctx, _arg_serial, _arg_token, _arg_imsTrafficType, _arg_accessNetworkType, _arg_trafficDirection)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioImsStopImsTraffic:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -346,12 +361,8 @@ func (s *RadioImsStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.StopImsTraffic(ctx, _arg_serial, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioImsTriggerEpsFallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -362,25 +373,27 @@ func (s *RadioImsStub) OnTransaction(
 		}
 		_arg_reason := EpsFallbackReason(_raw_reason)
 		_err = s.Impl.TriggerEpsFallback(ctx, _arg_serial, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioImsSetResponseFunctions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_radioImsResponse IRadioImsResponse
-		_ = _arg_radioImsResponse
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_radioImsIndication IRadioImsIndication
-		_ = _arg_radioImsIndication
-		_err := s.Impl.SetResponseFunctions(ctx, _arg_radioImsResponse, _arg_radioImsIndication)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioImsSendAnbrQuery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_radioImsResponseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_radioImsResponse = NewRadioImsResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _radioImsResponseHandle))
 		}
+		var _arg_radioImsIndication IRadioImsIndication
+		{
+			_radioImsIndicationHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_radioImsIndication = NewRadioImsIndicationProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _radioImsIndicationHandle))
+		}
+		_err := s.Impl.SetResponseFunctions(ctx, _arg_radioImsResponse, _arg_radioImsIndication)
+		return nil, _err
+	case TransactionIRadioImsSendAnbrQuery:
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -400,22 +413,35 @@ func (s *RadioImsStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SendAnbrQuery(ctx, _arg_serial, _arg_mediaType, _arg_direction, _arg_bitsPerSecond)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioImsUpdateImsCallStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_imsCalls []ImsCall
-		_ = _arg_imsCalls
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_imsCalls = make([]ImsCall, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_imsCalls[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.UpdateImsCallStatus(ctx, _arg_serial, _arg_imsCalls)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -427,7 +453,7 @@ func (s *RadioImsStub) OnTransaction(
 type IRadioImsServer interface {
 	SetSrvccCallInfo(ctx context.Context, serial int32, srvccCalls []SrvccCall) error
 	UpdateImsRegistrationInfo(ctx context.Context, serial int32, imsRegistration ImsRegistration) error
-	StartImsTraffic(ctx context.Context, serial int32, token int32, imsTrafficType ImsTrafficType, accessNetworkType radio.AccessNetwork, trafficDirection imsImsCall.Direction) error
+	StartImsTraffic(ctx context.Context, serial int32, token int32, imsTrafficType ImsTrafficType, accessNetworkType radio.AccessNetwork, trafficDirection ImsCallDirection) error
 	StopImsTraffic(ctx context.Context, serial int32, token int32) error
 	TriggerEpsFallback(ctx context.Context, serial int32, reason EpsFallbackReason) error
 	SetResponseFunctions(ctx context.Context, radioImsResponse IRadioImsResponse, radioImsIndication IRadioImsIndication) error
@@ -466,7 +492,7 @@ func (w *radioImsStubWrapper) StartImsTraffic(
 	token int32,
 	imsTrafficType ImsTrafficType,
 	accessNetworkType radio.AccessNetwork,
-	trafficDirection imsImsCall.Direction,
+	trafficDirection ImsCallDirection,
 ) error {
 	return w.impl.StartImsTraffic(ctx, serial, token, imsTrafficType, accessNetworkType, trafficDirection)
 }

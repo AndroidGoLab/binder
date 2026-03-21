@@ -1,0 +1,286 @@
+package: com.android.internal.policy
+go_package: com/android/internal_/policy
+interfaces:
+    - name: IKeyguardDismissCallback
+      descriptor: com.android.internal.policy.IKeyguardDismissCallback
+      oneway: true
+      methods:
+        - name: onDismissError
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onDismissSucceeded
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onDismissCancelled
+          transaction_code_offset: 2
+          return_type:
+            name: void
+    - name: IKeyguardDrawnCallback
+      descriptor: com.android.internal.policy.IKeyguardDrawnCallback
+      oneway: true
+      methods:
+        - name: onDrawn
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: IKeyguardExitCallback
+      descriptor: com.android.internal.policy.IKeyguardExitCallback
+      oneway: true
+      methods:
+        - name: onKeyguardExitResult
+          transaction_code_offset: 0
+          params:
+            - name: success
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IKeyguardLockedStateListener
+      descriptor: com.android.internal.policy.IKeyguardLockedStateListener
+      oneway: true
+      methods:
+        - name: onKeyguardLockedStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: isKeyguardLocked
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IKeyguardService
+      descriptor: com.android.internal.policy.IKeyguardService
+      oneway: true
+      methods:
+        - name: setOccluded
+          transaction_code_offset: 0
+          params:
+            - name: isOccluded
+              type:
+                name: boolean
+            - name: animate
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: addStateMonitorCallback
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IKeyguardStateCallback
+          return_type:
+            name: void
+        - name: verifyUnlock
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: IKeyguardExitCallback
+          return_type:
+            name: void
+        - name: dismiss
+          transaction_code_offset: 3
+          params:
+            - name: callback
+              type:
+                name: IKeyguardDismissCallback
+            - name: message
+              type:
+                name: CharSequence
+          return_type:
+            name: void
+        - name: onDreamingStarted
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: onDreamingStopped
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: onStartedGoingToSleep
+          transaction_code_offset: 6
+          params:
+            - name: pmSleepReason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onFinishedGoingToSleep
+          transaction_code_offset: 7
+          params:
+            - name: pmSleepReason
+              type:
+                name: int
+            - name: cameraGestureTriggered
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onStartedWakingUp
+          transaction_code_offset: 8
+          params:
+            - name: pmWakeReason
+              type:
+                name: int
+            - name: cameraGestureTriggered
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onFinishedWakingUp
+          transaction_code_offset: 9
+          return_type:
+            name: void
+        - name: onScreenTurningOn
+          transaction_code_offset: 10
+          params:
+            - name: callback
+              type:
+                name: IKeyguardDrawnCallback
+          return_type:
+            name: void
+        - name: onScreenTurnedOn
+          transaction_code_offset: 11
+          return_type:
+            name: void
+        - name: onScreenTurningOff
+          transaction_code_offset: 12
+          return_type:
+            name: void
+        - name: onScreenTurnedOff
+          transaction_code_offset: 13
+          return_type:
+            name: void
+        - name: setKeyguardEnabled
+          transaction_code_offset: 14
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onSystemReady
+          transaction_code_offset: 15
+          return_type:
+            name: void
+        - name: doKeyguardTimeout
+          transaction_code_offset: 16
+          params:
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setSwitchingUser
+          transaction_code_offset: 17
+          params:
+            - name: switching
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setCurrentUser
+          transaction_code_offset: 18
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onBootCompleted
+          transaction_code_offset: 19
+          return_type:
+            name: void
+        - name: startKeyguardExitAnimation
+          transaction_code_offset: 20
+          params:
+            - name: startTime
+              type:
+                name: long
+            - name: fadeoutDuration
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onShortPowerPressedGoHome
+          transaction_code_offset: 21
+          return_type:
+            name: void
+        - name: dismissKeyguardToLaunch
+          transaction_code_offset: 22
+          params:
+            - name: intentToLaunch
+              type:
+                name: Intent
+              direction: in
+          return_type:
+            name: void
+        - name: onSystemKeyPressed
+          transaction_code_offset: 23
+          params:
+            - name: keycode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: showDismissibleKeyguard
+          transaction_code_offset: 24
+          return_type:
+            name: void
+    - name: IKeyguardStateCallback
+      descriptor: com.android.internal.policy.IKeyguardStateCallback
+      methods:
+        - name: onShowingStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: showing
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSimSecureStateChanged
+          transaction_code_offset: 1
+          params:
+            - name: simSecure
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onInputRestrictedStateChanged
+          transaction_code_offset: 2
+          params:
+            - name: inputRestricted
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onTrustedChanged
+          transaction_code_offset: 3
+          params:
+            - name: trusted
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IShortcutService
+      descriptor: com.android.internal.policy.IShortcutService
+      oneway: true
+      methods:
+        - name: notifyShortcutKeyPressed
+          transaction_code_offset: 0
+          params:
+            - name: shortcutCode
+              type:
+                name: long
+          return_type:
+            name: void

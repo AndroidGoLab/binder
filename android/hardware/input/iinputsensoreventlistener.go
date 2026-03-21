@@ -52,6 +52,7 @@ func (p *InputSensorEventListenerProxy) OnInputSensorChanged(
 	values []float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputSensorEventListener)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(sensorId)
@@ -82,6 +83,7 @@ func (p *InputSensorEventListenerProxy) OnInputSensorAccuracyChanged(
 	accuracy int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputSensorEventListener)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(sensorId)
@@ -99,7 +101,8 @@ func (p *InputSensorEventListenerProxy) OnInputSensorAccuracyChanged(
 // InputSensorEventListenerStub dispatches incoming binder transactions
 // to a typed IInputSensorEventListener implementation.
 type InputSensorEventListenerStub struct {
-	Impl IInputSensorEventListener
+	Impl      IInputSensorEventListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputSensorEventListenerStub)(nil)
@@ -113,11 +116,12 @@ func (s *InputSensorEventListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputSensorEventListenerOnInputSensorChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -134,16 +138,28 @@ func (s *InputSensorEventListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_values []float32
-		_ = _arg_values
-		_err = s.Impl.OnInputSensorChanged(ctx, _arg_deviceId, _arg_sensorId, _arg_accuracy, _arg_timestamp, _arg_values)
-		_ = _err
-		return nil, nil
-	case TransactionIInputSensorEventListenerOnInputSensorAccuracyChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_values = make([]float32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_values[_i], _err = _data.ReadFloat32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.OnInputSensorChanged(ctx, _arg_deviceId, _arg_sensorId, _arg_accuracy, _arg_timestamp, _arg_values)
+		return nil, _err
+	case TransactionIInputSensorEventListenerOnInputSensorAccuracyChanged:
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -157,8 +173,7 @@ func (s *InputSensorEventListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnInputSensorAccuracyChanged(ctx, _arg_deviceId, _arg_sensorId, _arg_accuracy)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

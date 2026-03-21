@@ -41,11 +41,21 @@ func (s *AddToSurfaceSyncGroupResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_mParentSyncGroupHandle, _err := p.ReadStrongBinder()
 	if _err != nil {
 		return _err
 	}
 	s.MParentSyncGroup = NewSurfaceSyncGroupProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _mParentSyncGroupHandle))
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_mTransactionReadyCallbackHandle, _err := p.ReadStrongBinder()
 	if _err != nil {

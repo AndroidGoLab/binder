@@ -44,6 +44,7 @@ func (p *CancellationSignalProxy) Cancel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICancellationSignal)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICancellationSignal, MethodICancellationSignalCancel)
@@ -58,7 +59,8 @@ func (p *CancellationSignalProxy) Cancel(
 // CancellationSignalStub dispatches incoming binder transactions
 // to a typed ICancellationSignal implementation.
 type CancellationSignalStub struct {
-	Impl ICancellationSignal
+	Impl      ICancellationSignal
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CancellationSignalStub)(nil)
@@ -72,14 +74,14 @@ func (s *CancellationSignalStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICancellationSignalCancel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Cancel(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

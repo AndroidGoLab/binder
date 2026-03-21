@@ -85,6 +85,7 @@ func (p *BackupAgentProxy) DoBackup(
 	transportFlags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 	_data.WriteFileDescriptor(oldState)
 	_data.WriteFileDescriptor(data)
@@ -111,6 +112,7 @@ func (p *BackupAgentProxy) DoRestore(
 	callbackBinder backup.IBackupManager,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 	_data.WriteFileDescriptor(data)
 	_data.WriteInt64(appVersionCode)
@@ -137,6 +139,7 @@ func (p *BackupAgentProxy) DoRestoreWithExcludedKeys(
 	excludedKeys []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 	_data.WriteFileDescriptor(data)
 	_data.WriteInt64(appVersionCode)
@@ -170,6 +173,7 @@ func (p *BackupAgentProxy) DoFullBackup(
 	transportFlags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 	_data.WriteFileDescriptor(data)
 	_data.WriteInt64(quotaBytes)
@@ -194,6 +198,7 @@ func (p *BackupAgentProxy) DoMeasureFullBackup(
 	transportFlags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 	_data.WriteInt64(quotaBytes)
 	_data.WriteInt32(token)
@@ -216,6 +221,7 @@ func (p *BackupAgentProxy) DoQuotaExceeded(
 	callbackBinder backup.IBackupCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 	_data.WriteInt64(backupDataBytes)
 	_data.WriteInt64(quotaBytes)
@@ -243,6 +249,7 @@ func (p *BackupAgentProxy) DoRestoreFile(
 	callbackBinder backup.IBackupManager,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 	_data.WriteFileDescriptor(data)
 	_data.WriteInt64(size)
@@ -269,6 +276,7 @@ func (p *BackupAgentProxy) DoRestoreFinished(
 	callbackBinder backup.IBackupManager,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 	_data.WriteInt32(token)
 	binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
@@ -287,6 +295,7 @@ func (p *BackupAgentProxy) Fail(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 	_data.WriteString16(message)
 
@@ -304,6 +313,7 @@ func (p *BackupAgentProxy) GetLoggerResults(
 	resultsFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 	_data.WriteInt32(1)
 	if _err := resultsFuture.MarshalParcel(_data); _err != nil {
@@ -324,6 +334,7 @@ func (p *BackupAgentProxy) GetOperationType(
 	operationTypeFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 	_data.WriteInt32(1)
 	if _err := operationTypeFuture.MarshalParcel(_data); _err != nil {
@@ -343,6 +354,7 @@ func (p *BackupAgentProxy) ClearBackupRestoreEventLogger(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupAgent, MethodIBackupAgentClearBackupRestoreEventLogger)
@@ -357,7 +369,8 @@ func (p *BackupAgentProxy) ClearBackupRestoreEventLogger(
 // BackupAgentStub dispatches incoming binder transactions
 // to a typed IBackupAgent implementation.
 type BackupAgentStub struct {
-	Impl IBackupAgent
+	Impl      IBackupAgent
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BackupAgentStub)(nil)
@@ -371,11 +384,12 @@ func (s *BackupAgentStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBackupAgentDoBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_oldState, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -392,20 +406,21 @@ func (s *BackupAgentStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbackBinder backup.IBackupCallback
-		_ = _arg_callbackBinder
+		{
+			_callbackBinderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbackBinder = backup.NewBackupCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackBinderHandle))
+		}
 		_arg_transportFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DoBackup(ctx, _arg_oldState, _arg_data, _arg_newState, _arg_quotaBytes, _arg_callbackBinder, _arg_transportFlags)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupAgentDoRestore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_data, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -422,16 +437,17 @@ func (s *BackupAgentStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbackBinder backup.IBackupManager
-		_ = _arg_callbackBinder
+		{
+			_callbackBinderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbackBinder = backup.NewBackupManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackBinderHandle))
+		}
 		_err = s.Impl.DoRestore(ctx, _arg_data, _arg_appVersionCode, _arg_newState, _arg_token, _arg_callbackBinder)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupAgentDoRestoreWithExcludedKeys:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_data, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -448,19 +464,36 @@ func (s *BackupAgentStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbackBinder backup.IBackupManager
-		_ = _arg_callbackBinder
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_excludedKeys []string
-		_ = _arg_excludedKeys
-		_err = s.Impl.DoRestoreWithExcludedKeys(ctx, _arg_data, _arg_appVersionCode, _arg_newState, _arg_token, _arg_callbackBinder, _arg_excludedKeys)
-		_ = _err
-		return nil, nil
-	case TransactionIBackupAgentDoFullBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackBinderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbackBinder = backup.NewBackupManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackBinderHandle))
 		}
+		var _arg_excludedKeys []string
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_excludedKeys = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_excludedKeys[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		_err = s.Impl.DoRestoreWithExcludedKeys(ctx, _arg_data, _arg_appVersionCode, _arg_newState, _arg_token, _arg_callbackBinder, _arg_excludedKeys)
+		return nil, _err
+	case TransactionIBackupAgentDoFullBackup:
 		_arg_data, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -473,20 +506,21 @@ func (s *BackupAgentStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbackBinder backup.IBackupManager
-		_ = _arg_callbackBinder
+		{
+			_callbackBinderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbackBinder = backup.NewBackupManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackBinderHandle))
+		}
 		_arg_transportFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DoFullBackup(ctx, _arg_data, _arg_quotaBytes, _arg_token, _arg_callbackBinder, _arg_transportFlags)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupAgentDoMeasureFullBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_quotaBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -495,20 +529,21 @@ func (s *BackupAgentStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbackBinder backup.IBackupManager
-		_ = _arg_callbackBinder
+		{
+			_callbackBinderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbackBinder = backup.NewBackupManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackBinderHandle))
+		}
 		_arg_transportFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DoMeasureFullBackup(ctx, _arg_quotaBytes, _arg_token, _arg_callbackBinder, _arg_transportFlags)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupAgentDoQuotaExceeded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_backupDataBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -517,16 +552,17 @@ func (s *BackupAgentStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbackBinder backup.IBackupCallback
-		_ = _arg_callbackBinder
-		_err = s.Impl.DoQuotaExceeded(ctx, _arg_backupDataBytes, _arg_quotaBytes, _arg_callbackBinder)
-		_ = _err
-		return nil, nil
-	case TransactionIBackupAgentDoRestoreFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackBinderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbackBinder = backup.NewBackupCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackBinderHandle))
 		}
+		_err = s.Impl.DoQuotaExceeded(ctx, _arg_backupDataBytes, _arg_quotaBytes, _arg_callbackBinder)
+		return nil, _err
+	case TransactionIBackupAgentDoRestoreFile:
 		_arg_data, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -559,41 +595,39 @@ func (s *BackupAgentStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbackBinder backup.IBackupManager
-		_ = _arg_callbackBinder
-		_err = s.Impl.DoRestoreFile(ctx, _arg_data, _arg_size, _arg_type_, _arg_domain, _arg_path, _arg_mode, _arg_mtime, _arg_token, _arg_callbackBinder)
-		_ = _err
-		return nil, nil
-	case TransactionIBackupAgentDoRestoreFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackBinderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbackBinder = backup.NewBackupManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackBinderHandle))
 		}
+		_err = s.Impl.DoRestoreFile(ctx, _arg_data, _arg_size, _arg_type_, _arg_domain, _arg_path, _arg_mode, _arg_mtime, _arg_token, _arg_callbackBinder)
+		return nil, _err
+	case TransactionIBackupAgentDoRestoreFinished:
 		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbackBinder backup.IBackupManager
-		_ = _arg_callbackBinder
-		_err = s.Impl.DoRestoreFinished(ctx, _arg_token, _arg_callbackBinder)
-		_ = _err
-		return nil, nil
-	case TransactionIBackupAgentFail:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackBinderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbackBinder = backup.NewBackupManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackBinderHandle))
 		}
+		_err = s.Impl.DoRestoreFinished(ctx, _arg_token, _arg_callbackBinder)
+		return nil, _err
+	case TransactionIBackupAgentFail:
 		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Fail(ctx, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupAgentGetLoggerResults:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_resultsFuture infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -607,12 +641,8 @@ func (s *BackupAgentStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetLoggerResults(ctx, _arg_resultsFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupAgentGetOperationType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_operationTypeFuture infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -626,15 +656,10 @@ func (s *BackupAgentStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetOperationType(ctx, _arg_operationTypeFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupAgentClearBackupRestoreEventLogger:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ClearBackupRestoreEventLogger(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -48,6 +48,7 @@ func (p *AppTraceRetrieverProxy) GetTraceFileDescriptor(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppTraceRetriever)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(uid)
@@ -78,7 +79,8 @@ func (p *AppTraceRetrieverProxy) GetTraceFileDescriptor(
 // AppTraceRetrieverStub dispatches incoming binder transactions
 // to a typed IAppTraceRetriever implementation.
 type AppTraceRetrieverStub struct {
-	Impl IAppTraceRetriever
+	Impl      IAppTraceRetriever
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AppTraceRetrieverStub)(nil)
@@ -92,11 +94,12 @@ func (s *AppTraceRetrieverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAppTraceRetrieverGetTraceFileDescriptor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

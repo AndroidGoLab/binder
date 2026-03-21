@@ -69,6 +69,7 @@ func (p *RadioConfigProxy) GetHalDeviceCapabilities(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
 	_data.WriteInt32(serial)
 
@@ -86,6 +87,7 @@ func (p *RadioConfigProxy) GetNumOfLiveModems(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
 	_data.WriteInt32(serial)
 
@@ -103,6 +105,7 @@ func (p *RadioConfigProxy) GetPhoneCapability(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
 	_data.WriteInt32(serial)
 
@@ -120,6 +123,7 @@ func (p *RadioConfigProxy) GetSimSlotsStatus(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
 	_data.WriteInt32(serial)
 
@@ -138,6 +142,7 @@ func (p *RadioConfigProxy) SetNumOfLiveModems(
 	numOfLiveModems byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
 	_data.WriteInt32(serial)
 	_data.WritePaddedByte(numOfLiveModems)
@@ -157,6 +162,7 @@ func (p *RadioConfigProxy) SetPreferredDataModem(
 	modemId byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
 	_data.WriteInt32(serial)
 	_data.WritePaddedByte(modemId)
@@ -176,6 +182,7 @@ func (p *RadioConfigProxy) SetResponseFunctions(
 	radioConfigIndication IRadioConfigIndication,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
 	binder.WriteBinderToParcel(ctx, _data, radioConfigResponse.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, radioConfigIndication.AsBinder(), p.Remote.Transport())
@@ -195,6 +202,7 @@ func (p *RadioConfigProxy) SetSimSlotsMapping(
 	slotMap []SlotPortMapping,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
 	_data.WriteInt32(serial)
 	if slotMap == nil {
@@ -223,6 +231,7 @@ func (p *RadioConfigProxy) GetSimultaneousCallingSupport(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfig)
 	_data.WriteInt32(serial)
 
@@ -238,7 +247,8 @@ func (p *RadioConfigProxy) GetSimultaneousCallingSupport(
 // RadioConfigStub dispatches incoming binder transactions
 // to a typed IRadioConfig implementation.
 type RadioConfigStub struct {
-	Impl IRadioConfig
+	Impl      IRadioConfig
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RadioConfigStub)(nil)
@@ -252,55 +262,40 @@ func (s *RadioConfigStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRadioConfigGetHalDeviceCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetHalDeviceCapabilities(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioConfigGetNumOfLiveModems:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetNumOfLiveModems(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioConfigGetPhoneCapability:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetPhoneCapability(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioConfigGetSimSlotsStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetSimSlotsStatus(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioConfigSetNumOfLiveModems:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -310,12 +305,8 @@ func (s *RadioConfigStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetNumOfLiveModems(ctx, _arg_serial, _arg_numOfLiveModems)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioConfigSetPreferredDataModem:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -325,46 +316,61 @@ func (s *RadioConfigStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetPreferredDataModem(ctx, _arg_serial, _arg_modemId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioConfigSetResponseFunctions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_radioConfigResponse IRadioConfigResponse
-		_ = _arg_radioConfigResponse
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_radioConfigIndication IRadioConfigIndication
-		_ = _arg_radioConfigIndication
-		_err := s.Impl.SetResponseFunctions(ctx, _arg_radioConfigResponse, _arg_radioConfigIndication)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioConfigSetSimSlotsMapping:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_radioConfigResponseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_radioConfigResponse = NewRadioConfigResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _radioConfigResponseHandle))
 		}
+		var _arg_radioConfigIndication IRadioConfigIndication
+		{
+			_radioConfigIndicationHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_radioConfigIndication = NewRadioConfigIndicationProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _radioConfigIndicationHandle))
+		}
+		_err := s.Impl.SetResponseFunctions(ctx, _arg_radioConfigResponse, _arg_radioConfigIndication)
+		return nil, _err
+	case TransactionIRadioConfigSetSimSlotsMapping:
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_slotMap []SlotPortMapping
-		_ = _arg_slotMap
-		_err = s.Impl.SetSimSlotsMapping(ctx, _arg_serial, _arg_slotMap)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioConfigGetSimultaneousCallingSupport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_slotMap = make([]SlotPortMapping, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_slotMap[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.SetSimSlotsMapping(ctx, _arg_serial, _arg_slotMap)
+		return nil, _err
+	case TransactionIRadioConfigGetSimultaneousCallingSupport:
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetSimultaneousCallingSupport(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

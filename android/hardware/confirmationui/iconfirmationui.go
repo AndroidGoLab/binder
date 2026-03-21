@@ -68,6 +68,7 @@ func (p *ConfirmationUIProxy) Abort(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfirmationUI)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfirmationUI, MethodIConfirmationUIAbort)
@@ -93,6 +94,7 @@ func (p *ConfirmationUIProxy) DeliverSecureInputEvent(
 	secureInputToken keymaster.HardwareAuthToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfirmationUI)
 	_data.WriteInt32(1)
 	if _err := secureInputToken.MarshalParcel(_data); _err != nil {
@@ -126,24 +128,11 @@ func (p *ConfirmationUIProxy) PromptUserConfirmation(
 	uiOptions []UIOption,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfirmationUI)
 	binder.WriteBinderToParcel(ctx, _data, resultCB.AsBinder(), p.Remote.Transport())
-	if promptText == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(promptText)))
-		for _, _item := range promptText {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if extraData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(extraData)))
-		for _, _item := range extraData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(promptText)
+	_data.WriteByteArray(extraData)
 	_data.WriteString16(locale)
 	if uiOptions == nil {
 		_data.WriteInt32(-1)
@@ -175,7 +164,8 @@ func (p *ConfirmationUIProxy) PromptUserConfirmation(
 // ConfirmationUIStub dispatches incoming binder transactions
 // to a typed IConfirmationUI implementation.
 type ConfirmationUIStub struct {
-	Impl IConfirmationUI
+	Impl      IConfirmationUI
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ConfirmationUIStub)(nil)
@@ -189,11 +179,12 @@ func (s *ConfirmationUIStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIConfirmationUIAbort:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Abort(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -203,9 +194,6 @@ func (s *ConfirmationUIStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIConfirmationUIDeliverSecureInputEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_secureInputToken keymaster.HardwareAuthToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -227,25 +215,54 @@ func (s *ConfirmationUIStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIConfirmationUIPromptUserConfirmation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCB IConfirmationResultCallback
-		_ = _arg_resultCB
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_resultCBHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCB = NewConfirmationResultCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCBHandle))
+		}
 		var _arg_promptText []byte
-		_ = _arg_promptText
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_promptText = _bytes
+		}
 		var _arg_extraData []byte
-		_ = _arg_extraData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_extraData = _bytes
+		}
 		_arg_locale, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_uiOptions []UIOption
-		_ = _arg_uiOptions
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_uiOptions = make([]UIOption, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_raw, _err := _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_uiOptions[_i] = UIOption(_raw)
+				}
+			}
+		}
 		_err = s.Impl.PromptUserConfirmation(ctx, _arg_resultCB, _arg_promptText, _arg_extraData, _arg_locale, _arg_uiOptions)
 		_reply := parcel.New()
 		if _err != nil {

@@ -1,0 +1,53 @@
+package: android.service.watchdog
+go_package: android/service/watchdog
+interfaces:
+    - name: IExplicitHealthCheckService
+      descriptor: android.service.watchdog.IExplicitHealthCheckService
+      oneway: true
+      methods:
+        - name: setCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: RemoteCallback
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: request
+          transaction_code_offset: 1
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: cancel
+          transaction_code_offset: 2
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getSupportedPackages
+          transaction_code_offset: 3
+          params:
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getRequestedPackages
+          transaction_code_offset: 4
+          params:
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: PackageConfig

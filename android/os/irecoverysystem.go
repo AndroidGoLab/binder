@@ -3,7 +3,7 @@ package os
 import (
 	"context"
 	"fmt"
-	content "github.com/xaionaro-go/binder/android/content"
+	types "github.com/xaionaro-go/binder/android/content/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -45,7 +45,7 @@ type IRecoverySystem interface {
 	SetupBcb(ctx context.Context, command string) (bool, error)
 	ClearBcb(ctx context.Context) (bool, error)
 	RebootRecoveryWithCommand(ctx context.Context, command string) error
-	RequestLskf(ctx context.Context, packageName string, sender content.IntentSender) (bool, error)
+	RequestLskf(ctx context.Context, packageName string, sender types.IntentSender) (bool, error)
 	ClearLskf(ctx context.Context, packageName string) (bool, error)
 	IsLskfCaptured(ctx context.Context, packageName string) (bool, error)
 	RebootWithLskfAssumeSlotSwitch(ctx context.Context, packageName string, reason string) (int32, error)
@@ -74,6 +74,7 @@ func (p *RecoverySystemProxy) AllocateSpaceForUpdate(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(packageFilePath)
 
@@ -106,6 +107,7 @@ func (p *RecoverySystemProxy) Uncrypt(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(packageFile)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -138,6 +140,7 @@ func (p *RecoverySystemProxy) SetupBcb(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(command)
 
@@ -168,6 +171,7 @@ func (p *RecoverySystemProxy) ClearBcb(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecoverySystem, MethodIRecoverySystemClearBcb)
@@ -197,6 +201,7 @@ func (p *RecoverySystemProxy) RebootRecoveryWithCommand(
 	command string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(command)
 
@@ -221,16 +226,14 @@ func (p *RecoverySystemProxy) RebootRecoveryWithCommand(
 func (p *RecoverySystemProxy) RequestLskf(
 	ctx context.Context,
 	packageName string,
-	sender content.IntentSender,
+	sender types.IntentSender,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := sender.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
+	// WARNING: param sender (type types.IntentSender) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecoverySystem, MethodIRecoverySystemRequestLskf)
 	if _err != nil {
@@ -260,6 +263,7 @@ func (p *RecoverySystemProxy) ClearLskf(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(packageName)
 
@@ -291,6 +295,7 @@ func (p *RecoverySystemProxy) IsLskfCaptured(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(packageName)
 
@@ -323,6 +328,7 @@ func (p *RecoverySystemProxy) RebootWithLskfAssumeSlotSwitch(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(packageName)
 	_data.WriteString16(reason)
@@ -357,6 +363,7 @@ func (p *RecoverySystemProxy) RebootWithLskf(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(packageName)
 	_data.WriteString16(reason)
@@ -387,7 +394,8 @@ func (p *RecoverySystemProxy) RebootWithLskf(
 // RecoverySystemStub dispatches incoming binder transactions
 // to a typed IRecoverySystem implementation.
 type RecoverySystemStub struct {
-	Impl IRecoverySystem
+	Impl      IRecoverySystem
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RecoverySystemStub)(nil)
@@ -401,11 +409,12 @@ func (s *RecoverySystemStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRecoverySystemAllocateSpaceForUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageFilePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -420,16 +429,18 @@ func (s *RecoverySystemStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRecoverySystemUncrypt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageFile, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IRecoverySystemProgressListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewRecoverySystemProgressListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.Uncrypt(ctx, _arg_packageFile, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -440,9 +451,6 @@ func (s *RecoverySystemStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRecoverySystemSetupBcb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_command, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -457,9 +465,6 @@ func (s *RecoverySystemStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRecoverySystemClearBcb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ClearBcb(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -470,9 +475,6 @@ func (s *RecoverySystemStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRecoverySystemRebootRecoveryWithCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_command, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -486,25 +488,11 @@ func (s *RecoverySystemStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRecoverySystemRequestLskf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sender content.IntentSender
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_sender.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_sender types.IntentSender
 		_result, _err := s.Impl.RequestLskf(ctx, _arg_packageName, _arg_sender)
 		_reply := parcel.New()
 		if _err != nil {
@@ -515,9 +503,6 @@ func (s *RecoverySystemStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRecoverySystemClearLskf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -532,9 +517,6 @@ func (s *RecoverySystemStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRecoverySystemIsLskfCaptured:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -549,9 +531,6 @@ func (s *RecoverySystemStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRecoverySystemRebootWithLskfAssumeSlotSwitch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -570,9 +549,6 @@ func (s *RecoverySystemStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRecoverySystemRebootWithLskf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -608,7 +584,7 @@ type IRecoverySystemServer interface {
 	SetupBcb(ctx context.Context, command string) (bool, error)
 	ClearBcb(ctx context.Context) (bool, error)
 	RebootRecoveryWithCommand(ctx context.Context, command string) error
-	RequestLskf(ctx context.Context, packageName string, sender content.IntentSender) (bool, error)
+	RequestLskf(ctx context.Context, packageName string, sender types.IntentSender) (bool, error)
 	ClearLskf(ctx context.Context, packageName string) (bool, error)
 	IsLskfCaptured(ctx context.Context, packageName string) (bool, error)
 	RebootWithLskfAssumeSlotSwitch(ctx context.Context, packageName string, reason string) (int32, error)
@@ -662,7 +638,7 @@ func (w *recoverySystemStubWrapper) RebootRecoveryWithCommand(
 func (w *recoverySystemStubWrapper) RequestLskf(
 	ctx context.Context,
 	packageName string,
-	sender content.IntentSender,
+	sender types.IntentSender,
 ) (bool, error) {
 	return w.impl.RequestLskf(ctx, packageName, sender)
 }

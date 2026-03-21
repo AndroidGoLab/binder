@@ -52,6 +52,7 @@ func (p *TvInputServiceCallbackProxy) AddHardwareInput(
 	inputInfo TvInputInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputServiceCallback)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(1)
@@ -74,6 +75,7 @@ func (p *TvInputServiceCallbackProxy) AddHdmiInput(
 	inputInfo TvInputInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputServiceCallback)
 	_data.WriteInt32(id)
 	_data.WriteInt32(1)
@@ -95,6 +97,7 @@ func (p *TvInputServiceCallbackProxy) RemoveHardwareInput(
 	inputId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputServiceCallback)
 	_data.WriteString16(inputId)
 
@@ -110,7 +113,8 @@ func (p *TvInputServiceCallbackProxy) RemoveHardwareInput(
 // TvInputServiceCallbackStub dispatches incoming binder transactions
 // to a typed ITvInputServiceCallback implementation.
 type TvInputServiceCallbackStub struct {
-	Impl ITvInputServiceCallback
+	Impl      ITvInputServiceCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvInputServiceCallbackStub)(nil)
@@ -124,11 +128,12 @@ func (s *TvInputServiceCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvInputServiceCallbackAddHardwareInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -146,12 +151,8 @@ func (s *TvInputServiceCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.AddHardwareInput(ctx, _arg_deviceId, _arg_inputInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputServiceCallbackAddHdmiInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -169,19 +170,14 @@ func (s *TvInputServiceCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.AddHdmiInput(ctx, _arg_id, _arg_inputInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputServiceCallbackRemoveHardwareInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RemoveHardwareInput(ctx, _arg_inputId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

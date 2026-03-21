@@ -57,6 +57,7 @@ func (p *HintManagerProxy) CreateHintSession(
 ) (IHintSession, error) {
 	var _result IHintSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	if tids == nil {
@@ -97,6 +98,7 @@ func (p *HintManagerProxy) GetHintSessionPreferredRate(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintManager, MethodIHintManagerGetHintSessionPreferredRate)
@@ -127,6 +129,7 @@ func (p *HintManagerProxy) SetHintSessionThreads(
 	tids []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintManager)
 	binder.WriteBinderToParcel(ctx, _data, hintSession.AsBinder(), p.Remote.Transport())
 	if tids == nil {
@@ -162,6 +165,7 @@ func (p *HintManagerProxy) GetHintSessionThreadIds(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHintManager)
 	binder.WriteBinderToParcel(ctx, _data, hintSession.AsBinder(), p.Remote.Transport())
 
@@ -184,6 +188,9 @@ func (p *HintManagerProxy) GetHintSessionThreadIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -200,7 +207,8 @@ func (p *HintManagerProxy) GetHintSessionThreadIds(
 // HintManagerStub dispatches incoming binder transactions
 // to a typed IHintManager implementation.
 type HintManagerStub struct {
-	Impl IHintManager
+	Impl      IHintManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HintManagerStub)(nil)
@@ -214,17 +222,39 @@ func (s *HintManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHintManagerCreateHintSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_tids []int32
-		_ = _arg_tids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_tids = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_tids[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_durationNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -236,13 +266,9 @@ func (s *HintManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIHintManagerGetHintSessionPreferredRate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHintSessionPreferredRate(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -253,15 +279,33 @@ func (s *HintManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIHintManagerSetHintSessionThreads:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_hintSession IHintSession
-		_ = _arg_hintSession
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_hintSessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hintSession = NewHintSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _hintSessionHandle))
+		}
 		var _arg_tids []int32
-		_ = _arg_tids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_tids = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_tids[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetHintSessionThreads(ctx, _arg_hintSession, _arg_tids)
 		_reply := parcel.New()
 		if _err != nil {
@@ -271,12 +315,14 @@ func (s *HintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHintManagerGetHintSessionThreadIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_hintSession IHintSession
-		_ = _arg_hintSession
+		{
+			_hintSessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hintSession = NewHintSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _hintSessionHandle))
+		}
 		_result, _err := s.Impl.GetHintSessionThreadIds(ctx, _arg_hintSession)
 		_reply := parcel.New()
 		if _err != nil {
@@ -284,8 +330,14 @@ func (s *HintManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

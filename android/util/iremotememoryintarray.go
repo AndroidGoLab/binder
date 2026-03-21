@@ -69,6 +69,7 @@ func (p *RemoteMemoryIntArrayProxy) PeekInstance(
 ) (MemoryIntArray, error) {
 	var _result MemoryIntArray
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteMemoryIntArray)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteMemoryIntArray, MethodIRemoteMemoryIntArrayPeekInstance)
@@ -103,6 +104,7 @@ func (p *RemoteMemoryIntArrayProxy) Create(
 	size int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteMemoryIntArray)
 	_data.WriteInt32(size)
 
@@ -129,6 +131,7 @@ func (p *RemoteMemoryIntArrayProxy) IsWritable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteMemoryIntArray)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteMemoryIntArray, MethodIRemoteMemoryIntArrayIsWritable)
@@ -159,6 +162,7 @@ func (p *RemoteMemoryIntArrayProxy) Get(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteMemoryIntArray)
 	_data.WriteInt32(index)
 
@@ -190,6 +194,7 @@ func (p *RemoteMemoryIntArrayProxy) Set(
 	value int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteMemoryIntArray)
 	_data.WriteInt32(index)
 	_data.WriteInt32(value)
@@ -217,6 +222,7 @@ func (p *RemoteMemoryIntArrayProxy) Size(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteMemoryIntArray)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteMemoryIntArray, MethodIRemoteMemoryIntArraySize)
@@ -245,6 +251,7 @@ func (p *RemoteMemoryIntArrayProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteMemoryIntArray)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteMemoryIntArray, MethodIRemoteMemoryIntArrayClose)
@@ -270,6 +277,7 @@ func (p *RemoteMemoryIntArrayProxy) IsClosed(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteMemoryIntArray)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteMemoryIntArray, MethodIRemoteMemoryIntArrayIsClosed)
@@ -299,6 +307,7 @@ func (p *RemoteMemoryIntArrayProxy) AccessLastElementInRemoteProcess(
 	array MemoryIntArray,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteMemoryIntArray)
 	_data.WriteInt32(1)
 	if _err := array.MarshalParcel(_data); _err != nil {
@@ -326,7 +335,8 @@ func (p *RemoteMemoryIntArrayProxy) AccessLastElementInRemoteProcess(
 // RemoteMemoryIntArrayStub dispatches incoming binder transactions
 // to a typed IRemoteMemoryIntArray implementation.
 type RemoteMemoryIntArrayStub struct {
-	Impl IRemoteMemoryIntArray
+	Impl      IRemoteMemoryIntArray
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RemoteMemoryIntArrayStub)(nil)
@@ -340,11 +350,12 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRemoteMemoryIntArrayPeekInstance:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.PeekInstance(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -358,9 +369,6 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIRemoteMemoryIntArrayCreate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_size, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -374,9 +382,6 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRemoteMemoryIntArrayIsWritable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsWritable(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -387,9 +392,6 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRemoteMemoryIntArrayGet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -404,9 +406,6 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRemoteMemoryIntArraySet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -424,9 +423,6 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRemoteMemoryIntArraySize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Size(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -437,9 +433,6 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRemoteMemoryIntArrayClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -449,9 +442,6 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRemoteMemoryIntArrayIsClosed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsClosed(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -462,9 +452,6 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRemoteMemoryIntArrayAccessLastElementInRemoteProcess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_array MemoryIntArray
 		{
 			_nullInd, _err := _data.ReadInt32()

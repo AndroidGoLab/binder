@@ -72,6 +72,7 @@ func (p *WebViewUpdateServiceProxy) NotifyRelroCreationCompleted(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceNotifyRelroCreationCompleted)
@@ -97,6 +98,7 @@ func (p *WebViewUpdateServiceProxy) WaitForAndGetProvider(
 ) (WebViewProviderResponse, error) {
 	var _result WebViewProviderResponse
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceWaitForAndGetProvider)
@@ -132,6 +134,7 @@ func (p *WebViewUpdateServiceProxy) ChangeProviderAndSetting(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 	_data.WriteString16(newProvider)
 
@@ -162,6 +165,7 @@ func (p *WebViewUpdateServiceProxy) GetValidWebViewPackages(
 ) ([]WebViewProviderInfo, error) {
 	var _result []WebViewProviderInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceGetValidWebViewPackages)
@@ -183,6 +187,9 @@ func (p *WebViewUpdateServiceProxy) GetValidWebViewPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]WebViewProviderInfo, _count)
@@ -203,6 +210,7 @@ func (p *WebViewUpdateServiceProxy) GetAllWebViewPackages(
 ) ([]WebViewProviderInfo, error) {
 	var _result []WebViewProviderInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceGetAllWebViewPackages)
@@ -224,6 +232,9 @@ func (p *WebViewUpdateServiceProxy) GetAllWebViewPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]WebViewProviderInfo, _count)
@@ -244,6 +255,7 @@ func (p *WebViewUpdateServiceProxy) GetCurrentWebViewPackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceGetCurrentWebViewPackageName)
@@ -273,6 +285,7 @@ func (p *WebViewUpdateServiceProxy) GetCurrentWebViewPackage(
 ) (pm.PackageInfo, error) {
 	var _result pm.PackageInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceGetCurrentWebViewPackage)
@@ -307,6 +320,7 @@ func (p *WebViewUpdateServiceProxy) IsMultiProcessEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceIsMultiProcessEnabled)
@@ -336,6 +350,7 @@ func (p *WebViewUpdateServiceProxy) EnableMultiProcess(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 	_data.WriteBool(enable)
 
@@ -362,6 +377,7 @@ func (p *WebViewUpdateServiceProxy) GetDefaultWebViewPackage(
 ) (WebViewProviderInfo, error) {
 	var _result WebViewProviderInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceGetDefaultWebViewPackage)
@@ -394,7 +410,8 @@ func (p *WebViewUpdateServiceProxy) GetDefaultWebViewPackage(
 // WebViewUpdateServiceStub dispatches incoming binder transactions
 // to a typed IWebViewUpdateService implementation.
 type WebViewUpdateServiceStub struct {
-	Impl IWebViewUpdateService
+	Impl      IWebViewUpdateService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WebViewUpdateServiceStub)(nil)
@@ -408,11 +425,12 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWebViewUpdateServiceNotifyRelroCreationCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NotifyRelroCreationCompleted(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -422,9 +440,6 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWebViewUpdateServiceWaitForAndGetProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.WaitForAndGetProvider(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -438,9 +453,6 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWebViewUpdateServiceChangeProviderAndSetting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_newProvider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -455,9 +467,6 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIWebViewUpdateServiceGetValidWebViewPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetValidWebViewPackages(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -465,13 +474,19 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIWebViewUpdateServiceGetAllWebViewPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAllWebViewPackages(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -479,13 +494,19 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIWebViewUpdateServiceGetCurrentWebViewPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentWebViewPackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -496,9 +517,6 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIWebViewUpdateServiceGetCurrentWebViewPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentWebViewPackage(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -512,9 +530,6 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWebViewUpdateServiceIsMultiProcessEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsMultiProcessEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -525,9 +540,6 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWebViewUpdateServiceEnableMultiProcess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -541,9 +553,6 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWebViewUpdateServiceGetDefaultWebViewPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDefaultWebViewPackage(ctx)
 		_reply := parcel.New()
 		if _err != nil {

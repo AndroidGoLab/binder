@@ -49,6 +49,7 @@ func (p *EArcCallbackProxy) OnStateChange(
 	portId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEArcCallback)
 	_data.WritePaddedByte(byte(status))
 	_data.WriteInt32(portId)
@@ -68,15 +69,9 @@ func (p *EArcCallbackProxy) OnCapabilitiesReported(
 	portId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEArcCallback)
-	if rawCapabilities == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(rawCapabilities)))
-		for _, _item := range rawCapabilities {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(rawCapabilities)
 	_data.WriteInt32(portId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEArcCallback, MethodIEArcCallbackOnCapabilitiesReported)
@@ -91,7 +86,8 @@ func (p *EArcCallbackProxy) OnCapabilitiesReported(
 // EArcCallbackStub dispatches incoming binder transactions
 // to a typed IEArcCallback implementation.
 type EArcCallbackStub struct {
-	Impl IEArcCallback
+	Impl      IEArcCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EArcCallbackStub)(nil)
@@ -105,11 +101,12 @@ func (s *EArcCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEArcCallbackOnStateChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_status, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -120,22 +117,22 @@ func (s *EArcCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStateChange(ctx, _arg_status, _arg_portId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEArcCallbackOnCapabilitiesReported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_rawCapabilities []byte
-		_ = _arg_rawCapabilities
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_rawCapabilities = _bytes
+		}
 		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnCapabilitiesReported(ctx, _arg_rawCapabilities, _arg_portId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

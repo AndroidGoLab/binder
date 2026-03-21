@@ -156,6 +156,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventClusterEvent(
 	event NanClusterEventInd,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -176,6 +177,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventDataPathConfirm(
 	event NanDataPathConfirmInd,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -196,6 +198,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventDataPathRequest(
 	event NanDataPathRequestInd,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -216,6 +219,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventDataPathScheduleUpdate(
 	event NanDataPathScheduleUpdateInd,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -236,6 +240,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventDataPathTerminated(
 	ndpInstanceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(ndpInstanceId)
 
@@ -253,6 +258,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventDisabled(
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
@@ -273,6 +279,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventFollowupReceived(
 	event NanFollowupReceivedInd,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -293,6 +300,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventMatch(
 	event NanMatchInd,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -314,6 +322,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventMatchExpired(
 	peerId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WritePaddedByte(discoverySessionId)
 	_data.WriteInt32(peerId)
@@ -333,6 +342,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventPublishTerminated(
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WritePaddedByte(sessionId)
 	_data.WriteInt32(1)
@@ -355,6 +365,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventSubscribeTerminated(
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WritePaddedByte(sessionId)
 	_data.WriteInt32(1)
@@ -377,6 +388,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventTransmitFollowup(
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -398,6 +410,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventSuspensionModeChanged(
 	event NanSuspensionModeChangeInd,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -420,6 +433,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyCapabilitiesResponse(
 	capabilities NanCapabilities,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -446,6 +460,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyConfigResponse(
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -468,6 +483,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyCreateDataInterfaceResponse(
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -490,6 +506,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyDeleteDataInterfaceResponse(
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -512,6 +529,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyDisableResponse(
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -534,6 +552,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyEnableResponse(
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -557,6 +576,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyInitiateDataPathResponse(
 	ndpInstanceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -580,6 +600,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyRespondToDataPathIndicationRespon
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -603,6 +624,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyStartPublishResponse(
 	sessionId byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -627,6 +649,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyStartSubscribeResponse(
 	sessionId byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -650,6 +673,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyStopPublishResponse(
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -672,6 +696,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyStopSubscribeResponse(
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -694,6 +719,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyTerminateDataPathResponse(
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -716,6 +742,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifySuspendResponse(
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -738,6 +765,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyResumeResponse(
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -760,6 +788,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyTransmitFollowupResponse(
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -781,6 +810,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventPairingRequest(
 	event NanPairingRequestInd,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -801,6 +831,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventPairingConfirm(
 	event NanPairingConfirmInd,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -823,6 +854,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyInitiatePairingResponse(
 	pairingInstanceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -846,6 +878,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyRespondToPairingIndicationRespons
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -867,6 +900,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventBootstrappingRequest(
 	event NanBootstrappingRequestInd,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -887,6 +921,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventBootstrappingConfirm(
 	event NanBootstrappingConfirmInd,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -909,6 +944,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyInitiateBootstrappingResponse(
 	bootstrappingInstanceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -932,6 +968,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyRespondToBootstrappingIndicationR
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -954,6 +991,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyTerminatePairingResponse(
 	status NanStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
 	_data.WriteInt32(1)
@@ -973,7 +1011,8 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyTerminatePairingResponse(
 // WifiNanIfaceEventCallbackStub dispatches incoming binder transactions
 // to a typed IWifiNanIfaceEventCallback implementation.
 type WifiNanIfaceEventCallbackStub struct {
-	Impl IWifiNanIfaceEventCallback
+	Impl      IWifiNanIfaceEventCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WifiNanIfaceEventCallbackStub)(nil)
@@ -987,11 +1026,12 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWifiNanIfaceEventCallbackEventClusterEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event NanClusterEventInd
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1005,12 +1045,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.EventClusterEvent(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackEventDataPathConfirm:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event NanDataPathConfirmInd
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1024,12 +1060,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.EventDataPathConfirm(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackEventDataPathRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event NanDataPathRequestInd
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1043,12 +1075,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.EventDataPathRequest(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackEventDataPathScheduleUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event NanDataPathScheduleUpdateInd
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1062,23 +1090,15 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.EventDataPathScheduleUpdate(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackEventDataPathTerminated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ndpInstanceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.EventDataPathTerminated(ctx, _arg_ndpInstanceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackEventDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_status NanStatus
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1092,12 +1112,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.EventDisabled(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackEventFollowupReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event NanFollowupReceivedInd
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1111,12 +1127,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.EventFollowupReceived(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackEventMatch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event NanMatchInd
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1130,12 +1142,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.EventMatch(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackEventMatchExpired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_discoverySessionId, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -1145,12 +1153,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.EventMatchExpired(ctx, _arg_discoverySessionId, _arg_peerId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackEventPublishTerminated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -1168,12 +1172,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.EventPublishTerminated(ctx, _arg_sessionId, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackEventSubscribeTerminated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -1191,12 +1191,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.EventSubscribeTerminated(ctx, _arg_sessionId, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackEventTransmitFollowup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1215,12 +1211,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.EventTransmitFollowup(ctx, _arg_id, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackEventSuspensionModeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event NanSuspensionModeChangeInd
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1234,12 +1226,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.EventSuspensionModeChanged(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyCapabilitiesResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1270,12 +1258,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyCapabilitiesResponse(ctx, _arg_id, _arg_status, _arg_capabilities)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyConfigResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1294,12 +1278,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyConfigResponse(ctx, _arg_id, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyCreateDataInterfaceResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1318,12 +1298,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyCreateDataInterfaceResponse(ctx, _arg_id, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyDeleteDataInterfaceResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1342,12 +1318,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyDeleteDataInterfaceResponse(ctx, _arg_id, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyDisableResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1366,12 +1338,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyDisableResponse(ctx, _arg_id, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyEnableResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1390,12 +1358,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyEnableResponse(ctx, _arg_id, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyInitiateDataPathResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1418,12 +1382,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyInitiateDataPathResponse(ctx, _arg_id, _arg_status, _arg_ndpInstanceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyRespondToDataPathIndicationResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1442,12 +1402,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyRespondToDataPathIndicationResponse(ctx, _arg_id, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyStartPublishResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1470,12 +1426,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyStartPublishResponse(ctx, _arg_id, _arg_status, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyStartSubscribeResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1498,12 +1450,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyStartSubscribeResponse(ctx, _arg_id, _arg_status, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyStopPublishResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1522,12 +1470,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyStopPublishResponse(ctx, _arg_id, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyStopSubscribeResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1546,12 +1490,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyStopSubscribeResponse(ctx, _arg_id, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyTerminateDataPathResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1570,12 +1510,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyTerminateDataPathResponse(ctx, _arg_id, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifySuspendResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1594,12 +1530,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifySuspendResponse(ctx, _arg_id, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyResumeResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1618,12 +1550,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyResumeResponse(ctx, _arg_id, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyTransmitFollowupResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1642,12 +1570,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyTransmitFollowupResponse(ctx, _arg_id, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackEventPairingRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event NanPairingRequestInd
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1661,12 +1585,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.EventPairingRequest(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackEventPairingConfirm:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event NanPairingConfirmInd
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1680,12 +1600,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.EventPairingConfirm(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyInitiatePairingResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1708,12 +1624,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyInitiatePairingResponse(ctx, _arg_id, _arg_status, _arg_pairingInstanceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyRespondToPairingIndicationResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1732,12 +1644,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyRespondToPairingIndicationResponse(ctx, _arg_id, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackEventBootstrappingRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event NanBootstrappingRequestInd
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1751,12 +1659,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.EventBootstrappingRequest(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackEventBootstrappingConfirm:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event NanBootstrappingConfirmInd
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1770,12 +1674,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.EventBootstrappingConfirm(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyInitiateBootstrappingResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1798,12 +1698,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyInitiateBootstrappingResponse(ctx, _arg_id, _arg_status, _arg_bootstrappingInstanceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyRespondToBootstrappingIndicationResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1822,12 +1718,8 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyRespondToBootstrappingIndicationResponse(ctx, _arg_id, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiNanIfaceEventCallbackNotifyTerminatePairingResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1846,8 +1738,7 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyTerminatePairingResponse(ctx, _arg_id, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

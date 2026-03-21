@@ -60,6 +60,7 @@ func (p *PowerStatsProxy) GetPowerEntityInfo(
 ) ([]PowerEntity, error) {
 	var _result []PowerEntity
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerStats, MethodIPowerStatsGetPowerEntityInfo)
@@ -80,6 +81,9 @@ func (p *PowerStatsProxy) GetPowerEntityInfo(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -102,6 +106,7 @@ func (p *PowerStatsProxy) GetStateResidency(
 ) ([]StateResidencyResult, error) {
 	var _result []StateResidencyResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerStats)
 	if powerEntityIds == nil {
 		_data.WriteInt32(-1)
@@ -131,6 +136,9 @@ func (p *PowerStatsProxy) GetStateResidency(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]StateResidencyResult, _count)
@@ -151,6 +159,7 @@ func (p *PowerStatsProxy) GetEnergyConsumerInfo(
 ) ([]EnergyConsumer, error) {
 	var _result []EnergyConsumer
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerStats, MethodIPowerStatsGetEnergyConsumerInfo)
@@ -171,6 +180,9 @@ func (p *PowerStatsProxy) GetEnergyConsumerInfo(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -193,6 +205,7 @@ func (p *PowerStatsProxy) GetEnergyConsumed(
 ) ([]EnergyConsumerResult, error) {
 	var _result []EnergyConsumerResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerStats)
 	if energyConsumerIds == nil {
 		_data.WriteInt32(-1)
@@ -222,6 +235,9 @@ func (p *PowerStatsProxy) GetEnergyConsumed(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]EnergyConsumerResult, _count)
@@ -242,6 +258,7 @@ func (p *PowerStatsProxy) GetEnergyMeterInfo(
 ) ([]Channel, error) {
 	var _result []Channel
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerStats, MethodIPowerStatsGetEnergyMeterInfo)
@@ -262,6 +279,9 @@ func (p *PowerStatsProxy) GetEnergyMeterInfo(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -284,6 +304,7 @@ func (p *PowerStatsProxy) ReadEnergyMeter(
 ) ([]EnergyMeasurement, error) {
 	var _result []EnergyMeasurement
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerStats)
 	if channelIds == nil {
 		_data.WriteInt32(-1)
@@ -313,6 +334,9 @@ func (p *PowerStatsProxy) ReadEnergyMeter(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]EnergyMeasurement, _count)
@@ -331,7 +355,8 @@ func (p *PowerStatsProxy) ReadEnergyMeter(
 // PowerStatsStub dispatches incoming binder transactions
 // to a typed IPowerStats implementation.
 type PowerStatsStub struct {
-	Impl IPowerStats
+	Impl      IPowerStats
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PowerStatsStub)(nil)
@@ -345,11 +370,12 @@ func (s *PowerStatsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPowerStatsGetPowerEntityInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPowerEntityInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -357,16 +383,38 @@ func (s *PowerStatsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIPowerStatsGetStateResidency:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_powerEntityIds []int32
-		_ = _arg_powerEntityIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_powerEntityIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_powerEntityIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetStateResidency(ctx, _arg_powerEntityIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -374,13 +422,19 @@ func (s *PowerStatsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIPowerStatsGetEnergyConsumerInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEnergyConsumerInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -388,16 +442,38 @@ func (s *PowerStatsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIPowerStatsGetEnergyConsumed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_energyConsumerIds []int32
-		_ = _arg_energyConsumerIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_energyConsumerIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_energyConsumerIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetEnergyConsumed(ctx, _arg_energyConsumerIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -405,13 +481,19 @@ func (s *PowerStatsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIPowerStatsGetEnergyMeterInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEnergyMeterInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -419,16 +501,38 @@ func (s *PowerStatsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIPowerStatsReadEnergyMeter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_channelIds []int32
-		_ = _arg_channelIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_channelIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_channelIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.ReadEnergyMeter(ctx, _arg_channelIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -436,8 +540,17 @@ func (s *PowerStatsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

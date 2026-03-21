@@ -45,6 +45,7 @@ func (p *SecurityStateManagerProxy) GetGlobalSecurityState(
 ) (Bundle, error) {
 	var _result Bundle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecurityStateManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecurityStateManager, MethodISecurityStateManagerGetGlobalSecurityState)
@@ -77,7 +78,8 @@ func (p *SecurityStateManagerProxy) GetGlobalSecurityState(
 // SecurityStateManagerStub dispatches incoming binder transactions
 // to a typed ISecurityStateManager implementation.
 type SecurityStateManagerStub struct {
-	Impl ISecurityStateManager
+	Impl      ISecurityStateManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SecurityStateManagerStub)(nil)
@@ -91,11 +93,12 @@ func (s *SecurityStateManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISecurityStateManagerGetGlobalSecurityState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetGlobalSecurityState(ctx)
 		_reply := parcel.New()
 		if _err != nil {

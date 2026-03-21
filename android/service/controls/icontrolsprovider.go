@@ -55,6 +55,7 @@ func (p *ControlsProviderProxy) Load(
 	subscriber IControlsSubscriber,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIControlsProvider)
 	binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.Remote.Transport())
 
@@ -72,6 +73,7 @@ func (p *ControlsProviderProxy) LoadSuggested(
 	subscriber IControlsSubscriber,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIControlsProvider)
 	binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.Remote.Transport())
 
@@ -90,6 +92,7 @@ func (p *ControlsProviderProxy) Subscribe(
 	subscriber IControlsSubscriber,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIControlsProvider)
 	if controlIds == nil {
 		_data.WriteInt32(-1)
@@ -117,6 +120,7 @@ func (p *ControlsProviderProxy) Action(
 	cb IControlsActionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIControlsProvider)
 	_data.WriteString16(controlId)
 	_data.WriteInt32(1)
@@ -137,7 +141,8 @@ func (p *ControlsProviderProxy) Action(
 // ControlsProviderStub dispatches incoming binder transactions
 // to a typed IControlsProvider implementation.
 type ControlsProviderStub struct {
-	Impl IControlsProvider
+	Impl      IControlsProvider
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ControlsProviderStub)(nil)
@@ -151,44 +156,64 @@ func (s *ControlsProviderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIControlsProviderLoad:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_subscriber IControlsSubscriber
-		_ = _arg_subscriber
+		{
+			_subscriberHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_subscriber = NewControlsSubscriberProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _subscriberHandle))
+		}
 		_err := s.Impl.Load(ctx, _arg_subscriber)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIControlsProviderLoadSuggested:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_subscriber IControlsSubscriber
-		_ = _arg_subscriber
+		{
+			_subscriberHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_subscriber = NewControlsSubscriberProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _subscriberHandle))
+		}
 		_err := s.Impl.LoadSuggested(ctx, _arg_subscriber)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIControlsProviderSubscribe:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_controlIds []string
-		_ = _arg_controlIds
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_subscriber IControlsSubscriber
-		_ = _arg_subscriber
-		_err := s.Impl.Subscribe(ctx, _arg_controlIds, _arg_subscriber)
-		_ = _err
-		return nil, nil
-	case TransactionIControlsProviderAction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_controlIds = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_controlIds[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		var _arg_subscriber IControlsSubscriber
+		{
+			_subscriberHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_subscriber = NewControlsSubscriberProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _subscriberHandle))
+		}
+		_err := s.Impl.Subscribe(ctx, _arg_controlIds, _arg_subscriber)
+		return nil, _err
+	case TransactionIControlsProviderAction:
 		_arg_controlId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -205,12 +230,16 @@ func (s *ControlsProviderStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IControlsActionCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewControlsActionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err = s.Impl.Action(ctx, _arg_controlId, _arg_action, _arg_cb)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

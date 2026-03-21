@@ -68,6 +68,7 @@ func (p *ComposerCallbackProxy) OnHotplug(
 	connected bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerCallback)
 	_data.WriteInt64(display)
 	_data.WriteBool(connected)
@@ -95,6 +96,7 @@ func (p *ComposerCallbackProxy) OnRefresh(
 	display int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerCallback)
 	_data.WriteInt64(display)
 
@@ -112,6 +114,7 @@ func (p *ComposerCallbackProxy) OnSeamlessPossible(
 	display int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerCallback)
 	_data.WriteInt64(display)
 
@@ -131,6 +134,7 @@ func (p *ComposerCallbackProxy) OnVsync(
 	vsyncPeriodNanos int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerCallback)
 	_data.WriteInt64(display)
 	_data.WriteInt64(timestamp)
@@ -151,6 +155,7 @@ func (p *ComposerCallbackProxy) OnVsyncPeriodTimingChanged(
 	updatedTimeline VsyncPeriodChangeTimeline,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerCallback)
 	_data.WriteInt64(display)
 	_data.WriteInt32(1)
@@ -172,6 +177,7 @@ func (p *ComposerCallbackProxy) OnVsyncIdle(
 	display int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerCallback)
 	_data.WriteInt64(display)
 
@@ -189,6 +195,7 @@ func (p *ComposerCallbackProxy) OnRefreshRateChangedDebug(
 	data RefreshRateChangedDebugData,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerCallback)
 	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
@@ -210,6 +217,7 @@ func (p *ComposerCallbackProxy) OnHotplugEvent(
 	event common.DisplayHotplugEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerCallback)
 	_data.WriteInt64(display)
 	_data.WriteInt32(int32(event))
@@ -235,7 +243,8 @@ func (p *ComposerCallbackProxy) OnHotplugEvent(
 // ComposerCallbackStub dispatches incoming binder transactions
 // to a typed IComposerCallback implementation.
 type ComposerCallbackStub struct {
-	Impl IComposerCallback
+	Impl      IComposerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ComposerCallbackStub)(nil)
@@ -249,11 +258,12 @@ func (s *ComposerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIComposerCallbackOnHotplug:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -271,31 +281,20 @@ func (s *ComposerCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerCallbackOnRefresh:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRefresh(ctx, _arg_display)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIComposerCallbackOnSeamlessPossible:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSeamlessPossible(ctx, _arg_display)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIComposerCallbackOnVsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -309,12 +308,8 @@ func (s *ComposerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnVsync(ctx, _arg_display, _arg_timestamp, _arg_vsyncPeriodNanos)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIComposerCallbackOnVsyncPeriodTimingChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -332,23 +327,15 @@ func (s *ComposerCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnVsyncPeriodTimingChanged(ctx, _arg_display, _arg_updatedTimeline)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIComposerCallbackOnVsyncIdle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnVsyncIdle(ctx, _arg_display)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIComposerCallbackOnRefreshRateChangedDebug:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_data RefreshRateChangedDebugData
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -362,12 +349,8 @@ func (s *ComposerCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnRefreshRateChangedDebug(ctx, _arg_data)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIComposerCallbackOnHotplugEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err

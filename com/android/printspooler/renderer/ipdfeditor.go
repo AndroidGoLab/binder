@@ -59,6 +59,7 @@ func (p *PdfEditorProxy) OpenDocument(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPdfEditor)
 	_data.WriteFileDescriptor(source)
 
@@ -89,6 +90,7 @@ func (p *PdfEditorProxy) RemovePages(
 	pages []print.PageRange,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPdfEditor)
 	if pages == nil {
 		_data.WriteInt32(-1)
@@ -125,6 +127,7 @@ func (p *PdfEditorProxy) ApplyPrintAttributes(
 	attributes print.PrintAttributes,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPdfEditor)
 	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
@@ -154,6 +157,7 @@ func (p *PdfEditorProxy) Write(
 	destination int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPdfEditor)
 	_data.WriteFileDescriptor(destination)
 
@@ -179,6 +183,7 @@ func (p *PdfEditorProxy) CloseDocument(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPdfEditor)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPdfEditor, MethodIPdfEditorCloseDocument)
@@ -202,7 +207,8 @@ func (p *PdfEditorProxy) CloseDocument(
 // PdfEditorStub dispatches incoming binder transactions
 // to a typed IPdfEditor implementation.
 type PdfEditorStub struct {
-	Impl IPdfEditor
+	Impl      IPdfEditor
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PdfEditorStub)(nil)
@@ -216,11 +222,12 @@ func (s *PdfEditorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPdfEditorOpenDocument:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_source, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -235,12 +242,27 @@ func (s *PdfEditorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPdfEditorRemovePages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pages []print.PageRange
-		_ = _arg_pages
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_pages = make([]print.PageRange, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_pages[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.RemovePages(ctx, _arg_pages)
 		_reply := parcel.New()
 		if _err != nil {
@@ -250,9 +272,6 @@ func (s *PdfEditorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPdfEditorApplyPrintAttributes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_attributes print.PrintAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -274,9 +293,6 @@ func (s *PdfEditorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPdfEditorWrite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_destination, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -290,9 +306,6 @@ func (s *PdfEditorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPdfEditorCloseDocument:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CloseDocument(ctx)
 		_reply := parcel.New()
 		if _err != nil {

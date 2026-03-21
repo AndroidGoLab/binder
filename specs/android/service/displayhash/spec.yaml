@@ -1,0 +1,71 @@
+package: android.service.displayhash
+go_package: android/service/displayhash
+interfaces:
+    - name: IDisplayHashingService
+      descriptor: android.service.displayhash.IDisplayHashingService
+      oneway: true
+      methods:
+        - name: generateDisplayHash
+          transaction_code_offset: 0
+          params:
+            - name: salt
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: buffer
+              type:
+                name: HardwareBuffer
+              direction: in
+            - name: bounds
+              type:
+                name: Rect
+              direction: in
+            - name: hashAlgorithm
+              type:
+                name: String
+              direction: in
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: verifyDisplayHash
+          transaction_code_offset: 1
+          params:
+            - name: salt
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: displayHash
+              type:
+                name: DisplayHash
+              direction: in
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getDisplayHashAlgorithms
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getIntervalBetweenRequestsMillis
+          transaction_code_offset: 3
+          params:
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: DisplayHashParams

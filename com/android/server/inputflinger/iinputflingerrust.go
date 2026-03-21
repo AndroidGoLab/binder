@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/xaionaro-go/binder/binder"
-	inputflingerIInputFilter "github.com/xaionaro-go/binder/com/android/server/inputflinger/IInputFilter"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -22,7 +21,7 @@ const (
 
 type IInputFlingerRust interface {
 	AsBinder() binder.IBinder
-	CreateInputFilter(ctx context.Context, callbacks inputflingerIInputFilter.IInputFilterCallbacks) (IInputFilter, error)
+	CreateInputFilter(ctx context.Context, callbacks IInputFilterIInputFilterCallbacks) (IInputFilter, error)
 }
 
 type InputFlingerRustProxy struct {
@@ -43,10 +42,11 @@ var _ IInputFlingerRust = (*InputFlingerRustProxy)(nil)
 
 func (p *InputFlingerRustProxy) CreateInputFilter(
 	ctx context.Context,
-	callbacks inputflingerIInputFilter.IInputFilterCallbacks,
+	callbacks IInputFilterIInputFilterCallbacks,
 ) (IInputFilter, error) {
 	var _result IInputFilter
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFlingerRust)
 	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
@@ -76,7 +76,8 @@ func (p *InputFlingerRustProxy) CreateInputFilter(
 // InputFlingerRustStub dispatches incoming binder transactions
 // to a typed IInputFlingerRust implementation.
 type InputFlingerRustStub struct {
-	Impl IInputFlingerRust
+	Impl      IInputFlingerRust
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputFlingerRustStub)(nil)
@@ -90,14 +91,20 @@ func (s *InputFlingerRustStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputFlingerRustCreateInputFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_callbacks IInputFilterIInputFilterCallbacks
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewInputFilterIInputFilterCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callbacks inputflingerIInputFilter.IInputFilterCallbacks
-		_ = _arg_callbacks
 		_result, _err := s.Impl.CreateInputFilter(ctx, _arg_callbacks)
 		_reply := parcel.New()
 		if _err != nil {
@@ -105,8 +112,7 @@ func (s *InputFlingerRustStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -117,7 +123,7 @@ func (s *InputFlingerRustStub) OnTransaction(
 // provide to NewInputFlingerRustStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IInputFlingerRustServer interface {
-	CreateInputFilter(ctx context.Context, callbacks inputflingerIInputFilter.IInputFilterCallbacks) (IInputFilter, error)
+	CreateInputFilter(ctx context.Context, callbacks IInputFilterIInputFilterCallbacks) (IInputFilter, error)
 }
 
 type inputFlingerRustStubWrapper struct {
@@ -131,7 +137,7 @@ func (w *inputFlingerRustStubWrapper) AsBinder() binder.IBinder {
 
 func (w *inputFlingerRustStubWrapper) CreateInputFilter(
 	ctx context.Context,
-	callbacks inputflingerIInputFilter.IInputFilterCallbacks,
+	callbacks IInputFilterIInputFilterCallbacks,
 ) (IInputFilter, error) {
 	return w.impl.CreateInputFilter(ctx, callbacks)
 }

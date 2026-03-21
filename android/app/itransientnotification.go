@@ -48,6 +48,7 @@ func (p *TransientNotificationProxy) Show(
 	windowToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransientNotification)
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 
@@ -64,6 +65,7 @@ func (p *TransientNotificationProxy) Hide(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransientNotification)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransientNotification, MethodITransientNotificationHide)
@@ -78,7 +80,8 @@ func (p *TransientNotificationProxy) Hide(
 // TransientNotificationStub dispatches incoming binder transactions
 // to a typed ITransientNotification implementation.
 type TransientNotificationStub struct {
-	Impl ITransientNotification
+	Impl      ITransientNotification
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TransientNotificationStub)(nil)
@@ -92,24 +95,25 @@ func (s *TransientNotificationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITransientNotificationShow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
-		_err := s.Impl.Show(ctx, _arg_windowToken)
-		_ = _err
-		return nil, nil
-	case TransactionITransientNotificationHide:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
 		}
+		_err := s.Impl.Show(ctx, _arg_windowToken)
+		return nil, _err
+	case TransactionITransientNotificationHide:
 		_err := s.Impl.Hide(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -50,6 +50,7 @@ func (p *SecureClockProxy) GenerateTimeStamp(
 ) (TimeStampToken, error) {
 	var _result TimeStampToken
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureClock)
 	_data.WriteInt64(challenge)
 
@@ -83,7 +84,8 @@ func (p *SecureClockProxy) GenerateTimeStamp(
 // SecureClockStub dispatches incoming binder transactions
 // to a typed ISecureClock implementation.
 type SecureClockStub struct {
-	Impl ISecureClock
+	Impl      ISecureClock
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SecureClockStub)(nil)
@@ -97,11 +99,12 @@ func (s *SecureClockStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISecureClockGenerateTimeStamp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_challenge, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err

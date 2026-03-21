@@ -7,8 +7,10 @@ type InterfaceSpec struct {
 	Descriptor string `yaml:"descriptor"`
 	Oneway     bool   `yaml:"oneway,omitempty"`
 
-	Methods   []MethodSpec   `yaml:"methods,omitempty"`
-	Constants []ConstantSpec `yaml:"constants,omitempty"`
+	Methods     []MethodSpec   `yaml:"methods,omitempty"`
+	Constants   []ConstantSpec `yaml:"constants,omitempty"`
+	NestedTypes []string       `yaml:"nested_types,omitempty"`
+	Annotations []string       `yaml:"annotations,omitempty"`
 
 	// VersionCodes maps revision ID (e.g., "36.r4") to a map of
 	// method name → transaction code offset (relative to FirstCallTransaction).

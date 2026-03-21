@@ -184,6 +184,7 @@ func (p *RadioNetworkResponseProxy) AcknowledgeRequest(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(serial)
 
@@ -202,6 +203,7 @@ func (p *RadioNetworkResponseProxy) GetAllowedNetworkTypesBitmapResponse(
 	networkTypeBitmap int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -224,6 +226,7 @@ func (p *RadioNetworkResponseProxy) GetAvailableBandModesResponse(
 	bandModes []RadioBandMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -253,6 +256,7 @@ func (p *RadioNetworkResponseProxy) GetAvailableNetworksResponse(
 	networkInfos []OperatorInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -286,6 +290,7 @@ func (p *RadioNetworkResponseProxy) GetBarringInfoResponse(
 	barringInfos []BarringInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -322,6 +327,7 @@ func (p *RadioNetworkResponseProxy) GetCdmaRoamingPreferenceResponse(
 	type_ CdmaRoamingType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -344,6 +350,7 @@ func (p *RadioNetworkResponseProxy) GetCellInfoListResponse(
 	cellInfo []CellInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -376,6 +383,7 @@ func (p *RadioNetworkResponseProxy) GetDataRegistrationStateResponse(
 	dataRegResponse RegStateResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -402,6 +410,7 @@ func (p *RadioNetworkResponseProxy) GetImsRegistrationStateResponse(
 	ratFamily radio.RadioTechnologyFamily,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -425,6 +434,7 @@ func (p *RadioNetworkResponseProxy) GetNetworkSelectionModeResponse(
 	manual bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -449,6 +459,7 @@ func (p *RadioNetworkResponseProxy) GetOperatorResponse(
 	numeric string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -473,6 +484,7 @@ func (p *RadioNetworkResponseProxy) GetSignalStrengthResponse(
 	signalStrength SignalStrength,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -498,6 +510,7 @@ func (p *RadioNetworkResponseProxy) GetSystemSelectionChannelsResponse(
 	specifiers []RadioAccessSpecifier,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -530,6 +543,7 @@ func (p *RadioNetworkResponseProxy) GetVoiceRadioTechnologyResponse(
 	rat radio.RadioTechnology,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -552,6 +566,7 @@ func (p *RadioNetworkResponseProxy) GetVoiceRegistrationStateResponse(
 	voiceRegResponse RegStateResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -577,6 +592,7 @@ func (p *RadioNetworkResponseProxy) IsNrDualConnectivityEnabledResponse(
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -598,6 +614,7 @@ func (p *RadioNetworkResponseProxy) SetAllowedNetworkTypesBitmapResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -618,6 +635,7 @@ func (p *RadioNetworkResponseProxy) SetBandModeResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -638,6 +656,7 @@ func (p *RadioNetworkResponseProxy) SetBarringPasswordResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -658,6 +677,7 @@ func (p *RadioNetworkResponseProxy) SetCdmaRoamingPreferenceResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -678,6 +698,7 @@ func (p *RadioNetworkResponseProxy) SetCellInfoListRateResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -698,6 +719,7 @@ func (p *RadioNetworkResponseProxy) SetIndicationFilterResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -718,6 +740,7 @@ func (p *RadioNetworkResponseProxy) SetLinkCapacityReportingCriteriaResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -738,6 +761,7 @@ func (p *RadioNetworkResponseProxy) SetLocationUpdatesResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -758,6 +782,7 @@ func (p *RadioNetworkResponseProxy) SetNetworkSelectionModeAutomaticResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -778,6 +803,7 @@ func (p *RadioNetworkResponseProxy) SetNetworkSelectionModeManualResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -798,6 +824,7 @@ func (p *RadioNetworkResponseProxy) SetNrDualConnectivityStateResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -818,6 +845,7 @@ func (p *RadioNetworkResponseProxy) SetSignalStrengthReportingCriteriaResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -838,6 +866,7 @@ func (p *RadioNetworkResponseProxy) SetSuppServiceNotificationsResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -858,6 +887,7 @@ func (p *RadioNetworkResponseProxy) SetSystemSelectionChannelsResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -878,6 +908,7 @@ func (p *RadioNetworkResponseProxy) StartNetworkScanResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -898,6 +929,7 @@ func (p *RadioNetworkResponseProxy) StopNetworkScanResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -919,6 +951,7 @@ func (p *RadioNetworkResponseProxy) SupplyNetworkDepersonalizationResponse(
 	remainingRetries int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -940,6 +973,7 @@ func (p *RadioNetworkResponseProxy) SetUsageSettingResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -961,6 +995,7 @@ func (p *RadioNetworkResponseProxy) GetUsageSettingResponse(
 	usageSetting UsageSetting,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -983,6 +1018,7 @@ func (p *RadioNetworkResponseProxy) SetEmergencyModeResponse(
 	regState EmergencyRegResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -1007,6 +1043,7 @@ func (p *RadioNetworkResponseProxy) TriggerEmergencyNetworkScanResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -1027,6 +1064,7 @@ func (p *RadioNetworkResponseProxy) ExitEmergencyModeResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -1047,6 +1085,7 @@ func (p *RadioNetworkResponseProxy) CancelEmergencyNetworkScanResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -1067,6 +1106,7 @@ func (p *RadioNetworkResponseProxy) SetNullCipherAndIntegrityEnabledResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -1088,6 +1128,7 @@ func (p *RadioNetworkResponseProxy) IsNullCipherAndIntegrityEnabledResponse(
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -1110,6 +1151,7 @@ func (p *RadioNetworkResponseProxy) IsN1ModeEnabledResponse(
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -1131,6 +1173,7 @@ func (p *RadioNetworkResponseProxy) SetN1ModeEnabledResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -1152,6 +1195,7 @@ func (p *RadioNetworkResponseProxy) IsCellularIdentifierTransparencyEnabledRespo
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -1173,6 +1217,7 @@ func (p *RadioNetworkResponseProxy) SetCellularIdentifierTransparencyEnabledResp
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -1193,6 +1238,7 @@ func (p *RadioNetworkResponseProxy) SetSecurityAlgorithmsUpdatedEnabledResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -1214,6 +1260,7 @@ func (p *RadioNetworkResponseProxy) IsSecurityAlgorithmsUpdatedEnabledResponse(
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -1233,7 +1280,8 @@ func (p *RadioNetworkResponseProxy) IsSecurityAlgorithmsUpdatedEnabledResponse(
 // RadioNetworkResponseStub dispatches incoming binder transactions
 // to a typed IRadioNetworkResponse implementation.
 type RadioNetworkResponseStub struct {
-	Impl IRadioNetworkResponse
+	Impl      IRadioNetworkResponse
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RadioNetworkResponseStub)(nil)
@@ -1247,22 +1295,19 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRadioNetworkResponseAcknowledgeRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AcknowledgeRequest(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseGetAllowedNetworkTypesBitmapResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1280,12 +1325,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.GetAllowedNetworkTypesBitmapResponse(ctx, _arg_info, _arg_networkTypeBitmap)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseGetAvailableBandModesResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1298,16 +1339,29 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bandModes []RadioBandMode
-		_ = _arg_bandModes
-		_err := s.Impl.GetAvailableBandModesResponse(ctx, _arg_info, _arg_bandModes)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioNetworkResponseGetAvailableNetworksResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_bandModes = make([]RadioBandMode, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_raw, _err := _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_bandModes[_i] = RadioBandMode(_raw)
+				}
+			}
 		}
+		_err := s.Impl.GetAvailableBandModesResponse(ctx, _arg_info, _arg_bandModes)
+		return nil, _err
+	case TransactionIRadioNetworkResponseGetAvailableNetworksResponse:
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1320,16 +1374,30 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_networkInfos []OperatorInfo
-		_ = _arg_networkInfos
-		_err := s.Impl.GetAvailableNetworksResponse(ctx, _arg_info, _arg_networkInfos)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioNetworkResponseGetBarringInfoResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_networkInfos = make([]OperatorInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_networkInfos[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.GetAvailableNetworksResponse(ctx, _arg_info, _arg_networkInfos)
+		return nil, _err
+	case TransactionIRadioNetworkResponseGetBarringInfoResponse:
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1354,16 +1422,30 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_barringInfos []BarringInfo
-		_ = _arg_barringInfos
-		_err := s.Impl.GetBarringInfoResponse(ctx, _arg_info, _arg_cellIdentity, _arg_barringInfos)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioNetworkResponseGetCdmaRoamingPreferenceResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_barringInfos = make([]BarringInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_barringInfos[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.GetBarringInfoResponse(ctx, _arg_info, _arg_cellIdentity, _arg_barringInfos)
+		return nil, _err
+	case TransactionIRadioNetworkResponseGetCdmaRoamingPreferenceResponse:
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1382,12 +1464,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 		}
 		_arg_type_ := CdmaRoamingType(_raw_type_)
 		_err = s.Impl.GetCdmaRoamingPreferenceResponse(ctx, _arg_info, _arg_type_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseGetCellInfoListResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1400,16 +1478,30 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_cellInfo []CellInfo
-		_ = _arg_cellInfo
-		_err := s.Impl.GetCellInfoListResponse(ctx, _arg_info, _arg_cellInfo)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioNetworkResponseGetDataRegistrationStateResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_cellInfo = make([]CellInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_cellInfo[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.GetCellInfoListResponse(ctx, _arg_info, _arg_cellInfo)
+		return nil, _err
+	case TransactionIRadioNetworkResponseGetDataRegistrationStateResponse:
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1435,12 +1527,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetDataRegistrationStateResponse(ctx, _arg_info, _arg_dataRegResponse)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseGetImsRegistrationStateResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1463,12 +1551,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 		}
 		_arg_ratFamily := radio.RadioTechnologyFamily(_raw_ratFamily)
 		_err = s.Impl.GetImsRegistrationStateResponse(ctx, _arg_info, _arg_isRegistered, _arg_ratFamily)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseGetNetworkSelectionModeResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1486,12 +1570,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.GetNetworkSelectionModeResponse(ctx, _arg_info, _arg_manual)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseGetOperatorResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1517,12 +1597,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.GetOperatorResponse(ctx, _arg_info, _arg_longName, _arg_shortName, _arg_numeric)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseGetSignalStrengthResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1548,12 +1624,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetSignalStrengthResponse(ctx, _arg_info, _arg_signalStrength)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseGetSystemSelectionChannelsResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1566,16 +1638,30 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_specifiers []RadioAccessSpecifier
-		_ = _arg_specifiers
-		_err := s.Impl.GetSystemSelectionChannelsResponse(ctx, _arg_info, _arg_specifiers)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioNetworkResponseGetVoiceRadioTechnologyResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_specifiers = make([]RadioAccessSpecifier, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_specifiers[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.GetSystemSelectionChannelsResponse(ctx, _arg_info, _arg_specifiers)
+		return nil, _err
+	case TransactionIRadioNetworkResponseGetVoiceRadioTechnologyResponse:
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1594,12 +1680,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 		}
 		_arg_rat := radio.RadioTechnology(_raw_rat)
 		_err = s.Impl.GetVoiceRadioTechnologyResponse(ctx, _arg_info, _arg_rat)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseGetVoiceRegistrationStateResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1625,12 +1707,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetVoiceRegistrationStateResponse(ctx, _arg_info, _arg_voiceRegResponse)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseIsNrDualConnectivityEnabledResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1648,12 +1726,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.IsNrDualConnectivityEnabledResponse(ctx, _arg_info, _arg_isEnabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetAllowedNetworkTypesBitmapResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1667,12 +1741,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetAllowedNetworkTypesBitmapResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetBandModeResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1686,12 +1756,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetBandModeResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetBarringPasswordResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1705,12 +1771,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetBarringPasswordResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetCdmaRoamingPreferenceResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1724,12 +1786,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetCdmaRoamingPreferenceResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetCellInfoListRateResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1743,12 +1801,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetCellInfoListRateResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetIndicationFilterResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1762,12 +1816,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetIndicationFilterResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetLinkCapacityReportingCriteriaResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1781,12 +1831,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetLinkCapacityReportingCriteriaResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetLocationUpdatesResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1800,12 +1846,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetLocationUpdatesResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetNetworkSelectionModeAutomaticResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1819,12 +1861,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetNetworkSelectionModeAutomaticResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetNetworkSelectionModeManualResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1838,12 +1876,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetNetworkSelectionModeManualResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetNrDualConnectivityStateResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1857,12 +1891,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetNrDualConnectivityStateResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetSignalStrengthReportingCriteriaResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1876,12 +1906,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetSignalStrengthReportingCriteriaResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetSuppServiceNotificationsResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1895,12 +1921,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetSuppServiceNotificationsResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetSystemSelectionChannelsResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1914,12 +1936,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetSystemSelectionChannelsResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseStartNetworkScanResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1933,12 +1951,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.StartNetworkScanResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseStopNetworkScanResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1952,12 +1966,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.StopNetworkScanResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSupplyNetworkDepersonalizationResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1975,12 +1985,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SupplyNetworkDepersonalizationResponse(ctx, _arg_info, _arg_remainingRetries)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetUsageSettingResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1994,12 +2000,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetUsageSettingResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseGetUsageSettingResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2018,12 +2020,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 		}
 		_arg_usageSetting := UsageSetting(_raw_usageSetting)
 		_err = s.Impl.GetUsageSettingResponse(ctx, _arg_info, _arg_usageSetting)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetEmergencyModeResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2049,12 +2047,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetEmergencyModeResponse(ctx, _arg_info, _arg_regState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseTriggerEmergencyNetworkScanResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2068,12 +2062,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.TriggerEmergencyNetworkScanResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseExitEmergencyModeResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2087,12 +2077,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ExitEmergencyModeResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseCancelEmergencyNetworkScanResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2106,12 +2092,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CancelEmergencyNetworkScanResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetNullCipherAndIntegrityEnabledResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2125,12 +2107,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetNullCipherAndIntegrityEnabledResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseIsNullCipherAndIntegrityEnabledResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2148,12 +2126,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.IsNullCipherAndIntegrityEnabledResponse(ctx, _arg_info, _arg_isEnabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseIsN1ModeEnabledResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2171,12 +2145,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.IsN1ModeEnabledResponse(ctx, _arg_info, _arg_isEnabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetN1ModeEnabledResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2190,12 +2160,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetN1ModeEnabledResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseIsCellularIdentifierTransparencyEnabledResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2213,12 +2179,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.IsCellularIdentifierTransparencyEnabledResponse(ctx, _arg_info, _arg_isEnabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetCellularIdentifierTransparencyEnabledResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2232,12 +2194,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetCellularIdentifierTransparencyEnabledResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseSetSecurityAlgorithmsUpdatedEnabledResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2251,12 +2209,8 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetSecurityAlgorithmsUpdatedEnabledResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioNetworkResponseIsSecurityAlgorithmsUpdatedEnabledResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2274,8 +2228,7 @@ func (s *RadioNetworkResponseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.IsSecurityAlgorithmsUpdatedEnabledResponse(ctx, _arg_info, _arg_isEnabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

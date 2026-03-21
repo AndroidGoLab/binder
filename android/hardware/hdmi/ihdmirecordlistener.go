@@ -55,6 +55,7 @@ func (p *HdmiRecordListenerProxy) GetOneTouchRecordSource(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiRecordListener)
 	_data.WriteInt32(recorderAddress)
 
@@ -73,19 +74,9 @@ func (p *HdmiRecordListenerProxy) GetOneTouchRecordSource(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -96,6 +87,7 @@ func (p *HdmiRecordListenerProxy) OnOneTouchRecordResult(
 	result int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiRecordListener)
 	_data.WriteInt32(recorderAddress)
 	_data.WriteInt32(result)
@@ -124,6 +116,7 @@ func (p *HdmiRecordListenerProxy) OnTimerRecordingResult(
 	result int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiRecordListener)
 	_data.WriteInt32(recorderAddress)
 	_data.WriteInt32(result)
@@ -152,6 +145,7 @@ func (p *HdmiRecordListenerProxy) OnClearTimerRecordingResult(
 	result int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiRecordListener)
 	_data.WriteInt32(recorderAddress)
 	_data.WriteInt32(result)
@@ -177,7 +171,8 @@ func (p *HdmiRecordListenerProxy) OnClearTimerRecordingResult(
 // HdmiRecordListenerStub dispatches incoming binder transactions
 // to a typed IHdmiRecordListener implementation.
 type HdmiRecordListenerStub struct {
-	Impl IHdmiRecordListener
+	Impl      IHdmiRecordListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HdmiRecordListenerStub)(nil)
@@ -191,11 +186,12 @@ func (s *HdmiRecordListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHdmiRecordListenerGetOneTouchRecordSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_recorderAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -207,13 +203,9 @@ func (s *HdmiRecordListenerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIHdmiRecordListenerOnOneTouchRecordResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_recorderAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -231,9 +223,6 @@ func (s *HdmiRecordListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiRecordListenerOnTimerRecordingResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_recorderAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -251,9 +240,6 @@ func (s *HdmiRecordListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiRecordListenerOnClearTimerRecordingResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_recorderAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

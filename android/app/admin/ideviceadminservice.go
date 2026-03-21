@@ -34,7 +34,8 @@ var _ IDeviceAdminService = (*DeviceAdminServiceProxy)(nil)
 // DeviceAdminServiceStub dispatches incoming binder transactions
 // to a typed IDeviceAdminService implementation.
 type DeviceAdminServiceStub struct {
-	Impl IDeviceAdminService
+	Impl      IDeviceAdminService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DeviceAdminServiceStub)(nil)
@@ -48,6 +49,10 @@ func (s *DeviceAdminServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

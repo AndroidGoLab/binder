@@ -88,6 +88,7 @@ func (p *IdentityCredentialProxy) DeleteCredential(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialDeleteCredential)
@@ -105,19 +106,9 @@ func (p *IdentityCredentialProxy) DeleteCredential(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -127,6 +118,7 @@ func (p *IdentityCredentialProxy) CreateEphemeralKeyPair(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialCreateEphemeralKeyPair)
@@ -144,19 +136,9 @@ func (p *IdentityCredentialProxy) CreateEphemeralKeyPair(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -166,15 +148,9 @@ func (p *IdentityCredentialProxy) SetReaderEphemeralPublicKey(
 	publicKey []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
-	if publicKey == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(publicKey)))
-		for _, _item := range publicKey {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(publicKey)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialSetReaderEphemeralPublicKey)
 	if _err != nil {
@@ -199,6 +175,7 @@ func (p *IdentityCredentialProxy) CreateAuthChallenge(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialCreateAuthChallenge)
@@ -234,6 +211,7 @@ func (p *IdentityCredentialProxy) StartRetrieval(
 	requestCounts []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 	if accessControlProfiles == nil {
 		_data.WriteInt32(-1)
@@ -250,38 +228,10 @@ func (p *IdentityCredentialProxy) StartRetrieval(
 	if _err := authToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	if itemsRequest == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(itemsRequest)))
-		for _, _item := range itemsRequest {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if signingKeyBlob == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(signingKeyBlob)))
-		for _, _item := range signingKeyBlob {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if sessionTranscript == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionTranscript)))
-		for _, _item := range sessionTranscript {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if readerSignature == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(readerSignature)))
-		for _, _item := range readerSignature {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(itemsRequest)
+	_data.WriteByteArray(signingKeyBlob)
+	_data.WriteByteArray(sessionTranscript)
+	_data.WriteByteArray(readerSignature)
 	if requestCounts == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -317,6 +267,7 @@ func (p *IdentityCredentialProxy) StartRetrieveEntryValue(
 	accessControlProfileIds []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 	_data.WriteString16(nameSpace)
 	_data.WriteString16(name)
@@ -354,15 +305,9 @@ func (p *IdentityCredentialProxy) RetrieveEntryValue(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
-	if encryptedContent == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(encryptedContent)))
-		for _, _item := range encryptedContent {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(encryptedContent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialRetrieveEntryValue)
 	if _err != nil {
@@ -379,19 +324,9 @@ func (p *IdentityCredentialProxy) RetrieveEntryValue(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -402,6 +337,7 @@ func (p *IdentityCredentialProxy) FinishRetrieval(
 	deviceNameSpaces []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialFinishRetrieval)
@@ -418,31 +354,13 @@ func (p *IdentityCredentialProxy) FinishRetrieval(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
-	_outCount0, _err := _reply.ReadInt32()
+	mac, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _err
 	}
-	if _outCount0 >= 0 {
-		mac = make([]byte, _outCount0)
-		for _i := int32(0); _i < _outCount0; _i++ {
-			mac[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
-	}
-	_outCount1, _err := _reply.ReadInt32()
+	deviceNameSpaces, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _outCount1 >= 0 {
-		deviceNameSpaces = make([]byte, _outCount1)
-		for _i := int32(0); _i < _outCount1; _i++ {
-			deviceNameSpaces[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	return nil
@@ -454,6 +372,7 @@ func (p *IdentityCredentialProxy) GenerateSigningKeyPair(
 ) (Certificate, error) {
 	var _result Certificate
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialGenerateSigningKeyPair)
@@ -470,18 +389,9 @@ func (p *IdentityCredentialProxy) GenerateSigningKeyPair(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	_outCount0, _err := _reply.ReadInt32()
+	signingKeyBlob, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-	if _outCount0 >= 0 {
-		signingKeyBlob = make([]byte, _outCount0)
-		for _i := int32(0); _i < _outCount0; _i++ {
-			signingKeyBlob[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 
 	_nullIndicator, _err := _reply.ReadInt32()
@@ -501,6 +411,7 @@ func (p *IdentityCredentialProxy) SetRequestedNamespaces(
 	requestNamespaces []RequestNamespace,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 	if requestNamespaces == nil {
 		_data.WriteInt32(-1)
@@ -537,6 +448,7 @@ func (p *IdentityCredentialProxy) SetVerificationToken(
 	verificationToken keymaster.VerificationToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 	_data.WriteInt32(1)
 	if _err := verificationToken.MarshalParcel(_data); _err != nil {
@@ -567,15 +479,9 @@ func (p *IdentityCredentialProxy) DeleteCredentialWithChallenge(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
-	if challenge == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(challenge)))
-		for _, _item := range challenge {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(challenge)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialDeleteCredentialWithChallenge)
 	if _err != nil {
@@ -592,19 +498,9 @@ func (p *IdentityCredentialProxy) DeleteCredentialWithChallenge(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -615,15 +511,9 @@ func (p *IdentityCredentialProxy) ProveOwnership(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
-	if challenge == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(challenge)))
-		for _, _item := range challenge {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(challenge)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialProveOwnership)
 	if _err != nil {
@@ -640,19 +530,9 @@ func (p *IdentityCredentialProxy) ProveOwnership(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -662,6 +542,7 @@ func (p *IdentityCredentialProxy) UpdateCredential(
 ) (IWritableIdentityCredential, error) {
 	var _result IWritableIdentityCredential
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialUpdateCredential)
@@ -694,6 +575,7 @@ func (p *IdentityCredentialProxy) FinishRetrievalWithSignature(
 	ecdsaSignature []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredential, MethodIIdentityCredentialFinishRetrievalWithSignature)
@@ -710,44 +592,17 @@ func (p *IdentityCredentialProxy) FinishRetrievalWithSignature(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
-	_outCount0, _err := _reply.ReadInt32()
+	mac, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _err
 	}
-	if _outCount0 >= 0 {
-		mac = make([]byte, _outCount0)
-		for _i := int32(0); _i < _outCount0; _i++ {
-			mac[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
-	}
-	_outCount1, _err := _reply.ReadInt32()
+	deviceNameSpaces, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _err
 	}
-	if _outCount1 >= 0 {
-		deviceNameSpaces = make([]byte, _outCount1)
-		for _i := int32(0); _i < _outCount1; _i++ {
-			deviceNameSpaces[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
-	}
-	_outCount2, _err := _reply.ReadInt32()
+	ecdsaSignature, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _outCount2 >= 0 {
-		ecdsaSignature = make([]byte, _outCount2)
-		for _i := int32(0); _i < _outCount2; _i++ {
-			ecdsaSignature[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	return nil
@@ -756,7 +611,8 @@ func (p *IdentityCredentialProxy) FinishRetrievalWithSignature(
 // IdentityCredentialStub dispatches incoming binder transactions
 // to a typed IIdentityCredential implementation.
 type IdentityCredentialStub struct {
-	Impl IIdentityCredential
+	Impl      IIdentityCredential
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*IdentityCredentialStub)(nil)
@@ -770,11 +626,12 @@ func (s *IdentityCredentialStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIIdentityCredentialDeleteCredential:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.DeleteCredential(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -782,13 +639,9 @@ func (s *IdentityCredentialStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIIdentityCredentialCreateEphemeralKeyPair:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CreateEphemeralKeyPair(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -796,16 +649,17 @@ func (s *IdentityCredentialStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIIdentityCredentialSetReaderEphemeralPublicKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_publicKey []byte
-		_ = _arg_publicKey
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_publicKey = _bytes
+		}
 		_err := s.Impl.SetReaderEphemeralPublicKey(ctx, _arg_publicKey)
 		_reply := parcel.New()
 		if _err != nil {
@@ -815,9 +669,6 @@ func (s *IdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIdentityCredentialCreateAuthChallenge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CreateAuthChallenge(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -828,12 +679,27 @@ func (s *IdentityCredentialStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIIdentityCredentialStartRetrieval:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_accessControlProfiles []SecureAccessControlProfile
-		_ = _arg_accessControlProfiles
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_accessControlProfiles = make([]SecureAccessControlProfile, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_accessControlProfiles[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_authToken keymaster.HardwareAuthToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -846,21 +712,57 @@ func (s *IdentityCredentialStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_itemsRequest []byte
-		_ = _arg_itemsRequest
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_itemsRequest = _bytes
+		}
 		var _arg_signingKeyBlob []byte
-		_ = _arg_signingKeyBlob
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_signingKeyBlob = _bytes
+		}
 		var _arg_sessionTranscript []byte
-		_ = _arg_sessionTranscript
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionTranscript = _bytes
+		}
 		var _arg_readerSignature []byte
-		_ = _arg_readerSignature
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_readerSignature = _bytes
+		}
 		var _arg_requestCounts []int32
-		_ = _arg_requestCounts
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_requestCounts = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_requestCounts[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.StartRetrieval(ctx, _arg_accessControlProfiles, _arg_authToken, _arg_itemsRequest, _arg_signingKeyBlob, _arg_sessionTranscript, _arg_readerSignature, _arg_requestCounts)
 		_reply := parcel.New()
 		if _err != nil {
@@ -870,9 +772,6 @@ func (s *IdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIdentityCredentialStartRetrieveEntryValue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nameSpace, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -885,9 +784,25 @@ func (s *IdentityCredentialStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_accessControlProfileIds []int32
-		_ = _arg_accessControlProfileIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_accessControlProfileIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_accessControlProfileIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.StartRetrieveEntryValue(ctx, _arg_nameSpace, _arg_name, _arg_entrySize, _arg_accessControlProfileIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -897,12 +812,14 @@ func (s *IdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIdentityCredentialRetrieveEntryValue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_encryptedContent []byte
-		_ = _arg_encryptedContent
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_encryptedContent = _bytes
+		}
 		_result, _err := s.Impl.RetrieveEntryValue(ctx, _arg_encryptedContent)
 		_reply := parcel.New()
 		if _err != nil {
@@ -910,13 +827,9 @@ func (s *IdentityCredentialStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIIdentityCredentialFinishRetrieval:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_mac []byte
 		var _arg_deviceNameSpaces []byte
 		_err := s.Impl.FinishRetrieval(ctx, _arg_mac, _arg_deviceNameSpaces)
@@ -926,11 +839,10 @@ func (s *IdentityCredentialStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		_reply.WriteByteArray(_arg_mac)
+		_reply.WriteByteArray(_arg_deviceNameSpaces)
 		return _reply, nil
 	case TransactionIIdentityCredentialGenerateSigningKeyPair:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_signingKeyBlob []byte
 		_result, _err := s.Impl.GenerateSigningKeyPair(ctx, _arg_signingKeyBlob)
 		_reply := parcel.New()
@@ -943,14 +855,30 @@ func (s *IdentityCredentialStub) OnTransaction(
 		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		_reply.WriteByteArray(_arg_signingKeyBlob)
 		return _reply, nil
 	case TransactionIIdentityCredentialSetRequestedNamespaces:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_requestNamespaces []RequestNamespace
-		_ = _arg_requestNamespaces
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_requestNamespaces = make([]RequestNamespace, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_requestNamespaces[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetRequestedNamespaces(ctx, _arg_requestNamespaces)
 		_reply := parcel.New()
 		if _err != nil {
@@ -960,9 +888,6 @@ func (s *IdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIdentityCredentialSetVerificationToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_verificationToken keymaster.VerificationToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -984,12 +909,14 @@ func (s *IdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIdentityCredentialDeleteCredentialWithChallenge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_challenge []byte
-		_ = _arg_challenge
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_challenge = _bytes
+		}
 		_result, _err := s.Impl.DeleteCredentialWithChallenge(ctx, _arg_challenge)
 		_reply := parcel.New()
 		if _err != nil {
@@ -997,16 +924,17 @@ func (s *IdentityCredentialStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIIdentityCredentialProveOwnership:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_challenge []byte
-		_ = _arg_challenge
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_challenge = _bytes
+		}
 		_result, _err := s.Impl.ProveOwnership(ctx, _arg_challenge)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1014,13 +942,9 @@ func (s *IdentityCredentialStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIIdentityCredentialUpdateCredential:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.UpdateCredential(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1028,13 +952,9 @@ func (s *IdentityCredentialStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIIdentityCredentialFinishRetrievalWithSignature:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_mac []byte
 		var _arg_deviceNameSpaces []byte
 		var _arg_ecdsaSignature []byte
@@ -1045,6 +965,9 @@ func (s *IdentityCredentialStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		_reply.WriteByteArray(_arg_mac)
+		_reply.WriteByteArray(_arg_deviceNameSpaces)
+		_reply.WriteByteArray(_arg_ecdsaSignature)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

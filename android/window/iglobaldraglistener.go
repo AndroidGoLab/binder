@@ -3,8 +3,8 @@ package window
 import (
 	"context"
 	"fmt"
-	app "github.com/xaionaro-go/binder/android/app"
-	view "github.com/xaionaro-go/binder/android/view"
+	types "github.com/xaionaro-go/binder/android/app/types"
+	viewTypes "github.com/xaionaro-go/binder/android/view/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -25,8 +25,8 @@ const (
 
 type IGlobalDragListener interface {
 	AsBinder() binder.IBinder
-	OnCrossWindowDrop(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
-	OnUnhandledDrop(ctx context.Context, event view.DragEvent, callback IUnhandledDragCallback) error
+	OnCrossWindowDrop(ctx context.Context, taskInfo types.ActivityManagerRunningTaskInfo) error
+	OnUnhandledDrop(ctx context.Context, event viewTypes.DragEvent, callback IUnhandledDragCallback) error
 }
 
 type GlobalDragListenerProxy struct {
@@ -47,14 +47,12 @@ var _ IGlobalDragListener = (*GlobalDragListenerProxy)(nil)
 
 func (p *GlobalDragListenerProxy) OnCrossWindowDrop(
 	ctx context.Context,
-	taskInfo app.ActivityManagerRunningTaskInfo,
+	taskInfo types.ActivityManagerRunningTaskInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGlobalDragListener)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param taskInfo (type types.ActivityManagerRunningTaskInfo) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGlobalDragListener, MethodIGlobalDragListenerOnCrossWindowDrop)
 	if _err != nil {
@@ -67,15 +65,13 @@ func (p *GlobalDragListenerProxy) OnCrossWindowDrop(
 
 func (p *GlobalDragListenerProxy) OnUnhandledDrop(
 	ctx context.Context,
-	event view.DragEvent,
+	event viewTypes.DragEvent,
 	callback IUnhandledDragCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGlobalDragListener)
-	_data.WriteInt32(1)
-	if _err := event.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param event (type viewTypes.DragEvent) cannot be serialized — type not resolved
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGlobalDragListener, MethodIGlobalDragListenerOnUnhandledDrop)
@@ -90,7 +86,8 @@ func (p *GlobalDragListenerProxy) OnUnhandledDrop(
 // GlobalDragListenerStub dispatches incoming binder transactions
 // to a typed IGlobalDragListener implementation.
 type GlobalDragListenerStub struct {
-	Impl IGlobalDragListener
+	Impl      IGlobalDragListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GlobalDragListenerStub)(nil)
@@ -104,48 +101,27 @@ func (s *GlobalDragListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGlobalDragListenerOnCrossWindowDrop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_taskInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_taskInfo types.ActivityManagerRunningTaskInfo
 		_err := s.Impl.OnCrossWindowDrop(ctx, _arg_taskInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGlobalDragListenerOnUnhandledDrop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_event view.DragEvent
+		var _arg_event viewTypes.DragEvent
+		var _arg_callback IUnhandledDragCallback
 		{
-			_nullInd, _err := _data.ReadInt32()
+			_callbackHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			if _nullInd != 0 {
-				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
+			_arg_callback = NewUnhandledDragCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback IUnhandledDragCallback
-		_ = _arg_callback
 		_err := s.Impl.OnUnhandledDrop(ctx, _arg_event, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -155,8 +131,8 @@ func (s *GlobalDragListenerStub) OnTransaction(
 // provide to NewGlobalDragListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IGlobalDragListenerServer interface {
-	OnCrossWindowDrop(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
-	OnUnhandledDrop(ctx context.Context, event view.DragEvent, callback IUnhandledDragCallback) error
+	OnCrossWindowDrop(ctx context.Context, taskInfo types.ActivityManagerRunningTaskInfo) error
+	OnUnhandledDrop(ctx context.Context, event viewTypes.DragEvent, callback IUnhandledDragCallback) error
 }
 
 type globalDragListenerStubWrapper struct {
@@ -170,14 +146,14 @@ func (w *globalDragListenerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *globalDragListenerStubWrapper) OnCrossWindowDrop(
 	ctx context.Context,
-	taskInfo app.ActivityManagerRunningTaskInfo,
+	taskInfo types.ActivityManagerRunningTaskInfo,
 ) error {
 	return w.impl.OnCrossWindowDrop(ctx, taskInfo)
 }
 
 func (w *globalDragListenerStubWrapper) OnUnhandledDrop(
 	ctx context.Context,
-	event view.DragEvent,
+	event viewTypes.DragEvent,
 	callback IUnhandledDragCallback,
 ) error {
 	return w.impl.OnUnhandledDrop(ctx, event, callback)

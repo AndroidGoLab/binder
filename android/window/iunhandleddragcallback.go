@@ -45,6 +45,7 @@ func (p *UnhandledDragCallbackProxy) NotifyUnhandledDropComplete(
 	handled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUnhandledDragCallback)
 	_data.WriteBool(handled)
 
@@ -60,7 +61,8 @@ func (p *UnhandledDragCallbackProxy) NotifyUnhandledDropComplete(
 // UnhandledDragCallbackStub dispatches incoming binder transactions
 // to a typed IUnhandledDragCallback implementation.
 type UnhandledDragCallbackStub struct {
-	Impl IUnhandledDragCallback
+	Impl      IUnhandledDragCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UnhandledDragCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *UnhandledDragCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUnhandledDragCallbackNotifyUnhandledDropComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_handled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyUnhandledDropComplete(ctx, _arg_handled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

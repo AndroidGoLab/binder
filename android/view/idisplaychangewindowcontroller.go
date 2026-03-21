@@ -3,6 +3,7 @@ package view
 import (
 	"context"
 	"fmt"
+	window "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ const (
 
 type IDisplayChangeWindowController interface {
 	AsBinder() binder.IBinder
-	OnDisplayChange(ctx context.Context, displayId int32, fromRotation int32, toRotation int32, newDisplayAreaInfo interface{}, callback IDisplayChangeWindowCallback) error
+	OnDisplayChange(ctx context.Context, displayId int32, fromRotation int32, toRotation int32, newDisplayAreaInfo window.DisplayAreaInfo, callback IDisplayChangeWindowCallback) error
 }
 
 type DisplayChangeWindowControllerProxy struct {
@@ -45,14 +46,19 @@ func (p *DisplayChangeWindowControllerProxy) OnDisplayChange(
 	displayId int32,
 	fromRotation int32,
 	toRotation int32,
-	newDisplayAreaInfo interface{},
+	newDisplayAreaInfo window.DisplayAreaInfo,
 	callback IDisplayChangeWindowCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayChangeWindowController)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(fromRotation)
 	_data.WriteInt32(toRotation)
+	_data.WriteInt32(1)
+	if _err := newDisplayAreaInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayChangeWindowController, MethodIDisplayChangeWindowControllerOnDisplayChange)
@@ -67,7 +73,8 @@ func (p *DisplayChangeWindowControllerProxy) OnDisplayChange(
 // DisplayChangeWindowControllerStub dispatches incoming binder transactions
 // to a typed IDisplayChangeWindowController implementation.
 type DisplayChangeWindowControllerStub struct {
-	Impl IDisplayChangeWindowController
+	Impl      IDisplayChangeWindowController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DisplayChangeWindowControllerStub)(nil)
@@ -81,11 +88,12 @@ func (s *DisplayChangeWindowControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDisplayChangeWindowControllerOnDisplayChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -98,13 +106,28 @@ func (s *DisplayChangeWindowControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_newDisplayAreaInfo interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_newDisplayAreaInfo window.DisplayAreaInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_newDisplayAreaInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_callback IDisplayChangeWindowCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDisplayChangeWindowCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.OnDisplayChange(ctx, _arg_displayId, _arg_fromRotation, _arg_toRotation, _arg_newDisplayAreaInfo, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -114,7 +137,7 @@ func (s *DisplayChangeWindowControllerStub) OnTransaction(
 // provide to NewDisplayChangeWindowControllerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IDisplayChangeWindowControllerServer interface {
-	OnDisplayChange(ctx context.Context, displayId int32, fromRotation int32, toRotation int32, newDisplayAreaInfo interface{}, callback IDisplayChangeWindowCallback) error
+	OnDisplayChange(ctx context.Context, displayId int32, fromRotation int32, toRotation int32, newDisplayAreaInfo window.DisplayAreaInfo, callback IDisplayChangeWindowCallback) error
 }
 
 type displayChangeWindowControllerStubWrapper struct {
@@ -131,7 +154,7 @@ func (w *displayChangeWindowControllerStubWrapper) OnDisplayChange(
 	displayId int32,
 	fromRotation int32,
 	toRotation int32,
-	newDisplayAreaInfo interface{},
+	newDisplayAreaInfo window.DisplayAreaInfo,
 	callback IDisplayChangeWindowCallback,
 ) error {
 	return w.impl.OnDisplayChange(ctx, displayId, fromRotation, toRotation, newDisplayAreaInfo, callback)

@@ -67,6 +67,7 @@ func (p *UsbCallbackProxy) NotifyPortStatusChange(
 	retval Status,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
 	if currentPortStatus == nil {
 		_data.WriteInt32(-1)
@@ -98,6 +99,7 @@ func (p *UsbCallbackProxy) NotifyRoleSwitchStatus(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
 	_data.WriteString16(portName)
 	_data.WriteInt32(1)
@@ -124,6 +126,7 @@ func (p *UsbCallbackProxy) NotifyEnableUsbDataStatus(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
 	_data.WriteString16(portName)
 	_data.WriteBool(enable)
@@ -146,6 +149,7 @@ func (p *UsbCallbackProxy) NotifyEnableUsbDataWhileDockedStatus(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
 	_data.WriteString16(portName)
 	_data.WriteInt32(int32(retval))
@@ -168,6 +172,7 @@ func (p *UsbCallbackProxy) NotifyContaminantEnabledStatus(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
 	_data.WriteString16(portName)
 	_data.WriteBool(enable)
@@ -190,6 +195,7 @@ func (p *UsbCallbackProxy) NotifyQueryPortStatus(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
 	_data.WriteString16(portName)
 	_data.WriteInt32(int32(retval))
@@ -212,6 +218,7 @@ func (p *UsbCallbackProxy) NotifyLimitPowerTransferStatus(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
 	_data.WriteString16(portName)
 	_data.WriteBool(limit)
@@ -234,6 +241,7 @@ func (p *UsbCallbackProxy) NotifyResetUsbPortStatus(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
 	_data.WriteString16(portName)
 	_data.WriteInt32(int32(retval))
@@ -251,7 +259,8 @@ func (p *UsbCallbackProxy) NotifyResetUsbPortStatus(
 // UsbCallbackStub dispatches incoming binder transactions
 // to a typed IUsbCallback implementation.
 type UsbCallbackStub struct {
-	Impl IUsbCallback
+	Impl      IUsbCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UsbCallbackStub)(nil)
@@ -265,26 +274,41 @@ func (s *UsbCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUsbCallbackNotifyPortStatusChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_currentPortStatus []PortStatus
-		_ = _arg_currentPortStatus
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_currentPortStatus = make([]PortStatus, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_currentPortStatus[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_raw_retval, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_retval := Status(_raw_retval)
 		_err = s.Impl.NotifyPortStatusChange(ctx, _arg_currentPortStatus, _arg_retval)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUsbCallbackNotifyRoleSwitchStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -311,12 +335,8 @@ func (s *UsbCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyRoleSwitchStatus(ctx, _arg_portName, _arg_newRole, _arg_retval, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUsbCallbackNotifyEnableUsbDataStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -335,12 +355,8 @@ func (s *UsbCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyEnableUsbDataStatus(ctx, _arg_portName, _arg_enable, _arg_retval, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUsbCallbackNotifyEnableUsbDataWhileDockedStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -355,12 +371,8 @@ func (s *UsbCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyEnableUsbDataWhileDockedStatus(ctx, _arg_portName, _arg_retval, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUsbCallbackNotifyContaminantEnabledStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -379,12 +391,8 @@ func (s *UsbCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyContaminantEnabledStatus(ctx, _arg_portName, _arg_enable, _arg_retval, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUsbCallbackNotifyQueryPortStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -399,12 +407,8 @@ func (s *UsbCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyQueryPortStatus(ctx, _arg_portName, _arg_retval, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUsbCallbackNotifyLimitPowerTransferStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -423,12 +427,8 @@ func (s *UsbCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyLimitPowerTransferStatus(ctx, _arg_portName, _arg_limit, _arg_retval, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUsbCallbackNotifyResetUsbPortStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -443,8 +443,7 @@ func (s *UsbCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyResetUsbPortStatus(ctx, _arg_portName, _arg_retval, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

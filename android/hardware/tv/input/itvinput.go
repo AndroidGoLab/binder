@@ -70,6 +70,7 @@ func (p *TvInputProxy) CloseStream(
 	streamId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInput)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(streamId)
@@ -98,6 +99,7 @@ func (p *TvInputProxy) GetStreamConfigurations(
 ) ([]TvStreamConfig, error) {
 	var _result []TvStreamConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInput)
 	_data.WriteInt32(deviceId)
 
@@ -119,6 +121,9 @@ func (p *TvInputProxy) GetStreamConfigurations(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -142,6 +147,7 @@ func (p *TvInputProxy) OpenStream(
 ) (common.NativeHandle, error) {
 	var _result common.NativeHandle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInput)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(streamId)
@@ -178,6 +184,7 @@ func (p *TvInputProxy) SetCallback(
 	callback ITvInputCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInput)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -207,6 +214,7 @@ func (p *TvInputProxy) SetTvMessageEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInput)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(streamId)
@@ -238,6 +246,7 @@ func (p *TvInputProxy) GetTvMessageQueueDesc(
 	streamId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInput)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(streamId)
@@ -256,8 +265,16 @@ func (p *TvInputProxy) GetTvMessageQueueDesc(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
-	if _err = queue.UnmarshalParcel(_reply); _err != nil {
-		return _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _nullInd != 0 {
+			if _err = queue.UnmarshalParcel(_reply); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	return nil
@@ -266,7 +283,8 @@ func (p *TvInputProxy) GetTvMessageQueueDesc(
 // TvInputStub dispatches incoming binder transactions
 // to a typed ITvInput implementation.
 type TvInputStub struct {
-	Impl ITvInput
+	Impl      ITvInput
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvInputStub)(nil)
@@ -280,11 +298,12 @@ func (s *TvInputStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvInputCloseStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -302,9 +321,6 @@ func (s *TvInputStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputGetStreamConfigurations:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -316,13 +332,19 @@ func (s *TvInputStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITvInputOpenStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -344,12 +366,14 @@ func (s *TvInputStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITvInputSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvInputCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTvInputCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -359,9 +383,6 @@ func (s *TvInputStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputSetTvMessageEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -388,9 +409,6 @@ func (s *TvInputStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputGetTvMessageQueueDesc:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_queue fmq.MQDescriptor
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
@@ -407,6 +425,10 @@ func (s *TvInputStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _arg_queue.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

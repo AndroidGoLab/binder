@@ -3,7 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
-	view "github.com/xaionaro-go/binder/android/view"
+	types "github.com/xaionaro-go/binder/android/view/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -22,7 +22,7 @@ const (
 
 type IRemoteTransitionFinishedCallback interface {
 	AsBinder() binder.IBinder
-	OnTransitionFinished(ctx context.Context, wct WindowContainerTransaction, sct view.SurfaceControlTransaction) error
+	OnTransitionFinished(ctx context.Context, wct WindowContainerTransaction, sct types.SurfaceControlTransaction) error
 }
 
 type RemoteTransitionFinishedCallbackProxy struct {
@@ -44,18 +44,16 @@ var _ IRemoteTransitionFinishedCallback = (*RemoteTransitionFinishedCallbackProx
 func (p *RemoteTransitionFinishedCallbackProxy) OnTransitionFinished(
 	ctx context.Context,
 	wct WindowContainerTransaction,
-	sct view.SurfaceControlTransaction,
+	sct types.SurfaceControlTransaction,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteTransitionFinishedCallback)
 	_data.WriteInt32(1)
 	if _err := wct.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := sct.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param sct (type types.SurfaceControlTransaction) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteTransitionFinishedCallback, MethodIRemoteTransitionFinishedCallbackOnTransitionFinished)
 	if _err != nil {
@@ -78,7 +76,8 @@ func (p *RemoteTransitionFinishedCallbackProxy) OnTransitionFinished(
 // RemoteTransitionFinishedCallbackStub dispatches incoming binder transactions
 // to a typed IRemoteTransitionFinishedCallback implementation.
 type RemoteTransitionFinishedCallbackStub struct {
-	Impl IRemoteTransitionFinishedCallback
+	Impl      IRemoteTransitionFinishedCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RemoteTransitionFinishedCallbackStub)(nil)
@@ -92,11 +91,12 @@ func (s *RemoteTransitionFinishedCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRemoteTransitionFinishedCallbackOnTransitionFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_wct WindowContainerTransaction
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -109,18 +109,7 @@ func (s *RemoteTransitionFinishedCallbackStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_sct view.SurfaceControlTransaction
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_sct.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_sct types.SurfaceControlTransaction
 		_err := s.Impl.OnTransitionFinished(ctx, _arg_wct, _arg_sct)
 		_reply := parcel.New()
 		if _err != nil {
@@ -138,7 +127,7 @@ func (s *RemoteTransitionFinishedCallbackStub) OnTransaction(
 // provide to NewRemoteTransitionFinishedCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IRemoteTransitionFinishedCallbackServer interface {
-	OnTransitionFinished(ctx context.Context, wct WindowContainerTransaction, sct view.SurfaceControlTransaction) error
+	OnTransitionFinished(ctx context.Context, wct WindowContainerTransaction, sct types.SurfaceControlTransaction) error
 }
 
 type remoteTransitionFinishedCallbackStubWrapper struct {
@@ -153,7 +142,7 @@ func (w *remoteTransitionFinishedCallbackStubWrapper) AsBinder() binder.IBinder 
 func (w *remoteTransitionFinishedCallbackStubWrapper) OnTransitionFinished(
 	ctx context.Context,
 	wct WindowContainerTransaction,
-	sct view.SurfaceControlTransaction,
+	sct types.SurfaceControlTransaction,
 ) error {
 	return w.impl.OnTransitionFinished(ctx, wct, sct)
 }

@@ -46,6 +46,7 @@ func (p *TestServiceProxy) RepeatData(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITestService)
 	_data.WriteBool(token)
 
@@ -74,7 +75,8 @@ func (p *TestServiceProxy) RepeatData(
 // TestServiceStub dispatches incoming binder transactions
 // to a typed ITestService implementation.
 type TestServiceStub struct {
-	Impl ITestService
+	Impl      ITestService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TestServiceStub)(nil)
@@ -88,11 +90,12 @@ func (s *TestServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITestServiceRepeatData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err

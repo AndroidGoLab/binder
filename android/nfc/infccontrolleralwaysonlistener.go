@@ -45,6 +45,7 @@ func (p *NfcControllerAlwaysOnListenerProxy) OnControllerAlwaysOnChanged(
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcControllerAlwaysOnListener)
 	_data.WriteBool(isEnabled)
 
@@ -60,7 +61,8 @@ func (p *NfcControllerAlwaysOnListenerProxy) OnControllerAlwaysOnChanged(
 // NfcControllerAlwaysOnListenerStub dispatches incoming binder transactions
 // to a typed INfcControllerAlwaysOnListener implementation.
 type NfcControllerAlwaysOnListenerStub struct {
-	Impl INfcControllerAlwaysOnListener
+	Impl      INfcControllerAlwaysOnListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NfcControllerAlwaysOnListenerStub)(nil)
@@ -74,18 +76,18 @@ func (s *NfcControllerAlwaysOnListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINfcControllerAlwaysOnListenerOnControllerAlwaysOnChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnControllerAlwaysOnChanged(ctx, _arg_isEnabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

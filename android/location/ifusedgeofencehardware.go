@@ -61,6 +61,7 @@ func (p *FusedGeofenceHardwareProxy) IsSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFusedGeofenceHardware)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFusedGeofenceHardware, MethodIFusedGeofenceHardwareIsSupported)
@@ -90,6 +91,7 @@ func (p *FusedGeofenceHardwareProxy) AddGeofences(
 	geofenceRequestsArray []hardwareLocation.GeofenceHardwareRequestParcelable,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFusedGeofenceHardware)
 	if geofenceRequestsArray == nil {
 		_data.WriteInt32(-1)
@@ -126,6 +128,7 @@ func (p *FusedGeofenceHardwareProxy) RemoveGeofences(
 	geofenceIds []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFusedGeofenceHardware)
 	if geofenceIds == nil {
 		_data.WriteInt32(-1)
@@ -159,6 +162,7 @@ func (p *FusedGeofenceHardwareProxy) PauseMonitoringGeofence(
 	geofenceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFusedGeofenceHardware)
 	_data.WriteInt32(geofenceId)
 
@@ -186,6 +190,7 @@ func (p *FusedGeofenceHardwareProxy) ResumeMonitoringGeofence(
 	monitorTransitions int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFusedGeofenceHardware)
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(monitorTransitions)
@@ -218,6 +223,7 @@ func (p *FusedGeofenceHardwareProxy) ModifyGeofenceOptions(
 	sourcesToUse int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFusedGeofenceHardware)
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(lastTransition)
@@ -247,7 +253,8 @@ func (p *FusedGeofenceHardwareProxy) ModifyGeofenceOptions(
 // FusedGeofenceHardwareStub dispatches incoming binder transactions
 // to a typed IFusedGeofenceHardware implementation.
 type FusedGeofenceHardwareStub struct {
-	Impl IFusedGeofenceHardware
+	Impl      IFusedGeofenceHardware
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FusedGeofenceHardwareStub)(nil)
@@ -261,11 +268,12 @@ func (s *FusedGeofenceHardwareStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFusedGeofenceHardwareIsSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -276,12 +284,27 @@ func (s *FusedGeofenceHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFusedGeofenceHardwareAddGeofences:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_geofenceRequestsArray []hardwareLocation.GeofenceHardwareRequestParcelable
-		_ = _arg_geofenceRequestsArray
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_geofenceRequestsArray = make([]hardwareLocation.GeofenceHardwareRequestParcelable, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_geofenceRequestsArray[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.AddGeofences(ctx, _arg_geofenceRequestsArray)
 		_reply := parcel.New()
 		if _err != nil {
@@ -291,12 +314,25 @@ func (s *FusedGeofenceHardwareStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFusedGeofenceHardwareRemoveGeofences:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_geofenceIds []int32
-		_ = _arg_geofenceIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_geofenceIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_geofenceIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.RemoveGeofences(ctx, _arg_geofenceIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -306,9 +342,6 @@ func (s *FusedGeofenceHardwareStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFusedGeofenceHardwarePauseMonitoringGeofence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -322,9 +355,6 @@ func (s *FusedGeofenceHardwareStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFusedGeofenceHardwareResumeMonitoringGeofence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -342,9 +372,6 @@ func (s *FusedGeofenceHardwareStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFusedGeofenceHardwareModifyGeofenceOptions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

@@ -48,6 +48,7 @@ func (p *GameModeListenerProxy) OnGameModeChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameModeListener)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(gameModeFrom)
@@ -75,7 +76,8 @@ func (p *GameModeListenerProxy) OnGameModeChanged(
 // GameModeListenerStub dispatches incoming binder transactions
 // to a typed IGameModeListener implementation.
 type GameModeListenerStub struct {
-	Impl IGameModeListener
+	Impl      IGameModeListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GameModeListenerStub)(nil)
@@ -89,11 +91,12 @@ func (s *GameModeListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGameModeListenerOnGameModeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

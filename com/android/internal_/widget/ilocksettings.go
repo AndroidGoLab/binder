@@ -175,11 +175,11 @@ type ILockSettings interface {
 	SetSnapshotCreatedPendingIntent(ctx context.Context, intent app.PendingIntent) error
 	SetServerParams(ctx context.Context, serverParams []byte) error
 	SetRecoveryStatus(ctx context.Context, alias string, status int32) error
-	GetRecoveryStatus(ctx context.Context) (map[interface{}]interface{}, error)
+	GetRecoveryStatus(ctx context.Context) (map[any]any, error)
 	SetRecoverySecretTypes(ctx context.Context, secretTypes []int32) error
 	GetRecoverySecretTypes(ctx context.Context) ([]int32, error)
 	StartRecoverySessionWithCertPath(ctx context.Context, sessionId string, rootCertificateAlias string, verifierCertPath recovery.RecoveryCertPath, vaultParams []byte, vaultChallenge []byte, secrets []recovery.KeyChainProtectionParams) ([]byte, error)
-	RecoverKeyChainSnapshot(ctx context.Context, sessionId string, recoveryKeyBlob []byte, applicationKeys []recovery.WrappedApplicationKey) (map[interface{}]interface{}, error)
+	RecoverKeyChainSnapshot(ctx context.Context, sessionId string, recoveryKeyBlob []byte, applicationKeys []recovery.WrappedApplicationKey) (map[any]any, error)
 	CloseSession(ctx context.Context, sessionId string) error
 	StartRemoteLockscreenValidation(ctx context.Context) (app.RemoteLockscreenValidationSession, error)
 	ValidateRemoteLockscreen(ctx context.Context, encryptedCredential []byte) (app.RemoteLockscreenValidationResult, error)
@@ -218,6 +218,7 @@ func (p *LockSettingsProxy) SetBoolean(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(key)
 	_data.WriteBool(value)
@@ -248,6 +249,7 @@ func (p *LockSettingsProxy) SetLong(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(key)
 	_data.WriteInt64(value)
@@ -278,6 +280,7 @@ func (p *LockSettingsProxy) SetString(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(key)
 	_data.WriteString16(value)
@@ -309,6 +312,7 @@ func (p *LockSettingsProxy) GetBoolean(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(key)
 	_data.WriteBool(defaultValue)
@@ -344,6 +348,7 @@ func (p *LockSettingsProxy) GetLong(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(key)
 	_data.WriteInt64(defaultValue)
@@ -379,6 +384,7 @@ func (p *LockSettingsProxy) GetString(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(key)
 	_data.WriteString16(defaultValue)
@@ -414,6 +420,7 @@ func (p *LockSettingsProxy) SetLockCredential(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(1)
 	if _err := credential.MarshalParcel(_data); _err != nil {
@@ -452,6 +459,7 @@ func (p *LockSettingsProxy) ResetKeyStore(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(_identity.UserID)
 
@@ -481,6 +489,7 @@ func (p *LockSettingsProxy) CheckCredential(
 	var _result VerifyCredentialResponse
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(1)
 	if _err := credential.MarshalParcel(_data); _err != nil {
@@ -524,6 +533,7 @@ func (p *LockSettingsProxy) VerifyCredential(
 	var _result VerifyCredentialResponse
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(1)
 	if _err := credential.MarshalParcel(_data); _err != nil {
@@ -567,6 +577,7 @@ func (p *LockSettingsProxy) VerifyTiedProfileChallenge(
 	var _result VerifyCredentialResponse
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(1)
 	if _err := credential.MarshalParcel(_data); _err != nil {
@@ -610,6 +621,7 @@ func (p *LockSettingsProxy) VerifyGatekeeperPasswordHandle(
 	var _result VerifyCredentialResponse
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt64(gatekeeperPasswordHandle)
 	_data.WriteInt64(challenge)
@@ -647,6 +659,7 @@ func (p *LockSettingsProxy) RemoveGatekeeperPasswordHandle(
 	gatekeeperPasswordHandle int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt64(gatekeeperPasswordHandle)
 
@@ -674,6 +687,7 @@ func (p *LockSettingsProxy) GetCredentialType(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(_identity.UserID)
 
@@ -705,6 +719,7 @@ func (p *LockSettingsProxy) GetPinLength(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(_identity.UserID)
 
@@ -736,6 +751,7 @@ func (p *LockSettingsProxy) RefreshStoredPinLength(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(_identity.UserID)
 
@@ -768,6 +784,7 @@ func (p *LockSettingsProxy) GetHashFactor(
 	var _result []byte
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(1)
 	if _err := currentCredential.MarshalParcel(_data); _err != nil {
@@ -790,19 +807,9 @@ func (p *LockSettingsProxy) GetHashFactor(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -814,6 +821,7 @@ func (p *LockSettingsProxy) SetSeparateProfileChallengeEnabled(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(enabled)
@@ -846,6 +854,7 @@ func (p *LockSettingsProxy) GetSeparateProfileChallengeEnabled(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(_identity.UserID)
 
@@ -876,6 +885,7 @@ func (p *LockSettingsProxy) RegisterStrongAuthTracker(
 	tracker trust.IStrongAuthTracker,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	binder.WriteBinderToParcel(ctx, _data, tracker.AsBinder(), p.Remote.Transport())
 
@@ -902,6 +912,7 @@ func (p *LockSettingsProxy) UnregisterStrongAuthTracker(
 	tracker trust.IStrongAuthTracker,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	binder.WriteBinderToParcel(ctx, _data, tracker.AsBinder(), p.Remote.Transport())
 
@@ -929,6 +940,7 @@ func (p *LockSettingsProxy) RequireStrongAuth(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(strongAuthReason)
 	_data.WriteInt32(_identity.UserID)
@@ -957,6 +969,7 @@ func (p *LockSettingsProxy) ReportSuccessfulBiometricUnlock(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteBool(isStrongBiometric)
 	_data.WriteInt32(_identity.UserID)
@@ -984,6 +997,7 @@ func (p *LockSettingsProxy) ScheduleNonStrongBiometricIdleTimeout(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1009,6 +1023,7 @@ func (p *LockSettingsProxy) SystemReady(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsSystemReady)
@@ -1034,6 +1049,7 @@ func (p *LockSettingsProxy) UserPresent(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1061,6 +1077,7 @@ func (p *LockSettingsProxy) GetStrongAuthForUser(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1092,6 +1109,7 @@ func (p *LockSettingsProxy) HasPendingEscrowToken(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1124,24 +1142,11 @@ func (p *LockSettingsProxy) InitRecoveryServiceWithSigFile(
 	recoveryServiceSigFile []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(rootCertificateAlias)
-	if recoveryServiceCertFile == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(recoveryServiceCertFile)))
-		for _, _item := range recoveryServiceCertFile {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if recoveryServiceSigFile == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(recoveryServiceSigFile)))
-		for _, _item := range recoveryServiceSigFile {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(recoveryServiceCertFile)
+	_data.WriteByteArray(recoveryServiceSigFile)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsInitRecoveryServiceWithSigFile)
 	if _err != nil {
@@ -1166,6 +1171,7 @@ func (p *LockSettingsProxy) GetKeyChainSnapshot(
 ) (recovery.KeyChainSnapshot, error) {
 	var _result recovery.KeyChainSnapshot
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsGetKeyChainSnapshot)
@@ -1201,6 +1207,7 @@ func (p *LockSettingsProxy) GenerateKey(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(alias)
 
@@ -1233,16 +1240,10 @@ func (p *LockSettingsProxy) GenerateKeyWithMetadata(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(alias)
-	if metadata == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(metadata)))
-		for _, _item := range metadata {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(metadata)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsGenerateKeyWithMetadata)
 	if _err != nil {
@@ -1273,16 +1274,10 @@ func (p *LockSettingsProxy) ImportKey(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(alias)
-	if keyBytes == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyBytes)))
-		for _, _item := range keyBytes {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(keyBytes)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsImportKey)
 	if _err != nil {
@@ -1314,24 +1309,11 @@ func (p *LockSettingsProxy) ImportKeyWithMetadata(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(alias)
-	if keyBytes == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyBytes)))
-		for _, _item := range keyBytes {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if metadata == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(metadata)))
-		for _, _item := range metadata {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(keyBytes)
+	_data.WriteByteArray(metadata)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsImportKeyWithMetadata)
 	if _err != nil {
@@ -1361,6 +1343,7 @@ func (p *LockSettingsProxy) GetKey(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(alias)
 
@@ -1391,6 +1374,7 @@ func (p *LockSettingsProxy) RemoveKey(
 	alias string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(alias)
 
@@ -1417,6 +1401,7 @@ func (p *LockSettingsProxy) SetSnapshotCreatedPendingIntent(
 	intent app.PendingIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -1446,15 +1431,9 @@ func (p *LockSettingsProxy) SetServerParams(
 	serverParams []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	if serverParams == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(serverParams)))
-		for _, _item := range serverParams {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(serverParams)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsSetServerParams)
 	if _err != nil {
@@ -1480,6 +1459,7 @@ func (p *LockSettingsProxy) SetRecoveryStatus(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(alias)
 	_data.WriteInt32(status)
@@ -1504,9 +1484,10 @@ func (p *LockSettingsProxy) SetRecoveryStatus(
 
 func (p *LockSettingsProxy) GetRecoveryStatus(
 	ctx context.Context,
-) (map[interface{}]interface{}, error) {
-	var _result map[interface{}]interface{}
+) (map[any]any, error) {
+	var _result map[any]any
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsGetRecoveryStatus)
@@ -1524,22 +1505,24 @@ func (p *LockSettingsProxy) GetRecoveryStatus(
 		return _result, _err
 	}
 
-	_mapCount, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _mapCount >= 0 {
-		_result = make(map[interface{}]interface{}, _mapCount)
-		for _mi := int32(0); _mi < _mapCount; _mi++ {
-			_mk, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
+	{
+		_mapCount, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _mapCount >= 0 {
+			_result = make(map[any]any, _mapCount)
+			for _mi := int32(0); _mi < _mapCount; _mi++ {
+				_mk, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_mv, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_result[_mk] = _mv
 			}
-			_mv, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
-			}
-			_result[_mk] = _mv
 		}
 	}
 	return _result, nil
@@ -1550,6 +1533,7 @@ func (p *LockSettingsProxy) SetRecoverySecretTypes(
 	secretTypes []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	if secretTypes == nil {
 		_data.WriteInt32(-1)
@@ -1583,6 +1567,7 @@ func (p *LockSettingsProxy) GetRecoverySecretTypes(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsGetRecoverySecretTypes)
@@ -1603,6 +1588,9 @@ func (p *LockSettingsProxy) GetRecoverySecretTypes(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -1628,6 +1616,7 @@ func (p *LockSettingsProxy) StartRecoverySessionWithCertPath(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(sessionId)
 	_data.WriteString16(rootCertificateAlias)
@@ -1635,22 +1624,8 @@ func (p *LockSettingsProxy) StartRecoverySessionWithCertPath(
 	if _err := verifierCertPath.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	if vaultParams == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(vaultParams)))
-		for _, _item := range vaultParams {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if vaultChallenge == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(vaultChallenge)))
-		for _, _item := range vaultChallenge {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(vaultParams)
+	_data.WriteByteArray(vaultChallenge)
 	if secrets == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -1678,19 +1653,9 @@ func (p *LockSettingsProxy) StartRecoverySessionWithCertPath(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -1700,19 +1665,13 @@ func (p *LockSettingsProxy) RecoverKeyChainSnapshot(
 	sessionId string,
 	recoveryKeyBlob []byte,
 	applicationKeys []recovery.WrappedApplicationKey,
-) (map[interface{}]interface{}, error) {
-	var _result map[interface{}]interface{}
+) (map[any]any, error) {
+	var _result map[any]any
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(sessionId)
-	if recoveryKeyBlob == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(recoveryKeyBlob)))
-		for _, _item := range recoveryKeyBlob {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(recoveryKeyBlob)
 	if applicationKeys == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -1740,22 +1699,24 @@ func (p *LockSettingsProxy) RecoverKeyChainSnapshot(
 		return _result, _err
 	}
 
-	_mapCount, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _mapCount >= 0 {
-		_result = make(map[interface{}]interface{}, _mapCount)
-		for _mi := int32(0); _mi < _mapCount; _mi++ {
-			_mk, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
+	{
+		_mapCount, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _mapCount >= 0 {
+			_result = make(map[any]any, _mapCount)
+			for _mi := int32(0); _mi < _mapCount; _mi++ {
+				_mk, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_mv, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_result[_mk] = _mv
 			}
-			_mv, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
-			}
-			_result[_mk] = _mv
 		}
 	}
 	return _result, nil
@@ -1766,6 +1727,7 @@ func (p *LockSettingsProxy) CloseSession(
 	sessionId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(sessionId)
 
@@ -1792,6 +1754,7 @@ func (p *LockSettingsProxy) StartRemoteLockscreenValidation(
 ) (app.RemoteLockscreenValidationSession, error) {
 	var _result app.RemoteLockscreenValidationSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsStartRemoteLockscreenValidation)
@@ -1827,15 +1790,9 @@ func (p *LockSettingsProxy) ValidateRemoteLockscreen(
 ) (app.RemoteLockscreenValidationResult, error) {
 	var _result app.RemoteLockscreenValidationResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	if encryptedCredential == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(encryptedCredential)))
-		for _, _item := range encryptedCredential {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(encryptedCredential)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsValidateRemoteLockscreen)
 	if _err != nil {
@@ -1869,6 +1826,7 @@ func (p *LockSettingsProxy) HasSecureLockScreen(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsHasSecureLockScreen)
@@ -1899,6 +1857,7 @@ func (p *LockSettingsProxy) TryUnlockWithCachedUnifiedChallenge(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1929,6 +1888,7 @@ func (p *LockSettingsProxy) RemoveCachedUnifiedChallenge(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1956,6 +1916,7 @@ func (p *LockSettingsProxy) RegisterWeakEscrowTokenRemovedListener(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1987,6 +1948,7 @@ func (p *LockSettingsProxy) UnregisterWeakEscrowTokenRemovedListener(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -2020,15 +1982,9 @@ func (p *LockSettingsProxy) AddWeakEscrowToken(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
-	if token == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(token)))
-		for _, _item := range token {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(token)
 	_data.WriteInt32(_identity.UserID)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -2061,6 +2017,7 @@ func (p *LockSettingsProxy) RemoveWeakEscrowToken(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt64(handle)
 	_data.WriteInt32(_identity.UserID)
@@ -2094,6 +2051,7 @@ func (p *LockSettingsProxy) IsWeakEscrowTokenActive(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt64(handle)
 	_data.WriteInt32(_identity.UserID)
@@ -2128,16 +2086,10 @@ func (p *LockSettingsProxy) IsWeakEscrowTokenValid(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt64(handle)
-	if token == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(token)))
-		for _, _item := range token {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(token)
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILockSettings, MethodILockSettingsIsWeakEscrowTokenValid)
@@ -2167,6 +2119,7 @@ func (p *LockSettingsProxy) UnlockUserKeyIfUnsecured(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(_identity.UserID)
 
@@ -2191,7 +2144,8 @@ func (p *LockSettingsProxy) UnlockUserKeyIfUnsecured(
 // LockSettingsStub dispatches incoming binder transactions
 // to a typed ILockSettings implementation.
 type LockSettingsStub struct {
-	Impl ILockSettings
+	Impl      ILockSettings
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LockSettingsStub)(nil)
@@ -2205,11 +2159,12 @@ func (s *LockSettingsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILockSettingsSetBoolean:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2230,9 +2185,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsSetLong:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2253,9 +2205,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsSetString:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2276,9 +2225,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsGetBoolean:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2300,9 +2246,6 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsGetLong:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2324,9 +2267,6 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionILockSettingsGetString:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2348,9 +2288,6 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILockSettingsSetLockCredential:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_credential LockscreenCredential
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2388,9 +2325,6 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsResetKeyStore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2403,9 +2337,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsCheckCredential:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_credential LockscreenCredential
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2421,9 +2352,14 @@ func (s *LockSettingsStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_progressCallback ICheckCredentialProgressCallback
-		_ = _arg_progressCallback
+		{
+			_progressCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_progressCallback = NewCheckCredentialProgressCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _progressCallbackHandle))
+		}
 		_result, _err := s.Impl.CheckCredential(ctx, _arg_credential, _arg_progressCallback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2437,9 +2373,6 @@ func (s *LockSettingsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILockSettingsVerifyCredential:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_credential LockscreenCredential
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2472,9 +2405,6 @@ func (s *LockSettingsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILockSettingsVerifyTiedProfileChallenge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_credential LockscreenCredential
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2507,9 +2437,6 @@ func (s *LockSettingsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILockSettingsVerifyGatekeeperPasswordHandle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_gatekeeperPasswordHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2534,9 +2461,6 @@ func (s *LockSettingsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILockSettingsRemoveGatekeeperPasswordHandle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_gatekeeperPasswordHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2550,9 +2474,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsGetCredentialType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2566,9 +2487,6 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionILockSettingsGetPinLength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2582,9 +2500,6 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionILockSettingsRefreshStoredPinLength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2598,9 +2513,6 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsGetHashFactor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_currentCredential LockscreenCredential
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2623,13 +2535,9 @@ func (s *LockSettingsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionILockSettingsSetSeparateProfileChallengeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2658,9 +2566,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsGetSeparateProfileChallengeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2674,12 +2579,14 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsRegisterStrongAuthTracker:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_tracker trust.IStrongAuthTracker
-		_ = _arg_tracker
+		{
+			_trackerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tracker = trust.NewStrongAuthTrackerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _trackerHandle))
+		}
 		_err := s.Impl.RegisterStrongAuthTracker(ctx, _arg_tracker)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2689,12 +2596,14 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsUnregisterStrongAuthTracker:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_tracker trust.IStrongAuthTracker
-		_ = _arg_tracker
+		{
+			_trackerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tracker = trust.NewStrongAuthTrackerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _trackerHandle))
+		}
 		_err := s.Impl.UnregisterStrongAuthTracker(ctx, _arg_tracker)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2704,9 +2613,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsRequireStrongAuth:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_strongAuthReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2723,9 +2629,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsReportSuccessfulBiometricUnlock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isStrongBiometric, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2742,9 +2645,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsScheduleNonStrongBiometricIdleTimeout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2757,9 +2657,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsSystemReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SystemReady(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2769,9 +2666,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsUserPresent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2784,9 +2678,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsGetStrongAuthForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2800,9 +2691,6 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionILockSettingsHasPendingEscrowToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2816,19 +2704,26 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsInitRecoveryServiceWithSigFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rootCertificateAlias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_recoveryServiceCertFile []byte
-		_ = _arg_recoveryServiceCertFile
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_recoveryServiceCertFile = _bytes
+		}
 		var _arg_recoveryServiceSigFile []byte
-		_ = _arg_recoveryServiceSigFile
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_recoveryServiceSigFile = _bytes
+		}
 		_err = s.Impl.InitRecoveryServiceWithSigFile(ctx, _arg_rootCertificateAlias, _arg_recoveryServiceCertFile, _arg_recoveryServiceSigFile)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2838,9 +2733,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsGetKeyChainSnapshot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetKeyChainSnapshot(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2854,9 +2746,6 @@ func (s *LockSettingsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILockSettingsGenerateKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2871,16 +2760,18 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILockSettingsGenerateKeyWithMetadata:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_metadata []byte
-		_ = _arg_metadata
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_metadata = _bytes
+		}
 		_result, _err := s.Impl.GenerateKeyWithMetadata(ctx, _arg_alias, _arg_metadata)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2891,16 +2782,18 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILockSettingsImportKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyBytes []byte
-		_ = _arg_keyBytes
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyBytes = _bytes
+		}
 		_result, _err := s.Impl.ImportKey(ctx, _arg_alias, _arg_keyBytes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2911,19 +2804,26 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILockSettingsImportKeyWithMetadata:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyBytes []byte
-		_ = _arg_keyBytes
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyBytes = _bytes
+		}
 		var _arg_metadata []byte
-		_ = _arg_metadata
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_metadata = _bytes
+		}
 		_result, _err := s.Impl.ImportKeyWithMetadata(ctx, _arg_alias, _arg_keyBytes, _arg_metadata)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2934,9 +2834,6 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILockSettingsGetKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2951,9 +2848,6 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILockSettingsRemoveKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2967,9 +2861,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsSetSnapshotCreatedPendingIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent app.PendingIntent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2991,12 +2882,14 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsSetServerParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_serverParams []byte
-		_ = _arg_serverParams
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_serverParams = _bytes
+		}
 		_err := s.Impl.SetServerParams(ctx, _arg_serverParams)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3006,9 +2899,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsSetRecoveryStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3026,9 +2916,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsGetRecoveryStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRecoveryStatus(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3036,16 +2923,36 @@ func (s *LockSettingsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: map return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _k, _v := range _result {
+				_reply.WriteString16(_k.(string))
+				_reply.WriteString16(_v.(string))
+			}
+		}
 		return _reply, nil
 	case TransactionILockSettingsSetRecoverySecretTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_secretTypes []int32
-		_ = _arg_secretTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_secretTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_secretTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetRecoverySecretTypes(ctx, _arg_secretTypes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3055,9 +2962,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsGetRecoverySecretTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRecoverySecretTypes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3065,13 +2969,16 @@ func (s *LockSettingsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionILockSettingsStartRecoverySessionWithCertPath:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3092,15 +2999,43 @@ func (s *LockSettingsStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_vaultParams []byte
-		_ = _arg_vaultParams
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_vaultParams = _bytes
+		}
 		var _arg_vaultChallenge []byte
-		_ = _arg_vaultChallenge
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_vaultChallenge = _bytes
+		}
 		var _arg_secrets []recovery.KeyChainProtectionParams
-		_ = _arg_secrets
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_secrets = make([]recovery.KeyChainProtectionParams, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_secrets[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.StartRecoverySessionWithCertPath(ctx, _arg_sessionId, _arg_rootCertificateAlias, _arg_verifierCertPath, _arg_vaultParams, _arg_vaultChallenge, _arg_secrets)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3108,23 +3043,42 @@ func (s *LockSettingsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionILockSettingsRecoverKeyChainSnapshot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_recoveryKeyBlob []byte
-		_ = _arg_recoveryKeyBlob
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_recoveryKeyBlob = _bytes
+		}
 		var _arg_applicationKeys []recovery.WrappedApplicationKey
-		_ = _arg_applicationKeys
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_applicationKeys = make([]recovery.WrappedApplicationKey, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_applicationKeys[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.RecoverKeyChainSnapshot(ctx, _arg_sessionId, _arg_recoveryKeyBlob, _arg_applicationKeys)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3132,13 +3086,17 @@ func (s *LockSettingsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: map return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _k, _v := range _result {
+				_reply.WriteString16(_k.(string))
+				_reply.WriteString16(_v.(string))
+			}
+		}
 		return _reply, nil
 	case TransactionILockSettingsCloseSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3152,9 +3110,6 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsStartRemoteLockscreenValidation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.StartRemoteLockscreenValidation(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3168,12 +3123,14 @@ func (s *LockSettingsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILockSettingsValidateRemoteLockscreen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_encryptedCredential []byte
-		_ = _arg_encryptedCredential
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_encryptedCredential = _bytes
+		}
 		_result, _err := s.Impl.ValidateRemoteLockscreen(ctx, _arg_encryptedCredential)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3187,9 +3144,6 @@ func (s *LockSettingsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILockSettingsHasSecureLockScreen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.HasSecureLockScreen(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3200,9 +3154,6 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsTryUnlockWithCachedUnifiedChallenge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3216,9 +3167,6 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsRemoveCachedUnifiedChallenge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3231,12 +3179,14 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsRegisterWeakEscrowTokenRemovedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IWeakEscrowTokenRemovedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewWeakEscrowTokenRemovedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.RegisterWeakEscrowTokenRemovedListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3247,12 +3197,14 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsUnregisterWeakEscrowTokenRemovedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IWeakEscrowTokenRemovedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewWeakEscrowTokenRemovedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.UnregisterWeakEscrowTokenRemovedListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3263,18 +3215,25 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsAddWeakEscrowToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_token []byte
-		_ = _arg_token
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = _bytes
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IWeakEscrowTokenActivatedListener
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewWeakEscrowTokenActivatedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.AddWeakEscrowToken(ctx, _arg_token, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3285,9 +3244,6 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionILockSettingsRemoveWeakEscrowToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -3305,9 +3261,6 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsIsWeakEscrowTokenActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -3325,16 +3278,18 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsIsWeakEscrowTokenValid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_token []byte
-		_ = _arg_token
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = _bytes
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3348,9 +3303,6 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsUnlockUserKeyIfUnsecured:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3410,11 +3362,11 @@ type ILockSettingsServer interface {
 	SetSnapshotCreatedPendingIntent(ctx context.Context, intent app.PendingIntent) error
 	SetServerParams(ctx context.Context, serverParams []byte) error
 	SetRecoveryStatus(ctx context.Context, alias string, status int32) error
-	GetRecoveryStatus(ctx context.Context) (map[interface{}]interface{}, error)
+	GetRecoveryStatus(ctx context.Context) (map[any]any, error)
 	SetRecoverySecretTypes(ctx context.Context, secretTypes []int32) error
 	GetRecoverySecretTypes(ctx context.Context) ([]int32, error)
 	StartRecoverySessionWithCertPath(ctx context.Context, sessionId string, rootCertificateAlias string, verifierCertPath recovery.RecoveryCertPath, vaultParams []byte, vaultChallenge []byte, secrets []recovery.KeyChainProtectionParams) ([]byte, error)
-	RecoverKeyChainSnapshot(ctx context.Context, sessionId string, recoveryKeyBlob []byte, applicationKeys []recovery.WrappedApplicationKey) (map[interface{}]interface{}, error)
+	RecoverKeyChainSnapshot(ctx context.Context, sessionId string, recoveryKeyBlob []byte, applicationKeys []recovery.WrappedApplicationKey) (map[any]any, error)
 	CloseSession(ctx context.Context, sessionId string) error
 	StartRemoteLockscreenValidation(ctx context.Context) (app.RemoteLockscreenValidationSession, error)
 	ValidateRemoteLockscreen(ctx context.Context, encryptedCredential []byte) (app.RemoteLockscreenValidationResult, error)
@@ -3722,7 +3674,7 @@ func (w *lockSettingsStubWrapper) SetRecoveryStatus(
 
 func (w *lockSettingsStubWrapper) GetRecoveryStatus(
 	ctx context.Context,
-) (map[interface{}]interface{}, error) {
+) (map[any]any, error) {
 	return w.impl.GetRecoveryStatus(ctx)
 }
 
@@ -3756,7 +3708,7 @@ func (w *lockSettingsStubWrapper) RecoverKeyChainSnapshot(
 	sessionId string,
 	recoveryKeyBlob []byte,
 	applicationKeys []recovery.WrappedApplicationKey,
-) (map[interface{}]interface{}, error) {
+) (map[any]any, error) {
 	return w.impl.RecoverKeyChainSnapshot(ctx, sessionId, recoveryKeyBlob, applicationKeys)
 }
 

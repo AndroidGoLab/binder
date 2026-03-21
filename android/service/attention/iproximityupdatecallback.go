@@ -45,6 +45,7 @@ func (p *ProximityUpdateCallbackProxy) OnProximityUpdate(
 	distance float64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProximityUpdateCallback)
 	_data.WriteFloat64(distance)
 
@@ -60,7 +61,8 @@ func (p *ProximityUpdateCallbackProxy) OnProximityUpdate(
 // ProximityUpdateCallbackStub dispatches incoming binder transactions
 // to a typed IProximityUpdateCallback implementation.
 type ProximityUpdateCallbackStub struct {
-	Impl IProximityUpdateCallback
+	Impl      IProximityUpdateCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ProximityUpdateCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *ProximityUpdateCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIProximityUpdateCallbackOnProximityUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_distance, _err := _data.ReadFloat64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnProximityUpdate(ctx, _arg_distance)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

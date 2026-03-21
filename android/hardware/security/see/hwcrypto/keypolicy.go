@@ -47,17 +47,32 @@ func (s *KeyPolicy) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_usageRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Usage = types.KeyUse(_usageRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_keyLifetimeRaw, _err := p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}
 	s.KeyLifetime = types.KeyLifetime(_keyLifetimeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
@@ -75,9 +90,19 @@ func (s *KeyPolicy) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.KeyManagementKey, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_keyTypeRaw, _err := p.ReadInt32()

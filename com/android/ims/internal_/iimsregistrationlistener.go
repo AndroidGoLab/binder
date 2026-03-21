@@ -79,6 +79,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationConnected(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerRegistrationConnected)
@@ -94,6 +95,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationProgressing(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerRegistrationProgressing)
@@ -110,6 +112,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationConnectedWithRadioTech(
 	imsRadioTech int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
 	_data.WriteInt32(imsRadioTech)
 
@@ -127,6 +130,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationProgressingWithRadioTech(
 	imsRadioTech int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
 	_data.WriteInt32(imsRadioTech)
 
@@ -144,6 +148,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationDisconnected(
 	imsReasonInfo ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
 	_data.WriteInt32(1)
 	if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
@@ -163,6 +168,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationResumed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerRegistrationResumed)
@@ -178,6 +184,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationSuspended(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistrationListener, MethodIImsRegistrationListenerRegistrationSuspended)
@@ -195,6 +202,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationServiceCapabilityChanged(
 	event int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
 	_data.WriteInt32(serviceClass)
 	_data.WriteInt32(event)
@@ -215,6 +223,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationFeatureCapabilityChanged(
 	disabledFeatures []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
 	_data.WriteInt32(serviceClass)
 	if enabledFeatures == nil {
@@ -248,6 +257,7 @@ func (p *ImsRegistrationListenerProxy) VoiceMessageCountUpdate(
 	count int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
 	_data.WriteInt32(count)
 
@@ -265,6 +275,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationAssociatedUriChanged(
 	uris []net.Uri,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
 	if uris == nil {
 		_data.WriteInt32(-1)
@@ -293,6 +304,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationChangeFailed(
 	imsReasonInfo ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
 	_data.WriteInt32(targetAccessTech)
 	_data.WriteInt32(1)
@@ -312,7 +324,8 @@ func (p *ImsRegistrationListenerProxy) RegistrationChangeFailed(
 // ImsRegistrationListenerStub dispatches incoming binder transactions
 // to a typed IImsRegistrationListener implementation.
 type ImsRegistrationListenerStub struct {
-	Impl IImsRegistrationListener
+	Impl      IImsRegistrationListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsRegistrationListenerStub)(nil)
@@ -326,47 +339,32 @@ func (s *ImsRegistrationListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsRegistrationListenerRegistrationConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RegistrationConnected(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationListenerRegistrationProgressing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RegistrationProgressing(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationListenerRegistrationConnectedWithRadioTech:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_imsRadioTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RegistrationConnectedWithRadioTech(ctx, _arg_imsRadioTech)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationListenerRegistrationProgressingWithRadioTech:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_imsRadioTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RegistrationProgressingWithRadioTech(ctx, _arg_imsRadioTech)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationListenerRegistrationDisconnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_imsReasonInfo ims.ImsReasonInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -380,26 +378,14 @@ func (s *ImsRegistrationListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RegistrationDisconnected(ctx, _arg_imsReasonInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationListenerRegistrationResumed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RegistrationResumed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationListenerRegistrationSuspended:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RegistrationSuspended(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationListenerRegistrationServiceCapabilityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceClass, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -409,50 +395,84 @@ func (s *ImsRegistrationListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.RegistrationServiceCapabilityChanged(ctx, _arg_serviceClass, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationListenerRegistrationFeatureCapabilityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceClass, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_enabledFeatures []int32
-		_ = _arg_enabledFeatures
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_disabledFeatures []int32
-		_ = _arg_disabledFeatures
-		_err = s.Impl.RegistrationFeatureCapabilityChanged(ctx, _arg_serviceClass, _arg_enabledFeatures, _arg_disabledFeatures)
-		_ = _err
-		return nil, nil
-	case TransactionIImsRegistrationListenerVoiceMessageCountUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_enabledFeatures = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_enabledFeatures[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		var _arg_disabledFeatures []int32
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_disabledFeatures = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_disabledFeatures[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		_err = s.Impl.RegistrationFeatureCapabilityChanged(ctx, _arg_serviceClass, _arg_enabledFeatures, _arg_disabledFeatures)
+		return nil, _err
+	case TransactionIImsRegistrationListenerVoiceMessageCountUpdate:
 		_arg_count, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.VoiceMessageCountUpdate(ctx, _arg_count)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsRegistrationListenerRegistrationAssociatedUriChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_uris []net.Uri
-		_ = _arg_uris
-		_err := s.Impl.RegistrationAssociatedUriChanged(ctx, _arg_uris)
-		_ = _err
-		return nil, nil
-	case TransactionIImsRegistrationListenerRegistrationChangeFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_uris = make([]net.Uri, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_uris[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.RegistrationAssociatedUriChanged(ctx, _arg_uris)
+		return nil, _err
+	case TransactionIImsRegistrationListenerRegistrationChangeFailed:
 		_arg_targetAccessTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -470,8 +490,7 @@ func (s *ImsRegistrationListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.RegistrationChangeFailed(ctx, _arg_targetAccessTech, _arg_imsReasonInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

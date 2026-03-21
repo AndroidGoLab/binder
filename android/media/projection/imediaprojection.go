@@ -3,6 +3,7 @@ package projection
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/app/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -51,8 +52,8 @@ type IMediaProjection interface {
 	ApplyVirtualDisplayFlags(ctx context.Context, flags int32) (int32, error)
 	RegisterCallback(ctx context.Context, callback IMediaProjectionCallback) error
 	UnregisterCallback(ctx context.Context, callback IMediaProjectionCallback) error
-	GetLaunchCookie(ctx context.Context) (interface{}, error)
-	SetLaunchCookie(ctx context.Context, launchCookie interface{}) error
+	GetLaunchCookie(ctx context.Context) (types.ActivityOptionsLaunchCookie, error)
+	SetLaunchCookie(ctx context.Context, launchCookie types.ActivityOptionsLaunchCookie) error
 	IsValid(ctx context.Context) (bool, error)
 	NotifyVirtualDisplayCreated(ctx context.Context, displayId int32) error
 }
@@ -78,6 +79,7 @@ func (p *MediaProjectionProxy) Start(
 	callback IMediaProjectionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -103,6 +105,7 @@ func (p *MediaProjectionProxy) Stop(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionStop)
@@ -128,6 +131,7 @@ func (p *MediaProjectionProxy) CanProjectAudio(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionCanProjectAudio)
@@ -157,6 +161,7 @@ func (p *MediaProjectionProxy) CanProjectVideo(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionCanProjectVideo)
@@ -186,6 +191,7 @@ func (p *MediaProjectionProxy) CanProjectSecureVideo(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionCanProjectSecureVideo)
@@ -216,6 +222,7 @@ func (p *MediaProjectionProxy) ApplyVirtualDisplayFlags(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 	_data.WriteInt32(flags)
 
@@ -246,6 +253,7 @@ func (p *MediaProjectionProxy) RegisterCallback(
 	callback IMediaProjectionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -272,6 +280,7 @@ func (p *MediaProjectionProxy) UnregisterCallback(
 	callback IMediaProjectionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -295,9 +304,10 @@ func (p *MediaProjectionProxy) UnregisterCallback(
 
 func (p *MediaProjectionProxy) GetLaunchCookie(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (types.ActivityOptionsLaunchCookie, error) {
+	var _result types.ActivityOptionsLaunchCookie
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionGetLaunchCookie)
@@ -315,15 +325,28 @@ func (p *MediaProjectionProxy) GetLaunchCookie(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
 func (p *MediaProjectionProxy) SetLaunchCookie(
 	ctx context.Context,
-	launchCookie interface{},
+	launchCookie types.ActivityOptionsLaunchCookie,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
+	// WARNING: param launchCookie (type types.ActivityOptionsLaunchCookie) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionSetLaunchCookie)
 	if _err != nil {
@@ -348,6 +371,7 @@ func (p *MediaProjectionProxy) IsValid(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionIsValid)
@@ -377,6 +401,7 @@ func (p *MediaProjectionProxy) NotifyVirtualDisplayCreated(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 	_data.WriteInt32(displayId)
 
@@ -401,7 +426,8 @@ func (p *MediaProjectionProxy) NotifyVirtualDisplayCreated(
 // MediaProjectionStub dispatches incoming binder transactions
 // to a typed IMediaProjection implementation.
 type MediaProjectionStub struct {
-	Impl IMediaProjection
+	Impl      IMediaProjection
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaProjectionStub)(nil)
@@ -415,14 +441,20 @@ func (s *MediaProjectionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaProjectionStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IMediaProjectionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewMediaProjectionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.Start(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -432,9 +464,6 @@ func (s *MediaProjectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaProjectionStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Stop(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -444,9 +473,6 @@ func (s *MediaProjectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaProjectionCanProjectAudio:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CanProjectAudio(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -457,9 +483,6 @@ func (s *MediaProjectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaProjectionCanProjectVideo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CanProjectVideo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -470,9 +493,6 @@ func (s *MediaProjectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaProjectionCanProjectSecureVideo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CanProjectSecureVideo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -483,9 +503,6 @@ func (s *MediaProjectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaProjectionApplyVirtualDisplayFlags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -500,12 +517,14 @@ func (s *MediaProjectionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMediaProjectionRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IMediaProjectionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewMediaProjectionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -515,12 +534,14 @@ func (s *MediaProjectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaProjectionUnregisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IMediaProjectionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewMediaProjectionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -530,9 +551,6 @@ func (s *MediaProjectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaProjectionGetLaunchCookie:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLaunchCookie(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -543,10 +561,7 @@ func (s *MediaProjectionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaProjectionSetLaunchCookie:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_launchCookie interface{}
+		var _arg_launchCookie types.ActivityOptionsLaunchCookie
 		_err := s.Impl.SetLaunchCookie(ctx, _arg_launchCookie)
 		_reply := parcel.New()
 		if _err != nil {
@@ -556,9 +571,6 @@ func (s *MediaProjectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaProjectionIsValid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsValid(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -569,9 +581,6 @@ func (s *MediaProjectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaProjectionNotifyVirtualDisplayCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -601,8 +610,8 @@ type IMediaProjectionServer interface {
 	ApplyVirtualDisplayFlags(ctx context.Context, flags int32) (int32, error)
 	RegisterCallback(ctx context.Context, callback IMediaProjectionCallback) error
 	UnregisterCallback(ctx context.Context, callback IMediaProjectionCallback) error
-	GetLaunchCookie(ctx context.Context) (interface{}, error)
-	SetLaunchCookie(ctx context.Context, launchCookie interface{}) error
+	GetLaunchCookie(ctx context.Context) (types.ActivityOptionsLaunchCookie, error)
+	SetLaunchCookie(ctx context.Context, launchCookie types.ActivityOptionsLaunchCookie) error
 	IsValid(ctx context.Context) (bool, error)
 	NotifyVirtualDisplayCreated(ctx context.Context, displayId int32) error
 }
@@ -670,13 +679,13 @@ func (w *mediaProjectionStubWrapper) UnregisterCallback(
 
 func (w *mediaProjectionStubWrapper) GetLaunchCookie(
 	ctx context.Context,
-) (interface{}, error) {
+) (types.ActivityOptionsLaunchCookie, error) {
 	return w.impl.GetLaunchCookie(ctx)
 }
 
 func (w *mediaProjectionStubWrapper) SetLaunchCookie(
 	ctx context.Context,
-	launchCookie interface{},
+	launchCookie types.ActivityOptionsLaunchCookie,
 ) error {
 	return w.impl.SetLaunchCookie(ctx, launchCookie)
 }

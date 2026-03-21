@@ -63,6 +63,7 @@ func (p *RemotelyProvisionedComponentProxy) GetHardwareInfo(
 ) (RpcHardwareInfo, error) {
 	var _result RpcHardwareInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemotelyProvisionedComponent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGetHardwareInfo)
@@ -99,6 +100,7 @@ func (p *RemotelyProvisionedComponentProxy) GenerateEcdsaP256KeyPair(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemotelyProvisionedComponent)
 	_data.WriteBool(testMode)
 
@@ -116,23 +118,21 @@ func (p *RemotelyProvisionedComponentProxy) GenerateEcdsaP256KeyPair(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = macedPublicKey.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = macedPublicKey.UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
 		}
+	}
+
+	_result, _err = _reply.ReadByteArray()
+	if _err != nil {
+		return _result, _err
 	}
 	return _result, nil
 }
@@ -148,6 +148,7 @@ func (p *RemotelyProvisionedComponentProxy) GenerateCertificateRequest(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemotelyProvisionedComponent)
 	_data.WriteBool(testMode)
 	if keysToSign == nil {
@@ -161,22 +162,8 @@ func (p *RemotelyProvisionedComponentProxy) GenerateCertificateRequest(
 			}
 		}
 	}
-	if endpointEncryptionCertChain == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(endpointEncryptionCertChain)))
-		for _, _item := range endpointEncryptionCertChain {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if challenge == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(challenge)))
-		for _, _item := range challenge {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(endpointEncryptionCertChain)
+	_data.WriteByteArray(challenge)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGenerateCertificateRequest)
 	if _err != nil {
@@ -192,26 +179,32 @@ func (p *RemotelyProvisionedComponentProxy) GenerateCertificateRequest(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = deviceInfo.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
-	}
-	if _err = protectedData.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = deviceInfo.UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
 		}
+	}
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = protectedData.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
+	}
+
+	_result, _err = _reply.ReadByteArray()
+	if _err != nil {
+		return _result, _err
 	}
 	return _result, nil
 }
@@ -223,6 +216,7 @@ func (p *RemotelyProvisionedComponentProxy) GenerateCertificateRequestV2(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemotelyProvisionedComponent)
 	if keysToSign == nil {
 		_data.WriteInt32(-1)
@@ -235,14 +229,7 @@ func (p *RemotelyProvisionedComponentProxy) GenerateCertificateRequestV2(
 			}
 		}
 	}
-	if challenge == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(challenge)))
-		for _, _item := range challenge {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(challenge)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGenerateCertificateRequestV2)
 	if _err != nil {
@@ -259,19 +246,9 @@ func (p *RemotelyProvisionedComponentProxy) GenerateCertificateRequestV2(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -279,7 +256,8 @@ func (p *RemotelyProvisionedComponentProxy) GenerateCertificateRequestV2(
 // RemotelyProvisionedComponentStub dispatches incoming binder transactions
 // to a typed IRemotelyProvisionedComponent implementation.
 type RemotelyProvisionedComponentStub struct {
-	Impl IRemotelyProvisionedComponent
+	Impl      IRemotelyProvisionedComponent
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RemotelyProvisionedComponentStub)(nil)
@@ -293,11 +271,12 @@ func (s *RemotelyProvisionedComponentStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRemotelyProvisionedComponentGetHardwareInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHardwareInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -311,9 +290,6 @@ func (s *RemotelyProvisionedComponentStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIRemotelyProvisionedComponentGenerateEcdsaP256KeyPair:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_testMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -326,26 +302,54 @@ func (s *RemotelyProvisionedComponentStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIRemotelyProvisionedComponentGenerateCertificateRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteByteArray(_result)
+		_reply.WriteInt32(1)
+		if _err := _arg_macedPublicKey.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIRemotelyProvisionedComponentGenerateCertificateRequest:
 		_arg_testMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keysToSign []MacedPublicKey
-		_ = _arg_keysToSign
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_keysToSign = make([]MacedPublicKey, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_keysToSign[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_endpointEncryptionCertChain []byte
-		_ = _arg_endpointEncryptionCertChain
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_endpointEncryptionCertChain = _bytes
+		}
 		var _arg_challenge []byte
-		_ = _arg_challenge
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_challenge = _bytes
+		}
 		var _arg_deviceInfo DeviceInfo
 		var _arg_protectedData ProtectedData
 		_result, _err := s.Impl.GenerateCertificateRequest(ctx, _arg_testMode, _arg_keysToSign, _arg_endpointEncryptionCertChain, _arg_challenge, _arg_deviceInfo, _arg_protectedData)
@@ -355,19 +359,46 @@ func (s *RemotelyProvisionedComponentStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIRemotelyProvisionedComponentGenerateCertificateRequestV2:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteByteArray(_result)
+		_reply.WriteInt32(1)
+		if _err := _arg_deviceInfo.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		_reply.WriteInt32(1)
+		if _err := _arg_protectedData.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIRemotelyProvisionedComponentGenerateCertificateRequestV2:
 		var _arg_keysToSign []MacedPublicKey
-		_ = _arg_keysToSign
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_keysToSign = make([]MacedPublicKey, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_keysToSign[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_challenge []byte
-		_ = _arg_challenge
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_challenge = _bytes
+		}
 		_result, _err := s.Impl.GenerateCertificateRequestV2(ctx, _arg_keysToSign, _arg_challenge)
 		_reply := parcel.New()
 		if _err != nil {
@@ -375,8 +406,7 @@ func (s *RemotelyProvisionedComponentStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

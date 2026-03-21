@@ -54,6 +54,7 @@ func (p *ModelDownloadListenerProxy) OnProgress(
 	completedPercent int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModelDownloadListener)
 	_data.WriteInt32(completedPercent)
 
@@ -70,6 +71,7 @@ func (p *ModelDownloadListenerProxy) OnSuccess(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModelDownloadListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModelDownloadListener, MethodIModelDownloadListenerOnSuccess)
@@ -85,6 +87,7 @@ func (p *ModelDownloadListenerProxy) OnScheduled(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModelDownloadListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModelDownloadListener, MethodIModelDownloadListenerOnScheduled)
@@ -101,6 +104,7 @@ func (p *ModelDownloadListenerProxy) OnError(
 	error_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModelDownloadListener)
 	_data.WriteInt32(error_)
 
@@ -116,7 +120,8 @@ func (p *ModelDownloadListenerProxy) OnError(
 // ModelDownloadListenerStub dispatches incoming binder transactions
 // to a typed IModelDownloadListener implementation.
 type ModelDownloadListenerStub struct {
-	Impl IModelDownloadListener
+	Impl      IModelDownloadListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ModelDownloadListenerStub)(nil)
@@ -130,43 +135,31 @@ func (s *ModelDownloadListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIModelDownloadListenerOnProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_completedPercent, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnProgress(ctx, _arg_completedPercent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIModelDownloadListenerOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnSuccess(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIModelDownloadListenerOnScheduled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnScheduled(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIModelDownloadListenerOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

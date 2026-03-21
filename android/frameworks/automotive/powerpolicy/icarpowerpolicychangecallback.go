@@ -45,6 +45,7 @@ func (p *CarPowerPolicyChangeCallbackProxy) OnPolicyChanged(
 	policy CarPowerPolicy,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyChangeCallback)
 	_data.WriteInt32(1)
 	if _err := policy.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *CarPowerPolicyChangeCallbackProxy) OnPolicyChanged(
 // CarPowerPolicyChangeCallbackStub dispatches incoming binder transactions
 // to a typed ICarPowerPolicyChangeCallback implementation.
 type CarPowerPolicyChangeCallbackStub struct {
-	Impl ICarPowerPolicyChangeCallback
+	Impl      ICarPowerPolicyChangeCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CarPowerPolicyChangeCallbackStub)(nil)
@@ -77,11 +79,12 @@ func (s *CarPowerPolicyChangeCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICarPowerPolicyChangeCallbackOnPolicyChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_policy CarPowerPolicy
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *CarPowerPolicyChangeCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnPolicyChanged(ctx, _arg_policy)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -44,14 +44,29 @@ func (s *RadioAccessSpecifier) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_accessNetworkRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.AccessNetwork = radio.AccessNetwork(_accessNetworkRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Bands.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32

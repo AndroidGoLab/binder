@@ -47,17 +47,17 @@ const (
 
 type IMidiManager interface {
 	AsBinder() binder.IBinder
-	GetDevices(ctx context.Context) ([]interface{}, error)
-	GetDevicesForTransport(ctx context.Context, transport int32) ([]interface{}, error)
+	GetDevices(ctx context.Context) ([]MidiDeviceInfo, error)
+	GetDevicesForTransport(ctx context.Context, transport int32) ([]MidiDeviceInfo, error)
 	RegisterListener(ctx context.Context, clientToken binder.IBinder, listener IMidiDeviceListener) error
 	UnregisterListener(ctx context.Context, clientToken binder.IBinder, listener IMidiDeviceListener) error
-	OpenDevice(ctx context.Context, clientToken binder.IBinder, device interface{}, callback IMidiDeviceOpenCallback) error
+	OpenDevice(ctx context.Context, clientToken binder.IBinder, device MidiDeviceInfo, callback IMidiDeviceOpenCallback) error
 	OpenBluetoothDevice(ctx context.Context, clientToken binder.IBinder, bluetoothDevice bluetooth.BluetoothDevice, callback IMidiDeviceOpenCallback) error
 	CloseDevice(ctx context.Context, clientToken binder.IBinder, deviceToken binder.IBinder) error
-	RegisterDeviceServer(ctx context.Context, server IMidiDeviceServer, numInputPorts int32, numOutputPorts int32, inputPortNames []string, outputPortNames []string, properties os.Bundle, type_ int32, defaultProtocol int32) (interface{}, error)
+	RegisterDeviceServer(ctx context.Context, server IMidiDeviceServer, numInputPorts int32, numOutputPorts int32, inputPortNames []string, outputPortNames []string, properties os.Bundle, type_ int32, defaultProtocol int32) (MidiDeviceInfo, error)
 	UnregisterDeviceServer(ctx context.Context, server IMidiDeviceServer) error
-	GetServiceDeviceInfo(ctx context.Context, packageName string, className string) (interface{}, error)
-	GetDeviceStatus(ctx context.Context, deviceInfo interface{}) (MidiDeviceStatus, error)
+	GetServiceDeviceInfo(ctx context.Context, packageName string, className string) (MidiDeviceInfo, error)
+	GetDeviceStatus(ctx context.Context, deviceInfo MidiDeviceInfo) (MidiDeviceStatus, error)
 	SetDeviceStatus(ctx context.Context, server IMidiDeviceServer, status MidiDeviceStatus) error
 	UpdateTotalBytes(ctx context.Context, server IMidiDeviceServer, inputBytes int32, outputBytes int32) error
 }
@@ -80,9 +80,10 @@ var _ IMidiManager = (*MidiManagerProxy)(nil)
 
 func (p *MidiManagerProxy) GetDevices(
 	ctx context.Context,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]MidiDeviceInfo, error) {
+	var _result []MidiDeviceInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerGetDevices)
@@ -104,10 +105,19 @@ func (p *MidiManagerProxy) GetDevices(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]MidiDeviceInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -116,9 +126,10 @@ func (p *MidiManagerProxy) GetDevices(
 func (p *MidiManagerProxy) GetDevicesForTransport(
 	ctx context.Context,
 	transport int32,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]MidiDeviceInfo, error) {
+	var _result []MidiDeviceInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 	_data.WriteInt32(transport)
 
@@ -141,10 +152,19 @@ func (p *MidiManagerProxy) GetDevicesForTransport(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]MidiDeviceInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -156,6 +176,7 @@ func (p *MidiManagerProxy) RegisterListener(
 	listener IMidiDeviceListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -184,6 +205,7 @@ func (p *MidiManagerProxy) UnregisterListener(
 	listener IMidiDeviceListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -209,12 +231,17 @@ func (p *MidiManagerProxy) UnregisterListener(
 func (p *MidiManagerProxy) OpenDevice(
 	ctx context.Context,
 	clientToken binder.IBinder,
-	device interface{},
+	device MidiDeviceInfo,
 	callback IMidiDeviceOpenCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerOpenDevice)
@@ -242,6 +269,7 @@ func (p *MidiManagerProxy) OpenBluetoothDevice(
 	callback IMidiDeviceOpenCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -274,6 +302,7 @@ func (p *MidiManagerProxy) CloseDevice(
 	deviceToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, deviceToken, p.Remote.Transport())
@@ -306,9 +335,10 @@ func (p *MidiManagerProxy) RegisterDeviceServer(
 	properties os.Bundle,
 	type_ int32,
 	defaultProtocol int32,
-) (interface{}, error) {
-	var _result interface{}
+) (MidiDeviceInfo, error) {
+	var _result MidiDeviceInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(numInputPorts)
@@ -351,6 +381,15 @@ func (p *MidiManagerProxy) RegisterDeviceServer(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -359,6 +398,7 @@ func (p *MidiManagerProxy) UnregisterDeviceServer(
 	server IMidiDeviceServer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
 
@@ -384,9 +424,10 @@ func (p *MidiManagerProxy) GetServiceDeviceInfo(
 	ctx context.Context,
 	packageName string,
 	className string,
-) (interface{}, error) {
-	var _result interface{}
+) (MidiDeviceInfo, error) {
+	var _result MidiDeviceInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(className)
@@ -406,16 +447,30 @@ func (p *MidiManagerProxy) GetServiceDeviceInfo(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *MidiManagerProxy) GetDeviceStatus(
 	ctx context.Context,
-	deviceInfo interface{},
+	deviceInfo MidiDeviceInfo,
 ) (MidiDeviceStatus, error) {
 	var _result MidiDeviceStatus
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
+	_data.WriteInt32(1)
+	if _err := deviceInfo.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerGetDeviceStatus)
 	if _err != nil {
@@ -450,6 +505,7 @@ func (p *MidiManagerProxy) SetDeviceStatus(
 	status MidiDeviceStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -482,6 +538,7 @@ func (p *MidiManagerProxy) UpdateTotalBytes(
 	outputBytes int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(inputBytes)
@@ -508,7 +565,8 @@ func (p *MidiManagerProxy) UpdateTotalBytes(
 // MidiManagerStub dispatches incoming binder transactions
 // to a typed IMidiManager implementation.
 type MidiManagerStub struct {
-	Impl IMidiManager
+	Impl      IMidiManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MidiManagerStub)(nil)
@@ -522,11 +580,12 @@ func (s *MidiManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMidiManagerGetDevices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDevices(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -534,13 +593,19 @@ func (s *MidiManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIMidiManagerGetDevicesForTransport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_transport, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -552,19 +617,35 @@ func (s *MidiManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIMidiManagerRegisterListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientToken binder.IBinder
-		_ = _arg_clientToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_clientTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientTokenHandle)
+		}
 		var _arg_listener IMidiDeviceListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewMidiDeviceListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterListener(ctx, _arg_clientToken, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -574,15 +655,22 @@ func (s *MidiManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMidiManagerUnregisterListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientToken binder.IBinder
-		_ = _arg_clientToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_clientTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientTokenHandle)
+		}
 		var _arg_listener IMidiDeviceListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewMidiDeviceListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.UnregisterListener(ctx, _arg_clientToken, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -592,16 +680,34 @@ func (s *MidiManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMidiManagerOpenDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientToken binder.IBinder
-		_ = _arg_clientToken
-		var _arg_device interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_clientTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientTokenHandle)
+		}
+		var _arg_device MidiDeviceInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_callback IMidiDeviceOpenCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewMidiDeviceOpenCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.OpenDevice(ctx, _arg_clientToken, _arg_device, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -611,12 +717,14 @@ func (s *MidiManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMidiManagerOpenBluetoothDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientToken binder.IBinder
-		_ = _arg_clientToken
+		{
+			_clientTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientTokenHandle)
+		}
 		var _arg_bluetoothDevice bluetooth.BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -629,9 +737,14 @@ func (s *MidiManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IMidiDeviceOpenCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewMidiDeviceOpenCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.OpenBluetoothDevice(ctx, _arg_clientToken, _arg_bluetoothDevice, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -641,15 +754,22 @@ func (s *MidiManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMidiManagerCloseDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientToken binder.IBinder
-		_ = _arg_clientToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_clientTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientTokenHandle)
+		}
 		var _arg_deviceToken binder.IBinder
-		_ = _arg_deviceToken
+		{
+			_deviceTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_deviceToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _deviceTokenHandle)
+		}
 		_err := s.Impl.CloseDevice(ctx, _arg_clientToken, _arg_deviceToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -659,12 +779,14 @@ func (s *MidiManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMidiManagerRegisterDeviceServer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_server IMidiDeviceServer
-		_ = _arg_server
+		{
+			_serverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_server = NewMidiDeviceServerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _serverHandle))
+		}
 		_arg_numInputPorts, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -673,12 +795,44 @@ func (s *MidiManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_inputPortNames []string
-		_ = _arg_inputPortNames
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_inputPortNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_inputPortNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_outputPortNames []string
-		_ = _arg_outputPortNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_outputPortNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_outputPortNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_properties os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -706,15 +860,20 @@ func (s *MidiManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIMidiManagerUnregisterDeviceServer:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		return _reply, nil
+	case TransactionIMidiManagerUnregisterDeviceServer:
 		var _arg_server IMidiDeviceServer
-		_ = _arg_server
+		{
+			_serverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_server = NewMidiDeviceServerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _serverHandle))
+		}
 		_err := s.Impl.UnregisterDeviceServer(ctx, _arg_server)
 		_reply := parcel.New()
 		if _err != nil {
@@ -724,9 +883,6 @@ func (s *MidiManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMidiManagerGetServiceDeviceInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -742,13 +898,24 @@ func (s *MidiManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIMidiManagerGetDeviceStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
-		var _arg_deviceInfo interface{}
+		return _reply, nil
+	case TransactionIMidiManagerGetDeviceStatus:
+		var _arg_deviceInfo MidiDeviceInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_deviceInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetDeviceStatus(ctx, _arg_deviceInfo)
 		_reply := parcel.New()
 		if _err != nil {
@@ -762,12 +929,14 @@ func (s *MidiManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMidiManagerSetDeviceStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_server IMidiDeviceServer
-		_ = _arg_server
+		{
+			_serverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_server = NewMidiDeviceServerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _serverHandle))
+		}
 		var _arg_status MidiDeviceStatus
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -789,12 +958,14 @@ func (s *MidiManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMidiManagerUpdateTotalBytes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_server IMidiDeviceServer
-		_ = _arg_server
+		{
+			_serverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_server = NewMidiDeviceServerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _serverHandle))
+		}
 		_arg_inputBytes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -820,17 +991,17 @@ func (s *MidiManagerStub) OnTransaction(
 // provide to NewMidiManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IMidiManagerServer interface {
-	GetDevices(ctx context.Context) ([]interface{}, error)
-	GetDevicesForTransport(ctx context.Context, transport int32) ([]interface{}, error)
+	GetDevices(ctx context.Context) ([]MidiDeviceInfo, error)
+	GetDevicesForTransport(ctx context.Context, transport int32) ([]MidiDeviceInfo, error)
 	RegisterListener(ctx context.Context, clientToken binder.IBinder, listener IMidiDeviceListener) error
 	UnregisterListener(ctx context.Context, clientToken binder.IBinder, listener IMidiDeviceListener) error
-	OpenDevice(ctx context.Context, clientToken binder.IBinder, device interface{}, callback IMidiDeviceOpenCallback) error
+	OpenDevice(ctx context.Context, clientToken binder.IBinder, device MidiDeviceInfo, callback IMidiDeviceOpenCallback) error
 	OpenBluetoothDevice(ctx context.Context, clientToken binder.IBinder, bluetoothDevice bluetooth.BluetoothDevice, callback IMidiDeviceOpenCallback) error
 	CloseDevice(ctx context.Context, clientToken binder.IBinder, deviceToken binder.IBinder) error
-	RegisterDeviceServer(ctx context.Context, server IMidiDeviceServer, numInputPorts int32, numOutputPorts int32, inputPortNames []string, outputPortNames []string, properties os.Bundle, type_ int32, defaultProtocol int32) (interface{}, error)
+	RegisterDeviceServer(ctx context.Context, server IMidiDeviceServer, numInputPorts int32, numOutputPorts int32, inputPortNames []string, outputPortNames []string, properties os.Bundle, type_ int32, defaultProtocol int32) (MidiDeviceInfo, error)
 	UnregisterDeviceServer(ctx context.Context, server IMidiDeviceServer) error
-	GetServiceDeviceInfo(ctx context.Context, packageName string, className string) (interface{}, error)
-	GetDeviceStatus(ctx context.Context, deviceInfo interface{}) (MidiDeviceStatus, error)
+	GetServiceDeviceInfo(ctx context.Context, packageName string, className string) (MidiDeviceInfo, error)
+	GetDeviceStatus(ctx context.Context, deviceInfo MidiDeviceInfo) (MidiDeviceStatus, error)
 	SetDeviceStatus(ctx context.Context, server IMidiDeviceServer, status MidiDeviceStatus) error
 	UpdateTotalBytes(ctx context.Context, server IMidiDeviceServer, inputBytes int32, outputBytes int32) error
 }
@@ -846,14 +1017,14 @@ func (w *midiManagerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *midiManagerStubWrapper) GetDevices(
 	ctx context.Context,
-) ([]interface{}, error) {
+) ([]MidiDeviceInfo, error) {
 	return w.impl.GetDevices(ctx)
 }
 
 func (w *midiManagerStubWrapper) GetDevicesForTransport(
 	ctx context.Context,
 	transport int32,
-) ([]interface{}, error) {
+) ([]MidiDeviceInfo, error) {
 	return w.impl.GetDevicesForTransport(ctx, transport)
 }
 
@@ -876,7 +1047,7 @@ func (w *midiManagerStubWrapper) UnregisterListener(
 func (w *midiManagerStubWrapper) OpenDevice(
 	ctx context.Context,
 	clientToken binder.IBinder,
-	device interface{},
+	device MidiDeviceInfo,
 	callback IMidiDeviceOpenCallback,
 ) error {
 	return w.impl.OpenDevice(ctx, clientToken, device, callback)
@@ -909,7 +1080,7 @@ func (w *midiManagerStubWrapper) RegisterDeviceServer(
 	properties os.Bundle,
 	type_ int32,
 	defaultProtocol int32,
-) (interface{}, error) {
+) (MidiDeviceInfo, error) {
 	return w.impl.RegisterDeviceServer(ctx, server, numInputPorts, numOutputPorts, inputPortNames, outputPortNames, properties, type_, defaultProtocol)
 }
 
@@ -924,13 +1095,13 @@ func (w *midiManagerStubWrapper) GetServiceDeviceInfo(
 	ctx context.Context,
 	packageName string,
 	className string,
-) (interface{}, error) {
+) (MidiDeviceInfo, error) {
 	return w.impl.GetServiceDeviceInfo(ctx, packageName, className)
 }
 
 func (w *midiManagerStubWrapper) GetDeviceStatus(
 	ctx context.Context,
-	deviceInfo interface{},
+	deviceInfo MidiDeviceInfo,
 ) (MidiDeviceStatus, error) {
 	return w.impl.GetDeviceStatus(ctx, deviceInfo)
 }

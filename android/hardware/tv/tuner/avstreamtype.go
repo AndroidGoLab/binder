@@ -31,8 +31,7 @@ func (u *AvStreamType) GetVideo() (VideoStreamType, bool) {
 func (u *AvStreamType) SetVideo(
 	v VideoStreamType,
 ) {
-	u.Tag = AvStreamTypeTagVideo
-	u.Video = v
+	*u = AvStreamType{Tag: AvStreamTypeTagVideo, Video: v}
 }
 
 func (u *AvStreamType) GetAudio() (AudioStreamType, bool) {
@@ -46,8 +45,7 @@ func (u *AvStreamType) GetAudio() (AudioStreamType, bool) {
 func (u *AvStreamType) SetAudio(
 	v AudioStreamType,
 ) {
-	u.Tag = AvStreamTypeTagAudio
-	u.Audio = v
+	*u = AvStreamType{Tag: AvStreamTypeTagAudio, Audio: v}
 }
 
 func (u *AvStreamType) MarshalParcel(

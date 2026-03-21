@@ -45,6 +45,7 @@ func (p *SyncAdapterUnsyncableAccountCallbackProxy) OnUnsyncableAccountDone(
 	isReady bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISyncAdapterUnsyncableAccountCallback)
 	_data.WriteBool(isReady)
 
@@ -60,7 +61,8 @@ func (p *SyncAdapterUnsyncableAccountCallbackProxy) OnUnsyncableAccountDone(
 // SyncAdapterUnsyncableAccountCallbackStub dispatches incoming binder transactions
 // to a typed ISyncAdapterUnsyncableAccountCallback implementation.
 type SyncAdapterUnsyncableAccountCallbackStub struct {
-	Impl ISyncAdapterUnsyncableAccountCallback
+	Impl      ISyncAdapterUnsyncableAccountCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SyncAdapterUnsyncableAccountCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *SyncAdapterUnsyncableAccountCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISyncAdapterUnsyncableAccountCallbackOnUnsyncableAccountDone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isReady, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnUnsyncableAccountDone(ctx, _arg_isReady)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

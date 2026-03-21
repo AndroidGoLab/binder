@@ -45,6 +45,7 @@ func (p *NfcWlcStateListenerProxy) OnWlcStateChanged(
 	wlcListenerDeviceInfo WlcListenerDeviceInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcWlcStateListener)
 	_data.WriteInt32(1)
 	if _err := wlcListenerDeviceInfo.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *NfcWlcStateListenerProxy) OnWlcStateChanged(
 // NfcWlcStateListenerStub dispatches incoming binder transactions
 // to a typed INfcWlcStateListener implementation.
 type NfcWlcStateListenerStub struct {
-	Impl INfcWlcStateListener
+	Impl      INfcWlcStateListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NfcWlcStateListenerStub)(nil)
@@ -77,11 +79,12 @@ func (s *NfcWlcStateListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINfcWlcStateListenerOnWlcStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_wlcListenerDeviceInfo WlcListenerDeviceInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *NfcWlcStateListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnWlcStateChanged(ctx, _arg_wlcListenerDeviceInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

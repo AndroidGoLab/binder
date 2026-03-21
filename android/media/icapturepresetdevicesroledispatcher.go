@@ -47,6 +47,7 @@ func (p *CapturePresetDevicesRoleDispatcherProxy) DispatchDevicesRoleChanged(
 	devices []AudioDeviceAttributes,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICapturePresetDevicesRoleDispatcher)
 	_data.WriteInt32(capturePreset)
 	_data.WriteInt32(role)
@@ -74,7 +75,8 @@ func (p *CapturePresetDevicesRoleDispatcherProxy) DispatchDevicesRoleChanged(
 // CapturePresetDevicesRoleDispatcherStub dispatches incoming binder transactions
 // to a typed ICapturePresetDevicesRoleDispatcher implementation.
 type CapturePresetDevicesRoleDispatcherStub struct {
-	Impl ICapturePresetDevicesRoleDispatcher
+	Impl      ICapturePresetDevicesRoleDispatcher
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CapturePresetDevicesRoleDispatcherStub)(nil)
@@ -88,11 +90,12 @@ func (s *CapturePresetDevicesRoleDispatcherStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICapturePresetDevicesRoleDispatcherDispatchDevicesRoleChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_capturePreset, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -101,12 +104,29 @@ func (s *CapturePresetDevicesRoleDispatcherStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_devices []AudioDeviceAttributes
-		_ = _arg_devices
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_devices = make([]AudioDeviceAttributes, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_devices[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.DispatchDevicesRoleChanged(ctx, _arg_capturePreset, _arg_role, _arg_devices)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

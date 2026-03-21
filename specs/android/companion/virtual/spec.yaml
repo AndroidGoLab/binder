@@ -1,0 +1,674 @@
+package: android.companion.virtual
+go_package: android/companion/virtual
+interfaces:
+    - name: IVirtualDevice
+      descriptor: android.companion.virtual.IVirtualDevice
+      methods:
+        - name: getAssociationId
+          transaction_code_offset: 0
+          return_type:
+            name: int
+        - name: getDeviceId
+          transaction_code_offset: 1
+          return_type:
+            name: int
+        - name: getPersistentDeviceId
+          transaction_code_offset: 2
+          return_type:
+            name: String
+        - name: getDisplayIds
+          transaction_code_offset: 3
+          return_type:
+            name: int
+            is_array: true
+        - name: getDevicePolicy
+          transaction_code_offset: 4
+          params:
+            - name: policyType
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: close
+          transaction_code_offset: 5
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setDevicePolicy
+          transaction_code_offset: 6
+          params:
+            - name: policyType
+              type:
+                name: int
+            - name: devicePolicy
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: addActivityPolicyExemption
+          transaction_code_offset: 7
+          params:
+            - name: exemption
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: removeActivityPolicyExemption
+          transaction_code_offset: 8
+          params:
+            - name: exemption
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: onAudioSessionStarting
+          transaction_code_offset: 9
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: routingCallback
+              type:
+                name: IAudioRoutingCallback
+            - name: configChangedCallback
+              type:
+                name: IAudioConfigChangedCallback
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: onAudioSessionEnded
+          transaction_code_offset: 10
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: createVirtualDpad
+          transaction_code_offset: 11
+          params:
+            - name: config
+              type:
+                name: VirtualDpadConfig
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: createVirtualKeyboard
+          transaction_code_offset: 12
+          params:
+            - name: config
+              type:
+                name: VirtualKeyboardConfig
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: createVirtualMouse
+          transaction_code_offset: 13
+          params:
+            - name: config
+              type:
+                name: VirtualMouseConfig
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: createVirtualTouchscreen
+          transaction_code_offset: 14
+          params:
+            - name: config
+              type:
+                name: VirtualTouchscreenConfig
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: createVirtualNavigationTouchpad
+          transaction_code_offset: 15
+          params:
+            - name: config
+              type:
+                name: VirtualNavigationTouchpadConfig
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: createVirtualStylus
+          transaction_code_offset: 16
+          params:
+            - name: config
+              type:
+                name: VirtualStylusConfig
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: unregisterInputDevice
+          transaction_code_offset: 17
+          params:
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getInputDeviceId
+          transaction_code_offset: 18
+          params:
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: int
+        - name: sendDpadKeyEvent
+          transaction_code_offset: 19
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: event
+              type:
+                name: VirtualKeyEvent
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: sendKeyEvent
+          transaction_code_offset: 20
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: event
+              type:
+                name: VirtualKeyEvent
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: sendButtonEvent
+          transaction_code_offset: 21
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: event
+              type:
+                name: VirtualMouseButtonEvent
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: sendRelativeEvent
+          transaction_code_offset: 22
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: event
+              type:
+                name: VirtualMouseRelativeEvent
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: sendScrollEvent
+          transaction_code_offset: 23
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: event
+              type:
+                name: VirtualMouseScrollEvent
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: sendTouchEvent
+          transaction_code_offset: 24
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: event
+              type:
+                name: VirtualTouchEvent
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: sendStylusMotionEvent
+          transaction_code_offset: 25
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: event
+              type:
+                name: VirtualStylusMotionEvent
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: sendStylusButtonEvent
+          transaction_code_offset: 26
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: event
+              type:
+                name: VirtualStylusButtonEvent
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: getVirtualSensorList
+          transaction_code_offset: 27
+          return_type:
+            name: List
+            type_args:
+                - name: VirtualSensor
+          annotations:
+            - EnforcePermission
+        - name: sendSensorEvent
+          transaction_code_offset: 28
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: event
+              type:
+                name: VirtualSensorEvent
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: launchPendingIntent
+          transaction_code_offset: 29
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: pendingIntent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: resultReceiver
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: getCursorPosition
+          transaction_code_offset: 30
+          params:
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: PointF
+        - name: setShowPointerIcon
+          transaction_code_offset: 31
+          params:
+            - name: showPointerIcon
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setDisplayImePolicy
+          transaction_code_offset: 32
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: policy
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: registerIntentInterceptor
+          transaction_code_offset: 33
+          params:
+            - name: intentInterceptor
+              type:
+                name: IVirtualDeviceIntentInterceptor
+              direction: in
+            - name: filter
+              type:
+                name: IntentFilter
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: unregisterIntentInterceptor
+          transaction_code_offset: 34
+          params:
+            - name: intentInterceptor
+              type:
+                name: IVirtualDeviceIntentInterceptor
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: registerVirtualCamera
+          transaction_code_offset: 35
+          params:
+            - name: camera
+              type:
+                name: VirtualCameraConfig
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: unregisterVirtualCamera
+          transaction_code_offset: 36
+          params:
+            - name: camera
+              type:
+                name: VirtualCameraConfig
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getVirtualCameraId
+          transaction_code_offset: 37
+          params:
+            - name: camera
+              type:
+                name: VirtualCameraConfig
+              direction: in
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+    - name: IVirtualDeviceActivityListener
+      descriptor: android.companion.virtual.IVirtualDeviceActivityListener
+      oneway: true
+      methods:
+        - name: onTopActivityChanged
+          transaction_code_offset: 0
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: topActivity
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onDisplayEmpty
+          transaction_code_offset: 1
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IVirtualDeviceIntentInterceptor
+      descriptor: android.companion.virtual.IVirtualDeviceIntentInterceptor
+      oneway: true
+      methods:
+        - name: onIntentIntercepted
+          transaction_code_offset: 0
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+          return_type:
+            name: void
+    - name: IVirtualDeviceListener
+      descriptor: android.companion.virtual.IVirtualDeviceListener
+      oneway: true
+      methods:
+        - name: onVirtualDeviceCreated
+          transaction_code_offset: 0
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onVirtualDeviceClosed
+          transaction_code_offset: 1
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IVirtualDeviceManager
+      descriptor: android.companion.virtual.IVirtualDeviceManager
+      methods:
+        - name: createVirtualDevice
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: attributionSource
+              type:
+                name: AttributionSource
+              direction: in
+            - name: associationId
+              type:
+                name: int
+            - name: params
+              type:
+                name: VirtualDeviceParams
+              direction: in
+            - name: activityListener
+              type:
+                name: IVirtualDeviceActivityListener
+              direction: in
+            - name: soundEffectListener
+              type:
+                name: IVirtualDeviceSoundEffectListener
+              direction: in
+          return_type:
+            name: IVirtualDevice
+          annotations:
+            - EnforcePermission
+        - name: getVirtualDevices
+          transaction_code_offset: 1
+          return_type:
+            name: List
+            type_args:
+                - name: VirtualDevice
+        - name: getVirtualDevice
+          transaction_code_offset: 2
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: VirtualDevice
+        - name: registerVirtualDeviceListener
+          transaction_code_offset: 3
+          params:
+            - name: listener
+              type:
+                name: IVirtualDeviceListener
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterVirtualDeviceListener
+          transaction_code_offset: 4
+          params:
+            - name: listener
+              type:
+                name: IVirtualDeviceListener
+              direction: in
+          return_type:
+            name: void
+        - name: getDeviceIdForDisplayId
+          transaction_code_offset: 5
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getDisplayNameForPersistentDeviceId
+          transaction_code_offset: 6
+          params:
+            - name: persistentDeviceId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: CharSequence
+        - name: isValidVirtualDeviceId
+          transaction_code_offset: 7
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getDevicePolicy
+          transaction_code_offset: 8
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: policyType
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: createVirtualDisplay
+          transaction_code_offset: 9
+          params:
+            - name: virtualDisplayConfig
+              type:
+                name: VirtualDisplayConfig
+              direction: in
+            - name: callback
+              type:
+                name: IVirtualDisplayCallback
+              direction: in
+            - name: virtualDevice
+              type:
+                name: IVirtualDevice
+              direction: in
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: getAudioPlaybackSessionId
+          transaction_code_offset: 10
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getAudioRecordingSessionId
+          transaction_code_offset: 11
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: playSoundEffect
+          transaction_code_offset: 12
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: effectType
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isVirtualDeviceOwnedMirrorDisplay
+          transaction_code_offset: 13
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getAllPersistentDeviceIds
+          transaction_code_offset: 14
+          return_type:
+            name: List
+            type_args:
+                - name: String
+    - name: IVirtualDeviceSoundEffectListener
+      descriptor: android.companion.virtual.IVirtualDeviceSoundEffectListener
+      oneway: true
+      methods:
+        - name: onPlaySoundEffect
+          transaction_code_offset: 0
+          params:
+            - name: effectType
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: VirtualDevice
+    - name: VirtualDeviceParams

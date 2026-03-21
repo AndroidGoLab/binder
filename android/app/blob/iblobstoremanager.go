@@ -50,7 +50,7 @@ type IBlobStoreManager interface {
 	OpenSession(ctx context.Context, sessionId int64, packageName string) (IBlobStoreSession, error)
 	OpenBlob(ctx context.Context, handle BlobHandle, packageName string) (int32, error)
 	AbandonSession(ctx context.Context, sessionId int64, packageName string) error
-	AcquireLease(ctx context.Context, handle BlobHandle, descriptionResId int32, description interface{}, leaseTimeoutMillis int64, packageName string) error
+	AcquireLease(ctx context.Context, handle BlobHandle, descriptionResId int32, description string, leaseTimeoutMillis int64, packageName string) error
 	ReleaseLease(ctx context.Context, handle BlobHandle, packageName string) error
 	ReleaseAllLeases(ctx context.Context, packageName string) error
 	GetRemainingLeaseQuotaBytes(ctx context.Context, packageName string) (int64, error)
@@ -84,6 +84,7 @@ func (p *BlobStoreManagerProxy) CreateSession(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
@@ -120,6 +121,7 @@ func (p *BlobStoreManagerProxy) OpenSession(
 ) (IBlobStoreSession, error) {
 	var _result IBlobStoreSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteInt64(sessionId)
 	_data.WriteString16(packageName)
@@ -154,6 +156,7 @@ func (p *BlobStoreManagerProxy) OpenBlob(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
@@ -189,6 +192,7 @@ func (p *BlobStoreManagerProxy) AbandonSession(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteInt64(sessionId)
 	_data.WriteString16(packageName)
@@ -215,17 +219,19 @@ func (p *BlobStoreManagerProxy) AcquireLease(
 	ctx context.Context,
 	handle BlobHandle,
 	descriptionResId int32,
-	description interface{},
+	description string,
 	leaseTimeoutMillis int64,
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(descriptionResId)
+	_data.WriteString16(description)
 	_data.WriteInt64(leaseTimeoutMillis)
 	_data.WriteString16(packageName)
 
@@ -253,6 +259,7 @@ func (p *BlobStoreManagerProxy) ReleaseLease(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
@@ -283,6 +290,7 @@ func (p *BlobStoreManagerProxy) ReleaseAllLeases(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteString16(packageName)
 
@@ -310,6 +318,7 @@ func (p *BlobStoreManagerProxy) GetRemainingLeaseQuotaBytes(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteString16(packageName)
 
@@ -340,6 +349,7 @@ func (p *BlobStoreManagerProxy) WaitForIdle(
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
@@ -370,6 +380,7 @@ func (p *BlobStoreManagerProxy) QueryBlobsForUser(
 	var _result []BlobInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -392,6 +403,9 @@ func (p *BlobStoreManagerProxy) QueryBlobsForUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]BlobInfo, _count)
@@ -412,6 +426,7 @@ func (p *BlobStoreManagerProxy) DeleteBlob(
 	blobId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteInt64(blobId)
 
@@ -439,6 +454,7 @@ func (p *BlobStoreManagerProxy) GetLeasedBlobs(
 ) ([]BlobHandle, error) {
 	var _result []BlobHandle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteString16(packageName)
 
@@ -460,6 +476,9 @@ func (p *BlobStoreManagerProxy) GetLeasedBlobs(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -483,6 +502,7 @@ func (p *BlobStoreManagerProxy) GetLeaseInfo(
 ) (LeaseInfo, error) {
 	var _result LeaseInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteInt32(1)
 	if _err := blobHandle.MarshalParcel(_data); _err != nil {
@@ -520,7 +540,8 @@ func (p *BlobStoreManagerProxy) GetLeaseInfo(
 // BlobStoreManagerStub dispatches incoming binder transactions
 // to a typed IBlobStoreManager implementation.
 type BlobStoreManagerStub struct {
-	Impl IBlobStoreManager
+	Impl      IBlobStoreManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BlobStoreManagerStub)(nil)
@@ -534,11 +555,12 @@ func (s *BlobStoreManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBlobStoreManagerCreateSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_handle BlobHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -565,9 +587,6 @@ func (s *BlobStoreManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIBlobStoreManagerOpenSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -583,13 +602,9 @@ func (s *BlobStoreManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIBlobStoreManagerOpenBlob:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_handle BlobHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -616,9 +631,6 @@ func (s *BlobStoreManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIBlobStoreManagerAbandonSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -636,9 +648,6 @@ func (s *BlobStoreManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBlobStoreManagerAcquireLease:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_handle BlobHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -655,7 +664,10 @@ func (s *BlobStoreManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_description interface{}
+		_arg_description, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		_arg_leaseTimeoutMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -673,9 +685,6 @@ func (s *BlobStoreManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBlobStoreManagerReleaseLease:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_handle BlobHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -701,9 +710,6 @@ func (s *BlobStoreManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBlobStoreManagerReleaseAllLeases:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -717,9 +723,6 @@ func (s *BlobStoreManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBlobStoreManagerGetRemainingLeaseQuotaBytes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -734,9 +737,6 @@ func (s *BlobStoreManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIBlobStoreManagerWaitForIdle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_callback os.RemoteCallback
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -758,9 +758,6 @@ func (s *BlobStoreManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBlobStoreManagerQueryBlobsForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -771,13 +768,19 @@ func (s *BlobStoreManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIBlobStoreManagerDeleteBlob:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_blobId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -791,9 +794,6 @@ func (s *BlobStoreManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBlobStoreManagerGetLeasedBlobs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -805,13 +805,19 @@ func (s *BlobStoreManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIBlobStoreManagerGetLeaseInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_blobHandle BlobHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -853,7 +859,7 @@ type IBlobStoreManagerServer interface {
 	OpenSession(ctx context.Context, sessionId int64, packageName string) (IBlobStoreSession, error)
 	OpenBlob(ctx context.Context, handle BlobHandle, packageName string) (int32, error)
 	AbandonSession(ctx context.Context, sessionId int64, packageName string) error
-	AcquireLease(ctx context.Context, handle BlobHandle, descriptionResId int32, description interface{}, leaseTimeoutMillis int64, packageName string) error
+	AcquireLease(ctx context.Context, handle BlobHandle, descriptionResId int32, description string, leaseTimeoutMillis int64, packageName string) error
 	ReleaseLease(ctx context.Context, handle BlobHandle, packageName string) error
 	ReleaseAllLeases(ctx context.Context, packageName string) error
 	GetRemainingLeaseQuotaBytes(ctx context.Context, packageName string) (int64, error)
@@ -909,7 +915,7 @@ func (w *blobStoreManagerStubWrapper) AcquireLease(
 	ctx context.Context,
 	handle BlobHandle,
 	descriptionResId int32,
-	description interface{},
+	description string,
 	leaseTimeoutMillis int64,
 	packageName string,
 ) error {

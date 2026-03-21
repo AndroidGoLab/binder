@@ -32,7 +32,7 @@ type ITrustListener interface {
 	OnEnabledTrustAgentsChanged(ctx context.Context) error
 	OnTrustChanged(ctx context.Context, enabled bool, newlyUnlocked bool, flags int32, trustGrantedMessages []string) error
 	OnTrustManagedChanged(ctx context.Context, managed bool) error
-	OnTrustError(ctx context.Context, message interface{}) error
+	OnTrustError(ctx context.Context, message string) error
 	OnIsActiveUnlockRunningChanged(ctx context.Context, isRunning bool) error
 }
 
@@ -57,6 +57,7 @@ func (p *TrustListenerProxy) OnEnabledTrustAgentsChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustListener)
 	_data.WriteInt32(_identity.UserID)
 
@@ -78,6 +79,7 @@ func (p *TrustListenerProxy) OnTrustChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustListener)
 	_data.WriteBool(enabled)
 	_data.WriteBool(newlyUnlocked)
@@ -107,6 +109,7 @@ func (p *TrustListenerProxy) OnTrustManagedChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustListener)
 	_data.WriteBool(managed)
 	_data.WriteInt32(_identity.UserID)
@@ -122,10 +125,12 @@ func (p *TrustListenerProxy) OnTrustManagedChanged(
 
 func (p *TrustListenerProxy) OnTrustError(
 	ctx context.Context,
-	message interface{},
+	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustListener)
+	_data.WriteString16(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustListener, MethodITrustListenerOnTrustError)
 	if _err != nil {
@@ -142,6 +147,7 @@ func (p *TrustListenerProxy) OnIsActiveUnlockRunningChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustListener)
 	_data.WriteBool(isRunning)
 	_data.WriteInt32(_identity.UserID)
@@ -158,7 +164,8 @@ func (p *TrustListenerProxy) OnIsActiveUnlockRunningChanged(
 // TrustListenerStub dispatches incoming binder transactions
 // to a typed ITrustListener implementation.
 type TrustListenerStub struct {
-	Impl ITrustListener
+	Impl      ITrustListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TrustListenerStub)(nil)
@@ -172,21 +179,18 @@ func (s *TrustListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITrustListenerOnEnabledTrustAgentsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnEnabledTrustAgentsChanged(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustListenerOnTrustChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -202,16 +206,28 @@ func (s *TrustListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_trustGrantedMessages []string
-		_ = _arg_trustGrantedMessages
-		_err = s.Impl.OnTrustChanged(ctx, _arg_enabled, _arg_newlyUnlocked, _arg_flags, _arg_trustGrantedMessages)
-		_ = _err
-		return nil, nil
-	case TransactionITrustListenerOnTrustManagedChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_trustGrantedMessages = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_trustGrantedMessages[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.OnTrustChanged(ctx, _arg_enabled, _arg_newlyUnlocked, _arg_flags, _arg_trustGrantedMessages)
+		return nil, _err
+	case TransactionITrustListenerOnTrustManagedChanged:
 		_arg_managed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -220,20 +236,15 @@ func (s *TrustListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTrustManagedChanged(ctx, _arg_managed)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustListenerOnTrustError:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_message, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_message interface{}
-		_err := s.Impl.OnTrustError(ctx, _arg_message)
-		_ = _err
-		return nil, nil
+		_err = s.Impl.OnTrustError(ctx, _arg_message)
+		return nil, _err
 	case TransactionITrustListenerOnIsActiveUnlockRunningChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isRunning, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -242,8 +253,7 @@ func (s *TrustListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnIsActiveUnlockRunningChanged(ctx, _arg_isRunning)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -256,7 +266,7 @@ type ITrustListenerServer interface {
 	OnEnabledTrustAgentsChanged(ctx context.Context) error
 	OnTrustChanged(ctx context.Context, enabled bool, newlyUnlocked bool, flags int32, trustGrantedMessages []string) error
 	OnTrustManagedChanged(ctx context.Context, managed bool) error
-	OnTrustError(ctx context.Context, message interface{}) error
+	OnTrustError(ctx context.Context, message string) error
 	OnIsActiveUnlockRunningChanged(ctx context.Context, isRunning bool) error
 }
 
@@ -294,7 +304,7 @@ func (w *trustListenerStubWrapper) OnTrustManagedChanged(
 
 func (w *trustListenerStubWrapper) OnTrustError(
 	ctx context.Context,
-	message interface{},
+	message string,
 ) error {
 	return w.impl.OnTrustError(ctx, message)
 }

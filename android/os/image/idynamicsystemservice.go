@@ -3,6 +3,7 @@ package image
 import (
 	"context"
 	"fmt"
+	gsi "github.com/xaionaro-go/binder/android/gsi"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -55,7 +56,7 @@ type IDynamicSystemService interface {
 	CreatePartition(ctx context.Context, name string, size int64, readOnly bool) (int32, error)
 	ClosePartition(ctx context.Context) (bool, error)
 	FinishInstallation(ctx context.Context) (bool, error)
-	GetInstallationProgress(ctx context.Context) (interface{}, error)
+	GetInstallationProgress(ctx context.Context) (GsiProgress, error)
 	Abort(ctx context.Context) (bool, error)
 	IsInUse(ctx context.Context) (bool, error)
 	IsInstalled(ctx context.Context) (bool, error)
@@ -64,7 +65,7 @@ type IDynamicSystemService interface {
 	SetEnable(ctx context.Context, enable bool, oneShot bool) (bool, error)
 	SetAshmem(ctx context.Context, fd int32, size int64) (bool, error)
 	SubmitFromAshmem(ctx context.Context, bytes int64) (bool, error)
-	GetAvbPublicKey(ctx context.Context, dst interface{}) (bool, error)
+	GetAvbPublicKey(ctx context.Context, dst gsi.AvbPublicKey) (bool, error)
 	SuggestScratchSize(ctx context.Context) (int64, error)
 	GetActiveDsuSlot(ctx context.Context) (string, error)
 }
@@ -91,6 +92,7 @@ func (p *DynamicSystemServiceProxy) StartInstallation(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 	_data.WriteString16(dsuSlot)
 
@@ -124,6 +126,7 @@ func (p *DynamicSystemServiceProxy) CreatePartition(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 	_data.WriteString16(name)
 	_data.WriteInt64(size)
@@ -156,6 +159,7 @@ func (p *DynamicSystemServiceProxy) ClosePartition(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceClosePartition)
@@ -185,6 +189,7 @@ func (p *DynamicSystemServiceProxy) FinishInstallation(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceFinishInstallation)
@@ -211,9 +216,10 @@ func (p *DynamicSystemServiceProxy) FinishInstallation(
 
 func (p *DynamicSystemServiceProxy) GetInstallationProgress(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (GsiProgress, error) {
+	var _result GsiProgress
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceGetInstallationProgress)
@@ -231,6 +237,15 @@ func (p *DynamicSystemServiceProxy) GetInstallationProgress(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -239,6 +254,7 @@ func (p *DynamicSystemServiceProxy) Abort(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceAbort)
@@ -268,6 +284,7 @@ func (p *DynamicSystemServiceProxy) IsInUse(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceIsInUse)
@@ -297,6 +314,7 @@ func (p *DynamicSystemServiceProxy) IsInstalled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceIsInstalled)
@@ -326,6 +344,7 @@ func (p *DynamicSystemServiceProxy) IsEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceIsEnabled)
@@ -355,6 +374,7 @@ func (p *DynamicSystemServiceProxy) Remove(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceRemove)
@@ -386,6 +406,7 @@ func (p *DynamicSystemServiceProxy) SetEnable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 	_data.WriteBool(enable)
 	_data.WriteBool(oneShot)
@@ -419,6 +440,7 @@ func (p *DynamicSystemServiceProxy) SetAshmem(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 	_data.WriteFileDescriptor(fd)
 	_data.WriteInt64(size)
@@ -451,6 +473,7 @@ func (p *DynamicSystemServiceProxy) SubmitFromAshmem(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 	_data.WriteInt64(bytes)
 
@@ -478,10 +501,11 @@ func (p *DynamicSystemServiceProxy) SubmitFromAshmem(
 
 func (p *DynamicSystemServiceProxy) GetAvbPublicKey(
 	ctx context.Context,
-	dst interface{},
+	dst gsi.AvbPublicKey,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceGetAvbPublicKey)
@@ -498,6 +522,17 @@ func (p *DynamicSystemServiceProxy) GetAvbPublicKey(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = dst.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
+	}
 
 	_result, _err = _reply.ReadBool()
 	if _err != nil {
@@ -511,6 +546,7 @@ func (p *DynamicSystemServiceProxy) SuggestScratchSize(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceSuggestScratchSize)
@@ -540,6 +576,7 @@ func (p *DynamicSystemServiceProxy) GetActiveDsuSlot(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceGetActiveDsuSlot)
@@ -567,7 +604,8 @@ func (p *DynamicSystemServiceProxy) GetActiveDsuSlot(
 // DynamicSystemServiceStub dispatches incoming binder transactions
 // to a typed IDynamicSystemService implementation.
 type DynamicSystemServiceStub struct {
-	Impl IDynamicSystemService
+	Impl      IDynamicSystemService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DynamicSystemServiceStub)(nil)
@@ -581,11 +619,12 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDynamicSystemServiceStartInstallation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dsuSlot, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -600,9 +639,6 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceCreatePartition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -625,9 +661,6 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceClosePartition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ClosePartition(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -638,9 +671,6 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceFinishInstallation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.FinishInstallation(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -651,9 +681,6 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceGetInstallationProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetInstallationProgress(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -661,12 +688,12 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIDynamicSystemServiceAbort:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIDynamicSystemServiceAbort:
 		_result, _err := s.Impl.Abort(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -677,9 +704,6 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceIsInUse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsInUse(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -690,9 +714,6 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceIsInstalled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsInstalled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -703,9 +724,6 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceIsEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -716,9 +734,6 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceRemove:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Remove(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -729,9 +744,6 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceSetEnable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -750,9 +762,6 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceSetAshmem:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -771,9 +780,6 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceSubmitFromAshmem:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_bytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -788,10 +794,7 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceGetAvbPublicKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_dst interface{}
+		var _arg_dst gsi.AvbPublicKey
 		_result, _err := s.Impl.GetAvbPublicKey(ctx, _arg_dst)
 		_reply := parcel.New()
 		if _err != nil {
@@ -800,11 +803,12 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
-		return _reply, nil
-	case TransactionIDynamicSystemServiceSuggestScratchSize:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_dst.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIDynamicSystemServiceSuggestScratchSize:
 		_result, _err := s.Impl.SuggestScratchSize(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -815,9 +819,6 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceGetActiveDsuSlot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetActiveDsuSlot(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -840,7 +841,7 @@ type IDynamicSystemServiceServer interface {
 	CreatePartition(ctx context.Context, name string, size int64, readOnly bool) (int32, error)
 	ClosePartition(ctx context.Context) (bool, error)
 	FinishInstallation(ctx context.Context) (bool, error)
-	GetInstallationProgress(ctx context.Context) (interface{}, error)
+	GetInstallationProgress(ctx context.Context) (GsiProgress, error)
 	Abort(ctx context.Context) (bool, error)
 	IsInUse(ctx context.Context) (bool, error)
 	IsInstalled(ctx context.Context) (bool, error)
@@ -849,7 +850,7 @@ type IDynamicSystemServiceServer interface {
 	SetEnable(ctx context.Context, enable bool, oneShot bool) (bool, error)
 	SetAshmem(ctx context.Context, fd int32, size int64) (bool, error)
 	SubmitFromAshmem(ctx context.Context, bytes int64) (bool, error)
-	GetAvbPublicKey(ctx context.Context, dst interface{}) (bool, error)
+	GetAvbPublicKey(ctx context.Context, dst gsi.AvbPublicKey) (bool, error)
 	SuggestScratchSize(ctx context.Context) (int64, error)
 	GetActiveDsuSlot(ctx context.Context) (string, error)
 }
@@ -893,7 +894,7 @@ func (w *dynamicSystemServiceStubWrapper) FinishInstallation(
 
 func (w *dynamicSystemServiceStubWrapper) GetInstallationProgress(
 	ctx context.Context,
-) (interface{}, error) {
+) (GsiProgress, error) {
 	return w.impl.GetInstallationProgress(ctx)
 }
 
@@ -952,7 +953,7 @@ func (w *dynamicSystemServiceStubWrapper) SubmitFromAshmem(
 
 func (w *dynamicSystemServiceStubWrapper) GetAvbPublicKey(
 	ctx context.Context,
-	dst interface{},
+	dst gsi.AvbPublicKey,
 ) (bool, error) {
 	return w.impl.GetAvbPublicKey(ctx, dst)
 }

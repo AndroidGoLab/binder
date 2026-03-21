@@ -47,6 +47,7 @@ func (p *ApnSourceServiceProxy) GetApns(
 ) ([]content.ContentValues, error) {
 	var _result []content.ContentValues
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApnSourceService)
 	_data.WriteInt32(subId)
 
@@ -69,6 +70,9 @@ func (p *ApnSourceServiceProxy) GetApns(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]content.ContentValues, _count)
@@ -87,7 +91,8 @@ func (p *ApnSourceServiceProxy) GetApns(
 // ApnSourceServiceStub dispatches incoming binder transactions
 // to a typed IApnSourceService implementation.
 type ApnSourceServiceStub struct {
-	Impl IApnSourceService
+	Impl      IApnSourceService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ApnSourceServiceStub)(nil)
@@ -101,11 +106,12 @@ func (s *ApnSourceServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIApnSourceServiceGetApns:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -117,8 +123,17 @@ func (s *ApnSourceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

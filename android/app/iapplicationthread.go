@@ -5,9 +5,12 @@ import (
 	"fmt"
 	servertransaction "github.com/xaionaro-go/binder/android/app/servertransaction"
 	content "github.com/xaionaro-go/binder/android/content"
+	types "github.com/xaionaro-go/binder/android/content/pm/types"
 	res "github.com/xaionaro-go/binder/android/content/res"
+	os "github.com/xaionaro-go/binder/android/os"
 	autofill "github.com/xaionaro-go/binder/android/view/autofill"
 	translation "github.com/xaionaro-go/binder/android/view/translation"
+	window "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
 	internalApp "github.com/xaionaro-go/binder/com/android/internal_/app"
 	"github.com/xaionaro-go/binder/parcel"
@@ -151,39 +154,39 @@ const (
 
 type IApplicationThread interface {
 	AsBinder() binder.IBinder
-	ScheduleReceiver(ctx context.Context, intent content.Intent, info interface{}, compatInfo res.CompatibilityInfo, resultCode int32, data string, extras interface{}, ordered bool, assumeDelivered bool, sendingUser int32, processState int32, sentFromUid int32, sentFromPackage string) error
+	ScheduleReceiver(ctx context.Context, intent content.Intent, info types.ActivityInfo, compatInfo res.CompatibilityInfo, resultCode int32, data string, extras os.Bundle, ordered bool, assumeDelivered bool, sendingUser int32, processState int32, sentFromUid int32, sentFromPackage string) error
 	ScheduleReceiverList(ctx context.Context, info []ReceiverInfo) error
-	ScheduleCreateService(ctx context.Context, token binder.IBinder, info interface{}, compatInfo res.CompatibilityInfo, processState int32) error
+	ScheduleCreateService(ctx context.Context, token binder.IBinder, info types.ServiceInfo, compatInfo res.CompatibilityInfo, processState int32) error
 	ScheduleStopService(ctx context.Context, token binder.IBinder) error
-	BindApplication(ctx context.Context, packageName string, info interface{}, sdkSandboxClientAppVolumeUuid string, sdkSandboxClientAppPackage string, isSdkInSandbox bool, providerList interface{}, testName content.ComponentName, profilerInfo ProfilerInfo, testArguments interface{}, testWatcher IInstrumentationWatcher, uiAutomationConnection IUiAutomationConnection, debugMode int32, enableBinderTracking bool, trackAllocation bool, restrictedBackupMode bool, persistent bool, config res.Configuration, compatInfo res.CompatibilityInfo, services map[interface{}]interface{}, coreSettings interface{}, buildSerial string, autofillOptions content.AutofillOptions, contentCaptureOptions content.ContentCaptureOptions, disabledCompatChanges []int64, serializedSystemFontMap interface{}, startRequestedElapsedTime int64, startRequestedUptime int64) error
+	BindApplication(ctx context.Context, packageName string, info types.ApplicationInfo, sdkSandboxClientAppVolumeUuid string, sdkSandboxClientAppPackage string, isSdkInSandbox bool, providerList types.ProviderInfoList, testName content.ComponentName, profilerInfo ProfilerInfo, testArguments os.Bundle, testWatcher IInstrumentationWatcher, uiAutomationConnection IUiAutomationConnection, debugMode int32, enableBinderTracking bool, trackAllocation bool, restrictedBackupMode bool, persistent bool, config res.Configuration, compatInfo res.CompatibilityInfo, services map[any]any, coreSettings os.Bundle, buildSerial string, autofillOptions content.AutofillOptions, contentCaptureOptions content.ContentCaptureOptions, disabledCompatChanges []int64, serializedSystemFontMap os.SharedMemory, startRequestedElapsedTime int64, startRequestedUptime int64) error
 	RunIsolatedEntryPoint(ctx context.Context, entryPoint string, entryPointArgs []string) error
 	ScheduleExit(ctx context.Context) error
-	ScheduleServiceArgs(ctx context.Context, token binder.IBinder, args interface{}) error
+	ScheduleServiceArgs(ctx context.Context, token binder.IBinder, args types.ParceledListSlice) error
 	UpdateTimeZone(ctx context.Context) error
 	ProcessInBackground(ctx context.Context) error
 	ScheduleBindService(ctx context.Context, token binder.IBinder, intent content.Intent, rebind bool, processState int32, bindSeq int64) error
 	ScheduleUnbindService(ctx context.Context, token binder.IBinder, intent content.Intent) error
 	DumpService(ctx context.Context, fd int32, servicetoken binder.IBinder, args []string) error
-	ScheduleRegisteredReceiver(ctx context.Context, receiver content.IIntentReceiver, intent content.Intent, resultCode int32, data string, extras interface{}, ordered bool, sticky bool, assumeDelivered bool, sendingUser int32, processState int32, sentFromUid int32, sentFromPackage string) error
+	ScheduleRegisteredReceiver(ctx context.Context, receiver content.IIntentReceiver, intent content.Intent, resultCode int32, data string, extras os.Bundle, ordered bool, sticky bool, assumeDelivered bool, sendingUser int32, processState int32, sentFromUid int32, sentFromPackage string) error
 	ScheduleLowMemory(ctx context.Context) error
 	ProfilerControl(ctx context.Context, start bool, profilerInfo ProfilerInfo, profileType int32) error
 	SetSchedulingGroup(ctx context.Context, group int32) error
-	ScheduleCreateBackupAgent(ctx context.Context, app interface{}, backupMode int32, operationType int32) error
-	ScheduleDestroyBackupAgent(ctx context.Context, app interface{}) error
+	ScheduleCreateBackupAgent(ctx context.Context, app types.ApplicationInfo, backupMode int32, operationType int32) error
+	ScheduleDestroyBackupAgent(ctx context.Context, app types.ApplicationInfo) error
 	ScheduleOnNewSceneTransitionInfo(ctx context.Context, token binder.IBinder, info ActivityOptionsSceneTransitionInfo) error
 	ScheduleSuicide(ctx context.Context) error
 	DispatchPackageBroadcast(ctx context.Context, cmd int32, packages []string) error
-	ScheduleCrash(ctx context.Context, msg string, typeId int32, extras interface{}) error
-	DumpHeap(ctx context.Context, managed bool, mallocInfo bool, runGc bool, path string, fd int32, finishCallback interface{}) error
+	ScheduleCrash(ctx context.Context, msg string, typeId int32, extras os.Bundle) error
+	DumpHeap(ctx context.Context, managed bool, mallocInfo bool, runGc bool, path string, fd int32, finishCallback os.RemoteCallback) error
 	DumpActivity(ctx context.Context, fd int32, servicetoken binder.IBinder, prefix string, args []string) error
-	DumpResources(ctx context.Context, fd int32, finishCallback interface{}) error
+	DumpResources(ctx context.Context, fd int32, finishCallback os.RemoteCallback) error
 	ClearDnsCache(ctx context.Context) error
 	UpdateHttpProxy(ctx context.Context) error
-	SetCoreSettings(ctx context.Context, coreSettings interface{}) error
+	SetCoreSettings(ctx context.Context, coreSettings os.Bundle) error
 	UpdatePackageCompatibilityInfo(ctx context.Context, pkg string, info res.CompatibilityInfo) error
 	ScheduleTrimMemory(ctx context.Context, level int32) error
-	DumpMemInfo(ctx context.Context, fd int32, mem interface{}, checkin bool, dumpInfo bool, dumpDalvik bool, dumpSummaryOnly bool, dumpUnreachable bool, dumpAllocatorLogs bool, args []string) error
-	DumpMemInfoProto(ctx context.Context, fd int32, mem interface{}, dumpInfo bool, dumpDalvik bool, dumpSummaryOnly bool, dumpUnreachable bool, args []string) error
+	DumpMemInfo(ctx context.Context, fd int32, mem os.DebugMemoryInfo, checkin bool, dumpInfo bool, dumpDalvik bool, dumpSummaryOnly bool, dumpUnreachable bool, dumpAllocatorLogs bool, args []string) error
+	DumpMemInfoProto(ctx context.Context, fd int32, mem os.DebugMemoryInfo, dumpInfo bool, dumpDalvik bool, dumpSummaryOnly bool, dumpUnreachable bool, args []string) error
 	DumpGfxInfo(ctx context.Context, fd int32, args []string) error
 	DumpCacheInfo(ctx context.Context, fd int32, args []string) error
 	DumpProvider(ctx context.Context, fd int32, servicetoken binder.IBinder, args []string) error
@@ -192,7 +195,7 @@ type IApplicationThread interface {
 	RequestAssistContextExtras(ctx context.Context, activityToken binder.IBinder, requestToken binder.IBinder, requestType int32, sessionId int32, flags int32) error
 	ScheduleTranslucentConversionComplete(ctx context.Context, token binder.IBinder, timeout bool) error
 	SetProcessState(ctx context.Context, state int32) error
-	ScheduleInstallProvider(ctx context.Context, provider interface{}) error
+	ScheduleInstallProvider(ctx context.Context, provider types.ProviderInfo) error
 	UpdateTimePrefs(ctx context.Context, timeFormatPreference int32) error
 	ScheduleEnterAnimationComplete(ctx context.Context, token binder.IBinder) error
 	NotifyCleartextNetwork(ctx context.Context, firstPacket []byte) error
@@ -202,18 +205,18 @@ type IApplicationThread interface {
 	HandleTrustStorageUpdate(ctx context.Context) error
 	AttachAgent(ctx context.Context, path string) error
 	AttachStartupAgents(ctx context.Context, dataDir string) error
-	ScheduleApplicationInfoChanged(ctx context.Context, ai interface{}) error
+	ScheduleApplicationInfoChanged(ctx context.Context, ai types.ApplicationInfo) error
 	SetNetworkBlockSeq(ctx context.Context, procStateSeq int64) error
 	ScheduleTransaction(ctx context.Context, transaction servertransaction.ClientTransaction) error
-	ScheduleTaskFragmentTransaction(ctx context.Context, organizer interface{}, transaction interface{}) error
-	RequestDirectActions(ctx context.Context, activityToken binder.IBinder, intractor internalApp.IVoiceInteractor, cancellationCallback interface{}, callback interface{}) error
-	PerformDirectAction(ctx context.Context, activityToken binder.IBinder, actionId string, arguments interface{}, cancellationCallback interface{}, resultCallback interface{}) error
+	ScheduleTaskFragmentTransaction(ctx context.Context, organizer window.ITaskFragmentOrganizer, transaction window.TaskFragmentTransaction) error
+	RequestDirectActions(ctx context.Context, activityToken binder.IBinder, intractor internalApp.IVoiceInteractor, cancellationCallback os.RemoteCallback, callback os.RemoteCallback) error
+	PerformDirectAction(ctx context.Context, activityToken binder.IBinder, actionId string, arguments os.Bundle, cancellationCallback os.RemoteCallback, resultCallback os.RemoteCallback) error
 	NotifyContentProviderPublishStatus(ctx context.Context, holder ContentProviderHolder, authorities string, published bool) error
-	InstrumentWithoutRestart(ctx context.Context, instrumentationName content.ComponentName, instrumentationArgs interface{}, instrumentationWatcher IInstrumentationWatcher, instrumentationUiConnection IUiAutomationConnection, targetInfo interface{}) error
+	InstrumentWithoutRestart(ctx context.Context, instrumentationName content.ComponentName, instrumentationArgs os.Bundle, instrumentationWatcher IInstrumentationWatcher, instrumentationUiConnection IUiAutomationConnection, targetInfo types.ApplicationInfo) error
 	UpdateUiTranslationState(ctx context.Context, activityToken binder.IBinder, state int32, sourceSpec translation.TranslationSpec, targetSpec translation.TranslationSpec, viewIds []autofill.AutofillId, uiTranslationSpec translation.UiTranslationSpec) error
 	ScheduleTimeoutService(ctx context.Context, token binder.IBinder, startId int32) error
 	ScheduleTimeoutServiceForType(ctx context.Context, token binder.IBinder, startId int32, fgsType int32) error
-	SchedulePing(ctx context.Context, pong interface{}) error
+	SchedulePing(ctx context.Context, pong os.RemoteCallback) error
 }
 
 type ApplicationThreadProxy struct {
@@ -235,11 +238,11 @@ var _ IApplicationThread = (*ApplicationThreadProxy)(nil)
 func (p *ApplicationThreadProxy) ScheduleReceiver(
 	ctx context.Context,
 	intent content.Intent,
-	info interface{},
+	info types.ActivityInfo,
 	compatInfo res.CompatibilityInfo,
 	resultCode int32,
 	data string,
-	extras interface{},
+	extras os.Bundle,
 	ordered bool,
 	assumeDelivered bool,
 	sendingUser int32,
@@ -248,17 +251,23 @@ func (p *ApplicationThreadProxy) ScheduleReceiver(
 	sentFromPackage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	// WARNING: param info (type types.ActivityInfo) cannot be serialized — type not resolved
 	_data.WriteInt32(1)
 	if _err := compatInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(resultCode)
 	_data.WriteString16(data)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(ordered)
 	_data.WriteBool(assumeDelivered)
 	_data.WriteInt32(sendingUser)
@@ -280,6 +289,7 @@ func (p *ApplicationThreadProxy) ScheduleReceiverList(
 	info []ReceiverInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	if info == nil {
 		_data.WriteInt32(-1)
@@ -305,13 +315,15 @@ func (p *ApplicationThreadProxy) ScheduleReceiverList(
 func (p *ApplicationThreadProxy) ScheduleCreateService(
 	ctx context.Context,
 	token binder.IBinder,
-	info interface{},
+	info types.ServiceInfo,
 	compatInfo res.CompatibilityInfo,
 	processState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	// WARNING: param info (type types.ServiceInfo) cannot be serialized — type not resolved
 	_data.WriteInt32(1)
 	if _err := compatInfo.MarshalParcel(_data); _err != nil {
 		return _err
@@ -332,6 +344,7 @@ func (p *ApplicationThreadProxy) ScheduleStopService(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -347,14 +360,14 @@ func (p *ApplicationThreadProxy) ScheduleStopService(
 func (p *ApplicationThreadProxy) BindApplication(
 	ctx context.Context,
 	packageName string,
-	info interface{},
+	info types.ApplicationInfo,
 	sdkSandboxClientAppVolumeUuid string,
 	sdkSandboxClientAppPackage string,
 	isSdkInSandbox bool,
-	providerList interface{},
+	providerList types.ProviderInfoList,
 	testName content.ComponentName,
 	profilerInfo ProfilerInfo,
-	testArguments interface{},
+	testArguments os.Bundle,
 	testWatcher IInstrumentationWatcher,
 	uiAutomationConnection IUiAutomationConnection,
 	debugMode int32,
@@ -364,28 +377,35 @@ func (p *ApplicationThreadProxy) BindApplication(
 	persistent bool,
 	config res.Configuration,
 	compatInfo res.CompatibilityInfo,
-	services map[interface{}]interface{},
-	coreSettings interface{},
+	services map[any]any,
+	coreSettings os.Bundle,
 	buildSerial string,
 	autofillOptions content.AutofillOptions,
 	contentCaptureOptions content.ContentCaptureOptions,
 	disabledCompatChanges []int64,
-	serializedSystemFontMap interface{},
+	serializedSystemFontMap os.SharedMemory,
 	startRequestedElapsedTime int64,
 	startRequestedUptime int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteString16(packageName)
+	// WARNING: param info (type types.ApplicationInfo) cannot be serialized — type not resolved
 	_data.WriteString16(sdkSandboxClientAppVolumeUuid)
 	_data.WriteString16(sdkSandboxClientAppPackage)
 	_data.WriteBool(isSdkInSandbox)
+	// WARNING: param providerList (type types.ProviderInfoList) cannot be serialized — type not resolved
 	_data.WriteInt32(1)
 	if _err := testName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := testArguments.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	binder.WriteBinderToParcel(ctx, _data, testWatcher.AsBinder(), p.Remote.Transport())
@@ -412,6 +432,10 @@ func (p *ApplicationThreadProxy) BindApplication(
 			_data.WriteString16(_v.(string))
 		}
 	}
+	_data.WriteInt32(1)
+	if _err := coreSettings.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(buildSerial)
 	_data.WriteInt32(1)
 	if _err := autofillOptions.MarshalParcel(_data); _err != nil {
@@ -428,6 +452,10 @@ func (p *ApplicationThreadProxy) BindApplication(
 		for _, _item := range disabledCompatChanges {
 			_data.WriteInt64(_item)
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := serializedSystemFontMap.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 	_data.WriteInt64(startRequestedElapsedTime)
 	_data.WriteInt64(startRequestedUptime)
@@ -447,6 +475,7 @@ func (p *ApplicationThreadProxy) RunIsolatedEntryPoint(
 	entryPointArgs []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteString16(entryPoint)
 	if entryPointArgs == nil {
@@ -471,6 +500,7 @@ func (p *ApplicationThreadProxy) ScheduleExit(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleExit)
@@ -485,11 +515,13 @@ func (p *ApplicationThreadProxy) ScheduleExit(
 func (p *ApplicationThreadProxy) ScheduleServiceArgs(
 	ctx context.Context,
 	token binder.IBinder,
-	args interface{},
+	args types.ParceledListSlice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	// WARNING: param args (type types.ParceledListSlice) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleServiceArgs)
 	if _err != nil {
@@ -504,6 +536,7 @@ func (p *ApplicationThreadProxy) UpdateTimeZone(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadUpdateTimeZone)
@@ -519,6 +552,7 @@ func (p *ApplicationThreadProxy) ProcessInBackground(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadProcessInBackground)
@@ -539,6 +573,7 @@ func (p *ApplicationThreadProxy) ScheduleBindService(
 	bindSeq int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -564,6 +599,7 @@ func (p *ApplicationThreadProxy) ScheduleUnbindService(
 	intent content.Intent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -587,6 +623,7 @@ func (p *ApplicationThreadProxy) DumpService(
 	args []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteFileDescriptor(fd)
 	binder.WriteBinderToParcel(ctx, _data, servicetoken, p.Remote.Transport())
@@ -614,7 +651,7 @@ func (p *ApplicationThreadProxy) ScheduleRegisteredReceiver(
 	intent content.Intent,
 	resultCode int32,
 	data string,
-	extras interface{},
+	extras os.Bundle,
 	ordered bool,
 	sticky bool,
 	assumeDelivered bool,
@@ -624,6 +661,7 @@ func (p *ApplicationThreadProxy) ScheduleRegisteredReceiver(
 	sentFromPackage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -632,6 +670,10 @@ func (p *ApplicationThreadProxy) ScheduleRegisteredReceiver(
 	}
 	_data.WriteInt32(resultCode)
 	_data.WriteString16(data)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(ordered)
 	_data.WriteBool(sticky)
 	_data.WriteBool(assumeDelivered)
@@ -653,6 +695,7 @@ func (p *ApplicationThreadProxy) ScheduleLowMemory(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleLowMemory)
@@ -671,6 +714,7 @@ func (p *ApplicationThreadProxy) ProfilerControl(
 	profileType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteBool(start)
 	_data.WriteInt32(1)
@@ -693,6 +737,7 @@ func (p *ApplicationThreadProxy) SetSchedulingGroup(
 	group int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(group)
 
@@ -707,13 +752,15 @@ func (p *ApplicationThreadProxy) SetSchedulingGroup(
 
 func (p *ApplicationThreadProxy) ScheduleCreateBackupAgent(
 	ctx context.Context,
-	app interface{},
+	app types.ApplicationInfo,
 	backupMode int32,
 	operationType int32,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
+	// WARNING: param app (type types.ApplicationInfo) cannot be serialized — type not resolved
 	_data.WriteInt32(backupMode)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(operationType)
@@ -729,11 +776,13 @@ func (p *ApplicationThreadProxy) ScheduleCreateBackupAgent(
 
 func (p *ApplicationThreadProxy) ScheduleDestroyBackupAgent(
 	ctx context.Context,
-	app interface{},
+	app types.ApplicationInfo,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
+	// WARNING: param app (type types.ApplicationInfo) cannot be serialized — type not resolved
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleDestroyBackupAgent)
@@ -751,6 +800,7 @@ func (p *ApplicationThreadProxy) ScheduleOnNewSceneTransitionInfo(
 	info ActivityOptionsSceneTransitionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -771,6 +821,7 @@ func (p *ApplicationThreadProxy) ScheduleSuicide(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleSuicide)
@@ -788,6 +839,7 @@ func (p *ApplicationThreadProxy) DispatchPackageBroadcast(
 	packages []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(cmd)
 	if packages == nil {
@@ -812,12 +864,17 @@ func (p *ApplicationThreadProxy) ScheduleCrash(
 	ctx context.Context,
 	msg string,
 	typeId int32,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteString16(msg)
 	_data.WriteInt32(typeId)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleCrash)
 	if _err != nil {
@@ -835,15 +892,20 @@ func (p *ApplicationThreadProxy) DumpHeap(
 	runGc bool,
 	path string,
 	fd int32,
-	finishCallback interface{},
+	finishCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteBool(managed)
 	_data.WriteBool(mallocInfo)
 	_data.WriteBool(runGc)
 	_data.WriteString16(path)
 	_data.WriteFileDescriptor(fd)
+	_data.WriteInt32(1)
+	if _err := finishCallback.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadDumpHeap)
 	if _err != nil {
@@ -862,6 +924,7 @@ func (p *ApplicationThreadProxy) DumpActivity(
 	args []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteFileDescriptor(fd)
 	binder.WriteBinderToParcel(ctx, _data, servicetoken, p.Remote.Transport())
@@ -887,11 +950,16 @@ func (p *ApplicationThreadProxy) DumpActivity(
 func (p *ApplicationThreadProxy) DumpResources(
 	ctx context.Context,
 	fd int32,
-	finishCallback interface{},
+	finishCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteFileDescriptor(fd)
+	_data.WriteInt32(1)
+	if _err := finishCallback.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadDumpResources)
 	if _err != nil {
@@ -906,6 +974,7 @@ func (p *ApplicationThreadProxy) ClearDnsCache(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadClearDnsCache)
@@ -921,6 +990,7 @@ func (p *ApplicationThreadProxy) UpdateHttpProxy(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadUpdateHttpProxy)
@@ -934,10 +1004,15 @@ func (p *ApplicationThreadProxy) UpdateHttpProxy(
 
 func (p *ApplicationThreadProxy) SetCoreSettings(
 	ctx context.Context,
-	coreSettings interface{},
+	coreSettings os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
+	_data.WriteInt32(1)
+	if _err := coreSettings.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadSetCoreSettings)
 	if _err != nil {
@@ -954,6 +1029,7 @@ func (p *ApplicationThreadProxy) UpdatePackageCompatibilityInfo(
 	info res.CompatibilityInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(1)
@@ -975,6 +1051,7 @@ func (p *ApplicationThreadProxy) ScheduleTrimMemory(
 	level int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(level)
 
@@ -990,7 +1067,7 @@ func (p *ApplicationThreadProxy) ScheduleTrimMemory(
 func (p *ApplicationThreadProxy) DumpMemInfo(
 	ctx context.Context,
 	fd int32,
-	mem interface{},
+	mem os.DebugMemoryInfo,
 	checkin bool,
 	dumpInfo bool,
 	dumpDalvik bool,
@@ -1000,8 +1077,13 @@ func (p *ApplicationThreadProxy) DumpMemInfo(
 	args []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteFileDescriptor(fd)
+	_data.WriteInt32(1)
+	if _err := mem.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(checkin)
 	_data.WriteBool(dumpInfo)
 	_data.WriteBool(dumpDalvik)
@@ -1029,7 +1111,7 @@ func (p *ApplicationThreadProxy) DumpMemInfo(
 func (p *ApplicationThreadProxy) DumpMemInfoProto(
 	ctx context.Context,
 	fd int32,
-	mem interface{},
+	mem os.DebugMemoryInfo,
 	dumpInfo bool,
 	dumpDalvik bool,
 	dumpSummaryOnly bool,
@@ -1037,8 +1119,13 @@ func (p *ApplicationThreadProxy) DumpMemInfoProto(
 	args []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteFileDescriptor(fd)
+	_data.WriteInt32(1)
+	if _err := mem.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(dumpInfo)
 	_data.WriteBool(dumpDalvik)
 	_data.WriteBool(dumpSummaryOnly)
@@ -1067,6 +1154,7 @@ func (p *ApplicationThreadProxy) DumpGfxInfo(
 	args []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteFileDescriptor(fd)
 	if args == nil {
@@ -1093,6 +1181,7 @@ func (p *ApplicationThreadProxy) DumpCacheInfo(
 	args []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteFileDescriptor(fd)
 	if args == nil {
@@ -1120,6 +1209,7 @@ func (p *ApplicationThreadProxy) DumpProvider(
 	args []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteFileDescriptor(fd)
 	binder.WriteBinderToParcel(ctx, _data, servicetoken, p.Remote.Transport())
@@ -1147,6 +1237,7 @@ func (p *ApplicationThreadProxy) DumpDbInfo(
 	args []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteFileDescriptor(fd)
 	if args == nil {
@@ -1172,6 +1263,7 @@ func (p *ApplicationThreadProxy) UnstableProviderDied(
 	provider binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, provider, p.Remote.Transport())
 
@@ -1193,6 +1285,7 @@ func (p *ApplicationThreadProxy) RequestAssistContextExtras(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, requestToken, p.Remote.Transport())
@@ -1215,6 +1308,7 @@ func (p *ApplicationThreadProxy) ScheduleTranslucentConversionComplete(
 	timeout bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(timeout)
@@ -1233,6 +1327,7 @@ func (p *ApplicationThreadProxy) SetProcessState(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(state)
 
@@ -1247,10 +1342,12 @@ func (p *ApplicationThreadProxy) SetProcessState(
 
 func (p *ApplicationThreadProxy) ScheduleInstallProvider(
 	ctx context.Context,
-	provider interface{},
+	provider types.ProviderInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
+	// WARNING: param provider (type types.ProviderInfo) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleInstallProvider)
 	if _err != nil {
@@ -1266,6 +1363,7 @@ func (p *ApplicationThreadProxy) UpdateTimePrefs(
 	timeFormatPreference int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(timeFormatPreference)
 
@@ -1283,6 +1381,7 @@ func (p *ApplicationThreadProxy) ScheduleEnterAnimationComplete(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -1300,15 +1399,9 @@ func (p *ApplicationThreadProxy) NotifyCleartextNetwork(
 	firstPacket []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	if firstPacket == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(firstPacket)))
-		for _, _item := range firstPacket {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(firstPacket)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadNotifyCleartextNetwork)
 	if _err != nil {
@@ -1323,6 +1416,7 @@ func (p *ApplicationThreadProxy) StartBinderTracking(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadStartBinderTracking)
@@ -1339,6 +1433,7 @@ func (p *ApplicationThreadProxy) StopBinderTrackingAndDump(
 	fd int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteFileDescriptor(fd)
 
@@ -1357,6 +1452,7 @@ func (p *ApplicationThreadProxy) ScheduleLocalVoiceInteractionStarted(
 	voiceInteractor internalApp.IVoiceInteractor,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, voiceInteractor.AsBinder(), p.Remote.Transport())
@@ -1374,6 +1470,7 @@ func (p *ApplicationThreadProxy) HandleTrustStorageUpdate(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadHandleTrustStorageUpdate)
@@ -1390,6 +1487,7 @@ func (p *ApplicationThreadProxy) AttachAgent(
 	path string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteString16(path)
 
@@ -1407,6 +1505,7 @@ func (p *ApplicationThreadProxy) AttachStartupAgents(
 	dataDir string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteString16(dataDir)
 
@@ -1421,10 +1520,12 @@ func (p *ApplicationThreadProxy) AttachStartupAgents(
 
 func (p *ApplicationThreadProxy) ScheduleApplicationInfoChanged(
 	ctx context.Context,
-	ai interface{},
+	ai types.ApplicationInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
+	// WARNING: param ai (type types.ApplicationInfo) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleApplicationInfoChanged)
 	if _err != nil {
@@ -1440,6 +1541,7 @@ func (p *ApplicationThreadProxy) SetNetworkBlockSeq(
 	procStateSeq int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt64(procStateSeq)
 
@@ -1457,6 +1559,7 @@ func (p *ApplicationThreadProxy) ScheduleTransaction(
 	transaction servertransaction.ClientTransaction,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(1)
 	if _err := transaction.MarshalParcel(_data); _err != nil {
@@ -1474,11 +1577,17 @@ func (p *ApplicationThreadProxy) ScheduleTransaction(
 
 func (p *ApplicationThreadProxy) ScheduleTaskFragmentTransaction(
 	ctx context.Context,
-	organizer interface{},
-	transaction interface{},
+	organizer window.ITaskFragmentOrganizer,
+	transaction window.TaskFragmentTransaction,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
+	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := transaction.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleTaskFragmentTransaction)
 	if _err != nil {
@@ -1493,13 +1602,22 @@ func (p *ApplicationThreadProxy) RequestDirectActions(
 	ctx context.Context,
 	activityToken binder.IBinder,
 	intractor internalApp.IVoiceInteractor,
-	cancellationCallback interface{},
-	callback interface{},
+	cancellationCallback os.RemoteCallback,
+	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, intractor.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := cancellationCallback.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := callback.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadRequestDirectActions)
 	if _err != nil {
@@ -1514,14 +1632,27 @@ func (p *ApplicationThreadProxy) PerformDirectAction(
 	ctx context.Context,
 	activityToken binder.IBinder,
 	actionId string,
-	arguments interface{},
-	cancellationCallback interface{},
-	resultCallback interface{},
+	arguments os.Bundle,
+	cancellationCallback os.RemoteCallback,
+	resultCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	_data.WriteString16(actionId)
+	_data.WriteInt32(1)
+	if _err := arguments.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := cancellationCallback.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := resultCallback.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadPerformDirectAction)
 	if _err != nil {
@@ -1540,6 +1671,7 @@ func (p *ApplicationThreadProxy) NotifyContentProviderPublishStatus(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(1)
 	if _err := holder.MarshalParcel(_data); _err != nil {
@@ -1561,19 +1693,25 @@ func (p *ApplicationThreadProxy) NotifyContentProviderPublishStatus(
 func (p *ApplicationThreadProxy) InstrumentWithoutRestart(
 	ctx context.Context,
 	instrumentationName content.ComponentName,
-	instrumentationArgs interface{},
+	instrumentationArgs os.Bundle,
 	instrumentationWatcher IInstrumentationWatcher,
 	instrumentationUiConnection IUiAutomationConnection,
-	targetInfo interface{},
+	targetInfo types.ApplicationInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(1)
 	if _err := instrumentationName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
+	if _err := instrumentationArgs.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, instrumentationWatcher.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, instrumentationUiConnection.AsBinder(), p.Remote.Transport())
+	// WARNING: param targetInfo (type types.ApplicationInfo) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadInstrumentWithoutRestart)
 	if _err != nil {
@@ -1594,6 +1732,7 @@ func (p *ApplicationThreadProxy) UpdateUiTranslationState(
 	uiTranslationSpec translation.UiTranslationSpec,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	_data.WriteInt32(state)
@@ -1636,6 +1775,7 @@ func (p *ApplicationThreadProxy) ScheduleTimeoutService(
 	startId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(startId)
@@ -1656,6 +1796,7 @@ func (p *ApplicationThreadProxy) ScheduleTimeoutServiceForType(
 	fgsType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(startId)
@@ -1672,10 +1813,15 @@ func (p *ApplicationThreadProxy) ScheduleTimeoutServiceForType(
 
 func (p *ApplicationThreadProxy) SchedulePing(
 	ctx context.Context,
-	pong interface{},
+	pong os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
+	_data.WriteInt32(1)
+	if _err := pong.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadSchedulePing)
 	if _err != nil {
@@ -1689,7 +1835,8 @@ func (p *ApplicationThreadProxy) SchedulePing(
 // ApplicationThreadStub dispatches incoming binder transactions
 // to a typed IApplicationThread implementation.
 type ApplicationThreadStub struct {
-	Impl IApplicationThread
+	Impl      IApplicationThread
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ApplicationThreadStub)(nil)
@@ -1703,11 +1850,12 @@ func (s *ApplicationThreadStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIApplicationThreadScheduleReceiver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1720,7 +1868,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_info interface{}
+		var _arg_info types.ActivityInfo
 		var _arg_compatInfo res.CompatibilityInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1741,7 +1889,18 @@ func (s *ApplicationThreadStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_ordered, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1767,26 +1926,41 @@ func (s *ApplicationThreadStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ScheduleReceiver(ctx, _arg_intent, _arg_info, _arg_compatInfo, _arg_resultCode, _arg_data, _arg_extras, _arg_ordered, _arg_assumeDelivered, _arg_sendingUser, _arg_processState, _arg_sentFromUid, _arg_sentFromPackage)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleReceiverList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_info []ReceiverInfo
-		_ = _arg_info
-		_err := s.Impl.ScheduleReceiverList(ctx, _arg_info)
-		_ = _err
-		return nil, nil
-	case TransactionIApplicationThreadScheduleCreateService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_info = make([]ReceiverInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_info[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err := s.Impl.ScheduleReceiverList(ctx, _arg_info)
+		return nil, _err
+	case TransactionIApplicationThreadScheduleCreateService:
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		var _arg_info interface{}
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
+		var _arg_info types.ServiceInfo
 		var _arg_compatInfo res.CompatibilityInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1804,27 +1978,24 @@ func (s *ApplicationThreadStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ScheduleCreateService(ctx, _arg_token, _arg_info, _arg_compatInfo, _arg_processState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleStopService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		_err := s.Impl.ScheduleStopService(ctx, _arg_token)
-		_ = _err
-		return nil, nil
-	case TransactionIApplicationThreadBindApplication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
 		}
+		_err := s.Impl.ScheduleStopService(ctx, _arg_token)
+		return nil, _err
+	case TransactionIApplicationThreadBindApplication:
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_info interface{}
+		var _arg_info types.ApplicationInfo
 		_arg_sdkSandboxClientAppVolumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1837,7 +2008,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_providerList interface{}
+		var _arg_providerList types.ProviderInfoList
 		var _arg_testName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1862,13 +2033,34 @@ func (s *ApplicationThreadStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_testArguments interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_testArguments os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_testArguments.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_testWatcher IInstrumentationWatcher
-		_ = _arg_testWatcher
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_testWatcherHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_testWatcher = NewInstrumentationWatcherProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _testWatcherHandle))
+		}
 		var _arg_uiAutomationConnection IUiAutomationConnection
-		_ = _arg_uiAutomationConnection
+		{
+			_uiAutomationConnectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_uiAutomationConnection = NewUiAutomationConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _uiAutomationConnectionHandle))
+		}
 		_arg_debugMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1913,10 +2105,39 @@ func (s *ApplicationThreadStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: map param unmarshaling not yet supported in stubs
-		var _arg_services map[interface{}]interface{}
-		_ = _arg_services
-		var _arg_coreSettings interface{}
+		var _arg_services map[any]any
+		{
+			_mapCount, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _mapCount >= 0 {
+				_arg_services = make(map[any]any, _mapCount)
+				for _mi := int32(0); _mi < _mapCount; _mi++ {
+					_mk, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_mv, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_services[_mk] = _mv
+				}
+			}
+		}
+		var _arg_coreSettings os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_coreSettings.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_buildSerial, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1945,10 +2166,37 @@ func (s *ApplicationThreadStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_disabledCompatChanges []int64
-		_ = _arg_disabledCompatChanges
-		var _arg_serializedSystemFontMap interface{}
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_disabledCompatChanges = make([]int64, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_disabledCompatChanges[_i], _err = _data.ReadInt64()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_serializedSystemFontMap os.SharedMemory
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_serializedSystemFontMap.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_startRequestedElapsedTime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1958,61 +2206,63 @@ func (s *ApplicationThreadStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.BindApplication(ctx, _arg_packageName, _arg_info, _arg_sdkSandboxClientAppVolumeUuid, _arg_sdkSandboxClientAppPackage, _arg_isSdkInSandbox, _arg_providerList, _arg_testName, _arg_profilerInfo, _arg_testArguments, _arg_testWatcher, _arg_uiAutomationConnection, _arg_debugMode, _arg_enableBinderTracking, _arg_trackAllocation, _arg_restrictedBackupMode, _arg_persistent, _arg_config, _arg_compatInfo, _arg_services, _arg_coreSettings, _arg_buildSerial, _arg_autofillOptions, _arg_contentCaptureOptions, _arg_disabledCompatChanges, _arg_serializedSystemFontMap, _arg_startRequestedElapsedTime, _arg_startRequestedUptime)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadRunIsolatedEntryPoint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_entryPoint, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_entryPointArgs []string
-		_ = _arg_entryPointArgs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_entryPointArgs = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_entryPointArgs[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.RunIsolatedEntryPoint(ctx, _arg_entryPoint, _arg_entryPointArgs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleExit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ScheduleExit(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleServiceArgs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		var _arg_args interface{}
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
+		var _arg_args types.ParceledListSlice
 		_err := s.Impl.ScheduleServiceArgs(ctx, _arg_token, _arg_args)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadUpdateTimeZone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.UpdateTimeZone(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadProcessInBackground:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ProcessInBackground(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleBindService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2038,15 +2288,16 @@ func (s *ApplicationThreadStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ScheduleBindService(ctx, _arg_token, _arg_intent, _arg_rebind, _arg_processState, _arg_bindSeq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleUnbindService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2060,32 +2311,50 @@ func (s *ApplicationThreadStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ScheduleUnbindService(ctx, _arg_token, _arg_intent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadDumpService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_servicetoken binder.IBinder
-		_ = _arg_servicetoken
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_args []string
-		_ = _arg_args
-		_err = s.Impl.DumpService(ctx, _arg_fd, _arg_servicetoken, _arg_args)
-		_ = _err
-		return nil, nil
-	case TransactionIApplicationThreadScheduleRegisteredReceiver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_servicetokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_servicetoken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _servicetokenHandle)
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_args []string
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_args = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_args[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		_err = s.Impl.DumpService(ctx, _arg_fd, _arg_servicetoken, _arg_args)
+		return nil, _err
+	case TransactionIApplicationThreadScheduleRegisteredReceiver:
 		var _arg_receiver content.IIntentReceiver
-		_ = _arg_receiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = content.NewIntentReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
+		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2106,7 +2375,18 @@ func (s *ApplicationThreadStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_ordered, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2136,19 +2416,11 @@ func (s *ApplicationThreadStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ScheduleRegisteredReceiver(ctx, _arg_receiver, _arg_intent, _arg_resultCode, _arg_data, _arg_extras, _arg_ordered, _arg_sticky, _arg_assumeDelivered, _arg_sendingUser, _arg_processState, _arg_sentFromUid, _arg_sentFromPackage)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleLowMemory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ScheduleLowMemory(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadProfilerControl:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_start, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2170,24 +2442,16 @@ func (s *ApplicationThreadStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ProfilerControl(ctx, _arg_start, _arg_profilerInfo, _arg_profileType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadSetSchedulingGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_group, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetSchedulingGroup(ctx, _arg_group)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleCreateBackupAgent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_app interface{}
+		var _arg_app types.ApplicationInfo
 		_arg_backupMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2200,26 +2464,23 @@ func (s *ApplicationThreadStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ScheduleCreateBackupAgent(ctx, _arg_app, _arg_backupMode, _arg_operationType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleDestroyBackupAgent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_app interface{}
+		var _arg_app types.ApplicationInfo
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ScheduleDestroyBackupAgent(ctx, _arg_app)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleOnNewSceneTransitionInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_info ActivityOptionsSceneTransitionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2233,33 +2494,37 @@ func (s *ApplicationThreadStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ScheduleOnNewSceneTransitionInfo(ctx, _arg_token, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleSuicide:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ScheduleSuicide(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadDispatchPackageBroadcast:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmd, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packages []string
-		_ = _arg_packages
-		_err = s.Impl.DispatchPackageBroadcast(ctx, _arg_cmd, _arg_packages)
-		_ = _err
-		return nil, nil
-	case TransactionIApplicationThreadScheduleCrash:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packages = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packages[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.DispatchPackageBroadcast(ctx, _arg_cmd, _arg_packages)
+		return nil, _err
+	case TransactionIApplicationThreadScheduleCrash:
 		_arg_msg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2268,14 +2533,21 @@ func (s *ApplicationThreadStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
-		_err = s.Impl.ScheduleCrash(ctx, _arg_msg, _arg_typeId, _arg_extras)
-		_ = _err
-		return nil, nil
-	case TransactionIApplicationThreadDumpHeap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		_err = s.Impl.ScheduleCrash(ctx, _arg_msg, _arg_typeId, _arg_extras)
+		return nil, _err
+	case TransactionIApplicationThreadDumpHeap:
 		_arg_managed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2296,69 +2568,99 @@ func (s *ApplicationThreadStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_finishCallback interface{}
-		_err = s.Impl.DumpHeap(ctx, _arg_managed, _arg_mallocInfo, _arg_runGc, _arg_path, _arg_fd, _arg_finishCallback)
-		_ = _err
-		return nil, nil
-	case TransactionIApplicationThreadDumpActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_finishCallback os.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_finishCallback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		_err = s.Impl.DumpHeap(ctx, _arg_managed, _arg_mallocInfo, _arg_runGc, _arg_path, _arg_fd, _arg_finishCallback)
+		return nil, _err
+	case TransactionIApplicationThreadDumpActivity:
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_servicetoken binder.IBinder
-		_ = _arg_servicetoken
+		{
+			_servicetokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_servicetoken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _servicetokenHandle)
+		}
 		_arg_prefix, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_args []string
-		_ = _arg_args
-		_err = s.Impl.DumpActivity(ctx, _arg_fd, _arg_servicetoken, _arg_prefix, _arg_args)
-		_ = _err
-		return nil, nil
-	case TransactionIApplicationThreadDumpResources:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_args = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_args[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.DumpActivity(ctx, _arg_fd, _arg_servicetoken, _arg_prefix, _arg_args)
+		return nil, _err
+	case TransactionIApplicationThreadDumpResources:
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_finishCallback interface{}
+		var _arg_finishCallback os.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_finishCallback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.DumpResources(ctx, _arg_fd, _arg_finishCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadClearDnsCache:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ClearDnsCache(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadUpdateHttpProxy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.UpdateHttpProxy(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadSetCoreSettings:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_coreSettings os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_coreSettings.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_coreSettings interface{}
 		_err := s.Impl.SetCoreSettings(ctx, _arg_coreSettings)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadUpdatePackageCompatibilityInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2376,28 +2678,31 @@ func (s *ApplicationThreadStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.UpdatePackageCompatibilityInfo(ctx, _arg_pkg, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleTrimMemory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_level, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ScheduleTrimMemory(ctx, _arg_level)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadDumpMemInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_mem interface{}
+		var _arg_mem os.DebugMemoryInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_mem.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_checkin, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2422,21 +2727,44 @@ func (s *ApplicationThreadStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_args []string
-		_ = _arg_args
-		_err = s.Impl.DumpMemInfo(ctx, _arg_fd, _arg_mem, _arg_checkin, _arg_dumpInfo, _arg_dumpDalvik, _arg_dumpSummaryOnly, _arg_dumpUnreachable, _arg_dumpAllocatorLogs, _arg_args)
-		_ = _err
-		return nil, nil
-	case TransactionIApplicationThreadDumpMemInfoProto:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_args = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_args[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.DumpMemInfo(ctx, _arg_fd, _arg_mem, _arg_checkin, _arg_dumpInfo, _arg_dumpDalvik, _arg_dumpSummaryOnly, _arg_dumpUnreachable, _arg_dumpAllocatorLogs, _arg_args)
+		return nil, _err
+	case TransactionIApplicationThreadDumpMemInfoProto:
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_mem interface{}
+		var _arg_mem os.DebugMemoryInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_mem.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_dumpInfo, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2453,91 +2781,167 @@ func (s *ApplicationThreadStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_args []string
-		_ = _arg_args
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_args = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_args[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.DumpMemInfoProto(ctx, _arg_fd, _arg_mem, _arg_dumpInfo, _arg_dumpDalvik, _arg_dumpSummaryOnly, _arg_dumpUnreachable, _arg_args)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadDumpGfxInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_args []string
-		_ = _arg_args
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_args = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_args[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.DumpGfxInfo(ctx, _arg_fd, _arg_args)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadDumpCacheInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_args []string
-		_ = _arg_args
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_args = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_args[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.DumpCacheInfo(ctx, _arg_fd, _arg_args)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadDumpProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_servicetoken binder.IBinder
-		_ = _arg_servicetoken
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_args []string
-		_ = _arg_args
-		_err = s.Impl.DumpProvider(ctx, _arg_fd, _arg_servicetoken, _arg_args)
-		_ = _err
-		return nil, nil
-	case TransactionIApplicationThreadDumpDbInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_servicetokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_servicetoken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _servicetokenHandle)
 		}
+		var _arg_args []string
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_args = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_args[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		_err = s.Impl.DumpProvider(ctx, _arg_fd, _arg_servicetoken, _arg_args)
+		return nil, _err
+	case TransactionIApplicationThreadDumpDbInfo:
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_args []string
-		_ = _arg_args
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_args = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_args[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.DumpDbInfo(ctx, _arg_fd, _arg_args)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadUnstableProviderDied:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_provider binder.IBinder
-		_ = _arg_provider
-		_err := s.Impl.UnstableProviderDied(ctx, _arg_provider)
-		_ = _err
-		return nil, nil
-	case TransactionIApplicationThreadRequestAssistContextExtras:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_providerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_provider = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _providerHandle)
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err := s.Impl.UnstableProviderDied(ctx, _arg_provider)
+		return nil, _err
+	case TransactionIApplicationThreadRequestAssistContextExtras:
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
+		}
 		var _arg_requestToken binder.IBinder
-		_ = _arg_requestToken
+		{
+			_requestTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_requestToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _requestTokenHandle)
+		}
 		_arg_requestType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2551,155 +2955,120 @@ func (s *ApplicationThreadStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.RequestAssistContextExtras(ctx, _arg_activityToken, _arg_requestToken, _arg_requestType, _arg_sessionId, _arg_flags)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleTranslucentConversionComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_timeout, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ScheduleTranslucentConversionComplete(ctx, _arg_token, _arg_timeout)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadSetProcessState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetProcessState(ctx, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleInstallProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_provider interface{}
+		var _arg_provider types.ProviderInfo
 		_err := s.Impl.ScheduleInstallProvider(ctx, _arg_provider)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadUpdateTimePrefs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeFormatPreference, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.UpdateTimePrefs(ctx, _arg_timeFormatPreference)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleEnterAnimationComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.ScheduleEnterAnimationComplete(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadNotifyCleartextNetwork:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_firstPacket []byte
-		_ = _arg_firstPacket
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_firstPacket = _bytes
+		}
 		_err := s.Impl.NotifyCleartextNetwork(ctx, _arg_firstPacket)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadStartBinderTracking:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StartBinderTracking(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadStopBinderTrackingAndDump:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.StopBinderTrackingAndDump(ctx, _arg_fd)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleLocalVoiceInteractionStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_voiceInteractor internalApp.IVoiceInteractor
-		_ = _arg_voiceInteractor
+		{
+			_voiceInteractorHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_voiceInteractor = internalApp.NewVoiceInteractorProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _voiceInteractorHandle))
+		}
 		_err := s.Impl.ScheduleLocalVoiceInteractionStarted(ctx, _arg_token, _arg_voiceInteractor)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadHandleTrustStorageUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.HandleTrustStorageUpdate(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadAttachAgent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AttachAgent(ctx, _arg_path)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadAttachStartupAgents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dataDir, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AttachStartupAgents(ctx, _arg_dataDir)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleApplicationInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_ai interface{}
+		var _arg_ai types.ApplicationInfo
 		_err := s.Impl.ScheduleApplicationInfoChanged(ctx, _arg_ai)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadSetNetworkBlockSeq:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_procStateSeq, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetNetworkBlockSeq(ctx, _arg_procStateSeq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleTransaction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_transaction servertransaction.ClientTransaction
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2713,53 +3082,125 @@ func (s *ApplicationThreadStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ScheduleTransaction(ctx, _arg_transaction)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleTaskFragmentTransaction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_organizer window.ITaskFragmentOrganizer
+		{
+			_organizerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_organizer = window.NewTaskFragmentOrganizerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _organizerHandle))
 		}
-		var _arg_organizer interface{}
-		var _arg_transaction interface{}
+		var _arg_transaction window.TaskFragmentTransaction
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_transaction.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.ScheduleTaskFragmentTransaction(ctx, _arg_organizer, _arg_transaction)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadRequestDirectActions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
+		}
 		var _arg_intractor internalApp.IVoiceInteractor
-		_ = _arg_intractor
-		var _arg_cancellationCallback interface{}
-		var _arg_callback interface{}
-		_err := s.Impl.RequestDirectActions(ctx, _arg_activityToken, _arg_intractor, _arg_cancellationCallback, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIApplicationThreadPerformDirectAction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_intractorHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_intractor = internalApp.NewVoiceInteractorProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _intractorHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cancellationCallback os.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cancellationCallback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_callback os.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestDirectActions(ctx, _arg_activityToken, _arg_intractor, _arg_cancellationCallback, _arg_callback)
+		return nil, _err
+	case TransactionIApplicationThreadPerformDirectAction:
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
+		}
 		_arg_actionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_arguments interface{}
-		var _arg_cancellationCallback interface{}
-		var _arg_resultCallback interface{}
-		_err = s.Impl.PerformDirectAction(ctx, _arg_activityToken, _arg_actionId, _arg_arguments, _arg_cancellationCallback, _arg_resultCallback)
-		_ = _err
-		return nil, nil
-	case TransactionIApplicationThreadNotifyContentProviderPublishStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_arguments os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_arguments.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		var _arg_cancellationCallback os.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cancellationCallback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_resultCallback os.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultCallback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.PerformDirectAction(ctx, _arg_activityToken, _arg_actionId, _arg_arguments, _arg_cancellationCallback, _arg_resultCallback)
+		return nil, _err
+	case TransactionIApplicationThreadNotifyContentProviderPublishStatus:
 		var _arg_holder ContentProviderHolder
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2784,12 +3225,8 @@ func (s *ApplicationThreadStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyContentProviderPublishStatus(ctx, _arg_holder, _arg_authorities, _arg_published)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadInstrumentWithoutRestart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_instrumentationName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2802,24 +3239,46 @@ func (s *ApplicationThreadStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_instrumentationArgs interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_instrumentationWatcher IInstrumentationWatcher
-		_ = _arg_instrumentationWatcher
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_instrumentationUiConnection IUiAutomationConnection
-		_ = _arg_instrumentationUiConnection
-		var _arg_targetInfo interface{}
-		_err := s.Impl.InstrumentWithoutRestart(ctx, _arg_instrumentationName, _arg_instrumentationArgs, _arg_instrumentationWatcher, _arg_instrumentationUiConnection, _arg_targetInfo)
-		_ = _err
-		return nil, nil
-	case TransactionIApplicationThreadUpdateUiTranslationState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_instrumentationArgs os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_instrumentationArgs.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_instrumentationWatcher IInstrumentationWatcher
+		{
+			_instrumentationWatcherHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_instrumentationWatcher = NewInstrumentationWatcherProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _instrumentationWatcherHandle))
+		}
+		var _arg_instrumentationUiConnection IUiAutomationConnection
+		{
+			_instrumentationUiConnectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_instrumentationUiConnection = NewUiAutomationConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _instrumentationUiConnectionHandle))
+		}
+		var _arg_targetInfo types.ApplicationInfo
+		_err := s.Impl.InstrumentWithoutRestart(ctx, _arg_instrumentationName, _arg_instrumentationArgs, _arg_instrumentationWatcher, _arg_instrumentationUiConnection, _arg_targetInfo)
+		return nil, _err
+	case TransactionIApplicationThreadUpdateUiTranslationState:
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
+		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2848,9 +3307,27 @@ func (s *ApplicationThreadStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_viewIds []autofill.AutofillId
-		_ = _arg_viewIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_viewIds = make([]autofill.AutofillId, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_viewIds[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_uiTranslationSpec translation.UiTranslationSpec
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2864,29 +3341,31 @@ func (s *ApplicationThreadStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.UpdateUiTranslationState(ctx, _arg_activityToken, _arg_state, _arg_sourceSpec, _arg_targetSpec, _arg_viewIds, _arg_uiTranslationSpec)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleTimeoutService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_startId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ScheduleTimeoutService(ctx, _arg_token, _arg_startId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadScheduleTimeoutServiceForType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_startId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2896,16 +3375,22 @@ func (s *ApplicationThreadStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ScheduleTimeoutServiceForType(ctx, _arg_token, _arg_startId, _arg_fgsType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApplicationThreadSchedulePing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_pong os.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pong.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_pong interface{}
 		_err := s.Impl.SchedulePing(ctx, _arg_pong)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -2915,39 +3400,39 @@ func (s *ApplicationThreadStub) OnTransaction(
 // provide to NewApplicationThreadStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IApplicationThreadServer interface {
-	ScheduleReceiver(ctx context.Context, intent content.Intent, info interface{}, compatInfo res.CompatibilityInfo, resultCode int32, data string, extras interface{}, ordered bool, assumeDelivered bool, sendingUser int32, processState int32, sentFromUid int32, sentFromPackage string) error
+	ScheduleReceiver(ctx context.Context, intent content.Intent, info types.ActivityInfo, compatInfo res.CompatibilityInfo, resultCode int32, data string, extras os.Bundle, ordered bool, assumeDelivered bool, sendingUser int32, processState int32, sentFromUid int32, sentFromPackage string) error
 	ScheduleReceiverList(ctx context.Context, info []ReceiverInfo) error
-	ScheduleCreateService(ctx context.Context, token binder.IBinder, info interface{}, compatInfo res.CompatibilityInfo, processState int32) error
+	ScheduleCreateService(ctx context.Context, token binder.IBinder, info types.ServiceInfo, compatInfo res.CompatibilityInfo, processState int32) error
 	ScheduleStopService(ctx context.Context, token binder.IBinder) error
-	BindApplication(ctx context.Context, packageName string, info interface{}, sdkSandboxClientAppVolumeUuid string, sdkSandboxClientAppPackage string, isSdkInSandbox bool, providerList interface{}, testName content.ComponentName, profilerInfo ProfilerInfo, testArguments interface{}, testWatcher IInstrumentationWatcher, uiAutomationConnection IUiAutomationConnection, debugMode int32, enableBinderTracking bool, trackAllocation bool, restrictedBackupMode bool, persistent bool, config res.Configuration, compatInfo res.CompatibilityInfo, services map[interface{}]interface{}, coreSettings interface{}, buildSerial string, autofillOptions content.AutofillOptions, contentCaptureOptions content.ContentCaptureOptions, disabledCompatChanges []int64, serializedSystemFontMap interface{}, startRequestedElapsedTime int64, startRequestedUptime int64) error
+	BindApplication(ctx context.Context, packageName string, info types.ApplicationInfo, sdkSandboxClientAppVolumeUuid string, sdkSandboxClientAppPackage string, isSdkInSandbox bool, providerList types.ProviderInfoList, testName content.ComponentName, profilerInfo ProfilerInfo, testArguments os.Bundle, testWatcher IInstrumentationWatcher, uiAutomationConnection IUiAutomationConnection, debugMode int32, enableBinderTracking bool, trackAllocation bool, restrictedBackupMode bool, persistent bool, config res.Configuration, compatInfo res.CompatibilityInfo, services map[any]any, coreSettings os.Bundle, buildSerial string, autofillOptions content.AutofillOptions, contentCaptureOptions content.ContentCaptureOptions, disabledCompatChanges []int64, serializedSystemFontMap os.SharedMemory, startRequestedElapsedTime int64, startRequestedUptime int64) error
 	RunIsolatedEntryPoint(ctx context.Context, entryPoint string, entryPointArgs []string) error
 	ScheduleExit(ctx context.Context) error
-	ScheduleServiceArgs(ctx context.Context, token binder.IBinder, args interface{}) error
+	ScheduleServiceArgs(ctx context.Context, token binder.IBinder, args types.ParceledListSlice) error
 	UpdateTimeZone(ctx context.Context) error
 	ProcessInBackground(ctx context.Context) error
 	ScheduleBindService(ctx context.Context, token binder.IBinder, intent content.Intent, rebind bool, processState int32, bindSeq int64) error
 	ScheduleUnbindService(ctx context.Context, token binder.IBinder, intent content.Intent) error
 	DumpService(ctx context.Context, fd int32, servicetoken binder.IBinder, args []string) error
-	ScheduleRegisteredReceiver(ctx context.Context, receiver content.IIntentReceiver, intent content.Intent, resultCode int32, data string, extras interface{}, ordered bool, sticky bool, assumeDelivered bool, sendingUser int32, processState int32, sentFromUid int32, sentFromPackage string) error
+	ScheduleRegisteredReceiver(ctx context.Context, receiver content.IIntentReceiver, intent content.Intent, resultCode int32, data string, extras os.Bundle, ordered bool, sticky bool, assumeDelivered bool, sendingUser int32, processState int32, sentFromUid int32, sentFromPackage string) error
 	ScheduleLowMemory(ctx context.Context) error
 	ProfilerControl(ctx context.Context, start bool, profilerInfo ProfilerInfo, profileType int32) error
 	SetSchedulingGroup(ctx context.Context, group int32) error
-	ScheduleCreateBackupAgent(ctx context.Context, app interface{}, backupMode int32, operationType int32) error
-	ScheduleDestroyBackupAgent(ctx context.Context, app interface{}) error
+	ScheduleCreateBackupAgent(ctx context.Context, app types.ApplicationInfo, backupMode int32, operationType int32) error
+	ScheduleDestroyBackupAgent(ctx context.Context, app types.ApplicationInfo) error
 	ScheduleOnNewSceneTransitionInfo(ctx context.Context, token binder.IBinder, info ActivityOptionsSceneTransitionInfo) error
 	ScheduleSuicide(ctx context.Context) error
 	DispatchPackageBroadcast(ctx context.Context, cmd int32, packages []string) error
-	ScheduleCrash(ctx context.Context, msg string, typeId int32, extras interface{}) error
-	DumpHeap(ctx context.Context, managed bool, mallocInfo bool, runGc bool, path string, fd int32, finishCallback interface{}) error
+	ScheduleCrash(ctx context.Context, msg string, typeId int32, extras os.Bundle) error
+	DumpHeap(ctx context.Context, managed bool, mallocInfo bool, runGc bool, path string, fd int32, finishCallback os.RemoteCallback) error
 	DumpActivity(ctx context.Context, fd int32, servicetoken binder.IBinder, prefix string, args []string) error
-	DumpResources(ctx context.Context, fd int32, finishCallback interface{}) error
+	DumpResources(ctx context.Context, fd int32, finishCallback os.RemoteCallback) error
 	ClearDnsCache(ctx context.Context) error
 	UpdateHttpProxy(ctx context.Context) error
-	SetCoreSettings(ctx context.Context, coreSettings interface{}) error
+	SetCoreSettings(ctx context.Context, coreSettings os.Bundle) error
 	UpdatePackageCompatibilityInfo(ctx context.Context, pkg string, info res.CompatibilityInfo) error
 	ScheduleTrimMemory(ctx context.Context, level int32) error
-	DumpMemInfo(ctx context.Context, fd int32, mem interface{}, checkin bool, dumpInfo bool, dumpDalvik bool, dumpSummaryOnly bool, dumpUnreachable bool, dumpAllocatorLogs bool, args []string) error
-	DumpMemInfoProto(ctx context.Context, fd int32, mem interface{}, dumpInfo bool, dumpDalvik bool, dumpSummaryOnly bool, dumpUnreachable bool, args []string) error
+	DumpMemInfo(ctx context.Context, fd int32, mem os.DebugMemoryInfo, checkin bool, dumpInfo bool, dumpDalvik bool, dumpSummaryOnly bool, dumpUnreachable bool, dumpAllocatorLogs bool, args []string) error
+	DumpMemInfoProto(ctx context.Context, fd int32, mem os.DebugMemoryInfo, dumpInfo bool, dumpDalvik bool, dumpSummaryOnly bool, dumpUnreachable bool, args []string) error
 	DumpGfxInfo(ctx context.Context, fd int32, args []string) error
 	DumpCacheInfo(ctx context.Context, fd int32, args []string) error
 	DumpProvider(ctx context.Context, fd int32, servicetoken binder.IBinder, args []string) error
@@ -2956,7 +3441,7 @@ type IApplicationThreadServer interface {
 	RequestAssistContextExtras(ctx context.Context, activityToken binder.IBinder, requestToken binder.IBinder, requestType int32, sessionId int32, flags int32) error
 	ScheduleTranslucentConversionComplete(ctx context.Context, token binder.IBinder, timeout bool) error
 	SetProcessState(ctx context.Context, state int32) error
-	ScheduleInstallProvider(ctx context.Context, provider interface{}) error
+	ScheduleInstallProvider(ctx context.Context, provider types.ProviderInfo) error
 	UpdateTimePrefs(ctx context.Context, timeFormatPreference int32) error
 	ScheduleEnterAnimationComplete(ctx context.Context, token binder.IBinder) error
 	NotifyCleartextNetwork(ctx context.Context, firstPacket []byte) error
@@ -2966,18 +3451,18 @@ type IApplicationThreadServer interface {
 	HandleTrustStorageUpdate(ctx context.Context) error
 	AttachAgent(ctx context.Context, path string) error
 	AttachStartupAgents(ctx context.Context, dataDir string) error
-	ScheduleApplicationInfoChanged(ctx context.Context, ai interface{}) error
+	ScheduleApplicationInfoChanged(ctx context.Context, ai types.ApplicationInfo) error
 	SetNetworkBlockSeq(ctx context.Context, procStateSeq int64) error
 	ScheduleTransaction(ctx context.Context, transaction servertransaction.ClientTransaction) error
-	ScheduleTaskFragmentTransaction(ctx context.Context, organizer interface{}, transaction interface{}) error
-	RequestDirectActions(ctx context.Context, activityToken binder.IBinder, intractor internalApp.IVoiceInteractor, cancellationCallback interface{}, callback interface{}) error
-	PerformDirectAction(ctx context.Context, activityToken binder.IBinder, actionId string, arguments interface{}, cancellationCallback interface{}, resultCallback interface{}) error
+	ScheduleTaskFragmentTransaction(ctx context.Context, organizer window.ITaskFragmentOrganizer, transaction window.TaskFragmentTransaction) error
+	RequestDirectActions(ctx context.Context, activityToken binder.IBinder, intractor internalApp.IVoiceInteractor, cancellationCallback os.RemoteCallback, callback os.RemoteCallback) error
+	PerformDirectAction(ctx context.Context, activityToken binder.IBinder, actionId string, arguments os.Bundle, cancellationCallback os.RemoteCallback, resultCallback os.RemoteCallback) error
 	NotifyContentProviderPublishStatus(ctx context.Context, holder ContentProviderHolder, authorities string, published bool) error
-	InstrumentWithoutRestart(ctx context.Context, instrumentationName content.ComponentName, instrumentationArgs interface{}, instrumentationWatcher IInstrumentationWatcher, instrumentationUiConnection IUiAutomationConnection, targetInfo interface{}) error
+	InstrumentWithoutRestart(ctx context.Context, instrumentationName content.ComponentName, instrumentationArgs os.Bundle, instrumentationWatcher IInstrumentationWatcher, instrumentationUiConnection IUiAutomationConnection, targetInfo types.ApplicationInfo) error
 	UpdateUiTranslationState(ctx context.Context, activityToken binder.IBinder, state int32, sourceSpec translation.TranslationSpec, targetSpec translation.TranslationSpec, viewIds []autofill.AutofillId, uiTranslationSpec translation.UiTranslationSpec) error
 	ScheduleTimeoutService(ctx context.Context, token binder.IBinder, startId int32) error
 	ScheduleTimeoutServiceForType(ctx context.Context, token binder.IBinder, startId int32, fgsType int32) error
-	SchedulePing(ctx context.Context, pong interface{}) error
+	SchedulePing(ctx context.Context, pong os.RemoteCallback) error
 }
 
 type applicationThreadStubWrapper struct {
@@ -2992,11 +3477,11 @@ func (w *applicationThreadStubWrapper) AsBinder() binder.IBinder {
 func (w *applicationThreadStubWrapper) ScheduleReceiver(
 	ctx context.Context,
 	intent content.Intent,
-	info interface{},
+	info types.ActivityInfo,
 	compatInfo res.CompatibilityInfo,
 	resultCode int32,
 	data string,
-	extras interface{},
+	extras os.Bundle,
 	ordered bool,
 	assumeDelivered bool,
 	sendingUser int32,
@@ -3017,7 +3502,7 @@ func (w *applicationThreadStubWrapper) ScheduleReceiverList(
 func (w *applicationThreadStubWrapper) ScheduleCreateService(
 	ctx context.Context,
 	token binder.IBinder,
-	info interface{},
+	info types.ServiceInfo,
 	compatInfo res.CompatibilityInfo,
 	processState int32,
 ) error {
@@ -3034,14 +3519,14 @@ func (w *applicationThreadStubWrapper) ScheduleStopService(
 func (w *applicationThreadStubWrapper) BindApplication(
 	ctx context.Context,
 	packageName string,
-	info interface{},
+	info types.ApplicationInfo,
 	sdkSandboxClientAppVolumeUuid string,
 	sdkSandboxClientAppPackage string,
 	isSdkInSandbox bool,
-	providerList interface{},
+	providerList types.ProviderInfoList,
 	testName content.ComponentName,
 	profilerInfo ProfilerInfo,
-	testArguments interface{},
+	testArguments os.Bundle,
 	testWatcher IInstrumentationWatcher,
 	uiAutomationConnection IUiAutomationConnection,
 	debugMode int32,
@@ -3051,13 +3536,13 @@ func (w *applicationThreadStubWrapper) BindApplication(
 	persistent bool,
 	config res.Configuration,
 	compatInfo res.CompatibilityInfo,
-	services map[interface{}]interface{},
-	coreSettings interface{},
+	services map[any]any,
+	coreSettings os.Bundle,
 	buildSerial string,
 	autofillOptions content.AutofillOptions,
 	contentCaptureOptions content.ContentCaptureOptions,
 	disabledCompatChanges []int64,
-	serializedSystemFontMap interface{},
+	serializedSystemFontMap os.SharedMemory,
 	startRequestedElapsedTime int64,
 	startRequestedUptime int64,
 ) error {
@@ -3081,7 +3566,7 @@ func (w *applicationThreadStubWrapper) ScheduleExit(
 func (w *applicationThreadStubWrapper) ScheduleServiceArgs(
 	ctx context.Context,
 	token binder.IBinder,
-	args interface{},
+	args types.ParceledListSlice,
 ) error {
 	return w.impl.ScheduleServiceArgs(ctx, token, args)
 }
@@ -3132,7 +3617,7 @@ func (w *applicationThreadStubWrapper) ScheduleRegisteredReceiver(
 	intent content.Intent,
 	resultCode int32,
 	data string,
-	extras interface{},
+	extras os.Bundle,
 	ordered bool,
 	sticky bool,
 	assumeDelivered bool,
@@ -3168,7 +3653,7 @@ func (w *applicationThreadStubWrapper) SetSchedulingGroup(
 
 func (w *applicationThreadStubWrapper) ScheduleCreateBackupAgent(
 	ctx context.Context,
-	app interface{},
+	app types.ApplicationInfo,
 	backupMode int32,
 	operationType int32,
 ) error {
@@ -3177,7 +3662,7 @@ func (w *applicationThreadStubWrapper) ScheduleCreateBackupAgent(
 
 func (w *applicationThreadStubWrapper) ScheduleDestroyBackupAgent(
 	ctx context.Context,
-	app interface{},
+	app types.ApplicationInfo,
 ) error {
 	return w.impl.ScheduleDestroyBackupAgent(ctx, app)
 }
@@ -3208,7 +3693,7 @@ func (w *applicationThreadStubWrapper) ScheduleCrash(
 	ctx context.Context,
 	msg string,
 	typeId int32,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.ScheduleCrash(ctx, msg, typeId, extras)
 }
@@ -3220,7 +3705,7 @@ func (w *applicationThreadStubWrapper) DumpHeap(
 	runGc bool,
 	path string,
 	fd int32,
-	finishCallback interface{},
+	finishCallback os.RemoteCallback,
 ) error {
 	return w.impl.DumpHeap(ctx, managed, mallocInfo, runGc, path, fd, finishCallback)
 }
@@ -3238,7 +3723,7 @@ func (w *applicationThreadStubWrapper) DumpActivity(
 func (w *applicationThreadStubWrapper) DumpResources(
 	ctx context.Context,
 	fd int32,
-	finishCallback interface{},
+	finishCallback os.RemoteCallback,
 ) error {
 	return w.impl.DumpResources(ctx, fd, finishCallback)
 }
@@ -3257,7 +3742,7 @@ func (w *applicationThreadStubWrapper) UpdateHttpProxy(
 
 func (w *applicationThreadStubWrapper) SetCoreSettings(
 	ctx context.Context,
-	coreSettings interface{},
+	coreSettings os.Bundle,
 ) error {
 	return w.impl.SetCoreSettings(ctx, coreSettings)
 }
@@ -3280,7 +3765,7 @@ func (w *applicationThreadStubWrapper) ScheduleTrimMemory(
 func (w *applicationThreadStubWrapper) DumpMemInfo(
 	ctx context.Context,
 	fd int32,
-	mem interface{},
+	mem os.DebugMemoryInfo,
 	checkin bool,
 	dumpInfo bool,
 	dumpDalvik bool,
@@ -3295,7 +3780,7 @@ func (w *applicationThreadStubWrapper) DumpMemInfo(
 func (w *applicationThreadStubWrapper) DumpMemInfoProto(
 	ctx context.Context,
 	fd int32,
-	mem interface{},
+	mem os.DebugMemoryInfo,
 	dumpInfo bool,
 	dumpDalvik bool,
 	dumpSummaryOnly bool,
@@ -3373,7 +3858,7 @@ func (w *applicationThreadStubWrapper) SetProcessState(
 
 func (w *applicationThreadStubWrapper) ScheduleInstallProvider(
 	ctx context.Context,
-	provider interface{},
+	provider types.ProviderInfo,
 ) error {
 	return w.impl.ScheduleInstallProvider(ctx, provider)
 }
@@ -3442,7 +3927,7 @@ func (w *applicationThreadStubWrapper) AttachStartupAgents(
 
 func (w *applicationThreadStubWrapper) ScheduleApplicationInfoChanged(
 	ctx context.Context,
-	ai interface{},
+	ai types.ApplicationInfo,
 ) error {
 	return w.impl.ScheduleApplicationInfoChanged(ctx, ai)
 }
@@ -3463,8 +3948,8 @@ func (w *applicationThreadStubWrapper) ScheduleTransaction(
 
 func (w *applicationThreadStubWrapper) ScheduleTaskFragmentTransaction(
 	ctx context.Context,
-	organizer interface{},
-	transaction interface{},
+	organizer window.ITaskFragmentOrganizer,
+	transaction window.TaskFragmentTransaction,
 ) error {
 	return w.impl.ScheduleTaskFragmentTransaction(ctx, organizer, transaction)
 }
@@ -3473,8 +3958,8 @@ func (w *applicationThreadStubWrapper) RequestDirectActions(
 	ctx context.Context,
 	activityToken binder.IBinder,
 	intractor internalApp.IVoiceInteractor,
-	cancellationCallback interface{},
-	callback interface{},
+	cancellationCallback os.RemoteCallback,
+	callback os.RemoteCallback,
 ) error {
 	return w.impl.RequestDirectActions(ctx, activityToken, intractor, cancellationCallback, callback)
 }
@@ -3483,9 +3968,9 @@ func (w *applicationThreadStubWrapper) PerformDirectAction(
 	ctx context.Context,
 	activityToken binder.IBinder,
 	actionId string,
-	arguments interface{},
-	cancellationCallback interface{},
-	resultCallback interface{},
+	arguments os.Bundle,
+	cancellationCallback os.RemoteCallback,
+	resultCallback os.RemoteCallback,
 ) error {
 	return w.impl.PerformDirectAction(ctx, activityToken, actionId, arguments, cancellationCallback, resultCallback)
 }
@@ -3502,10 +3987,10 @@ func (w *applicationThreadStubWrapper) NotifyContentProviderPublishStatus(
 func (w *applicationThreadStubWrapper) InstrumentWithoutRestart(
 	ctx context.Context,
 	instrumentationName content.ComponentName,
-	instrumentationArgs interface{},
+	instrumentationArgs os.Bundle,
 	instrumentationWatcher IInstrumentationWatcher,
 	instrumentationUiConnection IUiAutomationConnection,
-	targetInfo interface{},
+	targetInfo types.ApplicationInfo,
 ) error {
 	return w.impl.InstrumentWithoutRestart(ctx, instrumentationName, instrumentationArgs, instrumentationWatcher, instrumentationUiConnection, targetInfo)
 }
@@ -3541,7 +4026,7 @@ func (w *applicationThreadStubWrapper) ScheduleTimeoutServiceForType(
 
 func (w *applicationThreadStubWrapper) SchedulePing(
 	ctx context.Context,
-	pong interface{},
+	pong os.RemoteCallback,
 ) error {
 	return w.impl.SchedulePing(ctx, pong)
 }

@@ -48,6 +48,7 @@ func (p *NetworkScoreCacheProxy) UpdateScores(
 	networks []ScoredNetwork,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreCache)
 	if networks == nil {
 		_data.WriteInt32(-1)
@@ -74,6 +75,7 @@ func (p *NetworkScoreCacheProxy) ClearScores(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreCache)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreCache, MethodINetworkScoreCacheClearScores)
@@ -88,7 +90,8 @@ func (p *NetworkScoreCacheProxy) ClearScores(
 // NetworkScoreCacheStub dispatches incoming binder transactions
 // to a typed INetworkScoreCache implementation.
 type NetworkScoreCacheStub struct {
-	Impl INetworkScoreCache
+	Impl      INetworkScoreCache
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NetworkScoreCacheStub)(nil)
@@ -102,24 +105,38 @@ func (s *NetworkScoreCacheStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINetworkScoreCacheUpdateScores:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_networks []ScoredNetwork
-		_ = _arg_networks
-		_err := s.Impl.UpdateScores(ctx, _arg_networks)
-		_ = _err
-		return nil, nil
-	case TransactionINetworkScoreCacheClearScores:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_networks = make([]ScoredNetwork, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_networks[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.UpdateScores(ctx, _arg_networks)
+		return nil, _err
+	case TransactionINetworkScoreCacheClearScores:
 		_err := s.Impl.ClearScores(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -45,6 +45,7 @@ func (p *ParcelFileDescriptorRetrieverProxy) GetPfd(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIParcelFileDescriptorRetriever)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIParcelFileDescriptorRetriever, MethodIParcelFileDescriptorRetrieverGetPfd)
@@ -72,7 +73,8 @@ func (p *ParcelFileDescriptorRetrieverProxy) GetPfd(
 // ParcelFileDescriptorRetrieverStub dispatches incoming binder transactions
 // to a typed IParcelFileDescriptorRetriever implementation.
 type ParcelFileDescriptorRetrieverStub struct {
-	Impl IParcelFileDescriptorRetriever
+	Impl      IParcelFileDescriptorRetriever
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ParcelFileDescriptorRetrieverStub)(nil)
@@ -86,11 +88,12 @@ func (s *ParcelFileDescriptorRetrieverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIParcelFileDescriptorRetrieverGetPfd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPfd(ctx)
 		_reply := parcel.New()
 		if _err != nil {

@@ -47,6 +47,7 @@ func (p *InitializeSessionCallbackProxy) OnSuccess(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInitializeSessionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInitializeSessionCallback, MethodIInitializeSessionCallbackOnSuccess)
@@ -71,6 +72,7 @@ func (p *InitializeSessionCallbackProxy) OnFailure(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInitializeSessionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInitializeSessionCallback, MethodIInitializeSessionCallbackOnFailure)
@@ -94,7 +96,8 @@ func (p *InitializeSessionCallbackProxy) OnFailure(
 // InitializeSessionCallbackStub dispatches incoming binder transactions
 // to a typed IInitializeSessionCallback implementation.
 type InitializeSessionCallbackStub struct {
-	Impl IInitializeSessionCallback
+	Impl      IInitializeSessionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InitializeSessionCallbackStub)(nil)
@@ -108,11 +111,12 @@ func (s *InitializeSessionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInitializeSessionCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnSuccess(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -122,9 +126,6 @@ func (s *InitializeSessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInitializeSessionCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnFailure(ctx)
 		_reply := parcel.New()
 		if _err != nil {

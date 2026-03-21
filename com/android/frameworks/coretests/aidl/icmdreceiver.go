@@ -51,6 +51,7 @@ func (p *CmdReceiverProxy) DoSomeWork(
 	durationMs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICmdReceiver)
 	_data.WriteInt32(durationMs)
 
@@ -76,6 +77,7 @@ func (p *CmdReceiverProxy) ShowApplicationOverlay(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICmdReceiver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICmdReceiver, MethodICmdReceiverShowApplicationOverlay)
@@ -100,6 +102,7 @@ func (p *CmdReceiverProxy) FinishHost(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICmdReceiver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICmdReceiver, MethodICmdReceiverFinishHost)
@@ -123,7 +126,8 @@ func (p *CmdReceiverProxy) FinishHost(
 // CmdReceiverStub dispatches incoming binder transactions
 // to a typed ICmdReceiver implementation.
 type CmdReceiverStub struct {
-	Impl ICmdReceiver
+	Impl      ICmdReceiver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CmdReceiverStub)(nil)
@@ -137,11 +141,12 @@ func (s *CmdReceiverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICmdReceiverDoSomeWork:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_durationMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -155,9 +160,6 @@ func (s *CmdReceiverStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICmdReceiverShowApplicationOverlay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ShowApplicationOverlay(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -167,9 +169,6 @@ func (s *CmdReceiverStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICmdReceiverFinishHost:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.FinishHost(ctx)
 		_reply := parcel.New()
 		if _err != nil {

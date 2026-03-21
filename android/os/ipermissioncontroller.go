@@ -60,6 +60,7 @@ func (p *PermissionControllerProxy) CheckPermission(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(permission)
 	_data.WriteInt32(pid)
@@ -95,6 +96,7 @@ func (p *PermissionControllerProxy) NoteOp(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(op)
 	_data.WriteInt32(uid)
@@ -128,6 +130,7 @@ func (p *PermissionControllerProxy) GetPackagesForUid(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteInt32(uid)
 
@@ -150,6 +153,9 @@ func (p *PermissionControllerProxy) GetPackagesForUid(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -169,6 +175,7 @@ func (p *PermissionControllerProxy) IsRuntimePermission(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(permission)
 
@@ -201,6 +208,7 @@ func (p *PermissionControllerProxy) GetPackageUid(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(flags)
@@ -230,7 +238,8 @@ func (p *PermissionControllerProxy) GetPackageUid(
 // PermissionControllerStub dispatches incoming binder transactions
 // to a typed IPermissionController implementation.
 type PermissionControllerStub struct {
-	Impl IPermissionController
+	Impl      IPermissionController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PermissionControllerStub)(nil)
@@ -244,11 +253,12 @@ func (s *PermissionControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPermissionControllerCheckPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_permission, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -271,9 +281,6 @@ func (s *PermissionControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPermissionControllerNoteOp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_op, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -296,9 +303,6 @@ func (s *PermissionControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPermissionControllerGetPackagesForUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -310,13 +314,16 @@ func (s *PermissionControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPermissionControllerIsRuntimePermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_permission, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -331,9 +338,6 @@ func (s *PermissionControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPermissionControllerGetPackageUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

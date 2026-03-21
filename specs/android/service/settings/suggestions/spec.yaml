@@ -1,0 +1,32 @@
+package: android.service.settings.suggestions
+go_package: android/service/settings/suggestions
+interfaces:
+    - name: ISuggestionService
+      descriptor: android.service.settings.suggestions.ISuggestionService
+      methods:
+        - name: getSuggestions
+          transaction_code_offset: 0
+          return_type:
+            name: List
+            type_args:
+                - name: Suggestion
+        - name: dismissSuggestion
+          transaction_code_offset: 1
+          params:
+            - name: suggestion
+              type:
+                name: Suggestion
+              direction: in
+          return_type:
+            name: void
+        - name: launchSuggestion
+          transaction_code_offset: 2
+          params:
+            - name: suggestion
+              type:
+                name: Suggestion
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: Suggestion

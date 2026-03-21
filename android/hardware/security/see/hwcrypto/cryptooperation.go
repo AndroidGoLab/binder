@@ -3,6 +3,7 @@ package hwcrypto
 import (
 	"fmt"
 	types "github.com/xaionaro-go/binder/android/hardware/security/see/hwcrypto/types"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -29,8 +30,8 @@ type CryptoOperation struct {
 	AadInput               types.OperationData
 	DataInput              types.OperationData
 	DataOutput             types.OperationData
-	Finish                 types.Void
-	DestroyContext         types.Void
+	Finish                 common.Void
+	DestroyContext         common.Void
 }
 
 var _ parcel.Parcelable = (*CryptoOperation)(nil)
@@ -46,8 +47,7 @@ func (u *CryptoOperation) GetSetMemoryBuffer() (MemoryBufferParameter, bool) {
 func (u *CryptoOperation) SetSetMemoryBuffer(
 	v MemoryBufferParameter,
 ) {
-	u.Tag = CryptoOperationTagSetMemoryBuffer
-	u.SetMemoryBuffer = v
+	*u = CryptoOperation{Tag: CryptoOperationTagSetMemoryBuffer, SetMemoryBuffer: v}
 }
 
 func (u *CryptoOperation) GetSetOperationParameters() (OperationParameters, bool) {
@@ -61,8 +61,7 @@ func (u *CryptoOperation) GetSetOperationParameters() (OperationParameters, bool
 func (u *CryptoOperation) SetSetOperationParameters(
 	v OperationParameters,
 ) {
-	u.Tag = CryptoOperationTagSetOperationParameters
-	u.SetOperationParameters = v
+	*u = CryptoOperation{Tag: CryptoOperationTagSetOperationParameters, SetOperationParameters: v}
 }
 
 func (u *CryptoOperation) GetSetPattern() (PatternParameters, bool) {
@@ -76,8 +75,7 @@ func (u *CryptoOperation) GetSetPattern() (PatternParameters, bool) {
 func (u *CryptoOperation) SetSetPattern(
 	v PatternParameters,
 ) {
-	u.Tag = CryptoOperationTagSetPattern
-	u.SetPattern = v
+	*u = CryptoOperation{Tag: CryptoOperationTagSetPattern, SetPattern: v}
 }
 
 func (u *CryptoOperation) GetCopyData() (types.OperationData, bool) {
@@ -91,8 +89,7 @@ func (u *CryptoOperation) GetCopyData() (types.OperationData, bool) {
 func (u *CryptoOperation) SetCopyData(
 	v types.OperationData,
 ) {
-	u.Tag = CryptoOperationTagCopyData
-	u.CopyData = v
+	*u = CryptoOperation{Tag: CryptoOperationTagCopyData, CopyData: v}
 }
 
 func (u *CryptoOperation) GetAadInput() (types.OperationData, bool) {
@@ -106,8 +103,7 @@ func (u *CryptoOperation) GetAadInput() (types.OperationData, bool) {
 func (u *CryptoOperation) SetAadInput(
 	v types.OperationData,
 ) {
-	u.Tag = CryptoOperationTagAadInput
-	u.AadInput = v
+	*u = CryptoOperation{Tag: CryptoOperationTagAadInput, AadInput: v}
 }
 
 func (u *CryptoOperation) GetDataInput() (types.OperationData, bool) {
@@ -121,8 +117,7 @@ func (u *CryptoOperation) GetDataInput() (types.OperationData, bool) {
 func (u *CryptoOperation) SetDataInput(
 	v types.OperationData,
 ) {
-	u.Tag = CryptoOperationTagDataInput
-	u.DataInput = v
+	*u = CryptoOperation{Tag: CryptoOperationTagDataInput, DataInput: v}
 }
 
 func (u *CryptoOperation) GetDataOutput() (types.OperationData, bool) {
@@ -136,38 +131,35 @@ func (u *CryptoOperation) GetDataOutput() (types.OperationData, bool) {
 func (u *CryptoOperation) SetDataOutput(
 	v types.OperationData,
 ) {
-	u.Tag = CryptoOperationTagDataOutput
-	u.DataOutput = v
+	*u = CryptoOperation{Tag: CryptoOperationTagDataOutput, DataOutput: v}
 }
 
-func (u *CryptoOperation) GetFinish() (types.Void, bool) {
+func (u *CryptoOperation) GetFinish() (common.Void, bool) {
 	if u.Tag != CryptoOperationTagFinish {
-		var _zero types.Void
+		var _zero common.Void
 		return _zero, false
 	}
 	return u.Finish, true
 }
 
 func (u *CryptoOperation) SetFinish(
-	v types.Void,
+	v common.Void,
 ) {
-	u.Tag = CryptoOperationTagFinish
-	u.Finish = v
+	*u = CryptoOperation{Tag: CryptoOperationTagFinish, Finish: v}
 }
 
-func (u *CryptoOperation) GetDestroyContext() (types.Void, bool) {
+func (u *CryptoOperation) GetDestroyContext() (common.Void, bool) {
 	if u.Tag != CryptoOperationTagDestroyContext {
-		var _zero types.Void
+		var _zero common.Void
 		return _zero, false
 	}
 	return u.DestroyContext, true
 }
 
 func (u *CryptoOperation) SetDestroyContext(
-	v types.Void,
+	v common.Void,
 ) {
-	u.Tag = CryptoOperationTagDestroyContext
-	u.DestroyContext = v
+	*u = CryptoOperation{Tag: CryptoOperationTagDestroyContext, DestroyContext: v}
 }
 
 func (u *CryptoOperation) MarshalParcel(

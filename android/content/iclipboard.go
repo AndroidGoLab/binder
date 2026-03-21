@@ -80,6 +80,7 @@ func (p *ClipboardProxy) SetPrimaryClip(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
 	_data.WriteInt32(1)
 	if _err := clip.MarshalParcel(_data); _err != nil {
@@ -116,6 +117,7 @@ func (p *ClipboardProxy) SetPrimaryClipAsPackage(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
 	_data.WriteInt32(1)
 	if _err := clip.MarshalParcel(_data); _err != nil {
@@ -151,6 +153,7 @@ func (p *ClipboardProxy) ClearPrimaryClip(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -183,6 +186,7 @@ func (p *ClipboardProxy) GetPrimaryClip(
 	var _result ClipData
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
 	_data.WriteString16(pkg)
 	_data.WriteString16(_identity.AttributionTag)
@@ -223,6 +227,7 @@ func (p *ClipboardProxy) GetPrimaryClipDescription(
 	var _result ClipDescription
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -263,6 +268,7 @@ func (p *ClipboardProxy) HasPrimaryClip(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -298,6 +304,7 @@ func (p *ClipboardProxy) AddPrimaryClipChangedListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
@@ -330,6 +337,7 @@ func (p *ClipboardProxy) RemovePrimaryClipChangedListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
@@ -362,6 +370,7 @@ func (p *ClipboardProxy) HasClipboardText(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -397,6 +406,7 @@ func (p *ClipboardProxy) GetPrimaryClipSource(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -431,6 +441,7 @@ func (p *ClipboardProxy) AreClipboardAccessNotificationsEnabledForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
 	_data.WriteInt32(_identity.UserID)
 
@@ -462,6 +473,7 @@ func (p *ClipboardProxy) SetClipboardAccessNotificationsEnabledForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
 	_data.WriteBool(enable)
 	_data.WriteInt32(_identity.UserID)
@@ -487,7 +499,8 @@ func (p *ClipboardProxy) SetClipboardAccessNotificationsEnabledForUser(
 // ClipboardStub dispatches incoming binder transactions
 // to a typed IClipboard implementation.
 type ClipboardStub struct {
-	Impl IClipboard
+	Impl      IClipboard
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ClipboardStub)(nil)
@@ -501,11 +514,12 @@ func (s *ClipboardStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIClipboardSetPrimaryClip:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_clip ClipData
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -540,9 +554,6 @@ func (s *ClipboardStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIClipboardSetPrimaryClipAsPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_clip ClipData
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -587,9 +598,6 @@ func (s *ClipboardStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -606,9 +614,6 @@ func (s *ClipboardStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIClipboardGetPrimaryClip:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -642,9 +647,6 @@ func (s *ClipboardStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -671,9 +673,6 @@ func (s *ClipboardStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -691,12 +690,14 @@ func (s *ClipboardStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIClipboardAddPrimaryClipChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnPrimaryClipChangedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnPrimaryClipChangedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -719,12 +720,14 @@ func (s *ClipboardStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIClipboardRemovePrimaryClipChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnPrimaryClipChangedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnPrimaryClipChangedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -747,9 +750,6 @@ func (s *ClipboardStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIClipboardHasClipboardText:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -779,9 +779,6 @@ func (s *ClipboardStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -799,9 +796,6 @@ func (s *ClipboardStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIClipboardAreClipboardAccessNotificationsEnabledForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -815,9 +809,6 @@ func (s *ClipboardStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIClipboardSetClipboardAccessNotificationsEnabledForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err

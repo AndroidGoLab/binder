@@ -72,6 +72,7 @@ func (p *CameraProviderProxy) SetCallback(
 	callback ICameraProviderCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraProvider)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -98,6 +99,7 @@ func (p *CameraProviderProxy) GetVendorTags(
 ) ([]common.VendorTagSection, error) {
 	var _result []common.VendorTagSection
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraProvider)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraProvider, MethodICameraProviderGetVendorTags)
@@ -119,6 +121,9 @@ func (p *CameraProviderProxy) GetVendorTags(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]common.VendorTagSection, _count)
@@ -139,6 +144,7 @@ func (p *CameraProviderProxy) GetCameraIdList(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraProvider)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraProvider, MethodICameraProviderGetCameraIdList)
@@ -160,6 +166,9 @@ func (p *CameraProviderProxy) GetCameraIdList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -179,6 +188,7 @@ func (p *CameraProviderProxy) GetCameraDeviceInterface(
 ) (device.ICameraDevice, error) {
 	var _result device.ICameraDevice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraProvider)
 	_data.WriteString16(cameraDeviceName)
 
@@ -210,6 +220,7 @@ func (p *CameraProviderProxy) NotifyDeviceStateChange(
 	deviceState int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraProvider)
 	_data.WriteInt64(deviceState)
 
@@ -236,6 +247,7 @@ func (p *CameraProviderProxy) GetConcurrentCameraIds(
 ) ([]ConcurrentCameraIdCombination, error) {
 	var _result []ConcurrentCameraIdCombination
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraProvider)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraProvider, MethodICameraProviderGetConcurrentCameraIds)
@@ -256,6 +268,9 @@ func (p *CameraProviderProxy) GetConcurrentCameraIds(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -278,6 +293,7 @@ func (p *CameraProviderProxy) IsConcurrentStreamCombinationSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraProvider)
 	if configs == nil {
 		_data.WriteInt32(-1)
@@ -316,7 +332,8 @@ func (p *CameraProviderProxy) IsConcurrentStreamCombinationSupported(
 // CameraProviderStub dispatches incoming binder transactions
 // to a typed ICameraProvider implementation.
 type CameraProviderStub struct {
-	Impl ICameraProvider
+	Impl      ICameraProvider
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CameraProviderStub)(nil)
@@ -330,14 +347,20 @@ func (s *CameraProviderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICameraProviderSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICameraProviderCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCameraProviderCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -347,9 +370,6 @@ func (s *CameraProviderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraProviderGetVendorTags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVendorTags(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -357,13 +377,19 @@ func (s *CameraProviderStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionICameraProviderGetCameraIdList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCameraIdList(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -371,13 +397,16 @@ func (s *CameraProviderStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionICameraProviderGetCameraDeviceInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraDeviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -389,13 +418,9 @@ func (s *CameraProviderStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionICameraProviderNotifyDeviceStateChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceState, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -409,9 +434,6 @@ func (s *CameraProviderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraProviderGetConcurrentCameraIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetConcurrentCameraIds(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -419,16 +441,40 @@ func (s *CameraProviderStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionICameraProviderIsConcurrentStreamCombinationSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_configs []CameraIdAndStreamCombination
-		_ = _arg_configs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_configs = make([]CameraIdAndStreamCombination, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_configs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.IsConcurrentStreamCombinationSupported(ctx, _arg_configs)
 		_reply := parcel.New()
 		if _err != nil {

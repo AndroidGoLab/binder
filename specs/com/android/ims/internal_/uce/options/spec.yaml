@@ -1,0 +1,226 @@
+package: com.android.ims.internal.uce.options
+go_package: com/android/ims/internal_/uce/options
+interfaces:
+    - name: IOptionsListener
+      descriptor: com.android.ims.internal.uce.options.IOptionsListener
+      methods:
+        - name: getVersionCb
+          transaction_code_offset: 0
+          params:
+            - name: version
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: serviceAvailable
+          transaction_code_offset: 1
+          params:
+            - name: statusCode
+              type:
+                name: StatusCode
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: serviceUnavailable
+          transaction_code_offset: 2
+          params:
+            - name: statusCode
+              type:
+                name: StatusCode
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: sipResponseReceived
+          transaction_code_offset: 3
+          params:
+            - name: uri
+              type:
+                name: String
+            - name: sipResponse
+              type:
+                name: OptionsSipResponse
+              direction: in
+            - name: capInfo
+              type:
+                name: OptionsCapInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: cmdStatus
+          transaction_code_offset: 4
+          params:
+            - name: cmdStatus
+              type:
+                name: OptionsCmdStatus
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: incomingOptions
+          transaction_code_offset: 5
+          params:
+            - name: uri
+              type:
+                name: String
+            - name: capInfo
+              type:
+                name: OptionsCapInfo
+              direction: in
+            - name: tID
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IOptionsService
+      descriptor: com.android.ims.internal.uce.options.IOptionsService
+      methods:
+        - name: getVersion
+          transaction_code_offset: 0
+          params:
+            - name: optionsServiceHandle
+              type:
+                name: int
+          return_type:
+            name: StatusCode
+          annotations:
+            - UnsupportedAppUsage
+        - name: addListener
+          transaction_code_offset: 1
+          params:
+            - name: optionsServiceHandle
+              type:
+                name: int
+            - name: optionsListener
+              type:
+                name: IOptionsListener
+            - name: optionsServiceListenerHdl
+              type:
+                name: UceLong
+              direction: inout
+          return_type:
+            name: StatusCode
+          annotations:
+            - UnsupportedAppUsage
+        - name: removeListener
+          transaction_code_offset: 2
+          params:
+            - name: optionsServiceHandle
+              type:
+                name: int
+            - name: optionsServiceListenerHdl
+              type:
+                name: UceLong
+              direction: in
+          return_type:
+            name: StatusCode
+          annotations:
+            - UnsupportedAppUsage
+        - name: setMyInfo
+          transaction_code_offset: 3
+          params:
+            - name: optionsServiceHandle
+              type:
+                name: int
+            - name: capInfo
+              type:
+                name: CapInfo
+              direction: in
+            - name: reqUserData
+              type:
+                name: int
+          return_type:
+            name: StatusCode
+          annotations:
+            - UnsupportedAppUsage
+        - name: getMyInfo
+          transaction_code_offset: 4
+          params:
+            - name: optionsServiceHandle
+              type:
+                name: int
+            - name: reqUserdata
+              type:
+                name: int
+          return_type:
+            name: StatusCode
+          annotations:
+            - UnsupportedAppUsage
+        - name: getContactCap
+          transaction_code_offset: 5
+          params:
+            - name: optionsServiceHandle
+              type:
+                name: int
+            - name: remoteURI
+              type:
+                name: String
+            - name: reqUserData
+              type:
+                name: int
+          return_type:
+            name: StatusCode
+          annotations:
+            - UnsupportedAppUsage
+        - name: getContactListCap
+          transaction_code_offset: 6
+          params:
+            - name: optionsServiceHandle
+              type:
+                name: int
+            - name: remoteURIList
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: reqUserData
+              type:
+                name: int
+          return_type:
+            name: StatusCode
+          annotations:
+            - UnsupportedAppUsage
+        - name: responseIncomingOptions
+          transaction_code_offset: 7
+          params:
+            - name: optionsServiceHandle
+              type:
+                name: int
+            - name: tId
+              type:
+                name: int
+            - name: sipResponseCode
+              type:
+                name: int
+            - name: reasonPhrase
+              type:
+                name: String
+            - name: capInfo
+              type:
+                name: OptionsCapInfo
+              direction: in
+            - name: bContactInBL
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: StatusCode
+          annotations:
+            - UnsupportedAppUsage
+parcelables:
+    - name: OptionsCapInfo
+    - name: OptionsCmdId
+    - name: OptionsCmdStatus
+    - name: OptionsSipResponse

@@ -1,0 +1,101 @@
+package: com.android.wm.shell.bubbles
+go_package: com/android/wm/shell/bubbles
+interfaces:
+    - name: IBubbles
+      descriptor: com.android.wm.shell.bubbles.IBubbles
+      methods:
+        - name: registerBubbleListener
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: IBubblesListener
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterBubbleListener
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: IBubblesListener
+              direction: in
+          return_type:
+            name: void
+        - name: showBubble
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: key
+              type:
+                name: String
+              direction: in
+            - name: bubbleBarBounds
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: removeBubble
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: key
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: removeAllBubbles
+          transaction_code_offset: 4
+          oneway: true
+          return_type:
+            name: void
+        - name: collapseBubbles
+          transaction_code_offset: 5
+          oneway: true
+          return_type:
+            name: void
+        - name: onBubbleDrag
+          transaction_code_offset: 6
+          oneway: true
+          params:
+            - name: key
+              type:
+                name: String
+              direction: in
+            - name: isBeingDragged
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: showUserEducation
+          transaction_code_offset: 7
+          oneway: true
+          params:
+            - name: positionX
+              type:
+                name: int
+              direction: in
+            - name: positionY
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IBubblesListener
+      descriptor: com.android.wm.shell.bubbles.IBubblesListener
+      oneway: true
+      methods:
+        - name: onBubbleStateChange
+          transaction_code_offset: 0
+          params:
+            - name: update
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void

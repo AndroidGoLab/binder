@@ -34,7 +34,8 @@ var _ IImsRcsFeature = (*ImsRcsFeatureProxy)(nil)
 // ImsRcsFeatureStub dispatches incoming binder transactions
 // to a typed IImsRcsFeature implementation.
 type ImsRcsFeatureStub struct {
-	Impl IImsRcsFeature
+	Impl      IImsRcsFeature
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsRcsFeatureStub)(nil)
@@ -48,6 +49,10 @@ func (s *ImsRcsFeatureStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

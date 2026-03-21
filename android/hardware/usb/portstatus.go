@@ -106,9 +106,19 @@ func (s *PortStatus) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PortName, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_currentDataRoleRaw, _err := p.ReadInt32()
@@ -117,11 +127,21 @@ func (s *PortStatus) UnmarshalParcel(
 	}
 	s.CurrentDataRole = PortDataRole(_currentDataRoleRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_currentPowerRoleRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.CurrentPowerRole = PortPowerRole(_currentPowerRoleRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_currentModeRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -129,9 +149,19 @@ func (s *PortStatus) UnmarshalParcel(
 	}
 	s.CurrentMode = PortMode(_currentModeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.CanChangeMode, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.CanChangeDataRole, _err = p.ReadBool()
@@ -139,9 +169,19 @@ func (s *PortStatus) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.CanChangePowerRole, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -160,6 +200,11 @@ func (s *PortStatus) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count1 int32
 	_count1, _err = p.ReadInt32()
 	if _err != nil {
@@ -176,9 +221,19 @@ func (s *PortStatus) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SupportsEnableContaminantPresenceProtection, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_contaminantProtectionStatusRaw, _err := p.ReadInt32()
@@ -187,9 +242,19 @@ func (s *PortStatus) UnmarshalParcel(
 	}
 	s.ContaminantProtectionStatus = ContaminantProtectionStatus(_contaminantProtectionStatusRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SupportsEnableContaminantPresenceDetection, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_contaminantDetectionStatusRaw, _err := p.ReadInt32()
@@ -197,6 +262,11 @@ func (s *PortStatus) UnmarshalParcel(
 		return _err
 	}
 	s.ContaminantDetectionStatus = ContaminantDetectionStatus(_contaminantDetectionStatusRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count2 int32
 	_count2, _err = p.ReadInt32()
@@ -214,9 +284,19 @@ func (s *PortStatus) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PowerTransferLimited, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_powerBrickStatusRaw, _err := p.ReadInt32()
@@ -225,9 +305,19 @@ func (s *PortStatus) UnmarshalParcel(
 	}
 	s.PowerBrickStatus = PowerBrickStatus(_powerBrickStatusRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SupportsComplianceWarnings, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count3 int32
@@ -246,11 +336,21 @@ func (s *PortStatus) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_plugOrientationRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.PlugOrientation = PlugOrientation(_plugOrientationRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count4 int32
 	_count4, _err = p.ReadInt32()

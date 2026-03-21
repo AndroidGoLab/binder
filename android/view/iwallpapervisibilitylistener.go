@@ -46,6 +46,7 @@ func (p *WallpaperVisibilityListenerProxy) OnWallpaperVisibilityChanged(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperVisibilityListener)
 	_data.WriteBool(visible)
 	_data.WriteInt32(displayId)
@@ -62,7 +63,8 @@ func (p *WallpaperVisibilityListenerProxy) OnWallpaperVisibilityChanged(
 // WallpaperVisibilityListenerStub dispatches incoming binder transactions
 // to a typed IWallpaperVisibilityListener implementation.
 type WallpaperVisibilityListenerStub struct {
-	Impl IWallpaperVisibilityListener
+	Impl      IWallpaperVisibilityListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WallpaperVisibilityListenerStub)(nil)
@@ -76,11 +78,12 @@ func (s *WallpaperVisibilityListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWallpaperVisibilityListenerOnWallpaperVisibilityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -90,8 +93,7 @@ func (s *WallpaperVisibilityListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnWallpaperVisibilityChanged(ctx, _arg_visible, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

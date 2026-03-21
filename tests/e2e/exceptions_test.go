@@ -5,7 +5,9 @@ package e2e
 import (
 	"context"
 	"errors"
+	"strings"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 
@@ -17,6 +19,10 @@ import (
 )
 
 // getService retrieves a named Android service via the service manager.
+// It retries up to 3 times with a short sleep between attempts to handle
+// transient "null binder" responses that occur when the kernel binder
+// driver is under resource pressure (e.g. after 200+ sequential tests
+// each opening their own /dev/binder fd).
 func getService(
 	ctx context.Context,
 	t *testing.T,
@@ -25,10 +31,29 @@ func getService(
 ) binder.IBinder {
 	t.Helper()
 	sm := servicemanager.New(driver)
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName(name))
-	requireOrSkip(t, err)
-	require.NotNil(t, svc, "expected non-nil binder for %s", name)
-	return svc
+
+	const maxAttempts = 3
+	for attempt := 1; attempt <= maxAttempts; attempt++ {
+		svc, err := sm.GetService(ctx, servicemanager.ServiceName(name))
+		if err == nil {
+			require.NotNil(t, svc, "expected non-nil binder for %s", name)
+			return svc
+		}
+
+		// Retry only on "null binder" errors — these indicate transient
+		// resource exhaustion, not a genuinely missing service.
+		isNullBinder := strings.Contains(err.Error(), "null binder") ||
+			strings.Contains(err.Error(), "unexpected null")
+		if !isNullBinder || attempt == maxAttempts {
+			requireOrSkip(t, err)
+			return nil // unreachable: requireOrSkip either skips or fails
+		}
+
+		t.Logf("getService(%q): attempt %d/%d got null binder, retrying after sleep", name, attempt, maxAttempts)
+		time.Sleep(500 * time.Millisecond)
+	}
+
+	return nil // unreachable
 }
 
 // transactExpectException sends a transaction and asserts that ReadStatus
@@ -76,48 +101,19 @@ const (
 	storageStatsManagerDescriptor = "android.app.usage.IStorageStatsManager"
 )
 
-func TestException_NullPointer(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	am := getService(ctx, t, driver, "activity")
-
-	// IActivityManager transaction code 80 with no arguments causes a NullPointerException.
-	data := parcel.New()
-	data.WriteInterfaceToken(activityManagerDescriptor)
-
-	se := transactExpectException(ctx, t, am, 80, data, aidlerrors.ExceptionNullPointer)
-	if se != nil {
-		t.Logf("NullPointer exception message: %q", se.Message)
-	}
-}
-
 func TestException_IllegalArgument(t *testing.T) {
 	ctx := context.Background()
 	driver := openBinder(t)
 	pm := getService(ctx, t, driver, "power")
 
-	// IPowerManager transaction code 9 with missing lock param causes IllegalArgumentException.
+	// IPowerManager::updateWakeLockCallback with missing lock param causes IllegalArgumentException.
+	code := resolveCode(ctx, t, pm, powerManagerDescriptor, "updateWakeLockCallback")
 	data := parcel.New()
 	data.WriteInterfaceToken(powerManagerDescriptor)
 
-	se := transactExpectException(ctx, t, pm, 9, data, aidlerrors.ExceptionIllegalArgument)
+	se := transactExpectException(ctx, t, pm, code, data, aidlerrors.ExceptionIllegalArgument)
 	if se != nil {
 		t.Logf("IllegalArgument exception message: %s", se.Message)
-	}
-}
-
-func TestException_IllegalState(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	ws := getService(ctx, t, driver, "webviewupdate")
-
-	// IWebViewUpdateService transaction code 8 causes IllegalStateException.
-	data := parcel.New()
-	data.WriteInterfaceToken(webViewUpdateDescriptor)
-
-	se := transactExpectException(ctx, t, ws, 8, data, aidlerrors.ExceptionIllegalState)
-	if se != nil {
-		t.Logf("IllegalState exception message: %s", se.Message)
 	}
 }
 
@@ -126,13 +122,14 @@ func TestException_BadParcelable(t *testing.T) {
 	driver := openBinder(t)
 	am := getService(ctx, t, driver, "activity")
 
-	// IActivityManager transaction code 178 with two string params causes BadParcelableException.
+	// IActivityManager::setThemeOverlayReady with two string params causes BadParcelableException.
+	code := resolveCode(ctx, t, am, activityManagerDescriptor, "setThemeOverlayReady")
 	data := parcel.New()
 	data.WriteInterfaceToken(activityManagerDescriptor)
 	data.WriteString16("com.android.systemui")
 	data.WriteString16("com.android.systemui")
 
-	se := transactExpectException(ctx, t, am, 178, data, aidlerrors.ExceptionBadParcelable)
+	se := transactExpectException(ctx, t, am, code, data, aidlerrors.ExceptionBadParcelable)
 	if se != nil {
 		t.Logf("BadParcelable exception message: %s", se.Message)
 	}
@@ -143,13 +140,14 @@ func TestException_Parcelable(t *testing.T) {
 	driver := openBinder(t)
 	ss := getService(ctx, t, driver, "storagestats")
 
-	// IStorageStatsManager transaction code 5 with empty volume UUID and package name.
+	// IStorageStatsManager::getCacheBytes with empty volume UUID and package name.
+	code := resolveCode(ctx, t, ss, storageStatsManagerDescriptor, "getCacheBytes")
 	data := parcel.New()
 	data.WriteInterfaceToken(storageStatsManagerDescriptor)
 	data.WriteString16("")
 	data.WriteString16("com.android.shell")
 
-	se := transactExpectException(ctx, t, ss, 5, data, aidlerrors.ExceptionParcelable)
+	se := transactExpectException(ctx, t, ss, code, data, aidlerrors.ExceptionParcelable)
 	if se != nil {
 		t.Logf("Parcelable exception message: %s", se.Message)
 	}
@@ -161,12 +159,12 @@ func TestException_AllTypesInventory(t *testing.T) {
 	sm := servicemanager.New(driver)
 
 	type exceptionTestCase struct {
-		name        string
-		service     string
-		descriptor  string
-		code        binder.TransactionCode
-		setupData   func(*parcel.Parcel)
-		expected    aidlerrors.ExceptionCode
+		name       string
+		service    string
+		descriptor string
+		method     string
+		setupData  func(*parcel.Parcel)
+		expected   aidlerrors.ExceptionCode
 	}
 
 	cases := []exceptionTestCase{
@@ -174,7 +172,7 @@ func TestException_AllTypesInventory(t *testing.T) {
 			name:       "Security",
 			service:    "activity",
 			descriptor: activityManagerDescriptor,
-			code:       148,
+			method:     "requestBugReportWithDescription",
 			setupData:  func(p *parcel.Parcel) {},
 			expected:   aidlerrors.ExceptionSecurity,
 		},
@@ -182,7 +180,7 @@ func TestException_AllTypesInventory(t *testing.T) {
 			name:       "NullPointer",
 			service:    "activity",
 			descriptor: activityManagerDescriptor,
-			code:       80,
+			method:     "clearApplicationUserData",
 			setupData:  func(p *parcel.Parcel) {},
 			expected:   aidlerrors.ExceptionNullPointer,
 		},
@@ -190,7 +188,7 @@ func TestException_AllTypesInventory(t *testing.T) {
 			name:       "IllegalArgument",
 			service:    "power",
 			descriptor: powerManagerDescriptor,
-			code:       9,
+			method:     "updateWakeLockCallback",
 			setupData:  func(p *parcel.Parcel) {},
 			expected:   aidlerrors.ExceptionIllegalArgument,
 		},
@@ -198,7 +196,7 @@ func TestException_AllTypesInventory(t *testing.T) {
 			name:       "IllegalState",
 			service:    "webviewupdate",
 			descriptor: webViewUpdateDescriptor,
-			code:       8,
+			method:     "isMultiProcessEnabled",
 			setupData:  func(p *parcel.Parcel) {},
 			expected:   aidlerrors.ExceptionIllegalState,
 		},
@@ -206,7 +204,7 @@ func TestException_AllTypesInventory(t *testing.T) {
 			name:       "BadParcelable",
 			service:    "activity",
 			descriptor: activityManagerDescriptor,
-			code:       178,
+			method:     "setThemeOverlayReady",
 			setupData: func(p *parcel.Parcel) {
 				p.WriteString16("com.android.systemui")
 				p.WriteString16("com.android.systemui")
@@ -217,7 +215,7 @@ func TestException_AllTypesInventory(t *testing.T) {
 			name:       "Parcelable",
 			service:    "storagestats",
 			descriptor: storageStatsManagerDescriptor,
-			code:       5,
+			method:     "getCacheBytes",
 			setupData: func(p *parcel.Parcel) {
 				p.WriteString16("")
 				p.WriteString16("com.android.shell")
@@ -234,11 +232,13 @@ func TestException_AllTypesInventory(t *testing.T) {
 			requireOrSkip(t, err)
 			require.NotNil(t, svc)
 
+			code := resolveCode(ctx, t, svc, tc.descriptor, tc.method)
+
 			data := parcel.New()
 			data.WriteInterfaceToken(tc.descriptor)
 			tc.setupData(data)
 
-			reply, err := svc.Transact(ctx, tc.code, 0, data)
+			reply, err := svc.Transact(ctx, code, 0, data)
 			requireOrSkip(t, err)
 
 			statusErr := binder.ReadStatus(reply)
@@ -265,9 +265,7 @@ func TestException_AllTypesInventory(t *testing.T) {
 
 	// The number of testable exception types varies by device/API level.
 	// At minimum we should see at least 1 if any services are available.
-	if len(testedExceptions) > 0 {
-		t.Logf("Tested %d distinct exception types", len(testedExceptions))
-	} else {
-		t.Skip("no exception types could be tested on this device")
-	}
+	require.NotEmpty(t, testedExceptions,
+		"at least one exception type should have been tested; if no services are available, the subtests would have skipped")
+	t.Logf("Tested %d distinct exception types", len(testedExceptions))
 }

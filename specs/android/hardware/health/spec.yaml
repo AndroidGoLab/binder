@@ -1,0 +1,375 @@
+package: android.hardware.health
+go_package: android/hardware/health
+interfaces:
+    - name: IHealth
+      descriptor: android.hardware.health.IHealth
+      methods:
+        - name: registerCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IHealthInfoCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterCallback
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IHealthInfoCallback
+              direction: in
+          return_type:
+            name: void
+        - name: update
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: getChargeCounterUah
+          transaction_code_offset: 3
+          return_type:
+            name: int
+        - name: getCurrentNowMicroamps
+          transaction_code_offset: 4
+          return_type:
+            name: int
+        - name: getCurrentAverageMicroamps
+          transaction_code_offset: 5
+          return_type:
+            name: int
+        - name: getCapacity
+          transaction_code_offset: 6
+          return_type:
+            name: int
+        - name: getEnergyCounterNwh
+          transaction_code_offset: 7
+          return_type:
+            name: long
+        - name: getChargeStatus
+          transaction_code_offset: 8
+          return_type:
+            name: BatteryStatus
+        - name: getStorageInfo
+          transaction_code_offset: 9
+          return_type:
+            name: StorageInfo
+            is_array: true
+        - name: getDiskStats
+          transaction_code_offset: 10
+          return_type:
+            name: DiskStats
+            is_array: true
+        - name: getHealthInfo
+          transaction_code_offset: 11
+          return_type:
+            name: HealthInfo
+        - name: setChargingPolicy
+          transaction_code_offset: 12
+          params:
+            - name: in_value
+              type:
+                name: BatteryChargingPolicy
+          return_type:
+            name: void
+        - name: getChargingPolicy
+          transaction_code_offset: 13
+          return_type:
+            name: BatteryChargingPolicy
+        - name: getBatteryHealthData
+          transaction_code_offset: 14
+          return_type:
+            name: BatteryHealthData
+      constants:
+        - name: STATUS_UNKNOWN
+          type: int
+          value: "2"
+        - name: STATUS_CALLBACK_DIED
+          type: int
+          value: "4"
+    - name: IHealthInfoCallback
+      descriptor: android.hardware.health.IHealthInfoCallback
+      methods:
+        - name: healthInfoChanged
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: info
+              type:
+                name: HealthInfo
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: BatteryHealthData
+      fields:
+        - name: batteryManufacturingDateSeconds
+          type:
+            name: long
+        - name: batteryFirstUsageSeconds
+          type:
+            name: long
+        - name: batteryStateOfHealth
+          type:
+            name: long
+        - name: batterySerialNumber
+          type:
+            name: String
+          annotations:
+            - nullable
+        - name: batteryPartStatus
+          type:
+            name: BatteryPartStatus
+          default_value: BatteryPartStatus.UNSUPPORTED
+      annotations:
+        - VintfStability
+    - name: DiskStats
+      fields:
+        - name: reads
+          type:
+            name: long
+        - name: readMerges
+          type:
+            name: long
+        - name: readSectors
+          type:
+            name: long
+        - name: readTicks
+          type:
+            name: long
+        - name: writes
+          type:
+            name: long
+        - name: writeMerges
+          type:
+            name: long
+        - name: writeSectors
+          type:
+            name: long
+        - name: writeTicks
+          type:
+            name: long
+        - name: ioInFlight
+          type:
+            name: long
+        - name: ioTicks
+          type:
+            name: long
+        - name: ioInQueue
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: HealthInfo
+      fields:
+        - name: chargerAcOnline
+          type:
+            name: boolean
+        - name: chargerUsbOnline
+          type:
+            name: boolean
+        - name: chargerWirelessOnline
+          type:
+            name: boolean
+        - name: chargerDockOnline
+          type:
+            name: boolean
+        - name: maxChargingCurrentMicroamps
+          type:
+            name: int
+        - name: maxChargingVoltageMicrovolts
+          type:
+            name: int
+        - name: batteryStatus
+          type:
+            name: android.hardware.health.BatteryStatus
+        - name: batteryHealth
+          type:
+            name: android.hardware.health.BatteryHealth
+        - name: batteryPresent
+          type:
+            name: boolean
+        - name: batteryLevel
+          type:
+            name: int
+        - name: batteryVoltageMillivolts
+          type:
+            name: int
+        - name: batteryTemperatureTenthsCelsius
+          type:
+            name: int
+        - name: batteryCurrentMicroamps
+          type:
+            name: int
+        - name: batteryCycleCount
+          type:
+            name: int
+        - name: batteryFullChargeUah
+          type:
+            name: int
+        - name: batteryChargeCounterUah
+          type:
+            name: int
+        - name: batteryTechnology
+          type:
+            name: String
+        - name: batteryCurrentAverageMicroamps
+          type:
+            name: int
+        - name: diskStats
+          type:
+            name: DiskStats
+            is_array: true
+        - name: storageInfos
+          type:
+            name: StorageInfo
+            is_array: true
+        - name: batteryCapacityLevel
+          type:
+            name: BatteryCapacityLevel
+        - name: batteryChargeTimeToFullNowSeconds
+          type:
+            name: long
+        - name: batteryFullChargeDesignCapacityUah
+          type:
+            name: int
+        - name: chargingState
+          type:
+            name: BatteryChargingState
+        - name: chargingPolicy
+          type:
+            name: BatteryChargingPolicy
+        - name: batteryHealthData
+          type:
+            name: BatteryHealthData
+          annotations:
+            - nullable
+      constants:
+        - name: BATTERY_CHARGE_TIME_TO_FULL_NOW_SECONDS_UNSUPPORTED
+          type: int
+          value: "-1"
+      annotations:
+        - VintfStability
+    - name: StorageInfo
+      fields:
+        - name: eol
+          type:
+            name: int
+        - name: lifetimeA
+          type:
+            name: int
+        - name: lifetimeB
+          type:
+            name: int
+        - name: version
+          type:
+            name: String
+      annotations:
+        - VintfStability
+enums:
+    - name: BatteryCapacityLevel
+      backing_type: int
+      values:
+        - name: UNSUPPORTED
+          value: "-1"
+        - name: UNKNOWN
+          value: ""
+        - name: CRITICAL
+          value: ""
+        - name: LOW
+          value: ""
+        - name: NORMAL
+          value: ""
+        - name: HIGH
+          value: ""
+        - name: FULL
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BatteryChargingPolicy
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "0"
+        - name: DEFAULT
+          value: "1"
+        - name: LONG_LIFE
+          value: "2"
+        - name: ADAPTIVE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BatteryChargingState
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "0"
+        - name: NORMAL
+          value: "1"
+        - name: TOO_COLD
+          value: "2"
+        - name: TOO_HOT
+          value: "3"
+        - name: LONG_LIFE
+          value: "4"
+        - name: ADAPTIVE
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BatteryHealth
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "1"
+        - name: GOOD
+          value: "2"
+        - name: OVERHEAT
+          value: "3"
+        - name: DEAD
+          value: "4"
+        - name: OVER_VOLTAGE
+          value: "5"
+        - name: UNSPECIFIED_FAILURE
+          value: "6"
+        - name: COLD
+          value: "7"
+        - name: FAIR
+          value: "8"
+        - name: NOT_AVAILABLE
+          value: "11"
+        - name: INCONSISTENT
+          value: "12"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BatteryPartStatus
+      backing_type: int
+      values:
+        - name: UNSUPPORTED
+          value: "0"
+        - name: ORIGINAL
+          value: "1"
+        - name: REPLACED
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BatteryStatus
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "1"
+        - name: CHARGING
+          value: "2"
+        - name: DISCHARGING
+          value: "3"
+        - name: NOT_CHARGING
+          value: "4"
+        - name: FULL
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing

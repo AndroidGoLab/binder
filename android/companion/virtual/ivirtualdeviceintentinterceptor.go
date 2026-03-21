@@ -46,6 +46,7 @@ func (p *VirtualDeviceIntentInterceptorProxy) OnIntentIntercepted(
 	intent content.Intent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceIntentInterceptor)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -64,7 +65,8 @@ func (p *VirtualDeviceIntentInterceptorProxy) OnIntentIntercepted(
 // VirtualDeviceIntentInterceptorStub dispatches incoming binder transactions
 // to a typed IVirtualDeviceIntentInterceptor implementation.
 type VirtualDeviceIntentInterceptorStub struct {
-	Impl IVirtualDeviceIntentInterceptor
+	Impl      IVirtualDeviceIntentInterceptor
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VirtualDeviceIntentInterceptorStub)(nil)
@@ -78,11 +80,12 @@ func (s *VirtualDeviceIntentInterceptorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVirtualDeviceIntentInterceptorOnIntentIntercepted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -96,8 +99,7 @@ func (s *VirtualDeviceIntentInterceptorStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnIntentIntercepted(ctx, _arg_intent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

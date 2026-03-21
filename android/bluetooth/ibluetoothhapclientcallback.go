@@ -62,6 +62,7 @@ func (p *BluetoothHapClientCallbackProxy) OnPresetSelected(
 	reasonCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClientCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -85,6 +86,7 @@ func (p *BluetoothHapClientCallbackProxy) OnPresetSelectionFailed(
 	statusCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClientCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -107,6 +109,7 @@ func (p *BluetoothHapClientCallbackProxy) OnPresetSelectionForGroupFailed(
 	statusCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClientCallback)
 	_data.WriteInt32(hapGroupId)
 	_data.WriteInt32(statusCode)
@@ -127,6 +130,7 @@ func (p *BluetoothHapClientCallbackProxy) OnPresetInfoChanged(
 	statusCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClientCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -160,6 +164,7 @@ func (p *BluetoothHapClientCallbackProxy) OnSetPresetNameFailed(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClientCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -182,6 +187,7 @@ func (p *BluetoothHapClientCallbackProxy) OnSetPresetNameForGroupFailed(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClientCallback)
 	_data.WriteInt32(hapGroupId)
 	_data.WriteInt32(status)
@@ -198,7 +204,8 @@ func (p *BluetoothHapClientCallbackProxy) OnSetPresetNameForGroupFailed(
 // BluetoothHapClientCallbackStub dispatches incoming binder transactions
 // to a typed IBluetoothHapClientCallback implementation.
 type BluetoothHapClientCallbackStub struct {
-	Impl IBluetoothHapClientCallback
+	Impl      IBluetoothHapClientCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothHapClientCallbackStub)(nil)
@@ -212,11 +219,12 @@ func (s *BluetoothHapClientCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothHapClientCallbackOnPresetSelected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -238,12 +246,8 @@ func (s *BluetoothHapClientCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPresetSelected(ctx, _arg_device, _arg_presetIndex, _arg_reasonCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothHapClientCallbackOnPresetSelectionFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -261,12 +265,8 @@ func (s *BluetoothHapClientCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPresetSelectionFailed(ctx, _arg_device, _arg_statusCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothHapClientCallbackOnPresetSelectionForGroupFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_hapGroupId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -276,12 +276,8 @@ func (s *BluetoothHapClientCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPresetSelectionForGroupFailed(ctx, _arg_hapGroupId, _arg_statusCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothHapClientCallbackOnPresetInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -294,20 +290,34 @@ func (s *BluetoothHapClientCallbackStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_presetInfoList []BluetoothHapPresetInfo
-		_ = _arg_presetInfoList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_presetInfoList = make([]BluetoothHapPresetInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_presetInfoList[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_statusCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnPresetInfoChanged(ctx, _arg_device, _arg_presetInfoList, _arg_statusCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothHapClientCallbackOnSetPresetNameFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -325,12 +335,8 @@ func (s *BluetoothHapClientCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSetPresetNameFailed(ctx, _arg_device, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothHapClientCallbackOnSetPresetNameForGroupFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_hapGroupId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -340,8 +346,7 @@ func (s *BluetoothHapClientCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSetPresetNameForGroupFailed(ctx, _arg_hapGroupId, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

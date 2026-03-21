@@ -49,6 +49,7 @@ func (p *SuspendControlServiceProxy) RegisterCallback(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISuspendControlService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -81,6 +82,7 @@ func (p *SuspendControlServiceProxy) RegisterWakelockCallback(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISuspendControlService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(name)
@@ -110,7 +112,8 @@ func (p *SuspendControlServiceProxy) RegisterWakelockCallback(
 // SuspendControlServiceStub dispatches incoming binder transactions
 // to a typed ISuspendControlService implementation.
 type SuspendControlServiceStub struct {
-	Impl ISuspendControlService
+	Impl      ISuspendControlService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SuspendControlServiceStub)(nil)
@@ -124,14 +127,20 @@ func (s *SuspendControlServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISuspendControlServiceRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISuspendCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSuspendCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -142,12 +151,14 @@ func (s *SuspendControlServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISuspendControlServiceRegisterWakelockCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IWakelockCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewWakelockCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

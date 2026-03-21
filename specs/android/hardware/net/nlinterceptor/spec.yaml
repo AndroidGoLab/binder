@@ -1,0 +1,69 @@
+package: android.hardware.net.nlinterceptor
+go_package: android/hardware/net/nlinterceptor
+interfaces:
+    - name: IInterceptor
+      descriptor: android.hardware.net.nlinterceptor.IInterceptor
+      methods:
+        - name: createSocket
+          transaction_code_offset: 0
+          params:
+            - name: nlFamily
+              type:
+                name: int
+              direction: in
+            - name: clientNlPid
+              type:
+                name: int
+              direction: in
+            - name: clientName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: InterceptedSocket
+        - name: closeSocket
+          transaction_code_offset: 1
+          params:
+            - name: handle
+              type:
+                name: InterceptedSocket
+              direction: in
+          return_type:
+            name: void
+        - name: subscribeGroup
+          transaction_code_offset: 2
+          params:
+            - name: handle
+              type:
+                name: InterceptedSocket
+              direction: in
+            - name: nlGroup
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: unsubscribeGroup
+          transaction_code_offset: 3
+          params:
+            - name: handle
+              type:
+                name: InterceptedSocket
+              direction: in
+            - name: nlGroup
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: InterceptedSocket
+      fields:
+        - name: nlFamily
+          type:
+            name: int
+        - name: portId
+          type:
+            name: int
+      annotations:
+        - VintfStability

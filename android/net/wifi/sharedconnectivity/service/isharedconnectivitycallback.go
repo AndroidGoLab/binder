@@ -61,6 +61,7 @@ func (p *SharedConnectivityCallbackProxy) OnHotspotNetworksUpdated(
 	networks []app.HotspotNetwork,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
 	if networks == nil {
 		_data.WriteInt32(-1)
@@ -88,6 +89,7 @@ func (p *SharedConnectivityCallbackProxy) OnHotspotNetworkConnectionStatusChange
 	status app.HotspotNetworkConnectionStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
 	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
@@ -108,6 +110,7 @@ func (p *SharedConnectivityCallbackProxy) OnKnownNetworksUpdated(
 	networks []app.KnownNetwork,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
 	if networks == nil {
 		_data.WriteInt32(-1)
@@ -135,6 +138,7 @@ func (p *SharedConnectivityCallbackProxy) OnKnownNetworkConnectionStatusChanged(
 	status app.KnownNetworkConnectionStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
 	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
@@ -155,6 +159,7 @@ func (p *SharedConnectivityCallbackProxy) OnSharedConnectivitySettingsChanged(
 	state app.SharedConnectivitySettingsState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
 	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
@@ -174,6 +179,7 @@ func (p *SharedConnectivityCallbackProxy) OnServiceConnected(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnServiceConnected)
@@ -188,7 +194,8 @@ func (p *SharedConnectivityCallbackProxy) OnServiceConnected(
 // SharedConnectivityCallbackStub dispatches incoming binder transactions
 // to a typed ISharedConnectivityCallback implementation.
 type SharedConnectivityCallbackStub struct {
-	Impl ISharedConnectivityCallback
+	Impl      ISharedConnectivityCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SharedConnectivityCallbackStub)(nil)
@@ -202,21 +209,36 @@ func (s *SharedConnectivityCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISharedConnectivityCallbackOnHotspotNetworksUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_networks []app.HotspotNetwork
-		_ = _arg_networks
-		_err := s.Impl.OnHotspotNetworksUpdated(ctx, _arg_networks)
-		_ = _err
-		return nil, nil
-	case TransactionISharedConnectivityCallbackOnHotspotNetworkConnectionStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_networks = make([]app.HotspotNetwork, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_networks[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnHotspotNetworksUpdated(ctx, _arg_networks)
+		return nil, _err
+	case TransactionISharedConnectivityCallbackOnHotspotNetworkConnectionStatusChanged:
 		var _arg_status app.HotspotNetworkConnectionStatus
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -230,22 +252,32 @@ func (s *SharedConnectivityCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnHotspotNetworkConnectionStatusChanged(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISharedConnectivityCallbackOnKnownNetworksUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_networks []app.KnownNetwork
-		_ = _arg_networks
-		_err := s.Impl.OnKnownNetworksUpdated(ctx, _arg_networks)
-		_ = _err
-		return nil, nil
-	case TransactionISharedConnectivityCallbackOnKnownNetworkConnectionStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_networks = make([]app.KnownNetwork, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_networks[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnKnownNetworksUpdated(ctx, _arg_networks)
+		return nil, _err
+	case TransactionISharedConnectivityCallbackOnKnownNetworkConnectionStatusChanged:
 		var _arg_status app.KnownNetworkConnectionStatus
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -259,12 +291,8 @@ func (s *SharedConnectivityCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnKnownNetworkConnectionStatusChanged(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISharedConnectivityCallbackOnSharedConnectivitySettingsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_state app.SharedConnectivitySettingsState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -278,15 +306,10 @@ func (s *SharedConnectivityCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSharedConnectivitySettingsChanged(ctx, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISharedConnectivityCallbackOnServiceConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnServiceConnected(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

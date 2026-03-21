@@ -97,7 +97,7 @@ type IPackageInstallerSession interface {
 	Write(ctx context.Context, name string, offsetBytes int64, lengthBytes int64, fd int32) error
 	StageViaHardLink(ctx context.Context, target string) error
 	SetChecksums(ctx context.Context, name string, checksums []Checksum, signature []byte) error
-	RequestChecksums(ctx context.Context, name string, optional int32, required int32, trustedInstallers []interface{}, onChecksumsReadyListener IOnChecksumsReadyListener) error
+	RequestChecksums(ctx context.Context, name string, optional int32, required int32, trustedInstallers []any, onChecksumsReadyListener IOnChecksumsReadyListener) error
 	RemoveSplit(ctx context.Context, splitName string) error
 	Close(ctx context.Context) error
 	Commit(ctx context.Context, statusReceiver content.IntentSender, forTransferred bool) error
@@ -146,6 +146,7 @@ func (p *PackageInstallerSessionProxy) SetClientProgress(
 	progress float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteFloat32(progress)
 
@@ -172,6 +173,7 @@ func (p *PackageInstallerSessionProxy) AddClientProgress(
 	progress float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteFloat32(progress)
 
@@ -198,6 +200,7 @@ func (p *PackageInstallerSessionProxy) GetNames(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetNames)
@@ -218,6 +221,9 @@ func (p *PackageInstallerSessionProxy) GetNames(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -240,6 +246,7 @@ func (p *PackageInstallerSessionProxy) OpenWrite(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteString16(name)
 	_data.WriteInt64(offsetBytes)
@@ -273,6 +280,7 @@ func (p *PackageInstallerSessionProxy) OpenRead(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteString16(name)
 
@@ -306,6 +314,7 @@ func (p *PackageInstallerSessionProxy) Write(
 	fd int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteString16(name)
 	_data.WriteInt64(offsetBytes)
@@ -335,6 +344,7 @@ func (p *PackageInstallerSessionProxy) StageViaHardLink(
 	target string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteString16(target)
 
@@ -363,6 +373,7 @@ func (p *PackageInstallerSessionProxy) SetChecksums(
 	signature []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteString16(name)
 	if checksums == nil {
@@ -376,14 +387,7 @@ func (p *PackageInstallerSessionProxy) SetChecksums(
 			}
 		}
 	}
-	if signature == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(signature)))
-		for _, _item := range signature {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(signature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionSetChecksums)
 	if _err != nil {
@@ -408,10 +412,11 @@ func (p *PackageInstallerSessionProxy) RequestChecksums(
 	name string,
 	optional int32,
 	required int32,
-	trustedInstallers []interface{},
+	trustedInstallers []any,
 	onChecksumsReadyListener IOnChecksumsReadyListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteString16(name)
 	_data.WriteInt32(optional)
@@ -446,6 +451,7 @@ func (p *PackageInstallerSessionProxy) RemoveSplit(
 	splitName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteString16(splitName)
 
@@ -471,6 +477,7 @@ func (p *PackageInstallerSessionProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionClose)
@@ -497,6 +504,7 @@ func (p *PackageInstallerSessionProxy) Commit(
 	forTransferred bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteInt32(1)
 	if _err := statusReceiver.MarshalParcel(_data); _err != nil {
@@ -527,6 +535,7 @@ func (p *PackageInstallerSessionProxy) Transfer(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteString16(packageName)
 
@@ -552,6 +561,7 @@ func (p *PackageInstallerSessionProxy) Abandon(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionAbandon)
@@ -576,6 +586,7 @@ func (p *PackageInstallerSessionProxy) Seal(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionSeal)
@@ -601,6 +612,7 @@ func (p *PackageInstallerSessionProxy) FetchPackageNames(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionFetchPackageNames)
@@ -622,6 +634,9 @@ func (p *PackageInstallerSessionProxy) FetchPackageNames(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -640,6 +655,7 @@ func (p *PackageInstallerSessionProxy) GetDataLoaderParams(
 ) (DataLoaderParamsParcel, error) {
 	var _result DataLoaderParamsParcel
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetDataLoaderParams)
@@ -678,26 +694,13 @@ func (p *PackageInstallerSessionProxy) AddFile(
 	signature []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteInt32(location)
 	_data.WriteString16(name)
 	_data.WriteInt64(lengthBytes)
-	if metadata == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(metadata)))
-		for _, _item := range metadata {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if signature == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(signature)))
-		for _, _item := range signature {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(metadata)
+	_data.WriteByteArray(signature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionAddFile)
 	if _err != nil {
@@ -723,6 +726,7 @@ func (p *PackageInstallerSessionProxy) RemoveFile(
 	name string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteInt32(location)
 	_data.WriteString16(name)
@@ -750,6 +754,7 @@ func (p *PackageInstallerSessionProxy) IsMultiPackage(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionIsMultiPackage)
@@ -779,6 +784,7 @@ func (p *PackageInstallerSessionProxy) GetChildSessionIds(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetChildSessionIds)
@@ -800,6 +806,9 @@ func (p *PackageInstallerSessionProxy) GetChildSessionIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -818,6 +827,7 @@ func (p *PackageInstallerSessionProxy) AddChildSessionId(
 	sessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteInt32(sessionId)
 
@@ -844,6 +854,7 @@ func (p *PackageInstallerSessionProxy) RemoveChildSessionId(
 	sessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteInt32(sessionId)
 
@@ -870,6 +881,7 @@ func (p *PackageInstallerSessionProxy) GetParentSessionId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetParentSessionId)
@@ -899,6 +911,7 @@ func (p *PackageInstallerSessionProxy) IsStaged(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionIsStaged)
@@ -928,6 +941,7 @@ func (p *PackageInstallerSessionProxy) GetInstallFlags(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetInstallFlags)
@@ -958,6 +972,7 @@ func (p *PackageInstallerSessionProxy) RequestUserPreapproval(
 	statusReceiver content.IntentSender,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteInt32(1)
 	if _err := details.MarshalParcel(_data); _err != nil {
@@ -991,6 +1006,7 @@ func (p *PackageInstallerSessionProxy) IsApplicationEnabledSettingPersistent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionIsApplicationEnabledSettingPersistent)
@@ -1020,6 +1036,7 @@ func (p *PackageInstallerSessionProxy) IsRequestUpdateOwnership(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionIsRequestUpdateOwnership)
@@ -1049,6 +1066,7 @@ func (p *PackageInstallerSessionProxy) GetAppMetadataFd(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetAppMetadataFd)
@@ -1078,6 +1096,7 @@ func (p *PackageInstallerSessionProxy) OpenWriteAppMetadata(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionOpenWriteAppMetadata)
@@ -1106,6 +1125,7 @@ func (p *PackageInstallerSessionProxy) RemoveAppMetadata(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRemoveAppMetadata)
@@ -1131,6 +1151,7 @@ func (p *PackageInstallerSessionProxy) SetPreVerifiedDomains(
 	preVerifiedDomains domain.DomainSet,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteInt32(1)
 	if _err := preVerifiedDomains.MarshalParcel(_data); _err != nil {
@@ -1160,6 +1181,7 @@ func (p *PackageInstallerSessionProxy) GetPreVerifiedDomains(
 ) (domain.DomainSet, error) {
 	var _result domain.DomainSet
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetPreVerifiedDomains)
@@ -1192,7 +1214,8 @@ func (p *PackageInstallerSessionProxy) GetPreVerifiedDomains(
 // PackageInstallerSessionStub dispatches incoming binder transactions
 // to a typed IPackageInstallerSession implementation.
 type PackageInstallerSessionStub struct {
-	Impl IPackageInstallerSession
+	Impl      IPackageInstallerSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PackageInstallerSessionStub)(nil)
@@ -1206,11 +1229,12 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPackageInstallerSessionSetClientProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_progress, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -1224,9 +1248,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionAddClientProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_progress, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -1240,9 +1261,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionGetNames:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetNames(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1250,13 +1268,16 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageInstallerSessionOpenWrite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1279,9 +1300,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionOpenRead:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1296,9 +1314,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionWrite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1324,9 +1339,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionStageViaHardLink:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_target, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1340,19 +1352,39 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionSetChecksums:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_checksums []Checksum
-		_ = _arg_checksums
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_checksums = make([]Checksum, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_checksums[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_signature []byte
-		_ = _arg_signature
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_signature = _bytes
+		}
 		_err = s.Impl.SetChecksums(ctx, _arg_name, _arg_checksums, _arg_signature)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1362,9 +1394,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionRequestChecksums:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1377,12 +1406,27 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_trustedInstallers []interface{}
-		_ = _arg_trustedInstallers
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_trustedInstallers []any
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_trustedInstallers = make([]any, _count)
+			}
+		}
 		var _arg_onChecksumsReadyListener IOnChecksumsReadyListener
-		_ = _arg_onChecksumsReadyListener
+		{
+			_onChecksumsReadyListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_onChecksumsReadyListener = NewOnChecksumsReadyListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _onChecksumsReadyListenerHandle))
+		}
 		_err = s.Impl.RequestChecksums(ctx, _arg_name, _arg_optional, _arg_required, _arg_trustedInstallers, _arg_onChecksumsReadyListener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1392,9 +1436,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionRemoveSplit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_splitName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1408,9 +1449,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1420,9 +1458,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionCommit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_statusReceiver content.IntentSender
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1448,9 +1483,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionTransfer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1464,9 +1496,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionAbandon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Abandon(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1476,9 +1505,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionSeal:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Seal(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1488,9 +1514,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionFetchPackageNames:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.FetchPackageNames(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1498,13 +1521,16 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageInstallerSessionGetDataLoaderParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDataLoaderParams(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1518,9 +1544,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageInstallerSessionAddFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_location, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1533,12 +1556,22 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_metadata []byte
-		_ = _arg_metadata
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_metadata = _bytes
+		}
 		var _arg_signature []byte
-		_ = _arg_signature
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_signature = _bytes
+		}
 		_err = s.Impl.AddFile(ctx, _arg_location, _arg_name, _arg_lengthBytes, _arg_metadata, _arg_signature)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1548,9 +1581,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionRemoveFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_location, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1568,9 +1598,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionIsMultiPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsMultiPackage(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1581,9 +1608,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionGetChildSessionIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetChildSessionIds(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1591,13 +1615,16 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageInstallerSessionAddChildSessionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1611,9 +1638,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionRemoveChildSessionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1627,9 +1651,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionGetParentSessionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetParentSessionId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1640,9 +1661,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionIsStaged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsStaged(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1653,9 +1671,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionGetInstallFlags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetInstallFlags(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1666,9 +1681,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionRequestUserPreapproval:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_details PackageInstallerPreapprovalDetails
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1702,9 +1714,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionIsApplicationEnabledSettingPersistent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsApplicationEnabledSettingPersistent(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1715,9 +1724,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionIsRequestUpdateOwnership:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsRequestUpdateOwnership(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1728,9 +1734,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionGetAppMetadataFd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAppMetadataFd(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1741,9 +1744,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionOpenWriteAppMetadata:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.OpenWriteAppMetadata(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1754,9 +1754,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionRemoveAppMetadata:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RemoveAppMetadata(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1766,9 +1763,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionSetPreVerifiedDomains:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_preVerifiedDomains domain.DomainSet
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1790,9 +1784,6 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionGetPreVerifiedDomains:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPreVerifiedDomains(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1822,7 +1813,7 @@ type IPackageInstallerSessionServer interface {
 	Write(ctx context.Context, name string, offsetBytes int64, lengthBytes int64, fd int32) error
 	StageViaHardLink(ctx context.Context, target string) error
 	SetChecksums(ctx context.Context, name string, checksums []Checksum, signature []byte) error
-	RequestChecksums(ctx context.Context, name string, optional int32, required int32, trustedInstallers []interface{}, onChecksumsReadyListener IOnChecksumsReadyListener) error
+	RequestChecksums(ctx context.Context, name string, optional int32, required int32, trustedInstallers []any, onChecksumsReadyListener IOnChecksumsReadyListener) error
 	RemoveSplit(ctx context.Context, splitName string) error
 	Close(ctx context.Context) error
 	Commit(ctx context.Context, statusReceiver content.IntentSender, forTransferred bool) error
@@ -1926,7 +1917,7 @@ func (w *packageInstallerSessionStubWrapper) RequestChecksums(
 	name string,
 	optional int32,
 	required int32,
-	trustedInstallers []interface{},
+	trustedInstallers []any,
 	onChecksumsReadyListener IOnChecksumsReadyListener,
 ) error {
 	return w.impl.RequestChecksums(ctx, name, optional, required, trustedInstallers, onChecksumsReadyListener)

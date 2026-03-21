@@ -45,6 +45,7 @@ func (p *TransportSelectorResultCallbackProxy) OnCompleted(
 	cb IWwanSelectorCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransportSelectorResultCallback)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
@@ -60,7 +61,8 @@ func (p *TransportSelectorResultCallbackProxy) OnCompleted(
 // TransportSelectorResultCallbackStub dispatches incoming binder transactions
 // to a typed ITransportSelectorResultCallback implementation.
 type TransportSelectorResultCallbackStub struct {
-	Impl ITransportSelectorResultCallback
+	Impl      ITransportSelectorResultCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TransportSelectorResultCallbackStub)(nil)
@@ -74,17 +76,22 @@ func (s *TransportSelectorResultCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITransportSelectorResultCallbackOnCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IWwanSelectorCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewWwanSelectorCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err := s.Impl.OnCompleted(ctx, _arg_cb)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

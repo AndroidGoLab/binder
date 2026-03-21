@@ -1,0 +1,195 @@
+package: android.app.people
+go_package: android/app/people
+interfaces:
+    - name: IConversationListener
+      descriptor: android.app.people.IConversationListener
+      oneway: true
+      methods:
+        - name: onConversationUpdate
+          transaction_code_offset: 0
+          params:
+            - name: conversation
+              type:
+                name: ConversationChannel
+              direction: in
+          return_type:
+            name: void
+    - name: IPeopleManager
+      descriptor: android.app.people.IPeopleManager
+      methods:
+        - name: getConversation
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: shortcutId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: ConversationChannel
+        - name: getRecentConversations
+          transaction_code_offset: 1
+          return_type:
+            name: ParceledListSlice
+        - name: removeRecentConversation
+          transaction_code_offset: 2
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: shortcutId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: removeAllRecentConversations
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: isConversation
+          transaction_code_offset: 4
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: shortcutId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: getLastInteraction
+          transaction_code_offset: 5
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: shortcutId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: long
+        - name: addOrUpdateStatus
+          transaction_code_offset: 6
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: conversationId
+              type:
+                name: String
+              direction: in
+            - name: status
+              type:
+                name: ConversationStatus
+              direction: in
+          return_type:
+            name: void
+        - name: clearStatus
+          transaction_code_offset: 7
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: conversationId
+              type:
+                name: String
+              direction: in
+            - name: statusId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: clearStatuses
+          transaction_code_offset: 8
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: conversationId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getStatuses
+          transaction_code_offset: 9
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: conversationId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: ParceledListSlice
+        - name: registerConversationListener
+          transaction_code_offset: 10
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: shortcutId
+              type:
+                name: String
+              direction: in
+            - name: callback
+              type:
+                name: IConversationListener
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterConversationListener
+          transaction_code_offset: 11
+          params:
+            - name: callback
+              type:
+                name: IConversationListener
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: ConversationChannel
+    - name: ConversationStatus

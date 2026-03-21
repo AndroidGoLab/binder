@@ -50,6 +50,7 @@ func (p *VirtualDisplayCallbackProxy) OnPaused(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDisplayCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDisplayCallback, MethodIVirtualDisplayCallbackOnPaused)
@@ -65,6 +66,7 @@ func (p *VirtualDisplayCallbackProxy) OnResumed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDisplayCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDisplayCallback, MethodIVirtualDisplayCallbackOnResumed)
@@ -80,6 +82,7 @@ func (p *VirtualDisplayCallbackProxy) OnStopped(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDisplayCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDisplayCallback, MethodIVirtualDisplayCallbackOnStopped)
@@ -94,7 +97,8 @@ func (p *VirtualDisplayCallbackProxy) OnStopped(
 // VirtualDisplayCallbackStub dispatches incoming binder transactions
 // to a typed IVirtualDisplayCallback implementation.
 type VirtualDisplayCallbackStub struct {
-	Impl IVirtualDisplayCallback
+	Impl      IVirtualDisplayCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VirtualDisplayCallbackStub)(nil)
@@ -108,28 +112,20 @@ func (s *VirtualDisplayCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVirtualDisplayCallbackOnPaused:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnPaused(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVirtualDisplayCallbackOnResumed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnResumed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVirtualDisplayCallbackOnStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnStopped(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

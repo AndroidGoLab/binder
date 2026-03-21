@@ -80,7 +80,10 @@ func (b *ProxyBinder) UnlinkToDeath(
 
 // IsAlive checks whether the remote Binder object is still alive via a ping transaction.
 func (b *ProxyBinder) IsAlive(ctx context.Context) bool {
-	reply, err := b.transport.Transact(ctx, b.handle, PingTransaction, 0, parcel.New())
+	data := parcel.New()
+	defer data.Recycle()
+
+	reply, err := b.transport.Transact(ctx, b.handle, PingTransaction, 0, data)
 	if err != nil {
 		return false
 	}

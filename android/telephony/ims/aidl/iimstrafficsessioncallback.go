@@ -48,6 +48,7 @@ func (p *ImsTrafficSessionCallbackProxy) OnReady(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsTrafficSessionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsTrafficSessionCallback, MethodIImsTrafficSessionCallbackOnReady)
@@ -64,6 +65,7 @@ func (p *ImsTrafficSessionCallbackProxy) OnError(
 	info ims.ConnectionFailureInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsTrafficSessionCallback)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -82,7 +84,8 @@ func (p *ImsTrafficSessionCallbackProxy) OnError(
 // ImsTrafficSessionCallbackStub dispatches incoming binder transactions
 // to a typed IImsTrafficSessionCallback implementation.
 type ImsTrafficSessionCallbackStub struct {
-	Impl IImsTrafficSessionCallback
+	Impl      IImsTrafficSessionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsTrafficSessionCallbackStub)(nil)
@@ -96,18 +99,15 @@ func (s *ImsTrafficSessionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsTrafficSessionCallbackOnReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnReady(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsTrafficSessionCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info ims.ConnectionFailureInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -121,8 +121,7 @@ func (s *ImsTrafficSessionCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnError(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

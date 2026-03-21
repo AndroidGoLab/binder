@@ -1,0 +1,411 @@
+package: android.hardware.wifi.hostapd
+go_package: android/hardware/wifi/hostapd
+interfaces:
+    - name: IHostapd
+      descriptor: android.hardware.wifi.hostapd.IHostapd
+      methods:
+        - name: addAccessPoint
+          transaction_code_offset: 0
+          params:
+            - name: ifaceParams
+              type:
+                name: IfaceParams
+              direction: in
+            - name: nwParams
+              type:
+                name: NetworkParams
+              direction: in
+          return_type:
+            name: void
+        - name: forceClientDisconnect
+          transaction_code_offset: 1
+          params:
+            - name: ifaceName
+              type:
+                name: String
+              direction: in
+            - name: clientAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: reasonCode
+              type:
+                name: Ieee80211ReasonCode
+              direction: in
+          return_type:
+            name: void
+        - name: registerCallback
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: IHostapdCallback
+              direction: in
+          return_type:
+            name: void
+        - name: removeAccessPoint
+          transaction_code_offset: 3
+          params:
+            - name: ifaceName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setDebugParams
+          transaction_code_offset: 4
+          params:
+            - name: level
+              type:
+                name: DebugLevel
+              direction: in
+          return_type:
+            name: void
+        - name: terminate
+          transaction_code_offset: 5
+          oneway: true
+          return_type:
+            name: void
+    - name: IHostapdCallback
+      descriptor: android.hardware.wifi.hostapd.IHostapdCallback
+      methods:
+        - name: onApInstanceInfoChanged
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: apInfo
+              type:
+                name: ApInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onConnectedClientsChanged
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: clientInfo
+              type:
+                name: ClientInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: ifaceName
+              type:
+                name: String
+              direction: in
+            - name: instanceName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: ApInfo
+      fields:
+        - name: ifaceName
+          type:
+            name: String
+        - name: apIfaceInstance
+          type:
+            name: String
+        - name: freqMhz
+          type:
+            name: int
+        - name: channelBandwidth
+          type:
+            name: ChannelBandwidth
+        - name: generation
+          type:
+            name: Generation
+        - name: apIfaceInstanceMacAddress
+          type:
+            name: byte
+            is_array: true
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: ChannelParams
+      fields:
+        - name: bandMask
+          type:
+            name: BandMask
+        - name: acsChannelFreqRangesMhz
+          type:
+            name: FrequencyRange
+            is_array: true
+        - name: enableAcs
+          type:
+            name: boolean
+        - name: acsShouldExcludeDfs
+          type:
+            name: boolean
+        - name: channel
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: ClientInfo
+      fields:
+        - name: ifaceName
+          type:
+            name: String
+        - name: apIfaceInstance
+          type:
+            name: String
+        - name: clientAddress
+          type:
+            name: byte
+            is_array: true
+        - name: isConnected
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: FrequencyRange
+      fields:
+        - name: startMhz
+          type:
+            name: int
+        - name: endMhz
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: HwModeParams
+      fields:
+        - name: enable80211N
+          type:
+            name: boolean
+        - name: enable80211AC
+          type:
+            name: boolean
+        - name: enable80211AX
+          type:
+            name: boolean
+        - name: enable6GhzBand
+          type:
+            name: boolean
+        - name: enableHeSingleUserBeamformer
+          type:
+            name: boolean
+        - name: enableHeSingleUserBeamformee
+          type:
+            name: boolean
+        - name: enableHeMultiUserBeamformer
+          type:
+            name: boolean
+        - name: enableHeTargetWakeTime
+          type:
+            name: boolean
+        - name: enableEdmg
+          type:
+            name: boolean
+        - name: enable80211BE
+          type:
+            name: boolean
+        - name: maximumChannelBandwidth
+          type:
+            name: ChannelBandwidth
+      annotations:
+        - VintfStability
+    - name: IfaceParams
+      fields:
+        - name: name
+          type:
+            name: String
+        - name: hwModeParams
+          type:
+            name: HwModeParams
+        - name: channelParams
+          type:
+            name: ChannelParams
+            is_array: true
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: NetworkParams
+      fields:
+        - name: ssid
+          type:
+            name: byte
+            is_array: true
+        - name: isHidden
+          type:
+            name: boolean
+        - name: encryptionType
+          type:
+            name: EncryptionType
+        - name: passphrase
+          type:
+            name: String
+        - name: isMetered
+          type:
+            name: boolean
+        - name: vendorElements
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+enums:
+    - name: BandMask
+      backing_type: int
+      values:
+        - name: BAND_2_GHZ
+          value: 1 << 0
+        - name: BAND_5_GHZ
+          value: 1 << 1
+        - name: BAND_6_GHZ
+          value: 1 << 2
+        - name: BAND_60_GHZ
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ChannelBandwidth
+      backing_type: int
+      values:
+        - name: BANDWIDTH_INVALID
+          value: "0"
+        - name: BANDWIDTH_AUTO
+          value: "1"
+        - name: BANDWIDTH_20_NOHT
+          value: "2"
+        - name: BANDWIDTH_20
+          value: "3"
+        - name: BANDWIDTH_40
+          value: "4"
+        - name: BANDWIDTH_80
+          value: "5"
+        - name: BANDWIDTH_80P80
+          value: "6"
+        - name: BANDWIDTH_160
+          value: "7"
+        - name: BANDWIDTH_320
+          value: "8"
+        - name: BANDWIDTH_2160
+          value: "9"
+        - name: BANDWIDTH_4320
+          value: "10"
+        - name: BANDWIDTH_6480
+          value: "11"
+        - name: BANDWIDTH_8640
+          value: "12"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DebugLevel
+      backing_type: int
+      values:
+        - name: EXCESSIVE
+          value: "0"
+        - name: MSGDUMP
+          value: "1"
+        - name: DEBUG
+          value: "2"
+        - name: INFO
+          value: "3"
+        - name: WARNING
+          value: "4"
+        - name: ERROR
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EncryptionType
+      backing_type: int
+      values:
+        - name: NONE
+          value: ""
+        - name: WPA
+          value: ""
+        - name: WPA2
+          value: ""
+        - name: WPA3_SAE_TRANSITION
+          value: ""
+        - name: WPA3_SAE
+          value: ""
+        - name: WPA3_OWE_TRANSITION
+          value: ""
+        - name: WPA3_OWE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Generation
+      backing_type: int
+      values:
+        - name: WIFI_STANDARD_UNKNOWN
+          value: "-1"
+        - name: WIFI_STANDARD_LEGACY
+          value: "0"
+        - name: WIFI_STANDARD_11N
+          value: "1"
+        - name: WIFI_STANDARD_11AC
+          value: "2"
+        - name: WIFI_STANDARD_11AD
+          value: "3"
+        - name: WIFI_STANDARD_11AX
+          value: "4"
+        - name: WIFI_STANDARD_11BE
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: HostapdStatusCode
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: ""
+        - name: FAILURE_UNKNOWN
+          value: ""
+        - name: FAILURE_ARGS_INVALID
+          value: ""
+        - name: FAILURE_IFACE_UNKNOWN
+          value: ""
+        - name: FAILURE_IFACE_EXISTS
+          value: ""
+        - name: FAILURE_CLIENT_UNKNOWN
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Ieee80211ReasonCode
+      backing_type: int
+      values:
+        - name: WLAN_REASON_UNSPECIFIED
+          value: "1"
+        - name: WLAN_REASON_PREV_AUTH_NOT_VALID
+          value: "2"
+        - name: WLAN_REASON_DISASSOC_AP_BUSY
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ParamSizeLimits
+      backing_type: int
+      values:
+        - name: SSID_MAX_LEN_IN_BYTES
+          value: "32"
+        - name: WPA2_PSK_PASSPHRASE_MIN_LEN_IN_BYTES
+          value: "8"
+        - name: WPA2_PSK_PASSPHRASE_MAX_LEN_IN_BYTES
+          value: "63"
+      annotations:
+        - VintfStability
+        - Backing

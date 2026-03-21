@@ -2,7 +2,6 @@ package audio
 
 import (
 	"fmt"
-	audioCodecSpecificCapabilitiesLtv "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/CodecSpecificCapabilitiesLtv"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -18,88 +17,83 @@ const (
 
 type CodecSpecificCapabilitiesLtv struct {
 	Tag                           int32
-	SupportedSamplingFrequencies  audioCodecSpecificCapabilitiesLtv.SupportedSamplingFrequencies
-	SupportedFrameDurations       audioCodecSpecificCapabilitiesLtv.SupportedFrameDurations
-	SupportedAudioChannelCounts   audioCodecSpecificCapabilitiesLtv.SupportedAudioChannelCounts
-	SupportedOctetsPerCodecFrame  audioCodecSpecificCapabilitiesLtv.SupportedOctetsPerCodecFrame
-	SupportedMaxCodecFramesPerSDU audioCodecSpecificCapabilitiesLtv.SupportedMaxCodecFramesPerSDU
+	SupportedSamplingFrequencies  CodecSpecificCapabilitiesLtvSupportedSamplingFrequencies
+	SupportedFrameDurations       CodecSpecificCapabilitiesLtvSupportedFrameDurations
+	SupportedAudioChannelCounts   CodecSpecificCapabilitiesLtvSupportedAudioChannelCounts
+	SupportedOctetsPerCodecFrame  CodecSpecificCapabilitiesLtvSupportedOctetsPerCodecFrame
+	SupportedMaxCodecFramesPerSDU CodecSpecificCapabilitiesLtvSupportedMaxCodecFramesPerSDU
 }
 
 var _ parcel.Parcelable = (*CodecSpecificCapabilitiesLtv)(nil)
 
-func (u *CodecSpecificCapabilitiesLtv) GetSupportedSamplingFrequencies() (audioCodecSpecificCapabilitiesLtv.SupportedSamplingFrequencies, bool) {
+func (u *CodecSpecificCapabilitiesLtv) GetSupportedSamplingFrequencies() (CodecSpecificCapabilitiesLtvSupportedSamplingFrequencies, bool) {
 	if u.Tag != CodecSpecificCapabilitiesLtvTagSupportedSamplingFrequencies {
-		var _zero audioCodecSpecificCapabilitiesLtv.SupportedSamplingFrequencies
+		var _zero CodecSpecificCapabilitiesLtvSupportedSamplingFrequencies
 		return _zero, false
 	}
 	return u.SupportedSamplingFrequencies, true
 }
 
 func (u *CodecSpecificCapabilitiesLtv) SetSupportedSamplingFrequencies(
-	v audioCodecSpecificCapabilitiesLtv.SupportedSamplingFrequencies,
+	v CodecSpecificCapabilitiesLtvSupportedSamplingFrequencies,
 ) {
-	u.Tag = CodecSpecificCapabilitiesLtvTagSupportedSamplingFrequencies
-	u.SupportedSamplingFrequencies = v
+	*u = CodecSpecificCapabilitiesLtv{Tag: CodecSpecificCapabilitiesLtvTagSupportedSamplingFrequencies, SupportedSamplingFrequencies: v}
 }
 
-func (u *CodecSpecificCapabilitiesLtv) GetSupportedFrameDurations() (audioCodecSpecificCapabilitiesLtv.SupportedFrameDurations, bool) {
+func (u *CodecSpecificCapabilitiesLtv) GetSupportedFrameDurations() (CodecSpecificCapabilitiesLtvSupportedFrameDurations, bool) {
 	if u.Tag != CodecSpecificCapabilitiesLtvTagSupportedFrameDurations {
-		var _zero audioCodecSpecificCapabilitiesLtv.SupportedFrameDurations
+		var _zero CodecSpecificCapabilitiesLtvSupportedFrameDurations
 		return _zero, false
 	}
 	return u.SupportedFrameDurations, true
 }
 
 func (u *CodecSpecificCapabilitiesLtv) SetSupportedFrameDurations(
-	v audioCodecSpecificCapabilitiesLtv.SupportedFrameDurations,
+	v CodecSpecificCapabilitiesLtvSupportedFrameDurations,
 ) {
-	u.Tag = CodecSpecificCapabilitiesLtvTagSupportedFrameDurations
-	u.SupportedFrameDurations = v
+	*u = CodecSpecificCapabilitiesLtv{Tag: CodecSpecificCapabilitiesLtvTagSupportedFrameDurations, SupportedFrameDurations: v}
 }
 
-func (u *CodecSpecificCapabilitiesLtv) GetSupportedAudioChannelCounts() (audioCodecSpecificCapabilitiesLtv.SupportedAudioChannelCounts, bool) {
+func (u *CodecSpecificCapabilitiesLtv) GetSupportedAudioChannelCounts() (CodecSpecificCapabilitiesLtvSupportedAudioChannelCounts, bool) {
 	if u.Tag != CodecSpecificCapabilitiesLtvTagSupportedAudioChannelCounts {
-		var _zero audioCodecSpecificCapabilitiesLtv.SupportedAudioChannelCounts
+		var _zero CodecSpecificCapabilitiesLtvSupportedAudioChannelCounts
 		return _zero, false
 	}
 	return u.SupportedAudioChannelCounts, true
 }
 
 func (u *CodecSpecificCapabilitiesLtv) SetSupportedAudioChannelCounts(
-	v audioCodecSpecificCapabilitiesLtv.SupportedAudioChannelCounts,
+	v CodecSpecificCapabilitiesLtvSupportedAudioChannelCounts,
 ) {
-	u.Tag = CodecSpecificCapabilitiesLtvTagSupportedAudioChannelCounts
-	u.SupportedAudioChannelCounts = v
+	*u = CodecSpecificCapabilitiesLtv{Tag: CodecSpecificCapabilitiesLtvTagSupportedAudioChannelCounts, SupportedAudioChannelCounts: v}
 }
 
-func (u *CodecSpecificCapabilitiesLtv) GetSupportedOctetsPerCodecFrame() (audioCodecSpecificCapabilitiesLtv.SupportedOctetsPerCodecFrame, bool) {
+func (u *CodecSpecificCapabilitiesLtv) GetSupportedOctetsPerCodecFrame() (CodecSpecificCapabilitiesLtvSupportedOctetsPerCodecFrame, bool) {
 	if u.Tag != CodecSpecificCapabilitiesLtvTagSupportedOctetsPerCodecFrame {
-		var _zero audioCodecSpecificCapabilitiesLtv.SupportedOctetsPerCodecFrame
+		var _zero CodecSpecificCapabilitiesLtvSupportedOctetsPerCodecFrame
 		return _zero, false
 	}
 	return u.SupportedOctetsPerCodecFrame, true
 }
 
 func (u *CodecSpecificCapabilitiesLtv) SetSupportedOctetsPerCodecFrame(
-	v audioCodecSpecificCapabilitiesLtv.SupportedOctetsPerCodecFrame,
+	v CodecSpecificCapabilitiesLtvSupportedOctetsPerCodecFrame,
 ) {
-	u.Tag = CodecSpecificCapabilitiesLtvTagSupportedOctetsPerCodecFrame
-	u.SupportedOctetsPerCodecFrame = v
+	*u = CodecSpecificCapabilitiesLtv{Tag: CodecSpecificCapabilitiesLtvTagSupportedOctetsPerCodecFrame, SupportedOctetsPerCodecFrame: v}
 }
 
-func (u *CodecSpecificCapabilitiesLtv) GetSupportedMaxCodecFramesPerSDU() (audioCodecSpecificCapabilitiesLtv.SupportedMaxCodecFramesPerSDU, bool) {
+func (u *CodecSpecificCapabilitiesLtv) GetSupportedMaxCodecFramesPerSDU() (CodecSpecificCapabilitiesLtvSupportedMaxCodecFramesPerSDU, bool) {
 	if u.Tag != CodecSpecificCapabilitiesLtvTagSupportedMaxCodecFramesPerSDU {
-		var _zero audioCodecSpecificCapabilitiesLtv.SupportedMaxCodecFramesPerSDU
+		var _zero CodecSpecificCapabilitiesLtvSupportedMaxCodecFramesPerSDU
 		return _zero, false
 	}
 	return u.SupportedMaxCodecFramesPerSDU, true
 }
 
 func (u *CodecSpecificCapabilitiesLtv) SetSupportedMaxCodecFramesPerSDU(
-	v audioCodecSpecificCapabilitiesLtv.SupportedMaxCodecFramesPerSDU,
+	v CodecSpecificCapabilitiesLtvSupportedMaxCodecFramesPerSDU,
 ) {
-	u.Tag = CodecSpecificCapabilitiesLtvTagSupportedMaxCodecFramesPerSDU
-	u.SupportedMaxCodecFramesPerSDU = v
+	*u = CodecSpecificCapabilitiesLtv{Tag: CodecSpecificCapabilitiesLtvTagSupportedMaxCodecFramesPerSDU, SupportedMaxCodecFramesPerSDU: v}
 }
 
 func (u *CodecSpecificCapabilitiesLtv) MarshalParcel(

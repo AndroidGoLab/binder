@@ -30,6 +30,11 @@ func (s *NanSessionRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Enable, _err = p.ReadBool()
 	if _err != nil {
 		return _err

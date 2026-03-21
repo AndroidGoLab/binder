@@ -57,6 +57,7 @@ func (p *NetworkServiceProxy) CreateNetworkServiceProvider(
 	slotId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkService)
 	_data.WriteInt32(slotId)
 
@@ -74,6 +75,7 @@ func (p *NetworkServiceProxy) RemoveNetworkServiceProvider(
 	slotId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkService)
 	_data.WriteInt32(slotId)
 
@@ -93,6 +95,7 @@ func (p *NetworkServiceProxy) RequestNetworkRegistrationInfo(
 	callback INetworkServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(domain)
@@ -113,6 +116,7 @@ func (p *NetworkServiceProxy) RegisterForNetworkRegistrationInfoChanged(
 	callback INetworkServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkService)
 	_data.WriteInt32(slotId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -132,6 +136,7 @@ func (p *NetworkServiceProxy) UnregisterForNetworkRegistrationInfoChanged(
 	callback INetworkServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkService)
 	_data.WriteInt32(slotId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -148,7 +153,8 @@ func (p *NetworkServiceProxy) UnregisterForNetworkRegistrationInfoChanged(
 // NetworkServiceStub dispatches incoming binder transactions
 // to a typed INetworkService implementation.
 type NetworkServiceStub struct {
-	Impl INetworkService
+	Impl      INetworkService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NetworkServiceStub)(nil)
@@ -162,33 +168,26 @@ func (s *NetworkServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINetworkServiceCreateNetworkServiceProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.CreateNetworkServiceProvider(ctx, _arg_slotId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkServiceRemoveNetworkServiceProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RemoveNetworkServiceProvider(ctx, _arg_slotId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkServiceRequestNetworkRegistrationInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -197,40 +196,46 @@ func (s *NetworkServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback INetworkServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewNetworkServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RequestNetworkRegistrationInfo(ctx, _arg_slotId, _arg_domain, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkServiceRegisterForNetworkRegistrationInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback INetworkServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewNetworkServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RegisterForNetworkRegistrationInfoChanged(ctx, _arg_slotId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkServiceUnregisterForNetworkRegistrationInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback INetworkServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewNetworkServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.UnregisterForNetworkRegistrationInfoChanged(ctx, _arg_slotId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

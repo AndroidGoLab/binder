@@ -100,6 +100,7 @@ func (p *SessionCallbackProxy) OnChallengeGenerated(
 	challenge int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteInt64(challenge)
 
@@ -126,6 +127,7 @@ func (p *SessionCallbackProxy) OnChallengeRevoked(
 	challenge int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteInt64(challenge)
 
@@ -152,6 +154,7 @@ func (p *SessionCallbackProxy) OnAuthenticationFrame(
 	frame AuthenticationFrame,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
@@ -181,6 +184,7 @@ func (p *SessionCallbackProxy) OnEnrollmentFrame(
 	frame EnrollmentFrame,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
@@ -211,6 +215,7 @@ func (p *SessionCallbackProxy) OnError(
 	vendorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WritePaddedByte(byte(error_))
 	_data.WriteInt32(vendorCode)
@@ -239,6 +244,7 @@ func (p *SessionCallbackProxy) OnEnrollmentProgress(
 	remaining int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteInt32(enrollmentId)
 	_data.WriteInt32(remaining)
@@ -267,6 +273,7 @@ func (p *SessionCallbackProxy) OnAuthenticationSucceeded(
 	hat keymaster.HardwareAuthToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteInt32(enrollmentId)
 	_data.WriteInt32(1)
@@ -296,6 +303,7 @@ func (p *SessionCallbackProxy) OnAuthenticationFailed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnAuthenticationFailed)
@@ -321,6 +329,7 @@ func (p *SessionCallbackProxy) OnLockoutTimed(
 	durationMillis int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteInt64(durationMillis)
 
@@ -346,6 +355,7 @@ func (p *SessionCallbackProxy) OnLockoutPermanent(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnLockoutPermanent)
@@ -370,6 +380,7 @@ func (p *SessionCallbackProxy) OnLockoutCleared(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnLockoutCleared)
@@ -394,6 +405,7 @@ func (p *SessionCallbackProxy) OnInteractionDetected(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnInteractionDetected)
@@ -419,6 +431,7 @@ func (p *SessionCallbackProxy) OnEnrollmentsEnumerated(
 	enrollmentIds []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	if enrollmentIds == nil {
 		_data.WriteInt32(-1)
@@ -452,6 +465,7 @@ func (p *SessionCallbackProxy) OnFeaturesRetrieved(
 	features []Feature,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	if features == nil {
 		_data.WriteInt32(-1)
@@ -485,6 +499,7 @@ func (p *SessionCallbackProxy) OnFeatureSet(
 	feature Feature,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WritePaddedByte(byte(feature))
 
@@ -511,6 +526,7 @@ func (p *SessionCallbackProxy) OnEnrollmentsRemoved(
 	enrollmentIds []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	if enrollmentIds == nil {
 		_data.WriteInt32(-1)
@@ -544,6 +560,7 @@ func (p *SessionCallbackProxy) OnAuthenticatorIdRetrieved(
 	authenticatorId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteInt64(authenticatorId)
 
@@ -570,6 +587,7 @@ func (p *SessionCallbackProxy) OnAuthenticatorIdInvalidated(
 	newAuthenticatorId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteInt64(newAuthenticatorId)
 
@@ -595,6 +613,7 @@ func (p *SessionCallbackProxy) OnSessionClosed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnSessionClosed)
@@ -618,7 +637,8 @@ func (p *SessionCallbackProxy) OnSessionClosed(
 // SessionCallbackStub dispatches incoming binder transactions
 // to a typed ISessionCallback implementation.
 type SessionCallbackStub struct {
-	Impl ISessionCallback
+	Impl      ISessionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SessionCallbackStub)(nil)
@@ -632,11 +652,12 @@ func (s *SessionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISessionCallbackOnChallengeGenerated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_challenge, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -650,9 +671,6 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnChallengeRevoked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_challenge, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -666,9 +684,6 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnAuthenticationFrame:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_frame AuthenticationFrame
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -690,9 +705,6 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnEnrollmentFrame:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_frame EnrollmentFrame
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -714,9 +726,6 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_error_, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -735,9 +744,6 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnEnrollmentProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enrollmentId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -755,9 +761,6 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnAuthenticationSucceeded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enrollmentId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -783,9 +786,6 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnAuthenticationFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnAuthenticationFailed(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -795,9 +795,6 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnLockoutTimed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_durationMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -811,9 +808,6 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnLockoutPermanent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnLockoutPermanent(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -823,9 +817,6 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnLockoutCleared:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnLockoutCleared(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -835,9 +826,6 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnInteractionDetected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnInteractionDetected(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -847,12 +835,25 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnEnrollmentsEnumerated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_enrollmentIds []int32
-		_ = _arg_enrollmentIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_enrollmentIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_enrollmentIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnEnrollmentsEnumerated(ctx, _arg_enrollmentIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -862,12 +863,26 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnFeaturesRetrieved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_features []Feature
-		_ = _arg_features
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_features = make([]Feature, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_raw, _err := _data.ReadPaddedByte()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_features[_i] = Feature(_raw)
+				}
+			}
+		}
 		_err := s.Impl.OnFeaturesRetrieved(ctx, _arg_features)
 		_reply := parcel.New()
 		if _err != nil {
@@ -877,9 +892,6 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnFeatureSet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_feature, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -894,12 +906,25 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnEnrollmentsRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_enrollmentIds []int32
-		_ = _arg_enrollmentIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_enrollmentIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_enrollmentIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnEnrollmentsRemoved(ctx, _arg_enrollmentIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -909,9 +934,6 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnAuthenticatorIdRetrieved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_authenticatorId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -925,9 +947,6 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnAuthenticatorIdInvalidated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_newAuthenticatorId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -941,9 +960,6 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnSessionClosed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnSessionClosed(ctx)
 		_reply := parcel.New()
 		if _err != nil {

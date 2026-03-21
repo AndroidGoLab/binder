@@ -2,6 +2,7 @@ package media
 
 import (
 	tuner "github.com/xaionaro-go/binder/android/hardware/tv/tuner"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -14,7 +15,7 @@ type GetOutputForAttrResponse struct {
 	PortId           int32
 	SecondaryOutputs []int32
 	IsSpatialized    bool
-	ConfigBase       interface{}
+	ConfigBase       common.AudioConfigBase
 	IsBitPerfect     bool
 	Attr             AudioAttributes
 }
@@ -38,6 +39,9 @@ func (s *GetOutputForAttrResponse) MarshalParcel(
 		}
 	}
 	p.WriteBool(s.IsSpatialized)
+	if _err := s.ConfigBase.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteBool(s.IsBitPerfect)
 	if _err := s.Attr.MarshalParcel(p); _err != nil {
 		return _err
@@ -55,9 +59,19 @@ func (s *GetOutputForAttrResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Output, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_streamRaw, _err := p.ReadInt32()
@@ -66,14 +80,29 @@ func (s *GetOutputForAttrResponse) UnmarshalParcel(
 	}
 	s.Stream = tuner.AudioStreamType(_streamRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SelectedDeviceId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PortId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -91,14 +120,38 @@ func (s *GetOutputForAttrResponse) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsSpatialized, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.ConfigBase.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsBitPerfect, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.Attr.UnmarshalParcel(p); _err != nil {

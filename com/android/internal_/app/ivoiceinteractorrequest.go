@@ -44,6 +44,7 @@ func (p *VoiceInteractorRequestProxy) Cancel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorRequest)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractorRequest, MethodIVoiceInteractorRequestCancel)
@@ -67,7 +68,8 @@ func (p *VoiceInteractorRequestProxy) Cancel(
 // VoiceInteractorRequestStub dispatches incoming binder transactions
 // to a typed IVoiceInteractorRequest implementation.
 type VoiceInteractorRequestStub struct {
-	Impl IVoiceInteractorRequest
+	Impl      IVoiceInteractorRequest
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VoiceInteractorRequestStub)(nil)
@@ -81,11 +83,12 @@ func (s *VoiceInteractorRequestStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVoiceInteractorRequestCancel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Cancel(ctx)
 		_reply := parcel.New()
 		if _err != nil {

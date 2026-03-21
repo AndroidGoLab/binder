@@ -1,0 +1,650 @@
+package: android.hardware.biometrics.face
+go_package: android/hardware/biometrics/face
+interfaces:
+    - name: IFace
+      descriptor: android.hardware.biometrics.face.IFace
+      methods:
+        - name: getSensorProps
+          transaction_code_offset: 0
+          return_type:
+            name: SensorProps
+            is_array: true
+        - name: createSession
+          transaction_code_offset: 1
+          params:
+            - name: sensorId
+              type:
+                name: int
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+            - name: cb
+              type:
+                name: ISessionCallback
+              direction: in
+          return_type:
+            name: ISession
+    - name: ISession
+      descriptor: android.hardware.biometrics.face.ISession
+      methods:
+        - name: generateChallenge
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: revokeChallenge
+          transaction_code_offset: 1
+          params:
+            - name: challenge
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: getEnrollmentConfig
+          transaction_code_offset: 2
+          params:
+            - name: enrollmentType
+              type:
+                name: EnrollmentType
+              direction: in
+          return_type:
+            name: EnrollmentStageConfig
+            is_array: true
+        - name: enroll
+          transaction_code_offset: 3
+          params:
+            - name: hat
+              type:
+                name: HardwareAuthToken
+              direction: in
+            - name: type
+              type:
+                name: EnrollmentType
+              direction: in
+            - name: features
+              type:
+                name: Feature
+                is_array: true
+              direction: in
+            - name: previewSurface
+              type:
+                name: NativeHandle
+                is_nullable: true
+              direction: in
+          return_type:
+            name: ICancellationSignal
+        - name: authenticate
+          transaction_code_offset: 4
+          params:
+            - name: operationId
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: ICancellationSignal
+        - name: detectInteraction
+          transaction_code_offset: 5
+          return_type:
+            name: ICancellationSignal
+        - name: enumerateEnrollments
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: removeEnrollments
+          transaction_code_offset: 7
+          params:
+            - name: enrollmentIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getFeatures
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: setFeature
+          transaction_code_offset: 9
+          params:
+            - name: hat
+              type:
+                name: HardwareAuthToken
+              direction: in
+            - name: feature
+              type:
+                name: Feature
+              direction: in
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getAuthenticatorId
+          transaction_code_offset: 10
+          return_type:
+            name: void
+        - name: invalidateAuthenticatorId
+          transaction_code_offset: 11
+          return_type:
+            name: void
+        - name: resetLockout
+          transaction_code_offset: 12
+          params:
+            - name: hat
+              type:
+                name: HardwareAuthToken
+              direction: in
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 13
+          return_type:
+            name: void
+        - name: authenticateWithContext
+          transaction_code_offset: 14
+          params:
+            - name: operationId
+              type:
+                name: long
+              direction: in
+            - name: context
+              type:
+                name: OperationContext
+              direction: in
+          return_type:
+            name: ICancellationSignal
+        - name: enrollWithContext
+          transaction_code_offset: 15
+          params:
+            - name: hat
+              type:
+                name: HardwareAuthToken
+              direction: in
+            - name: type
+              type:
+                name: EnrollmentType
+              direction: in
+            - name: features
+              type:
+                name: Feature
+                is_array: true
+              direction: in
+            - name: previewSurface
+              type:
+                name: NativeHandle
+                is_nullable: true
+              direction: in
+            - name: context
+              type:
+                name: OperationContext
+              direction: in
+          return_type:
+            name: ICancellationSignal
+        - name: detectInteractionWithContext
+          transaction_code_offset: 16
+          params:
+            - name: context
+              type:
+                name: OperationContext
+              direction: in
+          return_type:
+            name: ICancellationSignal
+        - name: onContextChanged
+          transaction_code_offset: 17
+          params:
+            - name: context
+              type:
+                name: OperationContext
+              direction: in
+          return_type:
+            name: void
+        - name: enrollWithOptions
+          transaction_code_offset: 18
+          params:
+            - name: options
+              type:
+                name: FaceEnrollOptions
+              direction: in
+          return_type:
+            name: ICancellationSignal
+    - name: ISessionCallback
+      descriptor: android.hardware.biometrics.face.ISessionCallback
+      methods:
+        - name: onChallengeGenerated
+          transaction_code_offset: 0
+          params:
+            - name: challenge
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: onChallengeRevoked
+          transaction_code_offset: 1
+          params:
+            - name: challenge
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: onAuthenticationFrame
+          transaction_code_offset: 2
+          params:
+            - name: frame
+              type:
+                name: AuthenticationFrame
+              direction: in
+          return_type:
+            name: void
+        - name: onEnrollmentFrame
+          transaction_code_offset: 3
+          params:
+            - name: frame
+              type:
+                name: EnrollmentFrame
+              direction: in
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 4
+          params:
+            - name: error
+              type:
+                name: Error
+              direction: in
+            - name: vendorCode
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onEnrollmentProgress
+          transaction_code_offset: 5
+          params:
+            - name: enrollmentId
+              type:
+                name: int
+              direction: in
+            - name: remaining
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAuthenticationSucceeded
+          transaction_code_offset: 6
+          params:
+            - name: enrollmentId
+              type:
+                name: int
+              direction: in
+            - name: hat
+              type:
+                name: HardwareAuthToken
+              direction: in
+          return_type:
+            name: void
+        - name: onAuthenticationFailed
+          transaction_code_offset: 7
+          return_type:
+            name: void
+        - name: onLockoutTimed
+          transaction_code_offset: 8
+          params:
+            - name: durationMillis
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: onLockoutPermanent
+          transaction_code_offset: 9
+          return_type:
+            name: void
+        - name: onLockoutCleared
+          transaction_code_offset: 10
+          return_type:
+            name: void
+        - name: onInteractionDetected
+          transaction_code_offset: 11
+          return_type:
+            name: void
+        - name: onEnrollmentsEnumerated
+          transaction_code_offset: 12
+          params:
+            - name: enrollmentIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onFeaturesRetrieved
+          transaction_code_offset: 13
+          params:
+            - name: features
+              type:
+                name: Feature
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onFeatureSet
+          transaction_code_offset: 14
+          params:
+            - name: feature
+              type:
+                name: Feature
+          return_type:
+            name: void
+        - name: onEnrollmentsRemoved
+          transaction_code_offset: 15
+          params:
+            - name: enrollmentIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onAuthenticatorIdRetrieved
+          transaction_code_offset: 16
+          params:
+            - name: authenticatorId
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: onAuthenticatorIdInvalidated
+          transaction_code_offset: 17
+          params:
+            - name: newAuthenticatorId
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: onSessionClosed
+          transaction_code_offset: 18
+          return_type:
+            name: void
+parcelables:
+    - name: AuthenticationFrame
+      fields:
+        - name: data
+          type:
+            name: BaseFrame
+      annotations:
+        - VintfStability
+    - name: BaseFrame
+      fields:
+        - name: acquiredInfo
+          type:
+            name: AcquiredInfo
+          default_value: AcquiredInfo.UNKNOWN
+        - name: vendorCode
+          type:
+            name: int
+        - name: pan
+          type:
+            name: float
+        - name: tilt
+          type:
+            name: float
+        - name: distance
+          type:
+            name: float
+        - name: isCancellable
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: Cell
+      fields:
+        - name: x
+          type:
+            name: int
+        - name: "y"
+          type:
+            name: int
+        - name: z
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: EnrollmentFrame
+      fields:
+        - name: cell
+          type:
+            name: Cell
+          annotations:
+            - nullable
+        - name: stage
+          type:
+            name: EnrollmentStage
+          default_value: EnrollmentStage.UNKNOWN
+        - name: data
+          type:
+            name: BaseFrame
+      annotations:
+        - VintfStability
+    - name: EnrollmentStageConfig
+      fields:
+        - name: stage
+          type:
+            name: EnrollmentStage
+          default_value: EnrollmentStage.UNKNOWN
+        - name: cells
+          type:
+            name: List
+            type_args:
+                - name: Cell
+      annotations:
+        - VintfStability
+    - name: FaceEnrollOptions
+      fields:
+        - name: hardwareAuthToken
+          type:
+            name: HardwareAuthToken
+        - name: enrollmentType
+          type:
+            name: EnrollmentType
+        - name: features
+          type:
+            name: Feature
+            is_array: true
+        - name: nativeHandlePreview
+          type:
+            name: NativeHandle
+          annotations:
+            - nullable
+        - name: surfacePreview
+          type:
+            name: Surface
+          annotations:
+            - nullable
+        - name: context
+          type:
+            name: OperationContext
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: SensorProps
+      fields:
+        - name: commonProps
+          type:
+            name: CommonProps
+        - name: sensorType
+          type:
+            name: FaceSensorType
+          default_value: FaceSensorType.UNKNOWN
+        - name: halControlsPreview
+          type:
+            name: boolean
+        - name: previewDisplayId
+          type:
+            name: int
+        - name: enrollPreviewWidth
+          type:
+            name: int
+        - name: enrollPreviewHeight
+          type:
+            name: int
+        - name: enrollTranslationX
+          type:
+            name: float
+        - name: enrollTranslationY
+          type:
+            name: float
+        - name: enrollPreviewScale
+          type:
+            name: float
+        - name: supportsDetectInteraction
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+enums:
+    - name: AcquiredInfo
+      backing_type: byte
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: GOOD
+          value: ""
+        - name: INSUFFICIENT
+          value: ""
+        - name: TOO_BRIGHT
+          value: ""
+        - name: TOO_DARK
+          value: ""
+        - name: TOO_CLOSE
+          value: ""
+        - name: TOO_FAR
+          value: ""
+        - name: FACE_TOO_HIGH
+          value: ""
+        - name: FACE_TOO_LOW
+          value: ""
+        - name: FACE_TOO_RIGHT
+          value: ""
+        - name: FACE_TOO_LEFT
+          value: ""
+        - name: POOR_GAZE
+          value: ""
+        - name: NOT_DETECTED
+          value: ""
+        - name: TOO_MUCH_MOTION
+          value: ""
+        - name: RECALIBRATE
+          value: ""
+        - name: TOO_DIFFERENT
+          value: ""
+        - name: TOO_SIMILAR
+          value: ""
+        - name: PAN_TOO_EXTREME
+          value: ""
+        - name: TILT_TOO_EXTREME
+          value: ""
+        - name: ROLL_TOO_EXTREME
+          value: ""
+        - name: FACE_OBSCURED
+          value: ""
+        - name: START
+          value: ""
+        - name: SENSOR_DIRTY
+          value: ""
+        - name: VENDOR
+          value: ""
+        - name: FIRST_FRAME_RECEIVED
+          value: ""
+        - name: DARK_GLASSES_DETECTED
+          value: ""
+        - name: MOUTH_COVERING_DETECTED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EnrollmentStage
+      backing_type: byte
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: FIRST_FRAME_RECEIVED
+          value: ""
+        - name: WAITING_FOR_CENTERING
+          value: ""
+        - name: HOLD_STILL_IN_CENTER
+          value: ""
+        - name: ENROLLING_MOVEMENT_1
+          value: ""
+        - name: ENROLLING_MOVEMENT_2
+          value: ""
+        - name: ENROLLMENT_FINISHED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EnrollmentType
+      backing_type: byte
+      values:
+        - name: DEFAULT
+          value: ""
+        - name: ACCESSIBILITY
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Error
+      backing_type: byte
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: HW_UNAVAILABLE
+          value: ""
+        - name: UNABLE_TO_PROCESS
+          value: ""
+        - name: TIMEOUT
+          value: ""
+        - name: NO_SPACE
+          value: ""
+        - name: CANCELED
+          value: ""
+        - name: UNABLE_TO_REMOVE
+          value: ""
+        - name: VENDOR
+          value: ""
+        - name: REENROLL_REQUIRED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FaceSensorType
+      backing_type: byte
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: RGB
+          value: ""
+        - name: IR
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Feature
+      backing_type: byte
+      values:
+        - name: REQUIRE_ATTENTION
+          value: ""
+        - name: REQUIRE_DIVERSE_POSES
+          value: ""
+        - name: DEBUG
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing

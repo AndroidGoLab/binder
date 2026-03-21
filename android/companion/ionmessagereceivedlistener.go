@@ -46,16 +46,10 @@ func (p *OnMessageReceivedListenerProxy) OnMessageReceived(
 	data []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnMessageReceivedListener)
 	_data.WriteInt32(associationId)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnMessageReceivedListener, MethodIOnMessageReceivedListenerOnMessageReceived)
 	if _err != nil {
@@ -69,7 +63,8 @@ func (p *OnMessageReceivedListenerProxy) OnMessageReceived(
 // OnMessageReceivedListenerStub dispatches incoming binder transactions
 // to a typed IOnMessageReceivedListener implementation.
 type OnMessageReceivedListenerStub struct {
-	Impl IOnMessageReceivedListener
+	Impl      IOnMessageReceivedListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OnMessageReceivedListenerStub)(nil)
@@ -83,21 +78,26 @@ func (s *OnMessageReceivedListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOnMessageReceivedListenerOnMessageReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_associationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_err = s.Impl.OnMessageReceived(ctx, _arg_associationId, _arg_data)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

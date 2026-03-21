@@ -1,0 +1,36 @@
+package: com.android.systemui.unfold.progress
+go_package: com/android/systemui/unfold/progress
+interfaces:
+    - name: IUnfoldAnimation
+      descriptor: com.android.systemui.unfold.progress.IUnfoldAnimation
+      oneway: true
+      methods:
+        - name: setListener
+          transaction_code_offset: 0
+          params:
+            - name: listener
+              type:
+                name: IUnfoldTransitionListener
+              direction: in
+          return_type:
+            name: void
+    - name: IUnfoldTransitionListener
+      descriptor: com.android.systemui.unfold.progress.IUnfoldTransitionListener
+      oneway: true
+      methods:
+        - name: onTransitionStarted
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onTransitionProgress
+          transaction_code_offset: 1
+          params:
+            - name: progress
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: onTransitionFinished
+          transaction_code_offset: 2
+          return_type:
+            name: void

@@ -1,0 +1,243 @@
+package: android.service.contentcapture
+go_package: android/service/contentcapture
+interfaces:
+    - name: IContentCaptureService
+      descriptor: android.service.contentcapture.IContentCaptureService
+      oneway: true
+      methods:
+        - name: onConnected
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IBinder
+            - name: verbose
+              type:
+                name: boolean
+            - name: debug
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onDisconnected
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onSessionStarted
+          transaction_code_offset: 2
+          params:
+            - name: context
+              type:
+                name: ContentCaptureContext
+              direction: in
+            - name: sessionId
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: clientReceiver
+              type:
+                name: IResultReceiver
+              direction: in
+            - name: initialState
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSessionFinished
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onActivitySnapshot
+          transaction_code_offset: 4
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: snapshotData
+              type:
+                name: SnapshotData
+              direction: in
+          return_type:
+            name: void
+        - name: onDataRemovalRequest
+          transaction_code_offset: 5
+          params:
+            - name: request
+              type:
+                name: DataRemovalRequest
+              direction: in
+          return_type:
+            name: void
+        - name: onDataShared
+          transaction_code_offset: 6
+          params:
+            - name: request
+              type:
+                name: DataShareRequest
+              direction: in
+            - name: callback
+              type:
+                name: IDataShareCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onActivityEvent
+          transaction_code_offset: 7
+          params:
+            - name: event
+              type:
+                name: ActivityEvent
+              direction: in
+          return_type:
+            name: void
+    - name: IContentCaptureServiceCallback
+      descriptor: android.service.contentcapture.IContentCaptureServiceCallback
+      oneway: true
+      methods:
+        - name: setContentCaptureWhitelist
+          transaction_code_offset: 0
+          params:
+            - name: packages
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: activities
+              type:
+                name: List
+                type_args:
+                    - name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: setContentCaptureConditions
+          transaction_code_offset: 1
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: conditions
+              type:
+                name: List
+                type_args:
+                    - name: ContentCaptureCondition
+              direction: in
+          return_type:
+            name: void
+        - name: disableSelf
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: writeSessionFlush
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: app
+              type:
+                name: ComponentName
+              direction: in
+            - name: flushMetrics
+              type:
+                name: FlushMetrics
+              direction: in
+            - name: options
+              type:
+                name: ContentCaptureOptions
+              direction: in
+            - name: flushReason
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IContentProtectionAllowlistCallback
+      descriptor: android.service.contentcapture.IContentProtectionAllowlistCallback
+      oneway: true
+      methods:
+        - name: setAllowlist
+          transaction_code_offset: 0
+          params:
+            - name: packages
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+    - name: IContentProtectionService
+      descriptor: android.service.contentcapture.IContentProtectionService
+      oneway: true
+      methods:
+        - name: onLoginDetected
+          transaction_code_offset: 0
+          params:
+            - name: events
+              type:
+                name: ParceledListSlice
+              direction: in
+          return_type:
+            name: void
+        - name: onUpdateAllowlistRequest
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+    - name: IDataShareCallback
+      descriptor: android.service.contentcapture.IDataShareCallback
+      oneway: true
+      methods:
+        - name: accept
+          transaction_code_offset: 0
+          params:
+            - name: adapter
+              type:
+                name: IDataShareReadAdapter
+              direction: in
+          return_type:
+            name: void
+        - name: reject
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: IDataShareReadAdapter
+      descriptor: android.service.contentcapture.IDataShareReadAdapter
+      oneway: true
+      methods:
+        - name: start
+          transaction_code_offset: 0
+          params:
+            - name: fd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+        - name: error
+          transaction_code_offset: 1
+          params:
+            - name: errorCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: finish
+          transaction_code_offset: 2
+          return_type:
+            name: void
+parcelables:
+    - name: ActivityEvent
+    - name: FlushMetrics
+    - name: SnapshotData

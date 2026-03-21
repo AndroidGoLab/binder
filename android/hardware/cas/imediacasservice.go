@@ -58,6 +58,7 @@ func (p *MediaCasServiceProxy) CreateDescrambler(
 ) (IDescrambler, error) {
 	var _result IDescrambler
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
 	_data.WriteInt32(CA_system_id)
 
@@ -91,6 +92,7 @@ func (p *MediaCasServiceProxy) CreatePlugin(
 ) (ICas, error) {
 	var _result ICas
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
 	_data.WriteInt32(CA_system_id)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -123,6 +125,7 @@ func (p *MediaCasServiceProxy) EnumeratePlugins(
 ) ([]AidlCasPluginDescriptor, error) {
 	var _result []AidlCasPluginDescriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaCasService, MethodIMediaCasServiceEnumeratePlugins)
@@ -143,6 +146,9 @@ func (p *MediaCasServiceProxy) EnumeratePlugins(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -165,6 +171,7 @@ func (p *MediaCasServiceProxy) IsDescramblerSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
 	_data.WriteInt32(CA_system_id)
 
@@ -196,6 +203,7 @@ func (p *MediaCasServiceProxy) IsSystemIdSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
 	_data.WriteInt32(CA_system_id)
 
@@ -224,7 +232,8 @@ func (p *MediaCasServiceProxy) IsSystemIdSupported(
 // MediaCasServiceStub dispatches incoming binder transactions
 // to a typed IMediaCasService implementation.
 type MediaCasServiceStub struct {
-	Impl IMediaCasService
+	Impl      IMediaCasService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaCasServiceStub)(nil)
@@ -238,11 +247,12 @@ func (s *MediaCasServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaCasServiceCreateDescrambler:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_CA_system_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -254,20 +264,21 @@ func (s *MediaCasServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIMediaCasServiceCreatePlugin:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_CA_system_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ICasListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewCasListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.CreatePlugin(ctx, _arg_CA_system_id, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -275,13 +286,9 @@ func (s *MediaCasServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIMediaCasServiceEnumeratePlugins:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.EnumeratePlugins(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -289,13 +296,19 @@ func (s *MediaCasServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIMediaCasServiceIsDescramblerSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_CA_system_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -310,9 +323,6 @@ func (s *MediaCasServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaCasServiceIsSystemIdSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_CA_system_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

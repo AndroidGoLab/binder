@@ -152,6 +152,7 @@ func (p *SmsProxy) GetAllMessagesFromIccEfForSubscriber(
 ) ([]SmsRawData, error) {
 	var _result []SmsRawData
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
@@ -174,6 +175,9 @@ func (p *SmsProxy) GetAllMessagesFromIccEfForSubscriber(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -200,19 +204,13 @@ func (p *SmsProxy) UpdateMessageOnIccEfForSubscriber(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
 	_data.WriteInt32(messageIndex)
 	_data.WriteInt32(newStatus)
-	if pdu == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(pdu)))
-		for _, _item := range pdu {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(pdu)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsUpdateMessageOnIccEfForSubscriber)
 	if _err != nil {
@@ -246,26 +244,13 @@ func (p *SmsProxy) CopyMessageToIccEfForSubscriber(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
 	_data.WriteInt32(status)
-	if pdu == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(pdu)))
-		for _, _item := range pdu {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if smsc == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(smsc)))
-		for _, _item := range smsc {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(pdu)
+	_data.WriteByteArray(smsc)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsCopyMessageToIccEfForSubscriber)
 	if _err != nil {
@@ -302,6 +287,7 @@ func (p *SmsProxy) SendDataForSubscriber(
 	deliveryIntent app.PendingIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
@@ -309,14 +295,7 @@ func (p *SmsProxy) SendDataForSubscriber(
 	_data.WriteString16(destAddr)
 	_data.WriteString16(scAddr)
 	_data.WriteInt32(destPort)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 	_data.WriteInt32(1)
 	if _err := sentIntent.MarshalParcel(_data); _err != nil {
 		return _err
@@ -358,6 +337,7 @@ func (p *SmsProxy) SendTextForSubscriber(
 	messageId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
@@ -410,6 +390,7 @@ func (p *SmsProxy) SendTextForSubscriberWithOptions(
 	validityPeriod int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
@@ -456,16 +437,10 @@ func (p *SmsProxy) InjectSmsPduForSubscriber(
 	receivedIntent app.PendingIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
-	if pdu == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(pdu)))
-		for _, _item := range pdu {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(pdu)
 	_data.WriteString16(format)
 	_data.WriteInt32(1)
 	if _err := receivedIntent.MarshalParcel(_data); _err != nil {
@@ -504,6 +479,7 @@ func (p *SmsProxy) SendMultipartTextForSubscriber(
 	messageId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
@@ -577,6 +553,7 @@ func (p *SmsProxy) SendMultipartTextForSubscriberWithOptions(
 	validityPeriod int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
@@ -644,6 +621,7 @@ func (p *SmsProxy) EnableCellBroadcastForSubscriber(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(messageIdentifier)
@@ -679,6 +657,7 @@ func (p *SmsProxy) DisableCellBroadcastForSubscriber(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(messageIdentifier)
@@ -715,6 +694,7 @@ func (p *SmsProxy) EnableCellBroadcastRangeForSubscriber(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(startMessageId)
@@ -752,6 +732,7 @@ func (p *SmsProxy) DisableCellBroadcastRangeForSubscriber(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(startMessageId)
@@ -786,6 +767,7 @@ func (p *SmsProxy) GetPremiumSmsPermission(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteString16(packageName)
 
@@ -818,6 +800,7 @@ func (p *SmsProxy) GetPremiumSmsPermissionForSubscriber(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(packageName)
@@ -850,6 +833,7 @@ func (p *SmsProxy) SetPremiumSmsPermission(
 	permission int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(permission)
@@ -879,6 +863,7 @@ func (p *SmsProxy) SetPremiumSmsPermissionForSubscriber(
 	permission int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(packageName)
@@ -908,6 +893,7 @@ func (p *SmsProxy) IsImsSmsSupportedForSubscriber(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 
@@ -939,6 +925,7 @@ func (p *SmsProxy) IsSmsSimPickActivityNeeded(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 
@@ -969,6 +956,7 @@ func (p *SmsProxy) GetPreferredSmsSubscription(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetPreferredSmsSubscription)
@@ -999,6 +987,7 @@ func (p *SmsProxy) GetImsSmsFormatForSubscriber(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 
@@ -1029,6 +1018,7 @@ func (p *SmsProxy) IsSMSPromptEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsIsSMSPromptEnabled)
@@ -1064,6 +1054,7 @@ func (p *SmsProxy) SendStoredText(
 	deliveryIntent app.PendingIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
@@ -1111,6 +1102,7 @@ func (p *SmsProxy) SendStoredMultipartText(
 	deliveryIntents []app.PendingIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
@@ -1167,6 +1159,7 @@ func (p *SmsProxy) GetCarrierConfigValuesForSubscriber(
 ) (os.Bundle, error) {
 	var _result os.Bundle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 
@@ -1205,6 +1198,7 @@ func (p *SmsProxy) CreateAppSpecificSmsToken(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
@@ -1244,6 +1238,7 @@ func (p *SmsProxy) CreateAppSpecificSmsTokenWithPackageInfo(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
@@ -1281,6 +1276,7 @@ func (p *SmsProxy) SetStorageMonitorMemoryStatusOverride(
 	isStorageAvailable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteBool(isStorageAvailable)
@@ -1308,6 +1304,7 @@ func (p *SmsProxy) ClearStorageMonitorMemoryStatusOverride(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 
@@ -1339,6 +1336,7 @@ func (p *SmsProxy) CheckSmsShortCodeDestination(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingApk)
@@ -1375,6 +1373,7 @@ func (p *SmsProxy) GetSmscAddressFromIccEfForSubscriber(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -1409,6 +1408,7 @@ func (p *SmsProxy) SetSmscAddressOnIccEfForSubscriber(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteString16(smsc)
 	_data.WriteInt32(subId)
@@ -1442,6 +1442,7 @@ func (p *SmsProxy) GetSmsCapacityOnIccForSubscriber(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 
@@ -1473,6 +1474,7 @@ func (p *SmsProxy) ResetAllCellBroadcastRanges(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 
@@ -1504,6 +1506,7 @@ func (p *SmsProxy) GetWapMessageSize(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteString16(locationUrl)
 
@@ -1532,7 +1535,8 @@ func (p *SmsProxy) GetWapMessageSize(
 // SmsStub dispatches incoming binder transactions
 // to a typed ISms implementation.
 type SmsStub struct {
-	Impl ISms
+	Impl      ISms
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SmsStub)(nil)
@@ -1546,11 +1550,12 @@ func (s *SmsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISmsGetAllMessagesFromIccEfForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1566,13 +1571,19 @@ func (s *SmsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISmsUpdateMessageOnIccEfForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1589,9 +1600,14 @@ func (s *SmsStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pdu []byte
-		_ = _arg_pdu
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_pdu = _bytes
+		}
 		_result, _err := s.Impl.UpdateMessageOnIccEfForSubscriber(ctx, _arg_subId, _arg_callingPkg, _arg_messageIndex, _arg_newStatus, _arg_pdu)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1602,9 +1618,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISmsCopyMessageToIccEfForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1617,12 +1630,22 @@ func (s *SmsStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pdu []byte
-		_ = _arg_pdu
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_pdu = _bytes
+		}
 		var _arg_smsc []byte
-		_ = _arg_smsc
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_smsc = _bytes
+		}
 		_result, _err := s.Impl.CopyMessageToIccEfForSubscriber(ctx, _arg_subId, _arg_callingPkg, _arg_status, _arg_pdu, _arg_smsc)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1633,9 +1656,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISmsSendDataForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1660,9 +1680,14 @@ func (s *SmsStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		var _arg_sentIntent app.PendingIntent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1696,9 +1721,6 @@ func (s *SmsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISmsSendTextForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1764,9 +1786,6 @@ func (s *SmsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISmsSendTextForSubscriberWithOptions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1840,16 +1859,18 @@ func (s *SmsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISmsInjectSmsPduForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pdu []byte
-		_ = _arg_pdu
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_pdu = _bytes
+		}
 		_arg_format, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1875,9 +1896,6 @@ func (s *SmsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISmsSendMultipartTextForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1898,15 +1916,67 @@ func (s *SmsStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_parts []string
-		_ = _arg_parts
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_parts = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_parts[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_sentIntents []app.PendingIntent
-		_ = _arg_sentIntents
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_sentIntents = make([]app.PendingIntent, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_sentIntents[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_deliveryIntents []app.PendingIntent
-		_ = _arg_deliveryIntents
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_deliveryIntents = make([]app.PendingIntent, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_deliveryIntents[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_persistMessageForNonDefaultSmsApp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1924,9 +1994,6 @@ func (s *SmsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISmsSendMultipartTextForSubscriberWithOptions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1947,15 +2014,67 @@ func (s *SmsStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_parts []string
-		_ = _arg_parts
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_parts = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_parts[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_sentIntents []app.PendingIntent
-		_ = _arg_sentIntents
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_sentIntents = make([]app.PendingIntent, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_sentIntents[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_deliveryIntents []app.PendingIntent
-		_ = _arg_deliveryIntents
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_deliveryIntents = make([]app.PendingIntent, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_deliveryIntents[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_persistMessageForNonDefaultSmsApp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1981,9 +2100,6 @@ func (s *SmsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISmsEnableCellBroadcastForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2006,9 +2122,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISmsDisableCellBroadcastForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2031,9 +2144,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISmsEnableCellBroadcastRangeForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2060,9 +2170,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISmsDisableCellBroadcastRangeForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2089,9 +2196,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISmsGetPremiumSmsPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2106,9 +2210,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISmsGetPremiumSmsPermissionForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2127,9 +2228,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISmsSetPremiumSmsPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2147,9 +2245,6 @@ func (s *SmsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISmsSetPremiumSmsPermissionForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2171,9 +2266,6 @@ func (s *SmsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISmsIsImsSmsSupportedForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2188,9 +2280,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISmsIsSmsSimPickActivityNeeded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2205,9 +2294,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISmsGetPreferredSmsSubscription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPreferredSmsSubscription(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2218,9 +2304,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISmsGetImsSmsFormatForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2235,9 +2318,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISmsIsSMSPromptEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsSMSPromptEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2248,9 +2328,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISmsSendStoredText:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2312,9 +2389,6 @@ func (s *SmsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISmsSendStoredMultipartText:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2343,12 +2417,48 @@ func (s *SmsStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sentIntents []app.PendingIntent
-		_ = _arg_sentIntents
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_sentIntents = make([]app.PendingIntent, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_sentIntents[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_deliveryIntents []app.PendingIntent
-		_ = _arg_deliveryIntents
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_deliveryIntents = make([]app.PendingIntent, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_deliveryIntents[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.SendStoredMultipartText(ctx, _arg_subId, _arg_callingPkg, _arg_callingAttributeTag, _arg_messageUri, _arg_scAddress, _arg_sentIntents, _arg_deliveryIntents)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2358,9 +2468,6 @@ func (s *SmsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISmsGetCarrierConfigValuesForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2378,9 +2485,6 @@ func (s *SmsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISmsCreateAppSpecificSmsToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2411,9 +2515,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISmsCreateAppSpecificSmsTokenWithPackageInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2448,9 +2549,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISmsSetStorageMonitorMemoryStatusOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2468,9 +2566,6 @@ func (s *SmsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISmsClearStorageMonitorMemoryStatusOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2484,9 +2579,6 @@ func (s *SmsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISmsCheckSmsShortCodeDestination:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2516,9 +2608,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISmsGetSmscAddressFromIccEfForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2536,9 +2625,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISmsSetSmscAddressOnIccEfForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_smsc, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2560,9 +2646,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISmsGetSmsCapacityOnIccForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2577,9 +2660,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISmsResetAllCellBroadcastRanges:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2594,9 +2674,6 @@ func (s *SmsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISmsGetWapMessageSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_locationUrl, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

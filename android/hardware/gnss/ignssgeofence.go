@@ -57,6 +57,7 @@ func (p *GnssGeofenceProxy) SetCallback(
 	callback IGnssGeofenceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofence)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -90,6 +91,7 @@ func (p *GnssGeofenceProxy) AddGeofence(
 	unknownTimerMs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofence)
 	_data.WriteInt32(geofenceId)
 	_data.WriteFloat64(latitudeDegrees)
@@ -123,6 +125,7 @@ func (p *GnssGeofenceProxy) PauseGeofence(
 	geofenceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofence)
 	_data.WriteInt32(geofenceId)
 
@@ -150,6 +153,7 @@ func (p *GnssGeofenceProxy) ResumeGeofence(
 	monitorTransitions int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofence)
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(monitorTransitions)
@@ -177,6 +181,7 @@ func (p *GnssGeofenceProxy) RemoveGeofence(
 	geofenceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofence)
 	_data.WriteInt32(geofenceId)
 
@@ -201,7 +206,8 @@ func (p *GnssGeofenceProxy) RemoveGeofence(
 // GnssGeofenceStub dispatches incoming binder transactions
 // to a typed IGnssGeofence implementation.
 type GnssGeofenceStub struct {
-	Impl IGnssGeofence
+	Impl      IGnssGeofence
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssGeofenceStub)(nil)
@@ -215,14 +221,20 @@ func (s *GnssGeofenceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssGeofenceSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGnssGeofenceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGnssGeofenceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -232,9 +244,6 @@ func (s *GnssGeofenceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGeofenceAddGeofence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -276,9 +285,6 @@ func (s *GnssGeofenceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGeofencePauseGeofence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -292,9 +298,6 @@ func (s *GnssGeofenceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGeofenceResumeGeofence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -312,9 +315,6 @@ func (s *GnssGeofenceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGeofenceRemoveGeofence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

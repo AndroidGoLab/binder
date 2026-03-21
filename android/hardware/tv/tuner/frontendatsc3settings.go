@@ -50,14 +50,29 @@ func (s *FrontendAtsc3Settings) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Frequency, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.EndFrequency, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_bandwidthRaw, _err := p.ReadInt32()
@@ -66,17 +81,32 @@ func (s *FrontendAtsc3Settings) UnmarshalParcel(
 	}
 	s.Bandwidth = FrontendAtsc3Bandwidth(_bandwidthRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_inversionRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Inversion = FrontendSpectralInversion(_inversionRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_demodOutputFormatRaw, _err := p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}
 	s.DemodOutputFormat = FrontendAtsc3DemodOutputFormat(_demodOutputFormatRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()

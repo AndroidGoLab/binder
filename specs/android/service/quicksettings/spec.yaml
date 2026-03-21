@@ -1,0 +1,144 @@
+package: android.service.quicksettings
+go_package: android/service/quicksettings
+interfaces:
+    - name: IQSService
+      descriptor: android.service.quicksettings.IQSService
+      methods:
+        - name: getTile
+          transaction_code_offset: 0
+          params:
+            - name: tile
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: Tile
+        - name: updateQsTile
+          transaction_code_offset: 1
+          params:
+            - name: tile
+              type:
+                name: Tile
+              direction: in
+            - name: service
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: updateStatusIcon
+          transaction_code_offset: 2
+          params:
+            - name: tile
+              type:
+                name: IBinder
+              direction: in
+            - name: icon
+              type:
+                name: Icon
+              direction: in
+            - name: contentDescription
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onShowDialog
+          transaction_code_offset: 3
+          params:
+            - name: tile
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: onStartActivity
+          transaction_code_offset: 4
+          params:
+            - name: tile
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: startActivity
+          transaction_code_offset: 5
+          params:
+            - name: tile
+              type:
+                name: IBinder
+              direction: in
+            - name: pendingIntent
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: isLocked
+          transaction_code_offset: 6
+          return_type:
+            name: boolean
+        - name: isSecure
+          transaction_code_offset: 7
+          return_type:
+            name: boolean
+        - name: startUnlockAndRun
+          transaction_code_offset: 8
+          params:
+            - name: tile
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: onDialogHidden
+          transaction_code_offset: 9
+          params:
+            - name: tile
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: onStartSuccessful
+          transaction_code_offset: 10
+          params:
+            - name: tile
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+    - name: IQSTileService
+      descriptor: android.service.quicksettings.IQSTileService
+      oneway: true
+      methods:
+        - name: onTileAdded
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onTileRemoved
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onStartListening
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onStopListening
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: onClick
+          transaction_code_offset: 4
+          params:
+            - name: wtoken
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: onUnlockComplete
+          transaction_code_offset: 5
+          return_type:
+            name: void
+parcelables:
+    - name: Tile

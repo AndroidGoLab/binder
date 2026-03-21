@@ -38,15 +38,30 @@ func (s *WifiDebugPacketFateFrameInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_frameTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.FrameType = WifiDebugPacketFateFrameType(_frameTypeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.FrameLen, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.DriverTimestampUsec, _err = p.ReadInt64()
@@ -54,9 +69,19 @@ func (s *WifiDebugPacketFateFrameInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.FirmwareTimestampUsec, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.FrameContent, _err = p.ReadByteArray()

@@ -282,6 +282,17 @@ func TestSmoke_InstalldProxy(t *testing.T) {
 	}
 }
 
+func TestSmoke_InstalldIFsveritySetupAuthTokenProxy(t *testing.T) {
+	mock := testutil.NewMockBinder()
+	proxy := NewInstalldIFsveritySetupAuthTokenProxy(mock)
+	result := testutil.SmokeTestAllMethods(t, proxy)
+	t.Logf("InstalldIFsveritySetupAuthTokenProxy: %d/%d passed, %d panicked, %d failed",
+		result.Passed, result.Total, result.Panicked, result.Failed)
+	if result.Failed > 0 {
+		t.Errorf("%d methods failed unexpectedly", result.Failed)
+	}
+}
+
 func TestSmoke_MessengerProxy(t *testing.T) {
 	mock := testutil.NewMockBinder()
 	proxy := NewMessengerProxy(mock)
@@ -562,6 +573,17 @@ func TestSmoke_VibratorStateListenerProxy(t *testing.T) {
 	proxy := NewVibratorStateListenerProxy(mock)
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("VibratorStateListenerProxy: %d/%d passed, %d panicked, %d failed",
+		result.Passed, result.Total, result.Panicked, result.Failed)
+	if result.Failed > 0 {
+		t.Errorf("%d methods failed unexpectedly", result.Failed)
+	}
+}
+
+func TestSmoke_VoldTaskListenerProxy(t *testing.T) {
+	mock := testutil.NewMockBinder()
+	proxy := NewVoldTaskListenerProxy(mock)
+	result := testutil.SmokeTestAllMethods(t, proxy)
+	t.Logf("VoldTaskListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
 	if result.Failed > 0 {
 		t.Errorf("%d methods failed unexpectedly", result.Failed)

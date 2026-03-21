@@ -1,0 +1,4833 @@
+package: android.app.admin
+go_package: android/app/admin
+interfaces:
+    - name: IAuditLogEventsCallback
+      descriptor: android.app.admin.IAuditLogEventsCallback
+      oneway: true
+      methods:
+        - name: onNewAuditLogEvents
+          transaction_code_offset: 0
+          params:
+            - name: events
+              type:
+                name: List
+                type_args:
+                    - name: SecurityLog.SecurityEvent
+              direction: in
+          return_type:
+            name: void
+    - name: IDeviceAdminService
+      descriptor: android.app.admin.IDeviceAdminService
+    - name: IDevicePolicyManager
+      descriptor: android.app.admin.IDevicePolicyManager
+      methods:
+        - name: setPasswordQuality
+          transaction_code_offset: 0
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: quality
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getPasswordQuality
+          transaction_code_offset: 1
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: setPasswordMinimumLength
+          transaction_code_offset: 2
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: length
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getPasswordMinimumLength
+          transaction_code_offset: 3
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: setPasswordMinimumUpperCase
+          transaction_code_offset: 4
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: length
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getPasswordMinimumUpperCase
+          transaction_code_offset: 5
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: setPasswordMinimumLowerCase
+          transaction_code_offset: 6
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: length
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getPasswordMinimumLowerCase
+          transaction_code_offset: 7
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: setPasswordMinimumLetters
+          transaction_code_offset: 8
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: length
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getPasswordMinimumLetters
+          transaction_code_offset: 9
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: setPasswordMinimumNumeric
+          transaction_code_offset: 10
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: length
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getPasswordMinimumNumeric
+          transaction_code_offset: 11
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: setPasswordMinimumSymbols
+          transaction_code_offset: 12
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: length
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getPasswordMinimumSymbols
+          transaction_code_offset: 13
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: setPasswordMinimumNonLetter
+          transaction_code_offset: 14
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: length
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getPasswordMinimumNonLetter
+          transaction_code_offset: 15
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: getPasswordMinimumMetrics
+          transaction_code_offset: 16
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: deviceWideOnly
+              type:
+                name: boolean
+          return_type:
+            name: PasswordMetrics
+        - name: setPasswordHistoryLength
+          transaction_code_offset: 17
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: length
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getPasswordHistoryLength
+          transaction_code_offset: 18
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: setPasswordExpirationTimeout
+          transaction_code_offset: 19
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: expiration
+              type:
+                name: long
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getPasswordExpirationTimeout
+          transaction_code_offset: 20
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: long
+        - name: getPasswordExpiration
+          transaction_code_offset: 21
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: long
+        - name: isActivePasswordSufficient
+          transaction_code_offset: 22
+          params:
+            - name: callerPackageName
+              type:
+                name: String
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: isActivePasswordSufficientForDeviceRequirement
+          transaction_code_offset: 23
+          return_type:
+            name: boolean
+        - name: isPasswordSufficientAfterProfileUnification
+          transaction_code_offset: 24
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: profileUser
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getPasswordComplexity
+          transaction_code_offset: 25
+          params:
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: setRequiredPasswordComplexity
+          transaction_code_offset: 26
+          params:
+            - name: callerPackageName
+              type:
+                name: String
+            - name: passwordComplexity
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getRequiredPasswordComplexity
+          transaction_code_offset: 27
+          params:
+            - name: callerPackageName
+              type:
+                name: String
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: getAggregatedPasswordComplexityForUser
+          transaction_code_offset: 28
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: deviceWideOnly
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: isUsingUnifiedPassword
+          transaction_code_offset: 29
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: getCurrentFailedPasswordAttempts
+          transaction_code_offset: 30
+          params:
+            - name: callerPackageName
+              type:
+                name: String
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: getProfileWithMinimumFailedPasswordsForWipe
+          transaction_code_offset: 31
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: setMaximumFailedPasswordsForWipe
+          transaction_code_offset: 32
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: num
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getMaximumFailedPasswordsForWipe
+          transaction_code_offset: 33
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: resetPassword
+          transaction_code_offset: 34
+          params:
+            - name: password
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setMaximumTimeToLock
+          transaction_code_offset: 35
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: timeMs
+              type:
+                name: long
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getMaximumTimeToLock
+          transaction_code_offset: 36
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: long
+        - name: setRequiredStrongAuthTimeout
+          transaction_code_offset: 37
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: timeMs
+              type:
+                name: long
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getRequiredStrongAuthTimeout
+          transaction_code_offset: 38
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: long
+        - name: lockNow
+          transaction_code_offset: 39
+          params:
+            - name: flags
+              type:
+                name: int
+            - name: callerPackageName
+              type:
+                name: String
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: wipeDataWithReason
+          transaction_code_offset: 40
+          params:
+            - name: callerPackageName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+            - name: wipeReasonForUser
+              type:
+                name: String
+            - name: parent
+              type:
+                name: boolean
+            - name: factoryReset
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setFactoryResetProtectionPolicy
+          transaction_code_offset: 41
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: policy
+              type:
+                name: FactoryResetProtectionPolicy
+              direction: in
+          return_type:
+            name: void
+        - name: getFactoryResetProtectionPolicy
+          transaction_code_offset: 42
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: FactoryResetProtectionPolicy
+        - name: isFactoryResetProtectionPolicySupported
+          transaction_code_offset: 43
+          return_type:
+            name: boolean
+        - name: sendLostModeLocationUpdate
+          transaction_code_offset: 44
+          params:
+            - name: future
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setGlobalProxy
+          transaction_code_offset: 45
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: proxySpec
+              type:
+                name: String
+            - name: exclusionList
+              type:
+                name: String
+          return_type:
+            name: ComponentName
+        - name: getGlobalProxyAdmin
+          transaction_code_offset: 46
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: ComponentName
+        - name: setRecommendedGlobalProxy
+          transaction_code_offset: 47
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: proxyInfo
+              type:
+                name: ProxyInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setStorageEncryption
+          transaction_code_offset: 48
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: encrypt
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: getStorageEncryption
+          transaction_code_offset: 49
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getStorageEncryptionStatus
+          transaction_code_offset: 50
+          params:
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: requestBugreport
+          transaction_code_offset: 51
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: setCameraDisabled
+          transaction_code_offset: 52
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: disabled
+              type:
+                name: boolean
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getCameraDisabled
+          transaction_code_offset: 53
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: setScreenCaptureDisabled
+          transaction_code_offset: 54
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: disabled
+              type:
+                name: boolean
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getScreenCaptureDisabled
+          transaction_code_offset: 55
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: setNearbyNotificationStreamingPolicy
+          transaction_code_offset: 56
+          params:
+            - name: policy
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getNearbyNotificationStreamingPolicy
+          transaction_code_offset: 57
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setNearbyAppStreamingPolicy
+          transaction_code_offset: 58
+          params:
+            - name: policy
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getNearbyAppStreamingPolicy
+          transaction_code_offset: 59
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setKeyguardDisabledFeatures
+          transaction_code_offset: 60
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: which
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getKeyguardDisabledFeatures
+          transaction_code_offset: 61
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: setActiveAdmin
+          transaction_code_offset: 62
+          params:
+            - name: policyReceiver
+              type:
+                name: ComponentName
+              direction: in
+            - name: refreshing
+              type:
+                name: boolean
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isAdminActive
+          transaction_code_offset: 63
+          params:
+            - name: policyReceiver
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getActiveAdmins
+          transaction_code_offset: 64
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: ComponentName
+        - name: packageHasActiveAdmins
+          transaction_code_offset: 65
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: getRemoveWarning
+          transaction_code_offset: 66
+          params:
+            - name: policyReceiver
+              type:
+                name: ComponentName
+              direction: in
+            - name: result
+              type:
+                name: RemoteCallback
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removeActiveAdmin
+          transaction_code_offset: 67
+          params:
+            - name: policyReceiver
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: forceRemoveActiveAdmin
+          transaction_code_offset: 68
+          params:
+            - name: policyReceiver
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: hasGrantedPolicy
+          transaction_code_offset: 69
+          params:
+            - name: policyReceiver
+              type:
+                name: ComponentName
+              direction: in
+            - name: usesPolicy
+              type:
+                name: int
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: reportPasswordChanged
+          transaction_code_offset: 70
+          params:
+            - name: metrics
+              type:
+                name: PasswordMetrics
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportFailedPasswordAttempt
+          transaction_code_offset: 71
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: reportSuccessfulPasswordAttempt
+          transaction_code_offset: 72
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportFailedBiometricAttempt
+          transaction_code_offset: 73
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportSuccessfulBiometricAttempt
+          transaction_code_offset: 74
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportKeyguardDismissed
+          transaction_code_offset: 75
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportKeyguardSecured
+          transaction_code_offset: 76
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setDeviceOwner
+          transaction_code_offset: 77
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: setProfileOwnerOnCurrentUserIfNecessary
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: getDeviceOwnerComponent
+          transaction_code_offset: 78
+          params:
+            - name: callingUserOnly
+              type:
+                name: boolean
+          return_type:
+            name: ComponentName
+        - name: getDeviceOwnerComponentOnUser
+          transaction_code_offset: 79
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ComponentName
+        - name: hasDeviceOwner
+          transaction_code_offset: 80
+          return_type:
+            name: boolean
+        - name: getDeviceOwnerName
+          transaction_code_offset: 81
+          return_type:
+            name: String
+        - name: clearDeviceOwner
+          transaction_code_offset: 82
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getDeviceOwnerUserId
+          transaction_code_offset: 83
+          return_type:
+            name: int
+        - name: setProfileOwner
+          transaction_code_offset: 84
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getProfileOwnerAsUser
+          transaction_code_offset: 85
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: ComponentName
+        - name: getProfileOwnerOrDeviceOwnerSupervisionComponent
+          transaction_code_offset: 86
+          params:
+            - name: userHandle
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: ComponentName
+        - name: isSupervisionComponent
+          transaction_code_offset: 87
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: getProfileOwnerName
+          transaction_code_offset: 88
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: setProfileEnabled
+          transaction_code_offset: 89
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: setProfileName
+          transaction_code_offset: 90
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: profileName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: clearProfileOwner
+          transaction_code_offset: 91
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: hasUserSetupCompleted
+          transaction_code_offset: 92
+          return_type:
+            name: boolean
+        - name: isOrganizationOwnedDeviceWithManagedProfile
+          transaction_code_offset: 93
+          return_type:
+            name: boolean
+        - name: checkDeviceIdentifierAccess
+          transaction_code_offset: 94
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setDeviceOwnerLockScreenInfo
+          transaction_code_offset: 95
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: deviceOwnerInfo
+              type:
+                name: CharSequence
+          return_type:
+            name: void
+        - name: getDeviceOwnerLockScreenInfo
+          transaction_code_offset: 96
+          return_type:
+            name: CharSequence
+        - name: setPackagesSuspended
+          transaction_code_offset: 97
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: suspended
+              type:
+                name: boolean
+          return_type:
+            name: String
+            is_array: true
+        - name: isPackageSuspended
+          transaction_code_offset: 98
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: listPolicyExemptApps
+          transaction_code_offset: 99
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: installCaCert
+          transaction_code_offset: 100
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+            - name: certBuffer
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: boolean
+        - name: uninstallCaCerts
+          transaction_code_offset: 101
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+            - name: aliases
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: enforceCanManageCaCerts
+          transaction_code_offset: 102
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: approveCaCert
+          transaction_code_offset: 103
+          params:
+            - name: alias
+              type:
+                name: String
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: approval
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: isCaCertApproved
+          transaction_code_offset: 104
+          params:
+            - name: alias
+              type:
+                name: String
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: installKeyPair
+          transaction_code_offset: 105
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: privKeyBuffer
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: certBuffer
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: certChainBuffer
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: alias
+              type:
+                name: String
+            - name: requestAccess
+              type:
+                name: boolean
+            - name: isUserSelectable
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: removeKeyPair
+          transaction_code_offset: 106
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: hasKeyPair
+          transaction_code_offset: 107
+          params:
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: alias
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: generateKeyPair
+          transaction_code_offset: 108
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: algorithm
+              type:
+                name: String
+              direction: in
+            - name: keySpec
+              type:
+                name: ParcelableKeyGenParameterSpec
+              direction: in
+            - name: idAttestationFlags
+              type:
+                name: int
+              direction: in
+            - name: attestationChain
+              type:
+                name: KeymasterCertificateChain
+              direction: out
+          return_type:
+            name: boolean
+        - name: setKeyPairCertificate
+          transaction_code_offset: 109
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: alias
+              type:
+                name: String
+              direction: in
+            - name: certBuffer
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: certChainBuffer
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: isUserSelectable
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: choosePrivateKeyAlias
+          transaction_code_offset: 110
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+            - name: alias
+              type:
+                name: String
+              direction: in
+            - name: aliasCallback
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: setDelegatedScopes
+          transaction_code_offset: 111
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: delegatePackage
+              type:
+                name: String
+              direction: in
+            - name: scopes
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getDelegatedScopes
+          transaction_code_offset: 112
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: delegatePackage
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getDelegatePackages
+          transaction_code_offset: 113
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: scope
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: setCertInstallerPackage
+          transaction_code_offset: 114
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: installerPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getCertInstallerPackage
+          transaction_code_offset: 115
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: String
+        - name: setAlwaysOnVpnPackage
+          transaction_code_offset: 116
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: vpnPackage
+              type:
+                name: String
+            - name: lockdown
+              type:
+                name: boolean
+            - name: lockdownAllowlist
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: getAlwaysOnVpnPackage
+          transaction_code_offset: 117
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: String
+        - name: getAlwaysOnVpnPackageForUser
+          transaction_code_offset: 118
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: isAlwaysOnVpnLockdownEnabled
+          transaction_code_offset: 119
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: isAlwaysOnVpnLockdownEnabledForUser
+          transaction_code_offset: 120
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getAlwaysOnVpnLockdownAllowlist
+          transaction_code_offset: 121
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: addPersistentPreferredActivity
+          transaction_code_offset: 122
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: filter
+              type:
+                name: IntentFilter
+              direction: in
+            - name: activity
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: clearPackagePersistentPreferredActivities
+          transaction_code_offset: 123
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setDefaultSmsApplication
+          transaction_code_offset: 124
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setDefaultDialerApplication
+          transaction_code_offset: 125
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setApplicationRestrictions
+          transaction_code_offset: 126
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: settings
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: getApplicationRestrictions
+          transaction_code_offset: 127
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: Bundle
+        - name: setApplicationRestrictionsManagingPackage
+          transaction_code_offset: 128
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: getApplicationRestrictionsManagingPackage
+          transaction_code_offset: 129
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: String
+        - name: isCallerApplicationRestrictionsManagingPackage
+          transaction_code_offset: 130
+          params:
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: setRestrictionsProvider
+          transaction_code_offset: 131
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: provider
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: getRestrictionsProvider
+          transaction_code_offset: 132
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: ComponentName
+        - name: setUserRestriction
+          transaction_code_offset: 133
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: key
+              type:
+                name: String
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setUserRestrictionGlobally
+          transaction_code_offset: 134
+          params:
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: key
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getUserRestrictions
+          transaction_code_offset: 135
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: Bundle
+        - name: getUserRestrictionsGlobally
+          transaction_code_offset: 136
+          params:
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: Bundle
+        - name: addCrossProfileIntentFilter
+          transaction_code_offset: 137
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: filter
+              type:
+                name: IntentFilter
+              direction: in
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: clearCrossProfileIntentFilters
+          transaction_code_offset: 138
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setPermittedAccessibilityServices
+          transaction_code_offset: 139
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageList
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: getPermittedAccessibilityServices
+          transaction_code_offset: 140
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getPermittedAccessibilityServicesForUser
+          transaction_code_offset: 141
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: isAccessibilityServicePermittedByAdmin
+          transaction_code_offset: 142
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setPermittedInputMethods
+          transaction_code_offset: 143
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: packageList
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: getPermittedInputMethods
+          transaction_code_offset: 144
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getPermittedInputMethodsAsUser
+          transaction_code_offset: 145
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: isInputMethodPermittedByAdmin
+          transaction_code_offset: 146
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: setPermittedCrossProfileNotificationListeners
+          transaction_code_offset: 147
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageList
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: getPermittedCrossProfileNotificationListeners
+          transaction_code_offset: 148
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: isNotificationListenerServicePermitted
+          transaction_code_offset: 149
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: createAdminSupportIntent
+          transaction_code_offset: 150
+          params:
+            - name: restriction
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: Intent
+        - name: getEnforcingAdminAndUserDetails
+          transaction_code_offset: 151
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: restriction
+              type:
+                name: String
+          return_type:
+            name: Bundle
+        - name: getEnforcingAdminsForRestriction
+          transaction_code_offset: 152
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: restriction
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: EnforcingAdmin
+        - name: setApplicationHidden
+          transaction_code_offset: 153
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: hidden
+              type:
+                name: boolean
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: isApplicationHidden
+          transaction_code_offset: 154
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: createAndManageUser
+          transaction_code_offset: 155
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: name
+              type:
+                name: String
+              direction: in
+            - name: profileOwner
+              type:
+                name: ComponentName
+              direction: in
+            - name: adminExtras
+              type:
+                name: PersistableBundle
+              direction: in
+            - name: flags
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: UserHandle
+        - name: removeUser
+          transaction_code_offset: 156
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: boolean
+        - name: switchUser
+          transaction_code_offset: 157
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: boolean
+        - name: startUserInBackground
+          transaction_code_offset: 158
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: int
+        - name: stopUser
+          transaction_code_offset: 159
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: int
+        - name: logoutUser
+          transaction_code_offset: 160
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: int
+        - name: logoutUserInternal
+          transaction_code_offset: 161
+          return_type:
+            name: int
+        - name: getLogoutUserId
+          transaction_code_offset: 162
+          return_type:
+            name: int
+        - name: getSecondaryUsers
+          transaction_code_offset: 163
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: UserHandle
+        - name: acknowledgeNewUserDisclaimer
+          transaction_code_offset: 164
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isNewUserDisclaimerAcknowledged
+          transaction_code_offset: 165
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: enableSystemApp
+          transaction_code_offset: 166
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: enableSystemAppWithIntent
+          transaction_code_offset: 167
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+          return_type:
+            name: int
+        - name: installExistingPackage
+          transaction_code_offset: 168
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: setAccountManagementDisabled
+          transaction_code_offset: 169
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: accountType
+              type:
+                name: String
+              direction: in
+            - name: disabled
+              type:
+                name: boolean
+              direction: in
+            - name: parent
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: getAccountTypesWithManagementDisabled
+          transaction_code_offset: 170
+          params:
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: String
+            is_array: true
+        - name: getAccountTypesWithManagementDisabledAsUser
+          transaction_code_offset: 171
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: callerPackageName
+              type:
+                name: String
+            - name: parent
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: String
+            is_array: true
+        - name: setSecondaryLockscreenEnabled
+          transaction_code_offset: 172
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isSecondaryLockscreenEnabled
+          transaction_code_offset: 173
+          params:
+            - name: userHandle
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: boolean
+        - name: setPreferentialNetworkServiceConfigs
+          transaction_code_offset: 174
+          params:
+            - name: preferentialNetworkServiceConfigs
+              type:
+                name: List
+                type_args:
+                    - name: PreferentialNetworkServiceConfig
+              direction: in
+          return_type:
+            name: void
+        - name: getPreferentialNetworkServiceConfigs
+          transaction_code_offset: 175
+          return_type:
+            name: List
+            type_args:
+                - name: PreferentialNetworkServiceConfig
+        - name: setLockTaskPackages
+          transaction_code_offset: 176
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: packages
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getLockTaskPackages
+          transaction_code_offset: 177
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: String
+            is_array: true
+        - name: isLockTaskPermitted
+          transaction_code_offset: 178
+          params:
+            - name: pkg
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: setLockTaskFeatures
+          transaction_code_offset: 179
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getLockTaskFeatures
+          transaction_code_offset: 180
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: setGlobalSetting
+          transaction_code_offset: 181
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: setting
+              type:
+                name: String
+              direction: in
+            - name: value
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setSystemSetting
+          transaction_code_offset: 182
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: setting
+              type:
+                name: String
+              direction: in
+            - name: value
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setSecureSetting
+          transaction_code_offset: 183
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: setting
+              type:
+                name: String
+              direction: in
+            - name: value
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setConfiguredNetworksLockdownState
+          transaction_code_offset: 184
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: lockdown
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: hasLockdownAdminConfiguredNetworks
+          transaction_code_offset: 185
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: setLocationEnabled
+          transaction_code_offset: 186
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: locationEnabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setTime
+          transaction_code_offset: 187
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: millis
+              type:
+                name: long
+          return_type:
+            name: boolean
+        - name: setTimeZone
+          transaction_code_offset: 188
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: timeZone
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: setMasterVolumeMuted
+          transaction_code_offset: 189
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: "on"
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isMasterVolumeMuted
+          transaction_code_offset: 190
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: notifyLockTaskModeChanged
+          transaction_code_offset: 191
+          params:
+            - name: isEnabled
+              type:
+                name: boolean
+            - name: pkg
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setUninstallBlocked
+          transaction_code_offset: 192
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: uninstallBlocked
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isUninstallBlocked
+          transaction_code_offset: 193
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: setCrossProfileCallerIdDisabled
+          transaction_code_offset: 194
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: disabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getCrossProfileCallerIdDisabled
+          transaction_code_offset: 195
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: getCrossProfileCallerIdDisabledForUser
+          transaction_code_offset: 196
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setCrossProfileContactsSearchDisabled
+          transaction_code_offset: 197
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: disabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getCrossProfileContactsSearchDisabled
+          transaction_code_offset: 198
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: getCrossProfileContactsSearchDisabledForUser
+          transaction_code_offset: 199
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: startManagedQuickContact
+          transaction_code_offset: 200
+          params:
+            - name: lookupKey
+              type:
+                name: String
+            - name: contactId
+              type:
+                name: long
+            - name: isContactIdIgnored
+              type:
+                name: boolean
+            - name: directoryId
+              type:
+                name: long
+            - name: originalIntent
+              type:
+                name: Intent
+              direction: in
+          return_type:
+            name: void
+        - name: setManagedProfileCallerIdAccessPolicy
+          transaction_code_offset: 201
+          params:
+            - name: policy
+              type:
+                name: PackagePolicy
+              direction: in
+          return_type:
+            name: void
+        - name: getManagedProfileCallerIdAccessPolicy
+          transaction_code_offset: 202
+          return_type:
+            name: PackagePolicy
+        - name: hasManagedProfileCallerIdAccess
+          transaction_code_offset: 203
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: setCredentialManagerPolicy
+          transaction_code_offset: 204
+          params:
+            - name: policy
+              type:
+                name: PackagePolicy
+              direction: in
+          return_type:
+            name: void
+        - name: getCredentialManagerPolicy
+          transaction_code_offset: 205
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: PackagePolicy
+        - name: setManagedProfileContactsAccessPolicy
+          transaction_code_offset: 206
+          params:
+            - name: policy
+              type:
+                name: PackagePolicy
+              direction: in
+          return_type:
+            name: void
+        - name: getManagedProfileContactsAccessPolicy
+          transaction_code_offset: 207
+          return_type:
+            name: PackagePolicy
+        - name: hasManagedProfileContactsAccess
+          transaction_code_offset: 208
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: setBluetoothContactSharingDisabled
+          transaction_code_offset: 209
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: disabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getBluetoothContactSharingDisabled
+          transaction_code_offset: 210
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: getBluetoothContactSharingDisabledForUser
+          transaction_code_offset: 211
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setTrustAgentConfiguration
+          transaction_code_offset: 212
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: agent
+              type:
+                name: ComponentName
+              direction: in
+            - name: args
+              type:
+                name: PersistableBundle
+              direction: in
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getTrustAgentConfiguration
+          transaction_code_offset: 213
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: agent
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: parent
+              type:
+                name: boolean
+          return_type:
+            name: List
+            type_args:
+                - name: PersistableBundle
+        - name: addCrossProfileWidgetProvider
+          transaction_code_offset: 214
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: removeCrossProfileWidgetProvider
+          transaction_code_offset: 215
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getCrossProfileWidgetProviders
+          transaction_code_offset: 216
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: setAutoTimeRequired
+          transaction_code_offset: 217
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: required
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getAutoTimeRequired
+          transaction_code_offset: 218
+          return_type:
+            name: boolean
+        - name: setAutoTimeEnabled
+          transaction_code_offset: 219
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getAutoTimeEnabled
+          transaction_code_offset: 220
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: setAutoTimeZoneEnabled
+          transaction_code_offset: 221
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getAutoTimeZoneEnabled
+          transaction_code_offset: 222
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: setForceEphemeralUsers
+          transaction_code_offset: 223
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: forceEpehemeralUsers
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getForceEphemeralUsers
+          transaction_code_offset: 224
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: isRemovingAdmin
+          transaction_code_offset: 225
+          params:
+            - name: adminReceiver
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setUserIcon
+          transaction_code_offset: 226
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: icon
+              type:
+                name: Bitmap
+              direction: in
+          return_type:
+            name: void
+        - name: setSystemUpdatePolicy
+          transaction_code_offset: 227
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: policy
+              type:
+                name: SystemUpdatePolicy
+              direction: in
+          return_type:
+            name: void
+        - name: getSystemUpdatePolicy
+          transaction_code_offset: 228
+          return_type:
+            name: SystemUpdatePolicy
+        - name: clearSystemUpdatePolicyFreezePeriodRecord
+          transaction_code_offset: 229
+          return_type:
+            name: void
+        - name: setKeyguardDisabled
+          transaction_code_offset: 230
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: disabled
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: setStatusBarDisabled
+          transaction_code_offset: 231
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: disabled
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: isStatusBarDisabled
+          transaction_code_offset: 232
+          params:
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: getDoNotAskCredentialsOnBoot
+          transaction_code_offset: 233
+          return_type:
+            name: boolean
+        - name: notifyPendingSystemUpdate
+          transaction_code_offset: 234
+          params:
+            - name: info
+              type:
+                name: SystemUpdateInfo
+              direction: in
+          return_type:
+            name: void
+        - name: getPendingSystemUpdate
+          transaction_code_offset: 235
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: SystemUpdateInfo
+        - name: setPermissionPolicy
+          transaction_code_offset: 236
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: policy
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getPermissionPolicy
+          transaction_code_offset: 237
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: int
+        - name: setPermissionGrantState
+          transaction_code_offset: 238
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: permission
+              type:
+                name: String
+            - name: grantState
+              type:
+                name: int
+            - name: resultReceiver
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getPermissionGrantState
+          transaction_code_offset: 239
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: permission
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: isProvisioningAllowed
+          transaction_code_offset: 240
+          params:
+            - name: action
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: checkProvisioningPrecondition
+          transaction_code_offset: 241
+          params:
+            - name: action
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: setKeepUninstalledPackages
+          transaction_code_offset: 242
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: packageList
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getKeepUninstalledPackages
+          transaction_code_offset: 243
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: isManagedProfile
+          transaction_code_offset: 244
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: getWifiMacAddress
+          transaction_code_offset: 245
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: reboot
+          transaction_code_offset: 246
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: setShortSupportMessage
+          transaction_code_offset: 247
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: message
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+        - name: getShortSupportMessage
+          transaction_code_offset: 248
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: CharSequence
+        - name: setLongSupportMessage
+          transaction_code_offset: 249
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: message
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+        - name: getLongSupportMessage
+          transaction_code_offset: 250
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: CharSequence
+        - name: getShortSupportMessageForUser
+          transaction_code_offset: 251
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: CharSequence
+        - name: getLongSupportMessageForUser
+          transaction_code_offset: 252
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: CharSequence
+        - name: setOrganizationColor
+          transaction_code_offset: 253
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: color
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setOrganizationColorForUser
+          transaction_code_offset: 254
+          params:
+            - name: color
+              type:
+                name: int
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: clearOrganizationIdForUser
+          transaction_code_offset: 255
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getOrganizationColor
+          transaction_code_offset: 256
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: int
+        - name: getOrganizationColorForUser
+          transaction_code_offset: 257
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setOrganizationName
+          transaction_code_offset: 258
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: title
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+        - name: getOrganizationName
+          transaction_code_offset: 259
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: CharSequence
+        - name: getDeviceOwnerOrganizationName
+          transaction_code_offset: 260
+          return_type:
+            name: CharSequence
+        - name: getOrganizationNameForUser
+          transaction_code_offset: 261
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: CharSequence
+        - name: getUserProvisioningState
+          transaction_code_offset: 262
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setUserProvisioningState
+          transaction_code_offset: 263
+          params:
+            - name: state
+              type:
+                name: int
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setAffiliationIds
+          transaction_code_offset: 264
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: ids
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getAffiliationIds
+          transaction_code_offset: 265
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: isCallingUserAffiliated
+          transaction_code_offset: 266
+          return_type:
+            name: boolean
+        - name: isAffiliatedUser
+          transaction_code_offset: 267
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setSecurityLoggingEnabled
+          transaction_code_offset: 268
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isSecurityLoggingEnabled
+          transaction_code_offset: 269
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: retrieveSecurityLogs
+          transaction_code_offset: 270
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+        - name: retrievePreRebootSecurityLogs
+          transaction_code_offset: 271
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+        - name: forceNetworkLogs
+          transaction_code_offset: 272
+          return_type:
+            name: long
+        - name: forceSecurityLogs
+          transaction_code_offset: 273
+          return_type:
+            name: long
+        - name: setAuditLogEnabled
+          transaction_code_offset: 274
+          params:
+            - name: callerPackage
+              type:
+                name: String
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isAuditLogEnabled
+          transaction_code_offset: 275
+          params:
+            - name: callerPackage
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: setAuditLogEventsCallback
+          transaction_code_offset: 276
+          params:
+            - name: callerPackage
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IAuditLogEventsCallback
+              direction: in
+          return_type:
+            name: void
+        - name: isUninstallInQueue
+          transaction_code_offset: 277
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: uninstallPackageWithActiveAdmins
+          transaction_code_offset: 278
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: isDeviceProvisioned
+          transaction_code_offset: 279
+          return_type:
+            name: boolean
+        - name: isDeviceProvisioningConfigApplied
+          transaction_code_offset: 280
+          return_type:
+            name: boolean
+        - name: setDeviceProvisioningConfigApplied
+          transaction_code_offset: 281
+          return_type:
+            name: void
+        - name: forceUpdateUserSetupComplete
+          transaction_code_offset: 282
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setBackupServiceEnabled
+          transaction_code_offset: 283
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isBackupServiceEnabled
+          transaction_code_offset: 284
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: setNetworkLoggingEnabled
+          transaction_code_offset: 285
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isNetworkLoggingEnabled
+          transaction_code_offset: 286
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: retrieveNetworkLogs
+          transaction_code_offset: 287
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: batchToken
+              type:
+                name: long
+          return_type:
+            name: List
+            type_args:
+                - name: NetworkEvent
+        - name: bindDeviceAdminServiceAsUser
+          transaction_code_offset: 288
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: caller
+              type:
+                name: IApplicationThread
+            - name: token
+              type:
+                name: IBinder
+            - name: service
+              type:
+                name: Intent
+              direction: in
+            - name: connection
+              type:
+                name: IServiceConnection
+            - name: flags
+              type:
+                name: long
+            - name: targetUserId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getBindDeviceAdminTargetUsers
+          transaction_code_offset: 289
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: UserHandle
+        - name: isEphemeralUser
+          transaction_code_offset: 290
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: getLastSecurityLogRetrievalTime
+          transaction_code_offset: 291
+          return_type:
+            name: long
+        - name: getLastBugReportRequestTime
+          transaction_code_offset: 292
+          return_type:
+            name: long
+        - name: getLastNetworkLogRetrievalTime
+          transaction_code_offset: 293
+          return_type:
+            name: long
+        - name: setResetPasswordToken
+          transaction_code_offset: 294
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: token
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: boolean
+        - name: clearResetPasswordToken
+          transaction_code_offset: 295
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: isResetPasswordTokenActive
+          transaction_code_offset: 296
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: resetPasswordWithToken
+          transaction_code_offset: 297
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: password
+              type:
+                name: String
+            - name: token
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isCurrentInputMethodSetByOwner
+          transaction_code_offset: 298
+          return_type:
+            name: boolean
+        - name: getOwnerInstalledCaCerts
+          transaction_code_offset: 299
+          params:
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: StringParceledListSlice
+        - name: clearApplicationUserData
+          transaction_code_offset: 300
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: callback
+              type:
+                name: IPackageDataObserver
+              direction: in
+          return_type:
+            name: void
+        - name: setLogoutEnabled
+          transaction_code_offset: 301
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isLogoutEnabled
+          transaction_code_offset: 302
+          return_type:
+            name: boolean
+        - name: getDisallowedSystemApps
+          transaction_code_offset: 303
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: provisioningAction
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: transferOwnership
+          transaction_code_offset: 304
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: target
+              type:
+                name: ComponentName
+              direction: in
+            - name: bundle
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+        - name: getTransferOwnershipBundle
+          transaction_code_offset: 305
+          return_type:
+            name: PersistableBundle
+        - name: setStartUserSessionMessage
+          transaction_code_offset: 306
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: startUserSessionMessage
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+        - name: setEndUserSessionMessage
+          transaction_code_offset: 307
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: endUserSessionMessage
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+        - name: getStartUserSessionMessage
+          transaction_code_offset: 308
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: CharSequence
+        - name: getEndUserSessionMessage
+          transaction_code_offset: 309
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: CharSequence
+        - name: setMeteredDataDisabledPackages
+          transaction_code_offset: 310
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageNames
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getMeteredDataDisabledPackages
+          transaction_code_offset: 311
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: addOverrideApn
+          transaction_code_offset: 312
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: apnSetting
+              type:
+                name: ApnSetting
+              direction: in
+          return_type:
+            name: int
+        - name: updateOverrideApn
+          transaction_code_offset: 313
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: apnId
+              type:
+                name: int
+            - name: apnSetting
+              type:
+                name: ApnSetting
+              direction: in
+          return_type:
+            name: boolean
+        - name: removeOverrideApn
+          transaction_code_offset: 314
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: apnId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getOverrideApns
+          transaction_code_offset: 315
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: ApnSetting
+        - name: setOverrideApnsEnabled
+          transaction_code_offset: 316
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isOverrideApnEnabled
+          transaction_code_offset: 317
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: isMeteredDataDisabledPackageForUser
+          transaction_code_offset: 318
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setGlobalPrivateDns
+          transaction_code_offset: 319
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: mode
+              type:
+                name: int
+            - name: privateDnsHost
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: getGlobalPrivateDnsMode
+          transaction_code_offset: 320
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: int
+        - name: getGlobalPrivateDnsHost
+          transaction_code_offset: 321
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: String
+        - name: setProfileOwnerOnOrganizationOwnedDevice
+          transaction_code_offset: 322
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: isProfileOwnerOnOrganizationOwnedDevice
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: installUpdateFromFile
+          transaction_code_offset: 323
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: updateFileDescriptor
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: listener
+              type:
+                name: StartInstallingUpdateCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setCrossProfileCalendarPackages
+          transaction_code_offset: 324
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageNames
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getCrossProfileCalendarPackages
+          transaction_code_offset: 325
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: isPackageAllowedToAccessCalendarForUser
+          transaction_code_offset: 326
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getCrossProfileCalendarPackagesForUser
+          transaction_code_offset: 327
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: setCrossProfilePackages
+          transaction_code_offset: 328
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: packageNames
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getCrossProfilePackages
+          transaction_code_offset: 329
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getAllCrossProfilePackages
+          transaction_code_offset: 330
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getDefaultCrossProfilePackages
+          transaction_code_offset: 331
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: isManagedKiosk
+          transaction_code_offset: 332
+          return_type:
+            name: boolean
+        - name: isUnattendedManagedKiosk
+          transaction_code_offset: 333
+          return_type:
+            name: boolean
+        - name: startViewCalendarEventInManagedProfile
+          transaction_code_offset: 334
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: eventId
+              type:
+                name: long
+            - name: start
+              type:
+                name: long
+            - name: end
+              type:
+                name: long
+            - name: allDay
+              type:
+                name: boolean
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setKeyGrantForApp
+          transaction_code_offset: 335
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+            - name: alias
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: hasGrant
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: getKeyPairGrants
+          transaction_code_offset: 336
+          params:
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: alias
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: ParcelableGranteeMap
+        - name: setKeyGrantToWifiAuth
+          transaction_code_offset: 337
+          params:
+            - name: callerPackage
+              type:
+                name: String
+            - name: alias
+              type:
+                name: String
+            - name: hasGrant
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: isKeyPairGrantedToWifiAuth
+          transaction_code_offset: 338
+          params:
+            - name: callerPackage
+              type:
+                name: String
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: setUserControlDisabledPackages
+          transaction_code_offset: 339
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: packages
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getUserControlDisabledPackages
+          transaction_code_offset: 340
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: setCommonCriteriaModeEnabled
+          transaction_code_offset: 341
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isCommonCriteriaModeEnabled
+          transaction_code_offset: 342
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: getPersonalAppsSuspendedReasons
+          transaction_code_offset: 343
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: int
+        - name: setPersonalAppsSuspended
+          transaction_code_offset: 344
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: suspended
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getManagedProfileMaximumTimeOff
+          transaction_code_offset: 345
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: long
+        - name: setManagedProfileMaximumTimeOff
+          transaction_code_offset: 346
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: timeoutMs
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: acknowledgeDeviceCompliant
+          transaction_code_offset: 347
+          return_type:
+            name: void
+        - name: isComplianceAcknowledgementRequired
+          transaction_code_offset: 348
+          return_type:
+            name: boolean
+        - name: canProfileOwnerResetPasswordWhenLocked
+          transaction_code_offset: 349
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setNextOperationSafety
+          transaction_code_offset: 350
+          params:
+            - name: operation
+              type:
+                name: int
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isSafeOperation
+          transaction_code_offset: 351
+          params:
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getEnrollmentSpecificId
+          transaction_code_offset: 352
+          params:
+            - name: callerPackage
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: setOrganizationIdForUser
+          transaction_code_offset: 353
+          params:
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+            - name: enterpriseId
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: createAndProvisionManagedProfile
+          transaction_code_offset: 354
+          params:
+            - name: provisioningParams
+              type:
+                name: ManagedProfileProvisioningParams
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: UserHandle
+        - name: provisionFullyManagedDevice
+          transaction_code_offset: 355
+          params:
+            - name: provisioningParams
+              type:
+                name: FullyManagedDeviceProvisioningParams
+              direction: in
+            - name: callerPackage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: finalizeWorkProfileProvisioning
+          transaction_code_offset: 356
+          params:
+            - name: managedProfileUser
+              type:
+                name: UserHandle
+              direction: in
+            - name: migratedAccount
+              type:
+                name: Account
+              direction: in
+          return_type:
+            name: void
+        - name: setDeviceOwnerType
+          transaction_code_offset: 357
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+            - name: deviceOwnerType
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getDeviceOwnerType
+          transaction_code_offset: 358
+          params:
+            - name: admin
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: int
+        - name: resetDefaultCrossProfileIntentFilters
+          transaction_code_offset: 359
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: canAdminGrantSensorsPermissions
+          transaction_code_offset: 360
+          return_type:
+            name: boolean
+        - name: setUsbDataSignalingEnabled
+          transaction_code_offset: 361
+          params:
+            - name: callerPackage
+              type:
+                name: String
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isUsbDataSignalingEnabled
+          transaction_code_offset: 362
+          params:
+            - name: callerPackage
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: canUsbDataSignalingBeDisabled
+          transaction_code_offset: 363
+          return_type:
+            name: boolean
+        - name: setMinimumRequiredWifiSecurityLevel
+          transaction_code_offset: 364
+          params:
+            - name: callerPackageName
+              type:
+                name: String
+            - name: level
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getMinimumRequiredWifiSecurityLevel
+          transaction_code_offset: 365
+          return_type:
+            name: int
+        - name: setWifiSsidPolicy
+          transaction_code_offset: 366
+          params:
+            - name: callerPackageName
+              type:
+                name: String
+            - name: policy
+              type:
+                name: WifiSsidPolicy
+              direction: in
+          return_type:
+            name: void
+        - name: getWifiSsidPolicy
+          transaction_code_offset: 367
+          params:
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: WifiSsidPolicy
+        - name: isTheftDetectionTriggered
+          transaction_code_offset: 368
+          params:
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: listForegroundAffiliatedUsers
+          transaction_code_offset: 369
+          return_type:
+            name: List
+            type_args:
+                - name: UserHandle
+        - name: setDrawables
+          transaction_code_offset: 370
+          params:
+            - name: drawables
+              type:
+                name: List
+                type_args:
+                    - name: DevicePolicyDrawableResource
+              direction: in
+          return_type:
+            name: void
+        - name: resetDrawables
+          transaction_code_offset: 371
+          params:
+            - name: drawableIds
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getDrawable
+          transaction_code_offset: 372
+          params:
+            - name: drawableId
+              type:
+                name: String
+            - name: drawableStyle
+              type:
+                name: String
+            - name: drawableSource
+              type:
+                name: String
+          return_type:
+            name: ParcelableResource
+        - name: isDpcDownloaded
+          transaction_code_offset: 373
+          return_type:
+            name: boolean
+        - name: setDpcDownloaded
+          transaction_code_offset: 374
+          params:
+            - name: downloaded
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setStrings
+          transaction_code_offset: 375
+          params:
+            - name: strings
+              type:
+                name: List
+                type_args:
+                    - name: DevicePolicyStringResource
+              direction: in
+          return_type:
+            name: void
+        - name: resetStrings
+          transaction_code_offset: 376
+          params:
+            - name: stringIds
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getString
+          transaction_code_offset: 377
+          params:
+            - name: stringId
+              type:
+                name: String
+          return_type:
+            name: ParcelableResource
+        - name: resetShouldAllowBypassingDevicePolicyManagementRoleQualificationState
+          transaction_code_offset: 378
+          return_type:
+            name: void
+        - name: shouldAllowBypassingDevicePolicyManagementRoleQualification
+          transaction_code_offset: 379
+          return_type:
+            name: boolean
+        - name: getPolicyManagedProfiles
+          transaction_code_offset: 380
+          params:
+            - name: userHandle
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: UserHandle
+        - name: setApplicationExemptions
+          transaction_code_offset: 381
+          params:
+            - name: callerPackage
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: exemptions
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getApplicationExemptions
+          transaction_code_offset: 382
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: int
+            is_array: true
+        - name: setMtePolicy
+          transaction_code_offset: 383
+          params:
+            - name: flag
+              type:
+                name: int
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getMtePolicy
+          transaction_code_offset: 384
+          params:
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: setManagedSubscriptionsPolicy
+          transaction_code_offset: 385
+          params:
+            - name: policy
+              type:
+                name: ManagedSubscriptionsPolicy
+              direction: in
+          return_type:
+            name: void
+        - name: getManagedSubscriptionsPolicy
+          transaction_code_offset: 386
+          return_type:
+            name: ManagedSubscriptionsPolicy
+        - name: getDevicePolicyState
+          transaction_code_offset: 387
+          return_type:
+            name: DevicePolicyState
+        - name: triggerDevicePolicyEngineMigration
+          transaction_code_offset: 388
+          params:
+            - name: forceMigration
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: isDeviceFinanced
+          transaction_code_offset: 389
+          params:
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getFinancedDeviceKioskRoleHolder
+          transaction_code_offset: 390
+          params:
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: calculateHasIncompatibleAccounts
+          transaction_code_offset: 391
+          return_type:
+            name: void
+        - name: setContentProtectionPolicy
+          transaction_code_offset: 392
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: policy
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getContentProtectionPolicy
+          transaction_code_offset: 393
+          params:
+            - name: who
+              type:
+                name: ComponentName
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: getSubscriptionIds
+          transaction_code_offset: 394
+          params:
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: int
+            is_array: true
+        - name: setMaxPolicyStorageLimit
+          transaction_code_offset: 395
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: storageLimit
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getMaxPolicyStorageLimit
+          transaction_code_offset: 396
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: int
+    - name: IKeyguardCallback
+      descriptor: android.app.admin.IKeyguardCallback
+      methods:
+        - name: onRemoteContentReady
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: surfacePackage
+              type:
+                name: SurfaceControlViewHost.SurfacePackage
+              direction: in
+          return_type:
+            name: void
+        - name: onDismiss
+          transaction_code_offset: 1
+          oneway: true
+          return_type:
+            name: void
+    - name: IKeyguardClient
+      descriptor: android.app.admin.IKeyguardClient
+      methods:
+        - name: onCreateKeyguardSurface
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: hostInputToken
+              type:
+                name: IBinder
+              direction: in
+            - name: keyguardCallback
+              type:
+                name: IKeyguardCallback
+              direction: in
+          return_type:
+            name: void
+    - name: StartInstallingUpdateCallback
+      descriptor: android.app.admin.StartInstallingUpdateCallback
+      oneway: true
+      methods:
+        - name: onStartInstallingUpdateError
+          transaction_code_offset: 0
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: errorMessage
+              type:
+                name: String
+          return_type:
+            name: void
+parcelables:
+    - name: ConnectEvent
+    - name: DevicePolicyDrawableResource
+    - name: DevicePolicyState
+    - name: DevicePolicyStringResource
+    - name: DnsEvent
+    - name: EnforcingAdmin
+    - name: FactoryResetProtectionPolicy
+    - name: FullyManagedDeviceProvisioningParams
+    - name: ManagedProfileProvisioningParams
+    - name: ManagedSubscriptionsPolicy
+    - name: NetworkEvent
+    - name: PackagePolicy
+    - name: ParcelableGranteeMap
+    - name: ParcelableResource
+    - name: PasswordMetrics
+    - name: PreferentialNetworkServiceConfig
+    - name: SecurityLog.SecurityEvent
+    - name: SystemUpdateInfo
+    - name: SystemUpdatePolicy
+    - name: WifiSsidPolicy

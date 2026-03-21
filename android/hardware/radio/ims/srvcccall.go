@@ -1,8 +1,6 @@
 package ims
 
 import (
-	imsImsCall "github.com/xaionaro-go/binder/android/hardware/radio/ims/ImsCall"
-	imsSrvccCall "github.com/xaionaro-go/binder/android/hardware/radio/ims/SrvccCall"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,10 +8,10 @@ import (
 
 type SrvccCall struct {
 	Index            int32
-	CallType         imsImsCall.CallType
+	CallType         ImsCallCallType
 	CallState        int32
-	CallSubstate     imsSrvccCall.CallSubState
-	RingbackToneType imsSrvccCall.ToneType
+	CallSubstate     SrvccCallCallSubState
+	RingbackToneType SrvccCallToneType
 	IsMpty           bool
 	IsMT             bool
 	Number           string
@@ -52,37 +50,72 @@ func (s *SrvccCall) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Index, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_callTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.CallType = imsImsCall.CallType(_callTypeRaw)
+	s.CallType = ImsCallCallType(_callTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.CallState, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_callSubstateRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.CallSubstate = imsSrvccCall.CallSubState(_callSubstateRaw)
+	s.CallSubstate = SrvccCallCallSubState(_callSubstateRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_ringbackToneTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.RingbackToneType = imsSrvccCall.ToneType(_ringbackToneTypeRaw)
+	s.RingbackToneType = SrvccCallToneType(_ringbackToneTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.IsMpty, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.IsMT, _err = p.ReadBool()
@@ -90,9 +123,19 @@ func (s *SrvccCall) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Number, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.NumPresentation, _err = p.ReadInt32()
@@ -100,9 +143,19 @@ func (s *SrvccCall) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Name, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.NamePresentation, _err = p.ReadInt32()

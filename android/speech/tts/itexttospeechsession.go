@@ -44,6 +44,7 @@ func (p *TextToSpeechSessionProxy) Disconnect(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechSession, MethodITextToSpeechSessionDisconnect)
@@ -58,7 +59,8 @@ func (p *TextToSpeechSessionProxy) Disconnect(
 // TextToSpeechSessionStub dispatches incoming binder transactions
 // to a typed ITextToSpeechSession implementation.
 type TextToSpeechSessionStub struct {
-	Impl ITextToSpeechSession
+	Impl      ITextToSpeechSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TextToSpeechSessionStub)(nil)
@@ -72,14 +74,14 @@ func (s *TextToSpeechSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITextToSpeechSessionDisconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Disconnect(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

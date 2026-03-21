@@ -3,6 +3,7 @@ package bluetooth
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -25,8 +26,8 @@ const (
 
 type IBluetoothSocketManager interface {
 	AsBinder() binder.IBinder
-	ConnectSocket(ctx context.Context, device BluetoothDevice, type_ int32, uuid *interface{}, port int32, flag int32) (int32, error)
-	CreateSocketChannel(ctx context.Context, type_ int32, serviceName string, uuid *interface{}, port int32, flag int32) (int32, error)
+	ConnectSocket(ctx context.Context, device BluetoothDevice, type_ int32, uuid *os.ParcelUuid, port int32, flag int32) (int32, error)
+	CreateSocketChannel(ctx context.Context, type_ int32, serviceName string, uuid *os.ParcelUuid, port int32, flag int32) (int32, error)
 	RequestMaximumTxDataLength(ctx context.Context, device BluetoothDevice) error
 }
 
@@ -50,18 +51,27 @@ func (p *BluetoothSocketManagerProxy) ConnectSocket(
 	ctx context.Context,
 	device BluetoothDevice,
 	type_ int32,
-	uuid *interface{},
+	uuid *os.ParcelUuid,
 	port int32,
 	flag int32,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSocketManager)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteInt32(type_)
+	if uuid != nil {
+		_data.WriteInt32(1)
+		if _err := (*uuid).MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
 	_data.WriteInt32(port)
 	_data.WriteInt32(flag)
 
@@ -91,15 +101,24 @@ func (p *BluetoothSocketManagerProxy) CreateSocketChannel(
 	ctx context.Context,
 	type_ int32,
 	serviceName string,
-	uuid *interface{},
+	uuid *os.ParcelUuid,
 	port int32,
 	flag int32,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSocketManager)
 	_data.WriteInt32(type_)
 	_data.WriteString16(serviceName)
+	if uuid != nil {
+		_data.WriteInt32(1)
+		if _err := (*uuid).MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
 	_data.WriteInt32(port)
 	_data.WriteInt32(flag)
 
@@ -130,6 +149,7 @@ func (p *BluetoothSocketManagerProxy) RequestMaximumTxDataLength(
 	device BluetoothDevice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSocketManager)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -157,7 +177,8 @@ func (p *BluetoothSocketManagerProxy) RequestMaximumTxDataLength(
 // BluetoothSocketManagerStub dispatches incoming binder transactions
 // to a typed IBluetoothSocketManager implementation.
 type BluetoothSocketManagerStub struct {
-	Impl IBluetoothSocketManager
+	Impl      IBluetoothSocketManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothSocketManagerStub)(nil)
@@ -171,11 +192,12 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothSocketManagerConnectSocket:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -192,7 +214,19 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_uuid *interface{}
+		var _arg_uuid *os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				_arg_uuid = new(os.ParcelUuid)
+				if _err = _arg_uuid.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_port, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -211,9 +245,6 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIBluetoothSocketManagerCreateSocketChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -222,7 +253,19 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_uuid *interface{}
+		var _arg_uuid *os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				_arg_uuid = new(os.ParcelUuid)
+				if _err = _arg_uuid.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_port, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -241,9 +284,6 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIBluetoothSocketManagerRequestMaximumTxDataLength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -273,8 +313,8 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 // provide to NewBluetoothSocketManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothSocketManagerServer interface {
-	ConnectSocket(ctx context.Context, device BluetoothDevice, type_ int32, uuid *interface{}, port int32, flag int32) (int32, error)
-	CreateSocketChannel(ctx context.Context, type_ int32, serviceName string, uuid *interface{}, port int32, flag int32) (int32, error)
+	ConnectSocket(ctx context.Context, device BluetoothDevice, type_ int32, uuid *os.ParcelUuid, port int32, flag int32) (int32, error)
+	CreateSocketChannel(ctx context.Context, type_ int32, serviceName string, uuid *os.ParcelUuid, port int32, flag int32) (int32, error)
 	RequestMaximumTxDataLength(ctx context.Context, device BluetoothDevice) error
 }
 
@@ -291,7 +331,7 @@ func (w *bluetoothSocketManagerStubWrapper) ConnectSocket(
 	ctx context.Context,
 	device BluetoothDevice,
 	type_ int32,
-	uuid *interface{},
+	uuid *os.ParcelUuid,
 	port int32,
 	flag int32,
 ) (int32, error) {
@@ -302,7 +342,7 @@ func (w *bluetoothSocketManagerStubWrapper) CreateSocketChannel(
 	ctx context.Context,
 	type_ int32,
 	serviceName string,
-	uuid *interface{},
+	uuid *os.ParcelUuid,
 	port int32,
 	flag int32,
 ) (int32, error) {

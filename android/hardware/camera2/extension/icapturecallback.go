@@ -3,6 +3,7 @@ package extension
 import (
 	"context"
 	"fmt"
+	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -40,7 +41,7 @@ type ICaptureCallback interface {
 	OnCaptureFailed(ctx context.Context, captureSequenceId int32) error
 	OnCaptureSequenceCompleted(ctx context.Context, captureSequenceId int32) error
 	OnCaptureSequenceAborted(ctx context.Context, captureSequenceId int32) error
-	OnCaptureCompleted(ctx context.Context, shutterTimestamp int64, requestId int32, results interface{}) error
+	OnCaptureCompleted(ctx context.Context, shutterTimestamp int64, requestId int32, results impl.CameraMetadataNative) error
 	OnCaptureProcessProgressed(ctx context.Context, progress int32) error
 	OnCaptureProcessFailed(ctx context.Context, captureSequenceId int32, captureFailureReason int32) error
 }
@@ -67,6 +68,7 @@ func (p *CaptureCallbackProxy) OnCaptureStarted(
 	timestamp int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICaptureCallback)
 	_data.WriteInt32(captureSequenceId)
 	_data.WriteInt64(timestamp)
@@ -94,6 +96,7 @@ func (p *CaptureCallbackProxy) OnCaptureProcessStarted(
 	captureSequenceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICaptureCallback)
 	_data.WriteInt32(captureSequenceId)
 
@@ -120,6 +123,7 @@ func (p *CaptureCallbackProxy) OnCaptureFailed(
 	captureSequenceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICaptureCallback)
 	_data.WriteInt32(captureSequenceId)
 
@@ -146,6 +150,7 @@ func (p *CaptureCallbackProxy) OnCaptureSequenceCompleted(
 	captureSequenceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICaptureCallback)
 	_data.WriteInt32(captureSequenceId)
 
@@ -172,6 +177,7 @@ func (p *CaptureCallbackProxy) OnCaptureSequenceAborted(
 	captureSequenceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICaptureCallback)
 	_data.WriteInt32(captureSequenceId)
 
@@ -197,12 +203,17 @@ func (p *CaptureCallbackProxy) OnCaptureCompleted(
 	ctx context.Context,
 	shutterTimestamp int64,
 	requestId int32,
-	results interface{},
+	results impl.CameraMetadataNative,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICaptureCallback)
 	_data.WriteInt64(shutterTimestamp)
 	_data.WriteInt32(requestId)
+	_data.WriteInt32(1)
+	if _err := results.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICaptureCallback, MethodICaptureCallbackOnCaptureCompleted)
 	if _err != nil {
@@ -227,6 +238,7 @@ func (p *CaptureCallbackProxy) OnCaptureProcessProgressed(
 	progress int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICaptureCallback)
 	_data.WriteInt32(progress)
 
@@ -254,6 +266,7 @@ func (p *CaptureCallbackProxy) OnCaptureProcessFailed(
 	captureFailureReason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICaptureCallback)
 	_data.WriteInt32(captureSequenceId)
 	_data.WriteInt32(captureFailureReason)
@@ -279,7 +292,8 @@ func (p *CaptureCallbackProxy) OnCaptureProcessFailed(
 // CaptureCallbackStub dispatches incoming binder transactions
 // to a typed ICaptureCallback implementation.
 type CaptureCallbackStub struct {
-	Impl ICaptureCallback
+	Impl      ICaptureCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CaptureCallbackStub)(nil)
@@ -293,11 +307,12 @@ func (s *CaptureCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICaptureCallbackOnCaptureStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_captureSequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -315,9 +330,6 @@ func (s *CaptureCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureCallbackOnCaptureProcessStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_captureSequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -331,9 +343,6 @@ func (s *CaptureCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureCallbackOnCaptureFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_captureSequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -347,9 +356,6 @@ func (s *CaptureCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureCallbackOnCaptureSequenceCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_captureSequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -363,9 +369,6 @@ func (s *CaptureCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureCallbackOnCaptureSequenceAborted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_captureSequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -379,9 +382,6 @@ func (s *CaptureCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureCallbackOnCaptureCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_shutterTimestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -390,7 +390,18 @@ func (s *CaptureCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_results interface{}
+		var _arg_results impl.CameraMetadataNative
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_results.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnCaptureCompleted(ctx, _arg_shutterTimestamp, _arg_requestId, _arg_results)
 		_reply := parcel.New()
 		if _err != nil {
@@ -400,9 +411,6 @@ func (s *CaptureCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureCallbackOnCaptureProcessProgressed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_progress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -416,9 +424,6 @@ func (s *CaptureCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureCallbackOnCaptureProcessFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_captureSequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -449,7 +454,7 @@ type ICaptureCallbackServer interface {
 	OnCaptureFailed(ctx context.Context, captureSequenceId int32) error
 	OnCaptureSequenceCompleted(ctx context.Context, captureSequenceId int32) error
 	OnCaptureSequenceAborted(ctx context.Context, captureSequenceId int32) error
-	OnCaptureCompleted(ctx context.Context, shutterTimestamp int64, requestId int32, results interface{}) error
+	OnCaptureCompleted(ctx context.Context, shutterTimestamp int64, requestId int32, results impl.CameraMetadataNative) error
 	OnCaptureProcessProgressed(ctx context.Context, progress int32) error
 	OnCaptureProcessFailed(ctx context.Context, captureSequenceId int32, captureFailureReason int32) error
 }
@@ -503,7 +508,7 @@ func (w *captureCallbackStubWrapper) OnCaptureCompleted(
 	ctx context.Context,
 	shutterTimestamp int64,
 	requestId int32,
-	results interface{},
+	results impl.CameraMetadataNative,
 ) error {
 	return w.impl.OnCaptureCompleted(ctx, shutterTimestamp, requestId, results)
 }

@@ -3,7 +3,6 @@ package gnss
 import (
 	"context"
 	"fmt"
-	gnssIGnssBatching "github.com/xaionaro-go/binder/android/hardware/gnss/IGnssBatching"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,7 +27,7 @@ type IGnssMeasurementInterface interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, callback IGnssMeasurementCallback, enableFullTracking bool, enableCorrVecOutputs bool) error
 	Close(ctx context.Context) error
-	SetCallbackWithOptions(ctx context.Context, callback IGnssMeasurementCallback, options gnssIGnssBatching.Options) error
+	SetCallbackWithOptions(ctx context.Context, callback IGnssMeasurementCallback, options IGnssBatchingOptions) error
 }
 
 type GnssMeasurementInterfaceProxy struct {
@@ -54,6 +53,7 @@ func (p *GnssMeasurementInterfaceProxy) SetCallback(
 	enableCorrVecOutputs bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssMeasurementInterface)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(enableFullTracking)
@@ -81,6 +81,7 @@ func (p *GnssMeasurementInterfaceProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssMeasurementInterface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssMeasurementInterface, MethodIGnssMeasurementInterfaceClose)
@@ -104,9 +105,10 @@ func (p *GnssMeasurementInterfaceProxy) Close(
 func (p *GnssMeasurementInterfaceProxy) SetCallbackWithOptions(
 	ctx context.Context,
 	callback IGnssMeasurementCallback,
-	options gnssIGnssBatching.Options,
+	options IGnssBatchingOptions,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssMeasurementInterface)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -135,7 +137,8 @@ func (p *GnssMeasurementInterfaceProxy) SetCallbackWithOptions(
 // GnssMeasurementInterfaceStub dispatches incoming binder transactions
 // to a typed IGnssMeasurementInterface implementation.
 type GnssMeasurementInterfaceStub struct {
-	Impl IGnssMeasurementInterface
+	Impl      IGnssMeasurementInterface
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssMeasurementInterfaceStub)(nil)
@@ -149,14 +152,20 @@ func (s *GnssMeasurementInterfaceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssMeasurementInterfaceSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGnssMeasurementCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGnssMeasurementCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_enableFullTracking, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -174,9 +183,6 @@ func (s *GnssMeasurementInterfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssMeasurementInterfaceClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -186,13 +192,15 @@ func (s *GnssMeasurementInterfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssMeasurementInterfaceSetCallbackWithOptions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGnssMeasurementCallback
-		_ = _arg_callback
-		var _arg_options gnssIGnssBatching.Options
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGnssMeasurementCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
+		var _arg_options IGnssBatchingOptions
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -223,7 +231,7 @@ func (s *GnssMeasurementInterfaceStub) OnTransaction(
 type IGnssMeasurementInterfaceServer interface {
 	SetCallback(ctx context.Context, callback IGnssMeasurementCallback, enableFullTracking bool, enableCorrVecOutputs bool) error
 	Close(ctx context.Context) error
-	SetCallbackWithOptions(ctx context.Context, callback IGnssMeasurementCallback, options gnssIGnssBatching.Options) error
+	SetCallbackWithOptions(ctx context.Context, callback IGnssMeasurementCallback, options IGnssBatchingOptions) error
 }
 
 type gnssMeasurementInterfaceStubWrapper struct {
@@ -253,7 +261,7 @@ func (w *gnssMeasurementInterfaceStubWrapper) Close(
 func (w *gnssMeasurementInterfaceStubWrapper) SetCallbackWithOptions(
 	ctx context.Context,
 	callback IGnssMeasurementCallback,
-	options gnssIGnssBatching.Options,
+	options IGnssBatchingOptions,
 ) error {
 	return w.impl.SetCallbackWithOptions(ctx, callback, options)
 }

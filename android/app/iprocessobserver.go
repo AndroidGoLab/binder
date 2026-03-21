@@ -58,6 +58,7 @@ func (p *ProcessObserverProxy) OnProcessStarted(
 	processName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessObserver)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(processUid)
@@ -81,6 +82,7 @@ func (p *ProcessObserverProxy) OnForegroundActivitiesChanged(
 	foregroundActivities bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessObserver)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
@@ -102,6 +104,7 @@ func (p *ProcessObserverProxy) OnForegroundServicesChanged(
 	serviceTypes int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessObserver)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
@@ -122,6 +125,7 @@ func (p *ProcessObserverProxy) OnProcessDied(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessObserver)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
@@ -138,7 +142,8 @@ func (p *ProcessObserverProxy) OnProcessDied(
 // ProcessObserverStub dispatches incoming binder transactions
 // to a typed IProcessObserver implementation.
 type ProcessObserverStub struct {
-	Impl IProcessObserver
+	Impl      IProcessObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ProcessObserverStub)(nil)
@@ -152,11 +157,12 @@ func (s *ProcessObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIProcessObserverOnProcessStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -178,12 +184,8 @@ func (s *ProcessObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnProcessStarted(ctx, _arg_pid, _arg_processUid, _arg_packageUid, _arg_packageName, _arg_processName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIProcessObserverOnForegroundActivitiesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -197,12 +199,8 @@ func (s *ProcessObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnForegroundActivitiesChanged(ctx, _arg_pid, _arg_uid, _arg_foregroundActivities)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIProcessObserverOnForegroundServicesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -216,12 +214,8 @@ func (s *ProcessObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnForegroundServicesChanged(ctx, _arg_pid, _arg_uid, _arg_serviceTypes)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIProcessObserverOnProcessDied:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -231,8 +225,7 @@ func (s *ProcessObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnProcessDied(ctx, _arg_pid, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

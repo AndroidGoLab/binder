@@ -59,8 +59,7 @@ func (u *FrontendScanMessage) GetIsLocked() (bool, bool) {
 func (u *FrontendScanMessage) SetIsLocked(
 	v bool,
 ) {
-	u.Tag = FrontendScanMessageTagIsLocked
-	u.IsLocked = v
+	*u = FrontendScanMessage{Tag: FrontendScanMessageTagIsLocked, IsLocked: v}
 }
 
 func (u *FrontendScanMessage) GetIsEnd() (bool, bool) {
@@ -74,8 +73,7 @@ func (u *FrontendScanMessage) GetIsEnd() (bool, bool) {
 func (u *FrontendScanMessage) SetIsEnd(
 	v bool,
 ) {
-	u.Tag = FrontendScanMessageTagIsEnd
-	u.IsEnd = v
+	*u = FrontendScanMessage{Tag: FrontendScanMessageTagIsEnd, IsEnd: v}
 }
 
 func (u *FrontendScanMessage) GetProgressPercent() (int32, bool) {
@@ -89,8 +87,7 @@ func (u *FrontendScanMessage) GetProgressPercent() (int32, bool) {
 func (u *FrontendScanMessage) SetProgressPercent(
 	v int32,
 ) {
-	u.Tag = FrontendScanMessageTagProgressPercent
-	u.ProgressPercent = v
+	*u = FrontendScanMessage{Tag: FrontendScanMessageTagProgressPercent, ProgressPercent: v}
 }
 
 func (u *FrontendScanMessage) GetFrequencies() ([]int64, bool) {
@@ -104,8 +101,7 @@ func (u *FrontendScanMessage) GetFrequencies() ([]int64, bool) {
 func (u *FrontendScanMessage) SetFrequencies(
 	v []int64,
 ) {
-	u.Tag = FrontendScanMessageTagFrequencies
-	u.Frequencies = v
+	*u = FrontendScanMessage{Tag: FrontendScanMessageTagFrequencies, Frequencies: v}
 }
 
 func (u *FrontendScanMessage) GetSymbolRates() ([]int32, bool) {
@@ -119,8 +115,7 @@ func (u *FrontendScanMessage) GetSymbolRates() ([]int32, bool) {
 func (u *FrontendScanMessage) SetSymbolRates(
 	v []int32,
 ) {
-	u.Tag = FrontendScanMessageTagSymbolRates
-	u.SymbolRates = v
+	*u = FrontendScanMessage{Tag: FrontendScanMessageTagSymbolRates, SymbolRates: v}
 }
 
 func (u *FrontendScanMessage) GetHierarchy() (FrontendDvbtHierarchy, bool) {
@@ -134,8 +129,7 @@ func (u *FrontendScanMessage) GetHierarchy() (FrontendDvbtHierarchy, bool) {
 func (u *FrontendScanMessage) SetHierarchy(
 	v FrontendDvbtHierarchy,
 ) {
-	u.Tag = FrontendScanMessageTagHierarchy
-	u.Hierarchy = v
+	*u = FrontendScanMessage{Tag: FrontendScanMessageTagHierarchy, Hierarchy: v}
 }
 
 func (u *FrontendScanMessage) GetAnalogType() (FrontendAnalogType, bool) {
@@ -149,8 +143,7 @@ func (u *FrontendScanMessage) GetAnalogType() (FrontendAnalogType, bool) {
 func (u *FrontendScanMessage) SetAnalogType(
 	v FrontendAnalogType,
 ) {
-	u.Tag = FrontendScanMessageTagAnalogType
-	u.AnalogType = v
+	*u = FrontendScanMessage{Tag: FrontendScanMessageTagAnalogType, AnalogType: v}
 }
 
 func (u *FrontendScanMessage) GetPlpIds() ([]int32, bool) {
@@ -164,8 +157,7 @@ func (u *FrontendScanMessage) GetPlpIds() ([]int32, bool) {
 func (u *FrontendScanMessage) SetPlpIds(
 	v []int32,
 ) {
-	u.Tag = FrontendScanMessageTagPlpIds
-	u.PlpIds = v
+	*u = FrontendScanMessage{Tag: FrontendScanMessageTagPlpIds, PlpIds: v}
 }
 
 func (u *FrontendScanMessage) GetGroupIds() ([]int32, bool) {
@@ -179,8 +171,7 @@ func (u *FrontendScanMessage) GetGroupIds() ([]int32, bool) {
 func (u *FrontendScanMessage) SetGroupIds(
 	v []int32,
 ) {
-	u.Tag = FrontendScanMessageTagGroupIds
-	u.GroupIds = v
+	*u = FrontendScanMessage{Tag: FrontendScanMessageTagGroupIds, GroupIds: v}
 }
 
 func (u *FrontendScanMessage) GetInputStreamIds() ([]int32, bool) {
@@ -194,8 +185,7 @@ func (u *FrontendScanMessage) GetInputStreamIds() ([]int32, bool) {
 func (u *FrontendScanMessage) SetInputStreamIds(
 	v []int32,
 ) {
-	u.Tag = FrontendScanMessageTagInputStreamIds
-	u.InputStreamIds = v
+	*u = FrontendScanMessage{Tag: FrontendScanMessageTagInputStreamIds, InputStreamIds: v}
 }
 
 func (u *FrontendScanMessage) GetStd() (FrontendScanMessageStandard, bool) {
@@ -209,8 +199,7 @@ func (u *FrontendScanMessage) GetStd() (FrontendScanMessageStandard, bool) {
 func (u *FrontendScanMessage) SetStd(
 	v FrontendScanMessageStandard,
 ) {
-	u.Tag = FrontendScanMessageTagStd
-	u.Std = v
+	*u = FrontendScanMessage{Tag: FrontendScanMessageTagStd, Std: v}
 }
 
 func (u *FrontendScanMessage) GetAtsc3PlpInfos() ([]FrontendScanAtsc3PlpInfo, bool) {
@@ -224,8 +213,7 @@ func (u *FrontendScanMessage) GetAtsc3PlpInfos() ([]FrontendScanAtsc3PlpInfo, bo
 func (u *FrontendScanMessage) SetAtsc3PlpInfos(
 	v []FrontendScanAtsc3PlpInfo,
 ) {
-	u.Tag = FrontendScanMessageTagAtsc3PlpInfos
-	u.Atsc3PlpInfos = v
+	*u = FrontendScanMessage{Tag: FrontendScanMessageTagAtsc3PlpInfos, Atsc3PlpInfos: v}
 }
 
 func (u *FrontendScanMessage) GetModulation() (FrontendModulation, bool) {
@@ -239,8 +227,7 @@ func (u *FrontendScanMessage) GetModulation() (FrontendModulation, bool) {
 func (u *FrontendScanMessage) SetModulation(
 	v FrontendModulation,
 ) {
-	u.Tag = FrontendScanMessageTagModulation
-	u.Modulation = v
+	*u = FrontendScanMessage{Tag: FrontendScanMessageTagModulation, Modulation: v}
 }
 
 func (u *FrontendScanMessage) GetAnnex() (FrontendDvbcAnnex, bool) {
@@ -254,8 +241,7 @@ func (u *FrontendScanMessage) GetAnnex() (FrontendDvbcAnnex, bool) {
 func (u *FrontendScanMessage) SetAnnex(
 	v FrontendDvbcAnnex,
 ) {
-	u.Tag = FrontendScanMessageTagAnnex
-	u.Annex = v
+	*u = FrontendScanMessage{Tag: FrontendScanMessageTagAnnex, Annex: v}
 }
 
 func (u *FrontendScanMessage) GetIsHighPriority() (bool, bool) {
@@ -269,8 +255,7 @@ func (u *FrontendScanMessage) GetIsHighPriority() (bool, bool) {
 func (u *FrontendScanMessage) SetIsHighPriority(
 	v bool,
 ) {
-	u.Tag = FrontendScanMessageTagIsHighPriority
-	u.IsHighPriority = v
+	*u = FrontendScanMessage{Tag: FrontendScanMessageTagIsHighPriority, IsHighPriority: v}
 }
 
 func (u *FrontendScanMessage) GetDvbtCellIds() ([]int32, bool) {
@@ -284,8 +269,7 @@ func (u *FrontendScanMessage) GetDvbtCellIds() ([]int32, bool) {
 func (u *FrontendScanMessage) SetDvbtCellIds(
 	v []int32,
 ) {
-	u.Tag = FrontendScanMessageTagDvbtCellIds
-	u.DvbtCellIds = v
+	*u = FrontendScanMessage{Tag: FrontendScanMessageTagDvbtCellIds, DvbtCellIds: v}
 }
 
 func (u *FrontendScanMessage) MarshalParcel(

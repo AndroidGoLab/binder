@@ -59,6 +59,7 @@ func (p *SipDelegateStateCallbackProxy) OnCreated(
 	deniedFeatureTags []ims.FeatureTagState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateStateCallback)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 	if deniedFeatureTags == nil {
@@ -87,6 +88,7 @@ func (p *SipDelegateStateCallbackProxy) OnFeatureTagRegistrationChanged(
 	registrationState ims.DelegateRegistrationState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateStateCallback)
 	_data.WriteInt32(1)
 	if _err := registrationState.MarshalParcel(_data); _err != nil {
@@ -107,6 +109,7 @@ func (p *SipDelegateStateCallbackProxy) OnImsConfigurationChanged(
 	registeredSipConfig ims.SipDelegateImsConfiguration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateStateCallback)
 	_data.WriteInt32(1)
 	if _err := registeredSipConfig.MarshalParcel(_data); _err != nil {
@@ -127,6 +130,7 @@ func (p *SipDelegateStateCallbackProxy) OnConfigurationChanged(
 	registeredSipConfig ims.SipDelegateConfiguration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateStateCallback)
 	_data.WriteInt32(1)
 	if _err := registeredSipConfig.MarshalParcel(_data); _err != nil {
@@ -147,6 +151,7 @@ func (p *SipDelegateStateCallbackProxy) OnDestroyed(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegateStateCallback)
 	_data.WriteInt32(reason)
 
@@ -162,7 +167,8 @@ func (p *SipDelegateStateCallbackProxy) OnDestroyed(
 // SipDelegateStateCallbackStub dispatches incoming binder transactions
 // to a typed ISipDelegateStateCallback implementation.
 type SipDelegateStateCallbackStub struct {
-	Impl ISipDelegateStateCallback
+	Impl      ISipDelegateStateCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SipDelegateStateCallbackStub)(nil)
@@ -176,24 +182,44 @@ func (s *SipDelegateStateCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISipDelegateStateCallbackOnCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c ISipDelegate
-		_ = _arg_c
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_deniedFeatureTags []ims.FeatureTagState
-		_ = _arg_deniedFeatureTags
-		_err := s.Impl.OnCreated(ctx, _arg_c, _arg_deniedFeatureTags)
-		_ = _err
-		return nil, nil
-	case TransactionISipDelegateStateCallbackOnFeatureTagRegistrationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewSipDelegateProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
 		}
+		var _arg_deniedFeatureTags []ims.FeatureTagState
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_deniedFeatureTags = make([]ims.FeatureTagState, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_deniedFeatureTags[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		_err := s.Impl.OnCreated(ctx, _arg_c, _arg_deniedFeatureTags)
+		return nil, _err
+	case TransactionISipDelegateStateCallbackOnFeatureTagRegistrationChanged:
 		var _arg_registrationState ims.DelegateRegistrationState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -207,12 +233,8 @@ func (s *SipDelegateStateCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnFeatureTagRegistrationChanged(ctx, _arg_registrationState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISipDelegateStateCallbackOnImsConfigurationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_registeredSipConfig ims.SipDelegateImsConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -226,12 +248,8 @@ func (s *SipDelegateStateCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnImsConfigurationChanged(ctx, _arg_registeredSipConfig)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISipDelegateStateCallbackOnConfigurationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_registeredSipConfig ims.SipDelegateConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -245,19 +263,14 @@ func (s *SipDelegateStateCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnConfigurationChanged(ctx, _arg_registeredSipConfig)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISipDelegateStateCallbackOnDestroyed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDestroyed(ctx, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

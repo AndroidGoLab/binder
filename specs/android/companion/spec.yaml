@@ -1,0 +1,697 @@
+package: android.companion
+go_package: android/companion
+interfaces:
+    - name: IAssociationRequestCallback
+      descriptor: android.companion.IAssociationRequestCallback
+      methods:
+        - name: onAssociationPending
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: pendingIntent
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: onAssociationCreated
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: associationInfo
+              type:
+                name: AssociationInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: error
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+    - name: ICompanionDeviceDiscoveryService
+      descriptor: android.companion.ICompanionDeviceDiscoveryService
+      oneway: true
+      methods:
+        - name: startDiscovery
+          transaction_code_offset: 0
+          params:
+            - name: request
+              type:
+                name: AssociationRequest
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+            - name: applicationCallback
+              type:
+                name: IAssociationRequestCallback
+              direction: in
+            - name: serviceCallback
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onAssociationCreated
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: ICompanionDeviceManager
+      descriptor: android.companion.ICompanionDeviceManager
+      methods:
+        - name: associate
+          transaction_code_offset: 0
+          params:
+            - name: request
+              type:
+                name: AssociationRequest
+              direction: in
+            - name: callback
+              type:
+                name: IAssociationRequestCallback
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getAssociations
+          transaction_code_offset: 1
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: AssociationInfo
+        - name: getAllAssociationsForUser
+          transaction_code_offset: 2
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: AssociationInfo
+          annotations:
+            - EnforcePermission
+        - name: legacyDisassociate
+          transaction_code_offset: 3
+          params:
+            - name: deviceMacAddress
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: disassociate
+          transaction_code_offset: 4
+          params:
+            - name: associationId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: hasNotificationAccess
+          transaction_code_offset: 5
+          params:
+            - name: component
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: requestNotificationAccess
+          transaction_code_offset: 6
+          params:
+            - name: component
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: PendingIntent
+        - name: isDeviceAssociatedForWifiConnection
+          transaction_code_offset: 7
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: macAddress
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: registerDevicePresenceListenerService
+          transaction_code_offset: 8
+          params:
+            - name: deviceAddress
+              type:
+                name: String
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: unregisterDevicePresenceListenerService
+          transaction_code_offset: 9
+          params:
+            - name: deviceAddress
+              type:
+                name: String
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: canPairWithoutPrompt
+          transaction_code_offset: 10
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: deviceMacAddress
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: createAssociation
+          transaction_code_offset: 11
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: macAddress
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: certificate
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: addOnAssociationsChangedListener
+          transaction_code_offset: 12
+          params:
+            - name: listener
+              type:
+                name: IOnAssociationsChangedListener
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: removeOnAssociationsChangedListener
+          transaction_code_offset: 13
+          params:
+            - name: listener
+              type:
+                name: IOnAssociationsChangedListener
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: addOnTransportsChangedListener
+          transaction_code_offset: 14
+          params:
+            - name: listener
+              type:
+                name: IOnTransportsChangedListener
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: removeOnTransportsChangedListener
+          transaction_code_offset: 15
+          params:
+            - name: listener
+              type:
+                name: IOnTransportsChangedListener
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: sendMessage
+          transaction_code_offset: 16
+          params:
+            - name: messageType
+              type:
+                name: int
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: associationIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: addOnMessageReceivedListener
+          transaction_code_offset: 17
+          params:
+            - name: messageType
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IOnMessageReceivedListener
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: removeOnMessageReceivedListener
+          transaction_code_offset: 18
+          params:
+            - name: messageType
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IOnMessageReceivedListener
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: notifyDeviceAppeared
+          transaction_code_offset: 19
+          params:
+            - name: associationId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyDeviceDisappeared
+          transaction_code_offset: 20
+          params:
+            - name: associationId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: buildPermissionTransferUserConsentIntent
+          transaction_code_offset: 21
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: associationId
+              type:
+                name: int
+          return_type:
+            name: PendingIntent
+        - name: isPermissionTransferUserConsented
+          transaction_code_offset: 22
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: associationId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: startSystemDataTransfer
+          transaction_code_offset: 23
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: associationId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ISystemDataTransferCallback
+              direction: in
+          return_type:
+            name: void
+        - name: attachSystemDataTransport
+          transaction_code_offset: 24
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: associationId
+              type:
+                name: int
+            - name: fd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: detachSystemDataTransport
+          transaction_code_offset: 25
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: associationId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: isCompanionApplicationBound
+          transaction_code_offset: 26
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: buildAssociationCancellationIntent
+          transaction_code_offset: 27
+          params:
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: PendingIntent
+        - name: enableSystemDataSync
+          transaction_code_offset: 28
+          params:
+            - name: associationId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: disableSystemDataSync
+          transaction_code_offset: 29
+          params:
+            - name: associationId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: enablePermissionsSync
+          transaction_code_offset: 30
+          params:
+            - name: associationId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: disablePermissionsSync
+          transaction_code_offset: 31
+          params:
+            - name: associationId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getPermissionSyncRequest
+          transaction_code_offset: 32
+          params:
+            - name: associationId
+              type:
+                name: int
+          return_type:
+            name: PermissionSyncRequest
+        - name: enableSecureTransport
+          transaction_code_offset: 33
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setAssociationTag
+          transaction_code_offset: 34
+          params:
+            - name: associationId
+              type:
+                name: int
+            - name: tag
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: clearAssociationTag
+          transaction_code_offset: 35
+          params:
+            - name: associationId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getBackupPayload
+          transaction_code_offset: 36
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: byte
+            is_array: true
+        - name: applyRestoredPayload
+          transaction_code_offset: 37
+          params:
+            - name: payload
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: startObservingDevicePresence
+          transaction_code_offset: 38
+          params:
+            - name: request
+              type:
+                name: ObservingDevicePresenceRequest
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: stopObservingDevicePresence
+          transaction_code_offset: 39
+          params:
+            - name: request
+              type:
+                name: ObservingDevicePresenceRequest
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+    - name: ICompanionDeviceService
+      descriptor: android.companion.ICompanionDeviceService
+      oneway: true
+      methods:
+        - name: onDeviceAppeared
+          transaction_code_offset: 0
+          params:
+            - name: associationInfo
+              type:
+                name: AssociationInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onDeviceDisappeared
+          transaction_code_offset: 1
+          params:
+            - name: associationInfo
+              type:
+                name: AssociationInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onDevicePresenceEvent
+          transaction_code_offset: 2
+          params:
+            - name: event
+              type:
+                name: DevicePresenceEvent
+              direction: in
+          return_type:
+            name: void
+    - name: IOnAssociationsChangedListener
+      descriptor: android.companion.IOnAssociationsChangedListener
+      methods:
+        - name: onAssociationsChanged
+          transaction_code_offset: 0
+          params:
+            - name: associations
+              type:
+                name: List
+                type_args:
+                    - name: AssociationInfo
+              direction: in
+          return_type:
+            name: void
+    - name: IOnMessageReceivedListener
+      descriptor: android.companion.IOnMessageReceivedListener
+      methods:
+        - name: onMessageReceived
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: associationId
+              type:
+                name: int
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IOnTransportsChangedListener
+      descriptor: android.companion.IOnTransportsChangedListener
+      methods:
+        - name: onTransportsChanged
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: associations
+              type:
+                name: List
+                type_args:
+                    - name: AssociationInfo
+              direction: in
+          return_type:
+            name: void
+    - name: ISystemDataTransferCallback
+      descriptor: android.companion.ISystemDataTransferCallback
+      methods:
+        - name: onResult
+          transaction_code_offset: 0
+          oneway: true
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: error
+              type:
+                name: String
+          return_type:
+            name: void
+parcelables:
+    - name: AssociationInfo
+    - name: AssociationRequest
+    - name: BluetoothLEDeviceFilter
+    - name: DevicePresenceEvent
+    - name: ObservingDevicePresenceRequest

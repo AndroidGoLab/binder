@@ -41,12 +41,19 @@ func (r *Registry) Lookup(name string) *ServiceInfo {
 }
 
 // camelToKebab converts a CamelCase identifier to kebab-case.
-// Each uppercase letter starts a new segment separated by '-'.
+// Inserts a hyphen before an uppercase letter when the previous character
+// is lowercase, or when the next character is lowercase (to handle acronyms
+// like "USBSpeed" → "usb-speed").
 func camelToKebab(s string) string {
+	runes := []rune(s)
 	var b strings.Builder
-	for i, r := range s {
+	for i, r := range runes {
 		if unicode.IsUpper(r) && i > 0 {
-			b.WriteByte('-')
+			prevLower := unicode.IsLower(runes[i-1])
+			nextLower := i+1 < len(runes) && unicode.IsLower(runes[i+1])
+			if prevLower || nextLower {
+				b.WriteByte('-')
+			}
 		}
 		b.WriteRune(unicode.ToLower(r))
 	}

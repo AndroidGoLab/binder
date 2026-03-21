@@ -1,0 +1,52 @@
+package: android.service.resolver
+go_package: android/service/resolver
+interfaces:
+    - name: IResolverRankerResult
+      descriptor: android.service.resolver.IResolverRankerResult
+      oneway: true
+      methods:
+        - name: sendResult
+          transaction_code_offset: 0
+          params:
+            - name: results
+              type:
+                name: List
+                type_args:
+                    - name: ResolverTarget
+              direction: in
+          return_type:
+            name: void
+    - name: IResolverRankerService
+      descriptor: android.service.resolver.IResolverRankerService
+      oneway: true
+      methods:
+        - name: predict
+          transaction_code_offset: 0
+          params:
+            - name: targets
+              type:
+                name: List
+                type_args:
+                    - name: ResolverTarget
+              direction: in
+            - name: result
+              type:
+                name: IResolverRankerResult
+          return_type:
+            name: void
+        - name: train
+          transaction_code_offset: 1
+          params:
+            - name: targets
+              type:
+                name: List
+                type_args:
+                    - name: ResolverTarget
+              direction: in
+            - name: selectedPosition
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: ResolverTarget

@@ -61,6 +61,7 @@ func (p *WifiProxy) GetChip(
 ) (IWifiChip, error) {
 	var _result IWifiChip
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifi)
 	_data.WriteInt32(chipId)
 
@@ -92,6 +93,7 @@ func (p *WifiProxy) GetChipIds(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifi)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifi, MethodIWifiGetChipIds)
@@ -113,6 +115,9 @@ func (p *WifiProxy) GetChipIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -131,6 +136,7 @@ func (p *WifiProxy) IsStarted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifi)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifi, MethodIWifiIsStarted)
@@ -160,6 +166,7 @@ func (p *WifiProxy) RegisterEventCallback(
 	callback IWifiEventCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifi)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -185,6 +192,7 @@ func (p *WifiProxy) Start(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifi)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifi, MethodIWifiStart)
@@ -209,6 +217,7 @@ func (p *WifiProxy) Stop(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifi)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifi, MethodIWifiStop)
@@ -232,7 +241,8 @@ func (p *WifiProxy) Stop(
 // WifiStub dispatches incoming binder transactions
 // to a typed IWifi implementation.
 type WifiStub struct {
-	Impl IWifi
+	Impl      IWifi
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WifiStub)(nil)
@@ -246,11 +256,12 @@ func (s *WifiStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWifiGetChip:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_chipId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -262,13 +273,9 @@ func (s *WifiStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIWifiGetChipIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetChipIds(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -276,13 +283,16 @@ func (s *WifiStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIWifiIsStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsStarted(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -293,12 +303,14 @@ func (s *WifiStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWifiRegisterEventCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IWifiEventCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewWifiEventCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterEventCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -308,9 +320,6 @@ func (s *WifiStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Start(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -320,9 +329,6 @@ func (s *WifiStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Stop(ctx)
 		_reply := parcel.New()
 		if _err != nil {

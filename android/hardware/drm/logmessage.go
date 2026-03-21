@@ -34,9 +34,19 @@ func (s *LogMessage) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.TimeMs, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_priorityRaw, _err := p.ReadInt32()
@@ -44,6 +54,11 @@ func (s *LogMessage) UnmarshalParcel(
 		return _err
 	}
 	s.Priority = LogPriority(_priorityRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.Message, _err = p.ReadString16()
 	if _err != nil {

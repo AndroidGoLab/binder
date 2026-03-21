@@ -1,0 +1,5 @@
+package: android.service.controls.templates
+go_package: android/service/controls/templates
+parcelables:
+    - name: ControlButton
+    - name: ControlTemplateWrapper

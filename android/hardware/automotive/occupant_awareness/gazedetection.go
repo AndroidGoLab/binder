@@ -63,11 +63,21 @@ func (s *GazeDetection) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_gazeConfidenceRaw, _err := p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}
 	s.GazeConfidence = ConfidenceLevel(_gazeConfidenceRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
@@ -82,6 +92,11 @@ func (s *GazeDetection) UnmarshalParcel(
 				return _err
 			}
 		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count1 int32
@@ -99,6 +114,11 @@ func (s *GazeDetection) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count2 int32
 	_count2, _err = p.ReadInt32()
 	if _err != nil {
@@ -114,15 +134,30 @@ func (s *GazeDetection) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_gazeTargetRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.GazeTarget = VehicleRegion(_gazeTargetRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.CustomGazeTarget, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.TimeOnTargetMillis, _err = p.ReadInt64()

@@ -3,6 +3,7 @@ package accounts
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -25,7 +26,7 @@ const (
 
 type IAccountAuthenticatorResponse interface {
 	AsBinder() binder.IBinder
-	OnResult(ctx context.Context, value interface{}) error
+	OnResult(ctx context.Context, value os.Bundle) error
 	OnRequestContinued(ctx context.Context) error
 	OnError(ctx context.Context, errorCode int32, errorMessage string) error
 }
@@ -48,10 +49,15 @@ var _ IAccountAuthenticatorResponse = (*AccountAuthenticatorResponseProxy)(nil)
 
 func (p *AccountAuthenticatorResponseProxy) OnResult(
 	ctx context.Context,
-	value interface{},
+	value os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticatorResponse)
+	_data.WriteInt32(1)
+	if _err := value.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticatorResponse, MethodIAccountAuthenticatorResponseOnResult)
 	if _err != nil {
@@ -66,6 +72,7 @@ func (p *AccountAuthenticatorResponseProxy) OnRequestContinued(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticatorResponse)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticatorResponse, MethodIAccountAuthenticatorResponseOnRequestContinued)
@@ -83,6 +90,7 @@ func (p *AccountAuthenticatorResponseProxy) OnError(
 	errorMessage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticatorResponse)
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
@@ -99,7 +107,8 @@ func (p *AccountAuthenticatorResponseProxy) OnError(
 // AccountAuthenticatorResponseStub dispatches incoming binder transactions
 // to a typed IAccountAuthenticatorResponse implementation.
 type AccountAuthenticatorResponseStub struct {
-	Impl IAccountAuthenticatorResponse
+	Impl      IAccountAuthenticatorResponse
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AccountAuthenticatorResponseStub)(nil)
@@ -113,26 +122,30 @@ func (s *AccountAuthenticatorResponseStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAccountAuthenticatorResponseOnResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_value os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_value.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_value interface{}
 		_err := s.Impl.OnResult(ctx, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccountAuthenticatorResponseOnRequestContinued:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnRequestContinued(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccountAuthenticatorResponseOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -142,8 +155,7 @@ func (s *AccountAuthenticatorResponseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_errorCode, _arg_errorMessage)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -153,7 +165,7 @@ func (s *AccountAuthenticatorResponseStub) OnTransaction(
 // provide to NewAccountAuthenticatorResponseStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAccountAuthenticatorResponseServer interface {
-	OnResult(ctx context.Context, value interface{}) error
+	OnResult(ctx context.Context, value os.Bundle) error
 	OnRequestContinued(ctx context.Context) error
 	OnError(ctx context.Context, errorCode int32, errorMessage string) error
 }
@@ -169,7 +181,7 @@ func (w *accountAuthenticatorResponseStubWrapper) AsBinder() binder.IBinder {
 
 func (w *accountAuthenticatorResponseStubWrapper) OnResult(
 	ctx context.Context,
-	value interface{},
+	value os.Bundle,
 ) error {
 	return w.impl.OnResult(ctx, value)
 }

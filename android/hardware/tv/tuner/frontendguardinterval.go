@@ -33,8 +33,7 @@ func (u *FrontendGuardInterval) GetDvbt() (FrontendDvbtGuardInterval, bool) {
 func (u *FrontendGuardInterval) SetDvbt(
 	v FrontendDvbtGuardInterval,
 ) {
-	u.Tag = FrontendGuardIntervalTagDvbt
-	u.Dvbt = v
+	*u = FrontendGuardInterval{Tag: FrontendGuardIntervalTagDvbt, Dvbt: v}
 }
 
 func (u *FrontendGuardInterval) GetIsdbt() (FrontendIsdbtGuardInterval, bool) {
@@ -48,8 +47,7 @@ func (u *FrontendGuardInterval) GetIsdbt() (FrontendIsdbtGuardInterval, bool) {
 func (u *FrontendGuardInterval) SetIsdbt(
 	v FrontendIsdbtGuardInterval,
 ) {
-	u.Tag = FrontendGuardIntervalTagIsdbt
-	u.Isdbt = v
+	*u = FrontendGuardInterval{Tag: FrontendGuardIntervalTagIsdbt, Isdbt: v}
 }
 
 func (u *FrontendGuardInterval) GetDtmb() (FrontendDtmbGuardInterval, bool) {
@@ -63,8 +61,7 @@ func (u *FrontendGuardInterval) GetDtmb() (FrontendDtmbGuardInterval, bool) {
 func (u *FrontendGuardInterval) SetDtmb(
 	v FrontendDtmbGuardInterval,
 ) {
-	u.Tag = FrontendGuardIntervalTagDtmb
-	u.Dtmb = v
+	*u = FrontendGuardInterval{Tag: FrontendGuardIntervalTagDtmb, Dtmb: v}
 }
 
 func (u *FrontendGuardInterval) MarshalParcel(

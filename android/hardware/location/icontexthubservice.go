@@ -3,7 +3,7 @@ package location
 import (
 	"context"
 	"fmt"
-	app "github.com/xaionaro-go/binder/android/app"
+	types "github.com/xaionaro-go/binder/android/app/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -65,7 +65,7 @@ type IContextHubService interface {
 	FindNanoAppOnHub(ctx context.Context, contextHubHandle int32, filter NanoAppFilter) ([]int32, error)
 	SendMessage(ctx context.Context, contextHubHandle int32, nanoAppHandle int32, msg ContextHubMessage) (int32, error)
 	CreateClient(ctx context.Context, contextHubId int32, client IContextHubClientCallback, packageName string) (IContextHubClient, error)
-	CreatePendingIntentClient(ctx context.Context, contextHubId int32, pendingIntent app.PendingIntent, nanoAppId int64) (IContextHubClient, error)
+	CreatePendingIntentClient(ctx context.Context, contextHubId int32, pendingIntent types.PendingIntent, nanoAppId int64) (IContextHubClient, error)
 	GetContextHubs(ctx context.Context) ([]ContextHubInfo, error)
 	LoadNanoAppOnHub(ctx context.Context, contextHubId int32, transactionCallback IContextHubTransactionCallback, nanoAppBinary NanoAppBinary) error
 	UnloadNanoAppFromHub(ctx context.Context, contextHubId int32, transactionCallback IContextHubTransactionCallback, nanoAppId int64) error
@@ -98,6 +98,7 @@ func (p *ContextHubServiceProxy) RegisterCallback(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -128,6 +129,7 @@ func (p *ContextHubServiceProxy) GetContextHubHandles(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceGetContextHubHandles)
@@ -149,6 +151,9 @@ func (p *ContextHubServiceProxy) GetContextHubHandles(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -168,6 +173,7 @@ func (p *ContextHubServiceProxy) GetContextHubInfo(
 ) (ContextHubInfo, error) {
 	var _result ContextHubInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubHandle)
 
@@ -205,6 +211,7 @@ func (p *ContextHubServiceProxy) LoadNanoApp(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubHandle)
 	_data.WriteInt32(1)
@@ -240,6 +247,7 @@ func (p *ContextHubServiceProxy) UnloadNanoApp(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(nanoAppHandle)
 
@@ -271,6 +279,7 @@ func (p *ContextHubServiceProxy) GetNanoAppInstanceInfo(
 ) (NanoAppInstanceInfo, error) {
 	var _result NanoAppInstanceInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(nanoAppHandle)
 
@@ -308,6 +317,7 @@ func (p *ContextHubServiceProxy) FindNanoAppOnHub(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubHandle)
 	_data.WriteInt32(1)
@@ -334,6 +344,9 @@ func (p *ContextHubServiceProxy) FindNanoAppOnHub(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -355,6 +368,7 @@ func (p *ContextHubServiceProxy) SendMessage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubHandle)
 	_data.WriteInt32(nanoAppHandle)
@@ -394,6 +408,7 @@ func (p *ContextHubServiceProxy) CreateClient(
 	var _result IContextHubClient
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
@@ -426,18 +441,16 @@ func (p *ContextHubServiceProxy) CreateClient(
 func (p *ContextHubServiceProxy) CreatePendingIntentClient(
 	ctx context.Context,
 	contextHubId int32,
-	pendingIntent app.PendingIntent,
+	pendingIntent types.PendingIntent,
 	nanoAppId int64,
 ) (IContextHubClient, error) {
 	var _result IContextHubClient
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
-	_data.WriteInt32(1)
-	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
+	// WARNING: param pendingIntent (type types.PendingIntent) cannot be serialized — type not resolved
 	_data.WriteInt64(nanoAppId)
 	_data.WriteString16(_identity.AttributionTag)
 
@@ -469,6 +482,7 @@ func (p *ContextHubServiceProxy) GetContextHubs(
 ) ([]ContextHubInfo, error) {
 	var _result []ContextHubInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceGetContextHubs)
@@ -489,6 +503,9 @@ func (p *ContextHubServiceProxy) GetContextHubs(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -512,6 +529,7 @@ func (p *ContextHubServiceProxy) LoadNanoAppOnHub(
 	nanoAppBinary NanoAppBinary,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
 	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.Remote.Transport())
@@ -545,6 +563,7 @@ func (p *ContextHubServiceProxy) UnloadNanoAppFromHub(
 	nanoAppId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
 	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.Remote.Transport())
@@ -575,6 +594,7 @@ func (p *ContextHubServiceProxy) EnableNanoApp(
 	nanoAppId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
 	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.Remote.Transport())
@@ -605,6 +625,7 @@ func (p *ContextHubServiceProxy) DisableNanoApp(
 	nanoAppId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
 	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.Remote.Transport())
@@ -634,6 +655,7 @@ func (p *ContextHubServiceProxy) QueryNanoApps(
 	transactionCallback IContextHubTransactionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
 	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.Remote.Transport())
@@ -662,6 +684,7 @@ func (p *ContextHubServiceProxy) GetPreloadedNanoAppIds(
 ) ([]int64, error) {
 	var _result []int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(1)
 	if _err := hubInfo.MarshalParcel(_data); _err != nil {
@@ -687,6 +710,9 @@ func (p *ContextHubServiceProxy) GetPreloadedNanoAppIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int64, _count)
@@ -706,6 +732,7 @@ func (p *ContextHubServiceProxy) SetTestMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteBool(enable)
 
@@ -734,7 +761,8 @@ func (p *ContextHubServiceProxy) SetTestMode(
 // ContextHubServiceStub dispatches incoming binder transactions
 // to a typed IContextHubService implementation.
 type ContextHubServiceStub struct {
-	Impl IContextHubService
+	Impl      IContextHubService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ContextHubServiceStub)(nil)
@@ -748,14 +776,20 @@ func (s *ContextHubServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIContextHubServiceRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IContextHubCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewContextHubCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -766,9 +800,6 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIContextHubServiceGetContextHubHandles:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetContextHubHandles(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -776,13 +807,16 @@ func (s *ContextHubServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIContextHubServiceGetContextHubInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_contextHubHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -800,9 +834,6 @@ func (s *ContextHubServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIContextHubServiceLoadNanoApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_contextHubHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -829,9 +860,6 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIContextHubServiceUnloadNanoApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nanoAppHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -846,9 +874,6 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIContextHubServiceGetNanoAppInstanceInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nanoAppHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -866,9 +891,6 @@ func (s *ContextHubServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIContextHubServiceFindNanoAppOnHub:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_contextHubHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -892,13 +914,16 @@ func (s *ContextHubServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIContextHubServiceSendMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_contextHubHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -929,16 +954,18 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIContextHubServiceCreateClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_contextHubId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IContextHubClientCallback
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewContextHubClientCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -953,29 +980,14 @@ func (s *ContextHubServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIContextHubServiceCreatePendingIntentClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_contextHubId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_pendingIntent app.PendingIntent
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_pendingIntent.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_pendingIntent types.PendingIntent
 		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -990,13 +1002,9 @@ func (s *ContextHubServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIContextHubServiceGetContextHubs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetContextHubs(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1004,20 +1012,31 @@ func (s *ContextHubServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIContextHubServiceLoadNanoAppOnHub:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_contextHubId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transactionCallback IContextHubTransactionCallback
-		_ = _arg_transactionCallback
+		{
+			_transactionCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transactionCallback = NewContextHubTransactionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transactionCallbackHandle))
+		}
 		var _arg_nanoAppBinary NanoAppBinary
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1039,16 +1058,18 @@ func (s *ContextHubServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubServiceUnloadNanoAppFromHub:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_contextHubId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transactionCallback IContextHubTransactionCallback
-		_ = _arg_transactionCallback
+		{
+			_transactionCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transactionCallback = NewContextHubTransactionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transactionCallbackHandle))
+		}
 		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1062,16 +1083,18 @@ func (s *ContextHubServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubServiceEnableNanoApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_contextHubId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transactionCallback IContextHubTransactionCallback
-		_ = _arg_transactionCallback
+		{
+			_transactionCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transactionCallback = NewContextHubTransactionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transactionCallbackHandle))
+		}
 		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1085,16 +1108,18 @@ func (s *ContextHubServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubServiceDisableNanoApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_contextHubId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transactionCallback IContextHubTransactionCallback
-		_ = _arg_transactionCallback
+		{
+			_transactionCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transactionCallback = NewContextHubTransactionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transactionCallbackHandle))
+		}
 		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1108,16 +1133,18 @@ func (s *ContextHubServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubServiceQueryNanoApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_contextHubId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transactionCallback IContextHubTransactionCallback
-		_ = _arg_transactionCallback
+		{
+			_transactionCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transactionCallback = NewContextHubTransactionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transactionCallbackHandle))
+		}
 		_err = s.Impl.QueryNanoApps(ctx, _arg_contextHubId, _arg_transactionCallback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1127,9 +1154,6 @@ func (s *ContextHubServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubServiceGetPreloadedNanoAppIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_hubInfo ContextHubInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1149,13 +1173,16 @@ func (s *ContextHubServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt64(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIContextHubServiceSetTestMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1187,7 +1214,7 @@ type IContextHubServiceServer interface {
 	FindNanoAppOnHub(ctx context.Context, contextHubHandle int32, filter NanoAppFilter) ([]int32, error)
 	SendMessage(ctx context.Context, contextHubHandle int32, nanoAppHandle int32, msg ContextHubMessage) (int32, error)
 	CreateClient(ctx context.Context, contextHubId int32, client IContextHubClientCallback, packageName string) (IContextHubClient, error)
-	CreatePendingIntentClient(ctx context.Context, contextHubId int32, pendingIntent app.PendingIntent, nanoAppId int64) (IContextHubClient, error)
+	CreatePendingIntentClient(ctx context.Context, contextHubId int32, pendingIntent types.PendingIntent, nanoAppId int64) (IContextHubClient, error)
 	GetContextHubs(ctx context.Context) ([]ContextHubInfo, error)
 	LoadNanoAppOnHub(ctx context.Context, contextHubId int32, transactionCallback IContextHubTransactionCallback, nanoAppBinary NanoAppBinary) error
 	UnloadNanoAppFromHub(ctx context.Context, contextHubId int32, transactionCallback IContextHubTransactionCallback, nanoAppId int64) error
@@ -1278,7 +1305,7 @@ func (w *contextHubServiceStubWrapper) CreateClient(
 func (w *contextHubServiceStubWrapper) CreatePendingIntentClient(
 	ctx context.Context,
 	contextHubId int32,
-	pendingIntent app.PendingIntent,
+	pendingIntent types.PendingIntent,
 	nanoAppId int64,
 ) (IContextHubClient, error) {
 	return w.impl.CreatePendingIntentClient(ctx, contextHubId, pendingIntent, nanoAppId)

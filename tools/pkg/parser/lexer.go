@@ -161,12 +161,18 @@ func (l *Lexer) peekNextNonWS() byte {
 			}
 			if l.Src[off+1] == '*' {
 				off += 2
+				found := false
 				for off+1 < len(l.Src) {
 					if l.Src[off] == '*' && l.Src[off+1] == '/' {
 						off += 2
+						found = true
 						break
 					}
 					off++
+				}
+				if !found {
+					// Unterminated block comment: no more non-whitespace.
+					return 0
 				}
 				continue
 			}
@@ -205,6 +211,39 @@ func (l *Lexer) scanNumber() Token {
 			for l.Offset < len(l.Src) && isHexDigit(l.Src[l.Offset]) {
 				l.advance()
 			}
+
+			// Hex float: 0x1.Ap+3, 0xABp-2, etc.
+			// A hex float has an optional fractional part (.) and a
+			// mandatory binary exponent (p/P).
+			isHexFloat := false
+			if l.Offset < len(l.Src) && l.Src[l.Offset] == '.' {
+				isHexFloat = true
+				l.advance() // '.'
+				for l.Offset < len(l.Src) && isHexDigit(l.Src[l.Offset]) {
+					l.advance()
+				}
+			}
+			if l.Offset < len(l.Src) && (l.Src[l.Offset] == 'p' || l.Src[l.Offset] == 'P') {
+				isHexFloat = true
+				l.advance() // 'p' or 'P'
+				if l.Offset < len(l.Src) && (l.Src[l.Offset] == '+' || l.Src[l.Offset] == '-') {
+					l.advance()
+				}
+				for l.Offset < len(l.Src) && isDigit(l.Src[l.Offset]) {
+					l.advance()
+				}
+			}
+			if isHexFloat {
+				// Consume optional float suffix (f/F/d/D).
+				if l.Offset < len(l.Src) {
+					ch := l.Src[l.Offset]
+					if ch == 'f' || ch == 'F' || ch == 'd' || ch == 'D' {
+						l.advance()
+					}
+				}
+				return Token{Kind: TokenFloatLiteral, Pos: p, Value: string(l.Src[start:l.Offset])}
+			}
+
 			l.consumeIntSuffix()
 			return Token{Kind: TokenIntLiteral, Pos: p, Value: string(l.Src[start:l.Offset])}
 		}

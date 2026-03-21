@@ -73,6 +73,7 @@ func (p *NfcFCardEmulationProxy) GetSystemCodeForService(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcFCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -110,6 +111,7 @@ func (p *NfcFCardEmulationProxy) RegisterSystemCodeForService(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcFCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -147,6 +149,7 @@ func (p *NfcFCardEmulationProxy) RemoveSystemCodeForService(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcFCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -183,6 +186,7 @@ func (p *NfcFCardEmulationProxy) GetNfcid2ForService(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcFCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -220,6 +224,7 @@ func (p *NfcFCardEmulationProxy) SetNfcid2ForService(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcFCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -256,6 +261,7 @@ func (p *NfcFCardEmulationProxy) EnableNfcFForegroundService(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcFCardEmulation)
 	_data.WriteInt32(1)
 	if _err := service.MarshalParcel(_data); _err != nil {
@@ -289,6 +295,7 @@ func (p *NfcFCardEmulationProxy) DisableNfcFForegroundService(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcFCardEmulation)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcFCardEmulation, MethodINfcFCardEmulationDisableNfcFForegroundService)
@@ -319,6 +326,7 @@ func (p *NfcFCardEmulationProxy) GetNfcFServices(
 	var _result []cardemulation.NfcFServiceInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcFCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 
@@ -341,6 +349,9 @@ func (p *NfcFCardEmulationProxy) GetNfcFServices(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]cardemulation.NfcFServiceInfo, _count)
@@ -361,6 +372,7 @@ func (p *NfcFCardEmulationProxy) GetMaxNumOfRegisterableSystemCodes(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcFCardEmulation)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcFCardEmulation, MethodINfcFCardEmulationGetMaxNumOfRegisterableSystemCodes)
@@ -388,7 +400,8 @@ func (p *NfcFCardEmulationProxy) GetMaxNumOfRegisterableSystemCodes(
 // NfcFCardEmulationStub dispatches incoming binder transactions
 // to a typed INfcFCardEmulation implementation.
 type NfcFCardEmulationStub struct {
-	Impl INfcFCardEmulation
+	Impl      INfcFCardEmulation
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NfcFCardEmulationStub)(nil)
@@ -402,11 +415,12 @@ func (s *NfcFCardEmulationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINfcFCardEmulationGetSystemCodeForService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -432,9 +446,6 @@ func (s *NfcFCardEmulationStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionINfcFCardEmulationRegisterSystemCodeForService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -464,9 +475,6 @@ func (s *NfcFCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcFCardEmulationRemoveSystemCodeForService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -492,9 +500,6 @@ func (s *NfcFCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcFCardEmulationGetNfcid2ForService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -520,9 +525,6 @@ func (s *NfcFCardEmulationStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionINfcFCardEmulationSetNfcid2ForService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -552,9 +554,6 @@ func (s *NfcFCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcFCardEmulationEnableNfcFForegroundService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_service content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -577,9 +576,6 @@ func (s *NfcFCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcFCardEmulationDisableNfcFForegroundService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.DisableNfcFForegroundService(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -590,9 +586,6 @@ func (s *NfcFCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcFCardEmulationGetNfcFServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -603,13 +596,19 @@ func (s *NfcFCardEmulationStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionINfcFCardEmulationGetMaxNumOfRegisterableSystemCodes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMaxNumOfRegisterableSystemCodes(ctx)
 		_reply := parcel.New()
 		if _err != nil {

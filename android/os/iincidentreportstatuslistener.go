@@ -58,6 +58,7 @@ func (p *IncidentReportStatusListenerProxy) OnReportStarted(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentReportStatusListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentReportStatusListener, MethodIIncidentReportStatusListenerOnReportStarted)
@@ -75,6 +76,7 @@ func (p *IncidentReportStatusListenerProxy) OnReportSectionStatus(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentReportStatusListener)
 	_data.WriteInt32(section)
 	_data.WriteInt32(status)
@@ -92,6 +94,7 @@ func (p *IncidentReportStatusListenerProxy) OnReportFinished(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentReportStatusListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentReportStatusListener, MethodIIncidentReportStatusListenerOnReportFinished)
@@ -107,6 +110,7 @@ func (p *IncidentReportStatusListenerProxy) OnReportFailed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentReportStatusListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentReportStatusListener, MethodIIncidentReportStatusListenerOnReportFailed)
@@ -121,7 +125,8 @@ func (p *IncidentReportStatusListenerProxy) OnReportFailed(
 // IncidentReportStatusListenerStub dispatches incoming binder transactions
 // to a typed IIncidentReportStatusListener implementation.
 type IncidentReportStatusListenerStub struct {
-	Impl IIncidentReportStatusListener
+	Impl      IIncidentReportStatusListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*IncidentReportStatusListenerStub)(nil)
@@ -135,18 +140,15 @@ func (s *IncidentReportStatusListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIIncidentReportStatusListenerOnReportStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnReportStarted(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIIncidentReportStatusListenerOnReportSectionStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_section, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -156,22 +158,13 @@ func (s *IncidentReportStatusListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnReportSectionStatus(ctx, _arg_section, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIIncidentReportStatusListenerOnReportFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnReportFinished(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIIncidentReportStatusListenerOnReportFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnReportFailed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

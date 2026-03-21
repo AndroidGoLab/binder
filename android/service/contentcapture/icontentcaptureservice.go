@@ -70,6 +70,7 @@ func (p *ContentCaptureServiceProxy) OnConnected(
 	debug bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureService)
 	binder.WriteBinderToParcel(ctx, _data, callback, p.Remote.Transport())
 	_data.WriteBool(verbose)
@@ -88,6 +89,7 @@ func (p *ContentCaptureServiceProxy) OnDisconnected(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureService, MethodIContentCaptureServiceOnDisconnected)
@@ -108,6 +110,7 @@ func (p *ContentCaptureServiceProxy) OnSessionStarted(
 	initialState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureService)
 	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
@@ -132,6 +135,7 @@ func (p *ContentCaptureServiceProxy) OnSessionFinished(
 	sessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureService)
 	_data.WriteInt32(sessionId)
 
@@ -150,6 +154,7 @@ func (p *ContentCaptureServiceProxy) OnActivitySnapshot(
 	snapshotData SnapshotData,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureService)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -171,6 +176,7 @@ func (p *ContentCaptureServiceProxy) OnDataRemovalRequest(
 	request viewContentcapture.DataRemovalRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -192,6 +198,7 @@ func (p *ContentCaptureServiceProxy) OnDataShared(
 	callback IDataShareCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -213,6 +220,7 @@ func (p *ContentCaptureServiceProxy) OnActivityEvent(
 	event ActivityEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureService)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -231,7 +239,8 @@ func (p *ContentCaptureServiceProxy) OnActivityEvent(
 // ContentCaptureServiceStub dispatches incoming binder transactions
 // to a typed IContentCaptureService implementation.
 type ContentCaptureServiceStub struct {
-	Impl IContentCaptureService
+	Impl      IContentCaptureService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ContentCaptureServiceStub)(nil)
@@ -245,14 +254,20 @@ func (s *ContentCaptureServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIContentCaptureServiceOnConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback binder.IBinder
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle)
+		}
 		_arg_verbose, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -262,19 +277,11 @@ func (s *ContentCaptureServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnConnected(ctx, _arg_callback, _arg_verbose, _arg_debug)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentCaptureServiceOnDisconnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDisconnected(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentCaptureServiceOnSessionStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_context_ viewContentcapture.ContentCaptureContext
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -295,31 +302,28 @@ func (s *ContentCaptureServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientReceiver os.IResultReceiver
-		_ = _arg_clientReceiver
+		{
+			_clientReceiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientReceiver = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientReceiverHandle))
+		}
 		_arg_initialState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSessionStarted(ctx, _arg_context_, _arg_sessionId, _arg_uid, _arg_clientReceiver, _arg_initialState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentCaptureServiceOnSessionFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSessionFinished(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentCaptureServiceOnActivitySnapshot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -337,12 +341,8 @@ func (s *ContentCaptureServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnActivitySnapshot(ctx, _arg_sessionId, _arg_snapshotData)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentCaptureServiceOnDataRemovalRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request viewContentcapture.DataRemovalRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -356,12 +356,8 @@ func (s *ContentCaptureServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDataRemovalRequest(ctx, _arg_request)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentCaptureServiceOnDataShared:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request viewContentcapture.DataShareRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -374,16 +370,17 @@ func (s *ContentCaptureServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDataShareCallback
-		_ = _arg_callback
-		_err := s.Impl.OnDataShared(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIContentCaptureServiceOnActivityEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDataShareCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.OnDataShared(ctx, _arg_request, _arg_callback)
+		return nil, _err
+	case TransactionIContentCaptureServiceOnActivityEvent:
 		var _arg_event ActivityEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -397,8 +394,7 @@ func (s *ContentCaptureServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnActivityEvent(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

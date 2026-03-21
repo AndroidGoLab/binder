@@ -68,6 +68,7 @@ func (p *RadioConfigResponseProxy) GetHalDeviceCapabilitiesResponse(
 	modemReducedFeatureSet1 bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -90,6 +91,7 @@ func (p *RadioConfigResponseProxy) GetNumOfLiveModemsResponse(
 	numOfLiveModems byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -112,6 +114,7 @@ func (p *RadioConfigResponseProxy) GetPhoneCapabilityResponse(
 	phoneCapability PhoneCapability,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -137,6 +140,7 @@ func (p *RadioConfigResponseProxy) GetSimSlotsStatusResponse(
 	slotStatus []SimSlotStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -168,6 +172,7 @@ func (p *RadioConfigResponseProxy) SetNumOfLiveModemsResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -188,6 +193,7 @@ func (p *RadioConfigResponseProxy) SetPreferredDataModemResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -208,6 +214,7 @@ func (p *RadioConfigResponseProxy) SetSimSlotsMappingResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -229,6 +236,7 @@ func (p *RadioConfigResponseProxy) GetSimultaneousCallingSupportResponse(
 	enabledLogicalSlots []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -255,7 +263,8 @@ func (p *RadioConfigResponseProxy) GetSimultaneousCallingSupportResponse(
 // RadioConfigResponseStub dispatches incoming binder transactions
 // to a typed IRadioConfigResponse implementation.
 type RadioConfigResponseStub struct {
-	Impl IRadioConfigResponse
+	Impl      IRadioConfigResponse
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RadioConfigResponseStub)(nil)
@@ -269,11 +278,12 @@ func (s *RadioConfigResponseStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRadioConfigResponseGetHalDeviceCapabilitiesResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -291,12 +301,8 @@ func (s *RadioConfigResponseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.GetHalDeviceCapabilitiesResponse(ctx, _arg_info, _arg_modemReducedFeatureSet1)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioConfigResponseGetNumOfLiveModemsResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -314,12 +320,8 @@ func (s *RadioConfigResponseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.GetNumOfLiveModemsResponse(ctx, _arg_info, _arg_numOfLiveModems)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioConfigResponseGetPhoneCapabilityResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -345,12 +347,8 @@ func (s *RadioConfigResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetPhoneCapabilityResponse(ctx, _arg_info, _arg_phoneCapability)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioConfigResponseGetSimSlotsStatusResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -363,16 +361,30 @@ func (s *RadioConfigResponseStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_slotStatus []SimSlotStatus
-		_ = _arg_slotStatus
-		_err := s.Impl.GetSimSlotsStatusResponse(ctx, _arg_info, _arg_slotStatus)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioConfigResponseSetNumOfLiveModemsResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_slotStatus = make([]SimSlotStatus, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_slotStatus[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.GetSimSlotsStatusResponse(ctx, _arg_info, _arg_slotStatus)
+		return nil, _err
+	case TransactionIRadioConfigResponseSetNumOfLiveModemsResponse:
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -386,12 +398,8 @@ func (s *RadioConfigResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetNumOfLiveModemsResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioConfigResponseSetPreferredDataModemResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -405,12 +413,8 @@ func (s *RadioConfigResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetPreferredDataModemResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioConfigResponseSetSimSlotsMappingResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -424,12 +428,8 @@ func (s *RadioConfigResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetSimSlotsMappingResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioConfigResponseGetSimultaneousCallingSupportResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -442,12 +442,27 @@ func (s *RadioConfigResponseStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_enabledLogicalSlots []int32
-		_ = _arg_enabledLogicalSlots
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_enabledLogicalSlots = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_enabledLogicalSlots[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.GetSimultaneousCallingSupportResponse(ctx, _arg_info, _arg_enabledLogicalSlots)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

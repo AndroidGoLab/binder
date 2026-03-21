@@ -34,11 +34,21 @@ func (s *DemuxFilterType) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_mainTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.MainType = DemuxFilterMainType(_mainTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	if _err = s.SubType.UnmarshalParcel(p); _err != nil {
 		return _err

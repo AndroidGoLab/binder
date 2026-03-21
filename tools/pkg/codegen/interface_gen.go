@@ -142,6 +142,7 @@ func writeStubType(
 	f.P("// to a typed %s implementation.", interfaceName)
 	f.P("type %s struct {", stubName)
 	f.P("\tImpl %s", interfaceName)
+	f.P("\tTransport binder.VersionAwareTransport")
 	f.P("}")
 	f.P("")
 
@@ -165,6 +166,15 @@ func writeStubType(
 	f.P("\tcode binder.TransactionCode,")
 	f.P("\t_data *parcel.Parcel,")
 	f.P(") (*parcel.Parcel, error) {")
+
+	// ReadInterfaceToken validates that the caller is addressing the
+	// correct interface. This must happen before dispatching to any
+	// method case, and also for interfaces with no methods (marker
+	// interfaces) so that malformed transactions are rejected early.
+	f.P("\tif _, _err := _data.ReadInterfaceToken(); _err != nil {")
+	f.P("\t\treturn nil, _err")
+	f.P("\t}")
+	f.P("")
 	f.P("\tswitch code {")
 
 	// Track transaction codes to skip duplicate cases. Two AIDL methods
@@ -311,11 +321,6 @@ func writeStubCase(
 
 	f.P("\tcase %s:", constName)
 
-	// Read the interface token (always the first thing in the data parcel).
-	f.P("\t\tif _, _err := _data.ReadString16(); _err != nil {")
-	f.P("\t\t\treturn nil, _err")
-	f.P("\t\t}")
-
 	// Read parameters from data parcel. Track whether _err has been
 	// declared in this case scope so we can use = vs := correctly.
 	regularParams, _ := classifyParams(m.Params)
@@ -351,7 +356,11 @@ func writeStubCase(
 	callArgs = append(callArgs, "ctx")
 	paramIdx := 0
 	for _, param := range m.Params {
-		if identityFieldForParam(param) != "" {
+		// Skip identity params that were discarded (not added to
+		// paramVarNames). DirectionOut identity params ARE in
+		// paramVarNames (handled at the top of the read loop), so
+		// only skip when the param was actually discarded.
+		if param.Direction != parser.DirectionOut && identityFieldForParam(param) != "" {
 			continue
 		}
 		if paramIdx < len(paramVarNames) {
@@ -373,9 +382,9 @@ func writeStubCase(
 	}
 
 	if isOneway {
-		// Oneway methods have no reply.
-		f.P("\t\t_ = _err")
-		f.P("\t\treturn nil, nil")
+		// Oneway methods have no reply; return the error so the
+		// stub dispatch layer can log or handle it locally.
+		f.P("\t\treturn nil, _err")
 	} else {
 		// Write the reply parcel.
 		f.P("\t\t_reply := parcel.New()")
@@ -389,8 +398,149 @@ func writeStubCase(
 			writeStubWriteReturn(f, m.ReturnType, opts, typeRef)
 		}
 
+		// Write out/inout params back to the reply parcel so the
+		// proxy can read the modified values.
+		for _, param := range m.Params {
+			if param.Direction == parser.DirectionOut || param.Direction == parser.DirectionInOut {
+				outVarName := "_arg_" + sanitizeGoIdent(param.ParamName)
+				writeStubOutParam(f, param, outVarName, opts, typeRef)
+			}
+		}
+
 		f.P("\t\treturn _reply, nil")
 	}
+}
+
+// writeStubOutParam writes a single out/inout parameter value to the
+// reply parcel in a stub OnTransaction case.
+func writeStubOutParam(
+	f *GoFile,
+	param *parser.ParamDecl,
+	varName string,
+	opts GenOptions,
+	typeRef *TypeRefResolver,
+) {
+	if param.Type.IsArray || param.Type.Name == "List" {
+		writeStubWriteOutArray(f, param.Type, varName, opts, typeRef)
+		return
+	}
+
+	if param.Type.Name == "Map" {
+		writeStubWriteOutMap(f, param.Type, varName, opts, typeRef)
+		return
+	}
+
+	info := marshalForTypeWithCycleCheck(param.Type, opts, typeRef)
+	if info.WriteExpr == "" {
+		return
+	}
+
+	writeExpr := strings.ReplaceAll(info.WriteExpr, "_data", "_reply")
+
+	if strings.Contains(info.WriteExpr, ".MarshalParcel") {
+		f.P("\t\t_reply.WriteInt32(1)")
+		marshalExpr := fmt.Sprintf(writeExpr, varName)
+		f.P("\t\tif _err := %s; _err != nil {", marshalExpr)
+		f.P("\t\t\treturn nil, _err")
+		f.P("\t\t}")
+		return
+	}
+
+	if info.IsInterface {
+		f.P("\t\tbinder.WriteBinderToParcel(ctx, _reply, %s.AsBinder(), s.Transport)", varName)
+		return
+	}
+	if info.IsIBinder {
+		f.P("\t\tbinder.WriteBinderToParcel(ctx, _reply, %s, s.Transport)", varName)
+		return
+	}
+
+	formatted := fmt.Sprintf(writeExpr, varName)
+	f.P("\t\t%s", formatted)
+}
+
+// writeStubWriteOutArray writes an array out-param to the reply parcel.
+func writeStubWriteOutArray(
+	f *GoFile,
+	ts *parser.TypeSpecifier,
+	varName string,
+	opts GenOptions,
+	typeRef *TypeRefResolver,
+) {
+	elemType := elementTypeSpec(ts)
+
+	if elemType.Name == "byte" {
+		f.P("\t\t_reply.WriteByteArray(%s)", varName)
+		return
+	}
+
+	elemInfo := marshalForTypeWithCycleCheck(elemType, opts, typeRef)
+
+	f.P("\t\tif %s == nil {", varName)
+	f.P("\t\t\t_reply.WriteInt32(-1)")
+	f.P("\t\t} else {")
+	f.P("\t\t\t_reply.WriteInt32(int32(len(%s)))", varName)
+
+	if elemInfo.WriteExpr != "" {
+		f.P("\t\t\tfor _, _item := range %s {", varName)
+		writeExpr := fmt.Sprintf(elemInfo.WriteExpr, "_item")
+		writeExpr = strings.ReplaceAll(writeExpr, "_data", "_reply")
+		switch {
+		case strings.Contains(elemInfo.WriteExpr, ".MarshalParcel"):
+			f.P("\t\t\t\t_reply.WriteInt32(1)")
+			f.P("\t\t\t\tif _err := %s; _err != nil {", writeExpr)
+			f.P("\t\t\t\t\treturn nil, _err")
+			f.P("\t\t\t\t}")
+		case elemInfo.IsInterface:
+			f.P("\t\t\t\tbinder.WriteBinderToParcel(ctx, _reply, _item.AsBinder(), s.Transport)")
+		case elemInfo.IsIBinder:
+			f.P("\t\t\t\tbinder.WriteBinderToParcel(ctx, _reply, _item, s.Transport)")
+		default:
+			f.P("\t\t\t\t%s", writeExpr)
+		}
+		f.P("\t\t\t}")
+	}
+
+	f.P("\t\t}")
+}
+
+// writeStubWriteOutMap writes a Map out-param to the reply parcel in a
+// stub OnTransaction case. Uses stub-appropriate error returns (nil, _err).
+func writeStubWriteOutMap(
+	f *GoFile,
+	ts *parser.TypeSpecifier,
+	varName string,
+	opts GenOptions,
+	typeRef *TypeRefResolver,
+) {
+	keyType := mapKeyTypeSpec(ts)
+	valType := mapValTypeSpec(ts)
+	keyInfo := marshalForTypeWithCycleCheck(keyType, opts, typeRef)
+	valInfo := marshalForTypeWithCycleCheck(valType, opts, typeRef)
+
+	f.P("\t\tif %s == nil {", varName)
+	f.P("\t\t\t_reply.WriteInt32(-1)")
+	f.P("\t\t} else {")
+	f.P("\t\t\t_reply.WriteInt32(int32(len(%s)))", varName)
+
+	if keyInfo.WriteExpr != "" && valInfo.WriteExpr != "" {
+		f.P("\t\t\tfor _k, _v := range %s {", varName)
+
+		keyVar := mapRangeVarWithAssertion("_k", keyType, ts, 0, typeRef)
+		valVar := mapRangeVarWithAssertion("_v", valType, ts, 1, typeRef)
+		writeKeyExpr := fmt.Sprintf(keyInfo.WriteExpr, keyVar)
+		writeKeyExpr = strings.ReplaceAll(writeKeyExpr, "_data", "_reply")
+		writeValExpr := fmt.Sprintf(valInfo.WriteExpr, valVar)
+		writeValExpr = strings.ReplaceAll(writeValExpr, "_data", "_reply")
+
+		stubErrReturn := "return nil, _err"
+		writeMapElemExpr(f, keyInfo, writeKeyExpr, stubErrReturn, "\t\t\t\t", "_reply", "s.Transport", keyVar)
+		writeMapElemExpr(f, valInfo, writeValExpr, stubErrReturn, "\t\t\t\t", "_reply", "s.Transport", valVar)
+
+		f.P("\t\t\t}")
+	}
+
+	f.P("\t\t}")
 }
 
 // writeStubDiscardParam generates code to read (and discard) an identity
@@ -430,20 +580,13 @@ func writeStubReadParam(
 	typeRef *TypeRefResolver,
 	errDeclared bool,
 ) bool {
-	// Skip complex types with a TODO comment for v1.
 	if param.Type.IsArray || param.Type.Name == "List" {
-		goType := resolveTypeRef(typeRef, param.Type)
-		f.P("\t\t// TODO: array/list param unmarshaling not yet supported in stubs")
-		f.P("\t\tvar %s %s", varName, goType)
-		f.P("\t\t_ = %s", varName)
+		writeStubReadArrayParam(f, param.Type, varName, opts, typeRef)
 		return false
 	}
 
 	if param.Type.Name == "Map" {
-		goType := resolveTypeRef(typeRef, param.Type)
-		f.P("\t\t// TODO: map param unmarshaling not yet supported in stubs")
-		f.P("\t\tvar %s %s", varName, goType)
-		f.P("\t\t_ = %s", varName)
+		writeStubReadMapParam(f, param.Type, varName, opts, typeRef)
 		return false
 	}
 
@@ -469,6 +612,13 @@ func writeStubReadParam(
 		f.P("\t\t\t\treturn nil, _err")
 		f.P("\t\t\t}")
 		f.P("\t\t\tif _nullInd != 0 {")
+		if isNullable && len(goType) > 0 && goType[0] == '*' {
+			// @nullable parcelable: allocate the struct before
+			// unmarshaling to avoid nil pointer dereference. When
+			// _nullInd == 0 the variable stays nil, which is correct.
+			baseType := goType[1:]
+			f.P("\t\t\t\t%s = new(%s)", varName, baseType)
+		}
 		f.P("\t\t\t\tif _err = %s.UnmarshalParcel(_data); _err != nil {", varName)
 		f.P("\t\t\t\t\treturn nil, _err")
 		f.P("\t\t\t\t}")
@@ -479,11 +629,41 @@ func writeStubReadParam(
 		return false
 	}
 
-	if info.IsInterface || info.IsIBinder {
-		f.P("\t\t// TODO: interface/IBinder param unmarshaling not yet supported in stubs")
+	if info.IsInterface {
+		// Read the binder handle and wrap it in a typed proxy.
+		// Stubs don't have a transport or identity, so pass nil/zero.
+		goType := resolveTypeRef(typeRef, param.Type)
+		// Go interfaces are inherently nullable (nil-able), so strip
+		// the pointer from @nullable interface types like *IFoo.
+		goType = strings.TrimPrefix(goType, "*")
+		proxyConstructor := interfaceProxyConstructor(typeRef, param.Type)
+		f.P("\t\tvar %s %s", varName, goType)
+		f.P("\t\t{")
+		f.P("\t\t\t_%sHandle, _err := _data.ReadStrongBinder()", param.ParamName)
+		f.P("\t\t\tif _err != nil {")
+		f.P("\t\t\t\treturn nil, _err")
+		f.P("\t\t\t}")
+		f.P("\t\t\t%s = %s(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _%sHandle))", varName, proxyConstructor, param.ParamName)
+		f.P("\t\t}")
+		// _err was declared inside a block scope, so it does not affect
+		// the outer scope.
+		return false
+	}
+
+	if info.IsIBinder {
+		// Read a raw binder handle and wrap it in a ProxyBinder.
+		// Stubs don't have a transport or identity, so pass nil/zero.
 		goType := resolveTypeRef(typeRef, param.Type)
 		f.P("\t\tvar %s %s", varName, goType)
-		f.P("\t\t_ = %s", varName)
+		f.P("\t\t{")
+		f.P("\t\t\t_%sHandle, _err := _data.ReadStrongBinder()", param.ParamName)
+		f.P("\t\t\tif _err != nil {")
+		f.P("\t\t\t\treturn nil, _err")
+		f.P("\t\t\t}")
+		f.P("\t\t\t%s = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _%sHandle)", varName, param.ParamName)
+		f.P("\t\t}")
+		// _err was declared inside a block scope, so it does not affect
+		// the outer scope.
 		return false
 	}
 
@@ -526,6 +706,189 @@ func writeStubReadParam(
 	return true
 }
 
+// writeStubReadArrayParam generates code to read an array or List parameter
+// from the data parcel into a local variable inside a stub OnTransaction case.
+// All intermediate errors are declared in a block scope so they do not
+// affect the outer _err variable.
+func writeStubReadArrayParam(
+	f *GoFile,
+	ts *parser.TypeSpecifier,
+	varName string,
+	opts GenOptions,
+	typeRef *TypeRefResolver,
+) {
+	goType := resolveTypeRef(typeRef, ts)
+	elemType := elementTypeSpec(ts)
+
+	// Compact byte[] uses ReadByteArray instead of per-element reads.
+	if elemType.Name == "byte" {
+		f.P("\t\tvar %s %s", varName, goType)
+		f.P("\t\t{")
+		f.P("\t\t\t_bytes, _err := _data.ReadByteArray()")
+		f.P("\t\t\tif _err != nil {")
+		f.P("\t\t\t\treturn nil, _err")
+		f.P("\t\t\t}")
+		f.P("\t\t\t%s = _bytes", varName)
+		f.P("\t\t}")
+		return
+	}
+
+	elemInfo := marshalForTypeWithCycleCheck(elemType, opts, typeRef)
+	elemReadExpr := stubDataReadExpr(elemInfo.ReadExpr)
+
+	f.P("\t\tvar %s %s", varName, goType)
+	f.P("\t\t{")
+	f.P("\t\t\t_count, _err := _data.ReadInt32()")
+	f.P("\t\t\tif _err != nil {")
+	f.P("\t\t\t\treturn nil, _err")
+	f.P("\t\t\t}")
+	f.P("\t\t\tif _count > 1000000 {")
+	f.P("\t\t\t\treturn nil, fmt.Errorf(\"array count too large: %%d\", _count)")
+	f.P("\t\t\t}")
+	f.P("\t\t\tif _count >= 0 {")
+	f.P("\t\t\t\t%s = make(%s, _count)", varName, goType)
+
+	if elemReadExpr != "" {
+		f.P("\t\t\t\tfor _i := int32(0); _i < _count; _i++ {")
+
+		switch {
+		case strings.Contains(elemInfo.ReadExpr, ".UnmarshalParcel"):
+			// Parcelable element: read null indicator, then unmarshal.
+			f.P("\t\t\t\t\tif _, _err = _data.ReadInt32(); _err != nil {")
+			f.P("\t\t\t\t\t\treturn nil, _err")
+			f.P("\t\t\t\t\t}")
+			f.P("\t\t\t\t\tif _err = %s[_i].UnmarshalParcel(_data); _err != nil {", varName)
+			f.P("\t\t\t\t\t\treturn nil, _err")
+			f.P("\t\t\t\t\t}")
+		case elemInfo.IsInterface:
+			proxyConstructor := interfaceProxyConstructor(typeRef, elemType)
+			f.P("\t\t\t\t\t_handle, _err := %s", elemReadExpr)
+			f.P("\t\t\t\t\tif _err != nil {")
+			f.P("\t\t\t\t\t\treturn nil, _err")
+			f.P("\t\t\t\t\t}")
+			f.P("\t\t\t\t\t%s[_i] = %s(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _handle))", varName, proxyConstructor)
+		case elemInfo.IsIBinder:
+			f.P("\t\t\t\t\t_handle, _err := %s", elemReadExpr)
+			f.P("\t\t\t\t\tif _err != nil {")
+			f.P("\t\t\t\t\t\treturn nil, _err")
+			f.P("\t\t\t\t\t}")
+			f.P("\t\t\t\t\t%s[_i] = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _handle)", varName)
+		case elemInfo.NeedsCast:
+			elemGoType := resolveTypeRef(typeRef, elemType)
+			f.P("\t\t\t\t\t_raw, _err := %s", elemReadExpr)
+			f.P("\t\t\t\t\tif _err != nil {")
+			f.P("\t\t\t\t\t\treturn nil, _err")
+			f.P("\t\t\t\t\t}")
+			f.P("\t\t\t\t\t%s[_i] = %s(_raw)", varName, elemGoType)
+		default:
+			f.P("\t\t\t\t\t%s[_i], _err = %s", varName, elemReadExpr)
+			f.P("\t\t\t\t\tif _err != nil {")
+			f.P("\t\t\t\t\t\treturn nil, _err")
+			f.P("\t\t\t\t\t}")
+		}
+
+		f.P("\t\t\t\t}")
+	}
+
+	f.P("\t\t\t}")
+	f.P("\t\t}")
+}
+
+// writeStubReadMapParam generates code to read a Map parameter from the
+// data parcel into a local variable inside a stub OnTransaction case.
+func writeStubReadMapParam(
+	f *GoFile,
+	ts *parser.TypeSpecifier,
+	varName string,
+	opts GenOptions,
+	typeRef *TypeRefResolver,
+) {
+	goType := resolveTypeRef(typeRef, ts)
+	keyType := mapKeyTypeSpec(ts)
+	valType := mapValTypeSpec(ts)
+	keyInfo := marshalForTypeWithCycleCheck(keyType, opts, typeRef)
+	valInfo := marshalForTypeWithCycleCheck(valType, opts, typeRef)
+
+	keyReadExpr := stubDataReadExpr(keyInfo.ReadExpr)
+	valReadExpr := stubDataReadExpr(valInfo.ReadExpr)
+
+	f.P("\t\tvar %s %s", varName, goType)
+	f.P("\t\t{")
+	f.P("\t\t\t_mapCount, _err := _data.ReadInt32()")
+	f.P("\t\t\tif _err != nil {")
+	f.P("\t\t\t\treturn nil, _err")
+	f.P("\t\t\t}")
+	f.P("\t\t\tif _mapCount >= 0 {")
+	f.P("\t\t\t\t%s = make(%s, _mapCount)", varName, goType)
+
+	valIsList := valType.IsArray || valType.Name == "List"
+	keyIsList := keyType.IsArray || keyType.Name == "List"
+
+	if (keyReadExpr != "" || keyIsList) && (valReadExpr != "" || valIsList) {
+		f.P("\t\t\t\tfor _mi := int32(0); _mi < _mapCount; _mi++ {")
+
+		if keyIsList {
+			writeMapReadArrayElem(f, keyType, "_mk", "\t\t\t\t\t", opts, typeRef, "_data", "return nil, _err")
+		} else {
+			writeStubMapReadElem(f, keyInfo, keyReadExpr, keyType, "_mk", "\t\t\t\t\t", typeRef, "k")
+		}
+
+		if valIsList {
+			writeMapReadArrayElem(f, valType, "_mv", "\t\t\t\t\t", opts, typeRef, "_data", "return nil, _err")
+		} else {
+			writeStubMapReadElem(f, valInfo, valReadExpr, valType, "_mv", "\t\t\t\t\t", typeRef, "v")
+		}
+
+		f.P("\t\t\t\t\t%s[_mk] = _mv", varName)
+		f.P("\t\t\t\t}")
+	}
+
+	f.P("\t\t\t}")
+	f.P("\t\t}")
+}
+
+// writeStubMapReadElem writes the code to read a single map element (key or
+// value) into a local variable within a stub's OnTransaction handler.
+// Unlike the proxy-side writeMapReadElem, error returns use (nil, _err)
+// since stubs return (*parcel.Parcel, error).
+// rawPrefix disambiguates the intermediate _raw variable when both key and
+// value use NeedsCast (e.g., "k" produces _rawK, "v" produces _rawV).
+func writeStubMapReadElem(
+	f *GoFile,
+	info MarshalInfo,
+	readExpr string,
+	ts *parser.TypeSpecifier,
+	varName string,
+	indent string,
+	typeRef *TypeRefResolver,
+	rawPrefix string,
+) {
+	switch {
+	case strings.Contains(info.ReadExpr, ".UnmarshalParcel"):
+		goType := resolveTypeRef(typeRef, ts)
+		f.P("%svar %s %s", indent, varName, goType)
+		f.P("%sif _, _err = _data.ReadInt32(); _err != nil {", indent)
+		f.P("%s\treturn nil, _err", indent)
+		f.P("%s}", indent)
+		f.P("%sif _err = %s.UnmarshalParcel(_data); _err != nil {", indent, varName)
+		f.P("%s\treturn nil, _err", indent)
+		f.P("%s}", indent)
+	case info.NeedsCast:
+		goType := resolveTypeRef(typeRef, ts)
+		rawVar := fmt.Sprintf("_raw%s", strings.ToUpper(rawPrefix[:1])+rawPrefix[1:])
+		f.P("%s%s, _err := %s", indent, rawVar, readExpr)
+		f.P("%sif _err != nil {", indent)
+		f.P("%s\treturn nil, _err", indent)
+		f.P("%s}", indent)
+		f.P("%s%s := %s(%s)", indent, varName, goType, rawVar)
+	default:
+		f.P("%s%s, _err := %s", indent, varName, readExpr)
+		f.P("%sif _err != nil {", indent)
+		f.P("%s\treturn nil, _err", indent)
+		f.P("%s}", indent)
+	}
+}
+
 // writeStubWriteReturn generates code to write a return value to the
 // reply parcel.
 func writeStubWriteReturn(
@@ -534,16 +897,87 @@ func writeStubWriteReturn(
 	opts GenOptions,
 	typeRef *TypeRefResolver,
 ) {
-	// Skip complex return types with a TODO for v1.
 	if retType.IsArray || retType.Name == "List" {
-		f.P("\t\t// TODO: array/list return marshaling not yet supported in stubs")
-		f.P("\t\t_ = _result")
+		elemType := elementTypeSpec(retType)
+
+		// AIDL uses compact writeByteArray for byte[], not per-element.
+		if elemType.Name == "byte" {
+			f.P("\t\t_reply.WriteByteArray(_result)")
+			return
+		}
+
+		elemInfo := marshalForTypeWithCycleCheck(elemType, opts, typeRef)
+
+		f.P("\t\tif _result == nil {")
+		f.P("\t\t\t_reply.WriteInt32(-1)")
+		f.P("\t\t} else {")
+		f.P("\t\t\t_reply.WriteInt32(int32(len(_result)))")
+
+		if elemInfo.WriteExpr != "" {
+			f.P("\t\t\tfor _, _item := range _result {")
+			writeExpr := fmt.Sprintf(elemInfo.WriteExpr, "_item")
+			writeExpr = strings.ReplaceAll(writeExpr, "_data", "_reply")
+			switch {
+			case strings.Contains(elemInfo.WriteExpr, ".MarshalParcel"):
+				f.P("\t\t\t\t_reply.WriteInt32(1)")
+				f.P("\t\t\t\tif _err := %s; _err != nil {", writeExpr)
+				f.P("\t\t\t\t\treturn nil, _err")
+				f.P("\t\t\t\t}")
+			case elemInfo.IsInterface:
+				f.P("\t\t\t\tbinder.WriteBinderToParcel(ctx, _reply, _item.AsBinder(), s.Transport)")
+			case elemInfo.IsIBinder:
+				f.P("\t\t\t\tbinder.WriteBinderToParcel(ctx, _reply, _item, s.Transport)")
+			default:
+				f.P("\t\t\t\t%s", writeExpr)
+			}
+			f.P("\t\t\t}")
+		}
+
+		f.P("\t\t}")
 		return
 	}
 
 	if retType.Name == "Map" {
-		f.P("\t\t// TODO: map return marshaling not yet supported in stubs")
-		f.P("\t\t_ = _result")
+		keyType := mapKeyTypeSpec(retType)
+		valType := mapValTypeSpec(retType)
+		keyInfo := marshalForTypeWithCycleCheck(keyType, opts, typeRef)
+		valInfo := marshalForTypeWithCycleCheck(valType, opts, typeRef)
+
+		f.P("\t\tif _result == nil {")
+		f.P("\t\t\t_reply.WriteInt32(-1)")
+		f.P("\t\t} else {")
+		f.P("\t\t\t_reply.WriteInt32(int32(len(_result)))")
+
+		valIsList := valType.IsArray || valType.Name == "List"
+		keyIsList := keyType.IsArray || keyType.Name == "List"
+
+		if keyInfo.WriteExpr != "" || keyIsList || valInfo.WriteExpr != "" || valIsList {
+			f.P("\t\t\tfor _k, _v := range _result {")
+
+			keyVar := mapRangeVarWithAssertion("_k", keyType, retType, 0, typeRef)
+			valVar := mapRangeVarWithAssertion("_v", valType, retType, 1, typeRef)
+			stubErrReturn := "return nil, _err"
+
+			if keyIsList {
+				writeMapWriteArrayElem(f, keyType, keyVar, "\t\t\t\t", opts, typeRef, "_reply", stubErrReturn)
+			} else {
+				writeKeyExpr := fmt.Sprintf(keyInfo.WriteExpr, keyVar)
+				writeKeyExpr = strings.ReplaceAll(writeKeyExpr, "_data", "_reply")
+				writeMapElemExpr(f, keyInfo, writeKeyExpr, stubErrReturn, "\t\t\t\t", "_reply", "s.Transport", keyVar)
+			}
+
+			if valIsList {
+				writeMapWriteArrayElem(f, valType, valVar, "\t\t\t\t", opts, typeRef, "_reply", stubErrReturn)
+			} else {
+				writeValExpr := fmt.Sprintf(valInfo.WriteExpr, valVar)
+				writeValExpr = strings.ReplaceAll(writeValExpr, "_data", "_reply")
+				writeMapElemExpr(f, valInfo, writeValExpr, stubErrReturn, "\t\t\t\t", "_reply", "s.Transport", valVar)
+			}
+
+			f.P("\t\t\t}")
+		}
+
+		f.P("\t\t}")
 		return
 	}
 
@@ -565,9 +999,12 @@ func writeStubWriteReturn(
 		return
 	}
 
-	if info.IsInterface || info.IsIBinder {
-		f.P("\t\t// TODO: interface/IBinder return marshaling not yet supported in stubs")
-		f.P("\t\t_ = _result")
+	if info.IsInterface {
+		f.P("\t\tbinder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)")
+		return
+	}
+	if info.IsIBinder {
+		f.P("\t\tbinder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)")
 		return
 	}
 
@@ -713,6 +1150,7 @@ func writeProxyMethod(
 
 	// Build and write data parcel.
 	f.P("\t_data := parcel.New()")
+	f.P("\tdefer _data.Recycle()")
 	f.P("\t_data.WriteInterfaceToken(%s)", descriptorConst)
 
 	for i, param := range m.Params {
@@ -825,12 +1263,14 @@ func writeParamToParcel(
 	}
 
 	if param.Type.Name == "Map" {
-		writeMapToParcel(f, param.Type, varName, hasReturn, opts, typeRef, "_data", "\t")
+		writeMapToParcel(f, param.Type, varName, hasReturn, opts, typeRef, "_data", "\t", "p.Remote.Transport()")
 		return
 	}
 
 	info := marshalForTypeWithCycleCheck(param.Type, opts, typeRef)
 	if info.WriteExpr == "" {
+		goType := resolveTypeRef(typeRef, param.Type)
+		f.P("\t// WARNING: param %s (type %s) cannot be serialized — type not resolved", varName, goType)
 		return
 	}
 
@@ -844,6 +1284,10 @@ func writeParamToParcel(
 			f.P("\tif %s != nil {", varName)
 			writeExpr := fmt.Sprintf(info.WriteExpr, "(*"+varName+")")
 			if strings.Contains(info.WriteExpr, ".MarshalParcel") {
+				// AIDL wire format: int32(1) as non-null indicator
+				// before the parcelable data, matching writeTypedObject
+				// semantics. The null branch writes int32(-1).
+				f.P("\t\t_data.WriteInt32(1)")
 				f.P("\t\tif _err := %s; _err != nil {", writeExpr)
 				if hasReturn {
 					f.P("\t\t\treturn _result, _err")
@@ -905,6 +1349,14 @@ func writeArrayToParcel(
 	typeRef *TypeRefResolver,
 ) {
 	elemType := elementTypeSpec(ts)
+
+	// AIDL uses compact writeByteArray for byte[], not per-element
+	// WritePaddedByte. This matches the NDK AParcel_writeByteArray format.
+	if elemType.Name == "byte" {
+		f.P("\t_data.WriteByteArray(%s)", varName)
+		return
+	}
+
 	elemInfo := marshalForTypeWithCycleCheck(elemType, opts, typeRef)
 
 	f.P("\tif %s == nil {", varName)
@@ -915,7 +1367,8 @@ func writeArrayToParcel(
 	if elemInfo.WriteExpr != "" {
 		f.P("\t\tfor _, _item := range %s {", varName)
 		writeExpr := fmt.Sprintf(elemInfo.WriteExpr, "_item")
-		if strings.Contains(elemInfo.WriteExpr, ".MarshalParcel") {
+		switch {
+		case strings.Contains(elemInfo.WriteExpr, ".MarshalParcel"):
 			// NDK AIDL wire format: int32(1) non-null indicator before each
 			// parcelable element, matching writeTypedObject semantics.
 			f.P("\t\t\t_data.WriteInt32(1)")
@@ -926,7 +1379,15 @@ func writeArrayToParcel(
 				f.P("\t\t\t\treturn _err")
 			}
 			f.P("\t\t\t}")
-		} else {
+		case elemInfo.IsInterface:
+			// Interface elements must use WriteBinderToParcel to handle
+			// both remote proxies and local stubs transparently.
+			f.P("\t\t\tbinder.WriteBinderToParcel(ctx, _data, _item.AsBinder(), p.Remote.Transport())")
+		case elemInfo.IsIBinder:
+			// IBinder elements must use WriteBinderToParcel to handle
+			// both remote proxies and local stubs transparently.
+			f.P("\t\t\tbinder.WriteBinderToParcel(ctx, _data, _item, p.Remote.Transport())")
+		default:
 			f.P("\t\t\t%s", writeExpr)
 		}
 		f.P("\t\t}")
@@ -980,13 +1441,31 @@ func readReturnValue(
 	}
 
 	if retType.Name == "Map" {
-		readMapFromReply(f, retType, opts, typeRef, "_reply", "_result", "\t")
+		readMapFromReply(f, retType, opts, typeRef, "_reply", "_result", "\t", "return _result, _err")
 		return
 	}
 
 	info := marshalForTypeWithCycleCheck(retType, opts, typeRef)
 	if info.ReadExpr == "" {
-		// Cycle-broken type: cannot deserialize, return zero value.
+		// Opaque/cycle-broken type: skip the parcelable data on the wire
+		// so the parcel position stays consistent for any subsequent reads.
+		// Java-originated parcelables (like ActivityManager.RunningAppProcessInfo)
+		// resolve to any but still use the typed-object wire format:
+		// int32(null indicator) + int32(size) + payload.
+		if isLikelyParcelable(retType) {
+			f.AddImport("github.com/xaionaro-go/binder/parcel", "")
+			f.P("\t_nullInd, _err := _reply.ReadInt32()")
+			f.P("\tif _err != nil {")
+			f.P("\t\treturn _result, _err")
+			f.P("\t}")
+			f.P("\tif _nullInd != 0 {")
+			f.P("\t\t_endPos, _err := parcel.ReadParcelableHeader(_reply)")
+			f.P("\t\tif _err != nil {")
+			f.P("\t\t\treturn _result, _err")
+			f.P("\t\t}")
+			f.P("\t\tparcel.SkipToParcelableEnd(_reply, _endPos)")
+			f.P("\t}")
+		}
 		return
 	}
 
@@ -1049,13 +1528,27 @@ func readArrayFromReply(
 	opts GenOptions,
 	typeRef *TypeRefResolver,
 ) {
-	goType := resolveTypeRef(typeRef, retType)
 	elemType := elementTypeSpec(retType)
+
+	// AIDL uses compact readByteArray for byte[], not per-element
+	// ReadPaddedByte. This matches the NDK AParcel_readByteArray format.
+	if elemType.Name == "byte" {
+		f.P("\t_result, _err = _reply.ReadByteArray()")
+		f.P("\tif _err != nil {")
+		f.P("\t\treturn _result, _err")
+		f.P("\t}")
+		return
+	}
+
+	goType := resolveTypeRef(typeRef, retType)
 	elemInfo := marshalForTypeWithCycleCheck(elemType, opts, typeRef)
 
 	f.P("\t_count, _err := _reply.ReadInt32()")
 	f.P("\tif _err != nil {")
 	f.P("\t\treturn _result, _err")
+	f.P("\t}")
+	f.P("\tif _count > 1000000 {")
+	f.P("\t\treturn _result, fmt.Errorf(\"array count too large: %%d\", _count)")
 	f.P("\t}")
 	f.P("")
 	f.P("\tif _count >= 0 {")
@@ -1065,7 +1558,19 @@ func readArrayFromReply(
 	elemReadExpr := elemInfo.ReadExpr
 
 	if elemReadExpr == "" {
-		// Opaque/unresolvable element type: skip deserialization.
+		// Opaque/unresolvable element type: skip each element's parcelable
+		// data on the wire so the parcel position stays consistent.
+		if isLikelyParcelable(elemType) {
+			f.AddImport("github.com/xaionaro-go/binder/parcel", "")
+			f.P("\t\t\tif _, _err = _reply.ReadInt32(); _err != nil {")
+			f.P("\t\t\t\treturn _result, _err")
+			f.P("\t\t\t}")
+			f.P("\t\t\t_endPos, _err := parcel.ReadParcelableHeader(_reply)")
+			f.P("\t\t\tif _err != nil {")
+			f.P("\t\t\t\treturn _result, _err")
+			f.P("\t\t\t}")
+			f.P("\t\t\tparcel.SkipToParcelableEnd(_reply, _endPos)")
+		}
 		f.P("\t\t}")
 		f.P("\t}")
 		return
@@ -1134,7 +1639,7 @@ func readOutParam(
 	}
 
 	if param.Type.Name == "Map" {
-		readMapFromReply(f, param.Type, opts, typeRef, "_reply", varName, "\t")
+		readMapFromReply(f, param.Type, opts, typeRef, "_reply", varName, "\t", errReturnStr(hasReturn))
 		return
 	}
 
@@ -1143,20 +1648,66 @@ func readOutParam(
 		return
 	}
 
+	errReturn := errReturnStr(hasReturn)
+
 	if strings.Contains(info.ReadExpr, ".UnmarshalParcel") {
+		// Java's readTypedObject reads int32 null indicator before
+		// calling createFromParcel. Skip unmarshaling for null (0).
+		f.P("\t{")
+		f.P("\t\t_nullInd, _err := _reply.ReadInt32()")
+		f.P("\t\tif _err != nil {")
+		f.P("\t\t\t%s", errReturn)
+		f.P("\t\t}")
+		f.P("\t\tif _nullInd != 0 {")
 		unmarshalExpr := fmt.Sprintf(info.ReadExpr, varName)
-		f.P("\tif _err = %s; _err != nil {", unmarshalExpr)
-		if hasReturn {
-			f.P("\t\treturn _result, _err")
-		} else {
-			f.P("\t\treturn _err")
-		}
+		f.P("\t\t\tif _err = %s; _err != nil {", unmarshalExpr)
+		f.P("\t\t\t\t%s", errReturn)
+		f.P("\t\t\t}")
+		f.P("\t\t}")
 		f.P("\t}")
 		return
 	}
 
-	// For primitive out params, the caller must pass a pointer or similar.
-	// This is a simplified version; real AIDL codegen uses pointers for out params.
+	if info.IsInterface {
+		proxyConstructor := interfaceProxyConstructor(typeRef, param.Type)
+		f.P("\t{")
+		f.P("\t\t_handle, _err := %s", info.ReadExpr)
+		f.P("\t\tif _err != nil {")
+		f.P("\t\t\t%s", errReturn)
+		f.P("\t\t}")
+		f.P("\t\t%s = %s(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))", varName, proxyConstructor)
+		f.P("\t}")
+		return
+	}
+
+	if info.IsIBinder {
+		f.P("\t{")
+		f.P("\t\t_handle, _err := %s", info.ReadExpr)
+		f.P("\t\tif _err != nil {")
+		f.P("\t\t\t%s", errReturn)
+		f.P("\t\t}")
+		f.P("\t\t%s = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)", varName)
+		f.P("\t}")
+		return
+	}
+
+	if info.NeedsCast {
+		goType := resolveTypeRef(typeRef, param.Type)
+		f.P("\t{")
+		f.P("\t\t_raw, _err := %s", info.ReadExpr)
+		f.P("\t\tif _err != nil {")
+		f.P("\t\t\t%s", errReturn)
+		f.P("\t\t}")
+		f.P("\t\t%s = %s(_raw)", varName, goType)
+		f.P("\t}")
+		return
+	}
+
+	// Primitive out-params: read from reply and assign back.
+	f.P("\t%s, _err = %s", varName, info.ReadExpr)
+	f.P("\tif _err != nil {")
+	f.P("\t\t%s", errReturn)
+	f.P("\t}")
 }
 
 // readOutParamArray writes code to read an array/List out-param from a reply parcel.
@@ -1169,8 +1720,23 @@ func readOutParamArray(
 	typeRef *TypeRefResolver,
 	outArrayIdx *int,
 ) {
-	goType := resolveTypeRef(typeRef, ts)
 	elemType := elementTypeSpec(ts)
+
+	// AIDL uses compact readByteArray for byte[], not per-element
+	// ReadPaddedByte. This matches the NDK AParcel_readByteArray format.
+	if elemType.Name == "byte" {
+		errReturn := "\t\treturn _err"
+		if hasReturn {
+			errReturn = "\t\treturn _result, _err"
+		}
+		f.P("\t%s, _err = _reply.ReadByteArray()", varName)
+		f.P("\tif _err != nil {")
+		f.P("%s", errReturn)
+		f.P("\t}")
+		return
+	}
+
+	goType := resolveTypeRef(typeRef, ts)
 	elemInfo := marshalForTypeWithCycleCheck(elemType, opts, typeRef)
 
 	countVar := fmt.Sprintf("_outCount%d", *outArrayIdx)
@@ -1185,33 +1751,54 @@ func readOutParamArray(
 	f.P("\tif _err != nil {")
 	f.P("%s", errReturn)
 	f.P("\t}")
+	f.P("\tif %s > 1000000 {", countVar)
+	if hasReturn {
+		f.P("\t\treturn _result, fmt.Errorf(\"array count too large: %%d\", %s)", countVar)
+	} else {
+		f.P("\t\treturn fmt.Errorf(\"array count too large: %%d\", %s)", countVar)
+	}
+	f.P("\t}")
 	f.P("\tif %s >= 0 {", countVar)
 	f.P("\t\t%s = make(%s, %s)", varName, goType, countVar)
 
 	elemReadExpr := elemInfo.ReadExpr
 	if elemReadExpr != "" {
+		innerErrReturn := strings.Replace(errReturn, "\t\t", "\t\t\t\t", 1)
 		f.P("\t\tfor _i := int32(0); _i < %s; _i++ {", countVar)
 		switch {
 		case strings.Contains(elemReadExpr, ".UnmarshalParcel"):
 			// NDK AIDL wire format: int32 non-null indicator before each
 			// parcelable element, matching readTypedObject semantics.
 			f.P("\t\t\tif _, _err = _reply.ReadInt32(); _err != nil {")
-			f.P("\t\t\t%s", strings.Replace(errReturn, "\t\t", "\t\t\t\t", 1))
+			f.P("\t\t\t%s", innerErrReturn)
 			f.P("\t\t\t}")
 			f.P("\t\t\tif _err = %s[_i].UnmarshalParcel(_reply); _err != nil {", varName)
-			f.P("\t\t\t%s", strings.Replace(errReturn, "\t\t", "\t\t\t\t", 1))
+			f.P("\t\t\t%s", innerErrReturn)
 			f.P("\t\t\t}")
+		case elemInfo.IsInterface:
+			proxyConstructor := interfaceProxyConstructor(typeRef, elemType)
+			f.P("\t\t\t_handle, _err := %s", elemReadExpr)
+			f.P("\t\t\tif _err != nil {")
+			f.P("\t\t\t%s", innerErrReturn)
+			f.P("\t\t\t}")
+			f.P("\t\t\t%s[_i] = %s(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))", varName, proxyConstructor)
+		case elemInfo.IsIBinder:
+			f.P("\t\t\t_handle, _err := %s", elemReadExpr)
+			f.P("\t\t\tif _err != nil {")
+			f.P("\t\t\t%s", innerErrReturn)
+			f.P("\t\t\t}")
+			f.P("\t\t\t%s[_i] = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)", varName)
 		case elemInfo.NeedsCast:
 			elemGoType := resolveTypeRef(typeRef, elemType)
 			f.P("\t\t\t_raw, _err := %s", elemReadExpr)
 			f.P("\t\t\tif _err != nil {")
-			f.P("\t\t\t%s", strings.Replace(errReturn, "\t\t", "\t\t\t\t", 1))
+			f.P("\t\t\t%s", innerErrReturn)
 			f.P("\t\t\t}")
 			f.P("\t\t\t%s[_i] = %s(_raw)", varName, elemGoType)
 		default:
 			f.P("\t\t\t%s[_i], _err = %s", varName, elemReadExpr)
 			f.P("\t\t\tif _err != nil {")
-			f.P("\t\t\t%s", strings.Replace(errReturn, "\t\t", "\t\t\t\t", 1))
+			f.P("\t\t\t%s", innerErrReturn)
 			f.P("\t\t\t}")
 		}
 		f.P("\t\t}")
@@ -1240,6 +1827,9 @@ func mapValTypeSpec(ts *parser.TypeSpecifier) *parser.TypeSpecifier {
 
 // writeMapToParcel writes map serialization code. Android serializes maps as:
 // int32 count (or -1 for nil), then count pairs of (key, value).
+// transportExpr is the Go expression for the binder transport, used when
+// writing interface/IBinder map values (e.g., "p.Remote.Transport()" for
+// proxies, "s.Transport" for stubs).
 func writeMapToParcel(
 	f *GoFile,
 	ts *parser.TypeSpecifier,
@@ -1249,6 +1839,7 @@ func writeMapToParcel(
 	typeRef *TypeRefResolver,
 	parcelVar string,
 	indent string,
+	transportExpr string,
 ) {
 	keyType := mapKeyTypeSpec(ts)
 	valType := mapValTypeSpec(ts)
@@ -1263,8 +1854,8 @@ func writeMapToParcel(
 	if keyInfo.WriteExpr != "" && valInfo.WriteExpr != "" {
 		f.P("%s\tfor _k, _v := range %s {", indent, varName)
 
-		// When the map Go type has interface{} for key or value,
-		// the range variables are interface{} and need type assertions
+		// When the map Go type has any for key or value,
+		// the range variables are any and need type assertions
 		// to match what the write expressions expect.
 		keyVar := mapRangeVarWithAssertion("_k", keyType, ts, 0, typeRef)
 		valVar := mapRangeVarWithAssertion("_v", valType, ts, 1, typeRef)
@@ -1274,8 +1865,8 @@ func writeMapToParcel(
 		writeValExpr = strings.ReplaceAll(writeValExpr, "_data", parcelVar)
 
 		errReturn := errReturnStr(hasReturn)
-		writeMapElemExpr(f, keyInfo, writeKeyExpr, errReturn, indent+"\t\t")
-		writeMapElemExpr(f, valInfo, writeValExpr, errReturn, indent+"\t\t")
+		writeMapElemExpr(f, keyInfo, writeKeyExpr, errReturn, indent+"\t\t", parcelVar, transportExpr, keyVar)
+		writeMapElemExpr(f, valInfo, writeValExpr, errReturn, indent+"\t\t", parcelVar, transportExpr, valVar)
 
 		f.P("%s\t}", indent)
 	}
@@ -1285,24 +1876,43 @@ func writeMapToParcel(
 
 // writeMapElemExpr writes a single element write expression (key or value)
 // with appropriate error handling.
+// transportExpr is the Go expression for the transport (e.g.,
+// "p.Remote.Transport()" for proxies, "s.Transport" for stubs).
+// elemVar is the Go variable expression for the element (e.g., "_k", "_v").
 func writeMapElemExpr(
 	f *GoFile,
 	info MarshalInfo,
 	writeExpr string,
 	errReturn string,
 	indent string,
+	parcelVar string,
+	transportExpr string,
+	elemVar string,
 ) {
-	if strings.Contains(info.WriteExpr, ".MarshalParcel") {
+	switch {
+	case strings.Contains(info.WriteExpr, ".MarshalParcel"):
+		// NDK AIDL wire format: int32(1) non-null indicator before each
+		// parcelable element, matching writeTypedObject semantics.
+		f.P("%s%s.WriteInt32(1)", indent, parcelVar)
 		f.P("%sif _err := %s; _err != nil {", indent, writeExpr)
 		f.P("%s\t%s", indent, errReturn)
 		f.P("%s}", indent)
-	} else {
+	case info.IsInterface:
+		// Interface elements must use WriteBinderToParcel to handle
+		// both remote proxies and local stubs transparently.
+		f.P("%sbinder.WriteBinderToParcel(ctx, %s, %s.AsBinder(), %s)", indent, parcelVar, elemVar, transportExpr)
+	case info.IsIBinder:
+		// IBinder elements must use WriteBinderToParcel.
+		f.P("%sbinder.WriteBinderToParcel(ctx, %s, %s, %s)", indent, parcelVar, elemVar, transportExpr)
+	default:
 		f.P("%s%s", indent, writeExpr)
 	}
 }
 
 // readMapFromReply writes map deserialization code. Reads int32 count,
 // then count pairs of (key, value) into a Go map.
+// errReturn is the error return statement to use (e.g., "return _result, _err"
+// or "return _err" for void methods).
 func readMapFromReply(
 	f *GoFile,
 	ts *parser.TypeSpecifier,
@@ -1311,6 +1921,7 @@ func readMapFromReply(
 	parcelVar string,
 	destVar string,
 	indent string,
+	errReturn string,
 ) {
 	goType := resolveTypeRef(typeRef, ts)
 	keyType := mapKeyTypeSpec(ts)
@@ -1321,27 +1932,141 @@ func readMapFromReply(
 	keyReadExpr := strings.ReplaceAll(keyInfo.ReadExpr, "_reply", parcelVar)
 	valReadExpr := strings.ReplaceAll(valInfo.ReadExpr, "_reply", parcelVar)
 
-	f.P("%s_mapCount, _err := %s.ReadInt32()", indent, parcelVar)
-	f.P("%sif _err != nil {", indent)
-	f.P("%s\treturn _result, _err", indent)
-	f.P("%s}", indent)
+	// Use a block scope so _mapCount doesn't collide when multiple
+	// Map out-params are read in the same method body.
+	f.P("%s{", indent)
+	f.P("%s\t_mapCount, _err := %s.ReadInt32()", indent, parcelVar)
+	f.P("%s\tif _err != nil {", indent)
+	f.P("%s\t\t%s", indent, errReturn)
+	f.P("%s\t}", indent)
 
-	f.P("%sif _mapCount >= 0 {", indent)
-	f.P("%s\t%s = make(%s, _mapCount)", indent, destVar, goType)
+	f.P("%s\tif _mapCount >= 0 {", indent)
+	f.P("%s\t\t%s = make(%s, _mapCount)", indent, destVar, goType)
 
-	if keyReadExpr != "" && valReadExpr != "" {
-		f.P("%s\tfor _mi := int32(0); _mi < _mapCount; _mi++ {", indent)
-		writeMapReadElem(f, keyInfo, keyReadExpr, keyType, "_mk", indent+"\t\t", typeRef)
-		writeMapReadElem(f, valInfo, valReadExpr, valType, "_mv", indent+"\t\t", typeRef)
-		f.P("%s\t\t%s[_mk] = _mv", indent, destVar)
-		f.P("%s\t}", indent)
+	valIsList := valType.IsArray || valType.Name == "List"
+	keyIsList := keyType.IsArray || keyType.Name == "List"
+
+	if (keyReadExpr != "" || keyIsList) && (valReadExpr != "" || valIsList) {
+		f.P("%s\t\tfor _mi := int32(0); _mi < _mapCount; _mi++ {", indent)
+
+		if keyIsList {
+			writeMapReadArrayElem(f, keyType, "_mk", indent+"\t\t\t", opts, typeRef, parcelVar, errReturn)
+		} else {
+			writeMapReadElem(f, keyInfo, keyReadExpr, keyType, "_mk", indent+"\t\t\t", typeRef, parcelVar, "k", errReturn)
+		}
+
+		if valIsList {
+			writeMapReadArrayElem(f, valType, "_mv", indent+"\t\t\t", opts, typeRef, parcelVar, errReturn)
+		} else {
+			writeMapReadElem(f, valInfo, valReadExpr, valType, "_mv", indent+"\t\t\t", typeRef, parcelVar, "v", errReturn)
+		}
+
+		f.P("%s\t\t\t%s[_mk] = _mv", indent, destVar)
+		f.P("%s\t\t}", indent)
 	}
 
+	f.P("%s\t}", indent)
+	f.P("%s}", indent)
+}
+
+// writeMapReadArrayElem generates inline array/List reading code for a map
+// element (key or value). This handles the case where a map value is
+// List<T> or T[] — a slice type that has no UnmarshalParcel method and
+// must be read element-by-element.
+// writeMapWriteArrayElem generates inline array write code for a map
+// key or value that is a List/Array type.
+func writeMapWriteArrayElem(
+	f *GoFile,
+	ts *parser.TypeSpecifier,
+	varName string,
+	indent string,
+	opts GenOptions,
+	typeRef *TypeRefResolver,
+	parcelVar string,
+	errReturn string,
+) {
+	elemType := elementTypeSpec(ts)
+	elemInfo := marshalForTypeWithCycleCheck(elemType, opts, typeRef)
+
+	f.P("%s%s.WriteInt32(int32(len(%s)))", indent, parcelVar, varName)
+	if elemInfo.WriteExpr != "" {
+		f.P("%sfor _, _arrItem := range %s {", indent, varName)
+		switch {
+		case strings.Contains(elemInfo.WriteExpr, ".MarshalParcel"):
+			f.P("%s\t%s.WriteInt32(1)", indent, parcelVar)
+			writeExpr := strings.ReplaceAll(elemInfo.WriteExpr, "_data", parcelVar)
+			f.P("%s\tif _err := %s; _err != nil {", indent, fmt.Sprintf(writeExpr, "_arrItem"))
+			f.P("%s\t\t%s", indent, errReturn)
+			f.P("%s\t}", indent)
+		default:
+			writeExpr := strings.ReplaceAll(elemInfo.WriteExpr, "_data", parcelVar)
+			f.P("%s\t%s", indent, fmt.Sprintf(writeExpr, "_arrItem"))
+		}
+		f.P("%s}", indent)
+	}
+}
+
+func writeMapReadArrayElem(
+	f *GoFile,
+	ts *parser.TypeSpecifier,
+	varName string,
+	indent string,
+	opts GenOptions,
+	typeRef *TypeRefResolver,
+	parcelVar string,
+	errReturn string,
+) {
+	goType := resolveTypeRef(typeRef, ts)
+	elemType := elementTypeSpec(ts)
+	elemInfo := marshalForTypeWithCycleCheck(elemType, opts, typeRef)
+	elemReadExpr := strings.ReplaceAll(elemInfo.ReadExpr, "_reply", parcelVar)
+
+	f.P("%svar %s %s", indent, varName, goType)
+	f.P("%s{", indent)
+	f.P("%s\t_arrCount, _err := %s.ReadInt32()", indent, parcelVar)
+	f.P("%s\tif _err != nil {", indent)
+	f.P("%s\t\t%s", indent, errReturn)
+	f.P("%s\t}", indent)
+	f.P("%s\tif _arrCount >= 0 {", indent)
+	f.P("%s\t\t%s = make(%s, _arrCount)", indent, varName, goType)
+
+	if elemReadExpr != "" {
+		f.P("%s\t\tfor _ai := int32(0); _ai < _arrCount; _ai++ {", indent)
+
+		switch {
+		case strings.Contains(elemInfo.ReadExpr, ".UnmarshalParcel"):
+			f.P("%s\t\t\tif _, _err = %s.ReadInt32(); _err != nil {", indent, parcelVar)
+			f.P("%s\t\t\t\t%s", indent, errReturn)
+			f.P("%s\t\t\t}", indent)
+			f.P("%s\t\t\tif _err = %s[_ai].UnmarshalParcel(%s); _err != nil {", indent, varName, parcelVar)
+			f.P("%s\t\t\t\t%s", indent, errReturn)
+			f.P("%s\t\t\t}", indent)
+		case elemInfo.NeedsCast:
+			elemGoType := resolveTypeRef(typeRef, elemType)
+			f.P("%s\t\t\t_raw, _err := %s", indent, elemReadExpr)
+			f.P("%s\t\t\tif _err != nil {", indent)
+			f.P("%s\t\t\t\t%s", indent, errReturn)
+			f.P("%s\t\t\t}", indent)
+			f.P("%s\t\t\t%s[_ai] = %s(_raw)", indent, varName, elemGoType)
+		default:
+			f.P("%s\t\t\t%s[_ai], _err = %s", indent, varName, elemReadExpr)
+			f.P("%s\t\t\tif _err != nil {", indent)
+			f.P("%s\t\t\t\t%s", indent, errReturn)
+			f.P("%s\t\t\t}", indent)
+		}
+
+		f.P("%s\t\t}", indent)
+	}
+
+	f.P("%s\t}", indent)
 	f.P("%s}", indent)
 }
 
 // writeMapReadElem writes the code to read a single map element (key or value)
 // into a local variable.
+// rawPrefix disambiguates the intermediate _raw variable when both key and
+// value use NeedsCast (e.g., "k" produces _rawK, "v" produces _rawV).
+// errReturn is the error return statement (e.g., "return _result, _err").
 func writeMapReadElem(
 	f *GoFile,
 	info MarshalInfo,
@@ -1350,24 +2075,40 @@ func writeMapReadElem(
 	varName string,
 	indent string,
 	typeRef *TypeRefResolver,
+	parcelVar string,
+	rawPrefix string,
+	errReturn string,
 ) {
-	if info.NeedsCast {
+	switch {
+	case strings.Contains(info.ReadExpr, ".UnmarshalParcel"):
+		// Parcelable types: declare variable, read null indicator, then
+		// unmarshal in-place. UnmarshalParcel returns only error, not (T, error).
 		goType := resolveTypeRef(typeRef, ts)
-		f.P("%s_raw, _err := %s", indent, readExpr)
-		f.P("%sif _err != nil {", indent)
-		f.P("%s\treturn _result, _err", indent)
+		f.P("%svar %s %s", indent, varName, goType)
+		f.P("%sif _, _err = %s.ReadInt32(); _err != nil {", indent, parcelVar)
+		f.P("%s\t%s", indent, errReturn)
 		f.P("%s}", indent)
-		f.P("%s%s := %s(_raw)", indent, varName, goType)
-	} else {
+		f.P("%sif _err = %s.UnmarshalParcel(%s); _err != nil {", indent, varName, parcelVar)
+		f.P("%s\t%s", indent, errReturn)
+		f.P("%s}", indent)
+	case info.NeedsCast:
+		goType := resolveTypeRef(typeRef, ts)
+		rawVar := fmt.Sprintf("_raw%s", strings.ToUpper(rawPrefix[:1])+rawPrefix[1:])
+		f.P("%s%s, _err := %s", indent, rawVar, readExpr)
+		f.P("%sif _err != nil {", indent)
+		f.P("%s\t%s", indent, errReturn)
+		f.P("%s}", indent)
+		f.P("%s%s := %s(%s)", indent, varName, goType, rawVar)
+	default:
 		f.P("%s%s, _err := %s", indent, varName, readExpr)
 		f.P("%sif _err != nil {", indent)
-		f.P("%s\treturn _result, _err", indent)
+		f.P("%s\t%s", indent, errReturn)
 		f.P("%s}", indent)
 	}
 }
 
 // mapRangeVarWithAssertion returns the variable expression to use for a map
-// range variable. If the map's Go type has interface{} for this position
+// range variable. If the map's Go type has any for this position
 // (key at index 0, value at index 1), but the element TypeSpec resolves to a
 // concrete Go type, a type assertion is appended (e.g., "_k.(string)").
 func mapRangeVarWithAssertion(
@@ -1378,8 +2119,8 @@ func mapRangeVarWithAssertion(
 	typeRef *TypeRefResolver,
 ) string {
 	// Determine the Go type of the element from the map's type args.
-	mapGoKeyType := "interface{}"
-	mapGoValType := "interface{}"
+	mapGoKeyType := "any"
+	mapGoValType := "any"
 	switch {
 	case typeRef != nil:
 		if len(mapTS.TypeArgs) >= 1 {
@@ -1401,13 +2142,13 @@ func mapRangeVarWithAssertion(
 	}
 
 	// If the map element is already a concrete type, no assertion needed.
-	if mapElemGoType != "interface{}" {
+	if mapElemGoType != "any" {
 		return varName
 	}
 
 	// Determine the concrete type the write expression expects.
 	concreteGoType := resolveTypeRef(typeRef, elemType)
-	if concreteGoType == "" || concreteGoType == "interface{}" {
+	if concreteGoType == "" || concreteGoType == "any" {
 		return varName
 	}
 
@@ -1460,6 +2201,9 @@ func interfaceProxyConstructor(
 	ts *parser.TypeSpecifier,
 ) string {
 	goType := resolveTypeRef(typeRef, ts)
+	// Strip leading pointer — @nullable interfaces resolve to *IFoo
+	// but the proxy constructor is NewFooProxy (no pointer).
+	goType = strings.TrimPrefix(goType, "*")
 
 	// If the type is package-qualified (e.g., "pkg.IFoo"), split off
 	// the package prefix.
@@ -1507,6 +2251,9 @@ var goReservedIdents = map[string]bool{
 	"copy": true, "close": true, "delete": true, "panic": true, "recover": true,
 	"print": true, "println": true, "complex": true, "real": true, "imag": true,
 	"clear": true, "min": true, "max": true,
+	// Codegen-internal variable names used in generated proxy/stub method bodies.
+	"ctx": true, "_data": true, "_reply": true, "_err": true,
+	"_result": true, "_code": true, "_identity": true,
 }
 
 func sanitizeGoIdent(name string) string {
@@ -1514,4 +2261,23 @@ func sanitizeGoIdent(name string) string {
 		return name + "_"
 	}
 	return name
+}
+
+// isLikelyParcelable returns true if the type specifier looks like a
+// parcelable type on the wire, even though its Go type resolved to
+// any (e.g., because it's a Java-originated forward-declared
+// parcelable not in the type registry). Primitives, IBinder, List, Map,
+// and void are not parcelable.
+func isLikelyParcelable(ts *parser.TypeSpecifier) bool {
+	if ts == nil {
+		return false
+	}
+	switch ts.Name {
+	case "", "void",
+		"int", "long", "boolean", "byte", "float", "double", "char",
+		"String", "IBinder", "ParcelFileDescriptor",
+		"List", "Map":
+		return false
+	}
+	return true
 }

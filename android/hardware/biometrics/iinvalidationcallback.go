@@ -44,6 +44,7 @@ func (p *InvalidationCallbackProxy) OnCompleted(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInvalidationCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInvalidationCallback, MethodIInvalidationCallbackOnCompleted)
@@ -67,7 +68,8 @@ func (p *InvalidationCallbackProxy) OnCompleted(
 // InvalidationCallbackStub dispatches incoming binder transactions
 // to a typed IInvalidationCallback implementation.
 type InvalidationCallbackStub struct {
-	Impl IInvalidationCallback
+	Impl      IInvalidationCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InvalidationCallbackStub)(nil)
@@ -81,11 +83,12 @@ func (s *InvalidationCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInvalidationCallbackOnCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnCompleted(ctx)
 		_reply := parcel.New()
 		if _err != nil {

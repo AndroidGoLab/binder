@@ -50,16 +50,10 @@ func (p *BootstrapAuthenticationCallbackProxy) OnKeysAvailable(
 	btId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootstrapAuthenticationCallback)
 	_data.WriteInt32(token)
-	if gbaKey == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(gbaKey)))
-		for _, _item := range gbaKey {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(gbaKey)
 	_data.WriteString16(btId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBootstrapAuthenticationCallback, MethodIBootstrapAuthenticationCallbackOnKeysAvailable)
@@ -77,6 +71,7 @@ func (p *BootstrapAuthenticationCallbackProxy) OnAuthenticationFailure(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBootstrapAuthenticationCallback)
 	_data.WriteInt32(token)
 	_data.WriteInt32(reason)
@@ -93,7 +88,8 @@ func (p *BootstrapAuthenticationCallbackProxy) OnAuthenticationFailure(
 // BootstrapAuthenticationCallbackStub dispatches incoming binder transactions
 // to a typed IBootstrapAuthenticationCallback implementation.
 type BootstrapAuthenticationCallbackStub struct {
-	Impl IBootstrapAuthenticationCallback
+	Impl      IBootstrapAuthenticationCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BootstrapAuthenticationCallbackStub)(nil)
@@ -107,29 +103,31 @@ func (s *BootstrapAuthenticationCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBootstrapAuthenticationCallbackOnKeysAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_gbaKey []byte
-		_ = _arg_gbaKey
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_gbaKey = _bytes
+		}
 		_arg_btId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnKeysAvailable(ctx, _arg_token, _arg_gbaKey, _arg_btId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBootstrapAuthenticationCallbackOnAuthenticationFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -139,8 +137,7 @@ func (s *BootstrapAuthenticationCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAuthenticationFailure(ctx, _arg_token, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

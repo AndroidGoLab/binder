@@ -61,6 +61,7 @@ func (p *CryptoPluginProxy) Decrypt(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
 	_data.WriteInt32(1)
 	if _err := args.MarshalParcel(_data); _err != nil {
@@ -94,6 +95,7 @@ func (p *CryptoPluginProxy) GetLogMessages(
 ) ([]LogMessage, error) {
 	var _result []LogMessage
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICryptoPlugin, MethodICryptoPluginGetLogMessages)
@@ -114,6 +116,9 @@ func (p *CryptoPluginProxy) GetLogMessages(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -136,6 +141,7 @@ func (p *CryptoPluginProxy) NotifyResolution(
 	height int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
@@ -164,6 +170,7 @@ func (p *CryptoPluginProxy) RequiresSecureDecoderComponent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
 	_data.WriteString16(mime)
 
@@ -194,15 +201,9 @@ func (p *CryptoPluginProxy) SetMediaDrmSession(
 	sessionId []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICryptoPlugin, MethodICryptoPluginSetMediaDrmSession)
 	if _err != nil {
@@ -227,6 +228,7 @@ func (p *CryptoPluginProxy) SetSharedBufferBase(
 	base SharedBuffer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
 	_data.WriteInt32(1)
 	if _err := base.MarshalParcel(_data); _err != nil {
@@ -254,7 +256,8 @@ func (p *CryptoPluginProxy) SetSharedBufferBase(
 // CryptoPluginStub dispatches incoming binder transactions
 // to a typed ICryptoPlugin implementation.
 type CryptoPluginStub struct {
-	Impl ICryptoPlugin
+	Impl      ICryptoPlugin
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CryptoPluginStub)(nil)
@@ -268,11 +271,12 @@ func (s *CryptoPluginStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICryptoPluginDecrypt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_args DecryptArgs
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -295,9 +299,6 @@ func (s *CryptoPluginStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICryptoPluginGetLogMessages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLogMessages(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -305,13 +306,19 @@ func (s *CryptoPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionICryptoPluginNotifyResolution:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -329,9 +336,6 @@ func (s *CryptoPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICryptoPluginRequiresSecureDecoderComponent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mime, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -346,12 +350,14 @@ func (s *CryptoPluginStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICryptoPluginSetMediaDrmSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		_err := s.Impl.SetMediaDrmSession(ctx, _arg_sessionId)
 		_reply := parcel.New()
 		if _err != nil {
@@ -361,9 +367,6 @@ func (s *CryptoPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICryptoPluginSetSharedBufferBase:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_base SharedBuffer
 		{
 			_nullInd, _err := _data.ReadInt32()

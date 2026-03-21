@@ -1,0 +1,130 @@
+package: android.hardware.bluetooth.lmp_event
+go_package: android/hardware/bluetooth/lmp_event
+interfaces:
+    - name: IBluetoothLmpEvent
+      descriptor: android.hardware.bluetooth.lmp_event.IBluetoothLmpEvent
+      methods:
+        - name: registerForLmpEvents
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IBluetoothLmpEventCallback
+              direction: in
+            - name: addressType
+              type:
+                name: AddressType
+              direction: in
+            - name: address
+              type:
+                name: byte
+                is_array: true
+                fixed_size: "6"
+              direction: in
+            - name: lmpEventIds
+              type:
+                name: LmpEventId
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterLmpEvents
+          transaction_code_offset: 1
+          params:
+            - name: addressType
+              type:
+                name: AddressType
+              direction: in
+            - name: address
+              type:
+                name: byte
+                is_array: true
+                fixed_size: "6"
+              direction: in
+          return_type:
+            name: void
+    - name: IBluetoothLmpEventCallback
+      descriptor: android.hardware.bluetooth.lmp_event.IBluetoothLmpEventCallback
+      methods:
+        - name: onEventGenerated
+          transaction_code_offset: 0
+          params:
+            - name: timestamp
+              type:
+                name: Timestamp
+              direction: in
+            - name: addressType
+              type:
+                name: AddressType
+              direction: in
+            - name: address
+              type:
+                name: byte
+                is_array: true
+                fixed_size: "6"
+              direction: in
+            - name: direction
+              type:
+                name: Direction
+              direction: in
+            - name: lmpEventId
+              type:
+                name: LmpEventId
+              direction: in
+            - name: connEventCounter
+              type:
+                name: char
+              direction: in
+          return_type:
+            name: void
+        - name: onRegistered
+          transaction_code_offset: 1
+          params:
+            - name: status
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: Timestamp
+      fields:
+        - name: systemTimeUs
+          type:
+            name: long
+        - name: bluetoothTimeUs
+          type:
+            name: long
+      annotations:
+        - VintfStability
+enums:
+    - name: AddressType
+      backing_type: byte
+      values:
+        - name: PUBLIC
+          value: "0x00"
+        - name: RANDOM
+          value: "0x01"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Direction
+      backing_type: byte
+      values:
+        - name: TX
+          value: "0x00"
+        - name: RX
+          value: "0x01"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LmpEventId
+      backing_type: byte
+      values:
+        - name: CONNECT_IND
+          value: "0x00"
+        - name: LL_PHY_UPDATE_IND
+          value: "0x01"
+      annotations:
+        - VintfStability
+        - Backing

@@ -45,6 +45,7 @@ func (p *NtnSignalStrengthCallbackProxy) OnNtnSignalStrengthChanged(
 	ntnSignalStrength NtnSignalStrength,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINtnSignalStrengthCallback)
 	_data.WriteInt32(1)
 	if _err := ntnSignalStrength.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *NtnSignalStrengthCallbackProxy) OnNtnSignalStrengthChanged(
 // NtnSignalStrengthCallbackStub dispatches incoming binder transactions
 // to a typed INtnSignalStrengthCallback implementation.
 type NtnSignalStrengthCallbackStub struct {
-	Impl INtnSignalStrengthCallback
+	Impl      INtnSignalStrengthCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NtnSignalStrengthCallbackStub)(nil)
@@ -77,11 +79,12 @@ func (s *NtnSignalStrengthCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINtnSignalStrengthCallbackOnNtnSignalStrengthChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_ntnSignalStrength NtnSignalStrength
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *NtnSignalStrengthCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnNtnSignalStrengthChanged(ctx, _arg_ntnSignalStrength)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -57,15 +57,9 @@ func (p *RcsConfigCallbackProxy) OnConfigurationChanged(
 	config []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRcsConfigCallback)
-	if config == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(config)))
-		for _, _item := range config {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(config)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnConfigurationChanged)
 	if _err != nil {
@@ -82,6 +76,7 @@ func (p *RcsConfigCallbackProxy) OnAutoConfigurationErrorReceived(
 	errorString string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRcsConfigCallback)
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorString)
@@ -99,6 +94,7 @@ func (p *RcsConfigCallbackProxy) OnConfigurationReset(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRcsConfigCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnConfigurationReset)
@@ -114,6 +110,7 @@ func (p *RcsConfigCallbackProxy) OnRemoved(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRcsConfigCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnRemoved)
@@ -130,15 +127,9 @@ func (p *RcsConfigCallbackProxy) OnPreProvisioningReceived(
 	config []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRcsConfigCallback)
-	if config == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(config)))
-		for _, _item := range config {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(config)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnPreProvisioningReceived)
 	if _err != nil {
@@ -152,7 +143,8 @@ func (p *RcsConfigCallbackProxy) OnPreProvisioningReceived(
 // RcsConfigCallbackStub dispatches incoming binder transactions
 // to a typed IRcsConfigCallback implementation.
 type RcsConfigCallbackStub struct {
-	Impl IRcsConfigCallback
+	Impl      IRcsConfigCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RcsConfigCallbackStub)(nil)
@@ -166,21 +158,23 @@ func (s *RcsConfigCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRcsConfigCallbackOnConfigurationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_config []byte
-		_ = _arg_config
-		_err := s.Impl.OnConfigurationChanged(ctx, _arg_config)
-		_ = _err
-		return nil, nil
-	case TransactionIRcsConfigCallbackOnAutoConfigurationErrorReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_config = _bytes
 		}
+		_err := s.Impl.OnConfigurationChanged(ctx, _arg_config)
+		return nil, _err
+	case TransactionIRcsConfigCallbackOnAutoConfigurationErrorReceived:
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -190,32 +184,24 @@ func (s *RcsConfigCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAutoConfigurationErrorReceived(ctx, _arg_errorCode, _arg_errorString)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRcsConfigCallbackOnConfigurationReset:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnConfigurationReset(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRcsConfigCallbackOnRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnRemoved(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRcsConfigCallbackOnPreProvisioningReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_config []byte
-		_ = _arg_config
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_config = _bytes
+		}
 		_err := s.Impl.OnPreProvisioningReceived(ctx, _arg_config)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

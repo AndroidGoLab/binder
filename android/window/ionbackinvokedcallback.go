@@ -54,6 +54,7 @@ func (p *OnBackInvokedCallbackProxy) OnBackStarted(
 	backMotionEvent BackMotionEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnBackInvokedCallback)
 	_data.WriteInt32(1)
 	if _err := backMotionEvent.MarshalParcel(_data); _err != nil {
@@ -74,6 +75,7 @@ func (p *OnBackInvokedCallbackProxy) OnBackProgressed(
 	backMotionEvent BackMotionEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnBackInvokedCallback)
 	_data.WriteInt32(1)
 	if _err := backMotionEvent.MarshalParcel(_data); _err != nil {
@@ -93,6 +95,7 @@ func (p *OnBackInvokedCallbackProxy) OnBackCancelled(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnBackInvokedCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnBackInvokedCallback, MethodIOnBackInvokedCallbackOnBackCancelled)
@@ -108,6 +111,7 @@ func (p *OnBackInvokedCallbackProxy) OnBackInvoked(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnBackInvokedCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnBackInvokedCallback, MethodIOnBackInvokedCallbackOnBackInvoked)
@@ -122,7 +126,8 @@ func (p *OnBackInvokedCallbackProxy) OnBackInvoked(
 // OnBackInvokedCallbackStub dispatches incoming binder transactions
 // to a typed IOnBackInvokedCallback implementation.
 type OnBackInvokedCallbackStub struct {
-	Impl IOnBackInvokedCallback
+	Impl      IOnBackInvokedCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OnBackInvokedCallbackStub)(nil)
@@ -136,11 +141,12 @@ func (s *OnBackInvokedCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOnBackInvokedCallbackOnBackStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_backMotionEvent BackMotionEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -154,12 +160,8 @@ func (s *OnBackInvokedCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnBackStarted(ctx, _arg_backMotionEvent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnBackInvokedCallbackOnBackProgressed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_backMotionEvent BackMotionEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -173,22 +175,13 @@ func (s *OnBackInvokedCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnBackProgressed(ctx, _arg_backMotionEvent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnBackInvokedCallbackOnBackCancelled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnBackCancelled(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnBackInvokedCallbackOnBackInvoked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnBackInvoked(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -52,6 +52,7 @@ func (p *GetKeyCallbackProxy) OnSuccess(
 	key RemotelyProvisionedKey,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetKeyCallback)
 	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
@@ -71,6 +72,7 @@ func (p *GetKeyCallbackProxy) OnCancel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetKeyCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetKeyCallback, MethodIGetKeyCallbackOnCancel)
@@ -88,6 +90,7 @@ func (p *GetKeyCallbackProxy) OnError(
 	description string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetKeyCallback)
 	_data.WriteInt32(int32(error_))
 	_data.WriteString16(description)
@@ -104,7 +107,8 @@ func (p *GetKeyCallbackProxy) OnError(
 // GetKeyCallbackStub dispatches incoming binder transactions
 // to a typed IGetKeyCallback implementation.
 type GetKeyCallbackStub struct {
-	Impl IGetKeyCallback
+	Impl      IGetKeyCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GetKeyCallbackStub)(nil)
@@ -118,11 +122,12 @@ func (s *GetKeyCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGetKeyCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_key RemotelyProvisionedKey
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -136,19 +141,11 @@ func (s *GetKeyCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSuccess(ctx, _arg_key)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGetKeyCallbackOnCancel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnCancel(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGetKeyCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -159,8 +156,7 @@ func (s *GetKeyCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_error_, _arg_description)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

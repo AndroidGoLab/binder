@@ -50,6 +50,7 @@ func (p *PipAnimationListenerProxy) OnPipAnimationStarted(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPipAnimationListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPipAnimationListener, MethodIPipAnimationListenerOnPipAnimationStarted)
@@ -67,6 +68,7 @@ func (p *PipAnimationListenerProxy) OnPipResourceDimensionsChanged(
 	shadowRadius int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPipAnimationListener)
 	_data.WriteInt32(cornerRadius)
 	_data.WriteInt32(shadowRadius)
@@ -84,6 +86,7 @@ func (p *PipAnimationListenerProxy) OnExpandPip(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPipAnimationListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPipAnimationListener, MethodIPipAnimationListenerOnExpandPip)
@@ -98,7 +101,8 @@ func (p *PipAnimationListenerProxy) OnExpandPip(
 // PipAnimationListenerStub dispatches incoming binder transactions
 // to a typed IPipAnimationListener implementation.
 type PipAnimationListenerStub struct {
-	Impl IPipAnimationListener
+	Impl      IPipAnimationListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PipAnimationListenerStub)(nil)
@@ -112,18 +116,15 @@ func (s *PipAnimationListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPipAnimationListenerOnPipAnimationStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnPipAnimationStarted(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPipAnimationListenerOnPipResourceDimensionsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cornerRadius, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -133,15 +134,10 @@ func (s *PipAnimationListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPipResourceDimensionsChanged(ctx, _arg_cornerRadius, _arg_shadowRadius)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPipAnimationListenerOnExpandPip:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnExpandPip(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

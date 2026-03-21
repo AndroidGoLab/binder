@@ -78,6 +78,7 @@ func (p *CameraDeviceSessionProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceSession, MethodICameraDeviceSessionClose)
@@ -104,6 +105,7 @@ func (p *CameraDeviceSessionProxy) ConfigureStreams(
 ) ([]HalStream, error) {
 	var _result []HalStream
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceSession)
 	_data.WriteInt32(1)
 	if _err := requestedConfiguration.MarshalParcel(_data); _err != nil {
@@ -129,6 +131,9 @@ func (p *CameraDeviceSessionProxy) ConfigureStreams(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]HalStream, _count)
@@ -150,6 +155,7 @@ func (p *CameraDeviceSessionProxy) ConstructDefaultRequestSettings(
 ) (CameraMetadata, error) {
 	var _result CameraMetadata
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceSession)
 	_data.WriteInt32(int32(type_))
 
@@ -184,6 +190,7 @@ func (p *CameraDeviceSessionProxy) Flush(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceSession, MethodICameraDeviceSessionFlush)
@@ -209,6 +216,7 @@ func (p *CameraDeviceSessionProxy) GetCaptureRequestMetadataQueue(
 ) (fmq.MQDescriptor, error) {
 	var _result fmq.MQDescriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceSession, MethodICameraDeviceSessionGetCaptureRequestMetadataQueue)
@@ -243,6 +251,7 @@ func (p *CameraDeviceSessionProxy) GetCaptureResultMetadataQueue(
 ) (fmq.MQDescriptor, error) {
 	var _result fmq.MQDescriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceSession, MethodICameraDeviceSessionGetCaptureResultMetadataQueue)
@@ -279,6 +288,7 @@ func (p *CameraDeviceSessionProxy) IsReconfigurationRequired(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceSession)
 	_data.WriteInt32(1)
 	if _err := oldSessionParams.MarshalParcel(_data); _err != nil {
@@ -318,6 +328,7 @@ func (p *CameraDeviceSessionProxy) ProcessCaptureRequest(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceSession)
 	if requests == nil {
 		_data.WriteInt32(-1)
@@ -370,6 +381,7 @@ func (p *CameraDeviceSessionProxy) SignalStreamFlush(
 	streamConfigCounter int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceSession)
 	if streamIds == nil {
 		_data.WriteInt32(-1)
@@ -397,6 +409,7 @@ func (p *CameraDeviceSessionProxy) SwitchToOffline(
 ) (ICameraOfflineSession, error) {
 	var _result ICameraOfflineSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceSession)
 	if streamsToKeep == nil {
 		_data.WriteInt32(-1)
@@ -421,8 +434,16 @@ func (p *CameraDeviceSessionProxy) SwitchToOffline(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = offlineSessionInfo.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = offlineSessionInfo.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_handle, _err := _reply.ReadStrongBinder()
@@ -439,6 +460,7 @@ func (p *CameraDeviceSessionProxy) RepeatingRequestEnd(
 	streamIds []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceSession)
 	_data.WriteInt32(frameNumber)
 	if streamIds == nil {
@@ -474,6 +496,7 @@ func (p *CameraDeviceSessionProxy) ConfigureStreamsV2(
 ) (ConfigureStreamsRet, error) {
 	var _result ConfigureStreamsRet
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceSession)
 	_data.WriteInt32(1)
 	if _err := requestedConfiguration.MarshalParcel(_data); _err != nil {
@@ -510,7 +533,8 @@ func (p *CameraDeviceSessionProxy) ConfigureStreamsV2(
 // CameraDeviceSessionStub dispatches incoming binder transactions
 // to a typed ICameraDeviceSession implementation.
 type CameraDeviceSessionStub struct {
-	Impl ICameraDeviceSession
+	Impl      ICameraDeviceSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CameraDeviceSessionStub)(nil)
@@ -524,11 +548,12 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICameraDeviceSessionClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -538,9 +563,6 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceSessionConfigureStreams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_requestedConfiguration StreamConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -560,13 +582,19 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionICameraDeviceSessionConstructDefaultRequestSettings:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -585,9 +613,6 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceSessionFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Flush(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -597,9 +622,6 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceSessionGetCaptureRequestMetadataQueue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCaptureRequestMetadataQueue(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -613,9 +635,6 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceSessionGetCaptureResultMetadataQueue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCaptureResultMetadataQueue(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -629,9 +648,6 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceSessionIsReconfigurationRequired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_oldSessionParams CameraMetadata
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -666,15 +682,48 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraDeviceSessionProcessCaptureRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_requests []CaptureRequest
-		_ = _arg_requests
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_requests = make([]CaptureRequest, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_requests[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_cachesToRemove []BufferCache
-		_ = _arg_cachesToRemove
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_cachesToRemove = make([]BufferCache, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_cachesToRemove[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.ProcessCaptureRequest(ctx, _arg_requests, _arg_cachesToRemove)
 		_reply := parcel.New()
 		if _err != nil {
@@ -685,26 +734,51 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICameraDeviceSessionSignalStreamFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_streamIds []int32
-		_ = _arg_streamIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_streamIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_streamIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_streamConfigCounter, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SignalStreamFlush(ctx, _arg_streamIds, _arg_streamConfigCounter)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICameraDeviceSessionSwitchToOffline:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_streamsToKeep []int32
-		_ = _arg_streamsToKeep
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_streamsToKeep = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_streamsToKeep[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_offlineSessionInfo CameraOfflineSessionInfo
 		_result, _err := s.Impl.SwitchToOffline(ctx, _arg_streamsToKeep, _arg_offlineSessionInfo)
 		_reply := parcel.New()
@@ -713,20 +787,36 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionICameraDeviceSessionRepeatingRequestEnd:
-		if _, _err := _data.ReadString16(); _err != nil {
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
+		_reply.WriteInt32(1)
+		if _err := _arg_offlineSessionInfo.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionICameraDeviceSessionRepeatingRequestEnd:
 		_arg_frameNumber, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_streamIds []int32
-		_ = _arg_streamIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_streamIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_streamIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.RepeatingRequestEnd(ctx, _arg_frameNumber, _arg_streamIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -736,9 +826,6 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceSessionConfigureStreamsV2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_requestedConfiguration StreamConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()

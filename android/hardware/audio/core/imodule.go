@@ -3,7 +3,6 @@ package core
 import (
 	"context"
 	"fmt"
-	coreIModule "github.com/xaionaro-go/binder/android/hardware/audio/core/IModule"
 	sounddose "github.com/xaionaro-go/binder/android/hardware/audio/core/sounddose"
 	audioEffect "github.com/xaionaro-go/binder/android/hardware/audio/effect"
 	common "github.com/xaionaro-go/binder/android/media/audio/common"
@@ -118,9 +117,9 @@ type IModule interface {
 	GetAudioPorts(ctx context.Context) ([]common.AudioPort, error)
 	GetAudioRoutes(ctx context.Context) ([]AudioRoute, error)
 	GetAudioRoutesForAudioPort(ctx context.Context, portId int32) ([]AudioRoute, error)
-	OpenInputStream(ctx context.Context, args coreIModule.OpenInputStreamArguments) (coreIModule.OpenInputStreamReturn, error)
-	OpenOutputStream(ctx context.Context, args coreIModule.OpenOutputStreamArguments) (coreIModule.OpenOutputStreamReturn, error)
-	GetSupportedPlaybackRateFactors(ctx context.Context) (coreIModule.SupportedPlaybackRateFactors, error)
+	OpenInputStream(ctx context.Context, args IModuleOpenInputStreamArguments) (IModuleOpenInputStreamReturn, error)
+	OpenOutputStream(ctx context.Context, args IModuleOpenOutputStreamArguments) (IModuleOpenOutputStreamReturn, error)
+	GetSupportedPlaybackRateFactors(ctx context.Context) (IModuleSupportedPlaybackRateFactors, error)
 	SetAudioPatch(ctx context.Context, requested AudioPatch) (AudioPatch, error)
 	SetAudioPortConfig(ctx context.Context, requested common.AudioPortConfig, suggested common.AudioPortConfig) (bool, error)
 	ResetAudioPatch(ctx context.Context, patchId int32) error
@@ -133,7 +132,7 @@ type IModule interface {
 	SetMicMute(ctx context.Context, mute bool) error
 	GetMicrophones(ctx context.Context) ([]common.MicrophoneInfo, error)
 	UpdateAudioMode(ctx context.Context, mode common.AudioMode) error
-	UpdateScreenRotation(ctx context.Context, rotation coreIModule.ScreenRotation) error
+	UpdateScreenRotation(ctx context.Context, rotation IModuleScreenRotation) error
 	UpdateScreenState(ctx context.Context, isTurnedOn bool) error
 	GetSoundDose(ctx context.Context) (sounddose.ISoundDose, error)
 	GenerateHwAvSyncId(ctx context.Context) (int32, error)
@@ -174,6 +173,7 @@ func (p *ModuleProxy) SetModuleDebug(
 	debug ModuleDebug,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(1)
 	if _err := debug.MarshalParcel(_data); _err != nil {
@@ -203,6 +203,7 @@ func (p *ModuleProxy) GetTelephony(
 ) (ITelephony, error) {
 	var _result ITelephony
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGetTelephony)
@@ -233,6 +234,7 @@ func (p *ModuleProxy) GetBluetooth(
 ) (IBluetooth, error) {
 	var _result IBluetooth
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGetBluetooth)
@@ -263,6 +265,7 @@ func (p *ModuleProxy) GetBluetoothA2dp(
 ) (IBluetoothA2dp, error) {
 	var _result IBluetoothA2dp
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGetBluetoothA2dp)
@@ -293,6 +296,7 @@ func (p *ModuleProxy) GetBluetoothLe(
 ) (IBluetoothLe, error) {
 	var _result IBluetoothLe
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGetBluetoothLe)
@@ -324,6 +328,7 @@ func (p *ModuleProxy) ConnectExternalDevice(
 ) (common.AudioPort, error) {
 	var _result common.AudioPort
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(1)
 	if _err := templateIdAndAdditionalData.MarshalParcel(_data); _err != nil {
@@ -362,6 +367,7 @@ func (p *ModuleProxy) DisconnectExternalDevice(
 	portId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(portId)
 
@@ -388,6 +394,7 @@ func (p *ModuleProxy) GetAudioPatches(
 ) ([]AudioPatch, error) {
 	var _result []AudioPatch
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGetAudioPatches)
@@ -408,6 +415,9 @@ func (p *ModuleProxy) GetAudioPatches(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -430,6 +440,7 @@ func (p *ModuleProxy) GetAudioPort(
 ) (common.AudioPort, error) {
 	var _result common.AudioPort
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(portId)
 
@@ -465,6 +476,7 @@ func (p *ModuleProxy) GetAudioPortConfigs(
 ) ([]common.AudioPortConfig, error) {
 	var _result []common.AudioPortConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGetAudioPortConfigs)
@@ -486,6 +498,9 @@ func (p *ModuleProxy) GetAudioPortConfigs(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]common.AudioPortConfig, _count)
@@ -506,6 +521,7 @@ func (p *ModuleProxy) GetAudioPorts(
 ) ([]common.AudioPort, error) {
 	var _result []common.AudioPort
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGetAudioPorts)
@@ -527,6 +543,9 @@ func (p *ModuleProxy) GetAudioPorts(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]common.AudioPort, _count)
@@ -547,6 +566,7 @@ func (p *ModuleProxy) GetAudioRoutes(
 ) ([]AudioRoute, error) {
 	var _result []AudioRoute
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGetAudioRoutes)
@@ -567,6 +587,9 @@ func (p *ModuleProxy) GetAudioRoutes(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -589,6 +612,7 @@ func (p *ModuleProxy) GetAudioRoutesForAudioPort(
 ) ([]AudioRoute, error) {
 	var _result []AudioRoute
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(portId)
 
@@ -611,6 +635,9 @@ func (p *ModuleProxy) GetAudioRoutesForAudioPort(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]AudioRoute, _count)
@@ -628,10 +655,11 @@ func (p *ModuleProxy) GetAudioRoutesForAudioPort(
 
 func (p *ModuleProxy) OpenInputStream(
 	ctx context.Context,
-	args coreIModule.OpenInputStreamArguments,
-) (coreIModule.OpenInputStreamReturn, error) {
-	var _result coreIModule.OpenInputStreamReturn
+	args IModuleOpenInputStreamArguments,
+) (IModuleOpenInputStreamReturn, error) {
+	var _result IModuleOpenInputStreamReturn
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(1)
 	if _err := args.MarshalParcel(_data); _err != nil {
@@ -667,10 +695,11 @@ func (p *ModuleProxy) OpenInputStream(
 
 func (p *ModuleProxy) OpenOutputStream(
 	ctx context.Context,
-	args coreIModule.OpenOutputStreamArguments,
-) (coreIModule.OpenOutputStreamReturn, error) {
-	var _result coreIModule.OpenOutputStreamReturn
+	args IModuleOpenOutputStreamArguments,
+) (IModuleOpenOutputStreamReturn, error) {
+	var _result IModuleOpenOutputStreamReturn
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(1)
 	if _err := args.MarshalParcel(_data); _err != nil {
@@ -706,9 +735,10 @@ func (p *ModuleProxy) OpenOutputStream(
 
 func (p *ModuleProxy) GetSupportedPlaybackRateFactors(
 	ctx context.Context,
-) (coreIModule.SupportedPlaybackRateFactors, error) {
-	var _result coreIModule.SupportedPlaybackRateFactors
+) (IModuleSupportedPlaybackRateFactors, error) {
+	var _result IModuleSupportedPlaybackRateFactors
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGetSupportedPlaybackRateFactors)
@@ -744,6 +774,7 @@ func (p *ModuleProxy) SetAudioPatch(
 ) (AudioPatch, error) {
 	var _result AudioPatch
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(1)
 	if _err := requested.MarshalParcel(_data); _err != nil {
@@ -784,6 +815,7 @@ func (p *ModuleProxy) SetAudioPortConfig(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(1)
 	if _err := requested.MarshalParcel(_data); _err != nil {
@@ -804,8 +836,16 @@ func (p *ModuleProxy) SetAudioPortConfig(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = suggested.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = suggested.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadBool()
@@ -820,6 +860,7 @@ func (p *ModuleProxy) ResetAudioPatch(
 	patchId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(patchId)
 
@@ -846,6 +887,7 @@ func (p *ModuleProxy) ResetAudioPortConfig(
 	portConfigId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(portConfigId)
 
@@ -872,6 +914,7 @@ func (p *ModuleProxy) GetMasterMute(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGetMasterMute)
@@ -901,6 +944,7 @@ func (p *ModuleProxy) SetMasterMute(
 	mute bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteBool(mute)
 
@@ -927,6 +971,7 @@ func (p *ModuleProxy) GetMasterVolume(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGetMasterVolume)
@@ -956,6 +1001,7 @@ func (p *ModuleProxy) SetMasterVolume(
 	volume float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteFloat32(volume)
 
@@ -982,6 +1028,7 @@ func (p *ModuleProxy) GetMicMute(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGetMicMute)
@@ -1011,6 +1058,7 @@ func (p *ModuleProxy) SetMicMute(
 	mute bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteBool(mute)
 
@@ -1037,6 +1085,7 @@ func (p *ModuleProxy) GetMicrophones(
 ) ([]common.MicrophoneInfo, error) {
 	var _result []common.MicrophoneInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGetMicrophones)
@@ -1058,6 +1107,9 @@ func (p *ModuleProxy) GetMicrophones(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]common.MicrophoneInfo, _count)
@@ -1078,6 +1130,7 @@ func (p *ModuleProxy) UpdateAudioMode(
 	mode common.AudioMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(int32(mode))
 
@@ -1101,9 +1154,10 @@ func (p *ModuleProxy) UpdateAudioMode(
 
 func (p *ModuleProxy) UpdateScreenRotation(
 	ctx context.Context,
-	rotation coreIModule.ScreenRotation,
+	rotation IModuleScreenRotation,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(int32(rotation))
 
@@ -1130,6 +1184,7 @@ func (p *ModuleProxy) UpdateScreenState(
 	isTurnedOn bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteBool(isTurnedOn)
 
@@ -1156,6 +1211,7 @@ func (p *ModuleProxy) GetSoundDose(
 ) (sounddose.ISoundDose, error) {
 	var _result sounddose.ISoundDose
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGetSoundDose)
@@ -1186,6 +1242,7 @@ func (p *ModuleProxy) GenerateHwAvSyncId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGenerateHwAvSyncId)
@@ -1216,6 +1273,7 @@ func (p *ModuleProxy) GetVendorParameters(
 ) ([]VendorParameter, error) {
 	var _result []VendorParameter
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	if ids == nil {
 		_data.WriteInt32(-1)
@@ -1245,6 +1303,9 @@ func (p *ModuleProxy) GetVendorParameters(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]VendorParameter, _count)
@@ -1266,6 +1327,7 @@ func (p *ModuleProxy) SetVendorParameters(
 	async bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	if parameters == nil {
 		_data.WriteInt32(-1)
@@ -1304,6 +1366,7 @@ func (p *ModuleProxy) AddDeviceEffect(
 	effect audioEffect.IEffect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(portConfigId)
 	binder.WriteBinderToParcel(ctx, _data, effect.AsBinder(), p.Remote.Transport())
@@ -1332,6 +1395,7 @@ func (p *ModuleProxy) RemoveDeviceEffect(
 	effect audioEffect.IEffect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(portConfigId)
 	binder.WriteBinderToParcel(ctx, _data, effect.AsBinder(), p.Remote.Transport())
@@ -1360,6 +1424,7 @@ func (p *ModuleProxy) GetMmapPolicyInfos(
 ) ([]common.AudioMMapPolicyInfo, error) {
 	var _result []common.AudioMMapPolicyInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(int32(mmapPolicyType))
 
@@ -1382,6 +1447,9 @@ func (p *ModuleProxy) GetMmapPolicyInfos(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]common.AudioMMapPolicyInfo, _count)
@@ -1402,6 +1470,7 @@ func (p *ModuleProxy) SupportsVariableLatency(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleSupportsVariableLatency)
@@ -1431,6 +1500,7 @@ func (p *ModuleProxy) GetAAudioMixerBurstCount(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGetAAudioMixerBurstCount)
@@ -1460,6 +1530,7 @@ func (p *ModuleProxy) GetAAudioHardwareBurstMinUsec(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModule, MethodIModuleGetAAudioHardwareBurstMinUsec)
@@ -1489,6 +1560,7 @@ func (p *ModuleProxy) PrepareToDisconnectExternalDevice(
 	portId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIModule)
 	_data.WriteInt32(portId)
 
@@ -1513,7 +1585,8 @@ func (p *ModuleProxy) PrepareToDisconnectExternalDevice(
 // ModuleStub dispatches incoming binder transactions
 // to a typed IModule implementation.
 type ModuleStub struct {
-	Impl IModule
+	Impl      IModule
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ModuleStub)(nil)
@@ -1527,11 +1600,12 @@ func (s *ModuleStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIModuleSetModuleDebug:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_debug ModuleDebug
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1553,9 +1627,6 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleGetTelephony:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetTelephony(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1563,13 +1634,9 @@ func (s *ModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIModuleGetBluetooth:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetBluetooth(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1577,13 +1644,9 @@ func (s *ModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIModuleGetBluetoothA2dp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetBluetoothA2dp(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1591,13 +1654,9 @@ func (s *ModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIModuleGetBluetoothLe:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetBluetoothLe(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1605,13 +1664,9 @@ func (s *ModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIModuleConnectExternalDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_templateIdAndAdditionalData common.AudioPort
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1637,9 +1692,6 @@ func (s *ModuleStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIModuleDisconnectExternalDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1653,9 +1705,6 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleGetAudioPatches:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAudioPatches(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1663,13 +1712,19 @@ func (s *ModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIModuleGetAudioPort:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1687,9 +1742,6 @@ func (s *ModuleStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIModuleGetAudioPortConfigs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAudioPortConfigs(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1697,13 +1749,19 @@ func (s *ModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIModuleGetAudioPorts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAudioPorts(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1711,13 +1769,19 @@ func (s *ModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIModuleGetAudioRoutes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAudioRoutes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1725,13 +1789,19 @@ func (s *ModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIModuleGetAudioRoutesForAudioPort:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1743,14 +1813,20 @@ func (s *ModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIModuleOpenInputStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_args coreIModule.OpenInputStreamArguments
+		var _arg_args IModuleOpenInputStreamArguments
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1775,10 +1851,7 @@ func (s *ModuleStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIModuleOpenOutputStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_args coreIModule.OpenOutputStreamArguments
+		var _arg_args IModuleOpenOutputStreamArguments
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1803,9 +1876,6 @@ func (s *ModuleStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIModuleGetSupportedPlaybackRateFactors:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedPlaybackRateFactors(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1819,9 +1889,6 @@ func (s *ModuleStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIModuleSetAudioPatch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_requested AudioPatch
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1847,9 +1914,6 @@ func (s *ModuleStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIModuleSetAudioPortConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_requested common.AudioPortConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1871,11 +1935,12 @@ func (s *ModuleStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
-		return _reply, nil
-	case TransactionIModuleResetAudioPatch:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_suggested.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIModuleResetAudioPatch:
 		_arg_patchId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1889,9 +1954,6 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleResetAudioPortConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portConfigId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1905,9 +1967,6 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleGetMasterMute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMasterMute(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1918,9 +1977,6 @@ func (s *ModuleStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIModuleSetMasterMute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mute, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1934,9 +1990,6 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleGetMasterVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMasterVolume(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1947,9 +2000,6 @@ func (s *ModuleStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIModuleSetMasterVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volume, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -1963,9 +2013,6 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleGetMicMute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMicMute(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1976,9 +2023,6 @@ func (s *ModuleStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIModuleSetMicMute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mute, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1992,9 +2036,6 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleGetMicrophones:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMicrophones(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2002,13 +2043,19 @@ func (s *ModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIModuleUpdateAudioMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2023,14 +2070,11 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleUpdateScreenRotation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_rotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rotation := coreIModule.ScreenRotation(_raw_rotation)
+		_arg_rotation := IModuleScreenRotation(_raw_rotation)
 		_err = s.Impl.UpdateScreenRotation(ctx, _arg_rotation)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2040,9 +2084,6 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleUpdateScreenState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isTurnedOn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2056,9 +2097,6 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleGetSoundDose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSoundDose(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2066,13 +2104,9 @@ func (s *ModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIModuleGenerateHwAvSyncId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GenerateHwAvSyncId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2083,12 +2117,25 @@ func (s *ModuleStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIModuleGetVendorParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ids []string
-		_ = _arg_ids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ids = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_ids[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetVendorParameters(ctx, _arg_ids)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2096,16 +2143,40 @@ func (s *ModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIModuleSetVendorParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_parameters []VendorParameter
-		_ = _arg_parameters
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_parameters = make([]VendorParameter, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_parameters[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_async, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2119,16 +2190,18 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleAddDeviceEffect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portConfigId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_effect audioEffect.IEffect
-		_ = _arg_effect
+		{
+			_effectHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_effect = audioEffect.NewEffectProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _effectHandle))
+		}
 		_err = s.Impl.AddDeviceEffect(ctx, _arg_portConfigId, _arg_effect)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2138,16 +2211,18 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleRemoveDeviceEffect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portConfigId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_effect audioEffect.IEffect
-		_ = _arg_effect
+		{
+			_effectHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_effect = audioEffect.NewEffectProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _effectHandle))
+		}
 		_err = s.Impl.RemoveDeviceEffect(ctx, _arg_portConfigId, _arg_effect)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2157,9 +2232,6 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleGetMmapPolicyInfos:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_mmapPolicyType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2172,13 +2244,19 @@ func (s *ModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIModuleSupportsVariableLatency:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.SupportsVariableLatency(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2189,9 +2267,6 @@ func (s *ModuleStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIModuleGetAAudioMixerBurstCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAAudioMixerBurstCount(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2202,9 +2277,6 @@ func (s *ModuleStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIModuleGetAAudioHardwareBurstMinUsec:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAAudioHardwareBurstMinUsec(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2215,9 +2287,6 @@ func (s *ModuleStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIModulePrepareToDisconnectExternalDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2252,9 +2321,9 @@ type IModuleServer interface {
 	GetAudioPorts(ctx context.Context) ([]common.AudioPort, error)
 	GetAudioRoutes(ctx context.Context) ([]AudioRoute, error)
 	GetAudioRoutesForAudioPort(ctx context.Context, portId int32) ([]AudioRoute, error)
-	OpenInputStream(ctx context.Context, args coreIModule.OpenInputStreamArguments) (coreIModule.OpenInputStreamReturn, error)
-	OpenOutputStream(ctx context.Context, args coreIModule.OpenOutputStreamArguments) (coreIModule.OpenOutputStreamReturn, error)
-	GetSupportedPlaybackRateFactors(ctx context.Context) (coreIModule.SupportedPlaybackRateFactors, error)
+	OpenInputStream(ctx context.Context, args IModuleOpenInputStreamArguments) (IModuleOpenInputStreamReturn, error)
+	OpenOutputStream(ctx context.Context, args IModuleOpenOutputStreamArguments) (IModuleOpenOutputStreamReturn, error)
+	GetSupportedPlaybackRateFactors(ctx context.Context) (IModuleSupportedPlaybackRateFactors, error)
 	SetAudioPatch(ctx context.Context, requested AudioPatch) (AudioPatch, error)
 	SetAudioPortConfig(ctx context.Context, requested common.AudioPortConfig, suggested common.AudioPortConfig) (bool, error)
 	ResetAudioPatch(ctx context.Context, patchId int32) error
@@ -2267,7 +2336,7 @@ type IModuleServer interface {
 	SetMicMute(ctx context.Context, mute bool) error
 	GetMicrophones(ctx context.Context) ([]common.MicrophoneInfo, error)
 	UpdateAudioMode(ctx context.Context, mode common.AudioMode) error
-	UpdateScreenRotation(ctx context.Context, rotation coreIModule.ScreenRotation) error
+	UpdateScreenRotation(ctx context.Context, rotation IModuleScreenRotation) error
 	UpdateScreenState(ctx context.Context, isTurnedOn bool) error
 	GetSoundDose(ctx context.Context) (sounddose.ISoundDose, error)
 	GenerateHwAvSyncId(ctx context.Context) (int32, error)
@@ -2376,21 +2445,21 @@ func (w *moduleStubWrapper) GetAudioRoutesForAudioPort(
 
 func (w *moduleStubWrapper) OpenInputStream(
 	ctx context.Context,
-	args coreIModule.OpenInputStreamArguments,
-) (coreIModule.OpenInputStreamReturn, error) {
+	args IModuleOpenInputStreamArguments,
+) (IModuleOpenInputStreamReturn, error) {
 	return w.impl.OpenInputStream(ctx, args)
 }
 
 func (w *moduleStubWrapper) OpenOutputStream(
 	ctx context.Context,
-	args coreIModule.OpenOutputStreamArguments,
-) (coreIModule.OpenOutputStreamReturn, error) {
+	args IModuleOpenOutputStreamArguments,
+) (IModuleOpenOutputStreamReturn, error) {
 	return w.impl.OpenOutputStream(ctx, args)
 }
 
 func (w *moduleStubWrapper) GetSupportedPlaybackRateFactors(
 	ctx context.Context,
-) (coreIModule.SupportedPlaybackRateFactors, error) {
+) (IModuleSupportedPlaybackRateFactors, error) {
 	return w.impl.GetSupportedPlaybackRateFactors(ctx)
 }
 
@@ -2477,7 +2546,7 @@ func (w *moduleStubWrapper) UpdateAudioMode(
 
 func (w *moduleStubWrapper) UpdateScreenRotation(
 	ctx context.Context,
-	rotation coreIModule.ScreenRotation,
+	rotation IModuleScreenRotation,
 ) error {
 	return w.impl.UpdateScreenRotation(ctx, rotation)
 }

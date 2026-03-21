@@ -1,0 +1,177 @@
+package: android.hardware.gnss.measurement_corrections
+go_package: android/hardware/gnss/measurement_corrections
+interfaces:
+    - name: IMeasurementCorrectionsCallback
+      descriptor: android.hardware.gnss.measurement_corrections.IMeasurementCorrectionsCallback
+      methods:
+        - name: setCapabilitiesCb
+          transaction_code_offset: 0
+          params:
+            - name: capabilities
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: CAPABILITY_LOS_SATS
+          type: int
+          value: 1 << 0
+        - name: CAPABILITY_EXCESS_PATH_LENGTH
+          type: int
+          value: 1 << 1
+        - name: CAPABILITY_REFLECTING_PLANE
+          type: int
+          value: 1 << 2
+    - name: IMeasurementCorrectionsInterface
+      descriptor: android.hardware.gnss.measurement_corrections.IMeasurementCorrectionsInterface
+      methods:
+        - name: setCorrections
+          transaction_code_offset: 0
+          params:
+            - name: corrections
+              type:
+                name: MeasurementCorrections
+              direction: in
+          return_type:
+            name: void
+        - name: setCallback
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IMeasurementCorrectionsCallback
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: MeasurementCorrections
+      fields:
+        - name: latitudeDegrees
+          type:
+            name: double
+        - name: longitudeDegrees
+          type:
+            name: double
+        - name: altitudeMeters
+          type:
+            name: double
+        - name: horizontalPositionUncertaintyMeters
+          type:
+            name: double
+        - name: verticalPositionUncertaintyMeters
+          type:
+            name: double
+        - name: toaGpsNanosecondsOfWeek
+          type:
+            name: long
+        - name: satCorrections
+          type:
+            name: SingleSatCorrection
+            is_array: true
+        - name: hasEnvironmentBearing
+          type:
+            name: boolean
+        - name: environmentBearingDegrees
+          type:
+            name: float
+        - name: environmentBearingUncertaintyDegrees
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: ReflectingPlane
+      fields:
+        - name: latitudeDegrees
+          type:
+            name: double
+        - name: longitudeDegrees
+          type:
+            name: double
+        - name: altitudeMeters
+          type:
+            name: double
+        - name: reflectingPlaneAzimuthDegrees
+          type:
+            name: double
+      annotations:
+        - VintfStability
+    - name: SingleSatCorrection
+      fields:
+        - name: singleSatCorrectionFlags
+          type:
+            name: int
+        - name: constellation
+          type:
+            name: GnssConstellationType
+        - name: svid
+          type:
+            name: int
+        - name: carrierFrequencyHz
+          type:
+            name: long
+        - name: probSatIsLos
+          type:
+            name: float
+        - name: combinedExcessPathLengthMeters
+          type:
+            name: float
+        - name: combinedExcessPathLengthUncertaintyMeters
+          type:
+            name: float
+        - name: combinedAttenuationDb
+          type:
+            name: float
+        - name: excessPathInfos
+          type:
+            name: ExcessPathInfo
+            is_array: true
+      constants:
+        - name: SINGLE_SAT_CORRECTION_HAS_SAT_IS_LOS_PROBABILITY
+          type: int
+          value: "0x0001"
+        - name: SINGLE_SAT_CORRECTION_HAS_COMBINED_EXCESS_PATH_LENGTH
+          type: int
+          value: "0x0002"
+        - name: SINGLE_SAT_CORRECTION_HAS_COMBINED_EXCESS_PATH_LENGTH_UNC
+          type: int
+          value: "0x0004"
+        - name: SINGLE_SAT_CORRECTION_HAS_COMBINED_ATTENUATION
+          type: int
+          value: "0x0010"
+      nested_types:
+        - SingleSatCorrection.ExcessPathInfo
+      annotations:
+        - VintfStability
+    - name: SingleSatCorrection.ExcessPathInfo
+      fields:
+        - name: excessPathInfoFlags
+          type:
+            name: int
+        - name: excessPathLengthMeters
+          type:
+            name: float
+        - name: excessPathLengthUncertaintyMeters
+          type:
+            name: float
+        - name: reflectingPlane
+          type:
+            name: ReflectingPlane
+        - name: attenuationDb
+          type:
+            name: float
+      constants:
+        - name: EXCESS_PATH_INFO_HAS_EXCESS_PATH_LENGTH
+          type: int
+          value: "0x0001"
+        - name: EXCESS_PATH_INFO_HAS_EXCESS_PATH_LENGTH_UNC
+          type: int
+          value: "0x0002"
+        - name: EXCESS_PATH_INFO_HAS_REFLECTING_PLANE
+          type: int
+          value: "0x0004"
+        - name: EXCESS_PATH_INFO_HAS_ATTENUATION
+          type: int
+          value: "0x0008"
+      annotations:
+        - VintfStability

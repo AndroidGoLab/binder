@@ -1,0 +1,79 @@
+package: android.hardware.keymaster
+go_package: android/hardware/keymaster
+parcelables:
+    - name: HardwareAuthToken
+      fields:
+        - name: challenge
+          type:
+            name: long
+        - name: userId
+          type:
+            name: long
+        - name: authenticatorId
+          type:
+            name: long
+        - name: authenticatorType
+          type:
+            name: HardwareAuthenticatorType
+          default_value: HardwareAuthenticatorType.NONE
+        - name: timestamp
+          type:
+            name: Timestamp
+        - name: mac
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: Timestamp
+      fields:
+        - name: milliSeconds
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: VerificationToken
+      fields:
+        - name: challenge
+          type:
+            name: long
+        - name: timestamp
+          type:
+            name: Timestamp
+        - name: securityLevel
+          type:
+            name: SecurityLevel
+          default_value: SecurityLevel.SOFTWARE
+        - name: mac
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+enums:
+    - name: HardwareAuthenticatorType
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: PASSWORD
+          value: 1 << 0
+        - name: FINGERPRINT
+          value: 1 << 1
+        - name: ANY
+          value: "0xFFFFFFFF"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SecurityLevel
+      backing_type: int
+      values:
+        - name: SOFTWARE
+          value: "0"
+        - name: TRUSTED_ENVIRONMENT
+          value: "1"
+        - name: STRONGBOX
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing

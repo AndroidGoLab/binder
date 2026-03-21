@@ -46,16 +46,10 @@ func (p *AuthenticateServerCallbackProxy) OnComplete(
 	response []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthenticateServerCallback)
 	_data.WriteInt32(resultCode)
-	if response == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(response)))
-		for _, _item := range response {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(response)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthenticateServerCallback, MethodIAuthenticateServerCallbackOnComplete)
 	if _err != nil {
@@ -69,7 +63,8 @@ func (p *AuthenticateServerCallbackProxy) OnComplete(
 // AuthenticateServerCallbackStub dispatches incoming binder transactions
 // to a typed IAuthenticateServerCallback implementation.
 type AuthenticateServerCallbackStub struct {
-	Impl IAuthenticateServerCallback
+	Impl      IAuthenticateServerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AuthenticateServerCallbackStub)(nil)
@@ -83,21 +78,26 @@ func (s *AuthenticateServerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAuthenticateServerCallbackOnComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_response []byte
-		_ = _arg_response
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = _bytes
+		}
 		_err = s.Impl.OnComplete(ctx, _arg_resultCode, _arg_response)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

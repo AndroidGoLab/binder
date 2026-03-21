@@ -70,9 +70,9 @@ type IAuthService interface {
 	GetAuthenticatorIds(ctx context.Context) ([]int64, error)
 	ResetLockoutTimeBound(ctx context.Context, token binder.IBinder, fromSensorId int32, hardwareAuthToken []byte) error
 	ResetLockout(ctx context.Context, hardwareAuthToken []byte) error
-	GetButtonLabel(ctx context.Context, authenticators int32) (interface{}, error)
-	GetPromptMessage(ctx context.Context, authenticators int32) (interface{}, error)
-	GetSettingName(ctx context.Context, authenticators int32) (interface{}, error)
+	GetButtonLabel(ctx context.Context, authenticators int32) (string, error)
+	GetPromptMessage(ctx context.Context, authenticators int32) (string, error)
+	GetSettingName(ctx context.Context, authenticators int32) (string, error)
 }
 
 type AuthServiceProxy struct {
@@ -99,6 +99,7 @@ func (p *AuthServiceProxy) CreateTestSession(
 	var _result ITestSession
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(sensorId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -133,6 +134,7 @@ func (p *AuthServiceProxy) GetSensorProperties(
 	var _result []SensorPropertiesInternal
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteString16(_identity.PackageName)
 
@@ -155,6 +157,9 @@ func (p *AuthServiceProxy) GetSensorProperties(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]SensorPropertiesInternal, _count)
@@ -175,6 +180,7 @@ func (p *AuthServiceProxy) GetUiPackage(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceGetUiPackage)
@@ -209,6 +215,7 @@ func (p *AuthServiceProxy) Authenticate(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt64(sessionId)
@@ -249,6 +256,7 @@ func (p *AuthServiceProxy) CancelAuthentication(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
@@ -279,6 +287,7 @@ func (p *AuthServiceProxy) CanAuthenticate(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
@@ -313,6 +322,7 @@ func (p *AuthServiceProxy) GetLastAuthenticationTime(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(authenticators)
@@ -345,6 +355,7 @@ func (p *AuthServiceProxy) HasEnrolledBiometrics(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
@@ -376,6 +387,7 @@ func (p *AuthServiceProxy) RegisterEnabledOnKeyguardCallback(
 	callback IBiometricEnabledOnKeyguardCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -402,6 +414,7 @@ func (p *AuthServiceProxy) RegisterAuthenticationStateListener(
 	listener AuthenticationStateListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -428,6 +441,7 @@ func (p *AuthServiceProxy) UnregisterAuthenticationStateListener(
 	listener AuthenticationStateListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -456,6 +470,7 @@ func (p *AuthServiceProxy) InvalidateAuthenticatorIds(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(fromSensorId)
@@ -485,6 +500,7 @@ func (p *AuthServiceProxy) GetAuthenticatorIds(
 	var _result []int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(_identity.UserID)
 
@@ -507,6 +523,9 @@ func (p *AuthServiceProxy) GetAuthenticatorIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int64, _count)
@@ -528,19 +547,13 @@ func (p *AuthServiceProxy) ResetLockoutTimeBound(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(fromSensorId)
 	_data.WriteInt32(_identity.UserID)
-	if hardwareAuthToken == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(hardwareAuthToken)))
-		for _, _item := range hardwareAuthToken {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(hardwareAuthToken)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceResetLockoutTimeBound)
 	if _err != nil {
@@ -566,16 +579,10 @@ func (p *AuthServiceProxy) ResetLockout(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(_identity.UserID)
-	if hardwareAuthToken == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(hardwareAuthToken)))
-		for _, _item := range hardwareAuthToken {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(hardwareAuthToken)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceResetLockout)
 	if _err != nil {
@@ -598,10 +605,11 @@ func (p *AuthServiceProxy) ResetLockout(
 func (p *AuthServiceProxy) GetButtonLabel(
 	ctx context.Context,
 	authenticators int32,
-) (interface{}, error) {
-	var _result interface{}
+) (string, error) {
+	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
@@ -622,16 +630,21 @@ func (p *AuthServiceProxy) GetButtonLabel(
 		return _result, _err
 	}
 
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
 	return _result, nil
 }
 
 func (p *AuthServiceProxy) GetPromptMessage(
 	ctx context.Context,
 	authenticators int32,
-) (interface{}, error) {
-	var _result interface{}
+) (string, error) {
+	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
@@ -652,16 +665,21 @@ func (p *AuthServiceProxy) GetPromptMessage(
 		return _result, _err
 	}
 
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
 	return _result, nil
 }
 
 func (p *AuthServiceProxy) GetSettingName(
 	ctx context.Context,
 	authenticators int32,
-) (interface{}, error) {
-	var _result interface{}
+) (string, error) {
+	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
@@ -682,13 +700,18 @@ func (p *AuthServiceProxy) GetSettingName(
 		return _result, _err
 	}
 
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
 	return _result, nil
 }
 
 // AuthServiceStub dispatches incoming binder transactions
 // to a typed IAuthService implementation.
 type AuthServiceStub struct {
-	Impl IAuthService
+	Impl      IAuthService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AuthServiceStub)(nil)
@@ -702,18 +725,24 @@ func (s *AuthServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAuthServiceCreateTestSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITestSessionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTestSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -724,13 +753,9 @@ func (s *AuthServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIAuthServiceGetSensorProperties:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -741,13 +766,19 @@ func (s *AuthServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIAuthServiceGetUiPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetUiPackage(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -758,12 +789,14 @@ func (s *AuthServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIAuthServiceAuthenticate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_sessionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -771,9 +804,14 @@ func (s *AuthServiceStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IBiometricServiceReceiver
-		_ = _arg_receiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = NewBiometricServiceReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -799,12 +837,14 @@ func (s *AuthServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIAuthServiceCancelAuthentication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -821,9 +861,6 @@ func (s *AuthServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAuthServiceCanAuthenticate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -844,9 +881,6 @@ func (s *AuthServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAuthServiceGetLastAuthenticationTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -864,9 +898,6 @@ func (s *AuthServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIAuthServiceHasEnrolledBiometrics:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -883,12 +914,14 @@ func (s *AuthServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAuthServiceRegisterEnabledOnKeyguardCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IBiometricEnabledOnKeyguardCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewBiometricEnabledOnKeyguardCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterEnabledOnKeyguardCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -898,12 +931,14 @@ func (s *AuthServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAuthServiceRegisterAuthenticationStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener AuthenticationStateListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewAuthenticationStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterAuthenticationStateListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -913,12 +948,14 @@ func (s *AuthServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAuthServiceUnregisterAuthenticationStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener AuthenticationStateListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewAuthenticationStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.UnregisterAuthenticationStateListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -928,9 +965,6 @@ func (s *AuthServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAuthServiceInvalidateAuthenticatorIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -938,9 +972,14 @@ func (s *AuthServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IInvalidationCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewInvalidationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.InvalidateAuthenticatorIds(ctx, _arg_fromSensorId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -950,9 +989,6 @@ func (s *AuthServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAuthServiceGetAuthenticatorIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -963,16 +999,24 @@ func (s *AuthServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt64(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIAuthServiceResetLockoutTimeBound:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -983,9 +1027,14 @@ func (s *AuthServiceStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_hardwareAuthToken []byte
-		_ = _arg_hardwareAuthToken
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hardwareAuthToken = _bytes
+		}
 		_err = s.Impl.ResetLockoutTimeBound(ctx, _arg_token, _arg_fromSensorId, _arg_hardwareAuthToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -995,15 +1044,17 @@ func (s *AuthServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAuthServiceResetLockout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_hardwareAuthToken []byte
-		_ = _arg_hardwareAuthToken
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hardwareAuthToken = _bytes
+		}
 		_err := s.Impl.ResetLockout(ctx, _arg_hardwareAuthToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1013,9 +1064,6 @@ func (s *AuthServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAuthServiceGetButtonLabel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1033,12 +1081,9 @@ func (s *AuthServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIAuthServiceGetPromptMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1056,12 +1101,9 @@ func (s *AuthServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIAuthServiceGetSettingName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1079,7 +1121,7 @@ func (s *AuthServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteString16(_result)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -1105,9 +1147,9 @@ type IAuthServiceServer interface {
 	GetAuthenticatorIds(ctx context.Context) ([]int64, error)
 	ResetLockoutTimeBound(ctx context.Context, token binder.IBinder, fromSensorId int32, hardwareAuthToken []byte) error
 	ResetLockout(ctx context.Context, hardwareAuthToken []byte) error
-	GetButtonLabel(ctx context.Context, authenticators int32) (interface{}, error)
-	GetPromptMessage(ctx context.Context, authenticators int32) (interface{}, error)
-	GetSettingName(ctx context.Context, authenticators int32) (interface{}, error)
+	GetButtonLabel(ctx context.Context, authenticators int32) (string, error)
+	GetPromptMessage(ctx context.Context, authenticators int32) (string, error)
+	GetSettingName(ctx context.Context, authenticators int32) (string, error)
 }
 
 type authServiceStubWrapper struct {
@@ -1231,21 +1273,21 @@ func (w *authServiceStubWrapper) ResetLockout(
 func (w *authServiceStubWrapper) GetButtonLabel(
 	ctx context.Context,
 	authenticators int32,
-) (interface{}, error) {
+) (string, error) {
 	return w.impl.GetButtonLabel(ctx, authenticators)
 }
 
 func (w *authServiceStubWrapper) GetPromptMessage(
 	ctx context.Context,
 	authenticators int32,
-) (interface{}, error) {
+) (string, error) {
 	return w.impl.GetPromptMessage(ctx, authenticators)
 }
 
 func (w *authServiceStubWrapper) GetSettingName(
 	ctx context.Context,
 	authenticators int32,
-) (interface{}, error) {
+) (string, error) {
 	return w.impl.GetSettingName(ctx, authenticators)
 }
 

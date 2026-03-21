@@ -1,0 +1,56 @@
+package: android.hardware.tests.extension.vibrator
+go_package: android/hardware/tests/extension/vibrator
+interfaces:
+    - name: ICustomVibrator
+      descriptor: android.hardware.tests.extension.vibrator.ICustomVibrator
+      methods:
+        - name: getVendorCapabilities
+          transaction_code_offset: 0
+          return_type:
+            name: int
+        - name: setDirectionality
+          transaction_code_offset: 1
+          params:
+            - name: directionality
+              type:
+                name: Directionality
+          return_type:
+            name: void
+        - name: perform
+          transaction_code_offset: 2
+          params:
+            - name: effect
+              type:
+                name: VendorEffect
+            - name: callback
+              type:
+                name: IVibratorCallback
+          return_type:
+            name: int
+      constants:
+        - name: CAP_VENDOR_DIRECTIONALITY
+          type: int
+          value: 1 << 0
+enums:
+    - name: Directionality
+      backing_type: int
+      values:
+        - name: NONE
+          value: ""
+        - name: TRANSVERSE
+          value: ""
+        - name: LONGITUDINAL
+          value: ""
+      annotations:
+        - Backing
+        - VintfStability
+    - name: VendorEffect
+      backing_type: int
+      values:
+        - name: CRACKLE
+          value: ""
+        - name: WIGGLE
+          value: ""
+      annotations:
+        - Backing
+        - VintfStability

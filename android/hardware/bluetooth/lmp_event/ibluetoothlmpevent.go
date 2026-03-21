@@ -51,17 +51,11 @@ func (p *BluetoothLmpEventProxy) RegisterForLmpEvents(
 	lmpEventIds []LmpEventId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLmpEvent)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WritePaddedByte(byte(addressType))
-	if address == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(address)))
-		for _, _item := range address {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(address)
 	if lmpEventIds == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -95,16 +89,10 @@ func (p *BluetoothLmpEventProxy) UnregisterLmpEvents(
 	address []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLmpEvent)
 	_data.WritePaddedByte(byte(addressType))
-	if address == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(address)))
-		for _, _item := range address {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(address)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLmpEvent, MethodIBluetoothLmpEventUnregisterLmpEvents)
 	if _err != nil {
@@ -127,7 +115,8 @@ func (p *BluetoothLmpEventProxy) UnregisterLmpEvents(
 // BluetoothLmpEventStub dispatches incoming binder transactions
 // to a typed IBluetoothLmpEvent implementation.
 type BluetoothLmpEventStub struct {
-	Impl IBluetoothLmpEvent
+	Impl      IBluetoothLmpEvent
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothLmpEventStub)(nil)
@@ -141,25 +130,53 @@ func (s *BluetoothLmpEventStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothLmpEventRegisterForLmpEvents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IBluetoothLmpEventCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewBluetoothLmpEventCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_raw_addressType, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_addressType := AddressType(_raw_addressType)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_address []byte
-		_ = _arg_address
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_address = _bytes
+		}
 		var _arg_lmpEventIds []LmpEventId
-		_ = _arg_lmpEventIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_lmpEventIds = make([]LmpEventId, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_raw, _err := _data.ReadPaddedByte()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_lmpEventIds[_i] = LmpEventId(_raw)
+				}
+			}
+		}
 		_err = s.Impl.RegisterForLmpEvents(ctx, _arg_callback, _arg_addressType, _arg_address, _arg_lmpEventIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -169,17 +186,19 @@ func (s *BluetoothLmpEventStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLmpEventUnregisterLmpEvents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_addressType, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_addressType := AddressType(_raw_addressType)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_address []byte
-		_ = _arg_address
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_address = _bytes
+		}
 		_err = s.Impl.UnregisterLmpEvents(ctx, _arg_addressType, _arg_address)
 		_reply := parcel.New()
 		if _err != nil {

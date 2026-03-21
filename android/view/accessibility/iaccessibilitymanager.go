@@ -3,8 +3,11 @@ package accessibility
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/accessibilityservice/types"
+	app "github.com/xaionaro-go/binder/android/app"
 	content "github.com/xaionaro-go/binder/android/content"
-	accessibilityIAccessibilityManager "github.com/xaionaro-go/binder/android/view/accessibility/IAccessibilityManager"
+	pm "github.com/xaionaro-go/binder/android/content/pm"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -111,13 +114,13 @@ type IAccessibilityManager interface {
 	SendAccessibilityEvent(ctx context.Context, uiEvent AccessibilityEvent) error
 	AddClient(ctx context.Context, client IAccessibilityManagerClient) (int64, error)
 	RemoveClient(ctx context.Context, client IAccessibilityManagerClient) (bool, error)
-	GetInstalledAccessibilityServiceList(ctx context.Context) (interface{}, error)
-	GetEnabledAccessibilityServiceList(ctx context.Context, feedbackType int32) ([]interface{}, error)
-	AddAccessibilityInteractionConnection(ctx context.Context, windowToken interface{}, leashToken binder.IBinder, connection IAccessibilityInteractionConnection, packageName string) (int32, error)
-	RemoveAccessibilityInteractionConnection(ctx context.Context, windowToken interface{}) error
+	GetInstalledAccessibilityServiceList(ctx context.Context) (pm.ParceledListSlice, error)
+	GetEnabledAccessibilityServiceList(ctx context.Context, feedbackType int32) ([]types.AccessibilityServiceInfo, error)
+	AddAccessibilityInteractionConnection(ctx context.Context, windowToken view.IWindow, leashToken binder.IBinder, connection IAccessibilityInteractionConnection, packageName string) (int32, error)
+	RemoveAccessibilityInteractionConnection(ctx context.Context, windowToken view.IWindow) error
 	SetPictureInPictureActionReplacingConnection(ctx context.Context, connection IAccessibilityInteractionConnection) error
-	RegisterUiTestAutomationService(ctx context.Context, owner binder.IBinder, client interface{}, info interface{}, flags int32) error
-	UnregisterUiTestAutomationService(ctx context.Context, client interface{}) error
+	RegisterUiTestAutomationService(ctx context.Context, owner binder.IBinder, client types.IAccessibilityServiceClient, info types.AccessibilityServiceInfo, flags int32) error
+	UnregisterUiTestAutomationService(ctx context.Context, client types.IAccessibilityServiceClient) error
 	GetWindowToken(ctx context.Context, windowId int32) (binder.IBinder, error)
 	NotifyAccessibilityButtonClicked(ctx context.Context, displayId int32, targetName string) error
 	NotifyAccessibilityButtonVisibilityChanged(ctx context.Context, available bool) error
@@ -126,7 +129,7 @@ type IAccessibilityManager interface {
 	SendFingerprintGesture(ctx context.Context, gestureKeyCode int32) (bool, error)
 	GetAccessibilityWindowId(ctx context.Context, windowToken binder.IBinder) (int32, error)
 	GetRecommendedTimeoutMillis(ctx context.Context) (int64, error)
-	RegisterSystemAction(ctx context.Context, action interface{}, actionId int32) error
+	RegisterSystemAction(ctx context.Context, action app.RemoteAction, actionId int32) error
 	UnregisterSystemAction(ctx context.Context, actionId int32) error
 	SetMagnificationConnection(ctx context.Context, connection IMagnificationConnection) error
 	AssociateEmbeddedHierarchy(ctx context.Context, host binder.IBinder, embedded binder.IBinder) error
@@ -138,17 +141,17 @@ type IAccessibilityManager interface {
 	IsSystemAudioCaptioningUiEnabled(ctx context.Context) (bool, error)
 	SetSystemAudioCaptioningUiEnabled(ctx context.Context, isEnabled bool) error
 	SetAccessibilityWindowAttributes(ctx context.Context, displayId int32, windowId int32, attributes AccessibilityWindowAttributes) error
-	RegisterProxyForDisplay(ctx context.Context, proxy interface{}, displayId int32) (bool, error)
+	RegisterProxyForDisplay(ctx context.Context, proxy types.IAccessibilityServiceClient, displayId int32) (bool, error)
 	UnregisterProxyForDisplay(ctx context.Context, displayId int32) (bool, error)
-	InjectInputEventToInputFilter(ctx context.Context, event interface{}) error
+	InjectInputEventToInputFilter(ctx context.Context, event view.InputEvent) error
 	StartFlashNotificationSequence(ctx context.Context, opPkg string, reason int32, token binder.IBinder) (bool, error)
 	StopFlashNotificationSequence(ctx context.Context, opPkg string) (bool, error)
 	StartFlashNotificationEvent(ctx context.Context, opPkg string, reason int32, reasonPkg string) (bool, error)
 	IsAccessibilityTargetAllowed(ctx context.Context, packageName string, uid int32) (bool, error)
 	SendRestrictedDialogIntent(ctx context.Context, packageName string, uid int32) (bool, error)
-	IsAccessibilityServiceWarningRequired(ctx context.Context, info interface{}) (bool, error)
-	GetWindowTransformationSpec(ctx context.Context, windowId int32) (accessibilityIAccessibilityManager.WindowTransformationSpec, error)
-	AttachAccessibilityOverlayToDisplay(ctx context.Context, displayId int32, surfaceControl interface{}) error
+	IsAccessibilityServiceWarningRequired(ctx context.Context, info types.AccessibilityServiceInfo) (bool, error)
+	GetWindowTransformationSpec(ctx context.Context, windowId int32) (IAccessibilityManagerWindowTransformationSpec, error)
+	AttachAccessibilityOverlayToDisplay(ctx context.Context, displayId int32, surfaceControl view.SurfaceControl) error
 	NotifyQuickSettingsTilesChanged(ctx context.Context, tileComponentNames []content.ComponentName) error
 }
 
@@ -173,6 +176,7 @@ func (p *AccessibilityManagerProxy) Interrupt(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -191,6 +195,7 @@ func (p *AccessibilityManagerProxy) SendAccessibilityEvent(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(1)
 	if _err := uiEvent.MarshalParcel(_data); _err != nil {
@@ -214,6 +219,7 @@ func (p *AccessibilityManagerProxy) AddClient(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -247,6 +253,7 @@ func (p *AccessibilityManagerProxy) RemoveClient(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -275,10 +282,11 @@ func (p *AccessibilityManagerProxy) RemoveClient(
 
 func (p *AccessibilityManagerProxy) GetInstalledAccessibilityServiceList(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (pm.ParceledListSlice, error) {
+	var _result pm.ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -297,16 +305,26 @@ func (p *AccessibilityManagerProxy) GetInstalledAccessibilityServiceList(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *AccessibilityManagerProxy) GetEnabledAccessibilityServiceList(
 	ctx context.Context,
 	feedbackType int32,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]types.AccessibilityServiceInfo, error) {
+	var _result []types.AccessibilityServiceInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(feedbackType)
 	_data.WriteInt32(_identity.UserID)
@@ -330,10 +348,21 @@ func (p *AccessibilityManagerProxy) GetEnabledAccessibilityServiceList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]types.AccessibilityServiceInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			if _err != nil {
+				return _result, _err
+			}
+			parcel.SkipToParcelableEnd(_reply, _endPos)
 		}
 	}
 	return _result, nil
@@ -341,7 +370,7 @@ func (p *AccessibilityManagerProxy) GetEnabledAccessibilityServiceList(
 
 func (p *AccessibilityManagerProxy) AddAccessibilityInteractionConnection(
 	ctx context.Context,
-	windowToken interface{},
+	windowToken view.IWindow,
 	leashToken binder.IBinder,
 	connection IAccessibilityInteractionConnection,
 	packageName string,
@@ -349,7 +378,9 @@ func (p *AccessibilityManagerProxy) AddAccessibilityInteractionConnection(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
+	binder.WriteBinderToParcel(ctx, _data, windowToken.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, leashToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(packageName)
@@ -379,10 +410,12 @@ func (p *AccessibilityManagerProxy) AddAccessibilityInteractionConnection(
 
 func (p *AccessibilityManagerProxy) RemoveAccessibilityInteractionConnection(
 	ctx context.Context,
-	windowToken interface{},
+	windowToken view.IWindow,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
+	binder.WriteBinderToParcel(ctx, _data, windowToken.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManager, MethodIAccessibilityManagerRemoveAccessibilityInteractionConnection)
 	if _err != nil {
@@ -407,6 +440,7 @@ func (p *AccessibilityManagerProxy) SetPictureInPictureActionReplacingConnection
 	connection IAccessibilityInteractionConnection,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
 
@@ -431,14 +465,17 @@ func (p *AccessibilityManagerProxy) SetPictureInPictureActionReplacingConnection
 func (p *AccessibilityManagerProxy) RegisterUiTestAutomationService(
 	ctx context.Context,
 	owner binder.IBinder,
-	client interface{},
-	info interface{},
+	client types.IAccessibilityServiceClient,
+	info types.AccessibilityServiceInfo,
 	flags int32,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	binder.WriteBinderToParcel(ctx, _data, owner, p.Remote.Transport())
+	// WARNING: param client (type types.IAccessibilityServiceClient) cannot be serialized — type not resolved
+	// WARNING: param info (type types.AccessibilityServiceInfo) cannot be serialized — type not resolved
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(flags)
 
@@ -462,10 +499,12 @@ func (p *AccessibilityManagerProxy) RegisterUiTestAutomationService(
 
 func (p *AccessibilityManagerProxy) UnregisterUiTestAutomationService(
 	ctx context.Context,
-	client interface{},
+	client types.IAccessibilityServiceClient,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
+	// WARNING: param client (type types.IAccessibilityServiceClient) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManager, MethodIAccessibilityManagerUnregisterUiTestAutomationService)
 	if _err != nil {
@@ -492,6 +531,7 @@ func (p *AccessibilityManagerProxy) GetWindowToken(
 	var _result binder.IBinder
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(windowId)
 	_data.WriteInt32(_identity.UserID)
@@ -525,6 +565,7 @@ func (p *AccessibilityManagerProxy) NotifyAccessibilityButtonClicked(
 	targetName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(displayId)
 	_data.WriteString16(targetName)
@@ -552,6 +593,7 @@ func (p *AccessibilityManagerProxy) NotifyAccessibilityButtonVisibilityChanged(
 	available bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteBool(available)
 
@@ -578,6 +620,7 @@ func (p *AccessibilityManagerProxy) PerformAccessibilityShortcut(
 	targetName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteString16(targetName)
 
@@ -605,6 +648,7 @@ func (p *AccessibilityManagerProxy) GetAccessibilityShortcutTargets(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(shortcutType)
 
@@ -627,6 +671,9 @@ func (p *AccessibilityManagerProxy) GetAccessibilityShortcutTargets(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -646,6 +693,7 @@ func (p *AccessibilityManagerProxy) SendFingerprintGesture(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(gestureKeyCode)
 
@@ -677,6 +725,7 @@ func (p *AccessibilityManagerProxy) GetAccessibilityWindowId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 
@@ -707,6 +756,7 @@ func (p *AccessibilityManagerProxy) GetRecommendedTimeoutMillis(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManager, MethodIAccessibilityManagerGetRecommendedTimeoutMillis)
@@ -733,11 +783,16 @@ func (p *AccessibilityManagerProxy) GetRecommendedTimeoutMillis(
 
 func (p *AccessibilityManagerProxy) RegisterSystemAction(
 	ctx context.Context,
-	action interface{},
+	action app.RemoteAction,
 	actionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
+	_data.WriteInt32(1)
+	if _err := action.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(actionId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManager, MethodIAccessibilityManagerRegisterSystemAction)
@@ -754,6 +809,7 @@ func (p *AccessibilityManagerProxy) UnregisterSystemAction(
 	actionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(actionId)
 
@@ -771,6 +827,7 @@ func (p *AccessibilityManagerProxy) SetMagnificationConnection(
 	connection IMagnificationConnection,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
 
@@ -789,6 +846,7 @@ func (p *AccessibilityManagerProxy) AssociateEmbeddedHierarchy(
 	embedded binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	binder.WriteBinderToParcel(ctx, _data, host, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, embedded, p.Remote.Transport())
@@ -816,6 +874,7 @@ func (p *AccessibilityManagerProxy) DisassociateEmbeddedHierarchy(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -842,6 +901,7 @@ func (p *AccessibilityManagerProxy) GetFocusStrokeWidth(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManager, MethodIAccessibilityManagerGetFocusStrokeWidth)
@@ -871,6 +931,7 @@ func (p *AccessibilityManagerProxy) GetFocusColor(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManager, MethodIAccessibilityManagerGetFocusColor)
@@ -900,6 +961,7 @@ func (p *AccessibilityManagerProxy) IsAudioDescriptionByDefaultEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManager, MethodIAccessibilityManagerIsAudioDescriptionByDefaultEnabled)
@@ -930,6 +992,7 @@ func (p *AccessibilityManagerProxy) SetSystemAudioCaptioningEnabled(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteBool(isEnabled)
 	_data.WriteInt32(_identity.UserID)
@@ -958,6 +1021,7 @@ func (p *AccessibilityManagerProxy) IsSystemAudioCaptioningUiEnabled(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -989,6 +1053,7 @@ func (p *AccessibilityManagerProxy) SetSystemAudioCaptioningUiEnabled(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteBool(isEnabled)
 	_data.WriteInt32(_identity.UserID)
@@ -1019,6 +1084,7 @@ func (p *AccessibilityManagerProxy) SetAccessibilityWindowAttributes(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(windowId)
@@ -1039,12 +1105,14 @@ func (p *AccessibilityManagerProxy) SetAccessibilityWindowAttributes(
 
 func (p *AccessibilityManagerProxy) RegisterProxyForDisplay(
 	ctx context.Context,
-	proxy interface{},
+	proxy types.IAccessibilityServiceClient,
 	displayId int32,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
+	// WARNING: param proxy (type types.IAccessibilityServiceClient) cannot be serialized — type not resolved
 	_data.WriteInt32(displayId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManager, MethodIAccessibilityManagerRegisterProxyForDisplay)
@@ -1075,6 +1143,7 @@ func (p *AccessibilityManagerProxy) UnregisterProxyForDisplay(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(displayId)
 
@@ -1102,10 +1171,15 @@ func (p *AccessibilityManagerProxy) UnregisterProxyForDisplay(
 
 func (p *AccessibilityManagerProxy) InjectInputEventToInputFilter(
 	ctx context.Context,
-	event interface{},
+	event view.InputEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManager, MethodIAccessibilityManagerInjectInputEventToInputFilter)
 	if _err != nil {
@@ -1133,6 +1207,7 @@ func (p *AccessibilityManagerProxy) StartFlashNotificationSequence(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteString16(opPkg)
 	_data.WriteInt32(reason)
@@ -1166,6 +1241,7 @@ func (p *AccessibilityManagerProxy) StopFlashNotificationSequence(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteString16(opPkg)
 
@@ -1199,6 +1275,7 @@ func (p *AccessibilityManagerProxy) StartFlashNotificationEvent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteString16(opPkg)
 	_data.WriteInt32(reason)
@@ -1234,6 +1311,7 @@ func (p *AccessibilityManagerProxy) IsAccessibilityTargetAllowed(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(uid)
@@ -1269,6 +1347,7 @@ func (p *AccessibilityManagerProxy) SendRestrictedDialogIntent(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(uid)
@@ -1298,11 +1377,13 @@ func (p *AccessibilityManagerProxy) SendRestrictedDialogIntent(
 
 func (p *AccessibilityManagerProxy) IsAccessibilityServiceWarningRequired(
 	ctx context.Context,
-	info interface{},
+	info types.AccessibilityServiceInfo,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
+	// WARNING: param info (type types.AccessibilityServiceInfo) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManager, MethodIAccessibilityManagerIsAccessibilityServiceWarningRequired)
 	if _err != nil {
@@ -1329,9 +1410,10 @@ func (p *AccessibilityManagerProxy) IsAccessibilityServiceWarningRequired(
 func (p *AccessibilityManagerProxy) GetWindowTransformationSpec(
 	ctx context.Context,
 	windowId int32,
-) (accessibilityIAccessibilityManager.WindowTransformationSpec, error) {
-	var _result accessibilityIAccessibilityManager.WindowTransformationSpec
+) (IAccessibilityManagerWindowTransformationSpec, error) {
+	var _result IAccessibilityManagerWindowTransformationSpec
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(windowId)
 
@@ -1365,11 +1447,16 @@ func (p *AccessibilityManagerProxy) GetWindowTransformationSpec(
 func (p *AccessibilityManagerProxy) AttachAccessibilityOverlayToDisplay(
 	ctx context.Context,
 	displayId int32,
-	surfaceControl interface{},
+	surfaceControl view.SurfaceControl,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
+	if _err := surfaceControl.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManager, MethodIAccessibilityManagerAttachAccessibilityOverlayToDisplay)
 	if _err != nil {
@@ -1395,6 +1482,7 @@ func (p *AccessibilityManagerProxy) NotifyQuickSettingsTilesChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(_identity.UserID)
 	if tileComponentNames == nil {
@@ -1421,7 +1509,8 @@ func (p *AccessibilityManagerProxy) NotifyQuickSettingsTilesChanged(
 // AccessibilityManagerStub dispatches incoming binder transactions
 // to a typed IAccessibilityManager implementation.
 type AccessibilityManagerStub struct {
-	Impl IAccessibilityManager
+	Impl      IAccessibilityManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AccessibilityManagerStub)(nil)
@@ -1435,21 +1524,18 @@ func (s *AccessibilityManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAccessibilityManagerInterrupt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Interrupt(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityManagerSendAccessibilityEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_uiEvent AccessibilityEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1466,15 +1552,16 @@ func (s *AccessibilityManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err := s.Impl.SendAccessibilityEvent(ctx, _arg_uiEvent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityManagerAddClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IAccessibilityManagerClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewAccessibilityManagerClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1488,12 +1575,14 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerRemoveClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IAccessibilityManagerClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewAccessibilityManagerClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1507,9 +1596,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetInstalledAccessibilityServiceList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1520,12 +1606,12 @@ func (s *AccessibilityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIAccessibilityManagerGetEnabledAccessibilityServiceList:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIAccessibilityManagerGetEnabledAccessibilityServiceList:
 		_arg_feedbackType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1540,20 +1626,37 @@ func (s *AccessibilityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	case TransactionIAccessibilityManagerAddAccessibilityInteractionConnection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_windowToken view.IWindow
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = view.NewWindowProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle))
 		}
-		var _arg_windowToken interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_leashToken binder.IBinder
-		_ = _arg_leashToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_leashTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_leashToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _leashTokenHandle)
+		}
 		var _arg_connection IAccessibilityInteractionConnection
-		_ = _arg_connection
+		{
+			_connectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_connection = NewAccessibilityInteractionConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _connectionHandle))
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1571,10 +1674,14 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerRemoveAccessibilityInteractionConnection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_windowToken view.IWindow
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = view.NewWindowProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle))
 		}
-		var _arg_windowToken interface{}
 		_err := s.Impl.RemoveAccessibilityInteractionConnection(ctx, _arg_windowToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1584,12 +1691,14 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerSetPictureInPictureActionReplacingConnection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_connection IAccessibilityInteractionConnection
-		_ = _arg_connection
+		{
+			_connectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_connection = NewAccessibilityInteractionConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _connectionHandle))
+		}
 		_err := s.Impl.SetPictureInPictureActionReplacingConnection(ctx, _arg_connection)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1599,14 +1708,16 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerRegisterUiTestAutomationService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_owner binder.IBinder
-		_ = _arg_owner
-		var _arg_client interface{}
-		var _arg_info interface{}
+		{
+			_ownerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_owner = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _ownerHandle)
+		}
+		var _arg_client types.IAccessibilityServiceClient
+		var _arg_info types.AccessibilityServiceInfo
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1623,10 +1734,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerUnregisterUiTestAutomationService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_client interface{}
+		var _arg_client types.IAccessibilityServiceClient
 		_err := s.Impl.UnregisterUiTestAutomationService(ctx, _arg_client)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1636,9 +1744,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetWindowToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_windowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1653,13 +1758,9 @@ func (s *AccessibilityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	case TransactionIAccessibilityManagerNotifyAccessibilityButtonClicked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1677,9 +1778,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerNotifyAccessibilityButtonVisibilityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_available, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1693,9 +1791,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerPerformAccessibilityShortcut:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_targetName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1709,9 +1804,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetAccessibilityShortcutTargets:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_shortcutType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1723,13 +1815,16 @@ func (s *AccessibilityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIAccessibilityManagerSendFingerprintGesture:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_gestureKeyCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1744,12 +1839,14 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetAccessibilityWindowId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
+		}
 		_result, _err := s.Impl.GetAccessibilityWindowId(ctx, _arg_windowToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1760,9 +1857,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetRecommendedTimeoutMillis:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRecommendedTimeoutMillis(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1773,48 +1867,59 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerRegisterSystemAction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_action app.RemoteAction
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_action.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_action interface{}
 		_arg_actionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RegisterSystemAction(ctx, _arg_action, _arg_actionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityManagerUnregisterSystemAction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_actionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.UnregisterSystemAction(ctx, _arg_actionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityManagerSetMagnificationConnection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_connection IMagnificationConnection
-		_ = _arg_connection
-		_err := s.Impl.SetMagnificationConnection(ctx, _arg_connection)
-		_ = _err
-		return nil, nil
-	case TransactionIAccessibilityManagerAssociateEmbeddedHierarchy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_connectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_connection = NewMagnificationConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _connectionHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err := s.Impl.SetMagnificationConnection(ctx, _arg_connection)
+		return nil, _err
+	case TransactionIAccessibilityManagerAssociateEmbeddedHierarchy:
 		var _arg_host binder.IBinder
-		_ = _arg_host
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_hostHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_host = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _hostHandle)
+		}
 		var _arg_embedded binder.IBinder
-		_ = _arg_embedded
+		{
+			_embeddedHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_embedded = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _embeddedHandle)
+		}
 		_err := s.Impl.AssociateEmbeddedHierarchy(ctx, _arg_host, _arg_embedded)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1824,12 +1929,14 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerDisassociateEmbeddedHierarchy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.DisassociateEmbeddedHierarchy(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1839,9 +1946,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetFocusStrokeWidth:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetFocusStrokeWidth(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1852,9 +1956,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetFocusColor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetFocusColor(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1865,9 +1966,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerIsAudioDescriptionByDefaultEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsAudioDescriptionByDefaultEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1878,9 +1976,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerSetSystemAudioCaptioningEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1897,9 +1992,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerIsSystemAudioCaptioningUiEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1913,9 +2005,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerSetSystemAudioCaptioningUiEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1932,9 +2021,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerSetAccessibilityWindowAttributes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1959,13 +2045,9 @@ func (s *AccessibilityManagerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetAccessibilityWindowAttributes(ctx, _arg_displayId, _arg_windowId, _arg_attributes)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityManagerRegisterProxyForDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_proxy interface{}
+		var _arg_proxy types.IAccessibilityServiceClient
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1980,9 +2062,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerUnregisterProxyForDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1997,10 +2076,18 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerInjectInputEventToInputFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_event view.InputEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_event interface{}
 		_err := s.Impl.InjectInputEventToInputFilter(ctx, _arg_event)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2010,9 +2097,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerStartFlashNotificationSequence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_opPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2021,9 +2105,14 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.StartFlashNotificationSequence(ctx, _arg_opPkg, _arg_reason, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2034,9 +2123,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerStopFlashNotificationSequence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_opPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2051,9 +2137,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerStartFlashNotificationEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_opPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2076,9 +2159,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerIsAccessibilityTargetAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2100,9 +2180,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerSendRestrictedDialogIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2124,10 +2201,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerIsAccessibilityServiceWarningRequired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_info interface{}
+		var _arg_info types.AccessibilityServiceInfo
 		_result, _err := s.Impl.IsAccessibilityServiceWarningRequired(ctx, _arg_info)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2138,9 +2212,6 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetWindowTransformationSpec:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_windowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2158,14 +2229,22 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAccessibilityManagerAttachAccessibilityOverlayToDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_surfaceControl interface{}
+		var _arg_surfaceControl view.SurfaceControl
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surfaceControl.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.AttachAccessibilityOverlayToDisplay(ctx, _arg_displayId, _arg_surfaceControl)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2175,18 +2254,32 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerNotifyQuickSettingsTilesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_tileComponentNames []content.ComponentName
-		_ = _arg_tileComponentNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_tileComponentNames = make([]content.ComponentName, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_tileComponentNames[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.NotifyQuickSettingsTilesChanged(ctx, _arg_tileComponentNames)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -2200,13 +2293,13 @@ type IAccessibilityManagerServer interface {
 	SendAccessibilityEvent(ctx context.Context, uiEvent AccessibilityEvent) error
 	AddClient(ctx context.Context, client IAccessibilityManagerClient) (int64, error)
 	RemoveClient(ctx context.Context, client IAccessibilityManagerClient) (bool, error)
-	GetInstalledAccessibilityServiceList(ctx context.Context) (interface{}, error)
-	GetEnabledAccessibilityServiceList(ctx context.Context, feedbackType int32) ([]interface{}, error)
-	AddAccessibilityInteractionConnection(ctx context.Context, windowToken interface{}, leashToken binder.IBinder, connection IAccessibilityInteractionConnection, packageName string) (int32, error)
-	RemoveAccessibilityInteractionConnection(ctx context.Context, windowToken interface{}) error
+	GetInstalledAccessibilityServiceList(ctx context.Context) (pm.ParceledListSlice, error)
+	GetEnabledAccessibilityServiceList(ctx context.Context, feedbackType int32) ([]types.AccessibilityServiceInfo, error)
+	AddAccessibilityInteractionConnection(ctx context.Context, windowToken view.IWindow, leashToken binder.IBinder, connection IAccessibilityInteractionConnection, packageName string) (int32, error)
+	RemoveAccessibilityInteractionConnection(ctx context.Context, windowToken view.IWindow) error
 	SetPictureInPictureActionReplacingConnection(ctx context.Context, connection IAccessibilityInteractionConnection) error
-	RegisterUiTestAutomationService(ctx context.Context, owner binder.IBinder, client interface{}, info interface{}, flags int32) error
-	UnregisterUiTestAutomationService(ctx context.Context, client interface{}) error
+	RegisterUiTestAutomationService(ctx context.Context, owner binder.IBinder, client types.IAccessibilityServiceClient, info types.AccessibilityServiceInfo, flags int32) error
+	UnregisterUiTestAutomationService(ctx context.Context, client types.IAccessibilityServiceClient) error
 	GetWindowToken(ctx context.Context, windowId int32) (binder.IBinder, error)
 	NotifyAccessibilityButtonClicked(ctx context.Context, displayId int32, targetName string) error
 	NotifyAccessibilityButtonVisibilityChanged(ctx context.Context, available bool) error
@@ -2215,7 +2308,7 @@ type IAccessibilityManagerServer interface {
 	SendFingerprintGesture(ctx context.Context, gestureKeyCode int32) (bool, error)
 	GetAccessibilityWindowId(ctx context.Context, windowToken binder.IBinder) (int32, error)
 	GetRecommendedTimeoutMillis(ctx context.Context) (int64, error)
-	RegisterSystemAction(ctx context.Context, action interface{}, actionId int32) error
+	RegisterSystemAction(ctx context.Context, action app.RemoteAction, actionId int32) error
 	UnregisterSystemAction(ctx context.Context, actionId int32) error
 	SetMagnificationConnection(ctx context.Context, connection IMagnificationConnection) error
 	AssociateEmbeddedHierarchy(ctx context.Context, host binder.IBinder, embedded binder.IBinder) error
@@ -2227,17 +2320,17 @@ type IAccessibilityManagerServer interface {
 	IsSystemAudioCaptioningUiEnabled(ctx context.Context) (bool, error)
 	SetSystemAudioCaptioningUiEnabled(ctx context.Context, isEnabled bool) error
 	SetAccessibilityWindowAttributes(ctx context.Context, displayId int32, windowId int32, attributes AccessibilityWindowAttributes) error
-	RegisterProxyForDisplay(ctx context.Context, proxy interface{}, displayId int32) (bool, error)
+	RegisterProxyForDisplay(ctx context.Context, proxy types.IAccessibilityServiceClient, displayId int32) (bool, error)
 	UnregisterProxyForDisplay(ctx context.Context, displayId int32) (bool, error)
-	InjectInputEventToInputFilter(ctx context.Context, event interface{}) error
+	InjectInputEventToInputFilter(ctx context.Context, event view.InputEvent) error
 	StartFlashNotificationSequence(ctx context.Context, opPkg string, reason int32, token binder.IBinder) (bool, error)
 	StopFlashNotificationSequence(ctx context.Context, opPkg string) (bool, error)
 	StartFlashNotificationEvent(ctx context.Context, opPkg string, reason int32, reasonPkg string) (bool, error)
 	IsAccessibilityTargetAllowed(ctx context.Context, packageName string, uid int32) (bool, error)
 	SendRestrictedDialogIntent(ctx context.Context, packageName string, uid int32) (bool, error)
-	IsAccessibilityServiceWarningRequired(ctx context.Context, info interface{}) (bool, error)
-	GetWindowTransformationSpec(ctx context.Context, windowId int32) (accessibilityIAccessibilityManager.WindowTransformationSpec, error)
-	AttachAccessibilityOverlayToDisplay(ctx context.Context, displayId int32, surfaceControl interface{}) error
+	IsAccessibilityServiceWarningRequired(ctx context.Context, info types.AccessibilityServiceInfo) (bool, error)
+	GetWindowTransformationSpec(ctx context.Context, windowId int32) (IAccessibilityManagerWindowTransformationSpec, error)
+	AttachAccessibilityOverlayToDisplay(ctx context.Context, displayId int32, surfaceControl view.SurfaceControl) error
 	NotifyQuickSettingsTilesChanged(ctx context.Context, tileComponentNames []content.ComponentName) error
 }
 
@@ -2279,20 +2372,20 @@ func (w *accessibilityManagerStubWrapper) RemoveClient(
 
 func (w *accessibilityManagerStubWrapper) GetInstalledAccessibilityServiceList(
 	ctx context.Context,
-) (interface{}, error) {
+) (pm.ParceledListSlice, error) {
 	return w.impl.GetInstalledAccessibilityServiceList(ctx)
 }
 
 func (w *accessibilityManagerStubWrapper) GetEnabledAccessibilityServiceList(
 	ctx context.Context,
 	feedbackType int32,
-) ([]interface{}, error) {
+) ([]types.AccessibilityServiceInfo, error) {
 	return w.impl.GetEnabledAccessibilityServiceList(ctx, feedbackType)
 }
 
 func (w *accessibilityManagerStubWrapper) AddAccessibilityInteractionConnection(
 	ctx context.Context,
-	windowToken interface{},
+	windowToken view.IWindow,
 	leashToken binder.IBinder,
 	connection IAccessibilityInteractionConnection,
 	packageName string,
@@ -2302,7 +2395,7 @@ func (w *accessibilityManagerStubWrapper) AddAccessibilityInteractionConnection(
 
 func (w *accessibilityManagerStubWrapper) RemoveAccessibilityInteractionConnection(
 	ctx context.Context,
-	windowToken interface{},
+	windowToken view.IWindow,
 ) error {
 	return w.impl.RemoveAccessibilityInteractionConnection(ctx, windowToken)
 }
@@ -2317,8 +2410,8 @@ func (w *accessibilityManagerStubWrapper) SetPictureInPictureActionReplacingConn
 func (w *accessibilityManagerStubWrapper) RegisterUiTestAutomationService(
 	ctx context.Context,
 	owner binder.IBinder,
-	client interface{},
-	info interface{},
+	client types.IAccessibilityServiceClient,
+	info types.AccessibilityServiceInfo,
 	flags int32,
 ) error {
 	return w.impl.RegisterUiTestAutomationService(ctx, owner, client, info, flags)
@@ -2326,7 +2419,7 @@ func (w *accessibilityManagerStubWrapper) RegisterUiTestAutomationService(
 
 func (w *accessibilityManagerStubWrapper) UnregisterUiTestAutomationService(
 	ctx context.Context,
-	client interface{},
+	client types.IAccessibilityServiceClient,
 ) error {
 	return w.impl.UnregisterUiTestAutomationService(ctx, client)
 }
@@ -2389,7 +2482,7 @@ func (w *accessibilityManagerStubWrapper) GetRecommendedTimeoutMillis(
 
 func (w *accessibilityManagerStubWrapper) RegisterSystemAction(
 	ctx context.Context,
-	action interface{},
+	action app.RemoteAction,
 	actionId int32,
 ) error {
 	return w.impl.RegisterSystemAction(ctx, action, actionId)
@@ -2473,7 +2566,7 @@ func (w *accessibilityManagerStubWrapper) SetAccessibilityWindowAttributes(
 
 func (w *accessibilityManagerStubWrapper) RegisterProxyForDisplay(
 	ctx context.Context,
-	proxy interface{},
+	proxy types.IAccessibilityServiceClient,
 	displayId int32,
 ) (bool, error) {
 	return w.impl.RegisterProxyForDisplay(ctx, proxy, displayId)
@@ -2488,7 +2581,7 @@ func (w *accessibilityManagerStubWrapper) UnregisterProxyForDisplay(
 
 func (w *accessibilityManagerStubWrapper) InjectInputEventToInputFilter(
 	ctx context.Context,
-	event interface{},
+	event view.InputEvent,
 ) error {
 	return w.impl.InjectInputEventToInputFilter(ctx, event)
 }
@@ -2536,7 +2629,7 @@ func (w *accessibilityManagerStubWrapper) SendRestrictedDialogIntent(
 
 func (w *accessibilityManagerStubWrapper) IsAccessibilityServiceWarningRequired(
 	ctx context.Context,
-	info interface{},
+	info types.AccessibilityServiceInfo,
 ) (bool, error) {
 	return w.impl.IsAccessibilityServiceWarningRequired(ctx, info)
 }
@@ -2544,14 +2637,14 @@ func (w *accessibilityManagerStubWrapper) IsAccessibilityServiceWarningRequired(
 func (w *accessibilityManagerStubWrapper) GetWindowTransformationSpec(
 	ctx context.Context,
 	windowId int32,
-) (accessibilityIAccessibilityManager.WindowTransformationSpec, error) {
+) (IAccessibilityManagerWindowTransformationSpec, error) {
 	return w.impl.GetWindowTransformationSpec(ctx, windowId)
 }
 
 func (w *accessibilityManagerStubWrapper) AttachAccessibilityOverlayToDisplay(
 	ctx context.Context,
 	displayId int32,
-	surfaceControl interface{},
+	surfaceControl view.SurfaceControl,
 ) error {
 	return w.impl.AttachAccessibilityOverlayToDisplay(ctx, displayId, surfaceControl)
 }

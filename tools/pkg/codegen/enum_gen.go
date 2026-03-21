@@ -191,7 +191,9 @@ func foldUnsignedToSigned(
 	switch backingGoType {
 	case "byte":
 		if val > math.MaxUint8 {
-			return fmt.Sprintf("%d", int8(val))
+			// byte is uint8 in Go, so truncate to uint8 (not int8, which
+			// would produce negative numbers for values > 127).
+			return fmt.Sprintf("%d", byte(val))
 		}
 	case "int32":
 		if val > math.MaxInt32 {
@@ -248,6 +250,7 @@ func tryEvalConstExpr(expr parser.ConstExpr) (uint64, bool) {
 		if !ok {
 			return 0, false
 		}
+		// Note: arithmetic on uint64 wraps on overflow, matching Java/C unsigned semantics.
 		switch e.Op {
 		case parser.TokenPlus:
 			return left + right, true
@@ -324,6 +327,7 @@ func tryEvalConstExprWithRegistry(
 		if !ok {
 			return 0, false
 		}
+		// Note: arithmetic on uint64 wraps on overflow, matching Java/C unsigned semantics.
 		switch e.Op {
 		case parser.TokenPlus:
 			return left + right, true

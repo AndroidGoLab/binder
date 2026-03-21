@@ -48,6 +48,7 @@ func (p *DataShareCallbackProxy) Accept(
 	adapter IDataShareReadAdapter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataShareCallback)
 	binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
 
@@ -64,6 +65,7 @@ func (p *DataShareCallbackProxy) Reject(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataShareCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataShareCallback, MethodIDataShareCallbackReject)
@@ -78,7 +80,8 @@ func (p *DataShareCallbackProxy) Reject(
 // DataShareCallbackStub dispatches incoming binder transactions
 // to a typed IDataShareCallback implementation.
 type DataShareCallbackStub struct {
-	Impl IDataShareCallback
+	Impl      IDataShareCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DataShareCallbackStub)(nil)
@@ -92,24 +95,25 @@ func (s *DataShareCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDataShareCallbackAccept:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_adapter IDataShareReadAdapter
-		_ = _arg_adapter
-		_err := s.Impl.Accept(ctx, _arg_adapter)
-		_ = _err
-		return nil, nil
-	case TransactionIDataShareCallbackReject:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_adapterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_adapter = NewDataShareReadAdapterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _adapterHandle))
 		}
+		_err := s.Impl.Accept(ctx, _arg_adapter)
+		return nil, _err
+	case TransactionIDataShareCallbackReject:
 		_err := s.Impl.Reject(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

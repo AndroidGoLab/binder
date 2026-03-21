@@ -88,6 +88,7 @@ func (p *AdbManagerProxy) AllowDebugging(
 	publicKey string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 	_data.WriteBool(alwaysAllow)
 	_data.WriteString16(publicKey)
@@ -114,6 +115,7 @@ func (p *AdbManagerProxy) DenyDebugging(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbManager, MethodIAdbManagerDenyDebugging)
@@ -138,6 +140,7 @@ func (p *AdbManagerProxy) ClearDebuggingKeys(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbManager, MethodIAdbManagerClearDebuggingKeys)
@@ -164,6 +167,7 @@ func (p *AdbManagerProxy) AllowWirelessDebugging(
 	bssid string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 	_data.WriteBool(alwaysAllow)
 	_data.WriteString16(bssid)
@@ -190,6 +194,7 @@ func (p *AdbManagerProxy) DenyWirelessDebugging(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbManager, MethodIAdbManagerDenyWirelessDebugging)
@@ -215,6 +220,7 @@ func (p *AdbManagerProxy) GetPairedDevices(
 ) ([]FingerprintAndPairDevice, error) {
 	var _result []FingerprintAndPairDevice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbManager, MethodIAdbManagerGetPairedDevices)
@@ -236,6 +242,9 @@ func (p *AdbManagerProxy) GetPairedDevices(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]FingerprintAndPairDevice, _count)
@@ -256,6 +265,7 @@ func (p *AdbManagerProxy) UnpairDevice(
 	fingerprint string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 	_data.WriteString16(fingerprint)
 
@@ -281,6 +291,7 @@ func (p *AdbManagerProxy) EnablePairingByPairingCode(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbManager, MethodIAdbManagerEnablePairingByPairingCode)
@@ -307,6 +318,7 @@ func (p *AdbManagerProxy) EnablePairingByQrCode(
 	password string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 	_data.WriteString16(serviceName)
 	_data.WriteString16(password)
@@ -334,6 +346,7 @@ func (p *AdbManagerProxy) GetAdbWirelessPort(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbManager, MethodIAdbManagerGetAdbWirelessPort)
@@ -362,6 +375,7 @@ func (p *AdbManagerProxy) DisablePairing(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbManager, MethodIAdbManagerDisablePairing)
@@ -387,6 +401,7 @@ func (p *AdbManagerProxy) IsAdbWifiSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbManager, MethodIAdbManagerIsAdbWifiSupported)
@@ -416,6 +431,7 @@ func (p *AdbManagerProxy) IsAdbWifiQrSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbManager, MethodIAdbManagerIsAdbWifiQrSupported)
@@ -445,6 +461,7 @@ func (p *AdbManagerProxy) RegisterCallback(
 	callback IAdbCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -471,6 +488,7 @@ func (p *AdbManagerProxy) UnregisterCallback(
 	callback IAdbCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -495,7 +513,8 @@ func (p *AdbManagerProxy) UnregisterCallback(
 // AdbManagerStub dispatches incoming binder transactions
 // to a typed IAdbManager implementation.
 type AdbManagerStub struct {
-	Impl IAdbManager
+	Impl      IAdbManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AdbManagerStub)(nil)
@@ -509,11 +528,12 @@ func (s *AdbManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAdbManagerAllowDebugging:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_alwaysAllow, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -531,9 +551,6 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerDenyDebugging:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DenyDebugging(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -543,9 +560,6 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerClearDebuggingKeys:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ClearDebuggingKeys(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -555,9 +569,6 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerAllowWirelessDebugging:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_alwaysAllow, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -575,9 +586,6 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerDenyWirelessDebugging:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DenyWirelessDebugging(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -587,9 +595,6 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerGetPairedDevices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPairedDevices(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -597,13 +602,19 @@ func (s *AdbManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIAdbManagerUnpairDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fingerprint, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -617,9 +628,6 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerEnablePairingByPairingCode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.EnablePairingByPairingCode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -629,9 +637,6 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerEnablePairingByQrCode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -649,9 +654,6 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerGetAdbWirelessPort:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAdbWirelessPort(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -662,9 +664,6 @@ func (s *AdbManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAdbManagerDisablePairing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DisablePairing(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -674,9 +673,6 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerIsAdbWifiSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsAdbWifiSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -687,9 +683,6 @@ func (s *AdbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAdbManagerIsAdbWifiQrSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsAdbWifiQrSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -700,12 +693,14 @@ func (s *AdbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAdbManagerRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAdbCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAdbCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -715,12 +710,14 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerUnregisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAdbCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAdbCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

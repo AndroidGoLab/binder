@@ -1,0 +1,5620 @@
+package: android.hardware.wifi.supplicant
+go_package: android/hardware/wifi/supplicant
+interfaces:
+    - name: INonStandardCertCallback
+      descriptor: android.hardware.wifi.supplicant.INonStandardCertCallback
+      methods:
+        - name: getBlob
+          transaction_code_offset: 0
+          params:
+            - name: alias
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: listAliases
+          transaction_code_offset: 1
+          params:
+            - name: prefix
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: String
+            is_array: true
+    - name: ISupplicant
+      descriptor: android.hardware.wifi.supplicant.ISupplicant
+      methods:
+        - name: addP2pInterface
+          transaction_code_offset: 0
+          params:
+            - name: ifName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: ISupplicantP2pIface
+          annotations:
+            - PropagateAllowBlocking
+        - name: addStaInterface
+          transaction_code_offset: 1
+          params:
+            - name: ifName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: ISupplicantStaIface
+          annotations:
+            - PropagateAllowBlocking
+        - name: getDebugLevel
+          transaction_code_offset: 2
+          return_type:
+            name: DebugLevel
+        - name: getP2pInterface
+          transaction_code_offset: 3
+          params:
+            - name: ifName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: ISupplicantP2pIface
+          annotations:
+            - PropagateAllowBlocking
+        - name: getStaInterface
+          transaction_code_offset: 4
+          params:
+            - name: ifName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: ISupplicantStaIface
+          annotations:
+            - PropagateAllowBlocking
+        - name: isDebugShowKeysEnabled
+          transaction_code_offset: 5
+          return_type:
+            name: boolean
+        - name: isDebugShowTimestampEnabled
+          transaction_code_offset: 6
+          return_type:
+            name: boolean
+        - name: listInterfaces
+          transaction_code_offset: 7
+          return_type:
+            name: IfaceInfo
+            is_array: true
+        - name: registerCallback
+          transaction_code_offset: 8
+          params:
+            - name: callback
+              type:
+                name: ISupplicantCallback
+              direction: in
+          return_type:
+            name: void
+        - name: removeInterface
+          transaction_code_offset: 9
+          params:
+            - name: ifaceInfo
+              type:
+                name: IfaceInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setConcurrencyPriority
+          transaction_code_offset: 10
+          params:
+            - name: type
+              type:
+                name: IfaceType
+              direction: in
+          return_type:
+            name: void
+        - name: setDebugParams
+          transaction_code_offset: 11
+          params:
+            - name: level
+              type:
+                name: DebugLevel
+              direction: in
+            - name: showTimestamp
+              type:
+                name: boolean
+              direction: in
+            - name: showKeys
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: terminate
+          transaction_code_offset: 12
+          oneway: true
+          return_type:
+            name: void
+        - name: registerNonStandardCertCallback
+          transaction_code_offset: 13
+          params:
+            - name: callback
+              type:
+                name: INonStandardCertCallback
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: EXT_RADIO_WORK_TIMEOUT_IN_SECS
+          type: int
+          value: "10"
+    - name: ISupplicantCallback
+      descriptor: android.hardware.wifi.supplicant.ISupplicantCallback
+      oneway: true
+      methods:
+        - name: onInterfaceCreated
+          transaction_code_offset: 0
+          params:
+            - name: ifaceName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onInterfaceRemoved
+          transaction_code_offset: 1
+          params:
+            - name: ifaceName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+    - name: ISupplicantP2pIface
+      descriptor: android.hardware.wifi.supplicant.ISupplicantP2pIface
+      methods:
+        - name: addBonjourService
+          transaction_code_offset: 0
+          params:
+            - name: query
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: response
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: addGroup
+          transaction_code_offset: 1
+          params:
+            - name: persistent
+              type:
+                name: boolean
+              direction: in
+            - name: persistentNetworkId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: addGroupWithConfig
+          transaction_code_offset: 2
+          params:
+            - name: ssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: pskPassphrase
+              type:
+                name: String
+              direction: in
+            - name: persistent
+              type:
+                name: boolean
+              direction: in
+            - name: freq
+              type:
+                name: int
+              direction: in
+            - name: peerAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: joinExistingGroup
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: addNetwork
+          transaction_code_offset: 3
+          return_type:
+            name: ISupplicantP2pNetwork
+          annotations:
+            - PropagateAllowBlocking
+        - name: addUpnpService
+          transaction_code_offset: 4
+          params:
+            - name: version
+              type:
+                name: int
+              direction: in
+            - name: serviceName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: cancelConnect
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: cancelServiceDiscovery
+          transaction_code_offset: 6
+          params:
+            - name: identifier
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: cancelWps
+          transaction_code_offset: 7
+          params:
+            - name: groupIfName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: configureExtListen
+          transaction_code_offset: 8
+          params:
+            - name: periodInMillis
+              type:
+                name: int
+              direction: in
+            - name: intervalInMillis
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: connect
+          transaction_code_offset: 9
+          params:
+            - name: peerAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: provisionMethod
+              type:
+                name: WpsProvisionMethod
+              direction: in
+            - name: preSelectedPin
+              type:
+                name: String
+              direction: in
+            - name: joinExistingGroup
+              type:
+                name: boolean
+              direction: in
+            - name: persistent
+              type:
+                name: boolean
+              direction: in
+            - name: goIntent
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: String
+        - name: createNfcHandoverRequestMessage
+          transaction_code_offset: 10
+          return_type:
+            name: byte
+            is_array: true
+        - name: createNfcHandoverSelectMessage
+          transaction_code_offset: 11
+          return_type:
+            name: byte
+            is_array: true
+        - name: enableWfd
+          transaction_code_offset: 12
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: find
+          transaction_code_offset: 13
+          params:
+            - name: timeoutInSec
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: flush
+          transaction_code_offset: 14
+          return_type:
+            name: void
+        - name: flushServices
+          transaction_code_offset: 15
+          return_type:
+            name: void
+        - name: getDeviceAddress
+          transaction_code_offset: 16
+          return_type:
+            name: byte
+            is_array: true
+        - name: getEdmg
+          transaction_code_offset: 17
+          return_type:
+            name: boolean
+        - name: getGroupCapability
+          transaction_code_offset: 18
+          params:
+            - name: peerAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: P2pGroupCapabilityMask
+        - name: getName
+          transaction_code_offset: 19
+          return_type:
+            name: String
+        - name: getNetwork
+          transaction_code_offset: 20
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: ISupplicantP2pNetwork
+          annotations:
+            - PropagateAllowBlocking
+        - name: getSsid
+          transaction_code_offset: 21
+          params:
+            - name: peerAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: getType
+          transaction_code_offset: 22
+          return_type:
+            name: IfaceType
+        - name: invite
+          transaction_code_offset: 23
+          params:
+            - name: groupIfName
+              type:
+                name: String
+              direction: in
+            - name: goDeviceAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: peerAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: listNetworks
+          transaction_code_offset: 24
+          return_type:
+            name: int
+            is_array: true
+        - name: provisionDiscovery
+          transaction_code_offset: 25
+          params:
+            - name: peerAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: provisionMethod
+              type:
+                name: WpsProvisionMethod
+              direction: in
+          return_type:
+            name: void
+        - name: registerCallback
+          transaction_code_offset: 26
+          params:
+            - name: callback
+              type:
+                name: ISupplicantP2pIfaceCallback
+              direction: in
+          return_type:
+            name: void
+        - name: reinvoke
+          transaction_code_offset: 27
+          params:
+            - name: persistentNetworkId
+              type:
+                name: int
+              direction: in
+            - name: peerAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: reject
+          transaction_code_offset: 28
+          params:
+            - name: peerAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: removeBonjourService
+          transaction_code_offset: 29
+          params:
+            - name: query
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: removeGroup
+          transaction_code_offset: 30
+          params:
+            - name: groupIfName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: removeNetwork
+          transaction_code_offset: 31
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: removeUpnpService
+          transaction_code_offset: 32
+          params:
+            - name: version
+              type:
+                name: int
+              direction: in
+            - name: serviceName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: reportNfcHandoverInitiation
+          transaction_code_offset: 33
+          params:
+            - name: select
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: reportNfcHandoverResponse
+          transaction_code_offset: 34
+          params:
+            - name: request
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: requestServiceDiscovery
+          transaction_code_offset: 35
+          params:
+            - name: peerAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: query
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: long
+        - name: saveConfig
+          transaction_code_offset: 36
+          return_type:
+            name: void
+        - name: setDisallowedFrequencies
+          transaction_code_offset: 37
+          params:
+            - name: ranges
+              type:
+                name: FreqRange
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setEdmg
+          transaction_code_offset: 38
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setGroupIdle
+          transaction_code_offset: 39
+          params:
+            - name: groupIfName
+              type:
+                name: String
+              direction: in
+            - name: timeoutInSec
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setListenChannel
+          transaction_code_offset: 40
+          params:
+            - name: channel
+              type:
+                name: int
+              direction: in
+            - name: operatingClass
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setMacRandomization
+          transaction_code_offset: 41
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setMiracastMode
+          transaction_code_offset: 42
+          params:
+            - name: mode
+              type:
+                name: MiracastMode
+              direction: in
+          return_type:
+            name: void
+        - name: setPowerSave
+          transaction_code_offset: 43
+          params:
+            - name: groupIfName
+              type:
+                name: String
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setSsidPostfix
+          transaction_code_offset: 44
+          params:
+            - name: postfix
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setWfdDeviceInfo
+          transaction_code_offset: 45
+          params:
+            - name: info
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setWfdR2DeviceInfo
+          transaction_code_offset: 46
+          params:
+            - name: info
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: removeClient
+          transaction_code_offset: 47
+          params:
+            - name: peerAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: isLegacyClient
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setWpsConfigMethods
+          transaction_code_offset: 48
+          params:
+            - name: configMethods
+              type:
+                name: WpsConfigMethods
+              direction: in
+          return_type:
+            name: void
+        - name: setWpsDeviceName
+          transaction_code_offset: 49
+          params:
+            - name: name
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setWpsDeviceType
+          transaction_code_offset: 50
+          params:
+            - name: type
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setWpsManufacturer
+          transaction_code_offset: 51
+          params:
+            - name: manufacturer
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setWpsModelName
+          transaction_code_offset: 52
+          params:
+            - name: modelName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setWpsModelNumber
+          transaction_code_offset: 53
+          params:
+            - name: modelNumber
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setWpsSerialNumber
+          transaction_code_offset: 54
+          params:
+            - name: serialNumber
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: startWpsPbc
+          transaction_code_offset: 55
+          params:
+            - name: groupIfName
+              type:
+                name: String
+              direction: in
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: startWpsPinDisplay
+          transaction_code_offset: 56
+          params:
+            - name: groupIfName
+              type:
+                name: String
+              direction: in
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: String
+        - name: startWpsPinKeypad
+          transaction_code_offset: 57
+          params:
+            - name: groupIfName
+              type:
+                name: String
+              direction: in
+            - name: pin
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: stopFind
+          transaction_code_offset: 58
+          return_type:
+            name: void
+        - name: findOnSocialChannels
+          transaction_code_offset: 59
+          params:
+            - name: timeoutInSec
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: findOnSpecificFrequency
+          transaction_code_offset: 60
+          params:
+            - name: freqInHz
+              type:
+                name: int
+              direction: in
+            - name: timeoutInSec
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setVendorElements
+          transaction_code_offset: 61
+          params:
+            - name: frameTypeMask
+              type:
+                name: P2pFrameTypeMask
+              direction: in
+            - name: vendorElemBytes
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: configureEapolIpAddressAllocationParams
+          transaction_code_offset: 62
+          params:
+            - name: ipAddressGo
+              type:
+                name: int
+              direction: in
+            - name: ipAddressMask
+              type:
+                name: int
+              direction: in
+            - name: ipAddressStart
+              type:
+                name: int
+              direction: in
+            - name: ipAddressEnd
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: connectWithParams
+          transaction_code_offset: 63
+          params:
+            - name: connectInfo
+              type:
+                name: P2pConnectInfo
+              direction: in
+          return_type:
+            name: String
+        - name: findWithParams
+          transaction_code_offset: 64
+          params:
+            - name: discoveryInfo
+              type:
+                name: P2pDiscoveryInfo
+              direction: in
+          return_type:
+            name: void
+        - name: configureExtListenWithParams
+          transaction_code_offset: 65
+          params:
+            - name: extListenInfo
+              type:
+                name: P2pExtListenInfo
+              direction: in
+          return_type:
+            name: void
+        - name: addGroupWithConfigurationParams
+          transaction_code_offset: 66
+          params:
+            - name: groupConfigurationParams
+              type:
+                name: P2pAddGroupConfigurationParams
+              direction: in
+          return_type:
+            name: void
+        - name: createGroupOwner
+          transaction_code_offset: 67
+          params:
+            - name: groupOwnerInfo
+              type:
+                name: P2pCreateGroupOwnerInfo
+              direction: in
+          return_type:
+            name: void
+    - name: ISupplicantP2pIfaceCallback
+      descriptor: android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback
+      oneway: true
+      methods:
+        - name: onDeviceFound
+          transaction_code_offset: 0
+          params:
+            - name: srcAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: p2pDeviceAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: primaryDeviceType
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: deviceName
+              type:
+                name: String
+              direction: in
+            - name: configMethods
+              type:
+                name: WpsConfigMethods
+              direction: in
+            - name: deviceCapabilities
+              type:
+                name: byte
+              direction: in
+            - name: groupCapabilities
+              type:
+                name: P2pGroupCapabilityMask
+              direction: in
+            - name: wfdDeviceInfo
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onDeviceLost
+          transaction_code_offset: 1
+          params:
+            - name: p2pDeviceAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onFindStopped
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onGoNegotiationCompleted
+          transaction_code_offset: 3
+          params:
+            - name: status
+              type:
+                name: P2pStatusCode
+              direction: in
+          return_type:
+            name: void
+        - name: onGoNegotiationRequest
+          transaction_code_offset: 4
+          params:
+            - name: srcAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: passwordId
+              type:
+                name: WpsDevPasswordId
+              direction: in
+          return_type:
+            name: void
+        - name: onGroupFormationFailure
+          transaction_code_offset: 5
+          params:
+            - name: failureReason
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onGroupFormationSuccess
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: onGroupRemoved
+          transaction_code_offset: 7
+          params:
+            - name: groupIfname
+              type:
+                name: String
+              direction: in
+            - name: isGroupOwner
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: onGroupStarted
+          transaction_code_offset: 8
+          params:
+            - name: groupIfname
+              type:
+                name: String
+              direction: in
+            - name: isGroupOwner
+              type:
+                name: boolean
+              direction: in
+            - name: ssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: frequency
+              type:
+                name: int
+              direction: in
+            - name: psk
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: passphrase
+              type:
+                name: String
+              direction: in
+            - name: goDeviceAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: isPersistent
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: onInvitationReceived
+          transaction_code_offset: 9
+          params:
+            - name: srcAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: goDeviceAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: persistentNetworkId
+              type:
+                name: int
+              direction: in
+            - name: operatingFrequency
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onInvitationResult
+          transaction_code_offset: 10
+          params:
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: status
+              type:
+                name: P2pStatusCode
+              direction: in
+          return_type:
+            name: void
+        - name: onProvisionDiscoveryCompleted
+          transaction_code_offset: 11
+          params:
+            - name: p2pDeviceAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: isRequest
+              type:
+                name: boolean
+              direction: in
+            - name: status
+              type:
+                name: P2pProvDiscStatusCode
+              direction: in
+            - name: configMethods
+              type:
+                name: WpsConfigMethods
+              direction: in
+            - name: generatedPin
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onR2DeviceFound
+          transaction_code_offset: 12
+          params:
+            - name: srcAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: p2pDeviceAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: primaryDeviceType
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: deviceName
+              type:
+                name: String
+              direction: in
+            - name: configMethods
+              type:
+                name: WpsConfigMethods
+              direction: in
+            - name: deviceCapabilities
+              type:
+                name: byte
+              direction: in
+            - name: groupCapabilities
+              type:
+                name: P2pGroupCapabilityMask
+              direction: in
+            - name: wfdDeviceInfo
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: wfdR2DeviceInfo
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onServiceDiscoveryResponse
+          transaction_code_offset: 13
+          params:
+            - name: srcAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: updateIndicator
+              type:
+                name: char
+              direction: in
+            - name: tlvs
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onStaAuthorized
+          transaction_code_offset: 14
+          params:
+            - name: srcAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: p2pDeviceAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onStaDeauthorized
+          transaction_code_offset: 15
+          params:
+            - name: srcAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: p2pDeviceAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onGroupFrequencyChanged
+          transaction_code_offset: 16
+          params:
+            - name: groupIfname
+              type:
+                name: String
+              direction: in
+            - name: frequency
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onDeviceFoundWithVendorElements
+          transaction_code_offset: 17
+          params:
+            - name: srcAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: p2pDeviceAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: primaryDeviceType
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: deviceName
+              type:
+                name: String
+              direction: in
+            - name: configMethods
+              type:
+                name: WpsConfigMethods
+              direction: in
+            - name: deviceCapabilities
+              type:
+                name: byte
+              direction: in
+            - name: groupCapabilities
+              type:
+                name: P2pGroupCapabilityMask
+              direction: in
+            - name: wfdDeviceInfo
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: wfdR2DeviceInfo
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: vendorElemBytes
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onGroupStartedWithParams
+          transaction_code_offset: 18
+          params:
+            - name: groupStartedEventParams
+              type:
+                name: P2pGroupStartedEventParams
+              direction: in
+          return_type:
+            name: void
+        - name: onPeerClientJoined
+          transaction_code_offset: 19
+          params:
+            - name: clientJoinedEventParams
+              type:
+                name: P2pPeerClientJoinedEventParams
+              direction: in
+          return_type:
+            name: void
+        - name: onPeerClientDisconnected
+          transaction_code_offset: 20
+          params:
+            - name: clientDisconnectedEventParams
+              type:
+                name: P2pPeerClientDisconnectedEventParams
+              direction: in
+          return_type:
+            name: void
+        - name: onProvisionDiscoveryCompletedEvent
+          transaction_code_offset: 21
+          params:
+            - name: provisionDiscoveryCompletedEventParams
+              type:
+                name: P2pProvisionDiscoveryCompletedEventParams
+              direction: in
+          return_type:
+            name: void
+        - name: onDeviceFoundWithParams
+          transaction_code_offset: 22
+          params:
+            - name: deviceFoundEventParams
+              type:
+                name: P2pDeviceFoundEventParams
+              direction: in
+          return_type:
+            name: void
+        - name: onGoNegotiationRequestWithParams
+          transaction_code_offset: 23
+          params:
+            - name: params
+              type:
+                name: P2pGoNegotiationReqEventParams
+              direction: in
+          return_type:
+            name: void
+        - name: onInvitationReceivedWithParams
+          transaction_code_offset: 24
+          params:
+            - name: params
+              type:
+                name: P2pInvitationEventParams
+              direction: in
+          return_type:
+            name: void
+    - name: ISupplicantP2pNetwork
+      descriptor: android.hardware.wifi.supplicant.ISupplicantP2pNetwork
+      methods:
+        - name: getBssid
+          transaction_code_offset: 0
+          return_type:
+            name: byte
+            is_array: true
+        - name: getClientList
+          transaction_code_offset: 1
+          return_type:
+            name: MacAddress
+            is_array: true
+        - name: getId
+          transaction_code_offset: 2
+          return_type:
+            name: int
+        - name: getInterfaceName
+          transaction_code_offset: 3
+          return_type:
+            name: String
+        - name: getSsid
+          transaction_code_offset: 4
+          return_type:
+            name: byte
+            is_array: true
+        - name: getType
+          transaction_code_offset: 5
+          return_type:
+            name: IfaceType
+        - name: isCurrent
+          transaction_code_offset: 6
+          return_type:
+            name: boolean
+        - name: isGroupOwner
+          transaction_code_offset: 7
+          return_type:
+            name: boolean
+        - name: isPersistent
+          transaction_code_offset: 8
+          return_type:
+            name: boolean
+        - name: setClientList
+          transaction_code_offset: 9
+          params:
+            - name: clients
+              type:
+                name: MacAddress
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: ISupplicantStaIface
+      descriptor: android.hardware.wifi.supplicant.ISupplicantStaIface
+      methods:
+        - name: addDppPeerUri
+          transaction_code_offset: 0
+          params:
+            - name: uri
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: addExtRadioWork
+          transaction_code_offset: 1
+          params:
+            - name: name
+              type:
+                name: String
+              direction: in
+            - name: freqInMhz
+              type:
+                name: int
+              direction: in
+            - name: timeoutInSec
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: int
+        - name: addNetwork
+          transaction_code_offset: 2
+          return_type:
+            name: ISupplicantStaNetwork
+          annotations:
+            - PropagateAllowBlocking
+        - name: addRxFilter
+          transaction_code_offset: 3
+          params:
+            - name: type
+              type:
+                name: RxFilterType
+              direction: in
+          return_type:
+            name: void
+        - name: cancelWps
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: disconnect
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: enableAutoReconnect
+          transaction_code_offset: 6
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: filsHlpAddRequest
+          transaction_code_offset: 7
+          params:
+            - name: dst_mac
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: pkt
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: filsHlpFlushRequest
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: generateDppBootstrapInfoForResponder
+          transaction_code_offset: 9
+          params:
+            - name: macAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: deviceInfo
+              type:
+                name: String
+              direction: in
+            - name: curve
+              type:
+                name: DppCurve
+              direction: in
+          return_type:
+            name: DppResponderBootstrapInfo
+        - name: generateSelfDppConfiguration
+          transaction_code_offset: 10
+          params:
+            - name: ssid
+              type:
+                name: String
+              direction: in
+            - name: privEcKey
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getConnectionCapabilities
+          transaction_code_offset: 11
+          return_type:
+            name: ConnectionCapabilities
+        - name: getConnectionMloLinksInfo
+          transaction_code_offset: 12
+          return_type:
+            name: MloLinksInfo
+        - name: getKeyMgmtCapabilities
+          transaction_code_offset: 13
+          return_type:
+            name: KeyMgmtMask
+        - name: getMacAddress
+          transaction_code_offset: 14
+          return_type:
+            name: byte
+            is_array: true
+        - name: getName
+          transaction_code_offset: 15
+          return_type:
+            name: String
+        - name: getNetwork
+          transaction_code_offset: 16
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: ISupplicantStaNetwork
+          annotations:
+            - PropagateAllowBlocking
+        - name: getType
+          transaction_code_offset: 17
+          return_type:
+            name: IfaceType
+        - name: getWpaDriverCapabilities
+          transaction_code_offset: 18
+          return_type:
+            name: WpaDriverCapabilitiesMask
+        - name: initiateAnqpQuery
+          transaction_code_offset: 19
+          params:
+            - name: macAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: infoElements
+              type:
+                name: AnqpInfoId
+                is_array: true
+              direction: in
+            - name: subTypes
+              type:
+                name: Hs20AnqpSubtypes
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: initiateHs20IconQuery
+          transaction_code_offset: 20
+          params:
+            - name: macAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: fileName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: initiateTdlsDiscover
+          transaction_code_offset: 21
+          params:
+            - name: macAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: initiateTdlsSetup
+          transaction_code_offset: 22
+          params:
+            - name: macAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: initiateTdlsTeardown
+          transaction_code_offset: 23
+          params:
+            - name: macAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: initiateVenueUrlAnqpQuery
+          transaction_code_offset: 24
+          params:
+            - name: macAddress
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: listNetworks
+          transaction_code_offset: 25
+          return_type:
+            name: int
+            is_array: true
+        - name: reassociate
+          transaction_code_offset: 26
+          return_type:
+            name: void
+        - name: reconnect
+          transaction_code_offset: 27
+          return_type:
+            name: void
+        - name: registerCallback
+          transaction_code_offset: 28
+          params:
+            - name: callback
+              type:
+                name: ISupplicantStaIfaceCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setQosPolicyFeatureEnabled
+          transaction_code_offset: 29
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: sendQosPolicyResponse
+          transaction_code_offset: 30
+          params:
+            - name: qosPolicyRequestId
+              type:
+                name: int
+              direction: in
+            - name: morePolicies
+              type:
+                name: boolean
+              direction: in
+            - name: qosPolicyStatusList
+              type:
+                name: QosPolicyStatus
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: removeAllQosPolicies
+          transaction_code_offset: 31
+          return_type:
+            name: void
+        - name: removeDppUri
+          transaction_code_offset: 32
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: removeExtRadioWork
+          transaction_code_offset: 33
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: removeNetwork
+          transaction_code_offset: 34
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: removeRxFilter
+          transaction_code_offset: 35
+          params:
+            - name: type
+              type:
+                name: RxFilterType
+              direction: in
+          return_type:
+            name: void
+        - name: setBtCoexistenceMode
+          transaction_code_offset: 36
+          params:
+            - name: mode
+              type:
+                name: BtCoexistenceMode
+              direction: in
+          return_type:
+            name: void
+        - name: setBtCoexistenceScanModeEnabled
+          transaction_code_offset: 37
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setCountryCode
+          transaction_code_offset: 38
+          params:
+            - name: code
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setExternalSim
+          transaction_code_offset: 39
+          params:
+            - name: useExternalSim
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setMboCellularDataStatus
+          transaction_code_offset: 40
+          params:
+            - name: available
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setPowerSave
+          transaction_code_offset: 41
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setSuspendModeEnabled
+          transaction_code_offset: 42
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setWpsConfigMethods
+          transaction_code_offset: 43
+          params:
+            - name: configMethods
+              type:
+                name: WpsConfigMethods
+              direction: in
+          return_type:
+            name: void
+        - name: setWpsDeviceName
+          transaction_code_offset: 44
+          params:
+            - name: name
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setWpsDeviceType
+          transaction_code_offset: 45
+          params:
+            - name: type
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setWpsManufacturer
+          transaction_code_offset: 46
+          params:
+            - name: manufacturer
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setWpsModelName
+          transaction_code_offset: 47
+          params:
+            - name: modelName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setWpsModelNumber
+          transaction_code_offset: 48
+          params:
+            - name: modelNumber
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setWpsSerialNumber
+          transaction_code_offset: 49
+          params:
+            - name: serialNumber
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: startDppConfiguratorInitiator
+          transaction_code_offset: 50
+          params:
+            - name: peerBootstrapId
+              type:
+                name: int
+              direction: in
+            - name: ownBootstrapId
+              type:
+                name: int
+              direction: in
+            - name: ssid
+              type:
+                name: String
+              direction: in
+            - name: password
+              type:
+                name: String
+              direction: in
+            - name: psk
+              type:
+                name: String
+              direction: in
+            - name: netRole
+              type:
+                name: DppNetRole
+              direction: in
+            - name: securityAkm
+              type:
+                name: DppAkm
+              direction: in
+            - name: privEcKey
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: startDppEnrolleeInitiator
+          transaction_code_offset: 51
+          params:
+            - name: peerBootstrapId
+              type:
+                name: int
+              direction: in
+            - name: ownBootstrapId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: startDppEnrolleeResponder
+          transaction_code_offset: 52
+          params:
+            - name: listenChannel
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: startRxFilter
+          transaction_code_offset: 53
+          return_type:
+            name: void
+        - name: startWpsPbc
+          transaction_code_offset: 54
+          params:
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: startWpsPinDisplay
+          transaction_code_offset: 55
+          params:
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: String
+        - name: startWpsPinKeypad
+          transaction_code_offset: 56
+          params:
+            - name: pin
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: startWpsRegistrar
+          transaction_code_offset: 57
+          params:
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: pin
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: stopDppInitiator
+          transaction_code_offset: 58
+          return_type:
+            name: void
+        - name: stopDppResponder
+          transaction_code_offset: 59
+          params:
+            - name: ownBootstrapId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: stopRxFilter
+          transaction_code_offset: 60
+          return_type:
+            name: void
+        - name: getSignalPollResults
+          transaction_code_offset: 61
+          return_type:
+            name: SignalPollResult
+            is_array: true
+        - name: addQosPolicyRequestForScs
+          transaction_code_offset: 62
+          params:
+            - name: qosPolicyData
+              type:
+                name: QosPolicyScsData
+                is_array: true
+              direction: in
+          return_type:
+            name: QosPolicyScsRequestStatus
+            is_array: true
+        - name: removeQosPolicyForScs
+          transaction_code_offset: 63
+          params:
+            - name: scsPolicyIds
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: QosPolicyScsRequestStatus
+            is_array: true
+        - name: configureMscs
+          transaction_code_offset: 64
+          params:
+            - name: params
+              type:
+                name: MscsParams
+              direction: in
+          return_type:
+            name: void
+        - name: disableMscs
+          transaction_code_offset: 65
+          return_type:
+            name: void
+      constants:
+        - name: MAX_POLICIES_PER_QOS_SCS_REQUEST
+          type: int
+          value: "16"
+    - name: ISupplicantStaIfaceCallback
+      descriptor: android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback
+      oneway: true
+      methods:
+        - name: onAnqpQueryDone
+          transaction_code_offset: 0
+          params:
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: data
+              type:
+                name: AnqpData
+              direction: in
+            - name: hs20Data
+              type:
+                name: Hs20AnqpData
+              direction: in
+          return_type:
+            name: void
+        - name: onAssociationRejected
+          transaction_code_offset: 1
+          params:
+            - name: assocRejectData
+              type:
+                name: AssociationRejectionData
+              direction: in
+          return_type:
+            name: void
+        - name: onAuthenticationTimeout
+          transaction_code_offset: 2
+          params:
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onAuxiliarySupplicantEvent
+          transaction_code_offset: 3
+          params:
+            - name: eventCode
+              type:
+                name: AuxiliarySupplicantEventCode
+              direction: in
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: reasonString
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onBssTmHandlingDone
+          transaction_code_offset: 4
+          params:
+            - name: tmData
+              type:
+                name: BssTmData
+              direction: in
+          return_type:
+            name: void
+        - name: onBssidChanged
+          transaction_code_offset: 5
+          params:
+            - name: reason
+              type:
+                name: BssidChangeReason
+              direction: in
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onDisconnected
+          transaction_code_offset: 6
+          params:
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: locallyGenerated
+              type:
+                name: boolean
+              direction: in
+            - name: reasonCode
+              type:
+                name: StaIfaceReasonCode
+              direction: in
+          return_type:
+            name: void
+        - name: onDppFailure
+          transaction_code_offset: 7
+          params:
+            - name: code
+              type:
+                name: DppFailureCode
+              direction: in
+            - name: ssid
+              type:
+                name: String
+              direction: in
+            - name: channelList
+              type:
+                name: String
+              direction: in
+            - name: bandList
+              type:
+                name: char
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onDppProgress
+          transaction_code_offset: 8
+          params:
+            - name: code
+              type:
+                name: DppProgressCode
+              direction: in
+          return_type:
+            name: void
+        - name: onDppSuccess
+          transaction_code_offset: 9
+          params:
+            - name: event
+              type:
+                name: DppEventType
+              direction: in
+          return_type:
+            name: void
+        - name: onDppSuccessConfigReceived
+          transaction_code_offset: 10
+          params:
+            - name: ssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: password
+              type:
+                name: String
+              direction: in
+            - name: psk
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: securityAkm
+              type:
+                name: DppAkm
+              direction: in
+            - name: dppConnectionKeys
+              type:
+                name: DppConnectionKeys
+              direction: in
+          return_type:
+            name: void
+        - name: onDppSuccessConfigSent
+          transaction_code_offset: 11
+          return_type:
+            name: void
+        - name: onEapFailure
+          transaction_code_offset: 12
+          params:
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: errorCode
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onExtRadioWorkStart
+          transaction_code_offset: 13
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onExtRadioWorkTimeout
+          transaction_code_offset: 14
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onHs20DeauthImminentNotice
+          transaction_code_offset: 15
+          params:
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: reasonCode
+              type:
+                name: int
+              direction: in
+            - name: reAuthDelayInSec
+              type:
+                name: int
+              direction: in
+            - name: url
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onHs20IconQueryDone
+          transaction_code_offset: 16
+          params:
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: fileName
+              type:
+                name: String
+              direction: in
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onHs20SubscriptionRemediation
+          transaction_code_offset: 17
+          params:
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: osuMethod
+              type:
+                name: OsuMethod
+              direction: in
+            - name: url
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onHs20TermsAndConditionsAcceptanceRequestedNotification
+          transaction_code_offset: 18
+          params:
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: url
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onNetworkAdded
+          transaction_code_offset: 19
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onNetworkNotFound
+          transaction_code_offset: 20
+          params:
+            - name: ssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onNetworkRemoved
+          transaction_code_offset: 21
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onPmkCacheAdded
+          transaction_code_offset: 22
+          params:
+            - name: expirationTimeInSec
+              type:
+                name: long
+              direction: in
+            - name: serializedEntry
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onStateChanged
+          transaction_code_offset: 23
+          params:
+            - name: newState
+              type:
+                name: StaIfaceCallbackState
+              direction: in
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: id
+              type:
+                name: int
+              direction: in
+            - name: ssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: filsHlpSent
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: onWpsEventFail
+          transaction_code_offset: 24
+          params:
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: configError
+              type:
+                name: WpsConfigError
+              direction: in
+            - name: errorInd
+              type:
+                name: WpsErrorIndication
+              direction: in
+          return_type:
+            name: void
+        - name: onWpsEventPbcOverlap
+          transaction_code_offset: 25
+          return_type:
+            name: void
+        - name: onWpsEventSuccess
+          transaction_code_offset: 26
+          return_type:
+            name: void
+        - name: onQosPolicyReset
+          transaction_code_offset: 27
+          return_type:
+            name: void
+        - name: onQosPolicyRequest
+          transaction_code_offset: 28
+          params:
+            - name: qosPolicyRequestId
+              type:
+                name: int
+              direction: in
+            - name: qosPolicyData
+              type:
+                name: QosPolicyData
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onMloLinksInfoChanged
+          transaction_code_offset: 29
+          params:
+            - name: reason
+              type:
+                name: MloLinkInfoChangeReason
+              direction: in
+          return_type:
+            name: void
+        - name: onDppConfigReceived
+          transaction_code_offset: 30
+          params:
+            - name: configData
+              type:
+                name: DppConfigurationData
+              direction: in
+          return_type:
+            name: void
+        - name: onDppConnectionStatusResultSent
+          transaction_code_offset: 31
+          params:
+            - name: code
+              type:
+                name: DppStatusErrorCode
+              direction: in
+          return_type:
+            name: void
+        - name: onBssFrequencyChanged
+          transaction_code_offset: 32
+          params:
+            - name: frequencyMhz
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onSupplicantStateChanged
+          transaction_code_offset: 33
+          params:
+            - name: stateChangeData
+              type:
+                name: SupplicantStateChangeData
+              direction: in
+          return_type:
+            name: void
+        - name: onQosPolicyResponseForScs
+          transaction_code_offset: 34
+          params:
+            - name: qosPolicyScsResponseStatus
+              type:
+                name: QosPolicyScsResponseStatus
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onPmkSaCacheAdded
+          transaction_code_offset: 35
+          params:
+            - name: pmkSaData
+              type:
+                name: PmkSaCacheData
+              direction: in
+          return_type:
+            name: void
+    - name: ISupplicantStaNetwork
+      descriptor: android.hardware.wifi.supplicant.ISupplicantStaNetwork
+      methods:
+        - name: disable
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: enable
+          transaction_code_offset: 1
+          params:
+            - name: noConnect
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: enableSaePkOnlyMode
+          transaction_code_offset: 2
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: enableSuiteBEapOpenSslCiphers
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: enableTlsSuiteBEapPhase1Param
+          transaction_code_offset: 4
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: getAuthAlg
+          transaction_code_offset: 5
+          return_type:
+            name: AuthAlgMask
+        - name: getBssid
+          transaction_code_offset: 6
+          return_type:
+            name: byte
+            is_array: true
+        - name: getEapAltSubjectMatch
+          transaction_code_offset: 7
+          return_type:
+            name: String
+        - name: getEapAnonymousIdentity
+          transaction_code_offset: 8
+          return_type:
+            name: byte
+            is_array: true
+        - name: getEapCACert
+          transaction_code_offset: 9
+          return_type:
+            name: String
+        - name: getEapCAPath
+          transaction_code_offset: 10
+          return_type:
+            name: String
+        - name: getEapClientCert
+          transaction_code_offset: 11
+          return_type:
+            name: String
+        - name: getEapDomainSuffixMatch
+          transaction_code_offset: 12
+          return_type:
+            name: String
+        - name: getEapEngine
+          transaction_code_offset: 13
+          return_type:
+            name: boolean
+        - name: getEapEngineId
+          transaction_code_offset: 14
+          return_type:
+            name: String
+        - name: getEapIdentity
+          transaction_code_offset: 15
+          return_type:
+            name: byte
+            is_array: true
+        - name: getEapMethod
+          transaction_code_offset: 16
+          return_type:
+            name: EapMethod
+        - name: getEapPassword
+          transaction_code_offset: 17
+          return_type:
+            name: byte
+            is_array: true
+        - name: getEapPhase2Method
+          transaction_code_offset: 18
+          return_type:
+            name: EapPhase2Method
+        - name: getEapPrivateKeyId
+          transaction_code_offset: 19
+          return_type:
+            name: String
+        - name: getEapSubjectMatch
+          transaction_code_offset: 20
+          return_type:
+            name: String
+        - name: getEdmg
+          transaction_code_offset: 21
+          return_type:
+            name: boolean
+        - name: getGroupCipher
+          transaction_code_offset: 22
+          return_type:
+            name: GroupCipherMask
+        - name: getGroupMgmtCipher
+          transaction_code_offset: 23
+          return_type:
+            name: GroupMgmtCipherMask
+        - name: getId
+          transaction_code_offset: 24
+          return_type:
+            name: int
+        - name: getIdStr
+          transaction_code_offset: 25
+          return_type:
+            name: String
+        - name: getInterfaceName
+          transaction_code_offset: 26
+          return_type:
+            name: String
+        - name: getKeyMgmt
+          transaction_code_offset: 27
+          return_type:
+            name: KeyMgmtMask
+        - name: getOcsp
+          transaction_code_offset: 28
+          return_type:
+            name: OcspType
+        - name: getPairwiseCipher
+          transaction_code_offset: 29
+          return_type:
+            name: PairwiseCipherMask
+        - name: getProto
+          transaction_code_offset: 30
+          return_type:
+            name: ProtoMask
+        - name: getPsk
+          transaction_code_offset: 31
+          return_type:
+            name: byte
+            is_array: true
+        - name: getPskPassphrase
+          transaction_code_offset: 32
+          return_type:
+            name: String
+        - name: getRequirePmf
+          transaction_code_offset: 33
+          return_type:
+            name: boolean
+        - name: getSaePassword
+          transaction_code_offset: 34
+          return_type:
+            name: String
+        - name: getSaePasswordId
+          transaction_code_offset: 35
+          return_type:
+            name: String
+        - name: getScanSsid
+          transaction_code_offset: 36
+          return_type:
+            name: boolean
+        - name: getSsid
+          transaction_code_offset: 37
+          return_type:
+            name: byte
+            is_array: true
+        - name: getType
+          transaction_code_offset: 38
+          return_type:
+            name: IfaceType
+        - name: getWapiCertSuite
+          transaction_code_offset: 39
+          return_type:
+            name: String
+        - name: getWepKey
+          transaction_code_offset: 40
+          params:
+            - name: keyIdx
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: getWepTxKeyIdx
+          transaction_code_offset: 41
+          return_type:
+            name: int
+        - name: getWpsNfcConfigurationToken
+          transaction_code_offset: 42
+          return_type:
+            name: byte
+            is_array: true
+        - name: registerCallback
+          transaction_code_offset: 43
+          params:
+            - name: callback
+              type:
+                name: ISupplicantStaNetworkCallback
+              direction: in
+          return_type:
+            name: void
+        - name: select
+          transaction_code_offset: 44
+          return_type:
+            name: void
+        - name: sendNetworkEapIdentityResponse
+          transaction_code_offset: 45
+          params:
+            - name: identity
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: encryptedIdentity
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: sendNetworkEapSimGsmAuthFailure
+          transaction_code_offset: 46
+          return_type:
+            name: void
+        - name: sendNetworkEapSimGsmAuthResponse
+          transaction_code_offset: 47
+          params:
+            - name: params
+              type:
+                name: NetworkResponseEapSimGsmAuthParams
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: sendNetworkEapSimUmtsAuthFailure
+          transaction_code_offset: 48
+          return_type:
+            name: void
+        - name: sendNetworkEapSimUmtsAuthResponse
+          transaction_code_offset: 49
+          params:
+            - name: params
+              type:
+                name: NetworkResponseEapSimUmtsAuthParams
+              direction: in
+          return_type:
+            name: void
+        - name: sendNetworkEapSimUmtsAutsResponse
+          transaction_code_offset: 50
+          params:
+            - name: auts
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setAuthAlg
+          transaction_code_offset: 51
+          params:
+            - name: authAlgMask
+              type:
+                name: AuthAlgMask
+              direction: in
+          return_type:
+            name: void
+        - name: setBssid
+          transaction_code_offset: 52
+          params:
+            - name: bssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setDppKeys
+          transaction_code_offset: 53
+          params:
+            - name: keys
+              type:
+                name: DppConnectionKeys
+              direction: in
+          return_type:
+            name: void
+        - name: setEapAltSubjectMatch
+          transaction_code_offset: 54
+          params:
+            - name: match
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setEapAnonymousIdentity
+          transaction_code_offset: 55
+          params:
+            - name: identity
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setEapCACert
+          transaction_code_offset: 56
+          params:
+            - name: path
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setEapCAPath
+          transaction_code_offset: 57
+          params:
+            - name: path
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setEapClientCert
+          transaction_code_offset: 58
+          params:
+            - name: path
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setEapDomainSuffixMatch
+          transaction_code_offset: 59
+          params:
+            - name: match
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setEapEncryptedImsiIdentity
+          transaction_code_offset: 60
+          params:
+            - name: identity
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setEapEngine
+          transaction_code_offset: 61
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setEapEngineID
+          transaction_code_offset: 62
+          params:
+            - name: id
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setEapErp
+          transaction_code_offset: 63
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setEapIdentity
+          transaction_code_offset: 64
+          params:
+            - name: identity
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setEapMethod
+          transaction_code_offset: 65
+          params:
+            - name: method
+              type:
+                name: EapMethod
+              direction: in
+          return_type:
+            name: void
+        - name: setEapPassword
+          transaction_code_offset: 66
+          params:
+            - name: password
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setEapPhase2Method
+          transaction_code_offset: 67
+          params:
+            - name: method
+              type:
+                name: EapPhase2Method
+              direction: in
+          return_type:
+            name: void
+        - name: setEapPrivateKeyId
+          transaction_code_offset: 68
+          params:
+            - name: id
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setEapSubjectMatch
+          transaction_code_offset: 69
+          params:
+            - name: match
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setEdmg
+          transaction_code_offset: 70
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setGroupCipher
+          transaction_code_offset: 71
+          params:
+            - name: groupCipherMask
+              type:
+                name: GroupCipherMask
+              direction: in
+          return_type:
+            name: void
+        - name: setGroupMgmtCipher
+          transaction_code_offset: 72
+          params:
+            - name: groupMgmtCipherMask
+              type:
+                name: GroupMgmtCipherMask
+              direction: in
+          return_type:
+            name: void
+        - name: setIdStr
+          transaction_code_offset: 73
+          params:
+            - name: idStr
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setKeyMgmt
+          transaction_code_offset: 74
+          params:
+            - name: keyMgmtMask
+              type:
+                name: KeyMgmtMask
+              direction: in
+          return_type:
+            name: void
+        - name: setOcsp
+          transaction_code_offset: 75
+          params:
+            - name: ocspType
+              type:
+                name: OcspType
+              direction: in
+          return_type:
+            name: void
+        - name: setPairwiseCipher
+          transaction_code_offset: 76
+          params:
+            - name: pairwiseCipherMask
+              type:
+                name: PairwiseCipherMask
+              direction: in
+          return_type:
+            name: void
+        - name: setPmkCache
+          transaction_code_offset: 77
+          params:
+            - name: serializedEntry
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setProactiveKeyCaching
+          transaction_code_offset: 78
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setProto
+          transaction_code_offset: 79
+          params:
+            - name: protoMask
+              type:
+                name: ProtoMask
+              direction: in
+          return_type:
+            name: void
+        - name: setPsk
+          transaction_code_offset: 80
+          params:
+            - name: psk
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setPskPassphrase
+          transaction_code_offset: 81
+          params:
+            - name: psk
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setRequirePmf
+          transaction_code_offset: 82
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setSaeH2eMode
+          transaction_code_offset: 83
+          params:
+            - name: mode
+              type:
+                name: SaeH2eMode
+              direction: in
+          return_type:
+            name: void
+        - name: setSaePassword
+          transaction_code_offset: 84
+          params:
+            - name: saePassword
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setSaePasswordId
+          transaction_code_offset: 85
+          params:
+            - name: saePasswordId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setScanSsid
+          transaction_code_offset: 86
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setSsid
+          transaction_code_offset: 87
+          params:
+            - name: ssid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setUpdateIdentifier
+          transaction_code_offset: 88
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setWapiCertSuite
+          transaction_code_offset: 89
+          params:
+            - name: suite
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setWepKey
+          transaction_code_offset: 90
+          params:
+            - name: keyIdx
+              type:
+                name: int
+              direction: in
+            - name: wepKey
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setWepTxKeyIdx
+          transaction_code_offset: 91
+          params:
+            - name: keyIdx
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setRoamingConsortiumSelection
+          transaction_code_offset: 92
+          params:
+            - name: selectedRcoi
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setMinimumTlsVersionEapPhase1Param
+          transaction_code_offset: 93
+          params:
+            - name: tlsVersion
+              type:
+                name: TlsVersion
+          return_type:
+            name: void
+        - name: setStrictConservativePeerMode
+          transaction_code_offset: 94
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: disableEht
+          transaction_code_offset: 95
+          return_type:
+            name: void
+        - name: setVendorData
+          transaction_code_offset: 96
+          params:
+            - name: vendorData
+              type:
+                name: OuiKeyedData
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: SSID_MAX_LEN_IN_BYTES
+          type: int
+          value: "32"
+        - name: PSK_PASSPHRASE_MIN_LEN_IN_BYTES
+          type: int
+          value: "8"
+        - name: PSK_PASSPHRASE_MAX_LEN_IN_BYTES
+          type: int
+          value: "63"
+        - name: WEP_KEYS_MAX_NUM
+          type: int
+          value: "4"
+        - name: WEP40_KEY_LEN_IN_BYTES
+          type: int
+          value: "5"
+        - name: WEP104_KEY_LEN_IN_BYTES
+          type: int
+          value: "13"
+    - name: ISupplicantStaNetworkCallback
+      descriptor: android.hardware.wifi.supplicant.ISupplicantStaNetworkCallback
+      oneway: true
+      methods:
+        - name: onNetworkEapIdentityRequest
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onNetworkEapSimGsmAuthRequest
+          transaction_code_offset: 1
+          params:
+            - name: params
+              type:
+                name: NetworkRequestEapSimGsmAuthParams
+              direction: in
+          return_type:
+            name: void
+        - name: onNetworkEapSimUmtsAuthRequest
+          transaction_code_offset: 2
+          params:
+            - name: params
+              type:
+                name: NetworkRequestEapSimUmtsAuthParams
+              direction: in
+          return_type:
+            name: void
+        - name: onTransitionDisable
+          transaction_code_offset: 3
+          params:
+            - name: ind
+              type:
+                name: TransitionDisableIndication
+              direction: in
+          return_type:
+            name: void
+        - name: onServerCertificateAvailable
+          transaction_code_offset: 4
+          params:
+            - name: depth
+              type:
+                name: int
+              direction: in
+            - name: subject
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: certHash
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: certBlob
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onPermanentIdReqDenied
+          transaction_code_offset: 5
+          return_type:
+            name: void
+parcelables:
+    - name: AnqpData
+      fields:
+        - name: venueName
+          type:
+            name: byte
+            is_array: true
+        - name: roamingConsortium
+          type:
+            name: byte
+            is_array: true
+        - name: ipAddrTypeAvailability
+          type:
+            name: byte
+            is_array: true
+        - name: naiRealm
+          type:
+            name: byte
+            is_array: true
+        - name: anqp3gppCellularNetwork
+          type:
+            name: byte
+            is_array: true
+        - name: domainName
+          type:
+            name: byte
+            is_array: true
+        - name: venueUrl
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: AssociationRejectionData
+      fields:
+        - name: ssid
+          type:
+            name: byte
+            is_array: true
+        - name: bssid
+          type:
+            name: byte
+            is_array: true
+        - name: statusCode
+          type:
+            name: StaIfaceStatusCode
+        - name: timedOut
+          type:
+            name: boolean
+        - name: isMboAssocDisallowedReasonCodePresent
+          type:
+            name: boolean
+        - name: mboAssocDisallowedReason
+          type:
+            name: MboAssocDisallowedReasonCode
+        - name: isOceRssiBasedAssocRejectAttrPresent
+          type:
+            name: boolean
+        - name: oceRssiBasedAssocRejectData
+          type:
+            name: OceRssiBasedAssocRejectAttr
+      annotations:
+        - VintfStability
+    - name: BssTmData
+      fields:
+        - name: status
+          type:
+            name: BssTmStatusCode
+        - name: flags
+          type:
+            name: BssTmDataFlagsMask
+        - name: assocRetryDelayMs
+          type:
+            name: int
+        - name: mboTransitionReason
+          type:
+            name: MboTransitionReasonCode
+        - name: mboCellPreference
+          type:
+            name: MboCellularDataConnectionPrefValue
+      annotations:
+        - VintfStability
+    - name: ConnectionCapabilities
+      fields:
+        - name: technology
+          type:
+            name: WifiTechnology
+        - name: channelBandwidth
+          type:
+            name: int
+        - name: maxNumberTxSpatialStreams
+          type:
+            name: int
+        - name: maxNumberRxSpatialStreams
+          type:
+            name: int
+        - name: legacyMode
+          type:
+            name: LegacyMode
+        - name: apTidToLinkMapNegotiationSupported
+          type:
+            name: boolean
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: DppConfigurationData
+      fields:
+        - name: ssid
+          type:
+            name: byte
+            is_array: true
+        - name: password
+          type:
+            name: String
+        - name: psk
+          type:
+            name: byte
+            is_array: true
+        - name: securityAkm
+          type:
+            name: DppAkm
+        - name: dppConnectionKeys
+          type:
+            name: DppConnectionKeys
+        - name: connStatusRequested
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: DppConnectionKeys
+      fields:
+        - name: connector
+          type:
+            name: byte
+            is_array: true
+        - name: cSign
+          type:
+            name: byte
+            is_array: true
+        - name: netAccessKey
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: DppResponderBootstrapInfo
+      fields:
+        - name: bootstrapId
+          type:
+            name: int
+        - name: listenChannel
+          type:
+            name: int
+        - name: uri
+          type:
+            name: String
+      annotations:
+        - VintfStability
+    - name: FreqRange
+      fields:
+        - name: min
+          type:
+            name: int
+        - name: max
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: GsmRand
+      fields:
+        - name: data
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: Hs20AnqpData
+      fields:
+        - name: operatorFriendlyName
+          type:
+            name: byte
+            is_array: true
+        - name: wanMetrics
+          type:
+            name: byte
+            is_array: true
+        - name: connectionCapability
+          type:
+            name: byte
+            is_array: true
+        - name: osuProvidersList
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: IfaceInfo
+      fields:
+        - name: type
+          type:
+            name: IfaceType
+        - name: name
+          type:
+            name: String
+      annotations:
+        - VintfStability
+    - name: MacAddress
+      fields:
+        - name: data
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: MloLink
+      fields:
+        - name: linkId
+          type:
+            name: byte
+        - name: staLinkMacAddress
+          type:
+            name: byte
+            is_array: true
+        - name: tidsUplinkMap
+          type:
+            name: byte
+        - name: tidsDownlinkMap
+          type:
+            name: byte
+        - name: apLinkMacAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+          annotations:
+            - nullable
+        - name: frequencyMHz
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: MloLinksInfo
+      fields:
+        - name: links
+          type:
+            name: MloLink
+            is_array: true
+        - name: apMloLinkId
+          type:
+            name: int
+        - name: apMldMacAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: MscsParams
+      fields:
+        - name: upBitmap
+          type:
+            name: byte
+        - name: upLimit
+          type:
+            name: byte
+        - name: streamTimeoutUs
+          type:
+            name: int
+        - name: frameClassifierMask
+          type:
+            name: byte
+      nested_types:
+        - MscsParams.FrameClassifierFields
+      annotations:
+        - VintfStability
+    - name: MsduDeliveryInfo
+      fields:
+        - name: deliveryRatio
+          type:
+            name: DeliveryRatio
+        - name: countExponent
+          type:
+            name: byte
+      nested_types:
+        - MsduDeliveryInfo.DeliveryRatio
+      annotations:
+        - VintfStability
+    - name: NetworkRequestEapSimGsmAuthParams
+      fields:
+        - name: rands
+          type:
+            name: GsmRand
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: NetworkRequestEapSimUmtsAuthParams
+      fields:
+        - name: rand
+          type:
+            name: byte
+            is_array: true
+        - name: autn
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: NetworkResponseEapSimGsmAuthParams
+      fields:
+        - name: kc
+          type:
+            name: byte
+            is_array: true
+        - name: sres
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: NetworkResponseEapSimUmtsAuthParams
+      fields:
+        - name: res
+          type:
+            name: byte
+            is_array: true
+        - name: ik
+          type:
+            name: byte
+            is_array: true
+        - name: ck
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: OceRssiBasedAssocRejectAttr
+      fields:
+        - name: deltaRssi
+          type:
+            name: int
+        - name: retryDelayS
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: P2pAddGroupConfigurationParams
+      fields:
+        - name: ssid
+          type:
+            name: byte
+            is_array: true
+        - name: passphrase
+          type:
+            name: String
+        - name: isPersistent
+          type:
+            name: boolean
+        - name: frequencyMHzOrBand
+          type:
+            name: int
+        - name: goInterfaceAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: joinExistingGroup
+          type:
+            name: boolean
+        - name: keyMgmtMask
+          type:
+            name: int
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: P2pClientEapolIpAddressInfo
+      fields:
+        - name: ipAddressClient
+          type:
+            name: int
+        - name: ipAddressMask
+          type:
+            name: int
+        - name: ipAddressGo
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: P2pConnectInfo
+      fields:
+        - name: peerAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: provisionMethod
+          type:
+            name: WpsProvisionMethod
+        - name: preSelectedPin
+          type:
+            name: String
+        - name: joinExistingGroup
+          type:
+            name: boolean
+        - name: persistent
+          type:
+            name: boolean
+        - name: goIntent
+          type:
+            name: int
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: P2pCreateGroupOwnerInfo
+      fields:
+        - name: persistent
+          type:
+            name: boolean
+        - name: persistentNetworkId
+          type:
+            name: int
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: P2pDeviceFoundEventParams
+      fields:
+        - name: srcAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: p2pDeviceAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: primaryDeviceType
+          type:
+            name: byte
+            is_array: true
+        - name: deviceName
+          type:
+            name: String
+        - name: configMethods
+          type:
+            name: int
+        - name: deviceCapabilities
+          type:
+            name: byte
+        - name: groupCapabilities
+          type:
+            name: int
+        - name: wfdDeviceInfo
+          type:
+            name: byte
+            is_array: true
+        - name: wfdR2DeviceInfo
+          type:
+            name: byte
+            is_array: true
+        - name: vendorElemBytes
+          type:
+            name: byte
+            is_array: true
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: P2pDiscoveryInfo
+      fields:
+        - name: scanType
+          type:
+            name: P2pScanType
+        - name: frequencyMhz
+          type:
+            name: int
+        - name: timeoutInSec
+          type:
+            name: int
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: P2pExtListenInfo
+      fields:
+        - name: periodMs
+          type:
+            name: int
+        - name: intervalMs
+          type:
+            name: int
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: P2pGoNegotiationReqEventParams
+      fields:
+        - name: srcAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: passwordId
+          type:
+            name: WpsDevPasswordId
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: P2pGroupStartedEventParams
+      fields:
+        - name: groupInterfaceName
+          type:
+            name: String
+        - name: isGroupOwner
+          type:
+            name: boolean
+        - name: ssid
+          type:
+            name: byte
+            is_array: true
+        - name: frequencyMHz
+          type:
+            name: int
+        - name: psk
+          type:
+            name: byte
+            is_array: true
+        - name: passphrase
+          type:
+            name: String
+        - name: isPersistent
+          type:
+            name: boolean
+        - name: goDeviceAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: goInterfaceAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: isP2pClientEapolIpAddressInfoPresent
+          type:
+            name: boolean
+        - name: p2pClientIpInfo
+          type:
+            name: P2pClientEapolIpAddressInfo
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: P2pInvitationEventParams
+      fields:
+        - name: srcAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: goDeviceAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: bssid
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: persistentNetworkId
+          type:
+            name: int
+        - name: operatingFrequencyMHz
+          type:
+            name: int
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: P2pPeerClientDisconnectedEventParams
+      fields:
+        - name: groupInterfaceName
+          type:
+            name: String
+        - name: clientInterfaceAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: clientDeviceAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: P2pPeerClientJoinedEventParams
+      fields:
+        - name: groupInterfaceName
+          type:
+            name: String
+        - name: clientInterfaceAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: clientDeviceAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: clientIpAddress
+          type:
+            name: int
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: P2pProvisionDiscoveryCompletedEventParams
+      fields:
+        - name: p2pDeviceAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: isRequest
+          type:
+            name: boolean
+        - name: status
+          type:
+            name: P2pProvDiscStatusCode
+        - name: configMethods
+          type:
+            name: int
+        - name: generatedPin
+          type:
+            name: String
+        - name: groupInterfaceName
+          type:
+            name: String
+        - name: vendorData
+          type:
+            name: OuiKeyedData
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: PmkSaCacheData
+      fields:
+        - name: bssid
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: expirationTimeInSec
+          type:
+            name: long
+        - name: serializedEntry
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: PortRange
+      fields:
+        - name: startPort
+          type:
+            name: int
+        - name: endPort
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: QosCharacteristics
+      fields:
+        - name: minServiceIntervalUs
+          type:
+            name: int
+        - name: maxServiceIntervalUs
+          type:
+            name: int
+        - name: minDataRateKbps
+          type:
+            name: int
+        - name: delayBoundUs
+          type:
+            name: int
+        - name: optionalFieldMask
+          type:
+            name: int
+        - name: maxMsduSizeOctets
+          type:
+            name: char
+        - name: serviceStartTimeUs
+          type:
+            name: int
+        - name: serviceStartTimeLinkId
+          type:
+            name: byte
+        - name: meanDataRateKbps
+          type:
+            name: int
+        - name: burstSizeOctets
+          type:
+            name: int
+        - name: msduLifetimeMs
+          type:
+            name: char
+        - name: msduDeliveryInfo
+          type:
+            name: MsduDeliveryInfo
+      nested_types:
+        - QosCharacteristics.QosCharacteristicsMask
+      annotations:
+        - VintfStability
+    - name: QosPolicyClassifierParams
+      fields:
+        - name: ipVersion
+          type:
+            name: IpVersion
+        - name: classifierParamMask
+          type:
+            name: QosPolicyClassifierParamsMask
+        - name: srcIp
+          type:
+            name: byte
+            is_array: true
+        - name: dstIp
+          type:
+            name: byte
+            is_array: true
+        - name: srcPort
+          type:
+            name: int
+        - name: dstPortRange
+          type:
+            name: PortRange
+        - name: protocolNextHdr
+          type:
+            name: ProtocolNextHeader
+        - name: flowLabelIpv6
+          type:
+            name: byte
+            is_array: true
+        - name: domainName
+          type:
+            name: String
+        - name: dscp
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+    - name: QosPolicyData
+      fields:
+        - name: policyId
+          type:
+            name: byte
+        - name: requestType
+          type:
+            name: QosPolicyRequestType
+        - name: dscp
+          type:
+            name: byte
+        - name: classifierParams
+          type:
+            name: QosPolicyClassifierParams
+      annotations:
+        - VintfStability
+    - name: QosPolicyScsData
+      fields:
+        - name: policyId
+          type:
+            name: byte
+        - name: userPriority
+          type:
+            name: byte
+        - name: classifierParams
+          type:
+            name: QosPolicyClassifierParams
+        - name: direction
+          type:
+            name: LinkDirection
+        - name: QosCharacteristics
+          type:
+            name: QosCharacteristics
+          annotations:
+            - nullable
+      nested_types:
+        - QosPolicyScsData.LinkDirection
+      annotations:
+        - VintfStability
+    - name: QosPolicyScsRequestStatus
+      fields:
+        - name: policyId
+          type:
+            name: byte
+        - name: qosPolicyScsRequestStatusCode
+          type:
+            name: QosPolicyScsRequestStatusCode
+      annotations:
+        - VintfStability
+    - name: QosPolicyScsResponseStatus
+      fields:
+        - name: policyId
+          type:
+            name: byte
+        - name: qosPolicyScsResponseStatusCode
+          type:
+            name: QosPolicyScsResponseStatusCode
+      annotations:
+        - VintfStability
+    - name: QosPolicyStatus
+      fields:
+        - name: policyId
+          type:
+            name: byte
+        - name: status
+          type:
+            name: QosPolicyStatusCode
+      annotations:
+        - VintfStability
+    - name: SignalPollResult
+      fields:
+        - name: linkId
+          type:
+            name: int
+        - name: currentRssiDbm
+          type:
+            name: int
+        - name: txBitrateMbps
+          type:
+            name: int
+        - name: rxBitrateMbps
+          type:
+            name: int
+        - name: frequencyMhz
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: SupplicantStateChangeData
+      fields:
+        - name: newState
+          type:
+            name: StaIfaceCallbackState
+        - name: id
+          type:
+            name: int
+        - name: ssid
+          type:
+            name: byte
+            is_array: true
+        - name: bssid
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: keyMgmtMask
+          type:
+            name: KeyMgmtMask
+        - name: frequencyMhz
+          type:
+            name: int
+        - name: filsHlpSent
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+enums:
+    - name: AnqpInfoId
+      backing_type: int
+      values:
+        - name: VENUE_NAME
+          value: "258"
+        - name: ROAMING_CONSORTIUM
+          value: "261"
+        - name: IP_ADDR_TYPE_AVAILABILITY
+          value: "262"
+        - name: NAI_REALM
+          value: "263"
+        - name: ANQP_3GPP_CELLULAR_NETWORK
+          value: "264"
+        - name: DOMAIN_NAME
+          value: "268"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AuthAlgMask
+      backing_type: int
+      values:
+        - name: OPEN
+          value: 1 << 0
+        - name: SHARED
+          value: 1 << 1
+        - name: LEAP
+          value: 1 << 2
+        - name: SAE
+          value: 1 << 4
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AuxiliarySupplicantEventCode
+      backing_type: int
+      values:
+        - name: EAP_METHOD_SELECTED
+          value: ""
+        - name: SSID_TEMP_DISABLED
+          value: ""
+        - name: OPEN_SSL_FAILURE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BssTmDataFlagsMask
+      backing_type: int
+      values:
+        - name: WNM_MODE_PREFERRED_CANDIDATE_LIST_INCLUDED
+          value: 1 << 0
+        - name: WNM_MODE_ABRIDGED
+          value: 1 << 1
+        - name: WNM_MODE_DISASSOCIATION_IMMINENT
+          value: 1 << 2
+        - name: WNM_MODE_BSS_TERMINATION_INCLUDED
+          value: 1 << 3
+        - name: WNM_MODE_ESS_DISASSOCIATION_IMMINENT
+          value: 1 << 4
+        - name: MBO_TRANSITION_REASON_CODE_INCLUDED
+          value: 1 << 5
+        - name: MBO_ASSOC_RETRY_DELAY_INCLUDED
+          value: 1 << 6
+        - name: MBO_CELLULAR_DATA_CONNECTION_PREFERENCE_INCLUDED
+          value: 1 << 7
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BssTmStatusCode
+      backing_type: byte
+      values:
+        - name: ACCEPT
+          value: "0"
+        - name: REJECT_UNSPECIFIED
+          value: "1"
+        - name: REJECT_INSUFFICIENT_BEACON
+          value: "2"
+        - name: REJECT_INSUFFICIENT_CAPABITY
+          value: "3"
+        - name: REJECT_BSS_TERMINATION_UNDESIRED
+          value: "4"
+        - name: REJECT_BSS_TERMINATION_DELAY_REQUEST
+          value: "5"
+        - name: REJECT_STA_CANDIDATE_LIST_PROVIDED
+          value: "6"
+        - name: REJECT_NO_SUITABLE_CANDIDATES
+          value: "7"
+        - name: REJECT_LEAVING_ESS
+          value: "8"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BssidChangeReason
+      backing_type: byte
+      values:
+        - name: ASSOC_START
+          value: "0"
+        - name: ASSOC_COMPLETE
+          value: "1"
+        - name: DISASSOC
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BtCoexistenceMode
+      backing_type: byte
+      values:
+        - name: ENABLED
+          value: "0"
+        - name: DISABLED
+          value: "1"
+        - name: SENSE
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DebugLevel
+      backing_type: int
+      values:
+        - name: EXCESSIVE
+          value: "0"
+        - name: MSGDUMP
+          value: "1"
+        - name: DEBUG
+          value: "2"
+        - name: INFO
+          value: "3"
+        - name: WARNING
+          value: "4"
+        - name: ERROR
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DppAkm
+      backing_type: int
+      values:
+        - name: PSK
+          value: ""
+        - name: PSK_SAE
+          value: ""
+        - name: SAE
+          value: ""
+        - name: DPP
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DppCurve
+      backing_type: int
+      values:
+        - name: PRIME256V1
+          value: ""
+        - name: SECP384R1
+          value: ""
+        - name: SECP521R1
+          value: ""
+        - name: BRAINPOOLP256R1
+          value: ""
+        - name: BRAINPOOLP384R1
+          value: ""
+        - name: BRAINPOOLP512R1
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DppEventType
+      backing_type: int
+      values:
+        - name: CONFIGURATION_SENT
+          value: ""
+        - name: CONFIGURATION_APPLIED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DppFailureCode
+      backing_type: int
+      values:
+        - name: INVALID_URI
+          value: ""
+        - name: AUTHENTICATION
+          value: ""
+        - name: NOT_COMPATIBLE
+          value: ""
+        - name: CONFIGURATION
+          value: ""
+        - name: BUSY
+          value: ""
+        - name: TIMEOUT
+          value: ""
+        - name: FAILURE
+          value: ""
+        - name: NOT_SUPPORTED
+          value: ""
+        - name: CONFIGURATION_REJECTED
+          value: ""
+        - name: CANNOT_FIND_NETWORK
+          value: ""
+        - name: ENROLLEE_AUTHENTICATION
+          value: ""
+        - name: URI_GENERATION
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DppNetRole
+      backing_type: int
+      values:
+        - name: STA
+          value: ""
+        - name: AP
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DppProgressCode
+      backing_type: int
+      values:
+        - name: AUTHENTICATION_SUCCESS
+          value: ""
+        - name: RESPONSE_PENDING
+          value: ""
+        - name: CONFIGURATION_SENT_WAITING_RESPONSE
+          value: ""
+        - name: CONFIGURATION_ACCEPTED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DppStatusErrorCode
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "-1"
+        - name: SUCCESS
+          value: "0"
+        - name: NOT_COMPATIBLE
+          value: "1"
+        - name: AUTH_FAILURE
+          value: "2"
+        - name: UNWRAP_FAILURE
+          value: "3"
+        - name: BAD_GROUP
+          value: "4"
+        - name: CONFIGURE_FAILURE
+          value: "5"
+        - name: RESPONSE_PENDING
+          value: "6"
+        - name: INVALID_CONNECTOR
+          value: "7"
+        - name: NO_MATCH
+          value: "8"
+        - name: CONFIG_REJECTED
+          value: "9"
+        - name: NO_AP
+          value: "10"
+        - name: CONFIGURE_PENDING
+          value: "11"
+        - name: CSR_NEEDED
+          value: "12"
+        - name: CSR_BAD
+          value: "13"
+        - name: NEW_KEY_NEEDED
+          value: "14"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EapErrorCode
+      backing_type: int
+      values:
+        - name: SIM_GENERAL_FAILURE_AFTER_AUTH
+          value: "0"
+        - name: SIM_TEMPORARILY_DENIED
+          value: "1026"
+        - name: SIM_NOT_SUBSCRIBED
+          value: "1031"
+        - name: SIM_GENERAL_FAILURE_BEFORE_AUTH
+          value: "16384"
+        - name: SIM_VENDOR_SPECIFIC_EXPIRED_CERT
+          value: "16385"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EapMethod
+      backing_type: int
+      values:
+        - name: PEAP
+          value: "0"
+        - name: TLS
+          value: "1"
+        - name: TTLS
+          value: "2"
+        - name: PWD
+          value: "3"
+        - name: SIM
+          value: "4"
+        - name: AKA
+          value: "5"
+        - name: AKA_PRIME
+          value: "6"
+        - name: WFA_UNAUTH_TLS
+          value: "7"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EapPhase2Method
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: PAP
+          value: "1"
+        - name: MSPAP
+          value: "2"
+        - name: MSPAPV2
+          value: "3"
+        - name: GTC
+          value: "4"
+        - name: SIM
+          value: "5"
+        - name: AKA
+          value: "6"
+        - name: AKA_PRIME
+          value: "7"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ExtRadioWorkDefaults
+      backing_type: int
+      values:
+        - name: TIMEOUT_IN_SECS
+          value: "10"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: GroupCipherMask
+      backing_type: int
+      values:
+        - name: WEP40
+          value: 1 << 1
+        - name: WEP104
+          value: 1 << 2
+        - name: TKIP
+          value: 1 << 3
+        - name: CCMP
+          value: 1 << 4
+        - name: GTK_NOT_USED
+          value: 1 << 14
+        - name: GCMP_256
+          value: 1 << 8
+        - name: SMS4
+          value: 1 << 7
+        - name: GCMP_128
+          value: 1 << 6
+      annotations:
+        - VintfStability
+        - Backing
+    - name: GroupMgmtCipherMask
+      backing_type: int
+      values:
+        - name: BIP_GMAC_128
+          value: 1 << 11
+        - name: BIP_GMAC_256
+          value: 1 << 12
+        - name: BIP_CMAC_256
+          value: 1 << 13
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Hs20AnqpSubtypes
+      backing_type: int
+      values:
+        - name: OPERATOR_FRIENDLY_NAME
+          value: "3"
+        - name: WAN_METRICS
+          value: "4"
+        - name: CONNECTION_CAPABILITY
+          value: "5"
+        - name: OSU_PROVIDERS_LIST
+          value: "8"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ISupplicantStaIfaceCallback.MloLinkInfoChangeReason
+      backing_type: int
+      values:
+        - name: TID_TO_LINK_MAP
+          value: "0"
+        - name: MULTI_LINK_RECONFIG_AP_REMOVAL
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IfaceType
+      backing_type: int
+      values:
+        - name: STA
+          value: ""
+        - name: P2P
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IpVersion
+      backing_type: byte
+      values:
+        - name: VERSION_4
+          value: ""
+        - name: VERSION_6
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: KeyMgmtMask
+      backing_type: int
+      values:
+        - name: WPA_EAP
+          value: 1 << 0
+        - name: WPA_PSK
+          value: 1 << 1
+        - name: NONE
+          value: 1 << 2
+        - name: IEEE8021X
+          value: 1 << 3
+        - name: FT_EAP
+          value: 1 << 5
+        - name: FT_PSK
+          value: 1 << 6
+        - name: OSEN
+          value: 1 << 15
+        - name: WPA_EAP_SHA256
+          value: 1 << 7
+        - name: WPA_PSK_SHA256
+          value: 1 << 8
+        - name: SAE
+          value: 1 << 10
+        - name: SUITE_B_192
+          value: 1 << 17
+        - name: OWE
+          value: 1 << 22
+        - name: DPP
+          value: 1 << 23
+        - name: WAPI_PSK
+          value: 1 << 12
+        - name: WAPI_CERT
+          value: 1 << 13
+        - name: FILS_SHA256
+          value: 1 << 18
+        - name: FILS_SHA384
+          value: 1 << 19
+        - name: PASN
+          value: 1 << 25
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LegacyMode
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: A_MODE
+          value: "1"
+        - name: B_MODE
+          value: "2"
+        - name: G_MODE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: MboAssocDisallowedReasonCode
+      backing_type: byte
+      values:
+        - name: RESERVED
+          value: "0"
+        - name: UNSPECIFIED
+          value: "1"
+        - name: MAX_NUM_STA_ASSOCIATED
+          value: "2"
+        - name: AIR_INTERFACE_OVERLOADED
+          value: "3"
+        - name: AUTH_SERVER_OVERLOADED
+          value: "4"
+        - name: INSUFFICIENT_RSSI
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: MboCellularDataConnectionPrefValue
+      backing_type: int
+      values:
+        - name: EXCLUDED
+          value: "0"
+        - name: NOT_PREFERRED
+          value: "1"
+        - name: PREFERRED
+          value: "255"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: MboTransitionReasonCode
+      backing_type: byte
+      values:
+        - name: UNSPECIFIED
+          value: "0"
+        - name: EXCESSIVE_FRAME_LOSS
+          value: "1"
+        - name: EXCESSIVE_TRAFFIC_DELAY
+          value: "2"
+        - name: INSUFFICIENT_BANDWIDTH
+          value: "3"
+        - name: LOAD_BALANCING
+          value: "4"
+        - name: LOW_RSSI
+          value: "5"
+        - name: RX_EXCESSIVE_RETRIES
+          value: "6"
+        - name: HIGH_INTERFERENCE
+          value: "7"
+        - name: GRAY_ZONE
+          value: "8"
+        - name: TRANSITION_TO_PREMIUM_AP
+          value: "9"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: MiracastMode
+      backing_type: byte
+      values:
+        - name: DISABLED
+          value: "0"
+        - name: SOURCE
+          value: "1"
+        - name: SINK
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: MscsParams.FrameClassifierFields
+      backing_type: int
+      values:
+        - name: IP_VERSION
+          value: 1 << 0
+        - name: SRC_IP_ADDR
+          value: 1 << 1
+        - name: DST_IP_ADDR
+          value: 1 << 2
+        - name: SRC_PORT
+          value: 1 << 3
+        - name: DST_PORT
+          value: 1 << 4
+        - name: DSCP
+          value: 1 << 5
+        - name: PROTOCOL_NEXT_HDR
+          value: 1 << 6
+        - name: FLOW_LABEL
+          value: 1 << 7
+      annotations:
+        - VintfStability
+        - Backing
+    - name: MsduDeliveryInfo.DeliveryRatio
+      backing_type: byte
+      values:
+        - name: RATIO_95
+          value: "1"
+        - name: RATIO_96
+          value: "2"
+        - name: RATIO_97
+          value: "3"
+        - name: RATIO_98
+          value: "4"
+        - name: RATIO_99
+          value: "5"
+        - name: RATIO_99_9
+          value: "6"
+        - name: RATIO_99_99
+          value: "7"
+        - name: RATIO_99_999
+          value: "8"
+        - name: RATIO_99_9999
+          value: "9"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: OcspType
+      backing_type: int
+      values:
+        - name: NONE
+          value: ""
+        - name: REQUEST_CERT_STATUS
+          value: ""
+        - name: REQUIRE_CERT_STATUS
+          value: ""
+        - name: REQUIRE_ALL_CERTS_STATUS
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: OsuMethod
+      backing_type: byte
+      values:
+        - name: OMA_DM
+          value: "0"
+        - name: SOAP_XML_SPP
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: P2pFrameTypeMask
+      backing_type: int
+      values:
+        - name: P2P_FRAME_PROBE_REQ_P2P
+          value: 1 << 0
+        - name: P2P_FRAME_PROBE_RESP_P2P
+          value: 1 << 1
+        - name: P2P_FRAME_PROBE_RESP_P2P_GO
+          value: 1 << 2
+        - name: P2P_FRAME_BEACON_P2P_GO
+          value: 1 << 3
+        - name: P2P_FRAME_P2P_PD_REQ
+          value: 1 << 4
+        - name: P2P_FRAME_P2P_PD_RESP
+          value: 1 << 5
+        - name: P2P_FRAME_P2P_GO_NEG_REQ
+          value: 1 << 6
+        - name: P2P_FRAME_P2P_GO_NEG_RESP
+          value: 1 << 7
+        - name: P2P_FRAME_P2P_GO_NEG_CONF
+          value: 1 << 8
+        - name: P2P_FRAME_P2P_INV_REQ
+          value: 1 << 9
+        - name: P2P_FRAME_P2P_INV_RESP
+          value: 1 << 10
+        - name: P2P_FRAME_P2P_ASSOC_REQ
+          value: 1 << 11
+        - name: P2P_FRAME_P2P_ASSOC_RESP
+          value: 1 << 12
+      annotations:
+        - VintfStability
+        - Backing
+    - name: P2pGroupCapabilityMask
+      backing_type: int
+      values:
+        - name: GROUP_OWNER
+          value: 1 << 0
+        - name: PERSISTENT_GROUP
+          value: 1 << 1
+        - name: GROUP_LIMIT
+          value: 1 << 2
+        - name: INTRA_BSS_DIST
+          value: 1 << 3
+        - name: CROSS_CONN
+          value: 1 << 4
+        - name: PERSISTENT_RECONN
+          value: 1 << 5
+        - name: GROUP_FORMATION
+          value: 1 << 6
+      annotations:
+        - VintfStability
+        - Backing
+    - name: P2pProvDiscStatusCode
+      backing_type: byte
+      values:
+        - name: SUCCESS
+          value: "0"
+        - name: TIMEOUT
+          value: "1"
+        - name: REJECTED
+          value: "2"
+        - name: TIMEOUT_JOIN
+          value: "3"
+        - name: INFO_UNAVAILABLE
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: P2pScanType
+      backing_type: int
+      values:
+        - name: FULL
+          value: ""
+        - name: SOCIAL
+          value: ""
+        - name: SPECIFIC_FREQ
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: P2pStatusCode
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: "0"
+        - name: FAIL_INFO_CURRENTLY_UNAVAILABLE
+          value: "1"
+        - name: FAIL_INCOMPATIBLE_PARAMS
+          value: "2"
+        - name: FAIL_LIMIT_REACHED
+          value: "3"
+        - name: FAIL_INVALID_PARAMS
+          value: "4"
+        - name: FAIL_UNABLE_TO_ACCOMMODATE
+          value: "5"
+        - name: FAIL_PREV_PROTOCOL_ERROR
+          value: "6"
+        - name: FAIL_NO_COMMON_CHANNELS
+          value: "7"
+        - name: FAIL_UNKNOWN_GROUP
+          value: "8"
+        - name: FAIL_BOTH_GO_INTENT_15
+          value: "9"
+        - name: FAIL_INCOMPATIBLE_PROV_METHOD
+          value: "10"
+        - name: FAIL_REJECTED_BY_USER
+          value: "11"
+        - name: SUCCESS_DEFERRED
+          value: "12"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PairwiseCipherMask
+      backing_type: int
+      values:
+        - name: NONE
+          value: 1 << 0
+        - name: TKIP
+          value: 1 << 3
+        - name: CCMP
+          value: 1 << 4
+        - name: GCMP_128
+          value: 1 << 6
+        - name: SMS4
+          value: 1 << 7
+        - name: GCMP_256
+          value: 1 << 8
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ProtoMask
+      backing_type: int
+      values:
+        - name: WPA
+          value: 1 << 0
+        - name: RSN
+          value: 1 << 1
+        - name: WAPI
+          value: 1 << 2
+        - name: OSEN
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ProtocolNextHeader
+      backing_type: byte
+      values:
+        - name: TCP
+          value: "6"
+        - name: UDP
+          value: "17"
+        - name: ESP
+          value: "50"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: QosCharacteristics.QosCharacteristicsMask
+      backing_type: int
+      values:
+        - name: MAX_MSDU_SIZE
+          value: 1 << 0
+        - name: SERVICE_START_TIME
+          value: 1 << 1
+        - name: SERVICE_START_TIME_LINK_ID
+          value: 1 << 2
+        - name: MEAN_DATA_RATE
+          value: 1 << 3
+        - name: BURST_SIZE
+          value: 1 << 4
+        - name: MSDU_LIFETIME
+          value: 1 << 5
+        - name: MSDU_DELIVERY_INFO
+          value: 1 << 6
+      annotations:
+        - VintfStability
+        - Backing
+    - name: QosPolicyClassifierParamsMask
+      backing_type: int
+      values:
+        - name: SRC_IP
+          value: 1 << 0
+        - name: DST_IP
+          value: 1 << 1
+        - name: SRC_PORT
+          value: 1 << 2
+        - name: DST_PORT_RANGE
+          value: 1 << 3
+        - name: PROTOCOL_NEXT_HEADER
+          value: 1 << 4
+        - name: FLOW_LABEL
+          value: 1 << 5
+        - name: DOMAIN_NAME
+          value: 1 << 6
+        - name: DSCP
+          value: 1 << 7
+      annotations:
+        - VintfStability
+        - Backing
+    - name: QosPolicyRequestType
+      backing_type: byte
+      values:
+        - name: QOS_POLICY_ADD
+          value: ""
+        - name: QOS_POLICY_REMOVE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: QosPolicyScsData.LinkDirection
+      backing_type: byte
+      values:
+        - name: DOWNLINK
+          value: ""
+        - name: UPLINK
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: QosPolicyScsRequestStatusCode
+      backing_type: int
+      values:
+        - name: SENT
+          value: ""
+        - name: ALREADY_ACTIVE
+          value: ""
+        - name: NOT_EXIST
+          value: ""
+        - name: INVALID
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: QosPolicyScsResponseStatusCode
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: ""
+        - name: TCLAS_REQUEST_DECLINED
+          value: ""
+        - name: TCLAS_NOT_SUPPORTED_BY_AP
+          value: ""
+        - name: TCLAS_INSUFFICIENT_RESOURCES
+          value: ""
+        - name: TCLAS_RESOURCES_EXHAUSTED
+          value: ""
+        - name: TCLAS_PROCESSING_TERMINATED_INSUFFICIENT_QOS
+          value: ""
+        - name: TCLAS_PROCESSING_TERMINATED_POLICY_CONFLICT
+          value: ""
+        - name: TCLAS_PROCESSING_TERMINATED
+          value: ""
+        - name: TIMEOUT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: QosPolicyStatusCode
+      backing_type: byte
+      values:
+        - name: QOS_POLICY_SUCCESS
+          value: ""
+        - name: QOS_POLICY_REQUEST_DECLINED
+          value: ""
+        - name: QOS_POLICY_CLASSIFIER_NOT_SUPPORTED
+          value: ""
+        - name: QOS_POLICY_INSUFFICIENT_RESOURCES
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RxFilterType
+      backing_type: byte
+      values:
+        - name: V4_MULTICAST
+          value: "0"
+        - name: V6_MULTICAST
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SaeH2eMode
+      backing_type: byte
+      values:
+        - name: DISABLED
+          value: ""
+        - name: H2E_OPTIONAL
+          value: ""
+        - name: H2E_MANDATORY
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StaIfaceCallbackState
+      backing_type: int
+      values:
+        - name: DISCONNECTED
+          value: "0"
+        - name: IFACE_DISABLED
+          value: "1"
+        - name: INACTIVE
+          value: "2"
+        - name: SCANNING
+          value: "3"
+        - name: AUTHENTICATING
+          value: "4"
+        - name: ASSOCIATING
+          value: "5"
+        - name: ASSOCIATED
+          value: "6"
+        - name: FOURWAY_HANDSHAKE
+          value: "7"
+        - name: GROUP_HANDSHAKE
+          value: "8"
+        - name: COMPLETED
+          value: "9"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StaIfaceReasonCode
+      backing_type: int
+      values:
+        - name: UNSPECIFIED
+          value: "1"
+        - name: PREV_AUTH_NOT_VALID
+          value: "2"
+        - name: DEAUTH_LEAVING
+          value: "3"
+        - name: DISASSOC_DUE_TO_INACTIVITY
+          value: "4"
+        - name: DISASSOC_AP_BUSY
+          value: "5"
+        - name: CLASS2_FRAME_FROM_NONAUTH_STA
+          value: "6"
+        - name: CLASS3_FRAME_FROM_NONASSOC_STA
+          value: "7"
+        - name: DISASSOC_STA_HAS_LEFT
+          value: "8"
+        - name: STA_REQ_ASSOC_WITHOUT_AUTH
+          value: "9"
+        - name: PWR_CAPABILITY_NOT_VALID
+          value: "10"
+        - name: SUPPORTED_CHANNEL_NOT_VALID
+          value: "11"
+        - name: BSS_TRANSITION_DISASSOC
+          value: "12"
+        - name: INVALID_IE
+          value: "13"
+        - name: MICHAEL_MIC_FAILURE
+          value: "14"
+        - name: FOURWAY_HANDSHAKE_TIMEOUT
+          value: "15"
+        - name: GROUP_KEY_UPDATE_TIMEOUT
+          value: "16"
+        - name: IE_IN_4WAY_DIFFERS
+          value: "17"
+        - name: GROUP_CIPHER_NOT_VALID
+          value: "18"
+        - name: PAIRWISE_CIPHER_NOT_VALID
+          value: "19"
+        - name: AKMP_NOT_VALID
+          value: "20"
+        - name: UNSUPPORTED_RSN_IE_VERSION
+          value: "21"
+        - name: INVALID_RSN_IE_CAPAB
+          value: "22"
+        - name: IEEE_802_1X_AUTH_FAILED
+          value: "23"
+        - name: CIPHER_SUITE_REJECTED
+          value: "24"
+        - name: TDLS_TEARDOWN_UNREACHABLE
+          value: "25"
+        - name: TDLS_TEARDOWN_UNSPECIFIED
+          value: "26"
+        - name: SSP_REQUESTED_DISASSOC
+          value: "27"
+        - name: NO_SSP_ROAMING_AGREEMENT
+          value: "28"
+        - name: BAD_CIPHER_OR_AKM
+          value: "29"
+        - name: NOT_AUTHORIZED_THIS_LOCATION
+          value: "30"
+        - name: SERVICE_CHANGE_PRECLUDES_TS
+          value: "31"
+        - name: UNSPECIFIED_QOS_REASON
+          value: "32"
+        - name: NOT_ENOUGH_BANDWIDTH
+          value: "33"
+        - name: DISASSOC_LOW_ACK
+          value: "34"
+        - name: EXCEEDED_TXOP
+          value: "35"
+        - name: STA_LEAVING
+          value: "36"
+        - name: END_TS_BA_DLS
+          value: "37"
+        - name: UNKNOWN_TS_BA
+          value: "38"
+        - name: TIMEOUT
+          value: "39"
+        - name: PEERKEY_MISMATCH
+          value: "45"
+        - name: AUTHORIZED_ACCESS_LIMIT_REACHED
+          value: "46"
+        - name: EXTERNAL_SERVICE_REQUIREMENTS
+          value: "47"
+        - name: INVALID_FT_ACTION_FRAME_COUNT
+          value: "48"
+        - name: INVALID_PMKID
+          value: "49"
+        - name: INVALID_MDE
+          value: "50"
+        - name: INVALID_FTE
+          value: "51"
+        - name: MESH_PEERING_CANCELLED
+          value: "52"
+        - name: MESH_MAX_PEERS
+          value: "53"
+        - name: MESH_CONFIG_POLICY_VIOLATION
+          value: "54"
+        - name: MESH_CLOSE_RCVD
+          value: "55"
+        - name: MESH_MAX_RETRIES
+          value: "56"
+        - name: MESH_CONFIRM_TIMEOUT
+          value: "57"
+        - name: MESH_INVALID_GTK
+          value: "58"
+        - name: MESH_INCONSISTENT_PARAMS
+          value: "59"
+        - name: MESH_INVALID_SECURITY_CAP
+          value: "60"
+        - name: MESH_PATH_ERROR_NO_PROXY_INFO
+          value: "61"
+        - name: MESH_PATH_ERROR_NO_FORWARDING_INFO
+          value: "62"
+        - name: MESH_PATH_ERROR_DEST_UNREACHABLE
+          value: "63"
+        - name: MAC_ADDRESS_ALREADY_EXISTS_IN_MBSS
+          value: "64"
+        - name: MESH_CHANNEL_SWITCH_REGULATORY_REQ
+          value: "65"
+        - name: MESH_CHANNEL_SWITCH_UNSPECIFIED
+          value: "66"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StaIfaceStatusCode
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: "0"
+        - name: UNSPECIFIED_FAILURE
+          value: "1"
+        - name: TDLS_WAKEUP_ALTERNATE
+          value: "2"
+        - name: TDLS_WAKEUP_REJECT
+          value: "3"
+        - name: SECURITY_DISABLED
+          value: "5"
+        - name: UNACCEPTABLE_LIFETIME
+          value: "6"
+        - name: NOT_IN_SAME_BSS
+          value: "7"
+        - name: CAPS_UNSUPPORTED
+          value: "10"
+        - name: REASSOC_NO_ASSOC
+          value: "11"
+        - name: ASSOC_DENIED_UNSPEC
+          value: "12"
+        - name: NOT_SUPPORTED_AUTH_ALG
+          value: "13"
+        - name: UNKNOWN_AUTH_TRANSACTION
+          value: "14"
+        - name: CHALLENGE_FAIL
+          value: "15"
+        - name: AUTH_TIMEOUT
+          value: "16"
+        - name: AP_UNABLE_TO_HANDLE_NEW_STA
+          value: "17"
+        - name: ASSOC_DENIED_RATES
+          value: "18"
+        - name: ASSOC_DENIED_NOSHORT
+          value: "19"
+        - name: SPEC_MGMT_REQUIRED
+          value: "22"
+        - name: PWR_CAPABILITY_NOT_VALID
+          value: "23"
+        - name: SUPPORTED_CHANNEL_NOT_VALID
+          value: "24"
+        - name: ASSOC_DENIED_NO_SHORT_SLOT_TIME
+          value: "25"
+        - name: ASSOC_DENIED_NO_HT
+          value: "27"
+        - name: R0KH_UNREACHABLE
+          value: "28"
+        - name: ASSOC_DENIED_NO_PCO
+          value: "29"
+        - name: ASSOC_REJECTED_TEMPORARILY
+          value: "30"
+        - name: ROBUST_MGMT_FRAME_POLICY_VIOLATION
+          value: "31"
+        - name: UNSPECIFIED_QOS_FAILURE
+          value: "32"
+        - name: DENIED_INSUFFICIENT_BANDWIDTH
+          value: "33"
+        - name: DENIED_POOR_CHANNEL_CONDITIONS
+          value: "34"
+        - name: DENIED_QOS_NOT_SUPPORTED
+          value: "35"
+        - name: REQUEST_DECLINED
+          value: "37"
+        - name: INVALID_PARAMETERS
+          value: "38"
+        - name: REJECTED_WITH_SUGGESTED_CHANGES
+          value: "39"
+        - name: INVALID_IE
+          value: "40"
+        - name: GROUP_CIPHER_NOT_VALID
+          value: "41"
+        - name: PAIRWISE_CIPHER_NOT_VALID
+          value: "42"
+        - name: AKMP_NOT_VALID
+          value: "43"
+        - name: UNSUPPORTED_RSN_IE_VERSION
+          value: "44"
+        - name: INVALID_RSN_IE_CAPAB
+          value: "45"
+        - name: CIPHER_REJECTED_PER_POLICY
+          value: "46"
+        - name: TS_NOT_CREATED
+          value: "47"
+        - name: DIRECT_LINK_NOT_ALLOWED
+          value: "48"
+        - name: DEST_STA_NOT_PRESENT
+          value: "49"
+        - name: DEST_STA_NOT_QOS_STA
+          value: "50"
+        - name: ASSOC_DENIED_LISTEN_INT_TOO_LARGE
+          value: "51"
+        - name: INVALID_FT_ACTION_FRAME_COUNT
+          value: "52"
+        - name: INVALID_PMKID
+          value: "53"
+        - name: INVALID_MDIE
+          value: "54"
+        - name: INVALID_FTIE
+          value: "55"
+        - name: REQUESTED_TCLAS_NOT_SUPPORTED
+          value: "56"
+        - name: INSUFFICIENT_TCLAS_PROCESSING_RESOURCES
+          value: "57"
+        - name: TRY_ANOTHER_BSS
+          value: "58"
+        - name: GAS_ADV_PROTO_NOT_SUPPORTED
+          value: "59"
+        - name: NO_OUTSTANDING_GAS_REQ
+          value: "60"
+        - name: GAS_RESP_NOT_RECEIVED
+          value: "61"
+        - name: STA_TIMED_OUT_WAITING_FOR_GAS_RESP
+          value: "62"
+        - name: GAS_RESP_LARGER_THAN_LIMIT
+          value: "63"
+        - name: REQ_REFUSED_HOME
+          value: "64"
+        - name: ADV_SRV_UNREACHABLE
+          value: "65"
+        - name: REQ_REFUSED_SSPN
+          value: "67"
+        - name: REQ_REFUSED_UNAUTH_ACCESS
+          value: "68"
+        - name: INVALID_RSNIE
+          value: "72"
+        - name: U_APSD_COEX_NOT_SUPPORTED
+          value: "73"
+        - name: U_APSD_COEX_MODE_NOT_SUPPORTED
+          value: "74"
+        - name: BAD_INTERVAL_WITH_U_APSD_COEX
+          value: "75"
+        - name: ANTI_CLOGGING_TOKEN_REQ
+          value: "76"
+        - name: FINITE_CYCLIC_GROUP_NOT_SUPPORTED
+          value: "77"
+        - name: CANNOT_FIND_ALT_TBTT
+          value: "78"
+        - name: TRANSMISSION_FAILURE
+          value: "79"
+        - name: REQ_TCLAS_NOT_SUPPORTED
+          value: "80"
+        - name: TCLAS_RESOURCES_EXCHAUSTED
+          value: "81"
+        - name: REJECTED_WITH_SUGGESTED_BSS_TRANSITION
+          value: "82"
+        - name: REJECT_WITH_SCHEDULE
+          value: "83"
+        - name: REJECT_NO_WAKEUP_SPECIFIED
+          value: "84"
+        - name: SUCCESS_POWER_SAVE_MODE
+          value: "85"
+        - name: PENDING_ADMITTING_FST_SESSION
+          value: "86"
+        - name: PERFORMING_FST_NOW
+          value: "87"
+        - name: PENDING_GAP_IN_BA_WINDOW
+          value: "88"
+        - name: REJECT_U_PID_SETTING
+          value: "89"
+        - name: REFUSED_EXTERNAL_REASON
+          value: "92"
+        - name: REFUSED_AP_OUT_OF_MEMORY
+          value: "93"
+        - name: REJECTED_EMERGENCY_SERVICE_NOT_SUPPORTED
+          value: "94"
+        - name: QUERY_RESP_OUTSTANDING
+          value: "95"
+        - name: REJECT_DSE_BAND
+          value: "96"
+        - name: TCLAS_PROCESSING_TERMINATED
+          value: "97"
+        - name: TS_SCHEDULE_CONFLICT
+          value: "98"
+        - name: DENIED_WITH_SUGGESTED_BAND_AND_CHANNEL
+          value: "99"
+        - name: MCCAOP_RESERVATION_CONFLICT
+          value: "100"
+        - name: MAF_LIMIT_EXCEEDED
+          value: "101"
+        - name: MCCA_TRACK_LIMIT_EXCEEDED
+          value: "102"
+        - name: DENIED_DUE_TO_SPECTRUM_MANAGEMENT
+          value: "103"
+        - name: ASSOC_DENIED_NO_VHT
+          value: "104"
+        - name: ENABLEMENT_DENIED
+          value: "105"
+        - name: RESTRICTION_FROM_AUTHORIZED_GDB
+          value: "106"
+        - name: AUTHORIZATION_DEENABLED
+          value: "107"
+        - name: FILS_AUTHENTICATION_FAILURE
+          value: "112"
+        - name: UNKNOWN_AUTHENTICATION_SERVER
+          value: "113"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SupplicantStatusCode
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: ""
+        - name: FAILURE_UNKNOWN
+          value: ""
+        - name: FAILURE_ARGS_INVALID
+          value: ""
+        - name: FAILURE_IFACE_INVALID
+          value: ""
+        - name: FAILURE_IFACE_UNKNOWN
+          value: ""
+        - name: FAILURE_IFACE_EXISTS
+          value: ""
+        - name: FAILURE_IFACE_DISABLED
+          value: ""
+        - name: FAILURE_IFACE_NOT_DISCONNECTED
+          value: ""
+        - name: FAILURE_NETWORK_INVALID
+          value: ""
+        - name: FAILURE_NETWORK_UNKNOWN
+          value: ""
+        - name: FAILURE_UNSUPPORTED
+          value: ""
+        - name: FAILURE_ONGOING_REQUEST
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: TlsVersion
+      backing_type: int
+      values:
+        - name: TLS_V1_0
+          value: ""
+        - name: TLS_V1_1
+          value: ""
+        - name: TLS_V1_2
+          value: ""
+        - name: TLS_V1_3
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: TransitionDisableIndication
+      backing_type: int
+      values:
+        - name: USE_WPA3_PERSONAL
+          value: 1 << 0
+        - name: USE_SAE_PK
+          value: 1 << 1
+        - name: USE_WPA3_ENTERPRISE
+          value: 1 << 2
+        - name: USE_ENHANCED_OPEN
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WifiTechnology
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: LEGACY
+          value: "1"
+        - name: HT
+          value: "2"
+        - name: VHT
+          value: "3"
+        - name: HE
+          value: "4"
+        - name: EHT
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WpaDriverCapabilitiesMask
+      backing_type: int
+      values:
+        - name: MBO
+          value: 1 << 0
+        - name: OCE
+          value: 1 << 1
+        - name: SAE_PK
+          value: 1 << 2
+        - name: WFD_R2
+          value: 1 << 3
+        - name: TRUST_ON_FIRST_USE
+          value: 1 << 4
+        - name: SET_TLS_MINIMUM_VERSION
+          value: 1 << 5
+        - name: TLS_V1_3
+          value: 1 << 6
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WpsConfigError
+      backing_type: int
+      values:
+        - name: NO_ERROR
+          value: "0"
+        - name: OOB_IFACE_READ_ERROR
+          value: "1"
+        - name: DECRYPTION_CRC_FAILURE
+          value: "2"
+        - name: CHAN_24_NOT_SUPPORTED
+          value: "3"
+        - name: CHAN_50_NOT_SUPPORTED
+          value: "4"
+        - name: SIGNAL_TOO_WEAK
+          value: "5"
+        - name: NETWORK_AUTH_FAILURE
+          value: "6"
+        - name: NETWORK_ASSOC_FAILURE
+          value: "7"
+        - name: NO_DHCP_RESPONSE
+          value: "8"
+        - name: FAILED_DHCP_CONFIG
+          value: "9"
+        - name: IP_ADDR_CONFLICT
+          value: "10"
+        - name: NO_CONN_TO_REGISTRAR
+          value: "11"
+        - name: MULTIPLE_PBC_DETECTED
+          value: "12"
+        - name: ROGUE_SUSPECTED
+          value: "13"
+        - name: DEVICE_BUSY
+          value: "14"
+        - name: SETUP_LOCKED
+          value: "15"
+        - name: MSG_TIMEOUT
+          value: "16"
+        - name: REG_SESS_TIMEOUT
+          value: "17"
+        - name: DEV_PASSWORD_AUTH_FAILURE
+          value: "18"
+        - name: CHAN_60G_NOT_SUPPORTED
+          value: "19"
+        - name: PUBLIC_KEY_HASH_MISMATCH
+          value: "20"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WpsConfigMethods
+      backing_type: int
+      values:
+        - name: USBA
+          value: "0x0001"
+        - name: ETHERNET
+          value: "0x0002"
+        - name: LABEL
+          value: "0x0004"
+        - name: DISPLAY
+          value: "0x0008"
+        - name: EXT_NFC_TOKEN
+          value: "0x0010"
+        - name: INT_NFC_TOKEN
+          value: "0x0020"
+        - name: NFC_INTERFACE
+          value: "0x0040"
+        - name: PUSHBUTTON
+          value: "0x0080"
+        - name: KEYPAD
+          value: "0x0100"
+        - name: VIRT_PUSHBUTTON
+          value: "0x0280"
+        - name: PHY_PUSHBUTTON
+          value: "0x0480"
+        - name: P2PS
+          value: "0x1000"
+        - name: VIRT_DISPLAY
+          value: "0x2008"
+        - name: PHY_DISPLAY
+          value: "0x4008"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WpsDevPasswordId
+      backing_type: int
+      values:
+        - name: DEFAULT
+          value: "0x0000"
+        - name: USER_SPECIFIED
+          value: "0x0001"
+        - name: MACHINE_SPECIFIED
+          value: "0x0002"
+        - name: REKEY
+          value: "0x0003"
+        - name: PUSHBUTTON
+          value: "0x0004"
+        - name: REGISTRAR_SPECIFIED
+          value: "0x0005"
+        - name: NFC_CONNECTION_HANDOVER
+          value: "0x0007"
+        - name: P2PS_DEFAULT
+          value: "0x0008"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WpsErrorIndication
+      backing_type: int
+      values:
+        - name: NO_ERROR
+          value: "0"
+        - name: SECURITY_TKIP_ONLY_PROHIBITED
+          value: "1"
+        - name: SECURITY_WEP_PROHIBITED
+          value: "2"
+        - name: AUTH_FAILURE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WpsProvisionMethod
+      backing_type: int
+      values:
+        - name: PBC
+          value: ""
+        - name: DISPLAY
+          value: ""
+        - name: KEYPAD
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing

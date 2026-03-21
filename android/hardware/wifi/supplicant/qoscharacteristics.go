@@ -54,9 +54,19 @@ func (s *QosCharacteristics) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.MinServiceIntervalUs, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.MaxServiceIntervalUs, _err = p.ReadInt32()
@@ -64,9 +74,19 @@ func (s *QosCharacteristics) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.MinDataRateKbps, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.DelayBoundUs, _err = p.ReadInt32()
@@ -74,9 +94,19 @@ func (s *QosCharacteristics) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.OptionalFieldMask, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_maxMsduSizeOctetsRaw, _err := p.ReadInt32()
@@ -85,9 +115,19 @@ func (s *QosCharacteristics) UnmarshalParcel(
 	}
 	s.MaxMsduSizeOctets = uint16(_maxMsduSizeOctetsRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ServiceStartTimeUs, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ServiceStartTimeLinkId, _err = p.ReadPaddedByte()
@@ -95,9 +135,19 @@ func (s *QosCharacteristics) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.MeanDataRateKbps, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.BurstSizeOctets, _err = p.ReadInt32()
@@ -105,11 +155,21 @@ func (s *QosCharacteristics) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_msduLifetimeMsRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.MsduLifetimeMs = uint16(_msduLifetimeMsRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	if _err = s.MsduDeliveryInfo.UnmarshalParcel(p); _err != nil {
 		return _err

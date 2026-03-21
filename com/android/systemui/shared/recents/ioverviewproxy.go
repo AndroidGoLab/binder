@@ -92,6 +92,7 @@ func (p *OverviewProxyProxy) OnActiveNavBarRegionChanges(
 	activeRegion graphics.Region,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
 	_data.WriteInt32(1)
 	if _err := activeRegion.MarshalParcel(_data); _err != nil {
@@ -112,6 +113,7 @@ func (p *OverviewProxyProxy) OnInitialize(
 	params os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -131,6 +133,7 @@ func (p *OverviewProxyProxy) OnOverviewToggle(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnOverviewToggle)
@@ -147,6 +150,7 @@ func (p *OverviewProxyProxy) OnOverviewShown(
 	triggeredFromAltTab bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
 	_data.WriteBool(triggeredFromAltTab)
 
@@ -165,6 +169,7 @@ func (p *OverviewProxyProxy) OnOverviewHidden(
 	triggeredFromHomeKey bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
 	_data.WriteBool(triggeredFromAltTab)
 	_data.WriteBool(triggeredFromHomeKey)
@@ -184,6 +189,7 @@ func (p *OverviewProxyProxy) OnAssistantAvailable(
 	longPressHomeEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
 	_data.WriteBool(available)
 	_data.WriteBool(longPressHomeEnabled)
@@ -202,6 +208,7 @@ func (p *OverviewProxyProxy) OnAssistantVisibilityChanged(
 	visibility float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
 	_data.WriteFloat32(visibility)
 
@@ -219,6 +226,7 @@ func (p *OverviewProxyProxy) OnAssistantOverrideInvoked(
 	invocationType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
 	_data.WriteInt32(invocationType)
 
@@ -236,6 +244,7 @@ func (p *OverviewProxyProxy) OnSystemUiStateChanged(
 	stateFlags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
 	_data.WriteInt32(stateFlags)
 
@@ -254,6 +263,7 @@ func (p *OverviewProxyProxy) OnRotationProposal(
 	isValid bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
 	_data.WriteInt32(rotation)
 	_data.WriteBool(isValid)
@@ -275,6 +285,7 @@ func (p *OverviewProxyProxy) Disable(
 	animate bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(state1)
@@ -296,6 +307,7 @@ func (p *OverviewProxyProxy) OnSystemBarAttributesChanged(
 	behavior int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(behavior)
@@ -314,6 +326,7 @@ func (p *OverviewProxyProxy) OnNavButtonsDarkIntensityChanged(
 	darkIntensity float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
 	_data.WriteFloat32(darkIntensity)
 
@@ -332,6 +345,7 @@ func (p *OverviewProxyProxy) OnNavigationBarLumaSamplingEnabled(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
 	_data.WriteInt32(displayId)
 	_data.WriteBool(enable)
@@ -350,6 +364,7 @@ func (p *OverviewProxyProxy) EnterStageSplitFromRunningApp(
 	leftOrTop bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
 	_data.WriteBool(leftOrTop)
 
@@ -366,6 +381,7 @@ func (p *OverviewProxyProxy) OnTaskbarToggled(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverviewProxy, MethodIOverviewProxyOnTaskbarToggled)
@@ -380,7 +396,8 @@ func (p *OverviewProxyProxy) OnTaskbarToggled(
 // OverviewProxyStub dispatches incoming binder transactions
 // to a typed IOverviewProxy implementation.
 type OverviewProxyStub struct {
-	Impl IOverviewProxy
+	Impl      IOverviewProxy
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OverviewProxyStub)(nil)
@@ -394,11 +411,12 @@ func (s *OverviewProxyStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOverviewProxyOnActiveNavBarRegionChanges:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_activeRegion graphics.Region
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -412,12 +430,8 @@ func (s *OverviewProxyStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnActiveNavBarRegionChanges(ctx, _arg_activeRegion)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOverviewProxyOnInitialize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_params os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -431,30 +445,18 @@ func (s *OverviewProxyStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnInitialize(ctx, _arg_params)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOverviewProxyOnOverviewToggle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnOverviewToggle(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOverviewProxyOnOverviewShown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_triggeredFromAltTab, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnOverviewShown(ctx, _arg_triggeredFromAltTab)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOverviewProxyOnOverviewHidden:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_triggeredFromAltTab, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -464,12 +466,8 @@ func (s *OverviewProxyStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnOverviewHidden(ctx, _arg_triggeredFromAltTab, _arg_triggeredFromHomeKey)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOverviewProxyOnAssistantAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_available, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -479,45 +477,29 @@ func (s *OverviewProxyStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAssistantAvailable(ctx, _arg_available, _arg_longPressHomeEnabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOverviewProxyOnAssistantVisibilityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_visibility, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAssistantVisibilityChanged(ctx, _arg_visibility)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOverviewProxyOnAssistantOverrideInvoked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_invocationType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAssistantOverrideInvoked(ctx, _arg_invocationType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOverviewProxyOnSystemUiStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_stateFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSystemUiStateChanged(ctx, _arg_stateFlags)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOverviewProxyOnRotationProposal:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -527,12 +509,8 @@ func (s *OverviewProxyStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnRotationProposal(ctx, _arg_rotation, _arg_isValid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOverviewProxyDisable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -550,12 +528,8 @@ func (s *OverviewProxyStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.Disable(ctx, _arg_displayId, _arg_state1, _arg_state2, _arg_animate)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOverviewProxyOnSystemBarAttributesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -565,23 +539,15 @@ func (s *OverviewProxyStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSystemBarAttributesChanged(ctx, _arg_displayId, _arg_behavior)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOverviewProxyOnNavButtonsDarkIntensityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_darkIntensity, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnNavButtonsDarkIntensityChanged(ctx, _arg_darkIntensity)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOverviewProxyOnNavigationBarLumaSamplingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -591,26 +557,17 @@ func (s *OverviewProxyStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnNavigationBarLumaSamplingEnabled(ctx, _arg_displayId, _arg_enable)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOverviewProxyEnterStageSplitFromRunningApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_leftOrTop, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.EnterStageSplitFromRunningApp(ctx, _arg_leftOrTop)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOverviewProxyOnTaskbarToggled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnTaskbarToggled(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -1,0 +1,4 @@
+package: android.security.keymaster
+go_package: android/security/keymaster
+parcelables:
+    - name: KeymasterCertificateChain

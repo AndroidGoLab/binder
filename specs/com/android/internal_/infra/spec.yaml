@@ -1,0 +1,18 @@
+package: com.android.internal.infra
+go_package: com/android/internal_/infra
+interfaces:
+    - name: IAndroidFuture
+      descriptor: com.android.internal.infra.IAndroidFuture
+      oneway: true
+      methods:
+        - name: complete
+          transaction_code_offset: 0
+          params:
+            - name: resultContainer
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: AndroidFuture

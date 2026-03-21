@@ -96,6 +96,7 @@ func (p *BiometricServiceProxy) CreateTestSession(
 	var _result ITestSession
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(sensorId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -130,6 +131,7 @@ func (p *BiometricServiceProxy) GetSensorProperties(
 	var _result []SensorPropertiesInternal
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteString16(_identity.PackageName)
 
@@ -151,6 +153,9 @@ func (p *BiometricServiceProxy) GetSensorProperties(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -177,6 +182,7 @@ func (p *BiometricServiceProxy) Authenticate(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt64(operationId)
@@ -217,6 +223,7 @@ func (p *BiometricServiceProxy) CancelAuthentication(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
@@ -247,6 +254,7 @@ func (p *BiometricServiceProxy) CanAuthenticate(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
@@ -282,6 +290,7 @@ func (p *BiometricServiceProxy) GetLastAuthenticationTime(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(authenticators)
@@ -314,6 +323,7 @@ func (p *BiometricServiceProxy) HasEnrolledBiometrics(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
@@ -348,6 +358,7 @@ func (p *BiometricServiceProxy) RegisterAuthenticator(
 	authenticator IBiometricAuthenticator,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(id)
 	_data.WriteInt32(modality)
@@ -377,6 +388,7 @@ func (p *BiometricServiceProxy) RegisterEnabledOnKeyguardCallback(
 	callback IBiometricEnabledOnKeyguardCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -404,6 +416,7 @@ func (p *BiometricServiceProxy) OnReadyForAuthentication(
 	cookie int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt64(requestId)
 	_data.WriteInt32(cookie)
@@ -433,6 +446,7 @@ func (p *BiometricServiceProxy) InvalidateAuthenticatorIds(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(fromSensorId)
@@ -462,6 +476,7 @@ func (p *BiometricServiceProxy) GetAuthenticatorIds(
 	var _result []int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(_identity.UserID)
 
@@ -484,6 +499,9 @@ func (p *BiometricServiceProxy) GetAuthenticatorIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int64, _count)
@@ -505,19 +523,13 @@ func (p *BiometricServiceProxy) ResetLockoutTimeBound(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(fromSensorId)
 	_data.WriteInt32(_identity.UserID)
-	if hardwareAuthToken == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(hardwareAuthToken)))
-		for _, _item := range hardwareAuthToken {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(hardwareAuthToken)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceResetLockoutTimeBound)
 	if _err != nil {
@@ -543,16 +555,10 @@ func (p *BiometricServiceProxy) ResetLockout(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(_identity.UserID)
-	if hardwareAuthToken == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(hardwareAuthToken)))
-		for _, _item := range hardwareAuthToken {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(hardwareAuthToken)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceResetLockout)
 	if _err != nil {
@@ -578,6 +584,7 @@ func (p *BiometricServiceProxy) GetCurrentStrength(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(sensorId)
 
@@ -610,6 +617,7 @@ func (p *BiometricServiceProxy) GetCurrentModality(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
@@ -644,6 +652,7 @@ func (p *BiometricServiceProxy) GetSupportedModalities(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(authenticators)
 
@@ -672,7 +681,8 @@ func (p *BiometricServiceProxy) GetSupportedModalities(
 // BiometricServiceStub dispatches incoming binder transactions
 // to a typed IBiometricService implementation.
 type BiometricServiceStub struct {
-	Impl IBiometricService
+	Impl      IBiometricService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BiometricServiceStub)(nil)
@@ -686,18 +696,24 @@ func (s *BiometricServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBiometricServiceCreateTestSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITestSessionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTestSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -708,13 +724,9 @@ func (s *BiometricServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIBiometricServiceGetSensorProperties:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -725,16 +737,27 @@ func (s *BiometricServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIBiometricServiceAuthenticate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_operationId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -742,9 +765,14 @@ func (s *BiometricServiceStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IBiometricServiceReceiver
-		_ = _arg_receiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = NewBiometricServiceReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -770,12 +798,14 @@ func (s *BiometricServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIBiometricServiceCancelAuthentication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -792,9 +822,6 @@ func (s *BiometricServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBiometricServiceCanAuthenticate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -818,9 +845,6 @@ func (s *BiometricServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBiometricServiceGetLastAuthenticationTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -838,9 +862,6 @@ func (s *BiometricServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIBiometricServiceHasEnrolledBiometrics:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -857,9 +878,6 @@ func (s *BiometricServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBiometricServiceRegisterAuthenticator:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -872,9 +890,14 @@ func (s *BiometricServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_authenticator IBiometricAuthenticator
-		_ = _arg_authenticator
+		{
+			_authenticatorHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_authenticator = NewBiometricAuthenticatorProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _authenticatorHandle))
+		}
 		_err = s.Impl.RegisterAuthenticator(ctx, _arg_id, _arg_modality, _arg_strength, _arg_authenticator)
 		_reply := parcel.New()
 		if _err != nil {
@@ -884,12 +907,14 @@ func (s *BiometricServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBiometricServiceRegisterEnabledOnKeyguardCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IBiometricEnabledOnKeyguardCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewBiometricEnabledOnKeyguardCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterEnabledOnKeyguardCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -899,9 +924,6 @@ func (s *BiometricServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBiometricServiceOnReadyForAuthentication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -919,9 +941,6 @@ func (s *BiometricServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBiometricServiceInvalidateAuthenticatorIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -929,9 +948,14 @@ func (s *BiometricServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IInvalidationCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewInvalidationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.InvalidateAuthenticatorIds(ctx, _arg_fromSensorId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -941,9 +965,6 @@ func (s *BiometricServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBiometricServiceGetAuthenticatorIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -954,16 +975,24 @@ func (s *BiometricServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt64(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIBiometricServiceResetLockoutTimeBound:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -974,9 +1003,14 @@ func (s *BiometricServiceStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_hardwareAuthToken []byte
-		_ = _arg_hardwareAuthToken
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hardwareAuthToken = _bytes
+		}
 		_err = s.Impl.ResetLockoutTimeBound(ctx, _arg_token, _arg_fromSensorId, _arg_hardwareAuthToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -986,15 +1020,17 @@ func (s *BiometricServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBiometricServiceResetLockout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_hardwareAuthToken []byte
-		_ = _arg_hardwareAuthToken
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hardwareAuthToken = _bytes
+		}
 		_err := s.Impl.ResetLockout(ctx, _arg_hardwareAuthToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1004,9 +1040,6 @@ func (s *BiometricServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBiometricServiceGetCurrentStrength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1021,9 +1054,6 @@ func (s *BiometricServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBiometricServiceGetCurrentModality:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1047,9 +1077,6 @@ func (s *BiometricServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBiometricServiceGetSupportedModalities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_authenticators, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

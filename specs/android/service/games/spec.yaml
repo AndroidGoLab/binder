@@ -1,0 +1,140 @@
+package: android.service.games
+go_package: android/service/games
+interfaces:
+    - name: IGameService
+      descriptor: android.service.games.IGameService
+      oneway: true
+      methods:
+        - name: connected
+          transaction_code_offset: 0
+          params:
+            - name: gameServiceController
+              type:
+                name: IGameServiceController
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - RequiresNoPermission
+        - name: disconnected
+          transaction_code_offset: 1
+          return_type:
+            name: void
+          annotations:
+            - RequiresNoPermission
+        - name: gameStarted
+          transaction_code_offset: 2
+          params:
+            - name: gameStartedEvent
+              type:
+                name: GameStartedEvent
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - RequiresNoPermission
+    - name: IGameServiceController
+      descriptor: android.service.games.IGameServiceController
+      oneway: true
+      methods:
+        - name: createGameSession
+          transaction_code_offset: 0
+          params:
+            - name: taskId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+    - name: IGameSession
+      descriptor: android.service.games.IGameSession
+      oneway: true
+      methods:
+        - name: onDestroyed
+          transaction_code_offset: 0
+          return_type:
+            name: void
+          annotations:
+            - RequiresNoPermission
+        - name: onTransientSystemBarVisibilityFromRevealGestureChanged
+          transaction_code_offset: 1
+          params:
+            - name: visibleDueToGesture
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - RequiresNoPermission
+        - name: onTaskFocusChanged
+          transaction_code_offset: 2
+          params:
+            - name: focused
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - RequiresNoPermission
+    - name: IGameSessionController
+      descriptor: android.service.games.IGameSessionController
+      oneway: true
+      methods:
+        - name: takeScreenshot
+          transaction_code_offset: 0
+          params:
+            - name: taskId
+              type:
+                name: int
+            - name: gameScreenshotResultFuture
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: restartGame
+          transaction_code_offset: 1
+          params:
+            - name: taskId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+    - name: IGameSessionService
+      descriptor: android.service.games.IGameSessionService
+      oneway: true
+      methods:
+        - name: create
+          transaction_code_offset: 0
+          params:
+            - name: gameSessionController
+              type:
+                name: IGameSessionController
+              direction: in
+            - name: createGameSessionRequest
+              type:
+                name: CreateGameSessionRequest
+              direction: in
+            - name: gameSessionViewHostConfiguration
+              type:
+                name: GameSessionViewHostConfiguration
+              direction: in
+            - name: createGameSessionResultFuture
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - RequiresNoPermission
+parcelables:
+    - name: CreateGameSessionRequest
+    - name: CreateGameSessionResult
+    - name: GameSessionViewHostConfiguration
+    - name: GameStartedEvent

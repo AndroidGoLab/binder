@@ -24,100 +24,6 @@ type AudioChannelLayout struct {
 	VoiceMask  int32
 }
 
-const (
-	AudioChannelLayoutIndexMask1                int32 = ((1 << 1) - 1)
-	AudioChannelLayoutIndexMask2                int32 = ((1 << 2) - 1)
-	AudioChannelLayoutIndexMask3                int32 = ((1 << 3) - 1)
-	AudioChannelLayoutIndexMask4                int32 = ((1 << 4) - 1)
-	AudioChannelLayoutIndexMask5                int32 = ((1 << 5) - 1)
-	AudioChannelLayoutIndexMask6                int32 = ((1 << 6) - 1)
-	AudioChannelLayoutIndexMask7                int32 = ((1 << 7) - 1)
-	AudioChannelLayoutIndexMask8                int32 = ((1 << 8) - 1)
-	AudioChannelLayoutIndexMask9                int32 = ((1 << 9) - 1)
-	AudioChannelLayoutIndexMask10               int32 = ((1 << 10) - 1)
-	AudioChannelLayoutIndexMask11               int32 = ((1 << 11) - 1)
-	AudioChannelLayoutIndexMask12               int32 = ((1 << 12) - 1)
-	AudioChannelLayoutIndexMask13               int32 = ((1 << 13) - 1)
-	AudioChannelLayoutIndexMask14               int32 = ((1 << 14) - 1)
-	AudioChannelLayoutIndexMask15               int32 = ((1 << 15) - 1)
-	AudioChannelLayoutIndexMask16               int32 = ((1 << 16) - 1)
-	AudioChannelLayoutIndexMask17               int32 = ((1 << 17) - 1)
-	AudioChannelLayoutIndexMask18               int32 = ((1 << 18) - 1)
-	AudioChannelLayoutIndexMask19               int32 = ((1 << 19) - 1)
-	AudioChannelLayoutIndexMask20               int32 = ((1 << 20) - 1)
-	AudioChannelLayoutIndexMask21               int32 = ((1 << 21) - 1)
-	AudioChannelLayoutIndexMask22               int32 = ((1 << 22) - 1)
-	AudioChannelLayoutIndexMask23               int32 = ((1 << 23) - 1)
-	AudioChannelLayoutIndexMask24               int32 = ((1 << 24) - 1)
-	AudioChannelLayoutLayoutMono                int32 = AudioChannelLayoutChannelFrontLeft
-	AudioChannelLayoutLayoutStereo              int32 = (AudioChannelLayoutChannelFrontLeft | AudioChannelLayoutChannelFrontRight)
-	AudioChannelLayoutLayout2point1             int32 = ((AudioChannelLayoutChannelFrontLeft | AudioChannelLayoutChannelFrontRight) | AudioChannelLayoutChannelLowFrequency)
-	AudioChannelLayoutLayoutTri                 int32 = ((AudioChannelLayoutChannelFrontLeft | AudioChannelLayoutChannelFrontRight) | AudioChannelLayoutChannelFrontCenter)
-	AudioChannelLayoutLayoutTriBack             int32 = ((AudioChannelLayoutChannelFrontLeft | AudioChannelLayoutChannelFrontRight) | AudioChannelLayoutChannelBackCenter)
-	AudioChannelLayoutLayout3point1             int32 = (((AudioChannelLayoutChannelFrontLeft | AudioChannelLayoutChannelFrontRight) | AudioChannelLayoutChannelFrontCenter) | AudioChannelLayoutChannelLowFrequency)
-	AudioChannelLayoutLayout2point0point2       int32 = (((AudioChannelLayoutChannelFrontLeft | AudioChannelLayoutChannelFrontRight) | AudioChannelLayoutChannelTopSideLeft) | AudioChannelLayoutChannelTopSideRight)
-	AudioChannelLayoutLayout2point1point2       int32 = (AudioChannelLayoutLayout2point0point2 | AudioChannelLayoutChannelLowFrequency)
-	AudioChannelLayoutLayout3point0point2       int32 = ((((AudioChannelLayoutChannelFrontLeft | AudioChannelLayoutChannelFrontRight) | AudioChannelLayoutChannelFrontCenter) | AudioChannelLayoutChannelTopSideLeft) | AudioChannelLayoutChannelTopSideRight)
-	AudioChannelLayoutLayout3point1point2       int32 = (AudioChannelLayoutLayout3point0point2 | AudioChannelLayoutChannelLowFrequency)
-	AudioChannelLayoutLayoutQuad                int32 = (((AudioChannelLayoutChannelFrontLeft | AudioChannelLayoutChannelFrontRight) | AudioChannelLayoutChannelBackLeft) | AudioChannelLayoutChannelBackRight)
-	AudioChannelLayoutLayoutQuadSide            int32 = (((AudioChannelLayoutChannelFrontLeft | AudioChannelLayoutChannelFrontRight) | AudioChannelLayoutChannelSideLeft) | AudioChannelLayoutChannelSideRight)
-	AudioChannelLayoutLayoutSurround            int32 = (((AudioChannelLayoutChannelFrontLeft | AudioChannelLayoutChannelFrontRight) | AudioChannelLayoutChannelFrontCenter) | AudioChannelLayoutChannelBackCenter)
-	AudioChannelLayoutLayoutPenta               int32 = (AudioChannelLayoutLayoutQuad | AudioChannelLayoutChannelFrontCenter)
-	AudioChannelLayoutLayout5point1             int32 = (((((AudioChannelLayoutChannelFrontLeft | AudioChannelLayoutChannelFrontRight) | AudioChannelLayoutChannelFrontCenter) | AudioChannelLayoutChannelLowFrequency) | AudioChannelLayoutChannelBackLeft) | AudioChannelLayoutChannelBackRight)
-	AudioChannelLayoutLayout5point1Side         int32 = (((((AudioChannelLayoutChannelFrontLeft | AudioChannelLayoutChannelFrontRight) | AudioChannelLayoutChannelFrontCenter) | AudioChannelLayoutChannelLowFrequency) | AudioChannelLayoutChannelSideLeft) | AudioChannelLayoutChannelSideRight)
-	AudioChannelLayoutLayout5point1point2       int32 = ((AudioChannelLayoutLayout5point1 | AudioChannelLayoutChannelTopSideLeft) | AudioChannelLayoutChannelTopSideRight)
-	AudioChannelLayoutLayout5point1point4       int32 = ((((AudioChannelLayoutLayout5point1 | AudioChannelLayoutChannelTopFrontLeft) | AudioChannelLayoutChannelTopFrontRight) | AudioChannelLayoutChannelTopBackLeft) | AudioChannelLayoutChannelTopBackRight)
-	AudioChannelLayoutLayout6point1             int32 = ((((((AudioChannelLayoutChannelFrontLeft | AudioChannelLayoutChannelFrontRight) | AudioChannelLayoutChannelFrontCenter) | AudioChannelLayoutChannelLowFrequency) | AudioChannelLayoutChannelBackLeft) | AudioChannelLayoutChannelBackRight) | AudioChannelLayoutChannelBackCenter)
-	AudioChannelLayoutLayout7point1             int32 = ((AudioChannelLayoutLayout5point1 | AudioChannelLayoutChannelSideLeft) | AudioChannelLayoutChannelSideRight)
-	AudioChannelLayoutLayout7point1point2       int32 = ((AudioChannelLayoutLayout7point1 | AudioChannelLayoutChannelTopSideLeft) | AudioChannelLayoutChannelTopSideRight)
-	AudioChannelLayoutLayout7point1point4       int32 = ((((AudioChannelLayoutLayout7point1 | AudioChannelLayoutChannelTopFrontLeft) | AudioChannelLayoutChannelTopFrontRight) | AudioChannelLayoutChannelTopBackLeft) | AudioChannelLayoutChannelTopBackRight)
-	AudioChannelLayoutLayout9point1point4       int32 = ((AudioChannelLayoutLayout7point1point4 | AudioChannelLayoutChannelFrontWideLeft) | AudioChannelLayoutChannelFrontWideRight)
-	AudioChannelLayoutLayout9point1point6       int32 = ((AudioChannelLayoutLayout9point1point4 | AudioChannelLayoutChannelTopSideLeft) | AudioChannelLayoutChannelTopSideRight)
-	AudioChannelLayoutLayout13point360ra        int32 = ((((((((((((AudioChannelLayoutChannelFrontLeft | AudioChannelLayoutChannelFrontRight) | AudioChannelLayoutChannelFrontCenter) | AudioChannelLayoutChannelSideLeft) | AudioChannelLayoutChannelSideRight) | AudioChannelLayoutChannelTopFrontLeft) | AudioChannelLayoutChannelTopFrontRight) | AudioChannelLayoutChannelTopFrontCenter) | AudioChannelLayoutChannelTopBackLeft) | AudioChannelLayoutChannelTopBackRight) | AudioChannelLayoutChannelBottomFrontLeft) | AudioChannelLayoutChannelBottomFrontRight) | AudioChannelLayoutChannelBottomFrontCenter)
-	AudioChannelLayoutLayout22point2            int32 = ((((((((((((AudioChannelLayoutLayout7point1point4 | AudioChannelLayoutChannelFrontLeftOfCenter) | AudioChannelLayoutChannelFrontRightOfCenter) | AudioChannelLayoutChannelBackCenter) | AudioChannelLayoutChannelTopCenter) | AudioChannelLayoutChannelTopFrontCenter) | AudioChannelLayoutChannelTopBackCenter) | AudioChannelLayoutChannelTopSideLeft) | AudioChannelLayoutChannelTopSideRight) | AudioChannelLayoutChannelBottomFrontLeft) | AudioChannelLayoutChannelBottomFrontRight) | AudioChannelLayoutChannelBottomFrontCenter) | AudioChannelLayoutChannelLowFrequency2)
-	AudioChannelLayoutLayoutMonoHapticA         int32 = (AudioChannelLayoutLayoutMono | AudioChannelLayoutChannelHapticA)
-	AudioChannelLayoutLayoutStereoHapticA       int32 = (AudioChannelLayoutLayoutStereo | AudioChannelLayoutChannelHapticA)
-	AudioChannelLayoutLayoutHapticAb            int32 = (AudioChannelLayoutChannelHapticA | AudioChannelLayoutChannelHapticB)
-	AudioChannelLayoutLayoutMonoHapticAb        int32 = (AudioChannelLayoutLayoutMono | AudioChannelLayoutLayoutHapticAb)
-	AudioChannelLayoutLayoutStereoHapticAb      int32 = (AudioChannelLayoutLayoutStereo | AudioChannelLayoutLayoutHapticAb)
-	AudioChannelLayoutLayoutFrontBack           int32 = (AudioChannelLayoutChannelFrontCenter | AudioChannelLayoutChannelBackCenter)
-	AudioChannelLayoutInterleaveLeft            int32 = 0
-	AudioChannelLayoutInterleaveRight           int32 = 1
-	AudioChannelLayoutChannelFrontLeft          int32 = (1 << 0)
-	AudioChannelLayoutChannelFrontRight         int32 = (1 << 1)
-	AudioChannelLayoutChannelFrontCenter        int32 = (1 << 2)
-	AudioChannelLayoutChannelLowFrequency       int32 = (1 << 3)
-	AudioChannelLayoutChannelBackLeft           int32 = (1 << 4)
-	AudioChannelLayoutChannelBackRight          int32 = (1 << 5)
-	AudioChannelLayoutChannelFrontLeftOfCenter  int32 = (1 << 6)
-	AudioChannelLayoutChannelFrontRightOfCenter int32 = (1 << 7)
-	AudioChannelLayoutChannelBackCenter         int32 = (1 << 8)
-	AudioChannelLayoutChannelSideLeft           int32 = (1 << 9)
-	AudioChannelLayoutChannelSideRight          int32 = (1 << 10)
-	AudioChannelLayoutChannelTopCenter          int32 = (1 << 11)
-	AudioChannelLayoutChannelTopFrontLeft       int32 = (1 << 12)
-	AudioChannelLayoutChannelTopFrontCenter     int32 = (1 << 13)
-	AudioChannelLayoutChannelTopFrontRight      int32 = (1 << 14)
-	AudioChannelLayoutChannelTopBackLeft        int32 = (1 << 15)
-	AudioChannelLayoutChannelTopBackCenter      int32 = (1 << 16)
-	AudioChannelLayoutChannelTopBackRight       int32 = (1 << 17)
-	AudioChannelLayoutChannelTopSideLeft        int32 = (1 << 18)
-	AudioChannelLayoutChannelTopSideRight       int32 = (1 << 19)
-	AudioChannelLayoutChannelBottomFrontLeft    int32 = (1 << 20)
-	AudioChannelLayoutChannelBottomFrontCenter  int32 = (1 << 21)
-	AudioChannelLayoutChannelBottomFrontRight   int32 = (1 << 22)
-	AudioChannelLayoutChannelLowFrequency2      int32 = (1 << 23)
-	AudioChannelLayoutChannelFrontWideLeft      int32 = (1 << 24)
-	AudioChannelLayoutChannelFrontWideRight     int32 = (1 << 25)
-	AudioChannelLayoutChannelHapticB            int32 = (1 << 29)
-	AudioChannelLayoutChannelHapticA            int32 = (1 << 30)
-	AudioChannelLayoutVoiceUplinkMono           int32 = AudioChannelLayoutChannelVoiceUplink
-	AudioChannelLayoutVoiceDnlinkMono           int32 = AudioChannelLayoutChannelVoiceDnlink
-	AudioChannelLayoutVoiceCallMono             int32 = (AudioChannelLayoutChannelVoiceUplink | AudioChannelLayoutChannelVoiceDnlink)
-	AudioChannelLayoutChannelVoiceUplink        int32 = 16384
-	AudioChannelLayoutChannelVoiceDnlink        int32 = 32768
-)
-
 var _ parcel.Parcelable = (*AudioChannelLayout)(nil)
 
 func (u *AudioChannelLayout) GetNone() (int32, bool) {
@@ -131,8 +37,7 @@ func (u *AudioChannelLayout) GetNone() (int32, bool) {
 func (u *AudioChannelLayout) SetNone(
 	v int32,
 ) {
-	u.Tag = AudioChannelLayoutTagNone
-	u.None = v
+	*u = AudioChannelLayout{Tag: AudioChannelLayoutTagNone, None: v}
 }
 
 func (u *AudioChannelLayout) GetInvalid() (int32, bool) {
@@ -146,8 +51,7 @@ func (u *AudioChannelLayout) GetInvalid() (int32, bool) {
 func (u *AudioChannelLayout) SetInvalid(
 	v int32,
 ) {
-	u.Tag = AudioChannelLayoutTagInvalid
-	u.Invalid = v
+	*u = AudioChannelLayout{Tag: AudioChannelLayoutTagInvalid, Invalid: v}
 }
 
 func (u *AudioChannelLayout) GetIndexMask() (int32, bool) {
@@ -161,8 +65,7 @@ func (u *AudioChannelLayout) GetIndexMask() (int32, bool) {
 func (u *AudioChannelLayout) SetIndexMask(
 	v int32,
 ) {
-	u.Tag = AudioChannelLayoutTagIndexMask
-	u.IndexMask = v
+	*u = AudioChannelLayout{Tag: AudioChannelLayoutTagIndexMask, IndexMask: v}
 }
 
 func (u *AudioChannelLayout) GetLayoutMask() (int32, bool) {
@@ -176,8 +79,7 @@ func (u *AudioChannelLayout) GetLayoutMask() (int32, bool) {
 func (u *AudioChannelLayout) SetLayoutMask(
 	v int32,
 ) {
-	u.Tag = AudioChannelLayoutTagLayoutMask
-	u.LayoutMask = v
+	*u = AudioChannelLayout{Tag: AudioChannelLayoutTagLayoutMask, LayoutMask: v}
 }
 
 func (u *AudioChannelLayout) GetVoiceMask() (int32, bool) {
@@ -191,8 +93,7 @@ func (u *AudioChannelLayout) GetVoiceMask() (int32, bool) {
 func (u *AudioChannelLayout) SetVoiceMask(
 	v int32,
 ) {
-	u.Tag = AudioChannelLayoutTagVoiceMask
-	u.VoiceMask = v
+	*u = AudioChannelLayout{Tag: AudioChannelLayoutTagVoiceMask, VoiceMask: v}
 }
 
 func (u *AudioChannelLayout) MarshalParcel(

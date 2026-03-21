@@ -34,9 +34,19 @@ func (s *KeyRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Request, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_requestTypeRaw, _err := p.ReadInt32()
@@ -44,6 +54,11 @@ func (s *KeyRequest) UnmarshalParcel(
 		return _err
 	}
 	s.RequestType = KeyRequestType(_requestTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.DefaultUrl, _err = p.ReadString16()
 	if _err != nil {

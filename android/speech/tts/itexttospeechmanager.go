@@ -46,6 +46,7 @@ func (p *TextToSpeechManagerProxy) CreateSession(
 	managerCallback ITextToSpeechSessionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechManager)
 	_data.WriteString16(engine)
 	binder.WriteBinderToParcel(ctx, _data, managerCallback.AsBinder(), p.Remote.Transport())
@@ -62,7 +63,8 @@ func (p *TextToSpeechManagerProxy) CreateSession(
 // TextToSpeechManagerStub dispatches incoming binder transactions
 // to a typed ITextToSpeechManager implementation.
 type TextToSpeechManagerStub struct {
-	Impl ITextToSpeechManager
+	Impl      ITextToSpeechManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TextToSpeechManagerStub)(nil)
@@ -76,21 +78,26 @@ func (s *TextToSpeechManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITextToSpeechManagerCreateSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_engine, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_managerCallback ITextToSpeechSessionCallback
-		_ = _arg_managerCallback
+		{
+			_managerCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_managerCallback = NewTextToSpeechSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _managerCallbackHandle))
+		}
 		_err = s.Impl.CreateSession(ctx, _arg_engine, _arg_managerCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

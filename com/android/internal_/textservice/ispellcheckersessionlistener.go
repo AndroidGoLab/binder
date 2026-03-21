@@ -49,6 +49,7 @@ func (p *SpellCheckerSessionListenerProxy) OnGetSuggestions(
 	results []viewTextservice.SuggestionsInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpellCheckerSessionListener)
 	if results == nil {
 		_data.WriteInt32(-1)
@@ -76,6 +77,7 @@ func (p *SpellCheckerSessionListenerProxy) OnGetSentenceSuggestions(
 	result []viewTextservice.SentenceSuggestionsInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpellCheckerSessionListener)
 	if result == nil {
 		_data.WriteInt32(-1)
@@ -101,7 +103,8 @@ func (p *SpellCheckerSessionListenerProxy) OnGetSentenceSuggestions(
 // SpellCheckerSessionListenerStub dispatches incoming binder transactions
 // to a typed ISpellCheckerSessionListener implementation.
 type SpellCheckerSessionListenerStub struct {
-	Impl ISpellCheckerSessionListener
+	Impl      ISpellCheckerSessionListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SpellCheckerSessionListenerStub)(nil)
@@ -115,27 +118,59 @@ func (s *SpellCheckerSessionListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISpellCheckerSessionListenerOnGetSuggestions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_results []viewTextservice.SuggestionsInfo
-		_ = _arg_results
-		_err := s.Impl.OnGetSuggestions(ctx, _arg_results)
-		_ = _err
-		return nil, nil
-	case TransactionISpellCheckerSessionListenerOnGetSentenceSuggestions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_results = make([]viewTextservice.SuggestionsInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_results[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		_err := s.Impl.OnGetSuggestions(ctx, _arg_results)
+		return nil, _err
+	case TransactionISpellCheckerSessionListenerOnGetSentenceSuggestions:
 		var _arg_result []viewTextservice.SentenceSuggestionsInfo
-		_ = _arg_result
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_result = make([]viewTextservice.SentenceSuggestionsInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_result[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnGetSentenceSuggestions(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -81,15 +81,15 @@ type INetworkPolicyManager interface {
 	UnregisterListener(ctx context.Context, listener INetworkPolicyListener) error
 	SetNetworkPolicies(ctx context.Context, policies []NetworkPolicy) error
 	GetNetworkPolicies(ctx context.Context) ([]NetworkPolicy, error)
-	SnoozeLimit(ctx context.Context, template interface{}) error
+	SnoozeLimit(ctx context.Context, template NetworkTemplate) error
 	SetRestrictBackground(ctx context.Context, restrictBackground bool) error
 	GetRestrictBackground(ctx context.Context) (bool, error)
 	GetRestrictBackgroundByCaller(ctx context.Context) (int32, error)
 	GetRestrictBackgroundStatus(ctx context.Context, uid int32) (int32, error)
 	SetDeviceIdleMode(ctx context.Context, enabled bool) error
 	SetWifiMeteredOverride(ctx context.Context, networkId string, meteredOverride int32) error
-	GetMultipathPreference(ctx context.Context, network interface{}) (int32, error)
-	GetSubscriptionPlan(ctx context.Context, template interface{}) (telephony.SubscriptionPlan, error)
+	GetMultipathPreference(ctx context.Context, network Network) (int32, error)
+	GetSubscriptionPlan(ctx context.Context, template NetworkTemplate) (telephony.SubscriptionPlan, error)
 	NotifyStatsProviderWarningOrLimitReached(ctx context.Context) error
 	GetSubscriptionPlans(ctx context.Context, subId int32) ([]telephony.SubscriptionPlan, error)
 	SetSubscriptionPlans(ctx context.Context, subId int32, plans []telephony.SubscriptionPlan, expirationDurationMillis int64) error
@@ -122,6 +122,7 @@ func (p *NetworkPolicyManagerProxy) SetUidPolicy(
 	policy int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(policy)
@@ -150,6 +151,7 @@ func (p *NetworkPolicyManagerProxy) AddUidPolicy(
 	policy int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(policy)
@@ -178,6 +180,7 @@ func (p *NetworkPolicyManagerProxy) RemoveUidPolicy(
 	policy int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(policy)
@@ -206,6 +209,7 @@ func (p *NetworkPolicyManagerProxy) GetUidPolicy(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteInt32(uid)
 
@@ -237,6 +241,7 @@ func (p *NetworkPolicyManagerProxy) GetUidsWithPolicy(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteInt32(policy)
 
@@ -259,6 +264,9 @@ func (p *NetworkPolicyManagerProxy) GetUidsWithPolicy(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -277,6 +285,7 @@ func (p *NetworkPolicyManagerProxy) RegisterListener(
 	listener INetworkPolicyListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -303,6 +312,7 @@ func (p *NetworkPolicyManagerProxy) UnregisterListener(
 	listener INetworkPolicyListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -329,6 +339,7 @@ func (p *NetworkPolicyManagerProxy) SetNetworkPolicies(
 	policies []NetworkPolicy,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	if policies == nil {
 		_data.WriteInt32(-1)
@@ -366,6 +377,7 @@ func (p *NetworkPolicyManagerProxy) GetNetworkPolicies(
 	var _result []NetworkPolicy
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteString16(_identity.PackageName)
 
@@ -388,6 +400,9 @@ func (p *NetworkPolicyManagerProxy) GetNetworkPolicies(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]NetworkPolicy, _count)
@@ -405,10 +420,15 @@ func (p *NetworkPolicyManagerProxy) GetNetworkPolicies(
 
 func (p *NetworkPolicyManagerProxy) SnoozeLimit(
 	ctx context.Context,
-	template interface{},
+	template NetworkTemplate,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
+	_data.WriteInt32(1)
+	if _err := template.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerSnoozeLimit)
 	if _err != nil {
@@ -433,6 +453,7 @@ func (p *NetworkPolicyManagerProxy) SetRestrictBackground(
 	restrictBackground bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteBool(restrictBackground)
 
@@ -459,6 +480,7 @@ func (p *NetworkPolicyManagerProxy) GetRestrictBackground(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetRestrictBackground)
@@ -488,6 +510,7 @@ func (p *NetworkPolicyManagerProxy) GetRestrictBackgroundByCaller(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetRestrictBackgroundByCaller)
@@ -518,6 +541,7 @@ func (p *NetworkPolicyManagerProxy) GetRestrictBackgroundStatus(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteInt32(uid)
 
@@ -548,6 +572,7 @@ func (p *NetworkPolicyManagerProxy) SetDeviceIdleMode(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteBool(enabled)
 
@@ -575,6 +600,7 @@ func (p *NetworkPolicyManagerProxy) SetWifiMeteredOverride(
 	meteredOverride int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteString16(networkId)
 	_data.WriteInt32(meteredOverride)
@@ -599,11 +625,16 @@ func (p *NetworkPolicyManagerProxy) SetWifiMeteredOverride(
 
 func (p *NetworkPolicyManagerProxy) GetMultipathPreference(
 	ctx context.Context,
-	network interface{},
+	network Network,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
+	_data.WriteInt32(1)
+	if _err := network.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetMultipathPreference)
 	if _err != nil {
@@ -629,11 +660,16 @@ func (p *NetworkPolicyManagerProxy) GetMultipathPreference(
 
 func (p *NetworkPolicyManagerProxy) GetSubscriptionPlan(
 	ctx context.Context,
-	template interface{},
+	template NetworkTemplate,
 ) (telephony.SubscriptionPlan, error) {
 	var _result telephony.SubscriptionPlan
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
+	_data.WriteInt32(1)
+	if _err := template.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetSubscriptionPlan)
 	if _err != nil {
@@ -666,6 +702,7 @@ func (p *NetworkPolicyManagerProxy) NotifyStatsProviderWarningOrLimitReached(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerNotifyStatsProviderWarningOrLimitReached)
@@ -693,6 +730,7 @@ func (p *NetworkPolicyManagerProxy) GetSubscriptionPlans(
 	var _result []telephony.SubscriptionPlan
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -715,6 +753,9 @@ func (p *NetworkPolicyManagerProxy) GetSubscriptionPlans(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -739,6 +780,7 @@ func (p *NetworkPolicyManagerProxy) SetSubscriptionPlans(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteInt32(subId)
 	if plans == nil {
@@ -779,6 +821,7 @@ func (p *NetworkPolicyManagerProxy) GetSubscriptionPlansOwner(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteInt32(subId)
 
@@ -814,6 +857,7 @@ func (p *NetworkPolicyManagerProxy) SetSubscriptionOverride(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(overrideMask)
@@ -852,6 +896,7 @@ func (p *NetworkPolicyManagerProxy) FactoryReset(
 	subscriber string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteString16(subscriber)
 
@@ -880,6 +925,7 @@ func (p *NetworkPolicyManagerProxy) IsUidNetworkingBlocked(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteInt32(uid)
 	_data.WriteBool(meteredNetwork)
@@ -912,6 +958,7 @@ func (p *NetworkPolicyManagerProxy) IsUidRestrictedOnMeteredNetworks(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 	_data.WriteInt32(uid)
 
@@ -940,7 +987,8 @@ func (p *NetworkPolicyManagerProxy) IsUidRestrictedOnMeteredNetworks(
 // NetworkPolicyManagerStub dispatches incoming binder transactions
 // to a typed INetworkPolicyManager implementation.
 type NetworkPolicyManagerStub struct {
-	Impl INetworkPolicyManager
+	Impl      INetworkPolicyManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NetworkPolicyManagerStub)(nil)
@@ -954,11 +1002,12 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINetworkPolicyManagerSetUidPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -976,9 +1025,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerAddUidPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -996,9 +1042,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerRemoveUidPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1016,9 +1059,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetUidPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1033,9 +1073,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetUidsWithPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_policy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1047,16 +1084,24 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionINetworkPolicyManagerRegisterListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener INetworkPolicyListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewNetworkPolicyListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1066,12 +1111,14 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerUnregisterListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener INetworkPolicyListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewNetworkPolicyListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.UnregisterListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1081,12 +1128,27 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerSetNetworkPolicies:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_policies []NetworkPolicy
-		_ = _arg_policies
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_policies = make([]NetworkPolicy, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_policies[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetNetworkPolicies(ctx, _arg_policies)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1099,9 +1161,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetNetworkPolicies(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1109,14 +1168,31 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionINetworkPolicyManagerSnoozeLimit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_template NetworkTemplate
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_template.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_template interface{}
 		_err := s.Impl.SnoozeLimit(ctx, _arg_template)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1126,9 +1202,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerSetRestrictBackground:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_restrictBackground, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1142,9 +1215,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetRestrictBackground:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRestrictBackground(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1155,9 +1225,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetRestrictBackgroundByCaller:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRestrictBackgroundByCaller(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1168,9 +1235,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetRestrictBackgroundStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1185,9 +1249,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerSetDeviceIdleMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1201,9 +1262,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerSetWifiMeteredOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_networkId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1221,10 +1279,18 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetMultipathPreference:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_network Network
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_network.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_network interface{}
 		_result, _err := s.Impl.GetMultipathPreference(ctx, _arg_network)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1235,10 +1301,18 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetSubscriptionPlan:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_template NetworkTemplate
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_template.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_template interface{}
 		_result, _err := s.Impl.GetSubscriptionPlan(ctx, _arg_template)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1252,9 +1326,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINetworkPolicyManagerNotifyStatsProviderWarningOrLimitReached:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NotifyStatsProviderWarningOrLimitReached(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1264,9 +1335,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetSubscriptionPlans:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1281,20 +1349,44 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionINetworkPolicyManagerSetSubscriptionPlans:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_plans []telephony.SubscriptionPlan
-		_ = _arg_plans
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_plans = make([]telephony.SubscriptionPlan, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_plans[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_expirationDurationMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1311,9 +1403,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetSubscriptionPlansOwner:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1328,9 +1417,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerSetSubscriptionOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1343,9 +1429,25 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_networkTypes []int32
-		_ = _arg_networkTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_networkTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_networkTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_expirationDurationMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1362,9 +1464,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerFactoryReset:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subscriber, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1378,9 +1477,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerIsUidNetworkingBlocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1399,9 +1495,6 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerIsUidRestrictedOnMeteredNetworks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1433,15 +1526,15 @@ type INetworkPolicyManagerServer interface {
 	UnregisterListener(ctx context.Context, listener INetworkPolicyListener) error
 	SetNetworkPolicies(ctx context.Context, policies []NetworkPolicy) error
 	GetNetworkPolicies(ctx context.Context) ([]NetworkPolicy, error)
-	SnoozeLimit(ctx context.Context, template interface{}) error
+	SnoozeLimit(ctx context.Context, template NetworkTemplate) error
 	SetRestrictBackground(ctx context.Context, restrictBackground bool) error
 	GetRestrictBackground(ctx context.Context) (bool, error)
 	GetRestrictBackgroundByCaller(ctx context.Context) (int32, error)
 	GetRestrictBackgroundStatus(ctx context.Context, uid int32) (int32, error)
 	SetDeviceIdleMode(ctx context.Context, enabled bool) error
 	SetWifiMeteredOverride(ctx context.Context, networkId string, meteredOverride int32) error
-	GetMultipathPreference(ctx context.Context, network interface{}) (int32, error)
-	GetSubscriptionPlan(ctx context.Context, template interface{}) (telephony.SubscriptionPlan, error)
+	GetMultipathPreference(ctx context.Context, network Network) (int32, error)
+	GetSubscriptionPlan(ctx context.Context, template NetworkTemplate) (telephony.SubscriptionPlan, error)
 	NotifyStatsProviderWarningOrLimitReached(ctx context.Context) error
 	GetSubscriptionPlans(ctx context.Context, subId int32) ([]telephony.SubscriptionPlan, error)
 	SetSubscriptionPlans(ctx context.Context, subId int32, plans []telephony.SubscriptionPlan, expirationDurationMillis int64) error
@@ -1528,7 +1621,7 @@ func (w *networkPolicyManagerStubWrapper) GetNetworkPolicies(
 
 func (w *networkPolicyManagerStubWrapper) SnoozeLimit(
 	ctx context.Context,
-	template interface{},
+	template NetworkTemplate,
 ) error {
 	return w.impl.SnoozeLimit(ctx, template)
 }
@@ -1576,14 +1669,14 @@ func (w *networkPolicyManagerStubWrapper) SetWifiMeteredOverride(
 
 func (w *networkPolicyManagerStubWrapper) GetMultipathPreference(
 	ctx context.Context,
-	network interface{},
+	network Network,
 ) (int32, error) {
 	return w.impl.GetMultipathPreference(ctx, network)
 }
 
 func (w *networkPolicyManagerStubWrapper) GetSubscriptionPlan(
 	ctx context.Context,
-	template interface{},
+	template NetworkTemplate,
 ) (telephony.SubscriptionPlan, error) {
 	return w.impl.GetSubscriptionPlan(ctx, template)
 }

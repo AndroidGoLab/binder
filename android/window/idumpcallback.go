@@ -45,6 +45,7 @@ func (p *DumpCallbackProxy) OnDump(
 	outFd int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpCallback)
 	_data.WriteFileDescriptor(outFd)
 
@@ -60,7 +61,8 @@ func (p *DumpCallbackProxy) OnDump(
 // DumpCallbackStub dispatches incoming binder transactions
 // to a typed IDumpCallback implementation.
 type DumpCallbackStub struct {
-	Impl IDumpCallback
+	Impl      IDumpCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DumpCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *DumpCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDumpCallbackOnDump:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_outFd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDump(ctx, _arg_outFd)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

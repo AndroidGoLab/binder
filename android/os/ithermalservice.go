@@ -46,13 +46,13 @@ type IThermalService interface {
 	RegisterThermalEventListener(ctx context.Context, listener IThermalEventListener) (bool, error)
 	RegisterThermalEventListenerWithType(ctx context.Context, listener IThermalEventListener, type_ int32) (bool, error)
 	UnregisterThermalEventListener(ctx context.Context, listener IThermalEventListener) (bool, error)
-	GetCurrentTemperatures(ctx context.Context) ([]interface{}, error)
-	GetCurrentTemperaturesWithType(ctx context.Context, type_ int32) ([]interface{}, error)
+	GetCurrentTemperatures(ctx context.Context) ([]Temperature, error)
+	GetCurrentTemperaturesWithType(ctx context.Context, type_ int32) ([]Temperature, error)
 	RegisterThermalStatusListener(ctx context.Context, listener IThermalStatusListener) (bool, error)
 	UnregisterThermalStatusListener(ctx context.Context, listener IThermalStatusListener) (bool, error)
 	GetCurrentThermalStatus(ctx context.Context) (int32, error)
-	GetCurrentCoolingDevices(ctx context.Context) ([]interface{}, error)
-	GetCurrentCoolingDevicesWithType(ctx context.Context, type_ int32) ([]interface{}, error)
+	GetCurrentCoolingDevices(ctx context.Context) ([]CoolingDevice, error)
+	GetCurrentCoolingDevicesWithType(ctx context.Context, type_ int32) ([]CoolingDevice, error)
 	GetThermalHeadroom(ctx context.Context, forecastSeconds int32) (float32, error)
 	GetThermalHeadroomThresholds(ctx context.Context) ([]float32, error)
 }
@@ -79,6 +79,7 @@ func (p *ThermalServiceProxy) RegisterThermalEventListener(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -111,6 +112,7 @@ func (p *ThermalServiceProxy) RegisterThermalEventListenerWithType(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(type_)
@@ -143,6 +145,7 @@ func (p *ThermalServiceProxy) UnregisterThermalEventListener(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -170,9 +173,10 @@ func (p *ThermalServiceProxy) UnregisterThermalEventListener(
 
 func (p *ThermalServiceProxy) GetCurrentTemperatures(
 	ctx context.Context,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]Temperature, error) {
+	var _result []Temperature
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalService, MethodIThermalServiceGetCurrentTemperatures)
@@ -194,10 +198,19 @@ func (p *ThermalServiceProxy) GetCurrentTemperatures(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]Temperature, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -206,9 +219,10 @@ func (p *ThermalServiceProxy) GetCurrentTemperatures(
 func (p *ThermalServiceProxy) GetCurrentTemperaturesWithType(
 	ctx context.Context,
 	type_ int32,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]Temperature, error) {
+	var _result []Temperature
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	_data.WriteInt32(type_)
 
@@ -231,10 +245,19 @@ func (p *ThermalServiceProxy) GetCurrentTemperaturesWithType(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]Temperature, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -246,6 +269,7 @@ func (p *ThermalServiceProxy) RegisterThermalStatusListener(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -277,6 +301,7 @@ func (p *ThermalServiceProxy) UnregisterThermalStatusListener(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -307,6 +332,7 @@ func (p *ThermalServiceProxy) GetCurrentThermalStatus(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalService, MethodIThermalServiceGetCurrentThermalStatus)
@@ -333,9 +359,10 @@ func (p *ThermalServiceProxy) GetCurrentThermalStatus(
 
 func (p *ThermalServiceProxy) GetCurrentCoolingDevices(
 	ctx context.Context,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]CoolingDevice, error) {
+	var _result []CoolingDevice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalService, MethodIThermalServiceGetCurrentCoolingDevices)
@@ -357,10 +384,19 @@ func (p *ThermalServiceProxy) GetCurrentCoolingDevices(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]CoolingDevice, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -369,9 +405,10 @@ func (p *ThermalServiceProxy) GetCurrentCoolingDevices(
 func (p *ThermalServiceProxy) GetCurrentCoolingDevicesWithType(
 	ctx context.Context,
 	type_ int32,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]CoolingDevice, error) {
+	var _result []CoolingDevice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	_data.WriteInt32(type_)
 
@@ -394,10 +431,19 @@ func (p *ThermalServiceProxy) GetCurrentCoolingDevicesWithType(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]CoolingDevice, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -409,6 +455,7 @@ func (p *ThermalServiceProxy) GetThermalHeadroom(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	_data.WriteInt32(forecastSeconds)
 
@@ -439,6 +486,7 @@ func (p *ThermalServiceProxy) GetThermalHeadroomThresholds(
 ) ([]float32, error) {
 	var _result []float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalService, MethodIThermalServiceGetThermalHeadroomThresholds)
@@ -460,6 +508,9 @@ func (p *ThermalServiceProxy) GetThermalHeadroomThresholds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]float32, _count)
@@ -476,7 +527,8 @@ func (p *ThermalServiceProxy) GetThermalHeadroomThresholds(
 // ThermalServiceStub dispatches incoming binder transactions
 // to a typed IThermalService implementation.
 type ThermalServiceStub struct {
-	Impl IThermalService
+	Impl      IThermalService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ThermalServiceStub)(nil)
@@ -490,14 +542,20 @@ func (s *ThermalServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIThermalServiceRegisterThermalEventListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IThermalEventListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewThermalEventListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.RegisterThermalEventListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -508,12 +566,14 @@ func (s *ThermalServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIThermalServiceRegisterThermalEventListenerWithType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IThermalEventListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewThermalEventListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -528,12 +588,14 @@ func (s *ThermalServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIThermalServiceUnregisterThermalEventListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IThermalEventListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewThermalEventListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.UnregisterThermalEventListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -544,9 +606,6 @@ func (s *ThermalServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIThermalServiceGetCurrentTemperatures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentTemperatures(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -554,13 +613,19 @@ func (s *ThermalServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIThermalServiceGetCurrentTemperaturesWithType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -572,16 +637,27 @@ func (s *ThermalServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIThermalServiceRegisterThermalStatusListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IThermalStatusListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewThermalStatusListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.RegisterThermalStatusListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -592,12 +668,14 @@ func (s *ThermalServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIThermalServiceUnregisterThermalStatusListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IThermalStatusListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewThermalStatusListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.UnregisterThermalStatusListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -608,9 +686,6 @@ func (s *ThermalServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIThermalServiceGetCurrentThermalStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentThermalStatus(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -621,9 +696,6 @@ func (s *ThermalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIThermalServiceGetCurrentCoolingDevices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentCoolingDevices(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -631,13 +703,19 @@ func (s *ThermalServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIThermalServiceGetCurrentCoolingDevicesWithType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -649,13 +727,19 @@ func (s *ThermalServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIThermalServiceGetThermalHeadroom:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_forecastSeconds, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -670,9 +754,6 @@ func (s *ThermalServiceStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIThermalServiceGetThermalHeadroomThresholds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetThermalHeadroomThresholds(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -680,8 +761,14 @@ func (s *ThermalServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteFloat32(_item)
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -695,13 +782,13 @@ type IThermalServiceServer interface {
 	RegisterThermalEventListener(ctx context.Context, listener IThermalEventListener) (bool, error)
 	RegisterThermalEventListenerWithType(ctx context.Context, listener IThermalEventListener, type_ int32) (bool, error)
 	UnregisterThermalEventListener(ctx context.Context, listener IThermalEventListener) (bool, error)
-	GetCurrentTemperatures(ctx context.Context) ([]interface{}, error)
-	GetCurrentTemperaturesWithType(ctx context.Context, type_ int32) ([]interface{}, error)
+	GetCurrentTemperatures(ctx context.Context) ([]Temperature, error)
+	GetCurrentTemperaturesWithType(ctx context.Context, type_ int32) ([]Temperature, error)
 	RegisterThermalStatusListener(ctx context.Context, listener IThermalStatusListener) (bool, error)
 	UnregisterThermalStatusListener(ctx context.Context, listener IThermalStatusListener) (bool, error)
 	GetCurrentThermalStatus(ctx context.Context) (int32, error)
-	GetCurrentCoolingDevices(ctx context.Context) ([]interface{}, error)
-	GetCurrentCoolingDevicesWithType(ctx context.Context, type_ int32) ([]interface{}, error)
+	GetCurrentCoolingDevices(ctx context.Context) ([]CoolingDevice, error)
+	GetCurrentCoolingDevicesWithType(ctx context.Context, type_ int32) ([]CoolingDevice, error)
 	GetThermalHeadroom(ctx context.Context, forecastSeconds int32) (float32, error)
 	GetThermalHeadroomThresholds(ctx context.Context) ([]float32, error)
 }
@@ -739,14 +826,14 @@ func (w *thermalServiceStubWrapper) UnregisterThermalEventListener(
 
 func (w *thermalServiceStubWrapper) GetCurrentTemperatures(
 	ctx context.Context,
-) ([]interface{}, error) {
+) ([]Temperature, error) {
 	return w.impl.GetCurrentTemperatures(ctx)
 }
 
 func (w *thermalServiceStubWrapper) GetCurrentTemperaturesWithType(
 	ctx context.Context,
 	type_ int32,
-) ([]interface{}, error) {
+) ([]Temperature, error) {
 	return w.impl.GetCurrentTemperaturesWithType(ctx, type_)
 }
 
@@ -772,14 +859,14 @@ func (w *thermalServiceStubWrapper) GetCurrentThermalStatus(
 
 func (w *thermalServiceStubWrapper) GetCurrentCoolingDevices(
 	ctx context.Context,
-) ([]interface{}, error) {
+) ([]CoolingDevice, error) {
 	return w.impl.GetCurrentCoolingDevices(ctx)
 }
 
 func (w *thermalServiceStubWrapper) GetCurrentCoolingDevicesWithType(
 	ctx context.Context,
 	type_ int32,
-) ([]interface{}, error) {
+) ([]CoolingDevice, error) {
 	return w.impl.GetCurrentCoolingDevicesWithType(ctx, type_)
 }
 

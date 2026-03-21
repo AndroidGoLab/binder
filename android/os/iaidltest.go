@@ -91,6 +91,7 @@ func (p *AidlTestProxy) IntMethod(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
 	_data.WriteInt32(a)
 
@@ -122,6 +123,7 @@ func (p *AidlTestProxy) ParcelableIn(
 ) (AidlTestTestParcelable, error) {
 	var _result AidlTestTestParcelable
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
 	_data.WriteInt32(1)
 	if _err := p_.MarshalParcel(_data); _err != nil {
@@ -161,6 +163,7 @@ func (p *AidlTestProxy) ParcelableOut(
 ) (AidlTestTestParcelable, error) {
 	var _result AidlTestTestParcelable
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlTest, MethodIAidlTestParcelableOut)
@@ -177,8 +180,16 @@ func (p *AidlTestProxy) ParcelableOut(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = p_.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = p_.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_nullIndicator, _err := _reply.ReadInt32()
@@ -199,6 +210,7 @@ func (p *AidlTestProxy) ParcelableInOut(
 ) (AidlTestTestParcelable, error) {
 	var _result AidlTestTestParcelable
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
 	_data.WriteInt32(1)
 	if _err := p_.MarshalParcel(_data); _err != nil {
@@ -219,8 +231,16 @@ func (p *AidlTestProxy) ParcelableInOut(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = p_.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = p_.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_nullIndicator, _err := _reply.ReadInt32()
@@ -242,6 +262,7 @@ func (p *AidlTestProxy) ListParcelableLonger(
 ) (AidlTestTestParcelable, error) {
 	var _result AidlTestTestParcelable
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
 	if list == nil {
 		_data.WriteInt32(-1)
@@ -274,6 +295,9 @@ func (p *AidlTestProxy) ListParcelableLonger(
 	if _err != nil {
 		return _result, _err
 	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		list = make([]AidlTestTestParcelable, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -305,6 +329,7 @@ func (p *AidlTestProxy) ListParcelableShorter(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
 	if list == nil {
 		_data.WriteInt32(-1)
@@ -337,6 +362,9 @@ func (p *AidlTestProxy) ListParcelableShorter(
 	if _err != nil {
 		return _result, _err
 	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		list = make([]AidlTestTestParcelable, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -364,6 +392,7 @@ func (p *AidlTestProxy) BooleanArray(
 ) ([]bool, error) {
 	var _result []bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
 	if a0 == nil {
 		_data.WriteInt32(-1)
@@ -400,6 +429,9 @@ func (p *AidlTestProxy) BooleanArray(
 	if _err != nil {
 		return _result, _err
 	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		a1 = make([]bool, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -412,6 +444,9 @@ func (p *AidlTestProxy) BooleanArray(
 	_outCount1, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _outCount1 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount1)
 	}
 	if _outCount1 >= 0 {
 		a2 = make([]bool, _outCount1)
@@ -426,6 +461,9 @@ func (p *AidlTestProxy) BooleanArray(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -448,6 +486,7 @@ func (p *AidlTestProxy) CharArray(
 ) ([]uint16, error) {
 	var _result []uint16
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
 	if a0 == nil {
 		_data.WriteInt32(-1)
@@ -484,6 +523,9 @@ func (p *AidlTestProxy) CharArray(
 	if _err != nil {
 		return _result, _err
 	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		a1 = make([]uint16, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -497,6 +539,9 @@ func (p *AidlTestProxy) CharArray(
 	_outCount1, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _outCount1 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount1)
 	}
 	if _outCount1 >= 0 {
 		a2 = make([]uint16, _outCount1)
@@ -512,6 +557,9 @@ func (p *AidlTestProxy) CharArray(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -535,6 +583,7 @@ func (p *AidlTestProxy) IntArray(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
 	if a0 == nil {
 		_data.WriteInt32(-1)
@@ -571,6 +620,9 @@ func (p *AidlTestProxy) IntArray(
 	if _err != nil {
 		return _result, _err
 	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		a1 = make([]int32, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -583,6 +635,9 @@ func (p *AidlTestProxy) IntArray(
 	_outCount1, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _outCount1 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount1)
 	}
 	if _outCount1 >= 0 {
 		a2 = make([]int32, _outCount1)
@@ -597,6 +652,9 @@ func (p *AidlTestProxy) IntArray(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -619,6 +677,7 @@ func (p *AidlTestProxy) LongArray(
 ) ([]int64, error) {
 	var _result []int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
 	if a0 == nil {
 		_data.WriteInt32(-1)
@@ -655,6 +714,9 @@ func (p *AidlTestProxy) LongArray(
 	if _err != nil {
 		return _result, _err
 	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		a1 = make([]int64, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -667,6 +729,9 @@ func (p *AidlTestProxy) LongArray(
 	_outCount1, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _outCount1 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount1)
 	}
 	if _outCount1 >= 0 {
 		a2 = make([]int64, _outCount1)
@@ -681,6 +746,9 @@ func (p *AidlTestProxy) LongArray(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -703,6 +771,7 @@ func (p *AidlTestProxy) FloatArray(
 ) ([]float32, error) {
 	var _result []float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
 	if a0 == nil {
 		_data.WriteInt32(-1)
@@ -739,6 +808,9 @@ func (p *AidlTestProxy) FloatArray(
 	if _err != nil {
 		return _result, _err
 	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		a1 = make([]float32, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -751,6 +823,9 @@ func (p *AidlTestProxy) FloatArray(
 	_outCount1, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _outCount1 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount1)
 	}
 	if _outCount1 >= 0 {
 		a2 = make([]float32, _outCount1)
@@ -765,6 +840,9 @@ func (p *AidlTestProxy) FloatArray(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -787,6 +865,7 @@ func (p *AidlTestProxy) DoubleArray(
 ) ([]float64, error) {
 	var _result []float64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
 	if a0 == nil {
 		_data.WriteInt32(-1)
@@ -823,6 +902,9 @@ func (p *AidlTestProxy) DoubleArray(
 	if _err != nil {
 		return _result, _err
 	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		a1 = make([]float64, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -835,6 +917,9 @@ func (p *AidlTestProxy) DoubleArray(
 	_outCount1, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _outCount1 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount1)
 	}
 	if _outCount1 >= 0 {
 		a2 = make([]float64, _outCount1)
@@ -849,6 +934,9 @@ func (p *AidlTestProxy) DoubleArray(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -871,6 +959,7 @@ func (p *AidlTestProxy) StringArray(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
 	if a0 == nil {
 		_data.WriteInt32(-1)
@@ -907,6 +996,9 @@ func (p *AidlTestProxy) StringArray(
 	if _err != nil {
 		return _result, _err
 	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		a1 = make([]string, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -919,6 +1011,9 @@ func (p *AidlTestProxy) StringArray(
 	_outCount1, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _outCount1 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount1)
 	}
 	if _outCount1 >= 0 {
 		a2 = make([]string, _outCount1)
@@ -933,6 +1028,9 @@ func (p *AidlTestProxy) StringArray(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -955,6 +1053,7 @@ func (p *AidlTestProxy) ParcelableArray(
 ) ([]AidlTestTestParcelable, error) {
 	var _result []AidlTestTestParcelable
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
 	if a0 == nil {
 		_data.WriteInt32(-1)
@@ -997,6 +1096,9 @@ func (p *AidlTestProxy) ParcelableArray(
 	if _err != nil {
 		return _result, _err
 	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		a1 = make([]AidlTestTestParcelable, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -1011,6 +1113,9 @@ func (p *AidlTestProxy) ParcelableArray(
 	_outCount1, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _outCount1 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount1)
 	}
 	if _outCount1 >= 0 {
 		a2 = make([]AidlTestTestParcelable, _outCount1)
@@ -1027,6 +1132,9 @@ func (p *AidlTestProxy) ParcelableArray(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -1047,6 +1155,7 @@ func (p *AidlTestProxy) VoidSecurityException(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlTest, MethodIAidlTestVoidSecurityException)
@@ -1072,6 +1181,7 @@ func (p *AidlTestProxy) IntSecurityException(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlTest, MethodIAidlTestIntSecurityException)
@@ -1099,7 +1209,8 @@ func (p *AidlTestProxy) IntSecurityException(
 // AidlTestStub dispatches incoming binder transactions
 // to a typed IAidlTest implementation.
 type AidlTestStub struct {
-	Impl IAidlTest
+	Impl      IAidlTest
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AidlTestStub)(nil)
@@ -1113,11 +1224,12 @@ func (s *AidlTestStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAidlTestIntMethod:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_a, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1132,9 +1244,6 @@ func (s *AidlTestStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAidlTestParcelableIn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_p_ AidlTestTestParcelable
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1160,9 +1269,6 @@ func (s *AidlTestStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAidlTestParcelableOut:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_p_ AidlTestTestParcelable
 		_result, _err := s.Impl.ParcelableOut(ctx, _arg_p_)
 		_reply := parcel.New()
@@ -1175,11 +1281,12 @@ func (s *AidlTestStub) OnTransaction(
 		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
-		return _reply, nil
-	case TransactionIAidlTestParcelableInOut:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_p_.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIAidlTestParcelableInOut:
 		var _arg_p_ AidlTestTestParcelable
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1203,14 +1310,33 @@ func (s *AidlTestStub) OnTransaction(
 		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
-		return _reply, nil
-	case TransactionIAidlTestListParcelableLonger:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_p_.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		return _reply, nil
+	case TransactionIAidlTestListParcelableLonger:
 		var _arg_list []AidlTestTestParcelable
-		_ = _arg_list
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_list = make([]AidlTestTestParcelable, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_list[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1226,14 +1352,40 @@ func (s *AidlTestStub) OnTransaction(
 		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		if _arg_list == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_list)))
+			for _, _item := range _arg_list {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIAidlTestListParcelableShorter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_list []AidlTestTestParcelable
-		_ = _arg_list
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_list = make([]AidlTestTestParcelable, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_list[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1246,18 +1398,58 @@ func (s *AidlTestStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
+		if _arg_list == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_list)))
+			for _, _item := range _arg_list {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIAidlTestBooleanArray:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a0 []bool
-		_ = _arg_a0
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_a0 = make([]bool, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_a0[_i], _err = _data.ReadBool()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_a1 []bool
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a2 []bool
-		_ = _arg_a2
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_a2 = make([]bool, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_a2[_i], _err = _data.ReadBool()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.BooleanArray(ctx, _arg_a0, _arg_a1, _arg_a2)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1265,20 +1457,73 @@ func (s *AidlTestStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteBool(_item)
+			}
+		}
+		if _arg_a1 == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_a1)))
+			for _, _item := range _arg_a1 {
+				_reply.WriteBool(_item)
+			}
+		}
+		if _arg_a2 == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_a2)))
+			for _, _item := range _arg_a2 {
+				_reply.WriteBool(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIAidlTestCharArray:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a0 []uint16
-		_ = _arg_a0
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_a0 = make([]uint16, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_raw, _err := _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_a0[_i] = uint16(_raw)
+				}
+			}
+		}
 		var _arg_a1 []uint16
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a2 []uint16
-		_ = _arg_a2
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_a2 = make([]uint16, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_raw, _err := _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_a2[_i] = uint16(_raw)
+				}
+			}
+		}
 		_result, _err := s.Impl.CharArray(ctx, _arg_a0, _arg_a1, _arg_a2)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1286,20 +1531,71 @@ func (s *AidlTestStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
+		if _arg_a1 == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_a1)))
+			for _, _item := range _arg_a1 {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
+		if _arg_a2 == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_a2)))
+			for _, _item := range _arg_a2 {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionIAidlTestIntArray:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a0 []int32
-		_ = _arg_a0
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_a0 = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_a0[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_a1 []int32
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a2 []int32
-		_ = _arg_a2
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_a2 = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_a2[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.IntArray(ctx, _arg_a0, _arg_a1, _arg_a2)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1307,20 +1603,71 @@ func (s *AidlTestStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
+		if _arg_a1 == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_a1)))
+			for _, _item := range _arg_a1 {
+				_reply.WriteInt32(_item)
+			}
+		}
+		if _arg_a2 == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_a2)))
+			for _, _item := range _arg_a2 {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIAidlTestLongArray:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a0 []int64
-		_ = _arg_a0
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_a0 = make([]int64, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_a0[_i], _err = _data.ReadInt64()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_a1 []int64
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a2 []int64
-		_ = _arg_a2
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_a2 = make([]int64, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_a2[_i], _err = _data.ReadInt64()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.LongArray(ctx, _arg_a0, _arg_a1, _arg_a2)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1328,20 +1675,71 @@ func (s *AidlTestStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt64(_item)
+			}
+		}
+		if _arg_a1 == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_a1)))
+			for _, _item := range _arg_a1 {
+				_reply.WriteInt64(_item)
+			}
+		}
+		if _arg_a2 == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_a2)))
+			for _, _item := range _arg_a2 {
+				_reply.WriteInt64(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIAidlTestFloatArray:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a0 []float32
-		_ = _arg_a0
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_a0 = make([]float32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_a0[_i], _err = _data.ReadFloat32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_a1 []float32
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a2 []float32
-		_ = _arg_a2
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_a2 = make([]float32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_a2[_i], _err = _data.ReadFloat32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.FloatArray(ctx, _arg_a0, _arg_a1, _arg_a2)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1349,20 +1747,71 @@ func (s *AidlTestStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteFloat32(_item)
+			}
+		}
+		if _arg_a1 == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_a1)))
+			for _, _item := range _arg_a1 {
+				_reply.WriteFloat32(_item)
+			}
+		}
+		if _arg_a2 == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_a2)))
+			for _, _item := range _arg_a2 {
+				_reply.WriteFloat32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIAidlTestDoubleArray:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a0 []float64
-		_ = _arg_a0
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_a0 = make([]float64, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_a0[_i], _err = _data.ReadFloat64()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_a1 []float64
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a2 []float64
-		_ = _arg_a2
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_a2 = make([]float64, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_a2[_i], _err = _data.ReadFloat64()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.DoubleArray(ctx, _arg_a0, _arg_a1, _arg_a2)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1370,20 +1819,71 @@ func (s *AidlTestStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteFloat64(_item)
+			}
+		}
+		if _arg_a1 == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_a1)))
+			for _, _item := range _arg_a1 {
+				_reply.WriteFloat64(_item)
+			}
+		}
+		if _arg_a2 == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_a2)))
+			for _, _item := range _arg_a2 {
+				_reply.WriteFloat64(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIAidlTestStringArray:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a0 []string
-		_ = _arg_a0
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_a0 = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_a0[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_a1 []string
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a2 []string
-		_ = _arg_a2
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_a2 = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_a2[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.StringArray(ctx, _arg_a0, _arg_a1, _arg_a2)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1391,20 +1891,75 @@ func (s *AidlTestStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
+		if _arg_a1 == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_a1)))
+			for _, _item := range _arg_a1 {
+				_reply.WriteString16(_item)
+			}
+		}
+		if _arg_a2 == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_a2)))
+			for _, _item := range _arg_a2 {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIAidlTestParcelableArray:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a0 []AidlTestTestParcelable
-		_ = _arg_a0
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_a0 = make([]AidlTestTestParcelable, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_a0[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_a1 []AidlTestTestParcelable
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a2 []AidlTestTestParcelable
-		_ = _arg_a2
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_a2 = make([]AidlTestTestParcelable, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_a2[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.ParcelableArray(ctx, _arg_a0, _arg_a1, _arg_a2)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1412,13 +1967,41 @@ func (s *AidlTestStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _arg_a1 == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_a1)))
+			for _, _item := range _arg_a1 {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _arg_a2 == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_a2)))
+			for _, _item := range _arg_a2 {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIAidlTestVoidSecurityException:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.VoidSecurityException(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1428,9 +2011,6 @@ func (s *AidlTestStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAidlTestIntSecurityException:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IntSecurityException(ctx)
 		_reply := parcel.New()
 		if _err != nil {

@@ -71,7 +71,7 @@ type IWificond interface {
 	UnregisterCallback(ctx context.Context, callback IInterfaceEventCallback) error
 	RegisterWificondEventCallback(ctx context.Context, callback IWificondEventCallback) error
 	UnregisterWificondEventCallback(ctx context.Context, callback IWificondEventCallback) error
-	GetDeviceWiphyCapabilities(ctx context.Context, iface_name string) (interface{}, error)
+	GetDeviceWiphyCapabilities(ctx context.Context, iface_name string) (DeviceWiphyCapabilities, error)
 	NotifyCountryCodeChanged(ctx context.Context) error
 }
 
@@ -97,6 +97,7 @@ func (p *WificondProxy) CreateApInterface(
 ) (IApInterface, error) {
 	var _result IApInterface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 	_data.WriteString16(iface_name)
 
@@ -129,6 +130,7 @@ func (p *WificondProxy) CreateClientInterface(
 ) (IClientInterface, error) {
 	var _result IClientInterface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 	_data.WriteString16(iface_name)
 
@@ -161,6 +163,7 @@ func (p *WificondProxy) TearDownApInterface(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 	_data.WriteString16(iface_name)
 
@@ -192,6 +195,7 @@ func (p *WificondProxy) TearDownClientInterface(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 	_data.WriteString16(iface_name)
 
@@ -221,6 +225,7 @@ func (p *WificondProxy) TearDownInterfaces(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWificond, MethodIWificondTearDownInterfaces)
@@ -246,6 +251,7 @@ func (p *WificondProxy) GetClientInterfaces(
 ) ([]binder.IBinder, error) {
 	var _result []binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWificond, MethodIWificondGetClientInterfaces)
@@ -267,6 +273,9 @@ func (p *WificondProxy) GetClientInterfaces(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]binder.IBinder, _count)
@@ -286,6 +295,7 @@ func (p *WificondProxy) GetApInterfaces(
 ) ([]binder.IBinder, error) {
 	var _result []binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWificond, MethodIWificondGetApInterfaces)
@@ -307,6 +317,9 @@ func (p *WificondProxy) GetApInterfaces(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]binder.IBinder, _count)
@@ -326,6 +339,7 @@ func (p *WificondProxy) GetAvailable2gChannels(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWificond, MethodIWificondGetAvailable2gChannels)
@@ -347,6 +361,9 @@ func (p *WificondProxy) GetAvailable2gChannels(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -365,6 +382,7 @@ func (p *WificondProxy) GetAvailable5gNonDFSChannels(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWificond, MethodIWificondGetAvailable5gNonDFSChannels)
@@ -386,6 +404,9 @@ func (p *WificondProxy) GetAvailable5gNonDFSChannels(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -404,6 +425,7 @@ func (p *WificondProxy) GetAvailableDFSChannels(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWificond, MethodIWificondGetAvailableDFSChannels)
@@ -425,6 +447,9 @@ func (p *WificondProxy) GetAvailableDFSChannels(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -443,6 +468,7 @@ func (p *WificondProxy) GetAvailable6gChannels(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWificond, MethodIWificondGetAvailable6gChannels)
@@ -464,6 +490,9 @@ func (p *WificondProxy) GetAvailable6gChannels(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -482,6 +511,7 @@ func (p *WificondProxy) GetAvailable60gChannels(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWificond, MethodIWificondGetAvailable60gChannels)
@@ -503,6 +533,9 @@ func (p *WificondProxy) GetAvailable60gChannels(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -521,6 +554,7 @@ func (p *WificondProxy) RegisterCallback(
 	callback IInterfaceEventCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -538,6 +572,7 @@ func (p *WificondProxy) UnregisterCallback(
 	callback IInterfaceEventCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -555,6 +590,7 @@ func (p *WificondProxy) RegisterWificondEventCallback(
 	callback IWificondEventCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -572,6 +608,7 @@ func (p *WificondProxy) UnregisterWificondEventCallback(
 	callback IWificondEventCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -587,9 +624,10 @@ func (p *WificondProxy) UnregisterWificondEventCallback(
 func (p *WificondProxy) GetDeviceWiphyCapabilities(
 	ctx context.Context,
 	iface_name string,
-) (interface{}, error) {
-	var _result interface{}
+) (DeviceWiphyCapabilities, error) {
+	var _result DeviceWiphyCapabilities
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 	_data.WriteString16(iface_name)
 
@@ -608,6 +646,15 @@ func (p *WificondProxy) GetDeviceWiphyCapabilities(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -615,6 +662,7 @@ func (p *WificondProxy) NotifyCountryCodeChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWificond)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWificond, MethodIWificondNotifyCountryCodeChanged)
@@ -629,7 +677,8 @@ func (p *WificondProxy) NotifyCountryCodeChanged(
 // WificondStub dispatches incoming binder transactions
 // to a typed IWificond implementation.
 type WificondStub struct {
-	Impl IWificond
+	Impl      IWificond
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WificondStub)(nil)
@@ -643,11 +692,12 @@ func (s *WificondStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWificondCreateApInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -659,13 +709,9 @@ func (s *WificondStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIWificondCreateClientInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -677,13 +723,9 @@ func (s *WificondStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIWificondTearDownApInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -698,9 +740,6 @@ func (s *WificondStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWificondTearDownClientInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -715,9 +754,6 @@ func (s *WificondStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWificondTearDownInterfaces:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.TearDownInterfaces(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -727,9 +763,6 @@ func (s *WificondStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWificondGetClientInterfaces:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetClientInterfaces(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -737,13 +770,16 @@ func (s *WificondStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				binder.WriteBinderToParcel(ctx, _reply, _item, s.Transport)
+			}
+		}
 		return _reply, nil
 	case TransactionIWificondGetApInterfaces:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetApInterfaces(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -751,13 +787,16 @@ func (s *WificondStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				binder.WriteBinderToParcel(ctx, _reply, _item, s.Transport)
+			}
+		}
 		return _reply, nil
 	case TransactionIWificondGetAvailable2gChannels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAvailable2gChannels(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -765,13 +804,16 @@ func (s *WificondStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIWificondGetAvailable5gNonDFSChannels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAvailable5gNonDFSChannels(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -779,13 +821,16 @@ func (s *WificondStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIWificondGetAvailableDFSChannels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAvailableDFSChannels(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -793,13 +838,16 @@ func (s *WificondStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIWificondGetAvailable6gChannels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAvailable6gChannels(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -807,13 +855,16 @@ func (s *WificondStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIWificondGetAvailable60gChannels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAvailable60gChannels(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -821,53 +872,60 @@ func (s *WificondStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIWificondRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IInterfaceEventCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewInterfaceEventCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWificondUnregisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IInterfaceEventCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewInterfaceEventCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWificondRegisterWificondEventCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IWificondEventCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewWificondEventCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterWificondEventCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWificondUnregisterWificondEventCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IWificondEventCallback
-		_ = _arg_callback
-		_err := s.Impl.UnregisterWificondEventCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIWificondGetDeviceWiphyCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewWificondEventCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.UnregisterWificondEventCallback(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIWificondGetDeviceWiphyCapabilities:
 		_arg_iface_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -879,15 +937,14 @@ func (s *WificondStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIWificondNotifyCountryCodeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIWificondNotifyCountryCodeChanged:
 		_err := s.Impl.NotifyCountryCodeChanged(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -913,7 +970,7 @@ type IWificondServer interface {
 	UnregisterCallback(ctx context.Context, callback IInterfaceEventCallback) error
 	RegisterWificondEventCallback(ctx context.Context, callback IWificondEventCallback) error
 	UnregisterWificondEventCallback(ctx context.Context, callback IWificondEventCallback) error
-	GetDeviceWiphyCapabilities(ctx context.Context, iface_name string) (interface{}, error)
+	GetDeviceWiphyCapabilities(ctx context.Context, iface_name string) (DeviceWiphyCapabilities, error)
 	NotifyCountryCodeChanged(ctx context.Context) error
 }
 
@@ -1033,7 +1090,7 @@ func (w *wificondStubWrapper) UnregisterWificondEventCallback(
 func (w *wificondStubWrapper) GetDeviceWiphyCapabilities(
 	ctx context.Context,
 	iface_name string,
-) (interface{}, error) {
+) (DeviceWiphyCapabilities, error) {
 	return w.impl.GetDeviceWiphyCapabilities(ctx, iface_name)
 }
 

@@ -38,17 +38,32 @@ func (s *CecMessage) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_initiatorRaw, _err := p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}
 	s.Initiator = CecLogicalAddress(_initiatorRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_destinationRaw, _err := p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}
 	s.Destination = CecLogicalAddress(_destinationRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.Body, _err = p.ReadByteArray()
 	if _err != nil {

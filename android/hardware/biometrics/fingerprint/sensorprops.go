@@ -15,7 +15,7 @@ type SensorProps struct {
 	SupportsDetectInteraction  bool
 	HalHandlesDisplayTouches   bool
 	HalControlsIllumination    bool
-	TouchDetectionParameters   TouchDetectionParameters
+	TouchDetectionParameters   *TouchDetectionParameters
 }
 
 var _ parcel.Parcelable = (*SensorProps)(nil)
@@ -43,8 +43,13 @@ func (s *SensorProps) MarshalParcel(
 	p.WriteBool(s.SupportsDetectInteraction)
 	p.WriteBool(s.HalHandlesDisplayTouches)
 	p.WriteBool(s.HalControlsIllumination)
-	if _err := s.TouchDetectionParameters.MarshalParcel(p); _err != nil {
-		return _err
+	if s.TouchDetectionParameters == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.TouchDetectionParameters.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -59,8 +64,18 @@ func (s *SensorProps) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.CommonProps.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_sensorTypeRaw, _err := p.ReadPaddedByte()
@@ -68,6 +83,11 @@ func (s *SensorProps) UnmarshalParcel(
 		return _err
 	}
 	s.SensorType = FingerprintSensorType(_sensorTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
@@ -86,9 +106,19 @@ func (s *SensorProps) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SupportsNavigationGestures, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SupportsDetectInteraction, _err = p.ReadBool()
@@ -96,9 +126,19 @@ func (s *SensorProps) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.HalHandlesDisplayTouches, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.HalControlsIllumination, _err = p.ReadBool()
@@ -106,8 +146,23 @@ func (s *SensorProps) UnmarshalParcel(
 		return _err
 	}
 
-	if _err = s.TouchDetectionParameters.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val TouchDetectionParameters
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.TouchDetectionParameters = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

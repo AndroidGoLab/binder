@@ -3,7 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
-	view "github.com/xaionaro-go/binder/android/view"
+	types "github.com/xaionaro-go/binder/android/view/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -25,7 +25,7 @@ const (
 type IBackAnimationRunner interface {
 	AsBinder() binder.IBinder
 	OnAnimationCancelled(ctx context.Context) error
-	OnAnimationStart(ctx context.Context, apps []view.RemoteAnimationTarget, wallpapers []view.RemoteAnimationTarget, nonApps []view.RemoteAnimationTarget, finishedCallback IBackAnimationFinishedCallback) error
+	OnAnimationStart(ctx context.Context, apps []types.RemoteAnimationTarget, wallpapers []types.RemoteAnimationTarget, nonApps []types.RemoteAnimationTarget, finishedCallback IBackAnimationFinishedCallback) error
 }
 
 type BackAnimationRunnerProxy struct {
@@ -48,6 +48,7 @@ func (p *BackAnimationRunnerProxy) OnAnimationCancelled(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackAnimationRunner)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackAnimationRunner, MethodIBackAnimationRunnerOnAnimationCancelled)
@@ -61,45 +62,28 @@ func (p *BackAnimationRunnerProxy) OnAnimationCancelled(
 
 func (p *BackAnimationRunnerProxy) OnAnimationStart(
 	ctx context.Context,
-	apps []view.RemoteAnimationTarget,
-	wallpapers []view.RemoteAnimationTarget,
-	nonApps []view.RemoteAnimationTarget,
+	apps []types.RemoteAnimationTarget,
+	wallpapers []types.RemoteAnimationTarget,
+	nonApps []types.RemoteAnimationTarget,
 	finishedCallback IBackAnimationFinishedCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackAnimationRunner)
 	if apps == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(apps)))
-		for _, _item := range apps {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
 	}
 	if wallpapers == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(wallpapers)))
-		for _, _item := range wallpapers {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
 	}
 	if nonApps == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(nonApps)))
-		for _, _item := range nonApps {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
 	}
 	binder.WriteBinderToParcel(ctx, _data, finishedCallback.AsBinder(), p.Remote.Transport())
 
@@ -115,7 +99,8 @@ func (p *BackAnimationRunnerProxy) OnAnimationStart(
 // BackAnimationRunnerStub dispatches incoming binder transactions
 // to a typed IBackAnimationRunner implementation.
 type BackAnimationRunnerStub struct {
-	Impl IBackAnimationRunner
+	Impl      IBackAnimationRunner
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BackAnimationRunnerStub)(nil)
@@ -129,33 +114,64 @@ func (s *BackAnimationRunnerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBackAnimationRunnerOnAnimationCancelled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnAnimationCancelled(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackAnimationRunnerOnAnimationStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_apps []types.RemoteAnimationTarget
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_apps = make([]types.RemoteAnimationTarget, _count)
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_apps []view.RemoteAnimationTarget
-		_ = _arg_apps
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_wallpapers []view.RemoteAnimationTarget
-		_ = _arg_wallpapers
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_nonApps []view.RemoteAnimationTarget
-		_ = _arg_nonApps
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_wallpapers []types.RemoteAnimationTarget
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_wallpapers = make([]types.RemoteAnimationTarget, _count)
+			}
+		}
+		var _arg_nonApps []types.RemoteAnimationTarget
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_nonApps = make([]types.RemoteAnimationTarget, _count)
+			}
+		}
 		var _arg_finishedCallback IBackAnimationFinishedCallback
-		_ = _arg_finishedCallback
+		{
+			_finishedCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_finishedCallback = NewBackAnimationFinishedCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _finishedCallbackHandle))
+		}
 		_err := s.Impl.OnAnimationStart(ctx, _arg_apps, _arg_wallpapers, _arg_nonApps, _arg_finishedCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -166,7 +182,7 @@ func (s *BackAnimationRunnerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IBackAnimationRunnerServer interface {
 	OnAnimationCancelled(ctx context.Context) error
-	OnAnimationStart(ctx context.Context, apps []view.RemoteAnimationTarget, wallpapers []view.RemoteAnimationTarget, nonApps []view.RemoteAnimationTarget, finishedCallback IBackAnimationFinishedCallback) error
+	OnAnimationStart(ctx context.Context, apps []types.RemoteAnimationTarget, wallpapers []types.RemoteAnimationTarget, nonApps []types.RemoteAnimationTarget, finishedCallback IBackAnimationFinishedCallback) error
 }
 
 type backAnimationRunnerStubWrapper struct {
@@ -186,9 +202,9 @@ func (w *backAnimationRunnerStubWrapper) OnAnimationCancelled(
 
 func (w *backAnimationRunnerStubWrapper) OnAnimationStart(
 	ctx context.Context,
-	apps []view.RemoteAnimationTarget,
-	wallpapers []view.RemoteAnimationTarget,
-	nonApps []view.RemoteAnimationTarget,
+	apps []types.RemoteAnimationTarget,
+	wallpapers []types.RemoteAnimationTarget,
+	nonApps []types.RemoteAnimationTarget,
 	finishedCallback IBackAnimationFinishedCallback,
 ) error {
 	return w.impl.OnAnimationStart(ctx, apps, wallpapers, nonApps, finishedCallback)

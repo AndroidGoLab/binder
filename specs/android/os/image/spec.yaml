@@ -1,0 +1,147 @@
+package: android.os.image
+go_package: android/os/image
+interfaces:
+    - name: IDynamicSystemService
+      descriptor: android.os.image.IDynamicSystemService
+      methods:
+        - name: startInstallation
+          transaction_code_offset: 0
+          params:
+            - name: dsuSlot
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: createPartition
+          transaction_code_offset: 1
+          params:
+            - name: name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: size
+              type:
+                name: long
+            - name: readOnly
+              type:
+                name: boolean
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: closePartition
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: finishInstallation
+          transaction_code_offset: 3
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: getInstallationProgress
+          transaction_code_offset: 4
+          return_type:
+            name: GsiProgress
+          annotations:
+            - EnforcePermission
+        - name: abort
+          transaction_code_offset: 5
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: isInUse
+          transaction_code_offset: 6
+          return_type:
+            name: boolean
+          annotations:
+            - RequiresNoPermission
+        - name: isInstalled
+          transaction_code_offset: 7
+          return_type:
+            name: boolean
+          annotations:
+            - RequiresNoPermission
+        - name: isEnabled
+          transaction_code_offset: 8
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: remove
+          transaction_code_offset: 9
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: setEnable
+          transaction_code_offset: 10
+          params:
+            - name: enable
+              type:
+                name: boolean
+            - name: oneShot
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: setAshmem
+          transaction_code_offset: 11
+          params:
+            - name: fd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: size
+              type:
+                name: long
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: submitFromAshmem
+          transaction_code_offset: 12
+          params:
+            - name: bytes
+              type:
+                name: long
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: getAvbPublicKey
+          transaction_code_offset: 13
+          params:
+            - name: dst
+              type:
+                name: AvbPublicKey
+              direction: out
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: suggestScratchSize
+          transaction_code_offset: 14
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: getActiveDsuSlot
+          transaction_code_offset: 15
+          return_type:
+            name: String
+          annotations:
+            - EnforcePermission
+
+parcelables:
+    - name: GsiProgress

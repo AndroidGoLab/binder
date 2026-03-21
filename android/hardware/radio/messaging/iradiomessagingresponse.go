@@ -109,6 +109,7 @@ func (p *RadioMessagingResponseProxy) AcknowledgeIncomingGsmSmsWithPduResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -129,6 +130,7 @@ func (p *RadioMessagingResponseProxy) AcknowledgeLastIncomingCdmaSmsResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -149,6 +151,7 @@ func (p *RadioMessagingResponseProxy) AcknowledgeLastIncomingGsmSmsResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -169,6 +172,7 @@ func (p *RadioMessagingResponseProxy) AcknowledgeRequest(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(serial)
 
@@ -186,6 +190,7 @@ func (p *RadioMessagingResponseProxy) DeleteSmsOnRuimResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -206,6 +211,7 @@ func (p *RadioMessagingResponseProxy) DeleteSmsOnSimResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -227,6 +233,7 @@ func (p *RadioMessagingResponseProxy) GetCdmaBroadcastConfigResponse(
 	configs []CdmaBroadcastSmsConfigInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -259,6 +266,7 @@ func (p *RadioMessagingResponseProxy) GetGsmBroadcastConfigResponse(
 	configs []GsmBroadcastSmsConfigInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -291,6 +299,7 @@ func (p *RadioMessagingResponseProxy) GetSmscAddressResponse(
 	smsc string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -312,6 +321,7 @@ func (p *RadioMessagingResponseProxy) ReportSmsMemoryStatusResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -333,6 +343,7 @@ func (p *RadioMessagingResponseProxy) SendCdmaSmsExpectMoreResponse(
 	sms SendSmsResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -358,6 +369,7 @@ func (p *RadioMessagingResponseProxy) SendCdmaSmsResponse(
 	sms SendSmsResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -383,6 +395,7 @@ func (p *RadioMessagingResponseProxy) SendImsSmsResponse(
 	sms SendSmsResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -408,6 +421,7 @@ func (p *RadioMessagingResponseProxy) SendSmsExpectMoreResponse(
 	sms SendSmsResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -433,6 +447,7 @@ func (p *RadioMessagingResponseProxy) SendSmsResponse(
 	sms SendSmsResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -457,6 +472,7 @@ func (p *RadioMessagingResponseProxy) SetCdmaBroadcastActivationResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -477,6 +493,7 @@ func (p *RadioMessagingResponseProxy) SetCdmaBroadcastConfigResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -497,6 +514,7 @@ func (p *RadioMessagingResponseProxy) SetGsmBroadcastActivationResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -517,6 +535,7 @@ func (p *RadioMessagingResponseProxy) SetGsmBroadcastConfigResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -537,6 +556,7 @@ func (p *RadioMessagingResponseProxy) SetSmscAddressResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -558,6 +578,7 @@ func (p *RadioMessagingResponseProxy) WriteSmsToRuimResponse(
 	index int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -580,6 +601,7 @@ func (p *RadioMessagingResponseProxy) WriteSmsToSimResponse(
 	index int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -599,7 +621,8 @@ func (p *RadioMessagingResponseProxy) WriteSmsToSimResponse(
 // RadioMessagingResponseStub dispatches incoming binder transactions
 // to a typed IRadioMessagingResponse implementation.
 type RadioMessagingResponseStub struct {
-	Impl IRadioMessagingResponse
+	Impl      IRadioMessagingResponse
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RadioMessagingResponseStub)(nil)
@@ -613,11 +636,12 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRadioMessagingResponseAcknowledgeIncomingGsmSmsWithPduResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -631,12 +655,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.AcknowledgeIncomingGsmSmsWithPduResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseAcknowledgeLastIncomingCdmaSmsResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -650,12 +670,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.AcknowledgeLastIncomingCdmaSmsResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseAcknowledgeLastIncomingGsmSmsResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -669,23 +685,15 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.AcknowledgeLastIncomingGsmSmsResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseAcknowledgeRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AcknowledgeRequest(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseDeleteSmsOnRuimResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -699,12 +707,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.DeleteSmsOnRuimResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseDeleteSmsOnSimResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -718,12 +722,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.DeleteSmsOnSimResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseGetCdmaBroadcastConfigResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -736,16 +736,30 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_configs []CdmaBroadcastSmsConfigInfo
-		_ = _arg_configs
-		_err := s.Impl.GetCdmaBroadcastConfigResponse(ctx, _arg_info, _arg_configs)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioMessagingResponseGetGsmBroadcastConfigResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_configs = make([]CdmaBroadcastSmsConfigInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_configs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.GetCdmaBroadcastConfigResponse(ctx, _arg_info, _arg_configs)
+		return nil, _err
+	case TransactionIRadioMessagingResponseGetGsmBroadcastConfigResponse:
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -758,16 +772,30 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_configs []GsmBroadcastSmsConfigInfo
-		_ = _arg_configs
-		_err := s.Impl.GetGsmBroadcastConfigResponse(ctx, _arg_info, _arg_configs)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioMessagingResponseGetSmscAddressResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_configs = make([]GsmBroadcastSmsConfigInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_configs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.GetGsmBroadcastConfigResponse(ctx, _arg_info, _arg_configs)
+		return nil, _err
+	case TransactionIRadioMessagingResponseGetSmscAddressResponse:
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -785,12 +813,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.GetSmscAddressResponse(ctx, _arg_info, _arg_smsc)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseReportSmsMemoryStatusResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -804,12 +828,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ReportSmsMemoryStatusResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseSendCdmaSmsExpectMoreResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -835,12 +855,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SendCdmaSmsExpectMoreResponse(ctx, _arg_info, _arg_sms)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseSendCdmaSmsResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -866,12 +882,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SendCdmaSmsResponse(ctx, _arg_info, _arg_sms)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseSendImsSmsResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -897,12 +909,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SendImsSmsResponse(ctx, _arg_info, _arg_sms)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseSendSmsExpectMoreResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -928,12 +936,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SendSmsExpectMoreResponse(ctx, _arg_info, _arg_sms)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseSendSmsResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -959,12 +963,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SendSmsResponse(ctx, _arg_info, _arg_sms)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseSetCdmaBroadcastActivationResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -978,12 +978,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetCdmaBroadcastActivationResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseSetCdmaBroadcastConfigResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -997,12 +993,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetCdmaBroadcastConfigResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseSetGsmBroadcastActivationResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1016,12 +1008,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetGsmBroadcastActivationResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseSetGsmBroadcastConfigResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1035,12 +1023,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetGsmBroadcastConfigResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseSetSmscAddressResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1054,12 +1038,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetSmscAddressResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseWriteSmsToRuimResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1077,12 +1057,8 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.WriteSmsToRuimResponse(ctx, _arg_info, _arg_index)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioMessagingResponseWriteSmsToSimResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1100,8 +1076,7 @@ func (s *RadioMessagingResponseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.WriteSmsToSimResponse(ctx, _arg_info, _arg_index)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

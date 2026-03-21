@@ -72,6 +72,7 @@ func (p *OffloadProxy) InitOffload(
 	cb ITetheringOffloadCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOffload)
 	_data.WriteFileDescriptor(fd1)
 	_data.WriteFileDescriptor(fd2)
@@ -99,6 +100,7 @@ func (p *OffloadProxy) StopOffload(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOffload)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOffload, MethodIOffloadStopOffload)
@@ -124,6 +126,7 @@ func (p *OffloadProxy) SetLocalPrefixes(
 	prefixes []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOffload)
 	if prefixes == nil {
 		_data.WriteInt32(-1)
@@ -158,6 +161,7 @@ func (p *OffloadProxy) GetForwardedStats(
 ) (ForwardedStats, error) {
 	var _result ForwardedStats
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOffload)
 	_data.WriteString16(upstream)
 
@@ -195,6 +199,7 @@ func (p *OffloadProxy) SetDataWarningAndLimit(
 	limitBytes int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOffload)
 	_data.WriteString16(upstream)
 	_data.WriteInt64(warningBytes)
@@ -226,6 +231,7 @@ func (p *OffloadProxy) SetUpstreamParameters(
 	v6Gws []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOffload)
 	_data.WriteString16(iface)
 	_data.WriteString16(v4Addr)
@@ -263,6 +269,7 @@ func (p *OffloadProxy) AddDownstream(
 	prefix string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOffload)
 	_data.WriteString16(iface)
 	_data.WriteString16(prefix)
@@ -291,6 +298,7 @@ func (p *OffloadProxy) RemoveDownstream(
 	prefix string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOffload)
 	_data.WriteString16(iface)
 	_data.WriteString16(prefix)
@@ -316,7 +324,8 @@ func (p *OffloadProxy) RemoveDownstream(
 // OffloadStub dispatches incoming binder transactions
 // to a typed IOffload implementation.
 type OffloadStub struct {
-	Impl IOffload
+	Impl      IOffload
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OffloadStub)(nil)
@@ -330,11 +339,12 @@ func (s *OffloadStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOffloadInitOffload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fd1, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -343,9 +353,14 @@ func (s *OffloadStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb ITetheringOffloadCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewTetheringOffloadCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err = s.Impl.InitOffload(ctx, _arg_fd1, _arg_fd2, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -355,9 +370,6 @@ func (s *OffloadStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOffloadStopOffload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopOffload(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -367,12 +379,25 @@ func (s *OffloadStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOffloadSetLocalPrefixes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_prefixes []string
-		_ = _arg_prefixes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_prefixes = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_prefixes[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetLocalPrefixes(ctx, _arg_prefixes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -382,9 +407,6 @@ func (s *OffloadStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOffloadGetForwardedStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_upstream, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -402,9 +424,6 @@ func (s *OffloadStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIOffloadSetDataWarningAndLimit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_upstream, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -426,9 +445,6 @@ func (s *OffloadStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOffloadSetUpstreamParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -441,9 +457,25 @@ func (s *OffloadStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_v6Gws []string
-		_ = _arg_v6Gws
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_v6Gws = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_v6Gws[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.SetUpstreamParameters(ctx, _arg_iface, _arg_v4Addr, _arg_v4Gw, _arg_v6Gws)
 		_reply := parcel.New()
 		if _err != nil {
@@ -453,9 +485,6 @@ func (s *OffloadStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOffloadAddDownstream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -473,9 +502,6 @@ func (s *OffloadStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOffloadRemoveDownstream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

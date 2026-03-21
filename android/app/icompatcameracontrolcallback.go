@@ -47,6 +47,7 @@ func (p *CompatCameraControlCallbackProxy) ApplyCameraCompatTreatment(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompatCameraControlCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompatCameraControlCallback, MethodICompatCameraControlCallbackApplyCameraCompatTreatment)
@@ -62,6 +63,7 @@ func (p *CompatCameraControlCallbackProxy) RevertCameraCompatTreatment(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompatCameraControlCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompatCameraControlCallback, MethodICompatCameraControlCallbackRevertCameraCompatTreatment)
@@ -76,7 +78,8 @@ func (p *CompatCameraControlCallbackProxy) RevertCameraCompatTreatment(
 // CompatCameraControlCallbackStub dispatches incoming binder transactions
 // to a typed ICompatCameraControlCallback implementation.
 type CompatCameraControlCallbackStub struct {
-	Impl ICompatCameraControlCallback
+	Impl      ICompatCameraControlCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CompatCameraControlCallbackStub)(nil)
@@ -90,21 +93,17 @@ func (s *CompatCameraControlCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICompatCameraControlCallbackApplyCameraCompatTreatment:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ApplyCameraCompatTreatment(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICompatCameraControlCallbackRevertCameraCompatTreatment:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RevertCameraCompatTreatment(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

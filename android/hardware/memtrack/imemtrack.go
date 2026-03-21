@@ -50,6 +50,7 @@ func (p *MemtrackProxy) GetMemory(
 ) ([]MemtrackRecord, error) {
 	var _result []MemtrackRecord
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMemtrack)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(int32(type_))
@@ -73,6 +74,9 @@ func (p *MemtrackProxy) GetMemory(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]MemtrackRecord, _count)
@@ -93,6 +97,7 @@ func (p *MemtrackProxy) GetGpuDeviceInfo(
 ) ([]DeviceInfo, error) {
 	var _result []DeviceInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMemtrack)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMemtrack, MethodIMemtrackGetGpuDeviceInfo)
@@ -114,6 +119,9 @@ func (p *MemtrackProxy) GetGpuDeviceInfo(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]DeviceInfo, _count)
@@ -132,7 +140,8 @@ func (p *MemtrackProxy) GetGpuDeviceInfo(
 // MemtrackStub dispatches incoming binder transactions
 // to a typed IMemtrack implementation.
 type MemtrackStub struct {
-	Impl IMemtrack
+	Impl      IMemtrack
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MemtrackStub)(nil)
@@ -146,11 +155,12 @@ func (s *MemtrackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMemtrackGetMemory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -167,13 +177,19 @@ func (s *MemtrackStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIMemtrackGetGpuDeviceInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetGpuDeviceInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -181,8 +197,17 @@ func (s *MemtrackStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

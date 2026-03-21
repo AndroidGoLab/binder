@@ -55,16 +55,10 @@ func (p *BrailleDisplayControllerProxy) OnConnected(
 	hidDescriptor []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBrailleDisplayController)
 	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
-	if hidDescriptor == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(hidDescriptor)))
-		for _, _item := range hidDescriptor {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(hidDescriptor)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBrailleDisplayController, MethodIBrailleDisplayControllerOnConnected)
 	if _err != nil {
@@ -80,6 +74,7 @@ func (p *BrailleDisplayControllerProxy) OnConnectionFailed(
 	error_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBrailleDisplayController)
 	_data.WriteInt32(error_)
 
@@ -97,15 +92,9 @@ func (p *BrailleDisplayControllerProxy) OnInput(
 	input []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBrailleDisplayController)
-	if input == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(input)))
-		for _, _item := range input {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(input)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBrailleDisplayController, MethodIBrailleDisplayControllerOnInput)
 	if _err != nil {
@@ -120,6 +109,7 @@ func (p *BrailleDisplayControllerProxy) OnDisconnected(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBrailleDisplayController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBrailleDisplayController, MethodIBrailleDisplayControllerOnDisconnected)
@@ -134,7 +124,8 @@ func (p *BrailleDisplayControllerProxy) OnDisconnected(
 // BrailleDisplayControllerStub dispatches incoming binder transactions
 // to a typed IBrailleDisplayController implementation.
 type BrailleDisplayControllerStub struct {
-	Impl IBrailleDisplayController
+	Impl      IBrailleDisplayController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BrailleDisplayControllerStub)(nil)
@@ -148,48 +139,51 @@ func (s *BrailleDisplayControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBrailleDisplayControllerOnConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_connection IBrailleDisplayConnection
-		_ = _arg_connection
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_hidDescriptor []byte
-		_ = _arg_hidDescriptor
-		_err := s.Impl.OnConnected(ctx, _arg_connection, _arg_hidDescriptor)
-		_ = _err
-		return nil, nil
-	case TransactionIBrailleDisplayControllerOnConnectionFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_connectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_connection = NewBrailleDisplayConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _connectionHandle))
 		}
+		var _arg_hidDescriptor []byte
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hidDescriptor = _bytes
+		}
+		_err := s.Impl.OnConnected(ctx, _arg_connection, _arg_hidDescriptor)
+		return nil, _err
+	case TransactionIBrailleDisplayControllerOnConnectionFailed:
 		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnConnectionFailed(ctx, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBrailleDisplayControllerOnInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_input []byte
-		_ = _arg_input
-		_err := s.Impl.OnInput(ctx, _arg_input)
-		_ = _err
-		return nil, nil
-	case TransactionIBrailleDisplayControllerOnDisconnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_input = _bytes
 		}
+		_err := s.Impl.OnInput(ctx, _arg_input)
+		return nil, _err
+	case TransactionIBrailleDisplayControllerOnDisconnected:
 		_err := s.Impl.OnDisconnected(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

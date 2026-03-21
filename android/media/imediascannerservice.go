@@ -50,6 +50,7 @@ func (p *MediaScannerServiceProxy) RequestScanFile(
 	listener IMediaScannerListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaScannerService)
 	_data.WriteString16(path)
 	_data.WriteString16(mimeType)
@@ -79,6 +80,7 @@ func (p *MediaScannerServiceProxy) ScanFile(
 	mimeType string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaScannerService)
 	_data.WriteString16(path)
 	_data.WriteString16(mimeType)
@@ -104,7 +106,8 @@ func (p *MediaScannerServiceProxy) ScanFile(
 // MediaScannerServiceStub dispatches incoming binder transactions
 // to a typed IMediaScannerService implementation.
 type MediaScannerServiceStub struct {
-	Impl IMediaScannerService
+	Impl      IMediaScannerService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaScannerServiceStub)(nil)
@@ -118,11 +121,12 @@ func (s *MediaScannerServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaScannerServiceRequestScanFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -131,9 +135,14 @@ func (s *MediaScannerServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IMediaScannerListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewMediaScannerListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.RequestScanFile(ctx, _arg_path, _arg_mimeType, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -143,9 +152,6 @@ func (s *MediaScannerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaScannerServiceScanFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

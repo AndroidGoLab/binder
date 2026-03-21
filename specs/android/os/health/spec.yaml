@@ -1,0 +1,4 @@
+package: android.os.health
+go_package: android/os/health
+parcelables:
+    - name: HealthStatsParceler

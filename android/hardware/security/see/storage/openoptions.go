@@ -38,11 +38,21 @@ func (s *OpenOptions) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_createModeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.CreateMode = CreationMode(_createModeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_accessModeRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -50,15 +60,30 @@ func (s *OpenOptions) UnmarshalParcel(
 	}
 	s.AccessMode = FileMode(_accessModeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_readIntegrityRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.ReadIntegrity = ReadIntegrity(_readIntegrityRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.TruncateOnOpen, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.AllowWritesDuringAbUpdate, _err = p.ReadBool()

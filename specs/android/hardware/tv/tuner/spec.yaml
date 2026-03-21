@@ -1,0 +1,4549 @@
+package: android.hardware.tv.tuner
+go_package: android/hardware/tv/tuner
+interfaces:
+    - name: IDemux
+      descriptor: android.hardware.tv.tuner.IDemux
+      methods:
+        - name: setFrontendDataSource
+          transaction_code_offset: 0
+          params:
+            - name: frontendId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: openFilter
+          transaction_code_offset: 1
+          params:
+            - name: type
+              type:
+                name: DemuxFilterType
+              direction: in
+            - name: bufferSize
+              type:
+                name: int
+              direction: in
+            - name: cb
+              type:
+                name: IFilterCallback
+              direction: in
+          return_type:
+            name: IFilter
+        - name: openTimeFilter
+          transaction_code_offset: 2
+          return_type:
+            name: ITimeFilter
+        - name: getAvSyncHwId
+          transaction_code_offset: 3
+          params:
+            - name: filter
+              type:
+                name: IFilter
+              direction: in
+          return_type:
+            name: int
+        - name: getAvSyncTime
+          transaction_code_offset: 4
+          params:
+            - name: avSyncHwId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: long
+        - name: close
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: openDvr
+          transaction_code_offset: 6
+          params:
+            - name: type
+              type:
+                name: DvrType
+              direction: in
+            - name: bufferSize
+              type:
+                name: int
+              direction: in
+            - name: cb
+              type:
+                name: IDvrCallback
+              direction: in
+          return_type:
+            name: IDvr
+        - name: connectCiCam
+          transaction_code_offset: 7
+          params:
+            - name: ciCamId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: disconnectCiCam
+          transaction_code_offset: 8
+          return_type:
+            name: void
+    - name: IDescrambler
+      descriptor: android.hardware.tv.tuner.IDescrambler
+      methods:
+        - name: setDemuxSource
+          transaction_code_offset: 0
+          params:
+            - name: demuxId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setKeyToken
+          transaction_code_offset: 1
+          params:
+            - name: keyToken
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: addPid
+          transaction_code_offset: 2
+          params:
+            - name: pid
+              type:
+                name: DemuxPid
+              direction: in
+            - name: optionalSourceFilter
+              type:
+                name: IFilter
+              direction: in
+          return_type:
+            name: void
+        - name: removePid
+          transaction_code_offset: 3
+          params:
+            - name: pid
+              type:
+                name: DemuxPid
+              direction: in
+            - name: optionalSourceFilter
+              type:
+                name: IFilter
+              direction: in
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 4
+          return_type:
+            name: void
+    - name: IDvr
+      descriptor: android.hardware.tv.tuner.IDvr
+      methods:
+        - name: getQueueDesc
+          transaction_code_offset: 0
+          params:
+            - name: queue
+              type:
+                name: MQDescriptor
+                type_args:
+                    - name: byte
+                    - name: SynchronizedReadWrite
+              direction: out
+          return_type:
+            name: void
+        - name: configure
+          transaction_code_offset: 1
+          params:
+            - name: settings
+              type:
+                name: DvrSettings
+              direction: in
+          return_type:
+            name: void
+        - name: attachFilter
+          transaction_code_offset: 2
+          params:
+            - name: filter
+              type:
+                name: IFilter
+              direction: in
+          return_type:
+            name: void
+        - name: detachFilter
+          transaction_code_offset: 3
+          params:
+            - name: filter
+              type:
+                name: IFilter
+              direction: in
+          return_type:
+            name: void
+        - name: start
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: stop
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: flush
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 7
+          return_type:
+            name: void
+        - name: setStatusCheckIntervalHint
+          transaction_code_offset: 8
+          params:
+            - name: milliseconds
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+    - name: IDvrCallback
+      descriptor: android.hardware.tv.tuner.IDvrCallback
+      oneway: true
+      methods:
+        - name: onPlaybackStatus
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: PlaybackStatus
+              direction: in
+          return_type:
+            name: void
+        - name: onRecordStatus
+          transaction_code_offset: 1
+          params:
+            - name: status
+              type:
+                name: RecordStatus
+              direction: in
+          return_type:
+            name: void
+    - name: IFilter
+      descriptor: android.hardware.tv.tuner.IFilter
+      methods:
+        - name: getQueueDesc
+          transaction_code_offset: 0
+          params:
+            - name: queue
+              type:
+                name: MQDescriptor
+                type_args:
+                    - name: byte
+                    - name: SynchronizedReadWrite
+              direction: out
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: configure
+          transaction_code_offset: 2
+          params:
+            - name: settings
+              type:
+                name: DemuxFilterSettings
+              direction: in
+          return_type:
+            name: void
+        - name: configureAvStreamType
+          transaction_code_offset: 3
+          params:
+            - name: avStreamType
+              type:
+                name: AvStreamType
+              direction: in
+          return_type:
+            name: void
+        - name: configureIpCid
+          transaction_code_offset: 4
+          params:
+            - name: ipCid
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: configureMonitorEvent
+          transaction_code_offset: 5
+          params:
+            - name: monitorEventTypes
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: start
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: stop
+          transaction_code_offset: 7
+          return_type:
+            name: void
+        - name: flush
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: getAvSharedHandle
+          transaction_code_offset: 9
+          params:
+            - name: avMemory
+              type:
+                name: NativeHandle
+              direction: out
+          return_type:
+            name: long
+        - name: getId
+          transaction_code_offset: 10
+          return_type:
+            name: int
+        - name: getId64Bit
+          transaction_code_offset: 11
+          return_type:
+            name: long
+        - name: releaseAvHandle
+          transaction_code_offset: 12
+          params:
+            - name: avMemory
+              type:
+                name: NativeHandle
+              direction: in
+            - name: avDataId
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: setDataSource
+          transaction_code_offset: 13
+          params:
+            - name: filter
+              type:
+                name: IFilter
+              direction: in
+          return_type:
+            name: void
+        - name: setDelayHint
+          transaction_code_offset: 14
+          params:
+            - name: hint
+              type:
+                name: FilterDelayHint
+              direction: in
+          return_type:
+            name: void
+    - name: IFilterCallback
+      descriptor: android.hardware.tv.tuner.IFilterCallback
+      oneway: true
+      methods:
+        - name: onFilterEvent
+          transaction_code_offset: 0
+          params:
+            - name: events
+              type:
+                name: DemuxFilterEvent
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onFilterStatus
+          transaction_code_offset: 1
+          params:
+            - name: status
+              type:
+                name: DemuxFilterStatus
+              direction: in
+          return_type:
+            name: void
+    - name: IFrontend
+      descriptor: android.hardware.tv.tuner.IFrontend
+      methods:
+        - name: setCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IFrontendCallback
+              direction: in
+          return_type:
+            name: void
+        - name: tune
+          transaction_code_offset: 1
+          params:
+            - name: settings
+              type:
+                name: FrontendSettings
+              direction: in
+          return_type:
+            name: void
+        - name: stopTune
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: scan
+          transaction_code_offset: 4
+          params:
+            - name: settings
+              type:
+                name: FrontendSettings
+              direction: in
+            - name: type
+              type:
+                name: FrontendScanType
+              direction: in
+          return_type:
+            name: void
+        - name: stopScan
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: getStatus
+          transaction_code_offset: 6
+          params:
+            - name: statusTypes
+              type:
+                name: FrontendStatusType
+                is_array: true
+              direction: in
+          return_type:
+            name: FrontendStatus
+            is_array: true
+        - name: setLnb
+          transaction_code_offset: 7
+          params:
+            - name: lnbId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: linkCiCam
+          transaction_code_offset: 8
+          params:
+            - name: ciCamId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: int
+        - name: unlinkCiCam
+          transaction_code_offset: 9
+          params:
+            - name: ciCamId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getHardwareInfo
+          transaction_code_offset: 10
+          return_type:
+            name: String
+        - name: removeOutputPid
+          transaction_code_offset: 11
+          params:
+            - name: pid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getFrontendStatusReadiness
+          transaction_code_offset: 12
+          params:
+            - name: statusTypes
+              type:
+                name: FrontendStatusType
+                is_array: true
+              direction: in
+          return_type:
+            name: FrontendStatusReadiness
+            is_array: true
+    - name: IFrontendCallback
+      descriptor: android.hardware.tv.tuner.IFrontendCallback
+      oneway: true
+      methods:
+        - name: onEvent
+          transaction_code_offset: 0
+          params:
+            - name: frontendEventType
+              type:
+                name: FrontendEventType
+              direction: in
+          return_type:
+            name: void
+        - name: onScanMessage
+          transaction_code_offset: 1
+          params:
+            - name: type
+              type:
+                name: FrontendScanMessageType
+              direction: in
+            - name: message
+              type:
+                name: FrontendScanMessage
+              direction: in
+          return_type:
+            name: void
+    - name: ILnb
+      descriptor: android.hardware.tv.tuner.ILnb
+      methods:
+        - name: setCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: ILnbCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setVoltage
+          transaction_code_offset: 1
+          params:
+            - name: voltage
+              type:
+                name: LnbVoltage
+              direction: in
+          return_type:
+            name: void
+        - name: setTone
+          transaction_code_offset: 2
+          params:
+            - name: tone
+              type:
+                name: LnbTone
+              direction: in
+          return_type:
+            name: void
+        - name: setSatellitePosition
+          transaction_code_offset: 3
+          params:
+            - name: position
+              type:
+                name: LnbPosition
+              direction: in
+          return_type:
+            name: void
+        - name: sendDiseqcMessage
+          transaction_code_offset: 4
+          params:
+            - name: diseqcMessage
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 5
+          return_type:
+            name: void
+    - name: ILnbCallback
+      descriptor: android.hardware.tv.tuner.ILnbCallback
+      oneway: true
+      methods:
+        - name: onDiseqcMessage
+          transaction_code_offset: 0
+          params:
+            - name: diseqcMessage
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onEvent
+          transaction_code_offset: 1
+          params:
+            - name: lnbEventType
+              type:
+                name: LnbEventType
+              direction: in
+          return_type:
+            name: void
+    - name: ITimeFilter
+      descriptor: android.hardware.tv.tuner.ITimeFilter
+      methods:
+        - name: setTimeStamp
+          transaction_code_offset: 0
+          params:
+            - name: timeStamp
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: clearTimeStamp
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: getTimeStamp
+          transaction_code_offset: 2
+          return_type:
+            name: long
+        - name: getSourceTime
+          transaction_code_offset: 3
+          return_type:
+            name: long
+        - name: close
+          transaction_code_offset: 4
+          return_type:
+            name: void
+    - name: ITuner
+      descriptor: android.hardware.tv.tuner.ITuner
+      methods:
+        - name: getFrontendIds
+          transaction_code_offset: 0
+          return_type:
+            name: int
+            is_array: true
+        - name: openFrontendById
+          transaction_code_offset: 1
+          params:
+            - name: frontendId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: IFrontend
+        - name: openDemux
+          transaction_code_offset: 2
+          params:
+            - name: demuxId
+              type:
+                name: int
+                is_array: true
+              direction: out
+          return_type:
+            name: IDemux
+        - name: getDemuxCaps
+          transaction_code_offset: 3
+          return_type:
+            name: DemuxCapabilities
+        - name: openDescrambler
+          transaction_code_offset: 4
+          return_type:
+            name: IDescrambler
+        - name: getFrontendInfo
+          transaction_code_offset: 5
+          params:
+            - name: frontendId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: FrontendInfo
+        - name: getLnbIds
+          transaction_code_offset: 6
+          return_type:
+            name: int
+            is_array: true
+        - name: openLnbById
+          transaction_code_offset: 7
+          params:
+            - name: lnbId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: ILnb
+        - name: openLnbByName
+          transaction_code_offset: 8
+          params:
+            - name: lnbName
+              type:
+                name: String
+              direction: in
+            - name: lnbId
+              type:
+                name: int
+                is_array: true
+              direction: out
+          return_type:
+            name: ILnb
+        - name: setLna
+          transaction_code_offset: 9
+          params:
+            - name: bEnable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setMaxNumberOfFrontends
+          transaction_code_offset: 10
+          params:
+            - name: frontendType
+              type:
+                name: FrontendType
+              direction: in
+            - name: maxNumber
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getMaxNumberOfFrontends
+          transaction_code_offset: 11
+          params:
+            - name: frontendType
+              type:
+                name: FrontendType
+              direction: in
+          return_type:
+            name: int
+        - name: isLnaSupported
+          transaction_code_offset: 12
+          return_type:
+            name: boolean
+        - name: getDemuxIds
+          transaction_code_offset: 13
+          return_type:
+            name: int
+            is_array: true
+        - name: openDemuxById
+          transaction_code_offset: 14
+          params:
+            - name: demuxId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: IDemux
+        - name: getDemuxInfo
+          transaction_code_offset: 15
+          params:
+            - name: demuxId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: DemuxInfo
+parcelables:
+    - name: AudioExtraMetaData
+      fields:
+        - name: adFade
+          type:
+            name: byte
+        - name: adPan
+          type:
+            name: byte
+        - name: versionTextTag
+          type:
+            name: char
+        - name: adGainCenter
+          type:
+            name: byte
+        - name: adGainFront
+          type:
+            name: byte
+        - name: adGainSurround
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+    - name: AudioPreselection
+      fields:
+        - name: preselectionId
+          type:
+            name: int
+        - name: labels
+          type:
+            name: AudioPreselectionLabel
+            is_array: true
+        - name: language
+          type:
+            name: String
+        - name: renderingIndication
+          type:
+            name: AudioPreselectionRenderingIndicationType
+        - name: hasAudioDescription
+          type:
+            name: boolean
+        - name: hasSpokenSubtitles
+          type:
+            name: boolean
+        - name: hasDialogueEnhancement
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: AudioPreselectionLabel
+      fields:
+        - name: language
+          type:
+            name: String
+        - name: text
+          type:
+            name: String
+      annotations:
+        - VintfStability
+    - name: AudioPresentation
+      fields:
+        - name: preselection
+          type:
+            name: AudioPreselection
+        - name: ac4ShortProgramId
+          type:
+            name: int
+          default_value: "-1"
+      annotations:
+        - VintfStability
+    - name: DemuxAlpFilterSettings
+      fields:
+        - name: packetType
+          type:
+            name: int
+        - name: lengthType
+          type:
+            name: DemuxAlpLengthType
+          default_value: DemuxAlpLengthType.UNDEFINED
+        - name: filterSettings
+          type:
+            name: DemuxAlpFilterSettingsFilterSettings
+      annotations:
+        - VintfStability
+    - name: DemuxCapabilities
+      fields:
+        - name: numDemux
+          type:
+            name: int
+        - name: numRecord
+          type:
+            name: int
+        - name: numPlayback
+          type:
+            name: int
+        - name: numTsFilter
+          type:
+            name: int
+        - name: numSectionFilter
+          type:
+            name: int
+        - name: numAudioFilter
+          type:
+            name: int
+        - name: numVideoFilter
+          type:
+            name: int
+        - name: numPesFilter
+          type:
+            name: int
+        - name: numPcrFilter
+          type:
+            name: int
+        - name: numBytesInSectionFilter
+          type:
+            name: long
+        - name: filterCaps
+          type:
+            name: int
+        - name: linkCaps
+          type:
+            name: int
+            is_array: true
+        - name: bTimeFilter
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: DemuxFilterAvSettings
+      fields:
+        - name: isPassthrough
+          type:
+            name: boolean
+        - name: isSecureMemory
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: DemuxFilterDownloadEvent
+      fields:
+        - name: itemId
+          type:
+            name: int
+        - name: downloadId
+          type:
+            name: int
+        - name: mpuSequenceNumber
+          type:
+            name: int
+        - name: itemFragmentIndex
+          type:
+            name: int
+        - name: lastItemFragmentIndex
+          type:
+            name: int
+        - name: dataLength
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: DemuxFilterDownloadSettings
+      fields:
+        - name: useDownloadId
+          type:
+            name: boolean
+        - name: downloadId
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: DemuxFilterIpPayloadEvent
+      fields:
+        - name: dataLength
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: DemuxFilterMediaEvent
+      fields:
+        - name: streamId
+          type:
+            name: int
+        - name: isPtsPresent
+          type:
+            name: boolean
+        - name: pts
+          type:
+            name: long
+        - name: isDtsPresent
+          type:
+            name: boolean
+        - name: dts
+          type:
+            name: long
+        - name: dataLength
+          type:
+            name: long
+        - name: offset
+          type:
+            name: long
+        - name: avMemory
+          type:
+            name: NativeHandle
+        - name: isSecureMemory
+          type:
+            name: boolean
+        - name: avDataId
+          type:
+            name: long
+        - name: mpuSequenceNumber
+          type:
+            name: int
+        - name: isPesPrivateData
+          type:
+            name: boolean
+        - name: extraMetaData
+          type:
+            name: DemuxFilterMediaEventExtraMetaData
+        - name: scIndexMask
+          type:
+            name: DemuxFilterScIndexMask
+      annotations:
+        - VintfStability
+    - name: DemuxFilterMmtpRecordEvent
+      fields:
+        - name: scHevcIndexMask
+          type:
+            name: int
+        - name: byteNumber
+          type:
+            name: long
+        - name: pts
+          type:
+            name: long
+        - name: mpuSequenceNumber
+          type:
+            name: int
+        - name: firstMbInSlice
+          type:
+            name: int
+        - name: tsIndexMask
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: DemuxFilterPesDataSettings
+      fields:
+        - name: streamId
+          type:
+            name: int
+        - name: isRaw
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: DemuxFilterPesEvent
+      fields:
+        - name: streamId
+          type:
+            name: int
+        - name: dataLength
+          type:
+            name: int
+        - name: mpuSequenceNumber
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: DemuxFilterRecordSettings
+      fields:
+        - name: tsIndexMask
+          type:
+            name: int
+        - name: scIndexType
+          type:
+            name: DemuxRecordScIndexType
+          default_value: DemuxRecordScIndexType.NONE
+        - name: scIndexMask
+          type:
+            name: DemuxFilterScIndexMask
+      annotations:
+        - VintfStability
+    - name: DemuxFilterSectionBits
+      fields:
+        - name: filter
+          type:
+            name: byte
+            is_array: true
+        - name: mask
+          type:
+            name: byte
+            is_array: true
+        - name: mode
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: DemuxFilterSectionEvent
+      fields:
+        - name: tableId
+          type:
+            name: int
+        - name: version
+          type:
+            name: int
+        - name: sectionNum
+          type:
+            name: int
+        - name: dataLength
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: DemuxFilterSectionSettings
+      fields:
+        - name: condition
+          type:
+            name: DemuxFilterSectionSettingsCondition
+        - name: isCheckCrc
+          type:
+            name: boolean
+        - name: isRepeat
+          type:
+            name: boolean
+        - name: isRaw
+          type:
+            name: boolean
+        - name: bitWidthOfLengthField
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: DemuxFilterSectionSettingsConditionTableInfo
+      fields:
+        - name: tableId
+          type:
+            name: int
+        - name: version
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: DemuxFilterTemiEvent
+      fields:
+        - name: pts
+          type:
+            name: long
+        - name: descrTag
+          type:
+            name: byte
+        - name: descrData
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: DemuxFilterTsRecordEvent
+      fields:
+        - name: pid
+          type:
+            name: DemuxPid
+        - name: tsIndexMask
+          type:
+            name: int
+        - name: scIndexMask
+          type:
+            name: DemuxFilterScIndexMask
+        - name: byteNumber
+          type:
+            name: long
+        - name: pts
+          type:
+            name: long
+        - name: firstMbInSlice
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: DemuxFilterType
+      fields:
+        - name: mainType
+          type:
+            name: DemuxFilterMainType
+          default_value: DemuxFilterMainType.UNDEFINED
+        - name: subType
+          type:
+            name: DemuxFilterSubType
+      annotations:
+        - VintfStability
+    - name: DemuxInfo
+      fields:
+        - name: filterTypes
+          type:
+            name: int
+          default_value: DemuxFilterMainType.UNDEFINED
+      annotations:
+        - VintfStability
+    - name: DemuxIpAddress
+      fields:
+        - name: srcIpAddress
+          type:
+            name: DemuxIpAddressIpAddress
+        - name: dstIpAddress
+          type:
+            name: DemuxIpAddressIpAddress
+        - name: srcPort
+          type:
+            name: int
+        - name: dstPort
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: DemuxIpFilterSettings
+      fields:
+        - name: ipAddr
+          type:
+            name: DemuxIpAddress
+        - name: filterSettings
+          type:
+            name: DemuxIpFilterSettingsFilterSettings
+      annotations:
+        - VintfStability
+    - name: DemuxMmtpFilterSettings
+      fields:
+        - name: mmtpPid
+          type:
+            name: int
+        - name: filterSettings
+          type:
+            name: DemuxMmtpFilterSettingsFilterSettings
+      annotations:
+        - VintfStability
+    - name: DemuxTlvFilterSettings
+      fields:
+        - name: packetType
+          type:
+            name: int
+        - name: isCompressedIpPacket
+          type:
+            name: boolean
+        - name: filterSettings
+          type:
+            name: DemuxTlvFilterSettingsFilterSettings
+      annotations:
+        - VintfStability
+    - name: DemuxTsFilterSettings
+      fields:
+        - name: tpid
+          type:
+            name: int
+        - name: filterSettings
+          type:
+            name: DemuxTsFilterSettingsFilterSettings
+      annotations:
+        - VintfStability
+    - name: FilterDelayHint
+      fields:
+        - name: hintType
+          type:
+            name: FilterDelayHintType
+          default_value: FilterDelayHintType.INVALID
+        - name: hintValue
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: FrontendAnalogCapabilities
+      fields:
+        - name: typeCap
+          type:
+            name: int
+        - name: sifStandardCap
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: FrontendAnalogSettings
+      fields:
+        - name: frequency
+          type:
+            name: long
+        - name: endFrequency
+          type:
+            name: long
+        - name: inversion
+          type:
+            name: FrontendSpectralInversion
+          default_value: FrontendSpectralInversion.UNDEFINED
+        - name: type
+          type:
+            name: FrontendAnalogType
+          default_value: FrontendAnalogType.UNDEFINED
+        - name: aftFlag
+          type:
+            name: FrontendAnalogAftFlag
+          default_value: FrontendAnalogAftFlag.UNDEFINED
+        - name: sifStandard
+          type:
+            name: FrontendAnalogSifStandard
+          default_value: FrontendAnalogSifStandard.UNDEFINED
+      annotations:
+        - VintfStability
+    - name: FrontendAtsc3Capabilities
+      fields:
+        - name: bandwidthCap
+          type:
+            name: int
+        - name: modulationCap
+          type:
+            name: int
+        - name: timeInterleaveModeCap
+          type:
+            name: int
+        - name: codeRateCap
+          type:
+            name: int
+        - name: fecCap
+          type:
+            name: int
+        - name: demodOutputFormatCap
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+    - name: FrontendAtsc3PlpSettings
+      fields:
+        - name: plpId
+          type:
+            name: int
+        - name: modulation
+          type:
+            name: FrontendAtsc3Modulation
+          default_value: FrontendAtsc3Modulation.UNDEFINED
+        - name: interleaveMode
+          type:
+            name: FrontendAtsc3TimeInterleaveMode
+          default_value: FrontendAtsc3TimeInterleaveMode.UNDEFINED
+        - name: codeRate
+          type:
+            name: FrontendAtsc3CodeRate
+          default_value: FrontendAtsc3CodeRate.UNDEFINED
+        - name: fec
+          type:
+            name: FrontendAtsc3Fec
+          default_value: FrontendAtsc3Fec.UNDEFINED
+      annotations:
+        - VintfStability
+    - name: FrontendAtsc3Settings
+      fields:
+        - name: frequency
+          type:
+            name: long
+        - name: endFrequency
+          type:
+            name: long
+        - name: bandwidth
+          type:
+            name: FrontendAtsc3Bandwidth
+          default_value: FrontendAtsc3Bandwidth.UNDEFINED
+        - name: inversion
+          type:
+            name: FrontendSpectralInversion
+          default_value: FrontendSpectralInversion.UNDEFINED
+        - name: demodOutputFormat
+          type:
+            name: FrontendAtsc3DemodOutputFormat
+          default_value: FrontendAtsc3DemodOutputFormat.UNDEFINED
+        - name: plpSettings
+          type:
+            name: FrontendAtsc3PlpSettings
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: FrontendAtscCapabilities
+      fields:
+        - name: modulationCap
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: FrontendAtscSettings
+      fields:
+        - name: frequency
+          type:
+            name: long
+        - name: endFrequency
+          type:
+            name: long
+        - name: inversion
+          type:
+            name: FrontendSpectralInversion
+          default_value: FrontendSpectralInversion.UNDEFINED
+        - name: modulation
+          type:
+            name: FrontendAtscModulation
+          default_value: FrontendAtscModulation.UNDEFINED
+      annotations:
+        - VintfStability
+    - name: FrontendDtmbCapabilities
+      fields:
+        - name: transmissionModeCap
+          type:
+            name: int
+        - name: bandwidthCap
+          type:
+            name: int
+        - name: modulationCap
+          type:
+            name: int
+        - name: codeRateCap
+          type:
+            name: int
+        - name: guardIntervalCap
+          type:
+            name: int
+        - name: interleaveModeCap
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: FrontendDtmbSettings
+      fields:
+        - name: frequency
+          type:
+            name: long
+        - name: endFrequency
+          type:
+            name: long
+        - name: inversion
+          type:
+            name: FrontendSpectralInversion
+          default_value: FrontendSpectralInversion.UNDEFINED
+        - name: transmissionMode
+          type:
+            name: FrontendDtmbTransmissionMode
+          default_value: FrontendDtmbTransmissionMode.UNDEFINED
+        - name: bandwidth
+          type:
+            name: FrontendDtmbBandwidth
+          default_value: FrontendDtmbBandwidth.UNDEFINED
+        - name: modulation
+          type:
+            name: FrontendDtmbModulation
+          default_value: FrontendDtmbModulation.UNDEFINED
+        - name: codeRate
+          type:
+            name: FrontendDtmbCodeRate
+          default_value: FrontendDtmbCodeRate.UNDEFINED
+        - name: guardInterval
+          type:
+            name: FrontendDtmbGuardInterval
+          default_value: FrontendDtmbGuardInterval.UNDEFINED
+        - name: interleaveMode
+          type:
+            name: FrontendDtmbTimeInterleaveMode
+          default_value: FrontendDtmbTimeInterleaveMode.UNDEFINED
+      annotations:
+        - VintfStability
+    - name: FrontendDvbcCapabilities
+      fields:
+        - name: modulationCap
+          type:
+            name: int
+        - name: fecCap
+          type:
+            name: long
+        - name: annexCap
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+    - name: FrontendDvbcSettings
+      fields:
+        - name: frequency
+          type:
+            name: long
+        - name: endFrequency
+          type:
+            name: long
+        - name: modulation
+          type:
+            name: FrontendDvbcModulation
+          default_value: FrontendDvbcModulation.UNDEFINED
+        - name: fec
+          type:
+            name: FrontendInnerFec
+          default_value: FrontendInnerFec.FEC_UNDEFINED
+        - name: symbolRate
+          type:
+            name: int
+        - name: outerFec
+          type:
+            name: FrontendDvbcOuterFec
+          default_value: FrontendDvbcOuterFec.UNDEFINED
+        - name: annex
+          type:
+            name: FrontendDvbcAnnex
+          default_value: FrontendDvbcAnnex.UNDEFINED
+        - name: inversion
+          type:
+            name: FrontendSpectralInversion
+          default_value: FrontendSpectralInversion.UNDEFINED
+        - name: interleaveMode
+          type:
+            name: FrontendCableTimeInterleaveMode
+          default_value: FrontendCableTimeInterleaveMode.UNDEFINED
+        - name: bandwidth
+          type:
+            name: FrontendDvbcBandwidth
+          default_value: FrontendDvbcBandwidth.UNDEFINED
+      annotations:
+        - VintfStability
+    - name: FrontendDvbsCapabilities
+      fields:
+        - name: modulationCap
+          type:
+            name: int
+        - name: innerfecCap
+          type:
+            name: long
+        - name: standard
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+    - name: FrontendDvbsCodeRate
+      fields:
+        - name: fec
+          type:
+            name: FrontendInnerFec
+          default_value: FrontendInnerFec.FEC_UNDEFINED
+        - name: isLinear
+          type:
+            name: boolean
+        - name: isShortFrames
+          type:
+            name: boolean
+        - name: bitsPer1000Symbol
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: FrontendDvbsSettings
+      fields:
+        - name: frequency
+          type:
+            name: long
+        - name: endFrequency
+          type:
+            name: long
+        - name: inversion
+          type:
+            name: FrontendSpectralInversion
+          default_value: FrontendSpectralInversion.UNDEFINED
+        - name: modulation
+          type:
+            name: FrontendDvbsModulation
+          default_value: FrontendDvbsModulation.UNDEFINED
+        - name: coderate
+          type:
+            name: FrontendDvbsCodeRate
+        - name: symbolRate
+          type:
+            name: int
+        - name: rolloff
+          type:
+            name: FrontendDvbsRolloff
+          default_value: FrontendDvbsRolloff.UNDEFINED
+        - name: pilot
+          type:
+            name: FrontendDvbsPilot
+          default_value: FrontendDvbsPilot.UNDEFINED
+        - name: inputStreamId
+          type:
+            name: int
+        - name: standard
+          type:
+            name: FrontendDvbsStandard
+          default_value: FrontendDvbsStandard.UNDEFINED
+        - name: vcmMode
+          type:
+            name: FrontendDvbsVcmMode
+          default_value: FrontendDvbsVcmMode.UNDEFINED
+        - name: scanType
+          type:
+            name: FrontendDvbsScanType
+          default_value: FrontendDvbsScanType.UNDEFINED
+        - name: isDiseqcRxMessage
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: FrontendDvbtCapabilities
+      fields:
+        - name: transmissionModeCap
+          type:
+            name: int
+        - name: bandwidthCap
+          type:
+            name: int
+        - name: constellationCap
+          type:
+            name: int
+        - name: coderateCap
+          type:
+            name: int
+        - name: hierarchyCap
+          type:
+            name: int
+        - name: guardIntervalCap
+          type:
+            name: int
+        - name: isT2Supported
+          type:
+            name: boolean
+        - name: isMisoSupported
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: FrontendDvbtSettings
+      fields:
+        - name: frequency
+          type:
+            name: long
+        - name: endFrequency
+          type:
+            name: long
+        - name: inversion
+          type:
+            name: FrontendSpectralInversion
+          default_value: FrontendSpectralInversion.UNDEFINED
+        - name: transmissionMode
+          type:
+            name: FrontendDvbtTransmissionMode
+          default_value: FrontendDvbtTransmissionMode.UNDEFINED
+        - name: bandwidth
+          type:
+            name: FrontendDvbtBandwidth
+          default_value: FrontendDvbtBandwidth.UNDEFINED
+        - name: constellation
+          type:
+            name: FrontendDvbtConstellation
+          default_value: FrontendDvbtConstellation.UNDEFINED
+        - name: hierarchy
+          type:
+            name: FrontendDvbtHierarchy
+          default_value: FrontendDvbtHierarchy.UNDEFINED
+        - name: hpCoderate
+          type:
+            name: FrontendDvbtCoderate
+          default_value: FrontendDvbtCoderate.UNDEFINED
+        - name: lpCoderate
+          type:
+            name: FrontendDvbtCoderate
+          default_value: FrontendDvbtCoderate.UNDEFINED
+        - name: guardInterval
+          type:
+            name: FrontendDvbtGuardInterval
+          default_value: FrontendDvbtGuardInterval.UNDEFINED
+        - name: isHighPriority
+          type:
+            name: boolean
+        - name: standard
+          type:
+            name: FrontendDvbtStandard
+          default_value: FrontendDvbtStandard.UNDEFINED
+        - name: isMiso
+          type:
+            name: boolean
+        - name: plpMode
+          type:
+            name: FrontendDvbtPlpMode
+          default_value: FrontendDvbtPlpMode.UNDEFINED
+        - name: plpId
+          type:
+            name: int
+        - name: plpGroupId
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: FrontendInfo
+      fields:
+        - name: type
+          type:
+            name: FrontendType
+          default_value: FrontendType.UNDEFINED
+        - name: minFrequency
+          type:
+            name: long
+        - name: maxFrequency
+          type:
+            name: long
+        - name: minSymbolRate
+          type:
+            name: int
+        - name: maxSymbolRate
+          type:
+            name: int
+        - name: acquireRange
+          type:
+            name: long
+        - name: exclusiveGroupId
+          type:
+            name: int
+        - name: statusCaps
+          type:
+            name: FrontendStatusType
+            is_array: true
+        - name: frontendCaps
+          type:
+            name: FrontendCapabilities
+      annotations:
+        - VintfStability
+    - name: FrontendIptvCapabilities
+      fields:
+        - name: protocolCap
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: FrontendIptvSettings
+      fields:
+        - name: protocol
+          type:
+            name: FrontendIptvSettingsProtocol
+          default_value: FrontendIptvSettingsProtocol.UNDEFINED
+        - name: fec
+          type:
+            name: FrontendIptvSettingsFec
+        - name: igmp
+          type:
+            name: FrontendIptvSettingsIgmp
+          default_value: FrontendIptvSettingsIgmp.UNDEFINED
+        - name: bitrate
+          type:
+            name: long
+        - name: ipAddr
+          type:
+            name: DemuxIpAddress
+        - name: contentUrl
+          type:
+            name: String
+      annotations:
+        - VintfStability
+    - name: FrontendIptvSettingsFec
+      fields:
+        - name: type
+          type:
+            name: FrontendIptvSettingsFecType
+        - name: fecColNum
+          type:
+            name: int
+        - name: fecRowNum
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: FrontendIsdbs3Capabilities
+      fields:
+        - name: modulationCap
+          type:
+            name: int
+        - name: coderateCap
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: FrontendIsdbs3Settings
+      fields:
+        - name: frequency
+          type:
+            name: long
+        - name: endFrequency
+          type:
+            name: long
+        - name: streamId
+          type:
+            name: int
+        - name: streamIdType
+          type:
+            name: FrontendIsdbsStreamIdType
+          default_value: FrontendIsdbsStreamIdType.UNDEFINED
+        - name: modulation
+          type:
+            name: FrontendIsdbs3Modulation
+          default_value: FrontendIsdbs3Modulation.UNDEFINED
+        - name: coderate
+          type:
+            name: FrontendIsdbs3Coderate
+          default_value: FrontendIsdbs3Coderate.UNDEFINED
+        - name: symbolRate
+          type:
+            name: int
+        - name: rolloff
+          type:
+            name: FrontendIsdbs3Rolloff
+          default_value: FrontendIsdbs3Rolloff.UNDEFINED
+      annotations:
+        - VintfStability
+    - name: FrontendIsdbsCapabilities
+      fields:
+        - name: modulationCap
+          type:
+            name: int
+        - name: coderateCap
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: FrontendIsdbsSettings
+      fields:
+        - name: frequency
+          type:
+            name: long
+        - name: endFrequency
+          type:
+            name: long
+        - name: streamId
+          type:
+            name: int
+        - name: streamIdType
+          type:
+            name: FrontendIsdbsStreamIdType
+          default_value: FrontendIsdbsStreamIdType.UNDEFINED
+        - name: modulation
+          type:
+            name: FrontendIsdbsModulation
+          default_value: FrontendIsdbsModulation.UNDEFINED
+        - name: coderate
+          type:
+            name: FrontendIsdbsCoderate
+          default_value: FrontendIsdbsCoderate.UNDEFINED
+        - name: symbolRate
+          type:
+            name: int
+        - name: rolloff
+          type:
+            name: FrontendIsdbsRolloff
+          default_value: FrontendIsdbsRolloff.UNDEFINED
+      annotations:
+        - VintfStability
+    - name: FrontendIsdbtCapabilities
+      fields:
+        - name: modeCap
+          type:
+            name: int
+        - name: bandwidthCap
+          type:
+            name: int
+        - name: modulationCap
+          type:
+            name: int
+        - name: coderateCap
+          type:
+            name: int
+        - name: guardIntervalCap
+          type:
+            name: int
+        - name: timeInterleaveCap
+          type:
+            name: int
+        - name: isSegmentAuto
+          type:
+            name: boolean
+        - name: isFullSegment
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: FrontendIsdbtLayerSettings
+      fields:
+        - name: modulation
+          type:
+            name: FrontendIsdbtModulation
+          default_value: FrontendIsdbtModulation.UNDEFINED
+        - name: coderate
+          type:
+            name: FrontendIsdbtCoderate
+          default_value: FrontendIsdbtCoderate.UNDEFINED
+        - name: timeInterleave
+          type:
+            name: FrontendIsdbtTimeInterleaveMode
+          default_value: FrontendIsdbtTimeInterleaveMode.UNDEFINED
+        - name: numOfSegment
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: FrontendIsdbtSettings
+      fields:
+        - name: frequency
+          type:
+            name: long
+        - name: endFrequency
+          type:
+            name: long
+        - name: inversion
+          type:
+            name: FrontendSpectralInversion
+          default_value: FrontendSpectralInversion.UNDEFINED
+        - name: bandwidth
+          type:
+            name: FrontendIsdbtBandwidth
+          default_value: FrontendIsdbtBandwidth.UNDEFINED
+        - name: mode
+          type:
+            name: FrontendIsdbtMode
+          default_value: FrontendIsdbtMode.UNDEFINED
+        - name: guardInterval
+          type:
+            name: FrontendIsdbtGuardInterval
+          default_value: FrontendIsdbtGuardInterval.UNDEFINED
+        - name: serviceAreaId
+          type:
+            name: int
+        - name: partialReceptionFlag
+          type:
+            name: FrontendIsdbtPartialReceptionFlag
+          default_value: FrontendIsdbtPartialReceptionFlag.UNDEFINED
+        - name: layerSettings
+          type:
+            name: FrontendIsdbtLayerSettings
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: FrontendScanAtsc3PlpInfo
+      fields:
+        - name: plpId
+          type:
+            name: int
+        - name: bLlsFlag
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: FrontendStatusAtsc3PlpInfo
+      fields:
+        - name: plpId
+          type:
+            name: int
+        - name: isLocked
+          type:
+            name: boolean
+        - name: uec
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: PlaybackSettings
+      fields:
+        - name: statusMask
+          type:
+            name: int
+        - name: lowThreshold
+          type:
+            name: long
+        - name: highThreshold
+          type:
+            name: long
+        - name: dataFormat
+          type:
+            name: DataFormat
+          default_value: DataFormat.UNDEFINED
+        - name: packetSize
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: RecordSettings
+      fields:
+        - name: statusMask
+          type:
+            name: int
+        - name: lowThreshold
+          type:
+            name: long
+        - name: highThreshold
+          type:
+            name: long
+        - name: dataFormat
+          type:
+            name: DataFormat
+          default_value: DataFormat.UNDEFINED
+        - name: packetSize
+          type:
+            name: long
+      annotations:
+        - VintfStability
+enums:
+    - name: AudioPreselectionRenderingIndicationType
+      backing_type: int
+      values:
+        - name: NOT_INDICATED
+          value: ""
+        - name: STEREO
+          value: ""
+        - name: TWO_DIMENSIONAL
+          value: ""
+        - name: THREE_DIMENSIONAL
+          value: ""
+        - name: HEADPHONE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AudioStreamType
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: PCM
+          value: ""
+        - name: MP3
+          value: ""
+        - name: MPEG1
+          value: ""
+        - name: MPEG2
+          value: ""
+        - name: MPEGH
+          value: ""
+        - name: AAC
+          value: ""
+        - name: AC3
+          value: ""
+        - name: EAC3
+          value: ""
+        - name: AC4
+          value: ""
+        - name: DTS
+          value: ""
+        - name: DTS_HD
+          value: ""
+        - name: WMA
+          value: ""
+        - name: OPUS
+          value: ""
+        - name: VORBIS
+          value: ""
+        - name: DRA
+          value: ""
+        - name: AAC_ADTS
+          value: ""
+        - name: AAC_LATM
+          value: ""
+        - name: AAC_HE_ADTS
+          value: ""
+        - name: AAC_HE_LATM
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Constant
+      backing_type: int
+      values:
+        - name: INVALID_TS_PID
+          value: "0xFFFF"
+        - name: INVALID_STREAM_ID
+          value: "0xFFFF"
+        - name: INVALID_FILTER_ID
+          value: "0xFFFFFFFF"
+        - name: INVALID_AV_SYNC_ID
+          value: "0xFFFFFFFF"
+        - name: INVALID_MMTP_RECORD_EVENT_MPT_SEQUENCE_NUM
+          value: "0xFFFFFFFF"
+        - name: INVALID_FIRST_MACROBLOCK_IN_SLICE
+          value: "0xFFFFFFFF"
+        - name: INVALID_FRONTEND_SETTING_FREQUENCY
+          value: "0xFFFFFFFF"
+        - name: INVALID_IP_FILTER_CONTEXT_ID
+          value: "0xFFFFFFFF"
+        - name: INVALID_LTS_ID
+          value: "0xFFFFFFFF"
+        - name: INVALID_FRONTEND_ID
+          value: "0xFFFFFFFF"
+        - name: INVALID_LNB_ID
+          value: "0xFFFFFFFF"
+        - name: INVALID_KEYTOKEN
+          value: "0x00"
+        - name: INVALID_TABINFO_VERSION
+          value: "0xFFFFFFFF"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Constant64Bit
+      backing_type: long
+      values:
+        - name: INVALID_FILTER_ID_64BIT
+          value: "0xFFFFFFFFFFFFFFFF"
+        - name: INVALID_AV_SYNC_ID_64BIT
+          value: "0xFFFFFFFFFFFFFFFF"
+        - name: INVALID_PRESENTATION_TIME_STAMP
+          value: "0xFFFFFFFFFFFFFFFF"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DataFormat
+      backing_type: int
+      values:
+        - name: TS
+          value: ""
+        - name: PES
+          value: ""
+        - name: ES
+          value: ""
+        - name: SHV_TLV
+          value: ""
+        - name: UNDEFINED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemuxAlpFilterType
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: SECTION
+          value: ""
+        - name: PTP
+          value: ""
+        - name: PAYLOAD_THROUGH
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemuxAlpLengthType
+      backing_type: byte
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: WITHOUT_ADDITIONAL_HEADER
+          value: ""
+        - name: WITH_ADDITIONAL_HEADER
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemuxFilterMainType
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: TS
+          value: 1 << 0
+        - name: MMTP
+          value: 1 << 1
+        - name: IP
+          value: 1 << 2
+        - name: TLV
+          value: 1 << 3
+        - name: ALP
+          value: 1 << 4
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemuxFilterMonitorEventType
+      backing_type: int
+      values:
+        - name: SCRAMBLING_STATUS
+          value: 1 << 0
+        - name: IP_CID_CHANGE
+          value: 1 << 1
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemuxFilterStatus
+      backing_type: byte
+      values:
+        - name: DATA_READY
+          value: 1 << 0
+        - name: LOW_WATER
+          value: 1 << 1
+        - name: HIGH_WATER
+          value: 1 << 2
+        - name: OVERFLOW
+          value: 1 << 3
+        - name: NO_DATA
+          value: 1 << 4
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemuxIpFilterType
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: SECTION
+          value: ""
+        - name: NTP
+          value: ""
+        - name: IP_PAYLOAD
+          value: ""
+        - name: IP
+          value: ""
+        - name: PAYLOAD_THROUGH
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemuxMmtpFilterType
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: SECTION
+          value: ""
+        - name: PES
+          value: ""
+        - name: MMTP
+          value: ""
+        - name: AUDIO
+          value: ""
+        - name: VIDEO
+          value: ""
+        - name: RECORD
+          value: ""
+        - name: DOWNLOAD
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemuxQueueNotifyBits
+      backing_type: int
+      values:
+        - name: DATA_READY
+          value: 1 << 0
+        - name: DATA_CONSUMED
+          value: 1 << 1
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemuxRecordScIndexType
+      backing_type: int
+      values:
+        - name: NONE
+          value: ""
+        - name: SC
+          value: ""
+        - name: SC_HEVC
+          value: ""
+        - name: SC_AVC
+          value: ""
+        - name: SC_VVC
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemuxScAvcIndex
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: I_SLICE
+          value: 1 << 0
+        - name: P_SLICE
+          value: 1 << 1
+        - name: B_SLICE
+          value: 1 << 2
+        - name: SI_SLICE
+          value: 1 << 3
+        - name: SP_SLICE
+          value: 1 << 4
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemuxScHevcIndex
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: SPS
+          value: 1 << 0
+        - name: AUD
+          value: 1 << 1
+        - name: SLICE_CE_BLA_W_LP
+          value: 1 << 2
+        - name: SLICE_BLA_W_RADL
+          value: 1 << 3
+        - name: SLICE_BLA_N_LP
+          value: 1 << 4
+        - name: SLICE_IDR_W_RADL
+          value: 1 << 5
+        - name: SLICE_IDR_N_LP
+          value: 1 << 6
+        - name: SLICE_TRAIL_CRA
+          value: 1 << 7
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemuxScIndex
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: I_FRAME
+          value: 1 << 0
+        - name: P_FRAME
+          value: 1 << 1
+        - name: B_FRAME
+          value: 1 << 2
+        - name: SEQUENCE
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemuxScVvcIndex
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: SLICE_IDR_W_RADL
+          value: 1 << 0
+        - name: SLICE_IDR_N_LP
+          value: 1 << 1
+        - name: SLICE_CRA
+          value: 1 << 2
+        - name: SLICE_GDR
+          value: 1 << 3
+        - name: VPS
+          value: 1 << 4
+        - name: SPS
+          value: 1 << 5
+        - name: AUD
+          value: 1 << 6
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemuxTlvFilterType
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: SECTION
+          value: ""
+        - name: TLV
+          value: ""
+        - name: PAYLOAD_THROUGH
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemuxTsFilterType
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: SECTION
+          value: ""
+        - name: PES
+          value: ""
+        - name: TS
+          value: ""
+        - name: AUDIO
+          value: ""
+        - name: VIDEO
+          value: ""
+        - name: PCR
+          value: ""
+        - name: RECORD
+          value: ""
+        - name: TEMI
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DemuxTsIndex
+      backing_type: int
+      values:
+        - name: FIRST_PACKET
+          value: 1 << 0
+        - name: PAYLOAD_UNIT_START_INDICATOR
+          value: 1 << 1
+        - name: CHANGE_TO_NOT_SCRAMBLED
+          value: 1 << 2
+        - name: CHANGE_TO_EVEN_SCRAMBLED
+          value: 1 << 3
+        - name: CHANGE_TO_ODD_SCRAMBLED
+          value: 1 << 4
+        - name: DISCONTINUITY_INDICATOR
+          value: 1 << 5
+        - name: RANDOM_ACCESS_INDICATOR
+          value: 1 << 6
+        - name: PRIORITY_INDICATOR
+          value: 1 << 7
+        - name: PCR_FLAG
+          value: 1 << 8
+        - name: OPCR_FLAG
+          value: 1 << 9
+        - name: SPLICING_POINT_FLAG
+          value: 1 << 10
+        - name: PRIVATE_DATA
+          value: 1 << 11
+        - name: ADAPTATION_EXTENSION_FLAG
+          value: 1 << 12
+        - name: MPT_INDEX_MPT
+          value: 1 << 16
+        - name: MPT_INDEX_VIDEO
+          value: 1 << 17
+        - name: MPT_INDEX_AUDIO
+          value: 1 << 18
+        - name: MPT_INDEX_TIMESTAMP_TARGET_VIDEO
+          value: 1 << 19
+        - name: MPT_INDEX_TIMESTAMP_TARGET_AUDIO
+          value: 1 << 20
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DvrType
+      backing_type: byte
+      values:
+        - name: RECORD
+          value: ""
+        - name: PLAYBACK
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FilterDelayHintType
+      backing_type: int
+      values:
+        - name: INVALID
+          value: ""
+        - name: TIME_DELAY_IN_MS
+          value: ""
+        - name: DATA_SIZE_DELAY_IN_BYTES
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendAnalogAftFlag
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: AFT_TRUE
+          value: ""
+        - name: AFT_FALSE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendAnalogSifStandard
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: BG
+          value: 1 << 1
+        - name: BG_A2
+          value: 1 << 2
+        - name: BG_NICAM
+          value: 1 << 3
+        - name: I
+          value: 1 << 4
+        - name: DK
+          value: 1 << 5
+        - name: DK1_A2
+          value: 1 << 6
+        - name: DK2_A2
+          value: 1 << 7
+        - name: DK3_A2
+          value: 1 << 8
+        - name: DK_NICAM
+          value: 1 << 9
+        - name: L
+          value: 1 << 10
+        - name: M
+          value: 1 << 11
+        - name: M_BTSC
+          value: 1 << 12
+        - name: M_A2
+          value: 1 << 13
+        - name: M_EIAJ
+          value: 1 << 14
+        - name: I_NICAM
+          value: 1 << 15
+        - name: L_NICAM
+          value: 1 << 16
+        - name: L_PRIME
+          value: 1 << 17
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendAnalogType
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: PAL
+          value: 1 << 1
+        - name: PAL_M
+          value: 1 << 2
+        - name: PAL_N
+          value: 1 << 3
+        - name: PAL_60
+          value: 1 << 4
+        - name: NTSC
+          value: 1 << 5
+        - name: NTSC_443
+          value: 1 << 6
+        - name: SECAM
+          value: 1 << 7
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendAtsc3Bandwidth
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: BANDWIDTH_6MHZ
+          value: 1 << 1
+        - name: BANDWIDTH_7MHZ
+          value: 1 << 2
+        - name: BANDWIDTH_8MHZ
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendAtsc3CodeRate
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: CODERATE_2_15
+          value: 1 << 1
+        - name: CODERATE_3_15
+          value: 1 << 2
+        - name: CODERATE_4_15
+          value: 1 << 3
+        - name: CODERATE_5_15
+          value: 1 << 4
+        - name: CODERATE_6_15
+          value: 1 << 5
+        - name: CODERATE_7_15
+          value: 1 << 6
+        - name: CODERATE_8_15
+          value: 1 << 7
+        - name: CODERATE_9_15
+          value: 1 << 8
+        - name: CODERATE_10_15
+          value: 1 << 9
+        - name: CODERATE_11_15
+          value: 1 << 10
+        - name: CODERATE_12_15
+          value: 1 << 11
+        - name: CODERATE_13_15
+          value: 1 << 12
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendAtsc3DemodOutputFormat
+      backing_type: byte
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: ATSC3_LINKLAYER_PACKET
+          value: 1 << 0
+        - name: BASEBAND_PACKET
+          value: 1 << 1
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendAtsc3Fec
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: BCH_LDPC_16K
+          value: 1 << 1
+        - name: BCH_LDPC_64K
+          value: 1 << 2
+        - name: CRC_LDPC_16K
+          value: 1 << 3
+        - name: CRC_LDPC_64K
+          value: 1 << 4
+        - name: LDPC_16K
+          value: 1 << 5
+        - name: LDPC_64K
+          value: 1 << 6
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendAtsc3Modulation
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: MOD_QPSK
+          value: 1 << 1
+        - name: MOD_16QAM
+          value: 1 << 2
+        - name: MOD_64QAM
+          value: 1 << 3
+        - name: MOD_256QAM
+          value: 1 << 4
+        - name: MOD_1024QAM
+          value: 1 << 5
+        - name: MOD_4096QAM
+          value: 1 << 6
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendAtsc3TimeInterleaveMode
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: CTI
+          value: 1 << 1
+        - name: HTI
+          value: 1 << 2
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendAtscModulation
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: MOD_8VSB
+          value: 1 << 2
+        - name: MOD_16VSB
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendCableTimeInterleaveMode
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: INTERLEAVING_128_1_0
+          value: 1 << 1
+        - name: INTERLEAVING_128_1_1
+          value: 1 << 2
+        - name: INTERLEAVING_64_2
+          value: 1 << 3
+        - name: INTERLEAVING_32_4
+          value: 1 << 4
+        - name: INTERLEAVING_16_8
+          value: 1 << 5
+        - name: INTERLEAVING_8_16
+          value: 1 << 6
+        - name: INTERLEAVING_128_2
+          value: 1 << 7
+        - name: INTERLEAVING_128_3
+          value: 1 << 8
+        - name: INTERLEAVING_128_4
+          value: 1 << 9
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDtmbBandwidth
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: BANDWIDTH_8MHZ
+          value: 1 << 1
+        - name: BANDWIDTH_6MHZ
+          value: 1 << 2
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDtmbCodeRate
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: CODERATE_2_5
+          value: 1 << 1
+        - name: CODERATE_3_5
+          value: 1 << 2
+        - name: CODERATE_4_5
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDtmbGuardInterval
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: PN_420_VARIOUS
+          value: 1 << 1
+        - name: PN_595_CONST
+          value: 1 << 2
+        - name: PN_945_VARIOUS
+          value: 1 << 3
+        - name: PN_420_CONST
+          value: 1 << 4
+        - name: PN_945_CONST
+          value: 1 << 5
+        - name: PN_RESERVED
+          value: 1 << 6
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDtmbModulation
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: CONSTELLATION_4QAM
+          value: 1 << 1
+        - name: CONSTELLATION_4QAM_NR
+          value: 1 << 2
+        - name: CONSTELLATION_16QAM
+          value: 1 << 3
+        - name: CONSTELLATION_32QAM
+          value: 1 << 4
+        - name: CONSTELLATION_64QAM
+          value: 1 << 5
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDtmbTimeInterleaveMode
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: TIMER_INT_240
+          value: 1 << 1
+        - name: TIMER_INT_720
+          value: 1 << 2
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDtmbTransmissionMode
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: C1
+          value: 1 << 1
+        - name: C3780
+          value: 1 << 2
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbcAnnex
+      backing_type: byte
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: A
+          value: 1 << 0
+        - name: B
+          value: 1 << 1
+        - name: C
+          value: 1 << 2
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbcBandwidth
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: BANDWIDTH_5MHZ
+          value: 1 << 0
+        - name: BANDWIDTH_6MHZ
+          value: 1 << 1
+        - name: BANDWIDTH_7MHZ
+          value: 1 << 2
+        - name: BANDWIDTH_8MHZ
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbcModulation
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: MOD_16QAM
+          value: 1 << 1
+        - name: MOD_32QAM
+          value: 1 << 2
+        - name: MOD_64QAM
+          value: 1 << 3
+        - name: MOD_128QAM
+          value: 1 << 4
+        - name: MOD_256QAM
+          value: 1 << 5
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbcOuterFec
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: OUTER_FEC_NONE
+          value: ""
+        - name: OUTER_FEC_RS
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbsModulation
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: MOD_QPSK
+          value: 1 << 1
+        - name: MOD_8PSK
+          value: 1 << 2
+        - name: MOD_16QAM
+          value: 1 << 3
+        - name: MOD_16PSK
+          value: 1 << 4
+        - name: MOD_32PSK
+          value: 1 << 5
+        - name: MOD_ACM
+          value: 1 << 6
+        - name: MOD_8APSK
+          value: 1 << 7
+        - name: MOD_16APSK
+          value: 1 << 8
+        - name: MOD_32APSK
+          value: 1 << 9
+        - name: MOD_64APSK
+          value: 1 << 10
+        - name: MOD_128APSK
+          value: 1 << 11
+        - name: MOD_256APSK
+          value: 1 << 12
+        - name: MOD_RESERVED
+          value: 1 << 13
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbsPilot
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: "ON"
+          value: ""
+        - name: "OFF"
+          value: ""
+        - name: AUTO
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbsRolloff
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: ROLLOFF_0_35
+          value: ""
+        - name: ROLLOFF_0_25
+          value: ""
+        - name: ROLLOFF_0_20
+          value: ""
+        - name: ROLLOFF_0_15
+          value: ""
+        - name: ROLLOFF_0_10
+          value: ""
+        - name: ROLLOFF_0_5
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbsScanType
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: DIRECT
+          value: ""
+        - name: DISEQC
+          value: ""
+        - name: UNICABLE
+          value: ""
+        - name: JESS
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbsStandard
+      backing_type: byte
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: S
+          value: 1 << 1
+        - name: S2
+          value: 1 << 2
+        - name: S2X
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbsVcmMode
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: AUTO
+          value: ""
+        - name: MANUAL
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbtBandwidth
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: BANDWIDTH_8MHZ
+          value: 1 << 1
+        - name: BANDWIDTH_7MHZ
+          value: 1 << 2
+        - name: BANDWIDTH_6MHZ
+          value: 1 << 3
+        - name: BANDWIDTH_5MHZ
+          value: 1 << 4
+        - name: BANDWIDTH_1_7MHZ
+          value: 1 << 5
+        - name: BANDWIDTH_10MHZ
+          value: 1 << 6
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbtCoderate
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: CODERATE_1_2
+          value: 1 << 1
+        - name: CODERATE_2_3
+          value: 1 << 2
+        - name: CODERATE_3_4
+          value: 1 << 3
+        - name: CODERATE_5_6
+          value: 1 << 4
+        - name: CODERATE_7_8
+          value: 1 << 5
+        - name: CODERATE_3_5
+          value: 1 << 6
+        - name: CODERATE_4_5
+          value: 1 << 7
+        - name: CODERATE_6_7
+          value: 1 << 8
+        - name: CODERATE_8_9
+          value: 1 << 9
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbtConstellation
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: CONSTELLATION_QPSK
+          value: 1 << 1
+        - name: CONSTELLATION_16QAM
+          value: 1 << 2
+        - name: CONSTELLATION_64QAM
+          value: 1 << 3
+        - name: CONSTELLATION_256QAM
+          value: 1 << 4
+        - name: CONSTELLATION_QPSK_R
+          value: 1 << 5
+        - name: CONSTELLATION_16QAM_R
+          value: 1 << 6
+        - name: CONSTELLATION_64QAM_R
+          value: 1 << 7
+        - name: CONSTELLATION_256QAM_R
+          value: 1 << 8
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbtGuardInterval
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: INTERVAL_1_32
+          value: 1 << 1
+        - name: INTERVAL_1_16
+          value: 1 << 2
+        - name: INTERVAL_1_8
+          value: 1 << 3
+        - name: INTERVAL_1_4
+          value: 1 << 4
+        - name: INTERVAL_1_128
+          value: 1 << 5
+        - name: INTERVAL_19_128
+          value: 1 << 6
+        - name: INTERVAL_19_256
+          value: 1 << 7
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbtHierarchy
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: HIERARCHY_NON_NATIVE
+          value: 1 << 1
+        - name: HIERARCHY_1_NATIVE
+          value: 1 << 2
+        - name: HIERARCHY_2_NATIVE
+          value: 1 << 3
+        - name: HIERARCHY_4_NATIVE
+          value: 1 << 4
+        - name: HIERARCHY_NON_INDEPTH
+          value: 1 << 5
+        - name: HIERARCHY_1_INDEPTH
+          value: 1 << 6
+        - name: HIERARCHY_2_INDEPTH
+          value: 1 << 7
+        - name: HIERARCHY_4_INDEPTH
+          value: 1 << 8
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbtPlpMode
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: AUTO
+          value: ""
+        - name: MANUAL
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbtStandard
+      backing_type: byte
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: T
+          value: 1 << 1
+        - name: T2
+          value: 1 << 2
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendDvbtTransmissionMode
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: MODE_2K
+          value: 1 << 1
+        - name: MODE_8K
+          value: 1 << 2
+        - name: MODE_4K
+          value: 1 << 3
+        - name: MODE_1K
+          value: 1 << 4
+        - name: MODE_16K
+          value: 1 << 5
+        - name: MODE_32K
+          value: 1 << 6
+        - name: MODE_8K_E
+          value: 1 << 7
+        - name: MODE_16K_E
+          value: 1 << 8
+        - name: MODE_32K_E
+          value: 1 << 9
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendEventType
+      backing_type: int
+      values:
+        - name: LOCKED
+          value: ""
+        - name: NO_SIGNAL
+          value: ""
+        - name: LOST_LOCK
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendInnerFec
+      backing_type: long
+      values:
+        - name: FEC_UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1L << 0
+        - name: FEC_1_2
+          value: 1L << 1
+        - name: FEC_1_3
+          value: 1L << 2
+        - name: FEC_1_4
+          value: 1L << 3
+        - name: FEC_1_5
+          value: 1L << 4
+        - name: FEC_2_3
+          value: 1L << 5
+        - name: FEC_2_5
+          value: 1L << 6
+        - name: FEC_2_9
+          value: 1L << 7
+        - name: FEC_3_4
+          value: 1L << 8
+        - name: FEC_3_5
+          value: 1L << 9
+        - name: FEC_4_5
+          value: 1L << 10
+        - name: FEC_4_15
+          value: 1L << 11
+        - name: FEC_5_6
+          value: 1L << 12
+        - name: FEC_5_9
+          value: 1L << 13
+        - name: FEC_6_7
+          value: 1L << 14
+        - name: FEC_7_8
+          value: 1L << 15
+        - name: FEC_7_9
+          value: 1L << 16
+        - name: FEC_7_15
+          value: 1L << 17
+        - name: FEC_8_9
+          value: 1L << 18
+        - name: FEC_8_15
+          value: 1L << 19
+        - name: FEC_9_10
+          value: 1L << 20
+        - name: FEC_9_20
+          value: 1L << 21
+        - name: FEC_11_15
+          value: 1L << 22
+        - name: FEC_11_20
+          value: 1L << 23
+        - name: FEC_11_45
+          value: 1L << 24
+        - name: FEC_13_18
+          value: 1L << 25
+        - name: FEC_13_45
+          value: 1L << 26
+        - name: FEC_14_45
+          value: 1L << 27
+        - name: FEC_23_36
+          value: 1L << 28
+        - name: FEC_25_36
+          value: 1L << 29
+        - name: FEC_26_45
+          value: 1L << 30
+        - name: FEC_28_45
+          value: 1L << 31
+        - name: FEC_29_45
+          value: 1L << 32
+        - name: FEC_31_45
+          value: 1L << 33
+        - name: FEC_32_45
+          value: 1L << 34
+        - name: FEC_77_90
+          value: 1L << 35
+        - name: FEC_2_15
+          value: 1L << 36
+        - name: FEC_3_15
+          value: 1L << 37
+        - name: FEC_5_15
+          value: 1L << 38
+        - name: FEC_6_15
+          value: 1L << 39
+        - name: FEC_9_15
+          value: 1L << 40
+        - name: FEC_10_15
+          value: 1L << 41
+        - name: FEC_12_15
+          value: 1L << 42
+        - name: FEC_13_15
+          value: 1L << 43
+        - name: FEC_18_30
+          value: 1L << 44
+        - name: FEC_20_30
+          value: 1L << 45
+        - name: FEC_90_180
+          value: 1L << 46
+        - name: FEC_96_180
+          value: 1L << 47
+        - name: FEC_104_180
+          value: 1L << 48
+        - name: FEC_128_180
+          value: 1L << 49
+        - name: FEC_132_180
+          value: 1L << 50
+        - name: FEC_135_180
+          value: 1L << 51
+        - name: FEC_140_180
+          value: 1L << 52
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIptvSettingsFecType
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: COLUMN
+          value: 1 << 0
+        - name: ROW
+          value: 1 << 1
+        - name: COLUMN_ROW
+          value: 1 << 2
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIptvSettingsIgmp
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: V1
+          value: 1 << 0
+        - name: V2
+          value: 1 << 1
+        - name: V3
+          value: 1 << 2
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIptvSettingsProtocol
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: UDP
+          value: 1 << 0
+        - name: RTP
+          value: 1 << 1
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIsdbs3Coderate
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: CODERATE_1_3
+          value: 1 << 1
+        - name: CODERATE_2_5
+          value: 1 << 2
+        - name: CODERATE_1_2
+          value: 1 << 3
+        - name: CODERATE_3_5
+          value: 1 << 4
+        - name: CODERATE_2_3
+          value: 1 << 5
+        - name: CODERATE_3_4
+          value: 1 << 6
+        - name: CODERATE_7_9
+          value: 1 << 7
+        - name: CODERATE_4_5
+          value: 1 << 8
+        - name: CODERATE_5_6
+          value: 1 << 9
+        - name: CODERATE_7_8
+          value: 1 << 10
+        - name: CODERATE_9_10
+          value: 1 << 11
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIsdbs3Modulation
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: MOD_BPSK
+          value: 1 << 1
+        - name: MOD_QPSK
+          value: 1 << 2
+        - name: MOD_8PSK
+          value: 1 << 3
+        - name: MOD_16APSK
+          value: 1 << 4
+        - name: MOD_32APSK
+          value: 1 << 5
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIsdbs3Rolloff
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: ROLLOFF_0_03
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIsdbsCoderate
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: CODERATE_1_2
+          value: 1 << 1
+        - name: CODERATE_2_3
+          value: 1 << 2
+        - name: CODERATE_3_4
+          value: 1 << 3
+        - name: CODERATE_5_6
+          value: 1 << 4
+        - name: CODERATE_7_8
+          value: 1 << 5
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIsdbsModulation
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: MOD_BPSK
+          value: 1 << 1
+        - name: MOD_QPSK
+          value: 1 << 2
+        - name: MOD_TC8PSK
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIsdbsRolloff
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: ROLLOFF_0_35
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIsdbsStreamIdType
+      backing_type: int
+      values:
+        - name: STREAM_ID
+          value: ""
+        - name: RELATIVE_STREAM_NUMBER
+          value: ""
+        - name: UNDEFINED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIsdbtBandwidth
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: BANDWIDTH_8MHZ
+          value: 1 << 1
+        - name: BANDWIDTH_7MHZ
+          value: 1 << 2
+        - name: BANDWIDTH_6MHZ
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIsdbtCoderate
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: CODERATE_1_2
+          value: 1 << 1
+        - name: CODERATE_2_3
+          value: 1 << 2
+        - name: CODERATE_3_4
+          value: 1 << 3
+        - name: CODERATE_5_6
+          value: 1 << 4
+        - name: CODERATE_7_8
+          value: 1 << 5
+        - name: CODERATE_3_5
+          value: 1 << 6
+        - name: CODERATE_4_5
+          value: 1 << 7
+        - name: CODERATE_6_7
+          value: 1 << 8
+        - name: CODERATE_8_9
+          value: 1 << 9
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIsdbtGuardInterval
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: INTERVAL_1_32
+          value: 1 << 1
+        - name: INTERVAL_1_16
+          value: 1 << 2
+        - name: INTERVAL_1_8
+          value: 1 << 3
+        - name: INTERVAL_1_4
+          value: 1 << 4
+        - name: INTERVAL_1_128
+          value: 1 << 5
+        - name: INTERVAL_19_128
+          value: 1 << 6
+        - name: INTERVAL_19_256
+          value: 1 << 7
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIsdbtMode
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: MODE_1
+          value: 1 << 1
+        - name: MODE_2
+          value: 1 << 2
+        - name: MODE_3
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIsdbtModulation
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: MOD_DQPSK
+          value: 1 << 1
+        - name: MOD_QPSK
+          value: 1 << 2
+        - name: MOD_16QAM
+          value: 1 << 3
+        - name: MOD_64QAM
+          value: 1 << 4
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIsdbtPartialReceptionFlag
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: "FALSE"
+          value: 1 << 1
+        - name: "TRUE"
+          value: 1 << 2
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendIsdbtTimeInterleaveMode
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: AUTO
+          value: 1 << 0
+        - name: INTERLEAVE_1_0
+          value: 1 << 1
+        - name: INTERLEAVE_1_4
+          value: 1 << 2
+        - name: INTERLEAVE_1_8
+          value: 1 << 3
+        - name: INTERLEAVE_1_16
+          value: 1 << 4
+        - name: INTERLEAVE_2_0
+          value: 1 << 5
+        - name: INTERLEAVE_2_2
+          value: 1 << 6
+        - name: INTERLEAVE_2_4
+          value: 1 << 7
+        - name: INTERLEAVE_2_8
+          value: 1 << 8
+        - name: INTERLEAVE_3_0
+          value: 1 << 9
+        - name: INTERLEAVE_3_1
+          value: 1 << 10
+        - name: INTERLEAVE_3_2
+          value: 1 << 11
+        - name: INTERLEAVE_3_4
+          value: 1 << 12
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendScanMessageType
+      backing_type: int
+      values:
+        - name: LOCKED
+          value: ""
+        - name: END
+          value: ""
+        - name: PROGRESS_PERCENT
+          value: ""
+        - name: FREQUENCY
+          value: ""
+        - name: SYMBOL_RATE
+          value: ""
+        - name: HIERARCHY
+          value: ""
+        - name: ANALOG_TYPE
+          value: ""
+        - name: PLP_IDS
+          value: ""
+        - name: GROUP_IDS
+          value: ""
+        - name: INPUT_STREAM_IDS
+          value: ""
+        - name: STANDARD
+          value: ""
+        - name: ATSC3_PLP_INFO
+          value: ""
+        - name: MODULATION
+          value: ""
+        - name: DVBC_ANNEX
+          value: ""
+        - name: HIGH_PRIORITY
+          value: ""
+        - name: DVBT_CELL_IDS
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendScanType
+      backing_type: int
+      values:
+        - name: SCAN_UNDEFINED
+          value: "0"
+        - name: SCAN_AUTO
+          value: 1 << 0
+        - name: SCAN_BLIND
+          value: 1 << 1
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendSpectralInversion
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: NORMAL
+          value: ""
+        - name: INVERTED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendStatusReadiness
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: UNAVAILABLE
+          value: ""
+        - name: UNSTABLE
+          value: ""
+        - name: STABLE
+          value: ""
+        - name: UNSUPPORTED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendStatusType
+      backing_type: int
+      values:
+        - name: DEMOD_LOCK
+          value: ""
+        - name: SNR
+          value: ""
+        - name: BER
+          value: ""
+        - name: PER
+          value: ""
+        - name: PRE_BER
+          value: ""
+        - name: SIGNAL_QUALITY
+          value: ""
+        - name: SIGNAL_STRENGTH
+          value: ""
+        - name: SYMBOL_RATE
+          value: ""
+        - name: FEC
+          value: ""
+        - name: MODULATION
+          value: ""
+        - name: SPECTRAL
+          value: ""
+        - name: LNB_VOLTAGE
+          value: ""
+        - name: PLP_ID
+          value: ""
+        - name: EWBS
+          value: ""
+        - name: AGC
+          value: ""
+        - name: LNA
+          value: ""
+        - name: LAYER_ERROR
+          value: ""
+        - name: MER
+          value: ""
+        - name: FREQ_OFFSET
+          value: ""
+        - name: HIERARCHY
+          value: ""
+        - name: RF_LOCK
+          value: ""
+        - name: ATSC3_PLP_INFO
+          value: ""
+        - name: MODULATIONS
+          value: ""
+        - name: BERS
+          value: ""
+        - name: CODERATES
+          value: ""
+        - name: BANDWIDTH
+          value: ""
+        - name: GUARD_INTERVAL
+          value: ""
+        - name: TRANSMISSION_MODE
+          value: ""
+        - name: UEC
+          value: ""
+        - name: T2_SYSTEM_ID
+          value: ""
+        - name: INTERLEAVINGS
+          value: ""
+        - name: ISDBT_SEGMENTS
+          value: ""
+        - name: TS_DATA_RATES
+          value: ""
+        - name: ROLL_OFF
+          value: ""
+        - name: IS_MISO
+          value: ""
+        - name: IS_LINEAR
+          value: ""
+        - name: IS_SHORT_FRAMES
+          value: ""
+        - name: ISDBT_MODE
+          value: ""
+        - name: ISDBT_PARTIAL_RECEPTION_FLAG
+          value: ""
+        - name: STREAM_ID_LIST
+          value: ""
+        - name: DVBT_CELL_IDS
+          value: ""
+        - name: ATSC3_ALL_PLP_INFO
+          value: ""
+        - name: IPTV_CONTENT_URL
+          value: ""
+        - name: IPTV_PACKETS_LOST
+          value: ""
+        - name: IPTV_PACKETS_RECEIVED
+          value: ""
+        - name: IPTV_WORST_JITTER_MS
+          value: ""
+        - name: IPTV_AVERAGE_JITTER_MS
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FrontendType
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: ANALOG
+          value: ""
+        - name: ATSC
+          value: ""
+        - name: ATSC3
+          value: ""
+        - name: DVBC
+          value: ""
+        - name: DVBS
+          value: ""
+        - name: DVBT
+          value: ""
+        - name: ISDBS
+          value: ""
+        - name: ISDBS3
+          value: ""
+        - name: ISDBT
+          value: ""
+        - name: DTMB
+          value: ""
+        - name: IPTV
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LnbEventType
+      backing_type: int
+      values:
+        - name: DISEQC_RX_OVERFLOW
+          value: ""
+        - name: DISEQC_RX_TIMEOUT
+          value: ""
+        - name: DISEQC_RX_PARITY_ERROR
+          value: ""
+        - name: LNB_OVERLOAD
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LnbPosition
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: POSITION_A
+          value: ""
+        - name: POSITION_B
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LnbTone
+      backing_type: int
+      values:
+        - name: NONE
+          value: ""
+        - name: CONTINUOUS
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LnbVoltage
+      backing_type: int
+      values:
+        - name: NONE
+          value: ""
+        - name: VOLTAGE_5V
+          value: ""
+        - name: VOLTAGE_11V
+          value: ""
+        - name: VOLTAGE_12V
+          value: ""
+        - name: VOLTAGE_13V
+          value: ""
+        - name: VOLTAGE_14V
+          value: ""
+        - name: VOLTAGE_15V
+          value: ""
+        - name: VOLTAGE_18V
+          value: ""
+        - name: VOLTAGE_19V
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PlaybackStatus
+      backing_type: int
+      values:
+        - name: SPACE_EMPTY
+          value: 1 << 0
+        - name: SPACE_ALMOST_EMPTY
+          value: 1 << 1
+        - name: SPACE_ALMOST_FULL
+          value: 1 << 2
+        - name: SPACE_FULL
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RecordStatus
+      backing_type: byte
+      values:
+        - name: DATA_READY
+          value: 1 << 0
+        - name: LOW_WATER
+          value: 1 << 1
+        - name: HIGH_WATER
+          value: 1 << 2
+        - name: OVERFLOW
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Result
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: ""
+        - name: UNAVAILABLE
+          value: ""
+        - name: NOT_INITIALIZED
+          value: ""
+        - name: INVALID_STATE
+          value: ""
+        - name: INVALID_ARGUMENT
+          value: ""
+        - name: OUT_OF_MEMORY
+          value: ""
+        - name: UNKNOWN_ERROR
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ScramblingStatus
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: 1 << 0
+        - name: NOT_SCRAMBLED
+          value: 1 << 1
+        - name: SCRAMBLED
+          value: 1 << 2
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VideoStreamType
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: ""
+        - name: RESERVED
+          value: ""
+        - name: MPEG1
+          value: ""
+        - name: MPEG2
+          value: ""
+        - name: MPEG4P2
+          value: ""
+        - name: AVC
+          value: ""
+        - name: HEVC
+          value: ""
+        - name: VC1
+          value: ""
+        - name: VP8
+          value: ""
+        - name: VP9
+          value: ""
+        - name: AV1
+          value: ""
+        - name: AVS
+          value: ""
+        - name: AVS2
+          value: ""
+        - name: VVC
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: AvStreamType
+      fields:
+        - name: video
+          type:
+            name: VideoStreamType
+          default_value: VideoStreamType.UNDEFINED
+        - name: audio
+          type:
+            name: AudioStreamType
+      annotations:
+        - VintfStability
+    - name: DemuxAlpFilterSettingsFilterSettings
+      fields:
+        - name: noinit
+          type:
+            name: boolean
+        - name: section
+          type:
+            name: DemuxFilterSectionSettings
+      annotations:
+        - VintfStability
+    - name: DemuxFilterEvent
+      fields:
+        - name: section
+          type:
+            name: DemuxFilterSectionEvent
+        - name: media
+          type:
+            name: DemuxFilterMediaEvent
+        - name: pes
+          type:
+            name: DemuxFilterPesEvent
+        - name: tsRecord
+          type:
+            name: DemuxFilterTsRecordEvent
+        - name: mmtpRecord
+          type:
+            name: DemuxFilterMmtpRecordEvent
+        - name: download
+          type:
+            name: DemuxFilterDownloadEvent
+        - name: ipPayload
+          type:
+            name: DemuxFilterIpPayloadEvent
+        - name: temi
+          type:
+            name: DemuxFilterTemiEvent
+        - name: monitorEvent
+          type:
+            name: DemuxFilterMonitorEvent
+        - name: startId
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: DemuxFilterMediaEventExtraMetaData
+      fields:
+        - name: noinit
+          type:
+            name: boolean
+        - name: audio
+          type:
+            name: AudioExtraMetaData
+        - name: audioPresentations
+          type:
+            name: AudioPresentation
+            is_array: true
+          default_value: '{}'
+      annotations:
+        - VintfStability
+    - name: DemuxFilterMonitorEvent
+      fields:
+        - name: scramblingStatus
+          type:
+            name: ScramblingStatus
+          default_value: ScramblingStatus.UNKNOWN
+        - name: cid
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: DemuxFilterScIndexMask
+      fields:
+        - name: scIndex
+          type:
+            name: int
+        - name: scAvc
+          type:
+            name: int
+        - name: scHevc
+          type:
+            name: int
+        - name: scVvc
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: DemuxFilterSectionSettingsCondition
+      fields:
+        - name: sectionBits
+          type:
+            name: DemuxFilterSectionBits
+        - name: tableInfo
+          type:
+            name: DemuxFilterSectionSettingsConditionTableInfo
+      annotations:
+        - VintfStability
+    - name: DemuxFilterSettings
+      fields:
+        - name: ts
+          type:
+            name: DemuxTsFilterSettings
+        - name: mmtp
+          type:
+            name: DemuxMmtpFilterSettings
+        - name: ip
+          type:
+            name: DemuxIpFilterSettings
+        - name: tlv
+          type:
+            name: DemuxTlvFilterSettings
+        - name: alp
+          type:
+            name: DemuxAlpFilterSettings
+      annotations:
+        - VintfStability
+    - name: DemuxFilterSubType
+      fields:
+        - name: tsFilterType
+          type:
+            name: DemuxTsFilterType
+          default_value: DemuxTsFilterType.UNDEFINED
+        - name: mmtpFilterType
+          type:
+            name: DemuxMmtpFilterType
+        - name: ipFilterType
+          type:
+            name: DemuxIpFilterType
+        - name: tlvFilterType
+          type:
+            name: DemuxTlvFilterType
+        - name: alpFilterType
+          type:
+            name: DemuxAlpFilterType
+      annotations:
+        - VintfStability
+    - name: DemuxIpAddressIpAddress
+      fields:
+        - name: v4
+          type:
+            name: byte
+            is_array: true
+          default_value: '{}'
+        - name: v6
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: DemuxIpFilterSettingsFilterSettings
+      fields:
+        - name: noinit
+          type:
+            name: boolean
+        - name: section
+          type:
+            name: DemuxFilterSectionSettings
+        - name: bPassthrough
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: DemuxMmtpFilterSettingsFilterSettings
+      fields:
+        - name: noinit
+          type:
+            name: boolean
+        - name: section
+          type:
+            name: DemuxFilterSectionSettings
+        - name: av
+          type:
+            name: DemuxFilterAvSettings
+        - name: pesData
+          type:
+            name: DemuxFilterPesDataSettings
+        - name: record
+          type:
+            name: DemuxFilterRecordSettings
+        - name: download
+          type:
+            name: DemuxFilterDownloadSettings
+      annotations:
+        - VintfStability
+    - name: DemuxPid
+      fields:
+        - name: tPid
+          type:
+            name: int
+        - name: mmtpPid
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: DemuxTlvFilterSettingsFilterSettings
+      fields:
+        - name: noinit
+          type:
+            name: boolean
+        - name: section
+          type:
+            name: DemuxFilterSectionSettings
+        - name: bPassthrough
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: DemuxTsFilterSettingsFilterSettings
+      fields:
+        - name: noinit
+          type:
+            name: boolean
+        - name: section
+          type:
+            name: DemuxFilterSectionSettings
+        - name: av
+          type:
+            name: DemuxFilterAvSettings
+        - name: pesData
+          type:
+            name: DemuxFilterPesDataSettings
+        - name: record
+          type:
+            name: DemuxFilterRecordSettings
+      annotations:
+        - VintfStability
+    - name: DvrSettings
+      fields:
+        - name: record
+          type:
+            name: RecordSettings
+        - name: playback
+          type:
+            name: PlaybackSettings
+      annotations:
+        - VintfStability
+    - name: FrontendBandwidth
+      fields:
+        - name: atsc3
+          type:
+            name: FrontendAtsc3Bandwidth
+          default_value: FrontendAtsc3Bandwidth.UNDEFINED
+        - name: dvbc
+          type:
+            name: FrontendDvbcBandwidth
+        - name: dvbt
+          type:
+            name: FrontendDvbtBandwidth
+        - name: isdbt
+          type:
+            name: FrontendIsdbtBandwidth
+        - name: dtmb
+          type:
+            name: FrontendDtmbBandwidth
+      annotations:
+        - VintfStability
+    - name: FrontendCapabilities
+      fields:
+        - name: analogCaps
+          type:
+            name: FrontendAnalogCapabilities
+        - name: atscCaps
+          type:
+            name: FrontendAtscCapabilities
+        - name: atsc3Caps
+          type:
+            name: FrontendAtsc3Capabilities
+        - name: dtmbCaps
+          type:
+            name: FrontendDtmbCapabilities
+        - name: dvbsCaps
+          type:
+            name: FrontendDvbsCapabilities
+        - name: dvbcCaps
+          type:
+            name: FrontendDvbcCapabilities
+        - name: dvbtCaps
+          type:
+            name: FrontendDvbtCapabilities
+        - name: isdbsCaps
+          type:
+            name: FrontendIsdbsCapabilities
+        - name: isdbs3Caps
+          type:
+            name: FrontendIsdbs3Capabilities
+        - name: isdbtCaps
+          type:
+            name: FrontendIsdbtCapabilities
+        - name: iptvCaps
+          type:
+            name: FrontendIptvCapabilities
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: FrontendGuardInterval
+      fields:
+        - name: dvbt
+          type:
+            name: FrontendDvbtGuardInterval
+          default_value: FrontendDvbtGuardInterval.UNDEFINED
+        - name: isdbt
+          type:
+            name: FrontendIsdbtGuardInterval
+        - name: dtmb
+          type:
+            name: FrontendDtmbGuardInterval
+      annotations:
+        - VintfStability
+    - name: FrontendInterleaveMode
+      fields:
+        - name: atsc3
+          type:
+            name: FrontendAtsc3TimeInterleaveMode
+          default_value: FrontendAtsc3TimeInterleaveMode.UNDEFINED
+        - name: dvbc
+          type:
+            name: FrontendCableTimeInterleaveMode
+        - name: dtmb
+          type:
+            name: FrontendDtmbTimeInterleaveMode
+        - name: isdbt
+          type:
+            name: FrontendIsdbtTimeInterleaveMode
+      annotations:
+        - VintfStability
+    - name: FrontendModulation
+      fields:
+        - name: dvbc
+          type:
+            name: FrontendDvbcModulation
+          default_value: FrontendDvbcModulation.UNDEFINED
+        - name: dvbs
+          type:
+            name: FrontendDvbsModulation
+        - name: dvbt
+          type:
+            name: FrontendDvbtConstellation
+        - name: isdbs
+          type:
+            name: FrontendIsdbsModulation
+        - name: isdbs3
+          type:
+            name: FrontendIsdbs3Modulation
+        - name: isdbt
+          type:
+            name: FrontendIsdbtModulation
+        - name: atsc
+          type:
+            name: FrontendAtscModulation
+        - name: atsc3
+          type:
+            name: FrontendAtsc3Modulation
+        - name: dtmb
+          type:
+            name: FrontendDtmbModulation
+      annotations:
+        - VintfStability
+    - name: FrontendModulationStatus
+      fields:
+        - name: dvbc
+          type:
+            name: FrontendDvbcModulation
+          default_value: FrontendDvbcModulation.UNDEFINED
+        - name: dvbs
+          type:
+            name: FrontendDvbsModulation
+        - name: isdbs
+          type:
+            name: FrontendIsdbsModulation
+        - name: isdbs3
+          type:
+            name: FrontendIsdbs3Modulation
+        - name: isdbt
+          type:
+            name: FrontendIsdbtModulation
+      annotations:
+        - VintfStability
+    - name: FrontendRollOff
+      fields:
+        - name: dvbs
+          type:
+            name: FrontendDvbsRolloff
+          default_value: FrontendDvbsRolloff.UNDEFINED
+        - name: isdbs
+          type:
+            name: FrontendIsdbsRolloff
+        - name: isdbs3
+          type:
+            name: FrontendIsdbs3Rolloff
+      annotations:
+        - VintfStability
+    - name: FrontendScanMessage
+      fields:
+        - name: isLocked
+          type:
+            name: boolean
+        - name: isEnd
+          type:
+            name: boolean
+        - name: progressPercent
+          type:
+            name: int
+        - name: frequencies
+          type:
+            name: long
+            is_array: true
+        - name: symbolRates
+          type:
+            name: int
+            is_array: true
+        - name: hierarchy
+          type:
+            name: FrontendDvbtHierarchy
+        - name: analogType
+          type:
+            name: FrontendAnalogType
+        - name: plpIds
+          type:
+            name: int
+            is_array: true
+        - name: groupIds
+          type:
+            name: int
+            is_array: true
+        - name: inputStreamIds
+          type:
+            name: int
+            is_array: true
+        - name: std
+          type:
+            name: FrontendScanMessageStandard
+        - name: atsc3PlpInfos
+          type:
+            name: FrontendScanAtsc3PlpInfo
+            is_array: true
+        - name: modulation
+          type:
+            name: FrontendModulation
+        - name: annex
+          type:
+            name: FrontendDvbcAnnex
+        - name: isHighPriority
+          type:
+            name: boolean
+        - name: dvbtCellIds
+          type:
+            name: int
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: FrontendScanMessageStandard
+      fields:
+        - name: sStd
+          type:
+            name: FrontendDvbsStandard
+          default_value: FrontendDvbsStandard.UNDEFINED
+        - name: tStd
+          type:
+            name: FrontendDvbtStandard
+        - name: sifStd
+          type:
+            name: FrontendAnalogSifStandard
+      annotations:
+        - VintfStability
+    - name: FrontendSettings
+      fields:
+        - name: analog
+          type:
+            name: FrontendAnalogSettings
+        - name: atsc
+          type:
+            name: FrontendAtscSettings
+        - name: atsc3
+          type:
+            name: FrontendAtsc3Settings
+        - name: dvbs
+          type:
+            name: FrontendDvbsSettings
+        - name: dvbc
+          type:
+            name: FrontendDvbcSettings
+        - name: dvbt
+          type:
+            name: FrontendDvbtSettings
+        - name: isdbs
+          type:
+            name: FrontendIsdbsSettings
+        - name: isdbs3
+          type:
+            name: FrontendIsdbs3Settings
+        - name: isdbt
+          type:
+            name: FrontendIsdbtSettings
+        - name: dtmb
+          type:
+            name: FrontendDtmbSettings
+        - name: iptv
+          type:
+            name: FrontendIptvSettings
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: FrontendStatus
+      fields:
+        - name: isDemodLocked
+          type:
+            name: boolean
+        - name: snr
+          type:
+            name: int
+        - name: ber
+          type:
+            name: int
+        - name: per
+          type:
+            name: int
+        - name: preBer
+          type:
+            name: int
+        - name: signalQuality
+          type:
+            name: int
+        - name: signalStrength
+          type:
+            name: int
+        - name: symbolRate
+          type:
+            name: int
+        - name: innerFec
+          type:
+            name: FrontendInnerFec
+        - name: modulationStatus
+          type:
+            name: FrontendModulationStatus
+        - name: inversion
+          type:
+            name: FrontendSpectralInversion
+        - name: lnbVoltage
+          type:
+            name: LnbVoltage
+        - name: plpId
+          type:
+            name: int
+        - name: isEWBS
+          type:
+            name: boolean
+        - name: agc
+          type:
+            name: int
+        - name: isLnaOn
+          type:
+            name: boolean
+        - name: isLayerError
+          type:
+            name: boolean
+            is_array: true
+        - name: mer
+          type:
+            name: int
+        - name: freqOffset
+          type:
+            name: long
+        - name: hierarchy
+          type:
+            name: FrontendDvbtHierarchy
+        - name: isRfLocked
+          type:
+            name: boolean
+        - name: plpInfo
+          type:
+            name: FrontendStatusAtsc3PlpInfo
+            is_array: true
+        - name: modulations
+          type:
+            name: FrontendModulation
+            is_array: true
+        - name: bers
+          type:
+            name: int
+            is_array: true
+        - name: codeRates
+          type:
+            name: FrontendInnerFec
+            is_array: true
+        - name: bandwidth
+          type:
+            name: FrontendBandwidth
+        - name: interval
+          type:
+            name: FrontendGuardInterval
+        - name: transmissionMode
+          type:
+            name: FrontendTransmissionMode
+        - name: uec
+          type:
+            name: int
+        - name: systemId
+          type:
+            name: int
+        - name: interleaving
+          type:
+            name: FrontendInterleaveMode
+            is_array: true
+        - name: isdbtSegment
+          type:
+            name: int
+            is_array: true
+        - name: tsDataRate
+          type:
+            name: int
+            is_array: true
+        - name: rollOff
+          type:
+            name: FrontendRollOff
+        - name: isMiso
+          type:
+            name: boolean
+        - name: isLinear
+          type:
+            name: boolean
+        - name: isShortFrames
+          type:
+            name: boolean
+        - name: isdbtMode
+          type:
+            name: FrontendIsdbtMode
+        - name: partialReceptionFlag
+          type:
+            name: FrontendIsdbtPartialReceptionFlag
+        - name: streamIdList
+          type:
+            name: int
+            is_array: true
+        - name: dvbtCellIds
+          type:
+            name: int
+            is_array: true
+        - name: allPlpInfo
+          type:
+            name: FrontendScanAtsc3PlpInfo
+            is_array: true
+        - name: iptvContentUrl
+          type:
+            name: String
+          default_value: '""'
+        - name: iptvPacketsReceived
+          type:
+            name: long
+        - name: iptvPacketsLost
+          type:
+            name: long
+        - name: iptvWorstJitterMs
+          type:
+            name: int
+        - name: iptvAverageJitterMs
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: FrontendTransmissionMode
+      fields:
+        - name: dvbt
+          type:
+            name: FrontendDvbtTransmissionMode
+          default_value: FrontendDvbtTransmissionMode.UNDEFINED
+        - name: isdbt
+          type:
+            name: FrontendIsdbtMode
+        - name: dtmb
+          type:
+            name: FrontendDtmbTransmissionMode
+      annotations:
+        - VintfStability

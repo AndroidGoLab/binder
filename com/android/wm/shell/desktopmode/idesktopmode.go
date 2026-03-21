@@ -66,6 +66,7 @@ func (p *DesktopModeProxy) ShowDesktopApps(
 	remoteTransition window.RemoteTransition,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(1)
@@ -96,6 +97,7 @@ func (p *DesktopModeProxy) StashDesktopApps(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
 	_data.WriteInt32(displayId)
 
@@ -122,6 +124,7 @@ func (p *DesktopModeProxy) HideStashedDesktopApps(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
 	_data.WriteInt32(displayId)
 
@@ -148,6 +151,7 @@ func (p *DesktopModeProxy) ShowDesktopApp(
 	taskId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
 	_data.WriteInt32(taskId)
 
@@ -166,6 +170,7 @@ func (p *DesktopModeProxy) GetVisibleTaskCount(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
 	_data.WriteInt32(displayId)
 
@@ -196,6 +201,7 @@ func (p *DesktopModeProxy) OnDesktopSplitSelectAnimComplete(
 	taskInfo app.ActivityManagerRunningTaskInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
 	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
@@ -216,6 +222,7 @@ func (p *DesktopModeProxy) SetTaskListener(
 	listener IDesktopTaskListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -231,7 +238,8 @@ func (p *DesktopModeProxy) SetTaskListener(
 // DesktopModeStub dispatches incoming binder transactions
 // to a typed IDesktopMode implementation.
 type DesktopModeStub struct {
-	Impl IDesktopMode
+	Impl      IDesktopMode
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DesktopModeStub)(nil)
@@ -245,11 +253,12 @@ func (s *DesktopModeStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDesktopModeShowDesktopApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -275,9 +284,6 @@ func (s *DesktopModeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDesktopModeStashDesktopApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -291,9 +297,6 @@ func (s *DesktopModeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDesktopModeHideStashedDesktopApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -307,20 +310,13 @@ func (s *DesktopModeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDesktopModeShowDesktopApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ShowDesktopApp(ctx, _arg_taskId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDesktopModeGetVisibleTaskCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -335,9 +331,6 @@ func (s *DesktopModeStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDesktopModeOnDesktopSplitSelectAnimComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -351,18 +344,18 @@ func (s *DesktopModeStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDesktopSplitSelectAnimComplete(ctx, _arg_taskInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDesktopModeSetTaskListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDesktopTaskListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewDesktopTaskListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.SetTaskListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

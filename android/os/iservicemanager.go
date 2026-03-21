@@ -94,6 +94,7 @@ func (p *ServiceManagerProxy) GetService(
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
 
@@ -126,6 +127,7 @@ func (p *ServiceManagerProxy) CheckService(
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
 
@@ -160,6 +162,7 @@ func (p *ServiceManagerProxy) AddService(
 	dumpPriority int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
 	binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
@@ -190,6 +193,7 @@ func (p *ServiceManagerProxy) ListServices(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteInt32(dumpPriority)
 
@@ -212,6 +216,9 @@ func (p *ServiceManagerProxy) ListServices(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -231,6 +238,7 @@ func (p *ServiceManagerProxy) RegisterForNotifications(
 	callback IServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -259,6 +267,7 @@ func (p *ServiceManagerProxy) UnregisterForNotifications(
 	callback IServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -287,6 +296,7 @@ func (p *ServiceManagerProxy) IsDeclared(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
 
@@ -318,6 +328,7 @@ func (p *ServiceManagerProxy) GetDeclaredInstances(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(iface)
 
@@ -340,6 +351,9 @@ func (p *ServiceManagerProxy) GetDeclaredInstances(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -359,6 +373,7 @@ func (p *ServiceManagerProxy) UpdatableViaApex(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
 
@@ -390,6 +405,7 @@ func (p *ServiceManagerProxy) GetUpdatableNames(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(apexName)
 
@@ -412,6 +428,9 @@ func (p *ServiceManagerProxy) GetUpdatableNames(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -431,6 +450,7 @@ func (p *ServiceManagerProxy) GetConnectionInfo(
 ) (ConnectionInfo, error) {
 	var _result ConnectionInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
 
@@ -468,6 +488,7 @@ func (p *ServiceManagerProxy) RegisterClientCallback(
 	callback IClientCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
 	binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
@@ -497,6 +518,7 @@ func (p *ServiceManagerProxy) TryUnregisterService(
 	service binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
 	binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
@@ -524,6 +546,7 @@ func (p *ServiceManagerProxy) GetServiceDebugInfo(
 ) ([]ServiceDebugInfo, error) {
 	var _result []ServiceDebugInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerGetServiceDebugInfo)
@@ -545,6 +568,9 @@ func (p *ServiceManagerProxy) GetServiceDebugInfo(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]ServiceDebugInfo, _count)
@@ -563,7 +589,8 @@ func (p *ServiceManagerProxy) GetServiceDebugInfo(
 // ServiceManagerStub dispatches incoming binder transactions
 // to a typed IServiceManager implementation.
 type ServiceManagerStub struct {
-	Impl IServiceManager
+	Impl      IServiceManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ServiceManagerStub)(nil)
@@ -577,11 +604,12 @@ func (s *ServiceManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIServiceManagerGetService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -593,13 +621,9 @@ func (s *ServiceManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	case TransactionIServiceManagerCheckService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -611,20 +635,21 @@ func (s *ServiceManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	case TransactionIServiceManagerAddService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_service binder.IBinder
-		_ = _arg_service
+		{
+			_serviceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_service = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _serviceHandle)
+		}
 		_arg_allowIsolated, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -642,9 +667,6 @@ func (s *ServiceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIServiceManagerListServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dumpPriority, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -656,20 +678,28 @@ func (s *ServiceManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIServiceManagerRegisterForNotifications:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RegisterForNotifications(ctx, _arg_name, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -679,16 +709,18 @@ func (s *ServiceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIServiceManagerUnregisterForNotifications:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.UnregisterForNotifications(ctx, _arg_name, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -698,9 +730,6 @@ func (s *ServiceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIServiceManagerIsDeclared:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -715,9 +744,6 @@ func (s *ServiceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIServiceManagerGetDeclaredInstances:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -729,13 +755,16 @@ func (s *ServiceManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIServiceManagerUpdatableViaApex:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -750,9 +779,6 @@ func (s *ServiceManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIServiceManagerGetUpdatableNames:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_apexName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -764,13 +790,16 @@ func (s *ServiceManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIServiceManagerGetConnectionInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -788,19 +817,26 @@ func (s *ServiceManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIServiceManagerRegisterClientCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_service binder.IBinder
-		_ = _arg_service
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_serviceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_service = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _serviceHandle)
+		}
 		var _arg_callback IClientCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewClientCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RegisterClientCallback(ctx, _arg_name, _arg_service, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -810,16 +846,18 @@ func (s *ServiceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIServiceManagerTryUnregisterService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_service binder.IBinder
-		_ = _arg_service
+		{
+			_serviceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_service = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _serviceHandle)
+		}
 		_err = s.Impl.TryUnregisterService(ctx, _arg_name, _arg_service)
 		_reply := parcel.New()
 		if _err != nil {
@@ -829,9 +867,6 @@ func (s *ServiceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIServiceManagerGetServiceDebugInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetServiceDebugInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -839,8 +874,17 @@ func (s *ServiceManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

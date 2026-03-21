@@ -51,6 +51,7 @@ func (p *LogcatManagerServiceProxy) StartThread(
 	fd int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILogcatManagerService)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(gid)
@@ -74,6 +75,7 @@ func (p *LogcatManagerServiceProxy) FinishThread(
 	fd int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILogcatManagerService)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(gid)
@@ -92,7 +94,8 @@ func (p *LogcatManagerServiceProxy) FinishThread(
 // LogcatManagerServiceStub dispatches incoming binder transactions
 // to a typed ILogcatManagerService implementation.
 type LogcatManagerServiceStub struct {
-	Impl ILogcatManagerService
+	Impl      ILogcatManagerService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LogcatManagerServiceStub)(nil)
@@ -106,11 +109,12 @@ func (s *LogcatManagerServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILogcatManagerServiceStartThread:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -128,12 +132,8 @@ func (s *LogcatManagerServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.StartThread(ctx, _arg_uid, _arg_gid, _arg_pid, _arg_fd)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionILogcatManagerServiceFinishThread:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -151,8 +151,7 @@ func (s *LogcatManagerServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.FinishThread(ctx, _arg_uid, _arg_gid, _arg_pid, _arg_fd)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

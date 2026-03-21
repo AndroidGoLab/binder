@@ -54,15 +54,9 @@ func (p *KeystoreOperationProxy) UpdateAad(
 	aadInput []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreOperation)
-	if aadInput == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(aadInput)))
-		for _, _item := range aadInput {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(aadInput)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreOperation, MethodIKeystoreOperationUpdateAad)
 	if _err != nil {
@@ -88,15 +82,9 @@ func (p *KeystoreOperationProxy) Update(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreOperation)
-	if input == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(input)))
-		for _, _item := range input {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(input)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreOperation, MethodIKeystoreOperationUpdate)
 	if _err != nil {
@@ -113,19 +101,9 @@ func (p *KeystoreOperationProxy) Update(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -137,23 +115,10 @@ func (p *KeystoreOperationProxy) Finish(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreOperation)
-	if input == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(input)))
-		for _, _item := range input {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if signature == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(signature)))
-		for _, _item := range signature {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(input)
+	_data.WriteByteArray(signature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreOperation, MethodIKeystoreOperationFinish)
 	if _err != nil {
@@ -170,19 +135,9 @@ func (p *KeystoreOperationProxy) Finish(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -191,6 +146,7 @@ func (p *KeystoreOperationProxy) Abort(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreOperation)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreOperation, MethodIKeystoreOperationAbort)
@@ -214,7 +170,8 @@ func (p *KeystoreOperationProxy) Abort(
 // KeystoreOperationStub dispatches incoming binder transactions
 // to a typed IKeystoreOperation implementation.
 type KeystoreOperationStub struct {
-	Impl IKeystoreOperation
+	Impl      IKeystoreOperation
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*KeystoreOperationStub)(nil)
@@ -228,14 +185,20 @@ func (s *KeystoreOperationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIKeystoreOperationUpdateAad:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_aadInput []byte
-		_ = _arg_aadInput
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_aadInput = _bytes
+		}
 		_err := s.Impl.UpdateAad(ctx, _arg_aadInput)
 		_reply := parcel.New()
 		if _err != nil {
@@ -245,12 +208,14 @@ func (s *KeystoreOperationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeystoreOperationUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_input []byte
-		_ = _arg_input
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_input = _bytes
+		}
 		_result, _err := s.Impl.Update(ctx, _arg_input)
 		_reply := parcel.New()
 		if _err != nil {
@@ -258,19 +223,25 @@ func (s *KeystoreOperationStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIKeystoreOperationFinish:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_input []byte
-		_ = _arg_input
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_input = _bytes
+		}
 		var _arg_signature []byte
-		_ = _arg_signature
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_signature = _bytes
+		}
 		_result, _err := s.Impl.Finish(ctx, _arg_input, _arg_signature)
 		_reply := parcel.New()
 		if _err != nil {
@@ -278,13 +249,9 @@ func (s *KeystoreOperationStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIKeystoreOperationAbort:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Abort(ctx)
 		_reply := parcel.New()
 		if _err != nil {

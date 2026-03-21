@@ -1,0 +1,786 @@
+package: com.android.internal.widget
+go_package: com/android/internal_/widget
+interfaces:
+    - name: ICheckCredentialProgressCallback
+      descriptor: com.android.internal.widget.ICheckCredentialProgressCallback
+      oneway: true
+      methods:
+        - name: onCredentialVerified
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: ILockSettings
+      descriptor: com.android.internal.widget.ILockSettings
+      methods:
+        - name: setBoolean
+          transaction_code_offset: 0
+          params:
+            - name: key
+              type:
+                name: String
+              direction: in
+            - name: value
+              type:
+                name: boolean
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setLong
+          transaction_code_offset: 1
+          params:
+            - name: key
+              type:
+                name: String
+              direction: in
+            - name: value
+              type:
+                name: long
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setString
+          transaction_code_offset: 2
+          params:
+            - name: key
+              type:
+                name: String
+              direction: in
+            - name: value
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: getBoolean
+          transaction_code_offset: 3
+          params:
+            - name: key
+              type:
+                name: String
+              direction: in
+            - name: defaultValue
+              type:
+                name: boolean
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: getLong
+          transaction_code_offset: 4
+          params:
+            - name: key
+              type:
+                name: String
+              direction: in
+            - name: defaultValue
+              type:
+                name: long
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: long
+          annotations:
+            - UnsupportedAppUsage
+        - name: getString
+          transaction_code_offset: 5
+          params:
+            - name: key
+              type:
+                name: String
+              direction: in
+            - name: defaultValue
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: String
+          annotations:
+            - UnsupportedAppUsage
+        - name: setLockCredential
+          transaction_code_offset: 6
+          params:
+            - name: credential
+              type:
+                name: LockscreenCredential
+              direction: in
+            - name: savedCredential
+              type:
+                name: LockscreenCredential
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: resetKeyStore
+          transaction_code_offset: 7
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: checkCredential
+          transaction_code_offset: 8
+          params:
+            - name: credential
+              type:
+                name: LockscreenCredential
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: progressCallback
+              type:
+                name: ICheckCredentialProgressCallback
+              direction: in
+          return_type:
+            name: VerifyCredentialResponse
+        - name: verifyCredential
+          transaction_code_offset: 9
+          params:
+            - name: credential
+              type:
+                name: LockscreenCredential
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: VerifyCredentialResponse
+        - name: verifyTiedProfileChallenge
+          transaction_code_offset: 10
+          params:
+            - name: credential
+              type:
+                name: LockscreenCredential
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: VerifyCredentialResponse
+        - name: verifyGatekeeperPasswordHandle
+          transaction_code_offset: 11
+          params:
+            - name: gatekeeperPasswordHandle
+              type:
+                name: long
+            - name: challenge
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: VerifyCredentialResponse
+        - name: removeGatekeeperPasswordHandle
+          transaction_code_offset: 12
+          params:
+            - name: gatekeeperPasswordHandle
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: getCredentialType
+          transaction_code_offset: 13
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getPinLength
+          transaction_code_offset: 14
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: refreshStoredPinLength
+          transaction_code_offset: 15
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getHashFactor
+          transaction_code_offset: 16
+          params:
+            - name: currentCredential
+              type:
+                name: LockscreenCredential
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: byte
+            is_array: true
+        - name: setSeparateProfileChallengeEnabled
+          transaction_code_offset: 17
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: enabled
+              type:
+                name: boolean
+            - name: managedUserPassword
+              type:
+                name: LockscreenCredential
+              direction: in
+          return_type:
+            name: void
+        - name: getSeparateProfileChallengeEnabled
+          transaction_code_offset: 18
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: registerStrongAuthTracker
+          transaction_code_offset: 19
+          params:
+            - name: tracker
+              type:
+                name: IStrongAuthTracker
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterStrongAuthTracker
+          transaction_code_offset: 20
+          params:
+            - name: tracker
+              type:
+                name: IStrongAuthTracker
+              direction: in
+          return_type:
+            name: void
+        - name: requireStrongAuth
+          transaction_code_offset: 21
+          params:
+            - name: strongAuthReason
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportSuccessfulBiometricUnlock
+          transaction_code_offset: 22
+          params:
+            - name: isStrongBiometric
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: scheduleNonStrongBiometricIdleTimeout
+          transaction_code_offset: 23
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: systemReady
+          transaction_code_offset: 24
+          return_type:
+            name: void
+        - name: userPresent
+          transaction_code_offset: 25
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getStrongAuthForUser
+          transaction_code_offset: 26
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: hasPendingEscrowToken
+          transaction_code_offset: 27
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: initRecoveryServiceWithSigFile
+          transaction_code_offset: 28
+          params:
+            - name: rootCertificateAlias
+              type:
+                name: String
+              direction: in
+            - name: recoveryServiceCertFile
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: recoveryServiceSigFile
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getKeyChainSnapshot
+          transaction_code_offset: 29
+          return_type:
+            name: KeyChainSnapshot
+        - name: generateKey
+          transaction_code_offset: 30
+          params:
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: generateKeyWithMetadata
+          transaction_code_offset: 31
+          params:
+            - name: alias
+              type:
+                name: String
+            - name: metadata
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: String
+        - name: importKey
+          transaction_code_offset: 32
+          params:
+            - name: alias
+              type:
+                name: String
+            - name: keyBytes
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: String
+        - name: importKeyWithMetadata
+          transaction_code_offset: 33
+          params:
+            - name: alias
+              type:
+                name: String
+            - name: keyBytes
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: metadata
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: String
+        - name: getKey
+          transaction_code_offset: 34
+          params:
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: removeKey
+          transaction_code_offset: 35
+          params:
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setSnapshotCreatedPendingIntent
+          transaction_code_offset: 36
+          params:
+            - name: intent
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: setServerParams
+          transaction_code_offset: 37
+          params:
+            - name: serverParams
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setRecoveryStatus
+          transaction_code_offset: 38
+          params:
+            - name: alias
+              type:
+                name: String
+              direction: in
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getRecoveryStatus
+          transaction_code_offset: 39
+          return_type:
+            name: Map
+        - name: setRecoverySecretTypes
+          transaction_code_offset: 40
+          params:
+            - name: secretTypes
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getRecoverySecretTypes
+          transaction_code_offset: 41
+          return_type:
+            name: int
+            is_array: true
+        - name: startRecoverySessionWithCertPath
+          transaction_code_offset: 42
+          params:
+            - name: sessionId
+              type:
+                name: String
+              direction: in
+            - name: rootCertificateAlias
+              type:
+                name: String
+              direction: in
+            - name: verifierCertPath
+              type:
+                name: RecoveryCertPath
+              direction: in
+            - name: vaultParams
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: vaultChallenge
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: secrets
+              type:
+                name: List
+                type_args:
+                    - name: KeyChainProtectionParams
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: recoverKeyChainSnapshot
+          transaction_code_offset: 43
+          params:
+            - name: sessionId
+              type:
+                name: String
+              direction: in
+            - name: recoveryKeyBlob
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: applicationKeys
+              type:
+                name: List
+                type_args:
+                    - name: WrappedApplicationKey
+              direction: in
+          return_type:
+            name: Map
+        - name: closeSession
+          transaction_code_offset: 44
+          params:
+            - name: sessionId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: startRemoteLockscreenValidation
+          transaction_code_offset: 45
+          return_type:
+            name: RemoteLockscreenValidationSession
+        - name: validateRemoteLockscreen
+          transaction_code_offset: 46
+          params:
+            - name: encryptedCredential
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: RemoteLockscreenValidationResult
+        - name: hasSecureLockScreen
+          transaction_code_offset: 47
+          return_type:
+            name: boolean
+        - name: tryUnlockWithCachedUnifiedChallenge
+          transaction_code_offset: 48
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: removeCachedUnifiedChallenge
+          transaction_code_offset: 49
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: registerWeakEscrowTokenRemovedListener
+          transaction_code_offset: 50
+          params:
+            - name: listener
+              type:
+                name: IWeakEscrowTokenRemovedListener
+              direction: in
+          return_type:
+            name: boolean
+        - name: unregisterWeakEscrowTokenRemovedListener
+          transaction_code_offset: 51
+          params:
+            - name: listener
+              type:
+                name: IWeakEscrowTokenRemovedListener
+              direction: in
+          return_type:
+            name: boolean
+        - name: addWeakEscrowToken
+          transaction_code_offset: 52
+          params:
+            - name: token
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IWeakEscrowTokenActivatedListener
+              direction: in
+          return_type:
+            name: long
+        - name: removeWeakEscrowToken
+          transaction_code_offset: 53
+          params:
+            - name: handle
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isWeakEscrowTokenActive
+          transaction_code_offset: 54
+          params:
+            - name: handle
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isWeakEscrowTokenValid
+          transaction_code_offset: 55
+          params:
+            - name: handle
+              type:
+                name: long
+            - name: token
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: unlockUserKeyIfUnsecured
+          transaction_code_offset: 56
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IRemoteViewsFactory
+      descriptor: com.android.internal.widget.IRemoteViewsFactory
+      methods:
+        - name: onDataSetChanged
+          transaction_code_offset: 0
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onDataSetChangedAsync
+          transaction_code_offset: 1
+          oneway: true
+          return_type:
+            name: void
+        - name: onDestroy
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+          return_type:
+            name: void
+        - name: getCount
+          transaction_code_offset: 3
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: getViewAt
+          transaction_code_offset: 4
+          params:
+            - name: position
+              type:
+                name: int
+          return_type:
+            name: RemoteViews
+          annotations:
+            - UnsupportedAppUsage
+        - name: getLoadingView
+          transaction_code_offset: 5
+          return_type:
+            name: RemoteViews
+          annotations:
+            - UnsupportedAppUsage
+        - name: getViewTypeCount
+          transaction_code_offset: 6
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: getItemId
+          transaction_code_offset: 7
+          params:
+            - name: position
+              type:
+                name: int
+          return_type:
+            name: long
+          annotations:
+            - UnsupportedAppUsage
+        - name: hasStableIds
+          transaction_code_offset: 8
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: isCreated
+          transaction_code_offset: 9
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: getRemoteCollectionItems
+          transaction_code_offset: 10
+          return_type:
+            name: RemoteViews.RemoteCollectionItems
+    - name: IWeakEscrowTokenActivatedListener
+      descriptor: com.android.internal.widget.IWeakEscrowTokenActivatedListener
+      oneway: true
+      methods:
+        - name: onWeakEscrowTokenActivated
+          transaction_code_offset: 0
+          params:
+            - name: handle
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IWeakEscrowTokenRemovedListener
+      descriptor: com.android.internal.widget.IWeakEscrowTokenRemovedListener
+      oneway: true
+      methods:
+        - name: onWeakEscrowTokenRemoved
+          transaction_code_offset: 0
+          params:
+            - name: handle
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: LockscreenCredential
+    - name: VerifyCredentialResponse

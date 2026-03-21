@@ -45,6 +45,7 @@ func (p *CmdCallbackProxy) OnLaunched(
 	receiver binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICmdCallback)
 	binder.WriteBinderToParcel(ctx, _data, receiver, p.Remote.Transport())
 
@@ -69,7 +70,8 @@ func (p *CmdCallbackProxy) OnLaunched(
 // CmdCallbackStub dispatches incoming binder transactions
 // to a typed ICmdCallback implementation.
 type CmdCallbackStub struct {
-	Impl ICmdCallback
+	Impl      ICmdCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CmdCallbackStub)(nil)
@@ -83,14 +85,20 @@ func (s *CmdCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICmdCallbackOnLaunched:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver binder.IBinder
-		_ = _arg_receiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle)
+		}
 		_err := s.Impl.OnLaunched(ctx, _arg_receiver)
 		_reply := parcel.New()
 		if _err != nil {

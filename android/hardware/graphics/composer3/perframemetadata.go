@@ -32,11 +32,21 @@ func (s *PerFrameMetadata) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_keyRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Key = PerFrameMetadataKey(_keyRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.Value, _err = p.ReadFloat32()
 	if _err != nil {

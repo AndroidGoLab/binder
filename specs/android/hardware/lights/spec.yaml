@@ -1,0 +1,74 @@
+package: android.hardware.lights
+go_package: android/hardware/lights
+interfaces:
+    - name: ILightsManager
+      descriptor: android.hardware.lights.ILightsManager
+      methods:
+        - name: getLights
+          transaction_code_offset: 0
+          return_type:
+            name: List
+            type_args:
+                - name: Light
+          annotations:
+            - EnforcePermission
+        - name: getLightState
+          transaction_code_offset: 1
+          params:
+            - name: lightId
+              type:
+                name: int
+          return_type:
+            name: LightState
+          annotations:
+            - EnforcePermission
+        - name: openSession
+          transaction_code_offset: 2
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: priority
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: closeSession
+          transaction_code_offset: 3
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setLightStates
+          transaction_code_offset: 4
+          params:
+            - name: sessionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: lightIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: states
+              type:
+                name: LightState
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+parcelables:
+    - name: Light
+    - name: LightState

@@ -51,6 +51,7 @@ func (p *CommandReceiverProxy) SendCommand(
 	bundle os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICommandReceiver)
 	_data.WriteInt32(command)
 	_data.WriteInt32(seq)
@@ -74,7 +75,8 @@ func (p *CommandReceiverProxy) SendCommand(
 // CommandReceiverStub dispatches incoming binder transactions
 // to a typed ICommandReceiver implementation.
 type CommandReceiverStub struct {
-	Impl ICommandReceiver
+	Impl      ICommandReceiver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CommandReceiverStub)(nil)
@@ -88,11 +90,12 @@ func (s *CommandReceiverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICommandReceiverSendCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_command, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -126,8 +129,7 @@ func (s *CommandReceiverStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SendCommand(ctx, _arg_command, _arg_seq, _arg_sourcePackage, _arg_targetPackage, _arg_flags, _arg_bundle)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

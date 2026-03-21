@@ -44,6 +44,7 @@ func (p *ResourcesReclaimListenerProxy) OnReclaimResources(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourcesReclaimListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourcesReclaimListener, MethodIResourcesReclaimListenerOnReclaimResources)
@@ -67,7 +68,8 @@ func (p *ResourcesReclaimListenerProxy) OnReclaimResources(
 // ResourcesReclaimListenerStub dispatches incoming binder transactions
 // to a typed IResourcesReclaimListener implementation.
 type ResourcesReclaimListenerStub struct {
-	Impl IResourcesReclaimListener
+	Impl      IResourcesReclaimListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ResourcesReclaimListenerStub)(nil)
@@ -81,11 +83,12 @@ func (s *ResourcesReclaimListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIResourcesReclaimListenerOnReclaimResources:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnReclaimResources(ctx)
 		_reply := parcel.New()
 		if _err != nil {

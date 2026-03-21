@@ -107,6 +107,7 @@ func (p *NfcCardEmulationProxy) IsDefaultServiceForCategory(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -145,6 +146,7 @@ func (p *NfcCardEmulationProxy) IsDefaultServiceForAid(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -183,6 +185,7 @@ func (p *NfcCardEmulationProxy) SetDefaultServiceForCategory(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -220,6 +223,7 @@ func (p *NfcCardEmulationProxy) SetDefaultForNextTap(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -257,6 +261,7 @@ func (p *NfcCardEmulationProxy) SetShouldDefaultToObserveModeForService(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -295,6 +300,7 @@ func (p *NfcCardEmulationProxy) RegisterAidGroupForService(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -337,6 +343,7 @@ func (p *NfcCardEmulationProxy) RegisterPollingLoopFilterForService(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -376,6 +383,7 @@ func (p *NfcCardEmulationProxy) SetOffHostForService(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -413,6 +421,7 @@ func (p *NfcCardEmulationProxy) UnsetOffHostForService(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -450,6 +459,7 @@ func (p *NfcCardEmulationProxy) GetAidGroupForService(
 	var _result cardemulation.AidGroup
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -493,6 +503,7 @@ func (p *NfcCardEmulationProxy) RemoveAidGroupForService(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -530,6 +541,7 @@ func (p *NfcCardEmulationProxy) GetServices(
 	var _result []cardemulation.ApduServiceInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(category)
@@ -553,6 +565,9 @@ func (p *NfcCardEmulationProxy) GetServices(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]cardemulation.ApduServiceInfo, _count)
@@ -574,6 +589,7 @@ func (p *NfcCardEmulationProxy) SetPreferredService(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(1)
 	if _err := service.MarshalParcel(_data); _err != nil {
@@ -607,6 +623,7 @@ func (p *NfcCardEmulationProxy) UnsetPreferredService(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationUnsetPreferredService)
@@ -636,6 +653,7 @@ func (p *NfcCardEmulationProxy) SupportsAidPrefixRegistration(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationSupportsAidPrefixRegistration)
@@ -666,6 +684,7 @@ func (p *NfcCardEmulationProxy) GetPreferredPaymentService(
 	var _result cardemulation.ApduServiceInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 
@@ -704,6 +723,7 @@ func (p *NfcCardEmulationProxy) SetServiceEnabledForCategoryOther(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -739,6 +759,7 @@ func (p *NfcCardEmulationProxy) IsDefaultPaymentRegistered(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcCardEmulation, MethodINfcCardEmulationIsDefaultPaymentRegistered)
@@ -771,6 +792,7 @@ func (p *NfcCardEmulationProxy) OverrideRoutingTable(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(protocol)
@@ -804,6 +826,7 @@ func (p *NfcCardEmulationProxy) RecoverRoutingTable(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcCardEmulation)
 	_data.WriteInt32(_identity.UserID)
 
@@ -832,7 +855,8 @@ func (p *NfcCardEmulationProxy) RecoverRoutingTable(
 // NfcCardEmulationStub dispatches incoming binder transactions
 // to a typed INfcCardEmulation implementation.
 type NfcCardEmulationStub struct {
-	Impl INfcCardEmulation
+	Impl      INfcCardEmulation
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NfcCardEmulationStub)(nil)
@@ -846,11 +870,12 @@ func (s *NfcCardEmulationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINfcCardEmulationIsDefaultServiceForCategory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -880,9 +905,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcCardEmulationIsDefaultServiceForAid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -912,9 +934,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcCardEmulationSetDefaultServiceForCategory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -944,9 +963,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcCardEmulationSetDefaultForNextTap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -972,9 +988,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcCardEmulationSetShouldDefaultToObserveModeForService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1004,9 +1017,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcCardEmulationRegisterAidGroupForService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1044,9 +1054,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcCardEmulationRegisterPollingLoopFilterForService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1080,9 +1087,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcCardEmulationSetOffHostForService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1112,9 +1116,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcCardEmulationUnsetOffHostForService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1140,9 +1141,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcCardEmulationGetAidGroupForService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1175,9 +1173,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINfcCardEmulationRemoveAidGroupForService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1207,9 +1202,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcCardEmulationGetServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1224,13 +1216,19 @@ func (s *NfcCardEmulationStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionINfcCardEmulationSetPreferredService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_service content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1253,9 +1251,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcCardEmulationUnsetPreferredService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.UnsetPreferredService(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1266,9 +1261,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcCardEmulationSupportsAidPrefixRegistration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.SupportsAidPrefixRegistration(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1279,9 +1271,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcCardEmulationGetPreferredPaymentService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1298,9 +1287,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINfcCardEmulationSetServiceEnabledForCategoryOther:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1330,9 +1316,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcCardEmulationIsDefaultPaymentRegistered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsDefaultPaymentRegistered(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1343,9 +1326,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcCardEmulationOverrideRoutingTable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1367,9 +1347,6 @@ func (s *NfcCardEmulationStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcCardEmulationRecoverRoutingTable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}

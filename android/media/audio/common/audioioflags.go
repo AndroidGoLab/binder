@@ -31,8 +31,7 @@ func (u *AudioIoFlags) GetInput() (int32, bool) {
 func (u *AudioIoFlags) SetInput(
 	v int32,
 ) {
-	u.Tag = AudioIoFlagsTagInput
-	u.Input = v
+	*u = AudioIoFlags{Tag: AudioIoFlagsTagInput, Input: v}
 }
 
 func (u *AudioIoFlags) GetOutput() (int32, bool) {
@@ -46,8 +45,7 @@ func (u *AudioIoFlags) GetOutput() (int32, bool) {
 func (u *AudioIoFlags) SetOutput(
 	v int32,
 ) {
-	u.Tag = AudioIoFlagsTagOutput
-	u.Output = v
+	*u = AudioIoFlags{Tag: AudioIoFlagsTagOutput, Output: v}
 }
 
 func (u *AudioIoFlags) MarshalParcel(

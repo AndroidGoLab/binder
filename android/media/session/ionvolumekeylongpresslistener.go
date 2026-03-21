@@ -3,6 +3,7 @@ package session
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ const (
 
 type IOnVolumeKeyLongPressListener interface {
 	AsBinder() binder.IBinder
-	OnVolumeKeyLongPress(ctx context.Context, event interface{}) error
+	OnVolumeKeyLongPress(ctx context.Context, event view.KeyEvent) error
 }
 
 type OnVolumeKeyLongPressListenerProxy struct {
@@ -42,10 +43,15 @@ var _ IOnVolumeKeyLongPressListener = (*OnVolumeKeyLongPressListenerProxy)(nil)
 
 func (p *OnVolumeKeyLongPressListenerProxy) OnVolumeKeyLongPress(
 	ctx context.Context,
-	event interface{},
+	event view.KeyEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnVolumeKeyLongPressListener)
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnVolumeKeyLongPressListener, MethodIOnVolumeKeyLongPressListenerOnVolumeKeyLongPress)
 	if _err != nil {
@@ -59,7 +65,8 @@ func (p *OnVolumeKeyLongPressListenerProxy) OnVolumeKeyLongPress(
 // OnVolumeKeyLongPressListenerStub dispatches incoming binder transactions
 // to a typed IOnVolumeKeyLongPressListener implementation.
 type OnVolumeKeyLongPressListenerStub struct {
-	Impl IOnVolumeKeyLongPressListener
+	Impl      IOnVolumeKeyLongPressListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OnVolumeKeyLongPressListenerStub)(nil)
@@ -73,15 +80,26 @@ func (s *OnVolumeKeyLongPressListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOnVolumeKeyLongPressListenerOnVolumeKeyLongPress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_event view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_event interface{}
 		_err := s.Impl.OnVolumeKeyLongPress(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -91,7 +109,7 @@ func (s *OnVolumeKeyLongPressListenerStub) OnTransaction(
 // provide to NewOnVolumeKeyLongPressListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IOnVolumeKeyLongPressListenerServer interface {
-	OnVolumeKeyLongPress(ctx context.Context, event interface{}) error
+	OnVolumeKeyLongPress(ctx context.Context, event view.KeyEvent) error
 }
 
 type onVolumeKeyLongPressListenerStubWrapper struct {
@@ -105,7 +123,7 @@ func (w *onVolumeKeyLongPressListenerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *onVolumeKeyLongPressListenerStubWrapper) OnVolumeKeyLongPress(
 	ctx context.Context,
-	event interface{},
+	event view.KeyEvent,
 ) error {
 	return w.impl.OnVolumeKeyLongPress(ctx, event)
 }

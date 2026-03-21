@@ -144,7 +144,7 @@ type INfcAdapter interface {
 	RegisterControllerAlwaysOnListener(ctx context.Context, listener INfcControllerAlwaysOnListener) error
 	UnregisterControllerAlwaysOnListener(ctx context.Context, listener INfcControllerAlwaysOnListener) error
 	IsTagIntentAppPreferenceSupported(ctx context.Context) (bool, error)
-	GetTagIntentAppPreferenceForUser(ctx context.Context) (map[interface{}]interface{}, error)
+	GetTagIntentAppPreferenceForUser(ctx context.Context) (map[any]any, error)
 	SetTagIntentAppPreferenceForUser(ctx context.Context, pkg string, allow bool) (int32, error)
 	IsReaderOptionEnabled(ctx context.Context) (bool, error)
 	IsReaderOptionSupported(ctx context.Context) (bool, error)
@@ -186,6 +186,7 @@ func (p *NfcAdapterProxy) GetNfcTagInterface(
 ) (INfcTag, error) {
 	var _result INfcTag
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterGetNfcTagInterface)
@@ -216,6 +217,7 @@ func (p *NfcAdapterProxy) GetNfcCardEmulationInterface(
 ) (INfcCardEmulation, error) {
 	var _result INfcCardEmulation
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterGetNfcCardEmulationInterface)
@@ -246,6 +248,7 @@ func (p *NfcAdapterProxy) GetNfcFCardEmulationInterface(
 ) (INfcFCardEmulation, error) {
 	var _result INfcFCardEmulation
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterGetNfcFCardEmulationInterface)
@@ -277,6 +280,7 @@ func (p *NfcAdapterProxy) GetNfcAdapterExtrasInterface(
 ) (INfcAdapterExtras, error) {
 	var _result INfcAdapterExtras
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	_data.WriteString16(pkg)
 
@@ -309,6 +313,7 @@ func (p *NfcAdapterProxy) GetNfcDtaInterface(
 ) (INfcDta, error) {
 	var _result INfcDta
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	_data.WriteString16(pkg)
 
@@ -340,6 +345,7 @@ func (p *NfcAdapterProxy) GetState(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterGetState)
@@ -370,6 +376,7 @@ func (p *NfcAdapterProxy) Disable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	_data.WriteBool(saveState)
 
@@ -400,6 +407,7 @@ func (p *NfcAdapterProxy) Enable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterEnable)
@@ -429,6 +437,7 @@ func (p *NfcAdapterProxy) PausePolling(
 	timeoutInMs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	_data.WriteInt32(timeoutInMs)
 
@@ -454,6 +463,7 @@ func (p *NfcAdapterProxy) ResumePolling(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterResumePolling)
@@ -481,6 +491,7 @@ func (p *NfcAdapterProxy) SetForegroundDispatch(
 	techLists TechListParcel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -525,6 +536,7 @@ func (p *NfcAdapterProxy) SetAppCallback(
 	callback IAppCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -554,6 +566,7 @@ func (p *NfcAdapterProxy) Ignore(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	_data.WriteInt32(nativeHandle)
 	_data.WriteInt32(debounceMs)
@@ -586,6 +599,7 @@ func (p *NfcAdapterProxy) Dispatch(
 	tag Tag,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	_data.WriteInt32(1)
 	if _err := tag.MarshalParcel(_data); _err != nil {
@@ -618,6 +632,7 @@ func (p *NfcAdapterProxy) SetReaderMode(
 	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -651,6 +666,7 @@ func (p *NfcAdapterProxy) AddNfcUnlockHandler(
 	techList []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	binder.WriteBinderToParcel(ctx, _data, unlockHandler.AsBinder(), p.Remote.Transport())
 	if techList == nil {
@@ -685,6 +701,7 @@ func (p *NfcAdapterProxy) RemoveNfcUnlockHandler(
 	unlockHandler INfcUnlockHandler,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	binder.WriteBinderToParcel(ctx, _data, unlockHandler.AsBinder(), p.Remote.Transport())
 
@@ -710,6 +727,7 @@ func (p *NfcAdapterProxy) VerifyNfcPermission(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterVerifyNfcPermission)
@@ -735,6 +753,7 @@ func (p *NfcAdapterProxy) IsNfcSecureEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterIsNfcSecureEnabled)
@@ -764,6 +783,7 @@ func (p *NfcAdapterProxy) DeviceSupportsNfcSecure(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterDeviceSupportsNfcSecure)
@@ -794,6 +814,7 @@ func (p *NfcAdapterProxy) SetNfcSecure(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	_data.WriteBool(enable)
 
@@ -824,6 +845,7 @@ func (p *NfcAdapterProxy) GetNfcAntennaInfo(
 ) (NfcAntennaInfo, error) {
 	var _result NfcAntennaInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterGetNfcAntennaInfo)
@@ -859,6 +881,7 @@ func (p *NfcAdapterProxy) SetControllerAlwaysOn(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	_data.WriteBool(value)
 
@@ -889,6 +912,7 @@ func (p *NfcAdapterProxy) IsControllerAlwaysOn(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterIsControllerAlwaysOn)
@@ -918,6 +942,7 @@ func (p *NfcAdapterProxy) IsControllerAlwaysOnSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterIsControllerAlwaysOnSupported)
@@ -947,6 +972,7 @@ func (p *NfcAdapterProxy) RegisterControllerAlwaysOnListener(
 	listener INfcControllerAlwaysOnListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -973,6 +999,7 @@ func (p *NfcAdapterProxy) UnregisterControllerAlwaysOnListener(
 	listener INfcControllerAlwaysOnListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -999,6 +1026,7 @@ func (p *NfcAdapterProxy) IsTagIntentAppPreferenceSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterIsTagIntentAppPreferenceSupported)
@@ -1025,10 +1053,11 @@ func (p *NfcAdapterProxy) IsTagIntentAppPreferenceSupported(
 
 func (p *NfcAdapterProxy) GetTagIntentAppPreferenceForUser(
 	ctx context.Context,
-) (map[interface{}]interface{}, error) {
-	var _result map[interface{}]interface{}
+) (map[any]any, error) {
+	var _result map[any]any
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1047,22 +1076,24 @@ func (p *NfcAdapterProxy) GetTagIntentAppPreferenceForUser(
 		return _result, _err
 	}
 
-	_mapCount, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _mapCount >= 0 {
-		_result = make(map[interface{}]interface{}, _mapCount)
-		for _mi := int32(0); _mi < _mapCount; _mi++ {
-			_mk, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
+	{
+		_mapCount, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _mapCount >= 0 {
+			_result = make(map[any]any, _mapCount)
+			for _mi := int32(0); _mi < _mapCount; _mi++ {
+				_mk, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_mv, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_result[_mk] = _mv
 			}
-			_mv, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
-			}
-			_result[_mk] = _mv
 		}
 	}
 	return _result, nil
@@ -1076,6 +1107,7 @@ func (p *NfcAdapterProxy) SetTagIntentAppPreferenceForUser(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(pkg)
@@ -1108,6 +1140,7 @@ func (p *NfcAdapterProxy) IsReaderOptionEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterIsReaderOptionEnabled)
@@ -1137,6 +1170,7 @@ func (p *NfcAdapterProxy) IsReaderOptionSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterIsReaderOptionSupported)
@@ -1167,6 +1201,7 @@ func (p *NfcAdapterProxy) EnableReaderOption(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	_data.WriteBool(enable)
 
@@ -1197,6 +1232,7 @@ func (p *NfcAdapterProxy) IsObserveModeSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterIsObserveModeSupported)
@@ -1226,6 +1262,7 @@ func (p *NfcAdapterProxy) IsObserveModeEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterIsObserveModeEnabled)
@@ -1256,6 +1293,7 @@ func (p *NfcAdapterProxy) SetObserveMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	_data.WriteBool(enabled)
 
@@ -1287,6 +1325,7 @@ func (p *NfcAdapterProxy) SetWlcEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	_data.WriteBool(enable)
 
@@ -1317,6 +1356,7 @@ func (p *NfcAdapterProxy) IsWlcEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterIsWlcEnabled)
@@ -1346,6 +1386,7 @@ func (p *NfcAdapterProxy) RegisterWlcStateListener(
 	listener INfcWlcStateListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1372,6 +1413,7 @@ func (p *NfcAdapterProxy) UnregisterWlcStateListener(
 	listener INfcWlcStateListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1398,6 +1440,7 @@ func (p *NfcAdapterProxy) GetWlcListenerDeviceInfo(
 ) (WlcListenerDeviceInfo, error) {
 	var _result WlcListenerDeviceInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterGetWlcListenerDeviceInfo)
@@ -1434,6 +1477,7 @@ func (p *NfcAdapterProxy) UpdateDiscoveryTechnology(
 	listenFlags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
 	_data.WriteInt32(pollFlags)
@@ -1462,6 +1506,7 @@ func (p *NfcAdapterProxy) NotifyPollingLoop(
 	frame os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
@@ -1490,6 +1535,7 @@ func (p *NfcAdapterProxy) NotifyHceDeactivated(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterNotifyHceDeactivated)
@@ -1519,18 +1565,12 @@ func (p *NfcAdapterProxy) SendVendorNciMessage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	_data.WriteInt32(mt)
 	_data.WriteInt32(gid)
 	_data.WriteInt32(oid)
-	if payload == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(payload)))
-		for _, _item := range payload {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(payload)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcAdapter, MethodINfcAdapterSendVendorNciMessage)
 	if _err != nil {
@@ -1559,6 +1599,7 @@ func (p *NfcAdapterProxy) RegisterVendorExtensionCallback(
 	callbacks INfcVendorNciCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
@@ -1585,6 +1626,7 @@ func (p *NfcAdapterProxy) UnregisterVendorExtensionCallback(
 	callbacks INfcVendorNciCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcAdapter)
 	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
@@ -1609,7 +1651,8 @@ func (p *NfcAdapterProxy) UnregisterVendorExtensionCallback(
 // NfcAdapterStub dispatches incoming binder transactions
 // to a typed INfcAdapter implementation.
 type NfcAdapterStub struct {
-	Impl INfcAdapter
+	Impl      INfcAdapter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NfcAdapterStub)(nil)
@@ -1623,11 +1666,12 @@ func (s *NfcAdapterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINfcAdapterGetNfcTagInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetNfcTagInterface(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1635,13 +1679,9 @@ func (s *NfcAdapterStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionINfcAdapterGetNfcCardEmulationInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetNfcCardEmulationInterface(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1649,13 +1689,9 @@ func (s *NfcAdapterStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionINfcAdapterGetNfcFCardEmulationInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetNfcFCardEmulationInterface(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1663,13 +1699,9 @@ func (s *NfcAdapterStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionINfcAdapterGetNfcAdapterExtrasInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1681,13 +1713,9 @@ func (s *NfcAdapterStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionINfcAdapterGetNfcDtaInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1699,13 +1727,9 @@ func (s *NfcAdapterStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionINfcAdapterGetState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1716,9 +1740,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINfcAdapterDisable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_saveState, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1733,9 +1754,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterEnable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Enable(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1746,9 +1764,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterPausePolling:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeoutInMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1762,9 +1777,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterResumePolling:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResumePolling(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1774,9 +1786,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterSetForegroundDispatch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent app.PendingIntent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1789,9 +1798,27 @@ func (s *NfcAdapterStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_filters []content.IntentFilter
-		_ = _arg_filters
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_filters = make([]content.IntentFilter, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_filters[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_techLists TechListParcel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1813,12 +1840,14 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterSetAppCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAppCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAppCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetAppCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1828,9 +1857,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterIgnore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nativeHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1839,9 +1865,14 @@ func (s *NfcAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITagRemovedCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTagRemovedCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.Ignore(ctx, _arg_nativeHandle, _arg_debounceMs, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1852,9 +1883,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterDispatch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_tag Tag
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1876,15 +1904,22 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterSetReaderMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_b binder.IBinder
-		_ = _arg_b
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_bHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_b = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _bHandle)
+		}
 		var _arg_callback IAppCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAppCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1910,15 +1945,33 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterAddNfcUnlockHandler:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_unlockHandler INfcUnlockHandler
-		_ = _arg_unlockHandler
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_unlockHandlerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_unlockHandler = NewNfcUnlockHandlerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _unlockHandlerHandle))
+		}
 		var _arg_techList []int32
-		_ = _arg_techList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_techList = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_techList[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.AddNfcUnlockHandler(ctx, _arg_unlockHandler, _arg_techList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1928,12 +1981,14 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterRemoveNfcUnlockHandler:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_unlockHandler INfcUnlockHandler
-		_ = _arg_unlockHandler
+		{
+			_unlockHandlerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_unlockHandler = NewNfcUnlockHandlerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _unlockHandlerHandle))
+		}
 		_err := s.Impl.RemoveNfcUnlockHandler(ctx, _arg_unlockHandler)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1943,9 +1998,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterVerifyNfcPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.VerifyNfcPermission(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1955,9 +2007,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterIsNfcSecureEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsNfcSecureEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1968,9 +2017,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterDeviceSupportsNfcSecure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.DeviceSupportsNfcSecure(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1981,9 +2027,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterSetNfcSecure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1998,9 +2041,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterGetNfcAntennaInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetNfcAntennaInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2014,9 +2054,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINfcAdapterSetControllerAlwaysOn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_value, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2031,9 +2068,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterIsControllerAlwaysOn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsControllerAlwaysOn(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2044,9 +2078,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterIsControllerAlwaysOnSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsControllerAlwaysOnSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2057,12 +2088,14 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterRegisterControllerAlwaysOnListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener INfcControllerAlwaysOnListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewNfcControllerAlwaysOnListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterControllerAlwaysOnListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2072,12 +2105,14 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterUnregisterControllerAlwaysOnListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener INfcControllerAlwaysOnListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewNfcControllerAlwaysOnListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.UnregisterControllerAlwaysOnListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2087,9 +2122,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterIsTagIntentAppPreferenceSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsTagIntentAppPreferenceSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2100,9 +2132,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterGetTagIntentAppPreferenceForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2113,13 +2142,17 @@ func (s *NfcAdapterStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: map return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _k, _v := range _result {
+				_reply.WriteString16(_k.(string))
+				_reply.WriteString16(_v.(string))
+			}
+		}
 		return _reply, nil
 	case TransactionINfcAdapterSetTagIntentAppPreferenceForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2141,9 +2174,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINfcAdapterIsReaderOptionEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsReaderOptionEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2154,9 +2184,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterIsReaderOptionSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsReaderOptionSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2167,9 +2194,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterEnableReaderOption:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2184,9 +2208,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterIsObserveModeSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsObserveModeSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2197,9 +2218,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterIsObserveModeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsObserveModeEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2210,9 +2228,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterSetObserveMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2227,9 +2242,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterSetWlcEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2244,9 +2256,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterIsWlcEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsWlcEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2257,12 +2266,14 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcAdapterRegisterWlcStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener INfcWlcStateListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewNfcWlcStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterWlcStateListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2272,12 +2283,14 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterUnregisterWlcStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener INfcWlcStateListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewNfcWlcStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.UnregisterWlcStateListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2287,9 +2300,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterGetWlcListenerDeviceInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWlcListenerDeviceInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2303,12 +2313,14 @@ func (s *NfcAdapterStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINfcAdapterUpdateDiscoveryTechnology:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_b binder.IBinder
-		_ = _arg_b
+		{
+			_bHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_b = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _bHandle)
+		}
 		_arg_pollFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2326,9 +2338,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterNotifyPollingLoop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_frame os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2350,9 +2359,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterNotifyHceDeactivated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NotifyHceDeactivated(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2362,9 +2368,6 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterSendVendorNciMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mt, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2377,9 +2380,14 @@ func (s *NfcAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_payload []byte
-		_ = _arg_payload
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_payload = _bytes
+		}
 		_result, _err := s.Impl.SendVendorNciMessage(ctx, _arg_mt, _arg_gid, _arg_oid, _arg_payload)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2390,12 +2398,14 @@ func (s *NfcAdapterStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINfcAdapterRegisterVendorExtensionCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks INfcVendorNciCallback
-		_ = _arg_callbacks
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewNfcVendorNciCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
+		}
 		_err := s.Impl.RegisterVendorExtensionCallback(ctx, _arg_callbacks)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2405,12 +2415,14 @@ func (s *NfcAdapterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcAdapterUnregisterVendorExtensionCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks INfcVendorNciCallback
-		_ = _arg_callbacks
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewNfcVendorNciCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
+		}
 		_err := s.Impl.UnregisterVendorExtensionCallback(ctx, _arg_callbacks)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2456,7 +2468,7 @@ type INfcAdapterServer interface {
 	RegisterControllerAlwaysOnListener(ctx context.Context, listener INfcControllerAlwaysOnListener) error
 	UnregisterControllerAlwaysOnListener(ctx context.Context, listener INfcControllerAlwaysOnListener) error
 	IsTagIntentAppPreferenceSupported(ctx context.Context) (bool, error)
-	GetTagIntentAppPreferenceForUser(ctx context.Context) (map[interface{}]interface{}, error)
+	GetTagIntentAppPreferenceForUser(ctx context.Context) (map[any]any, error)
 	SetTagIntentAppPreferenceForUser(ctx context.Context, pkg string, allow bool) (int32, error)
 	IsReaderOptionEnabled(ctx context.Context) (bool, error)
 	IsReaderOptionSupported(ctx context.Context) (bool, error)
@@ -2679,7 +2691,7 @@ func (w *nfcAdapterStubWrapper) IsTagIntentAppPreferenceSupported(
 
 func (w *nfcAdapterStubWrapper) GetTagIntentAppPreferenceForUser(
 	ctx context.Context,
-) (map[interface{}]interface{}, error) {
+) (map[any]any, error) {
 	return w.impl.GetTagIntentAppPreferenceForUser(ctx)
 }
 

@@ -3,6 +3,7 @@ package location
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/location/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -29,7 +30,7 @@ const (
 
 type IGeofenceHardwareCallback interface {
 	AsBinder() binder.IBinder
-	OnGeofenceTransition(ctx context.Context, geofenceId int32, transition int32, location interface{}, timestamp int64, monitoringType int32) error
+	OnGeofenceTransition(ctx context.Context, geofenceId int32, transition int32, location types.Location, timestamp int64, monitoringType int32) error
 	OnGeofenceAdd(ctx context.Context, geofenceId int32, status int32) error
 	OnGeofenceRemove(ctx context.Context, geofenceId int32, status int32) error
 	OnGeofencePause(ctx context.Context, geofenceId int32, status int32) error
@@ -56,14 +57,16 @@ func (p *GeofenceHardwareCallbackProxy) OnGeofenceTransition(
 	ctx context.Context,
 	geofenceId int32,
 	transition int32,
-	location interface{},
+	location types.Location,
 	timestamp int64,
 	monitoringType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardwareCallback)
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(transition)
+	// WARNING: param location (type types.Location) cannot be serialized — type not resolved
 	_data.WriteInt64(timestamp)
 	_data.WriteInt32(monitoringType)
 
@@ -82,6 +85,7 @@ func (p *GeofenceHardwareCallbackProxy) OnGeofenceAdd(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardwareCallback)
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(status)
@@ -101,6 +105,7 @@ func (p *GeofenceHardwareCallbackProxy) OnGeofenceRemove(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardwareCallback)
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(status)
@@ -120,6 +125,7 @@ func (p *GeofenceHardwareCallbackProxy) OnGeofencePause(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardwareCallback)
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(status)
@@ -139,6 +145,7 @@ func (p *GeofenceHardwareCallbackProxy) OnGeofenceResume(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardwareCallback)
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(status)
@@ -155,7 +162,8 @@ func (p *GeofenceHardwareCallbackProxy) OnGeofenceResume(
 // GeofenceHardwareCallbackStub dispatches incoming binder transactions
 // to a typed IGeofenceHardwareCallback implementation.
 type GeofenceHardwareCallbackStub struct {
-	Impl IGeofenceHardwareCallback
+	Impl      IGeofenceHardwareCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GeofenceHardwareCallbackStub)(nil)
@@ -169,11 +177,12 @@ func (s *GeofenceHardwareCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGeofenceHardwareCallbackOnGeofenceTransition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -182,7 +191,7 @@ func (s *GeofenceHardwareCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_location interface{}
+		var _arg_location types.Location
 		_arg_timestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -192,12 +201,8 @@ func (s *GeofenceHardwareCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGeofenceTransition(ctx, _arg_geofenceId, _arg_transition, _arg_location, _arg_timestamp, _arg_monitoringType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGeofenceHardwareCallbackOnGeofenceAdd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -207,12 +212,8 @@ func (s *GeofenceHardwareCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGeofenceAdd(ctx, _arg_geofenceId, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGeofenceHardwareCallbackOnGeofenceRemove:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -222,12 +223,8 @@ func (s *GeofenceHardwareCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGeofenceRemove(ctx, _arg_geofenceId, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGeofenceHardwareCallbackOnGeofencePause:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -237,12 +234,8 @@ func (s *GeofenceHardwareCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGeofencePause(ctx, _arg_geofenceId, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGeofenceHardwareCallbackOnGeofenceResume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -252,8 +245,7 @@ func (s *GeofenceHardwareCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGeofenceResume(ctx, _arg_geofenceId, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -263,7 +255,7 @@ func (s *GeofenceHardwareCallbackStub) OnTransaction(
 // provide to NewGeofenceHardwareCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IGeofenceHardwareCallbackServer interface {
-	OnGeofenceTransition(ctx context.Context, geofenceId int32, transition int32, location interface{}, timestamp int64, monitoringType int32) error
+	OnGeofenceTransition(ctx context.Context, geofenceId int32, transition int32, location types.Location, timestamp int64, monitoringType int32) error
 	OnGeofenceAdd(ctx context.Context, geofenceId int32, status int32) error
 	OnGeofenceRemove(ctx context.Context, geofenceId int32, status int32) error
 	OnGeofencePause(ctx context.Context, geofenceId int32, status int32) error
@@ -283,7 +275,7 @@ func (w *geofenceHardwareCallbackStubWrapper) OnGeofenceTransition(
 	ctx context.Context,
 	geofenceId int32,
 	transition int32,
-	location interface{},
+	location types.Location,
 	timestamp int64,
 	monitoringType int32,
 ) error {

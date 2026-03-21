@@ -57,6 +57,7 @@ func (p *UsbGadgetProxy) SetCurrentUsbFunctions(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbGadget)
 	_data.WriteInt64(functions)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -78,6 +79,7 @@ func (p *UsbGadgetProxy) GetCurrentUsbFunctions(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbGadget)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(transactionId)
@@ -97,6 +99,7 @@ func (p *UsbGadgetProxy) GetUsbSpeed(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbGadget)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(transactionId)
@@ -116,6 +119,7 @@ func (p *UsbGadgetProxy) Reset(
 	transactionId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbGadget)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(transactionId)
@@ -132,7 +136,8 @@ func (p *UsbGadgetProxy) Reset(
 // UsbGadgetStub dispatches incoming binder transactions
 // to a typed IUsbGadget implementation.
 type UsbGadgetStub struct {
-	Impl IUsbGadget
+	Impl      IUsbGadget
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UsbGadgetStub)(nil)
@@ -146,18 +151,24 @@ func (s *UsbGadgetStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUsbGadgetSetCurrentUsbFunctions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_functions, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IUsbGadgetCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewUsbGadgetCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_timeoutMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -167,50 +178,52 @@ func (s *UsbGadgetStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetCurrentUsbFunctions(ctx, _arg_functions, _arg_callback, _arg_timeoutMs, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUsbGadgetGetCurrentUsbFunctions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IUsbGadgetCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewUsbGadgetCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetCurrentUsbFunctions(ctx, _arg_callback, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUsbGadgetGetUsbSpeed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IUsbGadgetCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewUsbGadgetCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetUsbSpeed(ctx, _arg_callback, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUsbGadgetReset:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IUsbGadgetCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewUsbGadgetCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Reset(ctx, _arg_callback, _arg_transactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

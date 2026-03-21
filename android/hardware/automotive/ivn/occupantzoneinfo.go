@@ -34,9 +34,19 @@ func (s *OccupantZoneInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ZoneId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_occupantTypeRaw, _err := p.ReadInt32()
@@ -44,6 +54,11 @@ func (s *OccupantZoneInfo) UnmarshalParcel(
 		return _err
 	}
 	s.OccupantType = OccupantType(_occupantTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.Seat, _err = p.ReadInt32()
 	if _err != nil {

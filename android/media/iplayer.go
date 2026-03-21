@@ -62,6 +62,7 @@ func (p *PlayerProxy) Start(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayer, MethodIPlayerStart)
@@ -77,6 +78,7 @@ func (p *PlayerProxy) Pause(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayer, MethodIPlayerPause)
@@ -92,6 +94,7 @@ func (p *PlayerProxy) Stop(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayer, MethodIPlayerStop)
@@ -108,6 +111,7 @@ func (p *PlayerProxy) SetVolume(
 	vol float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayer)
 	_data.WriteFloat32(vol)
 
@@ -125,6 +129,7 @@ func (p *PlayerProxy) SetPan(
 	pan float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayer)
 	_data.WriteFloat32(pan)
 
@@ -142,6 +147,7 @@ func (p *PlayerProxy) SetStartDelayMs(
 	delayMs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayer)
 	_data.WriteInt32(delayMs)
 
@@ -160,6 +166,7 @@ func (p *PlayerProxy) ApplyVolumeShaper(
 	operation VolumeShaperOperation,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayer)
 	_data.WriteInt32(1)
 	if _err := configuration.MarshalParcel(_data); _err != nil {
@@ -182,7 +189,8 @@ func (p *PlayerProxy) ApplyVolumeShaper(
 // PlayerStub dispatches incoming binder transactions
 // to a typed IPlayer implementation.
 type PlayerStub struct {
-	Impl IPlayer
+	Impl      IPlayer
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PlayerStub)(nil)
@@ -196,65 +204,42 @@ func (s *PlayerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPlayerStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Start(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPlayerPause:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Pause(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPlayerStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Stop(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPlayerSetVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_vol, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetVolume(ctx, _arg_vol)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPlayerSetPan:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pan, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetPan(ctx, _arg_pan)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPlayerSetStartDelayMs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_delayMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetStartDelayMs(ctx, _arg_delayMs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPlayerApplyVolumeShaper:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_configuration VolumeShaperConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -280,8 +265,7 @@ func (s *PlayerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ApplyVolumeShaper(ctx, _arg_configuration, _arg_operation)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

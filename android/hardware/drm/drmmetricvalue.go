@@ -33,8 +33,7 @@ func (u *DrmMetricValue) GetInt64Value() (int64, bool) {
 func (u *DrmMetricValue) SetInt64Value(
 	v int64,
 ) {
-	u.Tag = DrmMetricValueTagInt64Value
-	u.Int64Value = v
+	*u = DrmMetricValue{Tag: DrmMetricValueTagInt64Value, Int64Value: v}
 }
 
 func (u *DrmMetricValue) GetDoubleValue() (float64, bool) {
@@ -48,8 +47,7 @@ func (u *DrmMetricValue) GetDoubleValue() (float64, bool) {
 func (u *DrmMetricValue) SetDoubleValue(
 	v float64,
 ) {
-	u.Tag = DrmMetricValueTagDoubleValue
-	u.DoubleValue = v
+	*u = DrmMetricValue{Tag: DrmMetricValueTagDoubleValue, DoubleValue: v}
 }
 
 func (u *DrmMetricValue) GetStringValue() (string, bool) {
@@ -63,8 +61,7 @@ func (u *DrmMetricValue) GetStringValue() (string, bool) {
 func (u *DrmMetricValue) SetStringValue(
 	v string,
 ) {
-	u.Tag = DrmMetricValueTagStringValue
-	u.StringValue = v
+	*u = DrmMetricValue{Tag: DrmMetricValueTagStringValue, StringValue: v}
 }
 
 func (u *DrmMetricValue) MarshalParcel(

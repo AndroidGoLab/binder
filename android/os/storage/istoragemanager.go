@@ -3,9 +3,10 @@ package storage
 import (
 	"context"
 	"fmt"
-	app "github.com/xaionaro-go/binder/android/app"
-	pm "github.com/xaionaro-go/binder/android/content/pm"
+	appTypes "github.com/xaionaro-go/binder/android/app/types"
+	types "github.com/xaionaro-go/binder/android/content/pm/types"
 	res "github.com/xaionaro-go/binder/android/content/res"
+	osTypes "github.com/xaionaro-go/binder/android/os/types"
 	"github.com/xaionaro-go/binder/binder"
 	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
@@ -17,7 +18,7 @@ const DescriptorIStorageManager = "android.os.storage.IStorageManager"
 
 const (
 	TransactionIStorageManagerRegisterListener                    = binder.FirstCallTransaction + 0
-	TransactionIStorageManagerUnregisterListener                  = binder.FirstCallTransaction + 0
+	TransactionIStorageManagerUnregisterListener                  = binder.FirstCallTransaction + 1
 	TransactionIStorageManagerShutdown                            = binder.FirstCallTransaction + 18
 	TransactionIStorageManagerMountObb                            = binder.FirstCallTransaction + 20
 	TransactionIStorageManagerUnmountObb                          = binder.FirstCallTransaction + 21
@@ -170,8 +171,8 @@ type IStorageManager interface {
 	ForgetVolume(ctx context.Context, fsUuid string) error
 	ForgetAllVolumes(ctx context.Context) error
 	GetPrimaryStorageUuid(ctx context.Context) (string, error)
-	SetPrimaryStorageUuid(ctx context.Context, volumeUuid string, callback pm.IPackageMoveObserver) error
-	Benchmark(ctx context.Context, volId string, listener interface{}) error
+	SetPrimaryStorageUuid(ctx context.Context, volumeUuid string, callback types.IPackageMoveObserver) error
+	Benchmark(ctx context.Context, volId string, listener osTypes.IVoldTaskListener) error
 	SetDebugFlags(ctx context.Context, flags int32, mask int32) error
 	CreateUserStorageKeys(ctx context.Context, ephemeral bool) error
 	DestroyUserStorageKeys(ctx context.Context) error
@@ -181,7 +182,7 @@ type IStorageManager interface {
 	PrepareUserStorage(ctx context.Context, volumeUuid string, flags int32) error
 	DestroyUserStorage(ctx context.Context, volumeUuid string, flags int32) error
 	SetCeStorageProtection(ctx context.Context, secret []byte) error
-	Fstrim(ctx context.Context, flags int32, listener interface{}) error
+	Fstrim(ctx context.Context, flags int32, listener osTypes.IVoldTaskListener) error
 	MountProxyFileDescriptorBridge(ctx context.Context) (os.AppFuseMount, error)
 	OpenProxyFileDescriptor(ctx context.Context, mountPointId int32, fileId int32, mode int32) (int32, error)
 	GetCacheQuotaBytes(ctx context.Context, volumeUuid string, uid int32) (int64, error)
@@ -197,7 +198,7 @@ type IStorageManager interface {
 	AbortChanges(ctx context.Context, message string, retry bool) error
 	FixupAppDir(ctx context.Context, path string) error
 	DisableAppDataIsolation(ctx context.Context, pkgName string, pid int32) error
-	GetManageSpaceActivityIntent(ctx context.Context, packageName string, requestCode int32) (app.PendingIntent, error)
+	GetManageSpaceActivityIntent(ctx context.Context, packageName string, requestCode int32) (appTypes.PendingIntent, error)
 	NotifyAppIoBlocked(ctx context.Context, volumeUuid string, uid int32, tid int32, reason int32) error
 	NotifyAppIoResumed(ctx context.Context, volumeUuid string, uid int32, tid int32, reason int32) error
 	GetExternalStorageMountMode(ctx context.Context, uid int32, packageName string) (int32, error)
@@ -229,6 +230,7 @@ func (p *StorageManagerProxy) RegisterListener(
 	listener IStorageEventListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -255,6 +257,7 @@ func (p *StorageManagerProxy) UnregisterListener(
 	listener IStorageEventListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -281,6 +284,7 @@ func (p *StorageManagerProxy) Shutdown(
 	observer IStorageShutdownObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
@@ -311,6 +315,7 @@ func (p *StorageManagerProxy) MountObb(
 	obbInfo res.ObbInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(rawPath)
 	_data.WriteString16(canonicalPath)
@@ -347,6 +352,7 @@ func (p *StorageManagerProxy) UnmountObb(
 	nonce int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(rawPath)
 	_data.WriteBool(force)
@@ -377,6 +383,7 @@ func (p *StorageManagerProxy) IsObbMounted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(rawPath)
 
@@ -408,6 +415,7 @@ func (p *StorageManagerProxy) GetMountedObbPath(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(rawPath)
 
@@ -440,6 +448,7 @@ func (p *StorageManagerProxy) GetVolumeList(
 	var _result []StorageVolume
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
@@ -464,6 +473,9 @@ func (p *StorageManagerProxy) GetVolumeList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]StorageVolume, _count)
@@ -485,6 +497,7 @@ func (p *StorageManagerProxy) Mkdirs(
 	path string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(path)
@@ -512,6 +525,7 @@ func (p *StorageManagerProxy) LastMaintenance(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerLastMaintenance)
@@ -540,6 +554,7 @@ func (p *StorageManagerProxy) RunMaintenance(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerRunMaintenance)
@@ -565,6 +580,7 @@ func (p *StorageManagerProxy) GetDisks(
 ) ([]DiskInfo, error) {
 	var _result []DiskInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetDisks)
@@ -585,6 +601,9 @@ func (p *StorageManagerProxy) GetDisks(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -607,6 +626,7 @@ func (p *StorageManagerProxy) GetVolumes(
 ) ([]VolumeInfo, error) {
 	var _result []VolumeInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(flags)
 
@@ -629,6 +649,9 @@ func (p *StorageManagerProxy) GetVolumes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]VolumeInfo, _count)
@@ -650,6 +673,7 @@ func (p *StorageManagerProxy) GetVolumeRecords(
 ) ([]VolumeRecord, error) {
 	var _result []VolumeRecord
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(flags)
 
@@ -672,6 +696,9 @@ func (p *StorageManagerProxy) GetVolumeRecords(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]VolumeRecord, _count)
@@ -692,6 +719,7 @@ func (p *StorageManagerProxy) Mount(
 	volId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volId)
 
@@ -718,6 +746,7 @@ func (p *StorageManagerProxy) Unmount(
 	volId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volId)
 
@@ -744,6 +773,7 @@ func (p *StorageManagerProxy) Format(
 	volId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volId)
 
@@ -770,6 +800,7 @@ func (p *StorageManagerProxy) PartitionPublic(
 	diskId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(diskId)
 
@@ -796,6 +827,7 @@ func (p *StorageManagerProxy) PartitionPrivate(
 	diskId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(diskId)
 
@@ -823,6 +855,7 @@ func (p *StorageManagerProxy) PartitionMixed(
 	ratio int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(diskId)
 	_data.WriteInt32(ratio)
@@ -851,6 +884,7 @@ func (p *StorageManagerProxy) SetVolumeNickname(
 	nickname string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(fsUuid)
 	_data.WriteString16(nickname)
@@ -880,6 +914,7 @@ func (p *StorageManagerProxy) SetVolumeUserFlags(
 	mask int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(fsUuid)
 	_data.WriteInt32(flags)
@@ -908,6 +943,7 @@ func (p *StorageManagerProxy) ForgetVolume(
 	fsUuid string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(fsUuid)
 
@@ -933,6 +969,7 @@ func (p *StorageManagerProxy) ForgetAllVolumes(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerForgetAllVolumes)
@@ -958,6 +995,7 @@ func (p *StorageManagerProxy) GetPrimaryStorageUuid(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetPrimaryStorageUuid)
@@ -985,12 +1023,13 @@ func (p *StorageManagerProxy) GetPrimaryStorageUuid(
 func (p *StorageManagerProxy) SetPrimaryStorageUuid(
 	ctx context.Context,
 	volumeUuid string,
-	callback pm.IPackageMoveObserver,
+	callback types.IPackageMoveObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volumeUuid)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	// WARNING: param callback (type types.IPackageMoveObserver) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerSetPrimaryStorageUuid)
 	if _err != nil {
@@ -1013,11 +1052,13 @@ func (p *StorageManagerProxy) SetPrimaryStorageUuid(
 func (p *StorageManagerProxy) Benchmark(
 	ctx context.Context,
 	volId string,
-	listener interface{},
+	listener osTypes.IVoldTaskListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volId)
+	// WARNING: param listener (type osTypes.IVoldTaskListener) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerBenchmark)
 	if _err != nil {
@@ -1043,6 +1084,7 @@ func (p *StorageManagerProxy) SetDebugFlags(
 	mask int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(flags)
 	_data.WriteInt32(mask)
@@ -1071,6 +1113,7 @@ func (p *StorageManagerProxy) CreateUserStorageKeys(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(ephemeral)
@@ -1098,6 +1141,7 @@ func (p *StorageManagerProxy) DestroyUserStorageKeys(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1125,16 +1169,10 @@ func (p *StorageManagerProxy) UnlockCeStorage(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(_identity.UserID)
-	if secret == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(secret)))
-		for _, _item := range secret {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(secret)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerUnlockCeStorage)
 	if _err != nil {
@@ -1159,6 +1197,7 @@ func (p *StorageManagerProxy) LockCeStorage(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1186,6 +1225,7 @@ func (p *StorageManagerProxy) IsCeStorageUnlocked(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1218,6 +1258,7 @@ func (p *StorageManagerProxy) PrepareUserStorage(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(_identity.UserID)
@@ -1248,6 +1289,7 @@ func (p *StorageManagerProxy) DestroyUserStorage(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(_identity.UserID)
@@ -1277,16 +1319,10 @@ func (p *StorageManagerProxy) SetCeStorageProtection(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(_identity.UserID)
-	if secret == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(secret)))
-		for _, _item := range secret {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(secret)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerSetCeStorageProtection)
 	if _err != nil {
@@ -1309,11 +1345,13 @@ func (p *StorageManagerProxy) SetCeStorageProtection(
 func (p *StorageManagerProxy) Fstrim(
 	ctx context.Context,
 	flags int32,
-	listener interface{},
+	listener osTypes.IVoldTaskListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(flags)
+	// WARNING: param listener (type osTypes.IVoldTaskListener) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerFstrim)
 	if _err != nil {
@@ -1338,6 +1376,7 @@ func (p *StorageManagerProxy) MountProxyFileDescriptorBridge(
 ) (os.AppFuseMount, error) {
 	var _result os.AppFuseMount
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerMountProxyFileDescriptorBridge)
@@ -1375,6 +1414,7 @@ func (p *StorageManagerProxy) OpenProxyFileDescriptor(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(mountPointId)
 	_data.WriteInt32(fileId)
@@ -1409,6 +1449,7 @@ func (p *StorageManagerProxy) GetCacheQuotaBytes(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(uid)
@@ -1442,6 +1483,7 @@ func (p *StorageManagerProxy) GetCacheSizeBytes(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(uid)
@@ -1476,6 +1518,7 @@ func (p *StorageManagerProxy) GetAllocatableBytes(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(flags)
@@ -1511,6 +1554,7 @@ func (p *StorageManagerProxy) AllocateBytes(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt64(bytes)
@@ -1539,6 +1583,7 @@ func (p *StorageManagerProxy) RunIdleMaintenance(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerRunIdleMaintenance)
@@ -1563,6 +1608,7 @@ func (p *StorageManagerProxy) AbortIdleMaintenance(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerAbortIdleMaintenance)
@@ -1587,6 +1633,7 @@ func (p *StorageManagerProxy) CommitChanges(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerCommitChanges)
@@ -1612,6 +1659,7 @@ func (p *StorageManagerProxy) SupportsCheckpoint(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerSupportsCheckpoint)
@@ -1641,6 +1689,7 @@ func (p *StorageManagerProxy) StartCheckpoint(
 	numTries int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(numTries)
 
@@ -1667,6 +1716,7 @@ func (p *StorageManagerProxy) NeedsCheckpoint(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerNeedsCheckpoint)
@@ -1697,6 +1747,7 @@ func (p *StorageManagerProxy) AbortChanges(
 	retry bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(message)
 	_data.WriteBool(retry)
@@ -1724,6 +1775,7 @@ func (p *StorageManagerProxy) FixupAppDir(
 	path string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(path)
 
@@ -1752,6 +1804,7 @@ func (p *StorageManagerProxy) DisableAppDataIsolation(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(pkgName)
 	_data.WriteInt32(pid)
@@ -1779,9 +1832,10 @@ func (p *StorageManagerProxy) GetManageSpaceActivityIntent(
 	ctx context.Context,
 	packageName string,
 	requestCode int32,
-) (app.PendingIntent, error) {
-	var _result app.PendingIntent
+) (appTypes.PendingIntent, error) {
+	var _result appTypes.PendingIntent
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(requestCode)
@@ -1801,14 +1855,16 @@ func (p *StorageManagerProxy) GetManageSpaceActivityIntent(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
+	_nullInd, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
 			return _result, _err
 		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -1821,6 +1877,7 @@ func (p *StorageManagerProxy) NotifyAppIoBlocked(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(uid)
@@ -1853,6 +1910,7 @@ func (p *StorageManagerProxy) NotifyAppIoResumed(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(uid)
@@ -1884,6 +1942,7 @@ func (p *StorageManagerProxy) GetExternalStorageMountMode(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
@@ -1919,6 +1978,7 @@ func (p *StorageManagerProxy) IsAppIoBlocked(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(uid)
@@ -1952,6 +2012,7 @@ func (p *StorageManagerProxy) SetCloudMediaProvider(
 	authority string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(authority)
 
@@ -1978,6 +2039,7 @@ func (p *StorageManagerProxy) GetCloudMediaProvider(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetCloudMediaProvider)
@@ -2007,6 +2069,7 @@ func (p *StorageManagerProxy) GetInternalStorageBlockDeviceSize(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetInternalStorageBlockDeviceSize)
@@ -2036,6 +2099,7 @@ func (p *StorageManagerProxy) GetInternalStorageRemainingLifetime(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetInternalStorageRemainingLifetime)
@@ -2063,7 +2127,8 @@ func (p *StorageManagerProxy) GetInternalStorageRemainingLifetime(
 // StorageManagerStub dispatches incoming binder transactions
 // to a typed IStorageManager implementation.
 type StorageManagerStub struct {
-	Impl IStorageManager
+	Impl      IStorageManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StorageManagerStub)(nil)
@@ -2077,14 +2142,20 @@ func (s *StorageManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStorageManagerRegisterListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IStorageEventListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewStorageEventListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2093,13 +2164,32 @@ func (s *StorageManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIStorageManagerShutdown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+	case TransactionIStorageManagerUnregisterListener:
+		var _arg_listener IStorageEventListener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewStorageEventListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err := s.Impl.UnregisterListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIStorageManagerShutdown:
 		var _arg_observer IStorageShutdownObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewStorageShutdownObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_err := s.Impl.Shutdown(ctx, _arg_observer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2109,9 +2199,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerMountObb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rawPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2120,9 +2207,14 @@ func (s *StorageManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token IObbActionListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = NewObbActionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_nonce, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2148,9 +2240,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerUnmountObb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rawPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2159,9 +2248,14 @@ func (s *StorageManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token IObbActionListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = NewObbActionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_nonce, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2175,9 +2269,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerIsObbMounted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rawPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2192,9 +2283,6 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIStorageManagerGetMountedObbPath:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rawPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2209,9 +2297,6 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIStorageManagerGetVolumeList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2229,13 +2314,19 @@ func (s *StorageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIStorageManagerMkdirs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2253,9 +2344,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerLastMaintenance:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.LastMaintenance(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2266,9 +2354,6 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageManagerRunMaintenance:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RunMaintenance(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2278,9 +2363,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerGetDisks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDisks(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2288,13 +2370,19 @@ func (s *StorageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIStorageManagerGetVolumes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2306,13 +2394,19 @@ func (s *StorageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIStorageManagerGetVolumeRecords:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2324,13 +2418,19 @@ func (s *StorageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIStorageManagerMount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2344,9 +2444,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerUnmount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2360,9 +2457,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerFormat:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2376,9 +2470,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerPartitionPublic:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_diskId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2392,9 +2483,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerPartitionPrivate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_diskId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2408,9 +2496,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerPartitionMixed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_diskId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2428,9 +2513,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerSetVolumeNickname:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fsUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2448,9 +2530,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerSetVolumeUserFlags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fsUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2472,9 +2551,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerForgetVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fsUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2488,9 +2564,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerForgetAllVolumes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ForgetAllVolumes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2500,9 +2573,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerGetPrimaryStorageUuid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPrimaryStorageUuid(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2513,16 +2583,11 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIStorageManagerSetPrimaryStorageUuid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback pm.IPackageMoveObserver
-		_ = _arg_callback
+		var _arg_callback types.IPackageMoveObserver
 		_err = s.Impl.SetPrimaryStorageUuid(ctx, _arg_volumeUuid, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2532,14 +2597,11 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerBenchmark:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_listener interface{}
+		var _arg_listener osTypes.IVoldTaskListener
 		_err = s.Impl.Benchmark(ctx, _arg_volId, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2549,9 +2611,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerSetDebugFlags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2569,9 +2628,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerCreateUserStorageKeys:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2588,9 +2644,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerDestroyUserStorageKeys:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2603,15 +2656,17 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerUnlockCeStorage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_secret []byte
-		_ = _arg_secret
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_secret = _bytes
+		}
 		_err := s.Impl.UnlockCeStorage(ctx, _arg_secret)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2621,9 +2676,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerLockCeStorage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2636,9 +2688,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerIsCeStorageUnlocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2652,9 +2701,6 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIStorageManagerPrepareUserStorage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2675,9 +2721,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerDestroyUserStorage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2698,15 +2741,17 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerSetCeStorageProtection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_secret []byte
-		_ = _arg_secret
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_secret = _bytes
+		}
 		_err := s.Impl.SetCeStorageProtection(ctx, _arg_secret)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2716,14 +2761,11 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerFstrim:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_listener interface{}
+		var _arg_listener osTypes.IVoldTaskListener
 		_err = s.Impl.Fstrim(ctx, _arg_flags, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2733,9 +2775,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerMountProxyFileDescriptorBridge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.MountProxyFileDescriptorBridge(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2749,9 +2788,6 @@ func (s *StorageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIStorageManagerOpenProxyFileDescriptor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mountPointId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2774,9 +2810,6 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIStorageManagerGetCacheQuotaBytes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2795,9 +2828,6 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageManagerGetCacheSizeBytes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2816,9 +2846,6 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageManagerGetAllocatableBytes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2840,9 +2867,6 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageManagerAllocateBytes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2867,9 +2891,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerRunIdleMaintenance:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RunIdleMaintenance(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2879,9 +2900,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerAbortIdleMaintenance:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.AbortIdleMaintenance(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2891,9 +2909,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerCommitChanges:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CommitChanges(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2903,9 +2918,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerSupportsCheckpoint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.SupportsCheckpoint(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2916,9 +2928,6 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIStorageManagerStartCheckpoint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_numTries, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2932,9 +2941,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerNeedsCheckpoint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.NeedsCheckpoint(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2945,9 +2951,6 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIStorageManagerAbortChanges:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2965,9 +2968,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerFixupAppDir:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2981,9 +2981,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerDisableAppDataIsolation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3004,9 +3001,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerGetManageSpaceActivityIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3022,15 +3016,9 @@ func (s *StorageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIStorageManagerNotifyAppIoBlocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3056,9 +3044,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerNotifyAppIoResumed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3084,9 +3069,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerGetExternalStorageMountMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3105,9 +3087,6 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIStorageManagerIsAppIoBlocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3134,9 +3113,6 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIStorageManagerSetCloudMediaProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_authority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3150,9 +3126,6 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerGetCloudMediaProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCloudMediaProvider(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3163,9 +3136,6 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIStorageManagerGetInternalStorageBlockDeviceSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetInternalStorageBlockDeviceSize(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3176,9 +3146,6 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageManagerGetInternalStorageRemainingLifetime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetInternalStorageRemainingLifetime(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3222,8 +3189,8 @@ type IStorageManagerServer interface {
 	ForgetVolume(ctx context.Context, fsUuid string) error
 	ForgetAllVolumes(ctx context.Context) error
 	GetPrimaryStorageUuid(ctx context.Context) (string, error)
-	SetPrimaryStorageUuid(ctx context.Context, volumeUuid string, callback pm.IPackageMoveObserver) error
-	Benchmark(ctx context.Context, volId string, listener interface{}) error
+	SetPrimaryStorageUuid(ctx context.Context, volumeUuid string, callback types.IPackageMoveObserver) error
+	Benchmark(ctx context.Context, volId string, listener osTypes.IVoldTaskListener) error
 	SetDebugFlags(ctx context.Context, flags int32, mask int32) error
 	CreateUserStorageKeys(ctx context.Context, ephemeral bool) error
 	DestroyUserStorageKeys(ctx context.Context) error
@@ -3233,7 +3200,7 @@ type IStorageManagerServer interface {
 	PrepareUserStorage(ctx context.Context, volumeUuid string, flags int32) error
 	DestroyUserStorage(ctx context.Context, volumeUuid string, flags int32) error
 	SetCeStorageProtection(ctx context.Context, secret []byte) error
-	Fstrim(ctx context.Context, flags int32, listener interface{}) error
+	Fstrim(ctx context.Context, flags int32, listener osTypes.IVoldTaskListener) error
 	MountProxyFileDescriptorBridge(ctx context.Context) (os.AppFuseMount, error)
 	OpenProxyFileDescriptor(ctx context.Context, mountPointId int32, fileId int32, mode int32) (int32, error)
 	GetCacheQuotaBytes(ctx context.Context, volumeUuid string, uid int32) (int64, error)
@@ -3249,7 +3216,7 @@ type IStorageManagerServer interface {
 	AbortChanges(ctx context.Context, message string, retry bool) error
 	FixupAppDir(ctx context.Context, path string) error
 	DisableAppDataIsolation(ctx context.Context, pkgName string, pid int32) error
-	GetManageSpaceActivityIntent(ctx context.Context, packageName string, requestCode int32) (app.PendingIntent, error)
+	GetManageSpaceActivityIntent(ctx context.Context, packageName string, requestCode int32) (appTypes.PendingIntent, error)
 	NotifyAppIoBlocked(ctx context.Context, volumeUuid string, uid int32, tid int32, reason int32) error
 	NotifyAppIoResumed(ctx context.Context, volumeUuid string, uid int32, tid int32, reason int32) error
 	GetExternalStorageMountMode(ctx context.Context, uid int32, packageName string) (int32, error)
@@ -3454,7 +3421,7 @@ func (w *storageManagerStubWrapper) GetPrimaryStorageUuid(
 func (w *storageManagerStubWrapper) SetPrimaryStorageUuid(
 	ctx context.Context,
 	volumeUuid string,
-	callback pm.IPackageMoveObserver,
+	callback types.IPackageMoveObserver,
 ) error {
 	return w.impl.SetPrimaryStorageUuid(ctx, volumeUuid, callback)
 }
@@ -3462,7 +3429,7 @@ func (w *storageManagerStubWrapper) SetPrimaryStorageUuid(
 func (w *storageManagerStubWrapper) Benchmark(
 	ctx context.Context,
 	volId string,
-	listener interface{},
+	listener osTypes.IVoldTaskListener,
 ) error {
 	return w.impl.Benchmark(ctx, volId, listener)
 }
@@ -3533,7 +3500,7 @@ func (w *storageManagerStubWrapper) SetCeStorageProtection(
 func (w *storageManagerStubWrapper) Fstrim(
 	ctx context.Context,
 	flags int32,
-	listener interface{},
+	listener osTypes.IVoldTaskListener,
 ) error {
 	return w.impl.Fstrim(ctx, flags, listener)
 }
@@ -3650,7 +3617,7 @@ func (w *storageManagerStubWrapper) GetManageSpaceActivityIntent(
 	ctx context.Context,
 	packageName string,
 	requestCode int32,
-) (app.PendingIntent, error) {
+) (appTypes.PendingIntent, error) {
 	return w.impl.GetManageSpaceActivityIntent(ctx, packageName, requestCode)
 }
 

@@ -50,6 +50,7 @@ func (p *ScanEventProxy) OnScanResultReady(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScanEvent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanEvent, MethodIScanEventOnScanResultReady)
@@ -65,6 +66,7 @@ func (p *ScanEventProxy) OnScanFailed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScanEvent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanEvent, MethodIScanEventOnScanFailed)
@@ -81,6 +83,7 @@ func (p *ScanEventProxy) OnScanRequestFailed(
 	errorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScanEvent)
 	_data.WriteInt32(errorCode)
 
@@ -96,7 +99,8 @@ func (p *ScanEventProxy) OnScanRequestFailed(
 // ScanEventStub dispatches incoming binder transactions
 // to a typed IScanEvent implementation.
 type ScanEventStub struct {
-	Impl IScanEvent
+	Impl      IScanEvent
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ScanEventStub)(nil)
@@ -110,32 +114,24 @@ func (s *ScanEventStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIScanEventOnScanResultReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnScanResultReady(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIScanEventOnScanFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnScanFailed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIScanEventOnScanRequestFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnScanRequestFailed(ctx, _arg_errorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

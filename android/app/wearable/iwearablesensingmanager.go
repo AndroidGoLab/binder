@@ -38,7 +38,7 @@ type IWearableSensingManager interface {
 	AsBinder() binder.IBinder
 	ProvideConnection(ctx context.Context, parcelFileDescriptor int32, callback os.RemoteCallback) error
 	ProvideDataStream(ctx context.Context, parcelFileDescriptor int32, callback os.RemoteCallback) error
-	ProvideData(ctx context.Context, data interface{}, sharedMemory os.SharedMemory, callback os.RemoteCallback) error
+	ProvideData(ctx context.Context, data os.PersistableBundle, sharedMemory os.SharedMemory, callback os.RemoteCallback) error
 	RegisterDataRequestObserver(ctx context.Context, dataType int32, dataRequestPendingIntent app.PendingIntent, statusCallback os.RemoteCallback) error
 	UnregisterDataRequestObserver(ctx context.Context, dataType int32, dataRequestPendingIntent app.PendingIntent, statusCallback os.RemoteCallback) error
 	StartHotwordRecognition(ctx context.Context, targetVisComponentName content.ComponentName, statusCallback os.RemoteCallback) error
@@ -67,6 +67,7 @@ func (p *WearableSensingManagerProxy) ProvideConnection(
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingManager)
 	_data.WriteFileDescriptor(parcelFileDescriptor)
 	_data.WriteInt32(1)
@@ -98,6 +99,7 @@ func (p *WearableSensingManagerProxy) ProvideDataStream(
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingManager)
 	_data.WriteFileDescriptor(parcelFileDescriptor)
 	_data.WriteInt32(1)
@@ -125,12 +127,17 @@ func (p *WearableSensingManagerProxy) ProvideDataStream(
 
 func (p *WearableSensingManagerProxy) ProvideData(
 	ctx context.Context,
-	data interface{},
+	data os.PersistableBundle,
 	sharedMemory os.SharedMemory,
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingManager)
+	_data.WriteInt32(1)
+	if _err := data.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := sharedMemory.MarshalParcel(_data); _err != nil {
 		return _err
@@ -165,6 +172,7 @@ func (p *WearableSensingManagerProxy) RegisterDataRequestObserver(
 	statusCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingManager)
 	_data.WriteInt32(dataType)
 	_data.WriteInt32(1)
@@ -201,6 +209,7 @@ func (p *WearableSensingManagerProxy) UnregisterDataRequestObserver(
 	statusCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingManager)
 	_data.WriteInt32(dataType)
 	_data.WriteInt32(1)
@@ -236,6 +245,7 @@ func (p *WearableSensingManagerProxy) StartHotwordRecognition(
 	statusCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingManager)
 	_data.WriteInt32(1)
 	if _err := targetVisComponentName.MarshalParcel(_data); _err != nil {
@@ -269,6 +279,7 @@ func (p *WearableSensingManagerProxy) StopHotwordRecognition(
 	statusCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingManager)
 	_data.WriteInt32(1)
 	if _err := statusCallback.MarshalParcel(_data); _err != nil {
@@ -296,7 +307,8 @@ func (p *WearableSensingManagerProxy) StopHotwordRecognition(
 // WearableSensingManagerStub dispatches incoming binder transactions
 // to a typed IWearableSensingManager implementation.
 type WearableSensingManagerStub struct {
-	Impl IWearableSensingManager
+	Impl      IWearableSensingManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WearableSensingManagerStub)(nil)
@@ -310,11 +322,12 @@ func (s *WearableSensingManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWearableSensingManagerProvideConnection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_parcelFileDescriptor, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -340,9 +353,6 @@ func (s *WearableSensingManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWearableSensingManagerProvideDataStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_parcelFileDescriptor, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -368,10 +378,18 @@ func (s *WearableSensingManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWearableSensingManagerProvideData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_data os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_data interface{}
 		var _arg_sharedMemory os.SharedMemory
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -405,9 +423,6 @@ func (s *WearableSensingManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWearableSensingManagerRegisterDataRequestObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dataType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -445,9 +460,6 @@ func (s *WearableSensingManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWearableSensingManagerUnregisterDataRequestObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dataType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -485,9 +497,6 @@ func (s *WearableSensingManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWearableSensingManagerStartHotwordRecognition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_targetVisComponentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -521,9 +530,6 @@ func (s *WearableSensingManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWearableSensingManagerStopHotwordRecognition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_statusCallback os.RemoteCallback
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -555,7 +561,7 @@ func (s *WearableSensingManagerStub) OnTransaction(
 type IWearableSensingManagerServer interface {
 	ProvideConnection(ctx context.Context, parcelFileDescriptor int32, callback os.RemoteCallback) error
 	ProvideDataStream(ctx context.Context, parcelFileDescriptor int32, callback os.RemoteCallback) error
-	ProvideData(ctx context.Context, data interface{}, sharedMemory os.SharedMemory, callback os.RemoteCallback) error
+	ProvideData(ctx context.Context, data os.PersistableBundle, sharedMemory os.SharedMemory, callback os.RemoteCallback) error
 	RegisterDataRequestObserver(ctx context.Context, dataType int32, dataRequestPendingIntent app.PendingIntent, statusCallback os.RemoteCallback) error
 	UnregisterDataRequestObserver(ctx context.Context, dataType int32, dataRequestPendingIntent app.PendingIntent, statusCallback os.RemoteCallback) error
 	StartHotwordRecognition(ctx context.Context, targetVisComponentName content.ComponentName, statusCallback os.RemoteCallback) error
@@ -589,7 +595,7 @@ func (w *wearableSensingManagerStubWrapper) ProvideDataStream(
 
 func (w *wearableSensingManagerStubWrapper) ProvideData(
 	ctx context.Context,
-	data interface{},
+	data os.PersistableBundle,
 	sharedMemory os.SharedMemory,
 	callback os.RemoteCallback,
 ) error {

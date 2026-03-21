@@ -50,6 +50,7 @@ func (p *RadioConfigIndicationProxy) SimSlotsStatusChanged(
 	slotStatus []SimSlotStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigIndication)
 	_data.WriteInt32(int32(type_))
 	if slotStatus == nil {
@@ -78,6 +79,7 @@ func (p *RadioConfigIndicationProxy) OnSimultaneousCallingSupportChanged(
 	enabledLogicalSlots []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigIndication)
 	if enabledLogicalSlots == nil {
 		_data.WriteInt32(-1)
@@ -100,7 +102,8 @@ func (p *RadioConfigIndicationProxy) OnSimultaneousCallingSupportChanged(
 // RadioConfigIndicationStub dispatches incoming binder transactions
 // to a typed IRadioConfigIndication implementation.
 type RadioConfigIndicationStub struct {
-	Impl IRadioConfigIndication
+	Impl      IRadioConfigIndication
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RadioConfigIndicationStub)(nil)
@@ -114,32 +117,62 @@ func (s *RadioConfigIndicationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRadioConfigIndicationSimSlotsStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_slotStatus []SimSlotStatus
-		_ = _arg_slotStatus
-		_err = s.Impl.SimSlotsStatusChanged(ctx, _arg_type_, _arg_slotStatus)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioConfigIndicationOnSimultaneousCallingSupportChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_slotStatus = make([]SimSlotStatus, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_slotStatus[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		_err = s.Impl.SimSlotsStatusChanged(ctx, _arg_type_, _arg_slotStatus)
+		return nil, _err
+	case TransactionIRadioConfigIndicationOnSimultaneousCallingSupportChanged:
 		var _arg_enabledLogicalSlots []int32
-		_ = _arg_enabledLogicalSlots
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_enabledLogicalSlots = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_enabledLogicalSlots[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnSimultaneousCallingSupportChanged(ctx, _arg_enabledLogicalSlots)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

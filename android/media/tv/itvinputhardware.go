@@ -3,6 +3,7 @@ package tv
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -25,7 +26,7 @@ const (
 
 type ITvInputHardware interface {
 	AsBinder() binder.IBinder
-	SetSurface(ctx context.Context, surface interface{}, config TvStreamConfig) (bool, error)
+	SetSurface(ctx context.Context, surface view.Surface, config TvStreamConfig) (bool, error)
 	SetStreamVolume(ctx context.Context, volume float32) error
 	OverrideAudioSink(ctx context.Context, audioType int32, audioAddress string, samplingRate int32, channelMask int32, format int32) error
 }
@@ -48,12 +49,17 @@ var _ ITvInputHardware = (*TvInputHardwareProxy)(nil)
 
 func (p *TvInputHardwareProxy) SetSurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 	config TvStreamConfig,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputHardware)
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -86,6 +92,7 @@ func (p *TvInputHardwareProxy) SetStreamVolume(
 	volume float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputHardware)
 	_data.WriteFloat32(volume)
 
@@ -116,6 +123,7 @@ func (p *TvInputHardwareProxy) OverrideAudioSink(
 	format int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputHardware)
 	_data.WriteInt32(audioType)
 	_data.WriteString16(audioAddress)
@@ -144,7 +152,8 @@ func (p *TvInputHardwareProxy) OverrideAudioSink(
 // TvInputHardwareStub dispatches incoming binder transactions
 // to a typed ITvInputHardware implementation.
 type TvInputHardwareStub struct {
-	Impl ITvInputHardware
+	Impl      ITvInputHardware
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvInputHardwareStub)(nil)
@@ -158,12 +167,24 @@ func (s *TvInputHardwareStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvInputHardwareSetSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_surface view.Surface
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_surface interface{}
 		var _arg_config TvStreamConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -186,9 +207,6 @@ func (s *TvInputHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITvInputHardwareSetStreamVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volume, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -202,9 +220,6 @@ func (s *TvInputHardwareStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputHardwareOverrideAudioSink:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_audioType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -242,7 +257,7 @@ func (s *TvInputHardwareStub) OnTransaction(
 // provide to NewTvInputHardwareStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ITvInputHardwareServer interface {
-	SetSurface(ctx context.Context, surface interface{}, config TvStreamConfig) (bool, error)
+	SetSurface(ctx context.Context, surface view.Surface, config TvStreamConfig) (bool, error)
 	SetStreamVolume(ctx context.Context, volume float32) error
 	OverrideAudioSink(ctx context.Context, audioType int32, audioAddress string, samplingRate int32, channelMask int32, format int32) error
 }
@@ -258,7 +273,7 @@ func (w *tvInputHardwareStubWrapper) AsBinder() binder.IBinder {
 
 func (w *tvInputHardwareStubWrapper) SetSurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 	config TvStreamConfig,
 ) (bool, error) {
 	return w.impl.SetSurface(ctx, surface, config)

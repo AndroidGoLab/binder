@@ -1,0 +1,57 @@
+package: android.hardware.fastboot
+go_package: android/hardware/fastboot
+interfaces:
+    - name: IFastboot
+      descriptor: android.hardware.fastboot.IFastboot
+      methods:
+        - name: doOemCommand
+          transaction_code_offset: 0
+          params:
+            - name: oemCmd
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: String
+        - name: doOemSpecificErase
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: getBatteryVoltageFlashingThreshold
+          transaction_code_offset: 2
+          return_type:
+            name: int
+        - name: getOffModeChargeState
+          transaction_code_offset: 3
+          return_type:
+            name: boolean
+        - name: getPartitionType
+          transaction_code_offset: 4
+          params:
+            - name: partitionName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: FileSystemType
+        - name: getVariant
+          transaction_code_offset: 5
+          return_type:
+            name: String
+      constants:
+        - name: FAILURE_UNKNOWN
+          type: int
+          value: "1"
+enums:
+    - name: FileSystemType
+      backing_type: byte
+      values:
+        - name: EXT4
+          value: ""
+        - name: F2FS
+          value: ""
+        - name: RAW
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing

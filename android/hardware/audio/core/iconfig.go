@@ -49,6 +49,7 @@ func (p *ConfigProxy) GetSurroundSoundConfig(
 ) (SurroundSoundConfig, error) {
 	var _result SurroundSoundConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfig)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfig, MethodIConfigGetSurroundSoundConfig)
@@ -83,6 +84,7 @@ func (p *ConfigProxy) GetEngineConfig(
 ) (common.AudioHalEngineConfig, error) {
 	var _result common.AudioHalEngineConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfig)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfig, MethodIConfigGetEngineConfig)
@@ -115,7 +117,8 @@ func (p *ConfigProxy) GetEngineConfig(
 // ConfigStub dispatches incoming binder transactions
 // to a typed IConfig implementation.
 type ConfigStub struct {
-	Impl IConfig
+	Impl      IConfig
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ConfigStub)(nil)
@@ -129,11 +132,12 @@ func (s *ConfigStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIConfigGetSurroundSoundConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSurroundSoundConfig(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -147,9 +151,6 @@ func (s *ConfigStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIConfigGetEngineConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEngineConfig(ctx)
 		_reply := parcel.New()
 		if _err != nil {

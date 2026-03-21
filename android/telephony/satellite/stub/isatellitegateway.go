@@ -34,7 +34,8 @@ var _ ISatelliteGateway = (*SatelliteGatewayProxy)(nil)
 // SatelliteGatewayStub dispatches incoming binder transactions
 // to a typed ISatelliteGateway implementation.
 type SatelliteGatewayStub struct {
-	Impl ISatelliteGateway
+	Impl      ISatelliteGateway
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SatelliteGatewayStub)(nil)
@@ -48,6 +49,10 @@ func (s *SatelliteGatewayStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

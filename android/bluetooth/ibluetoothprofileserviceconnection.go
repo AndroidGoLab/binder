@@ -50,6 +50,7 @@ func (p *BluetoothProfileServiceConnectionProxy) OnServiceConnected(
 	service binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothProfileServiceConnection)
 	_data.WriteInt32(1)
 	if _err := comp.MarshalParcel(_data); _err != nil {
@@ -71,6 +72,7 @@ func (p *BluetoothProfileServiceConnectionProxy) OnServiceDisconnected(
 	comp content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothProfileServiceConnection)
 	_data.WriteInt32(1)
 	if _err := comp.MarshalParcel(_data); _err != nil {
@@ -89,7 +91,8 @@ func (p *BluetoothProfileServiceConnectionProxy) OnServiceDisconnected(
 // BluetoothProfileServiceConnectionStub dispatches incoming binder transactions
 // to a typed IBluetoothProfileServiceConnection implementation.
 type BluetoothProfileServiceConnectionStub struct {
-	Impl IBluetoothProfileServiceConnection
+	Impl      IBluetoothProfileServiceConnection
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothProfileServiceConnectionStub)(nil)
@@ -103,11 +106,12 @@ func (s *BluetoothProfileServiceConnectionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothProfileServiceConnectionOnServiceConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_comp content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -120,16 +124,17 @@ func (s *BluetoothProfileServiceConnectionStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_service binder.IBinder
-		_ = _arg_service
-		_err := s.Impl.OnServiceConnected(ctx, _arg_comp, _arg_service)
-		_ = _err
-		return nil, nil
-	case TransactionIBluetoothProfileServiceConnectionOnServiceDisconnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_serviceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_service = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _serviceHandle)
 		}
+		_err := s.Impl.OnServiceConnected(ctx, _arg_comp, _arg_service)
+		return nil, _err
+	case TransactionIBluetoothProfileServiceConnectionOnServiceDisconnected:
 		var _arg_comp content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -143,8 +148,7 @@ func (s *BluetoothProfileServiceConnectionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnServiceDisconnected(ctx, _arg_comp)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

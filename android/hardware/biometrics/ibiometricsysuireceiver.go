@@ -61,16 +61,10 @@ func (p *BiometricSysuiReceiverProxy) OnDialogDismissed(
 	credentialAttestation []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
 	_data.WriteInt32(reason)
-	if credentialAttestation == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(credentialAttestation)))
-		for _, _item := range credentialAttestation {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(credentialAttestation)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnDialogDismissed)
 	if _err != nil {
@@ -85,6 +79,7 @@ func (p *BiometricSysuiReceiverProxy) OnTryAgainPressed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnTryAgainPressed)
@@ -100,6 +95,7 @@ func (p *BiometricSysuiReceiverProxy) OnDeviceCredentialPressed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnDeviceCredentialPressed)
@@ -116,6 +112,7 @@ func (p *BiometricSysuiReceiverProxy) OnSystemEvent(
 	event int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
 	_data.WriteInt32(event)
 
@@ -133,6 +130,7 @@ func (p *BiometricSysuiReceiverProxy) OnDialogAnimatedIn(
 	startFingerprintNow bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
 	_data.WriteBool(startFingerprintNow)
 
@@ -149,6 +147,7 @@ func (p *BiometricSysuiReceiverProxy) OnStartFingerprintNow(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnStartFingerprintNow)
@@ -163,7 +162,8 @@ func (p *BiometricSysuiReceiverProxy) OnStartFingerprintNow(
 // BiometricSysuiReceiverStub dispatches incoming binder transactions
 // to a typed IBiometricSysuiReceiver implementation.
 type BiometricSysuiReceiverStub struct {
-	Impl IBiometricSysuiReceiver
+	Impl      IBiometricSysuiReceiver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BiometricSysuiReceiverStub)(nil)
@@ -177,64 +177,49 @@ func (s *BiometricSysuiReceiverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBiometricSysuiReceiverOnDialogDismissed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_credentialAttestation []byte
-		_ = _arg_credentialAttestation
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_credentialAttestation = _bytes
+		}
 		_err = s.Impl.OnDialogDismissed(ctx, _arg_reason, _arg_credentialAttestation)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBiometricSysuiReceiverOnTryAgainPressed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnTryAgainPressed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBiometricSysuiReceiverOnDeviceCredentialPressed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDeviceCredentialPressed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBiometricSysuiReceiverOnSystemEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSystemEvent(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBiometricSysuiReceiverOnDialogAnimatedIn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_startFingerprintNow, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDialogAnimatedIn(ctx, _arg_startFingerprintNow)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBiometricSysuiReceiverOnStartFingerprintNow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnStartFingerprintNow(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

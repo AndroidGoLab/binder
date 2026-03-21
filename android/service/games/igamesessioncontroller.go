@@ -50,6 +50,7 @@ func (p *GameSessionControllerProxy) TakeScreenshot(
 	gameScreenshotResultFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameSessionController)
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(1)
@@ -71,6 +72,7 @@ func (p *GameSessionControllerProxy) RestartGame(
 	taskId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameSessionController)
 	_data.WriteInt32(taskId)
 
@@ -86,7 +88,8 @@ func (p *GameSessionControllerProxy) RestartGame(
 // GameSessionControllerStub dispatches incoming binder transactions
 // to a typed IGameSessionController implementation.
 type GameSessionControllerStub struct {
-	Impl IGameSessionController
+	Impl      IGameSessionController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GameSessionControllerStub)(nil)
@@ -100,11 +103,12 @@ func (s *GameSessionControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGameSessionControllerTakeScreenshot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -122,19 +126,14 @@ func (s *GameSessionControllerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.TakeScreenshot(ctx, _arg_taskId, _arg_gameScreenshotResultFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGameSessionControllerRestartGame:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RestartGame(ctx, _arg_taskId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

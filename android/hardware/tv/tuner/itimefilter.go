@@ -57,6 +57,7 @@ func (p *TimeFilterProxy) SetTimeStamp(
 	timeStamp int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeFilter)
 	_data.WriteInt64(timeStamp)
 
@@ -82,6 +83,7 @@ func (p *TimeFilterProxy) ClearTimeStamp(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeFilter, MethodITimeFilterClearTimeStamp)
@@ -107,6 +109,7 @@ func (p *TimeFilterProxy) GetTimeStamp(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeFilter, MethodITimeFilterGetTimeStamp)
@@ -136,6 +139,7 @@ func (p *TimeFilterProxy) GetSourceTime(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeFilter, MethodITimeFilterGetSourceTime)
@@ -164,6 +168,7 @@ func (p *TimeFilterProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeFilter, MethodITimeFilterClose)
@@ -187,7 +192,8 @@ func (p *TimeFilterProxy) Close(
 // TimeFilterStub dispatches incoming binder transactions
 // to a typed ITimeFilter implementation.
 type TimeFilterStub struct {
-	Impl ITimeFilter
+	Impl      ITimeFilter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TimeFilterStub)(nil)
@@ -201,11 +207,12 @@ func (s *TimeFilterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITimeFilterSetTimeStamp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeStamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -219,9 +226,6 @@ func (s *TimeFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITimeFilterClearTimeStamp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ClearTimeStamp(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -231,9 +235,6 @@ func (s *TimeFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITimeFilterGetTimeStamp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetTimeStamp(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -244,9 +245,6 @@ func (s *TimeFilterStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionITimeFilterGetSourceTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSourceTime(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -257,9 +255,6 @@ func (s *TimeFilterStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionITimeFilterClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {

@@ -40,9 +40,19 @@ func (s *VehiclePropValue) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Timestamp, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.AreaId, _err = p.ReadInt32()
@@ -50,9 +60,19 @@ func (s *VehiclePropValue) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Prop, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_statusRaw, _err := p.ReadInt32()
@@ -60,6 +80,11 @@ func (s *VehiclePropValue) UnmarshalParcel(
 		return _err
 	}
 	s.Status = VehiclePropertyStatus(_statusRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	if _err = s.Value.UnmarshalParcel(p); _err != nil {
 		return _err

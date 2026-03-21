@@ -1,0 +1,442 @@
+package: android.frameworks.cameraservice.device
+go_package: android/frameworks/cameraservice/device
+interfaces:
+    - name: ICameraDeviceCallback
+      descriptor: android.frameworks.cameraservice.device.ICameraDeviceCallback
+      oneway: true
+      methods:
+        - name: onCaptureStarted
+          transaction_code_offset: 0
+          params:
+            - name: resultExtras
+              type:
+                name: CaptureResultExtras
+              direction: in
+            - name: timestamp
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: onDeviceError
+          transaction_code_offset: 1
+          params:
+            - name: errorCode
+              type:
+                name: ErrorCode
+              direction: in
+            - name: resultExtras
+              type:
+                name: CaptureResultExtras
+              direction: in
+          return_type:
+            name: void
+        - name: onDeviceIdle
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onPrepared
+          transaction_code_offset: 3
+          params:
+            - name: streamId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onRepeatingRequestError
+          transaction_code_offset: 4
+          params:
+            - name: lastFrameNumber
+              type:
+                name: long
+              direction: in
+            - name: repeatingRequestId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onResultReceived
+          transaction_code_offset: 5
+          params:
+            - name: result
+              type:
+                name: CaptureMetadataInfo
+              direction: in
+            - name: resultExtras
+              type:
+                name: CaptureResultExtras
+              direction: in
+            - name: physicalCaptureResultInfos
+              type:
+                name: PhysicalCaptureResultInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: ICameraDeviceUser
+      descriptor: android.frameworks.cameraservice.device.ICameraDeviceUser
+      methods:
+        - name: beginConfigure
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: cancelRepeatingRequest
+          transaction_code_offset: 1
+          return_type:
+            name: long
+        - name: createDefaultRequest
+          transaction_code_offset: 2
+          params:
+            - name: templateId
+              type:
+                name: TemplateId
+              direction: in
+          return_type:
+            name: CameraMetadata
+        - name: createStream
+          transaction_code_offset: 3
+          params:
+            - name: outputConfiguration
+              type:
+                name: OutputConfiguration
+              direction: in
+          return_type:
+            name: int
+        - name: deleteStream
+          transaction_code_offset: 4
+          params:
+            - name: streamId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: disconnect
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: endConfigure
+          transaction_code_offset: 6
+          params:
+            - name: operatingMode
+              type:
+                name: StreamConfigurationMode
+              direction: in
+            - name: sessionParams
+              type:
+                name: CameraMetadata
+              direction: in
+            - name: startTimeNs
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: flush
+          transaction_code_offset: 7
+          return_type:
+            name: long
+        - name: getCaptureRequestMetadataQueue
+          transaction_code_offset: 8
+          return_type:
+            name: MQDescriptor
+            type_args:
+                - name: byte
+                - name: SynchronizedReadWrite
+        - name: getCaptureResultMetadataQueue
+          transaction_code_offset: 9
+          return_type:
+            name: MQDescriptor
+            type_args:
+                - name: byte
+                - name: SynchronizedReadWrite
+        - name: isSessionConfigurationSupported
+          transaction_code_offset: 10
+          params:
+            - name: sessionConfiguration
+              type:
+                name: SessionConfiguration
+              direction: in
+          return_type:
+            name: boolean
+        - name: prepare
+          transaction_code_offset: 11
+          params:
+            - name: streamId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: submitRequestList
+          transaction_code_offset: 12
+          params:
+            - name: requestList
+              type:
+                name: CaptureRequest
+                is_array: true
+              direction: in
+            - name: isRepeating
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: SubmitInfo
+        - name: updateOutputConfiguration
+          transaction_code_offset: 13
+          params:
+            - name: streamId
+              type:
+                name: int
+              direction: in
+            - name: outputConfiguration
+              type:
+                name: OutputConfiguration
+              direction: in
+          return_type:
+            name: void
+        - name: waitUntilIdle
+          transaction_code_offset: 14
+          return_type:
+            name: void
+parcelables:
+    - name: CameraMetadata
+      fields:
+        - name: metadata
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: CaptureRequest
+      fields:
+        - name: physicalCameraSettings
+          type:
+            name: PhysicalCameraSettings
+            is_array: true
+        - name: streamAndWindowIds
+          type:
+            name: StreamAndWindowId
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: CaptureResultExtras
+      fields:
+        - name: requestId
+          type:
+            name: int
+        - name: burstId
+          type:
+            name: int
+        - name: frameNumber
+          type:
+            name: long
+        - name: partialResultCount
+          type:
+            name: int
+        - name: errorStreamId
+          type:
+            name: int
+        - name: errorPhysicalCameraId
+          type:
+            name: String
+      annotations:
+        - VintfStability
+    - name: OutputConfiguration
+      fields:
+        - name: windowHandles
+          type:
+            name: NativeHandle
+            is_array: true
+        - name: rotation
+          type:
+            name: Rotation
+        - name: windowGroupId
+          type:
+            name: int
+        - name: physicalCameraId
+          type:
+            name: String
+        - name: width
+          type:
+            name: int
+        - name: height
+          type:
+            name: int
+        - name: isDeferred
+          type:
+            name: boolean
+        - name: surfaces
+          type:
+            name: Surface
+            is_array: true
+          default_value: '{}'
+      nested_types:
+        - OutputConfiguration.Rotation
+        - OutputConfiguration.WindowGroupId
+      annotations:
+        - VintfStability
+    - name: PhysicalCameraSettings
+      fields:
+        - name: id
+          type:
+            name: String
+        - name: settings
+          type:
+            name: CaptureMetadataInfo
+      annotations:
+        - VintfStability
+    - name: PhysicalCaptureResultInfo
+      fields:
+        - name: physicalCameraId
+          type:
+            name: String
+        - name: physicalCameraMetadata
+          type:
+            name: CaptureMetadataInfo
+      annotations:
+        - VintfStability
+    - name: SessionConfiguration
+      fields:
+        - name: outputStreams
+          type:
+            name: OutputConfiguration
+            is_array: true
+        - name: inputWidth
+          type:
+            name: int
+        - name: inputHeight
+          type:
+            name: int
+        - name: inputFormat
+          type:
+            name: int
+        - name: operationMode
+          type:
+            name: StreamConfigurationMode
+      annotations:
+        - VintfStability
+    - name: StreamAndWindowId
+      fields:
+        - name: streamId
+          type:
+            name: int
+        - name: windowId
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: SubmitInfo
+      fields:
+        - name: requestId
+          type:
+            name: int
+        - name: lastFrameNumber
+          type:
+            name: long
+      annotations:
+        - VintfStability
+enums:
+    - name: ErrorCode
+      backing_type: int
+      values:
+        - name: CAMERA_INVALID_ERROR
+          value: "-1"
+        - name: CAMERA_DISCONNECTED
+          value: "0"
+        - name: CAMERA_DEVICE
+          value: "1"
+        - name: CAMERA_SERVICE
+          value: "2"
+        - name: CAMERA_REQUEST
+          value: "3"
+        - name: CAMERA_RESULT
+          value: "4"
+        - name: CAMERA_BUFFER
+          value: "5"
+        - name: CAMERA_DISABLED
+          value: "6"
+        - name: CAMERA_UNKNOWN_ERROR
+          value: "7"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: OutputConfiguration.Rotation
+      backing_type: int
+      values:
+        - name: R0
+          value: "0"
+        - name: R90
+          value: "1"
+        - name: R180
+          value: "2"
+        - name: R270
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: OutputConfiguration.WindowGroupId
+      backing_type: int
+      values:
+        - name: NONE
+          value: "-1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StreamConfigurationMode
+      backing_type: int
+      values:
+        - name: NORMAL_MODE
+          value: "0"
+        - name: CONSTRAINED_HIGH_SPEED_MODE
+          value: "1"
+        - name: VENDOR_MODE_0
+          value: "0x8000"
+        - name: VENDOR_MODE_1
+          value: ""
+        - name: VENDOR_MODE_2
+          value: ""
+        - name: VENDOR_MODE_3
+          value: ""
+        - name: VENDOR_MODE_4
+          value: ""
+        - name: VENDOR_MODE_5
+          value: ""
+        - name: VENDOR_MODE_6
+          value: ""
+        - name: VENDOR_MODE_7
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: TemplateId
+      backing_type: int
+      values:
+        - name: PREVIEW
+          value: "1"
+        - name: STILL_CAPTURE
+          value: "2"
+        - name: RECORD
+          value: "3"
+        - name: VIDEO_SNAPSHOT
+          value: "4"
+        - name: ZERO_SHUTTER_LAG
+          value: "5"
+        - name: MANUAL
+          value: "6"
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: CaptureMetadataInfo
+      fields:
+        - name: fmqMetadataSize
+          type:
+            name: long
+        - name: metadata
+          type:
+            name: CameraMetadata
+      annotations:
+        - VintfStability

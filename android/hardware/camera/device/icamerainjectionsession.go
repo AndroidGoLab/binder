@@ -49,6 +49,7 @@ func (p *CameraInjectionSessionProxy) ConfigureInjectionStreams(
 	characteristics CameraMetadata,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraInjectionSession)
 	_data.WriteInt32(1)
 	if _err := requestedConfiguration.MarshalParcel(_data); _err != nil {
@@ -82,6 +83,7 @@ func (p *CameraInjectionSessionProxy) GetCameraDeviceSession(
 ) (ICameraDeviceSession, error) {
 	var _result ICameraDeviceSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraInjectionSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraInjectionSession, MethodICameraInjectionSessionGetCameraDeviceSession)
@@ -110,7 +112,8 @@ func (p *CameraInjectionSessionProxy) GetCameraDeviceSession(
 // CameraInjectionSessionStub dispatches incoming binder transactions
 // to a typed ICameraInjectionSession implementation.
 type CameraInjectionSessionStub struct {
-	Impl ICameraInjectionSession
+	Impl      ICameraInjectionSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CameraInjectionSessionStub)(nil)
@@ -124,11 +127,12 @@ func (s *CameraInjectionSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICameraInjectionSessionConfigureInjectionStreams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_requestedConfiguration StreamConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -162,9 +166,6 @@ func (s *CameraInjectionSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraInjectionSessionGetCameraDeviceSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCameraDeviceSession(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -172,8 +173,7 @@ func (s *CameraInjectionSessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

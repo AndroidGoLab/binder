@@ -1,0 +1,57 @@
+package: com.android.internal.view.inline
+go_package: com/android/internal_/view/inline
+interfaces:
+    - name: IInlineContentCallback
+      descriptor: com.android.internal.view.inline.IInlineContentCallback
+      oneway: true
+      methods:
+        - name: onContent
+          transaction_code_offset: 0
+          params:
+            - name: content
+              type:
+                name: SurfaceControlViewHost.SurfacePackage
+              direction: in
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onClick
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onLongClick
+          transaction_code_offset: 2
+          return_type:
+            name: void
+    - name: IInlineContentProvider
+      descriptor: com.android.internal.view.inline.IInlineContentProvider
+      oneway: true
+      methods:
+        - name: provideContent
+          transaction_code_offset: 0
+          params:
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IInlineContentCallback
+              direction: in
+          return_type:
+            name: void
+        - name: requestSurfacePackage
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onSurfacePackageReleased
+          transaction_code_offset: 2
+          return_type:
+            name: void

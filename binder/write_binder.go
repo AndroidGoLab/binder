@@ -18,6 +18,11 @@ func WriteBinderToParcel(
 	b IBinder,
 	transport Transport,
 ) {
+	if b == nil {
+		p.WriteNullStrongBinder()
+		return
+	}
+
 	stub, isStub := b.(*StubBinder)
 	if !isStub {
 		p.WriteStrongBinder(b.Handle())

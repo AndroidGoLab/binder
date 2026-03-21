@@ -1,0 +1,156 @@
+package: android.se.omapi
+go_package: android/se/omapi
+interfaces:
+    - name: ISecureElementChannel
+      descriptor: android.se.omapi.ISecureElementChannel
+      methods:
+        - name: close
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: isClosed
+          transaction_code_offset: 1
+          return_type:
+            name: boolean
+        - name: isBasicChannel
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+        - name: getSelectResponse
+          transaction_code_offset: 3
+          return_type:
+            name: byte
+            is_array: true
+        - name: transmit
+          transaction_code_offset: 4
+          params:
+            - name: command
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: selectNext
+          transaction_code_offset: 5
+          return_type:
+            name: boolean
+    - name: ISecureElementListener
+      descriptor: android.se.omapi.ISecureElementListener
+    - name: ISecureElementReader
+      descriptor: android.se.omapi.ISecureElementReader
+      methods:
+        - name: isSecureElementPresent
+          transaction_code_offset: 0
+          return_type:
+            name: boolean
+        - name: openSession
+          transaction_code_offset: 1
+          return_type:
+            name: ISecureElementSession
+        - name: closeSessions
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: reset
+          transaction_code_offset: 3
+          return_type:
+            name: boolean
+    - name: ISecureElementService
+      descriptor: android.se.omapi.ISecureElementService
+      methods:
+        - name: getReaders
+          transaction_code_offset: 0
+          return_type:
+            name: String
+            is_array: true
+        - name: getReader
+          transaction_code_offset: 1
+          params:
+            - name: reader
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: ISecureElementReader
+        - name: isNfcEventAllowed
+          transaction_code_offset: 2
+          params:
+            - name: reader
+              type:
+                name: String
+              direction: in
+            - name: aid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+            is_array: true
+    - name: ISecureElementSession
+      descriptor: android.se.omapi.ISecureElementSession
+      methods:
+        - name: getAtr
+          transaction_code_offset: 0
+          return_type:
+            name: byte
+            is_array: true
+        - name: close
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: closeChannels
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: isClosed
+          transaction_code_offset: 3
+          return_type:
+            name: boolean
+        - name: openBasicChannel
+          transaction_code_offset: 4
+          params:
+            - name: aid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: p2
+              type:
+                name: byte
+              direction: in
+            - name: listener
+              type:
+                name: ISecureElementListener
+              direction: in
+          return_type:
+            name: ISecureElementChannel
+        - name: openLogicalChannel
+          transaction_code_offset: 5
+          params:
+            - name: aid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: p2
+              type:
+                name: byte
+              direction: in
+            - name: listener
+              type:
+                name: ISecureElementListener
+              direction: in
+          return_type:
+            name: ISecureElementChannel

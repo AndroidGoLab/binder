@@ -79,6 +79,7 @@ func (p *CameraDeviceProxy) GetCameraCharacteristics(
 ) (CameraMetadata, error) {
 	var _result CameraMetadata
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDevice, MethodICameraDeviceGetCameraCharacteristics)
@@ -114,6 +115,7 @@ func (p *CameraDeviceProxy) GetPhysicalCameraCharacteristics(
 ) (CameraMetadata, error) {
 	var _result CameraMetadata
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 	_data.WriteString16(physicalCameraId)
 
@@ -149,6 +151,7 @@ func (p *CameraDeviceProxy) GetResourceCost(
 ) (common.CameraResourceCost, error) {
 	var _result common.CameraResourceCost
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDevice, MethodICameraDeviceGetResourceCost)
@@ -184,6 +187,7 @@ func (p *CameraDeviceProxy) IsStreamCombinationSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 	_data.WriteInt32(1)
 	if _err := streams.MarshalParcel(_data); _err != nil {
@@ -218,6 +222,7 @@ func (p *CameraDeviceProxy) Open(
 ) (ICameraDeviceSession, error) {
 	var _result ICameraDeviceSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -250,6 +255,7 @@ func (p *CameraDeviceProxy) OpenInjectionSession(
 ) (ICameraInjectionSession, error) {
 	var _result ICameraInjectionSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -281,6 +287,7 @@ func (p *CameraDeviceProxy) SetTorchMode(
 	on bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 	_data.WriteBool(on)
 
@@ -307,6 +314,7 @@ func (p *CameraDeviceProxy) TurnOnTorchWithStrengthLevel(
 	torchStrength int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 	_data.WriteInt32(torchStrength)
 
@@ -333,6 +341,7 @@ func (p *CameraDeviceProxy) GetTorchStrengthLevel(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDevice, MethodICameraDeviceGetTorchStrengthLevel)
@@ -363,6 +372,7 @@ func (p *CameraDeviceProxy) ConstructDefaultRequestSettings(
 ) (CameraMetadata, error) {
 	var _result CameraMetadata
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 	_data.WriteInt32(int32(type_))
 
@@ -399,6 +409,7 @@ func (p *CameraDeviceProxy) IsStreamCombinationWithSettingsSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 	_data.WriteInt32(1)
 	if _err := streams.MarshalParcel(_data); _err != nil {
@@ -433,6 +444,7 @@ func (p *CameraDeviceProxy) GetSessionCharacteristics(
 ) (CameraMetadata, error) {
 	var _result CameraMetadata
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 	_data.WriteInt32(1)
 	if _err := sessionConfig.MarshalParcel(_data); _err != nil {
@@ -469,7 +481,8 @@ func (p *CameraDeviceProxy) GetSessionCharacteristics(
 // CameraDeviceStub dispatches incoming binder transactions
 // to a typed ICameraDevice implementation.
 type CameraDeviceStub struct {
-	Impl ICameraDevice
+	Impl      ICameraDevice
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CameraDeviceStub)(nil)
@@ -483,11 +496,12 @@ func (s *CameraDeviceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICameraDeviceGetCameraCharacteristics:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCameraCharacteristics(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -501,9 +515,6 @@ func (s *CameraDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceGetPhysicalCameraCharacteristics:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_physicalCameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -521,9 +532,6 @@ func (s *CameraDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceGetResourceCost:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetResourceCost(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -537,9 +545,6 @@ func (s *CameraDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceIsStreamCombinationSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_streams StreamConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -562,12 +567,14 @@ func (s *CameraDeviceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraDeviceOpen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICameraDeviceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCameraDeviceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.Open(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -575,16 +582,17 @@ func (s *CameraDeviceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionICameraDeviceOpenInjectionSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICameraDeviceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCameraDeviceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.OpenInjectionSession(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -592,13 +600,9 @@ func (s *CameraDeviceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionICameraDeviceSetTorchMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_on, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -612,9 +616,6 @@ func (s *CameraDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceTurnOnTorchWithStrengthLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_torchStrength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -628,9 +629,6 @@ func (s *CameraDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceGetTorchStrengthLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetTorchStrengthLevel(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -641,9 +639,6 @@ func (s *CameraDeviceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICameraDeviceConstructDefaultRequestSettings:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -662,9 +657,6 @@ func (s *CameraDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceIsStreamCombinationWithSettingsSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_streams StreamConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -687,9 +679,6 @@ func (s *CameraDeviceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraDeviceGetSessionCharacteristics:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionConfig StreamConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()

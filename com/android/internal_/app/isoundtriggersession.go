@@ -5,6 +5,7 @@ import (
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	soundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -53,22 +54,22 @@ const (
 
 type ISoundTriggerSession interface {
 	AsBinder() binder.IBinder
-	GetSoundModel(ctx context.Context, soundModelId interface{}) (soundtrigger.SoundTriggerGenericSoundModel, error)
+	GetSoundModel(ctx context.Context, soundModelId os.ParcelUuid) (soundtrigger.SoundTriggerGenericSoundModel, error)
 	UpdateSoundModel(ctx context.Context, soundModel soundtrigger.SoundTriggerGenericSoundModel) error
-	DeleteSoundModel(ctx context.Context, soundModelId interface{}) error
+	DeleteSoundModel(ctx context.Context, soundModelId os.ParcelUuid) error
 	StartRecognition(ctx context.Context, soundModel soundtrigger.SoundTriggerGenericSoundModel, callback soundtrigger.IRecognitionStatusCallback, config soundtrigger.SoundTriggerRecognitionConfig, runInBatterySaver bool) (int32, error)
-	StopRecognition(ctx context.Context, soundModelId interface{}, callback soundtrigger.IRecognitionStatusCallback) (int32, error)
+	StopRecognition(ctx context.Context, soundModelId os.ParcelUuid, callback soundtrigger.IRecognitionStatusCallback) (int32, error)
 	LoadGenericSoundModel(ctx context.Context, soundModel soundtrigger.SoundTriggerGenericSoundModel) (int32, error)
 	LoadKeyphraseSoundModel(ctx context.Context, soundModel soundtrigger.SoundTriggerKeyphraseSoundModel) (int32, error)
-	StartRecognitionForService(ctx context.Context, soundModelId interface{}, params interface{}, callbackIntent content.ComponentName, config soundtrigger.SoundTriggerRecognitionConfig) (int32, error)
-	StopRecognitionForService(ctx context.Context, soundModelId interface{}) (int32, error)
-	UnloadSoundModel(ctx context.Context, soundModelId interface{}) (int32, error)
-	IsRecognitionActive(ctx context.Context, parcelUuid interface{}) (bool, error)
-	GetModelState(ctx context.Context, soundModelId interface{}) (int32, error)
+	StartRecognitionForService(ctx context.Context, soundModelId os.ParcelUuid, params os.Bundle, callbackIntent content.ComponentName, config soundtrigger.SoundTriggerRecognitionConfig) (int32, error)
+	StopRecognitionForService(ctx context.Context, soundModelId os.ParcelUuid) (int32, error)
+	UnloadSoundModel(ctx context.Context, soundModelId os.ParcelUuid) (int32, error)
+	IsRecognitionActive(ctx context.Context, parcelUuid os.ParcelUuid) (bool, error)
+	GetModelState(ctx context.Context, soundModelId os.ParcelUuid) (int32, error)
 	GetModuleProperties(ctx context.Context) (soundtrigger.SoundTriggerModuleProperties, error)
-	SetParameter(ctx context.Context, soundModelId interface{}, modelParam soundtrigger.ModelParams, value int32) (int32, error)
-	GetParameter(ctx context.Context, soundModelId interface{}, modelParam soundtrigger.ModelParams) (int32, error)
-	QueryParameter(ctx context.Context, soundModelId interface{}, modelParam soundtrigger.ModelParams) (soundtrigger.SoundTriggerModelParamRange, error)
+	SetParameter(ctx context.Context, soundModelId os.ParcelUuid, modelParam soundtrigger.ModelParams, value int32) (int32, error)
+	GetParameter(ctx context.Context, soundModelId os.ParcelUuid, modelParam soundtrigger.ModelParams) (int32, error)
+	QueryParameter(ctx context.Context, soundModelId os.ParcelUuid, modelParam soundtrigger.ModelParams) (soundtrigger.SoundTriggerModelParamRange, error)
 }
 
 type SoundTriggerSessionProxy struct {
@@ -89,11 +90,16 @@ var _ ISoundTriggerSession = (*SoundTriggerSessionProxy)(nil)
 
 func (p *SoundTriggerSessionProxy) GetSoundModel(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 ) (soundtrigger.SoundTriggerGenericSoundModel, error) {
 	var _result soundtrigger.SoundTriggerGenericSoundModel
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
+	_data.WriteInt32(1)
+	if _err := soundModelId.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionGetSoundModel)
 	if _err != nil {
@@ -127,6 +133,7 @@ func (p *SoundTriggerSessionProxy) UpdateSoundModel(
 	soundModel soundtrigger.SoundTriggerGenericSoundModel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
 	_data.WriteInt32(1)
 	if _err := soundModel.MarshalParcel(_data); _err != nil {
@@ -153,10 +160,15 @@ func (p *SoundTriggerSessionProxy) UpdateSoundModel(
 
 func (p *SoundTriggerSessionProxy) DeleteSoundModel(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
+	_data.WriteInt32(1)
+	if _err := soundModelId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionDeleteSoundModel)
 	if _err != nil {
@@ -185,6 +197,7 @@ func (p *SoundTriggerSessionProxy) StartRecognition(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
 	_data.WriteInt32(1)
 	if _err := soundModel.MarshalParcel(_data); _err != nil {
@@ -221,12 +234,17 @@ func (p *SoundTriggerSessionProxy) StartRecognition(
 
 func (p *SoundTriggerSessionProxy) StopRecognition(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 	callback soundtrigger.IRecognitionStatusCallback,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
+	_data.WriteInt32(1)
+	if _err := soundModelId.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionStopRecognition)
@@ -257,6 +275,7 @@ func (p *SoundTriggerSessionProxy) LoadGenericSoundModel(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
 	_data.WriteInt32(1)
 	if _err := soundModel.MarshalParcel(_data); _err != nil {
@@ -291,6 +310,7 @@ func (p *SoundTriggerSessionProxy) LoadKeyphraseSoundModel(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
 	_data.WriteInt32(1)
 	if _err := soundModel.MarshalParcel(_data); _err != nil {
@@ -321,14 +341,23 @@ func (p *SoundTriggerSessionProxy) LoadKeyphraseSoundModel(
 
 func (p *SoundTriggerSessionProxy) StartRecognitionForService(
 	ctx context.Context,
-	soundModelId interface{},
-	params interface{},
+	soundModelId os.ParcelUuid,
+	params os.Bundle,
 	callbackIntent content.ComponentName,
 	config soundtrigger.SoundTriggerRecognitionConfig,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
+	_data.WriteInt32(1)
+	if _err := soundModelId.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := params.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(1)
 	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -362,11 +391,16 @@ func (p *SoundTriggerSessionProxy) StartRecognitionForService(
 
 func (p *SoundTriggerSessionProxy) StopRecognitionForService(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
+	_data.WriteInt32(1)
+	if _err := soundModelId.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionStopRecognitionForService)
 	if _err != nil {
@@ -392,11 +426,16 @@ func (p *SoundTriggerSessionProxy) StopRecognitionForService(
 
 func (p *SoundTriggerSessionProxy) UnloadSoundModel(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
+	_data.WriteInt32(1)
+	if _err := soundModelId.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionUnloadSoundModel)
 	if _err != nil {
@@ -422,11 +461,16 @@ func (p *SoundTriggerSessionProxy) UnloadSoundModel(
 
 func (p *SoundTriggerSessionProxy) IsRecognitionActive(
 	ctx context.Context,
-	parcelUuid interface{},
+	parcelUuid os.ParcelUuid,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
+	_data.WriteInt32(1)
+	if _err := parcelUuid.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionIsRecognitionActive)
 	if _err != nil {
@@ -452,11 +496,16 @@ func (p *SoundTriggerSessionProxy) IsRecognitionActive(
 
 func (p *SoundTriggerSessionProxy) GetModelState(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
+	_data.WriteInt32(1)
+	if _err := soundModelId.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionGetModelState)
 	if _err != nil {
@@ -485,6 +534,7 @@ func (p *SoundTriggerSessionProxy) GetModuleProperties(
 ) (soundtrigger.SoundTriggerModuleProperties, error) {
 	var _result soundtrigger.SoundTriggerModuleProperties
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionGetModuleProperties)
@@ -516,13 +566,18 @@ func (p *SoundTriggerSessionProxy) GetModuleProperties(
 
 func (p *SoundTriggerSessionProxy) SetParameter(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 	modelParam soundtrigger.ModelParams,
 	value int32,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
+	_data.WriteInt32(1)
+	if _err := soundModelId.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(int32(modelParam))
 	_data.WriteInt32(value)
 
@@ -550,12 +605,17 @@ func (p *SoundTriggerSessionProxy) SetParameter(
 
 func (p *SoundTriggerSessionProxy) GetParameter(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 	modelParam soundtrigger.ModelParams,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
+	_data.WriteInt32(1)
+	if _err := soundModelId.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(int32(modelParam))
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionGetParameter)
@@ -582,12 +642,17 @@ func (p *SoundTriggerSessionProxy) GetParameter(
 
 func (p *SoundTriggerSessionProxy) QueryParameter(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 	modelParam soundtrigger.ModelParams,
 ) (soundtrigger.SoundTriggerModelParamRange, error) {
 	var _result soundtrigger.SoundTriggerModelParamRange
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
+	_data.WriteInt32(1)
+	if _err := soundModelId.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(int32(modelParam))
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionQueryParameter)
@@ -620,7 +685,8 @@ func (p *SoundTriggerSessionProxy) QueryParameter(
 // SoundTriggerSessionStub dispatches incoming binder transactions
 // to a typed ISoundTriggerSession implementation.
 type SoundTriggerSessionStub struct {
-	Impl ISoundTriggerSession
+	Impl      ISoundTriggerSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SoundTriggerSessionStub)(nil)
@@ -634,12 +700,24 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISoundTriggerSessionGetSoundModel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_soundModelId os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundModelId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_soundModelId interface{}
 		_result, _err := s.Impl.GetSoundModel(ctx, _arg_soundModelId)
 		_reply := parcel.New()
 		if _err != nil {
@@ -653,9 +731,6 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISoundTriggerSessionUpdateSoundModel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_soundModel soundtrigger.SoundTriggerGenericSoundModel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -677,10 +752,18 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundTriggerSessionDeleteSoundModel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_soundModelId os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundModelId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_soundModelId interface{}
 		_err := s.Impl.DeleteSoundModel(ctx, _arg_soundModelId)
 		_reply := parcel.New()
 		if _err != nil {
@@ -690,9 +773,6 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundTriggerSessionStartRecognition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_soundModel soundtrigger.SoundTriggerGenericSoundModel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -705,9 +785,14 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback soundtrigger.IRecognitionStatusCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = soundtrigger.NewRecognitionStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_config soundtrigger.SoundTriggerRecognitionConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -734,13 +819,26 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionStopRecognition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_soundModelId os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundModelId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_soundModelId interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback soundtrigger.IRecognitionStatusCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = soundtrigger.NewRecognitionStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.StopRecognition(ctx, _arg_soundModelId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -751,9 +849,6 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionLoadGenericSoundModel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_soundModel soundtrigger.SoundTriggerGenericSoundModel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -776,9 +871,6 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionLoadKeyphraseSoundModel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_soundModel soundtrigger.SoundTriggerKeyphraseSoundModel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -801,11 +893,30 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionStartRecognitionForService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_soundModelId os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundModelId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_soundModelId interface{}
-		var _arg_params interface{}
+		var _arg_params os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_callbackIntent content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -840,10 +951,18 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionStopRecognitionForService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_soundModelId os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundModelId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_soundModelId interface{}
 		_result, _err := s.Impl.StopRecognitionForService(ctx, _arg_soundModelId)
 		_reply := parcel.New()
 		if _err != nil {
@@ -854,10 +973,18 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionUnloadSoundModel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_soundModelId os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundModelId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_soundModelId interface{}
 		_result, _err := s.Impl.UnloadSoundModel(ctx, _arg_soundModelId)
 		_reply := parcel.New()
 		if _err != nil {
@@ -868,10 +995,18 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionIsRecognitionActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_parcelUuid os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_parcelUuid.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_parcelUuid interface{}
 		_result, _err := s.Impl.IsRecognitionActive(ctx, _arg_parcelUuid)
 		_reply := parcel.New()
 		if _err != nil {
@@ -882,10 +1017,18 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionGetModelState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_soundModelId os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundModelId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_soundModelId interface{}
 		_result, _err := s.Impl.GetModelState(ctx, _arg_soundModelId)
 		_reply := parcel.New()
 		if _err != nil {
@@ -896,9 +1039,6 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionGetModuleProperties:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetModuleProperties(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -912,10 +1052,18 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISoundTriggerSessionSetParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_soundModelId os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundModelId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_soundModelId interface{}
 		_raw_modelParam, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -935,10 +1083,18 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionGetParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_soundModelId os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundModelId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_soundModelId interface{}
 		_raw_modelParam, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -954,10 +1110,18 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionQueryParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_soundModelId os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundModelId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_soundModelId interface{}
 		_raw_modelParam, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -984,22 +1148,22 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 // provide to NewSoundTriggerSessionStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ISoundTriggerSessionServer interface {
-	GetSoundModel(ctx context.Context, soundModelId interface{}) (soundtrigger.SoundTriggerGenericSoundModel, error)
+	GetSoundModel(ctx context.Context, soundModelId os.ParcelUuid) (soundtrigger.SoundTriggerGenericSoundModel, error)
 	UpdateSoundModel(ctx context.Context, soundModel soundtrigger.SoundTriggerGenericSoundModel) error
-	DeleteSoundModel(ctx context.Context, soundModelId interface{}) error
+	DeleteSoundModel(ctx context.Context, soundModelId os.ParcelUuid) error
 	StartRecognition(ctx context.Context, soundModel soundtrigger.SoundTriggerGenericSoundModel, callback soundtrigger.IRecognitionStatusCallback, config soundtrigger.SoundTriggerRecognitionConfig, runInBatterySaver bool) (int32, error)
-	StopRecognition(ctx context.Context, soundModelId interface{}, callback soundtrigger.IRecognitionStatusCallback) (int32, error)
+	StopRecognition(ctx context.Context, soundModelId os.ParcelUuid, callback soundtrigger.IRecognitionStatusCallback) (int32, error)
 	LoadGenericSoundModel(ctx context.Context, soundModel soundtrigger.SoundTriggerGenericSoundModel) (int32, error)
 	LoadKeyphraseSoundModel(ctx context.Context, soundModel soundtrigger.SoundTriggerKeyphraseSoundModel) (int32, error)
-	StartRecognitionForService(ctx context.Context, soundModelId interface{}, params interface{}, callbackIntent content.ComponentName, config soundtrigger.SoundTriggerRecognitionConfig) (int32, error)
-	StopRecognitionForService(ctx context.Context, soundModelId interface{}) (int32, error)
-	UnloadSoundModel(ctx context.Context, soundModelId interface{}) (int32, error)
-	IsRecognitionActive(ctx context.Context, parcelUuid interface{}) (bool, error)
-	GetModelState(ctx context.Context, soundModelId interface{}) (int32, error)
+	StartRecognitionForService(ctx context.Context, soundModelId os.ParcelUuid, params os.Bundle, callbackIntent content.ComponentName, config soundtrigger.SoundTriggerRecognitionConfig) (int32, error)
+	StopRecognitionForService(ctx context.Context, soundModelId os.ParcelUuid) (int32, error)
+	UnloadSoundModel(ctx context.Context, soundModelId os.ParcelUuid) (int32, error)
+	IsRecognitionActive(ctx context.Context, parcelUuid os.ParcelUuid) (bool, error)
+	GetModelState(ctx context.Context, soundModelId os.ParcelUuid) (int32, error)
 	GetModuleProperties(ctx context.Context) (soundtrigger.SoundTriggerModuleProperties, error)
-	SetParameter(ctx context.Context, soundModelId interface{}, modelParam soundtrigger.ModelParams, value int32) (int32, error)
-	GetParameter(ctx context.Context, soundModelId interface{}, modelParam soundtrigger.ModelParams) (int32, error)
-	QueryParameter(ctx context.Context, soundModelId interface{}, modelParam soundtrigger.ModelParams) (soundtrigger.SoundTriggerModelParamRange, error)
+	SetParameter(ctx context.Context, soundModelId os.ParcelUuid, modelParam soundtrigger.ModelParams, value int32) (int32, error)
+	GetParameter(ctx context.Context, soundModelId os.ParcelUuid, modelParam soundtrigger.ModelParams) (int32, error)
+	QueryParameter(ctx context.Context, soundModelId os.ParcelUuid, modelParam soundtrigger.ModelParams) (soundtrigger.SoundTriggerModelParamRange, error)
 }
 
 type soundTriggerSessionStubWrapper struct {
@@ -1013,7 +1177,7 @@ func (w *soundTriggerSessionStubWrapper) AsBinder() binder.IBinder {
 
 func (w *soundTriggerSessionStubWrapper) GetSoundModel(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 ) (soundtrigger.SoundTriggerGenericSoundModel, error) {
 	return w.impl.GetSoundModel(ctx, soundModelId)
 }
@@ -1027,7 +1191,7 @@ func (w *soundTriggerSessionStubWrapper) UpdateSoundModel(
 
 func (w *soundTriggerSessionStubWrapper) DeleteSoundModel(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 ) error {
 	return w.impl.DeleteSoundModel(ctx, soundModelId)
 }
@@ -1044,7 +1208,7 @@ func (w *soundTriggerSessionStubWrapper) StartRecognition(
 
 func (w *soundTriggerSessionStubWrapper) StopRecognition(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 	callback soundtrigger.IRecognitionStatusCallback,
 ) (int32, error) {
 	return w.impl.StopRecognition(ctx, soundModelId, callback)
@@ -1066,8 +1230,8 @@ func (w *soundTriggerSessionStubWrapper) LoadKeyphraseSoundModel(
 
 func (w *soundTriggerSessionStubWrapper) StartRecognitionForService(
 	ctx context.Context,
-	soundModelId interface{},
-	params interface{},
+	soundModelId os.ParcelUuid,
+	params os.Bundle,
 	callbackIntent content.ComponentName,
 	config soundtrigger.SoundTriggerRecognitionConfig,
 ) (int32, error) {
@@ -1076,28 +1240,28 @@ func (w *soundTriggerSessionStubWrapper) StartRecognitionForService(
 
 func (w *soundTriggerSessionStubWrapper) StopRecognitionForService(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 ) (int32, error) {
 	return w.impl.StopRecognitionForService(ctx, soundModelId)
 }
 
 func (w *soundTriggerSessionStubWrapper) UnloadSoundModel(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 ) (int32, error) {
 	return w.impl.UnloadSoundModel(ctx, soundModelId)
 }
 
 func (w *soundTriggerSessionStubWrapper) IsRecognitionActive(
 	ctx context.Context,
-	parcelUuid interface{},
+	parcelUuid os.ParcelUuid,
 ) (bool, error) {
 	return w.impl.IsRecognitionActive(ctx, parcelUuid)
 }
 
 func (w *soundTriggerSessionStubWrapper) GetModelState(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 ) (int32, error) {
 	return w.impl.GetModelState(ctx, soundModelId)
 }
@@ -1110,7 +1274,7 @@ func (w *soundTriggerSessionStubWrapper) GetModuleProperties(
 
 func (w *soundTriggerSessionStubWrapper) SetParameter(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 	modelParam soundtrigger.ModelParams,
 	value int32,
 ) (int32, error) {
@@ -1119,7 +1283,7 @@ func (w *soundTriggerSessionStubWrapper) SetParameter(
 
 func (w *soundTriggerSessionStubWrapper) GetParameter(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 	modelParam soundtrigger.ModelParams,
 ) (int32, error) {
 	return w.impl.GetParameter(ctx, soundModelId, modelParam)
@@ -1127,7 +1291,7 @@ func (w *soundTriggerSessionStubWrapper) GetParameter(
 
 func (w *soundTriggerSessionStubWrapper) QueryParameter(
 	ctx context.Context,
-	soundModelId interface{},
+	soundModelId os.ParcelUuid,
 	modelParam soundtrigger.ModelParams,
 ) (soundtrigger.SoundTriggerModelParamRange, error) {
 	return w.impl.QueryParameter(ctx, soundModelId, modelParam)

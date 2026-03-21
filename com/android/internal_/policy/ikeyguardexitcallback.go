@@ -45,6 +45,7 @@ func (p *KeyguardExitCallbackProxy) OnKeyguardExitResult(
 	success bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardExitCallback)
 	_data.WriteBool(success)
 
@@ -60,7 +61,8 @@ func (p *KeyguardExitCallbackProxy) OnKeyguardExitResult(
 // KeyguardExitCallbackStub dispatches incoming binder transactions
 // to a typed IKeyguardExitCallback implementation.
 type KeyguardExitCallbackStub struct {
-	Impl IKeyguardExitCallback
+	Impl      IKeyguardExitCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*KeyguardExitCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *KeyguardExitCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIKeyguardExitCallbackOnKeyguardExitResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_success, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnKeyguardExitResult(ctx, _arg_success)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

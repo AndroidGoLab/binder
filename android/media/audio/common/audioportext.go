@@ -35,8 +35,7 @@ func (u *AudioPortExt) GetUnspecified() (bool, bool) {
 func (u *AudioPortExt) SetUnspecified(
 	v bool,
 ) {
-	u.Tag = AudioPortExtTagUnspecified
-	u.Unspecified = v
+	*u = AudioPortExt{Tag: AudioPortExtTagUnspecified, Unspecified: v}
 }
 
 func (u *AudioPortExt) GetDevice() (AudioPortDeviceExt, bool) {
@@ -50,8 +49,7 @@ func (u *AudioPortExt) GetDevice() (AudioPortDeviceExt, bool) {
 func (u *AudioPortExt) SetDevice(
 	v AudioPortDeviceExt,
 ) {
-	u.Tag = AudioPortExtTagDevice
-	u.Device = v
+	*u = AudioPortExt{Tag: AudioPortExtTagDevice, Device: v}
 }
 
 func (u *AudioPortExt) GetMix() (AudioPortMixExt, bool) {
@@ -65,8 +63,7 @@ func (u *AudioPortExt) GetMix() (AudioPortMixExt, bool) {
 func (u *AudioPortExt) SetMix(
 	v AudioPortMixExt,
 ) {
-	u.Tag = AudioPortExtTagMix
-	u.Mix = v
+	*u = AudioPortExt{Tag: AudioPortExtTagMix, Mix: v}
 }
 
 func (u *AudioPortExt) GetSession() (int32, bool) {
@@ -80,8 +77,7 @@ func (u *AudioPortExt) GetSession() (int32, bool) {
 func (u *AudioPortExt) SetSession(
 	v int32,
 ) {
-	u.Tag = AudioPortExtTagSession
-	u.Session = v
+	*u = AudioPortExt{Tag: AudioPortExtTagSession, Session: v}
 }
 
 func (u *AudioPortExt) MarshalParcel(

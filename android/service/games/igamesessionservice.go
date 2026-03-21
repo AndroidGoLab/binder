@@ -49,6 +49,7 @@ func (p *GameSessionServiceProxy) Create(
 	createGameSessionResultFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameSessionService)
 	binder.WriteBinderToParcel(ctx, _data, gameSessionController.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -76,7 +77,8 @@ func (p *GameSessionServiceProxy) Create(
 // GameSessionServiceStub dispatches incoming binder transactions
 // to a typed IGameSessionService implementation.
 type GameSessionServiceStub struct {
-	Impl IGameSessionService
+	Impl      IGameSessionService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GameSessionServiceStub)(nil)
@@ -90,14 +92,20 @@ func (s *GameSessionServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGameSessionServiceCreate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_gameSessionController IGameSessionController
-		_ = _arg_gameSessionController
+		{
+			_gameSessionControllerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_gameSessionController = NewGameSessionControllerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _gameSessionControllerHandle))
+		}
 		var _arg_createGameSessionRequest CreateGameSessionRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -135,8 +143,7 @@ func (s *GameSessionServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.Create(ctx, _arg_gameSessionController, _arg_createGameSessionRequest, _arg_gameSessionViewHostConfiguration, _arg_createGameSessionResultFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

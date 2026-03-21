@@ -1,0 +1,257 @@
+package: aaudio
+go_package: aaudio
+interfaces:
+    - name: IAAudioClient
+      descriptor: aaudio.IAAudioClient
+      methods:
+        - name: onStreamChange
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: handle
+              type:
+                name: int
+            - name: opcode
+              type:
+                name: int
+            - name: value
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IAAudioService
+      descriptor: aaudio.IAAudioService
+      methods:
+        - name: registerClient
+          transaction_code_offset: 0
+          params:
+            - name: client
+              type:
+                name: IAAudioClient
+          return_type:
+            name: void
+        - name: openStream
+          transaction_code_offset: 1
+          params:
+            - name: request
+              type:
+                name: StreamRequest
+              direction: in
+            - name: paramsOut
+              type:
+                name: StreamParameters
+              direction: out
+          return_type:
+            name: int
+        - name: closeStream
+          transaction_code_offset: 2
+          params:
+            - name: streamHandle
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getStreamDescription
+          transaction_code_offset: 3
+          params:
+            - name: streamHandle
+              type:
+                name: int
+            - name: endpoint
+              type:
+                name: Endpoint
+              direction: out
+          return_type:
+            name: int
+        - name: startStream
+          transaction_code_offset: 4
+          params:
+            - name: streamHandle
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: pauseStream
+          transaction_code_offset: 5
+          params:
+            - name: streamHandle
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: stopStream
+          transaction_code_offset: 6
+          params:
+            - name: streamHandle
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: flushStream
+          transaction_code_offset: 7
+          params:
+            - name: streamHandle
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: registerAudioThread
+          transaction_code_offset: 8
+          params:
+            - name: streamHandle
+              type:
+                name: int
+            - name: clientThreadId
+              type:
+                name: int
+            - name: periodNanoseconds
+              type:
+                name: long
+          return_type:
+            name: int
+        - name: unregisterAudioThread
+          transaction_code_offset: 9
+          params:
+            - name: streamHandle
+              type:
+                name: int
+            - name: clientThreadId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: exitStandby
+          transaction_code_offset: 10
+          params:
+            - name: streamHandle
+              type:
+                name: int
+            - name: endpoint
+              type:
+                name: Endpoint
+              direction: out
+          return_type:
+            name: int
+parcelables:
+    - name: Endpoint
+      fields:
+        - name: upMessageQueueParcelable
+          type:
+            name: RingBuffer
+        - name: downMessageQueueParcelable
+          type:
+            name: RingBuffer
+        - name: upDataQueueParcelable
+          type:
+            name: RingBuffer
+        - name: downDataQueueParcelable
+          type:
+            name: RingBuffer
+        - name: sharedMemories
+          type:
+            name: SharedFileRegion
+            is_array: true
+    - name: RingBuffer
+      fields:
+        - name: readCounterParcelable
+          type:
+            name: SharedRegion
+        - name: writeCounterParcelable
+          type:
+            name: SharedRegion
+        - name: dataParcelable
+          type:
+            name: SharedRegion
+        - name: bytesPerFrame
+          type:
+            name: int
+        - name: framesPerBurst
+          type:
+            name: int
+        - name: capacityInFrames
+          type:
+            name: int
+        - name: flags
+          type:
+            name: int
+    - name: SharedRegion
+      fields:
+        - name: sharedMemoryIndex
+          type:
+            name: int
+        - name: offsetInBytes
+          type:
+            name: int
+        - name: sizeInBytes
+          type:
+            name: int
+    - name: StreamParameters
+      fields:
+        - name: channelMask
+          type:
+            name: int
+        - name: sampleRate
+          type:
+            name: int
+        - name: deviceId
+          type:
+            name: int
+        - name: sharingMode
+          type:
+            name: int
+        - name: audioFormat
+          type:
+            name: AudioFormatDescription
+        - name: direction
+          type:
+            name: int
+        - name: usage
+          type:
+            name: int
+        - name: contentType
+          type:
+            name: int
+        - name: spatializationBehavior
+          type:
+            name: int
+        - name: isContentSpatialized
+          type:
+            name: boolean
+        - name: inputPreset
+          type:
+            name: int
+        - name: bufferCapacity
+          type:
+            name: int
+        - name: allowedCapturePolicy
+          type:
+            name: int
+        - name: sessionId
+          type:
+            name: int
+        - name: isPrivacySensitive
+          type:
+            name: boolean
+        - name: hardwareSamplesPerFrame
+          type:
+            name: int
+        - name: hardwareSampleRate
+          type:
+            name: int
+        - name: hardwareAudioFormat
+          type:
+            name: AudioFormatDescription
+    - name: StreamRequest
+      fields:
+        - name: params
+          type:
+            name: StreamParameters
+        - name: attributionSource
+          type:
+            name: AttributionSourceState
+        - name: sharingModeMatchRequired
+          type:
+            name: boolean
+        - name: inService
+          type:
+            name: boolean

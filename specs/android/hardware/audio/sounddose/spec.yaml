@@ -1,0 +1,17 @@
+package: android.hardware.audio.sounddose
+go_package: android/hardware/audio/sounddose
+interfaces:
+    - name: ISoundDoseFactory
+      descriptor: android.hardware.audio.sounddose.ISoundDoseFactory
+      methods:
+        - name: getSoundDose
+          transaction_code_offset: 0
+          params:
+            - name: module
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: ISoundDose
+          annotations:
+            - nullable

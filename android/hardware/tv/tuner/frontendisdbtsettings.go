@@ -56,14 +56,29 @@ func (s *FrontendIsdbtSettings) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Frequency, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.EndFrequency, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_inversionRaw, _err := p.ReadInt32()
@@ -72,11 +87,21 @@ func (s *FrontendIsdbtSettings) UnmarshalParcel(
 	}
 	s.Inversion = FrontendSpectralInversion(_inversionRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_bandwidthRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Bandwidth = FrontendIsdbtBandwidth(_bandwidthRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_modeRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -84,15 +109,30 @@ func (s *FrontendIsdbtSettings) UnmarshalParcel(
 	}
 	s.Mode = FrontendIsdbtMode(_modeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_guardIntervalRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.GuardInterval = FrontendIsdbtGuardInterval(_guardIntervalRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ServiceAreaId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_partialReceptionFlagRaw, _err := p.ReadInt32()
@@ -100,6 +140,11 @@ func (s *FrontendIsdbtSettings) UnmarshalParcel(
 		return _err
 	}
 	s.PartialReceptionFlag = FrontendIsdbtPartialReceptionFlag(_partialReceptionFlagRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()

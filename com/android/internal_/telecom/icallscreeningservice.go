@@ -47,6 +47,7 @@ func (p *CallScreeningServiceProxy) ScreenCall(
 	call androidTelecom.ParcelableCall,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallScreeningService)
 	binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -66,7 +67,8 @@ func (p *CallScreeningServiceProxy) ScreenCall(
 // CallScreeningServiceStub dispatches incoming binder transactions
 // to a typed ICallScreeningService implementation.
 type CallScreeningServiceStub struct {
-	Impl ICallScreeningService
+	Impl      ICallScreeningService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CallScreeningServiceStub)(nil)
@@ -80,14 +82,20 @@ func (s *CallScreeningServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICallScreeningServiceScreenCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_adapter ICallScreeningAdapter
-		_ = _arg_adapter
+		{
+			_adapterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_adapter = NewCallScreeningAdapterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _adapterHandle))
+		}
 		var _arg_call androidTelecom.ParcelableCall
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -101,8 +109,7 @@ func (s *CallScreeningServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ScreenCall(ctx, _arg_adapter, _arg_call)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

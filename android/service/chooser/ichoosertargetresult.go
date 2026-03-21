@@ -45,6 +45,7 @@ func (p *ChooserTargetResultProxy) SendResult(
 	targets []ChooserTarget,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIChooserTargetResult)
 	if targets == nil {
 		_data.WriteInt32(-1)
@@ -70,7 +71,8 @@ func (p *ChooserTargetResultProxy) SendResult(
 // ChooserTargetResultStub dispatches incoming binder transactions
 // to a typed IChooserTargetResult implementation.
 type ChooserTargetResultStub struct {
-	Impl IChooserTargetResult
+	Impl      IChooserTargetResult
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ChooserTargetResultStub)(nil)
@@ -84,17 +86,35 @@ func (s *ChooserTargetResultStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIChooserTargetResultSendResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_targets []ChooserTarget
-		_ = _arg_targets
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_targets = make([]ChooserTarget, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_targets[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SendResult(ctx, _arg_targets)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

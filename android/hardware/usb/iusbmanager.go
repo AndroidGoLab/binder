@@ -3,7 +3,9 @@ package usb
 import (
 	"context"
 	"fmt"
+	app "github.com/xaionaro-go/binder/android/app"
 	content "github.com/xaionaro-go/binder/android/content"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -110,24 +112,24 @@ const (
 
 type IUsbManager interface {
 	AsBinder() binder.IBinder
-	GetDeviceList(ctx context.Context, devices interface{}) error
+	GetDeviceList(ctx context.Context, devices os.Bundle) error
 	OpenDevice(ctx context.Context, deviceName string, packageName string) (int32, error)
 	GetCurrentAccessory(ctx context.Context) (UsbAccessory, error)
 	OpenAccessory(ctx context.Context, accessory UsbAccessory) (int32, error)
 	SetDevicePackage(ctx context.Context, device UsbDevice, packageName string) error
 	SetAccessoryPackage(ctx context.Context, accessory UsbAccessory, packageName string) error
-	AddDevicePackagesToPreferenceDenied(ctx context.Context, device UsbDevice, packageNames []string, user interface{}) error
-	AddAccessoryPackagesToPreferenceDenied(ctx context.Context, accessory UsbAccessory, packageNames []string, user interface{}) error
-	RemoveDevicePackagesFromPreferenceDenied(ctx context.Context, device UsbDevice, packageNames []string, user interface{}) error
-	RemoveAccessoryPackagesFromPreferenceDenied(ctx context.Context, device UsbAccessory, packageNames []string, user interface{}) error
-	SetDevicePersistentPermission(ctx context.Context, device UsbDevice, uid int32, user interface{}, shouldBeGranted bool) error
-	SetAccessoryPersistentPermission(ctx context.Context, accessory UsbAccessory, uid int32, user interface{}, shouldBeGranted bool) error
+	AddDevicePackagesToPreferenceDenied(ctx context.Context, device UsbDevice, packageNames []string, user os.UserHandle) error
+	AddAccessoryPackagesToPreferenceDenied(ctx context.Context, accessory UsbAccessory, packageNames []string, user os.UserHandle) error
+	RemoveDevicePackagesFromPreferenceDenied(ctx context.Context, device UsbDevice, packageNames []string, user os.UserHandle) error
+	RemoveAccessoryPackagesFromPreferenceDenied(ctx context.Context, device UsbAccessory, packageNames []string, user os.UserHandle) error
+	SetDevicePersistentPermission(ctx context.Context, device UsbDevice, uid int32, user os.UserHandle, shouldBeGranted bool) error
+	SetAccessoryPersistentPermission(ctx context.Context, accessory UsbAccessory, uid int32, user os.UserHandle, shouldBeGranted bool) error
 	HasDevicePermission(ctx context.Context, device UsbDevice, packageName string) (bool, error)
 	HasDevicePermissionWithIdentity(ctx context.Context, device UsbDevice, packageName string, pid int32, uid int32) (bool, error)
 	HasAccessoryPermission(ctx context.Context, accessory UsbAccessory) (bool, error)
 	HasAccessoryPermissionWithIdentity(ctx context.Context, accessory UsbAccessory, pid int32, uid int32) (bool, error)
-	RequestDevicePermission(ctx context.Context, device UsbDevice, packageName string, pi interface{}) error
-	RequestAccessoryPermission(ctx context.Context, accessory UsbAccessory, packageName string, pi interface{}) error
+	RequestDevicePermission(ctx context.Context, device UsbDevice, packageName string, pi app.PendingIntent) error
+	RequestAccessoryPermission(ctx context.Context, accessory UsbAccessory, packageName string, pi app.PendingIntent) error
 	GrantDevicePermission(ctx context.Context, device UsbDevice, uid int32) error
 	GrantAccessoryPermission(ctx context.Context, accessory UsbAccessory, uid int32) error
 	HasDefaults(ctx context.Context, packageName string) (bool, error)
@@ -175,9 +177,10 @@ var _ IUsbManager = (*UsbManagerProxy)(nil)
 
 func (p *UsbManagerProxy) GetDeviceList(
 	ctx context.Context,
-	devices interface{},
+	devices os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetDeviceList)
@@ -194,6 +197,17 @@ func (p *UsbManagerProxy) GetDeviceList(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _nullInd != 0 {
+			if _err = devices.UnmarshalParcel(_reply); _err != nil {
+				return _err
+			}
+		}
+	}
 
 	return nil
 }
@@ -205,6 +219,7 @@ func (p *UsbManagerProxy) OpenDevice(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(deviceName)
 	_data.WriteString16(packageName)
@@ -236,6 +251,7 @@ func (p *UsbManagerProxy) GetCurrentAccessory(
 ) (UsbAccessory, error) {
 	var _result UsbAccessory
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetCurrentAccessory)
@@ -271,6 +287,7 @@ func (p *UsbManagerProxy) OpenAccessory(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := accessory.MarshalParcel(_data); _err != nil {
@@ -306,6 +323,7 @@ func (p *UsbManagerProxy) SetDevicePackage(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -339,6 +357,7 @@ func (p *UsbManagerProxy) SetAccessoryPackage(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := accessory.MarshalParcel(_data); _err != nil {
@@ -369,9 +388,10 @@ func (p *UsbManagerProxy) AddDevicePackagesToPreferenceDenied(
 	ctx context.Context,
 	device UsbDevice,
 	packageNames []string,
-	user interface{},
+	user os.UserHandle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -384,6 +404,10 @@ func (p *UsbManagerProxy) AddDevicePackagesToPreferenceDenied(
 		for _, _item := range packageNames {
 			_data.WriteString16(_item)
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerAddDevicePackagesToPreferenceDenied)
@@ -408,9 +432,10 @@ func (p *UsbManagerProxy) AddAccessoryPackagesToPreferenceDenied(
 	ctx context.Context,
 	accessory UsbAccessory,
 	packageNames []string,
-	user interface{},
+	user os.UserHandle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := accessory.MarshalParcel(_data); _err != nil {
@@ -423,6 +448,10 @@ func (p *UsbManagerProxy) AddAccessoryPackagesToPreferenceDenied(
 		for _, _item := range packageNames {
 			_data.WriteString16(_item)
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerAddAccessoryPackagesToPreferenceDenied)
@@ -447,9 +476,10 @@ func (p *UsbManagerProxy) RemoveDevicePackagesFromPreferenceDenied(
 	ctx context.Context,
 	device UsbDevice,
 	packageNames []string,
-	user interface{},
+	user os.UserHandle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -462,6 +492,10 @@ func (p *UsbManagerProxy) RemoveDevicePackagesFromPreferenceDenied(
 		for _, _item := range packageNames {
 			_data.WriteString16(_item)
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerRemoveDevicePackagesFromPreferenceDenied)
@@ -486,9 +520,10 @@ func (p *UsbManagerProxy) RemoveAccessoryPackagesFromPreferenceDenied(
 	ctx context.Context,
 	device UsbAccessory,
 	packageNames []string,
-	user interface{},
+	user os.UserHandle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -501,6 +536,10 @@ func (p *UsbManagerProxy) RemoveAccessoryPackagesFromPreferenceDenied(
 		for _, _item := range packageNames {
 			_data.WriteString16(_item)
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerRemoveAccessoryPackagesFromPreferenceDenied)
@@ -525,16 +564,21 @@ func (p *UsbManagerProxy) SetDevicePersistentPermission(
 	ctx context.Context,
 	device UsbDevice,
 	uid int32,
-	user interface{},
+	user os.UserHandle,
 	shouldBeGranted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(uid)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(shouldBeGranted)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerSetDevicePersistentPermission)
@@ -559,16 +603,21 @@ func (p *UsbManagerProxy) SetAccessoryPersistentPermission(
 	ctx context.Context,
 	accessory UsbAccessory,
 	uid int32,
-	user interface{},
+	user os.UserHandle,
 	shouldBeGranted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := accessory.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(uid)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(shouldBeGranted)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerSetAccessoryPersistentPermission)
@@ -596,6 +645,7 @@ func (p *UsbManagerProxy) HasDevicePermission(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -634,6 +684,7 @@ func (p *UsbManagerProxy) HasDevicePermissionWithIdentity(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -671,6 +722,7 @@ func (p *UsbManagerProxy) HasAccessoryPermission(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := accessory.MarshalParcel(_data); _err != nil {
@@ -707,6 +759,7 @@ func (p *UsbManagerProxy) HasAccessoryPermissionWithIdentity(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := accessory.MarshalParcel(_data); _err != nil {
@@ -741,15 +794,20 @@ func (p *UsbManagerProxy) RequestDevicePermission(
 	ctx context.Context,
 	device UsbDevice,
 	packageName string,
-	pi interface{},
+	pi app.PendingIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := pi.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerRequestDevicePermission)
 	if _err != nil {
@@ -773,15 +831,20 @@ func (p *UsbManagerProxy) RequestAccessoryPermission(
 	ctx context.Context,
 	accessory UsbAccessory,
 	packageName string,
-	pi interface{},
+	pi app.PendingIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := accessory.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := pi.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerRequestAccessoryPermission)
 	if _err != nil {
@@ -807,6 +870,7 @@ func (p *UsbManagerProxy) GrantDevicePermission(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -838,6 +902,7 @@ func (p *UsbManagerProxy) GrantAccessoryPermission(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := accessory.MarshalParcel(_data); _err != nil {
@@ -870,6 +935,7 @@ func (p *UsbManagerProxy) HasDefaults(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -902,6 +968,7 @@ func (p *UsbManagerProxy) ClearDefaults(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -930,6 +997,7 @@ func (p *UsbManagerProxy) IsFunctionEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(function)
 
@@ -961,6 +1029,7 @@ func (p *UsbManagerProxy) SetCurrentFunctions(
 	operationId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt64(functions)
 	_data.WriteInt32(operationId)
@@ -990,6 +1059,7 @@ func (p *UsbManagerProxy) SetCurrentFunction(
 	operationId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(function)
 	_data.WriteBool(usbDataUnlocked)
@@ -1018,6 +1088,7 @@ func (p *UsbManagerProxy) GetCurrentFunctions(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetCurrentFunctions)
@@ -1047,6 +1118,7 @@ func (p *UsbManagerProxy) GetCurrentUsbSpeed(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetCurrentUsbSpeed)
@@ -1076,6 +1148,7 @@ func (p *UsbManagerProxy) GetGadgetHalVersion(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetGadgetHalVersion)
@@ -1105,6 +1178,7 @@ func (p *UsbManagerProxy) SetScreenUnlockedFunctions(
 	functions int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt64(functions)
 
@@ -1131,6 +1205,7 @@ func (p *UsbManagerProxy) GetScreenUnlockedFunctions(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetScreenUnlockedFunctions)
@@ -1159,6 +1234,7 @@ func (p *UsbManagerProxy) ResetUsbGadget(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerResetUsbGadget)
@@ -1186,6 +1262,7 @@ func (p *UsbManagerProxy) ResetUsbPort(
 	callback IUsbOperationInternal,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(portId)
 	_data.WriteInt32(operationId)
@@ -1218,6 +1295,7 @@ func (p *UsbManagerProxy) EnableUsbData(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(portId)
 	_data.WriteBool(enable)
@@ -1253,6 +1331,7 @@ func (p *UsbManagerProxy) EnableUsbDataWhileDocked(
 	callback IUsbOperationInternal,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(portId)
 	_data.WriteInt32(operationId)
@@ -1281,6 +1360,7 @@ func (p *UsbManagerProxy) GetUsbHalVersion(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetUsbHalVersion)
@@ -1311,6 +1391,7 @@ func (p *UsbManagerProxy) GetControlFd(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt64(function)
 
@@ -1341,6 +1422,7 @@ func (p *UsbManagerProxy) GetPorts(
 ) ([]ParcelableUsbPort, error) {
 	var _result []ParcelableUsbPort
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetPorts)
@@ -1361,6 +1443,9 @@ func (p *UsbManagerProxy) GetPorts(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -1383,6 +1468,7 @@ func (p *UsbManagerProxy) GetPortStatus(
 ) (UsbPortStatus, error) {
 	var _result UsbPortStatus
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(portId)
 
@@ -1419,6 +1505,7 @@ func (p *UsbManagerProxy) IsModeChangeSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(portId)
 
@@ -1451,6 +1538,7 @@ func (p *UsbManagerProxy) SetPortRoles(
 	dataRole int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(portId)
 	_data.WriteInt32(powerRole)
@@ -1482,6 +1570,7 @@ func (p *UsbManagerProxy) EnableLimitPowerTransfer(
 	callback IUsbOperationInternal,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(portId)
 	_data.WriteBool(limit)
@@ -1512,6 +1601,7 @@ func (p *UsbManagerProxy) EnableContaminantDetection(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(portId)
 	_data.WriteBool(enable)
@@ -1539,6 +1629,7 @@ func (p *UsbManagerProxy) SetUsbDeviceConnectionHandler(
 	usbDeviceConnectionHandler content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
 	if _err := usbDeviceConnectionHandler.MarshalParcel(_data); _err != nil {
@@ -1569,6 +1660,7 @@ func (p *UsbManagerProxy) RegisterForDisplayPortEvents(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1599,6 +1691,7 @@ func (p *UsbManagerProxy) UnregisterForDisplayPortEvents(
 	listener IDisplayPortAltModeInfoListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1623,7 +1716,8 @@ func (p *UsbManagerProxy) UnregisterForDisplayPortEvents(
 // UsbManagerStub dispatches incoming binder transactions
 // to a typed IUsbManager implementation.
 type UsbManagerStub struct {
-	Impl IUsbManager
+	Impl      IUsbManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UsbManagerStub)(nil)
@@ -1637,12 +1731,13 @@ func (s *UsbManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUsbManagerGetDeviceList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_devices interface{}
+		var _arg_devices os.Bundle
 		_err := s.Impl.GetDeviceList(ctx, _arg_devices)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1650,11 +1745,12 @@ func (s *UsbManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIUsbManagerOpenDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_devices.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIUsbManagerOpenDevice:
 		_arg_deviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1673,9 +1769,6 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIUsbManagerGetCurrentAccessory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentAccessory(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1689,9 +1782,6 @@ func (s *UsbManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUsbManagerOpenAccessory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_accessory UsbAccessory
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1714,9 +1804,6 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIUsbManagerSetDevicePackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device UsbDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1745,9 +1832,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerSetAccessoryPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_accessory UsbAccessory
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1776,9 +1860,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerAddDevicePackagesToPreferenceDenied:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device UsbDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1791,10 +1872,37 @@ func (s *UsbManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
-		var _arg_user interface{}
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.AddDevicePackagesToPreferenceDenied(ctx, _arg_device, _arg_packageNames, _arg_user)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1804,9 +1912,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerAddAccessoryPackagesToPreferenceDenied:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_accessory UsbAccessory
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1819,10 +1924,37 @@ func (s *UsbManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
-		var _arg_user interface{}
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.AddAccessoryPackagesToPreferenceDenied(ctx, _arg_accessory, _arg_packageNames, _arg_user)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1832,9 +1964,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerRemoveDevicePackagesFromPreferenceDenied:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device UsbDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1847,10 +1976,37 @@ func (s *UsbManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
-		var _arg_user interface{}
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.RemoveDevicePackagesFromPreferenceDenied(ctx, _arg_device, _arg_packageNames, _arg_user)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1860,9 +2016,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerRemoveAccessoryPackagesFromPreferenceDenied:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device UsbAccessory
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1875,10 +2028,37 @@ func (s *UsbManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
-		var _arg_user interface{}
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.RemoveAccessoryPackagesFromPreferenceDenied(ctx, _arg_device, _arg_packageNames, _arg_user)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1888,9 +2068,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerSetDevicePersistentPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device UsbDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1907,7 +2084,18 @@ func (s *UsbManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_user interface{}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_shouldBeGranted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1921,9 +2109,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerSetAccessoryPersistentPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_accessory UsbAccessory
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1940,7 +2125,18 @@ func (s *UsbManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_user interface{}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_shouldBeGranted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1954,9 +2150,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerHasDevicePermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device UsbDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1983,9 +2176,6 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerHasDevicePermissionWithIdentity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device UsbDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2020,9 +2210,6 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerHasAccessoryPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_accessory UsbAccessory
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2045,9 +2232,6 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerHasAccessoryPermissionWithIdentity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_accessory UsbAccessory
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2078,9 +2262,6 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerRequestDevicePermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device UsbDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2097,7 +2278,18 @@ func (s *UsbManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_pi interface{}
+		var _arg_pi app.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pi.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.RequestDevicePermission(ctx, _arg_device, _arg_packageName, _arg_pi)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2107,9 +2299,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerRequestAccessoryPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_accessory UsbAccessory
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2126,7 +2315,18 @@ func (s *UsbManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_pi interface{}
+		var _arg_pi app.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pi.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.RequestAccessoryPermission(ctx, _arg_accessory, _arg_packageName, _arg_pi)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2136,9 +2336,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerGrantDevicePermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device UsbDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2164,9 +2361,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerGrantAccessoryPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_accessory UsbAccessory
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2192,9 +2386,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerHasDefaults:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2212,9 +2403,6 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerClearDefaults:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2231,9 +2419,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerIsFunctionEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_function, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2248,9 +2433,6 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerSetCurrentFunctions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_functions, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2268,9 +2450,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerSetCurrentFunction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_function, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2292,9 +2471,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerGetCurrentFunctions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentFunctions(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2305,9 +2481,6 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIUsbManagerGetCurrentUsbSpeed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentUsbSpeed(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2318,9 +2491,6 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUsbManagerGetGadgetHalVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetGadgetHalVersion(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2331,9 +2501,6 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUsbManagerSetScreenUnlockedFunctions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_functions, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2347,9 +2514,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerGetScreenUnlockedFunctions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetScreenUnlockedFunctions(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2360,9 +2524,6 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIUsbManagerResetUsbGadget:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResetUsbGadget(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2372,9 +2533,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerResetUsbPort:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2383,9 +2541,14 @@ func (s *UsbManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IUsbOperationInternal
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewUsbOperationInternalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.ResetUsbPort(ctx, _arg_portId, _arg_operationId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2395,9 +2558,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerEnableUsbData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2410,9 +2570,14 @@ func (s *UsbManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IUsbOperationInternal
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewUsbOperationInternalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.EnableUsbData(ctx, _arg_portId, _arg_enable, _arg_operationId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2423,9 +2588,6 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerEnableUsbDataWhileDocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2434,9 +2596,14 @@ func (s *UsbManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IUsbOperationInternal
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewUsbOperationInternalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.EnableUsbDataWhileDocked(ctx, _arg_portId, _arg_operationId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2446,9 +2613,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerGetUsbHalVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetUsbHalVersion(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2459,9 +2623,6 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUsbManagerGetControlFd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_function, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2476,9 +2637,6 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIUsbManagerGetPorts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPorts(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2486,13 +2644,19 @@ func (s *UsbManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIUsbManagerGetPortStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2510,9 +2674,6 @@ func (s *UsbManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUsbManagerIsModeChangeSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2527,9 +2688,6 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerSetPortRoles:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2551,9 +2709,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerEnableLimitPowerTransfer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2566,9 +2721,14 @@ func (s *UsbManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IUsbOperationInternal
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewUsbOperationInternalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.EnableLimitPowerTransfer(ctx, _arg_portId, _arg_limit, _arg_operationId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2578,9 +2738,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerEnableContaminantDetection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2598,9 +2755,6 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerSetUsbDeviceConnectionHandler:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_usbDeviceConnectionHandler content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2622,12 +2776,14 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerRegisterForDisplayPortEvents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDisplayPortAltModeInfoListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewDisplayPortAltModeInfoListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.RegisterForDisplayPortEvents(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2638,12 +2794,14 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerUnregisterForDisplayPortEvents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDisplayPortAltModeInfoListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewDisplayPortAltModeInfoListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.UnregisterForDisplayPortEvents(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2661,24 +2819,24 @@ func (s *UsbManagerStub) OnTransaction(
 // provide to NewUsbManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IUsbManagerServer interface {
-	GetDeviceList(ctx context.Context, devices interface{}) error
+	GetDeviceList(ctx context.Context, devices os.Bundle) error
 	OpenDevice(ctx context.Context, deviceName string, packageName string) (int32, error)
 	GetCurrentAccessory(ctx context.Context) (UsbAccessory, error)
 	OpenAccessory(ctx context.Context, accessory UsbAccessory) (int32, error)
 	SetDevicePackage(ctx context.Context, device UsbDevice, packageName string) error
 	SetAccessoryPackage(ctx context.Context, accessory UsbAccessory, packageName string) error
-	AddDevicePackagesToPreferenceDenied(ctx context.Context, device UsbDevice, packageNames []string, user interface{}) error
-	AddAccessoryPackagesToPreferenceDenied(ctx context.Context, accessory UsbAccessory, packageNames []string, user interface{}) error
-	RemoveDevicePackagesFromPreferenceDenied(ctx context.Context, device UsbDevice, packageNames []string, user interface{}) error
-	RemoveAccessoryPackagesFromPreferenceDenied(ctx context.Context, device UsbAccessory, packageNames []string, user interface{}) error
-	SetDevicePersistentPermission(ctx context.Context, device UsbDevice, uid int32, user interface{}, shouldBeGranted bool) error
-	SetAccessoryPersistentPermission(ctx context.Context, accessory UsbAccessory, uid int32, user interface{}, shouldBeGranted bool) error
+	AddDevicePackagesToPreferenceDenied(ctx context.Context, device UsbDevice, packageNames []string, user os.UserHandle) error
+	AddAccessoryPackagesToPreferenceDenied(ctx context.Context, accessory UsbAccessory, packageNames []string, user os.UserHandle) error
+	RemoveDevicePackagesFromPreferenceDenied(ctx context.Context, device UsbDevice, packageNames []string, user os.UserHandle) error
+	RemoveAccessoryPackagesFromPreferenceDenied(ctx context.Context, device UsbAccessory, packageNames []string, user os.UserHandle) error
+	SetDevicePersistentPermission(ctx context.Context, device UsbDevice, uid int32, user os.UserHandle, shouldBeGranted bool) error
+	SetAccessoryPersistentPermission(ctx context.Context, accessory UsbAccessory, uid int32, user os.UserHandle, shouldBeGranted bool) error
 	HasDevicePermission(ctx context.Context, device UsbDevice, packageName string) (bool, error)
 	HasDevicePermissionWithIdentity(ctx context.Context, device UsbDevice, packageName string, pid int32, uid int32) (bool, error)
 	HasAccessoryPermission(ctx context.Context, accessory UsbAccessory) (bool, error)
 	HasAccessoryPermissionWithIdentity(ctx context.Context, accessory UsbAccessory, pid int32, uid int32) (bool, error)
-	RequestDevicePermission(ctx context.Context, device UsbDevice, packageName string, pi interface{}) error
-	RequestAccessoryPermission(ctx context.Context, accessory UsbAccessory, packageName string, pi interface{}) error
+	RequestDevicePermission(ctx context.Context, device UsbDevice, packageName string, pi app.PendingIntent) error
+	RequestAccessoryPermission(ctx context.Context, accessory UsbAccessory, packageName string, pi app.PendingIntent) error
 	GrantDevicePermission(ctx context.Context, device UsbDevice, uid int32) error
 	GrantAccessoryPermission(ctx context.Context, accessory UsbAccessory, uid int32) error
 	HasDefaults(ctx context.Context, packageName string) (bool, error)
@@ -2719,7 +2877,7 @@ func (w *usbManagerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *usbManagerStubWrapper) GetDeviceList(
 	ctx context.Context,
-	devices interface{},
+	devices os.Bundle,
 ) error {
 	return w.impl.GetDeviceList(ctx, devices)
 }
@@ -2765,7 +2923,7 @@ func (w *usbManagerStubWrapper) AddDevicePackagesToPreferenceDenied(
 	ctx context.Context,
 	device UsbDevice,
 	packageNames []string,
-	user interface{},
+	user os.UserHandle,
 ) error {
 	return w.impl.AddDevicePackagesToPreferenceDenied(ctx, device, packageNames, user)
 }
@@ -2774,7 +2932,7 @@ func (w *usbManagerStubWrapper) AddAccessoryPackagesToPreferenceDenied(
 	ctx context.Context,
 	accessory UsbAccessory,
 	packageNames []string,
-	user interface{},
+	user os.UserHandle,
 ) error {
 	return w.impl.AddAccessoryPackagesToPreferenceDenied(ctx, accessory, packageNames, user)
 }
@@ -2783,7 +2941,7 @@ func (w *usbManagerStubWrapper) RemoveDevicePackagesFromPreferenceDenied(
 	ctx context.Context,
 	device UsbDevice,
 	packageNames []string,
-	user interface{},
+	user os.UserHandle,
 ) error {
 	return w.impl.RemoveDevicePackagesFromPreferenceDenied(ctx, device, packageNames, user)
 }
@@ -2792,7 +2950,7 @@ func (w *usbManagerStubWrapper) RemoveAccessoryPackagesFromPreferenceDenied(
 	ctx context.Context,
 	device UsbAccessory,
 	packageNames []string,
-	user interface{},
+	user os.UserHandle,
 ) error {
 	return w.impl.RemoveAccessoryPackagesFromPreferenceDenied(ctx, device, packageNames, user)
 }
@@ -2801,7 +2959,7 @@ func (w *usbManagerStubWrapper) SetDevicePersistentPermission(
 	ctx context.Context,
 	device UsbDevice,
 	uid int32,
-	user interface{},
+	user os.UserHandle,
 	shouldBeGranted bool,
 ) error {
 	return w.impl.SetDevicePersistentPermission(ctx, device, uid, user, shouldBeGranted)
@@ -2811,7 +2969,7 @@ func (w *usbManagerStubWrapper) SetAccessoryPersistentPermission(
 	ctx context.Context,
 	accessory UsbAccessory,
 	uid int32,
-	user interface{},
+	user os.UserHandle,
 	shouldBeGranted bool,
 ) error {
 	return w.impl.SetAccessoryPersistentPermission(ctx, accessory, uid, user, shouldBeGranted)
@@ -2855,7 +3013,7 @@ func (w *usbManagerStubWrapper) RequestDevicePermission(
 	ctx context.Context,
 	device UsbDevice,
 	packageName string,
-	pi interface{},
+	pi app.PendingIntent,
 ) error {
 	return w.impl.RequestDevicePermission(ctx, device, packageName, pi)
 }
@@ -2864,7 +3022,7 @@ func (w *usbManagerStubWrapper) RequestAccessoryPermission(
 	ctx context.Context,
 	accessory UsbAccessory,
 	packageName string,
-	pi interface{},
+	pi app.PendingIntent,
 ) error {
 	return w.impl.RequestAccessoryPermission(ctx, accessory, packageName, pi)
 }

@@ -31,8 +31,7 @@ func (u *QosFilterTypeOfService) GetNoinit() (bool, bool) {
 func (u *QosFilterTypeOfService) SetNoinit(
 	v bool,
 ) {
-	u.Tag = QosFilterTypeOfServiceTagNoinit
-	u.Noinit = v
+	*u = QosFilterTypeOfService{Tag: QosFilterTypeOfServiceTagNoinit, Noinit: v}
 }
 
 func (u *QosFilterTypeOfService) GetValue() (byte, bool) {
@@ -46,8 +45,7 @@ func (u *QosFilterTypeOfService) GetValue() (byte, bool) {
 func (u *QosFilterTypeOfService) SetValue(
 	v byte,
 ) {
-	u.Tag = QosFilterTypeOfServiceTagValue
-	u.Value = v
+	*u = QosFilterTypeOfService{Tag: QosFilterTypeOfServiceTagValue, Value: v}
 }
 
 func (u *QosFilterTypeOfService) MarshalParcel(

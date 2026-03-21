@@ -6,8 +6,9 @@ import (
 	pm "github.com/xaionaro-go/binder/android/content/pm"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	gui "github.com/xaionaro-go/binder/android/gui"
-	ScoConfig "github.com/xaionaro-go/binder/android/hardware/audio/core/IBluetooth/ScoConfig"
+	core "github.com/xaionaro-go/binder/android/hardware/audio/core"
 	projection "github.com/xaionaro-go/binder/android/media/projection"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -138,7 +139,7 @@ const (
 
 type IDisplayManager interface {
 	AsBinder() binder.IBinder
-	GetDisplayInfo(ctx context.Context, displayId int32) (interface{}, error)
+	GetDisplayInfo(ctx context.Context, displayId int32) (gui.DisplayInfo, error)
 	GetDisplayIds(ctx context.Context, includeDisabled bool) ([]int32, error)
 	IsUidPresentOnDisplay(ctx context.Context, uid int32, displayId int32) (bool, error)
 	RegisterCallback(ctx context.Context, callback IDisplayManagerCallback) error
@@ -160,7 +161,7 @@ type IDisplayManager interface {
 	RequestColorMode(ctx context.Context, displayId int32, colorMode int32) error
 	CreateVirtualDisplay(ctx context.Context, virtualDisplayConfig VirtualDisplayConfig, callback IVirtualDisplayCallback, projectionToken projection.IMediaProjection, packageName string) (int32, error)
 	ResizeVirtualDisplay(ctx context.Context, token IVirtualDisplayCallback, width int32, height int32, densityDpi int32) error
-	SetVirtualDisplaySurface(ctx context.Context, token IVirtualDisplayCallback, surface interface{}) error
+	SetVirtualDisplaySurface(ctx context.Context, token IVirtualDisplayCallback, surface view.Surface) error
 	ReleaseVirtualDisplay(ctx context.Context, token IVirtualDisplayCallback) error
 	SetVirtualDisplayState(ctx context.Context, token IVirtualDisplayCallback, isOn bool) error
 	GetStableDisplaySize(ctx context.Context) (graphics.Point, error)
@@ -179,9 +180,9 @@ type IDisplayManager interface {
 	GetMinimumBrightnessCurve(ctx context.Context) (Curve, error)
 	GetBrightnessInfo(ctx context.Context, displayId int32) (BrightnessInfo, error)
 	GetPreferredWideGamutColorSpaceId(ctx context.Context) (int32, error)
-	SetUserPreferredDisplayMode(ctx context.Context, displayId int32, mode ScoConfig.Mode) error
-	GetUserPreferredDisplayMode(ctx context.Context, displayId int32) (ScoConfig.Mode, error)
-	GetSystemPreferredDisplayMode(ctx context.Context, displayId int32) (ScoConfig.Mode, error)
+	SetUserPreferredDisplayMode(ctx context.Context, displayId int32, mode core.IBluetoothScoConfigMode) error
+	GetUserPreferredDisplayMode(ctx context.Context, displayId int32) (core.IBluetoothScoConfigMode, error)
+	GetSystemPreferredDisplayMode(ctx context.Context, displayId int32) (core.IBluetoothScoConfigMode, error)
 	SetHdrConversionMode(ctx context.Context, hdrConversionMode HdrConversionMode) error
 	GetHdrConversionModeSetting(ctx context.Context) (HdrConversionMode, error)
 	GetHdrConversionMode(ctx context.Context) (HdrConversionMode, error)
@@ -216,9 +217,10 @@ var _ IDisplayManager = (*DisplayManagerProxy)(nil)
 func (p *DisplayManagerProxy) GetDisplayInfo(
 	ctx context.Context,
 	displayId int32,
-) (interface{}, error) {
-	var _result interface{}
+) (gui.DisplayInfo, error) {
+	var _result gui.DisplayInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
@@ -237,6 +239,15 @@ func (p *DisplayManagerProxy) GetDisplayInfo(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -246,6 +257,7 @@ func (p *DisplayManagerProxy) GetDisplayIds(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteBool(includeDisabled)
 
@@ -268,6 +280,9 @@ func (p *DisplayManagerProxy) GetDisplayIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -288,6 +303,7 @@ func (p *DisplayManagerProxy) IsUidPresentOnDisplay(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(displayId)
@@ -319,6 +335,7 @@ func (p *DisplayManagerProxy) RegisterCallback(
 	callback IDisplayManagerCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -346,6 +363,7 @@ func (p *DisplayManagerProxy) RegisterCallbackWithEventMask(
 	eventsMask int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(eventsMask)
@@ -372,6 +390,7 @@ func (p *DisplayManagerProxy) StartWifiDisplayScan(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerStartWifiDisplayScan)
@@ -396,6 +415,7 @@ func (p *DisplayManagerProxy) StopWifiDisplayScan(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerStopWifiDisplayScan)
@@ -421,6 +441,7 @@ func (p *DisplayManagerProxy) ConnectWifiDisplay(
 	address string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteString16(address)
 
@@ -446,6 +467,7 @@ func (p *DisplayManagerProxy) DisconnectWifiDisplay(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerDisconnectWifiDisplay)
@@ -472,6 +494,7 @@ func (p *DisplayManagerProxy) RenameWifiDisplay(
 	alias string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteString16(address)
 	_data.WriteString16(alias)
@@ -499,6 +522,7 @@ func (p *DisplayManagerProxy) ForgetWifiDisplay(
 	address string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteString16(address)
 
@@ -524,6 +548,7 @@ func (p *DisplayManagerProxy) PauseWifiDisplay(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerPauseWifiDisplay)
@@ -548,6 +573,7 @@ func (p *DisplayManagerProxy) ResumeWifiDisplay(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerResumeWifiDisplay)
@@ -573,6 +599,7 @@ func (p *DisplayManagerProxy) GetWifiDisplayStatus(
 ) (WifiDisplayStatus, error) {
 	var _result WifiDisplayStatus
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetWifiDisplayStatus)
@@ -607,6 +634,7 @@ func (p *DisplayManagerProxy) SetUserDisabledHdrTypes(
 	userDisabledTypes []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	if userDisabledTypes == nil {
 		_data.WriteInt32(-1)
@@ -640,6 +668,7 @@ func (p *DisplayManagerProxy) SetAreUserDisabledHdrTypesAllowed(
 	areUserDisabledHdrTypesAllowed bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteBool(areUserDisabledHdrTypesAllowed)
 
@@ -666,6 +695,7 @@ func (p *DisplayManagerProxy) AreUserDisabledHdrTypesAllowed(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerAreUserDisabledHdrTypesAllowed)
@@ -695,6 +725,7 @@ func (p *DisplayManagerProxy) GetUserDisabledHdrTypes(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetUserDisabledHdrTypes)
@@ -716,6 +747,9 @@ func (p *DisplayManagerProxy) GetUserDisabledHdrTypes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -735,6 +769,7 @@ func (p *DisplayManagerProxy) OverrideHdrTypes(
 	modes []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 	if modes == nil {
@@ -770,6 +805,7 @@ func (p *DisplayManagerProxy) RequestColorMode(
 	colorMode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(colorMode)
@@ -801,6 +837,7 @@ func (p *DisplayManagerProxy) CreateVirtualDisplay(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(1)
 	if _err := virtualDisplayConfig.MarshalParcel(_data); _err != nil {
@@ -840,6 +877,7 @@ func (p *DisplayManagerProxy) ResizeVirtualDisplay(
 	densityDpi int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(width)
@@ -867,11 +905,16 @@ func (p *DisplayManagerProxy) ResizeVirtualDisplay(
 func (p *DisplayManagerProxy) SetVirtualDisplaySurface(
 	ctx context.Context,
 	token IVirtualDisplayCallback,
-	surface interface{},
+	surface view.Surface,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerSetVirtualDisplaySurface)
 	if _err != nil {
@@ -896,6 +939,7 @@ func (p *DisplayManagerProxy) ReleaseVirtualDisplay(
 	token IVirtualDisplayCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 
@@ -923,6 +967,7 @@ func (p *DisplayManagerProxy) SetVirtualDisplayState(
 	isOn bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(isOn)
@@ -950,6 +995,7 @@ func (p *DisplayManagerProxy) GetStableDisplaySize(
 ) (graphics.Point, error) {
 	var _result graphics.Point
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetStableDisplaySize)
@@ -985,6 +1031,7 @@ func (p *DisplayManagerProxy) GetBrightnessEvents(
 	var _result pm.ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteString16(_identity.PackageName)
 
@@ -1020,6 +1067,7 @@ func (p *DisplayManagerProxy) GetAmbientBrightnessStats(
 ) (pm.ParceledListSlice, error) {
 	var _result pm.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetAmbientBrightnessStats)
@@ -1056,6 +1104,7 @@ func (p *DisplayManagerProxy) SetBrightnessConfigurationForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(1)
 	if _err := c.MarshalParcel(_data); _err != nil {
@@ -1090,6 +1139,7 @@ func (p *DisplayManagerProxy) SetBrightnessConfigurationForDisplay(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(1)
 	if _err := c.MarshalParcel(_data); _err != nil {
@@ -1124,6 +1174,7 @@ func (p *DisplayManagerProxy) GetBrightnessConfigurationForDisplay(
 	var _result BrightnessConfiguration
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteString16(uniqueDisplayId)
 	_data.WriteInt32(_identity.UserID)
@@ -1161,6 +1212,7 @@ func (p *DisplayManagerProxy) GetBrightnessConfigurationForUser(
 	var _result BrightnessConfiguration
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1196,6 +1248,7 @@ func (p *DisplayManagerProxy) GetDefaultBrightnessConfiguration(
 ) (BrightnessConfiguration, error) {
 	var _result BrightnessConfiguration
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetDefaultBrightnessConfiguration)
@@ -1231,6 +1284,7 @@ func (p *DisplayManagerProxy) IsMinimalPostProcessingRequested(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
@@ -1262,6 +1316,7 @@ func (p *DisplayManagerProxy) SetTemporaryBrightness(
 	brightness float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 	_data.WriteFloat32(brightness)
@@ -1290,6 +1345,7 @@ func (p *DisplayManagerProxy) SetBrightness(
 	brightness float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 	_data.WriteFloat32(brightness)
@@ -1318,6 +1374,7 @@ func (p *DisplayManagerProxy) GetBrightness(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
@@ -1348,6 +1405,7 @@ func (p *DisplayManagerProxy) SetTemporaryAutoBrightnessAdjustment(
 	adjustment float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteFloat32(adjustment)
 
@@ -1374,6 +1432,7 @@ func (p *DisplayManagerProxy) GetMinimumBrightnessCurve(
 ) (Curve, error) {
 	var _result Curve
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetMinimumBrightnessCurve)
@@ -1409,6 +1468,7 @@ func (p *DisplayManagerProxy) GetBrightnessInfo(
 ) (BrightnessInfo, error) {
 	var _result BrightnessInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
@@ -1444,6 +1504,7 @@ func (p *DisplayManagerProxy) GetPreferredWideGamutColorSpaceId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetPreferredWideGamutColorSpaceId)
@@ -1471,9 +1532,10 @@ func (p *DisplayManagerProxy) GetPreferredWideGamutColorSpaceId(
 func (p *DisplayManagerProxy) SetUserPreferredDisplayMode(
 	ctx context.Context,
 	displayId int32,
-	mode ScoConfig.Mode,
+	mode core.IBluetoothScoConfigMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(int32(mode))
@@ -1499,9 +1561,10 @@ func (p *DisplayManagerProxy) SetUserPreferredDisplayMode(
 func (p *DisplayManagerProxy) GetUserPreferredDisplayMode(
 	ctx context.Context,
 	displayId int32,
-) (ScoConfig.Mode, error) {
-	var _result ScoConfig.Mode
+) (core.IBluetoothScoConfigMode, error) {
+	var _result core.IBluetoothScoConfigMode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
@@ -1524,16 +1587,17 @@ func (p *DisplayManagerProxy) GetUserPreferredDisplayMode(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ScoConfig.Mode(_raw)
+	_result = core.IBluetoothScoConfigMode(_raw)
 	return _result, nil
 }
 
 func (p *DisplayManagerProxy) GetSystemPreferredDisplayMode(
 	ctx context.Context,
 	displayId int32,
-) (ScoConfig.Mode, error) {
-	var _result ScoConfig.Mode
+) (core.IBluetoothScoConfigMode, error) {
+	var _result core.IBluetoothScoConfigMode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
@@ -1556,7 +1620,7 @@ func (p *DisplayManagerProxy) GetSystemPreferredDisplayMode(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ScoConfig.Mode(_raw)
+	_result = core.IBluetoothScoConfigMode(_raw)
 	return _result, nil
 }
 
@@ -1565,6 +1629,7 @@ func (p *DisplayManagerProxy) SetHdrConversionMode(
 	hdrConversionMode HdrConversionMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(1)
 	if _err := hdrConversionMode.MarshalParcel(_data); _err != nil {
@@ -1594,6 +1659,7 @@ func (p *DisplayManagerProxy) GetHdrConversionModeSetting(
 ) (HdrConversionMode, error) {
 	var _result HdrConversionMode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetHdrConversionModeSetting)
@@ -1628,6 +1694,7 @@ func (p *DisplayManagerProxy) GetHdrConversionMode(
 ) (HdrConversionMode, error) {
 	var _result HdrConversionMode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetHdrConversionMode)
@@ -1662,6 +1729,7 @@ func (p *DisplayManagerProxy) GetSupportedHdrOutputTypes(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetSupportedHdrOutputTypes)
@@ -1683,6 +1751,9 @@ func (p *DisplayManagerProxy) GetSupportedHdrOutputTypes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -1701,6 +1772,7 @@ func (p *DisplayManagerProxy) SetShouldAlwaysRespectAppRequestedMode(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteBool(enabled)
 
@@ -1727,6 +1799,7 @@ func (p *DisplayManagerProxy) ShouldAlwaysRespectAppRequestedMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerShouldAlwaysRespectAppRequestedMode)
@@ -1756,6 +1829,7 @@ func (p *DisplayManagerProxy) SetRefreshRateSwitchingType(
 	newValue int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(newValue)
 
@@ -1782,6 +1856,7 @@ func (p *DisplayManagerProxy) GetRefreshRateSwitchingType(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetRefreshRateSwitchingType)
@@ -1812,6 +1887,7 @@ func (p *DisplayManagerProxy) GetDisplayDecorationSupport(
 ) (gui.DisplayDecorationSupport, error) {
 	var _result gui.DisplayDecorationSupport
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
@@ -1848,6 +1924,7 @@ func (p *DisplayManagerProxy) SetDisplayIdToMirror(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(displayId)
@@ -1875,6 +1952,7 @@ func (p *DisplayManagerProxy) GetOverlaySupport(
 ) (gui.OverlayProperties, error) {
 	var _result gui.OverlayProperties
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetOverlaySupport)
@@ -1909,6 +1987,7 @@ func (p *DisplayManagerProxy) EnableConnectedDisplay(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
@@ -1935,6 +2014,7 @@ func (p *DisplayManagerProxy) DisableConnectedDisplay(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
@@ -1959,7 +2039,8 @@ func (p *DisplayManagerProxy) DisableConnectedDisplay(
 // DisplayManagerStub dispatches incoming binder transactions
 // to a typed IDisplayManager implementation.
 type DisplayManagerStub struct {
-	Impl IDisplayManager
+	Impl      IDisplayManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DisplayManagerStub)(nil)
@@ -1973,11 +2054,12 @@ func (s *DisplayManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDisplayManagerGetDisplayInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1989,12 +2071,12 @@ func (s *DisplayManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIDisplayManagerGetDisplayIds:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIDisplayManagerGetDisplayIds:
 		_arg_includeDisabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2006,13 +2088,16 @@ func (s *DisplayManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDisplayManagerIsUidPresentOnDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2031,12 +2116,14 @@ func (s *DisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDisplayManagerRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDisplayManagerCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDisplayManagerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2046,12 +2133,14 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerRegisterCallbackWithEventMask:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDisplayManagerCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDisplayManagerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_eventsMask, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2065,9 +2154,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerStartWifiDisplayScan:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StartWifiDisplayScan(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2077,9 +2163,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerStopWifiDisplayScan:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopWifiDisplayScan(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2089,9 +2172,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerConnectWifiDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2105,9 +2185,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerDisconnectWifiDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DisconnectWifiDisplay(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2117,9 +2194,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerRenameWifiDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2137,9 +2211,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerForgetWifiDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2153,9 +2224,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerPauseWifiDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.PauseWifiDisplay(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2165,9 +2233,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerResumeWifiDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResumeWifiDisplay(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2177,9 +2242,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerGetWifiDisplayStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWifiDisplayStatus(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2193,12 +2255,25 @@ func (s *DisplayManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDisplayManagerSetUserDisabledHdrTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_userDisabledTypes []int32
-		_ = _arg_userDisabledTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_userDisabledTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_userDisabledTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetUserDisabledHdrTypes(ctx, _arg_userDisabledTypes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2208,9 +2283,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerSetAreUserDisabledHdrTypesAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_areUserDisabledHdrTypesAllowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2224,9 +2296,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerAreUserDisabledHdrTypesAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.AreUserDisabledHdrTypesAllowed(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2237,9 +2306,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDisplayManagerGetUserDisabledHdrTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetUserDisabledHdrTypes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2247,20 +2313,39 @@ func (s *DisplayManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDisplayManagerOverrideHdrTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_modes []int32
-		_ = _arg_modes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_modes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_modes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.OverrideHdrTypes(ctx, _arg_displayId, _arg_modes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2270,9 +2355,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerRequestColorMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2290,9 +2372,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerCreateVirtualDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_virtualDisplayConfig VirtualDisplayConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2305,12 +2384,22 @@ func (s *DisplayManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IVirtualDisplayCallback
-		_ = _arg_callback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewVirtualDisplayCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_projectionToken projection.IMediaProjection
-		_ = _arg_projectionToken
+		{
+			_projectionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_projectionToken = projection.NewMediaProjectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _projectionTokenHandle))
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2325,12 +2414,14 @@ func (s *DisplayManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDisplayManagerResizeVirtualDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token IVirtualDisplayCallback
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = NewVirtualDisplayCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2352,13 +2443,26 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerSetVirtualDisplaySurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token IVirtualDisplayCallback
-		_ = _arg_token
-		var _arg_surface interface{}
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = NewVirtualDisplayCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
+		var _arg_surface view.Surface
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SetVirtualDisplaySurface(ctx, _arg_token, _arg_surface)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2368,12 +2472,14 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerReleaseVirtualDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token IVirtualDisplayCallback
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = NewVirtualDisplayCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_err := s.Impl.ReleaseVirtualDisplay(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2383,12 +2489,14 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerSetVirtualDisplayState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token IVirtualDisplayCallback
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = NewVirtualDisplayCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_isOn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2402,9 +2510,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerGetStableDisplaySize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetStableDisplaySize(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2421,9 +2526,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetBrightnessEvents(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2437,9 +2539,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDisplayManagerGetAmbientBrightnessStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAmbientBrightnessStats(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2453,9 +2552,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDisplayManagerSetBrightnessConfigurationForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_c BrightnessConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2484,9 +2580,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerSetBrightnessConfigurationForDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_c BrightnessConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2519,9 +2612,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerGetBrightnessConfigurationForDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uniqueDisplayId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2542,9 +2632,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDisplayManagerGetBrightnessConfigurationForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2561,9 +2648,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDisplayManagerGetDefaultBrightnessConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDefaultBrightnessConfiguration(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2577,9 +2661,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDisplayManagerIsMinimalPostProcessingRequested:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2594,9 +2675,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDisplayManagerSetTemporaryBrightness:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2614,9 +2692,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerSetBrightness:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2634,9 +2709,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerGetBrightness:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2651,9 +2723,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIDisplayManagerSetTemporaryAutoBrightnessAdjustment:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_adjustment, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -2667,9 +2736,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerGetMinimumBrightnessCurve:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMinimumBrightnessCurve(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2683,9 +2749,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDisplayManagerGetBrightnessInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2703,9 +2766,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDisplayManagerGetPreferredWideGamutColorSpaceId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPreferredWideGamutColorSpaceId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2716,9 +2776,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDisplayManagerSetUserPreferredDisplayMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2727,7 +2784,7 @@ func (s *DisplayManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode := ScoConfig.Mode(_raw_mode)
+		_arg_mode := core.IBluetoothScoConfigMode(_raw_mode)
 		_err = s.Impl.SetUserPreferredDisplayMode(ctx, _arg_displayId, _arg_mode)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2737,9 +2794,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerGetUserPreferredDisplayMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2754,9 +2808,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIDisplayManagerGetSystemPreferredDisplayMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2771,9 +2822,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIDisplayManagerSetHdrConversionMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_hdrConversionMode HdrConversionMode
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2795,9 +2843,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerGetHdrConversionModeSetting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHdrConversionModeSetting(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2811,9 +2856,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDisplayManagerGetHdrConversionMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHdrConversionMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2827,9 +2869,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDisplayManagerGetSupportedHdrOutputTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedHdrOutputTypes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2837,13 +2876,16 @@ func (s *DisplayManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDisplayManagerSetShouldAlwaysRespectAppRequestedMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2857,9 +2899,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerShouldAlwaysRespectAppRequestedMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ShouldAlwaysRespectAppRequestedMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2870,9 +2909,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDisplayManagerSetRefreshRateSwitchingType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_newValue, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2886,9 +2922,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerGetRefreshRateSwitchingType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRefreshRateSwitchingType(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2899,9 +2932,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDisplayManagerGetDisplayDecorationSupport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2919,12 +2949,14 @@ func (s *DisplayManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDisplayManagerSetDisplayIdToMirror:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2938,9 +2970,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerGetOverlaySupport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetOverlaySupport(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2954,9 +2983,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDisplayManagerEnableConnectedDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2970,9 +2996,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayManagerDisableConnectedDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2994,7 +3017,7 @@ func (s *DisplayManagerStub) OnTransaction(
 // provide to NewDisplayManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IDisplayManagerServer interface {
-	GetDisplayInfo(ctx context.Context, displayId int32) (interface{}, error)
+	GetDisplayInfo(ctx context.Context, displayId int32) (gui.DisplayInfo, error)
 	GetDisplayIds(ctx context.Context, includeDisabled bool) ([]int32, error)
 	IsUidPresentOnDisplay(ctx context.Context, uid int32, displayId int32) (bool, error)
 	RegisterCallback(ctx context.Context, callback IDisplayManagerCallback) error
@@ -3016,7 +3039,7 @@ type IDisplayManagerServer interface {
 	RequestColorMode(ctx context.Context, displayId int32, colorMode int32) error
 	CreateVirtualDisplay(ctx context.Context, virtualDisplayConfig VirtualDisplayConfig, callback IVirtualDisplayCallback, projectionToken projection.IMediaProjection, packageName string) (int32, error)
 	ResizeVirtualDisplay(ctx context.Context, token IVirtualDisplayCallback, width int32, height int32, densityDpi int32) error
-	SetVirtualDisplaySurface(ctx context.Context, token IVirtualDisplayCallback, surface interface{}) error
+	SetVirtualDisplaySurface(ctx context.Context, token IVirtualDisplayCallback, surface view.Surface) error
 	ReleaseVirtualDisplay(ctx context.Context, token IVirtualDisplayCallback) error
 	SetVirtualDisplayState(ctx context.Context, token IVirtualDisplayCallback, isOn bool) error
 	GetStableDisplaySize(ctx context.Context) (graphics.Point, error)
@@ -3035,9 +3058,9 @@ type IDisplayManagerServer interface {
 	GetMinimumBrightnessCurve(ctx context.Context) (Curve, error)
 	GetBrightnessInfo(ctx context.Context, displayId int32) (BrightnessInfo, error)
 	GetPreferredWideGamutColorSpaceId(ctx context.Context) (int32, error)
-	SetUserPreferredDisplayMode(ctx context.Context, displayId int32, mode ScoConfig.Mode) error
-	GetUserPreferredDisplayMode(ctx context.Context, displayId int32) (ScoConfig.Mode, error)
-	GetSystemPreferredDisplayMode(ctx context.Context, displayId int32) (ScoConfig.Mode, error)
+	SetUserPreferredDisplayMode(ctx context.Context, displayId int32, mode core.IBluetoothScoConfigMode) error
+	GetUserPreferredDisplayMode(ctx context.Context, displayId int32) (core.IBluetoothScoConfigMode, error)
+	GetSystemPreferredDisplayMode(ctx context.Context, displayId int32) (core.IBluetoothScoConfigMode, error)
 	SetHdrConversionMode(ctx context.Context, hdrConversionMode HdrConversionMode) error
 	GetHdrConversionModeSetting(ctx context.Context) (HdrConversionMode, error)
 	GetHdrConversionMode(ctx context.Context) (HdrConversionMode, error)
@@ -3065,7 +3088,7 @@ func (w *displayManagerStubWrapper) AsBinder() binder.IBinder {
 func (w *displayManagerStubWrapper) GetDisplayInfo(
 	ctx context.Context,
 	displayId int32,
-) (interface{}, error) {
+) (gui.DisplayInfo, error) {
 	return w.impl.GetDisplayInfo(ctx, displayId)
 }
 
@@ -3222,7 +3245,7 @@ func (w *displayManagerStubWrapper) ResizeVirtualDisplay(
 func (w *displayManagerStubWrapper) SetVirtualDisplaySurface(
 	ctx context.Context,
 	token IVirtualDisplayCallback,
-	surface interface{},
+	surface view.Surface,
 ) error {
 	return w.impl.SetVirtualDisplaySurface(ctx, token, surface)
 }
@@ -3355,7 +3378,7 @@ func (w *displayManagerStubWrapper) GetPreferredWideGamutColorSpaceId(
 func (w *displayManagerStubWrapper) SetUserPreferredDisplayMode(
 	ctx context.Context,
 	displayId int32,
-	mode ScoConfig.Mode,
+	mode core.IBluetoothScoConfigMode,
 ) error {
 	return w.impl.SetUserPreferredDisplayMode(ctx, displayId, mode)
 }
@@ -3363,14 +3386,14 @@ func (w *displayManagerStubWrapper) SetUserPreferredDisplayMode(
 func (w *displayManagerStubWrapper) GetUserPreferredDisplayMode(
 	ctx context.Context,
 	displayId int32,
-) (ScoConfig.Mode, error) {
+) (core.IBluetoothScoConfigMode, error) {
 	return w.impl.GetUserPreferredDisplayMode(ctx, displayId)
 }
 
 func (w *displayManagerStubWrapper) GetSystemPreferredDisplayMode(
 	ctx context.Context,
 	displayId int32,
-) (ScoConfig.Mode, error) {
+) (core.IBluetoothScoConfigMode, error) {
 	return w.impl.GetSystemPreferredDisplayMode(ctx, displayId)
 }
 

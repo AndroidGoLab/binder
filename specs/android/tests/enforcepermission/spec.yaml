@@ -1,0 +1,105 @@
+package: android.tests.enforcepermission
+go_package: android/tests/enforcepermission
+interfaces:
+    - name: INested
+      descriptor: android.tests.enforcepermission.INested
+      methods:
+        - name: ProtectedByAccessNetworkState
+          transaction_code_offset: 0
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: ProtectedByReadSyncSettings
+          transaction_code_offset: 1
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+    - name: IProtected
+      descriptor: android.tests.enforcepermission.IProtected
+      methods:
+        - name: ProtectedByInternet
+          transaction_code_offset: 0
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: ProtectedByVibrate
+          transaction_code_offset: 1
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: ProtectedByInternetAndVibrateImplicitly
+          transaction_code_offset: 2
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: ProtectedByInternetAndAccessNetworkStateImplicitly
+          transaction_code_offset: 3
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: ProtectedByInternetAndReadSyncSettingsImplicitly
+          transaction_code_offset: 4
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: ProtectedByTurnScreenOn
+          transaction_code_offset: 5
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: ProtectedByReadContacts
+          transaction_code_offset: 6
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: ProtectedByReadCalendar
+          transaction_code_offset: 7
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: ProtectedByInternetAndVibrate
+          transaction_code_offset: 8
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: ProtectedByInternetAndReadSyncSettings
+          transaction_code_offset: 9
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: ProtectedByAccessWifiStateOrVibrate
+          transaction_code_offset: 10
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: ProtectedByInternetOrVibrate
+          transaction_code_offset: 11
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: NotProtected
+          transaction_code_offset: 12
+          return_type:
+            name: void
+          annotations:
+            - RequiresNoPermission
+        - name: ManuallyProtected
+          transaction_code_offset: 13
+          return_type:
+            name: void
+          annotations:
+            - PermissionManuallyEnforced

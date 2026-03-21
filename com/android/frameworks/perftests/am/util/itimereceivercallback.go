@@ -46,6 +46,7 @@ func (p *TimeReceiverCallbackProxy) SendTime(
 	timeNs int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeReceiverCallback)
 	_data.WriteString16(type_)
 	_data.WriteInt64(timeNs)
@@ -71,7 +72,8 @@ func (p *TimeReceiverCallbackProxy) SendTime(
 // TimeReceiverCallbackStub dispatches incoming binder transactions
 // to a typed ITimeReceiverCallback implementation.
 type TimeReceiverCallbackStub struct {
-	Impl ITimeReceiverCallback
+	Impl      ITimeReceiverCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TimeReceiverCallbackStub)(nil)
@@ -85,11 +87,12 @@ func (s *TimeReceiverCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITimeReceiverCallbackSendTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

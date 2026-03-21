@@ -5,6 +5,7 @@ import (
 	"fmt"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
 	drawable "github.com/xaionaro-go/binder/android/graphics/drawable"
+	types "github.com/xaionaro-go/binder/android/print/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -43,17 +44,17 @@ const (
 
 type IPrintServiceClient interface {
 	AsBinder() binder.IBinder
-	GetPrintJobInfos(ctx context.Context) ([]interface{}, error)
-	GetPrintJobInfo(ctx context.Context, printJobId interface{}) (interface{}, error)
-	SetPrintJobState(ctx context.Context, printJobId interface{}, state int32, error_ string) (bool, error)
-	SetPrintJobTag(ctx context.Context, printJobId interface{}, tag string) (bool, error)
-	WritePrintJobData(ctx context.Context, fd int32, printJobId interface{}) error
-	SetProgress(ctx context.Context, printJobId interface{}, progress float32) error
-	SetStatus(ctx context.Context, printJobId interface{}, status interface{}) error
-	SetStatusRes(ctx context.Context, printJobId interface{}, status int32, appPackageName interface{}) error
+	GetPrintJobInfos(ctx context.Context) ([]types.PrintJobInfo, error)
+	GetPrintJobInfo(ctx context.Context, printJobId types.PrintJobId) (types.PrintJobInfo, error)
+	SetPrintJobState(ctx context.Context, printJobId types.PrintJobId, state int32, error_ string) (bool, error)
+	SetPrintJobTag(ctx context.Context, printJobId types.PrintJobId, tag string) (bool, error)
+	WritePrintJobData(ctx context.Context, fd int32, printJobId types.PrintJobId) error
+	SetProgress(ctx context.Context, printJobId types.PrintJobId, progress float32) error
+	SetStatus(ctx context.Context, printJobId types.PrintJobId, status string) error
+	SetStatusRes(ctx context.Context, printJobId types.PrintJobId, status int32, appPackageName string) error
 	OnPrintersAdded(ctx context.Context, printers pm.ParceledListSlice) error
 	OnPrintersRemoved(ctx context.Context, printerIds pm.ParceledListSlice) error
-	OnCustomPrinterIconLoaded(ctx context.Context, printerId interface{}, icon drawable.Icon) error
+	OnCustomPrinterIconLoaded(ctx context.Context, printerId types.PrinterId, icon drawable.Icon) error
 }
 
 type PrintServiceClientProxy struct {
@@ -74,9 +75,10 @@ var _ IPrintServiceClient = (*PrintServiceClientProxy)(nil)
 
 func (p *PrintServiceClientProxy) GetPrintJobInfos(
 	ctx context.Context,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]types.PrintJobInfo, error) {
+	var _result []types.PrintJobInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientGetPrintJobInfos)
@@ -98,10 +100,21 @@ func (p *PrintServiceClientProxy) GetPrintJobInfos(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]types.PrintJobInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			if _err != nil {
+				return _result, _err
+			}
+			parcel.SkipToParcelableEnd(_reply, _endPos)
 		}
 	}
 	return _result, nil
@@ -109,11 +122,13 @@ func (p *PrintServiceClientProxy) GetPrintJobInfos(
 
 func (p *PrintServiceClientProxy) GetPrintJobInfo(
 	ctx context.Context,
-	printJobId interface{},
-) (interface{}, error) {
-	var _result interface{}
+	printJobId types.PrintJobId,
+) (types.PrintJobInfo, error) {
+	var _result types.PrintJobInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
+	// WARNING: param printJobId (type types.PrintJobId) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientGetPrintJobInfo)
 	if _err != nil {
@@ -130,18 +145,31 @@ func (p *PrintServiceClientProxy) GetPrintJobInfo(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
 func (p *PrintServiceClientProxy) SetPrintJobState(
 	ctx context.Context,
-	printJobId interface{},
+	printJobId types.PrintJobId,
 	state int32,
 	error_ string,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
+	// WARNING: param printJobId (type types.PrintJobId) cannot be serialized — type not resolved
 	_data.WriteInt32(state)
 	_data.WriteString16(error_)
 
@@ -169,12 +197,14 @@ func (p *PrintServiceClientProxy) SetPrintJobState(
 
 func (p *PrintServiceClientProxy) SetPrintJobTag(
 	ctx context.Context,
-	printJobId interface{},
+	printJobId types.PrintJobId,
 	tag string,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
+	// WARNING: param printJobId (type types.PrintJobId) cannot be serialized — type not resolved
 	_data.WriteString16(tag)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientSetPrintJobTag)
@@ -202,11 +232,13 @@ func (p *PrintServiceClientProxy) SetPrintJobTag(
 func (p *PrintServiceClientProxy) WritePrintJobData(
 	ctx context.Context,
 	fd int32,
-	printJobId interface{},
+	printJobId types.PrintJobId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
 	_data.WriteFileDescriptor(fd)
+	// WARNING: param printJobId (type types.PrintJobId) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientWritePrintJobData)
 	if _err != nil {
@@ -219,11 +251,13 @@ func (p *PrintServiceClientProxy) WritePrintJobData(
 
 func (p *PrintServiceClientProxy) SetProgress(
 	ctx context.Context,
-	printJobId interface{},
+	printJobId types.PrintJobId,
 	progress float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
+	// WARNING: param printJobId (type types.PrintJobId) cannot be serialized — type not resolved
 	_data.WriteFloat32(progress)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientSetProgress)
@@ -246,11 +280,14 @@ func (p *PrintServiceClientProxy) SetProgress(
 
 func (p *PrintServiceClientProxy) SetStatus(
 	ctx context.Context,
-	printJobId interface{},
-	status interface{},
+	printJobId types.PrintJobId,
+	status string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
+	// WARNING: param printJobId (type types.PrintJobId) cannot be serialized — type not resolved
+	_data.WriteString16(status)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientSetStatus)
 	if _err != nil {
@@ -272,13 +309,16 @@ func (p *PrintServiceClientProxy) SetStatus(
 
 func (p *PrintServiceClientProxy) SetStatusRes(
 	ctx context.Context,
-	printJobId interface{},
+	printJobId types.PrintJobId,
 	status int32,
-	appPackageName interface{},
+	appPackageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
+	// WARNING: param printJobId (type types.PrintJobId) cannot be serialized — type not resolved
 	_data.WriteInt32(status)
+	_data.WriteString16(appPackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientSetStatusRes)
 	if _err != nil {
@@ -303,6 +343,7 @@ func (p *PrintServiceClientProxy) OnPrintersAdded(
 	printers pm.ParceledListSlice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
 	_data.WriteInt32(1)
 	if _err := printers.MarshalParcel(_data); _err != nil {
@@ -332,6 +373,7 @@ func (p *PrintServiceClientProxy) OnPrintersRemoved(
 	printerIds pm.ParceledListSlice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
 	_data.WriteInt32(1)
 	if _err := printerIds.MarshalParcel(_data); _err != nil {
@@ -358,11 +400,13 @@ func (p *PrintServiceClientProxy) OnPrintersRemoved(
 
 func (p *PrintServiceClientProxy) OnCustomPrinterIconLoaded(
 	ctx context.Context,
-	printerId interface{},
+	printerId types.PrinterId,
 	icon drawable.Icon,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
+	// WARNING: param printerId (type types.PrinterId) cannot be serialized — type not resolved
 	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _err
@@ -389,7 +433,8 @@ func (p *PrintServiceClientProxy) OnCustomPrinterIconLoaded(
 // PrintServiceClientStub dispatches incoming binder transactions
 // to a typed IPrintServiceClient implementation.
 type PrintServiceClientStub struct {
-	Impl IPrintServiceClient
+	Impl      IPrintServiceClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PrintServiceClientStub)(nil)
@@ -403,11 +448,12 @@ func (s *PrintServiceClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPrintServiceClientGetPrintJobInfos:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPrintJobInfos(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -415,14 +461,14 @@ func (s *PrintServiceClientStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	case TransactionIPrintServiceClientGetPrintJobInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_printJobId interface{}
+		var _arg_printJobId types.PrintJobId
 		_result, _err := s.Impl.GetPrintJobInfo(ctx, _arg_printJobId)
 		_reply := parcel.New()
 		if _err != nil {
@@ -433,10 +479,7 @@ func (s *PrintServiceClientStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPrintServiceClientSetPrintJobState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_printJobId interface{}
+		var _arg_printJobId types.PrintJobId
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -455,10 +498,7 @@ func (s *PrintServiceClientStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPrintServiceClientSetPrintJobTag:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_printJobId interface{}
+		var _arg_printJobId types.PrintJobId
 		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -473,22 +513,15 @@ func (s *PrintServiceClientStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPrintServiceClientWritePrintJobData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_printJobId interface{}
+		var _arg_printJobId types.PrintJobId
 		_err = s.Impl.WritePrintJobData(ctx, _arg_fd, _arg_printJobId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintServiceClientSetProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_printJobId interface{}
+		var _arg_printJobId types.PrintJobId
 		_arg_progress, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -502,12 +535,12 @@ func (s *PrintServiceClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintServiceClientSetStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
+		var _arg_printJobId types.PrintJobId
+		_arg_status, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_printJobId interface{}
-		var _arg_status interface{}
-		_err := s.Impl.SetStatus(ctx, _arg_printJobId, _arg_status)
+		_err = s.Impl.SetStatus(ctx, _arg_printJobId, _arg_status)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -516,15 +549,15 @@ func (s *PrintServiceClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintServiceClientSetStatusRes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_printJobId interface{}
+		var _arg_printJobId types.PrintJobId
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_appPackageName interface{}
+		_arg_appPackageName, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		_err = s.Impl.SetStatusRes(ctx, _arg_printJobId, _arg_status, _arg_appPackageName)
 		_reply := parcel.New()
 		if _err != nil {
@@ -534,9 +567,6 @@ func (s *PrintServiceClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintServiceClientOnPrintersAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printers pm.ParceledListSlice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -558,9 +588,6 @@ func (s *PrintServiceClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintServiceClientOnPrintersRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printerIds pm.ParceledListSlice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -582,10 +609,7 @@ func (s *PrintServiceClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintServiceClientOnCustomPrinterIconLoaded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_printerId interface{}
+		var _arg_printerId types.PrinterId
 		var _arg_icon drawable.Icon
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -615,17 +639,17 @@ func (s *PrintServiceClientStub) OnTransaction(
 // provide to NewPrintServiceClientStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IPrintServiceClientServer interface {
-	GetPrintJobInfos(ctx context.Context) ([]interface{}, error)
-	GetPrintJobInfo(ctx context.Context, printJobId interface{}) (interface{}, error)
-	SetPrintJobState(ctx context.Context, printJobId interface{}, state int32, error_ string) (bool, error)
-	SetPrintJobTag(ctx context.Context, printJobId interface{}, tag string) (bool, error)
-	WritePrintJobData(ctx context.Context, fd int32, printJobId interface{}) error
-	SetProgress(ctx context.Context, printJobId interface{}, progress float32) error
-	SetStatus(ctx context.Context, printJobId interface{}, status interface{}) error
-	SetStatusRes(ctx context.Context, printJobId interface{}, status int32, appPackageName interface{}) error
+	GetPrintJobInfos(ctx context.Context) ([]types.PrintJobInfo, error)
+	GetPrintJobInfo(ctx context.Context, printJobId types.PrintJobId) (types.PrintJobInfo, error)
+	SetPrintJobState(ctx context.Context, printJobId types.PrintJobId, state int32, error_ string) (bool, error)
+	SetPrintJobTag(ctx context.Context, printJobId types.PrintJobId, tag string) (bool, error)
+	WritePrintJobData(ctx context.Context, fd int32, printJobId types.PrintJobId) error
+	SetProgress(ctx context.Context, printJobId types.PrintJobId, progress float32) error
+	SetStatus(ctx context.Context, printJobId types.PrintJobId, status string) error
+	SetStatusRes(ctx context.Context, printJobId types.PrintJobId, status int32, appPackageName string) error
 	OnPrintersAdded(ctx context.Context, printers pm.ParceledListSlice) error
 	OnPrintersRemoved(ctx context.Context, printerIds pm.ParceledListSlice) error
-	OnCustomPrinterIconLoaded(ctx context.Context, printerId interface{}, icon drawable.Icon) error
+	OnCustomPrinterIconLoaded(ctx context.Context, printerId types.PrinterId, icon drawable.Icon) error
 }
 
 type printServiceClientStubWrapper struct {
@@ -639,20 +663,20 @@ func (w *printServiceClientStubWrapper) AsBinder() binder.IBinder {
 
 func (w *printServiceClientStubWrapper) GetPrintJobInfos(
 	ctx context.Context,
-) ([]interface{}, error) {
+) ([]types.PrintJobInfo, error) {
 	return w.impl.GetPrintJobInfos(ctx)
 }
 
 func (w *printServiceClientStubWrapper) GetPrintJobInfo(
 	ctx context.Context,
-	printJobId interface{},
-) (interface{}, error) {
+	printJobId types.PrintJobId,
+) (types.PrintJobInfo, error) {
 	return w.impl.GetPrintJobInfo(ctx, printJobId)
 }
 
 func (w *printServiceClientStubWrapper) SetPrintJobState(
 	ctx context.Context,
-	printJobId interface{},
+	printJobId types.PrintJobId,
 	state int32,
 	error_ string,
 ) (bool, error) {
@@ -661,7 +685,7 @@ func (w *printServiceClientStubWrapper) SetPrintJobState(
 
 func (w *printServiceClientStubWrapper) SetPrintJobTag(
 	ctx context.Context,
-	printJobId interface{},
+	printJobId types.PrintJobId,
 	tag string,
 ) (bool, error) {
 	return w.impl.SetPrintJobTag(ctx, printJobId, tag)
@@ -670,14 +694,14 @@ func (w *printServiceClientStubWrapper) SetPrintJobTag(
 func (w *printServiceClientStubWrapper) WritePrintJobData(
 	ctx context.Context,
 	fd int32,
-	printJobId interface{},
+	printJobId types.PrintJobId,
 ) error {
 	return w.impl.WritePrintJobData(ctx, fd, printJobId)
 }
 
 func (w *printServiceClientStubWrapper) SetProgress(
 	ctx context.Context,
-	printJobId interface{},
+	printJobId types.PrintJobId,
 	progress float32,
 ) error {
 	return w.impl.SetProgress(ctx, printJobId, progress)
@@ -685,17 +709,17 @@ func (w *printServiceClientStubWrapper) SetProgress(
 
 func (w *printServiceClientStubWrapper) SetStatus(
 	ctx context.Context,
-	printJobId interface{},
-	status interface{},
+	printJobId types.PrintJobId,
+	status string,
 ) error {
 	return w.impl.SetStatus(ctx, printJobId, status)
 }
 
 func (w *printServiceClientStubWrapper) SetStatusRes(
 	ctx context.Context,
-	printJobId interface{},
+	printJobId types.PrintJobId,
 	status int32,
-	appPackageName interface{},
+	appPackageName string,
 ) error {
 	return w.impl.SetStatusRes(ctx, printJobId, status, appPackageName)
 }
@@ -716,7 +740,7 @@ func (w *printServiceClientStubWrapper) OnPrintersRemoved(
 
 func (w *printServiceClientStubWrapper) OnCustomPrinterIconLoaded(
 	ctx context.Context,
-	printerId interface{},
+	printerId types.PrinterId,
 	icon drawable.Icon,
 ) error {
 	return w.impl.OnCustomPrinterIconLoaded(ctx, printerId, icon)

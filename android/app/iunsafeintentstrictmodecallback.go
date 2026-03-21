@@ -46,6 +46,7 @@ func (p *UnsafeIntentStrictModeCallbackProxy) OnImplicitIntentMatchedInternalCom
 	intent content.Intent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUnsafeIntentStrictModeCallback)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -64,7 +65,8 @@ func (p *UnsafeIntentStrictModeCallbackProxy) OnImplicitIntentMatchedInternalCom
 // UnsafeIntentStrictModeCallbackStub dispatches incoming binder transactions
 // to a typed IUnsafeIntentStrictModeCallback implementation.
 type UnsafeIntentStrictModeCallbackStub struct {
-	Impl IUnsafeIntentStrictModeCallback
+	Impl      IUnsafeIntentStrictModeCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UnsafeIntentStrictModeCallbackStub)(nil)
@@ -78,11 +80,12 @@ func (s *UnsafeIntentStrictModeCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUnsafeIntentStrictModeCallbackOnImplicitIntentMatchedInternalComponent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -96,8 +99,7 @@ func (s *UnsafeIntentStrictModeCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnImplicitIntentMatchedInternalComponent(ctx, _arg_intent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

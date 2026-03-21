@@ -30,7 +30,7 @@ type ILayoutResultCallback interface {
 	AsBinder() binder.IBinder
 	OnLayoutStarted(ctx context.Context, cancellation common.ICancellationSignal, sequence int32) error
 	OnLayoutFinished(ctx context.Context, info PrintDocumentInfo, changed bool, sequence int32) error
-	OnLayoutFailed(ctx context.Context, error_ interface{}, sequence int32) error
+	OnLayoutFailed(ctx context.Context, error_ string, sequence int32) error
 	OnLayoutCanceled(ctx context.Context, sequence int32) error
 }
 
@@ -56,6 +56,7 @@ func (p *LayoutResultCallbackProxy) OnLayoutStarted(
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILayoutResultCallback)
 	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(sequence)
@@ -76,6 +77,7 @@ func (p *LayoutResultCallbackProxy) OnLayoutFinished(
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILayoutResultCallback)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -95,11 +97,13 @@ func (p *LayoutResultCallbackProxy) OnLayoutFinished(
 
 func (p *LayoutResultCallbackProxy) OnLayoutFailed(
 	ctx context.Context,
-	error_ interface{},
+	error_ string,
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILayoutResultCallback)
+	_data.WriteString16(error_)
 	_data.WriteInt32(sequence)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILayoutResultCallback, MethodILayoutResultCallbackOnLayoutFailed)
@@ -116,6 +120,7 @@ func (p *LayoutResultCallbackProxy) OnLayoutCanceled(
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILayoutResultCallback)
 	_data.WriteInt32(sequence)
 
@@ -131,7 +136,8 @@ func (p *LayoutResultCallbackProxy) OnLayoutCanceled(
 // LayoutResultCallbackStub dispatches incoming binder transactions
 // to a typed ILayoutResultCallback implementation.
 type LayoutResultCallbackStub struct {
-	Impl ILayoutResultCallback
+	Impl      ILayoutResultCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LayoutResultCallbackStub)(nil)
@@ -145,25 +151,27 @@ func (s *LayoutResultCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILayoutResultCallbackOnLayoutStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cancellation common.ICancellationSignal
-		_ = _arg_cancellation
+		{
+			_cancellationHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cancellation = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
+		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnLayoutStarted(ctx, _arg_cancellation, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionILayoutResultCallbackOnLayoutFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info PrintDocumentInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -185,31 +193,25 @@ func (s *LayoutResultCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnLayoutFinished(ctx, _arg_info, _arg_changed, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionILayoutResultCallbackOnLayoutFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_error_, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_error_ interface{}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnLayoutFailed(ctx, _arg_error_, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionILayoutResultCallbackOnLayoutCanceled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnLayoutCanceled(ctx, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -221,7 +223,7 @@ func (s *LayoutResultCallbackStub) OnTransaction(
 type ILayoutResultCallbackServer interface {
 	OnLayoutStarted(ctx context.Context, cancellation common.ICancellationSignal, sequence int32) error
 	OnLayoutFinished(ctx context.Context, info PrintDocumentInfo, changed bool, sequence int32) error
-	OnLayoutFailed(ctx context.Context, error_ interface{}, sequence int32) error
+	OnLayoutFailed(ctx context.Context, error_ string, sequence int32) error
 	OnLayoutCanceled(ctx context.Context, sequence int32) error
 }
 
@@ -253,7 +255,7 @@ func (w *layoutResultCallbackStubWrapper) OnLayoutFinished(
 
 func (w *layoutResultCallbackStubWrapper) OnLayoutFailed(
 	ctx context.Context,
-	error_ interface{},
+	error_ string,
 	sequence int32,
 ) error {
 	return w.impl.OnLayoutFailed(ctx, error_, sequence)

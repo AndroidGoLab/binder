@@ -49,6 +49,7 @@ func (p *AudioConfigChangedCallbackProxy) OnPlaybackConfigChanged(
 	configs []media.AudioPlaybackConfiguration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioConfigChangedCallback)
 	if configs == nil {
 		_data.WriteInt32(-1)
@@ -76,6 +77,7 @@ func (p *AudioConfigChangedCallbackProxy) OnRecordingConfigChanged(
 	configs []media.AudioRecordingConfiguration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioConfigChangedCallback)
 	if configs == nil {
 		_data.WriteInt32(-1)
@@ -101,7 +103,8 @@ func (p *AudioConfigChangedCallbackProxy) OnRecordingConfigChanged(
 // AudioConfigChangedCallbackStub dispatches incoming binder transactions
 // to a typed IAudioConfigChangedCallback implementation.
 type AudioConfigChangedCallbackStub struct {
-	Impl IAudioConfigChangedCallback
+	Impl      IAudioConfigChangedCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AudioConfigChangedCallbackStub)(nil)
@@ -115,27 +118,59 @@ func (s *AudioConfigChangedCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAudioConfigChangedCallbackOnPlaybackConfigChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_configs []media.AudioPlaybackConfiguration
-		_ = _arg_configs
-		_err := s.Impl.OnPlaybackConfigChanged(ctx, _arg_configs)
-		_ = _err
-		return nil, nil
-	case TransactionIAudioConfigChangedCallbackOnRecordingConfigChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_configs = make([]media.AudioPlaybackConfiguration, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_configs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		_err := s.Impl.OnPlaybackConfigChanged(ctx, _arg_configs)
+		return nil, _err
+	case TransactionIAudioConfigChangedCallbackOnRecordingConfigChanged:
 		var _arg_configs []media.AudioRecordingConfiguration
-		_ = _arg_configs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_configs = make([]media.AudioRecordingConfiguration, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_configs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnRecordingConfigChanged(ctx, _arg_configs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

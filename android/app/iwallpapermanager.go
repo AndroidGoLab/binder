@@ -5,6 +5,7 @@ import (
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -91,13 +92,13 @@ const (
 
 type IWallpaperManager interface {
 	AsBinder() binder.IBinder
-	SetWallpaper(ctx context.Context, name string, screenOrientations []int32, crops []graphics.Rect, allowBackup bool, extras interface{}, which int32, completion IWallpaperManagerCallback) (int32, error)
+	SetWallpaper(ctx context.Context, name string, screenOrientations []int32, crops []graphics.Rect, allowBackup bool, extras os.Bundle, which int32, completion IWallpaperManagerCallback) (int32, error)
 	SetWallpaperComponentChecked(ctx context.Context, name content.ComponentName, which int32) error
 	SetWallpaperComponent(ctx context.Context, name content.ComponentName) error
-	GetWallpaper(ctx context.Context, callingPkg string, cb IWallpaperManagerCallback, which int32, outParams interface{}) (int32, error)
-	GetWallpaperWithFeature(ctx context.Context, callingPkg string, cb IWallpaperManagerCallback, which int32, outParams interface{}, getCropped bool) (int32, error)
-	GetBitmapCrops(ctx context.Context, displaySizes []graphics.Point, which int32, originalBitmap bool) ([]interface{}, error)
-	GetFutureBitmapCrops(ctx context.Context, bitmapSize graphics.Point, displaySizes []graphics.Point, screenOrientations []int32, crops []graphics.Rect) ([]interface{}, error)
+	GetWallpaper(ctx context.Context, callingPkg string, cb IWallpaperManagerCallback, which int32, outParams os.Bundle) (int32, error)
+	GetWallpaperWithFeature(ctx context.Context, callingPkg string, cb IWallpaperManagerCallback, which int32, outParams os.Bundle, getCropped bool) (int32, error)
+	GetBitmapCrops(ctx context.Context, displaySizes []graphics.Point, which int32, originalBitmap bool) ([]any, error)
+	GetFutureBitmapCrops(ctx context.Context, bitmapSize graphics.Point, displaySizes []graphics.Point, screenOrientations []int32, crops []graphics.Rect) ([]any, error)
 	GetBitmapCrop(ctx context.Context, bitmapSize graphics.Point, screenOrientations []int32, crops []graphics.Rect) (graphics.Rect, error)
 	GetWallpaperIdForUser(ctx context.Context, which int32) (int32, error)
 	GetWallpaperInfo(ctx context.Context) (WallpaperInfo, error)
@@ -120,8 +121,8 @@ type IWallpaperManager interface {
 	RegisterWallpaperColorsCallback(ctx context.Context, cb IWallpaperManagerCallback, displayId int32) error
 	UnregisterWallpaperColorsCallback(ctx context.Context, cb IWallpaperManagerCallback, displayId int32) error
 	SetInAmbientMode(ctx context.Context, inAmbientMode bool, animationDuration int64) error
-	NotifyWakingUp(ctx context.Context, x int32, y int32, extras interface{}) error
-	NotifyGoingToSleep(ctx context.Context, x int32, y int32, extras interface{}) error
+	NotifyWakingUp(ctx context.Context, x int32, y int32, extras os.Bundle) error
+	NotifyGoingToSleep(ctx context.Context, x int32, y int32, extras os.Bundle) error
 	SetWallpaperDimAmount(ctx context.Context, dimAmount float32) error
 	GetWallpaperDimAmount(ctx context.Context) (float32, error)
 	LockScreenWallpaperExists(ctx context.Context) (bool, error)
@@ -150,13 +151,14 @@ func (p *WallpaperManagerProxy) SetWallpaper(
 	screenOrientations []int32,
 	crops []graphics.Rect,
 	allowBackup bool,
-	extras interface{},
+	extras os.Bundle,
 	which int32,
 	completion IWallpaperManagerCallback,
 ) (int32, error) {
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteString16(name)
 	_data.WriteString16(_identity.PackageName)
@@ -198,6 +200,17 @@ func (p *WallpaperManagerProxy) SetWallpaper(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = extras.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
+	}
 
 	_result, _err = _reply.ReadFileDescriptor()
 	if _err != nil {
@@ -213,6 +226,7 @@ func (p *WallpaperManagerProxy) SetWallpaperComponentChecked(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(1)
 	if _err := name.MarshalParcel(_data); _err != nil {
@@ -245,6 +259,7 @@ func (p *WallpaperManagerProxy) SetWallpaperComponent(
 	name content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(1)
 	if _err := name.MarshalParcel(_data); _err != nil {
@@ -274,11 +289,12 @@ func (p *WallpaperManagerProxy) GetWallpaper(
 	callingPkg string,
 	cb IWallpaperManagerCallback,
 	which int32,
-	outParams interface{},
+	outParams os.Bundle,
 ) (int32, error) {
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteString16(callingPkg)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
@@ -299,6 +315,17 @@ func (p *WallpaperManagerProxy) GetWallpaper(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = outParams.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
+	}
 
 	_result, _err = _reply.ReadFileDescriptor()
 	if _err != nil {
@@ -312,12 +339,13 @@ func (p *WallpaperManagerProxy) GetWallpaperWithFeature(
 	callingPkg string,
 	cb IWallpaperManagerCallback,
 	which int32,
-	outParams interface{},
+	outParams os.Bundle,
 	getCropped bool,
 ) (int32, error) {
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(_identity.AttributionTag)
@@ -340,6 +368,17 @@ func (p *WallpaperManagerProxy) GetWallpaperWithFeature(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = outParams.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
+	}
 
 	_result, _err = _reply.ReadFileDescriptor()
 	if _err != nil {
@@ -353,10 +392,11 @@ func (p *WallpaperManagerProxy) GetBitmapCrops(
 	displaySizes []graphics.Point,
 	which int32,
 	originalBitmap bool,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]any, error) {
+	var _result []any
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	if displaySizes == nil {
 		_data.WriteInt32(-1)
@@ -392,9 +432,12 @@ func (p *WallpaperManagerProxy) GetBitmapCrops(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]any, _count)
 		for _i := int32(0); _i < _count; _i++ {
 		}
 	}
@@ -407,9 +450,10 @@ func (p *WallpaperManagerProxy) GetFutureBitmapCrops(
 	displaySizes []graphics.Point,
 	screenOrientations []int32,
 	crops []graphics.Rect,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]any, error) {
+	var _result []any
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(1)
 	if _err := bitmapSize.MarshalParcel(_data); _err != nil {
@@ -465,9 +509,12 @@ func (p *WallpaperManagerProxy) GetFutureBitmapCrops(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]any, _count)
 		for _i := int32(0); _i < _count; _i++ {
 		}
 	}
@@ -482,6 +529,7 @@ func (p *WallpaperManagerProxy) GetBitmapCrop(
 ) (graphics.Rect, error) {
 	var _result graphics.Rect
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(1)
 	if _err := bitmapSize.MarshalParcel(_data); _err != nil {
@@ -541,6 +589,7 @@ func (p *WallpaperManagerProxy) GetWallpaperIdForUser(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(which)
 	_data.WriteInt32(_identity.UserID)
@@ -573,6 +622,7 @@ func (p *WallpaperManagerProxy) GetWallpaperInfo(
 	var _result WallpaperInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -610,6 +660,7 @@ func (p *WallpaperManagerProxy) GetWallpaperInfoWithFlags(
 	var _result WallpaperInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(which)
 	_data.WriteInt32(_identity.UserID)
@@ -647,6 +698,7 @@ func (p *WallpaperManagerProxy) GetWallpaperInfoFile(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -678,6 +730,7 @@ func (p *WallpaperManagerProxy) ClearWallpaper(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(which)
@@ -707,6 +760,7 @@ func (p *WallpaperManagerProxy) HasNamedWallpaper(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteString16(name)
 
@@ -740,6 +794,7 @@ func (p *WallpaperManagerProxy) SetDimensionHints(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
@@ -770,6 +825,7 @@ func (p *WallpaperManagerProxy) GetWidthHint(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(displayId)
 
@@ -801,6 +857,7 @@ func (p *WallpaperManagerProxy) GetHeightHint(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(displayId)
 
@@ -833,6 +890,7 @@ func (p *WallpaperManagerProxy) SetDisplayPadding(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(1)
 	if _err := padding.MarshalParcel(_data); _err != nil {
@@ -864,6 +922,7 @@ func (p *WallpaperManagerProxy) GetName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetName)
@@ -892,6 +951,7 @@ func (p *WallpaperManagerProxy) SettingsRestored(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSettingsRestored)
@@ -918,6 +978,7 @@ func (p *WallpaperManagerProxy) IsWallpaperSupported(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteString16(_identity.PackageName)
 
@@ -949,6 +1010,7 @@ func (p *WallpaperManagerProxy) IsSetWallpaperAllowed(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteString16(_identity.PackageName)
 
@@ -981,6 +1043,7 @@ func (p *WallpaperManagerProxy) IsWallpaperBackupEligible(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(which)
 	_data.WriteInt32(_identity.UserID)
@@ -1015,6 +1078,7 @@ func (p *WallpaperManagerProxy) GetWallpaperColors(
 	var _result WallpaperColors
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(which)
 	_data.WriteInt32(_identity.UserID)
@@ -1056,6 +1120,7 @@ func (p *WallpaperManagerProxy) RemoveOnLocalColorsChangedListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	if area == nil {
@@ -1100,6 +1165,7 @@ func (p *WallpaperManagerProxy) AddOnLocalColorsChangedListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	if regions == nil {
@@ -1142,6 +1208,7 @@ func (p *WallpaperManagerProxy) RegisterWallpaperColorsCallback(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -1172,6 +1239,7 @@ func (p *WallpaperManagerProxy) UnregisterWallpaperColorsCallback(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -1201,6 +1269,7 @@ func (p *WallpaperManagerProxy) SetInAmbientMode(
 	animationDuration int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteBool(inAmbientMode)
 	_data.WriteInt64(animationDuration)
@@ -1218,12 +1287,17 @@ func (p *WallpaperManagerProxy) NotifyWakingUp(
 	ctx context.Context,
 	x int32,
 	y int32,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(x)
 	_data.WriteInt32(y)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerNotifyWakingUp)
 	if _err != nil {
@@ -1238,12 +1312,17 @@ func (p *WallpaperManagerProxy) NotifyGoingToSleep(
 	ctx context.Context,
 	x int32,
 	y int32,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(x)
 	_data.WriteInt32(y)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerNotifyGoingToSleep)
 	if _err != nil {
@@ -1268,6 +1347,7 @@ func (p *WallpaperManagerProxy) SetWallpaperDimAmount(
 	dimAmount float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteFloat32(dimAmount)
 
@@ -1285,6 +1365,7 @@ func (p *WallpaperManagerProxy) GetWallpaperDimAmount(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperDimAmount)
@@ -1314,6 +1395,7 @@ func (p *WallpaperManagerProxy) LockScreenWallpaperExists(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerLockScreenWallpaperExists)
@@ -1344,6 +1426,7 @@ func (p *WallpaperManagerProxy) IsStaticWallpaper(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(which)
 
@@ -1372,7 +1455,8 @@ func (p *WallpaperManagerProxy) IsStaticWallpaper(
 // WallpaperManagerStub dispatches incoming binder transactions
 // to a typed IWallpaperManager implementation.
 type WallpaperManagerStub struct {
-	Impl IWallpaperManager
+	Impl      IWallpaperManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WallpaperManagerStub)(nil)
@@ -1386,11 +1470,12 @@ func (s *WallpaperManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWallpaperManagerSetWallpaper:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1398,24 +1483,63 @@ func (s *WallpaperManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_screenOrientations []int32
-		_ = _arg_screenOrientations
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_screenOrientations = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_screenOrientations[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_crops []graphics.Rect
-		_ = _arg_crops
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_crops = make([]graphics.Rect, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_crops[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_allowBackup, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
 		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_completion IWallpaperManagerCallback
-		_ = _arg_completion
+		{
+			_completionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_completion = NewWallpaperManagerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _completionHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1427,11 +1551,12 @@ func (s *WallpaperManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteFileDescriptor(_result)
-		return _reply, nil
-	case TransactionIWallpaperManagerSetWallpaperComponentChecked:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_extras.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIWallpaperManagerSetWallpaperComponentChecked:
 		var _arg_name content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1463,9 +1588,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWallpaperManagerSetWallpaperComponent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_name content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1487,21 +1609,23 @@ func (s *WallpaperManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWallpaperManagerGetWallpaper:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IWallpaperManagerCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewWallpaperManagerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_outParams interface{}
+		var _arg_outParams os.Bundle
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1513,11 +1637,12 @@ func (s *WallpaperManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteFileDescriptor(_result)
-		return _reply, nil
-	case TransactionIWallpaperManagerGetWallpaperWithFeature:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_outParams.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIWallpaperManagerGetWallpaperWithFeature:
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1525,14 +1650,19 @@ func (s *WallpaperManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IWallpaperManagerCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewWallpaperManagerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_outParams interface{}
+		var _arg_outParams os.Bundle
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1548,14 +1678,33 @@ func (s *WallpaperManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteFileDescriptor(_result)
-		return _reply, nil
-	case TransactionIWallpaperManagerGetBitmapCrops:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_outParams.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		return _reply, nil
+	case TransactionIWallpaperManagerGetBitmapCrops:
 		var _arg_displaySizes []graphics.Point
-		_ = _arg_displaySizes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_displaySizes = make([]graphics.Point, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_displaySizes[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1574,13 +1723,13 @@ func (s *WallpaperManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	case TransactionIWallpaperManagerGetFutureBitmapCrops:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_bitmapSize graphics.Point
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1593,15 +1742,67 @@ func (s *WallpaperManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_displaySizes []graphics.Point
-		_ = _arg_displaySizes
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_displaySizes = make([]graphics.Point, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_displaySizes[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_screenOrientations []int32
-		_ = _arg_screenOrientations
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_screenOrientations = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_screenOrientations[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_crops []graphics.Rect
-		_ = _arg_crops
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_crops = make([]graphics.Rect, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_crops[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetFutureBitmapCrops(ctx, _arg_bitmapSize, _arg_displaySizes, _arg_screenOrientations, _arg_crops)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1609,13 +1810,13 @@ func (s *WallpaperManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	case TransactionIWallpaperManagerGetBitmapCrop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_bitmapSize graphics.Point
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1628,12 +1829,46 @@ func (s *WallpaperManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_screenOrientations []int32
-		_ = _arg_screenOrientations
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_screenOrientations = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_screenOrientations[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_crops []graphics.Rect
-		_ = _arg_crops
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_crops = make([]graphics.Rect, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_crops[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetBitmapCrop(ctx, _arg_bitmapSize, _arg_screenOrientations, _arg_crops)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1647,9 +1882,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWallpaperManagerGetWallpaperIdForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1667,9 +1899,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWallpaperManagerGetWallpaperInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1686,9 +1915,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWallpaperManagerGetWallpaperInfoWithFlags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1709,9 +1935,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWallpaperManagerGetWallpaperInfoFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1725,9 +1948,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIWallpaperManagerClearWallpaper:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1747,9 +1967,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWallpaperManagerHasNamedWallpaper:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1764,9 +1981,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWallpaperManagerSetDimensionHints:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1791,9 +2005,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWallpaperManagerGetWidthHint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1808,9 +2019,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWallpaperManagerGetHeightHint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1825,9 +2033,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWallpaperManagerSetDisplayPadding:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_padding graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1856,9 +2061,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWallpaperManagerGetName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1869,9 +2071,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIWallpaperManagerSettingsRestored:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SettingsRestored(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1881,9 +2080,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWallpaperManagerIsWallpaperSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1900,9 +2096,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsSetWallpaperAllowed(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1913,9 +2106,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWallpaperManagerIsWallpaperBackupEligible:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1933,9 +2123,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWallpaperManagerGetWallpaperColors:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1960,15 +2147,35 @@ func (s *WallpaperManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWallpaperManagerRemoveOnLocalColorsChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ILocalWallpaperColorConsumer
-		_ = _arg_callback
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewLocalWallpaperColorConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_area []graphics.RectF
-		_ = _arg_area
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_area = make([]graphics.RectF, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_area[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1989,15 +2196,35 @@ func (s *WallpaperManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWallpaperManagerAddOnLocalColorsChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ILocalWallpaperColorConsumer
-		_ = _arg_callback
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewLocalWallpaperColorConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_regions []graphics.RectF
-		_ = _arg_regions
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_regions = make([]graphics.RectF, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_regions[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2018,12 +2245,14 @@ func (s *WallpaperManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWallpaperManagerRegisterWallpaperColorsCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IWallpaperManagerCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewWallpaperManagerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2040,12 +2269,14 @@ func (s *WallpaperManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWallpaperManagerUnregisterWallpaperColorsCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IWallpaperManagerCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewWallpaperManagerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2062,9 +2293,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWallpaperManagerSetInAmbientMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inAmbientMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2074,12 +2302,8 @@ func (s *WallpaperManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetInAmbientMode(ctx, _arg_inAmbientMode, _arg_animationDuration)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperManagerNotifyWakingUp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_x, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2088,14 +2312,21 @@ func (s *WallpaperManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.NotifyWakingUp(ctx, _arg_x, _arg_y, _arg_extras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperManagerNotifyGoingToSleep:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_x, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2104,7 +2335,18 @@ func (s *WallpaperManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.NotifyGoingToSleep(ctx, _arg_x, _arg_y, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2114,20 +2356,13 @@ func (s *WallpaperManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWallpaperManagerSetWallpaperDimAmount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dimAmount, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetWallpaperDimAmount(ctx, _arg_dimAmount)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperManagerGetWallpaperDimAmount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWallpaperDimAmount(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2138,9 +2373,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIWallpaperManagerLockScreenWallpaperExists:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.LockScreenWallpaperExists(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2151,9 +2383,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWallpaperManagerIsStaticWallpaper:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2176,13 +2405,13 @@ func (s *WallpaperManagerStub) OnTransaction(
 // provide to NewWallpaperManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IWallpaperManagerServer interface {
-	SetWallpaper(ctx context.Context, name string, screenOrientations []int32, crops []graphics.Rect, allowBackup bool, extras interface{}, which int32, completion IWallpaperManagerCallback) (int32, error)
+	SetWallpaper(ctx context.Context, name string, screenOrientations []int32, crops []graphics.Rect, allowBackup bool, extras os.Bundle, which int32, completion IWallpaperManagerCallback) (int32, error)
 	SetWallpaperComponentChecked(ctx context.Context, name content.ComponentName, which int32) error
 	SetWallpaperComponent(ctx context.Context, name content.ComponentName) error
-	GetWallpaper(ctx context.Context, callingPkg string, cb IWallpaperManagerCallback, which int32, outParams interface{}) (int32, error)
-	GetWallpaperWithFeature(ctx context.Context, callingPkg string, cb IWallpaperManagerCallback, which int32, outParams interface{}, getCropped bool) (int32, error)
-	GetBitmapCrops(ctx context.Context, displaySizes []graphics.Point, which int32, originalBitmap bool) ([]interface{}, error)
-	GetFutureBitmapCrops(ctx context.Context, bitmapSize graphics.Point, displaySizes []graphics.Point, screenOrientations []int32, crops []graphics.Rect) ([]interface{}, error)
+	GetWallpaper(ctx context.Context, callingPkg string, cb IWallpaperManagerCallback, which int32, outParams os.Bundle) (int32, error)
+	GetWallpaperWithFeature(ctx context.Context, callingPkg string, cb IWallpaperManagerCallback, which int32, outParams os.Bundle, getCropped bool) (int32, error)
+	GetBitmapCrops(ctx context.Context, displaySizes []graphics.Point, which int32, originalBitmap bool) ([]any, error)
+	GetFutureBitmapCrops(ctx context.Context, bitmapSize graphics.Point, displaySizes []graphics.Point, screenOrientations []int32, crops []graphics.Rect) ([]any, error)
 	GetBitmapCrop(ctx context.Context, bitmapSize graphics.Point, screenOrientations []int32, crops []graphics.Rect) (graphics.Rect, error)
 	GetWallpaperIdForUser(ctx context.Context, which int32) (int32, error)
 	GetWallpaperInfo(ctx context.Context) (WallpaperInfo, error)
@@ -2205,8 +2434,8 @@ type IWallpaperManagerServer interface {
 	RegisterWallpaperColorsCallback(ctx context.Context, cb IWallpaperManagerCallback, displayId int32) error
 	UnregisterWallpaperColorsCallback(ctx context.Context, cb IWallpaperManagerCallback, displayId int32) error
 	SetInAmbientMode(ctx context.Context, inAmbientMode bool, animationDuration int64) error
-	NotifyWakingUp(ctx context.Context, x int32, y int32, extras interface{}) error
-	NotifyGoingToSleep(ctx context.Context, x int32, y int32, extras interface{}) error
+	NotifyWakingUp(ctx context.Context, x int32, y int32, extras os.Bundle) error
+	NotifyGoingToSleep(ctx context.Context, x int32, y int32, extras os.Bundle) error
 	SetWallpaperDimAmount(ctx context.Context, dimAmount float32) error
 	GetWallpaperDimAmount(ctx context.Context) (float32, error)
 	LockScreenWallpaperExists(ctx context.Context) (bool, error)
@@ -2228,7 +2457,7 @@ func (w *wallpaperManagerStubWrapper) SetWallpaper(
 	screenOrientations []int32,
 	crops []graphics.Rect,
 	allowBackup bool,
-	extras interface{},
+	extras os.Bundle,
 	which int32,
 	completion IWallpaperManagerCallback,
 ) (int32, error) {
@@ -2255,7 +2484,7 @@ func (w *wallpaperManagerStubWrapper) GetWallpaper(
 	callingPkg string,
 	cb IWallpaperManagerCallback,
 	which int32,
-	outParams interface{},
+	outParams os.Bundle,
 ) (int32, error) {
 	return w.impl.GetWallpaper(ctx, callingPkg, cb, which, outParams)
 }
@@ -2265,7 +2494,7 @@ func (w *wallpaperManagerStubWrapper) GetWallpaperWithFeature(
 	callingPkg string,
 	cb IWallpaperManagerCallback,
 	which int32,
-	outParams interface{},
+	outParams os.Bundle,
 	getCropped bool,
 ) (int32, error) {
 	return w.impl.GetWallpaperWithFeature(ctx, callingPkg, cb, which, outParams, getCropped)
@@ -2276,7 +2505,7 @@ func (w *wallpaperManagerStubWrapper) GetBitmapCrops(
 	displaySizes []graphics.Point,
 	which int32,
 	originalBitmap bool,
-) ([]interface{}, error) {
+) ([]any, error) {
 	return w.impl.GetBitmapCrops(ctx, displaySizes, which, originalBitmap)
 }
 
@@ -2286,7 +2515,7 @@ func (w *wallpaperManagerStubWrapper) GetFutureBitmapCrops(
 	displaySizes []graphics.Point,
 	screenOrientations []int32,
 	crops []graphics.Rect,
-) ([]interface{}, error) {
+) ([]any, error) {
 	return w.impl.GetFutureBitmapCrops(ctx, bitmapSize, displaySizes, screenOrientations, crops)
 }
 
@@ -2457,7 +2686,7 @@ func (w *wallpaperManagerStubWrapper) NotifyWakingUp(
 	ctx context.Context,
 	x int32,
 	y int32,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.NotifyWakingUp(ctx, x, y, extras)
 }
@@ -2466,7 +2695,7 @@ func (w *wallpaperManagerStubWrapper) NotifyGoingToSleep(
 	ctx context.Context,
 	x int32,
 	y int32,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.NotifyGoingToSleep(ctx, x, y, extras)
 }

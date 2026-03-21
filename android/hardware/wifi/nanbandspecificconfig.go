@@ -42,9 +42,19 @@ func (s *NanBandSpecificConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.RssiClose, _err = p.ReadPaddedByte()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.RssiMiddle, _err = p.ReadPaddedByte()
@@ -52,9 +62,19 @@ func (s *NanBandSpecificConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.RssiCloseProximity, _err = p.ReadPaddedByte()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_dwellTimeMsRaw, _err := p.ReadInt32()
@@ -63,15 +83,30 @@ func (s *NanBandSpecificConfig) UnmarshalParcel(
 	}
 	s.DwellTimeMs = uint16(_dwellTimeMsRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_scanPeriodSecRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.ScanPeriodSec = uint16(_scanPeriodSecRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ValidDiscoveryWindowIntervalVal, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.DiscoveryWindowIntervalVal, _err = p.ReadPaddedByte()

@@ -3,7 +3,6 @@ package gnss
 import (
 	"context"
 	"fmt"
-	gnssIAGnssRil "github.com/xaionaro-go/binder/android/hardware/gnss/IAGnssRil"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -31,9 +30,9 @@ const (
 type IAGnssRil interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, callback IAGnssRilCallback) error
-	SetRefLocation(ctx context.Context, agnssReflocation gnssIAGnssRil.AGnssRefLocation) error
-	SetSetId(ctx context.Context, type_ gnssIAGnssRil.SetIdType, setid string) error
-	UpdateNetworkState(ctx context.Context, attributes gnssIAGnssRil.NetworkAttributes) error
+	SetRefLocation(ctx context.Context, agnssReflocation IAGnssRilAGnssRefLocation) error
+	SetSetId(ctx context.Context, type_ IAGnssRilSetIdType, setid string) error
+	UpdateNetworkState(ctx context.Context, attributes IAGnssRilNetworkAttributes) error
 	InjectNiSuplMessageData(ctx context.Context, msgData []byte, slotIndex int32) error
 }
 
@@ -63,6 +62,7 @@ func (p *AGnssRilProxy) SetCallback(
 	callback IAGnssRilCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnssRil)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -86,9 +86,10 @@ func (p *AGnssRilProxy) SetCallback(
 
 func (p *AGnssRilProxy) SetRefLocation(
 	ctx context.Context,
-	agnssReflocation gnssIAGnssRil.AGnssRefLocation,
+	agnssReflocation IAGnssRilAGnssRefLocation,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnssRil)
 	_data.WriteInt32(1)
 	if _err := agnssReflocation.MarshalParcel(_data); _err != nil {
@@ -115,10 +116,11 @@ func (p *AGnssRilProxy) SetRefLocation(
 
 func (p *AGnssRilProxy) SetSetId(
 	ctx context.Context,
-	type_ gnssIAGnssRil.SetIdType,
+	type_ IAGnssRilSetIdType,
 	setid string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnssRil)
 	_data.WriteInt32(int32(type_))
 	_data.WriteString16(setid)
@@ -143,9 +145,10 @@ func (p *AGnssRilProxy) SetSetId(
 
 func (p *AGnssRilProxy) UpdateNetworkState(
 	ctx context.Context,
-	attributes gnssIAGnssRil.NetworkAttributes,
+	attributes IAGnssRilNetworkAttributes,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnssRil)
 	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
@@ -176,15 +179,9 @@ func (p *AGnssRilProxy) InjectNiSuplMessageData(
 	slotIndex int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnssRil)
-	if msgData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(msgData)))
-		for _, _item := range msgData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(msgData)
 	_data.WriteInt32(slotIndex)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnssRil, MethodIAGnssRilInjectNiSuplMessageData)
@@ -208,7 +205,8 @@ func (p *AGnssRilProxy) InjectNiSuplMessageData(
 // AGnssRilStub dispatches incoming binder transactions
 // to a typed IAGnssRil implementation.
 type AGnssRilStub struct {
-	Impl IAGnssRil
+	Impl      IAGnssRil
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AGnssRilStub)(nil)
@@ -222,14 +220,20 @@ func (s *AGnssRilStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAGnssRilSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAGnssRilCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAGnssRilCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -239,10 +243,7 @@ func (s *AGnssRilStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssRilSetRefLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_agnssReflocation gnssIAGnssRil.AGnssRefLocation
+		var _arg_agnssReflocation IAGnssRilAGnssRefLocation
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -263,14 +264,11 @@ func (s *AGnssRilStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssRilSetSetId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_type_ := gnssIAGnssRil.SetIdType(_raw_type_)
+		_arg_type_ := IAGnssRilSetIdType(_raw_type_)
 		_arg_setid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -284,10 +282,7 @@ func (s *AGnssRilStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssRilUpdateNetworkState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_attributes gnssIAGnssRil.NetworkAttributes
+		var _arg_attributes IAGnssRilNetworkAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -308,12 +303,14 @@ func (s *AGnssRilStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssRilInjectNiSuplMessageData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_msgData []byte
-		_ = _arg_msgData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_msgData = _bytes
+		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -336,9 +333,9 @@ func (s *AGnssRilStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IAGnssRilServer interface {
 	SetCallback(ctx context.Context, callback IAGnssRilCallback) error
-	SetRefLocation(ctx context.Context, agnssReflocation gnssIAGnssRil.AGnssRefLocation) error
-	SetSetId(ctx context.Context, type_ gnssIAGnssRil.SetIdType, setid string) error
-	UpdateNetworkState(ctx context.Context, attributes gnssIAGnssRil.NetworkAttributes) error
+	SetRefLocation(ctx context.Context, agnssReflocation IAGnssRilAGnssRefLocation) error
+	SetSetId(ctx context.Context, type_ IAGnssRilSetIdType, setid string) error
+	UpdateNetworkState(ctx context.Context, attributes IAGnssRilNetworkAttributes) error
 	InjectNiSuplMessageData(ctx context.Context, msgData []byte, slotIndex int32) error
 }
 
@@ -360,14 +357,14 @@ func (w *aGnssRilStubWrapper) SetCallback(
 
 func (w *aGnssRilStubWrapper) SetRefLocation(
 	ctx context.Context,
-	agnssReflocation gnssIAGnssRil.AGnssRefLocation,
+	agnssReflocation IAGnssRilAGnssRefLocation,
 ) error {
 	return w.impl.SetRefLocation(ctx, agnssReflocation)
 }
 
 func (w *aGnssRilStubWrapper) SetSetId(
 	ctx context.Context,
-	type_ gnssIAGnssRil.SetIdType,
+	type_ IAGnssRilSetIdType,
 	setid string,
 ) error {
 	return w.impl.SetSetId(ctx, type_, setid)
@@ -375,7 +372,7 @@ func (w *aGnssRilStubWrapper) SetSetId(
 
 func (w *aGnssRilStubWrapper) UpdateNetworkState(
 	ctx context.Context,
-	attributes gnssIAGnssRil.NetworkAttributes,
+	attributes IAGnssRilNetworkAttributes,
 ) error {
 	return w.impl.UpdateNetworkState(ctx, attributes)
 }

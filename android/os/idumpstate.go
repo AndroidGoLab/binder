@@ -28,9 +28,9 @@ const (
 type IDumpstate interface {
 	AsBinder() binder.IBinder
 	PreDumpUiData(ctx context.Context) error
-	StartBugreport(ctx context.Context, bugreportFd interface{}, screenshotFd interface{}, bugreportMode int32, bugreportFlags int32, listener IDumpstateListener, isScreenshotRequested bool) error
+	StartBugreport(ctx context.Context, bugreportFd int32, screenshotFd int32, bugreportMode int32, bugreportFlags int32, listener IDumpstateListener, isScreenshotRequested bool) error
 	CancelBugreport(ctx context.Context) error
-	RetrieveBugreport(ctx context.Context, bugreportFd interface{}, bugreportFile string, keepBugreportOnRetrieval bool, listener IDumpstateListener) error
+	RetrieveBugreport(ctx context.Context, bugreportFd int32, bugreportFile string, keepBugreportOnRetrieval bool, listener IDumpstateListener) error
 }
 
 const (
@@ -68,6 +68,7 @@ func (p *DumpstateProxy) PreDumpUiData(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstate)
 	_data.WriteString16(_identity.PackageName)
 
@@ -91,8 +92,8 @@ func (p *DumpstateProxy) PreDumpUiData(
 
 func (p *DumpstateProxy) StartBugreport(
 	ctx context.Context,
-	bugreportFd interface{},
-	screenshotFd interface{},
+	bugreportFd int32,
+	screenshotFd int32,
 	bugreportMode int32,
 	bugreportFlags int32,
 	listener IDumpstateListener,
@@ -100,9 +101,12 @@ func (p *DumpstateProxy) StartBugreport(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstate)
 	_data.WriteInt32(_identity.UID)
 	_data.WriteString16(_identity.PackageName)
+	_data.WriteFileDescriptor(bugreportFd)
+	_data.WriteFileDescriptor(screenshotFd)
 	_data.WriteInt32(bugreportMode)
 	_data.WriteInt32(bugreportFlags)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -131,6 +135,7 @@ func (p *DumpstateProxy) CancelBugreport(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstate)
 	_data.WriteInt32(_identity.UID)
 	_data.WriteString16(_identity.PackageName)
@@ -155,17 +160,19 @@ func (p *DumpstateProxy) CancelBugreport(
 
 func (p *DumpstateProxy) RetrieveBugreport(
 	ctx context.Context,
-	bugreportFd interface{},
+	bugreportFd int32,
 	bugreportFile string,
 	keepBugreportOnRetrieval bool,
 	listener IDumpstateListener,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDumpstate)
 	_data.WriteInt32(_identity.UID)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
+	_data.WriteFileDescriptor(bugreportFd)
 	_data.WriteString16(bugreportFile)
 	_data.WriteBool(keepBugreportOnRetrieval)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -191,7 +198,8 @@ func (p *DumpstateProxy) RetrieveBugreport(
 // DumpstateStub dispatches incoming binder transactions
 // to a typed IDumpstate implementation.
 type DumpstateStub struct {
-	Impl IDumpstate
+	Impl      IDumpstate
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DumpstateStub)(nil)
@@ -205,11 +213,12 @@ func (s *DumpstateStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDumpstatePreDumpUiData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -222,17 +231,20 @@ func (s *DumpstateStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDumpstateStartBugreport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_bugreportFd interface{}
-		var _arg_screenshotFd interface{}
+		_arg_bugreportFd, _err := _data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_screenshotFd, _err := _data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
 		_arg_bugreportMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -241,9 +253,14 @@ func (s *DumpstateStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDumpstateListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewDumpstateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_isScreenshotRequested, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -257,9 +274,6 @@ func (s *DumpstateStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDumpstateCancelBugreport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -275,9 +289,6 @@ func (s *DumpstateStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDumpstateRetrieveBugreport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -287,7 +298,10 @@ func (s *DumpstateStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		var _arg_bugreportFd interface{}
+		_arg_bugreportFd, _err := _data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
 		_arg_bugreportFile, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -296,9 +310,14 @@ func (s *DumpstateStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDumpstateListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewDumpstateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.RetrieveBugreport(ctx, _arg_bugreportFd, _arg_bugreportFile, _arg_keepBugreportOnRetrieval, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -317,9 +336,9 @@ func (s *DumpstateStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IDumpstateServer interface {
 	PreDumpUiData(ctx context.Context) error
-	StartBugreport(ctx context.Context, bugreportFd interface{}, screenshotFd interface{}, bugreportMode int32, bugreportFlags int32, listener IDumpstateListener, isScreenshotRequested bool) error
+	StartBugreport(ctx context.Context, bugreportFd int32, screenshotFd int32, bugreportMode int32, bugreportFlags int32, listener IDumpstateListener, isScreenshotRequested bool) error
 	CancelBugreport(ctx context.Context) error
-	RetrieveBugreport(ctx context.Context, bugreportFd interface{}, bugreportFile string, keepBugreportOnRetrieval bool, listener IDumpstateListener) error
+	RetrieveBugreport(ctx context.Context, bugreportFd int32, bugreportFile string, keepBugreportOnRetrieval bool, listener IDumpstateListener) error
 }
 
 type dumpstateStubWrapper struct {
@@ -339,8 +358,8 @@ func (w *dumpstateStubWrapper) PreDumpUiData(
 
 func (w *dumpstateStubWrapper) StartBugreport(
 	ctx context.Context,
-	bugreportFd interface{},
-	screenshotFd interface{},
+	bugreportFd int32,
+	screenshotFd int32,
 	bugreportMode int32,
 	bugreportFlags int32,
 	listener IDumpstateListener,
@@ -357,7 +376,7 @@ func (w *dumpstateStubWrapper) CancelBugreport(
 
 func (w *dumpstateStubWrapper) RetrieveBugreport(
 	ctx context.Context,
-	bugreportFd interface{},
+	bugreportFd int32,
 	bugreportFile string,
 	keepBugreportOnRetrieval bool,
 	listener IDumpstateListener,

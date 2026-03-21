@@ -92,6 +92,7 @@ func (p *HealthProxy) RegisterCallback(
 	callback IHealthInfoCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -118,6 +119,7 @@ func (p *HealthProxy) UnregisterCallback(
 	callback IHealthInfoCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -143,6 +145,7 @@ func (p *HealthProxy) Update(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthUpdate)
@@ -168,6 +171,7 @@ func (p *HealthProxy) GetChargeCounterUah(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetChargeCounterUah)
@@ -197,6 +201,7 @@ func (p *HealthProxy) GetCurrentNowMicroamps(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetCurrentNowMicroamps)
@@ -226,6 +231,7 @@ func (p *HealthProxy) GetCurrentAverageMicroamps(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetCurrentAverageMicroamps)
@@ -255,6 +261,7 @@ func (p *HealthProxy) GetCapacity(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetCapacity)
@@ -284,6 +291,7 @@ func (p *HealthProxy) GetEnergyCounterNwh(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetEnergyCounterNwh)
@@ -313,6 +321,7 @@ func (p *HealthProxy) GetChargeStatus(
 ) (BatteryStatus, error) {
 	var _result BatteryStatus
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetChargeStatus)
@@ -343,6 +352,7 @@ func (p *HealthProxy) GetStorageInfo(
 ) ([]StorageInfo, error) {
 	var _result []StorageInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetStorageInfo)
@@ -364,6 +374,9 @@ func (p *HealthProxy) GetStorageInfo(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]StorageInfo, _count)
@@ -384,6 +397,7 @@ func (p *HealthProxy) GetDiskStats(
 ) ([]DiskStats, error) {
 	var _result []DiskStats
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetDiskStats)
@@ -405,6 +419,9 @@ func (p *HealthProxy) GetDiskStats(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]DiskStats, _count)
@@ -425,6 +442,7 @@ func (p *HealthProxy) GetHealthInfo(
 ) (HealthInfo, error) {
 	var _result HealthInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetHealthInfo)
@@ -459,6 +477,7 @@ func (p *HealthProxy) SetChargingPolicy(
 	in_value BatteryChargingPolicy,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 	_data.WriteInt32(int32(in_value))
 
@@ -485,6 +504,7 @@ func (p *HealthProxy) GetChargingPolicy(
 ) (BatteryChargingPolicy, error) {
 	var _result BatteryChargingPolicy
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetChargingPolicy)
@@ -515,6 +535,7 @@ func (p *HealthProxy) GetBatteryHealthData(
 ) (BatteryHealthData, error) {
 	var _result BatteryHealthData
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetBatteryHealthData)
@@ -547,7 +568,8 @@ func (p *HealthProxy) GetBatteryHealthData(
 // HealthStub dispatches incoming binder transactions
 // to a typed IHealth implementation.
 type HealthStub struct {
-	Impl IHealth
+	Impl      IHealth
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HealthStub)(nil)
@@ -561,14 +583,20 @@ func (s *HealthStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHealthRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IHealthInfoCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewHealthInfoCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -578,12 +606,14 @@ func (s *HealthStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHealthUnregisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IHealthInfoCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewHealthInfoCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -593,9 +623,6 @@ func (s *HealthStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHealthUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Update(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -605,9 +632,6 @@ func (s *HealthStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHealthGetChargeCounterUah:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetChargeCounterUah(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -618,9 +642,6 @@ func (s *HealthStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHealthGetCurrentNowMicroamps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentNowMicroamps(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -631,9 +652,6 @@ func (s *HealthStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHealthGetCurrentAverageMicroamps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentAverageMicroamps(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -644,9 +662,6 @@ func (s *HealthStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHealthGetCapacity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCapacity(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -657,9 +672,6 @@ func (s *HealthStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHealthGetEnergyCounterNwh:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEnergyCounterNwh(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -670,9 +682,6 @@ func (s *HealthStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIHealthGetChargeStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetChargeStatus(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -683,9 +692,6 @@ func (s *HealthStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIHealthGetStorageInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetStorageInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -693,13 +699,19 @@ func (s *HealthStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIHealthGetDiskStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDiskStats(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -707,13 +719,19 @@ func (s *HealthStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIHealthGetHealthInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHealthInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -727,9 +745,6 @@ func (s *HealthStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIHealthSetChargingPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_in_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -744,9 +759,6 @@ func (s *HealthStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHealthGetChargingPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetChargingPolicy(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -757,9 +769,6 @@ func (s *HealthStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIHealthGetBatteryHealthData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetBatteryHealthData(ctx)
 		_reply := parcel.New()
 		if _err != nil {

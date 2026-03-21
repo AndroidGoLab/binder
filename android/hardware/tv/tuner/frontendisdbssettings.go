@@ -44,9 +44,19 @@ func (s *FrontendIsdbsSettings) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Frequency, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.EndFrequency, _err = p.ReadInt64()
@@ -54,9 +64,19 @@ func (s *FrontendIsdbsSettings) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.StreamId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_streamIdTypeRaw, _err := p.ReadInt32()
@@ -65,11 +85,21 @@ func (s *FrontendIsdbsSettings) UnmarshalParcel(
 	}
 	s.StreamIdType = FrontendIsdbsStreamIdType(_streamIdTypeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_modulationRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Modulation = FrontendIsdbsModulation(_modulationRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_coderateRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -77,9 +107,19 @@ func (s *FrontendIsdbsSettings) UnmarshalParcel(
 	}
 	s.Coderate = FrontendIsdbsCoderate(_coderateRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SymbolRate, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_rolloffRaw, _err := p.ReadInt32()

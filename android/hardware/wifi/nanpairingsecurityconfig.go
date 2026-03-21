@@ -38,15 +38,30 @@ func (s *NanPairingSecurityConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_securityTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.SecurityType = NanPairingSecurityType(_securityTypeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Pmk, _err = p.ReadFixedByteArray(32)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Passphrase, _err = p.ReadByteArray()
@@ -54,11 +69,21 @@ func (s *NanPairingSecurityConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_akmRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Akm = NanPairingAkm(_akmRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_cipherTypeRaw, _err := p.ReadInt32()
 	if _err != nil {

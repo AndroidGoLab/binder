@@ -3,7 +3,6 @@ package bufferpool2
 import (
 	"context"
 	"fmt"
-	bufferpool2IAccessor "github.com/xaionaro-go/binder/android/hardware/media/bufferpool2/IAccessor"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -22,7 +21,7 @@ const (
 
 type IAccessor interface {
 	AsBinder() binder.IBinder
-	Connect(ctx context.Context, observer IObserver) (bufferpool2IAccessor.ConnectionInfo, error)
+	Connect(ctx context.Context, observer IObserver) (IAccessorConnectionInfo, error)
 }
 
 type AccessorProxy struct {
@@ -44,9 +43,10 @@ var _ IAccessor = (*AccessorProxy)(nil)
 func (p *AccessorProxy) Connect(
 	ctx context.Context,
 	observer IObserver,
-) (bufferpool2IAccessor.ConnectionInfo, error) {
-	var _result bufferpool2IAccessor.ConnectionInfo
+) (IAccessorConnectionInfo, error) {
+	var _result IAccessorConnectionInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessor)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
@@ -80,7 +80,8 @@ func (p *AccessorProxy) Connect(
 // AccessorStub dispatches incoming binder transactions
 // to a typed IAccessor implementation.
 type AccessorStub struct {
-	Impl IAccessor
+	Impl      IAccessor
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AccessorStub)(nil)
@@ -94,14 +95,20 @@ func (s *AccessorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAccessorConnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_result, _err := s.Impl.Connect(ctx, _arg_observer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -123,7 +130,7 @@ func (s *AccessorStub) OnTransaction(
 // provide to NewAccessorStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAccessorServer interface {
-	Connect(ctx context.Context, observer IObserver) (bufferpool2IAccessor.ConnectionInfo, error)
+	Connect(ctx context.Context, observer IObserver) (IAccessorConnectionInfo, error)
 }
 
 type accessorStubWrapper struct {
@@ -138,7 +145,7 @@ func (w *accessorStubWrapper) AsBinder() binder.IBinder {
 func (w *accessorStubWrapper) Connect(
 	ctx context.Context,
 	observer IObserver,
-) (bufferpool2IAccessor.ConnectionInfo, error) {
+) (IAccessorConnectionInfo, error) {
 	return w.impl.Connect(ctx, observer)
 }
 

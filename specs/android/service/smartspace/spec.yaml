@@ -1,0 +1,77 @@
+package: android.service.smartspace
+go_package: android/service/smartspace
+interfaces:
+    - name: ISmartspaceService
+      descriptor: android.service.smartspace.ISmartspaceService
+      oneway: true
+      methods:
+        - name: onCreateSmartspaceSession
+          transaction_code_offset: 0
+          params:
+            - name: context
+              type:
+                name: SmartspaceConfig
+              direction: in
+            - name: sessionId
+              type:
+                name: SmartspaceSessionId
+              direction: in
+          return_type:
+            name: void
+        - name: notifySmartspaceEvent
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: SmartspaceSessionId
+              direction: in
+            - name: event
+              type:
+                name: SmartspaceTargetEvent
+              direction: in
+          return_type:
+            name: void
+        - name: requestSmartspaceUpdate
+          transaction_code_offset: 2
+          params:
+            - name: sessionId
+              type:
+                name: SmartspaceSessionId
+              direction: in
+          return_type:
+            name: void
+        - name: registerSmartspaceUpdates
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: SmartspaceSessionId
+              direction: in
+            - name: callback
+              type:
+                name: ISmartspaceCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterSmartspaceUpdates
+          transaction_code_offset: 4
+          params:
+            - name: sessionId
+              type:
+                name: SmartspaceSessionId
+              direction: in
+            - name: callback
+              type:
+                name: ISmartspaceCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onDestroySmartspaceSession
+          transaction_code_offset: 5
+          params:
+            - name: sessionId
+              type:
+                name: SmartspaceSessionId
+              direction: in
+          return_type:
+            name: void

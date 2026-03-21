@@ -1,0 +1,1149 @@
+package: android.net
+go_package: android/net
+interfaces:
+    - name: IIpConnectivityMetrics
+      descriptor: android.net.IIpConnectivityMetrics
+      methods:
+        - name: logEvent
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: ConnectivityMetricsEvent
+              direction: in
+          return_type:
+            name: int
+        - name: logDefaultNetworkValidity
+          transaction_code_offset: 1
+          params:
+            - name: valid
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: logDefaultNetworkEvent
+          transaction_code_offset: 2
+          params:
+            - name: defaultNetwork
+              type:
+                name: Network
+              direction: in
+            - name: score
+              type:
+                name: int
+            - name: validated
+              type:
+                name: boolean
+            - name: lp
+              type:
+                name: LinkProperties
+              direction: in
+            - name: nc
+              type:
+                name: NetworkCapabilities
+              direction: in
+            - name: previousDefaultNetwork
+              type:
+                name: Network
+              direction: in
+            - name: previousScore
+              type:
+                name: int
+            - name: previousLp
+              type:
+                name: LinkProperties
+              direction: in
+            - name: previousNc
+              type:
+                name: NetworkCapabilities
+              direction: in
+          return_type:
+            name: void
+        - name: addNetdEventCallback
+          transaction_code_offset: 3
+          params:
+            - name: callerType
+              type:
+                name: int
+              direction: in
+            - name: callback
+              type:
+                name: INetdEventCallback
+              direction: in
+          return_type:
+            name: boolean
+        - name: removeNetdEventCallback
+          transaction_code_offset: 4
+          params:
+            - name: callerType
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+    - name: INetdEventCallback
+      descriptor: android.net.INetdEventCallback
+      oneway: true
+      methods:
+        - name: onDnsEvent
+          transaction_code_offset: 0
+          params:
+            - name: netId
+              type:
+                name: int
+            - name: eventType
+              type:
+                name: int
+            - name: returnCode
+              type:
+                name: int
+            - name: hostname
+              type:
+                name: String
+            - name: ipAddresses
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: ipAddressesCount
+              type:
+                name: int
+            - name: timestamp
+              type:
+                name: long
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onNat64PrefixEvent
+          transaction_code_offset: 1
+          params:
+            - name: netId
+              type:
+                name: int
+            - name: added
+              type:
+                name: boolean
+            - name: prefixString
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: prefixLength
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onPrivateDnsValidationEvent
+          transaction_code_offset: 2
+          params:
+            - name: netId
+              type:
+                name: int
+            - name: ipAddress
+              type:
+                name: String
+            - name: hostname
+              type:
+                name: String
+            - name: validated
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onConnectEvent
+          transaction_code_offset: 3
+          params:
+            - name: ipAddr
+              type:
+                name: String
+            - name: port
+              type:
+                name: int
+            - name: timestamp
+              type:
+                name: long
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+      constants:
+        - name: CALLBACK_CALLER_CONNECTIVITY_SERVICE
+          type: int
+          value: "0"
+        - name: CALLBACK_CALLER_DEVICE_POLICY
+          type: int
+          value: "1"
+        - name: CALLBACK_CALLER_NETWORK_WATCHLIST
+          type: int
+          value: "2"
+    - name: INetworkManagementEventObserver
+      descriptor: android.net.INetworkManagementEventObserver
+      oneway: true
+      methods:
+        - name: interfaceStatusChanged
+          transaction_code_offset: 0
+          params:
+            - name: iface
+              type:
+                name: String
+            - name: up
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: interfaceLinkStateChanged
+          transaction_code_offset: 1
+          params:
+            - name: iface
+              type:
+                name: String
+            - name: up
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: interfaceAdded
+          transaction_code_offset: 2
+          params:
+            - name: iface
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: interfaceRemoved
+          transaction_code_offset: 3
+          params:
+            - name: iface
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: addressUpdated
+          transaction_code_offset: 4
+          params:
+            - name: iface
+              type:
+                name: String
+            - name: address
+              type:
+                name: LinkAddress
+              direction: in
+          return_type:
+            name: void
+        - name: addressRemoved
+          transaction_code_offset: 5
+          params:
+            - name: iface
+              type:
+                name: String
+            - name: address
+              type:
+                name: LinkAddress
+              direction: in
+          return_type:
+            name: void
+        - name: limitReached
+          transaction_code_offset: 6
+          params:
+            - name: limitName
+              type:
+                name: String
+            - name: iface
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: interfaceClassDataActivityChanged
+          transaction_code_offset: 7
+          params:
+            - name: label
+              type:
+                name: int
+            - name: active
+              type:
+                name: boolean
+            - name: tsNanos
+              type:
+                name: long
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: interfaceDnsServerInfo
+          transaction_code_offset: 8
+          params:
+            - name: iface
+              type:
+                name: String
+            - name: lifetime
+              type:
+                name: long
+            - name: servers
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: routeUpdated
+          transaction_code_offset: 9
+          params:
+            - name: route
+              type:
+                name: RouteInfo
+              direction: in
+          return_type:
+            name: void
+        - name: routeRemoved
+          transaction_code_offset: 10
+          params:
+            - name: route
+              type:
+                name: RouteInfo
+              direction: in
+          return_type:
+            name: void
+    - name: INetworkPolicyListener
+      descriptor: android.net.INetworkPolicyListener
+      oneway: true
+      methods:
+        - name: onUidRulesChanged
+          transaction_code_offset: 0
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: uidRules
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onMeteredIfacesChanged
+          transaction_code_offset: 1
+          params:
+            - name: meteredIfaces
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onRestrictBackgroundChanged
+          transaction_code_offset: 2
+          params:
+            - name: restrictBackground
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onUidPoliciesChanged
+          transaction_code_offset: 3
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: uidPolicies
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSubscriptionOverride
+          transaction_code_offset: 4
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: overrideMask
+              type:
+                name: int
+            - name: overrideValue
+              type:
+                name: int
+            - name: networkTypes
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onSubscriptionPlansChanged
+          transaction_code_offset: 5
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: plans
+              type:
+                name: SubscriptionPlan
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onBlockedReasonChanged
+          transaction_code_offset: 6
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: oldBlockedReason
+              type:
+                name: int
+            - name: newBlockedReason
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: INetworkPolicyManager
+      descriptor: android.net.INetworkPolicyManager
+      methods:
+        - name: setUidPolicy
+          transaction_code_offset: 0
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: policy
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - UnsupportedAppUsage
+        - name: addUidPolicy
+          transaction_code_offset: 1
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: policy
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: removeUidPolicy
+          transaction_code_offset: 2
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: policy
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getUidPolicy
+          transaction_code_offset: 3
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+            - UnsupportedAppUsage
+        - name: getUidsWithPolicy
+          transaction_code_offset: 4
+          params:
+            - name: policy
+              type:
+                name: int
+          return_type:
+            name: int
+            is_array: true
+          annotations:
+            - EnforcePermission
+        - name: registerListener
+          transaction_code_offset: 5
+          params:
+            - name: listener
+              type:
+                name: INetworkPolicyListener
+          return_type:
+            name: void
+        - name: unregisterListener
+          transaction_code_offset: 6
+          params:
+            - name: listener
+              type:
+                name: INetworkPolicyListener
+          return_type:
+            name: void
+        - name: setNetworkPolicies
+          transaction_code_offset: 7
+          params:
+            - name: policies
+              type:
+                name: NetworkPolicy
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - UnsupportedAppUsage
+        - name: getNetworkPolicies
+          transaction_code_offset: 8
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: NetworkPolicy
+            is_array: true
+          annotations:
+            - EnforcePermission
+        - name: snoozeLimit
+          transaction_code_offset: 9
+          params:
+            - name: template
+              type:
+                name: NetworkTemplate
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - UnsupportedAppUsage
+        - name: setRestrictBackground
+          transaction_code_offset: 10
+          params:
+            - name: restrictBackground
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: getRestrictBackground
+          transaction_code_offset: 11
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+            - UnsupportedAppUsage
+        - name: getRestrictBackgroundByCaller
+          transaction_code_offset: 12
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: getRestrictBackgroundStatus
+          transaction_code_offset: 13
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setDeviceIdleMode
+          transaction_code_offset: 14
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setWifiMeteredOverride
+          transaction_code_offset: 15
+          params:
+            - name: networkId
+              type:
+                name: String
+            - name: meteredOverride
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getMultipathPreference
+          transaction_code_offset: 16
+          params:
+            - name: network
+              type:
+                name: Network
+              direction: in
+          return_type:
+            name: int
+        - name: getSubscriptionPlan
+          transaction_code_offset: 17
+          params:
+            - name: template
+              type:
+                name: NetworkTemplate
+              direction: in
+          return_type:
+            name: SubscriptionPlan
+        - name: notifyStatsProviderWarningOrLimitReached
+          transaction_code_offset: 18
+          return_type:
+            name: void
+        - name: getSubscriptionPlans
+          transaction_code_offset: 19
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: SubscriptionPlan
+            is_array: true
+        - name: setSubscriptionPlans
+          transaction_code_offset: 20
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: plans
+              type:
+                name: SubscriptionPlan
+                is_array: true
+              direction: in
+            - name: expirationDurationMillis
+              type:
+                name: long
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getSubscriptionPlansOwner
+          transaction_code_offset: 21
+          params:
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: setSubscriptionOverride
+          transaction_code_offset: 22
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: overrideMask
+              type:
+                name: int
+            - name: overrideValue
+              type:
+                name: int
+            - name: networkTypes
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: expirationDurationMillis
+              type:
+                name: long
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: factoryReset
+          transaction_code_offset: 23
+          params:
+            - name: subscriber
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: isUidNetworkingBlocked
+          transaction_code_offset: 24
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: meteredNetwork
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: isUidRestrictedOnMeteredNetworks
+          transaction_code_offset: 25
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+    - name: INetworkRecommendationProvider
+      descriptor: android.net.INetworkRecommendationProvider
+      oneway: true
+      methods:
+        - name: requestScores
+          transaction_code_offset: 0
+          params:
+            - name: networks
+              type:
+                name: NetworkKey
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: INetworkScoreCache
+      descriptor: android.net.INetworkScoreCache
+      oneway: true
+      methods:
+        - name: updateScores
+          transaction_code_offset: 0
+          params:
+            - name: networks
+              type:
+                name: List
+                type_args:
+                    - name: ScoredNetwork
+              direction: in
+          return_type:
+            name: void
+        - name: clearScores
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: INetworkScoreService
+      descriptor: android.net.INetworkScoreService
+      methods:
+        - name: updateScores
+          transaction_code_offset: 0
+          params:
+            - name: networks
+              type:
+                name: ScoredNetwork
+                is_array: true
+              direction: in
+          return_type:
+            name: boolean
+        - name: clearScores
+          transaction_code_offset: 1
+          return_type:
+            name: boolean
+        - name: setActiveScorer
+          transaction_code_offset: 2
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: disableScoring
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: registerNetworkScoreCache
+          transaction_code_offset: 4
+          params:
+            - name: networkType
+              type:
+                name: int
+            - name: scoreCache
+              type:
+                name: INetworkScoreCache
+            - name: filterType
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: unregisterNetworkScoreCache
+          transaction_code_offset: 5
+          params:
+            - name: networkType
+              type:
+                name: int
+            - name: scoreCache
+              type:
+                name: INetworkScoreCache
+          return_type:
+            name: void
+        - name: requestScores
+          transaction_code_offset: 6
+          params:
+            - name: networks
+              type:
+                name: NetworkKey
+                is_array: true
+              direction: in
+          return_type:
+            name: boolean
+        - name: isCallerActiveScorer
+          transaction_code_offset: 7
+          params:
+            - name: callingUid
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getActiveScorerPackage
+          transaction_code_offset: 8
+          return_type:
+            name: String
+        - name: getActiveScorer
+          transaction_code_offset: 9
+          return_type:
+            name: NetworkScorerAppData
+        - name: getAllValidScorers
+          transaction_code_offset: 10
+          return_type:
+            name: List
+            type_args:
+                - name: NetworkScorerAppData
+    - name: IPacProxyInstalledListener
+      descriptor: android.net.IPacProxyInstalledListener
+      oneway: true
+      methods:
+        - name: onPacProxyInstalled
+          transaction_code_offset: 0
+          params:
+            - name: network
+              type:
+                name: Network
+              direction: in
+            - name: proxy
+              type:
+                name: ProxyInfo
+              direction: in
+          return_type:
+            name: void
+    - name: IPacProxyManager
+      descriptor: android.net.IPacProxyManager
+      methods:
+        - name: addListener
+          transaction_code_offset: 0
+          params:
+            - name: listener
+              type:
+                name: IPacProxyInstalledListener
+          return_type:
+            name: void
+        - name: removeListener
+          transaction_code_offset: 1
+          params:
+            - name: listener
+              type:
+                name: IPacProxyInstalledListener
+          return_type:
+            name: void
+        - name: setCurrentProxyScriptUrl
+          transaction_code_offset: 2
+          params:
+            - name: proxyInfo
+              type:
+                name: ProxyInfo
+              direction: in
+          return_type:
+            name: void
+    - name: IVpnManager
+      descriptor: android.net.IVpnManager
+      methods:
+        - name: prepareVpn
+          transaction_code_offset: 0
+          params:
+            - name: oldPackage
+              type:
+                name: String
+            - name: newPackage
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setVpnPackageAuthorization
+          transaction_code_offset: 1
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: vpnType
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: establishVpn
+          transaction_code_offset: 2
+          params:
+            - name: config
+              type:
+                name: VpnConfig
+              direction: in
+          return_type:
+            name: ParcelFileDescriptor
+        - name: addVpnAddress
+          transaction_code_offset: 3
+          params:
+            - name: address
+              type:
+                name: String
+            - name: prefixLength
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: removeVpnAddress
+          transaction_code_offset: 4
+          params:
+            - name: address
+              type:
+                name: String
+            - name: prefixLength
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setUnderlyingNetworksForVpn
+          transaction_code_offset: 5
+          params:
+            - name: networks
+              type:
+                name: Network
+                is_array: true
+              direction: in
+          return_type:
+            name: boolean
+        - name: provisionVpnProfile
+          transaction_code_offset: 6
+          params:
+            - name: profile
+              type:
+                name: VpnProfile
+              direction: in
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: deleteVpnProfile
+          transaction_code_offset: 7
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: startVpnProfile
+          transaction_code_offset: 8
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: stopVpnProfile
+          transaction_code_offset: 9
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getProvisionedVpnProfileState
+          transaction_code_offset: 10
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: VpnProfileState
+        - name: setAppExclusionList
+          transaction_code_offset: 11
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: vpnPackage
+              type:
+                name: String
+            - name: excludedApps
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: getAppExclusionList
+          transaction_code_offset: 12
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: vpnPackage
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: isAlwaysOnVpnPackageSupported
+          transaction_code_offset: 13
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: setAlwaysOnVpnPackage
+          transaction_code_offset: 14
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: lockdown
+              type:
+                name: boolean
+            - name: lockdownAllowlist
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: getAlwaysOnVpnPackage
+          transaction_code_offset: 15
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: isVpnLockdownEnabled
+          transaction_code_offset: 16
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getVpnLockdownAllowlist
+          transaction_code_offset: 17
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: isCallerCurrentAlwaysOnVpnApp
+          transaction_code_offset: 18
+          return_type:
+            name: boolean
+        - name: isCallerCurrentAlwaysOnVpnLockdownApp
+          transaction_code_offset: 19
+          return_type:
+            name: boolean
+        - name: startLegacyVpn
+          transaction_code_offset: 20
+          params:
+            - name: profile
+              type:
+                name: VpnProfile
+              direction: in
+          return_type:
+            name: void
+        - name: getLegacyVpnInfo
+          transaction_code_offset: 21
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: LegacyVpnInfo
+        - name: updateLockdownVpn
+          transaction_code_offset: 22
+          return_type:
+            name: boolean
+        - name: getVpnConfig
+          transaction_code_offset: 23
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: VpnConfig
+        - name: factoryReset
+          transaction_code_offset: 24
+          return_type:
+            name: void
+    - name: ITetheringStatsProvider
+      descriptor: android.net.ITetheringStatsProvider
+      methods:
+        - name: getTetherStats
+          transaction_code_offset: 0
+          params:
+            - name: how
+              type:
+                name: int
+          return_type:
+            name: NetworkStats
+        - name: setInterfaceQuota
+          transaction_code_offset: 1
+          params:
+            - name: iface
+              type:
+                name: String
+            - name: quotaBytes
+              type:
+                name: long
+          return_type:
+            name: void
+      constants:
+        - name: QUOTA_UNLIMITED
+          type: int
+          value: "-1"
+parcelables:
+    - name: ConnectivityMetricsEvent
+    - name: InterfaceConfiguration
+    - name: LinkQualityInfo
+    - name: NattKeepalivePacketData
+      annotations:
+        - JavaOnlyStableParcelable
+    - name: NetworkKey
+    - name: NetworkPolicy
+    - name: NetworkStats
+    - name: NetworkQuotaInfo
+    - name: NetworkScorerAppData
+    - name: NetworkState
+    - name: ScoredNetwork
+    - name: TcpKeepalivePacketData
+      annotations:
+        - JavaOnlyStableParcelable
+    - name: LinkProperties
+    - name: Network
+    - name: NetworkCapabilities
+    - name: NetworkTemplate
+    - name: ProxyInfo
+    - name: RouteInfo
+    - name: Uri
+      annotations:
+        - JavaOnlyStableParcelable
+    - name: VpnProfileState

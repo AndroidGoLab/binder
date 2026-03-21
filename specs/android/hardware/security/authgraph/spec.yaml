@@ -1,0 +1,229 @@
+package: android.hardware.security.authgraph
+go_package: android/hardware/security/authgraph
+interfaces:
+    - name: IAuthGraphKeyExchange
+      descriptor: android.hardware.security.authgraph.IAuthGraphKeyExchange
+      methods:
+        - name: create
+          transaction_code_offset: 0
+          return_type:
+            name: SessionInitiationInfo
+        - name: init
+          transaction_code_offset: 1
+          params:
+            - name: peerPubKey
+              type:
+                name: PubKey
+              direction: in
+            - name: peerId
+              type:
+                name: Identity
+              direction: in
+            - name: peerNonce
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: peerVersion
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: KeInitResult
+        - name: finish
+          transaction_code_offset: 2
+          params:
+            - name: peerPubKey
+              type:
+                name: PubKey
+              direction: in
+            - name: peerId
+              type:
+                name: Identity
+              direction: in
+            - name: peerSignature
+              type:
+                name: SessionIdSignature
+              direction: in
+            - name: peerNonce
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: peerVersion
+              type:
+                name: int
+              direction: in
+            - name: ownKey
+              type:
+                name: Key
+              direction: in
+          return_type:
+            name: SessionInfo
+        - name: authenticationComplete
+          transaction_code_offset: 3
+          params:
+            - name: peerSignature
+              type:
+                name: SessionIdSignature
+              direction: in
+            - name: sharedKeys
+              type:
+                name: Arc
+                is_array: true
+                fixed_size: "2"
+              direction: in
+          return_type:
+            name: Arc
+            is_array: true
+            fixed_size: "2"
+parcelables:
+    - name: Arc
+      fields:
+        - name: arc
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+        - RustDerive
+    - name: Identity
+      fields:
+        - name: identity
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+        - RustDerive
+    - name: KeInitResult
+      fields:
+        - name: sessionInitiationInfo
+          type:
+            name: SessionInitiationInfo
+        - name: sessionInfo
+          type:
+            name: SessionInfo
+      annotations:
+        - VintfStability
+        - RustDerive
+    - name: Key
+      fields:
+        - name: pubKey
+          type:
+            name: PubKey
+          annotations:
+            - nullable
+        - name: arcFromPBK
+          type:
+            name: Arc
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+        - RustDerive
+    - name: PlainPubKey
+      fields:
+        - name: plainPubKey
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+        - RustDerive
+    - name: SessionIdSignature
+      fields:
+        - name: signature
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+        - RustDerive
+    - name: SessionInfo
+      fields:
+        - name: sharedKeys
+          type:
+            name: Arc
+            is_array: true
+            fixed_size: "2"
+        - name: sessionId
+          type:
+            name: byte
+            is_array: true
+        - name: signature
+          type:
+            name: SessionIdSignature
+      annotations:
+        - VintfStability
+        - RustDerive
+    - name: SessionInitiationInfo
+      fields:
+        - name: key
+          type:
+            name: Key
+        - name: identity
+          type:
+            name: Identity
+        - name: nonce
+          type:
+            name: byte
+            is_array: true
+        - name: version
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - RustDerive
+    - name: SignedPubKey
+      fields:
+        - name: signedPubKey
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+        - RustDerive
+enums:
+    - name: Error
+      backing_type: int
+      values:
+        - name: OK
+          value: "0"
+        - name: INVALID_PEER_NONCE
+          value: "-1"
+        - name: INVALID_PEER_KE_KEY
+          value: "-2"
+        - name: INVALID_IDENTITY
+          value: "-3"
+        - name: INVALID_CERT_CHAIN
+          value: "-4"
+        - name: INVALID_SIGNATURE
+          value: "-5"
+        - name: INVALID_KE_KEY
+          value: "-6"
+        - name: INVALID_PUB_KEY_IN_KEY
+          value: "-7"
+        - name: INVALID_PRIV_KEY_ARC_IN_KEY
+          value: "-8"
+        - name: INVALID_SHARED_KEY_ARCS
+          value: "-9"
+        - name: MEMORY_ALLOCATION_FAILED
+          value: "-10"
+        - name: INCOMPATIBLE_PROTOCOL_VERSION
+          value: "-11"
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: PubKey
+      fields:
+        - name: plainKey
+          type:
+            name: PlainPubKey
+        - name: signedKey
+          type:
+            name: SignedPubKey
+      annotations:
+        - VintfStability
+        - RustDerive

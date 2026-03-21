@@ -55,6 +55,7 @@ func (p *LocationProviderProxy) SetLocationProviderManager(
 	manager ILocationProviderManager,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationProvider)
 	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 
@@ -72,6 +73,7 @@ func (p *LocationProviderProxy) SetRequest(
 	request ProviderRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationProvider)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -91,6 +93,7 @@ func (p *LocationProviderProxy) Flush(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationProvider)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProvider, MethodILocationProviderFlush)
@@ -108,6 +111,7 @@ func (p *LocationProviderProxy) SendExtraCommand(
 	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationProvider)
 	_data.WriteString16(command)
 	_data.WriteInt32(1)
@@ -127,7 +131,8 @@ func (p *LocationProviderProxy) SendExtraCommand(
 // LocationProviderStub dispatches incoming binder transactions
 // to a typed ILocationProvider implementation.
 type LocationProviderStub struct {
-	Impl ILocationProvider
+	Impl      ILocationProvider
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LocationProviderStub)(nil)
@@ -141,21 +146,23 @@ func (s *LocationProviderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILocationProviderSetLocationProviderManager:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager ILocationProviderManager
-		_ = _arg_manager
-		_err := s.Impl.SetLocationProviderManager(ctx, _arg_manager)
-		_ = _err
-		return nil, nil
-	case TransactionILocationProviderSetRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_managerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_manager = NewLocationProviderManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _managerHandle))
 		}
+		_err := s.Impl.SetLocationProviderManager(ctx, _arg_manager)
+		return nil, _err
+	case TransactionILocationProviderSetRequest:
 		var _arg_request ProviderRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -169,19 +176,11 @@ func (s *LocationProviderStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetRequest(ctx, _arg_request)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionILocationProviderFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Flush(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionILocationProviderSendExtraCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_command, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -199,8 +198,7 @@ func (s *LocationProviderStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SendExtraCommand(ctx, _arg_command, _arg_extras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

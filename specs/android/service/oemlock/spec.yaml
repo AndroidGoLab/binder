@@ -1,0 +1,61 @@
+package: android.service.oemlock
+go_package: android/service/oemlock
+interfaces:
+    - name: IOemLockService
+      descriptor: android.service.oemlock.IOemLockService
+      methods:
+        - name: getLockName
+          transaction_code_offset: 0
+          return_type:
+            name: String
+          annotations:
+            - EnforcePermission
+        - name: setOemUnlockAllowedByCarrier
+          transaction_code_offset: 1
+          params:
+            - name: allowed
+              type:
+                name: boolean
+            - name: signature
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: isOemUnlockAllowedByCarrier
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: setOemUnlockAllowedByUser
+          transaction_code_offset: 3
+          params:
+            - name: allowed
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: isOemUnlockAllowedByUser
+          transaction_code_offset: 4
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: isOemUnlockAllowed
+          transaction_code_offset: 5
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: isDeviceOemUnlocked
+          transaction_code_offset: 6
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission

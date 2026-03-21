@@ -9,7 +9,7 @@ import (
 
 type ChannelConfig struct {
 	ChannelDescriptor   fmq.MQDescriptor
-	EventFlagDescriptor fmq.MQDescriptor
+	EventFlagDescriptor *fmq.MQDescriptor
 	ReadFlagBitmask     int32
 	WriteFlagBitmask    int32
 }
@@ -23,8 +23,13 @@ func (s *ChannelConfig) MarshalParcel(
 	if _err := s.ChannelDescriptor.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if _err := s.EventFlagDescriptor.MarshalParcel(p); _err != nil {
-		return _err
+	if s.EventFlagDescriptor == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.EventFlagDescriptor.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	p.WriteInt32(s.ReadFlagBitmask)
 	p.WriteInt32(s.WriteFlagBitmask)
@@ -41,17 +46,47 @@ func (s *ChannelConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.ChannelDescriptor.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
-	if _err = s.EventFlagDescriptor.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val fmq.MQDescriptor
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.EventFlagDescriptor = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ReadFlagBitmask, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.WriteFlagBitmask, _err = p.ReadInt32()

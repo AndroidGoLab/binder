@@ -76,6 +76,7 @@ func (p *VrManagerProxy) RegisterListener(
 	cb IVrStateCallbacks,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
@@ -102,6 +103,7 @@ func (p *VrManagerProxy) UnregisterListener(
 	cb IVrStateCallbacks,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
@@ -128,6 +130,7 @@ func (p *VrManagerProxy) RegisterPersistentVrStateListener(
 	cb IPersistentVrStateCallbacks,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
@@ -154,6 +157,7 @@ func (p *VrManagerProxy) UnregisterPersistentVrStateListener(
 	cb IPersistentVrStateCallbacks,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
@@ -180,6 +184,7 @@ func (p *VrManagerProxy) GetVrModeState(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrManager, MethodIVrManagerGetVrModeState)
@@ -209,6 +214,7 @@ func (p *VrManagerProxy) GetPersistentVrModeEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrManager, MethodIVrManagerGetPersistentVrModeEnabled)
@@ -238,6 +244,7 @@ func (p *VrManagerProxy) SetPersistentVrModeEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 	_data.WriteBool(enabled)
 
@@ -264,6 +271,7 @@ func (p *VrManagerProxy) SetVr2dDisplayProperties(
 	vr2dDisplayProperties app.Vr2dDisplayProperties,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 	_data.WriteInt32(1)
 	if _err := vr2dDisplayProperties.MarshalParcel(_data); _err != nil {
@@ -293,6 +301,7 @@ func (p *VrManagerProxy) GetVr2dDisplayId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrManager, MethodIVrManagerGetVr2dDisplayId)
@@ -322,6 +331,7 @@ func (p *VrManagerProxy) SetAndBindCompositor(
 	componentName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 	_data.WriteString16(componentName)
 
@@ -348,6 +358,7 @@ func (p *VrManagerProxy) SetStandbyEnabled(
 	standby bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 	_data.WriteBool(standby)
 
@@ -372,7 +383,8 @@ func (p *VrManagerProxy) SetStandbyEnabled(
 // VrManagerStub dispatches incoming binder transactions
 // to a typed IVrManager implementation.
 type VrManagerStub struct {
-	Impl IVrManager
+	Impl      IVrManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VrManagerStub)(nil)
@@ -386,14 +398,20 @@ func (s *VrManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVrManagerRegisterListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IVrStateCallbacks
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewVrStateCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err := s.Impl.RegisterListener(ctx, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -403,12 +421,14 @@ func (s *VrManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVrManagerUnregisterListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IVrStateCallbacks
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewVrStateCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err := s.Impl.UnregisterListener(ctx, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -418,12 +438,14 @@ func (s *VrManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVrManagerRegisterPersistentVrStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IPersistentVrStateCallbacks
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewPersistentVrStateCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err := s.Impl.RegisterPersistentVrStateListener(ctx, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -433,12 +455,14 @@ func (s *VrManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVrManagerUnregisterPersistentVrStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IPersistentVrStateCallbacks
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewPersistentVrStateCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err := s.Impl.UnregisterPersistentVrStateListener(ctx, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -448,9 +472,6 @@ func (s *VrManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVrManagerGetVrModeState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVrModeState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -461,9 +482,6 @@ func (s *VrManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVrManagerGetPersistentVrModeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPersistentVrModeEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -474,9 +492,6 @@ func (s *VrManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVrManagerSetPersistentVrModeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -490,9 +505,6 @@ func (s *VrManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVrManagerSetVr2dDisplayProperties:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_vr2dDisplayProperties app.Vr2dDisplayProperties
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -514,9 +526,6 @@ func (s *VrManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVrManagerGetVr2dDisplayId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVr2dDisplayId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -527,9 +536,6 @@ func (s *VrManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVrManagerSetAndBindCompositor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_componentName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -543,9 +549,6 @@ func (s *VrManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVrManagerSetStandbyEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_standby, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err

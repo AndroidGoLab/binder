@@ -16,7 +16,7 @@ type CellIdentityLte struct {
 	OperatorNames   OperatorInfo
 	Bandwidth       int32
 	AdditionalPlmns []string
-	CsgInfo         ClosedSubscriberGroupInfo
+	CsgInfo         *ClosedSubscriberGroupInfo
 	Bands           []EutranBands
 }
 
@@ -44,8 +44,13 @@ func (s *CellIdentityLte) MarshalParcel(
 			p.WriteString16(_item)
 		}
 	}
-	if _err := s.CsgInfo.MarshalParcel(p); _err != nil {
-		return _err
+	if s.CsgInfo == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.CsgInfo.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	if s.Bands == nil {
 		p.WriteInt32(-1)
@@ -68,9 +73,19 @@ func (s *CellIdentityLte) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Mcc, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Mnc, _err = p.ReadString16()
@@ -78,9 +93,19 @@ func (s *CellIdentityLte) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Ci, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Pci, _err = p.ReadInt32()
@@ -88,9 +113,19 @@ func (s *CellIdentityLte) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Tac, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Earfcn, _err = p.ReadInt32()
@@ -98,13 +133,28 @@ func (s *CellIdentityLte) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.OperatorNames.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Bandwidth, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -122,8 +172,28 @@ func (s *CellIdentityLte) UnmarshalParcel(
 		}
 	}
 
-	if _err = s.CsgInfo.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val ClosedSubscriberGroupInfo
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.CsgInfo = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count1 int32

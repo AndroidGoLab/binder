@@ -1,0 +1,353 @@
+package: android.hardware.radio.sap
+go_package: android/hardware/radio/sap
+interfaces:
+    - name: ISap
+      descriptor: android.hardware.radio.sap.ISap
+      oneway: true
+      methods:
+        - name: apduReq
+          transaction_code_offset: 0
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: type
+              type:
+                name: SapApduType
+              direction: in
+            - name: command
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: connectReq
+          transaction_code_offset: 1
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: maxMsgSizeBytes
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: disconnectReq
+          transaction_code_offset: 2
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: powerReq
+          transaction_code_offset: 3
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: powerOn
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: resetSimReq
+          transaction_code_offset: 4
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setCallback
+          transaction_code_offset: 5
+          params:
+            - name: sapCallback
+              type:
+                name: ISapCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setTransferProtocolReq
+          transaction_code_offset: 6
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: transferProtocol
+              type:
+                name: SapTransferProtocol
+              direction: in
+          return_type:
+            name: void
+        - name: transferAtrReq
+          transaction_code_offset: 7
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: transferCardReaderStatusReq
+          transaction_code_offset: 8
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: ISapCallback
+      descriptor: android.hardware.radio.sap.ISapCallback
+      oneway: true
+      methods:
+        - name: apduResponse
+          transaction_code_offset: 0
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: resultCode
+              type:
+                name: SapResultCode
+              direction: in
+            - name: apduRsp
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: connectResponse
+          transaction_code_offset: 1
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: sapConnectRsp
+              type:
+                name: SapConnectRsp
+              direction: in
+            - name: maxMsgSizeBytes
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: disconnectIndication
+          transaction_code_offset: 2
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: disconnectType
+              type:
+                name: SapDisconnectType
+              direction: in
+          return_type:
+            name: void
+        - name: disconnectResponse
+          transaction_code_offset: 3
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: errorResponse
+          transaction_code_offset: 4
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: powerResponse
+          transaction_code_offset: 5
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: resultCode
+              type:
+                name: SapResultCode
+              direction: in
+          return_type:
+            name: void
+        - name: resetSimResponse
+          transaction_code_offset: 6
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: resultCode
+              type:
+                name: SapResultCode
+              direction: in
+          return_type:
+            name: void
+        - name: statusIndication
+          transaction_code_offset: 7
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: status
+              type:
+                name: SapStatus
+              direction: in
+          return_type:
+            name: void
+        - name: transferAtrResponse
+          transaction_code_offset: 8
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: resultCode
+              type:
+                name: SapResultCode
+              direction: in
+            - name: atr
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: transferCardReaderStatusResponse
+          transaction_code_offset: 9
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: resultCode
+              type:
+                name: SapResultCode
+              direction: in
+            - name: cardReaderStatus
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: transferProtocolResponse
+          transaction_code_offset: 10
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: resultCode
+              type:
+                name: SapResultCode
+              direction: in
+          return_type:
+            name: void
+enums:
+    - name: SapApduType
+      backing_type: int
+      values:
+        - name: APDU
+          value: ""
+        - name: APDU7816
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SapConnectRsp
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: ""
+        - name: CONNECT_FAILURE
+          value: ""
+        - name: MSG_SIZE_TOO_LARGE
+          value: ""
+        - name: MSG_SIZE_TOO_SMALL
+          value: ""
+        - name: CONNECT_OK_CALL_ONGOING
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SapDisconnectType
+      backing_type: int
+      values:
+        - name: GRACEFUL
+          value: ""
+        - name: IMMEDIATE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SapResultCode
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: ""
+        - name: GENERIC_FAILURE
+          value: ""
+        - name: CARD_NOT_ACCESSSIBLE
+          value: ""
+        - name: CARD_ALREADY_POWERED_OFF
+          value: ""
+        - name: CARD_REMOVED
+          value: ""
+        - name: CARD_ALREADY_POWERED_ON
+          value: ""
+        - name: DATA_NOT_AVAILABLE
+          value: ""
+        - name: NOT_SUPPORTED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SapStatus
+      backing_type: int
+      values:
+        - name: UNKNOWN_ERROR
+          value: ""
+        - name: CARD_RESET
+          value: ""
+        - name: CARD_NOT_ACCESSIBLE
+          value: ""
+        - name: CARD_REMOVED
+          value: ""
+        - name: CARD_INSERTED
+          value: ""
+        - name: RECOVERED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SapTransferProtocol
+      backing_type: int
+      values:
+        - name: T0
+          value: ""
+        - name: T1
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing

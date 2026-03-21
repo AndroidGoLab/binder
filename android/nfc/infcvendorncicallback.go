@@ -50,17 +50,11 @@ func (p *NfcVendorNciCallbackProxy) OnVendorResponseReceived(
 	payload []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcVendorNciCallback)
 	_data.WriteInt32(gid)
 	_data.WriteInt32(oid)
-	if payload == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(payload)))
-		for _, _item := range payload {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(payload)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcVendorNciCallback, MethodINfcVendorNciCallbackOnVendorResponseReceived)
 	if _err != nil {
@@ -78,17 +72,11 @@ func (p *NfcVendorNciCallbackProxy) OnVendorNotificationReceived(
 	payload []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcVendorNciCallback)
 	_data.WriteInt32(gid)
 	_data.WriteInt32(oid)
-	if payload == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(payload)))
-		for _, _item := range payload {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(payload)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcVendorNciCallback, MethodINfcVendorNciCallbackOnVendorNotificationReceived)
 	if _err != nil {
@@ -102,7 +90,8 @@ func (p *NfcVendorNciCallbackProxy) OnVendorNotificationReceived(
 // NfcVendorNciCallbackStub dispatches incoming binder transactions
 // to a typed INfcVendorNciCallback implementation.
 type NfcVendorNciCallbackStub struct {
-	Impl INfcVendorNciCallback
+	Impl      INfcVendorNciCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NfcVendorNciCallbackStub)(nil)
@@ -116,11 +105,12 @@ func (s *NfcVendorNciCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINfcVendorNciCallbackOnVendorResponseReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_gid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -129,16 +119,17 @@ func (s *NfcVendorNciCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_payload []byte
-		_ = _arg_payload
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_payload = _bytes
+		}
 		_err = s.Impl.OnVendorResponseReceived(ctx, _arg_gid, _arg_oid, _arg_payload)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINfcVendorNciCallbackOnVendorNotificationReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_gid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -147,12 +138,16 @@ func (s *NfcVendorNciCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_payload []byte
-		_ = _arg_payload
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_payload = _bytes
+		}
 		_err = s.Impl.OnVendorNotificationReceived(ctx, _arg_gid, _arg_oid, _arg_payload)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

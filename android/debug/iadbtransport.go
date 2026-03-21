@@ -46,6 +46,7 @@ func (p *AdbTransportProxy) OnAdbEnabled(
 	type_ AdbTransportType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbTransport)
 	_data.WriteBool(enabled)
 	_data.WritePaddedByte(byte(type_))
@@ -71,7 +72,8 @@ func (p *AdbTransportProxy) OnAdbEnabled(
 // AdbTransportStub dispatches incoming binder transactions
 // to a typed IAdbTransport implementation.
 type AdbTransportStub struct {
-	Impl IAdbTransport
+	Impl      IAdbTransport
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AdbTransportStub)(nil)
@@ -85,11 +87,12 @@ func (s *AdbTransportStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAdbTransportOnAdbEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err

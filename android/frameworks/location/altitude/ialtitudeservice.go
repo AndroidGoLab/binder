@@ -49,6 +49,7 @@ func (p *AltitudeServiceProxy) AddMslAltitudeToLocation(
 ) (AddMslAltitudeToLocationResponse, error) {
 	var _result AddMslAltitudeToLocationResponse
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAltitudeService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -88,6 +89,7 @@ func (p *AltitudeServiceProxy) GetGeoidHeight(
 ) (GetGeoidHeightResponse, error) {
 	var _result GetGeoidHeightResponse
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAltitudeService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -124,7 +126,8 @@ func (p *AltitudeServiceProxy) GetGeoidHeight(
 // AltitudeServiceStub dispatches incoming binder transactions
 // to a typed IAltitudeService implementation.
 type AltitudeServiceStub struct {
-	Impl IAltitudeService
+	Impl      IAltitudeService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AltitudeServiceStub)(nil)
@@ -138,11 +141,12 @@ func (s *AltitudeServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAltitudeServiceAddMslAltitudeToLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request AddMslAltitudeToLocationRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -168,9 +172,6 @@ func (s *AltitudeServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAltitudeServiceGetGeoidHeight:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request GetGeoidHeightRequest
 		{
 			_nullInd, _err := _data.ReadInt32()

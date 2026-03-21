@@ -3,6 +3,7 @@ package accounts
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -23,7 +24,7 @@ const (
 
 type IAccountManagerResponse interface {
 	AsBinder() binder.IBinder
-	OnResult(ctx context.Context, value interface{}) error
+	OnResult(ctx context.Context, value os.Bundle) error
 	OnError(ctx context.Context, errorCode int32, errorMessage string) error
 }
 
@@ -45,10 +46,15 @@ var _ IAccountManagerResponse = (*AccountManagerResponseProxy)(nil)
 
 func (p *AccountManagerResponseProxy) OnResult(
 	ctx context.Context,
-	value interface{},
+	value os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManagerResponse)
+	_data.WriteInt32(1)
+	if _err := value.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManagerResponse, MethodIAccountManagerResponseOnResult)
 	if _err != nil {
@@ -65,6 +71,7 @@ func (p *AccountManagerResponseProxy) OnError(
 	errorMessage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManagerResponse)
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
@@ -81,7 +88,8 @@ func (p *AccountManagerResponseProxy) OnError(
 // AccountManagerResponseStub dispatches incoming binder transactions
 // to a typed IAccountManagerResponse implementation.
 type AccountManagerResponseStub struct {
-	Impl IAccountManagerResponse
+	Impl      IAccountManagerResponse
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AccountManagerResponseStub)(nil)
@@ -95,19 +103,27 @@ func (s *AccountManagerResponseStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAccountManagerResponseOnResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_value os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_value.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_value interface{}
 		_err := s.Impl.OnResult(ctx, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccountManagerResponseOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -117,8 +133,7 @@ func (s *AccountManagerResponseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_errorCode, _arg_errorMessage)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -128,7 +143,7 @@ func (s *AccountManagerResponseStub) OnTransaction(
 // provide to NewAccountManagerResponseStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAccountManagerResponseServer interface {
-	OnResult(ctx context.Context, value interface{}) error
+	OnResult(ctx context.Context, value os.Bundle) error
 	OnError(ctx context.Context, errorCode int32, errorMessage string) error
 }
 
@@ -143,7 +158,7 @@ func (w *accountManagerResponseStubWrapper) AsBinder() binder.IBinder {
 
 func (w *accountManagerResponseStubWrapper) OnResult(
 	ctx context.Context,
-	value interface{},
+	value os.Bundle,
 ) error {
 	return w.impl.OnResult(ctx, value)
 }

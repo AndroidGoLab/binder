@@ -52,6 +52,7 @@ func (p *MbmsStreamingSessionCallbackProxy) OnError(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingSessionCallback)
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(message)
@@ -70,6 +71,7 @@ func (p *MbmsStreamingSessionCallbackProxy) OnStreamingServicesUpdated(
 	services []StreamingServiceInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingSessionCallback)
 	if services == nil {
 		_data.WriteInt32(-1)
@@ -96,6 +98,7 @@ func (p *MbmsStreamingSessionCallbackProxy) OnMiddlewareReady(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingSessionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsStreamingSessionCallback, MethodIMbmsStreamingSessionCallbackOnMiddlewareReady)
@@ -110,7 +113,8 @@ func (p *MbmsStreamingSessionCallbackProxy) OnMiddlewareReady(
 // MbmsStreamingSessionCallbackStub dispatches incoming binder transactions
 // to a typed IMbmsStreamingSessionCallback implementation.
 type MbmsStreamingSessionCallbackStub struct {
-	Impl IMbmsStreamingSessionCallback
+	Impl      IMbmsStreamingSessionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MbmsStreamingSessionCallbackStub)(nil)
@@ -124,11 +128,12 @@ func (s *MbmsStreamingSessionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMbmsStreamingSessionCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -138,25 +143,34 @@ func (s *MbmsStreamingSessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_errorCode, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMbmsStreamingSessionCallbackOnStreamingServicesUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_services []StreamingServiceInfo
-		_ = _arg_services
-		_err := s.Impl.OnStreamingServicesUpdated(ctx, _arg_services)
-		_ = _err
-		return nil, nil
-	case TransactionIMbmsStreamingSessionCallbackOnMiddlewareReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_services = make([]StreamingServiceInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_services[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnStreamingServicesUpdated(ctx, _arg_services)
+		return nil, _err
+	case TransactionIMbmsStreamingSessionCallbackOnMiddlewareReady:
 		_err := s.Impl.OnMiddlewareReady(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

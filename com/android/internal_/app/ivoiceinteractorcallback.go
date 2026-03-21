@@ -3,6 +3,8 @@ package app
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/app/types"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -33,11 +35,11 @@ const (
 
 type IVoiceInteractorCallback interface {
 	AsBinder() binder.IBinder
-	DeliverConfirmationResult(ctx context.Context, request IVoiceInteractorRequest, confirmed bool, result interface{}) error
-	DeliverPickOptionResult(ctx context.Context, request IVoiceInteractorRequest, finished bool, selections []interface{}, result interface{}) error
-	DeliverCompleteVoiceResult(ctx context.Context, request IVoiceInteractorRequest, result interface{}) error
-	DeliverAbortVoiceResult(ctx context.Context, request IVoiceInteractorRequest, result interface{}) error
-	DeliverCommandResult(ctx context.Context, request IVoiceInteractorRequest, finished bool, result interface{}) error
+	DeliverConfirmationResult(ctx context.Context, request IVoiceInteractorRequest, confirmed bool, result os.Bundle) error
+	DeliverPickOptionResult(ctx context.Context, request IVoiceInteractorRequest, finished bool, selections []types.VoiceInteractorPickOptionRequestOption, result os.Bundle) error
+	DeliverCompleteVoiceResult(ctx context.Context, request IVoiceInteractorRequest, result os.Bundle) error
+	DeliverAbortVoiceResult(ctx context.Context, request IVoiceInteractorRequest, result os.Bundle) error
+	DeliverCommandResult(ctx context.Context, request IVoiceInteractorRequest, finished bool, result os.Bundle) error
 	DeliverCancel(ctx context.Context, request IVoiceInteractorRequest) error
 	Destroy(ctx context.Context) error
 }
@@ -62,12 +64,17 @@ func (p *VoiceInteractorCallbackProxy) DeliverConfirmationResult(
 	ctx context.Context,
 	request IVoiceInteractorRequest,
 	confirmed bool,
-	result interface{},
+	result os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorCallback)
 	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(confirmed)
+	_data.WriteInt32(1)
+	if _err := result.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverConfirmationResult)
 	if _err != nil {
@@ -82,10 +89,11 @@ func (p *VoiceInteractorCallbackProxy) DeliverPickOptionResult(
 	ctx context.Context,
 	request IVoiceInteractorRequest,
 	finished bool,
-	selections []interface{},
-	result interface{},
+	selections []types.VoiceInteractorPickOptionRequestOption,
+	result os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorCallback)
 	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(finished)
@@ -93,6 +101,10 @@ func (p *VoiceInteractorCallbackProxy) DeliverPickOptionResult(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(selections)))
+	}
+	_data.WriteInt32(1)
+	if _err := result.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverPickOptionResult)
@@ -107,11 +119,16 @@ func (p *VoiceInteractorCallbackProxy) DeliverPickOptionResult(
 func (p *VoiceInteractorCallbackProxy) DeliverCompleteVoiceResult(
 	ctx context.Context,
 	request IVoiceInteractorRequest,
-	result interface{},
+	result os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorCallback)
 	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := result.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverCompleteVoiceResult)
 	if _err != nil {
@@ -125,11 +142,16 @@ func (p *VoiceInteractorCallbackProxy) DeliverCompleteVoiceResult(
 func (p *VoiceInteractorCallbackProxy) DeliverAbortVoiceResult(
 	ctx context.Context,
 	request IVoiceInteractorRequest,
-	result interface{},
+	result os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorCallback)
 	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := result.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverAbortVoiceResult)
 	if _err != nil {
@@ -144,12 +166,17 @@ func (p *VoiceInteractorCallbackProxy) DeliverCommandResult(
 	ctx context.Context,
 	request IVoiceInteractorRequest,
 	finished bool,
-	result interface{},
+	result os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorCallback)
 	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(finished)
+	_data.WriteInt32(1)
+	if _err := result.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverCommandResult)
 	if _err != nil {
@@ -165,6 +192,7 @@ func (p *VoiceInteractorCallbackProxy) DeliverCancel(
 	request IVoiceInteractorRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorCallback)
 	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.Remote.Transport())
 
@@ -181,6 +209,7 @@ func (p *VoiceInteractorCallbackProxy) Destroy(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDestroy)
@@ -195,7 +224,8 @@ func (p *VoiceInteractorCallbackProxy) Destroy(
 // VoiceInteractorCallbackStub dispatches incoming binder transactions
 // to a typed IVoiceInteractorCallback implementation.
 type VoiceInteractorCallbackStub struct {
-	Impl IVoiceInteractorCallback
+	Impl      IVoiceInteractorCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VoiceInteractorCallbackStub)(nil)
@@ -209,94 +239,165 @@ func (s *VoiceInteractorCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVoiceInteractorCallbackDeliverConfirmationResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_request IVoiceInteractorRequest
-		_ = _arg_request
+		{
+			_requestHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_request = NewVoiceInteractorRequestProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _requestHandle))
+		}
 		_arg_confirmed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		var _arg_result os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.DeliverConfirmationResult(ctx, _arg_request, _arg_confirmed, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVoiceInteractorCallbackDeliverPickOptionResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_request IVoiceInteractorRequest
-		_ = _arg_request
+		{
+			_requestHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_request = NewVoiceInteractorRequestProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _requestHandle))
+		}
 		_arg_finished, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_selections []interface{}
-		_ = _arg_selections
-		var _arg_result interface{}
+		var _arg_selections []types.VoiceInteractorPickOptionRequestOption
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_selections = make([]types.VoiceInteractorPickOptionRequestOption, _count)
+			}
+		}
+		var _arg_result os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.DeliverPickOptionResult(ctx, _arg_request, _arg_finished, _arg_selections, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVoiceInteractorCallbackDeliverCompleteVoiceResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_request IVoiceInteractorRequest
-		_ = _arg_request
-		var _arg_result interface{}
+		{
+			_requestHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_request = NewVoiceInteractorRequestProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _requestHandle))
+		}
+		var _arg_result os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.DeliverCompleteVoiceResult(ctx, _arg_request, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVoiceInteractorCallbackDeliverAbortVoiceResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_request IVoiceInteractorRequest
-		_ = _arg_request
-		var _arg_result interface{}
+		{
+			_requestHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_request = NewVoiceInteractorRequestProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _requestHandle))
+		}
+		var _arg_result os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.DeliverAbortVoiceResult(ctx, _arg_request, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVoiceInteractorCallbackDeliverCommandResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_request IVoiceInteractorRequest
-		_ = _arg_request
+		{
+			_requestHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_request = NewVoiceInteractorRequestProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _requestHandle))
+		}
 		_arg_finished, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		var _arg_result os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.DeliverCommandResult(ctx, _arg_request, _arg_finished, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVoiceInteractorCallbackDeliverCancel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_request IVoiceInteractorRequest
-		_ = _arg_request
-		_err := s.Impl.DeliverCancel(ctx, _arg_request)
-		_ = _err
-		return nil, nil
-	case TransactionIVoiceInteractorCallbackDestroy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_requestHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_request = NewVoiceInteractorRequestProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _requestHandle))
 		}
+		_err := s.Impl.DeliverCancel(ctx, _arg_request)
+		return nil, _err
+	case TransactionIVoiceInteractorCallbackDestroy:
 		_err := s.Impl.Destroy(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -306,11 +407,11 @@ func (s *VoiceInteractorCallbackStub) OnTransaction(
 // provide to NewVoiceInteractorCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IVoiceInteractorCallbackServer interface {
-	DeliverConfirmationResult(ctx context.Context, request IVoiceInteractorRequest, confirmed bool, result interface{}) error
-	DeliverPickOptionResult(ctx context.Context, request IVoiceInteractorRequest, finished bool, selections []interface{}, result interface{}) error
-	DeliverCompleteVoiceResult(ctx context.Context, request IVoiceInteractorRequest, result interface{}) error
-	DeliverAbortVoiceResult(ctx context.Context, request IVoiceInteractorRequest, result interface{}) error
-	DeliverCommandResult(ctx context.Context, request IVoiceInteractorRequest, finished bool, result interface{}) error
+	DeliverConfirmationResult(ctx context.Context, request IVoiceInteractorRequest, confirmed bool, result os.Bundle) error
+	DeliverPickOptionResult(ctx context.Context, request IVoiceInteractorRequest, finished bool, selections []types.VoiceInteractorPickOptionRequestOption, result os.Bundle) error
+	DeliverCompleteVoiceResult(ctx context.Context, request IVoiceInteractorRequest, result os.Bundle) error
+	DeliverAbortVoiceResult(ctx context.Context, request IVoiceInteractorRequest, result os.Bundle) error
+	DeliverCommandResult(ctx context.Context, request IVoiceInteractorRequest, finished bool, result os.Bundle) error
 	DeliverCancel(ctx context.Context, request IVoiceInteractorRequest) error
 	Destroy(ctx context.Context) error
 }
@@ -328,7 +429,7 @@ func (w *voiceInteractorCallbackStubWrapper) DeliverConfirmationResult(
 	ctx context.Context,
 	request IVoiceInteractorRequest,
 	confirmed bool,
-	result interface{},
+	result os.Bundle,
 ) error {
 	return w.impl.DeliverConfirmationResult(ctx, request, confirmed, result)
 }
@@ -337,8 +438,8 @@ func (w *voiceInteractorCallbackStubWrapper) DeliverPickOptionResult(
 	ctx context.Context,
 	request IVoiceInteractorRequest,
 	finished bool,
-	selections []interface{},
-	result interface{},
+	selections []types.VoiceInteractorPickOptionRequestOption,
+	result os.Bundle,
 ) error {
 	return w.impl.DeliverPickOptionResult(ctx, request, finished, selections, result)
 }
@@ -346,7 +447,7 @@ func (w *voiceInteractorCallbackStubWrapper) DeliverPickOptionResult(
 func (w *voiceInteractorCallbackStubWrapper) DeliverCompleteVoiceResult(
 	ctx context.Context,
 	request IVoiceInteractorRequest,
-	result interface{},
+	result os.Bundle,
 ) error {
 	return w.impl.DeliverCompleteVoiceResult(ctx, request, result)
 }
@@ -354,7 +455,7 @@ func (w *voiceInteractorCallbackStubWrapper) DeliverCompleteVoiceResult(
 func (w *voiceInteractorCallbackStubWrapper) DeliverAbortVoiceResult(
 	ctx context.Context,
 	request IVoiceInteractorRequest,
-	result interface{},
+	result os.Bundle,
 ) error {
 	return w.impl.DeliverAbortVoiceResult(ctx, request, result)
 }
@@ -363,7 +464,7 @@ func (w *voiceInteractorCallbackStubWrapper) DeliverCommandResult(
 	ctx context.Context,
 	request IVoiceInteractorRequest,
 	finished bool,
-	result interface{},
+	result os.Bundle,
 ) error {
 	return w.impl.DeliverCommandResult(ctx, request, finished, result)
 }

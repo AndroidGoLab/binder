@@ -61,6 +61,7 @@ func (p *HostapdProxy) AddAccessPoint(
 	nwParams NetworkParams,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapd)
 	_data.WriteInt32(1)
 	if _err := ifaceParams.MarshalParcel(_data); _err != nil {
@@ -96,16 +97,10 @@ func (p *HostapdProxy) ForceClientDisconnect(
 	reasonCode Ieee80211ReasonCode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapd)
 	_data.WriteString16(ifaceName)
-	if clientAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(clientAddress)))
-		for _, _item := range clientAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(clientAddress)
 	_data.WriteInt32(int32(reasonCode))
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapd, MethodIHostapdForceClientDisconnect)
@@ -131,6 +126,7 @@ func (p *HostapdProxy) RegisterCallback(
 	callback IHostapdCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapd)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -157,6 +153,7 @@ func (p *HostapdProxy) RemoveAccessPoint(
 	ifaceName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapd)
 	_data.WriteString16(ifaceName)
 
@@ -183,6 +180,7 @@ func (p *HostapdProxy) SetDebugParams(
 	level DebugLevel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapd)
 	_data.WriteInt32(int32(level))
 
@@ -208,6 +206,7 @@ func (p *HostapdProxy) Terminate(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapd)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapd, MethodIHostapdTerminate)
@@ -222,7 +221,8 @@ func (p *HostapdProxy) Terminate(
 // HostapdStub dispatches incoming binder transactions
 // to a typed IHostapd implementation.
 type HostapdStub struct {
-	Impl IHostapd
+	Impl      IHostapd
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HostapdStub)(nil)
@@ -236,11 +236,12 @@ func (s *HostapdStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHostapdAddAccessPoint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_ifaceParams IfaceParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -274,16 +275,18 @@ func (s *HostapdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHostapdForceClientDisconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ifaceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_clientAddress []byte
-		_ = _arg_clientAddress
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientAddress = _bytes
+		}
 		_raw_reasonCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -298,12 +301,14 @@ func (s *HostapdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHostapdRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IHostapdCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewHostapdCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -313,9 +318,6 @@ func (s *HostapdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHostapdRemoveAccessPoint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ifaceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -329,9 +331,6 @@ func (s *HostapdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHostapdSetDebugParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_level, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -346,12 +345,8 @@ func (s *HostapdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHostapdTerminate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Terminate(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

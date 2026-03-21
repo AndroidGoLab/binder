@@ -88,6 +88,7 @@ func (p *UceServiceProxy) StartService(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	binder.WriteBinderToParcel(ctx, _data, uceListener.AsBinder(), p.Remote.Transport())
 
@@ -118,6 +119,7 @@ func (p *UceServiceProxy) StopService(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceStopService)
@@ -147,6 +149,7 @@ func (p *UceServiceProxy) IsServiceStarted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceIsServiceStarted)
@@ -178,6 +181,7 @@ func (p *UceServiceProxy) CreateOptionsService(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	binder.WriteBinderToParcel(ctx, _data, optionsListener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -199,8 +203,16 @@ func (p *UceServiceProxy) CreateOptionsService(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = optionsServiceListenerHdl.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = optionsServiceListenerHdl.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadInt32()
@@ -218,6 +230,7 @@ func (p *UceServiceProxy) CreateOptionsServiceForSubscription(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	binder.WriteBinderToParcel(ctx, _data, optionsListener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -240,8 +253,16 @@ func (p *UceServiceProxy) CreateOptionsServiceForSubscription(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = optionsServiceListenerHdl.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = optionsServiceListenerHdl.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadInt32()
@@ -256,6 +277,7 @@ func (p *UceServiceProxy) DestroyOptionsService(
 	optionsServiceHandle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	_data.WriteInt32(optionsServiceHandle)
 
@@ -284,6 +306,7 @@ func (p *UceServiceProxy) CreatePresenceService(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -305,8 +328,16 @@ func (p *UceServiceProxy) CreatePresenceService(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = presenceServiceListenerHdl.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = presenceServiceListenerHdl.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadInt32()
@@ -324,6 +355,7 @@ func (p *UceServiceProxy) CreatePresenceServiceForSubscription(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -346,8 +378,16 @@ func (p *UceServiceProxy) CreatePresenceServiceForSubscription(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = presenceServiceListenerHdl.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = presenceServiceListenerHdl.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadInt32()
@@ -362,6 +402,7 @@ func (p *UceServiceProxy) DestroyPresenceService(
 	presenceServiceHdl int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	_data.WriteInt32(presenceServiceHdl)
 
@@ -388,6 +429,7 @@ func (p *UceServiceProxy) GetServiceStatus(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceGetServiceStatus)
@@ -417,6 +459,7 @@ func (p *UceServiceProxy) GetPresenceService(
 ) (presence.IPresenceService, error) {
 	var _result presence.IPresenceService
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceGetPresenceService)
@@ -448,6 +491,7 @@ func (p *UceServiceProxy) GetPresenceServiceForSubscription(
 ) (presence.IPresenceService, error) {
 	var _result presence.IPresenceService
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	_data.WriteString16(iccId)
 
@@ -479,6 +523,7 @@ func (p *UceServiceProxy) GetOptionsService(
 ) (options.IOptionsService, error) {
 	var _result options.IOptionsService
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceGetOptionsService)
@@ -510,6 +555,7 @@ func (p *UceServiceProxy) GetOptionsServiceForSubscription(
 ) (options.IOptionsService, error) {
 	var _result options.IOptionsService
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	_data.WriteString16(iccId)
 
@@ -539,7 +585,8 @@ func (p *UceServiceProxy) GetOptionsServiceForSubscription(
 // UceServiceStub dispatches incoming binder transactions
 // to a typed IUceService implementation.
 type UceServiceStub struct {
-	Impl IUceService
+	Impl      IUceService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UceServiceStub)(nil)
@@ -553,14 +600,20 @@ func (s *UceServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUceServiceStartService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_uceListener IUceListener
-		_ = _arg_uceListener
+		{
+			_uceListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_uceListener = NewUceListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _uceListenerHandle))
+		}
 		_result, _err := s.Impl.StartService(ctx, _arg_uceListener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -571,9 +624,6 @@ func (s *UceServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUceServiceStopService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.StopService(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -584,9 +634,6 @@ func (s *UceServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUceServiceIsServiceStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsServiceStarted(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -597,12 +644,14 @@ func (s *UceServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUceServiceCreateOptionsService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_optionsListener options.IOptionsListener
-		_ = _arg_optionsListener
+		{
+			_optionsListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_optionsListener = options.NewOptionsListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _optionsListenerHandle))
+		}
 		var _arg_optionsServiceListenerHdl common.UceLong
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -623,14 +672,20 @@ func (s *UceServiceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIUceServiceCreateOptionsServiceForSubscription:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_optionsServiceListenerHdl.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		return _reply, nil
+	case TransactionIUceServiceCreateOptionsServiceForSubscription:
 		var _arg_optionsListener options.IOptionsListener
-		_ = _arg_optionsListener
+		{
+			_optionsListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_optionsListener = options.NewOptionsListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _optionsListenerHandle))
+		}
 		var _arg_optionsServiceListenerHdl common.UceLong
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -655,11 +710,12 @@ func (s *UceServiceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIUceServiceDestroyOptionsService:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_optionsServiceListenerHdl.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIUceServiceDestroyOptionsService:
 		_arg_optionsServiceHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -673,12 +729,14 @@ func (s *UceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUceServiceCreatePresenceService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_presenceServiceListener presence.IPresenceListener
-		_ = _arg_presenceServiceListener
+		{
+			_presenceServiceListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_presenceServiceListener = presence.NewPresenceListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _presenceServiceListenerHandle))
+		}
 		var _arg_presenceServiceListenerHdl common.UceLong
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -699,14 +757,20 @@ func (s *UceServiceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIUceServiceCreatePresenceServiceForSubscription:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_presenceServiceListenerHdl.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		return _reply, nil
+	case TransactionIUceServiceCreatePresenceServiceForSubscription:
 		var _arg_presenceServiceListener presence.IPresenceListener
-		_ = _arg_presenceServiceListener
+		{
+			_presenceServiceListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_presenceServiceListener = presence.NewPresenceListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _presenceServiceListenerHandle))
+		}
 		var _arg_presenceServiceListenerHdl common.UceLong
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -731,11 +795,12 @@ func (s *UceServiceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIUceServiceDestroyPresenceService:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_presenceServiceListenerHdl.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIUceServiceDestroyPresenceService:
 		_arg_presenceServiceHdl, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -749,9 +814,6 @@ func (s *UceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUceServiceGetServiceStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetServiceStatus(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -762,9 +824,6 @@ func (s *UceServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUceServiceGetPresenceService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPresenceService(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -772,13 +831,9 @@ func (s *UceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIUceServiceGetPresenceServiceForSubscription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iccId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -790,13 +845,9 @@ func (s *UceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIUceServiceGetOptionsService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetOptionsService(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -804,13 +855,9 @@ func (s *UceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIUceServiceGetOptionsServiceForSubscription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iccId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -822,8 +869,7 @@ func (s *UceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

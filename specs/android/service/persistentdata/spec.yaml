@@ -1,0 +1,81 @@
+package: android.service.persistentdata
+go_package: android/service/persistentdata
+interfaces:
+    - name: IPersistentDataBlockService
+      descriptor: android.service.persistentdata.IPersistentDataBlockService
+      methods:
+        - name: write
+          transaction_code_offset: 0
+          params:
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: int
+        - name: read
+          transaction_code_offset: 1
+          return_type:
+            name: byte
+            is_array: true
+        - name: wipe
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: getDataBlockSize
+          transaction_code_offset: 3
+          return_type:
+            name: int
+        - name: getMaximumDataBlockSize
+          transaction_code_offset: 4
+          return_type:
+            name: long
+        - name: setOemUnlockEnabled
+          transaction_code_offset: 5
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getOemUnlockEnabled
+          transaction_code_offset: 6
+          return_type:
+            name: boolean
+        - name: getFlashLockState
+          transaction_code_offset: 7
+          return_type:
+            name: int
+        - name: hasFrpCredentialHandle
+          transaction_code_offset: 8
+          return_type:
+            name: boolean
+        - name: getPersistentDataPackageName
+          transaction_code_offset: 9
+          return_type:
+            name: String
+        - name: isFactoryResetProtectionActive
+          transaction_code_offset: 10
+          return_type:
+            name: boolean
+        - name: deactivateFactoryResetProtection
+          transaction_code_offset: 11
+          params:
+            - name: secret
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: boolean
+        - name: setFactoryResetProtectionSecret
+          transaction_code_offset: 12
+          params:
+            - name: secret
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: boolean

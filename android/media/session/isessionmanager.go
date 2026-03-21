@@ -4,6 +4,9 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
+	types "github.com/xaionaro-go/binder/android/media/types"
+	os "github.com/xaionaro-go/binder/android/os"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -78,21 +81,21 @@ const (
 
 type ISessionManager interface {
 	AsBinder() binder.IBinder
-	CreateSession(ctx context.Context, packageName string, sessionCb ISessionCallback, tag string, sessionInfo interface{}) (ISession, error)
+	CreateSession(ctx context.Context, packageName string, sessionCb ISessionCallback, tag string, sessionInfo os.Bundle) (ISession, error)
 	GetSessions(ctx context.Context, compName content.ComponentName) ([]MediaSessionToken, error)
 	GetMediaKeyEventSession(ctx context.Context, packageName string) (MediaSessionToken, error)
 	GetMediaKeyEventSessionPackageName(ctx context.Context, packageName string) (string, error)
-	DispatchMediaKeyEvent(ctx context.Context, packageName string, asSystemService bool, keyEvent interface{}, needWakeLock bool) error
-	DispatchMediaKeyEventToSessionAsSystemService(ctx context.Context, packageName string, keyEvent interface{}, sessionToken MediaSessionToken) (bool, error)
-	DispatchVolumeKeyEvent(ctx context.Context, packageName string, asSystemService bool, keyEvent interface{}, stream int32, musicOnly bool) error
-	DispatchVolumeKeyEventToSessionAsSystemService(ctx context.Context, packageName string, keyEvent interface{}, sessionToken MediaSessionToken) error
+	DispatchMediaKeyEvent(ctx context.Context, packageName string, asSystemService bool, keyEvent view.KeyEvent, needWakeLock bool) error
+	DispatchMediaKeyEventToSessionAsSystemService(ctx context.Context, packageName string, keyEvent view.KeyEvent, sessionToken MediaSessionToken) (bool, error)
+	DispatchVolumeKeyEvent(ctx context.Context, packageName string, asSystemService bool, keyEvent view.KeyEvent, stream int32, musicOnly bool) error
+	DispatchVolumeKeyEventToSessionAsSystemService(ctx context.Context, packageName string, keyEvent view.KeyEvent, sessionToken MediaSessionToken) error
 	DispatchAdjustVolume(ctx context.Context, packageName string, suggestedStream int32, delta int32, flags int32) error
 	AddSessionsListener(ctx context.Context, listener IActiveSessionsListener, compName content.ComponentName) error
 	RemoveSessionsListener(ctx context.Context, listener IActiveSessionsListener) error
 	AddSession2TokensListener(ctx context.Context, listener ISession2TokensListener) error
 	RemoveSession2TokensListener(ctx context.Context, listener ISession2TokensListener) error
-	RegisterRemoteSessionCallback(ctx context.Context, rvc interface{}) error
-	UnregisterRemoteSessionCallback(ctx context.Context, rvc interface{}) error
+	RegisterRemoteSessionCallback(ctx context.Context, rvc types.IRemoteSessionCallback) error
+	UnregisterRemoteSessionCallback(ctx context.Context, rvc types.IRemoteSessionCallback) error
 	IsGlobalPriorityActive(ctx context.Context) (bool, error)
 	AddOnMediaKeyEventDispatchedListener(ctx context.Context, listener IOnMediaKeyEventDispatchedListener) error
 	RemoveOnMediaKeyEventDispatchedListener(ctx context.Context, listener IOnMediaKeyEventDispatchedListener) error
@@ -130,15 +133,20 @@ func (p *SessionManagerProxy) CreateSession(
 	packageName string,
 	sessionCb ISessionCallback,
 	tag string,
-	sessionInfo interface{},
+	sessionInfo os.Bundle,
 ) (ISession, error) {
 	var _result ISession
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(packageName)
 	binder.WriteBinderToParcel(ctx, _data, sessionCb.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(tag)
+	_data.WriteInt32(1)
+	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionManager, MethodISessionManagerCreateSession)
@@ -171,6 +179,7 @@ func (p *SessionManagerProxy) GetSessions(
 	var _result []MediaSessionToken
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteInt32(1)
 	if _err := compName.MarshalParcel(_data); _err != nil {
@@ -197,6 +206,9 @@ func (p *SessionManagerProxy) GetSessions(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]MediaSessionToken, _count)
@@ -218,6 +230,7 @@ func (p *SessionManagerProxy) GetMediaKeyEventSession(
 ) (MediaSessionToken, error) {
 	var _result MediaSessionToken
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(packageName)
 
@@ -254,6 +267,7 @@ func (p *SessionManagerProxy) GetMediaKeyEventSessionPackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(packageName)
 
@@ -283,13 +297,18 @@ func (p *SessionManagerProxy) DispatchMediaKeyEvent(
 	ctx context.Context,
 	packageName string,
 	asSystemService bool,
-	keyEvent interface{},
+	keyEvent view.KeyEvent,
 	needWakeLock bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(asSystemService)
+	_data.WriteInt32(1)
+	if _err := keyEvent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(needWakeLock)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionManager, MethodISessionManagerDispatchMediaKeyEvent)
@@ -313,13 +332,18 @@ func (p *SessionManagerProxy) DispatchMediaKeyEvent(
 func (p *SessionManagerProxy) DispatchMediaKeyEventToSessionAsSystemService(
 	ctx context.Context,
 	packageName string,
-	keyEvent interface{},
+	keyEvent view.KeyEvent,
 	sessionToken MediaSessionToken,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := keyEvent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(1)
 	if _err := sessionToken.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -351,16 +375,21 @@ func (p *SessionManagerProxy) DispatchVolumeKeyEvent(
 	ctx context.Context,
 	packageName string,
 	asSystemService bool,
-	keyEvent interface{},
+	keyEvent view.KeyEvent,
 	stream int32,
 	musicOnly bool,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteBool(asSystemService)
+	_data.WriteInt32(1)
+	if _err := keyEvent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(stream)
 	_data.WriteBool(musicOnly)
 
@@ -385,14 +414,19 @@ func (p *SessionManagerProxy) DispatchVolumeKeyEvent(
 func (p *SessionManagerProxy) DispatchVolumeKeyEventToSessionAsSystemService(
 	ctx context.Context,
 	packageName string,
-	keyEvent interface{},
+	keyEvent view.KeyEvent,
 	sessionToken MediaSessionToken,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(_identity.PackageName)
+	_data.WriteInt32(1)
+	if _err := keyEvent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := sessionToken.MarshalParcel(_data); _err != nil {
 		return _err
@@ -425,6 +459,7 @@ func (p *SessionManagerProxy) DispatchAdjustVolume(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(_identity.PackageName)
@@ -457,6 +492,7 @@ func (p *SessionManagerProxy) AddSessionsListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -488,6 +524,7 @@ func (p *SessionManagerProxy) RemoveSessionsListener(
 	listener IActiveSessionsListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -515,6 +552,7 @@ func (p *SessionManagerProxy) AddSession2TokensListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -542,6 +580,7 @@ func (p *SessionManagerProxy) RemoveSession2TokensListener(
 	listener ISession2TokensListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -565,10 +604,12 @@ func (p *SessionManagerProxy) RemoveSession2TokensListener(
 
 func (p *SessionManagerProxy) RegisterRemoteSessionCallback(
 	ctx context.Context,
-	rvc interface{},
+	rvc types.IRemoteSessionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
+	// WARNING: param rvc (type types.IRemoteSessionCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionManager, MethodISessionManagerRegisterRemoteSessionCallback)
 	if _err != nil {
@@ -590,10 +631,12 @@ func (p *SessionManagerProxy) RegisterRemoteSessionCallback(
 
 func (p *SessionManagerProxy) UnregisterRemoteSessionCallback(
 	ctx context.Context,
-	rvc interface{},
+	rvc types.IRemoteSessionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
+	// WARNING: param rvc (type types.IRemoteSessionCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionManager, MethodISessionManagerUnregisterRemoteSessionCallback)
 	if _err != nil {
@@ -618,6 +661,7 @@ func (p *SessionManagerProxy) IsGlobalPriorityActive(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionManager, MethodISessionManagerIsGlobalPriorityActive)
@@ -647,6 +691,7 @@ func (p *SessionManagerProxy) AddOnMediaKeyEventDispatchedListener(
 	listener IOnMediaKeyEventDispatchedListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -673,6 +718,7 @@ func (p *SessionManagerProxy) RemoveOnMediaKeyEventDispatchedListener(
 	listener IOnMediaKeyEventDispatchedListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -700,6 +746,7 @@ func (p *SessionManagerProxy) AddOnMediaKeyEventSessionChangedListener(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(packageName)
@@ -727,6 +774,7 @@ func (p *SessionManagerProxy) RemoveOnMediaKeyEventSessionChangedListener(
 	listener IOnMediaKeyEventSessionChangedListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -753,6 +801,7 @@ func (p *SessionManagerProxy) SetOnVolumeKeyLongPressListener(
 	listener IOnVolumeKeyLongPressListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -779,6 +828,7 @@ func (p *SessionManagerProxy) SetOnMediaKeyListener(
 	listener IOnMediaKeyListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -808,6 +858,7 @@ func (p *SessionManagerProxy) IsTrusted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(controllerPackageName)
 	_data.WriteInt32(controllerPid)
@@ -840,6 +891,7 @@ func (p *SessionManagerProxy) SetCustomMediaKeyDispatcher(
 	name string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(name)
 
@@ -866,6 +918,7 @@ func (p *SessionManagerProxy) SetCustomMediaSessionPolicyProvider(
 	name string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(name)
 
@@ -893,6 +946,7 @@ func (p *SessionManagerProxy) HasCustomMediaKeyDispatcher(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(componentName)
 
@@ -924,6 +978,7 @@ func (p *SessionManagerProxy) HasCustomMediaSessionPolicyProvider(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(componentName)
 
@@ -955,6 +1010,7 @@ func (p *SessionManagerProxy) GetSessionPolicies(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteInt32(1)
 	if _err := token.MarshalParcel(_data); _err != nil {
@@ -989,6 +1045,7 @@ func (p *SessionManagerProxy) SetSessionPolicies(
 	policies int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteInt32(1)
 	if _err := token.MarshalParcel(_data); _err != nil {
@@ -1017,7 +1074,8 @@ func (p *SessionManagerProxy) SetSessionPolicies(
 // SessionManagerStub dispatches incoming binder transactions
 // to a typed ISessionManager implementation.
 type SessionManagerStub struct {
-	Impl ISessionManager
+	Impl      ISessionManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SessionManagerStub)(nil)
@@ -1031,23 +1089,40 @@ func (s *SessionManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISessionManagerCreateSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionCb ISessionCallback
-		_ = _arg_sessionCb
+		{
+			_sessionCbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionCb = NewSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionCbHandle))
+		}
 		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo interface{}
+		var _arg_sessionInfo os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1058,13 +1133,9 @@ func (s *SessionManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISessionManagerGetSessions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_compName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1087,13 +1158,19 @@ func (s *SessionManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISessionManagerGetMediaKeyEventSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1111,9 +1188,6 @@ func (s *SessionManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISessionManagerGetMediaKeyEventSessionPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1128,9 +1202,6 @@ func (s *SessionManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISessionManagerDispatchMediaKeyEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1139,7 +1210,18 @@ func (s *SessionManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_keyEvent interface{}
+		var _arg_keyEvent view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_keyEvent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_needWakeLock, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1153,14 +1235,22 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerDispatchMediaKeyEventToSessionAsSystemService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_keyEvent interface{}
+		var _arg_keyEvent view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_keyEvent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_sessionToken MediaSessionToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1183,9 +1273,6 @@ func (s *SessionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISessionManagerDispatchVolumeKeyEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1197,7 +1284,18 @@ func (s *SessionManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_keyEvent interface{}
+		var _arg_keyEvent view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_keyEvent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_stream, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1215,9 +1313,6 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerDispatchVolumeKeyEventToSessionAsSystemService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1225,7 +1320,18 @@ func (s *SessionManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_keyEvent interface{}
+		var _arg_keyEvent view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_keyEvent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_sessionToken MediaSessionToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1247,9 +1353,6 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerDispatchAdjustVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1278,12 +1381,14 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerAddSessionsListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IActiveSessionsListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewActiveSessionsListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		var _arg_compName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1308,12 +1413,14 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerRemoveSessionsListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IActiveSessionsListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewActiveSessionsListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveSessionsListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1323,12 +1430,14 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerAddSession2TokensListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISession2TokensListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewSession2TokensListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1341,12 +1450,14 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerRemoveSession2TokensListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISession2TokensListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewSession2TokensListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveSession2TokensListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1356,10 +1467,7 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerRegisterRemoteSessionCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_rvc interface{}
+		var _arg_rvc types.IRemoteSessionCallback
 		_err := s.Impl.RegisterRemoteSessionCallback(ctx, _arg_rvc)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1369,10 +1477,7 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerUnregisterRemoteSessionCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_rvc interface{}
+		var _arg_rvc types.IRemoteSessionCallback
 		_err := s.Impl.UnregisterRemoteSessionCallback(ctx, _arg_rvc)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1382,9 +1487,6 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerIsGlobalPriorityActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsGlobalPriorityActive(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1395,12 +1497,14 @@ func (s *SessionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISessionManagerAddOnMediaKeyEventDispatchedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnMediaKeyEventDispatchedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnMediaKeyEventDispatchedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddOnMediaKeyEventDispatchedListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1410,12 +1514,14 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerRemoveOnMediaKeyEventDispatchedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnMediaKeyEventDispatchedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnMediaKeyEventDispatchedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveOnMediaKeyEventDispatchedListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1425,12 +1531,14 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerAddOnMediaKeyEventSessionChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnMediaKeyEventSessionChangedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnMediaKeyEventSessionChangedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1444,12 +1552,14 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerRemoveOnMediaKeyEventSessionChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnMediaKeyEventSessionChangedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnMediaKeyEventSessionChangedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveOnMediaKeyEventSessionChangedListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1459,12 +1569,14 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerSetOnVolumeKeyLongPressListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnVolumeKeyLongPressListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnVolumeKeyLongPressListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.SetOnVolumeKeyLongPressListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1474,12 +1586,14 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerSetOnMediaKeyListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnMediaKeyListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnMediaKeyListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.SetOnMediaKeyListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1489,9 +1603,6 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerIsTrusted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_controllerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1514,9 +1625,6 @@ func (s *SessionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISessionManagerSetCustomMediaKeyDispatcher:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1530,9 +1638,6 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerSetCustomMediaSessionPolicyProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1546,9 +1651,6 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerHasCustomMediaKeyDispatcher:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_componentName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1563,9 +1665,6 @@ func (s *SessionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISessionManagerHasCustomMediaSessionPolicyProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_componentName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1580,9 +1679,6 @@ func (s *SessionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISessionManagerGetSessionPolicies:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_token MediaSessionToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1605,9 +1701,6 @@ func (s *SessionManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISessionManagerSetSessionPolicies:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_token MediaSessionToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1641,21 +1734,21 @@ func (s *SessionManagerStub) OnTransaction(
 // provide to NewSessionManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ISessionManagerServer interface {
-	CreateSession(ctx context.Context, packageName string, sessionCb ISessionCallback, tag string, sessionInfo interface{}) (ISession, error)
+	CreateSession(ctx context.Context, packageName string, sessionCb ISessionCallback, tag string, sessionInfo os.Bundle) (ISession, error)
 	GetSessions(ctx context.Context, compName content.ComponentName) ([]MediaSessionToken, error)
 	GetMediaKeyEventSession(ctx context.Context, packageName string) (MediaSessionToken, error)
 	GetMediaKeyEventSessionPackageName(ctx context.Context, packageName string) (string, error)
-	DispatchMediaKeyEvent(ctx context.Context, packageName string, asSystemService bool, keyEvent interface{}, needWakeLock bool) error
-	DispatchMediaKeyEventToSessionAsSystemService(ctx context.Context, packageName string, keyEvent interface{}, sessionToken MediaSessionToken) (bool, error)
-	DispatchVolumeKeyEvent(ctx context.Context, packageName string, asSystemService bool, keyEvent interface{}, stream int32, musicOnly bool) error
-	DispatchVolumeKeyEventToSessionAsSystemService(ctx context.Context, packageName string, keyEvent interface{}, sessionToken MediaSessionToken) error
+	DispatchMediaKeyEvent(ctx context.Context, packageName string, asSystemService bool, keyEvent view.KeyEvent, needWakeLock bool) error
+	DispatchMediaKeyEventToSessionAsSystemService(ctx context.Context, packageName string, keyEvent view.KeyEvent, sessionToken MediaSessionToken) (bool, error)
+	DispatchVolumeKeyEvent(ctx context.Context, packageName string, asSystemService bool, keyEvent view.KeyEvent, stream int32, musicOnly bool) error
+	DispatchVolumeKeyEventToSessionAsSystemService(ctx context.Context, packageName string, keyEvent view.KeyEvent, sessionToken MediaSessionToken) error
 	DispatchAdjustVolume(ctx context.Context, packageName string, suggestedStream int32, delta int32, flags int32) error
 	AddSessionsListener(ctx context.Context, listener IActiveSessionsListener, compName content.ComponentName) error
 	RemoveSessionsListener(ctx context.Context, listener IActiveSessionsListener) error
 	AddSession2TokensListener(ctx context.Context, listener ISession2TokensListener) error
 	RemoveSession2TokensListener(ctx context.Context, listener ISession2TokensListener) error
-	RegisterRemoteSessionCallback(ctx context.Context, rvc interface{}) error
-	UnregisterRemoteSessionCallback(ctx context.Context, rvc interface{}) error
+	RegisterRemoteSessionCallback(ctx context.Context, rvc types.IRemoteSessionCallback) error
+	UnregisterRemoteSessionCallback(ctx context.Context, rvc types.IRemoteSessionCallback) error
 	IsGlobalPriorityActive(ctx context.Context) (bool, error)
 	AddOnMediaKeyEventDispatchedListener(ctx context.Context, listener IOnMediaKeyEventDispatchedListener) error
 	RemoveOnMediaKeyEventDispatchedListener(ctx context.Context, listener IOnMediaKeyEventDispatchedListener) error
@@ -1686,7 +1779,7 @@ func (w *sessionManagerStubWrapper) CreateSession(
 	packageName string,
 	sessionCb ISessionCallback,
 	tag string,
-	sessionInfo interface{},
+	sessionInfo os.Bundle,
 ) (ISession, error) {
 	return w.impl.CreateSession(ctx, packageName, sessionCb, tag, sessionInfo)
 }
@@ -1716,7 +1809,7 @@ func (w *sessionManagerStubWrapper) DispatchMediaKeyEvent(
 	ctx context.Context,
 	packageName string,
 	asSystemService bool,
-	keyEvent interface{},
+	keyEvent view.KeyEvent,
 	needWakeLock bool,
 ) error {
 	return w.impl.DispatchMediaKeyEvent(ctx, packageName, asSystemService, keyEvent, needWakeLock)
@@ -1725,7 +1818,7 @@ func (w *sessionManagerStubWrapper) DispatchMediaKeyEvent(
 func (w *sessionManagerStubWrapper) DispatchMediaKeyEventToSessionAsSystemService(
 	ctx context.Context,
 	packageName string,
-	keyEvent interface{},
+	keyEvent view.KeyEvent,
 	sessionToken MediaSessionToken,
 ) (bool, error) {
 	return w.impl.DispatchMediaKeyEventToSessionAsSystemService(ctx, packageName, keyEvent, sessionToken)
@@ -1735,7 +1828,7 @@ func (w *sessionManagerStubWrapper) DispatchVolumeKeyEvent(
 	ctx context.Context,
 	packageName string,
 	asSystemService bool,
-	keyEvent interface{},
+	keyEvent view.KeyEvent,
 	stream int32,
 	musicOnly bool,
 ) error {
@@ -1745,7 +1838,7 @@ func (w *sessionManagerStubWrapper) DispatchVolumeKeyEvent(
 func (w *sessionManagerStubWrapper) DispatchVolumeKeyEventToSessionAsSystemService(
 	ctx context.Context,
 	packageName string,
-	keyEvent interface{},
+	keyEvent view.KeyEvent,
 	sessionToken MediaSessionToken,
 ) error {
 	return w.impl.DispatchVolumeKeyEventToSessionAsSystemService(ctx, packageName, keyEvent, sessionToken)
@@ -1792,14 +1885,14 @@ func (w *sessionManagerStubWrapper) RemoveSession2TokensListener(
 
 func (w *sessionManagerStubWrapper) RegisterRemoteSessionCallback(
 	ctx context.Context,
-	rvc interface{},
+	rvc types.IRemoteSessionCallback,
 ) error {
 	return w.impl.RegisterRemoteSessionCallback(ctx, rvc)
 }
 
 func (w *sessionManagerStubWrapper) UnregisterRemoteSessionCallback(
 	ctx context.Context,
-	rvc interface{},
+	rvc types.IRemoteSessionCallback,
 ) error {
 	return w.impl.UnregisterRemoteSessionCallback(ctx, rvc)
 }

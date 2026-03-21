@@ -1,0 +1,146 @@
+package: android.app.prediction
+go_package: android/app/prediction
+interfaces:
+    - name: IPredictionCallback
+      descriptor: android.app.prediction.IPredictionCallback
+      oneway: true
+      methods:
+        - name: onResult
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: ParceledListSlice
+              direction: in
+          return_type:
+            name: void
+    - name: IPredictionManager
+      descriptor: android.app.prediction.IPredictionManager
+      methods:
+        - name: createPredictionSession
+          transaction_code_offset: 0
+          params:
+            - name: context
+              type:
+                name: AppPredictionContext
+              direction: in
+            - name: sessionId
+              type:
+                name: AppPredictionSessionId
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: notifyAppTargetEvent
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: AppPredictionSessionId
+              direction: in
+            - name: event
+              type:
+                name: AppTargetEvent
+              direction: in
+          return_type:
+            name: void
+        - name: notifyLaunchLocationShown
+          transaction_code_offset: 2
+          params:
+            - name: sessionId
+              type:
+                name: AppPredictionSessionId
+              direction: in
+            - name: launchLocation
+              type:
+                name: String
+              direction: in
+            - name: targetIds
+              type:
+                name: ParceledListSlice
+              direction: in
+          return_type:
+            name: void
+        - name: sortAppTargets
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: AppPredictionSessionId
+              direction: in
+            - name: targets
+              type:
+                name: ParceledListSlice
+              direction: in
+            - name: callback
+              type:
+                name: IPredictionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: registerPredictionUpdates
+          transaction_code_offset: 4
+          params:
+            - name: sessionId
+              type:
+                name: AppPredictionSessionId
+              direction: in
+            - name: callback
+              type:
+                name: IPredictionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterPredictionUpdates
+          transaction_code_offset: 5
+          params:
+            - name: sessionId
+              type:
+                name: AppPredictionSessionId
+              direction: in
+            - name: callback
+              type:
+                name: IPredictionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: requestPredictionUpdate
+          transaction_code_offset: 6
+          params:
+            - name: sessionId
+              type:
+                name: AppPredictionSessionId
+              direction: in
+          return_type:
+            name: void
+        - name: onDestroyPredictionSession
+          transaction_code_offset: 7
+          params:
+            - name: sessionId
+              type:
+                name: AppPredictionSessionId
+              direction: in
+          return_type:
+            name: void
+        - name: requestServiceFeatures
+          transaction_code_offset: 8
+          params:
+            - name: sessionId
+              type:
+                name: AppPredictionSessionId
+              direction: in
+            - name: callback
+              type:
+                name: IRemoteCallback
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: AppPredictionContext
+    - name: AppPredictionSessionId
+    - name: AppTarget
+    - name: AppTargetEvent
+    - name: AppTargetId

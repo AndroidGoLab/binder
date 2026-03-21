@@ -1,6 +1,7 @@
 package media
 
 import (
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,8 +9,8 @@ import (
 
 type OpenOutputRequest struct {
 	Module      int32
-	HalConfig   interface{}
-	MixerConfig interface{}
+	HalConfig   common.AudioConfig
+	MixerConfig common.AudioConfigBase
 	Device      AudioPortFw
 	Flags       int32
 }
@@ -21,6 +22,12 @@ func (s *OpenOutputRequest) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Module)
+	if _err := s.HalConfig.MarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _err := s.MixerConfig.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	if _err := s.Device.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -38,13 +45,46 @@ func (s *OpenOutputRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Module, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.HalConfig.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.MixerConfig.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Device.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Flags, _err = p.ReadInt32()

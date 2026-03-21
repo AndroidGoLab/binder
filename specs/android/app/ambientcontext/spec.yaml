@@ -1,0 +1,111 @@
+package: android.app.ambientcontext
+go_package: android/app/ambientcontext
+interfaces:
+    - name: IAmbientContextManager
+      descriptor: android.app.ambientcontext.IAmbientContextManager
+      methods:
+        - name: registerObserver
+          transaction_code_offset: 0
+          params:
+            - name: request
+              type:
+                name: AmbientContextEventRequest
+              direction: in
+            - name: resultPendingIntent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: statusCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: registerObserverWithCallback
+          transaction_code_offset: 1
+          params:
+            - name: request
+              type:
+                name: AmbientContextEventRequest
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: observer
+              type:
+                name: IAmbientContextObserver
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: unregisterObserver
+          transaction_code_offset: 2
+          params:
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: queryServiceStatus
+          transaction_code_offset: 3
+          params:
+            - name: eventTypes
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+            - name: statusCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: startConsentActivity
+          transaction_code_offset: 4
+          params:
+            - name: eventTypes
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+    - name: IAmbientContextObserver
+      descriptor: android.app.ambientcontext.IAmbientContextObserver
+      oneway: true
+      methods:
+        - name: onEvents
+          transaction_code_offset: 0
+          params:
+            - name: events
+              type:
+                name: List
+                type_args:
+                    - name: AmbientContextEvent
+              direction: in
+          return_type:
+            name: void
+        - name: onRegistrationComplete
+          transaction_code_offset: 1
+          params:
+            - name: statusCode
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: AmbientContextEvent
+    - name: AmbientContextEventRequest

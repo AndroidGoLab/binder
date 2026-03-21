@@ -53,6 +53,7 @@ func (p *GnssStatusListenerProxy) OnGnssStarted(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssStatusListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssStatusListener, MethodIGnssStatusListenerOnGnssStarted)
@@ -68,6 +69,7 @@ func (p *GnssStatusListenerProxy) OnGnssStopped(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssStatusListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssStatusListener, MethodIGnssStatusListenerOnGnssStopped)
@@ -84,6 +86,7 @@ func (p *GnssStatusListenerProxy) OnFirstFix(
 	ttff int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssStatusListener)
 	_data.WriteInt32(ttff)
 
@@ -101,6 +104,7 @@ func (p *GnssStatusListenerProxy) OnSvStatusChanged(
 	gnssStatus GnssStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssStatusListener)
 	_data.WriteInt32(1)
 	if _err := gnssStatus.MarshalParcel(_data); _err != nil {
@@ -119,7 +123,8 @@ func (p *GnssStatusListenerProxy) OnSvStatusChanged(
 // GnssStatusListenerStub dispatches incoming binder transactions
 // to a typed IGnssStatusListener implementation.
 type GnssStatusListenerStub struct {
-	Impl IGnssStatusListener
+	Impl      IGnssStatusListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssStatusListenerStub)(nil)
@@ -133,36 +138,25 @@ func (s *GnssStatusListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssStatusListenerOnGnssStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnGnssStarted(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGnssStatusListenerOnGnssStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnGnssStopped(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGnssStatusListenerOnFirstFix:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ttff, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnFirstFix(ctx, _arg_ttff)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGnssStatusListenerOnSvStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_gnssStatus GnssStatus
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -176,8 +170,7 @@ func (s *GnssStatusListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSvStatusChanged(ctx, _arg_gnssStatus)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

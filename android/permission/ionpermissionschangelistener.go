@@ -46,6 +46,7 @@ func (p *OnPermissionsChangeListenerProxy) OnPermissionsChanged(
 	persistentDeviceId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnPermissionsChangeListener)
 	_data.WriteInt32(uid)
 	_data.WriteString16(persistentDeviceId)
@@ -62,7 +63,8 @@ func (p *OnPermissionsChangeListenerProxy) OnPermissionsChanged(
 // OnPermissionsChangeListenerStub dispatches incoming binder transactions
 // to a typed IOnPermissionsChangeListener implementation.
 type OnPermissionsChangeListenerStub struct {
-	Impl IOnPermissionsChangeListener
+	Impl      IOnPermissionsChangeListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OnPermissionsChangeListenerStub)(nil)
@@ -76,11 +78,12 @@ func (s *OnPermissionsChangeListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOnPermissionsChangeListenerOnPermissionsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -90,8 +93,7 @@ func (s *OnPermissionsChangeListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPermissionsChanged(ctx, _arg_uid, _arg_persistentDeviceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

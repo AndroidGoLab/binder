@@ -52,6 +52,7 @@ func (p *ObbBackupServiceProxy) BackupObbs(
 	callbackBinder appBackup.IBackupManager,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIObbBackupService)
 	_data.WriteString16(packageName)
 	_data.WriteFileDescriptor(data)
@@ -80,6 +81,7 @@ func (p *ObbBackupServiceProxy) RestoreObbFile(
 	callbackBinder appBackup.IBackupManager,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIObbBackupService)
 	_data.WriteString16(pkgName)
 	_data.WriteFileDescriptor(data)
@@ -103,7 +105,8 @@ func (p *ObbBackupServiceProxy) RestoreObbFile(
 // ObbBackupServiceStub dispatches incoming binder transactions
 // to a typed IObbBackupService implementation.
 type ObbBackupServiceStub struct {
-	Impl IObbBackupService
+	Impl      IObbBackupService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ObbBackupServiceStub)(nil)
@@ -117,11 +120,12 @@ func (s *ObbBackupServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIObbBackupServiceBackupObbs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -134,16 +138,17 @@ func (s *ObbBackupServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbackBinder appBackup.IBackupManager
-		_ = _arg_callbackBinder
-		_err = s.Impl.BackupObbs(ctx, _arg_packageName, _arg_data, _arg_token, _arg_callbackBinder)
-		_ = _err
-		return nil, nil
-	case TransactionIObbBackupServiceRestoreObbFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackBinderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbackBinder = appBackup.NewBackupManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackBinderHandle))
 		}
+		_err = s.Impl.BackupObbs(ctx, _arg_packageName, _arg_data, _arg_token, _arg_callbackBinder)
+		return nil, _err
+	case TransactionIObbBackupServiceRestoreObbFile:
 		_arg_pkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -176,12 +181,16 @@ func (s *ObbBackupServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbackBinder appBackup.IBackupManager
-		_ = _arg_callbackBinder
+		{
+			_callbackBinderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbackBinder = appBackup.NewBackupManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackBinderHandle))
+		}
 		_err = s.Impl.RestoreObbFile(ctx, _arg_pkgName, _arg_data, _arg_fileSize, _arg_type_, _arg_path, _arg_mode, _arg_mtime, _arg_token, _arg_callbackBinder)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

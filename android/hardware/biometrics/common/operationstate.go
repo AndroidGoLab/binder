@@ -2,7 +2,6 @@ package common
 
 import (
 	"fmt"
-	commonOperationState "github.com/xaionaro-go/binder/android/hardware/biometrics/common/OperationState"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -15,40 +14,38 @@ const (
 
 type OperationState struct {
 	Tag                       int32
-	FingerprintOperationState commonOperationState.FingerprintOperationState
-	FaceOperationState        commonOperationState.FaceOperationState
+	FingerprintOperationState OperationStateFingerprintOperationState
+	FaceOperationState        OperationStateFaceOperationState
 }
 
 var _ parcel.Parcelable = (*OperationState)(nil)
 
-func (u *OperationState) GetFingerprintOperationState() (commonOperationState.FingerprintOperationState, bool) {
+func (u *OperationState) GetFingerprintOperationState() (OperationStateFingerprintOperationState, bool) {
 	if u.Tag != OperationStateTagFingerprintOperationState {
-		var _zero commonOperationState.FingerprintOperationState
+		var _zero OperationStateFingerprintOperationState
 		return _zero, false
 	}
 	return u.FingerprintOperationState, true
 }
 
 func (u *OperationState) SetFingerprintOperationState(
-	v commonOperationState.FingerprintOperationState,
+	v OperationStateFingerprintOperationState,
 ) {
-	u.Tag = OperationStateTagFingerprintOperationState
-	u.FingerprintOperationState = v
+	*u = OperationState{Tag: OperationStateTagFingerprintOperationState, FingerprintOperationState: v}
 }
 
-func (u *OperationState) GetFaceOperationState() (commonOperationState.FaceOperationState, bool) {
+func (u *OperationState) GetFaceOperationState() (OperationStateFaceOperationState, bool) {
 	if u.Tag != OperationStateTagFaceOperationState {
-		var _zero commonOperationState.FaceOperationState
+		var _zero OperationStateFaceOperationState
 		return _zero, false
 	}
 	return u.FaceOperationState, true
 }
 
 func (u *OperationState) SetFaceOperationState(
-	v commonOperationState.FaceOperationState,
+	v OperationStateFaceOperationState,
 ) {
-	u.Tag = OperationStateTagFaceOperationState
-	u.FaceOperationState = v
+	*u = OperationState{Tag: OperationStateTagFaceOperationState, FaceOperationState: v}
 }
 
 func (u *OperationState) MarshalParcel(

@@ -36,9 +36,19 @@ func (s *CellInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Registered, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_connectionStatusRaw, _err := p.ReadInt32()
@@ -46,6 +56,11 @@ func (s *CellInfo) UnmarshalParcel(
 		return _err
 	}
 	s.ConnectionStatus = CellConnectionStatus(_connectionStatusRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	if _err = s.RatSpecificInfo.UnmarshalParcel(p); _err != nil {
 		return _err

@@ -52,6 +52,7 @@ func (p *CompanionDeviceDiscoveryServiceProxy) StartDiscovery(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceDiscoveryService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -77,6 +78,7 @@ func (p *CompanionDeviceDiscoveryServiceProxy) OnAssociationCreated(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceDiscoveryService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceDiscoveryService, MethodICompanionDeviceDiscoveryServiceOnAssociationCreated)
@@ -91,7 +93,8 @@ func (p *CompanionDeviceDiscoveryServiceProxy) OnAssociationCreated(
 // CompanionDeviceDiscoveryServiceStub dispatches incoming binder transactions
 // to a typed ICompanionDeviceDiscoveryService implementation.
 type CompanionDeviceDiscoveryServiceStub struct {
-	Impl ICompanionDeviceDiscoveryService
+	Impl      ICompanionDeviceDiscoveryService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CompanionDeviceDiscoveryServiceStub)(nil)
@@ -105,11 +108,12 @@ func (s *CompanionDeviceDiscoveryServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICompanionDeviceDiscoveryServiceStartDiscovery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request AssociationRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -125,9 +129,14 @@ func (s *CompanionDeviceDiscoveryServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_applicationCallback IAssociationRequestCallback
-		_ = _arg_applicationCallback
+		{
+			_applicationCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_applicationCallback = NewAssociationRequestCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _applicationCallbackHandle))
+		}
 		var _arg_serviceCallback infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -141,15 +150,10 @@ func (s *CompanionDeviceDiscoveryServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.StartDiscovery(ctx, _arg_request, _arg_applicationCallback, _arg_serviceCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICompanionDeviceDiscoveryServiceOnAssociationCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnAssociationCreated(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

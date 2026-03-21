@@ -1,0 +1,10 @@
+package: android.app.tare
+go_package: android/app/tare
+interfaces:
+    - name: IEconomyManager
+      descriptor: android.app.tare.IEconomyManager
+      methods:
+        - name: getEnabledMode
+          transaction_code_offset: 0
+          return_type:
+            name: int

@@ -44,6 +44,7 @@ func (p *UndoMediaTransferCallbackProxy) OnUndoTriggered(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUndoMediaTransferCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUndoMediaTransferCallback, MethodIUndoMediaTransferCallbackOnUndoTriggered)
@@ -58,7 +59,8 @@ func (p *UndoMediaTransferCallbackProxy) OnUndoTriggered(
 // UndoMediaTransferCallbackStub dispatches incoming binder transactions
 // to a typed IUndoMediaTransferCallback implementation.
 type UndoMediaTransferCallbackStub struct {
-	Impl IUndoMediaTransferCallback
+	Impl      IUndoMediaTransferCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UndoMediaTransferCallbackStub)(nil)
@@ -72,14 +74,14 @@ func (s *UndoMediaTransferCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUndoMediaTransferCallbackOnUndoTriggered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnUndoTriggered(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

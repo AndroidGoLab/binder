@@ -1,0 +1,65 @@
+package: android.util
+go_package: android/util
+interfaces:
+    - name: IRemoteMemoryIntArray
+      descriptor: android.util.IRemoteMemoryIntArray
+      methods:
+        - name: peekInstance
+          transaction_code_offset: 0
+          return_type:
+            name: MemoryIntArray
+        - name: create
+          transaction_code_offset: 1
+          params:
+            - name: size
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isWritable
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+        - name: get
+          transaction_code_offset: 3
+          params:
+            - name: index
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: set
+          transaction_code_offset: 4
+          params:
+            - name: index
+              type:
+                name: int
+            - name: value
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: size
+          transaction_code_offset: 5
+          return_type:
+            name: int
+        - name: close
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: isClosed
+          transaction_code_offset: 7
+          return_type:
+            name: boolean
+        - name: accessLastElementInRemoteProcess
+          transaction_code_offset: 8
+          params:
+            - name: array
+              type:
+                name: MemoryIntArray
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: MemoryIntArray
+    - name: MergedConfiguration

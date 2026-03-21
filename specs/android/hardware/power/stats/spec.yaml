@@ -1,0 +1,211 @@
+package: android.hardware.power.stats
+go_package: android/hardware/power/stats
+interfaces:
+    - name: IPowerStats
+      descriptor: android.hardware.power.stats.IPowerStats
+      methods:
+        - name: getPowerEntityInfo
+          transaction_code_offset: 0
+          return_type:
+            name: PowerEntity
+            is_array: true
+        - name: getStateResidency
+          transaction_code_offset: 1
+          params:
+            - name: powerEntityIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: StateResidencyResult
+            is_array: true
+        - name: getEnergyConsumerInfo
+          transaction_code_offset: 2
+          return_type:
+            name: EnergyConsumer
+            is_array: true
+        - name: getEnergyConsumed
+          transaction_code_offset: 3
+          params:
+            - name: energyConsumerIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: EnergyConsumerResult
+            is_array: true
+        - name: getEnergyMeterInfo
+          transaction_code_offset: 4
+          return_type:
+            name: Channel
+            is_array: true
+        - name: readEnergyMeter
+          transaction_code_offset: 5
+          params:
+            - name: channelIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: EnergyMeasurement
+            is_array: true
+parcelables:
+    - name: Channel
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: subsystem
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      annotations:
+        - VintfStability
+    - name: EnergyConsumer
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: ordinal
+          type:
+            name: int
+        - name: type
+          type:
+            name: EnergyConsumerType
+          default_value: EnergyConsumerType.OTHER
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      annotations:
+        - VintfStability
+    - name: EnergyConsumerAttribution
+      fields:
+        - name: uid
+          type:
+            name: int
+        - name: energyUWs
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: EnergyConsumerResult
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: timestampMs
+          type:
+            name: long
+        - name: energyUWs
+          type:
+            name: long
+        - name: attribution
+          type:
+            name: EnergyConsumerAttribution
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: EnergyMeasurement
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: timestampMs
+          type:
+            name: long
+        - name: durationMs
+          type:
+            name: long
+        - name: energyUWs
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: PowerEntity
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: states
+          type:
+            name: State
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: State
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      annotations:
+        - VintfStability
+    - name: StateResidency
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: totalTimeInStateMs
+          type:
+            name: long
+        - name: totalStateEntryCount
+          type:
+            name: long
+        - name: lastEntryTimestampMs
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: StateResidencyResult
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: stateResidencyData
+          type:
+            name: StateResidency
+            is_array: true
+      annotations:
+        - VintfStability
+enums:
+    - name: EnergyConsumerType
+      backing_type: ""
+      values:
+        - name: OTHER
+          value: ""
+        - name: BLUETOOTH
+          value: ""
+        - name: CPU_CLUSTER
+          value: ""
+        - name: DISPLAY
+          value: ""
+        - name: GNSS
+          value: ""
+        - name: MOBILE_RADIO
+          value: ""
+        - name: WIFI
+          value: ""
+        - name: CAMERA
+          value: ""
+      annotations:
+        - VintfStability

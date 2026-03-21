@@ -51,6 +51,7 @@ func (p *DragAndDropPermissionsProxy) Take(
 	activityToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDragAndDropPermissions)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 
@@ -76,6 +77,7 @@ func (p *DragAndDropPermissionsProxy) TakeTransient(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDragAndDropPermissions)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDragAndDropPermissions, MethodIDragAndDropPermissionsTakeTransient)
@@ -100,6 +102,7 @@ func (p *DragAndDropPermissionsProxy) Release(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDragAndDropPermissions)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDragAndDropPermissions, MethodIDragAndDropPermissionsRelease)
@@ -123,7 +126,8 @@ func (p *DragAndDropPermissionsProxy) Release(
 // DragAndDropPermissionsStub dispatches incoming binder transactions
 // to a typed IDragAndDropPermissions implementation.
 type DragAndDropPermissionsStub struct {
-	Impl IDragAndDropPermissions
+	Impl      IDragAndDropPermissions
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DragAndDropPermissionsStub)(nil)
@@ -137,14 +141,20 @@ func (s *DragAndDropPermissionsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDragAndDropPermissionsTake:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
+		}
 		_err := s.Impl.Take(ctx, _arg_activityToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -154,9 +164,6 @@ func (s *DragAndDropPermissionsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDragAndDropPermissionsTakeTransient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.TakeTransient(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -166,9 +173,6 @@ func (s *DragAndDropPermissionsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDragAndDropPermissionsRelease:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Release(ctx)
 		_reply := parcel.New()
 		if _err != nil {

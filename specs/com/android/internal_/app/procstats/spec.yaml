@@ -1,0 +1,86 @@
+package: com.android.internal.app.procstats
+go_package: com/android/internal_/app/procstats
+interfaces:
+    - name: IProcessStats
+      descriptor: com.android.internal.app.procstats.IProcessStats
+      methods:
+        - name: getCurrentStats
+          transaction_code_offset: 0
+          params:
+            - name: historic
+              type:
+                name: List
+                type_args:
+                    - name: ParcelFileDescriptor
+              direction: out
+          return_type:
+            name: byte
+            is_array: true
+          annotations:
+            - EnforcePermission
+        - name: getStatsOverTime
+          transaction_code_offset: 1
+          params:
+            - name: minTime
+              type:
+                name: long
+          return_type:
+            name: ParcelFileDescriptor
+          annotations:
+            - EnforcePermission
+        - name: getCurrentMemoryState
+          transaction_code_offset: 2
+          return_type:
+            name: int
+        - name: getCommittedStats
+          transaction_code_offset: 3
+          params:
+            - name: highWaterMarkMs
+              type:
+                name: long
+            - name: section
+              type:
+                name: int
+            - name: doAggregate
+              type:
+                name: boolean
+            - name: committedStats
+              type:
+                name: List
+                type_args:
+                    - name: ParcelFileDescriptor
+              direction: out
+          return_type:
+            name: long
+        - name: getCommittedStatsMerged
+          transaction_code_offset: 4
+          params:
+            - name: highWaterMarkMs
+              type:
+                name: long
+            - name: section
+              type:
+                name: int
+            - name: doAggregate
+              type:
+                name: boolean
+            - name: committedStats
+              type:
+                name: List
+                type_args:
+                    - name: ParcelFileDescriptor
+              direction: out
+            - name: mergedStats
+              type:
+                name: ProcessStats
+              direction: out
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: getMinAssociationDumpDuration
+          transaction_code_offset: 5
+          return_type:
+            name: long
+parcelables:
+    - name: ProcessStats

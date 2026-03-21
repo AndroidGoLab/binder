@@ -1,0 +1,19 @@
+package: android.telephony.gba
+go_package: android/telephony/gba
+interfaces:
+    - name: IGbaService
+      descriptor: android.telephony.gba.IGbaService
+      methods:
+        - name: authenticationRequest
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: request
+              type:
+                name: GbaAuthRequest
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: GbaAuthRequest
+    - name: UaSecurityProtocolIdentifier

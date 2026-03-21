@@ -47,6 +47,7 @@ func (p *SensitiveContentProtectionManagerProxy) SetSensitiveContentProtection(
 	isShowingSensitiveContent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensitiveContentProtectionManager)
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteString16(packageName)
@@ -64,7 +65,8 @@ func (p *SensitiveContentProtectionManagerProxy) SetSensitiveContentProtection(
 // SensitiveContentProtectionManagerStub dispatches incoming binder transactions
 // to a typed ISensitiveContentProtectionManager implementation.
 type SensitiveContentProtectionManagerStub struct {
-	Impl ISensitiveContentProtectionManager
+	Impl      ISensitiveContentProtectionManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SensitiveContentProtectionManagerStub)(nil)
@@ -78,14 +80,20 @@ func (s *SensitiveContentProtectionManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISensitiveContentProtectionManagerSetSensitiveContentProtection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -95,8 +103,7 @@ func (s *SensitiveContentProtectionManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetSensitiveContentProtection(ctx, _arg_windowToken, _arg_packageName, _arg_isShowingSensitiveContent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

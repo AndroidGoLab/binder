@@ -26,6 +26,8 @@ func Evaluate(
 		if len(e.Value) == 0 {
 			return int64(0), nil
 		}
+		// The lexer already resolves escape sequences, so e.Value
+		// contains the actual character byte. Use it directly.
 		return int64(e.Value[0]), nil
 
 	case *BoolLiteral:
@@ -107,7 +109,8 @@ func evaluateUnary(
 func evaluateBinaryLazy(
 	e *BinaryExpr,
 ) (any, error) {
-	if e.Op == TokenAmpAmp {
+	switch e.Op {
+	case TokenAmpAmp:
 		left, err := Evaluate(e.Left)
 		if err != nil {
 			return nil, err
@@ -128,9 +131,8 @@ func evaluateBinaryLazy(
 			return nil, fmt.Errorf("%s: logical AND: %w", e.TokenPos, err)
 		}
 		return rb, nil
-	}
 
-	if e.Op == TokenPipePipe {
+	case TokenPipePipe:
 		left, err := Evaluate(e.Left)
 		if err != nil {
 			return nil, err
@@ -151,9 +153,10 @@ func evaluateBinaryLazy(
 			return nil, fmt.Errorf("%s: logical OR: %w", e.TokenPos, err)
 		}
 		return rb, nil
-	}
 
-	return evaluateBinary(e)
+	default:
+		return evaluateBinary(e)
+	}
 }
 
 func evaluateBinary(
@@ -260,11 +263,17 @@ func evaluateBinary(
 
 	case TokenLShift:
 		if bothInt {
+			if rightInt < 0 || rightInt > 63 {
+				return int64(0), nil
+			}
 			return leftInt << uint(rightInt), nil
 		}
 
 	case TokenRShift:
 		if bothInt {
+			if rightInt < 0 || rightInt > 63 {
+				return int64(0), nil
+			}
 			return leftInt >> uint(rightInt), nil
 		}
 
@@ -366,13 +375,29 @@ func toBool(
 	}
 }
 
+// aidlIntSuffixes lists AIDL typed integer suffixes to strip during parsing.
+// These include unsigned (u8, u16, u32, u64) and signed (i8, i16, i32, i64)
+// suffixes. Longer suffixes are listed first so they match before shorter
+// ones.
+var aidlIntSuffixes = []string{
+	"u64", "u32", "u16", "u8",
+	"i64", "i32", "i16", "i8",
+}
+
 // parseIntString parses an integer literal string (decimal, hex, octal, binary)
-// with optional L/l suffix.
+// with optional L/l or AIDL typed integer suffixes (u8, u32, i64, etc.).
 func parseIntString(
 	s string,
 ) (int64, error) {
-	// Strip long suffix.
-	s = strings.TrimRight(s, "Ll")
+	// Strip AIDL typed integer suffixes (e.g. 42u8, 0xFFi32).
+	for _, suffix := range aidlIntSuffixes {
+		if strings.HasSuffix(s, suffix) {
+			s = s[:len(s)-len(suffix)]
+			break
+		}
+	}
+	// Strip long suffix (at most one 'L' or 'l').
+	s = strings.TrimSuffix(strings.TrimSuffix(s, "L"), "l")
 	if s == "" {
 		return 0, fmt.Errorf("empty integer literal")
 	}

@@ -61,6 +61,7 @@ func (p *QuickAccessWalletServiceProxy) OnWalletCardsRequested(
 	callback IQuickAccessWalletServiceCallbacks,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -82,6 +83,7 @@ func (p *QuickAccessWalletServiceProxy) OnWalletCardSelected(
 	request SelectWalletCardRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -101,6 +103,7 @@ func (p *QuickAccessWalletServiceProxy) OnWalletDismissed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQuickAccessWalletService, MethodIQuickAccessWalletServiceOnWalletDismissed)
@@ -118,6 +121,7 @@ func (p *QuickAccessWalletServiceProxy) RegisterWalletServiceEventListener(
 	callback IQuickAccessWalletServiceCallbacks,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -139,6 +143,7 @@ func (p *QuickAccessWalletServiceProxy) UnregisterWalletServiceEventListener(
 	request WalletServiceEventListenerRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -159,6 +164,7 @@ func (p *QuickAccessWalletServiceProxy) OnTargetActivityIntentRequested(
 	callbacks IQuickAccessWalletServiceCallbacks,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletService)
 	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
@@ -174,7 +180,8 @@ func (p *QuickAccessWalletServiceProxy) OnTargetActivityIntentRequested(
 // QuickAccessWalletServiceStub dispatches incoming binder transactions
 // to a typed IQuickAccessWalletService implementation.
 type QuickAccessWalletServiceStub struct {
-	Impl IQuickAccessWalletService
+	Impl      IQuickAccessWalletService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*QuickAccessWalletServiceStub)(nil)
@@ -188,11 +195,12 @@ func (s *QuickAccessWalletServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIQuickAccessWalletServiceOnWalletCardsRequested:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request GetWalletCardsRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -205,16 +213,17 @@ func (s *QuickAccessWalletServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IQuickAccessWalletServiceCallbacks
-		_ = _arg_callback
-		_err := s.Impl.OnWalletCardsRequested(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIQuickAccessWalletServiceOnWalletCardSelected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewQuickAccessWalletServiceCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.OnWalletCardsRequested(ctx, _arg_request, _arg_callback)
+		return nil, _err
+	case TransactionIQuickAccessWalletServiceOnWalletCardSelected:
 		var _arg_request SelectWalletCardRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -228,19 +237,11 @@ func (s *QuickAccessWalletServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnWalletCardSelected(ctx, _arg_request)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIQuickAccessWalletServiceOnWalletDismissed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnWalletDismissed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIQuickAccessWalletServiceRegisterWalletServiceEventListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request WalletServiceEventListenerRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -253,16 +254,17 @@ func (s *QuickAccessWalletServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IQuickAccessWalletServiceCallbacks
-		_ = _arg_callback
-		_err := s.Impl.RegisterWalletServiceEventListener(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIQuickAccessWalletServiceUnregisterWalletServiceEventListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewQuickAccessWalletServiceCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.RegisterWalletServiceEventListener(ctx, _arg_request, _arg_callback)
+		return nil, _err
+	case TransactionIQuickAccessWalletServiceUnregisterWalletServiceEventListener:
 		var _arg_request WalletServiceEventListenerRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -276,18 +278,18 @@ func (s *QuickAccessWalletServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.UnregisterWalletServiceEventListener(ctx, _arg_request)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIQuickAccessWalletServiceOnTargetActivityIntentRequested:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IQuickAccessWalletServiceCallbacks
-		_ = _arg_callbacks
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewQuickAccessWalletServiceCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
+		}
 		_err := s.Impl.OnTargetActivityIntentRequested(ctx, _arg_callbacks)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -45,6 +45,7 @@ func (p *AppCallbackProxy) OnTagDiscovered(
 	tag Tag,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppCallback)
 	_data.WriteInt32(1)
 	if _err := tag.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *AppCallbackProxy) OnTagDiscovered(
 // AppCallbackStub dispatches incoming binder transactions
 // to a typed IAppCallback implementation.
 type AppCallbackStub struct {
-	Impl IAppCallback
+	Impl      IAppCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AppCallbackStub)(nil)
@@ -77,11 +79,12 @@ func (s *AppCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAppCallbackOnTagDiscovered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_tag Tag
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *AppCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnTagDiscovered(ctx, _arg_tag)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

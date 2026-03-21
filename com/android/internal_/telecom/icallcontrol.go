@@ -72,6 +72,7 @@ func (p *CallControlProxy) SetActive(
 	callback os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -95,6 +96,7 @@ func (p *CallControlProxy) Answer(
 	callback os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteInt32(videoState)
 	_data.WriteString16(callId)
@@ -118,6 +120,7 @@ func (p *CallControlProxy) SetInactive(
 	callback os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -141,6 +144,7 @@ func (p *CallControlProxy) Disconnect(
 	callback os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -167,6 +171,7 @@ func (p *CallControlProxy) StartCallStreaming(
 	callback os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -189,6 +194,7 @@ func (p *CallControlProxy) RequestCallEndpointChange(
 	callback os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteInt32(1)
 	if _err := callEndpoint.MarshalParcel(_data); _err != nil {
@@ -214,6 +220,7 @@ func (p *CallControlProxy) SetMuteState(
 	callback os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteBool(isMuted)
 	_data.WriteInt32(1)
@@ -237,6 +244,7 @@ func (p *CallControlProxy) SendEvent(
 	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteString16(callId)
 	_data.WriteString16(event)
@@ -261,6 +269,7 @@ func (p *CallControlProxy) RequestVideoState(
 	callback os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteInt32(videoState)
 	_data.WriteString16(callId)
@@ -281,7 +290,8 @@ func (p *CallControlProxy) RequestVideoState(
 // CallControlStub dispatches incoming binder transactions
 // to a typed ICallControl implementation.
 type CallControlStub struct {
-	Impl ICallControl
+	Impl      ICallControl
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CallControlStub)(nil)
@@ -295,11 +305,12 @@ func (s *CallControlStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICallControlSetActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -317,12 +328,8 @@ func (s *CallControlStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetActive(ctx, _arg_callId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallControlAnswer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_videoState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -344,12 +351,8 @@ func (s *CallControlStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.Answer(ctx, _arg_videoState, _arg_callId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallControlSetInactive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -367,12 +370,8 @@ func (s *CallControlStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetInactive(ctx, _arg_callId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallControlDisconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -402,12 +401,8 @@ func (s *CallControlStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.Disconnect(ctx, _arg_callId, _arg_disconnectCause, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallControlStartCallStreaming:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -425,12 +420,8 @@ func (s *CallControlStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StartCallStreaming(ctx, _arg_callId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallControlRequestCallEndpointChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_callEndpoint androidTelecom.CallEndpoint
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -456,12 +447,8 @@ func (s *CallControlStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RequestCallEndpointChange(ctx, _arg_callEndpoint, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallControlSetMuteState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isMuted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -479,12 +466,8 @@ func (s *CallControlStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetMuteState(ctx, _arg_isMuted, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallControlSendEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -506,12 +489,8 @@ func (s *CallControlStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SendEvent(ctx, _arg_callId, _arg_event, _arg_extras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallControlRequestVideoState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_videoState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -533,8 +512,7 @@ func (s *CallControlStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.RequestVideoState(ctx, _arg_videoState, _arg_callId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	audioCommon "github.com/xaionaro-go/binder/android/hardware/audio/common"
-	coreIStreamIn "github.com/xaionaro-go/binder/android/hardware/audio/core/IStreamIn"
 	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -42,8 +41,8 @@ type IStreamIn interface {
 	AsBinder() binder.IBinder
 	GetStreamCommon(ctx context.Context) (IStreamCommon, error)
 	GetActiveMicrophones(ctx context.Context) ([]common.MicrophoneDynamicInfo, error)
-	GetMicrophoneDirection(ctx context.Context) (coreIStreamIn.MicrophoneDirection, error)
-	SetMicrophoneDirection(ctx context.Context, direction coreIStreamIn.MicrophoneDirection) error
+	GetMicrophoneDirection(ctx context.Context) (IStreamInMicrophoneDirection, error)
+	SetMicrophoneDirection(ctx context.Context, direction IStreamInMicrophoneDirection) error
 	GetMicrophoneFieldDimension(ctx context.Context) (float32, error)
 	SetMicrophoneFieldDimension(ctx context.Context, zoom float32) error
 	UpdateMetadata(ctx context.Context, sinkMetadata audioCommon.SinkMetadata) error
@@ -80,6 +79,7 @@ func (p *StreamInProxy) GetStreamCommon(
 ) (IStreamCommon, error) {
 	var _result IStreamCommon
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInGetStreamCommon)
@@ -110,6 +110,7 @@ func (p *StreamInProxy) GetActiveMicrophones(
 ) ([]common.MicrophoneDynamicInfo, error) {
 	var _result []common.MicrophoneDynamicInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInGetActiveMicrophones)
@@ -131,6 +132,9 @@ func (p *StreamInProxy) GetActiveMicrophones(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]common.MicrophoneDynamicInfo, _count)
@@ -148,9 +152,10 @@ func (p *StreamInProxy) GetActiveMicrophones(
 
 func (p *StreamInProxy) GetMicrophoneDirection(
 	ctx context.Context,
-) (coreIStreamIn.MicrophoneDirection, error) {
-	var _result coreIStreamIn.MicrophoneDirection
+) (IStreamInMicrophoneDirection, error) {
+	var _result IStreamInMicrophoneDirection
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInGetMicrophoneDirection)
@@ -172,15 +177,16 @@ func (p *StreamInProxy) GetMicrophoneDirection(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = coreIStreamIn.MicrophoneDirection(_raw)
+	_result = IStreamInMicrophoneDirection(_raw)
 	return _result, nil
 }
 
 func (p *StreamInProxy) SetMicrophoneDirection(
 	ctx context.Context,
-	direction coreIStreamIn.MicrophoneDirection,
+	direction IStreamInMicrophoneDirection,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 	_data.WriteInt32(int32(direction))
 
@@ -207,6 +213,7 @@ func (p *StreamInProxy) GetMicrophoneFieldDimension(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInGetMicrophoneFieldDimension)
@@ -236,6 +243,7 @@ func (p *StreamInProxy) SetMicrophoneFieldDimension(
 	zoom float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 	_data.WriteFloat32(zoom)
 
@@ -262,6 +270,7 @@ func (p *StreamInProxy) UpdateMetadata(
 	sinkMetadata audioCommon.SinkMetadata,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 	_data.WriteInt32(1)
 	if _err := sinkMetadata.MarshalParcel(_data); _err != nil {
@@ -291,6 +300,7 @@ func (p *StreamInProxy) GetHwGain(
 ) ([]float32, error) {
 	var _result []float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInGetHwGain)
@@ -312,6 +322,9 @@ func (p *StreamInProxy) GetHwGain(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]float32, _count)
@@ -330,6 +343,7 @@ func (p *StreamInProxy) SetHwGain(
 	channelGains []float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 	if channelGains == nil {
 		_data.WriteInt32(-1)
@@ -361,7 +375,8 @@ func (p *StreamInProxy) SetHwGain(
 // StreamInStub dispatches incoming binder transactions
 // to a typed IStreamIn implementation.
 type StreamInStub struct {
-	Impl IStreamIn
+	Impl      IStreamIn
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StreamInStub)(nil)
@@ -375,11 +390,12 @@ func (s *StreamInStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStreamInGetStreamCommon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetStreamCommon(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -387,13 +403,9 @@ func (s *StreamInStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIStreamInGetActiveMicrophones:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetActiveMicrophones(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -401,13 +413,19 @@ func (s *StreamInStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIStreamInGetMicrophoneDirection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMicrophoneDirection(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -418,14 +436,11 @@ func (s *StreamInStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIStreamInSetMicrophoneDirection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_direction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_direction := coreIStreamIn.MicrophoneDirection(_raw_direction)
+		_arg_direction := IStreamInMicrophoneDirection(_raw_direction)
 		_err = s.Impl.SetMicrophoneDirection(ctx, _arg_direction)
 		_reply := parcel.New()
 		if _err != nil {
@@ -435,9 +450,6 @@ func (s *StreamInStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamInGetMicrophoneFieldDimension:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMicrophoneFieldDimension(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -448,9 +460,6 @@ func (s *StreamInStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIStreamInSetMicrophoneFieldDimension:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_zoom, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -464,9 +473,6 @@ func (s *StreamInStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamInUpdateMetadata:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sinkMetadata audioCommon.SinkMetadata
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -488,9 +494,6 @@ func (s *StreamInStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamInGetHwGain:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHwGain(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -498,16 +501,35 @@ func (s *StreamInStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteFloat32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIStreamInSetHwGain:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_channelGains []float32
-		_ = _arg_channelGains
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_channelGains = make([]float32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_channelGains[_i], _err = _data.ReadFloat32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetHwGain(ctx, _arg_channelGains)
 		_reply := parcel.New()
 		if _err != nil {
@@ -527,8 +549,8 @@ func (s *StreamInStub) OnTransaction(
 type IStreamInServer interface {
 	GetStreamCommon(ctx context.Context) (IStreamCommon, error)
 	GetActiveMicrophones(ctx context.Context) ([]common.MicrophoneDynamicInfo, error)
-	GetMicrophoneDirection(ctx context.Context) (coreIStreamIn.MicrophoneDirection, error)
-	SetMicrophoneDirection(ctx context.Context, direction coreIStreamIn.MicrophoneDirection) error
+	GetMicrophoneDirection(ctx context.Context) (IStreamInMicrophoneDirection, error)
+	SetMicrophoneDirection(ctx context.Context, direction IStreamInMicrophoneDirection) error
 	GetMicrophoneFieldDimension(ctx context.Context) (float32, error)
 	SetMicrophoneFieldDimension(ctx context.Context, zoom float32) error
 	UpdateMetadata(ctx context.Context, sinkMetadata audioCommon.SinkMetadata) error
@@ -559,13 +581,13 @@ func (w *streamInStubWrapper) GetActiveMicrophones(
 
 func (w *streamInStubWrapper) GetMicrophoneDirection(
 	ctx context.Context,
-) (coreIStreamIn.MicrophoneDirection, error) {
+) (IStreamInMicrophoneDirection, error) {
 	return w.impl.GetMicrophoneDirection(ctx)
 }
 
 func (w *streamInStubWrapper) SetMicrophoneDirection(
 	ctx context.Context,
-	direction coreIStreamIn.MicrophoneDirection,
+	direction IStreamInMicrophoneDirection,
 ) error {
 	return w.impl.SetMicrophoneDirection(ctx, direction)
 }

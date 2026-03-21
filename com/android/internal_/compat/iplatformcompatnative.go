@@ -56,6 +56,7 @@ func (p *PlatformCompatNativeProxy) ReportChangeByPackageName(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompatNative)
 	_data.WriteInt64(changeId)
 	_data.WriteString16(packageName)
@@ -85,6 +86,7 @@ func (p *PlatformCompatNativeProxy) ReportChangeByUid(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompatNative)
 	_data.WriteInt64(changeId)
 	_data.WriteInt32(uid)
@@ -115,6 +117,7 @@ func (p *PlatformCompatNativeProxy) IsChangeEnabledByPackageName(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompatNative)
 	_data.WriteInt64(changeId)
 	_data.WriteString16(packageName)
@@ -149,6 +152,7 @@ func (p *PlatformCompatNativeProxy) IsChangeEnabledByUid(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompatNative)
 	_data.WriteInt64(changeId)
 	_data.WriteInt32(uid)
@@ -178,7 +182,8 @@ func (p *PlatformCompatNativeProxy) IsChangeEnabledByUid(
 // PlatformCompatNativeStub dispatches incoming binder transactions
 // to a typed IPlatformCompatNative implementation.
 type PlatformCompatNativeStub struct {
-	Impl IPlatformCompatNative
+	Impl      IPlatformCompatNative
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PlatformCompatNativeStub)(nil)
@@ -192,11 +197,12 @@ func (s *PlatformCompatNativeStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPlatformCompatNativeReportChangeByPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -217,9 +223,6 @@ func (s *PlatformCompatNativeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatNativeReportChangeByUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -237,9 +240,6 @@ func (s *PlatformCompatNativeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatNativeIsChangeEnabledByPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -261,9 +261,6 @@ func (s *PlatformCompatNativeStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPlatformCompatNativeIsChangeEnabledByUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err

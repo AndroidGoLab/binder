@@ -45,6 +45,7 @@ func (p *SatelliteModemStateCallbackProxy) OnSatelliteModemStateChanged(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteModemStateCallback)
 	_data.WriteInt32(state)
 
@@ -60,7 +61,8 @@ func (p *SatelliteModemStateCallbackProxy) OnSatelliteModemStateChanged(
 // SatelliteModemStateCallbackStub dispatches incoming binder transactions
 // to a typed ISatelliteModemStateCallback implementation.
 type SatelliteModemStateCallbackStub struct {
-	Impl ISatelliteModemStateCallback
+	Impl      ISatelliteModemStateCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SatelliteModemStateCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *SatelliteModemStateCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISatelliteModemStateCallbackOnSatelliteModemStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSatelliteModemStateChanged(ctx, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

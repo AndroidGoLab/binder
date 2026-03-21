@@ -57,6 +57,7 @@ func (p *EArcProxy) SetEArcEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEArc)
 	_data.WriteBool(enabled)
 
@@ -83,6 +84,7 @@ func (p *EArcProxy) IsEArcEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEArc)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEArc, MethodIEArcIsEArcEnabled)
@@ -112,6 +114,7 @@ func (p *EArcProxy) SetCallback(
 	callback IEArcCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEArc)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -139,6 +142,7 @@ func (p *EArcProxy) GetState(
 ) (IEArcStatus, error) {
 	var _result IEArcStatus
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEArc)
 	_data.WriteInt32(portId)
 
@@ -171,6 +175,7 @@ func (p *EArcProxy) GetLastReportedAudioCapabilities(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEArc)
 	_data.WriteInt32(portId)
 
@@ -189,19 +194,9 @@ func (p *EArcProxy) GetLastReportedAudioCapabilities(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -209,7 +204,8 @@ func (p *EArcProxy) GetLastReportedAudioCapabilities(
 // EArcStub dispatches incoming binder transactions
 // to a typed IEArc implementation.
 type EArcStub struct {
-	Impl IEArc
+	Impl      IEArc
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EArcStub)(nil)
@@ -223,11 +219,12 @@ func (s *EArcStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEArcSetEArcEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -241,9 +238,6 @@ func (s *EArcStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEArcIsEArcEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsEArcEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -254,12 +248,14 @@ func (s *EArcStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIEArcSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IEArcCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewEArcCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -269,9 +265,6 @@ func (s *EArcStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEArcGetState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -286,9 +279,6 @@ func (s *EArcStub) OnTransaction(
 		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionIEArcGetLastReportedAudioCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -300,8 +290,7 @@ func (s *EArcStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

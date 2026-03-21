@@ -1,6 +1,7 @@
 package media
 
 import (
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +10,7 @@ import (
 type SoundTriggerSession struct {
 	Session  int32
 	IoHandle int32
-	Device   interface{}
+	Device   common.AudioDeviceDescription
 }
 
 var _ parcel.Parcelable = (*SoundTriggerSession)(nil)
@@ -20,6 +21,9 @@ func (s *SoundTriggerSession) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Session)
 	p.WriteInt32(s.IoHandle)
+	if _err := s.Device.MarshalParcel(p); _err != nil {
+		return _err
+	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -33,13 +37,32 @@ func (s *SoundTriggerSession) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Session, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IoHandle, _err = p.ReadInt32()
 	if _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.Device.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

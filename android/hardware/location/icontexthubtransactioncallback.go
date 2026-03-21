@@ -49,6 +49,7 @@ func (p *ContextHubTransactionCallbackProxy) OnQueryResponse(
 	nanoappList []NanoAppState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubTransactionCallback)
 	_data.WriteInt32(result)
 	if nanoappList == nil {
@@ -77,6 +78,7 @@ func (p *ContextHubTransactionCallbackProxy) OnTransactionComplete(
 	result int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubTransactionCallback)
 	_data.WriteInt32(result)
 
@@ -92,7 +94,8 @@ func (p *ContextHubTransactionCallbackProxy) OnTransactionComplete(
 // ContextHubTransactionCallbackStub dispatches incoming binder transactions
 // to a typed IContextHubTransactionCallback implementation.
 type ContextHubTransactionCallbackStub struct {
-	Impl IContextHubTransactionCallback
+	Impl      IContextHubTransactionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ContextHubTransactionCallbackStub)(nil)
@@ -106,32 +109,46 @@ func (s *ContextHubTransactionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIContextHubTransactionCallbackOnQueryResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_nanoappList []NanoAppState
-		_ = _arg_nanoappList
-		_err = s.Impl.OnQueryResponse(ctx, _arg_result, _arg_nanoappList)
-		_ = _err
-		return nil, nil
-	case TransactionIContextHubTransactionCallbackOnTransactionComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_nanoappList = make([]NanoAppState, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_nanoappList[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.OnQueryResponse(ctx, _arg_result, _arg_nanoappList)
+		return nil, _err
+	case TransactionIContextHubTransactionCallbackOnTransactionComplete:
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTransactionComplete(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

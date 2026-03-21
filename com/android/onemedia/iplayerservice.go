@@ -61,6 +61,7 @@ func (p *PlayerServiceProxy) GetSessionToken(
 ) (session.MediaSessionToken, error) {
 	var _result session.MediaSessionToken
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayerService, MethodIPlayerServiceGetSessionToken)
@@ -95,6 +96,7 @@ func (p *PlayerServiceProxy) RegisterCallback(
 	cb IPlayerCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayerService)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
@@ -121,6 +123,7 @@ func (p *PlayerServiceProxy) UnregisterCallback(
 	cb IPlayerCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayerService)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
@@ -149,6 +152,7 @@ func (p *PlayerServiceProxy) SendRequest(
 	cb extension.IRequestCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayerService)
 	_data.WriteString16(action)
 	_data.WriteInt32(1)
@@ -180,6 +184,7 @@ func (p *PlayerServiceProxy) SetIcon(
 	icon graphics.Bitmap,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayerService)
 	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
@@ -207,7 +212,8 @@ func (p *PlayerServiceProxy) SetIcon(
 // PlayerServiceStub dispatches incoming binder transactions
 // to a typed IPlayerService implementation.
 type PlayerServiceStub struct {
-	Impl IPlayerService
+	Impl      IPlayerService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PlayerServiceStub)(nil)
@@ -221,11 +227,12 @@ func (s *PlayerServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPlayerServiceGetSessionToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSessionToken(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -239,12 +246,14 @@ func (s *PlayerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPlayerServiceRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IPlayerCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewPlayerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -254,12 +263,14 @@ func (s *PlayerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlayerServiceUnregisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IPlayerCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewPlayerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err := s.Impl.UnregisterCallback(ctx, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -269,9 +280,6 @@ func (s *PlayerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlayerServiceSendRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_action, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -288,9 +296,14 @@ func (s *PlayerServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb extension.IRequestCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = extension.NewRequestCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err = s.Impl.SendRequest(ctx, _arg_action, _arg_params, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -300,9 +313,6 @@ func (s *PlayerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlayerServiceSetIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_icon graphics.Bitmap
 		{
 			_nullInd, _err := _data.ReadInt32()

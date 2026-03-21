@@ -75,6 +75,7 @@ func (p *AAudioServiceProxy) RegisterClient(
 	client IAAudioClient,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
@@ -103,6 +104,7 @@ func (p *AAudioServiceProxy) OpenStream(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -123,8 +125,16 @@ func (p *AAudioServiceProxy) OpenStream(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = paramsOut.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = paramsOut.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadInt32()
@@ -140,6 +150,7 @@ func (p *AAudioServiceProxy) CloseStream(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
 	_data.WriteInt32(streamHandle)
 
@@ -172,6 +183,7 @@ func (p *AAudioServiceProxy) GetStreamDescription(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
 	_data.WriteInt32(streamHandle)
 
@@ -189,8 +201,16 @@ func (p *AAudioServiceProxy) GetStreamDescription(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = endpoint.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = endpoint.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadInt32()
@@ -206,6 +226,7 @@ func (p *AAudioServiceProxy) StartStream(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
 	_data.WriteInt32(streamHandle)
 
@@ -237,6 +258,7 @@ func (p *AAudioServiceProxy) PauseStream(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
 	_data.WriteInt32(streamHandle)
 
@@ -268,6 +290,7 @@ func (p *AAudioServiceProxy) StopStream(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
 	_data.WriteInt32(streamHandle)
 
@@ -299,6 +322,7 @@ func (p *AAudioServiceProxy) FlushStream(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
 	_data.WriteInt32(streamHandle)
 
@@ -332,6 +356,7 @@ func (p *AAudioServiceProxy) RegisterAudioThread(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
 	_data.WriteInt32(streamHandle)
 	_data.WriteInt32(clientThreadId)
@@ -366,6 +391,7 @@ func (p *AAudioServiceProxy) UnregisterAudioThread(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
 	_data.WriteInt32(streamHandle)
 	_data.WriteInt32(clientThreadId)
@@ -399,6 +425,7 @@ func (p *AAudioServiceProxy) ExitStandby(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioService)
 	_data.WriteInt32(streamHandle)
 
@@ -416,8 +443,16 @@ func (p *AAudioServiceProxy) ExitStandby(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = endpoint.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = endpoint.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadInt32()
@@ -430,7 +465,8 @@ func (p *AAudioServiceProxy) ExitStandby(
 // AAudioServiceStub dispatches incoming binder transactions
 // to a typed IAAudioService implementation.
 type AAudioServiceStub struct {
-	Impl IAAudioService
+	Impl      IAAudioService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AAudioServiceStub)(nil)
@@ -444,14 +480,20 @@ func (s *AAudioServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAAudioServiceRegisterClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IAAudioClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewAAudioClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_err := s.Impl.RegisterClient(ctx, _arg_client)
 		_reply := parcel.New()
 		if _err != nil {
@@ -461,9 +503,6 @@ func (s *AAudioServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAAudioServiceOpenStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request StreamRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -485,11 +524,12 @@ func (s *AAudioServiceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIAAudioServiceCloseStream:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_paramsOut.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIAAudioServiceCloseStream:
 		_arg_streamHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -504,9 +544,6 @@ func (s *AAudioServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAAudioServiceGetStreamDescription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_streamHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -520,11 +557,12 @@ func (s *AAudioServiceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIAAudioServiceStartStream:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_endpoint.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIAAudioServiceStartStream:
 		_arg_streamHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -539,9 +577,6 @@ func (s *AAudioServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAAudioServicePauseStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_streamHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -556,9 +591,6 @@ func (s *AAudioServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAAudioServiceStopStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_streamHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -573,9 +605,6 @@ func (s *AAudioServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAAudioServiceFlushStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_streamHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -590,9 +619,6 @@ func (s *AAudioServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAAudioServiceRegisterAudioThread:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_streamHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -615,9 +641,6 @@ func (s *AAudioServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAAudioServiceUnregisterAudioThread:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_streamHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -636,9 +659,6 @@ func (s *AAudioServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAAudioServiceExitStandby:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_streamHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -652,6 +672,10 @@ func (s *AAudioServiceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
+		_reply.WriteInt32(1)
+		if _err := _arg_endpoint.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

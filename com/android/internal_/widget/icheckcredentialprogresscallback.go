@@ -44,6 +44,7 @@ func (p *CheckCredentialProgressCallbackProxy) OnCredentialVerified(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICheckCredentialProgressCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICheckCredentialProgressCallback, MethodICheckCredentialProgressCallbackOnCredentialVerified)
@@ -58,7 +59,8 @@ func (p *CheckCredentialProgressCallbackProxy) OnCredentialVerified(
 // CheckCredentialProgressCallbackStub dispatches incoming binder transactions
 // to a typed ICheckCredentialProgressCallback implementation.
 type CheckCredentialProgressCallbackStub struct {
-	Impl ICheckCredentialProgressCallback
+	Impl      ICheckCredentialProgressCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CheckCredentialProgressCallbackStub)(nil)
@@ -72,14 +74,14 @@ func (s *CheckCredentialProgressCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICheckCredentialProgressCallbackOnCredentialVerified:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnCredentialVerified(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

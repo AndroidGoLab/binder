@@ -46,6 +46,7 @@ func (p *IncrementalServiceConnectorProxy) SetStorageParams(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncrementalServiceConnector)
 	_data.WriteBool(enableReadLogs)
 
@@ -74,7 +75,8 @@ func (p *IncrementalServiceConnectorProxy) SetStorageParams(
 // IncrementalServiceConnectorStub dispatches incoming binder transactions
 // to a typed IIncrementalServiceConnector implementation.
 type IncrementalServiceConnectorStub struct {
-	Impl IIncrementalServiceConnector
+	Impl      IIncrementalServiceConnector
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*IncrementalServiceConnectorStub)(nil)
@@ -88,11 +90,12 @@ func (s *IncrementalServiceConnectorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIIncrementalServiceConnectorSetStorageParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enableReadLogs, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err

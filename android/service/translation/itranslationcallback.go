@@ -3,6 +3,7 @@ package translation
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/view/translation/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ const (
 
 type ITranslationCallback interface {
 	AsBinder() binder.IBinder
-	OnTranslationResponse(ctx context.Context, translationResponse interface{}) error
+	OnTranslationResponse(ctx context.Context, translationResponse types.TranslationResponse) error
 }
 
 type TranslationCallbackProxy struct {
@@ -42,10 +43,12 @@ var _ ITranslationCallback = (*TranslationCallbackProxy)(nil)
 
 func (p *TranslationCallbackProxy) OnTranslationResponse(
 	ctx context.Context,
-	translationResponse interface{},
+	translationResponse types.TranslationResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranslationCallback)
+	// WARNING: param translationResponse (type types.TranslationResponse) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationCallback, MethodITranslationCallbackOnTranslationResponse)
 	if _err != nil {
@@ -59,7 +62,8 @@ func (p *TranslationCallbackProxy) OnTranslationResponse(
 // TranslationCallbackStub dispatches incoming binder transactions
 // to a typed ITranslationCallback implementation.
 type TranslationCallbackStub struct {
-	Impl ITranslationCallback
+	Impl      ITranslationCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TranslationCallbackStub)(nil)
@@ -73,15 +77,15 @@ func (s *TranslationCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITranslationCallbackOnTranslationResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_translationResponse interface{}
+		var _arg_translationResponse types.TranslationResponse
 		_err := s.Impl.OnTranslationResponse(ctx, _arg_translationResponse)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -91,7 +95,7 @@ func (s *TranslationCallbackStub) OnTransaction(
 // provide to NewTranslationCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ITranslationCallbackServer interface {
-	OnTranslationResponse(ctx context.Context, translationResponse interface{}) error
+	OnTranslationResponse(ctx context.Context, translationResponse types.TranslationResponse) error
 }
 
 type translationCallbackStubWrapper struct {
@@ -105,7 +109,7 @@ func (w *translationCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *translationCallbackStubWrapper) OnTranslationResponse(
 	ctx context.Context,
-	translationResponse interface{},
+	translationResponse types.TranslationResponse,
 ) error {
 	return w.impl.OnTranslationResponse(ctx, translationResponse)
 }

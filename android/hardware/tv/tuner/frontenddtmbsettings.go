@@ -46,14 +46,29 @@ func (s *FrontendDtmbSettings) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Frequency, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.EndFrequency, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_inversionRaw, _err := p.ReadInt32()
@@ -62,11 +77,21 @@ func (s *FrontendDtmbSettings) UnmarshalParcel(
 	}
 	s.Inversion = FrontendSpectralInversion(_inversionRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_transmissionModeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.TransmissionMode = FrontendDtmbTransmissionMode(_transmissionModeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_bandwidthRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -74,11 +99,21 @@ func (s *FrontendDtmbSettings) UnmarshalParcel(
 	}
 	s.Bandwidth = FrontendDtmbBandwidth(_bandwidthRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_modulationRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Modulation = FrontendDtmbModulation(_modulationRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_codeRateRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -86,11 +121,21 @@ func (s *FrontendDtmbSettings) UnmarshalParcel(
 	}
 	s.CodeRate = FrontendDtmbCodeRate(_codeRateRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_guardIntervalRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.GuardInterval = FrontendDtmbGuardInterval(_guardIntervalRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_interleaveModeRaw, _err := p.ReadInt32()
 	if _err != nil {

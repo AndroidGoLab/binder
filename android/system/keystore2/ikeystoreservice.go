@@ -71,6 +71,7 @@ func (p *KeystoreServiceProxy) GetSecurityLevel(
 ) (IKeystoreSecurityLevel, error) {
 	var _result IKeystoreSecurityLevel
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreService)
 	_data.WriteInt32(int32(securityLevel))
 
@@ -103,6 +104,7 @@ func (p *KeystoreServiceProxy) GetKeyEntry(
 ) (KeyEntryResponse, error) {
 	var _result KeyEntryResponse
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreService)
 	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
@@ -143,27 +145,14 @@ func (p *KeystoreServiceProxy) UpdateSubcomponent(
 	certificateChain []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreService)
 	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	if publicCert == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(publicCert)))
-		for _, _item := range publicCert {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if certificateChain == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(certificateChain)))
-		for _, _item := range certificateChain {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(publicCert)
+	_data.WriteByteArray(certificateChain)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreService, MethodIKeystoreServiceUpdateSubcomponent)
 	if _err != nil {
@@ -190,6 +179,7 @@ func (p *KeystoreServiceProxy) ListEntries(
 ) ([]KeyDescriptor, error) {
 	var _result []KeyDescriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreService)
 	_data.WriteInt32(int32(domain))
 	_data.WriteInt64(nspace)
@@ -213,6 +203,9 @@ func (p *KeystoreServiceProxy) ListEntries(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]KeyDescriptor, _count)
@@ -233,6 +226,7 @@ func (p *KeystoreServiceProxy) DeleteKey(
 	key KeyDescriptor,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreService)
 	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
@@ -265,6 +259,7 @@ func (p *KeystoreServiceProxy) Grant(
 ) (KeyDescriptor, error) {
 	var _result KeyDescriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreService)
 	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
@@ -306,6 +301,7 @@ func (p *KeystoreServiceProxy) Ungrant(
 	granteeUid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreService)
 	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
@@ -338,6 +334,7 @@ func (p *KeystoreServiceProxy) GetNumberOfEntries(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreService)
 	_data.WriteInt32(int32(domain))
 	_data.WriteInt64(nspace)
@@ -372,6 +369,7 @@ func (p *KeystoreServiceProxy) ListEntriesBatched(
 ) ([]KeyDescriptor, error) {
 	var _result []KeyDescriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreService)
 	_data.WriteInt32(int32(domain))
 	_data.WriteInt64(nspace)
@@ -396,6 +394,9 @@ func (p *KeystoreServiceProxy) ListEntriesBatched(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]KeyDescriptor, _count)
@@ -414,7 +415,8 @@ func (p *KeystoreServiceProxy) ListEntriesBatched(
 // KeystoreServiceStub dispatches incoming binder transactions
 // to a typed IKeystoreService implementation.
 type KeystoreServiceStub struct {
-	Impl IKeystoreService
+	Impl      IKeystoreService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*KeystoreServiceStub)(nil)
@@ -428,11 +430,12 @@ func (s *KeystoreServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIKeystoreServiceGetSecurityLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_securityLevel, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -445,13 +448,9 @@ func (s *KeystoreServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIKeystoreServiceGetKeyEntry:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_key KeyDescriptor
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -477,9 +476,6 @@ func (s *KeystoreServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeystoreServiceUpdateSubcomponent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_key KeyDescriptor
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -492,12 +488,22 @@ func (s *KeystoreServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_publicCert []byte
-		_ = _arg_publicCert
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_publicCert = _bytes
+		}
 		var _arg_certificateChain []byte
-		_ = _arg_certificateChain
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_certificateChain = _bytes
+		}
 		_err := s.Impl.UpdateSubcomponent(ctx, _arg_key, _arg_publicCert, _arg_certificateChain)
 		_reply := parcel.New()
 		if _err != nil {
@@ -507,9 +513,6 @@ func (s *KeystoreServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeystoreServiceListEntries:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_domain, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -526,13 +529,19 @@ func (s *KeystoreServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIKeystoreServiceDeleteKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_key KeyDescriptor
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -554,9 +563,6 @@ func (s *KeystoreServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeystoreServiceGrant:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_key KeyDescriptor
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -590,9 +596,6 @@ func (s *KeystoreServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeystoreServiceUngrant:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_key KeyDescriptor
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -618,9 +621,6 @@ func (s *KeystoreServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeystoreServiceGetNumberOfEntries:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_domain, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -640,9 +640,6 @@ func (s *KeystoreServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIKeystoreServiceListEntriesBatched:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_domain, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -663,8 +660,17 @@ func (s *KeystoreServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

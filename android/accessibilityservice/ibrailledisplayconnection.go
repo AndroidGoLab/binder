@@ -47,6 +47,7 @@ func (p *BrailleDisplayConnectionProxy) Disconnect(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBrailleDisplayConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBrailleDisplayConnection, MethodIBrailleDisplayConnectionDisconnect)
@@ -63,15 +64,9 @@ func (p *BrailleDisplayConnectionProxy) Write(
 	output []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBrailleDisplayConnection)
-	if output == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(output)))
-		for _, _item := range output {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(output)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBrailleDisplayConnection, MethodIBrailleDisplayConnectionWrite)
 	if _err != nil {
@@ -85,7 +80,8 @@ func (p *BrailleDisplayConnectionProxy) Write(
 // BrailleDisplayConnectionStub dispatches incoming binder transactions
 // to a typed IBrailleDisplayConnection implementation.
 type BrailleDisplayConnectionStub struct {
-	Impl IBrailleDisplayConnection
+	Impl      IBrailleDisplayConnection
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BrailleDisplayConnectionStub)(nil)
@@ -99,24 +95,25 @@ func (s *BrailleDisplayConnectionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBrailleDisplayConnectionDisconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Disconnect(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBrailleDisplayConnectionWrite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_output []byte
-		_ = _arg_output
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_output = _bytes
+		}
 		_err := s.Impl.Write(ctx, _arg_output)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

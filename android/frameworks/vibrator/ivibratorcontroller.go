@@ -47,6 +47,7 @@ func (p *VibratorControllerProxy) RequestVibrationParams(
 	requestToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorController)
 	_data.WriteInt32(typesMask)
 	_data.WriteInt64(deadlineElapsedRealtimeMillis)
@@ -64,7 +65,8 @@ func (p *VibratorControllerProxy) RequestVibrationParams(
 // VibratorControllerStub dispatches incoming binder transactions
 // to a typed IVibratorController implementation.
 type VibratorControllerStub struct {
-	Impl IVibratorController
+	Impl      IVibratorController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VibratorControllerStub)(nil)
@@ -78,11 +80,12 @@ func (s *VibratorControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVibratorControllerRequestVibrationParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_typesMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -91,12 +94,16 @@ func (s *VibratorControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_requestToken binder.IBinder
-		_ = _arg_requestToken
+		{
+			_requestTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_requestToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _requestTokenHandle)
+		}
 		_err = s.Impl.RequestVibrationParams(ctx, _arg_typesMask, _arg_deadlineElapsedRealtimeMillis, _arg_requestToken)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

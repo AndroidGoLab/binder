@@ -45,9 +45,19 @@ func (s *P2pGoNegotiationReqEventParams) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SrcAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_passwordIdRaw, _err := p.ReadInt32()
@@ -55,6 +65,11 @@ func (s *P2pGoNegotiationReqEventParams) UnmarshalParcel(
 		return _err
 	}
 	s.PasswordId = WpsDevPasswordId(_passwordIdRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count1 int32
 	_count1, _err = p.ReadInt32()

@@ -56,6 +56,7 @@ func (p *CapabilityExchangeEventListenerProxy) OnRequestPublishCapabilities(
 	publishTriggerType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICapabilityExchangeEventListener)
 	_data.WriteInt32(publishTriggerType)
 
@@ -72,6 +73,7 @@ func (p *CapabilityExchangeEventListenerProxy) OnUnpublish(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICapabilityExchangeEventListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICapabilityExchangeEventListener, MethodICapabilityExchangeEventListenerOnUnpublish)
@@ -88,6 +90,7 @@ func (p *CapabilityExchangeEventListenerProxy) OnPublishUpdated(
 	details ims.SipDetails,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICapabilityExchangeEventListener)
 	_data.WriteInt32(1)
 	if _err := details.MarshalParcel(_data); _err != nil {
@@ -110,6 +113,7 @@ func (p *CapabilityExchangeEventListenerProxy) OnRemoteCapabilityRequest(
 	cb IOptionsRequestCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICapabilityExchangeEventListener)
 	_data.WriteInt32(1)
 	if _err := contactUri.MarshalParcel(_data); _err != nil {
@@ -137,7 +141,8 @@ func (p *CapabilityExchangeEventListenerProxy) OnRemoteCapabilityRequest(
 // CapabilityExchangeEventListenerStub dispatches incoming binder transactions
 // to a typed ICapabilityExchangeEventListener implementation.
 type CapabilityExchangeEventListenerStub struct {
-	Impl ICapabilityExchangeEventListener
+	Impl      ICapabilityExchangeEventListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CapabilityExchangeEventListenerStub)(nil)
@@ -151,29 +156,22 @@ func (s *CapabilityExchangeEventListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICapabilityExchangeEventListenerOnRequestPublishCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_publishTriggerType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRequestPublishCapabilities(ctx, _arg_publishTriggerType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICapabilityExchangeEventListenerOnUnpublish:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnUnpublish(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICapabilityExchangeEventListenerOnPublishUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_details ims.SipDetails
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -187,12 +185,8 @@ func (s *CapabilityExchangeEventListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnPublishUpdated(ctx, _arg_details)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICapabilityExchangeEventListenerOnRemoteCapabilityRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_contactUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -205,15 +199,35 @@ func (s *CapabilityExchangeEventListenerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_remoteCapabilities []string
-		_ = _arg_remoteCapabilities
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_remoteCapabilities = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_remoteCapabilities[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_cb IOptionsRequestCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewOptionsRequestCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err := s.Impl.OnRemoteCapabilityRequest(ctx, _arg_contactUri, _arg_remoteCapabilities, _arg_cb)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

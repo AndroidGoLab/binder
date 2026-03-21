@@ -3,6 +3,7 @@ package ondeviceintelligence
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -27,7 +28,7 @@ type IStreamingResponseCallback interface {
 	AsBinder() binder.IBinder
 	OnNewContent(ctx context.Context, result Content) error
 	OnSuccess(ctx context.Context, result Content) error
-	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams interface{}) error
+	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams os.PersistableBundle) error
 }
 
 type StreamingResponseCallbackProxy struct {
@@ -51,6 +52,7 @@ func (p *StreamingResponseCallbackProxy) OnNewContent(
 	result Content,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamingResponseCallback)
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -80,6 +82,7 @@ func (p *StreamingResponseCallbackProxy) OnSuccess(
 	result Content,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamingResponseCallback)
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -108,12 +111,17 @@ func (p *StreamingResponseCallbackProxy) OnFailure(
 	ctx context.Context,
 	errorCode int32,
 	errorMessage string,
-	errorParams interface{},
+	errorParams os.PersistableBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamingResponseCallback)
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
+	_data.WriteInt32(1)
+	if _err := errorParams.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamingResponseCallback, MethodIStreamingResponseCallbackOnFailure)
 	if _err != nil {
@@ -136,7 +144,8 @@ func (p *StreamingResponseCallbackProxy) OnFailure(
 // StreamingResponseCallbackStub dispatches incoming binder transactions
 // to a typed IStreamingResponseCallback implementation.
 type StreamingResponseCallbackStub struct {
-	Impl IStreamingResponseCallback
+	Impl      IStreamingResponseCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StreamingResponseCallbackStub)(nil)
@@ -150,11 +159,12 @@ func (s *StreamingResponseCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStreamingResponseCallbackOnNewContent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_result Content
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -176,9 +186,6 @@ func (s *StreamingResponseCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamingResponseCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_result Content
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -200,9 +207,6 @@ func (s *StreamingResponseCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamingResponseCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -211,7 +215,18 @@ func (s *StreamingResponseCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_errorParams interface{}
+		var _arg_errorParams os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_errorParams.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnFailure(ctx, _arg_errorCode, _arg_errorMessage, _arg_errorParams)
 		_reply := parcel.New()
 		if _err != nil {
@@ -231,7 +246,7 @@ func (s *StreamingResponseCallbackStub) OnTransaction(
 type IStreamingResponseCallbackServer interface {
 	OnNewContent(ctx context.Context, result Content) error
 	OnSuccess(ctx context.Context, result Content) error
-	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams interface{}) error
+	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams os.PersistableBundle) error
 }
 
 type streamingResponseCallbackStubWrapper struct {
@@ -261,7 +276,7 @@ func (w *streamingResponseCallbackStubWrapper) OnFailure(
 	ctx context.Context,
 	errorCode int32,
 	errorMessage string,
-	errorParams interface{},
+	errorParams os.PersistableBundle,
 ) error {
 	return w.impl.OnFailure(ctx, errorCode, errorMessage, errorParams)
 }

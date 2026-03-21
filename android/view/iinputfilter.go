@@ -51,6 +51,7 @@ func (p *InputFilterProxy) Install(
 	host IInputFilterHost,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
 	binder.WriteBinderToParcel(ctx, _data, host.AsBinder(), p.Remote.Transport())
 
@@ -67,6 +68,7 @@ func (p *InputFilterProxy) Uninstall(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilter, MethodIInputFilterUninstall)
@@ -84,6 +86,7 @@ func (p *InputFilterProxy) FilterInputEvent(
 	policyFlags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -103,7 +106,8 @@ func (p *InputFilterProxy) FilterInputEvent(
 // InputFilterStub dispatches incoming binder transactions
 // to a typed IInputFilter implementation.
 type InputFilterStub struct {
-	Impl IInputFilter
+	Impl      IInputFilter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputFilterStub)(nil)
@@ -117,28 +121,26 @@ func (s *InputFilterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputFilterInstall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_host IInputFilterHost
-		_ = _arg_host
+		{
+			_hostHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_host = NewInputFilterHostProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _hostHandle))
+		}
 		_err := s.Impl.Install(ctx, _arg_host)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputFilterUninstall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Uninstall(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputFilterFilterInputEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event InputEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -156,8 +158,7 @@ func (s *InputFilterStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.FilterInputEvent(ctx, _arg_event, _arg_policyFlags)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

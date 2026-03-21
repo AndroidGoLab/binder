@@ -55,6 +55,7 @@ func (p *CallStreamingServiceProxy) SetStreamingCallAdapter(
 	streamingCallAdapter IStreamingCallAdapter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallStreamingService)
 	binder.WriteBinderToParcel(ctx, _data, streamingCallAdapter.AsBinder(), p.Remote.Transport())
 
@@ -72,6 +73,7 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStarted(
 	call androidTelecom.StreamingCall,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallStreamingService)
 	_data.WriteInt32(1)
 	if _err := call.MarshalParcel(_data); _err != nil {
@@ -91,6 +93,7 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStopped(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallStreamingService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallStreamingService, MethodICallStreamingServiceOnCallStreamingStopped)
@@ -107,6 +110,7 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStateChanged(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallStreamingService)
 	_data.WriteInt32(state)
 
@@ -122,7 +126,8 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStateChanged(
 // CallStreamingServiceStub dispatches incoming binder transactions
 // to a typed ICallStreamingService implementation.
 type CallStreamingServiceStub struct {
-	Impl ICallStreamingService
+	Impl      ICallStreamingService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CallStreamingServiceStub)(nil)
@@ -136,21 +141,23 @@ func (s *CallStreamingServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICallStreamingServiceSetStreamingCallAdapter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_streamingCallAdapter IStreamingCallAdapter
-		_ = _arg_streamingCallAdapter
-		_err := s.Impl.SetStreamingCallAdapter(ctx, _arg_streamingCallAdapter)
-		_ = _err
-		return nil, nil
-	case TransactionICallStreamingServiceOnCallStreamingStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_streamingCallAdapterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_streamingCallAdapter = NewStreamingCallAdapterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _streamingCallAdapterHandle))
 		}
+		_err := s.Impl.SetStreamingCallAdapter(ctx, _arg_streamingCallAdapter)
+		return nil, _err
+	case TransactionICallStreamingServiceOnCallStreamingStarted:
 		var _arg_call androidTelecom.StreamingCall
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -164,26 +171,17 @@ func (s *CallStreamingServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnCallStreamingStarted(ctx, _arg_call)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallStreamingServiceOnCallStreamingStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnCallStreamingStopped(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallStreamingServiceOnCallStreamingStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnCallStreamingStateChanged(ctx, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

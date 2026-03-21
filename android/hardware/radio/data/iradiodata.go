@@ -91,6 +91,7 @@ func (p *RadioDataProxy) AllocatePduSessionId(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 
@@ -109,6 +110,7 @@ func (p *RadioDataProxy) CancelHandover(
 	callId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(callId)
@@ -129,6 +131,7 @@ func (p *RadioDataProxy) DeactivateDataCall(
 	reason DataRequestReason,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(cid)
@@ -148,6 +151,7 @@ func (p *RadioDataProxy) GetDataCallList(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 
@@ -165,6 +169,7 @@ func (p *RadioDataProxy) GetSlicingConfig(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 
@@ -183,6 +188,7 @@ func (p *RadioDataProxy) ReleasePduSessionId(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(id)
@@ -200,6 +206,7 @@ func (p *RadioDataProxy) ResponseAcknowledgement(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioData, MethodIRadioDataResponseAcknowledgement)
@@ -217,6 +224,7 @@ func (p *RadioDataProxy) SetDataAllowed(
 	allow bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 	_data.WriteBool(allow)
@@ -236,6 +244,7 @@ func (p *RadioDataProxy) SetDataProfile(
 	profiles []DataProfileInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 	if profiles == nil {
@@ -266,6 +275,7 @@ func (p *RadioDataProxy) SetDataThrottling(
 	completionDurationMillis int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 	_data.WritePaddedByte(byte(dataThrottlingAction))
@@ -286,9 +296,11 @@ func (p *RadioDataProxy) SetInitialAttachApn(
 	dataProfileInfo *DataProfileInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 	if dataProfileInfo != nil {
+		_data.WriteInt32(1)
 		if _err := (*dataProfileInfo).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -311,6 +323,7 @@ func (p *RadioDataProxy) SetResponseFunctions(
 	radioDataIndication IRadioDataIndication,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	binder.WriteBinderToParcel(ctx, _data, radioDataResponse.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, radioDataIndication.AsBinder(), p.Remote.Transport())
@@ -338,6 +351,7 @@ func (p *RadioDataProxy) SetupDataCall(
 	matchAllRuleAllowed bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(accessNetwork))
@@ -368,6 +382,7 @@ func (p *RadioDataProxy) SetupDataCall(
 	}
 	_data.WriteInt32(pduSessionId)
 	if sliceInfo != nil {
+		_data.WriteInt32(1)
 		if _err := (*sliceInfo).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -391,6 +406,7 @@ func (p *RadioDataProxy) StartHandover(
 	callId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(callId)
@@ -410,6 +426,7 @@ func (p *RadioDataProxy) StartKeepalive(
 	keepalive KeepaliveRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(1)
@@ -432,6 +449,7 @@ func (p *RadioDataProxy) StopKeepalive(
 	sessionHandle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(sessionHandle)
@@ -448,7 +466,8 @@ func (p *RadioDataProxy) StopKeepalive(
 // RadioDataStub dispatches incoming binder transactions
 // to a typed IRadioData implementation.
 type RadioDataStub struct {
-	Impl IRadioData
+	Impl      IRadioData
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RadioDataStub)(nil)
@@ -462,22 +481,19 @@ func (s *RadioDataStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRadioDataAllocatePduSessionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AllocatePduSessionId(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioDataCancelHandover:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -487,12 +503,8 @@ func (s *RadioDataStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.CancelHandover(ctx, _arg_serial, _arg_callId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioDataDeactivateDataCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -507,34 +519,22 @@ func (s *RadioDataStub) OnTransaction(
 		}
 		_arg_reason := DataRequestReason(_raw_reason)
 		_err = s.Impl.DeactivateDataCall(ctx, _arg_serial, _arg_cid, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioDataGetDataCallList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetDataCallList(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioDataGetSlicingConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetSlicingConfig(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioDataReleasePduSessionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -544,19 +544,11 @@ func (s *RadioDataStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ReleasePduSessionId(ctx, _arg_serial, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioDataResponseAcknowledgement:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResponseAcknowledgement(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioDataSetDataAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -566,26 +558,36 @@ func (s *RadioDataStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetDataAllowed(ctx, _arg_serial, _arg_allow)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioDataSetDataProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_profiles []DataProfileInfo
-		_ = _arg_profiles
-		_err = s.Impl.SetDataProfile(ctx, _arg_serial, _arg_profiles)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioDataSetDataThrottling:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_profiles = make([]DataProfileInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_profiles[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.SetDataProfile(ctx, _arg_serial, _arg_profiles)
+		return nil, _err
+	case TransactionIRadioDataSetDataThrottling:
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -600,12 +602,8 @@ func (s *RadioDataStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetDataThrottling(ctx, _arg_serial, _arg_dataThrottlingAction, _arg_completionDurationMillis)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioDataSetInitialAttachApn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -617,31 +615,34 @@ func (s *RadioDataStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_dataProfileInfo = new(DataProfileInfo)
 				if _err = _arg_dataProfileInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		_err = s.Impl.SetInitialAttachApn(ctx, _arg_serial, _arg_dataProfileInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioDataSetResponseFunctions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_radioDataResponse IRadioDataResponse
-		_ = _arg_radioDataResponse
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_radioDataIndication IRadioDataIndication
-		_ = _arg_radioDataIndication
-		_err := s.Impl.SetResponseFunctions(ctx, _arg_radioDataResponse, _arg_radioDataIndication)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioDataSetupDataCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_radioDataResponseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_radioDataResponse = NewRadioDataResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _radioDataResponseHandle))
 		}
+		var _arg_radioDataIndication IRadioDataIndication
+		{
+			_radioDataIndicationHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_radioDataIndication = NewRadioDataIndicationProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _radioDataIndicationHandle))
+		}
+		_err := s.Impl.SetResponseFunctions(ctx, _arg_radioDataResponse, _arg_radioDataIndication)
+		return nil, _err
+	case TransactionIRadioDataSetupDataCall:
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -672,12 +673,46 @@ func (s *RadioDataStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_reason := DataRequestReason(_raw_reason)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_addresses []LinkAddress
-		_ = _arg_addresses
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_addresses = make([]LinkAddress, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_addresses[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_dnses []string
-		_ = _arg_dnses
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_dnses = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_dnses[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_pduSessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -689,6 +724,7 @@ func (s *RadioDataStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_sliceInfo = new(SliceInfo)
 				if _err = _arg_sliceInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -699,12 +735,8 @@ func (s *RadioDataStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetupDataCall(ctx, _arg_serial, _arg_accessNetwork, _arg_dataProfileInfo, _arg_roamingAllowed, _arg_reason, _arg_addresses, _arg_dnses, _arg_pduSessionId, _arg_sliceInfo, _arg_matchAllRuleAllowed)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioDataStartHandover:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -714,12 +746,8 @@ func (s *RadioDataStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.StartHandover(ctx, _arg_serial, _arg_callId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioDataStartKeepalive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -737,12 +765,8 @@ func (s *RadioDataStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StartKeepalive(ctx, _arg_serial, _arg_keepalive)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioDataStopKeepalive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -752,8 +776,7 @@ func (s *RadioDataStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.StopKeepalive(ctx, _arg_serial, _arg_sessionHandle)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

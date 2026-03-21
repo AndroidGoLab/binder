@@ -45,6 +45,7 @@ func (p *GarbageCollectCallbackProxy) OnFinish(
 	result Result,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGarbageCollectCallback)
 	_data.WriteInt32(int32(result))
 
@@ -60,7 +61,8 @@ func (p *GarbageCollectCallbackProxy) OnFinish(
 // GarbageCollectCallbackStub dispatches incoming binder transactions
 // to a typed IGarbageCollectCallback implementation.
 type GarbageCollectCallbackStub struct {
-	Impl IGarbageCollectCallback
+	Impl      IGarbageCollectCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GarbageCollectCallbackStub)(nil)
@@ -74,19 +76,19 @@ func (s *GarbageCollectCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGarbageCollectCallbackOnFinish:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_result := Result(_raw_result)
 		_err = s.Impl.OnFinish(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

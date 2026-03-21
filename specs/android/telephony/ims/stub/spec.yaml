@@ -1,0 +1,4 @@
+package: android.telephony.ims.stub
+go_package: android/telephony/ims/stub
+parcelables:
+    - name: ImsFeatureConfiguration

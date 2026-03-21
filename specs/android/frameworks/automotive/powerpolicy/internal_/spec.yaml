@@ -1,0 +1,56 @@
+package: android.frameworks.automotive.powerpolicy.internal
+go_package: android/frameworks/automotive/powerpolicy/internal_
+interfaces:
+    - name: ICarPowerPolicySystemNotification
+      descriptor: android.frameworks.automotive.powerpolicy.internal.ICarPowerPolicySystemNotification
+      methods:
+        - name: notifyCarServiceReady
+          transaction_code_offset: 0
+          return_type:
+            name: PolicyState
+        - name: notifyPowerPolicyChange
+          transaction_code_offset: 1
+          params:
+            - name: policyId
+              type:
+                name: String
+              direction: in
+            - name: force
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: notifyPowerPolicyDefinition
+          transaction_code_offset: 2
+          params:
+            - name: policyId
+              type:
+                name: String
+              direction: in
+            - name: enabledComponents
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: disabledComponents
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: PolicyState
+      fields:
+        - name: policyId
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: policyGroupId
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      annotations:
+        - VintfStability

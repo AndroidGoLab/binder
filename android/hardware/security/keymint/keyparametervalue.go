@@ -57,8 +57,7 @@ func (u *KeyParameterValue) GetInvalid() (int32, bool) {
 func (u *KeyParameterValue) SetInvalid(
 	v int32,
 ) {
-	u.Tag = KeyParameterValueTagInvalid
-	u.Invalid = v
+	*u = KeyParameterValue{Tag: KeyParameterValueTagInvalid, Invalid: v}
 }
 
 func (u *KeyParameterValue) GetAlgorithm() (Algorithm, bool) {
@@ -72,8 +71,7 @@ func (u *KeyParameterValue) GetAlgorithm() (Algorithm, bool) {
 func (u *KeyParameterValue) SetAlgorithm(
 	v Algorithm,
 ) {
-	u.Tag = KeyParameterValueTagAlgorithm
-	u.Algorithm = v
+	*u = KeyParameterValue{Tag: KeyParameterValueTagAlgorithm, Algorithm: v}
 }
 
 func (u *KeyParameterValue) GetBlockMode() (BlockMode, bool) {
@@ -87,8 +85,7 @@ func (u *KeyParameterValue) GetBlockMode() (BlockMode, bool) {
 func (u *KeyParameterValue) SetBlockMode(
 	v BlockMode,
 ) {
-	u.Tag = KeyParameterValueTagBlockMode
-	u.BlockMode = v
+	*u = KeyParameterValue{Tag: KeyParameterValueTagBlockMode, BlockMode: v}
 }
 
 func (u *KeyParameterValue) GetPaddingMode() (PaddingMode, bool) {
@@ -102,8 +99,7 @@ func (u *KeyParameterValue) GetPaddingMode() (PaddingMode, bool) {
 func (u *KeyParameterValue) SetPaddingMode(
 	v PaddingMode,
 ) {
-	u.Tag = KeyParameterValueTagPaddingMode
-	u.PaddingMode = v
+	*u = KeyParameterValue{Tag: KeyParameterValueTagPaddingMode, PaddingMode: v}
 }
 
 func (u *KeyParameterValue) GetDigest() (Digest, bool) {
@@ -117,8 +113,7 @@ func (u *KeyParameterValue) GetDigest() (Digest, bool) {
 func (u *KeyParameterValue) SetDigest(
 	v Digest,
 ) {
-	u.Tag = KeyParameterValueTagDigest
-	u.Digest = v
+	*u = KeyParameterValue{Tag: KeyParameterValueTagDigest, Digest: v}
 }
 
 func (u *KeyParameterValue) GetEcCurve() (EcCurve, bool) {
@@ -132,8 +127,7 @@ func (u *KeyParameterValue) GetEcCurve() (EcCurve, bool) {
 func (u *KeyParameterValue) SetEcCurve(
 	v EcCurve,
 ) {
-	u.Tag = KeyParameterValueTagEcCurve
-	u.EcCurve = v
+	*u = KeyParameterValue{Tag: KeyParameterValueTagEcCurve, EcCurve: v}
 }
 
 func (u *KeyParameterValue) GetOrigin() (KeyOrigin, bool) {
@@ -147,8 +141,7 @@ func (u *KeyParameterValue) GetOrigin() (KeyOrigin, bool) {
 func (u *KeyParameterValue) SetOrigin(
 	v KeyOrigin,
 ) {
-	u.Tag = KeyParameterValueTagOrigin
-	u.Origin = v
+	*u = KeyParameterValue{Tag: KeyParameterValueTagOrigin, Origin: v}
 }
 
 func (u *KeyParameterValue) GetKeyPurpose() (KeyPurpose, bool) {
@@ -162,8 +155,7 @@ func (u *KeyParameterValue) GetKeyPurpose() (KeyPurpose, bool) {
 func (u *KeyParameterValue) SetKeyPurpose(
 	v KeyPurpose,
 ) {
-	u.Tag = KeyParameterValueTagKeyPurpose
-	u.KeyPurpose = v
+	*u = KeyParameterValue{Tag: KeyParameterValueTagKeyPurpose, KeyPurpose: v}
 }
 
 func (u *KeyParameterValue) GetHardwareAuthenticatorType() (HardwareAuthenticatorType, bool) {
@@ -177,8 +169,7 @@ func (u *KeyParameterValue) GetHardwareAuthenticatorType() (HardwareAuthenticato
 func (u *KeyParameterValue) SetHardwareAuthenticatorType(
 	v HardwareAuthenticatorType,
 ) {
-	u.Tag = KeyParameterValueTagHardwareAuthenticatorType
-	u.HardwareAuthenticatorType = v
+	*u = KeyParameterValue{Tag: KeyParameterValueTagHardwareAuthenticatorType, HardwareAuthenticatorType: v}
 }
 
 func (u *KeyParameterValue) GetSecurityLevel() (SecurityLevel, bool) {
@@ -192,8 +183,7 @@ func (u *KeyParameterValue) GetSecurityLevel() (SecurityLevel, bool) {
 func (u *KeyParameterValue) SetSecurityLevel(
 	v SecurityLevel,
 ) {
-	u.Tag = KeyParameterValueTagSecurityLevel
-	u.SecurityLevel = v
+	*u = KeyParameterValue{Tag: KeyParameterValueTagSecurityLevel, SecurityLevel: v}
 }
 
 func (u *KeyParameterValue) GetBoolValue() (bool, bool) {
@@ -207,8 +197,7 @@ func (u *KeyParameterValue) GetBoolValue() (bool, bool) {
 func (u *KeyParameterValue) SetBoolValue(
 	v bool,
 ) {
-	u.Tag = KeyParameterValueTagBoolValue
-	u.BoolValue = v
+	*u = KeyParameterValue{Tag: KeyParameterValueTagBoolValue, BoolValue: v}
 }
 
 func (u *KeyParameterValue) GetInteger() (int32, bool) {
@@ -222,8 +211,7 @@ func (u *KeyParameterValue) GetInteger() (int32, bool) {
 func (u *KeyParameterValue) SetInteger(
 	v int32,
 ) {
-	u.Tag = KeyParameterValueTagInteger
-	u.Integer = v
+	*u = KeyParameterValue{Tag: KeyParameterValueTagInteger, Integer: v}
 }
 
 func (u *KeyParameterValue) GetLongInteger() (int64, bool) {
@@ -237,8 +225,7 @@ func (u *KeyParameterValue) GetLongInteger() (int64, bool) {
 func (u *KeyParameterValue) SetLongInteger(
 	v int64,
 ) {
-	u.Tag = KeyParameterValueTagLongInteger
-	u.LongInteger = v
+	*u = KeyParameterValue{Tag: KeyParameterValueTagLongInteger, LongInteger: v}
 }
 
 func (u *KeyParameterValue) GetDateTime() (int64, bool) {
@@ -252,8 +239,7 @@ func (u *KeyParameterValue) GetDateTime() (int64, bool) {
 func (u *KeyParameterValue) SetDateTime(
 	v int64,
 ) {
-	u.Tag = KeyParameterValueTagDateTime
-	u.DateTime = v
+	*u = KeyParameterValue{Tag: KeyParameterValueTagDateTime, DateTime: v}
 }
 
 func (u *KeyParameterValue) GetBlob() ([]byte, bool) {
@@ -267,8 +253,7 @@ func (u *KeyParameterValue) GetBlob() ([]byte, bool) {
 func (u *KeyParameterValue) SetBlob(
 	v []byte,
 ) {
-	u.Tag = KeyParameterValueTagBlob
-	u.Blob = v
+	*u = KeyParameterValue{Tag: KeyParameterValueTagBlob, Blob: v}
 }
 
 func (u *KeyParameterValue) MarshalParcel(

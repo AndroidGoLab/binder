@@ -21,6 +21,11 @@ type TypeRef struct {
 	// IsNullable indicates the @nullable annotation.
 	IsNullable bool `yaml:"is_nullable,omitempty"`
 
+	// Annotations holds type-level annotation names beyond @nullable
+	// (e.g., "utf8InCpp"). The @nullable annotation is NOT included
+	// here — it is represented by IsNullable.
+	Annotations []string `yaml:"annotations,omitempty"`
+
 	// TypeArgs holds generic type arguments (e.g., List<T> → TypeArgs=[T]).
 	TypeArgs []TypeRef `yaml:"type_args,omitempty"`
 }

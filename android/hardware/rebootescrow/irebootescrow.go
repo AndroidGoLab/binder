@@ -48,15 +48,9 @@ func (p *RebootEscrowProxy) StoreKey(
 	kek []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRebootEscrow)
-	if kek == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(kek)))
-		for _, _item := range kek {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(kek)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRebootEscrow, MethodIRebootEscrowStoreKey)
 	if _err != nil {
@@ -81,6 +75,7 @@ func (p *RebootEscrowProxy) RetrieveKey(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRebootEscrow)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRebootEscrow, MethodIRebootEscrowRetrieveKey)
@@ -98,19 +93,9 @@ func (p *RebootEscrowProxy) RetrieveKey(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -118,7 +103,8 @@ func (p *RebootEscrowProxy) RetrieveKey(
 // RebootEscrowStub dispatches incoming binder transactions
 // to a typed IRebootEscrow implementation.
 type RebootEscrowStub struct {
-	Impl IRebootEscrow
+	Impl      IRebootEscrow
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RebootEscrowStub)(nil)
@@ -132,14 +118,20 @@ func (s *RebootEscrowStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRebootEscrowStoreKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_kek []byte
-		_ = _arg_kek
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_kek = _bytes
+		}
 		_err := s.Impl.StoreKey(ctx, _arg_kek)
 		_reply := parcel.New()
 		if _err != nil {
@@ -149,9 +141,6 @@ func (s *RebootEscrowStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRebootEscrowRetrieveKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.RetrieveKey(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -159,8 +148,7 @@ func (s *RebootEscrowStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

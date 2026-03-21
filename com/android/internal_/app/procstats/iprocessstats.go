@@ -61,6 +61,7 @@ func (p *ProcessStatsProxy) GetCurrentStats(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessStats, MethodIProcessStatsGetCurrentStats)
@@ -81,6 +82,9 @@ func (p *ProcessStatsProxy) GetCurrentStats(
 	if _err != nil {
 		return _result, _err
 	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		historic = make([]int32, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -91,19 +95,9 @@ func (p *ProcessStatsProxy) GetCurrentStats(
 		}
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -114,6 +108,7 @@ func (p *ProcessStatsProxy) GetStatsOverTime(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
 	_data.WriteInt64(minTime)
 
@@ -144,6 +139,7 @@ func (p *ProcessStatsProxy) GetCurrentMemoryState(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessStats, MethodIProcessStatsGetCurrentMemoryState)
@@ -177,6 +173,7 @@ func (p *ProcessStatsProxy) GetCommittedStats(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
 	_data.WriteInt64(highWaterMarkMs)
 	_data.WriteInt32(section)
@@ -199,6 +196,9 @@ func (p *ProcessStatsProxy) GetCommittedStats(
 	_outCount0, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
 	}
 	if _outCount0 >= 0 {
 		committedStats = make([]int32, _outCount0)
@@ -227,6 +227,7 @@ func (p *ProcessStatsProxy) GetCommittedStatsMerged(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
 	_data.WriteInt64(highWaterMarkMs)
 	_data.WriteInt32(section)
@@ -250,6 +251,9 @@ func (p *ProcessStatsProxy) GetCommittedStatsMerged(
 	if _err != nil {
 		return _result, _err
 	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		committedStats = make([]int32, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -259,8 +263,16 @@ func (p *ProcessStatsProxy) GetCommittedStatsMerged(
 			}
 		}
 	}
-	if _err = mergedStats.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = mergedStats.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadInt64()
@@ -275,6 +287,7 @@ func (p *ProcessStatsProxy) GetMinAssociationDumpDuration(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessStats, MethodIProcessStatsGetMinAssociationDumpDuration)
@@ -302,7 +315,8 @@ func (p *ProcessStatsProxy) GetMinAssociationDumpDuration(
 // ProcessStatsStub dispatches incoming binder transactions
 // to a typed IProcessStats implementation.
 type ProcessStatsStub struct {
-	Impl IProcessStats
+	Impl      IProcessStats
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ProcessStatsStub)(nil)
@@ -316,11 +330,12 @@ func (s *ProcessStatsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIProcessStatsGetCurrentStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_historic []int32
 		_result, _err := s.Impl.GetCurrentStats(ctx, _arg_historic)
 		_reply := parcel.New()
@@ -329,13 +344,17 @@ func (s *ProcessStatsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
+		if _arg_historic == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_historic)))
+			for _, _item := range _arg_historic {
+				_reply.WriteFileDescriptor(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIProcessStatsGetStatsOverTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_minTime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -350,9 +369,6 @@ func (s *ProcessStatsStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIProcessStatsGetCurrentMemoryState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentMemoryState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -363,9 +379,6 @@ func (s *ProcessStatsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIProcessStatsGetCommittedStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_highWaterMarkMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -387,11 +400,16 @@ func (s *ProcessStatsStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt64(_result)
+		if _arg_committedStats == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_committedStats)))
+			for _, _item := range _arg_committedStats {
+				_reply.WriteFileDescriptor(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIProcessStatsGetCommittedStatsMerged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_highWaterMarkMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -414,11 +432,20 @@ func (s *ProcessStatsStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt64(_result)
-		return _reply, nil
-	case TransactionIProcessStatsGetMinAssociationDumpDuration:
-		if _, _err := _data.ReadString16(); _err != nil {
+		if _arg_committedStats == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_committedStats)))
+			for _, _item := range _arg_committedStats {
+				_reply.WriteFileDescriptor(_item)
+			}
+		}
+		_reply.WriteInt32(1)
+		if _err := _arg_mergedStats.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIProcessStatsGetMinAssociationDumpDuration:
 		_result, _err := s.Impl.GetMinAssociationDumpDuration(ctx)
 		_reply := parcel.New()
 		if _err != nil {

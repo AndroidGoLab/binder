@@ -47,6 +47,7 @@ func (p *SetEnabledProvidersCallbackProxy) OnResponse(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISetEnabledProvidersCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISetEnabledProvidersCallback, MethodISetEnabledProvidersCallbackOnResponse)
@@ -64,6 +65,7 @@ func (p *SetEnabledProvidersCallbackProxy) OnError(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISetEnabledProvidersCallback)
 	_data.WriteString16(errorType)
 	_data.WriteString16(message)
@@ -80,7 +82,8 @@ func (p *SetEnabledProvidersCallbackProxy) OnError(
 // SetEnabledProvidersCallbackStub dispatches incoming binder transactions
 // to a typed ISetEnabledProvidersCallback implementation.
 type SetEnabledProvidersCallbackStub struct {
-	Impl ISetEnabledProvidersCallback
+	Impl      ISetEnabledProvidersCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SetEnabledProvidersCallbackStub)(nil)
@@ -94,18 +97,15 @@ func (s *SetEnabledProvidersCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISetEnabledProvidersCallbackOnResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnResponse(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISetEnabledProvidersCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -115,8 +115,7 @@ func (s *SetEnabledProvidersCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_errorType, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -51,6 +51,7 @@ func (p *FooProviderProxy) CreateFoo(
 ) (IFoo, error) {
 	var _result IFoo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFooProvider)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFooProvider, MethodIFooProviderCreateFoo)
@@ -81,6 +82,7 @@ func (p *FooProviderProxy) IsFooGarbageCollected(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFooProvider)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFooProvider, MethodIFooProviderIsFooGarbageCollected)
@@ -109,6 +111,7 @@ func (p *FooProviderProxy) KillProcess(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFooProvider)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFooProvider, MethodIFooProviderKillProcess)
@@ -123,7 +126,8 @@ func (p *FooProviderProxy) KillProcess(
 // FooProviderStub dispatches incoming binder transactions
 // to a typed IFooProvider implementation.
 type FooProviderStub struct {
-	Impl IFooProvider
+	Impl      IFooProvider
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FooProviderStub)(nil)
@@ -137,11 +141,12 @@ func (s *FooProviderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFooProviderCreateFoo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CreateFoo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -149,13 +154,9 @@ func (s *FooProviderStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIFooProviderIsFooGarbageCollected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsFooGarbageCollected(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -166,12 +167,8 @@ func (s *FooProviderStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFooProviderKillProcess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.KillProcess(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

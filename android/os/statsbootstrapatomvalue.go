@@ -39,8 +39,7 @@ func (u *StatsBootstrapAtomValue) GetBoolValue() (bool, bool) {
 func (u *StatsBootstrapAtomValue) SetBoolValue(
 	v bool,
 ) {
-	u.Tag = StatsBootstrapAtomValueTagBoolValue
-	u.BoolValue = v
+	*u = StatsBootstrapAtomValue{Tag: StatsBootstrapAtomValueTagBoolValue, BoolValue: v}
 }
 
 func (u *StatsBootstrapAtomValue) GetIntValue() (int32, bool) {
@@ -54,8 +53,7 @@ func (u *StatsBootstrapAtomValue) GetIntValue() (int32, bool) {
 func (u *StatsBootstrapAtomValue) SetIntValue(
 	v int32,
 ) {
-	u.Tag = StatsBootstrapAtomValueTagIntValue
-	u.IntValue = v
+	*u = StatsBootstrapAtomValue{Tag: StatsBootstrapAtomValueTagIntValue, IntValue: v}
 }
 
 func (u *StatsBootstrapAtomValue) GetLongValue() (int64, bool) {
@@ -69,8 +67,7 @@ func (u *StatsBootstrapAtomValue) GetLongValue() (int64, bool) {
 func (u *StatsBootstrapAtomValue) SetLongValue(
 	v int64,
 ) {
-	u.Tag = StatsBootstrapAtomValueTagLongValue
-	u.LongValue = v
+	*u = StatsBootstrapAtomValue{Tag: StatsBootstrapAtomValueTagLongValue, LongValue: v}
 }
 
 func (u *StatsBootstrapAtomValue) GetFloatValue() (float32, bool) {
@@ -84,8 +81,7 @@ func (u *StatsBootstrapAtomValue) GetFloatValue() (float32, bool) {
 func (u *StatsBootstrapAtomValue) SetFloatValue(
 	v float32,
 ) {
-	u.Tag = StatsBootstrapAtomValueTagFloatValue
-	u.FloatValue = v
+	*u = StatsBootstrapAtomValue{Tag: StatsBootstrapAtomValueTagFloatValue, FloatValue: v}
 }
 
 func (u *StatsBootstrapAtomValue) GetStringValue() (string, bool) {
@@ -99,8 +95,7 @@ func (u *StatsBootstrapAtomValue) GetStringValue() (string, bool) {
 func (u *StatsBootstrapAtomValue) SetStringValue(
 	v string,
 ) {
-	u.Tag = StatsBootstrapAtomValueTagStringValue
-	u.StringValue = v
+	*u = StatsBootstrapAtomValue{Tag: StatsBootstrapAtomValueTagStringValue, StringValue: v}
 }
 
 func (u *StatsBootstrapAtomValue) GetBytesValue() ([]byte, bool) {
@@ -114,8 +109,7 @@ func (u *StatsBootstrapAtomValue) GetBytesValue() ([]byte, bool) {
 func (u *StatsBootstrapAtomValue) SetBytesValue(
 	v []byte,
 ) {
-	u.Tag = StatsBootstrapAtomValueTagBytesValue
-	u.BytesValue = v
+	*u = StatsBootstrapAtomValue{Tag: StatsBootstrapAtomValueTagBytesValue, BytesValue: v}
 }
 
 func (u *StatsBootstrapAtomValue) MarshalParcel(

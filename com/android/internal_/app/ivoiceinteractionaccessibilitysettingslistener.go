@@ -45,6 +45,7 @@ func (p *VoiceInteractionAccessibilitySettingsListenerProxy) OnAccessibilityDete
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionAccessibilitySettingsListener)
 	_data.WriteBool(enable)
 
@@ -60,7 +61,8 @@ func (p *VoiceInteractionAccessibilitySettingsListenerProxy) OnAccessibilityDete
 // VoiceInteractionAccessibilitySettingsListenerStub dispatches incoming binder transactions
 // to a typed IVoiceInteractionAccessibilitySettingsListener implementation.
 type VoiceInteractionAccessibilitySettingsListenerStub struct {
-	Impl IVoiceInteractionAccessibilitySettingsListener
+	Impl      IVoiceInteractionAccessibilitySettingsListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VoiceInteractionAccessibilitySettingsListenerStub)(nil)
@@ -74,18 +76,18 @@ func (s *VoiceInteractionAccessibilitySettingsListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVoiceInteractionAccessibilitySettingsListenerOnAccessibilityDetectionChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAccessibilityDetectionChanged(ctx, _arg_enable)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -31,8 +31,7 @@ func (u *AesCipherMode) GetCbc() (CipherModeParameters, bool) {
 func (u *AesCipherMode) SetCbc(
 	v CipherModeParameters,
 ) {
-	u.Tag = AesCipherModeTagCbc
-	u.Cbc = v
+	*u = AesCipherMode{Tag: AesCipherModeTagCbc, Cbc: v}
 }
 
 func (u *AesCipherMode) GetCtr() (CipherModeParameters, bool) {
@@ -46,8 +45,7 @@ func (u *AesCipherMode) GetCtr() (CipherModeParameters, bool) {
 func (u *AesCipherMode) SetCtr(
 	v CipherModeParameters,
 ) {
-	u.Tag = AesCipherModeTagCtr
-	u.Ctr = v
+	*u = AesCipherMode{Tag: AesCipherModeTagCtr, Ctr: v}
 }
 
 func (u *AesCipherMode) MarshalParcel(

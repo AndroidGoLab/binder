@@ -45,6 +45,7 @@ func (p *RecommendationServiceProxy) RegisterCallbacks(
 	callbacks IRecommendationServiceCallbacks,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecommendationService)
 	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
@@ -60,7 +61,8 @@ func (p *RecommendationServiceProxy) RegisterCallbacks(
 // RecommendationServiceStub dispatches incoming binder transactions
 // to a typed IRecommendationService implementation.
 type RecommendationServiceStub struct {
-	Impl IRecommendationService
+	Impl      IRecommendationService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RecommendationServiceStub)(nil)
@@ -74,17 +76,22 @@ func (s *RecommendationServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRecommendationServiceRegisterCallbacks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IRecommendationServiceCallbacks
-		_ = _arg_callbacks
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewRecommendationServiceCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
+		}
 		_err := s.Impl.RegisterCallbacks(ctx, _arg_callbacks)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

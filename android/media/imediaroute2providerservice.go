@@ -3,6 +3,7 @@ package media
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -40,7 +41,7 @@ type IMediaRoute2ProviderService interface {
 	SetCallback(ctx context.Context, callback IMediaRoute2ProviderServiceCallback) error
 	UpdateDiscoveryPreference(ctx context.Context, discoveryPreference RouteDiscoveryPreference) error
 	SetRouteVolume(ctx context.Context, requestId int64, routeId string, volume int32) error
-	RequestCreateSession(ctx context.Context, requestId int64, packageName string, routeId string, sessionHints *interface{}) error
+	RequestCreateSession(ctx context.Context, requestId int64, packageName string, routeId string, sessionHints *os.Bundle) error
 	SelectRoute(ctx context.Context, requestId int64, sessionId string, routeId string) error
 	DeselectRoute(ctx context.Context, requestId int64, sessionId string, routeId string) error
 	TransferToRoute(ctx context.Context, requestId int64, sessionId string, routeId string) error
@@ -69,6 +70,7 @@ func (p *MediaRoute2ProviderServiceProxy) SetCallback(
 	callback IMediaRoute2ProviderServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -86,6 +88,7 @@ func (p *MediaRoute2ProviderServiceProxy) UpdateDiscoveryPreference(
 	discoveryPreference RouteDiscoveryPreference,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
 	_data.WriteInt32(1)
 	if _err := discoveryPreference.MarshalParcel(_data); _err != nil {
@@ -108,6 +111,7 @@ func (p *MediaRoute2ProviderServiceProxy) SetRouteVolume(
 	volume int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
 	_data.WriteInt64(requestId)
 	_data.WriteString16(routeId)
@@ -127,13 +131,22 @@ func (p *MediaRoute2ProviderServiceProxy) RequestCreateSession(
 	requestId int64,
 	packageName string,
 	routeId string,
-	sessionHints *interface{},
+	sessionHints *os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
 	_data.WriteInt64(requestId)
 	_data.WriteString16(packageName)
 	_data.WriteString16(routeId)
+	if sessionHints != nil {
+		_data.WriteInt32(1)
+		if _err := (*sessionHints).MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceRequestCreateSession)
 	if _err != nil {
@@ -151,6 +164,7 @@ func (p *MediaRoute2ProviderServiceProxy) SelectRoute(
 	routeId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
 	_data.WriteInt64(requestId)
 	_data.WriteString16(sessionId)
@@ -172,6 +186,7 @@ func (p *MediaRoute2ProviderServiceProxy) DeselectRoute(
 	routeId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
 	_data.WriteInt64(requestId)
 	_data.WriteString16(sessionId)
@@ -193,6 +208,7 @@ func (p *MediaRoute2ProviderServiceProxy) TransferToRoute(
 	routeId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
 	_data.WriteInt64(requestId)
 	_data.WriteString16(sessionId)
@@ -214,6 +230,7 @@ func (p *MediaRoute2ProviderServiceProxy) SetSessionVolume(
 	volume int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
 	_data.WriteInt64(requestId)
 	_data.WriteString16(sessionId)
@@ -234,6 +251,7 @@ func (p *MediaRoute2ProviderServiceProxy) ReleaseSession(
 	sessionId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
 	_data.WriteInt64(requestId)
 	_data.WriteString16(sessionId)
@@ -250,7 +268,8 @@ func (p *MediaRoute2ProviderServiceProxy) ReleaseSession(
 // MediaRoute2ProviderServiceStub dispatches incoming binder transactions
 // to a typed IMediaRoute2ProviderService implementation.
 type MediaRoute2ProviderServiceStub struct {
-	Impl IMediaRoute2ProviderService
+	Impl      IMediaRoute2ProviderService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaRoute2ProviderServiceStub)(nil)
@@ -264,21 +283,23 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaRoute2ProviderServiceSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IMediaRoute2ProviderServiceCallback
-		_ = _arg_callback
-		_err := s.Impl.SetCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIMediaRoute2ProviderServiceUpdateDiscoveryPreference:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewMediaRoute2ProviderServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.SetCallback(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIMediaRoute2ProviderServiceUpdateDiscoveryPreference:
 		var _arg_discoveryPreference RouteDiscoveryPreference
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -292,12 +313,8 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.UpdateDiscoveryPreference(ctx, _arg_discoveryPreference)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaRoute2ProviderServiceSetRouteVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -311,12 +328,8 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetRouteVolume(ctx, _arg_requestId, _arg_routeId, _arg_volume)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaRoute2ProviderServiceRequestCreateSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -329,14 +342,22 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionHints *interface{}
-		_err = s.Impl.RequestCreateSession(ctx, _arg_requestId, _arg_packageName, _arg_routeId, _arg_sessionHints)
-		_ = _err
-		return nil, nil
-	case TransactionIMediaRoute2ProviderServiceSelectRoute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_sessionHints *os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				_arg_sessionHints = new(os.Bundle)
+				if _err = _arg_sessionHints.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		_err = s.Impl.RequestCreateSession(ctx, _arg_requestId, _arg_packageName, _arg_routeId, _arg_sessionHints)
+		return nil, _err
+	case TransactionIMediaRoute2ProviderServiceSelectRoute:
 		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -350,12 +371,8 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SelectRoute(ctx, _arg_requestId, _arg_sessionId, _arg_routeId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaRoute2ProviderServiceDeselectRoute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -369,12 +386,8 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.DeselectRoute(ctx, _arg_requestId, _arg_sessionId, _arg_routeId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaRoute2ProviderServiceTransferToRoute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -388,12 +401,8 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.TransferToRoute(ctx, _arg_requestId, _arg_sessionId, _arg_routeId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaRoute2ProviderServiceSetSessionVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -407,12 +416,8 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetSessionVolume(ctx, _arg_requestId, _arg_sessionId, _arg_volume)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaRoute2ProviderServiceReleaseSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -422,8 +427,7 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ReleaseSession(ctx, _arg_requestId, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -436,7 +440,7 @@ type IMediaRoute2ProviderServiceServer interface {
 	SetCallback(ctx context.Context, callback IMediaRoute2ProviderServiceCallback) error
 	UpdateDiscoveryPreference(ctx context.Context, discoveryPreference RouteDiscoveryPreference) error
 	SetRouteVolume(ctx context.Context, requestId int64, routeId string, volume int32) error
-	RequestCreateSession(ctx context.Context, requestId int64, packageName string, routeId string, sessionHints *interface{}) error
+	RequestCreateSession(ctx context.Context, requestId int64, packageName string, routeId string, sessionHints *os.Bundle) error
 	SelectRoute(ctx context.Context, requestId int64, sessionId string, routeId string) error
 	DeselectRoute(ctx context.Context, requestId int64, sessionId string, routeId string) error
 	TransferToRoute(ctx context.Context, requestId int64, sessionId string, routeId string) error
@@ -481,7 +485,7 @@ func (w *mediaRoute2ProviderServiceStubWrapper) RequestCreateSession(
 	requestId int64,
 	packageName string,
 	routeId string,
-	sessionHints *interface{},
+	sessionHints *os.Bundle,
 ) error {
 	return w.impl.RequestCreateSession(ctx, requestId, packageName, routeId, sessionHints)
 }

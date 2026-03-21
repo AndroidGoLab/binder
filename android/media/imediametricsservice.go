@@ -45,15 +45,9 @@ func (p *MediaMetricsServiceProxy) SubmitBuffer(
 	buffer []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsService)
-	if buffer == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(buffer)))
-		for _, _item := range buffer {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(buffer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsService, MethodIMediaMetricsServiceSubmitBuffer)
 	if _err != nil {
@@ -67,7 +61,8 @@ func (p *MediaMetricsServiceProxy) SubmitBuffer(
 // MediaMetricsServiceStub dispatches incoming binder transactions
 // to a typed IMediaMetricsService implementation.
 type MediaMetricsServiceStub struct {
-	Impl IMediaMetricsService
+	Impl      IMediaMetricsService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaMetricsServiceStub)(nil)
@@ -81,17 +76,22 @@ func (s *MediaMetricsServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaMetricsServiceSubmitBuffer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_buffer []byte
-		_ = _arg_buffer
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_buffer = _bytes
+		}
 		_err := s.Impl.SubmitBuffer(ctx, _arg_buffer)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

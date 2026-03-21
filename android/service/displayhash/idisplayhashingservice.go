@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	hardware "github.com/xaionaro-go/binder/android/hardware"
 	os "github.com/xaionaro-go/binder/android/os"
 	viewDisplayhash "github.com/xaionaro-go/binder/android/view/displayhash"
 	"github.com/xaionaro-go/binder/binder"
@@ -30,7 +31,7 @@ const (
 
 type IDisplayHashingService interface {
 	AsBinder() binder.IBinder
-	GenerateDisplayHash(ctx context.Context, salt []byte, buffer interface{}, bounds graphics.Rect, hashAlgorithm string, callback os.RemoteCallback) error
+	GenerateDisplayHash(ctx context.Context, salt []byte, buffer hardware.HardwareBuffer, bounds graphics.Rect, hashAlgorithm string, callback os.RemoteCallback) error
 	VerifyDisplayHash(ctx context.Context, salt []byte, displayHash viewDisplayhash.DisplayHash, callback os.RemoteCallback) error
 	GetDisplayHashAlgorithms(ctx context.Context, callback os.RemoteCallback) error
 	GetIntervalBetweenRequestsMillis(ctx context.Context, callback os.RemoteCallback) error
@@ -55,20 +56,18 @@ var _ IDisplayHashingService = (*DisplayHashingServiceProxy)(nil)
 func (p *DisplayHashingServiceProxy) GenerateDisplayHash(
 	ctx context.Context,
 	salt []byte,
-	buffer interface{},
+	buffer hardware.HardwareBuffer,
 	bounds graphics.Rect,
 	hashAlgorithm string,
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayHashingService)
-	if salt == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(salt)))
-		for _, _item := range salt {
-			_data.WritePaddedByte(_item)
-		}
+	_data.WriteByteArray(salt)
+	_data.WriteInt32(1)
+	if _err := buffer.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
@@ -96,15 +95,9 @@ func (p *DisplayHashingServiceProxy) VerifyDisplayHash(
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayHashingService)
-	if salt == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(salt)))
-		for _, _item := range salt {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(salt)
 	_data.WriteInt32(1)
 	if _err := displayHash.MarshalParcel(_data); _err != nil {
 		return _err
@@ -128,6 +121,7 @@ func (p *DisplayHashingServiceProxy) GetDisplayHashAlgorithms(
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayHashingService)
 	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
@@ -148,6 +142,7 @@ func (p *DisplayHashingServiceProxy) GetIntervalBetweenRequestsMillis(
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayHashingService)
 	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
@@ -166,7 +161,8 @@ func (p *DisplayHashingServiceProxy) GetIntervalBetweenRequestsMillis(
 // DisplayHashingServiceStub dispatches incoming binder transactions
 // to a typed IDisplayHashingService implementation.
 type DisplayHashingServiceStub struct {
-	Impl IDisplayHashingService
+	Impl      IDisplayHashingService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DisplayHashingServiceStub)(nil)
@@ -180,15 +176,32 @@ func (s *DisplayHashingServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDisplayHashingServiceGenerateDisplayHash:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_salt []byte
-		_ = _arg_salt
-		var _arg_buffer interface{}
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_salt = _bytes
+		}
+		var _arg_buffer hardware.HardwareBuffer
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_buffer.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_bounds graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -218,15 +231,16 @@ func (s *DisplayHashingServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.GenerateDisplayHash(ctx, _arg_salt, _arg_buffer, _arg_bounds, _arg_hashAlgorithm, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDisplayHashingServiceVerifyDisplayHash:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_salt []byte
-		_ = _arg_salt
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_salt = _bytes
+		}
 		var _arg_displayHash viewDisplayhash.DisplayHash
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -252,12 +266,8 @@ func (s *DisplayHashingServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.VerifyDisplayHash(ctx, _arg_salt, _arg_displayHash, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDisplayHashingServiceGetDisplayHashAlgorithms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_callback os.RemoteCallback
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -271,12 +281,8 @@ func (s *DisplayHashingServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetDisplayHashAlgorithms(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDisplayHashingServiceGetIntervalBetweenRequestsMillis:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_callback os.RemoteCallback
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -290,8 +296,7 @@ func (s *DisplayHashingServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetIntervalBetweenRequestsMillis(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -301,7 +306,7 @@ func (s *DisplayHashingServiceStub) OnTransaction(
 // provide to NewDisplayHashingServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IDisplayHashingServiceServer interface {
-	GenerateDisplayHash(ctx context.Context, salt []byte, buffer interface{}, bounds graphics.Rect, hashAlgorithm string, callback os.RemoteCallback) error
+	GenerateDisplayHash(ctx context.Context, salt []byte, buffer hardware.HardwareBuffer, bounds graphics.Rect, hashAlgorithm string, callback os.RemoteCallback) error
 	VerifyDisplayHash(ctx context.Context, salt []byte, displayHash viewDisplayhash.DisplayHash, callback os.RemoteCallback) error
 	GetDisplayHashAlgorithms(ctx context.Context, callback os.RemoteCallback) error
 	GetIntervalBetweenRequestsMillis(ctx context.Context, callback os.RemoteCallback) error
@@ -319,7 +324,7 @@ func (w *displayHashingServiceStubWrapper) AsBinder() binder.IBinder {
 func (w *displayHashingServiceStubWrapper) GenerateDisplayHash(
 	ctx context.Context,
 	salt []byte,
-	buffer interface{},
+	buffer hardware.HardwareBuffer,
 	bounds graphics.Rect,
 	hashAlgorithm string,
 	callback os.RemoteCallback,

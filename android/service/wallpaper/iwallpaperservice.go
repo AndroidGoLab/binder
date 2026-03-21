@@ -59,6 +59,7 @@ func (p *WallpaperServiceProxy) Attach(
 	info app.WallpaperInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperService)
 	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
@@ -91,6 +92,7 @@ func (p *WallpaperServiceProxy) Detach(
 	windowToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperService)
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 
@@ -106,7 +108,8 @@ func (p *WallpaperServiceProxy) Detach(
 // WallpaperServiceStub dispatches incoming binder transactions
 // to a typed IWallpaperService implementation.
 type WallpaperServiceStub struct {
-	Impl IWallpaperService
+	Impl      IWallpaperService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WallpaperServiceStub)(nil)
@@ -120,17 +123,28 @@ func (s *WallpaperServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWallpaperServiceAttach:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_connection IWallpaperConnection
-		_ = _arg_connection
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_connectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_connection = NewWallpaperConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _connectionHandle))
+		}
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
+		}
 		_arg_windowType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -180,18 +194,18 @@ func (s *WallpaperServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.Attach(ctx, _arg_connection, _arg_windowToken, _arg_windowType, _arg_isPreview, _arg_reqWidth, _arg_reqHeight, _arg_padding, _arg_displayId, _arg_which, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperServiceDetach:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
+		}
 		_err := s.Impl.Detach(ctx, _arg_windowToken)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

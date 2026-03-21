@@ -3,6 +3,7 @@ package speech
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -43,18 +44,18 @@ const (
 
 type IRecognitionListener interface {
 	AsBinder() binder.IBinder
-	OnReadyForSpeech(ctx context.Context, params interface{}) error
+	OnReadyForSpeech(ctx context.Context, params os.Bundle) error
 	OnBeginningOfSpeech(ctx context.Context) error
 	OnRmsChanged(ctx context.Context, rmsdB float32) error
 	OnBufferReceived(ctx context.Context, buffer []byte) error
 	OnEndOfSpeech(ctx context.Context) error
 	OnError(ctx context.Context, error_ int32) error
-	OnResults(ctx context.Context, results interface{}) error
-	OnPartialResults(ctx context.Context, results interface{}) error
-	OnSegmentResults(ctx context.Context, results interface{}) error
+	OnResults(ctx context.Context, results os.Bundle) error
+	OnPartialResults(ctx context.Context, results os.Bundle) error
+	OnSegmentResults(ctx context.Context, results os.Bundle) error
 	OnEndOfSegmentedSession(ctx context.Context) error
-	OnLanguageDetection(ctx context.Context, results interface{}) error
-	OnEvent(ctx context.Context, eventType int32, params interface{}) error
+	OnLanguageDetection(ctx context.Context, results os.Bundle) error
+	OnEvent(ctx context.Context, eventType int32, params os.Bundle) error
 }
 
 type RecognitionListenerProxy struct {
@@ -75,10 +76,15 @@ var _ IRecognitionListener = (*RecognitionListenerProxy)(nil)
 
 func (p *RecognitionListenerProxy) OnReadyForSpeech(
 	ctx context.Context,
-	params interface{},
+	params os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
+	_data.WriteInt32(1)
+	if _err := params.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnReadyForSpeech)
 	if _err != nil {
@@ -93,6 +99,7 @@ func (p *RecognitionListenerProxy) OnBeginningOfSpeech(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnBeginningOfSpeech)
@@ -109,6 +116,7 @@ func (p *RecognitionListenerProxy) OnRmsChanged(
 	rmsdB float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 	_data.WriteFloat32(rmsdB)
 
@@ -126,15 +134,9 @@ func (p *RecognitionListenerProxy) OnBufferReceived(
 	buffer []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
-	if buffer == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(buffer)))
-		for _, _item := range buffer {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(buffer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnBufferReceived)
 	if _err != nil {
@@ -149,6 +151,7 @@ func (p *RecognitionListenerProxy) OnEndOfSpeech(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnEndOfSpeech)
@@ -165,6 +168,7 @@ func (p *RecognitionListenerProxy) OnError(
 	error_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 	_data.WriteInt32(error_)
 
@@ -179,10 +183,15 @@ func (p *RecognitionListenerProxy) OnError(
 
 func (p *RecognitionListenerProxy) OnResults(
 	ctx context.Context,
-	results interface{},
+	results os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
+	_data.WriteInt32(1)
+	if _err := results.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnResults)
 	if _err != nil {
@@ -195,10 +204,15 @@ func (p *RecognitionListenerProxy) OnResults(
 
 func (p *RecognitionListenerProxy) OnPartialResults(
 	ctx context.Context,
-	results interface{},
+	results os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
+	_data.WriteInt32(1)
+	if _err := results.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnPartialResults)
 	if _err != nil {
@@ -211,10 +225,15 @@ func (p *RecognitionListenerProxy) OnPartialResults(
 
 func (p *RecognitionListenerProxy) OnSegmentResults(
 	ctx context.Context,
-	results interface{},
+	results os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
+	_data.WriteInt32(1)
+	if _err := results.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnSegmentResults)
 	if _err != nil {
@@ -229,6 +248,7 @@ func (p *RecognitionListenerProxy) OnEndOfSegmentedSession(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnEndOfSegmentedSession)
@@ -242,10 +262,15 @@ func (p *RecognitionListenerProxy) OnEndOfSegmentedSession(
 
 func (p *RecognitionListenerProxy) OnLanguageDetection(
 	ctx context.Context,
-	results interface{},
+	results os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
+	_data.WriteInt32(1)
+	if _err := results.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnLanguageDetection)
 	if _err != nil {
@@ -259,11 +284,16 @@ func (p *RecognitionListenerProxy) OnLanguageDetection(
 func (p *RecognitionListenerProxy) OnEvent(
 	ctx context.Context,
 	eventType int32,
-	params interface{},
+	params os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 	_data.WriteInt32(eventType)
+	_data.WriteInt32(1)
+	if _err := params.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnEvent)
 	if _err != nil {
@@ -277,7 +307,8 @@ func (p *RecognitionListenerProxy) OnEvent(
 // RecognitionListenerStub dispatches incoming binder transactions
 // to a typed IRecognitionListener implementation.
 type RecognitionListenerStub struct {
-	Impl IRecognitionListener
+	Impl      IRecognitionListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RecognitionListenerStub)(nil)
@@ -291,112 +322,139 @@ func (s *RecognitionListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRecognitionListenerOnReadyForSpeech:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_params os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_params interface{}
 		_err := s.Impl.OnReadyForSpeech(ctx, _arg_params)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionListenerOnBeginningOfSpeech:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnBeginningOfSpeech(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionListenerOnRmsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rmsdB, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRmsChanged(ctx, _arg_rmsdB)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionListenerOnBufferReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_buffer []byte
-		_ = _arg_buffer
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_buffer = _bytes
+		}
 		_err := s.Impl.OnBufferReceived(ctx, _arg_buffer)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionListenerOnEndOfSpeech:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnEndOfSpeech(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionListenerOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionListenerOnResults:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_results os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_results.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_results interface{}
 		_err := s.Impl.OnResults(ctx, _arg_results)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionListenerOnPartialResults:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_results os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_results.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_results interface{}
 		_err := s.Impl.OnPartialResults(ctx, _arg_results)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionListenerOnSegmentResults:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_results os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_results.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_results interface{}
 		_err := s.Impl.OnSegmentResults(ctx, _arg_results)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionListenerOnEndOfSegmentedSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnEndOfSegmentedSession(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionListenerOnLanguageDetection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_results os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_results.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_results interface{}
 		_err := s.Impl.OnLanguageDetection(ctx, _arg_results)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionListenerOnEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_eventType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_params interface{}
+		var _arg_params os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnEvent(ctx, _arg_eventType, _arg_params)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -406,18 +464,18 @@ func (s *RecognitionListenerStub) OnTransaction(
 // provide to NewRecognitionListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IRecognitionListenerServer interface {
-	OnReadyForSpeech(ctx context.Context, params interface{}) error
+	OnReadyForSpeech(ctx context.Context, params os.Bundle) error
 	OnBeginningOfSpeech(ctx context.Context) error
 	OnRmsChanged(ctx context.Context, rmsdB float32) error
 	OnBufferReceived(ctx context.Context, buffer []byte) error
 	OnEndOfSpeech(ctx context.Context) error
 	OnError(ctx context.Context, error_ int32) error
-	OnResults(ctx context.Context, results interface{}) error
-	OnPartialResults(ctx context.Context, results interface{}) error
-	OnSegmentResults(ctx context.Context, results interface{}) error
+	OnResults(ctx context.Context, results os.Bundle) error
+	OnPartialResults(ctx context.Context, results os.Bundle) error
+	OnSegmentResults(ctx context.Context, results os.Bundle) error
 	OnEndOfSegmentedSession(ctx context.Context) error
-	OnLanguageDetection(ctx context.Context, results interface{}) error
-	OnEvent(ctx context.Context, eventType int32, params interface{}) error
+	OnLanguageDetection(ctx context.Context, results os.Bundle) error
+	OnEvent(ctx context.Context, eventType int32, params os.Bundle) error
 }
 
 type recognitionListenerStubWrapper struct {
@@ -431,7 +489,7 @@ func (w *recognitionListenerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *recognitionListenerStubWrapper) OnReadyForSpeech(
 	ctx context.Context,
-	params interface{},
+	params os.Bundle,
 ) error {
 	return w.impl.OnReadyForSpeech(ctx, params)
 }
@@ -471,21 +529,21 @@ func (w *recognitionListenerStubWrapper) OnError(
 
 func (w *recognitionListenerStubWrapper) OnResults(
 	ctx context.Context,
-	results interface{},
+	results os.Bundle,
 ) error {
 	return w.impl.OnResults(ctx, results)
 }
 
 func (w *recognitionListenerStubWrapper) OnPartialResults(
 	ctx context.Context,
-	results interface{},
+	results os.Bundle,
 ) error {
 	return w.impl.OnPartialResults(ctx, results)
 }
 
 func (w *recognitionListenerStubWrapper) OnSegmentResults(
 	ctx context.Context,
-	results interface{},
+	results os.Bundle,
 ) error {
 	return w.impl.OnSegmentResults(ctx, results)
 }
@@ -498,7 +556,7 @@ func (w *recognitionListenerStubWrapper) OnEndOfSegmentedSession(
 
 func (w *recognitionListenerStubWrapper) OnLanguageDetection(
 	ctx context.Context,
-	results interface{},
+	results os.Bundle,
 ) error {
 	return w.impl.OnLanguageDetection(ctx, results)
 }
@@ -506,7 +564,7 @@ func (w *recognitionListenerStubWrapper) OnLanguageDetection(
 func (w *recognitionListenerStubWrapper) OnEvent(
 	ctx context.Context,
 	eventType int32,
-	params interface{},
+	params os.Bundle,
 ) error {
 	return w.impl.OnEvent(ctx, eventType, params)
 }

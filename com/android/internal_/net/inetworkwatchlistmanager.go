@@ -57,6 +57,7 @@ func (p *NetworkWatchlistManagerProxy) StartWatchlistLogging(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkWatchlistManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkWatchlistManager, MethodINetworkWatchlistManagerStartWatchlistLogging)
@@ -86,6 +87,7 @@ func (p *NetworkWatchlistManagerProxy) StopWatchlistLogging(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkWatchlistManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkWatchlistManager, MethodINetworkWatchlistManagerStopWatchlistLogging)
@@ -114,6 +116,7 @@ func (p *NetworkWatchlistManagerProxy) ReloadWatchlist(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkWatchlistManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkWatchlistManager, MethodINetworkWatchlistManagerReloadWatchlist)
@@ -138,6 +141,7 @@ func (p *NetworkWatchlistManagerProxy) ReportWatchlistIfNecessary(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkWatchlistManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkWatchlistManager, MethodINetworkWatchlistManagerReportWatchlistIfNecessary)
@@ -163,6 +167,7 @@ func (p *NetworkWatchlistManagerProxy) GetWatchlistConfigHash(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkWatchlistManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkWatchlistManager, MethodINetworkWatchlistManagerGetWatchlistConfigHash)
@@ -180,19 +185,9 @@ func (p *NetworkWatchlistManagerProxy) GetWatchlistConfigHash(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -200,7 +195,8 @@ func (p *NetworkWatchlistManagerProxy) GetWatchlistConfigHash(
 // NetworkWatchlistManagerStub dispatches incoming binder transactions
 // to a typed INetworkWatchlistManager implementation.
 type NetworkWatchlistManagerStub struct {
-	Impl INetworkWatchlistManager
+	Impl      INetworkWatchlistManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NetworkWatchlistManagerStub)(nil)
@@ -214,11 +210,12 @@ func (s *NetworkWatchlistManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINetworkWatchlistManagerStartWatchlistLogging:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.StartWatchlistLogging(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -229,9 +226,6 @@ func (s *NetworkWatchlistManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkWatchlistManagerStopWatchlistLogging:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.StopWatchlistLogging(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -242,9 +236,6 @@ func (s *NetworkWatchlistManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkWatchlistManagerReloadWatchlist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ReloadWatchlist(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -254,9 +245,6 @@ func (s *NetworkWatchlistManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkWatchlistManagerReportWatchlistIfNecessary:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ReportWatchlistIfNecessary(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -266,9 +254,6 @@ func (s *NetworkWatchlistManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkWatchlistManagerGetWatchlistConfigHash:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWatchlistConfigHash(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -276,8 +261,7 @@ func (s *NetworkWatchlistManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

@@ -47,6 +47,7 @@ func (p *ImsEcbmListenerProxy) EnteredECBM(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsEcbmListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsEcbmListener, MethodIImsEcbmListenerEnteredECBM)
@@ -62,6 +63,7 @@ func (p *ImsEcbmListenerProxy) ExitedECBM(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsEcbmListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsEcbmListener, MethodIImsEcbmListenerExitedECBM)
@@ -76,7 +78,8 @@ func (p *ImsEcbmListenerProxy) ExitedECBM(
 // ImsEcbmListenerStub dispatches incoming binder transactions
 // to a typed IImsEcbmListener implementation.
 type ImsEcbmListenerStub struct {
-	Impl IImsEcbmListener
+	Impl      IImsEcbmListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsEcbmListenerStub)(nil)
@@ -90,21 +93,17 @@ func (s *ImsEcbmListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsEcbmListenerEnteredECBM:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.EnteredECBM(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsEcbmListenerExitedECBM:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ExitedECBM(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

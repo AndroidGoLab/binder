@@ -71,6 +71,7 @@ func (p *VibratorManagerProxy) GetCapabilities(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManager, MethodIVibratorManagerGetCapabilities)
@@ -100,6 +101,7 @@ func (p *VibratorManagerProxy) GetVibratorIds(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManager, MethodIVibratorManagerGetVibratorIds)
@@ -121,6 +123,9 @@ func (p *VibratorManagerProxy) GetVibratorIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -140,6 +145,7 @@ func (p *VibratorManagerProxy) GetVibrator(
 ) (IVibrator, error) {
 	var _result IVibrator
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
 	_data.WriteInt32(vibratorId)
 
@@ -171,6 +177,7 @@ func (p *VibratorManagerProxy) PrepareSynced(
 	vibratorIds []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
 	if vibratorIds == nil {
 		_data.WriteInt32(-1)
@@ -204,6 +211,7 @@ func (p *VibratorManagerProxy) TriggerSynced(
 	callback IVibratorCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -229,6 +237,7 @@ func (p *VibratorManagerProxy) CancelSynced(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManager, MethodIVibratorManagerCancelSynced)
@@ -252,7 +261,8 @@ func (p *VibratorManagerProxy) CancelSynced(
 // VibratorManagerStub dispatches incoming binder transactions
 // to a typed IVibratorManager implementation.
 type VibratorManagerStub struct {
-	Impl IVibratorManager
+	Impl      IVibratorManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VibratorManagerStub)(nil)
@@ -266,11 +276,12 @@ func (s *VibratorManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVibratorManagerGetCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCapabilities(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -281,9 +292,6 @@ func (s *VibratorManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorManagerGetVibratorIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVibratorIds(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -291,13 +299,16 @@ func (s *VibratorManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIVibratorManagerGetVibrator:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_vibratorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -309,16 +320,28 @@ func (s *VibratorManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIVibratorManagerPrepareSynced:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_vibratorIds []int32
-		_ = _arg_vibratorIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_vibratorIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_vibratorIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.PrepareSynced(ctx, _arg_vibratorIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -328,12 +351,14 @@ func (s *VibratorManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorManagerTriggerSynced:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IVibratorCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewVibratorCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.TriggerSynced(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -343,9 +368,6 @@ func (s *VibratorManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorManagerCancelSynced:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CancelSynced(ctx)
 		_reply := parcel.New()
 		if _err != nil {

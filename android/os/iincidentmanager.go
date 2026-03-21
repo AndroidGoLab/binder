@@ -39,14 +39,14 @@ const (
 
 type IIncidentManager interface {
 	AsBinder() binder.IBinder
-	ReportIncident(ctx context.Context, args interface{}) error
-	ReportIncidentToStream(ctx context.Context, args interface{}, listener IIncidentReportStatusListener, stream interface{}) error
-	ReportIncidentToDumpstate(ctx context.Context, stream interface{}, listener IIncidentReportStatusListener) error
+	ReportIncident(ctx context.Context, args IncidentReportArgs) error
+	ReportIncidentToStream(ctx context.Context, args IncidentReportArgs, listener IIncidentReportStatusListener, stream int32) error
+	ReportIncidentToDumpstate(ctx context.Context, stream int32, listener IIncidentReportStatusListener) error
 	RegisterSection(ctx context.Context, id int32, name string, callback IIncidentDumpCallback) error
 	UnregisterSection(ctx context.Context, id int32) error
 	SystemRunning(ctx context.Context) error
 	GetIncidentReportList(ctx context.Context, pkg string, cls string) ([]string, error)
-	GetIncidentReport(ctx context.Context, pkg string, cls string, id string) (interface{}, error)
+	GetIncidentReport(ctx context.Context, pkg string, cls string, id string) (IncidentManagerIncidentReport, error)
 	DeleteIncidentReports(ctx context.Context, pkg string, cls string, id string) error
 	DeleteAllIncidentReports(ctx context.Context, pkg string) error
 }
@@ -69,10 +69,15 @@ var _ IIncidentManager = (*IncidentManagerProxy)(nil)
 
 func (p *IncidentManagerProxy) ReportIncident(
 	ctx context.Context,
-	args interface{},
+	args IncidentReportArgs,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentManager, MethodIIncidentManagerReportIncident)
 	if _err != nil {
@@ -85,13 +90,19 @@ func (p *IncidentManagerProxy) ReportIncident(
 
 func (p *IncidentManagerProxy) ReportIncidentToStream(
 	ctx context.Context,
-	args interface{},
+	args IncidentReportArgs,
 	listener IIncidentReportStatusListener,
-	stream interface{},
+	stream int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+	_data.WriteFileDescriptor(stream)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentManager, MethodIIncidentManagerReportIncidentToStream)
 	if _err != nil {
@@ -104,11 +115,13 @@ func (p *IncidentManagerProxy) ReportIncidentToStream(
 
 func (p *IncidentManagerProxy) ReportIncidentToDumpstate(
 	ctx context.Context,
-	stream interface{},
+	stream int32,
 	listener IIncidentReportStatusListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
+	_data.WriteFileDescriptor(stream)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentManager, MethodIIncidentManagerReportIncidentToDumpstate)
@@ -127,6 +140,7 @@ func (p *IncidentManagerProxy) RegisterSection(
 	callback IIncidentDumpCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
 	_data.WriteInt32(id)
 	_data.WriteString16(name)
@@ -146,6 +160,7 @@ func (p *IncidentManagerProxy) UnregisterSection(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
 	_data.WriteInt32(id)
 
@@ -162,6 +177,7 @@ func (p *IncidentManagerProxy) SystemRunning(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentManager, MethodIIncidentManagerSystemRunning)
@@ -180,6 +196,7 @@ func (p *IncidentManagerProxy) GetIncidentReportList(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
 	_data.WriteString16(pkg)
 	_data.WriteString16(cls)
@@ -203,6 +220,9 @@ func (p *IncidentManagerProxy) GetIncidentReportList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -221,9 +241,10 @@ func (p *IncidentManagerProxy) GetIncidentReport(
 	pkg string,
 	cls string,
 	id string,
-) (interface{}, error) {
-	var _result interface{}
+) (IncidentManagerIncidentReport, error) {
+	var _result IncidentManagerIncidentReport
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
 	_data.WriteString16(pkg)
 	_data.WriteString16(cls)
@@ -244,6 +265,15 @@ func (p *IncidentManagerProxy) GetIncidentReport(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -254,6 +284,7 @@ func (p *IncidentManagerProxy) DeleteIncidentReports(
 	id string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
 	_data.WriteString16(pkg)
 	_data.WriteString16(cls)
@@ -282,6 +313,7 @@ func (p *IncidentManagerProxy) DeleteAllIncidentReports(
 	pkg string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
 	_data.WriteString16(pkg)
 
@@ -306,7 +338,8 @@ func (p *IncidentManagerProxy) DeleteAllIncidentReports(
 // IncidentManagerStub dispatches incoming binder transactions
 // to a typed IIncidentManager implementation.
 type IncidentManagerStub struct {
-	Impl IIncidentManager
+	Impl      IIncidentManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*IncidentManagerStub)(nil)
@@ -320,42 +353,69 @@ func (s *IncidentManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIIncidentManagerReportIncident:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_args IncidentReportArgs
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_args interface{}
 		_err := s.Impl.ReportIncident(ctx, _arg_args)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIIncidentManagerReportIncidentToStream:
-		if _, _err := _data.ReadString16(); _err != nil {
+		var _arg_args IncidentReportArgs
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_listener IIncidentReportStatusListener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewIncidentReportStatusListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
+		_arg_stream, _err := _data.ReadFileDescriptor()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_args interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_listener IIncidentReportStatusListener
-		_ = _arg_listener
-		var _arg_stream interface{}
-		_err := s.Impl.ReportIncidentToStream(ctx, _arg_args, _arg_listener, _arg_stream)
-		_ = _err
-		return nil, nil
+		_err = s.Impl.ReportIncidentToStream(ctx, _arg_args, _arg_listener, _arg_stream)
+		return nil, _err
 	case TransactionIIncidentManagerReportIncidentToDumpstate:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_stream, _err := _data.ReadFileDescriptor()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_stream interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IIncidentReportStatusListener
-		_ = _arg_listener
-		_err := s.Impl.ReportIncidentToDumpstate(ctx, _arg_stream, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionIIncidentManagerRegisterSection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewIncidentReportStatusListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err = s.Impl.ReportIncidentToDumpstate(ctx, _arg_stream, _arg_listener)
+		return nil, _err
+	case TransactionIIncidentManagerRegisterSection:
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -364,34 +424,27 @@ func (s *IncidentManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IIncidentDumpCallback
-		_ = _arg_callback
-		_err = s.Impl.RegisterSection(ctx, _arg_id, _arg_name, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIIncidentManagerUnregisterSection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewIncidentDumpCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.RegisterSection(ctx, _arg_id, _arg_name, _arg_callback)
+		return nil, _err
+	case TransactionIIncidentManagerUnregisterSection:
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.UnregisterSection(ctx, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIIncidentManagerSystemRunning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SystemRunning(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIIncidentManagerGetIncidentReportList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -407,13 +460,16 @@ func (s *IncidentManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIIncidentManagerGetIncidentReport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -433,12 +489,12 @@ func (s *IncidentManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIIncidentManagerDeleteIncidentReports:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIIncidentManagerDeleteIncidentReports:
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -460,9 +516,6 @@ func (s *IncidentManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIncidentManagerDeleteAllIncidentReports:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -484,14 +537,14 @@ func (s *IncidentManagerStub) OnTransaction(
 // provide to NewIncidentManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IIncidentManagerServer interface {
-	ReportIncident(ctx context.Context, args interface{}) error
-	ReportIncidentToStream(ctx context.Context, args interface{}, listener IIncidentReportStatusListener, stream interface{}) error
-	ReportIncidentToDumpstate(ctx context.Context, stream interface{}, listener IIncidentReportStatusListener) error
+	ReportIncident(ctx context.Context, args IncidentReportArgs) error
+	ReportIncidentToStream(ctx context.Context, args IncidentReportArgs, listener IIncidentReportStatusListener, stream int32) error
+	ReportIncidentToDumpstate(ctx context.Context, stream int32, listener IIncidentReportStatusListener) error
 	RegisterSection(ctx context.Context, id int32, name string, callback IIncidentDumpCallback) error
 	UnregisterSection(ctx context.Context, id int32) error
 	SystemRunning(ctx context.Context) error
 	GetIncidentReportList(ctx context.Context, pkg string, cls string) ([]string, error)
-	GetIncidentReport(ctx context.Context, pkg string, cls string, id string) (interface{}, error)
+	GetIncidentReport(ctx context.Context, pkg string, cls string, id string) (IncidentManagerIncidentReport, error)
 	DeleteIncidentReports(ctx context.Context, pkg string, cls string, id string) error
 	DeleteAllIncidentReports(ctx context.Context, pkg string) error
 }
@@ -507,23 +560,23 @@ func (w *incidentManagerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *incidentManagerStubWrapper) ReportIncident(
 	ctx context.Context,
-	args interface{},
+	args IncidentReportArgs,
 ) error {
 	return w.impl.ReportIncident(ctx, args)
 }
 
 func (w *incidentManagerStubWrapper) ReportIncidentToStream(
 	ctx context.Context,
-	args interface{},
+	args IncidentReportArgs,
 	listener IIncidentReportStatusListener,
-	stream interface{},
+	stream int32,
 ) error {
 	return w.impl.ReportIncidentToStream(ctx, args, listener, stream)
 }
 
 func (w *incidentManagerStubWrapper) ReportIncidentToDumpstate(
 	ctx context.Context,
-	stream interface{},
+	stream int32,
 	listener IIncidentReportStatusListener,
 ) error {
 	return w.impl.ReportIncidentToDumpstate(ctx, stream, listener)
@@ -564,7 +617,7 @@ func (w *incidentManagerStubWrapper) GetIncidentReport(
 	pkg string,
 	cls string,
 	id string,
-) (interface{}, error) {
+) (IncidentManagerIncidentReport, error) {
 	return w.impl.GetIncidentReport(ctx, pkg, cls, id)
 }
 

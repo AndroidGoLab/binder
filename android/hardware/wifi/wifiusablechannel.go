@@ -34,9 +34,19 @@ func (s *WifiUsableChannel) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Channel, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_channelBandwidthRaw, _err := p.ReadInt32()
@@ -44,6 +54,11 @@ func (s *WifiUsableChannel) UnmarshalParcel(
 		return _err
 	}
 	s.ChannelBandwidth = WifiChannelWidthInMhz(_channelBandwidthRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.IfaceModeMask, _err = p.ReadInt32()
 	if _err != nil {

@@ -42,9 +42,19 @@ func (s *CachedScanResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.TimeStampInUs, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Ssid, _err = p.ReadByteArray()
@@ -52,9 +62,19 @@ func (s *CachedScanResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Bssid, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.RssiDbm, _err = p.ReadInt32()
@@ -62,9 +82,19 @@ func (s *CachedScanResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.FrequencyMhz, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_channelWidthMhzRaw, _err := p.ReadInt32()
@@ -72,6 +102,11 @@ func (s *CachedScanResult) UnmarshalParcel(
 		return _err
 	}
 	s.ChannelWidthMhz = WifiChannelWidthInMhz(_channelWidthMhzRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_preambleTypeRaw, _err := p.ReadInt32()
 	if _err != nil {

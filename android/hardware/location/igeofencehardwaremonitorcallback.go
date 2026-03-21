@@ -45,6 +45,7 @@ func (p *GeofenceHardwareMonitorCallbackProxy) OnMonitoringSystemChange(
 	event GeofenceHardwareMonitorEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardwareMonitorCallback)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *GeofenceHardwareMonitorCallbackProxy) OnMonitoringSystemChange(
 // GeofenceHardwareMonitorCallbackStub dispatches incoming binder transactions
 // to a typed IGeofenceHardwareMonitorCallback implementation.
 type GeofenceHardwareMonitorCallbackStub struct {
-	Impl IGeofenceHardwareMonitorCallback
+	Impl      IGeofenceHardwareMonitorCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GeofenceHardwareMonitorCallbackStub)(nil)
@@ -77,11 +79,12 @@ func (s *GeofenceHardwareMonitorCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGeofenceHardwareMonitorCallbackOnMonitoringSystemChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event GeofenceHardwareMonitorEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *GeofenceHardwareMonitorCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnMonitoringSystemChange(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

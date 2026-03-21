@@ -1,0 +1,1176 @@
+package: android.content
+go_package: android/content
+interfaces:
+    - name: IClipboard
+      descriptor: android.content.IClipboard
+      methods:
+        - name: setPrimaryClip
+          transaction_code_offset: 0
+          params:
+            - name: clip
+              type:
+                name: ClipData
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setPrimaryClipAsPackage
+          transaction_code_offset: 1
+          params:
+            - name: clip
+              type:
+                name: ClipData
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: deviceId
+              type:
+                name: int
+            - name: sourcePackage
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: clearPrimaryClip
+          transaction_code_offset: 2
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getPrimaryClip
+          transaction_code_offset: 3
+          params:
+            - name: pkg
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: ClipData
+        - name: getPrimaryClipDescription
+          transaction_code_offset: 4
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: ClipDescription
+        - name: hasPrimaryClip
+          transaction_code_offset: 5
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: addPrimaryClipChangedListener
+          transaction_code_offset: 6
+          params:
+            - name: listener
+              type:
+                name: IOnPrimaryClipChangedListener
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removePrimaryClipChangedListener
+          transaction_code_offset: 7
+          params:
+            - name: listener
+              type:
+                name: IOnPrimaryClipChangedListener
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: hasClipboardText
+          transaction_code_offset: 8
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getPrimaryClipSource
+          transaction_code_offset: 9
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: String
+          annotations:
+            - EnforcePermission
+        - name: areClipboardAccessNotificationsEnabledForUser
+          transaction_code_offset: 10
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setClipboardAccessNotificationsEnabledForUser
+          transaction_code_offset: 11
+          params:
+            - name: enable
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IContentService
+      descriptor: android.content.IContentService
+      methods:
+        - name: unregisterContentObserver
+          transaction_code_offset: 0
+          params:
+            - name: observer
+              type:
+                name: IContentObserver
+          return_type:
+            name: void
+        - name: registerContentObserver
+          transaction_code_offset: 1
+          params:
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+            - name: notifyForDescendants
+              type:
+                name: boolean
+            - name: observer
+              type:
+                name: IContentObserver
+            - name: userHandle
+              type:
+                name: int
+            - name: targetSdkVersion
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyChange
+          transaction_code_offset: 2
+          params:
+            - name: uris
+              type:
+                name: Uri
+                is_array: true
+              direction: in
+            - name: observer
+              type:
+                name: IContentObserver
+            - name: observerWantsSelfNotifications
+              type:
+                name: boolean
+            - name: flags
+              type:
+                name: int
+            - name: userHandle
+              type:
+                name: int
+            - name: targetSdkVersion
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: requestSync
+          transaction_code_offset: 3
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authority
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: sync
+          transaction_code_offset: 4
+          params:
+            - name: request
+              type:
+                name: SyncRequest
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: syncAsUser
+          transaction_code_offset: 5
+          params:
+            - name: request
+              type:
+                name: SyncRequest
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: cancelSync
+          transaction_code_offset: 6
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authority
+              type:
+                name: String
+            - name: cname
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: cancelSyncAsUser
+          transaction_code_offset: 7
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authority
+              type:
+                name: String
+            - name: cname
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: cancelRequest
+          transaction_code_offset: 8
+          params:
+            - name: request
+              type:
+                name: SyncRequest
+              direction: in
+          return_type:
+            name: void
+        - name: getSyncAutomatically
+          transaction_code_offset: 9
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: providerName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getSyncAutomaticallyAsUser
+          transaction_code_offset: 10
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: providerName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setSyncAutomatically
+          transaction_code_offset: 11
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: providerName
+              type:
+                name: String
+            - name: sync
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setSyncAutomaticallyAsUser
+          transaction_code_offset: 12
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: providerName
+              type:
+                name: String
+            - name: sync
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getPeriodicSyncs
+          transaction_code_offset: 13
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: providerName
+              type:
+                name: String
+            - name: cname
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: PeriodicSync
+        - name: addPeriodicSync
+          transaction_code_offset: 14
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: providerName
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+            - name: pollFrequency
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: removePeriodicSync
+          transaction_code_offset: 15
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: providerName
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: getIsSyncable
+          transaction_code_offset: 16
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: providerName
+              type:
+                name: String
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: getIsSyncableAsUser
+          transaction_code_offset: 17
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: providerName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setIsSyncable
+          transaction_code_offset: 18
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: providerName
+              type:
+                name: String
+            - name: syncable
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setIsSyncableAsUser
+          transaction_code_offset: 19
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: providerName
+              type:
+                name: String
+            - name: syncable
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setMasterSyncAutomatically
+          transaction_code_offset: 20
+          params:
+            - name: flag
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setMasterSyncAutomaticallyAsUser
+          transaction_code_offset: 21
+          params:
+            - name: flag
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getMasterSyncAutomatically
+          transaction_code_offset: 22
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: getMasterSyncAutomaticallyAsUser
+          transaction_code_offset: 23
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getCurrentSyncs
+          transaction_code_offset: 24
+          return_type:
+            name: List
+            type_args:
+                - name: SyncInfo
+        - name: getCurrentSyncsAsUser
+          transaction_code_offset: 25
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: SyncInfo
+        - name: getSyncAdapterTypes
+          transaction_code_offset: 26
+          return_type:
+            name: SyncAdapterType
+            is_array: true
+          annotations:
+            - UnsupportedAppUsage
+        - name: getSyncAdapterTypesAsUser
+          transaction_code_offset: 27
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: SyncAdapterType
+            is_array: true
+        - name: getSyncAdapterPackagesForAuthorityAsUser
+          transaction_code_offset: 28
+          params:
+            - name: authority
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+            is_array: true
+        - name: getSyncAdapterPackageAsUser
+          transaction_code_offset: 29
+          params:
+            - name: accountType
+              type:
+                name: String
+            - name: authority
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: isSyncActive
+          transaction_code_offset: 30
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authority
+              type:
+                name: String
+            - name: cname
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+            - UnsupportedAppUsage
+        - name: getSyncStatus
+          transaction_code_offset: 31
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authority
+              type:
+                name: String
+            - name: cname
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: SyncStatusInfo
+        - name: getSyncStatusAsUser
+          transaction_code_offset: 32
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authority
+              type:
+                name: String
+            - name: cname
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: SyncStatusInfo
+        - name: isSyncPending
+          transaction_code_offset: 33
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authority
+              type:
+                name: String
+            - name: cname
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: isSyncPendingAsUser
+          transaction_code_offset: 34
+          params:
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: authority
+              type:
+                name: String
+            - name: cname
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: addStatusChangeListener
+          transaction_code_offset: 35
+          params:
+            - name: mask
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ISyncStatusObserver
+          return_type:
+            name: void
+        - name: removeStatusChangeListener
+          transaction_code_offset: 36
+          params:
+            - name: callback
+              type:
+                name: ISyncStatusObserver
+          return_type:
+            name: void
+        - name: putCache
+          transaction_code_offset: 37
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: key
+              type:
+                name: Uri
+              direction: in
+            - name: value
+              type:
+                name: Bundle
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getCache
+          transaction_code_offset: 38
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: key
+              type:
+                name: Uri
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: Bundle
+        - name: resetTodayStats
+          transaction_code_offset: 39
+          return_type:
+            name: void
+        - name: onDbCorruption
+          transaction_code_offset: 40
+          params:
+            - name: tag
+              type:
+                name: String
+            - name: message
+              type:
+                name: String
+            - name: stacktrace
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: ICrossUserContentService
+      descriptor: android.content.ICrossUserContentService
+      methods:
+        - name: updateContent
+          transaction_code_offset: 0
+          params:
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+            - name: key
+              type:
+                name: String
+            - name: value
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyForUriAsUser
+          transaction_code_offset: 1
+          params:
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IIntentReceiver
+      descriptor: android.content.IIntentReceiver
+      oneway: true
+      methods:
+        - name: performReceive
+          transaction_code_offset: 0
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: resultCode
+              type:
+                name: int
+            - name: data
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+            - name: ordered
+              type:
+                name: boolean
+            - name: sticky
+              type:
+                name: boolean
+            - name: sendingUser
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IIntentSender
+      descriptor: android.content.IIntentSender
+      oneway: true
+      methods:
+        - name: send
+          transaction_code_offset: 0
+          params:
+            - name: code
+              type:
+                name: int
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: resolvedType
+              type:
+                name: String
+            - name: whitelistToken
+              type:
+                name: IBinder
+              direction: in
+            - name: finishedReceiver
+              type:
+                name: IIntentReceiver
+            - name: requiredPermission
+              type:
+                name: String
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+    - name: IOnPrimaryClipChangedListener
+      descriptor: android.content.IOnPrimaryClipChangedListener
+      oneway: true
+      methods:
+        - name: dispatchPrimaryClipChanged
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: IRestrictionsManager
+      descriptor: android.content.IRestrictionsManager
+      methods:
+        - name: getApplicationRestrictions
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: Bundle
+        - name: getApplicationRestrictionsPerAdminForUser
+          transaction_code_offset: 1
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: Bundle
+        - name: hasRestrictionsProvider
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+        - name: requestPermission
+          transaction_code_offset: 3
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: requestType
+              type:
+                name: String
+              direction: in
+            - name: requestId
+              type:
+                name: String
+              direction: in
+            - name: requestData
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+        - name: notifyPermissionResponse
+          transaction_code_offset: 4
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: response
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+        - name: createLocalApprovalIntent
+          transaction_code_offset: 5
+          return_type:
+            name: Intent
+    - name: ISyncAdapter
+      descriptor: android.content.ISyncAdapter
+      oneway: true
+      methods:
+        - name: onUnsyncableAccount
+          transaction_code_offset: 0
+          params:
+            - name: cb
+              type:
+                name: ISyncAdapterUnsyncableAccountCallback
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: startSync
+          transaction_code_offset: 1
+          params:
+            - name: syncContext
+              type:
+                name: ISyncContext
+            - name: authority
+              type:
+                name: String
+            - name: account
+              type:
+                name: Account
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: cancelSync
+          transaction_code_offset: 2
+          params:
+            - name: syncContext
+              type:
+                name: ISyncContext
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: ISyncAdapterUnsyncableAccountCallback
+      descriptor: android.content.ISyncAdapterUnsyncableAccountCallback
+      oneway: true
+      methods:
+        - name: onUnsyncableAccountDone
+          transaction_code_offset: 0
+          params:
+            - name: isReady
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: ISyncContext
+      descriptor: android.content.ISyncContext
+      methods:
+        - name: sendHeartbeat
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onFinished
+          transaction_code_offset: 1
+          params:
+            - name: result
+              type:
+                name: SyncResult
+              direction: in
+          return_type:
+            name: void
+    - name: ISyncServiceAdapter
+      descriptor: android.content.ISyncServiceAdapter
+      oneway: true
+      methods:
+        - name: startSync
+          transaction_code_offset: 0
+          params:
+            - name: syncContext
+              type:
+                name: ISyncContext
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: cancelSync
+          transaction_code_offset: 1
+          params:
+            - name: syncContext
+              type:
+                name: ISyncContext
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: ISyncStatusObserver
+      descriptor: android.content.ISyncStatusObserver
+      oneway: true
+      methods:
+        - name: onStatusChanged
+          transaction_code_offset: 0
+          params:
+            - name: which
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+parcelables:
+    - name: AttributionSource
+      annotations:
+        - JavaOnlyStableParcelable
+    - name: AttributionSourceState
+      fields:
+        - name: pid
+          type:
+            name: int
+          default_value: "-1"
+        - name: uid
+          type:
+            name: int
+          default_value: "-1"
+        - name: deviceId
+          type:
+            name: int
+          default_value: "0"
+        - name: packageName
+          type:
+            name: String
+          annotations:
+            - nullable
+            - utf8InCpp
+        - name: attributionTag
+          type:
+            name: String
+          annotations:
+            - nullable
+            - utf8InCpp
+        - name: token
+          type:
+            name: IBinder
+          annotations:
+            - nullable
+        - name: renouncedPermissions
+          type:
+            name: String
+            is_array: true
+          annotations:
+            - nullable
+            - utf8InCpp
+        - name: next
+          type:
+            name: AttributionSourceState
+            is_array: true
+    - name: AutofillOptions
+    - name: ClipData
+    - name: ClipDescription
+    - name: ComponentName
+    - name: ContentCaptureOptions
+    - name: ContentValues
+    - name: Intent
+    - name: IntentFilter
+    - name: IntentSender
+    - name: LocusId
+    - name: PeriodicSync
+    - name: RestrictionEntry
+    - name: SyncAdapterType
+    - name: SyncInfo
+    - name: SyncRequest
+    - name: SyncResult
+    - name: SyncStats
+    - name: SyncStatusInfo
+    - name: UriRelativeFilterGroup
+    - name: UriRelativeFilterGroupParcel
+      fields:
+        - name: action
+          type:
+            name: int
+        - name: filters
+          type:
+            name: List
+            type_args:
+                - name: UriRelativeFilterParcel
+    - name: UriRelativeFilterParcel
+      fields:
+        - name: uriPart
+          type:
+            name: int
+        - name: patternType
+          type:
+            name: int
+        - name: filter
+          type:
+            name: String

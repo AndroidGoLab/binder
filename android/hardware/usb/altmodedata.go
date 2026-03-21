@@ -2,7 +2,6 @@ package usb
 
 import (
 	"fmt"
-	usbAltModeData "github.com/xaionaro-go/binder/android/hardware/usb/AltModeData"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -14,24 +13,23 @@ const (
 
 type AltModeData struct {
 	Tag                    int32
-	DisplayPortAltModeData usbAltModeData.DisplayPortAltModeData
+	DisplayPortAltModeData AltModeDataDisplayPortAltModeData
 }
 
 var _ parcel.Parcelable = (*AltModeData)(nil)
 
-func (u *AltModeData) GetDisplayPortAltModeData() (usbAltModeData.DisplayPortAltModeData, bool) {
+func (u *AltModeData) GetDisplayPortAltModeData() (AltModeDataDisplayPortAltModeData, bool) {
 	if u.Tag != AltModeDataTagDisplayPortAltModeData {
-		var _zero usbAltModeData.DisplayPortAltModeData
+		var _zero AltModeDataDisplayPortAltModeData
 		return _zero, false
 	}
 	return u.DisplayPortAltModeData, true
 }
 
 func (u *AltModeData) SetDisplayPortAltModeData(
-	v usbAltModeData.DisplayPortAltModeData,
+	v AltModeDataDisplayPortAltModeData,
 ) {
-	u.Tag = AltModeDataTagDisplayPortAltModeData
-	u.DisplayPortAltModeData = v
+	*u = AltModeData{Tag: AltModeDataTagDisplayPortAltModeData, DisplayPortAltModeData: v}
 }
 
 func (u *AltModeData) MarshalParcel(

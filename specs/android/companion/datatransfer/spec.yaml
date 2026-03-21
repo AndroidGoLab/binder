@@ -1,0 +1,4 @@
+package: android.companion.datatransfer
+go_package: android/companion/datatransfer
+parcelables:
+    - name: PermissionSyncRequest

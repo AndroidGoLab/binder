@@ -3,6 +3,7 @@ package extension
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -29,8 +30,8 @@ const (
 
 type ICaptureProcessorImpl interface {
 	AsBinder() binder.IBinder
-	OnOutputSurface(ctx context.Context, surface interface{}, imageFormat int32) error
-	OnPostviewOutputSurface(ctx context.Context, surface interface{}) error
+	OnOutputSurface(ctx context.Context, surface view.Surface, imageFormat int32) error
+	OnPostviewOutputSurface(ctx context.Context, surface view.Surface) error
 	OnResolutionUpdate(ctx context.Context, size Size, postviewSize Size) error
 	OnImageFormatUpdate(ctx context.Context, imageFormat int32) error
 	Process(ctx context.Context, capturelist []CaptureBundle, resultCallback IProcessResultImpl, isPostviewRequested bool) error
@@ -54,11 +55,16 @@ var _ ICaptureProcessorImpl = (*CaptureProcessorImplProxy)(nil)
 
 func (p *CaptureProcessorImplProxy) OnOutputSurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 	imageFormat int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICaptureProcessorImpl)
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(imageFormat)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICaptureProcessorImpl, MethodICaptureProcessorImplOnOutputSurface)
@@ -81,10 +87,15 @@ func (p *CaptureProcessorImplProxy) OnOutputSurface(
 
 func (p *CaptureProcessorImplProxy) OnPostviewOutputSurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICaptureProcessorImpl)
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICaptureProcessorImpl, MethodICaptureProcessorImplOnPostviewOutputSurface)
 	if _err != nil {
@@ -110,6 +121,7 @@ func (p *CaptureProcessorImplProxy) OnResolutionUpdate(
 	postviewSize Size,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICaptureProcessorImpl)
 	_data.WriteInt32(1)
 	if _err := size.MarshalParcel(_data); _err != nil {
@@ -143,6 +155,7 @@ func (p *CaptureProcessorImplProxy) OnImageFormatUpdate(
 	imageFormat int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICaptureProcessorImpl)
 	_data.WriteInt32(imageFormat)
 
@@ -171,6 +184,7 @@ func (p *CaptureProcessorImplProxy) Process(
 	isPostviewRequested bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICaptureProcessorImpl)
 	if capturelist == nil {
 		_data.WriteInt32(-1)
@@ -207,7 +221,8 @@ func (p *CaptureProcessorImplProxy) Process(
 // CaptureProcessorImplStub dispatches incoming binder transactions
 // to a typed ICaptureProcessorImpl implementation.
 type CaptureProcessorImplStub struct {
-	Impl ICaptureProcessorImpl
+	Impl      ICaptureProcessorImpl
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CaptureProcessorImplStub)(nil)
@@ -221,12 +236,24 @@ func (s *CaptureProcessorImplStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICaptureProcessorImplOnOutputSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_surface view.Surface
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_surface interface{}
 		_arg_imageFormat, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -240,10 +267,18 @@ func (s *CaptureProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureProcessorImplOnPostviewOutputSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_surface view.Surface
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_surface interface{}
 		_err := s.Impl.OnPostviewOutputSurface(ctx, _arg_surface)
 		_reply := parcel.New()
 		if _err != nil {
@@ -253,9 +288,6 @@ func (s *CaptureProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureProcessorImplOnResolutionUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_size Size
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -289,9 +321,6 @@ func (s *CaptureProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureProcessorImplOnImageFormatUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_imageFormat, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -305,15 +334,35 @@ func (s *CaptureProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureProcessorImplProcess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_capturelist []CaptureBundle
-		_ = _arg_capturelist
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_capturelist = make([]CaptureBundle, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_capturelist[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_resultCallback IProcessResultImpl
-		_ = _arg_resultCallback
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = NewProcessResultImplProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		_arg_isPostviewRequested, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -335,8 +384,8 @@ func (s *CaptureProcessorImplStub) OnTransaction(
 // provide to NewCaptureProcessorImplStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ICaptureProcessorImplServer interface {
-	OnOutputSurface(ctx context.Context, surface interface{}, imageFormat int32) error
-	OnPostviewOutputSurface(ctx context.Context, surface interface{}) error
+	OnOutputSurface(ctx context.Context, surface view.Surface, imageFormat int32) error
+	OnPostviewOutputSurface(ctx context.Context, surface view.Surface) error
 	OnResolutionUpdate(ctx context.Context, size Size, postviewSize Size) error
 	OnImageFormatUpdate(ctx context.Context, imageFormat int32) error
 	Process(ctx context.Context, capturelist []CaptureBundle, resultCallback IProcessResultImpl, isPostviewRequested bool) error
@@ -353,7 +402,7 @@ func (w *captureProcessorImplStubWrapper) AsBinder() binder.IBinder {
 
 func (w *captureProcessorImplStubWrapper) OnOutputSurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 	imageFormat int32,
 ) error {
 	return w.impl.OnOutputSurface(ctx, surface, imageFormat)
@@ -361,7 +410,7 @@ func (w *captureProcessorImplStubWrapper) OnOutputSurface(
 
 func (w *captureProcessorImplStubWrapper) OnPostviewOutputSurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 ) error {
 	return w.impl.OnPostviewOutputSurface(ctx, surface)
 }

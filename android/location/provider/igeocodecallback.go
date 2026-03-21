@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/location/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,7 +25,7 @@ const (
 type IGeocodeCallback interface {
 	AsBinder() binder.IBinder
 	OnError(ctx context.Context, error_ string) error
-	OnResults(ctx context.Context, results []interface{}) error
+	OnResults(ctx context.Context, results []types.Address) error
 }
 
 type GeocodeCallbackProxy struct {
@@ -48,6 +49,7 @@ func (p *GeocodeCallbackProxy) OnError(
 	error_ string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeocodeCallback)
 	_data.WriteString16(error_)
 
@@ -62,9 +64,10 @@ func (p *GeocodeCallbackProxy) OnError(
 
 func (p *GeocodeCallbackProxy) OnResults(
 	ctx context.Context,
-	results []interface{},
+	results []types.Address,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeocodeCallback)
 	if results == nil {
 		_data.WriteInt32(-1)
@@ -84,7 +87,8 @@ func (p *GeocodeCallbackProxy) OnResults(
 // GeocodeCallbackStub dispatches incoming binder transactions
 // to a typed IGeocodeCallback implementation.
 type GeocodeCallbackStub struct {
-	Impl IGeocodeCallback
+	Impl      IGeocodeCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GeocodeCallbackStub)(nil)
@@ -98,28 +102,34 @@ func (s *GeocodeCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGeocodeCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_error_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGeocodeCallbackOnResults:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_results []types.Address
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_results = make([]types.Address, _count)
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_results []interface{}
-		_ = _arg_results
 		_err := s.Impl.OnResults(ctx, _arg_results)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -130,7 +140,7 @@ func (s *GeocodeCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IGeocodeCallbackServer interface {
 	OnError(ctx context.Context, error_ string) error
-	OnResults(ctx context.Context, results []interface{}) error
+	OnResults(ctx context.Context, results []types.Address) error
 }
 
 type geocodeCallbackStubWrapper struct {
@@ -151,7 +161,7 @@ func (w *geocodeCallbackStubWrapper) OnError(
 
 func (w *geocodeCallbackStubWrapper) OnResults(
 	ctx context.Context,
-	results []interface{},
+	results []types.Address,
 ) error {
 	return w.impl.OnResults(ctx, results)
 }

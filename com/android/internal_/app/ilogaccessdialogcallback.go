@@ -49,6 +49,7 @@ func (p *LogAccessDialogCallbackProxy) ApproveAccessForClient(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILogAccessDialogCallback)
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
@@ -68,6 +69,7 @@ func (p *LogAccessDialogCallbackProxy) DeclineAccessForClient(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILogAccessDialogCallback)
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
@@ -84,7 +86,8 @@ func (p *LogAccessDialogCallbackProxy) DeclineAccessForClient(
 // LogAccessDialogCallbackStub dispatches incoming binder transactions
 // to a typed ILogAccessDialogCallback implementation.
 type LogAccessDialogCallbackStub struct {
-	Impl ILogAccessDialogCallback
+	Impl      ILogAccessDialogCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LogAccessDialogCallbackStub)(nil)
@@ -98,11 +101,12 @@ func (s *LogAccessDialogCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILogAccessDialogCallbackApproveAccessForClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -112,12 +116,8 @@ func (s *LogAccessDialogCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ApproveAccessForClient(ctx, _arg_uid, _arg_packageName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionILogAccessDialogCallbackDeclineAccessForClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -127,8 +127,7 @@ func (s *LogAccessDialogCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.DeclineAccessForClient(ctx, _arg_uid, _arg_packageName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

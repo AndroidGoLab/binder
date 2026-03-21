@@ -46,6 +46,7 @@ func (p *NfcUnlockHandlerProxy) OnUnlockAttempted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcUnlockHandler)
 	_data.WriteInt32(1)
 	if _err := tag.MarshalParcel(_data); _err != nil {
@@ -77,7 +78,8 @@ func (p *NfcUnlockHandlerProxy) OnUnlockAttempted(
 // NfcUnlockHandlerStub dispatches incoming binder transactions
 // to a typed INfcUnlockHandler implementation.
 type NfcUnlockHandlerStub struct {
-	Impl INfcUnlockHandler
+	Impl      INfcUnlockHandler
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NfcUnlockHandlerStub)(nil)
@@ -91,11 +93,12 @@ func (s *NfcUnlockHandlerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINfcUnlockHandlerOnUnlockAttempted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_tag Tag
 		{
 			_nullInd, _err := _data.ReadInt32()

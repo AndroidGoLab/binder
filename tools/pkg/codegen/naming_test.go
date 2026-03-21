@@ -127,12 +127,12 @@ func TestAIDLTypeToGo_Generics(t *testing.T) {
 
 	t.Run("List_no_type_args", func(t *testing.T) {
 		ts := &parser.TypeSpecifier{Name: "List"}
-		assert.Equal(t, "[]interface{}", AIDLTypeToGo(ts))
+		assert.Equal(t, "[]any", AIDLTypeToGo(ts))
 	})
 
 	t.Run("Map_no_type_args", func(t *testing.T) {
 		ts := &parser.TypeSpecifier{Name: "Map"}
-		assert.Equal(t, "map[interface{}]interface{}", AIDLTypeToGo(ts))
+		assert.Equal(t, "map[any]any", AIDLTypeToGo(ts))
 	})
 }
 

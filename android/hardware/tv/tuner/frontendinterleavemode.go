@@ -35,8 +35,7 @@ func (u *FrontendInterleaveMode) GetAtsc3() (FrontendAtsc3TimeInterleaveMode, bo
 func (u *FrontendInterleaveMode) SetAtsc3(
 	v FrontendAtsc3TimeInterleaveMode,
 ) {
-	u.Tag = FrontendInterleaveModeTagAtsc3
-	u.Atsc3 = v
+	*u = FrontendInterleaveMode{Tag: FrontendInterleaveModeTagAtsc3, Atsc3: v}
 }
 
 func (u *FrontendInterleaveMode) GetDvbc() (FrontendCableTimeInterleaveMode, bool) {
@@ -50,8 +49,7 @@ func (u *FrontendInterleaveMode) GetDvbc() (FrontendCableTimeInterleaveMode, boo
 func (u *FrontendInterleaveMode) SetDvbc(
 	v FrontendCableTimeInterleaveMode,
 ) {
-	u.Tag = FrontendInterleaveModeTagDvbc
-	u.Dvbc = v
+	*u = FrontendInterleaveMode{Tag: FrontendInterleaveModeTagDvbc, Dvbc: v}
 }
 
 func (u *FrontendInterleaveMode) GetDtmb() (FrontendDtmbTimeInterleaveMode, bool) {
@@ -65,8 +63,7 @@ func (u *FrontendInterleaveMode) GetDtmb() (FrontendDtmbTimeInterleaveMode, bool
 func (u *FrontendInterleaveMode) SetDtmb(
 	v FrontendDtmbTimeInterleaveMode,
 ) {
-	u.Tag = FrontendInterleaveModeTagDtmb
-	u.Dtmb = v
+	*u = FrontendInterleaveMode{Tag: FrontendInterleaveModeTagDtmb, Dtmb: v}
 }
 
 func (u *FrontendInterleaveMode) GetIsdbt() (FrontendIsdbtTimeInterleaveMode, bool) {
@@ -80,8 +77,7 @@ func (u *FrontendInterleaveMode) GetIsdbt() (FrontendIsdbtTimeInterleaveMode, bo
 func (u *FrontendInterleaveMode) SetIsdbt(
 	v FrontendIsdbtTimeInterleaveMode,
 ) {
-	u.Tag = FrontendInterleaveModeTagIsdbt
-	u.Isdbt = v
+	*u = FrontendInterleaveMode{Tag: FrontendInterleaveModeTagIsdbt, Isdbt: v}
 }
 
 func (u *FrontendInterleaveMode) MarshalParcel(

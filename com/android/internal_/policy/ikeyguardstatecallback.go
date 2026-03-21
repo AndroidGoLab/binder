@@ -55,6 +55,7 @@ func (p *KeyguardStateCallbackProxy) OnShowingStateChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardStateCallback)
 	_data.WriteBool(showing)
 	_data.WriteInt32(_identity.UserID)
@@ -82,6 +83,7 @@ func (p *KeyguardStateCallbackProxy) OnSimSecureStateChanged(
 	simSecure bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardStateCallback)
 	_data.WriteBool(simSecure)
 
@@ -108,6 +110,7 @@ func (p *KeyguardStateCallbackProxy) OnInputRestrictedStateChanged(
 	inputRestricted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardStateCallback)
 	_data.WriteBool(inputRestricted)
 
@@ -134,6 +137,7 @@ func (p *KeyguardStateCallbackProxy) OnTrustedChanged(
 	trusted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardStateCallback)
 	_data.WriteBool(trusted)
 
@@ -158,7 +162,8 @@ func (p *KeyguardStateCallbackProxy) OnTrustedChanged(
 // KeyguardStateCallbackStub dispatches incoming binder transactions
 // to a typed IKeyguardStateCallback implementation.
 type KeyguardStateCallbackStub struct {
-	Impl IKeyguardStateCallback
+	Impl      IKeyguardStateCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*KeyguardStateCallbackStub)(nil)
@@ -172,11 +177,12 @@ func (s *KeyguardStateCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIKeyguardStateCallbackOnShowingStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_showing, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -193,9 +199,6 @@ func (s *KeyguardStateCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyguardStateCallbackOnSimSecureStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_simSecure, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -209,9 +212,6 @@ func (s *KeyguardStateCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyguardStateCallbackOnInputRestrictedStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputRestricted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -225,9 +225,6 @@ func (s *KeyguardStateCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyguardStateCallbackOnTrustedChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_trusted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err

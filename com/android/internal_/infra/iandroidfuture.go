@@ -45,6 +45,7 @@ func (p *AndroidFutureProxy) Complete(
 	resultContainer AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAndroidFuture)
 	_data.WriteInt32(1)
 	if _err := resultContainer.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *AndroidFutureProxy) Complete(
 // AndroidFutureStub dispatches incoming binder transactions
 // to a typed IAndroidFuture implementation.
 type AndroidFutureStub struct {
-	Impl IAndroidFuture
+	Impl      IAndroidFuture
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AndroidFutureStub)(nil)
@@ -77,11 +79,12 @@ func (s *AndroidFutureStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAndroidFutureComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_resultContainer AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *AndroidFutureStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.Complete(ctx, _arg_resultContainer)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

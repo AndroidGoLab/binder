@@ -42,11 +42,21 @@ func (s *EnrollmentStageConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_stageRaw, _err := p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}
 	s.Stage = EnrollmentStage(_stageRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()

@@ -57,6 +57,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationStarted(
 	requestReason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
 	_data.WriteInt32(requestReason)
 
@@ -73,6 +74,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationStopped(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationStopped)
@@ -90,6 +92,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationSucceeded(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
 	_data.WriteInt32(requestReason)
 	_data.WriteInt32(_identity.UserID)
@@ -109,6 +112,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationFailed(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
 	_data.WriteInt32(requestReason)
 	_data.WriteInt32(_identity.UserID)
@@ -129,6 +133,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationAcquired(
 	acquiredInfo int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
 	_data.WriteInt32(1)
 	if _err := biometricSourceType.MarshalParcel(_data); _err != nil {
@@ -149,7 +154,8 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationAcquired(
 // AuthenticationStateListenerStub dispatches incoming binder transactions
 // to a typed AuthenticationStateListener implementation.
 type AuthenticationStateListenerStub struct {
-	Impl AuthenticationStateListener
+	Impl      AuthenticationStateListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AuthenticationStateListenerStub)(nil)
@@ -163,29 +169,22 @@ func (s *AuthenticationStateListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionAuthenticationStateListenerOnAuthenticationStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAuthenticationStarted(ctx, _arg_requestReason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionAuthenticationStateListenerOnAuthenticationStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnAuthenticationStopped(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionAuthenticationStateListenerOnAuthenticationSucceeded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -194,12 +193,8 @@ func (s *AuthenticationStateListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAuthenticationSucceeded(ctx, _arg_requestReason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionAuthenticationStateListenerOnAuthenticationFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -208,12 +203,8 @@ func (s *AuthenticationStateListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAuthenticationFailed(ctx, _arg_requestReason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionAuthenticationStateListenerOnAuthenticationAcquired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_biometricSourceType BiometricSourceType
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -235,8 +226,7 @@ func (s *AuthenticationStateListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAuthenticationAcquired(ctx, _arg_biometricSourceType, _arg_requestReason, _arg_acquiredInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -1,0 +1,83 @@
+package: android.frameworks.location.altitude
+go_package: android/frameworks/location/altitude
+interfaces:
+    - name: IAltitudeService
+      descriptor: android.frameworks.location.altitude.IAltitudeService
+      methods:
+        - name: addMslAltitudeToLocation
+          transaction_code_offset: 0
+          params:
+            - name: request
+              type:
+                name: AddMslAltitudeToLocationRequest
+              direction: in
+          return_type:
+            name: AddMslAltitudeToLocationResponse
+        - name: getGeoidHeight
+          transaction_code_offset: 1
+          params:
+            - name: request
+              type:
+                name: GetGeoidHeightRequest
+              direction: in
+          return_type:
+            name: GetGeoidHeightResponse
+parcelables:
+    - name: AddMslAltitudeToLocationRequest
+      fields:
+        - name: latitudeDegrees
+          type:
+            name: double
+        - name: longitudeDegrees
+          type:
+            name: double
+        - name: altitudeMeters
+          type:
+            name: double
+        - name: verticalAccuracyMeters
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: AddMslAltitudeToLocationResponse
+      fields:
+        - name: mslAltitudeMeters
+          type:
+            name: double
+        - name: mslAltitudeAccuracyMeters
+          type:
+            name: float
+        - name: success
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: GetGeoidHeightRequest
+      fields:
+        - name: latitudeDegrees
+          type:
+            name: double
+        - name: longitudeDegrees
+          type:
+            name: double
+      annotations:
+        - VintfStability
+    - name: GetGeoidHeightResponse
+      fields:
+        - name: geoidHeightMeters
+          type:
+            name: double
+        - name: geoidHeightErrorMeters
+          type:
+            name: float
+        - name: expirationDistanceMeters
+          type:
+            name: double
+        - name: additionalGeoidHeightErrorMeters
+          type:
+            name: float
+        - name: success
+          type:
+            name: boolean
+      annotations:
+        - VintfStability

@@ -89,6 +89,7 @@ func (p *TrustManagerProxy) ReportUnlockAttempt(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteBool(successful)
 	_data.WriteInt32(_identity.UserID)
@@ -117,6 +118,7 @@ func (p *TrustManagerProxy) ReportUserRequestedUnlock(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(dismissKeyguard)
@@ -144,6 +146,7 @@ func (p *TrustManagerProxy) ReportUserMayRequestUnlock(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -171,6 +174,7 @@ func (p *TrustManagerProxy) ReportUnlockLockout(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(timeoutMs)
 	_data.WriteInt32(_identity.UserID)
@@ -198,6 +202,7 @@ func (p *TrustManagerProxy) ReportEnabledTrustAgentsChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -224,6 +229,7 @@ func (p *TrustManagerProxy) RegisterTrustListener(
 	trustListener ITrustListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	binder.WriteBinderToParcel(ctx, _data, trustListener.AsBinder(), p.Remote.Transport())
 
@@ -250,6 +256,7 @@ func (p *TrustManagerProxy) UnregisterTrustListener(
 	trustListener ITrustListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	binder.WriteBinderToParcel(ctx, _data, trustListener.AsBinder(), p.Remote.Transport())
 
@@ -275,6 +282,7 @@ func (p *TrustManagerProxy) ReportKeyguardShowingChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustManager, MethodITrustManagerReportKeyguardShowingChanged)
@@ -301,6 +309,7 @@ func (p *TrustManagerProxy) SetDeviceLockedForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(locked)
@@ -330,6 +339,7 @@ func (p *TrustManagerProxy) IsDeviceLocked(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(deviceId)
@@ -363,6 +373,7 @@ func (p *TrustManagerProxy) IsDeviceSecure(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(deviceId)
@@ -395,6 +406,7 @@ func (p *TrustManagerProxy) IsTrustUsuallyManaged(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -426,6 +438,7 @@ func (p *TrustManagerProxy) UnlockedByBiometricForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -457,6 +470,7 @@ func (p *TrustManagerProxy) ClearAllBiometricRecognized(
 	unlockedUser int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(1)
 	if _err := target.MarshalParcel(_data); _err != nil {
@@ -488,6 +502,7 @@ func (p *TrustManagerProxy) IsActiveUnlockRunning(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -516,7 +531,8 @@ func (p *TrustManagerProxy) IsActiveUnlockRunning(
 // TrustManagerStub dispatches incoming binder transactions
 // to a typed ITrustManager implementation.
 type TrustManagerStub struct {
-	Impl ITrustManager
+	Impl      ITrustManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TrustManagerStub)(nil)
@@ -530,11 +546,12 @@ func (s *TrustManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITrustManagerReportUnlockAttempt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_successful, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -551,9 +568,6 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerReportUserRequestedUnlock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -570,9 +584,6 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerReportUserMayRequestUnlock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -585,9 +596,6 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerReportUnlockLockout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeoutMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -604,9 +612,6 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerReportEnabledTrustAgentsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -619,12 +624,14 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerRegisterTrustListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_trustListener ITrustListener
-		_ = _arg_trustListener
+		{
+			_trustListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_trustListener = NewTrustListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _trustListenerHandle))
+		}
 		_err := s.Impl.RegisterTrustListener(ctx, _arg_trustListener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -634,12 +641,14 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerUnregisterTrustListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_trustListener ITrustListener
-		_ = _arg_trustListener
+		{
+			_trustListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_trustListener = NewTrustListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _trustListenerHandle))
+		}
 		_err := s.Impl.UnregisterTrustListener(ctx, _arg_trustListener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -649,9 +658,6 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerReportKeyguardShowingChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ReportKeyguardShowingChanged(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -661,9 +667,6 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerSetDeviceLockedForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -680,9 +683,6 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerIsDeviceLocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -700,9 +700,6 @@ func (s *TrustManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITrustManagerIsDeviceSecure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -720,9 +717,6 @@ func (s *TrustManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITrustManagerIsTrustUsuallyManaged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -736,9 +730,6 @@ func (s *TrustManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITrustManagerUnlockedByBiometricForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -763,9 +754,6 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerClearAllBiometricRecognized:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_target biometrics.BiometricSourceType
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -791,9 +779,6 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerIsActiveUnlockRunning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}

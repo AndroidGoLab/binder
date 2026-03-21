@@ -48,6 +48,7 @@ func (p *TracingServiceProxyProxy) NotifyTraceSessionEnded(
 	sessionStolen bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITracingServiceProxy)
 	_data.WriteBool(sessionStolen)
 
@@ -65,6 +66,7 @@ func (p *TracingServiceProxyProxy) ReportTrace(
 	params TraceReportParams,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITracingServiceProxy)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -83,7 +85,8 @@ func (p *TracingServiceProxyProxy) ReportTrace(
 // TracingServiceProxyStub dispatches incoming binder transactions
 // to a typed ITracingServiceProxy implementation.
 type TracingServiceProxyStub struct {
-	Impl ITracingServiceProxy
+	Impl      ITracingServiceProxy
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TracingServiceProxyStub)(nil)
@@ -97,22 +100,19 @@ func (s *TracingServiceProxyStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITracingServiceProxyNotifyTraceSessionEnded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionStolen, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyTraceSessionEnded(ctx, _arg_sessionStolen)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITracingServiceProxyReportTrace:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_params TraceReportParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -126,8 +126,7 @@ func (s *TracingServiceProxyStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ReportTrace(ctx, _arg_params)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

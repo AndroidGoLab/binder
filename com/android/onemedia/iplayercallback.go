@@ -46,6 +46,7 @@ func (p *PlayerCallbackProxy) OnSessionChanged(
 	session mediaSession.MediaSessionToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPlayerCallback)
 	_data.WriteInt32(1)
 	if _err := session.MarshalParcel(_data); _err != nil {
@@ -73,7 +74,8 @@ func (p *PlayerCallbackProxy) OnSessionChanged(
 // PlayerCallbackStub dispatches incoming binder transactions
 // to a typed IPlayerCallback implementation.
 type PlayerCallbackStub struct {
-	Impl IPlayerCallback
+	Impl      IPlayerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PlayerCallbackStub)(nil)
@@ -87,11 +89,12 @@ func (s *PlayerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPlayerCallbackOnSessionChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_session mediaSession.MediaSessionToken
 		{
 			_nullInd, _err := _data.ReadInt32()

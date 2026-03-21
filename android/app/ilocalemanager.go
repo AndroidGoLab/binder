@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -29,9 +30,9 @@ const (
 
 type ILocaleManager interface {
 	AsBinder() binder.IBinder
-	SetApplicationLocales(ctx context.Context, packageName string, locales interface{}, fromDelegate bool) error
-	GetApplicationLocales(ctx context.Context, packageName string) (interface{}, error)
-	GetSystemLocales(ctx context.Context) (interface{}, error)
+	SetApplicationLocales(ctx context.Context, packageName string, locales os.LocaleList, fromDelegate bool) error
+	GetApplicationLocales(ctx context.Context, packageName string) (os.LocaleList, error)
+	GetSystemLocales(ctx context.Context) (os.LocaleList, error)
 	SetOverrideLocaleConfig(ctx context.Context, packageName string, localeConfig LocaleConfig) error
 	GetOverrideLocaleConfig(ctx context.Context, packageName string) (LocaleConfig, error)
 }
@@ -55,14 +56,19 @@ var _ ILocaleManager = (*LocaleManagerProxy)(nil)
 func (p *LocaleManagerProxy) SetApplicationLocales(
 	ctx context.Context,
 	packageName string,
-	locales interface{},
+	locales os.LocaleList,
 	fromDelegate bool,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
+	_data.WriteInt32(1)
+	if _err := locales.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(fromDelegate)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocaleManager, MethodILocaleManagerSetApplicationLocales)
@@ -86,10 +92,11 @@ func (p *LocaleManagerProxy) SetApplicationLocales(
 func (p *LocaleManagerProxy) GetApplicationLocales(
 	ctx context.Context,
 	packageName string,
-) (interface{}, error) {
-	var _result interface{}
+) (os.LocaleList, error) {
+	var _result os.LocaleList
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -109,14 +116,24 @@ func (p *LocaleManagerProxy) GetApplicationLocales(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *LocaleManagerProxy) GetSystemLocales(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (os.LocaleList, error) {
+	var _result os.LocaleList
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocaleManager, MethodILocaleManagerGetSystemLocales)
@@ -134,6 +151,15 @@ func (p *LocaleManagerProxy) GetSystemLocales(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -144,6 +170,7 @@ func (p *LocaleManagerProxy) SetOverrideLocaleConfig(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -177,6 +204,7 @@ func (p *LocaleManagerProxy) GetOverrideLocaleConfig(
 	var _result LocaleConfig
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -211,7 +239,8 @@ func (p *LocaleManagerProxy) GetOverrideLocaleConfig(
 // LocaleManagerStub dispatches incoming binder transactions
 // to a typed ILocaleManager implementation.
 type LocaleManagerStub struct {
-	Impl ILocaleManager
+	Impl      ILocaleManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LocaleManagerStub)(nil)
@@ -225,11 +254,12 @@ func (s *LocaleManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILocaleManagerSetApplicationLocales:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -237,7 +267,18 @@ func (s *LocaleManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		var _arg_locales interface{}
+		var _arg_locales os.LocaleList
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_locales.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_fromDelegate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -251,9 +292,6 @@ func (s *LocaleManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocaleManagerGetApplicationLocales:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -268,12 +306,12 @@ func (s *LocaleManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionILocaleManagerGetSystemLocales:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionILocaleManagerGetSystemLocales:
 		_result, _err := s.Impl.GetSystemLocales(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -281,12 +319,12 @@ func (s *LocaleManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionILocaleManagerSetOverrideLocaleConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionILocaleManagerSetOverrideLocaleConfig:
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -315,9 +353,6 @@ func (s *LocaleManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocaleManagerGetOverrideLocaleConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -346,9 +381,9 @@ func (s *LocaleManagerStub) OnTransaction(
 // provide to NewLocaleManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ILocaleManagerServer interface {
-	SetApplicationLocales(ctx context.Context, packageName string, locales interface{}, fromDelegate bool) error
-	GetApplicationLocales(ctx context.Context, packageName string) (interface{}, error)
-	GetSystemLocales(ctx context.Context) (interface{}, error)
+	SetApplicationLocales(ctx context.Context, packageName string, locales os.LocaleList, fromDelegate bool) error
+	GetApplicationLocales(ctx context.Context, packageName string) (os.LocaleList, error)
+	GetSystemLocales(ctx context.Context) (os.LocaleList, error)
 	SetOverrideLocaleConfig(ctx context.Context, packageName string, localeConfig LocaleConfig) error
 	GetOverrideLocaleConfig(ctx context.Context, packageName string) (LocaleConfig, error)
 }
@@ -365,7 +400,7 @@ func (w *localeManagerStubWrapper) AsBinder() binder.IBinder {
 func (w *localeManagerStubWrapper) SetApplicationLocales(
 	ctx context.Context,
 	packageName string,
-	locales interface{},
+	locales os.LocaleList,
 	fromDelegate bool,
 ) error {
 	return w.impl.SetApplicationLocales(ctx, packageName, locales, fromDelegate)
@@ -374,13 +409,13 @@ func (w *localeManagerStubWrapper) SetApplicationLocales(
 func (w *localeManagerStubWrapper) GetApplicationLocales(
 	ctx context.Context,
 	packageName string,
-) (interface{}, error) {
+) (os.LocaleList, error) {
 	return w.impl.GetApplicationLocales(ctx, packageName)
 }
 
 func (w *localeManagerStubWrapper) GetSystemLocales(
 	ctx context.Context,
-) (interface{}, error) {
+) (os.LocaleList, error) {
 	return w.impl.GetSystemLocales(ctx)
 }
 

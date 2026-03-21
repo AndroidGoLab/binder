@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	bufferpool2 "github.com/xaionaro-go/binder/android/hardware/media/bufferpool2"
-	c2IComponentStore "github.com/xaionaro-go/binder/android/hardware/media/c2/IComponentStore"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -43,7 +42,7 @@ type IComponentStore interface {
 	GetConfigurable(ctx context.Context) (IConfigurable, error)
 	GetPoolClientManager(ctx context.Context) (bufferpool2.IClientManager, error)
 	GetStructDescriptors(ctx context.Context, indices []int32) ([]StructDescriptor, error)
-	ListComponents(ctx context.Context) ([]c2IComponentStore.ComponentTraits, error)
+	ListComponents(ctx context.Context) ([]IComponentStoreComponentTraits, error)
 	CreateInputSurface(ctx context.Context) (IInputSurface, error)
 }
 
@@ -69,6 +68,7 @@ func (p *ComponentStoreProxy) CopyBuffer(
 	dst Buffer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponentStore)
 	_data.WriteInt32(1)
 	if _err := src.MarshalParcel(_data); _err != nil {
@@ -105,6 +105,7 @@ func (p *ComponentStoreProxy) CreateComponent(
 ) (IComponent, error) {
 	var _result IComponent
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponentStore)
 	_data.WriteString16(name)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -139,6 +140,7 @@ func (p *ComponentStoreProxy) CreateInterface(
 ) (IComponentInterface, error) {
 	var _result IComponentInterface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponentStore)
 	_data.WriteString16(name)
 
@@ -170,6 +172,7 @@ func (p *ComponentStoreProxy) GetConfigurable(
 ) (IConfigurable, error) {
 	var _result IConfigurable
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponentStore)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponentStore, MethodIComponentStoreGetConfigurable)
@@ -200,6 +203,7 @@ func (p *ComponentStoreProxy) GetPoolClientManager(
 ) (bufferpool2.IClientManager, error) {
 	var _result bufferpool2.IClientManager
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponentStore)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponentStore, MethodIComponentStoreGetPoolClientManager)
@@ -231,6 +235,7 @@ func (p *ComponentStoreProxy) GetStructDescriptors(
 ) ([]StructDescriptor, error) {
 	var _result []StructDescriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponentStore)
 	if indices == nil {
 		_data.WriteInt32(-1)
@@ -260,6 +265,9 @@ func (p *ComponentStoreProxy) GetStructDescriptors(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]StructDescriptor, _count)
@@ -277,9 +285,10 @@ func (p *ComponentStoreProxy) GetStructDescriptors(
 
 func (p *ComponentStoreProxy) ListComponents(
 	ctx context.Context,
-) ([]c2IComponentStore.ComponentTraits, error) {
-	var _result []c2IComponentStore.ComponentTraits
+) ([]IComponentStoreComponentTraits, error) {
+	var _result []IComponentStoreComponentTraits
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponentStore)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponentStore, MethodIComponentStoreListComponents)
@@ -301,9 +310,12 @@ func (p *ComponentStoreProxy) ListComponents(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]c2IComponentStore.ComponentTraits, _count)
+		_result = make([]IComponentStoreComponentTraits, _count)
 		for _i := int32(0); _i < _count; _i++ {
 			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
@@ -321,6 +333,7 @@ func (p *ComponentStoreProxy) CreateInputSurface(
 ) (IInputSurface, error) {
 	var _result IInputSurface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponentStore)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponentStore, MethodIComponentStoreCreateInputSurface)
@@ -349,7 +362,8 @@ func (p *ComponentStoreProxy) CreateInputSurface(
 // ComponentStoreStub dispatches incoming binder transactions
 // to a typed IComponentStore implementation.
 type ComponentStoreStub struct {
-	Impl IComponentStore
+	Impl      IComponentStore
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ComponentStoreStub)(nil)
@@ -363,11 +377,12 @@ func (s *ComponentStoreStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIComponentStoreCopyBuffer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_src Buffer
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -401,19 +416,26 @@ func (s *ComponentStoreStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComponentStoreCreateComponent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IComponentListener
-		_ = _arg_listener
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewComponentListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		var _arg_pool bufferpool2.IClientManager
-		_ = _arg_pool
+		{
+			_poolHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_pool = bufferpool2.NewClientManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _poolHandle))
+		}
 		_result, _err := s.Impl.CreateComponent(ctx, _arg_name, _arg_listener, _arg_pool)
 		_reply := parcel.New()
 		if _err != nil {
@@ -421,13 +443,9 @@ func (s *ComponentStoreStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIComponentStoreCreateInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -439,13 +457,9 @@ func (s *ComponentStoreStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIComponentStoreGetConfigurable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetConfigurable(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -453,13 +467,9 @@ func (s *ComponentStoreStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIComponentStoreGetPoolClientManager:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPoolClientManager(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -467,16 +477,28 @@ func (s *ComponentStoreStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIComponentStoreGetStructDescriptors:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_indices []int32
-		_ = _arg_indices
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_indices = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_indices[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetStructDescriptors(ctx, _arg_indices)
 		_reply := parcel.New()
 		if _err != nil {
@@ -484,13 +506,19 @@ func (s *ComponentStoreStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIComponentStoreListComponents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ListComponents(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -498,13 +526,19 @@ func (s *ComponentStoreStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIComponentStoreCreateInputSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CreateInputSurface(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -512,8 +546,7 @@ func (s *ComponentStoreStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -530,7 +563,7 @@ type IComponentStoreServer interface {
 	GetConfigurable(ctx context.Context) (IConfigurable, error)
 	GetPoolClientManager(ctx context.Context) (bufferpool2.IClientManager, error)
 	GetStructDescriptors(ctx context.Context, indices []int32) ([]StructDescriptor, error)
-	ListComponents(ctx context.Context) ([]c2IComponentStore.ComponentTraits, error)
+	ListComponents(ctx context.Context) ([]IComponentStoreComponentTraits, error)
 	CreateInputSurface(ctx context.Context) (IInputSurface, error)
 }
 
@@ -588,7 +621,7 @@ func (w *componentStoreStubWrapper) GetStructDescriptors(
 
 func (w *componentStoreStubWrapper) ListComponents(
 	ctx context.Context,
-) ([]c2IComponentStore.ComponentTraits, error) {
+) ([]IComponentStoreComponentTraits, error) {
 	return w.impl.ListComponents(ctx)
 }
 

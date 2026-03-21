@@ -54,6 +54,7 @@ func (p *CameraProviderCallbackProxy) CameraDeviceStatusChange(
 	newStatus service.CameraDeviceStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraProviderCallback)
 	_data.WriteString16(cameraDeviceName)
 	_data.WriteInt32(int32(newStatus))
@@ -82,6 +83,7 @@ func (p *CameraProviderCallbackProxy) TorchModeStatusChange(
 	newStatus common.TorchModeStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraProviderCallback)
 	_data.WriteString16(cameraDeviceName)
 	_data.WriteInt32(int32(newStatus))
@@ -111,6 +113,7 @@ func (p *CameraProviderCallbackProxy) PhysicalCameraDeviceStatusChange(
 	newStatus service.CameraDeviceStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraProviderCallback)
 	_data.WriteString16(cameraDeviceName)
 	_data.WriteString16(physicalCameraDeviceName)
@@ -137,7 +140,8 @@ func (p *CameraProviderCallbackProxy) PhysicalCameraDeviceStatusChange(
 // CameraProviderCallbackStub dispatches incoming binder transactions
 // to a typed ICameraProviderCallback implementation.
 type CameraProviderCallbackStub struct {
-	Impl ICameraProviderCallback
+	Impl      ICameraProviderCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CameraProviderCallbackStub)(nil)
@@ -151,11 +155,12 @@ func (s *CameraProviderCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICameraProviderCallbackCameraDeviceStatusChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraDeviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -174,9 +179,6 @@ func (s *CameraProviderCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraProviderCallbackTorchModeStatusChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraDeviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -195,9 +197,6 @@ func (s *CameraProviderCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraProviderCallbackPhysicalCameraDeviceStatusChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraDeviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

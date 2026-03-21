@@ -1,7 +1,6 @@
 package wifi
 
 import (
-	wifiStaLinkLayerLinkStats "github.com/xaionaro-go/binder/android/hardware/wifi/StaLinkLayerLinkStats"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -23,7 +22,7 @@ type StaLinkLayerLinkStats struct {
 	WmeViContentionTimeStats    StaLinkLayerIfaceContentionTimeStats
 	WmeVoContentionTimeStats    StaLinkLayerIfaceContentionTimeStats
 	Peers                       []StaPeerInfo
-	State                       wifiStaLinkLayerLinkStats.StaLinkState
+	State                       StaLinkLayerLinkStatsStaLinkState
 }
 
 var _ parcel.Parcelable = (*StaLinkLayerLinkStats)(nil)
@@ -87,9 +86,19 @@ func (s *StaLinkLayerLinkStats) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.LinkId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.RadioId, _err = p.ReadInt32()
@@ -97,9 +106,19 @@ func (s *StaLinkLayerLinkStats) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.FrequencyMhz, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.BeaconRx, _err = p.ReadInt32()
@@ -107,25 +126,55 @@ func (s *StaLinkLayerLinkStats) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.AvgRssiMgmt, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.WmeBePktStats.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.WmeBkPktStats.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.WmeViPktStats.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.WmeVoPktStats.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.TimeSliceDutyCycleInPercent, _err = p.ReadPaddedByte()
@@ -133,20 +182,45 @@ func (s *StaLinkLayerLinkStats) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.WmeBeContentionTimeStats.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.WmeBkContentionTimeStats.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.WmeViContentionTimeStats.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.WmeVoContentionTimeStats.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -166,11 +240,16 @@ func (s *StaLinkLayerLinkStats) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_stateRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.State = wifiStaLinkLayerLinkStats.StaLinkState(_stateRaw)
+	s.State = StaLinkLayerLinkStatsStaLinkState(_stateRaw)
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

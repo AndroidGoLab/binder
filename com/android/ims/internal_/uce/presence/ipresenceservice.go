@@ -69,6 +69,7 @@ func (p *PresenceServiceProxy) GetVersion(
 ) (vehicle.StatusCode, error) {
 	var _result vehicle.StatusCode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
 	_data.WriteInt32(presenceServiceHdl)
 
@@ -103,6 +104,7 @@ func (p *PresenceServiceProxy) AddListener(
 ) (vehicle.StatusCode, error) {
 	var _result vehicle.StatusCode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
 	_data.WriteInt32(presenceServiceHdl)
 	binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.Remote.Transport())
@@ -125,8 +127,16 @@ func (p *PresenceServiceProxy) AddListener(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = presenceServiceListenerHdl.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = presenceServiceListenerHdl.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_raw, _err := _reply.ReadInt32()
@@ -144,6 +154,7 @@ func (p *PresenceServiceProxy) RemoveListener(
 ) (vehicle.StatusCode, error) {
 	var _result vehicle.StatusCode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
 	_data.WriteInt32(presenceServiceHdl)
 	_data.WriteInt32(1)
@@ -181,6 +192,7 @@ func (p *PresenceServiceProxy) ReenableService(
 ) (vehicle.StatusCode, error) {
 	var _result vehicle.StatusCode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
 	_data.WriteInt32(presenceServiceHdl)
 	_data.WriteInt32(userData)
@@ -216,6 +228,7 @@ func (p *PresenceServiceProxy) PublishMyCap(
 ) (vehicle.StatusCode, error) {
 	var _result vehicle.StatusCode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
 	_data.WriteInt32(presenceServiceHdl)
 	_data.WriteInt32(1)
@@ -255,6 +268,7 @@ func (p *PresenceServiceProxy) GetContactCap(
 ) (vehicle.StatusCode, error) {
 	var _result vehicle.StatusCode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
 	_data.WriteInt32(presenceServiceHdl)
 	_data.WriteString16(remoteUri)
@@ -291,6 +305,7 @@ func (p *PresenceServiceProxy) GetContactListCap(
 ) (vehicle.StatusCode, error) {
 	var _result vehicle.StatusCode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
 	_data.WriteInt32(presenceServiceHdl)
 	if remoteUriList == nil {
@@ -335,6 +350,7 @@ func (p *PresenceServiceProxy) SetNewFeatureTag(
 ) (vehicle.StatusCode, error) {
 	var _result vehicle.StatusCode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
 	_data.WriteInt32(presenceServiceHdl)
 	_data.WriteString16(featureTag)
@@ -370,7 +386,8 @@ func (p *PresenceServiceProxy) SetNewFeatureTag(
 // PresenceServiceStub dispatches incoming binder transactions
 // to a typed IPresenceService implementation.
 type PresenceServiceStub struct {
-	Impl IPresenceService
+	Impl      IPresenceService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PresenceServiceStub)(nil)
@@ -384,11 +401,12 @@ func (s *PresenceServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPresenceServiceGetVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_presenceServiceHdl, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -403,16 +421,18 @@ func (s *PresenceServiceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIPresenceServiceAddListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_presenceServiceHdl, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_presenceServiceListener IPresenceListener
-		_ = _arg_presenceServiceListener
+		{
+			_presenceServiceListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_presenceServiceListener = NewPresenceListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _presenceServiceListenerHandle))
+		}
 		var _arg_presenceServiceListenerHdl common.UceLong
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -433,11 +453,12 @@ func (s *PresenceServiceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(int32(_result))
-		return _reply, nil
-	case TransactionIPresenceServiceRemoveListener:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_presenceServiceListenerHdl.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIPresenceServiceRemoveListener:
 		_arg_presenceServiceHdl, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -464,9 +485,6 @@ func (s *PresenceServiceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIPresenceServiceReenableService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_presenceServiceHdl, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -485,9 +503,6 @@ func (s *PresenceServiceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIPresenceServicePublishMyCap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_presenceServiceHdl, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -518,9 +533,6 @@ func (s *PresenceServiceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIPresenceServiceGetContactCap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_presenceServiceHdl, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -543,16 +555,29 @@ func (s *PresenceServiceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIPresenceServiceGetContactListCap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_presenceServiceHdl, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_remoteUriList []string
-		_ = _arg_remoteUriList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_remoteUriList = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_remoteUriList[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_userData, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -567,9 +592,6 @@ func (s *PresenceServiceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIPresenceServiceSetNewFeatureTag:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_presenceServiceHdl, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

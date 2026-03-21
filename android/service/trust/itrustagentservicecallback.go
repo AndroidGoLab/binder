@@ -40,7 +40,7 @@ const (
 
 type ITrustAgentServiceCallback interface {
 	AsBinder() binder.IBinder
-	GrantTrust(ctx context.Context, message interface{}, durationMs int64, flags int32, resultCallback infra.AndroidFuture) error
+	GrantTrust(ctx context.Context, message string, durationMs int64, flags int32, resultCallback infra.AndroidFuture) error
 	RevokeTrust(ctx context.Context) error
 	LockUser(ctx context.Context) error
 	SetManagingTrust(ctx context.Context, managingTrust bool) error
@@ -49,7 +49,7 @@ type ITrustAgentServiceCallback interface {
 	IsEscrowTokenActive(ctx context.Context, handle int64) error
 	RemoveEscrowToken(ctx context.Context, handle int64) error
 	UnlockUserWithToken(ctx context.Context, handle int64, token []byte) error
-	ShowKeyguardErrorMessage(ctx context.Context, message interface{}) error
+	ShowKeyguardErrorMessage(ctx context.Context, message string) error
 }
 
 type TrustAgentServiceCallbackProxy struct {
@@ -70,13 +70,15 @@ var _ ITrustAgentServiceCallback = (*TrustAgentServiceCallbackProxy)(nil)
 
 func (p *TrustAgentServiceCallbackProxy) GrantTrust(
 	ctx context.Context,
-	message interface{},
+	message string,
 	durationMs int64,
 	flags int32,
 	resultCallback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
+	_data.WriteString16(message)
 	_data.WriteInt64(durationMs)
 	_data.WriteInt32(flags)
 	_data.WriteInt32(1)
@@ -97,6 +99,7 @@ func (p *TrustAgentServiceCallbackProxy) RevokeTrust(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackRevokeTrust)
@@ -112,6 +115,7 @@ func (p *TrustAgentServiceCallbackProxy) LockUser(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackLockUser)
@@ -128,6 +132,7 @@ func (p *TrustAgentServiceCallbackProxy) SetManagingTrust(
 	managingTrust bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
 	_data.WriteBool(managingTrust)
 
@@ -146,6 +151,7 @@ func (p *TrustAgentServiceCallbackProxy) OnConfigureCompleted(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
 	_data.WriteBool(result)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -165,15 +171,9 @@ func (p *TrustAgentServiceCallbackProxy) AddEscrowToken(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
-	if token == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(token)))
-		for _, _item := range token {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(token)
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackAddEscrowToken)
@@ -191,6 +191,7 @@ func (p *TrustAgentServiceCallbackProxy) IsEscrowTokenActive(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
 	_data.WriteInt64(handle)
 	_data.WriteInt32(_identity.UserID)
@@ -210,6 +211,7 @@ func (p *TrustAgentServiceCallbackProxy) RemoveEscrowToken(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
 	_data.WriteInt64(handle)
 	_data.WriteInt32(_identity.UserID)
@@ -230,16 +232,10 @@ func (p *TrustAgentServiceCallbackProxy) UnlockUserWithToken(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
 	_data.WriteInt64(handle)
-	if token == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(token)))
-		for _, _item := range token {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(token)
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackUnlockUserWithToken)
@@ -253,10 +249,12 @@ func (p *TrustAgentServiceCallbackProxy) UnlockUserWithToken(
 
 func (p *TrustAgentServiceCallbackProxy) ShowKeyguardErrorMessage(
 	ctx context.Context,
-	message interface{},
+	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
+	_data.WriteString16(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentServiceCallback, MethodITrustAgentServiceCallbackShowKeyguardErrorMessage)
 	if _err != nil {
@@ -270,7 +268,8 @@ func (p *TrustAgentServiceCallbackProxy) ShowKeyguardErrorMessage(
 // TrustAgentServiceCallbackStub dispatches incoming binder transactions
 // to a typed ITrustAgentServiceCallback implementation.
 type TrustAgentServiceCallbackStub struct {
-	Impl ITrustAgentServiceCallback
+	Impl      ITrustAgentServiceCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TrustAgentServiceCallbackStub)(nil)
@@ -284,12 +283,16 @@ func (s *TrustAgentServiceCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITrustAgentServiceCallbackGrantTrust:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_message, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_message interface{}
 		_arg_durationMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -311,64 +314,50 @@ func (s *TrustAgentServiceCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.GrantTrust(ctx, _arg_message, _arg_durationMs, _arg_flags, _arg_resultCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceCallbackRevokeTrust:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RevokeTrust(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceCallbackLockUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.LockUser(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceCallbackSetManagingTrust:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_managingTrust, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetManagingTrust(ctx, _arg_managingTrust)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceCallbackOnConfigureCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		_err = s.Impl.OnConfigureCompleted(ctx, _arg_result, _arg_token)
-		_ = _err
-		return nil, nil
-	case TransactionITrustAgentServiceCallbackAddEscrowToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		_err = s.Impl.OnConfigureCompleted(ctx, _arg_result, _arg_token)
+		return nil, _err
+	case TransactionITrustAgentServiceCallbackAddEscrowToken:
 		var _arg_token []byte
-		_ = _arg_token
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = _bytes
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.AddEscrowToken(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceCallbackIsEscrowTokenActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -377,12 +366,8 @@ func (s *TrustAgentServiceCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.IsEscrowTokenActive(ctx, _arg_handle)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceCallbackRemoveEscrowToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -391,33 +376,32 @@ func (s *TrustAgentServiceCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.RemoveEscrowToken(ctx, _arg_handle)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceCallbackUnlockUserWithToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_token []byte
-		_ = _arg_token
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = _bytes
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.UnlockUserWithToken(ctx, _arg_handle, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceCallbackShowKeyguardErrorMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_message, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_message interface{}
-		_err := s.Impl.ShowKeyguardErrorMessage(ctx, _arg_message)
-		_ = _err
-		return nil, nil
+		_err = s.Impl.ShowKeyguardErrorMessage(ctx, _arg_message)
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -427,7 +411,7 @@ func (s *TrustAgentServiceCallbackStub) OnTransaction(
 // provide to NewTrustAgentServiceCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ITrustAgentServiceCallbackServer interface {
-	GrantTrust(ctx context.Context, message interface{}, durationMs int64, flags int32, resultCallback infra.AndroidFuture) error
+	GrantTrust(ctx context.Context, message string, durationMs int64, flags int32, resultCallback infra.AndroidFuture) error
 	RevokeTrust(ctx context.Context) error
 	LockUser(ctx context.Context) error
 	SetManagingTrust(ctx context.Context, managingTrust bool) error
@@ -436,7 +420,7 @@ type ITrustAgentServiceCallbackServer interface {
 	IsEscrowTokenActive(ctx context.Context, handle int64) error
 	RemoveEscrowToken(ctx context.Context, handle int64) error
 	UnlockUserWithToken(ctx context.Context, handle int64, token []byte) error
-	ShowKeyguardErrorMessage(ctx context.Context, message interface{}) error
+	ShowKeyguardErrorMessage(ctx context.Context, message string) error
 }
 
 type trustAgentServiceCallbackStubWrapper struct {
@@ -450,7 +434,7 @@ func (w *trustAgentServiceCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *trustAgentServiceCallbackStubWrapper) GrantTrust(
 	ctx context.Context,
-	message interface{},
+	message string,
 	durationMs int64,
 	flags int32,
 	resultCallback infra.AndroidFuture,
@@ -516,7 +500,7 @@ func (w *trustAgentServiceCallbackStubWrapper) UnlockUserWithToken(
 
 func (w *trustAgentServiceCallbackStubWrapper) ShowKeyguardErrorMessage(
 	ctx context.Context,
-	message interface{},
+	message string,
 ) error {
 	return w.impl.ShowKeyguardErrorMessage(ctx, message)
 }

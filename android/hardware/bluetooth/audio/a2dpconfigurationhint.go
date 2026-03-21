@@ -9,8 +9,8 @@ import (
 type A2dpConfigurationHint struct {
 	BdAddr          []byte
 	AudioContext    AudioContext
-	CodecId         CodecId
-	CodecParameters CodecParameters
+	CodecId         *CodecId
+	CodecParameters *CodecParameters
 }
 
 var _ parcel.Parcelable = (*A2dpConfigurationHint)(nil)
@@ -23,11 +23,21 @@ func (s *A2dpConfigurationHint) MarshalParcel(
 	if _err := s.AudioContext.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if _err := s.CodecId.MarshalParcel(p); _err != nil {
-		return _err
+	if s.CodecId == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.CodecId.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.CodecParameters.MarshalParcel(p); _err != nil {
-		return _err
+	if s.CodecParameters == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.CodecParameters.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -42,21 +52,61 @@ func (s *A2dpConfigurationHint) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.BdAddr, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.AudioContext.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
-	if _err = s.CodecId.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
-	if _err = s.CodecParameters.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val CodecId
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.CodecId = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val CodecParameters
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.CodecParameters = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

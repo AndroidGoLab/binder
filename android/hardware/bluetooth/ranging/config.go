@@ -36,11 +36,21 @@ func (s *Config) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_modeTypeRaw, _err := p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}
 	s.ModeType = ModeType(_modeTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_subModeTypeRaw, _err := p.ReadPaddedByte()
 	if _err != nil {
@@ -48,11 +58,21 @@ func (s *Config) UnmarshalParcel(
 	}
 	s.SubModeType = SubModeType(_subModeTypeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_rttTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.RttType = RttType(_rttTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.ChannelMap, _err = p.ReadFixedByteArray(10)
 	if _err != nil {

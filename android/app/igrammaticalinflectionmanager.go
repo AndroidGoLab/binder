@@ -54,6 +54,7 @@ func (p *GrammaticalInflectionManagerProxy) SetRequestedApplicationGrammaticalGe
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGrammaticalInflectionManager)
 	_data.WriteString16(appPackageName)
 	_data.WriteInt32(_identity.UserID)
@@ -83,6 +84,7 @@ func (p *GrammaticalInflectionManagerProxy) SetSystemWideGrammaticalGender(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGrammaticalInflectionManager)
 	_data.WriteInt32(gender)
 	_data.WriteInt32(_identity.UserID)
@@ -112,6 +114,7 @@ func (p *GrammaticalInflectionManagerProxy) GetSystemGrammaticalGender(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGrammaticalInflectionManager)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
@@ -144,7 +147,8 @@ func (p *GrammaticalInflectionManagerProxy) GetSystemGrammaticalGender(
 // GrammaticalInflectionManagerStub dispatches incoming binder transactions
 // to a typed IGrammaticalInflectionManager implementation.
 type GrammaticalInflectionManagerStub struct {
-	Impl IGrammaticalInflectionManager
+	Impl      IGrammaticalInflectionManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GrammaticalInflectionManagerStub)(nil)
@@ -158,11 +162,12 @@ func (s *GrammaticalInflectionManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGrammaticalInflectionManagerSetRequestedApplicationGrammaticalGender:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_appPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -183,9 +188,6 @@ func (s *GrammaticalInflectionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGrammaticalInflectionManagerSetSystemWideGrammaticalGender:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_gender, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -202,9 +204,6 @@ func (s *GrammaticalInflectionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGrammaticalInflectionManagerGetSystemGrammaticalGender:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_attributionSource content.AttributionSource
 		{
 			_nullInd, _err := _data.ReadInt32()

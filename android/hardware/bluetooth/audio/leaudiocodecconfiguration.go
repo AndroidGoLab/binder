@@ -2,7 +2,6 @@ package audio
 
 import (
 	"fmt"
-	audioCodecConfiguration "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/CodecConfiguration"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -17,7 +16,7 @@ const (
 type LeAudioCodecConfiguration struct {
 	Tag                  int32
 	Lc3Config            Lc3Configuration
-	VendorConfig         audioCodecConfiguration.VendorConfiguration
+	VendorConfig         CodecConfigurationVendorConfiguration
 	AptxAdaptiveLeConfig AptxAdaptiveLeConfiguration
 }
 
@@ -34,23 +33,21 @@ func (u *LeAudioCodecConfiguration) GetLc3Config() (Lc3Configuration, bool) {
 func (u *LeAudioCodecConfiguration) SetLc3Config(
 	v Lc3Configuration,
 ) {
-	u.Tag = LeAudioCodecConfigurationTagLc3Config
-	u.Lc3Config = v
+	*u = LeAudioCodecConfiguration{Tag: LeAudioCodecConfigurationTagLc3Config, Lc3Config: v}
 }
 
-func (u *LeAudioCodecConfiguration) GetVendorConfig() (audioCodecConfiguration.VendorConfiguration, bool) {
+func (u *LeAudioCodecConfiguration) GetVendorConfig() (CodecConfigurationVendorConfiguration, bool) {
 	if u.Tag != LeAudioCodecConfigurationTagVendorConfig {
-		var _zero audioCodecConfiguration.VendorConfiguration
+		var _zero CodecConfigurationVendorConfiguration
 		return _zero, false
 	}
 	return u.VendorConfig, true
 }
 
 func (u *LeAudioCodecConfiguration) SetVendorConfig(
-	v audioCodecConfiguration.VendorConfiguration,
+	v CodecConfigurationVendorConfiguration,
 ) {
-	u.Tag = LeAudioCodecConfigurationTagVendorConfig
-	u.VendorConfig = v
+	*u = LeAudioCodecConfiguration{Tag: LeAudioCodecConfigurationTagVendorConfig, VendorConfig: v}
 }
 
 func (u *LeAudioCodecConfiguration) GetAptxAdaptiveLeConfig() (AptxAdaptiveLeConfiguration, bool) {
@@ -64,8 +61,7 @@ func (u *LeAudioCodecConfiguration) GetAptxAdaptiveLeConfig() (AptxAdaptiveLeCon
 func (u *LeAudioCodecConfiguration) SetAptxAdaptiveLeConfig(
 	v AptxAdaptiveLeConfiguration,
 ) {
-	u.Tag = LeAudioCodecConfigurationTagAptxAdaptiveLeConfig
-	u.AptxAdaptiveLeConfig = v
+	*u = LeAudioCodecConfiguration{Tag: LeAudioCodecConfigurationTagAptxAdaptiveLeConfig, AptxAdaptiveLeConfig: v}
 }
 
 func (u *LeAudioCodecConfiguration) MarshalParcel(

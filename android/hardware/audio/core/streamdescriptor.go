@@ -12,7 +12,7 @@ type StreamDescriptor struct {
 	Reply            fmq.MQDescriptor
 	FrameSizeBytes   int32
 	BufferSizeFrames int64
-	Audio            interface{}
+	Audio            StreamDescriptorAudioBuffer
 }
 
 const (
@@ -33,6 +33,9 @@ func (s *StreamDescriptor) MarshalParcel(
 	}
 	p.WriteInt32(s.FrameSizeBytes)
 	p.WriteInt64(s.BufferSizeFrames)
+	if _err := s.Audio.MarshalParcel(p); _err != nil {
+		return _err
+	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -46,12 +49,27 @@ func (s *StreamDescriptor) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Command.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Reply.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.FrameSizeBytes, _err = p.ReadInt32()
@@ -59,8 +77,22 @@ func (s *StreamDescriptor) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.BufferSizeFrames, _err = p.ReadInt64()
 	if _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.Audio.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

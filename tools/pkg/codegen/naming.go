@@ -18,8 +18,10 @@ var aidlPrimitiveToGo = map[string]string{
 	"float":                "float32",
 	"double":               "float64",
 	"String":               "string",
+	"CharSequence":         "string",
 	"IBinder":              "binder.IBinder",
 	"ParcelFileDescriptor": "int32",
+	"FileDescriptor":       "int32",
 }
 
 // AIDLToGoName converts an AIDL identifier to a Go-exported name.
@@ -99,15 +101,15 @@ func aidlTypeToGoInner(ts *parser.TypeSpecifier) string {
 
 	switch ts.Name {
 	case "List":
-		elem := "interface{}"
+		elem := "any"
 		if len(ts.TypeArgs) > 0 {
 			elem = AIDLTypeToGo(ts.TypeArgs[0])
 		}
 		return "[]" + elem
 
 	case "Map":
-		key := "interface{}"
-		val := "interface{}"
+		key := "any"
+		val := "any"
 		if len(ts.TypeArgs) >= 2 {
 			key = AIDLTypeToGo(ts.TypeArgs[0])
 			val = AIDLTypeToGo(ts.TypeArgs[1])

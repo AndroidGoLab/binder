@@ -155,9 +155,9 @@ func TestImportGraph_CycleBreakInTypeResolver(t *testing.T) {
 
 	importGraph := BuildImportGraph(registry)
 
-	// In a direct A <-> B cycle, exactly one direction is the back-edge
-	// (broken to interface{}) and the other is safe. We test from both
-	// perspectives: exactly one should resolve to interface{}.
+	// In a direct A <-> B cycle with parcelable types, BOTH directions
+	// should redirect to types sub-packages (not any). Only
+	// interface types fall back to any.
 	f1 := NewGoFile("a")
 	r1 := NewTypeRefResolver(registry, "pkg.a", f1)
 	r1.ImportGraph = importGraph
@@ -168,15 +168,10 @@ func TestImportGraph_CycleBreakInTypeResolver(t *testing.T) {
 	r2.ImportGraph = importGraph
 	goTypeFromB := r2.GoTypeRef(&parser.TypeSpecifier{Name: "pkg.a.TypeA"})
 
-	// Exactly one direction must be broken.
-	brokenCount := 0
-	if goTypeFromA == "interface{}" {
-		brokenCount++
-	}
-	if goTypeFromB == "interface{}" {
-		brokenCount++
-	}
-	assert.Equal(t, 1, brokenCount, "exactly one direction should be broken (got A->B=%q, B->A=%q)", goTypeFromA, goTypeFromB)
+	// Neither direction should be broken to any since both
+	// types are parcelables that can use types sub-packages.
+	assert.NotEqual(t, "any", goTypeFromA, "parcelable type should redirect to types sub-package, not any")
+	assert.NotEqual(t, "any", goTypeFromB, "parcelable type should redirect to types sub-package, not any")
 
 	// Same-package resolution should always work.
 	f3 := NewGoFile("a")

@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/location/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -34,8 +35,8 @@ type ILocationProviderManager interface {
 	OnInitialize(ctx context.Context, allowed bool, properties ProviderProperties) error
 	OnSetAllowed(ctx context.Context, allowed bool) error
 	OnSetProperties(ctx context.Context, properties ProviderProperties) error
-	OnReportLocation(ctx context.Context, location interface{}) error
-	OnReportLocations(ctx context.Context, locations []interface{}) error
+	OnReportLocation(ctx context.Context, location types.Location) error
+	OnReportLocations(ctx context.Context, locations []types.Location) error
 	OnFlushComplete(ctx context.Context) error
 }
 
@@ -62,6 +63,7 @@ func (p *LocationProviderManagerProxy) OnInitialize(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
 	_data.WriteBool(allowed)
 	_data.WriteInt32(1)
@@ -93,6 +95,7 @@ func (p *LocationProviderManagerProxy) OnSetAllowed(
 	allowed bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
 	_data.WriteBool(allowed)
 
@@ -119,6 +122,7 @@ func (p *LocationProviderManagerProxy) OnSetProperties(
 	properties ProviderProperties,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
 	_data.WriteInt32(1)
 	if _err := properties.MarshalParcel(_data); _err != nil {
@@ -145,10 +149,12 @@ func (p *LocationProviderManagerProxy) OnSetProperties(
 
 func (p *LocationProviderManagerProxy) OnReportLocation(
 	ctx context.Context,
-	location interface{},
+	location types.Location,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
+	// WARNING: param location (type types.Location) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnReportLocation)
 	if _err != nil {
@@ -170,9 +176,10 @@ func (p *LocationProviderManagerProxy) OnReportLocation(
 
 func (p *LocationProviderManagerProxy) OnReportLocations(
 	ctx context.Context,
-	locations []interface{},
+	locations []types.Location,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
 	if locations == nil {
 		_data.WriteInt32(-1)
@@ -202,6 +209,7 @@ func (p *LocationProviderManagerProxy) OnFlushComplete(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnFlushComplete)
@@ -225,7 +233,8 @@ func (p *LocationProviderManagerProxy) OnFlushComplete(
 // LocationProviderManagerStub dispatches incoming binder transactions
 // to a typed ILocationProviderManager implementation.
 type LocationProviderManagerStub struct {
-	Impl ILocationProviderManager
+	Impl      ILocationProviderManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LocationProviderManagerStub)(nil)
@@ -239,11 +248,12 @@ func (s *LocationProviderManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILocationProviderManagerOnInitialize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -272,9 +282,6 @@ func (s *LocationProviderManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationProviderManagerOnSetAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -288,9 +295,6 @@ func (s *LocationProviderManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationProviderManagerOnSetProperties:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_properties ProviderProperties
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -312,10 +316,7 @@ func (s *LocationProviderManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationProviderManagerOnReportLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_location interface{}
+		var _arg_location types.Location
 		_err := s.Impl.OnReportLocation(ctx, _arg_location)
 		_reply := parcel.New()
 		if _err != nil {
@@ -325,12 +326,19 @@ func (s *LocationProviderManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationProviderManagerOnReportLocations:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_locations []types.Location
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_locations = make([]types.Location, _count)
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_locations []interface{}
-		_ = _arg_locations
 		_err := s.Impl.OnReportLocations(ctx, _arg_locations)
 		_reply := parcel.New()
 		if _err != nil {
@@ -340,9 +348,6 @@ func (s *LocationProviderManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationProviderManagerOnFlushComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnFlushComplete(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -363,8 +368,8 @@ type ILocationProviderManagerServer interface {
 	OnInitialize(ctx context.Context, allowed bool, properties ProviderProperties) error
 	OnSetAllowed(ctx context.Context, allowed bool) error
 	OnSetProperties(ctx context.Context, properties ProviderProperties) error
-	OnReportLocation(ctx context.Context, location interface{}) error
-	OnReportLocations(ctx context.Context, locations []interface{}) error
+	OnReportLocation(ctx context.Context, location types.Location) error
+	OnReportLocations(ctx context.Context, locations []types.Location) error
 	OnFlushComplete(ctx context.Context) error
 }
 
@@ -401,14 +406,14 @@ func (w *locationProviderManagerStubWrapper) OnSetProperties(
 
 func (w *locationProviderManagerStubWrapper) OnReportLocation(
 	ctx context.Context,
-	location interface{},
+	location types.Location,
 ) error {
 	return w.impl.OnReportLocation(ctx, location)
 }
 
 func (w *locationProviderManagerStubWrapper) OnReportLocations(
 	ctx context.Context,
-	locations []interface{},
+	locations []types.Location,
 ) error {
 	return w.impl.OnReportLocations(ctx, locations)
 }

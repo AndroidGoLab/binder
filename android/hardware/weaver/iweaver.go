@@ -57,6 +57,7 @@ func (p *WeaverProxy) GetConfig(
 ) (WeaverConfig, error) {
 	var _result WeaverConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWeaver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWeaver, MethodIWeaverGetConfig)
@@ -93,16 +94,10 @@ func (p *WeaverProxy) Read(
 ) (WeaverReadResponse, error) {
 	var _result WeaverReadResponse
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWeaver)
 	_data.WriteInt32(slotId)
-	if key == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(key)))
-		for _, _item := range key {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(key)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWeaver, MethodIWeaverRead)
 	if _err != nil {
@@ -138,24 +133,11 @@ func (p *WeaverProxy) Write(
 	value []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWeaver)
 	_data.WriteInt32(slotId)
-	if key == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(key)))
-		for _, _item := range key {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if value == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(value)))
-		for _, _item := range value {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(key)
+	_data.WriteByteArray(value)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWeaver, MethodIWeaverWrite)
 	if _err != nil {
@@ -178,7 +160,8 @@ func (p *WeaverProxy) Write(
 // WeaverStub dispatches incoming binder transactions
 // to a typed IWeaver implementation.
 type WeaverStub struct {
-	Impl IWeaver
+	Impl      IWeaver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WeaverStub)(nil)
@@ -192,11 +175,12 @@ func (s *WeaverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWeaverGetConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetConfig(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -210,16 +194,18 @@ func (s *WeaverStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWeaverRead:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_key []byte
-		_ = _arg_key
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_key = _bytes
+		}
 		_result, _err := s.Impl.Read(ctx, _arg_slotId, _arg_key)
 		_reply := parcel.New()
 		if _err != nil {
@@ -233,19 +219,26 @@ func (s *WeaverStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWeaverWrite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_key []byte
-		_ = _arg_key
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_key = _bytes
+		}
 		var _arg_value []byte
-		_ = _arg_value
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_value = _bytes
+		}
 		_err = s.Impl.Write(ctx, _arg_slotId, _arg_key, _arg_value)
 		_reply := parcel.New()
 		if _err != nil {

@@ -57,6 +57,7 @@ func (p *PackageInstallerCallbackProxy) OnSessionCreated(
 	sessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerCallback)
 	_data.WriteInt32(sessionId)
 
@@ -74,6 +75,7 @@ func (p *PackageInstallerCallbackProxy) OnSessionBadgingChanged(
 	sessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerCallback)
 	_data.WriteInt32(sessionId)
 
@@ -92,6 +94,7 @@ func (p *PackageInstallerCallbackProxy) OnSessionActiveChanged(
 	active bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerCallback)
 	_data.WriteInt32(sessionId)
 	_data.WriteBool(active)
@@ -111,6 +114,7 @@ func (p *PackageInstallerCallbackProxy) OnSessionProgressChanged(
 	progress float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerCallback)
 	_data.WriteInt32(sessionId)
 	_data.WriteFloat32(progress)
@@ -130,6 +134,7 @@ func (p *PackageInstallerCallbackProxy) OnSessionFinished(
 	success bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerCallback)
 	_data.WriteInt32(sessionId)
 	_data.WriteBool(success)
@@ -146,7 +151,8 @@ func (p *PackageInstallerCallbackProxy) OnSessionFinished(
 // PackageInstallerCallbackStub dispatches incoming binder transactions
 // to a typed IPackageInstallerCallback implementation.
 type PackageInstallerCallbackStub struct {
-	Impl IPackageInstallerCallback
+	Impl      IPackageInstallerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PackageInstallerCallbackStub)(nil)
@@ -160,33 +166,26 @@ func (s *PackageInstallerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPackageInstallerCallbackOnSessionCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSessionCreated(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPackageInstallerCallbackOnSessionBadgingChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSessionBadgingChanged(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPackageInstallerCallbackOnSessionActiveChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -196,12 +195,8 @@ func (s *PackageInstallerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSessionActiveChanged(ctx, _arg_sessionId, _arg_active)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPackageInstallerCallbackOnSessionProgressChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -211,12 +206,8 @@ func (s *PackageInstallerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSessionProgressChanged(ctx, _arg_sessionId, _arg_progress)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPackageInstallerCallbackOnSessionFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -226,8 +217,7 @@ func (s *PackageInstallerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSessionFinished(ctx, _arg_sessionId, _arg_success)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

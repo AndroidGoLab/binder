@@ -1,0 +1,127 @@
+package: android.graphics.bufferstreams
+go_package: android/graphics/bufferstreams
+interfaces:
+    - name: IBufferOwner
+      descriptor: android.graphics.bufferstreams.IBufferOwner
+      methods:
+        - name: onBufferReleased
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: bufferId
+              type:
+                name: long
+              direction: in
+            - name: releaseFence
+              type:
+                name: ParcelFileDescriptor
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+    - name: IBufferSubscriber
+      descriptor: android.graphics.bufferstreams.IBufferSubscriber
+      methods:
+        - name: onSubscribe
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: subscription
+              type:
+                name: IBufferSubscription
+              direction: in
+          return_type:
+            name: void
+        - name: onBufferCacheUpdate
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: update
+              type:
+                name: BufferCacheUpdate
+              direction: in
+          return_type:
+            name: void
+        - name: onNext
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: frame
+              type:
+                name: Frame
+              direction: in
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 3
+          oneway: true
+          return_type:
+            name: void
+        - name: onComplete
+          transaction_code_offset: 4
+          oneway: true
+          return_type:
+            name: void
+    - name: IBufferSubscription
+      descriptor: android.graphics.bufferstreams.IBufferSubscription
+      methods:
+        - name: request
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: "n"
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: cancel
+          transaction_code_offset: 1
+          oneway: true
+          return_type:
+            name: void
+parcelables:
+    - name: BufferAttachment
+      fields:
+        - name: buffer
+          type:
+            name: HardwareBuffer
+          annotations:
+            - nullable
+        - name: owner
+          type:
+            name: IBufferOwner
+    - name: BufferCacheUpdate.CacheBuffers
+      fields:
+        - name: attachments
+          type:
+            name: List
+            type_args:
+                - name: BufferAttachment
+    - name: BufferCacheUpdate.ForgetBuffers
+      fields:
+        - name: bufferIds
+          type:
+            name: long
+            is_array: true
+    - name: Frame
+      fields:
+        - name: bufferId
+          type:
+            name: long
+        - name: presentTimeNs
+          type:
+            name: long
+        - name: fence
+          type:
+            name: ParcelFileDescriptor
+          annotations:
+            - nullable
+unions:
+    - name: BufferCacheUpdate
+      fields:
+        - name: cacheBuffers
+          type:
+            name: CacheBuffers
+        - name: forgetBuffers
+          type:
+            name: ForgetBuffers

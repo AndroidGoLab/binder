@@ -44,6 +44,7 @@ func (p *SoundTriggerHwGlobalCallbackProxy) OnResourcesAvailable(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHwGlobalCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerHwGlobalCallback, MethodISoundTriggerHwGlobalCallbackOnResourcesAvailable)
@@ -67,7 +68,8 @@ func (p *SoundTriggerHwGlobalCallbackProxy) OnResourcesAvailable(
 // SoundTriggerHwGlobalCallbackStub dispatches incoming binder transactions
 // to a typed ISoundTriggerHwGlobalCallback implementation.
 type SoundTriggerHwGlobalCallbackStub struct {
-	Impl ISoundTriggerHwGlobalCallback
+	Impl      ISoundTriggerHwGlobalCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SoundTriggerHwGlobalCallbackStub)(nil)
@@ -81,11 +83,12 @@ func (s *SoundTriggerHwGlobalCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISoundTriggerHwGlobalCallbackOnResourcesAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnResourcesAvailable(ctx)
 		_reply := parcel.New()
 		if _err != nil {

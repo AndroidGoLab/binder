@@ -51,6 +51,11 @@ func (s *VirtualCameraConfiguration) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
 	if _err != nil {
@@ -68,17 +73,32 @@ func (s *VirtualCameraConfiguration) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_virtualCameraCallbackHandle, _err := p.ReadStrongBinder()
 	if _err != nil {
 		return _err
 	}
 	s.VirtualCameraCallback = NewVirtualCameraCallbackProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _virtualCameraCallbackHandle))
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_sensorOrientationRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.SensorOrientation = SensorOrientation(_sensorOrientationRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_lensFacingRaw, _err := p.ReadInt32()
 	if _err != nil {

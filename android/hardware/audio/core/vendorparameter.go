@@ -1,6 +1,7 @@
 package core
 
 import (
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type VendorParameter struct {
 	Id  string
-	Ext interface{}
+	Ext os.ParcelableHolder
 }
 
 var _ parcel.Parcelable = (*VendorParameter)(nil)
@@ -18,6 +19,9 @@ func (s *VendorParameter) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString16(s.Id)
+	if _err := s.Ext.MarshalParcel(p); _err != nil {
+		return _err
+	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -31,8 +35,22 @@ func (s *VendorParameter) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Id, _err = p.ReadString16()
 	if _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.Ext.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

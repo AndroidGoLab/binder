@@ -8,6 +8,7 @@ import (
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
 	internal "github.com/xaionaro-go/binder/com/android/ims/internal_"
+	internalTelephony "github.com/xaionaro-go/binder/com/android/internal_/telephony"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -88,8 +89,8 @@ type IImsRcsController interface {
 	CreateSipDelegate(ctx context.Context, subId int32, request ims.DelegateRequest, packageName string, delegateState ISipDelegateConnectionStateCallback, delegateMessage ISipDelegateMessageCallback) error
 	DestroySipDelegate(ctx context.Context, subId int32, connection ISipDelegate, reason int32) error
 	TriggerNetworkRegistration(ctx context.Context, subId int32, connection ISipDelegate, sipCode int32, sipReason string) error
-	RegisterSipDialogStateCallback(ctx context.Context, subId int32, cb interface{}) error
-	UnregisterSipDialogStateCallback(ctx context.Context, subId int32, cb interface{}) error
+	RegisterSipDialogStateCallback(ctx context.Context, subId int32, cb internalTelephony.ISipDialogStateCallback) error
+	UnregisterSipDialogStateCallback(ctx context.Context, subId int32, cb internalTelephony.ISipDialogStateCallback) error
 	RegisterRcsFeatureCallback(ctx context.Context, slotId int32, callback internal.IImsServiceFeatureCallback) error
 	UnregisterImsFeatureCallback(ctx context.Context, callback internal.IImsServiceFeatureCallback) error
 }
@@ -116,6 +117,7 @@ func (p *ImsRcsControllerProxy) RegisterImsRegistrationCallback(
 	c IImsRegistrationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
@@ -144,6 +146,7 @@ func (p *ImsRcsControllerProxy) UnregisterImsRegistrationCallback(
 	c IImsRegistrationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
@@ -172,6 +175,7 @@ func (p *ImsRcsControllerProxy) GetImsRcsRegistrationState(
 	consumer telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, consumer.AsBinder(), p.Remote.Transport())
@@ -200,6 +204,7 @@ func (p *ImsRcsControllerProxy) GetImsRcsRegistrationTransportType(
 	consumer telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, consumer.AsBinder(), p.Remote.Transport())
@@ -228,6 +233,7 @@ func (p *ImsRcsControllerProxy) RegisterRcsAvailabilityCallback(
 	c IImsCapabilityCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
@@ -256,6 +262,7 @@ func (p *ImsRcsControllerProxy) UnregisterRcsAvailabilityCallback(
 	c IImsCapabilityCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
@@ -286,6 +293,7 @@ func (p *ImsRcsControllerProxy) IsCapable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(capability)
@@ -321,6 +329,7 @@ func (p *ImsRcsControllerProxy) IsAvailable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(capability)
@@ -356,6 +365,7 @@ func (p *ImsRcsControllerProxy) RequestCapabilities(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -399,6 +409,7 @@ func (p *ImsRcsControllerProxy) RequestAvailability(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -433,6 +444,7 @@ func (p *ImsRcsControllerProxy) GetUcePublishState(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 
@@ -465,6 +477,7 @@ func (p *ImsRcsControllerProxy) IsUceSettingEnabled(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -498,6 +511,7 @@ func (p *ImsRcsControllerProxy) SetUceSettingEnabled(
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	_data.WriteBool(isEnabled)
@@ -526,6 +540,7 @@ func (p *ImsRcsControllerProxy) RegisterUcePublishStateCallback(
 	c IRcsUcePublishStateCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
@@ -554,6 +569,7 @@ func (p *ImsRcsControllerProxy) UnregisterUcePublishStateCallback(
 	c IRcsUcePublishStateCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
@@ -582,6 +598,7 @@ func (p *ImsRcsControllerProxy) IsSipDelegateSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 
@@ -616,6 +633,7 @@ func (p *ImsRcsControllerProxy) CreateSipDelegate(
 	delegateMessage ISipDelegateMessageCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -651,6 +669,7 @@ func (p *ImsRcsControllerProxy) DestroySipDelegate(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
@@ -682,6 +701,7 @@ func (p *ImsRcsControllerProxy) TriggerNetworkRegistration(
 	sipReason string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
@@ -709,11 +729,13 @@ func (p *ImsRcsControllerProxy) TriggerNetworkRegistration(
 func (p *ImsRcsControllerProxy) RegisterSipDialogStateCallback(
 	ctx context.Context,
 	subId int32,
-	cb interface{},
+	cb internalTelephony.ISipDialogStateCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRcsController, MethodIImsRcsControllerRegisterSipDialogStateCallback)
 	if _err != nil {
@@ -736,11 +758,13 @@ func (p *ImsRcsControllerProxy) RegisterSipDialogStateCallback(
 func (p *ImsRcsControllerProxy) UnregisterSipDialogStateCallback(
 	ctx context.Context,
 	subId int32,
-	cb interface{},
+	cb internalTelephony.ISipDialogStateCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRcsController, MethodIImsRcsControllerUnregisterSipDialogStateCallback)
 	if _err != nil {
@@ -766,6 +790,7 @@ func (p *ImsRcsControllerProxy) RegisterRcsFeatureCallback(
 	callback internal.IImsServiceFeatureCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(slotId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -793,6 +818,7 @@ func (p *ImsRcsControllerProxy) UnregisterImsFeatureCallback(
 	callback internal.IImsServiceFeatureCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -817,7 +843,8 @@ func (p *ImsRcsControllerProxy) UnregisterImsFeatureCallback(
 // ImsRcsControllerStub dispatches incoming binder transactions
 // to a typed IImsRcsController implementation.
 type ImsRcsControllerStub struct {
-	Impl IImsRcsController
+	Impl      IImsRcsController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsRcsControllerStub)(nil)
@@ -831,18 +858,24 @@ func (s *ImsRcsControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsRcsControllerRegisterImsRegistrationCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IImsRegistrationCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewImsRegistrationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err = s.Impl.RegisterImsRegistrationCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -852,16 +885,18 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerUnregisterImsRegistrationCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IImsRegistrationCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewImsRegistrationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err = s.Impl.UnregisterImsRegistrationCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -871,16 +906,18 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerGetImsRcsRegistrationState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_consumer telephony.IIntegerConsumer
-		_ = _arg_consumer
+		{
+			_consumerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_consumer = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _consumerHandle))
+		}
 		_err = s.Impl.GetImsRcsRegistrationState(ctx, _arg_subId, _arg_consumer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -890,16 +927,18 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerGetImsRcsRegistrationTransportType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_consumer telephony.IIntegerConsumer
-		_ = _arg_consumer
+		{
+			_consumerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_consumer = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _consumerHandle))
+		}
 		_err = s.Impl.GetImsRcsRegistrationTransportType(ctx, _arg_subId, _arg_consumer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -909,16 +948,18 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerRegisterRcsAvailabilityCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IImsCapabilityCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewImsCapabilityCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err = s.Impl.RegisterRcsAvailabilityCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -928,16 +969,18 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerUnregisterRcsAvailabilityCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IImsCapabilityCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewImsCapabilityCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err = s.Impl.UnregisterRcsAvailabilityCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -947,9 +990,6 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerIsCapable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -972,9 +1012,6 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsRcsControllerIsAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -997,9 +1034,6 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsRcsControllerRequestCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1010,12 +1044,35 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_contactNumbers []net.Uri
-		_ = _arg_contactNumbers
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_contactNumbers = make([]net.Uri, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_contactNumbers[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_c IRcsUceControllerCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewRcsUceControllerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err = s.Impl.RequestCapabilities(ctx, _arg_subId, _arg_contactNumbers, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1025,9 +1082,6 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerRequestAvailability:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1050,9 +1104,14 @@ func (s *ImsRcsControllerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IRcsUceControllerCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewRcsUceControllerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err = s.Impl.RequestAvailability(ctx, _arg_subId, _arg_contactNumber, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1062,9 +1121,6 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerGetUcePublishState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1079,9 +1135,6 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsRcsControllerIsUceSettingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1102,9 +1155,6 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsRcsControllerSetUceSettingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1122,16 +1172,18 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerRegisterUcePublishStateCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IRcsUcePublishStateCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewRcsUcePublishStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err = s.Impl.RegisterUcePublishStateCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1141,16 +1193,18 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerUnregisterUcePublishStateCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IRcsUcePublishStateCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewRcsUcePublishStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err = s.Impl.UnregisterUcePublishStateCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1160,9 +1214,6 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerIsSipDelegateSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1177,9 +1228,6 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsRcsControllerCreateSipDelegate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1200,12 +1248,22 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_delegateState ISipDelegateConnectionStateCallback
-		_ = _arg_delegateState
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_delegateStateHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_delegateState = NewSipDelegateConnectionStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _delegateStateHandle))
+		}
 		var _arg_delegateMessage ISipDelegateMessageCallback
-		_ = _arg_delegateMessage
+		{
+			_delegateMessageHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_delegateMessage = NewSipDelegateMessageCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _delegateMessageHandle))
+		}
 		_err = s.Impl.CreateSipDelegate(ctx, _arg_subId, _arg_request, _arg_packageName, _arg_delegateState, _arg_delegateMessage)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1215,16 +1273,18 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerDestroySipDelegate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_connection ISipDelegate
-		_ = _arg_connection
+		{
+			_connectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_connection = NewSipDelegateProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _connectionHandle))
+		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1238,16 +1298,18 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerTriggerNetworkRegistration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_connection ISipDelegate
-		_ = _arg_connection
+		{
+			_connectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_connection = NewSipDelegateProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _connectionHandle))
+		}
 		_arg_sipCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1265,14 +1327,18 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerRegisterSipDialogStateCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_cb interface{}
+		var _arg_cb internalTelephony.ISipDialogStateCallback
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = internalTelephony.NewSipDialogStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err = s.Impl.RegisterSipDialogStateCallback(ctx, _arg_subId, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1282,14 +1348,18 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerUnregisterSipDialogStateCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_cb interface{}
+		var _arg_cb internalTelephony.ISipDialogStateCallback
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = internalTelephony.NewSipDialogStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err = s.Impl.UnregisterSipDialogStateCallback(ctx, _arg_subId, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1299,16 +1369,18 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerRegisterRcsFeatureCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback internal.IImsServiceFeatureCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = internal.NewImsServiceFeatureCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RegisterRcsFeatureCallback(ctx, _arg_slotId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1318,12 +1390,14 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerUnregisterImsFeatureCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback internal.IImsServiceFeatureCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = internal.NewImsServiceFeatureCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UnregisterImsFeatureCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1360,8 +1434,8 @@ type IImsRcsControllerServer interface {
 	CreateSipDelegate(ctx context.Context, subId int32, request ims.DelegateRequest, packageName string, delegateState ISipDelegateConnectionStateCallback, delegateMessage ISipDelegateMessageCallback) error
 	DestroySipDelegate(ctx context.Context, subId int32, connection ISipDelegate, reason int32) error
 	TriggerNetworkRegistration(ctx context.Context, subId int32, connection ISipDelegate, sipCode int32, sipReason string) error
-	RegisterSipDialogStateCallback(ctx context.Context, subId int32, cb interface{}) error
-	UnregisterSipDialogStateCallback(ctx context.Context, subId int32, cb interface{}) error
+	RegisterSipDialogStateCallback(ctx context.Context, subId int32, cb internalTelephony.ISipDialogStateCallback) error
+	UnregisterSipDialogStateCallback(ctx context.Context, subId int32, cb internalTelephony.ISipDialogStateCallback) error
 	RegisterRcsFeatureCallback(ctx context.Context, slotId int32, callback internal.IImsServiceFeatureCallback) error
 	UnregisterImsFeatureCallback(ctx context.Context, callback internal.IImsServiceFeatureCallback) error
 }
@@ -1537,7 +1611,7 @@ func (w *imsRcsControllerStubWrapper) TriggerNetworkRegistration(
 func (w *imsRcsControllerStubWrapper) RegisterSipDialogStateCallback(
 	ctx context.Context,
 	subId int32,
-	cb interface{},
+	cb internalTelephony.ISipDialogStateCallback,
 ) error {
 	return w.impl.RegisterSipDialogStateCallback(ctx, subId, cb)
 }
@@ -1545,7 +1619,7 @@ func (w *imsRcsControllerStubWrapper) RegisterSipDialogStateCallback(
 func (w *imsRcsControllerStubWrapper) UnregisterSipDialogStateCallback(
 	ctx context.Context,
 	subId int32,
-	cb interface{},
+	cb internalTelephony.ISipDialogStateCallback,
 ) error {
 	return w.impl.UnregisterSipDialogStateCallback(ctx, subId, cb)
 }

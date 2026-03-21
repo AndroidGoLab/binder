@@ -56,6 +56,7 @@ func (p *SipDelegateProxy) SendMessage(
 	configVersion int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegate)
 	_data.WriteInt32(1)
 	if _err := sipMessage.MarshalParcel(_data); _err != nil {
@@ -77,6 +78,7 @@ func (p *SipDelegateProxy) NotifyMessageReceived(
 	viaTransactionId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegate)
 	_data.WriteString16(viaTransactionId)
 
@@ -95,6 +97,7 @@ func (p *SipDelegateProxy) NotifyMessageReceiveError(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegate)
 	_data.WriteString16(viaTransactionId)
 	_data.WriteInt32(reason)
@@ -113,6 +116,7 @@ func (p *SipDelegateProxy) CleanupSession(
 	callId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDelegate)
 	_data.WriteString16(callId)
 
@@ -128,7 +132,8 @@ func (p *SipDelegateProxy) CleanupSession(
 // SipDelegateStub dispatches incoming binder transactions
 // to a typed ISipDelegate implementation.
 type SipDelegateStub struct {
-	Impl ISipDelegate
+	Impl      ISipDelegate
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SipDelegateStub)(nil)
@@ -142,11 +147,12 @@ func (s *SipDelegateStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISipDelegateSendMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sipMessage ims.SipMessage
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -164,23 +170,15 @@ func (s *SipDelegateStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SendMessage(ctx, _arg_sipMessage, _arg_configVersion)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISipDelegateNotifyMessageReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_viaTransactionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyMessageReceived(ctx, _arg_viaTransactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISipDelegateNotifyMessageReceiveError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_viaTransactionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -190,19 +188,14 @@ func (s *SipDelegateStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyMessageReceiveError(ctx, _arg_viaTransactionId, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISipDelegateCleanupSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.CleanupSession(ctx, _arg_callId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

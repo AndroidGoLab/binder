@@ -1,0 +1,755 @@
+package: android.media.tv.tuner
+go_package: android/media/tv/tuner
+interfaces:
+    - name: ITunerDemux
+      descriptor: android.media.tv.tuner.ITunerDemux
+      methods:
+        - name: setFrontendDataSource
+          transaction_code_offset: 0
+          params:
+            - name: frontend
+              type:
+                name: ITunerFrontend
+              direction: in
+          return_type:
+            name: void
+        - name: setFrontendDataSourceById
+          transaction_code_offset: 1
+          params:
+            - name: frontendId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: openFilter
+          transaction_code_offset: 2
+          params:
+            - name: type
+              type:
+                name: DemuxFilterType
+              direction: in
+            - name: bufferSize
+              type:
+                name: int
+              direction: in
+            - name: cb
+              type:
+                name: ITunerFilterCallback
+              direction: in
+          return_type:
+            name: ITunerFilter
+        - name: openTimeFilter
+          transaction_code_offset: 3
+          return_type:
+            name: ITunerTimeFilter
+        - name: getAvSyncHwId
+          transaction_code_offset: 4
+          params:
+            - name: tunerFilter
+              type:
+                name: ITunerFilter
+          return_type:
+            name: int
+        - name: getAvSyncTime
+          transaction_code_offset: 5
+          params:
+            - name: avSyncHwId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: long
+        - name: openDvr
+          transaction_code_offset: 6
+          params:
+            - name: dvbType
+              type:
+                name: DvrType
+              direction: in
+            - name: bufferSize
+              type:
+                name: int
+              direction: in
+            - name: cb
+              type:
+                name: ITunerDvrCallback
+              direction: in
+          return_type:
+            name: ITunerDvr
+        - name: connectCiCam
+          transaction_code_offset: 7
+          params:
+            - name: ciCamId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: disconnectCiCam
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 9
+          return_type:
+            name: void
+    - name: ITunerDescrambler
+      descriptor: android.media.tv.tuner.ITunerDescrambler
+      methods:
+        - name: setDemuxSource
+          transaction_code_offset: 0
+          params:
+            - name: tunerDemux
+              type:
+                name: ITunerDemux
+              direction: in
+          return_type:
+            name: void
+        - name: setKeyToken
+          transaction_code_offset: 1
+          params:
+            - name: keyToken
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: addPid
+          transaction_code_offset: 2
+          params:
+            - name: pid
+              type:
+                name: DemuxPid
+              direction: in
+            - name: optionalSourceFilter
+              type:
+                name: ITunerFilter
+              direction: in
+          return_type:
+            name: void
+        - name: removePid
+          transaction_code_offset: 3
+          params:
+            - name: pid
+              type:
+                name: DemuxPid
+              direction: in
+            - name: optionalSourceFilter
+              type:
+                name: ITunerFilter
+              direction: in
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 4
+          return_type:
+            name: void
+    - name: ITunerDvr
+      descriptor: android.media.tv.tuner.ITunerDvr
+      methods:
+        - name: getQueueDesc
+          transaction_code_offset: 0
+          return_type:
+            name: MQDescriptor
+            type_args:
+                - name: byte
+                - name: SynchronizedReadWrite
+        - name: configure
+          transaction_code_offset: 1
+          params:
+            - name: settings
+              type:
+                name: DvrSettings
+              direction: in
+          return_type:
+            name: void
+        - name: attachFilter
+          transaction_code_offset: 2
+          params:
+            - name: filter
+              type:
+                name: ITunerFilter
+              direction: in
+          return_type:
+            name: void
+        - name: detachFilter
+          transaction_code_offset: 3
+          params:
+            - name: filter
+              type:
+                name: ITunerFilter
+              direction: in
+          return_type:
+            name: void
+        - name: start
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: stop
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: flush
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 7
+          return_type:
+            name: void
+        - name: setStatusCheckIntervalHint
+          transaction_code_offset: 8
+          params:
+            - name: milliseconds
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+    - name: ITunerDvrCallback
+      descriptor: android.media.tv.tuner.ITunerDvrCallback
+      methods:
+        - name: onRecordStatus
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: RecordStatus
+              direction: in
+          return_type:
+            name: void
+        - name: onPlaybackStatus
+          transaction_code_offset: 1
+          params:
+            - name: status
+              type:
+                name: PlaybackStatus
+              direction: in
+          return_type:
+            name: void
+    - name: ITunerFilter
+      descriptor: android.media.tv.tuner.ITunerFilter
+      methods:
+        - name: getId
+          transaction_code_offset: 0
+          return_type:
+            name: int
+        - name: getId64Bit
+          transaction_code_offset: 1
+          return_type:
+            name: long
+        - name: getQueueDesc
+          transaction_code_offset: 2
+          return_type:
+            name: MQDescriptor
+            type_args:
+                - name: byte
+                - name: SynchronizedReadWrite
+        - name: configure
+          transaction_code_offset: 3
+          params:
+            - name: settings
+              type:
+                name: DemuxFilterSettings
+              direction: in
+          return_type:
+            name: void
+        - name: configureMonitorEvent
+          transaction_code_offset: 4
+          params:
+            - name: monitorEventTypes
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: configureIpFilterContextId
+          transaction_code_offset: 5
+          params:
+            - name: cid
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: configureAvStreamType
+          transaction_code_offset: 6
+          params:
+            - name: avStreamType
+              type:
+                name: AvStreamType
+              direction: in
+          return_type:
+            name: void
+        - name: getAvSharedHandle
+          transaction_code_offset: 7
+          params:
+            - name: avMemory
+              type:
+                name: NativeHandle
+              direction: out
+          return_type:
+            name: long
+        - name: releaseAvHandle
+          transaction_code_offset: 8
+          params:
+            - name: handle
+              type:
+                name: NativeHandle
+              direction: in
+            - name: avDataId
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: setDataSource
+          transaction_code_offset: 9
+          params:
+            - name: filter
+              type:
+                name: ITunerFilter
+          return_type:
+            name: void
+        - name: start
+          transaction_code_offset: 10
+          return_type:
+            name: void
+        - name: stop
+          transaction_code_offset: 11
+          return_type:
+            name: void
+        - name: flush
+          transaction_code_offset: 12
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 13
+          return_type:
+            name: void
+        - name: acquireSharedFilterToken
+          transaction_code_offset: 14
+          return_type:
+            name: String
+        - name: freeSharedFilterToken
+          transaction_code_offset: 15
+          params:
+            - name: filterToken
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getFilterType
+          transaction_code_offset: 16
+          return_type:
+            name: DemuxFilterType
+        - name: setDelayHint
+          transaction_code_offset: 17
+          params:
+            - name: hint
+              type:
+                name: FilterDelayHint
+              direction: in
+          return_type:
+            name: void
+    - name: ITunerFilterCallback
+      descriptor: android.media.tv.tuner.ITunerFilterCallback
+      methods:
+        - name: onFilterStatus
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: DemuxFilterStatus
+              direction: in
+          return_type:
+            name: void
+        - name: onFilterEvent
+          transaction_code_offset: 1
+          params:
+            - name: events
+              type:
+                name: DemuxFilterEvent
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: ITunerFrontend
+      descriptor: android.media.tv.tuner.ITunerFrontend
+      methods:
+        - name: setCallback
+          transaction_code_offset: 0
+          params:
+            - name: tunerFrontendCallback
+              type:
+                name: ITunerFrontendCallback
+              direction: in
+          return_type:
+            name: void
+        - name: tune
+          transaction_code_offset: 1
+          params:
+            - name: settings
+              type:
+                name: FrontendSettings
+              direction: in
+          return_type:
+            name: void
+        - name: stopTune
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: scan
+          transaction_code_offset: 3
+          params:
+            - name: settings
+              type:
+                name: FrontendSettings
+              direction: in
+            - name: frontendScanType
+              type:
+                name: FrontendScanType
+              direction: in
+          return_type:
+            name: void
+        - name: stopScan
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: setLnb
+          transaction_code_offset: 5
+          params:
+            - name: lnb
+              type:
+                name: ITunerLnb
+              direction: in
+          return_type:
+            name: void
+        - name: linkCiCamToFrontend
+          transaction_code_offset: 6
+          params:
+            - name: ciCamId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: int
+        - name: unlinkCiCamToFrontend
+          transaction_code_offset: 7
+          params:
+            - name: ciCamId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: getStatus
+          transaction_code_offset: 9
+          params:
+            - name: statusTypes
+              type:
+                name: FrontendStatusType
+                is_array: true
+              direction: in
+          return_type:
+            name: FrontendStatus
+            is_array: true
+        - name: getFrontendId
+          transaction_code_offset: 10
+          return_type:
+            name: int
+        - name: getHardwareInfo
+          transaction_code_offset: 11
+          return_type:
+            name: String
+        - name: removeOutputPid
+          transaction_code_offset: 12
+          params:
+            - name: pid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getFrontendStatusReadiness
+          transaction_code_offset: 13
+          params:
+            - name: statusTypes
+              type:
+                name: FrontendStatusType
+                is_array: true
+              direction: in
+          return_type:
+            name: FrontendStatusReadiness
+            is_array: true
+    - name: ITunerFrontendCallback
+      descriptor: android.media.tv.tuner.ITunerFrontendCallback
+      methods:
+        - name: onEvent
+          transaction_code_offset: 0
+          params:
+            - name: frontendEventType
+              type:
+                name: FrontendEventType
+              direction: in
+          return_type:
+            name: void
+        - name: onScanMessage
+          transaction_code_offset: 1
+          params:
+            - name: messageType
+              type:
+                name: FrontendScanMessageType
+              direction: in
+            - name: message
+              type:
+                name: FrontendScanMessage
+              direction: in
+          return_type:
+            name: void
+    - name: ITunerLnb
+      descriptor: android.media.tv.tuner.ITunerLnb
+      methods:
+        - name: setCallback
+          transaction_code_offset: 0
+          params:
+            - name: tunerLnbCallback
+              type:
+                name: ITunerLnbCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setVoltage
+          transaction_code_offset: 1
+          params:
+            - name: voltage
+              type:
+                name: LnbVoltage
+              direction: in
+          return_type:
+            name: void
+        - name: setTone
+          transaction_code_offset: 2
+          params:
+            - name: tone
+              type:
+                name: LnbTone
+              direction: in
+          return_type:
+            name: void
+        - name: setSatellitePosition
+          transaction_code_offset: 3
+          params:
+            - name: position
+              type:
+                name: LnbPosition
+              direction: in
+          return_type:
+            name: void
+        - name: sendDiseqcMessage
+          transaction_code_offset: 4
+          params:
+            - name: diseqcMessage
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 5
+          return_type:
+            name: void
+    - name: ITunerLnbCallback
+      descriptor: android.media.tv.tuner.ITunerLnbCallback
+      methods:
+        - name: onEvent
+          transaction_code_offset: 0
+          params:
+            - name: lnbEventType
+              type:
+                name: LnbEventType
+              direction: in
+          return_type:
+            name: void
+        - name: onDiseqcMessage
+          transaction_code_offset: 1
+          params:
+            - name: diseqcMessage
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: ITunerService
+      descriptor: android.media.tv.tuner.ITunerService
+      methods:
+        - name: getFrontendIds
+          transaction_code_offset: 0
+          params:
+            - name: ids
+              type:
+                name: int
+                is_array: true
+              direction: out
+          return_type:
+            name: void
+        - name: getFrontendInfo
+          transaction_code_offset: 1
+          params:
+            - name: frontendId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: FrontendInfo
+        - name: openFrontend
+          transaction_code_offset: 2
+          params:
+            - name: frontendHandle
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: ITunerFrontend
+        - name: openLnb
+          transaction_code_offset: 3
+          params:
+            - name: lnbHandle
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: ITunerLnb
+        - name: openLnbByName
+          transaction_code_offset: 4
+          params:
+            - name: lnbName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: ITunerLnb
+        - name: openDemux
+          transaction_code_offset: 5
+          params:
+            - name: demuxHandle
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: ITunerDemux
+        - name: getDemuxInfo
+          transaction_code_offset: 6
+          params:
+            - name: demuxHandle
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: DemuxInfo
+        - name: getDemuxInfoList
+          transaction_code_offset: 7
+          return_type:
+            name: DemuxInfo
+            is_array: true
+        - name: getDemuxCaps
+          transaction_code_offset: 8
+          return_type:
+            name: DemuxCapabilities
+        - name: openDescrambler
+          transaction_code_offset: 9
+          params:
+            - name: descramblerHandle
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: ITunerDescrambler
+        - name: getTunerHalVersion
+          transaction_code_offset: 10
+          return_type:
+            name: int
+        - name: openSharedFilter
+          transaction_code_offset: 11
+          params:
+            - name: filterToken
+              type:
+                name: String
+              direction: in
+            - name: cb
+              type:
+                name: ITunerFilterCallback
+              direction: in
+          return_type:
+            name: ITunerFilter
+        - name: isLnaSupported
+          transaction_code_offset: 12
+          return_type:
+            name: boolean
+        - name: setLna
+          transaction_code_offset: 13
+          params:
+            - name: bEnable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setMaxNumberOfFrontends
+          transaction_code_offset: 14
+          params:
+            - name: frontendType
+              type:
+                name: FrontendType
+              direction: in
+            - name: maxNumber
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getMaxNumberOfFrontends
+          transaction_code_offset: 15
+          params:
+            - name: frontendType
+              type:
+                name: FrontendType
+              direction: in
+          return_type:
+            name: int
+    - name: ITunerTimeFilter
+      descriptor: android.media.tv.tuner.ITunerTimeFilter
+      methods:
+        - name: setTimeStamp
+          transaction_code_offset: 0
+          params:
+            - name: timeStamp
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: clearTimeStamp
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: getSourceTime
+          transaction_code_offset: 2
+          return_type:
+            name: long
+        - name: getTimeStamp
+          transaction_code_offset: 3
+          return_type:
+            name: long
+        - name: close
+          transaction_code_offset: 4
+          return_type:
+            name: void

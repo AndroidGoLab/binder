@@ -1,0 +1,65 @@
+package: android.service.contentsuggestions
+go_package: android/service/contentsuggestions
+interfaces:
+    - name: IContentSuggestionsService
+      descriptor: android.service.contentsuggestions.IContentSuggestionsService
+      oneway: true
+      methods:
+        - name: provideContextImage
+          transaction_code_offset: 0
+          params:
+            - name: taskId
+              type:
+                name: int
+            - name: contextImage
+              type:
+                name: HardwareBuffer
+              direction: in
+            - name: colorSpaceId
+              type:
+                name: int
+            - name: imageContextRequestExtras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: suggestContentSelections
+          transaction_code_offset: 1
+          params:
+            - name: request
+              type:
+                name: SelectionsRequest
+              direction: in
+            - name: callback
+              type:
+                name: ISelectionsCallback
+              direction: in
+          return_type:
+            name: void
+        - name: classifyContentSelections
+          transaction_code_offset: 2
+          params:
+            - name: request
+              type:
+                name: ClassificationsRequest
+              direction: in
+            - name: callback
+              type:
+                name: IClassificationsCallback
+              direction: in
+          return_type:
+            name: void
+        - name: notifyInteraction
+          transaction_code_offset: 3
+          params:
+            - name: requestId
+              type:
+                name: String
+              direction: in
+            - name: interaction
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void

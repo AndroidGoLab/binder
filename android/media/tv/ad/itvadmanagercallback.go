@@ -51,6 +51,7 @@ func (p *TvAdManagerCallbackProxy) OnAdServiceAdded(
 	serviceId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManagerCallback)
 	_data.WriteString16(serviceId)
 
@@ -68,6 +69,7 @@ func (p *TvAdManagerCallbackProxy) OnAdServiceRemoved(
 	serviceId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManagerCallback)
 	_data.WriteString16(serviceId)
 
@@ -85,6 +87,7 @@ func (p *TvAdManagerCallbackProxy) OnAdServiceUpdated(
 	serviceId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManagerCallback)
 	_data.WriteString16(serviceId)
 
@@ -100,7 +103,8 @@ func (p *TvAdManagerCallbackProxy) OnAdServiceUpdated(
 // TvAdManagerCallbackStub dispatches incoming binder transactions
 // to a typed ITvAdManagerCallback implementation.
 type TvAdManagerCallbackStub struct {
-	Impl ITvAdManagerCallback
+	Impl      ITvAdManagerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvAdManagerCallbackStub)(nil)
@@ -114,40 +118,32 @@ func (s *TvAdManagerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvAdManagerCallbackOnAdServiceAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAdServiceAdded(ctx, _arg_serviceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdManagerCallbackOnAdServiceRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAdServiceRemoved(ctx, _arg_serviceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdManagerCallbackOnAdServiceUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAdServiceUpdated(ctx, _arg_serviceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

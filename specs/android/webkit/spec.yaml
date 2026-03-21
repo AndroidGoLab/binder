@@ -1,0 +1,65 @@
+package: android.webkit
+go_package: android/webkit
+interfaces:
+    - name: IWebViewUpdateService
+      descriptor: android.webkit.IWebViewUpdateService
+      methods:
+        - name: notifyRelroCreationCompleted
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: waitForAndGetProvider
+          transaction_code_offset: 1
+          return_type:
+            name: WebViewProviderResponse
+        - name: changeProviderAndSetting
+          transaction_code_offset: 2
+          params:
+            - name: newProvider
+              type:
+                name: String
+          return_type:
+            name: String
+          annotations:
+            - JavaPassthrough
+        - name: getValidWebViewPackages
+          transaction_code_offset: 3
+          return_type:
+            name: WebViewProviderInfo
+            is_array: true
+          annotations:
+            - UnsupportedAppUsage
+        - name: getAllWebViewPackages
+          transaction_code_offset: 4
+          return_type:
+            name: WebViewProviderInfo
+            is_array: true
+        - name: getCurrentWebViewPackageName
+          transaction_code_offset: 5
+          return_type:
+            name: String
+          annotations:
+            - UnsupportedAppUsage
+        - name: getCurrentWebViewPackage
+          transaction_code_offset: 6
+          return_type:
+            name: PackageInfo
+        - name: isMultiProcessEnabled
+          transaction_code_offset: 7
+          return_type:
+            name: boolean
+        - name: enableMultiProcess
+          transaction_code_offset: 8
+          params:
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getDefaultWebViewPackage
+          transaction_code_offset: 9
+          return_type:
+            name: WebViewProviderInfo
+parcelables:
+    - name: WebViewProviderInfo
+    - name: WebViewProviderResponse

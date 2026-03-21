@@ -69,12 +69,20 @@ var marshalPrimitiveMap = map[string]MarshalInfo{
 		WriteExpr: "_data.WriteString16(%s)",
 		ReadExpr:  "_reply.ReadString16()",
 	},
+	"CharSequence": {
+		WriteExpr: "_data.WriteString16(%s)",
+		ReadExpr:  "_reply.ReadString16()",
+	},
 	"IBinder": {
 		WriteExpr: "_data.WriteStrongBinder(%s.Handle())",
 		ReadExpr:  "_reply.ReadStrongBinder()",
 		IsIBinder: true,
 	},
 	"ParcelFileDescriptor": {
+		WriteExpr: "_data.WriteFileDescriptor(%s)",
+		ReadExpr:  "_reply.ReadFileDescriptor()",
+	},
+	"FileDescriptor": {
 		WriteExpr: "_data.WriteFileDescriptor(%s)",
 		ReadExpr:  "_reply.ReadFileDescriptor()",
 	},

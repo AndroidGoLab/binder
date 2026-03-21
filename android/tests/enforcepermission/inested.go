@@ -47,6 +47,7 @@ func (p *NestedProxy) ProtectedByAccessNetworkState(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINested)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINested, MethodINestedProtectedByAccessNetworkState)
@@ -71,6 +72,7 @@ func (p *NestedProxy) ProtectedByReadSyncSettings(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINested)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINested, MethodINestedProtectedByReadSyncSettings)
@@ -94,7 +96,8 @@ func (p *NestedProxy) ProtectedByReadSyncSettings(
 // NestedStub dispatches incoming binder transactions
 // to a typed INested implementation.
 type NestedStub struct {
-	Impl INested
+	Impl      INested
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NestedStub)(nil)
@@ -108,11 +111,12 @@ func (s *NestedStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINestedProtectedByAccessNetworkState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ProtectedByAccessNetworkState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -122,9 +126,6 @@ func (s *NestedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINestedProtectedByReadSyncSettings:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ProtectedByReadSyncSettings(ctx)
 		_reply := parcel.New()
 		if _err != nil {

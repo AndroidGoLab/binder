@@ -48,6 +48,7 @@ func (p *FaceProxy) GetSensorProps(
 ) ([]SensorProps, error) {
 	var _result []SensorProps
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFace)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFace, MethodIFaceGetSensorProps)
@@ -68,6 +69,9 @@ func (p *FaceProxy) GetSensorProps(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -92,6 +96,7 @@ func (p *FaceProxy) CreateSession(
 	var _result ISession
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFace)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(_identity.UserID)
@@ -123,7 +128,8 @@ func (p *FaceProxy) CreateSession(
 // FaceStub dispatches incoming binder transactions
 // to a typed IFace implementation.
 type FaceStub struct {
-	Impl IFace
+	Impl      IFace
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FaceStub)(nil)
@@ -137,11 +143,12 @@ func (s *FaceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFaceGetSensorProps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSensorProps(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -149,13 +156,19 @@ func (s *FaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIFaceCreateSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -163,9 +176,14 @@ func (s *FaceStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb ISessionCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_result, _err := s.Impl.CreateSession(ctx, _arg_sensorId, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -173,8 +191,7 @@ func (s *FaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

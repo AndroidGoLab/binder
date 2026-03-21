@@ -45,6 +45,7 @@ func (p *VoiceActionCheckCallbackProxy) OnComplete(
 	voiceActions []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceActionCheckCallback)
 	if voiceActions == nil {
 		_data.WriteInt32(-1)
@@ -67,7 +68,8 @@ func (p *VoiceActionCheckCallbackProxy) OnComplete(
 // VoiceActionCheckCallbackStub dispatches incoming binder transactions
 // to a typed IVoiceActionCheckCallback implementation.
 type VoiceActionCheckCallbackStub struct {
-	Impl IVoiceActionCheckCallback
+	Impl      IVoiceActionCheckCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VoiceActionCheckCallbackStub)(nil)
@@ -81,17 +83,33 @@ func (s *VoiceActionCheckCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVoiceActionCheckCallbackOnComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_voiceActions []string
-		_ = _arg_voiceActions
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_voiceActions = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_voiceActions[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnComplete(ctx, _arg_voiceActions)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

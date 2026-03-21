@@ -61,6 +61,7 @@ func (p *AppIntegrityManagerProxy) UpdateRuleSet(
 	statusReceiver content.IntentSender,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppIntegrityManager)
 	_data.WriteString16(version)
 	_data.WriteInt32(1)
@@ -95,6 +96,7 @@ func (p *AppIntegrityManagerProxy) GetCurrentRuleSetVersion(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppIntegrityManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppIntegrityManager, MethodIAppIntegrityManagerGetCurrentRuleSetVersion)
@@ -124,6 +126,7 @@ func (p *AppIntegrityManagerProxy) GetCurrentRuleSetProvider(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppIntegrityManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppIntegrityManager, MethodIAppIntegrityManagerGetCurrentRuleSetProvider)
@@ -153,6 +156,7 @@ func (p *AppIntegrityManagerProxy) GetCurrentRules(
 ) (pm.ParceledListSlice, error) {
 	var _result pm.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppIntegrityManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppIntegrityManager, MethodIAppIntegrityManagerGetCurrentRules)
@@ -187,6 +191,7 @@ func (p *AppIntegrityManagerProxy) GetWhitelistedRuleProviders(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppIntegrityManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppIntegrityManager, MethodIAppIntegrityManagerGetWhitelistedRuleProviders)
@@ -208,6 +213,9 @@ func (p *AppIntegrityManagerProxy) GetWhitelistedRuleProviders(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -224,7 +232,8 @@ func (p *AppIntegrityManagerProxy) GetWhitelistedRuleProviders(
 // AppIntegrityManagerStub dispatches incoming binder transactions
 // to a typed IAppIntegrityManager implementation.
 type AppIntegrityManagerStub struct {
-	Impl IAppIntegrityManager
+	Impl      IAppIntegrityManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AppIntegrityManagerStub)(nil)
@@ -238,11 +247,12 @@ func (s *AppIntegrityManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAppIntegrityManagerUpdateRuleSet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_version, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -280,9 +290,6 @@ func (s *AppIntegrityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppIntegrityManagerGetCurrentRuleSetVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentRuleSetVersion(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -293,9 +300,6 @@ func (s *AppIntegrityManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIAppIntegrityManagerGetCurrentRuleSetProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentRuleSetProvider(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -306,9 +310,6 @@ func (s *AppIntegrityManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIAppIntegrityManagerGetCurrentRules:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentRules(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -322,9 +323,6 @@ func (s *AppIntegrityManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAppIntegrityManagerGetWhitelistedRuleProviders:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWhitelistedRuleProviders(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -332,8 +330,14 @@ func (s *AppIntegrityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

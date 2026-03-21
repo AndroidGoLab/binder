@@ -5,6 +5,7 @@ import (
 	"fmt"
 	res "github.com/xaionaro-go/binder/android/content/res"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	window "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -34,8 +35,8 @@ type ISurfaceControlViewHost interface {
 	OnConfigurationChanged(ctx context.Context, newConfig res.Configuration) error
 	OnDispatchDetachedFromWindow(ctx context.Context) error
 	OnInsetsChanged(ctx context.Context, state InsetsState, insetFrame graphics.Rect) error
-	GetSurfaceSyncGroup(ctx context.Context) (interface{}, error)
-	AttachParentInterface(ctx context.Context, parentInterface *ISurfaceControlViewHostParent) error
+	GetSurfaceSyncGroup(ctx context.Context) (window.ISurfaceSyncGroup, error)
+	AttachParentInterface(ctx context.Context, parentInterface ISurfaceControlViewHostParent) error
 }
 
 type SurfaceControlViewHostProxy struct {
@@ -59,6 +60,7 @@ func (p *SurfaceControlViewHostProxy) OnConfigurationChanged(
 	newConfig res.Configuration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHost)
 	_data.WriteInt32(1)
 	if _err := newConfig.MarshalParcel(_data); _err != nil {
@@ -78,6 +80,7 @@ func (p *SurfaceControlViewHostProxy) OnDispatchDetachedFromWindow(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHost)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostOnDispatchDetachedFromWindow)
@@ -95,6 +98,7 @@ func (p *SurfaceControlViewHostProxy) OnInsetsChanged(
 	insetFrame graphics.Rect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHost)
 	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
@@ -116,9 +120,10 @@ func (p *SurfaceControlViewHostProxy) OnInsetsChanged(
 
 func (p *SurfaceControlViewHostProxy) GetSurfaceSyncGroup(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (window.ISurfaceSyncGroup, error) {
+	var _result window.ISurfaceSyncGroup
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHost)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostGetSurfaceSyncGroup)
@@ -136,20 +141,22 @@ func (p *SurfaceControlViewHostProxy) GetSurfaceSyncGroup(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = window.NewSurfaceSyncGroupProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *SurfaceControlViewHostProxy) AttachParentInterface(
 	ctx context.Context,
-	parentInterface *ISurfaceControlViewHostParent,
+	parentInterface ISurfaceControlViewHostParent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHost)
-	if parentInterface != nil {
-		_data.WriteStrongBinder((*parentInterface).AsBinder().Handle())
-	} else {
-		_data.WriteInt32(-1)
-	}
+	binder.WriteBinderToParcel(ctx, _data, parentInterface.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostAttachParentInterface)
 	if _err != nil {
@@ -163,7 +170,8 @@ func (p *SurfaceControlViewHostProxy) AttachParentInterface(
 // SurfaceControlViewHostStub dispatches incoming binder transactions
 // to a typed ISurfaceControlViewHost implementation.
 type SurfaceControlViewHostStub struct {
-	Impl ISurfaceControlViewHost
+	Impl      ISurfaceControlViewHost
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SurfaceControlViewHostStub)(nil)
@@ -177,11 +185,12 @@ func (s *SurfaceControlViewHostStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISurfaceControlViewHostOnConfigurationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_newConfig res.Configuration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -195,19 +204,11 @@ func (s *SurfaceControlViewHostStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnConfigurationChanged(ctx, _arg_newConfig)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISurfaceControlViewHostOnDispatchDetachedFromWindow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDispatchDetachedFromWindow(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISurfaceControlViewHostOnInsetsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_state InsetsState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -233,12 +234,8 @@ func (s *SurfaceControlViewHostStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnInsetsChanged(ctx, _arg_state, _arg_insetFrame)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISurfaceControlViewHostGetSurfaceSyncGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSurfaceSyncGroup(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -246,18 +243,19 @@ func (s *SurfaceControlViewHostStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISurfaceControlViewHostAttachParentInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_parentInterface ISurfaceControlViewHostParent
+		{
+			_parentInterfaceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_parentInterface = NewSurfaceControlViewHostParentProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _parentInterfaceHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_parentInterface *ISurfaceControlViewHostParent
-		_ = _arg_parentInterface
 		_err := s.Impl.AttachParentInterface(ctx, _arg_parentInterface)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -270,8 +268,8 @@ type ISurfaceControlViewHostServer interface {
 	OnConfigurationChanged(ctx context.Context, newConfig res.Configuration) error
 	OnDispatchDetachedFromWindow(ctx context.Context) error
 	OnInsetsChanged(ctx context.Context, state InsetsState, insetFrame graphics.Rect) error
-	GetSurfaceSyncGroup(ctx context.Context) (interface{}, error)
-	AttachParentInterface(ctx context.Context, parentInterface *ISurfaceControlViewHostParent) error
+	GetSurfaceSyncGroup(ctx context.Context) (window.ISurfaceSyncGroup, error)
+	AttachParentInterface(ctx context.Context, parentInterface ISurfaceControlViewHostParent) error
 }
 
 type surfaceControlViewHostStubWrapper struct {
@@ -306,13 +304,13 @@ func (w *surfaceControlViewHostStubWrapper) OnInsetsChanged(
 
 func (w *surfaceControlViewHostStubWrapper) GetSurfaceSyncGroup(
 	ctx context.Context,
-) (interface{}, error) {
+) (window.ISurfaceSyncGroup, error) {
 	return w.impl.GetSurfaceSyncGroup(ctx)
 }
 
 func (w *surfaceControlViewHostStubWrapper) AttachParentInterface(
 	ctx context.Context,
-	parentInterface *ISurfaceControlViewHostParent,
+	parentInterface ISurfaceControlViewHostParent,
 ) error {
 	return w.impl.AttachParentInterface(ctx, parentInterface)
 }

@@ -64,6 +64,7 @@ func (p *ExternalStorageServiceProxy) StartSession(
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExternalStorageService)
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(type_)
@@ -90,6 +91,7 @@ func (p *ExternalStorageServiceProxy) EndSession(
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExternalStorageService)
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(1)
@@ -113,6 +115,7 @@ func (p *ExternalStorageServiceProxy) NotifyVolumeStateChanged(
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExternalStorageService)
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(1)
@@ -141,6 +144,7 @@ func (p *ExternalStorageServiceProxy) FreeCache(
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExternalStorageService)
 	_data.WriteString16(sessionId)
 	_data.WriteString16(volumeUuid)
@@ -167,6 +171,7 @@ func (p *ExternalStorageServiceProxy) NotifyAnrDelayStarted(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExternalStorageService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(uid)
@@ -185,7 +190,8 @@ func (p *ExternalStorageServiceProxy) NotifyAnrDelayStarted(
 // ExternalStorageServiceStub dispatches incoming binder transactions
 // to a typed IExternalStorageService implementation.
 type ExternalStorageServiceStub struct {
-	Impl IExternalStorageService
+	Impl      IExternalStorageService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ExternalStorageServiceStub)(nil)
@@ -199,11 +205,12 @@ func (s *ExternalStorageServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIExternalStorageServiceStartSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -237,12 +244,8 @@ func (s *ExternalStorageServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StartSession(ctx, _arg_sessionId, _arg_type_, _arg_deviceFd, _arg_upperPath, _arg_lowerPath, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIExternalStorageServiceEndSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -260,12 +263,8 @@ func (s *ExternalStorageServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.EndSession(ctx, _arg_sessionId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIExternalStorageServiceNotifyVolumeStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -295,12 +294,8 @@ func (s *ExternalStorageServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyVolumeStateChanged(ctx, _arg_sessionId, _arg_vol, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIExternalStorageServiceFreeCache:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -326,12 +321,8 @@ func (s *ExternalStorageServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.FreeCache(ctx, _arg_sessionId, _arg_volumeUuid, _arg_bytes, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIExternalStorageServiceNotifyAnrDelayStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -349,8 +340,7 @@ func (s *ExternalStorageServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyAnrDelayStarted(ctx, _arg_packageName, _arg_uid, _arg_tid, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

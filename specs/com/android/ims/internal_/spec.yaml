@@ -1,0 +1,2104 @@
+package: com.android.ims.internal
+go_package: com/android/ims/internal_
+interfaces:
+    - name: IImsCallSession
+      descriptor: com.android.ims.internal.IImsCallSession
+      methods:
+        - name: close
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: getCallId
+          transaction_code_offset: 1
+          return_type:
+            name: String
+        - name: getCallProfile
+          transaction_code_offset: 2
+          return_type:
+            name: ImsCallProfile
+        - name: getLocalCallProfile
+          transaction_code_offset: 3
+          return_type:
+            name: ImsCallProfile
+        - name: getRemoteCallProfile
+          transaction_code_offset: 4
+          return_type:
+            name: ImsCallProfile
+        - name: getProperty
+          transaction_code_offset: 5
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: getState
+          transaction_code_offset: 6
+          return_type:
+            name: int
+        - name: isInCall
+          transaction_code_offset: 7
+          return_type:
+            name: boolean
+        - name: setListener
+          transaction_code_offset: 8
+          params:
+            - name: listener
+              type:
+                name: IImsCallSessionListener
+              direction: in
+          return_type:
+            name: void
+        - name: setMute
+          transaction_code_offset: 9
+          params:
+            - name: muted
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: start
+          transaction_code_offset: 10
+          params:
+            - name: callee
+              type:
+                name: String
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: startConference
+          transaction_code_offset: 11
+          params:
+            - name: participants
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: accept
+          transaction_code_offset: 12
+          params:
+            - name: callType
+              type:
+                name: int
+            - name: profile
+              type:
+                name: ImsStreamMediaProfile
+              direction: in
+          return_type:
+            name: void
+        - name: deflect
+          transaction_code_offset: 13
+          params:
+            - name: deflectNumber
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: reject
+          transaction_code_offset: 14
+          params:
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: transfer
+          transaction_code_offset: 15
+          params:
+            - name: number
+              type:
+                name: String
+            - name: isConfirmationRequired
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: consultativeTransfer
+          transaction_code_offset: 16
+          params:
+            - name: transferToSession
+              type:
+                name: IImsCallSession
+              direction: in
+          return_type:
+            name: void
+        - name: terminate
+          transaction_code_offset: 17
+          params:
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: hold
+          transaction_code_offset: 18
+          params:
+            - name: profile
+              type:
+                name: ImsStreamMediaProfile
+              direction: in
+          return_type:
+            name: void
+        - name: resume
+          transaction_code_offset: 19
+          params:
+            - name: profile
+              type:
+                name: ImsStreamMediaProfile
+              direction: in
+          return_type:
+            name: void
+        - name: merge
+          transaction_code_offset: 20
+          return_type:
+            name: void
+        - name: update
+          transaction_code_offset: 21
+          params:
+            - name: callType
+              type:
+                name: int
+            - name: profile
+              type:
+                name: ImsStreamMediaProfile
+              direction: in
+          return_type:
+            name: void
+        - name: extendToConference
+          transaction_code_offset: 22
+          params:
+            - name: participants
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: inviteParticipants
+          transaction_code_offset: 23
+          params:
+            - name: participants
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: removeParticipants
+          transaction_code_offset: 24
+          params:
+            - name: participants
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: sendDtmf
+          transaction_code_offset: 25
+          params:
+            - name: c
+              type:
+                name: char
+            - name: result
+              type:
+                name: Message
+              direction: in
+          return_type:
+            name: void
+        - name: startDtmf
+          transaction_code_offset: 26
+          params:
+            - name: c
+              type:
+                name: char
+          return_type:
+            name: void
+        - name: stopDtmf
+          transaction_code_offset: 27
+          return_type:
+            name: void
+        - name: sendUssd
+          transaction_code_offset: 28
+          params:
+            - name: ussdMessage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getVideoCallProvider
+          transaction_code_offset: 29
+          return_type:
+            name: IImsVideoCallProvider
+        - name: isMultiparty
+          transaction_code_offset: 30
+          return_type:
+            name: boolean
+        - name: sendRttModifyRequest
+          transaction_code_offset: 31
+          params:
+            - name: toProfile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: sendRttModifyResponse
+          transaction_code_offset: 32
+          params:
+            - name: status
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: sendRttMessage
+          transaction_code_offset: 33
+          params:
+            - name: rttMessage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: sendRtpHeaderExtensions
+          transaction_code_offset: 34
+          params:
+            - name: extensions
+              type:
+                name: List
+                type_args:
+                    - name: RtpHeaderExtension
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionNotifyAnbr
+          transaction_code_offset: 35
+          params:
+            - name: mediaType
+              type:
+                name: int
+            - name: direction
+              type:
+                name: int
+            - name: bitsPerSecond
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IImsCallSessionListener
+      descriptor: com.android.ims.internal.IImsCallSessionListener
+      oneway: true
+      methods:
+        - name: callSessionProgressing
+          transaction_code_offset: 0
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: profile
+              type:
+                name: ImsStreamMediaProfile
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionStarted
+          transaction_code_offset: 1
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionStartFailed
+          transaction_code_offset: 2
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionTerminated
+          transaction_code_offset: 3
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionHeld
+          transaction_code_offset: 4
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionHoldFailed
+          transaction_code_offset: 5
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionHoldReceived
+          transaction_code_offset: 6
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionResumed
+          transaction_code_offset: 7
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionResumeFailed
+          transaction_code_offset: 8
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionResumeReceived
+          transaction_code_offset: 9
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionMergeStarted
+          transaction_code_offset: 10
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: newSession
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionMergeComplete
+          transaction_code_offset: 11
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionMergeFailed
+          transaction_code_offset: 12
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionUpdated
+          transaction_code_offset: 13
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionUpdateFailed
+          transaction_code_offset: 14
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionUpdateReceived
+          transaction_code_offset: 15
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionConferenceExtended
+          transaction_code_offset: 16
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: newSession
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionConferenceExtendFailed
+          transaction_code_offset: 17
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionConferenceExtendReceived
+          transaction_code_offset: 18
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: newSession
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionInviteParticipantsRequestDelivered
+          transaction_code_offset: 19
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionInviteParticipantsRequestFailed
+          transaction_code_offset: 20
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionRemoveParticipantsRequestDelivered
+          transaction_code_offset: 21
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionRemoveParticipantsRequestFailed
+          transaction_code_offset: 22
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionConferenceStateUpdated
+          transaction_code_offset: 23
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: state
+              type:
+                name: ImsConferenceState
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionUssdMessageReceived
+          transaction_code_offset: 24
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: mode
+              type:
+                name: int
+            - name: ussdMessage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: callSessionHandover
+          transaction_code_offset: 25
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: srcAccessTech
+              type:
+                name: int
+              direction: in
+            - name: targetAccessTech
+              type:
+                name: int
+              direction: in
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionHandoverFailed
+          transaction_code_offset: 26
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: srcAccessTech
+              type:
+                name: int
+              direction: in
+            - name: targetAccessTech
+              type:
+                name: int
+              direction: in
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionMayHandover
+          transaction_code_offset: 27
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: srcAccessTech
+              type:
+                name: int
+              direction: in
+            - name: targetAccessTech
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionTtyModeReceived
+          transaction_code_offset: 28
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: mode
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionMultipartyStateChanged
+          transaction_code_offset: 29
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: isMultiParty
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionSuppServiceReceived
+          transaction_code_offset: 30
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: suppSrvNotification
+              type:
+                name: ImsSuppServiceNotification
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: callSessionRttModifyRequestReceived
+          transaction_code_offset: 31
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: callProfile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionRttModifyResponseReceived
+          transaction_code_offset: 32
+          params:
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionRttMessageReceived
+          transaction_code_offset: 33
+          params:
+            - name: rttMessage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionRttAudioIndicatorChanged
+          transaction_code_offset: 34
+          params:
+            - name: profile
+              type:
+                name: ImsStreamMediaProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionTransferred
+          transaction_code_offset: 35
+          return_type:
+            name: void
+        - name: callSessionTransferFailed
+          transaction_code_offset: 36
+          params:
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callQualityChanged
+          transaction_code_offset: 37
+          params:
+            - name: callQuality
+              type:
+                name: CallQuality
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionSendAnbrQuery
+          transaction_code_offset: 38
+          params:
+            - name: mediaType
+              type:
+                name: int
+            - name: direction
+              type:
+                name: int
+            - name: bitsPerSecond
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IImsConfig
+      descriptor: com.android.ims.internal.IImsConfig
+      methods:
+        - name: getProvisionedValue
+          transaction_code_offset: 0
+          params:
+            - name: item
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getProvisionedStringValue
+          transaction_code_offset: 1
+          params:
+            - name: item
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: setProvisionedValue
+          transaction_code_offset: 2
+          params:
+            - name: item
+              type:
+                name: int
+            - name: value
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setProvisionedStringValue
+          transaction_code_offset: 3
+          params:
+            - name: item
+              type:
+                name: int
+            - name: value
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: getFeatureValue
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: feature
+              type:
+                name: int
+            - name: network
+              type:
+                name: int
+            - name: listener
+              type:
+                name: ImsConfigListener
+          return_type:
+            name: void
+        - name: setFeatureValue
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: feature
+              type:
+                name: int
+            - name: network
+              type:
+                name: int
+            - name: value
+              type:
+                name: int
+            - name: listener
+              type:
+                name: ImsConfigListener
+          return_type:
+            name: void
+        - name: getVolteProvisioned
+          transaction_code_offset: 6
+          return_type:
+            name: boolean
+        - name: getVideoQuality
+          transaction_code_offset: 7
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: ImsConfigListener
+          return_type:
+            name: void
+        - name: setVideoQuality
+          transaction_code_offset: 8
+          oneway: true
+          params:
+            - name: quality
+              type:
+                name: int
+            - name: listener
+              type:
+                name: ImsConfigListener
+          return_type:
+            name: void
+    - name: IImsEcbm
+      descriptor: com.android.ims.internal.IImsEcbm
+      methods:
+        - name: setListener
+          transaction_code_offset: 0
+          params:
+            - name: listener
+              type:
+                name: IImsEcbmListener
+              direction: in
+          return_type:
+            name: void
+        - name: exitEmergencyCallbackMode
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: IImsEcbmListener
+      descriptor: com.android.ims.internal.IImsEcbmListener
+      oneway: true
+      methods:
+        - name: enteredECBM
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: exitedECBM
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: IImsExternalCallStateListener
+      descriptor: com.android.ims.internal.IImsExternalCallStateListener
+      oneway: true
+      methods:
+        - name: onImsExternalCallStateUpdate
+          transaction_code_offset: 0
+          params:
+            - name: externalCallDialogs
+              type:
+                name: List
+                type_args:
+                    - name: ImsExternalCallState
+              direction: in
+          return_type:
+            name: void
+    - name: IImsFeatureStatusCallback
+      descriptor: com.android.ims.internal.IImsFeatureStatusCallback
+      oneway: true
+      methods:
+        - name: notifyImsFeatureStatus
+          transaction_code_offset: 0
+          params:
+            - name: featureStatus
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IImsMMTelFeature
+      descriptor: com.android.ims.internal.IImsMMTelFeature
+      methods:
+        - name: startSession
+          transaction_code_offset: 0
+          params:
+            - name: incomingCallIntent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: listener
+              type:
+                name: IImsRegistrationListener
+              direction: in
+          return_type:
+            name: int
+        - name: endSession
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isConnected
+          transaction_code_offset: 2
+          params:
+            - name: callSessionType
+              type:
+                name: int
+            - name: callType
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isOpened
+          transaction_code_offset: 3
+          return_type:
+            name: boolean
+        - name: getFeatureStatus
+          transaction_code_offset: 4
+          return_type:
+            name: int
+        - name: addRegistrationListener
+          transaction_code_offset: 5
+          params:
+            - name: listener
+              type:
+                name: IImsRegistrationListener
+              direction: in
+          return_type:
+            name: void
+        - name: removeRegistrationListener
+          transaction_code_offset: 6
+          params:
+            - name: listener
+              type:
+                name: IImsRegistrationListener
+              direction: in
+          return_type:
+            name: void
+        - name: createCallProfile
+          transaction_code_offset: 7
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: callSessionType
+              type:
+                name: int
+            - name: callType
+              type:
+                name: int
+          return_type:
+            name: ImsCallProfile
+        - name: createCallSession
+          transaction_code_offset: 8
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: IImsCallSession
+        - name: getPendingCallSession
+          transaction_code_offset: 9
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: callId
+              type:
+                name: String
+          return_type:
+            name: IImsCallSession
+        - name: getUtInterface
+          transaction_code_offset: 10
+          return_type:
+            name: IImsUt
+        - name: getConfigInterface
+          transaction_code_offset: 11
+          return_type:
+            name: IImsConfig
+        - name: turnOnIms
+          transaction_code_offset: 12
+          return_type:
+            name: void
+        - name: turnOffIms
+          transaction_code_offset: 13
+          return_type:
+            name: void
+        - name: getEcbmInterface
+          transaction_code_offset: 14
+          return_type:
+            name: IImsEcbm
+        - name: setUiTTYMode
+          transaction_code_offset: 15
+          params:
+            - name: uiTtyMode
+              type:
+                name: int
+            - name: onComplete
+              type:
+                name: Message
+              direction: in
+          return_type:
+            name: void
+        - name: getMultiEndpointInterface
+          transaction_code_offset: 16
+          return_type:
+            name: IImsMultiEndpoint
+    - name: IImsMultiEndpoint
+      descriptor: com.android.ims.internal.IImsMultiEndpoint
+      methods:
+        - name: setListener
+          transaction_code_offset: 0
+          params:
+            - name: listener
+              type:
+                name: IImsExternalCallStateListener
+              direction: in
+          return_type:
+            name: void
+        - name: requestImsExternalCallStateInfo
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: IImsRcsFeature
+      descriptor: com.android.ims.internal.IImsRcsFeature
+    - name: IImsRegistrationListener
+      descriptor: com.android.ims.internal.IImsRegistrationListener
+      oneway: true
+      methods:
+        - name: registrationConnected
+          transaction_code_offset: 0
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: registrationProgressing
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: registrationConnectedWithRadioTech
+          transaction_code_offset: 2
+          params:
+            - name: imsRadioTech
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: registrationProgressingWithRadioTech
+          transaction_code_offset: 3
+          params:
+            - name: imsRadioTech
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: registrationDisconnected
+          transaction_code_offset: 4
+          params:
+            - name: imsReasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: registrationResumed
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: registrationSuspended
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: registrationServiceCapabilityChanged
+          transaction_code_offset: 7
+          params:
+            - name: serviceClass
+              type:
+                name: int
+            - name: event
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: registrationFeatureCapabilityChanged
+          transaction_code_offset: 8
+          params:
+            - name: serviceClass
+              type:
+                name: int
+            - name: enabledFeatures
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: disabledFeatures
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: voiceMessageCountUpdate
+          transaction_code_offset: 9
+          params:
+            - name: count
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: registrationAssociatedUriChanged
+          transaction_code_offset: 10
+          params:
+            - name: uris
+              type:
+                name: Uri
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: registrationChangeFailed
+          transaction_code_offset: 11
+          params:
+            - name: targetAccessTech
+              type:
+                name: int
+              direction: in
+            - name: imsReasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IImsService
+      descriptor: com.android.ims.internal.IImsService
+      methods:
+        - name: open
+          transaction_code_offset: 0
+          params:
+            - name: phoneId
+              type:
+                name: int
+            - name: serviceClass
+              type:
+                name: int
+            - name: incomingCallIntent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: listener
+              type:
+                name: IImsRegistrationListener
+              direction: in
+          return_type:
+            name: int
+        - name: close
+          transaction_code_offset: 1
+          params:
+            - name: serviceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isConnected
+          transaction_code_offset: 2
+          params:
+            - name: serviceId
+              type:
+                name: int
+            - name: serviceType
+              type:
+                name: int
+            - name: callType
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isOpened
+          transaction_code_offset: 3
+          params:
+            - name: serviceId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setRegistrationListener
+          transaction_code_offset: 4
+          params:
+            - name: serviceId
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IImsRegistrationListener
+              direction: in
+          return_type:
+            name: void
+        - name: addRegistrationListener
+          transaction_code_offset: 5
+          params:
+            - name: phoneId
+              type:
+                name: int
+            - name: serviceClass
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IImsRegistrationListener
+              direction: in
+          return_type:
+            name: void
+        - name: createCallProfile
+          transaction_code_offset: 6
+          params:
+            - name: serviceId
+              type:
+                name: int
+            - name: serviceType
+              type:
+                name: int
+            - name: callType
+              type:
+                name: int
+          return_type:
+            name: ImsCallProfile
+        - name: createCallSession
+          transaction_code_offset: 7
+          params:
+            - name: serviceId
+              type:
+                name: int
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+            - name: listener
+              type:
+                name: IImsCallSessionListener
+              direction: in
+          return_type:
+            name: IImsCallSession
+        - name: getPendingCallSession
+          transaction_code_offset: 8
+          params:
+            - name: serviceId
+              type:
+                name: int
+            - name: callId
+              type:
+                name: String
+          return_type:
+            name: IImsCallSession
+        - name: getUtInterface
+          transaction_code_offset: 9
+          params:
+            - name: serviceId
+              type:
+                name: int
+          return_type:
+            name: IImsUt
+        - name: getConfigInterface
+          transaction_code_offset: 10
+          params:
+            - name: phoneId
+              type:
+                name: int
+          return_type:
+            name: IImsConfig
+        - name: turnOnIms
+          transaction_code_offset: 11
+          params:
+            - name: phoneId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: turnOffIms
+          transaction_code_offset: 12
+          params:
+            - name: phoneId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getEcbmInterface
+          transaction_code_offset: 13
+          params:
+            - name: serviceId
+              type:
+                name: int
+          return_type:
+            name: IImsEcbm
+        - name: setUiTTYMode
+          transaction_code_offset: 14
+          params:
+            - name: serviceId
+              type:
+                name: int
+            - name: uiTtyMode
+              type:
+                name: int
+            - name: onComplete
+              type:
+                name: Message
+              direction: in
+          return_type:
+            name: void
+        - name: getMultiEndpointInterface
+          transaction_code_offset: 15
+          params:
+            - name: serviceId
+              type:
+                name: int
+          return_type:
+            name: IImsMultiEndpoint
+    - name: IImsServiceController
+      descriptor: com.android.ims.internal.IImsServiceController
+      methods:
+        - name: createEmergencyMMTelFeature
+          transaction_code_offset: 0
+          params:
+            - name: slotId
+              type:
+                name: int
+          return_type:
+            name: IImsMMTelFeature
+        - name: createMMTelFeature
+          transaction_code_offset: 1
+          params:
+            - name: slotId
+              type:
+                name: int
+          return_type:
+            name: IImsMMTelFeature
+        - name: createRcsFeature
+          transaction_code_offset: 2
+          params:
+            - name: slotId
+              type:
+                name: int
+          return_type:
+            name: IImsRcsFeature
+        - name: removeImsFeature
+          transaction_code_offset: 3
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: featureType
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: addFeatureStatusCallback
+          transaction_code_offset: 4
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: featureType
+              type:
+                name: int
+            - name: c
+              type:
+                name: IImsFeatureStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: removeFeatureStatusCallback
+          transaction_code_offset: 5
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: featureType
+              type:
+                name: int
+            - name: c
+              type:
+                name: IImsFeatureStatusCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IImsServiceFeatureCallback
+      descriptor: com.android.ims.internal.IImsServiceFeatureCallback
+      oneway: true
+      methods:
+        - name: imsFeatureCreated
+          transaction_code_offset: 0
+          params:
+            - name: feature
+              type:
+                name: ImsFeatureContainer
+              direction: in
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: imsFeatureRemoved
+          transaction_code_offset: 1
+          params:
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: imsStatusChanged
+          transaction_code_offset: 2
+          params:
+            - name: status
+              type:
+                name: int
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: updateCapabilities
+          transaction_code_offset: 3
+          params:
+            - name: capabilities
+              type:
+                name: long
+          return_type:
+            name: void
+    - name: IImsStreamMediaSession
+      descriptor: com.android.ims.internal.IImsStreamMediaSession
+      methods:
+        - name: close
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: IImsUt
+      descriptor: com.android.ims.internal.IImsUt
+      methods:
+        - name: close
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: queryCallBarring
+          transaction_code_offset: 1
+          params:
+            - name: cbType
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: queryCallForward
+          transaction_code_offset: 2
+          params:
+            - name: condition
+              type:
+                name: int
+            - name: number
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: queryCallWaiting
+          transaction_code_offset: 3
+          return_type:
+            name: int
+        - name: queryCLIR
+          transaction_code_offset: 4
+          return_type:
+            name: int
+        - name: queryCLIP
+          transaction_code_offset: 5
+          return_type:
+            name: int
+        - name: queryCOLR
+          transaction_code_offset: 6
+          return_type:
+            name: int
+        - name: queryCOLP
+          transaction_code_offset: 7
+          return_type:
+            name: int
+        - name: transact
+          transaction_code_offset: 8
+          params:
+            - name: ssInfo
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: int
+        - name: updateCallBarring
+          transaction_code_offset: 9
+          params:
+            - name: cbType
+              type:
+                name: int
+            - name: action
+              type:
+                name: int
+            - name: barrList
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: int
+        - name: updateCallForward
+          transaction_code_offset: 10
+          params:
+            - name: action
+              type:
+                name: int
+            - name: condition
+              type:
+                name: int
+            - name: number
+              type:
+                name: String
+            - name: serviceClass
+              type:
+                name: int
+            - name: timeSeconds
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: updateCallWaiting
+          transaction_code_offset: 11
+          params:
+            - name: enable
+              type:
+                name: boolean
+            - name: serviceClass
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: updateCLIR
+          transaction_code_offset: 12
+          params:
+            - name: clirMode
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: updateCLIP
+          transaction_code_offset: 13
+          params:
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: updateCOLR
+          transaction_code_offset: 14
+          params:
+            - name: presentation
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: updateCOLP
+          transaction_code_offset: 15
+          params:
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: setListener
+          transaction_code_offset: 16
+          params:
+            - name: listener
+              type:
+                name: IImsUtListener
+              direction: in
+          return_type:
+            name: void
+        - name: queryCallBarringForServiceClass
+          transaction_code_offset: 17
+          params:
+            - name: cbType
+              type:
+                name: int
+            - name: serviceClass
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: updateCallBarringForServiceClass
+          transaction_code_offset: 18
+          params:
+            - name: cbType
+              type:
+                name: int
+            - name: action
+              type:
+                name: int
+            - name: barrList
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: serviceClass
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: updateCallBarringWithPassword
+          transaction_code_offset: 19
+          params:
+            - name: cbType
+              type:
+                name: int
+            - name: action
+              type:
+                name: int
+            - name: barrList
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: serviceClass
+              type:
+                name: int
+            - name: password
+              type:
+                name: String
+          return_type:
+            name: int
+    - name: IImsUtListener
+      descriptor: com.android.ims.internal.IImsUtListener
+      oneway: true
+      methods:
+        - name: utConfigurationUpdated
+          transaction_code_offset: 0
+          params:
+            - name: ut
+              type:
+                name: IImsUt
+              direction: in
+            - name: id
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: utConfigurationUpdateFailed
+          transaction_code_offset: 1
+          params:
+            - name: ut
+              type:
+                name: IImsUt
+              direction: in
+            - name: id
+              type:
+                name: int
+            - name: error
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: utConfigurationQueried
+          transaction_code_offset: 2
+          params:
+            - name: ut
+              type:
+                name: IImsUt
+              direction: in
+            - name: id
+              type:
+                name: int
+            - name: ssInfo
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: utConfigurationQueryFailed
+          transaction_code_offset: 3
+          params:
+            - name: ut
+              type:
+                name: IImsUt
+              direction: in
+            - name: id
+              type:
+                name: int
+            - name: error
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: lineIdentificationSupplementaryServiceResponse
+          transaction_code_offset: 4
+          params:
+            - name: id
+              type:
+                name: int
+            - name: config
+              type:
+                name: ImsSsInfo
+              direction: in
+          return_type:
+            name: void
+        - name: utConfigurationCallBarringQueried
+          transaction_code_offset: 5
+          params:
+            - name: ut
+              type:
+                name: IImsUt
+              direction: in
+            - name: id
+              type:
+                name: int
+            - name: cbInfo
+              type:
+                name: ImsSsInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: utConfigurationCallForwardQueried
+          transaction_code_offset: 6
+          params:
+            - name: ut
+              type:
+                name: IImsUt
+              direction: in
+            - name: id
+              type:
+                name: int
+            - name: cfInfo
+              type:
+                name: ImsCallForwardInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: utConfigurationCallWaitingQueried
+          transaction_code_offset: 7
+          params:
+            - name: ut
+              type:
+                name: IImsUt
+              direction: in
+            - name: id
+              type:
+                name: int
+            - name: cwInfo
+              type:
+                name: ImsSsInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onSupplementaryServiceIndication
+          transaction_code_offset: 8
+          params:
+            - name: ssData
+              type:
+                name: ImsSsData
+              direction: in
+          return_type:
+            name: void
+    - name: IImsVideoCallCallback
+      descriptor: com.android.ims.internal.IImsVideoCallCallback
+      oneway: true
+      methods:
+        - name: receiveSessionModifyRequest
+          transaction_code_offset: 0
+          params:
+            - name: videoProfile
+              type:
+                name: VideoProfile
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: receiveSessionModifyResponse
+          transaction_code_offset: 1
+          params:
+            - name: status
+              type:
+                name: int
+            - name: requestedProfile
+              type:
+                name: VideoProfile
+              direction: in
+            - name: responseProfile
+              type:
+                name: VideoProfile
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: handleCallSessionEvent
+          transaction_code_offset: 2
+          params:
+            - name: event
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: changePeerDimensions
+          transaction_code_offset: 3
+          params:
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: changeCallDataUsage
+          transaction_code_offset: 4
+          params:
+            - name: dataUsage
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: changeCameraCapabilities
+          transaction_code_offset: 5
+          params:
+            - name: cameraCapabilities
+              type:
+                name: VideoProfile.CameraCapabilities
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: changeVideoQuality
+          transaction_code_offset: 6
+          params:
+            - name: videoQuality
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IImsVideoCallProvider
+      descriptor: com.android.ims.internal.IImsVideoCallProvider
+      oneway: true
+      methods:
+        - name: setCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IImsVideoCallCallback
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setCamera
+          transaction_code_offset: 1
+          params:
+            - name: cameraId
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setPreviewSurface
+          transaction_code_offset: 2
+          params:
+            - name: surface
+              type:
+                name: Surface
+              direction: in
+          return_type:
+            name: void
+        - name: setDisplaySurface
+          transaction_code_offset: 3
+          params:
+            - name: surface
+              type:
+                name: Surface
+              direction: in
+          return_type:
+            name: void
+        - name: setDeviceOrientation
+          transaction_code_offset: 4
+          params:
+            - name: rotation
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setZoom
+          transaction_code_offset: 5
+          params:
+            - name: value
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: sendSessionModifyRequest
+          transaction_code_offset: 6
+          params:
+            - name: fromProfile
+              type:
+                name: VideoProfile
+              direction: in
+            - name: toProfile
+              type:
+                name: VideoProfile
+              direction: in
+          return_type:
+            name: void
+        - name: sendSessionModifyResponse
+          transaction_code_offset: 7
+          params:
+            - name: responseProfile
+              type:
+                name: VideoProfile
+              direction: in
+          return_type:
+            name: void
+        - name: requestCameraCapabilities
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: requestCallDataUsage
+          transaction_code_offset: 9
+          return_type:
+            name: void
+        - name: setPauseImage
+          transaction_code_offset: 10
+          params:
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+          return_type:
+            name: void

@@ -55,6 +55,7 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnGetWalletCardsSuccess(
 	response GetWalletCardsResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletServiceCallbacks)
 	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
@@ -75,6 +76,7 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnGetWalletCardsFailure(
 	error_ GetWalletCardsError,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletServiceCallbacks)
 	_data.WriteInt32(1)
 	if _err := error_.MarshalParcel(_data); _err != nil {
@@ -95,6 +97,7 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnWalletServiceEvent(
 	event WalletServiceEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletServiceCallbacks)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -115,6 +118,7 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnTargetActivityPendingIntentRe
 	pendingIntent app.PendingIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletServiceCallbacks)
 	_data.WriteInt32(1)
 	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
@@ -133,7 +137,8 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnTargetActivityPendingIntentRe
 // QuickAccessWalletServiceCallbacksStub dispatches incoming binder transactions
 // to a typed IQuickAccessWalletServiceCallbacks implementation.
 type QuickAccessWalletServiceCallbacksStub struct {
-	Impl IQuickAccessWalletServiceCallbacks
+	Impl      IQuickAccessWalletServiceCallbacks
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*QuickAccessWalletServiceCallbacksStub)(nil)
@@ -147,11 +152,12 @@ func (s *QuickAccessWalletServiceCallbacksStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIQuickAccessWalletServiceCallbacksOnGetWalletCardsSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_response GetWalletCardsResponse
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -165,12 +171,8 @@ func (s *QuickAccessWalletServiceCallbacksStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnGetWalletCardsSuccess(ctx, _arg_response)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIQuickAccessWalletServiceCallbacksOnGetWalletCardsFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_error_ GetWalletCardsError
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -184,12 +186,8 @@ func (s *QuickAccessWalletServiceCallbacksStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnGetWalletCardsFailure(ctx, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIQuickAccessWalletServiceCallbacksOnWalletServiceEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event WalletServiceEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -203,12 +201,8 @@ func (s *QuickAccessWalletServiceCallbacksStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnWalletServiceEvent(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIQuickAccessWalletServiceCallbacksOnTargetActivityPendingIntentReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_pendingIntent app.PendingIntent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -222,8 +216,7 @@ func (s *QuickAccessWalletServiceCallbacksStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnTargetActivityPendingIntentReceived(ctx, _arg_pendingIntent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

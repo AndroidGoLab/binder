@@ -31,8 +31,7 @@ func (u *OperationData) GetMemoryBufferReference() (MemoryBufferReference, bool)
 func (u *OperationData) SetMemoryBufferReference(
 	v MemoryBufferReference,
 ) {
-	u.Tag = OperationDataTagMemoryBufferReference
-	u.MemoryBufferReference = v
+	*u = OperationData{Tag: OperationDataTagMemoryBufferReference, MemoryBufferReference: v}
 }
 
 func (u *OperationData) GetDataBuffer() ([]byte, bool) {
@@ -46,8 +45,7 @@ func (u *OperationData) GetDataBuffer() ([]byte, bool) {
 func (u *OperationData) SetDataBuffer(
 	v []byte,
 ) {
-	u.Tag = OperationDataTagDataBuffer
-	u.DataBuffer = v
+	*u = OperationData{Tag: OperationDataTagDataBuffer, DataBuffer: v}
 }
 
 func (u *OperationData) MarshalParcel(

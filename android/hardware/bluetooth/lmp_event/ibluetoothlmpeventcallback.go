@@ -53,20 +53,14 @@ func (p *BluetoothLmpEventCallbackProxy) OnEventGenerated(
 	connEventCounter uint16,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLmpEventCallback)
 	_data.WriteInt32(1)
 	if _err := timestamp.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WritePaddedByte(byte(addressType))
-	if address == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(address)))
-		for _, _item := range address {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(address)
 	_data.WritePaddedByte(byte(direction))
 	_data.WritePaddedByte(byte(lmpEventId))
 	_data.WriteInt32(int32(connEventCounter))
@@ -94,6 +88,7 @@ func (p *BluetoothLmpEventCallbackProxy) OnRegistered(
 	status bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLmpEventCallback)
 	_data.WriteBool(status)
 
@@ -118,7 +113,8 @@ func (p *BluetoothLmpEventCallbackProxy) OnRegistered(
 // BluetoothLmpEventCallbackStub dispatches incoming binder transactions
 // to a typed IBluetoothLmpEventCallback implementation.
 type BluetoothLmpEventCallbackStub struct {
-	Impl IBluetoothLmpEventCallback
+	Impl      IBluetoothLmpEventCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothLmpEventCallbackStub)(nil)
@@ -132,11 +128,12 @@ func (s *BluetoothLmpEventCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothLmpEventCallbackOnEventGenerated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_timestamp Timestamp
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -154,9 +151,14 @@ func (s *BluetoothLmpEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_addressType := AddressType(_raw_addressType)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_address []byte
-		_ = _arg_address
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_address = _bytes
+		}
 		_raw_direction, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -181,9 +183,6 @@ func (s *BluetoothLmpEventCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLmpEventCallbackOnRegistered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err

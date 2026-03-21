@@ -63,6 +63,7 @@ func (p *UdfpsOverlayControllerProxy) ShowUdfpsOverlay(
 	callback IUdfpsOverlayControllerCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayController)
 	_data.WriteInt64(requestId)
 	_data.WriteInt32(sensorId)
@@ -83,6 +84,7 @@ func (p *UdfpsOverlayControllerProxy) HideUdfpsOverlay(
 	sensorId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayController)
 	_data.WriteInt32(sensorId)
 
@@ -101,6 +103,7 @@ func (p *UdfpsOverlayControllerProxy) OnAcquired(
 	acquiredInfo int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayController)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(acquiredInfo)
@@ -120,6 +123,7 @@ func (p *UdfpsOverlayControllerProxy) OnEnrollmentProgress(
 	remaining int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayController)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(remaining)
@@ -138,6 +142,7 @@ func (p *UdfpsOverlayControllerProxy) OnEnrollmentHelp(
 	sensorId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayController)
 	_data.WriteInt32(sensorId)
 
@@ -156,6 +161,7 @@ func (p *UdfpsOverlayControllerProxy) SetDebugMessage(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayController)
 	_data.WriteInt32(sensorId)
 	_data.WriteString16(message)
@@ -172,7 +178,8 @@ func (p *UdfpsOverlayControllerProxy) SetDebugMessage(
 // UdfpsOverlayControllerStub dispatches incoming binder transactions
 // to a typed IUdfpsOverlayController implementation.
 type UdfpsOverlayControllerStub struct {
-	Impl IUdfpsOverlayController
+	Impl      IUdfpsOverlayController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UdfpsOverlayControllerStub)(nil)
@@ -186,11 +193,12 @@ func (s *UdfpsOverlayControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUdfpsOverlayControllerShowUdfpsOverlay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -203,27 +211,24 @@ func (s *UdfpsOverlayControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IUdfpsOverlayControllerCallback
-		_ = _arg_callback
-		_err = s.Impl.ShowUdfpsOverlay(ctx, _arg_requestId, _arg_sensorId, _arg_reason, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIUdfpsOverlayControllerHideUdfpsOverlay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewUdfpsOverlayControllerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.ShowUdfpsOverlay(ctx, _arg_requestId, _arg_sensorId, _arg_reason, _arg_callback)
+		return nil, _err
+	case TransactionIUdfpsOverlayControllerHideUdfpsOverlay:
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.HideUdfpsOverlay(ctx, _arg_sensorId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUdfpsOverlayControllerOnAcquired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -233,12 +238,8 @@ func (s *UdfpsOverlayControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAcquired(ctx, _arg_sensorId, _arg_acquiredInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUdfpsOverlayControllerOnEnrollmentProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -248,23 +249,15 @@ func (s *UdfpsOverlayControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnEnrollmentProgress(ctx, _arg_sensorId, _arg_remaining)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUdfpsOverlayControllerOnEnrollmentHelp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnEnrollmentHelp(ctx, _arg_sensorId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUdfpsOverlayControllerSetDebugMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -274,8 +267,7 @@ func (s *UdfpsOverlayControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetDebugMessage(ctx, _arg_sensorId, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

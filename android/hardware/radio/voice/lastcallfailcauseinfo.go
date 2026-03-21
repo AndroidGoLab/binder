@@ -32,11 +32,21 @@ func (s *LastCallFailCauseInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_causeCodeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.CauseCode = LastCallFailCause(_causeCodeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.VendorCause, _err = p.ReadString16()
 	if _err != nil {

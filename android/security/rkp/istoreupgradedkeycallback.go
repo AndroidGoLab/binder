@@ -47,6 +47,7 @@ func (p *StoreUpgradedKeyCallbackProxy) OnSuccess(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStoreUpgradedKeyCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStoreUpgradedKeyCallback, MethodIStoreUpgradedKeyCallbackOnSuccess)
@@ -63,6 +64,7 @@ func (p *StoreUpgradedKeyCallbackProxy) OnError(
 	error_ string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStoreUpgradedKeyCallback)
 	_data.WriteString16(error_)
 
@@ -78,7 +80,8 @@ func (p *StoreUpgradedKeyCallbackProxy) OnError(
 // StoreUpgradedKeyCallbackStub dispatches incoming binder transactions
 // to a typed IStoreUpgradedKeyCallback implementation.
 type StoreUpgradedKeyCallbackStub struct {
-	Impl IStoreUpgradedKeyCallback
+	Impl      IStoreUpgradedKeyCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StoreUpgradedKeyCallbackStub)(nil)
@@ -92,25 +95,21 @@ func (s *StoreUpgradedKeyCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStoreUpgradedKeyCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnSuccess(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStoreUpgradedKeyCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_error_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

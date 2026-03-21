@@ -1,0 +1,533 @@
+package: com.android.wm.shell.splitscreen
+go_package: com/android/wm/shell/splitscreen
+interfaces:
+    - name: ISplitScreen
+      descriptor: com.android.wm.shell.splitscreen.ISplitScreen
+      methods:
+        - name: registerSplitScreenListener
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: ISplitScreenListener
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterSplitScreenListener
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: ISplitScreenListener
+              direction: in
+          return_type:
+            name: void
+        - name: registerSplitSelectListener
+          transaction_code_offset: 19
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: ISplitSelectListener
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterSplitSelectListener
+          transaction_code_offset: 20
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: ISplitSelectListener
+              direction: in
+          return_type:
+            name: void
+        - name: removeFromSideStage
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: taskId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: exitSplitScreen
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: toTopTaskId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: exitSplitScreenOnHide
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: exitSplitScreenOnHide
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: startTask
+          transaction_code_offset: 6
+          oneway: true
+          params:
+            - name: taskId
+              type:
+                name: int
+            - name: position
+              type:
+                name: int
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: startShortcut
+          transaction_code_offset: 7
+          oneway: true
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: shortcutId
+              type:
+                name: String
+            - name: position
+              type:
+                name: int
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: instanceId
+              type:
+                name: InstanceId
+              direction: in
+          return_type:
+            name: void
+        - name: startIntent
+          transaction_code_offset: 8
+          oneway: true
+          params:
+            - name: intent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: fillInIntent
+              type:
+                name: Intent
+              direction: in
+            - name: position
+              type:
+                name: int
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+            - name: instanceId
+              type:
+                name: InstanceId
+              direction: in
+          return_type:
+            name: void
+        - name: startTasks
+          transaction_code_offset: 9
+          oneway: true
+          params:
+            - name: taskId1
+              type:
+                name: int
+            - name: options1
+              type:
+                name: Bundle
+              direction: in
+            - name: taskId2
+              type:
+                name: int
+            - name: options2
+              type:
+                name: Bundle
+              direction: in
+            - name: splitPosition
+              type:
+                name: int
+            - name: snapPosition
+              type:
+                name: int
+            - name: remoteTransition
+              type:
+                name: RemoteTransition
+              direction: in
+            - name: instanceId
+              type:
+                name: InstanceId
+              direction: in
+          return_type:
+            name: void
+        - name: startIntentAndTask
+          transaction_code_offset: 15
+          oneway: true
+          params:
+            - name: pendingIntent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: userId1
+              type:
+                name: int
+            - name: options1
+              type:
+                name: Bundle
+              direction: in
+            - name: taskId
+              type:
+                name: int
+            - name: options2
+              type:
+                name: Bundle
+              direction: in
+            - name: sidePosition
+              type:
+                name: int
+            - name: snapPosition
+              type:
+                name: int
+            - name: remoteTransition
+              type:
+                name: RemoteTransition
+              direction: in
+            - name: instanceId
+              type:
+                name: InstanceId
+              direction: in
+          return_type:
+            name: void
+        - name: startShortcutAndTask
+          transaction_code_offset: 16
+          oneway: true
+          params:
+            - name: shortcutInfo
+              type:
+                name: ShortcutInfo
+              direction: in
+            - name: options1
+              type:
+                name: Bundle
+              direction: in
+            - name: taskId
+              type:
+                name: int
+            - name: options2
+              type:
+                name: Bundle
+              direction: in
+            - name: splitPosition
+              type:
+                name: int
+            - name: snapPosition
+              type:
+                name: int
+            - name: remoteTransition
+              type:
+                name: RemoteTransition
+              direction: in
+            - name: instanceId
+              type:
+                name: InstanceId
+              direction: in
+          return_type:
+            name: void
+        - name: startTasksWithLegacyTransition
+          transaction_code_offset: 10
+          oneway: true
+          params:
+            - name: taskId1
+              type:
+                name: int
+            - name: options1
+              type:
+                name: Bundle
+              direction: in
+            - name: taskId2
+              type:
+                name: int
+            - name: options2
+              type:
+                name: Bundle
+              direction: in
+            - name: splitPosition
+              type:
+                name: int
+            - name: snapPosition
+              type:
+                name: int
+            - name: adapter
+              type:
+                name: RemoteAnimationAdapter
+              direction: in
+            - name: instanceId
+              type:
+                name: InstanceId
+              direction: in
+          return_type:
+            name: void
+        - name: startIntentAndTaskWithLegacyTransition
+          transaction_code_offset: 11
+          oneway: true
+          params:
+            - name: pendingIntent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: userId1
+              type:
+                name: int
+            - name: options1
+              type:
+                name: Bundle
+              direction: in
+            - name: taskId
+              type:
+                name: int
+            - name: options2
+              type:
+                name: Bundle
+              direction: in
+            - name: splitPosition
+              type:
+                name: int
+            - name: snapPosition
+              type:
+                name: int
+            - name: adapter
+              type:
+                name: RemoteAnimationAdapter
+              direction: in
+            - name: instanceId
+              type:
+                name: InstanceId
+              direction: in
+          return_type:
+            name: void
+        - name: startShortcutAndTaskWithLegacyTransition
+          transaction_code_offset: 14
+          oneway: true
+          params:
+            - name: shortcutInfo
+              type:
+                name: ShortcutInfo
+              direction: in
+            - name: options1
+              type:
+                name: Bundle
+              direction: in
+            - name: taskId
+              type:
+                name: int
+            - name: options2
+              type:
+                name: Bundle
+              direction: in
+            - name: splitPosition
+              type:
+                name: int
+            - name: snapPosition
+              type:
+                name: int
+            - name: adapter
+              type:
+                name: RemoteAnimationAdapter
+              direction: in
+            - name: instanceId
+              type:
+                name: InstanceId
+              direction: in
+          return_type:
+            name: void
+        - name: startIntentsWithLegacyTransition
+          transaction_code_offset: 17
+          oneway: true
+          params:
+            - name: pendingIntent1
+              type:
+                name: PendingIntent
+              direction: in
+            - name: userId1
+              type:
+                name: int
+            - name: shortcutInfo1
+              type:
+                name: ShortcutInfo
+              direction: in
+            - name: options1
+              type:
+                name: Bundle
+              direction: in
+            - name: pendingIntent2
+              type:
+                name: PendingIntent
+              direction: in
+            - name: userId2
+              type:
+                name: int
+            - name: shortcutInfo2
+              type:
+                name: ShortcutInfo
+              direction: in
+            - name: options2
+              type:
+                name: Bundle
+              direction: in
+            - name: splitPosition
+              type:
+                name: int
+            - name: snapPosition
+              type:
+                name: int
+            - name: adapter
+              type:
+                name: RemoteAnimationAdapter
+              direction: in
+            - name: instanceId
+              type:
+                name: InstanceId
+              direction: in
+          return_type:
+            name: void
+        - name: startIntents
+          transaction_code_offset: 18
+          oneway: true
+          params:
+            - name: pendingIntent1
+              type:
+                name: PendingIntent
+              direction: in
+            - name: userId1
+              type:
+                name: int
+            - name: shortcutInfo1
+              type:
+                name: ShortcutInfo
+              direction: in
+            - name: options1
+              type:
+                name: Bundle
+              direction: in
+            - name: pendingIntent2
+              type:
+                name: PendingIntent
+              direction: in
+            - name: userId2
+              type:
+                name: int
+            - name: shortcutInfo2
+              type:
+                name: ShortcutInfo
+              direction: in
+            - name: options2
+              type:
+                name: Bundle
+              direction: in
+            - name: splitPosition
+              type:
+                name: int
+            - name: snapPosition
+              type:
+                name: int
+            - name: remoteTransition
+              type:
+                name: RemoteTransition
+              direction: in
+            - name: instanceId
+              type:
+                name: InstanceId
+              direction: in
+          return_type:
+            name: void
+        - name: onGoingToRecentsLegacy
+          transaction_code_offset: 12
+          params:
+            - name: appTargets
+              type:
+                name: RemoteAnimationTarget
+                is_array: true
+              direction: in
+          return_type:
+            name: RemoteAnimationTarget
+            is_array: true
+        - name: onStartingSplitLegacy
+          transaction_code_offset: 13
+          params:
+            - name: appTargets
+              type:
+                name: RemoteAnimationTarget
+                is_array: true
+              direction: in
+          return_type:
+            name: RemoteAnimationTarget
+            is_array: true
+        - name: switchSplitPosition
+          transaction_code_offset: 21
+          oneway: true
+          return_type:
+            name: void
+    - name: ISplitScreenListener
+      descriptor: com.android.wm.shell.splitscreen.ISplitScreenListener
+      oneway: true
+      methods:
+        - name: onStagePositionChanged
+          transaction_code_offset: 0
+          params:
+            - name: stage
+              type:
+                name: int
+            - name: position
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onTaskStageChanged
+          transaction_code_offset: 1
+          params:
+            - name: taskId
+              type:
+                name: int
+            - name: stage
+              type:
+                name: int
+            - name: visible
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: ISplitSelectListener
+      descriptor: com.android.wm.shell.splitscreen.ISplitSelectListener
+      methods:
+        - name: onRequestSplitSelect
+          transaction_code_offset: 0
+          params:
+            - name: taskInfo
+              type:
+                name: RunningTaskInfo
+              direction: in
+            - name: splitPosition
+              type:
+                name: int
+            - name: taskBounds
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: boolean

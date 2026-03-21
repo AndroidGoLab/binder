@@ -1,0 +1,46 @@
+package: android.hardware.health.storage
+go_package: android/hardware/health/storage
+interfaces:
+    - name: IGarbageCollectCallback
+      descriptor: android.hardware.health.storage.IGarbageCollectCallback
+      methods:
+        - name: onFinish
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: result
+              type:
+                name: Result
+              direction: in
+          return_type:
+            name: void
+    - name: IStorage
+      descriptor: android.hardware.health.storage.IStorage
+      methods:
+        - name: garbageCollect
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: timeoutSeconds
+              type:
+                name: long
+              direction: in
+            - name: callback
+              type:
+                name: IGarbageCollectCallback
+              direction: in
+          return_type:
+            name: void
+enums:
+    - name: Result
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: "0"
+        - name: IO_ERROR
+          value: ""
+        - name: UNKNOWN_ERROR
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing

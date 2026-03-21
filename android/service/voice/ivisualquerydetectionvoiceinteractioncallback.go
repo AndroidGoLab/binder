@@ -57,6 +57,7 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnQueryDetected(
 	partialQuery string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionVoiceInteractionCallback)
 	_data.WriteString16(partialQuery)
 
@@ -74,6 +75,7 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnResultDetected(
 	partialResult VisualQueryDetectedResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionVoiceInteractionCallback)
 	_data.WriteInt32(1)
 	if _err := partialResult.MarshalParcel(_data); _err != nil {
@@ -93,6 +95,7 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnQueryFinished(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionVoiceInteractionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVisualQueryDetectionVoiceInteractionCallback, MethodIVisualQueryDetectionVoiceInteractionCallbackOnQueryFinished)
@@ -108,6 +111,7 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnQueryRejected(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionVoiceInteractionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVisualQueryDetectionVoiceInteractionCallback, MethodIVisualQueryDetectionVoiceInteractionCallbackOnQueryRejected)
@@ -124,6 +128,7 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnVisualQueryDetecti
 	visualQueryDetectionServiceFailure VisualQueryDetectionServiceFailure,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionVoiceInteractionCallback)
 	_data.WriteInt32(1)
 	if _err := visualQueryDetectionServiceFailure.MarshalParcel(_data); _err != nil {
@@ -142,7 +147,8 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnVisualQueryDetecti
 // VisualQueryDetectionVoiceInteractionCallbackStub dispatches incoming binder transactions
 // to a typed IVisualQueryDetectionVoiceInteractionCallback implementation.
 type VisualQueryDetectionVoiceInteractionCallbackStub struct {
-	Impl IVisualQueryDetectionVoiceInteractionCallback
+	Impl      IVisualQueryDetectionVoiceInteractionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VisualQueryDetectionVoiceInteractionCallbackStub)(nil)
@@ -156,22 +162,19 @@ func (s *VisualQueryDetectionVoiceInteractionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVisualQueryDetectionVoiceInteractionCallbackOnQueryDetected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_partialQuery, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnQueryDetected(ctx, _arg_partialQuery)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVisualQueryDetectionVoiceInteractionCallbackOnResultDetected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_partialResult VisualQueryDetectedResult
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -185,26 +188,14 @@ func (s *VisualQueryDetectionVoiceInteractionCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnResultDetected(ctx, _arg_partialResult)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVisualQueryDetectionVoiceInteractionCallbackOnQueryFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnQueryFinished(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVisualQueryDetectionVoiceInteractionCallbackOnQueryRejected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnQueryRejected(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVisualQueryDetectionVoiceInteractionCallbackOnVisualQueryDetectionServiceFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_visualQueryDetectionServiceFailure VisualQueryDetectionServiceFailure
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -218,8 +209,7 @@ func (s *VisualQueryDetectionVoiceInteractionCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnVisualQueryDetectionServiceFailure(ctx, _arg_visualQueryDetectionServiceFailure)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

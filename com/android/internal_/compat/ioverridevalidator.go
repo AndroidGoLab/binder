@@ -47,6 +47,7 @@ func (p *OverrideValidatorProxy) GetOverrideAllowedState(
 ) (OverrideAllowedState, error) {
 	var _result OverrideAllowedState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOverrideValidator)
 	_data.WriteInt64(changeId)
 	_data.WriteString16(packageName)
@@ -81,7 +82,8 @@ func (p *OverrideValidatorProxy) GetOverrideAllowedState(
 // OverrideValidatorStub dispatches incoming binder transactions
 // to a typed IOverrideValidator implementation.
 type OverrideValidatorStub struct {
-	Impl IOverrideValidator
+	Impl      IOverrideValidator
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OverrideValidatorStub)(nil)
@@ -95,11 +97,12 @@ func (s *OverrideValidatorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOverrideValidatorGetOverrideAllowedState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err

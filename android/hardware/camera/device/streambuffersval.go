@@ -31,8 +31,7 @@ func (u *StreamBuffersVal) GetError() (StreamBufferRequestError, bool) {
 func (u *StreamBuffersVal) SetError(
 	v StreamBufferRequestError,
 ) {
-	u.Tag = StreamBuffersValTagError
-	u.Error = v
+	*u = StreamBuffersVal{Tag: StreamBuffersValTagError, Error: v}
 }
 
 func (u *StreamBuffersVal) GetBuffers() ([]StreamBuffer, bool) {
@@ -46,8 +45,7 @@ func (u *StreamBuffersVal) GetBuffers() ([]StreamBuffer, bool) {
 func (u *StreamBuffersVal) SetBuffers(
 	v []StreamBuffer,
 ) {
-	u.Tag = StreamBuffersValTagBuffers
-	u.Buffers = v
+	*u = StreamBuffersVal{Tag: StreamBuffersValTagBuffers, Buffers: v}
 }
 
 func (u *StreamBuffersVal) MarshalParcel(

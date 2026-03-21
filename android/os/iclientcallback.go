@@ -46,6 +46,7 @@ func (p *ClientCallbackProxy) OnClients(
 	hasClients bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClientCallback)
 	binder.WriteBinderToParcel(ctx, _data, registered, p.Remote.Transport())
 	_data.WriteBool(hasClients)
@@ -62,7 +63,8 @@ func (p *ClientCallbackProxy) OnClients(
 // ClientCallbackStub dispatches incoming binder transactions
 // to a typed IClientCallback implementation.
 type ClientCallbackStub struct {
-	Impl IClientCallback
+	Impl      IClientCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ClientCallbackStub)(nil)
@@ -76,21 +78,26 @@ func (s *ClientCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIClientCallbackOnClients:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_registered binder.IBinder
-		_ = _arg_registered
+		{
+			_registeredHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_registered = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _registeredHandle)
+		}
 		_arg_hasClients, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnClients(ctx, _arg_registered, _arg_hasClients)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -243,7 +243,7 @@ type IStatusBar interface {
 	AbortTransient(ctx context.Context, displayId int32, types int32) error
 	ShowInattentiveSleepWarning(ctx context.Context) error
 	DismissInattentiveSleepWarning(ctx context.Context, animated bool) error
-	ShowToast(ctx context.Context, uid int32, packageName string, token binder.IBinder, text interface{}, windowToken binder.IBinder, duration int32, callback app.ITransientNotificationCallback, displayId int32) error
+	ShowToast(ctx context.Context, uid int32, packageName string, token binder.IBinder, text string, windowToken binder.IBinder, duration int32, callback app.ITransientNotificationCallback, displayId int32) error
 	HideToast(ctx context.Context, packageName string, token binder.IBinder) error
 	StartTracing(ctx context.Context) error
 	StopTracing(ctx context.Context) error
@@ -253,10 +253,10 @@ type IStatusBar interface {
 	SetNavigationBarLumaSamplingEnabled(ctx context.Context, displayId int32, enable bool) error
 	RunGcForTest(ctx context.Context) error
 	RequestTileServiceListeningState(ctx context.Context, componentName content.ComponentName) error
-	RequestAddTile(ctx context.Context, componentName content.ComponentName, appName interface{}, label interface{}, icon drawable.Icon, callback IAddTileResultCallback) error
+	RequestAddTile(ctx context.Context, componentName content.ComponentName, appName string, label string, icon drawable.Icon, callback IAddTileResultCallback) error
 	CancelRequestAddTile(ctx context.Context, packageName string) error
 	UpdateMediaTapToTransferSenderDisplay(ctx context.Context, displayState int32, routeInfo media.MediaRoute2Info, undoCallback IUndoMediaTransferCallback) error
-	UpdateMediaTapToTransferReceiverDisplay(ctx context.Context, displayState int32, routeInfo media.MediaRoute2Info, appIcon drawable.Icon, appName interface{}) error
+	UpdateMediaTapToTransferReceiverDisplay(ctx context.Context, displayState int32, routeInfo media.MediaRoute2Info, appIcon drawable.Icon, appName string) error
 	RegisterNearbyMediaDevicesProvider(ctx context.Context, provider media.INearbyMediaDevicesProvider) error
 	UnregisterNearbyMediaDevicesProvider(ctx context.Context, provider media.INearbyMediaDevicesProvider) error
 	DumpProto(ctx context.Context, args []string, pfd int32) error
@@ -289,6 +289,7 @@ func (p *StatusBarProxy) SetIcon(
 	icon StatusBarIcon,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteString16(slot)
 	_data.WriteInt32(1)
@@ -310,6 +311,7 @@ func (p *StatusBarProxy) RemoveIcon(
 	slot string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteString16(slot)
 
@@ -329,6 +331,7 @@ func (p *StatusBarProxy) Disable(
 	state2 int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(state1)
@@ -347,6 +350,7 @@ func (p *StatusBarProxy) AnimateExpandNotificationsPanel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarAnimateExpandNotificationsPanel)
@@ -363,6 +367,7 @@ func (p *StatusBarProxy) AnimateExpandSettingsPanel(
 	subPanel string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteString16(subPanel)
 
@@ -379,6 +384,7 @@ func (p *StatusBarProxy) AnimateCollapsePanels(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarAnimateCollapsePanels)
@@ -394,6 +400,7 @@ func (p *StatusBarProxy) TogglePanel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarTogglePanel)
@@ -410,6 +417,7 @@ func (p *StatusBarProxy) ShowWirelessChargingAnimation(
 	batteryLevel int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(batteryLevel)
 
@@ -431,6 +439,7 @@ func (p *StatusBarProxy) SetImeWindowStatus(
 	showImeSwitcher bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayId)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -454,6 +463,7 @@ func (p *StatusBarProxy) SetWindowState(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(display)
 	_data.WriteInt32(window)
@@ -473,6 +483,7 @@ func (p *StatusBarProxy) ShowRecentApps(
 	triggeredFromAltTab bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteBool(triggeredFromAltTab)
 
@@ -491,6 +502,7 @@ func (p *StatusBarProxy) HideRecentApps(
 	triggeredFromHomeKey bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteBool(triggeredFromAltTab)
 	_data.WriteBool(triggeredFromHomeKey)
@@ -508,6 +520,7 @@ func (p *StatusBarProxy) ToggleRecentApps(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarToggleRecentApps)
@@ -523,6 +536,7 @@ func (p *StatusBarProxy) ToggleTaskbar(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarToggleTaskbar)
@@ -538,6 +552,7 @@ func (p *StatusBarProxy) ToggleSplitScreen(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarToggleSplitScreen)
@@ -553,6 +568,7 @@ func (p *StatusBarProxy) PreloadRecentApps(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarPreloadRecentApps)
@@ -568,6 +584,7 @@ func (p *StatusBarProxy) CancelPreloadRecentApps(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarCancelPreloadRecentApps)
@@ -584,6 +601,7 @@ func (p *StatusBarProxy) ShowScreenPinningRequest(
 	taskId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(taskId)
 
@@ -600,6 +618,7 @@ func (p *StatusBarProxy) ConfirmImmersivePrompt(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarConfirmImmersivePrompt)
@@ -617,6 +636,7 @@ func (p *StatusBarProxy) ImmersiveModeChanged(
 	isImmersiveMode bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(rootDisplayAreaId)
 	_data.WriteBool(isImmersiveMode)
@@ -634,6 +654,7 @@ func (p *StatusBarProxy) DismissKeyboardShortcutsMenu(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarDismissKeyboardShortcutsMenu)
@@ -650,6 +671,7 @@ func (p *StatusBarProxy) ToggleKeyboardShortcutsMenu(
 	deviceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(deviceId)
 
@@ -667,6 +689,7 @@ func (p *StatusBarProxy) AppTransitionPending(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayId)
 
@@ -684,6 +707,7 @@ func (p *StatusBarProxy) AppTransitionCancelled(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayId)
 
@@ -703,6 +727,7 @@ func (p *StatusBarProxy) AppTransitionStarting(
 	statusBarAnimationsDuration int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayId)
 	_data.WriteInt64(statusBarAnimationsStartTime)
@@ -722,6 +747,7 @@ func (p *StatusBarProxy) AppTransitionFinished(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayId)
 
@@ -738,6 +764,7 @@ func (p *StatusBarProxy) ShowAssistDisclosure(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarShowAssistDisclosure)
@@ -754,6 +781,7 @@ func (p *StatusBarProxy) StartAssist(
 	args os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(1)
 	if _err := args.MarshalParcel(_data); _err != nil {
@@ -774,6 +802,7 @@ func (p *StatusBarProxy) OnCameraLaunchGestureDetected(
 	source int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(source)
 
@@ -790,6 +819,7 @@ func (p *StatusBarProxy) OnEmergencyActionLaunchGestureDetected(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarOnEmergencyActionLaunchGestureDetected)
@@ -805,6 +835,7 @@ func (p *StatusBarProxy) ShowPictureInPictureMenu(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarShowPictureInPictureMenu)
@@ -820,6 +851,7 @@ func (p *StatusBarProxy) ShowGlobalActionsMenu(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarShowGlobalActionsMenu)
@@ -837,6 +869,7 @@ func (p *StatusBarProxy) OnProposedRotationChanged(
 	isValid bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(rotation)
 	_data.WriteBool(isValid)
@@ -855,6 +888,7 @@ func (p *StatusBarProxy) SetTopAppHidesStatusBar(
 	hidesStatusBar bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteBool(hidesStatusBar)
 
@@ -872,6 +906,7 @@ func (p *StatusBarProxy) AddQsTile(
 	tile content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(1)
 	if _err := tile.MarshalParcel(_data); _err != nil {
@@ -893,6 +928,7 @@ func (p *StatusBarProxy) AddQsTileToFrontOrEnd(
 	end bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(1)
 	if _err := tile.MarshalParcel(_data); _err != nil {
@@ -914,6 +950,7 @@ func (p *StatusBarProxy) RemQsTile(
 	tile content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(1)
 	if _err := tile.MarshalParcel(_data); _err != nil {
@@ -934,6 +971,7 @@ func (p *StatusBarProxy) SetQsTiles(
 	tiles []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	if tiles == nil {
 		_data.WriteInt32(-1)
@@ -958,6 +996,7 @@ func (p *StatusBarProxy) ClickQsTile(
 	tile content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(1)
 	if _err := tile.MarshalParcel(_data); _err != nil {
@@ -978,6 +1017,7 @@ func (p *StatusBarProxy) HandleSystemKey(
 	key view.KeyEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
@@ -998,6 +1038,7 @@ func (p *StatusBarProxy) ShowPinningEnterExitToast(
 	entering bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteBool(entering)
 
@@ -1014,6 +1055,7 @@ func (p *StatusBarProxy) ShowPinningEscapeToast(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarShowPinningEscapeToast)
@@ -1031,6 +1073,7 @@ func (p *StatusBarProxy) ShowShutdownUi(
 	reason string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteBool(isReboot)
 	_data.WriteString16(reason)
@@ -1056,6 +1099,7 @@ func (p *StatusBarProxy) ShowAuthenticationDialog(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(1)
 	if _err := promptInfo.MarshalParcel(_data); _err != nil {
@@ -1091,6 +1135,7 @@ func (p *StatusBarProxy) OnBiometricAuthenticated(
 	modality int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(modality)
 
@@ -1109,6 +1154,7 @@ func (p *StatusBarProxy) OnBiometricHelp(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(modality)
 	_data.WriteString16(message)
@@ -1129,6 +1175,7 @@ func (p *StatusBarProxy) OnBiometricError(
 	vendorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(modality)
 	_data.WriteInt32(error_)
@@ -1148,6 +1195,7 @@ func (p *StatusBarProxy) HideAuthenticationDialog(
 	requestId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt64(requestId)
 
@@ -1165,6 +1213,7 @@ func (p *StatusBarProxy) SetBiometicContextListener(
 	listener biometrics.IBiometricContextListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1182,6 +1231,7 @@ func (p *StatusBarProxy) SetUdfpsRefreshRateCallback(
 	callback fingerprint.IUdfpsRefreshRateRequestCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -1199,6 +1249,7 @@ func (p *StatusBarProxy) OnDisplayReady(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayId)
 
@@ -1216,6 +1267,7 @@ func (p *StatusBarProxy) OnRecentsAnimationStateChanged(
 	running bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteBool(running)
 
@@ -1240,6 +1292,7 @@ func (p *StatusBarProxy) OnSystemBarAttributesChanged(
 	letterboxDetails []LetterboxDetails,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(appearance)
@@ -1286,6 +1339,7 @@ func (p *StatusBarProxy) ShowTransient(
 	isGestureOnSystemBar bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(types)
@@ -1306,6 +1360,7 @@ func (p *StatusBarProxy) AbortTransient(
 	types int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(types)
@@ -1323,6 +1378,7 @@ func (p *StatusBarProxy) ShowInattentiveSleepWarning(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarShowInattentiveSleepWarning)
@@ -1339,6 +1395,7 @@ func (p *StatusBarProxy) DismissInattentiveSleepWarning(
 	animated bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteBool(animated)
 
@@ -1356,17 +1413,19 @@ func (p *StatusBarProxy) ShowToast(
 	uid int32,
 	packageName string,
 	token binder.IBinder,
-	text interface{},
+	text string,
 	windowToken binder.IBinder,
 	duration int32,
 	callback app.ITransientNotificationCallback,
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_data.WriteString16(text)
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteInt32(duration)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -1387,6 +1446,7 @@ func (p *StatusBarProxy) HideToast(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteString16(packageName)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -1404,6 +1464,7 @@ func (p *StatusBarProxy) StartTracing(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarStartTracing)
@@ -1419,6 +1480,7 @@ func (p *StatusBarProxy) StopTracing(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarStopTracing)
@@ -1435,6 +1497,7 @@ func (p *StatusBarProxy) SuppressAmbientDisplay(
 	suppress bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteBool(suppress)
 
@@ -1452,6 +1515,7 @@ func (p *StatusBarProxy) RequestMagnificationConnection(
 	connect bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteBool(connect)
 
@@ -1470,6 +1534,7 @@ func (p *StatusBarProxy) PassThroughShellCommand(
 	pfd int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	if args == nil {
 		_data.WriteInt32(-1)
@@ -1496,6 +1561,7 @@ func (p *StatusBarProxy) SetNavigationBarLumaSamplingEnabled(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayId)
 	_data.WriteBool(enable)
@@ -1513,6 +1579,7 @@ func (p *StatusBarProxy) RunGcForTest(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarRunGcForTest)
@@ -1529,6 +1596,7 @@ func (p *StatusBarProxy) RequestTileServiceListeningState(
 	componentName content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
@@ -1547,19 +1615,22 @@ func (p *StatusBarProxy) RequestTileServiceListeningState(
 func (p *StatusBarProxy) RequestAddTile(
 	ctx context.Context,
 	componentName content.ComponentName,
-	appName interface{},
-	label interface{},
+	appName string,
+	label string,
 	icon drawable.Icon,
 	callback IAddTileResultCallback,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(_identity.UID)
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteString16(appName)
+	_data.WriteString16(label)
 	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _err
@@ -1580,6 +1651,7 @@ func (p *StatusBarProxy) CancelRequestAddTile(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteString16(packageName)
 
@@ -1599,6 +1671,7 @@ func (p *StatusBarProxy) UpdateMediaTapToTransferSenderDisplay(
 	undoCallback IUndoMediaTransferCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayState)
 	_data.WriteInt32(1)
@@ -1621,9 +1694,10 @@ func (p *StatusBarProxy) UpdateMediaTapToTransferReceiverDisplay(
 	displayState int32,
 	routeInfo media.MediaRoute2Info,
 	appIcon drawable.Icon,
-	appName interface{},
+	appName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayState)
 	_data.WriteInt32(1)
@@ -1634,6 +1708,7 @@ func (p *StatusBarProxy) UpdateMediaTapToTransferReceiverDisplay(
 	if _err := appIcon.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteString16(appName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBar, MethodIStatusBarUpdateMediaTapToTransferReceiverDisplay)
 	if _err != nil {
@@ -1649,6 +1724,7 @@ func (p *StatusBarProxy) RegisterNearbyMediaDevicesProvider(
 	provider media.INearbyMediaDevicesProvider,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	binder.WriteBinderToParcel(ctx, _data, provider.AsBinder(), p.Remote.Transport())
 
@@ -1666,6 +1742,7 @@ func (p *StatusBarProxy) UnregisterNearbyMediaDevicesProvider(
 	provider media.INearbyMediaDevicesProvider,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	binder.WriteBinderToParcel(ctx, _data, provider.AsBinder(), p.Remote.Transport())
 
@@ -1684,6 +1761,7 @@ func (p *StatusBarProxy) DumpProto(
 	pfd int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	if args == nil {
 		_data.WriteInt32(-1)
@@ -1709,6 +1787,7 @@ func (p *StatusBarProxy) ShowRearDisplayDialog(
 	currentBaseState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(currentBaseState)
 
@@ -1726,6 +1805,7 @@ func (p *StatusBarProxy) MoveFocusedTaskToFullscreen(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayId)
 
@@ -1743,6 +1823,7 @@ func (p *StatusBarProxy) EnterStageSplitFromRunningApp(
 	leftOrTop bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteBool(leftOrTop)
 
@@ -1760,6 +1841,7 @@ func (p *StatusBarProxy) ShowMediaOutputSwitcher(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteString16(packageName)
 
@@ -1777,6 +1859,7 @@ func (p *StatusBarProxy) EnterDesktop(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayId)
 
@@ -1792,7 +1875,8 @@ func (p *StatusBarProxy) EnterDesktop(
 // StatusBarStub dispatches incoming binder transactions
 // to a typed IStatusBar implementation.
 type StatusBarStub struct {
-	Impl IStatusBar
+	Impl      IStatusBar
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StatusBarStub)(nil)
@@ -1806,11 +1890,12 @@ func (s *StatusBarStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStatusBarSetIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slot, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1828,23 +1913,15 @@ func (s *StatusBarStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetIcon(ctx, _arg_slot, _arg_icon)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarRemoveIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slot, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RemoveIcon(ctx, _arg_slot)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarDisable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1858,62 +1935,43 @@ func (s *StatusBarStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.Disable(ctx, _arg_displayId, _arg_state1, _arg_state2)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarAnimateExpandNotificationsPanel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.AnimateExpandNotificationsPanel(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarAnimateExpandSettingsPanel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subPanel, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AnimateExpandSettingsPanel(ctx, _arg_subPanel)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarAnimateCollapsePanels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.AnimateCollapsePanels(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarTogglePanel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.TogglePanel(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarShowWirelessChargingAnimation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_batteryLevel, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ShowWirelessChargingAnimation(ctx, _arg_batteryLevel)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarSetImeWindowStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_vis, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1927,12 +1985,8 @@ func (s *StatusBarStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetImeWindowStatus(ctx, _arg_displayId, _arg_token, _arg_vis, _arg_backDisposition, _arg_showImeSwitcher)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarSetWindowState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1946,23 +2000,15 @@ func (s *StatusBarStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetWindowState(ctx, _arg_display, _arg_window, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarShowRecentApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_triggeredFromAltTab, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ShowRecentApps(ctx, _arg_triggeredFromAltTab)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarHideRecentApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_triggeredFromAltTab, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1972,65 +2018,33 @@ func (s *StatusBarStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.HideRecentApps(ctx, _arg_triggeredFromAltTab, _arg_triggeredFromHomeKey)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarToggleRecentApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ToggleRecentApps(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarToggleTaskbar:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ToggleTaskbar(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarToggleSplitScreen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ToggleSplitScreen(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarPreloadRecentApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.PreloadRecentApps(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarCancelPreloadRecentApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CancelPreloadRecentApps(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarShowScreenPinningRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ShowScreenPinningRequest(ctx, _arg_taskId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarConfirmImmersivePrompt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ConfirmImmersivePrompt(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarImmersiveModeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rootDisplayAreaId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2040,52 +2054,32 @@ func (s *StatusBarStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ImmersiveModeChanged(ctx, _arg_rootDisplayAreaId, _arg_isImmersiveMode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarDismissKeyboardShortcutsMenu:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DismissKeyboardShortcutsMenu(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarToggleKeyboardShortcutsMenu:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ToggleKeyboardShortcutsMenu(ctx, _arg_deviceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarAppTransitionPending:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AppTransitionPending(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarAppTransitionCancelled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AppTransitionCancelled(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarAppTransitionStarting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2099,30 +2093,18 @@ func (s *StatusBarStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.AppTransitionStarting(ctx, _arg_displayId, _arg_statusBarAnimationsStartTime, _arg_statusBarAnimationsDuration)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarAppTransitionFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AppTransitionFinished(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarShowAssistDisclosure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ShowAssistDisclosure(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarStartAssist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_args os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2136,44 +2118,24 @@ func (s *StatusBarStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.StartAssist(ctx, _arg_args)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarOnCameraLaunchGestureDetected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_source, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnCameraLaunchGestureDetected(ctx, _arg_source)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarOnEmergencyActionLaunchGestureDetected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnEmergencyActionLaunchGestureDetected(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarShowPictureInPictureMenu:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ShowPictureInPictureMenu(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarShowGlobalActionsMenu:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ShowGlobalActionsMenu(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarOnProposedRotationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2183,23 +2145,15 @@ func (s *StatusBarStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnProposedRotationChanged(ctx, _arg_rotation, _arg_isValid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarSetTopAppHidesStatusBar:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_hidesStatusBar, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetTopAppHidesStatusBar(ctx, _arg_hidesStatusBar)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarAddQsTile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_tile content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2213,12 +2167,8 @@ func (s *StatusBarStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.AddQsTile(ctx, _arg_tile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarAddQsTileToFrontOrEnd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_tile content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2236,12 +2186,8 @@ func (s *StatusBarStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.AddQsTileToFrontOrEnd(ctx, _arg_tile, _arg_end)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarRemQsTile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_tile content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2255,22 +2201,30 @@ func (s *StatusBarStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RemQsTile(ctx, _arg_tile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarSetQsTiles:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_tiles []string
-		_ = _arg_tiles
-		_err := s.Impl.SetQsTiles(ctx, _arg_tiles)
-		_ = _err
-		return nil, nil
-	case TransactionIStatusBarClickQsTile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_tiles = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_tiles[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.SetQsTiles(ctx, _arg_tiles)
+		return nil, _err
+	case TransactionIStatusBarClickQsTile:
 		var _arg_tile content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2284,12 +2238,8 @@ func (s *StatusBarStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ClickQsTile(ctx, _arg_tile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarHandleSystemKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_key view.KeyEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2303,30 +2253,18 @@ func (s *StatusBarStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.HandleSystemKey(ctx, _arg_key)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarShowPinningEnterExitToast:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_entering, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ShowPinningEnterExitToast(ctx, _arg_entering)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarShowPinningEscapeToast:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ShowPinningEscapeToast(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarShowShutdownUi:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isReboot, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2336,12 +2274,8 @@ func (s *StatusBarStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ShowShutdownUi(ctx, _arg_isReboot, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarShowAuthenticationDialog:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_promptInfo biometrics.PromptInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2354,12 +2288,33 @@ func (s *StatusBarStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sysuiReceiver biometrics.IBiometricSysuiReceiver
-		_ = _arg_sysuiReceiver
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_sysuiReceiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sysuiReceiver = biometrics.NewBiometricSysuiReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sysuiReceiverHandle))
+		}
 		var _arg_sensorIds []int32
-		_ = _arg_sensorIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_sensorIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_sensorIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_credentialAllowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2383,23 +2338,15 @@ func (s *StatusBarStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ShowAuthenticationDialog(ctx, _arg_promptInfo, _arg_sysuiReceiver, _arg_sensorIds, _arg_credentialAllowed, _arg_requireConfirmation, _arg_operationId, _arg_requestId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarOnBiometricAuthenticated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modality, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnBiometricAuthenticated(ctx, _arg_modality)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarOnBiometricHelp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modality, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2409,12 +2356,8 @@ func (s *StatusBarStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnBiometricHelp(ctx, _arg_modality, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarOnBiometricError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modality, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2428,65 +2371,51 @@ func (s *StatusBarStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnBiometricError(ctx, _arg_modality, _arg_error_, _arg_vendorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarHideAuthenticationDialog:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.HideAuthenticationDialog(ctx, _arg_requestId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarSetBiometicContextListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener biometrics.IBiometricContextListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = biometrics.NewBiometricContextListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.SetBiometicContextListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarSetUdfpsRefreshRateCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback fingerprint.IUdfpsRefreshRateRequestCallback
-		_ = _arg_callback
-		_err := s.Impl.SetUdfpsRefreshRateCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIStatusBarOnDisplayReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = fingerprint.NewUdfpsRefreshRateRequestCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.SetUdfpsRefreshRateCallback(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIStatusBarOnDisplayReady:
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDisplayReady(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarOnRecentsAnimationStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_running, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRecentsAnimationStateChanged(ctx, _arg_running)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarOnSystemBarAttributesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2495,9 +2424,27 @@ func (s *StatusBarStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_appearanceRegions []internalView.AppearanceRegion
-		_ = _arg_appearanceRegions
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_appearanceRegions = make([]internalView.AppearanceRegion, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_appearanceRegions[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_navbarColorManagedByIme, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2514,16 +2461,30 @@ func (s *StatusBarStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_letterboxDetails []LetterboxDetails
-		_ = _arg_letterboxDetails
-		_err = s.Impl.OnSystemBarAttributesChanged(ctx, _arg_displayId, _arg_appearance, _arg_appearanceRegions, _arg_navbarColorManagedByIme, _arg_behavior, _arg_requestedVisibleTypes, _arg_packageName, _arg_letterboxDetails)
-		_ = _err
-		return nil, nil
-	case TransactionIStatusBarShowTransient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_letterboxDetails = make([]LetterboxDetails, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_letterboxDetails[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.OnSystemBarAttributesChanged(ctx, _arg_displayId, _arg_appearance, _arg_appearanceRegions, _arg_navbarColorManagedByIme, _arg_behavior, _arg_requestedVisibleTypes, _arg_packageName, _arg_letterboxDetails)
+		return nil, _err
+	case TransactionIStatusBarShowTransient:
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2537,12 +2498,8 @@ func (s *StatusBarStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ShowTransient(ctx, _arg_displayId, _arg_types, _arg_isGestureOnSystemBar)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarAbortTransient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2552,30 +2509,18 @@ func (s *StatusBarStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.AbortTransient(ctx, _arg_displayId, _arg_types)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarShowInattentiveSleepWarning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ShowInattentiveSleepWarning(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarDismissInattentiveSleepWarning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_animated, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DismissInattentiveSleepWarning(ctx, _arg_animated)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarShowToast:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2584,95 +2529,106 @@ func (s *StatusBarStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		var _arg_text interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
+		_arg_text, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
+		}
 		_arg_duration, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback app.ITransientNotificationCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = app.NewTransientNotificationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ShowToast(ctx, _arg_uid, _arg_packageName, _arg_token, _arg_text, _arg_windowToken, _arg_duration, _arg_callback, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarHideToast:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err = s.Impl.HideToast(ctx, _arg_packageName, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarStartTracing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StartTracing(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarStopTracing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopTracing(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarSuppressAmbientDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_suppress, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SuppressAmbientDisplay(ctx, _arg_suppress)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarRequestMagnificationConnection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_connect, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RequestMagnificationConnection(ctx, _arg_connect)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarPassThroughShellCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_args []string
-		_ = _arg_args
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_args = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_args[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_pfd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.PassThroughShellCommand(ctx, _arg_args, _arg_pfd)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarSetNavigationBarLumaSamplingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2682,19 +2638,11 @@ func (s *StatusBarStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetNavigationBarLumaSamplingEnabled(ctx, _arg_displayId, _arg_enable)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarRunGcForTest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RunGcForTest(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarRequestTileServiceListeningState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2708,12 +2656,8 @@ func (s *StatusBarStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RequestTileServiceListeningState(ctx, _arg_componentName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarRequestAddTile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2729,8 +2673,14 @@ func (s *StatusBarStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_appName interface{}
-		var _arg_label interface{}
+		_arg_appName, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_label, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		var _arg_icon drawable.Icon
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2743,27 +2693,24 @@ func (s *StatusBarStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAddTileResultCallback
-		_ = _arg_callback
-		_err := s.Impl.RequestAddTile(ctx, _arg_componentName, _arg_appName, _arg_label, _arg_icon, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIStatusBarCancelRequestAddTile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAddTileResultCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.RequestAddTile(ctx, _arg_componentName, _arg_appName, _arg_label, _arg_icon, _arg_callback)
+		return nil, _err
+	case TransactionIStatusBarCancelRequestAddTile:
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.CancelRequestAddTile(ctx, _arg_packageName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarUpdateMediaTapToTransferSenderDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2780,16 +2727,17 @@ func (s *StatusBarStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_undoCallback IUndoMediaTransferCallback
-		_ = _arg_undoCallback
-		_err = s.Impl.UpdateMediaTapToTransferSenderDisplay(ctx, _arg_displayState, _arg_routeInfo, _arg_undoCallback)
-		_ = _err
-		return nil, nil
-	case TransactionIStatusBarUpdateMediaTapToTransferReceiverDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_undoCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_undoCallback = NewUndoMediaTransferCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _undoCallbackHandle))
 		}
+		_err = s.Impl.UpdateMediaTapToTransferSenderDisplay(ctx, _arg_displayState, _arg_routeInfo, _arg_undoCallback)
+		return nil, _err
+	case TransactionIStatusBarUpdateMediaTapToTransferReceiverDisplay:
 		_arg_displayState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2818,99 +2766,95 @@ func (s *StatusBarStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_appName interface{}
+		_arg_appName, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		_err = s.Impl.UpdateMediaTapToTransferReceiverDisplay(ctx, _arg_displayState, _arg_routeInfo, _arg_appIcon, _arg_appName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarRegisterNearbyMediaDevicesProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_provider media.INearbyMediaDevicesProvider
-		_ = _arg_provider
+		{
+			_providerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_provider = media.NewNearbyMediaDevicesProviderProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _providerHandle))
+		}
 		_err := s.Impl.RegisterNearbyMediaDevicesProvider(ctx, _arg_provider)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarUnregisterNearbyMediaDevicesProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_provider media.INearbyMediaDevicesProvider
-		_ = _arg_provider
-		_err := s.Impl.UnregisterNearbyMediaDevicesProvider(ctx, _arg_provider)
-		_ = _err
-		return nil, nil
-	case TransactionIStatusBarDumpProto:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_providerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_provider = media.NewNearbyMediaDevicesProviderProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _providerHandle))
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		_err := s.Impl.UnregisterNearbyMediaDevicesProvider(ctx, _arg_provider)
+		return nil, _err
+	case TransactionIStatusBarDumpProto:
 		var _arg_args []string
-		_ = _arg_args
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_args = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_args[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_pfd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DumpProto(ctx, _arg_args, _arg_pfd)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarShowRearDisplayDialog:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_currentBaseState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ShowRearDisplayDialog(ctx, _arg_currentBaseState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarMoveFocusedTaskToFullscreen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.MoveFocusedTaskToFullscreen(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarEnterStageSplitFromRunningApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_leftOrTop, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.EnterStageSplitFromRunningApp(ctx, _arg_leftOrTop)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarShowMediaOutputSwitcher:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ShowMediaOutputSwitcher(ctx, _arg_packageName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarEnterDesktop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.EnterDesktop(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -2977,7 +2921,7 @@ type IStatusBarServer interface {
 	AbortTransient(ctx context.Context, displayId int32, types int32) error
 	ShowInattentiveSleepWarning(ctx context.Context) error
 	DismissInattentiveSleepWarning(ctx context.Context, animated bool) error
-	ShowToast(ctx context.Context, uid int32, packageName string, token binder.IBinder, text interface{}, windowToken binder.IBinder, duration int32, callback app.ITransientNotificationCallback, displayId int32) error
+	ShowToast(ctx context.Context, uid int32, packageName string, token binder.IBinder, text string, windowToken binder.IBinder, duration int32, callback app.ITransientNotificationCallback, displayId int32) error
 	HideToast(ctx context.Context, packageName string, token binder.IBinder) error
 	StartTracing(ctx context.Context) error
 	StopTracing(ctx context.Context) error
@@ -2987,10 +2931,10 @@ type IStatusBarServer interface {
 	SetNavigationBarLumaSamplingEnabled(ctx context.Context, displayId int32, enable bool) error
 	RunGcForTest(ctx context.Context) error
 	RequestTileServiceListeningState(ctx context.Context, componentName content.ComponentName) error
-	RequestAddTile(ctx context.Context, componentName content.ComponentName, appName interface{}, label interface{}, icon drawable.Icon, callback IAddTileResultCallback) error
+	RequestAddTile(ctx context.Context, componentName content.ComponentName, appName string, label string, icon drawable.Icon, callback IAddTileResultCallback) error
 	CancelRequestAddTile(ctx context.Context, packageName string) error
 	UpdateMediaTapToTransferSenderDisplay(ctx context.Context, displayState int32, routeInfo media.MediaRoute2Info, undoCallback IUndoMediaTransferCallback) error
-	UpdateMediaTapToTransferReceiverDisplay(ctx context.Context, displayState int32, routeInfo media.MediaRoute2Info, appIcon drawable.Icon, appName interface{}) error
+	UpdateMediaTapToTransferReceiverDisplay(ctx context.Context, displayState int32, routeInfo media.MediaRoute2Info, appIcon drawable.Icon, appName string) error
 	RegisterNearbyMediaDevicesProvider(ctx context.Context, provider media.INearbyMediaDevicesProvider) error
 	UnregisterNearbyMediaDevicesProvider(ctx context.Context, provider media.INearbyMediaDevicesProvider) error
 	DumpProto(ctx context.Context, args []string, pfd int32) error
@@ -3433,7 +3377,7 @@ func (w *statusBarStubWrapper) ShowToast(
 	uid int32,
 	packageName string,
 	token binder.IBinder,
-	text interface{},
+	text string,
 	windowToken binder.IBinder,
 	duration int32,
 	callback app.ITransientNotificationCallback,
@@ -3508,8 +3452,8 @@ func (w *statusBarStubWrapper) RequestTileServiceListeningState(
 func (w *statusBarStubWrapper) RequestAddTile(
 	ctx context.Context,
 	componentName content.ComponentName,
-	appName interface{},
-	label interface{},
+	appName string,
+	label string,
 	icon drawable.Icon,
 	callback IAddTileResultCallback,
 ) error {
@@ -3537,7 +3481,7 @@ func (w *statusBarStubWrapper) UpdateMediaTapToTransferReceiverDisplay(
 	displayState int32,
 	routeInfo media.MediaRoute2Info,
 	appIcon drawable.Icon,
-	appName interface{},
+	appName string,
 ) error {
 	return w.impl.UpdateMediaTapToTransferReceiverDisplay(ctx, displayState, routeInfo, appIcon, appName)
 }

@@ -1,0 +1,16 @@
+package: com.android.onemedia.playback
+go_package: com/android/onemedia/playback
+interfaces:
+    - name: IRequestCallback
+      descriptor: com.android.onemedia.playback.IRequestCallback
+      oneway: true
+      methods:
+        - name: onResult
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void

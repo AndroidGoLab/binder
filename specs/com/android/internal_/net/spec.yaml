@@ -1,0 +1,54 @@
+package: com.android.internal.net
+go_package: com/android/internal_/net
+interfaces:
+    - name: INetworkWatchlistManager
+      descriptor: com.android.internal.net.INetworkWatchlistManager
+      methods:
+        - name: startWatchlistLogging
+          transaction_code_offset: 0
+          return_type:
+            name: boolean
+        - name: stopWatchlistLogging
+          transaction_code_offset: 1
+          return_type:
+            name: boolean
+        - name: reloadWatchlist
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: reportWatchlistIfNecessary
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: getWatchlistConfigHash
+          transaction_code_offset: 4
+          return_type:
+            name: byte
+            is_array: true
+    - name: IOemNetd
+      descriptor: com.android.internal.net.IOemNetd
+      methods:
+        - name: isAlive
+          transaction_code_offset: 0
+          return_type:
+            name: boolean
+        - name: registerOemUnsolicitedEventListener
+          transaction_code_offset: 1
+          params:
+            - name: listener
+              type:
+                name: IOemNetdUnsolicitedEventListener
+          return_type:
+            name: void
+    - name: IOemNetdUnsolicitedEventListener
+      descriptor: com.android.internal.net.IOemNetdUnsolicitedEventListener
+      oneway: true
+      methods:
+        - name: onRegistered
+          transaction_code_offset: 0
+          return_type:
+            name: void
+parcelables:
+    - name: LegacyVpnInfo
+    - name: VpnConfig
+    - name: VpnProfile

@@ -1,0 +1,40 @@
+package: android.service.resumeonreboot
+go_package: android/service/resumeonreboot
+interfaces:
+    - name: IResumeOnRebootService
+      descriptor: android.service.resumeonreboot.IResumeOnRebootService
+      methods:
+        - name: wrapSecret
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: unwrappedBlob
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: lifeTimeInMillis
+              type:
+                name: long
+              direction: in
+            - name: resultCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unwrap
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: wrappedBlob
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: resultCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void

@@ -72,6 +72,7 @@ func (p *WifiRttControllerProxy) DisableResponder(
 	cmdId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 	_data.WriteInt32(cmdId)
 
@@ -101,6 +102,7 @@ func (p *WifiRttControllerProxy) EnableResponder(
 	info RttResponder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 	_data.WriteInt32(cmdId)
 	_data.WriteInt32(1)
@@ -136,6 +138,7 @@ func (p *WifiRttControllerProxy) GetBoundIface(
 ) (IWifiStaIface, error) {
 	var _result IWifiStaIface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiRttController, MethodIWifiRttControllerGetBoundIface)
@@ -166,6 +169,7 @@ func (p *WifiRttControllerProxy) GetCapabilities(
 ) (RttCapabilities, error) {
 	var _result RttCapabilities
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiRttController, MethodIWifiRttControllerGetCapabilities)
@@ -200,6 +204,7 @@ func (p *WifiRttControllerProxy) GetResponderInfo(
 ) (RttResponder, error) {
 	var _result RttResponder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiRttController, MethodIWifiRttControllerGetResponderInfo)
@@ -235,6 +240,7 @@ func (p *WifiRttControllerProxy) RangeCancel(
 	addrs []MacAddress,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 	_data.WriteInt32(cmdId)
 	if addrs == nil {
@@ -273,6 +279,7 @@ func (p *WifiRttControllerProxy) RangeRequest(
 	rttConfigs []RttConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 	_data.WriteInt32(cmdId)
 	if rttConfigs == nil {
@@ -310,6 +317,7 @@ func (p *WifiRttControllerProxy) RegisterEventCallback(
 	callback IWifiRttControllerEventCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -337,6 +345,7 @@ func (p *WifiRttControllerProxy) SetLci(
 	lci RttLciInformation,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 	_data.WriteInt32(cmdId)
 	_data.WriteInt32(1)
@@ -368,6 +377,7 @@ func (p *WifiRttControllerProxy) SetLcr(
 	lcr RttLcrInformation,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 	_data.WriteInt32(cmdId)
 	_data.WriteInt32(1)
@@ -396,7 +406,8 @@ func (p *WifiRttControllerProxy) SetLcr(
 // WifiRttControllerStub dispatches incoming binder transactions
 // to a typed IWifiRttController implementation.
 type WifiRttControllerStub struct {
-	Impl IWifiRttController
+	Impl      IWifiRttController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WifiRttControllerStub)(nil)
@@ -410,11 +421,12 @@ func (s *WifiRttControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWifiRttControllerDisableResponder:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -428,9 +440,6 @@ func (s *WifiRttControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiRttControllerEnableResponder:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -472,9 +481,6 @@ func (s *WifiRttControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiRttControllerGetBoundIface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetBoundIface(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -482,13 +488,9 @@ func (s *WifiRttControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIWifiRttControllerGetCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCapabilities(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -502,9 +504,6 @@ func (s *WifiRttControllerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWifiRttControllerGetResponderInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetResponderInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -518,16 +517,31 @@ func (s *WifiRttControllerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWifiRttControllerRangeCancel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_addrs []MacAddress
-		_ = _arg_addrs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_addrs = make([]MacAddress, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_addrs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.RangeCancel(ctx, _arg_cmdId, _arg_addrs)
 		_reply := parcel.New()
 		if _err != nil {
@@ -537,16 +551,31 @@ func (s *WifiRttControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiRttControllerRangeRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_rttConfigs []RttConfig
-		_ = _arg_rttConfigs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_rttConfigs = make([]RttConfig, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_rttConfigs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.RangeRequest(ctx, _arg_cmdId, _arg_rttConfigs)
 		_reply := parcel.New()
 		if _err != nil {
@@ -556,12 +585,14 @@ func (s *WifiRttControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiRttControllerRegisterEventCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IWifiRttControllerEventCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewWifiRttControllerEventCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterEventCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -571,9 +602,6 @@ func (s *WifiRttControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiRttControllerSetLci:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -599,9 +627,6 @@ func (s *WifiRttControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiRttControllerSetLcr:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

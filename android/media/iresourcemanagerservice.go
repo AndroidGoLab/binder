@@ -86,6 +86,7 @@ func (p *ResourceManagerServiceProxy) Config(
 	policies []MediaResourcePolicyParcel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
 	if policies == nil {
 		_data.WriteInt32(-1)
@@ -124,6 +125,7 @@ func (p *ResourceManagerServiceProxy) AddResource(
 	resources []MediaResourceParcel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
 	_data.WriteInt32(1)
 	if _err := clientInfo.MarshalParcel(_data); _err != nil {
@@ -166,6 +168,7 @@ func (p *ResourceManagerServiceProxy) RemoveResource(
 	resources []MediaResourceParcel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
 	_data.WriteInt32(1)
 	if _err := clientInfo.MarshalParcel(_data); _err != nil {
@@ -206,6 +209,7 @@ func (p *ResourceManagerServiceProxy) RemoveClient(
 	clientInfo ClientInfoParcel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
 	_data.WriteInt32(1)
 	if _err := clientInfo.MarshalParcel(_data); _err != nil {
@@ -237,6 +241,7 @@ func (p *ResourceManagerServiceProxy) ReclaimResource(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
 	_data.WriteInt32(1)
 	if _err := clientInfo.MarshalParcel(_data); _err != nil {
@@ -282,6 +287,7 @@ func (p *ResourceManagerServiceProxy) OverridePid(
 	newPid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
 	_data.WriteInt32(originalPid)
 	_data.WriteInt32(newPid)
@@ -312,6 +318,7 @@ func (p *ResourceManagerServiceProxy) OverrideProcessInfo(
 	oomScore int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(pid)
@@ -341,6 +348,7 @@ func (p *ResourceManagerServiceProxy) MarkClientForPendingRemoval(
 	clientInfo ClientInfoParcel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
 	_data.WriteInt32(1)
 	if _err := clientInfo.MarshalParcel(_data); _err != nil {
@@ -370,6 +378,7 @@ func (p *ResourceManagerServiceProxy) ReclaimResourcesFromClientsPendingRemoval(
 	pid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
 	_data.WriteInt32(pid)
 
@@ -396,6 +405,7 @@ func (p *ResourceManagerServiceProxy) NotifyClientCreated(
 	clientInfo ClientInfoParcel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
 	_data.WriteInt32(1)
 	if _err := clientInfo.MarshalParcel(_data); _err != nil {
@@ -425,6 +435,7 @@ func (p *ResourceManagerServiceProxy) NotifyClientStarted(
 	clientConfig ClientConfigParcel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
 	_data.WriteInt32(1)
 	if _err := clientConfig.MarshalParcel(_data); _err != nil {
@@ -454,6 +465,7 @@ func (p *ResourceManagerServiceProxy) NotifyClientStopped(
 	clientConfig ClientConfigParcel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
 	_data.WriteInt32(1)
 	if _err := clientConfig.MarshalParcel(_data); _err != nil {
@@ -483,6 +495,7 @@ func (p *ResourceManagerServiceProxy) NotifyClientConfigChanged(
 	clientConfig ClientConfigParcel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
 	_data.WriteInt32(1)
 	if _err := clientConfig.MarshalParcel(_data); _err != nil {
@@ -510,7 +523,8 @@ func (p *ResourceManagerServiceProxy) NotifyClientConfigChanged(
 // ResourceManagerServiceStub dispatches incoming binder transactions
 // to a typed IResourceManagerService implementation.
 type ResourceManagerServiceStub struct {
-	Impl IResourceManagerService
+	Impl      IResourceManagerService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ResourceManagerServiceStub)(nil)
@@ -524,14 +538,33 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIResourceManagerServiceConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_policies []MediaResourcePolicyParcel
-		_ = _arg_policies
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_policies = make([]MediaResourcePolicyParcel, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_policies[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.Config(ctx, _arg_policies)
 		_reply := parcel.New()
 		if _err != nil {
@@ -541,9 +574,6 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIResourceManagerServiceAddResource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_clientInfo ClientInfoParcel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -556,12 +586,35 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IResourceManagerClient
-		_ = _arg_client
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewResourceManagerClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		var _arg_resources []MediaResourceParcel
-		_ = _arg_resources
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_resources = make([]MediaResourceParcel, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_resources[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.AddResource(ctx, _arg_clientInfo, _arg_client, _arg_resources)
 		_reply := parcel.New()
 		if _err != nil {
@@ -571,9 +624,6 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIResourceManagerServiceRemoveResource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_clientInfo ClientInfoParcel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -586,9 +636,27 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_resources []MediaResourceParcel
-		_ = _arg_resources
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_resources = make([]MediaResourceParcel, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_resources[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.RemoveResource(ctx, _arg_clientInfo, _arg_resources)
 		_reply := parcel.New()
 		if _err != nil {
@@ -598,9 +666,6 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIResourceManagerServiceRemoveClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_clientInfo ClientInfoParcel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -622,9 +687,6 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIResourceManagerServiceReclaimResource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_clientInfo ClientInfoParcel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -637,9 +699,27 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_resources []MediaResourceParcel
-		_ = _arg_resources
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_resources = make([]MediaResourceParcel, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_resources[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.ReclaimResource(ctx, _arg_clientInfo, _arg_resources)
 		_reply := parcel.New()
 		if _err != nil {
@@ -650,9 +730,6 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIResourceManagerServiceOverridePid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_originalPid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -670,12 +747,14 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIResourceManagerServiceOverrideProcessInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IResourceManagerClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewResourceManagerClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -697,9 +776,6 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIResourceManagerServiceMarkClientForPendingRemoval:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_clientInfo ClientInfoParcel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -721,9 +797,6 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIResourceManagerServiceReclaimResourcesFromClientsPendingRemoval:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -737,9 +810,6 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIResourceManagerServiceNotifyClientCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_clientInfo ClientInfoParcel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -761,9 +831,6 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIResourceManagerServiceNotifyClientStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_clientConfig ClientConfigParcel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -785,9 +852,6 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIResourceManagerServiceNotifyClientStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_clientConfig ClientConfigParcel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -809,9 +873,6 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIResourceManagerServiceNotifyClientConfigChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_clientConfig ClientConfigParcel
 		{
 			_nullInd, _err := _data.ReadInt32()

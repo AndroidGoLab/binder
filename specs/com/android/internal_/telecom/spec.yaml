@@ -1,0 +1,3524 @@
+package: com.android.internal.telecom
+go_package: com/android/internal_/telecom
+interfaces:
+    - name: ICallControl
+      descriptor: com.android.internal.telecom.ICallControl
+      oneway: true
+      methods:
+        - name: setActive
+          transaction_code_offset: 0
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: callback
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: answer
+          transaction_code_offset: 1
+          params:
+            - name: videoState
+              type:
+                name: int
+            - name: callId
+              type:
+                name: String
+            - name: callback
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: setInactive
+          transaction_code_offset: 2
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: callback
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: disconnect
+          transaction_code_offset: 3
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: disconnectCause
+              type:
+                name: DisconnectCause
+              direction: in
+            - name: callback
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: startCallStreaming
+          transaction_code_offset: 4
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: callback
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: requestCallEndpointChange
+          transaction_code_offset: 5
+          params:
+            - name: callEndpoint
+              type:
+                name: CallEndpoint
+              direction: in
+            - name: callback
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: setMuteState
+          transaction_code_offset: 6
+          params:
+            - name: isMuted
+              type:
+                name: boolean
+            - name: callback
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: sendEvent
+          transaction_code_offset: 7
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: event
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: requestVideoState
+          transaction_code_offset: 8
+          params:
+            - name: videoState
+              type:
+                name: int
+            - name: callId
+              type:
+                name: String
+            - name: callback
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+    - name: ICallDiagnosticService
+      descriptor: com.android.internal.telecom.ICallDiagnosticService
+      oneway: true
+      methods:
+        - name: setAdapter
+          transaction_code_offset: 0
+          params:
+            - name: adapter
+              type:
+                name: ICallDiagnosticServiceAdapter
+              direction: in
+          return_type:
+            name: void
+        - name: initializeDiagnosticCall
+          transaction_code_offset: 1
+          params:
+            - name: call
+              type:
+                name: ParcelableCall
+              direction: in
+          return_type:
+            name: void
+        - name: updateCall
+          transaction_code_offset: 2
+          params:
+            - name: call
+              type:
+                name: ParcelableCall
+              direction: in
+          return_type:
+            name: void
+        - name: updateCallAudioState
+          transaction_code_offset: 3
+          params:
+            - name: callAudioState
+              type:
+                name: CallAudioState
+              direction: in
+          return_type:
+            name: void
+        - name: removeDiagnosticCall
+          transaction_code_offset: 4
+          params:
+            - name: callId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: receiveDeviceToDeviceMessage
+          transaction_code_offset: 5
+          params:
+            - name: callId
+              type:
+                name: String
+              direction: in
+            - name: message
+              type:
+                name: int
+            - name: value
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: callQualityChanged
+          transaction_code_offset: 6
+          params:
+            - name: callId
+              type:
+                name: String
+              direction: in
+            - name: callQuality
+              type:
+                name: CallQuality
+              direction: in
+          return_type:
+            name: void
+        - name: receiveBluetoothCallQualityReport
+          transaction_code_offset: 7
+          params:
+            - name: qualityReport
+              type:
+                name: BluetoothCallQualityReport
+              direction: in
+          return_type:
+            name: void
+        - name: notifyCallDisconnected
+          transaction_code_offset: 8
+          params:
+            - name: callId
+              type:
+                name: String
+              direction: in
+            - name: disconnectCause
+              type:
+                name: DisconnectCause
+              direction: in
+          return_type:
+            name: void
+    - name: ICallDiagnosticServiceAdapter
+      descriptor: com.android.internal.telecom.ICallDiagnosticServiceAdapter
+      oneway: true
+      methods:
+        - name: displayDiagnosticMessage
+          transaction_code_offset: 0
+          params:
+            - name: callId
+              type:
+                name: String
+              direction: in
+            - name: messageId
+              type:
+                name: int
+            - name: message
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+        - name: clearDiagnosticMessage
+          transaction_code_offset: 1
+          params:
+            - name: callId
+              type:
+                name: String
+              direction: in
+            - name: messageId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendDeviceToDeviceMessage
+          transaction_code_offset: 2
+          params:
+            - name: callId
+              type:
+                name: String
+              direction: in
+            - name: message
+              type:
+                name: int
+            - name: value
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: overrideDisconnectMessage
+          transaction_code_offset: 3
+          params:
+            - name: callId
+              type:
+                name: String
+              direction: in
+            - name: message
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+    - name: ICallEventCallback
+      descriptor: com.android.internal.telecom.ICallEventCallback
+      oneway: true
+      methods:
+        - name: onAddCallControl
+          transaction_code_offset: 0
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: resultCode
+              type:
+                name: int
+            - name: callControl
+              type:
+                name: ICallControl
+              direction: in
+            - name: exception
+              type:
+                name: CallException
+              direction: in
+          return_type:
+            name: void
+        - name: onSetActive
+          transaction_code_offset: 1
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: callback
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: onSetInactive
+          transaction_code_offset: 2
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: callback
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: onAnswer
+          transaction_code_offset: 3
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: videoState
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: onDisconnect
+          transaction_code_offset: 4
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: cause
+              type:
+                name: DisconnectCause
+              direction: in
+            - name: callback
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: onCallStreamingStarted
+          transaction_code_offset: 5
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: callback
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: onCallStreamingFailed
+          transaction_code_offset: 6
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCallEndpointChanged
+          transaction_code_offset: 7
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: endpoint
+              type:
+                name: CallEndpoint
+              direction: in
+          return_type:
+            name: void
+        - name: onAvailableCallEndpointsChanged
+          transaction_code_offset: 8
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: endpoint
+              type:
+                name: List
+                type_args:
+                    - name: CallEndpoint
+              direction: in
+          return_type:
+            name: void
+        - name: onMuteStateChanged
+          transaction_code_offset: 9
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: isMuted
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onVideoStateChanged
+          transaction_code_offset: 10
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: videoState
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onEvent
+          transaction_code_offset: 11
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: event
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: removeCallFromTransactionalServiceWrapper
+          transaction_code_offset: 12
+          params:
+            - name: callId
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: ICallRedirectionAdapter
+      descriptor: com.android.internal.telecom.ICallRedirectionAdapter
+      oneway: true
+      methods:
+        - name: cancelCall
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: placeCallUnmodified
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: redirectCall
+          transaction_code_offset: 2
+          params:
+            - name: handle
+              type:
+                name: Uri
+              direction: in
+            - name: targetPhoneAccount
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: confirmFirst
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: ICallRedirectionService
+      descriptor: com.android.internal.telecom.ICallRedirectionService
+      oneway: true
+      methods:
+        - name: placeCall
+          transaction_code_offset: 0
+          params:
+            - name: adapter
+              type:
+                name: ICallRedirectionAdapter
+              direction: in
+            - name: handle
+              type:
+                name: Uri
+              direction: in
+            - name: initialPhoneAccount
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: allowInteractiveResponse
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: notifyTimeout
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: ICallScreeningAdapter
+      descriptor: com.android.internal.telecom.ICallScreeningAdapter
+      oneway: true
+      methods:
+        - name: onScreeningResponse
+          transaction_code_offset: 0
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: response
+              type:
+                name: CallScreeningService.ParcelableCallResponse
+              direction: in
+          return_type:
+            name: void
+    - name: ICallScreeningService
+      descriptor: com.android.internal.telecom.ICallScreeningService
+      oneway: true
+      methods:
+        - name: screenCall
+          transaction_code_offset: 0
+          params:
+            - name: adapter
+              type:
+                name: ICallScreeningAdapter
+              direction: in
+            - name: call
+              type:
+                name: ParcelableCall
+              direction: in
+          return_type:
+            name: void
+    - name: ICallStreamingService
+      descriptor: com.android.internal.telecom.ICallStreamingService
+      oneway: true
+      methods:
+        - name: setStreamingCallAdapter
+          transaction_code_offset: 0
+          params:
+            - name: streamingCallAdapter
+              type:
+                name: IStreamingCallAdapter
+              direction: in
+          return_type:
+            name: void
+        - name: onCallStreamingStarted
+          transaction_code_offset: 1
+          params:
+            - name: call
+              type:
+                name: StreamingCall
+              direction: in
+          return_type:
+            name: void
+        - name: onCallStreamingStopped
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onCallStreamingStateChanged
+          transaction_code_offset: 3
+          params:
+            - name: state
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IConnectionService
+      descriptor: com.android.internal.telecom.IConnectionService
+      oneway: true
+      methods:
+        - name: addConnectionServiceAdapter
+          transaction_code_offset: 0
+          params:
+            - name: adapter
+              type:
+                name: IConnectionServiceAdapter
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: removeConnectionServiceAdapter
+          transaction_code_offset: 1
+          params:
+            - name: adapter
+              type:
+                name: IConnectionServiceAdapter
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: createConnection
+          transaction_code_offset: 2
+          params:
+            - name: connectionManagerPhoneAccount
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: callId
+              type:
+                name: String
+            - name: request
+              type:
+                name: ConnectionRequest
+              direction: in
+            - name: isIncoming
+              type:
+                name: boolean
+            - name: isUnknown
+              type:
+                name: boolean
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: createConnectionComplete
+          transaction_code_offset: 3
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: createConnectionFailed
+          transaction_code_offset: 4
+          params:
+            - name: connectionManagerPhoneAccount
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: callId
+              type:
+                name: String
+            - name: request
+              type:
+                name: ConnectionRequest
+              direction: in
+            - name: isIncoming
+              type:
+                name: boolean
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: createConference
+          transaction_code_offset: 5
+          params:
+            - name: connectionManagerPhoneAccount
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: callId
+              type:
+                name: String
+            - name: request
+              type:
+                name: ConnectionRequest
+              direction: in
+            - name: isIncoming
+              type:
+                name: boolean
+            - name: isUnknown
+              type:
+                name: boolean
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: createConferenceComplete
+          transaction_code_offset: 6
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: createConferenceFailed
+          transaction_code_offset: 7
+          params:
+            - name: connectionManagerPhoneAccount
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: callId
+              type:
+                name: String
+            - name: request
+              type:
+                name: ConnectionRequest
+              direction: in
+            - name: isIncoming
+              type:
+                name: boolean
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: abort
+          transaction_code_offset: 8
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: answerVideo
+          transaction_code_offset: 9
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: videoState
+              type:
+                name: int
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: answer
+          transaction_code_offset: 10
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: deflect
+          transaction_code_offset: 11
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: address
+              type:
+                name: Uri
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: reject
+          transaction_code_offset: 12
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: rejectWithReason
+          transaction_code_offset: 13
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: rejectReason
+              type:
+                name: int
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: rejectWithMessage
+          transaction_code_offset: 14
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: message
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: transfer
+          transaction_code_offset: 15
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: number
+              type:
+                name: Uri
+              direction: in
+            - name: isConfirmationRequired
+              type:
+                name: boolean
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: consultativeTransfer
+          transaction_code_offset: 16
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: otherCallId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: disconnect
+          transaction_code_offset: 17
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: silence
+          transaction_code_offset: 18
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: hold
+          transaction_code_offset: 19
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: unhold
+          transaction_code_offset: 20
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onCallAudioStateChanged
+          transaction_code_offset: 21
+          params:
+            - name: activeCallId
+              type:
+                name: String
+            - name: callAudioState
+              type:
+                name: CallAudioState
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onCallEndpointChanged
+          transaction_code_offset: 22
+          params:
+            - name: activeCallId
+              type:
+                name: String
+            - name: callEndpoint
+              type:
+                name: CallEndpoint
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onAvailableCallEndpointsChanged
+          transaction_code_offset: 23
+          params:
+            - name: activeCallId
+              type:
+                name: String
+            - name: availableCallEndpoints
+              type:
+                name: List
+                type_args:
+                    - name: CallEndpoint
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onMuteStateChanged
+          transaction_code_offset: 24
+          params:
+            - name: activeCallId
+              type:
+                name: String
+            - name: isMuted
+              type:
+                name: boolean
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: playDtmfTone
+          transaction_code_offset: 25
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: digit
+              type:
+                name: char
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: stopDtmfTone
+          transaction_code_offset: 26
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: conference
+          transaction_code_offset: 27
+          params:
+            - name: conferenceCallId
+              type:
+                name: String
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: splitFromConference
+          transaction_code_offset: 28
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: mergeConference
+          transaction_code_offset: 29
+          params:
+            - name: conferenceCallId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: swapConference
+          transaction_code_offset: 30
+          params:
+            - name: conferenceCallId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: addConferenceParticipants
+          transaction_code_offset: 31
+          params:
+            - name: CallId
+              type:
+                name: String
+            - name: participants
+              type:
+                name: List
+                type_args:
+                    - name: Uri
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onPostDialContinue
+          transaction_code_offset: 32
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: proceed
+              type:
+                name: boolean
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: pullExternalCall
+          transaction_code_offset: 33
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: sendCallEvent
+          transaction_code_offset: 34
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: event
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onCallFilteringCompleted
+          transaction_code_offset: 35
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: completionInfo
+              type:
+                name: Connection.CallFilteringCompletionInfo
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onExtrasChanged
+          transaction_code_offset: 36
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: startRtt
+          transaction_code_offset: 37
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: fromInCall
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: toInCall
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: stopRtt
+          transaction_code_offset: 38
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: respondToRttUpgradeRequest
+          transaction_code_offset: 39
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: fromInCall
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: toInCall
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: connectionServiceFocusLost
+          transaction_code_offset: 40
+          params:
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: connectionServiceFocusGained
+          transaction_code_offset: 41
+          params:
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: handoverFailed
+          transaction_code_offset: 42
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: request
+              type:
+                name: ConnectionRequest
+              direction: in
+            - name: error
+              type:
+                name: int
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: handoverComplete
+          transaction_code_offset: 43
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onUsingAlternativeUi
+          transaction_code_offset: 44
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: isUsingAlternativeUi
+              type:
+                name: boolean
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onTrackedByNonUiService
+          transaction_code_offset: 45
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: isTracked
+              type:
+                name: boolean
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+    - name: IConnectionServiceAdapter
+      descriptor: com.android.internal.telecom.IConnectionServiceAdapter
+      oneway: true
+      methods:
+        - name: handleCreateConnectionComplete
+          transaction_code_offset: 0
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: request
+              type:
+                name: ConnectionRequest
+              direction: in
+            - name: connection
+              type:
+                name: ParcelableConnection
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: handleCreateConferenceComplete
+          transaction_code_offset: 1
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: request
+              type:
+                name: ConnectionRequest
+              direction: in
+            - name: connection
+              type:
+                name: ParcelableConference
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setActive
+          transaction_code_offset: 2
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setRinging
+          transaction_code_offset: 3
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setDialing
+          transaction_code_offset: 4
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setPulling
+          transaction_code_offset: 5
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setDisconnected
+          transaction_code_offset: 6
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: disconnectCause
+              type:
+                name: DisconnectCause
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setOnHold
+          transaction_code_offset: 7
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setRingbackRequested
+          transaction_code_offset: 8
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: ringing
+              type:
+                name: boolean
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setConnectionCapabilities
+          transaction_code_offset: 9
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: connectionCapabilities
+              type:
+                name: int
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setConnectionProperties
+          transaction_code_offset: 10
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: connectionProperties
+              type:
+                name: int
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setIsConferenced
+          transaction_code_offset: 11
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: conferenceCallId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setConferenceMergeFailed
+          transaction_code_offset: 12
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: addConferenceCall
+          transaction_code_offset: 13
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: conference
+              type:
+                name: ParcelableConference
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: removeCall
+          transaction_code_offset: 14
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onPostDialWait
+          transaction_code_offset: 15
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: remaining
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onPostDialChar
+          transaction_code_offset: 16
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: nextChar
+              type:
+                name: char
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: queryRemoteConnectionServices
+          transaction_code_offset: 17
+          params:
+            - name: callback
+              type:
+                name: RemoteServiceCallback
+            - name: callingPackage
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setVideoProvider
+          transaction_code_offset: 18
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: videoProvider
+              type:
+                name: IVideoProvider
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setVideoState
+          transaction_code_offset: 19
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: videoState
+              type:
+                name: int
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setIsVoipAudioMode
+          transaction_code_offset: 20
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: isVoip
+              type:
+                name: boolean
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setStatusHints
+          transaction_code_offset: 21
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: statusHints
+              type:
+                name: StatusHints
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setAddress
+          transaction_code_offset: 22
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: address
+              type:
+                name: Uri
+              direction: in
+            - name: presentation
+              type:
+                name: int
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setCallerDisplayName
+          transaction_code_offset: 23
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: callerDisplayName
+              type:
+                name: String
+            - name: presentation
+              type:
+                name: int
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setConferenceableConnections
+          transaction_code_offset: 24
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: conferenceableCallIds
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: addExistingConnection
+          transaction_code_offset: 25
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: connection
+              type:
+                name: ParcelableConnection
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: putExtras
+          transaction_code_offset: 26
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: removeExtras
+          transaction_code_offset: 27
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: keys
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setAudioRoute
+          transaction_code_offset: 28
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: audioRoute
+              type:
+                name: int
+            - name: bluetoothAddress
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: requestCallEndpointChange
+          transaction_code_offset: 29
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: endpoint
+              type:
+                name: CallEndpoint
+              direction: in
+            - name: callback
+              type:
+                name: ResultReceiver
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onConnectionEvent
+          transaction_code_offset: 30
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: event
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onRttInitiationSuccess
+          transaction_code_offset: 31
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onRttInitiationFailure
+          transaction_code_offset: 32
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: reason
+              type:
+                name: int
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onRttSessionRemotelyTerminated
+          transaction_code_offset: 33
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onRemoteRttRequest
+          transaction_code_offset: 34
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onPhoneAccountChanged
+          transaction_code_offset: 35
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: pHandle
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: onConnectionServiceFocusReleased
+          transaction_code_offset: 36
+          params:
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: resetConnectionTime
+          transaction_code_offset: 37
+          params:
+            - name: callIdi
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setConferenceState
+          transaction_code_offset: 38
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: isConference
+              type:
+                name: boolean
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: setCallDirection
+          transaction_code_offset: 39
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: direction
+              type:
+                name: int
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+        - name: queryLocation
+          transaction_code_offset: 40
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: timeoutMillis
+              type:
+                name: long
+            - name: provider
+              type:
+                name: String
+            - name: callback
+              type:
+                name: ResultReceiver
+              direction: in
+            - name: sessionInfo
+              type:
+                name: Session.Info
+              direction: in
+          return_type:
+            name: void
+    - name: IDeviceIdleControllerAdapter
+      descriptor: com.android.internal.telecom.IDeviceIdleControllerAdapter
+      methods:
+        - name: exemptAppTemporarilyForEvent
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: duration
+              type:
+                name: long
+            - name: userHandle
+              type:
+                name: int
+            - name: reason
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IInCallAdapter
+      descriptor: com.android.internal.telecom.IInCallAdapter
+      oneway: true
+      methods:
+        - name: answerCall
+          transaction_code_offset: 0
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: videoState
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: deflectCall
+          transaction_code_offset: 1
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: address
+              type:
+                name: Uri
+              direction: in
+          return_type:
+            name: void
+        - name: rejectCall
+          transaction_code_offset: 2
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: rejectWithMessage
+              type:
+                name: boolean
+            - name: textMessage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: rejectCallWithReason
+          transaction_code_offset: 3
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: rejectReason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: transferCall
+          transaction_code_offset: 4
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: targetNumber
+              type:
+                name: Uri
+              direction: in
+            - name: isConfirmationRequired
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: consultativeTransfer
+          transaction_code_offset: 5
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: otherCallId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: disconnectCall
+          transaction_code_offset: 6
+          params:
+            - name: callId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: holdCall
+          transaction_code_offset: 7
+          params:
+            - name: callId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: unholdCall
+          transaction_code_offset: 8
+          params:
+            - name: callId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: mute
+          transaction_code_offset: 9
+          params:
+            - name: shouldMute
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setAudioRoute
+          transaction_code_offset: 10
+          params:
+            - name: route
+              type:
+                name: int
+            - name: bluetoothAddress
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: requestCallEndpointChange
+          transaction_code_offset: 11
+          params:
+            - name: endpoint
+              type:
+                name: CallEndpoint
+              direction: in
+            - name: callback
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: enterBackgroundAudioProcessing
+          transaction_code_offset: 12
+          params:
+            - name: callId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: exitBackgroundAudioProcessing
+          transaction_code_offset: 13
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: shouldRing
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: playDtmfTone
+          transaction_code_offset: 14
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: digit
+              type:
+                name: char
+          return_type:
+            name: void
+        - name: stopDtmfTone
+          transaction_code_offset: 15
+          params:
+            - name: callId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: postDialContinue
+          transaction_code_offset: 16
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: proceed
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: phoneAccountSelected
+          transaction_code_offset: 17
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: accountHandle
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: setDefault
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: conference
+          transaction_code_offset: 18
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: otherCallId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: splitFromConference
+          transaction_code_offset: 19
+          params:
+            - name: callId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: mergeConference
+          transaction_code_offset: 20
+          params:
+            - name: callId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: swapConference
+          transaction_code_offset: 21
+          params:
+            - name: callId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: addConferenceParticipants
+          transaction_code_offset: 22
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: participants
+              type:
+                name: List
+                type_args:
+                    - name: Uri
+              direction: in
+          return_type:
+            name: void
+        - name: turnOnProximitySensor
+          transaction_code_offset: 23
+          return_type:
+            name: void
+        - name: turnOffProximitySensor
+          transaction_code_offset: 24
+          params:
+            - name: screenOnImmediately
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: pullExternalCall
+          transaction_code_offset: 25
+          params:
+            - name: callId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: sendCallEvent
+          transaction_code_offset: 26
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: event
+              type:
+                name: String
+            - name: targetSdkVer
+              type:
+                name: int
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: putExtras
+          transaction_code_offset: 27
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: removeExtras
+          transaction_code_offset: 28
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: keys
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: sendRttRequest
+          transaction_code_offset: 29
+          params:
+            - name: callId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: respondToRttRequest
+          transaction_code_offset: 30
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: id
+              type:
+                name: int
+            - name: accept
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: stopRtt
+          transaction_code_offset: 31
+          params:
+            - name: callId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setRttMode
+          transaction_code_offset: 32
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: mode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: handoverTo
+          transaction_code_offset: 33
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: destAcct
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: videoState
+              type:
+                name: int
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+    - name: IInCallService
+      descriptor: com.android.internal.telecom.IInCallService
+      oneway: true
+      methods:
+        - name: setInCallAdapter
+          transaction_code_offset: 0
+          params:
+            - name: inCallAdapter
+              type:
+                name: IInCallAdapter
+              direction: in
+          return_type:
+            name: void
+        - name: addCall
+          transaction_code_offset: 1
+          params:
+            - name: call
+              type:
+                name: ParcelableCall
+              direction: in
+          return_type:
+            name: void
+        - name: updateCall
+          transaction_code_offset: 2
+          params:
+            - name: call
+              type:
+                name: ParcelableCall
+              direction: in
+          return_type:
+            name: void
+        - name: setPostDial
+          transaction_code_offset: 3
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: remaining
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setPostDialWait
+          transaction_code_offset: 4
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: remaining
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onCallAudioStateChanged
+          transaction_code_offset: 5
+          params:
+            - name: callAudioState
+              type:
+                name: CallAudioState
+              direction: in
+          return_type:
+            name: void
+        - name: onCallEndpointChanged
+          transaction_code_offset: 6
+          params:
+            - name: callEndpoint
+              type:
+                name: CallEndpoint
+              direction: in
+          return_type:
+            name: void
+        - name: onAvailableCallEndpointsChanged
+          transaction_code_offset: 7
+          params:
+            - name: availableCallEndpoints
+              type:
+                name: List
+                type_args:
+                    - name: CallEndpoint
+              direction: in
+          return_type:
+            name: void
+        - name: onMuteStateChanged
+          transaction_code_offset: 8
+          params:
+            - name: isMuted
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: bringToForeground
+          transaction_code_offset: 9
+          params:
+            - name: showDialpad
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onCanAddCallChanged
+          transaction_code_offset: 10
+          params:
+            - name: canAddCall
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: silenceRinger
+          transaction_code_offset: 11
+          return_type:
+            name: void
+        - name: onConnectionEvent
+          transaction_code_offset: 12
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: event
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onRttUpgradeRequest
+          transaction_code_offset: 13
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: id
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRttInitiationFailure
+          transaction_code_offset: 14
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onHandoverFailed
+          transaction_code_offset: 15
+          params:
+            - name: callId
+              type:
+                name: String
+            - name: error
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onHandoverComplete
+          transaction_code_offset: 16
+          params:
+            - name: callId
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IInternalServiceRetriever
+      descriptor: com.android.internal.telecom.IInternalServiceRetriever
+      methods:
+        - name: getDeviceIdleController
+          transaction_code_offset: 0
+          return_type:
+            name: IDeviceIdleControllerAdapter
+    - name: IPhoneAccountSuggestionCallback
+      descriptor: com.android.internal.telecom.IPhoneAccountSuggestionCallback
+      oneway: true
+      methods:
+        - name: suggestPhoneAccounts
+          transaction_code_offset: 0
+          params:
+            - name: number
+              type:
+                name: String
+              direction: in
+            - name: suggestions
+              type:
+                name: List
+                type_args:
+                    - name: PhoneAccountSuggestion
+              direction: in
+          return_type:
+            name: void
+    - name: IPhoneAccountSuggestionService
+      descriptor: com.android.internal.telecom.IPhoneAccountSuggestionService
+      oneway: true
+      methods:
+        - name: onAccountSuggestionRequest
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IPhoneAccountSuggestionCallback
+              direction: in
+            - name: number
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+    - name: IStreamingCallAdapter
+      descriptor: com.android.internal.telecom.IStreamingCallAdapter
+      oneway: true
+      methods:
+        - name: setStreamingState
+          transaction_code_offset: 0
+          params:
+            - name: state
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ITelecomLoader
+      descriptor: com.android.internal.telecom.ITelecomLoader
+      methods:
+        - name: createTelecomService
+          transaction_code_offset: 0
+          params:
+            - name: retriever
+              type:
+                name: IInternalServiceRetriever
+          return_type:
+            name: ITelecomService
+    - name: ITelecomService
+      descriptor: com.android.internal.telecom.ITelecomService
+      methods:
+        - name: showInCallScreen
+          transaction_code_offset: 0
+          params:
+            - name: showDialpad
+              type:
+                name: boolean
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getDefaultOutgoingPhoneAccount
+          transaction_code_offset: 1
+          params:
+            - name: uriScheme
+              type:
+                name: String
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+          return_type:
+            name: PhoneAccountHandle
+        - name: getUserSelectedOutgoingPhoneAccount
+          transaction_code_offset: 2
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: PhoneAccountHandle
+        - name: setUserSelectedOutgoingPhoneAccount
+          transaction_code_offset: 3
+          params:
+            - name: account
+              type:
+                name: PhoneAccountHandle
+              direction: in
+          return_type:
+            name: void
+        - name: getCallCapablePhoneAccounts
+          transaction_code_offset: 4
+          params:
+            - name: includeDisabledAccounts
+              type:
+                name: boolean
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+            - name: acrossProfiles
+              type:
+                name: boolean
+          return_type:
+            name: ParceledListSlice
+            type_args:
+                - name: PhoneAccountHandle
+        - name: getSelfManagedPhoneAccounts
+          transaction_code_offset: 5
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+            type_args:
+                - name: PhoneAccountHandle
+        - name: getOwnSelfManagedPhoneAccounts
+          transaction_code_offset: 6
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+            type_args:
+                - name: PhoneAccountHandle
+        - name: getPhoneAccountsSupportingScheme
+          transaction_code_offset: 7
+          params:
+            - name: uriScheme
+              type:
+                name: String
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+            type_args:
+                - name: PhoneAccountHandle
+        - name: getPhoneAccountsForPackage
+          transaction_code_offset: 8
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: ParceledListSlice
+            type_args:
+                - name: PhoneAccountHandle
+        - name: getPhoneAccount
+          transaction_code_offset: 9
+          params:
+            - name: account
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: PhoneAccount
+        - name: getRegisteredPhoneAccounts
+          transaction_code_offset: 10
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+            type_args:
+                - name: PhoneAccount
+        - name: getAllPhoneAccountsCount
+          transaction_code_offset: 11
+          return_type:
+            name: int
+        - name: getAllPhoneAccounts
+          transaction_code_offset: 12
+          return_type:
+            name: ParceledListSlice
+            type_args:
+                - name: PhoneAccount
+        - name: getAllPhoneAccountHandles
+          transaction_code_offset: 13
+          return_type:
+            name: ParceledListSlice
+            type_args:
+                - name: PhoneAccountHandle
+        - name: getSimCallManager
+          transaction_code_offset: 14
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: PhoneAccountHandle
+        - name: getSimCallManagerForUser
+          transaction_code_offset: 15
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: PhoneAccountHandle
+        - name: registerPhoneAccount
+          transaction_code_offset: 16
+          params:
+            - name: metadata
+              type:
+                name: PhoneAccount
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: unregisterPhoneAccount
+          transaction_code_offset: 17
+          params:
+            - name: account
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: clearAccounts
+          transaction_code_offset: 18
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: isVoiceMailNumber
+          transaction_code_offset: 19
+          params:
+            - name: accountHandle
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: number
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getVoiceMailNumber
+          transaction_code_offset: 20
+          params:
+            - name: accountHandle
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: getLine1Number
+          transaction_code_offset: 21
+          params:
+            - name: accountHandle
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: getDefaultPhoneApp
+          transaction_code_offset: 22
+          return_type:
+            name: ComponentName
+        - name: getDefaultDialerPackage
+          transaction_code_offset: 23
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: getDefaultDialerPackageForUser
+          transaction_code_offset: 24
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: getSystemDialerPackage
+          transaction_code_offset: 25
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: dumpCallAnalytics
+          transaction_code_offset: 26
+          return_type:
+            name: TelecomAnalytics
+        - name: silenceRinger
+          transaction_code_offset: 27
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: isInCall
+          transaction_code_offset: 28
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: hasManageOngoingCallsPermission
+          transaction_code_offset: 29
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: isInManagedCall
+          transaction_code_offset: 30
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: isRinging
+          transaction_code_offset: 31
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getCallState
+          transaction_code_offset: 32
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: getCallStateUsingPackage
+          transaction_code_offset: 33
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: endCall
+          transaction_code_offset: 34
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: acceptRingingCall
+          transaction_code_offset: 35
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: acceptRingingCallWithVideoState
+          transaction_code_offset: 36
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: videoState
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: cancelMissedCallsNotification
+          transaction_code_offset: 37
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: handlePinMmi
+          transaction_code_offset: 38
+          params:
+            - name: dialString
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: handlePinMmiForPhoneAccount
+          transaction_code_offset: 39
+          params:
+            - name: accountHandle
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: dialString
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getAdnUriForPhoneAccount
+          transaction_code_offset: 40
+          params:
+            - name: accountHandle
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: Uri
+        - name: isTtySupported
+          transaction_code_offset: 41
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getCurrentTtyMode
+          transaction_code_offset: 42
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: addNewIncomingCall
+          transaction_code_offset: 43
+          params:
+            - name: phoneAccount
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: addNewIncomingConference
+          transaction_code_offset: 44
+          params:
+            - name: phoneAccount
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: addNewUnknownCall
+          transaction_code_offset: 45
+          params:
+            - name: phoneAccount
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: startConference
+          transaction_code_offset: 46
+          params:
+            - name: participants
+              type:
+                name: List
+                type_args:
+                    - name: Uri
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: placeCall
+          transaction_code_offset: 47
+          params:
+            - name: handle
+              type:
+                name: Uri
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: enablePhoneAccount
+          transaction_code_offset: 48
+          params:
+            - name: accountHandle
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: isEnabled
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: setDefaultDialer
+          transaction_code_offset: 49
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: stopBlockSuppression
+          transaction_code_offset: 50
+          return_type:
+            name: void
+        - name: createManageBlockedNumbersIntent
+          transaction_code_offset: 51
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: Intent
+        - name: createLaunchEmergencyDialerIntent
+          transaction_code_offset: 52
+          params:
+            - name: number
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: Intent
+        - name: isIncomingCallPermitted
+          transaction_code_offset: 53
+          params:
+            - name: phoneAccountHandle
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: isOutgoingCallPermitted
+          transaction_code_offset: 54
+          params:
+            - name: phoneAccountHandle
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: waitOnHandlers
+          transaction_code_offset: 55
+          return_type:
+            name: void
+        - name: acceptHandover
+          transaction_code_offset: 56
+          params:
+            - name: srcAddr
+              type:
+                name: Uri
+              direction: in
+            - name: videoState
+              type:
+                name: int
+            - name: destAcct
+              type:
+                name: PhoneAccountHandle
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setTestEmergencyPhoneAccountPackageNameFilter
+          transaction_code_offset: 57
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: isInEmergencyCall
+          transaction_code_offset: 58
+          return_type:
+            name: boolean
+        - name: handleCallIntent
+          transaction_code_offset: 59
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: callingPackageProxy
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: cleanupStuckCalls
+          transaction_code_offset: 60
+          return_type:
+            name: void
+        - name: cleanupOrphanPhoneAccounts
+          transaction_code_offset: 61
+          return_type:
+            name: int
+        - name: isNonUiInCallServiceBound
+          transaction_code_offset: 62
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: resetCarMode
+          transaction_code_offset: 63
+          return_type:
+            name: void
+        - name: setTestDefaultCallRedirectionApp
+          transaction_code_offset: 64
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: requestLogMark
+          transaction_code_offset: 65
+          params:
+            - name: message
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setTestPhoneAcctSuggestionComponent
+          transaction_code_offset: 66
+          params:
+            - name: flattenedComponentName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setTestDefaultCallScreeningApp
+          transaction_code_offset: 67
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: addOrRemoveTestCallCompanionApp
+          transaction_code_offset: 68
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: isAdded
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setSystemDialer
+          transaction_code_offset: 69
+          params:
+            - name: testComponentName
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: setTestDefaultDialer
+          transaction_code_offset: 70
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setTestCallDiagnosticService
+          transaction_code_offset: 71
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: isInSelfManagedCall
+          transaction_code_offset: 72
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userHandle
+              type:
+                name: UserHandle
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+            - name: detectForAllUsers
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: addCall
+          transaction_code_offset: 73
+          params:
+            - name: callAttributes
+              type:
+                name: CallAttributes
+              direction: in
+            - name: callback
+              type:
+                name: ICallEventCallback
+              direction: in
+            - name: callId
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IVideoCallback
+      descriptor: com.android.internal.telecom.IVideoCallback
+      oneway: true
+      methods:
+        - name: receiveSessionModifyRequest
+          transaction_code_offset: 0
+          params:
+            - name: videoProfile
+              type:
+                name: VideoProfile
+              direction: in
+          return_type:
+            name: void
+        - name: receiveSessionModifyResponse
+          transaction_code_offset: 1
+          params:
+            - name: status
+              type:
+                name: int
+            - name: requestedProfile
+              type:
+                name: VideoProfile
+              direction: in
+            - name: responseProfile
+              type:
+                name: VideoProfile
+              direction: in
+          return_type:
+            name: void
+        - name: handleCallSessionEvent
+          transaction_code_offset: 2
+          params:
+            - name: event
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: changePeerDimensions
+          transaction_code_offset: 3
+          params:
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: changeCallDataUsage
+          transaction_code_offset: 4
+          params:
+            - name: dataUsage
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: changeCameraCapabilities
+          transaction_code_offset: 5
+          params:
+            - name: cameraCapabilities
+              type:
+                name: VideoProfile.CameraCapabilities
+              direction: in
+          return_type:
+            name: void
+        - name: changeVideoQuality
+          transaction_code_offset: 6
+          params:
+            - name: videoQuality
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IVideoProvider
+      descriptor: com.android.internal.telecom.IVideoProvider
+      oneway: true
+      methods:
+        - name: addVideoCallback
+          transaction_code_offset: 0
+          params:
+            - name: videoCallbackBinder
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: removeVideoCallback
+          transaction_code_offset: 1
+          params:
+            - name: videoCallbackBinder
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: setCamera
+          transaction_code_offset: 2
+          params:
+            - name: cameraId
+              type:
+                name: String
+            - name: mCallingPackageName
+              type:
+                name: String
+              direction: in
+            - name: targetSdkVersion
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setPreviewSurface
+          transaction_code_offset: 3
+          params:
+            - name: surface
+              type:
+                name: Surface
+              direction: in
+          return_type:
+            name: void
+        - name: setDisplaySurface
+          transaction_code_offset: 4
+          params:
+            - name: surface
+              type:
+                name: Surface
+              direction: in
+          return_type:
+            name: void
+        - name: setDeviceOrientation
+          transaction_code_offset: 5
+          params:
+            - name: rotation
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setZoom
+          transaction_code_offset: 6
+          params:
+            - name: value
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: sendSessionModifyRequest
+          transaction_code_offset: 7
+          params:
+            - name: fromProfile
+              type:
+                name: VideoProfile
+              direction: in
+            - name: toProfile
+              type:
+                name: VideoProfile
+              direction: in
+          return_type:
+            name: void
+        - name: sendSessionModifyResponse
+          transaction_code_offset: 8
+          params:
+            - name: responseProfile
+              type:
+                name: VideoProfile
+              direction: in
+          return_type:
+            name: void
+        - name: requestCameraCapabilities
+          transaction_code_offset: 9
+          return_type:
+            name: void
+        - name: requestCallDataUsage
+          transaction_code_offset: 10
+          return_type:
+            name: void
+        - name: setPauseImage
+          transaction_code_offset: 11
+          params:
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+          return_type:
+            name: void
+    - name: RemoteServiceCallback
+      descriptor: com.android.internal.telecom.RemoteServiceCallback
+      oneway: true
+      methods:
+        - name: onError
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onResult
+          transaction_code_offset: 1
+          params:
+            - name: components
+              type:
+                name: List
+                type_args:
+                    - name: ComponentName
+              direction: in
+            - name: callServices
+              type:
+                name: List
+                type_args:
+                    - name: IBinder
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: Session.Info

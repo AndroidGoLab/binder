@@ -47,6 +47,7 @@ func (p *PreferredMixerAttributesDispatcherProxy) DispatchPrefMixerAttributesCha
 	mixerAttributes *AudioMixerAttributes,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreferredMixerAttributesDispatcher)
 	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
@@ -54,6 +55,7 @@ func (p *PreferredMixerAttributesDispatcherProxy) DispatchPrefMixerAttributesCha
 	}
 	_data.WriteInt32(deviceId)
 	if mixerAttributes != nil {
+		_data.WriteInt32(1)
 		if _err := (*mixerAttributes).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -73,7 +75,8 @@ func (p *PreferredMixerAttributesDispatcherProxy) DispatchPrefMixerAttributesCha
 // PreferredMixerAttributesDispatcherStub dispatches incoming binder transactions
 // to a typed IPreferredMixerAttributesDispatcher implementation.
 type PreferredMixerAttributesDispatcherStub struct {
-	Impl IPreferredMixerAttributesDispatcher
+	Impl      IPreferredMixerAttributesDispatcher
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PreferredMixerAttributesDispatcherStub)(nil)
@@ -87,11 +90,12 @@ func (s *PreferredMixerAttributesDispatcherStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPreferredMixerAttributesDispatcherDispatchPrefMixerAttributesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_attributes AudioAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -115,14 +119,14 @@ func (s *PreferredMixerAttributesDispatcherStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_mixerAttributes = new(AudioMixerAttributes)
 				if _err = _arg_mixerAttributes.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		_err = s.Impl.DispatchPrefMixerAttributesChanged(ctx, _arg_attributes, _arg_deviceId, _arg_mixerAttributes)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

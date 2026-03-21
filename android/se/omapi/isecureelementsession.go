@@ -60,6 +60,7 @@ func (p *SecureElementSessionProxy) GetAtr(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementSession, MethodISecureElementSessionGetAtr)
@@ -77,19 +78,9 @@ func (p *SecureElementSessionProxy) GetAtr(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -98,6 +89,7 @@ func (p *SecureElementSessionProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementSession, MethodISecureElementSessionClose)
@@ -122,6 +114,7 @@ func (p *SecureElementSessionProxy) CloseChannels(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementSession, MethodISecureElementSessionCloseChannels)
@@ -147,6 +140,7 @@ func (p *SecureElementSessionProxy) IsClosed(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementSession, MethodISecureElementSessionIsClosed)
@@ -179,15 +173,9 @@ func (p *SecureElementSessionProxy) OpenBasicChannel(
 ) (ISecureElementChannel, error) {
 	var _result ISecureElementChannel
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementSession)
-	if aid == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(aid)))
-		for _, _item := range aid {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(aid)
 	_data.WritePaddedByte(p2)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -222,15 +210,9 @@ func (p *SecureElementSessionProxy) OpenLogicalChannel(
 ) (ISecureElementChannel, error) {
 	var _result ISecureElementChannel
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementSession)
-	if aid == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(aid)))
-		for _, _item := range aid {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(aid)
 	_data.WritePaddedByte(p2)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -260,7 +242,8 @@ func (p *SecureElementSessionProxy) OpenLogicalChannel(
 // SecureElementSessionStub dispatches incoming binder transactions
 // to a typed ISecureElementSession implementation.
 type SecureElementSessionStub struct {
-	Impl ISecureElementSession
+	Impl      ISecureElementSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SecureElementSessionStub)(nil)
@@ -274,11 +257,12 @@ func (s *SecureElementSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISecureElementSessionGetAtr:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAtr(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -286,13 +270,9 @@ func (s *SecureElementSessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISecureElementSessionClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -302,9 +282,6 @@ func (s *SecureElementSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISecureElementSessionCloseChannels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CloseChannels(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -314,9 +291,6 @@ func (s *SecureElementSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISecureElementSessionIsClosed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsClosed(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -327,19 +301,26 @@ func (s *SecureElementSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISecureElementSessionOpenBasicChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_aid []byte
-		_ = _arg_aid
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_aid = _bytes
+		}
 		_arg_p2, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISecureElementListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewSecureElementListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.OpenBasicChannel(ctx, _arg_aid, _arg_p2, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -347,23 +328,29 @@ func (s *SecureElementSessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISecureElementSessionOpenLogicalChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_aid []byte
-		_ = _arg_aid
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_aid = _bytes
+		}
 		_arg_p2, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISecureElementListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewSecureElementListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.OpenLogicalChannel(ctx, _arg_aid, _arg_p2, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -371,8 +358,7 @@ func (s *SecureElementSessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

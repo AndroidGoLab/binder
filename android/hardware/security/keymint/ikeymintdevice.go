@@ -98,6 +98,7 @@ func (p *KeyMintDeviceProxy) GetHardwareInfo(
 ) (KeyMintHardwareInfo, error) {
 	var _result KeyMintHardwareInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceGetHardwareInfo)
@@ -132,15 +133,9 @@ func (p *KeyMintDeviceProxy) AddRngEntropy(
 	data []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceAddRngEntropy)
 	if _err != nil {
@@ -167,6 +162,7 @@ func (p *KeyMintDeviceProxy) GenerateKey(
 ) (KeyCreationResult, error) {
 	var _result KeyCreationResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 	if keyParams == nil {
 		_data.WriteInt32(-1)
@@ -180,6 +176,7 @@ func (p *KeyMintDeviceProxy) GenerateKey(
 		}
 	}
 	if attestationKey != nil {
+		_data.WriteInt32(1)
 		if _err := (*attestationKey).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
@@ -223,6 +220,7 @@ func (p *KeyMintDeviceProxy) ImportKey(
 ) (KeyCreationResult, error) {
 	var _result KeyCreationResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 	if keyParams == nil {
 		_data.WriteInt32(-1)
@@ -236,15 +234,9 @@ func (p *KeyMintDeviceProxy) ImportKey(
 		}
 	}
 	_data.WriteInt32(int32(keyFormat))
-	if keyData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyData)))
-		for _, _item := range keyData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(keyData)
 	if attestationKey != nil {
+		_data.WriteInt32(1)
 		if _err := (*attestationKey).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
@@ -290,31 +282,11 @@ func (p *KeyMintDeviceProxy) ImportWrappedKey(
 ) (KeyCreationResult, error) {
 	var _result KeyCreationResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	if wrappedKeyData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(wrappedKeyData)))
-		for _, _item := range wrappedKeyData {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if wrappingKeyBlob == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(wrappingKeyBlob)))
-		for _, _item := range wrappingKeyBlob {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if maskingKey == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(maskingKey)))
-		for _, _item := range maskingKey {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(wrappedKeyData)
+	_data.WriteByteArray(wrappingKeyBlob)
+	_data.WriteByteArray(maskingKey)
 	if unwrappingParams == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -363,15 +335,9 @@ func (p *KeyMintDeviceProxy) UpgradeKey(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	if keyBlobToUpgrade == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyBlobToUpgrade)))
-		for _, _item := range keyBlobToUpgrade {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(keyBlobToUpgrade)
 	if upgradeParams == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -399,19 +365,9 @@ func (p *KeyMintDeviceProxy) UpgradeKey(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -421,15 +377,9 @@ func (p *KeyMintDeviceProxy) DeleteKey(
 	keyBlob []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	if keyBlob == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyBlob)))
-		for _, _item := range keyBlob {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(keyBlob)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceDeleteKey)
 	if _err != nil {
@@ -453,6 +403,7 @@ func (p *KeyMintDeviceProxy) DeleteAllKeys(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceDeleteAllKeys)
@@ -477,6 +428,7 @@ func (p *KeyMintDeviceProxy) DestroyAttestationIds(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceDestroyAttestationIds)
@@ -506,16 +458,10 @@ func (p *KeyMintDeviceProxy) Begin(
 ) (BeginResult, error) {
 	var _result BeginResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 	_data.WriteInt32(int32(purpose))
-	if keyBlob == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyBlob)))
-		for _, _item := range keyBlob {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(keyBlob)
 	if params == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -528,6 +474,7 @@ func (p *KeyMintDeviceProxy) Begin(
 		}
 	}
 	if authToken != nil {
+		_data.WriteInt32(1)
 		if _err := (*authToken).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
@@ -568,9 +515,11 @@ func (p *KeyMintDeviceProxy) DeviceLocked(
 	timestampToken *secureclock.TimeStampToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 	_data.WriteBool(passwordOnly)
 	if timestampToken != nil {
+		_data.WriteInt32(1)
 		if _err := (*timestampToken).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -600,6 +549,7 @@ func (p *KeyMintDeviceProxy) EarlyBootEnded(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceEarlyBootEnded)
@@ -626,15 +576,9 @@ func (p *KeyMintDeviceProxy) ConvertStorageKeyToEphemeral(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	if storageKeyBlob == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(storageKeyBlob)))
-		for _, _item := range storageKeyBlob {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(storageKeyBlob)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceConvertStorageKeyToEphemeral)
 	if _err != nil {
@@ -651,19 +595,9 @@ func (p *KeyMintDeviceProxy) ConvertStorageKeyToEphemeral(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -676,31 +610,11 @@ func (p *KeyMintDeviceProxy) GetKeyCharacteristics(
 ) ([]KeyCharacteristics, error) {
 	var _result []KeyCharacteristics
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	if keyBlob == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyBlob)))
-		for _, _item := range keyBlob {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if appId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(appId)))
-		for _, _item := range appId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if appData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(appData)))
-		for _, _item := range appData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(keyBlob)
+	_data.WriteByteArray(appId)
+	_data.WriteByteArray(appData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceGetKeyCharacteristics)
 	if _err != nil {
@@ -720,6 +634,9 @@ func (p *KeyMintDeviceProxy) GetKeyCharacteristics(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -741,6 +658,7 @@ func (p *KeyMintDeviceProxy) GetRootOfTrustChallenge(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceGetRootOfTrustChallenge)
@@ -758,19 +676,9 @@ func (p *KeyMintDeviceProxy) GetRootOfTrustChallenge(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -781,15 +689,9 @@ func (p *KeyMintDeviceProxy) GetRootOfTrust(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	if challenge == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(challenge)))
-		for _, _item := range challenge {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(challenge)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceGetRootOfTrust)
 	if _err != nil {
@@ -806,19 +708,9 @@ func (p *KeyMintDeviceProxy) GetRootOfTrust(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -828,15 +720,9 @@ func (p *KeyMintDeviceProxy) SendRootOfTrust(
 	rootOfTrust []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	if rootOfTrust == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(rootOfTrust)))
-		for _, _item := range rootOfTrust {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(rootOfTrust)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceSendRootOfTrust)
 	if _err != nil {
@@ -859,7 +745,8 @@ func (p *KeyMintDeviceProxy) SendRootOfTrust(
 // KeyMintDeviceStub dispatches incoming binder transactions
 // to a typed IKeyMintDevice implementation.
 type KeyMintDeviceStub struct {
-	Impl IKeyMintDevice
+	Impl      IKeyMintDevice
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*KeyMintDeviceStub)(nil)
@@ -873,11 +760,12 @@ func (s *KeyMintDeviceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIKeyMintDeviceGetHardwareInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHardwareInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -891,12 +779,14 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeyMintDeviceAddRngEntropy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_err := s.Impl.AddRngEntropy(ctx, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -906,12 +796,27 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyMintDeviceGenerateKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyParams []KeyParameter
-		_ = _arg_keyParams
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_keyParams = make([]KeyParameter, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_keyParams[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_attestationKey *AttestationKey
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -919,6 +824,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_attestationKey = new(AttestationKey)
 				if _err = _arg_attestationKey.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -937,20 +843,40 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeyMintDeviceImportKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyParams []KeyParameter
-		_ = _arg_keyParams
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_keyParams = make([]KeyParameter, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_keyParams[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_raw_keyFormat, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_keyFormat := KeyFormat(_raw_keyFormat)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyData []byte
-		_ = _arg_keyData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyData = _bytes
+		}
 		var _arg_attestationKey *AttestationKey
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -958,6 +884,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_attestationKey = new(AttestationKey)
 				if _err = _arg_attestationKey.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -976,21 +903,51 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeyMintDeviceImportWrappedKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_wrappedKeyData []byte
-		_ = _arg_wrappedKeyData
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_wrappedKeyData = _bytes
+		}
 		var _arg_wrappingKeyBlob []byte
-		_ = _arg_wrappingKeyBlob
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_wrappingKeyBlob = _bytes
+		}
 		var _arg_maskingKey []byte
-		_ = _arg_maskingKey
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_maskingKey = _bytes
+		}
 		var _arg_unwrappingParams []KeyParameter
-		_ = _arg_unwrappingParams
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_unwrappingParams = make([]KeyParameter, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_unwrappingParams[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_passwordSid, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1012,15 +969,35 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeyMintDeviceUpgradeKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyBlobToUpgrade []byte
-		_ = _arg_keyBlobToUpgrade
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyBlobToUpgrade = _bytes
+		}
 		var _arg_upgradeParams []KeyParameter
-		_ = _arg_upgradeParams
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_upgradeParams = make([]KeyParameter, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_upgradeParams[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.UpgradeKey(ctx, _arg_keyBlobToUpgrade, _arg_upgradeParams)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1028,16 +1005,17 @@ func (s *KeyMintDeviceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIKeyMintDeviceDeleteKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyBlob []byte
-		_ = _arg_keyBlob
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyBlob = _bytes
+		}
 		_err := s.Impl.DeleteKey(ctx, _arg_keyBlob)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1047,9 +1025,6 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyMintDeviceDeleteAllKeys:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DeleteAllKeys(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1059,9 +1034,6 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyMintDeviceDestroyAttestationIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DestroyAttestationIds(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1071,20 +1043,40 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyMintDeviceBegin:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_purpose, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_purpose := KeyPurpose(_raw_purpose)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyBlob []byte
-		_ = _arg_keyBlob
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyBlob = _bytes
+		}
 		var _arg_params []KeyParameter
-		_ = _arg_params
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_params = make([]KeyParameter, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_params[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_authToken *HardwareAuthToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1092,6 +1084,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_authToken = new(HardwareAuthToken)
 				if _err = _arg_authToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -1110,9 +1103,6 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeyMintDeviceDeviceLocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_passwordOnly, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1124,6 +1114,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_timestampToken = new(secureclock.TimeStampToken)
 				if _err = _arg_timestampToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -1138,9 +1129,6 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyMintDeviceEarlyBootEnded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.EarlyBootEnded(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1150,12 +1138,14 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyMintDeviceConvertStorageKeyToEphemeral:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_storageKeyBlob []byte
-		_ = _arg_storageKeyBlob
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_storageKeyBlob = _bytes
+		}
 		_result, _err := s.Impl.ConvertStorageKeyToEphemeral(ctx, _arg_storageKeyBlob)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1163,22 +1153,33 @@ func (s *KeyMintDeviceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIKeyMintDeviceGetKeyCharacteristics:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyBlob []byte
-		_ = _arg_keyBlob
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyBlob = _bytes
+		}
 		var _arg_appId []byte
-		_ = _arg_appId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_appId = _bytes
+		}
 		var _arg_appData []byte
-		_ = _arg_appData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_appData = _bytes
+		}
 		_result, _err := s.Impl.GetKeyCharacteristics(ctx, _arg_keyBlob, _arg_appId, _arg_appData)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1186,13 +1187,19 @@ func (s *KeyMintDeviceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIKeyMintDeviceGetRootOfTrustChallenge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRootOfTrustChallenge(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1200,16 +1207,17 @@ func (s *KeyMintDeviceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIKeyMintDeviceGetRootOfTrust:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_challenge []byte
-		_ = _arg_challenge
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_challenge = _bytes
+		}
 		_result, _err := s.Impl.GetRootOfTrust(ctx, _arg_challenge)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1217,16 +1225,17 @@ func (s *KeyMintDeviceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIKeyMintDeviceSendRootOfTrust:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_rootOfTrust []byte
-		_ = _arg_rootOfTrust
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_rootOfTrust = _bytes
+		}
 		_err := s.Impl.SendRootOfTrust(ctx, _arg_rootOfTrust)
 		_reply := parcel.New()
 		if _err != nil {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	appContentsuggestions "github.com/xaionaro-go/binder/android/app/contentsuggestions"
+	hardware "github.com/xaionaro-go/binder/android/hardware"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -29,7 +30,7 @@ const (
 
 type IContentSuggestionsService interface {
 	AsBinder() binder.IBinder
-	ProvideContextImage(ctx context.Context, taskId int32, contextImage interface{}, colorSpaceId int32, imageContextRequestExtras os.Bundle) error
+	ProvideContextImage(ctx context.Context, taskId int32, contextImage hardware.HardwareBuffer, colorSpaceId int32, imageContextRequestExtras os.Bundle) error
 	SuggestContentSelections(ctx context.Context, request appContentsuggestions.SelectionsRequest, callback appContentsuggestions.ISelectionsCallback) error
 	ClassifyContentSelections(ctx context.Context, request appContentsuggestions.ClassificationsRequest, callback appContentsuggestions.IClassificationsCallback) error
 	NotifyInteraction(ctx context.Context, requestId string, interaction os.Bundle) error
@@ -54,13 +55,18 @@ var _ IContentSuggestionsService = (*ContentSuggestionsServiceProxy)(nil)
 func (p *ContentSuggestionsServiceProxy) ProvideContextImage(
 	ctx context.Context,
 	taskId int32,
-	contextImage interface{},
+	contextImage hardware.HardwareBuffer,
 	colorSpaceId int32,
 	imageContextRequestExtras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsService)
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
+	if _err := contextImage.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(colorSpaceId)
 	_data.WriteInt32(1)
 	if _err := imageContextRequestExtras.MarshalParcel(_data); _err != nil {
@@ -82,6 +88,7 @@ func (p *ContentSuggestionsServiceProxy) SuggestContentSelections(
 	callback appContentsuggestions.ISelectionsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -104,6 +111,7 @@ func (p *ContentSuggestionsServiceProxy) ClassifyContentSelections(
 	callback appContentsuggestions.IClassificationsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -126,6 +134,7 @@ func (p *ContentSuggestionsServiceProxy) NotifyInteraction(
 	interaction os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsService)
 	_data.WriteString16(requestId)
 	_data.WriteInt32(1)
@@ -145,7 +154,8 @@ func (p *ContentSuggestionsServiceProxy) NotifyInteraction(
 // ContentSuggestionsServiceStub dispatches incoming binder transactions
 // to a typed IContentSuggestionsService implementation.
 type ContentSuggestionsServiceStub struct {
-	Impl IContentSuggestionsService
+	Impl      IContentSuggestionsService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ContentSuggestionsServiceStub)(nil)
@@ -159,16 +169,28 @@ func (s *ContentSuggestionsServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIContentSuggestionsServiceProvideContextImage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_contextImage interface{}
+		var _arg_contextImage hardware.HardwareBuffer
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_contextImage.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_colorSpaceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -186,12 +208,8 @@ func (s *ContentSuggestionsServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.ProvideContextImage(ctx, _arg_taskId, _arg_contextImage, _arg_colorSpaceId, _arg_imageContextRequestExtras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentSuggestionsServiceSuggestContentSelections:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request appContentsuggestions.SelectionsRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -204,16 +222,17 @@ func (s *ContentSuggestionsServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback appContentsuggestions.ISelectionsCallback
-		_ = _arg_callback
-		_err := s.Impl.SuggestContentSelections(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIContentSuggestionsServiceClassifyContentSelections:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = appContentsuggestions.NewSelectionsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.SuggestContentSelections(ctx, _arg_request, _arg_callback)
+		return nil, _err
+	case TransactionIContentSuggestionsServiceClassifyContentSelections:
 		var _arg_request appContentsuggestions.ClassificationsRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -226,16 +245,17 @@ func (s *ContentSuggestionsServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback appContentsuggestions.IClassificationsCallback
-		_ = _arg_callback
-		_err := s.Impl.ClassifyContentSelections(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIContentSuggestionsServiceNotifyInteraction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = appContentsuggestions.NewClassificationsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.ClassifyContentSelections(ctx, _arg_request, _arg_callback)
+		return nil, _err
+	case TransactionIContentSuggestionsServiceNotifyInteraction:
 		_arg_requestId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -253,8 +273,7 @@ func (s *ContentSuggestionsServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyInteraction(ctx, _arg_requestId, _arg_interaction)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -264,7 +283,7 @@ func (s *ContentSuggestionsServiceStub) OnTransaction(
 // provide to NewContentSuggestionsServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IContentSuggestionsServiceServer interface {
-	ProvideContextImage(ctx context.Context, taskId int32, contextImage interface{}, colorSpaceId int32, imageContextRequestExtras os.Bundle) error
+	ProvideContextImage(ctx context.Context, taskId int32, contextImage hardware.HardwareBuffer, colorSpaceId int32, imageContextRequestExtras os.Bundle) error
 	SuggestContentSelections(ctx context.Context, request appContentsuggestions.SelectionsRequest, callback appContentsuggestions.ISelectionsCallback) error
 	ClassifyContentSelections(ctx context.Context, request appContentsuggestions.ClassificationsRequest, callback appContentsuggestions.IClassificationsCallback) error
 	NotifyInteraction(ctx context.Context, requestId string, interaction os.Bundle) error
@@ -282,7 +301,7 @@ func (w *contentSuggestionsServiceStubWrapper) AsBinder() binder.IBinder {
 func (w *contentSuggestionsServiceStubWrapper) ProvideContextImage(
 	ctx context.Context,
 	taskId int32,
-	contextImage interface{},
+	contextImage hardware.HardwareBuffer,
 	colorSpaceId int32,
 	imageContextRequestExtras os.Bundle,
 ) error {

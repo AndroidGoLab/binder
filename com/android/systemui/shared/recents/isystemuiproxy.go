@@ -108,6 +108,7 @@ func (p *SystemUiProxyProxy) StartScreenPinning(
 	taskId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 	_data.WriteInt32(taskId)
 
@@ -125,6 +126,7 @@ func (p *SystemUiProxyProxy) OnOverviewShown(
 	fromHome bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 	_data.WriteBool(fromHome)
 
@@ -142,6 +144,7 @@ func (p *SystemUiProxyProxy) OnStatusBarTouchEvent(
 	event common.MotionEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -162,6 +165,7 @@ func (p *SystemUiProxyProxy) OnAssistantProgress(
 	progress float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 	_data.WriteFloat32(progress)
 
@@ -179,6 +183,7 @@ func (p *SystemUiProxyProxy) OnAssistantGestureCompletion(
 	velocity float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 	_data.WriteFloat32(velocity)
 
@@ -196,6 +201,7 @@ func (p *SystemUiProxyProxy) StartAssistant(
 	bundle os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 	_data.WriteInt32(1)
 	if _err := bundle.MarshalParcel(_data); _err != nil {
@@ -216,6 +222,7 @@ func (p *SystemUiProxyProxy) SetAssistantOverridesRequested(
 	invocationTypes []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 	if invocationTypes == nil {
 		_data.WriteInt32(-1)
@@ -240,6 +247,7 @@ func (p *SystemUiProxyProxy) NotifyAccessibilityButtonClicked(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 	_data.WriteInt32(displayId)
 
@@ -256,6 +264,7 @@ func (p *SystemUiProxyProxy) NotifyAccessibilityButtonLongClicked(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyNotifyAccessibilityButtonLongClicked)
@@ -271,6 +280,7 @@ func (p *SystemUiProxyProxy) StopScreenPinning(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyStopScreenPinning)
@@ -287,6 +297,7 @@ func (p *SystemUiProxyProxy) NotifyPrioritizedRotation(
 	rotation int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 	_data.WriteInt32(rotation)
 
@@ -303,6 +314,7 @@ func (p *SystemUiProxyProxy) ExpandNotificationPanel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyExpandNotificationPanel)
@@ -318,6 +330,7 @@ func (p *SystemUiProxyProxy) OnBackPressed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyOnBackPressed)
@@ -334,6 +347,7 @@ func (p *SystemUiProxyProxy) SetHomeRotationEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 	_data.WriteBool(enabled)
 
@@ -352,6 +366,7 @@ func (p *SystemUiProxyProxy) NotifyTaskbarStatus(
 	stashed bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 	_data.WriteBool(visible)
 	_data.WriteBool(stashed)
@@ -370,6 +385,7 @@ func (p *SystemUiProxyProxy) NotifyTaskbarAutohideSuspend(
 	suspend bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 	_data.WriteBool(suspend)
 
@@ -386,6 +402,7 @@ func (p *SystemUiProxyProxy) OnImeSwitcherPressed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyOnImeSwitcherPressed)
@@ -401,6 +418,7 @@ func (p *SystemUiProxyProxy) ToggleNotificationPanel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUiProxy, MethodISystemUiProxyToggleNotificationPanel)
@@ -417,6 +435,7 @@ func (p *SystemUiProxyProxy) TakeScreenshot(
 	request util.ScreenshotRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -437,6 +456,7 @@ func (p *SystemUiProxyProxy) OnStatusBarTrackpadEvent(
 	event common.MotionEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -459,6 +479,7 @@ func (p *SystemUiProxyProxy) AnimateNavBarLongPress(
 	durationMs int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
 	_data.WriteBool(isTouchDown)
 	_data.WriteBool(shrink)
@@ -476,7 +497,8 @@ func (p *SystemUiProxyProxy) AnimateNavBarLongPress(
 // SystemUiProxyStub dispatches incoming binder transactions
 // to a typed ISystemUiProxy implementation.
 type SystemUiProxyStub struct {
-	Impl ISystemUiProxy
+	Impl      ISystemUiProxy
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SystemUiProxyStub)(nil)
@@ -490,33 +512,26 @@ func (s *SystemUiProxyStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISystemUiProxyStartScreenPinning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.StartScreenPinning(ctx, _arg_taskId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyOnOverviewShown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fromHome, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnOverviewShown(ctx, _arg_fromHome)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyOnStatusBarTouchEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event common.MotionEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -530,34 +545,22 @@ func (s *SystemUiProxyStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnStatusBarTouchEvent(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyOnAssistantProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_progress, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAssistantProgress(ctx, _arg_progress)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyOnAssistantGestureCompletion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_velocity, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAssistantGestureCompletion(ctx, _arg_velocity)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyStartAssistant:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_bundle os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -571,83 +574,63 @@ func (s *SystemUiProxyStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.StartAssistant(ctx, _arg_bundle)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxySetAssistantOverridesRequested:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_invocationTypes []int32
-		_ = _arg_invocationTypes
-		_err := s.Impl.SetAssistantOverridesRequested(ctx, _arg_invocationTypes)
-		_ = _err
-		return nil, nil
-	case TransactionISystemUiProxyNotifyAccessibilityButtonClicked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_invocationTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_invocationTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.SetAssistantOverridesRequested(ctx, _arg_invocationTypes)
+		return nil, _err
+	case TransactionISystemUiProxyNotifyAccessibilityButtonClicked:
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyAccessibilityButtonClicked(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyNotifyAccessibilityButtonLongClicked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NotifyAccessibilityButtonLongClicked(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyStopScreenPinning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopScreenPinning(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyNotifyPrioritizedRotation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyPrioritizedRotation(ctx, _arg_rotation)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyExpandNotificationPanel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ExpandNotificationPanel(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyOnBackPressed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnBackPressed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxySetHomeRotationEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetHomeRotationEnabled(ctx, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyNotifyTaskbarStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -657,37 +640,21 @@ func (s *SystemUiProxyStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyTaskbarStatus(ctx, _arg_visible, _arg_stashed)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyNotifyTaskbarAutohideSuspend:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_suspend, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyTaskbarAutohideSuspend(ctx, _arg_suspend)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyOnImeSwitcherPressed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnImeSwitcherPressed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyToggleNotificationPanel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ToggleNotificationPanel(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyTakeScreenshot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request util.ScreenshotRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -701,12 +668,8 @@ func (s *SystemUiProxyStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.TakeScreenshot(ctx, _arg_request)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyOnStatusBarTrackpadEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event common.MotionEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -720,12 +683,8 @@ func (s *SystemUiProxyStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnStatusBarTrackpadEvent(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISystemUiProxyAnimateNavBarLongPress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isTouchDown, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -739,8 +698,7 @@ func (s *SystemUiProxyStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.AnimateNavBarLongPress(ctx, _arg_isTouchDown, _arg_shrink, _arg_durationMs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

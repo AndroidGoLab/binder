@@ -1,0 +1,45 @@
+package: android.service.timezone
+go_package: android/service/timezone
+interfaces:
+    - name: ITimeZoneProvider
+      descriptor: android.service.timezone.ITimeZoneProvider
+      oneway: true
+      methods:
+        - name: startUpdates
+          transaction_code_offset: 0
+          params:
+            - name: manager
+              type:
+                name: ITimeZoneProviderManager
+              direction: in
+            - name: initializationTimeoutMillis
+              type:
+                name: long
+              direction: in
+            - name: eventFilteringAgeThresholdMillis
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: stopUpdates
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: ITimeZoneProviderManager
+      descriptor: android.service.timezone.ITimeZoneProviderManager
+      oneway: true
+      methods:
+        - name: onTimeZoneProviderEvent
+          transaction_code_offset: 0
+          params:
+            - name: timeZoneProviderEvent
+              type:
+                name: TimeZoneProviderEvent
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: TimeZoneProviderEvent
+    - name: TimeZoneProviderStatus
+    - name: TimeZoneProviderSuggestion

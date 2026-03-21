@@ -1,7 +1,6 @@
 package gui
 
 import (
-	guiDeviceProductInfo "github.com/xaionaro-go/binder/android/gui/DeviceProductInfo"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -11,7 +10,7 @@ type DeviceProductInfo struct {
 	Name                   string
 	ManufacturerPnpId      []byte
 	ProductId              string
-	ManufactureOrModelDate guiDeviceProductInfo.ManufactureOrModelDate
+	ManufactureOrModelDate DeviceProductInfoManufactureOrModelDate
 	RelativeAddress        []byte
 }
 
@@ -41,9 +40,19 @@ func (s *DeviceProductInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Name, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ManufacturerPnpId, _err = p.ReadByteArray()
@@ -51,13 +60,28 @@ func (s *DeviceProductInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ProductId, _err = p.ReadString16()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.ManufactureOrModelDate.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.RelativeAddress, _err = p.ReadByteArray()

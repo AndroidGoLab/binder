@@ -45,6 +45,7 @@ func (p *CoolingDeviceChangedCallbackProxy) NotifyCoolingDeviceChanged(
 	coolingDevice CoolingDevice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICoolingDeviceChangedCallback)
 	_data.WriteInt32(1)
 	if _err := coolingDevice.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *CoolingDeviceChangedCallbackProxy) NotifyCoolingDeviceChanged(
 // CoolingDeviceChangedCallbackStub dispatches incoming binder transactions
 // to a typed ICoolingDeviceChangedCallback implementation.
 type CoolingDeviceChangedCallbackStub struct {
-	Impl ICoolingDeviceChangedCallback
+	Impl      ICoolingDeviceChangedCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CoolingDeviceChangedCallbackStub)(nil)
@@ -77,11 +79,12 @@ func (s *CoolingDeviceChangedCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICoolingDeviceChangedCallbackNotifyCoolingDeviceChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_coolingDevice CoolingDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *CoolingDeviceChangedCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NotifyCoolingDeviceChanged(ctx, _arg_coolingDevice)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

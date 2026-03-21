@@ -52,6 +52,7 @@ func (p *BackupObserverProxy) OnUpdate(
 	backupProgress BackupProgress,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupObserver)
 	_data.WriteString16(currentPackage)
 	_data.WriteInt32(1)
@@ -74,6 +75,7 @@ func (p *BackupObserverProxy) OnResult(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupObserver)
 	_data.WriteString16(target)
 	_data.WriteInt32(status)
@@ -92,6 +94,7 @@ func (p *BackupObserverProxy) BackupFinished(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupObserver)
 	_data.WriteInt32(status)
 
@@ -107,7 +110,8 @@ func (p *BackupObserverProxy) BackupFinished(
 // BackupObserverStub dispatches incoming binder transactions
 // to a typed IBackupObserver implementation.
 type BackupObserverStub struct {
-	Impl IBackupObserver
+	Impl      IBackupObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BackupObserverStub)(nil)
@@ -121,11 +125,12 @@ func (s *BackupObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBackupObserverOnUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_currentPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -143,12 +148,8 @@ func (s *BackupObserverStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnUpdate(ctx, _arg_currentPackage, _arg_backupProgress)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupObserverOnResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_target, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -158,19 +159,14 @@ func (s *BackupObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnResult(ctx, _arg_target, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupObserverBackupFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.BackupFinished(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

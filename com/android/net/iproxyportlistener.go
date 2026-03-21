@@ -45,6 +45,7 @@ func (p *ProxyPortListenerProxy) SetProxyPort(
 	port int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProxyPortListener)
 	_data.WriteInt32(port)
 
@@ -60,7 +61,8 @@ func (p *ProxyPortListenerProxy) SetProxyPort(
 // ProxyPortListenerStub dispatches incoming binder transactions
 // to a typed IProxyPortListener implementation.
 type ProxyPortListenerStub struct {
-	Impl IProxyPortListener
+	Impl      IProxyPortListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ProxyPortListenerStub)(nil)
@@ -74,18 +76,18 @@ func (s *ProxyPortListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIProxyPortListenerSetProxyPort:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_port, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetProxyPort(ctx, _arg_port)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

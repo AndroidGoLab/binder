@@ -1,0 +1,3461 @@
+package: android.hardware.automotive.vehicle
+go_package: android/hardware/automotive/vehicle
+interfaces:
+    - name: IVehicle
+      descriptor: android.hardware.automotive.vehicle.IVehicle
+      methods:
+        - name: getAllPropConfigs
+          transaction_code_offset: 0
+          return_type:
+            name: VehiclePropConfigs
+        - name: getPropConfigs
+          transaction_code_offset: 1
+          params:
+            - name: props
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: VehiclePropConfigs
+        - name: getValues
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: IVehicleCallback
+            - name: requests
+              type:
+                name: GetValueRequests
+              direction: in
+          return_type:
+            name: void
+        - name: setValues
+          transaction_code_offset: 3
+          params:
+            - name: callback
+              type:
+                name: IVehicleCallback
+            - name: requests
+              type:
+                name: SetValueRequests
+              direction: in
+          return_type:
+            name: void
+        - name: subscribe
+          transaction_code_offset: 4
+          params:
+            - name: callback
+              type:
+                name: IVehicleCallback
+              direction: in
+            - name: options
+              type:
+                name: SubscribeOptions
+                is_array: true
+              direction: in
+            - name: maxSharedMemoryFileCount
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: unsubscribe
+          transaction_code_offset: 5
+          params:
+            - name: callback
+              type:
+                name: IVehicleCallback
+              direction: in
+            - name: propIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: returnSharedMemory
+          transaction_code_offset: 6
+          params:
+            - name: callback
+              type:
+                name: IVehicleCallback
+              direction: in
+            - name: sharedMemoryId
+              type:
+                name: long
+          return_type:
+            name: void
+      constants:
+        - name: INVALID_MEMORY_ID
+          type: long
+          value: "0"
+        - name: MAX_SHARED_MEMORY_FILES_PER_CLIENT
+          type: int
+          value: "3"
+    - name: IVehicleCallback
+      descriptor: android.hardware.automotive.vehicle.IVehicleCallback
+      methods:
+        - name: onGetValues
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: responses
+              type:
+                name: GetValueResults
+              direction: in
+          return_type:
+            name: void
+        - name: onSetValues
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: responses
+              type:
+                name: SetValueResults
+              direction: in
+          return_type:
+            name: void
+        - name: onPropertyEvent
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: propValues
+              type:
+                name: VehiclePropValues
+              direction: in
+            - name: sharedMemoryFileCount
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onPropertySetError
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: errors
+              type:
+                name: VehiclePropErrors
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: CreateUserRequest
+      fields:
+        - name: requestId
+          type:
+            name: int
+        - name: newUserInfo
+          type:
+            name: UserInfo
+        - name: newUserName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: usersInfo
+          type:
+            name: UsersInfo
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CreateUserResponse
+      fields:
+        - name: requestId
+          type:
+            name: int
+        - name: status
+          type:
+            name: CreateUserStatus
+          default_value: CreateUserStatus.SUCCESS
+        - name: errorMessage
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: GetValueRequest
+      fields:
+        - name: requestId
+          type:
+            name: long
+        - name: prop
+          type:
+            name: VehiclePropValue
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: GetValueRequests
+      fields:
+        - name: payloads
+          type:
+            name: GetValueRequest
+            is_array: true
+        - name: sharedMemoryFd
+          type:
+            name: ParcelFileDescriptor
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: GetValueResult
+      fields:
+        - name: requestId
+          type:
+            name: long
+        - name: status
+          type:
+            name: StatusCode
+          default_value: StatusCode.OK
+        - name: prop
+          type:
+            name: VehiclePropValue
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: GetValueResults
+      fields:
+        - name: payloads
+          type:
+            name: GetValueResult
+            is_array: true
+        - name: sharedMemoryFd
+          type:
+            name: ParcelFileDescriptor
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: InitialUserInfoRequest
+      fields:
+        - name: requestId
+          type:
+            name: int
+        - name: requestType
+          type:
+            name: InitialUserInfoRequestType
+          default_value: InitialUserInfoRequestType.UNKNOWN
+        - name: usersInfo
+          type:
+            name: UsersInfo
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: InitialUserInfoResponse
+      fields:
+        - name: requestId
+          type:
+            name: int
+        - name: action
+          type:
+            name: InitialUserInfoResponseAction
+          default_value: InitialUserInfoResponseAction.DEFAULT
+        - name: userToSwitchOrCreate
+          type:
+            name: UserInfo
+        - name: userLocales
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: userNameToCreate
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: RawPropValues
+      fields:
+        - name: int32Values
+          type:
+            name: int
+            is_array: true
+          default_value: '{}'
+        - name: floatValues
+          type:
+            name: float
+            is_array: true
+        - name: int64Values
+          type:
+            name: long
+            is_array: true
+        - name: byteValues
+          type:
+            name: byte
+            is_array: true
+        - name: stringValue
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: RemoveUserRequest
+      fields:
+        - name: requestId
+          type:
+            name: int
+        - name: removedUserInfo
+          type:
+            name: UserInfo
+        - name: usersInfo
+          type:
+            name: UsersInfo
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SetValueRequest
+      fields:
+        - name: requestId
+          type:
+            name: long
+        - name: value
+          type:
+            name: VehiclePropValue
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SetValueRequests
+      fields:
+        - name: payloads
+          type:
+            name: SetValueRequest
+            is_array: true
+        - name: sharedMemoryFd
+          type:
+            name: ParcelFileDescriptor
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SetValueResult
+      fields:
+        - name: requestId
+          type:
+            name: long
+        - name: status
+          type:
+            name: StatusCode
+          default_value: StatusCode.OK
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SetValueResults
+      fields:
+        - name: payloads
+          type:
+            name: SetValueResult
+            is_array: true
+        - name: sharedMemoryFd
+          type:
+            name: ParcelFileDescriptor
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SubscribeOptions
+      fields:
+        - name: propId
+          type:
+            name: int
+        - name: areaIds
+          type:
+            name: int
+            is_array: true
+        - name: sampleRate
+          type:
+            name: float
+        - name: resolution
+          type:
+            name: float
+          default_value: 0.0f
+        - name: enableVariableUpdateRate
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SwitchUserRequest
+      fields:
+        - name: requestId
+          type:
+            name: int
+        - name: messageType
+          type:
+            name: SwitchUserMessageType
+          default_value: SwitchUserMessageType.UNKNOWN
+        - name: targetUser
+          type:
+            name: UserInfo
+        - name: usersInfo
+          type:
+            name: UsersInfo
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SwitchUserResponse
+      fields:
+        - name: requestId
+          type:
+            name: int
+        - name: messageType
+          type:
+            name: SwitchUserMessageType
+          default_value: SwitchUserMessageType.UNKNOWN
+        - name: status
+          type:
+            name: SwitchUserStatus
+          default_value: SwitchUserStatus.SUCCESS
+        - name: errorMessage
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: UserIdentificationAssociation
+      fields:
+        - name: type
+          type:
+            name: UserIdentificationAssociationType
+          default_value: UserIdentificationAssociationType.INVALID
+        - name: value
+          type:
+            name: UserIdentificationAssociationValue
+          default_value: UserIdentificationAssociationValue.UNKNOWN
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: UserIdentificationGetRequest
+      fields:
+        - name: requestId
+          type:
+            name: int
+        - name: userInfo
+          type:
+            name: UserInfo
+        - name: numberAssociationTypes
+          type:
+            name: int
+        - name: associationTypes
+          type:
+            name: UserIdentificationAssociationType
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: UserIdentificationResponse
+      fields:
+        - name: requestId
+          type:
+            name: int
+        - name: numberAssociation
+          type:
+            name: int
+        - name: associations
+          type:
+            name: UserIdentificationAssociation
+            is_array: true
+        - name: errorMessage
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: UserIdentificationSetAssociation
+      fields:
+        - name: type
+          type:
+            name: UserIdentificationAssociationType
+          default_value: UserIdentificationAssociationType.INVALID
+        - name: value
+          type:
+            name: UserIdentificationAssociationSetValue
+          default_value: UserIdentificationAssociationSetValue.INVALID
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: UserIdentificationSetRequest
+      fields:
+        - name: requestId
+          type:
+            name: int
+        - name: userInfo
+          type:
+            name: UserInfo
+        - name: numberAssociations
+          type:
+            name: int
+        - name: associations
+          type:
+            name: UserIdentificationSetAssociation
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: UserInfo
+      fields:
+        - name: userId
+          type:
+            name: int
+          default_value: "0"
+        - name: flags
+          type:
+            name: int
+      constants:
+        - name: USER_FLAG_SYSTEM
+          type: int
+          value: "0x01"
+        - name: USER_FLAG_GUEST
+          type: int
+          value: "0x02"
+        - name: USER_FLAG_EPHEMERAL
+          type: int
+          value: "0x04"
+        - name: USER_FLAG_ADMIN
+          type: int
+          value: "0x08"
+        - name: USER_FLAG_DISABLED
+          type: int
+          value: "0x10"
+        - name: USER_FLAG_PROFILE
+          type: int
+          value: "0x20"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: UsersInfo
+      fields:
+        - name: currentUser
+          type:
+            name: UserInfo
+        - name: numberUsers
+          type:
+            name: int
+        - name: existingUsers
+          type:
+            name: UserInfo
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: VehicleAreaConfig
+      fields:
+        - name: areaId
+          type:
+            name: int
+        - name: minInt32Value
+          type:
+            name: int
+        - name: maxInt32Value
+          type:
+            name: int
+        - name: minInt64Value
+          type:
+            name: long
+        - name: maxInt64Value
+          type:
+            name: long
+        - name: minFloatValue
+          type:
+            name: float
+        - name: maxFloatValue
+          type:
+            name: float
+        - name: supportedEnumValues
+          type:
+            name: long
+            is_array: true
+          annotations:
+            - nullable
+        - name: access
+          type:
+            name: VehiclePropertyAccess
+          default_value: VehiclePropertyAccess.NONE
+        - name: supportVariableUpdateRate
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: VehiclePropConfig
+      fields:
+        - name: prop
+          type:
+            name: int
+        - name: access
+          type:
+            name: VehiclePropertyAccess
+          default_value: VehiclePropertyAccess.NONE
+        - name: changeMode
+          type:
+            name: VehiclePropertyChangeMode
+          default_value: VehiclePropertyChangeMode.STATIC
+        - name: areaConfigs
+          type:
+            name: VehicleAreaConfig
+            is_array: true
+        - name: configArray
+          type:
+            name: int
+            is_array: true
+        - name: configString
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: minSampleRate
+          type:
+            name: float
+        - name: maxSampleRate
+          type:
+            name: float
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: VehiclePropConfigs
+      fields:
+        - name: payloads
+          type:
+            name: VehiclePropConfig
+            is_array: true
+        - name: sharedMemoryFd
+          type:
+            name: ParcelFileDescriptor
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: VehiclePropError
+      fields:
+        - name: propId
+          type:
+            name: int
+        - name: areaId
+          type:
+            name: int
+        - name: errorCode
+          type:
+            name: StatusCode
+          default_value: StatusCode.OK
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: VehiclePropErrors
+      fields:
+        - name: payloads
+          type:
+            name: VehiclePropError
+            is_array: true
+        - name: sharedMemoryFd
+          type:
+            name: ParcelFileDescriptor
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: VehiclePropValue
+      fields:
+        - name: timestamp
+          type:
+            name: long
+        - name: areaId
+          type:
+            name: int
+        - name: prop
+          type:
+            name: int
+        - name: status
+          type:
+            name: VehiclePropertyStatus
+          default_value: VehiclePropertyStatus.AVAILABLE
+        - name: value
+          type:
+            name: RawPropValues
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: VehiclePropValues
+      fields:
+        - name: payloads
+          type:
+            name: VehiclePropValue
+            is_array: true
+        - name: sharedMemoryId
+          type:
+            name: long
+        - name: sharedMemoryFd
+          type:
+            name: ParcelFileDescriptor
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+        - JavaDerive
+enums:
+    - name: AutomaticEmergencyBrakingState
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: ENABLED
+          value: "1"
+        - name: ACTIVATED
+          value: "2"
+        - name: USER_OVERRIDE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BlindSpotWarningState
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: NO_WARNING
+          value: "1"
+        - name: WARNING
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CameraServiceState
+      backing_type: int
+      values:
+        - name: UNAVAILABLE
+          value: "0"
+        - name: INACTIVE
+          value: "1"
+        - name: REQUESTED
+          value: "2"
+        - name: ACTIVE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CreateUserStatus
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: "1"
+        - name: FAILURE
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CrossTrafficMonitoringWarningState
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: NO_WARNING
+          value: "1"
+        - name: WARNING_FRONT_LEFT
+          value: "2"
+        - name: WARNING_FRONT_RIGHT
+          value: "3"
+        - name: WARNING_FRONT_BOTH
+          value: "4"
+        - name: WARNING_REAR_LEFT
+          value: "5"
+        - name: WARNING_REAR_RIGHT
+          value: "6"
+        - name: WARNING_REAR_BOTH
+          value: "7"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CruiseControlCommand
+      backing_type: int
+      values:
+        - name: ACTIVATE
+          value: "1"
+        - name: SUSPEND
+          value: "2"
+        - name: INCREASE_TARGET_SPEED
+          value: "3"
+        - name: DECREASE_TARGET_SPEED
+          value: "4"
+        - name: INCREASE_TARGET_TIME_GAP
+          value: "5"
+        - name: DECREASE_TARGET_TIME_GAP
+          value: "6"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CruiseControlState
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: ENABLED
+          value: "1"
+        - name: ACTIVATED
+          value: "2"
+        - name: USER_OVERRIDE
+          value: "3"
+        - name: SUSPENDED
+          value: "4"
+        - name: FORCED_DEACTIVATION_WARNING
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CruiseControlType
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: STANDARD
+          value: "1"
+        - name: ADAPTIVE
+          value: "2"
+        - name: PREDICTIVE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CustomInputType
+      backing_type: int
+      values:
+        - name: CUSTOM_EVENT_F1
+          value: "1001"
+        - name: CUSTOM_EVENT_F2
+          value: "1002"
+        - name: CUSTOM_EVENT_F3
+          value: "1003"
+        - name: CUSTOM_EVENT_F4
+          value: "1004"
+        - name: CUSTOM_EVENT_F5
+          value: "1005"
+        - name: CUSTOM_EVENT_F6
+          value: "1006"
+        - name: CUSTOM_EVENT_F7
+          value: "1007"
+        - name: CUSTOM_EVENT_F8
+          value: "1008"
+        - name: CUSTOM_EVENT_F9
+          value: "1009"
+        - name: CUSTOM_EVENT_F10
+          value: "1010"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DiagnosticFloatSensorIndex
+      backing_type: int
+      values:
+        - name: CALCULATED_ENGINE_LOAD
+          value: "0"
+        - name: ENGINE_COOLANT_TEMPERATURE
+          value: "1"
+        - name: SHORT_TERM_FUEL_TRIM_BANK1
+          value: "2"
+        - name: LONG_TERM_FUEL_TRIM_BANK1
+          value: "3"
+        - name: SHORT_TERM_FUEL_TRIM_BANK2
+          value: "4"
+        - name: LONG_TERM_FUEL_TRIM_BANK2
+          value: "5"
+        - name: FUEL_PRESSURE
+          value: "6"
+        - name: INTAKE_MANIFOLD_ABSOLUTE_PRESSURE
+          value: "7"
+        - name: ENGINE_RPM
+          value: "8"
+        - name: VEHICLE_SPEED
+          value: "9"
+        - name: TIMING_ADVANCE
+          value: "10"
+        - name: MAF_AIR_FLOW_RATE
+          value: "11"
+        - name: THROTTLE_POSITION
+          value: "12"
+        - name: OXYGEN_SENSOR1_VOLTAGE
+          value: "13"
+        - name: OXYGEN_SENSOR1_SHORT_TERM_FUEL_TRIM
+          value: "14"
+        - name: OXYGEN_SENSOR1_FUEL_AIR_EQUIVALENCE_RATIO
+          value: "15"
+        - name: OXYGEN_SENSOR2_VOLTAGE
+          value: "16"
+        - name: OXYGEN_SENSOR2_SHORT_TERM_FUEL_TRIM
+          value: "17"
+        - name: OXYGEN_SENSOR2_FUEL_AIR_EQUIVALENCE_RATIO
+          value: "18"
+        - name: OXYGEN_SENSOR3_VOLTAGE
+          value: "19"
+        - name: OXYGEN_SENSOR3_SHORT_TERM_FUEL_TRIM
+          value: "20"
+        - name: OXYGEN_SENSOR3_FUEL_AIR_EQUIVALENCE_RATIO
+          value: "21"
+        - name: OXYGEN_SENSOR4_VOLTAGE
+          value: "22"
+        - name: OXYGEN_SENSOR4_SHORT_TERM_FUEL_TRIM
+          value: "23"
+        - name: OXYGEN_SENSOR4_FUEL_AIR_EQUIVALENCE_RATIO
+          value: "24"
+        - name: OXYGEN_SENSOR5_VOLTAGE
+          value: "25"
+        - name: OXYGEN_SENSOR5_SHORT_TERM_FUEL_TRIM
+          value: "26"
+        - name: OXYGEN_SENSOR5_FUEL_AIR_EQUIVALENCE_RATIO
+          value: "27"
+        - name: OXYGEN_SENSOR6_VOLTAGE
+          value: "28"
+        - name: OXYGEN_SENSOR6_SHORT_TERM_FUEL_TRIM
+          value: "29"
+        - name: OXYGEN_SENSOR6_FUEL_AIR_EQUIVALENCE_RATIO
+          value: "30"
+        - name: OXYGEN_SENSOR7_VOLTAGE
+          value: "31"
+        - name: OXYGEN_SENSOR7_SHORT_TERM_FUEL_TRIM
+          value: "32"
+        - name: OXYGEN_SENSOR7_FUEL_AIR_EQUIVALENCE_RATIO
+          value: "33"
+        - name: OXYGEN_SENSOR8_VOLTAGE
+          value: "34"
+        - name: OXYGEN_SENSOR8_SHORT_TERM_FUEL_TRIM
+          value: "35"
+        - name: OXYGEN_SENSOR8_FUEL_AIR_EQUIVALENCE_RATIO
+          value: "36"
+        - name: FUEL_RAIL_PRESSURE
+          value: "37"
+        - name: FUEL_RAIL_GAUGE_PRESSURE
+          value: "38"
+        - name: COMMANDED_EXHAUST_GAS_RECIRCULATION
+          value: "39"
+        - name: EXHAUST_GAS_RECIRCULATION_ERROR
+          value: "40"
+        - name: COMMANDED_EVAPORATIVE_PURGE
+          value: "41"
+        - name: FUEL_TANK_LEVEL_INPUT
+          value: "42"
+        - name: EVAPORATION_SYSTEM_VAPOR_PRESSURE
+          value: "43"
+        - name: CATALYST_TEMPERATURE_BANK1_SENSOR1
+          value: "44"
+        - name: CATALYST_TEMPERATURE_BANK2_SENSOR1
+          value: "45"
+        - name: CATALYST_TEMPERATURE_BANK1_SENSOR2
+          value: "46"
+        - name: CATALYST_TEMPERATURE_BANK2_SENSOR2
+          value: "47"
+        - name: ABSOLUTE_LOAD_VALUE
+          value: "48"
+        - name: FUEL_AIR_COMMANDED_EQUIVALENCE_RATIO
+          value: "49"
+        - name: RELATIVE_THROTTLE_POSITION
+          value: "50"
+        - name: ABSOLUTE_THROTTLE_POSITION_B
+          value: "51"
+        - name: ABSOLUTE_THROTTLE_POSITION_C
+          value: "52"
+        - name: ACCELERATOR_PEDAL_POSITION_D
+          value: "53"
+        - name: ACCELERATOR_PEDAL_POSITION_E
+          value: "54"
+        - name: ACCELERATOR_PEDAL_POSITION_F
+          value: "55"
+        - name: COMMANDED_THROTTLE_ACTUATOR
+          value: "56"
+        - name: ETHANOL_FUEL_PERCENTAGE
+          value: "57"
+        - name: ABSOLUTE_EVAPORATION_SYSTEM_VAPOR_PRESSURE
+          value: "58"
+        - name: SHORT_TERM_SECONDARY_OXYGEN_SENSOR_TRIM_BANK1
+          value: "59"
+        - name: SHORT_TERM_SECONDARY_OXYGEN_SENSOR_TRIM_BANK2
+          value: "60"
+        - name: SHORT_TERM_SECONDARY_OXYGEN_SENSOR_TRIM_BANK3
+          value: "61"
+        - name: SHORT_TERM_SECONDARY_OXYGEN_SENSOR_TRIM_BANK4
+          value: "62"
+        - name: LONG_TERM_SECONDARY_OXYGEN_SENSOR_TRIM_BANK1
+          value: "63"
+        - name: LONG_TERM_SECONDARY_OXYGEN_SENSOR_TRIM_BANK2
+          value: "64"
+        - name: LONG_TERM_SECONDARY_OXYGEN_SENSOR_TRIM_BANK3
+          value: "65"
+        - name: LONG_TERM_SECONDARY_OXYGEN_SENSOR_TRIM_BANK4
+          value: "66"
+        - name: RELATIVE_ACCELERATOR_PEDAL_POSITION
+          value: "67"
+        - name: HYBRID_BATTERY_PACK_REMAINING_LIFE
+          value: "68"
+        - name: FUEL_INJECTION_TIMING
+          value: "69"
+        - name: ENGINE_FUEL_RATE
+          value: "70"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DiagnosticIntegerSensorIndex
+      backing_type: int
+      values:
+        - name: FUEL_SYSTEM_STATUS
+          value: "0"
+        - name: MALFUNCTION_INDICATOR_LIGHT_ON
+          value: "1"
+        - name: IGNITION_MONITORS_SUPPORTED
+          value: "2"
+        - name: IGNITION_SPECIFIC_MONITORS
+          value: "3"
+        - name: INTAKE_AIR_TEMPERATURE
+          value: "4"
+        - name: COMMANDED_SECONDARY_AIR_STATUS
+          value: "5"
+        - name: NUM_OXYGEN_SENSORS_PRESENT
+          value: "6"
+        - name: RUNTIME_SINCE_ENGINE_START
+          value: "7"
+        - name: DISTANCE_TRAVELED_WITH_MALFUNCTION_INDICATOR_LIGHT_ON
+          value: "8"
+        - name: WARMUPS_SINCE_CODES_CLEARED
+          value: "9"
+        - name: DISTANCE_TRAVELED_SINCE_CODES_CLEARED
+          value: "10"
+        - name: ABSOLUTE_BAROMETRIC_PRESSURE
+          value: "11"
+        - name: CONTROL_MODULE_VOLTAGE
+          value: "12"
+        - name: AMBIENT_AIR_TEMPERATURE
+          value: "13"
+        - name: TIME_WITH_MALFUNCTION_LIGHT_ON
+          value: "14"
+        - name: TIME_SINCE_TROUBLE_CODES_CLEARED
+          value: "15"
+        - name: MAX_FUEL_AIR_EQUIVALENCE_RATIO
+          value: "16"
+        - name: MAX_OXYGEN_SENSOR_VOLTAGE
+          value: "17"
+        - name: MAX_OXYGEN_SENSOR_CURRENT
+          value: "18"
+        - name: MAX_INTAKE_MANIFOLD_ABSOLUTE_PRESSURE
+          value: "19"
+        - name: MAX_AIR_FLOW_RATE_FROM_MASS_AIR_FLOW_SENSOR
+          value: "20"
+        - name: FUEL_TYPE
+          value: "21"
+        - name: FUEL_RAIL_ABSOLUTE_PRESSURE
+          value: "22"
+        - name: ENGINE_OIL_TEMPERATURE
+          value: "23"
+        - name: DRIVER_DEMAND_PERCENT_TORQUE
+          value: "24"
+        - name: ENGINE_ACTUAL_PERCENT_TORQUE
+          value: "25"
+        - name: ENGINE_REFERENCE_PERCENT_TORQUE
+          value: "26"
+        - name: ENGINE_PERCENT_TORQUE_DATA_IDLE
+          value: "27"
+        - name: ENGINE_PERCENT_TORQUE_DATA_POINT1
+          value: "28"
+        - name: ENGINE_PERCENT_TORQUE_DATA_POINT2
+          value: "29"
+        - name: ENGINE_PERCENT_TORQUE_DATA_POINT3
+          value: "30"
+        - name: ENGINE_PERCENT_TORQUE_DATA_POINT4
+          value: "31"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DriverDistractionState
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: NOT_DISTRACTED
+          value: "1"
+        - name: DISTRACTED
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DriverDistractionWarning
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: NO_WARNING
+          value: "1"
+        - name: WARNING
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DriverDrowsinessAttentionState
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: KSS_RATING_1_EXTREMELY_ALERT
+          value: "1"
+        - name: KSS_RATING_2_VERY_ALERT
+          value: "2"
+        - name: KSS_RATING_3_ALERT
+          value: "3"
+        - name: KSS_RATING_4_RATHER_ALERT
+          value: "4"
+        - name: KSS_RATING_5_NEITHER_ALERT_NOR_SLEEPY
+          value: "5"
+        - name: KSS_RATING_6_SOME_SLEEPINESS
+          value: "6"
+        - name: KSS_RATING_7_SLEEPY_NO_EFFORT
+          value: "7"
+        - name: KSS_RATING_8_SLEEPY_SOME_EFFORT
+          value: "8"
+        - name: KSS_RATING_9_VERY_SLEEPY
+          value: "9"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DriverDrowsinessAttentionWarning
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: NO_WARNING
+          value: "1"
+        - name: WARNING
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ElectronicStabilityControlState
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: ENABLED
+          value: "1"
+        - name: ACTIVATED
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ElectronicTollCollectionCardStatus
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: ELECTRONIC_TOLL_COLLECTION_CARD_VALID
+          value: "1"
+        - name: ELECTRONIC_TOLL_COLLECTION_CARD_INVALID
+          value: "2"
+        - name: ELECTRONIC_TOLL_COLLECTION_CARD_NOT_INSERTED
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ElectronicTollCollectionCardType
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: JP_ELECTRONIC_TOLL_COLLECTION_CARD
+          value: "1"
+        - name: JP_ELECTRONIC_TOLL_COLLECTION_CARD_V2
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EmergencyLaneKeepAssistState
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: ENABLED
+          value: "1"
+        - name: WARNING_LEFT
+          value: "2"
+        - name: WARNING_RIGHT
+          value: "3"
+        - name: ACTIVATED_STEER_LEFT
+          value: "4"
+        - name: ACTIVATED_STEER_RIGHT
+          value: "5"
+        - name: USER_OVERRIDE
+          value: "6"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ErrorState
+      backing_type: int
+      values:
+        - name: OTHER_ERROR_STATE
+          value: "-1"
+        - name: NOT_AVAILABLE_DISABLED
+          value: "-2"
+        - name: NOT_AVAILABLE_SPEED_LOW
+          value: "-3"
+        - name: NOT_AVAILABLE_SPEED_HIGH
+          value: "-4"
+        - name: NOT_AVAILABLE_POOR_VISIBILITY
+          value: "-5"
+        - name: NOT_AVAILABLE_SAFETY
+          value: "-6"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EvChargeState
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: CHARGING
+          value: "1"
+        - name: FULLY_CHARGED
+          value: "2"
+        - name: NOT_CHARGING
+          value: "3"
+        - name: ERROR
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EvConnectorType
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: IEC_TYPE_1_AC
+          value: "1"
+        - name: IEC_TYPE_2_AC
+          value: "2"
+        - name: IEC_TYPE_3_AC
+          value: "3"
+        - name: IEC_TYPE_4_DC
+          value: "4"
+        - name: IEC_TYPE_1_CCS_DC
+          value: "5"
+        - name: IEC_TYPE_2_CCS_DC
+          value: "6"
+        - name: TESLA_ROADSTER
+          value: "7"
+        - name: TESLA_HPWC
+          value: "8"
+        - name: TESLA_SUPERCHARGER
+          value: "9"
+        - name: GBT_AC
+          value: "10"
+        - name: GBT_DC
+          value: "11"
+        - name: OTHER
+          value: "101"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EvRegenerativeBrakingState
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: DISABLED
+          value: "1"
+        - name: PARTIALLY_ENABLED
+          value: "2"
+        - name: FULLY_ENABLED
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EvStoppingMode
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: CREEP
+          value: "1"
+        - name: ROLL
+          value: "2"
+        - name: HOLD
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EvsServiceRequestIndex
+      backing_type: int
+      values:
+        - name: TYPE
+          value: "0"
+        - name: STATE
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EvsServiceState
+      backing_type: int
+      values:
+        - name: "OFF"
+          value: "0"
+        - name: "ON"
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EvsServiceType
+      backing_type: int
+      values:
+        - name: REARVIEW
+          value: "0"
+        - name: SURROUNDVIEW
+          value: "1"
+        - name: FRONTVIEW
+          value: "2"
+        - name: LEFTVIEW
+          value: "3"
+        - name: RIGHTVIEW
+          value: "4"
+        - name: DRIVERVIEW
+          value: "5"
+        - name: FRONTPASSENGERSVIEW
+          value: "6"
+        - name: REARPASSENGERSVIEW
+          value: "7"
+        - name: USER_DEFINED
+          value: "1000"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ForwardCollisionWarningState
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: NO_WARNING
+          value: "1"
+        - name: WARNING
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FuelType
+      backing_type: int
+      values:
+        - name: FUEL_TYPE_UNKNOWN
+          value: "0"
+        - name: FUEL_TYPE_UNLEADED
+          value: "1"
+        - name: FUEL_TYPE_LEADED
+          value: "2"
+        - name: FUEL_TYPE_DIESEL_1
+          value: "3"
+        - name: FUEL_TYPE_DIESEL_2
+          value: "4"
+        - name: FUEL_TYPE_BIODIESEL
+          value: "5"
+        - name: FUEL_TYPE_E85
+          value: "6"
+        - name: FUEL_TYPE_LPG
+          value: "7"
+        - name: FUEL_TYPE_CNG
+          value: "8"
+        - name: FUEL_TYPE_LNG
+          value: "9"
+        - name: FUEL_TYPE_ELECTRIC
+          value: "10"
+        - name: FUEL_TYPE_HYDROGEN
+          value: "11"
+        - name: FUEL_TYPE_OTHER
+          value: "12"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: GsrComplianceRequirementType
+      backing_type: int
+      values:
+        - name: GSR_COMPLIANCE_NOT_REQUIRED
+          value: "0"
+        - name: GSR_COMPLIANCE_REQUIRED_V1
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: HandsOnDetectionDriverState
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: HANDS_ON
+          value: "1"
+        - name: HANDS_OFF
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: HandsOnDetectionWarning
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: NO_WARNING
+          value: "1"
+        - name: WARNING
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ImpactSensorLocation
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0x01"
+        - name: FRONT
+          value: "0x02"
+        - name: FRONT_LEFT_DOOR_SIDE
+          value: "0x04"
+        - name: FRONT_RIGHT_DOOR_SIDE
+          value: "0x08"
+        - name: REAR_LEFT_DOOR_SIDE
+          value: "0x10"
+        - name: REAR_RIGHT_DOOR_SIDE
+          value: "0x20"
+        - name: REAR
+          value: "0x40"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: InitialUserInfoRequestType
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: FIRST_BOOT
+          value: "1"
+        - name: FIRST_BOOT_AFTER_OTA
+          value: "2"
+        - name: COLD_BOOT
+          value: "3"
+        - name: RESUME
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: InitialUserInfoResponseAction
+      backing_type: int
+      values:
+        - name: DEFAULT
+          value: "0"
+        - name: SWITCH
+          value: "1"
+        - name: CREATE
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LaneCenteringAssistCommand
+      backing_type: int
+      values:
+        - name: ACTIVATE
+          value: "1"
+        - name: DEACTIVATE
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LaneCenteringAssistState
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: ENABLED
+          value: "1"
+        - name: ACTIVATION_REQUESTED
+          value: "2"
+        - name: ACTIVATED
+          value: "3"
+        - name: USER_OVERRIDE
+          value: "4"
+        - name: FORCED_DEACTIVATION_WARNING
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LaneDepartureWarningState
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: NO_WARNING
+          value: "1"
+        - name: WARNING_LEFT
+          value: "2"
+        - name: WARNING_RIGHT
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LaneKeepAssistState
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: ENABLED
+          value: "1"
+        - name: ACTIVATED_STEER_LEFT
+          value: "2"
+        - name: ACTIVATED_STEER_RIGHT
+          value: "3"
+        - name: USER_OVERRIDE
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LocationCharacterization
+      backing_type: int
+      values:
+        - name: PRIOR_LOCATIONS
+          value: "0x1"
+        - name: GYROSCOPE_FUSION
+          value: "0x2"
+        - name: ACCELEROMETER_FUSION
+          value: "0x4"
+        - name: COMPASS_FUSION
+          value: "0x8"
+        - name: WHEEL_SPEED_FUSION
+          value: "0x10"
+        - name: STEERING_ANGLE_FUSION
+          value: "0x20"
+        - name: CAR_SPEED_FUSION
+          value: "0x40"
+        - name: DEAD_RECKONED
+          value: "0x80"
+        - name: RAW_GNSS_ONLY
+          value: "0x100"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LowSpeedAutomaticEmergencyBrakingState
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: ENABLED
+          value: "1"
+        - name: ACTIVATED
+          value: "2"
+        - name: USER_OVERRIDE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LowSpeedCollisionWarningState
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: NO_WARNING
+          value: "1"
+        - name: WARNING
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Obd2CommonIgnitionMonitors
+      backing_type: int
+      values:
+        - name: COMPONENTS_AVAILABLE
+          value: 0x1 << 0
+        - name: COMPONENTS_INCOMPLETE
+          value: 0x1 << 1
+        - name: FUEL_SYSTEM_AVAILABLE
+          value: 0x1 << 2
+        - name: FUEL_SYSTEM_INCOMPLETE
+          value: 0x1 << 3
+        - name: MISFIRE_AVAILABLE
+          value: 0x1 << 4
+        - name: MISFIRE_INCOMPLETE
+          value: 0x1 << 5
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Obd2CompressionIgnitionMonitors
+      backing_type: int
+      values:
+        - name: COMPONENTS_AVAILABLE
+          value: 0x1 << 0
+        - name: COMPONENTS_INCOMPLETE
+          value: 0x1 << 1
+        - name: FUEL_SYSTEM_AVAILABLE
+          value: 0x1 << 2
+        - name: FUEL_SYSTEM_INCOMPLETE
+          value: 0x1 << 3
+        - name: MISFIRE_AVAILABLE
+          value: 0x1 << 4
+        - name: MISFIRE_INCOMPLETE
+          value: 0x1 << 5
+        - name: EGR_OR_VVT_AVAILABLE
+          value: 0x1 << 6
+        - name: EGR_OR_VVT_INCOMPLETE
+          value: 0x1 << 7
+        - name: PM_FILTER_AVAILABLE
+          value: 0x1 << 8
+        - name: PM_FILTER_INCOMPLETE
+          value: 0x1 << 9
+        - name: EXHAUST_GAS_SENSOR_AVAILABLE
+          value: 0x1 << 10
+        - name: EXHAUST_GAS_SENSOR_INCOMPLETE
+          value: 0x1 << 11
+        - name: BOOST_PRESSURE_AVAILABLE
+          value: 0x1 << 12
+        - name: BOOST_PRESSURE_INCOMPLETE
+          value: 0x1 << 13
+        - name: NOx_SCR_AVAILABLE
+          value: 0x1 << 14
+        - name: NOx_SCR_INCOMPLETE
+          value: 0x1 << 15
+        - name: NMHC_CATALYST_AVAILABLE
+          value: 0x1 << 16
+        - name: NMHC_CATALYST_INCOMPLETE
+          value: 0x1 << 17
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Obd2FuelSystemStatus
+      backing_type: int
+      values:
+        - name: OPEN_INSUFFICIENT_ENGINE_TEMPERATURE
+          value: "1"
+        - name: CLOSED_LOOP
+          value: "2"
+        - name: OPEN_ENGINE_LOAD_OR_DECELERATION
+          value: "4"
+        - name: OPEN_SYSTEM_FAILURE
+          value: "8"
+        - name: CLOSED_LOOP_BUT_FEEDBACK_FAULT
+          value: "16"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Obd2FuelType
+      backing_type: int
+      values:
+        - name: NOT_AVAILABLE
+          value: "0"
+        - name: GASOLINE
+          value: "1"
+        - name: METHANOL
+          value: "2"
+        - name: ETHANOL
+          value: "3"
+        - name: DIESEL
+          value: "4"
+        - name: LPG
+          value: "5"
+        - name: CNG
+          value: "6"
+        - name: PROPANE
+          value: "7"
+        - name: ELECTRIC
+          value: "8"
+        - name: BIFUEL_RUNNING_GASOLINE
+          value: "9"
+        - name: BIFUEL_RUNNING_METHANOL
+          value: "10"
+        - name: BIFUEL_RUNNING_ETHANOL
+          value: "11"
+        - name: BIFUEL_RUNNING_LPG
+          value: "12"
+        - name: BIFUEL_RUNNING_CNG
+          value: "13"
+        - name: BIFUEL_RUNNING_PROPANE
+          value: "14"
+        - name: BIFUEL_RUNNING_ELECTRIC
+          value: "15"
+        - name: BIFUEL_RUNNING_ELECTRIC_AND_COMBUSTION
+          value: "16"
+        - name: HYBRID_GASOLINE
+          value: "17"
+        - name: HYBRID_ETHANOL
+          value: "18"
+        - name: HYBRID_DIESEL
+          value: "19"
+        - name: HYBRID_ELECTRIC
+          value: "20"
+        - name: HYBRID_RUNNING_ELECTRIC_AND_COMBUSTION
+          value: "21"
+        - name: HYBRID_REGENERATIVE
+          value: "22"
+        - name: BIFUEL_RUNNING_DIESEL
+          value: "23"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Obd2IgnitionMonitorKind
+      backing_type: int
+      values:
+        - name: SPARK
+          value: "0"
+        - name: COMPRESSION
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Obd2SecondaryAirStatus
+      backing_type: int
+      values:
+        - name: UPSTREAM
+          value: "1"
+        - name: DOWNSTREAM_OF_CATALYCIC_CONVERTER
+          value: "2"
+        - name: FROM_OUTSIDE_OR_OFF
+          value: "4"
+        - name: PUMP_ON_FOR_DIAGNOSTICS
+          value: "8"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Obd2SparkIgnitionMonitors
+      backing_type: int
+      values:
+        - name: COMPONENTS_AVAILABLE
+          value: 0x1 << 0
+        - name: COMPONENTS_INCOMPLETE
+          value: 0x1 << 1
+        - name: FUEL_SYSTEM_AVAILABLE
+          value: 0x1 << 2
+        - name: FUEL_SYSTEM_INCOMPLETE
+          value: 0x1 << 3
+        - name: MISFIRE_AVAILABLE
+          value: 0x1 << 4
+        - name: MISFIRE_INCOMPLETE
+          value: 0x1 << 5
+        - name: EGR_AVAILABLE
+          value: 0x1 << 6
+        - name: EGR_INCOMPLETE
+          value: 0x1 << 7
+        - name: OXYGEN_SENSOR_HEATER_AVAILABLE
+          value: 0x1 << 8
+        - name: OXYGEN_SENSOR_HEATER_INCOMPLETE
+          value: 0x1 << 9
+        - name: OXYGEN_SENSOR_AVAILABLE
+          value: 0x1 << 10
+        - name: OXYGEN_SENSOR_INCOMPLETE
+          value: 0x1 << 11
+        - name: AC_REFRIGERANT_AVAILABLE
+          value: 0x1 << 12
+        - name: AC_REFRIGERANT_INCOMPLETE
+          value: 0x1 << 13
+        - name: SECONDARY_AIR_SYSTEM_AVAILABLE
+          value: 0x1 << 14
+        - name: SECONDARY_AIR_SYSTEM_INCOMPLETE
+          value: 0x1 << 15
+        - name: EVAPORATIVE_SYSTEM_AVAILABLE
+          value: 0x1 << 16
+        - name: EVAPORATIVE_SYSTEM_INCOMPLETE
+          value: 0x1 << 17
+        - name: HEATED_CATALYST_AVAILABLE
+          value: 0x1 << 18
+        - name: HEATED_CATALYST_INCOMPLETE
+          value: 0x1 << 19
+        - name: CATALYST_AVAILABLE
+          value: 0x1 << 20
+        - name: CATALYST_INCOMPLETE
+          value: 0x1 << 21
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PortLocationType
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: FRONT_LEFT
+          value: "1"
+        - name: FRONT_RIGHT
+          value: "2"
+        - name: REAR_RIGHT
+          value: "3"
+        - name: REAR_LEFT
+          value: "4"
+        - name: FRONT
+          value: "5"
+        - name: REAR
+          value: "6"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ProcessTerminationReason
+      backing_type: int
+      values:
+        - name: NOT_RESPONDING
+          value: "1"
+        - name: IO_OVERUSE
+          value: "2"
+        - name: MEMORY_OVERUSE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: RotaryInputType
+      backing_type: int
+      values:
+        - name: ROTARY_INPUT_TYPE_SYSTEM_NAVIGATION
+          value: "0"
+        - name: ROTARY_INPUT_TYPE_AUDIO_VOLUME
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StatusCode
+      backing_type: int
+      values:
+        - name: OK
+          value: "0"
+        - name: TRY_AGAIN
+          value: "1"
+        - name: INVALID_ARG
+          value: "2"
+        - name: NOT_AVAILABLE
+          value: "3"
+        - name: ACCESS_DENIED
+          value: "4"
+        - name: INTERNAL_ERROR
+          value: "5"
+        - name: NOT_AVAILABLE_DISABLED
+          value: "6"
+        - name: NOT_AVAILABLE_SPEED_LOW
+          value: "7"
+        - name: NOT_AVAILABLE_SPEED_HIGH
+          value: "8"
+        - name: NOT_AVAILABLE_POOR_VISIBILITY
+          value: "9"
+        - name: NOT_AVAILABLE_SAFETY
+          value: "10"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SwitchUserMessageType
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: LEGACY_ANDROID_SWITCH
+          value: "1"
+        - name: ANDROID_SWITCH
+          value: "2"
+        - name: VEHICLE_RESPONSE
+          value: "3"
+        - name: VEHICLE_REQUEST
+          value: "4"
+        - name: ANDROID_POST_SWITCH
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SwitchUserStatus
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: "1"
+        - name: FAILURE
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: TestVendorProperty
+      backing_type: int
+      values:
+        - name: VENDOR_CLUSTER_SWITCH_UI
+          value: 0x0F34 + 0x20000000 + 0x01000000 + 0x00400000
+        - name: VENDOR_CLUSTER_DISPLAY_STATE
+          value: 0x0F35 + 0x20000000 + 0x01000000 + 0x00410000
+        - name: VENDOR_CLUSTER_REPORT_STATE
+          value: 0x0F36 + 0x20000000 + 0x01000000 + 0x00E00000
+        - name: VENDOR_CLUSTER_REQUEST_DISPLAY
+          value: 0x0F37 + 0x20000000 + 0x01000000 + 0x00400000
+        - name: VENDOR_CLUSTER_NAVIGATION_STATE
+          value: 0x0F38 + 0x20000000 + 0x01000000 + 0x00700000
+        - name: PLACEHOLDER_PROPERTY_INT
+          value: 0x2A11 + 0x20000000 + 0x01000000 + 0x00400000
+        - name: PLACEHOLDER_PROPERTY_FLOAT
+          value: 0x2A11 + 0x20000000 + 0x01000000 + 0x00600000
+        - name: PLACEHOLDER_PROPERTY_BOOLEAN
+          value: 0x2A11 + 0x20000000 + 0x01000000 + 0x00200000
+        - name: PLACEHOLDER_PROPERTY_STRING
+          value: 0x2A11 + 0x20000000 + 0x01000000 + 0x00100000
+        - name: ECHO_REVERSE_BYTES
+          value: 0x2A12 + 0x20000000 + 0x01000000 + 0x00700000
+        - name: VENDOR_PROPERTY_FOR_ERROR_CODE_TESTING
+          value: 0x2A13 + 0x20000000 + 0x01000000 + 0x00400000
+        - name: MIXED_TYPE_PROPERTY_FOR_TEST
+          value: 0x1111 + 0x20000000 + 0x01000000 + 0x00E00000
+        - name: VENDOR_EXTENSION_BOOLEAN_PROPERTY
+          value: 0x0101 + 0x20000000 + 0x06000000 + 0x00200000
+        - name: VENDOR_EXTENSION_FLOAT_PROPERTY
+          value: 0x102 + 0x20000000 + 0x05000000 + 0x00600000
+        - name: VENDOR_EXTENSION_INT_PROPERTY
+          value: 0x103 + 0x20000000 + 0x03000000 + 0x00400000
+        - name: VENDOR_EXTENSION_STRING_PROPERTY
+          value: 0x103 + 0x20000000 + 0x01000000 + 0x00100000
+      annotations:
+        - Backing
+    - name: TrailerState
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: NOT_PRESENT
+          value: "1"
+        - name: PRESENT
+          value: "2"
+        - name: ERROR
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UserIdentificationAssociationSetValue
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "0"
+        - name: ASSOCIATE_CURRENT_USER
+          value: "1"
+        - name: DISASSOCIATE_CURRENT_USER
+          value: "2"
+        - name: DISASSOCIATE_ALL_USERS
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UserIdentificationAssociationType
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "0"
+        - name: KEY_FOB
+          value: "1"
+        - name: CUSTOM_1
+          value: "101"
+        - name: CUSTOM_2
+          value: "102"
+        - name: CUSTOM_3
+          value: "103"
+        - name: CUSTOM_4
+          value: "104"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UserIdentificationAssociationValue
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "1"
+        - name: ASSOCIATED_CURRENT_USER
+          value: "2"
+        - name: ASSOCIATED_ANOTHER_USER
+          value: "3"
+        - name: NOT_ASSOCIATED_ANY_USER
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleAirbagLocation
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0x01"
+        - name: FRONT
+          value: "0x02"
+        - name: KNEE
+          value: "0x04"
+        - name: LEFT_SIDE
+          value: "0x08"
+        - name: RIGHT_SIDE
+          value: "0x10"
+        - name: CURTAIN
+          value: "0x20"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleApPowerBootupReason
+      backing_type: int
+      values:
+        - name: USER_POWER_ON
+          value: "0"
+        - name: SYSTEM_USER_DETECTION
+          value: "1"
+        - name: SYSTEM_REMOTE_ACCESS
+          value: "2"
+        - name: SYSTEM_ENTER_GARAGE_MODE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleApPowerStateConfigFlag
+      backing_type: int
+      values:
+        - name: ENABLE_DEEP_SLEEP_FLAG
+          value: "0x1"
+        - name: CONFIG_SUPPORT_TIMER_POWER_ON_FLAG
+          value: "0x2"
+        - name: ENABLE_HIBERNATION_FLAG
+          value: "0x4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleApPowerStateReport
+      backing_type: int
+      values:
+        - name: WAIT_FOR_VHAL
+          value: "0x1"
+        - name: DEEP_SLEEP_ENTRY
+          value: "0x2"
+        - name: DEEP_SLEEP_EXIT
+          value: "0x3"
+        - name: SHUTDOWN_POSTPONE
+          value: "0x4"
+        - name: SHUTDOWN_START
+          value: "0x5"
+        - name: "ON"
+          value: "0x6"
+        - name: SHUTDOWN_PREPARE
+          value: "0x7"
+        - name: SHUTDOWN_CANCELLED
+          value: "0x8"
+        - name: HIBERNATION_ENTRY
+          value: "0x9"
+        - name: HIBERNATION_EXIT
+          value: "0xA"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleApPowerStateReq
+      backing_type: int
+      values:
+        - name: "ON"
+          value: "0"
+        - name: SHUTDOWN_PREPARE
+          value: "1"
+        - name: CANCEL_SHUTDOWN
+          value: "2"
+        - name: FINISHED
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleApPowerStateReqIndex
+      backing_type: int
+      values:
+        - name: STATE
+          value: "0"
+        - name: ADDITIONAL
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleApPowerStateShutdownParam
+      backing_type: int
+      values:
+        - name: SHUTDOWN_IMMEDIATELY
+          value: "1"
+        - name: CAN_SLEEP
+          value: "2"
+        - name: SHUTDOWN_ONLY
+          value: "3"
+        - name: SLEEP_IMMEDIATELY
+          value: "4"
+        - name: HIBERNATE_IMMEDIATELY
+          value: "5"
+        - name: CAN_HIBERNATE
+          value: "6"
+        - name: EMERGENCY_SHUTDOWN
+          value: "7"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleArea
+      backing_type: int
+      values:
+        - name: GLOBAL
+          value: "0x01000000"
+        - name: WINDOW
+          value: "0x03000000"
+        - name: MIRROR
+          value: "0x04000000"
+        - name: SEAT
+          value: "0x05000000"
+        - name: DOOR
+          value: "0x06000000"
+        - name: WHEEL
+          value: "0x07000000"
+        - name: VENDOR
+          value: "0x08000000"
+        - name: MASK
+          value: "0x0f000000"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleAreaDoor
+      backing_type: int
+      values:
+        - name: ROW_1_LEFT
+          value: "0x00000001"
+        - name: ROW_1_RIGHT
+          value: "0x00000004"
+        - name: ROW_2_LEFT
+          value: "0x00000010"
+        - name: ROW_2_RIGHT
+          value: "0x00000040"
+        - name: ROW_3_LEFT
+          value: "0x00000100"
+        - name: ROW_3_RIGHT
+          value: "0x00000400"
+        - name: HOOD
+          value: "0x10000000"
+        - name: REAR
+          value: "0x20000000"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleAreaMirror
+      backing_type: int
+      values:
+        - name: DRIVER_LEFT
+          value: "0x00000001"
+        - name: DRIVER_RIGHT
+          value: "0x00000002"
+        - name: DRIVER_CENTER
+          value: "0x00000004"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleAreaSeat
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0x0000"
+        - name: ROW_1_LEFT
+          value: "0x0001"
+        - name: ROW_1_CENTER
+          value: "0x0002"
+        - name: ROW_1_RIGHT
+          value: "0x0004"
+        - name: ROW_2_LEFT
+          value: "0x0010"
+        - name: ROW_2_CENTER
+          value: "0x0020"
+        - name: ROW_2_RIGHT
+          value: "0x0040"
+        - name: ROW_3_LEFT
+          value: "0x0100"
+        - name: ROW_3_CENTER
+          value: "0x0200"
+        - name: ROW_3_RIGHT
+          value: "0x0400"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleAreaWheel
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0x0"
+        - name: LEFT_FRONT
+          value: "0x1"
+        - name: RIGHT_FRONT
+          value: "0x2"
+        - name: LEFT_REAR
+          value: "0x4"
+        - name: RIGHT_REAR
+          value: "0x8"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleAreaWindow
+      backing_type: int
+      values:
+        - name: FRONT_WINDSHIELD
+          value: "0x00000001"
+        - name: REAR_WINDSHIELD
+          value: "0x00000002"
+        - name: ROW_1_LEFT
+          value: "0x00000010"
+        - name: ROW_1_RIGHT
+          value: "0x00000040"
+        - name: ROW_2_LEFT
+          value: "0x00000100"
+        - name: ROW_2_RIGHT
+          value: "0x00000400"
+        - name: ROW_3_LEFT
+          value: "0x00001000"
+        - name: ROW_3_RIGHT
+          value: "0x00004000"
+        - name: ROOF_TOP_1
+          value: "0x00010000"
+        - name: ROOF_TOP_2
+          value: "0x00020000"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleAutonomousState
+      backing_type: int
+      values:
+        - name: LEVEL_0
+          value: "0"
+        - name: LEVEL_1
+          value: "1"
+        - name: LEVEL_2
+          value: "2"
+        - name: LEVEL_3
+          value: "3"
+        - name: LEVEL_4
+          value: "4"
+        - name: LEVEL_5
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleDisplay
+      backing_type: int
+      values:
+        - name: MAIN
+          value: "0"
+        - name: INSTRUMENT_CLUSTER
+          value: "1"
+        - name: HUD
+          value: "2"
+        - name: INPUT
+          value: "3"
+        - name: AUXILIARY
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleGear
+      backing_type: int
+      values:
+        - name: GEAR_UNKNOWN
+          value: "0x0000"
+        - name: GEAR_NEUTRAL
+          value: "0x0001"
+        - name: GEAR_REVERSE
+          value: "0x0002"
+        - name: GEAR_PARK
+          value: "0x0004"
+        - name: GEAR_DRIVE
+          value: "0x0008"
+        - name: GEAR_1
+          value: "0x0010"
+        - name: GEAR_2
+          value: "0x0020"
+        - name: GEAR_3
+          value: "0x0040"
+        - name: GEAR_4
+          value: "0x0080"
+        - name: GEAR_5
+          value: "0x0100"
+        - name: GEAR_6
+          value: "0x0200"
+        - name: GEAR_7
+          value: "0x0400"
+        - name: GEAR_8
+          value: "0x0800"
+        - name: GEAR_9
+          value: "0x1000"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleHvacFanDirection
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0x0"
+        - name: FACE
+          value: "0x1"
+        - name: FLOOR
+          value: "0x2"
+        - name: FACE_AND_FLOOR
+          value: "0x3"
+        - name: DEFROST
+          value: "0x4"
+        - name: DEFROST_AND_FLOOR
+          value: "0x06"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleHwKeyInputAction
+      backing_type: int
+      values:
+        - name: ACTION_DOWN
+          value: "0"
+        - name: ACTION_UP
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleHwMotionButtonStateFlag
+      backing_type: int
+      values:
+        - name: BUTTON_PRIMARY
+          value: "0x0001"
+        - name: BUTTON_SECONDARY
+          value: "0x0002"
+        - name: BUTTON_TERTIARY
+          value: "0x0004"
+        - name: BUTTON_BACK
+          value: "0x0008"
+        - name: BUTTON_FORWARD
+          value: "0x0010"
+        - name: BUTTON_STYLUS_PRIMARY
+          value: "0x0020"
+        - name: BUTTON_STYLUS_SECONDARY
+          value: "0x0040"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleHwMotionInputAction
+      backing_type: int
+      values:
+        - name: ACTION_DOWN
+          value: "0"
+        - name: ACTION_UP
+          value: "1"
+        - name: ACTION_MOVE
+          value: "2"
+        - name: ACTION_CANCEL
+          value: "3"
+        - name: ACTION_OUTSIDE
+          value: "4"
+        - name: ACTION_POINTER_DOWN
+          value: "5"
+        - name: ACTION_POINTER_UP
+          value: "6"
+        - name: ACTION_HOVER_MOVE
+          value: "7"
+        - name: ACTION_SCROLL
+          value: "8"
+        - name: ACTION_HOVER_ENTER
+          value: "9"
+        - name: ACTION_HOVER_EXIT
+          value: "10"
+        - name: ACTION_BUTTON_PRESS
+          value: "11"
+        - name: ACTION_BUTTON_RELEASE
+          value: "12"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleHwMotionInputSource
+      backing_type: int
+      values:
+        - name: SOURCE_UNKNOWN
+          value: "0"
+        - name: SOURCE_KEYBOARD
+          value: "1"
+        - name: SOURCE_DPAD
+          value: "2"
+        - name: SOURCE_GAMEPAD
+          value: "3"
+        - name: SOURCE_TOUCHSCREEN
+          value: "4"
+        - name: SOURCE_MOUSE
+          value: "5"
+        - name: SOURCE_STYLUS
+          value: "6"
+        - name: SOURCE_BLUETOOTH_STYLUS
+          value: "7"
+        - name: SOURCE_TRACKBALL
+          value: "8"
+        - name: SOURCE_MOUSE_RELATIVE
+          value: "9"
+        - name: SOURCE_TOUCHPAD
+          value: "10"
+        - name: SOURCE_TOUCH_NAVIGATION
+          value: "11"
+        - name: SOURCE_ROTARY_ENCODER
+          value: "12"
+        - name: SOURCE_JOYSTICK
+          value: "13"
+        - name: SOURCE_HDMI
+          value: "14"
+        - name: SOURCE_SENSOR
+          value: "15"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleHwMotionToolType
+      backing_type: int
+      values:
+        - name: TOOL_TYPE_UNKNOWN
+          value: "0"
+        - name: TOOL_TYPE_FINGER
+          value: "1"
+        - name: TOOL_TYPE_STYLUS
+          value: "2"
+        - name: TOOL_TYPE_MOUSE
+          value: "3"
+        - name: TOOL_TYPE_ERASER
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleIgnitionState
+      backing_type: int
+      values:
+        - name: UNDEFINED
+          value: "0"
+        - name: LOCK
+          value: "1"
+        - name: "OFF"
+          value: ""
+        - name: ACC
+          value: ""
+        - name: "ON"
+          value: ""
+        - name: START
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleLightState
+      backing_type: int
+      values:
+        - name: "OFF"
+          value: "0"
+        - name: "ON"
+          value: "1"
+        - name: DAYTIME_RUNNING
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleLightSwitch
+      backing_type: int
+      values:
+        - name: "OFF"
+          value: "0"
+        - name: "ON"
+          value: "1"
+        - name: DAYTIME_RUNNING
+          value: "2"
+        - name: AUTOMATIC
+          value: "0x100"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleOilLevel
+      backing_type: int
+      values:
+        - name: CRITICALLY_LOW
+          value: "0"
+        - name: LOW
+          value: "1"
+        - name: NORMAL
+          value: "2"
+        - name: HIGH
+          value: "3"
+        - name: ERROR
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleProperty
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "0x00000000"
+        - name: INFO_VIN
+          value: 0x0100 + 0x10000000 + 0x01000000 + 0x00100000
+        - name: INFO_MAKE
+          value: 0x0101 + 0x10000000 + 0x01000000 + 0x00100000
+        - name: INFO_MODEL
+          value: 0x0102 + 0x10000000 + 0x01000000 + 0x00100000
+        - name: INFO_MODEL_YEAR
+          value: 0x0103 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: INFO_FUEL_CAPACITY
+          value: 0x0104 + 0x10000000 + 0x01000000 + 0x00600000
+        - name: INFO_FUEL_TYPE
+          value: 0x0105 + 0x10000000 + 0x01000000 + 0x00410000
+        - name: INFO_EV_BATTERY_CAPACITY
+          value: 0x0106 + 0x10000000 + 0x01000000 + 0x00600000
+        - name: INFO_EV_CONNECTOR_TYPE
+          value: 0x0107 + 0x10000000 + 0x01000000 + 0x00410000
+        - name: INFO_FUEL_DOOR_LOCATION
+          value: 0x0108 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: INFO_EV_PORT_LOCATION
+          value: 0x0109 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: INFO_DRIVER_SEAT
+          value: 0x010A + 0x10000000 + 0x05000000 + 0x00400000
+        - name: INFO_EXTERIOR_DIMENSIONS
+          value: 0x010B + 0x10000000 + 0x01000000 + 0x00410000
+        - name: INFO_MULTI_EV_PORT_LOCATIONS
+          value: 0x010C + 0x10000000 + 0x01000000 + 0x00410000
+        - name: PERF_ODOMETER
+          value: 0x0204 + 0x10000000 + 0x01000000 + 0x00600000
+        - name: PERF_VEHICLE_SPEED
+          value: 0x0207 + 0x10000000 + 0x01000000 + 0x00600000
+        - name: PERF_VEHICLE_SPEED_DISPLAY
+          value: 0x0208 + 0x10000000 + 0x01000000 + 0x00600000
+        - name: PERF_STEERING_ANGLE
+          value: 0x0209 + 0x10000000 + 0x01000000 + 0x00600000
+        - name: PERF_REAR_STEERING_ANGLE
+          value: 0x0210 + 0x10000000 + 0x01000000 + 0x00600000
+        - name: ENGINE_COOLANT_TEMP
+          value: 0x0301 + 0x10000000 + 0x01000000 + 0x00600000
+        - name: ENGINE_OIL_LEVEL
+          value: 0x0303 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: ENGINE_OIL_TEMP
+          value: 0x0304 + 0x10000000 + 0x01000000 + 0x00600000
+        - name: ENGINE_RPM
+          value: 0x0305 + 0x10000000 + 0x01000000 + 0x00600000
+        - name: WHEEL_TICK
+          value: 0x0306 + 0x10000000 + 0x01000000 + 0x00510000
+        - name: FUEL_LEVEL
+          value: 0x0307 + 0x10000000 + 0x01000000 + 0x00600000
+        - name: FUEL_DOOR_OPEN
+          value: 0x0308 + 0x10000000 + 0x01000000 + 0x00200000
+        - name: EV_BATTERY_LEVEL
+          value: 0x0309 + 0x10000000 + 0x01000000 + 0x00600000
+        - name: EV_CURRENT_BATTERY_CAPACITY
+          value: 0x030D + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.FLOAT
+        - name: EV_CHARGE_PORT_OPEN
+          value: 0x030A + 0x10000000 + 0x01000000 + 0x00200000
+        - name: EV_CHARGE_PORT_CONNECTED
+          value: 0x030B + 0x10000000 + 0x01000000 + 0x00200000
+        - name: EV_BATTERY_INSTANTANEOUS_CHARGE_RATE
+          value: 0x030C + 0x10000000 + 0x01000000 + 0x00600000
+        - name: RANGE_REMAINING
+          value: 0x0308 + 0x10000000 + 0x01000000 + 0x00600000
+        - name: EV_BATTERY_AVERAGE_TEMPERATURE
+          value: 0x030E + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.FLOAT
+        - name: TIRE_PRESSURE
+          value: 0x0309 + 0x10000000 + 0x07000000 + 0x00600000
+        - name: CRITICALLY_LOW_TIRE_PRESSURE
+          value: 0x030A + 0x10000000 + 0x07000000 + 0x00600000
+        - name: ENGINE_IDLE_AUTO_STOP_ENABLED
+          value: 0x0320 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: IMPACT_DETECTED
+          value: 0x0330 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: GEAR_SELECTION
+          value: 0x0400 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: CURRENT_GEAR
+          value: 0x0401 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: PARKING_BRAKE_ON
+          value: 0x0402 + 0x10000000 + 0x01000000 + 0x00200000
+        - name: PARKING_BRAKE_AUTO_APPLY
+          value: 0x0403 + 0x10000000 + 0x01000000 + 0x00200000
+        - name: EV_BRAKE_REGENERATION_LEVEL
+          value: 0x040C + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: FUEL_LEVEL_LOW
+          value: 0x0405 + 0x10000000 + 0x01000000 + 0x00200000
+        - name: NIGHT_MODE
+          value: 0x0407 + 0x10000000 + 0x01000000 + 0x00200000
+        - name: TURN_SIGNAL_STATE
+          value: 0x0408 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: IGNITION_STATE
+          value: 0x0409 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: ABS_ACTIVE
+          value: 0x040A + 0x10000000 + 0x01000000 + 0x00200000
+        - name: TRACTION_CONTROL_ACTIVE
+          value: 0x040B + 0x10000000 + 0x01000000 + 0x00200000
+        - name: EV_STOPPING_MODE
+          value: 0x040D + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: ELECTRONIC_STABILITY_CONTROL_ENABLED
+          value: 0x040E + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: ELECTRONIC_STABILITY_CONTROL_STATE
+          value: 0x040F + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: HVAC_FAN_SPEED
+          value: 0x0500 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: HVAC_FAN_DIRECTION
+          value: 0x0501 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: HVAC_TEMPERATURE_CURRENT
+          value: 0x0502 + 0x10000000 + 0x05000000 + 0x00600000
+        - name: HVAC_TEMPERATURE_SET
+          value: 0x0503 + 0x10000000 + 0x05000000 + 0x00600000
+        - name: HVAC_DEFROSTER
+          value: 0x0504 + 0x10000000 + 0x03000000 + 0x00200000
+        - name: HVAC_AC_ON
+          value: 0x0505 + 0x10000000 + 0x05000000 + 0x00200000
+        - name: HVAC_MAX_AC_ON
+          value: 0x0506 + 0x10000000 + 0x05000000 + 0x00200000
+        - name: HVAC_MAX_DEFROST_ON
+          value: 0x0507 + 0x10000000 + 0x05000000 + 0x00200000
+        - name: HVAC_RECIRC_ON
+          value: 0x0508 + 0x10000000 + 0x05000000 + 0x00200000
+        - name: HVAC_DUAL_ON
+          value: 0x0509 + 0x10000000 + 0x05000000 + 0x00200000
+        - name: HVAC_AUTO_ON
+          value: 0x050A + 0x10000000 + 0x05000000 + 0x00200000
+        - name: HVAC_SEAT_TEMPERATURE
+          value: 0x050B + 0x10000000 + 0x05000000 + 0x00400000
+        - name: HVAC_SIDE_MIRROR_HEAT
+          value: 0x050C + 0x10000000 + 0x04000000 + 0x00400000
+        - name: HVAC_STEERING_WHEEL_HEAT
+          value: 0x050D + 0x10000000 + 0x01000000 + 0x00400000
+        - name: HVAC_TEMPERATURE_DISPLAY_UNITS
+          value: 0x050E + 0x10000000 + 0x01000000 + 0x00400000
+        - name: HVAC_ACTUAL_FAN_SPEED_RPM
+          value: 0x050F + 0x10000000 + 0x05000000 + 0x00400000
+        - name: HVAC_POWER_ON
+          value: 0x0510 + 0x10000000 + 0x05000000 + 0x00200000
+        - name: HVAC_FAN_DIRECTION_AVAILABLE
+          value: 0x0511 + 0x10000000 + 0x05000000 + 0x00410000
+        - name: HVAC_AUTO_RECIRC_ON
+          value: 0x0512 + 0x10000000 + 0x05000000 + 0x00200000
+        - name: HVAC_SEAT_VENTILATION
+          value: 0x0513 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: HVAC_ELECTRIC_DEFROSTER_ON
+          value: 0x0514 + 0x10000000 + 0x03000000 + 0x00200000
+        - name: HVAC_TEMPERATURE_VALUE_SUGGESTION
+          value: 0x0515 + 0x10000000 + 0x01000000 + 0x00610000
+        - name: DISTANCE_DISPLAY_UNITS
+          value: 0x0600 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: FUEL_VOLUME_DISPLAY_UNITS
+          value: 0x0601 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: TIRE_PRESSURE_DISPLAY_UNITS
+          value: 0x0602 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: EV_BATTERY_DISPLAY_UNITS
+          value: 0x0603 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: FUEL_CONSUMPTION_UNITS_DISTANCE_OVER_VOLUME
+          value: 0x0604 + 0x10000000 + 0x01000000 + 0x00200000
+        - name: VEHICLE_SPEED_DISPLAY_UNITS
+          value: 0x0605 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: EXTERNAL_CAR_TIME
+          value: 0x0608 + 0x10000000 + 0x01000000 + 0x00500000
+        - name: ANDROID_EPOCH_TIME
+          value: 0x0606 + 0x10000000 + 0x01000000 + 0x00500000
+        - name: STORAGE_ENCRYPTION_BINDING_SEED
+          value: 0x0607 + 0x10000000 + 0x01000000 + 0x00700000
+        - name: ENV_OUTSIDE_TEMPERATURE
+          value: 0x0703 + 0x10000000 + 0x01000000 + 0x00600000
+        - name: AP_POWER_STATE_REQ
+          value: 0x0A00 + 0x10000000 + 0x01000000 + 0x00410000
+        - name: AP_POWER_STATE_REPORT
+          value: 0x0A01 + 0x10000000 + 0x01000000 + 0x00410000
+        - name: AP_POWER_BOOTUP_REASON
+          value: 0x0A02 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: DISPLAY_BRIGHTNESS
+          value: 0x0A03 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: PER_DISPLAY_BRIGHTNESS
+          value: 0x0A04 + 0x10000000 + 0x01000000 + 0x00410000
+        - name: VALET_MODE_ENABLED
+          value: 0x0A05 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: HEAD_UP_DISPLAY_ENABLED
+          value: 0x0A06 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.BOOLEAN
+        - name: HW_KEY_INPUT
+          value: 0x0A10 + 0x10000000 + 0x01000000 + 0x00410000
+        - name: HW_KEY_INPUT_V2
+          value: 0x0A11 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.MIXED
+        - name: HW_MOTION_INPUT
+          value: 0x0A12 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.MIXED
+        - name: HW_ROTARY_INPUT
+          value: 0x0A20 + 0x10000000 + 0x01000000 + 0x00410000
+        - name: HW_CUSTOM_INPUT
+          value: 0X0A30 + 0x10000000 + 0x01000000 + 0x00410000
+        - name: DOOR_POS
+          value: 0x0B00 + 0x10000000 + 0x06000000 + 0x00400000
+        - name: DOOR_MOVE
+          value: 0x0B01 + 0x10000000 + 0x06000000 + 0x00400000
+        - name: DOOR_LOCK
+          value: 0x0B02 + 0x10000000 + 0x06000000 + 0x00200000
+        - name: DOOR_CHILD_LOCK_ENABLED
+          value: 0x0B03 + VehiclePropertyGroup.SYSTEM + VehicleArea.DOOR + VehiclePropertyType.BOOLEAN
+        - name: MIRROR_Z_POS
+          value: 0x0B40 + 0x10000000 + 0x04000000 + 0x00400000
+        - name: MIRROR_Z_MOVE
+          value: 0x0B41 + 0x10000000 + 0x04000000 + 0x00400000
+        - name: MIRROR_Y_POS
+          value: 0x0B42 + 0x10000000 + 0x04000000 + 0x00400000
+        - name: MIRROR_Y_MOVE
+          value: 0x0B43 + 0x10000000 + 0x04000000 + 0x00400000
+        - name: MIRROR_LOCK
+          value: 0x0B44 + 0x10000000 + 0x01000000 + 0x00200000
+        - name: MIRROR_FOLD
+          value: 0x0B45 + 0x10000000 + 0x01000000 + 0x00200000
+        - name: MIRROR_AUTO_FOLD_ENABLED
+          value: 0x0B46 + VehiclePropertyGroup.SYSTEM + VehicleArea.MIRROR + VehiclePropertyType.BOOLEAN
+        - name: MIRROR_AUTO_TILT_ENABLED
+          value: 0x0B47 + VehiclePropertyGroup.SYSTEM + VehicleArea.MIRROR + VehiclePropertyType.BOOLEAN
+        - name: SEAT_MEMORY_SELECT
+          value: 0x0B80 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_MEMORY_SET
+          value: 0x0B81 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_BELT_BUCKLED
+          value: 0x0B82 + 0x10000000 + 0x05000000 + 0x00200000
+        - name: SEAT_BELT_HEIGHT_POS
+          value: 0x0B83 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_BELT_HEIGHT_MOVE
+          value: 0x0B84 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_FORE_AFT_POS
+          value: 0x0B85 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_FORE_AFT_MOVE
+          value: 0x0B86 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_BACKREST_ANGLE_1_POS
+          value: 0x0B87 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_BACKREST_ANGLE_1_MOVE
+          value: 0x0B88 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_BACKREST_ANGLE_2_POS
+          value: 0x0B89 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_BACKREST_ANGLE_2_MOVE
+          value: 0x0B8A + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_HEIGHT_POS
+          value: 0x0B8B + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_HEIGHT_MOVE
+          value: 0x0B8C + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_DEPTH_POS
+          value: 0x0B8D + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_DEPTH_MOVE
+          value: 0x0B8E + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_TILT_POS
+          value: 0x0B8F + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_TILT_MOVE
+          value: 0x0B90 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_LUMBAR_FORE_AFT_POS
+          value: 0x0B91 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_LUMBAR_FORE_AFT_MOVE
+          value: 0x0B92 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_LUMBAR_SIDE_SUPPORT_POS
+          value: 0x0B93 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_LUMBAR_SIDE_SUPPORT_MOVE
+          value: 0x0B94 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_HEADREST_HEIGHT_POS
+          value: 0x0B95 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: SEAT_HEADREST_HEIGHT_POS_V2
+          value: 0x0BA4 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+        - name: SEAT_HEADREST_HEIGHT_MOVE
+          value: 0x0B96 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_HEADREST_ANGLE_POS
+          value: 0x0B97 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_HEADREST_ANGLE_MOVE
+          value: 0x0B98 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_HEADREST_FORE_AFT_POS
+          value: 0x0B99 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_HEADREST_FORE_AFT_MOVE
+          value: 0x0B9A + 0x10000000 + 0x05000000 + 0x00400000
+        - name: SEAT_FOOTWELL_LIGHTS_STATE
+          value: 0x0B9B + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+        - name: SEAT_FOOTWELL_LIGHTS_SWITCH
+          value: 0x0B9C + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+        - name: SEAT_EASY_ACCESS_ENABLED
+          value: 0x0B9D + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.BOOLEAN
+        - name: SEAT_AIRBAG_ENABLED
+          value: 0x0B9E + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.BOOLEAN
+        - name: SEAT_AIRBAGS_DEPLOYED
+          value: 0x0BA5 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+        - name: SEAT_CUSHION_SIDE_SUPPORT_POS
+          value: 0x0B9F + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+        - name: SEAT_CUSHION_SIDE_SUPPORT_MOVE
+          value: 0x0BA0 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+        - name: SEAT_LUMBAR_VERTICAL_POS
+          value: 0x0BA1 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+        - name: SEAT_LUMBAR_VERTICAL_MOVE
+          value: 0x0BA2 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+        - name: SEAT_WALK_IN_POS
+          value: 0x0BA3 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+        - name: SEAT_BELT_PRETENSIONER_DEPLOYED
+          value: 0x0BA6 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.BOOLEAN
+        - name: SEAT_OCCUPANCY
+          value: 0x0BB0 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: WINDOW_POS
+          value: 0x0BC0 + 0x10000000 + 0x03000000 + 0x00400000
+        - name: WINDOW_MOVE
+          value: 0x0BC1 + 0x10000000 + 0x03000000 + 0x00400000
+        - name: WINDOW_LOCK
+          value: 0x0BC4 + 0x10000000 + 0x03000000 + 0x00200000
+        - name: WINDSHIELD_WIPERS_PERIOD
+          value: 0x0BC5 + VehiclePropertyGroup.SYSTEM + VehicleArea.WINDOW + VehiclePropertyType.INT32
+        - name: WINDSHIELD_WIPERS_STATE
+          value: 0x0BC6 + VehiclePropertyGroup.SYSTEM + VehicleArea.WINDOW + VehiclePropertyType.INT32
+        - name: WINDSHIELD_WIPERS_SWITCH
+          value: 0x0BC7 + VehiclePropertyGroup.SYSTEM + VehicleArea.WINDOW + VehiclePropertyType.INT32
+        - name: STEERING_WHEEL_DEPTH_POS
+          value: 0x0BE0 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: STEERING_WHEEL_DEPTH_MOVE
+          value: 0x0BE1 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: STEERING_WHEEL_HEIGHT_POS
+          value: 0x0BE2 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: STEERING_WHEEL_HEIGHT_MOVE
+          value: 0x0BE3 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: STEERING_WHEEL_THEFT_LOCK_ENABLED
+          value: 0x0BE4 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: STEERING_WHEEL_LOCKED
+          value: 0x0BE5 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: STEERING_WHEEL_EASY_ACCESS_ENABLED
+          value: 0x0BE6 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: GLOVE_BOX_DOOR_POS
+          value: 0x0BF0 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+        - name: GLOVE_BOX_LOCKED
+          value: 0x0BF1 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.BOOLEAN
+        - name: VEHICLE_MAP_SERVICE
+          value: 0x0C00 + 0x10000000 + 0x01000000 + 0x00e00000
+        - name: LOCATION_CHARACTERIZATION
+          value: 0x0C10 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: ULTRASONICS_SENSOR_POSITION
+          value: 0x0C20 + VehiclePropertyGroup.SYSTEM + VehicleArea.VENDOR + VehiclePropertyType.INT32_VEC
+        - name: ULTRASONICS_SENSOR_ORIENTATION
+          value: 0x0C21 + VehiclePropertyGroup.SYSTEM + VehicleArea.VENDOR + VehiclePropertyType.FLOAT_VEC
+        - name: ULTRASONICS_SENSOR_FIELD_OF_VIEW
+          value: 0x0C22 + VehiclePropertyGroup.SYSTEM + VehicleArea.VENDOR + VehiclePropertyType.INT32_VEC
+        - name: ULTRASONICS_SENSOR_DETECTION_RANGE
+          value: 0x0C23 + VehiclePropertyGroup.SYSTEM + VehicleArea.VENDOR + VehiclePropertyType.INT32_VEC
+        - name: ULTRASONICS_SENSOR_SUPPORTED_RANGES
+          value: 0x0C24 + VehiclePropertyGroup.SYSTEM + VehicleArea.VENDOR + VehiclePropertyType.INT32_VEC
+        - name: ULTRASONICS_SENSOR_MEASURED_DISTANCE
+          value: 0x0C25 + VehiclePropertyGroup.SYSTEM + VehicleArea.VENDOR + VehiclePropertyType.INT32_VEC
+        - name: OBD2_LIVE_FRAME
+          value: 0x0D00 + 0x10000000 + 0x01000000 + 0x00e00000
+        - name: OBD2_FREEZE_FRAME
+          value: 0x0D01 + 0x10000000 + 0x01000000 + 0x00e00000
+        - name: OBD2_FREEZE_FRAME_INFO
+          value: 0x0D02 + 0x10000000 + 0x01000000 + 0x00e00000
+        - name: OBD2_FREEZE_FRAME_CLEAR
+          value: 0x0D03 + 0x10000000 + 0x01000000 + 0x00e00000
+        - name: HEADLIGHTS_STATE
+          value: 0x0E00 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: HIGH_BEAM_LIGHTS_STATE
+          value: 0x0E01 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: FOG_LIGHTS_STATE
+          value: 0x0E02 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: HAZARD_LIGHTS_STATE
+          value: 0x0E03 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: HEADLIGHTS_SWITCH
+          value: 0x0E10 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: HIGH_BEAM_LIGHTS_SWITCH
+          value: 0x0E11 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: FOG_LIGHTS_SWITCH
+          value: 0x0E12 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: HAZARD_LIGHTS_SWITCH
+          value: 0x0E13 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: CABIN_LIGHTS_STATE
+          value: 0x0F01 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: CABIN_LIGHTS_SWITCH
+          value: 0x0F02 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: READING_LIGHTS_STATE
+          value: 0x0F03 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: READING_LIGHTS_SWITCH
+          value: 0x0F04 + 0x10000000 + 0x05000000 + 0x00400000
+        - name: STEERING_WHEEL_LIGHTS_STATE
+          value: 0x0F0C + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: STEERING_WHEEL_LIGHTS_SWITCH
+          value: 0x0F0D + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: SUPPORT_CUSTOMIZE_VENDOR_PERMISSION
+          value: 0x0F05 + 0x10000000 + 0x01000000 + 0x00200000
+        - name: DISABLED_OPTIONAL_FEATURES
+          value: 0x0F06 + 0x10000000 + 0x01000000 + 0x00100000
+        - name: INITIAL_USER_INFO
+          value: 0x0F07 + 0x10000000 + 0x01000000 + 0x00e00000
+        - name: SWITCH_USER
+          value: 0x0F08 + 0x10000000 + 0x01000000 + 0x00e00000
+        - name: CREATE_USER
+          value: 0x0F09 + 0x10000000 + 0x01000000 + 0x00e00000
+        - name: REMOVE_USER
+          value: 0x0F0A + 0x10000000 + 0x01000000 + 0x00e00000
+        - name: USER_IDENTIFICATION_ASSOCIATION
+          value: 0x0F0B + 0x10000000 + 0x01000000 + 0x00e00000
+        - name: EVS_SERVICE_REQUEST
+          value: 0x0F10 + 0x10000000 + 0x01000000 + 0x00410000
+        - name: POWER_POLICY_REQ
+          value: 0x0F21 + 0x10000000 + 0x01000000 + 0x00100000
+        - name: POWER_POLICY_GROUP_REQ
+          value: 0x0F22 + 0x10000000 + 0x01000000 + 0x00100000
+        - name: CURRENT_POWER_POLICY
+          value: 0x0F23 + 0x10000000 + 0x01000000 + 0x00100000
+        - name: WATCHDOG_ALIVE
+          value: 0xF31 + 0x10000000 + 0x01000000 + 0x00500000
+        - name: WATCHDOG_TERMINATED_PROCESS
+          value: 0x0F32 + 0x10000000 + 0x01000000 + 0x00e00000
+        - name: VHAL_HEARTBEAT
+          value: 0x0F33 + 0x10000000 + 0x01000000 + 0x00500000
+        - name: CLUSTER_SWITCH_UI
+          value: 0x0F34 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: CLUSTER_DISPLAY_STATE
+          value: 0x0F35 + 0x10000000 + 0x01000000 + 0x00410000
+        - name: CLUSTER_REPORT_STATE
+          value: 0x0F36 + 0x10000000 + 0x01000000 + 0x00e00000
+        - name: CLUSTER_REQUEST_DISPLAY
+          value: 0x0F37 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: CLUSTER_NAVIGATION_STATE
+          value: 0x0F38 + 0x10000000 + 0x01000000 + 0x00700000
+        - name: ELECTRONIC_TOLL_COLLECTION_CARD_TYPE
+          value: 0x0F39 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: ELECTRONIC_TOLL_COLLECTION_CARD_STATUS
+          value: 0x0F3A + 0x10000000 + 0x01000000 + 0x00400000
+        - name: FRONT_FOG_LIGHTS_STATE
+          value: 0x0F3B + 0x10000000 + 0x01000000 + 0x00400000
+        - name: FRONT_FOG_LIGHTS_SWITCH
+          value: 0x0F3C + 0x10000000 + 0x01000000 + 0x00400000
+        - name: REAR_FOG_LIGHTS_STATE
+          value: 0x0F3D + 0x10000000 + 0x01000000 + 0x00400000
+        - name: REAR_FOG_LIGHTS_SWITCH
+          value: 0x0F3E + 0x10000000 + 0x01000000 + 0x00400000
+        - name: EV_CHARGE_CURRENT_DRAW_LIMIT
+          value: 0x0F3F + 0x10000000 + 0x01000000 + 0x00600000
+        - name: EV_CHARGE_PERCENT_LIMIT
+          value: 0x0F40 + 0x10000000 + 0x01000000 + 0x00600000
+        - name: EV_CHARGE_STATE
+          value: 0x0F41 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: EV_CHARGE_SWITCH
+          value: 0x0F42 + 0x10000000 + 0x01000000 + 0x00200000
+        - name: EV_CHARGE_TIME_REMAINING
+          value: 0x0F43 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: EV_REGENERATIVE_BRAKING_STATE
+          value: 0x0F44 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: TRAILER_PRESENT
+          value: 0x0F45 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: VEHICLE_CURB_WEIGHT
+          value: 0x0F46 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: GENERAL_SAFETY_REGULATION_COMPLIANCE_REQUIREMENT
+          value: 0x0F47 + 0x10000000 + 0x01000000 + 0x00400000
+        - name: SUPPORTED_PROPERTY_IDS
+          value: 0x0F48 + 0x10000000 + 0x01000000 + 0x00410000
+        - name: SHUTDOWN_REQUEST
+          value: 0x0F49 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: VEHICLE_IN_USE
+          value: 0x0F4A + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: CLUSTER_HEARTBEAT
+          value: 0x0F4B + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.MIXED
+        - name: VEHICLE_DRIVING_AUTOMATION_CURRENT_LEVEL
+          value: 0x0F4C + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: CAMERA_SERVICE_CURRENT_STATE
+          value: 0x0F4D + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32_VEC
+        - name: AUTOMATIC_EMERGENCY_BRAKING_ENABLED
+          value: 0x1000 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: AUTOMATIC_EMERGENCY_BRAKING_STATE
+          value: 0x1001 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: FORWARD_COLLISION_WARNING_ENABLED
+          value: 0x1002 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: FORWARD_COLLISION_WARNING_STATE
+          value: 0x1003 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: BLIND_SPOT_WARNING_ENABLED
+          value: 0x1004 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: BLIND_SPOT_WARNING_STATE
+          value: 0x1005 + VehiclePropertyGroup.SYSTEM + VehicleArea.MIRROR + VehiclePropertyType.INT32
+        - name: LANE_DEPARTURE_WARNING_ENABLED
+          value: 0x1006 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: LANE_DEPARTURE_WARNING_STATE
+          value: 0x1007 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: LANE_KEEP_ASSIST_ENABLED
+          value: 0x1008 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: LANE_KEEP_ASSIST_STATE
+          value: 0x1009 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: LANE_CENTERING_ASSIST_ENABLED
+          value: 0x100A + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: LANE_CENTERING_ASSIST_COMMAND
+          value: 0x100B + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: LANE_CENTERING_ASSIST_STATE
+          value: 0x100C + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: EMERGENCY_LANE_KEEP_ASSIST_ENABLED
+          value: 0x100D + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: EMERGENCY_LANE_KEEP_ASSIST_STATE
+          value: 0x100E + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: CRUISE_CONTROL_ENABLED
+          value: 0x100F + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: CRUISE_CONTROL_TYPE
+          value: 0x1010 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: CRUISE_CONTROL_STATE
+          value: 0x1011 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: CRUISE_CONTROL_COMMAND
+          value: 0x1012 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: CRUISE_CONTROL_TARGET_SPEED
+          value: 0x1013 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.FLOAT
+        - name: ADAPTIVE_CRUISE_CONTROL_TARGET_TIME_GAP
+          value: 0x1014 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: ADAPTIVE_CRUISE_CONTROL_LEAD_VEHICLE_MEASURED_DISTANCE
+          value: 0x1015 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: HANDS_ON_DETECTION_ENABLED
+          value: 0x1016 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: HANDS_ON_DETECTION_DRIVER_STATE
+          value: 0x1017 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: HANDS_ON_DETECTION_WARNING
+          value: 0x1018 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: DRIVER_DROWSINESS_ATTENTION_SYSTEM_ENABLED
+          value: 0x1019 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: DRIVER_DROWSINESS_ATTENTION_STATE
+          value: 0x101A + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: DRIVER_DROWSINESS_ATTENTION_WARNING_ENABLED
+          value: 0x101B + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: DRIVER_DROWSINESS_ATTENTION_WARNING
+          value: 0x101C + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: DRIVER_DISTRACTION_SYSTEM_ENABLED
+          value: 0x101D + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: DRIVER_DISTRACTION_STATE
+          value: 0x101E + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: DRIVER_DISTRACTION_WARNING_ENABLED
+          value: 0x101F + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: DRIVER_DISTRACTION_WARNING
+          value: 0x1020 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: LOW_SPEED_COLLISION_WARNING_ENABLED
+          value: 0x1021 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: LOW_SPEED_COLLISION_WARNING_STATE
+          value: 0x1022 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: CROSS_TRAFFIC_MONITORING_ENABLED
+          value: 0x1023 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: CROSS_TRAFFIC_MONITORING_WARNING_STATE
+          value: 0x1024 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+        - name: LOW_SPEED_AUTOMATIC_EMERGENCY_BRAKING_ENABLED
+          value: 0x1025 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+        - name: LOW_SPEED_AUTOMATIC_EMERGENCY_BRAKING_STATE
+          value: 0x1026 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehiclePropertyAccess
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0x00"
+        - name: READ
+          value: "0x01"
+        - name: WRITE
+          value: "0x02"
+        - name: READ_WRITE
+          value: "0x03"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehiclePropertyChangeMode
+      backing_type: int
+      values:
+        - name: STATIC
+          value: "0x00"
+        - name: ON_CHANGE
+          value: "0x01"
+        - name: CONTINUOUS
+          value: "0x02"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehiclePropertyGroup
+      backing_type: int
+      values:
+        - name: SYSTEM
+          value: "0x10000000"
+        - name: VENDOR
+          value: "0x20000000"
+        - name: BACKPORTED
+          value: "0x30000000"
+        - name: MASK
+          value: "0xf0000000"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehiclePropertyStatus
+      backing_type: int
+      values:
+        - name: AVAILABLE
+          value: "0x00"
+        - name: UNAVAILABLE
+          value: "0x01"
+        - name: ERROR
+          value: "0x02"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehiclePropertyType
+      backing_type: int
+      values:
+        - name: STRING
+          value: "0x00100000"
+        - name: BOOLEAN
+          value: "0x00200000"
+        - name: INT32
+          value: "0x00400000"
+        - name: INT32_VEC
+          value: "0x00410000"
+        - name: INT64
+          value: "0x00500000"
+        - name: INT64_VEC
+          value: "0x00510000"
+        - name: FLOAT
+          value: "0x00600000"
+        - name: FLOAT_VEC
+          value: "0x00610000"
+        - name: BYTES
+          value: "0x00700000"
+        - name: MIXED
+          value: "0x00e00000"
+        - name: MASK
+          value: "0x00ff0000"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleSeatOccupancyState
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: VACANT
+          value: "1"
+        - name: OCCUPIED
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleTurnSignal
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0x00"
+        - name: RIGHT
+          value: "0x01"
+        - name: LEFT
+          value: "0x02"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleUnit
+      backing_type: int
+      values:
+        - name: SHOULD_NOT_USE
+          value: "0x000"
+        - name: METER_PER_SEC
+          value: "0x01"
+        - name: RPM
+          value: "0x02"
+        - name: HERTZ
+          value: "0x03"
+        - name: PERCENTILE
+          value: "0x10"
+        - name: MILLIMETER
+          value: "0x20"
+        - name: METER
+          value: "0x21"
+        - name: KILOMETER
+          value: "0x23"
+        - name: MILE
+          value: "0x24"
+        - name: CELSIUS
+          value: "0x30"
+        - name: FAHRENHEIT
+          value: "0x31"
+        - name: KELVIN
+          value: "0x32"
+        - name: MILLILITER
+          value: "0x40"
+        - name: LITER
+          value: "0x41"
+        - name: GALLON
+          value: "0x42"
+        - name: US_GALLON
+          value: "0x42"
+        - name: IMPERIAL_GALLON
+          value: "0x43"
+        - name: NANO_SECS
+          value: "0x50"
+        - name: MILLI_SECS
+          value: "0x51"
+        - name: SECS
+          value: "0x53"
+        - name: YEAR
+          value: "0x59"
+        - name: WATT_HOUR
+          value: "0x60"
+        - name: MILLIAMPERE
+          value: "0x61"
+        - name: MILLIVOLT
+          value: "0x62"
+        - name: MILLIWATTS
+          value: "0x63"
+        - name: AMPERE_HOURS
+          value: "0x64"
+        - name: KILOWATT_HOUR
+          value: "0x65"
+        - name: AMPERE
+          value: "0x66"
+        - name: KILOPASCAL
+          value: "0x70"
+        - name: PSI
+          value: "0x71"
+        - name: BAR
+          value: "0x72"
+        - name: DEGREES
+          value: "0x80"
+        - name: MILES_PER_HOUR
+          value: "0x90"
+        - name: KILOMETERS_PER_HOUR
+          value: "0x91"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VehicleVendorPermission
+      backing_type: int
+      values:
+        - name: PERMISSION_DEFAULT
+          value: "0x00000000"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_WINDOW
+          value: "0X00000001"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_WINDOW
+          value: "0x00000002"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_DOOR
+          value: "0x00000003"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_DOOR
+          value: "0x00000004"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_SEAT
+          value: "0x00000005"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_SEAT
+          value: "0x00000006"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_MIRROR
+          value: "0x00000007"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_MIRROR
+          value: "0x00000008"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_INFO
+          value: "0x00000009"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_INFO
+          value: "0x0000000A"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_ENGINE
+          value: "0x0000000B"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_ENGINE
+          value: "0x0000000C"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_HVAC
+          value: "0x0000000D"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_HVAC
+          value: "0x0000000E"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_LIGHT
+          value: "0x0000000F"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_LIGHT
+          value: "0x00000010"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_1
+          value: "0x00010000"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_1
+          value: "0x00011000"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_2
+          value: "0x00020000"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_2
+          value: "0x00021000"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_3
+          value: "0x00030000"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_3
+          value: "0x00031000"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_4
+          value: "0x00040000"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_4
+          value: "0x00041000"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_5
+          value: "0x00050000"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_5
+          value: "0x00051000"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_6
+          value: "0x00060000"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_6
+          value: "0x00061000"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_7
+          value: "0x00070000"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_7
+          value: "0x00071000"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_8
+          value: "0x00080000"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_8
+          value: "0x00081000"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_9
+          value: "0x00090000"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_9
+          value: "0x00091000"
+        - name: PERMISSION_SET_VENDOR_CATEGORY_10
+          value: "0x000A0000"
+        - name: PERMISSION_GET_VENDOR_CATEGORY_10
+          value: "0x000A1000"
+        - name: PERMISSION_NOT_ACCESSIBLE
+          value: "0xF0000000"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VmsAvailabilityStateIntegerValuesIndex
+      backing_type: int
+      values:
+        - name: MESSAGE_TYPE
+          value: "0"
+        - name: SEQUENCE_NUMBER
+          value: "1"
+        - name: NUMBER_OF_ASSOCIATED_LAYERS
+          value: "2"
+        - name: LAYERS_START
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VmsBaseMessageIntegerValuesIndex
+      backing_type: int
+      values:
+        - name: MESSAGE_TYPE
+          value: "0"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VmsMessageType
+      backing_type: int
+      values:
+        - name: SUBSCRIBE
+          value: "1"
+        - name: SUBSCRIBE_TO_PUBLISHER
+          value: "2"
+        - name: UNSUBSCRIBE
+          value: "3"
+        - name: UNSUBSCRIBE_TO_PUBLISHER
+          value: "4"
+        - name: OFFERING
+          value: "5"
+        - name: AVAILABILITY_REQUEST
+          value: "6"
+        - name: SUBSCRIPTIONS_REQUEST
+          value: "7"
+        - name: AVAILABILITY_RESPONSE
+          value: "8"
+        - name: AVAILABILITY_CHANGE
+          value: "9"
+        - name: SUBSCRIPTIONS_RESPONSE
+          value: "10"
+        - name: SUBSCRIPTIONS_CHANGE
+          value: "11"
+        - name: DATA
+          value: "12"
+        - name: PUBLISHER_ID_REQUEST
+          value: "13"
+        - name: PUBLISHER_ID_RESPONSE
+          value: "14"
+        - name: PUBLISHER_INFORMATION_REQUEST
+          value: "15"
+        - name: PUBLISHER_INFORMATION_RESPONSE
+          value: "16"
+        - name: START_SESSION
+          value: "17"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VmsMessageWithLayerAndPublisherIdIntegerValuesIndex
+      backing_type: int
+      values:
+        - name: MESSAGE_TYPE
+          value: "0"
+        - name: LAYER_TYPE
+          value: "1"
+        - name: LAYER_SUBTYPE
+          value: "2"
+        - name: LAYER_VERSION
+          value: "3"
+        - name: PUBLISHER_ID
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VmsMessageWithLayerIntegerValuesIndex
+      backing_type: int
+      values:
+        - name: MESSAGE_TYPE
+          value: "0"
+        - name: LAYER_TYPE
+          value: "1"
+        - name: LAYER_SUBTYPE
+          value: "2"
+        - name: LAYER_VERSION
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VmsOfferingMessageIntegerValuesIndex
+      backing_type: int
+      values:
+        - name: MESSAGE_TYPE
+          value: "0"
+        - name: PUBLISHER_ID
+          value: "1"
+        - name: NUMBER_OF_OFFERS
+          value: "2"
+        - name: OFFERING_START
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VmsPublisherInformationIntegerValuesIndex
+      backing_type: int
+      values:
+        - name: MESSAGE_TYPE
+          value: "0"
+        - name: PUBLISHER_ID
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VmsStartSessionMessageIntegerValuesIndex
+      backing_type: int
+      values:
+        - name: MESSAGE_TYPE
+          value: "0"
+        - name: SERVICE_ID
+          value: "1"
+        - name: CLIENT_ID
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: VmsSubscriptionsStateIntegerValuesIndex
+      backing_type: int
+      values:
+        - name: MESSAGE_TYPE
+          value: "0"
+        - name: SEQUENCE_NUMBER
+          value: "1"
+        - name: NUMBER_OF_LAYERS
+          value: "2"
+        - name: NUMBER_OF_ASSOCIATED_LAYERS
+          value: "3"
+        - name: SUBSCRIPTIONS_START
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WindshieldWipersState
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: "OFF"
+          value: "1"
+        - name: "ON"
+          value: "2"
+        - name: SERVICE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: WindshieldWipersSwitch
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: "OFF"
+          value: "1"
+        - name: MIST
+          value: "2"
+        - name: INTERMITTENT_LEVEL_1
+          value: "3"
+        - name: INTERMITTENT_LEVEL_2
+          value: "4"
+        - name: INTERMITTENT_LEVEL_3
+          value: "5"
+        - name: INTERMITTENT_LEVEL_4
+          value: "6"
+        - name: INTERMITTENT_LEVEL_5
+          value: "7"
+        - name: CONTINUOUS_LEVEL_1
+          value: "8"
+        - name: CONTINUOUS_LEVEL_2
+          value: "9"
+        - name: CONTINUOUS_LEVEL_3
+          value: "10"
+        - name: CONTINUOUS_LEVEL_4
+          value: "11"
+        - name: CONTINUOUS_LEVEL_5
+          value: "12"
+        - name: AUTO
+          value: "13"
+        - name: SERVICE
+          value: "14"
+      annotations:
+        - VintfStability
+        - Backing

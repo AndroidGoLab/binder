@@ -33,7 +33,7 @@ type FrontendSettings struct {
 	Isdbs3 FrontendIsdbs3Settings
 	Isdbt  FrontendIsdbtSettings
 	Dtmb   FrontendDtmbSettings
-	Iptv   FrontendIptvSettings
+	Iptv   *FrontendIptvSettings
 }
 
 var _ parcel.Parcelable = (*FrontendSettings)(nil)
@@ -49,8 +49,7 @@ func (u *FrontendSettings) GetAnalog() (FrontendAnalogSettings, bool) {
 func (u *FrontendSettings) SetAnalog(
 	v FrontendAnalogSettings,
 ) {
-	u.Tag = FrontendSettingsTagAnalog
-	u.Analog = v
+	*u = FrontendSettings{Tag: FrontendSettingsTagAnalog, Analog: v}
 }
 
 func (u *FrontendSettings) GetAtsc() (FrontendAtscSettings, bool) {
@@ -64,8 +63,7 @@ func (u *FrontendSettings) GetAtsc() (FrontendAtscSettings, bool) {
 func (u *FrontendSettings) SetAtsc(
 	v FrontendAtscSettings,
 ) {
-	u.Tag = FrontendSettingsTagAtsc
-	u.Atsc = v
+	*u = FrontendSettings{Tag: FrontendSettingsTagAtsc, Atsc: v}
 }
 
 func (u *FrontendSettings) GetAtsc3() (FrontendAtsc3Settings, bool) {
@@ -79,8 +77,7 @@ func (u *FrontendSettings) GetAtsc3() (FrontendAtsc3Settings, bool) {
 func (u *FrontendSettings) SetAtsc3(
 	v FrontendAtsc3Settings,
 ) {
-	u.Tag = FrontendSettingsTagAtsc3
-	u.Atsc3 = v
+	*u = FrontendSettings{Tag: FrontendSettingsTagAtsc3, Atsc3: v}
 }
 
 func (u *FrontendSettings) GetDvbs() (FrontendDvbsSettings, bool) {
@@ -94,8 +91,7 @@ func (u *FrontendSettings) GetDvbs() (FrontendDvbsSettings, bool) {
 func (u *FrontendSettings) SetDvbs(
 	v FrontendDvbsSettings,
 ) {
-	u.Tag = FrontendSettingsTagDvbs
-	u.Dvbs = v
+	*u = FrontendSettings{Tag: FrontendSettingsTagDvbs, Dvbs: v}
 }
 
 func (u *FrontendSettings) GetDvbc() (FrontendDvbcSettings, bool) {
@@ -109,8 +105,7 @@ func (u *FrontendSettings) GetDvbc() (FrontendDvbcSettings, bool) {
 func (u *FrontendSettings) SetDvbc(
 	v FrontendDvbcSettings,
 ) {
-	u.Tag = FrontendSettingsTagDvbc
-	u.Dvbc = v
+	*u = FrontendSettings{Tag: FrontendSettingsTagDvbc, Dvbc: v}
 }
 
 func (u *FrontendSettings) GetDvbt() (FrontendDvbtSettings, bool) {
@@ -124,8 +119,7 @@ func (u *FrontendSettings) GetDvbt() (FrontendDvbtSettings, bool) {
 func (u *FrontendSettings) SetDvbt(
 	v FrontendDvbtSettings,
 ) {
-	u.Tag = FrontendSettingsTagDvbt
-	u.Dvbt = v
+	*u = FrontendSettings{Tag: FrontendSettingsTagDvbt, Dvbt: v}
 }
 
 func (u *FrontendSettings) GetIsdbs() (FrontendIsdbsSettings, bool) {
@@ -139,8 +133,7 @@ func (u *FrontendSettings) GetIsdbs() (FrontendIsdbsSettings, bool) {
 func (u *FrontendSettings) SetIsdbs(
 	v FrontendIsdbsSettings,
 ) {
-	u.Tag = FrontendSettingsTagIsdbs
-	u.Isdbs = v
+	*u = FrontendSettings{Tag: FrontendSettingsTagIsdbs, Isdbs: v}
 }
 
 func (u *FrontendSettings) GetIsdbs3() (FrontendIsdbs3Settings, bool) {
@@ -154,8 +147,7 @@ func (u *FrontendSettings) GetIsdbs3() (FrontendIsdbs3Settings, bool) {
 func (u *FrontendSettings) SetIsdbs3(
 	v FrontendIsdbs3Settings,
 ) {
-	u.Tag = FrontendSettingsTagIsdbs3
-	u.Isdbs3 = v
+	*u = FrontendSettings{Tag: FrontendSettingsTagIsdbs3, Isdbs3: v}
 }
 
 func (u *FrontendSettings) GetIsdbt() (FrontendIsdbtSettings, bool) {
@@ -169,8 +161,7 @@ func (u *FrontendSettings) GetIsdbt() (FrontendIsdbtSettings, bool) {
 func (u *FrontendSettings) SetIsdbt(
 	v FrontendIsdbtSettings,
 ) {
-	u.Tag = FrontendSettingsTagIsdbt
-	u.Isdbt = v
+	*u = FrontendSettings{Tag: FrontendSettingsTagIsdbt, Isdbt: v}
 }
 
 func (u *FrontendSettings) GetDtmb() (FrontendDtmbSettings, bool) {
@@ -184,23 +175,21 @@ func (u *FrontendSettings) GetDtmb() (FrontendDtmbSettings, bool) {
 func (u *FrontendSettings) SetDtmb(
 	v FrontendDtmbSettings,
 ) {
-	u.Tag = FrontendSettingsTagDtmb
-	u.Dtmb = v
+	*u = FrontendSettings{Tag: FrontendSettingsTagDtmb, Dtmb: v}
 }
 
-func (u *FrontendSettings) GetIptv() (FrontendIptvSettings, bool) {
+func (u *FrontendSettings) GetIptv() (*FrontendIptvSettings, bool) {
 	if u.Tag != FrontendSettingsTagIptv {
-		var _zero FrontendIptvSettings
+		var _zero *FrontendIptvSettings
 		return _zero, false
 	}
 	return u.Iptv, true
 }
 
 func (u *FrontendSettings) SetIptv(
-	v FrontendIptvSettings,
+	v *FrontendIptvSettings,
 ) {
-	u.Tag = FrontendSettingsTagIptv
-	u.Iptv = v
+	*u = FrontendSettings{Tag: FrontendSettingsTagIptv, Iptv: v}
 }
 
 func (u *FrontendSettings) MarshalParcel(
@@ -261,9 +250,13 @@ func (u *FrontendSettings) MarshalParcel(
 			return _err
 		}
 	case FrontendSettingsTagIptv:
-		p.WriteInt32(1)
-		if _err := u.Iptv.MarshalParcel(p); _err != nil {
-			return _err
+		if u.Iptv == nil {
+			p.WriteInt32(0)
+		} else {
+			p.WriteInt32(1)
+			if _err := u.Iptv.MarshalParcel(p); _err != nil {
+				return _err
+			}
 		}
 	default:
 		return fmt.Errorf("unknown union tag %d for FrontendSettings", u.Tag)
@@ -358,11 +351,18 @@ func (u *FrontendSettings) UnmarshalParcel(
 			return _err
 		}
 	case FrontendSettingsTagIptv:
-		if _, _err = p.ReadInt32(); _err != nil {
-			return _err
-		}
-		if _err = u.Iptv.UnmarshalParcel(p); _err != nil {
-			return _err
+		{
+			_nullInd, _nullErr := p.ReadInt32()
+			if _nullErr != nil {
+				return _nullErr
+			}
+			if _nullInd != 0 {
+				var _val FrontendIptvSettings
+				if _err = _val.UnmarshalParcel(p); _err != nil {
+					return _err
+				}
+				u.Iptv = &_val
+			}
 		}
 	default:
 		return fmt.Errorf("unknown union tag %d for FrontendSettings", u.Tag)

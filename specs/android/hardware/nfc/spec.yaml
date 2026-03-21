@@ -1,0 +1,234 @@
+package: android.hardware.nfc
+go_package: android/hardware/nfc
+interfaces:
+    - name: INfc
+      descriptor: android.hardware.nfc.INfc
+      methods:
+        - name: open
+          transaction_code_offset: 0
+          params:
+            - name: clientCallback
+              type:
+                name: INfcClientCallback
+              direction: in
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 1
+          params:
+            - name: type
+              type:
+                name: NfcCloseType
+              direction: in
+          return_type:
+            name: void
+        - name: coreInitialized
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: factoryReset
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: getConfig
+          transaction_code_offset: 4
+          return_type:
+            name: NfcConfig
+        - name: powerCycle
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: preDiscover
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: write
+          transaction_code_offset: 7
+          params:
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: int
+        - name: setEnableVerboseLogging
+          transaction_code_offset: 8
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: isVerboseLoggingEnabled
+          transaction_code_offset: 9
+          return_type:
+            name: boolean
+    - name: INfcClientCallback
+      descriptor: android.hardware.nfc.INfcClientCallback
+      methods:
+        - name: sendData
+          transaction_code_offset: 0
+          params:
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: sendEvent
+          transaction_code_offset: 1
+          params:
+            - name: event
+              type:
+                name: NfcEvent
+              direction: in
+            - name: status
+              type:
+                name: NfcStatus
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: NfcConfig
+      fields:
+        - name: nfaPollBailOutMode
+          type:
+            name: boolean
+        - name: presenceCheckAlgorithm
+          type:
+            name: PresenceCheckAlgorithm
+        - name: nfaProprietaryCfg
+          type:
+            name: ProtocolDiscoveryConfig
+        - name: defaultOffHostRoute
+          type:
+            name: byte
+        - name: defaultOffHostRouteFelica
+          type:
+            name: byte
+        - name: defaultSystemCodeRoute
+          type:
+            name: byte
+        - name: defaultSystemCodePowerState
+          type:
+            name: byte
+        - name: defaultRoute
+          type:
+            name: byte
+        - name: offHostESEPipeId
+          type:
+            name: byte
+        - name: offHostSIMPipeId
+          type:
+            name: byte
+        - name: maxIsoDepTransceiveLength
+          type:
+            name: int
+        - name: hostAllowlist
+          type:
+            name: byte
+            is_array: true
+        - name: offHostRouteUicc
+          type:
+            name: byte
+            is_array: true
+        - name: offHostRouteEse
+          type:
+            name: byte
+            is_array: true
+        - name: defaultIsoDepRoute
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+    - name: ProtocolDiscoveryConfig
+      fields:
+        - name: protocol18092Active
+          type:
+            name: byte
+        - name: protocolBPrime
+          type:
+            name: byte
+        - name: protocolDual
+          type:
+            name: byte
+        - name: protocol15693
+          type:
+            name: byte
+        - name: protocolKovio
+          type:
+            name: byte
+        - name: protocolMifare
+          type:
+            name: byte
+        - name: discoveryPollKovio
+          type:
+            name: byte
+        - name: discoveryPollBPrime
+          type:
+            name: byte
+        - name: discoveryListenBPrime
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+enums:
+    - name: NfcCloseType
+      backing_type: int
+      values:
+        - name: DISABLE
+          value: "0"
+        - name: HOST_SWITCHED_OFF
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NfcEvent
+      backing_type: int
+      values:
+        - name: OPEN_CPLT
+          value: "0"
+        - name: CLOSE_CPLT
+          value: "1"
+        - name: POST_INIT_CPLT
+          value: "2"
+        - name: PRE_DISCOVER_CPLT
+          value: "3"
+        - name: HCI_NETWORK_RESET
+          value: "4"
+        - name: ERROR
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NfcStatus
+      backing_type: int
+      values:
+        - name: OK
+          value: "0"
+        - name: FAILED
+          value: "1"
+        - name: ERR_TRANSPORT
+          value: "2"
+        - name: ERR_CMD_TIMEOUT
+          value: "3"
+        - name: REFUSED
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PresenceCheckAlgorithm
+      backing_type: byte
+      values:
+        - name: DEFAULT
+          value: "0"
+        - name: I_BLOCK
+          value: "1"
+        - name: ISO_DEP_NAK
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing

@@ -62,6 +62,7 @@ func (p *MediaHTTPConnectionProxy) Connect(
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaHTTPConnection)
 	_data.WriteString16(uri)
 	_data.WriteString16(headers)
@@ -93,6 +94,7 @@ func (p *MediaHTTPConnectionProxy) Disconnect(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaHTTPConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaHTTPConnection, MethodIMediaHTTPConnectionDisconnect)
@@ -120,6 +122,7 @@ func (p *MediaHTTPConnectionProxy) ReadAt(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaHTTPConnection)
 	_data.WriteInt64(offset)
 	_data.WriteInt32(size)
@@ -151,6 +154,7 @@ func (p *MediaHTTPConnectionProxy) GetSize(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaHTTPConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaHTTPConnection, MethodIMediaHTTPConnectionGetSize)
@@ -180,6 +184,7 @@ func (p *MediaHTTPConnectionProxy) GetMIMEType(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaHTTPConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaHTTPConnection, MethodIMediaHTTPConnectionGetMIMEType)
@@ -209,6 +214,7 @@ func (p *MediaHTTPConnectionProxy) GetUri(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaHTTPConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaHTTPConnection, MethodIMediaHTTPConnectionGetUri)
@@ -236,7 +242,8 @@ func (p *MediaHTTPConnectionProxy) GetUri(
 // MediaHTTPConnectionStub dispatches incoming binder transactions
 // to a typed IMediaHTTPConnection implementation.
 type MediaHTTPConnectionStub struct {
-	Impl IMediaHTTPConnection
+	Impl      IMediaHTTPConnection
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaHTTPConnectionStub)(nil)
@@ -250,11 +257,12 @@ func (s *MediaHTTPConnectionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaHTTPConnectionConnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -270,13 +278,9 @@ func (s *MediaHTTPConnectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	case TransactionIMediaHTTPConnectionDisconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Disconnect(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -286,9 +290,6 @@ func (s *MediaHTTPConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaHTTPConnectionReadAt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_offset, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -307,9 +308,6 @@ func (s *MediaHTTPConnectionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMediaHTTPConnectionGetSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSize(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -320,9 +318,6 @@ func (s *MediaHTTPConnectionStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIMediaHTTPConnectionGetMIMEType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMIMEType(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -333,9 +328,6 @@ func (s *MediaHTTPConnectionStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIMediaHTTPConnectionGetUri:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetUri(ctx)
 		_reply := parcel.New()
 		if _err != nil {

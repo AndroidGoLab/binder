@@ -1,0 +1,931 @@
+package: android.hardware.radio.messaging
+go_package: android/hardware/radio/messaging
+interfaces:
+    - name: IRadioMessaging
+      descriptor: android.hardware.radio.messaging.IRadioMessaging
+      oneway: true
+      methods:
+        - name: acknowledgeIncomingGsmSmsWithPdu
+          transaction_code_offset: 0
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: success
+              type:
+                name: boolean
+              direction: in
+            - name: ackPdu
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: acknowledgeLastIncomingCdmaSms
+          transaction_code_offset: 1
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: smsAck
+              type:
+                name: CdmaSmsAck
+              direction: in
+          return_type:
+            name: void
+        - name: acknowledgeLastIncomingGsmSms
+          transaction_code_offset: 2
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: success
+              type:
+                name: boolean
+              direction: in
+            - name: cause
+              type:
+                name: SmsAcknowledgeFailCause
+              direction: in
+          return_type:
+            name: void
+        - name: deleteSmsOnRuim
+          transaction_code_offset: 3
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: index
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: deleteSmsOnSim
+          transaction_code_offset: 4
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: index
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getCdmaBroadcastConfig
+          transaction_code_offset: 5
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getGsmBroadcastConfig
+          transaction_code_offset: 6
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getSmscAddress
+          transaction_code_offset: 7
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: reportSmsMemoryStatus
+          transaction_code_offset: 8
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: available
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: responseAcknowledgement
+          transaction_code_offset: 9
+          return_type:
+            name: void
+        - name: sendCdmaSms
+          transaction_code_offset: 10
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: sms
+              type:
+                name: CdmaSmsMessage
+              direction: in
+          return_type:
+            name: void
+        - name: sendCdmaSmsExpectMore
+          transaction_code_offset: 11
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: sms
+              type:
+                name: CdmaSmsMessage
+              direction: in
+          return_type:
+            name: void
+        - name: sendImsSms
+          transaction_code_offset: 12
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: message
+              type:
+                name: ImsSmsMessage
+              direction: in
+          return_type:
+            name: void
+        - name: sendSms
+          transaction_code_offset: 13
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: message
+              type:
+                name: GsmSmsMessage
+              direction: in
+          return_type:
+            name: void
+        - name: sendSmsExpectMore
+          transaction_code_offset: 14
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: message
+              type:
+                name: GsmSmsMessage
+              direction: in
+          return_type:
+            name: void
+        - name: setCdmaBroadcastActivation
+          transaction_code_offset: 15
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: activate
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setCdmaBroadcastConfig
+          transaction_code_offset: 16
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: configInfo
+              type:
+                name: CdmaBroadcastSmsConfigInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setGsmBroadcastActivation
+          transaction_code_offset: 17
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: activate
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setGsmBroadcastConfig
+          transaction_code_offset: 18
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: configInfo
+              type:
+                name: GsmBroadcastSmsConfigInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setResponseFunctions
+          transaction_code_offset: 19
+          params:
+            - name: radioMessagingResponse
+              type:
+                name: IRadioMessagingResponse
+              direction: in
+            - name: radioMessagingIndication
+              type:
+                name: IRadioMessagingIndication
+              direction: in
+          return_type:
+            name: void
+        - name: setSmscAddress
+          transaction_code_offset: 20
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: smsc
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: writeSmsToRuim
+          transaction_code_offset: 21
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: cdmaSms
+              type:
+                name: CdmaSmsWriteArgs
+              direction: in
+          return_type:
+            name: void
+        - name: writeSmsToSim
+          transaction_code_offset: 22
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: smsWriteArgs
+              type:
+                name: SmsWriteArgs
+              direction: in
+          return_type:
+            name: void
+    - name: IRadioMessagingIndication
+      descriptor: android.hardware.radio.messaging.IRadioMessagingIndication
+      oneway: true
+      methods:
+        - name: cdmaNewSms
+          transaction_code_offset: 0
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: msg
+              type:
+                name: CdmaSmsMessage
+              direction: in
+          return_type:
+            name: void
+        - name: cdmaRuimSmsStorageFull
+          transaction_code_offset: 1
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+          return_type:
+            name: void
+        - name: newBroadcastSms
+          transaction_code_offset: 2
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: newSms
+          transaction_code_offset: 3
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: pdu
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: newSmsOnSim
+          transaction_code_offset: 4
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: recordNumber
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: newSmsStatusReport
+          transaction_code_offset: 5
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: pdu
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: simSmsStorageFull
+          transaction_code_offset: 6
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+          return_type:
+            name: void
+    - name: IRadioMessagingResponse
+      descriptor: android.hardware.radio.messaging.IRadioMessagingResponse
+      oneway: true
+      methods:
+        - name: acknowledgeIncomingGsmSmsWithPduResponse
+          transaction_code_offset: 0
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: acknowledgeLastIncomingCdmaSmsResponse
+          transaction_code_offset: 1
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: acknowledgeLastIncomingGsmSmsResponse
+          transaction_code_offset: 2
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: acknowledgeRequest
+          transaction_code_offset: 3
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: deleteSmsOnRuimResponse
+          transaction_code_offset: 4
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: deleteSmsOnSimResponse
+          transaction_code_offset: 5
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: getCdmaBroadcastConfigResponse
+          transaction_code_offset: 6
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: configs
+              type:
+                name: CdmaBroadcastSmsConfigInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getGsmBroadcastConfigResponse
+          transaction_code_offset: 7
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: configs
+              type:
+                name: GsmBroadcastSmsConfigInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getSmscAddressResponse
+          transaction_code_offset: 8
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: smsc
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: reportSmsMemoryStatusResponse
+          transaction_code_offset: 9
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: sendCdmaSmsExpectMoreResponse
+          transaction_code_offset: 10
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: sms
+              type:
+                name: SendSmsResult
+              direction: in
+          return_type:
+            name: void
+        - name: sendCdmaSmsResponse
+          transaction_code_offset: 11
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: sms
+              type:
+                name: SendSmsResult
+              direction: in
+          return_type:
+            name: void
+        - name: sendImsSmsResponse
+          transaction_code_offset: 12
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: sms
+              type:
+                name: SendSmsResult
+              direction: in
+          return_type:
+            name: void
+        - name: sendSmsExpectMoreResponse
+          transaction_code_offset: 13
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: sms
+              type:
+                name: SendSmsResult
+              direction: in
+          return_type:
+            name: void
+        - name: sendSmsResponse
+          transaction_code_offset: 14
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: sms
+              type:
+                name: SendSmsResult
+              direction: in
+          return_type:
+            name: void
+        - name: setCdmaBroadcastActivationResponse
+          transaction_code_offset: 15
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setCdmaBroadcastConfigResponse
+          transaction_code_offset: 16
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setGsmBroadcastActivationResponse
+          transaction_code_offset: 17
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setGsmBroadcastConfigResponse
+          transaction_code_offset: 18
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setSmscAddressResponse
+          transaction_code_offset: 19
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: writeSmsToRuimResponse
+          transaction_code_offset: 20
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: index
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: writeSmsToSimResponse
+          transaction_code_offset: 21
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: index
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: CdmaBroadcastSmsConfigInfo
+      fields:
+        - name: serviceCategory
+          type:
+            name: int
+        - name: language
+          type:
+            name: int
+        - name: selected
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CdmaSmsAck
+      fields:
+        - name: errorClass
+          type:
+            name: boolean
+        - name: smsCauseCode
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CdmaSmsAddress
+      fields:
+        - name: digitMode
+          type:
+            name: int
+        - name: isNumberModeDataNetwork
+          type:
+            name: boolean
+        - name: numberType
+          type:
+            name: int
+        - name: numberPlan
+          type:
+            name: int
+        - name: digits
+          type:
+            name: byte
+            is_array: true
+      constants:
+        - name: DIGIT_MODE_FOUR_BIT
+          type: int
+          value: "0"
+        - name: DIGIT_MODE_EIGHT_BIT
+          type: int
+          value: "1"
+        - name: NUMBER_PLAN_UNKNOWN
+          type: int
+          value: "0"
+        - name: NUMBER_PLAN_TELEPHONY
+          type: int
+          value: "1"
+        - name: NUMBER_PLAN_RESERVED_2
+          type: int
+          value: "2"
+        - name: NUMBER_PLAN_DATA
+          type: int
+          value: "3"
+        - name: NUMBER_PLAN_TELEX
+          type: int
+          value: "4"
+        - name: NUMBER_PLAN_RESERVED_5
+          type: int
+          value: "5"
+        - name: NUMBER_PLAN_RESERVED_6
+          type: int
+          value: "6"
+        - name: NUMBER_PLAN_RESERVED_7
+          type: int
+          value: "7"
+        - name: NUMBER_PLAN_RESERVED_8
+          type: int
+          value: "8"
+        - name: NUMBER_PLAN_PRIVATE
+          type: int
+          value: "9"
+        - name: NUMBER_PLAN_RESERVED_10
+          type: int
+          value: "10"
+        - name: NUMBER_PLAN_RESERVED_11
+          type: int
+          value: "11"
+        - name: NUMBER_PLAN_RESERVED_12
+          type: int
+          value: "12"
+        - name: NUMBER_PLAN_RESERVED_13
+          type: int
+          value: "13"
+        - name: NUMBER_PLAN_RESERVED_14
+          type: int
+          value: "14"
+        - name: NUMBER_PLAN_RESERVED_15
+          type: int
+          value: "15"
+        - name: NUMBER_TYPE_UNKNOWN
+          type: int
+          value: "0"
+        - name: NUMBER_TYPE_INTERNATIONAL_OR_DATA_IP
+          type: int
+          value: "1"
+        - name: NUMBER_TYPE_NATIONAL_OR_INTERNET_MAIL
+          type: int
+          value: "2"
+        - name: NUMBER_TYPE_NETWORK
+          type: int
+          value: "3"
+        - name: NUMBER_TYPE_SUBSCRIBER
+          type: int
+          value: "4"
+        - name: NUMBER_TYPE_ALPHANUMERIC
+          type: int
+          value: "5"
+        - name: NUMBER_TYPE_ABBREVIATED
+          type: int
+          value: "6"
+        - name: NUMBER_TYPE_RESERVED_7
+          type: int
+          value: "7"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CdmaSmsMessage
+      fields:
+        - name: teleserviceId
+          type:
+            name: int
+        - name: isServicePresent
+          type:
+            name: boolean
+        - name: serviceCategory
+          type:
+            name: int
+        - name: address
+          type:
+            name: CdmaSmsAddress
+        - name: subAddress
+          type:
+            name: CdmaSmsSubaddress
+        - name: bearerData
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CdmaSmsSubaddress
+      fields:
+        - name: subaddressType
+          type:
+            name: int
+        - name: odd
+          type:
+            name: boolean
+        - name: digits
+          type:
+            name: byte
+            is_array: true
+      constants:
+        - name: SUBADDRESS_TYPE_NSAP
+          type: int
+          value: "0"
+        - name: SUBADDRESS_TYPE_USER_SPECIFIED
+          type: int
+          value: "1"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CdmaSmsWriteArgs
+      fields:
+        - name: status
+          type:
+            name: int
+        - name: message
+          type:
+            name: CdmaSmsMessage
+      constants:
+        - name: STATUS_REC_UNREAD
+          type: int
+          value: "0"
+        - name: STATUS_REC_READ
+          type: int
+          value: "1"
+        - name: STATUS_STO_UNSENT
+          type: int
+          value: "2"
+        - name: STATUS_STO_SENT
+          type: int
+          value: "3"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: GsmBroadcastSmsConfigInfo
+      fields:
+        - name: fromServiceId
+          type:
+            name: int
+        - name: toServiceId
+          type:
+            name: int
+        - name: fromCodeScheme
+          type:
+            name: int
+        - name: toCodeScheme
+          type:
+            name: int
+        - name: selected
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: GsmSmsMessage
+      fields:
+        - name: smscPdu
+          type:
+            name: String
+        - name: pdu
+          type:
+            name: String
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: ImsSmsMessage
+      fields:
+        - name: tech
+          type:
+            name: RadioTechnologyFamily
+        - name: retry
+          type:
+            name: boolean
+        - name: messageRef
+          type:
+            name: int
+        - name: cdmaMessage
+          type:
+            name: CdmaSmsMessage
+            is_array: true
+        - name: gsmMessage
+          type:
+            name: GsmSmsMessage
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SendSmsResult
+      fields:
+        - name: messageRef
+          type:
+            name: int
+        - name: ackPDU
+          type:
+            name: String
+        - name: errorCode
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SmsWriteArgs
+      fields:
+        - name: status
+          type:
+            name: int
+        - name: pdu
+          type:
+            name: String
+        - name: smsc
+          type:
+            name: String
+      constants:
+        - name: STATUS_REC_UNREAD
+          type: int
+          value: "0"
+        - name: STATUS_REC_READ
+          type: int
+          value: "1"
+        - name: STATUS_STO_UNSENT
+          type: int
+          value: "2"
+        - name: STATUS_STO_SENT
+          type: int
+          value: "3"
+      annotations:
+        - VintfStability
+        - JavaDerive
+enums:
+    - name: SmsAcknowledgeFailCause
+      backing_type: int
+      values:
+        - name: MEMORY_CAPACITY_EXCEEDED
+          value: "0xD3"
+        - name: UNSPECIFIED_ERROR
+          value: "0XFF"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive

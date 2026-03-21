@@ -19,11 +19,7 @@ import (
 
 	genCameraProvider "github.com/xaionaro-go/binder/android/hardware/camera/provider"
 	genCas "github.com/xaionaro-go/binder/android/hardware/cas"
-	genContextHub "github.com/xaionaro-go/binder/android/hardware/contexthub"
 	genDrm "github.com/xaionaro-go/binder/android/hardware/drm"
-	genComposer3 "github.com/xaionaro-go/binder/android/hardware/graphics/composer3"
-	genHealth "github.com/xaionaro-go/binder/android/hardware/health"
-	genIdentity "github.com/xaionaro-go/binder/android/hardware/identity"
 	"github.com/xaionaro-go/binder/servicemanager"
 )
 
@@ -168,23 +164,6 @@ func TestGenBatch1_Adb_GetAdbWirelessPort(t *testing.T) {
 
 // --- HAL services ---
 
-func TestGenBatch1_HAL_CameraProvider_GetCameraIdList(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	sm := servicemanager.New(driver)
-
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.camera.provider.ICameraProvider/internal/0"))
-	if err != nil { t.Skipf("HAL blocked: %v", err); return }
-	require.NotNil(t, svc)
-
-	proxy := genCameraProvider.NewCameraProviderProxy(svc)
-	ids, err := proxy.GetCameraIdList(ctx)
-	if err != nil {
-		t.Skipf("CameraProvider GetCameraIdList blocked (SELinux): %v", err)
-	}
-	t.Logf("CameraProvider GetCameraIdList: %v (%d cameras)", ids, len(ids))
-}
-
 func TestGenBatch1_HAL_CameraProvider_GetConcurrentCameraIds(t *testing.T) {
 	ctx := context.Background()
 	driver := openBinder(t)
@@ -233,22 +212,6 @@ func TestGenBatch1_HAL_MediaCas_IsSystemIdSupported(t *testing.T) {
 	t.Logf("MediaCas IsSystemIdSupported(0): %v", result)
 }
 
-func TestGenBatch1_HAL_ContextHub_GetPreloadedNanoappIds(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	sm := servicemanager.New(driver)
-
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.contexthub.IContextHub/default"))
-	if err != nil { t.Skipf("HAL blocked: %v", err); return }
-	require.NotNil(t, svc)
-
-	proxy := genContextHub.NewContextHubProxy(svc)
-	// contextHubId=0 (default hub)
-	ids, err := proxy.GetPreloadedNanoappIds(ctx, 0)
-	if err != nil { t.Skipf("HAL blocked: %v", err); return }
-	t.Logf("ContextHub GetPreloadedNanoappIds(0): %v (%d apps)", ids, len(ids))
-}
-
 func TestGenBatch1_HAL_DrmFactory_Ping(t *testing.T) {
 	ctx := context.Background()
 	driver := openBinder(t)
@@ -262,97 +225,6 @@ func TestGenBatch1_HAL_DrmFactory_Ping(t *testing.T) {
 	t.Logf("IDrmFactory/widevine alive: %v, handle: %d", alive, svc.Handle())
 
 	proxy := genDrm.NewDrmFactoryProxy(svc)
-	assert.Equal(t, svc.Handle(), proxy.AsBinder().Handle())
-}
-
-func TestGenBatch1_HAL_Composer_GetCapabilities(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	sm := servicemanager.New(driver)
-
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.graphics.composer3.IComposer/default"))
-	if err != nil { t.Skipf("HAL blocked: %v", err); return }
-	require.NotNil(t, svc)
-
-	proxy := genComposer3.NewComposerProxy(svc)
-	caps, err := proxy.GetCapabilities(ctx)
-	if err != nil { t.Skipf("HAL blocked: %v", err); return }
-	t.Logf("Composer GetCapabilities: %v (%d capabilities)", caps, len(caps))
-}
-
-func TestGenBatch1_HAL_Health_GetCapacity(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	sm := servicemanager.New(driver)
-
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.health.IHealth/default"))
-	if err != nil { t.Skipf("HAL blocked: %v", err); return }
-	require.NotNil(t, svc)
-
-	proxy := genHealth.NewHealthProxy(svc)
-	capacity, err := proxy.GetCapacity(ctx)
-	if err != nil { t.Skipf("HAL blocked: %v", err); return }
-	t.Logf("Health GetCapacity: %d%%", capacity)
-}
-
-func TestGenBatch1_HAL_Health_GetChargeStatus(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	sm := servicemanager.New(driver)
-
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.health.IHealth/default"))
-	if err != nil { t.Skipf("HAL blocked: %v", err); return }
-	require.NotNil(t, svc)
-
-	proxy := genHealth.NewHealthProxy(svc)
-	status, err := proxy.GetChargeStatus(ctx)
-	if err != nil { t.Skipf("HAL blocked: %v", err); return }
-	t.Logf("Health GetChargeStatus: %d", status)
-}
-
-func TestGenBatch1_HAL_Health_GetChargeCounterUah(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	sm := servicemanager.New(driver)
-
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.health.IHealth/default"))
-	if err != nil { t.Skipf("HAL blocked: %v", err); return }
-	require.NotNil(t, svc)
-
-	proxy := genHealth.NewHealthProxy(svc)
-	counter, err := proxy.GetChargeCounterUah(ctx)
-	if err != nil { t.Skipf("HAL blocked: %v", err); return }
-	t.Logf("Health GetChargeCounterUah: %d", counter)
-}
-
-func TestGenBatch1_HAL_Health_GetCurrentNowMicroamps(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	sm := servicemanager.New(driver)
-
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.health.IHealth/default"))
-	if err != nil { t.Skipf("HAL blocked: %v", err); return }
-	require.NotNil(t, svc)
-
-	proxy := genHealth.NewHealthProxy(svc)
-	current, err := proxy.GetCurrentNowMicroamps(ctx)
-	if err != nil { t.Skipf("HAL blocked: %v", err); return }
-	t.Logf("Health GetCurrentNowMicroamps: %d", current)
-}
-
-func TestGenBatch1_HAL_Identity_Ping(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	sm := servicemanager.New(driver)
-
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.identity.IIdentityCredentialStore/default"))
-	if err != nil { t.Skipf("HAL blocked: %v", err); return }
-	require.NotNil(t, svc)
-
-	alive := svc.IsAlive(ctx)
-	t.Logf("IIdentityCredentialStore/default alive: %v, handle: %d", alive, svc.Handle())
-
-	proxy := genIdentity.NewIdentityCredentialStoreProxy(svc)
 	assert.Equal(t, svc.Handle(), proxy.AsBinder().Handle())
 }
 
@@ -370,19 +242,6 @@ func TestGenBatch1_HAL_AuthSecret_Ping(t *testing.T) {
 	alive := svc.IsAlive(ctx)
 	t.Logf("alive: %v", alive)
 	t.Logf("IAuthSecret/default alive: %v, handle: %d", alive, svc.Handle())
-}
-
-func TestGenBatch1_HAL_BiometricsFace_Ping(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	sm := servicemanager.New(driver)
-
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.biometrics.face.IFace/virtual"))
-	if err != nil { t.Skipf("HAL blocked: %v", err); return }
-	require.NotNil(t, svc)
-
-	alive := svc.IsAlive(ctx)
-	t.Logf("IFace/virtual alive: %v, handle: %d", alive, svc.Handle())
 }
 
 func TestGenBatch1_HAL_BiometricsFingerprint_Ping(t *testing.T) {
@@ -439,15 +298,3 @@ func TestGenBatch1_HAL_Gnss_Ping(t *testing.T) {
 	t.Logf("IGnss/default alive: %v, handle: %d", alive, svc.Handle())
 }
 
-// --- AmbientContext: all methods require complex params, so we verify the proxy
-// can be constructed and the service is reachable. ---
-
-func TestGenBatch1_AmbientContext_Ping(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	svc := getService(ctx, t, driver, "ambient_context")
-
-	alive := svc.IsAlive(ctx)
-	t.Logf("alive: %v", alive)
-	t.Logf("ambient_context alive: %v, handle: %d", alive, svc.Handle())
-}

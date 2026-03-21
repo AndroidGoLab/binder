@@ -1,0 +1,117 @@
+package: android.app.wearable
+go_package: android/app/wearable
+interfaces:
+    - name: IWearableSensingManager
+      descriptor: android.app.wearable.IWearableSensingManager
+      methods:
+        - name: provideConnection
+          transaction_code_offset: 0
+          params:
+            - name: parcelFileDescriptor
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: provideDataStream
+          transaction_code_offset: 1
+          params:
+            - name: parcelFileDescriptor
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: provideData
+          transaction_code_offset: 2
+          params:
+            - name: data
+              type:
+                name: PersistableBundle
+              direction: in
+            - name: sharedMemory
+              type:
+                name: SharedMemory
+              direction: in
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: registerDataRequestObserver
+          transaction_code_offset: 3
+          params:
+            - name: dataType
+              type:
+                name: int
+            - name: dataRequestPendingIntent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: statusCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: unregisterDataRequestObserver
+          transaction_code_offset: 4
+          params:
+            - name: dataType
+              type:
+                name: int
+            - name: dataRequestPendingIntent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: statusCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: startHotwordRecognition
+          transaction_code_offset: 5
+          params:
+            - name: targetVisComponentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: statusCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: stopHotwordRecognition
+          transaction_code_offset: 6
+          params:
+            - name: statusCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough

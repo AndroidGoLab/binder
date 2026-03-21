@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
+	types "github.com/xaionaro-go/binder/android/content/pm/types"
 	"github.com/xaionaro-go/binder/binder"
 	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
@@ -59,7 +60,7 @@ type IContentCaptureManager interface {
 	SetTemporaryService(ctx context.Context, serviceName string, duration int32) error
 	SetDefaultServiceEnabled(ctx context.Context, enabled bool) error
 	RegisterContentCaptureOptionsCallback(ctx context.Context, packageName string, callback IContentCaptureOptionsCallback) error
-	OnLoginDetected(ctx context.Context, events interface{}) error
+	OnLoginDetected(ctx context.Context, events types.ParceledListSlice) error
 }
 
 type ContentCaptureManagerProxy struct {
@@ -88,6 +89,7 @@ func (p *ContentCaptureManagerProxy) StartSession(
 	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, shareableActivityToken, p.Remote.Transport())
@@ -113,6 +115,7 @@ func (p *ContentCaptureManagerProxy) FinishSession(
 	sessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
 	_data.WriteInt32(sessionId)
 
@@ -130,6 +133,7 @@ func (p *ContentCaptureManagerProxy) GetServiceComponentName(
 	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
 	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
@@ -147,6 +151,7 @@ func (p *ContentCaptureManagerProxy) RemoveData(
 	request DataRemovalRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -168,6 +173,7 @@ func (p *ContentCaptureManagerProxy) ShareData(
 	adapter IDataShareWriteAdapter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -189,6 +195,7 @@ func (p *ContentCaptureManagerProxy) IsContentCaptureFeatureEnabled(
 	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
 	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
@@ -206,6 +213,7 @@ func (p *ContentCaptureManagerProxy) GetServiceSettingsActivity(
 	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
 	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
@@ -224,6 +232,7 @@ func (p *ContentCaptureManagerProxy) GetContentCaptureConditions(
 	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
 	_data.WriteString16(packageName)
 	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
@@ -242,6 +251,7 @@ func (p *ContentCaptureManagerProxy) ResetTemporaryService(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -261,6 +271,7 @@ func (p *ContentCaptureManagerProxy) SetTemporaryService(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(serviceName)
@@ -281,6 +292,7 @@ func (p *ContentCaptureManagerProxy) SetDefaultServiceEnabled(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(enabled)
@@ -300,6 +312,7 @@ func (p *ContentCaptureManagerProxy) RegisterContentCaptureOptionsCallback(
 	callback IContentCaptureOptionsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
 	_data.WriteString16(packageName)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -315,10 +328,12 @@ func (p *ContentCaptureManagerProxy) RegisterContentCaptureOptionsCallback(
 
 func (p *ContentCaptureManagerProxy) OnLoginDetected(
 	ctx context.Context,
-	events interface{},
+	events types.ParceledListSlice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
+	// WARNING: param events (type types.ParceledListSlice) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureManager, MethodIContentCaptureManagerOnLoginDetected)
 	if _err != nil {
@@ -332,7 +347,8 @@ func (p *ContentCaptureManagerProxy) OnLoginDetected(
 // ContentCaptureManagerStub dispatches incoming binder transactions
 // to a typed IContentCaptureManager implementation.
 type ContentCaptureManagerStub struct {
-	Impl IContentCaptureManager
+	Impl      IContentCaptureManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ContentCaptureManagerStub)(nil)
@@ -346,17 +362,28 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIContentCaptureManagerStartSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
+		}
 		var _arg_shareableActivityToken binder.IBinder
-		_ = _arg_shareableActivityToken
+		{
+			_shareableActivityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_shareableActivityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _shareableActivityTokenHandle)
+		}
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -377,37 +404,35 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
-		_err = s.Impl.StartSession(ctx, _arg_activityToken, _arg_shareableActivityToken, _arg_componentName, _arg_sessionId, _arg_flags, _arg_result)
-		_ = _err
-		return nil, nil
-	case TransactionIContentCaptureManagerFinishSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
 		}
+		_err = s.Impl.StartSession(ctx, _arg_activityToken, _arg_shareableActivityToken, _arg_componentName, _arg_sessionId, _arg_flags, _arg_result)
+		return nil, _err
+	case TransactionIContentCaptureManagerFinishSession:
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.FinishSession(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentCaptureManagerGetServiceComponentName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
-		_err := s.Impl.GetServiceComponentName(ctx, _arg_result)
-		_ = _err
-		return nil, nil
-	case TransactionIContentCaptureManagerRemoveData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
 		}
+		_err := s.Impl.GetServiceComponentName(ctx, _arg_result)
+		return nil, _err
+	case TransactionIContentCaptureManagerRemoveData:
 		var _arg_request DataRemovalRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -421,12 +446,8 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RemoveData(ctx, _arg_request)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentCaptureManagerShareData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request DataShareRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -439,60 +460,60 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_adapter IDataShareWriteAdapter
-		_ = _arg_adapter
+		{
+			_adapterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_adapter = NewDataShareWriteAdapterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _adapterHandle))
+		}
 		_err := s.Impl.ShareData(ctx, _arg_request, _arg_adapter)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentCaptureManagerIsContentCaptureFeatureEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
+		}
 		_err := s.Impl.IsContentCaptureFeatureEnabled(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentCaptureManagerGetServiceSettingsActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
-		_err := s.Impl.GetServiceSettingsActivity(ctx, _arg_result)
-		_ = _err
-		return nil, nil
-	case TransactionIContentCaptureManagerGetContentCaptureConditions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
 		}
+		_err := s.Impl.GetServiceSettingsActivity(ctx, _arg_result)
+		return nil, _err
+	case TransactionIContentCaptureManagerGetContentCaptureConditions:
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
-		_err = s.Impl.GetContentCaptureConditions(ctx, _arg_packageName, _arg_result)
-		_ = _err
-		return nil, nil
-	case TransactionIContentCaptureManagerResetTemporaryService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
 		}
+		_err = s.Impl.GetContentCaptureConditions(ctx, _arg_packageName, _arg_result)
+		return nil, _err
+	case TransactionIContentCaptureManagerResetTemporaryService:
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetTemporaryService(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentCaptureManagerSetTemporaryService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -505,12 +526,8 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetTemporaryService(ctx, _arg_serviceName, _arg_duration)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentCaptureManagerSetDefaultServiceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -519,30 +536,26 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetDefaultServiceEnabled(ctx, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentCaptureManagerRegisterContentCaptureOptionsCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IContentCaptureOptionsCallback
-		_ = _arg_callback
-		_err = s.Impl.RegisterContentCaptureOptionsCallback(ctx, _arg_packageName, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIContentCaptureManagerOnLoginDetected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewContentCaptureOptionsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		var _arg_events interface{}
+		_err = s.Impl.RegisterContentCaptureOptionsCallback(ctx, _arg_packageName, _arg_callback)
+		return nil, _err
+	case TransactionIContentCaptureManagerOnLoginDetected:
+		var _arg_events types.ParceledListSlice
 		_err := s.Impl.OnLoginDetected(ctx, _arg_events)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -564,7 +577,7 @@ type IContentCaptureManagerServer interface {
 	SetTemporaryService(ctx context.Context, serviceName string, duration int32) error
 	SetDefaultServiceEnabled(ctx context.Context, enabled bool) error
 	RegisterContentCaptureOptionsCallback(ctx context.Context, packageName string, callback IContentCaptureOptionsCallback) error
-	OnLoginDetected(ctx context.Context, events interface{}) error
+	OnLoginDetected(ctx context.Context, events types.ParceledListSlice) error
 }
 
 type contentCaptureManagerStubWrapper struct {
@@ -670,7 +683,7 @@ func (w *contentCaptureManagerStubWrapper) RegisterContentCaptureOptionsCallback
 
 func (w *contentCaptureManagerStubWrapper) OnLoginDetected(
 	ctx context.Context,
-	events interface{},
+	events types.ParceledListSlice,
 ) error {
 	return w.impl.OnLoginDetected(ctx, events)
 }

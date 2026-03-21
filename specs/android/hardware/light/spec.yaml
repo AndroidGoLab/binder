@@ -1,0 +1,107 @@
+package: android.hardware.light
+go_package: android/hardware/light
+interfaces:
+    - name: ILights
+      descriptor: android.hardware.light.ILights
+      methods:
+        - name: setLightState
+          transaction_code_offset: 0
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+            - name: state
+              type:
+                name: HwLightState
+              direction: in
+          return_type:
+            name: void
+        - name: getLights
+          transaction_code_offset: 1
+          return_type:
+            name: HwLight
+            is_array: true
+parcelables:
+    - name: HwLight
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: ordinal
+          type:
+            name: int
+        - name: type
+          type:
+            name: LightType
+      annotations:
+        - RustDerive
+        - VintfStability
+    - name: HwLightState
+      fields:
+        - name: color
+          type:
+            name: int
+        - name: flashMode
+          type:
+            name: FlashMode
+        - name: flashOnMs
+          type:
+            name: int
+        - name: flashOffMs
+          type:
+            name: int
+        - name: brightnessMode
+          type:
+            name: BrightnessMode
+      annotations:
+        - RustDerive
+        - VintfStability
+enums:
+    - name: BrightnessMode
+      backing_type: ""
+      values:
+        - name: USER
+          value: "0"
+        - name: SENSOR
+          value: "1"
+        - name: LOW_PERSISTENCE
+          value: "2"
+      annotations:
+        - VintfStability
+    - name: FlashMode
+      backing_type: ""
+      values:
+        - name: NONE
+          value: "0"
+        - name: TIMED
+          value: "1"
+        - name: HARDWARE
+          value: "2"
+      annotations:
+        - VintfStability
+    - name: LightType
+      backing_type: ""
+      values:
+        - name: BACKLIGHT
+          value: "0"
+        - name: KEYBOARD
+          value: "1"
+        - name: BUTTONS
+          value: "2"
+        - name: BATTERY
+          value: "3"
+        - name: NOTIFICATIONS
+          value: "4"
+        - name: ATTENTION
+          value: "5"
+        - name: BLUETOOTH
+          value: "6"
+        - name: WIFI
+          value: "7"
+        - name: MICROPHONE
+          value: "8"
+        - name: CAMERA
+          value: "9"
+      annotations:
+        - VintfStability

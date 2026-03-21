@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	core "github.com/xaionaro-go/binder/android/hardware/audio/core"
-	audioIHalAdapterVendorExtension "github.com/xaionaro-go/binder/android/media/audio/IHalAdapterVendorExtension"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -31,11 +30,11 @@ const (
 
 type IHalAdapterVendorExtension interface {
 	AsBinder() binder.IBinder
-	ParseVendorParameterIds(ctx context.Context, scope audioIHalAdapterVendorExtension.ParameterScope, rawKeys string) ([]string, error)
-	ParseVendorParameters(ctx context.Context, scope audioIHalAdapterVendorExtension.ParameterScope, rawKeysAndValues string, syncParameters []core.VendorParameter, asyncParameters []core.VendorParameter) error
+	ParseVendorParameterIds(ctx context.Context, scope IHalAdapterVendorExtensionParameterScope, rawKeys string) ([]string, error)
+	ParseVendorParameters(ctx context.Context, scope IHalAdapterVendorExtensionParameterScope, rawKeysAndValues string, syncParameters []core.VendorParameter, asyncParameters []core.VendorParameter) error
 	ParseBluetoothA2dpReconfigureOffload(ctx context.Context, rawValue string) ([]core.VendorParameter, error)
 	ParseBluetoothLeReconfigureOffload(ctx context.Context, rawValue string) ([]core.VendorParameter, error)
-	ProcessVendorParameters(ctx context.Context, scope audioIHalAdapterVendorExtension.ParameterScope, parameters []core.VendorParameter) (string, error)
+	ProcessVendorParameters(ctx context.Context, scope IHalAdapterVendorExtensionParameterScope, parameters []core.VendorParameter) (string, error)
 }
 
 type HalAdapterVendorExtensionProxy struct {
@@ -56,11 +55,12 @@ var _ IHalAdapterVendorExtension = (*HalAdapterVendorExtensionProxy)(nil)
 
 func (p *HalAdapterVendorExtensionProxy) ParseVendorParameterIds(
 	ctx context.Context,
-	scope audioIHalAdapterVendorExtension.ParameterScope,
+	scope IHalAdapterVendorExtensionParameterScope,
 	rawKeys string,
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHalAdapterVendorExtension)
 	_data.WriteInt32(int32(scope))
 	_data.WriteString16(rawKeys)
@@ -84,6 +84,9 @@ func (p *HalAdapterVendorExtensionProxy) ParseVendorParameterIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -99,12 +102,13 @@ func (p *HalAdapterVendorExtensionProxy) ParseVendorParameterIds(
 
 func (p *HalAdapterVendorExtensionProxy) ParseVendorParameters(
 	ctx context.Context,
-	scope audioIHalAdapterVendorExtension.ParameterScope,
+	scope IHalAdapterVendorExtensionParameterScope,
 	rawKeysAndValues string,
 	syncParameters []core.VendorParameter,
 	asyncParameters []core.VendorParameter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHalAdapterVendorExtension)
 	_data.WriteInt32(int32(scope))
 	_data.WriteString16(rawKeysAndValues)
@@ -127,6 +131,9 @@ func (p *HalAdapterVendorExtensionProxy) ParseVendorParameters(
 	if _err != nil {
 		return _err
 	}
+	if _outCount0 > 1000000 {
+		return fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		syncParameters = make([]core.VendorParameter, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -141,6 +148,9 @@ func (p *HalAdapterVendorExtensionProxy) ParseVendorParameters(
 	_outCount1, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+	if _outCount1 > 1000000 {
+		return fmt.Errorf("array count too large: %d", _outCount1)
 	}
 	if _outCount1 >= 0 {
 		asyncParameters = make([]core.VendorParameter, _outCount1)
@@ -163,6 +173,7 @@ func (p *HalAdapterVendorExtensionProxy) ParseBluetoothA2dpReconfigureOffload(
 ) ([]core.VendorParameter, error) {
 	var _result []core.VendorParameter
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHalAdapterVendorExtension)
 	_data.WriteString16(rawValue)
 
@@ -185,6 +196,9 @@ func (p *HalAdapterVendorExtensionProxy) ParseBluetoothA2dpReconfigureOffload(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]core.VendorParameter, _count)
@@ -206,6 +220,7 @@ func (p *HalAdapterVendorExtensionProxy) ParseBluetoothLeReconfigureOffload(
 ) ([]core.VendorParameter, error) {
 	var _result []core.VendorParameter
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHalAdapterVendorExtension)
 	_data.WriteString16(rawValue)
 
@@ -228,6 +243,9 @@ func (p *HalAdapterVendorExtensionProxy) ParseBluetoothLeReconfigureOffload(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]core.VendorParameter, _count)
@@ -245,11 +263,12 @@ func (p *HalAdapterVendorExtensionProxy) ParseBluetoothLeReconfigureOffload(
 
 func (p *HalAdapterVendorExtensionProxy) ProcessVendorParameters(
 	ctx context.Context,
-	scope audioIHalAdapterVendorExtension.ParameterScope,
+	scope IHalAdapterVendorExtensionParameterScope,
 	parameters []core.VendorParameter,
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHalAdapterVendorExtension)
 	_data.WriteInt32(int32(scope))
 	if parameters == nil {
@@ -289,7 +308,8 @@ func (p *HalAdapterVendorExtensionProxy) ProcessVendorParameters(
 // HalAdapterVendorExtensionStub dispatches incoming binder transactions
 // to a typed IHalAdapterVendorExtension implementation.
 type HalAdapterVendorExtensionStub struct {
-	Impl IHalAdapterVendorExtension
+	Impl      IHalAdapterVendorExtension
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HalAdapterVendorExtensionStub)(nil)
@@ -303,16 +323,17 @@ func (s *HalAdapterVendorExtensionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHalAdapterVendorExtensionParseVendorParameterIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_scope, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_scope := audioIHalAdapterVendorExtension.ParameterScope(_raw_scope)
+		_arg_scope := IHalAdapterVendorExtensionParameterScope(_raw_scope)
 		_arg_rawKeys, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -324,18 +345,21 @@ func (s *HalAdapterVendorExtensionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIHalAdapterVendorExtensionParseVendorParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_scope, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_scope := audioIHalAdapterVendorExtension.ParameterScope(_raw_scope)
+		_arg_scope := IHalAdapterVendorExtensionParameterScope(_raw_scope)
 		_arg_rawKeysAndValues, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -349,11 +373,30 @@ func (s *HalAdapterVendorExtensionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		if _arg_syncParameters == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_syncParameters)))
+			for _, _item := range _arg_syncParameters {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _arg_asyncParameters == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_asyncParameters)))
+			for _, _item := range _arg_asyncParameters {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIHalAdapterVendorExtensionParseBluetoothA2dpReconfigureOffload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rawValue, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -365,13 +408,19 @@ func (s *HalAdapterVendorExtensionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIHalAdapterVendorExtensionParseBluetoothLeReconfigureOffload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rawValue, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -383,21 +432,45 @@ func (s *HalAdapterVendorExtensionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIHalAdapterVendorExtensionProcessVendorParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_scope, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_scope := audioIHalAdapterVendorExtension.ParameterScope(_raw_scope)
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		_arg_scope := IHalAdapterVendorExtensionParameterScope(_raw_scope)
 		var _arg_parameters []core.VendorParameter
-		_ = _arg_parameters
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_parameters = make([]core.VendorParameter, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_parameters[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.ProcessVendorParameters(ctx, _arg_scope, _arg_parameters)
 		_reply := parcel.New()
 		if _err != nil {
@@ -416,11 +489,11 @@ func (s *HalAdapterVendorExtensionStub) OnTransaction(
 // provide to NewHalAdapterVendorExtensionStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IHalAdapterVendorExtensionServer interface {
-	ParseVendorParameterIds(ctx context.Context, scope audioIHalAdapterVendorExtension.ParameterScope, rawKeys string) ([]string, error)
-	ParseVendorParameters(ctx context.Context, scope audioIHalAdapterVendorExtension.ParameterScope, rawKeysAndValues string, syncParameters []core.VendorParameter, asyncParameters []core.VendorParameter) error
+	ParseVendorParameterIds(ctx context.Context, scope IHalAdapterVendorExtensionParameterScope, rawKeys string) ([]string, error)
+	ParseVendorParameters(ctx context.Context, scope IHalAdapterVendorExtensionParameterScope, rawKeysAndValues string, syncParameters []core.VendorParameter, asyncParameters []core.VendorParameter) error
 	ParseBluetoothA2dpReconfigureOffload(ctx context.Context, rawValue string) ([]core.VendorParameter, error)
 	ParseBluetoothLeReconfigureOffload(ctx context.Context, rawValue string) ([]core.VendorParameter, error)
-	ProcessVendorParameters(ctx context.Context, scope audioIHalAdapterVendorExtension.ParameterScope, parameters []core.VendorParameter) (string, error)
+	ProcessVendorParameters(ctx context.Context, scope IHalAdapterVendorExtensionParameterScope, parameters []core.VendorParameter) (string, error)
 }
 
 type halAdapterVendorExtensionStubWrapper struct {
@@ -434,7 +507,7 @@ func (w *halAdapterVendorExtensionStubWrapper) AsBinder() binder.IBinder {
 
 func (w *halAdapterVendorExtensionStubWrapper) ParseVendorParameterIds(
 	ctx context.Context,
-	scope audioIHalAdapterVendorExtension.ParameterScope,
+	scope IHalAdapterVendorExtensionParameterScope,
 	rawKeys string,
 ) ([]string, error) {
 	return w.impl.ParseVendorParameterIds(ctx, scope, rawKeys)
@@ -442,7 +515,7 @@ func (w *halAdapterVendorExtensionStubWrapper) ParseVendorParameterIds(
 
 func (w *halAdapterVendorExtensionStubWrapper) ParseVendorParameters(
 	ctx context.Context,
-	scope audioIHalAdapterVendorExtension.ParameterScope,
+	scope IHalAdapterVendorExtensionParameterScope,
 	rawKeysAndValues string,
 	syncParameters []core.VendorParameter,
 	asyncParameters []core.VendorParameter,
@@ -466,7 +539,7 @@ func (w *halAdapterVendorExtensionStubWrapper) ParseBluetoothLeReconfigureOffloa
 
 func (w *halAdapterVendorExtensionStubWrapper) ProcessVendorParameters(
 	ctx context.Context,
-	scope audioIHalAdapterVendorExtension.ParameterScope,
+	scope IHalAdapterVendorExtensionParameterScope,
 	parameters []core.VendorParameter,
 ) (string, error) {
 	return w.impl.ProcessVendorParameters(ctx, scope, parameters)

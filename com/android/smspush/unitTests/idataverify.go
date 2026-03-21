@@ -49,15 +49,9 @@ func (p *DataVerifyProxy) VerifyData(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataVerify)
-	if pdu == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(pdu)))
-		for _, _item := range pdu {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(pdu)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataVerify, MethodIDataVerifyVerifyData)
 	if _err != nil {
@@ -85,6 +79,7 @@ func (p *DataVerifyProxy) ResetData(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataVerify)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataVerify, MethodIDataVerifyResetData)
@@ -108,7 +103,8 @@ func (p *DataVerifyProxy) ResetData(
 // DataVerifyStub dispatches incoming binder transactions
 // to a typed IDataVerify implementation.
 type DataVerifyStub struct {
-	Impl IDataVerify
+	Impl      IDataVerify
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DataVerifyStub)(nil)
@@ -122,14 +118,20 @@ func (s *DataVerifyStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDataVerifyVerifyData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pdu []byte
-		_ = _arg_pdu
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_pdu = _bytes
+		}
 		_result, _err := s.Impl.VerifyData(ctx, _arg_pdu)
 		_reply := parcel.New()
 		if _err != nil {
@@ -140,9 +142,6 @@ func (s *DataVerifyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDataVerifyResetData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResetData(ctx)
 		_reply := parcel.New()
 		if _err != nil {

@@ -1,0 +1,294 @@
+package: android.speech
+go_package: android/speech
+interfaces:
+    - name: IModelDownloadListener
+      descriptor: android.speech.IModelDownloadListener
+      oneway: true
+      methods:
+        - name: onProgress
+          transaction_code_offset: 0
+          params:
+            - name: completedPercent
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onSuccess
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onScheduled
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 3
+          params:
+            - name: error
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IRecognitionListener
+      descriptor: android.speech.IRecognitionListener
+      oneway: true
+      methods:
+        - name: onReadyForSpeech
+          transaction_code_offset: 0
+          params:
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onBeginningOfSpeech
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onRmsChanged
+          transaction_code_offset: 2
+          params:
+            - name: rmsdB
+              type:
+                name: float
+              direction: in
+          return_type:
+            name: void
+        - name: onBufferReceived
+          transaction_code_offset: 3
+          params:
+            - name: buffer
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onEndOfSpeech
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 5
+          params:
+            - name: error
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onResults
+          transaction_code_offset: 6
+          params:
+            - name: results
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onPartialResults
+          transaction_code_offset: 7
+          params:
+            - name: results
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onSegmentResults
+          transaction_code_offset: 8
+          params:
+            - name: results
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onEndOfSegmentedSession
+          transaction_code_offset: 9
+          return_type:
+            name: void
+        - name: onLanguageDetection
+          transaction_code_offset: 10
+          params:
+            - name: results
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onEvent
+          transaction_code_offset: 11
+          params:
+            - name: eventType
+              type:
+                name: int
+              direction: in
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IRecognitionService
+      descriptor: android.speech.IRecognitionService
+      oneway: true
+      methods:
+        - name: startListening
+          transaction_code_offset: 0
+          params:
+            - name: recognizerIntent
+              type:
+                name: Intent
+              direction: in
+            - name: listener
+              type:
+                name: IRecognitionListener
+              direction: in
+            - name: attributionSource
+              type:
+                name: AttributionSource
+              direction: in
+          return_type:
+            name: void
+        - name: stopListening
+          transaction_code_offset: 1
+          params:
+            - name: listener
+              type:
+                name: IRecognitionListener
+              direction: in
+          return_type:
+            name: void
+        - name: cancel
+          transaction_code_offset: 2
+          params:
+            - name: listener
+              type:
+                name: IRecognitionListener
+              direction: in
+            - name: isShutdown
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: checkRecognitionSupport
+          transaction_code_offset: 3
+          params:
+            - name: recognizerIntent
+              type:
+                name: Intent
+              direction: in
+            - name: attributionSource
+              type:
+                name: AttributionSource
+              direction: in
+            - name: listener
+              type:
+                name: IRecognitionSupportCallback
+              direction: in
+          return_type:
+            name: void
+        - name: triggerModelDownload
+          transaction_code_offset: 4
+          params:
+            - name: recognizerIntent
+              type:
+                name: Intent
+              direction: in
+            - name: attributionSource
+              type:
+                name: AttributionSource
+              direction: in
+            - name: listener
+              type:
+                name: IModelDownloadListener
+              direction: in
+          return_type:
+            name: void
+    - name: IRecognitionServiceManager
+      descriptor: android.speech.IRecognitionServiceManager
+      oneway: true
+      methods:
+        - name: createSession
+          transaction_code_offset: 0
+          params:
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: clientToken
+              type:
+                name: IBinder
+              direction: in
+            - name: onDevice
+              type:
+                name: boolean
+            - name: callback
+              type:
+                name: IRecognitionServiceManagerCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setTemporaryComponent
+          transaction_code_offset: 1
+          params:
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+    - name: IRecognitionServiceManagerCallback
+      descriptor: android.speech.IRecognitionServiceManagerCallback
+      oneway: true
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: service
+              type:
+                name: IRecognitionService
+              direction: in
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 1
+          params:
+            - name: errorCode
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IRecognitionSupportCallback
+      descriptor: android.speech.IRecognitionSupportCallback
+      oneway: true
+      methods:
+        - name: onSupportResult
+          transaction_code_offset: 0
+          params:
+            - name: recognitionSupport
+              type:
+                name: RecognitionSupport
+              direction: in
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 1
+          params:
+            - name: error
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: AlternativeSpan
+    - name: AlternativeSpans
+    - name: RecognitionPart
+    - name: RecognitionSupport

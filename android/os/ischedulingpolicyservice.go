@@ -52,6 +52,7 @@ func (p *SchedulingPolicyServiceProxy) RequestPriority(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISchedulingPolicyService)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(tid)
@@ -87,6 +88,7 @@ func (p *SchedulingPolicyServiceProxy) RequestCpusetBoost(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISchedulingPolicyService)
 	_data.WriteBool(enable)
 	binder.WriteBinderToParcel(ctx, _data, client, p.Remote.Transport())
@@ -116,7 +118,8 @@ func (p *SchedulingPolicyServiceProxy) RequestCpusetBoost(
 // SchedulingPolicyServiceStub dispatches incoming binder transactions
 // to a typed ISchedulingPolicyService implementation.
 type SchedulingPolicyServiceStub struct {
-	Impl ISchedulingPolicyService
+	Impl      ISchedulingPolicyService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SchedulingPolicyServiceStub)(nil)
@@ -130,11 +133,12 @@ func (s *SchedulingPolicyServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISchedulingPolicyServiceRequestPriority:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -161,16 +165,18 @@ func (s *SchedulingPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISchedulingPolicyServiceRequestCpusetBoost:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client binder.IBinder
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle)
+		}
 		_result, _err := s.Impl.RequestCpusetBoost(ctx, _arg_enable, _arg_client)
 		_reply := parcel.New()
 		if _err != nil {

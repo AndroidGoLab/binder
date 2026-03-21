@@ -36,17 +36,32 @@ func (s *AudioPortConfigSys) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_roleRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Role = AudioPortRole(_roleRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_typeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Type = AudioPortType(_typeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	if _err = s.Ext.UnmarshalParcel(p); _err != nil {
 		return _err

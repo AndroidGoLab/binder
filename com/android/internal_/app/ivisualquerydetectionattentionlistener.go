@@ -3,7 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
-	voice "github.com/xaionaro-go/binder/android/service/voice"
+	types "github.com/xaionaro-go/binder/android/service/voice/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,7 +24,7 @@ const (
 
 type IVisualQueryDetectionAttentionListener interface {
 	AsBinder() binder.IBinder
-	OnAttentionGained(ctx context.Context, attentionResult voice.VisualQueryAttentionResult) error
+	OnAttentionGained(ctx context.Context, attentionResult types.VisualQueryAttentionResult) error
 	OnAttentionLost(ctx context.Context, interactionIntention int32) error
 }
 
@@ -46,14 +46,12 @@ var _ IVisualQueryDetectionAttentionListener = (*VisualQueryDetectionAttentionLi
 
 func (p *VisualQueryDetectionAttentionListenerProxy) OnAttentionGained(
 	ctx context.Context,
-	attentionResult voice.VisualQueryAttentionResult,
+	attentionResult types.VisualQueryAttentionResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionAttentionListener)
-	_data.WriteInt32(1)
-	if _err := attentionResult.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param attentionResult (type types.VisualQueryAttentionResult) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVisualQueryDetectionAttentionListener, MethodIVisualQueryDetectionAttentionListenerOnAttentionGained)
 	if _err != nil {
@@ -69,6 +67,7 @@ func (p *VisualQueryDetectionAttentionListenerProxy) OnAttentionLost(
 	interactionIntention int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionAttentionListener)
 	_data.WriteInt32(interactionIntention)
 
@@ -84,7 +83,8 @@ func (p *VisualQueryDetectionAttentionListenerProxy) OnAttentionLost(
 // VisualQueryDetectionAttentionListenerStub dispatches incoming binder transactions
 // to a typed IVisualQueryDetectionAttentionListener implementation.
 type VisualQueryDetectionAttentionListenerStub struct {
-	Impl IVisualQueryDetectionAttentionListener
+	Impl      IVisualQueryDetectionAttentionListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VisualQueryDetectionAttentionListenerStub)(nil)
@@ -98,37 +98,22 @@ func (s *VisualQueryDetectionAttentionListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVisualQueryDetectionAttentionListenerOnAttentionGained:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_attentionResult voice.VisualQueryAttentionResult
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_attentionResult.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_attentionResult types.VisualQueryAttentionResult
 		_err := s.Impl.OnAttentionGained(ctx, _arg_attentionResult)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVisualQueryDetectionAttentionListenerOnAttentionLost:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_interactionIntention, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAttentionLost(ctx, _arg_interactionIntention)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -138,7 +123,7 @@ func (s *VisualQueryDetectionAttentionListenerStub) OnTransaction(
 // provide to NewVisualQueryDetectionAttentionListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IVisualQueryDetectionAttentionListenerServer interface {
-	OnAttentionGained(ctx context.Context, attentionResult voice.VisualQueryAttentionResult) error
+	OnAttentionGained(ctx context.Context, attentionResult types.VisualQueryAttentionResult) error
 	OnAttentionLost(ctx context.Context, interactionIntention int32) error
 }
 
@@ -153,7 +138,7 @@ func (w *visualQueryDetectionAttentionListenerStubWrapper) AsBinder() binder.IBi
 
 func (w *visualQueryDetectionAttentionListenerStubWrapper) OnAttentionGained(
 	ctx context.Context,
-	attentionResult voice.VisualQueryAttentionResult,
+	attentionResult types.VisualQueryAttentionResult,
 ) error {
 	return w.impl.OnAttentionGained(ctx, attentionResult)
 }

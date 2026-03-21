@@ -69,6 +69,7 @@ func (p *OptionsServiceProxy) GetVersion(
 ) (vehicle.StatusCode, error) {
 	var _result vehicle.StatusCode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
 	_data.WriteInt32(optionsServiceHandle)
 
@@ -103,6 +104,7 @@ func (p *OptionsServiceProxy) AddListener(
 ) (vehicle.StatusCode, error) {
 	var _result vehicle.StatusCode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
 	_data.WriteInt32(optionsServiceHandle)
 	binder.WriteBinderToParcel(ctx, _data, optionsListener.AsBinder(), p.Remote.Transport())
@@ -125,8 +127,16 @@ func (p *OptionsServiceProxy) AddListener(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = optionsServiceListenerHdl.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = optionsServiceListenerHdl.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_raw, _err := _reply.ReadInt32()
@@ -144,6 +154,7 @@ func (p *OptionsServiceProxy) RemoveListener(
 ) (vehicle.StatusCode, error) {
 	var _result vehicle.StatusCode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
 	_data.WriteInt32(optionsServiceHandle)
 	_data.WriteInt32(1)
@@ -182,6 +193,7 @@ func (p *OptionsServiceProxy) SetMyInfo(
 ) (vehicle.StatusCode, error) {
 	var _result vehicle.StatusCode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
 	_data.WriteInt32(optionsServiceHandle)
 	_data.WriteInt32(1)
@@ -220,6 +232,7 @@ func (p *OptionsServiceProxy) GetMyInfo(
 ) (vehicle.StatusCode, error) {
 	var _result vehicle.StatusCode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
 	_data.WriteInt32(optionsServiceHandle)
 	_data.WriteInt32(reqUserdata)
@@ -255,6 +268,7 @@ func (p *OptionsServiceProxy) GetContactCap(
 ) (vehicle.StatusCode, error) {
 	var _result vehicle.StatusCode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
 	_data.WriteInt32(optionsServiceHandle)
 	_data.WriteString16(remoteURI)
@@ -291,6 +305,7 @@ func (p *OptionsServiceProxy) GetContactListCap(
 ) (vehicle.StatusCode, error) {
 	var _result vehicle.StatusCode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
 	_data.WriteInt32(optionsServiceHandle)
 	if remoteURIList == nil {
@@ -337,6 +352,7 @@ func (p *OptionsServiceProxy) ResponseIncomingOptions(
 ) (vehicle.StatusCode, error) {
 	var _result vehicle.StatusCode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
 	_data.WriteInt32(optionsServiceHandle)
 	_data.WriteInt32(tId)
@@ -374,7 +390,8 @@ func (p *OptionsServiceProxy) ResponseIncomingOptions(
 // OptionsServiceStub dispatches incoming binder transactions
 // to a typed IOptionsService implementation.
 type OptionsServiceStub struct {
-	Impl IOptionsService
+	Impl      IOptionsService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OptionsServiceStub)(nil)
@@ -388,11 +405,12 @@ func (s *OptionsServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOptionsServiceGetVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_optionsServiceHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -407,16 +425,18 @@ func (s *OptionsServiceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIOptionsServiceAddListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_optionsServiceHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_optionsListener IOptionsListener
-		_ = _arg_optionsListener
+		{
+			_optionsListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_optionsListener = NewOptionsListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _optionsListenerHandle))
+		}
 		var _arg_optionsServiceListenerHdl common.UceLong
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -437,11 +457,12 @@ func (s *OptionsServiceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(int32(_result))
-		return _reply, nil
-	case TransactionIOptionsServiceRemoveListener:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_optionsServiceListenerHdl.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIOptionsServiceRemoveListener:
 		_arg_optionsServiceHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -468,9 +489,6 @@ func (s *OptionsServiceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIOptionsServiceSetMyInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_optionsServiceHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -501,9 +519,6 @@ func (s *OptionsServiceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIOptionsServiceGetMyInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_optionsServiceHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -522,9 +537,6 @@ func (s *OptionsServiceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIOptionsServiceGetContactCap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_optionsServiceHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -547,16 +559,29 @@ func (s *OptionsServiceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIOptionsServiceGetContactListCap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_optionsServiceHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_remoteURIList []string
-		_ = _arg_remoteURIList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_remoteURIList = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_remoteURIList[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_reqUserData, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -571,9 +596,6 @@ func (s *OptionsServiceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIOptionsServiceResponseIncomingOptions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_optionsServiceHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

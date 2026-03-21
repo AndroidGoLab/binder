@@ -32,9 +32,19 @@ func (s *NanIdentityResolutionAttribute) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Nonce, _err = p.ReadFixedByteArray(8)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Tag, _err = p.ReadFixedByteArray(8)

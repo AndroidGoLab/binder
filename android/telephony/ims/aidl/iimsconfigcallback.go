@@ -49,6 +49,7 @@ func (p *ImsConfigCallbackProxy) OnIntConfigChanged(
 	value int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfigCallback)
 	_data.WriteInt32(item)
 	_data.WriteInt32(value)
@@ -68,6 +69,7 @@ func (p *ImsConfigCallbackProxy) OnStringConfigChanged(
 	value string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfigCallback)
 	_data.WriteInt32(item)
 	_data.WriteString16(value)
@@ -84,7 +86,8 @@ func (p *ImsConfigCallbackProxy) OnStringConfigChanged(
 // ImsConfigCallbackStub dispatches incoming binder transactions
 // to a typed IImsConfigCallback implementation.
 type ImsConfigCallbackStub struct {
-	Impl IImsConfigCallback
+	Impl      IImsConfigCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsConfigCallbackStub)(nil)
@@ -98,11 +101,12 @@ func (s *ImsConfigCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsConfigCallbackOnIntConfigChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -112,12 +116,8 @@ func (s *ImsConfigCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnIntConfigChanged(ctx, _arg_item, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsConfigCallbackOnStringConfigChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -127,8 +127,7 @@ func (s *ImsConfigCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStringConfigChanged(ctx, _arg_item, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

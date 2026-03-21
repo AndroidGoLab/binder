@@ -50,6 +50,7 @@ func (p *BatteryPropertiesRegistrarProxy) GetProperty(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryPropertiesRegistrar)
 	_data.WriteInt32(id)
 
@@ -67,8 +68,16 @@ func (p *BatteryPropertiesRegistrarProxy) GetProperty(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = prop.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = prop.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadInt32()
@@ -82,6 +91,7 @@ func (p *BatteryPropertiesRegistrarProxy) ScheduleUpdate(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBatteryPropertiesRegistrar)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryPropertiesRegistrar, MethodIBatteryPropertiesRegistrarScheduleUpdate)
@@ -96,7 +106,8 @@ func (p *BatteryPropertiesRegistrarProxy) ScheduleUpdate(
 // BatteryPropertiesRegistrarStub dispatches incoming binder transactions
 // to a typed IBatteryPropertiesRegistrar implementation.
 type BatteryPropertiesRegistrarStub struct {
-	Impl IBatteryPropertiesRegistrar
+	Impl      IBatteryPropertiesRegistrar
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BatteryPropertiesRegistrarStub)(nil)
@@ -110,11 +121,12 @@ func (s *BatteryPropertiesRegistrarStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBatteryPropertiesRegistrarGetProperty:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -128,14 +140,14 @@ func (s *BatteryPropertiesRegistrarStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIBatteryPropertiesRegistrarScheduleUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_prop.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIBatteryPropertiesRegistrarScheduleUpdate:
 		_err := s.Impl.ScheduleUpdate(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

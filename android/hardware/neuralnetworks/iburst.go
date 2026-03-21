@@ -56,6 +56,7 @@ func (p *BurstProxy) ExecuteSynchronously(
 ) (ExecutionResult, error) {
 	var _result ExecutionResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBurst)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -105,6 +106,7 @@ func (p *BurstProxy) ReleaseMemoryResource(
 	memoryIdentifierToken int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBurst)
 	_data.WriteInt64(memoryIdentifierToken)
 
@@ -135,6 +137,7 @@ func (p *BurstProxy) ExecuteSynchronouslyWithConfig(
 ) (ExecutionResult, error) {
 	var _result ExecutionResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBurst)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -184,7 +187,8 @@ func (p *BurstProxy) ExecuteSynchronouslyWithConfig(
 // BurstStub dispatches incoming binder transactions
 // to a typed IBurst implementation.
 type BurstStub struct {
-	Impl IBurst
+	Impl      IBurst
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BurstStub)(nil)
@@ -198,11 +202,12 @@ func (s *BurstStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBurstExecuteSynchronously:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request Request
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -215,9 +220,25 @@ func (s *BurstStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_memoryIdentifierTokens []int64
-		_ = _arg_memoryIdentifierTokens
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_memoryIdentifierTokens = make([]int64, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_memoryIdentifierTokens[_i], _err = _data.ReadInt64()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_measureTiming, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -243,9 +264,6 @@ func (s *BurstStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBurstReleaseMemoryResource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_memoryIdentifierToken, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -259,9 +277,6 @@ func (s *BurstStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBurstExecuteSynchronouslyWithConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request Request
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -274,9 +289,25 @@ func (s *BurstStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_memoryIdentifierTokens []int64
-		_ = _arg_memoryIdentifierTokens
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_memoryIdentifierTokens = make([]int64, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_memoryIdentifierTokens[_i], _err = _data.ReadInt64()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_config ExecutionConfig
 		{
 			_nullInd, _err := _data.ReadInt32()

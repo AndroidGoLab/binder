@@ -50,6 +50,7 @@ func (p *UnfoldTransitionListenerProxy) OnTransitionStarted(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUnfoldTransitionListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUnfoldTransitionListener, MethodIUnfoldTransitionListenerOnTransitionStarted)
@@ -66,6 +67,7 @@ func (p *UnfoldTransitionListenerProxy) OnTransitionProgress(
 	progress float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUnfoldTransitionListener)
 	_data.WriteFloat32(progress)
 
@@ -82,6 +84,7 @@ func (p *UnfoldTransitionListenerProxy) OnTransitionFinished(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUnfoldTransitionListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUnfoldTransitionListener, MethodIUnfoldTransitionListenerOnTransitionFinished)
@@ -96,7 +99,8 @@ func (p *UnfoldTransitionListenerProxy) OnTransitionFinished(
 // UnfoldTransitionListenerStub dispatches incoming binder transactions
 // to a typed IUnfoldTransitionListener implementation.
 type UnfoldTransitionListenerStub struct {
-	Impl IUnfoldTransitionListener
+	Impl      IUnfoldTransitionListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UnfoldTransitionListenerStub)(nil)
@@ -110,32 +114,24 @@ func (s *UnfoldTransitionListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUnfoldTransitionListenerOnTransitionStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnTransitionStarted(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUnfoldTransitionListenerOnTransitionProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_progress, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTransitionProgress(ctx, _arg_progress)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUnfoldTransitionListenerOnTransitionFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnTransitionFinished(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

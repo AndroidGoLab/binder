@@ -49,6 +49,7 @@ func (p *KeyguardCallbackProxy) OnRemoteContentReady(
 	surfacePackage view.SurfaceControlViewHostSurfacePackage,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardCallback)
 	_data.WriteInt32(1)
 	if _err := surfacePackage.MarshalParcel(_data); _err != nil {
@@ -68,6 +69,7 @@ func (p *KeyguardCallbackProxy) OnDismiss(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeyguardCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardCallback, MethodIKeyguardCallbackOnDismiss)
@@ -82,7 +84,8 @@ func (p *KeyguardCallbackProxy) OnDismiss(
 // KeyguardCallbackStub dispatches incoming binder transactions
 // to a typed IKeyguardCallback implementation.
 type KeyguardCallbackStub struct {
-	Impl IKeyguardCallback
+	Impl      IKeyguardCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*KeyguardCallbackStub)(nil)
@@ -96,11 +99,12 @@ func (s *KeyguardCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIKeyguardCallbackOnRemoteContentReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_surfacePackage view.SurfaceControlViewHostSurfacePackage
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -114,15 +118,10 @@ func (s *KeyguardCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnRemoteContentReady(ctx, _arg_surfacePackage)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIKeyguardCallbackOnDismiss:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDismiss(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

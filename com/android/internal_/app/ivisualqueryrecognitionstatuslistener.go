@@ -47,6 +47,7 @@ func (p *VisualQueryRecognitionStatusListenerProxy) OnStartPerceiving(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryRecognitionStatusListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVisualQueryRecognitionStatusListener, MethodIVisualQueryRecognitionStatusListenerOnStartPerceiving)
@@ -62,6 +63,7 @@ func (p *VisualQueryRecognitionStatusListenerProxy) OnStopPerceiving(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryRecognitionStatusListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVisualQueryRecognitionStatusListener, MethodIVisualQueryRecognitionStatusListenerOnStopPerceiving)
@@ -76,7 +78,8 @@ func (p *VisualQueryRecognitionStatusListenerProxy) OnStopPerceiving(
 // VisualQueryRecognitionStatusListenerStub dispatches incoming binder transactions
 // to a typed IVisualQueryRecognitionStatusListener implementation.
 type VisualQueryRecognitionStatusListenerStub struct {
-	Impl IVisualQueryRecognitionStatusListener
+	Impl      IVisualQueryRecognitionStatusListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VisualQueryRecognitionStatusListenerStub)(nil)
@@ -90,21 +93,17 @@ func (s *VisualQueryRecognitionStatusListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVisualQueryRecognitionStatusListenerOnStartPerceiving:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnStartPerceiving(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVisualQueryRecognitionStatusListenerOnStopPerceiving:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnStopPerceiving(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

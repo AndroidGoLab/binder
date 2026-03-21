@@ -18,12 +18,17 @@ type Formatter struct {
 }
 
 // NewFormatter creates a Formatter that resolves "auto" mode by checking
-// whether stdout is a terminal.
+// whether the writer is a terminal.
 func NewFormatter(
 	mode string,
 	w io.Writer,
 ) *Formatter {
-	isTTY := term.IsTerminal(int(os.Stdout.Fd()))
+	var isTTY bool
+	if f, ok := w.(interface{ Fd() uintptr }); ok {
+		isTTY = term.IsTerminal(int(f.Fd()))
+	} else {
+		isTTY = term.IsTerminal(int(os.Stdout.Fd()))
+	}
 	return &Formatter{
 		Mode: resolveMode(mode, isTTY),
 		W:    w,
@@ -125,5 +130,5 @@ func (f *Formatter) Error(err error) {
 func (f *Formatter) writeJSON(v any) {
 	enc := json.NewEncoder(f.W)
 	enc.SetEscapeHTML(false)
-	enc.Encode(v)
+	_ = enc.Encode(v)
 }

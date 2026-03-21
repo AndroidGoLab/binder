@@ -45,6 +45,7 @@ func (p *ProxyCallbackProxy) GetProxyPort(
 	callback binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProxyCallback)
 	binder.WriteBinderToParcel(ctx, _data, callback, p.Remote.Transport())
 
@@ -60,7 +61,8 @@ func (p *ProxyCallbackProxy) GetProxyPort(
 // ProxyCallbackStub dispatches incoming binder transactions
 // to a typed IProxyCallback implementation.
 type ProxyCallbackStub struct {
-	Impl IProxyCallback
+	Impl      IProxyCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ProxyCallbackStub)(nil)
@@ -74,17 +76,22 @@ func (s *ProxyCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIProxyCallbackGetProxyPort:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback binder.IBinder
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle)
+		}
 		_err := s.Impl.GetProxyPort(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

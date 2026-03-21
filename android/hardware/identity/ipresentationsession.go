@@ -57,6 +57,7 @@ func (p *PresentationSessionProxy) GetEphemeralKeyPair(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresentationSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresentationSession, MethodIPresentationSessionGetEphemeralKeyPair)
@@ -74,19 +75,9 @@ func (p *PresentationSessionProxy) GetEphemeralKeyPair(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -96,6 +87,7 @@ func (p *PresentationSessionProxy) GetAuthChallenge(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresentationSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresentationSession, MethodIPresentationSessionGetAuthChallenge)
@@ -125,15 +117,9 @@ func (p *PresentationSessionProxy) SetReaderEphemeralPublicKey(
 	publicKey []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresentationSession)
-	if publicKey == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(publicKey)))
-		for _, _item := range publicKey {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(publicKey)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresentationSession, MethodIPresentationSessionSetReaderEphemeralPublicKey)
 	if _err != nil {
@@ -158,15 +144,9 @@ func (p *PresentationSessionProxy) SetSessionTranscript(
 	sessionTranscript []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresentationSession)
-	if sessionTranscript == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionTranscript)))
-		for _, _item := range sessionTranscript {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionTranscript)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresentationSession, MethodIPresentationSessionSetSessionTranscript)
 	if _err != nil {
@@ -192,15 +172,9 @@ func (p *PresentationSessionProxy) GetCredential(
 ) (IIdentityCredential, error) {
 	var _result IIdentityCredential
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresentationSession)
-	if credentialData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(credentialData)))
-		for _, _item := range credentialData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(credentialData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresentationSession, MethodIPresentationSessionGetCredential)
 	if _err != nil {
@@ -228,7 +202,8 @@ func (p *PresentationSessionProxy) GetCredential(
 // PresentationSessionStub dispatches incoming binder transactions
 // to a typed IPresentationSession implementation.
 type PresentationSessionStub struct {
-	Impl IPresentationSession
+	Impl      IPresentationSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PresentationSessionStub)(nil)
@@ -242,11 +217,12 @@ func (s *PresentationSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPresentationSessionGetEphemeralKeyPair:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEphemeralKeyPair(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -254,13 +230,9 @@ func (s *PresentationSessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIPresentationSessionGetAuthChallenge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAuthChallenge(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -271,12 +243,14 @@ func (s *PresentationSessionStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIPresentationSessionSetReaderEphemeralPublicKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_publicKey []byte
-		_ = _arg_publicKey
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_publicKey = _bytes
+		}
 		_err := s.Impl.SetReaderEphemeralPublicKey(ctx, _arg_publicKey)
 		_reply := parcel.New()
 		if _err != nil {
@@ -286,12 +260,14 @@ func (s *PresentationSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPresentationSessionSetSessionTranscript:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionTranscript []byte
-		_ = _arg_sessionTranscript
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionTranscript = _bytes
+		}
 		_err := s.Impl.SetSessionTranscript(ctx, _arg_sessionTranscript)
 		_reply := parcel.New()
 		if _err != nil {
@@ -301,12 +277,14 @@ func (s *PresentationSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPresentationSessionGetCredential:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_credentialData []byte
-		_ = _arg_credentialData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_credentialData = _bytes
+		}
 		_result, _err := s.Impl.GetCredential(ctx, _arg_credentialData)
 		_reply := parcel.New()
 		if _err != nil {
@@ -314,8 +292,7 @@ func (s *PresentationSessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

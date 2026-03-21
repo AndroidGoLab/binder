@@ -62,7 +62,8 @@ func ReadAllSpecs(
 		err error,
 	) error {
 		if err != nil {
-			return nil
+			// Propagate walk errors instead of swallowing them.
+			return err
 		}
 		if info.IsDir() || info.Name() != "spec.yaml" {
 			return nil
@@ -73,6 +74,9 @@ func ReadAllSpecs(
 			return readErr
 		}
 
+		if _, exists := specs[s.GoPackage]; exists {
+			return fmt.Errorf("duplicate GoPackage %q in %s", s.GoPackage, path)
+		}
 		specs[s.GoPackage] = s
 		return nil
 	})

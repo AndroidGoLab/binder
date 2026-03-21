@@ -3,7 +3,6 @@ package common
 import (
 	vibrator "github.com/xaionaro-go/binder/android/hardware/tests/extension/vibrator"
 	location "github.com/xaionaro-go/binder/android/location"
-	commonMicrophoneInfo "github.com/xaionaro-go/binder/android/media/audio/common/MicrophoneInfo"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -15,11 +14,11 @@ type MicrophoneInfo struct {
 	Location          location.Location
 	Group             int32
 	IndexInTheGroup   int32
-	Sensitivity       commonMicrophoneInfo.Sensitivity
+	Sensitivity       *MicrophoneInfoSensitivity
 	Directionality    vibrator.Directionality
-	FrequencyResponse []commonMicrophoneInfo.FrequencyResponsePoint
-	Position          commonMicrophoneInfo.Coordinate
-	Orientation       commonMicrophoneInfo.Coordinate
+	FrequencyResponse []MicrophoneInfoFrequencyResponsePoint
+	Position          *MicrophoneInfoCoordinate
+	Orientation       *MicrophoneInfoCoordinate
 }
 
 const (
@@ -42,8 +41,13 @@ func (s *MicrophoneInfo) MarshalParcel(
 	}
 	p.WriteInt32(s.Group)
 	p.WriteInt32(s.IndexInTheGroup)
-	if _err := s.Sensitivity.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Sensitivity == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Sensitivity.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	p.WriteInt32(int32(s.Directionality))
 	if s.FrequencyResponse == nil {
@@ -57,11 +61,21 @@ func (s *MicrophoneInfo) MarshalParcel(
 			}
 		}
 	}
-	if _err := s.Position.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Position == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Position.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.Orientation.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Orientation == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Orientation.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -76,17 +90,37 @@ func (s *MicrophoneInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Id, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.Device.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Location.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Group, _err = p.ReadInt32()
@@ -94,13 +128,38 @@ func (s *MicrophoneInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IndexInTheGroup, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
-	if _err = s.Sensitivity.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val MicrophoneInfoSensitivity
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Sensitivity = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_directionalityRaw, _err := p.ReadInt32()
@@ -109,13 +168,18 @@ func (s *MicrophoneInfo) UnmarshalParcel(
 	}
 	s.Directionality = vibrator.Directionality(_directionalityRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	if _count0 >= 0 {
-		s.FrequencyResponse = make([]commonMicrophoneInfo.FrequencyResponsePoint, _count0)
+		s.FrequencyResponse = make([]MicrophoneInfoFrequencyResponsePoint, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
 			if _, _err = p.ReadInt32(); _err != nil {
 				return _err
@@ -126,12 +190,42 @@ func (s *MicrophoneInfo) UnmarshalParcel(
 		}
 	}
 
-	if _err = s.Position.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
-	if _err = s.Orientation.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val MicrophoneInfoCoordinate
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Position = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val MicrophoneInfoCoordinate
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Orientation = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

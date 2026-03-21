@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -25,7 +26,7 @@ const (
 type IPackageInstallObserver2 interface {
 	AsBinder() binder.IBinder
 	OnUserActionRequired(ctx context.Context, intent content.Intent) error
-	OnPackageInstalled(ctx context.Context, basePackageName string, returnCode int32, msg string, extras interface{}) error
+	OnPackageInstalled(ctx context.Context, basePackageName string, returnCode int32, msg string, extras os.Bundle) error
 }
 
 type PackageInstallObserver2Proxy struct {
@@ -49,6 +50,7 @@ func (p *PackageInstallObserver2Proxy) OnUserActionRequired(
 	intent content.Intent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallObserver2)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -69,13 +71,18 @@ func (p *PackageInstallObserver2Proxy) OnPackageInstalled(
 	basePackageName string,
 	returnCode int32,
 	msg string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallObserver2)
 	_data.WriteString16(basePackageName)
 	_data.WriteInt32(returnCode)
 	_data.WriteString16(msg)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallObserver2, MethodIPackageInstallObserver2OnPackageInstalled)
 	if _err != nil {
@@ -89,7 +96,8 @@ func (p *PackageInstallObserver2Proxy) OnPackageInstalled(
 // PackageInstallObserver2Stub dispatches incoming binder transactions
 // to a typed IPackageInstallObserver2 implementation.
 type PackageInstallObserver2Stub struct {
-	Impl IPackageInstallObserver2
+	Impl      IPackageInstallObserver2
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PackageInstallObserver2Stub)(nil)
@@ -103,11 +111,12 @@ func (s *PackageInstallObserver2Stub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPackageInstallObserver2OnUserActionRequired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -121,12 +130,8 @@ func (s *PackageInstallObserver2Stub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnUserActionRequired(ctx, _arg_intent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPackageInstallObserver2OnPackageInstalled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_basePackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -139,10 +144,20 @@ func (s *PackageInstallObserver2Stub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnPackageInstalled(ctx, _arg_basePackageName, _arg_returnCode, _arg_msg, _arg_extras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -153,7 +168,7 @@ func (s *PackageInstallObserver2Stub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IPackageInstallObserver2Server interface {
 	OnUserActionRequired(ctx context.Context, intent content.Intent) error
-	OnPackageInstalled(ctx context.Context, basePackageName string, returnCode int32, msg string, extras interface{}) error
+	OnPackageInstalled(ctx context.Context, basePackageName string, returnCode int32, msg string, extras os.Bundle) error
 }
 
 type packageInstallObserver2StubWrapper struct {
@@ -177,7 +192,7 @@ func (w *packageInstallObserver2StubWrapper) OnPackageInstalled(
 	basePackageName string,
 	returnCode int32,
 	msg string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.OnPackageInstalled(ctx, basePackageName, returnCode, msg, extras)
 }

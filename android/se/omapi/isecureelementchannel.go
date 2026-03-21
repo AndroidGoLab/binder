@@ -59,6 +59,7 @@ func (p *SecureElementChannelProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementChannel, MethodISecureElementChannelClose)
@@ -84,6 +85,7 @@ func (p *SecureElementChannelProxy) IsClosed(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementChannel, MethodISecureElementChannelIsClosed)
@@ -113,6 +115,7 @@ func (p *SecureElementChannelProxy) IsBasicChannel(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementChannel, MethodISecureElementChannelIsBasicChannel)
@@ -142,6 +145,7 @@ func (p *SecureElementChannelProxy) GetSelectResponse(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementChannel, MethodISecureElementChannelGetSelectResponse)
@@ -159,19 +163,9 @@ func (p *SecureElementChannelProxy) GetSelectResponse(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -182,15 +176,9 @@ func (p *SecureElementChannelProxy) Transmit(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
-	if command == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(command)))
-		for _, _item := range command {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(command)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementChannel, MethodISecureElementChannelTransmit)
 	if _err != nil {
@@ -207,19 +195,9 @@ func (p *SecureElementChannelProxy) Transmit(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -229,6 +207,7 @@ func (p *SecureElementChannelProxy) SelectNext(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementChannel, MethodISecureElementChannelSelectNext)
@@ -256,7 +235,8 @@ func (p *SecureElementChannelProxy) SelectNext(
 // SecureElementChannelStub dispatches incoming binder transactions
 // to a typed ISecureElementChannel implementation.
 type SecureElementChannelStub struct {
-	Impl ISecureElementChannel
+	Impl      ISecureElementChannel
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SecureElementChannelStub)(nil)
@@ -270,11 +250,12 @@ func (s *SecureElementChannelStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISecureElementChannelClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -284,9 +265,6 @@ func (s *SecureElementChannelStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISecureElementChannelIsClosed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsClosed(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -297,9 +275,6 @@ func (s *SecureElementChannelStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISecureElementChannelIsBasicChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsBasicChannel(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -310,9 +285,6 @@ func (s *SecureElementChannelStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISecureElementChannelGetSelectResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSelectResponse(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -320,16 +292,17 @@ func (s *SecureElementChannelStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISecureElementChannelTransmit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_command []byte
-		_ = _arg_command
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_command = _bytes
+		}
 		_result, _err := s.Impl.Transmit(ctx, _arg_command)
 		_reply := parcel.New()
 		if _err != nil {
@@ -337,13 +310,9 @@ func (s *SecureElementChannelStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISecureElementChannelSelectNext:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.SelectNext(ctx)
 		_reply := parcel.New()
 		if _err != nil {

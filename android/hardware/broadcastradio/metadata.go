@@ -75,8 +75,7 @@ func (u *Metadata) GetRdsPs() (string, bool) {
 func (u *Metadata) SetRdsPs(
 	v string,
 ) {
-	u.Tag = MetadataTagRdsPs
-	u.RdsPs = v
+	*u = Metadata{Tag: MetadataTagRdsPs, RdsPs: v}
 }
 
 func (u *Metadata) GetRdsPty() (int32, bool) {
@@ -90,8 +89,7 @@ func (u *Metadata) GetRdsPty() (int32, bool) {
 func (u *Metadata) SetRdsPty(
 	v int32,
 ) {
-	u.Tag = MetadataTagRdsPty
-	u.RdsPty = v
+	*u = Metadata{Tag: MetadataTagRdsPty, RdsPty: v}
 }
 
 func (u *Metadata) GetRbdsPty() (int32, bool) {
@@ -105,8 +103,7 @@ func (u *Metadata) GetRbdsPty() (int32, bool) {
 func (u *Metadata) SetRbdsPty(
 	v int32,
 ) {
-	u.Tag = MetadataTagRbdsPty
-	u.RbdsPty = v
+	*u = Metadata{Tag: MetadataTagRbdsPty, RbdsPty: v}
 }
 
 func (u *Metadata) GetRdsRt() (string, bool) {
@@ -120,8 +117,7 @@ func (u *Metadata) GetRdsRt() (string, bool) {
 func (u *Metadata) SetRdsRt(
 	v string,
 ) {
-	u.Tag = MetadataTagRdsRt
-	u.RdsRt = v
+	*u = Metadata{Tag: MetadataTagRdsRt, RdsRt: v}
 }
 
 func (u *Metadata) GetSongTitle() (string, bool) {
@@ -135,8 +131,7 @@ func (u *Metadata) GetSongTitle() (string, bool) {
 func (u *Metadata) SetSongTitle(
 	v string,
 ) {
-	u.Tag = MetadataTagSongTitle
-	u.SongTitle = v
+	*u = Metadata{Tag: MetadataTagSongTitle, SongTitle: v}
 }
 
 func (u *Metadata) GetSongArtist() (string, bool) {
@@ -150,8 +145,7 @@ func (u *Metadata) GetSongArtist() (string, bool) {
 func (u *Metadata) SetSongArtist(
 	v string,
 ) {
-	u.Tag = MetadataTagSongArtist
-	u.SongArtist = v
+	*u = Metadata{Tag: MetadataTagSongArtist, SongArtist: v}
 }
 
 func (u *Metadata) GetSongAlbum() (string, bool) {
@@ -165,8 +159,7 @@ func (u *Metadata) GetSongAlbum() (string, bool) {
 func (u *Metadata) SetSongAlbum(
 	v string,
 ) {
-	u.Tag = MetadataTagSongAlbum
-	u.SongAlbum = v
+	*u = Metadata{Tag: MetadataTagSongAlbum, SongAlbum: v}
 }
 
 func (u *Metadata) GetStationIcon() (int32, bool) {
@@ -180,8 +173,7 @@ func (u *Metadata) GetStationIcon() (int32, bool) {
 func (u *Metadata) SetStationIcon(
 	v int32,
 ) {
-	u.Tag = MetadataTagStationIcon
-	u.StationIcon = v
+	*u = Metadata{Tag: MetadataTagStationIcon, StationIcon: v}
 }
 
 func (u *Metadata) GetAlbumArt() (int32, bool) {
@@ -195,8 +187,7 @@ func (u *Metadata) GetAlbumArt() (int32, bool) {
 func (u *Metadata) SetAlbumArt(
 	v int32,
 ) {
-	u.Tag = MetadataTagAlbumArt
-	u.AlbumArt = v
+	*u = Metadata{Tag: MetadataTagAlbumArt, AlbumArt: v}
 }
 
 func (u *Metadata) GetProgramName() (string, bool) {
@@ -210,8 +201,7 @@ func (u *Metadata) GetProgramName() (string, bool) {
 func (u *Metadata) SetProgramName(
 	v string,
 ) {
-	u.Tag = MetadataTagProgramName
-	u.ProgramName = v
+	*u = Metadata{Tag: MetadataTagProgramName, ProgramName: v}
 }
 
 func (u *Metadata) GetDabEnsembleName() (string, bool) {
@@ -225,8 +215,7 @@ func (u *Metadata) GetDabEnsembleName() (string, bool) {
 func (u *Metadata) SetDabEnsembleName(
 	v string,
 ) {
-	u.Tag = MetadataTagDabEnsembleName
-	u.DabEnsembleName = v
+	*u = Metadata{Tag: MetadataTagDabEnsembleName, DabEnsembleName: v}
 }
 
 func (u *Metadata) GetDabEnsembleNameShort() (string, bool) {
@@ -240,8 +229,7 @@ func (u *Metadata) GetDabEnsembleNameShort() (string, bool) {
 func (u *Metadata) SetDabEnsembleNameShort(
 	v string,
 ) {
-	u.Tag = MetadataTagDabEnsembleNameShort
-	u.DabEnsembleNameShort = v
+	*u = Metadata{Tag: MetadataTagDabEnsembleNameShort, DabEnsembleNameShort: v}
 }
 
 func (u *Metadata) GetDabServiceName() (string, bool) {
@@ -255,8 +243,7 @@ func (u *Metadata) GetDabServiceName() (string, bool) {
 func (u *Metadata) SetDabServiceName(
 	v string,
 ) {
-	u.Tag = MetadataTagDabServiceName
-	u.DabServiceName = v
+	*u = Metadata{Tag: MetadataTagDabServiceName, DabServiceName: v}
 }
 
 func (u *Metadata) GetDabServiceNameShort() (string, bool) {
@@ -270,8 +257,7 @@ func (u *Metadata) GetDabServiceNameShort() (string, bool) {
 func (u *Metadata) SetDabServiceNameShort(
 	v string,
 ) {
-	u.Tag = MetadataTagDabServiceNameShort
-	u.DabServiceNameShort = v
+	*u = Metadata{Tag: MetadataTagDabServiceNameShort, DabServiceNameShort: v}
 }
 
 func (u *Metadata) GetDabComponentName() (string, bool) {
@@ -285,8 +271,7 @@ func (u *Metadata) GetDabComponentName() (string, bool) {
 func (u *Metadata) SetDabComponentName(
 	v string,
 ) {
-	u.Tag = MetadataTagDabComponentName
-	u.DabComponentName = v
+	*u = Metadata{Tag: MetadataTagDabComponentName, DabComponentName: v}
 }
 
 func (u *Metadata) GetDabComponentNameShort() (string, bool) {
@@ -300,8 +285,7 @@ func (u *Metadata) GetDabComponentNameShort() (string, bool) {
 func (u *Metadata) SetDabComponentNameShort(
 	v string,
 ) {
-	u.Tag = MetadataTagDabComponentNameShort
-	u.DabComponentNameShort = v
+	*u = Metadata{Tag: MetadataTagDabComponentNameShort, DabComponentNameShort: v}
 }
 
 func (u *Metadata) GetGenre() (string, bool) {
@@ -315,8 +299,7 @@ func (u *Metadata) GetGenre() (string, bool) {
 func (u *Metadata) SetGenre(
 	v string,
 ) {
-	u.Tag = MetadataTagGenre
-	u.Genre = v
+	*u = Metadata{Tag: MetadataTagGenre, Genre: v}
 }
 
 func (u *Metadata) GetCommentShortDescription() (string, bool) {
@@ -330,8 +313,7 @@ func (u *Metadata) GetCommentShortDescription() (string, bool) {
 func (u *Metadata) SetCommentShortDescription(
 	v string,
 ) {
-	u.Tag = MetadataTagCommentShortDescription
-	u.CommentShortDescription = v
+	*u = Metadata{Tag: MetadataTagCommentShortDescription, CommentShortDescription: v}
 }
 
 func (u *Metadata) GetCommentActualText() (string, bool) {
@@ -345,8 +327,7 @@ func (u *Metadata) GetCommentActualText() (string, bool) {
 func (u *Metadata) SetCommentActualText(
 	v string,
 ) {
-	u.Tag = MetadataTagCommentActualText
-	u.CommentActualText = v
+	*u = Metadata{Tag: MetadataTagCommentActualText, CommentActualText: v}
 }
 
 func (u *Metadata) GetCommercial() (string, bool) {
@@ -360,8 +341,7 @@ func (u *Metadata) GetCommercial() (string, bool) {
 func (u *Metadata) SetCommercial(
 	v string,
 ) {
-	u.Tag = MetadataTagCommercial
-	u.Commercial = v
+	*u = Metadata{Tag: MetadataTagCommercial, Commercial: v}
 }
 
 func (u *Metadata) GetUfids() ([]string, bool) {
@@ -375,8 +355,7 @@ func (u *Metadata) GetUfids() ([]string, bool) {
 func (u *Metadata) SetUfids(
 	v []string,
 ) {
-	u.Tag = MetadataTagUfids
-	u.Ufids = v
+	*u = Metadata{Tag: MetadataTagUfids, Ufids: v}
 }
 
 func (u *Metadata) GetHdStationNameShort() (string, bool) {
@@ -390,8 +369,7 @@ func (u *Metadata) GetHdStationNameShort() (string, bool) {
 func (u *Metadata) SetHdStationNameShort(
 	v string,
 ) {
-	u.Tag = MetadataTagHdStationNameShort
-	u.HdStationNameShort = v
+	*u = Metadata{Tag: MetadataTagHdStationNameShort, HdStationNameShort: v}
 }
 
 func (u *Metadata) GetHdStationNameLong() (string, bool) {
@@ -405,8 +383,7 @@ func (u *Metadata) GetHdStationNameLong() (string, bool) {
 func (u *Metadata) SetHdStationNameLong(
 	v string,
 ) {
-	u.Tag = MetadataTagHdStationNameLong
-	u.HdStationNameLong = v
+	*u = Metadata{Tag: MetadataTagHdStationNameLong, HdStationNameLong: v}
 }
 
 func (u *Metadata) GetHdSubChannelsAvailable() (int32, bool) {
@@ -420,8 +397,7 @@ func (u *Metadata) GetHdSubChannelsAvailable() (int32, bool) {
 func (u *Metadata) SetHdSubChannelsAvailable(
 	v int32,
 ) {
-	u.Tag = MetadataTagHdSubChannelsAvailable
-	u.HdSubChannelsAvailable = v
+	*u = Metadata{Tag: MetadataTagHdSubChannelsAvailable, HdSubChannelsAvailable: v}
 }
 
 func (u *Metadata) MarshalParcel(

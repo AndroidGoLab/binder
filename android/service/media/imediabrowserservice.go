@@ -66,6 +66,7 @@ func (p *MediaBrowserServiceProxy) Connect(
 	callbacks IMediaBrowserServiceCallbacks,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserService)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(1)
@@ -88,6 +89,7 @@ func (p *MediaBrowserServiceProxy) Disconnect(
 	callbacks IMediaBrowserServiceCallbacks,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserService)
 	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
@@ -106,6 +108,7 @@ func (p *MediaBrowserServiceProxy) AddSubscriptionDeprecated(
 	callbacks IMediaBrowserServiceCallbacks,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserService)
 	_data.WriteString16(uri)
 	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
@@ -125,6 +128,7 @@ func (p *MediaBrowserServiceProxy) RemoveSubscriptionDeprecated(
 	callbacks IMediaBrowserServiceCallbacks,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserService)
 	_data.WriteString16(uri)
 	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
@@ -145,6 +149,7 @@ func (p *MediaBrowserServiceProxy) GetMediaItem(
 	callbacks IMediaBrowserServiceCallbacks,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserService)
 	_data.WriteString16(uri)
 	_data.WriteInt32(1)
@@ -170,6 +175,7 @@ func (p *MediaBrowserServiceProxy) AddSubscription(
 	callbacks IMediaBrowserServiceCallbacks,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserService)
 	_data.WriteString16(uri)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -195,6 +201,7 @@ func (p *MediaBrowserServiceProxy) RemoveSubscription(
 	callbacks IMediaBrowserServiceCallbacks,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserService)
 	_data.WriteString16(uri)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -212,7 +219,8 @@ func (p *MediaBrowserServiceProxy) RemoveSubscription(
 // MediaBrowserServiceStub dispatches incoming binder transactions
 // to a typed IMediaBrowserService implementation.
 type MediaBrowserServiceStub struct {
-	Impl IMediaBrowserService
+	Impl      IMediaBrowserService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaBrowserServiceStub)(nil)
@@ -226,11 +234,12 @@ func (s *MediaBrowserServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaBrowserServiceConnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -247,54 +256,58 @@ func (s *MediaBrowserServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IMediaBrowserServiceCallbacks
-		_ = _arg_callbacks
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewMediaBrowserServiceCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
+		}
 		_err = s.Impl.Connect(ctx, _arg_pkg, _arg_rootHints, _arg_callbacks)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaBrowserServiceDisconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IMediaBrowserServiceCallbacks
-		_ = _arg_callbacks
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewMediaBrowserServiceCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
+		}
 		_err := s.Impl.Disconnect(ctx, _arg_callbacks)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaBrowserServiceAddSubscriptionDeprecated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IMediaBrowserServiceCallbacks
-		_ = _arg_callbacks
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewMediaBrowserServiceCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
+		}
 		_err = s.Impl.AddSubscriptionDeprecated(ctx, _arg_uri, _arg_callbacks)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaBrowserServiceRemoveSubscriptionDeprecated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IMediaBrowserServiceCallbacks
-		_ = _arg_callbacks
-		_err = s.Impl.RemoveSubscriptionDeprecated(ctx, _arg_uri, _arg_callbacks)
-		_ = _err
-		return nil, nil
-	case TransactionIMediaBrowserServiceGetMediaItem:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewMediaBrowserServiceCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
 		}
+		_err = s.Impl.RemoveSubscriptionDeprecated(ctx, _arg_uri, _arg_callbacks)
+		return nil, _err
+	case TransactionIMediaBrowserServiceGetMediaItem:
 		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -311,23 +324,29 @@ func (s *MediaBrowserServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IMediaBrowserServiceCallbacks
-		_ = _arg_callbacks
-		_err = s.Impl.GetMediaItem(ctx, _arg_uri, _arg_cb, _arg_callbacks)
-		_ = _err
-		return nil, nil
-	case TransactionIMediaBrowserServiceAddSubscription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewMediaBrowserServiceCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
 		}
+		_err = s.Impl.GetMediaItem(ctx, _arg_uri, _arg_cb, _arg_callbacks)
+		return nil, _err
+	case TransactionIMediaBrowserServiceAddSubscription:
 		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_options os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -340,29 +359,39 @@ func (s *MediaBrowserServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IMediaBrowserServiceCallbacks
-		_ = _arg_callbacks
-		_err = s.Impl.AddSubscription(ctx, _arg_uri, _arg_token, _arg_options, _arg_callbacks)
-		_ = _err
-		return nil, nil
-	case TransactionIMediaBrowserServiceRemoveSubscription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewMediaBrowserServiceCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
 		}
+		_err = s.Impl.AddSubscription(ctx, _arg_uri, _arg_token, _arg_options, _arg_callbacks)
+		return nil, _err
+	case TransactionIMediaBrowserServiceRemoveSubscription:
 		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_callbacks IMediaBrowserServiceCallbacks
-		_ = _arg_callbacks
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewMediaBrowserServiceCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
+		}
 		_err = s.Impl.RemoveSubscription(ctx, _arg_uri, _arg_token, _arg_callbacks)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

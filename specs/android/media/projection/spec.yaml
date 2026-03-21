@@ -1,0 +1,412 @@
+package: android.media.projection
+go_package: android/media/projection
+interfaces:
+    - name: IMediaProjection
+      descriptor: android.media.projection.IMediaProjection
+      methods:
+        - name: start
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IMediaProjectionCallback
+          return_type:
+            name: void
+        - name: stop
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: canProjectAudio
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+        - name: canProjectVideo
+          transaction_code_offset: 3
+          return_type:
+            name: boolean
+        - name: canProjectSecureVideo
+          transaction_code_offset: 4
+          return_type:
+            name: boolean
+        - name: applyVirtualDisplayFlags
+          transaction_code_offset: 5
+          params:
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: registerCallback
+          transaction_code_offset: 6
+          params:
+            - name: callback
+              type:
+                name: IMediaProjectionCallback
+          return_type:
+            name: void
+        - name: unregisterCallback
+          transaction_code_offset: 7
+          params:
+            - name: callback
+              type:
+                name: IMediaProjectionCallback
+          return_type:
+            name: void
+        - name: getLaunchCookie
+          transaction_code_offset: 8
+          return_type:
+            name: LaunchCookie
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: setLaunchCookie
+          transaction_code_offset: 9
+          params:
+            - name: launchCookie
+              type:
+                name: LaunchCookie
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: isValid
+          transaction_code_offset: 10
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: notifyVirtualDisplayCreated
+          transaction_code_offset: 11
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+    - name: IMediaProjectionCallback
+      descriptor: android.media.projection.IMediaProjectionCallback
+      oneway: true
+      methods:
+        - name: onStop
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onCapturedContentResize
+          transaction_code_offset: 1
+          params:
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCapturedContentVisibilityChanged
+          transaction_code_offset: 2
+          params:
+            - name: isVisible
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IMediaProjectionManager
+      descriptor: android.media.projection.IMediaProjectionManager
+      methods:
+        - name: hasProjectionPermission
+          transaction_code_offset: 0
+          params:
+            - name: processUid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: createProjection
+          transaction_code_offset: 1
+          params:
+            - name: processUid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: type
+              type:
+                name: int
+            - name: permanentGrant
+              type:
+                name: boolean
+          return_type:
+            name: IMediaProjection
+          annotations:
+            - JavaPassthrough
+        - name: getProjection
+          transaction_code_offset: 2
+          params:
+            - name: processUid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: IMediaProjection
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: isCurrentProjection
+          transaction_code_offset: 3
+          params:
+            - name: projection
+              type:
+                name: IMediaProjection
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: requestConsentForInvalidProjection
+          transaction_code_offset: 4
+          params:
+            - name: projection
+              type:
+                name: IMediaProjection
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: getActiveProjectionInfo
+          transaction_code_offset: 5
+          return_type:
+            name: MediaProjectionInfo
+          annotations:
+            - JavaPassthrough
+        - name: stopActiveProjection
+          transaction_code_offset: 6
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: notifyActiveProjectionCapturedContentResized
+          transaction_code_offset: 7
+          params:
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: notifyActiveProjectionCapturedContentVisibilityChanged
+          transaction_code_offset: 8
+          params:
+            - name: isVisible
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: addCallback
+          transaction_code_offset: 9
+          params:
+            - name: callback
+              type:
+                name: IMediaProjectionWatcherCallback
+          return_type:
+            name: MediaProjectionInfo
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: removeCallback
+          transaction_code_offset: 10
+          params:
+            - name: callback
+              type:
+                name: IMediaProjectionWatcherCallback
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: setContentRecordingSession
+          transaction_code_offset: 11
+          params:
+            - name: incomingSession
+              type:
+                name: ContentRecordingSession
+              direction: in
+            - name: projection
+              type:
+                name: IMediaProjection
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: setUserReviewGrantedConsentResult
+          transaction_code_offset: 12
+          params:
+            - name: consentResult
+              type:
+                name: ReviewGrantedConsentResult
+            - name: projection
+              type:
+                name: IMediaProjection
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: notifyPermissionRequestInitiated
+          transaction_code_offset: 13
+          oneway: true
+          params:
+            - name: hostProcessUid
+              type:
+                name: int
+            - name: sessionCreationSource
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: notifyPermissionRequestDisplayed
+          transaction_code_offset: 14
+          oneway: true
+          params:
+            - name: hostProcessUid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: notifyPermissionRequestCancelled
+          transaction_code_offset: 15
+          oneway: true
+          params:
+            - name: hostProcessUid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: notifyAppSelectorDisplayed
+          transaction_code_offset: 16
+          oneway: true
+          params:
+            - name: hostProcessUid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: notifyWindowingModeChanged
+          transaction_code_offset: 17
+          params:
+            - name: contentToRecord
+              type:
+                name: int
+            - name: targetProcessUid
+              type:
+                name: int
+            - name: windowingMode
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+      constants:
+        - name: EXTRA_USER_REVIEW_GRANTED_CONSENT
+          type: String
+          value: '"extra_media_projection_user_consent_required"'
+        - name: EXTRA_PACKAGE_REUSING_GRANTED_CONSENT
+          type: String
+          value: '"extra_media_projection_package_reusing_consent"'
+    - name: IMediaProjectionWatcherCallback
+      descriptor: android.media.projection.IMediaProjectionWatcherCallback
+      oneway: true
+      methods:
+        - name: onStart
+          transaction_code_offset: 0
+          params:
+            - name: info
+              type:
+                name: MediaProjectionInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onStop
+          transaction_code_offset: 1
+          params:
+            - name: info
+              type:
+                name: MediaProjectionInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onRecordingSessionSet
+          transaction_code_offset: 2
+          params:
+            - name: info
+              type:
+                name: MediaProjectionInfo
+              direction: in
+            - name: session
+              type:
+                name: ContentRecordingSession
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: MediaProjectionConfig
+    - name: MediaProjectionInfo
+enums:
+    - name: ReviewGrantedConsentResult
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "-1"
+        - name: RECORD_CANCEL
+          value: "0"
+        - name: RECORD_CONTENT_DISPLAY
+          value: "1"
+        - name: RECORD_CONTENT_TASK
+          value: "2"
+      annotations:
+        - Backing

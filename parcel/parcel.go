@@ -4,12 +4,19 @@ import (
 	"fmt"
 )
 
+// maxParcelableDepth limits how deeply nested parcelable types can be
+// unmarshalled. Prevents stack overflow from malicious or cyclic data.
+const maxParcelableDepth = 32
+
 // Parcel is a container for serialized Binder IPC data.
 // Data is 4-byte aligned, little-endian.
+//
+// Parcel is not safe for concurrent use. Callers must synchronize access externally.
 type Parcel struct {
-	data    []byte
-	pos     int      // current read position
-	objects []uint64 // offsets of flat_binder_objects
+	data           []byte
+	pos            int      // current read position
+	objects        []uint64 // offsets of flat_binder_objects
+	parcelableDepth int     // current nesting depth for parcelable unmarshal
 }
 
 // New creates a new empty Parcel.
@@ -24,7 +31,7 @@ func FromBytes(
 	return &Parcel{data: data}
 }
 
-// Data returns the underlying byte buffer.
+// Data returns the internal byte slice. Callers must not modify it.
 func (p *Parcel) Data() []byte {
 	return p.data
 }
@@ -44,18 +51,31 @@ func (p *Parcel) Position() int {
 	return p.pos
 }
 
-// SetPosition sets the current read position.
+// SetPosition sets the current read position, clamping to [0, len(data)].
+// Non-aligned positions are allowed; read operations align internally.
 func (p *Parcel) SetPosition(
 	pos int,
 ) {
-	p.pos = pos
+	switch {
+	case pos < 0:
+		p.pos = 0
+	case pos > len(p.data):
+		p.pos = len(p.data)
+	default:
+		p.pos = pos
+	}
 }
 
 // Recycle resets the parcel for reuse.
+// Allocates fresh slices instead of reusing the old backing arrays
+// to prevent aliased mutation: callers that retained a reference to
+// Data() or Objects() before Recycle must not observe writes from
+// subsequent parcel operations. This trades pooling efficiency for
+// correctness.
 func (p *Parcel) Recycle() {
-	p.data = p.data[:0]
+	p.data = nil
 	p.pos = 0
-	p.objects = p.objects[:0]
+	p.objects = nil
 }
 
 // grow ensures capacity and returns a slice of n bytes for writing.
@@ -68,7 +88,8 @@ func (p *Parcel) grow(
 	needed := start + aligned
 
 	if cap(p.data) < needed {
-		newData := make([]byte, needed, needed*2)
+		// Grow by 50% (not 100%) to reduce memory waste for large parcels.
+		newData := make([]byte, needed, needed+needed/2)
 		copy(newData, p.data)
 		p.data = newData
 	} else {
@@ -105,3 +126,5 @@ func (p *Parcel) read(
 	p.pos += aligned
 	return out, nil
 }
+// test
+// test comment

@@ -48,6 +48,7 @@ func (p *RemoteServiceCallbackProxy) OnError(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorRemoteServiceCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorRemoteServiceCallback, MethodRemoteServiceCallbackOnError)
@@ -65,6 +66,7 @@ func (p *RemoteServiceCallbackProxy) OnResult(
 	callServices []binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorRemoteServiceCallback)
 	if components == nil {
 		_data.WriteInt32(-1)
@@ -82,7 +84,7 @@ func (p *RemoteServiceCallbackProxy) OnResult(
 	} else {
 		_data.WriteInt32(int32(len(callServices)))
 		for _, _item := range callServices {
-			_data.WriteStrongBinder(_item.Handle())
+			binder.WriteBinderToParcel(ctx, _data, _item, p.Remote.Transport())
 		}
 	}
 
@@ -98,7 +100,8 @@ func (p *RemoteServiceCallbackProxy) OnResult(
 // RemoteServiceCallbackStub dispatches incoming binder transactions
 // to a typed RemoteServiceCallback implementation.
 type RemoteServiceCallbackStub struct {
-	Impl RemoteServiceCallback
+	Impl      RemoteServiceCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RemoteServiceCallbackStub)(nil)
@@ -112,27 +115,58 @@ func (s *RemoteServiceCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionRemoteServiceCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnError(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionRemoteServiceCallbackOnResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_components []content.ComponentName
-		_ = _arg_components
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_components = make([]content.ComponentName, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_components[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_callServices []binder.IBinder
-		_ = _arg_callServices
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_callServices = make([]binder.IBinder, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_handle, _err := _data.ReadStrongBinder()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_callServices[_i] = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _handle)
+				}
+			}
+		}
 		_err := s.Impl.OnResult(ctx, _arg_components, _arg_callServices)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

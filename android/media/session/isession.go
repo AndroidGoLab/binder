@@ -3,7 +3,10 @@ package session
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/app/types"
 	content "github.com/xaionaro-go/binder/android/content"
+	mediaTypes "github.com/xaionaro-go/binder/android/media/types"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -56,22 +59,22 @@ const (
 
 type ISession interface {
 	AsBinder() binder.IBinder
-	SendEvent(ctx context.Context, event string, data interface{}) error
+	SendEvent(ctx context.Context, event string, data os.Bundle) error
 	GetController(ctx context.Context) (ISessionController, error)
 	SetFlags(ctx context.Context, flags int32) error
 	SetActive(ctx context.Context, active bool) error
-	SetMediaButtonReceiver(ctx context.Context, mbr interface{}) error
+	SetMediaButtonReceiver(ctx context.Context, mbr types.PendingIntent) error
 	SetMediaButtonBroadcastReceiver(ctx context.Context, broadcastReceiver content.ComponentName) error
-	SetLaunchPendingIntent(ctx context.Context, pi interface{}) error
+	SetLaunchPendingIntent(ctx context.Context, pi types.PendingIntent) error
 	DestroySession(ctx context.Context) error
-	SetMetadata(ctx context.Context, metadata interface{}, duration int64, metadataDescription string) error
+	SetMetadata(ctx context.Context, metadata mediaTypes.MediaMetadata, duration int64, metadataDescription string) error
 	SetPlaybackState(ctx context.Context, state PlaybackState) error
 	ResetQueue(ctx context.Context) error
 	GetBinderForSetQueue(ctx context.Context) (binder.IBinder, error)
-	SetQueueTitle(ctx context.Context, title interface{}) error
-	SetExtras(ctx context.Context, extras interface{}) error
+	SetQueueTitle(ctx context.Context, title string) error
+	SetExtras(ctx context.Context, extras os.Bundle) error
 	SetRatingType(ctx context.Context, type_ int32) error
-	SetPlaybackToLocal(ctx context.Context, attributes interface{}) error
+	SetPlaybackToLocal(ctx context.Context, attributes mediaTypes.AudioAttributes) error
 	SetPlaybackToRemote(ctx context.Context, control int32, max_ int32, controlId string) error
 	SetCurrentVolume(ctx context.Context, currentVolume int32) error
 }
@@ -95,11 +98,16 @@ var _ ISession = (*SessionProxy)(nil)
 func (p *SessionProxy) SendEvent(
 	ctx context.Context,
 	event string,
-	data interface{},
+	data os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteString16(event)
+	_data.WriteInt32(1)
+	if _err := data.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionSendEvent)
 	if _err != nil {
@@ -124,6 +132,7 @@ func (p *SessionProxy) GetController(
 ) (ISessionController, error) {
 	var _result ISessionController
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionGetController)
@@ -154,6 +163,7 @@ func (p *SessionProxy) SetFlags(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteInt32(flags)
 
@@ -180,6 +190,7 @@ func (p *SessionProxy) SetActive(
 	active bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteBool(active)
 
@@ -203,10 +214,12 @@ func (p *SessionProxy) SetActive(
 
 func (p *SessionProxy) SetMediaButtonReceiver(
 	ctx context.Context,
-	mbr interface{},
+	mbr types.PendingIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
+	// WARNING: param mbr (type types.PendingIntent) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionSetMediaButtonReceiver)
 	if _err != nil {
@@ -231,6 +244,7 @@ func (p *SessionProxy) SetMediaButtonBroadcastReceiver(
 	broadcastReceiver content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteInt32(1)
 	if _err := broadcastReceiver.MarshalParcel(_data); _err != nil {
@@ -257,10 +271,12 @@ func (p *SessionProxy) SetMediaButtonBroadcastReceiver(
 
 func (p *SessionProxy) SetLaunchPendingIntent(
 	ctx context.Context,
-	pi interface{},
+	pi types.PendingIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
+	// WARNING: param pi (type types.PendingIntent) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionSetLaunchPendingIntent)
 	if _err != nil {
@@ -284,6 +300,7 @@ func (p *SessionProxy) DestroySession(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionDestroySession)
@@ -306,12 +323,14 @@ func (p *SessionProxy) DestroySession(
 
 func (p *SessionProxy) SetMetadata(
 	ctx context.Context,
-	metadata interface{},
+	metadata mediaTypes.MediaMetadata,
 	duration int64,
 	metadataDescription string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
+	// WARNING: param metadata (type mediaTypes.MediaMetadata) cannot be serialized — type not resolved
 	_data.WriteInt64(duration)
 	_data.WriteString16(metadataDescription)
 
@@ -338,6 +357,7 @@ func (p *SessionProxy) SetPlaybackState(
 	state PlaybackState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
@@ -366,6 +386,7 @@ func (p *SessionProxy) ResetQueue(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionResetQueue)
@@ -391,6 +412,7 @@ func (p *SessionProxy) GetBinderForSetQueue(
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionGetBinderForSetQueue)
@@ -418,10 +440,12 @@ func (p *SessionProxy) GetBinderForSetQueue(
 
 func (p *SessionProxy) SetQueueTitle(
 	ctx context.Context,
-	title interface{},
+	title string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
+	_data.WriteString16(title)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionSetQueueTitle)
 	if _err != nil {
@@ -443,10 +467,15 @@ func (p *SessionProxy) SetQueueTitle(
 
 func (p *SessionProxy) SetExtras(
 	ctx context.Context,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionSetExtras)
 	if _err != nil {
@@ -471,6 +500,7 @@ func (p *SessionProxy) SetRatingType(
 	type_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteInt32(type_)
 
@@ -494,10 +524,12 @@ func (p *SessionProxy) SetRatingType(
 
 func (p *SessionProxy) SetPlaybackToLocal(
 	ctx context.Context,
-	attributes interface{},
+	attributes mediaTypes.AudioAttributes,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
+	// WARNING: param attributes (type mediaTypes.AudioAttributes) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionSetPlaybackToLocal)
 	if _err != nil {
@@ -524,6 +556,7 @@ func (p *SessionProxy) SetPlaybackToRemote(
 	controlId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteInt32(control)
 	_data.WriteInt32(max_)
@@ -552,6 +585,7 @@ func (p *SessionProxy) SetCurrentVolume(
 	currentVolume int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteInt32(currentVolume)
 
@@ -576,7 +610,8 @@ func (p *SessionProxy) SetCurrentVolume(
 // SessionStub dispatches incoming binder transactions
 // to a typed ISession implementation.
 type SessionStub struct {
-	Impl ISession
+	Impl      ISession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SessionStub)(nil)
@@ -590,16 +625,28 @@ func (s *SessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISessionSendEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_event, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_data interface{}
+		var _arg_data os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SendEvent(ctx, _arg_event, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -609,9 +656,6 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionGetController:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetController(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -619,13 +663,9 @@ func (s *SessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISessionSetFlags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -639,9 +679,6 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -655,10 +692,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetMediaButtonReceiver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_mbr interface{}
+		var _arg_mbr types.PendingIntent
 		_err := s.Impl.SetMediaButtonReceiver(ctx, _arg_mbr)
 		_reply := parcel.New()
 		if _err != nil {
@@ -668,9 +702,6 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetMediaButtonBroadcastReceiver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_broadcastReceiver content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -692,10 +723,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetLaunchPendingIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_pi interface{}
+		var _arg_pi types.PendingIntent
 		_err := s.Impl.SetLaunchPendingIntent(ctx, _arg_pi)
 		_reply := parcel.New()
 		if _err != nil {
@@ -705,9 +733,6 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionDestroySession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DestroySession(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -717,10 +742,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetMetadata:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_metadata interface{}
+		var _arg_metadata mediaTypes.MediaMetadata
 		_arg_duration, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -738,9 +760,6 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetPlaybackState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_state PlaybackState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -762,9 +781,6 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionResetQueue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResetQueue(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -774,9 +790,6 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionGetBinderForSetQueue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetBinderForSetQueue(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -784,15 +797,14 @@ func (s *SessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	case TransactionISessionSetQueueTitle:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_title, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_title interface{}
-		_err := s.Impl.SetQueueTitle(ctx, _arg_title)
+		_err = s.Impl.SetQueueTitle(ctx, _arg_title)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -801,10 +813,18 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetExtras:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_extras interface{}
 		_err := s.Impl.SetExtras(ctx, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {
@@ -814,9 +834,6 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetRatingType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -830,10 +847,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetPlaybackToLocal:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_attributes interface{}
+		var _arg_attributes mediaTypes.AudioAttributes
 		_err := s.Impl.SetPlaybackToLocal(ctx, _arg_attributes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -843,9 +857,6 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetPlaybackToRemote:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_control, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -867,9 +878,6 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetCurrentVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_currentVolume, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -891,22 +899,22 @@ func (s *SessionStub) OnTransaction(
 // provide to NewSessionStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ISessionServer interface {
-	SendEvent(ctx context.Context, event string, data interface{}) error
+	SendEvent(ctx context.Context, event string, data os.Bundle) error
 	GetController(ctx context.Context) (ISessionController, error)
 	SetFlags(ctx context.Context, flags int32) error
 	SetActive(ctx context.Context, active bool) error
-	SetMediaButtonReceiver(ctx context.Context, mbr interface{}) error
+	SetMediaButtonReceiver(ctx context.Context, mbr types.PendingIntent) error
 	SetMediaButtonBroadcastReceiver(ctx context.Context, broadcastReceiver content.ComponentName) error
-	SetLaunchPendingIntent(ctx context.Context, pi interface{}) error
+	SetLaunchPendingIntent(ctx context.Context, pi types.PendingIntent) error
 	DestroySession(ctx context.Context) error
-	SetMetadata(ctx context.Context, metadata interface{}, duration int64, metadataDescription string) error
+	SetMetadata(ctx context.Context, metadata mediaTypes.MediaMetadata, duration int64, metadataDescription string) error
 	SetPlaybackState(ctx context.Context, state PlaybackState) error
 	ResetQueue(ctx context.Context) error
 	GetBinderForSetQueue(ctx context.Context) (binder.IBinder, error)
-	SetQueueTitle(ctx context.Context, title interface{}) error
-	SetExtras(ctx context.Context, extras interface{}) error
+	SetQueueTitle(ctx context.Context, title string) error
+	SetExtras(ctx context.Context, extras os.Bundle) error
 	SetRatingType(ctx context.Context, type_ int32) error
-	SetPlaybackToLocal(ctx context.Context, attributes interface{}) error
+	SetPlaybackToLocal(ctx context.Context, attributes mediaTypes.AudioAttributes) error
 	SetPlaybackToRemote(ctx context.Context, control int32, max_ int32, controlId string) error
 	SetCurrentVolume(ctx context.Context, currentVolume int32) error
 }
@@ -923,7 +931,7 @@ func (w *sessionStubWrapper) AsBinder() binder.IBinder {
 func (w *sessionStubWrapper) SendEvent(
 	ctx context.Context,
 	event string,
-	data interface{},
+	data os.Bundle,
 ) error {
 	return w.impl.SendEvent(ctx, event, data)
 }
@@ -950,7 +958,7 @@ func (w *sessionStubWrapper) SetActive(
 
 func (w *sessionStubWrapper) SetMediaButtonReceiver(
 	ctx context.Context,
-	mbr interface{},
+	mbr types.PendingIntent,
 ) error {
 	return w.impl.SetMediaButtonReceiver(ctx, mbr)
 }
@@ -964,7 +972,7 @@ func (w *sessionStubWrapper) SetMediaButtonBroadcastReceiver(
 
 func (w *sessionStubWrapper) SetLaunchPendingIntent(
 	ctx context.Context,
-	pi interface{},
+	pi types.PendingIntent,
 ) error {
 	return w.impl.SetLaunchPendingIntent(ctx, pi)
 }
@@ -977,7 +985,7 @@ func (w *sessionStubWrapper) DestroySession(
 
 func (w *sessionStubWrapper) SetMetadata(
 	ctx context.Context,
-	metadata interface{},
+	metadata mediaTypes.MediaMetadata,
 	duration int64,
 	metadataDescription string,
 ) error {
@@ -1005,14 +1013,14 @@ func (w *sessionStubWrapper) GetBinderForSetQueue(
 
 func (w *sessionStubWrapper) SetQueueTitle(
 	ctx context.Context,
-	title interface{},
+	title string,
 ) error {
 	return w.impl.SetQueueTitle(ctx, title)
 }
 
 func (w *sessionStubWrapper) SetExtras(
 	ctx context.Context,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.SetExtras(ctx, extras)
 }
@@ -1026,7 +1034,7 @@ func (w *sessionStubWrapper) SetRatingType(
 
 func (w *sessionStubWrapper) SetPlaybackToLocal(
 	ctx context.Context,
-	attributes interface{},
+	attributes mediaTypes.AudioAttributes,
 ) error {
 	return w.impl.SetPlaybackToLocal(ctx, attributes)
 }

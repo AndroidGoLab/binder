@@ -32,11 +32,21 @@ func (s *WifiRadioConfiguration) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_bandInfoRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.BandInfo = WifiBand(_bandInfoRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_antennaModeRaw, _err := p.ReadInt32()
 	if _err != nil {

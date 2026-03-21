@@ -48,6 +48,7 @@ func (p *OemNetdProxy) IsAlive(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemNetd)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemNetd, MethodIOemNetdIsAlive)
@@ -77,6 +78,7 @@ func (p *OemNetdProxy) RegisterOemUnsolicitedEventListener(
 	listener IOemNetdUnsolicitedEventListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOemNetd)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -101,7 +103,8 @@ func (p *OemNetdProxy) RegisterOemUnsolicitedEventListener(
 // OemNetdStub dispatches incoming binder transactions
 // to a typed IOemNetd implementation.
 type OemNetdStub struct {
-	Impl IOemNetd
+	Impl      IOemNetd
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OemNetdStub)(nil)
@@ -115,11 +118,12 @@ func (s *OemNetdStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOemNetdIsAlive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsAlive(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -130,12 +134,14 @@ func (s *OemNetdStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIOemNetdRegisterOemUnsolicitedEventListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOemNetdUnsolicitedEventListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOemNetdUnsolicitedEventListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterOemUnsolicitedEventListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {

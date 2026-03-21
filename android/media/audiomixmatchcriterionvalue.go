@@ -2,6 +2,7 @@ package media
 
 import (
 	"fmt"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -17,8 +18,8 @@ const (
 
 type AudioMixMatchCriterionValue struct {
 	Tag            int32
-	Usage          interface{}
-	Source         interface{}
+	Usage          common.AudioUsage
+	Source         common.AudioSource
 	Uid            int32
 	UserId         int32
 	AudioSessionId int32
@@ -26,34 +27,32 @@ type AudioMixMatchCriterionValue struct {
 
 var _ parcel.Parcelable = (*AudioMixMatchCriterionValue)(nil)
 
-func (u *AudioMixMatchCriterionValue) GetUsage() (interface{}, bool) {
+func (u *AudioMixMatchCriterionValue) GetUsage() (common.AudioUsage, bool) {
 	if u.Tag != AudioMixMatchCriterionValueTagUsage {
-		var _zero interface{}
+		var _zero common.AudioUsage
 		return _zero, false
 	}
 	return u.Usage, true
 }
 
 func (u *AudioMixMatchCriterionValue) SetUsage(
-	v interface{},
+	v common.AudioUsage,
 ) {
-	u.Tag = AudioMixMatchCriterionValueTagUsage
-	u.Usage = v
+	*u = AudioMixMatchCriterionValue{Tag: AudioMixMatchCriterionValueTagUsage, Usage: v}
 }
 
-func (u *AudioMixMatchCriterionValue) GetSource() (interface{}, bool) {
+func (u *AudioMixMatchCriterionValue) GetSource() (common.AudioSource, bool) {
 	if u.Tag != AudioMixMatchCriterionValueTagSource {
-		var _zero interface{}
+		var _zero common.AudioSource
 		return _zero, false
 	}
 	return u.Source, true
 }
 
 func (u *AudioMixMatchCriterionValue) SetSource(
-	v interface{},
+	v common.AudioSource,
 ) {
-	u.Tag = AudioMixMatchCriterionValueTagSource
-	u.Source = v
+	*u = AudioMixMatchCriterionValue{Tag: AudioMixMatchCriterionValueTagSource, Source: v}
 }
 
 func (u *AudioMixMatchCriterionValue) GetUid() (int32, bool) {
@@ -67,8 +66,7 @@ func (u *AudioMixMatchCriterionValue) GetUid() (int32, bool) {
 func (u *AudioMixMatchCriterionValue) SetUid(
 	v int32,
 ) {
-	u.Tag = AudioMixMatchCriterionValueTagUid
-	u.Uid = v
+	*u = AudioMixMatchCriterionValue{Tag: AudioMixMatchCriterionValueTagUid, Uid: v}
 }
 
 func (u *AudioMixMatchCriterionValue) GetUserId() (int32, bool) {
@@ -82,8 +80,7 @@ func (u *AudioMixMatchCriterionValue) GetUserId() (int32, bool) {
 func (u *AudioMixMatchCriterionValue) SetUserId(
 	v int32,
 ) {
-	u.Tag = AudioMixMatchCriterionValueTagUserId
-	u.UserId = v
+	*u = AudioMixMatchCriterionValue{Tag: AudioMixMatchCriterionValueTagUserId, UserId: v}
 }
 
 func (u *AudioMixMatchCriterionValue) GetAudioSessionId() (int32, bool) {
@@ -97,8 +94,7 @@ func (u *AudioMixMatchCriterionValue) GetAudioSessionId() (int32, bool) {
 func (u *AudioMixMatchCriterionValue) SetAudioSessionId(
 	v int32,
 ) {
-	u.Tag = AudioMixMatchCriterionValueTagAudioSessionId
-	u.AudioSessionId = v
+	*u = AudioMixMatchCriterionValue{Tag: AudioMixMatchCriterionValueTagAudioSessionId, AudioSessionId: v}
 }
 
 func (u *AudioMixMatchCriterionValue) MarshalParcel(
@@ -109,7 +105,9 @@ func (u *AudioMixMatchCriterionValue) MarshalParcel(
 
 	switch u.Tag {
 	case AudioMixMatchCriterionValueTagUsage:
+		p.WriteInt32(int32(u.Usage))
 	case AudioMixMatchCriterionValueTagSource:
+		p.WriteInt32(int32(u.Source))
 	case AudioMixMatchCriterionValueTagUid:
 		p.WriteInt32(u.Uid)
 	case AudioMixMatchCriterionValueTagUserId:
@@ -139,7 +137,17 @@ func (u *AudioMixMatchCriterionValue) UnmarshalParcel(
 
 	switch u.Tag {
 	case AudioMixMatchCriterionValueTagUsage:
+		_raw, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		u.Usage = common.AudioUsage(_raw)
 	case AudioMixMatchCriterionValueTagSource:
+		_raw, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		u.Source = common.AudioSource(_raw)
 	case AudioMixMatchCriterionValueTagUid:
 		u.Uid, _err = p.ReadInt32()
 		if _err != nil {

@@ -34,17 +34,32 @@ func (s *HdrConversionCapability) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_sourceTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.SourceType = Hdr(_sourceTypeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_outputTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.OutputType = Hdr(_outputTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.AddsLatency, _err = p.ReadBool()
 	if _err != nil {

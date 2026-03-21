@@ -1,7 +1,6 @@
 package audio
 
 import (
-	audioBroadcastCapability "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/BroadcastCapability"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -12,7 +11,7 @@ type UnicastCapability struct {
 	SupportedChannel         AudioLocation
 	DeviceCount              int32
 	ChannelCountPerDevice    int32
-	LeAudioCodecCapabilities audioBroadcastCapability.LeAudioCodecCapabilities
+	LeAudioCodecCapabilities BroadcastCapabilityLeAudioCodecCapabilities
 }
 
 var _ parcel.Parcelable = (*UnicastCapability)(nil)
@@ -41,11 +40,21 @@ func (s *UnicastCapability) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_codecTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.CodecType = CodecType(_codecTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_supportedChannelRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -53,14 +62,29 @@ func (s *UnicastCapability) UnmarshalParcel(
 	}
 	s.SupportedChannel = AudioLocation(_supportedChannelRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.DeviceCount, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ChannelCountPerDevice, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.LeAudioCodecCapabilities.UnmarshalParcel(p); _err != nil {

@@ -60,6 +60,7 @@ func (p *RemoteDisplayProviderProxy) SetCallback(
 	callback IRemoteDisplayCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -77,6 +78,7 @@ func (p *RemoteDisplayProviderProxy) SetDiscoveryMode(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
 	_data.WriteInt32(mode)
 
@@ -94,6 +96,7 @@ func (p *RemoteDisplayProviderProxy) Connect(
 	id string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
 	_data.WriteString16(id)
 
@@ -111,6 +114,7 @@ func (p *RemoteDisplayProviderProxy) Disconnect(
 	id string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
 	_data.WriteString16(id)
 
@@ -129,6 +133,7 @@ func (p *RemoteDisplayProviderProxy) SetVolume(
 	volume int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
 	_data.WriteString16(id)
 	_data.WriteInt32(volume)
@@ -148,6 +153,7 @@ func (p *RemoteDisplayProviderProxy) AdjustVolume(
 	delta int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
 	_data.WriteString16(id)
 	_data.WriteInt32(delta)
@@ -164,7 +170,8 @@ func (p *RemoteDisplayProviderProxy) AdjustVolume(
 // RemoteDisplayProviderStub dispatches incoming binder transactions
 // to a typed IRemoteDisplayProvider implementation.
 type RemoteDisplayProviderStub struct {
-	Impl IRemoteDisplayProvider
+	Impl      IRemoteDisplayProvider
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RemoteDisplayProviderStub)(nil)
@@ -178,54 +185,44 @@ func (s *RemoteDisplayProviderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRemoteDisplayProviderSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IRemoteDisplayCallback
-		_ = _arg_callback
-		_err := s.Impl.SetCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIRemoteDisplayProviderSetDiscoveryMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRemoteDisplayCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.SetCallback(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIRemoteDisplayProviderSetDiscoveryMode:
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetDiscoveryMode(ctx, _arg_mode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRemoteDisplayProviderConnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Connect(ctx, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRemoteDisplayProviderDisconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Disconnect(ctx, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRemoteDisplayProviderSetVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -235,12 +232,8 @@ func (s *RemoteDisplayProviderStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetVolume(ctx, _arg_id, _arg_volume)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRemoteDisplayProviderAdjustVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -250,8 +243,7 @@ func (s *RemoteDisplayProviderStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.AdjustVolume(ctx, _arg_id, _arg_delta)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -48,6 +48,7 @@ func (p *FilterCallbackProxy) OnFilterEvent(
 	events []DemuxFilterEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilterCallback)
 	if events == nil {
 		_data.WriteInt32(-1)
@@ -75,6 +76,7 @@ func (p *FilterCallbackProxy) OnFilterStatus(
 	status DemuxFilterStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilterCallback)
 	_data.WritePaddedByte(byte(status))
 
@@ -90,7 +92,8 @@ func (p *FilterCallbackProxy) OnFilterStatus(
 // FilterCallbackStub dispatches incoming binder transactions
 // to a typed IFilterCallback implementation.
 type FilterCallbackStub struct {
-	Impl IFilterCallback
+	Impl      IFilterCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FilterCallbackStub)(nil)
@@ -104,29 +107,43 @@ func (s *FilterCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFilterCallbackOnFilterEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_events []DemuxFilterEvent
-		_ = _arg_events
-		_err := s.Impl.OnFilterEvent(ctx, _arg_events)
-		_ = _err
-		return nil, nil
-	case TransactionIFilterCallbackOnFilterStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_events = make([]DemuxFilterEvent, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_events[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnFilterEvent(ctx, _arg_events)
+		return nil, _err
+	case TransactionIFilterCallbackOnFilterStatus:
 		_raw_status, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_status := DemuxFilterStatus(_raw_status)
 		_err = s.Impl.OnFilterStatus(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

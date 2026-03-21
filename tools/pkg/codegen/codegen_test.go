@@ -103,7 +103,7 @@ func TestGenerateInterface_Simple(t *testing.T) {
 
 	// Check stub struct.
 	assert.Contains(t, srcStr, "type ServiceManagerStub struct")
-	assert.Contains(t, srcStr, "Impl IServiceManager")
+	assert.Contains(t, srcStr, "Impl      IServiceManager")
 	assert.Contains(t, srcStr, "var _ binder.TransactionReceiver = (*ServiceManagerStub)(nil)")
 
 	// Check stub OnTransaction method.
@@ -1077,7 +1077,7 @@ func TestGenerateInterface_StubPrimitiveReturn(t *testing.T) {
 
 	// Stub struct and compliance.
 	assert.Contains(t, srcStr, "type CounterStub struct")
-	assert.Contains(t, srcStr, "Impl ICounter")
+	assert.Contains(t, srcStr, "Impl      ICounter")
 	assert.Contains(t, srcStr, "var _ binder.TransactionReceiver = (*CounterStub)(nil)")
 
 	// OnTransaction dispatcher.
@@ -1112,9 +1112,11 @@ func TestGenerateInterface_StubOneway(t *testing.T) {
 
 	srcStr := string(src)
 
-	// Oneway stubs return nil, nil (no reply).
+	// Oneway stubs return the error (no reply parcel, but error is
+	// propagated for local handling / logging).
 	assert.Contains(t, srcStr, "type NotifyStub struct")
-	assert.Contains(t, srcStr, "return nil, nil")
+	assert.Contains(t, srcStr, "return nil, _err")
+	assert.NotContains(t, srcStr, "_ = _err")
 	assert.Contains(t, srcStr, "s.Impl.OnEvent(ctx, _arg_eventId, _arg_detail)")
 }
 
@@ -1137,7 +1139,11 @@ func TestGenerateInterface_StubNoMethods(t *testing.T) {
 
 	// Stub is still generated for empty interfaces.
 	assert.Contains(t, srcStr, "type EmptyStub struct")
-	assert.Contains(t, srcStr, "Impl IEmpty")
+	assert.Contains(t, srcStr, "Impl      IEmpty")
+
+	// Even with no methods, the stub's OnTransaction must validate the
+	// interface token so that malformed transactions are rejected early.
+	assert.Contains(t, srcStr, "ReadInterfaceToken()")
 }
 
 func TestGenerateInterface_StubVoidNoParams(t *testing.T) {

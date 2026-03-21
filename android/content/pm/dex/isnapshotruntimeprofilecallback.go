@@ -48,6 +48,7 @@ func (p *SnapshotRuntimeProfileCallbackProxy) OnSuccess(
 	profileReadFd int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISnapshotRuntimeProfileCallback)
 	_data.WriteFileDescriptor(profileReadFd)
 
@@ -65,6 +66,7 @@ func (p *SnapshotRuntimeProfileCallbackProxy) OnError(
 	errCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISnapshotRuntimeProfileCallback)
 	_data.WriteInt32(errCode)
 
@@ -80,7 +82,8 @@ func (p *SnapshotRuntimeProfileCallbackProxy) OnError(
 // SnapshotRuntimeProfileCallbackStub dispatches incoming binder transactions
 // to a typed ISnapshotRuntimeProfileCallback implementation.
 type SnapshotRuntimeProfileCallbackStub struct {
-	Impl ISnapshotRuntimeProfileCallback
+	Impl      ISnapshotRuntimeProfileCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SnapshotRuntimeProfileCallbackStub)(nil)
@@ -94,29 +97,25 @@ func (s *SnapshotRuntimeProfileCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISnapshotRuntimeProfileCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_profileReadFd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSuccess(ctx, _arg_profileReadFd)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISnapshotRuntimeProfileCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_errCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

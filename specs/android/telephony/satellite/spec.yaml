@@ -1,0 +1,155 @@
+package: android.telephony.satellite
+go_package: android/telephony/satellite
+interfaces:
+    - name: INtnSignalStrengthCallback
+      descriptor: android.telephony.satellite.INtnSignalStrengthCallback
+      oneway: true
+      methods:
+        - name: onNtnSignalStrengthChanged
+          transaction_code_offset: 0
+          params:
+            - name: ntnSignalStrength
+              type:
+                name: NtnSignalStrength
+              direction: in
+          return_type:
+            name: void
+    - name: ISatelliteCapabilitiesCallback
+      descriptor: android.telephony.satellite.ISatelliteCapabilitiesCallback
+      oneway: true
+      methods:
+        - name: onSatelliteCapabilitiesChanged
+          transaction_code_offset: 0
+          params:
+            - name: capabilities
+              type:
+                name: SatelliteCapabilities
+              direction: in
+          return_type:
+            name: void
+    - name: ISatelliteCommunicationAllowedStateCallback
+      descriptor: android.telephony.satellite.ISatelliteCommunicationAllowedStateCallback
+      oneway: true
+      methods:
+        - name: onSatelliteCommunicationAllowedStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: isAllowed
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+    - name: ISatelliteDatagramCallback
+      descriptor: android.telephony.satellite.ISatelliteDatagramCallback
+      oneway: true
+      methods:
+        - name: onSatelliteDatagramReceived
+          transaction_code_offset: 0
+          params:
+            - name: datagramId
+              type:
+                name: long
+            - name: datagram
+              type:
+                name: SatelliteDatagram
+              direction: in
+            - name: pendingCount
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IVoidConsumer
+          return_type:
+            name: void
+    - name: ISatelliteModemStateCallback
+      descriptor: android.telephony.satellite.ISatelliteModemStateCallback
+      oneway: true
+      methods:
+        - name: onSatelliteModemStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: state
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: ISatelliteProvisionStateCallback
+      descriptor: android.telephony.satellite.ISatelliteProvisionStateCallback
+      oneway: true
+      methods:
+        - name: onSatelliteProvisionStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: provisioned
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+    - name: ISatelliteSupportedStateCallback
+      descriptor: android.telephony.satellite.ISatelliteSupportedStateCallback
+      oneway: true
+      methods:
+        - name: onSatelliteSupportedStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: supported
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+    - name: ISatelliteTransmissionUpdateCallback
+      descriptor: android.telephony.satellite.ISatelliteTransmissionUpdateCallback
+      oneway: true
+      methods:
+        - name: onSendDatagramStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: datagramType
+              type:
+                name: int
+            - name: state
+              type:
+                name: int
+            - name: sendPendingCount
+              type:
+                name: int
+            - name: errorCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onReceiveDatagramStateChanged
+          transaction_code_offset: 1
+          params:
+            - name: state
+              type:
+                name: int
+            - name: receivePendingCount
+              type:
+                name: int
+            - name: errorCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSatellitePositionChanged
+          transaction_code_offset: 2
+          params:
+            - name: pointingInfo
+              type:
+                name: PointingInfo
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: AntennaDirection
+    - name: AntennaPosition
+    - name: NtnSignalStrength
+    - name: PointingInfo
+    - name: SatelliteCapabilities
+    - name: SatelliteDatagram
+    - name: SatelliteSessionStats

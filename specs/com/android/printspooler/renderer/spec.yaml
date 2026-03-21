@@ -1,0 +1,87 @@
+package: com.android.printspooler.renderer
+go_package: com/android/printspooler/renderer
+interfaces:
+    - name: IPdfEditor
+      descriptor: com.android.printspooler.renderer.IPdfEditor
+      methods:
+        - name: openDocument
+          transaction_code_offset: 0
+          params:
+            - name: source
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: int
+        - name: removePages
+          transaction_code_offset: 1
+          params:
+            - name: pages
+              type:
+                name: PageRange
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: applyPrintAttributes
+          transaction_code_offset: 2
+          params:
+            - name: attributes
+              type:
+                name: PrintAttributes
+              direction: in
+          return_type:
+            name: void
+        - name: write
+          transaction_code_offset: 3
+          params:
+            - name: destination
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+        - name: closeDocument
+          transaction_code_offset: 4
+          return_type:
+            name: void
+    - name: IPdfRenderer
+      descriptor: com.android.printspooler.renderer.IPdfRenderer
+      methods:
+        - name: openDocument
+          transaction_code_offset: 0
+          params:
+            - name: source
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: int
+        - name: renderPage
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: pageIndex
+              type:
+                name: int
+            - name: bitmapWidth
+              type:
+                name: int
+            - name: bitmapHeight
+              type:
+                name: int
+            - name: attributes
+              type:
+                name: PrintAttributes
+              direction: in
+            - name: destination
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+        - name: closeDocument
+          transaction_code_offset: 2
+          oneway: true
+          return_type:
+            name: void

@@ -1,0 +1,1957 @@
+package: android.hardware.audio.effect
+go_package: android/hardware/audio/effect
+interfaces:
+    - name: IEffect
+      descriptor: android.hardware.audio.effect.IEffect
+      methods:
+        - name: open
+          transaction_code_offset: 0
+          params:
+            - name: common
+              type:
+                name: Parameter.Common
+              direction: in
+            - name: specific
+              type:
+                name: Parameter.Specific
+                is_nullable: true
+              direction: in
+          return_type:
+            name: OpenEffectReturn
+        - name: close
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: getDescriptor
+          transaction_code_offset: 2
+          return_type:
+            name: Descriptor
+        - name: command
+          transaction_code_offset: 3
+          params:
+            - name: commandId
+              type:
+                name: CommandId
+              direction: in
+          return_type:
+            name: void
+        - name: getState
+          transaction_code_offset: 4
+          return_type:
+            name: State
+        - name: setParameter
+          transaction_code_offset: 5
+          params:
+            - name: param
+              type:
+                name: Parameter
+              direction: in
+          return_type:
+            name: void
+        - name: getParameter
+          transaction_code_offset: 6
+          params:
+            - name: paramId
+              type:
+                name: Parameter.Id
+              direction: in
+          return_type:
+            name: Parameter
+        - name: reopen
+          transaction_code_offset: 7
+          return_type:
+            name: OpenEffectReturn
+    - name: IFactory
+      descriptor: android.hardware.audio.effect.IFactory
+      methods:
+        - name: queryEffects
+          transaction_code_offset: 0
+          params:
+            - name: type
+              type:
+                name: AudioUuid
+                is_nullable: true
+              direction: in
+            - name: implementation
+              type:
+                name: AudioUuid
+                is_nullable: true
+              direction: in
+            - name: proxy
+              type:
+                name: AudioUuid
+                is_nullable: true
+              direction: in
+          return_type:
+            name: Descriptor
+            is_array: true
+        - name: queryProcessing
+          transaction_code_offset: 1
+          params:
+            - name: type
+              type:
+                name: Processing.Type
+                is_nullable: true
+              direction: in
+          return_type:
+            name: Processing
+            is_array: true
+        - name: createEffect
+          transaction_code_offset: 2
+          params:
+            - name: implUuid
+              type:
+                name: AudioUuid
+              direction: in
+          return_type:
+            name: IEffect
+        - name: destroyEffect
+          transaction_code_offset: 3
+          params:
+            - name: handle
+              type:
+                name: IEffect
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: Capability
+      fields:
+        - name: vendorExtension
+          type:
+            name: VendorExtension
+        - name: range
+          type:
+            name: Range
+      annotations:
+        - VintfStability
+    - name: DefaultExtension
+      fields:
+        - name: bytes
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: Descriptor
+      fields:
+        - name: common
+          type:
+            name: Common
+        - name: capability
+          type:
+            name: Capability
+      constants:
+        - name: EFFECT_TYPE_UUID_AEC
+          type: String
+          value: '"7b491460-8d4d-11e0-bd61-0002a5d5c51b"'
+        - name: EFFECT_TYPE_UUID_AGC1
+          type: String
+          value: '"0a8abfe0-654c-11e0-ba26-0002a5d5c51b"'
+        - name: EFFECT_TYPE_UUID_AGC2
+          type: String
+          value: '"ae3c653b-be18-4ab8-8938-418f0a7f06ac"'
+        - name: EFFECT_TYPE_UUID_BASS_BOOST
+          type: String
+          value: '"0634f220-ddd4-11db-a0fc-0002a5d5c51b"'
+        - name: EFFECT_TYPE_UUID_DOWNMIX
+          type: String
+          value: '"381e49cc-a858-4aa2-87f6-e8388e7601b2"'
+        - name: EFFECT_TYPE_UUID_DYNAMICS_PROCESSING
+          type: String
+          value: '"7261676f-6d75-7369-6364-28e2fd3ac39e"'
+        - name: EFFECT_TYPE_UUID_ENV_REVERB
+          type: String
+          value: '"c2e5d5f0-94bd-4763-9cac-4e234d06839e"'
+        - name: EFFECT_TYPE_UUID_EQUALIZER
+          type: String
+          value: '"0bed4300-ddd6-11db-8f34-0002a5d5c51b"'
+        - name: EFFECT_TYPE_UUID_HAPTIC_GENERATOR
+          type: String
+          value: '"1411e6d6-aecd-4021-a1cf-a6aceb0d71e5"'
+        - name: EFFECT_TYPE_UUID_LOUDNESS_ENHANCER
+          type: String
+          value: '"fe3199be-aed0-413f-87bb-11260eb63cf1"'
+        - name: EFFECT_TYPE_UUID_NS
+          type: String
+          value: '"58b4b260-8e06-11e0-aa8e-0002a5d5c51b"'
+        - name: EFFECT_TYPE_UUID_PRESET_REVERB
+          type: String
+          value: '"47382d60-ddd8-11db-bf3a-0002a5d5c51b"'
+        - name: EFFECT_TYPE_UUID_SPATIALIZER
+          type: String
+          value: '"ccd4cf09-a79d-46c2-9aae-06a1698d6c8f"'
+        - name: EFFECT_TYPE_UUID_VIRTUALIZER
+          type: String
+          value: '"37cc2c00-dddd-11db-8577-0002a5d5c51b"'
+        - name: EFFECT_TYPE_UUID_VISUALIZER
+          type: String
+          value: '"e46b26a0-dddd-11db-8afd-0002a5d5c51b"'
+        - name: EFFECT_TYPE_UUID_VOLUME
+          type: String
+          value: '"09e8ede0-ddde-11db-b4f6-0002a5d5c51b"'
+      nested_types:
+        - Descriptor.Identity
+        - Descriptor.Common
+      annotations:
+        - VintfStability
+    - name: Descriptor.Common
+      fields:
+        - name: id
+          type:
+            name: Identity
+        - name: flags
+          type:
+            name: Flags
+        - name: cpuLoad
+          type:
+            name: int
+        - name: memoryUsage
+          type:
+            name: int
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: implementor
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      annotations:
+        - VintfStability
+    - name: Descriptor.Identity
+      fields:
+        - name: type
+          type:
+            name: AudioUuid
+        - name: uuid
+          type:
+            name: AudioUuid
+        - name: proxy
+          type:
+            name: AudioUuid
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: DynamicsProcessing.ChannelConfig
+      fields:
+        - name: channel
+          type:
+            name: int
+        - name: enable
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: DynamicsProcessing.EngineArchitecture
+      fields:
+        - name: resolutionPreference
+          type:
+            name: ResolutionPreference
+          default_value: ResolutionPreference.FAVOR_FREQUENCY_RESOLUTION
+        - name: preferredProcessingDurationMs
+          type:
+            name: float
+        - name: preEqStage
+          type:
+            name: StageEnablement
+        - name: postEqStage
+          type:
+            name: StageEnablement
+        - name: mbcStage
+          type:
+            name: StageEnablement
+        - name: limiterInUse
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: DynamicsProcessing.EqBandConfig
+      fields:
+        - name: channel
+          type:
+            name: int
+        - name: band
+          type:
+            name: int
+        - name: enable
+          type:
+            name: boolean
+        - name: cutoffFrequencyHz
+          type:
+            name: float
+        - name: gainDb
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: DynamicsProcessing.InputGain
+      fields:
+        - name: channel
+          type:
+            name: int
+        - name: gainDb
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: DynamicsProcessing.LimiterConfig
+      fields:
+        - name: channel
+          type:
+            name: int
+        - name: enable
+          type:
+            name: boolean
+        - name: linkGroup
+          type:
+            name: int
+        - name: attackTimeMs
+          type:
+            name: float
+        - name: releaseTimeMs
+          type:
+            name: float
+        - name: ratio
+          type:
+            name: float
+        - name: thresholdDb
+          type:
+            name: float
+        - name: postGainDb
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: DynamicsProcessing.MbcBandConfig
+      fields:
+        - name: channel
+          type:
+            name: int
+        - name: band
+          type:
+            name: int
+        - name: enable
+          type:
+            name: boolean
+        - name: cutoffFrequencyHz
+          type:
+            name: float
+        - name: attackTimeMs
+          type:
+            name: float
+        - name: releaseTimeMs
+          type:
+            name: float
+        - name: ratio
+          type:
+            name: float
+        - name: thresholdDb
+          type:
+            name: float
+        - name: kneeWidthDb
+          type:
+            name: float
+        - name: noiseGateThresholdDb
+          type:
+            name: float
+        - name: expanderRatio
+          type:
+            name: float
+        - name: preGainDb
+          type:
+            name: float
+        - name: postGainDb
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: DynamicsProcessing.StageEnablement
+      fields:
+        - name: inUse
+          type:
+            name: boolean
+        - name: bandCount
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: Equalizer.BandFrequency
+      fields:
+        - name: index
+          type:
+            name: int
+        - name: minMh
+          type:
+            name: int
+        - name: maxMh
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: Equalizer.BandLevel
+      fields:
+        - name: index
+          type:
+            name: int
+        - name: levelMb
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: Equalizer.Preset
+      fields:
+        - name: index
+          type:
+            name: int
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+      annotations:
+        - VintfStability
+    - name: Flags
+      fields:
+        - name: type
+          type:
+            name: Type
+          default_value: Type.INSERT
+        - name: insert
+          type:
+            name: Insert
+          default_value: Insert.ANY
+        - name: volume
+          type:
+            name: Volume
+          default_value: Volume.NONE
+        - name: hwAcceleratorMode
+          type:
+            name: HardwareAccelerator
+          default_value: HardwareAccelerator.NONE
+        - name: offloadIndication
+          type:
+            name: boolean
+        - name: deviceIndication
+          type:
+            name: boolean
+        - name: audioModeIndication
+          type:
+            name: boolean
+        - name: audioSourceIndication
+          type:
+            name: boolean
+        - name: bypass
+          type:
+            name: boolean
+        - name: sinkMetadataIndication
+          type:
+            name: boolean
+        - name: sourceMetadataIndication
+          type:
+            name: boolean
+      nested_types:
+        - Flags.Type
+        - Flags.Insert
+        - Flags.Volume
+        - Flags.HardwareAccelerator
+      annotations:
+        - VintfStability
+    - name: HapticGenerator.HapticScale
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: scale
+          type:
+            name: VibratorScale
+          default_value: VibratorScale.MUTE
+      annotations:
+        - VintfStability
+    - name: HapticGenerator.VibratorInformation
+      fields:
+        - name: resonantFrequencyHz
+          type:
+            name: float
+        - name: qFactor
+          type:
+            name: float
+        - name: maxAmplitude
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: IEffect.OpenEffectReturn
+      fields:
+        - name: statusMQ
+          type:
+            name: MQDescriptor
+            type_args:
+                - name: Status
+                - name: SynchronizedReadWrite
+        - name: inputDataMQ
+          type:
+            name: MQDescriptor
+            type_args:
+                - name: float
+                - name: SynchronizedReadWrite
+        - name: outputDataMQ
+          type:
+            name: MQDescriptor
+            type_args:
+                - name: float
+                - name: SynchronizedReadWrite
+      annotations:
+        - VintfStability
+    - name: IEffect.Status
+      fields:
+        - name: status
+          type:
+            name: int
+        - name: fmqConsumed
+          type:
+            name: int
+        - name: fmqProduced
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - FixedSize
+    - name: Parameter.Common
+      fields:
+        - name: session
+          type:
+            name: int
+        - name: ioHandle
+          type:
+            name: int
+        - name: input
+          type:
+            name: AudioConfig
+        - name: output
+          type:
+            name: AudioConfig
+      annotations:
+        - VintfStability
+    - name: Parameter.VolumeStereo
+      fields:
+        - name: left
+          type:
+            name: float
+        - name: right
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: Processing
+      fields:
+        - name: type
+          type:
+            name: Type
+        - name: ids
+          type:
+            name: Descriptor
+            is_array: true
+      nested_types:
+        - Processing.Type
+      annotations:
+        - VintfStability
+    - name: Range.AcousticEchoCancelerRange
+      fields:
+        - name: min
+          type:
+            name: AcousticEchoCanceler
+        - name: max
+          type:
+            name: AcousticEchoCanceler
+      annotations:
+        - VintfStability
+    - name: Range.AutomaticGainControlV1Range
+      fields:
+        - name: min
+          type:
+            name: AutomaticGainControlV1
+        - name: max
+          type:
+            name: AutomaticGainControlV1
+      annotations:
+        - VintfStability
+    - name: Range.AutomaticGainControlV2Range
+      fields:
+        - name: min
+          type:
+            name: AutomaticGainControlV2
+        - name: max
+          type:
+            name: AutomaticGainControlV2
+      annotations:
+        - VintfStability
+    - name: Range.BassBoostRange
+      fields:
+        - name: min
+          type:
+            name: BassBoost
+        - name: max
+          type:
+            name: BassBoost
+      annotations:
+        - VintfStability
+    - name: Range.DownmixRange
+      fields:
+        - name: min
+          type:
+            name: Downmix
+        - name: max
+          type:
+            name: Downmix
+      annotations:
+        - VintfStability
+    - name: Range.DynamicsProcessingRange
+      fields:
+        - name: min
+          type:
+            name: DynamicsProcessing
+        - name: max
+          type:
+            name: DynamicsProcessing
+      annotations:
+        - VintfStability
+    - name: Range.EnvironmentalReverbRange
+      fields:
+        - name: min
+          type:
+            name: EnvironmentalReverb
+        - name: max
+          type:
+            name: EnvironmentalReverb
+      annotations:
+        - VintfStability
+    - name: Range.EqualizerRange
+      fields:
+        - name: min
+          type:
+            name: Equalizer
+        - name: max
+          type:
+            name: Equalizer
+      annotations:
+        - VintfStability
+    - name: Range.HapticGeneratorRange
+      fields:
+        - name: min
+          type:
+            name: HapticGenerator
+        - name: max
+          type:
+            name: HapticGenerator
+      annotations:
+        - VintfStability
+    - name: Range.LoudnessEnhancerRange
+      fields:
+        - name: min
+          type:
+            name: LoudnessEnhancer
+        - name: max
+          type:
+            name: LoudnessEnhancer
+      annotations:
+        - VintfStability
+    - name: Range.NoiseSuppressionRange
+      fields:
+        - name: min
+          type:
+            name: NoiseSuppression
+        - name: max
+          type:
+            name: NoiseSuppression
+      annotations:
+        - VintfStability
+    - name: Range.PresetReverbRange
+      fields:
+        - name: min
+          type:
+            name: PresetReverb
+        - name: max
+          type:
+            name: PresetReverb
+      annotations:
+        - VintfStability
+    - name: Range.SpatializerRange
+      fields:
+        - name: min
+          type:
+            name: Spatializer
+        - name: max
+          type:
+            name: Spatializer
+      annotations:
+        - VintfStability
+    - name: Range.VendorExtensionRange
+      fields:
+        - name: min
+          type:
+            name: VendorExtension
+        - name: max
+          type:
+            name: VendorExtension
+      annotations:
+        - VintfStability
+    - name: Range.VirtualizerRange
+      fields:
+        - name: min
+          type:
+            name: Virtualizer
+        - name: max
+          type:
+            name: Virtualizer
+      annotations:
+        - VintfStability
+    - name: Range.VisualizerRange
+      fields:
+        - name: min
+          type:
+            name: Visualizer
+        - name: max
+          type:
+            name: Visualizer
+      annotations:
+        - VintfStability
+    - name: Range.VolumeRange
+      fields:
+        - name: min
+          type:
+            name: Volume
+        - name: max
+          type:
+            name: Volume
+      annotations:
+        - VintfStability
+    - name: VendorExtension
+      fields:
+        - name: extension
+          type:
+            name: ParcelableHolder
+      annotations:
+        - VintfStability
+    - name: Virtualizer.ChannelAngle
+      fields:
+        - name: channel
+          type:
+            name: int
+        - name: azimuthDegree
+          type:
+            name: int
+        - name: elevationDegree
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: Virtualizer.SpeakerAnglesPayload
+      fields:
+        - name: layout
+          type:
+            name: AudioChannelLayout
+        - name: device
+          type:
+            name: AudioDeviceDescription
+      annotations:
+        - VintfStability
+    - name: Visualizer.Measurement
+      fields:
+        - name: rms
+          type:
+            name: int
+        - name: peak
+          type:
+            name: int
+      annotations:
+        - VintfStability
+enums:
+    - name: AcousticEchoCanceler.Tag
+      backing_type: int
+      values:
+        - name: vendor
+          value: "0"
+        - name: echoDelayUs
+          value: "1"
+        - name: mobileMode
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AutomaticGainControlV1.Tag
+      backing_type: int
+      values:
+        - name: vendor
+          value: "0"
+        - name: targetPeakLevelDbFs
+          value: "1"
+        - name: maxCompressionGainDb
+          value: "2"
+        - name: enableLimiter
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AutomaticGainControlV2.LevelEstimator
+      backing_type: int
+      values:
+        - name: RMS
+          value: "0"
+        - name: PEAK
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CommandId
+      backing_type: int
+      values:
+        - name: START
+          value: "0"
+        - name: STOP
+          value: "1"
+        - name: RESET
+          value: "2"
+        - name: VENDOR_COMMAND_0
+          value: "0x100"
+        - name: VENDOR_COMMAND_1
+          value: ""
+        - name: VENDOR_COMMAND_2
+          value: ""
+        - name: VENDOR_COMMAND_3
+          value: ""
+        - name: VENDOR_COMMAND_4
+          value: ""
+        - name: VENDOR_COMMAND_5
+          value: ""
+        - name: VENDOR_COMMAND_6
+          value: ""
+        - name: VENDOR_COMMAND_7
+          value: ""
+        - name: VENDOR_COMMAND_8
+          value: ""
+        - name: VENDOR_COMMAND_9
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Downmix.Type
+      backing_type: ""
+      values:
+        - name: STRIP
+          value: ""
+        - name: FOLD
+          value: ""
+      annotations:
+        - VintfStability
+    - name: DynamicsProcessing.ResolutionPreference
+      backing_type: ""
+      values:
+        - name: FAVOR_FREQUENCY_RESOLUTION
+          value: ""
+        - name: FAVOR_TIME_RESOLUTION
+          value: ""
+    - name: Flags.HardwareAccelerator
+      backing_type: byte
+      values:
+        - name: NONE
+          value: "0"
+        - name: SIMPLE
+          value: "1"
+        - name: TUNNEL
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Flags.Insert
+      backing_type: byte
+      values:
+        - name: ANY
+          value: "0"
+        - name: FIRST
+          value: "1"
+        - name: LAST
+          value: "2"
+        - name: EXCLUSIVE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Flags.Type
+      backing_type: byte
+      values:
+        - name: INSERT
+          value: "0"
+        - name: AUXILIARY
+          value: "1"
+        - name: REPLACE
+          value: "2"
+        - name: PRE_PROC
+          value: "3"
+        - name: POST_PROC
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Flags.Volume
+      backing_type: byte
+      values:
+        - name: NONE
+          value: "0"
+        - name: CTRL
+          value: "1"
+        - name: IND
+          value: "2"
+        - name: MONITOR
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: HapticGenerator.VibratorScale
+      backing_type: int
+      values:
+        - name: MUTE
+          value: "-100"
+        - name: VERY_LOW
+          value: "-2"
+        - name: LOW
+          value: "-1"
+        - name: NONE
+          value: "0"
+        - name: HIGH
+          value: "1"
+        - name: VERY_HIGH
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NoiseSuppression.Level
+      backing_type: int
+      values:
+        - name: LOW
+          value: ""
+        - name: MEDIUM
+          value: ""
+        - name: HIGH
+          value: ""
+        - name: VERY_HIGH
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NoiseSuppression.Type
+      backing_type: int
+      values:
+        - name: SINGLE_CHANNEL
+          value: ""
+        - name: MULTI_CHANNEL
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PresetReverb.Presets
+      backing_type: int
+      values:
+        - name: NONE
+          value: ""
+        - name: SMALLROOM
+          value: ""
+        - name: MEDIUMROOM
+          value: ""
+        - name: LARGEROOM
+          value: ""
+        - name: MEDIUMHALL
+          value: ""
+        - name: LARGEHALL
+          value: ""
+        - name: PLATE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: State
+      backing_type: byte
+      values:
+        - name: INIT
+          value: ""
+        - name: IDLE
+          value: ""
+        - name: PROCESSING
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Visualizer.MeasurementMode
+      backing_type: ""
+      values:
+        - name: NONE
+          value: "0"
+        - name: PEAK_RMS
+          value: ""
+      annotations:
+        - VintfStability
+    - name: Visualizer.ScalingMode
+      backing_type: ""
+      values:
+        - name: NORMALIZED
+          value: "0"
+        - name: AS_PLAYED
+          value: ""
+      annotations:
+        - VintfStability
+    - name: AutomaticGainControlV2.Tag
+      backing_type: int
+      values:
+        - name: vendor
+          value: "0"
+        - name: fixedDigitalGainMb
+          value: "1"
+        - name: levelEstimator
+          value: "2"
+        - name: saturationMarginMb
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BassBoost.Tag
+      backing_type: int
+      values:
+        - name: vendor
+          value: "0"
+        - name: strengthPm
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Downmix.Tag
+      backing_type: int
+      values:
+        - name: vendor
+          value: "0"
+        - name: type
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DynamicsProcessing.Tag
+      backing_type: int
+      values:
+        - name: vendor
+          value: "0"
+        - name: engineArchitecture
+          value: "1"
+        - name: preEq
+          value: "2"
+        - name: postEq
+          value: "3"
+        - name: preEqBand
+          value: "4"
+        - name: postEqBand
+          value: "5"
+        - name: mbc
+          value: "6"
+        - name: mbcBand
+          value: "7"
+        - name: limiter
+          value: "8"
+        - name: inputGain
+          value: "9"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EnvironmentalReverb.Tag
+      backing_type: int
+      values:
+        - name: vendor
+          value: "0"
+        - name: roomLevelMb
+          value: "1"
+        - name: roomHfLevelMb
+          value: "2"
+        - name: decayTimeMs
+          value: "3"
+        - name: decayHfRatioPm
+          value: "4"
+        - name: reflectionsLevelMb
+          value: "5"
+        - name: reflectionsDelayMs
+          value: "6"
+        - name: levelMb
+          value: "7"
+        - name: delayMs
+          value: "8"
+        - name: diffusionPm
+          value: "9"
+        - name: densityPm
+          value: "10"
+        - name: bypass
+          value: "11"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Equalizer.Tag
+      backing_type: int
+      values:
+        - name: vendor
+          value: "0"
+        - name: bandLevels
+          value: "1"
+        - name: preset
+          value: "2"
+        - name: centerFreqMh
+          value: "3"
+        - name: bandFrequencies
+          value: "4"
+        - name: presets
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: HapticGenerator.Tag
+      backing_type: int
+      values:
+        - name: vendor
+          value: "0"
+        - name: hapticScales
+          value: "1"
+        - name: vibratorInfo
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LoudnessEnhancer.Tag
+      backing_type: int
+      values:
+        - name: vendor
+          value: "0"
+        - name: gainMb
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: NoiseSuppression.Tag
+      backing_type: int
+      values:
+        - name: vendor
+          value: "0"
+        - name: level
+          value: "1"
+        - name: type
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Parameter.Tag
+      backing_type: int
+      values:
+        - name: common
+          value: "0"
+        - name: deviceDescription
+          value: "1"
+        - name: mode
+          value: "2"
+        - name: source
+          value: "3"
+        - name: offload
+          value: "4"
+        - name: volumeStereo
+          value: "5"
+        - name: specific
+          value: "6"
+        - name: sinkMetadata
+          value: "7"
+        - name: sourceMetadata
+          value: "8"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PresetReverb.Tag
+      backing_type: int
+      values:
+        - name: vendor
+          value: "0"
+        - name: supportedPresets
+          value: "1"
+        - name: preset
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Spatializer.Tag
+      backing_type: int
+      values:
+        - name: vendor
+          value: "0"
+        - name: supportedChannelLayout
+          value: "1"
+        - name: spatializationLevel
+          value: "2"
+        - name: spatializationMode
+          value: "3"
+        - name: headTrackingSensorId
+          value: "4"
+        - name: headTrackingMode
+          value: "5"
+        - name: headTrackingConnectionMode
+          value: "6"
+        - name: headTrackingSensorData
+          value: "7"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Virtualizer.Tag
+      backing_type: int
+      values:
+        - name: vendor
+          value: "0"
+        - name: strengthPm
+          value: "1"
+        - name: speakerAngles
+          value: "2"
+        - name: device
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Visualizer.Tag
+      backing_type: int
+      values:
+        - name: id
+          value: "0"
+        - name: vendor
+          value: "1"
+        - name: measurement
+          value: "2"
+        - name: captureSampleBuffer
+          value: "3"
+        - name: latencyMs
+          value: "4"
+        - name: captureSamples
+          value: "5"
+        - name: scalingMode
+          value: "6"
+        - name: measurementMode
+          value: "7"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Volume.Tag
+      backing_type: int
+      values:
+        - name: vendor
+          value: "0"
+        - name: levelDb
+          value: "1"
+        - name: mute
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: AcousticEchoCanceler
+      fields:
+        - name: vendor
+          type:
+            name: VendorExtension
+        - name: echoDelayUs
+          type:
+            name: int
+        - name: mobileMode
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: AcousticEchoCanceler.Id
+      fields:
+        - name: vendorExtensionTag
+          type:
+            name: VendorExtension
+        - name: commonTag
+          type:
+            name: AcousticEchoCanceler.Tag
+      annotations:
+        - VintfStability
+    - name: AutomaticGainControlV1
+      fields:
+        - name: vendor
+          type:
+            name: VendorExtension
+        - name: targetPeakLevelDbFs
+          type:
+            name: int
+        - name: maxCompressionGainDb
+          type:
+            name: int
+        - name: enableLimiter
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: AutomaticGainControlV1.Id
+      fields:
+        - name: vendorExtensionTag
+          type:
+            name: VendorExtension
+        - name: commonTag
+          type:
+            name: AutomaticGainControlV1.Tag
+      annotations:
+        - VintfStability
+    - name: AutomaticGainControlV2
+      fields:
+        - name: vendor
+          type:
+            name: VendorExtension
+        - name: fixedDigitalGainMb
+          type:
+            name: int
+        - name: levelEstimator
+          type:
+            name: LevelEstimator
+        - name: saturationMarginMb
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: AutomaticGainControlV2.Id
+      fields:
+        - name: vendorExtensionTag
+          type:
+            name: VendorExtension
+        - name: commonTag
+          type:
+            name: AutomaticGainControlV2.Tag
+      annotations:
+        - VintfStability
+    - name: BassBoost
+      fields:
+        - name: vendor
+          type:
+            name: VendorExtension
+        - name: strengthPm
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: BassBoost.Id
+      fields:
+        - name: vendorExtensionTag
+          type:
+            name: VendorExtension
+        - name: commonTag
+          type:
+            name: BassBoost.Tag
+      annotations:
+        - VintfStability
+    - name: Downmix
+      fields:
+        - name: vendor
+          type:
+            name: VendorExtension
+        - name: type
+          type:
+            name: Type
+      annotations:
+        - VintfStability
+    - name: Downmix.Id
+      fields:
+        - name: vendorExtensionTag
+          type:
+            name: VendorExtension
+        - name: commonTag
+          type:
+            name: Downmix.Tag
+      annotations:
+        - VintfStability
+    - name: DynamicsProcessing
+      fields:
+        - name: vendor
+          type:
+            name: VendorExtension
+        - name: engineArchitecture
+          type:
+            name: EngineArchitecture
+        - name: preEq
+          type:
+            name: ChannelConfig
+            is_array: true
+        - name: postEq
+          type:
+            name: ChannelConfig
+            is_array: true
+        - name: preEqBand
+          type:
+            name: EqBandConfig
+            is_array: true
+        - name: postEqBand
+          type:
+            name: EqBandConfig
+            is_array: true
+        - name: mbc
+          type:
+            name: ChannelConfig
+            is_array: true
+        - name: mbcBand
+          type:
+            name: MbcBandConfig
+            is_array: true
+        - name: limiter
+          type:
+            name: LimiterConfig
+            is_array: true
+        - name: inputGain
+          type:
+            name: InputGain
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: DynamicsProcessing.Id
+      fields:
+        - name: vendorExtensionTag
+          type:
+            name: VendorExtension
+        - name: commonTag
+          type:
+            name: DynamicsProcessing.Tag
+      annotations:
+        - VintfStability
+    - name: EnvironmentalReverb
+      fields:
+        - name: vendor
+          type:
+            name: VendorExtension
+        - name: roomLevelMb
+          type:
+            name: int
+        - name: roomHfLevelMb
+          type:
+            name: int
+        - name: decayTimeMs
+          type:
+            name: int
+        - name: decayHfRatioPm
+          type:
+            name: int
+        - name: reflectionsLevelMb
+          type:
+            name: int
+        - name: reflectionsDelayMs
+          type:
+            name: int
+        - name: levelMb
+          type:
+            name: int
+        - name: delayMs
+          type:
+            name: int
+        - name: diffusionPm
+          type:
+            name: int
+        - name: densityPm
+          type:
+            name: int
+        - name: bypass
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: EnvironmentalReverb.Id
+      fields:
+        - name: vendorExtensionTag
+          type:
+            name: VendorExtension
+        - name: commonTag
+          type:
+            name: EnvironmentalReverb.Tag
+      annotations:
+        - VintfStability
+    - name: Equalizer
+      fields:
+        - name: vendor
+          type:
+            name: VendorExtension
+        - name: bandLevels
+          type:
+            name: BandLevel
+            is_array: true
+        - name: preset
+          type:
+            name: int
+        - name: centerFreqMh
+          type:
+            name: int
+            is_array: true
+        - name: bandFrequencies
+          type:
+            name: BandFrequency
+            is_array: true
+        - name: presets
+          type:
+            name: Preset
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: Equalizer.Id
+      fields:
+        - name: vendorExtensionTag
+          type:
+            name: VendorExtension
+        - name: commonTag
+          type:
+            name: Equalizer.Tag
+      annotations:
+        - VintfStability
+    - name: HapticGenerator
+      fields:
+        - name: vendor
+          type:
+            name: VendorExtension
+        - name: hapticScales
+          type:
+            name: HapticScale
+            is_array: true
+        - name: vibratorInfo
+          type:
+            name: VibratorInformation
+      annotations:
+        - VintfStability
+    - name: HapticGenerator.Id
+      fields:
+        - name: vendorExtensionTag
+          type:
+            name: VendorExtension
+        - name: commonTag
+          type:
+            name: HapticGenerator.Tag
+      annotations:
+        - VintfStability
+    - name: LoudnessEnhancer
+      fields:
+        - name: vendor
+          type:
+            name: VendorExtension
+        - name: gainMb
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: LoudnessEnhancer.Id
+      fields:
+        - name: vendorExtensionTag
+          type:
+            name: VendorExtension
+        - name: commonTag
+          type:
+            name: LoudnessEnhancer.Tag
+      annotations:
+        - VintfStability
+    - name: NoiseSuppression
+      fields:
+        - name: vendor
+          type:
+            name: VendorExtension
+        - name: level
+          type:
+            name: Level
+        - name: type
+          type:
+            name: Type
+      annotations:
+        - VintfStability
+    - name: NoiseSuppression.Id
+      fields:
+        - name: vendorExtensionTag
+          type:
+            name: VendorExtension
+        - name: commonTag
+          type:
+            name: NoiseSuppression.Tag
+      annotations:
+        - VintfStability
+    - name: Parameter
+      fields:
+        - name: common
+          type:
+            name: Common
+        - name: deviceDescription
+          type:
+            name: AudioDeviceDescription
+            is_array: true
+        - name: mode
+          type:
+            name: AudioMode
+        - name: source
+          type:
+            name: AudioSource
+        - name: offload
+          type:
+            name: boolean
+        - name: volumeStereo
+          type:
+            name: VolumeStereo
+        - name: specific
+          type:
+            name: Specific
+        - name: sinkMetadata
+          type:
+            name: SinkMetadata
+        - name: sourceMetadata
+          type:
+            name: SourceMetadata
+      annotations:
+        - VintfStability
+    - name: Parameter.Id
+      fields:
+        - name: vendorEffectTag
+          type:
+            name: VendorExtension
+        - name: acousticEchoCancelerTag
+          type:
+            name: AcousticEchoCanceler.Id
+        - name: automaticGainControlV1Tag
+          type:
+            name: AutomaticGainControlV1.Id
+        - name: automaticGainControlV2Tag
+          type:
+            name: AutomaticGainControlV2.Id
+        - name: bassBoostTag
+          type:
+            name: BassBoost.Id
+        - name: downmixTag
+          type:
+            name: Downmix.Id
+        - name: dynamicsProcessingTag
+          type:
+            name: DynamicsProcessing.Id
+        - name: environmentalReverbTag
+          type:
+            name: EnvironmentalReverb.Id
+        - name: equalizerTag
+          type:
+            name: Equalizer.Id
+        - name: hapticGeneratorTag
+          type:
+            name: HapticGenerator.Id
+        - name: loudnessEnhancerTag
+          type:
+            name: LoudnessEnhancer.Id
+        - name: noiseSuppressionTag
+          type:
+            name: NoiseSuppression.Id
+        - name: presetReverbTag
+          type:
+            name: PresetReverb.Id
+        - name: virtualizerTag
+          type:
+            name: Virtualizer.Id
+        - name: visualizerTag
+          type:
+            name: Visualizer.Id
+        - name: volumeTag
+          type:
+            name: Volume.Id
+        - name: commonTag
+          type:
+            name: Parameter.Tag
+        - name: spatializerTag
+          type:
+            name: Spatializer.Id
+      annotations:
+        - VintfStability
+    - name: Parameter.Specific
+      fields:
+        - name: vendorEffect
+          type:
+            name: VendorExtension
+        - name: acousticEchoCanceler
+          type:
+            name: AcousticEchoCanceler
+        - name: automaticGainControlV1
+          type:
+            name: AutomaticGainControlV1
+        - name: automaticGainControlV2
+          type:
+            name: AutomaticGainControlV2
+        - name: bassBoost
+          type:
+            name: BassBoost
+        - name: downmix
+          type:
+            name: Downmix
+        - name: dynamicsProcessing
+          type:
+            name: DynamicsProcessing
+        - name: environmentalReverb
+          type:
+            name: EnvironmentalReverb
+        - name: equalizer
+          type:
+            name: Equalizer
+        - name: hapticGenerator
+          type:
+            name: HapticGenerator
+        - name: loudnessEnhancer
+          type:
+            name: LoudnessEnhancer
+        - name: noiseSuppression
+          type:
+            name: NoiseSuppression
+        - name: presetReverb
+          type:
+            name: PresetReverb
+        - name: virtualizer
+          type:
+            name: Virtualizer
+        - name: visualizer
+          type:
+            name: Visualizer
+        - name: volume
+          type:
+            name: Volume
+        - name: spatializer
+          type:
+            name: Spatializer
+      annotations:
+        - VintfStability
+    - name: PresetReverb
+      fields:
+        - name: vendor
+          type:
+            name: VendorExtension
+        - name: supportedPresets
+          type:
+            name: Presets
+            is_array: true
+        - name: preset
+          type:
+            name: Presets
+      annotations:
+        - VintfStability
+    - name: PresetReverb.Id
+      fields:
+        - name: vendorExtensionTag
+          type:
+            name: VendorExtension
+        - name: commonTag
+          type:
+            name: PresetReverb.Tag
+      annotations:
+        - VintfStability
+    - name: Processing.Type
+      fields:
+        - name: streamType
+          type:
+            name: AudioStreamType
+          default_value: AudioStreamType.INVALID
+        - name: source
+          type:
+            name: AudioSource
+      annotations:
+        - VintfStability
+    - name: Range
+      fields:
+        - name: vendorExtension
+          type:
+            name: VendorExtensionRange
+            is_array: true
+          default_value: '{}'
+        - name: acousticEchoCanceler
+          type:
+            name: AcousticEchoCancelerRange
+            is_array: true
+        - name: automaticGainControlV1
+          type:
+            name: AutomaticGainControlV1Range
+            is_array: true
+        - name: automaticGainControlV2
+          type:
+            name: AutomaticGainControlV2Range
+            is_array: true
+        - name: bassBoost
+          type:
+            name: BassBoostRange
+            is_array: true
+        - name: downmix
+          type:
+            name: DownmixRange
+            is_array: true
+        - name: dynamicsProcessing
+          type:
+            name: DynamicsProcessingRange
+            is_array: true
+        - name: environmentalReverb
+          type:
+            name: EnvironmentalReverbRange
+            is_array: true
+        - name: equalizer
+          type:
+            name: EqualizerRange
+            is_array: true
+        - name: hapticGenerator
+          type:
+            name: HapticGeneratorRange
+            is_array: true
+        - name: loudnessEnhancer
+          type:
+            name: LoudnessEnhancerRange
+            is_array: true
+        - name: noiseSuppression
+          type:
+            name: NoiseSuppressionRange
+            is_array: true
+        - name: presetReverb
+          type:
+            name: PresetReverbRange
+            is_array: true
+        - name: virtualizer
+          type:
+            name: VirtualizerRange
+            is_array: true
+        - name: visualizer
+          type:
+            name: VisualizerRange
+            is_array: true
+        - name: volume
+          type:
+            name: VolumeRange
+            is_array: true
+        - name: spatializer
+          type:
+            name: SpatializerRange
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: Spatializer
+      fields:
+        - name: vendor
+          type:
+            name: VendorExtension
+        - name: supportedChannelLayout
+          type:
+            name: AudioChannelLayout
+            is_array: true
+        - name: spatializationLevel
+          type:
+            name: Spatialization.Level
+        - name: spatializationMode
+          type:
+            name: Spatialization.Mode
+        - name: headTrackingSensorId
+          type:
+            name: int
+        - name: headTrackingMode
+          type:
+            name: HeadTracking.Mode
+        - name: headTrackingConnectionMode
+          type:
+            name: HeadTracking.ConnectionMode
+        - name: headTrackingSensorData
+          type:
+            name: HeadTracking.SensorData
+      annotations:
+        - VintfStability
+    - name: Spatializer.Id
+      fields:
+        - name: vendorExtensionTag
+          type:
+            name: VendorExtension
+        - name: commonTag
+          type:
+            name: Spatializer.Tag
+      annotations:
+        - VintfStability
+    - name: Virtualizer
+      fields:
+        - name: vendor
+          type:
+            name: VendorExtension
+        - name: strengthPm
+          type:
+            name: int
+        - name: speakerAngles
+          type:
+            name: ChannelAngle
+            is_array: true
+        - name: device
+          type:
+            name: AudioDeviceDescription
+      annotations:
+        - VintfStability
+    - name: Virtualizer.Id
+      fields:
+        - name: vendorExtensionTag
+          type:
+            name: VendorExtension
+        - name: commonTag
+          type:
+            name: Virtualizer.Tag
+        - name: speakerAnglesPayload
+          type:
+            name: SpeakerAnglesPayload
+      annotations:
+        - VintfStability
+    - name: Visualizer
+      fields:
+        - name: id
+          type:
+            name: Id
+        - name: vendor
+          type:
+            name: VendorExtension
+        - name: measurement
+          type:
+            name: Measurement
+        - name: captureSampleBuffer
+          type:
+            name: byte
+            is_array: true
+        - name: latencyMs
+          type:
+            name: int
+        - name: captureSamples
+          type:
+            name: int
+        - name: scalingMode
+          type:
+            name: ScalingMode
+        - name: measurementMode
+          type:
+            name: MeasurementMode
+      annotations:
+        - VintfStability
+    - name: Visualizer.Id
+      fields:
+        - name: vendorExtensionTag
+          type:
+            name: VendorExtension
+        - name: commonTag
+          type:
+            name: Visualizer.Tag
+      annotations:
+        - VintfStability
+    - name: Volume
+      fields:
+        - name: vendor
+          type:
+            name: VendorExtension
+        - name: levelDb
+          type:
+            name: int
+        - name: mute
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: Volume.Id
+      fields:
+        - name: vendorExtensionTag
+          type:
+            name: VendorExtension
+        - name: commonTag
+          type:
+            name: Volume.Tag
+      annotations:
+        - VintfStability

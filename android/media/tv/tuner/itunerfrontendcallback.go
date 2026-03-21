@@ -49,6 +49,7 @@ func (p *TunerFrontendCallbackProxy) OnEvent(
 	frontendEventType tvTuner.FrontendEventType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFrontendCallback)
 	_data.WriteInt32(int32(frontendEventType))
 
@@ -76,6 +77,7 @@ func (p *TunerFrontendCallbackProxy) OnScanMessage(
 	message tvTuner.FrontendScanMessage,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFrontendCallback)
 	_data.WriteInt32(int32(messageType))
 	_data.WriteInt32(1)
@@ -104,7 +106,8 @@ func (p *TunerFrontendCallbackProxy) OnScanMessage(
 // TunerFrontendCallbackStub dispatches incoming binder transactions
 // to a typed ITunerFrontendCallback implementation.
 type TunerFrontendCallbackStub struct {
-	Impl ITunerFrontendCallback
+	Impl      ITunerFrontendCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TunerFrontendCallbackStub)(nil)
@@ -118,11 +121,12 @@ func (s *TunerFrontendCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITunerFrontendCallbackOnEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_frontendEventType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -137,9 +141,6 @@ func (s *TunerFrontendCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendCallbackOnScanMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_messageType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

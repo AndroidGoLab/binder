@@ -49,15 +49,9 @@ func (p *StreamOutEventCallbackProxy) OnCodecFormatChanged(
 	audioMetadata []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOutEventCallback)
-	if audioMetadata == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(audioMetadata)))
-		for _, _item := range audioMetadata {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(audioMetadata)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamOutEventCallback, MethodIStreamOutEventCallbackOnCodecFormatChanged)
 	if _err != nil {
@@ -73,6 +67,7 @@ func (p *StreamOutEventCallbackProxy) OnRecommendedLatencyModeChanged(
 	modes []common.AudioLatencyMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamOutEventCallback)
 	if modes == nil {
 		_data.WriteInt32(-1)
@@ -95,7 +90,8 @@ func (p *StreamOutEventCallbackProxy) OnRecommendedLatencyModeChanged(
 // StreamOutEventCallbackStub dispatches incoming binder transactions
 // to a typed IStreamOutEventCallback implementation.
 type StreamOutEventCallbackStub struct {
-	Impl IStreamOutEventCallback
+	Impl      IStreamOutEventCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StreamOutEventCallbackStub)(nil)
@@ -109,27 +105,45 @@ func (s *StreamOutEventCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStreamOutEventCallbackOnCodecFormatChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_audioMetadata []byte
-		_ = _arg_audioMetadata
-		_err := s.Impl.OnCodecFormatChanged(ctx, _arg_audioMetadata)
-		_ = _err
-		return nil, nil
-	case TransactionIStreamOutEventCallbackOnRecommendedLatencyModeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_audioMetadata = _bytes
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		_err := s.Impl.OnCodecFormatChanged(ctx, _arg_audioMetadata)
+		return nil, _err
+	case TransactionIStreamOutEventCallbackOnRecommendedLatencyModeChanged:
 		var _arg_modes []common.AudioLatencyMode
-		_ = _arg_modes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_modes = make([]common.AudioLatencyMode, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_raw, _err := _data.ReadPaddedByte()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_modes[_i] = common.AudioLatencyMode(_raw)
+				}
+			}
+		}
 		_err := s.Impl.OnRecommendedLatencyModeChanged(ctx, _arg_modes)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

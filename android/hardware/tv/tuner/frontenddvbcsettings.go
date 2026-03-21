@@ -48,14 +48,29 @@ func (s *FrontendDvbcSettings) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Frequency, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.EndFrequency, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_modulationRaw, _err := p.ReadInt32()
@@ -64,15 +79,30 @@ func (s *FrontendDvbcSettings) UnmarshalParcel(
 	}
 	s.Modulation = FrontendDvbcModulation(_modulationRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_fecRaw, _err := p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
 	s.Fec = FrontendInnerFec(_fecRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SymbolRate, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_outerFecRaw, _err := p.ReadInt32()
@@ -81,11 +111,21 @@ func (s *FrontendDvbcSettings) UnmarshalParcel(
 	}
 	s.OuterFec = FrontendDvbcOuterFec(_outerFecRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_annexRaw, _err := p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}
 	s.Annex = FrontendDvbcAnnex(_annexRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_inversionRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -93,11 +133,21 @@ func (s *FrontendDvbcSettings) UnmarshalParcel(
 	}
 	s.Inversion = FrontendSpectralInversion(_inversionRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_interleaveModeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.InterleaveMode = FrontendCableTimeInterleaveMode(_interleaveModeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_bandwidthRaw, _err := p.ReadInt32()
 	if _err != nil {

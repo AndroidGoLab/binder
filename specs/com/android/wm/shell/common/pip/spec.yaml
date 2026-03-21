@@ -1,0 +1,142 @@
+package: com.android.wm.shell.common.pip
+go_package: com/android/wm/shell/common/pip
+interfaces:
+    - name: IPip
+      descriptor: com.android.wm.shell.common.pip.IPip
+      methods:
+        - name: startSwipePipToHome
+          transaction_code_offset: 0
+          params:
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: activityInfo
+              type:
+                name: ActivityInfo
+              direction: in
+            - name: pictureInPictureParams
+              type:
+                name: PictureInPictureParams
+              direction: in
+            - name: launcherRotation
+              type:
+                name: int
+            - name: hotseatKeepClearArea
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: Rect
+        - name: stopSwipePipToHome
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: taskId
+              type:
+                name: int
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: destinationBounds
+              type:
+                name: Rect
+              direction: in
+            - name: overlay
+              type:
+                name: SurfaceControl
+              direction: in
+            - name: appBounds
+              type:
+                name: Rect
+              direction: in
+            - name: sourceRectHint
+              type:
+                name: Rect
+              direction: in
+          return_type:
+            name: void
+        - name: abortSwipePipToHome
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: taskId
+              type:
+                name: int
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: setPipAnimationListener
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: IPipAnimationListener
+          return_type:
+            name: void
+        - name: setShelfHeight
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: visible
+              type:
+                name: boolean
+            - name: shelfHeight
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setPipAnimationTypeToAlpha
+          transaction_code_offset: 5
+          oneway: true
+          return_type:
+            name: void
+        - name: setLauncherKeepClearAreaHeight
+          transaction_code_offset: 6
+          oneway: true
+          params:
+            - name: visible
+              type:
+                name: boolean
+            - name: height
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setLauncherAppIconSize
+          transaction_code_offset: 7
+          oneway: true
+          params:
+            - name: iconSizePx
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IPipAnimationListener
+      descriptor: com.android.wm.shell.common.pip.IPipAnimationListener
+      oneway: true
+      methods:
+        - name: onPipAnimationStarted
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onPipResourceDimensionsChanged
+          transaction_code_offset: 1
+          params:
+            - name: cornerRadius
+              type:
+                name: int
+            - name: shadowRadius
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onExpandPip
+          transaction_code_offset: 2
+          return_type:
+            name: void

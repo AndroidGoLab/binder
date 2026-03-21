@@ -72,6 +72,7 @@ func (p *SupplicantP2pNetworkProxy) GetBssid(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetBssid)
@@ -89,19 +90,9 @@ func (p *SupplicantP2pNetworkProxy) GetBssid(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -111,6 +102,7 @@ func (p *SupplicantP2pNetworkProxy) GetClientList(
 ) ([]MacAddress, error) {
 	var _result []MacAddress
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetClientList)
@@ -132,6 +124,9 @@ func (p *SupplicantP2pNetworkProxy) GetClientList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]MacAddress, _count)
@@ -152,6 +147,7 @@ func (p *SupplicantP2pNetworkProxy) GetId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetId)
@@ -181,6 +177,7 @@ func (p *SupplicantP2pNetworkProxy) GetInterfaceName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetInterfaceName)
@@ -210,6 +207,7 @@ func (p *SupplicantP2pNetworkProxy) GetSsid(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetSsid)
@@ -227,19 +225,9 @@ func (p *SupplicantP2pNetworkProxy) GetSsid(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -249,6 +237,7 @@ func (p *SupplicantP2pNetworkProxy) GetType(
 ) (IfaceType, error) {
 	var _result IfaceType
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetType)
@@ -279,6 +268,7 @@ func (p *SupplicantP2pNetworkProxy) IsCurrent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkIsCurrent)
@@ -308,6 +298,7 @@ func (p *SupplicantP2pNetworkProxy) IsGroupOwner(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkIsGroupOwner)
@@ -337,6 +328,7 @@ func (p *SupplicantP2pNetworkProxy) IsPersistent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkIsPersistent)
@@ -366,6 +358,7 @@ func (p *SupplicantP2pNetworkProxy) SetClientList(
 	clients []MacAddress,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 	if clients == nil {
 		_data.WriteInt32(-1)
@@ -400,7 +393,8 @@ func (p *SupplicantP2pNetworkProxy) SetClientList(
 // SupplicantP2pNetworkStub dispatches incoming binder transactions
 // to a typed ISupplicantP2pNetwork implementation.
 type SupplicantP2pNetworkStub struct {
-	Impl ISupplicantP2pNetwork
+	Impl      ISupplicantP2pNetwork
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SupplicantP2pNetworkStub)(nil)
@@ -414,11 +408,12 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISupplicantP2pNetworkGetBssid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetBssid(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -426,13 +421,9 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkGetClientList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetClientList(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -440,13 +431,19 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkGetId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -457,9 +454,6 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkGetInterfaceName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetInterfaceName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -470,9 +464,6 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkGetSsid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSsid(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -480,13 +471,9 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkGetType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetType(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -497,9 +484,6 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkIsCurrent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsCurrent(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -510,9 +494,6 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkIsGroupOwner:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsGroupOwner(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -523,9 +504,6 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkIsPersistent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsPersistent(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -536,12 +514,27 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkSetClientList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_clients []MacAddress
-		_ = _arg_clients
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_clients = make([]MacAddress, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_clients[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetClientList(ctx, _arg_clients)
 		_reply := parcel.New()
 		if _err != nil {

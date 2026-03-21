@@ -64,6 +64,7 @@ func (p *TextServicesManagerProxy) GetCurrentSpellChecker(
 	var _result viewTextservice.SpellCheckerInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextServicesManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(locale)
@@ -102,6 +103,7 @@ func (p *TextServicesManagerProxy) GetCurrentSpellCheckerSubtype(
 	var _result viewTextservice.SpellCheckerSubtype
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextServicesManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(allowImplicitlySelectedSubtype)
@@ -144,6 +146,7 @@ func (p *TextServicesManagerProxy) GetSpellCheckerService(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextServicesManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(sciId)
@@ -171,6 +174,7 @@ func (p *TextServicesManagerProxy) FinishSpellCheckerService(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextServicesManager)
 	_data.WriteInt32(_identity.UserID)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -190,6 +194,7 @@ func (p *TextServicesManagerProxy) IsSpellCheckerEnabled(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextServicesManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -221,6 +226,7 @@ func (p *TextServicesManagerProxy) GetEnabledSpellCheckers(
 	var _result []viewTextservice.SpellCheckerInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextServicesManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -243,6 +249,9 @@ func (p *TextServicesManagerProxy) GetEnabledSpellCheckers(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]viewTextservice.SpellCheckerInfo, _count)
@@ -261,7 +270,8 @@ func (p *TextServicesManagerProxy) GetEnabledSpellCheckers(
 // TextServicesManagerStub dispatches incoming binder transactions
 // to a typed ITextServicesManager implementation.
 type TextServicesManagerStub struct {
-	Impl ITextServicesManager
+	Impl      ITextServicesManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TextServicesManagerStub)(nil)
@@ -275,11 +285,12 @@ func (s *TextServicesManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITextServicesManagerGetCurrentSpellChecker:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -300,9 +311,6 @@ func (s *TextServicesManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITextServicesManagerGetCurrentSpellCheckerSubtype:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -323,9 +331,6 @@ func (s *TextServicesManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITextServicesManagerGetSpellCheckerService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -337,12 +342,22 @@ func (s *TextServicesManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_tsListener ITextServicesSessionListener
-		_ = _arg_tsListener
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_tsListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tsListener = NewTextServicesSessionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tsListenerHandle))
+		}
 		var _arg_scListener ISpellCheckerSessionListener
-		_ = _arg_scListener
+		{
+			_scListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_scListener = NewSpellCheckerSessionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _scListenerHandle))
+		}
 		var _arg_bundle os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -360,25 +375,22 @@ func (s *TextServicesManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.GetSpellCheckerService(ctx, _arg_sciId, _arg_locale, _arg_tsListener, _arg_scListener, _arg_bundle, _arg_supportedAttributes)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITextServicesManagerFinishSpellCheckerService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISpellCheckerSessionListener
-		_ = _arg_listener
-		_err := s.Impl.FinishSpellCheckerService(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionITextServicesManagerIsSpellCheckerEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewSpellCheckerSessionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err := s.Impl.FinishSpellCheckerService(ctx, _arg_listener)
+		return nil, _err
+	case TransactionITextServicesManagerIsSpellCheckerEnabled:
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -392,9 +404,6 @@ func (s *TextServicesManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITextServicesManagerGetEnabledSpellCheckers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -405,8 +414,17 @@ func (s *TextServicesManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

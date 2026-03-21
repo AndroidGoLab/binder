@@ -2,6 +2,7 @@ package c2
 
 import (
 	"fmt"
+	hardware "github.com/xaionaro-go/binder/android/hardware"
 	common "github.com/xaionaro-go/binder/android/hardware/common"
 	bufferpool2 "github.com/xaionaro-go/binder/android/hardware/media/bufferpool2"
 	"github.com/xaionaro-go/binder/parcel"
@@ -18,7 +19,7 @@ const (
 type BaseBlock struct {
 	Tag         int32
 	NativeBlock common.NativeHandle
-	HwbBlock    interface{}
+	HwbBlock    hardware.HardwareBuffer
 	PooledBlock bufferpool2.BufferStatusMessage
 }
 
@@ -35,23 +36,21 @@ func (u *BaseBlock) GetNativeBlock() (common.NativeHandle, bool) {
 func (u *BaseBlock) SetNativeBlock(
 	v common.NativeHandle,
 ) {
-	u.Tag = BaseBlockTagNativeBlock
-	u.NativeBlock = v
+	*u = BaseBlock{Tag: BaseBlockTagNativeBlock, NativeBlock: v}
 }
 
-func (u *BaseBlock) GetHwbBlock() (interface{}, bool) {
+func (u *BaseBlock) GetHwbBlock() (hardware.HardwareBuffer, bool) {
 	if u.Tag != BaseBlockTagHwbBlock {
-		var _zero interface{}
+		var _zero hardware.HardwareBuffer
 		return _zero, false
 	}
 	return u.HwbBlock, true
 }
 
 func (u *BaseBlock) SetHwbBlock(
-	v interface{},
+	v hardware.HardwareBuffer,
 ) {
-	u.Tag = BaseBlockTagHwbBlock
-	u.HwbBlock = v
+	*u = BaseBlock{Tag: BaseBlockTagHwbBlock, HwbBlock: v}
 }
 
 func (u *BaseBlock) GetPooledBlock() (bufferpool2.BufferStatusMessage, bool) {
@@ -65,8 +64,7 @@ func (u *BaseBlock) GetPooledBlock() (bufferpool2.BufferStatusMessage, bool) {
 func (u *BaseBlock) SetPooledBlock(
 	v bufferpool2.BufferStatusMessage,
 ) {
-	u.Tag = BaseBlockTagPooledBlock
-	u.PooledBlock = v
+	*u = BaseBlock{Tag: BaseBlockTagPooledBlock, PooledBlock: v}
 }
 
 func (u *BaseBlock) MarshalParcel(
@@ -82,6 +80,10 @@ func (u *BaseBlock) MarshalParcel(
 			return _err
 		}
 	case BaseBlockTagHwbBlock:
+		p.WriteInt32(1)
+		if _err := u.HwbBlock.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case BaseBlockTagPooledBlock:
 		p.WriteInt32(1)
 		if _err := u.PooledBlock.MarshalParcel(p); _err != nil {
@@ -117,6 +119,12 @@ func (u *BaseBlock) UnmarshalParcel(
 			return _err
 		}
 	case BaseBlockTagHwbBlock:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
+		if _err = u.HwbBlock.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case BaseBlockTagPooledBlock:
 		if _, _err = p.ReadInt32(); _err != nil {
 			return _err

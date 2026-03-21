@@ -162,6 +162,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionProgressing(
 	profile ims.ImsStreamMediaProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -184,6 +185,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionStarted(
 	profile ims.ImsCallProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -206,6 +208,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionStartFailed(
 	reasonInfo ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -228,6 +231,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionTerminated(
 	reasonInfo ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -250,6 +254,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionHeld(
 	profile ims.ImsCallProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -272,6 +277,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionHoldFailed(
 	reasonInfo ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -294,6 +300,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionHoldReceived(
 	profile ims.ImsCallProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -316,6 +323,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionResumed(
 	profile ims.ImsCallProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -338,6 +346,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionResumeFailed(
 	reasonInfo ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -360,6 +369,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionResumeReceived(
 	profile ims.ImsCallProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -383,6 +393,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionMergeStarted(
 	profile ims.ImsCallProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, newSession.AsBinder(), p.Remote.Transport())
@@ -405,6 +416,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionMergeComplete(
 	session IImsCallSession,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 
@@ -423,6 +435,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionMergeFailed(
 	reasonInfo ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -445,6 +458,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionUpdated(
 	profile ims.ImsCallProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -467,6 +481,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionUpdateFailed(
 	reasonInfo ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -489,6 +504,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionUpdateReceived(
 	profile ims.ImsCallProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -512,6 +528,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionConferenceExtended(
 	profile ims.ImsCallProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, newSession.AsBinder(), p.Remote.Transport())
@@ -535,6 +552,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionConferenceExtendFailed(
 	reasonInfo ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -558,6 +576,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionConferenceExtendReceived(
 	profile ims.ImsCallProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, newSession.AsBinder(), p.Remote.Transport())
@@ -580,6 +599,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionInviteParticipantsRequestDelive
 	session IImsCallSession,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 
@@ -598,6 +618,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionInviteParticipantsRequestFailed
 	reasonInfo ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -619,6 +640,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionRemoveParticipantsRequestDelive
 	session IImsCallSession,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 
@@ -637,6 +659,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionRemoveParticipantsRequestFailed
 	reasonInfo ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -659,6 +682,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionConferenceStateUpdated(
 	state ims.ImsConferenceState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -682,6 +706,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionUssdMessageReceived(
 	ussdMessage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(mode)
@@ -704,6 +729,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionHandover(
 	reasonInfo ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(srcAccessTech)
@@ -730,6 +756,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionHandoverFailed(
 	reasonInfo ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(srcAccessTech)
@@ -755,6 +782,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionMayHandover(
 	targetAccessTech int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(srcAccessTech)
@@ -775,6 +803,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionTtyModeReceived(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(mode)
@@ -794,6 +823,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionMultipartyStateChanged(
 	isMultiParty bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(isMultiParty)
@@ -813,6 +843,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionSuppServiceReceived(
 	suppSrvNotification ims.ImsSuppServiceNotification,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -835,6 +866,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionRttModifyRequestReceived(
 	callProfile ims.ImsCallProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -856,6 +888,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionRttModifyResponseReceived(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteInt32(status)
 
@@ -873,6 +906,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionRttMessageReceived(
 	rttMessage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteString16(rttMessage)
 
@@ -890,6 +924,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionRttAudioIndicatorChanged(
 	profile ims.ImsStreamMediaProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
@@ -909,6 +944,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionTransferred(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSessionListener, MethodIImsCallSessionListenerCallSessionTransferred)
@@ -925,6 +961,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionTransferFailed(
 	reasonInfo ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteInt32(1)
 	if _err := reasonInfo.MarshalParcel(_data); _err != nil {
@@ -945,6 +982,7 @@ func (p *ImsCallSessionListenerProxy) CallQualityChanged(
 	callQuality media.CallQuality,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteInt32(1)
 	if _err := callQuality.MarshalParcel(_data); _err != nil {
@@ -967,6 +1005,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionSendAnbrQuery(
 	bitsPerSecond int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteInt32(mediaType)
 	_data.WriteInt32(direction)
@@ -984,7 +1023,8 @@ func (p *ImsCallSessionListenerProxy) CallSessionSendAnbrQuery(
 // ImsCallSessionListenerStub dispatches incoming binder transactions
 // to a typed IImsCallSessionListener implementation.
 type ImsCallSessionListenerStub struct {
-	Impl IImsCallSessionListener
+	Impl      IImsCallSessionListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsCallSessionListenerStub)(nil)
@@ -998,14 +1038,20 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsCallSessionListenerCallSessionProgressing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_profile ims.ImsStreamMediaProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1019,15 +1065,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionProgressing(ctx, _arg_session, _arg_profile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_profile ims.ImsCallProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1041,15 +1088,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionStarted(ctx, _arg_session, _arg_profile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionStartFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_reasonInfo ims.ImsReasonInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1063,15 +1111,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionStartFailed(ctx, _arg_session, _arg_reasonInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionTerminated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_reasonInfo ims.ImsReasonInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1085,15 +1134,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionTerminated(ctx, _arg_session, _arg_reasonInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionHeld:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_profile ims.ImsCallProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1107,15 +1157,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionHeld(ctx, _arg_session, _arg_profile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionHoldFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_reasonInfo ims.ImsReasonInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1129,15 +1180,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionHoldFailed(ctx, _arg_session, _arg_reasonInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionHoldReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_profile ims.ImsCallProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1151,15 +1203,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionHoldReceived(ctx, _arg_session, _arg_profile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionResumed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_profile ims.ImsCallProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1173,15 +1226,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionResumed(ctx, _arg_session, _arg_profile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionResumeFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_reasonInfo ims.ImsReasonInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1195,15 +1249,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionResumeFailed(ctx, _arg_session, _arg_reasonInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionResumeReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_profile ims.ImsCallProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1217,18 +1272,24 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionResumeReceived(ctx, _arg_session, _arg_profile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionMergeStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_newSession IImsCallSession
-		_ = _arg_newSession
+		{
+			_newSessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_newSession = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _newSessionHandle))
+		}
 		var _arg_profile ims.ImsCallProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1242,25 +1303,27 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionMergeStarted(ctx, _arg_session, _arg_newSession, _arg_profile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionMergeComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		_err := s.Impl.CallSessionMergeComplete(ctx, _arg_session)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionMergeFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_reasonInfo ims.ImsReasonInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1274,15 +1337,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionMergeFailed(ctx, _arg_session, _arg_reasonInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_profile ims.ImsCallProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1296,15 +1360,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionUpdated(ctx, _arg_session, _arg_profile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionUpdateFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_reasonInfo ims.ImsReasonInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1318,15 +1383,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionUpdateFailed(ctx, _arg_session, _arg_reasonInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionUpdateReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_profile ims.ImsCallProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1340,18 +1406,24 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionUpdateReceived(ctx, _arg_session, _arg_profile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionConferenceExtended:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_newSession IImsCallSession
-		_ = _arg_newSession
+		{
+			_newSessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_newSession = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _newSessionHandle))
+		}
 		var _arg_profile ims.ImsCallProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1365,15 +1437,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionConferenceExtended(ctx, _arg_session, _arg_newSession, _arg_profile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionConferenceExtendFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_reasonInfo ims.ImsReasonInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1387,18 +1460,24 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionConferenceExtendFailed(ctx, _arg_session, _arg_reasonInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionConferenceExtendReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_newSession IImsCallSession
-		_ = _arg_newSession
+		{
+			_newSessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_newSession = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _newSessionHandle))
+		}
 		var _arg_profile ims.ImsCallProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1412,25 +1491,27 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionConferenceExtendReceived(ctx, _arg_session, _arg_newSession, _arg_profile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionInviteParticipantsRequestDelivered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		_err := s.Impl.CallSessionInviteParticipantsRequestDelivered(ctx, _arg_session)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionInviteParticipantsRequestFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_reasonInfo ims.ImsReasonInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1444,25 +1525,27 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionInviteParticipantsRequestFailed(ctx, _arg_session, _arg_reasonInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionRemoveParticipantsRequestDelivered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		_err := s.Impl.CallSessionRemoveParticipantsRequestDelivered(ctx, _arg_session)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionRemoveParticipantsRequestFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_reasonInfo ims.ImsReasonInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1476,15 +1559,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionRemoveParticipantsRequestFailed(ctx, _arg_session, _arg_reasonInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionConferenceStateUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_state ims.ImsConferenceState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1498,15 +1582,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionConferenceStateUpdated(ctx, _arg_session, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionUssdMessageReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1516,15 +1601,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.CallSessionUssdMessageReceived(ctx, _arg_session, _arg_mode, _arg_ussdMessage)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionHandover:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		_arg_srcAccessTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1546,15 +1632,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.CallSessionHandover(ctx, _arg_session, _arg_srcAccessTech, _arg_targetAccessTech, _arg_reasonInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionHandoverFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		_arg_srcAccessTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1576,15 +1663,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.CallSessionHandoverFailed(ctx, _arg_session, _arg_srcAccessTech, _arg_targetAccessTech, _arg_reasonInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionMayHandover:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		_arg_srcAccessTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1594,43 +1682,46 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.CallSessionMayHandover(ctx, _arg_session, _arg_srcAccessTech, _arg_targetAccessTech)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionTtyModeReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.CallSessionTtyModeReceived(ctx, _arg_session, _arg_mode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionMultipartyStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		_arg_isMultiParty, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.CallSessionMultipartyStateChanged(ctx, _arg_session, _arg_isMultiParty)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionSuppServiceReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_suppSrvNotification ims.ImsSuppServiceNotification
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1644,15 +1735,16 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionSuppServiceReceived(ctx, _arg_session, _arg_suppSrvNotification)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionRttModifyRequestReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IImsCallSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_callProfile ims.ImsCallProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1666,34 +1758,22 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionRttModifyRequestReceived(ctx, _arg_session, _arg_callProfile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionRttModifyResponseReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.CallSessionRttModifyResponseReceived(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionRttMessageReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rttMessage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.CallSessionRttMessageReceived(ctx, _arg_rttMessage)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionRttAudioIndicatorChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_profile ims.ImsStreamMediaProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1707,19 +1787,11 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionRttAudioIndicatorChanged(ctx, _arg_profile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionTransferred:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CallSessionTransferred(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionTransferFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_reasonInfo ims.ImsReasonInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1733,12 +1805,8 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallSessionTransferFailed(ctx, _arg_reasonInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallQualityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_callQuality media.CallQuality
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1752,12 +1820,8 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CallQualityChanged(ctx, _arg_callQuality)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionSendAnbrQuery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mediaType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1771,8 +1835,7 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.CallSessionSendAnbrQuery(ctx, _arg_mediaType, _arg_direction, _arg_bitsPerSecond)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

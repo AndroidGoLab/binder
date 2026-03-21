@@ -1,0 +1,5 @@
+package: android.text
+go_package: android/text
+parcelables:
+    - name: FontConfig
+    - name: FontVariationAxis

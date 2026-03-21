@@ -31,8 +31,7 @@ func (u *DemuxFilterMonitorEvent) GetScramblingStatus() (ScramblingStatus, bool)
 func (u *DemuxFilterMonitorEvent) SetScramblingStatus(
 	v ScramblingStatus,
 ) {
-	u.Tag = DemuxFilterMonitorEventTagScramblingStatus
-	u.ScramblingStatus = v
+	*u = DemuxFilterMonitorEvent{Tag: DemuxFilterMonitorEventTagScramblingStatus, ScramblingStatus: v}
 }
 
 func (u *DemuxFilterMonitorEvent) GetCid() (int32, bool) {
@@ -46,8 +45,7 @@ func (u *DemuxFilterMonitorEvent) GetCid() (int32, bool) {
 func (u *DemuxFilterMonitorEvent) SetCid(
 	v int32,
 ) {
-	u.Tag = DemuxFilterMonitorEventTagCid
-	u.Cid = v
+	*u = DemuxFilterMonitorEvent{Tag: DemuxFilterMonitorEventTagCid, Cid: v}
 }
 
 func (u *DemuxFilterMonitorEvent) MarshalParcel(

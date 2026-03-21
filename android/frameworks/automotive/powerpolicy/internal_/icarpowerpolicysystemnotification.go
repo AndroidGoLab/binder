@@ -51,6 +51,7 @@ func (p *CarPowerPolicySystemNotificationProxy) NotifyCarServiceReady(
 ) (PolicyState, error) {
 	var _result PolicyState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicySystemNotification)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicySystemNotification, MethodICarPowerPolicySystemNotificationNotifyCarServiceReady)
@@ -86,6 +87,7 @@ func (p *CarPowerPolicySystemNotificationProxy) NotifyPowerPolicyChange(
 	force bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicySystemNotification)
 	_data.WriteString16(policyId)
 	_data.WriteBool(force)
@@ -115,6 +117,7 @@ func (p *CarPowerPolicySystemNotificationProxy) NotifyPowerPolicyDefinition(
 	disabledComponents []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicySystemNotification)
 	_data.WriteString16(policyId)
 	if enabledComponents == nil {
@@ -155,7 +158,8 @@ func (p *CarPowerPolicySystemNotificationProxy) NotifyPowerPolicyDefinition(
 // CarPowerPolicySystemNotificationStub dispatches incoming binder transactions
 // to a typed ICarPowerPolicySystemNotification implementation.
 type CarPowerPolicySystemNotificationStub struct {
-	Impl ICarPowerPolicySystemNotification
+	Impl      ICarPowerPolicySystemNotification
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CarPowerPolicySystemNotificationStub)(nil)
@@ -169,11 +173,12 @@ func (s *CarPowerPolicySystemNotificationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICarPowerPolicySystemNotificationNotifyCarServiceReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.NotifyCarServiceReady(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -187,9 +192,6 @@ func (s *CarPowerPolicySystemNotificationStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICarPowerPolicySystemNotificationNotifyPowerPolicyChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_policyId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -207,19 +209,48 @@ func (s *CarPowerPolicySystemNotificationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarPowerPolicySystemNotificationNotifyPowerPolicyDefinition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_policyId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_enabledComponents []string
-		_ = _arg_enabledComponents
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_enabledComponents = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_enabledComponents[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_disabledComponents []string
-		_ = _arg_disabledComponents
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_disabledComponents = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_disabledComponents[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.NotifyPowerPolicyDefinition(ctx, _arg_policyId, _arg_enabledComponents, _arg_disabledComponents)
 		_reply := parcel.New()
 		if _err != nil {

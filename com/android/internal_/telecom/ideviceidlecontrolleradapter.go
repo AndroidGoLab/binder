@@ -48,6 +48,7 @@ func (p *DeviceIdleControllerAdapterProxy) ExemptAppTemporarilyForEvent(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleControllerAdapter)
 	_data.WriteString16(packageName)
 	_data.WriteInt64(duration)
@@ -75,7 +76,8 @@ func (p *DeviceIdleControllerAdapterProxy) ExemptAppTemporarilyForEvent(
 // DeviceIdleControllerAdapterStub dispatches incoming binder transactions
 // to a typed IDeviceIdleControllerAdapter implementation.
 type DeviceIdleControllerAdapterStub struct {
-	Impl IDeviceIdleControllerAdapter
+	Impl      IDeviceIdleControllerAdapter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DeviceIdleControllerAdapterStub)(nil)
@@ -89,11 +91,12 @@ func (s *DeviceIdleControllerAdapterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDeviceIdleControllerAdapterExemptAppTemporarilyForEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

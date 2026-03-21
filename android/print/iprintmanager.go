@@ -124,6 +124,7 @@ func (p *PrintManagerProxy) GetPrintJobInfos(
 	var _result []PrintJobInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	_data.WriteInt32(appId)
 	_data.WriteInt32(_identity.UserID)
@@ -146,6 +147,9 @@ func (p *PrintManagerProxy) GetPrintJobInfos(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -170,6 +174,7 @@ func (p *PrintManagerProxy) GetPrintJobInfo(
 	var _result PrintJobInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
@@ -216,6 +221,7 @@ func (p *PrintManagerProxy) Print(
 	var _result os.Bundle
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	_data.WriteString16(printJobName)
 	binder.WriteBinderToParcel(ctx, _data, printAdapter.AsBinder(), p.Remote.Transport())
@@ -261,6 +267,7 @@ func (p *PrintManagerProxy) CancelPrintJob(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
@@ -294,6 +301,7 @@ func (p *PrintManagerProxy) RestartPrintJob(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
@@ -327,6 +335,7 @@ func (p *PrintManagerProxy) AddPrintJobStateChangeListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(appId)
@@ -356,6 +365,7 @@ func (p *PrintManagerProxy) RemovePrintJobStateChangeListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -384,6 +394,7 @@ func (p *PrintManagerProxy) AddPrintServicesChangeListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -412,6 +423,7 @@ func (p *PrintManagerProxy) RemovePrintServicesChangeListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -441,6 +453,7 @@ func (p *PrintManagerProxy) GetPrintServices(
 	var _result []printservice.PrintServiceInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	_data.WriteInt32(selectionFlags)
 	_data.WriteInt32(_identity.UserID)
@@ -464,6 +477,9 @@ func (p *PrintManagerProxy) GetPrintServices(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]printservice.PrintServiceInfo, _count)
@@ -486,6 +502,7 @@ func (p *PrintManagerProxy) SetPrintServiceEnabled(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	_data.WriteInt32(1)
 	if _err := service.MarshalParcel(_data); _err != nil {
@@ -519,6 +536,7 @@ func (p *PrintManagerProxy) IsPrintServiceEnabled(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	_data.WriteInt32(1)
 	if _err := service.MarshalParcel(_data); _err != nil {
@@ -554,6 +572,7 @@ func (p *PrintManagerProxy) AddPrintServiceRecommendationsChangeListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -582,6 +601,7 @@ func (p *PrintManagerProxy) RemovePrintServiceRecommendationsChangeListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -610,6 +630,7 @@ func (p *PrintManagerProxy) GetPrintServiceRecommendations(
 	var _result []recommendation.RecommendationInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -632,6 +653,9 @@ func (p *PrintManagerProxy) GetPrintServiceRecommendations(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]recommendation.RecommendationInfo, _count)
@@ -653,6 +677,7 @@ func (p *PrintManagerProxy) CreatePrinterDiscoverySession(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -682,6 +707,7 @@ func (p *PrintManagerProxy) StartPrinterDiscovery(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 	if priorityList == nil {
@@ -721,6 +747,7 @@ func (p *PrintManagerProxy) StopPrinterDiscovery(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -749,6 +776,7 @@ func (p *PrintManagerProxy) ValidatePrinters(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	if printerIds == nil {
 		_data.WriteInt32(-1)
@@ -787,6 +815,7 @@ func (p *PrintManagerProxy) StartPrinterStateTracking(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	_data.WriteInt32(1)
 	if _err := printerId.MarshalParcel(_data); _err != nil {
@@ -819,6 +848,7 @@ func (p *PrintManagerProxy) GetCustomPrinterIcon(
 	var _result drawable.Icon
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	_data.WriteInt32(1)
 	if _err := printerId.MarshalParcel(_data); _err != nil {
@@ -859,6 +889,7 @@ func (p *PrintManagerProxy) StopPrinterStateTracking(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	_data.WriteInt32(1)
 	if _err := printerId.MarshalParcel(_data); _err != nil {
@@ -890,6 +921,7 @@ func (p *PrintManagerProxy) DestroyPrinterDiscoverySession(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -918,6 +950,7 @@ func (p *PrintManagerProxy) GetBindInstantServiceAllowed(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -949,6 +982,7 @@ func (p *PrintManagerProxy) SetBindInstantServiceAllowed(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(allowed)
@@ -974,7 +1008,8 @@ func (p *PrintManagerProxy) SetBindInstantServiceAllowed(
 // PrintManagerStub dispatches incoming binder transactions
 // to a typed IPrintManager implementation.
 type PrintManagerStub struct {
-	Impl IPrintManager
+	Impl      IPrintManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PrintManagerStub)(nil)
@@ -988,11 +1023,12 @@ func (s *PrintManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPrintManagerGetPrintJobInfos:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_appId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1007,13 +1043,19 @@ func (s *PrintManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIPrintManagerGetPrintJobInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printJobId PrintJobId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1046,16 +1088,18 @@ func (s *PrintManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPrintManagerPrint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_printJobName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_printAdapter IPrintDocumentAdapter
-		_ = _arg_printAdapter
+		{
+			_printAdapterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_printAdapter = NewPrintDocumentAdapterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _printAdapterHandle))
+		}
 		var _arg_attributes PrintAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1092,9 +1136,6 @@ func (s *PrintManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPrintManagerCancelPrintJob:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printJobId PrintJobId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1123,9 +1164,6 @@ func (s *PrintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintManagerRestartPrintJob:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printJobId PrintJobId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1154,12 +1192,14 @@ func (s *PrintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintManagerAddPrintJobStateChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IPrintJobStateChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewPrintJobStateChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_appId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1176,12 +1216,14 @@ func (s *PrintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintManagerRemovePrintJobStateChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IPrintJobStateChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewPrintJobStateChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1194,12 +1236,14 @@ func (s *PrintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintManagerAddPrintServicesChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IPrintServicesChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewPrintServicesChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1212,12 +1256,14 @@ func (s *PrintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintManagerRemovePrintServicesChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IPrintServicesChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewPrintServicesChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1230,9 +1276,6 @@ func (s *PrintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintManagerGetPrintServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_selectionFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1247,13 +1290,19 @@ func (s *PrintManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIPrintManagerSetPrintServiceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_service content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1282,9 +1331,6 @@ func (s *PrintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintManagerIsPrintServiceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_service content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1310,12 +1356,14 @@ func (s *PrintManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPrintManagerAddPrintServiceRecommendationsChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener recommendation.IRecommendationsChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = recommendation.NewRecommendationsChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1328,12 +1376,14 @@ func (s *PrintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintManagerRemovePrintServiceRecommendationsChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener recommendation.IRecommendationsChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = recommendation.NewRecommendationsChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1346,9 +1396,6 @@ func (s *PrintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintManagerGetPrintServiceRecommendations:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1359,16 +1406,27 @@ func (s *PrintManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIPrintManagerCreatePrinterDiscoverySession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPrinterDiscoveryObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewPrinterDiscoveryObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1381,15 +1439,35 @@ func (s *PrintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintManagerStartPrinterDiscovery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPrinterDiscoveryObserver
-		_ = _arg_observer
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewPrinterDiscoveryObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		var _arg_priorityList []PrinterId
-		_ = _arg_priorityList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_priorityList = make([]PrinterId, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_priorityList[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1402,12 +1480,14 @@ func (s *PrintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintManagerStopPrinterDiscovery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPrinterDiscoveryObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewPrinterDiscoveryObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1420,12 +1500,27 @@ func (s *PrintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintManagerValidatePrinters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_printerIds []PrinterId
-		_ = _arg_printerIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_printerIds = make([]PrinterId, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_printerIds[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1438,9 +1533,6 @@ func (s *PrintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintManagerStartPrinterStateTracking:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printerId PrinterId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1465,9 +1557,6 @@ func (s *PrintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintManagerGetCustomPrinterIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printerId PrinterId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1496,9 +1585,6 @@ func (s *PrintManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPrintManagerStopPrinterStateTracking:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printerId PrinterId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1523,12 +1609,14 @@ func (s *PrintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintManagerDestroyPrinterDiscoverySession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPrinterDiscoveryObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewPrinterDiscoveryObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1541,9 +1629,6 @@ func (s *PrintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintManagerGetBindInstantServiceAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1557,9 +1642,6 @@ func (s *PrintManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPrintManagerSetBindInstantServiceAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}

@@ -1,0 +1,20 @@
+package: com.android.smspush.unitTests
+go_package: com/android/smspush/unitTests
+interfaces:
+    - name: IDataVerify
+      descriptor: com.android.smspush.unitTests.IDataVerify
+      methods:
+        - name: verifyData
+          transaction_code_offset: 0
+          params:
+            - name: pdu
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: boolean
+        - name: resetData
+          transaction_code_offset: 1
+          return_type:
+            name: void

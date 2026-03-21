@@ -1,0 +1,177 @@
+package: android.media.metrics
+go_package: android/media/metrics
+interfaces:
+    - name: IMediaMetricsManager
+      descriptor: android.media.metrics.IMediaMetricsManager
+      methods:
+        - name: reportPlaybackMetrics
+          transaction_code_offset: 0
+          params:
+            - name: sessionId
+              type:
+                name: String
+              direction: in
+            - name: metrics
+              type:
+                name: PlaybackMetrics
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getPlaybackSessionId
+          transaction_code_offset: 1
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: getRecordingSessionId
+          transaction_code_offset: 2
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: reportNetworkEvent
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: String
+              direction: in
+            - name: event
+              type:
+                name: NetworkEvent
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportPlaybackErrorEvent
+          transaction_code_offset: 4
+          params:
+            - name: sessionId
+              type:
+                name: String
+              direction: in
+            - name: event
+              type:
+                name: PlaybackErrorEvent
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportPlaybackStateEvent
+          transaction_code_offset: 5
+          params:
+            - name: sessionId
+              type:
+                name: String
+              direction: in
+            - name: event
+              type:
+                name: PlaybackStateEvent
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportTrackChangeEvent
+          transaction_code_offset: 6
+          params:
+            - name: sessionId
+              type:
+                name: String
+              direction: in
+            - name: event
+              type:
+                name: TrackChangeEvent
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportEditingEndedEvent
+          transaction_code_offset: 7
+          params:
+            - name: sessionId
+              type:
+                name: String
+              direction: in
+            - name: event
+              type:
+                name: EditingEndedEvent
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getTranscodingSessionId
+          transaction_code_offset: 8
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: getEditingSessionId
+          transaction_code_offset: 9
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: getBundleSessionId
+          transaction_code_offset: 10
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: reportBundleMetrics
+          transaction_code_offset: 11
+          params:
+            - name: sessionId
+              type:
+                name: String
+              direction: in
+            - name: metrics
+              type:
+                name: PersistableBundle
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: releaseSessionId
+          transaction_code_offset: 12
+          params:
+            - name: sessionId
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: EditingEndedEvent
+    - name: NetworkEvent
+    - name: PlaybackErrorEvent
+    - name: PlaybackMetrics
+    - name: PlaybackStateEvent
+    - name: TrackChangeEvent

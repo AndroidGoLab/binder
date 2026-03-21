@@ -57,6 +57,7 @@ func (p *BluetoothChannelSoundingSessionCallbackProxy) OnOpened(
 	reason Reason,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSessionCallback)
 	_data.WriteInt32(int32(reason))
 
@@ -83,6 +84,7 @@ func (p *BluetoothChannelSoundingSessionCallbackProxy) OnOpenFailed(
 	reason Reason,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSessionCallback)
 	_data.WriteInt32(int32(reason))
 
@@ -109,6 +111,7 @@ func (p *BluetoothChannelSoundingSessionCallbackProxy) OnResult(
 	result RangingResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSessionCallback)
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -138,6 +141,7 @@ func (p *BluetoothChannelSoundingSessionCallbackProxy) OnClose(
 	reason Reason,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSessionCallback)
 	_data.WriteInt32(int32(reason))
 
@@ -164,6 +168,7 @@ func (p *BluetoothChannelSoundingSessionCallbackProxy) OnCloseFailed(
 	reason Reason,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSessionCallback)
 	_data.WriteInt32(int32(reason))
 
@@ -188,7 +193,8 @@ func (p *BluetoothChannelSoundingSessionCallbackProxy) OnCloseFailed(
 // BluetoothChannelSoundingSessionCallbackStub dispatches incoming binder transactions
 // to a typed IBluetoothChannelSoundingSessionCallback implementation.
 type BluetoothChannelSoundingSessionCallbackStub struct {
-	Impl IBluetoothChannelSoundingSessionCallback
+	Impl      IBluetoothChannelSoundingSessionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothChannelSoundingSessionCallbackStub)(nil)
@@ -202,11 +208,12 @@ func (s *BluetoothChannelSoundingSessionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothChannelSoundingSessionCallbackOnOpened:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -221,9 +228,6 @@ func (s *BluetoothChannelSoundingSessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingSessionCallbackOnOpenFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -238,9 +242,6 @@ func (s *BluetoothChannelSoundingSessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingSessionCallbackOnResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_result RangingResult
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -262,9 +263,6 @@ func (s *BluetoothChannelSoundingSessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingSessionCallbackOnClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -279,9 +277,6 @@ func (s *BluetoothChannelSoundingSessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingSessionCallbackOnCloseFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

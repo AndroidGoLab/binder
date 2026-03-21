@@ -34,7 +34,8 @@ var _ ISecureElementListener = (*SecureElementListenerProxy)(nil)
 // SecureElementListenerStub dispatches incoming binder transactions
 // to a typed ISecureElementListener implementation.
 type SecureElementListenerStub struct {
-	Impl ISecureElementListener
+	Impl      ISecureElementListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SecureElementListenerStub)(nil)
@@ -48,6 +49,10 @@ func (s *SecureElementListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

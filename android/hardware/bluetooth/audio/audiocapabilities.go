@@ -33,8 +33,7 @@ func (u *AudioCapabilities) GetPcmCapabilities() (PcmCapabilities, bool) {
 func (u *AudioCapabilities) SetPcmCapabilities(
 	v PcmCapabilities,
 ) {
-	u.Tag = AudioCapabilitiesTagPcmCapabilities
-	u.PcmCapabilities = v
+	*u = AudioCapabilities{Tag: AudioCapabilitiesTagPcmCapabilities, PcmCapabilities: v}
 }
 
 func (u *AudioCapabilities) GetA2dpCapabilities() (CodecCapabilities, bool) {
@@ -48,8 +47,7 @@ func (u *AudioCapabilities) GetA2dpCapabilities() (CodecCapabilities, bool) {
 func (u *AudioCapabilities) SetA2dpCapabilities(
 	v CodecCapabilities,
 ) {
-	u.Tag = AudioCapabilitiesTagA2dpCapabilities
-	u.A2dpCapabilities = v
+	*u = AudioCapabilities{Tag: AudioCapabilitiesTagA2dpCapabilities, A2dpCapabilities: v}
 }
 
 func (u *AudioCapabilities) GetLeAudioCapabilities() (LeAudioCodecCapabilitiesSetting, bool) {
@@ -63,8 +61,7 @@ func (u *AudioCapabilities) GetLeAudioCapabilities() (LeAudioCodecCapabilitiesSe
 func (u *AudioCapabilities) SetLeAudioCapabilities(
 	v LeAudioCodecCapabilitiesSetting,
 ) {
-	u.Tag = AudioCapabilitiesTagLeAudioCapabilities
-	u.LeAudioCapabilities = v
+	*u = AudioCapabilities{Tag: AudioCapabilitiesTagLeAudioCapabilities, LeAudioCapabilities: v}
 }
 
 func (u *AudioCapabilities) MarshalParcel(

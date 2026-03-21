@@ -47,9 +47,19 @@ func (s *HalStream) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Id, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_overrideFormatRaw, _err := p.ReadInt32()
@@ -58,11 +68,21 @@ func (s *HalStream) UnmarshalParcel(
 	}
 	s.OverrideFormat = common.PixelFormat(_overrideFormatRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_producerUsageRaw, _err := p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
 	s.ProducerUsage = common.BufferUsage(_producerUsageRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_consumerUsageRaw, _err := p.ReadInt64()
 	if _err != nil {
@@ -70,9 +90,19 @@ func (s *HalStream) UnmarshalParcel(
 	}
 	s.ConsumerUsage = common.BufferUsage(_consumerUsageRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.MaxBuffers, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_overrideDataSpaceRaw, _err := p.ReadInt32()
@@ -81,14 +111,29 @@ func (s *HalStream) UnmarshalParcel(
 	}
 	s.OverrideDataSpace = common.Dataspace(_overrideDataSpaceRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PhysicalCameraId, _err = p.ReadString16()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SupportOffline, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.EnableHalBufferManager, _err = p.ReadBool()

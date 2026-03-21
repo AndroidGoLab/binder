@@ -63,6 +63,7 @@ func (p *ActivityControllerProxy) ActivityStarting(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityController)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -98,6 +99,7 @@ func (p *ActivityControllerProxy) ActivityResuming(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityController)
 	_data.WriteString16(pkg)
 
@@ -134,6 +136,7 @@ func (p *ActivityControllerProxy) AppCrashed(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityController)
 	_data.WriteString16(processName)
 	_data.WriteInt32(pid)
@@ -172,6 +175,7 @@ func (p *ActivityControllerProxy) AppEarlyNotResponding(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityController)
 	_data.WriteString16(processName)
 	_data.WriteInt32(pid)
@@ -207,6 +211,7 @@ func (p *ActivityControllerProxy) AppNotResponding(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityController)
 	_data.WriteString16(processName)
 	_data.WriteInt32(pid)
@@ -240,6 +245,7 @@ func (p *ActivityControllerProxy) SystemNotResponding(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityController)
 	_data.WriteString16(msg)
 
@@ -268,7 +274,8 @@ func (p *ActivityControllerProxy) SystemNotResponding(
 // ActivityControllerStub dispatches incoming binder transactions
 // to a typed IActivityController implementation.
 type ActivityControllerStub struct {
-	Impl IActivityController
+	Impl      IActivityController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ActivityControllerStub)(nil)
@@ -282,11 +289,12 @@ func (s *ActivityControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIActivityControllerActivityStarting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -313,9 +321,6 @@ func (s *ActivityControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityControllerActivityResuming:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -330,9 +335,6 @@ func (s *ActivityControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityControllerAppCrashed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_processName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -367,9 +369,6 @@ func (s *ActivityControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityControllerAppEarlyNotResponding:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_processName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -392,9 +391,6 @@ func (s *ActivityControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityControllerAppNotResponding:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_processName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -417,9 +413,6 @@ func (s *ActivityControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityControllerSystemNotResponding:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_msg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

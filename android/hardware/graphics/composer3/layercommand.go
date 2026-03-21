@@ -11,22 +11,22 @@ import (
 
 type LayerCommand struct {
 	Layer                          int64
-	CursorPosition                 graphics.Point
-	Buffer                         Buffer
+	CursorPosition                 *graphics.Point
+	Buffer                         *Buffer
 	Damage                         []graphics.Rect
-	BlendMode                      ParcelableBlendMode
-	Color                          Color
-	Composition                    ParcelableComposition
-	Dataspace                      ParcelableDataspace
-	DisplayFrame                   graphics.Rect
-	PlaneAlpha                     PlaneAlpha
-	SidebandStream                 common.NativeHandle
-	SourceCrop                     graphicsCommon.FRect
-	Transform                      ParcelableTransform
+	BlendMode                      *ParcelableBlendMode
+	Color                          *Color
+	Composition                    *ParcelableComposition
+	Dataspace                      *ParcelableDataspace
+	DisplayFrame                   *graphics.Rect
+	PlaneAlpha                     *PlaneAlpha
+	SidebandStream                 *common.NativeHandle
+	SourceCrop                     *graphicsCommon.FRect
+	Transform                      *ParcelableTransform
 	VisibleRegion                  []graphics.Rect
-	Z                              ZOrder
+	Z                              *ZOrder
 	ColorTransform                 []float32
-	Brightness                     LayerBrightness
+	Brightness                     *LayerBrightness
 	PerFrameMetadata               []PerFrameMetadata
 	PerFrameMetadataBlob           []PerFrameMetadataBlob
 	BlockingRegion                 []graphics.Rect
@@ -42,11 +42,21 @@ func (s *LayerCommand) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt64(s.Layer)
-	if _err := s.CursorPosition.MarshalParcel(p); _err != nil {
-		return _err
+	if s.CursorPosition == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.CursorPosition.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.Buffer.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Buffer == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Buffer.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	if s.Damage == nil {
 		p.WriteInt32(-1)
@@ -59,32 +69,77 @@ func (s *LayerCommand) MarshalParcel(
 			}
 		}
 	}
-	if _err := s.BlendMode.MarshalParcel(p); _err != nil {
-		return _err
+	if s.BlendMode == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.BlendMode.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.Color.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Color == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Color.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.Composition.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Composition == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Composition.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.Dataspace.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Dataspace == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Dataspace.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.DisplayFrame.MarshalParcel(p); _err != nil {
-		return _err
+	if s.DisplayFrame == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.DisplayFrame.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.PlaneAlpha.MarshalParcel(p); _err != nil {
-		return _err
+	if s.PlaneAlpha == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.PlaneAlpha.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.SidebandStream.MarshalParcel(p); _err != nil {
-		return _err
+	if s.SidebandStream == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.SidebandStream.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.SourceCrop.MarshalParcel(p); _err != nil {
-		return _err
+	if s.SourceCrop == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.SourceCrop.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.Transform.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Transform == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Transform.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	if s.VisibleRegion == nil {
 		p.WriteInt32(-1)
@@ -97,8 +152,13 @@ func (s *LayerCommand) MarshalParcel(
 			}
 		}
 	}
-	if _err := s.Z.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Z == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Z.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	if s.ColorTransform == nil {
 		p.WriteInt32(-1)
@@ -108,8 +168,13 @@ func (s *LayerCommand) MarshalParcel(
 			p.WriteFloat32(_item)
 		}
 	}
-	if _err := s.Brightness.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Brightness == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Brightness.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	if s.PerFrameMetadata == nil {
 		p.WriteInt32(-1)
@@ -167,17 +232,57 @@ func (s *LayerCommand) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Layer, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
 
-	if _err = s.CursorPosition.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
-	if _err = s.Buffer.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val graphics.Point
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.CursorPosition = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val Buffer
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Buffer = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -197,40 +302,180 @@ func (s *LayerCommand) UnmarshalParcel(
 		}
 	}
 
-	if _err = s.BlendMode.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
-	if _err = s.Color.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val ParcelableBlendMode
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.BlendMode = &_val
+		}
 	}
 
-	if _err = s.Composition.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
-	if _err = s.Dataspace.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val Color
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Color = &_val
+		}
 	}
 
-	if _err = s.DisplayFrame.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
-	if _err = s.PlaneAlpha.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val ParcelableComposition
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Composition = &_val
+		}
 	}
 
-	if _err = s.SidebandStream.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
-	if _err = s.SourceCrop.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val ParcelableDataspace
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Dataspace = &_val
+		}
 	}
 
-	if _err = s.Transform.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val graphics.Rect
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.DisplayFrame = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val PlaneAlpha
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.PlaneAlpha = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val common.NativeHandle
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.SidebandStream = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val graphicsCommon.FRect
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.SourceCrop = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val ParcelableTransform
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Transform = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count1 int32
@@ -250,8 +495,28 @@ func (s *LayerCommand) UnmarshalParcel(
 		}
 	}
 
-	if _err = s.Z.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val ZOrder
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Z = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count2 int32
@@ -269,8 +534,28 @@ func (s *LayerCommand) UnmarshalParcel(
 		}
 	}
 
-	if _err = s.Brightness.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val LayerBrightness
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Brightness = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count3 int32
@@ -290,6 +575,11 @@ func (s *LayerCommand) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count4 int32
 	_count4, _err = p.ReadInt32()
 	if _err != nil {
@@ -305,6 +595,11 @@ func (s *LayerCommand) UnmarshalParcel(
 				return _err
 			}
 		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count5 int32
@@ -324,6 +619,11 @@ func (s *LayerCommand) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count6 int32
 	_count6, _err = p.ReadInt32()
 	if _err != nil {
@@ -339,11 +639,21 @@ func (s *LayerCommand) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_layerLifecycleBatchCommandTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.LayerLifecycleBatchCommandType = LayerLifecycleBatchCommandType(_layerLifecycleBatchCommandTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.NewBufferSlotCount, _err = p.ReadInt32()
 	if _err != nil {

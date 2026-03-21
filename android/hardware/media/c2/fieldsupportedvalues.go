@@ -35,8 +35,7 @@ func (u *FieldSupportedValues) GetEmpty() (bool, bool) {
 func (u *FieldSupportedValues) SetEmpty(
 	v bool,
 ) {
-	u.Tag = FieldSupportedValuesTagEmpty
-	u.Empty = v
+	*u = FieldSupportedValues{Tag: FieldSupportedValuesTagEmpty, Empty: v}
 }
 
 func (u *FieldSupportedValues) GetRange() (ValueRange, bool) {
@@ -50,8 +49,7 @@ func (u *FieldSupportedValues) GetRange() (ValueRange, bool) {
 func (u *FieldSupportedValues) SetRange(
 	v ValueRange,
 ) {
-	u.Tag = FieldSupportedValuesTagRange
-	u.Range = v
+	*u = FieldSupportedValues{Tag: FieldSupportedValuesTagRange, Range: v}
 }
 
 func (u *FieldSupportedValues) GetValues() ([]int64, bool) {
@@ -65,8 +63,7 @@ func (u *FieldSupportedValues) GetValues() ([]int64, bool) {
 func (u *FieldSupportedValues) SetValues(
 	v []int64,
 ) {
-	u.Tag = FieldSupportedValuesTagValues
-	u.Values = v
+	*u = FieldSupportedValues{Tag: FieldSupportedValuesTagValues, Values: v}
 }
 
 func (u *FieldSupportedValues) GetFlags() ([]int64, bool) {
@@ -80,8 +77,7 @@ func (u *FieldSupportedValues) GetFlags() ([]int64, bool) {
 func (u *FieldSupportedValues) SetFlags(
 	v []int64,
 ) {
-	u.Tag = FieldSupportedValuesTagFlags
-	u.Flags = v
+	*u = FieldSupportedValues{Tag: FieldSupportedValuesTagFlags, Flags: v}
 }
 
 func (u *FieldSupportedValues) MarshalParcel(

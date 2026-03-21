@@ -1,0 +1,4 @@
+package: com.android.internal.logging
+go_package: com/android/internal_/logging
+parcelables:
+    - name: InstanceId

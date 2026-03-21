@@ -1,0 +1,1773 @@
+package: android.hardware.radio.sim
+go_package: android/hardware/radio/sim
+interfaces:
+    - name: IRadioSim
+      descriptor: android.hardware.radio.sim.IRadioSim
+      oneway: true
+      methods:
+        - name: areUiccApplicationsEnabled
+          transaction_code_offset: 0
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: changeIccPin2ForApp
+          transaction_code_offset: 1
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: oldPin2
+              type:
+                name: String
+              direction: in
+            - name: newPin2
+              type:
+                name: String
+              direction: in
+            - name: aid
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: changeIccPinForApp
+          transaction_code_offset: 2
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: oldPin
+              type:
+                name: String
+              direction: in
+            - name: newPin
+              type:
+                name: String
+              direction: in
+            - name: aid
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: enableUiccApplications
+          transaction_code_offset: 3
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: getAllowedCarriers
+          transaction_code_offset: 4
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getCdmaSubscription
+          transaction_code_offset: 5
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getCdmaSubscriptionSource
+          transaction_code_offset: 6
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getFacilityLockForApp
+          transaction_code_offset: 7
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: facility
+              type:
+                name: String
+              direction: in
+            - name: password
+              type:
+                name: String
+              direction: in
+            - name: serviceClass
+              type:
+                name: int
+              direction: in
+            - name: appId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getIccCardStatus
+          transaction_code_offset: 8
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getImsiForApp
+          transaction_code_offset: 9
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: aid
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getSimPhonebookCapacity
+          transaction_code_offset: 10
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getSimPhonebookRecords
+          transaction_code_offset: 11
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: iccCloseLogicalChannel
+          transaction_code_offset: 12
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: channelId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: iccIoForApp
+          transaction_code_offset: 13
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: iccIo
+              type:
+                name: IccIo
+              direction: in
+          return_type:
+            name: void
+        - name: iccOpenLogicalChannel
+          transaction_code_offset: 14
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: aid
+              type:
+                name: String
+              direction: in
+            - name: p2
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: iccTransmitApduBasicChannel
+          transaction_code_offset: 15
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: message
+              type:
+                name: SimApdu
+              direction: in
+          return_type:
+            name: void
+        - name: iccTransmitApduLogicalChannel
+          transaction_code_offset: 16
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: message
+              type:
+                name: SimApdu
+              direction: in
+          return_type:
+            name: void
+        - name: reportStkServiceIsRunning
+          transaction_code_offset: 17
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: requestIccSimAuthentication
+          transaction_code_offset: 18
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: authContext
+              type:
+                name: int
+              direction: in
+            - name: authData
+              type:
+                name: String
+              direction: in
+            - name: aid
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: responseAcknowledgement
+          transaction_code_offset: 19
+          return_type:
+            name: void
+        - name: sendEnvelope
+          transaction_code_offset: 20
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: contents
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: sendEnvelopeWithStatus
+          transaction_code_offset: 21
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: contents
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: sendTerminalResponseToSim
+          transaction_code_offset: 22
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: contents
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setAllowedCarriers
+          transaction_code_offset: 23
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: carriers
+              type:
+                name: CarrierRestrictions
+              direction: in
+            - name: multiSimPolicy
+              type:
+                name: SimLockMultiSimPolicy
+              direction: in
+          return_type:
+            name: void
+        - name: setCarrierInfoForImsiEncryption
+          transaction_code_offset: 24
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: imsiEncryptionInfo
+              type:
+                name: ImsiEncryptionInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setCdmaSubscriptionSource
+          transaction_code_offset: 25
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: cdmaSub
+              type:
+                name: CdmaSubscriptionSource
+              direction: in
+          return_type:
+            name: void
+        - name: setFacilityLockForApp
+          transaction_code_offset: 26
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: facility
+              type:
+                name: String
+              direction: in
+            - name: lockState
+              type:
+                name: boolean
+              direction: in
+            - name: password
+              type:
+                name: String
+              direction: in
+            - name: serviceClass
+              type:
+                name: int
+              direction: in
+            - name: appId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setResponseFunctions
+          transaction_code_offset: 27
+          params:
+            - name: radioSimResponse
+              type:
+                name: IRadioSimResponse
+              direction: in
+            - name: radioSimIndication
+              type:
+                name: IRadioSimIndication
+              direction: in
+          return_type:
+            name: void
+        - name: setSimCardPower
+          transaction_code_offset: 28
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: powerUp
+              type:
+                name: CardPowerState
+              direction: in
+          return_type:
+            name: void
+        - name: setUiccSubscription
+          transaction_code_offset: 29
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: uiccSub
+              type:
+                name: SelectUiccSub
+              direction: in
+          return_type:
+            name: void
+        - name: supplyIccPin2ForApp
+          transaction_code_offset: 30
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: pin2
+              type:
+                name: String
+              direction: in
+            - name: aid
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: supplyIccPinForApp
+          transaction_code_offset: 31
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: pin
+              type:
+                name: String
+              direction: in
+            - name: aid
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: supplyIccPuk2ForApp
+          transaction_code_offset: 32
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: puk2
+              type:
+                name: String
+              direction: in
+            - name: pin2
+              type:
+                name: String
+              direction: in
+            - name: aid
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: supplyIccPukForApp
+          transaction_code_offset: 33
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: puk
+              type:
+                name: String
+              direction: in
+            - name: pin
+              type:
+                name: String
+              direction: in
+            - name: aid
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: supplySimDepersonalization
+          transaction_code_offset: 34
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: persoType
+              type:
+                name: PersoSubstate
+              direction: in
+            - name: controlKey
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: updateSimPhonebookRecords
+          transaction_code_offset: 35
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: recordInfo
+              type:
+                name: PhonebookRecordInfo
+              direction: in
+          return_type:
+            name: void
+        - name: iccCloseLogicalChannelWithSessionInfo
+          transaction_code_offset: 36
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: sessionInfo
+              type:
+                name: SessionInfo
+              direction: in
+          return_type:
+            name: void
+    - name: IRadioSimIndication
+      descriptor: android.hardware.radio.sim.IRadioSimIndication
+      oneway: true
+      methods:
+        - name: carrierInfoForImsiEncryption
+          transaction_code_offset: 0
+          params:
+            - name: info
+              type:
+                name: RadioIndicationType
+              direction: in
+          return_type:
+            name: void
+        - name: cdmaSubscriptionSourceChanged
+          transaction_code_offset: 1
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: cdmaSource
+              type:
+                name: CdmaSubscriptionSource
+              direction: in
+          return_type:
+            name: void
+        - name: simPhonebookChanged
+          transaction_code_offset: 2
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+          return_type:
+            name: void
+        - name: simPhonebookRecordsReceived
+          transaction_code_offset: 3
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: status
+              type:
+                name: PbReceivedStatus
+              direction: in
+            - name: records
+              type:
+                name: PhonebookRecordInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: simRefresh
+          transaction_code_offset: 4
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: refreshResult
+              type:
+                name: SimRefreshResult
+              direction: in
+          return_type:
+            name: void
+        - name: simStatusChanged
+          transaction_code_offset: 5
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+          return_type:
+            name: void
+        - name: stkEventNotify
+          transaction_code_offset: 6
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: cmd
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: stkProactiveCommand
+          transaction_code_offset: 7
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: cmd
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: stkSessionEnd
+          transaction_code_offset: 8
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+          return_type:
+            name: void
+        - name: subscriptionStatusChanged
+          transaction_code_offset: 9
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: activate
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: uiccApplicationsEnablementChanged
+          transaction_code_offset: 10
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: enabled
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+    - name: IRadioSimResponse
+      descriptor: android.hardware.radio.sim.IRadioSimResponse
+      oneway: true
+      methods:
+        - name: acknowledgeRequest
+          transaction_code_offset: 0
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: areUiccApplicationsEnabledResponse
+          transaction_code_offset: 1
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: enabled
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: changeIccPin2ForAppResponse
+          transaction_code_offset: 2
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: remainingRetries
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: changeIccPinForAppResponse
+          transaction_code_offset: 3
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: remainingRetries
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: enableUiccApplicationsResponse
+          transaction_code_offset: 4
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: getAllowedCarriersResponse
+          transaction_code_offset: 5
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: carriers
+              type:
+                name: CarrierRestrictions
+              direction: in
+            - name: multiSimPolicy
+              type:
+                name: SimLockMultiSimPolicy
+              direction: in
+          return_type:
+            name: void
+        - name: getCdmaSubscriptionResponse
+          transaction_code_offset: 6
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: mdn
+              type:
+                name: String
+              direction: in
+            - name: hSid
+              type:
+                name: String
+              direction: in
+            - name: hNid
+              type:
+                name: String
+              direction: in
+            - name: min
+              type:
+                name: String
+              direction: in
+            - name: prl
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getCdmaSubscriptionSourceResponse
+          transaction_code_offset: 7
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: source
+              type:
+                name: CdmaSubscriptionSource
+              direction: in
+          return_type:
+            name: void
+        - name: getFacilityLockForAppResponse
+          transaction_code_offset: 8
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: response
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getIccCardStatusResponse
+          transaction_code_offset: 9
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: cardStatus
+              type:
+                name: CardStatus
+              direction: in
+          return_type:
+            name: void
+        - name: getImsiForAppResponse
+          transaction_code_offset: 10
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: imsi
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getSimPhonebookCapacityResponse
+          transaction_code_offset: 11
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: capacity
+              type:
+                name: PhonebookCapacity
+              direction: in
+          return_type:
+            name: void
+        - name: getSimPhonebookRecordsResponse
+          transaction_code_offset: 12
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: iccCloseLogicalChannelResponse
+          transaction_code_offset: 13
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: iccIoForAppResponse
+          transaction_code_offset: 14
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: iccIo
+              type:
+                name: IccIoResult
+              direction: in
+          return_type:
+            name: void
+        - name: iccOpenLogicalChannelResponse
+          transaction_code_offset: 15
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: channelId
+              type:
+                name: int
+              direction: in
+            - name: selectResponse
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: iccTransmitApduBasicChannelResponse
+          transaction_code_offset: 16
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: result
+              type:
+                name: IccIoResult
+              direction: in
+          return_type:
+            name: void
+        - name: iccTransmitApduLogicalChannelResponse
+          transaction_code_offset: 17
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: result
+              type:
+                name: IccIoResult
+              direction: in
+          return_type:
+            name: void
+        - name: reportStkServiceIsRunningResponse
+          transaction_code_offset: 18
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: requestIccSimAuthenticationResponse
+          transaction_code_offset: 19
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: result
+              type:
+                name: IccIoResult
+              direction: in
+          return_type:
+            name: void
+        - name: sendEnvelopeResponse
+          transaction_code_offset: 20
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: commandResponse
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: sendEnvelopeWithStatusResponse
+          transaction_code_offset: 21
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: iccIo
+              type:
+                name: IccIoResult
+              direction: in
+          return_type:
+            name: void
+        - name: sendTerminalResponseToSimResponse
+          transaction_code_offset: 22
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setAllowedCarriersResponse
+          transaction_code_offset: 23
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setCarrierInfoForImsiEncryptionResponse
+          transaction_code_offset: 24
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setCdmaSubscriptionSourceResponse
+          transaction_code_offset: 25
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setFacilityLockForAppResponse
+          transaction_code_offset: 26
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: retry
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setSimCardPowerResponse
+          transaction_code_offset: 27
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setUiccSubscriptionResponse
+          transaction_code_offset: 28
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: supplyIccPin2ForAppResponse
+          transaction_code_offset: 29
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: remainingRetries
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: supplyIccPinForAppResponse
+          transaction_code_offset: 30
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: remainingRetries
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: supplyIccPuk2ForAppResponse
+          transaction_code_offset: 31
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: remainingRetries
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: supplyIccPukForAppResponse
+          transaction_code_offset: 32
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: remainingRetries
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: supplySimDepersonalizationResponse
+          transaction_code_offset: 33
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: persoType
+              type:
+                name: PersoSubstate
+              direction: in
+            - name: remainingRetries
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: updateSimPhonebookRecordsResponse
+          transaction_code_offset: 34
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: updatedRecordIndex
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: iccCloseLogicalChannelWithSessionInfoResponse
+          transaction_code_offset: 35
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: AppStatus
+      fields:
+        - name: appType
+          type:
+            name: int
+        - name: appState
+          type:
+            name: int
+        - name: persoSubstate
+          type:
+            name: PersoSubstate
+        - name: aidPtr
+          type:
+            name: String
+        - name: appLabelPtr
+          type:
+            name: String
+        - name: pin1Replaced
+          type:
+            name: boolean
+        - name: pin1
+          type:
+            name: PinState
+        - name: pin2
+          type:
+            name: PinState
+      constants:
+        - name: APP_STATE_UNKNOWN
+          type: int
+          value: "0"
+        - name: APP_STATE_DETECTED
+          type: int
+          value: "1"
+        - name: APP_STATE_PIN
+          type: int
+          value: "2"
+        - name: APP_STATE_PUK
+          type: int
+          value: "3"
+        - name: APP_STATE_SUBSCRIPTION_PERSO
+          type: int
+          value: "4"
+        - name: APP_STATE_READY
+          type: int
+          value: "5"
+        - name: APP_TYPE_UNKNOWN
+          type: int
+          value: "0"
+        - name: APP_TYPE_SIM
+          type: int
+          value: "1"
+        - name: APP_TYPE_USIM
+          type: int
+          value: "2"
+        - name: APP_TYPE_RUIM
+          type: int
+          value: "3"
+        - name: APP_TYPE_CSIM
+          type: int
+          value: "4"
+        - name: APP_TYPE_ISIM
+          type: int
+          value: "5"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CardStatus
+      fields:
+        - name: cardState
+          type:
+            name: int
+        - name: universalPinState
+          type:
+            name: PinState
+        - name: gsmUmtsSubscriptionAppIndex
+          type:
+            name: int
+        - name: cdmaSubscriptionAppIndex
+          type:
+            name: int
+        - name: imsSubscriptionAppIndex
+          type:
+            name: int
+        - name: applications
+          type:
+            name: AppStatus
+            is_array: true
+        - name: atr
+          type:
+            name: String
+        - name: iccid
+          type:
+            name: String
+        - name: eid
+          type:
+            name: String
+        - name: slotMap
+          type:
+            name: SlotPortMapping
+        - name: supportedMepMode
+          type:
+            name: MultipleEnabledProfilesMode
+          default_value: MultipleEnabledProfilesMode.NONE
+      constants:
+        - name: STATE_ABSENT
+          type: int
+          value: "0"
+        - name: STATE_PRESENT
+          type: int
+          value: "1"
+        - name: STATE_ERROR
+          type: int
+          value: "2"
+        - name: STATE_RESTRICTED
+          type: int
+          value: "3"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: Carrier
+      fields:
+        - name: mcc
+          type:
+            name: String
+        - name: mnc
+          type:
+            name: String
+        - name: matchType
+          type:
+            name: int
+        - name: matchData
+          type:
+            name: String
+      constants:
+        - name: MATCH_TYPE_ALL
+          type: int
+          value: "0"
+        - name: MATCH_TYPE_SPN
+          type: int
+          value: "1"
+        - name: MATCH_TYPE_IMSI_PREFIX
+          type: int
+          value: "2"
+        - name: MATCH_TYPE_GID1
+          type: int
+          value: "3"
+        - name: MATCH_TYPE_GID2
+          type: int
+          value: "4"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CarrierInfo
+      fields:
+        - name: mcc
+          type:
+            name: String
+        - name: mnc
+          type:
+            name: String
+        - name: spn
+          type:
+            name: String
+          annotations:
+            - nullable
+        - name: gid1
+          type:
+            name: String
+          annotations:
+            - nullable
+        - name: gid2
+          type:
+            name: String
+          annotations:
+            - nullable
+        - name: imsiPrefix
+          type:
+            name: String
+          annotations:
+            - nullable
+        - name: ehplmn
+          type:
+            name: List
+            type_args:
+                - name: Plmn
+          annotations:
+            - nullable
+        - name: iccid
+          type:
+            name: String
+          annotations:
+            - nullable
+        - name: impi
+          type:
+            name: String
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CarrierRestrictions
+      fields:
+        - name: allowedCarriers
+          type:
+            name: Carrier
+            is_array: true
+        - name: excludedCarriers
+          type:
+            name: Carrier
+            is_array: true
+        - name: allowedCarriersPrioritized
+          type:
+            name: boolean
+        - name: status
+          type:
+            name: CarrierRestrictionStatus
+        - name: allowedCarrierInfoList
+          type:
+            name: CarrierInfo
+            is_array: true
+          default_value: '{}'
+        - name: excludedCarrierInfoList
+          type:
+            name: CarrierInfo
+            is_array: true
+          default_value: '{}'
+      nested_types:
+        - CarrierRestrictions.CarrierRestrictionStatus
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: IccIo
+      fields:
+        - name: command
+          type:
+            name: int
+        - name: fileId
+          type:
+            name: int
+        - name: path
+          type:
+            name: String
+        - name: p1
+          type:
+            name: int
+        - name: p2
+          type:
+            name: int
+        - name: p3
+          type:
+            name: int
+        - name: data
+          type:
+            name: String
+        - name: pin2
+          type:
+            name: String
+        - name: aid
+          type:
+            name: String
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: IccIoResult
+      fields:
+        - name: sw1
+          type:
+            name: int
+        - name: sw2
+          type:
+            name: int
+        - name: simResponse
+          type:
+            name: String
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: ImsiEncryptionInfo
+      fields:
+        - name: mcc
+          type:
+            name: String
+        - name: mnc
+          type:
+            name: String
+        - name: carrierKey
+          type:
+            name: byte
+            is_array: true
+        - name: keyIdentifier
+          type:
+            name: String
+        - name: expirationTime
+          type:
+            name: long
+        - name: keyType
+          type:
+            name: byte
+      constants:
+        - name: PUBLIC_KEY_TYPE_EPDG
+          type: byte
+          value: "1"
+        - name: PUBLIC_KEY_TYPE_WLAN
+          type: byte
+          value: "2"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: PhonebookCapacity
+      fields:
+        - name: maxAdnRecords
+          type:
+            name: int
+        - name: usedAdnRecords
+          type:
+            name: int
+        - name: maxEmailRecords
+          type:
+            name: int
+        - name: usedEmailRecords
+          type:
+            name: int
+        - name: maxAdditionalNumberRecords
+          type:
+            name: int
+        - name: usedAdditionalNumberRecords
+          type:
+            name: int
+        - name: maxNameLen
+          type:
+            name: int
+        - name: maxNumberLen
+          type:
+            name: int
+        - name: maxEmailLen
+          type:
+            name: int
+        - name: maxAdditionalNumberLen
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: PhonebookRecordInfo
+      fields:
+        - name: recordId
+          type:
+            name: int
+        - name: name
+          type:
+            name: String
+        - name: number
+          type:
+            name: String
+        - name: emails
+          type:
+            name: String
+            is_array: true
+        - name: additionalNumbers
+          type:
+            name: String
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: Plmn
+      fields:
+        - name: mcc
+          type:
+            name: String
+        - name: mnc
+          type:
+            name: String
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SelectUiccSub
+      fields:
+        - name: slot
+          type:
+            name: int
+        - name: appIndex
+          type:
+            name: int
+        - name: subType
+          type:
+            name: int
+        - name: actStatus
+          type:
+            name: int
+      constants:
+        - name: SUBSCRIPTION_TYPE_1
+          type: int
+          value: "0"
+        - name: SUBSCRIPTION_TYPE_2
+          type: int
+          value: "1"
+        - name: SUBSCRIPTION_TYPE_3
+          type: int
+          value: "2"
+        - name: ACT_STATUS_DEACTIVATE
+          type: int
+          value: "0"
+        - name: ACT_STATUS_ACTIVATE
+          type: int
+          value: "1"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SessionInfo
+      fields:
+        - name: sessionId
+          type:
+            name: int
+        - name: isEs10
+          type:
+            name: boolean
+          default_value: "false"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SimApdu
+      fields:
+        - name: sessionId
+          type:
+            name: int
+        - name: cla
+          type:
+            name: int
+        - name: instruction
+          type:
+            name: int
+        - name: p1
+          type:
+            name: int
+        - name: p2
+          type:
+            name: int
+        - name: p3
+          type:
+            name: int
+        - name: data
+          type:
+            name: String
+        - name: isEs10
+          type:
+            name: boolean
+          default_value: "false"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SimRefreshResult
+      fields:
+        - name: type
+          type:
+            name: int
+        - name: efId
+          type:
+            name: int
+        - name: aid
+          type:
+            name: String
+      constants:
+        - name: TYPE_SIM_FILE_UPDATE
+          type: int
+          value: "0"
+        - name: TYPE_SIM_INIT
+          type: int
+          value: "1"
+        - name: TYPE_SIM_RESET
+          type: int
+          value: "2"
+      annotations:
+        - VintfStability
+        - JavaDerive
+enums:
+    - name: CardPowerState
+      backing_type: int
+      values:
+        - name: POWER_DOWN
+          value: ""
+        - name: POWER_UP
+          value: ""
+        - name: POWER_UP_PASS_THROUGH
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: CarrierRestrictions.CarrierRestrictionStatus
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: NOT_RESTRICTED
+          value: "1"
+        - name: RESTRICTED
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CdmaSubscriptionSource
+      backing_type: int
+      values:
+        - name: RUIM_SIM
+          value: ""
+        - name: NV
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: PbReceivedStatus
+      backing_type: byte
+      values:
+        - name: PB_RECEIVED_OK
+          value: "1"
+        - name: PB_RECEIVED_ERROR
+          value: "2"
+        - name: PB_RECEIVED_ABORT
+          value: "3"
+        - name: PB_RECEIVED_FINAL
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: PersoSubstate
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: IN_PROGRESS
+          value: ""
+        - name: READY
+          value: ""
+        - name: SIM_NETWORK
+          value: ""
+        - name: SIM_NETWORK_SUBSET
+          value: ""
+        - name: SIM_CORPORATE
+          value: ""
+        - name: SIM_SERVICE_PROVIDER
+          value: ""
+        - name: SIM_SIM
+          value: ""
+        - name: SIM_NETWORK_PUK
+          value: ""
+        - name: SIM_NETWORK_SUBSET_PUK
+          value: ""
+        - name: SIM_CORPORATE_PUK
+          value: ""
+        - name: SIM_SERVICE_PROVIDER_PUK
+          value: ""
+        - name: SIM_SIM_PUK
+          value: ""
+        - name: RUIM_NETWORK1
+          value: ""
+        - name: RUIM_NETWORK2
+          value: ""
+        - name: RUIM_HRPD
+          value: ""
+        - name: RUIM_CORPORATE
+          value: ""
+        - name: RUIM_SERVICE_PROVIDER
+          value: ""
+        - name: RUIM_RUIM
+          value: ""
+        - name: RUIM_NETWORK1_PUK
+          value: ""
+        - name: RUIM_NETWORK2_PUK
+          value: ""
+        - name: RUIM_HRPD_PUK
+          value: ""
+        - name: RUIM_CORPORATE_PUK
+          value: ""
+        - name: RUIM_SERVICE_PROVIDER_PUK
+          value: ""
+        - name: RUIM_RUIM_PUK
+          value: ""
+        - name: SIM_SPN
+          value: ""
+        - name: SIM_SPN_PUK
+          value: ""
+        - name: SIM_SP_EHPLMN
+          value: ""
+        - name: SIM_SP_EHPLMN_PUK
+          value: ""
+        - name: SIM_ICCID
+          value: ""
+        - name: SIM_ICCID_PUK
+          value: ""
+        - name: SIM_IMPI
+          value: ""
+        - name: SIM_IMPI_PUK
+          value: ""
+        - name: SIM_NS_SP
+          value: ""
+        - name: SIM_NS_SP_PUK
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: PinState
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: ENABLED_NOT_VERIFIED
+          value: ""
+        - name: ENABLED_VERIFIED
+          value: ""
+        - name: DISABLED
+          value: ""
+        - name: ENABLED_BLOCKED
+          value: ""
+        - name: ENABLED_PERM_BLOCKED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: SimLockMultiSimPolicy
+      backing_type: int
+      values:
+        - name: NO_MULTISIM_POLICY
+          value: ""
+        - name: ONE_VALID_SIM_MUST_BE_PRESENT
+          value: ""
+        - name: APPLY_TO_ALL_SLOTS
+          value: ""
+        - name: APPLY_TO_ONLY_SLOT_1
+          value: ""
+        - name: VALID_SIM_MUST_PRESENT_ON_SLOT_1
+          value: ""
+        - name: ACTIVE_SERVICE_ON_SLOT_1_TO_UNBLOCK_OTHER_SLOTS
+          value: ""
+        - name: ACTIVE_SERVICE_ON_ANY_SLOT_TO_UNBLOCK_OTHER_SLOTS
+          value: ""
+        - name: ALL_SIMS_MUST_BE_VALID
+          value: ""
+        - name: SLOT_POLICY_OTHER
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive

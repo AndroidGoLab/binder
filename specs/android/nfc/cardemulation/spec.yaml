@@ -1,0 +1,6 @@
+package: android.nfc.cardemulation
+go_package: android/nfc/cardemulation
+parcelables:
+    - name: AidGroup
+    - name: ApduServiceInfo
+    - name: NfcFServiceInfo

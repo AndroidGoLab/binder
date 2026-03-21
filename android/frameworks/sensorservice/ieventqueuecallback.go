@@ -46,6 +46,7 @@ func (p *EventQueueCallbackProxy) OnEvent(
 	event sensors.Event,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEventQueueCallback)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -64,7 +65,8 @@ func (p *EventQueueCallbackProxy) OnEvent(
 // EventQueueCallbackStub dispatches incoming binder transactions
 // to a typed IEventQueueCallback implementation.
 type EventQueueCallbackStub struct {
-	Impl IEventQueueCallback
+	Impl      IEventQueueCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EventQueueCallbackStub)(nil)
@@ -78,11 +80,12 @@ func (s *EventQueueCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEventQueueCallbackOnEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event sensors.Event
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -96,8 +99,7 @@ func (s *EventQueueCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnEvent(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

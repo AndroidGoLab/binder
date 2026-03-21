@@ -3,6 +3,7 @@ package printservice
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/print/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -42,15 +43,15 @@ const (
 type IPrintService interface {
 	AsBinder() binder.IBinder
 	SetClient(ctx context.Context, client IPrintServiceClient) error
-	RequestCancelPrintJob(ctx context.Context, printJobInfo interface{}) error
-	OnPrintJobQueued(ctx context.Context, printJobInfo interface{}) error
+	RequestCancelPrintJob(ctx context.Context, printJobInfo types.PrintJobInfo) error
+	OnPrintJobQueued(ctx context.Context, printJobInfo types.PrintJobInfo) error
 	CreatePrinterDiscoverySession(ctx context.Context) error
-	StartPrinterDiscovery(ctx context.Context, priorityList []interface{}) error
+	StartPrinterDiscovery(ctx context.Context, priorityList []types.PrinterId) error
 	StopPrinterDiscovery(ctx context.Context) error
-	ValidatePrinters(ctx context.Context, printerIds []interface{}) error
-	StartPrinterStateTracking(ctx context.Context, printerId interface{}) error
-	RequestCustomPrinterIcon(ctx context.Context, printerId interface{}) error
-	StopPrinterStateTracking(ctx context.Context, printerId interface{}) error
+	ValidatePrinters(ctx context.Context, printerIds []types.PrinterId) error
+	StartPrinterStateTracking(ctx context.Context, printerId types.PrinterId) error
+	RequestCustomPrinterIcon(ctx context.Context, printerId types.PrinterId) error
+	StopPrinterStateTracking(ctx context.Context, printerId types.PrinterId) error
 	DestroyPrinterDiscoverySession(ctx context.Context) error
 }
 
@@ -75,6 +76,7 @@ func (p *PrintServiceProxy) SetClient(
 	client IPrintServiceClient,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
@@ -89,10 +91,12 @@ func (p *PrintServiceProxy) SetClient(
 
 func (p *PrintServiceProxy) RequestCancelPrintJob(
 	ctx context.Context,
-	printJobInfo interface{},
+	printJobInfo types.PrintJobInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
+	// WARNING: param printJobInfo (type types.PrintJobInfo) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintService, MethodIPrintServiceRequestCancelPrintJob)
 	if _err != nil {
@@ -105,10 +109,12 @@ func (p *PrintServiceProxy) RequestCancelPrintJob(
 
 func (p *PrintServiceProxy) OnPrintJobQueued(
 	ctx context.Context,
-	printJobInfo interface{},
+	printJobInfo types.PrintJobInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
+	// WARNING: param printJobInfo (type types.PrintJobInfo) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintService, MethodIPrintServiceOnPrintJobQueued)
 	if _err != nil {
@@ -123,6 +129,7 @@ func (p *PrintServiceProxy) CreatePrinterDiscoverySession(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintService, MethodIPrintServiceCreatePrinterDiscoverySession)
@@ -136,9 +143,10 @@ func (p *PrintServiceProxy) CreatePrinterDiscoverySession(
 
 func (p *PrintServiceProxy) StartPrinterDiscovery(
 	ctx context.Context,
-	priorityList []interface{},
+	priorityList []types.PrinterId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
 	if priorityList == nil {
 		_data.WriteInt32(-1)
@@ -159,6 +167,7 @@ func (p *PrintServiceProxy) StopPrinterDiscovery(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintService, MethodIPrintServiceStopPrinterDiscovery)
@@ -172,9 +181,10 @@ func (p *PrintServiceProxy) StopPrinterDiscovery(
 
 func (p *PrintServiceProxy) ValidatePrinters(
 	ctx context.Context,
-	printerIds []interface{},
+	printerIds []types.PrinterId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
 	if printerIds == nil {
 		_data.WriteInt32(-1)
@@ -193,10 +203,12 @@ func (p *PrintServiceProxy) ValidatePrinters(
 
 func (p *PrintServiceProxy) StartPrinterStateTracking(
 	ctx context.Context,
-	printerId interface{},
+	printerId types.PrinterId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
+	// WARNING: param printerId (type types.PrinterId) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintService, MethodIPrintServiceStartPrinterStateTracking)
 	if _err != nil {
@@ -209,10 +221,12 @@ func (p *PrintServiceProxy) StartPrinterStateTracking(
 
 func (p *PrintServiceProxy) RequestCustomPrinterIcon(
 	ctx context.Context,
-	printerId interface{},
+	printerId types.PrinterId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
+	// WARNING: param printerId (type types.PrinterId) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintService, MethodIPrintServiceRequestCustomPrinterIcon)
 	if _err != nil {
@@ -225,10 +239,12 @@ func (p *PrintServiceProxy) RequestCustomPrinterIcon(
 
 func (p *PrintServiceProxy) StopPrinterStateTracking(
 	ctx context.Context,
-	printerId interface{},
+	printerId types.PrinterId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
+	// WARNING: param printerId (type types.PrinterId) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintService, MethodIPrintServiceStopPrinterStateTracking)
 	if _err != nil {
@@ -243,6 +259,7 @@ func (p *PrintServiceProxy) DestroyPrinterDiscoverySession(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintService, MethodIPrintServiceDestroyPrinterDiscoverySession)
@@ -257,7 +274,8 @@ func (p *PrintServiceProxy) DestroyPrinterDiscoverySession(
 // PrintServiceStub dispatches incoming binder transactions
 // to a typed IPrintService implementation.
 type PrintServiceStub struct {
-	Impl IPrintService
+	Impl      IPrintService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PrintServiceStub)(nil)
@@ -271,98 +289,83 @@ func (s *PrintServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPrintServiceSetClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IPrintServiceClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewPrintServiceClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_err := s.Impl.SetClient(ctx, _arg_client)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintServiceRequestCancelPrintJob:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_printJobInfo interface{}
+		var _arg_printJobInfo types.PrintJobInfo
 		_err := s.Impl.RequestCancelPrintJob(ctx, _arg_printJobInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintServiceOnPrintJobQueued:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_printJobInfo interface{}
+		var _arg_printJobInfo types.PrintJobInfo
 		_err := s.Impl.OnPrintJobQueued(ctx, _arg_printJobInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintServiceCreatePrinterDiscoverySession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CreatePrinterDiscoverySession(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintServiceStartPrinterDiscovery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_priorityList []types.PrinterId
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_priorityList = make([]types.PrinterId, _count)
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_priorityList []interface{}
-		_ = _arg_priorityList
 		_err := s.Impl.StartPrinterDiscovery(ctx, _arg_priorityList)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintServiceStopPrinterDiscovery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopPrinterDiscovery(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintServiceValidatePrinters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_printerIds []types.PrinterId
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_printerIds = make([]types.PrinterId, _count)
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_printerIds []interface{}
-		_ = _arg_printerIds
 		_err := s.Impl.ValidatePrinters(ctx, _arg_printerIds)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintServiceStartPrinterStateTracking:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_printerId interface{}
+		var _arg_printerId types.PrinterId
 		_err := s.Impl.StartPrinterStateTracking(ctx, _arg_printerId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintServiceRequestCustomPrinterIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_printerId interface{}
+		var _arg_printerId types.PrinterId
 		_err := s.Impl.RequestCustomPrinterIcon(ctx, _arg_printerId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintServiceStopPrinterStateTracking:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_printerId interface{}
+		var _arg_printerId types.PrinterId
 		_err := s.Impl.StopPrinterStateTracking(ctx, _arg_printerId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintServiceDestroyPrinterDiscoverySession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DestroyPrinterDiscoverySession(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -373,15 +376,15 @@ func (s *PrintServiceStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IPrintServiceServer interface {
 	SetClient(ctx context.Context, client IPrintServiceClient) error
-	RequestCancelPrintJob(ctx context.Context, printJobInfo interface{}) error
-	OnPrintJobQueued(ctx context.Context, printJobInfo interface{}) error
+	RequestCancelPrintJob(ctx context.Context, printJobInfo types.PrintJobInfo) error
+	OnPrintJobQueued(ctx context.Context, printJobInfo types.PrintJobInfo) error
 	CreatePrinterDiscoverySession(ctx context.Context) error
-	StartPrinterDiscovery(ctx context.Context, priorityList []interface{}) error
+	StartPrinterDiscovery(ctx context.Context, priorityList []types.PrinterId) error
 	StopPrinterDiscovery(ctx context.Context) error
-	ValidatePrinters(ctx context.Context, printerIds []interface{}) error
-	StartPrinterStateTracking(ctx context.Context, printerId interface{}) error
-	RequestCustomPrinterIcon(ctx context.Context, printerId interface{}) error
-	StopPrinterStateTracking(ctx context.Context, printerId interface{}) error
+	ValidatePrinters(ctx context.Context, printerIds []types.PrinterId) error
+	StartPrinterStateTracking(ctx context.Context, printerId types.PrinterId) error
+	RequestCustomPrinterIcon(ctx context.Context, printerId types.PrinterId) error
+	StopPrinterStateTracking(ctx context.Context, printerId types.PrinterId) error
 	DestroyPrinterDiscoverySession(ctx context.Context) error
 }
 
@@ -403,14 +406,14 @@ func (w *printServiceStubWrapper) SetClient(
 
 func (w *printServiceStubWrapper) RequestCancelPrintJob(
 	ctx context.Context,
-	printJobInfo interface{},
+	printJobInfo types.PrintJobInfo,
 ) error {
 	return w.impl.RequestCancelPrintJob(ctx, printJobInfo)
 }
 
 func (w *printServiceStubWrapper) OnPrintJobQueued(
 	ctx context.Context,
-	printJobInfo interface{},
+	printJobInfo types.PrintJobInfo,
 ) error {
 	return w.impl.OnPrintJobQueued(ctx, printJobInfo)
 }
@@ -423,7 +426,7 @@ func (w *printServiceStubWrapper) CreatePrinterDiscoverySession(
 
 func (w *printServiceStubWrapper) StartPrinterDiscovery(
 	ctx context.Context,
-	priorityList []interface{},
+	priorityList []types.PrinterId,
 ) error {
 	return w.impl.StartPrinterDiscovery(ctx, priorityList)
 }
@@ -436,28 +439,28 @@ func (w *printServiceStubWrapper) StopPrinterDiscovery(
 
 func (w *printServiceStubWrapper) ValidatePrinters(
 	ctx context.Context,
-	printerIds []interface{},
+	printerIds []types.PrinterId,
 ) error {
 	return w.impl.ValidatePrinters(ctx, printerIds)
 }
 
 func (w *printServiceStubWrapper) StartPrinterStateTracking(
 	ctx context.Context,
-	printerId interface{},
+	printerId types.PrinterId,
 ) error {
 	return w.impl.StartPrinterStateTracking(ctx, printerId)
 }
 
 func (w *printServiceStubWrapper) RequestCustomPrinterIcon(
 	ctx context.Context,
-	printerId interface{},
+	printerId types.PrinterId,
 ) error {
 	return w.impl.RequestCustomPrinterIcon(ctx, printerId)
 }
 
 func (w *printServiceStubWrapper) StopPrinterStateTracking(
 	ctx context.Context,
-	printerId interface{},
+	printerId types.PrinterId,
 ) error {
 	return w.impl.StopPrinterStateTracking(ctx, printerId)
 }

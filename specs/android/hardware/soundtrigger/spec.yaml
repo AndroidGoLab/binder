@@ -1,0 +1,80 @@
+package: android.hardware.soundtrigger
+go_package: android/hardware/soundtrigger
+interfaces:
+    - name: IRecognitionStatusCallback
+      descriptor: android.hardware.soundtrigger.IRecognitionStatusCallback
+      oneway: true
+      methods:
+        - name: onKeyphraseDetected
+          transaction_code_offset: 0
+          params:
+            - name: recognitionEvent
+              type:
+                name: SoundTrigger.KeyphraseRecognitionEvent
+              direction: in
+          return_type:
+            name: void
+        - name: onGenericSoundTriggerDetected
+          transaction_code_offset: 1
+          params:
+            - name: recognitionEvent
+              type:
+                name: SoundTrigger.GenericRecognitionEvent
+              direction: in
+          return_type:
+            name: void
+        - name: onRecognitionPaused
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onRecognitionResumed
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: onPreempted
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: onModuleDied
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: onResumeFailed
+          transaction_code_offset: 6
+          params:
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onPauseFailed
+          transaction_code_offset: 7
+          params:
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: KeyphraseMetadata
+    - name: SoundTrigger.ConfidenceLevel
+    - name: SoundTrigger.GenericRecognitionEvent
+    - name: SoundTrigger.GenericSoundModel
+    - name: SoundTrigger.Keyphrase
+    - name: SoundTrigger.KeyphraseRecognitionEvent
+    - name: SoundTrigger.KeyphraseRecognitionExtra
+    - name: SoundTrigger.KeyphraseSoundModel
+    - name: SoundTrigger.ModelParamRange
+    - name: SoundTrigger.ModuleProperties
+    - name: SoundTrigger.RecognitionConfig
+    - name: SoundTrigger.RecognitionEvent
+enums:
+    - name: ModelParams
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "-1"
+        - name: THRESHOLD_FACTOR
+          value: "0"
+      annotations:
+        - Backing

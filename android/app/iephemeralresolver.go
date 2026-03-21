@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -23,8 +24,8 @@ const (
 
 type IEphemeralResolver interface {
 	AsBinder() binder.IBinder
-	GetEphemeralResolveInfoList(ctx context.Context, callback interface{}, digestPrefix []int32, sequence int32) error
-	GetEphemeralIntentFilterList(ctx context.Context, callback interface{}, hostName string, sequence int32) error
+	GetEphemeralResolveInfoList(ctx context.Context, callback os.IRemoteCallback, digestPrefix []int32, sequence int32) error
+	GetEphemeralIntentFilterList(ctx context.Context, callback os.IRemoteCallback, hostName string, sequence int32) error
 }
 
 type EphemeralResolverProxy struct {
@@ -45,12 +46,14 @@ var _ IEphemeralResolver = (*EphemeralResolverProxy)(nil)
 
 func (p *EphemeralResolverProxy) GetEphemeralResolveInfoList(
 	ctx context.Context,
-	callback interface{},
+	callback os.IRemoteCallback,
 	digestPrefix []int32,
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEphemeralResolver)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	if digestPrefix == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -72,12 +75,14 @@ func (p *EphemeralResolverProxy) GetEphemeralResolveInfoList(
 
 func (p *EphemeralResolverProxy) GetEphemeralIntentFilterList(
 	ctx context.Context,
-	callback interface{},
+	callback os.IRemoteCallback,
 	hostName string,
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEphemeralResolver)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(hostName)
 	_data.WriteInt32(sequence)
 
@@ -93,7 +98,8 @@ func (p *EphemeralResolverProxy) GetEphemeralIntentFilterList(
 // EphemeralResolverStub dispatches incoming binder transactions
 // to a typed IEphemeralResolver implementation.
 type EphemeralResolverStub struct {
-	Impl IEphemeralResolver
+	Impl      IEphemeralResolver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EphemeralResolverStub)(nil)
@@ -107,27 +113,54 @@ func (s *EphemeralResolverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEphemeralResolverGetEphemeralResolveInfoList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_callback os.IRemoteCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = os.NewRemoteCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		var _arg_callback interface{}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_digestPrefix []int32
-		_ = _arg_digestPrefix
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_digestPrefix = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_digestPrefix[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetEphemeralResolveInfoList(ctx, _arg_callback, _arg_digestPrefix, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEphemeralResolverGetEphemeralIntentFilterList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_callback os.IRemoteCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = os.NewRemoteCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		var _arg_callback interface{}
 		_arg_hostName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -137,8 +170,7 @@ func (s *EphemeralResolverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.GetEphemeralIntentFilterList(ctx, _arg_callback, _arg_hostName, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -148,8 +180,8 @@ func (s *EphemeralResolverStub) OnTransaction(
 // provide to NewEphemeralResolverStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IEphemeralResolverServer interface {
-	GetEphemeralResolveInfoList(ctx context.Context, callback interface{}, digestPrefix []int32, sequence int32) error
-	GetEphemeralIntentFilterList(ctx context.Context, callback interface{}, hostName string, sequence int32) error
+	GetEphemeralResolveInfoList(ctx context.Context, callback os.IRemoteCallback, digestPrefix []int32, sequence int32) error
+	GetEphemeralIntentFilterList(ctx context.Context, callback os.IRemoteCallback, hostName string, sequence int32) error
 }
 
 type ephemeralResolverStubWrapper struct {
@@ -163,7 +195,7 @@ func (w *ephemeralResolverStubWrapper) AsBinder() binder.IBinder {
 
 func (w *ephemeralResolverStubWrapper) GetEphemeralResolveInfoList(
 	ctx context.Context,
-	callback interface{},
+	callback os.IRemoteCallback,
 	digestPrefix []int32,
 	sequence int32,
 ) error {
@@ -172,7 +204,7 @@ func (w *ephemeralResolverStubWrapper) GetEphemeralResolveInfoList(
 
 func (w *ephemeralResolverStubWrapper) GetEphemeralIntentFilterList(
 	ctx context.Context,
-	callback interface{},
+	callback os.IRemoteCallback,
 	hostName string,
 	sequence int32,
 ) error {

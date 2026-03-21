@@ -1,0 +1,89 @@
+package: android.content.rollback
+go_package: android/content/rollback
+interfaces:
+    - name: IRollbackManager
+      descriptor: android.content.rollback.IRollbackManager
+      methods:
+        - name: getAvailableRollbacks
+          transaction_code_offset: 0
+          return_type:
+            name: ParceledListSlice
+        - name: getRecentlyCommittedRollbacks
+          transaction_code_offset: 1
+          return_type:
+            name: ParceledListSlice
+        - name: commitRollback
+          transaction_code_offset: 2
+          params:
+            - name: rollbackId
+              type:
+                name: int
+            - name: causePackages
+              type:
+                name: ParceledListSlice
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: statusReceiver
+              type:
+                name: IntentSender
+              direction: in
+          return_type:
+            name: void
+        - name: snapshotAndRestoreUserData
+          transaction_code_offset: 3
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: appId
+              type:
+                name: int
+            - name: ceDataInode
+              type:
+                name: long
+            - name: seInfo
+              type:
+                name: String
+            - name: token
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reloadPersistedData
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: expireRollbackForPackage
+          transaction_code_offset: 5
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: notifyStagedSession
+          transaction_code_offset: 6
+          params:
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: blockRollbackManager
+          transaction_code_offset: 7
+          params:
+            - name: millis
+              type:
+                name: long
+          return_type:
+            name: void
+parcelables:
+    - name: PackageRollbackInfo
+    - name: RollbackInfo

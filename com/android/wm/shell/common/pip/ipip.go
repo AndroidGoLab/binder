@@ -76,6 +76,7 @@ func (p *PipProxy) StartSwipePipToHome(
 ) (graphics.Rect, error) {
 	var _result graphics.Rect
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPip)
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
@@ -132,6 +133,7 @@ func (p *PipProxy) StopSwipePipToHome(
 	sourceRectHint graphics.Rect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPip)
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(1)
@@ -170,6 +172,7 @@ func (p *PipProxy) AbortSwipePipToHome(
 	componentName content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPip)
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(1)
@@ -191,6 +194,7 @@ func (p *PipProxy) SetPipAnimationListener(
 	listener IPipAnimationListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPip)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -209,6 +213,7 @@ func (p *PipProxy) SetShelfHeight(
 	shelfHeight int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPip)
 	_data.WriteBool(visible)
 	_data.WriteInt32(shelfHeight)
@@ -226,6 +231,7 @@ func (p *PipProxy) SetPipAnimationTypeToAlpha(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPip)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPip, MethodIPipSetPipAnimationTypeToAlpha)
@@ -243,6 +249,7 @@ func (p *PipProxy) SetLauncherKeepClearAreaHeight(
 	height int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPip)
 	_data.WriteBool(visible)
 	_data.WriteInt32(height)
@@ -261,6 +268,7 @@ func (p *PipProxy) SetLauncherAppIconSize(
 	iconSizePx int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPip)
 	_data.WriteInt32(iconSizePx)
 
@@ -276,7 +284,8 @@ func (p *PipProxy) SetLauncherAppIconSize(
 // PipStub dispatches incoming binder transactions
 // to a typed IPip implementation.
 type PipStub struct {
-	Impl IPip
+	Impl      IPip
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PipStub)(nil)
@@ -290,11 +299,12 @@ func (s *PipStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPipStartSwipePipToHome:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -360,9 +370,6 @@ func (s *PipStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPipStopSwipePipToHome:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -428,12 +435,8 @@ func (s *PipStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StopSwipePipToHome(ctx, _arg_taskId, _arg_componentName, _arg_destinationBounds, _arg_overlay, _arg_appBounds, _arg_sourceRectHint)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPipAbortSwipePipToHome:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -451,22 +454,19 @@ func (s *PipStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.AbortSwipePipToHome(ctx, _arg_taskId, _arg_componentName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPipSetPipAnimationListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IPipAnimationListener
-		_ = _arg_listener
-		_err := s.Impl.SetPipAnimationListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionIPipSetShelfHeight:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewPipAnimationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err := s.Impl.SetPipAnimationListener(ctx, _arg_listener)
+		return nil, _err
+	case TransactionIPipSetShelfHeight:
 		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -476,19 +476,11 @@ func (s *PipStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetShelfHeight(ctx, _arg_visible, _arg_shelfHeight)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPipSetPipAnimationTypeToAlpha:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SetPipAnimationTypeToAlpha(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPipSetLauncherKeepClearAreaHeight:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -498,19 +490,14 @@ func (s *PipStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetLauncherKeepClearAreaHeight(ctx, _arg_visible, _arg_height)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPipSetLauncherAppIconSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iconSizePx, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetLauncherAppIconSize(ctx, _arg_iconSizePx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -50,9 +50,19 @@ func (s *AptxAdaptiveConfiguration) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SampleRateHz, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_channelModeRaw, _err := p.ReadInt32()
@@ -61,9 +71,19 @@ func (s *AptxAdaptiveConfiguration) UnmarshalParcel(
 	}
 	s.ChannelMode = AptxAdaptiveChannelMode(_channelModeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.BitsPerSample, _err = p.ReadPaddedByte()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_aptxModeRaw, _err := p.ReadInt32()
@@ -72,12 +92,27 @@ func (s *AptxAdaptiveConfiguration) UnmarshalParcel(
 	}
 	s.AptxMode = AptxMode(_aptxModeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.SinkBufferingMs.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Ttp.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_inputModeRaw, _err := p.ReadInt32()
@@ -86,9 +121,19 @@ func (s *AptxAdaptiveConfiguration) UnmarshalParcel(
 	}
 	s.InputMode = AptxAdaptiveInputMode(_inputModeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.InputFadeDurationMs, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.AptxAdaptiveConfigStream, _err = p.ReadByteArray()

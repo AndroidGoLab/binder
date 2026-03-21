@@ -32,11 +32,21 @@ func (s *DeviceAddress) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_addressTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.AddressType = AddressType(_addressTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.Address, _err = p.ReadFixedByteArray(6)
 	if _err != nil {

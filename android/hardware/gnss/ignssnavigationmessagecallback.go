@@ -3,7 +3,6 @@ package gnss
 import (
 	"context"
 	"fmt"
-	gnssIGnssNavigationMessageCallback "github.com/xaionaro-go/binder/android/hardware/gnss/IGnssNavigationMessageCallback"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -22,7 +21,7 @@ const (
 
 type IGnssNavigationMessageCallback interface {
 	AsBinder() binder.IBinder
-	GnssNavigationMessageCb(ctx context.Context, message gnssIGnssNavigationMessageCallback.GnssNavigationMessage) error
+	GnssNavigationMessageCb(ctx context.Context, message IGnssNavigationMessageCallbackGnssNavigationMessage) error
 }
 
 type GnssNavigationMessageCallbackProxy struct {
@@ -43,9 +42,10 @@ var _ IGnssNavigationMessageCallback = (*GnssNavigationMessageCallbackProxy)(nil
 
 func (p *GnssNavigationMessageCallbackProxy) GnssNavigationMessageCb(
 	ctx context.Context,
-	message gnssIGnssNavigationMessageCallback.GnssNavigationMessage,
+	message IGnssNavigationMessageCallbackGnssNavigationMessage,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssNavigationMessageCallback)
 	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
@@ -73,7 +73,8 @@ func (p *GnssNavigationMessageCallbackProxy) GnssNavigationMessageCb(
 // GnssNavigationMessageCallbackStub dispatches incoming binder transactions
 // to a typed IGnssNavigationMessageCallback implementation.
 type GnssNavigationMessageCallbackStub struct {
-	Impl IGnssNavigationMessageCallback
+	Impl      IGnssNavigationMessageCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssNavigationMessageCallbackStub)(nil)
@@ -87,12 +88,13 @@ func (s *GnssNavigationMessageCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssNavigationMessageCallbackGnssNavigationMessageCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_message gnssIGnssNavigationMessageCallback.GnssNavigationMessage
+		var _arg_message IGnssNavigationMessageCallbackGnssNavigationMessage
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -121,7 +123,7 @@ func (s *GnssNavigationMessageCallbackStub) OnTransaction(
 // provide to NewGnssNavigationMessageCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IGnssNavigationMessageCallbackServer interface {
-	GnssNavigationMessageCb(ctx context.Context, message gnssIGnssNavigationMessageCallback.GnssNavigationMessage) error
+	GnssNavigationMessageCb(ctx context.Context, message IGnssNavigationMessageCallbackGnssNavigationMessage) error
 }
 
 type gnssNavigationMessageCallbackStubWrapper struct {
@@ -135,7 +137,7 @@ func (w *gnssNavigationMessageCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *gnssNavigationMessageCallbackStubWrapper) GnssNavigationMessageCb(
 	ctx context.Context,
-	message gnssIGnssNavigationMessageCallback.GnssNavigationMessage,
+	message IGnssNavigationMessageCallbackGnssNavigationMessage,
 ) error {
 	return w.impl.GnssNavigationMessageCb(ctx, message)
 }

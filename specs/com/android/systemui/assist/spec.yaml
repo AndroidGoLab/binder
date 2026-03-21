@@ -1,0 +1,11 @@
+package: com.android.systemui.assist
+go_package: com/android/systemui/assist
+interfaces:
+    - name: IAssistHandleService
+      descriptor: com.android.systemui.assist.IAssistHandleService
+      methods:
+        - name: requestAssistHandles
+          transaction_code_offset: 0
+          oneway: true
+          return_type:
+            name: void

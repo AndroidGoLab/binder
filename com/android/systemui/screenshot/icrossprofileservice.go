@@ -48,6 +48,7 @@ func (p *CrossProfileServiceProxy) LaunchIntent(
 	bundle os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICrossProfileService)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -79,7 +80,8 @@ func (p *CrossProfileServiceProxy) LaunchIntent(
 // CrossProfileServiceStub dispatches incoming binder transactions
 // to a typed ICrossProfileService implementation.
 type CrossProfileServiceStub struct {
-	Impl ICrossProfileService
+	Impl      ICrossProfileService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CrossProfileServiceStub)(nil)
@@ -93,11 +95,12 @@ func (s *CrossProfileServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICrossProfileServiceLaunchIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()

@@ -47,6 +47,7 @@ func (p *WallpaperManagerCallbackProxy) OnWallpaperChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManagerCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManagerCallback, MethodIWallpaperManagerCallbackOnWallpaperChanged)
@@ -65,6 +66,7 @@ func (p *WallpaperManagerCallbackProxy) OnWallpaperColorsChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManagerCallback)
 	_data.WriteInt32(1)
 	if _err := colors.MarshalParcel(_data); _err != nil {
@@ -85,7 +87,8 @@ func (p *WallpaperManagerCallbackProxy) OnWallpaperColorsChanged(
 // WallpaperManagerCallbackStub dispatches incoming binder transactions
 // to a typed IWallpaperManagerCallback implementation.
 type WallpaperManagerCallbackStub struct {
-	Impl IWallpaperManagerCallback
+	Impl      IWallpaperManagerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WallpaperManagerCallbackStub)(nil)
@@ -99,18 +102,15 @@ func (s *WallpaperManagerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWallpaperManagerCallbackOnWallpaperChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnWallpaperChanged(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperManagerCallbackOnWallpaperColorsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_colors WallpaperColors
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -131,8 +131,7 @@ func (s *WallpaperManagerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnWallpaperColorsChanged(ctx, _arg_colors, _arg_which)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -1,0 +1,41 @@
+package: android.printservice.recommendation
+go_package: android/printservice/recommendation
+interfaces:
+    - name: IRecommendationService
+      descriptor: android.printservice.recommendation.IRecommendationService
+      oneway: true
+      methods:
+        - name: registerCallbacks
+          transaction_code_offset: 0
+          params:
+            - name: callbacks
+              type:
+                name: IRecommendationServiceCallbacks
+              direction: in
+          return_type:
+            name: void
+    - name: IRecommendationServiceCallbacks
+      descriptor: android.printservice.recommendation.IRecommendationServiceCallbacks
+      oneway: true
+      methods:
+        - name: onRecommendationsUpdated
+          transaction_code_offset: 0
+          params:
+            - name: recommendations
+              type:
+                name: List
+                type_args:
+                    - name: RecommendationInfo
+              direction: in
+          return_type:
+            name: void
+    - name: IRecommendationsChangeListener
+      descriptor: android.printservice.recommendation.IRecommendationsChangeListener
+      oneway: true
+      methods:
+        - name: onRecommendationsChanged
+          transaction_code_offset: 0
+          return_type:
+            name: void
+parcelables:
+    - name: RecommendationInfo

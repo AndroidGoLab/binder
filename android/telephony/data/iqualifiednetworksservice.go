@@ -55,6 +55,7 @@ func (p *QualifiedNetworksServiceProxy) CreateNetworkAvailabilityProvider(
 	callback IQualifiedNetworksServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksService)
 	_data.WriteInt32(slotId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -73,6 +74,7 @@ func (p *QualifiedNetworksServiceProxy) RemoveNetworkAvailabilityProvider(
 	slotId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksService)
 	_data.WriteInt32(slotId)
 
@@ -91,6 +93,7 @@ func (p *QualifiedNetworksServiceProxy) ReportThrottleStatusChanged(
 	statuses []ThrottleStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksService)
 	_data.WriteInt32(slotId)
 	if statuses == nil {
@@ -120,6 +123,7 @@ func (p *QualifiedNetworksServiceProxy) ReportEmergencyDataNetworkPreferredTrans
 	transportType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(transportType)
@@ -136,7 +140,8 @@ func (p *QualifiedNetworksServiceProxy) ReportEmergencyDataNetworkPreferredTrans
 // QualifiedNetworksServiceStub dispatches incoming binder transactions
 // to a typed IQualifiedNetworksService implementation.
 type QualifiedNetworksServiceStub struct {
-	Impl IQualifiedNetworksService
+	Impl      IQualifiedNetworksService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*QualifiedNetworksServiceStub)(nil)
@@ -150,50 +155,62 @@ func (s *QualifiedNetworksServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIQualifiedNetworksServiceCreateNetworkAvailabilityProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IQualifiedNetworksServiceCallback
-		_ = _arg_callback
-		_err = s.Impl.CreateNetworkAvailabilityProvider(ctx, _arg_slotId, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIQualifiedNetworksServiceRemoveNetworkAvailabilityProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewQualifiedNetworksServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.CreateNetworkAvailabilityProvider(ctx, _arg_slotId, _arg_callback)
+		return nil, _err
+	case TransactionIQualifiedNetworksServiceRemoveNetworkAvailabilityProvider:
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RemoveNetworkAvailabilityProvider(ctx, _arg_slotId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIQualifiedNetworksServiceReportThrottleStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_statuses []ThrottleStatus
-		_ = _arg_statuses
-		_err = s.Impl.ReportThrottleStatusChanged(ctx, _arg_slotId, _arg_statuses)
-		_ = _err
-		return nil, nil
-	case TransactionIQualifiedNetworksServiceReportEmergencyDataNetworkPreferredTransportChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_statuses = make([]ThrottleStatus, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_statuses[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.ReportThrottleStatusChanged(ctx, _arg_slotId, _arg_statuses)
+		return nil, _err
+	case TransactionIQualifiedNetworksServiceReportEmergencyDataNetworkPreferredTransportChanged:
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -203,8 +220,7 @@ func (s *QualifiedNetworksServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ReportEmergencyDataNetworkPreferredTransportChanged(ctx, _arg_slotId, _arg_transportType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

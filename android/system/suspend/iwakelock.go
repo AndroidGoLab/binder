@@ -44,6 +44,7 @@ func (p *WakeLockProxy) Release(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWakeLock)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWakeLock, MethodIWakeLockRelease)
@@ -58,7 +59,8 @@ func (p *WakeLockProxy) Release(
 // WakeLockStub dispatches incoming binder transactions
 // to a typed IWakeLock implementation.
 type WakeLockStub struct {
-	Impl IWakeLock
+	Impl      IWakeLock
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WakeLockStub)(nil)
@@ -72,14 +74,14 @@ func (s *WakeLockStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWakeLockRelease:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Release(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

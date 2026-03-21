@@ -98,6 +98,7 @@ func (p *WallpaperEngineProxy) SetDesiredSize(
 	height int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
@@ -116,6 +117,7 @@ func (p *WallpaperEngineProxy) SetDisplayPadding(
 	padding graphics.Rect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 	_data.WriteInt32(1)
 	if _err := padding.MarshalParcel(_data); _err != nil {
@@ -136,6 +138,7 @@ func (p *WallpaperEngineProxy) SetVisibility(
 	visible bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 	_data.WriteBool(visible)
 
@@ -152,6 +155,7 @@ func (p *WallpaperEngineProxy) OnScreenTurningOn(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineOnScreenTurningOn)
@@ -167,6 +171,7 @@ func (p *WallpaperEngineProxy) OnScreenTurnedOn(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineOnScreenTurnedOn)
@@ -184,6 +189,7 @@ func (p *WallpaperEngineProxy) SetInAmbientMode(
 	animationDuration int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 	_data.WriteBool(inAmbientDisplay)
 	_data.WriteInt64(animationDuration)
@@ -202,6 +208,7 @@ func (p *WallpaperEngineProxy) DispatchPointer(
 	event common.MotionEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -226,6 +233,7 @@ func (p *WallpaperEngineProxy) DispatchWallpaperCommand(
 	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 	_data.WriteString16(action)
 	_data.WriteInt32(x)
@@ -249,6 +257,7 @@ func (p *WallpaperEngineProxy) RequestWallpaperColors(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineRequestWallpaperColors)
@@ -264,6 +273,7 @@ func (p *WallpaperEngineProxy) Destroy(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineDestroy)
@@ -280,6 +290,7 @@ func (p *WallpaperEngineProxy) SetZoomOut(
 	scale float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 	_data.WriteFloat32(scale)
 
@@ -297,6 +308,7 @@ func (p *WallpaperEngineProxy) ResizePreview(
 	positionInWindow graphics.Rect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 	_data.WriteInt32(1)
 	if _err := positionInWindow.MarshalParcel(_data); _err != nil {
@@ -317,6 +329,7 @@ func (p *WallpaperEngineProxy) RemoveLocalColorsAreas(
 	regions []graphics.RectF,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 	if regions == nil {
 		_data.WriteInt32(-1)
@@ -344,6 +357,7 @@ func (p *WallpaperEngineProxy) AddLocalColorsAreas(
 	regions []graphics.RectF,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 	if regions == nil {
 		_data.WriteInt32(-1)
@@ -371,6 +385,7 @@ func (p *WallpaperEngineProxy) MirrorSurfaceControl(
 ) (view.SurfaceControl, error) {
 	var _result view.SurfaceControl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineMirrorSurfaceControl)
@@ -405,6 +420,7 @@ func (p *WallpaperEngineProxy) ApplyDimming(
 	dimAmount float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 	_data.WriteFloat32(dimAmount)
 
@@ -422,6 +438,7 @@ func (p *WallpaperEngineProxy) SetWallpaperFlags(
 	which int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 	_data.WriteInt32(which)
 
@@ -437,7 +454,8 @@ func (p *WallpaperEngineProxy) SetWallpaperFlags(
 // WallpaperEngineStub dispatches incoming binder transactions
 // to a typed IWallpaperEngine implementation.
 type WallpaperEngineStub struct {
-	Impl IWallpaperEngine
+	Impl      IWallpaperEngine
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WallpaperEngineStub)(nil)
@@ -451,11 +469,12 @@ func (s *WallpaperEngineStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWallpaperEngineSetDesiredSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -465,12 +484,8 @@ func (s *WallpaperEngineStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetDesiredSize(ctx, _arg_width, _arg_height)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperEngineSetDisplayPadding:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_padding graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -484,37 +499,21 @@ func (s *WallpaperEngineStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetDisplayPadding(ctx, _arg_padding)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperEngineSetVisibility:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetVisibility(ctx, _arg_visible)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperEngineOnScreenTurningOn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnScreenTurningOn(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperEngineOnScreenTurnedOn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnScreenTurnedOn(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperEngineSetInAmbientMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inAmbientDisplay, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -524,12 +523,8 @@ func (s *WallpaperEngineStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetInAmbientMode(ctx, _arg_inAmbientDisplay, _arg_animationDuration)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperEngineDispatchPointer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event common.MotionEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -543,12 +538,8 @@ func (s *WallpaperEngineStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.DispatchPointer(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperEngineDispatchWallpaperCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_action, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -578,37 +569,21 @@ func (s *WallpaperEngineStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.DispatchWallpaperCommand(ctx, _arg_action, _arg_x, _arg_y, _arg_z, _arg_extras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperEngineRequestWallpaperColors:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RequestWallpaperColors(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperEngineDestroy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Destroy(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperEngineSetZoomOut:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_scale, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetZoomOut(ctx, _arg_scale)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperEngineResizePreview:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_positionInWindow graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -622,32 +597,56 @@ func (s *WallpaperEngineStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ResizePreview(ctx, _arg_positionInWindow)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperEngineRemoveLocalColorsAreas:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_regions []graphics.RectF
-		_ = _arg_regions
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_regions = make([]graphics.RectF, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_regions[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.RemoveLocalColorsAreas(ctx, _arg_regions)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperEngineAddLocalColorsAreas:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_regions []graphics.RectF
-		_ = _arg_regions
-		_err := s.Impl.AddLocalColorsAreas(ctx, _arg_regions)
-		_ = _err
-		return nil, nil
-	case TransactionIWallpaperEngineMirrorSurfaceControl:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_regions = make([]graphics.RectF, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_regions[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.AddLocalColorsAreas(ctx, _arg_regions)
+		return nil, _err
+	case TransactionIWallpaperEngineMirrorSurfaceControl:
 		_result, _err := s.Impl.MirrorSurfaceControl(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -661,27 +660,19 @@ func (s *WallpaperEngineStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWallpaperEngineApplyDimming:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dimAmount, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ApplyDimming(ctx, _arg_dimAmount)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWallpaperEngineSetWallpaperFlags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetWallpaperFlags(ctx, _arg_which)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

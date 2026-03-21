@@ -47,6 +47,7 @@ func (p *AAudioClientProxy) OnStreamChange(
 	value int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAAudioClient)
 	_data.WriteInt32(handle)
 	_data.WriteInt32(opcode)
@@ -64,7 +65,8 @@ func (p *AAudioClientProxy) OnStreamChange(
 // AAudioClientStub dispatches incoming binder transactions
 // to a typed IAAudioClient implementation.
 type AAudioClientStub struct {
-	Impl IAAudioClient
+	Impl      IAAudioClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AAudioClientStub)(nil)
@@ -78,11 +80,12 @@ func (s *AAudioClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAAudioClientOnStreamChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_handle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -96,8 +99,7 @@ func (s *AAudioClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStreamChange(ctx, _arg_handle, _arg_opcode, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -71,17 +71,11 @@ func (p *SapProxy) ApduReq(
 	command []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISap)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(type_))
-	if command == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(command)))
-		for _, _item := range command {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(command)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISap, MethodISapApduReq)
 	if _err != nil {
@@ -98,6 +92,7 @@ func (p *SapProxy) ConnectReq(
 	maxMsgSizeBytes int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISap)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(maxMsgSizeBytes)
@@ -116,6 +111,7 @@ func (p *SapProxy) DisconnectReq(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISap)
 	_data.WriteInt32(serial)
 
@@ -134,6 +130,7 @@ func (p *SapProxy) PowerReq(
 	powerOn bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISap)
 	_data.WriteInt32(serial)
 	_data.WriteBool(powerOn)
@@ -152,6 +149,7 @@ func (p *SapProxy) ResetSimReq(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISap)
 	_data.WriteInt32(serial)
 
@@ -169,6 +167,7 @@ func (p *SapProxy) SetCallback(
 	sapCallback ISapCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISap)
 	binder.WriteBinderToParcel(ctx, _data, sapCallback.AsBinder(), p.Remote.Transport())
 
@@ -187,6 +186,7 @@ func (p *SapProxy) SetTransferProtocolReq(
 	transferProtocol SapTransferProtocol,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISap)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(transferProtocol))
@@ -205,6 +205,7 @@ func (p *SapProxy) TransferAtrReq(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISap)
 	_data.WriteInt32(serial)
 
@@ -222,6 +223,7 @@ func (p *SapProxy) TransferCardReaderStatusReq(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISap)
 	_data.WriteInt32(serial)
 
@@ -237,7 +239,8 @@ func (p *SapProxy) TransferCardReaderStatusReq(
 // SapStub dispatches incoming binder transactions
 // to a typed ISap implementation.
 type SapStub struct {
-	Impl ISap
+	Impl      ISap
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SapStub)(nil)
@@ -251,11 +254,12 @@ func (s *SapStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISapApduReq:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -265,16 +269,17 @@ func (s *SapStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_type_ := SapApduType(_raw_type_)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_command []byte
-		_ = _arg_command
-		_err = s.Impl.ApduReq(ctx, _arg_serial, _arg_type_, _arg_command)
-		_ = _err
-		return nil, nil
-	case TransactionISapConnectReq:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_command = _bytes
 		}
+		_err = s.Impl.ApduReq(ctx, _arg_serial, _arg_type_, _arg_command)
+		return nil, _err
+	case TransactionISapConnectReq:
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -284,23 +289,15 @@ func (s *SapStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ConnectReq(ctx, _arg_serial, _arg_maxMsgSizeBytes)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISapDisconnectReq:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DisconnectReq(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISapPowerReq:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -310,33 +307,26 @@ func (s *SapStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.PowerReq(ctx, _arg_serial, _arg_powerOn)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISapResetSimReq:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ResetSimReq(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISapSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sapCallback ISapCallback
-		_ = _arg_sapCallback
-		_err := s.Impl.SetCallback(ctx, _arg_sapCallback)
-		_ = _err
-		return nil, nil
-	case TransactionISapSetTransferProtocolReq:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_sapCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sapCallback = NewSapCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sapCallbackHandle))
 		}
+		_err := s.Impl.SetCallback(ctx, _arg_sapCallback)
+		return nil, _err
+	case TransactionISapSetTransferProtocolReq:
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -347,30 +337,21 @@ func (s *SapStub) OnTransaction(
 		}
 		_arg_transferProtocol := SapTransferProtocol(_raw_transferProtocol)
 		_err = s.Impl.SetTransferProtocolReq(ctx, _arg_serial, _arg_transferProtocol)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISapTransferAtrReq:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.TransferAtrReq(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISapTransferCardReaderStatusReq:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.TransferCardReaderStatusReq(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

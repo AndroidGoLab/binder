@@ -3,6 +3,8 @@ package extension
 import (
 	"context"
 	"fmt"
+	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -27,10 +29,10 @@ const (
 
 type IPreviewImageProcessorImpl interface {
 	AsBinder() binder.IBinder
-	OnOutputSurface(ctx context.Context, surface interface{}, imageFormat int32) error
+	OnOutputSurface(ctx context.Context, surface view.Surface, imageFormat int32) error
 	OnResolutionUpdate(ctx context.Context, size Size) error
 	OnImageFormatUpdate(ctx context.Context, imageFormat int32) error
-	Process(ctx context.Context, image ParcelImage, result interface{}, sequenceId int32, resultCallback IProcessResultImpl) error
+	Process(ctx context.Context, image ParcelImage, result impl.CameraMetadataNative, sequenceId int32, resultCallback IProcessResultImpl) error
 }
 
 type PreviewImageProcessorImplProxy struct {
@@ -51,11 +53,16 @@ var _ IPreviewImageProcessorImpl = (*PreviewImageProcessorImplProxy)(nil)
 
 func (p *PreviewImageProcessorImplProxy) OnOutputSurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 	imageFormat int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewImageProcessorImpl)
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(imageFormat)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplOnOutputSurface)
@@ -81,6 +88,7 @@ func (p *PreviewImageProcessorImplProxy) OnResolutionUpdate(
 	size Size,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewImageProcessorImpl)
 	_data.WriteInt32(1)
 	if _err := size.MarshalParcel(_data); _err != nil {
@@ -110,6 +118,7 @@ func (p *PreviewImageProcessorImplProxy) OnImageFormatUpdate(
 	imageFormat int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewImageProcessorImpl)
 	_data.WriteInt32(imageFormat)
 
@@ -134,14 +143,19 @@ func (p *PreviewImageProcessorImplProxy) OnImageFormatUpdate(
 func (p *PreviewImageProcessorImplProxy) Process(
 	ctx context.Context,
 	image ParcelImage,
-	result interface{},
+	result impl.CameraMetadataNative,
 	sequenceId int32,
 	resultCallback IProcessResultImpl,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewImageProcessorImpl)
 	_data.WriteInt32(1)
 	if _err := image.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(sequenceId)
@@ -168,7 +182,8 @@ func (p *PreviewImageProcessorImplProxy) Process(
 // PreviewImageProcessorImplStub dispatches incoming binder transactions
 // to a typed IPreviewImageProcessorImpl implementation.
 type PreviewImageProcessorImplStub struct {
-	Impl IPreviewImageProcessorImpl
+	Impl      IPreviewImageProcessorImpl
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PreviewImageProcessorImplStub)(nil)
@@ -182,12 +197,24 @@ func (s *PreviewImageProcessorImplStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPreviewImageProcessorImplOnOutputSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_surface view.Surface
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_surface interface{}
 		_arg_imageFormat, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -201,9 +228,6 @@ func (s *PreviewImageProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPreviewImageProcessorImplOnResolutionUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_size Size
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -225,9 +249,6 @@ func (s *PreviewImageProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPreviewImageProcessorImplOnImageFormatUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_imageFormat, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -241,9 +262,6 @@ func (s *PreviewImageProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPreviewImageProcessorImplProcess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_image ParcelImage
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -256,14 +274,30 @@ func (s *PreviewImageProcessorImplStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_result interface{}
+		var _arg_result impl.CameraMetadataNative
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_sequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback IProcessResultImpl
-		_ = _arg_resultCallback
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = NewProcessResultImplProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		_err = s.Impl.Process(ctx, _arg_image, _arg_result, _arg_sequenceId, _arg_resultCallback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -281,10 +315,10 @@ func (s *PreviewImageProcessorImplStub) OnTransaction(
 // provide to NewPreviewImageProcessorImplStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IPreviewImageProcessorImplServer interface {
-	OnOutputSurface(ctx context.Context, surface interface{}, imageFormat int32) error
+	OnOutputSurface(ctx context.Context, surface view.Surface, imageFormat int32) error
 	OnResolutionUpdate(ctx context.Context, size Size) error
 	OnImageFormatUpdate(ctx context.Context, imageFormat int32) error
-	Process(ctx context.Context, image ParcelImage, result interface{}, sequenceId int32, resultCallback IProcessResultImpl) error
+	Process(ctx context.Context, image ParcelImage, result impl.CameraMetadataNative, sequenceId int32, resultCallback IProcessResultImpl) error
 }
 
 type previewImageProcessorImplStubWrapper struct {
@@ -298,7 +332,7 @@ func (w *previewImageProcessorImplStubWrapper) AsBinder() binder.IBinder {
 
 func (w *previewImageProcessorImplStubWrapper) OnOutputSurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 	imageFormat int32,
 ) error {
 	return w.impl.OnOutputSurface(ctx, surface, imageFormat)
@@ -321,7 +355,7 @@ func (w *previewImageProcessorImplStubWrapper) OnImageFormatUpdate(
 func (w *previewImageProcessorImplStubWrapper) Process(
 	ctx context.Context,
 	image ParcelImage,
-	result interface{},
+	result impl.CameraMetadataNative,
 	sequenceId int32,
 	resultCallback IProcessResultImpl,
 ) error {

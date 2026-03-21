@@ -55,6 +55,7 @@ func (p *ApInterfaceProxy) RegisterCallback(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApInterface)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -85,6 +86,7 @@ func (p *ApInterfaceProxy) GetInterfaceName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApInterface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApInterface, MethodIApInterfaceGetInterfaceName)
@@ -112,7 +114,8 @@ func (p *ApInterfaceProxy) GetInterfaceName(
 // ApInterfaceStub dispatches incoming binder transactions
 // to a typed IApInterface implementation.
 type ApInterfaceStub struct {
-	Impl IApInterface
+	Impl      IApInterface
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ApInterfaceStub)(nil)
@@ -126,14 +129,20 @@ func (s *ApInterfaceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIApInterfaceRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IApInterfaceEventCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewApInterfaceEventCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -144,9 +153,6 @@ func (s *ApInterfaceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIApInterfaceGetInterfaceName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetInterfaceName(ctx)
 		_reply := parcel.New()
 		if _err != nil {

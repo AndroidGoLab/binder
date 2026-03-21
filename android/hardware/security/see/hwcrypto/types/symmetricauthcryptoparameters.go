@@ -29,8 +29,7 @@ func (u *SymmetricAuthCryptoParameters) GetAes() (AesGcmMode, bool) {
 func (u *SymmetricAuthCryptoParameters) SetAes(
 	v AesGcmMode,
 ) {
-	u.Tag = SymmetricAuthCryptoParametersTagAes
-	u.Aes = v
+	*u = SymmetricAuthCryptoParameters{Tag: SymmetricAuthCryptoParametersTagAes, Aes: v}
 }
 
 func (u *SymmetricAuthCryptoParameters) MarshalParcel(

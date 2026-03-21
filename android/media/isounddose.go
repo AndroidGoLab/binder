@@ -3,7 +3,6 @@ package media
 import (
 	"context"
 	"fmt"
-	mediaISoundDose "github.com/xaionaro-go/binder/android/media/ISoundDose"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -46,8 +45,8 @@ type ISoundDose interface {
 	ResetCsd(ctx context.Context, currentCsd float32, records []SoundDoseRecord) error
 	UpdateAttenuation(ctx context.Context, attenuationDB float32, device int32) error
 	SetCsdEnabled(ctx context.Context, enabled bool) error
-	InitCachedAudioDeviceCategories(ctx context.Context, audioDevices []mediaISoundDose.AudioDeviceCategory) error
-	SetAudioDeviceCategory(ctx context.Context, audioDevice mediaISoundDose.AudioDeviceCategory) error
+	InitCachedAudioDeviceCategories(ctx context.Context, audioDevices []ISoundDoseAudioDeviceCategory) error
+	SetAudioDeviceCategory(ctx context.Context, audioDevice ISoundDoseAudioDeviceCategory) error
 	GetOutputRs2UpperBound(ctx context.Context) (float32, error)
 	GetCsd(ctx context.Context) (float32, error)
 	IsSoundDoseHalSupported(ctx context.Context) (bool, error)
@@ -76,6 +75,7 @@ func (p *SoundDoseProxy) SetOutputRs2UpperBound(
 	rs2Value float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 	_data.WriteFloat32(rs2Value)
 
@@ -94,6 +94,7 @@ func (p *SoundDoseProxy) ResetCsd(
 	records []SoundDoseRecord,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 	_data.WriteFloat32(currentCsd)
 	if records == nil {
@@ -123,6 +124,7 @@ func (p *SoundDoseProxy) UpdateAttenuation(
 	device int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 	_data.WriteFloat32(attenuationDB)
 	_data.WriteInt32(device)
@@ -141,6 +143,7 @@ func (p *SoundDoseProxy) SetCsdEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 	_data.WriteBool(enabled)
 
@@ -155,9 +158,10 @@ func (p *SoundDoseProxy) SetCsdEnabled(
 
 func (p *SoundDoseProxy) InitCachedAudioDeviceCategories(
 	ctx context.Context,
-	audioDevices []mediaISoundDose.AudioDeviceCategory,
+	audioDevices []ISoundDoseAudioDeviceCategory,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 	if audioDevices == nil {
 		_data.WriteInt32(-1)
@@ -182,9 +186,10 @@ func (p *SoundDoseProxy) InitCachedAudioDeviceCategories(
 
 func (p *SoundDoseProxy) SetAudioDeviceCategory(
 	ctx context.Context,
-	audioDevice mediaISoundDose.AudioDeviceCategory,
+	audioDevice ISoundDoseAudioDeviceCategory,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 	_data.WriteInt32(1)
 	if _err := audioDevice.MarshalParcel(_data); _err != nil {
@@ -205,6 +210,7 @@ func (p *SoundDoseProxy) GetOutputRs2UpperBound(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseGetOutputRs2UpperBound)
@@ -234,6 +240,7 @@ func (p *SoundDoseProxy) GetCsd(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseGetCsd)
@@ -263,6 +270,7 @@ func (p *SoundDoseProxy) IsSoundDoseHalSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseIsSoundDoseHalSupported)
@@ -292,6 +300,7 @@ func (p *SoundDoseProxy) ForceUseFrameworkMel(
 	useFrameworkMel bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 	_data.WriteBool(useFrameworkMel)
 
@@ -309,6 +318,7 @@ func (p *SoundDoseProxy) ForceComputeCsdOnAllDevices(
 	computeCsdOnAllDevices bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 	_data.WriteBool(computeCsdOnAllDevices)
 
@@ -324,7 +334,8 @@ func (p *SoundDoseProxy) ForceComputeCsdOnAllDevices(
 // SoundDoseStub dispatches incoming binder transactions
 // to a typed ISoundDose implementation.
 type SoundDoseStub struct {
-	Impl ISoundDose
+	Impl      ISoundDose
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SoundDoseStub)(nil)
@@ -338,36 +349,47 @@ func (s *SoundDoseStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISoundDoseSetOutputRs2UpperBound:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rs2Value, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetOutputRs2UpperBound(ctx, _arg_rs2Value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundDoseResetCsd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_currentCsd, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_records []SoundDoseRecord
-		_ = _arg_records
-		_err = s.Impl.ResetCsd(ctx, _arg_currentCsd, _arg_records)
-		_ = _err
-		return nil, nil
-	case TransactionISoundDoseUpdateAttenuation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_records = make([]SoundDoseRecord, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_records[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.ResetCsd(ctx, _arg_currentCsd, _arg_records)
+		return nil, _err
+	case TransactionISoundDoseUpdateAttenuation:
 		_arg_attenuationDB, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -377,34 +399,40 @@ func (s *SoundDoseStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.UpdateAttenuation(ctx, _arg_attenuationDB, _arg_device)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundDoseSetCsdEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetCsdEnabled(ctx, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundDoseInitCachedAudioDeviceCategories:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_audioDevices []ISoundDoseAudioDeviceCategory
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_audioDevices = make([]ISoundDoseAudioDeviceCategory, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_audioDevices[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_audioDevices []mediaISoundDose.AudioDeviceCategory
-		_ = _arg_audioDevices
 		_err := s.Impl.InitCachedAudioDeviceCategories(ctx, _arg_audioDevices)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundDoseSetAudioDeviceCategory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_audioDevice mediaISoundDose.AudioDeviceCategory
+		var _arg_audioDevice ISoundDoseAudioDeviceCategory
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -417,12 +445,8 @@ func (s *SoundDoseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetAudioDeviceCategory(ctx, _arg_audioDevice)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundDoseGetOutputRs2UpperBound:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetOutputRs2UpperBound(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -433,9 +457,6 @@ func (s *SoundDoseStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionISoundDoseGetCsd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCsd(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -446,9 +467,6 @@ func (s *SoundDoseStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionISoundDoseIsSoundDoseHalSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsSoundDoseHalSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -459,27 +477,19 @@ func (s *SoundDoseStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISoundDoseForceUseFrameworkMel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_useFrameworkMel, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ForceUseFrameworkMel(ctx, _arg_useFrameworkMel)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundDoseForceComputeCsdOnAllDevices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_computeCsdOnAllDevices, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ForceComputeCsdOnAllDevices(ctx, _arg_computeCsdOnAllDevices)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -493,8 +503,8 @@ type ISoundDoseServer interface {
 	ResetCsd(ctx context.Context, currentCsd float32, records []SoundDoseRecord) error
 	UpdateAttenuation(ctx context.Context, attenuationDB float32, device int32) error
 	SetCsdEnabled(ctx context.Context, enabled bool) error
-	InitCachedAudioDeviceCategories(ctx context.Context, audioDevices []mediaISoundDose.AudioDeviceCategory) error
-	SetAudioDeviceCategory(ctx context.Context, audioDevice mediaISoundDose.AudioDeviceCategory) error
+	InitCachedAudioDeviceCategories(ctx context.Context, audioDevices []ISoundDoseAudioDeviceCategory) error
+	SetAudioDeviceCategory(ctx context.Context, audioDevice ISoundDoseAudioDeviceCategory) error
 	GetOutputRs2UpperBound(ctx context.Context) (float32, error)
 	GetCsd(ctx context.Context) (float32, error)
 	IsSoundDoseHalSupported(ctx context.Context) (bool, error)
@@ -543,14 +553,14 @@ func (w *soundDoseStubWrapper) SetCsdEnabled(
 
 func (w *soundDoseStubWrapper) InitCachedAudioDeviceCategories(
 	ctx context.Context,
-	audioDevices []mediaISoundDose.AudioDeviceCategory,
+	audioDevices []ISoundDoseAudioDeviceCategory,
 ) error {
 	return w.impl.InitCachedAudioDeviceCategories(ctx, audioDevices)
 }
 
 func (w *soundDoseStubWrapper) SetAudioDeviceCategory(
 	ctx context.Context,
-	audioDevice mediaISoundDose.AudioDeviceCategory,
+	audioDevice ISoundDoseAudioDeviceCategory,
 ) error {
 	return w.impl.SetAudioDeviceCategory(ctx, audioDevice)
 }

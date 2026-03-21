@@ -1,0 +1,1195 @@
+package: android.hardware.audio.core
+go_package: android/hardware/audio/core
+interfaces:
+    - name: IBluetooth
+      descriptor: android.hardware.audio.core.IBluetooth
+      methods:
+        - name: setScoConfig
+          transaction_code_offset: 0
+          params:
+            - name: config
+              type:
+                name: ScoConfig
+              direction: in
+          return_type:
+            name: ScoConfig
+        - name: setHfpConfig
+          transaction_code_offset: 1
+          params:
+            - name: config
+              type:
+                name: HfpConfig
+              direction: in
+          return_type:
+            name: HfpConfig
+    - name: IBluetoothA2dp
+      descriptor: android.hardware.audio.core.IBluetoothA2dp
+      methods:
+        - name: isEnabled
+          transaction_code_offset: 0
+          return_type:
+            name: boolean
+        - name: setEnabled
+          transaction_code_offset: 1
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: supportsOffloadReconfiguration
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+        - name: reconfigureOffload
+          transaction_code_offset: 3
+          params:
+            - name: parameters
+              type:
+                name: VendorParameter
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IBluetoothLe
+      descriptor: android.hardware.audio.core.IBluetoothLe
+      methods:
+        - name: isEnabled
+          transaction_code_offset: 0
+          return_type:
+            name: boolean
+        - name: setEnabled
+          transaction_code_offset: 1
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: supportsOffloadReconfiguration
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+        - name: reconfigureOffload
+          transaction_code_offset: 3
+          params:
+            - name: parameters
+              type:
+                name: VendorParameter
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IConfig
+      descriptor: android.hardware.audio.core.IConfig
+      methods:
+        - name: getSurroundSoundConfig
+          transaction_code_offset: 0
+          return_type:
+            name: SurroundSoundConfig
+        - name: getEngineConfig
+          transaction_code_offset: 1
+          return_type:
+            name: AudioHalEngineConfig
+    - name: IModule
+      descriptor: android.hardware.audio.core.IModule
+      methods:
+        - name: setModuleDebug
+          transaction_code_offset: 0
+          params:
+            - name: debug
+              type:
+                name: ModuleDebug
+              direction: in
+          return_type:
+            name: void
+        - name: getTelephony
+          transaction_code_offset: 1
+          return_type:
+            name: ITelephony
+          annotations:
+            - nullable
+        - name: getBluetooth
+          transaction_code_offset: 2
+          return_type:
+            name: IBluetooth
+          annotations:
+            - nullable
+        - name: getBluetoothA2dp
+          transaction_code_offset: 3
+          return_type:
+            name: IBluetoothA2dp
+          annotations:
+            - nullable
+        - name: getBluetoothLe
+          transaction_code_offset: 4
+          return_type:
+            name: IBluetoothLe
+          annotations:
+            - nullable
+        - name: connectExternalDevice
+          transaction_code_offset: 5
+          params:
+            - name: templateIdAndAdditionalData
+              type:
+                name: AudioPort
+              direction: in
+          return_type:
+            name: AudioPort
+        - name: disconnectExternalDevice
+          transaction_code_offset: 6
+          params:
+            - name: portId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getAudioPatches
+          transaction_code_offset: 7
+          return_type:
+            name: AudioPatch
+            is_array: true
+        - name: getAudioPort
+          transaction_code_offset: 8
+          params:
+            - name: portId
+              type:
+                name: int
+          return_type:
+            name: AudioPort
+        - name: getAudioPortConfigs
+          transaction_code_offset: 9
+          return_type:
+            name: AudioPortConfig
+            is_array: true
+        - name: getAudioPorts
+          transaction_code_offset: 10
+          return_type:
+            name: AudioPort
+            is_array: true
+        - name: getAudioRoutes
+          transaction_code_offset: 11
+          return_type:
+            name: AudioRoute
+            is_array: true
+        - name: getAudioRoutesForAudioPort
+          transaction_code_offset: 12
+          params:
+            - name: portId
+              type:
+                name: int
+          return_type:
+            name: AudioRoute
+            is_array: true
+        - name: openInputStream
+          transaction_code_offset: 13
+          params:
+            - name: args
+              type:
+                name: OpenInputStreamArguments
+              direction: in
+          return_type:
+            name: OpenInputStreamReturn
+        - name: openOutputStream
+          transaction_code_offset: 14
+          params:
+            - name: args
+              type:
+                name: OpenOutputStreamArguments
+              direction: in
+          return_type:
+            name: OpenOutputStreamReturn
+        - name: getSupportedPlaybackRateFactors
+          transaction_code_offset: 15
+          return_type:
+            name: SupportedPlaybackRateFactors
+        - name: setAudioPatch
+          transaction_code_offset: 16
+          params:
+            - name: requested
+              type:
+                name: AudioPatch
+              direction: in
+          return_type:
+            name: AudioPatch
+        - name: setAudioPortConfig
+          transaction_code_offset: 17
+          params:
+            - name: requested
+              type:
+                name: AudioPortConfig
+              direction: in
+            - name: suggested
+              type:
+                name: AudioPortConfig
+              direction: out
+          return_type:
+            name: boolean
+        - name: resetAudioPatch
+          transaction_code_offset: 18
+          params:
+            - name: patchId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: resetAudioPortConfig
+          transaction_code_offset: 19
+          params:
+            - name: portConfigId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getMasterMute
+          transaction_code_offset: 20
+          return_type:
+            name: boolean
+        - name: setMasterMute
+          transaction_code_offset: 21
+          params:
+            - name: mute
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getMasterVolume
+          transaction_code_offset: 22
+          return_type:
+            name: float
+        - name: setMasterVolume
+          transaction_code_offset: 23
+          params:
+            - name: volume
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: getMicMute
+          transaction_code_offset: 24
+          return_type:
+            name: boolean
+        - name: setMicMute
+          transaction_code_offset: 25
+          params:
+            - name: mute
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getMicrophones
+          transaction_code_offset: 26
+          return_type:
+            name: MicrophoneInfo
+            is_array: true
+        - name: updateAudioMode
+          transaction_code_offset: 27
+          params:
+            - name: mode
+              type:
+                name: AudioMode
+          return_type:
+            name: void
+        - name: updateScreenRotation
+          transaction_code_offset: 28
+          params:
+            - name: rotation
+              type:
+                name: ScreenRotation
+          return_type:
+            name: void
+        - name: updateScreenState
+          transaction_code_offset: 29
+          params:
+            - name: isTurnedOn
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getSoundDose
+          transaction_code_offset: 30
+          return_type:
+            name: ISoundDose
+          annotations:
+            - nullable
+        - name: generateHwAvSyncId
+          transaction_code_offset: 31
+          return_type:
+            name: int
+        - name: getVendorParameters
+          transaction_code_offset: 32
+          params:
+            - name: ids
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: VendorParameter
+            is_array: true
+        - name: setVendorParameters
+          transaction_code_offset: 33
+          params:
+            - name: parameters
+              type:
+                name: VendorParameter
+                is_array: true
+              direction: in
+            - name: async
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: addDeviceEffect
+          transaction_code_offset: 34
+          params:
+            - name: portConfigId
+              type:
+                name: int
+            - name: effect
+              type:
+                name: IEffect
+              direction: in
+          return_type:
+            name: void
+        - name: removeDeviceEffect
+          transaction_code_offset: 35
+          params:
+            - name: portConfigId
+              type:
+                name: int
+            - name: effect
+              type:
+                name: IEffect
+              direction: in
+          return_type:
+            name: void
+        - name: getMmapPolicyInfos
+          transaction_code_offset: 36
+          params:
+            - name: mmapPolicyType
+              type:
+                name: AudioMMapPolicyType
+          return_type:
+            name: AudioMMapPolicyInfo
+            is_array: true
+        - name: supportsVariableLatency
+          transaction_code_offset: 37
+          return_type:
+            name: boolean
+        - name: getAAudioMixerBurstCount
+          transaction_code_offset: 38
+          return_type:
+            name: int
+        - name: getAAudioHardwareBurstMinUsec
+          transaction_code_offset: 39
+          return_type:
+            name: int
+        - name: prepareToDisconnectExternalDevice
+          transaction_code_offset: 40
+          params:
+            - name: portId
+              type:
+                name: int
+          return_type:
+            name: void
+      constants:
+        - name: DEFAULT_AAUDIO_MIXER_BURST_COUNT
+          type: int
+          value: "2"
+        - name: DEFAULT_AAUDIO_HARDWARE_BURST_MIN_DURATION_US
+          type: int
+          value: "1000"
+    - name: IStreamCallback
+      descriptor: android.hardware.audio.core.IStreamCallback
+      oneway: true
+      methods:
+        - name: onTransferReady
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onDrainReady
+          transaction_code_offset: 2
+          return_type:
+            name: void
+    - name: IStreamCommon
+      descriptor: android.hardware.audio.core.IStreamCommon
+      methods:
+        - name: close
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: prepareToClose
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: updateHwAvSyncId
+          transaction_code_offset: 2
+          params:
+            - name: hwAvSyncId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getVendorParameters
+          transaction_code_offset: 3
+          params:
+            - name: ids
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: VendorParameter
+            is_array: true
+        - name: setVendorParameters
+          transaction_code_offset: 4
+          params:
+            - name: parameters
+              type:
+                name: VendorParameter
+                is_array: true
+              direction: in
+            - name: async
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: addEffect
+          transaction_code_offset: 5
+          params:
+            - name: effect
+              type:
+                name: IEffect
+              direction: in
+          return_type:
+            name: void
+        - name: removeEffect
+          transaction_code_offset: 6
+          params:
+            - name: effect
+              type:
+                name: IEffect
+              direction: in
+          return_type:
+            name: void
+    - name: IStreamIn
+      descriptor: android.hardware.audio.core.IStreamIn
+      methods:
+        - name: getStreamCommon
+          transaction_code_offset: 0
+          return_type:
+            name: IStreamCommon
+        - name: getActiveMicrophones
+          transaction_code_offset: 1
+          return_type:
+            name: MicrophoneDynamicInfo
+            is_array: true
+        - name: getMicrophoneDirection
+          transaction_code_offset: 2
+          return_type:
+            name: MicrophoneDirection
+        - name: setMicrophoneDirection
+          transaction_code_offset: 3
+          params:
+            - name: direction
+              type:
+                name: MicrophoneDirection
+          return_type:
+            name: void
+        - name: getMicrophoneFieldDimension
+          transaction_code_offset: 4
+          return_type:
+            name: float
+        - name: setMicrophoneFieldDimension
+          transaction_code_offset: 5
+          params:
+            - name: zoom
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: updateMetadata
+          transaction_code_offset: 6
+          params:
+            - name: sinkMetadata
+              type:
+                name: SinkMetadata
+              direction: in
+          return_type:
+            name: void
+        - name: getHwGain
+          transaction_code_offset: 7
+          return_type:
+            name: float
+            is_array: true
+        - name: setHwGain
+          transaction_code_offset: 8
+          params:
+            - name: channelGains
+              type:
+                name: float
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: MIC_FIELD_DIMENSION_WIDE_ANGLE
+          type: int
+          value: "-1"
+        - name: MIC_FIELD_DIMENSION_NO_ZOOM
+          type: int
+          value: "0"
+        - name: MIC_FIELD_DIMENSION_MAX_ZOOM
+          type: int
+          value: "1"
+        - name: HW_GAIN_MIN
+          type: int
+          value: "0"
+        - name: HW_GAIN_MAX
+          type: int
+          value: "1"
+    - name: IStreamOut
+      descriptor: android.hardware.audio.core.IStreamOut
+      methods:
+        - name: getStreamCommon
+          transaction_code_offset: 0
+          return_type:
+            name: IStreamCommon
+        - name: updateMetadata
+          transaction_code_offset: 1
+          params:
+            - name: sourceMetadata
+              type:
+                name: SourceMetadata
+              direction: in
+          return_type:
+            name: void
+        - name: updateOffloadMetadata
+          transaction_code_offset: 2
+          params:
+            - name: offloadMetadata
+              type:
+                name: AudioOffloadMetadata
+              direction: in
+          return_type:
+            name: void
+        - name: getHwVolume
+          transaction_code_offset: 3
+          return_type:
+            name: float
+            is_array: true
+        - name: setHwVolume
+          transaction_code_offset: 4
+          params:
+            - name: channelVolumes
+              type:
+                name: float
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getAudioDescriptionMixLevel
+          transaction_code_offset: 5
+          return_type:
+            name: float
+        - name: setAudioDescriptionMixLevel
+          transaction_code_offset: 6
+          params:
+            - name: leveldB
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: getDualMonoMode
+          transaction_code_offset: 7
+          return_type:
+            name: AudioDualMonoMode
+        - name: setDualMonoMode
+          transaction_code_offset: 8
+          params:
+            - name: mode
+              type:
+                name: AudioDualMonoMode
+          return_type:
+            name: void
+        - name: getRecommendedLatencyModes
+          transaction_code_offset: 9
+          return_type:
+            name: AudioLatencyMode
+            is_array: true
+        - name: setLatencyMode
+          transaction_code_offset: 10
+          params:
+            - name: mode
+              type:
+                name: AudioLatencyMode
+          return_type:
+            name: void
+        - name: getPlaybackRateParameters
+          transaction_code_offset: 11
+          return_type:
+            name: AudioPlaybackRate
+        - name: setPlaybackRateParameters
+          transaction_code_offset: 12
+          params:
+            - name: playbackRate
+              type:
+                name: AudioPlaybackRate
+              direction: in
+          return_type:
+            name: void
+        - name: selectPresentation
+          transaction_code_offset: 13
+          params:
+            - name: presentationId
+              type:
+                name: int
+            - name: programId
+              type:
+                name: int
+          return_type:
+            name: void
+      constants:
+        - name: HW_VOLUME_MIN
+          type: int
+          value: "0"
+        - name: HW_VOLUME_MAX
+          type: int
+          value: "1"
+        - name: AUDIO_DESCRIPTION_MIX_LEVEL_MAX
+          type: int
+          value: "48"
+    - name: IStreamOutEventCallback
+      descriptor: android.hardware.audio.core.IStreamOutEventCallback
+      oneway: true
+      methods:
+        - name: onCodecFormatChanged
+          transaction_code_offset: 0
+          params:
+            - name: audioMetadata
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onRecommendedLatencyModeChanged
+          transaction_code_offset: 1
+          params:
+            - name: modes
+              type:
+                name: AudioLatencyMode
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: ITelephony
+      descriptor: android.hardware.audio.core.ITelephony
+      methods:
+        - name: getSupportedAudioModes
+          transaction_code_offset: 0
+          return_type:
+            name: AudioMode
+            is_array: true
+        - name: switchAudioMode
+          transaction_code_offset: 1
+          params:
+            - name: mode
+              type:
+                name: AudioMode
+          return_type:
+            name: void
+        - name: setTelecomConfig
+          transaction_code_offset: 2
+          params:
+            - name: config
+              type:
+                name: TelecomConfig
+              direction: in
+          return_type:
+            name: TelecomConfig
+parcelables:
+    - name: AudioPatch
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: sourcePortConfigIds
+          type:
+            name: int
+            is_array: true
+        - name: sinkPortConfigIds
+          type:
+            name: int
+            is_array: true
+        - name: minimumStreamBufferSizeFrames
+          type:
+            name: int
+        - name: latenciesMs
+          type:
+            name: int
+            is_array: true
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: AudioRoute
+      fields:
+        - name: sourcePortIds
+          type:
+            name: int
+            is_array: true
+        - name: sinkPortId
+          type:
+            name: int
+        - name: isExclusive
+          type:
+            name: boolean
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: IBluetooth.HfpConfig
+      fields:
+        - name: isEnabled
+          type:
+            name: Boolean
+          annotations:
+            - nullable
+        - name: sampleRate
+          type:
+            name: Int
+          annotations:
+            - nullable
+        - name: volume
+          type:
+            name: Float
+          annotations:
+            - nullable
+      constants:
+        - name: VOLUME_MIN
+          type: int
+          value: "0"
+        - name: VOLUME_MAX
+          type: int
+          value: "1"
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: IBluetooth.ScoConfig
+      fields:
+        - name: isEnabled
+          type:
+            name: Boolean
+          annotations:
+            - nullable
+        - name: isNrecEnabled
+          type:
+            name: Boolean
+          annotations:
+            - nullable
+        - name: mode
+          type:
+            name: Mode
+          default_value: Mode.UNSPECIFIED
+        - name: debugName
+          type:
+            name: String
+          annotations:
+            - nullable
+            - utf8InCpp
+      nested_types:
+        - IBluetooth.ScoConfig.Mode
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: IModule.OpenInputStreamArguments
+      fields:
+        - name: portConfigId
+          type:
+            name: int
+        - name: sinkMetadata
+          type:
+            name: SinkMetadata
+        - name: bufferSizeFrames
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: IModule.OpenInputStreamReturn
+      fields:
+        - name: stream
+          type:
+            name: IStreamIn
+        - name: desc
+          type:
+            name: StreamDescriptor
+      annotations:
+        - VintfStability
+    - name: IModule.OpenOutputStreamArguments
+      fields:
+        - name: portConfigId
+          type:
+            name: int
+        - name: sourceMetadata
+          type:
+            name: SourceMetadata
+        - name: offloadInfo
+          type:
+            name: AudioOffloadInfo
+          annotations:
+            - nullable
+        - name: bufferSizeFrames
+          type:
+            name: long
+        - name: callback
+          type:
+            name: IStreamCallback
+          annotations:
+            - nullable
+        - name: eventCallback
+          type:
+            name: IStreamOutEventCallback
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: IModule.OpenOutputStreamReturn
+      fields:
+        - name: stream
+          type:
+            name: IStreamOut
+        - name: desc
+          type:
+            name: StreamDescriptor
+      annotations:
+        - VintfStability
+    - name: IModule.SupportedPlaybackRateFactors
+      fields:
+        - name: minSpeed
+          type:
+            name: float
+        - name: maxSpeed
+          type:
+            name: float
+        - name: minPitch
+          type:
+            name: float
+        - name: maxPitch
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: ITelephony.TelecomConfig
+      fields:
+        - name: voiceVolume
+          type:
+            name: Float
+          annotations:
+            - nullable
+        - name: ttyMode
+          type:
+            name: TtyMode
+          default_value: TtyMode.UNSPECIFIED
+        - name: isHacEnabled
+          type:
+            name: Boolean
+          annotations:
+            - nullable
+      constants:
+        - name: VOICE_VOLUME_MIN
+          type: int
+          value: "0"
+        - name: VOICE_VOLUME_MAX
+          type: int
+          value: "1"
+      nested_types:
+        - ITelephony.TelecomConfig.TtyMode
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: MmapBufferDescriptor
+      fields:
+        - name: sharedMemory
+          type:
+            name: Ashmem
+        - name: burstSizeFrames
+          type:
+            name: long
+        - name: flags
+          type:
+            name: int
+      constants:
+        - name: FLAG_INDEX_APPLICATION_SHAREABLE
+          type: int
+          value: "0"
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: ModuleDebug
+      fields:
+        - name: simulateDeviceConnections
+          type:
+            name: boolean
+        - name: streamTransientStateDelayMs
+          type:
+            name: int
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: StreamDescriptor
+      fields:
+        - name: command
+          type:
+            name: MQDescriptor
+            type_args:
+                - name: Command
+                - name: SynchronizedReadWrite
+        - name: reply
+          type:
+            name: MQDescriptor
+            type_args:
+                - name: Reply
+                - name: SynchronizedReadWrite
+        - name: frameSizeBytes
+          type:
+            name: int
+        - name: bufferSizeFrames
+          type:
+            name: long
+        - name: audio
+          type:
+            name: AudioBuffer
+      constants:
+        - name: LATENCY_UNKNOWN
+          type: int
+          value: "-1"
+      nested_types:
+        - StreamDescriptor.Position
+        - StreamDescriptor.State
+        - StreamDescriptor.DrainMode
+        - StreamDescriptor.Command
+        - StreamDescriptor.Reply
+        - StreamDescriptor.AudioBuffer
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: StreamDescriptor.Position
+      fields:
+        - name: frames
+          type:
+            name: long
+          default_value: UNKNOWN
+        - name: timeNs
+          type:
+            name: long
+          default_value: UNKNOWN
+      constants:
+        - name: UNKNOWN
+          type: long
+          value: "-1"
+      annotations:
+        - VintfStability
+        - FixedSize
+    - name: StreamDescriptor.Reply
+      fields:
+        - name: status
+          type:
+            name: int
+        - name: fmqByteCount
+          type:
+            name: int
+        - name: observable
+          type:
+            name: Position
+        - name: hardware
+          type:
+            name: Position
+        - name: latencyMs
+          type:
+            name: int
+        - name: xrunFrames
+          type:
+            name: int
+        - name: state
+          type:
+            name: State
+          default_value: State.STANDBY
+      annotations:
+        - VintfStability
+        - FixedSize
+    - name: SurroundSoundConfig
+      fields:
+        - name: formatFamilies
+          type:
+            name: SurroundFormatFamily
+            is_array: true
+      nested_types:
+        - SurroundSoundConfig.SurroundFormatFamily
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: SurroundSoundConfig.SurroundFormatFamily
+      fields:
+        - name: primaryFormat
+          type:
+            name: AudioFormatDescription
+        - name: subFormats
+          type:
+            name: AudioFormatDescription
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: VendorParameter
+      fields:
+        - name: id
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: ext
+          type:
+            name: ParcelableHolder
+      annotations:
+        - JavaDerive
+        - VintfStability
+enums:
+    - name: IBluetooth.ScoConfig.Mode
+      backing_type: ""
+      values:
+        - name: UNSPECIFIED
+          value: ""
+        - name: SCO
+          value: ""
+        - name: SCO_WB
+          value: ""
+        - name: SCO_SWB
+          value: ""
+      annotations:
+        - VintfStability
+    - name: IModule.ScreenRotation
+      backing_type: int
+      values:
+        - name: DEG_0
+          value: "0"
+        - name: DEG_90
+          value: "1"
+        - name: DEG_180
+          value: "2"
+        - name: DEG_270
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IStreamIn.MicrophoneDirection
+      backing_type: int
+      values:
+        - name: UNSPECIFIED
+          value: "0"
+        - name: FRONT
+          value: "1"
+        - name: BACK
+          value: "2"
+        - name: EXTERNAL
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ITelephony.TelecomConfig.TtyMode
+      backing_type: int
+      values:
+        - name: UNSPECIFIED
+          value: "-1"
+        - name: "OFF"
+          value: "0"
+        - name: FULL
+          value: "1"
+        - name: HCO
+          value: "2"
+        - name: VCO
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StreamDescriptor.DrainMode
+      backing_type: byte
+      values:
+        - name: DRAIN_UNSPECIFIED
+          value: "0"
+        - name: DRAIN_ALL
+          value: "1"
+        - name: DRAIN_EARLY_NOTIFY
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StreamDescriptor.State
+      backing_type: int
+      values:
+        - name: STANDBY
+          value: "1"
+        - name: IDLE
+          value: "2"
+        - name: ACTIVE
+          value: "3"
+        - name: PAUSED
+          value: "4"
+        - name: DRAINING
+          value: "5"
+        - name: DRAIN_PAUSED
+          value: "6"
+        - name: TRANSFERRING
+          value: "7"
+        - name: TRANSFER_PAUSED
+          value: "8"
+        - name: ERROR
+          value: "100"
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: StreamDescriptor.AudioBuffer
+      fields:
+        - name: fmq
+          type:
+            name: MQDescriptor
+            type_args:
+                - name: byte
+                - name: SynchronizedReadWrite
+        - name: mmap
+          type:
+            name: MmapBufferDescriptor
+      annotations:
+        - VintfStability
+    - name: StreamDescriptor.Command
+      fields:
+        - name: halReservedExit
+          type:
+            name: int
+        - name: getStatus
+          type:
+            name: Void
+        - name: start
+          type:
+            name: Void
+        - name: burst
+          type:
+            name: int
+        - name: drain
+          type:
+            name: DrainMode
+        - name: standby
+          type:
+            name: Void
+        - name: pause
+          type:
+            name: Void
+        - name: flush
+          type:
+            name: Void
+      annotations:
+        - VintfStability
+        - FixedSize

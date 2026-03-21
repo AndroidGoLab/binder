@@ -1,0 +1,213 @@
+package: android.view.translation
+go_package: android/view/translation
+interfaces:
+    - name: ITranslationDirectManager
+      descriptor: android.view.translation.ITranslationDirectManager
+      oneway: true
+      methods:
+        - name: onTranslationRequest
+          transaction_code_offset: 0
+          params:
+            - name: request
+              type:
+                name: TranslationRequest
+              direction: in
+            - name: sessionId
+              type:
+                name: int
+            - name: transport
+              type:
+                name: ICancellationSignal
+              direction: in
+            - name: callback
+              type:
+                name: ITranslationCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onFinishTranslationSession
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ITranslationManager
+      descriptor: android.view.translation.ITranslationManager
+      oneway: true
+      methods:
+        - name: onTranslationCapabilitiesRequest
+          transaction_code_offset: 0
+          params:
+            - name: sourceFormat
+              type:
+                name: int
+            - name: destFormat
+              type:
+                name: int
+            - name: receiver
+              type:
+                name: ResultReceiver
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: registerTranslationCapabilityCallback
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IRemoteCallback
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: unregisterTranslationCapabilityCallback
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: IRemoteCallback
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSessionCreated
+          transaction_code_offset: 3
+          params:
+            - name: translationContext
+              type:
+                name: TranslationContext
+              direction: in
+            - name: sessionId
+              type:
+                name: int
+            - name: receiver
+              type:
+                name: IResultReceiver
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: updateUiTranslationState
+          transaction_code_offset: 4
+          params:
+            - name: state
+              type:
+                name: int
+            - name: sourceSpec
+              type:
+                name: TranslationSpec
+              direction: in
+            - name: targetSpec
+              type:
+                name: TranslationSpec
+              direction: in
+            - name: viewIds
+              type:
+                name: List
+                type_args:
+                    - name: AutofillId
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+            - name: taskId
+              type:
+                name: int
+            - name: uiTranslationSpec
+              type:
+                name: UiTranslationSpec
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: registerUiTranslationStateCallback
+          transaction_code_offset: 5
+          params:
+            - name: callback
+              type:
+                name: IRemoteCallback
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: unregisterUiTranslationStateCallback
+          transaction_code_offset: 6
+          params:
+            - name: callback
+              type:
+                name: IRemoteCallback
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getServiceSettingsActivity
+          transaction_code_offset: 7
+          params:
+            - name: result
+              type:
+                name: IResultReceiver
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onTranslationFinished
+          transaction_code_offset: 8
+          params:
+            - name: activityDestroyed
+              type:
+                name: boolean
+            - name: token
+              type:
+                name: IBinder
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ITranslationServiceCallback
+      descriptor: android.view.translation.ITranslationServiceCallback
+      oneway: true
+      methods:
+        - name: updateTranslationCapability
+          transaction_code_offset: 0
+          params:
+            - name: capability
+              type:
+                name: TranslationCapability
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: TranslationCapability
+    - name: TranslationContext
+    - name: TranslationRequest
+    - name: TranslationRequestValue
+    - name: TranslationResponse
+    - name: TranslationResponseValue
+    - name: TranslationSpec
+    - name: UiTranslationSpec
+    - name: ViewTranslationRequest
+    - name: ViewTranslationResponse

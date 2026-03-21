@@ -45,6 +45,7 @@ func (p *ApplicationStartInfoCompleteListenerProxy) OnApplicationStartInfoComple
 	applicationStartInfo ApplicationStartInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationStartInfoCompleteListener)
 	_data.WriteInt32(1)
 	if _err := applicationStartInfo.MarshalParcel(_data); _err != nil {
@@ -72,7 +73,8 @@ func (p *ApplicationStartInfoCompleteListenerProxy) OnApplicationStartInfoComple
 // ApplicationStartInfoCompleteListenerStub dispatches incoming binder transactions
 // to a typed IApplicationStartInfoCompleteListener implementation.
 type ApplicationStartInfoCompleteListenerStub struct {
-	Impl IApplicationStartInfoCompleteListener
+	Impl      IApplicationStartInfoCompleteListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ApplicationStartInfoCompleteListenerStub)(nil)
@@ -86,11 +88,12 @@ func (s *ApplicationStartInfoCompleteListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIApplicationStartInfoCompleteListenerOnApplicationStartInfoComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_applicationStartInfo ApplicationStartInfo
 		{
 			_nullInd, _err := _data.ReadInt32()

@@ -29,10 +29,10 @@ const (
 
 type IDisplayEventConnection interface {
 	AsBinder() binder.IBinder
-	StealReceiveChannel(ctx context.Context, outChannel interface{}) error
+	StealReceiveChannel(ctx context.Context, outChannel BitTube) error
 	SetVsyncRate(ctx context.Context, count int32) error
 	RequestNextVsync(ctx context.Context) error
-	GetLatestVsyncEventData(ctx context.Context) (interface{}, error)
+	GetLatestVsyncEventData(ctx context.Context) (ParcelableVsyncEventData, error)
 	GetSchedulingPolicy(ctx context.Context) (SchedulingPolicy, error)
 }
 
@@ -54,9 +54,10 @@ var _ IDisplayEventConnection = (*DisplayEventConnectionProxy)(nil)
 
 func (p *DisplayEventConnectionProxy) StealReceiveChannel(
 	ctx context.Context,
-	outChannel interface{},
+	outChannel BitTube,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayEventConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayEventConnection, MethodIDisplayEventConnectionStealReceiveChannel)
@@ -73,6 +74,17 @@ func (p *DisplayEventConnectionProxy) StealReceiveChannel(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _nullInd != 0 {
+			if _err = outChannel.UnmarshalParcel(_reply); _err != nil {
+				return _err
+			}
+		}
+	}
 
 	return nil
 }
@@ -82,6 +94,7 @@ func (p *DisplayEventConnectionProxy) SetVsyncRate(
 	count int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayEventConnection)
 	_data.WriteInt32(count)
 
@@ -107,6 +120,7 @@ func (p *DisplayEventConnectionProxy) RequestNextVsync(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayEventConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayEventConnection, MethodIDisplayEventConnectionRequestNextVsync)
@@ -120,9 +134,10 @@ func (p *DisplayEventConnectionProxy) RequestNextVsync(
 
 func (p *DisplayEventConnectionProxy) GetLatestVsyncEventData(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (ParcelableVsyncEventData, error) {
+	var _result ParcelableVsyncEventData
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayEventConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayEventConnection, MethodIDisplayEventConnectionGetLatestVsyncEventData)
@@ -140,6 +155,15 @@ func (p *DisplayEventConnectionProxy) GetLatestVsyncEventData(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -148,6 +172,7 @@ func (p *DisplayEventConnectionProxy) GetSchedulingPolicy(
 ) (SchedulingPolicy, error) {
 	var _result SchedulingPolicy
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayEventConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayEventConnection, MethodIDisplayEventConnectionGetSchedulingPolicy)
@@ -180,7 +205,8 @@ func (p *DisplayEventConnectionProxy) GetSchedulingPolicy(
 // DisplayEventConnectionStub dispatches incoming binder transactions
 // to a typed IDisplayEventConnection implementation.
 type DisplayEventConnectionStub struct {
-	Impl IDisplayEventConnection
+	Impl      IDisplayEventConnection
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DisplayEventConnectionStub)(nil)
@@ -194,12 +220,13 @@ func (s *DisplayEventConnectionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDisplayEventConnectionStealReceiveChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_outChannel interface{}
+		var _arg_outChannel BitTube
 		_err := s.Impl.StealReceiveChannel(ctx, _arg_outChannel)
 		_reply := parcel.New()
 		if _err != nil {
@@ -207,11 +234,12 @@ func (s *DisplayEventConnectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIDisplayEventConnectionSetVsyncRate:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_outChannel.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIDisplayEventConnectionSetVsyncRate:
 		_arg_count, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -225,16 +253,9 @@ func (s *DisplayEventConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayEventConnectionRequestNextVsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RequestNextVsync(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDisplayEventConnectionGetLatestVsyncEventData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLatestVsyncEventData(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -242,12 +263,12 @@ func (s *DisplayEventConnectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIDisplayEventConnectionGetSchedulingPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIDisplayEventConnectionGetSchedulingPolicy:
 		_result, _err := s.Impl.GetSchedulingPolicy(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -269,10 +290,10 @@ func (s *DisplayEventConnectionStub) OnTransaction(
 // provide to NewDisplayEventConnectionStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IDisplayEventConnectionServer interface {
-	StealReceiveChannel(ctx context.Context, outChannel interface{}) error
+	StealReceiveChannel(ctx context.Context, outChannel BitTube) error
 	SetVsyncRate(ctx context.Context, count int32) error
 	RequestNextVsync(ctx context.Context) error
-	GetLatestVsyncEventData(ctx context.Context) (interface{}, error)
+	GetLatestVsyncEventData(ctx context.Context) (ParcelableVsyncEventData, error)
 	GetSchedulingPolicy(ctx context.Context) (SchedulingPolicy, error)
 }
 
@@ -287,7 +308,7 @@ func (w *displayEventConnectionStubWrapper) AsBinder() binder.IBinder {
 
 func (w *displayEventConnectionStubWrapper) StealReceiveChannel(
 	ctx context.Context,
-	outChannel interface{},
+	outChannel BitTube,
 ) error {
 	return w.impl.StealReceiveChannel(ctx, outChannel)
 }
@@ -307,7 +328,7 @@ func (w *displayEventConnectionStubWrapper) RequestNextVsync(
 
 func (w *displayEventConnectionStubWrapper) GetLatestVsyncEventData(
 	ctx context.Context,
-) (interface{}, error) {
+) (ParcelableVsyncEventData, error) {
 	return w.impl.GetLatestVsyncEventData(ctx)
 }
 

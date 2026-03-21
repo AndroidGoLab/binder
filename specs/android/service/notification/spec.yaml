@@ -1,0 +1,323 @@
+package: android.service.notification
+go_package: android/service/notification
+interfaces:
+    - name: IConditionListener
+      descriptor: android.service.notification.IConditionListener
+      oneway: true
+      methods:
+        - name: onConditionsReceived
+          transaction_code_offset: 0
+          params:
+            - name: conditions
+              type:
+                name: Condition
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IConditionProvider
+      descriptor: android.service.notification.IConditionProvider
+      oneway: true
+      methods:
+        - name: onConnected
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onSubscribe
+          transaction_code_offset: 1
+          params:
+            - name: conditionId
+              type:
+                name: Uri
+              direction: in
+          return_type:
+            name: void
+        - name: onUnsubscribe
+          transaction_code_offset: 2
+          params:
+            - name: conditionId
+              type:
+                name: Uri
+              direction: in
+          return_type:
+            name: void
+    - name: INotificationListener
+      descriptor: android.service.notification.INotificationListener
+      oneway: true
+      methods:
+        - name: onListenerConnected
+          transaction_code_offset: 0
+          params:
+            - name: update
+              type:
+                name: NotificationRankingUpdate
+              direction: in
+          return_type:
+            name: void
+        - name: onNotificationPosted
+          transaction_code_offset: 1
+          params:
+            - name: notificationHolder
+              type:
+                name: IStatusBarNotificationHolder
+              direction: in
+            - name: update
+              type:
+                name: NotificationRankingUpdate
+              direction: in
+          return_type:
+            name: void
+        - name: onStatusBarIconsBehaviorChanged
+          transaction_code_offset: 2
+          params:
+            - name: hideSilentStatusIcons
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onNotificationRemoved
+          transaction_code_offset: 3
+          params:
+            - name: notificationHolder
+              type:
+                name: IStatusBarNotificationHolder
+              direction: in
+            - name: update
+              type:
+                name: NotificationRankingUpdate
+              direction: in
+            - name: stats
+              type:
+                name: NotificationStats
+              direction: in
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onNotificationRankingUpdate
+          transaction_code_offset: 4
+          params:
+            - name: update
+              type:
+                name: NotificationRankingUpdate
+              direction: in
+          return_type:
+            name: void
+        - name: onListenerHintsChanged
+          transaction_code_offset: 5
+          params:
+            - name: hints
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onInterruptionFilterChanged
+          transaction_code_offset: 6
+          params:
+            - name: interruptionFilter
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onNotificationChannelModification
+          transaction_code_offset: 7
+          params:
+            - name: pkgName
+              type:
+                name: String
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: channel
+              type:
+                name: NotificationChannel
+              direction: in
+            - name: modificationType
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onNotificationChannelGroupModification
+          transaction_code_offset: 8
+          params:
+            - name: pkgName
+              type:
+                name: String
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: group
+              type:
+                name: NotificationChannelGroup
+              direction: in
+            - name: modificationType
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onNotificationEnqueuedWithChannel
+          transaction_code_offset: 9
+          params:
+            - name: notificationHolder
+              type:
+                name: IStatusBarNotificationHolder
+              direction: in
+            - name: channel
+              type:
+                name: NotificationChannel
+              direction: in
+            - name: update
+              type:
+                name: NotificationRankingUpdate
+              direction: in
+          return_type:
+            name: void
+        - name: onNotificationSnoozedUntilContext
+          transaction_code_offset: 10
+          params:
+            - name: notificationHolder
+              type:
+                name: IStatusBarNotificationHolder
+              direction: in
+            - name: snoozeCriterionId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onNotificationsSeen
+          transaction_code_offset: 11
+          params:
+            - name: keys
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onPanelRevealed
+          transaction_code_offset: 12
+          params:
+            - name: items
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onPanelHidden
+          transaction_code_offset: 13
+          return_type:
+            name: void
+        - name: onNotificationVisibilityChanged
+          transaction_code_offset: 14
+          params:
+            - name: key
+              type:
+                name: String
+            - name: isVisible
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onNotificationExpansionChanged
+          transaction_code_offset: 15
+          params:
+            - name: key
+              type:
+                name: String
+            - name: userAction
+              type:
+                name: boolean
+            - name: expanded
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onNotificationDirectReply
+          transaction_code_offset: 16
+          params:
+            - name: key
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onSuggestedReplySent
+          transaction_code_offset: 17
+          params:
+            - name: key
+              type:
+                name: String
+            - name: reply
+              type:
+                name: CharSequence
+              direction: in
+            - name: source
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onActionClicked
+          transaction_code_offset: 18
+          params:
+            - name: key
+              type:
+                name: String
+            - name: action
+              type:
+                name: Notification.Action
+              direction: in
+            - name: source
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onNotificationClicked
+          transaction_code_offset: 19
+          params:
+            - name: key
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onAllowedAdjustmentsChanged
+          transaction_code_offset: 20
+          return_type:
+            name: void
+        - name: onNotificationFeedbackReceived
+          transaction_code_offset: 21
+          params:
+            - name: key
+              type:
+                name: String
+            - name: update
+              type:
+                name: NotificationRankingUpdate
+              direction: in
+            - name: feedback
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+    - name: IStatusBarNotificationHolder
+      descriptor: android.service.notification.IStatusBarNotificationHolder
+      methods:
+        - name: get
+          transaction_code_offset: 0
+          return_type:
+            name: StatusBarNotification
+parcelables:
+    - name: Adjustment
+    - name: Condition
+    - name: ConversationChannelWrapper
+    - name: NotificationListenerFilter
+    - name: NotificationRankingUpdate
+    - name: NotificationStats
+    - name: NotifyingApp
+    - name: SnoozeCriterion
+    - name: StatusBarNotification
+    - name: ZenModeConfig
+    - name: ZenModeConfig.ZenRule
+    - name: ZenPolicy

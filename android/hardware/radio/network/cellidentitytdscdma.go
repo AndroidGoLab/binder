@@ -15,7 +15,7 @@ type CellIdentityTdscdma struct {
 	Uarfcn          int32
 	OperatorNames   OperatorInfo
 	AdditionalPlmns []string
-	CsgInfo         ClosedSubscriberGroupInfo
+	CsgInfo         *ClosedSubscriberGroupInfo
 }
 
 var _ parcel.Parcelable = (*CellIdentityTdscdma)(nil)
@@ -41,8 +41,13 @@ func (s *CellIdentityTdscdma) MarshalParcel(
 			p.WriteString16(_item)
 		}
 	}
-	if _err := s.CsgInfo.MarshalParcel(p); _err != nil {
-		return _err
+	if s.CsgInfo == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.CsgInfo.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -57,9 +62,19 @@ func (s *CellIdentityTdscdma) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Mcc, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Mnc, _err = p.ReadString16()
@@ -67,9 +82,19 @@ func (s *CellIdentityTdscdma) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Lac, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Cid, _err = p.ReadInt32()
@@ -77,9 +102,19 @@ func (s *CellIdentityTdscdma) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Cpid, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Uarfcn, _err = p.ReadInt32()
@@ -87,8 +122,18 @@ func (s *CellIdentityTdscdma) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.OperatorNames.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -106,8 +151,23 @@ func (s *CellIdentityTdscdma) UnmarshalParcel(
 		}
 	}
 
-	if _err = s.CsgInfo.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val ClosedSubscriberGroupInfo
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.CsgInfo = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

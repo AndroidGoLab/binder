@@ -108,6 +108,7 @@ func (p *DeviceIdleControllerProxy) AddPowerSaveWhitelistApp(
 	name string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(name)
 
@@ -135,6 +136,7 @@ func (p *DeviceIdleControllerProxy) AddPowerSaveWhitelistApps(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	if packageNames == nil {
 		_data.WriteInt32(-1)
@@ -172,6 +174,7 @@ func (p *DeviceIdleControllerProxy) RemovePowerSaveWhitelistApp(
 	name string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(name)
 
@@ -198,6 +201,7 @@ func (p *DeviceIdleControllerProxy) RemoveSystemPowerWhitelistApp(
 	name string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(name)
 
@@ -224,6 +228,7 @@ func (p *DeviceIdleControllerProxy) RestoreSystemPowerWhitelistApp(
 	name string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(name)
 
@@ -250,6 +255,7 @@ func (p *DeviceIdleControllerProxy) GetRemovedSystemPowerWhitelistApps(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerGetRemovedSystemPowerWhitelistApps)
@@ -271,6 +277,9 @@ func (p *DeviceIdleControllerProxy) GetRemovedSystemPowerWhitelistApps(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -289,6 +298,7 @@ func (p *DeviceIdleControllerProxy) GetSystemPowerWhitelistExceptIdle(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerGetSystemPowerWhitelistExceptIdle)
@@ -310,6 +320,9 @@ func (p *DeviceIdleControllerProxy) GetSystemPowerWhitelistExceptIdle(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -328,6 +341,7 @@ func (p *DeviceIdleControllerProxy) GetSystemPowerWhitelist(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerGetSystemPowerWhitelist)
@@ -349,6 +363,9 @@ func (p *DeviceIdleControllerProxy) GetSystemPowerWhitelist(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -367,6 +384,7 @@ func (p *DeviceIdleControllerProxy) GetUserPowerWhitelist(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerGetUserPowerWhitelist)
@@ -388,6 +406,9 @@ func (p *DeviceIdleControllerProxy) GetUserPowerWhitelist(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -406,6 +427,7 @@ func (p *DeviceIdleControllerProxy) GetFullPowerWhitelistExceptIdle(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerGetFullPowerWhitelistExceptIdle)
@@ -427,6 +449,9 @@ func (p *DeviceIdleControllerProxy) GetFullPowerWhitelistExceptIdle(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -445,6 +470,7 @@ func (p *DeviceIdleControllerProxy) GetFullPowerWhitelist(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerGetFullPowerWhitelist)
@@ -466,6 +492,9 @@ func (p *DeviceIdleControllerProxy) GetFullPowerWhitelist(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -484,6 +513,7 @@ func (p *DeviceIdleControllerProxy) GetAppIdWhitelistExceptIdle(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerGetAppIdWhitelistExceptIdle)
@@ -505,6 +535,9 @@ func (p *DeviceIdleControllerProxy) GetAppIdWhitelistExceptIdle(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -523,6 +556,7 @@ func (p *DeviceIdleControllerProxy) GetAppIdWhitelist(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerGetAppIdWhitelist)
@@ -544,6 +578,9 @@ func (p *DeviceIdleControllerProxy) GetAppIdWhitelist(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -562,6 +599,7 @@ func (p *DeviceIdleControllerProxy) GetAppIdUserWhitelist(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerGetAppIdUserWhitelist)
@@ -583,6 +621,9 @@ func (p *DeviceIdleControllerProxy) GetAppIdUserWhitelist(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -601,6 +642,7 @@ func (p *DeviceIdleControllerProxy) GetAppIdTempWhitelist(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleController, MethodIDeviceIdleControllerGetAppIdTempWhitelist)
@@ -622,6 +664,9 @@ func (p *DeviceIdleControllerProxy) GetAppIdTempWhitelist(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -641,6 +686,7 @@ func (p *DeviceIdleControllerProxy) IsPowerSaveWhitelistExceptIdleApp(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(name)
 
@@ -672,6 +718,7 @@ func (p *DeviceIdleControllerProxy) IsPowerSaveWhitelistApp(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(name)
 
@@ -706,6 +753,7 @@ func (p *DeviceIdleControllerProxy) AddPowerSaveTempWhitelistApp(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(name)
 	_data.WriteInt64(duration)
@@ -740,6 +788,7 @@ func (p *DeviceIdleControllerProxy) AddPowerSaveTempWhitelistAppForMms(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(name)
 	_data.WriteInt32(_identity.UserID)
@@ -777,6 +826,7 @@ func (p *DeviceIdleControllerProxy) AddPowerSaveTempWhitelistAppForSms(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(name)
 	_data.WriteInt32(_identity.UserID)
@@ -814,6 +864,7 @@ func (p *DeviceIdleControllerProxy) WhitelistAppTemporarily(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(name)
 	_data.WriteInt32(_identity.UserID)
@@ -847,6 +898,7 @@ func (p *DeviceIdleControllerProxy) ExitIdle(
 	reason string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(reason)
 
@@ -871,7 +923,8 @@ func (p *DeviceIdleControllerProxy) ExitIdle(
 // DeviceIdleControllerStub dispatches incoming binder transactions
 // to a typed IDeviceIdleController implementation.
 type DeviceIdleControllerStub struct {
-	Impl IDeviceIdleController
+	Impl      IDeviceIdleController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DeviceIdleControllerStub)(nil)
@@ -885,11 +938,12 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDeviceIdleControllerAddPowerSaveWhitelistApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -903,12 +957,25 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerAddPowerSaveWhitelistApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.AddPowerSaveWhitelistApps(ctx, _arg_packageNames)
 		_reply := parcel.New()
 		if _err != nil {
@@ -919,9 +986,6 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerRemovePowerSaveWhitelistApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -935,9 +999,6 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerRemoveSystemPowerWhitelistApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -951,9 +1012,6 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerRestoreSystemPowerWhitelistApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -967,9 +1025,6 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetRemovedSystemPowerWhitelistApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRemovedSystemPowerWhitelistApps(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -977,13 +1032,16 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetSystemPowerWhitelistExceptIdle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSystemPowerWhitelistExceptIdle(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -991,13 +1049,16 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetSystemPowerWhitelist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSystemPowerWhitelist(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1005,13 +1066,16 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetUserPowerWhitelist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetUserPowerWhitelist(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1019,13 +1083,16 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetFullPowerWhitelistExceptIdle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetFullPowerWhitelistExceptIdle(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1033,13 +1100,16 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetFullPowerWhitelist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetFullPowerWhitelist(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1047,13 +1117,16 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetAppIdWhitelistExceptIdle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAppIdWhitelistExceptIdle(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1061,13 +1134,16 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetAppIdWhitelist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAppIdWhitelist(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1075,13 +1151,16 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetAppIdUserWhitelist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAppIdUserWhitelist(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1089,13 +1168,16 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetAppIdTempWhitelist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAppIdTempWhitelist(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1103,13 +1185,16 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDeviceIdleControllerIsPowerSaveWhitelistExceptIdleApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1124,9 +1209,6 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerIsPowerSaveWhitelistApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1141,9 +1223,6 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerAddPowerSaveTempWhitelistApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1172,9 +1251,6 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerAddPowerSaveTempWhitelistAppForMms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1200,9 +1276,6 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerAddPowerSaveTempWhitelistAppForSms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1228,9 +1301,6 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerWhitelistAppTemporarily:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1256,9 +1326,6 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerExitIdle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

@@ -1,6 +1,8 @@
 package validate
 
 import (
+	"strings"
+
 	"github.com/xaionaro-go/binder/tools/pkg/parser"
 )
 
@@ -45,16 +47,23 @@ func (v *validator) addError(
 }
 
 func (v *validator) validate() {
-	for _, def := range v.doc.Definitions {
+	v.validateDefinitions(v.doc.Definitions)
+}
+
+func (v *validator) validateDefinitions(defs []parser.Definition) {
+	for _, def := range defs {
 		switch d := def.(type) {
 		case *parser.InterfaceDecl:
 			v.validateInterface(d)
+			v.validateDefinitions(d.NestedTypes)
 		case *parser.ParcelableDecl:
 			v.validateParcelable(d)
+			v.validateDefinitions(d.NestedTypes)
 		case *parser.EnumDecl:
 			v.validateEnum(d)
 		case *parser.UnionDecl:
 			v.validateUnion(d)
+			v.validateDefinitions(d.NestedTypes)
 		}
 	}
 }
@@ -176,7 +185,7 @@ func (v *validator) resolveTypeName(
 	// Try via imports.
 	for _, imp := range v.doc.Imports {
 		// Import name ends with the simple name.
-		lastDot := lastIndexByte(imp.Name, '.')
+		lastDot := strings.LastIndexByte(imp.Name, '.')
 		if lastDot >= 0 && imp.Name[lastDot+1:] == name {
 			if ok := v.lookupType(imp.Name); ok {
 				return true
@@ -192,13 +201,4 @@ func packageName(doc *parser.Document) string {
 		return doc.Package.Name
 	}
 	return ""
-}
-
-func lastIndexByte(s string, c byte) int {
-	for i := len(s) - 1; i >= 0; i-- {
-		if s[i] == c {
-			return i
-		}
-	}
-	return -1
 }

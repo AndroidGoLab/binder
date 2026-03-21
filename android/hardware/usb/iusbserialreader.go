@@ -46,6 +46,7 @@ func (p *UsbSerialReaderProxy) GetSerial(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUsbSerialReader)
 	_data.WriteString16(packageName)
 
@@ -74,7 +75,8 @@ func (p *UsbSerialReaderProxy) GetSerial(
 // UsbSerialReaderStub dispatches incoming binder transactions
 // to a typed IUsbSerialReader implementation.
 type UsbSerialReaderStub struct {
-	Impl IUsbSerialReader
+	Impl      IUsbSerialReader
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UsbSerialReaderStub)(nil)
@@ -88,11 +90,12 @@ func (s *UsbSerialReaderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUsbSerialReaderGetSerial:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

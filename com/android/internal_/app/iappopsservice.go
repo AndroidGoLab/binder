@@ -3,7 +3,9 @@ package app
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/app/types"
 	content "github.com/xaionaro-go/binder/android/content"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -139,8 +141,8 @@ const (
 type IAppOpsService interface {
 	AsBinder() binder.IBinder
 	CheckOperation(ctx context.Context, code int32, uid int32, packageName string) (int32, error)
-	NoteOperation(ctx context.Context, code int32, uid int32, packageName string, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool) (interface{}, error)
-	StartOperation(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, attributionFlags int32, attributionChainId int32) (interface{}, error)
+	NoteOperation(ctx context.Context, code int32, uid int32, packageName string, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool) (types.SyncNotedAppOp, error)
+	StartOperation(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, attributionFlags int32, attributionChainId int32) (types.SyncNotedAppOp, error)
 	FinishOperation(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string) error
 	StartWatchingMode(ctx context.Context, op int32, packageName string, callback IAppOpsCallback) error
 	StopWatchingMode(ctx context.Context, callback IAppOpsCallback) error
@@ -149,30 +151,30 @@ type IAppOpsService interface {
 	ShouldCollectNotes(ctx context.Context, opCode int32) (bool, error)
 	SetCameraAudioRestriction(ctx context.Context, mode int32) error
 	StartWatchingModeWithFlags(ctx context.Context, op int32, packageName string, flags int32, callback IAppOpsCallback) error
-	NoteProxyOperation(ctx context.Context, code int32, attributionSource content.AttributionSource, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool) (interface{}, error)
-	StartProxyOperation(ctx context.Context, clientId binder.IBinder, code int32, attributionSource content.AttributionSource, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool, proxyAttributionFlags int32, proxiedAttributionFlags int32, attributionChainId int32) (interface{}, error)
+	NoteProxyOperation(ctx context.Context, code int32, attributionSource content.AttributionSource, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool) (types.SyncNotedAppOp, error)
+	StartProxyOperation(ctx context.Context, clientId binder.IBinder, code int32, attributionSource content.AttributionSource, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool, proxyAttributionFlags int32, proxiedAttributionFlags int32, attributionChainId int32) (types.SyncNotedAppOp, error)
 	FinishProxyOperation(ctx context.Context, clientId binder.IBinder, code int32, attributionSource content.AttributionSource, skipProxyOperation bool) error
 	CheckPackage(ctx context.Context, uid int32, packageName string) (int32, error)
-	CollectRuntimeAppOpAccessMessage(ctx context.Context) (interface{}, error)
-	ReportRuntimeAppOpAccessMessageAndGetConfig(ctx context.Context, packageName string, appOp interface{}, message string) (MessageSamplingConfig, error)
-	GetPackagesForOps(ctx context.Context, ops []int32) ([]interface{}, error)
-	GetOpsForPackage(ctx context.Context, uid int32, packageName string, ops []int32) ([]interface{}, error)
-	GetHistoricalOps(ctx context.Context, uid int32, packageName string, ops []string, historyFlags int32, filter int32, beginTimeMillis int64, endTimeMillis int64, flags int32, callback interface{}) error
-	GetHistoricalOpsFromDiskRaw(ctx context.Context, uid int32, packageName string, ops []string, historyFlags int32, filter int32, beginTimeMillis int64, endTimeMillis int64, flags int32, callback interface{}) error
+	CollectRuntimeAppOpAccessMessage(ctx context.Context) (types.RuntimeAppOpAccessMessage, error)
+	ReportRuntimeAppOpAccessMessageAndGetConfig(ctx context.Context, packageName string, appOp types.SyncNotedAppOp, message string) (MessageSamplingConfig, error)
+	GetPackagesForOps(ctx context.Context, ops []int32) ([]types.AppOpsManagerPackageOps, error)
+	GetOpsForPackage(ctx context.Context, uid int32, packageName string, ops []int32) ([]types.AppOpsManagerPackageOps, error)
+	GetHistoricalOps(ctx context.Context, uid int32, packageName string, ops []string, historyFlags int32, filter int32, beginTimeMillis int64, endTimeMillis int64, flags int32, callback os.RemoteCallback) error
+	GetHistoricalOpsFromDiskRaw(ctx context.Context, uid int32, packageName string, ops []string, historyFlags int32, filter int32, beginTimeMillis int64, endTimeMillis int64, flags int32, callback os.RemoteCallback) error
 	OffsetHistory(ctx context.Context, duration int64) error
 	SetHistoryParameters(ctx context.Context, mode int32, baseSnapshotInterval int64, compressionStep int32) error
-	AddHistoricalOps(ctx context.Context, ops interface{}) error
+	AddHistoricalOps(ctx context.Context, ops types.AppOpsManagerHistoricalOps) error
 	ResetHistoryParameters(ctx context.Context) error
 	ResetPackageOpsNoHistory(ctx context.Context, packageName string) error
 	ClearHistory(ctx context.Context) error
 	RebootHistory(ctx context.Context, offlineDurationMillis int64) error
-	GetUidOps(ctx context.Context, uid int32, ops []int32) ([]interface{}, error)
+	GetUidOps(ctx context.Context, uid int32, ops []int32) ([]types.AppOpsManagerPackageOps, error)
 	SetUidMode(ctx context.Context, code int32, uid int32, mode int32) error
 	SetMode(ctx context.Context, code int32, uid int32, packageName string, mode int32) error
 	ResetAllModes(ctx context.Context, reqUserId int32, reqPackageName string) error
 	SetAudioRestriction(ctx context.Context, code int32, usage int32, uid int32, mode int32, exceptionPackages []string) error
-	SetUserRestrictions(ctx context.Context, restrictions interface{}, token binder.IBinder) error
-	SetUserRestriction(ctx context.Context, code int32, restricted bool, token binder.IBinder, excludedPackageTags interface{}) error
+	SetUserRestrictions(ctx context.Context, restrictions os.Bundle, token binder.IBinder) error
+	SetUserRestriction(ctx context.Context, code int32, restricted bool, token binder.IBinder, excludedPackageTags os.PackageTagsList) error
 	RemoveUser(ctx context.Context) error
 	StartWatchingActive(ctx context.Context, ops []int32, callback IAppOpsActiveCallback) error
 	StopWatchingActive(ctx context.Context, callback IAppOpsActiveCallback) error
@@ -184,19 +186,19 @@ type IAppOpsService interface {
 	StopWatchingNoted(ctx context.Context, callback IAppOpsNotedCallback) error
 	StartWatchingAsyncNoted(ctx context.Context, packageName string, callback IAppOpsAsyncNotedCallback) error
 	StopWatchingAsyncNoted(ctx context.Context, packageName string, callback IAppOpsAsyncNotedCallback) error
-	ExtractAsyncOps(ctx context.Context, packageName string) ([]interface{}, error)
+	ExtractAsyncOps(ctx context.Context, packageName string) ([]types.AsyncNotedAppOp, error)
 	CheckOperationRaw(ctx context.Context, code int32, uid int32, packageName string) (int32, error)
 	ReloadNonHistoricalState(ctx context.Context) error
 	CollectNoteOpCallsForValidation(ctx context.Context, stackTrace string, op int32, packageName string, version int64) error
-	NoteProxyOperationWithState(ctx context.Context, code int32, attributionSourceStateState content.AttributionSourceState, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool) (interface{}, error)
-	StartProxyOperationWithState(ctx context.Context, clientId binder.IBinder, code int32, attributionSourceStateState content.AttributionSourceState, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool, proxyAttributionFlags int32, proxiedAttributionFlags int32, attributionChainId int32) (interface{}, error)
+	NoteProxyOperationWithState(ctx context.Context, code int32, attributionSourceStateState content.AttributionSourceState, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool) (types.SyncNotedAppOp, error)
+	StartProxyOperationWithState(ctx context.Context, clientId binder.IBinder, code int32, attributionSourceStateState content.AttributionSourceState, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool, proxyAttributionFlags int32, proxiedAttributionFlags int32, attributionChainId int32) (types.SyncNotedAppOp, error)
 	FinishProxyOperationWithState(ctx context.Context, clientId binder.IBinder, code int32, attributionSourceStateState content.AttributionSourceState, skipProxyOperation bool) error
 	CheckOperationRawForDevice(ctx context.Context, code int32, uid int32, packageName string, virtualDeviceId int32) (int32, error)
 	CheckOperationForDevice(ctx context.Context, code int32, uid int32, packageName string, virtualDeviceId int32) (int32, error)
-	NoteOperationForDevice(ctx context.Context, code int32, uid int32, packageName string, virtualDeviceId int32, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool) (interface{}, error)
-	StartOperationForDevice(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string, virtualDeviceId int32, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, attributionFlags int32, attributionChainId int32) (interface{}, error)
+	NoteOperationForDevice(ctx context.Context, code int32, uid int32, packageName string, virtualDeviceId int32, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool) (types.SyncNotedAppOp, error)
+	StartOperationForDevice(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string, virtualDeviceId int32, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, attributionFlags int32, attributionChainId int32) (types.SyncNotedAppOp, error)
 	FinishOperationForDevice(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string, virtualDeviceId int32) error
-	GetPackagesForOpsForDevice(ctx context.Context, ops []int32, persistentDeviceId string) ([]interface{}, error)
+	GetPackagesForOpsForDevice(ctx context.Context, ops []int32, persistentDeviceId string) ([]types.AppOpsManagerPackageOps, error)
 }
 
 type AppOpsServiceProxy struct {
@@ -223,6 +225,7 @@ func (p *AppOpsServiceProxy) CheckOperation(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(code)
 	_data.WriteInt32(uid)
@@ -258,10 +261,11 @@ func (p *AppOpsServiceProxy) NoteOperation(
 	shouldCollectAsyncNotedOp bool,
 	message string,
 	shouldCollectMessage bool,
-) (interface{}, error) {
-	var _result interface{}
+) (types.SyncNotedAppOp, error) {
+	var _result types.SyncNotedAppOp
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(code)
 	_data.WriteInt32(uid)
@@ -286,6 +290,17 @@ func (p *AppOpsServiceProxy) NoteOperation(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -301,10 +316,11 @@ func (p *AppOpsServiceProxy) StartOperation(
 	shouldCollectMessage bool,
 	attributionFlags int32,
 	attributionChainId int32,
-) (interface{}, error) {
-	var _result interface{}
+) (types.SyncNotedAppOp, error) {
+	var _result types.SyncNotedAppOp
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
 	_data.WriteInt32(code)
@@ -333,6 +349,17 @@ func (p *AppOpsServiceProxy) StartOperation(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -345,6 +372,7 @@ func (p *AppOpsServiceProxy) FinishOperation(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
 	_data.WriteInt32(code)
@@ -377,6 +405,7 @@ func (p *AppOpsServiceProxy) StartWatchingMode(
 	callback IAppOpsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(op)
 	_data.WriteString16(packageName)
@@ -405,6 +434,7 @@ func (p *AppOpsServiceProxy) StopWatchingMode(
 	callback IAppOpsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -432,6 +462,7 @@ func (p *AppOpsServiceProxy) PermissionToOpCode(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteString16(permission)
 
@@ -466,6 +497,7 @@ func (p *AppOpsServiceProxy) CheckAudioOperation(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(code)
 	_data.WriteInt32(usage)
@@ -500,6 +532,7 @@ func (p *AppOpsServiceProxy) ShouldCollectNotes(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(opCode)
 
@@ -530,6 +563,7 @@ func (p *AppOpsServiceProxy) SetCameraAudioRestriction(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(mode)
 
@@ -559,6 +593,7 @@ func (p *AppOpsServiceProxy) StartWatchingModeWithFlags(
 	callback IAppOpsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(op)
 	_data.WriteString16(packageName)
@@ -591,9 +626,10 @@ func (p *AppOpsServiceProxy) NoteProxyOperation(
 	message string,
 	shouldCollectMessage bool,
 	skipProxyOperation bool,
-) (interface{}, error) {
-	var _result interface{}
+) (types.SyncNotedAppOp, error) {
+	var _result types.SyncNotedAppOp
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(code)
 	_data.WriteInt32(1)
@@ -620,6 +656,17 @@ func (p *AppOpsServiceProxy) NoteProxyOperation(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -636,9 +683,10 @@ func (p *AppOpsServiceProxy) StartProxyOperation(
 	proxyAttributionFlags int32,
 	proxiedAttributionFlags int32,
 	attributionChainId int32,
-) (interface{}, error) {
-	var _result interface{}
+) (types.SyncNotedAppOp, error) {
+	var _result types.SyncNotedAppOp
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
 	_data.WriteInt32(code)
@@ -670,6 +718,17 @@ func (p *AppOpsServiceProxy) StartProxyOperation(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -681,6 +740,7 @@ func (p *AppOpsServiceProxy) FinishProxyOperation(
 	skipProxyOperation bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
 	_data.WriteInt32(code)
@@ -715,6 +775,7 @@ func (p *AppOpsServiceProxy) CheckPackage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
@@ -743,9 +804,10 @@ func (p *AppOpsServiceProxy) CheckPackage(
 
 func (p *AppOpsServiceProxy) CollectRuntimeAppOpAccessMessage(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (types.RuntimeAppOpAccessMessage, error) {
+	var _result types.RuntimeAppOpAccessMessage
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceCollectRuntimeAppOpAccessMessage)
@@ -763,19 +825,32 @@ func (p *AppOpsServiceProxy) CollectRuntimeAppOpAccessMessage(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
 func (p *AppOpsServiceProxy) ReportRuntimeAppOpAccessMessageAndGetConfig(
 	ctx context.Context,
 	packageName string,
-	appOp interface{},
+	appOp types.SyncNotedAppOp,
 	message string,
 ) (MessageSamplingConfig, error) {
 	var _result MessageSamplingConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteString16(packageName)
+	// WARNING: param appOp (type types.SyncNotedAppOp) cannot be serialized — type not resolved
 	_data.WriteString16(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceReportRuntimeAppOpAccessMessageAndGetConfig)
@@ -808,9 +883,10 @@ func (p *AppOpsServiceProxy) ReportRuntimeAppOpAccessMessageAndGetConfig(
 func (p *AppOpsServiceProxy) GetPackagesForOps(
 	ctx context.Context,
 	ops []int32,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]types.AppOpsManagerPackageOps, error) {
+	var _result []types.AppOpsManagerPackageOps
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	if ops == nil {
 		_data.WriteInt32(-1)
@@ -840,10 +916,21 @@ func (p *AppOpsServiceProxy) GetPackagesForOps(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]types.AppOpsManagerPackageOps, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			if _err != nil {
+				return _result, _err
+			}
+			parcel.SkipToParcelableEnd(_reply, _endPos)
 		}
 	}
 	return _result, nil
@@ -854,9 +941,10 @@ func (p *AppOpsServiceProxy) GetOpsForPackage(
 	uid int32,
 	packageName string,
 	ops []int32,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]types.AppOpsManagerPackageOps, error) {
+	var _result []types.AppOpsManagerPackageOps
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
@@ -888,10 +976,21 @@ func (p *AppOpsServiceProxy) GetOpsForPackage(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]types.AppOpsManagerPackageOps, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			if _err != nil {
+				return _result, _err
+			}
+			parcel.SkipToParcelableEnd(_reply, _endPos)
 		}
 	}
 	return _result, nil
@@ -907,10 +1006,11 @@ func (p *AppOpsServiceProxy) GetHistoricalOps(
 	beginTimeMillis int64,
 	endTimeMillis int64,
 	flags int32,
-	callback interface{},
+	callback os.RemoteCallback,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
@@ -928,6 +1028,10 @@ func (p *AppOpsServiceProxy) GetHistoricalOps(
 	_data.WriteInt64(beginTimeMillis)
 	_data.WriteInt64(endTimeMillis)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
+	if _err := callback.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceGetHistoricalOps)
 	if _err != nil {
@@ -957,10 +1061,11 @@ func (p *AppOpsServiceProxy) GetHistoricalOpsFromDiskRaw(
 	beginTimeMillis int64,
 	endTimeMillis int64,
 	flags int32,
-	callback interface{},
+	callback os.RemoteCallback,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
@@ -978,6 +1083,10 @@ func (p *AppOpsServiceProxy) GetHistoricalOpsFromDiskRaw(
 	_data.WriteInt64(beginTimeMillis)
 	_data.WriteInt64(endTimeMillis)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
+	if _err := callback.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceGetHistoricalOpsFromDiskRaw)
 	if _err != nil {
@@ -1002,6 +1111,7 @@ func (p *AppOpsServiceProxy) OffsetHistory(
 	duration int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt64(duration)
 
@@ -1030,6 +1140,7 @@ func (p *AppOpsServiceProxy) SetHistoryParameters(
 	compressionStep int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(mode)
 	_data.WriteInt64(baseSnapshotInterval)
@@ -1055,10 +1166,12 @@ func (p *AppOpsServiceProxy) SetHistoryParameters(
 
 func (p *AppOpsServiceProxy) AddHistoricalOps(
 	ctx context.Context,
-	ops interface{},
+	ops types.AppOpsManagerHistoricalOps,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
+	// WARNING: param ops (type types.AppOpsManagerHistoricalOps) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceAddHistoricalOps)
 	if _err != nil {
@@ -1082,6 +1195,7 @@ func (p *AppOpsServiceProxy) ResetHistoryParameters(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceResetHistoryParameters)
@@ -1107,6 +1221,7 @@ func (p *AppOpsServiceProxy) ResetPackageOpsNoHistory(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteString16(packageName)
 
@@ -1132,6 +1247,7 @@ func (p *AppOpsServiceProxy) ClearHistory(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceClearHistory)
@@ -1157,6 +1273,7 @@ func (p *AppOpsServiceProxy) RebootHistory(
 	offlineDurationMillis int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt64(offlineDurationMillis)
 
@@ -1182,9 +1299,10 @@ func (p *AppOpsServiceProxy) GetUidOps(
 	ctx context.Context,
 	uid int32,
 	ops []int32,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]types.AppOpsManagerPackageOps, error) {
+	var _result []types.AppOpsManagerPackageOps
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(uid)
 	if ops == nil {
@@ -1215,10 +1333,21 @@ func (p *AppOpsServiceProxy) GetUidOps(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]types.AppOpsManagerPackageOps, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			if _err != nil {
+				return _result, _err
+			}
+			parcel.SkipToParcelableEnd(_reply, _endPos)
 		}
 	}
 	return _result, nil
@@ -1231,6 +1360,7 @@ func (p *AppOpsServiceProxy) SetUidMode(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(code)
 	_data.WriteInt32(uid)
@@ -1262,6 +1392,7 @@ func (p *AppOpsServiceProxy) SetMode(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(code)
 	_data.WriteInt32(uid)
@@ -1292,6 +1423,7 @@ func (p *AppOpsServiceProxy) ResetAllModes(
 	reqPackageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(reqUserId)
 	_data.WriteString16(reqPackageName)
@@ -1323,6 +1455,7 @@ func (p *AppOpsServiceProxy) SetAudioRestriction(
 	exceptionPackages []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(code)
 	_data.WriteInt32(usage)
@@ -1357,12 +1490,17 @@ func (p *AppOpsServiceProxy) SetAudioRestriction(
 
 func (p *AppOpsServiceProxy) SetUserRestrictions(
 	ctx context.Context,
-	restrictions interface{},
+	restrictions os.Bundle,
 	token binder.IBinder,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
+	_data.WriteInt32(1)
+	if _err := restrictions.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
 
@@ -1389,15 +1527,20 @@ func (p *AppOpsServiceProxy) SetUserRestriction(
 	code int32,
 	restricted bool,
 	token binder.IBinder,
-	excludedPackageTags interface{},
+	excludedPackageTags os.PackageTagsList,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(code)
 	_data.WriteBool(restricted)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
+	_data.WriteInt32(1)
+	if _err := excludedPackageTags.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceSetUserRestriction)
 	if _err != nil {
@@ -1422,6 +1565,7 @@ func (p *AppOpsServiceProxy) RemoveUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1449,6 +1593,7 @@ func (p *AppOpsServiceProxy) StartWatchingActive(
 	callback IAppOpsActiveCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	if ops == nil {
 		_data.WriteInt32(-1)
@@ -1483,6 +1628,7 @@ func (p *AppOpsServiceProxy) StopWatchingActive(
 	callback IAppOpsActiveCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -1512,6 +1658,7 @@ func (p *AppOpsServiceProxy) IsOperationActive(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(code)
 	_data.WriteInt32(uid)
@@ -1549,6 +1696,7 @@ func (p *AppOpsServiceProxy) IsProxying(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(op)
 	_data.WriteString16(proxyPackageName)
@@ -1584,6 +1732,7 @@ func (p *AppOpsServiceProxy) StartWatchingStarted(
 	callback IAppOpsStartedCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	if ops == nil {
 		_data.WriteInt32(-1)
@@ -1618,6 +1767,7 @@ func (p *AppOpsServiceProxy) StopWatchingStarted(
 	callback IAppOpsStartedCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -1645,6 +1795,7 @@ func (p *AppOpsServiceProxy) StartWatchingNoted(
 	callback IAppOpsNotedCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	if ops == nil {
 		_data.WriteInt32(-1)
@@ -1679,6 +1830,7 @@ func (p *AppOpsServiceProxy) StopWatchingNoted(
 	callback IAppOpsNotedCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -1706,6 +1858,7 @@ func (p *AppOpsServiceProxy) StartWatchingAsyncNoted(
 	callback IAppOpsAsyncNotedCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteString16(packageName)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -1734,6 +1887,7 @@ func (p *AppOpsServiceProxy) StopWatchingAsyncNoted(
 	callback IAppOpsAsyncNotedCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteString16(packageName)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -1759,9 +1913,10 @@ func (p *AppOpsServiceProxy) StopWatchingAsyncNoted(
 func (p *AppOpsServiceProxy) ExtractAsyncOps(
 	ctx context.Context,
 	packageName string,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]types.AsyncNotedAppOp, error) {
+	var _result []types.AsyncNotedAppOp
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteString16(packageName)
 
@@ -1784,10 +1939,21 @@ func (p *AppOpsServiceProxy) ExtractAsyncOps(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]types.AsyncNotedAppOp, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			if _err != nil {
+				return _result, _err
+			}
+			parcel.SkipToParcelableEnd(_reply, _endPos)
 		}
 	}
 	return _result, nil
@@ -1802,6 +1968,7 @@ func (p *AppOpsServiceProxy) CheckOperationRaw(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(code)
 	_data.WriteInt32(uid)
@@ -1834,6 +2001,7 @@ func (p *AppOpsServiceProxy) ReloadNonHistoricalState(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsService, MethodIAppOpsServiceReloadNonHistoricalState)
@@ -1862,6 +2030,7 @@ func (p *AppOpsServiceProxy) CollectNoteOpCallsForValidation(
 	version int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteString16(stackTrace)
 	_data.WriteInt32(op)
@@ -1894,9 +2063,10 @@ func (p *AppOpsServiceProxy) NoteProxyOperationWithState(
 	message string,
 	shouldCollectMessage bool,
 	skipProxyOperation bool,
-) (interface{}, error) {
-	var _result interface{}
+) (types.SyncNotedAppOp, error) {
+	var _result types.SyncNotedAppOp
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(code)
 	_data.WriteInt32(1)
@@ -1923,6 +2093,17 @@ func (p *AppOpsServiceProxy) NoteProxyOperationWithState(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -1939,9 +2120,10 @@ func (p *AppOpsServiceProxy) StartProxyOperationWithState(
 	proxyAttributionFlags int32,
 	proxiedAttributionFlags int32,
 	attributionChainId int32,
-) (interface{}, error) {
-	var _result interface{}
+) (types.SyncNotedAppOp, error) {
+	var _result types.SyncNotedAppOp
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
 	_data.WriteInt32(code)
@@ -1973,6 +2155,17 @@ func (p *AppOpsServiceProxy) StartProxyOperationWithState(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -1984,6 +2177,7 @@ func (p *AppOpsServiceProxy) FinishProxyOperationWithState(
 	skipProxyOperation bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
 	_data.WriteInt32(code)
@@ -2021,6 +2215,7 @@ func (p *AppOpsServiceProxy) CheckOperationRawForDevice(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(code)
 	_data.WriteInt32(uid)
@@ -2059,6 +2254,7 @@ func (p *AppOpsServiceProxy) CheckOperationForDevice(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(code)
 	_data.WriteInt32(uid)
@@ -2096,10 +2292,11 @@ func (p *AppOpsServiceProxy) NoteOperationForDevice(
 	shouldCollectAsyncNotedOp bool,
 	message string,
 	shouldCollectMessage bool,
-) (interface{}, error) {
-	var _result interface{}
+) (types.SyncNotedAppOp, error) {
+	var _result types.SyncNotedAppOp
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(code)
 	_data.WriteInt32(uid)
@@ -2125,6 +2322,17 @@ func (p *AppOpsServiceProxy) NoteOperationForDevice(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -2141,10 +2349,11 @@ func (p *AppOpsServiceProxy) StartOperationForDevice(
 	shouldCollectMessage bool,
 	attributionFlags int32,
 	attributionChainId int32,
-) (interface{}, error) {
-	var _result interface{}
+) (types.SyncNotedAppOp, error) {
+	var _result types.SyncNotedAppOp
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
 	_data.WriteInt32(code)
@@ -2174,6 +2383,17 @@ func (p *AppOpsServiceProxy) StartOperationForDevice(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -2187,6 +2407,7 @@ func (p *AppOpsServiceProxy) FinishOperationForDevice(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	binder.WriteBinderToParcel(ctx, _data, clientId, p.Remote.Transport())
 	_data.WriteInt32(code)
@@ -2217,9 +2438,10 @@ func (p *AppOpsServiceProxy) GetPackagesForOpsForDevice(
 	ctx context.Context,
 	ops []int32,
 	persistentDeviceId string,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]types.AppOpsManagerPackageOps, error) {
+	var _result []types.AppOpsManagerPackageOps
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	if ops == nil {
 		_data.WriteInt32(-1)
@@ -2250,10 +2472,21 @@ func (p *AppOpsServiceProxy) GetPackagesForOpsForDevice(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]types.AppOpsManagerPackageOps, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			if _err != nil {
+				return _result, _err
+			}
+			parcel.SkipToParcelableEnd(_reply, _endPos)
 		}
 	}
 	return _result, nil
@@ -2262,7 +2495,8 @@ func (p *AppOpsServiceProxy) GetPackagesForOpsForDevice(
 // AppOpsServiceStub dispatches incoming binder transactions
 // to a typed IAppOpsService implementation.
 type AppOpsServiceStub struct {
-	Impl IAppOpsService
+	Impl      IAppOpsService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AppOpsServiceStub)(nil)
@@ -2276,11 +2510,12 @@ func (s *AppOpsServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAppOpsServiceCheckOperation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2303,9 +2538,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceNoteOperation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2343,12 +2575,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceStartOperation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientId binder.IBinder
-		_ = _arg_clientId
+		{
+			_clientIdHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientId = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientIdHandle)
+		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2398,12 +2632,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceFinishOperation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientId binder.IBinder
-		_ = _arg_clientId
+		{
+			_clientIdHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientId = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientIdHandle)
+		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2428,9 +2664,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStartWatchingMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_op, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2439,9 +2672,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAppOpsCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAppOpsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.StartWatchingMode(ctx, _arg_op, _arg_packageName, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2451,12 +2689,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStopWatchingMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAppOpsCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAppOpsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.StopWatchingMode(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2466,9 +2706,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServicePermissionToOpCode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_permission, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2483,9 +2720,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceCheckAudioOperation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2512,9 +2746,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceShouldCollectNotes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_opCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2529,9 +2760,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceSetCameraAudioRestriction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2545,9 +2773,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStartWatchingModeWithFlags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_op, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2560,9 +2785,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAppOpsCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAppOpsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.StartWatchingModeWithFlags(ctx, _arg_op, _arg_packageName, _arg_flags, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2572,9 +2802,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceNoteProxyOperation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2617,12 +2844,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceStartProxyOperation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientId binder.IBinder
-		_ = _arg_clientId
+		{
+			_clientIdHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientId = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientIdHandle)
+		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2681,12 +2910,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceFinishProxyOperation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientId binder.IBinder
-		_ = _arg_clientId
+		{
+			_clientIdHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientId = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientIdHandle)
+		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2716,9 +2947,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceCheckPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2737,9 +2965,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceCollectRuntimeAppOpAccessMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CollectRuntimeAppOpAccessMessage(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2750,14 +2975,11 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceReportRuntimeAppOpAccessMessageAndGetConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_appOp interface{}
+		var _arg_appOp types.SyncNotedAppOp
 		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2775,12 +2997,25 @@ func (s *AppOpsServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAppOpsServiceGetPackagesForOps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ops []int32
-		_ = _arg_ops
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ops = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_ops[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetPackagesForOps(ctx, _arg_ops)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2788,13 +3023,13 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	case TransactionIAppOpsServiceGetOpsForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2803,9 +3038,25 @@ func (s *AppOpsServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ops []int32
-		_ = _arg_ops
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ops = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_ops[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetOpsForPackage(ctx, _arg_uid, _arg_packageName, _arg_ops)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2813,13 +3064,13 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	case TransactionIAppOpsServiceGetHistoricalOps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2831,9 +3082,25 @@ func (s *AppOpsServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ops []string
-		_ = _arg_ops
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ops = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_ops[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_historyFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2854,7 +3121,18 @@ func (s *AppOpsServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		var _arg_callback os.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.GetHistoricalOps(ctx, _arg_uid, _arg_packageName, _arg_ops, _arg_historyFlags, _arg_filter, _arg_beginTimeMillis, _arg_endTimeMillis, _arg_flags, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2864,9 +3142,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceGetHistoricalOpsFromDiskRaw:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2878,9 +3153,25 @@ func (s *AppOpsServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ops []string
-		_ = _arg_ops
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ops = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_ops[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_historyFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2901,7 +3192,18 @@ func (s *AppOpsServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		var _arg_callback os.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.GetHistoricalOpsFromDiskRaw(ctx, _arg_uid, _arg_packageName, _arg_ops, _arg_historyFlags, _arg_filter, _arg_beginTimeMillis, _arg_endTimeMillis, _arg_flags, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2911,9 +3213,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceOffsetHistory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_duration, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2927,9 +3226,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceSetHistoryParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2951,10 +3247,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceAddHistoricalOps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_ops interface{}
+		var _arg_ops types.AppOpsManagerHistoricalOps
 		_err := s.Impl.AddHistoricalOps(ctx, _arg_ops)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2964,9 +3257,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceResetHistoryParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResetHistoryParameters(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2976,9 +3266,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceResetPackageOpsNoHistory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2992,9 +3279,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceClearHistory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ClearHistory(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3004,9 +3288,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceRebootHistory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_offlineDurationMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -3020,16 +3301,29 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceGetUidOps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ops []int32
-		_ = _arg_ops
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ops = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_ops[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetUidOps(ctx, _arg_uid, _arg_ops)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3037,13 +3331,13 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	case TransactionIAppOpsServiceSetUidMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3065,9 +3359,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceSetMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3093,9 +3384,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceResetAllModes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reqUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3113,9 +3401,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceSetAudioRestriction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3132,9 +3417,25 @@ func (s *AppOpsServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_exceptionPackages []string
-		_ = _arg_exceptionPackages
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_exceptionPackages = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_exceptionPackages[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.SetAudioRestriction(ctx, _arg_code, _arg_usage, _arg_uid, _arg_mode, _arg_exceptionPackages)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3144,13 +3445,26 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceSetUserRestrictions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_restrictions os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_restrictions.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_restrictions interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3163,9 +3477,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceSetUserRestriction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3174,13 +3485,29 @@ func (s *AppOpsServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		var _arg_excludedPackageTags interface{}
+		var _arg_excludedPackageTags os.PackageTagsList
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_excludedPackageTags.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SetUserRestriction(ctx, _arg_code, _arg_restricted, _arg_token, _arg_excludedPackageTags)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3190,9 +3517,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceRemoveUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3205,15 +3529,33 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStartWatchingActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ops []int32
-		_ = _arg_ops
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ops = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_ops[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_callback IAppOpsActiveCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAppOpsActiveCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.StartWatchingActive(ctx, _arg_ops, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3223,12 +3565,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStopWatchingActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAppOpsActiveCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAppOpsActiveCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.StopWatchingActive(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3238,9 +3582,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceIsOperationActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3263,9 +3604,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceIsProxying:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_op, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3296,15 +3634,33 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceStartWatchingStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ops []int32
-		_ = _arg_ops
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ops = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_ops[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_callback IAppOpsStartedCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAppOpsStartedCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.StartWatchingStarted(ctx, _arg_ops, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3314,12 +3670,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStopWatchingStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAppOpsStartedCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAppOpsStartedCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.StopWatchingStarted(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3329,15 +3687,33 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStartWatchingNoted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ops []int32
-		_ = _arg_ops
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ops = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_ops[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_callback IAppOpsNotedCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAppOpsNotedCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.StartWatchingNoted(ctx, _arg_ops, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3347,12 +3723,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStopWatchingNoted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAppOpsNotedCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAppOpsNotedCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.StopWatchingNoted(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3362,16 +3740,18 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStartWatchingAsyncNoted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAppOpsAsyncNotedCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAppOpsAsyncNotedCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.StartWatchingAsyncNoted(ctx, _arg_packageName, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3381,16 +3761,18 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStopWatchingAsyncNoted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAppOpsAsyncNotedCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAppOpsAsyncNotedCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.StopWatchingAsyncNoted(ctx, _arg_packageName, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3400,9 +3782,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceExtractAsyncOps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3414,13 +3793,13 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	case TransactionIAppOpsServiceCheckOperationRaw:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3446,9 +3825,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceReloadNonHistoricalState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ReloadNonHistoricalState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3458,9 +3834,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceCollectNoteOpCallsForValidation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_stackTrace, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3486,9 +3859,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceNoteProxyOperationWithState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3531,12 +3901,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceStartProxyOperationWithState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientId binder.IBinder
-		_ = _arg_clientId
+		{
+			_clientIdHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientId = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientIdHandle)
+		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3595,12 +3967,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceFinishProxyOperationWithState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientId binder.IBinder
-		_ = _arg_clientId
+		{
+			_clientIdHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientId = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientIdHandle)
+		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3630,9 +4004,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceCheckOperationRawForDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3662,9 +4033,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceCheckOperationForDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3691,9 +4059,6 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceNoteOperationForDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3735,12 +4100,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceStartOperationForDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientId binder.IBinder
-		_ = _arg_clientId
+		{
+			_clientIdHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientId = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientIdHandle)
+		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3794,12 +4161,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceFinishOperationForDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientId binder.IBinder
-		_ = _arg_clientId
+		{
+			_clientIdHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientId = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientIdHandle)
+		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3828,12 +4197,25 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceGetPackagesForOpsForDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ops []int32
-		_ = _arg_ops
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ops = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_ops[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_persistentDeviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3845,8 +4227,11 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -3858,8 +4243,8 @@ func (s *AppOpsServiceStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IAppOpsServiceServer interface {
 	CheckOperation(ctx context.Context, code int32, uid int32, packageName string) (int32, error)
-	NoteOperation(ctx context.Context, code int32, uid int32, packageName string, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool) (interface{}, error)
-	StartOperation(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, attributionFlags int32, attributionChainId int32) (interface{}, error)
+	NoteOperation(ctx context.Context, code int32, uid int32, packageName string, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool) (types.SyncNotedAppOp, error)
+	StartOperation(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, attributionFlags int32, attributionChainId int32) (types.SyncNotedAppOp, error)
 	FinishOperation(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string) error
 	StartWatchingMode(ctx context.Context, op int32, packageName string, callback IAppOpsCallback) error
 	StopWatchingMode(ctx context.Context, callback IAppOpsCallback) error
@@ -3868,30 +4253,30 @@ type IAppOpsServiceServer interface {
 	ShouldCollectNotes(ctx context.Context, opCode int32) (bool, error)
 	SetCameraAudioRestriction(ctx context.Context, mode int32) error
 	StartWatchingModeWithFlags(ctx context.Context, op int32, packageName string, flags int32, callback IAppOpsCallback) error
-	NoteProxyOperation(ctx context.Context, code int32, attributionSource content.AttributionSource, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool) (interface{}, error)
-	StartProxyOperation(ctx context.Context, clientId binder.IBinder, code int32, attributionSource content.AttributionSource, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool, proxyAttributionFlags int32, proxiedAttributionFlags int32, attributionChainId int32) (interface{}, error)
+	NoteProxyOperation(ctx context.Context, code int32, attributionSource content.AttributionSource, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool) (types.SyncNotedAppOp, error)
+	StartProxyOperation(ctx context.Context, clientId binder.IBinder, code int32, attributionSource content.AttributionSource, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool, proxyAttributionFlags int32, proxiedAttributionFlags int32, attributionChainId int32) (types.SyncNotedAppOp, error)
 	FinishProxyOperation(ctx context.Context, clientId binder.IBinder, code int32, attributionSource content.AttributionSource, skipProxyOperation bool) error
 	CheckPackage(ctx context.Context, uid int32, packageName string) (int32, error)
-	CollectRuntimeAppOpAccessMessage(ctx context.Context) (interface{}, error)
-	ReportRuntimeAppOpAccessMessageAndGetConfig(ctx context.Context, packageName string, appOp interface{}, message string) (MessageSamplingConfig, error)
-	GetPackagesForOps(ctx context.Context, ops []int32) ([]interface{}, error)
-	GetOpsForPackage(ctx context.Context, uid int32, packageName string, ops []int32) ([]interface{}, error)
-	GetHistoricalOps(ctx context.Context, uid int32, packageName string, ops []string, historyFlags int32, filter int32, beginTimeMillis int64, endTimeMillis int64, flags int32, callback interface{}) error
-	GetHistoricalOpsFromDiskRaw(ctx context.Context, uid int32, packageName string, ops []string, historyFlags int32, filter int32, beginTimeMillis int64, endTimeMillis int64, flags int32, callback interface{}) error
+	CollectRuntimeAppOpAccessMessage(ctx context.Context) (types.RuntimeAppOpAccessMessage, error)
+	ReportRuntimeAppOpAccessMessageAndGetConfig(ctx context.Context, packageName string, appOp types.SyncNotedAppOp, message string) (MessageSamplingConfig, error)
+	GetPackagesForOps(ctx context.Context, ops []int32) ([]types.AppOpsManagerPackageOps, error)
+	GetOpsForPackage(ctx context.Context, uid int32, packageName string, ops []int32) ([]types.AppOpsManagerPackageOps, error)
+	GetHistoricalOps(ctx context.Context, uid int32, packageName string, ops []string, historyFlags int32, filter int32, beginTimeMillis int64, endTimeMillis int64, flags int32, callback os.RemoteCallback) error
+	GetHistoricalOpsFromDiskRaw(ctx context.Context, uid int32, packageName string, ops []string, historyFlags int32, filter int32, beginTimeMillis int64, endTimeMillis int64, flags int32, callback os.RemoteCallback) error
 	OffsetHistory(ctx context.Context, duration int64) error
 	SetHistoryParameters(ctx context.Context, mode int32, baseSnapshotInterval int64, compressionStep int32) error
-	AddHistoricalOps(ctx context.Context, ops interface{}) error
+	AddHistoricalOps(ctx context.Context, ops types.AppOpsManagerHistoricalOps) error
 	ResetHistoryParameters(ctx context.Context) error
 	ResetPackageOpsNoHistory(ctx context.Context, packageName string) error
 	ClearHistory(ctx context.Context) error
 	RebootHistory(ctx context.Context, offlineDurationMillis int64) error
-	GetUidOps(ctx context.Context, uid int32, ops []int32) ([]interface{}, error)
+	GetUidOps(ctx context.Context, uid int32, ops []int32) ([]types.AppOpsManagerPackageOps, error)
 	SetUidMode(ctx context.Context, code int32, uid int32, mode int32) error
 	SetMode(ctx context.Context, code int32, uid int32, packageName string, mode int32) error
 	ResetAllModes(ctx context.Context, reqUserId int32, reqPackageName string) error
 	SetAudioRestriction(ctx context.Context, code int32, usage int32, uid int32, mode int32, exceptionPackages []string) error
-	SetUserRestrictions(ctx context.Context, restrictions interface{}, token binder.IBinder) error
-	SetUserRestriction(ctx context.Context, code int32, restricted bool, token binder.IBinder, excludedPackageTags interface{}) error
+	SetUserRestrictions(ctx context.Context, restrictions os.Bundle, token binder.IBinder) error
+	SetUserRestriction(ctx context.Context, code int32, restricted bool, token binder.IBinder, excludedPackageTags os.PackageTagsList) error
 	RemoveUser(ctx context.Context) error
 	StartWatchingActive(ctx context.Context, ops []int32, callback IAppOpsActiveCallback) error
 	StopWatchingActive(ctx context.Context, callback IAppOpsActiveCallback) error
@@ -3903,19 +4288,19 @@ type IAppOpsServiceServer interface {
 	StopWatchingNoted(ctx context.Context, callback IAppOpsNotedCallback) error
 	StartWatchingAsyncNoted(ctx context.Context, packageName string, callback IAppOpsAsyncNotedCallback) error
 	StopWatchingAsyncNoted(ctx context.Context, packageName string, callback IAppOpsAsyncNotedCallback) error
-	ExtractAsyncOps(ctx context.Context, packageName string) ([]interface{}, error)
+	ExtractAsyncOps(ctx context.Context, packageName string) ([]types.AsyncNotedAppOp, error)
 	CheckOperationRaw(ctx context.Context, code int32, uid int32, packageName string) (int32, error)
 	ReloadNonHistoricalState(ctx context.Context) error
 	CollectNoteOpCallsForValidation(ctx context.Context, stackTrace string, op int32, packageName string, version int64) error
-	NoteProxyOperationWithState(ctx context.Context, code int32, attributionSourceStateState content.AttributionSourceState, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool) (interface{}, error)
-	StartProxyOperationWithState(ctx context.Context, clientId binder.IBinder, code int32, attributionSourceStateState content.AttributionSourceState, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool, proxyAttributionFlags int32, proxiedAttributionFlags int32, attributionChainId int32) (interface{}, error)
+	NoteProxyOperationWithState(ctx context.Context, code int32, attributionSourceStateState content.AttributionSourceState, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool) (types.SyncNotedAppOp, error)
+	StartProxyOperationWithState(ctx context.Context, clientId binder.IBinder, code int32, attributionSourceStateState content.AttributionSourceState, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool, proxyAttributionFlags int32, proxiedAttributionFlags int32, attributionChainId int32) (types.SyncNotedAppOp, error)
 	FinishProxyOperationWithState(ctx context.Context, clientId binder.IBinder, code int32, attributionSourceStateState content.AttributionSourceState, skipProxyOperation bool) error
 	CheckOperationRawForDevice(ctx context.Context, code int32, uid int32, packageName string, virtualDeviceId int32) (int32, error)
 	CheckOperationForDevice(ctx context.Context, code int32, uid int32, packageName string, virtualDeviceId int32) (int32, error)
-	NoteOperationForDevice(ctx context.Context, code int32, uid int32, packageName string, virtualDeviceId int32, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool) (interface{}, error)
-	StartOperationForDevice(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string, virtualDeviceId int32, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, attributionFlags int32, attributionChainId int32) (interface{}, error)
+	NoteOperationForDevice(ctx context.Context, code int32, uid int32, packageName string, virtualDeviceId int32, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool) (types.SyncNotedAppOp, error)
+	StartOperationForDevice(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string, virtualDeviceId int32, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, attributionFlags int32, attributionChainId int32) (types.SyncNotedAppOp, error)
 	FinishOperationForDevice(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string, virtualDeviceId int32) error
-	GetPackagesForOpsForDevice(ctx context.Context, ops []int32, persistentDeviceId string) ([]interface{}, error)
+	GetPackagesForOpsForDevice(ctx context.Context, ops []int32, persistentDeviceId string) ([]types.AppOpsManagerPackageOps, error)
 }
 
 type appOpsServiceStubWrapper struct {
@@ -3944,7 +4329,7 @@ func (w *appOpsServiceStubWrapper) NoteOperation(
 	shouldCollectAsyncNotedOp bool,
 	message string,
 	shouldCollectMessage bool,
-) (interface{}, error) {
+) (types.SyncNotedAppOp, error) {
 	return w.impl.NoteOperation(ctx, code, uid, packageName, shouldCollectAsyncNotedOp, message, shouldCollectMessage)
 }
 
@@ -3960,7 +4345,7 @@ func (w *appOpsServiceStubWrapper) StartOperation(
 	shouldCollectMessage bool,
 	attributionFlags int32,
 	attributionChainId int32,
-) (interface{}, error) {
+) (types.SyncNotedAppOp, error) {
 	return w.impl.StartOperation(ctx, clientId, code, uid, packageName, startIfModeDefault, shouldCollectAsyncNotedOp, message, shouldCollectMessage, attributionFlags, attributionChainId)
 }
 
@@ -4039,7 +4424,7 @@ func (w *appOpsServiceStubWrapper) NoteProxyOperation(
 	message string,
 	shouldCollectMessage bool,
 	skipProxyOperation bool,
-) (interface{}, error) {
+) (types.SyncNotedAppOp, error) {
 	return w.impl.NoteProxyOperation(ctx, code, attributionSource, shouldCollectAsyncNotedOp, message, shouldCollectMessage, skipProxyOperation)
 }
 
@@ -4056,7 +4441,7 @@ func (w *appOpsServiceStubWrapper) StartProxyOperation(
 	proxyAttributionFlags int32,
 	proxiedAttributionFlags int32,
 	attributionChainId int32,
-) (interface{}, error) {
+) (types.SyncNotedAppOp, error) {
 	return w.impl.StartProxyOperation(ctx, clientId, code, attributionSource, startIfModeDefault, shouldCollectAsyncNotedOp, message, shouldCollectMessage, skipProxyOperation, proxyAttributionFlags, proxiedAttributionFlags, attributionChainId)
 }
 
@@ -4080,14 +4465,14 @@ func (w *appOpsServiceStubWrapper) CheckPackage(
 
 func (w *appOpsServiceStubWrapper) CollectRuntimeAppOpAccessMessage(
 	ctx context.Context,
-) (interface{}, error) {
+) (types.RuntimeAppOpAccessMessage, error) {
 	return w.impl.CollectRuntimeAppOpAccessMessage(ctx)
 }
 
 func (w *appOpsServiceStubWrapper) ReportRuntimeAppOpAccessMessageAndGetConfig(
 	ctx context.Context,
 	packageName string,
-	appOp interface{},
+	appOp types.SyncNotedAppOp,
 	message string,
 ) (MessageSamplingConfig, error) {
 	return w.impl.ReportRuntimeAppOpAccessMessageAndGetConfig(ctx, packageName, appOp, message)
@@ -4096,7 +4481,7 @@ func (w *appOpsServiceStubWrapper) ReportRuntimeAppOpAccessMessageAndGetConfig(
 func (w *appOpsServiceStubWrapper) GetPackagesForOps(
 	ctx context.Context,
 	ops []int32,
-) ([]interface{}, error) {
+) ([]types.AppOpsManagerPackageOps, error) {
 	return w.impl.GetPackagesForOps(ctx, ops)
 }
 
@@ -4105,7 +4490,7 @@ func (w *appOpsServiceStubWrapper) GetOpsForPackage(
 	uid int32,
 	packageName string,
 	ops []int32,
-) ([]interface{}, error) {
+) ([]types.AppOpsManagerPackageOps, error) {
 	return w.impl.GetOpsForPackage(ctx, uid, packageName, ops)
 }
 
@@ -4119,7 +4504,7 @@ func (w *appOpsServiceStubWrapper) GetHistoricalOps(
 	beginTimeMillis int64,
 	endTimeMillis int64,
 	flags int32,
-	callback interface{},
+	callback os.RemoteCallback,
 ) error {
 	return w.impl.GetHistoricalOps(ctx, uid, packageName, ops, historyFlags, filter, beginTimeMillis, endTimeMillis, flags, callback)
 }
@@ -4134,7 +4519,7 @@ func (w *appOpsServiceStubWrapper) GetHistoricalOpsFromDiskRaw(
 	beginTimeMillis int64,
 	endTimeMillis int64,
 	flags int32,
-	callback interface{},
+	callback os.RemoteCallback,
 ) error {
 	return w.impl.GetHistoricalOpsFromDiskRaw(ctx, uid, packageName, ops, historyFlags, filter, beginTimeMillis, endTimeMillis, flags, callback)
 }
@@ -4157,7 +4542,7 @@ func (w *appOpsServiceStubWrapper) SetHistoryParameters(
 
 func (w *appOpsServiceStubWrapper) AddHistoricalOps(
 	ctx context.Context,
-	ops interface{},
+	ops types.AppOpsManagerHistoricalOps,
 ) error {
 	return w.impl.AddHistoricalOps(ctx, ops)
 }
@@ -4192,7 +4577,7 @@ func (w *appOpsServiceStubWrapper) GetUidOps(
 	ctx context.Context,
 	uid int32,
 	ops []int32,
-) ([]interface{}, error) {
+) ([]types.AppOpsManagerPackageOps, error) {
 	return w.impl.GetUidOps(ctx, uid, ops)
 }
 
@@ -4236,7 +4621,7 @@ func (w *appOpsServiceStubWrapper) SetAudioRestriction(
 
 func (w *appOpsServiceStubWrapper) SetUserRestrictions(
 	ctx context.Context,
-	restrictions interface{},
+	restrictions os.Bundle,
 	token binder.IBinder,
 ) error {
 	return w.impl.SetUserRestrictions(ctx, restrictions, token)
@@ -4247,7 +4632,7 @@ func (w *appOpsServiceStubWrapper) SetUserRestriction(
 	code int32,
 	restricted bool,
 	token binder.IBinder,
-	excludedPackageTags interface{},
+	excludedPackageTags os.PackageTagsList,
 ) error {
 	return w.impl.SetUserRestriction(ctx, code, restricted, token, excludedPackageTags)
 }
@@ -4342,7 +4727,7 @@ func (w *appOpsServiceStubWrapper) StopWatchingAsyncNoted(
 func (w *appOpsServiceStubWrapper) ExtractAsyncOps(
 	ctx context.Context,
 	packageName string,
-) ([]interface{}, error) {
+) ([]types.AsyncNotedAppOp, error) {
 	return w.impl.ExtractAsyncOps(ctx, packageName)
 }
 
@@ -4379,7 +4764,7 @@ func (w *appOpsServiceStubWrapper) NoteProxyOperationWithState(
 	message string,
 	shouldCollectMessage bool,
 	skipProxyOperation bool,
-) (interface{}, error) {
+) (types.SyncNotedAppOp, error) {
 	return w.impl.NoteProxyOperationWithState(ctx, code, attributionSourceStateState, shouldCollectAsyncNotedOp, message, shouldCollectMessage, skipProxyOperation)
 }
 
@@ -4396,7 +4781,7 @@ func (w *appOpsServiceStubWrapper) StartProxyOperationWithState(
 	proxyAttributionFlags int32,
 	proxiedAttributionFlags int32,
 	attributionChainId int32,
-) (interface{}, error) {
+) (types.SyncNotedAppOp, error) {
 	return w.impl.StartProxyOperationWithState(ctx, clientId, code, attributionSourceStateState, startIfModeDefault, shouldCollectAsyncNotedOp, message, shouldCollectMessage, skipProxyOperation, proxyAttributionFlags, proxiedAttributionFlags, attributionChainId)
 }
 
@@ -4439,7 +4824,7 @@ func (w *appOpsServiceStubWrapper) NoteOperationForDevice(
 	shouldCollectAsyncNotedOp bool,
 	message string,
 	shouldCollectMessage bool,
-) (interface{}, error) {
+) (types.SyncNotedAppOp, error) {
 	return w.impl.NoteOperationForDevice(ctx, code, uid, packageName, virtualDeviceId, shouldCollectAsyncNotedOp, message, shouldCollectMessage)
 }
 
@@ -4456,7 +4841,7 @@ func (w *appOpsServiceStubWrapper) StartOperationForDevice(
 	shouldCollectMessage bool,
 	attributionFlags int32,
 	attributionChainId int32,
-) (interface{}, error) {
+) (types.SyncNotedAppOp, error) {
 	return w.impl.StartOperationForDevice(ctx, clientId, code, uid, packageName, virtualDeviceId, startIfModeDefault, shouldCollectAsyncNotedOp, message, shouldCollectMessage, attributionFlags, attributionChainId)
 }
 
@@ -4475,7 +4860,7 @@ func (w *appOpsServiceStubWrapper) GetPackagesForOpsForDevice(
 	ctx context.Context,
 	ops []int32,
 	persistentDeviceId string,
-) ([]interface{}, error) {
+) ([]types.AppOpsManagerPackageOps, error) {
 	return w.impl.GetPackagesForOpsForDevice(ctx, ops, persistentDeviceId)
 }
 

@@ -28,7 +28,7 @@ type IAssociationRequestCallback interface {
 	AsBinder() binder.IBinder
 	OnAssociationPending(ctx context.Context, pendingIntent app.PendingIntent) error
 	OnAssociationCreated(ctx context.Context, associationInfo AssociationInfo) error
-	OnFailure(ctx context.Context, error_ interface{}) error
+	OnFailure(ctx context.Context, error_ string) error
 }
 
 type AssociationRequestCallbackProxy struct {
@@ -52,6 +52,7 @@ func (p *AssociationRequestCallbackProxy) OnAssociationPending(
 	pendingIntent app.PendingIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAssociationRequestCallback)
 	_data.WriteInt32(1)
 	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
@@ -72,6 +73,7 @@ func (p *AssociationRequestCallbackProxy) OnAssociationCreated(
 	associationInfo AssociationInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAssociationRequestCallback)
 	_data.WriteInt32(1)
 	if _err := associationInfo.MarshalParcel(_data); _err != nil {
@@ -89,10 +91,12 @@ func (p *AssociationRequestCallbackProxy) OnAssociationCreated(
 
 func (p *AssociationRequestCallbackProxy) OnFailure(
 	ctx context.Context,
-	error_ interface{},
+	error_ string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAssociationRequestCallback)
+	_data.WriteString16(error_)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAssociationRequestCallback, MethodIAssociationRequestCallbackOnFailure)
 	if _err != nil {
@@ -106,7 +110,8 @@ func (p *AssociationRequestCallbackProxy) OnFailure(
 // AssociationRequestCallbackStub dispatches incoming binder transactions
 // to a typed IAssociationRequestCallback implementation.
 type AssociationRequestCallbackStub struct {
-	Impl IAssociationRequestCallback
+	Impl      IAssociationRequestCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AssociationRequestCallbackStub)(nil)
@@ -120,11 +125,12 @@ func (s *AssociationRequestCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAssociationRequestCallbackOnAssociationPending:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_pendingIntent app.PendingIntent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -138,12 +144,8 @@ func (s *AssociationRequestCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnAssociationPending(ctx, _arg_pendingIntent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAssociationRequestCallbackOnAssociationCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_associationInfo AssociationInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -157,16 +159,14 @@ func (s *AssociationRequestCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnAssociationCreated(ctx, _arg_associationInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAssociationRequestCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_error_, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_error_ interface{}
-		_err := s.Impl.OnFailure(ctx, _arg_error_)
-		_ = _err
-		return nil, nil
+		_err = s.Impl.OnFailure(ctx, _arg_error_)
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -178,7 +178,7 @@ func (s *AssociationRequestCallbackStub) OnTransaction(
 type IAssociationRequestCallbackServer interface {
 	OnAssociationPending(ctx context.Context, pendingIntent app.PendingIntent) error
 	OnAssociationCreated(ctx context.Context, associationInfo AssociationInfo) error
-	OnFailure(ctx context.Context, error_ interface{}) error
+	OnFailure(ctx context.Context, error_ string) error
 }
 
 type associationRequestCallbackStubWrapper struct {
@@ -206,7 +206,7 @@ func (w *associationRequestCallbackStubWrapper) OnAssociationCreated(
 
 func (w *associationRequestCallbackStubWrapper) OnFailure(
 	ctx context.Context,
-	error_ interface{},
+	error_ string,
 ) error {
 	return w.impl.OnFailure(ctx, error_)
 }

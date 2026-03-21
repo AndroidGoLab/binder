@@ -1,0 +1,167 @@
+package: android.hardware.automotive.remoteaccess
+go_package: android/hardware/automotive/remoteaccess
+interfaces:
+    - name: IRemoteAccess
+      descriptor: android.hardware.automotive.remoteaccess.IRemoteAccess
+      methods:
+        - name: getVehicleId
+          transaction_code_offset: 0
+          return_type:
+            name: String
+        - name: getWakeupServiceName
+          transaction_code_offset: 1
+          return_type:
+            name: String
+        - name: getProcessorId
+          transaction_code_offset: 2
+          return_type:
+            name: String
+        - name: setRemoteTaskCallback
+          transaction_code_offset: 3
+          params:
+            - name: callback
+              type:
+                name: IRemoteTaskCallback
+          return_type:
+            name: void
+        - name: clearRemoteTaskCallback
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: notifyApStateChange
+          transaction_code_offset: 5
+          params:
+            - name: state
+              type:
+                name: ApState
+              direction: in
+          return_type:
+            name: void
+        - name: isTaskScheduleSupported
+          transaction_code_offset: 6
+          return_type:
+            name: boolean
+        - name: getSupportedTaskTypesForScheduling
+          transaction_code_offset: 7
+          return_type:
+            name: TaskType
+            is_array: true
+        - name: scheduleTask
+          transaction_code_offset: 8
+          params:
+            - name: scheduleInfo
+              type:
+                name: ScheduleInfo
+              direction: in
+          return_type:
+            name: void
+        - name: unscheduleTask
+          transaction_code_offset: 9
+          params:
+            - name: clientId
+              type:
+                name: String
+            - name: scheduleId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: unscheduleAllTasks
+          transaction_code_offset: 10
+          params:
+            - name: clientId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: isTaskScheduled
+          transaction_code_offset: 11
+          params:
+            - name: clientId
+              type:
+                name: String
+            - name: scheduleId
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getAllPendingScheduledTasks
+          transaction_code_offset: 12
+          params:
+            - name: clientId
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: ScheduleInfo
+    - name: IRemoteTaskCallback
+      descriptor: android.hardware.automotive.remoteaccess.IRemoteTaskCallback
+      methods:
+        - name: onRemoteTaskRequested
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: clientId
+              type:
+                name: String
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: ApState
+      fields:
+        - name: isReadyForRemoteTask
+          type:
+            name: boolean
+        - name: isWakeupRequired
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: ScheduleInfo
+      fields:
+        - name: clientId
+          type:
+            name: String
+        - name: scheduleId
+          type:
+            name: String
+        - name: taskType
+          type:
+            name: TaskType
+        - name: taskData
+          type:
+            name: byte
+            is_array: true
+        - name: count
+          type:
+            name: int
+        - name: startTimeInEpochSeconds
+          type:
+            name: long
+        - name: periodicInSeconds
+          type:
+            name: long
+      constants:
+        - name: MAX_TASK_DATA_SIZE_IN_BYTES
+          type: int
+          value: "10240"
+      annotations:
+        - VintfStability
+        - JavaDerive
+enums:
+    - name: TaskType
+      backing_type: int
+      values:
+        - name: CUSTOM
+          value: "0"
+        - name: ENTER_GARAGE_MODE
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing

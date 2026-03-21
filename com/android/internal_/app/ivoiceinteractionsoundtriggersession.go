@@ -64,6 +64,7 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) GetDspModuleProperties(
 ) (soundtrigger.SoundTriggerModuleProperties, error) {
 	var _result soundtrigger.SoundTriggerModuleProperties
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSoundTriggerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSoundTriggerSession, MethodIVoiceInteractionSoundTriggerSessionGetDspModuleProperties)
@@ -103,6 +104,7 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) StartRecognition(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSoundTriggerSession)
 	_data.WriteInt32(keyphraseId)
 	_data.WriteString16(bcp47Locale)
@@ -142,6 +144,7 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) StopRecognition(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSoundTriggerSession)
 	_data.WriteInt32(keyphraseId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -176,6 +179,7 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) SetParameter(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSoundTriggerSession)
 	_data.WriteInt32(keyphraseId)
 	_data.WriteInt32(int32(modelParam))
@@ -210,6 +214,7 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) GetParameter(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSoundTriggerSession)
 	_data.WriteInt32(keyphraseId)
 	_data.WriteInt32(int32(modelParam))
@@ -243,6 +248,7 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) QueryParameter(
 ) (soundtrigger.SoundTriggerModelParamRange, error) {
 	var _result soundtrigger.SoundTriggerModelParamRange
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSoundTriggerSession)
 	_data.WriteInt32(keyphraseId)
 	_data.WriteInt32(int32(modelParam))
@@ -278,6 +284,7 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) Detach(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSoundTriggerSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSoundTriggerSession, MethodIVoiceInteractionSoundTriggerSessionDetach)
@@ -301,7 +308,8 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) Detach(
 // VoiceInteractionSoundTriggerSessionStub dispatches incoming binder transactions
 // to a typed IVoiceInteractionSoundTriggerSession implementation.
 type VoiceInteractionSoundTriggerSessionStub struct {
-	Impl IVoiceInteractionSoundTriggerSession
+	Impl      IVoiceInteractionSoundTriggerSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VoiceInteractionSoundTriggerSessionStub)(nil)
@@ -315,11 +323,12 @@ func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVoiceInteractionSoundTriggerSessionGetDspModuleProperties:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDspModuleProperties(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -333,9 +342,6 @@ func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVoiceInteractionSoundTriggerSessionStartRecognition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_keyphraseId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -344,9 +350,14 @@ func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IHotwordRecognitionStatusCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewHotwordRecognitionStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_recognitionConfig soundtrigger.SoundTriggerRecognitionConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -373,16 +384,18 @@ func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionSoundTriggerSessionStopRecognition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_keyphraseId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IHotwordRecognitionStatusCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewHotwordRecognitionStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.StopRecognition(ctx, _arg_keyphraseId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -393,9 +406,6 @@ func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionSoundTriggerSessionSetParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_keyphraseId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -419,9 +429,6 @@ func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionSoundTriggerSessionGetParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_keyphraseId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -441,9 +448,6 @@ func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionSoundTriggerSessionQueryParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_keyphraseId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -466,9 +470,6 @@ func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVoiceInteractionSoundTriggerSessionDetach:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Detach(ctx)
 		_reply := parcel.New()
 		if _err != nil {

@@ -211,8 +211,8 @@ func isValidGoIdentifier(name string) bool {
 	}
 
 	for i, r := range name {
-		switch {
-		case i == 0:
+		switch i {
+		case 0:
 			if !unicode.IsLetter(r) && r != '_' {
 				return false
 			}

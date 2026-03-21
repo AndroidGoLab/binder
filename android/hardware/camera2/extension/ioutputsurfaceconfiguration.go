@@ -54,6 +54,7 @@ func (p *OutputSurfaceConfigurationProxy) GetPreviewOutputSurface(
 ) (OutputSurface, error) {
 	var _result OutputSurface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOutputSurfaceConfiguration)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOutputSurfaceConfiguration, MethodIOutputSurfaceConfigurationGetPreviewOutputSurface)
@@ -88,6 +89,7 @@ func (p *OutputSurfaceConfigurationProxy) GetImageCaptureOutputSurface(
 ) (OutputSurface, error) {
 	var _result OutputSurface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOutputSurfaceConfiguration)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOutputSurfaceConfiguration, MethodIOutputSurfaceConfigurationGetImageCaptureOutputSurface)
@@ -122,6 +124,7 @@ func (p *OutputSurfaceConfigurationProxy) GetImageAnalysisOutputSurface(
 ) (OutputSurface, error) {
 	var _result OutputSurface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOutputSurfaceConfiguration)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOutputSurfaceConfiguration, MethodIOutputSurfaceConfigurationGetImageAnalysisOutputSurface)
@@ -156,6 +159,7 @@ func (p *OutputSurfaceConfigurationProxy) GetPostviewOutputSurface(
 ) (OutputSurface, error) {
 	var _result OutputSurface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOutputSurfaceConfiguration)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOutputSurfaceConfiguration, MethodIOutputSurfaceConfigurationGetPostviewOutputSurface)
@@ -188,7 +192,8 @@ func (p *OutputSurfaceConfigurationProxy) GetPostviewOutputSurface(
 // OutputSurfaceConfigurationStub dispatches incoming binder transactions
 // to a typed IOutputSurfaceConfiguration implementation.
 type OutputSurfaceConfigurationStub struct {
-	Impl IOutputSurfaceConfiguration
+	Impl      IOutputSurfaceConfiguration
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OutputSurfaceConfigurationStub)(nil)
@@ -202,11 +207,12 @@ func (s *OutputSurfaceConfigurationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOutputSurfaceConfigurationGetPreviewOutputSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPreviewOutputSurface(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -220,9 +226,6 @@ func (s *OutputSurfaceConfigurationStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIOutputSurfaceConfigurationGetImageCaptureOutputSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetImageCaptureOutputSurface(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -236,9 +239,6 @@ func (s *OutputSurfaceConfigurationStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIOutputSurfaceConfigurationGetImageAnalysisOutputSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetImageAnalysisOutputSurface(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -252,9 +252,6 @@ func (s *OutputSurfaceConfigurationStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIOutputSurfaceConfigurationGetPostviewOutputSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPostviewOutputSurface(ctx)
 		_reply := parcel.New()
 		if _err != nil {

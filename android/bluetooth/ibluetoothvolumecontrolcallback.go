@@ -56,6 +56,7 @@ func (p *BluetoothVolumeControlCallbackProxy) OnVolumeOffsetChanged(
 	volumeOffset int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothVolumeControlCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -80,6 +81,7 @@ func (p *BluetoothVolumeControlCallbackProxy) OnVolumeOffsetAudioLocationChanged
 	audioLocation int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothVolumeControlCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -104,6 +106,7 @@ func (p *BluetoothVolumeControlCallbackProxy) OnVolumeOffsetAudioDescriptionChan
 	audioDescription string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothVolumeControlCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -127,6 +130,7 @@ func (p *BluetoothVolumeControlCallbackProxy) OnDeviceVolumeChanged(
 	volume int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothVolumeControlCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -146,7 +150,8 @@ func (p *BluetoothVolumeControlCallbackProxy) OnDeviceVolumeChanged(
 // BluetoothVolumeControlCallbackStub dispatches incoming binder transactions
 // to a typed IBluetoothVolumeControlCallback implementation.
 type BluetoothVolumeControlCallbackStub struct {
-	Impl IBluetoothVolumeControlCallback
+	Impl      IBluetoothVolumeControlCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothVolumeControlCallbackStub)(nil)
@@ -160,11 +165,12 @@ func (s *BluetoothVolumeControlCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothVolumeControlCallbackOnVolumeOffsetChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -186,12 +192,8 @@ func (s *BluetoothVolumeControlCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnVolumeOffsetChanged(ctx, _arg_device, _arg_instanceId, _arg_volumeOffset)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothVolumeControlCallbackOnVolumeOffsetAudioLocationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -213,12 +215,8 @@ func (s *BluetoothVolumeControlCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnVolumeOffsetAudioLocationChanged(ctx, _arg_device, _arg_instanceId, _arg_audioLocation)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothVolumeControlCallbackOnVolumeOffsetAudioDescriptionChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -240,12 +238,8 @@ func (s *BluetoothVolumeControlCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnVolumeOffsetAudioDescriptionChanged(ctx, _arg_device, _arg_instanceId, _arg_audioDescription)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothVolumeControlCallbackOnDeviceVolumeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -263,8 +257,7 @@ func (s *BluetoothVolumeControlCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnDeviceVolumeChanged(ctx, _arg_device, _arg_volume)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

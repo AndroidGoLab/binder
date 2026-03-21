@@ -1,7 +1,6 @@
 package audio
 
 import (
-	audioCodecInfo "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/CodecInfo"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,7 +9,7 @@ import (
 type CodecInfo struct {
 	Id        CodecId
 	Name      string
-	Transport audioCodecInfo.Transport
+	Transport CodecInfoTransport
 }
 
 var _ parcel.Parcelable = (*CodecInfo)(nil)
@@ -39,13 +38,28 @@ func (s *CodecInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Id.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Name, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.Transport.UnmarshalParcel(p); _err != nil {

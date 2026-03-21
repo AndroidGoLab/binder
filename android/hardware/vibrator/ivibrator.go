@@ -128,6 +128,7 @@ func (p *VibratorProxy) GetCapabilities(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetCapabilities)
@@ -156,6 +157,7 @@ func (p *VibratorProxy) Off(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorOff)
@@ -182,6 +184,7 @@ func (p *VibratorProxy) On(
 	callback IVibratorCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 	_data.WriteInt32(timeoutMs)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -212,6 +215,7 @@ func (p *VibratorProxy) Perform(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 	_data.WriteInt32(int32(effect))
 	_data.WritePaddedByte(byte(strength))
@@ -244,6 +248,7 @@ func (p *VibratorProxy) GetSupportedEffects(
 ) ([]Effect, error) {
 	var _result []Effect
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetSupportedEffects)
@@ -265,6 +270,9 @@ func (p *VibratorProxy) GetSupportedEffects(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]Effect, _count)
@@ -284,6 +292,7 @@ func (p *VibratorProxy) SetAmplitude(
 	amplitude float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 	_data.WriteFloat32(amplitude)
 
@@ -310,6 +319,7 @@ func (p *VibratorProxy) SetExternalControl(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 	_data.WriteBool(enabled)
 
@@ -336,6 +346,7 @@ func (p *VibratorProxy) GetCompositionDelayMax(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetCompositionDelayMax)
@@ -365,6 +376,7 @@ func (p *VibratorProxy) GetCompositionSizeMax(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetCompositionSizeMax)
@@ -394,6 +406,7 @@ func (p *VibratorProxy) GetSupportedPrimitives(
 ) ([]CompositePrimitive, error) {
 	var _result []CompositePrimitive
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetSupportedPrimitives)
@@ -415,6 +428,9 @@ func (p *VibratorProxy) GetSupportedPrimitives(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]CompositePrimitive, _count)
@@ -435,6 +451,7 @@ func (p *VibratorProxy) GetPrimitiveDuration(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 	_data.WriteInt32(int32(primitive))
 
@@ -466,6 +483,7 @@ func (p *VibratorProxy) Compose(
 	callback IVibratorCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 	if composite == nil {
 		_data.WriteInt32(-1)
@@ -503,6 +521,7 @@ func (p *VibratorProxy) GetSupportedAlwaysOnEffects(
 ) ([]Effect, error) {
 	var _result []Effect
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetSupportedAlwaysOnEffects)
@@ -523,6 +542,9 @@ func (p *VibratorProxy) GetSupportedAlwaysOnEffects(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -545,6 +567,7 @@ func (p *VibratorProxy) AlwaysOnEnable(
 	strength EffectStrength,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 	_data.WriteInt32(id)
 	_data.WriteInt32(int32(effect))
@@ -573,6 +596,7 @@ func (p *VibratorProxy) AlwaysOnDisable(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 	_data.WriteInt32(id)
 
@@ -599,6 +623,7 @@ func (p *VibratorProxy) GetResonantFrequency(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetResonantFrequency)
@@ -628,6 +653,7 @@ func (p *VibratorProxy) GetQFactor(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetQFactor)
@@ -657,6 +683,7 @@ func (p *VibratorProxy) GetFrequencyResolution(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetFrequencyResolution)
@@ -686,6 +713,7 @@ func (p *VibratorProxy) GetFrequencyMinimum(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetFrequencyMinimum)
@@ -715,6 +743,7 @@ func (p *VibratorProxy) GetBandwidthAmplitudeMap(
 ) ([]float32, error) {
 	var _result []float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetBandwidthAmplitudeMap)
@@ -736,6 +765,9 @@ func (p *VibratorProxy) GetBandwidthAmplitudeMap(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]float32, _count)
@@ -754,6 +786,7 @@ func (p *VibratorProxy) GetPwlePrimitiveDurationMax(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetPwlePrimitiveDurationMax)
@@ -783,6 +816,7 @@ func (p *VibratorProxy) GetPwleCompositionSizeMax(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetPwleCompositionSizeMax)
@@ -812,6 +846,7 @@ func (p *VibratorProxy) GetSupportedBraking(
 ) ([]Braking, error) {
 	var _result []Braking
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetSupportedBraking)
@@ -833,6 +868,9 @@ func (p *VibratorProxy) GetSupportedBraking(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]Braking, _count)
@@ -853,6 +891,7 @@ func (p *VibratorProxy) ComposePwle(
 	callback IVibratorCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 	if composite == nil {
 		_data.WriteInt32(-1)
@@ -888,7 +927,8 @@ func (p *VibratorProxy) ComposePwle(
 // VibratorStub dispatches incoming binder transactions
 // to a typed IVibrator implementation.
 type VibratorStub struct {
-	Impl IVibrator
+	Impl      IVibrator
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VibratorStub)(nil)
@@ -902,11 +942,12 @@ func (s *VibratorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVibratorGetCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCapabilities(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -917,9 +958,6 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorOff:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Off(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -929,16 +967,18 @@ func (s *VibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorOn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeoutMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IVibratorCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewVibratorCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.On(ctx, _arg_timeoutMs, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -948,9 +988,6 @@ func (s *VibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorPerform:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_effect, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -961,9 +998,14 @@ func (s *VibratorStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_strength := EffectStrength(_raw_strength)
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IVibratorCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewVibratorCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.Perform(ctx, _arg_effect, _arg_strength, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -974,9 +1016,6 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetSupportedEffects:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedEffects(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -984,13 +1023,16 @@ func (s *VibratorStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionIVibratorSetAmplitude:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_amplitude, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -1004,9 +1046,6 @@ func (s *VibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorSetExternalControl:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1020,9 +1059,6 @@ func (s *VibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorGetCompositionDelayMax:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCompositionDelayMax(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1033,9 +1069,6 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetCompositionSizeMax:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCompositionSizeMax(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1046,9 +1079,6 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetSupportedPrimitives:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedPrimitives(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1056,13 +1086,16 @@ func (s *VibratorStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionIVibratorGetPrimitiveDuration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_primitive, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1078,15 +1111,35 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorCompose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_composite []CompositeEffect
-		_ = _arg_composite
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_composite = make([]CompositeEffect, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_composite[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_callback IVibratorCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewVibratorCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.Compose(ctx, _arg_composite, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1096,9 +1149,6 @@ func (s *VibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorGetSupportedAlwaysOnEffects:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedAlwaysOnEffects(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1106,13 +1156,16 @@ func (s *VibratorStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionIVibratorAlwaysOnEnable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1136,9 +1189,6 @@ func (s *VibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorAlwaysOnDisable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1152,9 +1202,6 @@ func (s *VibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorGetResonantFrequency:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetResonantFrequency(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1165,9 +1212,6 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetQFactor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetQFactor(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1178,9 +1222,6 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetFrequencyResolution:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetFrequencyResolution(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1191,9 +1232,6 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetFrequencyMinimum:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetFrequencyMinimum(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1204,9 +1242,6 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetBandwidthAmplitudeMap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetBandwidthAmplitudeMap(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1214,13 +1249,16 @@ func (s *VibratorStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteFloat32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIVibratorGetPwlePrimitiveDurationMax:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPwlePrimitiveDurationMax(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1231,9 +1269,6 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetPwleCompositionSizeMax:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPwleCompositionSizeMax(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1244,9 +1279,6 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetSupportedBraking:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedBraking(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1254,19 +1286,45 @@ func (s *VibratorStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionIVibratorComposePwle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_composite []PrimitivePwle
-		_ = _arg_composite
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_composite = make([]PrimitivePwle, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_composite[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_callback IVibratorCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewVibratorCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.ComposePwle(ctx, _arg_composite, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

@@ -1,0 +1,88 @@
+package: android.frameworks.automotive.display
+go_package: android/frameworks/automotive/display
+interfaces:
+    - name: ICarDisplayProxy
+      descriptor: android.frameworks.automotive.display.ICarDisplayProxy
+      methods:
+        - name: getDisplayIdList
+          transaction_code_offset: 0
+          return_type:
+            name: long
+            is_array: true
+        - name: getDisplayInfo
+          transaction_code_offset: 1
+          params:
+            - name: id
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: DisplayDesc
+        - name: getHGraphicBufferProducer
+          transaction_code_offset: 2
+          params:
+            - name: id
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: NativeHandle
+        - name: hideWindow
+          transaction_code_offset: 3
+          params:
+            - name: id
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: showWindow
+          transaction_code_offset: 4
+          params:
+            - name: id
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: getSurface
+          transaction_code_offset: 5
+          params:
+            - name: id
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: Surface
+parcelables:
+    - name: DisplayDesc
+      fields:
+        - name: width
+          type:
+            name: int
+        - name: height
+          type:
+            name: int
+        - name: layer
+          type:
+            name: long
+        - name: orientation
+          type:
+            name: Rotation
+      annotations:
+        - VintfStability
+enums:
+    - name: Rotation
+      backing_type: int
+      values:
+        - name: ROTATION_0
+          value: "0"
+        - name: ROTATION_90
+          value: "1"
+        - name: ROTATION_180
+          value: "2"
+        - name: ROTATION_270
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing

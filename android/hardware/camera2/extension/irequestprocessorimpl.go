@@ -61,6 +61,7 @@ func (p *RequestProcessorImplProxy) SetImageProcessor(
 	imageProcessor IImageProcessorImpl,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestProcessorImpl)
 	_data.WriteInt32(1)
 	if _err := outputConfigId.MarshalParcel(_data); _err != nil {
@@ -93,6 +94,7 @@ func (p *RequestProcessorImplProxy) Submit(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestProcessorImpl)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -129,6 +131,7 @@ func (p *RequestProcessorImplProxy) SubmitBurst(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestProcessorImpl)
 	if requests == nil {
 		_data.WriteInt32(-1)
@@ -172,6 +175,7 @@ func (p *RequestProcessorImplProxy) SetRepeating(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestProcessorImpl)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -205,6 +209,7 @@ func (p *RequestProcessorImplProxy) AbortCaptures(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestProcessorImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplAbortCaptures)
@@ -229,6 +234,7 @@ func (p *RequestProcessorImplProxy) StopRepeating(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestProcessorImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplStopRepeating)
@@ -252,7 +258,8 @@ func (p *RequestProcessorImplProxy) StopRepeating(
 // RequestProcessorImplStub dispatches incoming binder transactions
 // to a typed IRequestProcessorImpl implementation.
 type RequestProcessorImplStub struct {
-	Impl IRequestProcessorImpl
+	Impl      IRequestProcessorImpl
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RequestProcessorImplStub)(nil)
@@ -266,11 +273,12 @@ func (s *RequestProcessorImplStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRequestProcessorImplSetImageProcessor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_outputConfigId OutputConfigId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -283,9 +291,14 @@ func (s *RequestProcessorImplStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_imageProcessor IImageProcessorImpl
-		_ = _arg_imageProcessor
+		{
+			_imageProcessorHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_imageProcessor = NewImageProcessorImplProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _imageProcessorHandle))
+		}
 		_err := s.Impl.SetImageProcessor(ctx, _arg_outputConfigId, _arg_imageProcessor)
 		_reply := parcel.New()
 		if _err != nil {
@@ -295,9 +308,6 @@ func (s *RequestProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestProcessorImplSubmit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request Request
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -310,9 +320,14 @@ func (s *RequestProcessorImplStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IRequestCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRequestCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.Submit(ctx, _arg_request, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -323,15 +338,35 @@ func (s *RequestProcessorImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRequestProcessorImplSubmitBurst:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_requests []Request
-		_ = _arg_requests
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_requests = make([]Request, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_requests[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_callback IRequestCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRequestCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.SubmitBurst(ctx, _arg_requests, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -342,9 +377,6 @@ func (s *RequestProcessorImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRequestProcessorImplSetRepeating:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request Request
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -357,9 +389,14 @@ func (s *RequestProcessorImplStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IRequestCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRequestCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.SetRepeating(ctx, _arg_request, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -370,9 +407,6 @@ func (s *RequestProcessorImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRequestProcessorImplAbortCaptures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.AbortCaptures(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -382,9 +416,6 @@ func (s *RequestProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestProcessorImplStopRepeating:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopRepeating(ctx)
 		_reply := parcel.New()
 		if _err != nil {

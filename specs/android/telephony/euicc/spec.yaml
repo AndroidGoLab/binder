@@ -1,0 +1,7 @@
+package: android.telephony.euicc
+go_package: android/telephony/euicc
+parcelables:
+    - name: DownloadableSubscription
+    - name: EuiccInfo
+    - name: EuiccNotification
+    - name: EuiccRulesAuthTable

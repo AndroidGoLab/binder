@@ -46,6 +46,7 @@ func (p *AppClipsScreenshotHelperServiceProxy) TakeScreenshot(
 ) (ScreenshotHardwareBufferInternal, error) {
 	var _result ScreenshotHardwareBufferInternal
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppClipsScreenshotHelperService)
 	_data.WriteInt32(displayId)
 
@@ -79,7 +80,8 @@ func (p *AppClipsScreenshotHelperServiceProxy) TakeScreenshot(
 // AppClipsScreenshotHelperServiceStub dispatches incoming binder transactions
 // to a typed IAppClipsScreenshotHelperService implementation.
 type AppClipsScreenshotHelperServiceStub struct {
-	Impl IAppClipsScreenshotHelperService
+	Impl      IAppClipsScreenshotHelperService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AppClipsScreenshotHelperServiceStub)(nil)
@@ -93,11 +95,12 @@ func (s *AppClipsScreenshotHelperServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAppClipsScreenshotHelperServiceTakeScreenshot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

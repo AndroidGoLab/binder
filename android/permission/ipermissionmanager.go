@@ -43,6 +43,9 @@ const (
 	TransactionIPermissionManagerIsAutoRevokeExempted                               = binder.FirstCallTransaction + 25
 	TransactionIPermissionManagerRegisterAttributionSource                          = binder.FirstCallTransaction + 26
 	TransactionIPermissionManagerIsRegisteredAttributionSource                      = binder.FirstCallTransaction + 27
+	TransactionIPermissionManagerCheckPermission                                    = binder.FirstCallTransaction + 28
+	TransactionIPermissionManagerCheckUidPermission                                 = binder.FirstCallTransaction + 29
+	TransactionIPermissionManagerGetAllPermissionStates                             = binder.FirstCallTransaction + 30
 )
 
 const (
@@ -74,6 +77,9 @@ const (
 	MethodIPermissionManagerIsAutoRevokeExempted                               = "isAutoRevokeExempted"
 	MethodIPermissionManagerRegisterAttributionSource                          = "registerAttributionSource"
 	MethodIPermissionManagerIsRegisteredAttributionSource                      = "isRegisteredAttributionSource"
+	MethodIPermissionManagerCheckPermission                                    = "checkPermission"
+	MethodIPermissionManagerCheckUidPermission                                 = "checkUidPermission"
+	MethodIPermissionManagerGetAllPermissionStates                             = "getAllPermissionStates"
 )
 
 type IPermissionManager interface {
@@ -84,28 +90,31 @@ type IPermissionManager interface {
 	QueryPermissionsByGroup(ctx context.Context, groupName string, flags int32) (pm.ParceledListSlice, error)
 	AddPermission(ctx context.Context, permissionInfo pm.PermissionInfo, async bool) (bool, error)
 	RemovePermission(ctx context.Context, permissionName string) error
-	GetPermissionFlags(ctx context.Context, packageName string, permissionName string) (int32, error)
-	UpdatePermissionFlags(ctx context.Context, packageName string, permissionName string, flagMask int32, flagValues int32, checkAdjustPolicyFlagPermission bool) error
+	GetPermissionFlags(ctx context.Context, packageName string, permissionName string, persistentDeviceId string) (int32, error)
+	UpdatePermissionFlags(ctx context.Context, packageName string, permissionName string, flagMask int32, flagValues int32, checkAdjustPolicyFlagPermission bool, persistentDeviceId string) error
 	UpdatePermissionFlagsForAllApps(ctx context.Context, flagMask int32, flagValues int32) error
 	AddOnPermissionsChangeListener(ctx context.Context, listener IOnPermissionsChangeListener) error
 	RemoveOnPermissionsChangeListener(ctx context.Context, listener IOnPermissionsChangeListener) error
 	GetAllowlistedRestrictedPermissions(ctx context.Context, packageName string, flags int32) ([]string, error)
 	AddAllowlistedRestrictedPermission(ctx context.Context, packageName string, permissionName string, flags int32) (bool, error)
 	RemoveAllowlistedRestrictedPermission(ctx context.Context, packageName string, permissionName string, flags int32) (bool, error)
-	GrantRuntimePermission(ctx context.Context, packageName string, permissionName string) error
-	RevokeRuntimePermission(ctx context.Context, packageName string, permissionName string, reason string) error
+	GrantRuntimePermission(ctx context.Context, packageName string, permissionName string, persistentDeviceId string) error
+	RevokeRuntimePermission(ctx context.Context, packageName string, permissionName string, persistentDeviceId string, reason string) error
 	RevokePostNotificationPermissionWithoutKillForTest(ctx context.Context, packageName string) error
-	ShouldShowRequestPermissionRationale(ctx context.Context, packageName string, permissionName string) (bool, error)
-	IsPermissionRevokedByPolicy(ctx context.Context, packageName string, permissionName string) (bool, error)
+	ShouldShowRequestPermissionRationale(ctx context.Context, packageName string, permissionName string, deviceId int32) (bool, error)
+	IsPermissionRevokedByPolicy(ctx context.Context, packageName string, permissionName string, deviceId int32) (bool, error)
 	GetSplitPermissions(ctx context.Context) ([]pmPermission.SplitPermissionInfoParcelable, error)
-	StartOneTimePermissionSession(ctx context.Context, packageName string, timeout int64, revokeAfterKilledDelay int64) error
+	StartOneTimePermissionSession(ctx context.Context, packageName string, deviceId int32, timeout int64, revokeAfterKilledDelay int64) error
 	StopOneTimePermissionSession(ctx context.Context, packageName string) error
 	GetAutoRevokeExemptionRequestedPackages(ctx context.Context) ([]string, error)
 	GetAutoRevokeExemptionGrantedPackages(ctx context.Context) ([]string, error)
 	SetAutoRevokeExempted(ctx context.Context, packageName string, exempted bool) (bool, error)
 	IsAutoRevokeExempted(ctx context.Context, packageName string) (bool, error)
-	RegisterAttributionSource(ctx context.Context, source content.AttributionSourceState) error
+	RegisterAttributionSource(ctx context.Context, source content.AttributionSourceState) (binder.IBinder, error)
 	IsRegisteredAttributionSource(ctx context.Context, source content.AttributionSourceState) (bool, error)
+	CheckPermission(ctx context.Context, packageName string, permissionName string, persistentDeviceId string) (int32, error)
+	CheckUidPermission(ctx context.Context, uid int32, permissionName string, deviceId int32) (int32, error)
+	GetAllPermissionStates(ctx context.Context, packageName string, persistentDeviceId string) (map[string]PermissionManagerPermissionState, error)
 }
 
 type PermissionManagerProxy struct {
@@ -130,6 +139,7 @@ func (p *PermissionManagerProxy) GetAllPermissionGroups(
 ) (pm.ParceledListSlice, error) {
 	var _result pm.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteInt32(flags)
 
@@ -167,6 +177,7 @@ func (p *PermissionManagerProxy) GetPermissionGroupInfo(
 ) (pm.PermissionGroupInfo, error) {
 	var _result pm.PermissionGroupInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(groupName)
 	_data.WriteInt32(flags)
@@ -206,6 +217,7 @@ func (p *PermissionManagerProxy) GetPermissionInfo(
 ) (pm.PermissionInfo, error) {
 	var _result pm.PermissionInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(permissionName)
 	_data.WriteString16(packageName)
@@ -245,6 +257,7 @@ func (p *PermissionManagerProxy) QueryPermissionsByGroup(
 ) (pm.ParceledListSlice, error) {
 	var _result pm.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(groupName)
 	_data.WriteInt32(flags)
@@ -283,6 +296,7 @@ func (p *PermissionManagerProxy) AddPermission(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteInt32(1)
 	if _err := permissionInfo.MarshalParcel(_data); _err != nil {
@@ -317,6 +331,7 @@ func (p *PermissionManagerProxy) RemovePermission(
 	permissionName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(permissionName)
 
@@ -342,13 +357,16 @@ func (p *PermissionManagerProxy) GetPermissionFlags(
 	ctx context.Context,
 	packageName string,
 	permissionName string,
+	persistentDeviceId string,
 ) (int32, error) {
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(permissionName)
+	_data.WriteString16(persistentDeviceId)
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetPermissionFlags)
@@ -380,15 +398,18 @@ func (p *PermissionManagerProxy) UpdatePermissionFlags(
 	flagMask int32,
 	flagValues int32,
 	checkAdjustPolicyFlagPermission bool,
+	persistentDeviceId string,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(permissionName)
 	_data.WriteInt32(flagMask)
 	_data.WriteInt32(flagValues)
 	_data.WriteBool(checkAdjustPolicyFlagPermission)
+	_data.WriteString16(persistentDeviceId)
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerUpdatePermissionFlags)
@@ -416,6 +437,7 @@ func (p *PermissionManagerProxy) UpdatePermissionFlagsForAllApps(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteInt32(flagMask)
 	_data.WriteInt32(flagValues)
@@ -444,6 +466,7 @@ func (p *PermissionManagerProxy) AddOnPermissionsChangeListener(
 	listener IOnPermissionsChangeListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -470,6 +493,7 @@ func (p *PermissionManagerProxy) RemoveOnPermissionsChangeListener(
 	listener IOnPermissionsChangeListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -499,6 +523,7 @@ func (p *PermissionManagerProxy) GetAllowlistedRestrictedPermissions(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(flags)
@@ -523,6 +548,9 @@ func (p *PermissionManagerProxy) GetAllowlistedRestrictedPermissions(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -545,6 +573,7 @@ func (p *PermissionManagerProxy) AddAllowlistedRestrictedPermission(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(permissionName)
@@ -582,6 +611,7 @@ func (p *PermissionManagerProxy) RemoveAllowlistedRestrictedPermission(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(permissionName)
@@ -614,12 +644,15 @@ func (p *PermissionManagerProxy) GrantRuntimePermission(
 	ctx context.Context,
 	packageName string,
 	permissionName string,
+	persistentDeviceId string,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(permissionName)
+	_data.WriteString16(persistentDeviceId)
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerGrantRuntimePermission)
@@ -644,13 +677,16 @@ func (p *PermissionManagerProxy) RevokeRuntimePermission(
 	ctx context.Context,
 	packageName string,
 	permissionName string,
+	persistentDeviceId string,
 	reason string,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(permissionName)
+	_data.WriteString16(persistentDeviceId)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(reason)
 
@@ -678,6 +714,7 @@ func (p *PermissionManagerProxy) RevokePostNotificationPermissionWithoutKillForT
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -704,13 +741,16 @@ func (p *PermissionManagerProxy) ShouldShowRequestPermissionRationale(
 	ctx context.Context,
 	packageName string,
 	permissionName string,
+	deviceId int32,
 ) (bool, error) {
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(permissionName)
+	_data.WriteInt32(deviceId)
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerShouldShowRequestPermissionRationale)
@@ -739,13 +779,16 @@ func (p *PermissionManagerProxy) IsPermissionRevokedByPolicy(
 	ctx context.Context,
 	packageName string,
 	permissionName string,
+	deviceId int32,
 ) (bool, error) {
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(permissionName)
+	_data.WriteInt32(deviceId)
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerIsPermissionRevokedByPolicy)
@@ -775,6 +818,7 @@ func (p *PermissionManagerProxy) GetSplitPermissions(
 ) ([]pmPermission.SplitPermissionInfoParcelable, error) {
 	var _result []pmPermission.SplitPermissionInfoParcelable
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetSplitPermissions)
@@ -796,6 +840,9 @@ func (p *PermissionManagerProxy) GetSplitPermissions(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]pmPermission.SplitPermissionInfoParcelable, _count)
@@ -814,13 +861,16 @@ func (p *PermissionManagerProxy) GetSplitPermissions(
 func (p *PermissionManagerProxy) StartOneTimePermissionSession(
 	ctx context.Context,
 	packageName string,
+	deviceId int32,
 	timeout int64,
 	revokeAfterKilledDelay int64,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(deviceId)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt64(timeout)
 	_data.WriteInt64(revokeAfterKilledDelay)
@@ -849,6 +899,7 @@ func (p *PermissionManagerProxy) StopOneTimePermissionSession(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -877,6 +928,7 @@ func (p *PermissionManagerProxy) GetAutoRevokeExemptionRequestedPackages(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -899,6 +951,9 @@ func (p *PermissionManagerProxy) GetAutoRevokeExemptionRequestedPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -918,6 +973,7 @@ func (p *PermissionManagerProxy) GetAutoRevokeExemptionGrantedPackages(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -940,6 +996,9 @@ func (p *PermissionManagerProxy) GetAutoRevokeExemptionGrantedPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -961,6 +1020,7 @@ func (p *PermissionManagerProxy) SetAutoRevokeExempted(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(exempted)
@@ -995,6 +1055,7 @@ func (p *PermissionManagerProxy) IsAutoRevokeExempted(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -1024,30 +1085,37 @@ func (p *PermissionManagerProxy) IsAutoRevokeExempted(
 func (p *PermissionManagerProxy) RegisterAttributionSource(
 	ctx context.Context,
 	source content.AttributionSourceState,
-) error {
+) (binder.IBinder, error) {
+	var _result binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteInt32(1)
 	if _err := source.MarshalParcel(_data); _err != nil {
-		return _err
+		return _result, _err
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerRegisterAttributionSource)
 	if _err != nil {
-		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPermissionManager, MethodIPermissionManagerRegisterAttributionSource, _err)
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPermissionManager, MethodIPermissionManagerRegisterAttributionSource, _err)
 	}
 
 	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
-		return _err
+		return _result, _err
 	}
 	defer _reply.Recycle()
 
 	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
+		return _result, _err
 	}
 
-	return nil
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
+	return _result, nil
 }
 
 func (p *PermissionManagerProxy) IsRegisteredAttributionSource(
@@ -1056,6 +1124,7 @@ func (p *PermissionManagerProxy) IsRegisteredAttributionSource(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionManager)
 	_data.WriteInt32(1)
 	if _err := source.MarshalParcel(_data); _err != nil {
@@ -1084,10 +1153,140 @@ func (p *PermissionManagerProxy) IsRegisteredAttributionSource(
 	return _result, nil
 }
 
+func (p *PermissionManagerProxy) CheckPermission(
+	ctx context.Context,
+	packageName string,
+	permissionName string,
+	persistentDeviceId string,
+) (int32, error) {
+	var _result int32
+	_identity := p.Remote.Identity()
+	_data := parcel.New()
+	defer _data.Recycle()
+	_data.WriteInterfaceToken(DescriptorIPermissionManager)
+	_data.WriteString16(packageName)
+	_data.WriteString16(permissionName)
+	_data.WriteString16(persistentDeviceId)
+	_data.WriteInt32(_identity.UserID)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerCheckPermission)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPermissionManager, MethodIPermissionManagerCheckPermission, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
+}
+
+func (p *PermissionManagerProxy) CheckUidPermission(
+	ctx context.Context,
+	uid int32,
+	permissionName string,
+	deviceId int32,
+) (int32, error) {
+	var _result int32
+	_data := parcel.New()
+	defer _data.Recycle()
+	_data.WriteInterfaceToken(DescriptorIPermissionManager)
+	_data.WriteInt32(uid)
+	_data.WriteString16(permissionName)
+	_data.WriteInt32(deviceId)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerCheckUidPermission)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPermissionManager, MethodIPermissionManagerCheckUidPermission, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
+}
+
+func (p *PermissionManagerProxy) GetAllPermissionStates(
+	ctx context.Context,
+	packageName string,
+	persistentDeviceId string,
+) (map[string]PermissionManagerPermissionState, error) {
+	var _result map[string]PermissionManagerPermissionState
+	_identity := p.Remote.Identity()
+	_data := parcel.New()
+	defer _data.Recycle()
+	_data.WriteInterfaceToken(DescriptorIPermissionManager)
+	_data.WriteString16(packageName)
+	_data.WriteString16(persistentDeviceId)
+	_data.WriteInt32(_identity.UserID)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionManager, MethodIPermissionManagerGetAllPermissionStates)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPermissionManager, MethodIPermissionManagerGetAllPermissionStates, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	{
+		_mapCount, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _mapCount >= 0 {
+			_result = make(map[string]PermissionManagerPermissionState, _mapCount)
+			for _mi := int32(0); _mi < _mapCount; _mi++ {
+				_mk, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				var _mv PermissionManagerPermissionState
+				if _, _err = _reply.ReadInt32(); _err != nil {
+					return _result, _err
+				}
+				if _err = _mv.UnmarshalParcel(_reply); _err != nil {
+					return _result, _err
+				}
+				_result[_mk] = _mv
+			}
+		}
+	}
+	return _result, nil
+}
+
 // PermissionManagerStub dispatches incoming binder transactions
 // to a typed IPermissionManager implementation.
 type PermissionManagerStub struct {
-	Impl IPermissionManager
+	Impl      IPermissionManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PermissionManagerStub)(nil)
@@ -1101,11 +1300,12 @@ func (s *PermissionManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPermissionManagerGetAllPermissionGroups:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1123,9 +1323,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPermissionManagerGetPermissionGroupInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_groupName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1147,9 +1344,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPermissionManagerGetPermissionInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_permissionName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1175,9 +1369,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPermissionManagerQueryPermissionsByGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_groupName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1199,9 +1390,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPermissionManagerAddPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_permissionInfo pm.PermissionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1228,9 +1416,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPermissionManagerRemovePermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_permissionName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1244,9 +1429,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPermissionManagerGetPermissionFlags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1255,10 +1437,14 @@ func (s *PermissionManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
+		_arg_persistentDeviceId, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.GetPermissionFlags(ctx, _arg_packageName, _arg_permissionName)
+		_result, _err := s.Impl.GetPermissionFlags(ctx, _arg_packageName, _arg_permissionName, _arg_persistentDeviceId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1268,9 +1454,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPermissionManagerUpdatePermissionFlags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1291,10 +1474,14 @@ func (s *PermissionManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
+		_arg_persistentDeviceId, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.UpdatePermissionFlags(ctx, _arg_packageName, _arg_permissionName, _arg_flagMask, _arg_flagValues, _arg_checkAdjustPolicyFlagPermission)
+		_err = s.Impl.UpdatePermissionFlags(ctx, _arg_packageName, _arg_permissionName, _arg_flagMask, _arg_flagValues, _arg_checkAdjustPolicyFlagPermission, _arg_persistentDeviceId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1303,9 +1490,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPermissionManagerUpdatePermissionFlagsForAllApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flagMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1326,12 +1510,14 @@ func (s *PermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPermissionManagerAddOnPermissionsChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnPermissionsChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnPermissionsChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddOnPermissionsChangeListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1341,12 +1527,14 @@ func (s *PermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPermissionManagerRemoveOnPermissionsChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnPermissionsChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnPermissionsChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveOnPermissionsChangeListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1356,9 +1544,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPermissionManagerGetAllowlistedRestrictedPermissions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1377,13 +1562,16 @@ func (s *PermissionManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPermissionManagerAddAllowlistedRestrictedPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1409,9 +1597,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPermissionManagerRemoveAllowlistedRestrictedPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1437,9 +1622,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPermissionManagerGrantRuntimePermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1448,10 +1630,14 @@ func (s *PermissionManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
+		_arg_persistentDeviceId, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.GrantRuntimePermission(ctx, _arg_packageName, _arg_permissionName)
+		_err = s.Impl.GrantRuntimePermission(ctx, _arg_packageName, _arg_permissionName, _arg_persistentDeviceId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1460,14 +1646,15 @@ func (s *PermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPermissionManagerRevokeRuntimePermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_permissionName, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_persistentDeviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1478,7 +1665,7 @@ func (s *PermissionManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.RevokeRuntimePermission(ctx, _arg_packageName, _arg_permissionName, _arg_reason)
+		_err = s.Impl.RevokeRuntimePermission(ctx, _arg_packageName, _arg_permissionName, _arg_persistentDeviceId, _arg_reason)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1487,9 +1674,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPermissionManagerRevokePostNotificationPermissionWithoutKillForTest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1506,9 +1690,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPermissionManagerShouldShowRequestPermissionRationale:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1517,10 +1698,14 @@ func (s *PermissionManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
+		_arg_deviceId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.ShouldShowRequestPermissionRationale(ctx, _arg_packageName, _arg_permissionName)
+		_result, _err := s.Impl.ShouldShowRequestPermissionRationale(ctx, _arg_packageName, _arg_permissionName, _arg_deviceId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1530,9 +1715,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPermissionManagerIsPermissionRevokedByPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1541,10 +1723,14 @@ func (s *PermissionManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
+		_arg_deviceId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.IsPermissionRevokedByPolicy(ctx, _arg_packageName, _arg_permissionName)
+		_result, _err := s.Impl.IsPermissionRevokedByPolicy(ctx, _arg_packageName, _arg_permissionName, _arg_deviceId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1554,9 +1740,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPermissionManagerGetSplitPermissions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSplitPermissions(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1564,14 +1747,24 @@ func (s *PermissionManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIPermissionManagerStartOneTimePermissionSession:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_packageName, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := _data.ReadString16()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1586,7 +1779,7 @@ func (s *PermissionManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.StartOneTimePermissionSession(ctx, _arg_packageName, _arg_timeout, _arg_revokeAfterKilledDelay)
+		_err = s.Impl.StartOneTimePermissionSession(ctx, _arg_packageName, _arg_deviceId, _arg_timeout, _arg_revokeAfterKilledDelay)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1595,9 +1788,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPermissionManagerStopOneTimePermissionSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1614,9 +1804,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPermissionManagerGetAutoRevokeExemptionRequestedPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1627,13 +1814,16 @@ func (s *PermissionManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPermissionManagerGetAutoRevokeExemptionGrantedPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1644,13 +1834,16 @@ func (s *PermissionManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPermissionManagerSetAutoRevokeExempted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1672,9 +1865,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPermissionManagerIsAutoRevokeExempted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1692,9 +1882,6 @@ func (s *PermissionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPermissionManagerRegisterAttributionSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_source content.AttributionSourceState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1707,18 +1894,16 @@ func (s *PermissionManagerStub) OnTransaction(
 				}
 			}
 		}
-		_err := s.Impl.RegisterAttributionSource(ctx, _arg_source)
+		_result, _err := s.Impl.RegisterAttributionSource(ctx, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	case TransactionIPermissionManagerIsRegisteredAttributionSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_source content.AttributionSourceState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1740,6 +1925,85 @@ func (s *PermissionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
 		return _reply, nil
+	case TransactionIPermissionManagerCheckPermission:
+		_arg_packageName, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_permissionName, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_persistentDeviceId, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := _data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CheckPermission(ctx, _arg_packageName, _arg_permissionName, _arg_persistentDeviceId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIPermissionManagerCheckUidPermission:
+		_arg_uid, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_permissionName, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_deviceId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CheckUidPermission(ctx, _arg_uid, _arg_permissionName, _arg_deviceId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIPermissionManagerGetAllPermissionStates:
+		_arg_packageName, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_persistentDeviceId, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := _data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAllPermissionStates(ctx, _arg_packageName, _arg_persistentDeviceId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _k, _v := range _result {
+				_reply.WriteString16(_k)
+				_reply.WriteInt32(1)
+				if _err := _v.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1755,28 +2019,31 @@ type IPermissionManagerServer interface {
 	QueryPermissionsByGroup(ctx context.Context, groupName string, flags int32) (pm.ParceledListSlice, error)
 	AddPermission(ctx context.Context, permissionInfo pm.PermissionInfo, async bool) (bool, error)
 	RemovePermission(ctx context.Context, permissionName string) error
-	GetPermissionFlags(ctx context.Context, packageName string, permissionName string) (int32, error)
-	UpdatePermissionFlags(ctx context.Context, packageName string, permissionName string, flagMask int32, flagValues int32, checkAdjustPolicyFlagPermission bool) error
+	GetPermissionFlags(ctx context.Context, packageName string, permissionName string, persistentDeviceId string) (int32, error)
+	UpdatePermissionFlags(ctx context.Context, packageName string, permissionName string, flagMask int32, flagValues int32, checkAdjustPolicyFlagPermission bool, persistentDeviceId string) error
 	UpdatePermissionFlagsForAllApps(ctx context.Context, flagMask int32, flagValues int32) error
 	AddOnPermissionsChangeListener(ctx context.Context, listener IOnPermissionsChangeListener) error
 	RemoveOnPermissionsChangeListener(ctx context.Context, listener IOnPermissionsChangeListener) error
 	GetAllowlistedRestrictedPermissions(ctx context.Context, packageName string, flags int32) ([]string, error)
 	AddAllowlistedRestrictedPermission(ctx context.Context, packageName string, permissionName string, flags int32) (bool, error)
 	RemoveAllowlistedRestrictedPermission(ctx context.Context, packageName string, permissionName string, flags int32) (bool, error)
-	GrantRuntimePermission(ctx context.Context, packageName string, permissionName string) error
-	RevokeRuntimePermission(ctx context.Context, packageName string, permissionName string, reason string) error
+	GrantRuntimePermission(ctx context.Context, packageName string, permissionName string, persistentDeviceId string) error
+	RevokeRuntimePermission(ctx context.Context, packageName string, permissionName string, persistentDeviceId string, reason string) error
 	RevokePostNotificationPermissionWithoutKillForTest(ctx context.Context, packageName string) error
-	ShouldShowRequestPermissionRationale(ctx context.Context, packageName string, permissionName string) (bool, error)
-	IsPermissionRevokedByPolicy(ctx context.Context, packageName string, permissionName string) (bool, error)
+	ShouldShowRequestPermissionRationale(ctx context.Context, packageName string, permissionName string, deviceId int32) (bool, error)
+	IsPermissionRevokedByPolicy(ctx context.Context, packageName string, permissionName string, deviceId int32) (bool, error)
 	GetSplitPermissions(ctx context.Context) ([]pmPermission.SplitPermissionInfoParcelable, error)
-	StartOneTimePermissionSession(ctx context.Context, packageName string, timeout int64, revokeAfterKilledDelay int64) error
+	StartOneTimePermissionSession(ctx context.Context, packageName string, deviceId int32, timeout int64, revokeAfterKilledDelay int64) error
 	StopOneTimePermissionSession(ctx context.Context, packageName string) error
 	GetAutoRevokeExemptionRequestedPackages(ctx context.Context) ([]string, error)
 	GetAutoRevokeExemptionGrantedPackages(ctx context.Context) ([]string, error)
 	SetAutoRevokeExempted(ctx context.Context, packageName string, exempted bool) (bool, error)
 	IsAutoRevokeExempted(ctx context.Context, packageName string) (bool, error)
-	RegisterAttributionSource(ctx context.Context, source content.AttributionSourceState) error
+	RegisterAttributionSource(ctx context.Context, source content.AttributionSourceState) (binder.IBinder, error)
 	IsRegisteredAttributionSource(ctx context.Context, source content.AttributionSourceState) (bool, error)
+	CheckPermission(ctx context.Context, packageName string, permissionName string, persistentDeviceId string) (int32, error)
+	CheckUidPermission(ctx context.Context, uid int32, permissionName string, deviceId int32) (int32, error)
+	GetAllPermissionStates(ctx context.Context, packageName string, persistentDeviceId string) (map[string]PermissionManagerPermissionState, error)
 }
 
 type permissionManagerStubWrapper struct {
@@ -1839,8 +2106,9 @@ func (w *permissionManagerStubWrapper) GetPermissionFlags(
 	ctx context.Context,
 	packageName string,
 	permissionName string,
+	persistentDeviceId string,
 ) (int32, error) {
-	return w.impl.GetPermissionFlags(ctx, packageName, permissionName)
+	return w.impl.GetPermissionFlags(ctx, packageName, permissionName, persistentDeviceId)
 }
 
 func (w *permissionManagerStubWrapper) UpdatePermissionFlags(
@@ -1850,8 +2118,9 @@ func (w *permissionManagerStubWrapper) UpdatePermissionFlags(
 	flagMask int32,
 	flagValues int32,
 	checkAdjustPolicyFlagPermission bool,
+	persistentDeviceId string,
 ) error {
-	return w.impl.UpdatePermissionFlags(ctx, packageName, permissionName, flagMask, flagValues, checkAdjustPolicyFlagPermission)
+	return w.impl.UpdatePermissionFlags(ctx, packageName, permissionName, flagMask, flagValues, checkAdjustPolicyFlagPermission, persistentDeviceId)
 }
 
 func (w *permissionManagerStubWrapper) UpdatePermissionFlagsForAllApps(
@@ -1906,17 +2175,19 @@ func (w *permissionManagerStubWrapper) GrantRuntimePermission(
 	ctx context.Context,
 	packageName string,
 	permissionName string,
+	persistentDeviceId string,
 ) error {
-	return w.impl.GrantRuntimePermission(ctx, packageName, permissionName)
+	return w.impl.GrantRuntimePermission(ctx, packageName, permissionName, persistentDeviceId)
 }
 
 func (w *permissionManagerStubWrapper) RevokeRuntimePermission(
 	ctx context.Context,
 	packageName string,
 	permissionName string,
+	persistentDeviceId string,
 	reason string,
 ) error {
-	return w.impl.RevokeRuntimePermission(ctx, packageName, permissionName, reason)
+	return w.impl.RevokeRuntimePermission(ctx, packageName, permissionName, persistentDeviceId, reason)
 }
 
 func (w *permissionManagerStubWrapper) RevokePostNotificationPermissionWithoutKillForTest(
@@ -1930,16 +2201,18 @@ func (w *permissionManagerStubWrapper) ShouldShowRequestPermissionRationale(
 	ctx context.Context,
 	packageName string,
 	permissionName string,
+	deviceId int32,
 ) (bool, error) {
-	return w.impl.ShouldShowRequestPermissionRationale(ctx, packageName, permissionName)
+	return w.impl.ShouldShowRequestPermissionRationale(ctx, packageName, permissionName, deviceId)
 }
 
 func (w *permissionManagerStubWrapper) IsPermissionRevokedByPolicy(
 	ctx context.Context,
 	packageName string,
 	permissionName string,
+	deviceId int32,
 ) (bool, error) {
-	return w.impl.IsPermissionRevokedByPolicy(ctx, packageName, permissionName)
+	return w.impl.IsPermissionRevokedByPolicy(ctx, packageName, permissionName, deviceId)
 }
 
 func (w *permissionManagerStubWrapper) GetSplitPermissions(
@@ -1951,10 +2224,11 @@ func (w *permissionManagerStubWrapper) GetSplitPermissions(
 func (w *permissionManagerStubWrapper) StartOneTimePermissionSession(
 	ctx context.Context,
 	packageName string,
+	deviceId int32,
 	timeout int64,
 	revokeAfterKilledDelay int64,
 ) error {
-	return w.impl.StartOneTimePermissionSession(ctx, packageName, timeout, revokeAfterKilledDelay)
+	return w.impl.StartOneTimePermissionSession(ctx, packageName, deviceId, timeout, revokeAfterKilledDelay)
 }
 
 func (w *permissionManagerStubWrapper) StopOneTimePermissionSession(
@@ -1994,7 +2268,7 @@ func (w *permissionManagerStubWrapper) IsAutoRevokeExempted(
 func (w *permissionManagerStubWrapper) RegisterAttributionSource(
 	ctx context.Context,
 	source content.AttributionSourceState,
-) error {
+) (binder.IBinder, error) {
 	return w.impl.RegisterAttributionSource(ctx, source)
 }
 
@@ -2003,6 +2277,32 @@ func (w *permissionManagerStubWrapper) IsRegisteredAttributionSource(
 	source content.AttributionSourceState,
 ) (bool, error) {
 	return w.impl.IsRegisteredAttributionSource(ctx, source)
+}
+
+func (w *permissionManagerStubWrapper) CheckPermission(
+	ctx context.Context,
+	packageName string,
+	permissionName string,
+	persistentDeviceId string,
+) (int32, error) {
+	return w.impl.CheckPermission(ctx, packageName, permissionName, persistentDeviceId)
+}
+
+func (w *permissionManagerStubWrapper) CheckUidPermission(
+	ctx context.Context,
+	uid int32,
+	permissionName string,
+	deviceId int32,
+) (int32, error) {
+	return w.impl.CheckUidPermission(ctx, uid, permissionName, deviceId)
+}
+
+func (w *permissionManagerStubWrapper) GetAllPermissionStates(
+	ctx context.Context,
+	packageName string,
+	persistentDeviceId string,
+) (map[string]PermissionManagerPermissionState, error) {
+	return w.impl.GetAllPermissionStates(ctx, packageName, persistentDeviceId)
 }
 
 var _ IPermissionManager = (*permissionManagerStubWrapper)(nil)

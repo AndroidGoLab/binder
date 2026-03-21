@@ -1,0 +1,4 @@
+package: android.telephony.emergency
+go_package: android/telephony/emergency
+parcelables:
+    - name: EmergencyNumber

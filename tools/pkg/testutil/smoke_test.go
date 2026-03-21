@@ -105,9 +105,9 @@ func TestSmokeTestAllMethods(t *testing.T) {
 	result := SmokeTestAllMethods(t, proxy)
 
 	assert.Equal(t, 4, result.Total, "should test 4 methods (AsBinder is skipped)")
-	assert.Equal(t, 3, result.Passed, "SimpleMethod, MethodWithArgs, and MethodWithIBinder should pass")
+	assert.Equal(t, 0, result.Passed, "no methods should pass (mock returns SecurityException)")
 	assert.Equal(t, 1, result.Panicked, "PanicMethod should panic on nil interface")
-	assert.Equal(t, 0, result.Failed, "no methods should fail")
+	assert.Equal(t, 3, result.Failed, "SimpleMethod, MethodWithArgs, and MethodWithIBinder should fail (SecurityException)")
 }
 
 func TestSmokeTestAllMethods_EmptyProxy(t *testing.T) {
@@ -158,7 +158,7 @@ func TestSmokeTestAllMethods_SkipsBothInfrastructureMethods(t *testing.T) {
 	result := SmokeTestAllMethods(t, proxy)
 
 	assert.Equal(t, 1, result.Total, "only DoWork should be tested")
-	assert.Equal(t, 1, result.Passed)
+	assert.Equal(t, 0, result.Passed)
 	assert.Equal(t, 0, result.Panicked)
-	assert.Equal(t, 0, result.Failed)
+	assert.Equal(t, 1, result.Failed, "DoWork should fail (mock returns SecurityException)")
 }

@@ -1,0 +1,173 @@
+package: android.app.contentsuggestions
+go_package: android/app/contentsuggestions
+interfaces:
+    - name: IClassificationsCallback
+      descriptor: android.app.contentsuggestions.IClassificationsCallback
+      oneway: true
+      methods:
+        - name: onContentClassificationsAvailable
+          transaction_code_offset: 0
+          params:
+            - name: statusCode
+              type:
+                name: int
+            - name: classifications
+              type:
+                name: List
+                type_args:
+                    - name: ContentClassification
+              direction: in
+          return_type:
+            name: void
+    - name: IContentSuggestionsManager
+      descriptor: android.app.contentsuggestions.IContentSuggestionsManager
+      oneway: true
+      methods:
+        - name: provideContextImage
+          transaction_code_offset: 0
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: taskId
+              type:
+                name: int
+            - name: imageContextRequestExtras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: provideContextBitmap
+          transaction_code_offset: 1
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: bitmap
+              type:
+                name: Bitmap
+              direction: in
+            - name: imageContextRequestExtras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: suggestContentSelections
+          transaction_code_offset: 2
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: request
+              type:
+                name: SelectionsRequest
+              direction: in
+            - name: callback
+              type:
+                name: ISelectionsCallback
+              direction: in
+          return_type:
+            name: void
+        - name: classifyContentSelections
+          transaction_code_offset: 3
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: request
+              type:
+                name: ClassificationsRequest
+              direction: in
+            - name: callback
+              type:
+                name: IClassificationsCallback
+              direction: in
+          return_type:
+            name: void
+        - name: notifyInteraction
+          transaction_code_offset: 4
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: requestId
+              type:
+                name: String
+              direction: in
+            - name: interaction
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: isEnabled
+          transaction_code_offset: 5
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: receiver
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: resetTemporaryService
+          transaction_code_offset: 6
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setTemporaryService
+          transaction_code_offset: 7
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: serviceName
+              type:
+                name: String
+              direction: in
+            - name: duration
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setDefaultServiceEnabled
+          transaction_code_offset: 8
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: ISelectionsCallback
+      descriptor: android.app.contentsuggestions.ISelectionsCallback
+      oneway: true
+      methods:
+        - name: onContentSelectionsAvailable
+          transaction_code_offset: 0
+          params:
+            - name: statusCode
+              type:
+                name: int
+            - name: selections
+              type:
+                name: List
+                type_args:
+                    - name: ContentSelection
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: ClassificationsRequest
+    - name: ContentClassification
+    - name: ContentSelection
+    - name: SelectionsRequest

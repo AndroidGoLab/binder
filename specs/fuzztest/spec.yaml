@@ -1,0 +1,14 @@
+package: fuzztest
+go_package: fuzztest
+interfaces:
+    - name: ITestService
+      descriptor: fuzztest.ITestService
+      methods:
+        - name: repeatData
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: boolean
+          return_type:
+            name: boolean

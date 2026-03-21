@@ -45,6 +45,7 @@ func (p *UpdateSubscriptionNicknameCallbackProxy) OnComplete(
 	result int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUpdateSubscriptionNicknameCallback)
 	_data.WriteInt32(result)
 
@@ -60,7 +61,8 @@ func (p *UpdateSubscriptionNicknameCallbackProxy) OnComplete(
 // UpdateSubscriptionNicknameCallbackStub dispatches incoming binder transactions
 // to a typed IUpdateSubscriptionNicknameCallback implementation.
 type UpdateSubscriptionNicknameCallbackStub struct {
-	Impl IUpdateSubscriptionNicknameCallback
+	Impl      IUpdateSubscriptionNicknameCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UpdateSubscriptionNicknameCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *UpdateSubscriptionNicknameCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUpdateSubscriptionNicknameCallbackOnComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnComplete(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

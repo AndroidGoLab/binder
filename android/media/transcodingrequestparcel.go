@@ -15,12 +15,12 @@ type TranscodingRequestParcel struct {
 	ClientPid                 int32
 	ClientPackageName         string
 	TranscodingType           TranscodingType
-	RequestedVideoTrackFormat TranscodingVideoTrackFormat
+	RequestedVideoTrackFormat *TranscodingVideoTrackFormat
 	Priority                  TranscodingSessionPriority
 	RequestProgressUpdate     bool
 	RequestSessionEventUpdate bool
 	IsForTesting              bool
-	TestConfig                TranscodingTestConfig
+	TestConfig                *TranscodingTestConfig
 	EnableStats               bool
 }
 
@@ -38,15 +38,25 @@ func (s *TranscodingRequestParcel) MarshalParcel(
 	p.WriteInt32(s.ClientPid)
 	p.WriteString16(s.ClientPackageName)
 	p.WriteInt32(int32(s.TranscodingType))
-	if _err := s.RequestedVideoTrackFormat.MarshalParcel(p); _err != nil {
-		return _err
+	if s.RequestedVideoTrackFormat == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.RequestedVideoTrackFormat.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	p.WriteInt32(int32(s.Priority))
 	p.WriteBool(s.RequestProgressUpdate)
 	p.WriteBool(s.RequestSessionEventUpdate)
 	p.WriteBool(s.IsForTesting)
-	if _err := s.TestConfig.MarshalParcel(p); _err != nil {
-		return _err
+	if s.TestConfig == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.TestConfig.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	p.WriteBool(s.EnableStats)
 
@@ -62,9 +72,19 @@ func (s *TranscodingRequestParcel) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SourceFilePath, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SourceFd, _err = p.ReadFileDescriptor()
@@ -72,9 +92,19 @@ func (s *TranscodingRequestParcel) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.DestinationFilePath, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.DestinationFd, _err = p.ReadFileDescriptor()
@@ -82,9 +112,19 @@ func (s *TranscodingRequestParcel) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ClientUid, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ClientPid, _err = p.ReadInt32()
@@ -92,9 +132,19 @@ func (s *TranscodingRequestParcel) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ClientPackageName, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_transcodingTypeRaw, _err := p.ReadInt32()
@@ -103,8 +153,28 @@ func (s *TranscodingRequestParcel) UnmarshalParcel(
 	}
 	s.TranscodingType = TranscodingType(_transcodingTypeRaw)
 
-	if _err = s.RequestedVideoTrackFormat.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val TranscodingVideoTrackFormat
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.RequestedVideoTrackFormat = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_priorityRaw, _err := p.ReadInt32()
@@ -113,9 +183,19 @@ func (s *TranscodingRequestParcel) UnmarshalParcel(
 	}
 	s.Priority = TranscodingSessionPriority(_priorityRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.RequestProgressUpdate, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.RequestSessionEventUpdate, _err = p.ReadBool()
@@ -123,13 +203,38 @@ func (s *TranscodingRequestParcel) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsForTesting, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
 
-	if _err = s.TestConfig.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val TranscodingTestConfig
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.TestConfig = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.EnableStats, _err = p.ReadBool()

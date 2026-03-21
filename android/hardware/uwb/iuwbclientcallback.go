@@ -48,15 +48,9 @@ func (p *UwbClientCallbackProxy) OnUciMessage(
 	data []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUwbClientCallback)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbClientCallback, MethodIUwbClientCallbackOnUciMessage)
 	if _err != nil {
@@ -73,6 +67,7 @@ func (p *UwbClientCallbackProxy) OnHalEvent(
 	status UwbStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUwbClientCallback)
 	_data.WriteInt32(int32(event))
 	_data.WriteInt32(int32(status))
@@ -89,7 +84,8 @@ func (p *UwbClientCallbackProxy) OnHalEvent(
 // UwbClientCallbackStub dispatches incoming binder transactions
 // to a typed IUwbClientCallback implementation.
 type UwbClientCallbackStub struct {
-	Impl IUwbClientCallback
+	Impl      IUwbClientCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UwbClientCallbackStub)(nil)
@@ -103,21 +99,23 @@ func (s *UwbClientCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUwbClientCallbackOnUciMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
-		_err := s.Impl.OnUciMessage(ctx, _arg_data)
-		_ = _err
-		return nil, nil
-	case TransactionIUwbClientCallbackOnHalEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
 		}
+		_err := s.Impl.OnUciMessage(ctx, _arg_data)
+		return nil, _err
+	case TransactionIUwbClientCallbackOnHalEvent:
 		_raw_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -129,8 +127,7 @@ func (s *UwbClientCallbackStub) OnTransaction(
 		}
 		_arg_status := UwbStatus(_raw_status)
 		_err = s.Impl.OnHalEvent(ctx, _arg_event, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

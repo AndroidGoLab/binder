@@ -48,6 +48,7 @@ func (p *NumberVerificationCallbackProxy) OnCallReceived(
 	phoneNumber string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINumberVerificationCallback)
 	_data.WriteString16(phoneNumber)
 
@@ -65,6 +66,7 @@ func (p *NumberVerificationCallbackProxy) OnVerificationFailed(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINumberVerificationCallback)
 	_data.WriteInt32(reason)
 
@@ -80,7 +82,8 @@ func (p *NumberVerificationCallbackProxy) OnVerificationFailed(
 // NumberVerificationCallbackStub dispatches incoming binder transactions
 // to a typed INumberVerificationCallback implementation.
 type NumberVerificationCallbackStub struct {
-	Impl INumberVerificationCallback
+	Impl      INumberVerificationCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NumberVerificationCallbackStub)(nil)
@@ -94,29 +97,25 @@ func (s *NumberVerificationCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINumberVerificationCallbackOnCallReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneNumber, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnCallReceived(ctx, _arg_phoneNumber)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINumberVerificationCallbackOnVerificationFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnVerificationFailed(ctx, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -64,6 +64,7 @@ func (p *ImsVideoCallCallbackProxy) ReceiveSessionModifyRequest(
 	videoProfile telecom.VideoProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallCallback)
 	_data.WriteInt32(1)
 	if _err := videoProfile.MarshalParcel(_data); _err != nil {
@@ -86,6 +87,7 @@ func (p *ImsVideoCallCallbackProxy) ReceiveSessionModifyResponse(
 	responseProfile telecom.VideoProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallCallback)
 	_data.WriteInt32(status)
 	_data.WriteInt32(1)
@@ -111,6 +113,7 @@ func (p *ImsVideoCallCallbackProxy) HandleCallSessionEvent(
 	event int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallCallback)
 	_data.WriteInt32(event)
 
@@ -129,6 +132,7 @@ func (p *ImsVideoCallCallbackProxy) ChangePeerDimensions(
 	height int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallCallback)
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
@@ -147,6 +151,7 @@ func (p *ImsVideoCallCallbackProxy) ChangeCallDataUsage(
 	dataUsage int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallCallback)
 	_data.WriteInt64(dataUsage)
 
@@ -164,6 +169,7 @@ func (p *ImsVideoCallCallbackProxy) ChangeCameraCapabilities(
 	cameraCapabilities telecom.VideoProfileCameraCapabilities,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallCallback)
 	_data.WriteInt32(1)
 	if _err := cameraCapabilities.MarshalParcel(_data); _err != nil {
@@ -184,6 +190,7 @@ func (p *ImsVideoCallCallbackProxy) ChangeVideoQuality(
 	videoQuality int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallCallback)
 	_data.WriteInt32(videoQuality)
 
@@ -199,7 +206,8 @@ func (p *ImsVideoCallCallbackProxy) ChangeVideoQuality(
 // ImsVideoCallCallbackStub dispatches incoming binder transactions
 // to a typed IImsVideoCallCallback implementation.
 type ImsVideoCallCallbackStub struct {
-	Impl IImsVideoCallCallback
+	Impl      IImsVideoCallCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsVideoCallCallbackStub)(nil)
@@ -213,11 +221,12 @@ func (s *ImsVideoCallCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsVideoCallCallbackReceiveSessionModifyRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_videoProfile telecom.VideoProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -231,12 +240,8 @@ func (s *ImsVideoCallCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ReceiveSessionModifyRequest(ctx, _arg_videoProfile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsVideoCallCallbackReceiveSessionModifyResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -266,23 +271,15 @@ func (s *ImsVideoCallCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.ReceiveSessionModifyResponse(ctx, _arg_status, _arg_requestedProfile, _arg_responseProfile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsVideoCallCallbackHandleCallSessionEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.HandleCallSessionEvent(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsVideoCallCallbackChangePeerDimensions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -292,23 +289,15 @@ func (s *ImsVideoCallCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ChangePeerDimensions(ctx, _arg_width, _arg_height)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsVideoCallCallbackChangeCallDataUsage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dataUsage, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ChangeCallDataUsage(ctx, _arg_dataUsage)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsVideoCallCallbackChangeCameraCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_cameraCapabilities telecom.VideoProfileCameraCapabilities
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -322,19 +311,14 @@ func (s *ImsVideoCallCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ChangeCameraCapabilities(ctx, _arg_cameraCapabilities)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsVideoCallCallbackChangeVideoQuality:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_videoQuality, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ChangeVideoQuality(ctx, _arg_videoQuality)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

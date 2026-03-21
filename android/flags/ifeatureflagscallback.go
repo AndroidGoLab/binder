@@ -45,6 +45,7 @@ func (p *FeatureFlagsCallbackProxy) OnFlagChange(
 	flag SyncableFlag,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureFlagsCallback)
 	_data.WriteInt32(1)
 	if _err := flag.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *FeatureFlagsCallbackProxy) OnFlagChange(
 // FeatureFlagsCallbackStub dispatches incoming binder transactions
 // to a typed IFeatureFlagsCallback implementation.
 type FeatureFlagsCallbackStub struct {
-	Impl IFeatureFlagsCallback
+	Impl      IFeatureFlagsCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FeatureFlagsCallbackStub)(nil)
@@ -77,11 +79,12 @@ func (s *FeatureFlagsCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFeatureFlagsCallbackOnFlagChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_flag SyncableFlag
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *FeatureFlagsCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnFlagChange(ctx, _arg_flag)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

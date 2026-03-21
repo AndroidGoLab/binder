@@ -49,6 +49,7 @@ func (p *WallpaperEffectsGenerationManagerProxy) GenerateCinematicEffect(
 	listener ICinematicEffectListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEffectsGenerationManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -70,6 +71,7 @@ func (p *WallpaperEffectsGenerationManagerProxy) ReturnCinematicEffectResponse(
 	response CinematicEffectResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEffectsGenerationManager)
 	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
@@ -88,7 +90,8 @@ func (p *WallpaperEffectsGenerationManagerProxy) ReturnCinematicEffectResponse(
 // WallpaperEffectsGenerationManagerStub dispatches incoming binder transactions
 // to a typed IWallpaperEffectsGenerationManager implementation.
 type WallpaperEffectsGenerationManagerStub struct {
-	Impl IWallpaperEffectsGenerationManager
+	Impl      IWallpaperEffectsGenerationManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WallpaperEffectsGenerationManagerStub)(nil)
@@ -102,11 +105,12 @@ func (s *WallpaperEffectsGenerationManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWallpaperEffectsGenerationManagerGenerateCinematicEffect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request CinematicEffectRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -119,16 +123,17 @@ func (s *WallpaperEffectsGenerationManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ICinematicEffectListener
-		_ = _arg_listener
-		_err := s.Impl.GenerateCinematicEffect(ctx, _arg_request, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionIWallpaperEffectsGenerationManagerReturnCinematicEffectResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewCinematicEffectListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err := s.Impl.GenerateCinematicEffect(ctx, _arg_request, _arg_listener)
+		return nil, _err
+	case TransactionIWallpaperEffectsGenerationManagerReturnCinematicEffectResponse:
 		var _arg_response CinematicEffectResponse
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -142,8 +147,7 @@ func (s *WallpaperEffectsGenerationManagerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ReturnCinematicEffectResponse(ctx, _arg_response)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

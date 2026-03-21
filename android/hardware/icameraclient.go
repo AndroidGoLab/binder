@@ -34,7 +34,8 @@ var _ ICameraClient = (*CameraClientProxy)(nil)
 // CameraClientStub dispatches incoming binder transactions
 // to a typed ICameraClient implementation.
 type CameraClientStub struct {
-	Impl ICameraClient
+	Impl      ICameraClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CameraClientStub)(nil)
@@ -48,6 +49,10 @@ func (s *CameraClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

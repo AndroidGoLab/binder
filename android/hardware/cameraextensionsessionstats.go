@@ -1,7 +1,6 @@
 package hardware
 
 import (
-	hardwareCameraExtensionSessionStats "github.com/xaionaro-go/binder/android/hardware/CameraExtensionSessionStats"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -11,7 +10,7 @@ type CameraExtensionSessionStats struct {
 	Key        string
 	CameraId   string
 	ClientName string
-	Type       hardwareCameraExtensionSessionStats.Type
+	Type       CameraExtensionSessionStatsType
 	IsAdvanced bool
 }
 
@@ -39,9 +38,19 @@ func (s *CameraExtensionSessionStats) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Key, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.CameraId, _err = p.ReadString16()
@@ -49,16 +58,31 @@ func (s *CameraExtensionSessionStats) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ClientName, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_typeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.Type = hardwareCameraExtensionSessionStats.Type(_typeRaw)
+	s.Type = CameraExtensionSessionStatsType(_typeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.IsAdvanced, _err = p.ReadBool()
 	if _err != nil {

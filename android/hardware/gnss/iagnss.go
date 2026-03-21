@@ -3,8 +3,6 @@ package gnss
 import (
 	"context"
 	"fmt"
-	gnssIAGnss "github.com/xaionaro-go/binder/android/hardware/gnss/IAGnss"
-	gnssIAGnssCallback "github.com/xaionaro-go/binder/android/hardware/gnss/IAGnssCallback"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -34,8 +32,8 @@ type IAGnss interface {
 	SetCallback(ctx context.Context, callback IAGnssCallback) error
 	DataConnClosed(ctx context.Context) error
 	DataConnFailed(ctx context.Context) error
-	SetServer(ctx context.Context, type_ gnssIAGnssCallback.AGnssType, hostname string, port int32) error
-	DataConnOpen(ctx context.Context, networkHandle int64, apn string, apnIpType gnssIAGnss.ApnIpType) error
+	SetServer(ctx context.Context, type_ IAGnssCallbackAGnssType, hostname string, port int32) error
+	DataConnOpen(ctx context.Context, networkHandle int64, apn string, apnIpType IAGnssApnIpType) error
 }
 
 type AGnssProxy struct {
@@ -59,6 +57,7 @@ func (p *AGnssProxy) SetCallback(
 	callback IAGnssCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnss)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -84,6 +83,7 @@ func (p *AGnssProxy) DataConnClosed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnss, MethodIAGnssDataConnClosed)
@@ -108,6 +108,7 @@ func (p *AGnssProxy) DataConnFailed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnss)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnss, MethodIAGnssDataConnFailed)
@@ -130,11 +131,12 @@ func (p *AGnssProxy) DataConnFailed(
 
 func (p *AGnssProxy) SetServer(
 	ctx context.Context,
-	type_ gnssIAGnssCallback.AGnssType,
+	type_ IAGnssCallbackAGnssType,
 	hostname string,
 	port int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnss)
 	_data.WriteInt32(int32(type_))
 	_data.WriteString16(hostname)
@@ -162,9 +164,10 @@ func (p *AGnssProxy) DataConnOpen(
 	ctx context.Context,
 	networkHandle int64,
 	apn string,
-	apnIpType gnssIAGnss.ApnIpType,
+	apnIpType IAGnssApnIpType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnss)
 	_data.WriteInt64(networkHandle)
 	_data.WriteString16(apn)
@@ -191,7 +194,8 @@ func (p *AGnssProxy) DataConnOpen(
 // AGnssStub dispatches incoming binder transactions
 // to a typed IAGnss implementation.
 type AGnssStub struct {
-	Impl IAGnss
+	Impl      IAGnss
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AGnssStub)(nil)
@@ -205,14 +209,20 @@ func (s *AGnssStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAGnssSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAGnssCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAGnssCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -222,9 +232,6 @@ func (s *AGnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssDataConnClosed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DataConnClosed(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -234,9 +241,6 @@ func (s *AGnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssDataConnFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DataConnFailed(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -246,14 +250,11 @@ func (s *AGnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssSetServer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_type_ := gnssIAGnssCallback.AGnssType(_raw_type_)
+		_arg_type_ := IAGnssCallbackAGnssType(_raw_type_)
 		_arg_hostname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -271,9 +272,6 @@ func (s *AGnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssDataConnOpen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_networkHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -286,7 +284,7 @@ func (s *AGnssStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_apnIpType := gnssIAGnss.ApnIpType(_raw_apnIpType)
+		_arg_apnIpType := IAGnssApnIpType(_raw_apnIpType)
 		_err = s.Impl.DataConnOpen(ctx, _arg_networkHandle, _arg_apn, _arg_apnIpType)
 		_reply := parcel.New()
 		if _err != nil {
@@ -307,8 +305,8 @@ type IAGnssServer interface {
 	SetCallback(ctx context.Context, callback IAGnssCallback) error
 	DataConnClosed(ctx context.Context) error
 	DataConnFailed(ctx context.Context) error
-	SetServer(ctx context.Context, type_ gnssIAGnssCallback.AGnssType, hostname string, port int32) error
-	DataConnOpen(ctx context.Context, networkHandle int64, apn string, apnIpType gnssIAGnss.ApnIpType) error
+	SetServer(ctx context.Context, type_ IAGnssCallbackAGnssType, hostname string, port int32) error
+	DataConnOpen(ctx context.Context, networkHandle int64, apn string, apnIpType IAGnssApnIpType) error
 }
 
 type aGnssStubWrapper struct {
@@ -341,7 +339,7 @@ func (w *aGnssStubWrapper) DataConnFailed(
 
 func (w *aGnssStubWrapper) SetServer(
 	ctx context.Context,
-	type_ gnssIAGnssCallback.AGnssType,
+	type_ IAGnssCallbackAGnssType,
 	hostname string,
 	port int32,
 ) error {
@@ -352,7 +350,7 @@ func (w *aGnssStubWrapper) DataConnOpen(
 	ctx context.Context,
 	networkHandle int64,
 	apn string,
-	apnIpType gnssIAGnss.ApnIpType,
+	apnIpType IAGnssApnIpType,
 ) error {
 	return w.impl.DataConnOpen(ctx, networkHandle, apn, apnIpType)
 }

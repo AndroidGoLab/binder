@@ -1,0 +1,157 @@
+package: com.android.ims.internal.uce.uceservice
+go_package: com/android/ims/internal_/uce/uceservice
+interfaces:
+    - name: IUceListener
+      descriptor: com.android.ims.internal.uce.uceservice.IUceListener
+      methods:
+        - name: setStatus
+          transaction_code_offset: 0
+          params:
+            - name: serviceStatusValue
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IUceService
+      descriptor: com.android.ims.internal.uce.uceservice.IUceService
+      methods:
+        - name: startService
+          transaction_code_offset: 0
+          params:
+            - name: uceListener
+              type:
+                name: IUceListener
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: stopService
+          transaction_code_offset: 1
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: isServiceStarted
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: createOptionsService
+          transaction_code_offset: 3
+          params:
+            - name: optionsListener
+              type:
+                name: IOptionsListener
+            - name: optionsServiceListenerHdl
+              type:
+                name: UceLong
+              direction: inout
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: createOptionsServiceForSubscription
+          transaction_code_offset: 4
+          params:
+            - name: optionsListener
+              type:
+                name: IOptionsListener
+            - name: optionsServiceListenerHdl
+              type:
+                name: UceLong
+              direction: inout
+            - name: iccId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: destroyOptionsService
+          transaction_code_offset: 5
+          params:
+            - name: optionsServiceHandle
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: createPresenceService
+          transaction_code_offset: 6
+          params:
+            - name: presenceServiceListener
+              type:
+                name: IPresenceListener
+            - name: presenceServiceListenerHdl
+              type:
+                name: UceLong
+              direction: inout
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: createPresenceServiceForSubscription
+          transaction_code_offset: 7
+          params:
+            - name: presenceServiceListener
+              type:
+                name: IPresenceListener
+            - name: presenceServiceListenerHdl
+              type:
+                name: UceLong
+              direction: inout
+            - name: iccId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: destroyPresenceService
+          transaction_code_offset: 8
+          params:
+            - name: presenceServiceHdl
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: getServiceStatus
+          transaction_code_offset: 9
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: getPresenceService
+          transaction_code_offset: 10
+          return_type:
+            name: IPresenceService
+          annotations:
+            - UnsupportedAppUsage
+        - name: getPresenceServiceForSubscription
+          transaction_code_offset: 11
+          params:
+            - name: iccId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: IPresenceService
+        - name: getOptionsService
+          transaction_code_offset: 12
+          return_type:
+            name: IOptionsService
+          annotations:
+            - UnsupportedAppUsage
+        - name: getOptionsServiceForSubscription
+          transaction_code_offset: 13
+          params:
+            - name: iccId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: IOptionsService

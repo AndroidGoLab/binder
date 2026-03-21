@@ -1,0 +1,45 @@
+package: android.companion.virtualnative
+go_package: android/companion/virtualnative
+interfaces:
+    - name: IVirtualDeviceManagerNative
+      descriptor: android.companion.virtualnative.IVirtualDeviceManagerNative
+      methods:
+        - name: getDeviceIdsForUid
+          transaction_code_offset: 0
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: int
+            is_array: true
+        - name: getDevicePolicy
+          transaction_code_offset: 1
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: policyType
+              type:
+                name: int
+          return_type:
+            name: int
+      constants:
+        - name: DEVICE_POLICY_DEFAULT
+          type: int
+          value: "0"
+        - name: DEVICE_POLICY_CUSTOM
+          type: int
+          value: "1"
+        - name: POLICY_TYPE_SENSORS
+          type: int
+          value: "0"
+        - name: POLICY_TYPE_AUDIO
+          type: int
+          value: "1"
+        - name: POLICY_TYPE_RECENTS
+          type: int
+          value: "2"
+        - name: POLICY_TYPE_ACTIVITY
+          type: int
+          value: "3"

@@ -5,6 +5,7 @@ package e2e
 import (
 	"context"
 	"errors"
+	"sync/atomic"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -31,7 +32,7 @@ func TestServiceBreadth_PingManyServices(t *testing.T) {
 		"storagestats", "webviewupdate", "credential", "media_router", "midi",
 	}
 
-	successCount := 0
+	var successCount int32
 
 	for _, name := range serviceNames {
 		name := name
@@ -56,13 +57,14 @@ func TestServiceBreadth_PingManyServices(t *testing.T) {
 				return
 			}
 
-			successCount++
+			atomic.AddInt32(&successCount, 1)
 		})
 	}
 
-	assert.GreaterOrEqual(t, successCount, 30,
-		"expected at least 30 services to be reachable, got %d", successCount)
-	t.Logf("total services pinged successfully: %d/%d", successCount, len(serviceNames))
+	finalCount := atomic.LoadInt32(&successCount)
+	assert.GreaterOrEqual(t, finalCount, int32(30),
+		"expected at least 30 services to be reachable, got %d", finalCount)
+	t.Logf("total services pinged successfully: %d/%d", finalCount, len(serviceNames))
 }
 
 func TestServiceBreadth_TransactAcrossCategories(t *testing.T) {

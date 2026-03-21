@@ -3,6 +3,7 @@ package projection
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -27,7 +28,7 @@ type IMediaProjectionWatcherCallback interface {
 	AsBinder() binder.IBinder
 	OnStart(ctx context.Context, info MediaProjectionInfo) error
 	OnStop(ctx context.Context, info MediaProjectionInfo) error
-	OnRecordingSessionSet(ctx context.Context, info MediaProjectionInfo, session *interface{}) error
+	OnRecordingSessionSet(ctx context.Context, info MediaProjectionInfo, session *view.ContentRecordingSession) error
 }
 
 type MediaProjectionWatcherCallbackProxy struct {
@@ -51,6 +52,7 @@ func (p *MediaProjectionWatcherCallbackProxy) OnStart(
 	info MediaProjectionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionWatcherCallback)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -71,6 +73,7 @@ func (p *MediaProjectionWatcherCallbackProxy) OnStop(
 	info MediaProjectionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionWatcherCallback)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -89,13 +92,22 @@ func (p *MediaProjectionWatcherCallbackProxy) OnStop(
 func (p *MediaProjectionWatcherCallbackProxy) OnRecordingSessionSet(
 	ctx context.Context,
 	info MediaProjectionInfo,
-	session *interface{},
+	session *view.ContentRecordingSession,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionWatcherCallback)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
+	}
+	if session != nil {
+		_data.WriteInt32(1)
+		if _err := (*session).MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_data.WriteInt32(-1)
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionWatcherCallback, MethodIMediaProjectionWatcherCallbackOnRecordingSessionSet)
@@ -110,7 +122,8 @@ func (p *MediaProjectionWatcherCallbackProxy) OnRecordingSessionSet(
 // MediaProjectionWatcherCallbackStub dispatches incoming binder transactions
 // to a typed IMediaProjectionWatcherCallback implementation.
 type MediaProjectionWatcherCallbackStub struct {
-	Impl IMediaProjectionWatcherCallback
+	Impl      IMediaProjectionWatcherCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaProjectionWatcherCallbackStub)(nil)
@@ -124,11 +137,12 @@ func (s *MediaProjectionWatcherCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaProjectionWatcherCallbackOnStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info MediaProjectionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -142,12 +156,8 @@ func (s *MediaProjectionWatcherCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnStart(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaProjectionWatcherCallbackOnStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info MediaProjectionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -161,12 +171,8 @@ func (s *MediaProjectionWatcherCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnStop(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaProjectionWatcherCallbackOnRecordingSessionSet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info MediaProjectionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -179,10 +185,21 @@ func (s *MediaProjectionWatcherCallbackStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_session *interface{}
+		var _arg_session *view.ContentRecordingSession
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				_arg_session = new(view.ContentRecordingSession)
+				if _err = _arg_session.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnRecordingSessionSet(ctx, _arg_info, _arg_session)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -194,7 +211,7 @@ func (s *MediaProjectionWatcherCallbackStub) OnTransaction(
 type IMediaProjectionWatcherCallbackServer interface {
 	OnStart(ctx context.Context, info MediaProjectionInfo) error
 	OnStop(ctx context.Context, info MediaProjectionInfo) error
-	OnRecordingSessionSet(ctx context.Context, info MediaProjectionInfo, session *interface{}) error
+	OnRecordingSessionSet(ctx context.Context, info MediaProjectionInfo, session *view.ContentRecordingSession) error
 }
 
 type mediaProjectionWatcherCallbackStubWrapper struct {
@@ -223,7 +240,7 @@ func (w *mediaProjectionWatcherCallbackStubWrapper) OnStop(
 func (w *mediaProjectionWatcherCallbackStubWrapper) OnRecordingSessionSet(
 	ctx context.Context,
 	info MediaProjectionInfo,
-	session *interface{},
+	session *view.ContentRecordingSession,
 ) error {
 	return w.impl.OnRecordingSessionSet(ctx, info, session)
 }

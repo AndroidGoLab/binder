@@ -1,0 +1,9 @@
+package: android.net.wifi.sharedconnectivity.app
+go_package: android/net/wifi/sharedconnectivity/app
+parcelables:
+    - name: HotspotNetwork
+    - name: HotspotNetworkConnectionStatus
+    - name: KnownNetwork
+    - name: KnownNetworkConnectionStatus
+    - name: NetworkProviderInfo
+    - name: SharedConnectivitySettingsState

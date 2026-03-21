@@ -1,0 +1,27 @@
+package: android.content.res
+go_package: android/content/res
+interfaces:
+    - name: IResourcesManager
+      descriptor: android.content.res.IResourcesManager
+      methods:
+        - name: dumpResources
+          transaction_code_offset: 0
+          params:
+            - name: process
+              type:
+                name: String
+              direction: in
+            - name: fd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: finishCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: boolean
+parcelables:
+    - name: CompatibilityInfo
+    - name: Configuration
+    - name: ObbInfo

@@ -71,6 +71,7 @@ func (p *CallDiagnosticServiceProxy) SetAdapter(
 	adapter ICallDiagnosticServiceAdapter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
 	binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
 
@@ -88,6 +89,7 @@ func (p *CallDiagnosticServiceProxy) InitializeDiagnosticCall(
 	call androidTelecom.ParcelableCall,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
 	_data.WriteInt32(1)
 	if _err := call.MarshalParcel(_data); _err != nil {
@@ -108,6 +110,7 @@ func (p *CallDiagnosticServiceProxy) UpdateCall(
 	call androidTelecom.ParcelableCall,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
 	_data.WriteInt32(1)
 	if _err := call.MarshalParcel(_data); _err != nil {
@@ -128,6 +131,7 @@ func (p *CallDiagnosticServiceProxy) UpdateCallAudioState(
 	callAudioState androidTelecom.CallAudioState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
 	_data.WriteInt32(1)
 	if _err := callAudioState.MarshalParcel(_data); _err != nil {
@@ -148,6 +152,7 @@ func (p *CallDiagnosticServiceProxy) RemoveDiagnosticCall(
 	callId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
 	_data.WriteString16(callId)
 
@@ -167,6 +172,7 @@ func (p *CallDiagnosticServiceProxy) ReceiveDeviceToDeviceMessage(
 	value int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
 	_data.WriteString16(callId)
 	_data.WriteInt32(message)
@@ -187,6 +193,7 @@ func (p *CallDiagnosticServiceProxy) CallQualityChanged(
 	callQuality media.CallQuality,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -208,6 +215,7 @@ func (p *CallDiagnosticServiceProxy) ReceiveBluetoothCallQualityReport(
 	qualityReport androidTelecom.BluetoothCallQualityReport,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
 	_data.WriteInt32(1)
 	if _err := qualityReport.MarshalParcel(_data); _err != nil {
@@ -229,6 +237,7 @@ func (p *CallDiagnosticServiceProxy) NotifyCallDisconnected(
 	disconnectCause androidTelecom.DisconnectCause,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -248,7 +257,8 @@ func (p *CallDiagnosticServiceProxy) NotifyCallDisconnected(
 // CallDiagnosticServiceStub dispatches incoming binder transactions
 // to a typed ICallDiagnosticService implementation.
 type CallDiagnosticServiceStub struct {
-	Impl ICallDiagnosticService
+	Impl      ICallDiagnosticService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CallDiagnosticServiceStub)(nil)
@@ -262,21 +272,23 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICallDiagnosticServiceSetAdapter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_adapter ICallDiagnosticServiceAdapter
-		_ = _arg_adapter
-		_err := s.Impl.SetAdapter(ctx, _arg_adapter)
-		_ = _err
-		return nil, nil
-	case TransactionICallDiagnosticServiceInitializeDiagnosticCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_adapterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_adapter = NewCallDiagnosticServiceAdapterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _adapterHandle))
 		}
+		_err := s.Impl.SetAdapter(ctx, _arg_adapter)
+		return nil, _err
+	case TransactionICallDiagnosticServiceInitializeDiagnosticCall:
 		var _arg_call androidTelecom.ParcelableCall
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -290,12 +302,8 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.InitializeDiagnosticCall(ctx, _arg_call)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallDiagnosticServiceUpdateCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_call androidTelecom.ParcelableCall
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -309,12 +317,8 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.UpdateCall(ctx, _arg_call)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallDiagnosticServiceUpdateCallAudioState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_callAudioState androidTelecom.CallAudioState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -328,23 +332,15 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.UpdateCallAudioState(ctx, _arg_callAudioState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallDiagnosticServiceRemoveDiagnosticCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RemoveDiagnosticCall(ctx, _arg_callId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallDiagnosticServiceReceiveDeviceToDeviceMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -358,12 +354,8 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ReceiveDeviceToDeviceMessage(ctx, _arg_callId, _arg_message, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallDiagnosticServiceCallQualityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -381,12 +373,8 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.CallQualityChanged(ctx, _arg_callId, _arg_callQuality)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallDiagnosticServiceReceiveBluetoothCallQualityReport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_qualityReport androidTelecom.BluetoothCallQualityReport
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -400,12 +388,8 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ReceiveBluetoothCallQualityReport(ctx, _arg_qualityReport)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallDiagnosticServiceNotifyCallDisconnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -423,8 +407,7 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyCallDisconnected(ctx, _arg_callId, _arg_disconnectCause)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

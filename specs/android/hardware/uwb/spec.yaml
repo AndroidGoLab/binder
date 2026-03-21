@@ -1,0 +1,124 @@
+package: android.hardware.uwb
+go_package: android/hardware/uwb
+interfaces:
+    - name: IUwb
+      descriptor: android.hardware.uwb.IUwb
+      methods:
+        - name: getChips
+          transaction_code_offset: 0
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getChip
+          transaction_code_offset: 1
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: IUwbChip
+    - name: IUwbChip
+      descriptor: android.hardware.uwb.IUwbChip
+      methods:
+        - name: getName
+          transaction_code_offset: 0
+          return_type:
+            name: String
+        - name: open
+          transaction_code_offset: 1
+          params:
+            - name: clientCallback
+              type:
+                name: IUwbClientCallback
+              direction: in
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: coreInit
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: sessionInit
+          transaction_code_offset: 4
+          params:
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getSupportedAndroidUciVersion
+          transaction_code_offset: 5
+          return_type:
+            name: int
+        - name: sendUciMessage
+          transaction_code_offset: 6
+          params:
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: int
+    - name: IUwbClientCallback
+      descriptor: android.hardware.uwb.IUwbClientCallback
+      oneway: true
+      methods:
+        - name: onUciMessage
+          transaction_code_offset: 0
+          params:
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onHalEvent
+          transaction_code_offset: 1
+          params:
+            - name: event
+              type:
+                name: UwbEvent
+              direction: in
+            - name: status
+              type:
+                name: UwbStatus
+              direction: in
+          return_type:
+            name: void
+enums:
+    - name: UwbEvent
+      backing_type: int
+      values:
+        - name: OPEN_CPLT
+          value: "0"
+        - name: CLOSE_CPLT
+          value: "1"
+        - name: POST_INIT_CPLT
+          value: "2"
+        - name: ERROR
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UwbStatus
+      backing_type: int
+      values:
+        - name: OK
+          value: "0"
+        - name: FAILED
+          value: "1"
+        - name: ERR_TRANSPORT
+          value: "2"
+        - name: ERR_CMD_TIMEOUT
+          value: "3"
+        - name: REFUSED
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing

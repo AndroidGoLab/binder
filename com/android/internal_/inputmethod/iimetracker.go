@@ -70,6 +70,7 @@ func (p *ImeTrackerProxy) OnStart(
 ) (viewInputmethod.ImeTrackerToken, error) {
 	var _result viewInputmethod.ImeTrackerToken
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
 	_data.WriteString16(tag)
 	_data.WriteInt32(uid)
@@ -111,6 +112,7 @@ func (p *ImeTrackerProxy) OnProgress(
 	phase int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
 	binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
 	_data.WriteInt32(phase)
@@ -130,6 +132,7 @@ func (p *ImeTrackerProxy) OnFailed(
 	phase int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
 	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
@@ -152,6 +155,7 @@ func (p *ImeTrackerProxy) OnCancelled(
 	phase int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
 	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
@@ -173,6 +177,7 @@ func (p *ImeTrackerProxy) OnShown(
 	statsToken viewInputmethod.ImeTrackerToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
 	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
@@ -193,6 +198,7 @@ func (p *ImeTrackerProxy) OnHidden(
 	statsToken viewInputmethod.ImeTrackerToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
 	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
@@ -213,6 +219,7 @@ func (p *ImeTrackerProxy) HasPendingImeVisibilityRequests(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImeTracker, MethodIImeTrackerHasPendingImeVisibilityRequests)
@@ -240,7 +247,8 @@ func (p *ImeTrackerProxy) HasPendingImeVisibilityRequests(
 // ImeTrackerStub dispatches incoming binder transactions
 // to a typed IImeTracker implementation.
 type ImeTrackerStub struct {
-	Impl IImeTracker
+	Impl      IImeTracker
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImeTrackerStub)(nil)
@@ -254,11 +262,12 @@ func (s *ImeTrackerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImeTrackerOnStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -296,23 +305,21 @@ func (s *ImeTrackerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImeTrackerOnProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_binder_ binder.IBinder
-		_ = _arg_binder_
+		{
+			_binderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_binder_ = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _binderHandle)
+		}
 		_arg_phase, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnProgress(ctx, _arg_binder_, _arg_phase)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImeTrackerOnFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -330,12 +337,8 @@ func (s *ImeTrackerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnFailed(ctx, _arg_statsToken, _arg_phase)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImeTrackerOnCancelled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -353,12 +356,8 @@ func (s *ImeTrackerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnCancelled(ctx, _arg_statsToken, _arg_phase)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImeTrackerOnShown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -372,12 +371,8 @@ func (s *ImeTrackerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnShown(ctx, _arg_statsToken)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImeTrackerOnHidden:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -391,12 +386,8 @@ func (s *ImeTrackerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnHidden(ctx, _arg_statsToken)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImeTrackerHasPendingImeVisibilityRequests:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.HasPendingImeVisibilityRequests(ctx)
 		_reply := parcel.New()
 		if _err != nil {

@@ -1,0 +1,78 @@
+package: android.app.timezonedetector
+go_package: android/app/timezonedetector
+interfaces:
+    - name: ITimeZoneDetectorService
+      descriptor: android.app.timezonedetector.ITimeZoneDetectorService
+      methods:
+        - name: getCapabilitiesAndConfig
+          transaction_code_offset: 0
+          return_type:
+            name: TimeZoneCapabilitiesAndConfig
+        - name: addListener
+          transaction_code_offset: 1
+          params:
+            - name: listener
+              type:
+                name: ITimeZoneDetectorListener
+          return_type:
+            name: void
+        - name: removeListener
+          transaction_code_offset: 2
+          params:
+            - name: listener
+              type:
+                name: ITimeZoneDetectorListener
+          return_type:
+            name: void
+        - name: updateConfiguration
+          transaction_code_offset: 3
+          params:
+            - name: configuration
+              type:
+                name: TimeZoneConfiguration
+              direction: in
+          return_type:
+            name: boolean
+        - name: getTimeZoneState
+          transaction_code_offset: 4
+          return_type:
+            name: TimeZoneState
+        - name: confirmTimeZone
+          transaction_code_offset: 5
+          params:
+            - name: timeZoneId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: setManualTimeZone
+          transaction_code_offset: 6
+          params:
+            - name: timeZoneSuggestion
+              type:
+                name: ManualTimeZoneSuggestion
+              direction: in
+          return_type:
+            name: boolean
+        - name: suggestManualTimeZone
+          transaction_code_offset: 7
+          params:
+            - name: timeZoneSuggestion
+              type:
+                name: ManualTimeZoneSuggestion
+              direction: in
+          return_type:
+            name: boolean
+        - name: suggestTelephonyTimeZone
+          transaction_code_offset: 8
+          params:
+            - name: timeZoneSuggestion
+              type:
+                name: TelephonyTimeZoneSuggestion
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: ManualTimeZoneSuggestion
+    - name: TelephonyTimeZoneSuggestion

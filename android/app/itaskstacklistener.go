@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -85,7 +86,7 @@ type ITaskStackListener interface {
 	OnActivityRequestedOrientationChanged(ctx context.Context, taskId int32, requestedOrientation int32) error
 	OnTaskRemovalStarted(ctx context.Context, taskInfo ActivityManagerRunningTaskInfo) error
 	OnTaskProfileLocked(ctx context.Context, taskInfo ActivityManagerRunningTaskInfo) error
-	OnTaskSnapshotChanged(ctx context.Context, taskId int32, snapshot interface{}) error
+	OnTaskSnapshotChanged(ctx context.Context, taskId int32, snapshot view.WindowManagerTaskSnapshot) error
 	OnBackPressedOnTaskRoot(ctx context.Context, taskInfo ActivityManagerRunningTaskInfo) error
 	OnTaskDisplayChanged(ctx context.Context, taskId int32, newDisplayId int32) error
 	OnRecentTaskListUpdated(ctx context.Context) error
@@ -122,6 +123,7 @@ func (p *TaskStackListenerProxy) OnTaskStackChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskStackChanged)
@@ -141,6 +143,7 @@ func (p *TaskStackListenerProxy) OnActivityPinned(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -160,6 +163,7 @@ func (p *TaskStackListenerProxy) OnActivityUnpinned(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnActivityUnpinned)
@@ -179,6 +183,7 @@ func (p *TaskStackListenerProxy) OnActivityRestartAttempt(
 	wasVisible bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(1)
 	if _err := task.MarshalParcel(_data); _err != nil {
@@ -204,6 +209,7 @@ func (p *TaskStackListenerProxy) OnActivityForcedResizable(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(taskId)
@@ -222,6 +228,7 @@ func (p *TaskStackListenerProxy) OnActivityDismissingDockedTask(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnActivityDismissingDockedTask)
@@ -239,6 +246,7 @@ func (p *TaskStackListenerProxy) OnActivityLaunchOnSecondaryDisplayFailed(
 	requestedDisplayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
@@ -261,6 +269,7 @@ func (p *TaskStackListenerProxy) OnActivityLaunchOnSecondaryDisplayRerouted(
 	requestedDisplayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
@@ -283,6 +292,7 @@ func (p *TaskStackListenerProxy) OnTaskCreated(
 	componentName content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(1)
@@ -304,6 +314,7 @@ func (p *TaskStackListenerProxy) OnTaskRemoved(
 	taskId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(taskId)
 
@@ -321,6 +332,7 @@ func (p *TaskStackListenerProxy) OnTaskMovedToFront(
 	taskInfo ActivityManagerRunningTaskInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
@@ -341,6 +353,7 @@ func (p *TaskStackListenerProxy) OnTaskDescriptionChanged(
 	taskInfo ActivityManagerRunningTaskInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
@@ -362,6 +375,7 @@ func (p *TaskStackListenerProxy) OnActivityRequestedOrientationChanged(
 	requestedOrientation int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(requestedOrientation)
@@ -380,6 +394,7 @@ func (p *TaskStackListenerProxy) OnTaskRemovalStarted(
 	taskInfo ActivityManagerRunningTaskInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
@@ -401,6 +416,7 @@ func (p *TaskStackListenerProxy) OnTaskProfileLocked(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
@@ -420,11 +436,16 @@ func (p *TaskStackListenerProxy) OnTaskProfileLocked(
 func (p *TaskStackListenerProxy) OnTaskSnapshotChanged(
 	ctx context.Context,
 	taskId int32,
-	snapshot interface{},
+	snapshot view.WindowManagerTaskSnapshot,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
+	if _err := snapshot.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnTaskSnapshotChanged)
 	if _err != nil {
@@ -440,6 +461,7 @@ func (p *TaskStackListenerProxy) OnBackPressedOnTaskRoot(
 	taskInfo ActivityManagerRunningTaskInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
@@ -461,6 +483,7 @@ func (p *TaskStackListenerProxy) OnTaskDisplayChanged(
 	newDisplayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(newDisplayId)
@@ -478,6 +501,7 @@ func (p *TaskStackListenerProxy) OnRecentTaskListUpdated(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskStackListener, MethodITaskStackListenerOnRecentTaskListUpdated)
@@ -494,6 +518,7 @@ func (p *TaskStackListenerProxy) OnRecentTaskListFrozenChanged(
 	frozen bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteBool(frozen)
 
@@ -512,6 +537,7 @@ func (p *TaskStackListenerProxy) OnTaskFocusChanged(
 	focused bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(taskId)
 	_data.WriteBool(focused)
@@ -531,6 +557,7 @@ func (p *TaskStackListenerProxy) OnTaskRequestedOrientationChanged(
 	requestedOrientation int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(requestedOrientation)
@@ -549,6 +576,7 @@ func (p *TaskStackListenerProxy) OnActivityRotation(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(displayId)
 
@@ -566,6 +594,7 @@ func (p *TaskStackListenerProxy) OnTaskMovedToBack(
 	taskInfo ActivityManagerRunningTaskInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
@@ -586,6 +615,7 @@ func (p *TaskStackListenerProxy) OnLockTaskModeChanged(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(mode)
 
@@ -601,7 +631,8 @@ func (p *TaskStackListenerProxy) OnLockTaskModeChanged(
 // TaskStackListenerStub dispatches incoming binder transactions
 // to a typed ITaskStackListener implementation.
 type TaskStackListenerStub struct {
-	Impl ITaskStackListener
+	Impl      ITaskStackListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TaskStackListenerStub)(nil)
@@ -615,18 +646,15 @@ func (s *TaskStackListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITaskStackListenerOnTaskStackChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnTaskStackChanged(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnActivityPinned:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -643,19 +671,11 @@ func (s *TaskStackListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnActivityPinned(ctx, _arg_packageName, _arg_taskId, _arg_stackId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnActivityUnpinned:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnActivityUnpinned(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnActivityRestartAttempt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_task ActivityManagerRunningTaskInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -681,12 +701,8 @@ func (s *TaskStackListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnActivityRestartAttempt(ctx, _arg_task, _arg_homeTaskVisible, _arg_clearedTask, _arg_wasVisible)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnActivityForcedResizable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -700,19 +716,11 @@ func (s *TaskStackListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnActivityForcedResizable(ctx, _arg_packageName, _arg_taskId, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnActivityDismissingDockedTask:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnActivityDismissingDockedTask(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnActivityLaunchOnSecondaryDisplayFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_taskInfo ActivityManagerRunningTaskInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -730,12 +738,8 @@ func (s *TaskStackListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnActivityLaunchOnSecondaryDisplayFailed(ctx, _arg_taskInfo, _arg_requestedDisplayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnActivityLaunchOnSecondaryDisplayRerouted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_taskInfo ActivityManagerRunningTaskInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -753,12 +757,8 @@ func (s *TaskStackListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnActivityLaunchOnSecondaryDisplayRerouted(ctx, _arg_taskInfo, _arg_requestedDisplayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnTaskCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -776,23 +776,15 @@ func (s *TaskStackListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnTaskCreated(ctx, _arg_taskId, _arg_componentName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnTaskRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTaskRemoved(ctx, _arg_taskId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnTaskMovedToFront:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_taskInfo ActivityManagerRunningTaskInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -806,12 +798,8 @@ func (s *TaskStackListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnTaskMovedToFront(ctx, _arg_taskInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnTaskDescriptionChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_taskInfo ActivityManagerRunningTaskInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -825,12 +813,8 @@ func (s *TaskStackListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnTaskDescriptionChanged(ctx, _arg_taskInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnActivityRequestedOrientationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -840,12 +824,8 @@ func (s *TaskStackListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnActivityRequestedOrientationChanged(ctx, _arg_taskId, _arg_requestedOrientation)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnTaskRemovalStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_taskInfo ActivityManagerRunningTaskInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -859,12 +839,8 @@ func (s *TaskStackListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnTaskRemovalStarted(ctx, _arg_taskInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnTaskProfileLocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_taskInfo ActivityManagerRunningTaskInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -881,24 +857,27 @@ func (s *TaskStackListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err := s.Impl.OnTaskProfileLocked(ctx, _arg_taskInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnTaskSnapshotChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_snapshot interface{}
-		_err = s.Impl.OnTaskSnapshotChanged(ctx, _arg_taskId, _arg_snapshot)
-		_ = _err
-		return nil, nil
-	case TransactionITaskStackListenerOnBackPressedOnTaskRoot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_snapshot view.WindowManagerTaskSnapshot
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_snapshot.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		_err = s.Impl.OnTaskSnapshotChanged(ctx, _arg_taskId, _arg_snapshot)
+		return nil, _err
+	case TransactionITaskStackListenerOnBackPressedOnTaskRoot:
 		var _arg_taskInfo ActivityManagerRunningTaskInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -912,12 +891,8 @@ func (s *TaskStackListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnBackPressedOnTaskRoot(ctx, _arg_taskInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnTaskDisplayChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -927,30 +902,18 @@ func (s *TaskStackListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTaskDisplayChanged(ctx, _arg_taskId, _arg_newDisplayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnRecentTaskListUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnRecentTaskListUpdated(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnRecentTaskListFrozenChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_frozen, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRecentTaskListFrozenChanged(ctx, _arg_frozen)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnTaskFocusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -960,12 +923,8 @@ func (s *TaskStackListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTaskFocusChanged(ctx, _arg_taskId, _arg_focused)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnTaskRequestedOrientationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -975,23 +934,15 @@ func (s *TaskStackListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTaskRequestedOrientationChanged(ctx, _arg_taskId, _arg_requestedOrientation)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnActivityRotation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnActivityRotation(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnTaskMovedToBack:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_taskInfo ActivityManagerRunningTaskInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1005,19 +956,14 @@ func (s *TaskStackListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnTaskMovedToBack(ctx, _arg_taskInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITaskStackListenerOnLockTaskModeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnLockTaskModeChanged(ctx, _arg_mode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1042,7 +988,7 @@ type ITaskStackListenerServer interface {
 	OnActivityRequestedOrientationChanged(ctx context.Context, taskId int32, requestedOrientation int32) error
 	OnTaskRemovalStarted(ctx context.Context, taskInfo ActivityManagerRunningTaskInfo) error
 	OnTaskProfileLocked(ctx context.Context, taskInfo ActivityManagerRunningTaskInfo) error
-	OnTaskSnapshotChanged(ctx context.Context, taskId int32, snapshot interface{}) error
+	OnTaskSnapshotChanged(ctx context.Context, taskId int32, snapshot view.WindowManagerTaskSnapshot) error
 	OnBackPressedOnTaskRoot(ctx context.Context, taskInfo ActivityManagerRunningTaskInfo) error
 	OnTaskDisplayChanged(ctx context.Context, taskId int32, newDisplayId int32) error
 	OnRecentTaskListUpdated(ctx context.Context) error
@@ -1179,7 +1125,7 @@ func (w *taskStackListenerStubWrapper) OnTaskProfileLocked(
 func (w *taskStackListenerStubWrapper) OnTaskSnapshotChanged(
 	ctx context.Context,
 	taskId int32,
-	snapshot interface{},
+	snapshot view.WindowManagerTaskSnapshot,
 ) error {
 	return w.impl.OnTaskSnapshotChanged(ctx, taskId, snapshot)
 }

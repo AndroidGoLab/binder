@@ -46,6 +46,7 @@ func (p *BluetoothCallbackProxy) OnBluetoothStateChange(
 	newState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothCallback)
 	_data.WriteInt32(prevState)
 	_data.WriteInt32(newState)
@@ -71,7 +72,8 @@ func (p *BluetoothCallbackProxy) OnBluetoothStateChange(
 // BluetoothCallbackStub dispatches incoming binder transactions
 // to a typed IBluetoothCallback implementation.
 type BluetoothCallbackStub struct {
-	Impl IBluetoothCallback
+	Impl      IBluetoothCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothCallbackStub)(nil)
@@ -85,11 +87,12 @@ func (s *BluetoothCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothCallbackOnBluetoothStateChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_prevState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

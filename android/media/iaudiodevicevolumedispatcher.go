@@ -49,6 +49,7 @@ func (p *AudioDeviceVolumeDispatcherProxy) DispatchDeviceVolumeChanged(
 	vol VolumeInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioDeviceVolumeDispatcher)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -76,6 +77,7 @@ func (p *AudioDeviceVolumeDispatcherProxy) DispatchDeviceVolumeAdjusted(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioDeviceVolumeDispatcher)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -100,7 +102,8 @@ func (p *AudioDeviceVolumeDispatcherProxy) DispatchDeviceVolumeAdjusted(
 // AudioDeviceVolumeDispatcherStub dispatches incoming binder transactions
 // to a typed IAudioDeviceVolumeDispatcher implementation.
 type AudioDeviceVolumeDispatcherStub struct {
-	Impl IAudioDeviceVolumeDispatcher
+	Impl      IAudioDeviceVolumeDispatcher
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AudioDeviceVolumeDispatcherStub)(nil)
@@ -114,11 +117,12 @@ func (s *AudioDeviceVolumeDispatcherStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAudioDeviceVolumeDispatcherDispatchDeviceVolumeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device AudioDeviceAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -144,12 +148,8 @@ func (s *AudioDeviceVolumeDispatcherStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.DispatchDeviceVolumeChanged(ctx, _arg_device, _arg_vol)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioDeviceVolumeDispatcherDispatchDeviceVolumeAdjusted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device AudioDeviceAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -183,8 +183,7 @@ func (s *AudioDeviceVolumeDispatcherStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.DispatchDeviceVolumeAdjusted(ctx, _arg_device, _arg_vol, _arg_direction, _arg_mode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

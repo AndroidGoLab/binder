@@ -1,0 +1,118 @@
+package: android.system.suspend.internal
+go_package: android/system/suspend/internal_
+interfaces:
+    - name: ISuspendControlServiceInternal
+      descriptor: android.system.suspend.internal.ISuspendControlServiceInternal
+      methods:
+        - name: enableAutosuspend
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: boolean
+        - name: forceSuspend
+          transaction_code_offset: 1
+          return_type:
+            name: boolean
+        - name: getWakeLockStats
+          transaction_code_offset: 2
+          return_type:
+            name: WakeLockInfo
+            is_array: true
+        - name: getWakeupStats
+          transaction_code_offset: 3
+          return_type:
+            name: WakeupInfo
+            is_array: true
+        - name: getSuspendStats
+          transaction_code_offset: 4
+          return_type:
+            name: SuspendInfo
+parcelables:
+    - name: SuspendInfo
+      fields:
+        - name: suspendAttemptCount
+          type:
+            name: long
+        - name: failedSuspendCount
+          type:
+            name: long
+        - name: shortSuspendCount
+          type:
+            name: long
+        - name: suspendTimeMillis
+          type:
+            name: long
+        - name: shortSuspendTimeMillis
+          type:
+            name: long
+        - name: suspendOverheadTimeMillis
+          type:
+            name: long
+        - name: failedSuspendOverheadTimeMillis
+          type:
+            name: long
+        - name: newBackoffCount
+          type:
+            name: long
+        - name: backoffContinueCount
+          type:
+            name: long
+        - name: sleepTimeMillis
+          type:
+            name: long
+    - name: WakeLockInfo
+      fields:
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: activeCount
+          type:
+            name: long
+        - name: lastChange
+          type:
+            name: long
+        - name: maxTime
+          type:
+            name: long
+        - name: totalTime
+          type:
+            name: long
+        - name: isActive
+          type:
+            name: boolean
+        - name: activeTime
+          type:
+            name: long
+        - name: isKernelWakelock
+          type:
+            name: boolean
+        - name: pid
+          type:
+            name: int
+        - name: eventCount
+          type:
+            name: long
+        - name: expireCount
+          type:
+            name: long
+        - name: preventSuspendTime
+          type:
+            name: long
+        - name: wakeupCount
+          type:
+            name: long
+    - name: WakeupInfo
+      fields:
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: count
+          type:
+            name: long

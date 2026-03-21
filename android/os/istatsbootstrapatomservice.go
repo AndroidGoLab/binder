@@ -45,6 +45,7 @@ func (p *StatsBootstrapAtomServiceProxy) ReportBootstrapAtom(
 	atom StatsBootstrapAtom,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatsBootstrapAtomService)
 	_data.WriteInt32(1)
 	if _err := atom.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *StatsBootstrapAtomServiceProxy) ReportBootstrapAtom(
 // StatsBootstrapAtomServiceStub dispatches incoming binder transactions
 // to a typed IStatsBootstrapAtomService implementation.
 type StatsBootstrapAtomServiceStub struct {
-	Impl IStatsBootstrapAtomService
+	Impl      IStatsBootstrapAtomService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StatsBootstrapAtomServiceStub)(nil)
@@ -77,11 +79,12 @@ func (s *StatsBootstrapAtomServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStatsBootstrapAtomServiceReportBootstrapAtom:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_atom StatsBootstrapAtom
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *StatsBootstrapAtomServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ReportBootstrapAtom(ctx, _arg_atom)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

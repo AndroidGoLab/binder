@@ -63,6 +63,7 @@ func (p *UwbChipProxy) GetName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUwbChip)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbChip, MethodIUwbChipGetName)
@@ -92,6 +93,7 @@ func (p *UwbChipProxy) Open(
 	clientCallback IUwbClientCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUwbChip)
 	binder.WriteBinderToParcel(ctx, _data, clientCallback.AsBinder(), p.Remote.Transport())
 
@@ -117,6 +119,7 @@ func (p *UwbChipProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUwbChip)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbChip, MethodIUwbChipClose)
@@ -141,6 +144,7 @@ func (p *UwbChipProxy) CoreInit(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUwbChip)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbChip, MethodIUwbChipCoreInit)
@@ -166,6 +170,7 @@ func (p *UwbChipProxy) SessionInit(
 	sessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUwbChip)
 	_data.WriteInt32(sessionId)
 
@@ -192,6 +197,7 @@ func (p *UwbChipProxy) GetSupportedAndroidUciVersion(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUwbChip)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbChip, MethodIUwbChipGetSupportedAndroidUciVersion)
@@ -222,15 +228,9 @@ func (p *UwbChipProxy) SendUciMessage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUwbChip)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbChip, MethodIUwbChipSendUciMessage)
 	if _err != nil {
@@ -257,7 +257,8 @@ func (p *UwbChipProxy) SendUciMessage(
 // UwbChipStub dispatches incoming binder transactions
 // to a typed IUwbChip implementation.
 type UwbChipStub struct {
-	Impl IUwbChip
+	Impl      IUwbChip
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UwbChipStub)(nil)
@@ -271,11 +272,12 @@ func (s *UwbChipStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUwbChipGetName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -286,12 +288,14 @@ func (s *UwbChipStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIUwbChipOpen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientCallback IUwbClientCallback
-		_ = _arg_clientCallback
+		{
+			_clientCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientCallback = NewUwbClientCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientCallbackHandle))
+		}
 		_err := s.Impl.Open(ctx, _arg_clientCallback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -301,9 +305,6 @@ func (s *UwbChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUwbChipClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -313,9 +314,6 @@ func (s *UwbChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUwbChipCoreInit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CoreInit(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -325,9 +323,6 @@ func (s *UwbChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUwbChipSessionInit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -341,9 +336,6 @@ func (s *UwbChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUwbChipGetSupportedAndroidUciVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedAndroidUciVersion(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -354,12 +346,14 @@ func (s *UwbChipStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUwbChipSendUciMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_result, _err := s.Impl.SendUciMessage(ctx, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {

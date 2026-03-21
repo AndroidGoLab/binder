@@ -61,6 +61,7 @@ func (p *FeatureFlagsProxy) SyncFlags(
 ) ([]SyncableFlag, error) {
 	var _result []SyncableFlag
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureFlags)
 	if flagList == nil {
 		_data.WriteInt32(-1)
@@ -93,6 +94,9 @@ func (p *FeatureFlagsProxy) SyncFlags(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]SyncableFlag, _count)
@@ -113,6 +117,7 @@ func (p *FeatureFlagsProxy) RegisterCallback(
 	callback IFeatureFlagsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureFlags)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -139,6 +144,7 @@ func (p *FeatureFlagsProxy) UnregisterCallback(
 	callback IFeatureFlagsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureFlags)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -166,6 +172,7 @@ func (p *FeatureFlagsProxy) QueryFlags(
 ) ([]SyncableFlag, error) {
 	var _result []SyncableFlag
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureFlags)
 	if flagList == nil {
 		_data.WriteInt32(-1)
@@ -198,6 +205,9 @@ func (p *FeatureFlagsProxy) QueryFlags(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]SyncableFlag, _count)
@@ -218,6 +228,7 @@ func (p *FeatureFlagsProxy) OverrideFlag(
 	flag SyncableFlag,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureFlags)
 	_data.WriteInt32(1)
 	if _err := flag.MarshalParcel(_data); _err != nil {
@@ -247,6 +258,7 @@ func (p *FeatureFlagsProxy) ResetFlag(
 	flag SyncableFlag,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureFlags)
 	_data.WriteInt32(1)
 	if _err := flag.MarshalParcel(_data); _err != nil {
@@ -274,7 +286,8 @@ func (p *FeatureFlagsProxy) ResetFlag(
 // FeatureFlagsStub dispatches incoming binder transactions
 // to a typed IFeatureFlags implementation.
 type FeatureFlagsStub struct {
-	Impl IFeatureFlags
+	Impl      IFeatureFlags
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FeatureFlagsStub)(nil)
@@ -288,14 +301,33 @@ func (s *FeatureFlagsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFeatureFlagsSyncFlags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_flagList []SyncableFlag
-		_ = _arg_flagList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_flagList = make([]SyncableFlag, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_flagList[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.SyncFlags(ctx, _arg_flagList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -303,16 +335,27 @@ func (s *FeatureFlagsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIFeatureFlagsRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IFeatureFlagsCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewFeatureFlagsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -322,12 +365,14 @@ func (s *FeatureFlagsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFeatureFlagsUnregisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IFeatureFlagsCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewFeatureFlagsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -337,12 +382,27 @@ func (s *FeatureFlagsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFeatureFlagsQueryFlags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_flagList []SyncableFlag
-		_ = _arg_flagList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_flagList = make([]SyncableFlag, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_flagList[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.QueryFlags(ctx, _arg_flagList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -350,13 +410,19 @@ func (s *FeatureFlagsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIFeatureFlagsOverrideFlag:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_flag SyncableFlag
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -378,9 +444,6 @@ func (s *FeatureFlagsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFeatureFlagsResetFlag:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_flag SyncableFlag
 		{
 			_nullInd, _err := _data.ReadInt32()

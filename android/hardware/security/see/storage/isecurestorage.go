@@ -56,6 +56,7 @@ func (p *SecureStorageProxy) StartSession(
 ) (IStorageSession, error) {
 	var _result IStorageSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureStorage)
 	_data.WriteInt32(1)
 	if _err := properties.MarshalParcel(_data); _err != nil {
@@ -88,7 +89,8 @@ func (p *SecureStorageProxy) StartSession(
 // SecureStorageStub dispatches incoming binder transactions
 // to a typed ISecureStorage implementation.
 type SecureStorageStub struct {
-	Impl ISecureStorage
+	Impl      ISecureStorage
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SecureStorageStub)(nil)
@@ -102,11 +104,12 @@ func (s *SecureStorageStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISecureStorageStartSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_properties FileProperties
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -126,8 +129,7 @@ func (s *SecureStorageStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

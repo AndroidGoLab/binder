@@ -1,0 +1,3409 @@
+package: android.hardware.radio.network
+go_package: android/hardware/radio/network
+interfaces:
+    - name: IRadioNetwork
+      descriptor: android.hardware.radio.network.IRadioNetwork
+      oneway: true
+      methods:
+        - name: getAllowedNetworkTypesBitmap
+          transaction_code_offset: 0
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getAvailableBandModes
+          transaction_code_offset: 1
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getAvailableNetworks
+          transaction_code_offset: 2
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getBarringInfo
+          transaction_code_offset: 3
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getCdmaRoamingPreference
+          transaction_code_offset: 4
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getCellInfoList
+          transaction_code_offset: 5
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getDataRegistrationState
+          transaction_code_offset: 6
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getImsRegistrationState
+          transaction_code_offset: 7
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getNetworkSelectionMode
+          transaction_code_offset: 8
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getOperator
+          transaction_code_offset: 9
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getSignalStrength
+          transaction_code_offset: 10
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getSystemSelectionChannels
+          transaction_code_offset: 11
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getVoiceRadioTechnology
+          transaction_code_offset: 12
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getVoiceRegistrationState
+          transaction_code_offset: 13
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: isNrDualConnectivityEnabled
+          transaction_code_offset: 14
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: responseAcknowledgement
+          transaction_code_offset: 15
+          return_type:
+            name: void
+        - name: setAllowedNetworkTypesBitmap
+          transaction_code_offset: 16
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: networkTypeBitmap
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setBandMode
+          transaction_code_offset: 17
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: mode
+              type:
+                name: RadioBandMode
+              direction: in
+          return_type:
+            name: void
+        - name: setBarringPassword
+          transaction_code_offset: 18
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: facility
+              type:
+                name: String
+              direction: in
+            - name: oldPassword
+              type:
+                name: String
+              direction: in
+            - name: newPassword
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setCdmaRoamingPreference
+          transaction_code_offset: 19
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: type
+              type:
+                name: CdmaRoamingType
+              direction: in
+          return_type:
+            name: void
+        - name: setCellInfoListRate
+          transaction_code_offset: 20
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: rate
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setIndicationFilter
+          transaction_code_offset: 21
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: indicationFilter
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setLinkCapacityReportingCriteria
+          transaction_code_offset: 22
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: hysteresisMs
+              type:
+                name: int
+              direction: in
+            - name: hysteresisDlKbps
+              type:
+                name: int
+              direction: in
+            - name: hysteresisUlKbps
+              type:
+                name: int
+              direction: in
+            - name: thresholdsDownlinkKbps
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: thresholdsUplinkKbps
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: accessNetwork
+              type:
+                name: AccessNetwork
+              direction: in
+          return_type:
+            name: void
+        - name: setLocationUpdates
+          transaction_code_offset: 23
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setNetworkSelectionModeAutomatic
+          transaction_code_offset: 24
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setNetworkSelectionModeManual
+          transaction_code_offset: 25
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: operatorNumeric
+              type:
+                name: String
+              direction: in
+            - name: ran
+              type:
+                name: AccessNetwork
+              direction: in
+          return_type:
+            name: void
+        - name: setNrDualConnectivityState
+          transaction_code_offset: 26
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: nrDualConnectivityState
+              type:
+                name: NrDualConnectivityState
+              direction: in
+          return_type:
+            name: void
+        - name: setResponseFunctions
+          transaction_code_offset: 27
+          params:
+            - name: radioNetworkResponse
+              type:
+                name: IRadioNetworkResponse
+              direction: in
+            - name: radioNetworkIndication
+              type:
+                name: IRadioNetworkIndication
+              direction: in
+          return_type:
+            name: void
+        - name: setSignalStrengthReportingCriteria
+          transaction_code_offset: 28
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: signalThresholdInfos
+              type:
+                name: SignalThresholdInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setSuppServiceNotifications
+          transaction_code_offset: 29
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setSystemSelectionChannels
+          transaction_code_offset: 30
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: specifyChannels
+              type:
+                name: boolean
+              direction: in
+            - name: specifiers
+              type:
+                name: RadioAccessSpecifier
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: startNetworkScan
+          transaction_code_offset: 31
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: request
+              type:
+                name: NetworkScanRequest
+              direction: in
+          return_type:
+            name: void
+        - name: stopNetworkScan
+          transaction_code_offset: 32
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: supplyNetworkDepersonalization
+          transaction_code_offset: 33
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: netPin
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setUsageSetting
+          transaction_code_offset: 34
+          oneway: true
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: usageSetting
+              type:
+                name: UsageSetting
+              direction: in
+          return_type:
+            name: void
+        - name: getUsageSetting
+          transaction_code_offset: 35
+          oneway: true
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setEmergencyMode
+          transaction_code_offset: 36
+          params:
+            - name: serial
+              type:
+                name: int
+            - name: emcModeType
+              type:
+                name: EmergencyMode
+              direction: in
+          return_type:
+            name: void
+        - name: triggerEmergencyNetworkScan
+          transaction_code_offset: 37
+          params:
+            - name: serial
+              type:
+                name: int
+            - name: request
+              type:
+                name: EmergencyNetworkScanTrigger
+              direction: in
+          return_type:
+            name: void
+        - name: cancelEmergencyNetworkScan
+          transaction_code_offset: 38
+          params:
+            - name: serial
+              type:
+                name: int
+            - name: resetScan
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: exitEmergencyMode
+          transaction_code_offset: 39
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setNullCipherAndIntegrityEnabled
+          transaction_code_offset: 40
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: enabled
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: isNullCipherAndIntegrityEnabled
+          transaction_code_offset: 41
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: isN1ModeEnabled
+          transaction_code_offset: 42
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setN1ModeEnabled
+          transaction_code_offset: 43
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isCellularIdentifierTransparencyEnabled
+          transaction_code_offset: 44
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setCellularIdentifierTransparencyEnabled
+          transaction_code_offset: 45
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: enabled
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setSecurityAlgorithmsUpdatedEnabled
+          transaction_code_offset: 46
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isSecurityAlgorithmsUpdatedEnabled
+          transaction_code_offset: 47
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IRadioNetworkIndication
+      descriptor: android.hardware.radio.network.IRadioNetworkIndication
+      oneway: true
+      methods:
+        - name: barringInfoChanged
+          transaction_code_offset: 0
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: cellIdentity
+              type:
+                name: CellIdentity
+              direction: in
+            - name: barringInfos
+              type:
+                name: BarringInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: cdmaPrlChanged
+          transaction_code_offset: 1
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: version
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: cellInfoList
+          transaction_code_offset: 2
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: records
+              type:
+                name: CellInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: currentLinkCapacityEstimate
+          transaction_code_offset: 3
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: lce
+              type:
+                name: LinkCapacityEstimate
+              direction: in
+          return_type:
+            name: void
+        - name: currentPhysicalChannelConfigs
+          transaction_code_offset: 4
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: configs
+              type:
+                name: PhysicalChannelConfig
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: currentSignalStrength
+          transaction_code_offset: 5
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: signalStrength
+              type:
+                name: SignalStrength
+              direction: in
+          return_type:
+            name: void
+        - name: imsNetworkStateChanged
+          transaction_code_offset: 6
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+          return_type:
+            name: void
+        - name: networkScanResult
+          transaction_code_offset: 7
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: result
+              type:
+                name: NetworkScanResult
+              direction: in
+          return_type:
+            name: void
+        - name: networkStateChanged
+          transaction_code_offset: 8
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+          return_type:
+            name: void
+        - name: nitzTimeReceived
+          transaction_code_offset: 9
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: nitzTime
+              type:
+                name: String
+              direction: in
+            - name: receivedTimeMs
+              type:
+                name: long
+              direction: in
+            - name: ageMs
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: registrationFailed
+          transaction_code_offset: 10
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: cellIdentity
+              type:
+                name: CellIdentity
+              direction: in
+            - name: chosenPlmn
+              type:
+                name: String
+              direction: in
+            - name: domain
+              type:
+                name: int
+              direction: in
+            - name: causeCode
+              type:
+                name: int
+              direction: in
+            - name: additionalCauseCode
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: restrictedStateChanged
+          transaction_code_offset: 11
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: state
+              type:
+                name: PhoneRestrictedState
+              direction: in
+          return_type:
+            name: void
+        - name: suppSvcNotify
+          transaction_code_offset: 12
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: suppSvc
+              type:
+                name: SuppSvcNotification
+              direction: in
+          return_type:
+            name: void
+        - name: voiceRadioTechChanged
+          transaction_code_offset: 13
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: rat
+              type:
+                name: RadioTechnology
+              direction: in
+          return_type:
+            name: void
+        - name: emergencyNetworkScanResult
+          transaction_code_offset: 14
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: result
+              type:
+                name: EmergencyRegResult
+              direction: in
+          return_type:
+            name: void
+        - name: cellularIdentifierDisclosed
+          transaction_code_offset: 15
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: disclosure
+              type:
+                name: CellularIdentifierDisclosure
+              direction: in
+          return_type:
+            name: void
+        - name: securityAlgorithmsUpdated
+          transaction_code_offset: 16
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: securityAlgorithmUpdate
+              type:
+                name: SecurityAlgorithmUpdate
+              direction: in
+          return_type:
+            name: void
+    - name: IRadioNetworkResponse
+      descriptor: android.hardware.radio.network.IRadioNetworkResponse
+      oneway: true
+      methods:
+        - name: acknowledgeRequest
+          transaction_code_offset: 0
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getAllowedNetworkTypesBitmapResponse
+          transaction_code_offset: 1
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: networkTypeBitmap
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getAvailableBandModesResponse
+          transaction_code_offset: 2
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: bandModes
+              type:
+                name: RadioBandMode
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getAvailableNetworksResponse
+          transaction_code_offset: 3
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: networkInfos
+              type:
+                name: OperatorInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getBarringInfoResponse
+          transaction_code_offset: 4
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: cellIdentity
+              type:
+                name: CellIdentity
+              direction: in
+            - name: barringInfos
+              type:
+                name: BarringInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getCdmaRoamingPreferenceResponse
+          transaction_code_offset: 5
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: type
+              type:
+                name: CdmaRoamingType
+              direction: in
+          return_type:
+            name: void
+        - name: getCellInfoListResponse
+          transaction_code_offset: 6
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: cellInfo
+              type:
+                name: CellInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getDataRegistrationStateResponse
+          transaction_code_offset: 7
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: dataRegResponse
+              type:
+                name: RegStateResult
+              direction: in
+          return_type:
+            name: void
+        - name: getImsRegistrationStateResponse
+          transaction_code_offset: 8
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: isRegistered
+              type:
+                name: boolean
+              direction: in
+            - name: ratFamily
+              type:
+                name: RadioTechnologyFamily
+              direction: in
+          return_type:
+            name: void
+        - name: getNetworkSelectionModeResponse
+          transaction_code_offset: 9
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: manual
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: getOperatorResponse
+          transaction_code_offset: 10
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: longName
+              type:
+                name: String
+              direction: in
+            - name: shortName
+              type:
+                name: String
+              direction: in
+            - name: numeric
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getSignalStrengthResponse
+          transaction_code_offset: 11
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: signalStrength
+              type:
+                name: SignalStrength
+              direction: in
+          return_type:
+            name: void
+        - name: getSystemSelectionChannelsResponse
+          transaction_code_offset: 12
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: specifiers
+              type:
+                name: RadioAccessSpecifier
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getVoiceRadioTechnologyResponse
+          transaction_code_offset: 13
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: rat
+              type:
+                name: RadioTechnology
+              direction: in
+          return_type:
+            name: void
+        - name: getVoiceRegistrationStateResponse
+          transaction_code_offset: 14
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: voiceRegResponse
+              type:
+                name: RegStateResult
+              direction: in
+          return_type:
+            name: void
+        - name: isNrDualConnectivityEnabledResponse
+          transaction_code_offset: 15
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: isEnabled
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setAllowedNetworkTypesBitmapResponse
+          transaction_code_offset: 16
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setBandModeResponse
+          transaction_code_offset: 17
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setBarringPasswordResponse
+          transaction_code_offset: 18
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setCdmaRoamingPreferenceResponse
+          transaction_code_offset: 19
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setCellInfoListRateResponse
+          transaction_code_offset: 20
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setIndicationFilterResponse
+          transaction_code_offset: 21
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setLinkCapacityReportingCriteriaResponse
+          transaction_code_offset: 22
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setLocationUpdatesResponse
+          transaction_code_offset: 23
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setNetworkSelectionModeAutomaticResponse
+          transaction_code_offset: 24
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setNetworkSelectionModeManualResponse
+          transaction_code_offset: 25
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setNrDualConnectivityStateResponse
+          transaction_code_offset: 26
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setSignalStrengthReportingCriteriaResponse
+          transaction_code_offset: 27
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setSuppServiceNotificationsResponse
+          transaction_code_offset: 28
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setSystemSelectionChannelsResponse
+          transaction_code_offset: 29
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: startNetworkScanResponse
+          transaction_code_offset: 30
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: stopNetworkScanResponse
+          transaction_code_offset: 31
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: supplyNetworkDepersonalizationResponse
+          transaction_code_offset: 32
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: remainingRetries
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setUsageSettingResponse
+          transaction_code_offset: 33
+          oneway: true
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: getUsageSettingResponse
+          transaction_code_offset: 34
+          oneway: true
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: usageSetting
+              type:
+                name: UsageSetting
+              direction: in
+          return_type:
+            name: void
+        - name: setEmergencyModeResponse
+          transaction_code_offset: 35
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: regState
+              type:
+                name: EmergencyRegResult
+              direction: in
+          return_type:
+            name: void
+        - name: triggerEmergencyNetworkScanResponse
+          transaction_code_offset: 36
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: exitEmergencyModeResponse
+          transaction_code_offset: 37
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: cancelEmergencyNetworkScanResponse
+          transaction_code_offset: 38
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setNullCipherAndIntegrityEnabledResponse
+          transaction_code_offset: 39
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: isNullCipherAndIntegrityEnabledResponse
+          transaction_code_offset: 40
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: isEnabled
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: isN1ModeEnabledResponse
+          transaction_code_offset: 41
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: isEnabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setN1ModeEnabledResponse
+          transaction_code_offset: 42
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: isCellularIdentifierTransparencyEnabledResponse
+          transaction_code_offset: 43
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: isEnabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setCellularIdentifierTransparencyEnabledResponse
+          transaction_code_offset: 44
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setSecurityAlgorithmsUpdatedEnabledResponse
+          transaction_code_offset: 45
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: isSecurityAlgorithmsUpdatedEnabledResponse
+          transaction_code_offset: 46
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: isEnabled
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: BarringInfo
+      fields:
+        - name: serviceType
+          type:
+            name: int
+        - name: barringType
+          type:
+            name: int
+        - name: barringTypeSpecificInfo
+          type:
+            name: BarringTypeSpecificInfo
+          annotations:
+            - nullable
+      constants:
+        - name: BARRING_TYPE_NONE
+          type: int
+          value: "0"
+        - name: BARRING_TYPE_CONDITIONAL
+          type: int
+          value: "1"
+        - name: BARRING_TYPE_UNCONDITIONAL
+          type: int
+          value: "2"
+        - name: SERVICE_TYPE_CS_SERVICE
+          type: int
+          value: "0"
+        - name: SERVICE_TYPE_PS_SERVICE
+          type: int
+          value: "1"
+        - name: SERVICE_TYPE_CS_VOICE
+          type: int
+          value: "2"
+        - name: SERVICE_TYPE_MO_SIGNALLING
+          type: int
+          value: "3"
+        - name: SERVICE_TYPE_MO_DATA
+          type: int
+          value: "4"
+        - name: SERVICE_TYPE_CS_FALLBACK
+          type: int
+          value: "5"
+        - name: SERVICE_TYPE_MMTEL_VOICE
+          type: int
+          value: "6"
+        - name: SERVICE_TYPE_MMTEL_VIDEO
+          type: int
+          value: "7"
+        - name: SERVICE_TYPE_EMERGENCY
+          type: int
+          value: "8"
+        - name: SERVICE_TYPE_SMS
+          type: int
+          value: "9"
+        - name: SERVICE_TYPE_OPERATOR_1
+          type: int
+          value: "1001"
+        - name: SERVICE_TYPE_OPERATOR_2
+          type: int
+          value: "1002"
+        - name: SERVICE_TYPE_OPERATOR_3
+          type: int
+          value: "1003"
+        - name: SERVICE_TYPE_OPERATOR_4
+          type: int
+          value: "1004"
+        - name: SERVICE_TYPE_OPERATOR_5
+          type: int
+          value: "1005"
+        - name: SERVICE_TYPE_OPERATOR_6
+          type: int
+          value: "1006"
+        - name: SERVICE_TYPE_OPERATOR_7
+          type: int
+          value: "1007"
+        - name: SERVICE_TYPE_OPERATOR_8
+          type: int
+          value: "1008"
+        - name: SERVICE_TYPE_OPERATOR_9
+          type: int
+          value: "1009"
+        - name: SERVICE_TYPE_OPERATOR_10
+          type: int
+          value: "1010"
+        - name: SERVICE_TYPE_OPERATOR_11
+          type: int
+          value: "1011"
+        - name: SERVICE_TYPE_OPERATOR_12
+          type: int
+          value: "1012"
+        - name: SERVICE_TYPE_OPERATOR_13
+          type: int
+          value: "1013"
+        - name: SERVICE_TYPE_OPERATOR_14
+          type: int
+          value: "1014"
+        - name: SERVICE_TYPE_OPERATOR_15
+          type: int
+          value: "1015"
+        - name: SERVICE_TYPE_OPERATOR_16
+          type: int
+          value: "1016"
+        - name: SERVICE_TYPE_OPERATOR_17
+          type: int
+          value: "1017"
+        - name: SERVICE_TYPE_OPERATOR_18
+          type: int
+          value: "1018"
+        - name: SERVICE_TYPE_OPERATOR_19
+          type: int
+          value: "1019"
+        - name: SERVICE_TYPE_OPERATOR_20
+          type: int
+          value: "1020"
+        - name: SERVICE_TYPE_OPERATOR_21
+          type: int
+          value: "1021"
+        - name: SERVICE_TYPE_OPERATOR_22
+          type: int
+          value: "1022"
+        - name: SERVICE_TYPE_OPERATOR_23
+          type: int
+          value: "1023"
+        - name: SERVICE_TYPE_OPERATOR_24
+          type: int
+          value: "1024"
+        - name: SERVICE_TYPE_OPERATOR_25
+          type: int
+          value: "1025"
+        - name: SERVICE_TYPE_OPERATOR_26
+          type: int
+          value: "1026"
+        - name: SERVICE_TYPE_OPERATOR_27
+          type: int
+          value: "1027"
+        - name: SERVICE_TYPE_OPERATOR_28
+          type: int
+          value: "1028"
+        - name: SERVICE_TYPE_OPERATOR_29
+          type: int
+          value: "1029"
+        - name: SERVICE_TYPE_OPERATOR_30
+          type: int
+          value: "1030"
+        - name: SERVICE_TYPE_OPERATOR_31
+          type: int
+          value: "1031"
+        - name: SERVICE_TYPE_OPERATOR_32
+          type: int
+          value: "1032"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: BarringTypeSpecificInfo
+      fields:
+        - name: factor
+          type:
+            name: int
+        - name: timeSeconds
+          type:
+            name: int
+        - name: isBarred
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: Cdma2000RegistrationInfo
+      fields:
+        - name: cssSupported
+          type:
+            name: boolean
+        - name: roamingIndicator
+          type:
+            name: int
+        - name: systemIsInPrl
+          type:
+            name: int
+        - name: defaultRoamingIndicator
+          type:
+            name: int
+      constants:
+        - name: PRL_INDICATOR_NOT_REGISTERED
+          type: int
+          value: "-1"
+        - name: PRL_INDICATOR_NOT_IN_PRL
+          type: int
+          value: "0"
+        - name: PRL_INDICATOR_IN_PRL
+          type: int
+          value: "1"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CdmaSignalStrength
+      fields:
+        - name: dbm
+          type:
+            name: int
+        - name: ecio
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CellIdentityCdma
+      fields:
+        - name: networkId
+          type:
+            name: int
+        - name: systemId
+          type:
+            name: int
+        - name: baseStationId
+          type:
+            name: int
+        - name: longitude
+          type:
+            name: int
+        - name: latitude
+          type:
+            name: int
+        - name: operatorNames
+          type:
+            name: OperatorInfo
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CellIdentityGsm
+      fields:
+        - name: mcc
+          type:
+            name: String
+        - name: mnc
+          type:
+            name: String
+        - name: lac
+          type:
+            name: int
+        - name: cid
+          type:
+            name: int
+        - name: arfcn
+          type:
+            name: int
+        - name: bsic
+          type:
+            name: byte
+        - name: operatorNames
+          type:
+            name: OperatorInfo
+        - name: additionalPlmns
+          type:
+            name: String
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CellIdentityLte
+      fields:
+        - name: mcc
+          type:
+            name: String
+        - name: mnc
+          type:
+            name: String
+        - name: ci
+          type:
+            name: int
+        - name: pci
+          type:
+            name: int
+        - name: tac
+          type:
+            name: int
+        - name: earfcn
+          type:
+            name: int
+        - name: operatorNames
+          type:
+            name: OperatorInfo
+        - name: bandwidth
+          type:
+            name: int
+        - name: additionalPlmns
+          type:
+            name: String
+            is_array: true
+        - name: csgInfo
+          type:
+            name: ClosedSubscriberGroupInfo
+          annotations:
+            - nullable
+        - name: bands
+          type:
+            name: EutranBands
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CellIdentityNr
+      fields:
+        - name: mcc
+          type:
+            name: String
+        - name: mnc
+          type:
+            name: String
+        - name: nci
+          type:
+            name: long
+        - name: pci
+          type:
+            name: int
+        - name: tac
+          type:
+            name: int
+        - name: nrarfcn
+          type:
+            name: int
+        - name: operatorNames
+          type:
+            name: OperatorInfo
+        - name: additionalPlmns
+          type:
+            name: String
+            is_array: true
+        - name: bands
+          type:
+            name: NgranBands
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CellIdentityTdscdma
+      fields:
+        - name: mcc
+          type:
+            name: String
+        - name: mnc
+          type:
+            name: String
+        - name: lac
+          type:
+            name: int
+        - name: cid
+          type:
+            name: int
+        - name: cpid
+          type:
+            name: int
+        - name: uarfcn
+          type:
+            name: int
+        - name: operatorNames
+          type:
+            name: OperatorInfo
+        - name: additionalPlmns
+          type:
+            name: String
+            is_array: true
+        - name: csgInfo
+          type:
+            name: ClosedSubscriberGroupInfo
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CellIdentityWcdma
+      fields:
+        - name: mcc
+          type:
+            name: String
+        - name: mnc
+          type:
+            name: String
+        - name: lac
+          type:
+            name: int
+        - name: cid
+          type:
+            name: int
+        - name: psc
+          type:
+            name: int
+        - name: uarfcn
+          type:
+            name: int
+        - name: operatorNames
+          type:
+            name: OperatorInfo
+        - name: additionalPlmns
+          type:
+            name: String
+            is_array: true
+        - name: csgInfo
+          type:
+            name: ClosedSubscriberGroupInfo
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CellInfo
+      fields:
+        - name: registered
+          type:
+            name: boolean
+        - name: connectionStatus
+          type:
+            name: CellConnectionStatus
+        - name: ratSpecificInfo
+          type:
+            name: CellInfoRatSpecificInfo
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CellInfoCdma
+      fields:
+        - name: cellIdentityCdma
+          type:
+            name: CellIdentityCdma
+        - name: signalStrengthCdma
+          type:
+            name: CdmaSignalStrength
+        - name: signalStrengthEvdo
+          type:
+            name: EvdoSignalStrength
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CellInfoGsm
+      fields:
+        - name: cellIdentityGsm
+          type:
+            name: CellIdentityGsm
+        - name: signalStrengthGsm
+          type:
+            name: GsmSignalStrength
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CellInfoLte
+      fields:
+        - name: cellIdentityLte
+          type:
+            name: CellIdentityLte
+        - name: signalStrengthLte
+          type:
+            name: LteSignalStrength
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CellInfoNr
+      fields:
+        - name: cellIdentityNr
+          type:
+            name: CellIdentityNr
+        - name: signalStrengthNr
+          type:
+            name: NrSignalStrength
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CellInfoTdscdma
+      fields:
+        - name: cellIdentityTdscdma
+          type:
+            name: CellIdentityTdscdma
+        - name: signalStrengthTdscdma
+          type:
+            name: TdscdmaSignalStrength
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CellInfoWcdma
+      fields:
+        - name: cellIdentityWcdma
+          type:
+            name: CellIdentityWcdma
+        - name: signalStrengthWcdma
+          type:
+            name: WcdmaSignalStrength
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CellularIdentifierDisclosure
+      fields:
+        - name: plmn
+          type:
+            name: String
+        - name: identifier
+          type:
+            name: CellularIdentifier
+        - name: protocolMessage
+          type:
+            name: NasProtocolMessage
+        - name: isEmergency
+          type:
+            name: boolean
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: ClosedSubscriberGroupInfo
+      fields:
+        - name: csgIndication
+          type:
+            name: boolean
+        - name: homeNodebName
+          type:
+            name: String
+        - name: csgIdentity
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: EmergencyNetworkScanTrigger
+      fields:
+        - name: accessNetwork
+          type:
+            name: AccessNetwork
+            is_array: true
+        - name: scanType
+          type:
+            name: EmergencyScanType
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: EmergencyRegResult
+      fields:
+        - name: accessNetwork
+          type:
+            name: AccessNetwork
+        - name: regState
+          type:
+            name: RegState
+        - name: emcDomain
+          type:
+            name: Domain
+        - name: isVopsSupported
+          type:
+            name: boolean
+        - name: isEmcBearerSupported
+          type:
+            name: boolean
+        - name: nwProvidedEmc
+          type:
+            name: byte
+        - name: nwProvidedEmf
+          type:
+            name: byte
+        - name: mcc
+          type:
+            name: String
+          default_value: '""'
+        - name: mnc
+          type:
+            name: String
+          default_value: '""'
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: EutranRegistrationInfo
+      fields:
+        - name: lteVopsInfo
+          type:
+            name: LteVopsInfo
+        - name: nrIndicators
+          type:
+            name: NrIndicators
+        - name: lteAttachResultType
+          type:
+            name: AttachResultType
+        - name: extraInfo
+          type:
+            name: int
+      constants:
+        - name: EXTRA_CSFB_NOT_PREFERRED
+          type: int
+          value: 1 << 0
+        - name: EXTRA_SMS_ONLY
+          type: int
+          value: 1 << 1
+      nested_types:
+        - EutranRegistrationInfo.AttachResultType
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: EvdoSignalStrength
+      fields:
+        - name: dbm
+          type:
+            name: int
+        - name: ecio
+          type:
+            name: int
+        - name: signalNoiseRatio
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: GsmSignalStrength
+      fields:
+        - name: signalStrength
+          type:
+            name: int
+        - name: bitErrorRate
+          type:
+            name: int
+        - name: timingAdvance
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: LceDataInfo
+      fields:
+        - name: lastHopCapacityKbps
+          type:
+            name: int
+        - name: confidenceLevel
+          type:
+            name: byte
+        - name: lceSuspended
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: LinkCapacityEstimate
+      fields:
+        - name: downlinkCapacityKbps
+          type:
+            name: int
+        - name: uplinkCapacityKbps
+          type:
+            name: int
+        - name: secondaryDownlinkCapacityKbps
+          type:
+            name: int
+        - name: secondaryUplinkCapacityKbps
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: LteSignalStrength
+      fields:
+        - name: signalStrength
+          type:
+            name: int
+        - name: rsrp
+          type:
+            name: int
+        - name: rsrq
+          type:
+            name: int
+        - name: rssnr
+          type:
+            name: int
+        - name: cqi
+          type:
+            name: int
+        - name: timingAdvance
+          type:
+            name: int
+        - name: cqiTableIndex
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: LteVopsInfo
+      fields:
+        - name: isVopsSupported
+          type:
+            name: boolean
+        - name: isEmcBearerSupported
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: NetworkScanRequest
+      fields:
+        - name: type
+          type:
+            name: int
+        - name: interval
+          type:
+            name: int
+        - name: specifiers
+          type:
+            name: RadioAccessSpecifier
+            is_array: true
+        - name: maxSearchTime
+          type:
+            name: int
+        - name: incrementalResults
+          type:
+            name: boolean
+        - name: incrementalResultsPeriodicity
+          type:
+            name: int
+        - name: mccMncs
+          type:
+            name: String
+            is_array: true
+      constants:
+        - name: RADIO_ACCESS_SPECIFIER_MAX_SIZE
+          type: int
+          value: "8"
+        - name: INCREMENTAL_RESULTS_PREIODICITY_RANGE_MIN
+          type: int
+          value: "1"
+        - name: INCREMENTAL_RESULTS_PREIODICITY_RANGE_MAX
+          type: int
+          value: "10"
+        - name: MAX_SEARCH_TIME_RANGE_MIN
+          type: int
+          value: "60"
+        - name: MAX_SEARCH_TIME_RANGE_MAX
+          type: int
+          value: "3600"
+        - name: SCAN_INTERVAL_RANGE_MIN
+          type: int
+          value: "5"
+        - name: SCAN_INTERVAL_RANGE_MAX
+          type: int
+          value: "300"
+        - name: SCAN_TYPE_ONE_SHOT
+          type: int
+          value: "0"
+        - name: SCAN_TYPE_PERIODIC
+          type: int
+          value: "1"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: NetworkScanResult
+      fields:
+        - name: status
+          type:
+            name: int
+        - name: error
+          type:
+            name: RadioError
+        - name: networkInfos
+          type:
+            name: CellInfo
+            is_array: true
+      constants:
+        - name: SCAN_STATUS_PARTIAL
+          type: int
+          value: "1"
+        - name: SCAN_STATUS_COMPLETE
+          type: int
+          value: "2"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: NrIndicators
+      fields:
+        - name: isEndcAvailable
+          type:
+            name: boolean
+        - name: isDcNrRestricted
+          type:
+            name: boolean
+        - name: isNrAvailable
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: NrSignalStrength
+      fields:
+        - name: ssRsrp
+          type:
+            name: int
+        - name: ssRsrq
+          type:
+            name: int
+        - name: ssSinr
+          type:
+            name: int
+        - name: csiRsrp
+          type:
+            name: int
+        - name: csiRsrq
+          type:
+            name: int
+        - name: csiSinr
+          type:
+            name: int
+        - name: csiCqiTableIndex
+          type:
+            name: int
+        - name: csiCqiReport
+          type:
+            name: byte
+            is_array: true
+        - name: timingAdvance
+          type:
+            name: int
+          default_value: "0x7FFFFFFF"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: NrVopsInfo
+      fields:
+        - name: vopsSupported
+          type:
+            name: byte
+        - name: emcSupported
+          type:
+            name: byte
+        - name: emfSupported
+          type:
+            name: byte
+      constants:
+        - name: EMC_INDICATOR_NOT_SUPPORTED
+          type: byte
+          value: "0"
+        - name: EMC_INDICATOR_NR_CONNECTED_TO_5GCN
+          type: byte
+          value: "1"
+        - name: EMC_INDICATOR_EUTRA_CONNECTED_TO_5GCN
+          type: byte
+          value: "2"
+        - name: EMC_INDICATOR_BOTH_NR_EUTRA_CONNECTED_TO_5GCN
+          type: byte
+          value: "3"
+        - name: EMF_INDICATOR_NOT_SUPPORTED
+          type: byte
+          value: "0"
+        - name: EMF_INDICATOR_NR_CONNECTED_TO_5GCN
+          type: byte
+          value: "1"
+        - name: EMF_INDICATOR_EUTRA_CONNECTED_TO_5GCN
+          type: byte
+          value: "2"
+        - name: EMF_INDICATOR_BOTH_NR_EUTRA_CONNECTED_TO_5GCN
+          type: byte
+          value: "3"
+        - name: VOPS_INDICATOR_VOPS_NOT_SUPPORTED
+          type: byte
+          value: "0"
+        - name: VOPS_INDICATOR_VOPS_OVER_3GPP
+          type: byte
+          value: "1"
+        - name: VOPS_INDICATOR_VOPS_OVER_NON_3GPP
+          type: byte
+          value: "2"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: OperatorInfo
+      fields:
+        - name: alphaLong
+          type:
+            name: String
+        - name: alphaShort
+          type:
+            name: String
+        - name: operatorNumeric
+          type:
+            name: String
+        - name: status
+          type:
+            name: int
+      constants:
+        - name: STATUS_UNKNOWN
+          type: int
+          value: "0"
+        - name: STATUS_AVAILABLE
+          type: int
+          value: "1"
+        - name: STATUS_CURRENT
+          type: int
+          value: "2"
+        - name: STATUS_FORBIDDEN
+          type: int
+          value: "3"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: PhysicalChannelConfig
+      fields:
+        - name: status
+          type:
+            name: CellConnectionStatus
+        - name: rat
+          type:
+            name: RadioTechnology
+        - name: downlinkChannelNumber
+          type:
+            name: int
+        - name: uplinkChannelNumber
+          type:
+            name: int
+        - name: cellBandwidthDownlinkKhz
+          type:
+            name: int
+        - name: cellBandwidthUplinkKhz
+          type:
+            name: int
+        - name: contextIds
+          type:
+            name: int
+            is_array: true
+        - name: physicalCellId
+          type:
+            name: int
+        - name: band
+          type:
+            name: PhysicalChannelConfigBand
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: RadioAccessSpecifier
+      fields:
+        - name: accessNetwork
+          type:
+            name: AccessNetwork
+        - name: bands
+          type:
+            name: RadioAccessSpecifierBands
+        - name: channels
+          type:
+            name: int
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: RegStateResult
+      fields:
+        - name: regState
+          type:
+            name: RegState
+        - name: rat
+          type:
+            name: RadioTechnology
+        - name: reasonForDenial
+          type:
+            name: RegistrationFailCause
+        - name: cellIdentity
+          type:
+            name: CellIdentity
+        - name: registeredPlmn
+          type:
+            name: String
+        - name: accessTechnologySpecificInfo
+          type:
+            name: AccessTechnologySpecificInfo
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SecurityAlgorithmUpdate
+      fields:
+        - name: connectionEvent
+          type:
+            name: ConnectionEvent
+        - name: encryption
+          type:
+            name: SecurityAlgorithm
+        - name: integrity
+          type:
+            name: SecurityAlgorithm
+        - name: isUnprotectedEmergency
+          type:
+            name: boolean
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: SignalStrength
+      fields:
+        - name: gsm
+          type:
+            name: GsmSignalStrength
+        - name: cdma
+          type:
+            name: CdmaSignalStrength
+        - name: evdo
+          type:
+            name: EvdoSignalStrength
+        - name: lte
+          type:
+            name: LteSignalStrength
+        - name: tdscdma
+          type:
+            name: TdscdmaSignalStrength
+        - name: wcdma
+          type:
+            name: WcdmaSignalStrength
+        - name: nr
+          type:
+            name: NrSignalStrength
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SignalThresholdInfo
+      fields:
+        - name: signalMeasurement
+          type:
+            name: int
+        - name: hysteresisMs
+          type:
+            name: int
+        - name: hysteresisDb
+          type:
+            name: int
+        - name: thresholds
+          type:
+            name: int
+            is_array: true
+        - name: isEnabled
+          type:
+            name: boolean
+        - name: ran
+          type:
+            name: AccessNetwork
+      constants:
+        - name: SIGNAL_MEASUREMENT_TYPE_RSSI
+          type: int
+          value: "1"
+        - name: SIGNAL_MEASUREMENT_TYPE_RSCP
+          type: int
+          value: "2"
+        - name: SIGNAL_MEASUREMENT_TYPE_RSRP
+          type: int
+          value: "3"
+        - name: SIGNAL_MEASUREMENT_TYPE_RSRQ
+          type: int
+          value: "4"
+        - name: SIGNAL_MEASUREMENT_TYPE_RSSNR
+          type: int
+          value: "5"
+        - name: SIGNAL_MEASUREMENT_TYPE_SSRSRP
+          type: int
+          value: "6"
+        - name: SIGNAL_MEASUREMENT_TYPE_SSRSRQ
+          type: int
+          value: "7"
+        - name: SIGNAL_MEASUREMENT_TYPE_SSSINR
+          type: int
+          value: "8"
+        - name: SIGNAL_MEASUREMENT_TYPE_ECNO
+          type: int
+          value: "9"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SuppSvcNotification
+      fields:
+        - name: isMT
+          type:
+            name: boolean
+        - name: code
+          type:
+            name: int
+        - name: index
+          type:
+            name: int
+        - name: type
+          type:
+            name: int
+        - name: number
+          type:
+            name: String
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: TdscdmaSignalStrength
+      fields:
+        - name: signalStrength
+          type:
+            name: int
+        - name: bitErrorRate
+          type:
+            name: int
+        - name: rscp
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: WcdmaSignalStrength
+      fields:
+        - name: signalStrength
+          type:
+            name: int
+        - name: bitErrorRate
+          type:
+            name: int
+        - name: rscp
+          type:
+            name: int
+        - name: ecno
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+enums:
+    - name: CdmaRoamingType
+      backing_type: int
+      values:
+        - name: HOME_NETWORK
+          value: ""
+        - name: AFFILIATED_ROAM
+          value: ""
+        - name: ANY_ROAM
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: CellConnectionStatus
+      backing_type: int
+      values:
+        - name: NONE
+          value: ""
+        - name: PRIMARY_SERVING
+          value: ""
+        - name: SECONDARY_SERVING
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: CellularIdentifier
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: IMSI
+          value: "1"
+        - name: IMEI
+          value: "2"
+        - name: SUCI
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: ConnectionEvent
+      backing_type: int
+      values:
+        - name: CS_SIGNALLING_GSM
+          value: "0"
+        - name: PS_SIGNALLING_GPRS
+          value: "1"
+        - name: CS_SIGNALLING_3G
+          value: "2"
+        - name: PS_SIGNALLING_3G
+          value: "3"
+        - name: NAS_SIGNALLING_LTE
+          value: "4"
+        - name: AS_SIGNALLING_LTE
+          value: "5"
+        - name: VOLTE_SIP
+          value: "6"
+        - name: VOLTE_SIP_SOS
+          value: "7"
+        - name: VOLTE_RTP
+          value: "8"
+        - name: VOLTE_RTP_SOS
+          value: "9"
+        - name: NAS_SIGNALLING_5G
+          value: "10"
+        - name: AS_SIGNALLING_5G
+          value: "11"
+        - name: VONR_SIP
+          value: "12"
+        - name: VONR_SIP_SOS
+          value: "13"
+        - name: VONR_RTP
+          value: "14"
+        - name: VONR_RTP_SOS
+          value: "15"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: Domain
+      backing_type: int
+      values:
+        - name: CS
+          value: 1 << 0
+        - name: PS
+          value: 1 << 1
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: EmergencyMode
+      backing_type: int
+      values:
+        - name: EMERGENCY_WWAN
+          value: "1"
+        - name: EMERGENCY_WLAN
+          value: "2"
+        - name: EMERGENCY_CALLBACK
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: EmergencyScanType
+      backing_type: int
+      values:
+        - name: NO_PREFERENCE
+          value: "0"
+        - name: LIMITED_SERVICE
+          value: "1"
+        - name: FULL_SERVICE
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: EutranBands
+      backing_type: int
+      values:
+        - name: BAND_1
+          value: "1"
+        - name: BAND_2
+          value: "2"
+        - name: BAND_3
+          value: "3"
+        - name: BAND_4
+          value: "4"
+        - name: BAND_5
+          value: "5"
+        - name: BAND_6
+          value: "6"
+        - name: BAND_7
+          value: "7"
+        - name: BAND_8
+          value: "8"
+        - name: BAND_9
+          value: "9"
+        - name: BAND_10
+          value: "10"
+        - name: BAND_11
+          value: "11"
+        - name: BAND_12
+          value: "12"
+        - name: BAND_13
+          value: "13"
+        - name: BAND_14
+          value: "14"
+        - name: BAND_17
+          value: "17"
+        - name: BAND_18
+          value: "18"
+        - name: BAND_19
+          value: "19"
+        - name: BAND_20
+          value: "20"
+        - name: BAND_21
+          value: "21"
+        - name: BAND_22
+          value: "22"
+        - name: BAND_23
+          value: "23"
+        - name: BAND_24
+          value: "24"
+        - name: BAND_25
+          value: "25"
+        - name: BAND_26
+          value: "26"
+        - name: BAND_27
+          value: "27"
+        - name: BAND_28
+          value: "28"
+        - name: BAND_30
+          value: "30"
+        - name: BAND_31
+          value: "31"
+        - name: BAND_33
+          value: "33"
+        - name: BAND_34
+          value: "34"
+        - name: BAND_35
+          value: "35"
+        - name: BAND_36
+          value: "36"
+        - name: BAND_37
+          value: "37"
+        - name: BAND_38
+          value: "38"
+        - name: BAND_39
+          value: "39"
+        - name: BAND_40
+          value: "40"
+        - name: BAND_41
+          value: "41"
+        - name: BAND_42
+          value: "42"
+        - name: BAND_43
+          value: "43"
+        - name: BAND_44
+          value: "44"
+        - name: BAND_45
+          value: "45"
+        - name: BAND_46
+          value: "46"
+        - name: BAND_47
+          value: "47"
+        - name: BAND_48
+          value: "48"
+        - name: BAND_65
+          value: "65"
+        - name: BAND_66
+          value: "66"
+        - name: BAND_68
+          value: "68"
+        - name: BAND_70
+          value: "70"
+        - name: BAND_49
+          value: "49"
+        - name: BAND_50
+          value: "50"
+        - name: BAND_51
+          value: "51"
+        - name: BAND_52
+          value: "52"
+        - name: BAND_53
+          value: "53"
+        - name: BAND_71
+          value: "71"
+        - name: BAND_72
+          value: "72"
+        - name: BAND_73
+          value: "73"
+        - name: BAND_74
+          value: "74"
+        - name: BAND_85
+          value: "85"
+        - name: BAND_87
+          value: "87"
+        - name: BAND_88
+          value: "88"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: EutranRegistrationInfo.AttachResultType
+      backing_type: ""
+      values:
+        - name: NONE
+          value: ""
+        - name: EPS_ONLY
+          value: ""
+        - name: COMBINED
+          value: ""
+    - name: GeranBands
+      backing_type: int
+      values:
+        - name: BAND_T380
+          value: "1"
+        - name: BAND_T410
+          value: "2"
+        - name: BAND_450
+          value: "3"
+        - name: BAND_480
+          value: "4"
+        - name: BAND_710
+          value: "5"
+        - name: BAND_750
+          value: "6"
+        - name: BAND_T810
+          value: "7"
+        - name: BAND_850
+          value: "8"
+        - name: BAND_P900
+          value: "9"
+        - name: BAND_E900
+          value: "10"
+        - name: BAND_R900
+          value: "11"
+        - name: BAND_DCS1800
+          value: "12"
+        - name: BAND_PCS1900
+          value: "13"
+        - name: BAND_ER900
+          value: "14"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: IndicationFilter
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: ALL
+          value: ~0
+        - name: SIGNAL_STRENGTH
+          value: 1 << 0
+        - name: FULL_NETWORK_STATE
+          value: 1 << 1
+        - name: DATA_CALL_DORMANCY_CHANGED
+          value: 1 << 2
+        - name: LINK_CAPACITY_ESTIMATE
+          value: 1 << 3
+        - name: PHYSICAL_CHANNEL_CONFIG
+          value: 1 << 4
+        - name: REGISTRATION_FAILURE
+          value: 1 << 5
+        - name: BARRING_INFO
+          value: 1 << 6
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: NasProtocolMessage
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: ATTACH_REQUEST
+          value: "1"
+        - name: IDENTITY_RESPONSE
+          value: "2"
+        - name: DETACH_REQUEST
+          value: "3"
+        - name: TRACKING_AREA_UPDATE_REQUEST
+          value: "4"
+        - name: LOCATION_UPDATE_REQUEST
+          value: "5"
+        - name: AUTHENTICATION_AND_CIPHERING_RESPONSE
+          value: "6"
+        - name: REGISTRATION_REQUEST
+          value: "7"
+        - name: DEREGISTRATION_REQUEST
+          value: "8"
+        - name: CM_REESTABLISHMENT_REQUEST
+          value: "9"
+        - name: CM_SERVICE_REQUEST
+          value: "10"
+        - name: IMSI_DETACH_INDICATION
+          value: "11"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: NgranBands
+      backing_type: int
+      values:
+        - name: BAND_1
+          value: "1"
+        - name: BAND_2
+          value: "2"
+        - name: BAND_3
+          value: "3"
+        - name: BAND_5
+          value: "5"
+        - name: BAND_7
+          value: "7"
+        - name: BAND_8
+          value: "8"
+        - name: BAND_12
+          value: "12"
+        - name: BAND_14
+          value: "14"
+        - name: BAND_18
+          value: "18"
+        - name: BAND_20
+          value: "20"
+        - name: BAND_25
+          value: "25"
+        - name: BAND_26
+          value: "26"
+        - name: BAND_28
+          value: "28"
+        - name: BAND_29
+          value: "29"
+        - name: BAND_30
+          value: "30"
+        - name: BAND_34
+          value: "34"
+        - name: BAND_38
+          value: "38"
+        - name: BAND_39
+          value: "39"
+        - name: BAND_40
+          value: "40"
+        - name: BAND_41
+          value: "41"
+        - name: BAND_46
+          value: "46"
+        - name: BAND_48
+          value: "48"
+        - name: BAND_50
+          value: "50"
+        - name: BAND_51
+          value: "51"
+        - name: BAND_53
+          value: "53"
+        - name: BAND_65
+          value: "65"
+        - name: BAND_66
+          value: "66"
+        - name: BAND_70
+          value: "70"
+        - name: BAND_71
+          value: "71"
+        - name: BAND_74
+          value: "74"
+        - name: BAND_75
+          value: "75"
+        - name: BAND_76
+          value: "76"
+        - name: BAND_77
+          value: "77"
+        - name: BAND_78
+          value: "78"
+        - name: BAND_79
+          value: "79"
+        - name: BAND_80
+          value: "80"
+        - name: BAND_81
+          value: "81"
+        - name: BAND_82
+          value: "82"
+        - name: BAND_83
+          value: "83"
+        - name: BAND_84
+          value: "84"
+        - name: BAND_86
+          value: "86"
+        - name: BAND_89
+          value: "89"
+        - name: BAND_90
+          value: "90"
+        - name: BAND_91
+          value: "91"
+        - name: BAND_92
+          value: "92"
+        - name: BAND_93
+          value: "93"
+        - name: BAND_94
+          value: "94"
+        - name: BAND_95
+          value: "95"
+        - name: BAND_96
+          value: "96"
+        - name: BAND_257
+          value: "257"
+        - name: BAND_258
+          value: "258"
+        - name: BAND_260
+          value: "260"
+        - name: BAND_261
+          value: "261"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: NrDualConnectivityState
+      backing_type: byte
+      values:
+        - name: ENABLE
+          value: "1"
+        - name: DISABLE
+          value: "2"
+        - name: DISABLE_IMMEDIATE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: PhoneRestrictedState
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0x00"
+        - name: CS_EMERGENCY
+          value: "0x01"
+        - name: CS_NORMAL
+          value: "0x02"
+        - name: CS_ALL
+          value: "0x04"
+        - name: PS_ALL
+          value: "0x10"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: RadioBandMode
+      backing_type: int
+      values:
+        - name: BAND_MODE_UNSPECIFIED
+          value: ""
+        - name: BAND_MODE_EURO
+          value: ""
+        - name: BAND_MODE_USA
+          value: ""
+        - name: BAND_MODE_JPN
+          value: ""
+        - name: BAND_MODE_AUS
+          value: ""
+        - name: BAND_MODE_AUS_2
+          value: ""
+        - name: BAND_MODE_CELL_800
+          value: ""
+        - name: BAND_MODE_PCS
+          value: ""
+        - name: BAND_MODE_JTACS
+          value: ""
+        - name: BAND_MODE_KOREA_PCS
+          value: ""
+        - name: BAND_MODE_5_450M
+          value: ""
+        - name: BAND_MODE_IMT2000
+          value: ""
+        - name: BAND_MODE_7_700M_2
+          value: ""
+        - name: BAND_MODE_8_1800M
+          value: ""
+        - name: BAND_MODE_9_900M
+          value: ""
+        - name: BAND_MODE_10_800M_2
+          value: ""
+        - name: BAND_MODE_EURO_PAMR_400M
+          value: ""
+        - name: BAND_MODE_AWS
+          value: ""
+        - name: BAND_MODE_USA_2500M
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: RegState
+      backing_type: int
+      values:
+        - name: NOT_REG_MT_NOT_SEARCHING_OP
+          value: "0"
+        - name: REG_HOME
+          value: "1"
+        - name: NOT_REG_MT_SEARCHING_OP
+          value: "2"
+        - name: REG_DENIED
+          value: "3"
+        - name: UNKNOWN
+          value: "4"
+        - name: REG_ROAMING
+          value: "5"
+        - name: NOT_REG_MT_NOT_SEARCHING_OP_EM
+          value: "10"
+        - name: NOT_REG_MT_SEARCHING_OP_EM
+          value: "12"
+        - name: REG_DENIED_EM
+          value: "13"
+        - name: UNKNOWN_EM
+          value: "14"
+        - name: REG_EM
+          value: "20"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: RegistrationFailCause
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: IMSI_UNKNOWN_IN_HLR
+          value: "2"
+        - name: ILLEGAL_MS
+          value: "3"
+        - name: IMSI_UNKNOWN_IN_VLR
+          value: "4"
+        - name: IMEI_NOT_ACCEPTED
+          value: "5"
+        - name: ILLEGAL_ME
+          value: "6"
+        - name: GPRS_SERVICES_NOT_ALLOWED
+          value: "7"
+        - name: GPRS_AND_NON_GPRS_SERVICES_NOT_ALLOWED
+          value: "8"
+        - name: MS_IDENTITY_CANNOT_BE_DERIVED_BY_NETWORK
+          value: "9"
+        - name: IMPLICITLY_DETACHED
+          value: "10"
+        - name: PLMN_NOT_ALLOWED
+          value: "11"
+        - name: LOCATION_AREA_NOT_ALLOWED
+          value: "12"
+        - name: ROAMING_NOT_ALLOWED
+          value: "13"
+        - name: GPRS_SERVICES_NOT_ALLOWED_IN_PLMN
+          value: "14"
+        - name: NO_SUITABLE_CELLS
+          value: "15"
+        - name: MSC_TEMPORARILY_NOT_REACHABLE
+          value: "15"
+        - name: MSC_TEMP_NOT_REACHABLE
+          value: "16"
+        - name: NETWORK_FAILURE
+          value: "17"
+        - name: MAC_FAILURE
+          value: "20"
+        - name: SYNC_FAILURE
+          value: "21"
+        - name: CONGESTION
+          value: "22"
+        - name: GSM_AUTHENTICATION_UNACCEPTABLE
+          value: "23"
+        - name: NOT_AUTHORIZED_FOR_THIS_CSG
+          value: "25"
+        - name: SMS_PROVIDED_BY_GPRS_IN_ROUTING_AREA
+          value: ""
+        - name: SERVICE_OPTION_NOT_SUPPORTED
+          value: "32"
+        - name: SERVICE_OPTION_NOT_SUBSCRIBED
+          value: "33"
+        - name: SERVICE_OPTION_TEMPORARILY_OUT_OF_ORDER
+          value: "34"
+        - name: CALL_CANNOT_BE_IDENTIFIED
+          value: "38"
+        - name: NO_PDP_CONTEXT_ACTIVATED
+          value: "40"
+        - name: RETRY_UPON_ENTRY_INTO_NEW_CELL_1
+          value: "48"
+        - name: RETRY_UPON_ENTRY_INTO_NEW_CELL_2
+          value: "49"
+        - name: RETRY_UPON_ENTRY_INTO_NEW_CELL_3
+          value: "50"
+        - name: RETRY_UPON_ENTRY_INTO_NEW_CELL_4
+          value: "51"
+        - name: RETRY_UPON_ENTRY_INTO_NEW_CELL_5
+          value: "52"
+        - name: RETRY_UPON_ENTRY_INTO_NEW_CELL_6
+          value: "53"
+        - name: RETRY_UPON_ENTRY_INTO_NEW_CELL_7
+          value: "54"
+        - name: RETRY_UPON_ENTRY_INTO_NEW_CELL_8
+          value: "55"
+        - name: RETRY_UPON_ENTRY_INTO_NEW_CELL_9
+          value: "56"
+        - name: RETRY_UPON_ENTRY_INTO_NEW_CELL_10
+          value: "57"
+        - name: RETRY_UPON_ENTRY_INTO_NEW_CELL_11
+          value: "58"
+        - name: RETRY_UPON_ENTRY_INTO_NEW_CELL_12
+          value: "59"
+        - name: RETRY_UPON_ENTRY_INTO_NEW_CELL_13
+          value: "60"
+        - name: RETRY_UPON_ENTRY_INTO_NEW_CELL_14
+          value: "61"
+        - name: RETRY_UPON_ENTRY_INTO_NEW_CELL_15
+          value: "62"
+        - name: RETRY_UPON_ENTRY_INTO_NEW_CELL_16
+          value: "63"
+        - name: SEMANTICALLY_INCORRECT_MESSAGE
+          value: "95"
+        - name: INVALID_MANDATORY_INFORMATION
+          value: "96"
+        - name: MESSAGE_TYPE_NON_EXISTENT_OR_NOT_IMPLEMENTED
+          value: "97"
+        - name: MESSAGE_TYPE_NOT_COMPATIBLE_WITH_PROTOCOL_STATE
+          value: "98"
+        - name: INFORMATION_ELEMENT_NON_EXISTENT_OR_NOT_IMPLEMENTED
+          value: "99"
+        - name: CONDITIONAL_IE_ERROR
+          value: "100"
+        - name: MESSAGE_NOT_COMPATIBLE_WITH_PROTOCOL_STATE
+          value: "101"
+        - name: PROTOCOL_ERROR_UNSPECIFIED
+          value: "111"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: SecurityAlgorithm
+      backing_type: int
+      values:
+        - name: A50
+          value: "0"
+        - name: A51
+          value: "1"
+        - name: A52
+          value: "2"
+        - name: A53
+          value: "3"
+        - name: A54
+          value: "4"
+        - name: GEA0
+          value: "14"
+        - name: GEA1
+          value: "15"
+        - name: GEA2
+          value: "16"
+        - name: GEA3
+          value: "17"
+        - name: GEA4
+          value: "18"
+        - name: GEA5
+          value: "19"
+        - name: UEA0
+          value: "29"
+        - name: UEA1
+          value: "30"
+        - name: UEA2
+          value: "31"
+        - name: EEA0
+          value: "41"
+        - name: EEA1
+          value: "42"
+        - name: EEA2
+          value: "43"
+        - name: EEA3
+          value: "44"
+        - name: NEA0
+          value: "55"
+        - name: NEA1
+          value: "56"
+        - name: NEA2
+          value: "57"
+        - name: NEA3
+          value: "58"
+        - name: SIP_NO_IPSEC_CONFIG
+          value: "66"
+        - name: IMS_NULL
+          value: "67"
+        - name: SIP_NULL
+          value: "68"
+        - name: AES_GCM
+          value: "69"
+        - name: AES_GMAC
+          value: "70"
+        - name: AES_CBC
+          value: "71"
+        - name: DES_EDE3_CBC
+          value: "72"
+        - name: AES_EDE3_CBC
+          value: "73"
+        - name: HMAC_SHA1_96
+          value: "74"
+        - name: HMAC_MD5_96
+          value: "75"
+        - name: RTP
+          value: "85"
+        - name: SRTP_NULL
+          value: "86"
+        - name: SRTP_AES_COUNTER
+          value: "87"
+        - name: SRTP_AES_F8
+          value: "88"
+        - name: SRTP_HMAC_SHA1
+          value: "89"
+        - name: ENCR_AES_GCM_16
+          value: "99"
+        - name: ENCR_AES_CBC
+          value: "100"
+        - name: AUTH_HMAC_SHA2_256_128
+          value: "101"
+        - name: UNKNOWN
+          value: "113"
+        - name: OTHER
+          value: "114"
+        - name: ORYX
+          value: "124"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: UsageSetting
+      backing_type: int
+      values:
+        - name: VOICE_CENTRIC
+          value: "1"
+        - name: DATA_CENTRIC
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: UtranBands
+      backing_type: int
+      values:
+        - name: BAND_1
+          value: "1"
+        - name: BAND_2
+          value: "2"
+        - name: BAND_3
+          value: "3"
+        - name: BAND_4
+          value: "4"
+        - name: BAND_5
+          value: "5"
+        - name: BAND_6
+          value: "6"
+        - name: BAND_7
+          value: "7"
+        - name: BAND_8
+          value: "8"
+        - name: BAND_9
+          value: "9"
+        - name: BAND_10
+          value: "10"
+        - name: BAND_11
+          value: "11"
+        - name: BAND_12
+          value: "12"
+        - name: BAND_13
+          value: "13"
+        - name: BAND_14
+          value: "14"
+        - name: BAND_19
+          value: "19"
+        - name: BAND_20
+          value: "20"
+        - name: BAND_21
+          value: "21"
+        - name: BAND_22
+          value: "22"
+        - name: BAND_25
+          value: "25"
+        - name: BAND_26
+          value: "26"
+        - name: BAND_A
+          value: "101"
+        - name: BAND_B
+          value: "102"
+        - name: BAND_C
+          value: "103"
+        - name: BAND_D
+          value: "104"
+        - name: BAND_E
+          value: "105"
+        - name: BAND_F
+          value: "106"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+unions:
+    - name: AccessTechnologySpecificInfo
+      fields:
+        - name: noinit
+          type:
+            name: boolean
+        - name: cdmaInfo
+          type:
+            name: Cdma2000RegistrationInfo
+        - name: eutranInfo
+          type:
+            name: EutranRegistrationInfo
+        - name: ngranNrVopsInfo
+          type:
+            name: NrVopsInfo
+        - name: geranDtmSupported
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CellIdentity
+      fields:
+        - name: noinit
+          type:
+            name: boolean
+        - name: gsm
+          type:
+            name: CellIdentityGsm
+        - name: wcdma
+          type:
+            name: CellIdentityWcdma
+        - name: tdscdma
+          type:
+            name: CellIdentityTdscdma
+        - name: cdma
+          type:
+            name: CellIdentityCdma
+        - name: lte
+          type:
+            name: CellIdentityLte
+        - name: nr
+          type:
+            name: CellIdentityNr
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CellInfoRatSpecificInfo
+      fields:
+        - name: gsm
+          type:
+            name: CellInfoGsm
+        - name: wcdma
+          type:
+            name: CellInfoWcdma
+        - name: tdscdma
+          type:
+            name: CellInfoTdscdma
+        - name: lte
+          type:
+            name: CellInfoLte
+        - name: nr
+          type:
+            name: CellInfoNr
+        - name: cdma
+          type:
+            name: CellInfoCdma
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: PhysicalChannelConfigBand
+      fields:
+        - name: noinit
+          type:
+            name: boolean
+        - name: geranBand
+          type:
+            name: GeranBands
+        - name: utranBand
+          type:
+            name: UtranBands
+        - name: eutranBand
+          type:
+            name: EutranBands
+        - name: ngranBand
+          type:
+            name: NgranBands
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: RadioAccessSpecifierBands
+      fields:
+        - name: noinit
+          type:
+            name: boolean
+        - name: geranBands
+          type:
+            name: GeranBands
+            is_array: true
+        - name: utranBands
+          type:
+            name: UtranBands
+            is_array: true
+        - name: eutranBands
+          type:
+            name: EutranBands
+            is_array: true
+        - name: ngranBands
+          type:
+            name: NgranBands
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive

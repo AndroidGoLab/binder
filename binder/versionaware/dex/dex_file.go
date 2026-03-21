@@ -68,6 +68,27 @@ func parseDEXFile(data []byte) (*dexFile, error) {
 		classDefsOff:  binary.LittleEndian.Uint32(data[offClassDefsOff:]),
 	}
 
+	// Validate that section extents fit within the data to catch
+	// truncated or corrupted DEX files early.
+	dataLen := uint64(len(data))
+	sections := []struct {
+		name string
+		off  uint32
+		size uint32
+		item uint32
+	}{
+		{"string_ids", f.stringIDsOff, f.stringIDsSize, stringIDItemSize},
+		{"type_ids", f.typeIDsOff, f.typeIDsSize, typeIDItemSize},
+		{"field_ids", f.fieldIDsOff, f.fieldIDsSize, fieldIDItemSize},
+		{"class_defs", f.classDefsOff, f.classDefsSize, classDefItemSize},
+	}
+	for _, s := range sections {
+		end := uint64(s.off) + uint64(s.size)*uint64(s.item)
+		if end > dataLen {
+			return nil, fmt.Errorf("DEX %s section extends past file end (off=0x%x, count=%d, item=%d, file=%d)", s.name, s.off, s.size, s.item, dataLen)
+		}
+	}
+
 	return f, nil
 }
 
@@ -79,8 +100,8 @@ func (f *dexFile) readStringBytes(idx uint32) ([]byte, error) {
 		return nil, fmt.Errorf("string index %d out of range (size=%d)", idx, f.stringIDsSize)
 	}
 
-	off := f.stringIDsOff + idx*stringIDItemSize
-	if off+4 > uint32(len(f.data)) {
+	off := uint64(f.stringIDsOff) + uint64(idx)*stringIDItemSize
+	if off+4 > uint64(len(f.data)) {
 		return nil, fmt.Errorf("string_id_item at offset 0x%x out of bounds", off)
 	}
 
@@ -96,6 +117,10 @@ func (f *dexFile) readStringBytes(idx uint32) ([]byte, error) {
 		return nil, fmt.Errorf("reading string utf16_size at 0x%x: %w", dataOff, err)
 	}
 
+	if pos >= uint32(len(f.data)) {
+		return nil, fmt.Errorf("string data at offset 0x%x past end of file", pos)
+	}
+
 	// Find null terminator using vectorized search.
 	nullIdx := bytes.IndexByte(f.data[pos:], 0)
 	if nullIdx < 0 {
@@ -105,31 +130,6 @@ func (f *dexFile) readStringBytes(idx uint32) ([]byte, error) {
 	return f.data[pos : pos+uint32(nullIdx)], nil
 }
 
-// readString reads the MUTF-8 string at the given string_ids index.
-// For TRANSACTION_* field names (which are ASCII), reading until the
-// null terminator is sufficient.
-func (f *dexFile) readString(idx uint32) (string, error) {
-	b, err := f.readStringBytes(idx)
-	if err != nil {
-		return "", err
-	}
-	return string(b), nil
-}
-
-// readTypeDescriptor returns the type descriptor string for the given type_ids index.
-func (f *dexFile) readTypeDescriptor(idx uint32) (string, error) {
-	if idx >= f.typeIDsSize {
-		return "", fmt.Errorf("type index %d out of range (size=%d)", idx, f.typeIDsSize)
-	}
-
-	off := f.typeIDsOff + idx*typeIDItemSize
-	if off+4 > uint32(len(f.data)) {
-		return "", fmt.Errorf("type_id_item at offset 0x%x out of bounds", off)
-	}
-
-	descriptorIdx := binary.LittleEndian.Uint32(f.data[off:])
-	return f.readString(descriptorIdx)
-}
 
 // typeDescriptorHasSuffix checks whether the type descriptor at the given
 // type_ids index ends with suffix, without allocating a string.
@@ -138,8 +138,8 @@ func (f *dexFile) typeDescriptorHasSuffix(idx uint32, suffix []byte) (bool, erro
 		return false, fmt.Errorf("type index %d out of range (size=%d)", idx, f.typeIDsSize)
 	}
 
-	off := f.typeIDsOff + idx*typeIDItemSize
-	if off+4 > uint32(len(f.data)) {
+	off := uint64(f.typeIDsOff) + uint64(idx)*typeIDItemSize
+	if off+4 > uint64(len(f.data)) {
 		return false, fmt.Errorf("type_id_item at offset 0x%x out of bounds", off)
 	}
 
@@ -158,8 +158,8 @@ func (f *dexFile) readTypeDescriptorBytes(idx uint32) ([]byte, error) {
 		return nil, fmt.Errorf("type index %d out of range (size=%d)", idx, f.typeIDsSize)
 	}
 
-	off := f.typeIDsOff + idx*typeIDItemSize
-	if off+4 > uint32(len(f.data)) {
+	off := uint64(f.typeIDsOff) + uint64(idx)*typeIDItemSize
+	if off+4 > uint64(len(f.data)) {
 		return nil, fmt.Errorf("type_id_item at offset 0x%x out of bounds", off)
 	}
 
@@ -198,6 +198,9 @@ func stubDescriptorBytesToInterface(desc []byte) string {
 
 	// Build result replacing '/' -> '.' in a single allocation.
 	body := desc[start:end]
+	if len(body) == 0 {
+		return ""
+	}
 	buf := make([]byte, len(body))
 	for i, b := range body {
 		if b == '/' {

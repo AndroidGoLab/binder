@@ -47,8 +47,7 @@ func (u *DemuxFilterEvent) GetSection() (DemuxFilterSectionEvent, bool) {
 func (u *DemuxFilterEvent) SetSection(
 	v DemuxFilterSectionEvent,
 ) {
-	u.Tag = DemuxFilterEventTagSection
-	u.Section = v
+	*u = DemuxFilterEvent{Tag: DemuxFilterEventTagSection, Section: v}
 }
 
 func (u *DemuxFilterEvent) GetMedia() (DemuxFilterMediaEvent, bool) {
@@ -62,8 +61,7 @@ func (u *DemuxFilterEvent) GetMedia() (DemuxFilterMediaEvent, bool) {
 func (u *DemuxFilterEvent) SetMedia(
 	v DemuxFilterMediaEvent,
 ) {
-	u.Tag = DemuxFilterEventTagMedia
-	u.Media = v
+	*u = DemuxFilterEvent{Tag: DemuxFilterEventTagMedia, Media: v}
 }
 
 func (u *DemuxFilterEvent) GetPes() (DemuxFilterPesEvent, bool) {
@@ -77,8 +75,7 @@ func (u *DemuxFilterEvent) GetPes() (DemuxFilterPesEvent, bool) {
 func (u *DemuxFilterEvent) SetPes(
 	v DemuxFilterPesEvent,
 ) {
-	u.Tag = DemuxFilterEventTagPes
-	u.Pes = v
+	*u = DemuxFilterEvent{Tag: DemuxFilterEventTagPes, Pes: v}
 }
 
 func (u *DemuxFilterEvent) GetTsRecord() (DemuxFilterTsRecordEvent, bool) {
@@ -92,8 +89,7 @@ func (u *DemuxFilterEvent) GetTsRecord() (DemuxFilterTsRecordEvent, bool) {
 func (u *DemuxFilterEvent) SetTsRecord(
 	v DemuxFilterTsRecordEvent,
 ) {
-	u.Tag = DemuxFilterEventTagTsRecord
-	u.TsRecord = v
+	*u = DemuxFilterEvent{Tag: DemuxFilterEventTagTsRecord, TsRecord: v}
 }
 
 func (u *DemuxFilterEvent) GetMmtpRecord() (DemuxFilterMmtpRecordEvent, bool) {
@@ -107,8 +103,7 @@ func (u *DemuxFilterEvent) GetMmtpRecord() (DemuxFilterMmtpRecordEvent, bool) {
 func (u *DemuxFilterEvent) SetMmtpRecord(
 	v DemuxFilterMmtpRecordEvent,
 ) {
-	u.Tag = DemuxFilterEventTagMmtpRecord
-	u.MmtpRecord = v
+	*u = DemuxFilterEvent{Tag: DemuxFilterEventTagMmtpRecord, MmtpRecord: v}
 }
 
 func (u *DemuxFilterEvent) GetDownload() (DemuxFilterDownloadEvent, bool) {
@@ -122,8 +117,7 @@ func (u *DemuxFilterEvent) GetDownload() (DemuxFilterDownloadEvent, bool) {
 func (u *DemuxFilterEvent) SetDownload(
 	v DemuxFilterDownloadEvent,
 ) {
-	u.Tag = DemuxFilterEventTagDownload
-	u.Download = v
+	*u = DemuxFilterEvent{Tag: DemuxFilterEventTagDownload, Download: v}
 }
 
 func (u *DemuxFilterEvent) GetIpPayload() (DemuxFilterIpPayloadEvent, bool) {
@@ -137,8 +131,7 @@ func (u *DemuxFilterEvent) GetIpPayload() (DemuxFilterIpPayloadEvent, bool) {
 func (u *DemuxFilterEvent) SetIpPayload(
 	v DemuxFilterIpPayloadEvent,
 ) {
-	u.Tag = DemuxFilterEventTagIpPayload
-	u.IpPayload = v
+	*u = DemuxFilterEvent{Tag: DemuxFilterEventTagIpPayload, IpPayload: v}
 }
 
 func (u *DemuxFilterEvent) GetTemi() (DemuxFilterTemiEvent, bool) {
@@ -152,8 +145,7 @@ func (u *DemuxFilterEvent) GetTemi() (DemuxFilterTemiEvent, bool) {
 func (u *DemuxFilterEvent) SetTemi(
 	v DemuxFilterTemiEvent,
 ) {
-	u.Tag = DemuxFilterEventTagTemi
-	u.Temi = v
+	*u = DemuxFilterEvent{Tag: DemuxFilterEventTagTemi, Temi: v}
 }
 
 func (u *DemuxFilterEvent) GetMonitorEvent() (DemuxFilterMonitorEvent, bool) {
@@ -167,8 +159,7 @@ func (u *DemuxFilterEvent) GetMonitorEvent() (DemuxFilterMonitorEvent, bool) {
 func (u *DemuxFilterEvent) SetMonitorEvent(
 	v DemuxFilterMonitorEvent,
 ) {
-	u.Tag = DemuxFilterEventTagMonitorEvent
-	u.MonitorEvent = v
+	*u = DemuxFilterEvent{Tag: DemuxFilterEventTagMonitorEvent, MonitorEvent: v}
 }
 
 func (u *DemuxFilterEvent) GetStartId() (int32, bool) {
@@ -182,8 +173,7 @@ func (u *DemuxFilterEvent) GetStartId() (int32, bool) {
 func (u *DemuxFilterEvent) SetStartId(
 	v int32,
 ) {
-	u.Tag = DemuxFilterEventTagStartId
-	u.StartId = v
+	*u = DemuxFilterEvent{Tag: DemuxFilterEventTagStartId, StartId: v}
 }
 
 func (u *DemuxFilterEvent) MarshalParcel(

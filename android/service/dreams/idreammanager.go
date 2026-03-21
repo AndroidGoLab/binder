@@ -93,6 +93,7 @@ func (p *DreamManagerProxy) Dream(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerDream)
@@ -117,6 +118,7 @@ func (p *DreamManagerProxy) Awaken(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerAwaken)
@@ -142,6 +144,7 @@ func (p *DreamManagerProxy) SetDreamComponents(
 	componentNames []content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	if componentNames == nil {
 		_data.WriteInt32(-1)
@@ -178,6 +181,7 @@ func (p *DreamManagerProxy) GetDreamComponents(
 ) ([]content.ComponentName, error) {
 	var _result []content.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerGetDreamComponents)
@@ -198,6 +202,9 @@ func (p *DreamManagerProxy) GetDreamComponents(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -220,6 +227,7 @@ func (p *DreamManagerProxy) GetDefaultDreamComponentForUser(
 	var _result content.ComponentName
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -256,6 +264,7 @@ func (p *DreamManagerProxy) TestDream(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -286,6 +295,7 @@ func (p *DreamManagerProxy) IsDreaming(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerIsDreaming)
@@ -315,6 +325,7 @@ func (p *DreamManagerProxy) IsDreamingOrInPreview(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerIsDreamingOrInPreview)
@@ -345,6 +356,7 @@ func (p *DreamManagerProxy) FinishSelf(
 	immediate bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(immediate)
@@ -374,6 +386,7 @@ func (p *DreamManagerProxy) StartDozing(
 	screenBrightness int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(screenState)
@@ -402,6 +415,7 @@ func (p *DreamManagerProxy) StopDozing(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -428,6 +442,7 @@ func (p *DreamManagerProxy) ForceAmbientDisplayEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	_data.WriteBool(enabled)
 
@@ -455,6 +470,7 @@ func (p *DreamManagerProxy) GetDreamComponentsForUser(
 	var _result []content.ComponentName
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -477,6 +493,9 @@ func (p *DreamManagerProxy) GetDreamComponentsForUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]content.ComponentName, _count)
@@ -498,6 +517,7 @@ func (p *DreamManagerProxy) SetDreamComponentsForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	_data.WriteInt32(_identity.UserID)
 	if componentNames == nil {
@@ -535,6 +555,7 @@ func (p *DreamManagerProxy) SetSystemDreamComponent(
 	componentName content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
@@ -564,6 +585,7 @@ func (p *DreamManagerProxy) RegisterDreamOverlayService(
 	componentName content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
@@ -593,6 +615,7 @@ func (p *DreamManagerProxy) StartDreamActivity(
 	intent content.Intent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -620,7 +643,8 @@ func (p *DreamManagerProxy) StartDreamActivity(
 // DreamManagerStub dispatches incoming binder transactions
 // to a typed IDreamManager implementation.
 type DreamManagerStub struct {
-	Impl IDreamManager
+	Impl      IDreamManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DreamManagerStub)(nil)
@@ -634,11 +658,12 @@ func (s *DreamManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDreamManagerDream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Dream(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -648,9 +673,6 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerAwaken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Awaken(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -660,12 +682,27 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerSetDreamComponents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_componentNames []content.ComponentName
-		_ = _arg_componentNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_componentNames = make([]content.ComponentName, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_componentNames[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetDreamComponents(ctx, _arg_componentNames)
 		_reply := parcel.New()
 		if _err != nil {
@@ -675,9 +712,6 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerGetDreamComponents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDreamComponents(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -685,13 +719,19 @@ func (s *DreamManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDreamManagerGetDefaultDreamComponentForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -708,9 +748,6 @@ func (s *DreamManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDreamManagerTestDream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -735,9 +772,6 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerIsDreaming:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsDreaming(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -748,9 +782,6 @@ func (s *DreamManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDreamManagerIsDreamingOrInPreview:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsDreamingOrInPreview(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -761,12 +792,14 @@ func (s *DreamManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDreamManagerFinishSelf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_immediate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -780,12 +813,14 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerStartDozing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_screenState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -803,12 +838,14 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerStopDozing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.StopDozing(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -818,9 +855,6 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerForceAmbientDisplayEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -834,9 +868,6 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerGetDreamComponentsForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -847,19 +878,43 @@ func (s *DreamManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDreamManagerSetDreamComponentsForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_componentNames []content.ComponentName
-		_ = _arg_componentNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_componentNames = make([]content.ComponentName, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_componentNames[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetDreamComponentsForUser(ctx, _arg_componentNames)
 		_reply := parcel.New()
 		if _err != nil {
@@ -869,9 +924,6 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerSetSystemDreamComponent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -893,9 +945,6 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerRegisterDreamOverlayService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -917,9 +966,6 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerStartDreamActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()

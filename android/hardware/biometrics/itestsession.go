@@ -66,6 +66,7 @@ func (p *TestSessionProxy) SetTestHalEnabled(
 	enableTestHal bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteBool(enableTestHal)
 
@@ -92,6 +93,7 @@ func (p *TestSessionProxy) StartEnroll(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(_identity.UserID)
 
@@ -118,6 +120,7 @@ func (p *TestSessionProxy) FinishEnroll(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(_identity.UserID)
 
@@ -144,6 +147,7 @@ func (p *TestSessionProxy) AcceptAuthentication(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(_identity.UserID)
 
@@ -170,6 +174,7 @@ func (p *TestSessionProxy) RejectAuthentication(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(_identity.UserID)
 
@@ -197,6 +202,7 @@ func (p *TestSessionProxy) NotifyAcquired(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(acquireInfo)
@@ -225,6 +231,7 @@ func (p *TestSessionProxy) NotifyError(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(errorCode)
@@ -252,6 +259,7 @@ func (p *TestSessionProxy) CleanupInternalState(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(_identity.UserID)
 
@@ -276,7 +284,8 @@ func (p *TestSessionProxy) CleanupInternalState(
 // TestSessionStub dispatches incoming binder transactions
 // to a typed ITestSession implementation.
 type TestSessionStub struct {
-	Impl ITestSession
+	Impl      ITestSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TestSessionStub)(nil)
@@ -290,11 +299,12 @@ func (s *TestSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITestSessionSetTestHalEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enableTestHal, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -308,9 +318,6 @@ func (s *TestSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITestSessionStartEnroll:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -323,9 +330,6 @@ func (s *TestSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITestSessionFinishEnroll:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -338,9 +342,6 @@ func (s *TestSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITestSessionAcceptAuthentication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -353,9 +354,6 @@ func (s *TestSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITestSessionRejectAuthentication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -368,9 +366,6 @@ func (s *TestSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITestSessionNotifyAcquired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -387,9 +382,6 @@ func (s *TestSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITestSessionNotifyError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -406,9 +398,6 @@ func (s *TestSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITestSessionCleanupInternalState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}

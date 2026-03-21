@@ -37,8 +37,7 @@ func (u *AccessTechnologySpecificInfo) GetNoinit() (bool, bool) {
 func (u *AccessTechnologySpecificInfo) SetNoinit(
 	v bool,
 ) {
-	u.Tag = AccessTechnologySpecificInfoTagNoinit
-	u.Noinit = v
+	*u = AccessTechnologySpecificInfo{Tag: AccessTechnologySpecificInfoTagNoinit, Noinit: v}
 }
 
 func (u *AccessTechnologySpecificInfo) GetCdmaInfo() (Cdma2000RegistrationInfo, bool) {
@@ -52,8 +51,7 @@ func (u *AccessTechnologySpecificInfo) GetCdmaInfo() (Cdma2000RegistrationInfo, 
 func (u *AccessTechnologySpecificInfo) SetCdmaInfo(
 	v Cdma2000RegistrationInfo,
 ) {
-	u.Tag = AccessTechnologySpecificInfoTagCdmaInfo
-	u.CdmaInfo = v
+	*u = AccessTechnologySpecificInfo{Tag: AccessTechnologySpecificInfoTagCdmaInfo, CdmaInfo: v}
 }
 
 func (u *AccessTechnologySpecificInfo) GetEutranInfo() (EutranRegistrationInfo, bool) {
@@ -67,8 +65,7 @@ func (u *AccessTechnologySpecificInfo) GetEutranInfo() (EutranRegistrationInfo, 
 func (u *AccessTechnologySpecificInfo) SetEutranInfo(
 	v EutranRegistrationInfo,
 ) {
-	u.Tag = AccessTechnologySpecificInfoTagEutranInfo
-	u.EutranInfo = v
+	*u = AccessTechnologySpecificInfo{Tag: AccessTechnologySpecificInfoTagEutranInfo, EutranInfo: v}
 }
 
 func (u *AccessTechnologySpecificInfo) GetNgranNrVopsInfo() (NrVopsInfo, bool) {
@@ -82,8 +79,7 @@ func (u *AccessTechnologySpecificInfo) GetNgranNrVopsInfo() (NrVopsInfo, bool) {
 func (u *AccessTechnologySpecificInfo) SetNgranNrVopsInfo(
 	v NrVopsInfo,
 ) {
-	u.Tag = AccessTechnologySpecificInfoTagNgranNrVopsInfo
-	u.NgranNrVopsInfo = v
+	*u = AccessTechnologySpecificInfo{Tag: AccessTechnologySpecificInfoTagNgranNrVopsInfo, NgranNrVopsInfo: v}
 }
 
 func (u *AccessTechnologySpecificInfo) GetGeranDtmSupported() (bool, bool) {
@@ -97,8 +93,7 @@ func (u *AccessTechnologySpecificInfo) GetGeranDtmSupported() (bool, bool) {
 func (u *AccessTechnologySpecificInfo) SetGeranDtmSupported(
 	v bool,
 ) {
-	u.Tag = AccessTechnologySpecificInfoTagGeranDtmSupported
-	u.GeranDtmSupported = v
+	*u = AccessTechnologySpecificInfo{Tag: AccessTechnologySpecificInfoTagGeranDtmSupported, GeranDtmSupported: v}
 }
 
 func (u *AccessTechnologySpecificInfo) MarshalParcel(

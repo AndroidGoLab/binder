@@ -57,6 +57,7 @@ func (p *EvsUltrasonicsArrayProxy) DoneWithDataFrame(
 	dataFrameDesc UltrasonicsDataFrameDesc,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
 	_data.WriteInt32(1)
 	if _err := dataFrameDesc.MarshalParcel(_data); _err != nil {
@@ -86,6 +87,7 @@ func (p *EvsUltrasonicsArrayProxy) GetUltrasonicArrayInfo(
 ) (UltrasonicsArrayDesc, error) {
 	var _result UltrasonicsArrayDesc
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArrayGetUltrasonicArrayInfo)
@@ -120,6 +122,7 @@ func (p *EvsUltrasonicsArrayProxy) SetMaxFramesInFlight(
 	bufferCount int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
 	_data.WriteInt32(bufferCount)
 
@@ -146,6 +149,7 @@ func (p *EvsUltrasonicsArrayProxy) StartStream(
 	stream IEvsUltrasonicsArrayStream,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
 	binder.WriteBinderToParcel(ctx, _data, stream.AsBinder(), p.Remote.Transport())
 
@@ -171,6 +175,7 @@ func (p *EvsUltrasonicsArrayProxy) StopStream(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArrayStopStream)
@@ -194,7 +199,8 @@ func (p *EvsUltrasonicsArrayProxy) StopStream(
 // EvsUltrasonicsArrayStub dispatches incoming binder transactions
 // to a typed IEvsUltrasonicsArray implementation.
 type EvsUltrasonicsArrayStub struct {
-	Impl IEvsUltrasonicsArray
+	Impl      IEvsUltrasonicsArray
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EvsUltrasonicsArrayStub)(nil)
@@ -208,11 +214,12 @@ func (s *EvsUltrasonicsArrayStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEvsUltrasonicsArrayDoneWithDataFrame:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_dataFrameDesc UltrasonicsDataFrameDesc
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -234,9 +241,6 @@ func (s *EvsUltrasonicsArrayStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsUltrasonicsArrayGetUltrasonicArrayInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetUltrasonicArrayInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -250,9 +254,6 @@ func (s *EvsUltrasonicsArrayStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEvsUltrasonicsArraySetMaxFramesInFlight:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_bufferCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -266,12 +267,14 @@ func (s *EvsUltrasonicsArrayStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsUltrasonicsArrayStartStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_stream IEvsUltrasonicsArrayStream
-		_ = _arg_stream
+		{
+			_streamHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_stream = NewEvsUltrasonicsArrayStreamProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _streamHandle))
+		}
 		_err := s.Impl.StartStream(ctx, _arg_stream)
 		_reply := parcel.New()
 		if _err != nil {
@@ -281,9 +284,6 @@ func (s *EvsUltrasonicsArrayStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsUltrasonicsArrayStopStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopStream(ctx)
 		_reply := parcel.New()
 		if _err != nil {

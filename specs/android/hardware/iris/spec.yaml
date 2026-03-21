@@ -1,0 +1,19 @@
+package: android.hardware.iris
+go_package: android/hardware/iris
+interfaces:
+    - name: IIrisService
+      descriptor: android.hardware.iris.IIrisService
+      methods:
+        - name: registerAuthenticators
+          transaction_code_offset: 0
+          params:
+            - name: hidlSensors
+              type:
+                name: List
+                type_args:
+                    - name: SensorPropertiesInternal
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission

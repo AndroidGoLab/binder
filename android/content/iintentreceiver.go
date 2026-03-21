@@ -3,6 +3,7 @@ package content
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ const (
 
 type IIntentReceiver interface {
 	AsBinder() binder.IBinder
-	PerformReceive(ctx context.Context, intent Intent, resultCode int32, data string, extras interface{}, ordered bool, sticky bool, sendingUser int32) error
+	PerformReceive(ctx context.Context, intent Intent, resultCode int32, data string, extras os.Bundle, ordered bool, sticky bool, sendingUser int32) error
 }
 
 type IntentReceiverProxy struct {
@@ -45,12 +46,13 @@ func (p *IntentReceiverProxy) PerformReceive(
 	intent Intent,
 	resultCode int32,
 	data string,
-	extras interface{},
+	extras os.Bundle,
 	ordered bool,
 	sticky bool,
 	sendingUser int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIntentReceiver)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -58,6 +60,10 @@ func (p *IntentReceiverProxy) PerformReceive(
 	}
 	_data.WriteInt32(resultCode)
 	_data.WriteString16(data)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(ordered)
 	_data.WriteBool(sticky)
 	_data.WriteInt32(sendingUser)
@@ -74,7 +80,8 @@ func (p *IntentReceiverProxy) PerformReceive(
 // IntentReceiverStub dispatches incoming binder transactions
 // to a typed IIntentReceiver implementation.
 type IntentReceiverStub struct {
-	Impl IIntentReceiver
+	Impl      IIntentReceiver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*IntentReceiverStub)(nil)
@@ -88,11 +95,12 @@ func (s *IntentReceiverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIIntentReceiverPerformReceive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -113,7 +121,18 @@ func (s *IntentReceiverStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_ordered, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -127,8 +146,7 @@ func (s *IntentReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.PerformReceive(ctx, _arg_intent, _arg_resultCode, _arg_data, _arg_extras, _arg_ordered, _arg_sticky, _arg_sendingUser)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -138,7 +156,7 @@ func (s *IntentReceiverStub) OnTransaction(
 // provide to NewIntentReceiverStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IIntentReceiverServer interface {
-	PerformReceive(ctx context.Context, intent Intent, resultCode int32, data string, extras interface{}, ordered bool, sticky bool, sendingUser int32) error
+	PerformReceive(ctx context.Context, intent Intent, resultCode int32, data string, extras os.Bundle, ordered bool, sticky bool, sendingUser int32) error
 }
 
 type intentReceiverStubWrapper struct {
@@ -155,7 +173,7 @@ func (w *intentReceiverStubWrapper) PerformReceive(
 	intent Intent,
 	resultCode int32,
 	data string,
-	extras interface{},
+	extras os.Bundle,
 	ordered bool,
 	sticky bool,
 	sendingUser int32,

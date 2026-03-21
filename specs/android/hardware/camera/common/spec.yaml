@@ -1,0 +1,111 @@
+package: android.hardware.camera.common
+go_package: android/hardware/camera/common
+parcelables:
+    - name: CameraResourceCost
+      fields:
+        - name: resourceCost
+          type:
+            name: int
+        - name: conflictingDevices
+          type:
+            name: String
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: VendorTag
+      fields:
+        - name: tagId
+          type:
+            name: int
+        - name: tagName
+          type:
+            name: String
+        - name: tagType
+          type:
+            name: CameraMetadataType
+      annotations:
+        - VintfStability
+    - name: VendorTagSection
+      fields:
+        - name: sectionName
+          type:
+            name: String
+        - name: tags
+          type:
+            name: VendorTag
+            is_array: true
+      annotations:
+        - VintfStability
+enums:
+    - name: CameraDeviceStatus
+      backing_type: int
+      values:
+        - name: NOT_PRESENT
+          value: "0"
+        - name: PRESENT
+          value: "1"
+        - name: ENUMERATING
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CameraMetadataType
+      backing_type: int
+      values:
+        - name: BYTE
+          value: "0"
+        - name: INT32
+          value: "1"
+        - name: FLOAT
+          value: "2"
+        - name: INT64
+          value: "3"
+        - name: DOUBLE
+          value: "4"
+        - name: RATIONAL
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Status
+      backing_type: int
+      values:
+        - name: OK
+          value: "0"
+        - name: ILLEGAL_ARGUMENT
+          value: ""
+        - name: CAMERA_IN_USE
+          value: ""
+        - name: MAX_CAMERAS_IN_USE
+          value: ""
+        - name: OPERATION_NOT_SUPPORTED
+          value: ""
+        - name: CAMERA_DISCONNECTED
+          value: ""
+        - name: INTERNAL_ERROR
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: TagBoundaryId
+      backing_type: long
+      values:
+        - name: AOSP
+          value: "0x0"
+        - name: VENDOR
+          value: 0x80000000L
+      annotations:
+        - VintfStability
+        - Backing
+    - name: TorchModeStatus
+      backing_type: int
+      values:
+        - name: NOT_AVAILABLE
+          value: "0"
+        - name: AVAILABLE_OFF
+          value: "1"
+        - name: AVAILABLE_ON
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing

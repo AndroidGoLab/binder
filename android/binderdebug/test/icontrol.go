@@ -44,6 +44,7 @@ func (p *ControlProxy) Continue(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIControl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControl, MethodIControlContinue)
@@ -67,7 +68,8 @@ func (p *ControlProxy) Continue(
 // ControlStub dispatches incoming binder transactions
 // to a typed IControl implementation.
 type ControlStub struct {
-	Impl IControl
+	Impl      IControl
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ControlStub)(nil)
@@ -81,11 +83,12 @@ func (s *ControlStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIControlContinue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Continue(ctx)
 		_reply := parcel.New()
 		if _err != nil {

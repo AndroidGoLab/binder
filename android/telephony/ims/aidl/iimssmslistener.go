@@ -58,6 +58,7 @@ func (p *ImsSmsListenerProxy) OnSendSmsResult(
 	networkErrorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsSmsListener)
 	_data.WriteInt32(token)
 	_data.WriteInt32(messageRef)
@@ -81,17 +82,11 @@ func (p *ImsSmsListenerProxy) OnSmsStatusReportReceived(
 	pdu []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsSmsListener)
 	_data.WriteInt32(token)
 	_data.WriteString16(format)
-	if pdu == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(pdu)))
-		for _, _item := range pdu {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(pdu)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsSmsListener, MethodIImsSmsListenerOnSmsStatusReportReceived)
 	if _err != nil {
@@ -109,17 +104,11 @@ func (p *ImsSmsListenerProxy) OnSmsReceived(
 	pdu []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsSmsListener)
 	_data.WriteInt32(token)
 	_data.WriteString16(format)
-	if pdu == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(pdu)))
-		for _, _item := range pdu {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(pdu)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsSmsListener, MethodIImsSmsListenerOnSmsReceived)
 	if _err != nil {
@@ -137,6 +126,7 @@ func (p *ImsSmsListenerProxy) OnMemoryAvailableResult(
 	networkErrorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsSmsListener)
 	_data.WriteInt32(token)
 	_data.WriteInt32(status)
@@ -154,7 +144,8 @@ func (p *ImsSmsListenerProxy) OnMemoryAvailableResult(
 // ImsSmsListenerStub dispatches incoming binder transactions
 // to a typed IImsSmsListener implementation.
 type ImsSmsListenerStub struct {
-	Impl IImsSmsListener
+	Impl      IImsSmsListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsSmsListenerStub)(nil)
@@ -168,11 +159,12 @@ func (s *ImsSmsListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsSmsListenerOnSendSmsResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -194,12 +186,8 @@ func (s *ImsSmsListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSendSmsResult(ctx, _arg_token, _arg_messageRef, _arg_status, _arg_reason, _arg_networkErrorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsSmsListenerOnSmsStatusReportReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -208,16 +196,17 @@ func (s *ImsSmsListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pdu []byte
-		_ = _arg_pdu
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_pdu = _bytes
+		}
 		_err = s.Impl.OnSmsStatusReportReceived(ctx, _arg_token, _arg_format, _arg_pdu)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsSmsListenerOnSmsReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -226,16 +215,17 @@ func (s *ImsSmsListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pdu []byte
-		_ = _arg_pdu
-		_err = s.Impl.OnSmsReceived(ctx, _arg_token, _arg_format, _arg_pdu)
-		_ = _err
-		return nil, nil
-	case TransactionIImsSmsListenerOnMemoryAvailableResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_pdu = _bytes
 		}
+		_err = s.Impl.OnSmsReceived(ctx, _arg_token, _arg_format, _arg_pdu)
+		return nil, _err
+	case TransactionIImsSmsListenerOnMemoryAvailableResult:
 		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -249,8 +239,7 @@ func (s *ImsSmsListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnMemoryAvailableResult(ctx, _arg_token, _arg_status, _arg_networkErrorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -47,11 +47,21 @@ func (s *EmergencyRegResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_accessNetworkRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.AccessNetwork = radio.AccessNetwork(_accessNetworkRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_regStateRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -59,15 +69,30 @@ func (s *EmergencyRegResult) UnmarshalParcel(
 	}
 	s.RegState = RegState(_regStateRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_emcDomainRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.EmcDomain = Domain(_emcDomainRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsVopsSupported, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.IsEmcBearerSupported, _err = p.ReadBool()
@@ -75,9 +100,19 @@ func (s *EmergencyRegResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.NwProvidedEmc, _err = p.ReadPaddedByte()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.NwProvidedEmf, _err = p.ReadPaddedByte()
@@ -85,9 +120,19 @@ func (s *EmergencyRegResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Mcc, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Mnc, _err = p.ReadString16()

@@ -48,6 +48,7 @@ func (p *TvInputCallbackProxy) Notify(
 	event TvInputEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputCallback)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -77,6 +78,7 @@ func (p *TvInputCallbackProxy) NotifyTvMessageEvent(
 	event TvMessageEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputCallback)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -104,7 +106,8 @@ func (p *TvInputCallbackProxy) NotifyTvMessageEvent(
 // TvInputCallbackStub dispatches incoming binder transactions
 // to a typed ITvInputCallback implementation.
 type TvInputCallbackStub struct {
-	Impl ITvInputCallback
+	Impl      ITvInputCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvInputCallbackStub)(nil)
@@ -118,11 +121,12 @@ func (s *TvInputCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvInputCallbackNotify:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event TvInputEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -144,9 +148,6 @@ func (s *TvInputCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputCallbackNotifyTvMessageEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event TvMessageEvent
 		{
 			_nullInd, _err := _data.ReadInt32()

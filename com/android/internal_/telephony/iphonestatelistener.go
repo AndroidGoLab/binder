@@ -4,12 +4,12 @@ import (
 	"context"
 	"fmt"
 	config "github.com/xaionaro-go/binder/android/hardware/radio/config"
-	ImsCall "github.com/xaionaro-go/binder/android/hardware/radio/ims/ImsCall"
+	ims "github.com/xaionaro-go/binder/android/hardware/radio/ims"
 	media "github.com/xaionaro-go/binder/android/hardware/radio/ims/media"
 	network "github.com/xaionaro-go/binder/android/hardware/radio/network"
 	voice "github.com/xaionaro-go/binder/android/hardware/radio/voice"
 	androidTelephony "github.com/xaionaro-go/binder/android/telephony"
-	ims "github.com/xaionaro-go/binder/android/telephony/ims"
+	telephonyIms "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -132,12 +132,12 @@ type IPhoneStateListener interface {
 	OnPhoneCapabilityChanged(ctx context.Context, capability config.PhoneCapability) error
 	OnActiveDataSubIdChanged(ctx context.Context, subId int32) error
 	OnRadioPowerStateChanged(ctx context.Context, state int32) error
-	OnCallStatesChanged(ctx context.Context, callStateList []ImsCall.CallState) error
-	OnEmergencyNumberListChanged(ctx context.Context, emergencyNumberList map[interface{}]interface{}) error
+	OnCallStatesChanged(ctx context.Context, callStateList []ims.ImsCallCallState) error
+	OnEmergencyNumberListChanged(ctx context.Context, emergencyNumberList map[any]any) error
 	OnOutgoingEmergencyCall(ctx context.Context, placedEmergencyNumber voice.EmergencyNumber, subscriptionId int32) error
 	OnOutgoingEmergencySms(ctx context.Context, sentEmergencyNumber voice.EmergencyNumber, subscriptionId int32) error
 	OnCallDisconnectCauseChanged(ctx context.Context, disconnectCause int32, preciseDisconnectCause int32) error
-	OnImsCallDisconnectCauseChanged(ctx context.Context, imsReasonInfo ims.ImsReasonInfo) error
+	OnImsCallDisconnectCauseChanged(ctx context.Context, imsReasonInfo telephonyIms.ImsReasonInfo) error
 	OnRegistrationFailed(ctx context.Context, cellIdentity network.CellIdentity, chosenPlmn string, domain int32, causeCode int32, additionalCauseCode int32) error
 	OnBarringInfoChanged(ctx context.Context, barringInfo network.BarringInfo) error
 	OnPhysicalChannelConfigChanged(ctx context.Context, configs []network.PhysicalChannelConfig) error
@@ -172,6 +172,7 @@ func (p *PhoneStateListenerProxy) OnServiceStateChanged(
 	serviceState androidTelephony.ServiceState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(1)
 	if _err := serviceState.MarshalParcel(_data); _err != nil {
@@ -192,6 +193,7 @@ func (p *PhoneStateListenerProxy) OnSignalStrengthChanged(
 	asu int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(asu)
 
@@ -209,6 +211,7 @@ func (p *PhoneStateListenerProxy) OnMessageWaitingIndicatorChanged(
 	mwi bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteBool(mwi)
 
@@ -226,6 +229,7 @@ func (p *PhoneStateListenerProxy) OnCallForwardingIndicatorChanged(
 	cfi bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteBool(cfi)
 
@@ -243,6 +247,7 @@ func (p *PhoneStateListenerProxy) OnCellLocationChanged(
 	location network.CellIdentity,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(1)
 	if _err := location.MarshalParcel(_data); _err != nil {
@@ -264,6 +269,7 @@ func (p *PhoneStateListenerProxy) OnLegacyCallStateChanged(
 	incomingNumber string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(state)
 	_data.WriteString16(incomingNumber)
@@ -282,6 +288,7 @@ func (p *PhoneStateListenerProxy) OnCallStateChanged(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(state)
 
@@ -300,6 +307,7 @@ func (p *PhoneStateListenerProxy) OnDataConnectionStateChanged(
 	networkType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(state)
 	_data.WriteInt32(networkType)
@@ -318,6 +326,7 @@ func (p *PhoneStateListenerProxy) OnDataActivity(
 	direction int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(direction)
 
@@ -335,6 +344,7 @@ func (p *PhoneStateListenerProxy) OnSignalStrengthsChanged(
 	signalStrength network.SignalStrength,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(1)
 	if _err := signalStrength.MarshalParcel(_data); _err != nil {
@@ -355,6 +365,7 @@ func (p *PhoneStateListenerProxy) OnCellInfoChanged(
 	cellInfo []network.CellInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	if cellInfo == nil {
 		_data.WriteInt32(-1)
@@ -382,6 +393,7 @@ func (p *PhoneStateListenerProxy) OnPreciseCallStateChanged(
 	callState androidTelephony.PreciseCallState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(1)
 	if _err := callState.MarshalParcel(_data); _err != nil {
@@ -402,6 +414,7 @@ func (p *PhoneStateListenerProxy) OnPreciseDataConnectionStateChanged(
 	dataConnectionState androidTelephony.PreciseDataConnectionState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(1)
 	if _err := dataConnectionState.MarshalParcel(_data); _err != nil {
@@ -422,6 +435,7 @@ func (p *PhoneStateListenerProxy) OnDataConnectionRealTimeInfoChanged(
 	dcRtInfo androidTelephony.DataConnectionRealTimeInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(1)
 	if _err := dcRtInfo.MarshalParcel(_data); _err != nil {
@@ -442,6 +456,7 @@ func (p *PhoneStateListenerProxy) OnSrvccStateChanged(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(state)
 
@@ -459,6 +474,7 @@ func (p *PhoneStateListenerProxy) OnVoiceActivationStateChanged(
 	activationState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(activationState)
 
@@ -476,6 +492,7 @@ func (p *PhoneStateListenerProxy) OnDataActivationStateChanged(
 	activationState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(activationState)
 
@@ -493,15 +510,9 @@ func (p *PhoneStateListenerProxy) OnOemHookRawEvent(
 	rawData []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
-	if rawData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(rawData)))
-		for _, _item := range rawData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(rawData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneStateListener, MethodIPhoneStateListenerOnOemHookRawEvent)
 	if _err != nil {
@@ -517,6 +528,7 @@ func (p *PhoneStateListenerProxy) OnCarrierNetworkChange(
 	active bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteBool(active)
 
@@ -534,6 +546,7 @@ func (p *PhoneStateListenerProxy) OnUserMobileDataStateChanged(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteBool(enabled)
 
@@ -551,6 +564,7 @@ func (p *PhoneStateListenerProxy) OnDisplayInfoChanged(
 	telephonyDisplayInfo androidTelephony.TelephonyDisplayInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(1)
 	if _err := telephonyDisplayInfo.MarshalParcel(_data); _err != nil {
@@ -571,6 +585,7 @@ func (p *PhoneStateListenerProxy) OnPhoneCapabilityChanged(
 	capability config.PhoneCapability,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(1)
 	if _err := capability.MarshalParcel(_data); _err != nil {
@@ -591,6 +606,7 @@ func (p *PhoneStateListenerProxy) OnActiveDataSubIdChanged(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(subId)
 
@@ -608,6 +624,7 @@ func (p *PhoneStateListenerProxy) OnRadioPowerStateChanged(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(state)
 
@@ -622,9 +639,10 @@ func (p *PhoneStateListenerProxy) OnRadioPowerStateChanged(
 
 func (p *PhoneStateListenerProxy) OnCallStatesChanged(
 	ctx context.Context,
-	callStateList []ImsCall.CallState,
+	callStateList []ims.ImsCallCallState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	if callStateList == nil {
 		_data.WriteInt32(-1)
@@ -646,9 +664,10 @@ func (p *PhoneStateListenerProxy) OnCallStatesChanged(
 
 func (p *PhoneStateListenerProxy) OnEmergencyNumberListChanged(
 	ctx context.Context,
-	emergencyNumberList map[interface{}]interface{},
+	emergencyNumberList map[any]any,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	if emergencyNumberList == nil {
 		_data.WriteInt32(-1)
@@ -675,6 +694,7 @@ func (p *PhoneStateListenerProxy) OnOutgoingEmergencyCall(
 	subscriptionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(1)
 	if _err := placedEmergencyNumber.MarshalParcel(_data); _err != nil {
@@ -697,6 +717,7 @@ func (p *PhoneStateListenerProxy) OnOutgoingEmergencySms(
 	subscriptionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(1)
 	if _err := sentEmergencyNumber.MarshalParcel(_data); _err != nil {
@@ -719,6 +740,7 @@ func (p *PhoneStateListenerProxy) OnCallDisconnectCauseChanged(
 	preciseDisconnectCause int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(disconnectCause)
 	_data.WriteInt32(preciseDisconnectCause)
@@ -734,9 +756,10 @@ func (p *PhoneStateListenerProxy) OnCallDisconnectCauseChanged(
 
 func (p *PhoneStateListenerProxy) OnImsCallDisconnectCauseChanged(
 	ctx context.Context,
-	imsReasonInfo ims.ImsReasonInfo,
+	imsReasonInfo telephonyIms.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(1)
 	if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
@@ -761,6 +784,7 @@ func (p *PhoneStateListenerProxy) OnRegistrationFailed(
 	additionalCauseCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(1)
 	if _err := cellIdentity.MarshalParcel(_data); _err != nil {
@@ -785,6 +809,7 @@ func (p *PhoneStateListenerProxy) OnBarringInfoChanged(
 	barringInfo network.BarringInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(1)
 	if _err := barringInfo.MarshalParcel(_data); _err != nil {
@@ -805,6 +830,7 @@ func (p *PhoneStateListenerProxy) OnPhysicalChannelConfigChanged(
 	configs []network.PhysicalChannelConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	if configs == nil {
 		_data.WriteInt32(-1)
@@ -833,6 +859,7 @@ func (p *PhoneStateListenerProxy) OnDataEnabledChanged(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteBool(enabled)
 	_data.WriteInt32(reason)
@@ -852,6 +879,7 @@ func (p *PhoneStateListenerProxy) OnAllowedNetworkTypesChanged(
 	allowedNetworkType int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(reason)
 	_data.WriteInt64(allowedNetworkType)
@@ -870,6 +898,7 @@ func (p *PhoneStateListenerProxy) OnLinkCapacityEstimateChanged(
 	linkCapacityEstimateList []network.LinkCapacityEstimate,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	if linkCapacityEstimateList == nil {
 		_data.WriteInt32(-1)
@@ -897,6 +926,7 @@ func (p *PhoneStateListenerProxy) OnMediaQualityStatusChanged(
 	mediaQualityStatus media.MediaQualityStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(1)
 	if _err := mediaQualityStatus.MarshalParcel(_data); _err != nil {
@@ -917,6 +947,7 @@ func (p *PhoneStateListenerProxy) OnCallBackModeStarted(
 	type_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(type_)
 
@@ -935,6 +966,7 @@ func (p *PhoneStateListenerProxy) OnCallBackModeStopped(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(type_)
 	_data.WriteInt32(reason)
@@ -953,6 +985,7 @@ func (p *PhoneStateListenerProxy) OnSimultaneousCallingStateChanged(
 	subIds []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	if subIds == nil {
 		_data.WriteInt32(-1)
@@ -977,6 +1010,7 @@ func (p *PhoneStateListenerProxy) OnCarrierRoamingNtnModeChanged(
 	active bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteBool(active)
 
@@ -992,7 +1026,8 @@ func (p *PhoneStateListenerProxy) OnCarrierRoamingNtnModeChanged(
 // PhoneStateListenerStub dispatches incoming binder transactions
 // to a typed IPhoneStateListener implementation.
 type PhoneStateListenerStub struct {
-	Impl IPhoneStateListener
+	Impl      IPhoneStateListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PhoneStateListenerStub)(nil)
@@ -1006,11 +1041,12 @@ func (s *PhoneStateListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPhoneStateListenerOnServiceStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_serviceState androidTelephony.ServiceState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1024,45 +1060,29 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnServiceStateChanged(ctx, _arg_serviceState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnSignalStrengthChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_asu, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSignalStrengthChanged(ctx, _arg_asu)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnMessageWaitingIndicatorChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mwi, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnMessageWaitingIndicatorChanged(ctx, _arg_mwi)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnCallForwardingIndicatorChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cfi, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnCallForwardingIndicatorChanged(ctx, _arg_cfi)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnCellLocationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_location network.CellIdentity
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1076,12 +1096,8 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnCellLocationChanged(ctx, _arg_location)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnLegacyCallStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1091,23 +1107,15 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnLegacyCallStateChanged(ctx, _arg_state, _arg_incomingNumber)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnCallStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnCallStateChanged(ctx, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnDataConnectionStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1117,23 +1125,15 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnDataConnectionStateChanged(ctx, _arg_state, _arg_networkType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnDataActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_direction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDataActivity(ctx, _arg_direction)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnSignalStrengthsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_signalStrength network.SignalStrength
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1147,22 +1147,32 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSignalStrengthsChanged(ctx, _arg_signalStrength)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnCellInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_cellInfo []network.CellInfo
-		_ = _arg_cellInfo
-		_err := s.Impl.OnCellInfoChanged(ctx, _arg_cellInfo)
-		_ = _err
-		return nil, nil
-	case TransactionIPhoneStateListenerOnPreciseCallStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_cellInfo = make([]network.CellInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_cellInfo[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnCellInfoChanged(ctx, _arg_cellInfo)
+		return nil, _err
+	case TransactionIPhoneStateListenerOnPreciseCallStateChanged:
 		var _arg_callState androidTelephony.PreciseCallState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1176,12 +1186,8 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnPreciseCallStateChanged(ctx, _arg_callState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnPreciseDataConnectionStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_dataConnectionState androidTelephony.PreciseDataConnectionState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1195,12 +1201,8 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnPreciseDataConnectionStateChanged(ctx, _arg_dataConnectionState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnDataConnectionRealTimeInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_dcRtInfo androidTelephony.DataConnectionRealTimeInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1214,77 +1216,54 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDataConnectionRealTimeInfoChanged(ctx, _arg_dcRtInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnSrvccStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSrvccStateChanged(ctx, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnVoiceActivationStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_activationState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnVoiceActivationStateChanged(ctx, _arg_activationState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnDataActivationStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_activationState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDataActivationStateChanged(ctx, _arg_activationState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnOemHookRawEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_rawData []byte
-		_ = _arg_rawData
-		_err := s.Impl.OnOemHookRawEvent(ctx, _arg_rawData)
-		_ = _err
-		return nil, nil
-	case TransactionIPhoneStateListenerOnCarrierNetworkChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_rawData = _bytes
 		}
+		_err := s.Impl.OnOemHookRawEvent(ctx, _arg_rawData)
+		return nil, _err
+	case TransactionIPhoneStateListenerOnCarrierNetworkChange:
 		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnCarrierNetworkChange(ctx, _arg_active)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnUserMobileDataStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnUserMobileDataStateChanged(ctx, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnDisplayInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_telephonyDisplayInfo androidTelephony.TelephonyDisplayInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1298,12 +1277,8 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDisplayInfoChanged(ctx, _arg_telephonyDisplayInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnPhoneCapabilityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_capability config.PhoneCapability
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1317,54 +1292,69 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnPhoneCapabilityChanged(ctx, _arg_capability)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnActiveDataSubIdChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnActiveDataSubIdChanged(ctx, _arg_subId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnRadioPowerStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRadioPowerStateChanged(ctx, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnCallStatesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_callStateList []ims.ImsCallCallState
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_callStateList = make([]ims.ImsCallCallState, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_raw, _err := _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_callStateList[_i] = ims.ImsCallCallState(_raw)
+				}
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_callStateList []ImsCall.CallState
-		_ = _arg_callStateList
 		_err := s.Impl.OnCallStatesChanged(ctx, _arg_callStateList)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnEmergencyNumberListChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_emergencyNumberList map[any]any
+		{
+			_mapCount, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _mapCount >= 0 {
+				_arg_emergencyNumberList = make(map[any]any, _mapCount)
+				for _mi := int32(0); _mi < _mapCount; _mi++ {
+					_mk, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_mv, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_emergencyNumberList[_mk] = _mv
+				}
+			}
 		}
-		// TODO: map param unmarshaling not yet supported in stubs
-		var _arg_emergencyNumberList map[interface{}]interface{}
-		_ = _arg_emergencyNumberList
 		_err := s.Impl.OnEmergencyNumberListChanged(ctx, _arg_emergencyNumberList)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnOutgoingEmergencyCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_placedEmergencyNumber voice.EmergencyNumber
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1382,12 +1372,8 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnOutgoingEmergencyCall(ctx, _arg_placedEmergencyNumber, _arg_subscriptionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnOutgoingEmergencySms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sentEmergencyNumber voice.EmergencyNumber
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1405,12 +1391,8 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnOutgoingEmergencySms(ctx, _arg_sentEmergencyNumber, _arg_subscriptionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnCallDisconnectCauseChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_disconnectCause, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1420,13 +1402,9 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnCallDisconnectCauseChanged(ctx, _arg_disconnectCause, _arg_preciseDisconnectCause)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnImsCallDisconnectCauseChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_imsReasonInfo ims.ImsReasonInfo
+		var _arg_imsReasonInfo telephonyIms.ImsReasonInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1439,12 +1417,8 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnImsCallDisconnectCauseChanged(ctx, _arg_imsReasonInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnRegistrationFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_cellIdentity network.CellIdentity
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1474,12 +1448,8 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnRegistrationFailed(ctx, _arg_cellIdentity, _arg_chosenPlmn, _arg_domain, _arg_causeCode, _arg_additionalCauseCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnBarringInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_barringInfo network.BarringInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1493,22 +1463,32 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnBarringInfoChanged(ctx, _arg_barringInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnPhysicalChannelConfigChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_configs []network.PhysicalChannelConfig
-		_ = _arg_configs
-		_err := s.Impl.OnPhysicalChannelConfigChanged(ctx, _arg_configs)
-		_ = _err
-		return nil, nil
-	case TransactionIPhoneStateListenerOnDataEnabledChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_configs = make([]network.PhysicalChannelConfig, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_configs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnPhysicalChannelConfigChanged(ctx, _arg_configs)
+		return nil, _err
+	case TransactionIPhoneStateListenerOnDataEnabledChanged:
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1518,12 +1498,8 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnDataEnabledChanged(ctx, _arg_enabled, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnAllowedNetworkTypesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1533,22 +1509,32 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAllowedNetworkTypesChanged(ctx, _arg_reason, _arg_allowedNetworkType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnLinkCapacityEstimateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_linkCapacityEstimateList []network.LinkCapacityEstimate
-		_ = _arg_linkCapacityEstimateList
-		_err := s.Impl.OnLinkCapacityEstimateChanged(ctx, _arg_linkCapacityEstimateList)
-		_ = _err
-		return nil, nil
-	case TransactionIPhoneStateListenerOnMediaQualityStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_linkCapacityEstimateList = make([]network.LinkCapacityEstimate, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_linkCapacityEstimateList[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnLinkCapacityEstimateChanged(ctx, _arg_linkCapacityEstimateList)
+		return nil, _err
+	case TransactionIPhoneStateListenerOnMediaQualityStatusChanged:
 		var _arg_mediaQualityStatus media.MediaQualityStatus
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1562,23 +1548,15 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnMediaQualityStatusChanged(ctx, _arg_mediaQualityStatus)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnCallBackModeStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnCallBackModeStarted(ctx, _arg_type_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnCallBackModeStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1588,29 +1566,36 @@ func (s *PhoneStateListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnCallBackModeStopped(ctx, _arg_type_, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPhoneStateListenerOnSimultaneousCallingStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_subIds []int32
-		_ = _arg_subIds
-		_err := s.Impl.OnSimultaneousCallingStateChanged(ctx, _arg_subIds)
-		_ = _err
-		return nil, nil
-	case TransactionIPhoneStateListenerOnCarrierRoamingNtnModeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_subIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_subIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnSimultaneousCallingStateChanged(ctx, _arg_subIds)
+		return nil, _err
+	case TransactionIPhoneStateListenerOnCarrierRoamingNtnModeChanged:
 		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnCarrierRoamingNtnModeChanged(ctx, _arg_active)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1644,12 +1629,12 @@ type IPhoneStateListenerServer interface {
 	OnPhoneCapabilityChanged(ctx context.Context, capability config.PhoneCapability) error
 	OnActiveDataSubIdChanged(ctx context.Context, subId int32) error
 	OnRadioPowerStateChanged(ctx context.Context, state int32) error
-	OnCallStatesChanged(ctx context.Context, callStateList []ImsCall.CallState) error
-	OnEmergencyNumberListChanged(ctx context.Context, emergencyNumberList map[interface{}]interface{}) error
+	OnCallStatesChanged(ctx context.Context, callStateList []ims.ImsCallCallState) error
+	OnEmergencyNumberListChanged(ctx context.Context, emergencyNumberList map[any]any) error
 	OnOutgoingEmergencyCall(ctx context.Context, placedEmergencyNumber voice.EmergencyNumber, subscriptionId int32) error
 	OnOutgoingEmergencySms(ctx context.Context, sentEmergencyNumber voice.EmergencyNumber, subscriptionId int32) error
 	OnCallDisconnectCauseChanged(ctx context.Context, disconnectCause int32, preciseDisconnectCause int32) error
-	OnImsCallDisconnectCauseChanged(ctx context.Context, imsReasonInfo ims.ImsReasonInfo) error
+	OnImsCallDisconnectCauseChanged(ctx context.Context, imsReasonInfo telephonyIms.ImsReasonInfo) error
 	OnRegistrationFailed(ctx context.Context, cellIdentity network.CellIdentity, chosenPlmn string, domain int32, causeCode int32, additionalCauseCode int32) error
 	OnBarringInfoChanged(ctx context.Context, barringInfo network.BarringInfo) error
 	OnPhysicalChannelConfigChanged(ctx context.Context, configs []network.PhysicalChannelConfig) error
@@ -1844,14 +1829,14 @@ func (w *phoneStateListenerStubWrapper) OnRadioPowerStateChanged(
 
 func (w *phoneStateListenerStubWrapper) OnCallStatesChanged(
 	ctx context.Context,
-	callStateList []ImsCall.CallState,
+	callStateList []ims.ImsCallCallState,
 ) error {
 	return w.impl.OnCallStatesChanged(ctx, callStateList)
 }
 
 func (w *phoneStateListenerStubWrapper) OnEmergencyNumberListChanged(
 	ctx context.Context,
-	emergencyNumberList map[interface{}]interface{},
+	emergencyNumberList map[any]any,
 ) error {
 	return w.impl.OnEmergencyNumberListChanged(ctx, emergencyNumberList)
 }
@@ -1882,7 +1867,7 @@ func (w *phoneStateListenerStubWrapper) OnCallDisconnectCauseChanged(
 
 func (w *phoneStateListenerStubWrapper) OnImsCallDisconnectCauseChanged(
 	ctx context.Context,
-	imsReasonInfo ims.ImsReasonInfo,
+	imsReasonInfo telephonyIms.ImsReasonInfo,
 ) error {
 	return w.impl.OnImsCallDisconnectCauseChanged(ctx, imsReasonInfo)
 }

@@ -48,6 +48,7 @@ func (p *PackageInstallerSessionFileSystemConnectorProxy) WriteData(
 	fd int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSessionFileSystemConnector)
 	_data.WriteString16(name)
 	_data.WriteInt64(offsetBytes)
@@ -75,7 +76,8 @@ func (p *PackageInstallerSessionFileSystemConnectorProxy) WriteData(
 // PackageInstallerSessionFileSystemConnectorStub dispatches incoming binder transactions
 // to a typed IPackageInstallerSessionFileSystemConnector implementation.
 type PackageInstallerSessionFileSystemConnectorStub struct {
-	Impl IPackageInstallerSessionFileSystemConnector
+	Impl      IPackageInstallerSessionFileSystemConnector
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PackageInstallerSessionFileSystemConnectorStub)(nil)
@@ -89,11 +91,12 @@ func (s *PackageInstallerSessionFileSystemConnectorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPackageInstallerSessionFileSystemConnectorWriteData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

@@ -45,6 +45,7 @@ func (p *HdmiHotplugEventListenerProxy) OnReceived(
 	event HdmiHotplugEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiHotplugEventListener)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *HdmiHotplugEventListenerProxy) OnReceived(
 // HdmiHotplugEventListenerStub dispatches incoming binder transactions
 // to a typed IHdmiHotplugEventListener implementation.
 type HdmiHotplugEventListenerStub struct {
-	Impl IHdmiHotplugEventListener
+	Impl      IHdmiHotplugEventListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HdmiHotplugEventListenerStub)(nil)
@@ -77,11 +79,12 @@ func (s *HdmiHotplugEventListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHdmiHotplugEventListenerOnReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event HdmiHotplugEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *HdmiHotplugEventListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnReceived(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

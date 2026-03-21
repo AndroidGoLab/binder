@@ -51,6 +51,7 @@ func (p *DeviceStateManagerCallbackProxy) OnDeviceStateInfoChanged(
 	info DeviceStateInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManagerCallback)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -71,6 +72,7 @@ func (p *DeviceStateManagerCallbackProxy) OnRequestActive(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManagerCallback)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -88,6 +90,7 @@ func (p *DeviceStateManagerCallbackProxy) OnRequestCanceled(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManagerCallback)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -103,7 +106,8 @@ func (p *DeviceStateManagerCallbackProxy) OnRequestCanceled(
 // DeviceStateManagerCallbackStub dispatches incoming binder transactions
 // to a typed IDeviceStateManagerCallback implementation.
 type DeviceStateManagerCallbackStub struct {
-	Impl IDeviceStateManagerCallback
+	Impl      IDeviceStateManagerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DeviceStateManagerCallbackStub)(nil)
@@ -117,11 +121,12 @@ func (s *DeviceStateManagerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDeviceStateManagerCallbackOnDeviceStateInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info DeviceStateInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -135,28 +140,29 @@ func (s *DeviceStateManagerCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDeviceStateInfoChanged(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDeviceStateManagerCallbackOnRequestActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.OnRequestActive(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDeviceStateManagerCallbackOnRequestCanceled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.OnRequestCanceled(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

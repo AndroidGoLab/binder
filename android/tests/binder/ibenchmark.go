@@ -46,15 +46,9 @@ func (p *BenchmarkProxy) SendVec(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBenchmark)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBenchmark, MethodIBenchmarkSendVec)
 	if _err != nil {
@@ -71,19 +65,9 @@ func (p *BenchmarkProxy) SendVec(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -91,7 +75,8 @@ func (p *BenchmarkProxy) SendVec(
 // BenchmarkStub dispatches incoming binder transactions
 // to a typed IBenchmark implementation.
 type BenchmarkStub struct {
-	Impl IBenchmark
+	Impl      IBenchmark
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BenchmarkStub)(nil)
@@ -105,14 +90,20 @@ func (s *BenchmarkStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBenchmarkSendVec:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_result, _err := s.Impl.SendVec(ctx, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -120,8 +111,7 @@ func (s *BenchmarkStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

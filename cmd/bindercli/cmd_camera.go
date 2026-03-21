@@ -181,7 +181,7 @@ func (b *grallocBuffer) Mmap() error {
 // Munmap releases the persistent mmap created by Mmap.
 func (b *grallocBuffer) Munmap() {
 	if b.mmapData != nil {
-		unix.Munmap(b.mmapData)
+		_ = unix.Munmap(b.mmapData)
 		b.mmapData = nil
 	}
 }
@@ -242,7 +242,6 @@ func allocateGrallocBuffer(
 // --------------------------------------------------------------------
 // IGraphicBufferProducer stub (native binder, non-AIDL)
 // --------------------------------------------------------------------
-
 
 // slotBuffer holds per-slot buffer state backed by a gralloc buffer.
 type slotBuffer struct {

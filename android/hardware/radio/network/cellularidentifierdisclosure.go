@@ -36,9 +36,19 @@ func (s *CellularIdentifierDisclosure) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Plmn, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_identifierRaw, _err := p.ReadInt32()
@@ -47,11 +57,21 @@ func (s *CellularIdentifierDisclosure) UnmarshalParcel(
 	}
 	s.Identifier = CellularIdentifier(_identifierRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_protocolMessageRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.ProtocolMessage = NasProtocolMessage(_protocolMessageRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.IsEmergency, _err = p.ReadBool()
 	if _err != nil {

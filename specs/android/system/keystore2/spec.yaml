@@ -1,0 +1,537 @@
+package: android.system.keystore2
+go_package: android/system/keystore2
+interfaces:
+    - name: IKeystoreOperation
+      descriptor: android.system.keystore2.IKeystoreOperation
+      methods:
+        - name: updateAad
+          transaction_code_offset: 0
+          params:
+            - name: aadInput
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: update
+          transaction_code_offset: 1
+          params:
+            - name: input
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+        - name: finish
+          transaction_code_offset: 2
+          params:
+            - name: input
+              type:
+                name: byte
+                is_array: true
+                is_nullable: true
+              direction: in
+            - name: signature
+              type:
+                name: byte
+                is_array: true
+                is_nullable: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+        - name: abort
+          transaction_code_offset: 3
+          return_type:
+            name: void
+    - name: IKeystoreSecurityLevel
+      descriptor: android.system.keystore2.IKeystoreSecurityLevel
+      methods:
+        - name: createOperation
+          transaction_code_offset: 0
+          params:
+            - name: key
+              type:
+                name: KeyDescriptor
+              direction: in
+            - name: operationParameters
+              type:
+                name: KeyParameter
+                is_array: true
+              direction: in
+            - name: forced
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: CreateOperationResponse
+        - name: generateKey
+          transaction_code_offset: 1
+          params:
+            - name: key
+              type:
+                name: KeyDescriptor
+              direction: in
+            - name: attestationKey
+              type:
+                name: KeyDescriptor
+                is_nullable: true
+              direction: in
+            - name: params
+              type:
+                name: KeyParameter
+                is_array: true
+              direction: in
+            - name: flags
+              type:
+                name: int
+              direction: in
+            - name: entropy
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: KeyMetadata
+        - name: importKey
+          transaction_code_offset: 2
+          params:
+            - name: key
+              type:
+                name: KeyDescriptor
+              direction: in
+            - name: attestationKey
+              type:
+                name: KeyDescriptor
+                is_nullable: true
+              direction: in
+            - name: params
+              type:
+                name: KeyParameter
+                is_array: true
+              direction: in
+            - name: flags
+              type:
+                name: int
+              direction: in
+            - name: keyData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: KeyMetadata
+        - name: importWrappedKey
+          transaction_code_offset: 3
+          params:
+            - name: key
+              type:
+                name: KeyDescriptor
+              direction: in
+            - name: wrappingKey
+              type:
+                name: KeyDescriptor
+              direction: in
+            - name: maskingKey
+              type:
+                name: byte
+                is_array: true
+                is_nullable: true
+              direction: in
+            - name: params
+              type:
+                name: KeyParameter
+                is_array: true
+              direction: in
+            - name: authenticators
+              type:
+                name: AuthenticatorSpec
+                is_array: true
+              direction: in
+          return_type:
+            name: KeyMetadata
+        - name: convertStorageKeyToEphemeral
+          transaction_code_offset: 4
+          params:
+            - name: storageKey
+              type:
+                name: KeyDescriptor
+              direction: in
+          return_type:
+            name: EphemeralStorageKeyResponse
+        - name: deleteKey
+          transaction_code_offset: 5
+          params:
+            - name: key
+              type:
+                name: KeyDescriptor
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: KEY_FLAG_AUTH_BOUND_WITHOUT_CRYPTOGRAPHIC_LSKF_BINDING
+          type: int
+          value: "0x1"
+    - name: IKeystoreService
+      descriptor: android.system.keystore2.IKeystoreService
+      methods:
+        - name: getSecurityLevel
+          transaction_code_offset: 0
+          params:
+            - name: securityLevel
+              type:
+                name: SecurityLevel
+              direction: in
+          return_type:
+            name: IKeystoreSecurityLevel
+        - name: getKeyEntry
+          transaction_code_offset: 1
+          params:
+            - name: key
+              type:
+                name: KeyDescriptor
+              direction: in
+          return_type:
+            name: KeyEntryResponse
+        - name: updateSubcomponent
+          transaction_code_offset: 2
+          params:
+            - name: key
+              type:
+                name: KeyDescriptor
+              direction: in
+            - name: publicCert
+              type:
+                name: byte
+                is_array: true
+                is_nullable: true
+              direction: in
+            - name: certificateChain
+              type:
+                name: byte
+                is_array: true
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: listEntries
+          transaction_code_offset: 3
+          params:
+            - name: domain
+              type:
+                name: Domain
+              direction: in
+            - name: nspace
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: KeyDescriptor
+            is_array: true
+        - name: deleteKey
+          transaction_code_offset: 4
+          params:
+            - name: key
+              type:
+                name: KeyDescriptor
+              direction: in
+          return_type:
+            name: void
+        - name: grant
+          transaction_code_offset: 5
+          params:
+            - name: key
+              type:
+                name: KeyDescriptor
+              direction: in
+            - name: granteeUid
+              type:
+                name: int
+              direction: in
+            - name: accessVector
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: KeyDescriptor
+        - name: ungrant
+          transaction_code_offset: 6
+          params:
+            - name: key
+              type:
+                name: KeyDescriptor
+              direction: in
+            - name: granteeUid
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getNumberOfEntries
+          transaction_code_offset: 7
+          params:
+            - name: domain
+              type:
+                name: Domain
+              direction: in
+            - name: nspace
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: int
+        - name: listEntriesBatched
+          transaction_code_offset: 8
+          params:
+            - name: domain
+              type:
+                name: Domain
+              direction: in
+            - name: nspace
+              type:
+                name: long
+              direction: in
+            - name: startingPastAlias
+              type:
+                name: String
+                is_nullable: true
+              direction: in
+          return_type:
+            name: KeyDescriptor
+            is_array: true
+parcelables:
+    - name: AuthenticatorSpec
+      fields:
+        - name: authenticatorType
+          type:
+            name: HardwareAuthenticatorType
+          default_value: HardwareAuthenticatorType.NONE
+        - name: authenticatorId
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: Authorization
+      fields:
+        - name: securityLevel
+          type:
+            name: SecurityLevel
+          default_value: SecurityLevel.SOFTWARE
+        - name: keyParameter
+          type:
+            name: KeyParameter
+      annotations:
+        - VintfStability
+    - name: CreateOperationResponse
+      fields:
+        - name: iOperation
+          type:
+            name: IKeystoreOperation
+        - name: operationChallenge
+          type:
+            name: OperationChallenge
+          annotations:
+            - nullable
+        - name: parameters
+          type:
+            name: KeyParameters
+          annotations:
+            - nullable
+        - name: upgradedBlob
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: EphemeralStorageKeyResponse
+      fields:
+        - name: ephemeralKey
+          type:
+            name: byte
+            is_array: true
+        - name: upgradedBlob
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: KeyDescriptor
+      fields:
+        - name: domain
+          type:
+            name: Domain
+          default_value: Domain.APP
+        - name: nspace
+          type:
+            name: long
+        - name: alias
+          type:
+            name: String
+          annotations:
+            - nullable
+        - name: blob
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+        - RustDerive
+    - name: KeyEntryResponse
+      fields:
+        - name: iSecurityLevel
+          type:
+            name: IKeystoreSecurityLevel
+          annotations:
+            - nullable
+        - name: metadata
+          type:
+            name: KeyMetadata
+      annotations:
+        - VintfStability
+    - name: KeyMetadata
+      fields:
+        - name: key
+          type:
+            name: KeyDescriptor
+        - name: keySecurityLevel
+          type:
+            name: SecurityLevel
+          default_value: SecurityLevel.SOFTWARE
+        - name: authorizations
+          type:
+            name: Authorization
+            is_array: true
+        - name: certificate
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+        - name: certificateChain
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+        - name: modificationTimeMs
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: KeyParameters
+      fields:
+        - name: keyParameter
+          type:
+            name: KeyParameter
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: OperationChallenge
+      fields:
+        - name: challenge
+          type:
+            name: long
+      annotations:
+        - VintfStability
+enums:
+    - name: Domain
+      backing_type: int
+      values:
+        - name: APP
+          value: "0"
+        - name: GRANT
+          value: "1"
+        - name: SELINUX
+          value: "2"
+        - name: BLOB
+          value: "3"
+        - name: KEY_ID
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: KeyPermission
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: DELETE
+          value: "0x1"
+        - name: GEN_UNIQUE_ID
+          value: "0x2"
+        - name: GET_INFO
+          value: "0x4"
+        - name: GRANT
+          value: "0x8"
+        - name: MANAGE_BLOB
+          value: "0x10"
+        - name: REBIND
+          value: "0x20"
+        - name: REQ_FORCED_OP
+          value: "0x40"
+        - name: UPDATE
+          value: "0x80"
+        - name: USE
+          value: "0x100"
+        - name: USE_DEV_ID
+          value: "0x200"
+        - name: USE_NO_LSKF_BINDING
+          value: "0x400"
+        - name: CONVERT_STORAGE_KEY_TO_EPHEMERAL
+          value: "0x800"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ResponseCode
+      backing_type: int
+      values:
+        - name: LOCKED
+          value: "2"
+        - name: UNINITIALIZED
+          value: "3"
+        - name: SYSTEM_ERROR
+          value: "4"
+        - name: PERMISSION_DENIED
+          value: "6"
+        - name: KEY_NOT_FOUND
+          value: "7"
+        - name: VALUE_CORRUPTED
+          value: "8"
+        - name: KEY_PERMANENTLY_INVALIDATED
+          value: "17"
+        - name: BACKEND_BUSY
+          value: "18"
+        - name: OPERATION_BUSY
+          value: "19"
+        - name: INVALID_ARGUMENT
+          value: "20"
+        - name: TOO_MUCH_DATA
+          value: "21"
+        - name: OUT_OF_KEYS
+          value: "22"
+        - name: OUT_OF_KEYS_REQUIRES_SYSTEM_UPGRADE
+          value: "23"
+        - name: OUT_OF_KEYS_PENDING_INTERNET_CONNECTIVITY
+          value: "24"
+        - name: OUT_OF_KEYS_TRANSIENT_ERROR
+          value: "25"
+        - name: OUT_OF_KEYS_PERMANENT_ERROR
+          value: "26"
+        - name: GET_ATTESTATION_APPLICATION_ID_FAILED
+          value: "27"
+      annotations:
+        - VintfStability
+        - Backing

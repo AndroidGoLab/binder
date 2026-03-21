@@ -3,7 +3,7 @@ package media
 import (
 	"context"
 	"fmt"
-	HeadTracking "github.com/xaionaro-go/binder/android/media/audio/common/HeadTracking"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,7 +24,7 @@ const (
 
 type ISpatializerHeadTrackingCallback interface {
 	AsBinder() binder.IBinder
-	OnHeadTrackingModeChanged(ctx context.Context, mode HeadTracking.Mode) error
+	OnHeadTrackingModeChanged(ctx context.Context, mode common.HeadTrackingMode) error
 	OnHeadToSoundStagePoseUpdated(ctx context.Context, headToStage []float32) error
 }
 
@@ -46,10 +46,12 @@ var _ ISpatializerHeadTrackingCallback = (*SpatializerHeadTrackingCallbackProxy)
 
 func (p *SpatializerHeadTrackingCallbackProxy) OnHeadTrackingModeChanged(
 	ctx context.Context,
-	mode HeadTracking.Mode,
+	mode common.HeadTrackingMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadTrackingCallback)
+	_data.WritePaddedByte(byte(mode))
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializerHeadTrackingCallback, MethodISpatializerHeadTrackingCallbackOnHeadTrackingModeChanged)
 	if _err != nil {
@@ -65,6 +67,7 @@ func (p *SpatializerHeadTrackingCallbackProxy) OnHeadToSoundStagePoseUpdated(
 	headToStage []float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadTrackingCallback)
 	if headToStage == nil {
 		_data.WriteInt32(-1)
@@ -87,7 +90,8 @@ func (p *SpatializerHeadTrackingCallbackProxy) OnHeadToSoundStagePoseUpdated(
 // SpatializerHeadTrackingCallbackStub dispatches incoming binder transactions
 // to a typed ISpatializerHeadTrackingCallback implementation.
 type SpatializerHeadTrackingCallbackStub struct {
-	Impl ISpatializerHeadTrackingCallback
+	Impl      ISpatializerHeadTrackingCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SpatializerHeadTrackingCallbackStub)(nil)
@@ -101,25 +105,41 @@ func (s *SpatializerHeadTrackingCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISpatializerHeadTrackingCallbackOnHeadTrackingModeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_raw_mode, _err := _data.ReadPaddedByte()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_mode HeadTracking.Mode
-		_err := s.Impl.OnHeadTrackingModeChanged(ctx, _arg_mode)
-		_ = _err
-		return nil, nil
+		_arg_mode := common.HeadTrackingMode(_raw_mode)
+		_err = s.Impl.OnHeadTrackingModeChanged(ctx, _arg_mode)
+		return nil, _err
 	case TransactionISpatializerHeadTrackingCallbackOnHeadToSoundStagePoseUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_headToStage []float32
-		_ = _arg_headToStage
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_headToStage = make([]float32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_headToStage[_i], _err = _data.ReadFloat32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnHeadToSoundStagePoseUpdated(ctx, _arg_headToStage)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -129,7 +149,7 @@ func (s *SpatializerHeadTrackingCallbackStub) OnTransaction(
 // provide to NewSpatializerHeadTrackingCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ISpatializerHeadTrackingCallbackServer interface {
-	OnHeadTrackingModeChanged(ctx context.Context, mode HeadTracking.Mode) error
+	OnHeadTrackingModeChanged(ctx context.Context, mode common.HeadTrackingMode) error
 	OnHeadToSoundStagePoseUpdated(ctx context.Context, headToStage []float32) error
 }
 
@@ -144,7 +164,7 @@ func (w *spatializerHeadTrackingCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *spatializerHeadTrackingCallbackStubWrapper) OnHeadTrackingModeChanged(
 	ctx context.Context,
-	mode HeadTracking.Mode,
+	mode common.HeadTrackingMode,
 ) error {
 	return w.impl.OnHeadTrackingModeChanged(ctx, mode)
 }

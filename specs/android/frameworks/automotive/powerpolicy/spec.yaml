@@ -1,0 +1,154 @@
+package: android.frameworks.automotive.powerpolicy
+go_package: android/frameworks/automotive/powerpolicy
+interfaces:
+    - name: ICarPowerPolicyChangeCallback
+      descriptor: android.frameworks.automotive.powerpolicy.ICarPowerPolicyChangeCallback
+      oneway: true
+      methods:
+        - name: onPolicyChanged
+          transaction_code_offset: 0
+          params:
+            - name: policy
+              type:
+                name: CarPowerPolicy
+              direction: in
+          return_type:
+            name: void
+    - name: ICarPowerPolicyServer
+      descriptor: android.frameworks.automotive.powerpolicy.ICarPowerPolicyServer
+      methods:
+        - name: getCurrentPowerPolicy
+          transaction_code_offset: 0
+          return_type:
+            name: CarPowerPolicy
+        - name: getPowerComponentState
+          transaction_code_offset: 1
+          params:
+            - name: componentId
+              type:
+                name: PowerComponent
+              direction: in
+          return_type:
+            name: boolean
+        - name: registerPowerPolicyChangeCallback
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: ICarPowerPolicyChangeCallback
+              direction: in
+            - name: filter
+              type:
+                name: CarPowerPolicyFilter
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterPowerPolicyChangeCallback
+          transaction_code_offset: 3
+          params:
+            - name: callback
+              type:
+                name: ICarPowerPolicyChangeCallback
+              direction: in
+          return_type:
+            name: void
+        - name: applyPowerPolicy
+          transaction_code_offset: 4
+          params:
+            - name: policyId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setPowerPolicyGroup
+          transaction_code_offset: 5
+          params:
+            - name: policyGroupId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: CarPowerPolicy
+      fields:
+        - name: policyId
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: enabledComponents
+          type:
+            name: PowerComponent
+            is_array: true
+        - name: disabledComponents
+          type:
+            name: PowerComponent
+            is_array: true
+        - name: enabledCustomComponents
+          type:
+            name: int
+            is_array: true
+          default_value: '{}'
+        - name: disabledCustomComponents
+          type:
+            name: int
+            is_array: true
+          default_value: '{}'
+      annotations:
+        - VintfStability
+    - name: CarPowerPolicyFilter
+      fields:
+        - name: components
+          type:
+            name: PowerComponent
+            is_array: true
+        - name: customComponents
+          type:
+            name: int
+            is_array: true
+          default_value: '{}'
+      annotations:
+        - VintfStability
+enums:
+    - name: PowerComponent
+      backing_type: int
+      values:
+        - name: AUDIO
+          value: "1"
+        - name: MEDIA
+          value: "2"
+        - name: DISPLAY
+          value: "3"
+        - name: BLUETOOTH
+          value: "4"
+        - name: WIFI
+          value: "5"
+        - name: CELLULAR
+          value: "6"
+        - name: ETHERNET
+          value: "7"
+        - name: PROJECTION
+          value: "8"
+        - name: NFC
+          value: "9"
+        - name: INPUT
+          value: "10"
+        - name: VOICE_INTERACTION
+          value: "11"
+        - name: VISUAL_INTERACTION
+          value: "12"
+        - name: TRUSTED_DEVICE_DETECTION
+          value: "13"
+        - name: LOCATION
+          value: "14"
+        - name: MICROPHONE
+          value: "15"
+        - name: CPU
+          value: "16"
+        - name: MINIMUM_CUSTOM_COMPONENT_VALUE
+          value: "1000"
+      annotations:
+        - VintfStability
+        - Backing

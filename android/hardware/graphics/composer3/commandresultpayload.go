@@ -41,8 +41,7 @@ func (u *CommandResultPayload) GetError() (CommandError, bool) {
 func (u *CommandResultPayload) SetError(
 	v CommandError,
 ) {
-	u.Tag = CommandResultPayloadTagError
-	u.Error = v
+	*u = CommandResultPayload{Tag: CommandResultPayloadTagError, Error: v}
 }
 
 func (u *CommandResultPayload) GetChangedCompositionTypes() (ChangedCompositionTypes, bool) {
@@ -56,8 +55,7 @@ func (u *CommandResultPayload) GetChangedCompositionTypes() (ChangedCompositionT
 func (u *CommandResultPayload) SetChangedCompositionTypes(
 	v ChangedCompositionTypes,
 ) {
-	u.Tag = CommandResultPayloadTagChangedCompositionTypes
-	u.ChangedCompositionTypes = v
+	*u = CommandResultPayload{Tag: CommandResultPayloadTagChangedCompositionTypes, ChangedCompositionTypes: v}
 }
 
 func (u *CommandResultPayload) GetDisplayRequest() (DisplayRequest, bool) {
@@ -71,8 +69,7 @@ func (u *CommandResultPayload) GetDisplayRequest() (DisplayRequest, bool) {
 func (u *CommandResultPayload) SetDisplayRequest(
 	v DisplayRequest,
 ) {
-	u.Tag = CommandResultPayloadTagDisplayRequest
-	u.DisplayRequest = v
+	*u = CommandResultPayload{Tag: CommandResultPayloadTagDisplayRequest, DisplayRequest: v}
 }
 
 func (u *CommandResultPayload) GetPresentFence() (PresentFence, bool) {
@@ -86,8 +83,7 @@ func (u *CommandResultPayload) GetPresentFence() (PresentFence, bool) {
 func (u *CommandResultPayload) SetPresentFence(
 	v PresentFence,
 ) {
-	u.Tag = CommandResultPayloadTagPresentFence
-	u.PresentFence = v
+	*u = CommandResultPayload{Tag: CommandResultPayloadTagPresentFence, PresentFence: v}
 }
 
 func (u *CommandResultPayload) GetReleaseFences() (ReleaseFences, bool) {
@@ -101,8 +97,7 @@ func (u *CommandResultPayload) GetReleaseFences() (ReleaseFences, bool) {
 func (u *CommandResultPayload) SetReleaseFences(
 	v ReleaseFences,
 ) {
-	u.Tag = CommandResultPayloadTagReleaseFences
-	u.ReleaseFences = v
+	*u = CommandResultPayload{Tag: CommandResultPayloadTagReleaseFences, ReleaseFences: v}
 }
 
 func (u *CommandResultPayload) GetPresentOrValidateResult() (PresentOrValidate, bool) {
@@ -116,8 +111,7 @@ func (u *CommandResultPayload) GetPresentOrValidateResult() (PresentOrValidate, 
 func (u *CommandResultPayload) SetPresentOrValidateResult(
 	v PresentOrValidate,
 ) {
-	u.Tag = CommandResultPayloadTagPresentOrValidateResult
-	u.PresentOrValidateResult = v
+	*u = CommandResultPayload{Tag: CommandResultPayloadTagPresentOrValidateResult, PresentOrValidateResult: v}
 }
 
 func (u *CommandResultPayload) GetClientTargetProperty() (ClientTargetPropertyWithBrightness, bool) {
@@ -131,8 +125,7 @@ func (u *CommandResultPayload) GetClientTargetProperty() (ClientTargetPropertyWi
 func (u *CommandResultPayload) SetClientTargetProperty(
 	v ClientTargetPropertyWithBrightness,
 ) {
-	u.Tag = CommandResultPayloadTagClientTargetProperty
-	u.ClientTargetProperty = v
+	*u = CommandResultPayload{Tag: CommandResultPayloadTagClientTargetProperty, ClientTargetProperty: v}
 }
 
 func (u *CommandResultPayload) MarshalParcel(

@@ -3,8 +3,10 @@ package app
 import (
 	"context"
 	"fmt"
-	accessibilityservice "github.com/xaionaro-go/binder/android/accessibilityservice"
+	types "github.com/xaionaro-go/binder/android/accessibilityservice/types"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	view "github.com/xaionaro-go/binder/android/view"
+	window "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -61,18 +63,18 @@ const (
 
 type IUiAutomationConnection interface {
 	AsBinder() binder.IBinder
-	Connect(ctx context.Context, client accessibilityservice.IAccessibilityServiceClient, flags int32) error
+	Connect(ctx context.Context, client types.IAccessibilityServiceClient, flags int32) error
 	Disconnect(ctx context.Context) error
-	InjectInputEvent(ctx context.Context, event interface{}, sync bool, waitForAnimations bool) (bool, error)
-	InjectInputEventToInputFilter(ctx context.Context, event interface{}) error
+	InjectInputEvent(ctx context.Context, event view.InputEvent, sync bool, waitForAnimations bool) (bool, error)
+	InjectInputEventToInputFilter(ctx context.Context, event view.InputEvent) error
 	SyncInputTransactions(ctx context.Context, waitForAnimations bool) error
 	SetRotation(ctx context.Context, rotation int32) (bool, error)
-	TakeScreenshot(ctx context.Context, crop graphics.Rect, listener interface{}) (bool, error)
-	TakeSurfaceControlScreenshot(ctx context.Context, surfaceControl interface{}, listener interface{}) (bool, error)
+	TakeScreenshot(ctx context.Context, crop graphics.Rect, listener window.ScreenCaptureScreenCaptureListener) (bool, error)
+	TakeSurfaceControlScreenshot(ctx context.Context, surfaceControl view.SurfaceControl, listener window.ScreenCaptureScreenCaptureListener) (bool, error)
 	ClearWindowContentFrameStats(ctx context.Context, windowId int32) (bool, error)
-	GetWindowContentFrameStats(ctx context.Context, windowId int32) (interface{}, error)
+	GetWindowContentFrameStats(ctx context.Context, windowId int32) (view.WindowContentFrameStats, error)
 	ClearWindowAnimationFrameStats(ctx context.Context) error
-	GetWindowAnimationFrameStats(ctx context.Context) (interface{}, error)
+	GetWindowAnimationFrameStats(ctx context.Context) (view.WindowAnimationFrameStats, error)
 	ExecuteShellCommand(ctx context.Context, command string, sink int32, source int32) error
 	GrantRuntimePermission(ctx context.Context, packageName string, permission string) error
 	RevokeRuntimePermission(ctx context.Context, packageName string, permission string) error
@@ -101,12 +103,13 @@ var _ IUiAutomationConnection = (*UiAutomationConnectionProxy)(nil)
 
 func (p *UiAutomationConnectionProxy) Connect(
 	ctx context.Context,
-	client accessibilityservice.IAccessibilityServiceClient,
+	client types.IAccessibilityServiceClient,
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+	// WARNING: param client (type types.IAccessibilityServiceClient) cannot be serialized — type not resolved
 	_data.WriteInt32(flags)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionConnect)
@@ -131,6 +134,7 @@ func (p *UiAutomationConnectionProxy) Disconnect(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionDisconnect)
@@ -153,13 +157,18 @@ func (p *UiAutomationConnectionProxy) Disconnect(
 
 func (p *UiAutomationConnectionProxy) InjectInputEvent(
 	ctx context.Context,
-	event interface{},
+	event view.InputEvent,
 	sync bool,
 	waitForAnimations bool,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteBool(sync)
 	_data.WriteBool(waitForAnimations)
 
@@ -187,10 +196,15 @@ func (p *UiAutomationConnectionProxy) InjectInputEvent(
 
 func (p *UiAutomationConnectionProxy) InjectInputEventToInputFilter(
 	ctx context.Context,
-	event interface{},
+	event view.InputEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionInjectInputEventToInputFilter)
 	if _err != nil {
@@ -215,6 +229,7 @@ func (p *UiAutomationConnectionProxy) SyncInputTransactions(
 	waitForAnimations bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 	_data.WriteBool(waitForAnimations)
 
@@ -242,6 +257,7 @@ func (p *UiAutomationConnectionProxy) SetRotation(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 	_data.WriteInt32(rotation)
 
@@ -270,13 +286,18 @@ func (p *UiAutomationConnectionProxy) SetRotation(
 func (p *UiAutomationConnectionProxy) TakeScreenshot(
 	ctx context.Context,
 	crop graphics.Rect,
-	listener interface{},
+	listener window.ScreenCaptureScreenCaptureListener,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 	_data.WriteInt32(1)
 	if _err := crop.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := listener.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
@@ -304,12 +325,21 @@ func (p *UiAutomationConnectionProxy) TakeScreenshot(
 
 func (p *UiAutomationConnectionProxy) TakeSurfaceControlScreenshot(
 	ctx context.Context,
-	surfaceControl interface{},
-	listener interface{},
+	surfaceControl view.SurfaceControl,
+	listener window.ScreenCaptureScreenCaptureListener,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
+	_data.WriteInt32(1)
+	if _err := surfaceControl.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := listener.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionTakeSurfaceControlScreenshot)
 	if _err != nil {
@@ -339,6 +369,7 @@ func (p *UiAutomationConnectionProxy) ClearWindowContentFrameStats(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 	_data.WriteInt32(windowId)
 
@@ -367,9 +398,10 @@ func (p *UiAutomationConnectionProxy) ClearWindowContentFrameStats(
 func (p *UiAutomationConnectionProxy) GetWindowContentFrameStats(
 	ctx context.Context,
 	windowId int32,
-) (interface{}, error) {
-	var _result interface{}
+) (view.WindowContentFrameStats, error) {
+	var _result view.WindowContentFrameStats
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 	_data.WriteInt32(windowId)
 
@@ -388,6 +420,15 @@ func (p *UiAutomationConnectionProxy) GetWindowContentFrameStats(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -395,6 +436,7 @@ func (p *UiAutomationConnectionProxy) ClearWindowAnimationFrameStats(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionClearWindowAnimationFrameStats)
@@ -417,9 +459,10 @@ func (p *UiAutomationConnectionProxy) ClearWindowAnimationFrameStats(
 
 func (p *UiAutomationConnectionProxy) GetWindowAnimationFrameStats(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (view.WindowAnimationFrameStats, error) {
+	var _result view.WindowAnimationFrameStats
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionGetWindowAnimationFrameStats)
@@ -437,6 +480,15 @@ func (p *UiAutomationConnectionProxy) GetWindowAnimationFrameStats(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -447,6 +499,7 @@ func (p *UiAutomationConnectionProxy) ExecuteShellCommand(
 	source int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 	_data.WriteString16(command)
 	_data.WriteFileDescriptor(sink)
@@ -477,6 +530,7 @@ func (p *UiAutomationConnectionProxy) GrantRuntimePermission(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 	_data.WriteString16(packageName)
 	_data.WriteString16(permission)
@@ -507,6 +561,7 @@ func (p *UiAutomationConnectionProxy) RevokeRuntimePermission(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 	_data.WriteString16(packageName)
 	_data.WriteString16(permission)
@@ -536,6 +591,7 @@ func (p *UiAutomationConnectionProxy) AdoptShellPermissionIdentity(
 	permissions []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 	_data.WriteInt32(uid)
 	if permissions == nil {
@@ -569,6 +625,7 @@ func (p *UiAutomationConnectionProxy) DropShellPermissionIdentity(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionDropShellPermissionIdentity)
@@ -593,6 +650,7 @@ func (p *UiAutomationConnectionProxy) Shutdown(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionShutdown)
@@ -612,6 +670,7 @@ func (p *UiAutomationConnectionProxy) ExecuteShellCommandWithStderr(
 	stderrSink int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 	_data.WriteString16(command)
 	_data.WriteFileDescriptor(sink)
@@ -641,6 +700,7 @@ func (p *UiAutomationConnectionProxy) GetAdoptedShellPermissions(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionGetAdoptedShellPermissions)
@@ -662,6 +722,9 @@ func (p *UiAutomationConnectionProxy) GetAdoptedShellPermissions(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -678,7 +741,8 @@ func (p *UiAutomationConnectionProxy) GetAdoptedShellPermissions(
 // UiAutomationConnectionStub dispatches incoming binder transactions
 // to a typed IUiAutomationConnection implementation.
 type UiAutomationConnectionStub struct {
-	Impl IUiAutomationConnection
+	Impl      IUiAutomationConnection
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UiAutomationConnectionStub)(nil)
@@ -692,14 +756,13 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUiAutomationConnectionConnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_client accessibilityservice.IAccessibilityServiceClient
-		_ = _arg_client
+		var _arg_client types.IAccessibilityServiceClient
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -713,9 +776,6 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionDisconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Disconnect(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -725,10 +785,18 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionInjectInputEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_event view.InputEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_event interface{}
 		_arg_sync, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -747,10 +815,18 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionInjectInputEventToInputFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_event view.InputEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_event interface{}
 		_err := s.Impl.InjectInputEventToInputFilter(ctx, _arg_event)
 		_reply := parcel.New()
 		if _err != nil {
@@ -760,9 +836,6 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionSyncInputTransactions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_waitForAnimations, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -776,9 +849,6 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionSetRotation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -793,9 +863,6 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionTakeScreenshot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_crop graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -808,7 +875,18 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_listener interface{}
+		var _arg_listener window.ScreenCaptureScreenCaptureListener
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_listener.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.TakeScreenshot(ctx, _arg_crop, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -819,11 +897,30 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionTakeSurfaceControlScreenshot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_surfaceControl view.SurfaceControl
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surfaceControl.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_surfaceControl interface{}
-		var _arg_listener interface{}
+		var _arg_listener window.ScreenCaptureScreenCaptureListener
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_listener.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.TakeSurfaceControlScreenshot(ctx, _arg_surfaceControl, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -834,9 +931,6 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionClearWindowContentFrameStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_windowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -851,9 +945,6 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionGetWindowContentFrameStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_windowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -865,12 +956,12 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIUiAutomationConnectionClearWindowAnimationFrameStats:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIUiAutomationConnectionClearWindowAnimationFrameStats:
 		_err := s.Impl.ClearWindowAnimationFrameStats(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -880,9 +971,6 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionGetWindowAnimationFrameStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWindowAnimationFrameStats(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -890,12 +978,12 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIUiAutomationConnectionExecuteShellCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIUiAutomationConnectionExecuteShellCommand:
 		_arg_command, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -917,9 +1005,6 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionGrantRuntimePermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -940,9 +1025,6 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionRevokeRuntimePermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -963,16 +1045,29 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionAdoptShellPermissionIdentity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_permissions []string
-		_ = _arg_permissions
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_permissions = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_permissions[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.AdoptShellPermissionIdentity(ctx, _arg_uid, _arg_permissions)
 		_reply := parcel.New()
 		if _err != nil {
@@ -982,9 +1077,6 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionDropShellPermissionIdentity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DropShellPermissionIdentity(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -994,16 +1086,9 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionShutdown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Shutdown(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUiAutomationConnectionExecuteShellCommandWithStderr:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_command, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1029,9 +1114,6 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionGetAdoptedShellPermissions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAdoptedShellPermissions(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1039,8 +1121,14 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -1051,18 +1139,18 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 // provide to NewUiAutomationConnectionStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IUiAutomationConnectionServer interface {
-	Connect(ctx context.Context, client accessibilityservice.IAccessibilityServiceClient, flags int32) error
+	Connect(ctx context.Context, client types.IAccessibilityServiceClient, flags int32) error
 	Disconnect(ctx context.Context) error
-	InjectInputEvent(ctx context.Context, event interface{}, sync bool, waitForAnimations bool) (bool, error)
-	InjectInputEventToInputFilter(ctx context.Context, event interface{}) error
+	InjectInputEvent(ctx context.Context, event view.InputEvent, sync bool, waitForAnimations bool) (bool, error)
+	InjectInputEventToInputFilter(ctx context.Context, event view.InputEvent) error
 	SyncInputTransactions(ctx context.Context, waitForAnimations bool) error
 	SetRotation(ctx context.Context, rotation int32) (bool, error)
-	TakeScreenshot(ctx context.Context, crop graphics.Rect, listener interface{}) (bool, error)
-	TakeSurfaceControlScreenshot(ctx context.Context, surfaceControl interface{}, listener interface{}) (bool, error)
+	TakeScreenshot(ctx context.Context, crop graphics.Rect, listener window.ScreenCaptureScreenCaptureListener) (bool, error)
+	TakeSurfaceControlScreenshot(ctx context.Context, surfaceControl view.SurfaceControl, listener window.ScreenCaptureScreenCaptureListener) (bool, error)
 	ClearWindowContentFrameStats(ctx context.Context, windowId int32) (bool, error)
-	GetWindowContentFrameStats(ctx context.Context, windowId int32) (interface{}, error)
+	GetWindowContentFrameStats(ctx context.Context, windowId int32) (view.WindowContentFrameStats, error)
 	ClearWindowAnimationFrameStats(ctx context.Context) error
-	GetWindowAnimationFrameStats(ctx context.Context) (interface{}, error)
+	GetWindowAnimationFrameStats(ctx context.Context) (view.WindowAnimationFrameStats, error)
 	ExecuteShellCommand(ctx context.Context, command string, sink int32, source int32) error
 	GrantRuntimePermission(ctx context.Context, packageName string, permission string) error
 	RevokeRuntimePermission(ctx context.Context, packageName string, permission string) error
@@ -1084,7 +1172,7 @@ func (w *uiAutomationConnectionStubWrapper) AsBinder() binder.IBinder {
 
 func (w *uiAutomationConnectionStubWrapper) Connect(
 	ctx context.Context,
-	client accessibilityservice.IAccessibilityServiceClient,
+	client types.IAccessibilityServiceClient,
 	flags int32,
 ) error {
 	return w.impl.Connect(ctx, client, flags)
@@ -1098,7 +1186,7 @@ func (w *uiAutomationConnectionStubWrapper) Disconnect(
 
 func (w *uiAutomationConnectionStubWrapper) InjectInputEvent(
 	ctx context.Context,
-	event interface{},
+	event view.InputEvent,
 	sync bool,
 	waitForAnimations bool,
 ) (bool, error) {
@@ -1107,7 +1195,7 @@ func (w *uiAutomationConnectionStubWrapper) InjectInputEvent(
 
 func (w *uiAutomationConnectionStubWrapper) InjectInputEventToInputFilter(
 	ctx context.Context,
-	event interface{},
+	event view.InputEvent,
 ) error {
 	return w.impl.InjectInputEventToInputFilter(ctx, event)
 }
@@ -1129,15 +1217,15 @@ func (w *uiAutomationConnectionStubWrapper) SetRotation(
 func (w *uiAutomationConnectionStubWrapper) TakeScreenshot(
 	ctx context.Context,
 	crop graphics.Rect,
-	listener interface{},
+	listener window.ScreenCaptureScreenCaptureListener,
 ) (bool, error) {
 	return w.impl.TakeScreenshot(ctx, crop, listener)
 }
 
 func (w *uiAutomationConnectionStubWrapper) TakeSurfaceControlScreenshot(
 	ctx context.Context,
-	surfaceControl interface{},
-	listener interface{},
+	surfaceControl view.SurfaceControl,
+	listener window.ScreenCaptureScreenCaptureListener,
 ) (bool, error) {
 	return w.impl.TakeSurfaceControlScreenshot(ctx, surfaceControl, listener)
 }
@@ -1152,7 +1240,7 @@ func (w *uiAutomationConnectionStubWrapper) ClearWindowContentFrameStats(
 func (w *uiAutomationConnectionStubWrapper) GetWindowContentFrameStats(
 	ctx context.Context,
 	windowId int32,
-) (interface{}, error) {
+) (view.WindowContentFrameStats, error) {
 	return w.impl.GetWindowContentFrameStats(ctx, windowId)
 }
 
@@ -1164,7 +1252,7 @@ func (w *uiAutomationConnectionStubWrapper) ClearWindowAnimationFrameStats(
 
 func (w *uiAutomationConnectionStubWrapper) GetWindowAnimationFrameStats(
 	ctx context.Context,
-) (interface{}, error) {
+) (view.WindowAnimationFrameStats, error) {
 	return w.impl.GetWindowAnimationFrameStats(ctx)
 }
 

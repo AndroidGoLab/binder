@@ -1,0 +1,85 @@
+package: android.apphibernation
+go_package: android/apphibernation
+interfaces:
+    - name: IAppHibernationService
+      descriptor: android.apphibernation.IAppHibernationService
+      methods:
+        - name: isHibernatingForUser
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setHibernatingForUser
+          transaction_code_offset: 1
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: isHibernating
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isHibernatingGlobally
+          transaction_code_offset: 2
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: setHibernatingGlobally
+          transaction_code_offset: 3
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: isHibernating
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getHibernatingPackagesForUser
+          transaction_code_offset: 4
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getHibernationStatsForUser
+          transaction_code_offset: 5
+          params:
+            - name: packageNames
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: Map
+            type_args:
+                - name: String
+                - name: HibernationStats
+        - name: isOatArtifactDeletionEnabled
+          transaction_code_offset: 6
+          return_type:
+            name: boolean
+          annotations:
+            - JavaPassthrough
+parcelables:
+    - name: HibernationStats

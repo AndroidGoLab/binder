@@ -51,6 +51,7 @@ func (p *NoteTaskBubblesServiceProxy) AreBubblesAvailable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINoteTaskBubblesService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINoteTaskBubblesService, MethodINoteTaskBubblesServiceAreBubblesAvailable)
@@ -82,6 +83,7 @@ func (p *NoteTaskBubblesServiceProxy) ShowOrHideAppBubble(
 	icon drawable.Icon,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINoteTaskBubblesService)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -117,7 +119,8 @@ func (p *NoteTaskBubblesServiceProxy) ShowOrHideAppBubble(
 // NoteTaskBubblesServiceStub dispatches incoming binder transactions
 // to a typed INoteTaskBubblesService implementation.
 type NoteTaskBubblesServiceStub struct {
-	Impl INoteTaskBubblesService
+	Impl      INoteTaskBubblesService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NoteTaskBubblesServiceStub)(nil)
@@ -131,11 +134,12 @@ func (s *NoteTaskBubblesServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINoteTaskBubblesServiceAreBubblesAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.AreBubblesAvailable(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -146,9 +150,6 @@ func (s *NoteTaskBubblesServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINoteTaskBubblesServiceShowOrHideAppBubble:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()

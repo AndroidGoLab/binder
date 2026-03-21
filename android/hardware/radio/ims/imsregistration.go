@@ -45,11 +45,21 @@ func (s *ImsRegistration) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_regStateRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.RegState = ImsRegistrationState(_regStateRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_accessNetworkTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -57,11 +67,21 @@ func (s *ImsRegistration) UnmarshalParcel(
 	}
 	s.AccessNetworkType = radio.AccessNetwork(_accessNetworkTypeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_suggestedActionRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.SuggestedAction = SuggestedAction(_suggestedActionRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.Capabilities, _err = p.ReadInt32()
 	if _err != nil {

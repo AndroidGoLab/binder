@@ -98,6 +98,7 @@ func (p *ImsMMTelFeatureProxy) StartSession(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 	_data.WriteInt32(1)
 	if _err := incomingCallIntent.MarshalParcel(_data); _err != nil {
@@ -132,6 +133,7 @@ func (p *ImsMMTelFeatureProxy) EndSession(
 	sessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 	_data.WriteInt32(sessionId)
 
@@ -160,6 +162,7 @@ func (p *ImsMMTelFeatureProxy) IsConnected(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 	_data.WriteInt32(callSessionType)
 	_data.WriteInt32(callType)
@@ -191,6 +194,7 @@ func (p *ImsMMTelFeatureProxy) IsOpened(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMMTelFeature, MethodIImsMMTelFeatureIsOpened)
@@ -220,6 +224,7 @@ func (p *ImsMMTelFeatureProxy) GetFeatureStatus(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMMTelFeature, MethodIImsMMTelFeatureGetFeatureStatus)
@@ -249,6 +254,7 @@ func (p *ImsMMTelFeatureProxy) AddRegistrationListener(
 	listener IImsRegistrationListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -275,6 +281,7 @@ func (p *ImsMMTelFeatureProxy) RemoveRegistrationListener(
 	listener IImsRegistrationListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -304,6 +311,7 @@ func (p *ImsMMTelFeatureProxy) CreateCallProfile(
 ) (ims.ImsCallProfile, error) {
 	var _result ims.ImsCallProfile
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(callSessionType)
@@ -343,6 +351,7 @@ func (p *ImsMMTelFeatureProxy) CreateCallSession(
 ) (IImsCallSession, error) {
 	var _result IImsCallSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -380,6 +389,7 @@ func (p *ImsMMTelFeatureProxy) GetPendingCallSession(
 ) (IImsCallSession, error) {
 	var _result IImsCallSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 	_data.WriteInt32(sessionId)
 	_data.WriteString16(callId)
@@ -412,6 +422,7 @@ func (p *ImsMMTelFeatureProxy) GetUtInterface(
 ) (IImsUt, error) {
 	var _result IImsUt
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMMTelFeature, MethodIImsMMTelFeatureGetUtInterface)
@@ -442,6 +453,7 @@ func (p *ImsMMTelFeatureProxy) GetConfigInterface(
 ) (IImsConfig, error) {
 	var _result IImsConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMMTelFeature, MethodIImsMMTelFeatureGetConfigInterface)
@@ -471,6 +483,7 @@ func (p *ImsMMTelFeatureProxy) TurnOnIms(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMMTelFeature, MethodIImsMMTelFeatureTurnOnIms)
@@ -495,6 +508,7 @@ func (p *ImsMMTelFeatureProxy) TurnOffIms(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMMTelFeature, MethodIImsMMTelFeatureTurnOffIms)
@@ -520,6 +534,7 @@ func (p *ImsMMTelFeatureProxy) GetEcbmInterface(
 ) (IImsEcbm, error) {
 	var _result IImsEcbm
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMMTelFeature, MethodIImsMMTelFeatureGetEcbmInterface)
@@ -551,6 +566,7 @@ func (p *ImsMMTelFeatureProxy) SetUiTTYMode(
 	onComplete os.Message,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 	_data.WriteInt32(uiTtyMode)
 	_data.WriteInt32(1)
@@ -581,6 +597,7 @@ func (p *ImsMMTelFeatureProxy) GetMultiEndpointInterface(
 ) (IImsMultiEndpoint, error) {
 	var _result IImsMultiEndpoint
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMMTelFeature, MethodIImsMMTelFeatureGetMultiEndpointInterface)
@@ -609,7 +626,8 @@ func (p *ImsMMTelFeatureProxy) GetMultiEndpointInterface(
 // ImsMMTelFeatureStub dispatches incoming binder transactions
 // to a typed IImsMMTelFeature implementation.
 type ImsMMTelFeatureStub struct {
-	Impl IImsMMTelFeature
+	Impl      IImsMMTelFeature
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsMMTelFeatureStub)(nil)
@@ -623,11 +641,12 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsMMTelFeatureStartSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_incomingCallIntent app.PendingIntent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -640,9 +659,14 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IImsRegistrationListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewImsRegistrationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.StartSession(ctx, _arg_incomingCallIntent, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -653,9 +677,6 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsMMTelFeatureEndSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -669,9 +690,6 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsMMTelFeatureIsConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callSessionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -690,9 +708,6 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsMMTelFeatureIsOpened:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsOpened(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -703,9 +718,6 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsMMTelFeatureGetFeatureStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetFeatureStatus(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -716,12 +728,14 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsMMTelFeatureAddRegistrationListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IImsRegistrationListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewImsRegistrationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddRegistrationListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -731,12 +745,14 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsMMTelFeatureRemoveRegistrationListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IImsRegistrationListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewImsRegistrationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveRegistrationListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -746,9 +762,6 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsMMTelFeatureCreateCallProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -774,9 +787,6 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImsMMTelFeatureCreateCallSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -800,13 +810,9 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsMMTelFeatureGetPendingCallSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -822,13 +828,9 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsMMTelFeatureGetUtInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetUtInterface(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -836,13 +838,9 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsMMTelFeatureGetConfigInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetConfigInterface(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -850,13 +848,9 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsMMTelFeatureTurnOnIms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.TurnOnIms(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -866,9 +860,6 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsMMTelFeatureTurnOffIms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.TurnOffIms(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -878,9 +869,6 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsMMTelFeatureGetEcbmInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEcbmInterface(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -888,13 +876,9 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsMMTelFeatureSetUiTTYMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uiTtyMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -920,9 +904,6 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsMMTelFeatureGetMultiEndpointInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMultiEndpointInterface(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -930,8 +911,7 @@ func (s *ImsMMTelFeatureStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

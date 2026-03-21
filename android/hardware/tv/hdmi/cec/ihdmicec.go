@@ -50,7 +50,7 @@ type IHdmiCec interface {
 	GetPhysicalAddress(ctx context.Context) (int32, error)
 	GetVendorId(ctx context.Context) (int32, error)
 	SendMessage(ctx context.Context, message CecMessage) (SendMessageResult, error)
-	SetCallback(ctx context.Context, callback *IHdmiCecCallback) error
+	SetCallback(ctx context.Context, callback IHdmiCecCallback) error
 	SetLanguage(ctx context.Context, language string) error
 	EnableWakeupByOtp(ctx context.Context, value bool) error
 	EnableCec(ctx context.Context, value bool) error
@@ -79,6 +79,7 @@ func (p *HdmiCecProxy) AddLogicalAddress(
 ) (Result, error) {
 	var _result Result
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 	_data.WritePaddedByte(byte(addr))
 
@@ -109,6 +110,7 @@ func (p *HdmiCecProxy) ClearLogicalAddress(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiCec, MethodIHdmiCecClearLogicalAddress)
@@ -135,6 +137,7 @@ func (p *HdmiCecProxy) EnableAudioReturnChannel(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 	_data.WriteInt32(portId)
 	_data.WriteBool(enable)
@@ -162,6 +165,7 @@ func (p *HdmiCecProxy) GetCecVersion(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiCec, MethodIHdmiCecGetCecVersion)
@@ -191,6 +195,7 @@ func (p *HdmiCecProxy) GetPhysicalAddress(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiCec, MethodIHdmiCecGetPhysicalAddress)
@@ -220,6 +225,7 @@ func (p *HdmiCecProxy) GetVendorId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiCec, MethodIHdmiCecGetVendorId)
@@ -250,6 +256,7 @@ func (p *HdmiCecProxy) SendMessage(
 ) (SendMessageResult, error) {
 	var _result SendMessageResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
@@ -281,15 +288,12 @@ func (p *HdmiCecProxy) SendMessage(
 
 func (p *HdmiCecProxy) SetCallback(
 	ctx context.Context,
-	callback *IHdmiCecCallback,
+	callback IHdmiCecCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
-	if callback != nil {
-		_data.WriteStrongBinder((*callback).AsBinder().Handle())
-	} else {
-		_data.WriteInt32(-1)
-	}
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiCec, MethodIHdmiCecSetCallback)
 	if _err != nil {
@@ -314,6 +318,7 @@ func (p *HdmiCecProxy) SetLanguage(
 	language string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 	_data.WriteString16(language)
 
@@ -340,6 +345,7 @@ func (p *HdmiCecProxy) EnableWakeupByOtp(
 	value bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 	_data.WriteBool(value)
 
@@ -366,6 +372,7 @@ func (p *HdmiCecProxy) EnableCec(
 	value bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 	_data.WriteBool(value)
 
@@ -392,6 +399,7 @@ func (p *HdmiCecProxy) EnableSystemCecControl(
 	value bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 	_data.WriteBool(value)
 
@@ -416,7 +424,8 @@ func (p *HdmiCecProxy) EnableSystemCecControl(
 // HdmiCecStub dispatches incoming binder transactions
 // to a typed IHdmiCec implementation.
 type HdmiCecStub struct {
-	Impl IHdmiCec
+	Impl      IHdmiCec
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HdmiCecStub)(nil)
@@ -430,11 +439,12 @@ func (s *HdmiCecStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHdmiCecAddLogicalAddress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_addr, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -450,9 +460,6 @@ func (s *HdmiCecStub) OnTransaction(
 		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionIHdmiCecClearLogicalAddress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ClearLogicalAddress(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -462,9 +469,6 @@ func (s *HdmiCecStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiCecEnableAudioReturnChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -482,9 +486,6 @@ func (s *HdmiCecStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiCecGetCecVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCecVersion(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -495,9 +496,6 @@ func (s *HdmiCecStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHdmiCecGetPhysicalAddress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPhysicalAddress(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -508,9 +506,6 @@ func (s *HdmiCecStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHdmiCecGetVendorId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVendorId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -521,9 +516,6 @@ func (s *HdmiCecStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHdmiCecSendMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_message CecMessage
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -546,12 +538,14 @@ func (s *HdmiCecStub) OnTransaction(
 		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionIHdmiCecSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_callback IHdmiCecCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewHdmiCecCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback *IHdmiCecCallback
-		_ = _arg_callback
 		_err := s.Impl.SetCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -561,9 +555,6 @@ func (s *HdmiCecStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiCecSetLanguage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_language, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -577,9 +568,6 @@ func (s *HdmiCecStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiCecEnableWakeupByOtp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_value, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -593,9 +581,6 @@ func (s *HdmiCecStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiCecEnableCec:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_value, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -609,9 +594,6 @@ func (s *HdmiCecStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiCecEnableSystemCecControl:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_value, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -640,7 +622,7 @@ type IHdmiCecServer interface {
 	GetPhysicalAddress(ctx context.Context) (int32, error)
 	GetVendorId(ctx context.Context) (int32, error)
 	SendMessage(ctx context.Context, message CecMessage) (SendMessageResult, error)
-	SetCallback(ctx context.Context, callback *IHdmiCecCallback) error
+	SetCallback(ctx context.Context, callback IHdmiCecCallback) error
 	SetLanguage(ctx context.Context, language string) error
 	EnableWakeupByOtp(ctx context.Context, value bool) error
 	EnableCec(ctx context.Context, value bool) error
@@ -704,7 +686,7 @@ func (w *hdmiCecStubWrapper) SendMessage(
 
 func (w *hdmiCecStubWrapper) SetCallback(
 	ctx context.Context,
-	callback *IHdmiCecCallback,
+	callback IHdmiCecCallback,
 ) error {
 	return w.impl.SetCallback(ctx, callback)
 }

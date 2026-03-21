@@ -35,6 +35,11 @@ func (s *GetSpatializerResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_spatializerHandle, _err := p.ReadStrongBinder()
 	if _err != nil {
 		return _err

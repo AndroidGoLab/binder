@@ -98,6 +98,7 @@ func (p *EuiccServiceProxy) DownloadSubscription(
 	callback IDownloadSubscriptionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(portIndex)
@@ -132,6 +133,7 @@ func (p *EuiccServiceProxy) GetDownloadableSubscriptionMetadata(
 	callback IGetDownloadableSubscriptionMetadataCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(portIndex)
@@ -158,6 +160,7 @@ func (p *EuiccServiceProxy) GetEid(
 	callback IGetEidCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -177,6 +180,7 @@ func (p *EuiccServiceProxy) GetOtaStatus(
 	callback IGetOtaStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -196,6 +200,7 @@ func (p *EuiccServiceProxy) StartOtaIfNecessary(
 	statusChangedCallback IOtaStatusChangedCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	binder.WriteBinderToParcel(ctx, _data, statusChangedCallback.AsBinder(), p.Remote.Transport())
@@ -215,6 +220,7 @@ func (p *EuiccServiceProxy) GetEuiccProfileInfoList(
 	callback IGetEuiccProfileInfoListCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -235,6 +241,7 @@ func (p *EuiccServiceProxy) GetDefaultDownloadableSubscriptionList(
 	callback IGetDefaultDownloadableSubscriptionListCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	_data.WriteBool(forceDeactivateSim)
@@ -255,6 +262,7 @@ func (p *EuiccServiceProxy) GetEuiccInfo(
 	callback IGetEuiccInfoCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -275,6 +283,7 @@ func (p *EuiccServiceProxy) DeleteSubscription(
 	callback IDeleteSubscriptionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	_data.WriteString16(iccid)
@@ -299,6 +308,7 @@ func (p *EuiccServiceProxy) SwitchToSubscription(
 	useLegacyApi bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(portIndex)
@@ -324,6 +334,7 @@ func (p *EuiccServiceProxy) UpdateSubscriptionNickname(
 	callback IUpdateSubscriptionNicknameCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	_data.WriteString16(iccid)
@@ -345,6 +356,7 @@ func (p *EuiccServiceProxy) EraseSubscriptions(
 	callback IEraseSubscriptionsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -365,6 +377,7 @@ func (p *EuiccServiceProxy) EraseSubscriptionsWithOptions(
 	callback IEraseSubscriptionsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotIndex)
 	_data.WriteInt32(options)
@@ -385,6 +398,7 @@ func (p *EuiccServiceProxy) RetainSubscriptionsForFactoryReset(
 	callback IRetainSubscriptionsForFactoryResetCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -403,6 +417,7 @@ func (p *EuiccServiceProxy) Dump(
 	callback IEuiccServiceDumpResultCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -421,6 +436,7 @@ func (p *EuiccServiceProxy) GetAvailableMemoryInBytes(
 	callback IGetAvailableMemoryInBytesCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -437,7 +453,8 @@ func (p *EuiccServiceProxy) GetAvailableMemoryInBytes(
 // EuiccServiceStub dispatches incoming binder transactions
 // to a typed IEuiccService implementation.
 type EuiccServiceStub struct {
-	Impl IEuiccService
+	Impl      IEuiccService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EuiccServiceStub)(nil)
@@ -451,11 +468,12 @@ func (s *EuiccServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEuiccServiceDownloadSubscription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -496,16 +514,17 @@ func (s *EuiccServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDownloadSubscriptionCallback
-		_ = _arg_callback
-		_err = s.Impl.DownloadSubscription(ctx, _arg_slotId, _arg_portIndex, _arg_subscription, _arg_switchAfterDownload, _arg_forceDeactivateSim, _arg_resolvedBundle, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIEuiccServiceGetDownloadableSubscriptionMetadata:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDownloadSubscriptionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.DownloadSubscription(ctx, _arg_slotId, _arg_portIndex, _arg_subscription, _arg_switchAfterDownload, _arg_forceDeactivateSim, _arg_resolvedBundle, _arg_callback)
+		return nil, _err
+	case TransactionIEuiccServiceGetDownloadableSubscriptionMetadata:
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -534,72 +553,77 @@ func (s *EuiccServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetDownloadableSubscriptionMetadataCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetDownloadableSubscriptionMetadataCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetDownloadableSubscriptionMetadata(ctx, _arg_slotId, _arg_portIndex, _arg_subscription, _arg_switchAfterDownload, _arg_forceDeactivateSim, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccServiceGetEid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetEidCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetEidCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetEid(ctx, _arg_slotId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccServiceGetOtaStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetOtaStatusCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetOtaStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetOtaStatus(ctx, _arg_slotId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccServiceStartOtaIfNecessary:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_statusChangedCallback IOtaStatusChangedCallback
-		_ = _arg_statusChangedCallback
-		_err = s.Impl.StartOtaIfNecessary(ctx, _arg_slotId, _arg_statusChangedCallback)
-		_ = _err
-		return nil, nil
-	case TransactionIEuiccServiceGetEuiccProfileInfoList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_statusChangedCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_statusChangedCallback = NewOtaStatusChangedCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _statusChangedCallbackHandle))
 		}
+		_err = s.Impl.StartOtaIfNecessary(ctx, _arg_slotId, _arg_statusChangedCallback)
+		return nil, _err
+	case TransactionIEuiccServiceGetEuiccProfileInfoList:
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetEuiccProfileInfoListCallback
-		_ = _arg_callback
-		_err = s.Impl.GetEuiccProfileInfoList(ctx, _arg_slotId, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIEuiccServiceGetDefaultDownloadableSubscriptionList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetEuiccProfileInfoListCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.GetEuiccProfileInfoList(ctx, _arg_slotId, _arg_callback)
+		return nil, _err
+	case TransactionIEuiccServiceGetDefaultDownloadableSubscriptionList:
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -608,30 +632,32 @@ func (s *EuiccServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetDefaultDownloadableSubscriptionListCallback
-		_ = _arg_callback
-		_err = s.Impl.GetDefaultDownloadableSubscriptionList(ctx, _arg_slotId, _arg_forceDeactivateSim, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIEuiccServiceGetEuiccInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetDefaultDownloadableSubscriptionListCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.GetDefaultDownloadableSubscriptionList(ctx, _arg_slotId, _arg_forceDeactivateSim, _arg_callback)
+		return nil, _err
+	case TransactionIEuiccServiceGetEuiccInfo:
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetEuiccInfoCallback
-		_ = _arg_callback
-		_err = s.Impl.GetEuiccInfo(ctx, _arg_slotId, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIEuiccServiceDeleteSubscription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetEuiccInfoCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.GetEuiccInfo(ctx, _arg_slotId, _arg_callback)
+		return nil, _err
+	case TransactionIEuiccServiceDeleteSubscription:
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -640,16 +666,17 @@ func (s *EuiccServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDeleteSubscriptionCallback
-		_ = _arg_callback
-		_err = s.Impl.DeleteSubscription(ctx, _arg_slotId, _arg_iccid, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIEuiccServiceSwitchToSubscription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDeleteSubscriptionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.DeleteSubscription(ctx, _arg_slotId, _arg_iccid, _arg_callback)
+		return nil, _err
+	case TransactionIEuiccServiceSwitchToSubscription:
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -666,20 +693,21 @@ func (s *EuiccServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISwitchToSubscriptionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSwitchToSubscriptionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_useLegacyApi, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SwitchToSubscription(ctx, _arg_slotId, _arg_portIndex, _arg_iccid, _arg_forceDeactivateSim, _arg_callback, _arg_useLegacyApi)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccServiceUpdateSubscriptionNickname:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -692,30 +720,32 @@ func (s *EuiccServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IUpdateSubscriptionNicknameCallback
-		_ = _arg_callback
-		_err = s.Impl.UpdateSubscriptionNickname(ctx, _arg_slotId, _arg_iccid, _arg_nickname, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIEuiccServiceEraseSubscriptions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewUpdateSubscriptionNicknameCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.UpdateSubscriptionNickname(ctx, _arg_slotId, _arg_iccid, _arg_nickname, _arg_callback)
+		return nil, _err
+	case TransactionIEuiccServiceEraseSubscriptions:
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IEraseSubscriptionsCallback
-		_ = _arg_callback
-		_err = s.Impl.EraseSubscriptions(ctx, _arg_slotId, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIEuiccServiceEraseSubscriptionsWithOptions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewEraseSubscriptionsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.EraseSubscriptions(ctx, _arg_slotId, _arg_callback)
+		return nil, _err
+	case TransactionIEuiccServiceEraseSubscriptionsWithOptions:
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -724,50 +754,57 @@ func (s *EuiccServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IEraseSubscriptionsCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewEraseSubscriptionsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.EraseSubscriptionsWithOptions(ctx, _arg_slotIndex, _arg_options, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccServiceRetainSubscriptionsForFactoryReset:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IRetainSubscriptionsForFactoryResetCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRetainSubscriptionsForFactoryResetCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RetainSubscriptionsForFactoryReset(ctx, _arg_slotId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIEuiccServiceDump:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IEuiccServiceDumpResultCallback
-		_ = _arg_callback
-		_err := s.Impl.Dump(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIEuiccServiceGetAvailableMemoryInBytes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewEuiccServiceDumpResultCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.Dump(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIEuiccServiceGetAvailableMemoryInBytes:
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGetAvailableMemoryInBytesCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGetAvailableMemoryInBytesCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetAvailableMemoryInBytes(ctx, _arg_slotId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

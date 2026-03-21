@@ -1,7 +1,6 @@
 package gui
 
 import (
-	guiDisplayModeSpecs "github.com/xaionaro-go/binder/android/gui/DisplayModeSpecs"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,8 +9,8 @@ import (
 type DisplayModeSpecs struct {
 	DefaultMode         int32
 	AllowGroupSwitching bool
-	PrimaryRanges       guiDisplayModeSpecs.RefreshRateRanges
-	AppRequestRanges    guiDisplayModeSpecs.RefreshRateRanges
+	PrimaryRanges       DisplayModeSpecsRefreshRateRanges
+	AppRequestRanges    DisplayModeSpecsRefreshRateRanges
 }
 
 var _ parcel.Parcelable = (*DisplayModeSpecs)(nil)
@@ -41,9 +40,19 @@ func (s *DisplayModeSpecs) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.DefaultMode, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.AllowGroupSwitching, _err = p.ReadBool()
@@ -51,8 +60,18 @@ func (s *DisplayModeSpecs) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.PrimaryRanges.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.AppRequestRanges.UnmarshalParcel(p); _err != nil {

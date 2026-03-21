@@ -1,0 +1,1159 @@
+package: android.nfc
+go_package: android/nfc
+interfaces:
+    - name: IAppCallback
+      descriptor: android.nfc.IAppCallback
+      methods:
+        - name: onTagDiscovered
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: tag
+              type:
+                name: Tag
+              direction: in
+          return_type:
+            name: void
+    - name: INfcAdapter
+      descriptor: android.nfc.INfcAdapter
+      methods:
+        - name: getNfcTagInterface
+          transaction_code_offset: 0
+          return_type:
+            name: INfcTag
+        - name: getNfcCardEmulationInterface
+          transaction_code_offset: 1
+          return_type:
+            name: INfcCardEmulation
+        - name: getNfcFCardEmulationInterface
+          transaction_code_offset: 2
+          return_type:
+            name: INfcFCardEmulation
+        - name: getNfcAdapterExtrasInterface
+          transaction_code_offset: 3
+          params:
+            - name: pkg
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: INfcAdapterExtras
+        - name: getNfcDtaInterface
+          transaction_code_offset: 4
+          params:
+            - name: pkg
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: INfcDta
+        - name: getState
+          transaction_code_offset: 5
+          return_type:
+            name: int
+        - name: disable
+          transaction_code_offset: 6
+          params:
+            - name: saveState
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: enable
+          transaction_code_offset: 7
+          return_type:
+            name: boolean
+        - name: pausePolling
+          transaction_code_offset: 8
+          params:
+            - name: timeoutInMs
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: resumePolling
+          transaction_code_offset: 9
+          return_type:
+            name: void
+        - name: setForegroundDispatch
+          transaction_code_offset: 10
+          params:
+            - name: intent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: filters
+              type:
+                name: IntentFilter
+                is_array: true
+              direction: in
+            - name: techLists
+              type:
+                name: TechListParcel
+              direction: in
+          return_type:
+            name: void
+        - name: setAppCallback
+          transaction_code_offset: 11
+          params:
+            - name: callback
+              type:
+                name: IAppCallback
+              direction: in
+          return_type:
+            name: void
+        - name: ignore
+          transaction_code_offset: 12
+          params:
+            - name: nativeHandle
+              type:
+                name: int
+            - name: debounceMs
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ITagRemovedCallback
+          return_type:
+            name: boolean
+        - name: dispatch
+          transaction_code_offset: 13
+          params:
+            - name: tag
+              type:
+                name: Tag
+              direction: in
+          return_type:
+            name: void
+        - name: setReaderMode
+          transaction_code_offset: 14
+          params:
+            - name: b
+              type:
+                name: IBinder
+            - name: callback
+              type:
+                name: IAppCallback
+            - name: flags
+              type:
+                name: int
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: addNfcUnlockHandler
+          transaction_code_offset: 15
+          params:
+            - name: unlockHandler
+              type:
+                name: INfcUnlockHandler
+            - name: techList
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: removeNfcUnlockHandler
+          transaction_code_offset: 16
+          params:
+            - name: unlockHandler
+              type:
+                name: INfcUnlockHandler
+          return_type:
+            name: void
+        - name: verifyNfcPermission
+          transaction_code_offset: 17
+          return_type:
+            name: void
+        - name: isNfcSecureEnabled
+          transaction_code_offset: 18
+          return_type:
+            name: boolean
+        - name: deviceSupportsNfcSecure
+          transaction_code_offset: 19
+          return_type:
+            name: boolean
+        - name: setNfcSecure
+          transaction_code_offset: 20
+          params:
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: getNfcAntennaInfo
+          transaction_code_offset: 21
+          return_type:
+            name: NfcAntennaInfo
+        - name: setControllerAlwaysOn
+          transaction_code_offset: 22
+          params:
+            - name: value
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: isControllerAlwaysOn
+          transaction_code_offset: 23
+          return_type:
+            name: boolean
+        - name: isControllerAlwaysOnSupported
+          transaction_code_offset: 24
+          return_type:
+            name: boolean
+        - name: registerControllerAlwaysOnListener
+          transaction_code_offset: 25
+          params:
+            - name: listener
+              type:
+                name: INfcControllerAlwaysOnListener
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterControllerAlwaysOnListener
+          transaction_code_offset: 26
+          params:
+            - name: listener
+              type:
+                name: INfcControllerAlwaysOnListener
+              direction: in
+          return_type:
+            name: void
+        - name: isTagIntentAppPreferenceSupported
+          transaction_code_offset: 27
+          return_type:
+            name: boolean
+          annotations:
+            - JavaPassthrough
+        - name: getTagIntentAppPreferenceForUser
+          transaction_code_offset: 28
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: Map
+          annotations:
+            - JavaPassthrough
+        - name: setTagIntentAppPreferenceForUser
+          transaction_code_offset: 29
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: pkg
+              type:
+                name: String
+            - name: allow
+              type:
+                name: boolean
+          return_type:
+            name: int
+          annotations:
+            - JavaPassthrough
+        - name: isReaderOptionEnabled
+          transaction_code_offset: 30
+          return_type:
+            name: boolean
+        - name: isReaderOptionSupported
+          transaction_code_offset: 31
+          return_type:
+            name: boolean
+        - name: enableReaderOption
+          transaction_code_offset: 32
+          params:
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+          annotations:
+            - JavaPassthrough
+        - name: isObserveModeSupported
+          transaction_code_offset: 33
+          return_type:
+            name: boolean
+        - name: isObserveModeEnabled
+          transaction_code_offset: 34
+          return_type:
+            name: boolean
+        - name: setObserveMode
+          transaction_code_offset: 35
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: setWlcEnabled
+          transaction_code_offset: 36
+          params:
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+          annotations:
+            - JavaPassthrough
+        - name: isWlcEnabled
+          transaction_code_offset: 37
+          return_type:
+            name: boolean
+        - name: registerWlcStateListener
+          transaction_code_offset: 38
+          params:
+            - name: listener
+              type:
+                name: INfcWlcStateListener
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterWlcStateListener
+          transaction_code_offset: 39
+          params:
+            - name: listener
+              type:
+                name: INfcWlcStateListener
+              direction: in
+          return_type:
+            name: void
+        - name: getWlcListenerDeviceInfo
+          transaction_code_offset: 40
+          return_type:
+            name: WlcListenerDeviceInfo
+        - name: updateDiscoveryTechnology
+          transaction_code_offset: 41
+          params:
+            - name: b
+              type:
+                name: IBinder
+            - name: pollFlags
+              type:
+                name: int
+            - name: listenFlags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyPollingLoop
+          transaction_code_offset: 42
+          params:
+            - name: frame
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: notifyHceDeactivated
+          transaction_code_offset: 43
+          return_type:
+            name: void
+        - name: sendVendorNciMessage
+          transaction_code_offset: 44
+          params:
+            - name: mt
+              type:
+                name: int
+            - name: gid
+              type:
+                name: int
+            - name: oid
+              type:
+                name: int
+            - name: payload
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: int
+        - name: registerVendorExtensionCallback
+          transaction_code_offset: 45
+          params:
+            - name: callbacks
+              type:
+                name: INfcVendorNciCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterVendorExtensionCallback
+          transaction_code_offset: 46
+          params:
+            - name: callbacks
+              type:
+                name: INfcVendorNciCallback
+              direction: in
+          return_type:
+            name: void
+    - name: INfcAdapterExtras
+      descriptor: android.nfc.INfcAdapterExtras
+      methods:
+        - name: open
+          transaction_code_offset: 0
+          params:
+            - name: pkg
+              type:
+                name: String
+              direction: in
+            - name: b
+              type:
+                name: IBinder
+          return_type:
+            name: Bundle
+          annotations:
+            - UnsupportedAppUsage
+        - name: close
+          transaction_code_offset: 1
+          params:
+            - name: pkg
+              type:
+                name: String
+              direction: in
+            - name: b
+              type:
+                name: IBinder
+          return_type:
+            name: Bundle
+          annotations:
+            - UnsupportedAppUsage
+        - name: transceive
+          transaction_code_offset: 2
+          params:
+            - name: pkg
+              type:
+                name: String
+              direction: in
+            - name: data_in
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: Bundle
+          annotations:
+            - UnsupportedAppUsage
+        - name: getCardEmulationRoute
+          transaction_code_offset: 3
+          params:
+            - name: pkg
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: setCardEmulationRoute
+          transaction_code_offset: 4
+          params:
+            - name: pkg
+              type:
+                name: String
+              direction: in
+            - name: route
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: authenticate
+          transaction_code_offset: 5
+          params:
+            - name: pkg
+              type:
+                name: String
+              direction: in
+            - name: token
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: getDriverName
+          transaction_code_offset: 6
+          params:
+            - name: pkg
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: String
+          annotations:
+            - UnsupportedAppUsage
+    - name: INfcCardEmulation
+      descriptor: android.nfc.INfcCardEmulation
+      methods:
+        - name: isDefaultServiceForCategory
+          transaction_code_offset: 0
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+            - name: category
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: isDefaultServiceForAid
+          transaction_code_offset: 1
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+            - name: aid
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: setDefaultServiceForCategory
+          transaction_code_offset: 2
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+            - name: category
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: setDefaultForNextTap
+          transaction_code_offset: 3
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: setShouldDefaultToObserveModeForService
+          transaction_code_offset: 4
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: service
+              type:
+                name: android.content.ComponentName
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: registerAidGroupForService
+          transaction_code_offset: 5
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+            - name: aidGroup
+              type:
+                name: AidGroup
+              direction: in
+          return_type:
+            name: boolean
+        - name: registerPollingLoopFilterForService
+          transaction_code_offset: 6
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+            - name: pollingLoopFilter
+              type:
+                name: String
+              direction: in
+            - name: autoTransact
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: setOffHostForService
+          transaction_code_offset: 7
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+            - name: offHostSecureElement
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: unsetOffHostForService
+          transaction_code_offset: 8
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: getAidGroupForService
+          transaction_code_offset: 9
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+            - name: category
+              type:
+                name: String
+          return_type:
+            name: AidGroup
+        - name: removeAidGroupForService
+          transaction_code_offset: 10
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+            - name: category
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getServices
+          transaction_code_offset: 11
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: category
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: ApduServiceInfo
+        - name: setPreferredService
+          transaction_code_offset: 12
+          params:
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: unsetPreferredService
+          transaction_code_offset: 13
+          return_type:
+            name: boolean
+        - name: supportsAidPrefixRegistration
+          transaction_code_offset: 14
+          return_type:
+            name: boolean
+        - name: getPreferredPaymentService
+          transaction_code_offset: 15
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: ApduServiceInfo
+        - name: setServiceEnabledForCategoryOther
+          transaction_code_offset: 16
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: app
+              type:
+                name: ComponentName
+              direction: in
+            - name: status
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: isDefaultPaymentRegistered
+          transaction_code_offset: 17
+          return_type:
+            name: boolean
+        - name: overrideRoutingTable
+          transaction_code_offset: 18
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: protocol
+              type:
+                name: String
+            - name: technology
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: recoverRoutingTable
+          transaction_code_offset: 19
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: boolean
+    - name: INfcControllerAlwaysOnListener
+      descriptor: android.nfc.INfcControllerAlwaysOnListener
+      oneway: true
+      methods:
+        - name: onControllerAlwaysOnChanged
+          transaction_code_offset: 0
+          params:
+            - name: isEnabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: INfcDta
+      descriptor: android.nfc.INfcDta
+      methods:
+        - name: enableDta
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: disableDta
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: enableServer
+          transaction_code_offset: 2
+          params:
+            - name: serviceName
+              type:
+                name: String
+            - name: serviceSap
+              type:
+                name: int
+            - name: miu
+              type:
+                name: int
+            - name: rwSize
+              type:
+                name: int
+            - name: testCaseId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: disableServer
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: enableClient
+          transaction_code_offset: 4
+          params:
+            - name: serviceName
+              type:
+                name: String
+            - name: miu
+              type:
+                name: int
+            - name: rwSize
+              type:
+                name: int
+            - name: testCaseId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: disableClient
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: registerMessageService
+          transaction_code_offset: 6
+          params:
+            - name: msgServiceName
+              type:
+                name: String
+          return_type:
+            name: boolean
+    - name: INfcFCardEmulation
+      descriptor: android.nfc.INfcFCardEmulation
+      methods:
+        - name: getSystemCodeForService
+          transaction_code_offset: 0
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: String
+        - name: registerSystemCodeForService
+          transaction_code_offset: 1
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+            - name: systemCode
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: removeSystemCodeForService
+          transaction_code_offset: 2
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: getNfcid2ForService
+          transaction_code_offset: 3
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: String
+        - name: setNfcid2ForService
+          transaction_code_offset: 4
+          params:
+            - name: userHandle
+              type:
+                name: int
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+            - name: nfcid2
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: enableNfcFForegroundService
+          transaction_code_offset: 5
+          params:
+            - name: service
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: boolean
+        - name: disableNfcFForegroundService
+          transaction_code_offset: 6
+          return_type:
+            name: boolean
+        - name: getNfcFServices
+          transaction_code_offset: 7
+          params:
+            - name: userHandle
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: NfcFServiceInfo
+        - name: getMaxNumOfRegisterableSystemCodes
+          transaction_code_offset: 8
+          return_type:
+            name: int
+    - name: INfcTag
+      descriptor: android.nfc.INfcTag
+      methods:
+        - name: connect
+          transaction_code_offset: 0
+          params:
+            - name: nativeHandle
+              type:
+                name: int
+            - name: technology
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: reconnect
+          transaction_code_offset: 1
+          params:
+            - name: nativeHandle
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getTechList
+          transaction_code_offset: 2
+          params:
+            - name: nativeHandle
+              type:
+                name: int
+          return_type:
+            name: int
+            is_array: true
+        - name: isNdef
+          transaction_code_offset: 3
+          params:
+            - name: nativeHandle
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isPresent
+          transaction_code_offset: 4
+          params:
+            - name: nativeHandle
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: transceive
+          transaction_code_offset: 5
+          params:
+            - name: nativeHandle
+              type:
+                name: int
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: raw
+              type:
+                name: boolean
+          return_type:
+            name: TransceiveResult
+        - name: ndefRead
+          transaction_code_offset: 6
+          params:
+            - name: nativeHandle
+              type:
+                name: int
+          return_type:
+            name: NdefMessage
+        - name: ndefWrite
+          transaction_code_offset: 7
+          params:
+            - name: nativeHandle
+              type:
+                name: int
+            - name: msg
+              type:
+                name: NdefMessage
+              direction: in
+          return_type:
+            name: int
+        - name: ndefMakeReadOnly
+          transaction_code_offset: 8
+          params:
+            - name: nativeHandle
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: ndefIsWritable
+          transaction_code_offset: 9
+          params:
+            - name: nativeHandle
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: formatNdef
+          transaction_code_offset: 10
+          params:
+            - name: nativeHandle
+              type:
+                name: int
+            - name: key
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: int
+        - name: rediscover
+          transaction_code_offset: 11
+          params:
+            - name: nativehandle
+              type:
+                name: int
+          return_type:
+            name: Tag
+        - name: setTimeout
+          transaction_code_offset: 12
+          params:
+            - name: technology
+              type:
+                name: int
+            - name: timeout
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getTimeout
+          transaction_code_offset: 13
+          params:
+            - name: technology
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: resetTimeouts
+          transaction_code_offset: 14
+          return_type:
+            name: void
+        - name: canMakeReadOnly
+          transaction_code_offset: 15
+          params:
+            - name: ndefType
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getMaxTransceiveLength
+          transaction_code_offset: 16
+          params:
+            - name: technology
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getExtendedLengthApdusSupported
+          transaction_code_offset: 17
+          return_type:
+            name: boolean
+        - name: isTagUpToDate
+          transaction_code_offset: 18
+          params:
+            - name: cookie
+              type:
+                name: long
+          return_type:
+            name: boolean
+    - name: INfcUnlockHandler
+      descriptor: android.nfc.INfcUnlockHandler
+      methods:
+        - name: onUnlockAttempted
+          transaction_code_offset: 0
+          params:
+            - name: tag
+              type:
+                name: Tag
+              direction: in
+          return_type:
+            name: boolean
+    - name: INfcVendorNciCallback
+      descriptor: android.nfc.INfcVendorNciCallback
+      oneway: true
+      methods:
+        - name: onVendorResponseReceived
+          transaction_code_offset: 0
+          params:
+            - name: gid
+              type:
+                name: int
+            - name: oid
+              type:
+                name: int
+            - name: payload
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onVendorNotificationReceived
+          transaction_code_offset: 1
+          params:
+            - name: gid
+              type:
+                name: int
+            - name: oid
+              type:
+                name: int
+            - name: payload
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: INfcWlcStateListener
+      descriptor: android.nfc.INfcWlcStateListener
+      oneway: true
+      methods:
+        - name: onWlcStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: wlcListenerDeviceInfo
+              type:
+                name: WlcListenerDeviceInfo
+              direction: in
+          return_type:
+            name: void
+    - name: ITagRemovedCallback
+      descriptor: android.nfc.ITagRemovedCallback
+      oneway: true
+      methods:
+        - name: onTagRemoved
+          transaction_code_offset: 0
+          return_type:
+            name: void
+parcelables:
+    - name: ApduList
+    - name: AvailableNfcAntenna
+    - name: NdefMessage
+    - name: NdefRecord
+    - name: NfcAntennaInfo
+    - name: Tag
+    - name: TechListParcel
+    - name: TransceiveResult
+    - name: WlcListenerDeviceInfo

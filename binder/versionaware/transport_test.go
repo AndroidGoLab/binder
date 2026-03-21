@@ -28,7 +28,7 @@ func TestCacheRoundTrip_Gob(t *testing.T) {
 	}
 	scannedJARs := []string{"framework.jar", "services.jar"}
 
-	saveCachedTable(cachePath, fingerprint, original, scannedJARs)
+	saveCachedTable(context.Background(), cachePath, fingerprint, original, scannedJARs)
 
 	// Verify file was created.
 	_, err := os.Stat(cachePath)
@@ -64,7 +64,7 @@ func TestCacheRoundTrip_FingerprintMismatch(t *testing.T) {
 		},
 	}
 
-	saveCachedTable(cachePath, "fingerprint-v1", table, nil)
+	saveCachedTable(context.Background(), cachePath, "fingerprint-v1", table, nil)
 
 	// Different fingerprint should return nil.
 	cached := loadCachedTable(cachePath, "fingerprint-v2")
@@ -144,7 +144,7 @@ func TestResolveCode_LazyExtraction_WithCache(t *testing.T) {
 	assert.NoError(t, err, "cache file should be created after lazy extraction")
 
 	// Load cache and verify the descriptor is there.
-	fingerprint := resolvedTableFingerprint(36)
+	fingerprint := resolvedTableFingerprint(36, "")
 	cached := loadCachedTable(cachePath, fingerprint)
 	require.NotNil(t, cached, "cache should be loadable")
 	assert.NotNil(t, cached.ResolvedTable["android.app.IActivityManager"],

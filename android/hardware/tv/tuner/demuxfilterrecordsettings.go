@@ -36,9 +36,19 @@ func (s *DemuxFilterRecordSettings) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.TsIndexMask, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_scIndexTypeRaw, _err := p.ReadInt32()
@@ -46,6 +56,11 @@ func (s *DemuxFilterRecordSettings) UnmarshalParcel(
 		return _err
 	}
 	s.ScIndexType = DemuxRecordScIndexType(_scIndexTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	if _err = s.ScIndexMask.UnmarshalParcel(p); _err != nil {
 		return _err

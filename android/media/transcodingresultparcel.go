@@ -9,7 +9,7 @@ import (
 type TranscodingResultParcel struct {
 	SessionId        int32
 	ActualBitrateBps int32
-	SessionStats     TranscodingSessionStats
+	SessionStats     *TranscodingSessionStats
 }
 
 var _ parcel.Parcelable = (*TranscodingResultParcel)(nil)
@@ -20,8 +20,13 @@ func (s *TranscodingResultParcel) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.SessionId)
 	p.WriteInt32(s.ActualBitrateBps)
-	if _err := s.SessionStats.MarshalParcel(p); _err != nil {
-		return _err
+	if s.SessionStats == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.SessionStats.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -36,9 +41,19 @@ func (s *TranscodingResultParcel) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SessionId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ActualBitrateBps, _err = p.ReadInt32()
@@ -46,8 +61,23 @@ func (s *TranscodingResultParcel) UnmarshalParcel(
 		return _err
 	}
 
-	if _err = s.SessionStats.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val TranscodingSessionStats
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.SessionStats = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

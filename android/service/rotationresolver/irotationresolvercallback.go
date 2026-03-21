@@ -52,6 +52,7 @@ func (p *RotationResolverCallbackProxy) OnCancellable(
 	cancellation common.ICancellationSignal,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRotationResolverCallback)
 	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
 
@@ -69,6 +70,7 @@ func (p *RotationResolverCallbackProxy) OnSuccess(
 	recommendedRotation int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRotationResolverCallback)
 	_data.WriteInt32(recommendedRotation)
 
@@ -86,6 +88,7 @@ func (p *RotationResolverCallbackProxy) OnFailure(
 	error_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRotationResolverCallback)
 	_data.WriteInt32(error_)
 
@@ -101,7 +104,8 @@ func (p *RotationResolverCallbackProxy) OnFailure(
 // RotationResolverCallbackStub dispatches incoming binder transactions
 // to a typed IRotationResolverCallback implementation.
 type RotationResolverCallbackStub struct {
-	Impl IRotationResolverCallback
+	Impl      IRotationResolverCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RotationResolverCallbackStub)(nil)
@@ -115,39 +119,36 @@ func (s *RotationResolverCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRotationResolverCallbackOnCancellable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cancellation common.ICancellationSignal
-		_ = _arg_cancellation
-		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
-		_ = _err
-		return nil, nil
-	case TransactionIRotationResolverCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_cancellationHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cancellation = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
 		}
+		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
+		return nil, _err
+	case TransactionIRotationResolverCallbackOnSuccess:
 		_arg_recommendedRotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSuccess(ctx, _arg_recommendedRotation)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRotationResolverCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnFailure(ctx, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

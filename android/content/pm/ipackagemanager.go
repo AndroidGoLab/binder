@@ -6,6 +6,7 @@ import (
 	content "github.com/xaionaro-go/binder/android/content"
 	dex "github.com/xaionaro-go/binder/android/content/pm/dex"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -528,12 +529,12 @@ type IPackageManager interface {
 	RemoveCrossProfileIntentFilter(ctx context.Context, intentFilter content.IntentFilter, ownerPackage string, sourceUserId int32, targetUserId int32, flags int32) (bool, error)
 	ClearCrossProfileIntentFilters(ctx context.Context, sourceUserId int32, ownerPackage string) error
 	SetDistractingPackageRestrictionsAsUser(ctx context.Context, packageNames []string, restrictionFlags int32) ([]string, error)
-	SetPackagesSuspendedAsUser(ctx context.Context, packageNames []string, suspended bool, appExtras interface{}, launcherExtras interface{}, dialogInfo SuspendDialogInfo, flags int32, suspendingPackage string, suspendingUserId int32, targetUserId int32) ([]string, error)
+	SetPackagesSuspendedAsUser(ctx context.Context, packageNames []string, suspended bool, appExtras os.PersistableBundle, launcherExtras os.PersistableBundle, dialogInfo SuspendDialogInfo, flags int32, suspendingPackage string, suspendingUserId int32, targetUserId int32) ([]string, error)
 	GetUnsuspendablePackagesForUser(ctx context.Context, packageNames []string) ([]string, error)
 	IsPackageSuspendedForUser(ctx context.Context, packageName string) (bool, error)
 	IsPackageQuarantinedForUser(ctx context.Context, packageName string) (bool, error)
 	IsPackageStoppedForUser(ctx context.Context, packageName string) (bool, error)
-	GetSuspendedPackageAppExtras(ctx context.Context, packageName string) (interface{}, error)
+	GetSuspendedPackageAppExtras(ctx context.Context, packageName string) (os.Bundle, error)
 	GetSuspendingPackage(ctx context.Context, packageName string) (string, error)
 	GetPreferredActivityBackup(ctx context.Context) ([]byte, error)
 	RestorePreferredActivities(ctx context.Context, backup []byte) error
@@ -626,8 +627,8 @@ type IPackageManager interface {
 	GetInstantAppInstallerComponent(ctx context.Context) (content.ComponentName, error)
 	GetInstantAppAndroidId(ctx context.Context, packageName string) (string, error)
 	GetArtManager(ctx context.Context) (dex.IArtManager, error)
-	SetHarmfulAppWarning(ctx context.Context, packageName string, warning interface{}) error
-	GetHarmfulAppWarning(ctx context.Context, packageName string) (interface{}, error)
+	SetHarmfulAppWarning(ctx context.Context, packageName string, warning string) error
+	GetHarmfulAppWarning(ctx context.Context, packageName string) (string, error)
 	HasSigningCertificate(ctx context.Context, packageName string, signingCertificate []byte, flags int32) (bool, error)
 	HasUidSigningCertificate(ctx context.Context, uid int32, signingCertificate []byte, flags int32) (bool, error)
 	GetDefaultTextClassifierPackageName(ctx context.Context) (string, error)
@@ -646,7 +647,7 @@ type IPackageManager interface {
 	GetRuntimePermissionsVersion(ctx context.Context) (int32, error)
 	SetRuntimePermissionsVersion(ctx context.Context, version int32) error
 	NotifyPackagesReplacedReceived(ctx context.Context, packages []string) error
-	RequestPackageChecksums(ctx context.Context, packageName string, includeSplits bool, optional int32, required int32, trustedInstallers []interface{}, onChecksumsReadyListener IOnChecksumsReadyListener) error
+	RequestPackageChecksums(ctx context.Context, packageName string, includeSplits bool, optional int32, required int32, trustedInstallers []any, onChecksumsReadyListener IOnChecksumsReadyListener) error
 	GetLaunchIntentSenderForPackage(ctx context.Context, packageName string, featureId string) (content.IntentSender, error)
 	GetAppOpPermissionPackages(ctx context.Context, permissionName string) ([]string, error)
 	GetPermissionGroupInfo(ctx context.Context, name string, flags int32) (PermissionGroupInfo, error)
@@ -672,11 +673,11 @@ type IPackageManager interface {
 	SetKeepUninstalledPackages(ctx context.Context, packageList []string) error
 	CanPackageQuery(ctx context.Context, sourcePackageName string, targetPackageNames []string) ([]bool, error)
 	WaitForHandler(ctx context.Context, timeoutMillis int64, forBackgroundHandler bool) (bool, error)
-	RegisterPackageMonitorCallback(ctx context.Context, callback interface{}) error
-	UnregisterPackageMonitorCallback(ctx context.Context, callback interface{}) error
+	RegisterPackageMonitorCallback(ctx context.Context, callback os.IRemoteCallback) error
+	UnregisterPackageMonitorCallback(ctx context.Context, callback os.IRemoteCallback) error
 	GetArchivedPackage(ctx context.Context, packageName string) (ArchivedPackageParcel, error)
-	GetArchivedAppIcon(ctx context.Context, packageName string, user interface{}, callingPackageName string) (graphics.Bitmap, error)
-	IsAppArchivable(ctx context.Context, packageName string, user interface{}) (bool, error)
+	GetArchivedAppIcon(ctx context.Context, packageName string, user os.UserHandle, callingPackageName string) (graphics.Bitmap, error)
+	IsAppArchivable(ctx context.Context, packageName string, user os.UserHandle) (bool, error)
 	GetAppMetadataSource(ctx context.Context, packageName string) (int32, error)
 	GetDomainVerificationAgent(ctx context.Context) (content.ComponentName, error)
 }
@@ -703,6 +704,7 @@ func (p *PackageManagerProxy) CheckPackageStartable(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -732,6 +734,7 @@ func (p *PackageManagerProxy) IsPackageAvailable(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -766,6 +769,7 @@ func (p *PackageManagerProxy) GetPackageInfo(
 	var _result PackageInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt64(flags)
@@ -806,6 +810,7 @@ func (p *PackageManagerProxy) GetPackageInfoVersioned(
 	var _result PackageInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := versionedPackage.MarshalParcel(_data); _err != nil {
@@ -849,6 +854,7 @@ func (p *PackageManagerProxy) GetPackageUid(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt64(flags)
@@ -884,6 +890,7 @@ func (p *PackageManagerProxy) GetPackageGids(
 	var _result []int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt64(flags)
@@ -908,6 +915,9 @@ func (p *PackageManagerProxy) GetPackageGids(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -927,6 +937,7 @@ func (p *PackageManagerProxy) CurrentToCanonicalPackageNames(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	if names == nil {
 		_data.WriteInt32(-1)
@@ -956,6 +967,9 @@ func (p *PackageManagerProxy) CurrentToCanonicalPackageNames(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -975,6 +989,7 @@ func (p *PackageManagerProxy) CanonicalToCurrentPackageNames(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	if names == nil {
 		_data.WriteInt32(-1)
@@ -1004,6 +1019,9 @@ func (p *PackageManagerProxy) CanonicalToCurrentPackageNames(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1025,6 +1043,7 @@ func (p *PackageManagerProxy) GetApplicationInfo(
 	var _result ApplicationInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt64(flags)
@@ -1063,6 +1082,7 @@ func (p *PackageManagerProxy) GetTargetSdkVersion(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 
@@ -1096,6 +1116,7 @@ func (p *PackageManagerProxy) GetActivityInfo(
 	var _result ActivityInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := className.MarshalParcel(_data); _err != nil {
@@ -1140,6 +1161,7 @@ func (p *PackageManagerProxy) ActivitySupportsIntentAsUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := className.MarshalParcel(_data); _err != nil {
@@ -1182,6 +1204,7 @@ func (p *PackageManagerProxy) GetReceiverInfo(
 	var _result ActivityInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := className.MarshalParcel(_data); _err != nil {
@@ -1225,6 +1248,7 @@ func (p *PackageManagerProxy) GetServiceInfo(
 	var _result ServiceInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := className.MarshalParcel(_data); _err != nil {
@@ -1268,6 +1292,7 @@ func (p *PackageManagerProxy) GetProviderInfo(
 	var _result ProviderInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := className.MarshalParcel(_data); _err != nil {
@@ -1309,6 +1334,7 @@ func (p *PackageManagerProxy) IsProtectedBroadcast(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(actionName)
 
@@ -1342,6 +1368,7 @@ func (p *PackageManagerProxy) CheckSignatures(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(pkg1)
 	_data.WriteString16(pkg2)
@@ -1376,6 +1403,7 @@ func (p *PackageManagerProxy) CheckUidSignatures(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(uid1)
 	_data.WriteInt32(uid2)
@@ -1407,6 +1435,7 @@ func (p *PackageManagerProxy) GetAllPackages(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetAllPackages)
@@ -1428,6 +1457,9 @@ func (p *PackageManagerProxy) GetAllPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1447,6 +1479,7 @@ func (p *PackageManagerProxy) GetPackagesForUid(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(uid)
 
@@ -1469,6 +1502,9 @@ func (p *PackageManagerProxy) GetPackagesForUid(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1488,6 +1524,7 @@ func (p *PackageManagerProxy) GetNameForUid(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(uid)
 
@@ -1519,6 +1556,7 @@ func (p *PackageManagerProxy) GetNamesForUids(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	if uids == nil {
 		_data.WriteInt32(-1)
@@ -1548,6 +1586,9 @@ func (p *PackageManagerProxy) GetNamesForUids(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1567,6 +1608,7 @@ func (p *PackageManagerProxy) GetUidForSharedUser(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(sharedUserName)
 
@@ -1598,6 +1640,7 @@ func (p *PackageManagerProxy) GetFlagsForUid(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(uid)
 
@@ -1629,6 +1672,7 @@ func (p *PackageManagerProxy) GetPrivateFlagsForUid(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(uid)
 
@@ -1660,6 +1704,7 @@ func (p *PackageManagerProxy) IsUidPrivileged(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(uid)
 
@@ -1694,6 +1739,7 @@ func (p *PackageManagerProxy) ResolveIntent(
 	var _result ResolveInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -1737,6 +1783,7 @@ func (p *PackageManagerProxy) FindPersistentPreferredActivity(
 	var _result ResolveInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -1780,6 +1827,7 @@ func (p *PackageManagerProxy) CanForwardTo(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -1820,6 +1868,7 @@ func (p *PackageManagerProxy) QueryIntentActivities(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -1868,6 +1917,7 @@ func (p *PackageManagerProxy) QueryIntentActivityOptions(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := caller.MarshalParcel(_data); _err != nil {
@@ -1936,6 +1986,7 @@ func (p *PackageManagerProxy) QueryIntentReceivers(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -1981,6 +2032,7 @@ func (p *PackageManagerProxy) ResolveService(
 	var _result ResolveInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -2026,6 +2078,7 @@ func (p *PackageManagerProxy) QueryIntentServices(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -2071,6 +2124,7 @@ func (p *PackageManagerProxy) QueryIntentContentProviders(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -2114,6 +2168,7 @@ func (p *PackageManagerProxy) GetInstalledPackages(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt64(flags)
 	_data.WriteInt32(_identity.UserID)
@@ -2152,6 +2207,7 @@ func (p *PackageManagerProxy) GetAppMetadataFd(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -2186,6 +2242,7 @@ func (p *PackageManagerProxy) GetPackagesHoldingPermissions(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	if permissions == nil {
 		_data.WriteInt32(-1)
@@ -2232,6 +2289,7 @@ func (p *PackageManagerProxy) GetInstalledApplications(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt64(flags)
 	_data.WriteInt32(_identity.UserID)
@@ -2269,6 +2327,7 @@ func (p *PackageManagerProxy) GetPersistentApplications(
 ) (ParceledListSlice, error) {
 	var _result ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(flags)
 
@@ -2307,6 +2366,7 @@ func (p *PackageManagerProxy) ResolveContentProvider(
 	var _result ProviderInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(name)
 	_data.WriteInt64(flags)
@@ -2345,6 +2405,7 @@ func (p *PackageManagerProxy) QuerySyncProviders(
 	outInfo []ProviderInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	if outNames == nil {
 		_data.WriteInt32(-1)
@@ -2384,6 +2445,9 @@ func (p *PackageManagerProxy) QuerySyncProviders(
 	if _err != nil {
 		return _err
 	}
+	if _outCount0 > 1000000 {
+		return fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		outNames = make([]string, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -2396,6 +2460,9 @@ func (p *PackageManagerProxy) QuerySyncProviders(
 	_outCount1, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+	if _outCount1 > 1000000 {
+		return fmt.Errorf("array count too large: %d", _outCount1)
 	}
 	if _outCount1 >= 0 {
 		outInfo = make([]ProviderInfo, _outCount1)
@@ -2421,6 +2488,7 @@ func (p *PackageManagerProxy) QueryContentProviders(
 ) (ParceledListSlice, error) {
 	var _result ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(processName)
 	_data.WriteInt32(uid)
@@ -2462,6 +2530,7 @@ func (p *PackageManagerProxy) GetInstrumentationInfoAsUser(
 	var _result InstrumentationInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := className.MarshalParcel(_data); _err != nil {
@@ -2505,6 +2574,7 @@ func (p *PackageManagerProxy) QueryInstrumentationAsUser(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(targetPackage)
 	_data.WriteInt32(flags)
@@ -2543,6 +2613,7 @@ func (p *PackageManagerProxy) FinishPackageInstall(
 	didLaunch bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(token)
 	_data.WriteBool(didLaunch)
@@ -2571,6 +2642,7 @@ func (p *PackageManagerProxy) SetInstallerPackageName(
 	installerPackageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(targetPackage)
 	_data.WriteString16(installerPackageName)
@@ -2598,6 +2670,7 @@ func (p *PackageManagerProxy) RelinquishUpdateOwnership(
 	targetPackage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(targetPackage)
 
@@ -2626,6 +2699,7 @@ func (p *PackageManagerProxy) SetApplicationCategoryHint(
 	callerPackageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(categoryHint)
@@ -2658,6 +2732,7 @@ func (p *PackageManagerProxy) DeletePackageAsUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(versionCode)
@@ -2691,6 +2766,7 @@ func (p *PackageManagerProxy) DeletePackageVersioned(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := versionedPackage.MarshalParcel(_data); _err != nil {
@@ -2725,6 +2801,7 @@ func (p *PackageManagerProxy) DeleteExistingPackageAsUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := versionedPackage.MarshalParcel(_data); _err != nil {
@@ -2757,6 +2834,7 @@ func (p *PackageManagerProxy) GetInstallerPackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 
@@ -2789,6 +2867,7 @@ func (p *PackageManagerProxy) GetInstallSourceInfo(
 	var _result InstallSourceInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -2825,6 +2904,7 @@ func (p *PackageManagerProxy) ResetApplicationPreferences(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -2854,6 +2934,7 @@ func (p *PackageManagerProxy) GetLastChosenActivity(
 ) (ResolveInfo, error) {
 	var _result ResolveInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -2899,6 +2980,7 @@ func (p *PackageManagerProxy) SetLastChosenActivity(
 	activity content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -2944,6 +3026,7 @@ func (p *PackageManagerProxy) AddPreferredActivity(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := filter.MarshalParcel(_data); _err != nil {
@@ -2995,6 +3078,7 @@ func (p *PackageManagerProxy) ReplacePreferredActivity(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := filter.MarshalParcel(_data); _err != nil {
@@ -3041,6 +3125,7 @@ func (p *PackageManagerProxy) ClearPackagePreferredActivities(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 
@@ -3070,6 +3155,7 @@ func (p *PackageManagerProxy) GetPreferredActivities(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 
@@ -3091,6 +3177,9 @@ func (p *PackageManagerProxy) GetPreferredActivities(
 	if _err != nil {
 		return _result, _err
 	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		outFilters = make([]content.IntentFilter, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -3105,6 +3194,9 @@ func (p *PackageManagerProxy) GetPreferredActivities(
 	_outCount1, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _outCount1 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount1)
 	}
 	if _outCount1 >= 0 {
 		outActivities = make([]content.ComponentName, _outCount1)
@@ -3132,6 +3224,7 @@ func (p *PackageManagerProxy) AddPersistentPreferredActivity(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := filter.MarshalParcel(_data); _err != nil {
@@ -3167,6 +3260,7 @@ func (p *PackageManagerProxy) ClearPackagePersistentPreferredActivities(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -3195,6 +3289,7 @@ func (p *PackageManagerProxy) ClearPersistentPreferredActivity(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := filter.MarshalParcel(_data); _err != nil {
@@ -3229,6 +3324,7 @@ func (p *PackageManagerProxy) AddCrossProfileIntentFilter(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := intentFilter.MarshalParcel(_data); _err != nil {
@@ -3267,6 +3363,7 @@ func (p *PackageManagerProxy) RemoveCrossProfileIntentFilter(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := intentFilter.MarshalParcel(_data); _err != nil {
@@ -3305,6 +3402,7 @@ func (p *PackageManagerProxy) ClearCrossProfileIntentFilters(
 	ownerPackage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(sourceUserId)
 	_data.WriteString16(ownerPackage)
@@ -3335,6 +3433,7 @@ func (p *PackageManagerProxy) SetDistractingPackageRestrictionsAsUser(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	if packageNames == nil {
 		_data.WriteInt32(-1)
@@ -3366,6 +3465,9 @@ func (p *PackageManagerProxy) SetDistractingPackageRestrictionsAsUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -3383,8 +3485,8 @@ func (p *PackageManagerProxy) SetPackagesSuspendedAsUser(
 	ctx context.Context,
 	packageNames []string,
 	suspended bool,
-	appExtras interface{},
-	launcherExtras interface{},
+	appExtras os.PersistableBundle,
+	launcherExtras os.PersistableBundle,
 	dialogInfo SuspendDialogInfo,
 	flags int32,
 	suspendingPackage string,
@@ -3393,6 +3495,7 @@ func (p *PackageManagerProxy) SetPackagesSuspendedAsUser(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	if packageNames == nil {
 		_data.WriteInt32(-1)
@@ -3403,6 +3506,14 @@ func (p *PackageManagerProxy) SetPackagesSuspendedAsUser(
 		}
 	}
 	_data.WriteBool(suspended)
+	_data.WriteInt32(1)
+	if _err := appExtras.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := launcherExtras.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(1)
 	if _err := dialogInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -3431,6 +3542,9 @@ func (p *PackageManagerProxy) SetPackagesSuspendedAsUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -3451,6 +3565,7 @@ func (p *PackageManagerProxy) GetUnsuspendablePackagesForUser(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	if packageNames == nil {
 		_data.WriteInt32(-1)
@@ -3481,6 +3596,9 @@ func (p *PackageManagerProxy) GetUnsuspendablePackagesForUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -3501,6 +3619,7 @@ func (p *PackageManagerProxy) IsPackageSuspendedForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -3534,6 +3653,7 @@ func (p *PackageManagerProxy) IsPackageQuarantinedForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -3567,6 +3687,7 @@ func (p *PackageManagerProxy) IsPackageStoppedForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -3596,10 +3717,11 @@ func (p *PackageManagerProxy) IsPackageStoppedForUser(
 func (p *PackageManagerProxy) GetSuspendedPackageAppExtras(
 	ctx context.Context,
 	packageName string,
-) (interface{}, error) {
-	var _result interface{}
+) (os.Bundle, error) {
+	var _result os.Bundle
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -3619,6 +3741,15 @@ func (p *PackageManagerProxy) GetSuspendedPackageAppExtras(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -3629,6 +3760,7 @@ func (p *PackageManagerProxy) GetSuspendingPackage(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -3661,6 +3793,7 @@ func (p *PackageManagerProxy) GetPreferredActivityBackup(
 	var _result []byte
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -3679,19 +3812,9 @@ func (p *PackageManagerProxy) GetPreferredActivityBackup(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -3702,15 +3825,9 @@ func (p *PackageManagerProxy) RestorePreferredActivities(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
-	if backup == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(backup)))
-		for _, _item := range backup {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(backup)
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerRestorePreferredActivities)
@@ -3737,6 +3854,7 @@ func (p *PackageManagerProxy) GetDefaultAppsBackup(
 	var _result []byte
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -3755,19 +3873,9 @@ func (p *PackageManagerProxy) GetDefaultAppsBackup(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -3778,15 +3886,9 @@ func (p *PackageManagerProxy) RestoreDefaultApps(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
-	if backup == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(backup)))
-		for _, _item := range backup {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(backup)
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerRestoreDefaultApps)
@@ -3813,6 +3915,7 @@ func (p *PackageManagerProxy) GetDomainVerificationBackup(
 	var _result []byte
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -3831,19 +3934,9 @@ func (p *PackageManagerProxy) GetDomainVerificationBackup(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -3854,15 +3947,9 @@ func (p *PackageManagerProxy) RestoreDomainVerification(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
-	if backup == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(backup)))
-		for _, _item := range backup {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(backup)
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerRestoreDomainVerification)
@@ -3889,6 +3976,7 @@ func (p *PackageManagerProxy) GetHomeActivities(
 ) (content.ComponentName, error) {
 	var _result content.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetHomeActivities)
@@ -3908,6 +3996,9 @@ func (p *PackageManagerProxy) GetHomeActivities(
 	_outCount0, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
 	}
 	if _outCount0 >= 0 {
 		outHomeCandidates = make([]ResolveInfo, _outCount0)
@@ -3939,6 +4030,7 @@ func (p *PackageManagerProxy) SetHomeActivity(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := className.MarshalParcel(_data); _err != nil {
@@ -3972,6 +4064,7 @@ func (p *PackageManagerProxy) OverrideLabelAndIcon(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
@@ -4005,6 +4098,7 @@ func (p *PackageManagerProxy) RestoreLabelAndIcon(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
@@ -4038,6 +4132,7 @@ func (p *PackageManagerProxy) SetComponentEnabledSetting(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
@@ -4072,6 +4167,7 @@ func (p *PackageManagerProxy) SetComponentEnabledSettings(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	if settings == nil {
 		_data.WriteInt32(-1)
@@ -4112,6 +4208,7 @@ func (p *PackageManagerProxy) GetComponentEnabledSetting(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
@@ -4149,6 +4246,7 @@ func (p *PackageManagerProxy) SetApplicationEnabledSetting(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(newState)
@@ -4181,6 +4279,7 @@ func (p *PackageManagerProxy) GetApplicationEnabledSetting(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -4217,6 +4316,7 @@ func (p *PackageManagerProxy) LogAppProcessStartIfNeeded(
 	pid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(processName)
@@ -4248,6 +4348,7 @@ func (p *PackageManagerProxy) FlushPackageRestrictionsAsUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -4276,6 +4377,7 @@ func (p *PackageManagerProxy) SetPackageStoppedState(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(stopped)
@@ -4307,6 +4409,7 @@ func (p *PackageManagerProxy) FreeStorageAndNotify(
 	observer IPackageDataObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt64(freeStorageSize)
@@ -4339,6 +4442,7 @@ func (p *PackageManagerProxy) FreeStorage(
 	pi content.IntentSender,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt64(freeStorageSize)
@@ -4372,6 +4476,7 @@ func (p *PackageManagerProxy) DeleteApplicationCacheFiles(
 	observer IPackageDataObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
@@ -4401,6 +4506,7 @@ func (p *PackageManagerProxy) DeleteApplicationCacheFilesAsUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -4431,6 +4537,7 @@ func (p *PackageManagerProxy) ClearApplicationUserData(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
@@ -4459,6 +4566,7 @@ func (p *PackageManagerProxy) ClearApplicationProfileData(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 
@@ -4487,6 +4595,7 @@ func (p *PackageManagerProxy) GetPackageSizeInfo(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -4515,6 +4624,7 @@ func (p *PackageManagerProxy) GetSystemSharedLibraryNames(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetSystemSharedLibraryNames)
@@ -4536,6 +4646,9 @@ func (p *PackageManagerProxy) GetSystemSharedLibraryNames(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -4554,6 +4667,7 @@ func (p *PackageManagerProxy) GetSystemSharedLibraryNamesAndPaths(
 ) (map[string]string, error) {
 	var _result map[string]string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetSystemSharedLibraryNamesAndPaths)
@@ -4571,22 +4685,24 @@ func (p *PackageManagerProxy) GetSystemSharedLibraryNamesAndPaths(
 		return _result, _err
 	}
 
-	_mapCount, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _mapCount >= 0 {
-		_result = make(map[string]string, _mapCount)
-		for _mi := int32(0); _mi < _mapCount; _mi++ {
-			_mk, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
+	{
+		_mapCount, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _mapCount >= 0 {
+			_result = make(map[string]string, _mapCount)
+			for _mi := int32(0); _mi < _mapCount; _mi++ {
+				_mk, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_mv, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_result[_mk] = _mv
 			}
-			_mv, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
-			}
-			_result[_mk] = _mv
 		}
 	}
 	return _result, nil
@@ -4597,6 +4713,7 @@ func (p *PackageManagerProxy) GetSystemAvailableFeatures(
 ) (ParceledListSlice, error) {
 	var _result ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetSystemAvailableFeatures)
@@ -4633,6 +4750,7 @@ func (p *PackageManagerProxy) HasSystemFeature(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(name)
 	_data.WriteInt32(version)
@@ -4664,6 +4782,7 @@ func (p *PackageManagerProxy) GetInitialNonStoppedSystemPackages(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetInitialNonStoppedSystemPackages)
@@ -4685,6 +4804,9 @@ func (p *PackageManagerProxy) GetInitialNonStoppedSystemPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -4702,6 +4824,7 @@ func (p *PackageManagerProxy) EnterSafeMode(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerEnterSafeMode)
@@ -4727,6 +4850,7 @@ func (p *PackageManagerProxy) IsSafeMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerIsSafeMode)
@@ -4756,6 +4880,7 @@ func (p *PackageManagerProxy) HasSystemUidErrors(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerHasSystemUidErrors)
@@ -4786,6 +4911,7 @@ func (p *PackageManagerProxy) NotifyPackageUse(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(reason)
@@ -4806,6 +4932,7 @@ func (p *PackageManagerProxy) NotifyDexLoad(
 	loaderIsa string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(loadingPackageName)
 	if classLoaderContextMap == nil {
@@ -4836,6 +4963,7 @@ func (p *PackageManagerProxy) RegisterDexModule(
 	callback IDexModuleRegisterCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(dexModulePath)
@@ -4862,6 +4990,7 @@ func (p *PackageManagerProxy) PerformDexOptMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(checkProfiles)
@@ -4900,6 +5029,7 @@ func (p *PackageManagerProxy) PerformDexOptSecondary(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(targetCompilerFilter)
@@ -4933,6 +5063,7 @@ func (p *PackageManagerProxy) GetMoveStatus(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(moveId)
 
@@ -4963,6 +5094,7 @@ func (p *PackageManagerProxy) RegisterMoveCallback(
 	callback IPackageMoveObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -4989,6 +5121,7 @@ func (p *PackageManagerProxy) UnregisterMoveCallback(
 	callback IPackageMoveObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -5017,6 +5150,7 @@ func (p *PackageManagerProxy) MovePackage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(volumeUuid)
@@ -5049,6 +5183,7 @@ func (p *PackageManagerProxy) MovePrimaryStorage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(volumeUuid)
 
@@ -5080,6 +5215,7 @@ func (p *PackageManagerProxy) SetInstallLocation(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(loc)
 
@@ -5110,6 +5246,7 @@ func (p *PackageManagerProxy) GetInstallLocation(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetInstallLocation)
@@ -5144,6 +5281,7 @@ func (p *PackageManagerProxy) InstallExistingPackageAsUser(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -5186,6 +5324,7 @@ func (p *PackageManagerProxy) VerifyPendingInstall(
 	verificationCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(id)
 	_data.WriteInt32(verificationCode)
@@ -5215,6 +5354,7 @@ func (p *PackageManagerProxy) ExtendVerificationTimeout(
 	millisecondsToDelay int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(id)
 	_data.WriteInt32(verificationCodeAtTimeout)
@@ -5245,6 +5385,7 @@ func (p *PackageManagerProxy) VerifyIntentFilter(
 	failedDomains []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(id)
 	_data.WriteInt32(verificationCode)
@@ -5282,6 +5423,7 @@ func (p *PackageManagerProxy) GetIntentVerificationStatus(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -5316,6 +5458,7 @@ func (p *PackageManagerProxy) UpdateIntentVerificationStatus(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(status)
@@ -5349,6 +5492,7 @@ func (p *PackageManagerProxy) GetIntentFilterVerifications(
 ) (ParceledListSlice, error) {
 	var _result ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 
@@ -5385,6 +5529,7 @@ func (p *PackageManagerProxy) GetAllIntentFilters(
 ) (ParceledListSlice, error) {
 	var _result ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 
@@ -5420,6 +5565,7 @@ func (p *PackageManagerProxy) GetVerifierDeviceIdentity(
 ) (VerifierDeviceIdentity, error) {
 	var _result VerifierDeviceIdentity
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetVerifierDeviceIdentity)
@@ -5454,6 +5600,7 @@ func (p *PackageManagerProxy) IsFirstBoot(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerIsFirstBoot)
@@ -5483,6 +5630,7 @@ func (p *PackageManagerProxy) IsDeviceUpgrading(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerIsDeviceUpgrading)
@@ -5512,6 +5660,7 @@ func (p *PackageManagerProxy) IsStorageLow(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerIsStorageLow)
@@ -5544,6 +5693,7 @@ func (p *PackageManagerProxy) SetApplicationHiddenSettingAsUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(hidden)
@@ -5578,6 +5728,7 @@ func (p *PackageManagerProxy) GetApplicationHiddenSettingAsUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -5610,6 +5761,7 @@ func (p *PackageManagerProxy) SetSystemAppHiddenUntilInstalled(
 	hidden bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(hidden)
@@ -5640,6 +5792,7 @@ func (p *PackageManagerProxy) SetSystemAppInstallState(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(installed)
@@ -5672,6 +5825,7 @@ func (p *PackageManagerProxy) GetPackageInstaller(
 ) (IPackageInstaller, error) {
 	var _result IPackageInstaller
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetPackageInstaller)
@@ -5705,6 +5859,7 @@ func (p *PackageManagerProxy) SetBlockUninstallForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(blockUninstall)
@@ -5739,6 +5894,7 @@ func (p *PackageManagerProxy) GetBlockUninstallForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -5772,6 +5928,7 @@ func (p *PackageManagerProxy) GetKeySetByAlias(
 ) (KeySet, error) {
 	var _result KeySet
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(alias)
@@ -5809,6 +5966,7 @@ func (p *PackageManagerProxy) GetSigningKeySet(
 ) (KeySet, error) {
 	var _result KeySet
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 
@@ -5846,6 +6004,7 @@ func (p *PackageManagerProxy) IsPackageSignedByKeySet(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -5882,6 +6041,7 @@ func (p *PackageManagerProxy) IsPackageSignedByKeySetExactly(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -5916,6 +6076,7 @@ func (p *PackageManagerProxy) GetPermissionControllerPackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetPermissionControllerPackageName)
@@ -5945,6 +6106,7 @@ func (p *PackageManagerProxy) GetSdkSandboxPackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetSdkSandboxPackageName)
@@ -5975,6 +6137,7 @@ func (p *PackageManagerProxy) GetInstantApps(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -6012,6 +6175,7 @@ func (p *PackageManagerProxy) GetInstantAppCookie(
 	var _result []byte
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -6031,19 +6195,9 @@ func (p *PackageManagerProxy) GetInstantAppCookie(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -6056,16 +6210,10 @@ func (p *PackageManagerProxy) SetInstantAppCookie(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
-	if cookie == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(cookie)))
-		for _, _item := range cookie {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(cookie)
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerSetInstantAppCookie)
@@ -6097,6 +6245,7 @@ func (p *PackageManagerProxy) GetInstantAppIcon(
 	var _result graphics.Bitmap
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -6135,6 +6284,7 @@ func (p *PackageManagerProxy) IsInstantApp(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -6168,6 +6318,7 @@ func (p *PackageManagerProxy) SetRequiredForSystemUser(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(systemUserApp)
@@ -6200,6 +6351,7 @@ func (p *PackageManagerProxy) SetUpdateAvailable(
 	updateAvaialble bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(updateAvaialble)
@@ -6227,6 +6379,7 @@ func (p *PackageManagerProxy) GetServicesSystemSharedLibraryPackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetServicesSystemSharedLibraryPackageName)
@@ -6256,6 +6409,7 @@ func (p *PackageManagerProxy) GetSharedSystemSharedLibraryPackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetSharedSystemSharedLibraryPackageName)
@@ -6287,6 +6441,7 @@ func (p *PackageManagerProxy) GetChangedPackages(
 	var _result ChangedPackages
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(sequenceNumber)
 	_data.WriteInt32(_identity.UserID)
@@ -6324,6 +6479,7 @@ func (p *PackageManagerProxy) IsPackageDeviceAdminOnAnyUser(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 
@@ -6356,6 +6512,7 @@ func (p *PackageManagerProxy) GetInstallReason(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -6390,6 +6547,7 @@ func (p *PackageManagerProxy) GetSharedLibraries(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt64(flags)
@@ -6430,6 +6588,7 @@ func (p *PackageManagerProxy) GetDeclaredSharedLibraries(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt64(flags)
@@ -6469,6 +6628,7 @@ func (p *PackageManagerProxy) CanRequestPackageInstalls(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -6499,6 +6659,7 @@ func (p *PackageManagerProxy) DeletePreloadsFileCache(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerDeletePreloadsFileCache)
@@ -6524,6 +6685,7 @@ func (p *PackageManagerProxy) GetInstantAppResolverComponent(
 ) (content.ComponentName, error) {
 	var _result content.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetInstantAppResolverComponent)
@@ -6558,6 +6720,7 @@ func (p *PackageManagerProxy) GetInstantAppResolverSettingsComponent(
 ) (content.ComponentName, error) {
 	var _result content.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetInstantAppResolverSettingsComponent)
@@ -6592,6 +6755,7 @@ func (p *PackageManagerProxy) GetInstantAppInstallerComponent(
 ) (content.ComponentName, error) {
 	var _result content.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetInstantAppInstallerComponent)
@@ -6628,6 +6792,7 @@ func (p *PackageManagerProxy) GetInstantAppAndroidId(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -6659,6 +6824,7 @@ func (p *PackageManagerProxy) GetArtManager(
 ) (dex.IArtManager, error) {
 	var _result dex.IArtManager
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetArtManager)
@@ -6687,12 +6853,14 @@ func (p *PackageManagerProxy) GetArtManager(
 func (p *PackageManagerProxy) SetHarmfulAppWarning(
 	ctx context.Context,
 	packageName string,
-	warning interface{},
+	warning string,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
+	_data.WriteString16(warning)
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerSetHarmfulAppWarning)
@@ -6716,10 +6884,11 @@ func (p *PackageManagerProxy) SetHarmfulAppWarning(
 func (p *PackageManagerProxy) GetHarmfulAppWarning(
 	ctx context.Context,
 	packageName string,
-) (interface{}, error) {
-	var _result interface{}
+) (string, error) {
+	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -6739,6 +6908,10 @@ func (p *PackageManagerProxy) GetHarmfulAppWarning(
 		return _result, _err
 	}
 
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
 	return _result, nil
 }
 
@@ -6750,16 +6923,10 @@ func (p *PackageManagerProxy) HasSigningCertificate(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
-	if signingCertificate == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(signingCertificate)))
-		for _, _item := range signingCertificate {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(signingCertificate)
 	_data.WriteInt32(flags)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerHasSigningCertificate)
@@ -6792,16 +6959,10 @@ func (p *PackageManagerProxy) HasUidSigningCertificate(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(uid)
-	if signingCertificate == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(signingCertificate)))
-		for _, _item := range signingCertificate {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(signingCertificate)
 	_data.WriteInt32(flags)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerHasUidSigningCertificate)
@@ -6831,6 +6992,7 @@ func (p *PackageManagerProxy) GetDefaultTextClassifierPackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetDefaultTextClassifierPackageName)
@@ -6860,6 +7022,7 @@ func (p *PackageManagerProxy) GetSystemTextClassifierPackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetSystemTextClassifierPackageName)
@@ -6889,6 +7052,7 @@ func (p *PackageManagerProxy) GetAttentionServicePackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetAttentionServicePackageName)
@@ -6918,6 +7082,7 @@ func (p *PackageManagerProxy) GetRotationResolverPackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetRotationResolverPackageName)
@@ -6947,6 +7112,7 @@ func (p *PackageManagerProxy) GetWellbeingPackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetWellbeingPackageName)
@@ -6976,6 +7142,7 @@ func (p *PackageManagerProxy) GetAppPredictionServicePackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetAppPredictionServicePackageName)
@@ -7005,6 +7172,7 @@ func (p *PackageManagerProxy) GetSystemCaptionsServicePackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetSystemCaptionsServicePackageName)
@@ -7034,6 +7202,7 @@ func (p *PackageManagerProxy) GetSetupWizardPackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetSetupWizardPackageName)
@@ -7063,6 +7232,7 @@ func (p *PackageManagerProxy) GetIncidentReportApproverPackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetIncidentReportApproverPackageName)
@@ -7094,6 +7264,7 @@ func (p *PackageManagerProxy) IsPackageStateProtected(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -7124,6 +7295,7 @@ func (p *PackageManagerProxy) SendDeviceCustomizationReadyBroadcast(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerSendDeviceCustomizationReadyBroadcast)
@@ -7150,6 +7322,7 @@ func (p *PackageManagerProxy) GetInstalledModules(
 ) ([]ModuleInfo, error) {
 	var _result []ModuleInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(flags)
 
@@ -7171,6 +7344,9 @@ func (p *PackageManagerProxy) GetInstalledModules(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -7194,6 +7370,7 @@ func (p *PackageManagerProxy) GetModuleInfo(
 ) (ModuleInfo, error) {
 	var _result ModuleInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(flags)
@@ -7231,6 +7408,7 @@ func (p *PackageManagerProxy) GetRuntimePermissionsVersion(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -7262,6 +7440,7 @@ func (p *PackageManagerProxy) SetRuntimePermissionsVersion(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(version)
 	_data.WriteInt32(_identity.UserID)
@@ -7289,6 +7468,7 @@ func (p *PackageManagerProxy) NotifyPackagesReplacedReceived(
 	packages []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	if packages == nil {
 		_data.WriteInt32(-1)
@@ -7323,11 +7503,12 @@ func (p *PackageManagerProxy) RequestPackageChecksums(
 	includeSplits bool,
 	optional int32,
 	required int32,
-	trustedInstallers []interface{},
+	trustedInstallers []any,
 	onChecksumsReadyListener IOnChecksumsReadyListener,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(includeSplits)
@@ -7367,6 +7548,7 @@ func (p *PackageManagerProxy) GetLaunchIntentSenderForPackage(
 	var _result content.IntentSender
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(_identity.PackageName)
@@ -7407,6 +7589,7 @@ func (p *PackageManagerProxy) GetAppOpPermissionPackages(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(permissionName)
 	_data.WriteInt32(_identity.UserID)
@@ -7430,6 +7613,9 @@ func (p *PackageManagerProxy) GetAppOpPermissionPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -7450,6 +7636,7 @@ func (p *PackageManagerProxy) GetPermissionGroupInfo(
 ) (PermissionGroupInfo, error) {
 	var _result PermissionGroupInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(name)
 	_data.WriteInt32(flags)
@@ -7487,6 +7674,7 @@ func (p *PackageManagerProxy) AddPermission(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -7521,6 +7709,7 @@ func (p *PackageManagerProxy) AddPermissionAsync(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -7554,6 +7743,7 @@ func (p *PackageManagerProxy) RemovePermission(
 	name string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(name)
 
@@ -7583,6 +7773,7 @@ func (p *PackageManagerProxy) CheckPermission(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(permName)
 	_data.WriteString16(pkgName)
@@ -7617,6 +7808,7 @@ func (p *PackageManagerProxy) GrantRuntimePermission(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(permissionName)
@@ -7647,6 +7839,7 @@ func (p *PackageManagerProxy) CheckUidPermission(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(permName)
 	_data.WriteInt32(uid)
@@ -7680,6 +7873,7 @@ func (p *PackageManagerProxy) SetMimeGroup(
 	mimeTypes []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(group)
@@ -7717,6 +7911,7 @@ func (p *PackageManagerProxy) GetSplashScreenTheme(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -7750,6 +7945,7 @@ func (p *PackageManagerProxy) SetSplashScreenTheme(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(themeName)
@@ -7780,6 +7976,7 @@ func (p *PackageManagerProxy) GetUserMinAspectRatio(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -7813,6 +8010,7 @@ func (p *PackageManagerProxy) SetUserMinAspectRatio(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -7843,6 +8041,7 @@ func (p *PackageManagerProxy) GetMimeGroup(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(group)
@@ -7866,6 +8065,9 @@ func (p *PackageManagerProxy) GetMimeGroup(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -7885,6 +8087,7 @@ func (p *PackageManagerProxy) IsAutoRevokeWhitelisted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 
@@ -7916,6 +8119,7 @@ func (p *PackageManagerProxy) MakeProviderVisible(
 	visibleAuthority string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(recipientAppId)
 	_data.WriteString16(visibleAuthority)
@@ -7944,6 +8148,7 @@ func (p *PackageManagerProxy) MakeUidVisible(
 	visibleUid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt32(recipientAppId)
 	_data.WriteInt32(visibleUid)
@@ -7971,6 +8176,7 @@ func (p *PackageManagerProxy) GetHoldLockToken(
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetHoldLockToken)
@@ -8002,6 +8208,7 @@ func (p *PackageManagerProxy) HoldLock(
 	durationMs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(durationMs)
@@ -8033,6 +8240,7 @@ func (p *PackageManagerProxy) GetPropertyAsUser(
 	var _result PackageManagerProperty
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(propertyName)
 	_data.WriteString16(packageName)
@@ -8073,6 +8281,7 @@ func (p *PackageManagerProxy) QueryProperty(
 ) (ParceledListSlice, error) {
 	var _result ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(propertyName)
 	_data.WriteInt32(componentType)
@@ -8109,6 +8318,7 @@ func (p *PackageManagerProxy) SetKeepUninstalledPackages(
 	packageList []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	if packageList == nil {
 		_data.WriteInt32(-1)
@@ -8145,6 +8355,7 @@ func (p *PackageManagerProxy) CanPackageQuery(
 	var _result []bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(sourcePackageName)
 	if targetPackageNames == nil {
@@ -8176,6 +8387,9 @@ func (p *PackageManagerProxy) CanPackageQuery(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]bool, _count)
@@ -8196,6 +8410,7 @@ func (p *PackageManagerProxy) WaitForHandler(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteInt64(timeoutMillis)
 	_data.WriteBool(forBackgroundHandler)
@@ -8224,11 +8439,13 @@ func (p *PackageManagerProxy) WaitForHandler(
 
 func (p *PackageManagerProxy) RegisterPackageMonitorCallback(
 	ctx context.Context,
-	callback interface{},
+	callback os.IRemoteCallback,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerRegisterPackageMonitorCallback)
@@ -8251,10 +8468,12 @@ func (p *PackageManagerProxy) RegisterPackageMonitorCallback(
 
 func (p *PackageManagerProxy) UnregisterPackageMonitorCallback(
 	ctx context.Context,
-	callback interface{},
+	callback os.IRemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerUnregisterPackageMonitorCallback)
 	if _err != nil {
@@ -8281,6 +8500,7 @@ func (p *PackageManagerProxy) GetArchivedPackage(
 	var _result ArchivedPackageParcel
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -8315,13 +8535,18 @@ func (p *PackageManagerProxy) GetArchivedPackage(
 func (p *PackageManagerProxy) GetArchivedAppIcon(
 	ctx context.Context,
 	packageName string,
-	user interface{},
+	user os.UserHandle,
 	callingPackageName string,
 ) (graphics.Bitmap, error) {
 	var _result graphics.Bitmap
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(callingPackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetArchivedAppIcon)
@@ -8354,12 +8579,17 @@ func (p *PackageManagerProxy) GetArchivedAppIcon(
 func (p *PackageManagerProxy) IsAppArchivable(
 	ctx context.Context,
 	packageName string,
-	user interface{},
+	user os.UserHandle,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerIsAppArchivable)
 	if _err != nil {
@@ -8390,6 +8620,7 @@ func (p *PackageManagerProxy) GetAppMetadataSource(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -8421,6 +8652,7 @@ func (p *PackageManagerProxy) GetDomainVerificationAgent(
 ) (content.ComponentName, error) {
 	var _result content.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManager, MethodIPackageManagerGetDomainVerificationAgent)
@@ -8453,7 +8685,8 @@ func (p *PackageManagerProxy) GetDomainVerificationAgent(
 // PackageManagerStub dispatches incoming binder transactions
 // to a typed IPackageManager implementation.
 type PackageManagerStub struct {
-	Impl IPackageManager
+	Impl      IPackageManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PackageManagerStub)(nil)
@@ -8467,11 +8700,12 @@ func (s *PackageManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPackageManagerCheckPackageStartable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8488,9 +8722,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerIsPackageAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8508,9 +8739,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetPackageInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8535,9 +8763,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetPackageInfoVersioned:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_versionedPackage VersionedPackage
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -8570,9 +8795,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetPackageUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8594,9 +8816,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetPackageGids:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8615,16 +8834,35 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerCurrentToCanonicalPackageNames:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_names []string
-		_ = _arg_names
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_names = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_names[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.CurrentToCanonicalPackageNames(ctx, _arg_names)
 		_reply := parcel.New()
 		if _err != nil {
@@ -8632,16 +8870,35 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerCanonicalToCurrentPackageNames:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_names []string
-		_ = _arg_names
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_names = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_names[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.CanonicalToCurrentPackageNames(ctx, _arg_names)
 		_reply := parcel.New()
 		if _err != nil {
@@ -8649,13 +8906,16 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerGetApplicationInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8680,9 +8940,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetTargetSdkVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8697,9 +8954,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetActivityInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_className content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -8732,9 +8986,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerActivitySupportsIntentAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_className content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -8776,9 +9027,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetReceiverInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_className content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -8811,9 +9059,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetServiceInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_className content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -8846,9 +9091,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetProviderInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_className content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -8881,9 +9123,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerIsProtectedBroadcast:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_actionName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8898,9 +9137,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerCheckSignatures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg1, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8922,9 +9158,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerCheckUidSignatures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid1, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -8943,9 +9176,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetAllPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAllPackages(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -8953,13 +9183,16 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerGetPackagesForUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -8971,13 +9204,16 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerGetNameForUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -8992,12 +9228,25 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetNamesForUids:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_uids []int32
-		_ = _arg_uids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_uids = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_uids[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetNamesForUids(ctx, _arg_uids)
 		_reply := parcel.New()
 		if _err != nil {
@@ -9005,13 +9254,16 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerGetUidForSharedUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sharedUserName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -9026,9 +9278,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetFlagsForUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -9043,9 +9292,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetPrivateFlagsForUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -9060,9 +9306,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerIsUidPrivileged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -9077,9 +9320,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerResolveIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -9116,9 +9356,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerFindPersistentPreferredActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -9147,9 +9384,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerCanForwardTo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -9184,9 +9418,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerQueryIntentActivities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -9223,9 +9454,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerQueryIntentActivityOptions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_caller content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -9238,12 +9466,46 @@ func (s *PackageManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_specifics []content.Intent
-		_ = _arg_specifics
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_specifics = make([]content.Intent, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_specifics[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_specificTypes []string
-		_ = _arg_specificTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_specificTypes = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_specificTypes[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -9280,9 +9542,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerQueryIntentReceivers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -9319,9 +9578,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerResolveService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -9358,9 +9614,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerQueryIntentServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -9397,9 +9650,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerQueryIntentContentProviders:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -9436,9 +9686,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetInstalledPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -9459,9 +9706,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetAppMetadataFd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -9479,12 +9723,25 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetPackagesHoldingPermissions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_permissions []string
-		_ = _arg_permissions
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_permissions = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_permissions[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -9505,9 +9762,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetInstalledApplications:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -9528,9 +9782,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetPersistentApplications:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -9548,9 +9799,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerResolveContentProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -9575,15 +9823,46 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerQuerySyncProviders:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_outNames []string
-		_ = _arg_outNames
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_outNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_outNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_outInfo []ProviderInfo
-		_ = _arg_outInfo
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_outInfo = make([]ProviderInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_outInfo[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.QuerySyncProviders(ctx, _arg_outNames, _arg_outInfo)
 		_reply := parcel.New()
 		if _err != nil {
@@ -9591,11 +9870,27 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		if _arg_outNames == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_outNames)))
+			for _, _item := range _arg_outNames {
+				_reply.WriteString16(_item)
+			}
+		}
+		if _arg_outInfo == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_outInfo)))
+			for _, _item := range _arg_outInfo {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerQueryContentProviders:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_processName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -9625,9 +9920,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetInstrumentationInfoAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_className content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -9660,9 +9952,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerQueryInstrumentationAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_targetPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -9687,9 +9976,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerFinishPackageInstall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -9707,9 +9993,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerSetInstallerPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_targetPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -9727,9 +10010,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerRelinquishUpdateOwnership:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_targetPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -9743,9 +10023,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerSetApplicationCategoryHint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -9767,9 +10044,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerDeletePackageAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -9778,9 +10052,14 @@ func (s *PackageManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPackageDeleteObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewPackageDeleteObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -9797,9 +10076,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerDeletePackageVersioned:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_versionedPackage VersionedPackage
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -9812,9 +10088,14 @@ func (s *PackageManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPackageDeleteObserver2
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewPackageDeleteObserver2Proxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -9831,9 +10112,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerDeleteExistingPackageAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_versionedPackage VersionedPackage
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -9846,9 +10124,14 @@ func (s *PackageManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPackageDeleteObserver2
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewPackageDeleteObserver2Proxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -9861,9 +10144,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetInstallerPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -9878,9 +10158,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetInstallSourceInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -9901,9 +10178,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerResetApplicationPreferences:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -9916,9 +10190,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetLastChosenActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -9952,9 +10223,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerSetLastChosenActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -10012,9 +10280,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerAddPreferredActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_filter content.IntentFilter
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -10031,9 +10296,27 @@ func (s *PackageManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_set []content.ComponentName
-		_ = _arg_set
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_set = make([]content.ComponentName, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_set[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_activity content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -10062,9 +10345,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerReplacePreferredActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_filter content.IntentFilter
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -10081,9 +10361,27 @@ func (s *PackageManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_set []content.ComponentName
-		_ = _arg_set
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_set = make([]content.ComponentName, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_set[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_activity content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -10108,9 +10406,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerClearPackagePreferredActivities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -10124,9 +10419,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetPreferredActivities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_outFilters []content.IntentFilter
 		var _arg_outActivities []content.ComponentName
 		_arg_packageName, _err := _data.ReadString16()
@@ -10141,11 +10433,30 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
+		if _arg_outFilters == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_outFilters)))
+			for _, _item := range _arg_outFilters {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _arg_outActivities == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_outActivities)))
+			for _, _item := range _arg_outActivities {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerAddPersistentPreferredActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_filter content.IntentFilter
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -10182,9 +10493,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerClearPackagePersistentPreferredActivities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -10201,9 +10509,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerClearPersistentPreferredActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_filter content.IntentFilter
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -10228,9 +10533,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerAddCrossProfileIntentFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intentFilter content.IntentFilter
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -10268,9 +10570,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerRemoveCrossProfileIntentFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intentFilter content.IntentFilter
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -10309,9 +10608,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerClearCrossProfileIntentFilters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sourceUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -10329,12 +10625,25 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerSetDistractingPackageRestrictionsAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_restrictionFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -10349,22 +10658,63 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerSetPackagesSuspendedAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_suspended, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_appExtras interface{}
-		var _arg_launcherExtras interface{}
+		var _arg_appExtras os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_appExtras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_launcherExtras os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_launcherExtras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_dialogInfo SuspendDialogInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -10400,16 +10750,35 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerGetUnsuspendablePackagesForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -10420,13 +10789,16 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerIsPackageSuspendedForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -10444,9 +10816,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerIsPackageQuarantinedForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -10464,9 +10833,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerIsPackageStoppedForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -10484,9 +10850,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetSuspendedPackageAppExtras:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -10501,12 +10864,12 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIPackageManagerGetSuspendingPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIPackageManagerGetSuspendingPackage:
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -10524,9 +10887,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetPreferredActivityBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -10537,16 +10897,17 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIPackageManagerRestorePreferredActivities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_backup []byte
-		_ = _arg_backup
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_backup = _bytes
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -10559,9 +10920,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetDefaultAppsBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -10572,16 +10930,17 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIPackageManagerRestoreDefaultApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_backup []byte
-		_ = _arg_backup
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_backup = _bytes
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -10594,9 +10953,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetDomainVerificationBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -10607,16 +10963,17 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIPackageManagerRestoreDomainVerification:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_backup []byte
-		_ = _arg_backup
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_backup = _bytes
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -10629,9 +10986,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetHomeActivities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_outHomeCandidates []ResolveInfo
 		_result, _err := s.Impl.GetHomeActivities(ctx, _arg_outHomeCandidates)
 		_reply := parcel.New()
@@ -10644,11 +10998,19 @@ func (s *PackageManagerStub) OnTransaction(
 		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		if _arg_outHomeCandidates == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_outHomeCandidates)))
+			for _, _item := range _arg_outHomeCandidates {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerSetHomeActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_className content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -10673,9 +11035,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerOverrideLabelAndIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -10708,9 +11067,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerRestoreLabelAndIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -10735,9 +11091,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerSetComponentEnabledSetting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -10773,12 +11126,27 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerSetComponentEnabledSettings:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_settings []PackageManagerComponentEnabledSetting
-		_ = _arg_settings
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_settings = make([]PackageManagerComponentEnabledSetting, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_settings[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -10794,9 +11162,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetComponentEnabledSetting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -10822,9 +11187,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetApplicationEnabledSetting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -10852,9 +11214,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetApplicationEnabledSetting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -10872,9 +11231,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerLogAppProcessStartIfNeeded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -10908,9 +11264,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerFlushPackageRestrictionsAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -10923,9 +11276,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerSetPackageStoppedState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -10946,9 +11296,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerFreeStorageAndNotify:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -10961,9 +11308,14 @@ func (s *PackageManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPackageDataObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewPackageDataObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_err = s.Impl.FreeStorageAndNotify(ctx, _arg_volumeUuid, _arg_freeStorageSize, _arg_storageFlags, _arg_observer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -10973,9 +11325,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerFreeStorage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11009,16 +11358,18 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerDeleteApplicationCacheFiles:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPackageDataObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewPackageDataObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_err = s.Impl.DeleteApplicationCacheFiles(ctx, _arg_packageName, _arg_observer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11028,9 +11379,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerDeleteApplicationCacheFilesAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11038,9 +11386,14 @@ func (s *PackageManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPackageDataObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewPackageDataObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_err = s.Impl.DeleteApplicationCacheFilesAsUser(ctx, _arg_packageName, _arg_observer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11050,16 +11403,18 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerClearApplicationUserData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPackageDataObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewPackageDataObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -11072,9 +11427,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerClearApplicationProfileData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11088,9 +11440,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetPackageSizeInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11098,9 +11447,14 @@ func (s *PackageManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPackageStatsObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewPackageStatsObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_err = s.Impl.GetPackageSizeInfo(ctx, _arg_packageName, _arg_observer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11110,9 +11464,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetSystemSharedLibraryNames:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSystemSharedLibraryNames(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11120,13 +11471,16 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerGetSystemSharedLibraryNamesAndPaths:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSystemSharedLibraryNamesAndPaths(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11134,13 +11488,17 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: map return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _k, _v := range _result {
+				_reply.WriteString16(_k)
+				_reply.WriteString16(_v)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerGetSystemAvailableFeatures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSystemAvailableFeatures(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11154,9 +11512,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerHasSystemFeature:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11175,9 +11530,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetInitialNonStoppedSystemPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetInitialNonStoppedSystemPackages(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11185,13 +11537,16 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerEnterSafeMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.EnterSafeMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11201,9 +11556,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerIsSafeMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsSafeMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11214,9 +11566,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerHasSystemUidErrors:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.HasSystemUidErrors(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11227,9 +11576,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNotifyPackageUse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11239,30 +11585,40 @@ func (s *PackageManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyPackageUse(ctx, _arg_packageName, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPackageManagerNotifyDexLoad:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_loadingPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: map param unmarshaling not yet supported in stubs
 		var _arg_classLoaderContextMap map[string]string
-		_ = _arg_classLoaderContextMap
+		{
+			_mapCount, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _mapCount >= 0 {
+				_arg_classLoaderContextMap = make(map[string]string, _mapCount)
+				for _mi := int32(0); _mi < _mapCount; _mi++ {
+					_mk, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_mv, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_classLoaderContextMap[_mk] = _mv
+				}
+			}
+		}
 		_arg_loaderIsa, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyDexLoad(ctx, _arg_loadingPackageName, _arg_classLoaderContextMap, _arg_loaderIsa)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPackageManagerRegisterDexModule:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11275,16 +11631,17 @@ func (s *PackageManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDexModuleRegisterCallback
-		_ = _arg_callback
-		_err = s.Impl.RegisterDexModule(ctx, _arg_packageName, _arg_dexModulePath, _arg_isSharedModule, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIPackageManagerPerformDexOptMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDexModuleRegisterCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.RegisterDexModule(ctx, _arg_packageName, _arg_dexModulePath, _arg_isSharedModule, _arg_callback)
+		return nil, _err
+	case TransactionIPackageManagerPerformDexOptMode:
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11319,9 +11676,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerPerformDexOptSecondary:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11344,9 +11698,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetMoveStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_moveId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -11361,12 +11712,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerRegisterMoveCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPackageMoveObserver
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPackageMoveObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterMoveCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11376,12 +11729,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerUnregisterMoveCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPackageMoveObserver
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPackageMoveObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UnregisterMoveCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11391,9 +11746,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerMovePackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11412,9 +11764,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerMovePrimaryStorage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11429,9 +11778,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetInstallLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_loc, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -11446,9 +11792,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetInstallLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetInstallLocation(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11459,9 +11802,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerInstallExistingPackageAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11477,9 +11817,25 @@ func (s *PackageManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_whiteListedPermissions []string
-		_ = _arg_whiteListedPermissions
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_whiteListedPermissions = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_whiteListedPermissions[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.InstallExistingPackageAsUser(ctx, _arg_packageName, _arg_installFlags, _arg_installReason, _arg_whiteListedPermissions)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11490,9 +11846,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerVerifyPendingInstall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -11510,9 +11863,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerExtendVerificationTimeout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -11534,9 +11884,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerVerifyIntentFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -11545,9 +11892,25 @@ func (s *PackageManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_failedDomains []string
-		_ = _arg_failedDomains
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_failedDomains = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_failedDomains[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.VerifyIntentFilter(ctx, _arg_id, _arg_verificationCode, _arg_failedDomains)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11557,9 +11920,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetIntentVerificationStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11577,9 +11937,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerUpdateIntentVerificationStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11601,9 +11958,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetIntentFilterVerifications:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11621,9 +11975,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetAllIntentFilters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11641,9 +11992,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetVerifierDeviceIdentity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVerifierDeviceIdentity(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11657,9 +12005,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerIsFirstBoot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsFirstBoot(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11670,9 +12015,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerIsDeviceUpgrading:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsDeviceUpgrading(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11683,9 +12025,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerIsStorageLow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsStorageLow(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11696,9 +12035,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetApplicationHiddenSettingAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11720,9 +12056,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetApplicationHiddenSettingAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11740,9 +12073,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetSystemAppHiddenUntilInstalled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11760,9 +12090,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerSetSystemAppInstallState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11784,9 +12111,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetPackageInstaller:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPackageInstaller(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11794,13 +12118,9 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIPackageManagerSetBlockUninstallForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11822,9 +12142,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetBlockUninstallForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11842,9 +12159,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetKeySetByAlias:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11866,9 +12180,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetSigningKeySet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11886,9 +12197,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerIsPackageSignedByKeySet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11915,9 +12223,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerIsPackageSignedByKeySetExactly:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -11944,9 +12249,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetPermissionControllerPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPermissionControllerPackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11957,9 +12259,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetSdkSandboxPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSdkSandboxPackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11970,9 +12269,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetInstantApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -11989,9 +12285,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetInstantAppCookie:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12006,20 +12299,21 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetInstantAppCookie:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_cookie []byte
-		_ = _arg_cookie
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cookie = _bytes
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -12033,9 +12327,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetInstantAppIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12056,9 +12347,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerIsInstantApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12076,9 +12364,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetRequiredForSystemUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12097,9 +12382,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetUpdateAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12117,9 +12399,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetServicesSystemSharedLibraryPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetServicesSystemSharedLibraryPackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12130,9 +12409,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetSharedSystemSharedLibraryPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSharedSystemSharedLibraryPackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12143,9 +12419,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetChangedPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sequenceNumber, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -12166,9 +12439,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerIsPackageDeviceAdminOnAnyUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12183,9 +12453,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetInstallReason:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12203,9 +12470,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetSharedLibraries:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12230,9 +12494,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetDeclaredSharedLibraries:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12257,9 +12518,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerCanRequestPackageInstalls:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12277,9 +12535,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerDeletePreloadsFileCache:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DeletePreloadsFileCache(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12289,9 +12544,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetInstantAppResolverComponent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetInstantAppResolverComponent(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12305,9 +12557,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetInstantAppResolverSettingsComponent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetInstantAppResolverSettingsComponent(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12321,9 +12570,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetInstantAppInstallerComponent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetInstantAppInstallerComponent(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12337,9 +12583,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetInstantAppAndroidId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12357,9 +12600,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetArtManager:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetArtManager(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12367,18 +12607,17 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIPackageManagerSetHarmfulAppWarning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_warning interface{}
+		_arg_warning, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -12391,9 +12630,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetHarmfulAppWarning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12408,19 +12644,21 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerHasSigningCertificate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_signingCertificate []byte
-		_ = _arg_signingCertificate
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_signingCertificate = _bytes
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -12435,16 +12673,18 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerHasUidSigningCertificate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_signingCertificate []byte
-		_ = _arg_signingCertificate
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_signingCertificate = _bytes
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -12459,9 +12699,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetDefaultTextClassifierPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDefaultTextClassifierPackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12472,9 +12709,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetSystemTextClassifierPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSystemTextClassifierPackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12485,9 +12719,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetAttentionServicePackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAttentionServicePackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12498,9 +12729,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetRotationResolverPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRotationResolverPackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12511,9 +12739,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetWellbeingPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWellbeingPackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12524,9 +12749,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetAppPredictionServicePackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAppPredictionServicePackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12537,9 +12759,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetSystemCaptionsServicePackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSystemCaptionsServicePackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12550,9 +12769,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetSetupWizardPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSetupWizardPackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12563,9 +12779,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetIncidentReportApproverPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetIncidentReportApproverPackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12576,9 +12789,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerIsPackageStateProtected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12596,9 +12806,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSendDeviceCustomizationReadyBroadcast:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SendDeviceCustomizationReadyBroadcast(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12608,9 +12815,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetInstalledModules:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -12622,13 +12826,19 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerGetModuleInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12650,9 +12860,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetRuntimePermissionsVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -12666,9 +12873,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetRuntimePermissionsVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_version, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -12685,12 +12889,25 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerNotifyPackagesReplacedReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packages []string
-		_ = _arg_packages
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packages = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packages[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.NotifyPackagesReplacedReceived(ctx, _arg_packages)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12700,9 +12917,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerRequestPackageChecksums:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12719,12 +12933,27 @@ func (s *PackageManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_trustedInstallers []interface{}
-		_ = _arg_trustedInstallers
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_trustedInstallers []any
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_trustedInstallers = make([]any, _count)
+			}
+		}
 		var _arg_onChecksumsReadyListener IOnChecksumsReadyListener
-		_ = _arg_onChecksumsReadyListener
+		{
+			_onChecksumsReadyListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_onChecksumsReadyListener = NewOnChecksumsReadyListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _onChecksumsReadyListenerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -12737,9 +12966,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetLaunchIntentSenderForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12767,9 +12993,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetAppOpPermissionPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_permissionName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12784,13 +13007,16 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerGetPermissionGroupInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12812,9 +13038,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerAddPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info PermissionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -12837,9 +13060,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerAddPermissionAsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info PermissionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -12862,9 +13082,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerRemovePermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12878,9 +13095,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerCheckPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_permName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12902,9 +13116,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGrantRuntimePermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12925,9 +13136,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerCheckUidPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_permName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12946,9 +13154,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetMimeGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12957,9 +13162,25 @@ func (s *PackageManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_mimeTypes []string
-		_ = _arg_mimeTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_mimeTypes = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_mimeTypes[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.SetMimeGroup(ctx, _arg_packageName, _arg_group, _arg_mimeTypes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12969,9 +13190,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetSplashScreenTheme:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -12989,9 +13207,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetSplashScreenTheme:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -13012,9 +13227,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetUserMinAspectRatio:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -13032,9 +13244,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetUserMinAspectRatio:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -13055,9 +13264,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetMimeGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -13073,13 +13279,16 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerIsAutoRevokeWhitelisted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -13094,9 +13303,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerMakeProviderVisible:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_recipientAppId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -13114,9 +13320,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerMakeUidVisible:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_recipientAppId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -13134,9 +13337,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetHoldLockToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHoldLockToken(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -13144,16 +13344,17 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	case TransactionIPackageManagerHoldLock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_durationMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -13167,9 +13368,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetPropertyAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_propertyName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -13198,9 +13396,6 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerQueryProperty:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_propertyName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -13222,12 +13417,25 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerSetKeepUninstalledPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageList []string
-		_ = _arg_packageList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageList = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageList[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetKeepUninstalledPackages(ctx, _arg_packageList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -13237,16 +13445,29 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerCanPackageQuery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sourcePackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_targetPackageNames []string
-		_ = _arg_targetPackageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_targetPackageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_targetPackageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -13257,13 +13478,16 @@ func (s *PackageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteBool(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerWaitForHandler:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeoutMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -13282,10 +13506,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerRegisterPackageMonitorCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_callback os.IRemoteCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = os.NewRemoteCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		var _arg_callback interface{}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -13298,10 +13526,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerUnregisterPackageMonitorCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_callback os.IRemoteCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = os.NewRemoteCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		var _arg_callback interface{}
 		_err := s.Impl.UnregisterPackageMonitorCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -13311,9 +13543,6 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetArchivedPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -13334,14 +13563,22 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetArchivedAppIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_user interface{}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_callingPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -13359,14 +13596,22 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerIsAppArchivable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_user interface{}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.IsAppArchivable(ctx, _arg_packageName, _arg_user)
 		_reply := parcel.New()
 		if _err != nil {
@@ -13377,9 +13622,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetAppMetadataSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -13397,9 +13639,6 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetDomainVerificationAgent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDomainVerificationAgent(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -13489,12 +13728,12 @@ type IPackageManagerServer interface {
 	RemoveCrossProfileIntentFilter(ctx context.Context, intentFilter content.IntentFilter, ownerPackage string, sourceUserId int32, targetUserId int32, flags int32) (bool, error)
 	ClearCrossProfileIntentFilters(ctx context.Context, sourceUserId int32, ownerPackage string) error
 	SetDistractingPackageRestrictionsAsUser(ctx context.Context, packageNames []string, restrictionFlags int32) ([]string, error)
-	SetPackagesSuspendedAsUser(ctx context.Context, packageNames []string, suspended bool, appExtras interface{}, launcherExtras interface{}, dialogInfo SuspendDialogInfo, flags int32, suspendingPackage string, suspendingUserId int32, targetUserId int32) ([]string, error)
+	SetPackagesSuspendedAsUser(ctx context.Context, packageNames []string, suspended bool, appExtras os.PersistableBundle, launcherExtras os.PersistableBundle, dialogInfo SuspendDialogInfo, flags int32, suspendingPackage string, suspendingUserId int32, targetUserId int32) ([]string, error)
 	GetUnsuspendablePackagesForUser(ctx context.Context, packageNames []string) ([]string, error)
 	IsPackageSuspendedForUser(ctx context.Context, packageName string) (bool, error)
 	IsPackageQuarantinedForUser(ctx context.Context, packageName string) (bool, error)
 	IsPackageStoppedForUser(ctx context.Context, packageName string) (bool, error)
-	GetSuspendedPackageAppExtras(ctx context.Context, packageName string) (interface{}, error)
+	GetSuspendedPackageAppExtras(ctx context.Context, packageName string) (os.Bundle, error)
 	GetSuspendingPackage(ctx context.Context, packageName string) (string, error)
 	GetPreferredActivityBackup(ctx context.Context) ([]byte, error)
 	RestorePreferredActivities(ctx context.Context, backup []byte) error
@@ -13587,8 +13826,8 @@ type IPackageManagerServer interface {
 	GetInstantAppInstallerComponent(ctx context.Context) (content.ComponentName, error)
 	GetInstantAppAndroidId(ctx context.Context, packageName string) (string, error)
 	GetArtManager(ctx context.Context) (dex.IArtManager, error)
-	SetHarmfulAppWarning(ctx context.Context, packageName string, warning interface{}) error
-	GetHarmfulAppWarning(ctx context.Context, packageName string) (interface{}, error)
+	SetHarmfulAppWarning(ctx context.Context, packageName string, warning string) error
+	GetHarmfulAppWarning(ctx context.Context, packageName string) (string, error)
 	HasSigningCertificate(ctx context.Context, packageName string, signingCertificate []byte, flags int32) (bool, error)
 	HasUidSigningCertificate(ctx context.Context, uid int32, signingCertificate []byte, flags int32) (bool, error)
 	GetDefaultTextClassifierPackageName(ctx context.Context) (string, error)
@@ -13607,7 +13846,7 @@ type IPackageManagerServer interface {
 	GetRuntimePermissionsVersion(ctx context.Context) (int32, error)
 	SetRuntimePermissionsVersion(ctx context.Context, version int32) error
 	NotifyPackagesReplacedReceived(ctx context.Context, packages []string) error
-	RequestPackageChecksums(ctx context.Context, packageName string, includeSplits bool, optional int32, required int32, trustedInstallers []interface{}, onChecksumsReadyListener IOnChecksumsReadyListener) error
+	RequestPackageChecksums(ctx context.Context, packageName string, includeSplits bool, optional int32, required int32, trustedInstallers []any, onChecksumsReadyListener IOnChecksumsReadyListener) error
 	GetLaunchIntentSenderForPackage(ctx context.Context, packageName string, featureId string) (content.IntentSender, error)
 	GetAppOpPermissionPackages(ctx context.Context, permissionName string) ([]string, error)
 	GetPermissionGroupInfo(ctx context.Context, name string, flags int32) (PermissionGroupInfo, error)
@@ -13633,11 +13872,11 @@ type IPackageManagerServer interface {
 	SetKeepUninstalledPackages(ctx context.Context, packageList []string) error
 	CanPackageQuery(ctx context.Context, sourcePackageName string, targetPackageNames []string) ([]bool, error)
 	WaitForHandler(ctx context.Context, timeoutMillis int64, forBackgroundHandler bool) (bool, error)
-	RegisterPackageMonitorCallback(ctx context.Context, callback interface{}) error
-	UnregisterPackageMonitorCallback(ctx context.Context, callback interface{}) error
+	RegisterPackageMonitorCallback(ctx context.Context, callback os.IRemoteCallback) error
+	UnregisterPackageMonitorCallback(ctx context.Context, callback os.IRemoteCallback) error
 	GetArchivedPackage(ctx context.Context, packageName string) (ArchivedPackageParcel, error)
-	GetArchivedAppIcon(ctx context.Context, packageName string, user interface{}, callingPackageName string) (graphics.Bitmap, error)
-	IsAppArchivable(ctx context.Context, packageName string, user interface{}) (bool, error)
+	GetArchivedAppIcon(ctx context.Context, packageName string, user os.UserHandle, callingPackageName string) (graphics.Bitmap, error)
+	IsAppArchivable(ctx context.Context, packageName string, user os.UserHandle) (bool, error)
 	GetAppMetadataSource(ctx context.Context, packageName string) (int32, error)
 	GetDomainVerificationAgent(ctx context.Context) (content.ComponentName, error)
 }
@@ -14207,8 +14446,8 @@ func (w *packageManagerStubWrapper) SetPackagesSuspendedAsUser(
 	ctx context.Context,
 	packageNames []string,
 	suspended bool,
-	appExtras interface{},
-	launcherExtras interface{},
+	appExtras os.PersistableBundle,
+	launcherExtras os.PersistableBundle,
 	dialogInfo SuspendDialogInfo,
 	flags int32,
 	suspendingPackage string,
@@ -14249,7 +14488,7 @@ func (w *packageManagerStubWrapper) IsPackageStoppedForUser(
 func (w *packageManagerStubWrapper) GetSuspendedPackageAppExtras(
 	ctx context.Context,
 	packageName string,
-) (interface{}, error) {
+) (os.Bundle, error) {
 	return w.impl.GetSuspendedPackageAppExtras(ctx, packageName)
 }
 
@@ -14931,7 +15170,7 @@ func (w *packageManagerStubWrapper) GetArtManager(
 func (w *packageManagerStubWrapper) SetHarmfulAppWarning(
 	ctx context.Context,
 	packageName string,
-	warning interface{},
+	warning string,
 ) error {
 	return w.impl.SetHarmfulAppWarning(ctx, packageName, warning)
 }
@@ -14939,7 +15178,7 @@ func (w *packageManagerStubWrapper) SetHarmfulAppWarning(
 func (w *packageManagerStubWrapper) GetHarmfulAppWarning(
 	ctx context.Context,
 	packageName string,
-) (interface{}, error) {
+) (string, error) {
 	return w.impl.GetHarmfulAppWarning(ctx, packageName)
 }
 
@@ -15069,7 +15308,7 @@ func (w *packageManagerStubWrapper) RequestPackageChecksums(
 	includeSplits bool,
 	optional int32,
 	required int32,
-	trustedInstallers []interface{},
+	trustedInstallers []any,
 	onChecksumsReadyListener IOnChecksumsReadyListener,
 ) error {
 	return w.impl.RequestPackageChecksums(ctx, packageName, includeSplits, optional, required, trustedInstallers, onChecksumsReadyListener)
@@ -15269,14 +15508,14 @@ func (w *packageManagerStubWrapper) WaitForHandler(
 
 func (w *packageManagerStubWrapper) RegisterPackageMonitorCallback(
 	ctx context.Context,
-	callback interface{},
+	callback os.IRemoteCallback,
 ) error {
 	return w.impl.RegisterPackageMonitorCallback(ctx, callback)
 }
 
 func (w *packageManagerStubWrapper) UnregisterPackageMonitorCallback(
 	ctx context.Context,
-	callback interface{},
+	callback os.IRemoteCallback,
 ) error {
 	return w.impl.UnregisterPackageMonitorCallback(ctx, callback)
 }
@@ -15291,7 +15530,7 @@ func (w *packageManagerStubWrapper) GetArchivedPackage(
 func (w *packageManagerStubWrapper) GetArchivedAppIcon(
 	ctx context.Context,
 	packageName string,
-	user interface{},
+	user os.UserHandle,
 	callingPackageName string,
 ) (graphics.Bitmap, error) {
 	return w.impl.GetArchivedAppIcon(ctx, packageName, user, callingPackageName)
@@ -15300,7 +15539,7 @@ func (w *packageManagerStubWrapper) GetArchivedAppIcon(
 func (w *packageManagerStubWrapper) IsAppArchivable(
 	ctx context.Context,
 	packageName string,
-	user interface{},
+	user os.UserHandle,
 ) (bool, error) {
 	return w.impl.IsAppArchivable(ctx, packageName, user)
 }

@@ -34,15 +34,30 @@ func (s *DriverMonitoringDetection) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_confidenceScoreRaw, _err := p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}
 	s.ConfidenceScore = ConfidenceLevel(_confidenceScoreRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsLookingOnRoad, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.GazeDurationMillis, _err = p.ReadInt64()

@@ -13,9 +13,9 @@ type OperationContext struct {
 	IsCrypto           bool
 	WakeReason         WakeReason
 	DisplayState       DisplayState
-	AuthenticateReason AuthenticateReason
+	AuthenticateReason *AuthenticateReason
 	FoldState          FoldState
-	OperationState     OperationState
+	OperationState     *OperationState
 }
 
 var _ parcel.Parcelable = (*OperationContext)(nil)
@@ -30,12 +30,22 @@ func (s *OperationContext) MarshalParcel(
 	p.WriteBool(s.IsCrypto)
 	p.WriteInt32(int32(s.WakeReason))
 	p.WriteInt32(int32(s.DisplayState))
-	if _err := s.AuthenticateReason.MarshalParcel(p); _err != nil {
-		return _err
+	if s.AuthenticateReason == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.AuthenticateReason.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	p.WriteInt32(int32(s.FoldState))
-	if _err := s.OperationState.MarshalParcel(p); _err != nil {
-		return _err
+	if s.OperationState == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.OperationState.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -50,9 +60,19 @@ func (s *OperationContext) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Id, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_reasonRaw, _err := p.ReadPaddedByte()
@@ -61,14 +81,29 @@ func (s *OperationContext) UnmarshalParcel(
 	}
 	s.Reason = OperationReason(_reasonRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsAod, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsCrypto, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_wakeReasonRaw, _err := p.ReadInt32()
@@ -77,14 +112,39 @@ func (s *OperationContext) UnmarshalParcel(
 	}
 	s.WakeReason = WakeReason(_wakeReasonRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_displayStateRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.DisplayState = DisplayState(_displayStateRaw)
 
-	if _err = s.AuthenticateReason.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val AuthenticateReason
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.AuthenticateReason = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_foldStateRaw, _err := p.ReadInt32()
@@ -93,8 +153,23 @@ func (s *OperationContext) UnmarshalParcel(
 	}
 	s.FoldState = FoldState(_foldStateRaw)
 
-	if _err = s.OperationState.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val OperationState
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.OperationState = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

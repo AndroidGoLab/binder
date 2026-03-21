@@ -159,15 +159,9 @@ func (p *DrmPluginProxy) CloseSession(
 	sessionId []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginCloseSession)
 	if _err != nil {
@@ -196,39 +190,12 @@ func (p *DrmPluginProxy) Decrypt(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if keyId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyId)))
-		for _, _item := range keyId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if input == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(input)))
-		for _, _item := range input {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if iv == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(iv)))
-		for _, _item := range iv {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
+	_data.WriteByteArray(keyId)
+	_data.WriteByteArray(input)
+	_data.WriteByteArray(iv)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginDecrypt)
 	if _err != nil {
@@ -245,19 +212,9 @@ func (p *DrmPluginProxy) Decrypt(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -271,39 +228,12 @@ func (p *DrmPluginProxy) Encrypt(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if keyId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyId)))
-		for _, _item := range keyId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if input == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(input)))
-		for _, _item := range input {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if iv == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(iv)))
-		for _, _item := range iv {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
+	_data.WriteByteArray(keyId)
+	_data.WriteByteArray(input)
+	_data.WriteByteArray(iv)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginEncrypt)
 	if _err != nil {
@@ -320,19 +250,9 @@ func (p *DrmPluginProxy) Encrypt(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -342,6 +262,7 @@ func (p *DrmPluginProxy) GetHdcpLevels(
 ) (HdcpLevels, error) {
 	var _result HdcpLevels
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetHdcpLevels)
@@ -381,23 +302,10 @@ func (p *DrmPluginProxy) GetKeyRequest(
 ) (KeyRequest, error) {
 	var _result KeyRequest
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	if scope == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(scope)))
-		for _, _item := range scope {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if initData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(initData)))
-		for _, _item := range initData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(scope)
+	_data.WriteByteArray(initData)
 	_data.WriteString16(mimeType)
 	_data.WriteInt32(int32(keyType))
 	if optionalParameters == nil {
@@ -444,6 +352,7 @@ func (p *DrmPluginProxy) GetLogMessages(
 ) ([]LogMessage, error) {
 	var _result []LogMessage
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetLogMessages)
@@ -465,6 +374,9 @@ func (p *DrmPluginProxy) GetLogMessages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]LogMessage, _count)
@@ -485,6 +397,7 @@ func (p *DrmPluginProxy) GetMetrics(
 ) ([]DrmMetricGroup, error) {
 	var _result []DrmMetricGroup
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetMetrics)
@@ -506,6 +419,9 @@ func (p *DrmPluginProxy) GetMetrics(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]DrmMetricGroup, _count)
@@ -526,6 +442,7 @@ func (p *DrmPluginProxy) GetNumberOfSessions(
 ) (NumberOfSessions, error) {
 	var _result NumberOfSessions
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetNumberOfSessions)
@@ -560,6 +477,7 @@ func (p *DrmPluginProxy) GetOfflineLicenseKeySetIds(
 ) ([]KeySetId, error) {
 	var _result []KeySetId
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetOfflineLicenseKeySetIds)
@@ -580,6 +498,9 @@ func (p *DrmPluginProxy) GetOfflineLicenseKeySetIds(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -602,6 +523,7 @@ func (p *DrmPluginProxy) GetOfflineLicenseState(
 ) (OfflineLicenseState, error) {
 	var _result OfflineLicenseState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteInt32(1)
 	if _err := keySetId.MarshalParcel(_data); _err != nil {
@@ -637,6 +559,7 @@ func (p *DrmPluginProxy) GetPropertyByteArray(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteString16(propertyName)
 
@@ -655,19 +578,9 @@ func (p *DrmPluginProxy) GetPropertyByteArray(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -678,6 +591,7 @@ func (p *DrmPluginProxy) GetPropertyString(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteString16(propertyName)
 
@@ -710,6 +624,7 @@ func (p *DrmPluginProxy) GetProvisionRequest(
 ) (ProvisionRequest, error) {
 	var _result ProvisionRequest
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteString16(certificateType)
 	_data.WriteString16(certificateAuthority)
@@ -747,6 +662,7 @@ func (p *DrmPluginProxy) GetSecureStop(
 ) (SecureStop, error) {
 	var _result SecureStop
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteInt32(1)
 	if _err := secureStopId.MarshalParcel(_data); _err != nil {
@@ -785,6 +701,7 @@ func (p *DrmPluginProxy) GetSecureStopIds(
 ) ([]SecureStopId, error) {
 	var _result []SecureStopId
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetSecureStopIds)
@@ -806,6 +723,9 @@ func (p *DrmPluginProxy) GetSecureStopIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]SecureStopId, _count)
@@ -826,6 +746,7 @@ func (p *DrmPluginProxy) GetSecureStops(
 ) ([]SecureStop, error) {
 	var _result []SecureStop
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetSecureStops)
@@ -846,6 +767,9 @@ func (p *DrmPluginProxy) GetSecureStops(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -868,15 +792,9 @@ func (p *DrmPluginProxy) GetSecurityLevel(
 ) (SecurityLevel, error) {
 	var _result SecurityLevel
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginGetSecurityLevel)
 	if _err != nil {
@@ -907,6 +825,7 @@ func (p *DrmPluginProxy) OpenSession(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteInt32(int32(securityLevel))
 
@@ -925,19 +844,9 @@ func (p *DrmPluginProxy) OpenSession(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -949,23 +858,10 @@ func (p *DrmPluginProxy) ProvideKeyResponse(
 ) (KeySetId, error) {
 	var _result KeySetId
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	if scope == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(scope)))
-		for _, _item := range scope {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if response == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(response)))
-		for _, _item := range response {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(scope)
+	_data.WriteByteArray(response)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginProvideKeyResponse)
 	if _err != nil {
@@ -1000,15 +896,9 @@ func (p *DrmPluginProxy) ProvideProvisionResponse(
 ) (ProvideProvisionResponseResult, error) {
 	var _result ProvideProvisionResponseResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	if response == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(response)))
-		for _, _item := range response {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(response)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginProvideProvisionResponse)
 	if _err != nil {
@@ -1043,15 +933,9 @@ func (p *DrmPluginProxy) QueryKeyStatus(
 ) ([]KeyValue, error) {
 	var _result []KeyValue
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginQueryKeyStatus)
 	if _err != nil {
@@ -1072,6 +956,9 @@ func (p *DrmPluginProxy) QueryKeyStatus(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]KeyValue, _count)
@@ -1091,6 +978,7 @@ func (p *DrmPluginProxy) ReleaseAllSecureStops(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginReleaseAllSecureStops)
@@ -1116,6 +1004,7 @@ func (p *DrmPluginProxy) ReleaseSecureStop(
 	secureStopId SecureStopId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteInt32(1)
 	if _err := secureStopId.MarshalParcel(_data); _err != nil {
@@ -1145,6 +1034,7 @@ func (p *DrmPluginProxy) ReleaseSecureStops(
 	ssRelease OpaqueData,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteInt32(1)
 	if _err := ssRelease.MarshalParcel(_data); _err != nil {
@@ -1173,6 +1063,7 @@ func (p *DrmPluginProxy) RemoveAllSecureStops(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginRemoveAllSecureStops)
@@ -1198,15 +1089,9 @@ func (p *DrmPluginProxy) RemoveKeys(
 	sessionId []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginRemoveKeys)
 	if _err != nil {
@@ -1231,6 +1116,7 @@ func (p *DrmPluginProxy) RemoveOfflineLicense(
 	keySetId KeySetId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteInt32(1)
 	if _err := keySetId.MarshalParcel(_data); _err != nil {
@@ -1260,6 +1146,7 @@ func (p *DrmPluginProxy) RemoveSecureStop(
 	secureStopId SecureStopId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteInt32(1)
 	if _err := secureStopId.MarshalParcel(_data); _err != nil {
@@ -1291,6 +1178,7 @@ func (p *DrmPluginProxy) RequiresSecureDecoder(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteString16(mime)
 	_data.WriteInt32(int32(level))
@@ -1323,15 +1211,9 @@ func (p *DrmPluginProxy) RestoreKeys(
 	keySetId KeySetId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 	_data.WriteInt32(1)
 	if _err := keySetId.MarshalParcel(_data); _err != nil {
 		return _err
@@ -1361,15 +1243,9 @@ func (p *DrmPluginProxy) SetCipherAlgorithm(
 	algorithm string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 	_data.WriteString16(algorithm)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginSetCipherAlgorithm)
@@ -1395,6 +1271,7 @@ func (p *DrmPluginProxy) SetListener(
 	listener IDrmPluginListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1422,15 +1299,9 @@ func (p *DrmPluginProxy) SetMacAlgorithm(
 	algorithm string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 	_data.WriteString16(algorithm)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginSetMacAlgorithm)
@@ -1457,15 +1328,9 @@ func (p *DrmPluginProxy) SetPlaybackId(
 	playbackId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 	_data.WriteString16(playbackId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginSetPlaybackId)
@@ -1492,16 +1357,10 @@ func (p *DrmPluginProxy) SetPropertyByteArray(
 	value []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteString16(propertyName)
-	if value == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(value)))
-		for _, _item := range value {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(value)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginSetPropertyByteArray)
 	if _err != nil {
@@ -1527,6 +1386,7 @@ func (p *DrmPluginProxy) SetPropertyString(
 	value string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteString16(propertyName)
 	_data.WriteString16(value)
@@ -1557,31 +1417,11 @@ func (p *DrmPluginProxy) Sign(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if keyId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyId)))
-		for _, _item := range keyId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if message == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(message)))
-		for _, _item := range message {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
+	_data.WriteByteArray(keyId)
+	_data.WriteByteArray(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginSign)
 	if _err != nil {
@@ -1598,19 +1438,9 @@ func (p *DrmPluginProxy) Sign(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -1624,32 +1454,12 @@ func (p *DrmPluginProxy) SignRSA(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 	_data.WriteString16(algorithm)
-	if message == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(message)))
-		for _, _item := range message {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if wrappedkey == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(wrappedkey)))
-		for _, _item := range wrappedkey {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(message)
+	_data.WriteByteArray(wrappedkey)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginSignRSA)
 	if _err != nil {
@@ -1666,19 +1476,9 @@ func (p *DrmPluginProxy) SignRSA(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -1692,39 +1492,12 @@ func (p *DrmPluginProxy) Verify(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if keyId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyId)))
-		for _, _item := range keyId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if message == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(message)))
-		for _, _item := range message {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if signature == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(signature)))
-		for _, _item := range signature {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
+	_data.WriteByteArray(keyId)
+	_data.WriteByteArray(message)
+	_data.WriteByteArray(signature)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPlugin, MethodIDrmPluginVerify)
 	if _err != nil {
@@ -1751,7 +1524,8 @@ func (p *DrmPluginProxy) Verify(
 // DrmPluginStub dispatches incoming binder transactions
 // to a typed IDrmPlugin implementation.
 type DrmPluginStub struct {
-	Impl IDrmPlugin
+	Impl      IDrmPlugin
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DrmPluginStub)(nil)
@@ -1765,14 +1539,20 @@ func (s *DrmPluginStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDrmPluginCloseSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		_err := s.Impl.CloseSession(ctx, _arg_sessionId)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1782,21 +1562,38 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginDecrypt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		var _arg_keyId []byte
-		_ = _arg_keyId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyId = _bytes
+		}
 		var _arg_input []byte
-		_ = _arg_input
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_input = _bytes
+		}
 		var _arg_iv []byte
-		_ = _arg_iv
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_iv = _bytes
+		}
 		_result, _err := s.Impl.Decrypt(ctx, _arg_sessionId, _arg_keyId, _arg_input, _arg_iv)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1804,25 +1601,41 @@ func (s *DrmPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIDrmPluginEncrypt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		var _arg_keyId []byte
-		_ = _arg_keyId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyId = _bytes
+		}
 		var _arg_input []byte
-		_ = _arg_input
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_input = _bytes
+		}
 		var _arg_iv []byte
-		_ = _arg_iv
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_iv = _bytes
+		}
 		_result, _err := s.Impl.Encrypt(ctx, _arg_sessionId, _arg_keyId, _arg_input, _arg_iv)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1830,13 +1643,9 @@ func (s *DrmPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIDrmPluginGetHdcpLevels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHdcpLevels(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1850,15 +1659,22 @@ func (s *DrmPluginStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDrmPluginGetKeyRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_scope []byte
-		_ = _arg_scope
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_scope = _bytes
+		}
 		var _arg_initData []byte
-		_ = _arg_initData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_initData = _bytes
+		}
 		_arg_mimeType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1868,9 +1684,27 @@ func (s *DrmPluginStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_keyType := KeyType(_raw_keyType)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_optionalParameters []KeyValue
-		_ = _arg_optionalParameters
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_optionalParameters = make([]KeyValue, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_optionalParameters[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetKeyRequest(ctx, _arg_scope, _arg_initData, _arg_mimeType, _arg_keyType, _arg_optionalParameters)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1884,9 +1718,6 @@ func (s *DrmPluginStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDrmPluginGetLogMessages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLogMessages(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1894,13 +1725,19 @@ func (s *DrmPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDrmPluginGetMetrics:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMetrics(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1908,13 +1745,19 @@ func (s *DrmPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDrmPluginGetNumberOfSessions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetNumberOfSessions(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1928,9 +1771,6 @@ func (s *DrmPluginStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDrmPluginGetOfflineLicenseKeySetIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetOfflineLicenseKeySetIds(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1938,13 +1778,19 @@ func (s *DrmPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDrmPluginGetOfflineLicenseState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_keySetId KeySetId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1967,9 +1813,6 @@ func (s *DrmPluginStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIDrmPluginGetPropertyByteArray:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_propertyName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1981,13 +1824,9 @@ func (s *DrmPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIDrmPluginGetPropertyString:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_propertyName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2002,9 +1841,6 @@ func (s *DrmPluginStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDrmPluginGetProvisionRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_certificateType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2026,9 +1862,6 @@ func (s *DrmPluginStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDrmPluginGetSecureStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_secureStopId SecureStopId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2054,9 +1887,6 @@ func (s *DrmPluginStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDrmPluginGetSecureStopIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSecureStopIds(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2064,13 +1894,19 @@ func (s *DrmPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDrmPluginGetSecureStops:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSecureStops(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2078,16 +1914,27 @@ func (s *DrmPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDrmPluginGetSecurityLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		_result, _err := s.Impl.GetSecurityLevel(ctx, _arg_sessionId)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2098,9 +1945,6 @@ func (s *DrmPluginStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIDrmPluginOpenSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_securityLevel, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2113,19 +1957,25 @@ func (s *DrmPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIDrmPluginProvideKeyResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_scope []byte
-		_ = _arg_scope
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_scope = _bytes
+		}
 		var _arg_response []byte
-		_ = _arg_response
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = _bytes
+		}
 		_result, _err := s.Impl.ProvideKeyResponse(ctx, _arg_scope, _arg_response)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2139,12 +1989,14 @@ func (s *DrmPluginStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDrmPluginProvideProvisionResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_response []byte
-		_ = _arg_response
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = _bytes
+		}
 		_result, _err := s.Impl.ProvideProvisionResponse(ctx, _arg_response)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2158,12 +2010,14 @@ func (s *DrmPluginStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDrmPluginQueryKeyStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		_result, _err := s.Impl.QueryKeyStatus(ctx, _arg_sessionId)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2171,13 +2025,19 @@ func (s *DrmPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDrmPluginReleaseAllSecureStops:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ReleaseAllSecureStops(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2187,9 +2047,6 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginReleaseSecureStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_secureStopId SecureStopId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2211,9 +2068,6 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginReleaseSecureStops:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_ssRelease OpaqueData
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2235,9 +2089,6 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginRemoveAllSecureStops:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RemoveAllSecureStops(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2247,12 +2098,14 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginRemoveKeys:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		_err := s.Impl.RemoveKeys(ctx, _arg_sessionId)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2262,9 +2115,6 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginRemoveOfflineLicense:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_keySetId KeySetId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2286,9 +2136,6 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginRemoveSecureStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_secureStopId SecureStopId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2310,9 +2157,6 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginRequiresSecureDecoder:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mime, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2332,12 +2176,14 @@ func (s *DrmPluginStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDrmPluginRestoreKeys:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		var _arg_keySetId KeySetId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2359,12 +2205,14 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginSetCipherAlgorithm:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		_arg_algorithm, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2378,12 +2226,14 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginSetListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDrmPluginListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewDrmPluginListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.SetListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2393,12 +2243,14 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginSetMacAlgorithm:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		_arg_algorithm, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2412,12 +2264,14 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginSetPlaybackId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		_arg_playbackId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2431,16 +2285,18 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginSetPropertyByteArray:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_propertyName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_value []byte
-		_ = _arg_value
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_value = _bytes
+		}
 		_err = s.Impl.SetPropertyByteArray(ctx, _arg_propertyName, _arg_value)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2450,9 +2306,6 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginSetPropertyString:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_propertyName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2470,18 +2323,30 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginSign:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		var _arg_keyId []byte
-		_ = _arg_keyId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyId = _bytes
+		}
 		var _arg_message []byte
-		_ = _arg_message
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_message = _bytes
+		}
 		_result, _err := s.Impl.Sign(ctx, _arg_sessionId, _arg_keyId, _arg_message)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2489,26 +2354,37 @@ func (s *DrmPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIDrmPluginSignRSA:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		_arg_algorithm, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_message []byte
-		_ = _arg_message
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_message = _bytes
+		}
 		var _arg_wrappedkey []byte
-		_ = _arg_wrappedkey
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_wrappedkey = _bytes
+		}
 		_result, _err := s.Impl.SignRSA(ctx, _arg_sessionId, _arg_algorithm, _arg_message, _arg_wrappedkey)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2516,25 +2392,41 @@ func (s *DrmPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIDrmPluginVerify:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		var _arg_keyId []byte
-		_ = _arg_keyId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyId = _bytes
+		}
 		var _arg_message []byte
-		_ = _arg_message
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_message = _bytes
+		}
 		var _arg_signature []byte
-		_ = _arg_signature
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_signature = _bytes
+		}
 		_result, _err := s.Impl.Verify(ctx, _arg_sessionId, _arg_keyId, _arg_message, _arg_signature)
 		_reply := parcel.New()
 		if _err != nil {

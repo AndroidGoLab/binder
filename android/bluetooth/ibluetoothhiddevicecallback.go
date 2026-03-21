@@ -64,6 +64,7 @@ func (p *BluetoothHidDeviceCallbackProxy) OnAppStatusChanged(
 	registered bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHidDeviceCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -95,6 +96,7 @@ func (p *BluetoothHidDeviceCallbackProxy) OnConnectionStateChanged(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHidDeviceCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -128,6 +130,7 @@ func (p *BluetoothHidDeviceCallbackProxy) OnGetReport(
 	bufferSize int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHidDeviceCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -163,6 +166,7 @@ func (p *BluetoothHidDeviceCallbackProxy) OnSetReport(
 	data []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHidDeviceCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -170,14 +174,7 @@ func (p *BluetoothHidDeviceCallbackProxy) OnSetReport(
 	}
 	_data.WritePaddedByte(type_)
 	_data.WritePaddedByte(id)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHidDeviceCallback, MethodIBluetoothHidDeviceCallbackOnSetReport)
 	if _err != nil {
@@ -203,6 +200,7 @@ func (p *BluetoothHidDeviceCallbackProxy) OnSetProtocol(
 	protocol byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHidDeviceCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -235,20 +233,14 @@ func (p *BluetoothHidDeviceCallbackProxy) OnInterruptData(
 	data []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHidDeviceCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WritePaddedByte(reportId)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHidDeviceCallback, MethodIBluetoothHidDeviceCallbackOnInterruptData)
 	if _err != nil {
@@ -273,6 +265,7 @@ func (p *BluetoothHidDeviceCallbackProxy) OnVirtualCableUnplug(
 	device BluetoothDevice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHidDeviceCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -300,7 +293,8 @@ func (p *BluetoothHidDeviceCallbackProxy) OnVirtualCableUnplug(
 // BluetoothHidDeviceCallbackStub dispatches incoming binder transactions
 // to a typed IBluetoothHidDeviceCallback implementation.
 type BluetoothHidDeviceCallbackStub struct {
-	Impl IBluetoothHidDeviceCallback
+	Impl      IBluetoothHidDeviceCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothHidDeviceCallbackStub)(nil)
@@ -314,11 +308,12 @@ func (s *BluetoothHidDeviceCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothHidDeviceCallbackOnAppStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -344,9 +339,6 @@ func (s *BluetoothHidDeviceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothHidDeviceCallbackOnConnectionStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -372,9 +364,6 @@ func (s *BluetoothHidDeviceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothHidDeviceCallbackOnGetReport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -408,9 +397,6 @@ func (s *BluetoothHidDeviceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothHidDeviceCallbackOnSetReport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -431,9 +417,14 @@ func (s *BluetoothHidDeviceCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_err = s.Impl.OnSetReport(ctx, _arg_device, _arg_type_, _arg_id, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -443,9 +434,6 @@ func (s *BluetoothHidDeviceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothHidDeviceCallbackOnSetProtocol:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -471,9 +459,6 @@ func (s *BluetoothHidDeviceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothHidDeviceCallbackOnInterruptData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -490,9 +475,14 @@ func (s *BluetoothHidDeviceCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_err = s.Impl.OnInterruptData(ctx, _arg_device, _arg_reportId, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -502,9 +492,6 @@ func (s *BluetoothHidDeviceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothHidDeviceCallbackOnVirtualCableUnplug:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()

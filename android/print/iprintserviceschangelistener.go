@@ -44,6 +44,7 @@ func (p *PrintServicesChangeListenerProxy) OnPrintServicesChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintServicesChangeListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServicesChangeListener, MethodIPrintServicesChangeListenerOnPrintServicesChanged)
@@ -58,7 +59,8 @@ func (p *PrintServicesChangeListenerProxy) OnPrintServicesChanged(
 // PrintServicesChangeListenerStub dispatches incoming binder transactions
 // to a typed IPrintServicesChangeListener implementation.
 type PrintServicesChangeListenerStub struct {
-	Impl IPrintServicesChangeListener
+	Impl      IPrintServicesChangeListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PrintServicesChangeListenerStub)(nil)
@@ -72,14 +74,14 @@ func (s *PrintServicesChangeListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPrintServicesChangeListenerOnPrintServicesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnPrintServicesChanged(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

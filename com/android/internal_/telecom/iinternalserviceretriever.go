@@ -45,6 +45,7 @@ func (p *InternalServiceRetrieverProxy) GetDeviceIdleController(
 ) (IDeviceIdleControllerAdapter, error) {
 	var _result IDeviceIdleControllerAdapter
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInternalServiceRetriever)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInternalServiceRetriever, MethodIInternalServiceRetrieverGetDeviceIdleController)
@@ -73,7 +74,8 @@ func (p *InternalServiceRetrieverProxy) GetDeviceIdleController(
 // InternalServiceRetrieverStub dispatches incoming binder transactions
 // to a typed IInternalServiceRetriever implementation.
 type InternalServiceRetrieverStub struct {
-	Impl IInternalServiceRetriever
+	Impl      IInternalServiceRetriever
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InternalServiceRetrieverStub)(nil)
@@ -87,11 +89,12 @@ func (s *InternalServiceRetrieverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInternalServiceRetrieverGetDeviceIdleController:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDeviceIdleController(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -99,8 +102,7 @@ func (s *InternalServiceRetrieverStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

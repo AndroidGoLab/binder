@@ -76,6 +76,7 @@ func (p *TimeDetectorServiceProxy) GetCapabilitiesAndConfig(
 ) (appTime.TimeCapabilitiesAndConfig, error) {
 	var _result appTime.TimeCapabilitiesAndConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeDetectorService, MethodITimeDetectorServiceGetCapabilitiesAndConfig)
@@ -110,6 +111,7 @@ func (p *TimeDetectorServiceProxy) AddListener(
 	listener appTime.ITimeDetectorListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -136,6 +138,7 @@ func (p *TimeDetectorServiceProxy) RemoveListener(
 	listener appTime.ITimeDetectorListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -163,6 +166,7 @@ func (p *TimeDetectorServiceProxy) UpdateConfiguration(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 	_data.WriteInt32(1)
 	if _err := timeConfiguration.MarshalParcel(_data); _err != nil {
@@ -196,6 +200,7 @@ func (p *TimeDetectorServiceProxy) GetTimeState(
 ) (appTime.TimeState, error) {
 	var _result appTime.TimeState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeDetectorService, MethodITimeDetectorServiceGetTimeState)
@@ -231,6 +236,7 @@ func (p *TimeDetectorServiceProxy) ConfirmTime(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 	_data.WriteInt32(1)
 	if _err := time.MarshalParcel(_data); _err != nil {
@@ -265,6 +271,7 @@ func (p *TimeDetectorServiceProxy) SetManualTime(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 	_data.WriteInt32(1)
 	if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
@@ -298,6 +305,7 @@ func (p *TimeDetectorServiceProxy) SuggestExternalTime(
 	timeSuggestion appTime.ExternalTimeSuggestion,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 	_data.WriteInt32(1)
 	if _err := timeSuggestion.MarshalParcel(_data); _err != nil {
@@ -328,6 +336,7 @@ func (p *TimeDetectorServiceProxy) SuggestManualTime(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 	_data.WriteInt32(1)
 	if _err := timeSuggestion.MarshalParcel(_data); _err != nil {
@@ -361,6 +370,7 @@ func (p *TimeDetectorServiceProxy) SuggestTelephonyTime(
 	timeSuggestion TelephonyTimeSuggestion,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 	_data.WriteInt32(1)
 	if _err := timeSuggestion.MarshalParcel(_data); _err != nil {
@@ -390,6 +400,7 @@ func (p *TimeDetectorServiceProxy) LatestNetworkTime(
 ) (appTime.UnixEpochTime, error) {
 	var _result appTime.UnixEpochTime
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeDetectorService, MethodITimeDetectorServiceLatestNetworkTime)
@@ -422,7 +433,8 @@ func (p *TimeDetectorServiceProxy) LatestNetworkTime(
 // TimeDetectorServiceStub dispatches incoming binder transactions
 // to a typed ITimeDetectorService implementation.
 type TimeDetectorServiceStub struct {
-	Impl ITimeDetectorService
+	Impl      ITimeDetectorService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TimeDetectorServiceStub)(nil)
@@ -436,11 +448,12 @@ func (s *TimeDetectorServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITimeDetectorServiceGetCapabilitiesAndConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCapabilitiesAndConfig(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -454,12 +467,14 @@ func (s *TimeDetectorServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITimeDetectorServiceAddListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener appTime.ITimeDetectorListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = appTime.NewTimeDetectorListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -469,12 +484,14 @@ func (s *TimeDetectorServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITimeDetectorServiceRemoveListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener appTime.ITimeDetectorListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = appTime.NewTimeDetectorListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -484,9 +501,6 @@ func (s *TimeDetectorServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITimeDetectorServiceUpdateConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_timeConfiguration appTime.TimeConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -509,9 +523,6 @@ func (s *TimeDetectorServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITimeDetectorServiceGetTimeState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetTimeState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -525,9 +536,6 @@ func (s *TimeDetectorServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITimeDetectorServiceConfirmTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_time appTime.UnixEpochTime
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -550,9 +558,6 @@ func (s *TimeDetectorServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITimeDetectorServiceSetManualTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_timeZoneSuggestion ManualTimeSuggestion
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -575,9 +580,6 @@ func (s *TimeDetectorServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITimeDetectorServiceSuggestExternalTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_timeSuggestion appTime.ExternalTimeSuggestion
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -599,9 +601,6 @@ func (s *TimeDetectorServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITimeDetectorServiceSuggestManualTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_timeSuggestion ManualTimeSuggestion
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -624,9 +623,6 @@ func (s *TimeDetectorServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITimeDetectorServiceSuggestTelephonyTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_timeSuggestion TelephonyTimeSuggestion
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -648,9 +644,6 @@ func (s *TimeDetectorServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITimeDetectorServiceLatestNetworkTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.LatestNetworkTime(ctx)
 		_reply := parcel.New()
 		if _err != nil {

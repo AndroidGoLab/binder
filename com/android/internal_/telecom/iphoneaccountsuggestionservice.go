@@ -46,6 +46,7 @@ func (p *PhoneAccountSuggestionServiceProxy) OnAccountSuggestionRequest(
 	number string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneAccountSuggestionService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(number)
@@ -62,7 +63,8 @@ func (p *PhoneAccountSuggestionServiceProxy) OnAccountSuggestionRequest(
 // PhoneAccountSuggestionServiceStub dispatches incoming binder transactions
 // to a typed IPhoneAccountSuggestionService implementation.
 type PhoneAccountSuggestionServiceStub struct {
-	Impl IPhoneAccountSuggestionService
+	Impl      IPhoneAccountSuggestionService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PhoneAccountSuggestionServiceStub)(nil)
@@ -76,21 +78,26 @@ func (s *PhoneAccountSuggestionServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPhoneAccountSuggestionServiceOnAccountSuggestionRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPhoneAccountSuggestionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPhoneAccountSuggestionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAccountSuggestionRequest(ctx, _arg_callback, _arg_number)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

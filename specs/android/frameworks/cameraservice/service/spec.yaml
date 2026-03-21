@@ -1,0 +1,118 @@
+package: android.frameworks.cameraservice.service
+go_package: android/frameworks/cameraservice/service
+interfaces:
+    - name: ICameraService
+      descriptor: android.frameworks.cameraservice.service.ICameraService
+      methods:
+        - name: addListener
+          transaction_code_offset: 0
+          params:
+            - name: listener
+              type:
+                name: ICameraServiceListener
+              direction: in
+          return_type:
+            name: CameraStatusAndId
+            is_array: true
+        - name: connectDevice
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: ICameraDeviceCallback
+              direction: in
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: ICameraDeviceUser
+        - name: getCameraCharacteristics
+          transaction_code_offset: 2
+          params:
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: CameraMetadata
+        - name: getCameraVendorTagSections
+          transaction_code_offset: 3
+          return_type:
+            name: ProviderIdAndVendorTagSections
+            is_array: true
+        - name: removeListener
+          transaction_code_offset: 4
+          params:
+            - name: listener
+              type:
+                name: ICameraServiceListener
+              direction: in
+          return_type:
+            name: void
+    - name: ICameraServiceListener
+      descriptor: android.frameworks.cameraservice.service.ICameraServiceListener
+      oneway: true
+      methods:
+        - name: onPhysicalCameraStatusChanged
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: CameraDeviceStatus
+              direction: in
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+            - name: physicalCameraId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onStatusChanged
+          transaction_code_offset: 1
+          params:
+            - name: status
+              type:
+                name: CameraDeviceStatus
+              direction: in
+            - name: cameraId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: CameraStatusAndId
+      fields:
+        - name: deviceStatus
+          type:
+            name: CameraDeviceStatus
+        - name: cameraId
+          type:
+            name: String
+        - name: unavailPhysicalCameraIds
+          type:
+            name: String
+            is_array: true
+      annotations:
+        - VintfStability
+enums:
+    - name: CameraDeviceStatus
+      backing_type: int
+      values:
+        - name: STATUS_NOT_AVAILABLE
+          value: "-2"
+        - name: STATUS_UNKNOWN
+          value: "-1"
+        - name: STATUS_NOT_PRESENT
+          value: "0"
+        - name: STATUS_PRESENT
+          value: "1"
+        - name: STATUS_ENUMERATING
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing

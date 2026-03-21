@@ -48,6 +48,6 @@ func tokenToGoOp(op parser.TokenKind) string {
 	case parser.TokenGreaterEq:
 		return ">="
 	default:
-		return "?"
+		return "/* unknown_op */"
 	}
 }

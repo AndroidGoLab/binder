@@ -3,7 +3,6 @@ package wifi
 import (
 	"context"
 	"fmt"
-	wifiIWifiStaIfaceEventCallback "github.com/xaionaro-go/binder/android/hardware/wifi/IWifiStaIfaceEventCallback"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -46,10 +45,10 @@ type IWifiStaIfaceEventCallback interface {
 	OnBackgroundScanFailure(ctx context.Context, cmdId int32) error
 	OnBackgroundScanResults(ctx context.Context, cmdId int32, scanDatas []StaScanData) error
 	OnRssiThresholdBreached(ctx context.Context, cmdId int32, currBssid []byte, currRssi int32) error
-	OnTwtFailure(ctx context.Context, cmdId int32, error_ wifiIWifiStaIfaceEventCallback.TwtErrorCode) error
+	OnTwtFailure(ctx context.Context, cmdId int32, error_ IWifiStaIfaceEventCallbackTwtErrorCode) error
 	OnTwtSessionCreate(ctx context.Context, cmdId int32, twtSession TwtSession) error
 	OnTwtSessionUpdate(ctx context.Context, cmdId int32, twtSession TwtSession) error
-	OnTwtSessionTeardown(ctx context.Context, cmdId int32, twtSessionId int32, reasonCode wifiIWifiStaIfaceEventCallback.TwtTeardownReasonCode) error
+	OnTwtSessionTeardown(ctx context.Context, cmdId int32, twtSessionId int32, reasonCode IWifiStaIfaceEventCallbackTwtTeardownReasonCode) error
 	OnTwtSessionStats(ctx context.Context, cmdId int32, twtSessionId int32, twtSessionStats TwtSessionStats) error
 	OnTwtSessionSuspend(ctx context.Context, cmdId int32, twtSessionId int32) error
 	OnTwtSessionResume(ctx context.Context, cmdId int32, twtSessionId int32) error
@@ -78,6 +77,7 @@ func (p *WifiStaIfaceEventCallbackProxy) OnBackgroundFullScanResult(
 	result StaScanResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
 	_data.WriteInt32(cmdId)
 	_data.WriteInt32(bucketsScanned)
@@ -100,6 +100,7 @@ func (p *WifiStaIfaceEventCallbackProxy) OnBackgroundScanFailure(
 	cmdId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
 	_data.WriteInt32(cmdId)
 
@@ -118,6 +119,7 @@ func (p *WifiStaIfaceEventCallbackProxy) OnBackgroundScanResults(
 	scanDatas []StaScanData,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
 	_data.WriteInt32(cmdId)
 	if scanDatas == nil {
@@ -148,16 +150,10 @@ func (p *WifiStaIfaceEventCallbackProxy) OnRssiThresholdBreached(
 	currRssi int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
 	_data.WriteInt32(cmdId)
-	if currBssid == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(currBssid)))
-		for _, _item := range currBssid {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(currBssid)
 	_data.WriteInt32(currRssi)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiStaIfaceEventCallback, MethodIWifiStaIfaceEventCallbackOnRssiThresholdBreached)
@@ -172,9 +168,10 @@ func (p *WifiStaIfaceEventCallbackProxy) OnRssiThresholdBreached(
 func (p *WifiStaIfaceEventCallbackProxy) OnTwtFailure(
 	ctx context.Context,
 	cmdId int32,
-	error_ wifiIWifiStaIfaceEventCallback.TwtErrorCode,
+	error_ IWifiStaIfaceEventCallbackTwtErrorCode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
 	_data.WriteInt32(cmdId)
 	_data.WritePaddedByte(byte(error_))
@@ -194,6 +191,7 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionCreate(
 	twtSession TwtSession,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
 	_data.WriteInt32(cmdId)
 	_data.WriteInt32(1)
@@ -216,6 +214,7 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionUpdate(
 	twtSession TwtSession,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
 	_data.WriteInt32(cmdId)
 	_data.WriteInt32(1)
@@ -236,9 +235,10 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionTeardown(
 	ctx context.Context,
 	cmdId int32,
 	twtSessionId int32,
-	reasonCode wifiIWifiStaIfaceEventCallback.TwtTeardownReasonCode,
+	reasonCode IWifiStaIfaceEventCallbackTwtTeardownReasonCode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
 	_data.WriteInt32(cmdId)
 	_data.WriteInt32(twtSessionId)
@@ -260,6 +260,7 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionStats(
 	twtSessionStats TwtSessionStats,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
 	_data.WriteInt32(cmdId)
 	_data.WriteInt32(twtSessionId)
@@ -283,6 +284,7 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionSuspend(
 	twtSessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
 	_data.WriteInt32(cmdId)
 	_data.WriteInt32(twtSessionId)
@@ -302,6 +304,7 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionResume(
 	twtSessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
 	_data.WriteInt32(cmdId)
 	_data.WriteInt32(twtSessionId)
@@ -318,7 +321,8 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionResume(
 // WifiStaIfaceEventCallbackStub dispatches incoming binder transactions
 // to a typed IWifiStaIfaceEventCallback implementation.
 type WifiStaIfaceEventCallbackStub struct {
-	Impl IWifiStaIfaceEventCallback
+	Impl      IWifiStaIfaceEventCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WifiStaIfaceEventCallbackStub)(nil)
@@ -332,11 +336,12 @@ func (s *WifiStaIfaceEventCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWifiStaIfaceEventCallbackOnBackgroundFullScanResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -358,55 +363,62 @@ func (s *WifiStaIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnBackgroundFullScanResult(ctx, _arg_cmdId, _arg_bucketsScanned, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiStaIfaceEventCallbackOnBackgroundScanFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnBackgroundScanFailure(ctx, _arg_cmdId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiStaIfaceEventCallbackOnBackgroundScanResults:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_scanDatas []StaScanData
-		_ = _arg_scanDatas
-		_err = s.Impl.OnBackgroundScanResults(ctx, _arg_cmdId, _arg_scanDatas)
-		_ = _err
-		return nil, nil
-	case TransactionIWifiStaIfaceEventCallbackOnRssiThresholdBreached:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_scanDatas = make([]StaScanData, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_scanDatas[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.OnBackgroundScanResults(ctx, _arg_cmdId, _arg_scanDatas)
+		return nil, _err
+	case TransactionIWifiStaIfaceEventCallbackOnRssiThresholdBreached:
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_currBssid []byte
-		_ = _arg_currBssid
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_currBssid = _bytes
+		}
 		_arg_currRssi, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnRssiThresholdBreached(ctx, _arg_cmdId, _arg_currBssid, _arg_currRssi)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiStaIfaceEventCallbackOnTwtFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -415,14 +427,10 @@ func (s *WifiStaIfaceEventCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_error_ := wifiIWifiStaIfaceEventCallback.TwtErrorCode(_raw_error_)
+		_arg_error_ := IWifiStaIfaceEventCallbackTwtErrorCode(_raw_error_)
 		_err = s.Impl.OnTwtFailure(ctx, _arg_cmdId, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiStaIfaceEventCallbackOnTwtSessionCreate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -440,12 +448,8 @@ func (s *WifiStaIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnTwtSessionCreate(ctx, _arg_cmdId, _arg_twtSession)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiStaIfaceEventCallbackOnTwtSessionUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -463,12 +467,8 @@ func (s *WifiStaIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnTwtSessionUpdate(ctx, _arg_cmdId, _arg_twtSession)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiStaIfaceEventCallbackOnTwtSessionTeardown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -481,14 +481,10 @@ func (s *WifiStaIfaceEventCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reasonCode := wifiIWifiStaIfaceEventCallback.TwtTeardownReasonCode(_raw_reasonCode)
+		_arg_reasonCode := IWifiStaIfaceEventCallbackTwtTeardownReasonCode(_raw_reasonCode)
 		_err = s.Impl.OnTwtSessionTeardown(ctx, _arg_cmdId, _arg_twtSessionId, _arg_reasonCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiStaIfaceEventCallbackOnTwtSessionStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -510,12 +506,8 @@ func (s *WifiStaIfaceEventCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnTwtSessionStats(ctx, _arg_cmdId, _arg_twtSessionId, _arg_twtSessionStats)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiStaIfaceEventCallbackOnTwtSessionSuspend:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -525,12 +517,8 @@ func (s *WifiStaIfaceEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTwtSessionSuspend(ctx, _arg_cmdId, _arg_twtSessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiStaIfaceEventCallbackOnTwtSessionResume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -540,8 +528,7 @@ func (s *WifiStaIfaceEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTwtSessionResume(ctx, _arg_cmdId, _arg_twtSessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -555,10 +542,10 @@ type IWifiStaIfaceEventCallbackServer interface {
 	OnBackgroundScanFailure(ctx context.Context, cmdId int32) error
 	OnBackgroundScanResults(ctx context.Context, cmdId int32, scanDatas []StaScanData) error
 	OnRssiThresholdBreached(ctx context.Context, cmdId int32, currBssid []byte, currRssi int32) error
-	OnTwtFailure(ctx context.Context, cmdId int32, error_ wifiIWifiStaIfaceEventCallback.TwtErrorCode) error
+	OnTwtFailure(ctx context.Context, cmdId int32, error_ IWifiStaIfaceEventCallbackTwtErrorCode) error
 	OnTwtSessionCreate(ctx context.Context, cmdId int32, twtSession TwtSession) error
 	OnTwtSessionUpdate(ctx context.Context, cmdId int32, twtSession TwtSession) error
-	OnTwtSessionTeardown(ctx context.Context, cmdId int32, twtSessionId int32, reasonCode wifiIWifiStaIfaceEventCallback.TwtTeardownReasonCode) error
+	OnTwtSessionTeardown(ctx context.Context, cmdId int32, twtSessionId int32, reasonCode IWifiStaIfaceEventCallbackTwtTeardownReasonCode) error
 	OnTwtSessionStats(ctx context.Context, cmdId int32, twtSessionId int32, twtSessionStats TwtSessionStats) error
 	OnTwtSessionSuspend(ctx context.Context, cmdId int32, twtSessionId int32) error
 	OnTwtSessionResume(ctx context.Context, cmdId int32, twtSessionId int32) error
@@ -609,7 +596,7 @@ func (w *wifiStaIfaceEventCallbackStubWrapper) OnRssiThresholdBreached(
 func (w *wifiStaIfaceEventCallbackStubWrapper) OnTwtFailure(
 	ctx context.Context,
 	cmdId int32,
-	error_ wifiIWifiStaIfaceEventCallback.TwtErrorCode,
+	error_ IWifiStaIfaceEventCallbackTwtErrorCode,
 ) error {
 	return w.impl.OnTwtFailure(ctx, cmdId, error_)
 }
@@ -634,7 +621,7 @@ func (w *wifiStaIfaceEventCallbackStubWrapper) OnTwtSessionTeardown(
 	ctx context.Context,
 	cmdId int32,
 	twtSessionId int32,
-	reasonCode wifiIWifiStaIfaceEventCallback.TwtTeardownReasonCode,
+	reasonCode IWifiStaIfaceEventCallbackTwtTeardownReasonCode,
 ) error {
 	return w.impl.OnTwtSessionTeardown(ctx, cmdId, twtSessionId, reasonCode)
 }

@@ -1,0 +1,1209 @@
+package: android.hardware.neuralnetworks
+go_package: android/hardware/neuralnetworks
+interfaces:
+    - name: IBuffer
+      descriptor: android.hardware.neuralnetworks.IBuffer
+      methods:
+        - name: copyFrom
+          transaction_code_offset: 0
+          params:
+            - name: src
+              type:
+                name: Memory
+              direction: in
+            - name: dimensions
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: copyTo
+          transaction_code_offset: 1
+          params:
+            - name: dst
+              type:
+                name: Memory
+              direction: in
+          return_type:
+            name: void
+    - name: IBurst
+      descriptor: android.hardware.neuralnetworks.IBurst
+      methods:
+        - name: executeSynchronously
+          transaction_code_offset: 0
+          params:
+            - name: request
+              type:
+                name: Request
+              direction: in
+            - name: memoryIdentifierTokens
+              type:
+                name: long
+                is_array: true
+              direction: in
+            - name: measureTiming
+              type:
+                name: boolean
+              direction: in
+            - name: deadlineNs
+              type:
+                name: long
+              direction: in
+            - name: loopTimeoutDurationNs
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: ExecutionResult
+        - name: releaseMemoryResource
+          transaction_code_offset: 1
+          params:
+            - name: memoryIdentifierToken
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: executeSynchronouslyWithConfig
+          transaction_code_offset: 2
+          params:
+            - name: request
+              type:
+                name: Request
+              direction: in
+            - name: memoryIdentifierTokens
+              type:
+                name: long
+                is_array: true
+              direction: in
+            - name: config
+              type:
+                name: ExecutionConfig
+              direction: in
+            - name: deadlineNs
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: ExecutionResult
+    - name: IDevice
+      descriptor: android.hardware.neuralnetworks.IDevice
+      methods:
+        - name: allocate
+          transaction_code_offset: 0
+          params:
+            - name: desc
+              type:
+                name: BufferDesc
+              direction: in
+            - name: preparedModels
+              type:
+                name: IPreparedModelParcel
+                is_array: true
+              direction: in
+            - name: inputRoles
+              type:
+                name: BufferRole
+                is_array: true
+              direction: in
+            - name: outputRoles
+              type:
+                name: BufferRole
+                is_array: true
+              direction: in
+          return_type:
+            name: DeviceBuffer
+        - name: getCapabilities
+          transaction_code_offset: 1
+          return_type:
+            name: Capabilities
+        - name: getNumberOfCacheFilesNeeded
+          transaction_code_offset: 2
+          return_type:
+            name: NumberOfCacheFiles
+        - name: getSupportedExtensions
+          transaction_code_offset: 3
+          return_type:
+            name: Extension
+            is_array: true
+        - name: getSupportedOperations
+          transaction_code_offset: 4
+          params:
+            - name: model
+              type:
+                name: Model
+              direction: in
+          return_type:
+            name: boolean
+            is_array: true
+        - name: getType
+          transaction_code_offset: 5
+          return_type:
+            name: DeviceType
+        - name: getVersionString
+          transaction_code_offset: 6
+          return_type:
+            name: String
+        - name: prepareModel
+          transaction_code_offset: 7
+          params:
+            - name: model
+              type:
+                name: Model
+              direction: in
+            - name: preference
+              type:
+                name: ExecutionPreference
+              direction: in
+            - name: priority
+              type:
+                name: Priority
+              direction: in
+            - name: deadlineNs
+              type:
+                name: long
+              direction: in
+            - name: modelCache
+              type:
+                name: ParcelFileDescriptor
+                is_array: true
+              direction: in
+            - name: dataCache
+              type:
+                name: ParcelFileDescriptor
+                is_array: true
+              direction: in
+            - name: token
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: callback
+              type:
+                name: IPreparedModelCallback
+              direction: in
+          return_type:
+            name: void
+        - name: prepareModelFromCache
+          transaction_code_offset: 8
+          params:
+            - name: deadlineNs
+              type:
+                name: long
+              direction: in
+            - name: modelCache
+              type:
+                name: ParcelFileDescriptor
+                is_array: true
+              direction: in
+            - name: dataCache
+              type:
+                name: ParcelFileDescriptor
+                is_array: true
+              direction: in
+            - name: token
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: callback
+              type:
+                name: IPreparedModelCallback
+              direction: in
+          return_type:
+            name: void
+        - name: prepareModelWithConfig
+          transaction_code_offset: 9
+          params:
+            - name: model
+              type:
+                name: Model
+              direction: in
+            - name: config
+              type:
+                name: PrepareModelConfig
+              direction: in
+            - name: callback
+              type:
+                name: IPreparedModelCallback
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: BYTE_SIZE_OF_CACHE_TOKEN
+          type: int
+          value: PrepareModelConfig.BYTE_SIZE_OF_CACHE_TOKEN
+        - name: MAX_NUMBER_OF_CACHE_FILES
+          type: int
+          value: "32"
+        - name: EXTENSION_TYPE_HIGH_BITS_PREFIX
+          type: int
+          value: "15"
+        - name: EXTENSION_TYPE_LOW_BITS_TYPE
+          type: int
+          value: "16"
+        - name: OPERAND_TYPE_BASE_MAX
+          type: int
+          value: "0xFFFF"
+        - name: OPERATION_TYPE_BASE_MAX
+          type: int
+          value: "0xFFFF"
+    - name: IExecution
+      descriptor: android.hardware.neuralnetworks.IExecution
+      methods:
+        - name: executeSynchronously
+          transaction_code_offset: 0
+          params:
+            - name: deadlineNs
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: ExecutionResult
+        - name: executeFenced
+          transaction_code_offset: 1
+          params:
+            - name: waitFor
+              type:
+                name: ParcelFileDescriptor
+                is_array: true
+              direction: in
+            - name: deadlineNs
+              type:
+                name: long
+              direction: in
+            - name: durationNs
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: FencedExecutionResult
+    - name: IFencedExecutionCallback
+      descriptor: android.hardware.neuralnetworks.IFencedExecutionCallback
+      methods:
+        - name: getExecutionInfo
+          transaction_code_offset: 0
+          params:
+            - name: timingLaunched
+              type:
+                name: Timing
+              direction: out
+            - name: timingFenced
+              type:
+                name: Timing
+              direction: out
+          return_type:
+            name: ErrorStatus
+    - name: IPreparedModel
+      descriptor: android.hardware.neuralnetworks.IPreparedModel
+      methods:
+        - name: executeSynchronously
+          transaction_code_offset: 0
+          params:
+            - name: request
+              type:
+                name: Request
+              direction: in
+            - name: measureTiming
+              type:
+                name: boolean
+              direction: in
+            - name: deadlineNs
+              type:
+                name: long
+              direction: in
+            - name: loopTimeoutDurationNs
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: ExecutionResult
+        - name: executeFenced
+          transaction_code_offset: 1
+          params:
+            - name: request
+              type:
+                name: Request
+              direction: in
+            - name: waitFor
+              type:
+                name: ParcelFileDescriptor
+                is_array: true
+              direction: in
+            - name: measureTiming
+              type:
+                name: boolean
+              direction: in
+            - name: deadlineNs
+              type:
+                name: long
+              direction: in
+            - name: loopTimeoutDurationNs
+              type:
+                name: long
+              direction: in
+            - name: durationNs
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: FencedExecutionResult
+        - name: configureExecutionBurst
+          transaction_code_offset: 2
+          return_type:
+            name: IBurst
+        - name: createReusableExecution
+          transaction_code_offset: 3
+          params:
+            - name: request
+              type:
+                name: Request
+              direction: in
+            - name: config
+              type:
+                name: ExecutionConfig
+              direction: in
+          return_type:
+            name: IExecution
+        - name: executeSynchronouslyWithConfig
+          transaction_code_offset: 4
+          params:
+            - name: request
+              type:
+                name: Request
+              direction: in
+            - name: config
+              type:
+                name: ExecutionConfig
+              direction: in
+            - name: deadlineNs
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: ExecutionResult
+        - name: executeFencedWithConfig
+          transaction_code_offset: 5
+          params:
+            - name: request
+              type:
+                name: Request
+              direction: in
+            - name: waitFor
+              type:
+                name: ParcelFileDescriptor
+                is_array: true
+              direction: in
+            - name: config
+              type:
+                name: ExecutionConfig
+              direction: in
+            - name: deadlineNs
+              type:
+                name: long
+              direction: in
+            - name: durationNs
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: FencedExecutionResult
+      constants:
+        - name: DEFAULT_LOOP_TIMEOUT_DURATION_NS
+          type: long
+          value: "2000000000"
+        - name: MAXIMUM_LOOP_TIMEOUT_DURATION_NS
+          type: long
+          value: "15000000000"
+    - name: IPreparedModelCallback
+      descriptor: android.hardware.neuralnetworks.IPreparedModelCallback
+      methods:
+        - name: notify
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: ErrorStatus
+              direction: in
+            - name: preparedModel
+              type:
+                name: IPreparedModel
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: BufferDesc
+      fields:
+        - name: dimensions
+          type:
+            name: int
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: BufferRole
+      fields:
+        - name: modelIndex
+          type:
+            name: int
+        - name: ioIndex
+          type:
+            name: int
+        - name: probability
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: Capabilities
+      fields:
+        - name: relaxedFloat32toFloat16PerformanceScalar
+          type:
+            name: PerformanceInfo
+        - name: relaxedFloat32toFloat16PerformanceTensor
+          type:
+            name: PerformanceInfo
+        - name: operandPerformance
+          type:
+            name: OperandPerformance
+            is_array: true
+        - name: ifPerformance
+          type:
+            name: PerformanceInfo
+        - name: whilePerformance
+          type:
+            name: PerformanceInfo
+      annotations:
+        - VintfStability
+    - name: DataLocation
+      fields:
+        - name: poolIndex
+          type:
+            name: int
+        - name: offset
+          type:
+            name: long
+        - name: length
+          type:
+            name: long
+        - name: padding
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: DeviceBuffer
+      fields:
+        - name: buffer
+          type:
+            name: IBuffer
+        - name: token
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: ExecutionConfig
+      fields:
+        - name: measureTiming
+          type:
+            name: boolean
+        - name: loopTimeoutDurationNs
+          type:
+            name: long
+        - name: executionHints
+          type:
+            name: TokenValuePair
+            is_array: true
+        - name: extensionNameToPrefix
+          type:
+            name: ExtensionNameAndPrefix
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: ExecutionResult
+      fields:
+        - name: outputSufficientSize
+          type:
+            name: boolean
+        - name: outputShapes
+          type:
+            name: OutputShape
+            is_array: true
+        - name: timing
+          type:
+            name: Timing
+      annotations:
+        - VintfStability
+    - name: Extension
+      fields:
+        - name: name
+          type:
+            name: String
+        - name: operandTypes
+          type:
+            name: ExtensionOperandTypeInformation
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: ExtensionNameAndPrefix
+      fields:
+        - name: name
+          type:
+            name: String
+        - name: prefix
+          type:
+            name: char
+      annotations:
+        - VintfStability
+    - name: ExtensionOperandTypeInformation
+      fields:
+        - name: type
+          type:
+            name: char
+        - name: isTensor
+          type:
+            name: boolean
+        - name: byteSize
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: FencedExecutionResult
+      fields:
+        - name: callback
+          type:
+            name: IFencedExecutionCallback
+        - name: syncFence
+          type:
+            name: ParcelFileDescriptor
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: IPreparedModelParcel
+      fields:
+        - name: preparedModel
+          type:
+            name: IPreparedModel
+      annotations:
+        - VintfStability
+    - name: Model
+      fields:
+        - name: main
+          type:
+            name: Subgraph
+        - name: referenced
+          type:
+            name: Subgraph
+            is_array: true
+        - name: operandValues
+          type:
+            name: byte
+            is_array: true
+        - name: pools
+          type:
+            name: Memory
+            is_array: true
+        - name: relaxComputationFloat32toFloat16
+          type:
+            name: boolean
+        - name: extensionNameToPrefix
+          type:
+            name: ExtensionNameAndPrefix
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: NumberOfCacheFiles
+      fields:
+        - name: numModelCache
+          type:
+            name: int
+        - name: numDataCache
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: Operand
+      fields:
+        - name: type
+          type:
+            name: OperandType
+          default_value: OperandType.FLOAT32
+        - name: dimensions
+          type:
+            name: int
+            is_array: true
+        - name: scale
+          type:
+            name: float
+        - name: zeroPoint
+          type:
+            name: int
+        - name: lifetime
+          type:
+            name: OperandLifeTime
+          default_value: OperandLifeTime.TEMPORARY_VARIABLE
+        - name: location
+          type:
+            name: DataLocation
+        - name: extraParams
+          type:
+            name: OperandExtraParams
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: OperandPerformance
+      fields:
+        - name: type
+          type:
+            name: OperandType
+          default_value: OperandType.FLOAT32
+        - name: info
+          type:
+            name: PerformanceInfo
+      annotations:
+        - VintfStability
+    - name: Operation
+      fields:
+        - name: type
+          type:
+            name: OperationType
+          default_value: OperationType.ADD
+        - name: inputs
+          type:
+            name: int
+            is_array: true
+        - name: outputs
+          type:
+            name: int
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: OutputShape
+      fields:
+        - name: dimensions
+          type:
+            name: int
+            is_array: true
+        - name: isSufficient
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: PerformanceInfo
+      fields:
+        - name: execTime
+          type:
+            name: float
+        - name: powerUsage
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: PrepareModelConfig
+      fields:
+        - name: preference
+          type:
+            name: ExecutionPreference
+        - name: priority
+          type:
+            name: Priority
+        - name: deadlineNs
+          type:
+            name: long
+        - name: modelCache
+          type:
+            name: ParcelFileDescriptor
+            is_array: true
+        - name: dataCache
+          type:
+            name: ParcelFileDescriptor
+            is_array: true
+        - name: cacheToken
+          type:
+            name: byte
+            is_array: true
+            fixed_size: BYTE_SIZE_OF_CACHE_TOKEN
+        - name: compilationHints
+          type:
+            name: TokenValuePair
+            is_array: true
+        - name: extensionNameToPrefix
+          type:
+            name: ExtensionNameAndPrefix
+            is_array: true
+      constants:
+        - name: BYTE_SIZE_OF_CACHE_TOKEN
+          type: int
+          value: "32"
+      annotations:
+        - VintfStability
+    - name: Request
+      fields:
+        - name: inputs
+          type:
+            name: RequestArgument
+            is_array: true
+        - name: outputs
+          type:
+            name: RequestArgument
+            is_array: true
+        - name: pools
+          type:
+            name: RequestMemoryPool
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: RequestArgument
+      fields:
+        - name: hasNoValue
+          type:
+            name: boolean
+        - name: location
+          type:
+            name: DataLocation
+        - name: dimensions
+          type:
+            name: int
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: Subgraph
+      fields:
+        - name: operands
+          type:
+            name: Operand
+            is_array: true
+        - name: operations
+          type:
+            name: Operation
+            is_array: true
+        - name: inputIndexes
+          type:
+            name: int
+            is_array: true
+        - name: outputIndexes
+          type:
+            name: int
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: SymmPerChannelQuantParams
+      fields:
+        - name: scales
+          type:
+            name: float
+            is_array: true
+        - name: channelDim
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: Timing
+      fields:
+        - name: timeOnDeviceNs
+          type:
+            name: long
+        - name: timeInDriverNs
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: TokenValuePair
+      fields:
+        - name: token
+          type:
+            name: int
+        - name: value
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+enums:
+    - name: DeviceType
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "1"
+        - name: CPU
+          value: "2"
+        - name: GPU
+          value: "3"
+        - name: ACCELERATOR
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ErrorStatus
+      backing_type: int
+      values:
+        - name: NONE
+          value: ""
+        - name: DEVICE_UNAVAILABLE
+          value: ""
+        - name: GENERAL_FAILURE
+          value: ""
+        - name: OUTPUT_INSUFFICIENT_SIZE
+          value: ""
+        - name: INVALID_ARGUMENT
+          value: ""
+        - name: MISSED_DEADLINE_TRANSIENT
+          value: ""
+        - name: MISSED_DEADLINE_PERSISTENT
+          value: ""
+        - name: RESOURCE_EXHAUSTED_TRANSIENT
+          value: ""
+        - name: RESOURCE_EXHAUSTED_PERSISTENT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ExecutionPreference
+      backing_type: int
+      values:
+        - name: LOW_POWER
+          value: ""
+        - name: FAST_SINGLE_ANSWER
+          value: ""
+        - name: SUSTAINED_SPEED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FusedActivationFunc
+      backing_type: int
+      values:
+        - name: NONE
+          value: ""
+        - name: RELU
+          value: ""
+        - name: RELU1
+          value: ""
+        - name: RELU6
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: OperandLifeTime
+      backing_type: int
+      values:
+        - name: TEMPORARY_VARIABLE
+          value: ""
+        - name: SUBGRAPH_INPUT
+          value: ""
+        - name: SUBGRAPH_OUTPUT
+          value: ""
+        - name: CONSTANT_COPY
+          value: ""
+        - name: CONSTANT_POOL
+          value: ""
+        - name: NO_VALUE
+          value: ""
+        - name: SUBGRAPH
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: OperandType
+      backing_type: int
+      values:
+        - name: FLOAT32
+          value: "0"
+        - name: INT32
+          value: "1"
+        - name: UINT32
+          value: "2"
+        - name: TENSOR_FLOAT32
+          value: "3"
+        - name: TENSOR_INT32
+          value: "4"
+        - name: TENSOR_QUANT8_ASYMM
+          value: "5"
+        - name: BOOL
+          value: "6"
+        - name: TENSOR_QUANT16_SYMM
+          value: "7"
+        - name: TENSOR_FLOAT16
+          value: "8"
+        - name: TENSOR_BOOL8
+          value: "9"
+        - name: FLOAT16
+          value: "10"
+        - name: TENSOR_QUANT8_SYMM_PER_CHANNEL
+          value: "11"
+        - name: TENSOR_QUANT16_ASYMM
+          value: "12"
+        - name: TENSOR_QUANT8_SYMM
+          value: "13"
+        - name: TENSOR_QUANT8_ASYMM_SIGNED
+          value: "14"
+        - name: SUBGRAPH
+          value: "15"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: OperationType
+      backing_type: int
+      values:
+        - name: ADD
+          value: "0"
+        - name: AVERAGE_POOL_2D
+          value: "1"
+        - name: CONCATENATION
+          value: "2"
+        - name: CONV_2D
+          value: "3"
+        - name: DEPTHWISE_CONV_2D
+          value: "4"
+        - name: DEPTH_TO_SPACE
+          value: "5"
+        - name: DEQUANTIZE
+          value: "6"
+        - name: EMBEDDING_LOOKUP
+          value: "7"
+        - name: FLOOR
+          value: "8"
+        - name: FULLY_CONNECTED
+          value: "9"
+        - name: HASHTABLE_LOOKUP
+          value: "10"
+        - name: L2_NORMALIZATION
+          value: "11"
+        - name: L2_POOL_2D
+          value: "12"
+        - name: LOCAL_RESPONSE_NORMALIZATION
+          value: "13"
+        - name: LOGISTIC
+          value: "14"
+        - name: LSH_PROJECTION
+          value: "15"
+        - name: LSTM
+          value: "16"
+        - name: MAX_POOL_2D
+          value: "17"
+        - name: MUL
+          value: "18"
+        - name: RELU
+          value: "19"
+        - name: RELU1
+          value: "20"
+        - name: RELU6
+          value: "21"
+        - name: RESHAPE
+          value: "22"
+        - name: RESIZE_BILINEAR
+          value: "23"
+        - name: RNN
+          value: "24"
+        - name: SOFTMAX
+          value: "25"
+        - name: SPACE_TO_DEPTH
+          value: "26"
+        - name: SVDF
+          value: "27"
+        - name: TANH
+          value: "28"
+        - name: BATCH_TO_SPACE_ND
+          value: "29"
+        - name: DIV
+          value: "30"
+        - name: MEAN
+          value: "31"
+        - name: PAD
+          value: "32"
+        - name: SPACE_TO_BATCH_ND
+          value: "33"
+        - name: SQUEEZE
+          value: "34"
+        - name: STRIDED_SLICE
+          value: "35"
+        - name: SUB
+          value: "36"
+        - name: TRANSPOSE
+          value: "37"
+        - name: ABS
+          value: "38"
+        - name: ARGMAX
+          value: "39"
+        - name: ARGMIN
+          value: "40"
+        - name: AXIS_ALIGNED_BBOX_TRANSFORM
+          value: "41"
+        - name: BIDIRECTIONAL_SEQUENCE_LSTM
+          value: "42"
+        - name: BIDIRECTIONAL_SEQUENCE_RNN
+          value: "43"
+        - name: BOX_WITH_NMS_LIMIT
+          value: "44"
+        - name: CAST
+          value: "45"
+        - name: CHANNEL_SHUFFLE
+          value: "46"
+        - name: DETECTION_POSTPROCESSING
+          value: "47"
+        - name: EQUAL
+          value: "48"
+        - name: EXP
+          value: "49"
+        - name: EXPAND_DIMS
+          value: "50"
+        - name: GATHER
+          value: "51"
+        - name: GENERATE_PROPOSALS
+          value: "52"
+        - name: GREATER
+          value: "53"
+        - name: GREATER_EQUAL
+          value: "54"
+        - name: GROUPED_CONV_2D
+          value: "55"
+        - name: HEATMAP_MAX_KEYPOINT
+          value: "56"
+        - name: INSTANCE_NORMALIZATION
+          value: "57"
+        - name: LESS
+          value: "58"
+        - name: LESS_EQUAL
+          value: "59"
+        - name: LOG
+          value: "60"
+        - name: LOGICAL_AND
+          value: "61"
+        - name: LOGICAL_NOT
+          value: "62"
+        - name: LOGICAL_OR
+          value: "63"
+        - name: LOG_SOFTMAX
+          value: "64"
+        - name: MAXIMUM
+          value: "65"
+        - name: MINIMUM
+          value: "66"
+        - name: NEG
+          value: "67"
+        - name: NOT_EQUAL
+          value: "68"
+        - name: PAD_V2
+          value: "69"
+        - name: POW
+          value: "70"
+        - name: PRELU
+          value: "71"
+        - name: QUANTIZE
+          value: "72"
+        - name: QUANTIZED_16BIT_LSTM
+          value: "73"
+        - name: RANDOM_MULTINOMIAL
+          value: "74"
+        - name: REDUCE_ALL
+          value: "75"
+        - name: REDUCE_ANY
+          value: "76"
+        - name: REDUCE_MAX
+          value: "77"
+        - name: REDUCE_MIN
+          value: "78"
+        - name: REDUCE_PROD
+          value: "79"
+        - name: REDUCE_SUM
+          value: "80"
+        - name: ROI_ALIGN
+          value: "81"
+        - name: ROI_POOLING
+          value: "82"
+        - name: RSQRT
+          value: "83"
+        - name: SELECT
+          value: "84"
+        - name: SIN
+          value: "85"
+        - name: SLICE
+          value: "86"
+        - name: SPLIT
+          value: "87"
+        - name: SQRT
+          value: "88"
+        - name: TILE
+          value: "89"
+        - name: TOPK_V2
+          value: "90"
+        - name: TRANSPOSE_CONV_2D
+          value: "91"
+        - name: UNIDIRECTIONAL_SEQUENCE_LSTM
+          value: "92"
+        - name: UNIDIRECTIONAL_SEQUENCE_RNN
+          value: "93"
+        - name: RESIZE_NEAREST_NEIGHBOR
+          value: "94"
+        - name: QUANTIZED_LSTM
+          value: "95"
+        - name: IF
+          value: "96"
+        - name: WHILE
+          value: "97"
+        - name: ELU
+          value: "98"
+        - name: HARD_SWISH
+          value: "99"
+        - name: FILL
+          value: "100"
+        - name: RANK
+          value: "101"
+        - name: BATCH_MATMUL
+          value: "102"
+        - name: PACK
+          value: "103"
+        - name: MIRROR_PAD
+          value: "104"
+        - name: REVERSE
+          value: "105"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Priority
+      backing_type: int
+      values:
+        - name: LOW
+          value: ""
+        - name: MEDIUM
+          value: ""
+        - name: HIGH
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: Memory
+      fields:
+        - name: ashmem
+          type:
+            name: Ashmem
+        - name: mappableFile
+          type:
+            name: MappableFile
+        - name: hardwareBuffer
+          type:
+            name: HardwareBuffer
+      annotations:
+        - VintfStability
+    - name: OperandExtraParams
+      fields:
+        - name: channelQuant
+          type:
+            name: SymmPerChannelQuantParams
+        - name: extension
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: RequestMemoryPool
+      fields:
+        - name: pool
+          type:
+            name: Memory
+        - name: token
+          type:
+            name: int
+      annotations:
+        - VintfStability

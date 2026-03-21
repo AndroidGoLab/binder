@@ -7,6 +7,7 @@ import (
 	tv "github.com/xaionaro-go/binder/android/media/tv"
 	net "github.com/xaionaro-go/binder/android/net"
 	os "github.com/xaionaro-go/binder/android/os"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -74,7 +75,7 @@ type ITvAdManager interface {
 	StartAdService(ctx context.Context, sessionToken binder.IBinder) error
 	StopAdService(ctx context.Context, sessionToken binder.IBinder) error
 	ResetAdService(ctx context.Context, sessionToken binder.IBinder) error
-	SetSurface(ctx context.Context, sessionToken binder.IBinder, surface interface{}) error
+	SetSurface(ctx context.Context, sessionToken binder.IBinder, surface view.Surface) error
 	DispatchSurfaceChanged(ctx context.Context, sessionToken binder.IBinder, format int32, width int32, height int32) error
 	SendCurrentVideoBounds(ctx context.Context, sessionToken binder.IBinder, bounds graphics.Rect) error
 	SendCurrentChannelUri(ctx context.Context, sessionToken binder.IBinder, channelUri net.Uri) error
@@ -113,6 +114,7 @@ func (p *TvAdManagerProxy) GetTvAdServiceList(
 	var _result []TvAdServiceInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -134,6 +136,9 @@ func (p *TvAdManagerProxy) GetTvAdServiceList(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -157,6 +162,7 @@ func (p *TvAdManagerProxy) SendAppLinkCommand(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	_data.WriteString16(serviceId)
 	_data.WriteInt32(1)
@@ -192,6 +198,7 @@ func (p *TvAdManagerProxy) CreateSession(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(serviceId)
@@ -223,6 +230,7 @@ func (p *TvAdManagerProxy) ReleaseSession(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -251,6 +259,7 @@ func (p *TvAdManagerProxy) StartAdService(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -279,6 +288,7 @@ func (p *TvAdManagerProxy) StopAdService(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -307,6 +317,7 @@ func (p *TvAdManagerProxy) ResetAdService(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -332,12 +343,17 @@ func (p *TvAdManagerProxy) ResetAdService(
 func (p *TvAdManagerProxy) SetSurface(
 	ctx context.Context,
 	sessionToken binder.IBinder,
-	surface interface{},
+	surface view.Surface,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdManager, MethodITvAdManagerSetSurface)
@@ -367,6 +383,7 @@ func (p *TvAdManagerProxy) DispatchSurfaceChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(format)
@@ -399,6 +416,7 @@ func (p *TvAdManagerProxy) SendCurrentVideoBounds(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -432,6 +450,7 @@ func (p *TvAdManagerProxy) SendCurrentChannelUri(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -465,6 +484,7 @@ func (p *TvAdManagerProxy) SendTrackInfoList(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	if tracks == nil {
@@ -505,6 +525,7 @@ func (p *TvAdManagerProxy) SendCurrentTvInputId(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteString16(inputId)
@@ -536,17 +557,11 @@ func (p *TvAdManagerProxy) SendSigningResult(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteString16(signingId)
-	if result == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(result)))
-		for _, _item := range result {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(result)
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdManager, MethodITvAdManagerSendSigningResult)
@@ -575,6 +590,7 @@ func (p *TvAdManagerProxy) NotifyError(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteString16(errMsg)
@@ -610,6 +626,7 @@ func (p *TvAdManagerProxy) NotifyTvMessage(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(type_)
@@ -643,6 +660,7 @@ func (p *TvAdManagerProxy) RegisterCallback(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -671,6 +689,7 @@ func (p *TvAdManagerProxy) UnregisterCallback(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -701,6 +720,7 @@ func (p *TvAdManagerProxy) CreateMediaView(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
@@ -735,6 +755,7 @@ func (p *TvAdManagerProxy) RelayoutMediaView(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -767,6 +788,7 @@ func (p *TvAdManagerProxy) RemoveMediaView(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -797,6 +819,7 @@ func (p *TvAdManagerProxy) NotifyTvInputSessionData(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteString16(type_)
@@ -827,7 +850,8 @@ func (p *TvAdManagerProxy) NotifyTvInputSessionData(
 // TvAdManagerStub dispatches incoming binder transactions
 // to a typed ITvAdManager implementation.
 type TvAdManagerStub struct {
-	Impl ITvAdManager
+	Impl      ITvAdManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvAdManagerStub)(nil)
@@ -841,11 +865,12 @@ func (s *TvAdManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvAdManagerGetTvAdServiceList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -856,13 +881,19 @@ func (s *TvAdManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITvAdManagerSendAppLinkCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -891,12 +922,14 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerCreateSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client ITvAdClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewTvAdClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_arg_serviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -921,12 +954,14 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerReleaseSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -939,12 +974,14 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerStartAdService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -957,12 +994,14 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerStopAdService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -975,12 +1014,14 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerResetAdService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -993,13 +1034,26 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerSetSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
-		var _arg_surface interface{}
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
+		var _arg_surface view.Surface
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1012,12 +1066,14 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerDispatchSurfaceChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_format, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1042,12 +1098,14 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerSendCurrentVideoBounds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_bounds graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1072,12 +1130,14 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerSendCurrentChannelUri:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_channelUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1102,15 +1162,35 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerSendTrackInfoList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_tracks []tv.TvTrackInfo
-		_ = _arg_tracks
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_tracks = make([]tv.TvTrackInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_tracks[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1123,12 +1203,14 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerSendCurrentTvInputId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1145,19 +1227,26 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerSendSigningResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_signingId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_result []byte
-		_ = _arg_result
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = _bytes
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1170,12 +1259,14 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerNotifyError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_errMsg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1204,12 +1295,14 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerNotifyTvMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1238,12 +1331,14 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvAdManagerCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTvAdManagerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1256,12 +1351,14 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerUnregisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvAdManagerCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTvAdManagerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1274,15 +1371,22 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerCreateMediaView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
+		}
 		var _arg_frame graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1307,12 +1411,14 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerRelayoutMediaView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_frame graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1337,12 +1443,14 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerRemoveMediaView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1355,12 +1463,14 @@ func (s *TvAdManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvAdManagerNotifyTvInputSessionData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_type_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1404,7 +1514,7 @@ type ITvAdManagerServer interface {
 	StartAdService(ctx context.Context, sessionToken binder.IBinder) error
 	StopAdService(ctx context.Context, sessionToken binder.IBinder) error
 	ResetAdService(ctx context.Context, sessionToken binder.IBinder) error
-	SetSurface(ctx context.Context, sessionToken binder.IBinder, surface interface{}) error
+	SetSurface(ctx context.Context, sessionToken binder.IBinder, surface view.Surface) error
 	DispatchSurfaceChanged(ctx context.Context, sessionToken binder.IBinder, format int32, width int32, height int32) error
 	SendCurrentVideoBounds(ctx context.Context, sessionToken binder.IBinder, bounds graphics.Rect) error
 	SendCurrentChannelUri(ctx context.Context, sessionToken binder.IBinder, channelUri net.Uri) error
@@ -1485,7 +1595,7 @@ func (w *tvAdManagerStubWrapper) ResetAdService(
 func (w *tvAdManagerStubWrapper) SetSurface(
 	ctx context.Context,
 	sessionToken binder.IBinder,
-	surface interface{},
+	surface view.Surface,
 ) error {
 	return w.impl.SetSurface(ctx, sessionToken, surface)
 }

@@ -1,0 +1,473 @@
+package: android.service.euicc
+go_package: android/service/euicc
+interfaces:
+    - name: IDeleteSubscriptionCallback
+      descriptor: android.service.euicc.IDeleteSubscriptionCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IDownloadSubscriptionCallback
+      descriptor: android.service.euicc.IDownloadSubscriptionCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: DownloadSubscriptionResult
+              direction: in
+          return_type:
+            name: void
+    - name: IEraseSubscriptionsCallback
+      descriptor: android.service.euicc.IEraseSubscriptionsCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IEuiccService
+      descriptor: android.service.euicc.IEuiccService
+      oneway: true
+      methods:
+        - name: downloadSubscription
+          transaction_code_offset: 0
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: portIndex
+              type:
+                name: int
+            - name: subscription
+              type:
+                name: DownloadableSubscription
+              direction: in
+            - name: switchAfterDownload
+              type:
+                name: boolean
+            - name: forceDeactivateSim
+              type:
+                name: boolean
+            - name: resolvedBundle
+              type:
+                name: Bundle
+              direction: in
+            - name: callback
+              type:
+                name: IDownloadSubscriptionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getDownloadableSubscriptionMetadata
+          transaction_code_offset: 1
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: portIndex
+              type:
+                name: int
+            - name: subscription
+              type:
+                name: DownloadableSubscription
+              direction: in
+            - name: switchAfterDownload
+              type:
+                name: boolean
+            - name: forceDeactivateSim
+              type:
+                name: boolean
+            - name: callback
+              type:
+                name: IGetDownloadableSubscriptionMetadataCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getEid
+          transaction_code_offset: 2
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IGetEidCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getOtaStatus
+          transaction_code_offset: 3
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IGetOtaStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: startOtaIfNecessary
+          transaction_code_offset: 4
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: statusChangedCallback
+              type:
+                name: IOtaStatusChangedCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getEuiccProfileInfoList
+          transaction_code_offset: 5
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IGetEuiccProfileInfoListCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getDefaultDownloadableSubscriptionList
+          transaction_code_offset: 6
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: forceDeactivateSim
+              type:
+                name: boolean
+            - name: callback
+              type:
+                name: IGetDefaultDownloadableSubscriptionListCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getEuiccInfo
+          transaction_code_offset: 7
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IGetEuiccInfoCallback
+              direction: in
+          return_type:
+            name: void
+        - name: deleteSubscription
+          transaction_code_offset: 8
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: iccid
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IDeleteSubscriptionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: switchToSubscription
+          transaction_code_offset: 9
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: portIndex
+              type:
+                name: int
+            - name: iccid
+              type:
+                name: String
+            - name: forceDeactivateSim
+              type:
+                name: boolean
+            - name: callback
+              type:
+                name: ISwitchToSubscriptionCallback
+              direction: in
+            - name: useLegacyApi
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: updateSubscriptionNickname
+          transaction_code_offset: 10
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: iccid
+              type:
+                name: String
+            - name: nickname
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IUpdateSubscriptionNicknameCallback
+              direction: in
+          return_type:
+            name: void
+        - name: eraseSubscriptions
+          transaction_code_offset: 11
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IEraseSubscriptionsCallback
+              direction: in
+          return_type:
+            name: void
+        - name: eraseSubscriptionsWithOptions
+          transaction_code_offset: 12
+          params:
+            - name: slotIndex
+              type:
+                name: int
+            - name: options
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IEraseSubscriptionsCallback
+              direction: in
+          return_type:
+            name: void
+        - name: retainSubscriptionsForFactoryReset
+          transaction_code_offset: 13
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IRetainSubscriptionsForFactoryResetCallback
+              direction: in
+          return_type:
+            name: void
+        - name: dump
+          transaction_code_offset: 14
+          params:
+            - name: callback
+              type:
+                name: IEuiccServiceDumpResultCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getAvailableMemoryInBytes
+          transaction_code_offset: 15
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IGetAvailableMemoryInBytesCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IEuiccServiceDumpResultCallback
+      descriptor: android.service.euicc.IEuiccServiceDumpResultCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: logs
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+    - name: IGetAvailableMemoryInBytesCallback
+      descriptor: android.service.euicc.IGetAvailableMemoryInBytesCallback
+      oneway: true
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: availableMemoryInBytes
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onUnsupportedOperationException
+          transaction_code_offset: 1
+          params:
+            - name: message
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IGetDefaultDownloadableSubscriptionListCallback
+      descriptor: android.service.euicc.IGetDefaultDownloadableSubscriptionListCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: GetDefaultDownloadableSubscriptionListResult
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IGetDownloadableSubscriptionMetadataCallback
+      descriptor: android.service.euicc.IGetDownloadableSubscriptionMetadataCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: GetDownloadableSubscriptionMetadataResult
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IGetEidCallback
+      descriptor: android.service.euicc.IGetEidCallback
+      oneway: true
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: eid
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IGetEuiccInfoCallback
+      descriptor: android.service.euicc.IGetEuiccInfoCallback
+      oneway: true
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: euiccInfo
+              type:
+                name: EuiccInfo
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IGetEuiccProfileInfoListCallback
+      descriptor: android.service.euicc.IGetEuiccProfileInfoListCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: GetEuiccProfileInfoListResult
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IGetOtaStatusCallback
+      descriptor: android.service.euicc.IGetOtaStatusCallback
+      oneway: true
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IOtaStatusChangedCallback
+      descriptor: android.service.euicc.IOtaStatusChangedCallback
+      oneway: true
+      methods:
+        - name: onOtaStatusChanged
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IRetainSubscriptionsForFactoryResetCallback
+      descriptor: android.service.euicc.IRetainSubscriptionsForFactoryResetCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: ISwitchToSubscriptionCallback
+      descriptor: android.service.euicc.ISwitchToSubscriptionCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IUpdateSubscriptionNicknameCallback
+      descriptor: android.service.euicc.IUpdateSubscriptionNicknameCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+parcelables:
+    - name: DownloadSubscriptionResult
+    - name: EuiccProfileInfo
+    - name: GetDefaultDownloadableSubscriptionListResult
+    - name: GetDownloadableSubscriptionMetadataResult
+    - name: GetEuiccProfileInfoListResult

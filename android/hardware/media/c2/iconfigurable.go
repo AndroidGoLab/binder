@@ -3,7 +3,6 @@ package c2
 import (
 	"context"
 	"fmt"
-	c2IConfigurable "github.com/xaionaro-go/binder/android/hardware/media/c2/IConfigurable"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -32,12 +31,12 @@ const (
 
 type IConfigurable interface {
 	AsBinder() binder.IBinder
-	Config(ctx context.Context, inParams Params, mayBlock bool) (c2IConfigurable.ConfigResult, error)
+	Config(ctx context.Context, inParams Params, mayBlock bool) (IConfigurableConfigResult, error)
 	GetId(ctx context.Context) (int32, error)
 	GetName(ctx context.Context) (string, error)
-	Query(ctx context.Context, indices []int32, mayBlock bool) (c2IConfigurable.QueryResult, error)
+	Query(ctx context.Context, indices []int32, mayBlock bool) (IConfigurableQueryResult, error)
 	QuerySupportedParams(ctx context.Context, start int32, count int32) ([]ParamDescriptor, error)
-	QuerySupportedValues(ctx context.Context, inFields []FieldSupportedValuesQuery, mayBlock bool) (c2IConfigurable.QuerySupportedValuesResult, error)
+	QuerySupportedValues(ctx context.Context, inFields []FieldSupportedValuesQuery, mayBlock bool) (IConfigurableQuerySupportedValuesResult, error)
 }
 
 type ConfigurableProxy struct {
@@ -60,9 +59,10 @@ func (p *ConfigurableProxy) Config(
 	ctx context.Context,
 	inParams Params,
 	mayBlock bool,
-) (c2IConfigurable.ConfigResult, error) {
-	var _result c2IConfigurable.ConfigResult
+) (IConfigurableConfigResult, error) {
+	var _result IConfigurableConfigResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 	_data.WriteInt32(1)
 	if _err := inParams.MarshalParcel(_data); _err != nil {
@@ -102,6 +102,7 @@ func (p *ConfigurableProxy) GetId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfigurable, MethodIConfigurableGetId)
@@ -131,6 +132,7 @@ func (p *ConfigurableProxy) GetName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfigurable, MethodIConfigurableGetName)
@@ -159,9 +161,10 @@ func (p *ConfigurableProxy) Query(
 	ctx context.Context,
 	indices []int32,
 	mayBlock bool,
-) (c2IConfigurable.QueryResult, error) {
-	var _result c2IConfigurable.QueryResult
+) (IConfigurableQueryResult, error) {
+	var _result IConfigurableQueryResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 	if indices == nil {
 		_data.WriteInt32(-1)
@@ -207,6 +210,7 @@ func (p *ConfigurableProxy) QuerySupportedParams(
 ) ([]ParamDescriptor, error) {
 	var _result []ParamDescriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 	_data.WriteInt32(start)
 	_data.WriteInt32(count)
@@ -230,6 +234,9 @@ func (p *ConfigurableProxy) QuerySupportedParams(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]ParamDescriptor, _count)
@@ -249,9 +256,10 @@ func (p *ConfigurableProxy) QuerySupportedValues(
 	ctx context.Context,
 	inFields []FieldSupportedValuesQuery,
 	mayBlock bool,
-) (c2IConfigurable.QuerySupportedValuesResult, error) {
-	var _result c2IConfigurable.QuerySupportedValuesResult
+) (IConfigurableQuerySupportedValuesResult, error) {
+	var _result IConfigurableQuerySupportedValuesResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 	if inFields == nil {
 		_data.WriteInt32(-1)
@@ -296,7 +304,8 @@ func (p *ConfigurableProxy) QuerySupportedValues(
 // ConfigurableStub dispatches incoming binder transactions
 // to a typed IConfigurable implementation.
 type ConfigurableStub struct {
-	Impl IConfigurable
+	Impl      IConfigurable
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ConfigurableStub)(nil)
@@ -310,11 +319,12 @@ func (s *ConfigurableStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIConfigurableConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_inParams Params
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -344,9 +354,6 @@ func (s *ConfigurableStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIConfigurableGetId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -357,9 +364,6 @@ func (s *ConfigurableStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIConfigurableGetName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -370,12 +374,25 @@ func (s *ConfigurableStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIConfigurableQuery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_indices []int32
-		_ = _arg_indices
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_indices = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_indices[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_mayBlock, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -393,9 +410,6 @@ func (s *ConfigurableStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIConfigurableQuerySupportedParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_start, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -411,16 +425,40 @@ func (s *ConfigurableStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIConfigurableQuerySupportedValues:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_inFields []FieldSupportedValuesQuery
-		_ = _arg_inFields
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_inFields = make([]FieldSupportedValuesQuery, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_inFields[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_mayBlock, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -446,12 +484,12 @@ func (s *ConfigurableStub) OnTransaction(
 // provide to NewConfigurableStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IConfigurableServer interface {
-	Config(ctx context.Context, inParams Params, mayBlock bool) (c2IConfigurable.ConfigResult, error)
+	Config(ctx context.Context, inParams Params, mayBlock bool) (IConfigurableConfigResult, error)
 	GetId(ctx context.Context) (int32, error)
 	GetName(ctx context.Context) (string, error)
-	Query(ctx context.Context, indices []int32, mayBlock bool) (c2IConfigurable.QueryResult, error)
+	Query(ctx context.Context, indices []int32, mayBlock bool) (IConfigurableQueryResult, error)
 	QuerySupportedParams(ctx context.Context, start int32, count int32) ([]ParamDescriptor, error)
-	QuerySupportedValues(ctx context.Context, inFields []FieldSupportedValuesQuery, mayBlock bool) (c2IConfigurable.QuerySupportedValuesResult, error)
+	QuerySupportedValues(ctx context.Context, inFields []FieldSupportedValuesQuery, mayBlock bool) (IConfigurableQuerySupportedValuesResult, error)
 }
 
 type configurableStubWrapper struct {
@@ -467,7 +505,7 @@ func (w *configurableStubWrapper) Config(
 	ctx context.Context,
 	inParams Params,
 	mayBlock bool,
-) (c2IConfigurable.ConfigResult, error) {
+) (IConfigurableConfigResult, error) {
 	return w.impl.Config(ctx, inParams, mayBlock)
 }
 
@@ -487,7 +525,7 @@ func (w *configurableStubWrapper) Query(
 	ctx context.Context,
 	indices []int32,
 	mayBlock bool,
-) (c2IConfigurable.QueryResult, error) {
+) (IConfigurableQueryResult, error) {
 	return w.impl.Query(ctx, indices, mayBlock)
 }
 
@@ -503,7 +541,7 @@ func (w *configurableStubWrapper) QuerySupportedValues(
 	ctx context.Context,
 	inFields []FieldSupportedValuesQuery,
 	mayBlock bool,
-) (c2IConfigurable.QuerySupportedValuesResult, error) {
+) (IConfigurableQuerySupportedValuesResult, error) {
 	return w.impl.QuerySupportedValues(ctx, inFields, mayBlock)
 }
 

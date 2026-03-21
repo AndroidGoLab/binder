@@ -1,0 +1,86 @@
+package: android.media.audio
+go_package: android/media/audio
+interfaces:
+    - name: IHalAdapterVendorExtension
+      descriptor: android.media.audio.IHalAdapterVendorExtension
+      methods:
+        - name: parseVendorParameterIds
+          transaction_code_offset: 0
+          params:
+            - name: scope
+              type:
+                name: ParameterScope
+            - name: rawKeys
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - utf8InCpp
+        - name: parseVendorParameters
+          transaction_code_offset: 1
+          params:
+            - name: scope
+              type:
+                name: ParameterScope
+            - name: rawKeysAndValues
+              type:
+                name: String
+              direction: in
+            - name: syncParameters
+              type:
+                name: VendorParameter
+                is_array: true
+              direction: out
+            - name: asyncParameters
+              type:
+                name: VendorParameter
+                is_array: true
+              direction: out
+          return_type:
+            name: void
+        - name: parseBluetoothA2dpReconfigureOffload
+          transaction_code_offset: 2
+          params:
+            - name: rawValue
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: VendorParameter
+            is_array: true
+        - name: parseBluetoothLeReconfigureOffload
+          transaction_code_offset: 3
+          params:
+            - name: rawValue
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: VendorParameter
+            is_array: true
+        - name: processVendorParameters
+          transaction_code_offset: 4
+          params:
+            - name: scope
+              type:
+                name: ParameterScope
+            - name: parameters
+              type:
+                name: VendorParameter
+                is_array: true
+              direction: in
+          return_type:
+            name: String
+          annotations:
+            - utf8InCpp
+enums:
+    - name: IHalAdapterVendorExtension.ParameterScope
+      backing_type: ""
+      values:
+        - name: MODULE
+          value: "0"
+        - name: STREAM
+          value: "1"

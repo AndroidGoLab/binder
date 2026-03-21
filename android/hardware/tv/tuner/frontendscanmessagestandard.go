@@ -33,8 +33,7 @@ func (u *FrontendScanMessageStandard) GetSStd() (FrontendDvbsStandard, bool) {
 func (u *FrontendScanMessageStandard) SetSStd(
 	v FrontendDvbsStandard,
 ) {
-	u.Tag = FrontendScanMessageStandardTagSStd
-	u.SStd = v
+	*u = FrontendScanMessageStandard{Tag: FrontendScanMessageStandardTagSStd, SStd: v}
 }
 
 func (u *FrontendScanMessageStandard) GetTStd() (FrontendDvbtStandard, bool) {
@@ -48,8 +47,7 @@ func (u *FrontendScanMessageStandard) GetTStd() (FrontendDvbtStandard, bool) {
 func (u *FrontendScanMessageStandard) SetTStd(
 	v FrontendDvbtStandard,
 ) {
-	u.Tag = FrontendScanMessageStandardTagTStd
-	u.TStd = v
+	*u = FrontendScanMessageStandard{Tag: FrontendScanMessageStandardTagTStd, TStd: v}
 }
 
 func (u *FrontendScanMessageStandard) GetSifStd() (FrontendAnalogSifStandard, bool) {
@@ -63,8 +61,7 @@ func (u *FrontendScanMessageStandard) GetSifStd() (FrontendAnalogSifStandard, bo
 func (u *FrontendScanMessageStandard) SetSifStd(
 	v FrontendAnalogSifStandard,
 ) {
-	u.Tag = FrontendScanMessageStandardTagSifStd
-	u.SifStd = v
+	*u = FrontendScanMessageStandard{Tag: FrontendScanMessageStandardTagSifStd, SifStd: v}
 }
 
 func (u *FrontendScanMessageStandard) MarshalParcel(

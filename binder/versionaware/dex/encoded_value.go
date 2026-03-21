@@ -61,6 +61,10 @@ func readEncodedValue(
 		return encodedValue{intVal: v}, pos, nil
 
 	case valueTypeByte:
+		// DEX spec requires value_arg == 0 for VALUE_BYTE (always 1 byte).
+		if valueArg != 0 {
+			return encodedValue{}, pos, fmt.Errorf("VALUE_BYTE has invalid value_arg %d (must be 0) at offset 0x%x", valueArg, pos-1)
+		}
 		return readSignedEncodedInt(data, pos, 1)
 
 	case valueTypeShort:

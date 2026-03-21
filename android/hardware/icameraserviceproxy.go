@@ -30,7 +30,7 @@ const (
 type ICameraServiceProxy interface {
 	AsBinder() binder.IBinder
 	PingForUserUpdate(ctx context.Context) error
-	NotifyCameraState(ctx context.Context, cameraSessionStats interface{}) error
+	NotifyCameraState(ctx context.Context, cameraSessionStats CameraSessionStats) error
 	GetRotateAndCropOverride(ctx context.Context, packageName string, lensFacing int32) (int32, error)
 	GetAutoframingOverride(ctx context.Context, packageName string) (int32, error)
 	IsCameraDisabled(ctx context.Context) (bool, error)
@@ -56,6 +56,7 @@ func (p *CameraServiceProxyProxy) PingForUserUpdate(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceProxy)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceProxy, MethodICameraServiceProxyPingForUserUpdate)
@@ -69,10 +70,15 @@ func (p *CameraServiceProxyProxy) PingForUserUpdate(
 
 func (p *CameraServiceProxyProxy) NotifyCameraState(
 	ctx context.Context,
-	cameraSessionStats interface{},
+	cameraSessionStats CameraSessionStats,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceProxy)
+	_data.WriteInt32(1)
+	if _err := cameraSessionStats.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceProxy, MethodICameraServiceProxyNotifyCameraState)
 	if _err != nil {
@@ -91,6 +97,7 @@ func (p *CameraServiceProxyProxy) GetRotateAndCropOverride(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceProxy)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(lensFacing)
@@ -124,6 +131,7 @@ func (p *CameraServiceProxyProxy) GetAutoframingOverride(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceProxy)
 	_data.WriteString16(packageName)
 
@@ -155,6 +163,7 @@ func (p *CameraServiceProxyProxy) IsCameraDisabled(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceProxy)
 	_data.WriteInt32(_identity.UserID)
 
@@ -183,7 +192,8 @@ func (p *CameraServiceProxyProxy) IsCameraDisabled(
 // CameraServiceProxyStub dispatches incoming binder transactions
 // to a typed ICameraServiceProxy implementation.
 type CameraServiceProxyStub struct {
-	Impl ICameraServiceProxy
+	Impl      ICameraServiceProxy
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CameraServiceProxyStub)(nil)
@@ -197,26 +207,30 @@ func (s *CameraServiceProxyStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICameraServiceProxyPingForUserUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.PingForUserUpdate(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICameraServiceProxyNotifyCameraState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_cameraSessionStats CameraSessionStats
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cameraSessionStats.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_cameraSessionStats interface{}
 		_err := s.Impl.NotifyCameraState(ctx, _arg_cameraSessionStats)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICameraServiceProxyGetRotateAndCropOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -238,9 +252,6 @@ func (s *CameraServiceProxyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICameraServiceProxyGetAutoframingOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -255,9 +266,6 @@ func (s *CameraServiceProxyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICameraServiceProxyIsCameraDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -280,7 +288,7 @@ func (s *CameraServiceProxyStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type ICameraServiceProxyServer interface {
 	PingForUserUpdate(ctx context.Context) error
-	NotifyCameraState(ctx context.Context, cameraSessionStats interface{}) error
+	NotifyCameraState(ctx context.Context, cameraSessionStats CameraSessionStats) error
 	GetRotateAndCropOverride(ctx context.Context, packageName string, lensFacing int32) (int32, error)
 	GetAutoframingOverride(ctx context.Context, packageName string) (int32, error)
 	IsCameraDisabled(ctx context.Context) (bool, error)
@@ -303,7 +311,7 @@ func (w *cameraServiceProxyStubWrapper) PingForUserUpdate(
 
 func (w *cameraServiceProxyStubWrapper) NotifyCameraState(
 	ctx context.Context,
-	cameraSessionStats interface{},
+	cameraSessionStats CameraSessionStats,
 ) error {
 	return w.impl.NotifyCameraState(ctx, cameraSessionStats)
 }

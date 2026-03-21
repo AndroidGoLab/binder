@@ -60,6 +60,7 @@ func (p *ShellTransitionsProxy) RegisterRemote(
 	remoteTransition window.RemoteTransition,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShellTransitions)
 	_data.WriteInt32(1)
 	if _err := filter.MarshalParcel(_data); _err != nil {
@@ -84,6 +85,7 @@ func (p *ShellTransitionsProxy) UnregisterRemote(
 	remoteTransition window.RemoteTransition,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShellTransitions)
 	_data.WriteInt32(1)
 	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
@@ -104,6 +106,7 @@ func (p *ShellTransitionsProxy) GetShellApplyToken(
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShellTransitions)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShellTransitions, MethodIShellTransitionsGetShellApplyToken)
@@ -134,6 +137,7 @@ func (p *ShellTransitionsProxy) SetHomeTransitionListener(
 	listener IHomeTransitionListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShellTransitions)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -151,6 +155,7 @@ func (p *ShellTransitionsProxy) GetHomeTaskOverlayContainer(
 ) (view.SurfaceControl, error) {
 	var _result view.SurfaceControl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShellTransitions)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShellTransitions, MethodIShellTransitionsGetHomeTaskOverlayContainer)
@@ -183,7 +188,8 @@ func (p *ShellTransitionsProxy) GetHomeTaskOverlayContainer(
 // ShellTransitionsStub dispatches incoming binder transactions
 // to a typed IShellTransitions implementation.
 type ShellTransitionsStub struct {
-	Impl IShellTransitions
+	Impl      IShellTransitions
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ShellTransitionsStub)(nil)
@@ -197,11 +203,12 @@ func (s *ShellTransitionsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIShellTransitionsRegisterRemote:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_filter window.TransitionFilter
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -227,12 +234,8 @@ func (s *ShellTransitionsStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RegisterRemote(ctx, _arg_filter, _arg_remoteTransition)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIShellTransitionsUnregisterRemote:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_remoteTransition window.RemoteTransition
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -246,12 +249,8 @@ func (s *ShellTransitionsStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.UnregisterRemote(ctx, _arg_remoteTransition)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIShellTransitionsGetShellApplyToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetShellApplyToken(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -259,23 +258,20 @@ func (s *ShellTransitionsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	case TransactionIShellTransitionsSetHomeTransitionListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IHomeTransitionListener
-		_ = _arg_listener
-		_err := s.Impl.SetHomeTransitionListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionIShellTransitionsGetHomeTaskOverlayContainer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHomeTransitionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err := s.Impl.SetHomeTransitionListener(ctx, _arg_listener)
+		return nil, _err
+	case TransactionIShellTransitionsGetHomeTaskOverlayContainer:
 		_result, _err := s.Impl.GetHomeTaskOverlayContainer(ctx)
 		_reply := parcel.New()
 		if _err != nil {

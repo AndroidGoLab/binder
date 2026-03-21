@@ -52,6 +52,7 @@ func (p *MbmsDownloadSessionCallbackProxy) OnError(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadSessionCallback)
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(message)
@@ -70,6 +71,7 @@ func (p *MbmsDownloadSessionCallbackProxy) OnFileServicesUpdated(
 	services []FileServiceInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadSessionCallback)
 	if services == nil {
 		_data.WriteInt32(-1)
@@ -96,6 +98,7 @@ func (p *MbmsDownloadSessionCallbackProxy) OnMiddlewareReady(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadSessionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadSessionCallback, MethodIMbmsDownloadSessionCallbackOnMiddlewareReady)
@@ -110,7 +113,8 @@ func (p *MbmsDownloadSessionCallbackProxy) OnMiddlewareReady(
 // MbmsDownloadSessionCallbackStub dispatches incoming binder transactions
 // to a typed IMbmsDownloadSessionCallback implementation.
 type MbmsDownloadSessionCallbackStub struct {
-	Impl IMbmsDownloadSessionCallback
+	Impl      IMbmsDownloadSessionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MbmsDownloadSessionCallbackStub)(nil)
@@ -124,11 +128,12 @@ func (s *MbmsDownloadSessionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMbmsDownloadSessionCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -138,25 +143,34 @@ func (s *MbmsDownloadSessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_errorCode, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMbmsDownloadSessionCallbackOnFileServicesUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_services []FileServiceInfo
-		_ = _arg_services
-		_err := s.Impl.OnFileServicesUpdated(ctx, _arg_services)
-		_ = _err
-		return nil, nil
-	case TransactionIMbmsDownloadSessionCallbackOnMiddlewareReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_services = make([]FileServiceInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_services[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnFileServicesUpdated(ctx, _arg_services)
+		return nil, _err
+	case TransactionIMbmsDownloadSessionCallbackOnMiddlewareReady:
 		_err := s.Impl.OnMiddlewareReady(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

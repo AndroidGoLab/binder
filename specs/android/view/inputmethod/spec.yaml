@@ -1,0 +1,29 @@
+package: android.view.inputmethod
+go_package: android/view/inputmethod
+parcelables:
+    - name: CompletionInfo
+    - name: CorrectionInfo
+    - name: CursorAnchorInfo
+    - name: DeleteGesture
+    - name: DeleteRangeGesture
+    - name: EditorInfo
+    - name: ExtractedText
+    - name: ExtractedTextRequest
+    - name: ImeTracker.Token
+    - name: InlineSuggestion
+    - name: InlineSuggestionInfo
+    - name: InlineSuggestionsRequest
+    - name: InlineSuggestionsResponse
+    - name: InputBinding
+    - name: InputContentInfo
+    - name: InputMethodInfo
+    - name: InputMethodSubtype
+    - name: InsertGesture
+    - name: InsertModeGesture
+    - name: JoinOrSplitGesture
+    - name: ParcelableHandwritingGesture
+    - name: RemoveSpaceGesture
+    - name: SelectGesture
+    - name: SelectRangeGesture
+    - name: SurroundingText
+    - name: TextAttribute

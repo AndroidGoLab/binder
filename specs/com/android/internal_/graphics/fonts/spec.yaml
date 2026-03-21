@@ -1,0 +1,26 @@
+package: com.android.internal.graphics.fonts
+go_package: com/android/internal_/graphics/fonts
+interfaces:
+    - name: IFontManager
+      descriptor: com.android.internal.graphics.fonts.IFontManager
+      methods:
+        - name: getFontConfig
+          transaction_code_offset: 0
+          return_type:
+            name: FontConfig
+          annotations:
+            - EnforcePermission
+        - name: updateFontFamily
+          transaction_code_offset: 1
+          params:
+            - name: request
+              type:
+                name: List
+                type_args:
+                    - name: FontUpdateRequest
+              direction: in
+            - name: baseVersion
+              type:
+                name: int
+          return_type:
+            name: int

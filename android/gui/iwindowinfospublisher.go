@@ -46,6 +46,7 @@ func (p *WindowInfosPublisherProxy) AckWindowInfosReceived(
 	listenerId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowInfosPublisher)
 	_data.WriteInt64(vsyncId)
 	_data.WriteInt64(listenerId)
@@ -62,7 +63,8 @@ func (p *WindowInfosPublisherProxy) AckWindowInfosReceived(
 // WindowInfosPublisherStub dispatches incoming binder transactions
 // to a typed IWindowInfosPublisher implementation.
 type WindowInfosPublisherStub struct {
-	Impl IWindowInfosPublisher
+	Impl      IWindowInfosPublisher
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WindowInfosPublisherStub)(nil)
@@ -76,11 +78,12 @@ func (s *WindowInfosPublisherStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWindowInfosPublisherAckWindowInfosReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_vsyncId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -90,8 +93,7 @@ func (s *WindowInfosPublisherStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.AckWindowInfosReceived(ctx, _arg_vsyncId, _arg_listenerId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

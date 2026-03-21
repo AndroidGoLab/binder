@@ -1,0 +1,13 @@
+package: android.gsi
+go_package: android/gsi
+parcelables:
+    - name: AvbPublicKey
+      fields:
+        - name: bytes
+          type:
+            name: byte
+            is_array: true
+        - name: sha1
+          type:
+            name: byte
+            is_array: true

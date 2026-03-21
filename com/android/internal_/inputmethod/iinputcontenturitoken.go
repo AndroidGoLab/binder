@@ -47,6 +47,7 @@ func (p *InputContentUriTokenProxy) Take(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputContentUriToken)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputContentUriToken, MethodIInputContentUriTokenTake)
@@ -71,6 +72,7 @@ func (p *InputContentUriTokenProxy) Release(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputContentUriToken)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputContentUriToken, MethodIInputContentUriTokenRelease)
@@ -94,7 +96,8 @@ func (p *InputContentUriTokenProxy) Release(
 // InputContentUriTokenStub dispatches incoming binder transactions
 // to a typed IInputContentUriToken implementation.
 type InputContentUriTokenStub struct {
-	Impl IInputContentUriToken
+	Impl      IInputContentUriToken
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputContentUriTokenStub)(nil)
@@ -108,11 +111,12 @@ func (s *InputContentUriTokenStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputContentUriTokenTake:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Take(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -122,9 +126,6 @@ func (s *InputContentUriTokenStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputContentUriTokenRelease:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Release(ctx)
 		_reply := parcel.New()
 		if _err != nil {

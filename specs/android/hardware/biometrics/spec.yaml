@@ -1,0 +1,1097 @@
+package: android.hardware.biometrics
+go_package: android/hardware/biometrics
+interfaces:
+    - name: AuthenticationStateListener
+      descriptor: android.hardware.biometrics.AuthenticationStateListener
+      oneway: true
+      methods:
+        - name: onAuthenticationStarted
+          transaction_code_offset: 0
+          params:
+            - name: requestReason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAuthenticationStopped
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onAuthenticationSucceeded
+          transaction_code_offset: 2
+          params:
+            - name: requestReason
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAuthenticationFailed
+          transaction_code_offset: 3
+          params:
+            - name: requestReason
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAuthenticationAcquired
+          transaction_code_offset: 4
+          params:
+            - name: biometricSourceType
+              type:
+                name: BiometricSourceType
+              direction: in
+            - name: requestReason
+              type:
+                name: int
+            - name: acquiredInfo
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IAuthService
+      descriptor: android.hardware.biometrics.IAuthService
+      methods:
+        - name: createTestSession
+          transaction_code_offset: 0
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ITestSessionCallback
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: ITestSession
+          annotations:
+            - EnforcePermission
+        - name: getSensorProperties
+          transaction_code_offset: 1
+          params:
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: SensorPropertiesInternal
+          annotations:
+            - EnforcePermission
+        - name: getUiPackage
+          transaction_code_offset: 2
+          return_type:
+            name: String
+          annotations:
+            - EnforcePermission
+        - name: authenticate
+          transaction_code_offset: 3
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: sessionId
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+            - name: receiver
+              type:
+                name: IBiometricServiceReceiver
+            - name: opPackageName
+              type:
+                name: String
+            - name: promptInfo
+              type:
+                name: PromptInfo
+              direction: in
+          return_type:
+            name: long
+        - name: cancelAuthentication
+          transaction_code_offset: 4
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: opPackageName
+              type:
+                name: String
+            - name: requestId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: canAuthenticate
+          transaction_code_offset: 5
+          params:
+            - name: opPackageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: authenticators
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getLastAuthenticationTime
+          transaction_code_offset: 6
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: authenticators
+              type:
+                name: int
+          return_type:
+            name: long
+        - name: hasEnrolledBiometrics
+          transaction_code_offset: 7
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: registerEnabledOnKeyguardCallback
+          transaction_code_offset: 8
+          params:
+            - name: callback
+              type:
+                name: IBiometricEnabledOnKeyguardCallback
+          return_type:
+            name: void
+        - name: registerAuthenticationStateListener
+          transaction_code_offset: 9
+          params:
+            - name: listener
+              type:
+                name: AuthenticationStateListener
+          return_type:
+            name: void
+        - name: unregisterAuthenticationStateListener
+          transaction_code_offset: 10
+          params:
+            - name: listener
+              type:
+                name: AuthenticationStateListener
+          return_type:
+            name: void
+        - name: invalidateAuthenticatorIds
+          transaction_code_offset: 11
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: fromSensorId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IInvalidationCallback
+          return_type:
+            name: void
+        - name: getAuthenticatorIds
+          transaction_code_offset: 12
+          params:
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: long
+            is_array: true
+        - name: resetLockoutTimeBound
+          transaction_code_offset: 13
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: opPackageName
+              type:
+                name: String
+            - name: fromSensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: hardwareAuthToken
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: resetLockout
+          transaction_code_offset: 14
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: hardwareAuthToken
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getButtonLabel
+          transaction_code_offset: 15
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+            - name: authenticators
+              type:
+                name: int
+          return_type:
+            name: CharSequence
+        - name: getPromptMessage
+          transaction_code_offset: 16
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+            - name: authenticators
+              type:
+                name: int
+          return_type:
+            name: CharSequence
+        - name: getSettingName
+          transaction_code_offset: 17
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+            - name: authenticators
+              type:
+                name: int
+          return_type:
+            name: CharSequence
+    - name: IBiometricAuthenticator
+      descriptor: android.hardware.biometrics.IBiometricAuthenticator
+      methods:
+        - name: createTestSession
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: ITestSessionCallback
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: ITestSession
+        - name: getSensorProperties
+          transaction_code_offset: 1
+          params:
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: SensorPropertiesInternal
+        - name: dumpSensorServiceStateProto
+          transaction_code_offset: 2
+          params:
+            - name: clearSchedulerBuffer
+              type:
+                name: boolean
+          return_type:
+            name: byte
+            is_array: true
+        - name: prepareForAuthentication
+          transaction_code_offset: 3
+          params:
+            - name: requireConfirmation
+              type:
+                name: boolean
+            - name: token
+              type:
+                name: IBinder
+            - name: operationId
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+            - name: sensorReceiver
+              type:
+                name: IBiometricSensorReceiver
+            - name: opPackageName
+              type:
+                name: String
+            - name: requestId
+              type:
+                name: long
+            - name: cookie
+              type:
+                name: int
+            - name: allowBackgroundAuthentication
+              type:
+                name: boolean
+            - name: isForLegacyFingerprintManager
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: startPreparedClient
+          transaction_code_offset: 4
+          params:
+            - name: cookie
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: cancelAuthenticationFromService
+          transaction_code_offset: 5
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: opPackageName
+              type:
+                name: String
+            - name: requestId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: isHardwareDetected
+          transaction_code_offset: 6
+          params:
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: hasEnrolledTemplates
+          transaction_code_offset: 7
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getLockoutModeForUser
+          transaction_code_offset: 8
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: invalidateAuthenticatorId
+          transaction_code_offset: 9
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IInvalidationCallback
+          return_type:
+            name: void
+        - name: getAuthenticatorId
+          transaction_code_offset: 10
+          params:
+            - name: callingUserId
+              type:
+                name: int
+          return_type:
+            name: long
+        - name: resetLockout
+          transaction_code_offset: 11
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: opPackageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: hardwareAuthToken
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IBiometricContextListener
+      descriptor: android.hardware.biometrics.IBiometricContextListener
+      oneway: true
+      methods:
+        - name: onFoldChanged
+          transaction_code_offset: 0
+          params:
+            - name: FoldState
+              type:
+                name: FoldState
+          return_type:
+            name: void
+        - name: onDisplayStateChanged
+          transaction_code_offset: 1
+          params:
+            - name: displayState
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onHardwareIgnoreTouchesChanged
+          transaction_code_offset: 2
+          params:
+            - name: shouldIgnore
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IBiometricEnabledOnKeyguardCallback
+      descriptor: android.hardware.biometrics.IBiometricEnabledOnKeyguardCallback
+      oneway: true
+      methods:
+        - name: onChanged
+          transaction_code_offset: 0
+          params:
+            - name: enabled
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IBiometricSensorReceiver
+      descriptor: android.hardware.biometrics.IBiometricSensorReceiver
+      oneway: true
+      methods:
+        - name: onAuthenticationSucceeded
+          transaction_code_offset: 0
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: token
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onAuthenticationFailed
+          transaction_code_offset: 1
+          params:
+            - name: sensorId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 2
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: cookie
+              type:
+                name: int
+            - name: error
+              type:
+                name: int
+            - name: vendorCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAcquired
+          transaction_code_offset: 3
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: acquiredInfo
+              type:
+                name: int
+            - name: vendorCode
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IBiometricService
+      descriptor: android.hardware.biometrics.IBiometricService
+      methods:
+        - name: createTestSession
+          transaction_code_offset: 0
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ITestSessionCallback
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: ITestSession
+          annotations:
+            - EnforcePermission
+        - name: getSensorProperties
+          transaction_code_offset: 1
+          params:
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: SensorPropertiesInternal
+          annotations:
+            - EnforcePermission
+        - name: authenticate
+          transaction_code_offset: 2
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: operationId
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+            - name: receiver
+              type:
+                name: IBiometricServiceReceiver
+            - name: opPackageName
+              type:
+                name: String
+            - name: promptInfo
+              type:
+                name: PromptInfo
+              direction: in
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: cancelAuthentication
+          transaction_code_offset: 3
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: opPackageName
+              type:
+                name: String
+            - name: requestId
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: canAuthenticate
+          transaction_code_offset: 4
+          params:
+            - name: opPackageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: callingUserId
+              type:
+                name: int
+            - name: authenticators
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: getLastAuthenticationTime
+          transaction_code_offset: 5
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: authenticators
+              type:
+                name: int
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: hasEnrolledBiometrics
+          transaction_code_offset: 6
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: registerAuthenticator
+          transaction_code_offset: 7
+          params:
+            - name: id
+              type:
+                name: int
+            - name: modality
+              type:
+                name: int
+            - name: strength
+              type:
+                name: int
+            - name: authenticator
+              type:
+                name: IBiometricAuthenticator
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: registerEnabledOnKeyguardCallback
+          transaction_code_offset: 8
+          params:
+            - name: callback
+              type:
+                name: IBiometricEnabledOnKeyguardCallback
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: onReadyForAuthentication
+          transaction_code_offset: 9
+          params:
+            - name: requestId
+              type:
+                name: long
+            - name: cookie
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: invalidateAuthenticatorIds
+          transaction_code_offset: 10
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: fromSensorId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IInvalidationCallback
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getAuthenticatorIds
+          transaction_code_offset: 11
+          params:
+            - name: callingUserId
+              type:
+                name: int
+          return_type:
+            name: long
+            is_array: true
+          annotations:
+            - EnforcePermission
+        - name: resetLockoutTimeBound
+          transaction_code_offset: 12
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: opPackageName
+              type:
+                name: String
+            - name: fromSensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: hardwareAuthToken
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: resetLockout
+          transaction_code_offset: 13
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: hardwareAuthToken
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getCurrentStrength
+          transaction_code_offset: 14
+          params:
+            - name: sensorId
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: getCurrentModality
+          transaction_code_offset: 15
+          params:
+            - name: opPackageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: callingUserId
+              type:
+                name: int
+            - name: authenticators
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: getSupportedModalities
+          transaction_code_offset: 16
+          params:
+            - name: authenticators
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+    - name: IBiometricServiceLockoutResetCallback
+      descriptor: android.hardware.biometrics.IBiometricServiceLockoutResetCallback
+      oneway: true
+      methods:
+        - name: onLockoutReset
+          transaction_code_offset: 0
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IRemoteCallback
+          return_type:
+            name: void
+    - name: IBiometricServiceReceiver
+      descriptor: android.hardware.biometrics.IBiometricServiceReceiver
+      oneway: true
+      methods:
+        - name: onAuthenticationSucceeded
+          transaction_code_offset: 0
+          params:
+            - name: authenticationType
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAuthenticationFailed
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 2
+          params:
+            - name: modality
+              type:
+                name: int
+            - name: error
+              type:
+                name: int
+            - name: vendorCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAcquired
+          transaction_code_offset: 3
+          params:
+            - name: acquiredInfo
+              type:
+                name: int
+            - name: message
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onDialogDismissed
+          transaction_code_offset: 4
+          params:
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSystemEvent
+          transaction_code_offset: 5
+          params:
+            - name: event
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IBiometricStateListener
+      descriptor: android.hardware.biometrics.IBiometricStateListener
+      oneway: true
+      methods:
+        - name: onStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: newState
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onBiometricAction
+          transaction_code_offset: 1
+          params:
+            - name: action
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onEnrollmentsChanged
+          transaction_code_offset: 2
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: sensorId
+              type:
+                name: int
+            - name: hasEnrollments
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IBiometricSysuiReceiver
+      descriptor: android.hardware.biometrics.IBiometricSysuiReceiver
+      oneway: true
+      methods:
+        - name: onDialogDismissed
+          transaction_code_offset: 0
+          params:
+            - name: reason
+              type:
+                name: int
+            - name: credentialAttestation
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onTryAgainPressed
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onDeviceCredentialPressed
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onSystemEvent
+          transaction_code_offset: 3
+          params:
+            - name: event
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onDialogAnimatedIn
+          transaction_code_offset: 4
+          params:
+            - name: startFingerprintNow
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onStartFingerprintNow
+          transaction_code_offset: 5
+          return_type:
+            name: void
+    - name: IInvalidationCallback
+      descriptor: android.hardware.biometrics.IInvalidationCallback
+      methods:
+        - name: onCompleted
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: ITestSession
+      descriptor: android.hardware.biometrics.ITestSession
+      methods:
+        - name: setTestHalEnabled
+          transaction_code_offset: 0
+          params:
+            - name: enableTestHal
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: startEnroll
+          transaction_code_offset: 1
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: finishEnroll
+          transaction_code_offset: 2
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: acceptAuthentication
+          transaction_code_offset: 3
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: rejectAuthentication
+          transaction_code_offset: 4
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: notifyAcquired
+          transaction_code_offset: 5
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: acquireInfo
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: notifyError
+          transaction_code_offset: 6
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: errorCode
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: cleanupInternalState
+          transaction_code_offset: 7
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+    - name: ITestSessionCallback
+      descriptor: android.hardware.biometrics.ITestSessionCallback
+      oneway: true
+      methods:
+        - name: onCleanupStarted
+          transaction_code_offset: 0
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCleanupFinished
+          transaction_code_offset: 1
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: BiometricSourceType
+    - name: ComponentInfoInternal
+    - name: PromptInfo
+    - name: SensorLocationInternal
+    - name: SensorPropertiesInternal
+enums:
+    - name: IBiometricContextListener.FoldState
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: HALF_OPENED
+          value: "1"
+        - name: FULLY_OPENED
+          value: "2"
+        - name: FULLY_CLOSED
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing

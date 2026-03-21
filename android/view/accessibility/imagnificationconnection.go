@@ -81,6 +81,7 @@ func (p *MagnificationConnectionProxy) EnableWindowMagnification(
 	callback IRemoteMagnificationAnimationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
 	_data.WriteInt32(displayId)
 	_data.WriteFloat32(scale)
@@ -105,6 +106,7 @@ func (p *MagnificationConnectionProxy) SetScaleForWindowMagnification(
 	scale float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
 	_data.WriteInt32(displayId)
 	_data.WriteFloat32(scale)
@@ -124,6 +126,7 @@ func (p *MagnificationConnectionProxy) DisableWindowMagnification(
 	callback IRemoteMagnificationAnimationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
 	_data.WriteInt32(displayId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -144,6 +147,7 @@ func (p *MagnificationConnectionProxy) MoveWindowMagnifier(
 	offsetY float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
 	_data.WriteInt32(displayId)
 	_data.WriteFloat32(offsetX)
@@ -166,6 +170,7 @@ func (p *MagnificationConnectionProxy) MoveWindowMagnifierToPosition(
 	callback IRemoteMagnificationAnimationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
 	_data.WriteInt32(displayId)
 	_data.WriteFloat32(positionX)
@@ -187,6 +192,7 @@ func (p *MagnificationConnectionProxy) ShowMagnificationButton(
 	magnificationMode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(magnificationMode)
@@ -205,6 +211,7 @@ func (p *MagnificationConnectionProxy) RemoveMagnificationButton(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
 	_data.WriteInt32(displayId)
 
@@ -222,6 +229,7 @@ func (p *MagnificationConnectionProxy) RemoveMagnificationSettingsPanel(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
 	_data.WriteInt32(displayId)
 
@@ -239,6 +247,7 @@ func (p *MagnificationConnectionProxy) SetConnectionCallback(
 	callback IMagnificationConnectionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -258,6 +267,7 @@ func (p *MagnificationConnectionProxy) OnUserMagnificationScaleChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(displayId)
@@ -278,6 +288,7 @@ func (p *MagnificationConnectionProxy) OnFullscreenMagnificationActivationChange
 	activated bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
 	_data.WriteInt32(displayId)
 	_data.WriteBool(activated)
@@ -294,7 +305,8 @@ func (p *MagnificationConnectionProxy) OnFullscreenMagnificationActivationChange
 // MagnificationConnectionStub dispatches incoming binder transactions
 // to a typed IMagnificationConnection implementation.
 type MagnificationConnectionStub struct {
-	Impl IMagnificationConnection
+	Impl      IMagnificationConnection
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MagnificationConnectionStub)(nil)
@@ -308,11 +320,12 @@ func (s *MagnificationConnectionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMagnificationConnectionEnableWindowMagnification:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -337,16 +350,17 @@ func (s *MagnificationConnectionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IRemoteMagnificationAnimationCallback
-		_ = _arg_callback
-		_err = s.Impl.EnableWindowMagnification(ctx, _arg_displayId, _arg_scale, _arg_centerX, _arg_centerY, _arg_magnificationFrameOffsetRatioX, _arg_magnificationFrameOffsetRatioY, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIMagnificationConnectionSetScaleForWindowMagnification:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRemoteMagnificationAnimationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.EnableWindowMagnification(ctx, _arg_displayId, _arg_scale, _arg_centerX, _arg_centerY, _arg_magnificationFrameOffsetRatioX, _arg_magnificationFrameOffsetRatioY, _arg_callback)
+		return nil, _err
+	case TransactionIMagnificationConnectionSetScaleForWindowMagnification:
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -356,26 +370,23 @@ func (s *MagnificationConnectionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetScaleForWindowMagnification(ctx, _arg_displayId, _arg_scale)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMagnificationConnectionDisableWindowMagnification:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IRemoteMagnificationAnimationCallback
-		_ = _arg_callback
-		_err = s.Impl.DisableWindowMagnification(ctx, _arg_displayId, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIMagnificationConnectionMoveWindowMagnifier:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRemoteMagnificationAnimationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.DisableWindowMagnification(ctx, _arg_displayId, _arg_callback)
+		return nil, _err
+	case TransactionIMagnificationConnectionMoveWindowMagnifier:
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -389,12 +400,8 @@ func (s *MagnificationConnectionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.MoveWindowMagnifier(ctx, _arg_displayId, _arg_offsetX, _arg_offsetY)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMagnificationConnectionMoveWindowMagnifierToPosition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -407,16 +414,17 @@ func (s *MagnificationConnectionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IRemoteMagnificationAnimationCallback
-		_ = _arg_callback
-		_err = s.Impl.MoveWindowMagnifierToPosition(ctx, _arg_displayId, _arg_positionX, _arg_positionY, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIMagnificationConnectionShowMagnificationButton:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRemoteMagnificationAnimationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.MoveWindowMagnifierToPosition(ctx, _arg_displayId, _arg_positionX, _arg_positionY, _arg_callback)
+		return nil, _err
+	case TransactionIMagnificationConnectionShowMagnificationButton:
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -426,44 +434,33 @@ func (s *MagnificationConnectionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ShowMagnificationButton(ctx, _arg_displayId, _arg_magnificationMode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMagnificationConnectionRemoveMagnificationButton:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RemoveMagnificationButton(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMagnificationConnectionRemoveMagnificationSettingsPanel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RemoveMagnificationSettingsPanel(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMagnificationConnectionSetConnectionCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IMagnificationConnectionCallback
-		_ = _arg_callback
-		_err := s.Impl.SetConnectionCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIMagnificationConnectionOnUserMagnificationScaleChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewMagnificationConnectionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.SetConnectionCallback(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIMagnificationConnectionOnUserMagnificationScaleChanged:
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -476,12 +473,8 @@ func (s *MagnificationConnectionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnUserMagnificationScaleChanged(ctx, _arg_displayId, _arg_scale)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMagnificationConnectionOnFullscreenMagnificationActivationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -491,8 +484,7 @@ func (s *MagnificationConnectionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnFullscreenMagnificationActivationChanged(ctx, _arg_displayId, _arg_activated)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

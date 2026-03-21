@@ -47,6 +47,7 @@ func (p *DexModuleRegisterCallbackProxy) OnDexModuleRegistered(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDexModuleRegisterCallback)
 	_data.WriteString16(dexModulePath)
 	_data.WriteBool(success)
@@ -64,7 +65,8 @@ func (p *DexModuleRegisterCallbackProxy) OnDexModuleRegistered(
 // DexModuleRegisterCallbackStub dispatches incoming binder transactions
 // to a typed IDexModuleRegisterCallback implementation.
 type DexModuleRegisterCallbackStub struct {
-	Impl IDexModuleRegisterCallback
+	Impl      IDexModuleRegisterCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DexModuleRegisterCallbackStub)(nil)
@@ -78,11 +80,12 @@ func (s *DexModuleRegisterCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDexModuleRegisterCallbackOnDexModuleRegistered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dexModulePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -96,8 +99,7 @@ func (s *DexModuleRegisterCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnDexModuleRegistered(ctx, _arg_dexModulePath, _arg_success, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

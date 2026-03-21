@@ -91,6 +91,7 @@ func (p *PackageManagerNativeProxy) GetNamesForUids(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	if uids == nil {
 		_data.WriteInt32(-1)
@@ -120,6 +121,9 @@ func (p *PackageManagerNativeProxy) GetNamesForUids(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -139,6 +143,7 @@ func (p *PackageManagerNativeProxy) GetInstallerForPackage(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(packageName)
 
@@ -170,6 +175,7 @@ func (p *PackageManagerNativeProxy) GetVersionCodeForPackage(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(packageName)
 
@@ -201,6 +207,7 @@ func (p *PackageManagerNativeProxy) IsAudioPlaybackCaptureAllowed(
 ) ([]bool, error) {
 	var _result []bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	if packageNames == nil {
 		_data.WriteInt32(-1)
@@ -230,6 +237,9 @@ func (p *PackageManagerNativeProxy) IsAudioPlaybackCaptureAllowed(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]bool, _count)
@@ -249,6 +259,7 @@ func (p *PackageManagerNativeProxy) GetLocationFlags(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(packageName)
 
@@ -280,6 +291,7 @@ func (p *PackageManagerNativeProxy) GetTargetSdkVersionForPackage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(packageName)
 
@@ -310,6 +322,7 @@ func (p *PackageManagerNativeProxy) GetModuleMetadataPackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetModuleMetadataPackageName)
@@ -341,16 +354,10 @@ func (p *PackageManagerNativeProxy) HasSha256SigningCertificate(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(packageName)
-	if certificate == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(certificate)))
-		for _, _item := range certificate {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(certificate)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeHasSha256SigningCertificate)
 	if _err != nil {
@@ -380,6 +387,7 @@ func (p *PackageManagerNativeProxy) IsPackageDebuggable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(packageName)
 
@@ -412,6 +420,7 @@ func (p *PackageManagerNativeProxy) HasSystemFeature(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(featureName)
 	_data.WriteInt32(version)
@@ -443,6 +452,7 @@ func (p *PackageManagerNativeProxy) RegisterStagedApexObserver(
 	observer IStagedApexObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
@@ -469,6 +479,7 @@ func (p *PackageManagerNativeProxy) UnregisterStagedApexObserver(
 	observer IStagedApexObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
@@ -495,6 +506,7 @@ func (p *PackageManagerNativeProxy) GetStagedApexModuleNames(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetStagedApexModuleNames)
@@ -516,6 +528,9 @@ func (p *PackageManagerNativeProxy) GetStagedApexModuleNames(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -535,6 +550,7 @@ func (p *PackageManagerNativeProxy) GetStagedApexInfo(
 ) (StagedApexInfo, error) {
 	var _result StagedApexInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(moduleName)
 
@@ -568,7 +584,8 @@ func (p *PackageManagerNativeProxy) GetStagedApexInfo(
 // PackageManagerNativeStub dispatches incoming binder transactions
 // to a typed IPackageManagerNative implementation.
 type PackageManagerNativeStub struct {
-	Impl IPackageManagerNative
+	Impl      IPackageManagerNative
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PackageManagerNativeStub)(nil)
@@ -582,14 +599,31 @@ func (s *PackageManagerNativeStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPackageManagerNativeGetNamesForUids:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_uids []int32
-		_ = _arg_uids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_uids = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_uids[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetNamesForUids(ctx, _arg_uids)
 		_reply := parcel.New()
 		if _err != nil {
@@ -597,13 +631,16 @@ func (s *PackageManagerNativeStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerNativeGetInstallerForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -618,9 +655,6 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeGetVersionCodeForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -635,12 +669,25 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeIsAudioPlaybackCaptureAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.IsAudioPlaybackCaptureAllowed(ctx, _arg_packageNames)
 		_reply := parcel.New()
 		if _err != nil {
@@ -648,13 +695,16 @@ func (s *PackageManagerNativeStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteBool(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerNativeGetLocationFlags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -669,9 +719,6 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeGetTargetSdkVersionForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -686,9 +733,6 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeGetModuleMetadataPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetModuleMetadataPackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -699,16 +743,18 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeHasSha256SigningCertificate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_certificate []byte
-		_ = _arg_certificate
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_certificate = _bytes
+		}
 		_result, _err := s.Impl.HasSha256SigningCertificate(ctx, _arg_packageName, _arg_certificate)
 		_reply := parcel.New()
 		if _err != nil {
@@ -719,9 +765,6 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeIsPackageDebuggable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -736,9 +779,6 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeHasSystemFeature:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_featureName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -757,12 +797,14 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeRegisterStagedApexObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IStagedApexObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewStagedApexObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_err := s.Impl.RegisterStagedApexObserver(ctx, _arg_observer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -772,12 +814,14 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerNativeUnregisterStagedApexObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IStagedApexObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewStagedApexObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_err := s.Impl.UnregisterStagedApexObserver(ctx, _arg_observer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -787,9 +831,6 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerNativeGetStagedApexModuleNames:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetStagedApexModuleNames(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -797,13 +838,16 @@ func (s *PackageManagerNativeStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPackageManagerNativeGetStagedApexInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_moduleName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

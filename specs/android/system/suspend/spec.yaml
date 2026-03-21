@@ -1,0 +1,89 @@
+package: android.system.suspend
+go_package: android/system/suspend
+interfaces:
+    - name: ISuspendCallback
+      descriptor: android.system.suspend.ISuspendCallback
+      methods:
+        - name: notifyWakeup
+          transaction_code_offset: 0
+          params:
+            - name: success
+              type:
+                name: boolean
+            - name: wakeupReasons
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: ISuspendControlService
+      descriptor: android.system.suspend.ISuspendControlService
+      methods:
+        - name: registerCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: ISuspendCallback
+          return_type:
+            name: boolean
+        - name: registerWakelockCallback
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IWakelockCallback
+            - name: name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: boolean
+    - name: ISystemSuspend
+      descriptor: android.system.suspend.ISystemSuspend
+      methods:
+        - name: acquireWakeLock
+          transaction_code_offset: 0
+          params:
+            - name: type
+              type:
+                name: WakeLockType
+            - name: name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: IWakeLock
+    - name: IWakeLock
+      descriptor: android.system.suspend.IWakeLock
+      methods:
+        - name: release
+          transaction_code_offset: 0
+          oneway: true
+          return_type:
+            name: void
+    - name: IWakelockCallback
+      descriptor: android.system.suspend.IWakelockCallback
+      oneway: true
+      methods:
+        - name: notifyAcquired
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: notifyReleased
+          transaction_code_offset: 1
+          return_type:
+            name: void
+enums:
+    - name: WakeLockType
+      backing_type: ""
+      values:
+        - name: PARTIAL
+          value: "0"
+        - name: FULL
+          value: "1"
+      annotations:
+        - VintfStability

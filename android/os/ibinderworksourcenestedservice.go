@@ -49,6 +49,7 @@ func (p *BinderWorkSourceNestedServiceProxy) NestedCallWithWorkSourceToSet(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinderWorkSourceNestedService)
 	_data.WriteInt32(uidToBlame)
 
@@ -71,6 +72,9 @@ func (p *BinderWorkSourceNestedServiceProxy) NestedCallWithWorkSourceToSet(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -89,6 +93,7 @@ func (p *BinderWorkSourceNestedServiceProxy) NestedCall(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBinderWorkSourceNestedService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderWorkSourceNestedService, MethodIBinderWorkSourceNestedServiceNestedCall)
@@ -110,6 +115,9 @@ func (p *BinderWorkSourceNestedServiceProxy) NestedCall(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -126,7 +134,8 @@ func (p *BinderWorkSourceNestedServiceProxy) NestedCall(
 // BinderWorkSourceNestedServiceStub dispatches incoming binder transactions
 // to a typed IBinderWorkSourceNestedService implementation.
 type BinderWorkSourceNestedServiceStub struct {
-	Impl IBinderWorkSourceNestedService
+	Impl      IBinderWorkSourceNestedService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BinderWorkSourceNestedServiceStub)(nil)
@@ -140,11 +149,12 @@ func (s *BinderWorkSourceNestedServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBinderWorkSourceNestedServiceNestedCallWithWorkSourceToSet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uidToBlame, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -156,13 +166,16 @@ func (s *BinderWorkSourceNestedServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIBinderWorkSourceNestedServiceNestedCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.NestedCall(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -170,8 +183,14 @@ func (s *BinderWorkSourceNestedServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

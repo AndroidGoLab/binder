@@ -57,6 +57,7 @@ func (p *JobServiceProxy) StartJob(
 	jobParams JobParameters,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobService)
 	_data.WriteInt32(1)
 	if _err := jobParams.MarshalParcel(_data); _err != nil {
@@ -77,6 +78,7 @@ func (p *JobServiceProxy) StopJob(
 	jobParams JobParameters,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobService)
 	_data.WriteInt32(1)
 	if _err := jobParams.MarshalParcel(_data); _err != nil {
@@ -97,6 +99,7 @@ func (p *JobServiceProxy) OnNetworkChanged(
 	jobParams JobParameters,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobService)
 	_data.WriteInt32(1)
 	if _err := jobParams.MarshalParcel(_data); _err != nil {
@@ -118,6 +121,7 @@ func (p *JobServiceProxy) GetTransferredDownloadBytes(
 	jobWorkItem JobWorkItem,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobService)
 	_data.WriteInt32(1)
 	if _err := jobParams.MarshalParcel(_data); _err != nil {
@@ -143,6 +147,7 @@ func (p *JobServiceProxy) GetTransferredUploadBytes(
 	jobWorkItem JobWorkItem,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIJobService)
 	_data.WriteInt32(1)
 	if _err := jobParams.MarshalParcel(_data); _err != nil {
@@ -165,7 +170,8 @@ func (p *JobServiceProxy) GetTransferredUploadBytes(
 // JobServiceStub dispatches incoming binder transactions
 // to a typed IJobService implementation.
 type JobServiceStub struct {
-	Impl IJobService
+	Impl      IJobService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*JobServiceStub)(nil)
@@ -179,11 +185,12 @@ func (s *JobServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIJobServiceStartJob:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_jobParams JobParameters
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -197,12 +204,8 @@ func (s *JobServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.StartJob(ctx, _arg_jobParams)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIJobServiceStopJob:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_jobParams JobParameters
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -216,12 +219,8 @@ func (s *JobServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.StopJob(ctx, _arg_jobParams)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIJobServiceOnNetworkChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_jobParams JobParameters
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -235,12 +234,8 @@ func (s *JobServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnNetworkChanged(ctx, _arg_jobParams)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIJobServiceGetTransferredDownloadBytes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_jobParams JobParameters
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -266,12 +261,8 @@ func (s *JobServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetTransferredDownloadBytes(ctx, _arg_jobParams, _arg_jobWorkItem)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIJobServiceGetTransferredUploadBytes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_jobParams JobParameters
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -297,8 +288,7 @@ func (s *JobServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetTransferredUploadBytes(ctx, _arg_jobParams, _arg_jobWorkItem)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

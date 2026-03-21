@@ -1,0 +1,7 @@
+package: android.hardware.camera2.params
+go_package: android/hardware/camera2/params
+parcelables:
+    - name: OutputConfiguration
+    - name: SessionConfiguration
+    - name: VendorTagDescriptor
+    - name: VendorTagDescriptorCache

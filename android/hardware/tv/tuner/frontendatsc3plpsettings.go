@@ -38,9 +38,19 @@ func (s *FrontendAtsc3PlpSettings) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PlpId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_modulationRaw, _err := p.ReadInt32()
@@ -49,17 +59,32 @@ func (s *FrontendAtsc3PlpSettings) UnmarshalParcel(
 	}
 	s.Modulation = FrontendAtsc3Modulation(_modulationRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_interleaveModeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.InterleaveMode = FrontendAtsc3TimeInterleaveMode(_interleaveModeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_codeRateRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.CodeRate = FrontendAtsc3CodeRate(_codeRateRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_fecRaw, _err := p.ReadInt32()
 	if _err != nil {

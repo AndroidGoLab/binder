@@ -9,7 +9,7 @@ import (
 
 type Buffer struct {
 	Slot   int32
-	Handle common.NativeHandle
+	Handle *common.NativeHandle
 	Fence  int32
 }
 
@@ -20,8 +20,13 @@ func (s *Buffer) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Slot)
-	if _err := s.Handle.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Handle == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Handle.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	p.WriteFileDescriptor(s.Fence)
 
@@ -37,13 +42,38 @@ func (s *Buffer) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Slot, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
-	if _err = s.Handle.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val common.NativeHandle
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Handle = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Fence, _err = p.ReadFileDescriptor()

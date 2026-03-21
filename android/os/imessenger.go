@@ -45,6 +45,7 @@ func (p *MessengerProxy) Send(
 	msg Message,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMessenger)
 	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *MessengerProxy) Send(
 // MessengerStub dispatches incoming binder transactions
 // to a typed IMessenger implementation.
 type MessengerStub struct {
-	Impl IMessenger
+	Impl      IMessenger
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MessengerStub)(nil)
@@ -77,11 +79,12 @@ func (s *MessengerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMessengerSend:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_msg Message
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *MessengerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.Send(ctx, _arg_msg)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

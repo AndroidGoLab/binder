@@ -32,11 +32,21 @@ func (s *CameraBlob) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_blobIdRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.BlobId = CameraBlobId(_blobIdRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.BlobSizeBytes, _err = p.ReadInt32()
 	if _err != nil {

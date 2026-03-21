@@ -48,6 +48,7 @@ func (p *CellInfoCallbackProxy) OnCellInfo(
 	state []CellInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICellInfoCallback)
 	if state == nil {
 		_data.WriteInt32(-1)
@@ -77,6 +78,7 @@ func (p *CellInfoCallbackProxy) OnError(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICellInfoCallback)
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(exceptionName)
@@ -94,7 +96,8 @@ func (p *CellInfoCallbackProxy) OnError(
 // CellInfoCallbackStub dispatches incoming binder transactions
 // to a typed ICellInfoCallback implementation.
 type CellInfoCallbackStub struct {
-	Impl ICellInfoCallback
+	Impl      ICellInfoCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CellInfoCallbackStub)(nil)
@@ -108,21 +111,36 @@ func (s *CellInfoCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICellInfoCallbackOnCellInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_state []CellInfo
-		_ = _arg_state
-		_err := s.Impl.OnCellInfo(ctx, _arg_state)
-		_ = _err
-		return nil, nil
-	case TransactionICellInfoCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_state = make([]CellInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_state[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnCellInfo(ctx, _arg_state)
+		return nil, _err
+	case TransactionICellInfoCallbackOnError:
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -136,8 +154,7 @@ func (s *CellInfoCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_errorCode, _arg_exceptionName, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -12,11 +12,6 @@ type binderObjectType uint32
 // binderFlags represents the flags field of a flat_binder_object.
 type binderFlags uint32
 
-// StabilityLevel represents the binder stability level from
-// android/binder/Stability.h, written as int32 after each
-// flat_binder_object by Parcel::finishFlattenBinder.
-type StabilityLevel int32
-
 const (
 	// binderTypeBinder is the type for a local Binder object.
 	// Kernel value: B_PACK_CHARS('s','b','*',0x85) = 0x73622a85.
@@ -30,20 +25,18 @@ const (
 	// Kernel value: B_PACK_CHARS('f','d','*',0x85) = 0x66642a85.
 	binderTypeFD = binderObjectType(0x66642a85)
 
+	// binderFlagsSchedBits contains the default scheduling policy bits.
+	// Android sets SCHED_NORMAL (0) with priority 19 (nice 19, lowest),
+	// giving schedBits = 0x13.
+	binderFlagsSchedBits = binderFlags(0x13)
+
 	// binderFlagsAcceptFDs is FLAT_BINDER_FLAG_ACCEPTS_FDS (0x100) OR'd
-	// with the default scheduling bits. Android sets SCHED_NORMAL (0)
-	// with priority 19 (nice 19, lowest), giving schedBits = 0x13.
-	binderFlagsAcceptFDs = binderFlags(0x100 | 0x13)
+	// with the default scheduling bits. Only used for local binders
+	// (BINDER_TYPE_BINDER), NOT for handle (remote) binders.
+	binderFlagsAcceptFDs = binderFlags(0x100) | binderFlagsSchedBits
 
 	// flatBinderObjectSize is the size of a flat_binder_object (24 bytes on 64-bit).
 	flatBinderObjectSize = 24
-
-	// StabilityUndeclared is the default stability for null binder objects.
-	StabilityUndeclared = StabilityLevel(0)
-
-	// StabilitySystem is the stability for system (non-VNDK) binder objects.
-	// This matches getLocalLevel() in system builds.
-	StabilitySystem = StabilityLevel(0b001100) // 12
 )
 
 // WriteLocalBinder writes a local binder object to the parcel.
@@ -66,6 +59,15 @@ func (p *Parcel) WriteLocalBinder(
 	binderPtr uintptr,
 	cookie uintptr,
 ) {
+	// The kernel rejects zero binder/cookie values; catch the mistake
+	// early rather than triggering a cryptic ioctl failure later.
+	if binderPtr == 0 {
+		panic("WriteLocalBinder: binderPtr must be non-zero")
+	}
+	if cookie == 0 {
+		panic("WriteLocalBinder: cookie must be non-zero")
+	}
+
 	offset := uint64(p.Len())
 	p.objects = append(p.objects, offset)
 
@@ -103,8 +105,9 @@ func (p *Parcel) WriteStrongBinder(
 	// type (uint32, offset 0)
 	binary.LittleEndian.PutUint32(buf[0:], uint32(binderTypeHandle))
 
-	// flags (uint32, offset 4)
-	binary.LittleEndian.PutUint32(buf[4:], uint32(binderFlagsAcceptFDs))
+	// flags (uint32, offset 4) — only schedBits for remote handles.
+	// FLAT_BINDER_FLAG_ACCEPTS_FDS is only for local binders per AOSP.
+	binary.LittleEndian.PutUint32(buf[4:], uint32(binderFlagsSchedBits))
 
 	// handle (uint32, offset 8)
 	binary.LittleEndian.PutUint32(buf[8:], handle)
@@ -157,6 +160,8 @@ func (p *Parcel) ReadStrongBinder() (uint32, error) {
 // Android's flattenBinder(nullptr) writes type=BINDER_TYPE_BINDER with
 // binder=0 and cookie=0. The null object is NOT recorded in the objects
 // array (Parcel::writeObject skips it when binder==0 && !nullMetaData).
+// Intentionally does not record an offset in the objects array, matching
+// AOSP behavior: null binder objects are inert data, not real binder refs.
 // Followed by UNDECLARED stability level (finishFlattenBinder).
 func (p *Parcel) WriteNullStrongBinder() {
 	buf := p.grow(flatBinderObjectSize)

@@ -3,7 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
-	view "github.com/xaionaro-go/binder/android/view"
+	types "github.com/xaionaro-go/binder/android/view/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,7 +24,7 @@ const (
 
 type ITransitionPlayer interface {
 	AsBinder() binder.IBinder
-	OnTransitionReady(ctx context.Context, transitionToken binder.IBinder, info TransitionInfo, t view.SurfaceControlTransaction, finishT view.SurfaceControlTransaction) error
+	OnTransitionReady(ctx context.Context, transitionToken binder.IBinder, info TransitionInfo, t types.SurfaceControlTransaction, finishT types.SurfaceControlTransaction) error
 	RequestStartTransition(ctx context.Context, transitionToken binder.IBinder, request TransitionRequestInfo) error
 }
 
@@ -48,24 +48,19 @@ func (p *TransitionPlayerProxy) OnTransitionReady(
 	ctx context.Context,
 	transitionToken binder.IBinder,
 	info TransitionInfo,
-	t view.SurfaceControlTransaction,
-	finishT view.SurfaceControlTransaction,
+	t types.SurfaceControlTransaction,
+	finishT types.SurfaceControlTransaction,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransitionPlayer)
 	binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := t.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := finishT.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param t (type types.SurfaceControlTransaction) cannot be serialized — type not resolved
+	// WARNING: param finishT (type types.SurfaceControlTransaction) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransitionPlayer, MethodITransitionPlayerOnTransitionReady)
 	if _err != nil {
@@ -82,6 +77,7 @@ func (p *TransitionPlayerProxy) RequestStartTransition(
 	request TransitionRequestInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransitionPlayer)
 	binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -101,7 +97,8 @@ func (p *TransitionPlayerProxy) RequestStartTransition(
 // TransitionPlayerStub dispatches incoming binder transactions
 // to a typed ITransitionPlayer implementation.
 type TransitionPlayerStub struct {
-	Impl ITransitionPlayer
+	Impl      ITransitionPlayer
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TransitionPlayerStub)(nil)
@@ -115,14 +112,20 @@ func (s *TransitionPlayerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITransitionPlayerOnTransitionReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transitionToken binder.IBinder
-		_ = _arg_transitionToken
+		{
+			_transitionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transitionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transitionTokenHandle)
+		}
 		var _arg_info TransitionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -135,40 +138,19 @@ func (s *TransitionPlayerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_t view.SurfaceControlTransaction
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_finishT view.SurfaceControlTransaction
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_finishT.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_t types.SurfaceControlTransaction
+		var _arg_finishT types.SurfaceControlTransaction
 		_err := s.Impl.OnTransitionReady(ctx, _arg_transitionToken, _arg_info, _arg_t, _arg_finishT)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITransitionPlayerRequestStartTransition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transitionToken binder.IBinder
-		_ = _arg_transitionToken
+		{
+			_transitionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transitionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transitionTokenHandle)
+		}
 		var _arg_request TransitionRequestInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -182,8 +164,7 @@ func (s *TransitionPlayerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RequestStartTransition(ctx, _arg_transitionToken, _arg_request)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -193,7 +174,7 @@ func (s *TransitionPlayerStub) OnTransaction(
 // provide to NewTransitionPlayerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ITransitionPlayerServer interface {
-	OnTransitionReady(ctx context.Context, transitionToken binder.IBinder, info TransitionInfo, t view.SurfaceControlTransaction, finishT view.SurfaceControlTransaction) error
+	OnTransitionReady(ctx context.Context, transitionToken binder.IBinder, info TransitionInfo, t types.SurfaceControlTransaction, finishT types.SurfaceControlTransaction) error
 	RequestStartTransition(ctx context.Context, transitionToken binder.IBinder, request TransitionRequestInfo) error
 }
 
@@ -210,8 +191,8 @@ func (w *transitionPlayerStubWrapper) OnTransitionReady(
 	ctx context.Context,
 	transitionToken binder.IBinder,
 	info TransitionInfo,
-	t view.SurfaceControlTransaction,
-	finishT view.SurfaceControlTransaction,
+	t types.SurfaceControlTransaction,
+	finishT types.SurfaceControlTransaction,
 ) error {
 	return w.impl.OnTransitionReady(ctx, transitionToken, info, t, finishT)
 }

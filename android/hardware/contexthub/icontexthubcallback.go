@@ -70,6 +70,7 @@ func (p *ContextHubCallbackProxy) HandleNanoappInfo(
 	appInfo []NanoappInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
 	if appInfo == nil {
 		_data.WriteInt32(-1)
@@ -107,6 +108,7 @@ func (p *ContextHubCallbackProxy) HandleContextHubMessage(
 	msgContentPerms []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
 	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
@@ -144,6 +146,7 @@ func (p *ContextHubCallbackProxy) HandleContextHubAsyncEvent(
 	evt AsyncEventType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
 	_data.WriteInt32(int32(evt))
 
@@ -171,6 +174,7 @@ func (p *ContextHubCallbackProxy) HandleTransactionResult(
 	success bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
 	_data.WriteInt32(transactionId)
 	_data.WriteBool(success)
@@ -198,6 +202,7 @@ func (p *ContextHubCallbackProxy) HandleNanSessionRequest(
 	request NanSessionRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -228,6 +233,7 @@ func (p *ContextHubCallbackProxy) HandleMessageDeliveryStatus(
 	messageDeliveryStatus MessageDeliveryStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
 	_data.WriteInt32(int32(hostEndpointId))
 	_data.WriteInt32(1)
@@ -258,6 +264,7 @@ func (p *ContextHubCallbackProxy) GetUuid(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubCallback, MethodIContextHubCallbackGetUuid)
@@ -275,19 +282,9 @@ func (p *ContextHubCallbackProxy) GetUuid(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -297,6 +294,7 @@ func (p *ContextHubCallbackProxy) GetName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubCallback, MethodIContextHubCallbackGetName)
@@ -324,7 +322,8 @@ func (p *ContextHubCallbackProxy) GetName(
 // ContextHubCallbackStub dispatches incoming binder transactions
 // to a typed IContextHubCallback implementation.
 type ContextHubCallbackStub struct {
-	Impl IContextHubCallback
+	Impl      IContextHubCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ContextHubCallbackStub)(nil)
@@ -338,14 +337,33 @@ func (s *ContextHubCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIContextHubCallbackHandleNanoappInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_appInfo []NanoappInfo
-		_ = _arg_appInfo
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_appInfo = make([]NanoappInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_appInfo[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.HandleNanoappInfo(ctx, _arg_appInfo)
 		_reply := parcel.New()
 		if _err != nil {
@@ -355,9 +373,6 @@ func (s *ContextHubCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubCallbackHandleContextHubMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_msg ContextHubMessage
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -370,9 +385,25 @@ func (s *ContextHubCallbackStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_msgContentPerms []string
-		_ = _arg_msgContentPerms
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_msgContentPerms = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_msgContentPerms[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.HandleContextHubMessage(ctx, _arg_msg, _arg_msgContentPerms)
 		_reply := parcel.New()
 		if _err != nil {
@@ -382,9 +413,6 @@ func (s *ContextHubCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubCallbackHandleContextHubAsyncEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_evt, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -399,9 +427,6 @@ func (s *ContextHubCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubCallbackHandleTransactionResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_transactionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -419,9 +444,6 @@ func (s *ContextHubCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubCallbackHandleNanSessionRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request NanSessionRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -443,9 +465,6 @@ func (s *ContextHubCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubCallbackHandleMessageDeliveryStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_hostEndpointId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -472,9 +491,6 @@ func (s *ContextHubCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubCallbackGetUuid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetUuid(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -482,13 +498,9 @@ func (s *ContextHubCallbackStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIContextHubCallbackGetName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetName(ctx)
 		_reply := parcel.New()
 		if _err != nil {

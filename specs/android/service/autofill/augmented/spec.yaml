@@ -1,0 +1,104 @@
+package: android.service.autofill.augmented
+go_package: android/service/autofill/augmented
+interfaces:
+    - name: IAugmentedAutofillService
+      descriptor: android.service.autofill.augmented.IAugmentedAutofillService
+      oneway: true
+      methods:
+        - name: onConnected
+          transaction_code_offset: 0
+          params:
+            - name: debug
+              type:
+                name: boolean
+            - name: verbose
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onDisconnected
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onFillRequest
+          transaction_code_offset: 2
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: autofillManagerClient
+              type:
+                name: IBinder
+              direction: in
+            - name: taskId
+              type:
+                name: int
+            - name: activityComponent
+              type:
+                name: ComponentName
+              direction: in
+            - name: focusedId
+              type:
+                name: AutofillId
+              direction: in
+            - name: focusedValue
+              type:
+                name: AutofillValue
+              direction: in
+            - name: requestTime
+              type:
+                name: long
+            - name: inlineSuggestionsRequest
+              type:
+                name: InlineSuggestionsRequest
+              direction: in
+            - name: callback
+              type:
+                name: IFillCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onDestroyAllFillWindowsRequest
+          transaction_code_offset: 3
+          return_type:
+            name: void
+    - name: IFillCallback
+      descriptor: android.service.autofill.augmented.IFillCallback
+      methods:
+        - name: onCancellable
+          transaction_code_offset: 0
+          params:
+            - name: cancellation
+              type:
+                name: ICancellationSignal
+              direction: in
+          return_type:
+            name: void
+        - name: onSuccess
+          transaction_code_offset: 1
+          params:
+            - name: inlineSuggestionsData
+              type:
+                name: List
+                is_nullable: true
+                type_args:
+                    - name: Dataset
+              direction: in
+            - name: clientState
+              type:
+                name: Bundle
+                is_nullable: true
+              direction: in
+            - name: showingFillWindow
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isCompleted
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+        - name: cancel
+          transaction_code_offset: 3
+          return_type:
+            name: void

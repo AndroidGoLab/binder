@@ -1,7 +1,7 @@
 package c2
 
 import (
-	CameraExtensionSessionStats "github.com/xaionaro-go/binder/android/hardware/CameraExtensionSessionStats"
+	hardware "github.com/xaionaro-go/binder/android/hardware"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +9,7 @@ import (
 
 type FieldSupportedValuesQuery struct {
 	Field ParamField
-	Type  CameraExtensionSessionStats.Type
+	Type  hardware.CameraExtensionSessionStatsType
 }
 
 var _ parcel.Parcelable = (*FieldSupportedValuesQuery)(nil)
@@ -35,15 +35,25 @@ func (s *FieldSupportedValuesQuery) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Field.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_typeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.Type = CameraExtensionSessionStats.Type(_typeRaw)
+	s.Type = hardware.CameraExtensionSessionStatsType(_typeRaw)
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

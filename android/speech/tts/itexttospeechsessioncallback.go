@@ -52,6 +52,7 @@ func (p *TextToSpeechSessionCallbackProxy) OnConnected(
 	serviceBinder binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechSessionCallback)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, serviceBinder, p.Remote.Transport())
@@ -69,6 +70,7 @@ func (p *TextToSpeechSessionCallbackProxy) OnDisconnected(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechSessionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechSessionCallback, MethodITextToSpeechSessionCallbackOnDisconnected)
@@ -85,6 +87,7 @@ func (p *TextToSpeechSessionCallbackProxy) OnError(
 	errorInfo string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechSessionCallback)
 	_data.WriteString16(errorInfo)
 
@@ -100,7 +103,8 @@ func (p *TextToSpeechSessionCallbackProxy) OnError(
 // TextToSpeechSessionCallbackStub dispatches incoming binder transactions
 // to a typed ITextToSpeechSessionCallback implementation.
 type TextToSpeechSessionCallbackStub struct {
-	Impl ITextToSpeechSessionCallback
+	Impl      ITextToSpeechSessionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TextToSpeechSessionCallbackStub)(nil)
@@ -114,38 +118,40 @@ func (s *TextToSpeechSessionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITextToSpeechSessionCallbackOnConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session ITextToSpeechSession
-		_ = _arg_session
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewTextToSpeechSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		var _arg_serviceBinder binder.IBinder
-		_ = _arg_serviceBinder
+		{
+			_serviceBinderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_serviceBinder = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _serviceBinderHandle)
+		}
 		_err := s.Impl.OnConnected(ctx, _arg_session, _arg_serviceBinder)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITextToSpeechSessionCallbackOnDisconnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDisconnected(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITextToSpeechSessionCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorInfo, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_errorInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

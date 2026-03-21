@@ -61,6 +61,7 @@ func (p *PrintDocumentAdapterProxy) SetObserver(
 	observer IPrintDocumentAdapterObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
@@ -77,6 +78,7 @@ func (p *PrintDocumentAdapterProxy) Start(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterStart)
@@ -97,6 +99,7 @@ func (p *PrintDocumentAdapterProxy) Layout(
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
 	_data.WriteInt32(1)
 	if _err := oldAttributes.MarshalParcel(_data); _err != nil {
@@ -130,6 +133,7 @@ func (p *PrintDocumentAdapterProxy) Write(
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
 	if pages == nil {
 		_data.WriteInt32(-1)
@@ -159,6 +163,7 @@ func (p *PrintDocumentAdapterProxy) Finish(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterFinish)
@@ -175,6 +180,7 @@ func (p *PrintDocumentAdapterProxy) Kill(
 	reason string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
 	_data.WriteString16(reason)
 
@@ -190,7 +196,8 @@ func (p *PrintDocumentAdapterProxy) Kill(
 // PrintDocumentAdapterStub dispatches incoming binder transactions
 // to a typed IPrintDocumentAdapter implementation.
 type PrintDocumentAdapterStub struct {
-	Impl IPrintDocumentAdapter
+	Impl      IPrintDocumentAdapter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PrintDocumentAdapterStub)(nil)
@@ -204,28 +211,26 @@ func (s *PrintDocumentAdapterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPrintDocumentAdapterSetObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPrintDocumentAdapterObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewPrintDocumentAdapterObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_err := s.Impl.SetObserver(ctx, _arg_observer)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintDocumentAdapterStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Start(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintDocumentAdapterLayout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_oldAttributes PrintAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -250,9 +255,14 @@ func (s *PrintDocumentAdapterStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ILayoutResultCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewLayoutResultCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_metadata os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -270,47 +280,57 @@ func (s *PrintDocumentAdapterStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.Layout(ctx, _arg_oldAttributes, _arg_newAttributes, _arg_callback, _arg_metadata, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintDocumentAdapterWrite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pages []PageRange
-		_ = _arg_pages
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_pages = make([]PageRange, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_pages[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IWriteResultCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewWriteResultCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Write(ctx, _arg_pages, _arg_fd, _arg_callback, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintDocumentAdapterFinish:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Finish(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintDocumentAdapterKill:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Kill(ctx, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

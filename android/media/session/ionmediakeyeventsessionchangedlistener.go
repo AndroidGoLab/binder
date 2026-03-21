@@ -46,6 +46,7 @@ func (p *OnMediaKeyEventSessionChangedListenerProxy) OnMediaKeyEventSessionChang
 	mediaKeyEventSessionToken MediaSessionToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnMediaKeyEventSessionChangedListener)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -65,7 +66,8 @@ func (p *OnMediaKeyEventSessionChangedListenerProxy) OnMediaKeyEventSessionChang
 // OnMediaKeyEventSessionChangedListenerStub dispatches incoming binder transactions
 // to a typed IOnMediaKeyEventSessionChangedListener implementation.
 type OnMediaKeyEventSessionChangedListenerStub struct {
-	Impl IOnMediaKeyEventSessionChangedListener
+	Impl      IOnMediaKeyEventSessionChangedListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OnMediaKeyEventSessionChangedListenerStub)(nil)
@@ -79,11 +81,12 @@ func (s *OnMediaKeyEventSessionChangedListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOnMediaKeyEventSessionChangedListenerOnMediaKeyEventSessionChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -101,8 +104,7 @@ func (s *OnMediaKeyEventSessionChangedListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnMediaKeyEventSessionChanged(ctx, _arg_packageName, _arg_mediaKeyEventSessionToken)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

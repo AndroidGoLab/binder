@@ -59,6 +59,7 @@ func (p *StorageSessionProxy) CommitChanges(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageSession, MethodIStorageSessionCommitChanges)
@@ -83,6 +84,7 @@ func (p *StorageSessionProxy) AbandonChanges(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageSession, MethodIStorageSessionAbandonChanges)
@@ -110,6 +112,7 @@ func (p *StorageSessionProxy) OpenFile(
 ) (IFile, error) {
 	var _result IFile
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageSession)
 	_data.WriteString16(filePath)
 	_data.WriteInt32(1)
@@ -146,6 +149,7 @@ func (p *StorageSessionProxy) DeleteFile(
 	options DeleteOptions,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageSession)
 	_data.WriteString16(filePath)
 	_data.WriteInt32(1)
@@ -178,6 +182,7 @@ func (p *StorageSessionProxy) RenameFile(
 	options RenameOptions,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageSession)
 	_data.WriteString16(currentPath)
 	_data.WriteString16(destPath)
@@ -211,6 +216,7 @@ func (p *StorageSessionProxy) OpenDir(
 ) (IDir, error) {
 	var _result IDir
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageSession)
 	_data.WriteString16(path)
 	_data.WriteInt32(int32(readIntegrity))
@@ -241,7 +247,8 @@ func (p *StorageSessionProxy) OpenDir(
 // StorageSessionStub dispatches incoming binder transactions
 // to a typed IStorageSession implementation.
 type StorageSessionStub struct {
-	Impl IStorageSession
+	Impl      IStorageSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StorageSessionStub)(nil)
@@ -255,11 +262,12 @@ func (s *StorageSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStorageSessionCommitChanges:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CommitChanges(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -269,9 +277,6 @@ func (s *StorageSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageSessionAbandonChanges:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.AbandonChanges(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -281,9 +286,6 @@ func (s *StorageSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageSessionOpenFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_filePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -307,13 +309,9 @@ func (s *StorageSessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIStorageSessionDeleteFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_filePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -339,9 +337,6 @@ func (s *StorageSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageSessionRenameFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_currentPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -371,9 +366,6 @@ func (s *StorageSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageSessionOpenDir:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -390,8 +382,7 @@ func (s *StorageSessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

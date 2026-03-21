@@ -47,6 +47,7 @@ func (p *BluetoothCsipSetCoordinatorLockCallbackProxy) OnGroupLockSet(
 	isLocked bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinatorLockCallback)
 	_data.WriteInt32(groupId)
 	_data.WriteInt32(opStatus)
@@ -64,7 +65,8 @@ func (p *BluetoothCsipSetCoordinatorLockCallbackProxy) OnGroupLockSet(
 // BluetoothCsipSetCoordinatorLockCallbackStub dispatches incoming binder transactions
 // to a typed IBluetoothCsipSetCoordinatorLockCallback implementation.
 type BluetoothCsipSetCoordinatorLockCallbackStub struct {
-	Impl IBluetoothCsipSetCoordinatorLockCallback
+	Impl      IBluetoothCsipSetCoordinatorLockCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothCsipSetCoordinatorLockCallbackStub)(nil)
@@ -78,11 +80,12 @@ func (s *BluetoothCsipSetCoordinatorLockCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothCsipSetCoordinatorLockCallbackOnGroupLockSet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_groupId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -96,8 +99,7 @@ func (s *BluetoothCsipSetCoordinatorLockCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGroupLockSet(ctx, _arg_groupId, _arg_opStatus, _arg_isLocked)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

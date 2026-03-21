@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -40,8 +41,8 @@ type IBluetoothLeCallControl interface {
 	UnregisterBearer(ctx context.Context, token string, attributionSource content.AttributionSource) error
 	RequestResult(ctx context.Context, ccid int32, requestId int32, result int32, attributionSource content.AttributionSource) error
 	CallAdded(ctx context.Context, ccid int32, call BluetoothLeCall, attributionSource content.AttributionSource) error
-	CallRemoved(ctx context.Context, ccid int32, callId interface{}, reason int32, attributionSource content.AttributionSource) error
-	CallStateChanged(ctx context.Context, ccid int32, callId interface{}, state int32, attributionSource content.AttributionSource) error
+	CallRemoved(ctx context.Context, ccid int32, callId os.ParcelUuid, reason int32, attributionSource content.AttributionSource) error
+	CallStateChanged(ctx context.Context, ccid int32, callId os.ParcelUuid, state int32, attributionSource content.AttributionSource) error
 	CurrentCallsList(ctx context.Context, ccid int32, calls []BluetoothLeCall, attributionSource content.AttributionSource) error
 	NetworkStateChanged(ctx context.Context, ccid int32, provider string, technology int32, attributionSource content.AttributionSource) error
 }
@@ -74,6 +75,7 @@ func (p *BluetoothLeCallControlProxy) RegisterBearer(
 	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeCallControl)
 	_data.WriteString16(token)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -109,6 +111,7 @@ func (p *BluetoothLeCallControlProxy) UnregisterBearer(
 	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeCallControl)
 	_data.WriteString16(token)
 	_data.WriteInt32(1)
@@ -133,6 +136,7 @@ func (p *BluetoothLeCallControlProxy) RequestResult(
 	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeCallControl)
 	_data.WriteInt32(ccid)
 	_data.WriteInt32(requestId)
@@ -158,6 +162,7 @@ func (p *BluetoothLeCallControlProxy) CallAdded(
 	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeCallControl)
 	_data.WriteInt32(ccid)
 	_data.WriteInt32(1)
@@ -181,13 +186,18 @@ func (p *BluetoothLeCallControlProxy) CallAdded(
 func (p *BluetoothLeCallControlProxy) CallRemoved(
 	ctx context.Context,
 	ccid int32,
-	callId interface{},
+	callId os.ParcelUuid,
 	reason int32,
 	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeCallControl)
 	_data.WriteInt32(ccid)
+	_data.WriteInt32(1)
+	if _err := callId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(reason)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
@@ -206,13 +216,18 @@ func (p *BluetoothLeCallControlProxy) CallRemoved(
 func (p *BluetoothLeCallControlProxy) CallStateChanged(
 	ctx context.Context,
 	ccid int32,
-	callId interface{},
+	callId os.ParcelUuid,
 	state int32,
 	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeCallControl)
 	_data.WriteInt32(ccid)
+	_data.WriteInt32(1)
+	if _err := callId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(state)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
@@ -235,6 +250,7 @@ func (p *BluetoothLeCallControlProxy) CurrentCallsList(
 	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeCallControl)
 	_data.WriteInt32(ccid)
 	if calls == nil {
@@ -270,6 +286,7 @@ func (p *BluetoothLeCallControlProxy) NetworkStateChanged(
 	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeCallControl)
 	_data.WriteInt32(ccid)
 	_data.WriteString16(provider)
@@ -291,7 +308,8 @@ func (p *BluetoothLeCallControlProxy) NetworkStateChanged(
 // BluetoothLeCallControlStub dispatches incoming binder transactions
 // to a typed IBluetoothLeCallControl implementation.
 type BluetoothLeCallControlStub struct {
-	Impl IBluetoothLeCallControl
+	Impl      IBluetoothLeCallControl
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothLeCallControlStub)(nil)
@@ -305,25 +323,47 @@ func (s *BluetoothLeCallControlStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothLeCallControlRegisterBearer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IBluetoothLeCallControlCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewBluetoothLeCallControlCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_uci, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_uriSchemes []string
-		_ = _arg_uriSchemes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_uriSchemes = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_uriSchemes[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_capabilities, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -349,12 +389,8 @@ func (s *BluetoothLeCallControlStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.RegisterBearer(ctx, _arg_token, _arg_callback, _arg_uci, _arg_uriSchemes, _arg_capabilities, _arg_provider, _arg_technology, _arg_attributionSource)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothLeCallControlUnregisterBearer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -372,12 +408,8 @@ func (s *BluetoothLeCallControlStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.UnregisterBearer(ctx, _arg_token, _arg_attributionSource)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothLeCallControlRequestResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ccid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -403,12 +435,8 @@ func (s *BluetoothLeCallControlStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.RequestResult(ctx, _arg_ccid, _arg_requestId, _arg_result, _arg_attributionSource)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothLeCallControlCallAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ccid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -438,17 +466,24 @@ func (s *BluetoothLeCallControlStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.CallAdded(ctx, _arg_ccid, _arg_call, _arg_attributionSource)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothLeCallControlCallRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ccid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callId interface{}
+		var _arg_callId os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -466,17 +501,24 @@ func (s *BluetoothLeCallControlStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.CallRemoved(ctx, _arg_ccid, _arg_callId, _arg_reason, _arg_attributionSource)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothLeCallControlCallStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ccid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callId interface{}
+		var _arg_callId os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -494,19 +536,33 @@ func (s *BluetoothLeCallControlStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.CallStateChanged(ctx, _arg_ccid, _arg_callId, _arg_state, _arg_attributionSource)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothLeCallControlCurrentCallsList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ccid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_calls []BluetoothLeCall
-		_ = _arg_calls
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_calls = make([]BluetoothLeCall, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_calls[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_attributionSource content.AttributionSource
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -520,12 +576,8 @@ func (s *BluetoothLeCallControlStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.CurrentCallsList(ctx, _arg_ccid, _arg_calls, _arg_attributionSource)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothLeCallControlNetworkStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ccid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -551,8 +603,7 @@ func (s *BluetoothLeCallControlStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NetworkStateChanged(ctx, _arg_ccid, _arg_provider, _arg_technology, _arg_attributionSource)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -566,8 +617,8 @@ type IBluetoothLeCallControlServer interface {
 	UnregisterBearer(ctx context.Context, token string, attributionSource content.AttributionSource) error
 	RequestResult(ctx context.Context, ccid int32, requestId int32, result int32, attributionSource content.AttributionSource) error
 	CallAdded(ctx context.Context, ccid int32, call BluetoothLeCall, attributionSource content.AttributionSource) error
-	CallRemoved(ctx context.Context, ccid int32, callId interface{}, reason int32, attributionSource content.AttributionSource) error
-	CallStateChanged(ctx context.Context, ccid int32, callId interface{}, state int32, attributionSource content.AttributionSource) error
+	CallRemoved(ctx context.Context, ccid int32, callId os.ParcelUuid, reason int32, attributionSource content.AttributionSource) error
+	CallStateChanged(ctx context.Context, ccid int32, callId os.ParcelUuid, state int32, attributionSource content.AttributionSource) error
 	CurrentCallsList(ctx context.Context, ccid int32, calls []BluetoothLeCall, attributionSource content.AttributionSource) error
 	NetworkStateChanged(ctx context.Context, ccid int32, provider string, technology int32, attributionSource content.AttributionSource) error
 }
@@ -625,7 +676,7 @@ func (w *bluetoothLeCallControlStubWrapper) CallAdded(
 func (w *bluetoothLeCallControlStubWrapper) CallRemoved(
 	ctx context.Context,
 	ccid int32,
-	callId interface{},
+	callId os.ParcelUuid,
 	reason int32,
 	attributionSource content.AttributionSource,
 ) error {
@@ -635,7 +686,7 @@ func (w *bluetoothLeCallControlStubWrapper) CallRemoved(
 func (w *bluetoothLeCallControlStubWrapper) CallStateChanged(
 	ctx context.Context,
 	ccid int32,
-	callId interface{},
+	callId os.ParcelUuid,
 	state int32,
 	attributionSource content.AttributionSource,
 ) error {

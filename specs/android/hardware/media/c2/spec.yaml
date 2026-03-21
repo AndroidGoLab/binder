@@ -1,0 +1,1041 @@
+package: android.hardware.media.c2
+go_package: android/hardware/media/c2
+interfaces:
+    - name: IComponent
+      descriptor: android.hardware.media.c2.IComponent
+      methods:
+        - name: configureVideoTunnel
+          transaction_code_offset: 0
+          params:
+            - name: avSyncHwId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: NativeHandle
+        - name: createBlockPool
+          transaction_code_offset: 1
+          params:
+            - name: allocator
+              type:
+                name: BlockPoolAllocator
+              direction: in
+          return_type:
+            name: BlockPool
+        - name: destroyBlockPool
+          transaction_code_offset: 2
+          params:
+            - name: blockPoolId
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: drain
+          transaction_code_offset: 3
+          params:
+            - name: withEos
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: flush
+          transaction_code_offset: 4
+          return_type:
+            name: WorkBundle
+        - name: getInterface
+          transaction_code_offset: 5
+          return_type:
+            name: IComponentInterface
+        - name: queue
+          transaction_code_offset: 6
+          params:
+            - name: workBundle
+              type:
+                name: WorkBundle
+              direction: in
+          return_type:
+            name: void
+        - name: release
+          transaction_code_offset: 7
+          return_type:
+            name: void
+        - name: reset
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: start
+          transaction_code_offset: 9
+          return_type:
+            name: void
+        - name: stop
+          transaction_code_offset: 10
+          return_type:
+            name: void
+        - name: connectToInputSurface
+          transaction_code_offset: 11
+          params:
+            - name: inputSurface
+              type:
+                name: IInputSurface
+              direction: in
+          return_type:
+            name: IInputSurfaceConnection
+        - name: asInputSink
+          transaction_code_offset: 12
+          return_type:
+            name: IInputSink
+    - name: IComponentInterface
+      descriptor: android.hardware.media.c2.IComponentInterface
+      methods:
+        - name: getConfigurable
+          transaction_code_offset: 0
+          return_type:
+            name: IConfigurable
+    - name: IComponentListener
+      descriptor: android.hardware.media.c2.IComponentListener
+      oneway: true
+      methods:
+        - name: onError
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: Status
+              direction: in
+            - name: errorCode
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onFramesRendered
+          transaction_code_offset: 1
+          params:
+            - name: renderedFrames
+              type:
+                name: RenderedFrame
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onInputBuffersReleased
+          transaction_code_offset: 2
+          params:
+            - name: inputBuffers
+              type:
+                name: InputBuffer
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onTripped
+          transaction_code_offset: 3
+          params:
+            - name: settingResults
+              type:
+                name: SettingResult
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onWorkDone
+          transaction_code_offset: 4
+          params:
+            - name: workBundle
+              type:
+                name: WorkBundle
+              direction: in
+          return_type:
+            name: void
+    - name: IComponentStore
+      descriptor: android.hardware.media.c2.IComponentStore
+      methods:
+        - name: copyBuffer
+          transaction_code_offset: 0
+          params:
+            - name: src
+              type:
+                name: Buffer
+              direction: in
+            - name: dst
+              type:
+                name: Buffer
+              direction: in
+          return_type:
+            name: void
+        - name: createComponent
+          transaction_code_offset: 1
+          params:
+            - name: name
+              type:
+                name: String
+              direction: in
+            - name: listener
+              type:
+                name: IComponentListener
+              direction: in
+            - name: pool
+              type:
+                name: android.hardware.media.bufferpool2.IClientManager
+              direction: in
+          return_type:
+            name: IComponent
+        - name: createInterface
+          transaction_code_offset: 2
+          params:
+            - name: name
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: IComponentInterface
+        - name: getConfigurable
+          transaction_code_offset: 3
+          return_type:
+            name: IConfigurable
+        - name: getPoolClientManager
+          transaction_code_offset: 4
+          return_type:
+            name: android.hardware.media.bufferpool2.IClientManager
+        - name: getStructDescriptors
+          transaction_code_offset: 5
+          params:
+            - name: indices
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: StructDescriptor
+            is_array: true
+        - name: listComponents
+          transaction_code_offset: 6
+          return_type:
+            name: ComponentTraits
+            is_array: true
+        - name: createInputSurface
+          transaction_code_offset: 7
+          return_type:
+            name: IInputSurface
+    - name: IConfigurable
+      descriptor: android.hardware.media.c2.IConfigurable
+      methods:
+        - name: config
+          transaction_code_offset: 0
+          params:
+            - name: inParams
+              type:
+                name: Params
+              direction: in
+            - name: mayBlock
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: ConfigResult
+        - name: getId
+          transaction_code_offset: 1
+          return_type:
+            name: int
+        - name: getName
+          transaction_code_offset: 2
+          return_type:
+            name: String
+        - name: query
+          transaction_code_offset: 3
+          params:
+            - name: indices
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: mayBlock
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: QueryResult
+        - name: querySupportedParams
+          transaction_code_offset: 4
+          params:
+            - name: start
+              type:
+                name: int
+              direction: in
+            - name: count
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: ParamDescriptor
+            is_array: true
+        - name: querySupportedValues
+          transaction_code_offset: 5
+          params:
+            - name: inFields
+              type:
+                name: FieldSupportedValuesQuery
+                is_array: true
+              direction: in
+            - name: mayBlock
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: QuerySupportedValuesResult
+    - name: IGraphicBufferAllocator
+      descriptor: android.hardware.media.c2.IGraphicBufferAllocator
+      methods:
+        - name: allocate
+          transaction_code_offset: 0
+          params:
+            - name: desc
+              type:
+                name: Description
+              direction: in
+          return_type:
+            name: Allocation
+        - name: deallocate
+          transaction_code_offset: 1
+          params:
+            - name: id
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: boolean
+        - name: getWaitableFd
+          transaction_code_offset: 2
+          return_type:
+            name: ParcelFileDescriptor
+    - name: IInputSink
+      descriptor: android.hardware.media.c2.IInputSink
+      methods:
+        - name: queue
+          transaction_code_offset: 0
+          params:
+            - name: workBundle
+              type:
+                name: WorkBundle
+              direction: in
+          return_type:
+            name: void
+    - name: IInputSurface
+      descriptor: android.hardware.media.c2.IInputSurface
+      methods:
+        - name: getSurface
+          transaction_code_offset: 0
+          return_type:
+            name: Surface
+        - name: getConfigurable
+          transaction_code_offset: 1
+          return_type:
+            name: IConfigurable
+        - name: connect
+          transaction_code_offset: 2
+          params:
+            - name: sink
+              type:
+                name: IInputSink
+              direction: in
+          return_type:
+            name: IInputSurfaceConnection
+    - name: IInputSurfaceConnection
+      descriptor: android.hardware.media.c2.IInputSurfaceConnection
+      methods:
+        - name: disconnect
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: signalEndOfStream
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: IPooledGraphicBufferAllocator
+      descriptor: android.hardware.media.c2.IPooledGraphicBufferAllocator
+      methods:
+        - name: allocate
+          transaction_code_offset: 0
+          params:
+            - name: desc
+              type:
+                name: Description
+              direction: in
+          return_type:
+            name: Allocation
+        - name: deallocate
+          transaction_code_offset: 1
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+parcelables:
+    - name: Block
+      fields:
+        - name: index
+          type:
+            name: int
+        - name: meta
+          type:
+            name: Params
+        - name: fence
+          type:
+            name: NativeHandle
+      annotations:
+        - VintfStability
+    - name: Buffer
+      fields:
+        - name: info
+          type:
+            name: Params
+        - name: blocks
+          type:
+            name: Block
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: FieldDescriptor
+      fields:
+        - name: fieldId
+          type:
+            name: FieldId
+        - name: type
+          type:
+            name: Type
+        - name: structIndex
+          type:
+            name: int
+        - name: extent
+          type:
+            name: int
+        - name: name
+          type:
+            name: String
+        - name: namedValues
+          type:
+            name: NamedValue
+            is_array: true
+      nested_types:
+        - FieldDescriptor.Type
+        - FieldDescriptor.NamedValue
+      annotations:
+        - VintfStability
+    - name: FieldDescriptor.NamedValue
+      fields:
+        - name: name
+          type:
+            name: String
+        - name: value
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: FieldId
+      fields:
+        - name: offset
+          type:
+            name: int
+        - name: sizeBytes
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: FieldSupportedValuesQuery
+      fields:
+        - name: field
+          type:
+            name: ParamField
+        - name: type
+          type:
+            name: Type
+      nested_types:
+        - FieldSupportedValuesQuery.Type
+      annotations:
+        - VintfStability
+    - name: FieldSupportedValuesQueryResult
+      fields:
+        - name: status
+          type:
+            name: Status
+        - name: values
+          type:
+            name: FieldSupportedValues
+      annotations:
+        - VintfStability
+    - name: FrameData
+      fields:
+        - name: flags
+          type:
+            name: int
+        - name: ordinal
+          type:
+            name: WorkOrdinal
+        - name: buffers
+          type:
+            name: Buffer
+            is_array: true
+        - name: configUpdate
+          type:
+            name: Params
+        - name: infoBuffers
+          type:
+            name: InfoBuffer
+            is_array: true
+      constants:
+        - name: DROP_FRAME
+          type: int
+          value: 1 << 0
+        - name: END_OF_STREAM
+          type: int
+          value: 1 << 1
+        - name: DISCARD_FRAME
+          type: int
+          value: 1 << 2
+        - name: FLAG_INCOMPLETE
+          type: int
+          value: 1 << 3
+        - name: CODEC_CONFIG
+          type: int
+          value: 1 << 31
+      annotations:
+        - VintfStability
+    - name: IComponent.BlockPool
+      fields:
+        - name: blockPoolId
+          type:
+            name: long
+        - name: configurable
+          type:
+            name: IConfigurable
+    - name: IComponent.BlockPoolAllocator
+      fields:
+        - name: allocatorId
+          type:
+            name: int
+        - name: gbAllocator
+          type:
+            name: GbAllocator
+          annotations:
+            - nullable
+        - name: pooledGbAllocator
+          type:
+            name: PooledGbAllocator
+          annotations:
+            - nullable
+    - name: IComponent.GbAllocator
+      fields:
+        - name: waitableFd
+          type:
+            name: ParcelFileDescriptor
+        - name: igba
+          type:
+            name: IGraphicBufferAllocator
+    - name: IComponent.PooledGbAllocator
+      fields:
+        - name: waitableFd
+          type:
+            name: ParcelFileDescriptor
+        - name: receiverId
+          type:
+            name: long
+        - name: ipgba
+          type:
+            name: IPooledGraphicBufferAllocator
+    - name: IComponentListener.InputBuffer
+      fields:
+        - name: frameIndex
+          type:
+            name: long
+        - name: arrayIndex
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: IComponentListener.RenderedFrame
+      fields:
+        - name: bufferQueueId
+          type:
+            name: long
+        - name: slotId
+          type:
+            name: int
+        - name: timestampNs
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: IComponentStore.ComponentTraits
+      fields:
+        - name: name
+          type:
+            name: String
+        - name: domain
+          type:
+            name: Domain
+        - name: kind
+          type:
+            name: Kind
+        - name: rank
+          type:
+            name: int
+        - name: mediaType
+          type:
+            name: String
+        - name: aliases
+          type:
+            name: String
+            is_array: true
+      nested_types:
+        - IComponentStore.ComponentTraits.Kind
+        - IComponentStore.ComponentTraits.Domain
+      annotations:
+        - VintfStability
+    - name: IConfigurable.ConfigResult
+      fields:
+        - name: params
+          type:
+            name: Params
+        - name: failures
+          type:
+            name: SettingResult
+            is_array: true
+        - name: status
+          type:
+            name: Status
+      annotations:
+        - VintfStability
+    - name: IConfigurable.QueryResult
+      fields:
+        - name: params
+          type:
+            name: Params
+        - name: status
+          type:
+            name: Status
+      annotations:
+        - VintfStability
+    - name: IConfigurable.QuerySupportedValuesResult
+      fields:
+        - name: values
+          type:
+            name: FieldSupportedValuesQueryResult
+            is_array: true
+        - name: status
+          type:
+            name: Status
+      annotations:
+        - VintfStability
+    - name: IGraphicBufferAllocator.Allocation
+      fields:
+        - name: buffer
+          type:
+            name: HardwareBuffer
+        - name: fence
+          type:
+            name: ParcelFileDescriptor
+          annotations:
+            - nullable
+    - name: IGraphicBufferAllocator.Description
+      fields:
+        - name: width
+          type:
+            name: int
+        - name: height
+          type:
+            name: int
+        - name: format
+          type:
+            name: int
+        - name: usage
+          type:
+            name: long
+    - name: IPooledGraphicBufferAllocator.Allocation
+      fields:
+        - name: bufferId
+          type:
+            name: int
+        - name: fence
+          type:
+            name: ParcelFileDescriptor
+          annotations:
+            - nullable
+    - name: IPooledGraphicBufferAllocator.Description
+      fields:
+        - name: widthPixels
+          type:
+            name: int
+        - name: heightPixels
+          type:
+            name: int
+        - name: format
+          type:
+            name: int
+        - name: usage
+          type:
+            name: long
+    - name: InfoBuffer
+      fields:
+        - name: index
+          type:
+            name: int
+        - name: buffer
+          type:
+            name: Buffer
+      annotations:
+        - VintfStability
+    - name: ParamDescriptor
+      fields:
+        - name: index
+          type:
+            name: int
+        - name: attrib
+          type:
+            name: int
+        - name: name
+          type:
+            name: String
+        - name: dependencies
+          type:
+            name: int
+            is_array: true
+      constants:
+        - name: ATTRIBUTE_REQUIRED
+          type: int
+          value: 1 << 0
+        - name: ATTRIBUTE_PERSISTENT
+          type: int
+          value: 1 << 1
+        - name: ATTRIBUTE_STRICT
+          type: int
+          value: 1 << 2
+        - name: ATTRIBUTE_READ_ONLY
+          type: int
+          value: 1 << 3
+        - name: ATTRIBUTE_HIDDEN
+          type: int
+          value: 1 << 4
+        - name: ATTRIBUTE_INTERNAL
+          type: int
+          value: 1 << 5
+        - name: ATTRIBUTE_CONST
+          type: int
+          value: 1 << 6
+      annotations:
+        - VintfStability
+    - name: ParamField
+      fields:
+        - name: index
+          type:
+            name: int
+        - name: fieldId
+          type:
+            name: FieldId
+      annotations:
+        - VintfStability
+    - name: ParamFieldValues
+      fields:
+        - name: paramOrField
+          type:
+            name: ParamField
+        - name: values
+          type:
+            name: FieldSupportedValues
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: Params
+      fields:
+        - name: params
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: SettingResult
+      fields:
+        - name: failure
+          type:
+            name: Failure
+        - name: field
+          type:
+            name: ParamFieldValues
+        - name: conflicts
+          type:
+            name: ParamFieldValues
+            is_array: true
+      nested_types:
+        - SettingResult.Failure
+      annotations:
+        - VintfStability
+    - name: Status
+      fields:
+        - name: status
+          type:
+            name: int
+      constants:
+        - name: OK
+          type: int
+          value: "0"
+        - name: BAD_VALUE
+          type: int
+          value: "-22"
+        - name: BAD_INDEX
+          type: int
+          value: "-75"
+        - name: CANNOT_DO
+          type: int
+          value: "-2147483646"
+        - name: DUPLICATE
+          type: int
+          value: "-17"
+        - name: NOT_FOUND
+          type: int
+          value: "-2"
+        - name: BAD_STATE
+          type: int
+          value: "-38"
+        - name: BLOCKING
+          type: int
+          value: "-9930"
+        - name: NO_MEMORY
+          type: int
+          value: "-12"
+        - name: REFUSED
+          type: int
+          value: "-1"
+        - name: TIMED_OUT
+          type: int
+          value: "-110"
+        - name: OMITTED
+          type: int
+          value: "-74"
+        - name: CORRUPTED
+          type: int
+          value: "-2147483648"
+        - name: NO_INIT
+          type: int
+          value: "-19"
+      annotations:
+        - VintfStability
+    - name: StructDescriptor
+      fields:
+        - name: type
+          type:
+            name: int
+        - name: fields
+          type:
+            name: FieldDescriptor
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: ValueRange
+      fields:
+        - name: min
+          type:
+            name: long
+        - name: max
+          type:
+            name: long
+        - name: step
+          type:
+            name: long
+        - name: num
+          type:
+            name: long
+        - name: denom
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: Work
+      fields:
+        - name: chainInfo
+          type:
+            name: byte
+            is_array: true
+        - name: input
+          type:
+            name: FrameData
+        - name: worklets
+          type:
+            name: Worklet
+            is_array: true
+        - name: workletsProcessed
+          type:
+            name: int
+        - name: result
+          type:
+            name: Status
+      annotations:
+        - VintfStability
+    - name: WorkBundle
+      fields:
+        - name: works
+          type:
+            name: Work
+            is_array: true
+        - name: baseBlocks
+          type:
+            name: BaseBlock
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: WorkOrdinal
+      fields:
+        - name: timestampUs
+          type:
+            name: long
+        - name: frameIndex
+          type:
+            name: long
+        - name: customOrdinal
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: Worklet
+      fields:
+        - name: componentId
+          type:
+            name: int
+        - name: tunings
+          type:
+            name: byte
+            is_array: true
+        - name: failures
+          type:
+            name: SettingResult
+            is_array: true
+        - name: output
+          type:
+            name: FrameData
+      annotations:
+        - VintfStability
+enums:
+    - name: FieldDescriptor.Type
+      backing_type: int
+      values:
+        - name: NO_INIT
+          value: "0"
+        - name: INT32
+          value: ""
+        - name: UINT32
+          value: ""
+        - name: CNTR32
+          value: ""
+        - name: INT64
+          value: ""
+        - name: UINT64
+          value: ""
+        - name: CNTR64
+          value: ""
+        - name: FLOAT
+          value: ""
+        - name: STRING
+          value: "0x100"
+        - name: BLOB
+          value: ""
+        - name: STRUCT
+          value: "0x20000"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FieldSupportedValuesQuery.Type
+      backing_type: int
+      values:
+        - name: POSSIBLE
+          value: "0"
+        - name: CURRENT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IComponentStore.ComponentTraits.Domain
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: VIDEO
+          value: ""
+        - name: AUDIO
+          value: ""
+        - name: IMAGE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IComponentStore.ComponentTraits.Kind
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "0"
+        - name: DECODER
+          value: ""
+        - name: ENCODER
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SettingResult.Failure
+      backing_type: int
+      values:
+        - name: BAD_TYPE
+          value: ""
+        - name: BAD_PORT
+          value: ""
+        - name: BAD_INDEX
+          value: ""
+        - name: READ_ONLY
+          value: ""
+        - name: MISMATCH
+          value: ""
+        - name: BAD_VALUE
+          value: ""
+        - name: CONFLICT
+          value: ""
+        - name: UNSUPPORTED
+          value: ""
+        - name: INFO_BAD_VALUE
+          value: ""
+        - name: INFO_CONFLICT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: BaseBlock
+      fields:
+        - name: nativeBlock
+          type:
+            name: NativeHandle
+        - name: hwbBlock
+          type:
+            name: HardwareBuffer
+        - name: pooledBlock
+          type:
+            name: android.hardware.media.bufferpool2.BufferStatusMessage
+      annotations:
+        - VintfStability
+    - name: FieldSupportedValues
+      fields:
+        - name: empty
+          type:
+            name: boolean
+        - name: range
+          type:
+            name: ValueRange
+        - name: values
+          type:
+            name: long
+            is_array: true
+        - name: flags
+          type:
+            name: long
+            is_array: true
+      annotations:
+        - VintfStability

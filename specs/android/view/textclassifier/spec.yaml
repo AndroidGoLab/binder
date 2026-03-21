@@ -1,0 +1,18 @@
+package: android.view.textclassifier
+go_package: android/view/textclassifier
+parcelables:
+    - name: ConversationActions
+    - name: ConversationActions.Request
+    - name: SelectionEvent
+    - name: SystemTextClassifierMetadata
+    - name: TextClassification
+    - name: TextClassification.Request
+    - name: TextClassificationContext
+    - name: TextClassificationSessionId
+    - name: TextClassifierEvent
+    - name: TextLanguage
+    - name: TextLanguage.Request
+    - name: TextLinks
+    - name: TextLinks.Request
+    - name: TextSelection
+    - name: TextSelection.Request

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -33,7 +34,7 @@ type IAppTask interface {
 	FinishAndRemoveTask(ctx context.Context) error
 	GetTaskInfo(ctx context.Context) (ActivityManagerRecentTaskInfo, error)
 	MoveToFront(ctx context.Context, appThread IApplicationThread) error
-	StartActivity(ctx context.Context, whoThread binder.IBinder, intent content.Intent, resolvedType string, options interface{}) (int32, error)
+	StartActivity(ctx context.Context, whoThread binder.IBinder, intent content.Intent, resolvedType string, options os.Bundle) (int32, error)
 	SetExcludeFromRecents(ctx context.Context, exclude bool) error
 }
 
@@ -57,6 +58,7 @@ func (p *AppTaskProxy) FinishAndRemoveTask(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppTask)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppTask, MethodIAppTaskFinishAndRemoveTask)
@@ -82,6 +84,7 @@ func (p *AppTaskProxy) GetTaskInfo(
 ) (ActivityManagerRecentTaskInfo, error) {
 	var _result ActivityManagerRecentTaskInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppTask)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppTask, MethodIAppTaskGetTaskInfo)
@@ -117,6 +120,7 @@ func (p *AppTaskProxy) MoveToFront(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppTask)
 	binder.WriteBinderToParcel(ctx, _data, appThread.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
@@ -144,11 +148,12 @@ func (p *AppTaskProxy) StartActivity(
 	whoThread binder.IBinder,
 	intent content.Intent,
 	resolvedType string,
-	options interface{},
+	options os.Bundle,
 ) (int32, error) {
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppTask)
 	binder.WriteBinderToParcel(ctx, _data, whoThread, p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
@@ -158,6 +163,10 @@ func (p *AppTaskProxy) StartActivity(
 		return _result, _err
 	}
 	_data.WriteString16(resolvedType)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppTask, MethodIAppTaskStartActivity)
 	if _err != nil {
@@ -186,6 +195,7 @@ func (p *AppTaskProxy) SetExcludeFromRecents(
 	exclude bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppTask)
 	_data.WriteBool(exclude)
 
@@ -210,7 +220,8 @@ func (p *AppTaskProxy) SetExcludeFromRecents(
 // AppTaskStub dispatches incoming binder transactions
 // to a typed IAppTask implementation.
 type AppTaskStub struct {
-	Impl IAppTask
+	Impl      IAppTask
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AppTaskStub)(nil)
@@ -224,11 +235,12 @@ func (s *AppTaskStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAppTaskFinishAndRemoveTask:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.FinishAndRemoveTask(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -238,9 +250,6 @@ func (s *AppTaskStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppTaskGetTaskInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetTaskInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -254,12 +263,14 @@ func (s *AppTaskStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAppTaskMoveToFront:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_appThread IApplicationThread
-		_ = _arg_appThread
+		{
+			_appThreadHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_appThread = NewApplicationThreadProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _appThreadHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -272,12 +283,14 @@ func (s *AppTaskStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppTaskStartActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_whoThread binder.IBinder
-		_ = _arg_whoThread
+		{
+			_whoThreadHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_whoThread = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _whoThreadHandle)
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -300,7 +313,18 @@ func (s *AppTaskStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.StartActivity(ctx, _arg_whoThread, _arg_intent, _arg_resolvedType, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -311,9 +335,6 @@ func (s *AppTaskStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppTaskSetExcludeFromRecents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_exclude, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -338,7 +359,7 @@ type IAppTaskServer interface {
 	FinishAndRemoveTask(ctx context.Context) error
 	GetTaskInfo(ctx context.Context) (ActivityManagerRecentTaskInfo, error)
 	MoveToFront(ctx context.Context, appThread IApplicationThread) error
-	StartActivity(ctx context.Context, whoThread binder.IBinder, intent content.Intent, resolvedType string, options interface{}) (int32, error)
+	StartActivity(ctx context.Context, whoThread binder.IBinder, intent content.Intent, resolvedType string, options os.Bundle) (int32, error)
 	SetExcludeFromRecents(ctx context.Context, exclude bool) error
 }
 
@@ -375,7 +396,7 @@ func (w *appTaskStubWrapper) StartActivity(
 	whoThread binder.IBinder,
 	intent content.Intent,
 	resolvedType string,
-	options interface{},
+	options os.Bundle,
 ) (int32, error) {
 	return w.impl.StartActivity(ctx, whoThread, intent, resolvedType, options)
 }

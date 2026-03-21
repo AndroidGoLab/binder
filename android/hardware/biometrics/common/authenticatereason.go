@@ -2,7 +2,6 @@ package common
 
 import (
 	"fmt"
-	commonAuthenticateReason "github.com/xaionaro-go/binder/android/hardware/biometrics/common/AuthenticateReason"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -16,56 +15,53 @@ const (
 
 type AuthenticateReason struct {
 	Tag                           int32
-	VendorAuthenticateReason      commonAuthenticateReason.Vendor
-	FaceAuthenticateReason        commonAuthenticateReason.Face
-	FingerprintAuthenticateReason commonAuthenticateReason.Fingerprint
+	VendorAuthenticateReason      AuthenticateReasonVendor
+	FaceAuthenticateReason        AuthenticateReasonFace
+	FingerprintAuthenticateReason AuthenticateReasonFingerprint
 }
 
 var _ parcel.Parcelable = (*AuthenticateReason)(nil)
 
-func (u *AuthenticateReason) GetVendorAuthenticateReason() (commonAuthenticateReason.Vendor, bool) {
+func (u *AuthenticateReason) GetVendorAuthenticateReason() (AuthenticateReasonVendor, bool) {
 	if u.Tag != AuthenticateReasonTagVendorAuthenticateReason {
-		var _zero commonAuthenticateReason.Vendor
+		var _zero AuthenticateReasonVendor
 		return _zero, false
 	}
 	return u.VendorAuthenticateReason, true
 }
 
 func (u *AuthenticateReason) SetVendorAuthenticateReason(
-	v commonAuthenticateReason.Vendor,
+	v AuthenticateReasonVendor,
 ) {
-	u.Tag = AuthenticateReasonTagVendorAuthenticateReason
-	u.VendorAuthenticateReason = v
+	*u = AuthenticateReason{Tag: AuthenticateReasonTagVendorAuthenticateReason, VendorAuthenticateReason: v}
 }
 
-func (u *AuthenticateReason) GetFaceAuthenticateReason() (commonAuthenticateReason.Face, bool) {
+func (u *AuthenticateReason) GetFaceAuthenticateReason() (AuthenticateReasonFace, bool) {
 	if u.Tag != AuthenticateReasonTagFaceAuthenticateReason {
-		var _zero commonAuthenticateReason.Face
+		var _zero AuthenticateReasonFace
 		return _zero, false
 	}
 	return u.FaceAuthenticateReason, true
 }
 
 func (u *AuthenticateReason) SetFaceAuthenticateReason(
-	v commonAuthenticateReason.Face,
+	v AuthenticateReasonFace,
 ) {
-	u.Tag = AuthenticateReasonTagFaceAuthenticateReason
-	u.FaceAuthenticateReason = v
+	*u = AuthenticateReason{Tag: AuthenticateReasonTagFaceAuthenticateReason, FaceAuthenticateReason: v}
 }
 
-func (u *AuthenticateReason) GetFingerprintAuthenticateReason() (commonAuthenticateReason.Fingerprint, bool) {
+func (u *AuthenticateReason) GetFingerprintAuthenticateReason() (AuthenticateReasonFingerprint, bool) {
 	if u.Tag != AuthenticateReasonTagFingerprintAuthenticateReason {
-		var _zero commonAuthenticateReason.Fingerprint
+		var _zero AuthenticateReasonFingerprint
 		return _zero, false
 	}
 	return u.FingerprintAuthenticateReason, true
 }
 
 func (u *AuthenticateReason) SetFingerprintAuthenticateReason(
-	v commonAuthenticateReason.Fingerprint,
+	v AuthenticateReasonFingerprint,
 ) {
-	u.Tag = AuthenticateReasonTagFingerprintAuthenticateReason
-	u.FingerprintAuthenticateReason = v
+	*u = AuthenticateReason{Tag: AuthenticateReasonTagFingerprintAuthenticateReason, FingerprintAuthenticateReason: v}
 }
 
 func (u *AuthenticateReason) MarshalParcel(
@@ -118,13 +114,13 @@ func (u *AuthenticateReason) UnmarshalParcel(
 		if _err != nil {
 			return _err
 		}
-		u.FaceAuthenticateReason = commonAuthenticateReason.Face(_raw)
+		u.FaceAuthenticateReason = AuthenticateReasonFace(_raw)
 	case AuthenticateReasonTagFingerprintAuthenticateReason:
 		_raw, _err := p.ReadInt32()
 		if _err != nil {
 			return _err
 		}
-		u.FingerprintAuthenticateReason = commonAuthenticateReason.Fingerprint(_raw)
+		u.FingerprintAuthenticateReason = AuthenticateReasonFingerprint(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for AuthenticateReason", u.Tag)
 	}

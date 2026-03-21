@@ -84,6 +84,7 @@ func (p *EvsEnumeratorProxy) CloseCamera(
 	carCamera IEvsCamera,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	binder.WriteBinderToParcel(ctx, _data, carCamera.AsBinder(), p.Remote.Transport())
 
@@ -110,6 +111,7 @@ func (p *EvsEnumeratorProxy) CloseDisplay(
 	display IEvsDisplay,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	binder.WriteBinderToParcel(ctx, _data, display.AsBinder(), p.Remote.Transport())
 
@@ -136,6 +138,7 @@ func (p *EvsEnumeratorProxy) CloseUltrasonicsArray(
 	evsUltrasonicsArray IEvsUltrasonicsArray,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	binder.WriteBinderToParcel(ctx, _data, evsUltrasonicsArray.AsBinder(), p.Remote.Transport())
 
@@ -162,6 +165,7 @@ func (p *EvsEnumeratorProxy) GetCameraList(
 ) ([]CameraDesc, error) {
 	var _result []CameraDesc
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetCameraList)
@@ -183,6 +187,9 @@ func (p *EvsEnumeratorProxy) GetCameraList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]CameraDesc, _count)
@@ -203,6 +210,7 @@ func (p *EvsEnumeratorProxy) GetDisplayIdList(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetDisplayIdList)
@@ -220,19 +228,9 @@ func (p *EvsEnumeratorProxy) GetDisplayIdList(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -242,6 +240,7 @@ func (p *EvsEnumeratorProxy) GetDisplayState(
 ) (DisplayState, error) {
 	var _result DisplayState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetDisplayState)
@@ -273,6 +272,7 @@ func (p *EvsEnumeratorProxy) GetStreamList(
 ) ([]Stream, error) {
 	var _result []Stream
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	_data.WriteInt32(1)
 	if _err := description.MarshalParcel(_data); _err != nil {
@@ -298,6 +298,9 @@ func (p *EvsEnumeratorProxy) GetStreamList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]Stream, _count)
@@ -318,6 +321,7 @@ func (p *EvsEnumeratorProxy) GetUltrasonicsArrayList(
 ) ([]UltrasonicsArrayDesc, error) {
 	var _result []UltrasonicsArrayDesc
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetUltrasonicsArrayList)
@@ -339,6 +343,9 @@ func (p *EvsEnumeratorProxy) GetUltrasonicsArrayList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]UltrasonicsArrayDesc, _count)
@@ -359,6 +366,7 @@ func (p *EvsEnumeratorProxy) IsHardware(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorIsHardware)
@@ -390,6 +398,7 @@ func (p *EvsEnumeratorProxy) OpenCamera(
 ) (IEvsCamera, error) {
 	var _result IEvsCamera
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	_data.WriteString16(cameraId)
 	_data.WriteInt32(1)
@@ -426,6 +435,7 @@ func (p *EvsEnumeratorProxy) OpenDisplay(
 ) (IEvsDisplay, error) {
 	var _result IEvsDisplay
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	_data.WriteInt32(id)
 
@@ -458,6 +468,7 @@ func (p *EvsEnumeratorProxy) OpenUltrasonicsArray(
 ) (IEvsUltrasonicsArray, error) {
 	var _result IEvsUltrasonicsArray
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	_data.WriteString16(ultrasonicsArrayId)
 
@@ -489,6 +500,7 @@ func (p *EvsEnumeratorProxy) RegisterStatusCallback(
 	callback IEvsEnumeratorStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -516,6 +528,7 @@ func (p *EvsEnumeratorProxy) GetDisplayStateById(
 ) (DisplayState, error) {
 	var _result DisplayState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	_data.WriteInt32(id)
 
@@ -545,7 +558,8 @@ func (p *EvsEnumeratorProxy) GetDisplayStateById(
 // EvsEnumeratorStub dispatches incoming binder transactions
 // to a typed IEvsEnumerator implementation.
 type EvsEnumeratorStub struct {
-	Impl IEvsEnumerator
+	Impl      IEvsEnumerator
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EvsEnumeratorStub)(nil)
@@ -559,14 +573,20 @@ func (s *EvsEnumeratorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEvsEnumeratorCloseCamera:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_carCamera IEvsCamera
-		_ = _arg_carCamera
+		{
+			_carCameraHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_carCamera = NewEvsCameraProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _carCameraHandle))
+		}
 		_err := s.Impl.CloseCamera(ctx, _arg_carCamera)
 		_reply := parcel.New()
 		if _err != nil {
@@ -576,12 +596,14 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsEnumeratorCloseDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display IEvsDisplay
-		_ = _arg_display
+		{
+			_displayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_display = NewEvsDisplayProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _displayHandle))
+		}
 		_err := s.Impl.CloseDisplay(ctx, _arg_display)
 		_reply := parcel.New()
 		if _err != nil {
@@ -591,12 +613,14 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsEnumeratorCloseUltrasonicsArray:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_evsUltrasonicsArray IEvsUltrasonicsArray
-		_ = _arg_evsUltrasonicsArray
+		{
+			_evsUltrasonicsArrayHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_evsUltrasonicsArray = NewEvsUltrasonicsArrayProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _evsUltrasonicsArrayHandle))
+		}
 		_err := s.Impl.CloseUltrasonicsArray(ctx, _arg_evsUltrasonicsArray)
 		_reply := parcel.New()
 		if _err != nil {
@@ -606,9 +630,6 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsEnumeratorGetCameraList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCameraList(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -616,13 +637,19 @@ func (s *EvsEnumeratorStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIEvsEnumeratorGetDisplayIdList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDisplayIdList(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -630,13 +657,9 @@ func (s *EvsEnumeratorStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIEvsEnumeratorGetDisplayState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDisplayState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -647,9 +670,6 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIEvsEnumeratorGetStreamList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_description CameraDesc
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -669,13 +689,19 @@ func (s *EvsEnumeratorStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIEvsEnumeratorGetUltrasonicsArrayList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetUltrasonicsArrayList(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -683,13 +709,19 @@ func (s *EvsEnumeratorStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIEvsEnumeratorIsHardware:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsHardware(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -700,9 +732,6 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIEvsEnumeratorOpenCamera:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -726,13 +755,9 @@ func (s *EvsEnumeratorStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIEvsEnumeratorOpenDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -744,13 +769,9 @@ func (s *EvsEnumeratorStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIEvsEnumeratorOpenUltrasonicsArray:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ultrasonicsArrayId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -762,16 +783,17 @@ func (s *EvsEnumeratorStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIEvsEnumeratorRegisterStatusCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IEvsEnumeratorStatusCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewEvsEnumeratorStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterStatusCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -781,9 +803,6 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsEnumeratorGetDisplayStateById:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

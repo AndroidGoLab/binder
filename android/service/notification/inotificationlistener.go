@@ -3,6 +3,8 @@ package notification
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/app/types"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -70,9 +72,9 @@ type INotificationListener interface {
 	OnNotificationRankingUpdate(ctx context.Context, update NotificationRankingUpdate) error
 	OnListenerHintsChanged(ctx context.Context, hints int32) error
 	OnInterruptionFilterChanged(ctx context.Context, interruptionFilter int32) error
-	OnNotificationChannelModification(ctx context.Context, pkgName string, user interface{}, channel interface{}, modificationType int32) error
-	OnNotificationChannelGroupModification(ctx context.Context, pkgName string, user interface{}, group interface{}, modificationType int32) error
-	OnNotificationEnqueuedWithChannel(ctx context.Context, notificationHolder IStatusBarNotificationHolder, channel interface{}, update NotificationRankingUpdate) error
+	OnNotificationChannelModification(ctx context.Context, pkgName string, user os.UserHandle, channel types.NotificationChannel, modificationType int32) error
+	OnNotificationChannelGroupModification(ctx context.Context, pkgName string, user os.UserHandle, group types.NotificationChannelGroup, modificationType int32) error
+	OnNotificationEnqueuedWithChannel(ctx context.Context, notificationHolder IStatusBarNotificationHolder, channel types.NotificationChannel, update NotificationRankingUpdate) error
 	OnNotificationSnoozedUntilContext(ctx context.Context, notificationHolder IStatusBarNotificationHolder, snoozeCriterionId string) error
 	OnNotificationsSeen(ctx context.Context, keys []string) error
 	OnPanelRevealed(ctx context.Context, items int32) error
@@ -80,11 +82,11 @@ type INotificationListener interface {
 	OnNotificationVisibilityChanged(ctx context.Context, key string, isVisible bool) error
 	OnNotificationExpansionChanged(ctx context.Context, key string, userAction bool, expanded bool) error
 	OnNotificationDirectReply(ctx context.Context, key string) error
-	OnSuggestedReplySent(ctx context.Context, key string, reply interface{}, source int32) error
-	OnActionClicked(ctx context.Context, key string, action interface{}, source int32) error
+	OnSuggestedReplySent(ctx context.Context, key string, reply string, source int32) error
+	OnActionClicked(ctx context.Context, key string, action types.NotificationAction, source int32) error
 	OnNotificationClicked(ctx context.Context, key string) error
 	OnAllowedAdjustmentsChanged(ctx context.Context) error
-	OnNotificationFeedbackReceived(ctx context.Context, key string, update NotificationRankingUpdate, feedback interface{}) error
+	OnNotificationFeedbackReceived(ctx context.Context, key string, update NotificationRankingUpdate, feedback os.Bundle) error
 }
 
 type NotificationListenerProxy struct {
@@ -108,6 +110,7 @@ func (p *NotificationListenerProxy) OnListenerConnected(
 	update NotificationRankingUpdate,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
@@ -129,6 +132,7 @@ func (p *NotificationListenerProxy) OnNotificationPosted(
 	update NotificationRankingUpdate,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	binder.WriteBinderToParcel(ctx, _data, notificationHolder.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -150,6 +154,7 @@ func (p *NotificationListenerProxy) OnStatusBarIconsBehaviorChanged(
 	hideSilentStatusIcons bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteBool(hideSilentStatusIcons)
 
@@ -170,6 +175,7 @@ func (p *NotificationListenerProxy) OnNotificationRemoved(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	binder.WriteBinderToParcel(ctx, _data, notificationHolder.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -196,6 +202,7 @@ func (p *NotificationListenerProxy) OnNotificationRankingUpdate(
 	update NotificationRankingUpdate,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
@@ -216,6 +223,7 @@ func (p *NotificationListenerProxy) OnListenerHintsChanged(
 	hints int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteInt32(hints)
 
@@ -233,6 +241,7 @@ func (p *NotificationListenerProxy) OnInterruptionFilterChanged(
 	interruptionFilter int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteInt32(interruptionFilter)
 
@@ -248,13 +257,19 @@ func (p *NotificationListenerProxy) OnInterruptionFilterChanged(
 func (p *NotificationListenerProxy) OnNotificationChannelModification(
 	ctx context.Context,
 	pkgName string,
-	user interface{},
-	channel interface{},
+	user os.UserHandle,
+	channel types.NotificationChannel,
 	modificationType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(pkgName)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	// WARNING: param channel (type types.NotificationChannel) cannot be serialized — type not resolved
 	_data.WriteInt32(modificationType)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationChannelModification)
@@ -269,13 +284,19 @@ func (p *NotificationListenerProxy) OnNotificationChannelModification(
 func (p *NotificationListenerProxy) OnNotificationChannelGroupModification(
 	ctx context.Context,
 	pkgName string,
-	user interface{},
-	group interface{},
+	user os.UserHandle,
+	group types.NotificationChannelGroup,
 	modificationType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(pkgName)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	// WARNING: param group (type types.NotificationChannelGroup) cannot be serialized — type not resolved
 	_data.WriteInt32(modificationType)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationChannelGroupModification)
@@ -290,12 +311,14 @@ func (p *NotificationListenerProxy) OnNotificationChannelGroupModification(
 func (p *NotificationListenerProxy) OnNotificationEnqueuedWithChannel(
 	ctx context.Context,
 	notificationHolder IStatusBarNotificationHolder,
-	channel interface{},
+	channel types.NotificationChannel,
 	update NotificationRankingUpdate,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	binder.WriteBinderToParcel(ctx, _data, notificationHolder.AsBinder(), p.Remote.Transport())
+	// WARNING: param channel (type types.NotificationChannel) cannot be serialized — type not resolved
 	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
@@ -316,6 +339,7 @@ func (p *NotificationListenerProxy) OnNotificationSnoozedUntilContext(
 	snoozeCriterionId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	binder.WriteBinderToParcel(ctx, _data, notificationHolder.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(snoozeCriterionId)
@@ -334,6 +358,7 @@ func (p *NotificationListenerProxy) OnNotificationsSeen(
 	keys []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	if keys == nil {
 		_data.WriteInt32(-1)
@@ -358,6 +383,7 @@ func (p *NotificationListenerProxy) OnPanelRevealed(
 	items int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteInt32(items)
 
@@ -374,6 +400,7 @@ func (p *NotificationListenerProxy) OnPanelHidden(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnPanelHidden)
@@ -391,6 +418,7 @@ func (p *NotificationListenerProxy) OnNotificationVisibilityChanged(
 	isVisible bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(key)
 	_data.WriteBool(isVisible)
@@ -411,6 +439,7 @@ func (p *NotificationListenerProxy) OnNotificationExpansionChanged(
 	expanded bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(key)
 	_data.WriteBool(userAction)
@@ -430,6 +459,7 @@ func (p *NotificationListenerProxy) OnNotificationDirectReply(
 	key string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(key)
 
@@ -445,12 +475,14 @@ func (p *NotificationListenerProxy) OnNotificationDirectReply(
 func (p *NotificationListenerProxy) OnSuggestedReplySent(
 	ctx context.Context,
 	key string,
-	reply interface{},
+	reply string,
 	source int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(key)
+	_data.WriteString16(reply)
 	_data.WriteInt32(source)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnSuggestedReplySent)
@@ -465,12 +497,14 @@ func (p *NotificationListenerProxy) OnSuggestedReplySent(
 func (p *NotificationListenerProxy) OnActionClicked(
 	ctx context.Context,
 	key string,
-	action interface{},
+	action types.NotificationAction,
 	source int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(key)
+	// WARNING: param action (type types.NotificationAction) cannot be serialized — type not resolved
 	_data.WriteInt32(source)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnActionClicked)
@@ -487,6 +521,7 @@ func (p *NotificationListenerProxy) OnNotificationClicked(
 	key string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(key)
 
@@ -503,6 +538,7 @@ func (p *NotificationListenerProxy) OnAllowedAdjustmentsChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnAllowedAdjustmentsChanged)
@@ -518,13 +554,18 @@ func (p *NotificationListenerProxy) OnNotificationFeedbackReceived(
 	ctx context.Context,
 	key string,
 	update NotificationRankingUpdate,
-	feedback interface{},
+	feedback os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(key)
 	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := feedback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -540,7 +581,8 @@ func (p *NotificationListenerProxy) OnNotificationFeedbackReceived(
 // NotificationListenerStub dispatches incoming binder transactions
 // to a typed INotificationListener implementation.
 type NotificationListenerStub struct {
-	Impl INotificationListener
+	Impl      INotificationListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NotificationListenerStub)(nil)
@@ -554,11 +596,12 @@ func (s *NotificationListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINotificationListenerOnListenerConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_update NotificationRankingUpdate
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -572,15 +615,16 @@ func (s *NotificationListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnListenerConnected(ctx, _arg_update)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnNotificationPosted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_notificationHolder IStatusBarNotificationHolder
-		_ = _arg_notificationHolder
+		{
+			_notificationHolderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_notificationHolder = NewStatusBarNotificationHolderProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _notificationHolderHandle))
+		}
 		var _arg_update NotificationRankingUpdate
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -594,26 +638,23 @@ func (s *NotificationListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnNotificationPosted(ctx, _arg_notificationHolder, _arg_update)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnStatusBarIconsBehaviorChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_hideSilentStatusIcons, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnStatusBarIconsBehaviorChanged(ctx, _arg_hideSilentStatusIcons)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnNotificationRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_notificationHolder IStatusBarNotificationHolder
-		_ = _arg_notificationHolder
+		{
+			_notificationHolderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_notificationHolder = NewStatusBarNotificationHolderProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _notificationHolderHandle))
+		}
 		var _arg_update NotificationRankingUpdate
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -643,12 +684,8 @@ func (s *NotificationListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnNotificationRemoved(ctx, _arg_notificationHolder, _arg_update, _arg_stats, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnNotificationRankingUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_update NotificationRankingUpdate
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -662,72 +699,79 @@ func (s *NotificationListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnNotificationRankingUpdate(ctx, _arg_update)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnListenerHintsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_hints, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnListenerHintsChanged(ctx, _arg_hints)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnInterruptionFilterChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_interruptionFilter, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnInterruptionFilterChanged(ctx, _arg_interruptionFilter)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnNotificationChannelModification:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_user interface{}
-		var _arg_channel interface{}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_channel types.NotificationChannel
 		_arg_modificationType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnNotificationChannelModification(ctx, _arg_pkgName, _arg_user, _arg_channel, _arg_modificationType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnNotificationChannelGroupModification:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_user interface{}
-		var _arg_group interface{}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_group types.NotificationChannelGroup
 		_arg_modificationType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnNotificationChannelGroupModification(ctx, _arg_pkgName, _arg_user, _arg_group, _arg_modificationType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnNotificationEnqueuedWithChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_notificationHolder IStatusBarNotificationHolder
-		_ = _arg_notificationHolder
-		var _arg_channel interface{}
+		{
+			_notificationHolderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_notificationHolder = NewStatusBarNotificationHolderProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _notificationHolderHandle))
+		}
+		var _arg_channel types.NotificationChannel
 		var _arg_update NotificationRankingUpdate
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -741,54 +785,55 @@ func (s *NotificationListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnNotificationEnqueuedWithChannel(ctx, _arg_notificationHolder, _arg_channel, _arg_update)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnNotificationSnoozedUntilContext:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_notificationHolder IStatusBarNotificationHolder
-		_ = _arg_notificationHolder
+		{
+			_notificationHolderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_notificationHolder = NewStatusBarNotificationHolderProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _notificationHolderHandle))
+		}
 		_arg_snoozeCriterionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnNotificationSnoozedUntilContext(ctx, _arg_notificationHolder, _arg_snoozeCriterionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnNotificationsSeen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keys []string
-		_ = _arg_keys
-		_err := s.Impl.OnNotificationsSeen(ctx, _arg_keys)
-		_ = _err
-		return nil, nil
-	case TransactionINotificationListenerOnPanelRevealed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_keys = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_keys[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnNotificationsSeen(ctx, _arg_keys)
+		return nil, _err
+	case TransactionINotificationListenerOnPanelRevealed:
 		_arg_items, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnPanelRevealed(ctx, _arg_items)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnPanelHidden:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnPanelHidden(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnNotificationVisibilityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -798,12 +843,8 @@ func (s *NotificationListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnNotificationVisibilityChanged(ctx, _arg_key, _arg_isVisible)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnNotificationExpansionChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -817,73 +858,52 @@ func (s *NotificationListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnNotificationExpansionChanged(ctx, _arg_key, _arg_userAction, _arg_expanded)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnNotificationDirectReply:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnNotificationDirectReply(ctx, _arg_key)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnSuggestedReplySent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_reply interface{}
+		_arg_reply, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		_arg_source, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSuggestedReplySent(ctx, _arg_key, _arg_reply, _arg_source)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnActionClicked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_action interface{}
+		var _arg_action types.NotificationAction
 		_arg_source, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnActionClicked(ctx, _arg_key, _arg_action, _arg_source)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnNotificationClicked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnNotificationClicked(ctx, _arg_key)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnAllowedAdjustmentsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnAllowedAdjustmentsChanged(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINotificationListenerOnNotificationFeedbackReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -900,10 +920,20 @@ func (s *NotificationListenerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_feedback interface{}
+		var _arg_feedback os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_feedback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnNotificationFeedbackReceived(ctx, _arg_key, _arg_update, _arg_feedback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -920,9 +950,9 @@ type INotificationListenerServer interface {
 	OnNotificationRankingUpdate(ctx context.Context, update NotificationRankingUpdate) error
 	OnListenerHintsChanged(ctx context.Context, hints int32) error
 	OnInterruptionFilterChanged(ctx context.Context, interruptionFilter int32) error
-	OnNotificationChannelModification(ctx context.Context, pkgName string, user interface{}, channel interface{}, modificationType int32) error
-	OnNotificationChannelGroupModification(ctx context.Context, pkgName string, user interface{}, group interface{}, modificationType int32) error
-	OnNotificationEnqueuedWithChannel(ctx context.Context, notificationHolder IStatusBarNotificationHolder, channel interface{}, update NotificationRankingUpdate) error
+	OnNotificationChannelModification(ctx context.Context, pkgName string, user os.UserHandle, channel types.NotificationChannel, modificationType int32) error
+	OnNotificationChannelGroupModification(ctx context.Context, pkgName string, user os.UserHandle, group types.NotificationChannelGroup, modificationType int32) error
+	OnNotificationEnqueuedWithChannel(ctx context.Context, notificationHolder IStatusBarNotificationHolder, channel types.NotificationChannel, update NotificationRankingUpdate) error
 	OnNotificationSnoozedUntilContext(ctx context.Context, notificationHolder IStatusBarNotificationHolder, snoozeCriterionId string) error
 	OnNotificationsSeen(ctx context.Context, keys []string) error
 	OnPanelRevealed(ctx context.Context, items int32) error
@@ -930,11 +960,11 @@ type INotificationListenerServer interface {
 	OnNotificationVisibilityChanged(ctx context.Context, key string, isVisible bool) error
 	OnNotificationExpansionChanged(ctx context.Context, key string, userAction bool, expanded bool) error
 	OnNotificationDirectReply(ctx context.Context, key string) error
-	OnSuggestedReplySent(ctx context.Context, key string, reply interface{}, source int32) error
-	OnActionClicked(ctx context.Context, key string, action interface{}, source int32) error
+	OnSuggestedReplySent(ctx context.Context, key string, reply string, source int32) error
+	OnActionClicked(ctx context.Context, key string, action types.NotificationAction, source int32) error
 	OnNotificationClicked(ctx context.Context, key string) error
 	OnAllowedAdjustmentsChanged(ctx context.Context) error
-	OnNotificationFeedbackReceived(ctx context.Context, key string, update NotificationRankingUpdate, feedback interface{}) error
+	OnNotificationFeedbackReceived(ctx context.Context, key string, update NotificationRankingUpdate, feedback os.Bundle) error
 }
 
 type notificationListenerStubWrapper struct {
@@ -1002,8 +1032,8 @@ func (w *notificationListenerStubWrapper) OnInterruptionFilterChanged(
 func (w *notificationListenerStubWrapper) OnNotificationChannelModification(
 	ctx context.Context,
 	pkgName string,
-	user interface{},
-	channel interface{},
+	user os.UserHandle,
+	channel types.NotificationChannel,
 	modificationType int32,
 ) error {
 	return w.impl.OnNotificationChannelModification(ctx, pkgName, user, channel, modificationType)
@@ -1012,8 +1042,8 @@ func (w *notificationListenerStubWrapper) OnNotificationChannelModification(
 func (w *notificationListenerStubWrapper) OnNotificationChannelGroupModification(
 	ctx context.Context,
 	pkgName string,
-	user interface{},
-	group interface{},
+	user os.UserHandle,
+	group types.NotificationChannelGroup,
 	modificationType int32,
 ) error {
 	return w.impl.OnNotificationChannelGroupModification(ctx, pkgName, user, group, modificationType)
@@ -1022,7 +1052,7 @@ func (w *notificationListenerStubWrapper) OnNotificationChannelGroupModification
 func (w *notificationListenerStubWrapper) OnNotificationEnqueuedWithChannel(
 	ctx context.Context,
 	notificationHolder IStatusBarNotificationHolder,
-	channel interface{},
+	channel types.NotificationChannel,
 	update NotificationRankingUpdate,
 ) error {
 	return w.impl.OnNotificationEnqueuedWithChannel(ctx, notificationHolder, channel, update)
@@ -1083,7 +1113,7 @@ func (w *notificationListenerStubWrapper) OnNotificationDirectReply(
 func (w *notificationListenerStubWrapper) OnSuggestedReplySent(
 	ctx context.Context,
 	key string,
-	reply interface{},
+	reply string,
 	source int32,
 ) error {
 	return w.impl.OnSuggestedReplySent(ctx, key, reply, source)
@@ -1092,7 +1122,7 @@ func (w *notificationListenerStubWrapper) OnSuggestedReplySent(
 func (w *notificationListenerStubWrapper) OnActionClicked(
 	ctx context.Context,
 	key string,
-	action interface{},
+	action types.NotificationAction,
 	source int32,
 ) error {
 	return w.impl.OnActionClicked(ctx, key, action, source)
@@ -1115,7 +1145,7 @@ func (w *notificationListenerStubWrapper) OnNotificationFeedbackReceived(
 	ctx context.Context,
 	key string,
 	update NotificationRankingUpdate,
-	feedback interface{},
+	feedback os.Bundle,
 ) error {
 	return w.impl.OnNotificationFeedbackReceived(ctx, key, update, feedback)
 }

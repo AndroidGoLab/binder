@@ -1,0 +1,204 @@
+package: android.hardware.security.see.hwcrypto.types
+go_package: android/hardware/security/see/hwcrypto/types
+parcelables:
+    - name: AesGcmMode.AesGcmModeParameters
+      fields:
+        - name: nonce
+          type:
+            name: byte
+            is_array: true
+            fixed_size: 12
+    - name: CipherModeParameters
+      fields:
+        - name: nonce
+          type:
+            name: byte
+            is_array: true
+            fixed_size: 16
+    - name: HmacOperationParameters
+      fields:
+        - name: key
+          type:
+            name: IBinder
+    - name: MemoryBufferReference
+      fields:
+        - name: startOffset
+          type:
+            name: int
+        - name: sizeBytes
+          type:
+            name: int
+    - name: SymmetricAuthOperationParameters
+      fields:
+        - name: key
+          type:
+            name: IBinder
+        - name: direction
+          type:
+            name: SymmetricOperation
+        - name: parameters
+          type:
+            name: SymmetricAuthCryptoParameters
+    - name: SymmetricOperationParameters
+      fields:
+        - name: key
+          type:
+            name: IBinder
+        - name: direction
+          type:
+            name: SymmetricOperation
+        - name: parameters
+          type:
+            name: SymmetricCryptoParameters
+unions:
+    - name: AesCipherMode
+      fields:
+        - name: cbc
+          type:
+            name: CipherModeParameters
+        - name: ctr
+          type:
+            name: CipherModeParameters
+    - name: AesGcmMode
+      fields:
+        - name: gcmTag16
+          type:
+            name: AesGcmMode.AesGcmModeParameters
+    - name: AesKey
+      fields:
+        - name: aes128
+          type:
+            name: byte
+            is_array: true
+            fixed_size: 16
+        - name: aes256
+          type:
+            name: byte
+            is_array: true
+            fixed_size: 32
+    - name: ExplicitKeyMaterial
+      fields:
+        - name: aes
+          type:
+            name: AesKey
+        - name: hmac
+          type:
+            name: HmacKey
+    - name: HmacKey
+      fields:
+        - name: sha256
+          type:
+            name: byte
+            is_array: true
+            fixed_size: 32
+        - name: sha512
+          type:
+            name: byte
+            is_array: true
+            fixed_size: 64
+    - name: OperationData
+      fields:
+        - name: memoryBufferReference
+          type:
+            name: MemoryBufferReference
+        - name: dataBuffer
+          type:
+            name: byte
+            is_array: true
+    - name: SymmetricAuthCryptoParameters
+      fields:
+        - name: aes
+          type:
+            name: AesGcmMode
+    - name: SymmetricCryptoParameters
+      fields:
+        - name: aes
+          type:
+            name: AesCipherMode
+enums:
+    - name: KeyLifetime
+      backing_type: byte
+      values:
+        - name: EPHEMERAL
+          value: ""
+        - name: HARDWARE
+          value: ""
+        - name: PORTABLE
+          value: ""
+    - name: KeyPermissions
+      backing_type: ""
+      values:
+        - name: ALLOW_EPHEMERAL_KEY_WRAPPING
+          value: ""
+        - name: ALLOW_HARDWARE_KEY_WRAPPING
+          value: ""
+        - name: ALLOW_PORTABLE_KEY_WRAPPING
+          value: ""
+    - name: KeyType
+      backing_type: ""
+      values:
+        - name: AES_128_CBC_NO_PADDING
+          value: ""
+        - name: AES_128_CBC_PKCS7_PADDING
+          value: ""
+        - name: AES_128_CTR
+          value: ""
+        - name: AES_128_GCM
+          value: ""
+        - name: AES_128_CMAC
+          value: ""
+        - name: AES_256_CBC_NO_PADDING
+          value: ""
+        - name: AES_256_CBC_PKCS7_PADDING
+          value: ""
+        - name: AES_256_CTR
+          value: ""
+        - name: AES_256_GCM
+          value: ""
+        - name: AES_256_CMAC
+          value: ""
+        - name: HMAC_SHA256
+          value: ""
+        - name: HMAC_SHA512
+          value: ""
+        - name: RSA2048_PSS_SHA256
+          value: ""
+        - name: RSA2048_PKCS1_5_SHA256
+          value: ""
+        - name: ECC_NIST_P256_SIGN_NO_PADDING
+          value: ""
+        - name: ECC_NIST_P256_SIGN_SHA256
+          value: ""
+        - name: ECC_NIST_P521_SIGN_NO_PADDING
+          value: ""
+        - name: ECC_NIST_P521_SIGN_SHA512
+          value: ""
+        - name: ECC_ED25519_SIGN
+          value: ""
+    - name: KeyUse
+      backing_type: int
+      values:
+        - name: ENCRYPT
+          value: "1"
+        - name: DECRYPT
+          value: "2"
+        - name: ENCRYPT_DECRYPT
+          value: "ENCRYPT | DECRYPT"
+        - name: SIGN
+          value: "4"
+        - name: DERIVE
+          value: "8"
+        - name: WRAP
+          value: "16"
+    - name: ProtectionId
+      backing_type: ""
+      values:
+        - name: WIDEVINE_OUTPUT_BUFFER
+          value: "1"
+    - name: SymmetricOperation
+      backing_type: ""
+      values:
+        - name: ENCRYPT
+          value: ""
+        - name: DECRYPT
+          value: ""

@@ -39,8 +39,7 @@ func (u *DemuxMmtpFilterSettingsFilterSettings) GetNoinit() (bool, bool) {
 func (u *DemuxMmtpFilterSettingsFilterSettings) SetNoinit(
 	v bool,
 ) {
-	u.Tag = DemuxMmtpFilterSettingsFilterSettingsTagNoinit
-	u.Noinit = v
+	*u = DemuxMmtpFilterSettingsFilterSettings{Tag: DemuxMmtpFilterSettingsFilterSettingsTagNoinit, Noinit: v}
 }
 
 func (u *DemuxMmtpFilterSettingsFilterSettings) GetSection() (DemuxFilterSectionSettings, bool) {
@@ -54,8 +53,7 @@ func (u *DemuxMmtpFilterSettingsFilterSettings) GetSection() (DemuxFilterSection
 func (u *DemuxMmtpFilterSettingsFilterSettings) SetSection(
 	v DemuxFilterSectionSettings,
 ) {
-	u.Tag = DemuxMmtpFilterSettingsFilterSettingsTagSection
-	u.Section = v
+	*u = DemuxMmtpFilterSettingsFilterSettings{Tag: DemuxMmtpFilterSettingsFilterSettingsTagSection, Section: v}
 }
 
 func (u *DemuxMmtpFilterSettingsFilterSettings) GetAv() (DemuxFilterAvSettings, bool) {
@@ -69,8 +67,7 @@ func (u *DemuxMmtpFilterSettingsFilterSettings) GetAv() (DemuxFilterAvSettings, 
 func (u *DemuxMmtpFilterSettingsFilterSettings) SetAv(
 	v DemuxFilterAvSettings,
 ) {
-	u.Tag = DemuxMmtpFilterSettingsFilterSettingsTagAv
-	u.Av = v
+	*u = DemuxMmtpFilterSettingsFilterSettings{Tag: DemuxMmtpFilterSettingsFilterSettingsTagAv, Av: v}
 }
 
 func (u *DemuxMmtpFilterSettingsFilterSettings) GetPesData() (DemuxFilterPesDataSettings, bool) {
@@ -84,8 +81,7 @@ func (u *DemuxMmtpFilterSettingsFilterSettings) GetPesData() (DemuxFilterPesData
 func (u *DemuxMmtpFilterSettingsFilterSettings) SetPesData(
 	v DemuxFilterPesDataSettings,
 ) {
-	u.Tag = DemuxMmtpFilterSettingsFilterSettingsTagPesData
-	u.PesData = v
+	*u = DemuxMmtpFilterSettingsFilterSettings{Tag: DemuxMmtpFilterSettingsFilterSettingsTagPesData, PesData: v}
 }
 
 func (u *DemuxMmtpFilterSettingsFilterSettings) GetRecord() (DemuxFilterRecordSettings, bool) {
@@ -99,8 +95,7 @@ func (u *DemuxMmtpFilterSettingsFilterSettings) GetRecord() (DemuxFilterRecordSe
 func (u *DemuxMmtpFilterSettingsFilterSettings) SetRecord(
 	v DemuxFilterRecordSettings,
 ) {
-	u.Tag = DemuxMmtpFilterSettingsFilterSettingsTagRecord
-	u.Record = v
+	*u = DemuxMmtpFilterSettingsFilterSettings{Tag: DemuxMmtpFilterSettingsFilterSettingsTagRecord, Record: v}
 }
 
 func (u *DemuxMmtpFilterSettingsFilterSettings) GetDownload() (DemuxFilterDownloadSettings, bool) {
@@ -114,8 +109,7 @@ func (u *DemuxMmtpFilterSettingsFilterSettings) GetDownload() (DemuxFilterDownlo
 func (u *DemuxMmtpFilterSettingsFilterSettings) SetDownload(
 	v DemuxFilterDownloadSettings,
 ) {
-	u.Tag = DemuxMmtpFilterSettingsFilterSettingsTagDownload
-	u.Download = v
+	*u = DemuxMmtpFilterSettingsFilterSettings{Tag: DemuxMmtpFilterSettingsFilterSettingsTagDownload, Download: v}
 }
 
 func (u *DemuxMmtpFilterSettingsFilterSettings) MarshalParcel(

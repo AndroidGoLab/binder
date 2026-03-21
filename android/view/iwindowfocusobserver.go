@@ -48,6 +48,7 @@ func (p *WindowFocusObserverProxy) FocusGained(
 	inputToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowFocusObserver)
 	binder.WriteBinderToParcel(ctx, _data, inputToken, p.Remote.Transport())
 
@@ -65,6 +66,7 @@ func (p *WindowFocusObserverProxy) FocusLost(
 	inputToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowFocusObserver)
 	binder.WriteBinderToParcel(ctx, _data, inputToken, p.Remote.Transport())
 
@@ -80,7 +82,8 @@ func (p *WindowFocusObserverProxy) FocusLost(
 // WindowFocusObserverStub dispatches incoming binder transactions
 // to a typed IWindowFocusObserver implementation.
 type WindowFocusObserverStub struct {
-	Impl IWindowFocusObserver
+	Impl      IWindowFocusObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WindowFocusObserverStub)(nil)
@@ -94,27 +97,33 @@ func (s *WindowFocusObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWindowFocusObserverFocusGained:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_inputToken binder.IBinder
-		_ = _arg_inputToken
+		{
+			_inputTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_inputToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _inputTokenHandle)
+		}
 		_err := s.Impl.FocusGained(ctx, _arg_inputToken)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowFocusObserverFocusLost:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_inputToken binder.IBinder
-		_ = _arg_inputToken
+		{
+			_inputTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_inputToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _inputTokenHandle)
+		}
 		_err := s.Impl.FocusLost(ctx, _arg_inputToken)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

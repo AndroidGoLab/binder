@@ -48,6 +48,7 @@ func (p *AppOpsCallbackProxy) OpChanged(
 	persistentDeviceId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsCallback)
 	_data.WriteInt32(op)
 	_data.WriteInt32(uid)
@@ -66,7 +67,8 @@ func (p *AppOpsCallbackProxy) OpChanged(
 // AppOpsCallbackStub dispatches incoming binder transactions
 // to a typed IAppOpsCallback implementation.
 type AppOpsCallbackStub struct {
-	Impl IAppOpsCallback
+	Impl      IAppOpsCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AppOpsCallbackStub)(nil)
@@ -80,11 +82,12 @@ func (s *AppOpsCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAppOpsCallbackOpChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_op, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -102,8 +105,7 @@ func (s *AppOpsCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OpChanged(ctx, _arg_op, _arg_uid, _arg_packageName, _arg_persistentDeviceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

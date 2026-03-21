@@ -46,6 +46,7 @@ func (p *AdbCallbackProxy) OnDebuggingChanged(
 	type_ AdbTransportType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdbCallback)
 	_data.WriteBool(enabled)
 	_data.WritePaddedByte(byte(type_))
@@ -62,7 +63,8 @@ func (p *AdbCallbackProxy) OnDebuggingChanged(
 // AdbCallbackStub dispatches incoming binder transactions
 // to a typed IAdbCallback implementation.
 type AdbCallbackStub struct {
-	Impl IAdbCallback
+	Impl      IAdbCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AdbCallbackStub)(nil)
@@ -76,11 +78,12 @@ func (s *AdbCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAdbCallbackOnDebuggingChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -91,8 +94,7 @@ func (s *AdbCallbackStub) OnTransaction(
 		}
 		_arg_type_ := AdbTransportType(_raw_type_)
 		_err = s.Impl.OnDebuggingChanged(ctx, _arg_enabled, _arg_type_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

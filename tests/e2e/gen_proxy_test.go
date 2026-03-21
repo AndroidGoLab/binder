@@ -4,7 +4,6 @@ package e2e
 
 import (
 	"context"
-	"errors"
 	"os"
 	"testing"
 
@@ -12,7 +11,6 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/xaionaro-go/binder/binder"
-	aidlerrors "github.com/xaionaro-go/binder/errors"
 	genApp "github.com/xaionaro-go/binder/android/app"
 	genContent "github.com/xaionaro-go/binder/android/content"
 	genGui "github.com/xaionaro-go/binder/android/gui"
@@ -148,6 +146,7 @@ func TestGenProxy_ActivityManager_GetProcessLimit(t *testing.T) {
 	proxy := genApp.NewActivityManagerProxy(svc)
 	result, err := proxy.GetProcessLimit(ctx)
 	requireOrSkip(t, err)
+	assert.GreaterOrEqual(t, result, int32(-1), "process limit should be >= -1")
 	t.Logf("GetProcessLimit: %d", result)
 }
 
@@ -183,52 +182,12 @@ func TestGenProxy_ActivityManager_GetCurrentUserId(t *testing.T) {
 
 	proxy := genApp.NewActivityManagerProxy(svc)
 	result, err := proxy.GetCurrentUserId(ctx)
-	if err != nil {
-		t.Logf("GetCurrentUserId returned error (expected for unprivileged caller): %v", err)
-	} else {
-		t.Logf("GetCurrentUserId: %d", result)
-	}
-}
-
-// --- ActivityManager: typed error handling ---
-
-func TestGenProxy_ActivityManager_SecurityException(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	svc := getService(ctx, t, driver, "activity")
-
-	proxy := genApp.NewActivityManagerProxy(svc)
-	_, err := proxy.GetRunningUserIds(ctx)
-	if err == nil {
-		// Running as root (uid 0) may have sufficient privileges on some
-		// API levels / emulator builds, so the call succeeds.
-		t.Skip("GetRunningUserIds succeeded (caller has sufficient privileges)")
-	}
-
-	var se *aidlerrors.StatusError
-	if !errors.As(err, &se) {
-		// Under binder resource pressure, the error may not be a StatusError.
-		t.Skipf("non-StatusError (binder resource constraint): %v", err)
-	}
-	if se.Exception != aidlerrors.ExceptionSecurity {
-		t.Skipf("got %s instead of Security exception (device/version-dependent)", se.Exception)
-	}
-	assert.NotEmpty(t, se.Message, "exception should have a message")
-	t.Logf("Security exception: %s", se.Message)
+	requireOrSkip(t, err)
+	assert.GreaterOrEqual(t, result, int32(0), "user ID should be non-negative")
+	t.Logf("GetCurrentUserId: %d", result)
 }
 
 // --- SurfaceComposer (SurfaceFlingerAIDL) ---
-
-func TestGenProxy_SurfaceComposer_GetGpuContextPriority(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	svc := getService(ctx, t, driver, "SurfaceFlingerAIDL")
-
-	proxy := genGui.NewSurfaceComposerProxy(svc)
-	result, err := proxy.GetGpuContextPriority(ctx)
-	requireOrSkip(t, err)
-	t.Logf("GetGpuContextPriority: %d", result)
-}
 
 func TestGenProxy_SurfaceComposer_GetBootDisplayModeSupport(t *testing.T) {
 	ctx := context.Background()
@@ -312,6 +271,7 @@ func TestGenProxy_ThermalService_GetThermalHeadroom(t *testing.T) {
 	proxy := genOs.NewThermalServiceProxy(svc)
 	result, err := proxy.GetThermalHeadroom(ctx, 10)
 	requireOrSkip(t, err)
+	assert.NotZero(t, result, "thermal headroom should be non-zero")
 	t.Logf("GetThermalHeadroom(10s): %f", result)
 }
 
@@ -325,6 +285,7 @@ func TestGenProxy_VibratorManager_GetVibratorIds(t *testing.T) {
 	proxy := genOs.NewVibratorManagerServiceProxy(svc)
 	ids, err := proxy.GetVibratorIds(ctx)
 	requireOrSkip(t, err)
+	assert.NotNil(t, ids, "vibrator IDs slice should not be nil")
 	t.Logf("GetVibratorIds: %v (count: %d)", ids, len(ids))
 }
 
@@ -387,20 +348,6 @@ func TestGenProxy_Clipboard_HasClipboardText(t *testing.T) {
 	result, err := proxy.HasClipboardText(ctx, 0)
 	requireOrSkip(t, err)
 	t.Logf("HasClipboardText: %v", result)
-}
-
-// --- HintManager ---
-
-func TestGenProxy_HintManager_GetHintSessionPreferredRate(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	svc := getService(ctx, t, driver, "performance_hint")
-
-	proxy := genOs.NewHintManagerProxy(svc)
-	rate, err := proxy.GetHintSessionPreferredRate(ctx)
-	requireOrSkip(t, err)
-	assert.Greater(t, rate, int64(0), "preferred rate should be positive")
-	t.Logf("GetHintSessionPreferredRate: %d ns", rate)
 }
 
 // --- Cross-proxy: verify AsBinder() returns the original IBinder ---

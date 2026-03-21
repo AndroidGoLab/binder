@@ -50,6 +50,7 @@ func (p *ProxyServiceProxy) ResolvePacFile(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProxyService)
 	_data.WriteString16(host)
 	_data.WriteString16(url)
@@ -81,6 +82,7 @@ func (p *ProxyServiceProxy) SetPacFile(
 	scriptContents string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProxyService)
 	_data.WriteString16(scriptContents)
 
@@ -96,7 +98,8 @@ func (p *ProxyServiceProxy) SetPacFile(
 // ProxyServiceStub dispatches incoming binder transactions
 // to a typed IProxyService implementation.
 type ProxyServiceStub struct {
-	Impl IProxyService
+	Impl      IProxyService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ProxyServiceStub)(nil)
@@ -110,11 +113,12 @@ func (s *ProxyServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIProxyServiceResolvePacFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_host, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -133,16 +137,12 @@ func (s *ProxyServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIProxyServiceSetPacFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_scriptContents, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetPacFile(ctx, _arg_scriptContents)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

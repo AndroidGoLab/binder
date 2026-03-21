@@ -76,6 +76,7 @@ func (p *GraphicBufferSourceProxy) Configure(
 	dataSpace int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 	binder.WriteBinderToParcel(ctx, _data, omxNode.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(dataSpace)
@@ -104,6 +105,7 @@ func (p *GraphicBufferSourceProxy) SetSuspend(
 	suspendTimeUs int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 	_data.WriteBool(suspend)
 	_data.WriteInt64(suspendTimeUs)
@@ -131,6 +133,7 @@ func (p *GraphicBufferSourceProxy) SetRepeatPreviousFrameDelayUs(
 	repeatAfterUs int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 	_data.WriteInt64(repeatAfterUs)
 
@@ -157,6 +160,7 @@ func (p *GraphicBufferSourceProxy) SetMaxFps(
 	maxFps float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 	_data.WriteFloat32(maxFps)
 
@@ -184,6 +188,7 @@ func (p *GraphicBufferSourceProxy) SetTimeLapseConfig(
 	captureFps float64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 	_data.WriteFloat64(fps)
 	_data.WriteFloat64(captureFps)
@@ -211,6 +216,7 @@ func (p *GraphicBufferSourceProxy) SetStartTimeUs(
 	startTimeUs int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 	_data.WriteInt64(startTimeUs)
 
@@ -237,6 +243,7 @@ func (p *GraphicBufferSourceProxy) SetStopTimeUs(
 	stopTimeUs int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 	_data.WriteInt64(stopTimeUs)
 
@@ -263,6 +270,7 @@ func (p *GraphicBufferSourceProxy) GetStopTimeOffsetUs(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceGetStopTimeOffsetUs)
@@ -292,6 +300,7 @@ func (p *GraphicBufferSourceProxy) SetColorAspects(
 	aspects int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 	_data.WriteInt32(aspects)
 
@@ -318,6 +327,7 @@ func (p *GraphicBufferSourceProxy) SetTimeOffsetUs(
 	timeOffsetsUs int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 	_data.WriteInt64(timeOffsetsUs)
 
@@ -343,6 +353,7 @@ func (p *GraphicBufferSourceProxy) SignalEndOfInputStream(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSignalEndOfInputStream)
@@ -366,7 +377,8 @@ func (p *GraphicBufferSourceProxy) SignalEndOfInputStream(
 // GraphicBufferSourceStub dispatches incoming binder transactions
 // to a typed IGraphicBufferSource implementation.
 type GraphicBufferSourceStub struct {
-	Impl IGraphicBufferSource
+	Impl      IGraphicBufferSource
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GraphicBufferSourceStub)(nil)
@@ -380,14 +392,20 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGraphicBufferSourceConfigure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_omxNode IOMXNode
-		_ = _arg_omxNode
+		{
+			_omxNodeHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_omxNode = NewOMXNodeProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _omxNodeHandle))
+		}
 		_arg_dataSpace, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -401,9 +419,6 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSetSuspend:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_suspend, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -421,9 +436,6 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSetRepeatPreviousFrameDelayUs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_repeatAfterUs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -437,9 +449,6 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSetMaxFps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_maxFps, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -453,9 +462,6 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSetTimeLapseConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fps, _err := _data.ReadFloat64()
 		if _err != nil {
 			return nil, _err
@@ -473,9 +479,6 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSetStartTimeUs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_startTimeUs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -489,9 +492,6 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSetStopTimeUs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_stopTimeUs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -505,9 +505,6 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceGetStopTimeOffsetUs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetStopTimeOffsetUs(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -518,9 +515,6 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSetColorAspects:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_aspects, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -534,9 +528,6 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSetTimeOffsetUs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeOffsetsUs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -550,9 +541,6 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSignalEndOfInputStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SignalEndOfInputStream(ctx)
 		_reply := parcel.New()
 		if _err != nil {

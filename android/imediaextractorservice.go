@@ -26,7 +26,7 @@ const (
 type IMediaExtractorService interface {
 	AsBinder() binder.IBinder
 	MakeExtractor(ctx context.Context, source IDataSource, mime string) (IMediaExtractor, error)
-	MakeIDataSource(ctx context.Context, fd interface{}, offset int64, length int64) (IDataSource, error)
+	MakeIDataSource(ctx context.Context, fd int32, offset int64, length int64) (IDataSource, error)
 	GetSupportedTypes(ctx context.Context) ([]string, error)
 }
 
@@ -53,6 +53,7 @@ func (p *MediaExtractorServiceProxy) MakeExtractor(
 ) (IMediaExtractor, error) {
 	var _result IMediaExtractor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaExtractorService)
 	binder.WriteBinderToParcel(ctx, _data, source.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(mime)
@@ -82,13 +83,15 @@ func (p *MediaExtractorServiceProxy) MakeExtractor(
 
 func (p *MediaExtractorServiceProxy) MakeIDataSource(
 	ctx context.Context,
-	fd interface{},
+	fd int32,
 	offset int64,
 	length int64,
 ) (IDataSource, error) {
 	var _result IDataSource
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaExtractorService)
+	_data.WriteFileDescriptor(fd)
 	_data.WriteInt64(offset)
 	_data.WriteInt64(length)
 
@@ -120,6 +123,7 @@ func (p *MediaExtractorServiceProxy) GetSupportedTypes(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaExtractorService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaExtractorService, MethodIMediaExtractorServiceGetSupportedTypes)
@@ -141,6 +145,9 @@ func (p *MediaExtractorServiceProxy) GetSupportedTypes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -157,7 +164,8 @@ func (p *MediaExtractorServiceProxy) GetSupportedTypes(
 // MediaExtractorServiceStub dispatches incoming binder transactions
 // to a typed IMediaExtractorService implementation.
 type MediaExtractorServiceStub struct {
-	Impl IMediaExtractorService
+	Impl      IMediaExtractorService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaExtractorServiceStub)(nil)
@@ -171,14 +179,20 @@ func (s *MediaExtractorServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaExtractorServiceMakeExtractor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_source IDataSource
-		_ = _arg_source
+		{
+			_sourceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_source = NewDataSourceProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sourceHandle))
+		}
 		_arg_mime, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -190,14 +204,13 @@ func (s *MediaExtractorServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIMediaExtractorServiceMakeIDataSource:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_fd, _err := _data.ReadFileDescriptor()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_fd interface{}
 		_arg_offset, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -213,13 +226,9 @@ func (s *MediaExtractorServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIMediaExtractorServiceGetSupportedTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedTypes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -227,8 +236,14 @@ func (s *MediaExtractorServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -240,7 +255,7 @@ func (s *MediaExtractorServiceStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IMediaExtractorServiceServer interface {
 	MakeExtractor(ctx context.Context, source IDataSource, mime string) (IMediaExtractor, error)
-	MakeIDataSource(ctx context.Context, fd interface{}, offset int64, length int64) (IDataSource, error)
+	MakeIDataSource(ctx context.Context, fd int32, offset int64, length int64) (IDataSource, error)
 	GetSupportedTypes(ctx context.Context) ([]string, error)
 }
 
@@ -263,7 +278,7 @@ func (w *mediaExtractorServiceStubWrapper) MakeExtractor(
 
 func (w *mediaExtractorServiceStubWrapper) MakeIDataSource(
 	ctx context.Context,
-	fd interface{},
+	fd int32,
 	offset int64,
 	length int64,
 ) (IDataSource, error) {

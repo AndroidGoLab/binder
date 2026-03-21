@@ -1,0 +1,203 @@
+package: android.hardware.usb.gadget
+go_package: android/hardware/usb/gadget
+interfaces:
+    - name: IUsbGadget
+      descriptor: android.hardware.usb.gadget.IUsbGadget
+      oneway: true
+      methods:
+        - name: setCurrentUsbFunctions
+          transaction_code_offset: 0
+          params:
+            - name: functions
+              type:
+                name: long
+              direction: in
+            - name: callback
+              type:
+                name: IUsbGadgetCallback
+              direction: in
+            - name: timeoutMs
+              type:
+                name: long
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: getCurrentUsbFunctions
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IUsbGadgetCallback
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: getUsbSpeed
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: IUsbGadgetCallback
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: reset
+          transaction_code_offset: 3
+          params:
+            - name: callback
+              type:
+                name: IUsbGadgetCallback
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+    - name: IUsbGadgetCallback
+      descriptor: android.hardware.usb.gadget.IUsbGadgetCallback
+      oneway: true
+      methods:
+        - name: setCurrentUsbFunctionsCb
+          transaction_code_offset: 0
+          params:
+            - name: functions
+              type:
+                name: long
+              direction: in
+            - name: status
+              type:
+                name: Status
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: getCurrentUsbFunctionsCb
+          transaction_code_offset: 1
+          params:
+            - name: functions
+              type:
+                name: long
+              direction: in
+            - name: status
+              type:
+                name: Status
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: getUsbSpeedCb
+          transaction_code_offset: 2
+          params:
+            - name: speed
+              type:
+                name: UsbSpeed
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: resetCb
+          transaction_code_offset: 3
+          params:
+            - name: status
+              type:
+                name: Status
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+parcelables:
+    - name: GadgetFunction
+      constants:
+        - name: NONE
+          type: long
+          value: "0"
+        - name: ADB
+          type: long
+          value: "1"
+        - name: ACCESSORY
+          type: long
+          value: 1 << 1
+        - name: MTP
+          type: long
+          value: 1 << 2
+        - name: MIDI
+          type: long
+          value: 1 << 3
+        - name: PTP
+          type: long
+          value: 1 << 4
+        - name: RNDIS
+          type: long
+          value: 1 << 5
+        - name: AUDIO_SOURCE
+          type: long
+          value: 1 << 6
+        - name: UVC
+          type: long
+          value: 1 << 7
+        - name: NCM
+          type: long
+          value: 1 << 10
+      annotations:
+        - VintfStability
+enums:
+    - name: Status
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: "0"
+        - name: ERROR
+          value: "1"
+        - name: FUNCTIONS_APPLIED
+          value: "2"
+        - name: FUNCTIONS_NOT_APPLIED
+          value: "3"
+        - name: CONFIGURATION_NOT_SUPPORTED
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UsbSpeed
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "-1"
+        - name: LOWSPEED
+          value: "0"
+        - name: FULLSPEED
+          value: "1"
+        - name: HIGHSPEED
+          value: "2"
+        - name: SUPERSPEED
+          value: "3"
+        - name: SUPERSPEED_10Gb
+          value: "4"
+        - name: SUPERSPEED_20Gb
+          value: "5"
+        - name: USB4_GEN2_10Gb
+          value: "6"
+        - name: USB4_GEN2_20Gb
+          value: "7"
+        - name: USB4_GEN3_20Gb
+          value: "8"
+        - name: USB4_GEN3_40Gb
+          value: "9"
+      annotations:
+        - VintfStability
+        - Backing

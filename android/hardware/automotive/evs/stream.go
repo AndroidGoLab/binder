@@ -45,9 +45,19 @@ func (s *Stream) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Id, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_streamTypeRaw, _err := p.ReadInt32()
@@ -56,9 +66,19 @@ func (s *Stream) UnmarshalParcel(
 	}
 	s.StreamType = StreamType(_streamTypeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Width, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Height, _err = p.ReadInt32()
@@ -66,9 +86,19 @@ func (s *Stream) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Framerate, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_formatRaw, _err := p.ReadInt32()
@@ -77,11 +107,21 @@ func (s *Stream) UnmarshalParcel(
 	}
 	s.Format = common.PixelFormat(_formatRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_usageRaw, _err := p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
 	s.Usage = common.BufferUsage(_usageRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_rotationRaw, _err := p.ReadInt32()
 	if _err != nil {

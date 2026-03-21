@@ -34,7 +34,8 @@ var _ IOMXNode = (*OMXNodeProxy)(nil)
 // OMXNodeStub dispatches incoming binder transactions
 // to a typed IOMXNode implementation.
 type OMXNodeStub struct {
-	Impl IOMXNode
+	Impl      IOMXNode
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OMXNodeStub)(nil)
@@ -48,6 +49,10 @@ func (s *OMXNodeStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

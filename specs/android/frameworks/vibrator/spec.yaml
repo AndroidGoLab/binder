@@ -1,0 +1,126 @@
+package: android.frameworks.vibrator
+go_package: android/frameworks/vibrator
+interfaces:
+    - name: IVibratorControlService
+      descriptor: android.frameworks.vibrator.IVibratorControlService
+      methods:
+        - name: registerVibratorController
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: controller
+              type:
+                name: IVibratorController
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterVibratorController
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: controller
+              type:
+                name: IVibratorController
+              direction: in
+          return_type:
+            name: void
+        - name: setVibrationParams
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: params
+              type:
+                name: VibrationParam
+                is_array: true
+              direction: in
+            - name: token
+              type:
+                name: IVibratorController
+              direction: in
+          return_type:
+            name: void
+        - name: clearVibrationParams
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: typesMask
+              type:
+                name: int
+              direction: in
+            - name: token
+              type:
+                name: IVibratorController
+              direction: in
+          return_type:
+            name: void
+        - name: onRequestVibrationParamsComplete
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: requestToken
+              type:
+                name: IBinder
+              direction: in
+            - name: result
+              type:
+                name: VibrationParam
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IVibratorController
+      descriptor: android.frameworks.vibrator.IVibratorController
+      methods:
+        - name: requestVibrationParams
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: typesMask
+              type:
+                name: int
+              direction: in
+            - name: deadlineElapsedRealtimeMillis
+              type:
+                name: long
+              direction: in
+            - name: requestToken
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: ScaleParam
+      fields:
+        - name: typesMask
+          type:
+            name: int
+        - name: scale
+          type:
+            name: float
+      constants:
+        - name: TYPE_ALARM
+          type: int
+          value: 1 << 0
+        - name: TYPE_NOTIFICATION
+          type: int
+          value: 1 << 1
+        - name: TYPE_RINGTONE
+          type: int
+          value: 1 << 2
+        - name: TYPE_INTERACTIVE
+          type: int
+          value: 1 << 3
+        - name: TYPE_MEDIA
+          type: int
+          value: 1 << 4
+      annotations:
+        - VintfStability
+unions:
+    - name: VibrationParam
+      fields:
+        - name: scale
+          type:
+            name: ScaleParam
+      annotations:
+        - VintfStability

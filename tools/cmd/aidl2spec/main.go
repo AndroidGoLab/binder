@@ -183,11 +183,7 @@ func runDiscovery(
 		return fmt.Errorf("writing specs: %w", err)
 	}
 
-	var specCount int
-	for range specs {
-		specCount++
-	}
-	fmt.Fprintf(os.Stderr, "Wrote %d spec files to %s\n", specCount, outputDir)
+	fmt.Fprintf(os.Stderr, "Wrote %d spec files to %s\n", len(specs), outputDir)
 
 	return nil
 }
@@ -269,9 +265,6 @@ func convertDefinition(
 		ps.Interfaces = append(ps.Interfaces, iface)
 
 	case *parser.ParcelableDecl:
-		if !isRealParcelable(d) {
-			return
-		}
 		parc := convertParcelable(typeName, d)
 		ps.Parcelables = append(ps.Parcelables, parc)
 
@@ -291,9 +284,10 @@ func convertInterface(
 	iface *parser.InterfaceDecl,
 ) spec.InterfaceSpec {
 	is := spec.InterfaceSpec{
-		Name:       typeName,
-		Descriptor: qualifiedName,
-		Oneway:     iface.Oneway,
+		Name:        typeName,
+		Descriptor:  qualifiedName,
+		Oneway:      iface.Oneway,
+		Annotations: collectAnnotationNames(iface.Annots),
 	}
 
 	codes := codegen.ComputeTransactionCodes(iface.Methods)
@@ -306,6 +300,11 @@ func convertInterface(
 	for _, c := range iface.Constants {
 		cs := convertConstant(c)
 		is.Constants = append(is.Constants, cs)
+	}
+
+	// Record nested type names for reference.
+	for _, nd := range iface.NestedTypes {
+		is.NestedTypes = append(is.NestedTypes, typeName+"."+nd.GetName())
 	}
 
 	return is
@@ -347,7 +346,7 @@ func convertParam(
 	}
 
 	switch p.Direction {
-	case parser.DirectionIn:
+	case parser.DirectionIn, parser.DirectionNone:
 		ps.Direction = spec.DirectionIn
 	case parser.DirectionOut:
 		ps.Direction = spec.DirectionOut
@@ -372,6 +371,14 @@ func convertTypeRef(
 		IsArray:    ts.IsArray,
 		FixedSize:  ts.FixedSize,
 		IsNullable: hasAnnotation(ts.Annots, "nullable"),
+	}
+
+	// Collect type-level annotations other than @nullable.
+	for _, a := range ts.Annots {
+		if a.Name == "nullable" {
+			continue
+		}
+		tr.Annotations = append(tr.Annotations, a.Name)
 	}
 
 	for _, arg := range ts.TypeArgs {
@@ -461,6 +468,15 @@ func convertUnion(
 		us.Fields = append(us.Fields, convertField(f))
 	}
 
+	for _, c := range d.Constants {
+		us.Constants = append(us.Constants, convertConstant(c))
+	}
+
+	// Record nested type names for reference.
+	for _, nd := range d.NestedTypes {
+		us.NestedTypes = append(us.NestedTypes, typeName+"."+nd.GetName())
+	}
+
 	return us
 }
 
@@ -483,6 +499,8 @@ func convertConstant(
 }
 
 // constExprToString renders a ConstExpr back to its string representation.
+// Binary sub-expressions are wrapped in parentheses to preserve operator
+// precedence during round-trip through spec2go's parseConstExpr.
 func constExprToString(
 	expr parser.ConstExpr,
 ) string {
@@ -509,14 +527,53 @@ func constExprToString(
 	case *parser.IdentExpr:
 		return e.Name
 	case *parser.UnaryExpr:
-		return e.Op.String() + constExprToString(e.Operand)
+		operand := constExprToString(e.Operand)
+		// Wrap compound operands in parentheses so the unary binds tightly.
+		if needsParens(e.Operand) {
+			operand = "(" + operand + ")"
+		}
+		return e.Op.String() + operand
 	case *parser.BinaryExpr:
-		return constExprToString(e.Left) + " " + e.Op.String() + " " + constExprToString(e.Right)
+		left := constExprToString(e.Left)
+		right := constExprToString(e.Right)
+		// Wrap binary/ternary sub-expressions in parentheses to
+		// preserve precedence across a serialize/parse round-trip.
+		if needsParens(e.Left) {
+			left = "(" + left + ")"
+		}
+		if needsParens(e.Right) {
+			right = "(" + right + ")"
+		}
+		return left + " " + e.Op.String() + " " + right
 	case *parser.TernaryExpr:
-		return constExprToString(e.Cond) + " ? " + constExprToString(e.Then) + " : " + constExprToString(e.Else)
+		cond := constExprToString(e.Cond)
+		then := constExprToString(e.Then)
+		elseStr := constExprToString(e.Else)
+		if needsParens(e.Cond) {
+			cond = "(" + cond + ")"
+		}
+		if needsParens(e.Then) {
+			then = "(" + then + ")"
+		}
+		if needsParens(e.Else) {
+			elseStr = "(" + elseStr + ")"
+		}
+		return cond + " ? " + then + " : " + elseStr
 	default:
 		return fmt.Sprintf("%v", expr)
 	}
+}
+
+// needsParens returns true if the expression is compound (binary or ternary)
+// and should be wrapped in parentheses when used as a sub-expression.
+func needsParens(
+	expr parser.ConstExpr,
+) bool {
+	switch expr.(type) {
+	case *parser.BinaryExpr, *parser.TernaryExpr:
+		return true
+	}
+	return false
 }
 
 func hasAnnotation(
@@ -543,14 +600,6 @@ func collectAnnotationNames(
 		names = append(names, a.Name)
 	}
 	return names
-}
-
-// isRealParcelable returns true if the parcelable has actual content
-// (fields, constants, or nested types), not just a forward declaration.
-func isRealParcelable(
-	d *parser.ParcelableDecl,
-) bool {
-	return len(d.Fields) > 0 || len(d.Constants) > 0 || len(d.NestedTypes) > 0
 }
 
 func sortPackageSpec(
@@ -872,7 +921,6 @@ func fetchAOSPVersionTables(
 		apiRevisions[level] = reversed
 	}
 
-	restoreCommits(submoduleDirs, originalCommits)
 	return nil
 }
 
@@ -985,19 +1033,33 @@ func extractInterfaces(
 	table map[string]map[string]binder.TransactionCode,
 ) {
 	for _, def := range defs {
-		iface, ok := def.(*parser.InterfaceDecl)
-		if !ok {
-			continue
-		}
-		if len(iface.Methods) == 0 {
-			continue
-		}
+		switch d := def.(type) {
+		case *parser.InterfaceDecl:
+			if len(d.Methods) == 0 {
+				// Even if no methods, recurse into nested types that may
+				// contain interfaces with methods.
+				if len(d.NestedTypes) > 0 {
+					extractInterfaces(packageName+"."+d.IntfName, d.NestedTypes, table)
+				}
+				continue
+			}
 
-		descriptor := packageName + "." + iface.IntfName
-		table[descriptor] = codegen.ComputeTransactionCodes(iface.Methods)
+			descriptor := packageName + "." + d.IntfName
+			table[descriptor] = codegen.ComputeTransactionCodes(d.Methods)
 
-		if len(iface.NestedTypes) > 0 {
-			extractInterfaces(descriptor, iface.NestedTypes, table)
+			if len(d.NestedTypes) > 0 {
+				extractInterfaces(descriptor, d.NestedTypes, table)
+			}
+
+		case *parser.ParcelableDecl:
+			if len(d.NestedTypes) > 0 {
+				extractInterfaces(packageName+"."+d.ParcName, d.NestedTypes, table)
+			}
+
+		case *parser.UnionDecl:
+			if len(d.NestedTypes) > 0 {
+				extractInterfaces(packageName+"."+d.UnionName, d.NestedTypes, table)
+			}
 		}
 	}
 }

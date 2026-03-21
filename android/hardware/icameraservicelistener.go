@@ -76,6 +76,7 @@ func (p *CameraServiceListenerProxy) OnStatusChanged(
 	cameraId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
 	_data.WriteInt32(status)
 	_data.WriteString16(cameraId)
@@ -96,6 +97,7 @@ func (p *CameraServiceListenerProxy) OnPhysicalCameraStatusChanged(
 	physicalCameraId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
 	_data.WriteInt32(status)
 	_data.WriteString16(cameraId)
@@ -116,6 +118,7 @@ func (p *CameraServiceListenerProxy) OnTorchStatusChanged(
 	cameraId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
 	_data.WriteInt32(status)
 	_data.WriteString16(cameraId)
@@ -135,6 +138,7 @@ func (p *CameraServiceListenerProxy) OnTorchStrengthLevelChanged(
 	newTorchStrength int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
 	_data.WriteString16(cameraId)
 	_data.WriteInt32(newTorchStrength)
@@ -152,6 +156,7 @@ func (p *CameraServiceListenerProxy) OnCameraAccessPrioritiesChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnCameraAccessPrioritiesChanged)
@@ -169,6 +174,7 @@ func (p *CameraServiceListenerProxy) OnCameraOpened(
 	clientPackageId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
 	_data.WriteString16(cameraId)
 	_data.WriteString16(clientPackageId)
@@ -187,6 +193,7 @@ func (p *CameraServiceListenerProxy) OnCameraClosed(
 	cameraId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
 	_data.WriteString16(cameraId)
 
@@ -202,7 +209,8 @@ func (p *CameraServiceListenerProxy) OnCameraClosed(
 // CameraServiceListenerStub dispatches incoming binder transactions
 // to a typed ICameraServiceListener implementation.
 type CameraServiceListenerStub struct {
-	Impl ICameraServiceListener
+	Impl      ICameraServiceListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CameraServiceListenerStub)(nil)
@@ -216,11 +224,12 @@ func (s *CameraServiceListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICameraServiceListenerOnStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -230,12 +239,8 @@ func (s *CameraServiceListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStatusChanged(ctx, _arg_status, _arg_cameraId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICameraServiceListenerOnPhysicalCameraStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -249,12 +254,8 @@ func (s *CameraServiceListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPhysicalCameraStatusChanged(ctx, _arg_status, _arg_cameraId, _arg_physicalCameraId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICameraServiceListenerOnTorchStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -264,12 +265,8 @@ func (s *CameraServiceListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTorchStatusChanged(ctx, _arg_status, _arg_cameraId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICameraServiceListenerOnTorchStrengthLevelChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -279,19 +276,11 @@ func (s *CameraServiceListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTorchStrengthLevelChanged(ctx, _arg_cameraId, _arg_newTorchStrength)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICameraServiceListenerOnCameraAccessPrioritiesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnCameraAccessPrioritiesChanged(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICameraServiceListenerOnCameraOpened:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -301,19 +290,14 @@ func (s *CameraServiceListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnCameraOpened(ctx, _arg_cameraId, _arg_clientPackageId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICameraServiceListenerOnCameraClosed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnCameraClosed(ctx, _arg_cameraId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

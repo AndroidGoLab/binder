@@ -33,8 +33,7 @@ func (u *DemuxTlvFilterSettingsFilterSettings) GetNoinit() (bool, bool) {
 func (u *DemuxTlvFilterSettingsFilterSettings) SetNoinit(
 	v bool,
 ) {
-	u.Tag = DemuxTlvFilterSettingsFilterSettingsTagNoinit
-	u.Noinit = v
+	*u = DemuxTlvFilterSettingsFilterSettings{Tag: DemuxTlvFilterSettingsFilterSettingsTagNoinit, Noinit: v}
 }
 
 func (u *DemuxTlvFilterSettingsFilterSettings) GetSection() (DemuxFilterSectionSettings, bool) {
@@ -48,8 +47,7 @@ func (u *DemuxTlvFilterSettingsFilterSettings) GetSection() (DemuxFilterSectionS
 func (u *DemuxTlvFilterSettingsFilterSettings) SetSection(
 	v DemuxFilterSectionSettings,
 ) {
-	u.Tag = DemuxTlvFilterSettingsFilterSettingsTagSection
-	u.Section = v
+	*u = DemuxTlvFilterSettingsFilterSettings{Tag: DemuxTlvFilterSettingsFilterSettingsTagSection, Section: v}
 }
 
 func (u *DemuxTlvFilterSettingsFilterSettings) GetBPassthrough() (bool, bool) {
@@ -63,8 +61,7 @@ func (u *DemuxTlvFilterSettingsFilterSettings) GetBPassthrough() (bool, bool) {
 func (u *DemuxTlvFilterSettingsFilterSettings) SetBPassthrough(
 	v bool,
 ) {
-	u.Tag = DemuxTlvFilterSettingsFilterSettingsTagBPassthrough
-	u.BPassthrough = v
+	*u = DemuxTlvFilterSettingsFilterSettings{Tag: DemuxTlvFilterSettingsFilterSettingsTagBPassthrough, BPassthrough: v}
 }
 
 func (u *DemuxTlvFilterSettingsFilterSettings) MarshalParcel(

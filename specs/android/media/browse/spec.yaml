@@ -1,0 +1,4 @@
+package: android.media.browse
+go_package: android/media/browse
+parcelables:
+    - name: MediaBrowser.MediaItem

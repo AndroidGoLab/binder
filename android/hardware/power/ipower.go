@@ -70,6 +70,7 @@ func (p *PowerProxy) SetMode(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
 	_data.WriteInt32(int32(type_))
 	_data.WriteBool(enabled)
@@ -89,6 +90,7 @@ func (p *PowerProxy) IsModeSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
 	_data.WriteInt32(int32(type_))
 
@@ -120,6 +122,7 @@ func (p *PowerProxy) SetBoost(
 	durationMs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(durationMs)
@@ -139,6 +142,7 @@ func (p *PowerProxy) IsBoostSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
 	_data.WriteInt32(int32(type_))
 
@@ -173,6 +177,7 @@ func (p *PowerProxy) CreateHintSession(
 ) (IPowerHintSession, error) {
 	var _result IPowerHintSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
 	_data.WriteInt32(tgid)
 	_data.WriteInt32(uid)
@@ -214,6 +219,7 @@ func (p *PowerProxy) GetHintSessionPreferredRate(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerGetHintSessionPreferredRate)
@@ -249,6 +255,7 @@ func (p *PowerProxy) CreateHintSessionWithConfig(
 ) (IPowerHintSession, error) {
 	var _result IPowerHintSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
 	_data.WriteInt32(tgid)
 	_data.WriteInt32(uid)
@@ -277,8 +284,16 @@ func (p *PowerProxy) CreateHintSessionWithConfig(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = config.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = config.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_handle, _err := _reply.ReadStrongBinder()
@@ -296,6 +311,7 @@ func (p *PowerProxy) GetSessionChannel(
 ) (ChannelConfig, error) {
 	var _result ChannelConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
 	_data.WriteInt32(tgid)
 	_data.WriteInt32(uid)
@@ -333,6 +349,7 @@ func (p *PowerProxy) CloseSessionChannel(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPower)
 	_data.WriteInt32(tgid)
 	_data.WriteInt32(uid)
@@ -349,7 +366,8 @@ func (p *PowerProxy) CloseSessionChannel(
 // PowerStub dispatches incoming binder transactions
 // to a typed IPower implementation.
 type PowerStub struct {
-	Impl IPower
+	Impl      IPower
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PowerStub)(nil)
@@ -363,11 +381,12 @@ func (s *PowerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPowerSetMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -378,12 +397,8 @@ func (s *PowerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetMode(ctx, _arg_type_, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPowerIsModeSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -399,9 +414,6 @@ func (s *PowerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerSetBoost:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -412,12 +424,8 @@ func (s *PowerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetBoost(ctx, _arg_type_, _arg_durationMs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPowerIsBoostSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -433,9 +441,6 @@ func (s *PowerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerCreateHintSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_tgid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -444,9 +449,25 @@ func (s *PowerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_threadIds []int32
-		_ = _arg_threadIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_threadIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_threadIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_durationNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -458,13 +479,9 @@ func (s *PowerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIPowerGetHintSessionPreferredRate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHintSessionPreferredRate(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -475,9 +492,6 @@ func (s *PowerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIPowerCreateHintSessionWithConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_tgid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -486,9 +500,25 @@ func (s *PowerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_threadIds []int32
-		_ = _arg_threadIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_threadIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_threadIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_durationNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -506,13 +536,13 @@ func (s *PowerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIPowerGetSessionChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
+		_reply.WriteInt32(1)
+		if _err := _arg_config.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIPowerGetSessionChannel:
 		_arg_tgid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -534,9 +564,6 @@ func (s *PowerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPowerCloseSessionChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_tgid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -546,8 +573,7 @@ func (s *PowerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.CloseSessionChannel(ctx, _arg_tgid, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

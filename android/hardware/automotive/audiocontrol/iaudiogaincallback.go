@@ -46,6 +46,7 @@ func (p *AudioGainCallbackProxy) OnAudioDeviceGainsChanged(
 	gains []AudioGainConfigInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioGainCallback)
 	if reasons == nil {
 		_data.WriteInt32(-1)
@@ -79,7 +80,8 @@ func (p *AudioGainCallbackProxy) OnAudioDeviceGainsChanged(
 // AudioGainCallbackStub dispatches incoming binder transactions
 // to a typed IAudioGainCallback implementation.
 type AudioGainCallbackStub struct {
-	Impl IAudioGainCallback
+	Impl      IAudioGainCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AudioGainCallbackStub)(nil)
@@ -93,20 +95,55 @@ func (s *AudioGainCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAudioGainCallbackOnAudioDeviceGainsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_reasons []Reasons
-		_ = _arg_reasons
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_reasons = make([]Reasons, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_raw, _err := _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_reasons[_i] = Reasons(_raw)
+				}
+			}
+		}
 		var _arg_gains []AudioGainConfigInfo
-		_ = _arg_gains
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_gains = make([]AudioGainConfigInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_gains[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnAudioDeviceGainsChanged(ctx, _arg_reasons, _arg_gains)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

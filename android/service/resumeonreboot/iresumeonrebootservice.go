@@ -51,15 +51,9 @@ func (p *ResumeOnRebootServiceProxy) WrapSecret(
 	resultCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResumeOnRebootService)
-	if unwrappedBlob == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(unwrappedBlob)))
-		for _, _item := range unwrappedBlob {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(unwrappedBlob)
 	_data.WriteInt64(lifeTimeInMillis)
 	_data.WriteInt32(1)
 	if _err := resultCallback.MarshalParcel(_data); _err != nil {
@@ -81,15 +75,9 @@ func (p *ResumeOnRebootServiceProxy) Unwrap(
 	resultCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResumeOnRebootService)
-	if wrappedBlob == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(wrappedBlob)))
-		for _, _item := range wrappedBlob {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(wrappedBlob)
 	_data.WriteInt32(1)
 	if _err := resultCallback.MarshalParcel(_data); _err != nil {
 		return _err
@@ -107,7 +95,8 @@ func (p *ResumeOnRebootServiceProxy) Unwrap(
 // ResumeOnRebootServiceStub dispatches incoming binder transactions
 // to a typed IResumeOnRebootService implementation.
 type ResumeOnRebootServiceStub struct {
-	Impl IResumeOnRebootService
+	Impl      IResumeOnRebootService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ResumeOnRebootServiceStub)(nil)
@@ -121,14 +110,20 @@ func (s *ResumeOnRebootServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIResumeOnRebootServiceWrapSecret:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_unwrappedBlob []byte
-		_ = _arg_unwrappedBlob
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_unwrappedBlob = _bytes
+		}
 		_arg_lifeTimeInMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -146,15 +141,16 @@ func (s *ResumeOnRebootServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.WrapSecret(ctx, _arg_unwrappedBlob, _arg_lifeTimeInMillis, _arg_resultCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIResumeOnRebootServiceUnwrap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_wrappedBlob []byte
-		_ = _arg_wrappedBlob
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_wrappedBlob = _bytes
+		}
 		var _arg_resultCallback os.RemoteCallback
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -168,8 +164,7 @@ func (s *ResumeOnRebootServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.Unwrap(ctx, _arg_wrappedBlob, _arg_resultCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

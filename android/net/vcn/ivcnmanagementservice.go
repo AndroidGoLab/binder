@@ -3,6 +3,8 @@ package vcn
 import (
 	"context"
 	"fmt"
+	net "github.com/xaionaro-go/binder/android/net"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -35,13 +37,13 @@ const (
 
 type IVcnManagementService interface {
 	AsBinder() binder.IBinder
-	SetVcnConfig(ctx context.Context, subscriptionGroup interface{}, config VcnConfig, opPkgName string) error
-	ClearVcnConfig(ctx context.Context, subscriptionGroup interface{}, opPkgName string) error
-	GetConfiguredSubscriptionGroups(ctx context.Context, opPkgName string) ([]interface{}, error)
+	SetVcnConfig(ctx context.Context, subscriptionGroup os.ParcelUuid, config VcnConfig, opPkgName string) error
+	ClearVcnConfig(ctx context.Context, subscriptionGroup os.ParcelUuid, opPkgName string) error
+	GetConfiguredSubscriptionGroups(ctx context.Context, opPkgName string) ([]os.ParcelUuid, error)
 	AddVcnUnderlyingNetworkPolicyListener(ctx context.Context, listener IVcnUnderlyingNetworkPolicyListener) error
 	RemoveVcnUnderlyingNetworkPolicyListener(ctx context.Context, listener IVcnUnderlyingNetworkPolicyListener) error
-	GetUnderlyingNetworkPolicy(ctx context.Context, nc interface{}, lp interface{}) (VcnUnderlyingNetworkPolicy, error)
-	RegisterVcnStatusCallback(ctx context.Context, subscriptionGroup interface{}, callback IVcnStatusCallback, opPkgName string) error
+	GetUnderlyingNetworkPolicy(ctx context.Context, nc net.NetworkCapabilities, lp net.LinkProperties) (VcnUnderlyingNetworkPolicy, error)
+	RegisterVcnStatusCallback(ctx context.Context, subscriptionGroup os.ParcelUuid, callback IVcnStatusCallback, opPkgName string) error
 	UnregisterVcnStatusCallback(ctx context.Context, callback IVcnStatusCallback) error
 }
 
@@ -63,12 +65,17 @@ var _ IVcnManagementService = (*VcnManagementServiceProxy)(nil)
 
 func (p *VcnManagementServiceProxy) SetVcnConfig(
 	ctx context.Context,
-	subscriptionGroup interface{},
+	subscriptionGroup os.ParcelUuid,
 	config VcnConfig,
 	opPkgName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
+	_data.WriteInt32(1)
+	if _err := subscriptionGroup.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
@@ -95,11 +102,16 @@ func (p *VcnManagementServiceProxy) SetVcnConfig(
 
 func (p *VcnManagementServiceProxy) ClearVcnConfig(
 	ctx context.Context,
-	subscriptionGroup interface{},
+	subscriptionGroup os.ParcelUuid,
 	opPkgName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
+	_data.WriteInt32(1)
+	if _err := subscriptionGroup.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(opPkgName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceClearVcnConfig)
@@ -123,9 +135,10 @@ func (p *VcnManagementServiceProxy) ClearVcnConfig(
 func (p *VcnManagementServiceProxy) GetConfiguredSubscriptionGroups(
 	ctx context.Context,
 	opPkgName string,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]os.ParcelUuid, error) {
+	var _result []os.ParcelUuid
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
 	_data.WriteString16(opPkgName)
 
@@ -148,10 +161,19 @@ func (p *VcnManagementServiceProxy) GetConfiguredSubscriptionGroups(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]os.ParcelUuid, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -162,6 +184,7 @@ func (p *VcnManagementServiceProxy) AddVcnUnderlyingNetworkPolicyListener(
 	listener IVcnUnderlyingNetworkPolicyListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -188,6 +211,7 @@ func (p *VcnManagementServiceProxy) RemoveVcnUnderlyingNetworkPolicyListener(
 	listener IVcnUnderlyingNetworkPolicyListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -211,12 +235,21 @@ func (p *VcnManagementServiceProxy) RemoveVcnUnderlyingNetworkPolicyListener(
 
 func (p *VcnManagementServiceProxy) GetUnderlyingNetworkPolicy(
 	ctx context.Context,
-	nc interface{},
-	lp interface{},
+	nc net.NetworkCapabilities,
+	lp net.LinkProperties,
 ) (VcnUnderlyingNetworkPolicy, error) {
 	var _result VcnUnderlyingNetworkPolicy
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
+	_data.WriteInt32(1)
+	if _err := nc.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := lp.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceGetUnderlyingNetworkPolicy)
 	if _err != nil {
@@ -247,12 +280,17 @@ func (p *VcnManagementServiceProxy) GetUnderlyingNetworkPolicy(
 
 func (p *VcnManagementServiceProxy) RegisterVcnStatusCallback(
 	ctx context.Context,
-	subscriptionGroup interface{},
+	subscriptionGroup os.ParcelUuid,
 	callback IVcnStatusCallback,
 	opPkgName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
+	_data.WriteInt32(1)
+	if _err := subscriptionGroup.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(opPkgName)
 
@@ -279,6 +317,7 @@ func (p *VcnManagementServiceProxy) UnregisterVcnStatusCallback(
 	callback IVcnStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -303,7 +342,8 @@ func (p *VcnManagementServiceProxy) UnregisterVcnStatusCallback(
 // VcnManagementServiceStub dispatches incoming binder transactions
 // to a typed IVcnManagementService implementation.
 type VcnManagementServiceStub struct {
-	Impl IVcnManagementService
+	Impl      IVcnManagementService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VcnManagementServiceStub)(nil)
@@ -317,12 +357,24 @@ func (s *VcnManagementServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVcnManagementServiceSetVcnConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_subscriptionGroup os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_subscriptionGroup.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_subscriptionGroup interface{}
 		var _arg_config VcnConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -348,10 +400,18 @@ func (s *VcnManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVcnManagementServiceClearVcnConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_subscriptionGroup os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_subscriptionGroup.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_subscriptionGroup interface{}
 		_arg_opPkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -365,9 +425,6 @@ func (s *VcnManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVcnManagementServiceGetConfiguredSubscriptionGroups:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_opPkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -379,16 +436,27 @@ func (s *VcnManagementServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIVcnManagementServiceAddVcnUnderlyingNetworkPolicyListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IVcnUnderlyingNetworkPolicyListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewVcnUnderlyingNetworkPolicyListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddVcnUnderlyingNetworkPolicyListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -398,12 +466,14 @@ func (s *VcnManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVcnManagementServiceRemoveVcnUnderlyingNetworkPolicyListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IVcnUnderlyingNetworkPolicyListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewVcnUnderlyingNetworkPolicyListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveVcnUnderlyingNetworkPolicyListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -413,11 +483,30 @@ func (s *VcnManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVcnManagementServiceGetUnderlyingNetworkPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_nc net.NetworkCapabilities
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_nc.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_nc interface{}
-		var _arg_lp interface{}
+		var _arg_lp net.LinkProperties
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_lp.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetUnderlyingNetworkPolicy(ctx, _arg_nc, _arg_lp)
 		_reply := parcel.New()
 		if _err != nil {
@@ -431,13 +520,26 @@ func (s *VcnManagementServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVcnManagementServiceRegisterVcnStatusCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_subscriptionGroup os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_subscriptionGroup.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_subscriptionGroup interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IVcnStatusCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewVcnStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_opPkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -451,12 +553,14 @@ func (s *VcnManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVcnManagementServiceUnregisterVcnStatusCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IVcnStatusCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewVcnStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UnregisterVcnStatusCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -474,13 +578,13 @@ func (s *VcnManagementServiceStub) OnTransaction(
 // provide to NewVcnManagementServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IVcnManagementServiceServer interface {
-	SetVcnConfig(ctx context.Context, subscriptionGroup interface{}, config VcnConfig, opPkgName string) error
-	ClearVcnConfig(ctx context.Context, subscriptionGroup interface{}, opPkgName string) error
-	GetConfiguredSubscriptionGroups(ctx context.Context, opPkgName string) ([]interface{}, error)
+	SetVcnConfig(ctx context.Context, subscriptionGroup os.ParcelUuid, config VcnConfig, opPkgName string) error
+	ClearVcnConfig(ctx context.Context, subscriptionGroup os.ParcelUuid, opPkgName string) error
+	GetConfiguredSubscriptionGroups(ctx context.Context, opPkgName string) ([]os.ParcelUuid, error)
 	AddVcnUnderlyingNetworkPolicyListener(ctx context.Context, listener IVcnUnderlyingNetworkPolicyListener) error
 	RemoveVcnUnderlyingNetworkPolicyListener(ctx context.Context, listener IVcnUnderlyingNetworkPolicyListener) error
-	GetUnderlyingNetworkPolicy(ctx context.Context, nc interface{}, lp interface{}) (VcnUnderlyingNetworkPolicy, error)
-	RegisterVcnStatusCallback(ctx context.Context, subscriptionGroup interface{}, callback IVcnStatusCallback, opPkgName string) error
+	GetUnderlyingNetworkPolicy(ctx context.Context, nc net.NetworkCapabilities, lp net.LinkProperties) (VcnUnderlyingNetworkPolicy, error)
+	RegisterVcnStatusCallback(ctx context.Context, subscriptionGroup os.ParcelUuid, callback IVcnStatusCallback, opPkgName string) error
 	UnregisterVcnStatusCallback(ctx context.Context, callback IVcnStatusCallback) error
 }
 
@@ -495,7 +599,7 @@ func (w *vcnManagementServiceStubWrapper) AsBinder() binder.IBinder {
 
 func (w *vcnManagementServiceStubWrapper) SetVcnConfig(
 	ctx context.Context,
-	subscriptionGroup interface{},
+	subscriptionGroup os.ParcelUuid,
 	config VcnConfig,
 	opPkgName string,
 ) error {
@@ -504,7 +608,7 @@ func (w *vcnManagementServiceStubWrapper) SetVcnConfig(
 
 func (w *vcnManagementServiceStubWrapper) ClearVcnConfig(
 	ctx context.Context,
-	subscriptionGroup interface{},
+	subscriptionGroup os.ParcelUuid,
 	opPkgName string,
 ) error {
 	return w.impl.ClearVcnConfig(ctx, subscriptionGroup, opPkgName)
@@ -513,7 +617,7 @@ func (w *vcnManagementServiceStubWrapper) ClearVcnConfig(
 func (w *vcnManagementServiceStubWrapper) GetConfiguredSubscriptionGroups(
 	ctx context.Context,
 	opPkgName string,
-) ([]interface{}, error) {
+) ([]os.ParcelUuid, error) {
 	return w.impl.GetConfiguredSubscriptionGroups(ctx, opPkgName)
 }
 
@@ -533,15 +637,15 @@ func (w *vcnManagementServiceStubWrapper) RemoveVcnUnderlyingNetworkPolicyListen
 
 func (w *vcnManagementServiceStubWrapper) GetUnderlyingNetworkPolicy(
 	ctx context.Context,
-	nc interface{},
-	lp interface{},
+	nc net.NetworkCapabilities,
+	lp net.LinkProperties,
 ) (VcnUnderlyingNetworkPolicy, error) {
 	return w.impl.GetUnderlyingNetworkPolicy(ctx, nc, lp)
 }
 
 func (w *vcnManagementServiceStubWrapper) RegisterVcnStatusCallback(
 	ctx context.Context,
-	subscriptionGroup interface{},
+	subscriptionGroup os.ParcelUuid,
 	callback IVcnStatusCallback,
 	opPkgName string,
 ) error {

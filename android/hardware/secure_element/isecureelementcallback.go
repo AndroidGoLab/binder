@@ -46,6 +46,7 @@ func (p *SecureElementCallbackProxy) OnStateChange(
 	debugReason string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementCallback)
 	_data.WriteBool(connected)
 	_data.WriteString16(debugReason)
@@ -71,7 +72,8 @@ func (p *SecureElementCallbackProxy) OnStateChange(
 // SecureElementCallbackStub dispatches incoming binder transactions
 // to a typed ISecureElementCallback implementation.
 type SecureElementCallbackStub struct {
-	Impl ISecureElementCallback
+	Impl      ISecureElementCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SecureElementCallbackStub)(nil)
@@ -85,11 +87,12 @@ func (s *SecureElementCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISecureElementCallbackOnStateChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_connected, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err

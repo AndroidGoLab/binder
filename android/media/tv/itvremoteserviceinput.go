@@ -85,6 +85,7 @@ func (p *TvRemoteServiceInputProxy) OpenInputBridge(
 	maxPointers int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteServiceInput)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(name)
@@ -106,6 +107,7 @@ func (p *TvRemoteServiceInputProxy) CloseInputBridge(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteServiceInput)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -123,6 +125,7 @@ func (p *TvRemoteServiceInputProxy) ClearInputBridge(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteServiceInput)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -141,6 +144,7 @@ func (p *TvRemoteServiceInputProxy) SendTimestamp(
 	timestamp int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteServiceInput)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt64(timestamp)
@@ -160,6 +164,7 @@ func (p *TvRemoteServiceInputProxy) SendKeyDown(
 	keyCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteServiceInput)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(keyCode)
@@ -179,6 +184,7 @@ func (p *TvRemoteServiceInputProxy) SendKeyUp(
 	keyCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteServiceInput)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(keyCode)
@@ -200,6 +206,7 @@ func (p *TvRemoteServiceInputProxy) SendPointerDown(
 	y int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteServiceInput)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(pointerId)
@@ -221,6 +228,7 @@ func (p *TvRemoteServiceInputProxy) SendPointerUp(
 	pointerId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteServiceInput)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(pointerId)
@@ -239,6 +247,7 @@ func (p *TvRemoteServiceInputProxy) SendPointerSync(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteServiceInput)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -257,6 +266,7 @@ func (p *TvRemoteServiceInputProxy) OpenGamepadBridge(
 	name string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteServiceInput)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(name)
@@ -276,6 +286,7 @@ func (p *TvRemoteServiceInputProxy) SendGamepadKeyDown(
 	keyCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteServiceInput)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(keyCode)
@@ -295,6 +306,7 @@ func (p *TvRemoteServiceInputProxy) SendGamepadKeyUp(
 	keyCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteServiceInput)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(keyCode)
@@ -315,6 +327,7 @@ func (p *TvRemoteServiceInputProxy) SendGamepadAxisValue(
 	value float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvRemoteServiceInput)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(axis)
@@ -332,7 +345,8 @@ func (p *TvRemoteServiceInputProxy) SendGamepadAxisValue(
 // TvRemoteServiceInputStub dispatches incoming binder transactions
 // to a typed ITvRemoteServiceInput implementation.
 type TvRemoteServiceInputStub struct {
-	Impl ITvRemoteServiceInput
+	Impl      ITvRemoteServiceInput
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvRemoteServiceInputStub)(nil)
@@ -346,14 +360,20 @@ func (s *TvRemoteServiceInputStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvRemoteServiceInputOpenInputBridge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -371,77 +391,83 @@ func (s *TvRemoteServiceInputStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OpenInputBridge(ctx, _arg_token, _arg_name, _arg_width, _arg_height, _arg_maxPointers)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvRemoteServiceInputCloseInputBridge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.CloseInputBridge(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvRemoteServiceInputClearInputBridge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.ClearInputBridge(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvRemoteServiceInputSendTimestamp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_timestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SendTimestamp(ctx, _arg_token, _arg_timestamp)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvRemoteServiceInputSendKeyDown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_keyCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SendKeyDown(ctx, _arg_token, _arg_keyCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvRemoteServiceInputSendKeyUp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_keyCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SendKeyUp(ctx, _arg_token, _arg_keyCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvRemoteServiceInputSendPointerDown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_pointerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -455,81 +481,87 @@ func (s *TvRemoteServiceInputStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SendPointerDown(ctx, _arg_token, _arg_pointerId, _arg_x, _arg_y)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvRemoteServiceInputSendPointerUp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_pointerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SendPointerUp(ctx, _arg_token, _arg_pointerId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvRemoteServiceInputSendPointerSync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.SendPointerSync(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvRemoteServiceInputOpenGamepadBridge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OpenGamepadBridge(ctx, _arg_token, _arg_name)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvRemoteServiceInputSendGamepadKeyDown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_keyCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SendGamepadKeyDown(ctx, _arg_token, _arg_keyCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvRemoteServiceInputSendGamepadKeyUp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_keyCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SendGamepadKeyUp(ctx, _arg_token, _arg_keyCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvRemoteServiceInputSendGamepadAxisValue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_axis, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -539,8 +571,7 @@ func (s *TvRemoteServiceInputStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SendGamepadAxisValue(ctx, _arg_token, _arg_axis, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

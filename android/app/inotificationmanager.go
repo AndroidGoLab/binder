@@ -4,8 +4,9 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
-	pm "github.com/xaionaro-go/binder/android/content/pm"
+	types "github.com/xaionaro-go/binder/android/content/pm/types"
 	net "github.com/xaionaro-go/binder/android/net"
+	os "github.com/xaionaro-go/binder/android/os"
 	serviceNotification "github.com/xaionaro-go/binder/android/service/notification"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -53,117 +54,123 @@ const (
 	TransactionINotificationManagerGetNotificationChannelGroupsForPackage               = binder.FirstCallTransaction + 34
 	TransactionINotificationManagerGetNotificationChannelGroupForPackage                = binder.FirstCallTransaction + 35
 	TransactionINotificationManagerGetPopulatedNotificationChannelGroupForPackage       = binder.FirstCallTransaction + 36
-	TransactionINotificationManagerUpdateNotificationChannelGroupForPackage             = binder.FirstCallTransaction + 37
-	TransactionINotificationManagerUpdateNotificationChannelForPackage                  = binder.FirstCallTransaction + 38
-	TransactionINotificationManagerUnlockNotificationChannel                            = binder.FirstCallTransaction + 39
-	TransactionINotificationManagerUnlockAllNotificationChannels                        = binder.FirstCallTransaction + 40
-	TransactionINotificationManagerGetNotificationChannel                               = binder.FirstCallTransaction + 41
-	TransactionINotificationManagerGetConversationNotificationChannel                   = binder.FirstCallTransaction + 42
-	TransactionINotificationManagerCreateConversationNotificationChannelForPackage      = binder.FirstCallTransaction + 43
-	TransactionINotificationManagerGetNotificationChannelForPackage                     = binder.FirstCallTransaction + 44
-	TransactionINotificationManagerDeleteNotificationChannel                            = binder.FirstCallTransaction + 45
-	TransactionINotificationManagerGetNotificationChannels                              = binder.FirstCallTransaction + 46
-	TransactionINotificationManagerGetNotificationChannelsForPackage                    = binder.FirstCallTransaction + 47
-	TransactionINotificationManagerGetNumNotificationChannelsForPackage                 = binder.FirstCallTransaction + 48
-	TransactionINotificationManagerGetDeletedChannelCount                               = binder.FirstCallTransaction + 49
-	TransactionINotificationManagerGetBlockedChannelCount                               = binder.FirstCallTransaction + 50
-	TransactionINotificationManagerDeleteNotificationChannelGroup                       = binder.FirstCallTransaction + 51
-	TransactionINotificationManagerGetNotificationChannelGroup                          = binder.FirstCallTransaction + 52
-	TransactionINotificationManagerGetNotificationChannelGroups                         = binder.FirstCallTransaction + 53
-	TransactionINotificationManagerOnlyHasDefaultChannel                                = binder.FirstCallTransaction + 54
-	TransactionINotificationManagerAreChannelsBypassingDnd                              = binder.FirstCallTransaction + 55
-	TransactionINotificationManagerGetNotificationChannelsBypassingDnd                  = binder.FirstCallTransaction + 56
-	TransactionINotificationManagerIsPackagePaused                                      = binder.FirstCallTransaction + 57
-	TransactionINotificationManagerDeleteNotificationHistoryItem                        = binder.FirstCallTransaction + 58
-	TransactionINotificationManagerIsPermissionFixed                                    = binder.FirstCallTransaction + 59
-	TransactionINotificationManagerSilenceNotificationSound                             = binder.FirstCallTransaction + 60
-	TransactionINotificationManagerGetActiveNotifications                               = binder.FirstCallTransaction + 61
-	TransactionINotificationManagerGetActiveNotificationsWithAttribution                = binder.FirstCallTransaction + 62
-	TransactionINotificationManagerGetHistoricalNotifications                           = binder.FirstCallTransaction + 63
-	TransactionINotificationManagerGetHistoricalNotificationsWithAttribution            = binder.FirstCallTransaction + 64
-	TransactionINotificationManagerGetNotificationHistory                               = binder.FirstCallTransaction + 65
-	TransactionINotificationManagerRegisterListener                                     = binder.FirstCallTransaction + 66
-	TransactionINotificationManagerUnregisterListener                                   = binder.FirstCallTransaction + 67
-	TransactionINotificationManagerCancelNotificationFromListener                       = binder.FirstCallTransaction + 68
-	TransactionINotificationManagerCancelNotificationsFromListener                      = binder.FirstCallTransaction + 69
-	TransactionINotificationManagerSnoozeNotificationUntilContextFromListener           = binder.FirstCallTransaction + 70
-	TransactionINotificationManagerSnoozeNotificationUntilFromListener                  = binder.FirstCallTransaction + 71
-	TransactionINotificationManagerRequestBindListener                                  = binder.FirstCallTransaction + 72
-	TransactionINotificationManagerRequestUnbindListener                                = binder.FirstCallTransaction + 73
-	TransactionINotificationManagerRequestUnbindListenerComponent                       = binder.FirstCallTransaction + 74
-	TransactionINotificationManagerRequestBindProvider                                  = binder.FirstCallTransaction + 75
-	TransactionINotificationManagerRequestUnbindProvider                                = binder.FirstCallTransaction + 76
-	TransactionINotificationManagerSetNotificationsShownFromListener                    = binder.FirstCallTransaction + 77
-	TransactionINotificationManagerGetActiveNotificationsFromListener                   = binder.FirstCallTransaction + 78
-	TransactionINotificationManagerGetSnoozedNotificationsFromListener                  = binder.FirstCallTransaction + 79
-	TransactionINotificationManagerClearRequestedListenerHints                          = binder.FirstCallTransaction + 80
-	TransactionINotificationManagerRequestHintsFromListener                             = binder.FirstCallTransaction + 81
-	TransactionINotificationManagerGetHintsFromListener                                 = binder.FirstCallTransaction + 82
-	TransactionINotificationManagerGetHintsFromListenerNoToken                          = binder.FirstCallTransaction + 83
-	TransactionINotificationManagerRequestInterruptionFilterFromListener                = binder.FirstCallTransaction + 84
-	TransactionINotificationManagerGetInterruptionFilterFromListener                    = binder.FirstCallTransaction + 85
-	TransactionINotificationManagerSetOnNotificationPostedTrimFromListener              = binder.FirstCallTransaction + 86
-	TransactionINotificationManagerSetInterruptionFilter                                = binder.FirstCallTransaction + 87
-	TransactionINotificationManagerUpdateNotificationChannelGroupFromPrivilegedListener = binder.FirstCallTransaction + 88
-	TransactionINotificationManagerUpdateNotificationChannelFromPrivilegedListener      = binder.FirstCallTransaction + 89
-	TransactionINotificationManagerGetNotificationChannelsFromPrivilegedListener        = binder.FirstCallTransaction + 90
-	TransactionINotificationManagerGetNotificationChannelGroupsFromPrivilegedListener   = binder.FirstCallTransaction + 91
-	TransactionINotificationManagerApplyEnqueuedAdjustmentFromAssistant                 = binder.FirstCallTransaction + 92
-	TransactionINotificationManagerApplyAdjustmentFromAssistant                         = binder.FirstCallTransaction + 93
-	TransactionINotificationManagerApplyAdjustmentsFromAssistant                        = binder.FirstCallTransaction + 94
-	TransactionINotificationManagerUnsnoozeNotificationFromAssistant                    = binder.FirstCallTransaction + 95
-	TransactionINotificationManagerUnsnoozeNotificationFromSystemListener               = binder.FirstCallTransaction + 96
-	TransactionINotificationManagerGetEffectsSuppressor                                 = binder.FirstCallTransaction + 97
-	TransactionINotificationManagerMatchesCallFilter                                    = binder.FirstCallTransaction + 98
-	TransactionINotificationManagerCleanUpCallersAfter                                  = binder.FirstCallTransaction + 99
-	TransactionINotificationManagerIsSystemConditionProviderEnabled                     = binder.FirstCallTransaction + 100
-	TransactionINotificationManagerIsNotificationListenerAccessGranted                  = binder.FirstCallTransaction + 101
-	TransactionINotificationManagerIsNotificationListenerAccessGrantedForUser           = binder.FirstCallTransaction + 102
-	TransactionINotificationManagerIsNotificationAssistantAccessGranted                 = binder.FirstCallTransaction + 103
-	TransactionINotificationManagerSetNotificationListenerAccessGranted                 = binder.FirstCallTransaction + 104
-	TransactionINotificationManagerSetNotificationAssistantAccessGranted                = binder.FirstCallTransaction + 105
-	TransactionINotificationManagerSetNotificationListenerAccessGrantedForUser          = binder.FirstCallTransaction + 106
-	TransactionINotificationManagerSetNotificationAssistantAccessGrantedForUser         = binder.FirstCallTransaction + 107
-	TransactionINotificationManagerGetEnabledNotificationListenerPackages               = binder.FirstCallTransaction + 108
-	TransactionINotificationManagerGetEnabledNotificationListeners                      = binder.FirstCallTransaction + 109
-	TransactionINotificationManagerGetAllowedNotificationAssistantForUser               = binder.FirstCallTransaction + 110
-	TransactionINotificationManagerGetAllowedNotificationAssistant                      = binder.FirstCallTransaction + 111
-	TransactionINotificationManagerGetDefaultNotificationAssistant                      = binder.FirstCallTransaction + 112
-	TransactionINotificationManagerSetNASMigrationDoneAndResetDefault                   = binder.FirstCallTransaction + 113
-	TransactionINotificationManagerHasEnabledNotificationListener                       = binder.FirstCallTransaction + 114
-	TransactionINotificationManagerGetZenMode                                           = binder.FirstCallTransaction + 115
-	TransactionINotificationManagerGetZenModeConfig                                     = binder.FirstCallTransaction + 116
-	TransactionINotificationManagerGetConsolidatedNotificationPolicy                    = binder.FirstCallTransaction + 117
-	TransactionINotificationManagerSetZenMode                                           = binder.FirstCallTransaction + 118
-	TransactionINotificationManagerNotifyConditions                                     = binder.FirstCallTransaction + 119
-	TransactionINotificationManagerIsNotificationPolicyAccessGranted                    = binder.FirstCallTransaction + 120
-	TransactionINotificationManagerGetNotificationPolicy                                = binder.FirstCallTransaction + 121
-	TransactionINotificationManagerSetNotificationPolicy                                = binder.FirstCallTransaction + 122
-	TransactionINotificationManagerIsNotificationPolicyAccessGrantedForPackage          = binder.FirstCallTransaction + 123
-	TransactionINotificationManagerSetNotificationPolicyAccessGranted                   = binder.FirstCallTransaction + 124
-	TransactionINotificationManagerSetNotificationPolicyAccessGrantedForUser            = binder.FirstCallTransaction + 125
-	TransactionINotificationManagerGetAutomaticZenRule                                  = binder.FirstCallTransaction + 126
-	TransactionINotificationManagerGetZenRules                                          = binder.FirstCallTransaction + 127
-	TransactionINotificationManagerAddAutomaticZenRule                                  = binder.FirstCallTransaction + 128
-	TransactionINotificationManagerUpdateAutomaticZenRule                               = binder.FirstCallTransaction + 129
-	TransactionINotificationManagerRemoveAutomaticZenRule                               = binder.FirstCallTransaction + 130
-	TransactionINotificationManagerRemoveAutomaticZenRules                              = binder.FirstCallTransaction + 131
-	TransactionINotificationManagerGetRuleInstanceCount                                 = binder.FirstCallTransaction + 132
-	TransactionINotificationManagerSetAutomaticZenRuleState                             = binder.FirstCallTransaction + 133
-	TransactionINotificationManagerGetBackupPayload                                     = binder.FirstCallTransaction + 134
-	TransactionINotificationManagerApplyRestore                                         = binder.FirstCallTransaction + 135
-	TransactionINotificationManagerGetAppActiveNotifications                            = binder.FirstCallTransaction + 136
-	TransactionINotificationManagerSetNotificationDelegate                              = binder.FirstCallTransaction + 137
-	TransactionINotificationManagerGetNotificationDelegate                              = binder.FirstCallTransaction + 138
-	TransactionINotificationManagerCanNotifyAsPackage                                   = binder.FirstCallTransaction + 139
-	TransactionINotificationManagerCanUseFullScreenIntent                               = binder.FirstCallTransaction + 140
-	TransactionINotificationManagerSetPrivateNotificationsAllowed                       = binder.FirstCallTransaction + 141
-	TransactionINotificationManagerGetPrivateNotificationsAllowed                       = binder.FirstCallTransaction + 142
-	TransactionINotificationManagerPullStats                                            = binder.FirstCallTransaction + 143
-	TransactionINotificationManagerGetListenerFilter                                    = binder.FirstCallTransaction + 144
-	TransactionINotificationManagerSetListenerFilter                                    = binder.FirstCallTransaction + 145
-	TransactionINotificationManagerMigrateNotificationFilter                            = binder.FirstCallTransaction + 146
-	TransactionINotificationManagerSetToastRateLimitingEnabled                          = binder.FirstCallTransaction + 147
+	TransactionINotificationManagerGetRecentBlockedNotificationChannelGroupsForPackage  = binder.FirstCallTransaction + 37
+	TransactionINotificationManagerUpdateNotificationChannelGroupForPackage             = binder.FirstCallTransaction + 38
+	TransactionINotificationManagerUpdateNotificationChannelForPackage                  = binder.FirstCallTransaction + 39
+	TransactionINotificationManagerUnlockNotificationChannel                            = binder.FirstCallTransaction + 40
+	TransactionINotificationManagerUnlockAllNotificationChannels                        = binder.FirstCallTransaction + 41
+	TransactionINotificationManagerGetNotificationChannel                               = binder.FirstCallTransaction + 42
+	TransactionINotificationManagerGetConversationNotificationChannel                   = binder.FirstCallTransaction + 43
+	TransactionINotificationManagerCreateConversationNotificationChannelForPackage      = binder.FirstCallTransaction + 44
+	TransactionINotificationManagerGetNotificationChannelForPackage                     = binder.FirstCallTransaction + 45
+	TransactionINotificationManagerDeleteNotificationChannel                            = binder.FirstCallTransaction + 46
+	TransactionINotificationManagerGetNotificationChannels                              = binder.FirstCallTransaction + 47
+	TransactionINotificationManagerGetNotificationChannelsForPackage                    = binder.FirstCallTransaction + 48
+	TransactionINotificationManagerGetNumNotificationChannelsForPackage                 = binder.FirstCallTransaction + 49
+	TransactionINotificationManagerGetDeletedChannelCount                               = binder.FirstCallTransaction + 50
+	TransactionINotificationManagerGetBlockedChannelCount                               = binder.FirstCallTransaction + 51
+	TransactionINotificationManagerDeleteNotificationChannelGroup                       = binder.FirstCallTransaction + 52
+	TransactionINotificationManagerGetNotificationChannelGroup                          = binder.FirstCallTransaction + 53
+	TransactionINotificationManagerGetNotificationChannelGroups                         = binder.FirstCallTransaction + 54
+	TransactionINotificationManagerOnlyHasDefaultChannel                                = binder.FirstCallTransaction + 55
+	TransactionINotificationManagerAreChannelsBypassingDnd                              = binder.FirstCallTransaction + 56
+	TransactionINotificationManagerGetNotificationChannelsBypassingDnd                  = binder.FirstCallTransaction + 57
+	TransactionINotificationManagerIsPackagePaused                                      = binder.FirstCallTransaction + 58
+	TransactionINotificationManagerDeleteNotificationHistoryItem                        = binder.FirstCallTransaction + 59
+	TransactionINotificationManagerIsPermissionFixed                                    = binder.FirstCallTransaction + 60
+	TransactionINotificationManagerSilenceNotificationSound                             = binder.FirstCallTransaction + 61
+	TransactionINotificationManagerGetActiveNotifications                               = binder.FirstCallTransaction + 62
+	TransactionINotificationManagerGetActiveNotificationsWithAttribution                = binder.FirstCallTransaction + 63
+	TransactionINotificationManagerGetHistoricalNotifications                           = binder.FirstCallTransaction + 64
+	TransactionINotificationManagerGetHistoricalNotificationsWithAttribution            = binder.FirstCallTransaction + 65
+	TransactionINotificationManagerGetNotificationHistory                               = binder.FirstCallTransaction + 66
+	TransactionINotificationManagerRegisterListener                                     = binder.FirstCallTransaction + 67
+	TransactionINotificationManagerUnregisterListener                                   = binder.FirstCallTransaction + 68
+	TransactionINotificationManagerCancelNotificationFromListener                       = binder.FirstCallTransaction + 69
+	TransactionINotificationManagerCancelNotificationsFromListener                      = binder.FirstCallTransaction + 70
+	TransactionINotificationManagerSnoozeNotificationUntilContextFromListener           = binder.FirstCallTransaction + 71
+	TransactionINotificationManagerSnoozeNotificationUntilFromListener                  = binder.FirstCallTransaction + 72
+	TransactionINotificationManagerRequestBindListener                                  = binder.FirstCallTransaction + 73
+	TransactionINotificationManagerRequestUnbindListener                                = binder.FirstCallTransaction + 74
+	TransactionINotificationManagerRequestUnbindListenerComponent                       = binder.FirstCallTransaction + 75
+	TransactionINotificationManagerRequestBindProvider                                  = binder.FirstCallTransaction + 76
+	TransactionINotificationManagerRequestUnbindProvider                                = binder.FirstCallTransaction + 77
+	TransactionINotificationManagerSetNotificationsShownFromListener                    = binder.FirstCallTransaction + 78
+	TransactionINotificationManagerGetActiveNotificationsFromListener                   = binder.FirstCallTransaction + 79
+	TransactionINotificationManagerGetSnoozedNotificationsFromListener                  = binder.FirstCallTransaction + 80
+	TransactionINotificationManagerClearRequestedListenerHints                          = binder.FirstCallTransaction + 81
+	TransactionINotificationManagerRequestHintsFromListener                             = binder.FirstCallTransaction + 82
+	TransactionINotificationManagerGetHintsFromListener                                 = binder.FirstCallTransaction + 83
+	TransactionINotificationManagerGetHintsFromListenerNoToken                          = binder.FirstCallTransaction + 84
+	TransactionINotificationManagerRequestInterruptionFilterFromListener                = binder.FirstCallTransaction + 85
+	TransactionINotificationManagerGetInterruptionFilterFromListener                    = binder.FirstCallTransaction + 86
+	TransactionINotificationManagerSetOnNotificationPostedTrimFromListener              = binder.FirstCallTransaction + 87
+	TransactionINotificationManagerSetInterruptionFilter                                = binder.FirstCallTransaction + 88
+	TransactionINotificationManagerUpdateNotificationChannelGroupFromPrivilegedListener = binder.FirstCallTransaction + 89
+	TransactionINotificationManagerUpdateNotificationChannelFromPrivilegedListener      = binder.FirstCallTransaction + 90
+	TransactionINotificationManagerGetNotificationChannelsFromPrivilegedListener        = binder.FirstCallTransaction + 91
+	TransactionINotificationManagerGetNotificationChannelGroupsFromPrivilegedListener   = binder.FirstCallTransaction + 92
+	TransactionINotificationManagerApplyEnqueuedAdjustmentFromAssistant                 = binder.FirstCallTransaction + 93
+	TransactionINotificationManagerApplyAdjustmentFromAssistant                         = binder.FirstCallTransaction + 94
+	TransactionINotificationManagerApplyAdjustmentsFromAssistant                        = binder.FirstCallTransaction + 95
+	TransactionINotificationManagerUnsnoozeNotificationFromAssistant                    = binder.FirstCallTransaction + 96
+	TransactionINotificationManagerUnsnoozeNotificationFromSystemListener               = binder.FirstCallTransaction + 97
+	TransactionINotificationManagerGetEffectsSuppressor                                 = binder.FirstCallTransaction + 98
+	TransactionINotificationManagerMatchesCallFilter                                    = binder.FirstCallTransaction + 99
+	TransactionINotificationManagerCleanUpCallersAfter                                  = binder.FirstCallTransaction + 100
+	TransactionINotificationManagerIsSystemConditionProviderEnabled                     = binder.FirstCallTransaction + 101
+	TransactionINotificationManagerIsNotificationListenerAccessGranted                  = binder.FirstCallTransaction + 102
+	TransactionINotificationManagerIsNotificationListenerAccessGrantedForUser           = binder.FirstCallTransaction + 103
+	TransactionINotificationManagerIsNotificationAssistantAccessGranted                 = binder.FirstCallTransaction + 104
+	TransactionINotificationManagerSetNotificationListenerAccessGranted                 = binder.FirstCallTransaction + 105
+	TransactionINotificationManagerSetNotificationAssistantAccessGranted                = binder.FirstCallTransaction + 106
+	TransactionINotificationManagerSetNotificationListenerAccessGrantedForUser          = binder.FirstCallTransaction + 107
+	TransactionINotificationManagerSetNotificationAssistantAccessGrantedForUser         = binder.FirstCallTransaction + 108
+	TransactionINotificationManagerGetEnabledNotificationListenerPackages               = binder.FirstCallTransaction + 109
+	TransactionINotificationManagerGetEnabledNotificationListeners                      = binder.FirstCallTransaction + 110
+	TransactionINotificationManagerGetAllowedNotificationAssistantForUser               = binder.FirstCallTransaction + 111
+	TransactionINotificationManagerGetAllowedNotificationAssistant                      = binder.FirstCallTransaction + 112
+	TransactionINotificationManagerGetDefaultNotificationAssistant                      = binder.FirstCallTransaction + 113
+	TransactionINotificationManagerSetNASMigrationDoneAndResetDefault                   = binder.FirstCallTransaction + 114
+	TransactionINotificationManagerHasEnabledNotificationListener                       = binder.FirstCallTransaction + 115
+	TransactionINotificationManagerGetZenMode                                           = binder.FirstCallTransaction + 116
+	TransactionINotificationManagerGetZenModeConfig                                     = binder.FirstCallTransaction + 117
+	TransactionINotificationManagerGetConsolidatedNotificationPolicy                    = binder.FirstCallTransaction + 118
+	TransactionINotificationManagerSetZenMode                                           = binder.FirstCallTransaction + 119
+	TransactionINotificationManagerNotifyConditions                                     = binder.FirstCallTransaction + 120
+	TransactionINotificationManagerIsNotificationPolicyAccessGranted                    = binder.FirstCallTransaction + 121
+	TransactionINotificationManagerGetNotificationPolicy                                = binder.FirstCallTransaction + 122
+	TransactionINotificationManagerSetNotificationPolicy                                = binder.FirstCallTransaction + 123
+	TransactionINotificationManagerIsNotificationPolicyAccessGrantedForPackage          = binder.FirstCallTransaction + 124
+	TransactionINotificationManagerSetNotificationPolicyAccessGranted                   = binder.FirstCallTransaction + 125
+	TransactionINotificationManagerSetNotificationPolicyAccessGrantedForUser            = binder.FirstCallTransaction + 126
+	TransactionINotificationManagerGetDefaultZenPolicy                                  = binder.FirstCallTransaction + 127
+	TransactionINotificationManagerGetAutomaticZenRule                                  = binder.FirstCallTransaction + 128
+	TransactionINotificationManagerGetAutomaticZenRules                                 = binder.FirstCallTransaction + 129
+	TransactionINotificationManagerGetZenRules                                          = binder.FirstCallTransaction + 130
+	TransactionINotificationManagerAddAutomaticZenRule                                  = binder.FirstCallTransaction + 131
+	TransactionINotificationManagerUpdateAutomaticZenRule                               = binder.FirstCallTransaction + 132
+	TransactionINotificationManagerRemoveAutomaticZenRule                               = binder.FirstCallTransaction + 133
+	TransactionINotificationManagerRemoveAutomaticZenRules                              = binder.FirstCallTransaction + 134
+	TransactionINotificationManagerGetRuleInstanceCount                                 = binder.FirstCallTransaction + 135
+	TransactionINotificationManagerGetAutomaticZenRuleState                             = binder.FirstCallTransaction + 136
+	TransactionINotificationManagerSetAutomaticZenRuleState                             = binder.FirstCallTransaction + 137
+	TransactionINotificationManagerGetBackupPayload                                     = binder.FirstCallTransaction + 138
+	TransactionINotificationManagerApplyRestore                                         = binder.FirstCallTransaction + 139
+	TransactionINotificationManagerGetAppActiveNotifications                            = binder.FirstCallTransaction + 140
+	TransactionINotificationManagerSetNotificationDelegate                              = binder.FirstCallTransaction + 141
+	TransactionINotificationManagerGetNotificationDelegate                              = binder.FirstCallTransaction + 142
+	TransactionINotificationManagerCanNotifyAsPackage                                   = binder.FirstCallTransaction + 143
+	TransactionINotificationManagerCanUseFullScreenIntent                               = binder.FirstCallTransaction + 144
+	TransactionINotificationManagerSetPrivateNotificationsAllowed                       = binder.FirstCallTransaction + 145
+	TransactionINotificationManagerGetPrivateNotificationsAllowed                       = binder.FirstCallTransaction + 146
+	TransactionINotificationManagerPullStats                                            = binder.FirstCallTransaction + 147
+	TransactionINotificationManagerGetListenerFilter                                    = binder.FirstCallTransaction + 148
+	TransactionINotificationManagerSetListenerFilter                                    = binder.FirstCallTransaction + 149
+	TransactionINotificationManagerMigrateNotificationFilter                            = binder.FirstCallTransaction + 150
+	TransactionINotificationManagerSetToastRateLimitingEnabled                          = binder.FirstCallTransaction + 151
+	TransactionINotificationManagerRegisterCallNotificationEventListener                = binder.FirstCallTransaction + 152
+	TransactionINotificationManagerUnregisterCallNotificationEventListener              = binder.FirstCallTransaction + 153
 )
 
 const (
@@ -204,6 +211,7 @@ const (
 	MethodINotificationManagerGetNotificationChannelGroupsForPackage               = "getNotificationChannelGroupsForPackage"
 	MethodINotificationManagerGetNotificationChannelGroupForPackage                = "getNotificationChannelGroupForPackage"
 	MethodINotificationManagerGetPopulatedNotificationChannelGroupForPackage       = "getPopulatedNotificationChannelGroupForPackage"
+	MethodINotificationManagerGetRecentBlockedNotificationChannelGroupsForPackage  = "getRecentBlockedNotificationChannelGroupsForPackage"
 	MethodINotificationManagerUpdateNotificationChannelGroupForPackage             = "updateNotificationChannelGroupForPackage"
 	MethodINotificationManagerUpdateNotificationChannelForPackage                  = "updateNotificationChannelForPackage"
 	MethodINotificationManagerUnlockNotificationChannel                            = "unlockNotificationChannel"
@@ -293,13 +301,16 @@ const (
 	MethodINotificationManagerIsNotificationPolicyAccessGrantedForPackage          = "isNotificationPolicyAccessGrantedForPackage"
 	MethodINotificationManagerSetNotificationPolicyAccessGranted                   = "setNotificationPolicyAccessGranted"
 	MethodINotificationManagerSetNotificationPolicyAccessGrantedForUser            = "setNotificationPolicyAccessGrantedForUser"
+	MethodINotificationManagerGetDefaultZenPolicy                                  = "getDefaultZenPolicy"
 	MethodINotificationManagerGetAutomaticZenRule                                  = "getAutomaticZenRule"
+	MethodINotificationManagerGetAutomaticZenRules                                 = "getAutomaticZenRules"
 	MethodINotificationManagerGetZenRules                                          = "getZenRules"
 	MethodINotificationManagerAddAutomaticZenRule                                  = "addAutomaticZenRule"
 	MethodINotificationManagerUpdateAutomaticZenRule                               = "updateAutomaticZenRule"
 	MethodINotificationManagerRemoveAutomaticZenRule                               = "removeAutomaticZenRule"
 	MethodINotificationManagerRemoveAutomaticZenRules                              = "removeAutomaticZenRules"
 	MethodINotificationManagerGetRuleInstanceCount                                 = "getRuleInstanceCount"
+	MethodINotificationManagerGetAutomaticZenRuleState                             = "getAutomaticZenRuleState"
 	MethodINotificationManagerSetAutomaticZenRuleState                             = "setAutomaticZenRuleState"
 	MethodINotificationManagerGetBackupPayload                                     = "getBackupPayload"
 	MethodINotificationManagerApplyRestore                                         = "applyRestore"
@@ -315,13 +326,15 @@ const (
 	MethodINotificationManagerSetListenerFilter                                    = "setListenerFilter"
 	MethodINotificationManagerMigrateNotificationFilter                            = "migrateNotificationFilter"
 	MethodINotificationManagerSetToastRateLimitingEnabled                          = "setToastRateLimitingEnabled"
+	MethodINotificationManagerRegisterCallNotificationEventListener                = "registerCallNotificationEventListener"
+	MethodINotificationManagerUnregisterCallNotificationEventListener              = "unregisterCallNotificationEventListener"
 )
 
 type INotificationManager interface {
 	AsBinder() binder.IBinder
 	CancelAllNotifications(ctx context.Context, pkg string) error
 	ClearData(ctx context.Context, pkg string, uid int32, fromApp bool) error
-	EnqueueTextToast(ctx context.Context, pkg string, token binder.IBinder, text interface{}, duration int32, isUiContext bool, displayId int32, callback ITransientNotificationCallback) error
+	EnqueueTextToast(ctx context.Context, pkg string, token binder.IBinder, text string, duration int32, isUiContext bool, displayId int32, callback ITransientNotificationCallback) error
 	EnqueueToast(ctx context.Context, pkg string, token binder.IBinder, callback ITransientNotification, duration int32, isUiContext bool, displayId int32) error
 	CancelToast(ctx context.Context, pkg string, token binder.IBinder) error
 	FinishToken(ctx context.Context, pkg string, token binder.IBinder) error
@@ -346,16 +359,17 @@ type INotificationManager interface {
 	SetHideSilentStatusIcons(ctx context.Context, hide bool) error
 	SetBubblesAllowed(ctx context.Context, pkg string, uid int32, bubblePreference int32) error
 	AreBubblesAllowed(ctx context.Context, pkg string) (bool, error)
-	AreBubblesEnabled(ctx context.Context, user interface{}) (bool, error)
+	AreBubblesEnabled(ctx context.Context, user os.UserHandle) (bool, error)
 	GetBubblePreferenceForPackage(ctx context.Context, pkg string, uid int32) (int32, error)
-	CreateNotificationChannelGroups(ctx context.Context, pkg string, channelGroupList pm.ParceledListSlice) error
-	CreateNotificationChannels(ctx context.Context, pkg string, channelsList pm.ParceledListSlice) error
-	CreateNotificationChannelsForPackage(ctx context.Context, pkg string, uid int32, channelsList pm.ParceledListSlice) error
-	GetConversations(ctx context.Context, onlyImportant bool) (pm.ParceledListSlice, error)
-	GetConversationsForPackage(ctx context.Context, pkg string, uid int32) (pm.ParceledListSlice, error)
-	GetNotificationChannelGroupsForPackage(ctx context.Context, pkg string, uid int32, includeDeleted bool) (pm.ParceledListSlice, error)
+	CreateNotificationChannelGroups(ctx context.Context, pkg string, channelGroupList types.ParceledListSlice) error
+	CreateNotificationChannels(ctx context.Context, pkg string, channelsList types.ParceledListSlice) error
+	CreateNotificationChannelsForPackage(ctx context.Context, pkg string, uid int32, channelsList types.ParceledListSlice) error
+	GetConversations(ctx context.Context, onlyImportant bool) (types.ParceledListSlice, error)
+	GetConversationsForPackage(ctx context.Context, pkg string, uid int32) (types.ParceledListSlice, error)
+	GetNotificationChannelGroupsForPackage(ctx context.Context, pkg string, uid int32, includeDeleted bool) (types.ParceledListSlice, error)
 	GetNotificationChannelGroupForPackage(ctx context.Context, groupId string, pkg string, uid int32) (NotificationChannelGroup, error)
 	GetPopulatedNotificationChannelGroupForPackage(ctx context.Context, pkg string, uid int32, groupId string, includeDeleted bool) (NotificationChannelGroup, error)
+	GetRecentBlockedNotificationChannelGroupsForPackage(ctx context.Context, pkg string, uid int32) (types.ParceledListSlice, error)
 	UpdateNotificationChannelGroupForPackage(ctx context.Context, pkg string, uid int32, group NotificationChannelGroup) error
 	UpdateNotificationChannelForPackage(ctx context.Context, pkg string, uid int32, channel NotificationChannel) error
 	UnlockNotificationChannel(ctx context.Context, pkg string, uid int32, channelId string) error
@@ -365,17 +379,17 @@ type INotificationManager interface {
 	CreateConversationNotificationChannelForPackage(ctx context.Context, pkg string, uid int32, parentChannel NotificationChannel, conversationId string) error
 	GetNotificationChannelForPackage(ctx context.Context, pkg string, uid int32, channelId string, conversationId string, includeDeleted bool) (NotificationChannel, error)
 	DeleteNotificationChannel(ctx context.Context, pkg string, channelId string) error
-	GetNotificationChannels(ctx context.Context, callingPkg string, targetPkg string) (pm.ParceledListSlice, error)
-	GetNotificationChannelsForPackage(ctx context.Context, pkg string, uid int32, includeDeleted bool) (pm.ParceledListSlice, error)
+	GetNotificationChannels(ctx context.Context, callingPkg string, targetPkg string) (types.ParceledListSlice, error)
+	GetNotificationChannelsForPackage(ctx context.Context, pkg string, uid int32, includeDeleted bool) (types.ParceledListSlice, error)
 	GetNumNotificationChannelsForPackage(ctx context.Context, pkg string, uid int32, includeDeleted bool) (int32, error)
 	GetDeletedChannelCount(ctx context.Context, pkg string, uid int32) (int32, error)
 	GetBlockedChannelCount(ctx context.Context, pkg string, uid int32) (int32, error)
 	DeleteNotificationChannelGroup(ctx context.Context, pkg string, channelGroupId string) error
 	GetNotificationChannelGroup(ctx context.Context, pkg string, channelGroupId string) (NotificationChannelGroup, error)
-	GetNotificationChannelGroups(ctx context.Context, pkg string) (pm.ParceledListSlice, error)
+	GetNotificationChannelGroups(ctx context.Context, pkg string) (types.ParceledListSlice, error)
 	OnlyHasDefaultChannel(ctx context.Context, pkg string, uid int32) (bool, error)
 	AreChannelsBypassingDnd(ctx context.Context) (bool, error)
-	GetNotificationChannelsBypassingDnd(ctx context.Context, pkg string, uid int32) (pm.ParceledListSlice, error)
+	GetNotificationChannelsBypassingDnd(ctx context.Context, pkg string, uid int32) (types.ParceledListSlice, error)
 	IsPackagePaused(ctx context.Context, pkg string) (bool, error)
 	DeleteNotificationHistoryItem(ctx context.Context, pkg string, uid int32, postedTime int64) error
 	IsPermissionFixed(ctx context.Context, pkg string) (bool, error)
@@ -397,8 +411,8 @@ type INotificationManager interface {
 	RequestBindProvider(ctx context.Context, component content.ComponentName) error
 	RequestUnbindProvider(ctx context.Context, token serviceNotification.IConditionProvider) error
 	SetNotificationsShownFromListener(ctx context.Context, token serviceNotification.INotificationListener, keys []string) error
-	GetActiveNotificationsFromListener(ctx context.Context, token serviceNotification.INotificationListener, keys []string, trim int32) (pm.ParceledListSlice, error)
-	GetSnoozedNotificationsFromListener(ctx context.Context, token serviceNotification.INotificationListener, trim int32) (pm.ParceledListSlice, error)
+	GetActiveNotificationsFromListener(ctx context.Context, token serviceNotification.INotificationListener, keys []string, trim int32) (types.ParceledListSlice, error)
+	GetSnoozedNotificationsFromListener(ctx context.Context, token serviceNotification.INotificationListener, trim int32) (types.ParceledListSlice, error)
 	ClearRequestedListenerHints(ctx context.Context, token serviceNotification.INotificationListener) error
 	RequestHintsFromListener(ctx context.Context, token serviceNotification.INotificationListener, hints int32) error
 	GetHintsFromListener(ctx context.Context, token serviceNotification.INotificationListener) (int32, error)
@@ -406,18 +420,18 @@ type INotificationManager interface {
 	RequestInterruptionFilterFromListener(ctx context.Context, token serviceNotification.INotificationListener, interruptionFilter int32) error
 	GetInterruptionFilterFromListener(ctx context.Context, token serviceNotification.INotificationListener) (int32, error)
 	SetOnNotificationPostedTrimFromListener(ctx context.Context, token serviceNotification.INotificationListener, trim int32) error
-	SetInterruptionFilter(ctx context.Context, pkg string, interruptionFilter int32) error
-	UpdateNotificationChannelGroupFromPrivilegedListener(ctx context.Context, token serviceNotification.INotificationListener, pkg string, user interface{}, group NotificationChannelGroup) error
-	UpdateNotificationChannelFromPrivilegedListener(ctx context.Context, token serviceNotification.INotificationListener, pkg string, user interface{}, channel NotificationChannel) error
-	GetNotificationChannelsFromPrivilegedListener(ctx context.Context, token serviceNotification.INotificationListener, pkg string, user interface{}) (pm.ParceledListSlice, error)
-	GetNotificationChannelGroupsFromPrivilegedListener(ctx context.Context, token serviceNotification.INotificationListener, pkg string, user interface{}) (pm.ParceledListSlice, error)
+	SetInterruptionFilter(ctx context.Context, pkg string, interruptionFilter int32, fromUser bool) error
+	UpdateNotificationChannelGroupFromPrivilegedListener(ctx context.Context, token serviceNotification.INotificationListener, pkg string, user os.UserHandle, group NotificationChannelGroup) error
+	UpdateNotificationChannelFromPrivilegedListener(ctx context.Context, token serviceNotification.INotificationListener, pkg string, user os.UserHandle, channel NotificationChannel) error
+	GetNotificationChannelsFromPrivilegedListener(ctx context.Context, token serviceNotification.INotificationListener, pkg string, user os.UserHandle) (types.ParceledListSlice, error)
+	GetNotificationChannelGroupsFromPrivilegedListener(ctx context.Context, token serviceNotification.INotificationListener, pkg string, user os.UserHandle) (types.ParceledListSlice, error)
 	ApplyEnqueuedAdjustmentFromAssistant(ctx context.Context, token serviceNotification.INotificationListener, adjustment serviceNotification.Adjustment) error
 	ApplyAdjustmentFromAssistant(ctx context.Context, token serviceNotification.INotificationListener, adjustment serviceNotification.Adjustment) error
 	ApplyAdjustmentsFromAssistant(ctx context.Context, token serviceNotification.INotificationListener, adjustments []serviceNotification.Adjustment) error
 	UnsnoozeNotificationFromAssistant(ctx context.Context, token serviceNotification.INotificationListener, key string) error
 	UnsnoozeNotificationFromSystemListener(ctx context.Context, token serviceNotification.INotificationListener, key string) error
 	GetEffectsSuppressor(ctx context.Context) (content.ComponentName, error)
-	MatchesCallFilter(ctx context.Context, extras interface{}) (bool, error)
+	MatchesCallFilter(ctx context.Context, extras os.Bundle) (bool, error)
 	CleanUpCallersAfter(ctx context.Context, timeThreshold int64) error
 	IsSystemConditionProviderEnabled(ctx context.Context, path string) (bool, error)
 	IsNotificationListenerAccessGranted(ctx context.Context, listener content.ComponentName) (bool, error)
@@ -437,25 +451,28 @@ type INotificationManager interface {
 	GetZenMode(ctx context.Context) (int32, error)
 	GetZenModeConfig(ctx context.Context) (serviceNotification.ZenModeConfig, error)
 	GetConsolidatedNotificationPolicy(ctx context.Context) (NotificationManagerPolicy, error)
-	SetZenMode(ctx context.Context, mode int32, conditionId net.Uri, reason string) error
+	SetZenMode(ctx context.Context, mode int32, conditionId net.Uri, reason string, fromUser bool) error
 	NotifyConditions(ctx context.Context, pkg string, provider serviceNotification.IConditionProvider, conditions []serviceNotification.Condition) error
 	IsNotificationPolicyAccessGranted(ctx context.Context, pkg string) (bool, error)
 	GetNotificationPolicy(ctx context.Context, pkg string) (NotificationManagerPolicy, error)
-	SetNotificationPolicy(ctx context.Context, pkg string, policy NotificationManagerPolicy) error
+	SetNotificationPolicy(ctx context.Context, pkg string, policy NotificationManagerPolicy, fromUser bool) error
 	IsNotificationPolicyAccessGrantedForPackage(ctx context.Context, pkg string) (bool, error)
 	SetNotificationPolicyAccessGranted(ctx context.Context, pkg string, granted bool) error
 	SetNotificationPolicyAccessGrantedForUser(ctx context.Context, pkg string, granted bool) error
+	GetDefaultZenPolicy(ctx context.Context) (serviceNotification.ZenPolicy, error)
 	GetAutomaticZenRule(ctx context.Context, id string) (AutomaticZenRule, error)
+	GetAutomaticZenRules(ctx context.Context) (map[string]AutomaticZenRule, error)
 	GetZenRules(ctx context.Context) ([]serviceNotification.ZenModeConfigZenRule, error)
-	AddAutomaticZenRule(ctx context.Context, automaticZenRule AutomaticZenRule, pkg string) (string, error)
-	UpdateAutomaticZenRule(ctx context.Context, id string, automaticZenRule AutomaticZenRule) (bool, error)
-	RemoveAutomaticZenRule(ctx context.Context, id string) (bool, error)
-	RemoveAutomaticZenRules(ctx context.Context, packageName string) (bool, error)
+	AddAutomaticZenRule(ctx context.Context, automaticZenRule AutomaticZenRule, pkg string, fromUser bool) (string, error)
+	UpdateAutomaticZenRule(ctx context.Context, id string, automaticZenRule AutomaticZenRule, fromUser bool) (bool, error)
+	RemoveAutomaticZenRule(ctx context.Context, id string, fromUser bool) (bool, error)
+	RemoveAutomaticZenRules(ctx context.Context, packageName string, fromUser bool) (bool, error)
 	GetRuleInstanceCount(ctx context.Context, owner content.ComponentName) (int32, error)
+	GetAutomaticZenRuleState(ctx context.Context, id string) (int32, error)
 	SetAutomaticZenRuleState(ctx context.Context, id string, condition serviceNotification.Condition) error
 	GetBackupPayload(ctx context.Context, user int32) ([]byte, error)
 	ApplyRestore(ctx context.Context, payload []byte, user int32) error
-	GetAppActiveNotifications(ctx context.Context, callingPkg string) (pm.ParceledListSlice, error)
+	GetAppActiveNotifications(ctx context.Context, callingPkg string) (types.ParceledListSlice, error)
 	SetNotificationDelegate(ctx context.Context, callingPkg string, delegate string) error
 	GetNotificationDelegate(ctx context.Context, callingPkg string) (string, error)
 	CanNotifyAsPackage(ctx context.Context, callingPkg string, targetPkg string) (bool, error)
@@ -467,6 +484,8 @@ type INotificationManager interface {
 	SetListenerFilter(ctx context.Context, cn content.ComponentName, nlf serviceNotification.NotificationListenerFilter) error
 	MigrateNotificationFilter(ctx context.Context, token serviceNotification.INotificationListener, defaultTypes int32, disallowedPkgs []string) error
 	SetToastRateLimitingEnabled(ctx context.Context, enable bool) error
+	RegisterCallNotificationEventListener(ctx context.Context, packageName string, userHandle os.UserHandle, listener ICallNotificationEventCallback) error
+	UnregisterCallNotificationEventListener(ctx context.Context, packageName string, userHandle os.UserHandle, listener ICallNotificationEventCallback) error
 }
 
 type NotificationManagerProxy struct {
@@ -491,6 +510,7 @@ func (p *NotificationManagerProxy) CancelAllNotifications(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(_identity.UserID)
@@ -520,6 +540,7 @@ func (p *NotificationManagerProxy) ClearData(
 	fromApp bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -547,16 +568,18 @@ func (p *NotificationManagerProxy) EnqueueTextToast(
 	ctx context.Context,
 	pkg string,
 	token binder.IBinder,
-	text interface{},
+	text string,
 	duration int32,
 	isUiContext bool,
 	displayId int32,
 	callback ITransientNotificationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_data.WriteString16(text)
 	_data.WriteInt32(duration)
 	_data.WriteBool(isUiContext)
 	_data.WriteInt32(displayId)
@@ -590,6 +613,7 @@ func (p *NotificationManagerProxy) EnqueueToast(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -622,6 +646,7 @@ func (p *NotificationManagerProxy) CancelToast(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -650,6 +675,7 @@ func (p *NotificationManagerProxy) FinishToken(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -682,6 +708,7 @@ func (p *NotificationManagerProxy) EnqueueNotificationWithTag(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteString16(opPkg)
@@ -720,6 +747,7 @@ func (p *NotificationManagerProxy) CancelNotificationWithTag(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteString16(opPkg)
@@ -752,6 +780,7 @@ func (p *NotificationManagerProxy) IsInCall(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -785,6 +814,7 @@ func (p *NotificationManagerProxy) SetShowBadge(
 	showBadge bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -815,6 +845,7 @@ func (p *NotificationManagerProxy) CanShowBadge(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -848,6 +879,7 @@ func (p *NotificationManagerProxy) HasSentValidMsg(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -881,6 +913,7 @@ func (p *NotificationManagerProxy) IsInInvalidMsgState(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -914,6 +947,7 @@ func (p *NotificationManagerProxy) HasUserDemotedInvalidMsgApp(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -947,6 +981,7 @@ func (p *NotificationManagerProxy) SetInvalidMsgAppDemoted(
 	isDemoted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -977,6 +1012,7 @@ func (p *NotificationManagerProxy) HasSentValidBubble(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -1010,6 +1046,7 @@ func (p *NotificationManagerProxy) SetNotificationsEnabledForPackage(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -1040,6 +1077,7 @@ func (p *NotificationManagerProxy) SetNotificationsEnabledWithImportanceLockForP
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -1070,6 +1108,7 @@ func (p *NotificationManagerProxy) AreNotificationsEnabledForPackage(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -1102,6 +1141,7 @@ func (p *NotificationManagerProxy) AreNotificationsEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 
@@ -1133,6 +1173,7 @@ func (p *NotificationManagerProxy) GetPackageImportance(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 
@@ -1165,6 +1206,7 @@ func (p *NotificationManagerProxy) IsImportanceLocked(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -1197,6 +1239,7 @@ func (p *NotificationManagerProxy) GetAllowedAssistantAdjustments(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 
@@ -1219,6 +1262,9 @@ func (p *NotificationManagerProxy) GetAllowedAssistantAdjustments(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1238,6 +1284,7 @@ func (p *NotificationManagerProxy) ShouldHideSilentStatusIcons(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(callingPkg)
 
@@ -1268,6 +1315,7 @@ func (p *NotificationManagerProxy) SetHideSilentStatusIcons(
 	hide bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteBool(hide)
 
@@ -1296,6 +1344,7 @@ func (p *NotificationManagerProxy) SetBubblesAllowed(
 	bubblePreference int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -1325,6 +1374,7 @@ func (p *NotificationManagerProxy) AreBubblesAllowed(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 
@@ -1352,11 +1402,16 @@ func (p *NotificationManagerProxy) AreBubblesAllowed(
 
 func (p *NotificationManagerProxy) AreBubblesEnabled(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerAreBubblesEnabled)
 	if _err != nil {
@@ -1387,6 +1442,7 @@ func (p *NotificationManagerProxy) GetBubblePreferenceForPackage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -1416,15 +1472,13 @@ func (p *NotificationManagerProxy) GetBubblePreferenceForPackage(
 func (p *NotificationManagerProxy) CreateNotificationChannelGroups(
 	ctx context.Context,
 	pkg string,
-	channelGroupList pm.ParceledListSlice,
+	channelGroupList types.ParceledListSlice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
-	_data.WriteInt32(1)
-	if _err := channelGroupList.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param channelGroupList (type types.ParceledListSlice) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCreateNotificationChannelGroups)
 	if _err != nil {
@@ -1447,15 +1501,13 @@ func (p *NotificationManagerProxy) CreateNotificationChannelGroups(
 func (p *NotificationManagerProxy) CreateNotificationChannels(
 	ctx context.Context,
 	pkg string,
-	channelsList pm.ParceledListSlice,
+	channelsList types.ParceledListSlice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
-	_data.WriteInt32(1)
-	if _err := channelsList.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param channelsList (type types.ParceledListSlice) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCreateNotificationChannels)
 	if _err != nil {
@@ -1479,16 +1531,14 @@ func (p *NotificationManagerProxy) CreateNotificationChannelsForPackage(
 	ctx context.Context,
 	pkg string,
 	uid int32,
-	channelsList pm.ParceledListSlice,
+	channelsList types.ParceledListSlice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
-	_data.WriteInt32(1)
-	if _err := channelsList.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param channelsList (type types.ParceledListSlice) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerCreateNotificationChannelsForPackage)
 	if _err != nil {
@@ -1511,9 +1561,10 @@ func (p *NotificationManagerProxy) CreateNotificationChannelsForPackage(
 func (p *NotificationManagerProxy) GetConversations(
 	ctx context.Context,
 	onlyImportant bool,
-) (pm.ParceledListSlice, error) {
-	var _result pm.ParceledListSlice
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteBool(onlyImportant)
 
@@ -1532,14 +1583,16 @@ func (p *NotificationManagerProxy) GetConversations(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
+	_nullInd, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
 			return _result, _err
 		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -1548,9 +1601,10 @@ func (p *NotificationManagerProxy) GetConversationsForPackage(
 	ctx context.Context,
 	pkg string,
 	uid int32,
-) (pm.ParceledListSlice, error) {
-	var _result pm.ParceledListSlice
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -1570,14 +1624,16 @@ func (p *NotificationManagerProxy) GetConversationsForPackage(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
+	_nullInd, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
 			return _result, _err
 		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -1587,9 +1643,10 @@ func (p *NotificationManagerProxy) GetNotificationChannelGroupsForPackage(
 	pkg string,
 	uid int32,
 	includeDeleted bool,
-) (pm.ParceledListSlice, error) {
-	var _result pm.ParceledListSlice
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -1610,14 +1667,16 @@ func (p *NotificationManagerProxy) GetNotificationChannelGroupsForPackage(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
+	_nullInd, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
 			return _result, _err
 		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -1630,6 +1689,7 @@ func (p *NotificationManagerProxy) GetNotificationChannelGroupForPackage(
 ) (NotificationChannelGroup, error) {
 	var _result NotificationChannelGroup
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(groupId)
 	_data.WriteString16(pkg)
@@ -1671,6 +1731,7 @@ func (p *NotificationManagerProxy) GetPopulatedNotificationChannelGroupForPackag
 ) (NotificationChannelGroup, error) {
 	var _result NotificationChannelGroup
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -1704,6 +1765,47 @@ func (p *NotificationManagerProxy) GetPopulatedNotificationChannelGroupForPackag
 	return _result, nil
 }
 
+func (p *NotificationManagerProxy) GetRecentBlockedNotificationChannelGroupsForPackage(
+	ctx context.Context,
+	pkg string,
+	uid int32,
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
+	_data := parcel.New()
+	defer _data.Recycle()
+	_data.WriteInterfaceToken(DescriptorINotificationManager)
+	_data.WriteString16(pkg)
+	_data.WriteInt32(uid)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetRecentBlockedNotificationChannelGroupsForPackage)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationManager, MethodINotificationManagerGetRecentBlockedNotificationChannelGroupsForPackage, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
+	return _result, nil
+}
+
 func (p *NotificationManagerProxy) UpdateNotificationChannelGroupForPackage(
 	ctx context.Context,
 	pkg string,
@@ -1711,6 +1813,7 @@ func (p *NotificationManagerProxy) UpdateNotificationChannelGroupForPackage(
 	group NotificationChannelGroup,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -1744,6 +1847,7 @@ func (p *NotificationManagerProxy) UpdateNotificationChannelForPackage(
 	channel NotificationChannel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -1777,6 +1881,7 @@ func (p *NotificationManagerProxy) UnlockNotificationChannel(
 	channelId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -1804,6 +1909,7 @@ func (p *NotificationManagerProxy) UnlockAllNotificationChannels(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerUnlockAllNotificationChannels)
@@ -1833,6 +1939,7 @@ func (p *NotificationManagerProxy) GetNotificationChannel(
 	var _result NotificationChannel
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteInt32(_identity.UserID)
@@ -1877,6 +1984,7 @@ func (p *NotificationManagerProxy) GetConversationNotificationChannel(
 	var _result NotificationChannel
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteInt32(_identity.UserID)
@@ -1920,6 +2028,7 @@ func (p *NotificationManagerProxy) CreateConversationNotificationChannelForPacka
 	conversationId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -1957,6 +2066,7 @@ func (p *NotificationManagerProxy) GetNotificationChannelForPackage(
 ) (NotificationChannel, error) {
 	var _result NotificationChannel
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -1997,6 +2107,7 @@ func (p *NotificationManagerProxy) DeleteNotificationChannel(
 	channelId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteString16(channelId)
@@ -2023,10 +2134,11 @@ func (p *NotificationManagerProxy) GetNotificationChannels(
 	ctx context.Context,
 	callingPkg string,
 	targetPkg string,
-) (pm.ParceledListSlice, error) {
-	var _result pm.ParceledListSlice
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(targetPkg)
@@ -2047,14 +2159,16 @@ func (p *NotificationManagerProxy) GetNotificationChannels(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
+	_nullInd, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
 			return _result, _err
 		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -2064,9 +2178,10 @@ func (p *NotificationManagerProxy) GetNotificationChannelsForPackage(
 	pkg string,
 	uid int32,
 	includeDeleted bool,
-) (pm.ParceledListSlice, error) {
-	var _result pm.ParceledListSlice
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -2087,14 +2202,16 @@ func (p *NotificationManagerProxy) GetNotificationChannelsForPackage(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
+	_nullInd, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
 			return _result, _err
 		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -2107,6 +2224,7 @@ func (p *NotificationManagerProxy) GetNumNotificationChannelsForPackage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -2141,6 +2259,7 @@ func (p *NotificationManagerProxy) GetDeletedChannelCount(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -2174,6 +2293,7 @@ func (p *NotificationManagerProxy) GetBlockedChannelCount(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -2206,6 +2326,7 @@ func (p *NotificationManagerProxy) DeleteNotificationChannelGroup(
 	channelGroupId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteString16(channelGroupId)
@@ -2235,6 +2356,7 @@ func (p *NotificationManagerProxy) GetNotificationChannelGroup(
 ) (NotificationChannelGroup, error) {
 	var _result NotificationChannelGroup
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteString16(channelGroupId)
@@ -2269,9 +2391,10 @@ func (p *NotificationManagerProxy) GetNotificationChannelGroup(
 func (p *NotificationManagerProxy) GetNotificationChannelGroups(
 	ctx context.Context,
 	pkg string,
-) (pm.ParceledListSlice, error) {
-	var _result pm.ParceledListSlice
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 
@@ -2290,14 +2413,16 @@ func (p *NotificationManagerProxy) GetNotificationChannelGroups(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
+	_nullInd, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
 			return _result, _err
 		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -2309,6 +2434,7 @@ func (p *NotificationManagerProxy) OnlyHasDefaultChannel(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -2340,6 +2466,7 @@ func (p *NotificationManagerProxy) AreChannelsBypassingDnd(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerAreChannelsBypassingDnd)
@@ -2368,9 +2495,10 @@ func (p *NotificationManagerProxy) GetNotificationChannelsBypassingDnd(
 	ctx context.Context,
 	pkg string,
 	uid int32,
-) (pm.ParceledListSlice, error) {
-	var _result pm.ParceledListSlice
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -2390,14 +2518,16 @@ func (p *NotificationManagerProxy) GetNotificationChannelsBypassingDnd(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
+	_nullInd, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
 			return _result, _err
 		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -2408,6 +2538,7 @@ func (p *NotificationManagerProxy) IsPackagePaused(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 
@@ -2440,6 +2571,7 @@ func (p *NotificationManagerProxy) DeleteNotificationHistoryItem(
 	postedTime int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(uid)
@@ -2470,6 +2602,7 @@ func (p *NotificationManagerProxy) IsPermissionFixed(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(_identity.UserID)
@@ -2500,6 +2633,7 @@ func (p *NotificationManagerProxy) SilenceNotificationSound(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSilenceNotificationSound)
@@ -2526,6 +2660,7 @@ func (p *NotificationManagerProxy) GetActiveNotifications(
 ) ([]serviceNotification.StatusBarNotification, error) {
 	var _result []serviceNotification.StatusBarNotification
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(callingPkg)
 
@@ -2547,6 +2682,9 @@ func (p *NotificationManagerProxy) GetActiveNotifications(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -2570,6 +2708,7 @@ func (p *NotificationManagerProxy) GetActiveNotificationsWithAttribution(
 ) ([]serviceNotification.StatusBarNotification, error) {
 	var _result []serviceNotification.StatusBarNotification
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(callingAttributionTag)
@@ -2592,6 +2731,9 @@ func (p *NotificationManagerProxy) GetActiveNotificationsWithAttribution(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -2616,6 +2758,7 @@ func (p *NotificationManagerProxy) GetHistoricalNotifications(
 ) ([]serviceNotification.StatusBarNotification, error) {
 	var _result []serviceNotification.StatusBarNotification
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteInt32(count)
@@ -2639,6 +2782,9 @@ func (p *NotificationManagerProxy) GetHistoricalNotifications(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -2664,6 +2810,7 @@ func (p *NotificationManagerProxy) GetHistoricalNotificationsWithAttribution(
 ) ([]serviceNotification.StatusBarNotification, error) {
 	var _result []serviceNotification.StatusBarNotification
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(callingAttributionTag)
@@ -2689,6 +2836,9 @@ func (p *NotificationManagerProxy) GetHistoricalNotificationsWithAttribution(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]serviceNotification.StatusBarNotification, _count)
@@ -2711,6 +2861,7 @@ func (p *NotificationManagerProxy) GetNotificationHistory(
 ) (NotificationHistory, error) {
 	var _result NotificationHistory
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(callingAttributionTag)
@@ -2749,6 +2900,7 @@ func (p *NotificationManagerProxy) RegisterListener(
 	userid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -2781,6 +2933,7 @@ func (p *NotificationManagerProxy) UnregisterListener(
 	userid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(userid)
@@ -2811,6 +2964,7 @@ func (p *NotificationManagerProxy) CancelNotificationFromListener(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(pkg)
@@ -2841,6 +2995,7 @@ func (p *NotificationManagerProxy) CancelNotificationsFromListener(
 	keys []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	if keys == nil {
@@ -2877,6 +3032,7 @@ func (p *NotificationManagerProxy) SnoozeNotificationUntilContextFromListener(
 	snoozeCriterionId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(key)
@@ -2907,6 +3063,7 @@ func (p *NotificationManagerProxy) SnoozeNotificationUntilFromListener(
 	until int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(key)
@@ -2935,6 +3092,7 @@ func (p *NotificationManagerProxy) RequestBindListener(
 	component content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(1)
 	if _err := component.MarshalParcel(_data); _err != nil {
@@ -2964,6 +3122,7 @@ func (p *NotificationManagerProxy) RequestUnbindListener(
 	token serviceNotification.INotificationListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 
@@ -2990,6 +3149,7 @@ func (p *NotificationManagerProxy) RequestUnbindListenerComponent(
 	component content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(1)
 	if _err := component.MarshalParcel(_data); _err != nil {
@@ -3019,6 +3179,7 @@ func (p *NotificationManagerProxy) RequestBindProvider(
 	component content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(1)
 	if _err := component.MarshalParcel(_data); _err != nil {
@@ -3048,6 +3209,7 @@ func (p *NotificationManagerProxy) RequestUnbindProvider(
 	token serviceNotification.IConditionProvider,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 
@@ -3075,6 +3237,7 @@ func (p *NotificationManagerProxy) SetNotificationsShownFromListener(
 	keys []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	if keys == nil {
@@ -3109,9 +3272,10 @@ func (p *NotificationManagerProxy) GetActiveNotificationsFromListener(
 	token serviceNotification.INotificationListener,
 	keys []string,
 	trim int32,
-) (pm.ParceledListSlice, error) {
-	var _result pm.ParceledListSlice
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	if keys == nil {
@@ -3139,14 +3303,16 @@ func (p *NotificationManagerProxy) GetActiveNotificationsFromListener(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
+	_nullInd, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
 			return _result, _err
 		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -3155,9 +3321,10 @@ func (p *NotificationManagerProxy) GetSnoozedNotificationsFromListener(
 	ctx context.Context,
 	token serviceNotification.INotificationListener,
 	trim int32,
-) (pm.ParceledListSlice, error) {
-	var _result pm.ParceledListSlice
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(trim)
@@ -3177,14 +3344,16 @@ func (p *NotificationManagerProxy) GetSnoozedNotificationsFromListener(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
+	_nullInd, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
 			return _result, _err
 		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -3194,6 +3363,7 @@ func (p *NotificationManagerProxy) ClearRequestedListenerHints(
 	token serviceNotification.INotificationListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 
@@ -3221,6 +3391,7 @@ func (p *NotificationManagerProxy) RequestHintsFromListener(
 	hints int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(hints)
@@ -3249,6 +3420,7 @@ func (p *NotificationManagerProxy) GetHintsFromListener(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 
@@ -3279,6 +3451,7 @@ func (p *NotificationManagerProxy) GetHintsFromListenerNoToken(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetHintsFromListenerNoToken)
@@ -3309,6 +3482,7 @@ func (p *NotificationManagerProxy) RequestInterruptionFilterFromListener(
 	interruptionFilter int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(interruptionFilter)
@@ -3337,6 +3511,7 @@ func (p *NotificationManagerProxy) GetInterruptionFilterFromListener(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 
@@ -3368,6 +3543,7 @@ func (p *NotificationManagerProxy) SetOnNotificationPostedTrimFromListener(
 	trim int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(trim)
@@ -3394,11 +3570,14 @@ func (p *NotificationManagerProxy) SetInterruptionFilter(
 	ctx context.Context,
 	pkg string,
 	interruptionFilter int32,
+	fromUser bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(interruptionFilter)
+	_data.WriteBool(fromUser)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetInterruptionFilter)
 	if _err != nil {
@@ -3422,13 +3601,18 @@ func (p *NotificationManagerProxy) UpdateNotificationChannelGroupFromPrivilegedL
 	ctx context.Context,
 	token serviceNotification.INotificationListener,
 	pkg string,
-	user interface{},
+	user os.UserHandle,
 	group NotificationChannelGroup,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(pkg)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := group.MarshalParcel(_data); _err != nil {
 		return _err
@@ -3456,13 +3640,18 @@ func (p *NotificationManagerProxy) UpdateNotificationChannelFromPrivilegedListen
 	ctx context.Context,
 	token serviceNotification.INotificationListener,
 	pkg string,
-	user interface{},
+	user os.UserHandle,
 	channel NotificationChannel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(pkg)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := channel.MarshalParcel(_data); _err != nil {
 		return _err
@@ -3490,13 +3679,18 @@ func (p *NotificationManagerProxy) GetNotificationChannelsFromPrivilegedListener
 	ctx context.Context,
 	token serviceNotification.INotificationListener,
 	pkg string,
-	user interface{},
-) (pm.ParceledListSlice, error) {
-	var _result pm.ParceledListSlice
+	user os.UserHandle,
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(pkg)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelsFromPrivilegedListener)
 	if _err != nil {
@@ -3513,14 +3707,16 @@ func (p *NotificationManagerProxy) GetNotificationChannelsFromPrivilegedListener
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
+	_nullInd, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
 			return _result, _err
 		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -3529,13 +3725,18 @@ func (p *NotificationManagerProxy) GetNotificationChannelGroupsFromPrivilegedLis
 	ctx context.Context,
 	token serviceNotification.INotificationListener,
 	pkg string,
-	user interface{},
-) (pm.ParceledListSlice, error) {
-	var _result pm.ParceledListSlice
+	user os.UserHandle,
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(pkg)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetNotificationChannelGroupsFromPrivilegedListener)
 	if _err != nil {
@@ -3552,14 +3753,16 @@ func (p *NotificationManagerProxy) GetNotificationChannelGroupsFromPrivilegedLis
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
+	_nullInd, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
 			return _result, _err
 		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -3570,6 +3773,7 @@ func (p *NotificationManagerProxy) ApplyEnqueuedAdjustmentFromAssistant(
 	adjustment serviceNotification.Adjustment,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -3601,6 +3805,7 @@ func (p *NotificationManagerProxy) ApplyAdjustmentFromAssistant(
 	adjustment serviceNotification.Adjustment,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -3632,6 +3837,7 @@ func (p *NotificationManagerProxy) ApplyAdjustmentsFromAssistant(
 	adjustments []serviceNotification.Adjustment,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	if adjustments == nil {
@@ -3670,6 +3876,7 @@ func (p *NotificationManagerProxy) UnsnoozeNotificationFromAssistant(
 	key string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(key)
@@ -3698,6 +3905,7 @@ func (p *NotificationManagerProxy) UnsnoozeNotificationFromSystemListener(
 	key string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(key)
@@ -3725,6 +3933,7 @@ func (p *NotificationManagerProxy) GetEffectsSuppressor(
 ) (content.ComponentName, error) {
 	var _result content.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetEffectsSuppressor)
@@ -3756,11 +3965,16 @@ func (p *NotificationManagerProxy) GetEffectsSuppressor(
 
 func (p *NotificationManagerProxy) MatchesCallFilter(
 	ctx context.Context,
-	extras interface{},
+	extras os.Bundle,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerMatchesCallFilter)
 	if _err != nil {
@@ -3789,6 +4003,7 @@ func (p *NotificationManagerProxy) CleanUpCallersAfter(
 	timeThreshold int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt64(timeThreshold)
 
@@ -3816,6 +4031,7 @@ func (p *NotificationManagerProxy) IsSystemConditionProviderEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(path)
 
@@ -3847,6 +4063,7 @@ func (p *NotificationManagerProxy) IsNotificationListenerAccessGranted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(1)
 	if _err := listener.MarshalParcel(_data); _err != nil {
@@ -3882,6 +4099,7 @@ func (p *NotificationManagerProxy) IsNotificationListenerAccessGrantedForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(1)
 	if _err := listener.MarshalParcel(_data); _err != nil {
@@ -3917,6 +4135,7 @@ func (p *NotificationManagerProxy) IsNotificationAssistantAccessGranted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(1)
 	if _err := assistant.MarshalParcel(_data); _err != nil {
@@ -3952,6 +4171,7 @@ func (p *NotificationManagerProxy) SetNotificationListenerAccessGranted(
 	userSet bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(1)
 	if _err := listener.MarshalParcel(_data); _err != nil {
@@ -3984,6 +4204,7 @@ func (p *NotificationManagerProxy) SetNotificationAssistantAccessGranted(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(1)
 	if _err := assistant.MarshalParcel(_data); _err != nil {
@@ -4017,6 +4238,7 @@ func (p *NotificationManagerProxy) SetNotificationListenerAccessGrantedForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(1)
 	if _err := listener.MarshalParcel(_data); _err != nil {
@@ -4051,6 +4273,7 @@ func (p *NotificationManagerProxy) SetNotificationAssistantAccessGrantedForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(1)
 	if _err := assistant.MarshalParcel(_data); _err != nil {
@@ -4082,6 +4305,7 @@ func (p *NotificationManagerProxy) GetEnabledNotificationListenerPackages(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetEnabledNotificationListenerPackages)
@@ -4103,6 +4327,9 @@ func (p *NotificationManagerProxy) GetEnabledNotificationListenerPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -4122,6 +4349,7 @@ func (p *NotificationManagerProxy) GetEnabledNotificationListeners(
 	var _result []content.ComponentName
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -4144,6 +4372,9 @@ func (p *NotificationManagerProxy) GetEnabledNotificationListeners(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]content.ComponentName, _count)
@@ -4165,6 +4396,7 @@ func (p *NotificationManagerProxy) GetAllowedNotificationAssistantForUser(
 	var _result content.ComponentName
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -4200,6 +4432,7 @@ func (p *NotificationManagerProxy) GetAllowedNotificationAssistant(
 ) (content.ComponentName, error) {
 	var _result content.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetAllowedNotificationAssistant)
@@ -4234,6 +4467,7 @@ func (p *NotificationManagerProxy) GetDefaultNotificationAssistant(
 ) (content.ComponentName, error) {
 	var _result content.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetDefaultNotificationAssistant)
@@ -4269,6 +4503,7 @@ func (p *NotificationManagerProxy) SetNASMigrationDoneAndResetDefault(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(loadFromConfig)
@@ -4298,6 +4533,7 @@ func (p *NotificationManagerProxy) HasEnabledNotificationListener(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -4329,6 +4565,7 @@ func (p *NotificationManagerProxy) GetZenMode(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetZenMode)
@@ -4358,6 +4595,7 @@ func (p *NotificationManagerProxy) GetZenModeConfig(
 ) (serviceNotification.ZenModeConfig, error) {
 	var _result serviceNotification.ZenModeConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetZenModeConfig)
@@ -4392,6 +4630,7 @@ func (p *NotificationManagerProxy) GetConsolidatedNotificationPolicy(
 ) (NotificationManagerPolicy, error) {
 	var _result NotificationManagerPolicy
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetConsolidatedNotificationPolicy)
@@ -4426,8 +4665,10 @@ func (p *NotificationManagerProxy) SetZenMode(
 	mode int32,
 	conditionId net.Uri,
 	reason string,
+	fromUser bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(mode)
 	_data.WriteInt32(1)
@@ -4435,6 +4676,7 @@ func (p *NotificationManagerProxy) SetZenMode(
 		return _err
 	}
 	_data.WriteString16(reason)
+	_data.WriteBool(fromUser)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetZenMode)
 	if _err != nil {
@@ -4452,6 +4694,7 @@ func (p *NotificationManagerProxy) NotifyConditions(
 	conditions []serviceNotification.Condition,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	binder.WriteBinderToParcel(ctx, _data, provider.AsBinder(), p.Remote.Transport())
@@ -4482,6 +4725,7 @@ func (p *NotificationManagerProxy) IsNotificationPolicyAccessGranted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 
@@ -4513,6 +4757,7 @@ func (p *NotificationManagerProxy) GetNotificationPolicy(
 ) (NotificationManagerPolicy, error) {
 	var _result NotificationManagerPolicy
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 
@@ -4547,14 +4792,17 @@ func (p *NotificationManagerProxy) SetNotificationPolicy(
 	ctx context.Context,
 	pkg string,
 	policy NotificationManagerPolicy,
+	fromUser bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(1)
 	if _err := policy.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteBool(fromUser)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerSetNotificationPolicy)
 	if _err != nil {
@@ -4580,6 +4828,7 @@ func (p *NotificationManagerProxy) IsNotificationPolicyAccessGrantedForPackage(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 
@@ -4611,6 +4860,7 @@ func (p *NotificationManagerProxy) SetNotificationPolicyAccessGranted(
 	granted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteBool(granted)
@@ -4640,6 +4890,7 @@ func (p *NotificationManagerProxy) SetNotificationPolicyAccessGrantedForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(_identity.UserID)
@@ -4663,12 +4914,48 @@ func (p *NotificationManagerProxy) SetNotificationPolicyAccessGrantedForUser(
 	return nil
 }
 
+func (p *NotificationManagerProxy) GetDefaultZenPolicy(
+	ctx context.Context,
+) (serviceNotification.ZenPolicy, error) {
+	var _result serviceNotification.ZenPolicy
+	_data := parcel.New()
+	defer _data.Recycle()
+	_data.WriteInterfaceToken(DescriptorINotificationManager)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetDefaultZenPolicy)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationManager, MethodINotificationManagerGetDefaultZenPolicy, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
+	return _result, nil
+}
+
 func (p *NotificationManagerProxy) GetAutomaticZenRule(
 	ctx context.Context,
 	id string,
 ) (AutomaticZenRule, error) {
 	var _result AutomaticZenRule
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(id)
 
@@ -4699,11 +4986,61 @@ func (p *NotificationManagerProxy) GetAutomaticZenRule(
 	return _result, nil
 }
 
+func (p *NotificationManagerProxy) GetAutomaticZenRules(
+	ctx context.Context,
+) (map[string]AutomaticZenRule, error) {
+	var _result map[string]AutomaticZenRule
+	_data := parcel.New()
+	defer _data.Recycle()
+	_data.WriteInterfaceToken(DescriptorINotificationManager)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetAutomaticZenRules)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationManager, MethodINotificationManagerGetAutomaticZenRules, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	{
+		_mapCount, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _mapCount >= 0 {
+			_result = make(map[string]AutomaticZenRule, _mapCount)
+			for _mi := int32(0); _mi < _mapCount; _mi++ {
+				_mk, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				var _mv AutomaticZenRule
+				if _, _err = _reply.ReadInt32(); _err != nil {
+					return _result, _err
+				}
+				if _err = _mv.UnmarshalParcel(_reply); _err != nil {
+					return _result, _err
+				}
+				_result[_mk] = _mv
+			}
+		}
+	}
+	return _result, nil
+}
+
 func (p *NotificationManagerProxy) GetZenRules(
 	ctx context.Context,
 ) ([]serviceNotification.ZenModeConfigZenRule, error) {
 	var _result []serviceNotification.ZenModeConfigZenRule
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetZenRules)
@@ -4725,6 +5062,9 @@ func (p *NotificationManagerProxy) GetZenRules(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]serviceNotification.ZenModeConfigZenRule, _count)
@@ -4744,15 +5084,18 @@ func (p *NotificationManagerProxy) AddAutomaticZenRule(
 	ctx context.Context,
 	automaticZenRule AutomaticZenRule,
 	pkg string,
+	fromUser bool,
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(1)
 	if _err := automaticZenRule.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteString16(pkg)
+	_data.WriteBool(fromUser)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerAddAutomaticZenRule)
 	if _err != nil {
@@ -4780,15 +5123,18 @@ func (p *NotificationManagerProxy) UpdateAutomaticZenRule(
 	ctx context.Context,
 	id string,
 	automaticZenRule AutomaticZenRule,
+	fromUser bool,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(id)
 	_data.WriteInt32(1)
 	if _err := automaticZenRule.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteBool(fromUser)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerUpdateAutomaticZenRule)
 	if _err != nil {
@@ -4815,11 +5161,14 @@ func (p *NotificationManagerProxy) UpdateAutomaticZenRule(
 func (p *NotificationManagerProxy) RemoveAutomaticZenRule(
 	ctx context.Context,
 	id string,
+	fromUser bool,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(id)
+	_data.WriteBool(fromUser)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerRemoveAutomaticZenRule)
 	if _err != nil {
@@ -4846,11 +5195,14 @@ func (p *NotificationManagerProxy) RemoveAutomaticZenRule(
 func (p *NotificationManagerProxy) RemoveAutomaticZenRules(
 	ctx context.Context,
 	packageName string,
+	fromUser bool,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(packageName)
+	_data.WriteBool(fromUser)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerRemoveAutomaticZenRules)
 	if _err != nil {
@@ -4880,6 +5232,7 @@ func (p *NotificationManagerProxy) GetRuleInstanceCount(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(1)
 	if _err := owner.MarshalParcel(_data); _err != nil {
@@ -4908,12 +5261,45 @@ func (p *NotificationManagerProxy) GetRuleInstanceCount(
 	return _result, nil
 }
 
+func (p *NotificationManagerProxy) GetAutomaticZenRuleState(
+	ctx context.Context,
+	id string,
+) (int32, error) {
+	var _result int32
+	_data := parcel.New()
+	defer _data.Recycle()
+	_data.WriteInterfaceToken(DescriptorINotificationManager)
+	_data.WriteString16(id)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetAutomaticZenRuleState)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationManager, MethodINotificationManagerGetAutomaticZenRuleState, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
+}
+
 func (p *NotificationManagerProxy) SetAutomaticZenRuleState(
 	ctx context.Context,
 	id string,
 	condition serviceNotification.Condition,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(id)
 	_data.WriteInt32(1)
@@ -4945,6 +5331,7 @@ func (p *NotificationManagerProxy) GetBackupPayload(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(user)
 
@@ -4963,19 +5350,9 @@ func (p *NotificationManagerProxy) GetBackupPayload(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -4986,15 +5363,9 @@ func (p *NotificationManagerProxy) ApplyRestore(
 	user int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
-	if payload == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(payload)))
-		for _, _item := range payload {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(payload)
 	_data.WriteInt32(user)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerApplyRestore)
@@ -5018,10 +5389,11 @@ func (p *NotificationManagerProxy) ApplyRestore(
 func (p *NotificationManagerProxy) GetAppActiveNotifications(
 	ctx context.Context,
 	callingPkg string,
-) (pm.ParceledListSlice, error) {
-	var _result pm.ParceledListSlice
+) (types.ParceledListSlice, error) {
+	var _result types.ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteInt32(_identity.UserID)
@@ -5041,14 +5413,16 @@ func (p *NotificationManagerProxy) GetAppActiveNotifications(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
+	_nullInd, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
 			return _result, _err
 		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
 	}
 	return _result, nil
 }
@@ -5059,6 +5433,7 @@ func (p *NotificationManagerProxy) SetNotificationDelegate(
 	delegate string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(delegate)
@@ -5087,6 +5462,7 @@ func (p *NotificationManagerProxy) GetNotificationDelegate(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(callingPkg)
 
@@ -5120,6 +5496,7 @@ func (p *NotificationManagerProxy) CanNotifyAsPackage(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(targetPkg)
@@ -5153,6 +5530,7 @@ func (p *NotificationManagerProxy) CanUseFullScreenIntent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
@@ -5186,6 +5564,7 @@ func (p *NotificationManagerProxy) SetPrivateNotificationsAllowed(
 	allow bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteBool(allow)
 
@@ -5212,6 +5591,7 @@ func (p *NotificationManagerProxy) GetPrivateNotificationsAllowed(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerGetPrivateNotificationsAllowed)
@@ -5245,6 +5625,7 @@ func (p *NotificationManagerProxy) PullStats(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt64(startNs)
 	_data.WriteInt32(report)
@@ -5267,6 +5648,9 @@ func (p *NotificationManagerProxy) PullStats(
 	_outCount0, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
 	}
 	if _outCount0 >= 0 {
 		stats = make([]int32, _outCount0)
@@ -5292,6 +5676,7 @@ func (p *NotificationManagerProxy) GetListenerFilter(
 	var _result serviceNotification.NotificationListenerFilter
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(1)
 	if _err := cn.MarshalParcel(_data); _err != nil {
@@ -5333,6 +5718,7 @@ func (p *NotificationManagerProxy) SetListenerFilter(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteInt32(1)
 	if _err := cn.MarshalParcel(_data); _err != nil {
@@ -5369,6 +5755,7 @@ func (p *NotificationManagerProxy) MigrateNotificationFilter(
 	disallowedPkgs []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(defaultTypes)
@@ -5404,6 +5791,7 @@ func (p *NotificationManagerProxy) SetToastRateLimitingEnabled(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINotificationManager)
 	_data.WriteBool(enable)
 
@@ -5425,10 +5813,79 @@ func (p *NotificationManagerProxy) SetToastRateLimitingEnabled(
 	return nil
 }
 
+func (p *NotificationManagerProxy) RegisterCallNotificationEventListener(
+	ctx context.Context,
+	packageName string,
+	userHandle os.UserHandle,
+	listener ICallNotificationEventCallback,
+) error {
+	_data := parcel.New()
+	defer _data.Recycle()
+	_data.WriteInterfaceToken(DescriptorINotificationManager)
+	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := userHandle.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerRegisterCallNotificationEventListener)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationManager, MethodINotificationManagerRegisterCallNotificationEventListener, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
+}
+
+func (p *NotificationManagerProxy) UnregisterCallNotificationEventListener(
+	ctx context.Context,
+	packageName string,
+	userHandle os.UserHandle,
+	listener ICallNotificationEventCallback,
+) error {
+	_data := parcel.New()
+	defer _data.Recycle()
+	_data.WriteInterfaceToken(DescriptorINotificationManager)
+	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := userHandle.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationManager, MethodINotificationManagerUnregisterCallNotificationEventListener)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationManager, MethodINotificationManagerUnregisterCallNotificationEventListener, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
+}
+
 // NotificationManagerStub dispatches incoming binder transactions
 // to a typed INotificationManager implementation.
 type NotificationManagerStub struct {
-	Impl INotificationManager
+	Impl      INotificationManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NotificationManagerStub)(nil)
@@ -5442,11 +5899,12 @@ func (s *NotificationManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINotificationManagerCancelAllNotifications:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5463,9 +5921,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerClearData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5487,17 +5942,22 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerEnqueueTextToast:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		var _arg_text interface{}
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
+		_arg_text, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		_arg_duration, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5510,9 +5970,14 @@ func (s *NotificationManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITransientNotificationCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTransientNotificationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.EnqueueTextToast(ctx, _arg_pkg, _arg_token, _arg_text, _arg_duration, _arg_isUiContext, _arg_displayId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5522,19 +5987,26 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerEnqueueToast:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_callback ITransientNotification
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTransientNotificationProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_duration, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5556,16 +6028,18 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerCancelToast:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err = s.Impl.CancelToast(ctx, _arg_pkg, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5575,16 +6049,18 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerFinishToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err = s.Impl.FinishToken(ctx, _arg_pkg, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5594,9 +6070,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerEnqueueNotificationWithTag:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5637,9 +6110,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerCancelNotificationWithTag:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5668,9 +6138,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerIsInCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5689,9 +6156,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerSetShowBadge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5713,9 +6177,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerCanShowBadge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5734,9 +6195,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerHasSentValidMsg:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5755,9 +6213,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerIsInInvalidMsgState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5776,9 +6231,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerHasUserDemotedInvalidMsgApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5797,9 +6249,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerSetInvalidMsgAppDemoted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5821,9 +6270,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerHasSentValidBubble:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5842,9 +6288,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerSetNotificationsEnabledForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5866,9 +6309,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerSetNotificationsEnabledWithImportanceLockForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5890,9 +6330,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerAreNotificationsEnabledForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5911,9 +6348,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerAreNotificationsEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5928,9 +6362,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerGetPackageImportance:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5945,9 +6376,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINotificationManagerIsImportanceLocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5966,9 +6394,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerGetAllowedAssistantAdjustments:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -5980,13 +6405,16 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionINotificationManagerShouldHideSilentStatusIcons:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6001,9 +6429,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerSetHideSilentStatusIcons:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_hide, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -6017,9 +6442,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerSetBubblesAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6041,9 +6463,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerAreBubblesAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6058,10 +6477,18 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerAreBubblesEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_user interface{}
 		_result, _err := s.Impl.AreBubblesEnabled(ctx, _arg_user)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6072,9 +6499,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerGetBubblePreferenceForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6093,25 +6517,11 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINotificationManagerCreateNotificationChannelGroups:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_channelGroupList pm.ParceledListSlice
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_channelGroupList.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_channelGroupList types.ParceledListSlice
 		_err = s.Impl.CreateNotificationChannelGroups(ctx, _arg_pkg, _arg_channelGroupList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6121,25 +6531,11 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerCreateNotificationChannels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_channelsList pm.ParceledListSlice
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_channelsList.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_channelsList types.ParceledListSlice
 		_err = s.Impl.CreateNotificationChannels(ctx, _arg_pkg, _arg_channelsList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6149,9 +6545,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerCreateNotificationChannelsForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6160,18 +6553,7 @@ func (s *NotificationManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_channelsList pm.ParceledListSlice
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_channelsList.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_channelsList types.ParceledListSlice
 		_err = s.Impl.CreateNotificationChannelsForPackage(ctx, _arg_pkg, _arg_uid, _arg_channelsList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6181,9 +6563,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerGetConversations:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_onlyImportant, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -6195,15 +6574,9 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionINotificationManagerGetConversationsForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6219,15 +6592,9 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationChannelGroupsForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6247,15 +6614,9 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationChannelGroupForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_groupId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6281,9 +6642,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINotificationManagerGetPopulatedNotificationChannelGroupForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6312,10 +6670,25 @@ func (s *NotificationManagerStub) OnTransaction(
 			return nil, _err
 		}
 		return _reply, nil
-	case TransactionINotificationManagerUpdateNotificationChannelGroupForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
+	case TransactionINotificationManagerGetRecentBlockedNotificationChannelGroupsForPackage:
+		_arg_pkg, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
+		_arg_uid, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetRecentBlockedNotificationChannelGroupsForPackage(ctx, _arg_pkg, _arg_uid)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionINotificationManagerUpdateNotificationChannelGroupForPackage:
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6345,9 +6718,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerUpdateNotificationChannelForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6377,9 +6747,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerUnlockNotificationChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6401,9 +6768,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerUnlockAllNotificationChannels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.UnlockAllNotificationChannels(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6413,9 +6777,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6444,9 +6805,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINotificationManagerGetConversationNotificationChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6483,9 +6841,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINotificationManagerCreateConversationNotificationChannelForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6519,9 +6874,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationChannelForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6555,9 +6907,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINotificationManagerDeleteNotificationChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6575,9 +6924,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationChannels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6596,15 +6942,9 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationChannelsForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6624,15 +6964,9 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionINotificationManagerGetNumNotificationChannelsForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6655,9 +6989,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINotificationManagerGetDeletedChannelCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6676,9 +7007,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINotificationManagerGetBlockedChannelCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6697,9 +7025,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINotificationManagerDeleteNotificationChannelGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6717,9 +7042,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationChannelGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6741,9 +7063,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationChannelGroups:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6755,15 +7074,9 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionINotificationManagerOnlyHasDefaultChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6782,9 +7095,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerAreChannelsBypassingDnd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.AreChannelsBypassingDnd(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6795,9 +7105,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationChannelsBypassingDnd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6813,15 +7120,9 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionINotificationManagerIsPackagePaused:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6836,9 +7137,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerDeleteNotificationHistoryItem:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6860,9 +7158,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerIsPermissionFixed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6880,9 +7175,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerSilenceNotificationSound:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SilenceNotificationSound(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6892,9 +7184,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerGetActiveNotifications:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6906,13 +7195,19 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionINotificationManagerGetActiveNotificationsWithAttribution:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6928,13 +7223,19 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionINotificationManagerGetHistoricalNotifications:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6954,13 +7255,19 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionINotificationManagerGetHistoricalNotificationsWithAttribution:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -6984,13 +7291,19 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationHistory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -7012,12 +7325,14 @@ func (s *NotificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINotificationManagerRegisterListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener serviceNotification.INotificationListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		var _arg_component content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7043,12 +7358,14 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerUnregisterListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener serviceNotification.INotificationListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_userid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -7062,12 +7379,14 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerCancelNotificationFromListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -7089,15 +7408,33 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerCancelNotificationsFromListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		var _arg_keys []string
-		_ = _arg_keys
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_keys = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_keys[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.CancelNotificationsFromListener(ctx, _arg_token, _arg_keys)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7107,12 +7444,14 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerSnoozeNotificationUntilContextFromListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -7130,12 +7469,14 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerSnoozeNotificationUntilFromListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -7153,9 +7494,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerRequestBindListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_component content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7177,12 +7515,14 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerRequestUnbindListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_err := s.Impl.RequestUnbindListener(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7192,9 +7532,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerRequestUnbindListenerComponent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_component content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7216,9 +7553,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerRequestBindProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_component content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7240,12 +7574,14 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerRequestUnbindProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.IConditionProvider
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewConditionProviderProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_err := s.Impl.RequestUnbindProvider(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7255,15 +7591,33 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerSetNotificationsShownFromListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		var _arg_keys []string
-		_ = _arg_keys
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_keys = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_keys[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetNotificationsShownFromListener(ctx, _arg_token, _arg_keys)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7273,15 +7627,33 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerGetActiveNotificationsFromListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		var _arg_keys []string
-		_ = _arg_keys
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_keys = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_keys[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_trim, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -7293,18 +7665,17 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionINotificationManagerGetSnoozedNotificationsFromListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_trim, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -7316,18 +7687,17 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionINotificationManagerClearRequestedListenerHints:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_err := s.Impl.ClearRequestedListenerHints(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7337,12 +7707,14 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerRequestHintsFromListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_hints, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -7356,12 +7728,14 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerGetHintsFromListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_result, _err := s.Impl.GetHintsFromListener(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7372,9 +7746,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINotificationManagerGetHintsFromListenerNoToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHintsFromListenerNoToken(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7385,12 +7756,14 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINotificationManagerRequestInterruptionFilterFromListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_interruptionFilter, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -7404,12 +7777,14 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerGetInterruptionFilterFromListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_result, _err := s.Impl.GetInterruptionFilterFromListener(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7420,12 +7795,14 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINotificationManagerSetOnNotificationPostedTrimFromListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_trim, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -7439,9 +7816,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerSetInterruptionFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -7450,7 +7824,11 @@ func (s *NotificationManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.SetInterruptionFilter(ctx, _arg_pkg, _arg_interruptionFilter)
+		_arg_fromUser, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetInterruptionFilter(ctx, _arg_pkg, _arg_interruptionFilter, _arg_fromUser)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -7459,17 +7837,30 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerUpdateNotificationChannelGroupFromPrivilegedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_user interface{}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_group NotificationChannelGroup
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7491,17 +7882,30 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerUpdateNotificationChannelFromPrivilegedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_user interface{}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_channel NotificationChannel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7523,17 +7927,30 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationChannelsFromPrivilegedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_user interface{}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetNotificationChannelsFromPrivilegedListener(ctx, _arg_token, _arg_pkg, _arg_user)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7541,23 +7958,33 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationChannelGroupsFromPrivilegedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_user interface{}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetNotificationChannelGroupsFromPrivilegedListener(ctx, _arg_token, _arg_pkg, _arg_user)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7565,18 +7992,17 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionINotificationManagerApplyEnqueuedAdjustmentFromAssistant:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		var _arg_adjustment serviceNotification.Adjustment
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7598,12 +8024,14 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerApplyAdjustmentFromAssistant:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		var _arg_adjustment serviceNotification.Adjustment
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7625,15 +8053,35 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerApplyAdjustmentsFromAssistant:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		var _arg_adjustments []serviceNotification.Adjustment
-		_ = _arg_adjustments
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_adjustments = make([]serviceNotification.Adjustment, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_adjustments[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.ApplyAdjustmentsFromAssistant(ctx, _arg_token, _arg_adjustments)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7643,12 +8091,14 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerUnsnoozeNotificationFromAssistant:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -7662,12 +8112,14 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerUnsnoozeNotificationFromSystemListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -7681,9 +8133,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerGetEffectsSuppressor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEffectsSuppressor(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7697,10 +8146,18 @@ func (s *NotificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINotificationManagerMatchesCallFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_extras interface{}
 		_result, _err := s.Impl.MatchesCallFilter(ctx, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7711,9 +8168,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerCleanUpCallersAfter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeThreshold, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -7727,9 +8181,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerIsSystemConditionProviderEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -7744,9 +8195,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerIsNotificationListenerAccessGranted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_listener content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7769,9 +8217,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerIsNotificationListenerAccessGrantedForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_listener content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7797,9 +8242,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerIsNotificationAssistantAccessGranted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_assistant content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7822,9 +8264,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerSetNotificationListenerAccessGranted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_listener content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7854,9 +8293,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerSetNotificationAssistantAccessGranted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_assistant content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7882,9 +8318,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerSetNotificationListenerAccessGrantedForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_listener content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7917,9 +8350,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerSetNotificationAssistantAccessGrantedForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_assistant content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -7948,9 +8378,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerGetEnabledNotificationListenerPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEnabledNotificationListenerPackages(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -7958,13 +8385,16 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionINotificationManagerGetEnabledNotificationListeners:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -7975,13 +8405,19 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionINotificationManagerGetAllowedNotificationAssistantForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -7998,9 +8434,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINotificationManagerGetAllowedNotificationAssistant:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAllowedNotificationAssistant(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -8014,9 +8447,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINotificationManagerGetDefaultNotificationAssistant:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDefaultNotificationAssistant(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -8030,9 +8460,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINotificationManagerSetNASMigrationDoneAndResetDefault:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -8049,9 +8476,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerHasEnabledNotificationListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8069,9 +8493,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerGetZenMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetZenMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -8082,9 +8503,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINotificationManagerGetZenModeConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetZenModeConfig(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -8098,9 +8516,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINotificationManagerGetConsolidatedNotificationPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetConsolidatedNotificationPolicy(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -8114,9 +8529,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINotificationManagerSetZenMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -8137,30 +8549,49 @@ func (s *NotificationManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.SetZenMode(ctx, _arg_mode, _arg_conditionId, _arg_reason)
-		_ = _err
-		return nil, nil
-	case TransactionINotificationManagerNotifyConditions:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_fromUser, _err := _data.ReadBool()
+		if _err != nil {
 			return nil, _err
 		}
+		_err = s.Impl.SetZenMode(ctx, _arg_mode, _arg_conditionId, _arg_reason, _arg_fromUser)
+		return nil, _err
+	case TransactionINotificationManagerNotifyConditions:
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_provider serviceNotification.IConditionProvider
-		_ = _arg_provider
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_conditions []serviceNotification.Condition
-		_ = _arg_conditions
-		_err = s.Impl.NotifyConditions(ctx, _arg_pkg, _arg_provider, _arg_conditions)
-		_ = _err
-		return nil, nil
-	case TransactionINotificationManagerIsNotificationPolicyAccessGranted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_providerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_provider = serviceNotification.NewConditionProviderProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _providerHandle))
 		}
+		var _arg_conditions []serviceNotification.Condition
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_conditions = make([]serviceNotification.Condition, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_conditions[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		_err = s.Impl.NotifyConditions(ctx, _arg_pkg, _arg_provider, _arg_conditions)
+		return nil, _err
+	case TransactionINotificationManagerIsNotificationPolicyAccessGranted:
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8175,9 +8606,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8195,9 +8623,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINotificationManagerSetNotificationPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8214,7 +8639,11 @@ func (s *NotificationManagerStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.SetNotificationPolicy(ctx, _arg_pkg, _arg_policy)
+		_arg_fromUser, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetNotificationPolicy(ctx, _arg_pkg, _arg_policy, _arg_fromUser)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -8223,9 +8652,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerIsNotificationPolicyAccessGrantedForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8240,9 +8666,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerSetNotificationPolicyAccessGranted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8260,9 +8683,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerSetNotificationPolicyAccessGrantedForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8282,10 +8702,20 @@ func (s *NotificationManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionINotificationManagerGetAutomaticZenRule:
-		if _, _err := _data.ReadString16(); _err != nil {
+	case TransactionINotificationManagerGetDefaultZenPolicy:
+		_result, _err := s.Impl.GetDefaultZenPolicy(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionINotificationManagerGetAutomaticZenRule:
 		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8302,10 +8732,28 @@ func (s *NotificationManagerStub) OnTransaction(
 			return nil, _err
 		}
 		return _reply, nil
-	case TransactionINotificationManagerGetZenRules:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+	case TransactionINotificationManagerGetAutomaticZenRules:
+		_result, _err := s.Impl.GetAutomaticZenRules(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
 		}
+		binder.WriteStatus(_reply, nil)
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _k, _v := range _result {
+				_reply.WriteString16(_k)
+				_reply.WriteInt32(1)
+				if _err := _v.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		return _reply, nil
+	case TransactionINotificationManagerGetZenRules:
 		_result, _err := s.Impl.GetZenRules(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -8313,13 +8761,19 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionINotificationManagerAddAutomaticZenRule:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_automaticZenRule AutomaticZenRule
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -8336,7 +8790,11 @@ func (s *NotificationManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.AddAutomaticZenRule(ctx, _arg_automaticZenRule, _arg_pkg)
+		_arg_fromUser, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.AddAutomaticZenRule(ctx, _arg_automaticZenRule, _arg_pkg, _arg_fromUser)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -8346,9 +8804,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionINotificationManagerUpdateAutomaticZenRule:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8365,7 +8820,11 @@ func (s *NotificationManagerStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.UpdateAutomaticZenRule(ctx, _arg_id, _arg_automaticZenRule)
+		_arg_fromUser, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.UpdateAutomaticZenRule(ctx, _arg_id, _arg_automaticZenRule, _arg_fromUser)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -8375,14 +8834,15 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerRemoveAutomaticZenRule:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.RemoveAutomaticZenRule(ctx, _arg_id)
+		_arg_fromUser, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RemoveAutomaticZenRule(ctx, _arg_id, _arg_fromUser)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -8392,14 +8852,15 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerRemoveAutomaticZenRules:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.RemoveAutomaticZenRules(ctx, _arg_packageName)
+		_arg_fromUser, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RemoveAutomaticZenRules(ctx, _arg_packageName, _arg_fromUser)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -8409,9 +8870,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerGetRuleInstanceCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_owner content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -8433,10 +8891,21 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
 		return _reply, nil
-	case TransactionINotificationManagerSetAutomaticZenRuleState:
-		if _, _err := _data.ReadString16(); _err != nil {
+	case TransactionINotificationManagerGetAutomaticZenRuleState:
+		_arg_id, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
+		_result, _err := s.Impl.GetAutomaticZenRuleState(ctx, _arg_id)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionINotificationManagerSetAutomaticZenRuleState:
 		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8462,9 +8931,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerGetBackupPayload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_user, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -8476,16 +8942,17 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionINotificationManagerApplyRestore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_payload []byte
-		_ = _arg_payload
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_payload = _bytes
+		}
 		_arg_user, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -8499,9 +8966,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerGetAppActiveNotifications:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8516,15 +8980,9 @@ func (s *NotificationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionINotificationManagerSetNotificationDelegate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8542,9 +9000,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerGetNotificationDelegate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8559,9 +9014,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionINotificationManagerCanNotifyAsPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -8583,9 +9035,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerCanUseFullScreenIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_attributionSource content.AttributionSource
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -8608,9 +9057,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerSetPrivateNotificationsAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_allow, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -8624,9 +9070,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerGetPrivateNotificationsAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPrivateNotificationsAllowed(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -8637,9 +9080,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINotificationManagerPullStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_startNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -8661,11 +9101,16 @@ func (s *NotificationManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt64(_result)
+		if _arg_stats == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_stats)))
+			for _, _item := range _arg_stats {
+				_reply.WriteFileDescriptor(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionINotificationManagerGetListenerFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_cn content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -8694,9 +9139,6 @@ func (s *NotificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINotificationManagerSetListenerFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_cn content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -8733,19 +9175,37 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerMigrateNotificationFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token serviceNotification.INotificationListener
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = serviceNotification.NewNotificationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
 		_arg_defaultTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_disallowedPkgs []string
-		_ = _arg_disallowedPkgs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_disallowedPkgs = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_disallowedPkgs[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.MigrateNotificationFilter(ctx, _arg_token, _arg_defaultTypes, _arg_disallowedPkgs)
 		_reply := parcel.New()
 		if _err != nil {
@@ -8755,14 +9215,77 @@ func (s *NotificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINotificationManagerSetToastRateLimitingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetToastRateLimitingEnabled(ctx, _arg_enable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionINotificationManagerRegisterCallNotificationEventListener:
+		_arg_packageName, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_userHandle os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_listener ICallNotificationEventCallback
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewCallNotificationEventCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
+		_err = s.Impl.RegisterCallNotificationEventListener(ctx, _arg_packageName, _arg_userHandle, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionINotificationManagerUnregisterCallNotificationEventListener:
+		_arg_packageName, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_userHandle os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_listener ICallNotificationEventCallback
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewCallNotificationEventCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
+		_err = s.Impl.UnregisterCallNotificationEventListener(ctx, _arg_packageName, _arg_userHandle, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -8781,7 +9304,7 @@ func (s *NotificationManagerStub) OnTransaction(
 type INotificationManagerServer interface {
 	CancelAllNotifications(ctx context.Context, pkg string) error
 	ClearData(ctx context.Context, pkg string, uid int32, fromApp bool) error
-	EnqueueTextToast(ctx context.Context, pkg string, token binder.IBinder, text interface{}, duration int32, isUiContext bool, displayId int32, callback ITransientNotificationCallback) error
+	EnqueueTextToast(ctx context.Context, pkg string, token binder.IBinder, text string, duration int32, isUiContext bool, displayId int32, callback ITransientNotificationCallback) error
 	EnqueueToast(ctx context.Context, pkg string, token binder.IBinder, callback ITransientNotification, duration int32, isUiContext bool, displayId int32) error
 	CancelToast(ctx context.Context, pkg string, token binder.IBinder) error
 	FinishToken(ctx context.Context, pkg string, token binder.IBinder) error
@@ -8806,16 +9329,17 @@ type INotificationManagerServer interface {
 	SetHideSilentStatusIcons(ctx context.Context, hide bool) error
 	SetBubblesAllowed(ctx context.Context, pkg string, uid int32, bubblePreference int32) error
 	AreBubblesAllowed(ctx context.Context, pkg string) (bool, error)
-	AreBubblesEnabled(ctx context.Context, user interface{}) (bool, error)
+	AreBubblesEnabled(ctx context.Context, user os.UserHandle) (bool, error)
 	GetBubblePreferenceForPackage(ctx context.Context, pkg string, uid int32) (int32, error)
-	CreateNotificationChannelGroups(ctx context.Context, pkg string, channelGroupList pm.ParceledListSlice) error
-	CreateNotificationChannels(ctx context.Context, pkg string, channelsList pm.ParceledListSlice) error
-	CreateNotificationChannelsForPackage(ctx context.Context, pkg string, uid int32, channelsList pm.ParceledListSlice) error
-	GetConversations(ctx context.Context, onlyImportant bool) (pm.ParceledListSlice, error)
-	GetConversationsForPackage(ctx context.Context, pkg string, uid int32) (pm.ParceledListSlice, error)
-	GetNotificationChannelGroupsForPackage(ctx context.Context, pkg string, uid int32, includeDeleted bool) (pm.ParceledListSlice, error)
+	CreateNotificationChannelGroups(ctx context.Context, pkg string, channelGroupList types.ParceledListSlice) error
+	CreateNotificationChannels(ctx context.Context, pkg string, channelsList types.ParceledListSlice) error
+	CreateNotificationChannelsForPackage(ctx context.Context, pkg string, uid int32, channelsList types.ParceledListSlice) error
+	GetConversations(ctx context.Context, onlyImportant bool) (types.ParceledListSlice, error)
+	GetConversationsForPackage(ctx context.Context, pkg string, uid int32) (types.ParceledListSlice, error)
+	GetNotificationChannelGroupsForPackage(ctx context.Context, pkg string, uid int32, includeDeleted bool) (types.ParceledListSlice, error)
 	GetNotificationChannelGroupForPackage(ctx context.Context, groupId string, pkg string, uid int32) (NotificationChannelGroup, error)
 	GetPopulatedNotificationChannelGroupForPackage(ctx context.Context, pkg string, uid int32, groupId string, includeDeleted bool) (NotificationChannelGroup, error)
+	GetRecentBlockedNotificationChannelGroupsForPackage(ctx context.Context, pkg string, uid int32) (types.ParceledListSlice, error)
 	UpdateNotificationChannelGroupForPackage(ctx context.Context, pkg string, uid int32, group NotificationChannelGroup) error
 	UpdateNotificationChannelForPackage(ctx context.Context, pkg string, uid int32, channel NotificationChannel) error
 	UnlockNotificationChannel(ctx context.Context, pkg string, uid int32, channelId string) error
@@ -8825,17 +9349,17 @@ type INotificationManagerServer interface {
 	CreateConversationNotificationChannelForPackage(ctx context.Context, pkg string, uid int32, parentChannel NotificationChannel, conversationId string) error
 	GetNotificationChannelForPackage(ctx context.Context, pkg string, uid int32, channelId string, conversationId string, includeDeleted bool) (NotificationChannel, error)
 	DeleteNotificationChannel(ctx context.Context, pkg string, channelId string) error
-	GetNotificationChannels(ctx context.Context, callingPkg string, targetPkg string) (pm.ParceledListSlice, error)
-	GetNotificationChannelsForPackage(ctx context.Context, pkg string, uid int32, includeDeleted bool) (pm.ParceledListSlice, error)
+	GetNotificationChannels(ctx context.Context, callingPkg string, targetPkg string) (types.ParceledListSlice, error)
+	GetNotificationChannelsForPackage(ctx context.Context, pkg string, uid int32, includeDeleted bool) (types.ParceledListSlice, error)
 	GetNumNotificationChannelsForPackage(ctx context.Context, pkg string, uid int32, includeDeleted bool) (int32, error)
 	GetDeletedChannelCount(ctx context.Context, pkg string, uid int32) (int32, error)
 	GetBlockedChannelCount(ctx context.Context, pkg string, uid int32) (int32, error)
 	DeleteNotificationChannelGroup(ctx context.Context, pkg string, channelGroupId string) error
 	GetNotificationChannelGroup(ctx context.Context, pkg string, channelGroupId string) (NotificationChannelGroup, error)
-	GetNotificationChannelGroups(ctx context.Context, pkg string) (pm.ParceledListSlice, error)
+	GetNotificationChannelGroups(ctx context.Context, pkg string) (types.ParceledListSlice, error)
 	OnlyHasDefaultChannel(ctx context.Context, pkg string, uid int32) (bool, error)
 	AreChannelsBypassingDnd(ctx context.Context) (bool, error)
-	GetNotificationChannelsBypassingDnd(ctx context.Context, pkg string, uid int32) (pm.ParceledListSlice, error)
+	GetNotificationChannelsBypassingDnd(ctx context.Context, pkg string, uid int32) (types.ParceledListSlice, error)
 	IsPackagePaused(ctx context.Context, pkg string) (bool, error)
 	DeleteNotificationHistoryItem(ctx context.Context, pkg string, uid int32, postedTime int64) error
 	IsPermissionFixed(ctx context.Context, pkg string) (bool, error)
@@ -8857,8 +9381,8 @@ type INotificationManagerServer interface {
 	RequestBindProvider(ctx context.Context, component content.ComponentName) error
 	RequestUnbindProvider(ctx context.Context, token serviceNotification.IConditionProvider) error
 	SetNotificationsShownFromListener(ctx context.Context, token serviceNotification.INotificationListener, keys []string) error
-	GetActiveNotificationsFromListener(ctx context.Context, token serviceNotification.INotificationListener, keys []string, trim int32) (pm.ParceledListSlice, error)
-	GetSnoozedNotificationsFromListener(ctx context.Context, token serviceNotification.INotificationListener, trim int32) (pm.ParceledListSlice, error)
+	GetActiveNotificationsFromListener(ctx context.Context, token serviceNotification.INotificationListener, keys []string, trim int32) (types.ParceledListSlice, error)
+	GetSnoozedNotificationsFromListener(ctx context.Context, token serviceNotification.INotificationListener, trim int32) (types.ParceledListSlice, error)
 	ClearRequestedListenerHints(ctx context.Context, token serviceNotification.INotificationListener) error
 	RequestHintsFromListener(ctx context.Context, token serviceNotification.INotificationListener, hints int32) error
 	GetHintsFromListener(ctx context.Context, token serviceNotification.INotificationListener) (int32, error)
@@ -8866,18 +9390,18 @@ type INotificationManagerServer interface {
 	RequestInterruptionFilterFromListener(ctx context.Context, token serviceNotification.INotificationListener, interruptionFilter int32) error
 	GetInterruptionFilterFromListener(ctx context.Context, token serviceNotification.INotificationListener) (int32, error)
 	SetOnNotificationPostedTrimFromListener(ctx context.Context, token serviceNotification.INotificationListener, trim int32) error
-	SetInterruptionFilter(ctx context.Context, pkg string, interruptionFilter int32) error
-	UpdateNotificationChannelGroupFromPrivilegedListener(ctx context.Context, token serviceNotification.INotificationListener, pkg string, user interface{}, group NotificationChannelGroup) error
-	UpdateNotificationChannelFromPrivilegedListener(ctx context.Context, token serviceNotification.INotificationListener, pkg string, user interface{}, channel NotificationChannel) error
-	GetNotificationChannelsFromPrivilegedListener(ctx context.Context, token serviceNotification.INotificationListener, pkg string, user interface{}) (pm.ParceledListSlice, error)
-	GetNotificationChannelGroupsFromPrivilegedListener(ctx context.Context, token serviceNotification.INotificationListener, pkg string, user interface{}) (pm.ParceledListSlice, error)
+	SetInterruptionFilter(ctx context.Context, pkg string, interruptionFilter int32, fromUser bool) error
+	UpdateNotificationChannelGroupFromPrivilegedListener(ctx context.Context, token serviceNotification.INotificationListener, pkg string, user os.UserHandle, group NotificationChannelGroup) error
+	UpdateNotificationChannelFromPrivilegedListener(ctx context.Context, token serviceNotification.INotificationListener, pkg string, user os.UserHandle, channel NotificationChannel) error
+	GetNotificationChannelsFromPrivilegedListener(ctx context.Context, token serviceNotification.INotificationListener, pkg string, user os.UserHandle) (types.ParceledListSlice, error)
+	GetNotificationChannelGroupsFromPrivilegedListener(ctx context.Context, token serviceNotification.INotificationListener, pkg string, user os.UserHandle) (types.ParceledListSlice, error)
 	ApplyEnqueuedAdjustmentFromAssistant(ctx context.Context, token serviceNotification.INotificationListener, adjustment serviceNotification.Adjustment) error
 	ApplyAdjustmentFromAssistant(ctx context.Context, token serviceNotification.INotificationListener, adjustment serviceNotification.Adjustment) error
 	ApplyAdjustmentsFromAssistant(ctx context.Context, token serviceNotification.INotificationListener, adjustments []serviceNotification.Adjustment) error
 	UnsnoozeNotificationFromAssistant(ctx context.Context, token serviceNotification.INotificationListener, key string) error
 	UnsnoozeNotificationFromSystemListener(ctx context.Context, token serviceNotification.INotificationListener, key string) error
 	GetEffectsSuppressor(ctx context.Context) (content.ComponentName, error)
-	MatchesCallFilter(ctx context.Context, extras interface{}) (bool, error)
+	MatchesCallFilter(ctx context.Context, extras os.Bundle) (bool, error)
 	CleanUpCallersAfter(ctx context.Context, timeThreshold int64) error
 	IsSystemConditionProviderEnabled(ctx context.Context, path string) (bool, error)
 	IsNotificationListenerAccessGranted(ctx context.Context, listener content.ComponentName) (bool, error)
@@ -8897,25 +9421,28 @@ type INotificationManagerServer interface {
 	GetZenMode(ctx context.Context) (int32, error)
 	GetZenModeConfig(ctx context.Context) (serviceNotification.ZenModeConfig, error)
 	GetConsolidatedNotificationPolicy(ctx context.Context) (NotificationManagerPolicy, error)
-	SetZenMode(ctx context.Context, mode int32, conditionId net.Uri, reason string) error
+	SetZenMode(ctx context.Context, mode int32, conditionId net.Uri, reason string, fromUser bool) error
 	NotifyConditions(ctx context.Context, pkg string, provider serviceNotification.IConditionProvider, conditions []serviceNotification.Condition) error
 	IsNotificationPolicyAccessGranted(ctx context.Context, pkg string) (bool, error)
 	GetNotificationPolicy(ctx context.Context, pkg string) (NotificationManagerPolicy, error)
-	SetNotificationPolicy(ctx context.Context, pkg string, policy NotificationManagerPolicy) error
+	SetNotificationPolicy(ctx context.Context, pkg string, policy NotificationManagerPolicy, fromUser bool) error
 	IsNotificationPolicyAccessGrantedForPackage(ctx context.Context, pkg string) (bool, error)
 	SetNotificationPolicyAccessGranted(ctx context.Context, pkg string, granted bool) error
 	SetNotificationPolicyAccessGrantedForUser(ctx context.Context, pkg string, granted bool) error
+	GetDefaultZenPolicy(ctx context.Context) (serviceNotification.ZenPolicy, error)
 	GetAutomaticZenRule(ctx context.Context, id string) (AutomaticZenRule, error)
+	GetAutomaticZenRules(ctx context.Context) (map[string]AutomaticZenRule, error)
 	GetZenRules(ctx context.Context) ([]serviceNotification.ZenModeConfigZenRule, error)
-	AddAutomaticZenRule(ctx context.Context, automaticZenRule AutomaticZenRule, pkg string) (string, error)
-	UpdateAutomaticZenRule(ctx context.Context, id string, automaticZenRule AutomaticZenRule) (bool, error)
-	RemoveAutomaticZenRule(ctx context.Context, id string) (bool, error)
-	RemoveAutomaticZenRules(ctx context.Context, packageName string) (bool, error)
+	AddAutomaticZenRule(ctx context.Context, automaticZenRule AutomaticZenRule, pkg string, fromUser bool) (string, error)
+	UpdateAutomaticZenRule(ctx context.Context, id string, automaticZenRule AutomaticZenRule, fromUser bool) (bool, error)
+	RemoveAutomaticZenRule(ctx context.Context, id string, fromUser bool) (bool, error)
+	RemoveAutomaticZenRules(ctx context.Context, packageName string, fromUser bool) (bool, error)
 	GetRuleInstanceCount(ctx context.Context, owner content.ComponentName) (int32, error)
+	GetAutomaticZenRuleState(ctx context.Context, id string) (int32, error)
 	SetAutomaticZenRuleState(ctx context.Context, id string, condition serviceNotification.Condition) error
 	GetBackupPayload(ctx context.Context, user int32) ([]byte, error)
 	ApplyRestore(ctx context.Context, payload []byte, user int32) error
-	GetAppActiveNotifications(ctx context.Context, callingPkg string) (pm.ParceledListSlice, error)
+	GetAppActiveNotifications(ctx context.Context, callingPkg string) (types.ParceledListSlice, error)
 	SetNotificationDelegate(ctx context.Context, callingPkg string, delegate string) error
 	GetNotificationDelegate(ctx context.Context, callingPkg string) (string, error)
 	CanNotifyAsPackage(ctx context.Context, callingPkg string, targetPkg string) (bool, error)
@@ -8927,6 +9454,8 @@ type INotificationManagerServer interface {
 	SetListenerFilter(ctx context.Context, cn content.ComponentName, nlf serviceNotification.NotificationListenerFilter) error
 	MigrateNotificationFilter(ctx context.Context, token serviceNotification.INotificationListener, defaultTypes int32, disallowedPkgs []string) error
 	SetToastRateLimitingEnabled(ctx context.Context, enable bool) error
+	RegisterCallNotificationEventListener(ctx context.Context, packageName string, userHandle os.UserHandle, listener ICallNotificationEventCallback) error
+	UnregisterCallNotificationEventListener(ctx context.Context, packageName string, userHandle os.UserHandle, listener ICallNotificationEventCallback) error
 }
 
 type notificationManagerStubWrapper struct {
@@ -8958,7 +9487,7 @@ func (w *notificationManagerStubWrapper) EnqueueTextToast(
 	ctx context.Context,
 	pkg string,
 	token binder.IBinder,
-	text interface{},
+	text string,
 	duration int32,
 	isUiContext bool,
 	displayId int32,
@@ -9169,7 +9698,7 @@ func (w *notificationManagerStubWrapper) AreBubblesAllowed(
 
 func (w *notificationManagerStubWrapper) AreBubblesEnabled(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 ) (bool, error) {
 	return w.impl.AreBubblesEnabled(ctx, user)
 }
@@ -9185,7 +9714,7 @@ func (w *notificationManagerStubWrapper) GetBubblePreferenceForPackage(
 func (w *notificationManagerStubWrapper) CreateNotificationChannelGroups(
 	ctx context.Context,
 	pkg string,
-	channelGroupList pm.ParceledListSlice,
+	channelGroupList types.ParceledListSlice,
 ) error {
 	return w.impl.CreateNotificationChannelGroups(ctx, pkg, channelGroupList)
 }
@@ -9193,7 +9722,7 @@ func (w *notificationManagerStubWrapper) CreateNotificationChannelGroups(
 func (w *notificationManagerStubWrapper) CreateNotificationChannels(
 	ctx context.Context,
 	pkg string,
-	channelsList pm.ParceledListSlice,
+	channelsList types.ParceledListSlice,
 ) error {
 	return w.impl.CreateNotificationChannels(ctx, pkg, channelsList)
 }
@@ -9202,7 +9731,7 @@ func (w *notificationManagerStubWrapper) CreateNotificationChannelsForPackage(
 	ctx context.Context,
 	pkg string,
 	uid int32,
-	channelsList pm.ParceledListSlice,
+	channelsList types.ParceledListSlice,
 ) error {
 	return w.impl.CreateNotificationChannelsForPackage(ctx, pkg, uid, channelsList)
 }
@@ -9210,7 +9739,7 @@ func (w *notificationManagerStubWrapper) CreateNotificationChannelsForPackage(
 func (w *notificationManagerStubWrapper) GetConversations(
 	ctx context.Context,
 	onlyImportant bool,
-) (pm.ParceledListSlice, error) {
+) (types.ParceledListSlice, error) {
 	return w.impl.GetConversations(ctx, onlyImportant)
 }
 
@@ -9218,7 +9747,7 @@ func (w *notificationManagerStubWrapper) GetConversationsForPackage(
 	ctx context.Context,
 	pkg string,
 	uid int32,
-) (pm.ParceledListSlice, error) {
+) (types.ParceledListSlice, error) {
 	return w.impl.GetConversationsForPackage(ctx, pkg, uid)
 }
 
@@ -9227,7 +9756,7 @@ func (w *notificationManagerStubWrapper) GetNotificationChannelGroupsForPackage(
 	pkg string,
 	uid int32,
 	includeDeleted bool,
-) (pm.ParceledListSlice, error) {
+) (types.ParceledListSlice, error) {
 	return w.impl.GetNotificationChannelGroupsForPackage(ctx, pkg, uid, includeDeleted)
 }
 
@@ -9248,6 +9777,14 @@ func (w *notificationManagerStubWrapper) GetPopulatedNotificationChannelGroupFor
 	includeDeleted bool,
 ) (NotificationChannelGroup, error) {
 	return w.impl.GetPopulatedNotificationChannelGroupForPackage(ctx, pkg, uid, groupId, includeDeleted)
+}
+
+func (w *notificationManagerStubWrapper) GetRecentBlockedNotificationChannelGroupsForPackage(
+	ctx context.Context,
+	pkg string,
+	uid int32,
+) (types.ParceledListSlice, error) {
+	return w.impl.GetRecentBlockedNotificationChannelGroupsForPackage(ctx, pkg, uid)
 }
 
 func (w *notificationManagerStubWrapper) UpdateNotificationChannelGroupForPackage(
@@ -9336,7 +9873,7 @@ func (w *notificationManagerStubWrapper) GetNotificationChannels(
 	ctx context.Context,
 	callingPkg string,
 	targetPkg string,
-) (pm.ParceledListSlice, error) {
+) (types.ParceledListSlice, error) {
 	return w.impl.GetNotificationChannels(ctx, callingPkg, targetPkg)
 }
 
@@ -9345,7 +9882,7 @@ func (w *notificationManagerStubWrapper) GetNotificationChannelsForPackage(
 	pkg string,
 	uid int32,
 	includeDeleted bool,
-) (pm.ParceledListSlice, error) {
+) (types.ParceledListSlice, error) {
 	return w.impl.GetNotificationChannelsForPackage(ctx, pkg, uid, includeDeleted)
 }
 
@@ -9393,7 +9930,7 @@ func (w *notificationManagerStubWrapper) GetNotificationChannelGroup(
 func (w *notificationManagerStubWrapper) GetNotificationChannelGroups(
 	ctx context.Context,
 	pkg string,
-) (pm.ParceledListSlice, error) {
+) (types.ParceledListSlice, error) {
 	return w.impl.GetNotificationChannelGroups(ctx, pkg)
 }
 
@@ -9415,7 +9952,7 @@ func (w *notificationManagerStubWrapper) GetNotificationChannelsBypassingDnd(
 	ctx context.Context,
 	pkg string,
 	uid int32,
-) (pm.ParceledListSlice, error) {
+) (types.ParceledListSlice, error) {
 	return w.impl.GetNotificationChannelsBypassingDnd(ctx, pkg, uid)
 }
 
@@ -9591,7 +10128,7 @@ func (w *notificationManagerStubWrapper) GetActiveNotificationsFromListener(
 	token serviceNotification.INotificationListener,
 	keys []string,
 	trim int32,
-) (pm.ParceledListSlice, error) {
+) (types.ParceledListSlice, error) {
 	return w.impl.GetActiveNotificationsFromListener(ctx, token, keys, trim)
 }
 
@@ -9599,7 +10136,7 @@ func (w *notificationManagerStubWrapper) GetSnoozedNotificationsFromListener(
 	ctx context.Context,
 	token serviceNotification.INotificationListener,
 	trim int32,
-) (pm.ParceledListSlice, error) {
+) (types.ParceledListSlice, error) {
 	return w.impl.GetSnoozedNotificationsFromListener(ctx, token, trim)
 }
 
@@ -9658,15 +10195,16 @@ func (w *notificationManagerStubWrapper) SetInterruptionFilter(
 	ctx context.Context,
 	pkg string,
 	interruptionFilter int32,
+	fromUser bool,
 ) error {
-	return w.impl.SetInterruptionFilter(ctx, pkg, interruptionFilter)
+	return w.impl.SetInterruptionFilter(ctx, pkg, interruptionFilter, fromUser)
 }
 
 func (w *notificationManagerStubWrapper) UpdateNotificationChannelGroupFromPrivilegedListener(
 	ctx context.Context,
 	token serviceNotification.INotificationListener,
 	pkg string,
-	user interface{},
+	user os.UserHandle,
 	group NotificationChannelGroup,
 ) error {
 	return w.impl.UpdateNotificationChannelGroupFromPrivilegedListener(ctx, token, pkg, user, group)
@@ -9676,7 +10214,7 @@ func (w *notificationManagerStubWrapper) UpdateNotificationChannelFromPrivileged
 	ctx context.Context,
 	token serviceNotification.INotificationListener,
 	pkg string,
-	user interface{},
+	user os.UserHandle,
 	channel NotificationChannel,
 ) error {
 	return w.impl.UpdateNotificationChannelFromPrivilegedListener(ctx, token, pkg, user, channel)
@@ -9686,8 +10224,8 @@ func (w *notificationManagerStubWrapper) GetNotificationChannelsFromPrivilegedLi
 	ctx context.Context,
 	token serviceNotification.INotificationListener,
 	pkg string,
-	user interface{},
-) (pm.ParceledListSlice, error) {
+	user os.UserHandle,
+) (types.ParceledListSlice, error) {
 	return w.impl.GetNotificationChannelsFromPrivilegedListener(ctx, token, pkg, user)
 }
 
@@ -9695,8 +10233,8 @@ func (w *notificationManagerStubWrapper) GetNotificationChannelGroupsFromPrivile
 	ctx context.Context,
 	token serviceNotification.INotificationListener,
 	pkg string,
-	user interface{},
-) (pm.ParceledListSlice, error) {
+	user os.UserHandle,
+) (types.ParceledListSlice, error) {
 	return w.impl.GetNotificationChannelGroupsFromPrivilegedListener(ctx, token, pkg, user)
 }
 
@@ -9748,7 +10286,7 @@ func (w *notificationManagerStubWrapper) GetEffectsSuppressor(
 
 func (w *notificationManagerStubWrapper) MatchesCallFilter(
 	ctx context.Context,
-	extras interface{},
+	extras os.Bundle,
 ) (bool, error) {
 	return w.impl.MatchesCallFilter(ctx, extras)
 }
@@ -9889,8 +10427,9 @@ func (w *notificationManagerStubWrapper) SetZenMode(
 	mode int32,
 	conditionId net.Uri,
 	reason string,
+	fromUser bool,
 ) error {
-	return w.impl.SetZenMode(ctx, mode, conditionId, reason)
+	return w.impl.SetZenMode(ctx, mode, conditionId, reason, fromUser)
 }
 
 func (w *notificationManagerStubWrapper) NotifyConditions(
@@ -9920,8 +10459,9 @@ func (w *notificationManagerStubWrapper) SetNotificationPolicy(
 	ctx context.Context,
 	pkg string,
 	policy NotificationManagerPolicy,
+	fromUser bool,
 ) error {
-	return w.impl.SetNotificationPolicy(ctx, pkg, policy)
+	return w.impl.SetNotificationPolicy(ctx, pkg, policy, fromUser)
 }
 
 func (w *notificationManagerStubWrapper) IsNotificationPolicyAccessGrantedForPackage(
@@ -9947,11 +10487,23 @@ func (w *notificationManagerStubWrapper) SetNotificationPolicyAccessGrantedForUs
 	return w.impl.SetNotificationPolicyAccessGrantedForUser(ctx, pkg, granted)
 }
 
+func (w *notificationManagerStubWrapper) GetDefaultZenPolicy(
+	ctx context.Context,
+) (serviceNotification.ZenPolicy, error) {
+	return w.impl.GetDefaultZenPolicy(ctx)
+}
+
 func (w *notificationManagerStubWrapper) GetAutomaticZenRule(
 	ctx context.Context,
 	id string,
 ) (AutomaticZenRule, error) {
 	return w.impl.GetAutomaticZenRule(ctx, id)
+}
+
+func (w *notificationManagerStubWrapper) GetAutomaticZenRules(
+	ctx context.Context,
+) (map[string]AutomaticZenRule, error) {
+	return w.impl.GetAutomaticZenRules(ctx)
 }
 
 func (w *notificationManagerStubWrapper) GetZenRules(
@@ -9964,30 +10516,34 @@ func (w *notificationManagerStubWrapper) AddAutomaticZenRule(
 	ctx context.Context,
 	automaticZenRule AutomaticZenRule,
 	pkg string,
+	fromUser bool,
 ) (string, error) {
-	return w.impl.AddAutomaticZenRule(ctx, automaticZenRule, pkg)
+	return w.impl.AddAutomaticZenRule(ctx, automaticZenRule, pkg, fromUser)
 }
 
 func (w *notificationManagerStubWrapper) UpdateAutomaticZenRule(
 	ctx context.Context,
 	id string,
 	automaticZenRule AutomaticZenRule,
+	fromUser bool,
 ) (bool, error) {
-	return w.impl.UpdateAutomaticZenRule(ctx, id, automaticZenRule)
+	return w.impl.UpdateAutomaticZenRule(ctx, id, automaticZenRule, fromUser)
 }
 
 func (w *notificationManagerStubWrapper) RemoveAutomaticZenRule(
 	ctx context.Context,
 	id string,
+	fromUser bool,
 ) (bool, error) {
-	return w.impl.RemoveAutomaticZenRule(ctx, id)
+	return w.impl.RemoveAutomaticZenRule(ctx, id, fromUser)
 }
 
 func (w *notificationManagerStubWrapper) RemoveAutomaticZenRules(
 	ctx context.Context,
 	packageName string,
+	fromUser bool,
 ) (bool, error) {
-	return w.impl.RemoveAutomaticZenRules(ctx, packageName)
+	return w.impl.RemoveAutomaticZenRules(ctx, packageName, fromUser)
 }
 
 func (w *notificationManagerStubWrapper) GetRuleInstanceCount(
@@ -9995,6 +10551,13 @@ func (w *notificationManagerStubWrapper) GetRuleInstanceCount(
 	owner content.ComponentName,
 ) (int32, error) {
 	return w.impl.GetRuleInstanceCount(ctx, owner)
+}
+
+func (w *notificationManagerStubWrapper) GetAutomaticZenRuleState(
+	ctx context.Context,
+	id string,
+) (int32, error) {
+	return w.impl.GetAutomaticZenRuleState(ctx, id)
 }
 
 func (w *notificationManagerStubWrapper) SetAutomaticZenRuleState(
@@ -10023,7 +10586,7 @@ func (w *notificationManagerStubWrapper) ApplyRestore(
 func (w *notificationManagerStubWrapper) GetAppActiveNotifications(
 	ctx context.Context,
 	callingPkg string,
-) (pm.ParceledListSlice, error) {
+) (types.ParceledListSlice, error) {
 	return w.impl.GetAppActiveNotifications(ctx, callingPkg)
 }
 
@@ -10109,6 +10672,24 @@ func (w *notificationManagerStubWrapper) SetToastRateLimitingEnabled(
 	enable bool,
 ) error {
 	return w.impl.SetToastRateLimitingEnabled(ctx, enable)
+}
+
+func (w *notificationManagerStubWrapper) RegisterCallNotificationEventListener(
+	ctx context.Context,
+	packageName string,
+	userHandle os.UserHandle,
+	listener ICallNotificationEventCallback,
+) error {
+	return w.impl.RegisterCallNotificationEventListener(ctx, packageName, userHandle, listener)
+}
+
+func (w *notificationManagerStubWrapper) UnregisterCallNotificationEventListener(
+	ctx context.Context,
+	packageName string,
+	userHandle os.UserHandle,
+	listener ICallNotificationEventCallback,
+) error {
+	return w.impl.UnregisterCallNotificationEventListener(ctx, packageName, userHandle, listener)
 }
 
 var _ INotificationManager = (*notificationManagerStubWrapper)(nil)

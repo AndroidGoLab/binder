@@ -45,6 +45,7 @@ func (p *SpellCheckerServiceCallbackProxy) OnSessionCreated(
 	newSession ISpellCheckerSession,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpellCheckerServiceCallback)
 	binder.WriteBinderToParcel(ctx, _data, newSession.AsBinder(), p.Remote.Transport())
 
@@ -60,7 +61,8 @@ func (p *SpellCheckerServiceCallbackProxy) OnSessionCreated(
 // SpellCheckerServiceCallbackStub dispatches incoming binder transactions
 // to a typed ISpellCheckerServiceCallback implementation.
 type SpellCheckerServiceCallbackStub struct {
-	Impl ISpellCheckerServiceCallback
+	Impl      ISpellCheckerServiceCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SpellCheckerServiceCallbackStub)(nil)
@@ -74,17 +76,22 @@ func (s *SpellCheckerServiceCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISpellCheckerServiceCallbackOnSessionCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_newSession ISpellCheckerSession
-		_ = _arg_newSession
+		{
+			_newSessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_newSession = NewSpellCheckerSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _newSessionHandle))
+		}
 		_err := s.Impl.OnSessionCreated(ctx, _arg_newSession)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

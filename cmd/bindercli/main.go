@@ -16,6 +16,8 @@ const (
 	defaultMapSize      = 128 * 1024
 )
 
+var cpuProfileFile *os.File
+
 func newRootCmd() *cobra.Command {
 	logLevel := logger.LevelWarning
 
@@ -36,7 +38,10 @@ and invoking Android Binder services using AIDL-generated Go bindings.`,
 				if err != nil {
 					return fmt.Errorf("creating CPU profile: %w", err)
 				}
-				pprof.StartCPUProfile(f)
+				cpuProfileFile = f
+				if err := pprof.StartCPUProfile(f); err != nil {
+					return fmt.Errorf("starting CPU profile: %w", err)
+				}
 			}
 			return nil
 		},
@@ -44,6 +49,10 @@ and invoking Android Binder services using AIDL-generated Go bindings.`,
 			cpuFile, _ := cmd.Flags().GetString("cpuprofile")
 			if cpuFile != "" {
 				pprof.StopCPUProfile()
+				if cpuProfileFile != nil {
+					cpuProfileFile.Close()
+					cpuProfileFile = nil
+				}
 			}
 
 			memFile, _ := cmd.Flags().GetString("memprofile")
@@ -53,7 +62,9 @@ and invoking Android Binder services using AIDL-generated Go bindings.`,
 					return fmt.Errorf("creating memory profile: %w", err)
 				}
 				defer f.Close()
-				pprof.WriteHeapProfile(f)
+				if err := pprof.WriteHeapProfile(f); err != nil {
+					return fmt.Errorf("writing memory profile: %w", err)
+				}
 			}
 			return nil
 		},

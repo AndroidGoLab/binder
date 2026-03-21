@@ -65,6 +65,7 @@ func (p *FastbootProxy) DoOemCommand(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFastboot)
 	_data.WriteString16(oemCmd)
 
@@ -94,6 +95,7 @@ func (p *FastbootProxy) DoOemSpecificErase(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFastboot)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFastboot, MethodIFastbootDoOemSpecificErase)
@@ -119,6 +121,7 @@ func (p *FastbootProxy) GetBatteryVoltageFlashingThreshold(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFastboot)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFastboot, MethodIFastbootGetBatteryVoltageFlashingThreshold)
@@ -148,6 +151,7 @@ func (p *FastbootProxy) GetOffModeChargeState(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFastboot)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFastboot, MethodIFastbootGetOffModeChargeState)
@@ -178,6 +182,7 @@ func (p *FastbootProxy) GetPartitionType(
 ) (FileSystemType, error) {
 	var _result FileSystemType
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFastboot)
 	_data.WriteString16(partitionName)
 
@@ -209,6 +214,7 @@ func (p *FastbootProxy) GetVariant(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFastboot)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFastboot, MethodIFastbootGetVariant)
@@ -236,7 +242,8 @@ func (p *FastbootProxy) GetVariant(
 // FastbootStub dispatches incoming binder transactions
 // to a typed IFastboot implementation.
 type FastbootStub struct {
-	Impl IFastboot
+	Impl      IFastboot
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FastbootStub)(nil)
@@ -250,11 +257,12 @@ func (s *FastbootStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFastbootDoOemCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_oemCmd, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -269,9 +277,6 @@ func (s *FastbootStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIFastbootDoOemSpecificErase:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DoOemSpecificErase(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -281,9 +286,6 @@ func (s *FastbootStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFastbootGetBatteryVoltageFlashingThreshold:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetBatteryVoltageFlashingThreshold(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -294,9 +296,6 @@ func (s *FastbootStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIFastbootGetOffModeChargeState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetOffModeChargeState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -307,9 +306,6 @@ func (s *FastbootStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFastbootGetPartitionType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_partitionName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -324,9 +320,6 @@ func (s *FastbootStub) OnTransaction(
 		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionIFastbootGetVariant:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVariant(ctx)
 		_reply := parcel.New()
 		if _err != nil {

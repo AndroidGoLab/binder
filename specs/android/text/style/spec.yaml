@@ -1,0 +1,4 @@
+package: android.text.style
+go_package: android/text/style
+parcelables:
+    - name: SuggestionSpan

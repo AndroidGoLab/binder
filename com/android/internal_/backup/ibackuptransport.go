@@ -128,6 +128,7 @@ func (p *BackupTransportProxy) Name(
 	result infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -148,6 +149,7 @@ func (p *BackupTransportProxy) ConfigurationIntent(
 	resultFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
@@ -168,6 +170,7 @@ func (p *BackupTransportProxy) CurrentDestinationString(
 	resultFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
@@ -188,6 +191,7 @@ func (p *BackupTransportProxy) DataManagementIntent(
 	resultFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
@@ -208,6 +212,7 @@ func (p *BackupTransportProxy) DataManagementIntentLabel(
 	resultFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
@@ -228,6 +233,7 @@ func (p *BackupTransportProxy) TransportDirName(
 	resultFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
@@ -248,6 +254,7 @@ func (p *BackupTransportProxy) RequestBackupTime(
 	resultFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
@@ -268,6 +275,7 @@ func (p *BackupTransportProxy) InitializeDevice(
 	callback ITransportStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -288,6 +296,7 @@ func (p *BackupTransportProxy) PerformBackup(
 	callback ITransportStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := packageInfo.MarshalParcel(_data); _err != nil {
@@ -312,6 +321,7 @@ func (p *BackupTransportProxy) ClearBackupData(
 	callback ITransportStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := packageInfo.MarshalParcel(_data); _err != nil {
@@ -333,6 +343,7 @@ func (p *BackupTransportProxy) FinishBackup(
 	callback ITransportStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -350,6 +361,7 @@ func (p *BackupTransportProxy) GetAvailableRestoreSets(
 	resultFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
@@ -370,6 +382,7 @@ func (p *BackupTransportProxy) GetCurrentRestoreSet(
 	resultFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
@@ -392,6 +405,7 @@ func (p *BackupTransportProxy) StartRestore(
 	callback ITransportStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt64(token)
 	if packages == nil {
@@ -421,6 +435,7 @@ func (p *BackupTransportProxy) NextRestorePackage(
 	resultFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
@@ -442,6 +457,7 @@ func (p *BackupTransportProxy) GetRestoreData(
 	callback ITransportStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteFileDescriptor(outFd)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -460,6 +476,7 @@ func (p *BackupTransportProxy) FinishRestore(
 	callback ITransportStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -477,6 +494,7 @@ func (p *BackupTransportProxy) RequestFullBackupTime(
 	resultFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
@@ -500,6 +518,7 @@ func (p *BackupTransportProxy) PerformFullBackup(
 	callback ITransportStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := targetPackage.MarshalParcel(_data); _err != nil {
@@ -524,6 +543,7 @@ func (p *BackupTransportProxy) CheckFullBackupSize(
 	callback ITransportStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt64(size)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -543,6 +563,7 @@ func (p *BackupTransportProxy) SendBackupData(
 	callback ITransportStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(numBytes)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -561,6 +582,7 @@ func (p *BackupTransportProxy) CancelFullBackup(
 	callback ITransportStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -580,6 +602,7 @@ func (p *BackupTransportProxy) IsAppEligibleForBackup(
 	resultFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := targetPackage.MarshalParcel(_data); _err != nil {
@@ -607,6 +630,7 @@ func (p *BackupTransportProxy) GetBackupQuota(
 	resultFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteString16(packageName)
 	_data.WriteBool(isFullBackup)
@@ -630,6 +654,7 @@ func (p *BackupTransportProxy) GetNextFullRestoreDataChunk(
 	callback ITransportStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteFileDescriptor(socket)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -648,6 +673,7 @@ func (p *BackupTransportProxy) AbortFullRestore(
 	callback ITransportStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -665,6 +691,7 @@ func (p *BackupTransportProxy) GetTransportFlags(
 	resultFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
@@ -685,6 +712,7 @@ func (p *BackupTransportProxy) GetBackupManagerMonitor(
 	resultFuture infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
@@ -703,7 +731,8 @@ func (p *BackupTransportProxy) GetBackupManagerMonitor(
 // BackupTransportStub dispatches incoming binder transactions
 // to a typed IBackupTransport implementation.
 type BackupTransportStub struct {
-	Impl IBackupTransport
+	Impl      IBackupTransport
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BackupTransportStub)(nil)
@@ -717,11 +746,12 @@ func (s *BackupTransportStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBackupTransportName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_result infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -735,12 +765,8 @@ func (s *BackupTransportStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.Name(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportConfigurationIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_resultFuture infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -754,12 +780,8 @@ func (s *BackupTransportStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ConfigurationIntent(ctx, _arg_resultFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportCurrentDestinationString:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_resultFuture infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -773,12 +795,8 @@ func (s *BackupTransportStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CurrentDestinationString(ctx, _arg_resultFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportDataManagementIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_resultFuture infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -792,12 +810,8 @@ func (s *BackupTransportStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.DataManagementIntent(ctx, _arg_resultFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportDataManagementIntentLabel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_resultFuture infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -811,12 +825,8 @@ func (s *BackupTransportStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.DataManagementIntentLabel(ctx, _arg_resultFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportTransportDirName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_resultFuture infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -830,12 +840,8 @@ func (s *BackupTransportStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.TransportDirName(ctx, _arg_resultFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportRequestBackupTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_resultFuture infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -849,22 +855,19 @@ func (s *BackupTransportStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RequestBackupTime(ctx, _arg_resultFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportInitializeDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITransportStatusCallback
-		_ = _arg_callback
-		_err := s.Impl.InitializeDevice(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIBackupTransportPerformBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTransportStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.InitializeDevice(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIBackupTransportPerformBackup:
 		var _arg_packageInfo pm.PackageInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -885,16 +888,17 @@ func (s *BackupTransportStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITransportStatusCallback
-		_ = _arg_callback
-		_err = s.Impl.PerformBackup(ctx, _arg_packageInfo, _arg_inFd, _arg_flags, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIBackupTransportClearBackupData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTransportStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.PerformBackup(ctx, _arg_packageInfo, _arg_inFd, _arg_flags, _arg_callback)
+		return nil, _err
+	case TransactionIBackupTransportClearBackupData:
 		var _arg_packageInfo pm.PackageInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -907,26 +911,28 @@ func (s *BackupTransportStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITransportStatusCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTransportStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.ClearBackupData(ctx, _arg_packageInfo, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportFinishBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITransportStatusCallback
-		_ = _arg_callback
-		_err := s.Impl.FinishBackup(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIBackupTransportGetAvailableRestoreSets:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTransportStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.FinishBackup(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIBackupTransportGetAvailableRestoreSets:
 		var _arg_resultFuture infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -940,12 +946,8 @@ func (s *BackupTransportStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetAvailableRestoreSets(ctx, _arg_resultFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportGetCurrentRestoreSet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_resultFuture infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -959,29 +961,44 @@ func (s *BackupTransportStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetCurrentRestoreSet(ctx, _arg_resultFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportStartRestore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packages []pm.PackageInfo
-		_ = _arg_packages
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback ITransportStatusCallback
-		_ = _arg_callback
-		_err = s.Impl.StartRestore(ctx, _arg_token, _arg_packages, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIBackupTransportNextRestorePackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packages = make([]pm.PackageInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_packages[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		var _arg_callback ITransportStatusCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTransportStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
+		_err = s.Impl.StartRestore(ctx, _arg_token, _arg_packages, _arg_callback)
+		return nil, _err
+	case TransactionIBackupTransportNextRestorePackage:
 		var _arg_resultFuture infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -995,36 +1012,34 @@ func (s *BackupTransportStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NextRestorePackage(ctx, _arg_resultFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportGetRestoreData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_outFd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITransportStatusCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTransportStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetRestoreData(ctx, _arg_outFd, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportFinishRestore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITransportStatusCallback
-		_ = _arg_callback
-		_err := s.Impl.FinishRestore(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIBackupTransportRequestFullBackupTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTransportStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.FinishRestore(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIBackupTransportRequestFullBackupTime:
 		var _arg_resultFuture infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1038,12 +1053,8 @@ func (s *BackupTransportStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RequestFullBackupTime(ctx, _arg_resultFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportPerformFullBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_targetPackage pm.PackageInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1064,54 +1075,58 @@ func (s *BackupTransportStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITransportStatusCallback
-		_ = _arg_callback
-		_err = s.Impl.PerformFullBackup(ctx, _arg_targetPackage, _arg_socket, _arg_flags, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIBackupTransportCheckFullBackupSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTransportStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.PerformFullBackup(ctx, _arg_targetPackage, _arg_socket, _arg_flags, _arg_callback)
+		return nil, _err
+	case TransactionIBackupTransportCheckFullBackupSize:
 		_arg_size, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITransportStatusCallback
-		_ = _arg_callback
-		_err = s.Impl.CheckFullBackupSize(ctx, _arg_size, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIBackupTransportSendBackupData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTransportStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.CheckFullBackupSize(ctx, _arg_size, _arg_callback)
+		return nil, _err
+	case TransactionIBackupTransportSendBackupData:
 		_arg_numBytes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITransportStatusCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTransportStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.SendBackupData(ctx, _arg_numBytes, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportCancelFullBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITransportStatusCallback
-		_ = _arg_callback
-		_err := s.Impl.CancelFullBackup(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIBackupTransportIsAppEligibleForBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTransportStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.CancelFullBackup(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIBackupTransportIsAppEligibleForBackup:
 		var _arg_targetPackage pm.PackageInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1141,12 +1156,8 @@ func (s *BackupTransportStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.IsAppEligibleForBackup(ctx, _arg_targetPackage, _arg_isFullBackup, _arg_resultFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportGetBackupQuota:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1168,36 +1179,34 @@ func (s *BackupTransportStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.GetBackupQuota(ctx, _arg_packageName, _arg_isFullBackup, _arg_resultFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportGetNextFullRestoreDataChunk:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_socket, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITransportStatusCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTransportStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetNextFullRestoreDataChunk(ctx, _arg_socket, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportAbortFullRestore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITransportStatusCallback
-		_ = _arg_callback
-		_err := s.Impl.AbortFullRestore(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIBackupTransportGetTransportFlags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTransportStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.AbortFullRestore(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIBackupTransportGetTransportFlags:
 		var _arg_resultFuture infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1211,12 +1220,8 @@ func (s *BackupTransportStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetTransportFlags(ctx, _arg_resultFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBackupTransportGetBackupManagerMonitor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_resultFuture infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1230,8 +1235,7 @@ func (s *BackupTransportStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetBackupManagerMonitor(ctx, _arg_resultFuture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

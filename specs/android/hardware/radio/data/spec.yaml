@@ -1,0 +1,1906 @@
+package: android.hardware.radio.data
+go_package: android/hardware/radio/data
+interfaces:
+    - name: IRadioData
+      descriptor: android.hardware.radio.data.IRadioData
+      oneway: true
+      methods:
+        - name: allocatePduSessionId
+          transaction_code_offset: 0
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: cancelHandover
+          transaction_code_offset: 1
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: callId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: deactivateDataCall
+          transaction_code_offset: 2
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: cid
+              type:
+                name: int
+              direction: in
+            - name: reason
+              type:
+                name: DataRequestReason
+              direction: in
+          return_type:
+            name: void
+        - name: getDataCallList
+          transaction_code_offset: 3
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getSlicingConfig
+          transaction_code_offset: 4
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: releasePduSessionId
+          transaction_code_offset: 5
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: responseAcknowledgement
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: setDataAllowed
+          transaction_code_offset: 7
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: allow
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setDataProfile
+          transaction_code_offset: 8
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: profiles
+              type:
+                name: DataProfileInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setDataThrottling
+          transaction_code_offset: 9
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: dataThrottlingAction
+              type:
+                name: DataThrottlingAction
+              direction: in
+            - name: completionDurationMillis
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: setInitialAttachApn
+          transaction_code_offset: 10
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: dataProfileInfo
+              type:
+                name: DataProfileInfo
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: setResponseFunctions
+          transaction_code_offset: 11
+          params:
+            - name: radioDataResponse
+              type:
+                name: IRadioDataResponse
+              direction: in
+            - name: radioDataIndication
+              type:
+                name: IRadioDataIndication
+              direction: in
+          return_type:
+            name: void
+        - name: setupDataCall
+          transaction_code_offset: 12
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: accessNetwork
+              type:
+                name: AccessNetwork
+              direction: in
+            - name: dataProfileInfo
+              type:
+                name: DataProfileInfo
+              direction: in
+            - name: roamingAllowed
+              type:
+                name: boolean
+              direction: in
+            - name: reason
+              type:
+                name: DataRequestReason
+              direction: in
+            - name: addresses
+              type:
+                name: LinkAddress
+                is_array: true
+              direction: in
+            - name: dnses
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: pduSessionId
+              type:
+                name: int
+              direction: in
+            - name: sliceInfo
+              type:
+                name: SliceInfo
+                is_nullable: true
+              direction: in
+            - name: matchAllRuleAllowed
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: startHandover
+          transaction_code_offset: 13
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: callId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: startKeepalive
+          transaction_code_offset: 14
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: keepalive
+              type:
+                name: KeepaliveRequest
+              direction: in
+          return_type:
+            name: void
+        - name: stopKeepalive
+          transaction_code_offset: 15
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: sessionHandle
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IRadioDataIndication
+      descriptor: android.hardware.radio.data.IRadioDataIndication
+      oneway: true
+      methods:
+        - name: dataCallListChanged
+          transaction_code_offset: 0
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: dcList
+              type:
+                name: SetupDataCallResult
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: keepaliveStatus
+          transaction_code_offset: 1
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: status
+              type:
+                name: KeepaliveStatus
+              direction: in
+          return_type:
+            name: void
+        - name: pcoData
+          transaction_code_offset: 2
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: pco
+              type:
+                name: PcoDataInfo
+              direction: in
+          return_type:
+            name: void
+        - name: unthrottleApn
+          transaction_code_offset: 3
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: dataProfileInfo
+              type:
+                name: DataProfileInfo
+              direction: in
+          return_type:
+            name: void
+        - name: slicingConfigChanged
+          transaction_code_offset: 4
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: slicingConfig
+              type:
+                name: SlicingConfig
+              direction: in
+          return_type:
+            name: void
+    - name: IRadioDataResponse
+      descriptor: android.hardware.radio.data.IRadioDataResponse
+      oneway: true
+      methods:
+        - name: acknowledgeRequest
+          transaction_code_offset: 0
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: allocatePduSessionIdResponse
+          transaction_code_offset: 1
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: id
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: cancelHandoverResponse
+          transaction_code_offset: 2
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: deactivateDataCallResponse
+          transaction_code_offset: 3
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: getDataCallListResponse
+          transaction_code_offset: 4
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: dcResponse
+              type:
+                name: SetupDataCallResult
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getSlicingConfigResponse
+          transaction_code_offset: 5
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: slicingConfig
+              type:
+                name: SlicingConfig
+              direction: in
+          return_type:
+            name: void
+        - name: releasePduSessionIdResponse
+          transaction_code_offset: 6
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setDataAllowedResponse
+          transaction_code_offset: 7
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setDataProfileResponse
+          transaction_code_offset: 8
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setDataThrottlingResponse
+          transaction_code_offset: 9
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setInitialAttachApnResponse
+          transaction_code_offset: 10
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setupDataCallResponse
+          transaction_code_offset: 11
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: dcResponse
+              type:
+                name: SetupDataCallResult
+              direction: in
+          return_type:
+            name: void
+        - name: startHandoverResponse
+          transaction_code_offset: 12
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: startKeepaliveResponse
+          transaction_code_offset: 13
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: status
+              type:
+                name: KeepaliveStatus
+              direction: in
+          return_type:
+            name: void
+        - name: stopKeepaliveResponse
+          transaction_code_offset: 14
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: DataProfileInfo
+      fields:
+        - name: profileId
+          type:
+            name: int
+        - name: apn
+          type:
+            name: String
+        - name: protocol
+          type:
+            name: PdpProtocolType
+        - name: roamingProtocol
+          type:
+            name: PdpProtocolType
+        - name: authType
+          type:
+            name: ApnAuthType
+        - name: user
+          type:
+            name: String
+        - name: password
+          type:
+            name: String
+        - name: type
+          type:
+            name: int
+        - name: maxConnsTime
+          type:
+            name: int
+        - name: maxConns
+          type:
+            name: int
+        - name: waitTime
+          type:
+            name: int
+        - name: enabled
+          type:
+            name: boolean
+        - name: supportedApnTypesBitmap
+          type:
+            name: int
+        - name: bearerBitmap
+          type:
+            name: int
+        - name: mtuV4
+          type:
+            name: int
+        - name: mtuV6
+          type:
+            name: int
+        - name: preferred
+          type:
+            name: boolean
+        - name: persistent
+          type:
+            name: boolean
+        - name: alwaysOn
+          type:
+            name: boolean
+        - name: trafficDescriptor
+          type:
+            name: TrafficDescriptor
+        - name: infrastructureBitmap
+          type:
+            name: int
+          default_value: INFRASTRUCTURE_UNKNOWN
+      constants:
+        - name: ID_DEFAULT
+          type: int
+          value: "0"
+        - name: ID_TETHERED
+          type: int
+          value: "1"
+        - name: ID_IMS
+          type: int
+          value: "2"
+        - name: ID_FOTA
+          type: int
+          value: "3"
+        - name: ID_CBS
+          type: int
+          value: "4"
+        - name: ID_OEM_BASE
+          type: int
+          value: "1000"
+        - name: ID_INVALID
+          type: int
+          value: "0xFFFFFFFF"
+        - name: TYPE_COMMON
+          type: int
+          value: "0"
+        - name: TYPE_3GPP
+          type: int
+          value: "1"
+        - name: TYPE_3GPP2
+          type: int
+          value: "2"
+        - name: INFRASTRUCTURE_UNKNOWN
+          type: int
+          value: "0"
+        - name: INFRASTRUCTURE_CELLULAR
+          type: int
+          value: 1 << 0
+        - name: INFRASTRUCTURE_SATELLITE
+          type: int
+          value: 1 << 1
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: EpsQos
+      fields:
+        - name: qci
+          type:
+            name: int
+        - name: downlink
+          type:
+            name: QosBandwidth
+        - name: uplink
+          type:
+            name: QosBandwidth
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: KeepaliveRequest
+      fields:
+        - name: type
+          type:
+            name: int
+        - name: sourceAddress
+          type:
+            name: byte
+            is_array: true
+        - name: sourcePort
+          type:
+            name: int
+        - name: destinationAddress
+          type:
+            name: byte
+            is_array: true
+        - name: destinationPort
+          type:
+            name: int
+        - name: maxKeepaliveIntervalMillis
+          type:
+            name: int
+        - name: cid
+          type:
+            name: int
+      constants:
+        - name: TYPE_NATT_IPV4
+          type: int
+          value: "0"
+        - name: TYPE_NATT_IPV6
+          type: int
+          value: "1"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: KeepaliveStatus
+      fields:
+        - name: sessionHandle
+          type:
+            name: int
+        - name: code
+          type:
+            name: int
+      constants:
+        - name: CODE_ACTIVE
+          type: int
+          value: "0"
+        - name: CODE_INACTIVE
+          type: int
+          value: "1"
+        - name: CODE_PENDING
+          type: int
+          value: "2"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: LinkAddress
+      fields:
+        - name: address
+          type:
+            name: String
+        - name: addressProperties
+          type:
+            name: int
+        - name: deprecationTime
+          type:
+            name: long
+        - name: expirationTime
+          type:
+            name: long
+      constants:
+        - name: ADDRESS_PROPERTY_NONE
+          type: int
+          value: "0"
+        - name: ADDRESS_PROPERTY_DEPRECATED
+          type: int
+          value: "0x20"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: NrQos
+      fields:
+        - name: fiveQi
+          type:
+            name: int
+        - name: downlink
+          type:
+            name: QosBandwidth
+        - name: uplink
+          type:
+            name: QosBandwidth
+        - name: qfi
+          type:
+            name: byte
+        - name: averagingWindowMs
+          type:
+            name: char
+        - name: averagingWindowMillis
+          type:
+            name: int
+          default_value: AVERAGING_WINDOW_UNKNOWN
+      constants:
+        - name: FLOW_ID_RANGE_MIN
+          type: byte
+          value: "1"
+        - name: FLOW_ID_RANGE_MAX
+          type: byte
+          value: "63"
+        - name: AVERAGING_WINDOW_UNKNOWN
+          type: int
+          value: "-1"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: OsAppId
+      fields:
+        - name: osAppId
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: PcoDataInfo
+      fields:
+        - name: cid
+          type:
+            name: int
+        - name: bearerProto
+          type:
+            name: String
+        - name: pcoId
+          type:
+            name: int
+        - name: contents
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: PortRange
+      fields:
+        - name: start
+          type:
+            name: int
+        - name: end
+          type:
+            name: int
+      constants:
+        - name: PORT_RANGE_MIN
+          type: int
+          value: "20"
+        - name: PORT_RANGE_MAX
+          type: int
+          value: "65535"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: QosBandwidth
+      fields:
+        - name: maxBitrateKbps
+          type:
+            name: int
+        - name: guaranteedBitrateKbps
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: QosFilter
+      fields:
+        - name: localAddresses
+          type:
+            name: String
+            is_array: true
+        - name: remoteAddresses
+          type:
+            name: String
+            is_array: true
+        - name: localPort
+          type:
+            name: PortRange
+          annotations:
+            - nullable
+        - name: remotePort
+          type:
+            name: PortRange
+          annotations:
+            - nullable
+        - name: protocol
+          type:
+            name: byte
+        - name: tos
+          type:
+            name: QosFilterTypeOfService
+        - name: flowLabel
+          type:
+            name: QosFilterIpv6FlowLabel
+        - name: spi
+          type:
+            name: QosFilterIpsecSpi
+        - name: direction
+          type:
+            name: byte
+        - name: precedence
+          type:
+            name: int
+      constants:
+        - name: DIRECTION_DOWNLINK
+          type: byte
+          value: "0"
+        - name: DIRECTION_UPLINK
+          type: byte
+          value: "1"
+        - name: DIRECTION_BIDIRECTIONAL
+          type: byte
+          value: "2"
+        - name: PROTOCOL_UNSPECIFIED
+          type: byte
+          value: "-1"
+        - name: PROTOCOL_TCP
+          type: byte
+          value: "6"
+        - name: PROTOCOL_UDP
+          type: byte
+          value: "17"
+        - name: PROTOCOL_ESP
+          type: byte
+          value: "50"
+        - name: PROTOCOL_AH
+          type: byte
+          value: "51"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: QosSession
+      fields:
+        - name: qosSessionId
+          type:
+            name: int
+        - name: qos
+          type:
+            name: Qos
+        - name: qosFilters
+          type:
+            name: QosFilter
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: RouteSelectionDescriptor
+      fields:
+        - name: precedence
+          type:
+            name: byte
+        - name: sessionType
+          type:
+            name: PdpProtocolType
+        - name: sscMode
+          type:
+            name: byte
+        - name: sliceInfo
+          type:
+            name: SliceInfo
+            is_array: true
+        - name: dnn
+          type:
+            name: String
+            is_array: true
+      constants:
+        - name: SSC_MODE_UNKNOWN
+          type: byte
+          value: "-1"
+        - name: SSC_MODE_1
+          type: byte
+          value: "1"
+        - name: SSC_MODE_2
+          type: byte
+          value: "2"
+        - name: SSC_MODE_3
+          type: byte
+          value: "3"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SetupDataCallResult
+      fields:
+        - name: cause
+          type:
+            name: DataCallFailCause
+        - name: suggestedRetryTime
+          type:
+            name: long
+        - name: cid
+          type:
+            name: int
+        - name: active
+          type:
+            name: int
+        - name: type
+          type:
+            name: PdpProtocolType
+        - name: ifname
+          type:
+            name: String
+        - name: addresses
+          type:
+            name: LinkAddress
+            is_array: true
+        - name: dnses
+          type:
+            name: String
+            is_array: true
+        - name: gateways
+          type:
+            name: String
+            is_array: true
+        - name: pcscf
+          type:
+            name: String
+            is_array: true
+        - name: mtuV4
+          type:
+            name: int
+        - name: mtuV6
+          type:
+            name: int
+        - name: defaultQos
+          type:
+            name: Qos
+        - name: qosSessions
+          type:
+            name: QosSession
+            is_array: true
+        - name: handoverFailureMode
+          type:
+            name: byte
+        - name: pduSessionId
+          type:
+            name: int
+        - name: sliceInfo
+          type:
+            name: SliceInfo
+          annotations:
+            - nullable
+        - name: trafficDescriptors
+          type:
+            name: TrafficDescriptor
+            is_array: true
+      constants:
+        - name: DATA_CONNECTION_STATUS_INACTIVE
+          type: int
+          value: "0"
+        - name: DATA_CONNECTION_STATUS_DORMANT
+          type: int
+          value: "1"
+        - name: DATA_CONNECTION_STATUS_ACTIVE
+          type: int
+          value: "2"
+        - name: HANDOVER_FAILURE_MODE_LEGACY
+          type: byte
+          value: "0"
+        - name: HANDOVER_FAILURE_MODE_DO_FALLBACK
+          type: byte
+          value: "1"
+        - name: HANDOVER_FAILURE_MODE_NO_FALLBACK_RETRY_HANDOVER
+          type: byte
+          value: "2"
+        - name: HANDOVER_FAILURE_MODE_NO_FALLBACK_RETRY_SETUP_NORMAL
+          type: byte
+          value: "3"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SliceInfo
+      fields:
+        - name: sliceServiceType
+          type:
+            name: byte
+        - name: sliceDifferentiator
+          type:
+            name: int
+        - name: mappedHplmnSst
+          type:
+            name: byte
+        - name: mappedHplmnSd
+          type:
+            name: int
+        - name: status
+          type:
+            name: byte
+      constants:
+        - name: SERVICE_TYPE_NONE
+          type: byte
+          value: "0"
+        - name: SERVICE_TYPE_EMBB
+          type: byte
+          value: "1"
+        - name: SERVICE_TYPE_URLLC
+          type: byte
+          value: "2"
+        - name: SERVICE_TYPE_MIOT
+          type: byte
+          value: "3"
+        - name: STATUS_UNKNOWN
+          type: byte
+          value: "0"
+        - name: STATUS_CONFIGURED
+          type: byte
+          value: "1"
+        - name: STATUS_ALLOWED
+          type: byte
+          value: "2"
+        - name: STATUS_REJECTED_NOT_AVAILABLE_IN_PLMN
+          type: byte
+          value: "3"
+        - name: STATUS_REJECTED_NOT_AVAILABLE_IN_REG_AREA
+          type: byte
+          value: "4"
+        - name: STATUS_DEFAULT_CONFIGURED
+          type: byte
+          value: "5"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SlicingConfig
+      fields:
+        - name: urspRules
+          type:
+            name: UrspRule
+            is_array: true
+        - name: sliceInfo
+          type:
+            name: SliceInfo
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: TrafficDescriptor
+      fields:
+        - name: dnn
+          type:
+            name: String
+          annotations:
+            - nullable
+        - name: osAppId
+          type:
+            name: OsAppId
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: UrspRule
+      fields:
+        - name: precedence
+          type:
+            name: int
+        - name: trafficDescriptors
+          type:
+            name: TrafficDescriptor
+            is_array: true
+        - name: routeSelectionDescriptor
+          type:
+            name: RouteSelectionDescriptor
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+enums:
+    - name: ApnAuthType
+      backing_type: int
+      values:
+        - name: NO_PAP_NO_CHAP
+          value: ""
+        - name: PAP_NO_CHAP
+          value: ""
+        - name: NO_PAP_CHAP
+          value: ""
+        - name: PAP_CHAP
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: ApnTypes
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: DEFAULT
+          value: 1 << 0
+        - name: MMS
+          value: 1 << 1
+        - name: SUPL
+          value: 1 << 2
+        - name: DUN
+          value: 1 << 3
+        - name: HIPRI
+          value: 1 << 4
+        - name: FOTA
+          value: 1 << 5
+        - name: IMS
+          value: 1 << 6
+        - name: CBS
+          value: 1 << 7
+        - name: IA
+          value: 1 << 8
+        - name: EMERGENCY
+          value: 1 << 9
+        - name: MCX
+          value: 1 << 10
+        - name: XCAP
+          value: 1 << 11
+        - name: VSIM
+          value: 1 << 12
+        - name: BIP
+          value: 1 << 13
+        - name: ENTERPRISE
+          value: 1 << 14
+        - name: RCS
+          value: 1 << 15
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: DataCallFailCause
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: OPERATOR_BARRED
+          value: "0x08"
+        - name: NAS_SIGNALLING
+          value: "0x0E"
+        - name: INSUFFICIENT_RESOURCES
+          value: "0x1A"
+        - name: MISSING_UNKNOWN_APN
+          value: "0x1B"
+        - name: UNKNOWN_PDP_ADDRESS_TYPE
+          value: "0x1C"
+        - name: USER_AUTHENTICATION
+          value: "0x1D"
+        - name: ACTIVATION_REJECT_GGSN
+          value: "0x1E"
+        - name: ACTIVATION_REJECT_UNSPECIFIED
+          value: "0x1F"
+        - name: SERVICE_OPTION_NOT_SUPPORTED
+          value: "0x20"
+        - name: SERVICE_OPTION_NOT_SUBSCRIBED
+          value: "0x21"
+        - name: SERVICE_OPTION_OUT_OF_ORDER
+          value: "0x22"
+        - name: NSAPI_IN_USE
+          value: "0x23"
+        - name: REGULAR_DEACTIVATION
+          value: "0x24"
+        - name: QOS_NOT_ACCEPTED
+          value: "0x25"
+        - name: NETWORK_FAILURE
+          value: "0x26"
+        - name: UMTS_REACTIVATION_REQ
+          value: "0x27"
+        - name: FEATURE_NOT_SUPP
+          value: "0x28"
+        - name: TFT_SEMANTIC_ERROR
+          value: "0x29"
+        - name: TFT_SYTAX_ERROR
+          value: "0x2A"
+        - name: UNKNOWN_PDP_CONTEXT
+          value: "0x2B"
+        - name: FILTER_SEMANTIC_ERROR
+          value: "0x2C"
+        - name: FILTER_SYTAX_ERROR
+          value: "0x2D"
+        - name: PDP_WITHOUT_ACTIVE_TFT
+          value: "0x2E"
+        - name: ONLY_IPV4_ALLOWED
+          value: "0x32"
+        - name: ONLY_IPV6_ALLOWED
+          value: "0x33"
+        - name: ONLY_SINGLE_BEARER_ALLOWED
+          value: "0x34"
+        - name: ESM_INFO_NOT_RECEIVED
+          value: "0x35"
+        - name: PDN_CONN_DOES_NOT_EXIST
+          value: "0x36"
+        - name: MULTI_CONN_TO_SAME_PDN_NOT_ALLOWED
+          value: "0x37"
+        - name: MAX_ACTIVE_PDP_CONTEXT_REACHED
+          value: "0x41"
+        - name: UNSUPPORTED_APN_IN_CURRENT_PLMN
+          value: "0x42"
+        - name: INVALID_TRANSACTION_ID
+          value: "0x51"
+        - name: MESSAGE_INCORRECT_SEMANTIC
+          value: "0x5F"
+        - name: INVALID_MANDATORY_INFO
+          value: "0x60"
+        - name: MESSAGE_TYPE_UNSUPPORTED
+          value: "0x61"
+        - name: MSG_TYPE_NONCOMPATIBLE_STATE
+          value: "0x62"
+        - name: UNKNOWN_INFO_ELEMENT
+          value: "0x63"
+        - name: CONDITIONAL_IE_ERROR
+          value: "0x64"
+        - name: MSG_AND_PROTOCOL_STATE_UNCOMPATIBLE
+          value: "0x65"
+        - name: PROTOCOL_ERRORS
+          value: "0x6F"
+        - name: APN_TYPE_CONFLICT
+          value: "0x70"
+        - name: INVALID_PCSCF_ADDR
+          value: "0x71"
+        - name: INTERNAL_CALL_PREEMPT_BY_HIGH_PRIO_APN
+          value: "0x72"
+        - name: EMM_ACCESS_BARRED
+          value: "0x73"
+        - name: EMERGENCY_IFACE_ONLY
+          value: "0x74"
+        - name: IFACE_MISMATCH
+          value: "0x75"
+        - name: COMPANION_IFACE_IN_USE
+          value: "0x76"
+        - name: IP_ADDRESS_MISMATCH
+          value: "0x77"
+        - name: IFACE_AND_POL_FAMILY_MISMATCH
+          value: "0x78"
+        - name: EMM_ACCESS_BARRED_INFINITE_RETRY
+          value: "0x79"
+        - name: AUTH_FAILURE_ON_EMERGENCY_CALL
+          value: "0x7A"
+        - name: OEM_DCFAILCAUSE_1
+          value: "0x1001"
+        - name: OEM_DCFAILCAUSE_2
+          value: "0x1002"
+        - name: OEM_DCFAILCAUSE_3
+          value: "0x1003"
+        - name: OEM_DCFAILCAUSE_4
+          value: "0x1004"
+        - name: OEM_DCFAILCAUSE_5
+          value: "0x1005"
+        - name: OEM_DCFAILCAUSE_6
+          value: "0x1006"
+        - name: OEM_DCFAILCAUSE_7
+          value: "0x1007"
+        - name: OEM_DCFAILCAUSE_8
+          value: "0x1008"
+        - name: OEM_DCFAILCAUSE_9
+          value: "0x1009"
+        - name: OEM_DCFAILCAUSE_10
+          value: "0x100A"
+        - name: OEM_DCFAILCAUSE_11
+          value: "0x100B"
+        - name: OEM_DCFAILCAUSE_12
+          value: "0x100C"
+        - name: OEM_DCFAILCAUSE_13
+          value: "0x100D"
+        - name: OEM_DCFAILCAUSE_14
+          value: "0x100E"
+        - name: OEM_DCFAILCAUSE_15
+          value: "0x100F"
+        - name: VOICE_REGISTRATION_FAIL
+          value: "-1"
+        - name: DATA_REGISTRATION_FAIL
+          value: "-2"
+        - name: SIGNAL_LOST
+          value: "-3"
+        - name: PREF_RADIO_TECH_CHANGED
+          value: "-4"
+        - name: RADIO_POWER_OFF
+          value: "-5"
+        - name: TETHERED_CALL_ACTIVE
+          value: "-6"
+        - name: ERROR_UNSPECIFIED
+          value: "0xffff"
+        - name: LLC_SNDCP
+          value: "0x19"
+        - name: ACTIVATION_REJECTED_BCM_VIOLATION
+          value: "0x30"
+        - name: COLLISION_WITH_NETWORK_INITIATED_REQUEST
+          value: "0x38"
+        - name: ONLY_IPV4V6_ALLOWED
+          value: "0x39"
+        - name: ONLY_NON_IP_ALLOWED
+          value: "0x3A"
+        - name: UNSUPPORTED_QCI_VALUE
+          value: "0x3B"
+        - name: BEARER_HANDLING_NOT_SUPPORTED
+          value: "0x3C"
+        - name: INVALID_DNS_ADDR
+          value: "0x7B"
+        - name: INVALID_PCSCF_OR_DNS_ADDRESS
+          value: "0x7C"
+        - name: CALL_PREEMPT_BY_EMERGENCY_APN
+          value: "0x7F"
+        - name: UE_INITIATED_DETACH_OR_DISCONNECT
+          value: "0x80"
+        - name: MIP_FA_REASON_UNSPECIFIED
+          value: "0x7D0"
+        - name: MIP_FA_ADMIN_PROHIBITED
+          value: "0x7D1"
+        - name: MIP_FA_INSUFFICIENT_RESOURCES
+          value: "0x7D2"
+        - name: MIP_FA_MOBILE_NODE_AUTHENTICATION_FAILURE
+          value: "0x7D3"
+        - name: MIP_FA_HOME_AGENT_AUTHENTICATION_FAILURE
+          value: "0x7D4"
+        - name: MIP_FA_REQUESTED_LIFETIME_TOO_LONG
+          value: "0x7D5"
+        - name: MIP_FA_MALFORMED_REQUEST
+          value: "0x7D6"
+        - name: MIP_FA_MALFORMED_REPLY
+          value: "0x7D7"
+        - name: MIP_FA_ENCAPSULATION_UNAVAILABLE
+          value: "0x7D8"
+        - name: MIP_FA_VJ_HEADER_COMPRESSION_UNAVAILABLE
+          value: "0x7D9"
+        - name: MIP_FA_REVERSE_TUNNEL_UNAVAILABLE
+          value: "0x7DA"
+        - name: MIP_FA_REVERSE_TUNNEL_IS_MANDATORY
+          value: "0x7DB"
+        - name: MIP_FA_DELIVERY_STYLE_NOT_SUPPORTED
+          value: "0x7DC"
+        - name: MIP_FA_MISSING_NAI
+          value: "0x7DD"
+        - name: MIP_FA_MISSING_HOME_AGENT
+          value: "0x7DE"
+        - name: MIP_FA_MISSING_HOME_ADDRESS
+          value: "0x7DF"
+        - name: MIP_FA_UNKNOWN_CHALLENGE
+          value: "0x7E0"
+        - name: MIP_FA_MISSING_CHALLENGE
+          value: "0x7E1"
+        - name: MIP_FA_STALE_CHALLENGE
+          value: "0x7E2"
+        - name: MIP_HA_REASON_UNSPECIFIED
+          value: "0x7E3"
+        - name: MIP_HA_ADMIN_PROHIBITED
+          value: "0x7E4"
+        - name: MIP_HA_INSUFFICIENT_RESOURCES
+          value: "0x7E5"
+        - name: MIP_HA_MOBILE_NODE_AUTHENTICATION_FAILURE
+          value: "0x7E6"
+        - name: MIP_HA_FOREIGN_AGENT_AUTHENTICATION_FAILURE
+          value: "0x7E7"
+        - name: MIP_HA_REGISTRATION_ID_MISMATCH
+          value: "0x7E8"
+        - name: MIP_HA_MALFORMED_REQUEST
+          value: "0x7E9"
+        - name: MIP_HA_UNKNOWN_HOME_AGENT_ADDRESS
+          value: "0x7EA"
+        - name: MIP_HA_REVERSE_TUNNEL_UNAVAILABLE
+          value: "0x7EB"
+        - name: MIP_HA_REVERSE_TUNNEL_IS_MANDATORY
+          value: "0x7EC"
+        - name: MIP_HA_ENCAPSULATION_UNAVAILABLE
+          value: "0x7ED"
+        - name: CLOSE_IN_PROGRESS
+          value: "0x7EE"
+        - name: NETWORK_INITIATED_TERMINATION
+          value: "0x7EF"
+        - name: MODEM_APP_PREEMPTED
+          value: "0x7F0"
+        - name: PDN_IPV4_CALL_DISALLOWED
+          value: "0x7F1"
+        - name: PDN_IPV4_CALL_THROTTLED
+          value: "0x7F2"
+        - name: PDN_IPV6_CALL_DISALLOWED
+          value: "0x7F3"
+        - name: PDN_IPV6_CALL_THROTTLED
+          value: "0x7F4"
+        - name: MODEM_RESTART
+          value: "0x7F5"
+        - name: PDP_PPP_NOT_SUPPORTED
+          value: "0x7F6"
+        - name: UNPREFERRED_RAT
+          value: "0x7F7"
+        - name: PHYSICAL_LINK_CLOSE_IN_PROGRESS
+          value: "0x7F8"
+        - name: APN_PENDING_HANDOVER
+          value: "0x7F9"
+        - name: PROFILE_BEARER_INCOMPATIBLE
+          value: "0x7FA"
+        - name: SIM_CARD_CHANGED
+          value: "0x7FB"
+        - name: LOW_POWER_MODE_OR_POWERING_DOWN
+          value: "0x7FC"
+        - name: APN_DISABLED
+          value: "0x7FD"
+        - name: MAX_PPP_INACTIVITY_TIMER_EXPIRED
+          value: "0x7FE"
+        - name: IPV6_ADDRESS_TRANSFER_FAILED
+          value: "0x7FF"
+        - name: TRAT_SWAP_FAILED
+          value: "0x800"
+        - name: EHRPD_TO_HRPD_FALLBACK
+          value: "0x801"
+        - name: MIP_CONFIG_FAILURE
+          value: "0x802"
+        - name: PDN_INACTIVITY_TIMER_EXPIRED
+          value: "0x803"
+        - name: MAX_IPV4_CONNECTIONS
+          value: "0x804"
+        - name: MAX_IPV6_CONNECTIONS
+          value: "0x805"
+        - name: APN_MISMATCH
+          value: "0x806"
+        - name: IP_VERSION_MISMATCH
+          value: "0x807"
+        - name: DUN_CALL_DISALLOWED
+          value: "0x808"
+        - name: INTERNAL_EPC_NONEPC_TRANSITION
+          value: "0x809"
+        - name: INTERFACE_IN_USE
+          value: "0x80A"
+        - name: APN_DISALLOWED_ON_ROAMING
+          value: "0x80B"
+        - name: APN_PARAMETERS_CHANGED
+          value: "0x80C"
+        - name: NULL_APN_DISALLOWED
+          value: "0x80D"
+        - name: THERMAL_MITIGATION
+          value: "0x80E"
+        - name: DATA_SETTINGS_DISABLED
+          value: "0x80F"
+        - name: DATA_ROAMING_SETTINGS_DISABLED
+          value: "0x810"
+        - name: DDS_SWITCHED
+          value: "0x811"
+        - name: FORBIDDEN_APN_NAME
+          value: "0x812"
+        - name: DDS_SWITCH_IN_PROGRESS
+          value: "0x813"
+        - name: CALL_DISALLOWED_IN_ROAMING
+          value: "0x814"
+        - name: NON_IP_NOT_SUPPORTED
+          value: "0x815"
+        - name: PDN_NON_IP_CALL_THROTTLED
+          value: "0x816"
+        - name: PDN_NON_IP_CALL_DISALLOWED
+          value: "0x817"
+        - name: CDMA_LOCK
+          value: "0x818"
+        - name: CDMA_INTERCEPT
+          value: "0x819"
+        - name: CDMA_REORDER
+          value: "0x81A"
+        - name: CDMA_RELEASE_DUE_TO_SO_REJECTION
+          value: "0x81B"
+        - name: CDMA_INCOMING_CALL
+          value: "0x81C"
+        - name: CDMA_ALERT_STOP
+          value: "0x81D"
+        - name: CHANNEL_ACQUISITION_FAILURE
+          value: "0x81E"
+        - name: MAX_ACCESS_PROBE
+          value: "0x81F"
+        - name: CONCURRENT_SERVICE_NOT_SUPPORTED_BY_BASE_STATION
+          value: "0x820"
+        - name: NO_RESPONSE_FROM_BASE_STATION
+          value: "0x821"
+        - name: REJECTED_BY_BASE_STATION
+          value: "0x822"
+        - name: CONCURRENT_SERVICES_INCOMPATIBLE
+          value: "0x823"
+        - name: NO_CDMA_SERVICE
+          value: "0x824"
+        - name: RUIM_NOT_PRESENT
+          value: "0x825"
+        - name: CDMA_RETRY_ORDER
+          value: "0x826"
+        - name: ACCESS_BLOCK
+          value: "0x827"
+        - name: ACCESS_BLOCK_ALL
+          value: "0x828"
+        - name: IS707B_MAX_ACCESS_PROBES
+          value: "0x829"
+        - name: THERMAL_EMERGENCY
+          value: "0x82A"
+        - name: CONCURRENT_SERVICES_NOT_ALLOWED
+          value: "0x82B"
+        - name: INCOMING_CALL_REJECTED
+          value: "0x82C"
+        - name: NO_SERVICE_ON_GATEWAY
+          value: "0x82D"
+        - name: NO_GPRS_CONTEXT
+          value: "0x82E"
+        - name: ILLEGAL_MS
+          value: "0x82F"
+        - name: ILLEGAL_ME
+          value: "0x830"
+        - name: GPRS_SERVICES_AND_NON_GPRS_SERVICES_NOT_ALLOWED
+          value: "0x831"
+        - name: GPRS_SERVICES_NOT_ALLOWED
+          value: "0x832"
+        - name: MS_IDENTITY_CANNOT_BE_DERIVED_BY_THE_NETWORK
+          value: "0x833"
+        - name: IMPLICITLY_DETACHED
+          value: "0x834"
+        - name: PLMN_NOT_ALLOWED
+          value: "0x835"
+        - name: LOCATION_AREA_NOT_ALLOWED
+          value: "0x836"
+        - name: GPRS_SERVICES_NOT_ALLOWED_IN_THIS_PLMN
+          value: "0x837"
+        - name: PDP_DUPLICATE
+          value: "0x838"
+        - name: UE_RAT_CHANGE
+          value: "0x839"
+        - name: CONGESTION
+          value: "0x83A"
+        - name: NO_PDP_CONTEXT_ACTIVATED
+          value: "0x83B"
+        - name: ACCESS_CLASS_DSAC_REJECTION
+          value: "0x83C"
+        - name: PDP_ACTIVATE_MAX_RETRY_FAILED
+          value: "0x83D"
+        - name: RADIO_ACCESS_BEARER_FAILURE
+          value: "0x83E"
+        - name: ESM_UNKNOWN_EPS_BEARER_CONTEXT
+          value: "0x83F"
+        - name: DRB_RELEASED_BY_RRC
+          value: "0x840"
+        - name: CONNECTION_RELEASED
+          value: "0x841"
+        - name: EMM_DETACHED
+          value: "0x842"
+        - name: EMM_ATTACH_FAILED
+          value: "0x843"
+        - name: EMM_ATTACH_STARTED
+          value: "0x844"
+        - name: LTE_NAS_SERVICE_REQUEST_FAILED
+          value: "0x845"
+        - name: DUPLICATE_BEARER_ID
+          value: "0x846"
+        - name: ESM_COLLISION_SCENARIOS
+          value: "0x847"
+        - name: ESM_BEARER_DEACTIVATED_TO_SYNC_WITH_NETWORK
+          value: "0x848"
+        - name: ESM_NW_ACTIVATED_DED_BEARER_WITH_ID_OF_DEF_BEARER
+          value: "0x849"
+        - name: ESM_BAD_OTA_MESSAGE
+          value: "0x84A"
+        - name: ESM_DOWNLOAD_SERVER_REJECTED_THE_CALL
+          value: "0x84B"
+        - name: ESM_CONTEXT_TRANSFERRED_DUE_TO_IRAT
+          value: "0x84C"
+        - name: DS_EXPLICIT_DEACTIVATION
+          value: "0x84D"
+        - name: ESM_LOCAL_CAUSE_NONE
+          value: "0x84E"
+        - name: LTE_THROTTLING_NOT_REQUIRED
+          value: "0x84F"
+        - name: ACCESS_CONTROL_LIST_CHECK_FAILURE
+          value: "0x850"
+        - name: SERVICE_NOT_ALLOWED_ON_PLMN
+          value: "0x851"
+        - name: EMM_T3417_EXPIRED
+          value: "0x852"
+        - name: EMM_T3417_EXT_EXPIRED
+          value: "0x853"
+        - name: RRC_UPLINK_DATA_TRANSMISSION_FAILURE
+          value: "0x854"
+        - name: RRC_UPLINK_DELIVERY_FAILED_DUE_TO_HANDOVER
+          value: "0x855"
+        - name: RRC_UPLINK_CONNECTION_RELEASE
+          value: "0x856"
+        - name: RRC_UPLINK_RADIO_LINK_FAILURE
+          value: "0x857"
+        - name: RRC_UPLINK_ERROR_REQUEST_FROM_NAS
+          value: "0x858"
+        - name: RRC_CONNECTION_ACCESS_STRATUM_FAILURE
+          value: "0x859"
+        - name: RRC_CONNECTION_ANOTHER_PROCEDURE_IN_PROGRESS
+          value: "0x85A"
+        - name: RRC_CONNECTION_ACCESS_BARRED
+          value: "0x85B"
+        - name: RRC_CONNECTION_CELL_RESELECTION
+          value: "0x85C"
+        - name: RRC_CONNECTION_CONFIG_FAILURE
+          value: "0x85D"
+        - name: RRC_CONNECTION_TIMER_EXPIRED
+          value: "0x85E"
+        - name: RRC_CONNECTION_LINK_FAILURE
+          value: "0x85F"
+        - name: RRC_CONNECTION_CELL_NOT_CAMPED
+          value: "0x860"
+        - name: RRC_CONNECTION_SYSTEM_INTERVAL_FAILURE
+          value: "0x861"
+        - name: RRC_CONNECTION_REJECT_BY_NETWORK
+          value: "0x862"
+        - name: RRC_CONNECTION_NORMAL_RELEASE
+          value: "0x863"
+        - name: RRC_CONNECTION_RADIO_LINK_FAILURE
+          value: "0x864"
+        - name: RRC_CONNECTION_REESTABLISHMENT_FAILURE
+          value: "0x865"
+        - name: RRC_CONNECTION_OUT_OF_SERVICE_DURING_CELL_REGISTER
+          value: "0x866"
+        - name: RRC_CONNECTION_ABORT_REQUEST
+          value: "0x867"
+        - name: RRC_CONNECTION_SYSTEM_INFORMATION_BLOCK_READ_ERROR
+          value: "0x868"
+        - name: NETWORK_INITIATED_DETACH_WITH_AUTO_REATTACH
+          value: "0x869"
+        - name: NETWORK_INITIATED_DETACH_NO_AUTO_REATTACH
+          value: "0x86A"
+        - name: ESM_PROCEDURE_TIME_OUT
+          value: "0x86B"
+        - name: INVALID_CONNECTION_ID
+          value: "0x86C"
+        - name: MAXIMIUM_NSAPIS_EXCEEDED
+          value: "0x86D"
+        - name: INVALID_PRIMARY_NSAPI
+          value: "0x86E"
+        - name: CANNOT_ENCODE_OTA_MESSAGE
+          value: "0x86F"
+        - name: RADIO_ACCESS_BEARER_SETUP_FAILURE
+          value: "0x870"
+        - name: PDP_ESTABLISH_TIMEOUT_EXPIRED
+          value: "0x871"
+        - name: PDP_MODIFY_TIMEOUT_EXPIRED
+          value: "0x872"
+        - name: PDP_INACTIVE_TIMEOUT_EXPIRED
+          value: "0x873"
+        - name: PDP_LOWERLAYER_ERROR
+          value: "0x874"
+        - name: PDP_MODIFY_COLLISION
+          value: "0x875"
+        - name: MAXINUM_SIZE_OF_L2_MESSAGE_EXCEEDED
+          value: "0x876"
+        - name: MAXIMUM_SIZE_OF_L2_MESSAGE_EXCEEDED
+          value: "0x876"
+        - name: NAS_REQUEST_REJECTED_BY_NETWORK
+          value: "0x877"
+        - name: RRC_CONNECTION_INVALID_REQUEST
+          value: "0x878"
+        - name: RRC_CONNECTION_TRACKING_AREA_ID_CHANGED
+          value: "0x879"
+        - name: RRC_CONNECTION_RF_UNAVAILABLE
+          value: "0x87A"
+        - name: RRC_CONNECTION_ABORTED_DUE_TO_IRAT_CHANGE
+          value: "0x87B"
+        - name: RRC_CONNECTION_RELEASED_SECURITY_NOT_ACTIVE
+          value: "0x87C"
+        - name: RRC_CONNECTION_ABORTED_AFTER_HANDOVER
+          value: "0x87D"
+        - name: RRC_CONNECTION_ABORTED_AFTER_IRAT_CELL_CHANGE
+          value: "0x87E"
+        - name: RRC_CONNECTION_ABORTED_DURING_IRAT_CELL_CHANGE
+          value: "0x87F"
+        - name: IMSI_UNKNOWN_IN_HOME_SUBSCRIBER_SERVER
+          value: "0x880"
+        - name: IMEI_NOT_ACCEPTED
+          value: "0x881"
+        - name: EPS_SERVICES_AND_NON_EPS_SERVICES_NOT_ALLOWED
+          value: "0x882"
+        - name: EPS_SERVICES_NOT_ALLOWED_IN_PLMN
+          value: "0x883"
+        - name: MSC_TEMPORARILY_NOT_REACHABLE
+          value: "0x884"
+        - name: CS_DOMAIN_NOT_AVAILABLE
+          value: "0x885"
+        - name: ESM_FAILURE
+          value: "0x886"
+        - name: MAC_FAILURE
+          value: "0x887"
+        - name: SYNCHRONIZATION_FAILURE
+          value: "0x888"
+        - name: UE_SECURITY_CAPABILITIES_MISMATCH
+          value: "0x889"
+        - name: SECURITY_MODE_REJECTED
+          value: "0x88A"
+        - name: UNACCEPTABLE_NON_EPS_AUTHENTICATION
+          value: "0x88B"
+        - name: CS_FALLBACK_CALL_ESTABLISHMENT_NOT_ALLOWED
+          value: "0x88C"
+        - name: NO_EPS_BEARER_CONTEXT_ACTIVATED
+          value: "0x88D"
+        - name: INVALID_EMM_STATE
+          value: "0x88E"
+        - name: NAS_LAYER_FAILURE
+          value: "0x88F"
+        - name: MULTIPLE_PDP_CALL_NOT_ALLOWED
+          value: "0x890"
+        - name: EMBMS_NOT_ENABLED
+          value: "0x891"
+        - name: IRAT_HANDOVER_FAILED
+          value: "0x892"
+        - name: EMBMS_REGULAR_DEACTIVATION
+          value: "0x893"
+        - name: TEST_LOOPBACK_REGULAR_DEACTIVATION
+          value: "0x894"
+        - name: LOWER_LAYER_REGISTRATION_FAILURE
+          value: "0x895"
+        - name: DATA_PLAN_EXPIRED
+          value: "0x896"
+        - name: UMTS_HANDOVER_TO_IWLAN
+          value: "0x897"
+        - name: EVDO_CONNECTION_DENY_BY_GENERAL_OR_NETWORK_BUSY
+          value: "0x898"
+        - name: EVDO_CONNECTION_DENY_BY_BILLING_OR_AUTHENTICATION_FAILURE
+          value: "0x899"
+        - name: EVDO_HDR_CHANGED
+          value: "0x89A"
+        - name: EVDO_HDR_EXITED
+          value: "0x89B"
+        - name: EVDO_HDR_NO_SESSION
+          value: "0x89C"
+        - name: EVDO_USING_GPS_FIX_INSTEAD_OF_HDR_CALL
+          value: "0x89D"
+        - name: EVDO_HDR_CONNECTION_SETUP_TIMEOUT
+          value: "0x89E"
+        - name: FAILED_TO_ACQUIRE_COLOCATED_HDR
+          value: "0x89F"
+        - name: OTASP_COMMIT_IN_PROGRESS
+          value: "0x8A0"
+        - name: NO_HYBRID_HDR_SERVICE
+          value: "0x8A1"
+        - name: HDR_NO_LOCK_GRANTED
+          value: "0x8A2"
+        - name: DBM_OR_SMS_IN_PROGRESS
+          value: "0x8A3"
+        - name: HDR_FADE
+          value: "0x8A4"
+        - name: HDR_ACCESS_FAILURE
+          value: "0x8A5"
+        - name: UNSUPPORTED_1X_PREV
+          value: "0x8A6"
+        - name: LOCAL_END
+          value: "0x8A7"
+        - name: NO_SERVICE
+          value: "0x8A8"
+        - name: FADE
+          value: "0x8A9"
+        - name: NORMAL_RELEASE
+          value: "0x8AA"
+        - name: ACCESS_ATTEMPT_ALREADY_IN_PROGRESS
+          value: "0x8AB"
+        - name: REDIRECTION_OR_HANDOFF_IN_PROGRESS
+          value: "0x8AC"
+        - name: EMERGENCY_MODE
+          value: "0x8AD"
+        - name: PHONE_IN_USE
+          value: "0x8AE"
+        - name: INVALID_MODE
+          value: "0x8AF"
+        - name: INVALID_SIM_STATE
+          value: "0x8B0"
+        - name: NO_COLLOCATED_HDR
+          value: "0x8B1"
+        - name: UE_IS_ENTERING_POWERSAVE_MODE
+          value: "0x8B2"
+        - name: DUAL_SWITCH
+          value: "0x8B3"
+        - name: PPP_TIMEOUT
+          value: "0x8B4"
+        - name: PPP_AUTH_FAILURE
+          value: "0x8B5"
+        - name: PPP_OPTION_MISMATCH
+          value: "0x8B6"
+        - name: PPP_PAP_FAILURE
+          value: "0x8B7"
+        - name: PPP_CHAP_FAILURE
+          value: "0x8B8"
+        - name: PPP_CLOSE_IN_PROGRESS
+          value: "0x8B9"
+        - name: LIMITED_TO_IPV4
+          value: "0x8BA"
+        - name: LIMITED_TO_IPV6
+          value: "0x8BB"
+        - name: VSNCP_TIMEOUT
+          value: "0x8BC"
+        - name: VSNCP_GEN_ERROR
+          value: "0x8BD"
+        - name: VSNCP_APN_UNAUTHORIZED
+          value: "0x8BE"
+        - name: VSNCP_PDN_LIMIT_EXCEEDED
+          value: "0x8BF"
+        - name: VSNCP_NO_PDN_GATEWAY_ADDRESS
+          value: "0x8C0"
+        - name: VSNCP_PDN_GATEWAY_UNREACHABLE
+          value: "0x8C1"
+        - name: VSNCP_PDN_GATEWAY_REJECT
+          value: "0x8C2"
+        - name: VSNCP_INSUFFICIENT_PARAMETERS
+          value: "0x8C3"
+        - name: VSNCP_RESOURCE_UNAVAILABLE
+          value: "0x8C4"
+        - name: VSNCP_ADMINISTRATIVELY_PROHIBITED
+          value: "0x8C5"
+        - name: VSNCP_PDN_ID_IN_USE
+          value: "0x8C6"
+        - name: VSNCP_SUBSCRIBER_LIMITATION
+          value: "0x8C7"
+        - name: VSNCP_PDN_EXISTS_FOR_THIS_APN
+          value: "0x8C8"
+        - name: VSNCP_RECONNECT_NOT_ALLOWED
+          value: "0x8C9"
+        - name: IPV6_PREFIX_UNAVAILABLE
+          value: "0x8CA"
+        - name: HANDOFF_PREFERENCE_CHANGED
+          value: "0x8CB"
+        - name: SLICE_REJECTED
+          value: "0x8CC"
+        - name: MATCH_ALL_RULE_NOT_ALLOWED
+          value: "0x8CD"
+        - name: ALL_MATCHING_RULES_FAILED
+          value: "0x8CE"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: DataRequestReason
+      backing_type: int
+      values:
+        - name: NORMAL
+          value: "1"
+        - name: SHUTDOWN
+          value: "2"
+        - name: HANDOVER
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: DataThrottlingAction
+      backing_type: byte
+      values:
+        - name: NO_DATA_THROTTLING
+          value: ""
+        - name: THROTTLE_SECONDARY_CARRIER
+          value: ""
+        - name: THROTTLE_ANCHOR_CARRIER
+          value: ""
+        - name: HOLD
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: PdpProtocolType
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "-1"
+        - name: IP
+          value: "0"
+        - name: IPV6
+          value: "1"
+        - name: IPV4V6
+          value: "2"
+        - name: PPP
+          value: "3"
+        - name: NON_IP
+          value: "4"
+        - name: UNSTRUCTURED
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+unions:
+    - name: Qos
+      fields:
+        - name: noinit
+          type:
+            name: boolean
+        - name: eps
+          type:
+            name: EpsQos
+        - name: nr
+          type:
+            name: NrQos
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: QosFilterIpsecSpi
+      fields:
+        - name: noinit
+          type:
+            name: boolean
+        - name: value
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: QosFilterIpv6FlowLabel
+      fields:
+        - name: noinit
+          type:
+            name: boolean
+        - name: value
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: QosFilterTypeOfService
+      fields:
+        - name: noinit
+          type:
+            name: boolean
+        - name: value
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+        - JavaDerive

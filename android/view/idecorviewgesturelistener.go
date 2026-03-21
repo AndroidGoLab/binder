@@ -46,6 +46,7 @@ func (p *DecorViewGestureListenerProxy) OnInterceptionChanged(
 	intercepted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDecorViewGestureListener)
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteBool(intercepted)
@@ -62,7 +63,8 @@ func (p *DecorViewGestureListenerProxy) OnInterceptionChanged(
 // DecorViewGestureListenerStub dispatches incoming binder transactions
 // to a typed IDecorViewGestureListener implementation.
 type DecorViewGestureListenerStub struct {
-	Impl IDecorViewGestureListener
+	Impl      IDecorViewGestureListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DecorViewGestureListenerStub)(nil)
@@ -76,21 +78,26 @@ func (s *DecorViewGestureListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDecorViewGestureListenerOnInterceptionChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
+		}
 		_arg_intercepted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnInterceptionChanged(ctx, _arg_windowToken, _arg_intercepted)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

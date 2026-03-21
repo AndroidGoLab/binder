@@ -121,8 +121,7 @@ func (u *FrontendStatus) GetIsDemodLocked() (bool, bool) {
 func (u *FrontendStatus) SetIsDemodLocked(
 	v bool,
 ) {
-	u.Tag = FrontendStatusTagIsDemodLocked
-	u.IsDemodLocked = v
+	*u = FrontendStatus{Tag: FrontendStatusTagIsDemodLocked, IsDemodLocked: v}
 }
 
 func (u *FrontendStatus) GetSnr() (int32, bool) {
@@ -136,8 +135,7 @@ func (u *FrontendStatus) GetSnr() (int32, bool) {
 func (u *FrontendStatus) SetSnr(
 	v int32,
 ) {
-	u.Tag = FrontendStatusTagSnr
-	u.Snr = v
+	*u = FrontendStatus{Tag: FrontendStatusTagSnr, Snr: v}
 }
 
 func (u *FrontendStatus) GetBer() (int32, bool) {
@@ -151,8 +149,7 @@ func (u *FrontendStatus) GetBer() (int32, bool) {
 func (u *FrontendStatus) SetBer(
 	v int32,
 ) {
-	u.Tag = FrontendStatusTagBer
-	u.Ber = v
+	*u = FrontendStatus{Tag: FrontendStatusTagBer, Ber: v}
 }
 
 func (u *FrontendStatus) GetPer() (int32, bool) {
@@ -166,8 +163,7 @@ func (u *FrontendStatus) GetPer() (int32, bool) {
 func (u *FrontendStatus) SetPer(
 	v int32,
 ) {
-	u.Tag = FrontendStatusTagPer
-	u.Per = v
+	*u = FrontendStatus{Tag: FrontendStatusTagPer, Per: v}
 }
 
 func (u *FrontendStatus) GetPreBer() (int32, bool) {
@@ -181,8 +177,7 @@ func (u *FrontendStatus) GetPreBer() (int32, bool) {
 func (u *FrontendStatus) SetPreBer(
 	v int32,
 ) {
-	u.Tag = FrontendStatusTagPreBer
-	u.PreBer = v
+	*u = FrontendStatus{Tag: FrontendStatusTagPreBer, PreBer: v}
 }
 
 func (u *FrontendStatus) GetSignalQuality() (int32, bool) {
@@ -196,8 +191,7 @@ func (u *FrontendStatus) GetSignalQuality() (int32, bool) {
 func (u *FrontendStatus) SetSignalQuality(
 	v int32,
 ) {
-	u.Tag = FrontendStatusTagSignalQuality
-	u.SignalQuality = v
+	*u = FrontendStatus{Tag: FrontendStatusTagSignalQuality, SignalQuality: v}
 }
 
 func (u *FrontendStatus) GetSignalStrength() (int32, bool) {
@@ -211,8 +205,7 @@ func (u *FrontendStatus) GetSignalStrength() (int32, bool) {
 func (u *FrontendStatus) SetSignalStrength(
 	v int32,
 ) {
-	u.Tag = FrontendStatusTagSignalStrength
-	u.SignalStrength = v
+	*u = FrontendStatus{Tag: FrontendStatusTagSignalStrength, SignalStrength: v}
 }
 
 func (u *FrontendStatus) GetSymbolRate() (int32, bool) {
@@ -226,8 +219,7 @@ func (u *FrontendStatus) GetSymbolRate() (int32, bool) {
 func (u *FrontendStatus) SetSymbolRate(
 	v int32,
 ) {
-	u.Tag = FrontendStatusTagSymbolRate
-	u.SymbolRate = v
+	*u = FrontendStatus{Tag: FrontendStatusTagSymbolRate, SymbolRate: v}
 }
 
 func (u *FrontendStatus) GetInnerFec() (FrontendInnerFec, bool) {
@@ -241,8 +233,7 @@ func (u *FrontendStatus) GetInnerFec() (FrontendInnerFec, bool) {
 func (u *FrontendStatus) SetInnerFec(
 	v FrontendInnerFec,
 ) {
-	u.Tag = FrontendStatusTagInnerFec
-	u.InnerFec = v
+	*u = FrontendStatus{Tag: FrontendStatusTagInnerFec, InnerFec: v}
 }
 
 func (u *FrontendStatus) GetModulationStatus() (FrontendModulationStatus, bool) {
@@ -256,8 +247,7 @@ func (u *FrontendStatus) GetModulationStatus() (FrontendModulationStatus, bool) 
 func (u *FrontendStatus) SetModulationStatus(
 	v FrontendModulationStatus,
 ) {
-	u.Tag = FrontendStatusTagModulationStatus
-	u.ModulationStatus = v
+	*u = FrontendStatus{Tag: FrontendStatusTagModulationStatus, ModulationStatus: v}
 }
 
 func (u *FrontendStatus) GetInversion() (FrontendSpectralInversion, bool) {
@@ -271,8 +261,7 @@ func (u *FrontendStatus) GetInversion() (FrontendSpectralInversion, bool) {
 func (u *FrontendStatus) SetInversion(
 	v FrontendSpectralInversion,
 ) {
-	u.Tag = FrontendStatusTagInversion
-	u.Inversion = v
+	*u = FrontendStatus{Tag: FrontendStatusTagInversion, Inversion: v}
 }
 
 func (u *FrontendStatus) GetLnbVoltage() (LnbVoltage, bool) {
@@ -286,8 +275,7 @@ func (u *FrontendStatus) GetLnbVoltage() (LnbVoltage, bool) {
 func (u *FrontendStatus) SetLnbVoltage(
 	v LnbVoltage,
 ) {
-	u.Tag = FrontendStatusTagLnbVoltage
-	u.LnbVoltage = v
+	*u = FrontendStatus{Tag: FrontendStatusTagLnbVoltage, LnbVoltage: v}
 }
 
 func (u *FrontendStatus) GetPlpId() (int32, bool) {
@@ -301,8 +289,7 @@ func (u *FrontendStatus) GetPlpId() (int32, bool) {
 func (u *FrontendStatus) SetPlpId(
 	v int32,
 ) {
-	u.Tag = FrontendStatusTagPlpId
-	u.PlpId = v
+	*u = FrontendStatus{Tag: FrontendStatusTagPlpId, PlpId: v}
 }
 
 func (u *FrontendStatus) GetIsEWBS() (bool, bool) {
@@ -316,8 +303,7 @@ func (u *FrontendStatus) GetIsEWBS() (bool, bool) {
 func (u *FrontendStatus) SetIsEWBS(
 	v bool,
 ) {
-	u.Tag = FrontendStatusTagIsEWBS
-	u.IsEWBS = v
+	*u = FrontendStatus{Tag: FrontendStatusTagIsEWBS, IsEWBS: v}
 }
 
 func (u *FrontendStatus) GetAgc() (int32, bool) {
@@ -331,8 +317,7 @@ func (u *FrontendStatus) GetAgc() (int32, bool) {
 func (u *FrontendStatus) SetAgc(
 	v int32,
 ) {
-	u.Tag = FrontendStatusTagAgc
-	u.Agc = v
+	*u = FrontendStatus{Tag: FrontendStatusTagAgc, Agc: v}
 }
 
 func (u *FrontendStatus) GetIsLnaOn() (bool, bool) {
@@ -346,8 +331,7 @@ func (u *FrontendStatus) GetIsLnaOn() (bool, bool) {
 func (u *FrontendStatus) SetIsLnaOn(
 	v bool,
 ) {
-	u.Tag = FrontendStatusTagIsLnaOn
-	u.IsLnaOn = v
+	*u = FrontendStatus{Tag: FrontendStatusTagIsLnaOn, IsLnaOn: v}
 }
 
 func (u *FrontendStatus) GetIsLayerError() ([]bool, bool) {
@@ -361,8 +345,7 @@ func (u *FrontendStatus) GetIsLayerError() ([]bool, bool) {
 func (u *FrontendStatus) SetIsLayerError(
 	v []bool,
 ) {
-	u.Tag = FrontendStatusTagIsLayerError
-	u.IsLayerError = v
+	*u = FrontendStatus{Tag: FrontendStatusTagIsLayerError, IsLayerError: v}
 }
 
 func (u *FrontendStatus) GetMer() (int32, bool) {
@@ -376,8 +359,7 @@ func (u *FrontendStatus) GetMer() (int32, bool) {
 func (u *FrontendStatus) SetMer(
 	v int32,
 ) {
-	u.Tag = FrontendStatusTagMer
-	u.Mer = v
+	*u = FrontendStatus{Tag: FrontendStatusTagMer, Mer: v}
 }
 
 func (u *FrontendStatus) GetFreqOffset() (int64, bool) {
@@ -391,8 +373,7 @@ func (u *FrontendStatus) GetFreqOffset() (int64, bool) {
 func (u *FrontendStatus) SetFreqOffset(
 	v int64,
 ) {
-	u.Tag = FrontendStatusTagFreqOffset
-	u.FreqOffset = v
+	*u = FrontendStatus{Tag: FrontendStatusTagFreqOffset, FreqOffset: v}
 }
 
 func (u *FrontendStatus) GetHierarchy() (FrontendDvbtHierarchy, bool) {
@@ -406,8 +387,7 @@ func (u *FrontendStatus) GetHierarchy() (FrontendDvbtHierarchy, bool) {
 func (u *FrontendStatus) SetHierarchy(
 	v FrontendDvbtHierarchy,
 ) {
-	u.Tag = FrontendStatusTagHierarchy
-	u.Hierarchy = v
+	*u = FrontendStatus{Tag: FrontendStatusTagHierarchy, Hierarchy: v}
 }
 
 func (u *FrontendStatus) GetIsRfLocked() (bool, bool) {
@@ -421,8 +401,7 @@ func (u *FrontendStatus) GetIsRfLocked() (bool, bool) {
 func (u *FrontendStatus) SetIsRfLocked(
 	v bool,
 ) {
-	u.Tag = FrontendStatusTagIsRfLocked
-	u.IsRfLocked = v
+	*u = FrontendStatus{Tag: FrontendStatusTagIsRfLocked, IsRfLocked: v}
 }
 
 func (u *FrontendStatus) GetPlpInfo() ([]FrontendStatusAtsc3PlpInfo, bool) {
@@ -436,8 +415,7 @@ func (u *FrontendStatus) GetPlpInfo() ([]FrontendStatusAtsc3PlpInfo, bool) {
 func (u *FrontendStatus) SetPlpInfo(
 	v []FrontendStatusAtsc3PlpInfo,
 ) {
-	u.Tag = FrontendStatusTagPlpInfo
-	u.PlpInfo = v
+	*u = FrontendStatus{Tag: FrontendStatusTagPlpInfo, PlpInfo: v}
 }
 
 func (u *FrontendStatus) GetModulations() ([]FrontendModulation, bool) {
@@ -451,8 +429,7 @@ func (u *FrontendStatus) GetModulations() ([]FrontendModulation, bool) {
 func (u *FrontendStatus) SetModulations(
 	v []FrontendModulation,
 ) {
-	u.Tag = FrontendStatusTagModulations
-	u.Modulations = v
+	*u = FrontendStatus{Tag: FrontendStatusTagModulations, Modulations: v}
 }
 
 func (u *FrontendStatus) GetBers() ([]int32, bool) {
@@ -466,8 +443,7 @@ func (u *FrontendStatus) GetBers() ([]int32, bool) {
 func (u *FrontendStatus) SetBers(
 	v []int32,
 ) {
-	u.Tag = FrontendStatusTagBers
-	u.Bers = v
+	*u = FrontendStatus{Tag: FrontendStatusTagBers, Bers: v}
 }
 
 func (u *FrontendStatus) GetCodeRates() ([]FrontendInnerFec, bool) {
@@ -481,8 +457,7 @@ func (u *FrontendStatus) GetCodeRates() ([]FrontendInnerFec, bool) {
 func (u *FrontendStatus) SetCodeRates(
 	v []FrontendInnerFec,
 ) {
-	u.Tag = FrontendStatusTagCodeRates
-	u.CodeRates = v
+	*u = FrontendStatus{Tag: FrontendStatusTagCodeRates, CodeRates: v}
 }
 
 func (u *FrontendStatus) GetBandwidth() (FrontendBandwidth, bool) {
@@ -496,8 +471,7 @@ func (u *FrontendStatus) GetBandwidth() (FrontendBandwidth, bool) {
 func (u *FrontendStatus) SetBandwidth(
 	v FrontendBandwidth,
 ) {
-	u.Tag = FrontendStatusTagBandwidth
-	u.Bandwidth = v
+	*u = FrontendStatus{Tag: FrontendStatusTagBandwidth, Bandwidth: v}
 }
 
 func (u *FrontendStatus) GetInterval() (FrontendGuardInterval, bool) {
@@ -511,8 +485,7 @@ func (u *FrontendStatus) GetInterval() (FrontendGuardInterval, bool) {
 func (u *FrontendStatus) SetInterval(
 	v FrontendGuardInterval,
 ) {
-	u.Tag = FrontendStatusTagInterval
-	u.Interval = v
+	*u = FrontendStatus{Tag: FrontendStatusTagInterval, Interval: v}
 }
 
 func (u *FrontendStatus) GetTransmissionMode() (FrontendTransmissionMode, bool) {
@@ -526,8 +499,7 @@ func (u *FrontendStatus) GetTransmissionMode() (FrontendTransmissionMode, bool) 
 func (u *FrontendStatus) SetTransmissionMode(
 	v FrontendTransmissionMode,
 ) {
-	u.Tag = FrontendStatusTagTransmissionMode
-	u.TransmissionMode = v
+	*u = FrontendStatus{Tag: FrontendStatusTagTransmissionMode, TransmissionMode: v}
 }
 
 func (u *FrontendStatus) GetUec() (int32, bool) {
@@ -541,8 +513,7 @@ func (u *FrontendStatus) GetUec() (int32, bool) {
 func (u *FrontendStatus) SetUec(
 	v int32,
 ) {
-	u.Tag = FrontendStatusTagUec
-	u.Uec = v
+	*u = FrontendStatus{Tag: FrontendStatusTagUec, Uec: v}
 }
 
 func (u *FrontendStatus) GetSystemId() (int32, bool) {
@@ -556,8 +527,7 @@ func (u *FrontendStatus) GetSystemId() (int32, bool) {
 func (u *FrontendStatus) SetSystemId(
 	v int32,
 ) {
-	u.Tag = FrontendStatusTagSystemId
-	u.SystemId = v
+	*u = FrontendStatus{Tag: FrontendStatusTagSystemId, SystemId: v}
 }
 
 func (u *FrontendStatus) GetInterleaving() ([]FrontendInterleaveMode, bool) {
@@ -571,8 +541,7 @@ func (u *FrontendStatus) GetInterleaving() ([]FrontendInterleaveMode, bool) {
 func (u *FrontendStatus) SetInterleaving(
 	v []FrontendInterleaveMode,
 ) {
-	u.Tag = FrontendStatusTagInterleaving
-	u.Interleaving = v
+	*u = FrontendStatus{Tag: FrontendStatusTagInterleaving, Interleaving: v}
 }
 
 func (u *FrontendStatus) GetIsdbtSegment() ([]int32, bool) {
@@ -586,8 +555,7 @@ func (u *FrontendStatus) GetIsdbtSegment() ([]int32, bool) {
 func (u *FrontendStatus) SetIsdbtSegment(
 	v []int32,
 ) {
-	u.Tag = FrontendStatusTagIsdbtSegment
-	u.IsdbtSegment = v
+	*u = FrontendStatus{Tag: FrontendStatusTagIsdbtSegment, IsdbtSegment: v}
 }
 
 func (u *FrontendStatus) GetTsDataRate() ([]int32, bool) {
@@ -601,8 +569,7 @@ func (u *FrontendStatus) GetTsDataRate() ([]int32, bool) {
 func (u *FrontendStatus) SetTsDataRate(
 	v []int32,
 ) {
-	u.Tag = FrontendStatusTagTsDataRate
-	u.TsDataRate = v
+	*u = FrontendStatus{Tag: FrontendStatusTagTsDataRate, TsDataRate: v}
 }
 
 func (u *FrontendStatus) GetRollOff() (FrontendRollOff, bool) {
@@ -616,8 +583,7 @@ func (u *FrontendStatus) GetRollOff() (FrontendRollOff, bool) {
 func (u *FrontendStatus) SetRollOff(
 	v FrontendRollOff,
 ) {
-	u.Tag = FrontendStatusTagRollOff
-	u.RollOff = v
+	*u = FrontendStatus{Tag: FrontendStatusTagRollOff, RollOff: v}
 }
 
 func (u *FrontendStatus) GetIsMiso() (bool, bool) {
@@ -631,8 +597,7 @@ func (u *FrontendStatus) GetIsMiso() (bool, bool) {
 func (u *FrontendStatus) SetIsMiso(
 	v bool,
 ) {
-	u.Tag = FrontendStatusTagIsMiso
-	u.IsMiso = v
+	*u = FrontendStatus{Tag: FrontendStatusTagIsMiso, IsMiso: v}
 }
 
 func (u *FrontendStatus) GetIsLinear() (bool, bool) {
@@ -646,8 +611,7 @@ func (u *FrontendStatus) GetIsLinear() (bool, bool) {
 func (u *FrontendStatus) SetIsLinear(
 	v bool,
 ) {
-	u.Tag = FrontendStatusTagIsLinear
-	u.IsLinear = v
+	*u = FrontendStatus{Tag: FrontendStatusTagIsLinear, IsLinear: v}
 }
 
 func (u *FrontendStatus) GetIsShortFrames() (bool, bool) {
@@ -661,8 +625,7 @@ func (u *FrontendStatus) GetIsShortFrames() (bool, bool) {
 func (u *FrontendStatus) SetIsShortFrames(
 	v bool,
 ) {
-	u.Tag = FrontendStatusTagIsShortFrames
-	u.IsShortFrames = v
+	*u = FrontendStatus{Tag: FrontendStatusTagIsShortFrames, IsShortFrames: v}
 }
 
 func (u *FrontendStatus) GetIsdbtMode() (FrontendIsdbtMode, bool) {
@@ -676,8 +639,7 @@ func (u *FrontendStatus) GetIsdbtMode() (FrontendIsdbtMode, bool) {
 func (u *FrontendStatus) SetIsdbtMode(
 	v FrontendIsdbtMode,
 ) {
-	u.Tag = FrontendStatusTagIsdbtMode
-	u.IsdbtMode = v
+	*u = FrontendStatus{Tag: FrontendStatusTagIsdbtMode, IsdbtMode: v}
 }
 
 func (u *FrontendStatus) GetPartialReceptionFlag() (FrontendIsdbtPartialReceptionFlag, bool) {
@@ -691,8 +653,7 @@ func (u *FrontendStatus) GetPartialReceptionFlag() (FrontendIsdbtPartialReceptio
 func (u *FrontendStatus) SetPartialReceptionFlag(
 	v FrontendIsdbtPartialReceptionFlag,
 ) {
-	u.Tag = FrontendStatusTagPartialReceptionFlag
-	u.PartialReceptionFlag = v
+	*u = FrontendStatus{Tag: FrontendStatusTagPartialReceptionFlag, PartialReceptionFlag: v}
 }
 
 func (u *FrontendStatus) GetStreamIdList() ([]int32, bool) {
@@ -706,8 +667,7 @@ func (u *FrontendStatus) GetStreamIdList() ([]int32, bool) {
 func (u *FrontendStatus) SetStreamIdList(
 	v []int32,
 ) {
-	u.Tag = FrontendStatusTagStreamIdList
-	u.StreamIdList = v
+	*u = FrontendStatus{Tag: FrontendStatusTagStreamIdList, StreamIdList: v}
 }
 
 func (u *FrontendStatus) GetDvbtCellIds() ([]int32, bool) {
@@ -721,8 +681,7 @@ func (u *FrontendStatus) GetDvbtCellIds() ([]int32, bool) {
 func (u *FrontendStatus) SetDvbtCellIds(
 	v []int32,
 ) {
-	u.Tag = FrontendStatusTagDvbtCellIds
-	u.DvbtCellIds = v
+	*u = FrontendStatus{Tag: FrontendStatusTagDvbtCellIds, DvbtCellIds: v}
 }
 
 func (u *FrontendStatus) GetAllPlpInfo() ([]FrontendScanAtsc3PlpInfo, bool) {
@@ -736,8 +695,7 @@ func (u *FrontendStatus) GetAllPlpInfo() ([]FrontendScanAtsc3PlpInfo, bool) {
 func (u *FrontendStatus) SetAllPlpInfo(
 	v []FrontendScanAtsc3PlpInfo,
 ) {
-	u.Tag = FrontendStatusTagAllPlpInfo
-	u.AllPlpInfo = v
+	*u = FrontendStatus{Tag: FrontendStatusTagAllPlpInfo, AllPlpInfo: v}
 }
 
 func (u *FrontendStatus) GetIptvContentUrl() (string, bool) {
@@ -751,8 +709,7 @@ func (u *FrontendStatus) GetIptvContentUrl() (string, bool) {
 func (u *FrontendStatus) SetIptvContentUrl(
 	v string,
 ) {
-	u.Tag = FrontendStatusTagIptvContentUrl
-	u.IptvContentUrl = v
+	*u = FrontendStatus{Tag: FrontendStatusTagIptvContentUrl, IptvContentUrl: v}
 }
 
 func (u *FrontendStatus) GetIptvPacketsReceived() (int64, bool) {
@@ -766,8 +723,7 @@ func (u *FrontendStatus) GetIptvPacketsReceived() (int64, bool) {
 func (u *FrontendStatus) SetIptvPacketsReceived(
 	v int64,
 ) {
-	u.Tag = FrontendStatusTagIptvPacketsReceived
-	u.IptvPacketsReceived = v
+	*u = FrontendStatus{Tag: FrontendStatusTagIptvPacketsReceived, IptvPacketsReceived: v}
 }
 
 func (u *FrontendStatus) GetIptvPacketsLost() (int64, bool) {
@@ -781,8 +737,7 @@ func (u *FrontendStatus) GetIptvPacketsLost() (int64, bool) {
 func (u *FrontendStatus) SetIptvPacketsLost(
 	v int64,
 ) {
-	u.Tag = FrontendStatusTagIptvPacketsLost
-	u.IptvPacketsLost = v
+	*u = FrontendStatus{Tag: FrontendStatusTagIptvPacketsLost, IptvPacketsLost: v}
 }
 
 func (u *FrontendStatus) GetIptvWorstJitterMs() (int32, bool) {
@@ -796,8 +751,7 @@ func (u *FrontendStatus) GetIptvWorstJitterMs() (int32, bool) {
 func (u *FrontendStatus) SetIptvWorstJitterMs(
 	v int32,
 ) {
-	u.Tag = FrontendStatusTagIptvWorstJitterMs
-	u.IptvWorstJitterMs = v
+	*u = FrontendStatus{Tag: FrontendStatusTagIptvWorstJitterMs, IptvWorstJitterMs: v}
 }
 
 func (u *FrontendStatus) GetIptvAverageJitterMs() (int32, bool) {
@@ -811,8 +765,7 @@ func (u *FrontendStatus) GetIptvAverageJitterMs() (int32, bool) {
 func (u *FrontendStatus) SetIptvAverageJitterMs(
 	v int32,
 ) {
-	u.Tag = FrontendStatusTagIptvAverageJitterMs
-	u.IptvAverageJitterMs = v
+	*u = FrontendStatus{Tag: FrontendStatusTagIptvAverageJitterMs, IptvAverageJitterMs: v}
 }
 
 func (u *FrontendStatus) MarshalParcel(

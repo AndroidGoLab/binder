@@ -47,6 +47,7 @@ func (p *ObbActionListenerProxy) OnObbResult(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIObbActionListener)
 	_data.WriteString16(filename)
 	_data.WriteInt32(nonce)
@@ -64,7 +65,8 @@ func (p *ObbActionListenerProxy) OnObbResult(
 // ObbActionListenerStub dispatches incoming binder transactions
 // to a typed IObbActionListener implementation.
 type ObbActionListenerStub struct {
-	Impl IObbActionListener
+	Impl      IObbActionListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ObbActionListenerStub)(nil)
@@ -78,11 +80,12 @@ func (s *ObbActionListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIObbActionListenerOnObbResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_filename, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -96,8 +99,7 @@ func (s *ObbActionListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnObbResult(ctx, _arg_filename, _arg_nonce, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

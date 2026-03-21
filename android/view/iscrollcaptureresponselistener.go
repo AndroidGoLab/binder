@@ -45,6 +45,7 @@ func (p *ScrollCaptureResponseListenerProxy) OnScrollCaptureResponse(
 	response ScrollCaptureResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureResponseListener)
 	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *ScrollCaptureResponseListenerProxy) OnScrollCaptureResponse(
 // ScrollCaptureResponseListenerStub dispatches incoming binder transactions
 // to a typed IScrollCaptureResponseListener implementation.
 type ScrollCaptureResponseListenerStub struct {
-	Impl IScrollCaptureResponseListener
+	Impl      IScrollCaptureResponseListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ScrollCaptureResponseListenerStub)(nil)
@@ -77,11 +79,12 @@ func (s *ScrollCaptureResponseListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIScrollCaptureResponseListenerOnScrollCaptureResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_response ScrollCaptureResponse
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *ScrollCaptureResponseListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnScrollCaptureResponse(ctx, _arg_response)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

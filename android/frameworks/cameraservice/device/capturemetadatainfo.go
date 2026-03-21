@@ -31,8 +31,7 @@ func (u *CaptureMetadataInfo) GetFmqMetadataSize() (int64, bool) {
 func (u *CaptureMetadataInfo) SetFmqMetadataSize(
 	v int64,
 ) {
-	u.Tag = CaptureMetadataInfoTagFmqMetadataSize
-	u.FmqMetadataSize = v
+	*u = CaptureMetadataInfo{Tag: CaptureMetadataInfoTagFmqMetadataSize, FmqMetadataSize: v}
 }
 
 func (u *CaptureMetadataInfo) GetMetadata() (CameraMetadata, bool) {
@@ -46,8 +45,7 @@ func (u *CaptureMetadataInfo) GetMetadata() (CameraMetadata, bool) {
 func (u *CaptureMetadataInfo) SetMetadata(
 	v CameraMetadata,
 ) {
-	u.Tag = CaptureMetadataInfoTagMetadata
-	u.Metadata = v
+	*u = CaptureMetadataInfo{Tag: CaptureMetadataInfoTagMetadata, Metadata: v}
 }
 
 func (u *CaptureMetadataInfo) MarshalParcel(

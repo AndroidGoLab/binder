@@ -1,0 +1,46 @@
+package: android.content.integrity
+go_package: android/content/integrity
+interfaces:
+    - name: IAppIntegrityManager
+      descriptor: android.content.integrity.IAppIntegrityManager
+      methods:
+        - name: updateRuleSet
+          transaction_code_offset: 0
+          params:
+            - name: version
+              type:
+                name: String
+            - name: rules
+              type:
+                name: ParceledListSlice
+                type_args:
+                    - name: Rule
+              direction: in
+            - name: statusReceiver
+              type:
+                name: IntentSender
+              direction: in
+          return_type:
+            name: void
+        - name: getCurrentRuleSetVersion
+          transaction_code_offset: 1
+          return_type:
+            name: String
+        - name: getCurrentRuleSetProvider
+          transaction_code_offset: 2
+          return_type:
+            name: String
+        - name: getCurrentRules
+          transaction_code_offset: 3
+          return_type:
+            name: ParceledListSlice
+            type_args:
+                - name: Rule
+        - name: getWhitelistedRuleProviders
+          transaction_code_offset: 4
+          return_type:
+            name: List
+            type_args:
+                - name: String
+parcelables:
+    - name: Rule

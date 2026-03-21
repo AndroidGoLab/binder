@@ -21,9 +21,7 @@ const (
 	IInputConstantsInvalidInputEventId                         int32 = 0
 	IInputConstantsInvalidInputDeviceId                        int32 = -2
 	IInputConstantsPolicyFlagInjectedFromAccessibility         int32 = 131072
-	IInputConstantsInputEventFlagCanceled                      int32 = 32
 	IInputConstantsInputEventFlagIsAccessibilityEvent          int32 = 2048
-	IInputConstantsInputEventFlagTainted                       int32 = -2147483648
 	IInputConstantsDefaultPointerAcceleration                  int32 = 3
 	IInputConstantsVelocityTrackerStrategyDefault              int32 = -1
 	IInputConstantsVelocityTrackerStrategyImpulse              int32 = 0
@@ -57,7 +55,8 @@ var _ IInputConstants = (*InputConstantsProxy)(nil)
 // InputConstantsStub dispatches incoming binder transactions
 // to a typed IInputConstants implementation.
 type InputConstantsStub struct {
-	Impl IInputConstants
+	Impl      IInputConstants
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputConstantsStub)(nil)
@@ -71,6 +70,10 @@ func (s *InputConstantsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

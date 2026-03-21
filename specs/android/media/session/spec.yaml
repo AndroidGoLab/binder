@@ -1,0 +1,1469 @@
+package: android.media.session
+go_package: android/media/session
+interfaces:
+    - name: IActiveSessionsListener
+      descriptor: android.media.session.IActiveSessionsListener
+      oneway: true
+      methods:
+        - name: onActiveSessionsChanged
+          transaction_code_offset: 0
+          params:
+            - name: sessions
+              type:
+                name: List
+                type_args:
+                    - name: MediaSession.Token
+              direction: in
+          return_type:
+            name: void
+    - name: IOnMediaKeyEventDispatchedListener
+      descriptor: android.media.session.IOnMediaKeyEventDispatchedListener
+      oneway: true
+      methods:
+        - name: onMediaKeyEventDispatched
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: KeyEvent
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: sessionToken
+              type:
+                name: MediaSession.Token
+              direction: in
+          return_type:
+            name: void
+    - name: IOnMediaKeyEventSessionChangedListener
+      descriptor: android.media.session.IOnMediaKeyEventSessionChangedListener
+      oneway: true
+      methods:
+        - name: onMediaKeyEventSessionChanged
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: mediaKeyEventSessionToken
+              type:
+                name: MediaSession.Token
+              direction: in
+          return_type:
+            name: void
+    - name: IOnMediaKeyListener
+      descriptor: android.media.session.IOnMediaKeyListener
+      oneway: true
+      methods:
+        - name: onMediaKey
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: KeyEvent
+              direction: in
+            - name: result
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+    - name: IOnVolumeKeyLongPressListener
+      descriptor: android.media.session.IOnVolumeKeyLongPressListener
+      oneway: true
+      methods:
+        - name: onVolumeKeyLongPress
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: KeyEvent
+              direction: in
+          return_type:
+            name: void
+    - name: ISession
+      descriptor: android.media.session.ISession
+      methods:
+        - name: sendEvent
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: String
+            - name: data
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: getController
+          transaction_code_offset: 1
+          return_type:
+            name: ISessionController
+        - name: setFlags
+          transaction_code_offset: 2
+          params:
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setActive
+          transaction_code_offset: 3
+          params:
+            - name: active
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setMediaButtonReceiver
+          transaction_code_offset: 4
+          params:
+            - name: mbr
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: setMediaButtonBroadcastReceiver
+          transaction_code_offset: 5
+          params:
+            - name: broadcastReceiver
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: setLaunchPendingIntent
+          transaction_code_offset: 6
+          params:
+            - name: pi
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: destroySession
+          transaction_code_offset: 7
+          return_type:
+            name: void
+        - name: setMetadata
+          transaction_code_offset: 8
+          params:
+            - name: metadata
+              type:
+                name: MediaMetadata
+              direction: in
+            - name: duration
+              type:
+                name: long
+            - name: metadataDescription
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setPlaybackState
+          transaction_code_offset: 9
+          params:
+            - name: state
+              type:
+                name: PlaybackState
+              direction: in
+          return_type:
+            name: void
+        - name: resetQueue
+          transaction_code_offset: 10
+          return_type:
+            name: void
+        - name: getBinderForSetQueue
+          transaction_code_offset: 11
+          return_type:
+            name: IBinder
+        - name: setQueueTitle
+          transaction_code_offset: 12
+          params:
+            - name: title
+              type:
+                name: CharSequence
+          return_type:
+            name: void
+        - name: setExtras
+          transaction_code_offset: 13
+          params:
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: setRatingType
+          transaction_code_offset: 14
+          params:
+            - name: type
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setPlaybackToLocal
+          transaction_code_offset: 15
+          params:
+            - name: attributes
+              type:
+                name: AudioAttributes
+              direction: in
+          return_type:
+            name: void
+        - name: setPlaybackToRemote
+          transaction_code_offset: 16
+          params:
+            - name: control
+              type:
+                name: int
+            - name: max
+              type:
+                name: int
+            - name: controlId
+              type:
+                name: String
+              annotations:
+                - nullable
+          return_type:
+            name: void
+        - name: setCurrentVolume
+          transaction_code_offset: 17
+          params:
+            - name: currentVolume
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ISession2TokensListener
+      descriptor: android.media.session.ISession2TokensListener
+      oneway: true
+      methods:
+        - name: onSession2TokensChanged
+          transaction_code_offset: 0
+          params:
+            - name: tokens
+              type:
+                name: List
+                type_args:
+                    - name: Session2Token
+              direction: in
+          return_type:
+            name: void
+    - name: ISessionCallback
+      descriptor: android.media.session.ISessionCallback
+      oneway: true
+      methods:
+        - name: onCommand
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: command
+              type:
+                name: String
+            - name: args
+              type:
+                name: Bundle
+              direction: in
+            - name: cb
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: onMediaButton
+          transaction_code_offset: 1
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: mediaButtonIntent
+              type:
+                name: Intent
+              direction: in
+            - name: sequenceNumber
+              type:
+                name: int
+            - name: cb
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: onMediaButtonFromController
+          transaction_code_offset: 2
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: mediaButtonIntent
+              type:
+                name: Intent
+              direction: in
+          return_type:
+            name: void
+        - name: onPrepare
+          transaction_code_offset: 3
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onPrepareFromMediaId
+          transaction_code_offset: 4
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: mediaId
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onPrepareFromSearch
+          transaction_code_offset: 5
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: query
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onPrepareFromUri
+          transaction_code_offset: 6
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onPlay
+          transaction_code_offset: 7
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onPlayFromMediaId
+          transaction_code_offset: 8
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: mediaId
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onPlayFromSearch
+          transaction_code_offset: 9
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: query
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onPlayFromUri
+          transaction_code_offset: 10
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onSkipToTrack
+          transaction_code_offset: 11
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: id
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onPause
+          transaction_code_offset: 12
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onStop
+          transaction_code_offset: 13
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onNext
+          transaction_code_offset: 14
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onPrevious
+          transaction_code_offset: 15
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onFastForward
+          transaction_code_offset: 16
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRewind
+          transaction_code_offset: 17
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSeekTo
+          transaction_code_offset: 18
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: pos
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onRate
+          transaction_code_offset: 19
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: rating
+              type:
+                name: Rating
+              direction: in
+          return_type:
+            name: void
+        - name: onSetPlaybackSpeed
+          transaction_code_offset: 20
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: speed
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: onCustomAction
+          transaction_code_offset: 21
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: action
+              type:
+                name: String
+            - name: args
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onAdjustVolume
+          transaction_code_offset: 22
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: direction
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSetVolumeTo
+          transaction_code_offset: 23
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: value
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ISessionController
+      descriptor: android.media.session.ISessionController
+      methods:
+        - name: sendCommand
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: command
+              type:
+                name: String
+            - name: args
+              type:
+                name: Bundle
+              direction: in
+            - name: cb
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: sendMediaButton
+          transaction_code_offset: 1
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: mediaButton
+              type:
+                name: KeyEvent
+              direction: in
+          return_type:
+            name: boolean
+        - name: registerCallback
+          transaction_code_offset: 2
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: cb
+              type:
+                name: ISessionControllerCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterCallback
+          transaction_code_offset: 3
+          params:
+            - name: cb
+              type:
+                name: ISessionControllerCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getPackageName
+          transaction_code_offset: 4
+          return_type:
+            name: String
+        - name: getTag
+          transaction_code_offset: 5
+          return_type:
+            name: String
+        - name: getSessionInfo
+          transaction_code_offset: 6
+          return_type:
+            name: Bundle
+        - name: getLaunchPendingIntent
+          transaction_code_offset: 7
+          return_type:
+            name: PendingIntent
+        - name: getFlags
+          transaction_code_offset: 8
+          return_type:
+            name: long
+        - name: getVolumeAttributes
+          transaction_code_offset: 9
+          return_type:
+            name: MediaController.PlaybackInfo
+        - name: adjustVolume
+          transaction_code_offset: 10
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: opPackageName
+              type:
+                name: String
+            - name: direction
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setVolumeTo
+          transaction_code_offset: 11
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: opPackageName
+              type:
+                name: String
+            - name: value
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: prepare
+          transaction_code_offset: 12
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: prepareFromMediaId
+          transaction_code_offset: 13
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: mediaId
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: prepareFromSearch
+          transaction_code_offset: 14
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: string
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: prepareFromUri
+          transaction_code_offset: 15
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: play
+          transaction_code_offset: 16
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: playFromMediaId
+          transaction_code_offset: 17
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: mediaId
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: playFromSearch
+          transaction_code_offset: 18
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: string
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: playFromUri
+          transaction_code_offset: 19
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: skipToQueueItem
+          transaction_code_offset: 20
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: id
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: pause
+          transaction_code_offset: 21
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: stop
+          transaction_code_offset: 22
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: next
+          transaction_code_offset: 23
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: previous
+          transaction_code_offset: 24
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: fastForward
+          transaction_code_offset: 25
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: rewind
+          transaction_code_offset: 26
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: seekTo
+          transaction_code_offset: 27
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: pos
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: rate
+          transaction_code_offset: 28
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: rating
+              type:
+                name: Rating
+              direction: in
+          return_type:
+            name: void
+        - name: setPlaybackSpeed
+          transaction_code_offset: 29
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: speed
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: sendCustomAction
+          transaction_code_offset: 30
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: action
+              type:
+                name: String
+            - name: args
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: getMetadata
+          transaction_code_offset: 31
+          return_type:
+            name: MediaMetadata
+        - name: getPlaybackState
+          transaction_code_offset: 32
+          return_type:
+            name: PlaybackState
+        - name: getQueue
+          transaction_code_offset: 33
+          return_type:
+            name: ParceledListSlice
+        - name: getQueueTitle
+          transaction_code_offset: 34
+          return_type:
+            name: CharSequence
+        - name: getExtras
+          transaction_code_offset: 35
+          return_type:
+            name: Bundle
+        - name: getRatingType
+          transaction_code_offset: 36
+          return_type:
+            name: int
+    - name: ISessionControllerCallback
+      descriptor: android.media.session.ISessionControllerCallback
+      oneway: true
+      methods:
+        - name: onEvent
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onSessionDestroyed
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onPlaybackStateChanged
+          transaction_code_offset: 2
+          params:
+            - name: state
+              type:
+                name: PlaybackState
+              direction: in
+          return_type:
+            name: void
+        - name: onMetadataChanged
+          transaction_code_offset: 3
+          params:
+            - name: metadata
+              type:
+                name: MediaMetadata
+              direction: in
+          return_type:
+            name: void
+        - name: onQueueChanged
+          transaction_code_offset: 4
+          params:
+            - name: queue
+              type:
+                name: ParceledListSlice
+              direction: in
+          return_type:
+            name: void
+        - name: onQueueTitleChanged
+          transaction_code_offset: 5
+          params:
+            - name: title
+              type:
+                name: CharSequence
+          return_type:
+            name: void
+        - name: onExtrasChanged
+          transaction_code_offset: 6
+          params:
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onVolumeInfoChanged
+          transaction_code_offset: 7
+          params:
+            - name: info
+              type:
+                name: MediaController.PlaybackInfo
+              direction: in
+          return_type:
+            name: void
+    - name: ISessionManager
+      descriptor: android.media.session.ISessionManager
+      methods:
+        - name: createSession
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: sessionCb
+              type:
+                name: ISessionCallback
+              direction: in
+            - name: tag
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: Bundle
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ISession
+        - name: getSessions
+          transaction_code_offset: 1
+          params:
+            - name: compName
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: MediaSession.Token
+        - name: getMediaKeyEventSession
+          transaction_code_offset: 2
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: MediaSession.Token
+        - name: getMediaKeyEventSessionPackageName
+          transaction_code_offset: 3
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: dispatchMediaKeyEvent
+          transaction_code_offset: 4
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: asSystemService
+              type:
+                name: boolean
+            - name: keyEvent
+              type:
+                name: KeyEvent
+              direction: in
+            - name: needWakeLock
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: dispatchMediaKeyEventToSessionAsSystemService
+          transaction_code_offset: 5
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: keyEvent
+              type:
+                name: KeyEvent
+              direction: in
+            - name: sessionToken
+              type:
+                name: MediaSession.Token
+              direction: in
+          return_type:
+            name: boolean
+        - name: dispatchVolumeKeyEvent
+          transaction_code_offset: 6
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: opPackageName
+              type:
+                name: String
+            - name: asSystemService
+              type:
+                name: boolean
+            - name: keyEvent
+              type:
+                name: KeyEvent
+              direction: in
+            - name: stream
+              type:
+                name: int
+            - name: musicOnly
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: dispatchVolumeKeyEventToSessionAsSystemService
+          transaction_code_offset: 7
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: opPackageName
+              type:
+                name: String
+            - name: keyEvent
+              type:
+                name: KeyEvent
+              direction: in
+            - name: sessionToken
+              type:
+                name: MediaSession.Token
+              direction: in
+          return_type:
+            name: void
+        - name: dispatchAdjustVolume
+          transaction_code_offset: 8
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: opPackageName
+              type:
+                name: String
+            - name: suggestedStream
+              type:
+                name: int
+            - name: delta
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: addSessionsListener
+          transaction_code_offset: 9
+          params:
+            - name: listener
+              type:
+                name: IActiveSessionsListener
+              direction: in
+            - name: compName
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removeSessionsListener
+          transaction_code_offset: 10
+          params:
+            - name: listener
+              type:
+                name: IActiveSessionsListener
+              direction: in
+          return_type:
+            name: void
+        - name: addSession2TokensListener
+          transaction_code_offset: 11
+          params:
+            - name: listener
+              type:
+                name: ISession2TokensListener
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removeSession2TokensListener
+          transaction_code_offset: 12
+          params:
+            - name: listener
+              type:
+                name: ISession2TokensListener
+              direction: in
+          return_type:
+            name: void
+        - name: registerRemoteSessionCallback
+          transaction_code_offset: 13
+          params:
+            - name: rvc
+              type:
+                name: IRemoteSessionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterRemoteSessionCallback
+          transaction_code_offset: 14
+          params:
+            - name: rvc
+              type:
+                name: IRemoteSessionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: isGlobalPriorityActive
+          transaction_code_offset: 15
+          return_type:
+            name: boolean
+        - name: addOnMediaKeyEventDispatchedListener
+          transaction_code_offset: 16
+          params:
+            - name: listener
+              type:
+                name: IOnMediaKeyEventDispatchedListener
+              direction: in
+          return_type:
+            name: void
+        - name: removeOnMediaKeyEventDispatchedListener
+          transaction_code_offset: 17
+          params:
+            - name: listener
+              type:
+                name: IOnMediaKeyEventDispatchedListener
+              direction: in
+          return_type:
+            name: void
+        - name: addOnMediaKeyEventSessionChangedListener
+          transaction_code_offset: 18
+          params:
+            - name: listener
+              type:
+                name: IOnMediaKeyEventSessionChangedListener
+              direction: in
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: removeOnMediaKeyEventSessionChangedListener
+          transaction_code_offset: 19
+          params:
+            - name: listener
+              type:
+                name: IOnMediaKeyEventSessionChangedListener
+              direction: in
+          return_type:
+            name: void
+        - name: setOnVolumeKeyLongPressListener
+          transaction_code_offset: 20
+          params:
+            - name: listener
+              type:
+                name: IOnVolumeKeyLongPressListener
+              direction: in
+          return_type:
+            name: void
+        - name: setOnMediaKeyListener
+          transaction_code_offset: 21
+          params:
+            - name: listener
+              type:
+                name: IOnMediaKeyListener
+              direction: in
+          return_type:
+            name: void
+        - name: isTrusted
+          transaction_code_offset: 22
+          params:
+            - name: controllerPackageName
+              type:
+                name: String
+            - name: controllerPid
+              type:
+                name: int
+            - name: controllerUid
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setCustomMediaKeyDispatcher
+          transaction_code_offset: 23
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setCustomMediaSessionPolicyProvider
+          transaction_code_offset: 24
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: hasCustomMediaKeyDispatcher
+          transaction_code_offset: 25
+          params:
+            - name: componentName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: hasCustomMediaSessionPolicyProvider
+          transaction_code_offset: 26
+          params:
+            - name: componentName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getSessionPolicies
+          transaction_code_offset: 27
+          params:
+            - name: token
+              type:
+                name: MediaSession.Token
+              direction: in
+          return_type:
+            name: int
+        - name: setSessionPolicies
+          transaction_code_offset: 28
+          params:
+            - name: token
+              type:
+                name: MediaSession.Token
+              direction: in
+            - name: policies
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: MediaController.PlaybackInfo
+    - name: MediaSession.QueueItem
+    - name: MediaSession.Token
+    - name: PlaybackState
+    - name: Session2Token

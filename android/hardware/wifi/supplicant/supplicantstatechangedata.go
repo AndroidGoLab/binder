@@ -42,15 +42,30 @@ func (s *SupplicantStateChangeData) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_newStateRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.NewState = StaIfaceCallbackState(_newStateRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Id, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Ssid, _err = p.ReadByteArray()
@@ -58,9 +73,19 @@ func (s *SupplicantStateChangeData) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Bssid, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_keyMgmtMaskRaw, _err := p.ReadInt32()
@@ -69,9 +94,19 @@ func (s *SupplicantStateChangeData) UnmarshalParcel(
 	}
 	s.KeyMgmtMask = KeyMgmtMask(_keyMgmtMaskRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.FrequencyMhz, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.FilsHlpSent, _err = p.ReadBool()

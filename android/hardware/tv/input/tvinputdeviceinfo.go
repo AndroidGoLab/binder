@@ -41,9 +41,19 @@ func (s *TvInputDeviceInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.DeviceId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_typeRaw, _err := p.ReadInt32()
@@ -52,9 +62,19 @@ func (s *TvInputDeviceInfo) UnmarshalParcel(
 	}
 	s.Type = TvInputType(_typeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PortId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_cableConnectionStatusRaw, _err := p.ReadInt32()
@@ -62,6 +82,11 @@ func (s *TvInputDeviceInfo) UnmarshalParcel(
 		return _err
 	}
 	s.CableConnectionStatus = CableConnectionStatus(_cableConnectionStatusRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	if _err = s.AudioDevice.UnmarshalParcel(p); _err != nil {
 		return _err

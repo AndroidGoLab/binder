@@ -21,7 +21,7 @@ const (
 
 type IWindowInfosListener interface {
 	AsBinder() binder.IBinder
-	OnWindowInfosChanged(ctx context.Context, update interface{}) error
+	OnWindowInfosChanged(ctx context.Context, update WindowInfosUpdate) error
 }
 
 type WindowInfosListenerProxy struct {
@@ -42,10 +42,15 @@ var _ IWindowInfosListener = (*WindowInfosListenerProxy)(nil)
 
 func (p *WindowInfosListenerProxy) OnWindowInfosChanged(
 	ctx context.Context,
-	update interface{},
+	update WindowInfosUpdate,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowInfosListener)
+	_data.WriteInt32(1)
+	if _err := update.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowInfosListener, MethodIWindowInfosListenerOnWindowInfosChanged)
 	if _err != nil {
@@ -59,7 +64,8 @@ func (p *WindowInfosListenerProxy) OnWindowInfosChanged(
 // WindowInfosListenerStub dispatches incoming binder transactions
 // to a typed IWindowInfosListener implementation.
 type WindowInfosListenerStub struct {
-	Impl IWindowInfosListener
+	Impl      IWindowInfosListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WindowInfosListenerStub)(nil)
@@ -73,15 +79,26 @@ func (s *WindowInfosListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWindowInfosListenerOnWindowInfosChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_update WindowInfosUpdate
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_update.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_update interface{}
 		_err := s.Impl.OnWindowInfosChanged(ctx, _arg_update)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -91,7 +108,7 @@ func (s *WindowInfosListenerStub) OnTransaction(
 // provide to NewWindowInfosListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IWindowInfosListenerServer interface {
-	OnWindowInfosChanged(ctx context.Context, update interface{}) error
+	OnWindowInfosChanged(ctx context.Context, update WindowInfosUpdate) error
 }
 
 type windowInfosListenerStubWrapper struct {
@@ -105,7 +122,7 @@ func (w *windowInfosListenerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *windowInfosListenerStubWrapper) OnWindowInfosChanged(
 	ctx context.Context,
-	update interface{},
+	update WindowInfosUpdate,
 ) error {
 	return w.impl.OnWindowInfosChanged(ctx, update)
 }

@@ -1,0 +1,5 @@
+package: android.view.displayhash
+go_package: android/view/displayhash
+parcelables:
+    - name: DisplayHash
+    - name: VerifiedDisplayHash

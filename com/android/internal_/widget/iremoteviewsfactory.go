@@ -76,6 +76,7 @@ func (p *RemoteViewsFactoryProxy) OnDataSetChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteViewsFactory, MethodIRemoteViewsFactoryOnDataSetChanged)
@@ -100,6 +101,7 @@ func (p *RemoteViewsFactoryProxy) OnDataSetChangedAsync(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteViewsFactory, MethodIRemoteViewsFactoryOnDataSetChangedAsync)
@@ -116,6 +118,7 @@ func (p *RemoteViewsFactoryProxy) OnDestroy(
 	intent content.Intent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -136,6 +139,7 @@ func (p *RemoteViewsFactoryProxy) GetCount(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteViewsFactory, MethodIRemoteViewsFactoryGetCount)
@@ -166,6 +170,7 @@ func (p *RemoteViewsFactoryProxy) GetViewAt(
 ) (androidWidget.RemoteViews, error) {
 	var _result androidWidget.RemoteViews
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 	_data.WriteInt32(position)
 
@@ -201,6 +206,7 @@ func (p *RemoteViewsFactoryProxy) GetLoadingView(
 ) (androidWidget.RemoteViews, error) {
 	var _result androidWidget.RemoteViews
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteViewsFactory, MethodIRemoteViewsFactoryGetLoadingView)
@@ -235,6 +241,7 @@ func (p *RemoteViewsFactoryProxy) GetViewTypeCount(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteViewsFactory, MethodIRemoteViewsFactoryGetViewTypeCount)
@@ -265,6 +272,7 @@ func (p *RemoteViewsFactoryProxy) GetItemId(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 	_data.WriteInt32(position)
 
@@ -295,6 +303,7 @@ func (p *RemoteViewsFactoryProxy) HasStableIds(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteViewsFactory, MethodIRemoteViewsFactoryHasStableIds)
@@ -324,6 +333,7 @@ func (p *RemoteViewsFactoryProxy) IsCreated(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteViewsFactory, MethodIRemoteViewsFactoryIsCreated)
@@ -353,6 +363,7 @@ func (p *RemoteViewsFactoryProxy) GetRemoteCollectionItems(
 ) (androidWidget.RemoteViewsRemoteCollectionItems, error) {
 	var _result androidWidget.RemoteViewsRemoteCollectionItems
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteViewsFactory, MethodIRemoteViewsFactoryGetRemoteCollectionItems)
@@ -385,7 +396,8 @@ func (p *RemoteViewsFactoryProxy) GetRemoteCollectionItems(
 // RemoteViewsFactoryStub dispatches incoming binder transactions
 // to a typed IRemoteViewsFactory implementation.
 type RemoteViewsFactoryStub struct {
-	Impl IRemoteViewsFactory
+	Impl      IRemoteViewsFactory
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RemoteViewsFactoryStub)(nil)
@@ -399,11 +411,12 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRemoteViewsFactoryOnDataSetChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDataSetChanged(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -413,16 +426,9 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRemoteViewsFactoryOnDataSetChangedAsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDataSetChangedAsync(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRemoteViewsFactoryOnDestroy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -436,12 +442,8 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDestroy(ctx, _arg_intent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRemoteViewsFactoryGetCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCount(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -452,9 +454,6 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRemoteViewsFactoryGetViewAt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_position, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -472,9 +471,6 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIRemoteViewsFactoryGetLoadingView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLoadingView(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -488,9 +484,6 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIRemoteViewsFactoryGetViewTypeCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetViewTypeCount(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -501,9 +494,6 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRemoteViewsFactoryGetItemId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_position, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -518,9 +508,6 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIRemoteViewsFactoryHasStableIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.HasStableIds(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -531,9 +518,6 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRemoteViewsFactoryIsCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsCreated(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -544,9 +528,6 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRemoteViewsFactoryGetRemoteCollectionItems:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRemoteCollectionItems(ctx)
 		_reply := parcel.New()
 		if _err != nil {

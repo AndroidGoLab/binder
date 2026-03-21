@@ -71,6 +71,7 @@ func (p *ImsConfigProxy) GetProvisionedValue(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 
@@ -102,6 +103,7 @@ func (p *ImsConfigProxy) GetProvisionedStringValue(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 
@@ -134,6 +136,7 @@ func (p *ImsConfigProxy) SetProvisionedValue(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 	_data.WriteInt32(value)
@@ -167,6 +170,7 @@ func (p *ImsConfigProxy) SetProvisionedStringValue(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 	_data.WriteString16(value)
@@ -200,6 +204,7 @@ func (p *ImsConfigProxy) GetFeatureValue(
 	listener ims.ImsConfigListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(feature)
 	_data.WriteInt32(network)
@@ -222,6 +227,7 @@ func (p *ImsConfigProxy) SetFeatureValue(
 	listener ims.ImsConfigListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(feature)
 	_data.WriteInt32(network)
@@ -242,6 +248,7 @@ func (p *ImsConfigProxy) GetVolteProvisioned(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigGetVolteProvisioned)
@@ -271,6 +278,7 @@ func (p *ImsConfigProxy) GetVideoQuality(
 	listener ims.ImsConfigListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -289,6 +297,7 @@ func (p *ImsConfigProxy) SetVideoQuality(
 	listener ims.ImsConfigListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(quality)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -305,7 +314,8 @@ func (p *ImsConfigProxy) SetVideoQuality(
 // ImsConfigStub dispatches incoming binder transactions
 // to a typed IImsConfig implementation.
 type ImsConfigStub struct {
-	Impl IImsConfig
+	Impl      IImsConfig
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsConfigStub)(nil)
@@ -319,11 +329,12 @@ func (s *ImsConfigStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsConfigGetProvisionedValue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -338,9 +349,6 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsConfigGetProvisionedStringValue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -355,9 +363,6 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIImsConfigSetProvisionedValue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -376,9 +381,6 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsConfigSetProvisionedStringValue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -397,9 +399,6 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsConfigGetFeatureValue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_feature, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -408,16 +407,17 @@ func (s *ImsConfigStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ims.ImsConfigListener
-		_ = _arg_listener
-		_err = s.Impl.GetFeatureValue(ctx, _arg_feature, _arg_network, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionIImsConfigSetFeatureValue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = ims.NewmsConfigListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err = s.Impl.GetFeatureValue(ctx, _arg_feature, _arg_network, _arg_listener)
+		return nil, _err
+	case TransactionIImsConfigSetFeatureValue:
 		_arg_feature, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -430,16 +430,17 @@ func (s *ImsConfigStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ims.ImsConfigListener
-		_ = _arg_listener
-		_err = s.Impl.SetFeatureValue(ctx, _arg_feature, _arg_network, _arg_value, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionIImsConfigGetVolteProvisioned:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = ims.NewmsConfigListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err = s.Impl.SetFeatureValue(ctx, _arg_feature, _arg_network, _arg_value, _arg_listener)
+		return nil, _err
+	case TransactionIImsConfigGetVolteProvisioned:
 		_result, _err := s.Impl.GetVolteProvisioned(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -450,29 +451,31 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsConfigGetVideoQuality:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ims.ImsConfigListener
-		_ = _arg_listener
-		_err := s.Impl.GetVideoQuality(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionIImsConfigSetVideoQuality:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = ims.NewmsConfigListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err := s.Impl.GetVideoQuality(ctx, _arg_listener)
+		return nil, _err
+	case TransactionIImsConfigSetVideoQuality:
 		_arg_quality, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ims.ImsConfigListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = ims.NewmsConfigListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.SetVideoQuality(ctx, _arg_quality, _arg_listener)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

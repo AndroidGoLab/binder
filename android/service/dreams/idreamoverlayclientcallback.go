@@ -45,6 +45,7 @@ func (p *DreamOverlayClientCallbackProxy) OnDreamOverlayClient(
 	client IDreamOverlayClient,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamOverlayClientCallback)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
@@ -69,7 +70,8 @@ func (p *DreamOverlayClientCallbackProxy) OnDreamOverlayClient(
 // DreamOverlayClientCallbackStub dispatches incoming binder transactions
 // to a typed IDreamOverlayClientCallback implementation.
 type DreamOverlayClientCallbackStub struct {
-	Impl IDreamOverlayClientCallback
+	Impl      IDreamOverlayClientCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DreamOverlayClientCallbackStub)(nil)
@@ -83,14 +85,20 @@ func (s *DreamOverlayClientCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDreamOverlayClientCallbackOnDreamOverlayClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IDreamOverlayClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewDreamOverlayClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_err := s.Impl.OnDreamOverlayClient(ctx, _arg_client)
 		_reply := parcel.New()
 		if _err != nil {

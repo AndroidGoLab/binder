@@ -1,0 +1,156 @@
+package: android.hardware.automotive.can
+go_package: android/hardware/automotive/can
+interfaces:
+    - name: ICanController
+      descriptor: android.hardware.automotive.can.ICanController
+      methods:
+        - name: getSupportedInterfaceTypes
+          transaction_code_offset: 0
+          return_type:
+            name: InterfaceType
+            is_array: true
+        - name: getInterfaceName
+          transaction_code_offset: 1
+          params:
+            - name: busName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: String
+        - name: upBus
+          transaction_code_offset: 2
+          params:
+            - name: config
+              type:
+                name: BusConfig
+              direction: in
+          return_type:
+            name: String
+        - name: downBus
+          transaction_code_offset: 3
+          params:
+            - name: name
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: BusConfig
+      fields:
+        - name: name
+          type:
+            name: String
+        - name: interfaceId
+          type:
+            name: InterfaceId
+        - name: bitrate
+          type:
+            name: int
+      nested_types:
+        - BusConfig.InterfaceId
+      annotations:
+        - VintfStability
+    - name: IndexedInterface
+      fields:
+        - name: index
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+    - name: NativeInterface
+      fields:
+        - name: interfaceId
+          type:
+            name: InterfaceId
+      nested_types:
+        - NativeInterface.InterfaceId
+      annotations:
+        - VintfStability
+    - name: SlcanInterface
+      fields:
+        - name: interfaceId
+          type:
+            name: InterfaceId
+      nested_types:
+        - SlcanInterface.InterfaceId
+      annotations:
+        - VintfStability
+    - name: VirtualInterface
+      fields:
+        - name: ifname
+          type:
+            name: String
+      annotations:
+        - VintfStability
+enums:
+    - name: InterfaceType
+      backing_type: byte
+      values:
+        - name: VIRTUAL
+          value: ""
+        - name: NATIVE
+          value: ""
+        - name: SLCAN
+          value: ""
+        - name: INDEXED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Result
+      backing_type: int
+      values:
+        - name: OK
+          value: ""
+        - name: UNKNOWN_ERROR
+          value: ""
+        - name: INVALID_STATE
+          value: ""
+        - name: NOT_SUPPORTED
+          value: ""
+        - name: BAD_INTERFACE_ID
+          value: ""
+        - name: BAD_BITRATE
+          value: ""
+        - name: BAD_BUS_NAME
+          value: ""
+        - name: INTERFACE_DOWN
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: BusConfig.InterfaceId
+      fields:
+        - name: virtualif
+          type:
+            name: VirtualInterface
+        - name: nativeif
+          type:
+            name: NativeInterface
+        - name: slcan
+          type:
+            name: SlcanInterface
+        - name: indexed
+          type:
+            name: IndexedInterface
+    - name: NativeInterface.InterfaceId
+      fields:
+        - name: ifname
+          type:
+            name: String
+        - name: serialno
+          type:
+            name: String
+            is_array: true
+    - name: SlcanInterface.InterfaceId
+      fields:
+        - name: ttyname
+          type:
+            name: String
+        - name: serialno
+          type:
+            name: String
+            is_array: true

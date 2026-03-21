@@ -159,6 +159,7 @@ func (p *RadioVoiceProxy) AcceptCall(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -176,6 +177,7 @@ func (p *RadioVoiceProxy) CancelPendingUssd(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -193,6 +195,7 @@ func (p *RadioVoiceProxy) Conference(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -211,6 +214,7 @@ func (p *RadioVoiceProxy) Dial(
 	dialInfo Dial,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(1)
@@ -238,6 +242,7 @@ func (p *RadioVoiceProxy) EmergencyDial(
 	isTesting bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(1)
@@ -271,6 +276,7 @@ func (p *RadioVoiceProxy) ExitEmergencyCallbackMode(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -288,6 +294,7 @@ func (p *RadioVoiceProxy) ExplicitCallTransfer(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -306,6 +313,7 @@ func (p *RadioVoiceProxy) GetCallForwardStatus(
 	callInfo CallForwardInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(1)
@@ -328,6 +336,7 @@ func (p *RadioVoiceProxy) GetCallWaiting(
 	serviceClass int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(serviceClass)
@@ -346,6 +355,7 @@ func (p *RadioVoiceProxy) GetClip(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -363,6 +373,7 @@ func (p *RadioVoiceProxy) GetClir(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -380,6 +391,7 @@ func (p *RadioVoiceProxy) GetCurrentCalls(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -397,6 +409,7 @@ func (p *RadioVoiceProxy) GetLastCallFailCause(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -414,6 +427,7 @@ func (p *RadioVoiceProxy) GetMute(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -431,6 +445,7 @@ func (p *RadioVoiceProxy) GetPreferredVoicePrivacy(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -448,6 +463,7 @@ func (p *RadioVoiceProxy) GetTtyMode(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -466,6 +482,7 @@ func (p *RadioVoiceProxy) HandleStkCallSetupRequestFromSim(
 	accept bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteBool(accept)
@@ -485,6 +502,7 @@ func (p *RadioVoiceProxy) Hangup(
 	gsmIndex int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(gsmIndex)
@@ -503,6 +521,7 @@ func (p *RadioVoiceProxy) HangupForegroundResumeBackground(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -520,6 +539,7 @@ func (p *RadioVoiceProxy) HangupWaitingOrBackground(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -537,6 +557,7 @@ func (p *RadioVoiceProxy) IsVoNrEnabled(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -554,6 +575,7 @@ func (p *RadioVoiceProxy) RejectCall(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -570,6 +592,7 @@ func (p *RadioVoiceProxy) ResponseAcknowledgement(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceResponseAcknowledgement)
@@ -589,6 +612,7 @@ func (p *RadioVoiceProxy) SendBurstDtmf(
 	off int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteString16(dtmf)
@@ -610,6 +634,7 @@ func (p *RadioVoiceProxy) SendCdmaFeatureCode(
 	featureCode string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteString16(featureCode)
@@ -629,6 +654,7 @@ func (p *RadioVoiceProxy) SendDtmf(
 	s_ string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteString16(s_)
@@ -648,6 +674,7 @@ func (p *RadioVoiceProxy) SendUssd(
 	ussd string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteString16(ussd)
@@ -667,6 +694,7 @@ func (p *RadioVoiceProxy) SeparateConnection(
 	gsmIndex int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(gsmIndex)
@@ -686,6 +714,7 @@ func (p *RadioVoiceProxy) SetCallForward(
 	callInfo CallForwardInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(1)
@@ -709,6 +738,7 @@ func (p *RadioVoiceProxy) SetCallWaiting(
 	serviceClass int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteBool(enable)
@@ -729,6 +759,7 @@ func (p *RadioVoiceProxy) SetClir(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(status)
@@ -748,6 +779,7 @@ func (p *RadioVoiceProxy) SetMute(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteBool(enable)
@@ -767,6 +799,7 @@ func (p *RadioVoiceProxy) SetPreferredVoicePrivacy(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteBool(enable)
@@ -786,6 +819,7 @@ func (p *RadioVoiceProxy) SetResponseFunctions(
 	radioVoiceIndication IRadioVoiceIndication,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	binder.WriteBinderToParcel(ctx, _data, radioVoiceResponse.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, radioVoiceIndication.AsBinder(), p.Remote.Transport())
@@ -805,6 +839,7 @@ func (p *RadioVoiceProxy) SetTtyMode(
 	mode TtyMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(mode))
@@ -824,6 +859,7 @@ func (p *RadioVoiceProxy) SetVoNrEnabled(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteBool(enable)
@@ -843,6 +879,7 @@ func (p *RadioVoiceProxy) StartDtmf(
 	s_ string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 	_data.WriteString16(s_)
@@ -861,6 +898,7 @@ func (p *RadioVoiceProxy) StopDtmf(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -878,6 +916,7 @@ func (p *RadioVoiceProxy) SwitchWaitingOrHoldingAndActive(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
@@ -893,7 +932,8 @@ func (p *RadioVoiceProxy) SwitchWaitingOrHoldingAndActive(
 // RadioVoiceStub dispatches incoming binder transactions
 // to a typed IRadioVoice implementation.
 type RadioVoiceStub struct {
-	Impl IRadioVoice
+	Impl      IRadioVoice
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RadioVoiceStub)(nil)
@@ -907,44 +947,33 @@ func (s *RadioVoiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRadioVoiceAcceptCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AcceptCall(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceCancelPendingUssd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.CancelPendingUssd(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceConference:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Conference(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceDial:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -962,12 +991,8 @@ func (s *RadioVoiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.Dial(ctx, _arg_serial, _arg_dialInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceEmergencyDial:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -988,9 +1013,25 @@ func (s *RadioVoiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_urns []string
-		_ = _arg_urns
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_urns = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_urns[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_raw_routing, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1005,34 +1046,22 @@ func (s *RadioVoiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.EmergencyDial(ctx, _arg_serial, _arg_dialInfo, _arg_categories, _arg_urns, _arg_routing, _arg_hasKnownUserIntentEmergency, _arg_isTesting)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceExitEmergencyCallbackMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ExitEmergencyCallbackMode(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceExplicitCallTransfer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ExplicitCallTransfer(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceGetCallForwardStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1050,12 +1079,8 @@ func (s *RadioVoiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.GetCallForwardStatus(ctx, _arg_serial, _arg_callInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceGetCallWaiting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1065,89 +1090,57 @@ func (s *RadioVoiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.GetCallWaiting(ctx, _arg_serial, _arg_serviceClass)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceGetClip:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetClip(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceGetClir:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetClir(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceGetCurrentCalls:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetCurrentCalls(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceGetLastCallFailCause:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetLastCallFailCause(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceGetMute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetMute(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceGetPreferredVoicePrivacy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetPreferredVoicePrivacy(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceGetTtyMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetTtyMode(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceHandleStkCallSetupRequestFromSim:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1157,12 +1150,8 @@ func (s *RadioVoiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.HandleStkCallSetupRequestFromSim(ctx, _arg_serial, _arg_accept)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceHangup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1172,63 +1161,39 @@ func (s *RadioVoiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.Hangup(ctx, _arg_serial, _arg_gsmIndex)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceHangupForegroundResumeBackground:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.HangupForegroundResumeBackground(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceHangupWaitingOrBackground:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.HangupWaitingOrBackground(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceIsVoNrEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.IsVoNrEnabled(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceRejectCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RejectCall(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceResponseAcknowledgement:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResponseAcknowledgement(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceSendBurstDtmf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1246,12 +1211,8 @@ func (s *RadioVoiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SendBurstDtmf(ctx, _arg_serial, _arg_dtmf, _arg_on, _arg_off)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceSendCdmaFeatureCode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1261,12 +1222,8 @@ func (s *RadioVoiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SendCdmaFeatureCode(ctx, _arg_serial, _arg_featureCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceSendDtmf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1276,12 +1233,8 @@ func (s *RadioVoiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SendDtmf(ctx, _arg_serial, _arg_s_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceSendUssd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1291,12 +1244,8 @@ func (s *RadioVoiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SendUssd(ctx, _arg_serial, _arg_ussd)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceSeparateConnection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1306,12 +1255,8 @@ func (s *RadioVoiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SeparateConnection(ctx, _arg_serial, _arg_gsmIndex)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceSetCallForward:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1329,12 +1274,8 @@ func (s *RadioVoiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetCallForward(ctx, _arg_serial, _arg_callInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceSetCallWaiting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1348,12 +1289,8 @@ func (s *RadioVoiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetCallWaiting(ctx, _arg_serial, _arg_enable, _arg_serviceClass)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceSetClir:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1363,12 +1300,8 @@ func (s *RadioVoiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetClir(ctx, _arg_serial, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceSetMute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1378,12 +1311,8 @@ func (s *RadioVoiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetMute(ctx, _arg_serial, _arg_enable)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceSetPreferredVoicePrivacy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1393,25 +1322,27 @@ func (s *RadioVoiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetPreferredVoicePrivacy(ctx, _arg_serial, _arg_enable)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceSetResponseFunctions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_radioVoiceResponse IRadioVoiceResponse
-		_ = _arg_radioVoiceResponse
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_radioVoiceIndication IRadioVoiceIndication
-		_ = _arg_radioVoiceIndication
-		_err := s.Impl.SetResponseFunctions(ctx, _arg_radioVoiceResponse, _arg_radioVoiceIndication)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioVoiceSetTtyMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_radioVoiceResponseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_radioVoiceResponse = NewRadioVoiceResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _radioVoiceResponseHandle))
 		}
+		var _arg_radioVoiceIndication IRadioVoiceIndication
+		{
+			_radioVoiceIndicationHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_radioVoiceIndication = NewRadioVoiceIndicationProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _radioVoiceIndicationHandle))
+		}
+		_err := s.Impl.SetResponseFunctions(ctx, _arg_radioVoiceResponse, _arg_radioVoiceIndication)
+		return nil, _err
+	case TransactionIRadioVoiceSetTtyMode:
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1422,12 +1353,8 @@ func (s *RadioVoiceStub) OnTransaction(
 		}
 		_arg_mode := TtyMode(_raw_mode)
 		_err = s.Impl.SetTtyMode(ctx, _arg_serial, _arg_mode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceSetVoNrEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1437,12 +1364,8 @@ func (s *RadioVoiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetVoNrEnabled(ctx, _arg_serial, _arg_enable)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceStartDtmf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1452,30 +1375,21 @@ func (s *RadioVoiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.StartDtmf(ctx, _arg_serial, _arg_s_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceStopDtmf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.StopDtmf(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioVoiceSwitchWaitingOrHoldingAndActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SwitchWaitingOrHoldingAndActive(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -48,6 +48,7 @@ func (p *ImsMultiEndpointProxy) SetListener(
 	listener IImsExternalCallStateListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMultiEndpoint)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -73,6 +74,7 @@ func (p *ImsMultiEndpointProxy) RequestImsExternalCallStateInfo(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMultiEndpoint)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMultiEndpoint, MethodIImsMultiEndpointRequestImsExternalCallStateInfo)
@@ -96,7 +98,8 @@ func (p *ImsMultiEndpointProxy) RequestImsExternalCallStateInfo(
 // ImsMultiEndpointStub dispatches incoming binder transactions
 // to a typed IImsMultiEndpoint implementation.
 type ImsMultiEndpointStub struct {
-	Impl IImsMultiEndpoint
+	Impl      IImsMultiEndpoint
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsMultiEndpointStub)(nil)
@@ -110,14 +113,20 @@ func (s *ImsMultiEndpointStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsMultiEndpointSetListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IImsExternalCallStateListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewImsExternalCallStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.SetListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -127,9 +136,6 @@ func (s *ImsMultiEndpointStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsMultiEndpointRequestImsExternalCallStateInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RequestImsExternalCallStateInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {

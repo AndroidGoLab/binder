@@ -51,7 +51,7 @@ type ITrustAgentService interface {
 	OnTrustTimeout(ctx context.Context) error
 	OnDeviceLocked(ctx context.Context) error
 	OnDeviceUnlocked(ctx context.Context) error
-	OnConfigure(ctx context.Context, options []interface{}, token binder.IBinder) error
+	OnConfigure(ctx context.Context, options []os.PersistableBundle, token binder.IBinder) error
 	SetCallback(ctx context.Context, callback ITrustAgentServiceCallback) error
 	OnEscrowTokenAdded(ctx context.Context, token []byte, handle int64, user os.UserHandle) error
 	OnTokenStateReceived(ctx context.Context, handle int64, tokenState int32) error
@@ -79,6 +79,7 @@ func (p *TrustAgentServiceProxy) OnUnlockAttempt(
 	successful bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 	_data.WriteBool(successful)
 
@@ -96,6 +97,7 @@ func (p *TrustAgentServiceProxy) OnUserRequestedUnlock(
 	dismissKeyguard bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 	_data.WriteBool(dismissKeyguard)
 
@@ -112,6 +114,7 @@ func (p *TrustAgentServiceProxy) OnUserMayRequestUnlock(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnUserMayRequestUnlock)
@@ -128,6 +131,7 @@ func (p *TrustAgentServiceProxy) OnUnlockLockout(
 	timeoutMs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 	_data.WriteInt32(timeoutMs)
 
@@ -144,6 +148,7 @@ func (p *TrustAgentServiceProxy) OnTrustTimeout(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnTrustTimeout)
@@ -159,6 +164,7 @@ func (p *TrustAgentServiceProxy) OnDeviceLocked(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnDeviceLocked)
@@ -174,6 +180,7 @@ func (p *TrustAgentServiceProxy) OnDeviceUnlocked(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnDeviceUnlocked)
@@ -187,15 +194,22 @@ func (p *TrustAgentServiceProxy) OnDeviceUnlocked(
 
 func (p *TrustAgentServiceProxy) OnConfigure(
 	ctx context.Context,
-	options []interface{},
+	options []os.PersistableBundle,
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 	if options == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(options)))
+		for _, _item := range options {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -213,6 +227,7 @@ func (p *TrustAgentServiceProxy) SetCallback(
 	callback ITrustAgentServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -232,15 +247,9 @@ func (p *TrustAgentServiceProxy) OnEscrowTokenAdded(
 	user os.UserHandle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
-	if token == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(token)))
-		for _, _item := range token {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(token)
 	_data.WriteInt64(handle)
 	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
@@ -262,6 +271,7 @@ func (p *TrustAgentServiceProxy) OnTokenStateReceived(
 	tokenState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 	_data.WriteInt64(handle)
 	_data.WriteInt32(tokenState)
@@ -281,6 +291,7 @@ func (p *TrustAgentServiceProxy) OnEscrowTokenRemoved(
 	successful bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 	_data.WriteInt64(handle)
 	_data.WriteBool(successful)
@@ -297,7 +308,8 @@ func (p *TrustAgentServiceProxy) OnEscrowTokenRemoved(
 // TrustAgentServiceStub dispatches incoming binder transactions
 // to a typed ITrustAgentService implementation.
 type TrustAgentServiceStub struct {
-	Impl ITrustAgentService
+	Impl      ITrustAgentService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TrustAgentServiceStub)(nil)
@@ -311,98 +323,96 @@ func (s *TrustAgentServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITrustAgentServiceOnUnlockAttempt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_successful, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnUnlockAttempt(ctx, _arg_successful)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceOnUserRequestedUnlock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dismissKeyguard, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnUserRequestedUnlock(ctx, _arg_dismissKeyguard)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceOnUserMayRequestUnlock:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnUserMayRequestUnlock(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceOnUnlockLockout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeoutMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnUnlockLockout(ctx, _arg_timeoutMs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceOnTrustTimeout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnTrustTimeout(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceOnDeviceLocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDeviceLocked(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceOnDeviceUnlocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDeviceUnlocked(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceOnConfigure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_options []os.PersistableBundle
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_options = make([]os.PersistableBundle, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_options[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_options []interface{}
-		_ = _arg_options
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.OnConfigure(ctx, _arg_options, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITrustAgentServiceCallback
-		_ = _arg_callback
-		_err := s.Impl.SetCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionITrustAgentServiceOnEscrowTokenAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTrustAgentServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		_err := s.Impl.SetCallback(ctx, _arg_callback)
+		return nil, _err
+	case TransactionITrustAgentServiceOnEscrowTokenAdded:
 		var _arg_token []byte
-		_ = _arg_token
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = _bytes
+		}
 		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -420,12 +430,8 @@ func (s *TrustAgentServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnEscrowTokenAdded(ctx, _arg_token, _arg_handle, _arg_user)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceOnTokenStateReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -435,12 +441,8 @@ func (s *TrustAgentServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTokenStateReceived(ctx, _arg_handle, _arg_tokenState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITrustAgentServiceOnEscrowTokenRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -450,8 +452,7 @@ func (s *TrustAgentServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnEscrowTokenRemoved(ctx, _arg_handle, _arg_successful)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -468,7 +469,7 @@ type ITrustAgentServiceServer interface {
 	OnTrustTimeout(ctx context.Context) error
 	OnDeviceLocked(ctx context.Context) error
 	OnDeviceUnlocked(ctx context.Context) error
-	OnConfigure(ctx context.Context, options []interface{}, token binder.IBinder) error
+	OnConfigure(ctx context.Context, options []os.PersistableBundle, token binder.IBinder) error
 	SetCallback(ctx context.Context, callback ITrustAgentServiceCallback) error
 	OnEscrowTokenAdded(ctx context.Context, token []byte, handle int64, user os.UserHandle) error
 	OnTokenStateReceived(ctx context.Context, handle int64, tokenState int32) error
@@ -531,7 +532,7 @@ func (w *trustAgentServiceStubWrapper) OnDeviceUnlocked(
 
 func (w *trustAgentServiceStubWrapper) OnConfigure(
 	ctx context.Context,
-	options []interface{},
+	options []os.PersistableBundle,
 	token binder.IBinder,
 ) error {
 	return w.impl.OnConfigure(ctx, options, token)

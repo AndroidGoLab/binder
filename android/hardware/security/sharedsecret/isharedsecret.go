@@ -53,6 +53,7 @@ func (p *SharedSecretProxy) GetSharedSecretParameters(
 ) (SharedSecretParameters, error) {
 	var _result SharedSecretParameters
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedSecret)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedSecret, MethodISharedSecretGetSharedSecretParameters)
@@ -88,6 +89,7 @@ func (p *SharedSecretProxy) ComputeSharedSecret(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISharedSecret)
 	if params == nil {
 		_data.WriteInt32(-1)
@@ -116,19 +118,9 @@ func (p *SharedSecretProxy) ComputeSharedSecret(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -136,7 +128,8 @@ func (p *SharedSecretProxy) ComputeSharedSecret(
 // SharedSecretStub dispatches incoming binder transactions
 // to a typed ISharedSecret implementation.
 type SharedSecretStub struct {
-	Impl ISharedSecret
+	Impl      ISharedSecret
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SharedSecretStub)(nil)
@@ -150,11 +143,12 @@ func (s *SharedSecretStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISharedSecretGetSharedSecretParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSharedSecretParameters(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -168,12 +162,27 @@ func (s *SharedSecretStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISharedSecretComputeSharedSecret:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_params []SharedSecretParameters
-		_ = _arg_params
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_params = make([]SharedSecretParameters, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_params[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.ComputeSharedSecret(ctx, _arg_params)
 		_reply := parcel.New()
 		if _err != nil {
@@ -181,8 +190,7 @@ func (s *SharedSecretStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

@@ -47,6 +47,7 @@ func (p *SyncContextProxy) SendHeartbeat(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISyncContext)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISyncContext, MethodISyncContextSendHeartbeat)
@@ -72,6 +73,7 @@ func (p *SyncContextProxy) OnFinished(
 	result SyncResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISyncContext)
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -99,7 +101,8 @@ func (p *SyncContextProxy) OnFinished(
 // SyncContextStub dispatches incoming binder transactions
 // to a typed ISyncContext implementation.
 type SyncContextStub struct {
-	Impl ISyncContext
+	Impl      ISyncContext
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SyncContextStub)(nil)
@@ -113,11 +116,12 @@ func (s *SyncContextStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISyncContextSendHeartbeat:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SendHeartbeat(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -127,9 +131,6 @@ func (s *SyncContextStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISyncContextOnFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_result SyncResult
 		{
 			_nullInd, _err := _data.ReadInt32()

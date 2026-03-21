@@ -1,0 +1,428 @@
+package: com.android.internal.backup
+go_package: com/android/internal_/backup
+interfaces:
+    - name: IBackupTransport
+      descriptor: com.android.internal.backup.IBackupTransport
+      oneway: true
+      methods:
+        - name: name
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: configurationIntent
+          transaction_code_offset: 1
+          params:
+            - name: resultFuture
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: Intent
+              direction: in
+          return_type:
+            name: void
+        - name: currentDestinationString
+          transaction_code_offset: 2
+          params:
+            - name: resultFuture
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: dataManagementIntent
+          transaction_code_offset: 3
+          params:
+            - name: resultFuture
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: Intent
+              direction: in
+          return_type:
+            name: void
+        - name: dataManagementIntentLabel
+          transaction_code_offset: 4
+          params:
+            - name: resultFuture
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: CharSequence
+              direction: in
+          return_type:
+            name: void
+        - name: transportDirName
+          transaction_code_offset: 5
+          params:
+            - name: resultFuture
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: requestBackupTime
+          transaction_code_offset: 6
+          params:
+            - name: resultFuture
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: long
+              direction: in
+          return_type:
+            name: void
+        - name: initializeDevice
+          transaction_code_offset: 7
+          params:
+            - name: callback
+              type:
+                name: ITransportStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: performBackup
+          transaction_code_offset: 8
+          params:
+            - name: packageInfo
+              type:
+                name: PackageInfo
+              direction: in
+            - name: inFd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ITransportStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: clearBackupData
+          transaction_code_offset: 9
+          params:
+            - name: packageInfo
+              type:
+                name: PackageInfo
+              direction: in
+            - name: callback
+              type:
+                name: ITransportStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: finishBackup
+          transaction_code_offset: 10
+          params:
+            - name: callback
+              type:
+                name: ITransportStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getAvailableRestoreSets
+          transaction_code_offset: 11
+          params:
+            - name: resultFuture
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: List
+                      type_args:
+                        - name: RestoreSet
+              direction: in
+          return_type:
+            name: void
+        - name: getCurrentRestoreSet
+          transaction_code_offset: 12
+          params:
+            - name: resultFuture
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: long
+              direction: in
+          return_type:
+            name: void
+        - name: startRestore
+          transaction_code_offset: 13
+          params:
+            - name: token
+              type:
+                name: long
+            - name: packages
+              type:
+                name: PackageInfo
+                is_array: true
+              direction: in
+            - name: callback
+              type:
+                name: ITransportStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: nextRestorePackage
+          transaction_code_offset: 14
+          params:
+            - name: resultFuture
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: RestoreDescription
+              direction: in
+          return_type:
+            name: void
+        - name: getRestoreData
+          transaction_code_offset: 15
+          params:
+            - name: outFd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: callback
+              type:
+                name: ITransportStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: finishRestore
+          transaction_code_offset: 16
+          params:
+            - name: callback
+              type:
+                name: ITransportStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: requestFullBackupTime
+          transaction_code_offset: 17
+          params:
+            - name: resultFuture
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: long
+              direction: in
+          return_type:
+            name: void
+        - name: performFullBackup
+          transaction_code_offset: 18
+          params:
+            - name: targetPackage
+              type:
+                name: PackageInfo
+              direction: in
+            - name: socket
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ITransportStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: checkFullBackupSize
+          transaction_code_offset: 19
+          params:
+            - name: size
+              type:
+                name: long
+            - name: callback
+              type:
+                name: ITransportStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: sendBackupData
+          transaction_code_offset: 20
+          params:
+            - name: numBytes
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ITransportStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: cancelFullBackup
+          transaction_code_offset: 21
+          params:
+            - name: callback
+              type:
+                name: ITransportStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: isAppEligibleForBackup
+          transaction_code_offset: 22
+          params:
+            - name: targetPackage
+              type:
+                name: PackageInfo
+              direction: in
+            - name: isFullBackup
+              type:
+                name: boolean
+            - name: resultFuture
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: getBackupQuota
+          transaction_code_offset: 23
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: isFullBackup
+              type:
+                name: boolean
+            - name: resultFuture
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: long
+              direction: in
+          return_type:
+            name: void
+        - name: getNextFullRestoreDataChunk
+          transaction_code_offset: 24
+          params:
+            - name: socket
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: callback
+              type:
+                name: ITransportStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: abortFullRestore
+          transaction_code_offset: 25
+          params:
+            - name: callback
+              type:
+                name: ITransportStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getTransportFlags
+          transaction_code_offset: 26
+          params:
+            - name: resultFuture
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getBackupManagerMonitor
+          transaction_code_offset: 27
+          params:
+            - name: resultFuture
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: IBackupManagerMonitor
+              direction: in
+          return_type:
+            name: void
+    - name: IObbBackupService
+      descriptor: com.android.internal.backup.IObbBackupService
+      oneway: true
+      methods:
+        - name: backupObbs
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: data
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: token
+              type:
+                name: int
+            - name: callbackBinder
+              type:
+                name: IBackupManager
+              direction: in
+          return_type:
+            name: void
+        - name: restoreObbFile
+          transaction_code_offset: 1
+          params:
+            - name: pkgName
+              type:
+                name: String
+              direction: in
+            - name: data
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: fileSize
+              type:
+                name: long
+            - name: type
+              type:
+                name: int
+            - name: path
+              type:
+                name: String
+              direction: in
+            - name: mode
+              type:
+                name: long
+            - name: mtime
+              type:
+                name: long
+            - name: token
+              type:
+                name: int
+            - name: callbackBinder
+              type:
+                name: IBackupManager
+              direction: in
+          return_type:
+            name: void
+    - name: ITransportStatusCallback
+      descriptor: com.android.internal.backup.ITransportStatusCallback
+      oneway: true
+      methods:
+        - name: onOperationCompleteWithStatus
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onOperationComplete
+          transaction_code_offset: 1
+          return_type:
+            name: void

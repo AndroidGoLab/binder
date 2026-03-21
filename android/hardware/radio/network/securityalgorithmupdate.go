@@ -36,11 +36,21 @@ func (s *SecurityAlgorithmUpdate) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_connectionEventRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.ConnectionEvent = ConnectionEvent(_connectionEventRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_encryptionRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -48,11 +58,21 @@ func (s *SecurityAlgorithmUpdate) UnmarshalParcel(
 	}
 	s.Encryption = SecurityAlgorithm(_encryptionRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_integrityRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Integrity = SecurityAlgorithm(_integrityRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.IsUnprotectedEmergency, _err = p.ReadBool()
 	if _err != nil {

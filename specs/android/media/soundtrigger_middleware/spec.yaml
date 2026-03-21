@@ -1,0 +1,450 @@
+package: android.media.soundtrigger_middleware
+go_package: android/media/soundtrigger_middleware
+interfaces:
+    - name: IAcknowledgeEvent
+      descriptor: android.media.soundtrigger_middleware.IAcknowledgeEvent
+      oneway: true
+      methods:
+        - name: eventReceived
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: IInjectGlobalEvent
+      descriptor: android.media.soundtrigger_middleware.IInjectGlobalEvent
+      oneway: true
+      methods:
+        - name: triggerRestart
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: setResourceContention
+          transaction_code_offset: 1
+          params:
+            - name: isContended
+              type:
+                name: boolean
+            - name: callback
+              type:
+                name: IAcknowledgeEvent
+          return_type:
+            name: void
+        - name: triggerOnResourcesAvailable
+          transaction_code_offset: 2
+          return_type:
+            name: void
+    - name: IInjectModelEvent
+      descriptor: android.media.soundtrigger_middleware.IInjectModelEvent
+      oneway: true
+      methods:
+        - name: triggerUnloadModel
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: IInjectRecognitionEvent
+      descriptor: android.media.soundtrigger_middleware.IInjectRecognitionEvent
+      oneway: true
+      methods:
+        - name: triggerRecognitionEvent
+          transaction_code_offset: 0
+          params:
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: phraseExtras
+              type:
+                name: PhraseRecognitionExtra
+                is_array: true
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: triggerAbortRecognition
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: ISoundTriggerCallback
+      descriptor: android.media.soundtrigger_middleware.ISoundTriggerCallback
+      oneway: true
+      methods:
+        - name: onRecognition
+          transaction_code_offset: 0
+          params:
+            - name: modelHandle
+              type:
+                name: int
+            - name: event
+              type:
+                name: RecognitionEventSys
+              direction: in
+            - name: captureSession
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onPhraseRecognition
+          transaction_code_offset: 1
+          params:
+            - name: modelHandle
+              type:
+                name: int
+            - name: event
+              type:
+                name: PhraseRecognitionEventSys
+              direction: in
+            - name: captureSession
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onResourcesAvailable
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onModelUnloaded
+          transaction_code_offset: 3
+          params:
+            - name: modelHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onModuleDied
+          transaction_code_offset: 4
+          return_type:
+            name: void
+    - name: ISoundTriggerInjection
+      descriptor: android.media.soundtrigger_middleware.ISoundTriggerInjection
+      oneway: true
+      methods:
+        - name: registerGlobalEventInjection
+          transaction_code_offset: 0
+          params:
+            - name: globalInjection
+              type:
+                name: IInjectGlobalEvent
+          return_type:
+            name: void
+        - name: onRestarted
+          transaction_code_offset: 1
+          params:
+            - name: globalSession
+              type:
+                name: IInjectGlobalEvent
+          return_type:
+            name: void
+        - name: onFrameworkDetached
+          transaction_code_offset: 2
+          params:
+            - name: globalSession
+              type:
+                name: IInjectGlobalEvent
+          return_type:
+            name: void
+        - name: onClientAttached
+          transaction_code_offset: 3
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: globalSession
+              type:
+                name: IInjectGlobalEvent
+          return_type:
+            name: void
+        - name: onClientDetached
+          transaction_code_offset: 4
+          params:
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: onSoundModelLoaded
+          transaction_code_offset: 5
+          params:
+            - name: model
+              type:
+                name: SoundModel
+              direction: in
+            - name: phrases
+              type:
+                name: Phrase
+                is_array: true
+                is_nullable: true
+              direction: in
+            - name: modelInjection
+              type:
+                name: IInjectModelEvent
+            - name: globalSession
+              type:
+                name: IInjectGlobalEvent
+          return_type:
+            name: void
+        - name: onParamSet
+          transaction_code_offset: 6
+          params:
+            - name: modelParam
+              type:
+                name: int
+            - name: value
+              type:
+                name: int
+            - name: modelSession
+              type:
+                name: IInjectModelEvent
+          return_type:
+            name: void
+        - name: onRecognitionStarted
+          transaction_code_offset: 7
+          params:
+            - name: audioSessionToken
+              type:
+                name: int
+            - name: config
+              type:
+                name: RecognitionConfig
+              direction: in
+            - name: recognitionInjection
+              type:
+                name: IInjectRecognitionEvent
+            - name: modelSession
+              type:
+                name: IInjectModelEvent
+          return_type:
+            name: void
+        - name: onRecognitionStopped
+          transaction_code_offset: 8
+          params:
+            - name: recognitionSession
+              type:
+                name: IInjectRecognitionEvent
+          return_type:
+            name: void
+        - name: onSoundModelUnloaded
+          transaction_code_offset: 9
+          params:
+            - name: modelSession
+              type:
+                name: IInjectModelEvent
+          return_type:
+            name: void
+        - name: onPreempted
+          transaction_code_offset: 10
+          return_type:
+            name: void
+      constants:
+        - name: FAKE_HAL_ARCH
+          type: String
+          value: '"injection"'
+    - name: ISoundTriggerMiddlewareService
+      descriptor: android.media.soundtrigger_middleware.ISoundTriggerMiddlewareService
+      methods:
+        - name: listModulesAsOriginator
+          transaction_code_offset: 0
+          params:
+            - name: identity
+              type:
+                name: Identity
+              direction: in
+          return_type:
+            name: SoundTriggerModuleDescriptor
+            is_array: true
+        - name: listModulesAsMiddleman
+          transaction_code_offset: 1
+          params:
+            - name: middlemanIdentity
+              type:
+                name: Identity
+              direction: in
+            - name: originatorIdentity
+              type:
+                name: Identity
+              direction: in
+          return_type:
+            name: SoundTriggerModuleDescriptor
+            is_array: true
+        - name: attachAsOriginator
+          transaction_code_offset: 2
+          params:
+            - name: handle
+              type:
+                name: int
+            - name: identity
+              type:
+                name: Identity
+              direction: in
+            - name: callback
+              type:
+                name: ISoundTriggerCallback
+          return_type:
+            name: ISoundTriggerModule
+        - name: attachAsMiddleman
+          transaction_code_offset: 3
+          params:
+            - name: handle
+              type:
+                name: int
+            - name: middlemanIdentity
+              type:
+                name: Identity
+              direction: in
+            - name: originatorIdentity
+              type:
+                name: Identity
+              direction: in
+            - name: callback
+              type:
+                name: ISoundTriggerCallback
+            - name: isTrusted
+              type:
+                name: boolean
+          return_type:
+            name: ISoundTriggerModule
+        - name: attachFakeHalInjection
+          transaction_code_offset: 4
+          params:
+            - name: injection
+              type:
+                name: ISoundTriggerInjection
+          return_type:
+            name: void
+    - name: ISoundTriggerModule
+      descriptor: android.media.soundtrigger_middleware.ISoundTriggerModule
+      methods:
+        - name: loadModel
+          transaction_code_offset: 0
+          params:
+            - name: model
+              type:
+                name: SoundModel
+              direction: in
+          return_type:
+            name: int
+        - name: loadPhraseModel
+          transaction_code_offset: 1
+          params:
+            - name: model
+              type:
+                name: PhraseSoundModel
+              direction: in
+          return_type:
+            name: int
+        - name: unloadModel
+          transaction_code_offset: 2
+          params:
+            - name: modelHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: startRecognition
+          transaction_code_offset: 3
+          params:
+            - name: modelHandle
+              type:
+                name: int
+            - name: config
+              type:
+                name: RecognitionConfig
+              direction: in
+          return_type:
+            name: IBinder
+        - name: stopRecognition
+          transaction_code_offset: 4
+          params:
+            - name: modelHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: forceRecognitionEvent
+          transaction_code_offset: 5
+          params:
+            - name: modelHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setModelParameter
+          transaction_code_offset: 6
+          params:
+            - name: modelHandle
+              type:
+                name: int
+            - name: modelParam
+              type:
+                name: ModelParameter
+            - name: value
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getModelParameter
+          transaction_code_offset: 7
+          params:
+            - name: modelHandle
+              type:
+                name: int
+            - name: modelParam
+              type:
+                name: ModelParameter
+          return_type:
+            name: int
+        - name: queryModelParameterSupport
+          transaction_code_offset: 8
+          params:
+            - name: modelHandle
+              type:
+                name: int
+            - name: modelParam
+              type:
+                name: ModelParameter
+          return_type:
+            name: ModelParameterRange
+          annotations:
+            - nullable
+        - name: detach
+          transaction_code_offset: 9
+          return_type:
+            name: void
+parcelables:
+    - name: PhraseRecognitionEventSys
+      fields:
+        - name: phraseRecognitionEvent
+          type:
+            name: PhraseRecognitionEvent
+        - name: halEventReceivedMillis
+          type:
+            name: long
+          default_value: "-1"
+        - name: token
+          type:
+            name: IBinder
+      annotations:
+        - JavaDerive
+    - name: RecognitionEventSys
+      fields:
+        - name: recognitionEvent
+          type:
+            name: RecognitionEvent
+        - name: halEventReceivedMillis
+          type:
+            name: long
+          default_value: "-1"
+        - name: token
+          type:
+            name: IBinder
+      annotations:
+        - JavaDerive
+    - name: SoundTriggerModuleDescriptor
+      fields:
+        - name: handle
+          type:
+            name: int
+        - name: properties
+          type:
+            name: Properties
+      annotations:
+        - JavaDerive

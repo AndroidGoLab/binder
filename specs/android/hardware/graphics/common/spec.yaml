@@ -1,0 +1,695 @@
+package: android.hardware.graphics.common
+go_package: android/hardware/graphics/common
+parcelables:
+    - name: Cta861_3
+      fields:
+        - name: maxContentLightLevel
+          type:
+            name: float
+        - name: maxFrameAverageLightLevel
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: DisplayDecorationSupport
+      fields:
+        - name: format
+          type:
+            name: PixelFormat
+        - name: alphaInterpretation
+          type:
+            name: AlphaInterpretation
+      annotations:
+        - VintfStability
+    - name: ExtendableType
+      fields:
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: value
+          type:
+            name: long
+          default_value: "0"
+      annotations:
+        - VintfStability
+    - name: FRect
+      fields:
+        - name: left
+          type:
+            name: float
+        - name: top
+          type:
+            name: float
+        - name: right
+          type:
+            name: float
+        - name: bottom
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: HardwareBuffer
+      fields:
+        - name: description
+          type:
+            name: HardwareBufferDescription
+        - name: handle
+          type:
+            name: NativeHandle
+      annotations:
+        - VintfStability
+    - name: HardwareBufferDescription
+      fields:
+        - name: width
+          type:
+            name: int
+        - name: height
+          type:
+            name: int
+        - name: layers
+          type:
+            name: int
+        - name: format
+          type:
+            name: PixelFormat
+          default_value: PixelFormat.UNSPECIFIED
+        - name: usage
+          type:
+            name: BufferUsage
+          default_value: BufferUsage.CPU_READ_NEVER
+        - name: stride
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: HdrConversionCapability
+      fields:
+        - name: sourceType
+          type:
+            name: Hdr
+        - name: outputType
+          type:
+            name: Hdr
+        - name: addsLatency
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: PlaneLayout
+      fields:
+        - name: components
+          type:
+            name: PlaneLayoutComponent
+            is_array: true
+        - name: offsetInBytes
+          type:
+            name: long
+        - name: sampleIncrementInBits
+          type:
+            name: long
+        - name: strideInBytes
+          type:
+            name: long
+        - name: widthInSamples
+          type:
+            name: long
+        - name: heightInSamples
+          type:
+            name: long
+        - name: totalSizeInBytes
+          type:
+            name: long
+        - name: horizontalSubsampling
+          type:
+            name: long
+        - name: verticalSubsampling
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: PlaneLayoutComponent
+      fields:
+        - name: type
+          type:
+            name: ExtendableType
+        - name: offsetInBits
+          type:
+            name: long
+        - name: sizeInBits
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: Point
+      fields:
+        - name: x
+          type:
+            name: int
+        - name: "y"
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: Rect
+      fields:
+        - name: left
+          type:
+            name: int
+        - name: top
+          type:
+            name: int
+        - name: right
+          type:
+            name: int
+        - name: bottom
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: Smpte2086
+      fields:
+        - name: primaryRed
+          type:
+            name: XyColor
+        - name: primaryGreen
+          type:
+            name: XyColor
+        - name: primaryBlue
+          type:
+            name: XyColor
+        - name: whitePoint
+          type:
+            name: XyColor
+        - name: maxLuminance
+          type:
+            name: float
+        - name: minLuminance
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: XyColor
+      fields:
+        - name: x
+          type:
+            name: float
+        - name: "y"
+          type:
+            name: float
+      annotations:
+        - VintfStability
+enums:
+    - name: AlphaInterpretation
+      backing_type: int
+      values:
+        - name: COVERAGE
+          value: "0"
+        - name: MASK
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BlendMode
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "0"
+        - name: NONE
+          value: "1"
+        - name: PREMULTIPLIED
+          value: "2"
+        - name: COVERAGE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BufferUsage
+      backing_type: long
+      values:
+        - name: CPU_READ_MASK
+          value: "0xf"
+        - name: CPU_READ_NEVER
+          value: "0"
+        - name: CPU_READ_RARELY
+          value: "2"
+        - name: CPU_READ_OFTEN
+          value: "3"
+        - name: CPU_WRITE_MASK
+          value: 0xf << 4
+        - name: CPU_WRITE_NEVER
+          value: 0 << 4
+        - name: CPU_WRITE_RARELY
+          value: 2 << 4
+        - name: CPU_WRITE_OFTEN
+          value: 3 << 4
+        - name: GPU_TEXTURE
+          value: 1 << 8
+        - name: GPU_RENDER_TARGET
+          value: 1 << 9
+        - name: COMPOSER_OVERLAY
+          value: 1 << 11
+        - name: COMPOSER_CLIENT_TARGET
+          value: 1 << 12
+        - name: PROTECTED
+          value: 1 << 14
+        - name: COMPOSER_CURSOR
+          value: 1 << 15
+        - name: VIDEO_ENCODER
+          value: 1 << 16
+        - name: CAMERA_OUTPUT
+          value: 1 << 17
+        - name: CAMERA_INPUT
+          value: 1 << 18
+        - name: RENDERSCRIPT
+          value: 1 << 20
+        - name: VIDEO_DECODER
+          value: 1 << 22
+        - name: SENSOR_DIRECT_DATA
+          value: 1 << 23
+        - name: GPU_DATA_BUFFER
+          value: 1 << 24
+        - name: GPU_CUBE_MAP
+          value: 1 << 25
+        - name: GPU_MIPMAP_COMPLETE
+          value: 1 << 26
+        - name: HW_IMAGE_ENCODER
+          value: 1 << 27
+        - name: FRONT_BUFFER
+          value: 1L << 32
+        - name: VENDOR_MASK
+          value: 0xfL << 28
+        - name: VENDOR_MASK_HI
+          value: 1L * 0xffff << 48
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ChromaSiting
+      backing_type: long
+      values:
+        - name: NONE
+          value: "0"
+        - name: UNKNOWN
+          value: "1"
+        - name: SITED_INTERSTITIAL
+          value: "2"
+        - name: COSITED_HORIZONTAL
+          value: "3"
+        - name: COSITED_VERTICAL
+          value: "4"
+        - name: COSITED_BOTH
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ColorTransform
+      backing_type: int
+      values:
+        - name: IDENTITY
+          value: "0"
+        - name: ARBITRARY_MATRIX
+          value: "1"
+        - name: VALUE_INVERSE
+          value: "2"
+        - name: GRAYSCALE
+          value: "3"
+        - name: CORRECT_PROTANOPIA
+          value: "4"
+        - name: CORRECT_DEUTERANOPIA
+          value: "5"
+        - name: CORRECT_TRITANOPIA
+          value: "6"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Compression
+      backing_type: long
+      values:
+        - name: NONE
+          value: "0"
+        - name: DISPLAY_STREAM_COMPRESSION
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Dataspace
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0x0"
+        - name: ARBITRARY
+          value: "0x1"
+        - name: STANDARD_SHIFT
+          value: "16"
+        - name: STANDARD_MASK
+          value: 63 << 16
+        - name: STANDARD_UNSPECIFIED
+          value: 0 << 16
+        - name: STANDARD_BT709
+          value: 1 << 16
+        - name: STANDARD_BT601_625
+          value: 2 << 16
+        - name: STANDARD_BT601_625_UNADJUSTED
+          value: 3 << 16
+        - name: STANDARD_BT601_525
+          value: 4 << 16
+        - name: STANDARD_BT601_525_UNADJUSTED
+          value: 5 << 16
+        - name: STANDARD_BT2020
+          value: 6 << 16
+        - name: STANDARD_BT2020_CONSTANT_LUMINANCE
+          value: 7 << 16
+        - name: STANDARD_BT470M
+          value: 8 << 16
+        - name: STANDARD_FILM
+          value: 9 << 16
+        - name: STANDARD_DCI_P3
+          value: 10 << 16
+        - name: STANDARD_ADOBE_RGB
+          value: 11 << 16
+        - name: TRANSFER_SHIFT
+          value: "22"
+        - name: TRANSFER_MASK
+          value: 31 << 22
+        - name: TRANSFER_UNSPECIFIED
+          value: 0 << 22
+        - name: TRANSFER_LINEAR
+          value: 1 << 22
+        - name: TRANSFER_SRGB
+          value: 2 << 22
+        - name: TRANSFER_SMPTE_170M
+          value: 3 << 22
+        - name: TRANSFER_GAMMA2_2
+          value: 4 << 22
+        - name: TRANSFER_GAMMA2_6
+          value: 5 << 22
+        - name: TRANSFER_GAMMA2_8
+          value: 6 << 22
+        - name: TRANSFER_ST2084
+          value: 7 << 22
+        - name: TRANSFER_HLG
+          value: 8 << 22
+        - name: RANGE_SHIFT
+          value: "27"
+        - name: RANGE_MASK
+          value: 7 << 27
+        - name: RANGE_UNSPECIFIED
+          value: 0 << 27
+        - name: RANGE_FULL
+          value: 1 << 27
+        - name: RANGE_LIMITED
+          value: 2 << 27
+        - name: RANGE_EXTENDED
+          value: 3 << 27
+        - name: SRGB_LINEAR
+          value: 1 << 16 | 1 << 22 | 1 << 27
+        - name: SCRGB_LINEAR
+          value: 1 << 16 | 1 << 22 | 3 << 27
+        - name: SRGB
+          value: 1 << 16 | 2 << 22 | 1 << 27
+        - name: SCRGB
+          value: 1 << 16 | 2 << 22 | 3 << 27
+        - name: JFIF
+          value: 2 << 16 | 3 << 22 | 1 << 27
+        - name: BT601_625
+          value: 2 << 16 | 3 << 22 | 2 << 27
+        - name: BT601_525
+          value: 4 << 16 | 3 << 22 | 2 << 27
+        - name: BT709
+          value: 1 << 16 | 3 << 22 | 2 << 27
+        - name: DCI_P3_LINEAR
+          value: 10 << 16 | 1 << 22 | 1 << 27
+        - name: DCI_P3
+          value: 10 << 16 | 5 << 22 | 1 << 27
+        - name: DISPLAY_P3_LINEAR
+          value: 10 << 16 | 1 << 22 | 1 << 27
+        - name: DISPLAY_P3
+          value: 10 << 16 | 2 << 22 | 1 << 27
+        - name: ADOBE_RGB
+          value: 11 << 16 | 4 << 22 | 1 << 27
+        - name: ADOBE_RGB_LINEAR
+          value: 11 << 16 | 1 << 22 | 1 << 27
+        - name: BT2020_LINEAR
+          value: 6 << 16 | 1 << 22 | 1 << 27
+        - name: BT2020
+          value: 6 << 16 | 3 << 22 | 1 << 27
+        - name: BT2020_PQ
+          value: 6 << 16 | 7 << 22 | 1 << 27
+        - name: BT2020_LINEAR_EXTENDED
+          value: 6 << 16 | 1 << 22 | 3 << 27
+        - name: DEPTH
+          value: "0x1000"
+        - name: SENSOR
+          value: "0x1001"
+        - name: BT2020_ITU
+          value: 6 << 16 | 3 << 22 | 2 << 27
+        - name: BT2020_ITU_PQ
+          value: 6 << 16 | 7 << 22 | 2 << 27
+        - name: BT2020_ITU_HLG
+          value: 6 << 16 | 8 << 22 | 2 << 27
+        - name: BT2020_HLG
+          value: 6 << 16 | 8 << 22 | 1 << 27
+        - name: DISPLAY_BT2020
+          value: 6 << 16 | 2 << 22 | 1 << 27
+        - name: DYNAMIC_DEPTH
+          value: "0x1002"
+        - name: JPEG_APP_SEGMENTS
+          value: "0x1003"
+        - name: HEIF
+          value: "0x1004"
+        - name: JPEG_R
+          value: "0x1005"
+        - name: BT709_FULL_RANGE
+          value: 1 << 16 | 3 << 22 | 1 << 27
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DisplayHotplugEvent
+      backing_type: int
+      values:
+        - name: CONNECTED
+          value: "0"
+        - name: DISCONNECTED
+          value: "1"
+        - name: ERROR_UNKNOWN
+          value: "-1"
+        - name: ERROR_INCOMPATIBLE_CABLE
+          value: "-2"
+        - name: ERROR_TOO_MANY_DISPLAYS
+          value: "-3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Hdr
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "0"
+        - name: DOLBY_VISION
+          value: "1"
+        - name: HDR10
+          value: "2"
+        - name: HLG
+          value: "3"
+        - name: HDR10_PLUS
+          value: "4"
+        - name: DOLBY_VISION_4K30
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Interlaced
+      backing_type: long
+      values:
+        - name: NONE
+          value: "0"
+        - name: TOP_BOTTOM
+          value: "1"
+        - name: RIGHT_LEFT
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PixelFormat
+      backing_type: int
+      values:
+        - name: UNSPECIFIED
+          value: "0"
+        - name: RGBA_8888
+          value: "0x1"
+        - name: RGBX_8888
+          value: "0x2"
+        - name: RGB_888
+          value: "0x3"
+        - name: RGB_565
+          value: "0x4"
+        - name: BGRA_8888
+          value: "0x5"
+        - name: YCBCR_422_SP
+          value: "0x10"
+        - name: YCRCB_420_SP
+          value: "0x11"
+        - name: YCBCR_422_I
+          value: "0x14"
+        - name: RGBA_FP16
+          value: "0x16"
+        - name: RAW16
+          value: "0x20"
+        - name: BLOB
+          value: "0x21"
+        - name: IMPLEMENTATION_DEFINED
+          value: "0x22"
+        - name: YCBCR_420_888
+          value: "0x23"
+        - name: RAW_OPAQUE
+          value: "0x24"
+        - name: RAW10
+          value: "0x25"
+        - name: RAW12
+          value: "0x26"
+        - name: RGBA_1010102
+          value: "0x2B"
+        - name: Y8
+          value: "0x20203859"
+        - name: Y16
+          value: "0x20363159"
+        - name: YV12
+          value: "0x32315659"
+        - name: DEPTH_16
+          value: "0x30"
+        - name: DEPTH_24
+          value: "0x31"
+        - name: DEPTH_24_STENCIL_8
+          value: "0x32"
+        - name: DEPTH_32F
+          value: "0x33"
+        - name: DEPTH_32F_STENCIL_8
+          value: "0x34"
+        - name: STENCIL_8
+          value: "0x35"
+        - name: YCBCR_P010
+          value: "0x36"
+        - name: HSV_888
+          value: "0x37"
+        - name: R_8
+          value: "0x38"
+        - name: R_16_UINT
+          value: "0x39"
+        - name: RG_1616_UINT
+          value: "0x3a"
+        - name: RGBA_10101010
+          value: "0x3b"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PlaneLayoutComponentType
+      backing_type: long
+      values:
+        - name: "Y"
+          value: 1 << 0
+        - name: CB
+          value: 1 << 1
+        - name: CR
+          value: 1 << 2
+        - name: R
+          value: 1 << 10
+        - name: G
+          value: 1 << 11
+        - name: B
+          value: 1 << 12
+        - name: RAW
+          value: 1 << 20
+        - name: A
+          value: 1 << 30
+      annotations:
+        - VintfStability
+        - Backing
+    - name: StandardMetadataType
+      backing_type: long
+      values:
+        - name: INVALID
+          value: "0"
+        - name: BUFFER_ID
+          value: "1"
+        - name: NAME
+          value: "2"
+        - name: WIDTH
+          value: "3"
+        - name: HEIGHT
+          value: "4"
+        - name: LAYER_COUNT
+          value: "5"
+        - name: PIXEL_FORMAT_REQUESTED
+          value: "6"
+        - name: PIXEL_FORMAT_FOURCC
+          value: "7"
+        - name: PIXEL_FORMAT_MODIFIER
+          value: "8"
+        - name: USAGE
+          value: "9"
+        - name: ALLOCATION_SIZE
+          value: "10"
+        - name: PROTECTED_CONTENT
+          value: "11"
+        - name: COMPRESSION
+          value: "12"
+        - name: INTERLACED
+          value: "13"
+        - name: CHROMA_SITING
+          value: "14"
+        - name: PLANE_LAYOUTS
+          value: "15"
+        - name: CROP
+          value: "16"
+        - name: DATASPACE
+          value: "17"
+        - name: BLEND_MODE
+          value: "18"
+        - name: SMPTE2086
+          value: "19"
+        - name: CTA861_3
+          value: "20"
+        - name: SMPTE2094_40
+          value: "21"
+        - name: SMPTE2094_10
+          value: "22"
+        - name: STRIDE
+          value: "23"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Transform
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: FLIP_H
+          value: 1 << 0
+        - name: FLIP_V
+          value: 1 << 1
+        - name: ROT_90
+          value: 1 << 2
+        - name: ROT_180
+          value: FLIP_H | FLIP_V
+        - name: ROT_270
+          value: FLIP_H | FLIP_V | ROT_90
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: HdrConversionStrategy
+      fields:
+        - name: passthrough
+          type:
+            name: boolean
+          default_value: "true"
+        - name: autoAllowedHdrTypes
+          type:
+            name: Hdr
+            is_array: true
+        - name: forceHdrConversion
+          type:
+            name: Hdr
+      annotations:
+        - VintfStability

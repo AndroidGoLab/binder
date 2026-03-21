@@ -6,6 +6,9 @@ import (
 	content "github.com/xaionaro-go/binder/android/content"
 	res "github.com/xaionaro-go/binder/android/content/res"
 	net "github.com/xaionaro-go/binder/android/net"
+	os "github.com/xaionaro-go/binder/android/os"
+	view "github.com/xaionaro-go/binder/android/view"
+	window "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
 	policy "github.com/xaionaro-go/binder/com/android/internal_/policy"
 	"github.com/xaionaro-go/binder/parcel"
@@ -168,11 +171,11 @@ type IActivityClientController interface {
 	ActivityRefreshed(ctx context.Context, token binder.IBinder) error
 	ActivityTopResumedStateLost(ctx context.Context) error
 	ActivityPaused(ctx context.Context, token binder.IBinder) error
-	ActivityStopped(ctx context.Context, token binder.IBinder, state interface{}, persistentState interface{}, description interface{}) error
+	ActivityStopped(ctx context.Context, token binder.IBinder, state os.Bundle, persistentState os.PersistableBundle, description string) error
 	ActivityDestroyed(ctx context.Context, token binder.IBinder) error
 	ActivityLocalRelaunch(ctx context.Context, token binder.IBinder) error
 	ActivityRelaunched(ctx context.Context, token binder.IBinder) error
-	ReportSizeConfigurations(ctx context.Context, token binder.IBinder, sizeConfigurations interface{}) error
+	ReportSizeConfigurations(ctx context.Context, token binder.IBinder, sizeConfigurations window.SizeConfigurationBuckets) error
 	MoveActivityTaskToBack(ctx context.Context, token binder.IBinder, nonRoot bool) (bool, error)
 	ShouldUpRecreateTask(ctx context.Context, token binder.IBinder, destAffinity string) (bool, error)
 	NavigateUpTo(ctx context.Context, token binder.IBinder, target content.Intent, resolvedType string, resultCode int32, resultData content.Intent) (bool, error)
@@ -197,21 +200,21 @@ type IActivityClientController interface {
 	SetRequestedOrientation(ctx context.Context, token binder.IBinder, requestedOrientation int32) error
 	GetRequestedOrientation(ctx context.Context, token binder.IBinder) (int32, error)
 	ConvertFromTranslucent(ctx context.Context, token binder.IBinder) (bool, error)
-	ConvertToTranslucent(ctx context.Context, token binder.IBinder, options interface{}) (bool, error)
+	ConvertToTranslucent(ctx context.Context, token binder.IBinder, options os.Bundle) (bool, error)
 	IsImmersive(ctx context.Context, token binder.IBinder) (bool, error)
 	SetImmersive(ctx context.Context, token binder.IBinder, immersive bool) error
 	EnterPictureInPictureMode(ctx context.Context, token binder.IBinder, params PictureInPictureParams) (bool, error)
 	SetPictureInPictureParams(ctx context.Context, token binder.IBinder, params PictureInPictureParams) error
 	SetShouldDockBigOverlays(ctx context.Context, token binder.IBinder, shouldDockBigOverlays bool) error
 	ToggleFreeformWindowingMode(ctx context.Context, token binder.IBinder) error
-	RequestMultiwindowFullscreen(ctx context.Context, token binder.IBinder, request int32, callback interface{}) error
+	RequestMultiwindowFullscreen(ctx context.Context, token binder.IBinder, request int32, callback os.IRemoteCallback) error
 	StartLockTaskModeByToken(ctx context.Context, token binder.IBinder) error
 	StopLockTaskModeByToken(ctx context.Context, token binder.IBinder) error
 	ShowLockTaskEscapeMessage(ctx context.Context, token binder.IBinder) error
 	SetTaskDescription(ctx context.Context, token binder.IBinder, values ActivityManagerTaskDescription) error
-	ShowAssistFromActivity(ctx context.Context, token binder.IBinder, args interface{}) (bool, error)
+	ShowAssistFromActivity(ctx context.Context, token binder.IBinder, args os.Bundle) (bool, error)
 	IsRootVoiceInteraction(ctx context.Context, token binder.IBinder) (bool, error)
-	StartLocalVoiceInteraction(ctx context.Context, token binder.IBinder, options interface{}) error
+	StartLocalVoiceInteraction(ctx context.Context, token binder.IBinder, options os.Bundle) error
 	StopLocalVoiceInteraction(ctx context.Context, token binder.IBinder) error
 	SetShowWhenLocked(ctx context.Context, token binder.IBinder, showWhenLocked bool) error
 	SetInheritShowWhenLocked(ctx context.Context, token binder.IBinder, setInheritShownWhenLocked bool) error
@@ -224,8 +227,8 @@ type IActivityClientController interface {
 	SetVrMode(ctx context.Context, token binder.IBinder, enabled bool, packageName content.ComponentName) (int32, error)
 	SetRecentsScreenshotEnabled(ctx context.Context, token binder.IBinder, enabled bool) error
 	InvalidateHomeTaskSnapshot(ctx context.Context, homeToken binder.IBinder) error
-	DismissKeyguard(ctx context.Context, token binder.IBinder, callback policy.IKeyguardDismissCallback, message interface{}) error
-	RegisterRemoteAnimations(ctx context.Context, token binder.IBinder, definition interface{}) error
+	DismissKeyguard(ctx context.Context, token binder.IBinder, callback policy.IKeyguardDismissCallback, message string) error
+	RegisterRemoteAnimations(ctx context.Context, token binder.IBinder, definition view.RemoteAnimationDefinition) error
 	UnregisterRemoteAnimations(ctx context.Context, token binder.IBinder) error
 	OnBackPressed(ctx context.Context, activityToken binder.IBinder, callback IRequestFinishCallback) error
 	SplashScreenAttached(ctx context.Context, token binder.IBinder) error
@@ -258,6 +261,7 @@ func (p *ActivityClientControllerProxy) ActivityIdle(
 	stopProfiling bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -281,6 +285,7 @@ func (p *ActivityClientControllerProxy) ActivityResumed(
 	handleSplashScreenExit bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(handleSplashScreenExit)
@@ -299,6 +304,7 @@ func (p *ActivityClientControllerProxy) ActivityRefreshed(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -315,6 +321,7 @@ func (p *ActivityClientControllerProxy) ActivityTopResumedStateLost(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityClientController, MethodIActivityClientControllerActivityTopResumedStateLost)
@@ -340,6 +347,7 @@ func (p *ActivityClientControllerProxy) ActivityPaused(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -364,13 +372,23 @@ func (p *ActivityClientControllerProxy) ActivityPaused(
 func (p *ActivityClientControllerProxy) ActivityStopped(
 	ctx context.Context,
 	token binder.IBinder,
-	state interface{},
-	persistentState interface{},
-	description interface{},
+	state os.Bundle,
+	persistentState os.PersistableBundle,
+	description string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := state.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := persistentState.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteString16(description)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityClientController, MethodIActivityClientControllerActivityStopped)
 	if _err != nil {
@@ -386,6 +404,7 @@ func (p *ActivityClientControllerProxy) ActivityDestroyed(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -403,6 +422,7 @@ func (p *ActivityClientControllerProxy) ActivityLocalRelaunch(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -420,6 +440,7 @@ func (p *ActivityClientControllerProxy) ActivityRelaunched(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -435,11 +456,16 @@ func (p *ActivityClientControllerProxy) ActivityRelaunched(
 func (p *ActivityClientControllerProxy) ReportSizeConfigurations(
 	ctx context.Context,
 	token binder.IBinder,
-	sizeConfigurations interface{},
+	sizeConfigurations window.SizeConfigurationBuckets,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := sizeConfigurations.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityClientController, MethodIActivityClientControllerReportSizeConfigurations)
 	if _err != nil {
@@ -457,6 +483,7 @@ func (p *ActivityClientControllerProxy) MoveActivityTaskToBack(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(nonRoot)
@@ -490,6 +517,7 @@ func (p *ActivityClientControllerProxy) ShouldUpRecreateTask(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(destAffinity)
@@ -526,6 +554,7 @@ func (p *ActivityClientControllerProxy) NavigateUpTo(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -567,6 +596,7 @@ func (p *ActivityClientControllerProxy) ReleaseActivityInstance(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -601,6 +631,7 @@ func (p *ActivityClientControllerProxy) FinishActivity(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(code)
@@ -638,6 +669,7 @@ func (p *ActivityClientControllerProxy) FinishActivityAffinity(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -670,6 +702,7 @@ func (p *ActivityClientControllerProxy) FinishSubActivity(
 	requestCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(resultWho)
@@ -698,6 +731,7 @@ func (p *ActivityClientControllerProxy) SetForceSendResultForMediaProjection(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -725,6 +759,7 @@ func (p *ActivityClientControllerProxy) IsTopOfTask(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -756,6 +791,7 @@ func (p *ActivityClientControllerProxy) WillActivityBeVisible(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -787,6 +823,7 @@ func (p *ActivityClientControllerProxy) GetDisplayId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 
@@ -819,6 +856,7 @@ func (p *ActivityClientControllerProxy) GetTaskForActivity(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(onlyRoot)
@@ -851,6 +889,7 @@ func (p *ActivityClientControllerProxy) GetTaskConfiguration(
 ) (res.Configuration, error) {
 	var _result res.Configuration
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 
@@ -887,6 +926,7 @@ func (p *ActivityClientControllerProxy) GetActivityTokenBelow(
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -919,6 +959,7 @@ func (p *ActivityClientControllerProxy) GetCallingActivity(
 ) (content.ComponentName, error) {
 	var _result content.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -955,6 +996,7 @@ func (p *ActivityClientControllerProxy) GetCallingPackage(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -986,6 +1028,7 @@ func (p *ActivityClientControllerProxy) GetLaunchedFromUid(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -1018,6 +1061,7 @@ func (p *ActivityClientControllerProxy) GetActivityCallerUid(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, callerToken, p.Remote.Transport())
@@ -1050,6 +1094,7 @@ func (p *ActivityClientControllerProxy) GetLaunchedFromPackage(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -1082,6 +1127,7 @@ func (p *ActivityClientControllerProxy) GetActivityCallerPackage(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, callerToken, p.Remote.Transport())
@@ -1118,6 +1164,7 @@ func (p *ActivityClientControllerProxy) CheckActivityCallerContentUriPermission(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, callerToken, p.Remote.Transport())
@@ -1156,6 +1203,7 @@ func (p *ActivityClientControllerProxy) SetRequestedOrientation(
 	requestedOrientation int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(requestedOrientation)
@@ -1184,6 +1232,7 @@ func (p *ActivityClientControllerProxy) GetRequestedOrientation(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -1215,6 +1264,7 @@ func (p *ActivityClientControllerProxy) ConvertFromTranslucent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -1243,12 +1293,17 @@ func (p *ActivityClientControllerProxy) ConvertFromTranslucent(
 func (p *ActivityClientControllerProxy) ConvertToTranslucent(
 	ctx context.Context,
 	token binder.IBinder,
-	options interface{},
+	options os.Bundle,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityClientController, MethodIActivityClientControllerConvertToTranslucent)
 	if _err != nil {
@@ -1278,6 +1333,7 @@ func (p *ActivityClientControllerProxy) IsImmersive(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -1309,6 +1365,7 @@ func (p *ActivityClientControllerProxy) SetImmersive(
 	immersive bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(immersive)
@@ -1338,6 +1395,7 @@ func (p *ActivityClientControllerProxy) EnterPictureInPictureMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1373,6 +1431,7 @@ func (p *ActivityClientControllerProxy) SetPictureInPictureParams(
 	params PictureInPictureParams,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1404,6 +1463,7 @@ func (p *ActivityClientControllerProxy) SetShouldDockBigOverlays(
 	shouldDockBigOverlays bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(shouldDockBigOverlays)
@@ -1422,6 +1482,7 @@ func (p *ActivityClientControllerProxy) ToggleFreeformWindowingMode(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -1447,12 +1508,14 @@ func (p *ActivityClientControllerProxy) RequestMultiwindowFullscreen(
 	ctx context.Context,
 	token binder.IBinder,
 	request int32,
-	callback interface{},
+	callback os.IRemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(request)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityClientController, MethodIActivityClientControllerRequestMultiwindowFullscreen)
 	if _err != nil {
@@ -1468,6 +1531,7 @@ func (p *ActivityClientControllerProxy) StartLockTaskModeByToken(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -1485,6 +1549,7 @@ func (p *ActivityClientControllerProxy) StopLockTaskModeByToken(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -1502,6 +1567,7 @@ func (p *ActivityClientControllerProxy) ShowLockTaskEscapeMessage(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -1520,6 +1586,7 @@ func (p *ActivityClientControllerProxy) SetTaskDescription(
 	values ActivityManagerTaskDescription,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1548,12 +1615,17 @@ func (p *ActivityClientControllerProxy) SetTaskDescription(
 func (p *ActivityClientControllerProxy) ShowAssistFromActivity(
 	ctx context.Context,
 	token binder.IBinder,
-	args interface{},
+	args os.Bundle,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityClientController, MethodIActivityClientControllerShowAssistFromActivity)
 	if _err != nil {
@@ -1583,6 +1655,7 @@ func (p *ActivityClientControllerProxy) IsRootVoiceInteraction(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -1611,11 +1684,16 @@ func (p *ActivityClientControllerProxy) IsRootVoiceInteraction(
 func (p *ActivityClientControllerProxy) StartLocalVoiceInteraction(
 	ctx context.Context,
 	token binder.IBinder,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityClientController, MethodIActivityClientControllerStartLocalVoiceInteraction)
 	if _err != nil {
@@ -1640,6 +1718,7 @@ func (p *ActivityClientControllerProxy) StopLocalVoiceInteraction(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -1667,6 +1746,7 @@ func (p *ActivityClientControllerProxy) SetShowWhenLocked(
 	showWhenLocked bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(showWhenLocked)
@@ -1686,6 +1766,7 @@ func (p *ActivityClientControllerProxy) SetInheritShowWhenLocked(
 	setInheritShownWhenLocked bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(setInheritShownWhenLocked)
@@ -1705,6 +1786,7 @@ func (p *ActivityClientControllerProxy) SetTurnScreenOn(
 	turnScreenOn bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(turnScreenOn)
@@ -1733,6 +1815,7 @@ func (p *ActivityClientControllerProxy) SetAllowCrossUidActivitySwitchFromBelow(
 	allowed bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(allowed)
@@ -1752,6 +1835,7 @@ func (p *ActivityClientControllerProxy) ReportActivityFullyDrawn(
 	restoredFromBundle bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(restoredFromBundle)
@@ -1774,6 +1858,7 @@ func (p *ActivityClientControllerProxy) OverrideActivityTransition(
 	backgroundColor int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(open)
@@ -1796,6 +1881,7 @@ func (p *ActivityClientControllerProxy) ClearOverrideActivityTransition(
 	open bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(open)
@@ -1818,6 +1904,7 @@ func (p *ActivityClientControllerProxy) OverridePendingTransition(
 	backgroundColor int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(packageName)
@@ -1851,6 +1938,7 @@ func (p *ActivityClientControllerProxy) SetVrMode(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(enabled)
@@ -1887,6 +1975,7 @@ func (p *ActivityClientControllerProxy) SetRecentsScreenshotEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(enabled)
@@ -1905,6 +1994,7 @@ func (p *ActivityClientControllerProxy) InvalidateHomeTaskSnapshot(
 	homeToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, homeToken, p.Remote.Transport())
 
@@ -1930,12 +2020,14 @@ func (p *ActivityClientControllerProxy) DismissKeyguard(
 	ctx context.Context,
 	token binder.IBinder,
 	callback policy.IKeyguardDismissCallback,
-	message interface{},
+	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_data.WriteString16(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityClientController, MethodIActivityClientControllerDismissKeyguard)
 	if _err != nil {
@@ -1958,11 +2050,16 @@ func (p *ActivityClientControllerProxy) DismissKeyguard(
 func (p *ActivityClientControllerProxy) RegisterRemoteAnimations(
 	ctx context.Context,
 	token binder.IBinder,
-	definition interface{},
+	definition view.RemoteAnimationDefinition,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := definition.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityClientController, MethodIActivityClientControllerRegisterRemoteAnimations)
 	if _err != nil {
@@ -1987,6 +2084,7 @@ func (p *ActivityClientControllerProxy) UnregisterRemoteAnimations(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -2014,6 +2112,7 @@ func (p *ActivityClientControllerProxy) OnBackPressed(
 	callback IRequestFinishCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -2032,6 +2131,7 @@ func (p *ActivityClientControllerProxy) SplashScreenAttached(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -2052,6 +2152,7 @@ func (p *ActivityClientControllerProxy) RequestCompatCameraControl(
 	callback ICompatCameraControlCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(showControl)
@@ -2072,6 +2173,7 @@ func (p *ActivityClientControllerProxy) EnableTaskLocaleOverride(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -2100,6 +2202,7 @@ func (p *ActivityClientControllerProxy) IsRequestedToLaunchInTaskFragment(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, taskFragmentToken, p.Remote.Transport())
@@ -2132,6 +2235,7 @@ func (p *ActivityClientControllerProxy) SetActivityRecordInputSinkEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	_data.WriteBool(enabled)
@@ -2148,7 +2252,8 @@ func (p *ActivityClientControllerProxy) SetActivityRecordInputSinkEnabled(
 // ActivityClientControllerStub dispatches incoming binder transactions
 // to a typed IActivityClientController implementation.
 type ActivityClientControllerStub struct {
-	Impl IActivityClientController
+	Impl      IActivityClientController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ActivityClientControllerStub)(nil)
@@ -2162,14 +2267,20 @@ func (s *ActivityClientControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIActivityClientControllerActivityIdle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_config res.Configuration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2187,36 +2298,34 @@ func (s *ActivityClientControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ActivityIdle(ctx, _arg_token, _arg_config, _arg_stopProfiling)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerActivityResumed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_handleSplashScreenExit, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ActivityResumed(ctx, _arg_token, _arg_handleSplashScreenExit)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerActivityRefreshed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		_err := s.Impl.ActivityRefreshed(ctx, _arg_token)
-		_ = _err
-		return nil, nil
-	case TransactionIActivityClientControllerActivityTopResumedStateLost:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
 		}
+		_err := s.Impl.ActivityRefreshed(ctx, _arg_token)
+		return nil, _err
+	case TransactionIActivityClientControllerActivityTopResumedStateLost:
 		_err := s.Impl.ActivityTopResumedStateLost(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2226,12 +2335,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerActivityPaused:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.ActivityPaused(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2241,66 +2352,109 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerActivityStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
+		var _arg_token binder.IBinder
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
+		var _arg_state os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_state.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_persistentState os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_persistentState.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_description, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_token binder.IBinder
-		_ = _arg_token
-		var _arg_state interface{}
-		var _arg_persistentState interface{}
-		var _arg_description interface{}
-		_err := s.Impl.ActivityStopped(ctx, _arg_token, _arg_state, _arg_persistentState, _arg_description)
-		_ = _err
-		return nil, nil
+		_err = s.Impl.ActivityStopped(ctx, _arg_token, _arg_state, _arg_persistentState, _arg_description)
+		return nil, _err
 	case TransactionIActivityClientControllerActivityDestroyed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.ActivityDestroyed(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerActivityLocalRelaunch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.ActivityLocalRelaunch(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerActivityRelaunched:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.ActivityRelaunched(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerReportSizeConfigurations:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		var _arg_sizeConfigurations interface{}
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
+		var _arg_sizeConfigurations window.SizeConfigurationBuckets
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sizeConfigurations.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.ReportSizeConfigurations(ctx, _arg_token, _arg_sizeConfigurations)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerMoveActivityTaskToBack:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_nonRoot, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2315,12 +2469,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerShouldUpRecreateTask:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_destAffinity, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2335,12 +2491,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerNavigateUpTo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_target content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2383,12 +2541,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerReleaseActivityInstance:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.ReleaseActivityInstance(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2399,12 +2559,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerFinishActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2435,12 +2597,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerFinishActivityAffinity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.FinishActivityAffinity(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2451,12 +2615,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerFinishSubActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_resultWho, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2474,12 +2640,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetForceSendResultForMediaProjection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.SetForceSendResultForMediaProjection(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2489,12 +2657,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerIsTopOfTask:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.IsTopOfTask(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2505,12 +2675,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerWillActivityBeVisible:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.WillActivityBeVisible(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2521,12 +2693,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetDisplayId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
+		}
 		_result, _err := s.Impl.GetDisplayId(ctx, _arg_activityToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2537,12 +2711,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetTaskForActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_onlyRoot, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2557,12 +2733,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetTaskConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
+		}
 		_result, _err := s.Impl.GetTaskConfiguration(ctx, _arg_activityToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2576,12 +2754,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIActivityClientControllerGetActivityTokenBelow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.GetActivityTokenBelow(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2589,16 +2769,17 @@ func (s *ActivityClientControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetCallingActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.GetCallingActivity(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2612,12 +2793,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIActivityClientControllerGetCallingPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.GetCallingPackage(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2628,12 +2811,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetLaunchedFromUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.GetLaunchedFromUid(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2644,15 +2829,22 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetActivityCallerUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
+		}
 		var _arg_callerToken binder.IBinder
-		_ = _arg_callerToken
+		{
+			_callerTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callerToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callerTokenHandle)
+		}
 		_result, _err := s.Impl.GetActivityCallerUid(ctx, _arg_activityToken, _arg_callerToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2663,12 +2855,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetLaunchedFromPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.GetLaunchedFromPackage(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2679,15 +2873,22 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetActivityCallerPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
+		}
 		var _arg_callerToken binder.IBinder
-		_ = _arg_callerToken
+		{
+			_callerTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callerToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callerTokenHandle)
+		}
 		_result, _err := s.Impl.GetActivityCallerPackage(ctx, _arg_activityToken, _arg_callerToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2698,15 +2899,22 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerCheckActivityCallerContentUriPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
+		}
 		var _arg_callerToken binder.IBinder
-		_ = _arg_callerToken
+		{
+			_callerTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callerToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callerTokenHandle)
+		}
 		var _arg_uri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2736,12 +2944,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetRequestedOrientation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_requestedOrientation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2755,12 +2965,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetRequestedOrientation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.GetRequestedOrientation(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2771,12 +2983,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerConvertFromTranslucent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.ConvertFromTranslucent(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2787,13 +3001,26 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerConvertToTranslucent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		var _arg_options interface{}
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.ConvertToTranslucent(ctx, _arg_token, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2804,12 +3031,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerIsImmersive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.IsImmersive(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2820,12 +3049,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetImmersive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_immersive, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2839,12 +3070,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerEnterPictureInPictureMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_params PictureInPictureParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2867,12 +3100,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetPictureInPictureParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_params PictureInPictureParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2894,26 +3129,29 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetShouldDockBigOverlays:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_shouldDockBigOverlays, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetShouldDockBigOverlays(ctx, _arg_token, _arg_shouldDockBigOverlays)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerToggleFreeformWindowingMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.ToggleFreeformWindowingMode(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2923,57 +3161,70 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerRequestMultiwindowFullscreen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_request, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		var _arg_callback os.IRemoteCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = os.NewRemoteCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RequestMultiwindowFullscreen(ctx, _arg_token, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerStartLockTaskModeByToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.StartLockTaskModeByToken(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerStopLockTaskModeByToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.StopLockTaskModeByToken(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerShowLockTaskEscapeMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.ShowLockTaskEscapeMessage(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerSetTaskDescription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_values ActivityManagerTaskDescription
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2995,13 +3246,26 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerShowAssistFromActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		var _arg_args interface{}
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
+		var _arg_args os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.ShowAssistFromActivity(ctx, _arg_token, _arg_args)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3012,12 +3276,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerIsRootVoiceInteraction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.IsRootVoiceInteraction(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3028,13 +3294,26 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerStartLocalVoiceInteraction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		var _arg_options interface{}
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.StartLocalVoiceInteraction(ctx, _arg_token, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3044,12 +3323,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerStopLocalVoiceInteraction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.StopLocalVoiceInteraction(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3059,40 +3340,44 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetShowWhenLocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_showWhenLocked, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetShowWhenLocked(ctx, _arg_token, _arg_showWhenLocked)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerSetInheritShowWhenLocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_setInheritShownWhenLocked, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetInheritShowWhenLocked(ctx, _arg_token, _arg_setInheritShownWhenLocked)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerSetTurnScreenOn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_turnScreenOn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3106,40 +3391,44 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetAllowCrossUidActivitySwitchFromBelow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetAllowCrossUidActivitySwitchFromBelow(ctx, _arg_token, _arg_allowed)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerReportActivityFullyDrawn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_restoredFromBundle, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ReportActivityFullyDrawn(ctx, _arg_token, _arg_restoredFromBundle)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerOverrideActivityTransition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_open, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3157,29 +3446,31 @@ func (s *ActivityClientControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OverrideActivityTransition(ctx, _arg_token, _arg_open, _arg_enterAnim, _arg_exitAnim, _arg_backgroundColor)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerClearOverrideActivityTransition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_open, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ClearOverrideActivityTransition(ctx, _arg_token, _arg_open)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerOverridePendingTransition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3205,12 +3496,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetVrMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3237,26 +3530,29 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetRecentsScreenshotEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetRecentsScreenshotEnabled(ctx, _arg_token, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerInvalidateHomeTaskSnapshot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_homeToken binder.IBinder
-		_ = _arg_homeToken
+		{
+			_homeTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_homeToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _homeTokenHandle)
+		}
 		_err := s.Impl.InvalidateHomeTaskSnapshot(ctx, _arg_homeToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3266,17 +3562,27 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerDismissKeyguard:
-		if _, _err := _data.ReadString16(); _err != nil {
+		var _arg_token binder.IBinder
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
+		var _arg_callback policy.IKeyguardDismissCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = policy.NewKeyguardDismissCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
+		_arg_message, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_token binder.IBinder
-		_ = _arg_token
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback policy.IKeyguardDismissCallback
-		_ = _arg_callback
-		var _arg_message interface{}
-		_err := s.Impl.DismissKeyguard(ctx, _arg_token, _arg_callback, _arg_message)
+		_err = s.Impl.DismissKeyguard(ctx, _arg_token, _arg_callback, _arg_message)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -3285,13 +3591,26 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerRegisterRemoteAnimations:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		var _arg_definition interface{}
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
+		var _arg_definition view.RemoteAnimationDefinition
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_definition.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.RegisterRemoteAnimations(ctx, _arg_token, _arg_definition)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3301,12 +3620,14 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerUnregisterRemoteAnimations:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.UnregisterRemoteAnimations(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3316,35 +3637,44 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerOnBackPressed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
+		}
 		var _arg_callback IRequestFinishCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRequestFinishCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.OnBackPressed(ctx, _arg_activityToken, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerSplashScreenAttached:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.SplashScreenAttached(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIActivityClientControllerRequestCompatCameraControl:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_showControl, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3353,19 +3683,25 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICompatCameraControlCallback
-		_ = _arg_callback
-		_err = s.Impl.RequestCompatCameraControl(ctx, _arg_token, _arg_showControl, _arg_transformationApplied, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIActivityClientControllerEnableTaskLocaleOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCompatCameraControlCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err = s.Impl.RequestCompatCameraControl(ctx, _arg_token, _arg_showControl, _arg_transformationApplied, _arg_callback)
+		return nil, _err
+	case TransactionIActivityClientControllerEnableTaskLocaleOverride:
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.EnableTaskLocaleOverride(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3375,15 +3711,22 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerIsRequestedToLaunchInTaskFragment:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
+		}
 		var _arg_taskFragmentToken binder.IBinder
-		_ = _arg_taskFragmentToken
+		{
+			_taskFragmentTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_taskFragmentToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _taskFragmentTokenHandle)
+		}
 		_result, _err := s.Impl.IsRequestedToLaunchInTaskFragment(ctx, _arg_activityToken, _arg_taskFragmentToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3394,19 +3737,20 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetActivityRecordInputSinkEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
-		_ = _arg_activityToken
+		{
+			_activityTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_activityToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _activityTokenHandle)
+		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetActivityRecordInputSinkEnabled(ctx, _arg_activityToken, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -3421,11 +3765,11 @@ type IActivityClientControllerServer interface {
 	ActivityRefreshed(ctx context.Context, token binder.IBinder) error
 	ActivityTopResumedStateLost(ctx context.Context) error
 	ActivityPaused(ctx context.Context, token binder.IBinder) error
-	ActivityStopped(ctx context.Context, token binder.IBinder, state interface{}, persistentState interface{}, description interface{}) error
+	ActivityStopped(ctx context.Context, token binder.IBinder, state os.Bundle, persistentState os.PersistableBundle, description string) error
 	ActivityDestroyed(ctx context.Context, token binder.IBinder) error
 	ActivityLocalRelaunch(ctx context.Context, token binder.IBinder) error
 	ActivityRelaunched(ctx context.Context, token binder.IBinder) error
-	ReportSizeConfigurations(ctx context.Context, token binder.IBinder, sizeConfigurations interface{}) error
+	ReportSizeConfigurations(ctx context.Context, token binder.IBinder, sizeConfigurations window.SizeConfigurationBuckets) error
 	MoveActivityTaskToBack(ctx context.Context, token binder.IBinder, nonRoot bool) (bool, error)
 	ShouldUpRecreateTask(ctx context.Context, token binder.IBinder, destAffinity string) (bool, error)
 	NavigateUpTo(ctx context.Context, token binder.IBinder, target content.Intent, resolvedType string, resultCode int32, resultData content.Intent) (bool, error)
@@ -3450,21 +3794,21 @@ type IActivityClientControllerServer interface {
 	SetRequestedOrientation(ctx context.Context, token binder.IBinder, requestedOrientation int32) error
 	GetRequestedOrientation(ctx context.Context, token binder.IBinder) (int32, error)
 	ConvertFromTranslucent(ctx context.Context, token binder.IBinder) (bool, error)
-	ConvertToTranslucent(ctx context.Context, token binder.IBinder, options interface{}) (bool, error)
+	ConvertToTranslucent(ctx context.Context, token binder.IBinder, options os.Bundle) (bool, error)
 	IsImmersive(ctx context.Context, token binder.IBinder) (bool, error)
 	SetImmersive(ctx context.Context, token binder.IBinder, immersive bool) error
 	EnterPictureInPictureMode(ctx context.Context, token binder.IBinder, params PictureInPictureParams) (bool, error)
 	SetPictureInPictureParams(ctx context.Context, token binder.IBinder, params PictureInPictureParams) error
 	SetShouldDockBigOverlays(ctx context.Context, token binder.IBinder, shouldDockBigOverlays bool) error
 	ToggleFreeformWindowingMode(ctx context.Context, token binder.IBinder) error
-	RequestMultiwindowFullscreen(ctx context.Context, token binder.IBinder, request int32, callback interface{}) error
+	RequestMultiwindowFullscreen(ctx context.Context, token binder.IBinder, request int32, callback os.IRemoteCallback) error
 	StartLockTaskModeByToken(ctx context.Context, token binder.IBinder) error
 	StopLockTaskModeByToken(ctx context.Context, token binder.IBinder) error
 	ShowLockTaskEscapeMessage(ctx context.Context, token binder.IBinder) error
 	SetTaskDescription(ctx context.Context, token binder.IBinder, values ActivityManagerTaskDescription) error
-	ShowAssistFromActivity(ctx context.Context, token binder.IBinder, args interface{}) (bool, error)
+	ShowAssistFromActivity(ctx context.Context, token binder.IBinder, args os.Bundle) (bool, error)
 	IsRootVoiceInteraction(ctx context.Context, token binder.IBinder) (bool, error)
-	StartLocalVoiceInteraction(ctx context.Context, token binder.IBinder, options interface{}) error
+	StartLocalVoiceInteraction(ctx context.Context, token binder.IBinder, options os.Bundle) error
 	StopLocalVoiceInteraction(ctx context.Context, token binder.IBinder) error
 	SetShowWhenLocked(ctx context.Context, token binder.IBinder, showWhenLocked bool) error
 	SetInheritShowWhenLocked(ctx context.Context, token binder.IBinder, setInheritShownWhenLocked bool) error
@@ -3477,8 +3821,8 @@ type IActivityClientControllerServer interface {
 	SetVrMode(ctx context.Context, token binder.IBinder, enabled bool, packageName content.ComponentName) (int32, error)
 	SetRecentsScreenshotEnabled(ctx context.Context, token binder.IBinder, enabled bool) error
 	InvalidateHomeTaskSnapshot(ctx context.Context, homeToken binder.IBinder) error
-	DismissKeyguard(ctx context.Context, token binder.IBinder, callback policy.IKeyguardDismissCallback, message interface{}) error
-	RegisterRemoteAnimations(ctx context.Context, token binder.IBinder, definition interface{}) error
+	DismissKeyguard(ctx context.Context, token binder.IBinder, callback policy.IKeyguardDismissCallback, message string) error
+	RegisterRemoteAnimations(ctx context.Context, token binder.IBinder, definition view.RemoteAnimationDefinition) error
 	UnregisterRemoteAnimations(ctx context.Context, token binder.IBinder) error
 	OnBackPressed(ctx context.Context, activityToken binder.IBinder, callback IRequestFinishCallback) error
 	SplashScreenAttached(ctx context.Context, token binder.IBinder) error
@@ -3537,9 +3881,9 @@ func (w *activityClientControllerStubWrapper) ActivityPaused(
 func (w *activityClientControllerStubWrapper) ActivityStopped(
 	ctx context.Context,
 	token binder.IBinder,
-	state interface{},
-	persistentState interface{},
-	description interface{},
+	state os.Bundle,
+	persistentState os.PersistableBundle,
+	description string,
 ) error {
 	return w.impl.ActivityStopped(ctx, token, state, persistentState, description)
 }
@@ -3568,7 +3912,7 @@ func (w *activityClientControllerStubWrapper) ActivityRelaunched(
 func (w *activityClientControllerStubWrapper) ReportSizeConfigurations(
 	ctx context.Context,
 	token binder.IBinder,
-	sizeConfigurations interface{},
+	sizeConfigurations window.SizeConfigurationBuckets,
 ) error {
 	return w.impl.ReportSizeConfigurations(ctx, token, sizeConfigurations)
 }
@@ -3762,7 +4106,7 @@ func (w *activityClientControllerStubWrapper) ConvertFromTranslucent(
 func (w *activityClientControllerStubWrapper) ConvertToTranslucent(
 	ctx context.Context,
 	token binder.IBinder,
-	options interface{},
+	options os.Bundle,
 ) (bool, error) {
 	return w.impl.ConvertToTranslucent(ctx, token, options)
 }
@@ -3817,7 +4161,7 @@ func (w *activityClientControllerStubWrapper) RequestMultiwindowFullscreen(
 	ctx context.Context,
 	token binder.IBinder,
 	request int32,
-	callback interface{},
+	callback os.IRemoteCallback,
 ) error {
 	return w.impl.RequestMultiwindowFullscreen(ctx, token, request, callback)
 }
@@ -3854,7 +4198,7 @@ func (w *activityClientControllerStubWrapper) SetTaskDescription(
 func (w *activityClientControllerStubWrapper) ShowAssistFromActivity(
 	ctx context.Context,
 	token binder.IBinder,
-	args interface{},
+	args os.Bundle,
 ) (bool, error) {
 	return w.impl.ShowAssistFromActivity(ctx, token, args)
 }
@@ -3869,7 +4213,7 @@ func (w *activityClientControllerStubWrapper) IsRootVoiceInteraction(
 func (w *activityClientControllerStubWrapper) StartLocalVoiceInteraction(
 	ctx context.Context,
 	token binder.IBinder,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.StartLocalVoiceInteraction(ctx, token, options)
 }
@@ -3979,7 +4323,7 @@ func (w *activityClientControllerStubWrapper) DismissKeyguard(
 	ctx context.Context,
 	token binder.IBinder,
 	callback policy.IKeyguardDismissCallback,
-	message interface{},
+	message string,
 ) error {
 	return w.impl.DismissKeyguard(ctx, token, callback, message)
 }
@@ -3987,7 +4331,7 @@ func (w *activityClientControllerStubWrapper) DismissKeyguard(
 func (w *activityClientControllerStubWrapper) RegisterRemoteAnimations(
 	ctx context.Context,
 	token binder.IBinder,
-	definition interface{},
+	definition view.RemoteAnimationDefinition,
 ) error {
 	return w.impl.RegisterRemoteAnimations(ctx, token, definition)
 }

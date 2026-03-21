@@ -1,0 +1,97 @@
+package: android.hardware.audio.common
+go_package: android/hardware/audio/common
+parcelables:
+    - name: AudioOffloadMetadata
+      fields:
+        - name: sampleRate
+          type:
+            name: int
+        - name: channelMask
+          type:
+            name: AudioChannelLayout
+        - name: averageBitRatePerSecond
+          type:
+            name: int
+        - name: delayFrames
+          type:
+            name: int
+        - name: paddingFrames
+          type:
+            name: int
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: PlaybackTrackMetadata
+      fields:
+        - name: usage
+          type:
+            name: AudioUsage
+          default_value: AudioUsage.INVALID
+        - name: contentType
+          type:
+            name: AudioContentType
+          default_value: AudioContentType.UNKNOWN
+        - name: gain
+          type:
+            name: float
+        - name: channelMask
+          type:
+            name: AudioChannelLayout
+        - name: sourceDevice
+          type:
+            name: AudioDevice
+          annotations:
+            - nullable
+        - name: tags
+          type:
+            name: String
+            is_array: true
+          annotations:
+            - utf8InCpp
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: RecordTrackMetadata
+      fields:
+        - name: source
+          type:
+            name: AudioSource
+          default_value: AudioSource.SYS_RESERVED_INVALID
+        - name: gain
+          type:
+            name: float
+        - name: destinationDevice
+          type:
+            name: AudioDevice
+          annotations:
+            - nullable
+        - name: channelMask
+          type:
+            name: AudioChannelLayout
+        - name: tags
+          type:
+            name: String
+            is_array: true
+          annotations:
+            - utf8InCpp
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: SinkMetadata
+      fields:
+        - name: tracks
+          type:
+            name: RecordTrackMetadata
+            is_array: true
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: SourceMetadata
+      fields:
+        - name: tracks
+          type:
+            name: PlaybackTrackMetadata
+            is_array: true
+      annotations:
+        - JavaDerive
+        - VintfStability

@@ -33,8 +33,7 @@ func (u *CodecMode) GetNoinit() (bool, bool) {
 func (u *CodecMode) SetNoinit(
 	v bool,
 ) {
-	u.Tag = CodecModeTagNoinit
-	u.Noinit = v
+	*u = CodecMode{Tag: CodecModeTagNoinit, Noinit: v}
 }
 
 func (u *CodecMode) GetAmr() (AmrMode, bool) {
@@ -48,8 +47,7 @@ func (u *CodecMode) GetAmr() (AmrMode, bool) {
 func (u *CodecMode) SetAmr(
 	v AmrMode,
 ) {
-	u.Tag = CodecModeTagAmr
-	u.Amr = v
+	*u = CodecMode{Tag: CodecModeTagAmr, Amr: v}
 }
 
 func (u *CodecMode) GetEvs() (EvsMode, bool) {
@@ -63,8 +61,7 @@ func (u *CodecMode) GetEvs() (EvsMode, bool) {
 func (u *CodecMode) SetEvs(
 	v EvsMode,
 ) {
-	u.Tag = CodecModeTagEvs
-	u.Evs = v
+	*u = CodecMode{Tag: CodecModeTagEvs, Evs: v}
 }
 
 func (u *CodecMode) MarshalParcel(

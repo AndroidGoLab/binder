@@ -1,0 +1,4 @@
+package: android.graphics.fonts
+go_package: android/graphics/fonts
+parcelables:
+    - name: FontUpdateRequest

@@ -51,6 +51,7 @@ func (p *AppOpsNotedCallbackProxy) OpNoted(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsNotedCallback)
 	_data.WriteInt32(op)
 	_data.WriteInt32(uid)
@@ -72,7 +73,8 @@ func (p *AppOpsNotedCallbackProxy) OpNoted(
 // AppOpsNotedCallbackStub dispatches incoming binder transactions
 // to a typed IAppOpsNotedCallback implementation.
 type AppOpsNotedCallbackStub struct {
-	Impl IAppOpsNotedCallback
+	Impl      IAppOpsNotedCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AppOpsNotedCallbackStub)(nil)
@@ -86,11 +88,12 @@ func (s *AppOpsNotedCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAppOpsNotedCallbackOpNoted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_op, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -119,8 +122,7 @@ func (s *AppOpsNotedCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OpNoted(ctx, _arg_op, _arg_uid, _arg_packageName, _arg_virtualDeviceId, _arg_flags, _arg_mode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

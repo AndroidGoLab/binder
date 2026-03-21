@@ -51,17 +51,11 @@ func (p *HdmiVendorCommandListenerProxy) OnReceived(
 	hasVendorId bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiVendorCommandListener)
 	_data.WriteInt32(logicalAddress)
 	_data.WriteInt32(destAddress)
-	if operands == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(operands)))
-		for _, _item := range operands {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(operands)
 	_data.WriteBool(hasVendorId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiVendorCommandListener, MethodIHdmiVendorCommandListenerOnReceived)
@@ -79,6 +73,7 @@ func (p *HdmiVendorCommandListenerProxy) OnControlStateChanged(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiVendorCommandListener)
 	_data.WriteBool(enabled)
 	_data.WriteInt32(reason)
@@ -95,7 +90,8 @@ func (p *HdmiVendorCommandListenerProxy) OnControlStateChanged(
 // HdmiVendorCommandListenerStub dispatches incoming binder transactions
 // to a typed IHdmiVendorCommandListener implementation.
 type HdmiVendorCommandListenerStub struct {
-	Impl IHdmiVendorCommandListener
+	Impl      IHdmiVendorCommandListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HdmiVendorCommandListenerStub)(nil)
@@ -109,11 +105,12 @@ func (s *HdmiVendorCommandListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHdmiVendorCommandListenerOnReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_logicalAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -122,20 +119,21 @@ func (s *HdmiVendorCommandListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_operands []byte
-		_ = _arg_operands
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_operands = _bytes
+		}
 		_arg_hasVendorId, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnReceived(ctx, _arg_logicalAddress, _arg_destAddress, _arg_operands, _arg_hasVendorId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHdmiVendorCommandListenerOnControlStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -145,8 +143,7 @@ func (s *HdmiVendorCommandListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnControlStateChanged(ctx, _arg_enabled, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

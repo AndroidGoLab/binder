@@ -100,8 +100,8 @@ type IInputMethodManager interface {
 	ShowSoftInput(ctx context.Context, client internalInputmethod.IInputMethodClient, windowToken binder.IBinder, statsToken viewInputmethod.ImeTrackerToken, flags int32, lastClickToolType int32, resultReceiver *os.ResultReceiver, reason int32) (bool, error)
 	HideSoftInput(ctx context.Context, client internalInputmethod.IInputMethodClient, windowToken binder.IBinder, statsToken viewInputmethod.ImeTrackerToken, flags int32, resultReceiver *os.ResultReceiver, reason int32) (bool, error)
 	HideSoftInputFromServerForTest(ctx context.Context) error
-	StartInputOrWindowGainedFocus(ctx context.Context, startInputReason int32, client internalInputmethod.IInputMethodClient, windowToken *binder.IBinder, startInputFlags int32, softInputMode int32, windowFlags int32, editorInfo *viewInputmethod.EditorInfo, inputConnection *internalInputmethod.IRemoteInputConnection, remoteAccessibilityInputConnection *internalInputmethod.IRemoteAccessibilityInputConnection, unverifiedTargetSdkVersion int32, imeDispatcher window.ImeOnBackInvokedDispatcher) (internalInputmethod.InputBindResult, error)
-	StartInputOrWindowGainedFocusAsync(ctx context.Context, startInputReason int32, client internalInputmethod.IInputMethodClient, windowToken *binder.IBinder, startInputFlags int32, softInputMode int32, windowFlags int32, editorInfo *viewInputmethod.EditorInfo, inputConnection *internalInputmethod.IRemoteInputConnection, remoteAccessibilityInputConnection *internalInputmethod.IRemoteAccessibilityInputConnection, unverifiedTargetSdkVersion int32, imeDispatcher window.ImeOnBackInvokedDispatcher, startInputSeq int32) error
+	StartInputOrWindowGainedFocus(ctx context.Context, startInputReason int32, client internalInputmethod.IInputMethodClient, windowToken binder.IBinder, startInputFlags int32, softInputMode int32, windowFlags int32, editorInfo *viewInputmethod.EditorInfo, inputConnection internalInputmethod.IRemoteInputConnection, remoteAccessibilityInputConnection internalInputmethod.IRemoteAccessibilityInputConnection, unverifiedTargetSdkVersion int32, imeDispatcher window.ImeOnBackInvokedDispatcher) (internalInputmethod.InputBindResult, error)
+	StartInputOrWindowGainedFocusAsync(ctx context.Context, startInputReason int32, client internalInputmethod.IInputMethodClient, windowToken binder.IBinder, startInputFlags int32, softInputMode int32, windowFlags int32, editorInfo *viewInputmethod.EditorInfo, inputConnection internalInputmethod.IRemoteInputConnection, remoteAccessibilityInputConnection internalInputmethod.IRemoteAccessibilityInputConnection, unverifiedTargetSdkVersion int32, imeDispatcher window.ImeOnBackInvokedDispatcher, startInputSeq int32) error
 	ShowInputMethodPickerFromClient(ctx context.Context, client internalInputmethod.IInputMethodClient, auxiliarySubtypeMode int32) error
 	ShowInputMethodPickerFromSystem(ctx context.Context, auxiliarySubtypeMode int32, displayId int32) error
 	IsInputMethodPickerShownForTest(ctx context.Context) (bool, error)
@@ -150,6 +150,7 @@ func (p *InputMethodManagerProxy) AddClient(
 	untrustedDisplayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, inputmethod.AsBinder(), p.Remote.Transport())
@@ -179,6 +180,7 @@ func (p *InputMethodManagerProxy) GetCurrentInputMethodInfoAsUser(
 	var _result viewInputmethod.InputMethodInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -216,6 +218,7 @@ func (p *InputMethodManagerProxy) GetInputMethodList(
 	var _result []viewInputmethod.InputMethodInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(directBootAwareness)
@@ -239,6 +242,9 @@ func (p *InputMethodManagerProxy) GetInputMethodList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]viewInputmethod.InputMethodInfo, _count)
@@ -260,6 +266,7 @@ func (p *InputMethodManagerProxy) GetEnabledInputMethodList(
 	var _result []viewInputmethod.InputMethodInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -281,6 +288,9 @@ func (p *InputMethodManagerProxy) GetEnabledInputMethodList(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -305,6 +315,7 @@ func (p *InputMethodManagerProxy) GetEnabledInputMethodSubtypeList(
 	var _result []viewInputmethod.InputMethodSubtype
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	_data.WriteString16(imiId)
 	_data.WriteBool(allowsImplicitlyEnabledSubtypes)
@@ -329,6 +340,9 @@ func (p *InputMethodManagerProxy) GetEnabledInputMethodSubtypeList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]viewInputmethod.InputMethodSubtype, _count)
@@ -350,6 +364,7 @@ func (p *InputMethodManagerProxy) GetLastInputMethodSubtype(
 	var _result viewInputmethod.InputMethodSubtype
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -392,6 +407,7 @@ func (p *InputMethodManagerProxy) ShowSoftInput(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
@@ -402,6 +418,7 @@ func (p *InputMethodManagerProxy) ShowSoftInput(
 	_data.WriteInt32(flags)
 	_data.WriteInt32(lastClickToolType)
 	if resultReceiver != nil {
+		_data.WriteInt32(1)
 		if _err := (*resultReceiver).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
@@ -443,6 +460,7 @@ func (p *InputMethodManagerProxy) HideSoftInput(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
@@ -452,6 +470,7 @@ func (p *InputMethodManagerProxy) HideSoftInput(
 	}
 	_data.WriteInt32(flags)
 	if resultReceiver != nil {
+		_data.WriteInt32(1)
 		if _err := (*resultReceiver).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
@@ -486,6 +505,7 @@ func (p *InputMethodManagerProxy) HideSoftInputFromServerForTest(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodManager, MethodIInputMethodManagerHideSoftInputFromServerForTest)
@@ -510,47 +530,37 @@ func (p *InputMethodManagerProxy) StartInputOrWindowGainedFocus(
 	ctx context.Context,
 	startInputReason int32,
 	client internalInputmethod.IInputMethodClient,
-	windowToken *binder.IBinder,
+	windowToken binder.IBinder,
 	startInputFlags int32,
 	softInputMode int32,
 	windowFlags int32,
 	editorInfo *viewInputmethod.EditorInfo,
-	inputConnection *internalInputmethod.IRemoteInputConnection,
-	remoteAccessibilityInputConnection *internalInputmethod.IRemoteAccessibilityInputConnection,
+	inputConnection internalInputmethod.IRemoteInputConnection,
+	remoteAccessibilityInputConnection internalInputmethod.IRemoteAccessibilityInputConnection,
 	unverifiedTargetSdkVersion int32,
 	imeDispatcher window.ImeOnBackInvokedDispatcher,
 ) (internalInputmethod.InputBindResult, error) {
 	var _result internalInputmethod.InputBindResult
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	_data.WriteInt32(startInputReason)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
-	if windowToken != nil {
-		_data.WriteStrongBinder((*windowToken).Handle())
-	} else {
-		_data.WriteInt32(-1)
-	}
+	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteInt32(startInputFlags)
 	_data.WriteInt32(softInputMode)
 	_data.WriteInt32(windowFlags)
 	if editorInfo != nil {
+		_data.WriteInt32(1)
 		if _err := (*editorInfo).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
 	} else {
 		_data.WriteInt32(-1)
 	}
-	if inputConnection != nil {
-		_data.WriteStrongBinder((*inputConnection).AsBinder().Handle())
-	} else {
-		_data.WriteInt32(-1)
-	}
-	if remoteAccessibilityInputConnection != nil {
-		_data.WriteStrongBinder((*remoteAccessibilityInputConnection).AsBinder().Handle())
-	} else {
-		_data.WriteInt32(-1)
-	}
+	binder.WriteBinderToParcel(ctx, _data, inputConnection.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, remoteAccessibilityInputConnection.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(unverifiedTargetSdkVersion)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -589,47 +599,37 @@ func (p *InputMethodManagerProxy) StartInputOrWindowGainedFocusAsync(
 	ctx context.Context,
 	startInputReason int32,
 	client internalInputmethod.IInputMethodClient,
-	windowToken *binder.IBinder,
+	windowToken binder.IBinder,
 	startInputFlags int32,
 	softInputMode int32,
 	windowFlags int32,
 	editorInfo *viewInputmethod.EditorInfo,
-	inputConnection *internalInputmethod.IRemoteInputConnection,
-	remoteAccessibilityInputConnection *internalInputmethod.IRemoteAccessibilityInputConnection,
+	inputConnection internalInputmethod.IRemoteInputConnection,
+	remoteAccessibilityInputConnection internalInputmethod.IRemoteAccessibilityInputConnection,
 	unverifiedTargetSdkVersion int32,
 	imeDispatcher window.ImeOnBackInvokedDispatcher,
 	startInputSeq int32,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	_data.WriteInt32(startInputReason)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
-	if windowToken != nil {
-		_data.WriteStrongBinder((*windowToken).Handle())
-	} else {
-		_data.WriteInt32(-1)
-	}
+	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteInt32(startInputFlags)
 	_data.WriteInt32(softInputMode)
 	_data.WriteInt32(windowFlags)
 	if editorInfo != nil {
+		_data.WriteInt32(1)
 		if _err := (*editorInfo).MarshalParcel(_data); _err != nil {
 			return _err
 		}
 	} else {
 		_data.WriteInt32(-1)
 	}
-	if inputConnection != nil {
-		_data.WriteStrongBinder((*inputConnection).AsBinder().Handle())
-	} else {
-		_data.WriteInt32(-1)
-	}
-	if remoteAccessibilityInputConnection != nil {
-		_data.WriteStrongBinder((*remoteAccessibilityInputConnection).AsBinder().Handle())
-	} else {
-		_data.WriteInt32(-1)
-	}
+	binder.WriteBinderToParcel(ctx, _data, inputConnection.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, remoteAccessibilityInputConnection.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(unverifiedTargetSdkVersion)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -662,6 +662,7 @@ func (p *InputMethodManagerProxy) ShowInputMethodPickerFromClient(
 	auxiliarySubtypeMode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(auxiliarySubtypeMode)
@@ -690,6 +691,7 @@ func (p *InputMethodManagerProxy) ShowInputMethodPickerFromSystem(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	_data.WriteInt32(auxiliarySubtypeMode)
 	_data.WriteInt32(displayId)
@@ -717,6 +719,7 @@ func (p *InputMethodManagerProxy) IsInputMethodPickerShownForTest(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodManager, MethodIInputMethodManagerIsInputMethodPickerShownForTest)
@@ -747,6 +750,7 @@ func (p *InputMethodManagerProxy) GetCurrentInputMethodSubtype(
 	var _result viewInputmethod.InputMethodSubtype
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -784,6 +788,7 @@ func (p *InputMethodManagerProxy) SetAdditionalInputMethodSubtypes(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	_data.WriteString16(id)
 	if subtypes == nil {
@@ -824,6 +829,7 @@ func (p *InputMethodManagerProxy) SetExplicitlyEnabledInputMethodSubtypes(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	_data.WriteString16(imeId)
 	if subtypeHashCodes == nil {
@@ -860,6 +866,7 @@ func (p *InputMethodManagerProxy) GetInputMethodWindowVisibleHeight(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
@@ -891,6 +898,7 @@ func (p *InputMethodManagerProxy) ReportPerceptibleAsync(
 	perceptible bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteBool(perceptible)
@@ -908,6 +916,7 @@ func (p *InputMethodManagerProxy) RemoveImeSurface(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodManager, MethodIInputMethodManagerRemoveImeSurface)
@@ -933,6 +942,7 @@ func (p *InputMethodManagerProxy) RemoveImeSurfaceFromWindowAsync(
 	windowToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 
@@ -952,15 +962,9 @@ func (p *InputMethodManagerProxy) StartProtoDump(
 	where string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
-	if protoDump == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(protoDump)))
-		for _, _item := range protoDump {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(protoDump)
 	_data.WriteInt32(source)
 	_data.WriteString16(where)
 
@@ -987,6 +991,7 @@ func (p *InputMethodManagerProxy) IsImeTraceEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodManager, MethodIInputMethodManagerIsImeTraceEnabled)
@@ -1015,6 +1020,7 @@ func (p *InputMethodManagerProxy) StartImeTrace(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodManager, MethodIInputMethodManagerStartImeTrace)
@@ -1039,6 +1045,7 @@ func (p *InputMethodManagerProxy) StopImeTrace(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodManager, MethodIInputMethodManagerStopImeTrace)
@@ -1064,6 +1071,7 @@ func (p *InputMethodManagerProxy) StartStylusHandwriting(
 	client internalInputmethod.IInputMethodClient,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
@@ -1095,6 +1103,7 @@ func (p *InputMethodManagerProxy) StartConnectionlessStylusHandwriting(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -1123,6 +1132,7 @@ func (p *InputMethodManagerProxy) PrepareStylusHandwritingDelegation(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -1157,6 +1167,7 @@ func (p *InputMethodManagerProxy) AcceptStylusHandwritingDelegation(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -1196,6 +1207,7 @@ func (p *InputMethodManagerProxy) AcceptStylusHandwritingDelegationAsync(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -1220,6 +1232,7 @@ func (p *InputMethodManagerProxy) IsStylusHandwritingAvailableAsUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(connectionless)
@@ -1251,6 +1264,7 @@ func (p *InputMethodManagerProxy) AddVirtualStylusIdForTestSession(
 	client internalInputmethod.IInputMethodClient,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
@@ -1278,6 +1292,7 @@ func (p *InputMethodManagerProxy) SetStylusWindowIdleTimeoutForTest(
 	timeout int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(timeout)
@@ -1305,6 +1320,7 @@ func (p *InputMethodManagerProxy) GetImeTrackerService(
 ) (internalInputmethod.IImeTracker, error) {
 	var _result internalInputmethod.IImeTracker
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodManager, MethodIInputMethodManagerGetImeTrackerService)
@@ -1333,7 +1349,8 @@ func (p *InputMethodManagerProxy) GetImeTrackerService(
 // InputMethodManagerStub dispatches incoming binder transactions
 // to a typed IInputMethodManager implementation.
 type InputMethodManagerStub struct {
-	Impl IInputMethodManager
+	Impl      IInputMethodManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputMethodManagerStub)(nil)
@@ -1347,17 +1364,28 @@ func (s *InputMethodManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputMethodManagerAddClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client internalInputmethod.IInputMethodClient
-		_ = _arg_client
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = internalInputmethod.NewInputMethodClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		var _arg_inputmethod internalInputmethod.IRemoteInputConnection
-		_ = _arg_inputmethod
+		{
+			_inputmethodHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_inputmethod = internalInputmethod.NewRemoteInputConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _inputmethodHandle))
+		}
 		_arg_untrustedDisplayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1371,9 +1399,6 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerGetCurrentInputMethodInfoAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1390,9 +1415,6 @@ func (s *InputMethodManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputMethodManagerGetInputMethodList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1407,13 +1429,19 @@ func (s *InputMethodManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIInputMethodManagerGetEnabledInputMethodList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1424,13 +1452,19 @@ func (s *InputMethodManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIInputMethodManagerGetEnabledInputMethodSubtypeList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_imiId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1449,13 +1483,19 @@ func (s *InputMethodManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIInputMethodManagerGetLastInputMethodSubtype:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1472,15 +1512,22 @@ func (s *InputMethodManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputMethodManagerShowSoftInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client internalInputmethod.IInputMethodClient
-		_ = _arg_client
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = internalInputmethod.NewInputMethodClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
+		}
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1508,6 +1555,7 @@ func (s *InputMethodManagerStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_resultReceiver = new(os.ResultReceiver)
 				if _err = _arg_resultReceiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -1527,15 +1575,22 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputMethodManagerHideSoftInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client internalInputmethod.IInputMethodClient
-		_ = _arg_client
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = internalInputmethod.NewInputMethodClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
+		}
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1559,6 +1614,7 @@ func (s *InputMethodManagerStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_resultReceiver = new(os.ResultReceiver)
 				if _err = _arg_resultReceiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -1578,9 +1634,6 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputMethodManagerHideSoftInputFromServerForTest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.HideSoftInputFromServerForTest(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1590,19 +1643,26 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerStartInputOrWindowGainedFocus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_startInputReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client internalInputmethod.IInputMethodClient
-		_ = _arg_client
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_windowToken *binder.IBinder
-		_ = _arg_windowToken
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = internalInputmethod.NewInputMethodClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
+		var _arg_windowToken binder.IBinder
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
+		}
 		_arg_startInputFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1622,17 +1682,28 @@ func (s *InputMethodManagerStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_editorInfo = new(viewInputmethod.EditorInfo)
 				if _err = _arg_editorInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_inputConnection *internalInputmethod.IRemoteInputConnection
-		_ = _arg_inputConnection
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_remoteAccessibilityInputConnection *internalInputmethod.IRemoteAccessibilityInputConnection
-		_ = _arg_remoteAccessibilityInputConnection
+		var _arg_inputConnection internalInputmethod.IRemoteInputConnection
+		{
+			_inputConnectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_inputConnection = internalInputmethod.NewRemoteInputConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _inputConnectionHandle))
+		}
+		var _arg_remoteAccessibilityInputConnection internalInputmethod.IRemoteAccessibilityInputConnection
+		{
+			_remoteAccessibilityInputConnectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_remoteAccessibilityInputConnection = internalInputmethod.NewRemoteAccessibilityInputConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _remoteAccessibilityInputConnectionHandle))
+		}
 		_arg_unverifiedTargetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1665,19 +1736,26 @@ func (s *InputMethodManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputMethodManagerStartInputOrWindowGainedFocusAsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_startInputReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client internalInputmethod.IInputMethodClient
-		_ = _arg_client
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_windowToken *binder.IBinder
-		_ = _arg_windowToken
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = internalInputmethod.NewInputMethodClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
+		var _arg_windowToken binder.IBinder
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
+		}
 		_arg_startInputFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1697,17 +1775,28 @@ func (s *InputMethodManagerStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_editorInfo = new(viewInputmethod.EditorInfo)
 				if _err = _arg_editorInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_inputConnection *internalInputmethod.IRemoteInputConnection
-		_ = _arg_inputConnection
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_remoteAccessibilityInputConnection *internalInputmethod.IRemoteAccessibilityInputConnection
-		_ = _arg_remoteAccessibilityInputConnection
+		var _arg_inputConnection internalInputmethod.IRemoteInputConnection
+		{
+			_inputConnectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_inputConnection = internalInputmethod.NewRemoteInputConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _inputConnectionHandle))
+		}
+		var _arg_remoteAccessibilityInputConnection internalInputmethod.IRemoteAccessibilityInputConnection
+		{
+			_remoteAccessibilityInputConnectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_remoteAccessibilityInputConnection = internalInputmethod.NewRemoteAccessibilityInputConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _remoteAccessibilityInputConnectionHandle))
+		}
 		_arg_unverifiedTargetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1740,12 +1829,14 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerShowInputMethodPickerFromClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client internalInputmethod.IInputMethodClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = internalInputmethod.NewInputMethodClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_arg_auxiliarySubtypeMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1759,9 +1850,6 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerShowInputMethodPickerFromSystem:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_auxiliarySubtypeMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1779,9 +1867,6 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerIsInputMethodPickerShownForTest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsInputMethodPickerShownForTest(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1792,9 +1877,6 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputMethodManagerGetCurrentInputMethodSubtype:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1811,16 +1893,31 @@ func (s *InputMethodManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputMethodManagerSetAdditionalInputMethodSubtypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_subtypes []viewInputmethod.InputMethodSubtype
-		_ = _arg_subtypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_subtypes = make([]viewInputmethod.InputMethodSubtype, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_subtypes[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1833,16 +1930,29 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerSetExplicitlyEnabledInputMethodSubtypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_imeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_subtypeHashCodes []int32
-		_ = _arg_subtypeHashCodes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_subtypeHashCodes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_subtypeHashCodes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1855,12 +1965,14 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerGetInputMethodWindowVisibleHeight:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client internalInputmethod.IInputMethodClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = internalInputmethod.NewInputMethodClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_result, _err := s.Impl.GetInputMethodWindowVisibleHeight(ctx, _arg_client)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1871,23 +1983,21 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIInputMethodManagerReportPerceptibleAsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
+		}
 		_arg_perceptible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ReportPerceptibleAsync(ctx, _arg_windowToken, _arg_perceptible)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodManagerRemoveImeSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RemoveImeSurface(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1897,22 +2007,25 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerRemoveImeSurfaceFromWindowAsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
-		_err := s.Impl.RemoveImeSurfaceFromWindowAsync(ctx, _arg_windowToken)
-		_ = _err
-		return nil, nil
-	case TransactionIInputMethodManagerStartProtoDump:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		_err := s.Impl.RemoveImeSurfaceFromWindowAsync(ctx, _arg_windowToken)
+		return nil, _err
+	case TransactionIInputMethodManagerStartProtoDump:
 		var _arg_protoDump []byte
-		_ = _arg_protoDump
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_protoDump = _bytes
+		}
 		_arg_source, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1930,9 +2043,6 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerIsImeTraceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsImeTraceEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1943,9 +2053,6 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputMethodManagerStartImeTrace:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StartImeTrace(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1955,9 +2062,6 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerStopImeTrace:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopImeTrace(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1967,12 +2071,14 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerStartStylusHandwriting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client internalInputmethod.IInputMethodClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = internalInputmethod.NewInputMethodClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_err := s.Impl.StartStylusHandwriting(ctx, _arg_client)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1982,12 +2088,14 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerStartConnectionlessStylusHandwriting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client internalInputmethod.IInputMethodClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = internalInputmethod.NewInputMethodClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2011,19 +2119,25 @@ func (s *InputMethodManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback internalInputmethod.IConnectionlessHandwritingCallback
-		_ = _arg_callback
-		_err = s.Impl.StartConnectionlessStylusHandwriting(ctx, _arg_client, _arg_cursorAnchorInfo, _arg_delegatePackageName, _arg_delegatorPackageName, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIInputMethodManagerPrepareStylusHandwritingDelegation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = internalInputmethod.NewConnectionlessHandwritingCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err = s.Impl.StartConnectionlessStylusHandwriting(ctx, _arg_client, _arg_cursorAnchorInfo, _arg_delegatePackageName, _arg_delegatorPackageName, _arg_callback)
+		return nil, _err
+	case TransactionIInputMethodManagerPrepareStylusHandwritingDelegation:
 		var _arg_client internalInputmethod.IInputMethodClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = internalInputmethod.NewInputMethodClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2044,12 +2158,14 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerAcceptStylusHandwritingDelegation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client internalInputmethod.IInputMethodClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = internalInputmethod.NewInputMethodClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2075,12 +2191,14 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputMethodManagerAcceptStylusHandwritingDelegationAsync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client internalInputmethod.IInputMethodClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = internalInputmethod.NewInputMethodClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2096,16 +2214,17 @@ func (s *InputMethodManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback internalInputmethod.IBooleanListener
-		_ = _arg_callback
-		_err = s.Impl.AcceptStylusHandwritingDelegationAsync(ctx, _arg_client, _arg_delegatePackageName, _arg_delegatorPackageName, _arg_flags, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIInputMethodManagerIsStylusHandwritingAvailableAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = internalInputmethod.NewBooleanListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.AcceptStylusHandwritingDelegationAsync(ctx, _arg_client, _arg_delegatePackageName, _arg_delegatorPackageName, _arg_flags, _arg_callback)
+		return nil, _err
+	case TransactionIInputMethodManagerIsStylusHandwritingAvailableAsUser:
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2123,12 +2242,14 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputMethodManagerAddVirtualStylusIdForTestSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client internalInputmethod.IInputMethodClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = internalInputmethod.NewInputMethodClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_err := s.Impl.AddVirtualStylusIdForTestSession(ctx, _arg_client)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2138,12 +2259,14 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerSetStylusWindowIdleTimeoutForTest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client internalInputmethod.IInputMethodClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = internalInputmethod.NewInputMethodClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_arg_timeout, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2157,9 +2280,6 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerGetImeTrackerService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetImeTrackerService(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2167,8 +2287,7 @@ func (s *InputMethodManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -2188,8 +2307,8 @@ type IInputMethodManagerServer interface {
 	ShowSoftInput(ctx context.Context, client internalInputmethod.IInputMethodClient, windowToken binder.IBinder, statsToken viewInputmethod.ImeTrackerToken, flags int32, lastClickToolType int32, resultReceiver *os.ResultReceiver, reason int32) (bool, error)
 	HideSoftInput(ctx context.Context, client internalInputmethod.IInputMethodClient, windowToken binder.IBinder, statsToken viewInputmethod.ImeTrackerToken, flags int32, resultReceiver *os.ResultReceiver, reason int32) (bool, error)
 	HideSoftInputFromServerForTest(ctx context.Context) error
-	StartInputOrWindowGainedFocus(ctx context.Context, startInputReason int32, client internalInputmethod.IInputMethodClient, windowToken *binder.IBinder, startInputFlags int32, softInputMode int32, windowFlags int32, editorInfo *viewInputmethod.EditorInfo, inputConnection *internalInputmethod.IRemoteInputConnection, remoteAccessibilityInputConnection *internalInputmethod.IRemoteAccessibilityInputConnection, unverifiedTargetSdkVersion int32, imeDispatcher window.ImeOnBackInvokedDispatcher) (internalInputmethod.InputBindResult, error)
-	StartInputOrWindowGainedFocusAsync(ctx context.Context, startInputReason int32, client internalInputmethod.IInputMethodClient, windowToken *binder.IBinder, startInputFlags int32, softInputMode int32, windowFlags int32, editorInfo *viewInputmethod.EditorInfo, inputConnection *internalInputmethod.IRemoteInputConnection, remoteAccessibilityInputConnection *internalInputmethod.IRemoteAccessibilityInputConnection, unverifiedTargetSdkVersion int32, imeDispatcher window.ImeOnBackInvokedDispatcher, startInputSeq int32) error
+	StartInputOrWindowGainedFocus(ctx context.Context, startInputReason int32, client internalInputmethod.IInputMethodClient, windowToken binder.IBinder, startInputFlags int32, softInputMode int32, windowFlags int32, editorInfo *viewInputmethod.EditorInfo, inputConnection internalInputmethod.IRemoteInputConnection, remoteAccessibilityInputConnection internalInputmethod.IRemoteAccessibilityInputConnection, unverifiedTargetSdkVersion int32, imeDispatcher window.ImeOnBackInvokedDispatcher) (internalInputmethod.InputBindResult, error)
+	StartInputOrWindowGainedFocusAsync(ctx context.Context, startInputReason int32, client internalInputmethod.IInputMethodClient, windowToken binder.IBinder, startInputFlags int32, softInputMode int32, windowFlags int32, editorInfo *viewInputmethod.EditorInfo, inputConnection internalInputmethod.IRemoteInputConnection, remoteAccessibilityInputConnection internalInputmethod.IRemoteAccessibilityInputConnection, unverifiedTargetSdkVersion int32, imeDispatcher window.ImeOnBackInvokedDispatcher, startInputSeq int32) error
 	ShowInputMethodPickerFromClient(ctx context.Context, client internalInputmethod.IInputMethodClient, auxiliarySubtypeMode int32) error
 	ShowInputMethodPickerFromSystem(ctx context.Context, auxiliarySubtypeMode int32, displayId int32) error
 	IsInputMethodPickerShownForTest(ctx context.Context) (bool, error)
@@ -2301,13 +2420,13 @@ func (w *inputMethodManagerStubWrapper) StartInputOrWindowGainedFocus(
 	ctx context.Context,
 	startInputReason int32,
 	client internalInputmethod.IInputMethodClient,
-	windowToken *binder.IBinder,
+	windowToken binder.IBinder,
 	startInputFlags int32,
 	softInputMode int32,
 	windowFlags int32,
 	editorInfo *viewInputmethod.EditorInfo,
-	inputConnection *internalInputmethod.IRemoteInputConnection,
-	remoteAccessibilityInputConnection *internalInputmethod.IRemoteAccessibilityInputConnection,
+	inputConnection internalInputmethod.IRemoteInputConnection,
+	remoteAccessibilityInputConnection internalInputmethod.IRemoteAccessibilityInputConnection,
 	unverifiedTargetSdkVersion int32,
 	imeDispatcher window.ImeOnBackInvokedDispatcher,
 ) (internalInputmethod.InputBindResult, error) {
@@ -2318,13 +2437,13 @@ func (w *inputMethodManagerStubWrapper) StartInputOrWindowGainedFocusAsync(
 	ctx context.Context,
 	startInputReason int32,
 	client internalInputmethod.IInputMethodClient,
-	windowToken *binder.IBinder,
+	windowToken binder.IBinder,
 	startInputFlags int32,
 	softInputMode int32,
 	windowFlags int32,
 	editorInfo *viewInputmethod.EditorInfo,
-	inputConnection *internalInputmethod.IRemoteInputConnection,
-	remoteAccessibilityInputConnection *internalInputmethod.IRemoteAccessibilityInputConnection,
+	inputConnection internalInputmethod.IRemoteInputConnection,
+	remoteAccessibilityInputConnection internalInputmethod.IRemoteAccessibilityInputConnection,
 	unverifiedTargetSdkVersion int32,
 	imeDispatcher window.ImeOnBackInvokedDispatcher,
 	startInputSeq int32,

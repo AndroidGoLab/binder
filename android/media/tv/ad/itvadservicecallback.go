@@ -34,7 +34,8 @@ var _ ITvAdServiceCallback = (*TvAdServiceCallbackProxy)(nil)
 // TvAdServiceCallbackStub dispatches incoming binder transactions
 // to a typed ITvAdServiceCallback implementation.
 type TvAdServiceCallbackStub struct {
-	Impl ITvAdServiceCallback
+	Impl      ITvAdServiceCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvAdServiceCallbackStub)(nil)
@@ -48,6 +49,10 @@ func (s *TvAdServiceCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

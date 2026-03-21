@@ -2,6 +2,7 @@ package media
 
 import (
 	tuner "github.com/xaionaro-go/binder/android/hardware/tv/tuner"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,8 +19,8 @@ type CreateTrackResponse struct {
 	StreamType             tuner.AudioStreamType
 	AfFrameCount           int64
 	AfSampleRate           int32
-	AfChannelMask          interface{}
-	AfFormat               interface{}
+	AfChannelMask          common.AudioChannelLayout
+	AfFormat               common.AudioFormatDescription
 	AfLatencyMs            int32
 	AfTrackFlags           int32
 	OutputId               int32
@@ -42,6 +43,12 @@ func (s *CreateTrackResponse) MarshalParcel(
 	p.WriteInt32(int32(s.StreamType))
 	p.WriteInt64(s.AfFrameCount)
 	p.WriteInt32(s.AfSampleRate)
+	if _err := s.AfChannelMask.MarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _err := s.AfFormat.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.AfLatencyMs)
 	p.WriteInt32(s.AfTrackFlags)
 	p.WriteInt32(s.OutputId)
@@ -64,9 +71,19 @@ func (s *CreateTrackResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Flags, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.FrameCount, _err = p.ReadInt64()
@@ -74,9 +91,19 @@ func (s *CreateTrackResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.NotificationFrameCount, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SelectedDeviceId, _err = p.ReadInt32()
@@ -84,14 +111,29 @@ func (s *CreateTrackResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SessionId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SampleRate, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_streamTypeRaw, _err := p.ReadInt32()
@@ -100,9 +142,19 @@ func (s *CreateTrackResponse) UnmarshalParcel(
 	}
 	s.StreamType = tuner.AudioStreamType(_streamTypeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.AfFrameCount, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.AfSampleRate, _err = p.ReadInt32()
@@ -110,9 +162,37 @@ func (s *CreateTrackResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.AfChannelMask.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.AfFormat.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.AfLatencyMs, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.AfTrackFlags, _err = p.ReadInt32()
@@ -120,14 +200,29 @@ func (s *CreateTrackResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.OutputId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PortId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_audioTrackHandle, _err := p.ReadStrongBinder()

@@ -37,8 +37,7 @@ func (u *DemuxFilterSubType) GetTsFilterType() (DemuxTsFilterType, bool) {
 func (u *DemuxFilterSubType) SetTsFilterType(
 	v DemuxTsFilterType,
 ) {
-	u.Tag = DemuxFilterSubTypeTagTsFilterType
-	u.TsFilterType = v
+	*u = DemuxFilterSubType{Tag: DemuxFilterSubTypeTagTsFilterType, TsFilterType: v}
 }
 
 func (u *DemuxFilterSubType) GetMmtpFilterType() (DemuxMmtpFilterType, bool) {
@@ -52,8 +51,7 @@ func (u *DemuxFilterSubType) GetMmtpFilterType() (DemuxMmtpFilterType, bool) {
 func (u *DemuxFilterSubType) SetMmtpFilterType(
 	v DemuxMmtpFilterType,
 ) {
-	u.Tag = DemuxFilterSubTypeTagMmtpFilterType
-	u.MmtpFilterType = v
+	*u = DemuxFilterSubType{Tag: DemuxFilterSubTypeTagMmtpFilterType, MmtpFilterType: v}
 }
 
 func (u *DemuxFilterSubType) GetIpFilterType() (DemuxIpFilterType, bool) {
@@ -67,8 +65,7 @@ func (u *DemuxFilterSubType) GetIpFilterType() (DemuxIpFilterType, bool) {
 func (u *DemuxFilterSubType) SetIpFilterType(
 	v DemuxIpFilterType,
 ) {
-	u.Tag = DemuxFilterSubTypeTagIpFilterType
-	u.IpFilterType = v
+	*u = DemuxFilterSubType{Tag: DemuxFilterSubTypeTagIpFilterType, IpFilterType: v}
 }
 
 func (u *DemuxFilterSubType) GetTlvFilterType() (DemuxTlvFilterType, bool) {
@@ -82,8 +79,7 @@ func (u *DemuxFilterSubType) GetTlvFilterType() (DemuxTlvFilterType, bool) {
 func (u *DemuxFilterSubType) SetTlvFilterType(
 	v DemuxTlvFilterType,
 ) {
-	u.Tag = DemuxFilterSubTypeTagTlvFilterType
-	u.TlvFilterType = v
+	*u = DemuxFilterSubType{Tag: DemuxFilterSubTypeTagTlvFilterType, TlvFilterType: v}
 }
 
 func (u *DemuxFilterSubType) GetAlpFilterType() (DemuxAlpFilterType, bool) {
@@ -97,8 +93,7 @@ func (u *DemuxFilterSubType) GetAlpFilterType() (DemuxAlpFilterType, bool) {
 func (u *DemuxFilterSubType) SetAlpFilterType(
 	v DemuxAlpFilterType,
 ) {
-	u.Tag = DemuxFilterSubTypeTagAlpFilterType
-	u.AlpFilterType = v
+	*u = DemuxFilterSubType{Tag: DemuxFilterSubTypeTagAlpFilterType, AlpFilterType: v}
 }
 
 func (u *DemuxFilterSubType) MarshalParcel(

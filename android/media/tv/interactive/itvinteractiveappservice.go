@@ -62,6 +62,7 @@ func (p *TvInteractiveAppServiceProxy) RegisterCallback(
 	callback ITvInteractiveAppServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -79,6 +80,7 @@ func (p *TvInteractiveAppServiceProxy) UnregisterCallback(
 	callback ITvInteractiveAppServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -99,6 +101,7 @@ func (p *TvInteractiveAppServiceProxy) CreateSession(
 	type_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppService)
 	_data.WriteInt32(1)
 	if _err := channel.MarshalParcel(_data); _err != nil {
@@ -122,6 +125,7 @@ func (p *TvInteractiveAppServiceProxy) RegisterAppLinkInfo(
 	info AppLinkInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppService)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -142,6 +146,7 @@ func (p *TvInteractiveAppServiceProxy) UnregisterAppLinkInfo(
 	info AppLinkInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppService)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -162,6 +167,7 @@ func (p *TvInteractiveAppServiceProxy) SendAppLinkCommand(
 	command os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppService)
 	_data.WriteInt32(1)
 	if _err := command.MarshalParcel(_data); _err != nil {
@@ -180,7 +186,8 @@ func (p *TvInteractiveAppServiceProxy) SendAppLinkCommand(
 // TvInteractiveAppServiceStub dispatches incoming binder transactions
 // to a typed ITvInteractiveAppService implementation.
 type TvInteractiveAppServiceStub struct {
-	Impl ITvInteractiveAppService
+	Impl      ITvInteractiveAppService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvInteractiveAppServiceStub)(nil)
@@ -194,31 +201,34 @@ func (s *TvInteractiveAppServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvInteractiveAppServiceRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvInteractiveAppServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTvInteractiveAppServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInteractiveAppServiceUnregisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvInteractiveAppServiceCallback
-		_ = _arg_callback
-		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionITvInteractiveAppServiceCreateSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTvInteractiveAppServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)
+		return nil, _err
+	case TransactionITvInteractiveAppServiceCreateSession:
 		var _arg_channel view.InputChannel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -231,9 +241,14 @@ func (s *TvInteractiveAppServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvInteractiveAppSessionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTvInteractiveAppSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_iAppServiceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -243,12 +258,8 @@ func (s *TvInteractiveAppServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.CreateSession(ctx, _arg_channel, _arg_callback, _arg_iAppServiceId, _arg_type_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInteractiveAppServiceRegisterAppLinkInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info AppLinkInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -262,12 +273,8 @@ func (s *TvInteractiveAppServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RegisterAppLinkInfo(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInteractiveAppServiceUnregisterAppLinkInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info AppLinkInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -281,12 +288,8 @@ func (s *TvInteractiveAppServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.UnregisterAppLinkInfo(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInteractiveAppServiceSendAppLinkCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_command os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -300,8 +303,7 @@ func (s *TvInteractiveAppServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SendAppLinkCommand(ctx, _arg_command)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

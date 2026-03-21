@@ -1,0 +1,1168 @@
+package: android.hardware.drm
+go_package: android/hardware/drm
+interfaces:
+    - name: ICryptoPlugin
+      descriptor: android.hardware.drm.ICryptoPlugin
+      methods:
+        - name: decrypt
+          transaction_code_offset: 0
+          params:
+            - name: args
+              type:
+                name: DecryptArgs
+              direction: in
+          return_type:
+            name: int
+        - name: getLogMessages
+          transaction_code_offset: 1
+          return_type:
+            name: List
+            type_args:
+                - name: LogMessage
+        - name: notifyResolution
+          transaction_code_offset: 2
+          params:
+            - name: width
+              type:
+                name: int
+              direction: in
+            - name: height
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: requiresSecureDecoderComponent
+          transaction_code_offset: 3
+          params:
+            - name: mime
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: setMediaDrmSession
+          transaction_code_offset: 4
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setSharedBufferBase
+          transaction_code_offset: 5
+          params:
+            - name: base
+              type:
+                name: SharedBuffer
+              direction: in
+          return_type:
+            name: void
+    - name: IDrmFactory
+      descriptor: android.hardware.drm.IDrmFactory
+      methods:
+        - name: createDrmPlugin
+          transaction_code_offset: 0
+          params:
+            - name: uuid
+              type:
+                name: Uuid
+              direction: in
+            - name: appPackageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: android.hardware.drm.IDrmPlugin
+          annotations:
+            - nullable
+        - name: createCryptoPlugin
+          transaction_code_offset: 1
+          params:
+            - name: uuid
+              type:
+                name: Uuid
+              direction: in
+            - name: initData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: android.hardware.drm.ICryptoPlugin
+          annotations:
+            - nullable
+        - name: getSupportedCryptoSchemes
+          transaction_code_offset: 2
+          return_type:
+            name: CryptoSchemes
+    - name: IDrmPlugin
+      descriptor: android.hardware.drm.IDrmPlugin
+      methods:
+        - name: closeSession
+          transaction_code_offset: 0
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: decrypt
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: keyId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: input
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: iv
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: encrypt
+          transaction_code_offset: 2
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: keyId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: input
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: iv
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: getHdcpLevels
+          transaction_code_offset: 3
+          return_type:
+            name: HdcpLevels
+        - name: getKeyRequest
+          transaction_code_offset: 4
+          params:
+            - name: scope
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: initData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: mimeType
+              type:
+                name: String
+              direction: in
+            - name: keyType
+              type:
+                name: KeyType
+              direction: in
+            - name: optionalParameters
+              type:
+                name: KeyValue
+                is_array: true
+              direction: in
+          return_type:
+            name: KeyRequest
+        - name: getLogMessages
+          transaction_code_offset: 5
+          return_type:
+            name: List
+            type_args:
+                - name: LogMessage
+        - name: getMetrics
+          transaction_code_offset: 6
+          return_type:
+            name: List
+            type_args:
+                - name: DrmMetricGroup
+        - name: getNumberOfSessions
+          transaction_code_offset: 7
+          return_type:
+            name: NumberOfSessions
+        - name: getOfflineLicenseKeySetIds
+          transaction_code_offset: 8
+          return_type:
+            name: List
+            type_args:
+                - name: KeySetId
+        - name: getOfflineLicenseState
+          transaction_code_offset: 9
+          params:
+            - name: keySetId
+              type:
+                name: KeySetId
+              direction: in
+          return_type:
+            name: OfflineLicenseState
+        - name: getPropertyByteArray
+          transaction_code_offset: 10
+          params:
+            - name: propertyName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: getPropertyString
+          transaction_code_offset: 11
+          params:
+            - name: propertyName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: String
+        - name: getProvisionRequest
+          transaction_code_offset: 12
+          params:
+            - name: certificateType
+              type:
+                name: String
+              direction: in
+            - name: certificateAuthority
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: ProvisionRequest
+        - name: getSecureStop
+          transaction_code_offset: 13
+          params:
+            - name: secureStopId
+              type:
+                name: SecureStopId
+              direction: in
+          return_type:
+            name: SecureStop
+        - name: getSecureStopIds
+          transaction_code_offset: 14
+          return_type:
+            name: List
+            type_args:
+                - name: SecureStopId
+        - name: getSecureStops
+          transaction_code_offset: 15
+          return_type:
+            name: List
+            type_args:
+                - name: SecureStop
+        - name: getSecurityLevel
+          transaction_code_offset: 16
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: SecurityLevel
+        - name: openSession
+          transaction_code_offset: 17
+          params:
+            - name: securityLevel
+              type:
+                name: SecurityLevel
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: provideKeyResponse
+          transaction_code_offset: 18
+          params:
+            - name: scope
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: response
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: KeySetId
+        - name: provideProvisionResponse
+          transaction_code_offset: 19
+          params:
+            - name: response
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: ProvideProvisionResponseResult
+        - name: queryKeyStatus
+          transaction_code_offset: 20
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: KeyValue
+        - name: releaseAllSecureStops
+          transaction_code_offset: 21
+          return_type:
+            name: void
+        - name: releaseSecureStop
+          transaction_code_offset: 22
+          params:
+            - name: secureStopId
+              type:
+                name: SecureStopId
+              direction: in
+          return_type:
+            name: void
+        - name: releaseSecureStops
+          transaction_code_offset: 23
+          params:
+            - name: ssRelease
+              type:
+                name: OpaqueData
+              direction: in
+          return_type:
+            name: void
+        - name: removeAllSecureStops
+          transaction_code_offset: 24
+          return_type:
+            name: void
+        - name: removeKeys
+          transaction_code_offset: 25
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: removeOfflineLicense
+          transaction_code_offset: 26
+          params:
+            - name: keySetId
+              type:
+                name: KeySetId
+              direction: in
+          return_type:
+            name: void
+        - name: removeSecureStop
+          transaction_code_offset: 27
+          params:
+            - name: secureStopId
+              type:
+                name: SecureStopId
+              direction: in
+          return_type:
+            name: void
+        - name: requiresSecureDecoder
+          transaction_code_offset: 28
+          params:
+            - name: mime
+              type:
+                name: String
+              direction: in
+            - name: level
+              type:
+                name: SecurityLevel
+              direction: in
+          return_type:
+            name: boolean
+        - name: restoreKeys
+          transaction_code_offset: 29
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: keySetId
+              type:
+                name: KeySetId
+              direction: in
+          return_type:
+            name: void
+        - name: setCipherAlgorithm
+          transaction_code_offset: 30
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: algorithm
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setListener
+          transaction_code_offset: 31
+          params:
+            - name: listener
+              type:
+                name: IDrmPluginListener
+              direction: in
+          return_type:
+            name: void
+        - name: setMacAlgorithm
+          transaction_code_offset: 32
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: algorithm
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setPlaybackId
+          transaction_code_offset: 33
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: playbackId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setPropertyByteArray
+          transaction_code_offset: 34
+          params:
+            - name: propertyName
+              type:
+                name: String
+              direction: in
+            - name: value
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setPropertyString
+          transaction_code_offset: 35
+          params:
+            - name: propertyName
+              type:
+                name: String
+              direction: in
+            - name: value
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: sign
+          transaction_code_offset: 36
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: keyId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: message
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: signRSA
+          transaction_code_offset: 37
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: algorithm
+              type:
+                name: String
+              direction: in
+            - name: message
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: wrappedkey
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: verify
+          transaction_code_offset: 38
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: keyId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: message
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: signature
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: boolean
+    - name: IDrmPluginListener
+      descriptor: android.hardware.drm.IDrmPluginListener
+      methods:
+        - name: onEvent
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: eventType
+              type:
+                name: EventType
+              direction: in
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onExpirationUpdate
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: expiryTimeInMS
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: onKeysChange
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: keyStatusList
+              type:
+                name: KeyStatus
+                is_array: true
+              direction: in
+            - name: hasNewUsableKey
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: onSessionLostState
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: sessionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: CryptoSchemes
+      fields:
+        - name: uuids
+          type:
+            name: List
+            type_args:
+                - name: Uuid
+        - name: mimeTypes
+          type:
+            name: List
+            type_args:
+                - name: SupportedContentType
+      annotations:
+        - VintfStability
+    - name: DecryptArgs
+      fields:
+        - name: secure
+          type:
+            name: boolean
+        - name: keyId
+          type:
+            name: byte
+            is_array: true
+        - name: iv
+          type:
+            name: byte
+            is_array: true
+        - name: mode
+          type:
+            name: Mode
+        - name: pattern
+          type:
+            name: Pattern
+        - name: subSamples
+          type:
+            name: SubSample
+            is_array: true
+        - name: source
+          type:
+            name: SharedBuffer
+        - name: offset
+          type:
+            name: long
+        - name: destination
+          type:
+            name: DestinationBuffer
+      annotations:
+        - VintfStability
+    - name: DrmMetric
+      fields:
+        - name: name
+          type:
+            name: String
+        - name: attributes
+          type:
+            name: List
+            type_args:
+                - name: DrmMetricNamedValue
+        - name: values
+          type:
+            name: List
+            type_args:
+                - name: DrmMetricNamedValue
+      annotations:
+        - VintfStability
+    - name: DrmMetricGroup
+      fields:
+        - name: metrics
+          type:
+            name: List
+            type_args:
+                - name: DrmMetric
+      annotations:
+        - VintfStability
+    - name: DrmMetricNamedValue
+      fields:
+        - name: name
+          type:
+            name: String
+        - name: value
+          type:
+            name: DrmMetricValue
+      annotations:
+        - VintfStability
+    - name: HdcpLevels
+      fields:
+        - name: connectedLevel
+          type:
+            name: HdcpLevel
+        - name: maxLevel
+          type:
+            name: HdcpLevel
+      annotations:
+        - VintfStability
+    - name: KeyRequest
+      fields:
+        - name: request
+          type:
+            name: byte
+            is_array: true
+        - name: requestType
+          type:
+            name: KeyRequestType
+        - name: defaultUrl
+          type:
+            name: String
+      annotations:
+        - VintfStability
+    - name: KeySetId
+      fields:
+        - name: keySetId
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: KeyStatus
+      fields:
+        - name: keyId
+          type:
+            name: byte
+            is_array: true
+        - name: type
+          type:
+            name: KeyStatusType
+      annotations:
+        - VintfStability
+    - name: KeyValue
+      fields:
+        - name: key
+          type:
+            name: String
+        - name: value
+          type:
+            name: String
+      annotations:
+        - VintfStability
+    - name: LogMessage
+      fields:
+        - name: timeMs
+          type:
+            name: long
+        - name: priority
+          type:
+            name: LogPriority
+        - name: message
+          type:
+            name: String
+      annotations:
+        - VintfStability
+    - name: NumberOfSessions
+      fields:
+        - name: currentSessions
+          type:
+            name: int
+        - name: maxSessions
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: OpaqueData
+      fields:
+        - name: opaqueData
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: Pattern
+      fields:
+        - name: encryptBlocks
+          type:
+            name: int
+        - name: skipBlocks
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: ProvideProvisionResponseResult
+      fields:
+        - name: certificate
+          type:
+            name: byte
+            is_array: true
+        - name: wrappedKey
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: ProvisionRequest
+      fields:
+        - name: request
+          type:
+            name: byte
+            is_array: true
+        - name: defaultUrl
+          type:
+            name: String
+      annotations:
+        - VintfStability
+    - name: SecureStop
+      fields:
+        - name: opaqueData
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: SecureStopId
+      fields:
+        - name: secureStopId
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: SharedBuffer
+      fields:
+        - name: bufferId
+          type:
+            name: int
+        - name: offset
+          type:
+            name: long
+        - name: size
+          type:
+            name: long
+        - name: handle
+          type:
+            name: NativeHandle
+      annotations:
+        - VintfStability
+    - name: SubSample
+      fields:
+        - name: numBytesOfClearData
+          type:
+            name: int
+        - name: numBytesOfEncryptedData
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: SupportedContentType
+      fields:
+        - name: mime
+          type:
+            name: String
+        - name: minLevel
+          type:
+            name: SecurityLevel
+        - name: maxLevel
+          type:
+            name: SecurityLevel
+      annotations:
+        - VintfStability
+    - name: Uuid
+      fields:
+        - name: uuid
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "16"
+      annotations:
+        - VintfStability
+enums:
+    - name: EventType
+      backing_type: int
+      values:
+        - name: PROVISION_REQUIRED
+          value: ""
+        - name: KEY_NEEDED
+          value: ""
+        - name: KEY_EXPIRED
+          value: ""
+        - name: VENDOR_DEFINED
+          value: ""
+        - name: SESSION_RECLAIMED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: HdcpLevel
+      backing_type: int
+      values:
+        - name: HDCP_UNKNOWN
+          value: ""
+        - name: HDCP_NONE
+          value: ""
+        - name: HDCP_V1
+          value: ""
+        - name: HDCP_V2
+          value: ""
+        - name: HDCP_V2_1
+          value: ""
+        - name: HDCP_V2_2
+          value: ""
+        - name: HDCP_NO_OUTPUT
+          value: ""
+        - name: HDCP_V2_3
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: KeyRequestType
+      backing_type: int
+      values:
+        - name: INITIAL
+          value: ""
+        - name: RENEWAL
+          value: ""
+        - name: RELEASE
+          value: ""
+        - name: UNKNOWN
+          value: ""
+        - name: NONE
+          value: ""
+        - name: UPDATE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: KeyStatusType
+      backing_type: int
+      values:
+        - name: USABLE
+          value: ""
+        - name: EXPIRED
+          value: ""
+        - name: OUTPUT_NOT_ALLOWED
+          value: ""
+        - name: STATUS_PENDING
+          value: ""
+        - name: INTERNAL_ERROR
+          value: ""
+        - name: USABLE_IN_FUTURE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: KeyType
+      backing_type: int
+      values:
+        - name: OFFLINE
+          value: ""
+        - name: STREAMING
+          value: ""
+        - name: RELEASE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LogPriority
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: DEFAULT
+          value: ""
+        - name: VERBOSE
+          value: ""
+        - name: DEBUG
+          value: ""
+        - name: INFO
+          value: ""
+        - name: WARN
+          value: ""
+        - name: ERROR
+          value: ""
+        - name: FATAL
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Mode
+      backing_type: int
+      values:
+        - name: UNENCRYPTED
+          value: "0"
+        - name: AES_CTR
+          value: "1"
+        - name: AES_CBC_CTS
+          value: "2"
+        - name: AES_CBC
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: OfflineLicenseState
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: USABLE
+          value: ""
+        - name: INACTIVE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SecurityLevel
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: SW_SECURE_CRYPTO
+          value: ""
+        - name: SW_SECURE_DECODE
+          value: ""
+        - name: HW_SECURE_CRYPTO
+          value: ""
+        - name: HW_SECURE_DECODE
+          value: ""
+        - name: HW_SECURE_ALL
+          value: ""
+        - name: DEFAULT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Status
+      backing_type: int
+      values:
+        - name: OK
+          value: ""
+        - name: ERROR_DRM_NO_LICENSE
+          value: ""
+        - name: ERROR_DRM_LICENSE_EXPIRED
+          value: ""
+        - name: ERROR_DRM_SESSION_NOT_OPENED
+          value: ""
+        - name: ERROR_DRM_CANNOT_HANDLE
+          value: ""
+        - name: ERROR_DRM_INVALID_STATE
+          value: ""
+        - name: BAD_VALUE
+          value: ""
+        - name: ERROR_DRM_NOT_PROVISIONED
+          value: ""
+        - name: ERROR_DRM_RESOURCE_BUSY
+          value: ""
+        - name: ERROR_DRM_INSUFFICIENT_OUTPUT_PROTECTION
+          value: ""
+        - name: ERROR_DRM_DEVICE_REVOKED
+          value: ""
+        - name: ERROR_DRM_DECRYPT
+          value: ""
+        - name: ERROR_DRM_UNKNOWN
+          value: ""
+        - name: ERROR_DRM_INSUFFICIENT_SECURITY
+          value: ""
+        - name: ERROR_DRM_FRAME_TOO_LARGE
+          value: ""
+        - name: ERROR_DRM_SESSION_LOST_STATE
+          value: ""
+        - name: ERROR_DRM_RESOURCE_CONTENTION
+          value: ""
+        - name: CANNOT_DECRYPT_ZERO_SUBSAMPLES
+          value: ""
+        - name: CRYPTO_LIBRARY_ERROR
+          value: ""
+        - name: GENERAL_OEM_ERROR
+          value: ""
+        - name: GENERAL_PLUGIN_ERROR
+          value: ""
+        - name: INIT_DATA_INVALID
+          value: ""
+        - name: KEY_NOT_LOADED
+          value: ""
+        - name: LICENSE_PARSE_ERROR
+          value: ""
+        - name: LICENSE_POLICY_ERROR
+          value: ""
+        - name: LICENSE_RELEASE_ERROR
+          value: ""
+        - name: LICENSE_REQUEST_REJECTED
+          value: ""
+        - name: LICENSE_RESTORE_ERROR
+          value: ""
+        - name: LICENSE_STATE_ERROR
+          value: ""
+        - name: MALFORMED_CERTIFICATE
+          value: ""
+        - name: MEDIA_FRAMEWORK_ERROR
+          value: ""
+        - name: MISSING_CERTIFICATE
+          value: ""
+        - name: PROVISIONING_CERTIFICATE_ERROR
+          value: ""
+        - name: PROVISIONING_CONFIGURATION_ERROR
+          value: ""
+        - name: PROVISIONING_PARSE_ERROR
+          value: ""
+        - name: PROVISIONING_REQUEST_REJECTED
+          value: ""
+        - name: RETRYABLE_PROVISIONING_ERROR
+          value: ""
+        - name: SECURE_STOP_RELEASE_ERROR
+          value: ""
+        - name: STORAGE_READ_FAILURE
+          value: ""
+        - name: STORAGE_WRITE_FAILURE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: DestinationBuffer
+      fields:
+        - name: nonsecureMemory
+          type:
+            name: SharedBuffer
+        - name: secureMemory
+          type:
+            name: NativeHandle
+      annotations:
+        - VintfStability
+    - name: DrmMetricValue
+      fields:
+        - name: int64Value
+          type:
+            name: long
+        - name: doubleValue
+          type:
+            name: double
+        - name: stringValue
+          type:
+            name: String
+      annotations:
+        - VintfStability

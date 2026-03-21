@@ -46,6 +46,7 @@ func (p *PackageDeleteObserverProxy) PackageDeleted(
 	returnCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageDeleteObserver)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(returnCode)
@@ -62,7 +63,8 @@ func (p *PackageDeleteObserverProxy) PackageDeleted(
 // PackageDeleteObserverStub dispatches incoming binder transactions
 // to a typed IPackageDeleteObserver implementation.
 type PackageDeleteObserverStub struct {
-	Impl IPackageDeleteObserver
+	Impl      IPackageDeleteObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PackageDeleteObserverStub)(nil)
@@ -76,11 +78,12 @@ func (s *PackageDeleteObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPackageDeleteObserverPackageDeleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -90,8 +93,7 @@ func (s *PackageDeleteObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.PackageDeleted(ctx, _arg_packageName, _arg_returnCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

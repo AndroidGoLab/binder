@@ -54,6 +54,7 @@ func (p *DataShareWriteAdapterProxy) Write(
 	destination int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataShareWriteAdapter)
 	_data.WriteFileDescriptor(destination)
 
@@ -71,6 +72,7 @@ func (p *DataShareWriteAdapterProxy) Error(
 	errorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataShareWriteAdapter)
 	_data.WriteInt32(errorCode)
 
@@ -87,6 +89,7 @@ func (p *DataShareWriteAdapterProxy) Rejected(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataShareWriteAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataShareWriteAdapter, MethodIDataShareWriteAdapterRejected)
@@ -102,6 +105,7 @@ func (p *DataShareWriteAdapterProxy) Finish(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataShareWriteAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataShareWriteAdapter, MethodIDataShareWriteAdapterFinish)
@@ -116,7 +120,8 @@ func (p *DataShareWriteAdapterProxy) Finish(
 // DataShareWriteAdapterStub dispatches incoming binder transactions
 // to a typed IDataShareWriteAdapter implementation.
 type DataShareWriteAdapterStub struct {
-	Impl IDataShareWriteAdapter
+	Impl      IDataShareWriteAdapter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DataShareWriteAdapterStub)(nil)
@@ -130,43 +135,31 @@ func (s *DataShareWriteAdapterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDataShareWriteAdapterWrite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_destination, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Write(ctx, _arg_destination)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataShareWriteAdapterError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Error(ctx, _arg_errorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataShareWriteAdapterRejected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Rejected(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataShareWriteAdapterFinish:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Finish(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

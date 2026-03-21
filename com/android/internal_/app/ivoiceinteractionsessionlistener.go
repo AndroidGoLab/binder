@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -30,7 +31,7 @@ type IVoiceInteractionSessionListener interface {
 	OnVoiceSessionShown(ctx context.Context) error
 	OnVoiceSessionHidden(ctx context.Context) error
 	OnVoiceSessionWindowVisibilityChanged(ctx context.Context, visible bool) error
-	OnSetUiHints(ctx context.Context, args interface{}) error
+	OnSetUiHints(ctx context.Context, args os.Bundle) error
 }
 
 type VoiceInteractionSessionListenerProxy struct {
@@ -53,6 +54,7 @@ func (p *VoiceInteractionSessionListenerProxy) OnVoiceSessionShown(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSessionListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSessionListener, MethodIVoiceInteractionSessionListenerOnVoiceSessionShown)
@@ -68,6 +70,7 @@ func (p *VoiceInteractionSessionListenerProxy) OnVoiceSessionHidden(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSessionListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSessionListener, MethodIVoiceInteractionSessionListenerOnVoiceSessionHidden)
@@ -84,6 +87,7 @@ func (p *VoiceInteractionSessionListenerProxy) OnVoiceSessionWindowVisibilityCha
 	visible bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSessionListener)
 	_data.WriteBool(visible)
 
@@ -98,10 +102,15 @@ func (p *VoiceInteractionSessionListenerProxy) OnVoiceSessionWindowVisibilityCha
 
 func (p *VoiceInteractionSessionListenerProxy) OnSetUiHints(
 	ctx context.Context,
-	args interface{},
+	args os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSessionListener)
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSessionListener, MethodIVoiceInteractionSessionListenerOnSetUiHints)
 	if _err != nil {
@@ -115,7 +124,8 @@ func (p *VoiceInteractionSessionListenerProxy) OnSetUiHints(
 // VoiceInteractionSessionListenerStub dispatches incoming binder transactions
 // to a typed IVoiceInteractionSessionListener implementation.
 type VoiceInteractionSessionListenerStub struct {
-	Impl IVoiceInteractionSessionListener
+	Impl      IVoiceInteractionSessionListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VoiceInteractionSessionListenerStub)(nil)
@@ -129,40 +139,39 @@ func (s *VoiceInteractionSessionListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVoiceInteractionSessionListenerOnVoiceSessionShown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnVoiceSessionShown(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVoiceInteractionSessionListenerOnVoiceSessionHidden:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnVoiceSessionHidden(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVoiceInteractionSessionListenerOnVoiceSessionWindowVisibilityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnVoiceSessionWindowVisibilityChanged(ctx, _arg_visible)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVoiceInteractionSessionListenerOnSetUiHints:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_args os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_args interface{}
 		_err := s.Impl.OnSetUiHints(ctx, _arg_args)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -175,7 +184,7 @@ type IVoiceInteractionSessionListenerServer interface {
 	OnVoiceSessionShown(ctx context.Context) error
 	OnVoiceSessionHidden(ctx context.Context) error
 	OnVoiceSessionWindowVisibilityChanged(ctx context.Context, visible bool) error
-	OnSetUiHints(ctx context.Context, args interface{}) error
+	OnSetUiHints(ctx context.Context, args os.Bundle) error
 }
 
 type voiceInteractionSessionListenerStubWrapper struct {
@@ -208,7 +217,7 @@ func (w *voiceInteractionSessionListenerStubWrapper) OnVoiceSessionWindowVisibil
 
 func (w *voiceInteractionSessionListenerStubWrapper) OnSetUiHints(
 	ctx context.Context,
-	args interface{},
+	args os.Bundle,
 ) error {
 	return w.impl.OnSetUiHints(ctx, args)
 }

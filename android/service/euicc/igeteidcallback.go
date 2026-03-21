@@ -45,6 +45,7 @@ func (p *GetEidCallbackProxy) OnSuccess(
 	eid string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetEidCallback)
 	_data.WriteString16(eid)
 
@@ -60,7 +61,8 @@ func (p *GetEidCallbackProxy) OnSuccess(
 // GetEidCallbackStub dispatches incoming binder transactions
 // to a typed IGetEidCallback implementation.
 type GetEidCallbackStub struct {
-	Impl IGetEidCallback
+	Impl      IGetEidCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GetEidCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *GetEidCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGetEidCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_eid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSuccess(ctx, _arg_eid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

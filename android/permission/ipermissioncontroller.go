@@ -102,6 +102,7 @@ func (p *PermissionControllerProxy) RevokeRuntimePermissions(
 	callback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -130,6 +131,7 @@ func (p *PermissionControllerProxy) GetRuntimePermissionBackup(
 	pipe int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
@@ -152,6 +154,7 @@ func (p *PermissionControllerProxy) StageAndApplyRuntimePermissionsBackup(
 	pipe int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
@@ -175,6 +178,7 @@ func (p *PermissionControllerProxy) ApplyStagedRuntimePermissionBackup(
 	callback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -201,6 +205,7 @@ func (p *PermissionControllerProxy) GetAppPermissions(
 	callback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -223,6 +228,7 @@ func (p *PermissionControllerProxy) RevokeRuntimePermission(
 	permissionName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(packageName)
 	_data.WriteString16(permissionName)
@@ -243,6 +249,7 @@ func (p *PermissionControllerProxy) CountPermissionApps(
 	callback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	if permissionNames == nil {
 		_data.WriteInt32(-1)
@@ -274,6 +281,7 @@ func (p *PermissionControllerProxy) GetPermissionUsages(
 	callback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteBool(countSystem)
 	_data.WriteInt64(numMillis)
@@ -298,6 +306,7 @@ func (p *PermissionControllerProxy) SetRuntimePermissionGrantStateByDeviceAdminF
 	callback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(callerPackageName)
 	_data.WriteInt32(1)
@@ -323,6 +332,7 @@ func (p *PermissionControllerProxy) GrantOrUpgradeDefaultRuntimePermissions(
 	callback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
@@ -344,6 +354,7 @@ func (p *PermissionControllerProxy) NotifyOneTimePermissionSessionTimeout(
 	deviceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(deviceId)
@@ -363,6 +374,7 @@ func (p *PermissionControllerProxy) UpdateUserSensitiveForApp(
 	callback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(1)
@@ -385,6 +397,7 @@ func (p *PermissionControllerProxy) GetPrivilegesDescriptionStringForProfile(
 	callback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(deviceProfileName)
 	_data.WriteInt32(1)
@@ -407,6 +420,7 @@ func (p *PermissionControllerProxy) GetPlatformPermissionsForGroup(
 	callback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(permissionGroupName)
 	_data.WriteInt32(1)
@@ -429,6 +443,7 @@ func (p *PermissionControllerProxy) GetGroupOfPlatformPermission(
 	callback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(permissionName)
 	_data.WriteInt32(1)
@@ -450,6 +465,7 @@ func (p *PermissionControllerProxy) GetUnusedAppCount(
 	callback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
@@ -471,6 +487,7 @@ func (p *PermissionControllerProxy) GetHibernationEligibility(
 	callback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -495,6 +512,7 @@ func (p *PermissionControllerProxy) RevokeSelfPermissionsOnKill(
 	callback infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(packageName)
 	if permissions == nil {
@@ -523,7 +541,8 @@ func (p *PermissionControllerProxy) RevokeSelfPermissionsOnKill(
 // PermissionControllerStub dispatches incoming binder transactions
 // to a typed IPermissionController implementation.
 type PermissionControllerStub struct {
-	Impl IPermissionController
+	Impl      IPermissionController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PermissionControllerStub)(nil)
@@ -537,11 +556,12 @@ func (s *PermissionControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPermissionControllerRevokeRuntimePermissions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -579,12 +599,8 @@ func (s *PermissionControllerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.RevokeRuntimePermissions(ctx, _arg_request, _arg_doDryRun, _arg_reason, _arg_callerPackageName, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerGetRuntimePermissionBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_user os.UserHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -602,12 +618,8 @@ func (s *PermissionControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.GetRuntimePermissionBackup(ctx, _arg_user, _arg_pipe)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerStageAndApplyRuntimePermissionsBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_user os.UserHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -625,12 +637,8 @@ func (s *PermissionControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.StageAndApplyRuntimePermissionsBackup(ctx, _arg_user, _arg_pipe)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerApplyStagedRuntimePermissionBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -660,12 +668,8 @@ func (s *PermissionControllerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.ApplyStagedRuntimePermissionBackup(ctx, _arg_packageName, _arg_user, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerGetAppPermissions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -683,12 +687,8 @@ func (s *PermissionControllerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.GetAppPermissions(ctx, _arg_packageName, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerRevokeRuntimePermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -698,15 +698,27 @@ func (s *PermissionControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.RevokeRuntimePermission(ctx, _arg_packageName, _arg_permissionName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerCountPermissionApps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_permissionNames []string
-		_ = _arg_permissionNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_permissionNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_permissionNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -724,12 +736,8 @@ func (s *PermissionControllerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.CountPermissionApps(ctx, _arg_permissionNames, _arg_flags, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerGetPermissionUsages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_countSystem, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -751,12 +759,8 @@ func (s *PermissionControllerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.GetPermissionUsages(ctx, _arg_countSystem, _arg_numMillis, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerSetRuntimePermissionGrantStateByDeviceAdminFromParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -786,12 +790,8 @@ func (s *PermissionControllerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetRuntimePermissionGrantStateByDeviceAdminFromParams(ctx, _arg_callerPackageName, _arg_params, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerGrantOrUpgradeDefaultRuntimePermissions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_callback infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -805,12 +805,8 @@ func (s *PermissionControllerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GrantOrUpgradeDefaultRuntimePermissions(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerNotifyOneTimePermissionSessionTimeout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -820,12 +816,8 @@ func (s *PermissionControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyOneTimePermissionSessionTimeout(ctx, _arg_packageName, _arg_deviceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerUpdateUserSensitiveForApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -843,12 +835,8 @@ func (s *PermissionControllerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.UpdateUserSensitiveForApp(ctx, _arg_uid, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerGetPrivilegesDescriptionStringForProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceProfileName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -866,12 +854,8 @@ func (s *PermissionControllerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.GetPrivilegesDescriptionStringForProfile(ctx, _arg_deviceProfileName, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerGetPlatformPermissionsForGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_permissionGroupName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -889,12 +873,8 @@ func (s *PermissionControllerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.GetPlatformPermissionsForGroup(ctx, _arg_permissionGroupName, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerGetGroupOfPlatformPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_permissionName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -912,12 +892,8 @@ func (s *PermissionControllerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.GetGroupOfPlatformPermission(ctx, _arg_permissionName, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerGetUnusedAppCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_callback infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -931,12 +907,8 @@ func (s *PermissionControllerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetUnusedAppCount(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerGetHibernationEligibility:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -954,19 +926,31 @@ func (s *PermissionControllerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.GetHibernationEligibility(ctx, _arg_packageName, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPermissionControllerRevokeSelfPermissionsOnKill:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_permissions []string
-		_ = _arg_permissions
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_permissions = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_permissions[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -984,8 +968,7 @@ func (s *PermissionControllerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.RevokeSelfPermissionsOnKill(ctx, _arg_packageName, _arg_permissions, _arg_deviceId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

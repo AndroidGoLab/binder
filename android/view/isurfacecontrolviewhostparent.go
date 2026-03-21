@@ -48,6 +48,7 @@ func (p *SurfaceControlViewHostParentProxy) UpdateParams(
 	childAttrs []WindowManagerLayoutParams,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHostParent)
 	if childAttrs == nil {
 		_data.WriteInt32(-1)
@@ -75,6 +76,7 @@ func (p *SurfaceControlViewHostParentProxy) ForwardBackKeyToParent(
 	keyEvent KeyEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHostParent)
 	_data.WriteInt32(1)
 	if _err := keyEvent.MarshalParcel(_data); _err != nil {
@@ -93,7 +95,8 @@ func (p *SurfaceControlViewHostParentProxy) ForwardBackKeyToParent(
 // SurfaceControlViewHostParentStub dispatches incoming binder transactions
 // to a typed ISurfaceControlViewHostParent implementation.
 type SurfaceControlViewHostParentStub struct {
-	Impl ISurfaceControlViewHostParent
+	Impl      ISurfaceControlViewHostParent
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SurfaceControlViewHostParentStub)(nil)
@@ -107,21 +110,36 @@ func (s *SurfaceControlViewHostParentStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISurfaceControlViewHostParentUpdateParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_childAttrs []WindowManagerLayoutParams
-		_ = _arg_childAttrs
-		_err := s.Impl.UpdateParams(ctx, _arg_childAttrs)
-		_ = _err
-		return nil, nil
-	case TransactionISurfaceControlViewHostParentForwardBackKeyToParent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_childAttrs = make([]WindowManagerLayoutParams, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_childAttrs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.UpdateParams(ctx, _arg_childAttrs)
+		return nil, _err
+	case TransactionISurfaceControlViewHostParentForwardBackKeyToParent:
 		var _arg_keyEvent KeyEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -135,8 +153,7 @@ func (s *SurfaceControlViewHostParentStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ForwardBackKeyToParent(ctx, _arg_keyEvent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

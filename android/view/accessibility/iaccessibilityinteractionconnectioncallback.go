@@ -61,6 +61,7 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SetFindAccessibilityNo
 	interactionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnectionCallback)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -83,6 +84,7 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SetFindAccessibilityNo
 	interactionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnectionCallback)
 	if infos == nil {
 		_data.WriteInt32(-1)
@@ -112,6 +114,7 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SetPrefetchAccessibili
 	interactionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnectionCallback)
 	if infos == nil {
 		_data.WriteInt32(-1)
@@ -141,6 +144,7 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SetPerformAccessibilit
 	interactionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnectionCallback)
 	_data.WriteBool(succeeded)
 	_data.WriteInt32(interactionId)
@@ -160,6 +164,7 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SendTakeScreenshotOfWi
 	interactionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnectionCallback)
 	_data.WriteInt32(errorCode)
 	_data.WriteInt32(interactionId)
@@ -179,6 +184,7 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SendAttachOverlayResul
 	interactionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnectionCallback)
 	_data.WriteInt32(result)
 	_data.WriteInt32(interactionId)
@@ -195,7 +201,8 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SendAttachOverlayResul
 // AccessibilityInteractionConnectionCallbackStub dispatches incoming binder transactions
 // to a typed IAccessibilityInteractionConnectionCallback implementation.
 type AccessibilityInteractionConnectionCallbackStub struct {
-	Impl IAccessibilityInteractionConnectionCallback
+	Impl      IAccessibilityInteractionConnectionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AccessibilityInteractionConnectionCallbackStub)(nil)
@@ -209,11 +216,12 @@ func (s *AccessibilityInteractionConnectionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAccessibilityInteractionConnectionCallbackSetFindAccessibilityNodeInfoResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info AccessibilityNodeInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -231,40 +239,64 @@ func (s *AccessibilityInteractionConnectionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetFindAccessibilityNodeInfoResult(ctx, _arg_info, _arg_interactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityInteractionConnectionCallbackSetFindAccessibilityNodeInfosResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_infos []AccessibilityNodeInfo
-		_ = _arg_infos
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_infos = make([]AccessibilityNodeInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_infos[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_interactionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetFindAccessibilityNodeInfosResult(ctx, _arg_infos, _arg_interactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityInteractionConnectionCallbackSetPrefetchAccessibilityNodeInfoResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_infos []AccessibilityNodeInfo
-		_ = _arg_infos
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_infos = make([]AccessibilityNodeInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_infos[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_interactionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetPrefetchAccessibilityNodeInfoResult(ctx, _arg_infos, _arg_interactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityInteractionConnectionCallbackSetPerformAccessibilityActionResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_succeeded, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -274,12 +306,8 @@ func (s *AccessibilityInteractionConnectionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetPerformAccessibilityActionResult(ctx, _arg_succeeded, _arg_interactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityInteractionConnectionCallbackSendTakeScreenshotOfWindowError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -289,12 +317,8 @@ func (s *AccessibilityInteractionConnectionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SendTakeScreenshotOfWindowError(ctx, _arg_errorCode, _arg_interactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityInteractionConnectionCallbackSendAttachOverlayResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -304,8 +328,7 @@ func (s *AccessibilityInteractionConnectionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SendAttachOverlayResult(ctx, _arg_result, _arg_interactionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

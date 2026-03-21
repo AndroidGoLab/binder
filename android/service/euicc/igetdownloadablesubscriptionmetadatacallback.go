@@ -45,6 +45,7 @@ func (p *GetDownloadableSubscriptionMetadataCallbackProxy) OnComplete(
 	result GetDownloadableSubscriptionMetadataResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetDownloadableSubscriptionMetadataCallback)
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *GetDownloadableSubscriptionMetadataCallbackProxy) OnComplete(
 // GetDownloadableSubscriptionMetadataCallbackStub dispatches incoming binder transactions
 // to a typed IGetDownloadableSubscriptionMetadataCallback implementation.
 type GetDownloadableSubscriptionMetadataCallbackStub struct {
-	Impl IGetDownloadableSubscriptionMetadataCallback
+	Impl      IGetDownloadableSubscriptionMetadataCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GetDownloadableSubscriptionMetadataCallbackStub)(nil)
@@ -77,11 +79,12 @@ func (s *GetDownloadableSubscriptionMetadataCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGetDownloadableSubscriptionMetadataCallbackOnComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_result GetDownloadableSubscriptionMetadataResult
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *GetDownloadableSubscriptionMetadataCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnComplete(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

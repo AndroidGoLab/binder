@@ -1,0 +1,4 @@
+package: android.telephony.cdma
+go_package: android/telephony/cdma
+parcelables:
+    - name: CdmaSmsCbProgramData

@@ -56,6 +56,7 @@ func (p *SendMgmtFrameEventProxy) OnAck(
 	elapsedTimeMs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISendMgmtFrameEvent)
 	_data.WriteInt32(elapsedTimeMs)
 
@@ -73,6 +74,7 @@ func (p *SendMgmtFrameEventProxy) OnFailure(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISendMgmtFrameEvent)
 	_data.WriteInt32(reason)
 
@@ -88,7 +90,8 @@ func (p *SendMgmtFrameEventProxy) OnFailure(
 // SendMgmtFrameEventStub dispatches incoming binder transactions
 // to a typed ISendMgmtFrameEvent implementation.
 type SendMgmtFrameEventStub struct {
-	Impl ISendMgmtFrameEvent
+	Impl      ISendMgmtFrameEvent
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SendMgmtFrameEventStub)(nil)
@@ -102,29 +105,25 @@ func (s *SendMgmtFrameEventStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISendMgmtFrameEventOnAck:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_elapsedTimeMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAck(ctx, _arg_elapsedTimeMs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISendMgmtFrameEventOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnFailure(ctx, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -59,6 +59,7 @@ func (p *QSTileServiceProxy) OnTileAdded(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSTileService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSTileService, MethodIQSTileServiceOnTileAdded)
@@ -74,6 +75,7 @@ func (p *QSTileServiceProxy) OnTileRemoved(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSTileService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSTileService, MethodIQSTileServiceOnTileRemoved)
@@ -89,6 +91,7 @@ func (p *QSTileServiceProxy) OnStartListening(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSTileService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSTileService, MethodIQSTileServiceOnStartListening)
@@ -104,6 +107,7 @@ func (p *QSTileServiceProxy) OnStopListening(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSTileService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSTileService, MethodIQSTileServiceOnStopListening)
@@ -120,6 +124,7 @@ func (p *QSTileServiceProxy) OnClick(
 	wtoken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSTileService)
 	binder.WriteBinderToParcel(ctx, _data, wtoken, p.Remote.Transport())
 
@@ -136,6 +141,7 @@ func (p *QSTileServiceProxy) OnUnlockComplete(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSTileService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSTileService, MethodIQSTileServiceOnUnlockComplete)
@@ -150,7 +156,8 @@ func (p *QSTileServiceProxy) OnUnlockComplete(
 // QSTileServiceStub dispatches incoming binder transactions
 // to a typed IQSTileService implementation.
 type QSTileServiceStub struct {
-	Impl IQSTileService
+	Impl      IQSTileService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*QSTileServiceStub)(nil)
@@ -164,52 +171,37 @@ func (s *QSTileServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIQSTileServiceOnTileAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnTileAdded(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIQSTileServiceOnTileRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnTileRemoved(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIQSTileServiceOnStartListening:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnStartListening(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIQSTileServiceOnStopListening:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnStopListening(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIQSTileServiceOnClick:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_wtoken binder.IBinder
-		_ = _arg_wtoken
-		_err := s.Impl.OnClick(ctx, _arg_wtoken)
-		_ = _err
-		return nil, nil
-	case TransactionIQSTileServiceOnUnlockComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_wtokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_wtoken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _wtokenHandle)
 		}
+		_err := s.Impl.OnClick(ctx, _arg_wtoken)
+		return nil, _err
+	case TransactionIQSTileServiceOnUnlockComplete:
 		_err := s.Impl.OnUnlockComplete(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

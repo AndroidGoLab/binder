@@ -46,6 +46,7 @@ func (p *WwanSelectorResultCallbackProxy) OnComplete(
 	result androidTelephony.EmergencyRegistrationResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWwanSelectorResultCallback)
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -64,7 +65,8 @@ func (p *WwanSelectorResultCallbackProxy) OnComplete(
 // WwanSelectorResultCallbackStub dispatches incoming binder transactions
 // to a typed IWwanSelectorResultCallback implementation.
 type WwanSelectorResultCallbackStub struct {
-	Impl IWwanSelectorResultCallback
+	Impl      IWwanSelectorResultCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WwanSelectorResultCallbackStub)(nil)
@@ -78,11 +80,12 @@ func (s *WwanSelectorResultCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWwanSelectorResultCallbackOnComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_result androidTelephony.EmergencyRegistrationResult
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -96,8 +99,7 @@ func (s *WwanSelectorResultCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnComplete(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

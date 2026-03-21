@@ -56,6 +56,7 @@ func (p *PowerStatsServiceProxy) GetSupportedPowerMonitors(
 	resultReceiver ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerStatsService)
 	_data.WriteInt32(1)
 	if _err := resultReceiver.MarshalParcel(_data); _err != nil {
@@ -77,6 +78,7 @@ func (p *PowerStatsServiceProxy) GetPowerMonitorReadings(
 	resultReceiver ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPowerStatsService)
 	if powerMonitorIndices == nil {
 		_data.WriteInt32(-1)
@@ -103,7 +105,8 @@ func (p *PowerStatsServiceProxy) GetPowerMonitorReadings(
 // PowerStatsServiceStub dispatches incoming binder transactions
 // to a typed IPowerStatsService implementation.
 type PowerStatsServiceStub struct {
-	Impl IPowerStatsService
+	Impl      IPowerStatsService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PowerStatsServiceStub)(nil)
@@ -117,11 +120,12 @@ func (s *PowerStatsServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPowerStatsServiceGetSupportedPowerMonitors:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_resultReceiver ResultReceiver
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -135,15 +139,27 @@ func (s *PowerStatsServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetSupportedPowerMonitors(ctx, _arg_resultReceiver)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPowerStatsServiceGetPowerMonitorReadings:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_powerMonitorIndices []int32
-		_ = _arg_powerMonitorIndices
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_powerMonitorIndices = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_powerMonitorIndices[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_resultReceiver ResultReceiver
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -157,8 +173,7 @@ func (s *PowerStatsServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetPowerMonitorReadings(ctx, _arg_powerMonitorIndices, _arg_resultReceiver)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

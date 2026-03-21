@@ -48,6 +48,7 @@ func (p *ControlsSubscriptionProxy) Request(
 	n int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIControlsSubscription)
 	_data.WriteInt64(n)
 
@@ -64,6 +65,7 @@ func (p *ControlsSubscriptionProxy) Cancel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIControlsSubscription)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsSubscription, MethodIControlsSubscriptionCancel)
@@ -78,7 +80,8 @@ func (p *ControlsSubscriptionProxy) Cancel(
 // ControlsSubscriptionStub dispatches incoming binder transactions
 // to a typed IControlsSubscription implementation.
 type ControlsSubscriptionStub struct {
-	Impl IControlsSubscription
+	Impl      IControlsSubscription
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ControlsSubscriptionStub)(nil)
@@ -92,25 +95,21 @@ func (s *ControlsSubscriptionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIControlsSubscriptionRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_n, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Request(ctx, _arg_n)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIControlsSubscriptionCancel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Cancel(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

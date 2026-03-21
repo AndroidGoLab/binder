@@ -5,6 +5,7 @@ import (
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	common "github.com/xaionaro-go/binder/android/hardware/input/common"
+	view "github.com/xaionaro-go/binder/android/view"
 	accessibility "github.com/xaionaro-go/binder/android/view/accessibility"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
@@ -71,7 +72,7 @@ type IAccessibilityServiceClient interface {
 	OnInterrupt(ctx context.Context) error
 	OnGesture(ctx context.Context, gestureEvent AccessibilityGestureEvent) error
 	ClearAccessibilityCache(ctx context.Context) error
-	OnKeyEvent(ctx context.Context, event interface{}, sequence int32) error
+	OnKeyEvent(ctx context.Context, event view.KeyEvent, sequence int32) error
 	OnMagnificationChanged(ctx context.Context, displayId int32, region graphics.Region, config MagnificationConfig) error
 	OnMotionEvent(ctx context.Context, event common.MotionEvent) error
 	OnTouchStateChanged(ctx context.Context, displayId int32, state int32) error
@@ -112,6 +113,7 @@ func (p *AccessibilityServiceClientProxy) Init(
 	windowToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(connectionId)
@@ -132,6 +134,7 @@ func (p *AccessibilityServiceClientProxy) OnAccessibilityEvent(
 	serviceWantsEvent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -152,6 +155,7 @@ func (p *AccessibilityServiceClientProxy) OnInterrupt(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnInterrupt)
@@ -168,6 +172,7 @@ func (p *AccessibilityServiceClientProxy) OnGesture(
 	gestureEvent AccessibilityGestureEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 	_data.WriteInt32(1)
 	if _err := gestureEvent.MarshalParcel(_data); _err != nil {
@@ -187,6 +192,7 @@ func (p *AccessibilityServiceClientProxy) ClearAccessibilityCache(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientClearAccessibilityCache)
@@ -200,11 +206,16 @@ func (p *AccessibilityServiceClientProxy) ClearAccessibilityCache(
 
 func (p *AccessibilityServiceClientProxy) OnKeyEvent(
 	ctx context.Context,
-	event interface{},
+	event view.KeyEvent,
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(sequence)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnKeyEvent)
@@ -223,6 +234,7 @@ func (p *AccessibilityServiceClientProxy) OnMagnificationChanged(
 	config MagnificationConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(1)
@@ -248,6 +260,7 @@ func (p *AccessibilityServiceClientProxy) OnMotionEvent(
 	event common.MotionEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -269,6 +282,7 @@ func (p *AccessibilityServiceClientProxy) OnTouchStateChanged(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(state)
@@ -287,6 +301,7 @@ func (p *AccessibilityServiceClientProxy) OnSoftKeyboardShowModeChanged(
 	showMode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 	_data.WriteInt32(showMode)
 
@@ -305,6 +320,7 @@ func (p *AccessibilityServiceClientProxy) OnPerformGestureResult(
 	completedSuccessfully bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 	_data.WriteInt32(sequence)
 	_data.WriteBool(completedSuccessfully)
@@ -323,6 +339,7 @@ func (p *AccessibilityServiceClientProxy) OnFingerprintCapturingGesturesChanged(
 	capturing bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 	_data.WriteBool(capturing)
 
@@ -340,6 +357,7 @@ func (p *AccessibilityServiceClientProxy) OnFingerprintGesture(
 	gesture int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 	_data.WriteInt32(gesture)
 
@@ -357,6 +375,7 @@ func (p *AccessibilityServiceClientProxy) OnAccessibilityButtonClicked(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 	_data.WriteInt32(displayId)
 
@@ -374,6 +393,7 @@ func (p *AccessibilityServiceClientProxy) OnAccessibilityButtonAvailabilityChang
 	available bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 	_data.WriteBool(available)
 
@@ -390,6 +410,7 @@ func (p *AccessibilityServiceClientProxy) OnSystemActionsChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientOnSystemActionsChanged)
@@ -406,6 +427,7 @@ func (p *AccessibilityServiceClientProxy) CreateImeSession(
 	callback inputmethod.IAccessibilityInputMethodSessionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -424,6 +446,7 @@ func (p *AccessibilityServiceClientProxy) SetImeSessionEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(enabled)
@@ -441,6 +464,7 @@ func (p *AccessibilityServiceClientProxy) BindInput(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientBindInput)
@@ -456,6 +480,7 @@ func (p *AccessibilityServiceClientProxy) UnbindInput(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityServiceClient, MethodIAccessibilityServiceClientUnbindInput)
@@ -474,6 +499,7 @@ func (p *AccessibilityServiceClientProxy) StartInput(
 	restarting bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -494,7 +520,8 @@ func (p *AccessibilityServiceClientProxy) StartInput(
 // AccessibilityServiceClientStub dispatches incoming binder transactions
 // to a typed IAccessibilityServiceClient implementation.
 type AccessibilityServiceClientStub struct {
-	Impl IAccessibilityServiceClient
+	Impl      IAccessibilityServiceClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AccessibilityServiceClientStub)(nil)
@@ -508,28 +535,35 @@ func (s *AccessibilityServiceClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAccessibilityServiceClientInit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_connection IAccessibilityServiceConnection
-		_ = _arg_connection
+		{
+			_connectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_connection = NewAccessibilityServiceConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _connectionHandle))
+		}
 		_arg_connectionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
-		_err = s.Impl.Init(ctx, _arg_connection, _arg_connectionId, _arg_windowToken)
-		_ = _err
-		return nil, nil
-	case TransactionIAccessibilityServiceClientOnAccessibilityEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
 		}
+		_err = s.Impl.Init(ctx, _arg_connection, _arg_connectionId, _arg_windowToken)
+		return nil, _err
+	case TransactionIAccessibilityServiceClientOnAccessibilityEvent:
 		var _arg_event accessibility.AccessibilityEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -547,19 +581,11 @@ func (s *AccessibilityServiceClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAccessibilityEvent(ctx, _arg_event, _arg_serviceWantsEvent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientOnInterrupt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnInterrupt(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientOnGesture:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_gestureEvent AccessibilityGestureEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -573,31 +599,30 @@ func (s *AccessibilityServiceClientStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnGesture(ctx, _arg_gestureEvent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientClearAccessibilityCache:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ClearAccessibilityCache(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientOnKeyEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_event view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_event interface{}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnKeyEvent(ctx, _arg_event, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientOnMagnificationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -627,12 +652,8 @@ func (s *AccessibilityServiceClientStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnMagnificationChanged(ctx, _arg_displayId, _arg_region, _arg_config)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientOnMotionEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event common.MotionEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -646,12 +667,8 @@ func (s *AccessibilityServiceClientStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnMotionEvent(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientOnTouchStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -661,23 +678,15 @@ func (s *AccessibilityServiceClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTouchStateChanged(ctx, _arg_displayId, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientOnSoftKeyboardShowModeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_showMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSoftKeyboardShowModeChanged(ctx, _arg_showMode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientOnPerformGestureResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -687,104 +696,79 @@ func (s *AccessibilityServiceClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPerformGestureResult(ctx, _arg_sequence, _arg_completedSuccessfully)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientOnFingerprintCapturingGesturesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_capturing, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnFingerprintCapturingGesturesChanged(ctx, _arg_capturing)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientOnFingerprintGesture:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_gesture, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnFingerprintGesture(ctx, _arg_gesture)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientOnAccessibilityButtonClicked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAccessibilityButtonClicked(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientOnAccessibilityButtonAvailabilityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_available, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAccessibilityButtonAvailabilityChanged(ctx, _arg_available)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientOnSystemActionsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnSystemActionsChanged(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientCreateImeSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback inputmethod.IAccessibilityInputMethodSessionCallback
-		_ = _arg_callback
-		_err := s.Impl.CreateImeSession(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIAccessibilityServiceClientSetImeSessionEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = inputmethod.NewAccessibilityInputMethodSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err := s.Impl.CreateImeSession(ctx, _arg_callback)
+		return nil, _err
+	case TransactionIAccessibilityServiceClientSetImeSessionEnabled:
 		var _arg_session inputmethod.IAccessibilityInputMethodSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = inputmethod.NewAccessibilityInputMethodSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetImeSessionEnabled(ctx, _arg_session, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientBindInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.BindInput(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientUnbindInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.UnbindInput(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityServiceClientStartInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_connection inputmethod.IRemoteAccessibilityInputConnection
-		_ = _arg_connection
+		{
+			_connectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_connection = inputmethod.NewRemoteAccessibilityInputConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _connectionHandle))
+		}
 		var _arg_editorInfo viewInputmethod.EditorInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -802,8 +786,7 @@ func (s *AccessibilityServiceClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.StartInput(ctx, _arg_connection, _arg_editorInfo, _arg_restarting)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -818,7 +801,7 @@ type IAccessibilityServiceClientServer interface {
 	OnInterrupt(ctx context.Context) error
 	OnGesture(ctx context.Context, gestureEvent AccessibilityGestureEvent) error
 	ClearAccessibilityCache(ctx context.Context) error
-	OnKeyEvent(ctx context.Context, event interface{}, sequence int32) error
+	OnKeyEvent(ctx context.Context, event view.KeyEvent, sequence int32) error
 	OnMagnificationChanged(ctx context.Context, displayId int32, region graphics.Region, config MagnificationConfig) error
 	OnMotionEvent(ctx context.Context, event common.MotionEvent) error
 	OnTouchStateChanged(ctx context.Context, displayId int32, state int32) error
@@ -883,7 +866,7 @@ func (w *accessibilityServiceClientStubWrapper) ClearAccessibilityCache(
 
 func (w *accessibilityServiceClientStubWrapper) OnKeyEvent(
 	ctx context.Context,
-	event interface{},
+	event view.KeyEvent,
 	sequence int32,
 ) error {
 	return w.impl.OnKeyEvent(ctx, event, sequence)

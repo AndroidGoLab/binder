@@ -1,0 +1,24 @@
+version: "2"
+run:
+  build-tags:
+    - e2e
+  go: "1.25"
+linters:
+  exclusions:
+    paths:
+      - "tools/pkg/3rdparty/.*"
+    rules:
+      - linters:
+          - typecheck
+        path: "commands_gen\\.go"
+      # Generated proxy/stub code has ineffectual assignments and unused
+      # variables from out-param arrays and stub return paths. These are
+      # codegen limitations tracked as TODOs in interface_gen.go.
+      - linters:
+          - ineffassign
+          - unused
+          - staticcheck
+        path: "^(android|com|aaudio|fuzztest|libgui_test_server|parcelables|src)/"
+    presets:
+      - comments
+      - std-error-handling

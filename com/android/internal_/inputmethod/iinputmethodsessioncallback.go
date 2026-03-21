@@ -45,6 +45,7 @@ func (p *InputMethodSessionCallbackProxy) SessionCreated(
 	session IInputMethodSession,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSessionCallback)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 
@@ -60,7 +61,8 @@ func (p *InputMethodSessionCallbackProxy) SessionCreated(
 // InputMethodSessionCallbackStub dispatches incoming binder transactions
 // to a typed IInputMethodSessionCallback implementation.
 type InputMethodSessionCallbackStub struct {
-	Impl IInputMethodSessionCallback
+	Impl      IInputMethodSessionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputMethodSessionCallbackStub)(nil)
@@ -74,17 +76,22 @@ func (s *InputMethodSessionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputMethodSessionCallbackSessionCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IInputMethodSession
-		_ = _arg_session
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewInputMethodSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
+		}
 		_err := s.Impl.SessionCreated(ctx, _arg_session)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

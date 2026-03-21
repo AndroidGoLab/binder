@@ -61,6 +61,7 @@ func (p *AmbientContextManagerProxy) RegisterObserver(
 	statusCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -100,6 +101,7 @@ func (p *AmbientContextManagerProxy) RegisterObserverWithCallback(
 	observer IAmbientContextObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -131,6 +133,7 @@ func (p *AmbientContextManagerProxy) UnregisterObserver(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextManager)
 	_data.WriteString16(_identity.PackageName)
 
@@ -159,6 +162,7 @@ func (p *AmbientContextManagerProxy) QueryServiceStatus(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextManager)
 	if eventTypes == nil {
 		_data.WriteInt32(-1)
@@ -198,6 +202,7 @@ func (p *AmbientContextManagerProxy) StartConsentActivity(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextManager)
 	if eventTypes == nil {
 		_data.WriteInt32(-1)
@@ -230,7 +235,8 @@ func (p *AmbientContextManagerProxy) StartConsentActivity(
 // AmbientContextManagerStub dispatches incoming binder transactions
 // to a typed IAmbientContextManager implementation.
 type AmbientContextManagerStub struct {
-	Impl IAmbientContextManager
+	Impl      IAmbientContextManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AmbientContextManagerStub)(nil)
@@ -244,11 +250,12 @@ func (s *AmbientContextManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAmbientContextManagerRegisterObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request AmbientContextEventRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -294,9 +301,6 @@ func (s *AmbientContextManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAmbientContextManagerRegisterObserverWithCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request AmbientContextEventRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -313,9 +317,14 @@ func (s *AmbientContextManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IAmbientContextObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewAmbientContextObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_err = s.Impl.RegisterObserverWithCallback(ctx, _arg_request, _arg_packageName, _arg_observer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -328,9 +337,6 @@ func (s *AmbientContextManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.UnregisterObserver(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -340,12 +346,25 @@ func (s *AmbientContextManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAmbientContextManagerQueryServiceStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_eventTypes []int32
-		_ = _arg_eventTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_eventTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_eventTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -370,12 +389,25 @@ func (s *AmbientContextManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAmbientContextManagerStartConsentActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_eventTypes []int32
-		_ = _arg_eventTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_eventTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_eventTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}

@@ -6,6 +6,7 @@ import (
 	"sync"
 	"unsafe"
 
+	"github.com/facebookincubator/go-belt/tool/logger"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -82,7 +83,11 @@ func (s *StubBinder) IsAlive(_ context.Context) bool {
 	return true
 }
 
-// Handle returns 0 for local stubs (they have no remote handle).
+// Handle returns 0 for local stubs. This is intentional: stubs are
+// local objects and do not have a remote handle. Handle values are
+// only meaningful for remote proxies (ProxyBinder). The value 0 is
+// also used by ServiceManager's handle, but the two cannot be confused
+// because a StubBinder is never used as a remote proxy.
 func (s *StubBinder) Handle() uint32 {
 	return 0
 }
@@ -103,10 +108,12 @@ func (s *StubBinder) BinderPtr() uintptr {
 	return uintptr(unsafe.Pointer(s.weakRef))
 }
 
-// Transport returns nil — StubBinder does not implement VersionAwareTransport
-// lookup. Use the transport directly instead.
+// Transport returns the VersionAwareTransport stored during
+// RegisterWithTransport, or nil if the stub has not been registered
+// or the stored transport does not implement VersionAwareTransport.
 func (s *StubBinder) Transport() VersionAwareTransport {
-	return nil
+	vat, _ := s.transport.(VersionAwareTransport)
+	return vat
 }
 
 // Identity returns the default caller identity.
@@ -125,6 +132,9 @@ func (s *StubBinder) RegisterWithTransport(
 	defer s.mu.Unlock()
 
 	if s.cookie != 0 {
+		if s.transport != t {
+			logger.Warnf(ctx, "StubBinder.RegisterWithTransport called with a different transport; ignoring (already registered)")
+		}
 		return s.cookie
 	}
 

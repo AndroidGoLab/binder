@@ -1,0 +1,55 @@
+package: android.hardware.security.secretkeeper
+go_package: android/hardware/security/secretkeeper
+interfaces:
+    - name: ISecretkeeper
+      descriptor: android.hardware.security.secretkeeper.ISecretkeeper
+      methods:
+        - name: getAuthGraphKe
+          transaction_code_offset: 0
+          return_type:
+            name: IAuthGraphKeyExchange
+        - name: processSecretManagementRequest
+          transaction_code_offset: 1
+          params:
+            - name: request
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: deleteIds
+          transaction_code_offset: 2
+          params:
+            - name: ids
+              type:
+                name: SecretId
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: deleteAll
+          transaction_code_offset: 3
+          return_type:
+            name: void
+      constants:
+        - name: ERROR_UNKNOWN_KEY_ID
+          type: int
+          value: "1"
+        - name: ERROR_INTERNAL_ERROR
+          type: int
+          value: "2"
+        - name: ERROR_REQUEST_MALFORMED
+          type: int
+          value: "3"
+parcelables:
+    - name: SecretId
+      fields:
+        - name: id
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "64"
+      annotations:
+        - VintfStability

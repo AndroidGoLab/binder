@@ -1,0 +1,283 @@
+package: android.service.ondeviceintelligence
+go_package: android/service/ondeviceintelligence
+interfaces:
+    - name: IOnDeviceIntelligenceService
+      descriptor: android.service.ondeviceintelligence.IOnDeviceIntelligenceService
+      oneway: true
+      methods:
+        - name: getVersion
+          transaction_code_offset: 0
+          params:
+            - name: remoteCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getFeature
+          transaction_code_offset: 1
+          params:
+            - name: featureId
+              type:
+                name: int
+              direction: in
+            - name: featureCallback
+              type:
+                name: IFeatureCallback
+              direction: in
+          return_type:
+            name: void
+        - name: listFeatures
+          transaction_code_offset: 2
+          params:
+            - name: listFeaturesCallback
+              type:
+                name: IListFeaturesCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getFeatureDetails
+          transaction_code_offset: 3
+          params:
+            - name: feature
+              type:
+                name: Feature
+              direction: in
+            - name: featureDetailsCallback
+              type:
+                name: IFeatureDetailsCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getReadOnlyFileDescriptor
+          transaction_code_offset: 4
+          params:
+            - name: fileName
+              type:
+                name: String
+              direction: in
+            - name: future
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+        - name: getReadOnlyFeatureFileDescriptorMap
+          transaction_code_offset: 5
+          params:
+            - name: feature
+              type:
+                name: Feature
+              direction: in
+            - name: remoteCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: requestFeatureDownload
+          transaction_code_offset: 6
+          params:
+            - name: feature
+              type:
+                name: Feature
+              direction: in
+            - name: cancellationSignal
+              type:
+                name: ICancellationSignal
+              direction: in
+            - name: downloadCallback
+              type:
+                name: IDownloadCallback
+              direction: in
+          return_type:
+            name: void
+        - name: registerRemoteServices
+          transaction_code_offset: 7
+          params:
+            - name: remoteProcessingService
+              type:
+                name: IRemoteProcessingService
+              direction: in
+          return_type:
+            name: void
+    - name: IOnDeviceTrustedInferenceService
+      descriptor: android.service.ondeviceintelligence.IOnDeviceTrustedInferenceService
+      oneway: true
+      methods:
+        - name: registerRemoteStorageService
+          transaction_code_offset: 0
+          params:
+            - name: storageService
+              type:
+                name: IRemoteStorageService
+              direction: in
+          return_type:
+            name: void
+        - name: requestTokenCount
+          transaction_code_offset: 1
+          params:
+            - name: feature
+              type:
+                name: Feature
+              direction: in
+            - name: request
+              type:
+                name: Content
+              direction: in
+            - name: cancellationSignal
+              type:
+                name: ICancellationSignal
+              direction: in
+            - name: tokenCountCallback
+              type:
+                name: ITokenCountCallback
+              direction: in
+          return_type:
+            name: void
+        - name: processRequest
+          transaction_code_offset: 2
+          params:
+            - name: feature
+              type:
+                name: Feature
+              direction: in
+            - name: request
+              type:
+                name: Content
+              direction: in
+            - name: requestType
+              type:
+                name: int
+              direction: in
+            - name: cancellationSignal
+              type:
+                name: ICancellationSignal
+              direction: in
+            - name: processingSignal
+              type:
+                name: IProcessingSignal
+              direction: in
+            - name: callback
+              type:
+                name: IResponseCallback
+              direction: in
+          return_type:
+            name: void
+        - name: processRequestStreaming
+          transaction_code_offset: 3
+          params:
+            - name: feature
+              type:
+                name: Feature
+              direction: in
+            - name: request
+              type:
+                name: Content
+              direction: in
+            - name: requestType
+              type:
+                name: int
+              direction: in
+            - name: cancellationSignal
+              type:
+                name: ICancellationSignal
+              direction: in
+            - name: processingSignal
+              type:
+                name: IProcessingSignal
+              direction: in
+            - name: callback
+              type:
+                name: IStreamingResponseCallback
+              direction: in
+          return_type:
+            name: void
+        - name: updateProcessingState
+          transaction_code_offset: 4
+          params:
+            - name: processingState
+              type:
+                name: Bundle
+              direction: in
+            - name: callback
+              type:
+                name: IProcessingUpdateStatusCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IProcessingUpdateStatusCallback
+      descriptor: android.service.ondeviceintelligence.IProcessingUpdateStatusCallback
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: statusParams
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 1
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: errorMessage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+    - name: IRemoteProcessingService
+      descriptor: android.service.ondeviceintelligence.IRemoteProcessingService
+      oneway: true
+      methods:
+        - name: updateProcessingState
+          transaction_code_offset: 0
+          params:
+            - name: processingState
+              type:
+                name: Bundle
+              direction: in
+            - name: callback
+              type:
+                name: IProcessingUpdateStatusCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IRemoteStorageService
+      descriptor: android.service.ondeviceintelligence.IRemoteStorageService
+      oneway: true
+      methods:
+        - name: getReadOnlyFileDescriptor
+          transaction_code_offset: 0
+          params:
+            - name: filePath
+              type:
+                name: String
+              direction: in
+            - name: future
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+        - name: getReadOnlyFeatureFileDescriptorMap
+          transaction_code_offset: 1
+          params:
+            - name: feature
+              type:
+                name: Feature
+              direction: in
+            - name: remoteCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void

@@ -342,6 +342,7 @@ func (p *SupplicantStaNetworkProxy) Disable(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkDisable)
@@ -367,6 +368,7 @@ func (p *SupplicantStaNetworkProxy) Enable(
 	noConnect bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(noConnect)
 
@@ -393,6 +395,7 @@ func (p *SupplicantStaNetworkProxy) EnableSaePkOnlyMode(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
@@ -418,6 +421,7 @@ func (p *SupplicantStaNetworkProxy) EnableSuiteBEapOpenSslCiphers(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkEnableSuiteBEapOpenSslCiphers)
@@ -443,6 +447,7 @@ func (p *SupplicantStaNetworkProxy) EnableTlsSuiteBEapPhase1Param(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
@@ -469,6 +474,7 @@ func (p *SupplicantStaNetworkProxy) GetAuthAlg(
 ) (AuthAlgMask, error) {
 	var _result AuthAlgMask
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetAuthAlg)
@@ -499,6 +505,7 @@ func (p *SupplicantStaNetworkProxy) GetBssid(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetBssid)
@@ -516,19 +523,9 @@ func (p *SupplicantStaNetworkProxy) GetBssid(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -538,6 +535,7 @@ func (p *SupplicantStaNetworkProxy) GetEapAltSubjectMatch(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetEapAltSubjectMatch)
@@ -567,6 +565,7 @@ func (p *SupplicantStaNetworkProxy) GetEapAnonymousIdentity(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetEapAnonymousIdentity)
@@ -584,19 +583,9 @@ func (p *SupplicantStaNetworkProxy) GetEapAnonymousIdentity(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -606,6 +595,7 @@ func (p *SupplicantStaNetworkProxy) GetEapCACert(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetEapCACert)
@@ -635,6 +625,7 @@ func (p *SupplicantStaNetworkProxy) GetEapCAPath(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetEapCAPath)
@@ -664,6 +655,7 @@ func (p *SupplicantStaNetworkProxy) GetEapClientCert(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetEapClientCert)
@@ -693,6 +685,7 @@ func (p *SupplicantStaNetworkProxy) GetEapDomainSuffixMatch(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetEapDomainSuffixMatch)
@@ -722,6 +715,7 @@ func (p *SupplicantStaNetworkProxy) GetEapEngine(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetEapEngine)
@@ -751,6 +745,7 @@ func (p *SupplicantStaNetworkProxy) GetEapEngineId(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetEapEngineId)
@@ -780,6 +775,7 @@ func (p *SupplicantStaNetworkProxy) GetEapIdentity(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetEapIdentity)
@@ -797,19 +793,9 @@ func (p *SupplicantStaNetworkProxy) GetEapIdentity(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -819,6 +805,7 @@ func (p *SupplicantStaNetworkProxy) GetEapMethod(
 ) (EapMethod, error) {
 	var _result EapMethod
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetEapMethod)
@@ -849,6 +836,7 @@ func (p *SupplicantStaNetworkProxy) GetEapPassword(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetEapPassword)
@@ -866,19 +854,9 @@ func (p *SupplicantStaNetworkProxy) GetEapPassword(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -888,6 +866,7 @@ func (p *SupplicantStaNetworkProxy) GetEapPhase2Method(
 ) (EapPhase2Method, error) {
 	var _result EapPhase2Method
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetEapPhase2Method)
@@ -918,6 +897,7 @@ func (p *SupplicantStaNetworkProxy) GetEapPrivateKeyId(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetEapPrivateKeyId)
@@ -947,6 +927,7 @@ func (p *SupplicantStaNetworkProxy) GetEapSubjectMatch(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetEapSubjectMatch)
@@ -976,6 +957,7 @@ func (p *SupplicantStaNetworkProxy) GetEdmg(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetEdmg)
@@ -1005,6 +987,7 @@ func (p *SupplicantStaNetworkProxy) GetGroupCipher(
 ) (GroupCipherMask, error) {
 	var _result GroupCipherMask
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetGroupCipher)
@@ -1035,6 +1018,7 @@ func (p *SupplicantStaNetworkProxy) GetGroupMgmtCipher(
 ) (GroupMgmtCipherMask, error) {
 	var _result GroupMgmtCipherMask
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetGroupMgmtCipher)
@@ -1065,6 +1049,7 @@ func (p *SupplicantStaNetworkProxy) GetId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetId)
@@ -1094,6 +1079,7 @@ func (p *SupplicantStaNetworkProxy) GetIdStr(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetIdStr)
@@ -1123,6 +1109,7 @@ func (p *SupplicantStaNetworkProxy) GetInterfaceName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetInterfaceName)
@@ -1152,6 +1139,7 @@ func (p *SupplicantStaNetworkProxy) GetKeyMgmt(
 ) (KeyMgmtMask, error) {
 	var _result KeyMgmtMask
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetKeyMgmt)
@@ -1182,6 +1170,7 @@ func (p *SupplicantStaNetworkProxy) GetOcsp(
 ) (OcspType, error) {
 	var _result OcspType
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetOcsp)
@@ -1212,6 +1201,7 @@ func (p *SupplicantStaNetworkProxy) GetPairwiseCipher(
 ) (PairwiseCipherMask, error) {
 	var _result PairwiseCipherMask
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetPairwiseCipher)
@@ -1242,6 +1232,7 @@ func (p *SupplicantStaNetworkProxy) GetProto(
 ) (ProtoMask, error) {
 	var _result ProtoMask
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetProto)
@@ -1272,6 +1263,7 @@ func (p *SupplicantStaNetworkProxy) GetPsk(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetPsk)
@@ -1289,19 +1281,9 @@ func (p *SupplicantStaNetworkProxy) GetPsk(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -1311,6 +1293,7 @@ func (p *SupplicantStaNetworkProxy) GetPskPassphrase(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetPskPassphrase)
@@ -1340,6 +1323,7 @@ func (p *SupplicantStaNetworkProxy) GetRequirePmf(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetRequirePmf)
@@ -1369,6 +1353,7 @@ func (p *SupplicantStaNetworkProxy) GetSaePassword(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetSaePassword)
@@ -1398,6 +1383,7 @@ func (p *SupplicantStaNetworkProxy) GetSaePasswordId(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetSaePasswordId)
@@ -1427,6 +1413,7 @@ func (p *SupplicantStaNetworkProxy) GetScanSsid(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetScanSsid)
@@ -1456,6 +1443,7 @@ func (p *SupplicantStaNetworkProxy) GetSsid(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetSsid)
@@ -1473,19 +1461,9 @@ func (p *SupplicantStaNetworkProxy) GetSsid(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -1495,6 +1473,7 @@ func (p *SupplicantStaNetworkProxy) GetType(
 ) (IfaceType, error) {
 	var _result IfaceType
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetType)
@@ -1525,6 +1504,7 @@ func (p *SupplicantStaNetworkProxy) GetWapiCertSuite(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetWapiCertSuite)
@@ -1555,6 +1535,7 @@ func (p *SupplicantStaNetworkProxy) GetWepKey(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(keyIdx)
 
@@ -1573,19 +1554,9 @@ func (p *SupplicantStaNetworkProxy) GetWepKey(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -1595,6 +1566,7 @@ func (p *SupplicantStaNetworkProxy) GetWepTxKeyIdx(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetWepTxKeyIdx)
@@ -1624,6 +1596,7 @@ func (p *SupplicantStaNetworkProxy) GetWpsNfcConfigurationToken(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkGetWpsNfcConfigurationToken)
@@ -1641,19 +1614,9 @@ func (p *SupplicantStaNetworkProxy) GetWpsNfcConfigurationToken(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -1663,6 +1626,7 @@ func (p *SupplicantStaNetworkProxy) RegisterCallback(
 	callback ISupplicantStaNetworkCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -1688,6 +1652,7 @@ func (p *SupplicantStaNetworkProxy) Select(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkSelect)
@@ -1714,23 +1679,10 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapIdentityResponse(
 	encryptedIdentity []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
-	if identity == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(identity)))
-		for _, _item := range identity {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if encryptedIdentity == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(encryptedIdentity)))
-		for _, _item := range encryptedIdentity {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(identity)
+	_data.WriteByteArray(encryptedIdentity)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkSendNetworkEapIdentityResponse)
 	if _err != nil {
@@ -1754,6 +1706,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapSimGsmAuthFailure(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkSendNetworkEapSimGsmAuthFailure)
@@ -1779,6 +1732,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapSimGsmAuthResponse(
 	params []NetworkResponseEapSimGsmAuthParams,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	if params == nil {
 		_data.WriteInt32(-1)
@@ -1814,6 +1768,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapSimUmtsAuthFailure(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkSendNetworkEapSimUmtsAuthFailure)
@@ -1839,6 +1794,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapSimUmtsAuthResponse(
 	params NetworkResponseEapSimUmtsAuthParams,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -1868,15 +1824,9 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapSimUmtsAutsResponse(
 	auts []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
-	if auts == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(auts)))
-		for _, _item := range auts {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(auts)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkSendNetworkEapSimUmtsAutsResponse)
 	if _err != nil {
@@ -1901,6 +1851,7 @@ func (p *SupplicantStaNetworkProxy) SetAuthAlg(
 	authAlgMask AuthAlgMask,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(authAlgMask))
 
@@ -1927,15 +1878,9 @@ func (p *SupplicantStaNetworkProxy) SetBssid(
 	bssid []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
-	if bssid == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(bssid)))
-		for _, _item := range bssid {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(bssid)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkSetBssid)
 	if _err != nil {
@@ -1960,6 +1905,7 @@ func (p *SupplicantStaNetworkProxy) SetDppKeys(
 	keys DppConnectionKeys,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(1)
 	if _err := keys.MarshalParcel(_data); _err != nil {
@@ -1989,6 +1935,7 @@ func (p *SupplicantStaNetworkProxy) SetEapAltSubjectMatch(
 	match string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(match)
 
@@ -2015,15 +1962,9 @@ func (p *SupplicantStaNetworkProxy) SetEapAnonymousIdentity(
 	identity []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
-	if identity == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(identity)))
-		for _, _item := range identity {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(identity)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkSetEapAnonymousIdentity)
 	if _err != nil {
@@ -2048,6 +1989,7 @@ func (p *SupplicantStaNetworkProxy) SetEapCACert(
 	path string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(path)
 
@@ -2074,6 +2016,7 @@ func (p *SupplicantStaNetworkProxy) SetEapCAPath(
 	path string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(path)
 
@@ -2100,6 +2043,7 @@ func (p *SupplicantStaNetworkProxy) SetEapClientCert(
 	path string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(path)
 
@@ -2126,6 +2070,7 @@ func (p *SupplicantStaNetworkProxy) SetEapDomainSuffixMatch(
 	match string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(match)
 
@@ -2152,15 +2097,9 @@ func (p *SupplicantStaNetworkProxy) SetEapEncryptedImsiIdentity(
 	identity []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
-	if identity == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(identity)))
-		for _, _item := range identity {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(identity)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkSetEapEncryptedImsiIdentity)
 	if _err != nil {
@@ -2185,6 +2124,7 @@ func (p *SupplicantStaNetworkProxy) SetEapEngine(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
@@ -2211,6 +2151,7 @@ func (p *SupplicantStaNetworkProxy) SetEapEngineID(
 	id string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(id)
 
@@ -2237,6 +2178,7 @@ func (p *SupplicantStaNetworkProxy) SetEapErp(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
@@ -2263,15 +2205,9 @@ func (p *SupplicantStaNetworkProxy) SetEapIdentity(
 	identity []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
-	if identity == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(identity)))
-		for _, _item := range identity {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(identity)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkSetEapIdentity)
 	if _err != nil {
@@ -2296,6 +2232,7 @@ func (p *SupplicantStaNetworkProxy) SetEapMethod(
 	method EapMethod,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(method))
 
@@ -2322,15 +2259,9 @@ func (p *SupplicantStaNetworkProxy) SetEapPassword(
 	password []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
-	if password == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(password)))
-		for _, _item := range password {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(password)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkSetEapPassword)
 	if _err != nil {
@@ -2355,6 +2286,7 @@ func (p *SupplicantStaNetworkProxy) SetEapPhase2Method(
 	method EapPhase2Method,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(method))
 
@@ -2381,6 +2313,7 @@ func (p *SupplicantStaNetworkProxy) SetEapPrivateKeyId(
 	id string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(id)
 
@@ -2407,6 +2340,7 @@ func (p *SupplicantStaNetworkProxy) SetEapSubjectMatch(
 	match string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(match)
 
@@ -2433,6 +2367,7 @@ func (p *SupplicantStaNetworkProxy) SetEdmg(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
@@ -2459,6 +2394,7 @@ func (p *SupplicantStaNetworkProxy) SetGroupCipher(
 	groupCipherMask GroupCipherMask,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(groupCipherMask))
 
@@ -2485,6 +2421,7 @@ func (p *SupplicantStaNetworkProxy) SetGroupMgmtCipher(
 	groupMgmtCipherMask GroupMgmtCipherMask,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(groupMgmtCipherMask))
 
@@ -2511,6 +2448,7 @@ func (p *SupplicantStaNetworkProxy) SetIdStr(
 	idStr string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(idStr)
 
@@ -2537,6 +2475,7 @@ func (p *SupplicantStaNetworkProxy) SetKeyMgmt(
 	keyMgmtMask KeyMgmtMask,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(keyMgmtMask))
 
@@ -2563,6 +2502,7 @@ func (p *SupplicantStaNetworkProxy) SetOcsp(
 	ocspType OcspType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(ocspType))
 
@@ -2589,6 +2529,7 @@ func (p *SupplicantStaNetworkProxy) SetPairwiseCipher(
 	pairwiseCipherMask PairwiseCipherMask,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(pairwiseCipherMask))
 
@@ -2615,15 +2556,9 @@ func (p *SupplicantStaNetworkProxy) SetPmkCache(
 	serializedEntry []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
-	if serializedEntry == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(serializedEntry)))
-		for _, _item := range serializedEntry {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(serializedEntry)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkSetPmkCache)
 	if _err != nil {
@@ -2648,6 +2583,7 @@ func (p *SupplicantStaNetworkProxy) SetProactiveKeyCaching(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
@@ -2674,6 +2610,7 @@ func (p *SupplicantStaNetworkProxy) SetProto(
 	protoMask ProtoMask,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(protoMask))
 
@@ -2700,15 +2637,9 @@ func (p *SupplicantStaNetworkProxy) SetPsk(
 	psk []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
-	if psk == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(psk)))
-		for _, _item := range psk {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(psk)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkSetPsk)
 	if _err != nil {
@@ -2733,6 +2664,7 @@ func (p *SupplicantStaNetworkProxy) SetPskPassphrase(
 	psk string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(psk)
 
@@ -2759,6 +2691,7 @@ func (p *SupplicantStaNetworkProxy) SetRequirePmf(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
@@ -2785,6 +2718,7 @@ func (p *SupplicantStaNetworkProxy) SetSaeH2eMode(
 	mode SaeH2eMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WritePaddedByte(byte(mode))
 
@@ -2811,6 +2745,7 @@ func (p *SupplicantStaNetworkProxy) SetSaePassword(
 	saePassword string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(saePassword)
 
@@ -2837,6 +2772,7 @@ func (p *SupplicantStaNetworkProxy) SetSaePasswordId(
 	saePasswordId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(saePasswordId)
 
@@ -2863,6 +2799,7 @@ func (p *SupplicantStaNetworkProxy) SetScanSsid(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
@@ -2889,15 +2826,9 @@ func (p *SupplicantStaNetworkProxy) SetSsid(
 	ssid []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
-	if ssid == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(ssid)))
-		for _, _item := range ssid {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(ssid)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkSetSsid)
 	if _err != nil {
@@ -2922,6 +2853,7 @@ func (p *SupplicantStaNetworkProxy) SetUpdateIdentifier(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(id)
 
@@ -2948,6 +2880,7 @@ func (p *SupplicantStaNetworkProxy) SetWapiCertSuite(
 	suite string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(suite)
 
@@ -2975,16 +2908,10 @@ func (p *SupplicantStaNetworkProxy) SetWepKey(
 	wepKey []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(keyIdx)
-	if wepKey == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(wepKey)))
-		for _, _item := range wepKey {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(wepKey)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkSetWepKey)
 	if _err != nil {
@@ -3009,6 +2936,7 @@ func (p *SupplicantStaNetworkProxy) SetWepTxKeyIdx(
 	keyIdx int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(keyIdx)
 
@@ -3035,15 +2963,9 @@ func (p *SupplicantStaNetworkProxy) SetRoamingConsortiumSelection(
 	selectedRcoi []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
-	if selectedRcoi == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(selectedRcoi)))
-		for _, _item := range selectedRcoi {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(selectedRcoi)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkSetRoamingConsortiumSelection)
 	if _err != nil {
@@ -3068,6 +2990,7 @@ func (p *SupplicantStaNetworkProxy) SetMinimumTlsVersionEapPhase1Param(
 	tlsVersion TlsVersion,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(tlsVersion))
 
@@ -3094,6 +3017,7 @@ func (p *SupplicantStaNetworkProxy) SetStrictConservativePeerMode(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
@@ -3119,6 +3043,7 @@ func (p *SupplicantStaNetworkProxy) DisableEht(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetwork, MethodISupplicantStaNetworkDisableEht)
@@ -3144,6 +3069,7 @@ func (p *SupplicantStaNetworkProxy) SetVendorData(
 	vendorData []common.OuiKeyedData,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	if vendorData == nil {
 		_data.WriteInt32(-1)
@@ -3178,7 +3104,8 @@ func (p *SupplicantStaNetworkProxy) SetVendorData(
 // SupplicantStaNetworkStub dispatches incoming binder transactions
 // to a typed ISupplicantStaNetwork implementation.
 type SupplicantStaNetworkStub struct {
-	Impl ISupplicantStaNetwork
+	Impl      ISupplicantStaNetwork
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SupplicantStaNetworkStub)(nil)
@@ -3192,11 +3119,12 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISupplicantStaNetworkDisable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Disable(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3206,9 +3134,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkEnable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_noConnect, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3222,9 +3147,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkEnableSaePkOnlyMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3238,9 +3160,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkEnableSuiteBEapOpenSslCiphers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.EnableSuiteBEapOpenSslCiphers(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3250,9 +3169,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkEnableTlsSuiteBEapPhase1Param:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3266,9 +3182,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetAuthAlg:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAuthAlg(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3279,9 +3192,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetBssid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetBssid(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3289,13 +3199,9 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetEapAltSubjectMatch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEapAltSubjectMatch(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3306,9 +3212,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetEapAnonymousIdentity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEapAnonymousIdentity(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3316,13 +3219,9 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetEapCACert:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEapCACert(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3333,9 +3232,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetEapCAPath:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEapCAPath(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3346,9 +3242,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetEapClientCert:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEapClientCert(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3359,9 +3252,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetEapDomainSuffixMatch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEapDomainSuffixMatch(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3372,9 +3262,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetEapEngine:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEapEngine(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3385,9 +3272,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetEapEngineId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEapEngineId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3398,9 +3282,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetEapIdentity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEapIdentity(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3408,13 +3289,9 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetEapMethod:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEapMethod(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3425,9 +3302,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetEapPassword:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEapPassword(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3435,13 +3309,9 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetEapPhase2Method:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEapPhase2Method(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3452,9 +3322,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetEapPrivateKeyId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEapPrivateKeyId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3465,9 +3332,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetEapSubjectMatch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEapSubjectMatch(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3478,9 +3342,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetEdmg:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEdmg(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3491,9 +3352,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetGroupCipher:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetGroupCipher(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3504,9 +3362,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetGroupMgmtCipher:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetGroupMgmtCipher(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3517,9 +3372,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3530,9 +3382,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetIdStr:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetIdStr(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3543,9 +3392,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetInterfaceName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetInterfaceName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3556,9 +3402,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetKeyMgmt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetKeyMgmt(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3569,9 +3412,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetOcsp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetOcsp(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3582,9 +3422,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetPairwiseCipher:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPairwiseCipher(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3595,9 +3432,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetProto:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetProto(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3608,9 +3442,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetPsk:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPsk(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3618,13 +3449,9 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetPskPassphrase:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPskPassphrase(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3635,9 +3462,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetRequirePmf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRequirePmf(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3648,9 +3472,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetSaePassword:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSaePassword(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3661,9 +3482,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetSaePasswordId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSaePasswordId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3674,9 +3492,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetScanSsid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetScanSsid(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3687,9 +3502,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetSsid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSsid(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3697,13 +3509,9 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetType(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3714,9 +3522,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetWapiCertSuite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWapiCertSuite(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3727,9 +3532,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetWepKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_keyIdx, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3741,13 +3543,9 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetWepTxKeyIdx:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWepTxKeyIdx(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3758,9 +3556,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkGetWpsNfcConfigurationToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWpsNfcConfigurationToken(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3768,16 +3563,17 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISupplicantStaNetworkCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSupplicantStaNetworkCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3787,9 +3583,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSelect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Select(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3799,15 +3592,22 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSendNetworkEapIdentityResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_identity []byte
-		_ = _arg_identity
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_identity = _bytes
+		}
 		var _arg_encryptedIdentity []byte
-		_ = _arg_encryptedIdentity
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_encryptedIdentity = _bytes
+		}
 		_err := s.Impl.SendNetworkEapIdentityResponse(ctx, _arg_identity, _arg_encryptedIdentity)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3817,9 +3617,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSendNetworkEapSimGsmAuthFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SendNetworkEapSimGsmAuthFailure(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3829,12 +3626,27 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSendNetworkEapSimGsmAuthResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_params []NetworkResponseEapSimGsmAuthParams
-		_ = _arg_params
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_params = make([]NetworkResponseEapSimGsmAuthParams, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_params[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SendNetworkEapSimGsmAuthResponse(ctx, _arg_params)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3844,9 +3656,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSendNetworkEapSimUmtsAuthFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SendNetworkEapSimUmtsAuthFailure(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3856,9 +3665,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSendNetworkEapSimUmtsAuthResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_params NetworkResponseEapSimUmtsAuthParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3880,12 +3686,14 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSendNetworkEapSimUmtsAutsResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_auts []byte
-		_ = _arg_auts
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_auts = _bytes
+		}
 		_err := s.Impl.SendNetworkEapSimUmtsAutsResponse(ctx, _arg_auts)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3895,9 +3703,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetAuthAlg:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_authAlgMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3912,12 +3717,14 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetBssid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bssid []byte
-		_ = _arg_bssid
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_bssid = _bytes
+		}
 		_err := s.Impl.SetBssid(ctx, _arg_bssid)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3927,9 +3734,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetDppKeys:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_keys DppConnectionKeys
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3951,9 +3755,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEapAltSubjectMatch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_match, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3967,12 +3768,14 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEapAnonymousIdentity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_identity []byte
-		_ = _arg_identity
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_identity = _bytes
+		}
 		_err := s.Impl.SetEapAnonymousIdentity(ctx, _arg_identity)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3982,9 +3785,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEapCACert:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3998,9 +3798,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEapCAPath:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -4014,9 +3811,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEapClientCert:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -4030,9 +3824,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEapDomainSuffixMatch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_match, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -4046,12 +3837,14 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEapEncryptedImsiIdentity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_identity []byte
-		_ = _arg_identity
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_identity = _bytes
+		}
 		_err := s.Impl.SetEapEncryptedImsiIdentity(ctx, _arg_identity)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4061,9 +3854,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEapEngine:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -4077,9 +3867,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEapEngineID:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -4093,9 +3880,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEapErp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -4109,12 +3893,14 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEapIdentity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_identity []byte
-		_ = _arg_identity
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_identity = _bytes
+		}
 		_err := s.Impl.SetEapIdentity(ctx, _arg_identity)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4124,9 +3910,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEapMethod:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_method, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4141,12 +3924,14 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEapPassword:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_password []byte
-		_ = _arg_password
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_password = _bytes
+		}
 		_err := s.Impl.SetEapPassword(ctx, _arg_password)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4156,9 +3941,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEapPhase2Method:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_method, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4173,9 +3955,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEapPrivateKeyId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -4189,9 +3968,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEapSubjectMatch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_match, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -4205,9 +3981,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetEdmg:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -4221,9 +3994,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetGroupCipher:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_groupCipherMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4238,9 +4008,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetGroupMgmtCipher:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_groupMgmtCipherMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4255,9 +4022,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetIdStr:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_idStr, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -4271,9 +4035,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetKeyMgmt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_keyMgmtMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4288,9 +4049,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetOcsp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_ocspType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4305,9 +4063,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetPairwiseCipher:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_pairwiseCipherMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4322,12 +4077,14 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetPmkCache:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_serializedEntry []byte
-		_ = _arg_serializedEntry
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_serializedEntry = _bytes
+		}
 		_err := s.Impl.SetPmkCache(ctx, _arg_serializedEntry)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4337,9 +4094,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetProactiveKeyCaching:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -4353,9 +4107,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetProto:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_protoMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4370,12 +4121,14 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetPsk:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_psk []byte
-		_ = _arg_psk
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_psk = _bytes
+		}
 		_err := s.Impl.SetPsk(ctx, _arg_psk)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4385,9 +4138,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetPskPassphrase:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_psk, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -4401,9 +4151,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetRequirePmf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -4417,9 +4164,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetSaeH2eMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_mode, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -4434,9 +4178,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetSaePassword:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_saePassword, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -4450,9 +4191,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetSaePasswordId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_saePasswordId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -4466,9 +4204,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetScanSsid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -4482,12 +4217,14 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetSsid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ssid []byte
-		_ = _arg_ssid
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_ssid = _bytes
+		}
 		_err := s.Impl.SetSsid(ctx, _arg_ssid)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4497,9 +4234,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetUpdateIdentifier:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4513,9 +4247,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetWapiCertSuite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_suite, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -4529,16 +4260,18 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetWepKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_keyIdx, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_wepKey []byte
-		_ = _arg_wepKey
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_wepKey = _bytes
+		}
 		_err = s.Impl.SetWepKey(ctx, _arg_keyIdx, _arg_wepKey)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4548,9 +4281,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetWepTxKeyIdx:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_keyIdx, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4564,12 +4294,14 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetRoamingConsortiumSelection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_selectedRcoi []byte
-		_ = _arg_selectedRcoi
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_selectedRcoi = _bytes
+		}
 		_err := s.Impl.SetRoamingConsortiumSelection(ctx, _arg_selectedRcoi)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4579,9 +4311,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetMinimumTlsVersionEapPhase1Param:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_tlsVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4596,9 +4325,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetStrictConservativePeerMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -4612,9 +4338,6 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkDisableEht:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DisableEht(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4624,12 +4347,27 @@ func (s *SupplicantStaNetworkStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantStaNetworkSetVendorData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_vendorData []common.OuiKeyedData
-		_ = _arg_vendorData
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_vendorData = make([]common.OuiKeyedData, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_vendorData[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetVendorData(ctx, _arg_vendorData)
 		_reply := parcel.New()
 		if _err != nil {

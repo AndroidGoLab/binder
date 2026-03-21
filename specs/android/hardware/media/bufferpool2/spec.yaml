@@ -1,0 +1,225 @@
+package: android.hardware.media.bufferpool2
+go_package: android/hardware/media/bufferpool2
+interfaces:
+    - name: IAccessor
+      descriptor: android.hardware.media.bufferpool2.IAccessor
+      methods:
+        - name: connect
+          transaction_code_offset: 0
+          params:
+            - name: observer
+              type:
+                name: IObserver
+              direction: in
+          return_type:
+            name: ConnectionInfo
+    - name: IClientManager
+      descriptor: android.hardware.media.bufferpool2.IClientManager
+      methods:
+        - name: registerSender
+          transaction_code_offset: 0
+          params:
+            - name: bufferPool
+              type:
+                name: IAccessor
+              direction: in
+          return_type:
+            name: Registration
+        - name: registerPassiveSender
+          transaction_code_offset: 1
+          params:
+            - name: bufferPool
+              type:
+                name: IAccessor
+              direction: in
+          return_type:
+            name: Registration
+    - name: IConnection
+      descriptor: android.hardware.media.bufferpool2.IConnection
+      methods:
+        - name: fetch
+          transaction_code_offset: 0
+          params:
+            - name: fetchInfos
+              type:
+                name: FetchInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: FetchResult
+            is_array: true
+        - name: sync
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: IObserver
+      descriptor: android.hardware.media.bufferpool2.IObserver
+      methods:
+        - name: onMessage
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: connectionId
+              type:
+                name: long
+              direction: in
+            - name: msgId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: Buffer
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: buffer
+          type:
+            name: NativeHandle
+          annotations:
+            - nullable
+        - name: hwbBuffer
+          type:
+            name: HardwareBuffer
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: BufferInvalidationMessage
+      fields:
+        - name: messageId
+          type:
+            name: int
+        - name: fromBufferId
+          type:
+            name: int
+        - name: toBufferId
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - FixedSize
+    - name: BufferStatusMessage
+      fields:
+        - name: transactionId
+          type:
+            name: long
+        - name: bufferId
+          type:
+            name: int
+        - name: status
+          type:
+            name: BufferStatus
+        - name: connectionId
+          type:
+            name: long
+        - name: targetConnectionId
+          type:
+            name: long
+        - name: timestampUs
+          type:
+            name: long
+      annotations:
+        - VintfStability
+        - FixedSize
+    - name: IAccessor.ConnectionInfo
+      fields:
+        - name: connection
+          type:
+            name: IConnection
+        - name: connectionId
+          type:
+            name: long
+        - name: msgId
+          type:
+            name: int
+        - name: toFmqDesc
+          type:
+            name: MQDescriptor
+            type_args:
+                - name: BufferStatusMessage
+                - name: SynchronizedReadWrite
+        - name: fromFmqDesc
+          type:
+            name: MQDescriptor
+            type_args:
+                - name: BufferInvalidationMessage
+                - name: UnsynchronizedWrite
+      annotations:
+        - VintfStability
+    - name: IClientManager.Registration
+      fields:
+        - name: connectionId
+          type:
+            name: long
+        - name: isNew
+          type:
+            name: boolean
+          default_value: "true"
+      annotations:
+        - VintfStability
+    - name: IConnection.FetchInfo
+      fields:
+        - name: transactionId
+          type:
+            name: long
+        - name: bufferId
+          type:
+            name: int
+    - name: ResultStatus
+      constants:
+        - name: OK
+          type: int
+          value: "0"
+        - name: NO_MEMORY
+          type: int
+          value: "1"
+        - name: ALREADY_EXISTS
+          type: int
+          value: "2"
+        - name: NOT_FOUND
+          type: int
+          value: "3"
+        - name: CRITICAL_ERROR
+          type: int
+          value: "4"
+      annotations:
+        - VintfStability
+enums:
+    - name: BufferStatus
+      backing_type: int
+      values:
+        - name: NOT_USED
+          value: "0"
+        - name: USED
+          value: "1"
+        - name: TRANSFER_TO
+          value: "2"
+        - name: TRANSFER_FROM
+          value: "3"
+        - name: TRANSFER_TIMEOUT
+          value: "4"
+        - name: TRANSFER_LOST
+          value: "5"
+        - name: TRANSFER_FETCH
+          value: "6"
+        - name: TRANSFER_OK
+          value: "7"
+        - name: TRANSFER_ERROR
+          value: "8"
+        - name: INVALIDATION_ACK
+          value: "9"
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: IConnection.FetchResult
+      fields:
+        - name: buffer
+          type:
+            name: Buffer
+        - name: failure
+          type:
+            name: int

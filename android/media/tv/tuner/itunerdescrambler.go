@@ -58,6 +58,7 @@ func (p *TunerDescramblerProxy) SetDemuxSource(
 	tunerDemux ITunerDemux,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDescrambler)
 	binder.WriteBinderToParcel(ctx, _data, tunerDemux.AsBinder(), p.Remote.Transport())
 
@@ -84,15 +85,9 @@ func (p *TunerDescramblerProxy) SetKeyToken(
 	keyToken []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDescrambler)
-	if keyToken == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyToken)))
-		for _, _item := range keyToken {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(keyToken)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDescrambler, MethodITunerDescramblerSetKeyToken)
 	if _err != nil {
@@ -118,6 +113,7 @@ func (p *TunerDescramblerProxy) AddPid(
 	optionalSourceFilter ITunerFilter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDescrambler)
 	_data.WriteInt32(1)
 	if _err := pid.MarshalParcel(_data); _err != nil {
@@ -149,6 +145,7 @@ func (p *TunerDescramblerProxy) RemovePid(
 	optionalSourceFilter ITunerFilter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDescrambler)
 	_data.WriteInt32(1)
 	if _err := pid.MarshalParcel(_data); _err != nil {
@@ -178,6 +175,7 @@ func (p *TunerDescramblerProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDescrambler)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDescrambler, MethodITunerDescramblerClose)
@@ -201,7 +199,8 @@ func (p *TunerDescramblerProxy) Close(
 // TunerDescramblerStub dispatches incoming binder transactions
 // to a typed ITunerDescrambler implementation.
 type TunerDescramblerStub struct {
-	Impl ITunerDescrambler
+	Impl      ITunerDescrambler
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TunerDescramblerStub)(nil)
@@ -215,14 +214,20 @@ func (s *TunerDescramblerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITunerDescramblerSetDemuxSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_tunerDemux ITunerDemux
-		_ = _arg_tunerDemux
+		{
+			_tunerDemuxHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tunerDemux = NewTunerDemuxProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tunerDemuxHandle))
+		}
 		_err := s.Impl.SetDemuxSource(ctx, _arg_tunerDemux)
 		_reply := parcel.New()
 		if _err != nil {
@@ -232,12 +237,14 @@ func (s *TunerDescramblerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerDescramblerSetKeyToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyToken []byte
-		_ = _arg_keyToken
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyToken = _bytes
+		}
 		_err := s.Impl.SetKeyToken(ctx, _arg_keyToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -247,9 +254,6 @@ func (s *TunerDescramblerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerDescramblerAddPid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_pid tvTuner.DemuxPid
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -262,9 +266,14 @@ func (s *TunerDescramblerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_optionalSourceFilter ITunerFilter
-		_ = _arg_optionalSourceFilter
+		{
+			_optionalSourceFilterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_optionalSourceFilter = NewTunerFilterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _optionalSourceFilterHandle))
+		}
 		_err := s.Impl.AddPid(ctx, _arg_pid, _arg_optionalSourceFilter)
 		_reply := parcel.New()
 		if _err != nil {
@@ -274,9 +283,6 @@ func (s *TunerDescramblerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerDescramblerRemovePid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_pid tvTuner.DemuxPid
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -289,9 +295,14 @@ func (s *TunerDescramblerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_optionalSourceFilter ITunerFilter
-		_ = _arg_optionalSourceFilter
+		{
+			_optionalSourceFilterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_optionalSourceFilter = NewTunerFilterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _optionalSourceFilterHandle))
+		}
 		_err := s.Impl.RemovePid(ctx, _arg_pid, _arg_optionalSourceFilter)
 		_reply := parcel.New()
 		if _err != nil {
@@ -301,9 +312,6 @@ func (s *TunerDescramblerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerDescramblerClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {

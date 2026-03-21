@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -27,7 +28,7 @@ const (
 type IRecentsAnimationRunner interface {
 	AsBinder() binder.IBinder
 	OnAnimationCanceled(ctx context.Context, taskIds []int32, taskSnapshots []WindowManagerTaskSnapshot) error
-	OnAnimationStart(ctx context.Context, controller IRecentsAnimationController, apps []RemoteAnimationTarget, wallpapers []RemoteAnimationTarget, homeContentInsets graphics.Rect, minimizedHomeBounds graphics.Rect, extras interface{}) error
+	OnAnimationStart(ctx context.Context, controller IRecentsAnimationController, apps []RemoteAnimationTarget, wallpapers []RemoteAnimationTarget, homeContentInsets graphics.Rect, minimizedHomeBounds graphics.Rect, extras os.Bundle) error
 	OnTasksAppeared(ctx context.Context, app []RemoteAnimationTarget) error
 }
 
@@ -53,6 +54,7 @@ func (p *RecentsAnimationRunnerProxy) OnAnimationCanceled(
 	taskSnapshots []WindowManagerTaskSnapshot,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationRunner)
 	if taskIds == nil {
 		_data.WriteInt32(-1)
@@ -90,9 +92,10 @@ func (p *RecentsAnimationRunnerProxy) OnAnimationStart(
 	wallpapers []RemoteAnimationTarget,
 	homeContentInsets graphics.Rect,
 	minimizedHomeBounds graphics.Rect,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationRunner)
 	binder.WriteBinderToParcel(ctx, _data, controller.AsBinder(), p.Remote.Transport())
 	if apps == nil {
@@ -125,6 +128,10 @@ func (p *RecentsAnimationRunnerProxy) OnAnimationStart(
 	if _err := minimizedHomeBounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationRunner, MethodIRecentsAnimationRunnerOnAnimationStart)
 	if _err != nil {
@@ -140,6 +147,7 @@ func (p *RecentsAnimationRunnerProxy) OnTasksAppeared(
 	app []RemoteAnimationTarget,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationRunner)
 	if app == nil {
 		_data.WriteInt32(-1)
@@ -165,7 +173,8 @@ func (p *RecentsAnimationRunnerProxy) OnTasksAppeared(
 // RecentsAnimationRunnerStub dispatches incoming binder transactions
 // to a typed IRecentsAnimationRunner implementation.
 type RecentsAnimationRunnerStub struct {
-	Impl IRecentsAnimationRunner
+	Impl      IRecentsAnimationRunner
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RecentsAnimationRunnerStub)(nil)
@@ -179,33 +188,105 @@ func (s *RecentsAnimationRunnerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRecentsAnimationRunnerOnAnimationCanceled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_taskIds []int32
-		_ = _arg_taskIds
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_taskSnapshots []WindowManagerTaskSnapshot
-		_ = _arg_taskSnapshots
-		_err := s.Impl.OnAnimationCanceled(ctx, _arg_taskIds, _arg_taskSnapshots)
-		_ = _err
-		return nil, nil
-	case TransactionIRecentsAnimationRunnerOnAnimationStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_taskIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_taskIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_taskSnapshots []WindowManagerTaskSnapshot
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_taskSnapshots = make([]WindowManagerTaskSnapshot, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_taskSnapshots[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		_err := s.Impl.OnAnimationCanceled(ctx, _arg_taskIds, _arg_taskSnapshots)
+		return nil, _err
+	case TransactionIRecentsAnimationRunnerOnAnimationStart:
 		var _arg_controller IRecentsAnimationController
-		_ = _arg_controller
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_controllerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_controller = NewRecentsAnimationControllerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _controllerHandle))
+		}
 		var _arg_apps []RemoteAnimationTarget
-		_ = _arg_apps
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_apps = make([]RemoteAnimationTarget, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_apps[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_wallpapers []RemoteAnimationTarget
-		_ = _arg_wallpapers
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_wallpapers = make([]RemoteAnimationTarget, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_wallpapers[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_homeContentInsets graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -230,20 +311,44 @@ func (s *RecentsAnimationRunnerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_extras interface{}
-		_err := s.Impl.OnAnimationStart(ctx, _arg_controller, _arg_apps, _arg_wallpapers, _arg_homeContentInsets, _arg_minimizedHomeBounds, _arg_extras)
-		_ = _err
-		return nil, nil
-	case TransactionIRecentsAnimationRunnerOnTasksAppeared:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		_err := s.Impl.OnAnimationStart(ctx, _arg_controller, _arg_apps, _arg_wallpapers, _arg_homeContentInsets, _arg_minimizedHomeBounds, _arg_extras)
+		return nil, _err
+	case TransactionIRecentsAnimationRunnerOnTasksAppeared:
 		var _arg_app []RemoteAnimationTarget
-		_ = _arg_app
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_app = make([]RemoteAnimationTarget, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_app[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnTasksAppeared(ctx, _arg_app)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -254,7 +359,7 @@ func (s *RecentsAnimationRunnerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IRecentsAnimationRunnerServer interface {
 	OnAnimationCanceled(ctx context.Context, taskIds []int32, taskSnapshots []WindowManagerTaskSnapshot) error
-	OnAnimationStart(ctx context.Context, controller IRecentsAnimationController, apps []RemoteAnimationTarget, wallpapers []RemoteAnimationTarget, homeContentInsets graphics.Rect, minimizedHomeBounds graphics.Rect, extras interface{}) error
+	OnAnimationStart(ctx context.Context, controller IRecentsAnimationController, apps []RemoteAnimationTarget, wallpapers []RemoteAnimationTarget, homeContentInsets graphics.Rect, minimizedHomeBounds graphics.Rect, extras os.Bundle) error
 	OnTasksAppeared(ctx context.Context, app []RemoteAnimationTarget) error
 }
 
@@ -282,7 +387,7 @@ func (w *recentsAnimationRunnerStubWrapper) OnAnimationStart(
 	wallpapers []RemoteAnimationTarget,
 	homeContentInsets graphics.Rect,
 	minimizedHomeBounds graphics.Rect,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.OnAnimationStart(ctx, controller, apps, wallpapers, homeContentInsets, minimizedHomeBounds, extras)
 }

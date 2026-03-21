@@ -3,7 +3,6 @@ package c2
 import (
 	"context"
 	"fmt"
-	c2IGraphicBufferAllocator "github.com/xaionaro-go/binder/android/hardware/media/c2/IGraphicBufferAllocator"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,7 +23,7 @@ const (
 
 type IPooledGraphicBufferAllocator interface {
 	AsBinder() binder.IBinder
-	Allocate(ctx context.Context, desc c2IGraphicBufferAllocator.Description) (c2IGraphicBufferAllocator.Allocation, error)
+	Allocate(ctx context.Context, desc IGraphicBufferAllocatorDescription) (IGraphicBufferAllocatorAllocation, error)
 	Deallocate(ctx context.Context, id int32) (bool, error)
 }
 
@@ -46,10 +45,11 @@ var _ IPooledGraphicBufferAllocator = (*PooledGraphicBufferAllocatorProxy)(nil)
 
 func (p *PooledGraphicBufferAllocatorProxy) Allocate(
 	ctx context.Context,
-	desc c2IGraphicBufferAllocator.Description,
-) (c2IGraphicBufferAllocator.Allocation, error) {
-	var _result c2IGraphicBufferAllocator.Allocation
+	desc IGraphicBufferAllocatorDescription,
+) (IGraphicBufferAllocatorAllocation, error) {
+	var _result IGraphicBufferAllocatorAllocation
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPooledGraphicBufferAllocator)
 	_data.WriteInt32(1)
 	if _err := desc.MarshalParcel(_data); _err != nil {
@@ -89,6 +89,7 @@ func (p *PooledGraphicBufferAllocatorProxy) Deallocate(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPooledGraphicBufferAllocator)
 	_data.WriteInt32(id)
 
@@ -117,7 +118,8 @@ func (p *PooledGraphicBufferAllocatorProxy) Deallocate(
 // PooledGraphicBufferAllocatorStub dispatches incoming binder transactions
 // to a typed IPooledGraphicBufferAllocator implementation.
 type PooledGraphicBufferAllocatorStub struct {
-	Impl IPooledGraphicBufferAllocator
+	Impl      IPooledGraphicBufferAllocator
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PooledGraphicBufferAllocatorStub)(nil)
@@ -131,12 +133,13 @@ func (s *PooledGraphicBufferAllocatorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPooledGraphicBufferAllocatorAllocate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_desc c2IGraphicBufferAllocator.Description
+		var _arg_desc IGraphicBufferAllocatorDescription
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -161,9 +164,6 @@ func (s *PooledGraphicBufferAllocatorStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPooledGraphicBufferAllocatorDeallocate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -186,7 +186,7 @@ func (s *PooledGraphicBufferAllocatorStub) OnTransaction(
 // provide to NewPooledGraphicBufferAllocatorStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IPooledGraphicBufferAllocatorServer interface {
-	Allocate(ctx context.Context, desc c2IGraphicBufferAllocator.Description) (c2IGraphicBufferAllocator.Allocation, error)
+	Allocate(ctx context.Context, desc IGraphicBufferAllocatorDescription) (IGraphicBufferAllocatorAllocation, error)
 	Deallocate(ctx context.Context, id int32) (bool, error)
 }
 
@@ -201,8 +201,8 @@ func (w *pooledGraphicBufferAllocatorStubWrapper) AsBinder() binder.IBinder {
 
 func (w *pooledGraphicBufferAllocatorStubWrapper) Allocate(
 	ctx context.Context,
-	desc c2IGraphicBufferAllocator.Description,
-) (c2IGraphicBufferAllocator.Allocation, error) {
+	desc IGraphicBufferAllocatorDescription,
+) (IGraphicBufferAllocatorAllocation, error) {
 	return w.impl.Allocate(ctx, desc)
 }
 

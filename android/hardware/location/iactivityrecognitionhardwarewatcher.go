@@ -45,6 +45,7 @@ func (p *ActivityRecognitionHardwareWatcherProxy) OnInstanceChanged(
 	instance IActivityRecognitionHardware,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardwareWatcher)
 	binder.WriteBinderToParcel(ctx, _data, instance.AsBinder(), p.Remote.Transport())
 
@@ -69,7 +70,8 @@ func (p *ActivityRecognitionHardwareWatcherProxy) OnInstanceChanged(
 // ActivityRecognitionHardwareWatcherStub dispatches incoming binder transactions
 // to a typed IActivityRecognitionHardwareWatcher implementation.
 type ActivityRecognitionHardwareWatcherStub struct {
-	Impl IActivityRecognitionHardwareWatcher
+	Impl      IActivityRecognitionHardwareWatcher
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ActivityRecognitionHardwareWatcherStub)(nil)
@@ -83,14 +85,20 @@ func (s *ActivityRecognitionHardwareWatcherStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIActivityRecognitionHardwareWatcherOnInstanceChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_instance IActivityRecognitionHardware
-		_ = _arg_instance
+		{
+			_instanceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_instance = NewActivityRecognitionHardwareProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _instanceHandle))
+		}
 		_err := s.Impl.OnInstanceChanged(ctx, _arg_instance)
 		_reply := parcel.New()
 		if _err != nil {

@@ -1,0 +1,808 @@
+package: android.os.storage
+go_package: android/os/storage
+interfaces:
+    - name: IObbActionListener
+      descriptor: android.os.storage.IObbActionListener
+      oneway: true
+      methods:
+        - name: onObbResult
+          transaction_code_offset: 0
+          params:
+            - name: filename
+              type:
+                name: String
+              direction: in
+            - name: nonce
+              type:
+                name: int
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IStorageEventListener
+      descriptor: android.os.storage.IStorageEventListener
+      oneway: true
+      methods:
+        - name: onUsbMassStorageConnectionChanged
+          transaction_code_offset: 0
+          params:
+            - name: connected
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onStorageStateChanged
+          transaction_code_offset: 1
+          params:
+            - name: path
+              type:
+                name: String
+              direction: in
+            - name: oldState
+              type:
+                name: String
+              direction: in
+            - name: newState
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onVolumeStateChanged
+          transaction_code_offset: 2
+          params:
+            - name: vol
+              type:
+                name: VolumeInfo
+              direction: in
+            - name: oldState
+              type:
+                name: int
+            - name: newState
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onVolumeRecordChanged
+          transaction_code_offset: 3
+          params:
+            - name: rec
+              type:
+                name: VolumeRecord
+              direction: in
+          return_type:
+            name: void
+        - name: onVolumeForgotten
+          transaction_code_offset: 4
+          params:
+            - name: fsUuid
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onDiskScanned
+          transaction_code_offset: 5
+          params:
+            - name: disk
+              type:
+                name: DiskInfo
+              direction: in
+            - name: volumeCount
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onDiskDestroyed
+          transaction_code_offset: 6
+          params:
+            - name: disk
+              type:
+                name: DiskInfo
+              direction: in
+          return_type:
+            name: void
+    - name: IStorageManager
+      descriptor: android.os.storage.IStorageManager
+      methods:
+        - name: registerListener
+          transaction_code_offset: 0
+          params:
+            - name: listener
+              type:
+                name: IStorageEventListener
+          return_type:
+            name: void
+        - name: unregisterListener
+          transaction_code_offset: 1
+          params:
+            - name: listener
+              type:
+                name: IStorageEventListener
+          return_type:
+            name: void
+        - name: shutdown
+          transaction_code_offset: 18
+          params:
+            - name: observer
+              type:
+                name: IStorageShutdownObserver
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: mountObb
+          transaction_code_offset: 20
+          params:
+            - name: rawPath
+              type:
+                name: String
+              direction: in
+            - name: canonicalPath
+              type:
+                name: String
+              direction: in
+            - name: token
+              type:
+                name: IObbActionListener
+            - name: nonce
+              type:
+                name: int
+            - name: obbInfo
+              type:
+                name: ObbInfo
+              direction: in
+          return_type:
+            name: void
+        - name: unmountObb
+          transaction_code_offset: 21
+          params:
+            - name: rawPath
+              type:
+                name: String
+              direction: in
+            - name: force
+              type:
+                name: boolean
+            - name: token
+              type:
+                name: IObbActionListener
+            - name: nonce
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isObbMounted
+          transaction_code_offset: 22
+          params:
+            - name: rawPath
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: getMountedObbPath
+          transaction_code_offset: 23
+          params:
+            - name: rawPath
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: String
+        - name: getVolumeList
+          transaction_code_offset: 28
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: StorageVolume
+            is_array: true
+        - name: mkdirs
+          transaction_code_offset: 33
+          params:
+            - name: callingPkg
+              type:
+                name: String
+              direction: in
+            - name: path
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: lastMaintenance
+          transaction_code_offset: 40
+          return_type:
+            name: long
+        - name: runMaintenance
+          transaction_code_offset: 41
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getDisks
+          transaction_code_offset: 43
+          return_type:
+            name: DiskInfo
+            is_array: true
+        - name: getVolumes
+          transaction_code_offset: 44
+          params:
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: VolumeInfo
+            is_array: true
+        - name: getVolumeRecords
+          transaction_code_offset: 45
+          params:
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: VolumeRecord
+            is_array: true
+        - name: mount
+          transaction_code_offset: 46
+          params:
+            - name: volId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: unmount
+          transaction_code_offset: 47
+          params:
+            - name: volId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: format
+          transaction_code_offset: 48
+          params:
+            - name: volId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: partitionPublic
+          transaction_code_offset: 49
+          params:
+            - name: diskId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: partitionPrivate
+          transaction_code_offset: 50
+          params:
+            - name: diskId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: partitionMixed
+          transaction_code_offset: 51
+          params:
+            - name: diskId
+              type:
+                name: String
+              direction: in
+            - name: ratio
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setVolumeNickname
+          transaction_code_offset: 52
+          params:
+            - name: fsUuid
+              type:
+                name: String
+              direction: in
+            - name: nickname
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setVolumeUserFlags
+          transaction_code_offset: 53
+          params:
+            - name: fsUuid
+              type:
+                name: String
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: mask
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: forgetVolume
+          transaction_code_offset: 54
+          params:
+            - name: fsUuid
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: forgetAllVolumes
+          transaction_code_offset: 55
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getPrimaryStorageUuid
+          transaction_code_offset: 56
+          return_type:
+            name: String
+        - name: setPrimaryStorageUuid
+          transaction_code_offset: 57
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+              direction: in
+            - name: callback
+              type:
+                name: IPackageMoveObserver
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: benchmark
+          transaction_code_offset: 58
+          params:
+            - name: volId
+              type:
+                name: String
+              direction: in
+            - name: listener
+              type:
+                name: IVoldTaskListener
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setDebugFlags
+          transaction_code_offset: 59
+          params:
+            - name: flags
+              type:
+                name: int
+            - name: mask
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: createUserStorageKeys
+          transaction_code_offset: 60
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: ephemeral
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: destroyUserStorageKeys
+          transaction_code_offset: 61
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: unlockCeStorage
+          transaction_code_offset: 62
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: secret
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: lockCeStorage
+          transaction_code_offset: 63
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: isCeStorageUnlocked
+          transaction_code_offset: 64
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: prepareUserStorage
+          transaction_code_offset: 65
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: destroyUserStorage
+          transaction_code_offset: 66
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setCeStorageProtection
+          transaction_code_offset: 69
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: secret
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: fstrim
+          transaction_code_offset: 71
+          params:
+            - name: flags
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IVoldTaskListener
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: mountProxyFileDescriptorBridge
+          transaction_code_offset: 72
+          return_type:
+            name: AppFuseMount
+        - name: openProxyFileDescriptor
+          transaction_code_offset: 73
+          params:
+            - name: mountPointId
+              type:
+                name: int
+            - name: fileId
+              type:
+                name: int
+            - name: mode
+              type:
+                name: int
+          return_type:
+            name: ParcelFileDescriptor
+        - name: getCacheQuotaBytes
+          transaction_code_offset: 74
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: long
+        - name: getCacheSizeBytes
+          transaction_code_offset: 75
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: long
+        - name: getAllocatableBytes
+          transaction_code_offset: 76
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: long
+        - name: allocateBytes
+          transaction_code_offset: 77
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: bytes
+              type:
+                name: long
+            - name: flags
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: runIdleMaintenance
+          transaction_code_offset: 78
+          return_type:
+            name: void
+        - name: abortIdleMaintenance
+          transaction_code_offset: 79
+          return_type:
+            name: void
+        - name: commitChanges
+          transaction_code_offset: 82
+          return_type:
+            name: void
+        - name: supportsCheckpoint
+          transaction_code_offset: 83
+          return_type:
+            name: boolean
+        - name: startCheckpoint
+          transaction_code_offset: 84
+          params:
+            - name: numTries
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: needsCheckpoint
+          transaction_code_offset: 85
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: abortChanges
+          transaction_code_offset: 86
+          params:
+            - name: message
+              type:
+                name: String
+              direction: in
+            - name: retry
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: fixupAppDir
+          transaction_code_offset: 88
+          params:
+            - name: path
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: disableAppDataIsolation
+          transaction_code_offset: 89
+          params:
+            - name: pkgName
+              type:
+                name: String
+              direction: in
+            - name: pid
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getManageSpaceActivityIntent
+          transaction_code_offset: 90
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: requestCode
+              type:
+                name: int
+          return_type:
+            name: PendingIntent
+        - name: notifyAppIoBlocked
+          transaction_code_offset: 91
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+              direction: in
+            - name: uid
+              type:
+                name: int
+            - name: tid
+              type:
+                name: int
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyAppIoResumed
+          transaction_code_offset: 92
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+              direction: in
+            - name: uid
+              type:
+                name: int
+            - name: tid
+              type:
+                name: int
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getExternalStorageMountMode
+          transaction_code_offset: 93
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: isAppIoBlocked
+          transaction_code_offset: 94
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+              direction: in
+            - name: uid
+              type:
+                name: int
+            - name: tid
+              type:
+                name: int
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setCloudMediaProvider
+          transaction_code_offset: 95
+          params:
+            - name: authority
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getCloudMediaProvider
+          transaction_code_offset: 96
+          return_type:
+            name: String
+        - name: getInternalStorageBlockDeviceSize
+          transaction_code_offset: 97
+          return_type:
+            name: long
+        - name: getInternalStorageRemainingLifetime
+          transaction_code_offset: 98
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+    - name: IStorageShutdownObserver
+      descriptor: android.os.storage.IStorageShutdownObserver
+      methods:
+        - name: onShutDownComplete
+          transaction_code_offset: 0
+          params:
+            - name: statusCode
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: CrateInfo
+    - name: CrateMetadata
+      fields:
+        - name: uid
+          type:
+            name: int
+        - name: packageName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: id
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+    - name: DiskInfo
+    - name: StorageVolume
+    - name: VolumeInfo
+    - name: VolumeRecord

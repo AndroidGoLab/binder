@@ -45,6 +45,7 @@ func (p *AuditLogEventsCallbackProxy) OnNewAuditLogEvents(
 	events []SecurityLogSecurityEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuditLogEventsCallback)
 	if events == nil {
 		_data.WriteInt32(-1)
@@ -70,7 +71,8 @@ func (p *AuditLogEventsCallbackProxy) OnNewAuditLogEvents(
 // AuditLogEventsCallbackStub dispatches incoming binder transactions
 // to a typed IAuditLogEventsCallback implementation.
 type AuditLogEventsCallbackStub struct {
-	Impl IAuditLogEventsCallback
+	Impl      IAuditLogEventsCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AuditLogEventsCallbackStub)(nil)
@@ -84,17 +86,35 @@ func (s *AuditLogEventsCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAuditLogEventsCallbackOnNewAuditLogEvents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_events []SecurityLogSecurityEvent
-		_ = _arg_events
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_events = make([]SecurityLogSecurityEvent, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_events[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnNewAuditLogEvents(ctx, _arg_events)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

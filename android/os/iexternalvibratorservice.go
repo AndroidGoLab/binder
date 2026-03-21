@@ -23,8 +23,8 @@ const (
 
 type IExternalVibratorService interface {
 	AsBinder() binder.IBinder
-	OnExternalVibrationStart(ctx context.Context, vib interface{}) (ExternalVibrationScale, error)
-	OnExternalVibrationStop(ctx context.Context, vib interface{}) error
+	OnExternalVibrationStart(ctx context.Context, vib ExternalVibration) (ExternalVibrationScale, error)
+	OnExternalVibrationStop(ctx context.Context, vib ExternalVibration) error
 }
 
 type ExternalVibratorServiceProxy struct {
@@ -45,11 +45,16 @@ var _ IExternalVibratorService = (*ExternalVibratorServiceProxy)(nil)
 
 func (p *ExternalVibratorServiceProxy) OnExternalVibrationStart(
 	ctx context.Context,
-	vib interface{},
+	vib ExternalVibration,
 ) (ExternalVibrationScale, error) {
 	var _result ExternalVibrationScale
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExternalVibratorService)
+	_data.WriteInt32(1)
+	if _err := vib.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalVibratorService, MethodIExternalVibratorServiceOnExternalVibrationStart)
 	if _err != nil {
@@ -80,10 +85,15 @@ func (p *ExternalVibratorServiceProxy) OnExternalVibrationStart(
 
 func (p *ExternalVibratorServiceProxy) OnExternalVibrationStop(
 	ctx context.Context,
-	vib interface{},
+	vib ExternalVibration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExternalVibratorService)
+	_data.WriteInt32(1)
+	if _err := vib.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalVibratorService, MethodIExternalVibratorServiceOnExternalVibrationStop)
 	if _err != nil {
@@ -106,7 +116,8 @@ func (p *ExternalVibratorServiceProxy) OnExternalVibrationStop(
 // ExternalVibratorServiceStub dispatches incoming binder transactions
 // to a typed IExternalVibratorService implementation.
 type ExternalVibratorServiceStub struct {
-	Impl IExternalVibratorService
+	Impl      IExternalVibratorService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ExternalVibratorServiceStub)(nil)
@@ -120,12 +131,24 @@ func (s *ExternalVibratorServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIExternalVibratorServiceOnExternalVibrationStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_vib ExternalVibration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_vib.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_vib interface{}
 		_result, _err := s.Impl.OnExternalVibrationStart(ctx, _arg_vib)
 		_reply := parcel.New()
 		if _err != nil {
@@ -139,10 +162,18 @@ func (s *ExternalVibratorServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIExternalVibratorServiceOnExternalVibrationStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_vib ExternalVibration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_vib.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_vib interface{}
 		_err := s.Impl.OnExternalVibrationStop(ctx, _arg_vib)
 		_reply := parcel.New()
 		if _err != nil {
@@ -160,8 +191,8 @@ func (s *ExternalVibratorServiceStub) OnTransaction(
 // provide to NewExternalVibratorServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IExternalVibratorServiceServer interface {
-	OnExternalVibrationStart(ctx context.Context, vib interface{}) (ExternalVibrationScale, error)
-	OnExternalVibrationStop(ctx context.Context, vib interface{}) error
+	OnExternalVibrationStart(ctx context.Context, vib ExternalVibration) (ExternalVibrationScale, error)
+	OnExternalVibrationStop(ctx context.Context, vib ExternalVibration) error
 }
 
 type externalVibratorServiceStubWrapper struct {
@@ -175,14 +206,14 @@ func (w *externalVibratorServiceStubWrapper) AsBinder() binder.IBinder {
 
 func (w *externalVibratorServiceStubWrapper) OnExternalVibrationStart(
 	ctx context.Context,
-	vib interface{},
+	vib ExternalVibration,
 ) (ExternalVibrationScale, error) {
 	return w.impl.OnExternalVibrationStart(ctx, vib)
 }
 
 func (w *externalVibratorServiceStubWrapper) OnExternalVibrationStop(
 	ctx context.Context,
-	vib interface{},
+	vib ExternalVibration,
 ) error {
 	return w.impl.OnExternalVibrationStop(ctx, vib)
 }

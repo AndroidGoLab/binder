@@ -48,15 +48,9 @@ func (p *LnbCallbackProxy) OnDiseqcMessage(
 	diseqcMessage []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILnbCallback)
-	if diseqcMessage == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(diseqcMessage)))
-		for _, _item := range diseqcMessage {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(diseqcMessage)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILnbCallback, MethodILnbCallbackOnDiseqcMessage)
 	if _err != nil {
@@ -72,6 +66,7 @@ func (p *LnbCallbackProxy) OnEvent(
 	lnbEventType LnbEventType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILnbCallback)
 	_data.WriteInt32(int32(lnbEventType))
 
@@ -87,7 +82,8 @@ func (p *LnbCallbackProxy) OnEvent(
 // LnbCallbackStub dispatches incoming binder transactions
 // to a typed ILnbCallback implementation.
 type LnbCallbackStub struct {
-	Impl ILnbCallback
+	Impl      ILnbCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LnbCallbackStub)(nil)
@@ -101,29 +97,30 @@ func (s *LnbCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILnbCallbackOnDiseqcMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_diseqcMessage []byte
-		_ = _arg_diseqcMessage
-		_err := s.Impl.OnDiseqcMessage(ctx, _arg_diseqcMessage)
-		_ = _err
-		return nil, nil
-	case TransactionILnbCallbackOnEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_diseqcMessage = _bytes
 		}
+		_err := s.Impl.OnDiseqcMessage(ctx, _arg_diseqcMessage)
+		return nil, _err
+	case TransactionILnbCallbackOnEvent:
 		_raw_lnbEventType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_lnbEventType := LnbEventType(_raw_lnbEventType)
 		_err = s.Impl.OnEvent(ctx, _arg_lnbEventType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -33,8 +33,7 @@ func (u *DemuxFilterMediaEventExtraMetaData) GetNoinit() (bool, bool) {
 func (u *DemuxFilterMediaEventExtraMetaData) SetNoinit(
 	v bool,
 ) {
-	u.Tag = DemuxFilterMediaEventExtraMetaDataTagNoinit
-	u.Noinit = v
+	*u = DemuxFilterMediaEventExtraMetaData{Tag: DemuxFilterMediaEventExtraMetaDataTagNoinit, Noinit: v}
 }
 
 func (u *DemuxFilterMediaEventExtraMetaData) GetAudio() (AudioExtraMetaData, bool) {
@@ -48,8 +47,7 @@ func (u *DemuxFilterMediaEventExtraMetaData) GetAudio() (AudioExtraMetaData, boo
 func (u *DemuxFilterMediaEventExtraMetaData) SetAudio(
 	v AudioExtraMetaData,
 ) {
-	u.Tag = DemuxFilterMediaEventExtraMetaDataTagAudio
-	u.Audio = v
+	*u = DemuxFilterMediaEventExtraMetaData{Tag: DemuxFilterMediaEventExtraMetaDataTagAudio, Audio: v}
 }
 
 func (u *DemuxFilterMediaEventExtraMetaData) GetAudioPresentations() ([]AudioPresentation, bool) {
@@ -63,8 +61,7 @@ func (u *DemuxFilterMediaEventExtraMetaData) GetAudioPresentations() ([]AudioPre
 func (u *DemuxFilterMediaEventExtraMetaData) SetAudioPresentations(
 	v []AudioPresentation,
 ) {
-	u.Tag = DemuxFilterMediaEventExtraMetaDataTagAudioPresentations
-	u.AudioPresentations = v
+	*u = DemuxFilterMediaEventExtraMetaData{Tag: DemuxFilterMediaEventExtraMetaDataTagAudioPresentations, AudioPresentations: v}
 }
 
 func (u *DemuxFilterMediaEventExtraMetaData) MarshalParcel(

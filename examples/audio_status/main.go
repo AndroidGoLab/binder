@@ -29,6 +29,15 @@ const (
 	streamNotification
 )
 
+type audioMode int32
+
+const (
+	audioModeNormal          audioMode = 0
+	audioModeRingtone        audioMode = 1
+	audioModeInCall          audioMode = 2
+	audioModeInCommunication audioMode = 3
+)
+
 var streamNames = map[audioStream]string{
 	streamVoice:        "Voice",
 	streamSystem:       "System",
@@ -69,14 +78,14 @@ func main() {
 		fmt.Fprintf(os.Stderr, "GetMode: %v\n", err)
 	} else {
 		modeName := "unknown"
-		switch mode {
-		case 0:
+		switch audioMode(mode) {
+		case audioModeNormal:
 			modeName = "normal"
-		case 1:
+		case audioModeRingtone:
 			modeName = "ringtone"
-		case 2:
+		case audioModeInCall:
 			modeName = "in call"
-		case 3:
+		case audioModeInCommunication:
 			modeName = "in communication"
 		}
 		fmt.Printf("Audio mode: %s (%d)\n", modeName, mode)

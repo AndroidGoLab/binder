@@ -1,0 +1,200 @@
+package: android.hardware.tetheroffload
+go_package: android/hardware/tetheroffload
+interfaces:
+    - name: IOffload
+      descriptor: android.hardware.tetheroffload.IOffload
+      methods:
+        - name: initOffload
+          transaction_code_offset: 0
+          params:
+            - name: fd1
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: fd2
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: cb
+              type:
+                name: ITetheringOffloadCallback
+              direction: in
+          return_type:
+            name: void
+        - name: stopOffload
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: setLocalPrefixes
+          transaction_code_offset: 2
+          params:
+            - name: prefixes
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getForwardedStats
+          transaction_code_offset: 3
+          params:
+            - name: upstream
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: ForwardedStats
+        - name: setDataWarningAndLimit
+          transaction_code_offset: 4
+          params:
+            - name: upstream
+              type:
+                name: String
+              direction: in
+            - name: warningBytes
+              type:
+                name: long
+              direction: in
+            - name: limitBytes
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: setUpstreamParameters
+          transaction_code_offset: 5
+          params:
+            - name: iface
+              type:
+                name: String
+              direction: in
+            - name: v4Addr
+              type:
+                name: String
+              direction: in
+            - name: v4Gw
+              type:
+                name: String
+              direction: in
+            - name: v6Gws
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: addDownstream
+          transaction_code_offset: 6
+          params:
+            - name: iface
+              type:
+                name: String
+              direction: in
+            - name: prefix
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: removeDownstream
+          transaction_code_offset: 7
+          params:
+            - name: iface
+              type:
+                name: String
+              direction: in
+            - name: prefix
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: ERROR_CODE_UNUSED
+          type: int
+          value: "0"
+    - name: ITetheringOffloadCallback
+      descriptor: android.hardware.tetheroffload.ITetheringOffloadCallback
+      oneway: true
+      methods:
+        - name: onEvent
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: OffloadCallbackEvent
+              direction: in
+          return_type:
+            name: void
+        - name: updateTimeout
+          transaction_code_offset: 1
+          params:
+            - name: params
+              type:
+                name: NatTimeoutUpdate
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: ForwardedStats
+      fields:
+        - name: rxBytes
+          type:
+            name: long
+        - name: txBytes
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: IPv4AddrPortPair
+      fields:
+        - name: addr
+          type:
+            name: String
+        - name: port
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: NatTimeoutUpdate
+      fields:
+        - name: src
+          type:
+            name: IPv4AddrPortPair
+        - name: dst
+          type:
+            name: IPv4AddrPortPair
+        - name: proto
+          type:
+            name: NetworkProtocol
+      annotations:
+        - VintfStability
+enums:
+    - name: NetworkProtocol
+      backing_type: int
+      values:
+        - name: TCP
+          value: "6"
+        - name: UDP
+          value: "17"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: OffloadCallbackEvent
+      backing_type: int
+      values:
+        - name: OFFLOAD_STARTED
+          value: "1"
+        - name: OFFLOAD_STOPPED_ERROR
+          value: "2"
+        - name: OFFLOAD_STOPPED_UNSUPPORTED
+          value: "3"
+        - name: OFFLOAD_SUPPORT_AVAILABLE
+          value: "4"
+        - name: OFFLOAD_STOPPED_LIMIT_REACHED
+          value: "5"
+        - name: OFFLOAD_WARNING_REACHED
+          value: "6"
+      annotations:
+        - VintfStability
+        - Backing

@@ -48,6 +48,7 @@ func (p *InlineSuggestionsResponseCallbackProxy) OnInlineSuggestionsResponse(
 	response viewInputmethod.InlineSuggestionsResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionsResponseCallback)
 	_data.WriteInt32(1)
 	if _err := fieldId.MarshalParcel(_data); _err != nil {
@@ -70,7 +71,8 @@ func (p *InlineSuggestionsResponseCallbackProxy) OnInlineSuggestionsResponse(
 // InlineSuggestionsResponseCallbackStub dispatches incoming binder transactions
 // to a typed IInlineSuggestionsResponseCallback implementation.
 type InlineSuggestionsResponseCallbackStub struct {
-	Impl IInlineSuggestionsResponseCallback
+	Impl      IInlineSuggestionsResponseCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InlineSuggestionsResponseCallbackStub)(nil)
@@ -84,11 +86,12 @@ func (s *InlineSuggestionsResponseCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInlineSuggestionsResponseCallbackOnInlineSuggestionsResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_fieldId autofill.AutofillId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -114,8 +117,7 @@ func (s *InlineSuggestionsResponseCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnInlineSuggestionsResponse(ctx, _arg_fieldId, _arg_response)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -46,6 +46,7 @@ func (p *BubblesListenerProxy) OnBubbleStateChange(
 	update os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBubblesListener)
 	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
@@ -64,7 +65,8 @@ func (p *BubblesListenerProxy) OnBubbleStateChange(
 // BubblesListenerStub dispatches incoming binder transactions
 // to a typed IBubblesListener implementation.
 type BubblesListenerStub struct {
-	Impl IBubblesListener
+	Impl      IBubblesListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BubblesListenerStub)(nil)
@@ -78,11 +80,12 @@ func (s *BubblesListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBubblesListenerOnBubbleStateChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_update os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -96,8 +99,7 @@ func (s *BubblesListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnBubbleStateChange(ctx, _arg_update)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

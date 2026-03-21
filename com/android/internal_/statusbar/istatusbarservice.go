@@ -201,7 +201,7 @@ type IStatusBarService interface {
 	OnNotificationExpansionChanged(ctx context.Context, key string, userAction bool, expanded bool, notificationLocation int32) error
 	OnNotificationDirectReplied(ctx context.Context, key string) error
 	OnNotificationSmartSuggestionsAdded(ctx context.Context, key string, smartReplyCount int32, smartActionCount int32, generatedByAsssistant bool, editBeforeSending bool) error
-	OnNotificationSmartReplySent(ctx context.Context, key string, replyIndex int32, reply interface{}, notificationLocation int32, modifiedBeforeSending bool) error
+	OnNotificationSmartReplySent(ctx context.Context, key string, replyIndex int32, reply string, notificationLocation int32, modifiedBeforeSending bool) error
 	OnNotificationSettingsViewed(ctx context.Context, key string) error
 	OnNotificationBubbleChanged(ctx context.Context, key string, isBubble bool, flags int32) error
 	OnBubbleMetadataFlagChanged(ctx context.Context, key string, flags int32) error
@@ -235,7 +235,7 @@ type IStatusBarService interface {
 	IsTracing(ctx context.Context) (bool, error)
 	SuppressAmbientDisplay(ctx context.Context, suppress bool) error
 	RequestTileServiceListeningState(ctx context.Context, componentName content.ComponentName) error
-	RequestAddTile(ctx context.Context, componentName content.ComponentName, label interface{}, icon drawable.Icon, callback IAddTileResultCallback) error
+	RequestAddTile(ctx context.Context, componentName content.ComponentName, label string, icon drawable.Icon, callback IAddTileResultCallback) error
 	CancelRequestAddTile(ctx context.Context, packageName string) error
 	SetNavBarMode(ctx context.Context, navBarMode int32) error
 	GetNavBarMode(ctx context.Context) (int32, error)
@@ -244,7 +244,7 @@ type IStatusBarService interface {
 	OnSessionStarted(ctx context.Context, sessionType int32, instanceId logging.InstanceId) error
 	OnSessionEnded(ctx context.Context, sessionType int32, instanceId logging.InstanceId) error
 	UpdateMediaTapToTransferSenderDisplay(ctx context.Context, displayState int32, routeInfo media.MediaRoute2Info, undoCallback IUndoMediaTransferCallback) error
-	UpdateMediaTapToTransferReceiverDisplay(ctx context.Context, displayState int32, routeInfo media.MediaRoute2Info, appIcon drawable.Icon, appName interface{}) error
+	UpdateMediaTapToTransferReceiverDisplay(ctx context.Context, displayState int32, routeInfo media.MediaRoute2Info, appIcon drawable.Icon, appName string) error
 	RegisterNearbyMediaDevicesProvider(ctx context.Context, provider media.INearbyMediaDevicesProvider) error
 	UnregisterNearbyMediaDevicesProvider(ctx context.Context, provider media.INearbyMediaDevicesProvider) error
 	ShowRearDisplayDialog(ctx context.Context, currentBaseState int32) error
@@ -270,6 +270,7 @@ func (p *StatusBarServiceProxy) ExpandNotificationsPanel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceExpandNotificationsPanel)
@@ -294,6 +295,7 @@ func (p *StatusBarServiceProxy) CollapsePanels(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceCollapsePanels)
@@ -318,6 +320,7 @@ func (p *StatusBarServiceProxy) TogglePanel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceTogglePanel)
@@ -345,6 +348,7 @@ func (p *StatusBarServiceProxy) Disable(
 	pkg string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(what)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -376,6 +380,7 @@ func (p *StatusBarServiceProxy) DisableForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(what)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -407,6 +412,7 @@ func (p *StatusBarServiceProxy) Disable2(
 	pkg string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(what)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -438,6 +444,7 @@ func (p *StatusBarServiceProxy) Disable2ForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(what)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -469,6 +476,7 @@ func (p *StatusBarServiceProxy) GetDisableFlags(
 	var _result []int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -492,6 +500,9 @@ func (p *StatusBarServiceProxy) GetDisableFlags(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -514,6 +525,7 @@ func (p *StatusBarServiceProxy) SetIcon(
 	contentDescription string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(slot)
 	_data.WriteString16(iconPackage)
@@ -545,6 +557,7 @@ func (p *StatusBarServiceProxy) SetIconVisibility(
 	visible bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(slot)
 	_data.WriteBool(visible)
@@ -572,6 +585,7 @@ func (p *StatusBarServiceProxy) RemoveIcon(
 	slot string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(slot)
 
@@ -602,6 +616,7 @@ func (p *StatusBarServiceProxy) SetImeWindowStatus(
 	showImeSwitcher bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(displayId)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -632,6 +647,7 @@ func (p *StatusBarServiceProxy) ExpandSettingsPanel(
 	subPanel string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(subPanel)
 
@@ -659,6 +675,7 @@ func (p *StatusBarServiceProxy) RegisterStatusBar(
 ) (RegisterStatusBarResult, error) {
 	var _result RegisterStatusBarResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
@@ -695,6 +712,7 @@ func (p *StatusBarServiceProxy) OnPanelRevealed(
 	numItems int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteBool(clearNotificationEffects)
 	_data.WriteInt32(numItems)
@@ -721,6 +739,7 @@ func (p *StatusBarServiceProxy) OnPanelHidden(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnPanelHidden)
@@ -745,6 +764,7 @@ func (p *StatusBarServiceProxy) ClearNotificationEffects(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceClearNotificationEffects)
@@ -762,6 +782,7 @@ func (p *StatusBarServiceProxy) OnNotificationClick(
 	nv NotificationVisibility,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(key)
 	_data.WriteInt32(1)
@@ -796,6 +817,7 @@ func (p *StatusBarServiceProxy) OnNotificationActionClick(
 	generatedByAssistant bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(key)
 	_data.WriteInt32(actionIndex)
@@ -838,6 +860,7 @@ func (p *StatusBarServiceProxy) OnNotificationError(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(pkg)
 	_data.WriteString16(tag)
@@ -870,6 +893,7 @@ func (p *StatusBarServiceProxy) OnClearAllNotifications(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(_identity.UserID)
 
@@ -901,6 +925,7 @@ func (p *StatusBarServiceProxy) OnNotificationClear(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(_identity.UserID)
@@ -936,6 +961,7 @@ func (p *StatusBarServiceProxy) OnNotificationVisibilityChanged(
 	noLongerVisibleKeys []NotificationVisibility,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	if newlyVisibleKeys == nil {
 		_data.WriteInt32(-1)
@@ -986,6 +1012,7 @@ func (p *StatusBarServiceProxy) OnNotificationExpansionChanged(
 	notificationLocation int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(key)
 	_data.WriteBool(userAction)
@@ -1015,6 +1042,7 @@ func (p *StatusBarServiceProxy) OnNotificationDirectReplied(
 	key string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(key)
 
@@ -1045,6 +1073,7 @@ func (p *StatusBarServiceProxy) OnNotificationSmartSuggestionsAdded(
 	editBeforeSending bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(key)
 	_data.WriteInt32(smartReplyCount)
@@ -1074,14 +1103,16 @@ func (p *StatusBarServiceProxy) OnNotificationSmartReplySent(
 	ctx context.Context,
 	key string,
 	replyIndex int32,
-	reply interface{},
+	reply string,
 	notificationLocation int32,
 	modifiedBeforeSending bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(key)
 	_data.WriteInt32(replyIndex)
+	_data.WriteString16(reply)
 	_data.WriteInt32(notificationLocation)
 	_data.WriteBool(modifiedBeforeSending)
 
@@ -1108,6 +1139,7 @@ func (p *StatusBarServiceProxy) OnNotificationSettingsViewed(
 	key string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(key)
 
@@ -1136,6 +1168,7 @@ func (p *StatusBarServiceProxy) OnNotificationBubbleChanged(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(key)
 	_data.WriteBool(isBubble)
@@ -1165,6 +1198,7 @@ func (p *StatusBarServiceProxy) OnBubbleMetadataFlagChanged(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(key)
 	_data.WriteInt32(flags)
@@ -1192,6 +1226,7 @@ func (p *StatusBarServiceProxy) HideCurrentInputMethodForBubbles(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(displayId)
 
@@ -1221,6 +1256,7 @@ func (p *StatusBarServiceProxy) GrantInlineReplyUriPermission(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(key)
 	_data.WriteInt32(1)
@@ -1256,6 +1292,7 @@ func (p *StatusBarServiceProxy) ClearInlineReplyUriPermissions(
 	key string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(key)
 
@@ -1274,6 +1311,7 @@ func (p *StatusBarServiceProxy) OnNotificationFeedbackReceived(
 	feedback os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(key)
 	_data.WriteInt32(1)
@@ -1303,6 +1341,7 @@ func (p *StatusBarServiceProxy) OnGlobalActionsShown(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnGlobalActionsShown)
@@ -1327,6 +1366,7 @@ func (p *StatusBarServiceProxy) OnGlobalActionsHidden(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceOnGlobalActionsHidden)
@@ -1351,6 +1391,7 @@ func (p *StatusBarServiceProxy) Shutdown(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceShutdown)
@@ -1376,6 +1417,7 @@ func (p *StatusBarServiceProxy) Reboot(
 	safeMode bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteBool(safeMode)
 
@@ -1401,6 +1443,7 @@ func (p *StatusBarServiceProxy) Restart(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceRestart)
@@ -1426,6 +1469,7 @@ func (p *StatusBarServiceProxy) AddTile(
 	tile content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(1)
 	if _err := tile.MarshalParcel(_data); _err != nil {
@@ -1455,6 +1499,7 @@ func (p *StatusBarServiceProxy) RemTile(
 	tile content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(1)
 	if _err := tile.MarshalParcel(_data); _err != nil {
@@ -1484,6 +1529,7 @@ func (p *StatusBarServiceProxy) ClickTile(
 	tile content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(1)
 	if _err := tile.MarshalParcel(_data); _err != nil {
@@ -1513,6 +1559,7 @@ func (p *StatusBarServiceProxy) HandleSystemKey(
 	key view.KeyEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
@@ -1542,6 +1589,7 @@ func (p *StatusBarServiceProxy) GetLastSystemKey(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceGetLastSystemKey)
@@ -1571,6 +1619,7 @@ func (p *StatusBarServiceProxy) ShowPinningEnterExitToast(
 	entering bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteBool(entering)
 
@@ -1596,6 +1645,7 @@ func (p *StatusBarServiceProxy) ShowPinningEscapeToast(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceShowPinningEscapeToast)
@@ -1628,6 +1678,7 @@ func (p *StatusBarServiceProxy) ShowAuthenticationDialog(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(1)
 	if _err := promptInfo.MarshalParcel(_data); _err != nil {
@@ -1672,6 +1723,7 @@ func (p *StatusBarServiceProxy) OnBiometricAuthenticated(
 	modality int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(modality)
 
@@ -1699,6 +1751,7 @@ func (p *StatusBarServiceProxy) OnBiometricHelp(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(modality)
 	_data.WriteString16(message)
@@ -1728,6 +1781,7 @@ func (p *StatusBarServiceProxy) OnBiometricError(
 	vendorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(modality)
 	_data.WriteInt32(error_)
@@ -1756,6 +1810,7 @@ func (p *StatusBarServiceProxy) HideAuthenticationDialog(
 	requestId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt64(requestId)
 
@@ -1782,6 +1837,7 @@ func (p *StatusBarServiceProxy) SetBiometicContextListener(
 	listener biometrics.IBiometricContextListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1808,6 +1864,7 @@ func (p *StatusBarServiceProxy) SetUdfpsRefreshRateCallback(
 	callback fingerprint.IUdfpsRefreshRateRequestCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -1833,6 +1890,7 @@ func (p *StatusBarServiceProxy) ShowInattentiveSleepWarning(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceShowInattentiveSleepWarning)
@@ -1858,6 +1916,7 @@ func (p *StatusBarServiceProxy) DismissInattentiveSleepWarning(
 	animated bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteBool(animated)
 
@@ -1883,6 +1942,7 @@ func (p *StatusBarServiceProxy) StartTracing(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceStartTracing)
@@ -1907,6 +1967,7 @@ func (p *StatusBarServiceProxy) StopTracing(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceStopTracing)
@@ -1932,6 +1993,7 @@ func (p *StatusBarServiceProxy) IsTracing(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceIsTracing)
@@ -1961,6 +2023,7 @@ func (p *StatusBarServiceProxy) SuppressAmbientDisplay(
 	suppress bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteBool(suppress)
 
@@ -1988,6 +2051,7 @@ func (p *StatusBarServiceProxy) RequestTileServiceListeningState(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
@@ -2016,17 +2080,19 @@ func (p *StatusBarServiceProxy) RequestTileServiceListeningState(
 func (p *StatusBarServiceProxy) RequestAddTile(
 	ctx context.Context,
 	componentName content.ComponentName,
-	label interface{},
+	label string,
 	icon drawable.Icon,
 	callback IAddTileResultCallback,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteString16(label)
 	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _err
@@ -2057,6 +2123,7 @@ func (p *StatusBarServiceProxy) CancelRequestAddTile(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteString16(packageName)
 
@@ -2083,6 +2150,7 @@ func (p *StatusBarServiceProxy) SetNavBarMode(
 	navBarMode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(navBarMode)
 
@@ -2109,6 +2177,7 @@ func (p *StatusBarServiceProxy) GetNavBarMode(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceGetNavBarMode)
@@ -2139,6 +2208,7 @@ func (p *StatusBarServiceProxy) RegisterSessionListener(
 	listener ISessionListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(sessionFlags)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -2167,6 +2237,7 @@ func (p *StatusBarServiceProxy) UnregisterSessionListener(
 	listener ISessionListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(sessionFlags)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -2195,6 +2266,7 @@ func (p *StatusBarServiceProxy) OnSessionStarted(
 	instanceId logging.InstanceId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(sessionType)
 	_data.WriteInt32(1)
@@ -2226,6 +2298,7 @@ func (p *StatusBarServiceProxy) OnSessionEnded(
 	instanceId logging.InstanceId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(sessionType)
 	_data.WriteInt32(1)
@@ -2258,6 +2331,7 @@ func (p *StatusBarServiceProxy) UpdateMediaTapToTransferSenderDisplay(
 	undoCallback IUndoMediaTransferCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(displayState)
 	_data.WriteInt32(1)
@@ -2289,9 +2363,10 @@ func (p *StatusBarServiceProxy) UpdateMediaTapToTransferReceiverDisplay(
 	displayState int32,
 	routeInfo media.MediaRoute2Info,
 	appIcon drawable.Icon,
-	appName interface{},
+	appName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(displayState)
 	_data.WriteInt32(1)
@@ -2302,6 +2377,7 @@ func (p *StatusBarServiceProxy) UpdateMediaTapToTransferReceiverDisplay(
 	if _err := appIcon.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteString16(appName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarService, MethodIStatusBarServiceUpdateMediaTapToTransferReceiverDisplay)
 	if _err != nil {
@@ -2326,6 +2402,7 @@ func (p *StatusBarServiceProxy) RegisterNearbyMediaDevicesProvider(
 	provider media.INearbyMediaDevicesProvider,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	binder.WriteBinderToParcel(ctx, _data, provider.AsBinder(), p.Remote.Transport())
 
@@ -2352,6 +2429,7 @@ func (p *StatusBarServiceProxy) UnregisterNearbyMediaDevicesProvider(
 	provider media.INearbyMediaDevicesProvider,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	binder.WriteBinderToParcel(ctx, _data, provider.AsBinder(), p.Remote.Transport())
 
@@ -2378,6 +2456,7 @@ func (p *StatusBarServiceProxy) ShowRearDisplayDialog(
 	currentBaseState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStatusBarService)
 	_data.WriteInt32(currentBaseState)
 
@@ -2402,7 +2481,8 @@ func (p *StatusBarServiceProxy) ShowRearDisplayDialog(
 // StatusBarServiceStub dispatches incoming binder transactions
 // to a typed IStatusBarService implementation.
 type StatusBarServiceStub struct {
-	Impl IStatusBarService
+	Impl      IStatusBarService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StatusBarServiceStub)(nil)
@@ -2416,11 +2496,12 @@ func (s *StatusBarServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStatusBarServiceExpandNotificationsPanel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ExpandNotificationsPanel(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2430,9 +2511,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceCollapsePanels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CollapsePanels(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2442,9 +2520,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceTogglePanel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.TogglePanel(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2454,16 +2529,18 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceDisable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_what, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2477,16 +2554,18 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceDisableForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_what, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2503,16 +2582,18 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceDisable2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_what, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2526,16 +2607,18 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceDisable2ForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_what, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2552,12 +2635,14 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceGetDisableFlags:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2568,13 +2653,16 @@ func (s *StatusBarServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIStatusBarServiceSetIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slot, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2604,9 +2692,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceSetIconVisibility:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slot, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2624,9 +2709,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceRemoveIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slot, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2640,16 +2722,18 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceSetImeWindowStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_vis, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2671,9 +2755,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceExpandSettingsPanel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subPanel, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2687,12 +2768,14 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceRegisterStatusBar:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IStatusBar
-		_ = _arg_callbacks
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewStatusBarProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
+		}
 		_result, _err := s.Impl.RegisterStatusBar(ctx, _arg_callbacks)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2706,9 +2789,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIStatusBarServiceOnPanelRevealed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_clearNotificationEffects, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2726,9 +2806,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnPanelHidden:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnPanelHidden(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2738,16 +2815,9 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceClearNotificationEffects:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ClearNotificationEffects(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarServiceOnNotificationClick:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2773,9 +2843,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnNotificationActionClick:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2821,9 +2888,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnNotificationError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2860,9 +2924,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnClearAllNotifications:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2875,9 +2936,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnNotificationClear:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2918,15 +2976,48 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnNotificationVisibilityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_newlyVisibleKeys []NotificationVisibility
-		_ = _arg_newlyVisibleKeys
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_newlyVisibleKeys = make([]NotificationVisibility, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_newlyVisibleKeys[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_noLongerVisibleKeys []NotificationVisibility
-		_ = _arg_noLongerVisibleKeys
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_noLongerVisibleKeys = make([]NotificationVisibility, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_noLongerVisibleKeys[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnNotificationVisibilityChanged(ctx, _arg_newlyVisibleKeys, _arg_noLongerVisibleKeys)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2936,9 +3027,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnNotificationExpansionChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2964,9 +3052,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnNotificationDirectReplied:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2980,9 +3065,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnNotificationSmartSuggestionsAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3012,9 +3094,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnNotificationSmartReplySent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3023,7 +3102,10 @@ func (s *StatusBarServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_reply interface{}
+		_arg_reply, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		_arg_notificationLocation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3041,9 +3123,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnNotificationSettingsViewed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3057,9 +3136,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnNotificationBubbleChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3081,9 +3157,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnBubbleMetadataFlagChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3101,9 +3174,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceHideCurrentInputMethodForBubbles:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3117,9 +3187,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceGrantInlineReplyUriPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3161,20 +3228,13 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceClearInlineReplyUriPermissions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ClearInlineReplyUriPermissions(ctx, _arg_key)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStatusBarServiceOnNotificationFeedbackReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3200,9 +3260,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnGlobalActionsShown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnGlobalActionsShown(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3212,9 +3269,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnGlobalActionsHidden:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnGlobalActionsHidden(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3224,9 +3278,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceShutdown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Shutdown(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3236,9 +3287,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceReboot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_safeMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3252,9 +3300,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceRestart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Restart(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3264,9 +3309,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceAddTile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_tile content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3288,9 +3330,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceRemTile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_tile content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3312,9 +3351,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceClickTile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_tile content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3336,9 +3372,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceHandleSystemKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_key view.KeyEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3360,9 +3393,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceGetLastSystemKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLastSystemKey(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3373,9 +3403,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIStatusBarServiceShowPinningEnterExitToast:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_entering, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3389,9 +3416,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceShowPinningEscapeToast:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ShowPinningEscapeToast(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3401,9 +3425,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceShowAuthenticationDialog:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_promptInfo biometrics.PromptInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3416,12 +3437,33 @@ func (s *StatusBarServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sysuiReceiver biometrics.IBiometricSysuiReceiver
-		_ = _arg_sysuiReceiver
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_sysuiReceiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sysuiReceiver = biometrics.NewBiometricSysuiReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sysuiReceiverHandle))
+		}
 		var _arg_sensorIds []int32
-		_ = _arg_sensorIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_sensorIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_sensorIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_credentialAllowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3453,9 +3495,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnBiometricAuthenticated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modality, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3469,9 +3508,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnBiometricHelp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modality, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3489,9 +3525,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnBiometricError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modality, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3513,9 +3546,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceHideAuthenticationDialog:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -3529,12 +3559,14 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceSetBiometicContextListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener biometrics.IBiometricContextListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = biometrics.NewBiometricContextListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.SetBiometicContextListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3544,12 +3576,14 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceSetUdfpsRefreshRateCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback fingerprint.IUdfpsRefreshRateRequestCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = fingerprint.NewUdfpsRefreshRateRequestCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetUdfpsRefreshRateCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3559,9 +3593,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceShowInattentiveSleepWarning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ShowInattentiveSleepWarning(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3571,9 +3602,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceDismissInattentiveSleepWarning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_animated, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3587,9 +3615,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceStartTracing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StartTracing(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3599,9 +3624,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceStopTracing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopTracing(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3611,9 +3633,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceIsTracing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsTracing(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3624,9 +3643,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIStatusBarServiceSuppressAmbientDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_suppress, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3640,9 +3656,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceRequestTileServiceListeningState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3667,9 +3680,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceRequestAddTile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3682,7 +3692,10 @@ func (s *StatusBarServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_label interface{}
+		_arg_label, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		var _arg_icon drawable.Icon
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3698,10 +3711,15 @@ func (s *StatusBarServiceStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAddTileResultCallback
-		_ = _arg_callback
-		_err := s.Impl.RequestAddTile(ctx, _arg_componentName, _arg_label, _arg_icon, _arg_callback)
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAddTileResultCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
+		_err = s.Impl.RequestAddTile(ctx, _arg_componentName, _arg_label, _arg_icon, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -3710,9 +3728,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceCancelRequestAddTile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3726,9 +3741,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceSetNavBarMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_navBarMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3742,9 +3754,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceGetNavBarMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetNavBarMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3755,16 +3764,18 @@ func (s *StatusBarServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIStatusBarServiceRegisterSessionListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISessionListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewSessionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.RegisterSessionListener(ctx, _arg_sessionFlags, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3774,16 +3785,18 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceUnregisterSessionListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISessionListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewSessionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.UnregisterSessionListener(ctx, _arg_sessionFlags, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3793,9 +3806,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnSessionStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3821,9 +3831,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceOnSessionEnded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3849,9 +3856,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceUpdateMediaTapToTransferSenderDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3868,9 +3872,14 @@ func (s *StatusBarServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_undoCallback IUndoMediaTransferCallback
-		_ = _arg_undoCallback
+		{
+			_undoCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_undoCallback = NewUndoMediaTransferCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _undoCallbackHandle))
+		}
 		_err = s.Impl.UpdateMediaTapToTransferSenderDisplay(ctx, _arg_displayState, _arg_routeInfo, _arg_undoCallback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3880,9 +3889,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceUpdateMediaTapToTransferReceiverDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3911,7 +3917,10 @@ func (s *StatusBarServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_appName interface{}
+		_arg_appName, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		_err = s.Impl.UpdateMediaTapToTransferReceiverDisplay(ctx, _arg_displayState, _arg_routeInfo, _arg_appIcon, _arg_appName)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3921,12 +3930,14 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceRegisterNearbyMediaDevicesProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_provider media.INearbyMediaDevicesProvider
-		_ = _arg_provider
+		{
+			_providerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_provider = media.NewNearbyMediaDevicesProviderProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _providerHandle))
+		}
 		_err := s.Impl.RegisterNearbyMediaDevicesProvider(ctx, _arg_provider)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3936,12 +3947,14 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceUnregisterNearbyMediaDevicesProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_provider media.INearbyMediaDevicesProvider
-		_ = _arg_provider
+		{
+			_providerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_provider = media.NewNearbyMediaDevicesProviderProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _providerHandle))
+		}
 		_err := s.Impl.UnregisterNearbyMediaDevicesProvider(ctx, _arg_provider)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3951,9 +3964,6 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceShowRearDisplayDialog:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_currentBaseState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4001,7 +4011,7 @@ type IStatusBarServiceServer interface {
 	OnNotificationExpansionChanged(ctx context.Context, key string, userAction bool, expanded bool, notificationLocation int32) error
 	OnNotificationDirectReplied(ctx context.Context, key string) error
 	OnNotificationSmartSuggestionsAdded(ctx context.Context, key string, smartReplyCount int32, smartActionCount int32, generatedByAsssistant bool, editBeforeSending bool) error
-	OnNotificationSmartReplySent(ctx context.Context, key string, replyIndex int32, reply interface{}, notificationLocation int32, modifiedBeforeSending bool) error
+	OnNotificationSmartReplySent(ctx context.Context, key string, replyIndex int32, reply string, notificationLocation int32, modifiedBeforeSending bool) error
 	OnNotificationSettingsViewed(ctx context.Context, key string) error
 	OnNotificationBubbleChanged(ctx context.Context, key string, isBubble bool, flags int32) error
 	OnBubbleMetadataFlagChanged(ctx context.Context, key string, flags int32) error
@@ -4035,7 +4045,7 @@ type IStatusBarServiceServer interface {
 	IsTracing(ctx context.Context) (bool, error)
 	SuppressAmbientDisplay(ctx context.Context, suppress bool) error
 	RequestTileServiceListeningState(ctx context.Context, componentName content.ComponentName) error
-	RequestAddTile(ctx context.Context, componentName content.ComponentName, label interface{}, icon drawable.Icon, callback IAddTileResultCallback) error
+	RequestAddTile(ctx context.Context, componentName content.ComponentName, label string, icon drawable.Icon, callback IAddTileResultCallback) error
 	CancelRequestAddTile(ctx context.Context, packageName string) error
 	SetNavBarMode(ctx context.Context, navBarMode int32) error
 	GetNavBarMode(ctx context.Context) (int32, error)
@@ -4044,7 +4054,7 @@ type IStatusBarServiceServer interface {
 	OnSessionStarted(ctx context.Context, sessionType int32, instanceId logging.InstanceId) error
 	OnSessionEnded(ctx context.Context, sessionType int32, instanceId logging.InstanceId) error
 	UpdateMediaTapToTransferSenderDisplay(ctx context.Context, displayState int32, routeInfo media.MediaRoute2Info, undoCallback IUndoMediaTransferCallback) error
-	UpdateMediaTapToTransferReceiverDisplay(ctx context.Context, displayState int32, routeInfo media.MediaRoute2Info, appIcon drawable.Icon, appName interface{}) error
+	UpdateMediaTapToTransferReceiverDisplay(ctx context.Context, displayState int32, routeInfo media.MediaRoute2Info, appIcon drawable.Icon, appName string) error
 	RegisterNearbyMediaDevicesProvider(ctx context.Context, provider media.INearbyMediaDevicesProvider) error
 	UnregisterNearbyMediaDevicesProvider(ctx context.Context, provider media.INearbyMediaDevicesProvider) error
 	ShowRearDisplayDialog(ctx context.Context, currentBaseState int32) error
@@ -4279,7 +4289,7 @@ func (w *statusBarServiceStubWrapper) OnNotificationSmartReplySent(
 	ctx context.Context,
 	key string,
 	replyIndex int32,
-	reply interface{},
+	reply string,
 	notificationLocation int32,
 	modifiedBeforeSending bool,
 ) error {
@@ -4526,7 +4536,7 @@ func (w *statusBarServiceStubWrapper) RequestTileServiceListeningState(
 func (w *statusBarServiceStubWrapper) RequestAddTile(
 	ctx context.Context,
 	componentName content.ComponentName,
-	label interface{},
+	label string,
 	icon drawable.Icon,
 	callback IAddTileResultCallback,
 ) error {
@@ -4599,7 +4609,7 @@ func (w *statusBarServiceStubWrapper) UpdateMediaTapToTransferReceiverDisplay(
 	displayState int32,
 	routeInfo media.MediaRoute2Info,
 	appIcon drawable.Icon,
-	appName interface{},
+	appName string,
 ) error {
 	return w.impl.UpdateMediaTapToTransferReceiverDisplay(ctx, displayState, routeInfo, appIcon, appName)
 }

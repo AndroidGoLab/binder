@@ -35,8 +35,7 @@ func (u *DemuxFilterScIndexMask) GetScIndex() (int32, bool) {
 func (u *DemuxFilterScIndexMask) SetScIndex(
 	v int32,
 ) {
-	u.Tag = DemuxFilterScIndexMaskTagScIndex
-	u.ScIndex = v
+	*u = DemuxFilterScIndexMask{Tag: DemuxFilterScIndexMaskTagScIndex, ScIndex: v}
 }
 
 func (u *DemuxFilterScIndexMask) GetScAvc() (int32, bool) {
@@ -50,8 +49,7 @@ func (u *DemuxFilterScIndexMask) GetScAvc() (int32, bool) {
 func (u *DemuxFilterScIndexMask) SetScAvc(
 	v int32,
 ) {
-	u.Tag = DemuxFilterScIndexMaskTagScAvc
-	u.ScAvc = v
+	*u = DemuxFilterScIndexMask{Tag: DemuxFilterScIndexMaskTagScAvc, ScAvc: v}
 }
 
 func (u *DemuxFilterScIndexMask) GetScHevc() (int32, bool) {
@@ -65,8 +63,7 @@ func (u *DemuxFilterScIndexMask) GetScHevc() (int32, bool) {
 func (u *DemuxFilterScIndexMask) SetScHevc(
 	v int32,
 ) {
-	u.Tag = DemuxFilterScIndexMaskTagScHevc
-	u.ScHevc = v
+	*u = DemuxFilterScIndexMask{Tag: DemuxFilterScIndexMaskTagScHevc, ScHevc: v}
 }
 
 func (u *DemuxFilterScIndexMask) GetScVvc() (int32, bool) {
@@ -80,8 +77,7 @@ func (u *DemuxFilterScIndexMask) GetScVvc() (int32, bool) {
 func (u *DemuxFilterScIndexMask) SetScVvc(
 	v int32,
 ) {
-	u.Tag = DemuxFilterScIndexMaskTagScVvc
-	u.ScVvc = v
+	*u = DemuxFilterScIndexMask{Tag: DemuxFilterScIndexMaskTagScVvc, ScVvc: v}
 }
 
 func (u *DemuxFilterScIndexMask) MarshalParcel(

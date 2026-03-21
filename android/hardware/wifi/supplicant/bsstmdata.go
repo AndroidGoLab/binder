@@ -38,11 +38,21 @@ func (s *BssTmData) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_statusRaw, _err := p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}
 	s.Status = BssTmStatusCode(_statusRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_flagsRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -50,9 +60,19 @@ func (s *BssTmData) UnmarshalParcel(
 	}
 	s.Flags = BssTmDataFlagsMask(_flagsRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.AssocRetryDelayMs, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_mboTransitionReasonRaw, _err := p.ReadPaddedByte()
@@ -60,6 +80,11 @@ func (s *BssTmData) UnmarshalParcel(
 		return _err
 	}
 	s.MboTransitionReason = MboTransitionReasonCode(_mboTransitionReasonRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_mboCellPreferenceRaw, _err := p.ReadInt32()
 	if _err != nil {

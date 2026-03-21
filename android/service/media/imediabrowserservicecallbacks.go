@@ -59,6 +59,7 @@ func (p *MediaBrowserServiceCallbacksProxy) OnConnect(
 	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserServiceCallbacks)
 	_data.WriteString16(root)
 	_data.WriteInt32(1)
@@ -83,6 +84,7 @@ func (p *MediaBrowserServiceCallbacksProxy) OnConnectFailed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserServiceCallbacks)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaBrowserServiceCallbacks, MethodIMediaBrowserServiceCallbacksOnConnectFailed)
@@ -101,6 +103,7 @@ func (p *MediaBrowserServiceCallbacksProxy) OnLoadChildren(
 	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserServiceCallbacks)
 	_data.WriteString16(mediaId)
 	_data.WriteInt32(1)
@@ -125,6 +128,7 @@ func (p *MediaBrowserServiceCallbacksProxy) OnDisconnect(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserServiceCallbacks)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaBrowserServiceCallbacks, MethodIMediaBrowserServiceCallbacksOnDisconnect)
@@ -139,7 +143,8 @@ func (p *MediaBrowserServiceCallbacksProxy) OnDisconnect(
 // MediaBrowserServiceCallbacksStub dispatches incoming binder transactions
 // to a typed IMediaBrowserServiceCallbacks implementation.
 type MediaBrowserServiceCallbacksStub struct {
-	Impl IMediaBrowserServiceCallbacks
+	Impl      IMediaBrowserServiceCallbacks
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaBrowserServiceCallbacksStub)(nil)
@@ -153,11 +158,12 @@ func (s *MediaBrowserServiceCallbacksStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaBrowserServiceCallbacksOnConnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_root, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -187,19 +193,11 @@ func (s *MediaBrowserServiceCallbacksStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnConnect(ctx, _arg_root, _arg_session, _arg_extras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaBrowserServiceCallbacksOnConnectFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnConnectFailed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaBrowserServiceCallbacksOnLoadChildren:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mediaId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -229,15 +227,10 @@ func (s *MediaBrowserServiceCallbacksStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnLoadChildren(ctx, _arg_mediaId, _arg_list, _arg_options)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaBrowserServiceCallbacksOnDisconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDisconnect(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

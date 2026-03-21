@@ -54,6 +54,7 @@ func (p *InlineContentCallbackProxy) OnContent(
 	height int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineContentCallback)
 	_data.WriteInt32(1)
 	if _err := content.MarshalParcel(_data); _err != nil {
@@ -75,6 +76,7 @@ func (p *InlineContentCallbackProxy) OnClick(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineContentCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineContentCallback, MethodIInlineContentCallbackOnClick)
@@ -90,6 +92,7 @@ func (p *InlineContentCallbackProxy) OnLongClick(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineContentCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineContentCallback, MethodIInlineContentCallbackOnLongClick)
@@ -104,7 +107,8 @@ func (p *InlineContentCallbackProxy) OnLongClick(
 // InlineContentCallbackStub dispatches incoming binder transactions
 // to a typed IInlineContentCallback implementation.
 type InlineContentCallbackStub struct {
-	Impl IInlineContentCallback
+	Impl      IInlineContentCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InlineContentCallbackStub)(nil)
@@ -118,11 +122,12 @@ func (s *InlineContentCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInlineContentCallbackOnContent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_content view.SurfaceControlViewHostSurfacePackage
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -144,22 +149,13 @@ func (s *InlineContentCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnContent(ctx, _arg_content, _arg_width, _arg_height)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineContentCallbackOnClick:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnClick(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineContentCallbackOnLongClick:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnLongClick(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

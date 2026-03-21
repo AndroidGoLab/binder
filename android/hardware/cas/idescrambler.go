@@ -60,6 +60,7 @@ func (p *DescramblerProxy) Descramble(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
 	_data.WriteInt32(int32(scramblingControl))
 	if subSamples == nil {
@@ -110,6 +111,7 @@ func (p *DescramblerProxy) Release(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerRelease)
@@ -136,6 +138,7 @@ func (p *DescramblerProxy) RequiresSecureDecoderComponent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
 	_data.WriteString16(mime)
 
@@ -166,15 +169,9 @@ func (p *DescramblerProxy) SetMediaCasSession(
 	sessionId []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerSetMediaCasSession)
 	if _err != nil {
@@ -197,7 +194,8 @@ func (p *DescramblerProxy) SetMediaCasSession(
 // DescramblerStub dispatches incoming binder transactions
 // to a typed IDescrambler implementation.
 type DescramblerStub struct {
-	Impl IDescrambler
+	Impl      IDescrambler
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DescramblerStub)(nil)
@@ -211,19 +209,38 @@ func (s *DescramblerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDescramblerDescramble:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_scramblingControl, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_scramblingControl := ScramblingControl(_raw_scramblingControl)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_subSamples []SubSample
-		_ = _arg_subSamples
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_subSamples = make([]SubSample, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_subSamples[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_srcBuffer SharedBuffer
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -266,9 +283,6 @@ func (s *DescramblerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDescramblerRelease:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Release(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -278,9 +292,6 @@ func (s *DescramblerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDescramblerRequiresSecureDecoderComponent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mime, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -295,12 +306,14 @@ func (s *DescramblerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDescramblerSetMediaCasSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		_err := s.Impl.SetMediaCasSession(ctx, _arg_sessionId)
 		_reply := parcel.New()
 		if _err != nil {

@@ -1,0 +1,1143 @@
+package: com.android.internal.telephony.euicc
+go_package: com/android/internal_/telephony/euicc
+interfaces:
+    - name: IAuthenticateServerCallback
+      descriptor: com.android.internal.telephony.euicc.IAuthenticateServerCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: response
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: ICancelSessionCallback
+      descriptor: com.android.internal.telephony.euicc.ICancelSessionCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: response
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IDeleteProfileCallback
+      descriptor: com.android.internal.telephony.euicc.IDeleteProfileCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IDisableProfileCallback
+      descriptor: com.android.internal.telephony.euicc.IDisableProfileCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IEuiccCardController
+      descriptor: com.android.internal.telephony.euicc.IEuiccCardController
+      methods:
+        - name: getAllProfiles
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IGetAllProfilesCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getProfile
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: iccid
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IGetProfileCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getEnabledProfile
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: portIndex
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IGetProfileCallback
+              direction: in
+          return_type:
+            name: void
+        - name: disableProfile
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: iccid
+              type:
+                name: String
+            - name: refresh
+              type:
+                name: boolean
+            - name: callback
+              type:
+                name: IDisableProfileCallback
+              direction: in
+          return_type:
+            name: void
+        - name: switchToProfile
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: iccid
+              type:
+                name: String
+            - name: portIndex
+              type:
+                name: int
+            - name: refresh
+              type:
+                name: boolean
+            - name: callback
+              type:
+                name: ISwitchToProfileCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setNickname
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: iccid
+              type:
+                name: String
+            - name: nickname
+              type:
+                name: String
+            - name: callback
+              type:
+                name: ISetNicknameCallback
+              direction: in
+          return_type:
+            name: void
+        - name: deleteProfile
+          transaction_code_offset: 6
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: iccid
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IDeleteProfileCallback
+              direction: in
+          return_type:
+            name: void
+        - name: resetMemory
+          transaction_code_offset: 7
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: options
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IResetMemoryCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getDefaultSmdpAddress
+          transaction_code_offset: 8
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IGetDefaultSmdpAddressCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getSmdsAddress
+          transaction_code_offset: 9
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IGetSmdsAddressCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setDefaultSmdpAddress
+          transaction_code_offset: 10
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: address
+              type:
+                name: String
+            - name: callback
+              type:
+                name: ISetDefaultSmdpAddressCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getRulesAuthTable
+          transaction_code_offset: 11
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IGetRulesAuthTableCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getEuiccChallenge
+          transaction_code_offset: 12
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IGetEuiccChallengeCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getEuiccInfo1
+          transaction_code_offset: 13
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IGetEuiccInfo1Callback
+              direction: in
+          return_type:
+            name: void
+        - name: getEuiccInfo2
+          transaction_code_offset: 14
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IGetEuiccInfo2Callback
+              direction: in
+          return_type:
+            name: void
+        - name: authenticateServer
+          transaction_code_offset: 15
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: matchingId
+              type:
+                name: String
+            - name: serverSigned1
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: serverSignature1
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: euiccCiPkIdToBeUsed
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: serverCertificatein
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: callback
+              type:
+                name: IAuthenticateServerCallback
+              direction: in
+          return_type:
+            name: void
+        - name: prepareDownload
+          transaction_code_offset: 16
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: hashCc
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: smdpSigned2
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: smdpSignature2
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: smdpCertificate
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: callback
+              type:
+                name: IPrepareDownloadCallback
+              direction: in
+          return_type:
+            name: void
+        - name: loadBoundProfilePackage
+          transaction_code_offset: 17
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: boundProfilePackage
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: callback
+              type:
+                name: ILoadBoundProfilePackageCallback
+              direction: in
+          return_type:
+            name: void
+        - name: cancelSession
+          transaction_code_offset: 18
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: transactionId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: reason
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ICancelSessionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: listNotifications
+          transaction_code_offset: 19
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: events
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IListNotificationsCallback
+              direction: in
+          return_type:
+            name: void
+        - name: retrieveNotificationList
+          transaction_code_offset: 20
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: events
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IRetrieveNotificationListCallback
+              direction: in
+          return_type:
+            name: void
+        - name: retrieveNotification
+          transaction_code_offset: 21
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: seqNumber
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IRetrieveNotificationCallback
+              direction: in
+          return_type:
+            name: void
+        - name: removeNotificationFromList
+          transaction_code_offset: 22
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: cardId
+              type:
+                name: String
+            - name: seqNumber
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IRemoveNotificationFromListCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IEuiccController
+      descriptor: com.android.internal.telephony.euicc.IEuiccController
+      methods:
+        - name: continueOperation
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: cardId
+              type:
+                name: int
+            - name: resolutionIntent
+              type:
+                name: Intent
+              direction: in
+            - name: resolutionExtras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: getDownloadableSubscriptionMetadata
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: cardId
+              type:
+                name: int
+            - name: subscription
+              type:
+                name: DownloadableSubscription
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+            - name: callbackIntent
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: getDefaultDownloadableSubscriptionList
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: cardId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+            - name: callbackIntent
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: getEid
+          transaction_code_offset: 3
+          params:
+            - name: cardId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: getOtaStatus
+          transaction_code_offset: 4
+          params:
+            - name: cardId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: downloadSubscription
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: cardId
+              type:
+                name: int
+            - name: subscription
+              type:
+                name: DownloadableSubscription
+              direction: in
+            - name: switchAfterDownload
+              type:
+                name: boolean
+            - name: callingPackage
+              type:
+                name: String
+            - name: resolvedBundle
+              type:
+                name: Bundle
+              direction: in
+            - name: callbackIntent
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: getEuiccInfo
+          transaction_code_offset: 6
+          params:
+            - name: cardId
+              type:
+                name: int
+          return_type:
+            name: EuiccInfo
+        - name: deleteSubscription
+          transaction_code_offset: 7
+          oneway: true
+          params:
+            - name: cardId
+              type:
+                name: int
+            - name: subscriptionId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+            - name: callbackIntent
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: switchToSubscription
+          transaction_code_offset: 8
+          oneway: true
+          params:
+            - name: cardId
+              type:
+                name: int
+            - name: subscriptionId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+            - name: callbackIntent
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: switchToSubscriptionWithPort
+          transaction_code_offset: 9
+          oneway: true
+          params:
+            - name: cardId
+              type:
+                name: int
+            - name: subscriptionId
+              type:
+                name: int
+            - name: portIndex
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+            - name: callbackIntent
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: updateSubscriptionNickname
+          transaction_code_offset: 10
+          oneway: true
+          params:
+            - name: cardId
+              type:
+                name: int
+            - name: subscriptionId
+              type:
+                name: int
+            - name: nickname
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+            - name: callbackIntent
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: eraseSubscriptions
+          transaction_code_offset: 11
+          oneway: true
+          params:
+            - name: cardId
+              type:
+                name: int
+            - name: callbackIntent
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: eraseSubscriptionsWithOptions
+          transaction_code_offset: 12
+          oneway: true
+          params:
+            - name: cardId
+              type:
+                name: int
+            - name: options
+              type:
+                name: int
+            - name: callbackIntent
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: retainSubscriptionsForFactoryReset
+          transaction_code_offset: 13
+          oneway: true
+          params:
+            - name: cardId
+              type:
+                name: int
+            - name: callbackIntent
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: setSupportedCountries
+          transaction_code_offset: 14
+          params:
+            - name: isSupported
+              type:
+                name: boolean
+            - name: countriesList
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getSupportedCountries
+          transaction_code_offset: 15
+          params:
+            - name: isSupported
+              type:
+                name: boolean
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: isSupportedCountry
+          transaction_code_offset: 16
+          params:
+            - name: countryIso
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: isSimPortAvailable
+          transaction_code_offset: 17
+          params:
+            - name: cardId
+              type:
+                name: int
+            - name: portIndex
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: hasCarrierPrivilegesForPackageOnAnyPhone
+          transaction_code_offset: 18
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: isCompatChangeEnabled
+          transaction_code_offset: 19
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: changeId
+              type:
+                name: long
+          return_type:
+            name: boolean
+        - name: setPsimConversionSupportedCarriers
+          transaction_code_offset: 20
+          params:
+            - name: carrierIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: isPsimConversionSupported
+          transaction_code_offset: 21
+          params:
+            - name: carrierId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: getAvailableMemoryInBytes
+          transaction_code_offset: 22
+          params:
+            - name: cardId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: long
+    - name: IGetAllProfilesCallback
+      descriptor: com.android.internal.telephony.euicc.IGetAllProfilesCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: profiles
+              type:
+                name: EuiccProfileInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IGetDefaultSmdpAddressCallback
+      descriptor: com.android.internal.telephony.euicc.IGetDefaultSmdpAddressCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: address
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IGetEuiccChallengeCallback
+      descriptor: com.android.internal.telephony.euicc.IGetEuiccChallengeCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: challenge
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IGetEuiccInfo1Callback
+      descriptor: com.android.internal.telephony.euicc.IGetEuiccInfo1Callback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: info
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IGetEuiccInfo2Callback
+      descriptor: com.android.internal.telephony.euicc.IGetEuiccInfo2Callback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: info
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IGetProfileCallback
+      descriptor: com.android.internal.telephony.euicc.IGetProfileCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: profile
+              type:
+                name: EuiccProfileInfo
+              direction: in
+          return_type:
+            name: void
+    - name: IGetRulesAuthTableCallback
+      descriptor: com.android.internal.telephony.euicc.IGetRulesAuthTableCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: rat
+              type:
+                name: EuiccRulesAuthTable
+              direction: in
+          return_type:
+            name: void
+    - name: IGetSmdsAddressCallback
+      descriptor: com.android.internal.telephony.euicc.IGetSmdsAddressCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: address
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IListNotificationsCallback
+      descriptor: com.android.internal.telephony.euicc.IListNotificationsCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: notifications
+              type:
+                name: EuiccNotification
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: ILoadBoundProfilePackageCallback
+      descriptor: com.android.internal.telephony.euicc.ILoadBoundProfilePackageCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: response
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IPrepareDownloadCallback
+      descriptor: com.android.internal.telephony.euicc.IPrepareDownloadCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: response
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IRemoveNotificationFromListCallback
+      descriptor: com.android.internal.telephony.euicc.IRemoveNotificationFromListCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IResetMemoryCallback
+      descriptor: com.android.internal.telephony.euicc.IResetMemoryCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IRetrieveNotificationCallback
+      descriptor: com.android.internal.telephony.euicc.IRetrieveNotificationCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: notification
+              type:
+                name: EuiccNotification
+              direction: in
+          return_type:
+            name: void
+    - name: IRetrieveNotificationListCallback
+      descriptor: com.android.internal.telephony.euicc.IRetrieveNotificationListCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: notifications
+              type:
+                name: EuiccNotification
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: ISetDefaultSmdpAddressCallback
+      descriptor: com.android.internal.telephony.euicc.ISetDefaultSmdpAddressCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ISetNicknameCallback
+      descriptor: com.android.internal.telephony.euicc.ISetNicknameCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ISwitchToProfileCallback
+      descriptor: com.android.internal.telephony.euicc.ISwitchToProfileCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: resultCode
+              type:
+                name: int
+            - name: profile
+              type:
+                name: EuiccProfileInfo
+              direction: in
+          return_type:
+            name: void

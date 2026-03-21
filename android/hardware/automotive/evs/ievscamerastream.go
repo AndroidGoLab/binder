@@ -48,6 +48,7 @@ func (p *EvsCameraStreamProxy) DeliverFrame(
 	buffer []BufferDesc,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCameraStream)
 	if buffer == nil {
 		_data.WriteInt32(-1)
@@ -75,6 +76,7 @@ func (p *EvsCameraStreamProxy) Notify(
 	event EvsEventDesc,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEvsCameraStream)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -93,7 +95,8 @@ func (p *EvsCameraStreamProxy) Notify(
 // EvsCameraStreamStub dispatches incoming binder transactions
 // to a typed IEvsCameraStream implementation.
 type EvsCameraStreamStub struct {
-	Impl IEvsCameraStream
+	Impl      IEvsCameraStream
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EvsCameraStreamStub)(nil)
@@ -107,21 +110,36 @@ func (s *EvsCameraStreamStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEvsCameraStreamDeliverFrame:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_buffer []BufferDesc
-		_ = _arg_buffer
-		_err := s.Impl.DeliverFrame(ctx, _arg_buffer)
-		_ = _err
-		return nil, nil
-	case TransactionIEvsCameraStreamNotify:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_buffer = make([]BufferDesc, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_buffer[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.DeliverFrame(ctx, _arg_buffer)
+		return nil, _err
+	case TransactionIEvsCameraStreamNotify:
 		var _arg_event EvsEventDesc
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -135,8 +153,7 @@ func (s *EvsCameraStreamStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.Notify(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

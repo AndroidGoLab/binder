@@ -1,0 +1,71 @@
+package: android.frameworks.automotive.telemetry
+go_package: android/frameworks/automotive/telemetry
+interfaces:
+    - name: ICarTelemetry
+      descriptor: android.frameworks.automotive.telemetry.ICarTelemetry
+      methods:
+        - name: write
+          transaction_code_offset: 0
+          params:
+            - name: dataList
+              type:
+                name: CarData
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: addCallback
+          transaction_code_offset: 1
+          params:
+            - name: config
+              type:
+                name: CallbackConfig
+              direction: in
+            - name: callback
+              type:
+                name: ICarTelemetryCallback
+              direction: in
+          return_type:
+            name: void
+        - name: removeCallback
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: ICarTelemetryCallback
+              direction: in
+          return_type:
+            name: void
+    - name: ICarTelemetryCallback
+      descriptor: android.frameworks.automotive.telemetry.ICarTelemetryCallback
+      methods:
+        - name: onChange
+          transaction_code_offset: 0
+          params:
+            - name: ids
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: CallbackConfig
+      fields:
+        - name: carDataIds
+          type:
+            name: int
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: CarData
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: content
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability

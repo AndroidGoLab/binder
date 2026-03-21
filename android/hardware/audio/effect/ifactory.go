@@ -3,7 +3,6 @@ package effect
 import (
 	"context"
 	"fmt"
-	effectProcessing "github.com/xaionaro-go/binder/android/hardware/audio/effect/Processing"
 	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -30,7 +29,7 @@ const (
 type IFactory interface {
 	AsBinder() binder.IBinder
 	QueryEffects(ctx context.Context, type_ *common.AudioUuid, implementation *common.AudioUuid, proxy *common.AudioUuid) ([]Descriptor, error)
-	QueryProcessing(ctx context.Context, type_ *effectProcessing.Type) ([]Processing, error)
+	QueryProcessing(ctx context.Context, type_ *ProcessingType) ([]Processing, error)
 	CreateEffect(ctx context.Context, implUuid common.AudioUuid) (IEffect, error)
 	DestroyEffect(ctx context.Context, handle IEffect) error
 }
@@ -59,8 +58,10 @@ func (p *FactoryProxy) QueryEffects(
 ) ([]Descriptor, error) {
 	var _result []Descriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFactory)
 	if type_ != nil {
+		_data.WriteInt32(1)
 		if _err := (*type_).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
@@ -68,6 +69,7 @@ func (p *FactoryProxy) QueryEffects(
 		_data.WriteInt32(-1)
 	}
 	if implementation != nil {
+		_data.WriteInt32(1)
 		if _err := (*implementation).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
@@ -75,6 +77,7 @@ func (p *FactoryProxy) QueryEffects(
 		_data.WriteInt32(-1)
 	}
 	if proxy != nil {
+		_data.WriteInt32(1)
 		if _err := (*proxy).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
@@ -101,6 +104,9 @@ func (p *FactoryProxy) QueryEffects(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]Descriptor, _count)
@@ -118,12 +124,14 @@ func (p *FactoryProxy) QueryEffects(
 
 func (p *FactoryProxy) QueryProcessing(
 	ctx context.Context,
-	type_ *effectProcessing.Type,
+	type_ *ProcessingType,
 ) ([]Processing, error) {
 	var _result []Processing
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFactory)
 	if type_ != nil {
+		_data.WriteInt32(1)
 		if _err := (*type_).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
@@ -150,6 +158,9 @@ func (p *FactoryProxy) QueryProcessing(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]Processing, _count)
@@ -171,6 +182,7 @@ func (p *FactoryProxy) CreateEffect(
 ) (IEffect, error) {
 	var _result IEffect
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFactory)
 	_data.WriteInt32(1)
 	if _err := implUuid.MarshalParcel(_data); _err != nil {
@@ -205,6 +217,7 @@ func (p *FactoryProxy) DestroyEffect(
 	handle IEffect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFactory)
 	binder.WriteBinderToParcel(ctx, _data, handle.AsBinder(), p.Remote.Transport())
 
@@ -229,7 +242,8 @@ func (p *FactoryProxy) DestroyEffect(
 // FactoryStub dispatches incoming binder transactions
 // to a typed IFactory implementation.
 type FactoryStub struct {
-	Impl IFactory
+	Impl      IFactory
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FactoryStub)(nil)
@@ -243,11 +257,12 @@ func (s *FactoryStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFactoryQueryEffects:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_type_ *common.AudioUuid
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -255,6 +270,7 @@ func (s *FactoryStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_type_ = new(common.AudioUuid)
 				if _err = _arg_type_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -267,6 +283,7 @@ func (s *FactoryStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_implementation = new(common.AudioUuid)
 				if _err = _arg_implementation.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -279,6 +296,7 @@ func (s *FactoryStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_proxy = new(common.AudioUuid)
 				if _err = _arg_proxy.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -291,20 +309,27 @@ func (s *FactoryStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIFactoryQueryProcessing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_type_ *effectProcessing.Type
+		var _arg_type_ *ProcessingType
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_type_ = new(ProcessingType)
 				if _err = _arg_type_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -317,13 +342,19 @@ func (s *FactoryStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIFactoryCreateEffect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_implUuid common.AudioUuid
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -343,16 +374,17 @@ func (s *FactoryStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIFactoryDestroyEffect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_handle IEffect
-		_ = _arg_handle
+		{
+			_handleHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_handle = NewEffectProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _handleHandle))
+		}
 		_err := s.Impl.DestroyEffect(ctx, _arg_handle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -371,7 +403,7 @@ func (s *FactoryStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IFactoryServer interface {
 	QueryEffects(ctx context.Context, type_ *common.AudioUuid, implementation *common.AudioUuid, proxy *common.AudioUuid) ([]Descriptor, error)
-	QueryProcessing(ctx context.Context, type_ *effectProcessing.Type) ([]Processing, error)
+	QueryProcessing(ctx context.Context, type_ *ProcessingType) ([]Processing, error)
 	CreateEffect(ctx context.Context, implUuid common.AudioUuid) (IEffect, error)
 	DestroyEffect(ctx context.Context, handle IEffect) error
 }
@@ -396,7 +428,7 @@ func (w *factoryStubWrapper) QueryEffects(
 
 func (w *factoryStubWrapper) QueryProcessing(
 	ctx context.Context,
-	type_ *effectProcessing.Type,
+	type_ *ProcessingType,
 ) ([]Processing, error) {
 	return w.impl.QueryProcessing(ctx, type_)
 }

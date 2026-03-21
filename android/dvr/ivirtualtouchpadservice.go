@@ -13,10 +13,10 @@ const DescriptorIVirtualTouchpadService = "android.dvr.IVirtualTouchpadService"
 
 const (
 	TransactionIVirtualTouchpadServiceAttach      = binder.FirstCallTransaction + 0
-	TransactionIVirtualTouchpadServiceDetach      = binder.FirstCallTransaction + 0
-	TransactionIVirtualTouchpadServiceTouch       = binder.FirstCallTransaction + 1
-	TransactionIVirtualTouchpadServiceButtonState = binder.FirstCallTransaction + 2
-	TransactionIVirtualTouchpadServiceScroll      = binder.FirstCallTransaction + 3
+	TransactionIVirtualTouchpadServiceDetach      = binder.FirstCallTransaction + 1
+	TransactionIVirtualTouchpadServiceTouch       = binder.FirstCallTransaction + 2
+	TransactionIVirtualTouchpadServiceButtonState = binder.FirstCallTransaction + 3
+	TransactionIVirtualTouchpadServiceScroll      = binder.FirstCallTransaction + 4
 )
 
 const (
@@ -60,6 +60,7 @@ func (p *VirtualTouchpadServiceProxy) Attach(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualTouchpadService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualTouchpadService, MethodIVirtualTouchpadServiceAttach)
@@ -84,6 +85,7 @@ func (p *VirtualTouchpadServiceProxy) Detach(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualTouchpadService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualTouchpadService, MethodIVirtualTouchpadServiceDetach)
@@ -112,6 +114,7 @@ func (p *VirtualTouchpadServiceProxy) Touch(
 	pressure float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualTouchpadService)
 	_data.WriteInt32(touchpad)
 	_data.WriteFloat32(x)
@@ -142,6 +145,7 @@ func (p *VirtualTouchpadServiceProxy) ButtonState(
 	buttons int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualTouchpadService)
 	_data.WriteInt32(touchpad)
 	_data.WriteInt32(buttons)
@@ -171,6 +175,7 @@ func (p *VirtualTouchpadServiceProxy) Scroll(
 	y float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualTouchpadService)
 	_data.WriteInt32(touchpad)
 	_data.WriteFloat32(x)
@@ -197,7 +202,8 @@ func (p *VirtualTouchpadServiceProxy) Scroll(
 // VirtualTouchpadServiceStub dispatches incoming binder transactions
 // to a typed IVirtualTouchpadService implementation.
 type VirtualTouchpadServiceStub struct {
-	Impl IVirtualTouchpadService
+	Impl      IVirtualTouchpadService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VirtualTouchpadServiceStub)(nil)
@@ -211,11 +217,12 @@ func (s *VirtualTouchpadServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVirtualTouchpadServiceAttach:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Attach(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -224,10 +231,16 @@ func (s *VirtualTouchpadServiceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIVirtualTouchpadServiceTouch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+	case TransactionIVirtualTouchpadServiceDetach:
+		_err := s.Impl.Detach(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
 		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIVirtualTouchpadServiceTouch:
 		_arg_touchpad, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -253,9 +266,6 @@ func (s *VirtualTouchpadServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualTouchpadServiceButtonState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_touchpad, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -273,9 +283,6 @@ func (s *VirtualTouchpadServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualTouchpadServiceScroll:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_touchpad, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

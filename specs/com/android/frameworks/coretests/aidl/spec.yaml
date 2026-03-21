@@ -1,0 +1,163 @@
+package: com.android.frameworks.coretests.aidl
+go_package: com/android/frameworks/coretests/aidl
+interfaces:
+    - name: IBinderProxyCountingService
+      descriptor: com.android.frameworks.coretests.aidl.IBinderProxyCountingService
+      methods:
+        - name: registerCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: ITestRemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterCallback
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: ITestRemoteCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IBpcCallbackObserver
+      descriptor: com.android.frameworks.coretests.aidl.IBpcCallbackObserver
+      methods:
+        - name: onCallback
+          transaction_code_offset: 0
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IBpcTestAppCmdService
+      descriptor: com.android.frameworks.coretests.aidl.IBpcTestAppCmdService
+      methods:
+        - name: createSystemBinders
+          transaction_code_offset: 0
+          params:
+            - name: count
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: releaseSystemBinders
+          transaction_code_offset: 1
+          params:
+            - name: count
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: createTestBinders
+          transaction_code_offset: 2
+          params:
+            - name: count
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: releaseTestBinders
+          transaction_code_offset: 3
+          params:
+            - name: count
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: releaseAllBinders
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: bindToTestService
+          transaction_code_offset: 5
+          return_type:
+            name: String
+        - name: unbindFromTestService
+          transaction_code_offset: 6
+          return_type:
+            name: void
+    - name: IBpcTestServiceCmdService
+      descriptor: com.android.frameworks.coretests.aidl.IBpcTestServiceCmdService
+      methods:
+        - name: forceGc
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: getBinderProxyCount
+          transaction_code_offset: 1
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setBinderProxyWatermarks
+          transaction_code_offset: 2
+          params:
+            - name: high
+              type:
+                name: int
+            - name: low
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: enableBinderProxyLimit
+          transaction_code_offset: 3
+          params:
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setBinderProxyCountCallback
+          transaction_code_offset: 4
+          params:
+            - name: observer
+              type:
+                name: IBpcCallbackObserver
+          return_type:
+            name: void
+    - name: ICmdCallback
+      descriptor: com.android.frameworks.coretests.aidl.ICmdCallback
+      methods:
+        - name: onLaunched
+          transaction_code_offset: 0
+          params:
+            - name: receiver
+              type:
+                name: IBinder
+          return_type:
+            name: void
+    - name: ICmdReceiver
+      descriptor: com.android.frameworks.coretests.aidl.ICmdReceiver
+      methods:
+        - name: doSomeWork
+          transaction_code_offset: 0
+          params:
+            - name: durationMs
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: showApplicationOverlay
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: finishHost
+          transaction_code_offset: 2
+          return_type:
+            name: void
+    - name: ITestRemoteCallback
+      descriptor: com.android.frameworks.coretests.aidl.ITestRemoteCallback
+    - name: ITestServiceConnectorService
+      descriptor: com.android.frameworks.coretests.aidl.ITestServiceConnectorService
+      methods:
+        - name: crashProcess
+          transaction_code_offset: 0
+          return_type:
+            name: void

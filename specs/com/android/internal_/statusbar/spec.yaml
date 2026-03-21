@@ -1,0 +1,1681 @@
+package: com.android.internal.statusbar
+go_package: com/android/internal_/statusbar
+interfaces:
+    - name: IAddTileResultCallback
+      descriptor: com.android.internal.statusbar.IAddTileResultCallback
+      oneway: true
+      methods:
+        - name: onTileRequest
+          transaction_code_offset: 0
+          params:
+            - name: userResponse
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IAppClipsService
+      descriptor: com.android.internal.statusbar.IAppClipsService
+      methods:
+        - name: canLaunchCaptureContentActivityForNote
+          transaction_code_offset: 0
+          params:
+            - name: taskId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: canLaunchCaptureContentActivityForNoteInternal
+          transaction_code_offset: 1
+          params:
+            - name: taskId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: int
+    - name: ISessionListener
+      descriptor: com.android.internal.statusbar.ISessionListener
+      oneway: true
+      methods:
+        - name: onSessionStarted
+          transaction_code_offset: 0
+          params:
+            - name: sessionType
+              type:
+                name: int
+            - name: instance
+              type:
+                name: InstanceId
+              direction: in
+          return_type:
+            name: void
+        - name: onSessionEnded
+          transaction_code_offset: 1
+          params:
+            - name: sessionType
+              type:
+                name: int
+            - name: instance
+              type:
+                name: InstanceId
+              direction: in
+          return_type:
+            name: void
+    - name: IStatusBar
+      descriptor: com.android.internal.statusbar.IStatusBar
+      oneway: true
+      methods:
+        - name: setIcon
+          transaction_code_offset: 0
+          params:
+            - name: slot
+              type:
+                name: String
+            - name: icon
+              type:
+                name: StatusBarIcon
+              direction: in
+          return_type:
+            name: void
+        - name: removeIcon
+          transaction_code_offset: 1
+          params:
+            - name: slot
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: disable
+          transaction_code_offset: 2
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: state1
+              type:
+                name: int
+            - name: state2
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: animateExpandNotificationsPanel
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: animateExpandSettingsPanel
+          transaction_code_offset: 4
+          params:
+            - name: subPanel
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: animateCollapsePanels
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: togglePanel
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: showWirelessChargingAnimation
+          transaction_code_offset: 7
+          params:
+            - name: batteryLevel
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setImeWindowStatus
+          transaction_code_offset: 8
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: vis
+              type:
+                name: int
+            - name: backDisposition
+              type:
+                name: int
+            - name: showImeSwitcher
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setWindowState
+          transaction_code_offset: 9
+          params:
+            - name: display
+              type:
+                name: int
+            - name: window
+              type:
+                name: int
+            - name: state
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: showRecentApps
+          transaction_code_offset: 10
+          params:
+            - name: triggeredFromAltTab
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: hideRecentApps
+          transaction_code_offset: 11
+          params:
+            - name: triggeredFromAltTab
+              type:
+                name: boolean
+            - name: triggeredFromHomeKey
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: toggleRecentApps
+          transaction_code_offset: 12
+          return_type:
+            name: void
+        - name: toggleTaskbar
+          transaction_code_offset: 13
+          return_type:
+            name: void
+        - name: toggleSplitScreen
+          transaction_code_offset: 14
+          return_type:
+            name: void
+        - name: preloadRecentApps
+          transaction_code_offset: 15
+          return_type:
+            name: void
+        - name: cancelPreloadRecentApps
+          transaction_code_offset: 16
+          return_type:
+            name: void
+        - name: showScreenPinningRequest
+          transaction_code_offset: 17
+          params:
+            - name: taskId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: confirmImmersivePrompt
+          transaction_code_offset: 18
+          return_type:
+            name: void
+        - name: immersiveModeChanged
+          transaction_code_offset: 19
+          params:
+            - name: rootDisplayAreaId
+              type:
+                name: int
+            - name: isImmersiveMode
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: dismissKeyboardShortcutsMenu
+          transaction_code_offset: 20
+          return_type:
+            name: void
+        - name: toggleKeyboardShortcutsMenu
+          transaction_code_offset: 21
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: appTransitionPending
+          transaction_code_offset: 22
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: appTransitionCancelled
+          transaction_code_offset: 23
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: appTransitionStarting
+          transaction_code_offset: 24
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: statusBarAnimationsStartTime
+              type:
+                name: long
+            - name: statusBarAnimationsDuration
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: appTransitionFinished
+          transaction_code_offset: 25
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: showAssistDisclosure
+          transaction_code_offset: 26
+          return_type:
+            name: void
+        - name: startAssist
+          transaction_code_offset: 27
+          params:
+            - name: args
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onCameraLaunchGestureDetected
+          transaction_code_offset: 28
+          params:
+            - name: source
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onEmergencyActionLaunchGestureDetected
+          transaction_code_offset: 29
+          return_type:
+            name: void
+        - name: showPictureInPictureMenu
+          transaction_code_offset: 30
+          return_type:
+            name: void
+        - name: showGlobalActionsMenu
+          transaction_code_offset: 31
+          return_type:
+            name: void
+        - name: onProposedRotationChanged
+          transaction_code_offset: 32
+          params:
+            - name: rotation
+              type:
+                name: int
+            - name: isValid
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setTopAppHidesStatusBar
+          transaction_code_offset: 33
+          params:
+            - name: hidesStatusBar
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: addQsTile
+          transaction_code_offset: 34
+          params:
+            - name: tile
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: addQsTileToFrontOrEnd
+          transaction_code_offset: 35
+          params:
+            - name: tile
+              type:
+                name: ComponentName
+              direction: in
+            - name: end
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: remQsTile
+          transaction_code_offset: 36
+          params:
+            - name: tile
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: setQsTiles
+          transaction_code_offset: 37
+          params:
+            - name: tiles
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: clickQsTile
+          transaction_code_offset: 38
+          params:
+            - name: tile
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: handleSystemKey
+          transaction_code_offset: 39
+          params:
+            - name: key
+              type:
+                name: KeyEvent
+              direction: in
+          return_type:
+            name: void
+        - name: showPinningEnterExitToast
+          transaction_code_offset: 40
+          params:
+            - name: entering
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: showPinningEscapeToast
+          transaction_code_offset: 41
+          return_type:
+            name: void
+        - name: showShutdownUi
+          transaction_code_offset: 42
+          params:
+            - name: isReboot
+              type:
+                name: boolean
+            - name: reason
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: showAuthenticationDialog
+          transaction_code_offset: 43
+          params:
+            - name: promptInfo
+              type:
+                name: PromptInfo
+              direction: in
+            - name: sysuiReceiver
+              type:
+                name: IBiometricSysuiReceiver
+            - name: sensorIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: credentialAllowed
+              type:
+                name: boolean
+            - name: requireConfirmation
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+            - name: operationId
+              type:
+                name: long
+            - name: opPackageName
+              type:
+                name: String
+            - name: requestId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onBiometricAuthenticated
+          transaction_code_offset: 44
+          params:
+            - name: modality
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onBiometricHelp
+          transaction_code_offset: 45
+          params:
+            - name: modality
+              type:
+                name: int
+            - name: message
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onBiometricError
+          transaction_code_offset: 46
+          params:
+            - name: modality
+              type:
+                name: int
+            - name: error
+              type:
+                name: int
+            - name: vendorCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: hideAuthenticationDialog
+          transaction_code_offset: 47
+          params:
+            - name: requestId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: setBiometicContextListener
+          transaction_code_offset: 48
+          params:
+            - name: listener
+              type:
+                name: IBiometricContextListener
+              direction: in
+          return_type:
+            name: void
+        - name: setUdfpsRefreshRateCallback
+          transaction_code_offset: 49
+          params:
+            - name: callback
+              type:
+                name: IUdfpsRefreshRateRequestCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onDisplayReady
+          transaction_code_offset: 50
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRecentsAnimationStateChanged
+          transaction_code_offset: 51
+          params:
+            - name: running
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onSystemBarAttributesChanged
+          transaction_code_offset: 52
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: appearance
+              type:
+                name: int
+            - name: appearanceRegions
+              type:
+                name: AppearanceRegion
+                is_array: true
+              direction: in
+            - name: navbarColorManagedByIme
+              type:
+                name: boolean
+            - name: behavior
+              type:
+                name: int
+            - name: requestedVisibleTypes
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: letterboxDetails
+              type:
+                name: LetterboxDetails
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: showTransient
+          transaction_code_offset: 53
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: types
+              type:
+                name: int
+            - name: isGestureOnSystemBar
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: abortTransient
+          transaction_code_offset: 54
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: types
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: showInattentiveSleepWarning
+          transaction_code_offset: 55
+          return_type:
+            name: void
+        - name: dismissInattentiveSleepWarning
+          transaction_code_offset: 56
+          params:
+            - name: animated
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: showToast
+          transaction_code_offset: 57
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: token
+              type:
+                name: IBinder
+            - name: text
+              type:
+                name: CharSequence
+            - name: windowToken
+              type:
+                name: IBinder
+            - name: duration
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ITransientNotificationCallback
+              annotations:
+                - nullable
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: hideToast
+          transaction_code_offset: 58
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: startTracing
+          transaction_code_offset: 59
+          return_type:
+            name: void
+        - name: stopTracing
+          transaction_code_offset: 60
+          return_type:
+            name: void
+        - name: suppressAmbientDisplay
+          transaction_code_offset: 61
+          params:
+            - name: suppress
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: requestMagnificationConnection
+          transaction_code_offset: 62
+          params:
+            - name: connect
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: passThroughShellCommand
+          transaction_code_offset: 63
+          params:
+            - name: args
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: pfd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+        - name: setNavigationBarLumaSamplingEnabled
+          transaction_code_offset: 64
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: runGcForTest
+          transaction_code_offset: 65
+          return_type:
+            name: void
+        - name: requestTileServiceListeningState
+          transaction_code_offset: 66
+          params:
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: requestAddTile
+          transaction_code_offset: 67
+          params:
+            - name: callingUid
+              type:
+                name: int
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: appName
+              type:
+                name: CharSequence
+              direction: in
+            - name: label
+              type:
+                name: CharSequence
+              direction: in
+            - name: icon
+              type:
+                name: Icon
+              direction: in
+            - name: callback
+              type:
+                name: IAddTileResultCallback
+              direction: in
+          return_type:
+            name: void
+        - name: cancelRequestAddTile
+          transaction_code_offset: 68
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: updateMediaTapToTransferSenderDisplay
+          transaction_code_offset: 69
+          params:
+            - name: displayState
+              type:
+                name: int
+            - name: routeInfo
+              type:
+                name: MediaRoute2Info
+              direction: in
+            - name: undoCallback
+              type:
+                name: IUndoMediaTransferCallback
+              direction: in
+          return_type:
+            name: void
+        - name: updateMediaTapToTransferReceiverDisplay
+          transaction_code_offset: 70
+          params:
+            - name: displayState
+              type:
+                name: int
+            - name: routeInfo
+              type:
+                name: MediaRoute2Info
+              direction: in
+            - name: appIcon
+              type:
+                name: Icon
+              direction: in
+            - name: appName
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+        - name: registerNearbyMediaDevicesProvider
+          transaction_code_offset: 71
+          params:
+            - name: provider
+              type:
+                name: INearbyMediaDevicesProvider
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterNearbyMediaDevicesProvider
+          transaction_code_offset: 72
+          params:
+            - name: provider
+              type:
+                name: INearbyMediaDevicesProvider
+              direction: in
+          return_type:
+            name: void
+        - name: dumpProto
+          transaction_code_offset: 73
+          params:
+            - name: args
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: pfd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+        - name: showRearDisplayDialog
+          transaction_code_offset: 74
+          params:
+            - name: currentBaseState
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: moveFocusedTaskToFullscreen
+          transaction_code_offset: 75
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: enterStageSplitFromRunningApp
+          transaction_code_offset: 76
+          params:
+            - name: leftOrTop
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: showMediaOutputSwitcher
+          transaction_code_offset: 77
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: enterDesktop
+          transaction_code_offset: 78
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IStatusBarService
+      descriptor: com.android.internal.statusbar.IStatusBarService
+      methods:
+        - name: expandNotificationsPanel
+          transaction_code_offset: 0
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: collapsePanels
+          transaction_code_offset: 1
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: togglePanel
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: disable
+          transaction_code_offset: 3
+          params:
+            - name: what
+              type:
+                name: int
+            - name: token
+              type:
+                name: IBinder
+            - name: pkg
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: disableForUser
+          transaction_code_offset: 4
+          params:
+            - name: what
+              type:
+                name: int
+            - name: token
+              type:
+                name: IBinder
+            - name: pkg
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: disable2
+          transaction_code_offset: 5
+          params:
+            - name: what
+              type:
+                name: int
+            - name: token
+              type:
+                name: IBinder
+            - name: pkg
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: disable2ForUser
+          transaction_code_offset: 6
+          params:
+            - name: what
+              type:
+                name: int
+            - name: token
+              type:
+                name: IBinder
+            - name: pkg
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getDisableFlags
+          transaction_code_offset: 7
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+            is_array: true
+        - name: setIcon
+          transaction_code_offset: 8
+          params:
+            - name: slot
+              type:
+                name: String
+            - name: iconPackage
+              type:
+                name: String
+            - name: iconId
+              type:
+                name: int
+            - name: iconLevel
+              type:
+                name: int
+            - name: contentDescription
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setIconVisibility
+          transaction_code_offset: 9
+          params:
+            - name: slot
+              type:
+                name: String
+            - name: visible
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: removeIcon
+          transaction_code_offset: 10
+          params:
+            - name: slot
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setImeWindowStatus
+          transaction_code_offset: 11
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: vis
+              type:
+                name: int
+            - name: backDisposition
+              type:
+                name: int
+            - name: showImeSwitcher
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: expandSettingsPanel
+          transaction_code_offset: 12
+          params:
+            - name: subPanel
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: registerStatusBar
+          transaction_code_offset: 13
+          params:
+            - name: callbacks
+              type:
+                name: IStatusBar
+          return_type:
+            name: RegisterStatusBarResult
+        - name: onPanelRevealed
+          transaction_code_offset: 14
+          params:
+            - name: clearNotificationEffects
+              type:
+                name: boolean
+            - name: numItems
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onPanelHidden
+          transaction_code_offset: 15
+          return_type:
+            name: void
+        - name: clearNotificationEffects
+          transaction_code_offset: 16
+          oneway: true
+          return_type:
+            name: void
+        - name: onNotificationClick
+          transaction_code_offset: 17
+          params:
+            - name: key
+              type:
+                name: String
+            - name: nv
+              type:
+                name: NotificationVisibility
+              direction: in
+          return_type:
+            name: void
+        - name: onNotificationActionClick
+          transaction_code_offset: 18
+          params:
+            - name: key
+              type:
+                name: String
+            - name: actionIndex
+              type:
+                name: int
+            - name: action
+              type:
+                name: Notification.Action
+              direction: in
+            - name: nv
+              type:
+                name: NotificationVisibility
+              direction: in
+            - name: generatedByAssistant
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onNotificationError
+          transaction_code_offset: 19
+          params:
+            - name: pkg
+              type:
+                name: String
+            - name: tag
+              type:
+                name: String
+            - name: id
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: initialPid
+              type:
+                name: int
+            - name: message
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onClearAllNotifications
+          transaction_code_offset: 20
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onNotificationClear
+          transaction_code_offset: 21
+          params:
+            - name: pkg
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: key
+              type:
+                name: String
+            - name: dismissalSurface
+              type:
+                name: int
+            - name: dismissalSentiment
+              type:
+                name: int
+            - name: nv
+              type:
+                name: NotificationVisibility
+              direction: in
+          return_type:
+            name: void
+        - name: onNotificationVisibilityChanged
+          transaction_code_offset: 22
+          params:
+            - name: newlyVisibleKeys
+              type:
+                name: NotificationVisibility
+                is_array: true
+              direction: in
+            - name: noLongerVisibleKeys
+              type:
+                name: NotificationVisibility
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onNotificationExpansionChanged
+          transaction_code_offset: 23
+          params:
+            - name: key
+              type:
+                name: String
+              direction: in
+            - name: userAction
+              type:
+                name: boolean
+              direction: in
+            - name: expanded
+              type:
+                name: boolean
+              direction: in
+            - name: notificationLocation
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onNotificationDirectReplied
+          transaction_code_offset: 24
+          params:
+            - name: key
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onNotificationSmartSuggestionsAdded
+          transaction_code_offset: 25
+          params:
+            - name: key
+              type:
+                name: String
+            - name: smartReplyCount
+              type:
+                name: int
+            - name: smartActionCount
+              type:
+                name: int
+            - name: generatedByAsssistant
+              type:
+                name: boolean
+            - name: editBeforeSending
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onNotificationSmartReplySent
+          transaction_code_offset: 26
+          params:
+            - name: key
+              type:
+                name: String
+              direction: in
+            - name: replyIndex
+              type:
+                name: int
+              direction: in
+            - name: reply
+              type:
+                name: CharSequence
+              direction: in
+            - name: notificationLocation
+              type:
+                name: int
+              direction: in
+            - name: modifiedBeforeSending
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onNotificationSettingsViewed
+          transaction_code_offset: 27
+          params:
+            - name: key
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onNotificationBubbleChanged
+          transaction_code_offset: 28
+          params:
+            - name: key
+              type:
+                name: String
+            - name: isBubble
+              type:
+                name: boolean
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onBubbleMetadataFlagChanged
+          transaction_code_offset: 29
+          params:
+            - name: key
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: hideCurrentInputMethodForBubbles
+          transaction_code_offset: 30
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: grantInlineReplyUriPermission
+          transaction_code_offset: 31
+          params:
+            - name: key
+              type:
+                name: String
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: clearInlineReplyUriPermissions
+          transaction_code_offset: 32
+          oneway: true
+          params:
+            - name: key
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onNotificationFeedbackReceived
+          transaction_code_offset: 33
+          params:
+            - name: key
+              type:
+                name: String
+            - name: feedback
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onGlobalActionsShown
+          transaction_code_offset: 34
+          return_type:
+            name: void
+        - name: onGlobalActionsHidden
+          transaction_code_offset: 35
+          return_type:
+            name: void
+        - name: shutdown
+          transaction_code_offset: 36
+          return_type:
+            name: void
+        - name: reboot
+          transaction_code_offset: 37
+          params:
+            - name: safeMode
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: restart
+          transaction_code_offset: 38
+          return_type:
+            name: void
+        - name: addTile
+          transaction_code_offset: 39
+          params:
+            - name: tile
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: remTile
+          transaction_code_offset: 40
+          params:
+            - name: tile
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: clickTile
+          transaction_code_offset: 41
+          params:
+            - name: tile
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: handleSystemKey
+          transaction_code_offset: 42
+          params:
+            - name: key
+              type:
+                name: KeyEvent
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: getLastSystemKey
+          transaction_code_offset: 43
+          return_type:
+            name: int
+        - name: showPinningEnterExitToast
+          transaction_code_offset: 44
+          params:
+            - name: entering
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: showPinningEscapeToast
+          transaction_code_offset: 45
+          return_type:
+            name: void
+        - name: showAuthenticationDialog
+          transaction_code_offset: 46
+          params:
+            - name: promptInfo
+              type:
+                name: PromptInfo
+              direction: in
+            - name: sysuiReceiver
+              type:
+                name: IBiometricSysuiReceiver
+            - name: sensorIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: credentialAllowed
+              type:
+                name: boolean
+            - name: requireConfirmation
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+            - name: operationId
+              type:
+                name: long
+            - name: opPackageName
+              type:
+                name: String
+            - name: requestId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onBiometricAuthenticated
+          transaction_code_offset: 47
+          params:
+            - name: modality
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onBiometricHelp
+          transaction_code_offset: 48
+          params:
+            - name: modality
+              type:
+                name: int
+            - name: message
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onBiometricError
+          transaction_code_offset: 49
+          params:
+            - name: modality
+              type:
+                name: int
+            - name: error
+              type:
+                name: int
+            - name: vendorCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: hideAuthenticationDialog
+          transaction_code_offset: 50
+          params:
+            - name: requestId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: setBiometicContextListener
+          transaction_code_offset: 51
+          params:
+            - name: listener
+              type:
+                name: IBiometricContextListener
+              direction: in
+          return_type:
+            name: void
+        - name: setUdfpsRefreshRateCallback
+          transaction_code_offset: 52
+          params:
+            - name: callback
+              type:
+                name: IUdfpsRefreshRateRequestCallback
+              direction: in
+          return_type:
+            name: void
+        - name: showInattentiveSleepWarning
+          transaction_code_offset: 53
+          return_type:
+            name: void
+        - name: dismissInattentiveSleepWarning
+          transaction_code_offset: 54
+          params:
+            - name: animated
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: startTracing
+          transaction_code_offset: 55
+          return_type:
+            name: void
+        - name: stopTracing
+          transaction_code_offset: 56
+          return_type:
+            name: void
+        - name: isTracing
+          transaction_code_offset: 57
+          return_type:
+            name: boolean
+        - name: suppressAmbientDisplay
+          transaction_code_offset: 58
+          params:
+            - name: suppress
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: requestTileServiceListeningState
+          transaction_code_offset: 59
+          params:
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: requestAddTile
+          transaction_code_offset: 60
+          params:
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: label
+              type:
+                name: CharSequence
+              direction: in
+            - name: icon
+              type:
+                name: Icon
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IAddTileResultCallback
+              direction: in
+          return_type:
+            name: void
+        - name: cancelRequestAddTile
+          transaction_code_offset: 61
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setNavBarMode
+          transaction_code_offset: 62
+          params:
+            - name: navBarMode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getNavBarMode
+          transaction_code_offset: 63
+          return_type:
+            name: int
+        - name: registerSessionListener
+          transaction_code_offset: 64
+          params:
+            - name: sessionFlags
+              type:
+                name: int
+            - name: listener
+              type:
+                name: ISessionListener
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterSessionListener
+          transaction_code_offset: 65
+          params:
+            - name: sessionFlags
+              type:
+                name: int
+            - name: listener
+              type:
+                name: ISessionListener
+              direction: in
+          return_type:
+            name: void
+        - name: onSessionStarted
+          transaction_code_offset: 66
+          params:
+            - name: sessionType
+              type:
+                name: int
+            - name: instanceId
+              type:
+                name: InstanceId
+              direction: in
+          return_type:
+            name: void
+        - name: onSessionEnded
+          transaction_code_offset: 67
+          params:
+            - name: sessionType
+              type:
+                name: int
+            - name: instanceId
+              type:
+                name: InstanceId
+              direction: in
+          return_type:
+            name: void
+        - name: updateMediaTapToTransferSenderDisplay
+          transaction_code_offset: 68
+          params:
+            - name: displayState
+              type:
+                name: int
+            - name: routeInfo
+              type:
+                name: MediaRoute2Info
+              direction: in
+            - name: undoCallback
+              type:
+                name: IUndoMediaTransferCallback
+              direction: in
+          return_type:
+            name: void
+        - name: updateMediaTapToTransferReceiverDisplay
+          transaction_code_offset: 69
+          params:
+            - name: displayState
+              type:
+                name: int
+            - name: routeInfo
+              type:
+                name: MediaRoute2Info
+              direction: in
+            - name: appIcon
+              type:
+                name: Icon
+              direction: in
+            - name: appName
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+        - name: registerNearbyMediaDevicesProvider
+          transaction_code_offset: 70
+          params:
+            - name: provider
+              type:
+                name: INearbyMediaDevicesProvider
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterNearbyMediaDevicesProvider
+          transaction_code_offset: 71
+          params:
+            - name: provider
+              type:
+                name: INearbyMediaDevicesProvider
+              direction: in
+          return_type:
+            name: void
+        - name: showRearDisplayDialog
+          transaction_code_offset: 72
+          params:
+            - name: currentBaseState
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IUndoMediaTransferCallback
+      descriptor: com.android.internal.statusbar.IUndoMediaTransferCallback
+      methods:
+        - name: onUndoTriggered
+          transaction_code_offset: 0
+          oneway: true
+          return_type:
+            name: void
+parcelables:
+    - name: LetterboxDetails
+    - name: NotificationVisibility
+    - name: RegisterStatusBarResult
+    - name: StatusBarIcon
+    - name: StatusBarIconList
+    - name: StatusBarNotificationList

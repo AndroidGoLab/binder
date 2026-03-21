@@ -45,6 +45,7 @@ func (p *ActivityRecognitionHardwareSinkProxy) OnActivityChanged(
 	event ActivityChangedEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardwareSink)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -72,7 +73,8 @@ func (p *ActivityRecognitionHardwareSinkProxy) OnActivityChanged(
 // ActivityRecognitionHardwareSinkStub dispatches incoming binder transactions
 // to a typed IActivityRecognitionHardwareSink implementation.
 type ActivityRecognitionHardwareSinkStub struct {
-	Impl IActivityRecognitionHardwareSink
+	Impl      IActivityRecognitionHardwareSink
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ActivityRecognitionHardwareSinkStub)(nil)
@@ -86,11 +88,12 @@ func (s *ActivityRecognitionHardwareSinkStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIActivityRecognitionHardwareSinkOnActivityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event ActivityChangedEvent
 		{
 			_nullInd, _err := _data.ReadInt32()

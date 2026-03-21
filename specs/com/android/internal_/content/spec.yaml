@@ -1,0 +1,4 @@
+package: com.android.internal.content
+go_package: com/android/internal_/content
+parcelables:
+    - name: ReferrerIntent

@@ -45,6 +45,7 @@ func (p *UnfoldAnimationProxy) SetListener(
 	listener IUnfoldTransitionListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUnfoldAnimation)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -60,7 +61,8 @@ func (p *UnfoldAnimationProxy) SetListener(
 // UnfoldAnimationStub dispatches incoming binder transactions
 // to a typed IUnfoldAnimation implementation.
 type UnfoldAnimationStub struct {
-	Impl IUnfoldAnimation
+	Impl      IUnfoldAnimation
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UnfoldAnimationStub)(nil)
@@ -74,17 +76,22 @@ func (s *UnfoldAnimationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUnfoldAnimationSetListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IUnfoldTransitionListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewUnfoldTransitionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.SetListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

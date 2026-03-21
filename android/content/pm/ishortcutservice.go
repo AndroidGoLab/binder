@@ -76,7 +76,7 @@ type IShortcutService interface {
 	UpdateShortcuts(ctx context.Context, packageName string, shortcuts ParceledListSlice) (bool, error)
 	RequestPinShortcut(ctx context.Context, packageName string, shortcut ShortcutInfo, resultIntent content.IntentSender, ret infra.AndroidFuture) error
 	CreateShortcutResultIntent(ctx context.Context, packageName string, shortcut ShortcutInfo, ret infra.AndroidFuture) error
-	DisableShortcuts(ctx context.Context, packageName string, shortcutIds []string, disabledMessage interface{}, disabledMessageResId int32) error
+	DisableShortcuts(ctx context.Context, packageName string, shortcutIds []string, disabledMessage string, disabledMessageResId int32) error
 	EnableShortcuts(ctx context.Context, packageName string, shortcutIds []string) error
 	GetMaxShortcutCountPerActivity(ctx context.Context, packageName string) (int32, error)
 	GetRemainingCallCount(ctx context.Context, packageName string) (int32, error)
@@ -119,6 +119,7 @@ func (p *ShortcutServiceProxy) SetDynamicShortcuts(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -157,6 +158,7 @@ func (p *ShortcutServiceProxy) AddDynamicShortcuts(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -194,6 +196,7 @@ func (p *ShortcutServiceProxy) RemoveDynamicShortcuts(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	if shortcutIds == nil {
@@ -230,6 +233,7 @@ func (p *ShortcutServiceProxy) RemoveAllDynamicShortcuts(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -260,6 +264,7 @@ func (p *ShortcutServiceProxy) UpdateShortcuts(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -299,6 +304,7 @@ func (p *ShortcutServiceProxy) RequestPinShortcut(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -341,6 +347,7 @@ func (p *ShortcutServiceProxy) CreateShortcutResultIntent(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -375,11 +382,12 @@ func (p *ShortcutServiceProxy) DisableShortcuts(
 	ctx context.Context,
 	packageName string,
 	shortcutIds []string,
-	disabledMessage interface{},
+	disabledMessage string,
 	disabledMessageResId int32,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	if shortcutIds == nil {
@@ -390,6 +398,7 @@ func (p *ShortcutServiceProxy) DisableShortcuts(
 			_data.WriteString16(_item)
 		}
 	}
+	_data.WriteString16(disabledMessage)
 	_data.WriteInt32(disabledMessageResId)
 	_data.WriteInt32(_identity.UserID)
 
@@ -418,6 +427,7 @@ func (p *ShortcutServiceProxy) EnableShortcuts(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	if shortcutIds == nil {
@@ -455,6 +465,7 @@ func (p *ShortcutServiceProxy) GetMaxShortcutCountPerActivity(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -488,6 +499,7 @@ func (p *ShortcutServiceProxy) GetRemainingCallCount(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -521,6 +533,7 @@ func (p *ShortcutServiceProxy) GetRateLimitResetTime(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -554,6 +567,7 @@ func (p *ShortcutServiceProxy) GetIconMaxDimensions(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -587,6 +601,7 @@ func (p *ShortcutServiceProxy) ReportShortcutUsed(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	_data.WriteString16(shortcutId)
@@ -614,6 +629,7 @@ func (p *ShortcutServiceProxy) ResetThrottling(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceResetThrottling)
@@ -640,6 +656,7 @@ func (p *ShortcutServiceProxy) OnApplicationActive(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -659,6 +676,7 @@ func (p *ShortcutServiceProxy) GetBackupPayload(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteInt32(user)
 
@@ -677,19 +695,9 @@ func (p *ShortcutServiceProxy) GetBackupPayload(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -700,15 +708,9 @@ func (p *ShortcutServiceProxy) ApplyRestore(
 	user int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
-	if payload == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(payload)))
-		for _, _item := range payload {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(payload)
 	_data.WriteInt32(user)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceApplyRestore)
@@ -736,6 +738,7 @@ func (p *ShortcutServiceProxy) IsRequestPinItemSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteInt32(user)
 	_data.WriteInt32(requestType)
@@ -770,6 +773,7 @@ func (p *ShortcutServiceProxy) GetShareTargets(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -813,6 +817,7 @@ func (p *ShortcutServiceProxy) HasShareTargets(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	_data.WriteString16(packageToCheck)
@@ -847,6 +852,7 @@ func (p *ShortcutServiceProxy) RemoveLongLivedShortcuts(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	if shortcutIds == nil {
@@ -885,6 +891,7 @@ func (p *ShortcutServiceProxy) GetShortcuts(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(matchFlags)
@@ -924,6 +931,7 @@ func (p *ShortcutServiceProxy) PushDynamicShortcut(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -953,7 +961,8 @@ func (p *ShortcutServiceProxy) PushDynamicShortcut(
 // ShortcutServiceStub dispatches incoming binder transactions
 // to a typed IShortcutService implementation.
 type ShortcutServiceStub struct {
-	Impl IShortcutService
+	Impl      IShortcutService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ShortcutServiceStub)(nil)
@@ -967,11 +976,12 @@ func (s *ShortcutServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIShortcutServiceSetDynamicShortcuts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1001,9 +1011,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIShortcutServiceAddDynamicShortcuts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1033,16 +1040,29 @@ func (s *ShortcutServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIShortcutServiceRemoveDynamicShortcuts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_shortcutIds []string
-		_ = _arg_shortcutIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_shortcutIds = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_shortcutIds[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1055,9 +1075,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIShortcutServiceRemoveAllDynamicShortcuts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1074,9 +1091,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIShortcutServiceUpdateShortcuts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1106,9 +1120,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIShortcutServiceRequestPinShortcut:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1161,9 +1172,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIShortcutServiceCreateShortcutResultIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1204,17 +1212,33 @@ func (s *ShortcutServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIShortcutServiceDisableShortcuts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_shortcutIds []string
-		_ = _arg_shortcutIds
-		var _arg_disabledMessage interface{}
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_shortcutIds = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_shortcutIds[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		_arg_disabledMessage, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		_arg_disabledMessageResId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1231,16 +1255,29 @@ func (s *ShortcutServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIShortcutServiceEnableShortcuts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_shortcutIds []string
-		_ = _arg_shortcutIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_shortcutIds = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_shortcutIds[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1253,9 +1290,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIShortcutServiceGetMaxShortcutCountPerActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1273,9 +1307,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIShortcutServiceGetRemainingCallCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1293,9 +1324,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIShortcutServiceGetRateLimitResetTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1313,9 +1341,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIShortcutServiceGetIconMaxDimensions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1333,9 +1358,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIShortcutServiceReportShortcutUsed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1356,9 +1378,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIShortcutServiceResetThrottling:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResetThrottling(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1368,9 +1387,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIShortcutServiceOnApplicationActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1379,12 +1395,8 @@ func (s *ShortcutServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnApplicationActive(ctx, _arg_packageName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIShortcutServiceGetBackupPayload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_user, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1396,16 +1408,17 @@ func (s *ShortcutServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIShortcutServiceApplyRestore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_payload []byte
-		_ = _arg_payload
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_payload = _bytes
+		}
 		_arg_user, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1419,9 +1432,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIShortcutServiceIsRequestPinItemSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_user, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1440,9 +1450,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIShortcutServiceGetShareTargets:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1475,9 +1482,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIShortcutServiceHasShareTargets:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1499,16 +1503,29 @@ func (s *ShortcutServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIShortcutServiceRemoveLongLivedShortcuts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_shortcutIds []string
-		_ = _arg_shortcutIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_shortcutIds = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_shortcutIds[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1521,9 +1538,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIShortcutServiceGetShortcuts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1548,9 +1562,6 @@ func (s *ShortcutServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIShortcutServicePushDynamicShortcut:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1594,7 +1605,7 @@ type IShortcutServiceServer interface {
 	UpdateShortcuts(ctx context.Context, packageName string, shortcuts ParceledListSlice) (bool, error)
 	RequestPinShortcut(ctx context.Context, packageName string, shortcut ShortcutInfo, resultIntent content.IntentSender, ret infra.AndroidFuture) error
 	CreateShortcutResultIntent(ctx context.Context, packageName string, shortcut ShortcutInfo, ret infra.AndroidFuture) error
-	DisableShortcuts(ctx context.Context, packageName string, shortcutIds []string, disabledMessage interface{}, disabledMessageResId int32) error
+	DisableShortcuts(ctx context.Context, packageName string, shortcutIds []string, disabledMessage string, disabledMessageResId int32) error
 	EnableShortcuts(ctx context.Context, packageName string, shortcutIds []string) error
 	GetMaxShortcutCountPerActivity(ctx context.Context, packageName string) (int32, error)
 	GetRemainingCallCount(ctx context.Context, packageName string) (int32, error)
@@ -1684,7 +1695,7 @@ func (w *shortcutServiceStubWrapper) DisableShortcuts(
 	ctx context.Context,
 	packageName string,
 	shortcutIds []string,
-	disabledMessage interface{},
+	disabledMessage string,
 	disabledMessageResId int32,
 ) error {
 	return w.impl.DisableShortcuts(ctx, packageName, shortcutIds, disabledMessage, disabledMessageResId)

@@ -92,6 +92,7 @@ func (p *GameManagerServiceProxy) GetGameMode(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -125,6 +126,7 @@ func (p *GameManagerServiceProxy) SetGameMode(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(gameMode)
@@ -155,6 +157,7 @@ func (p *GameManagerServiceProxy) GetAvailableGameModes(
 	var _result []int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -178,6 +181,9 @@ func (p *GameManagerServiceProxy) GetAvailableGameModes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -198,6 +204,7 @@ func (p *GameManagerServiceProxy) IsAngleEnabled(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -230,6 +237,7 @@ func (p *GameManagerServiceProxy) NotifyGraphicsEnvironmentSetup(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -259,6 +267,7 @@ func (p *GameManagerServiceProxy) SetGameState(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -292,6 +301,7 @@ func (p *GameManagerServiceProxy) GetGameModeInfo(
 	var _result GameModeInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -328,6 +338,7 @@ func (p *GameManagerServiceProxy) SetGameServiceProvider(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	_data.WriteString16(packageName)
 
@@ -357,6 +368,7 @@ func (p *GameManagerServiceProxy) UpdateResolutionScalingFactor(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(gameMode)
@@ -389,6 +401,7 @@ func (p *GameManagerServiceProxy) GetResolutionScalingFactor(
 	var _result float32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(gameMode)
@@ -423,6 +436,7 @@ func (p *GameManagerServiceProxy) UpdateCustomGameModeConfiguration(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -454,6 +468,7 @@ func (p *GameManagerServiceProxy) AddGameModeListener(
 	gameModeListener IGameModeListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	binder.WriteBinderToParcel(ctx, _data, gameModeListener.AsBinder(), p.Remote.Transport())
 
@@ -480,6 +495,7 @@ func (p *GameManagerServiceProxy) RemoveGameModeListener(
 	gameModeListener IGameModeListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	binder.WriteBinderToParcel(ctx, _data, gameModeListener.AsBinder(), p.Remote.Transport())
 
@@ -506,6 +522,7 @@ func (p *GameManagerServiceProxy) AddGameStateListener(
 	gameStateListener IGameStateListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	binder.WriteBinderToParcel(ctx, _data, gameStateListener.AsBinder(), p.Remote.Transport())
 
@@ -532,6 +549,7 @@ func (p *GameManagerServiceProxy) RemoveGameStateListener(
 	gameStateListener IGameStateListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	binder.WriteBinderToParcel(ctx, _data, gameStateListener.AsBinder(), p.Remote.Transport())
 
@@ -558,6 +576,7 @@ func (p *GameManagerServiceProxy) ToggleGameDefaultFrameRate(
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	_data.WriteBool(isEnabled)
 
@@ -582,7 +601,8 @@ func (p *GameManagerServiceProxy) ToggleGameDefaultFrameRate(
 // GameManagerServiceStub dispatches incoming binder transactions
 // to a typed IGameManagerService implementation.
 type GameManagerServiceStub struct {
-	Impl IGameManagerService
+	Impl      IGameManagerService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GameManagerServiceStub)(nil)
@@ -596,11 +616,12 @@ func (s *GameManagerServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGameManagerServiceGetGameMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -618,9 +639,6 @@ func (s *GameManagerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIGameManagerServiceSetGameMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -641,9 +659,6 @@ func (s *GameManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGameManagerServiceGetAvailableGameModes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -658,13 +673,16 @@ func (s *GameManagerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIGameManagerServiceIsAngleEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -682,9 +700,6 @@ func (s *GameManagerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIGameManagerServiceNotifyGraphicsEnvironmentSetup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -701,9 +716,6 @@ func (s *GameManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGameManagerServiceSetGameState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -732,9 +744,6 @@ func (s *GameManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGameManagerServiceGetGameModeInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -755,9 +764,6 @@ func (s *GameManagerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIGameManagerServiceSetGameServiceProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -771,9 +777,6 @@ func (s *GameManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGameManagerServiceUpdateResolutionScalingFactor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -798,9 +801,6 @@ func (s *GameManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGameManagerServiceGetResolutionScalingFactor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -822,9 +822,6 @@ func (s *GameManagerServiceStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIGameManagerServiceUpdateCustomGameModeConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -853,12 +850,14 @@ func (s *GameManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGameManagerServiceAddGameModeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_gameModeListener IGameModeListener
-		_ = _arg_gameModeListener
+		{
+			_gameModeListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_gameModeListener = NewGameModeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _gameModeListenerHandle))
+		}
 		_err := s.Impl.AddGameModeListener(ctx, _arg_gameModeListener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -868,12 +867,14 @@ func (s *GameManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGameManagerServiceRemoveGameModeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_gameModeListener IGameModeListener
-		_ = _arg_gameModeListener
+		{
+			_gameModeListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_gameModeListener = NewGameModeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _gameModeListenerHandle))
+		}
 		_err := s.Impl.RemoveGameModeListener(ctx, _arg_gameModeListener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -883,12 +884,14 @@ func (s *GameManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGameManagerServiceAddGameStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_gameStateListener IGameStateListener
-		_ = _arg_gameStateListener
+		{
+			_gameStateListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_gameStateListener = NewGameStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _gameStateListenerHandle))
+		}
 		_err := s.Impl.AddGameStateListener(ctx, _arg_gameStateListener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -898,12 +901,14 @@ func (s *GameManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGameManagerServiceRemoveGameStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_gameStateListener IGameStateListener
-		_ = _arg_gameStateListener
+		{
+			_gameStateListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_gameStateListener = NewGameStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _gameStateListenerHandle))
+		}
 		_err := s.Impl.RemoveGameStateListener(ctx, _arg_gameStateListener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -913,9 +918,6 @@ func (s *GameManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGameManagerServiceToggleGameDefaultFrameRate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err

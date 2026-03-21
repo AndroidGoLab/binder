@@ -1,0 +1,974 @@
+package: android.app.backup
+go_package: android/app/backup
+interfaces:
+    - name: IBackupCallback
+      descriptor: android.app.backup.IBackupCallback
+      oneway: true
+      methods:
+        - name: operationComplete
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: long
+          return_type:
+            name: void
+    - name: IBackupManager
+      descriptor: android.app.backup.IBackupManager
+      methods:
+        - name: dataChangedForUser
+          transaction_code_offset: 0
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: dataChanged
+          transaction_code_offset: 1
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: clearBackupDataForUser
+          transaction_code_offset: 2
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: transportName
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: clearBackupData
+          transaction_code_offset: 3
+          params:
+            - name: transportName
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: initializeTransportsForUser
+          transaction_code_offset: 4
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: transportNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: observer
+              type:
+                name: IBackupObserver
+          return_type:
+            name: void
+        - name: agentConnectedForUser
+          transaction_code_offset: 5
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: agent
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: agentConnected
+          transaction_code_offset: 6
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: agent
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: agentDisconnectedForUser
+          transaction_code_offset: 7
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: agentDisconnected
+          transaction_code_offset: 8
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: restoreAtInstallForUser
+          transaction_code_offset: 9
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: token
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: restoreAtInstall
+          transaction_code_offset: 10
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: token
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setBackupEnabledForUser
+          transaction_code_offset: 11
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: isEnabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setFrameworkSchedulingEnabledForUser
+          transaction_code_offset: 12
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: isEnabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setBackupEnabled
+          transaction_code_offset: 13
+          params:
+            - name: isEnabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setAutoRestoreForUser
+          transaction_code_offset: 14
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: doAutoRestore
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setAutoRestore
+          transaction_code_offset: 15
+          params:
+            - name: doAutoRestore
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: isBackupEnabledForUser
+          transaction_code_offset: 16
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isBackupEnabled
+          transaction_code_offset: 17
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: setBackupPassword
+          transaction_code_offset: 18
+          params:
+            - name: currentPw
+              type:
+                name: String
+              direction: in
+            - name: newPw
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: hasBackupPassword
+          transaction_code_offset: 19
+          return_type:
+            name: boolean
+        - name: backupNowForUser
+          transaction_code_offset: 20
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: backupNow
+          transaction_code_offset: 21
+          return_type:
+            name: void
+        - name: adbBackup
+          transaction_code_offset: 22
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: fd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: includeApks
+              type:
+                name: boolean
+            - name: includeObbs
+              type:
+                name: boolean
+            - name: includeShared
+              type:
+                name: boolean
+            - name: doWidgets
+              type:
+                name: boolean
+            - name: allApps
+              type:
+                name: boolean
+            - name: allIncludesSystem
+              type:
+                name: boolean
+            - name: doCompress
+              type:
+                name: boolean
+            - name: doKeyValue
+              type:
+                name: boolean
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: fullTransportBackupForUser
+          transaction_code_offset: 23
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: adbRestore
+          transaction_code_offset: 24
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: fd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+        - name: acknowledgeFullBackupOrRestoreForUser
+          transaction_code_offset: 25
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: token
+              type:
+                name: int
+            - name: allow
+              type:
+                name: boolean
+            - name: curPassword
+              type:
+                name: String
+              direction: in
+            - name: encryptionPassword
+              type:
+                name: String
+              direction: in
+            - name: observer
+              type:
+                name: IFullBackupRestoreObserver
+          return_type:
+            name: void
+        - name: acknowledgeFullBackupOrRestore
+          transaction_code_offset: 26
+          params:
+            - name: token
+              type:
+                name: int
+            - name: allow
+              type:
+                name: boolean
+            - name: curPassword
+              type:
+                name: String
+              direction: in
+            - name: encryptionPassword
+              type:
+                name: String
+              direction: in
+            - name: observer
+              type:
+                name: IFullBackupRestoreObserver
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: updateTransportAttributesForUser
+          transaction_code_offset: 27
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: transportComponent
+              type:
+                name: ComponentName
+              direction: in
+            - name: name
+              type:
+                name: String
+              direction: in
+            - name: configurationIntent
+              type:
+                name: Intent
+              direction: in
+            - name: currentDestinationString
+              type:
+                name: String
+              direction: in
+            - name: dataManagementIntent
+              type:
+                name: Intent
+              direction: in
+            - name: dataManagementLabel
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+        - name: getCurrentTransportForUser
+          transaction_code_offset: 28
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: getCurrentTransport
+          transaction_code_offset: 29
+          return_type:
+            name: String
+          annotations:
+            - UnsupportedAppUsage
+        - name: getCurrentTransportComponentForUser
+          transaction_code_offset: 30
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ComponentName
+        - name: listAllTransportsForUser
+          transaction_code_offset: 31
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+            is_array: true
+        - name: listAllTransports
+          transaction_code_offset: 32
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - UnsupportedAppUsage
+        - name: listAllTransportComponentsForUser
+          transaction_code_offset: 33
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ComponentName
+            is_array: true
+        - name: getTransportWhitelist
+          transaction_code_offset: 34
+          return_type:
+            name: String
+            is_array: true
+        - name: selectBackupTransportForUser
+          transaction_code_offset: 35
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: transport
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: selectBackupTransport
+          transaction_code_offset: 36
+          params:
+            - name: transport
+              type:
+                name: String
+          return_type:
+            name: String
+          annotations:
+            - UnsupportedAppUsage
+        - name: selectBackupTransportAsyncForUser
+          transaction_code_offset: 37
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: transport
+              type:
+                name: ComponentName
+              direction: in
+            - name: listener
+              type:
+                name: ISelectBackupTransportCallback
+          return_type:
+            name: void
+        - name: getConfigurationIntentForUser
+          transaction_code_offset: 38
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: transport
+              type:
+                name: String
+          return_type:
+            name: Intent
+        - name: getConfigurationIntent
+          transaction_code_offset: 39
+          params:
+            - name: transport
+              type:
+                name: String
+          return_type:
+            name: Intent
+        - name: getDestinationStringForUser
+          transaction_code_offset: 40
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: transport
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: getDestinationString
+          transaction_code_offset: 41
+          params:
+            - name: transport
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: getDataManagementIntentForUser
+          transaction_code_offset: 42
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: transport
+              type:
+                name: String
+          return_type:
+            name: Intent
+        - name: getDataManagementIntent
+          transaction_code_offset: 43
+          params:
+            - name: transport
+              type:
+                name: String
+          return_type:
+            name: Intent
+        - name: getDataManagementLabelForUser
+          transaction_code_offset: 44
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: transport
+              type:
+                name: String
+          return_type:
+            name: CharSequence
+        - name: beginRestoreSessionForUser
+          transaction_code_offset: 45
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+            - name: transportID
+              type:
+                name: String
+          return_type:
+            name: IRestoreSession
+        - name: opCompleteForUser
+          transaction_code_offset: 46
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: token
+              type:
+                name: int
+            - name: result
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: opComplete
+          transaction_code_offset: 47
+          params:
+            - name: token
+              type:
+                name: int
+            - name: result
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: setBackupServiceActive
+          transaction_code_offset: 48
+          params:
+            - name: whichUser
+              type:
+                name: int
+            - name: makeActive
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isBackupServiceActive
+          transaction_code_offset: 49
+          params:
+            - name: whichUser
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: isUserReadyForBackup
+          transaction_code_offset: 50
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getAvailableRestoreTokenForUser
+          transaction_code_offset: 51
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: long
+        - name: isAppEligibleForBackupForUser
+          transaction_code_offset: 52
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: filterAppsEligibleForBackupForUser
+          transaction_code_offset: 53
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packages
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: String
+            is_array: true
+        - name: requestBackupForUser
+          transaction_code_offset: 54
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packages
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: observer
+              type:
+                name: IBackupObserver
+            - name: monitor
+              type:
+                name: IBackupManagerMonitor
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: requestBackup
+          transaction_code_offset: 55
+          params:
+            - name: packages
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: observer
+              type:
+                name: IBackupObserver
+            - name: monitor
+              type:
+                name: IBackupManagerMonitor
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: cancelBackupsForUser
+          transaction_code_offset: 56
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: cancelBackups
+          transaction_code_offset: 57
+          return_type:
+            name: void
+        - name: getUserForAncestralSerialNumber
+          transaction_code_offset: 58
+          params:
+            - name: ancestralSerialNumber
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: UserHandle
+        - name: setAncestralSerialNumber
+          transaction_code_offset: 59
+          params:
+            - name: ancestralSerialNumber
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: excludeKeysFromRestore
+          transaction_code_offset: 60
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: keys
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: reportDelayedRestoreResult
+          transaction_code_offset: 61
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: results
+              type:
+                name: List
+                type_args:
+                    - name: DataTypeResult
+              direction: in
+          return_type:
+            name: void
+    - name: IBackupManagerMonitor
+      descriptor: android.app.backup.IBackupManagerMonitor
+      oneway: true
+      methods:
+        - name: onEvent
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+    - name: IBackupObserver
+      descriptor: android.app.backup.IBackupObserver
+      oneway: true
+      methods:
+        - name: onUpdate
+          transaction_code_offset: 0
+          params:
+            - name: currentPackage
+              type:
+                name: String
+            - name: backupProgress
+              type:
+                name: BackupProgress
+              direction: in
+          return_type:
+            name: void
+        - name: onResult
+          transaction_code_offset: 1
+          params:
+            - name: target
+              type:
+                name: String
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: backupFinished
+          transaction_code_offset: 2
+          params:
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IFullBackupRestoreObserver
+      descriptor: android.app.backup.IFullBackupRestoreObserver
+      oneway: true
+      methods:
+        - name: onStartBackup
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onBackupPackage
+          transaction_code_offset: 1
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onEndBackup
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onStartRestore
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: onRestorePackage
+          transaction_code_offset: 4
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onEndRestore
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: onTimeout
+          transaction_code_offset: 6
+          return_type:
+            name: void
+    - name: IRestoreObserver
+      descriptor: android.app.backup.IRestoreObserver
+      oneway: true
+      methods:
+        - name: restoreSetsAvailable
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: RestoreSet
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: restoreStarting
+          transaction_code_offset: 1
+          params:
+            - name: numPackages
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onUpdate
+          transaction_code_offset: 2
+          params:
+            - name: nowBeingRestored
+              type:
+                name: int
+            - name: curentPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: restoreFinished
+          transaction_code_offset: 3
+          params:
+            - name: error
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IRestoreSession
+      descriptor: android.app.backup.IRestoreSession
+      methods:
+        - name: getAvailableRestoreSets
+          transaction_code_offset: 0
+          params:
+            - name: observer
+              type:
+                name: IRestoreObserver
+            - name: monitor
+              type:
+                name: IBackupManagerMonitor
+          return_type:
+            name: int
+        - name: restoreAll
+          transaction_code_offset: 1
+          params:
+            - name: token
+              type:
+                name: long
+            - name: observer
+              type:
+                name: IRestoreObserver
+            - name: monitor
+              type:
+                name: IBackupManagerMonitor
+          return_type:
+            name: int
+        - name: restorePackages
+          transaction_code_offset: 2
+          params:
+            - name: token
+              type:
+                name: long
+            - name: observer
+              type:
+                name: IRestoreObserver
+            - name: packages
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: monitor
+              type:
+                name: IBackupManagerMonitor
+          return_type:
+            name: int
+        - name: restorePackage
+          transaction_code_offset: 3
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: observer
+              type:
+                name: IRestoreObserver
+            - name: monitor
+              type:
+                name: IBackupManagerMonitor
+          return_type:
+            name: int
+        - name: endRestoreSession
+          transaction_code_offset: 4
+          return_type:
+            name: void
+    - name: ISelectBackupTransportCallback
+      descriptor: android.app.backup.ISelectBackupTransportCallback
+      oneway: true
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: transportName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 1
+          params:
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: BackupProgress
+    - name: BackupRestoreEventLogger.DataTypeResult
+    - name: RestoreDescription
+    - name: RestoreSet

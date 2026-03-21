@@ -46,6 +46,7 @@ func (p *GetEuiccInfoCallbackProxy) OnSuccess(
 	euiccInfo telephonyEuicc.EuiccInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetEuiccInfoCallback)
 	_data.WriteInt32(1)
 	if _err := euiccInfo.MarshalParcel(_data); _err != nil {
@@ -64,7 +65,8 @@ func (p *GetEuiccInfoCallbackProxy) OnSuccess(
 // GetEuiccInfoCallbackStub dispatches incoming binder transactions
 // to a typed IGetEuiccInfoCallback implementation.
 type GetEuiccInfoCallbackStub struct {
-	Impl IGetEuiccInfoCallback
+	Impl      IGetEuiccInfoCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GetEuiccInfoCallbackStub)(nil)
@@ -78,11 +80,12 @@ func (s *GetEuiccInfoCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGetEuiccInfoCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_euiccInfo telephonyEuicc.EuiccInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -96,8 +99,7 @@ func (s *GetEuiccInfoCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSuccess(ctx, _arg_euiccInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

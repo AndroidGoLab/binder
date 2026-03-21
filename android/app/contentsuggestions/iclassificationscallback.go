@@ -46,6 +46,7 @@ func (p *ClassificationsCallbackProxy) OnContentClassificationsAvailable(
 	classifications []ContentClassification,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClassificationsCallback)
 	_data.WriteInt32(statusCode)
 	if classifications == nil {
@@ -72,7 +73,8 @@ func (p *ClassificationsCallbackProxy) OnContentClassificationsAvailable(
 // ClassificationsCallbackStub dispatches incoming binder transactions
 // to a typed IClassificationsCallback implementation.
 type ClassificationsCallbackStub struct {
-	Impl IClassificationsCallback
+	Impl      IClassificationsCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ClassificationsCallbackStub)(nil)
@@ -86,21 +88,39 @@ func (s *ClassificationsCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIClassificationsCallbackOnContentClassificationsAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_statusCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_classifications []ContentClassification
-		_ = _arg_classifications
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_classifications = make([]ContentClassification, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_classifications[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.OnContentClassificationsAvailable(ctx, _arg_statusCode, _arg_classifications)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

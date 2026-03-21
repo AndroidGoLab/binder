@@ -46,6 +46,11 @@ func (s *CarPowerPolicyFilter) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
 	if _err != nil {
@@ -60,6 +65,11 @@ func (s *CarPowerPolicyFilter) UnmarshalParcel(
 			}
 			s.Components[_i] = PowerComponent(_raw)
 		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count1 int32

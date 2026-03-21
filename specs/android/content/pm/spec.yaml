@@ -1,0 +1,5639 @@
+package: android.content.pm
+go_package: android/content/pm
+interfaces:
+    - name: IBackgroundInstallControlService
+      descriptor: android.content.pm.IBackgroundInstallControlService
+      methods:
+        - name: getBackgroundInstalledPackages
+          transaction_code_offset: 0
+          params:
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: registerBackgroundInstallCallback
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IRemoteCallback
+          return_type:
+            name: void
+        - name: unregisterBackgroundInstallCallback
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: IRemoteCallback
+          return_type:
+            name: void
+    - name: ICrossProfileApps
+      descriptor: android.content.pm.ICrossProfileApps
+      methods:
+        - name: startActivityAsUser
+          transaction_code_offset: 0
+          params:
+            - name: caller
+              type:
+                name: IApplicationThread
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+            - name: callingFeatureId
+              type:
+                name: String
+              direction: in
+            - name: component
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: launchMainActivity
+              type:
+                name: boolean
+            - name: task
+              type:
+                name: IBinder
+              direction: in
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: startActivityAsUserByIntent
+          transaction_code_offset: 1
+          params:
+            - name: caller
+              type:
+                name: IApplicationThread
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+            - name: callingFeatureId
+              type:
+                name: String
+              direction: in
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: callingActivity
+              type:
+                name: IBinder
+              direction: in
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: getTargetUserProfiles
+          transaction_code_offset: 2
+          params:
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: UserHandle
+        - name: canInteractAcrossProfiles
+          transaction_code_offset: 3
+          params:
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: canRequestInteractAcrossProfiles
+          transaction_code_offset: 4
+          params:
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: setInteractAcrossProfilesAppOp
+          transaction_code_offset: 5
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: newMode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: canConfigureInteractAcrossProfiles
+          transaction_code_offset: 6
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: canUserAttemptToConfigureInteractAcrossProfiles
+          transaction_code_offset: 7
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: resetInteractAcrossProfilesAppOps
+          transaction_code_offset: 8
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: packageNames
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: clearInteractAcrossProfilesAppOps
+          transaction_code_offset: 9
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IDataLoader
+      descriptor: android.content.pm.IDataLoader
+      oneway: true
+      methods:
+        - name: create
+          transaction_code_offset: 0
+          params:
+            - name: id
+              type:
+                name: int
+            - name: params
+              type:
+                name: DataLoaderParamsParcel
+              direction: in
+            - name: control
+              type:
+                name: FileSystemControlParcel
+              direction: in
+            - name: listener
+              type:
+                name: IDataLoaderStatusListener
+          return_type:
+            name: void
+        - name: start
+          transaction_code_offset: 1
+          params:
+            - name: id
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: stop
+          transaction_code_offset: 2
+          params:
+            - name: id
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: destroy
+          transaction_code_offset: 3
+          params:
+            - name: id
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: prepareImage
+          transaction_code_offset: 4
+          params:
+            - name: id
+              type:
+                name: int
+            - name: addedFiles
+              type:
+                name: InstallationFileParcel
+                is_array: true
+              direction: in
+            - name: removedFiles
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IDataLoaderManager
+      descriptor: android.content.pm.IDataLoaderManager
+      methods:
+        - name: bindToDataLoader
+          transaction_code_offset: 0
+          params:
+            - name: id
+              type:
+                name: int
+            - name: params
+              type:
+                name: DataLoaderParamsParcel
+              direction: in
+            - name: bindDelayMs
+              type:
+                name: long
+            - name: listener
+              type:
+                name: IDataLoaderStatusListener
+          return_type:
+            name: boolean
+        - name: getDataLoader
+          transaction_code_offset: 1
+          params:
+            - name: dataLoaderId
+              type:
+                name: int
+          return_type:
+            name: IDataLoader
+        - name: unbindFromDataLoader
+          transaction_code_offset: 2
+          params:
+            - name: dataLoaderId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IDataLoaderStatusListener
+      descriptor: android.content.pm.IDataLoaderStatusListener
+      oneway: true
+      methods:
+        - name: onStatusChanged
+          transaction_code_offset: 0
+          params:
+            - name: dataLoaderId
+              type:
+                name: int
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: DATA_LOADER_DESTROYED
+          type: int
+          value: "0"
+        - name: DATA_LOADER_BINDING
+          type: int
+          value: "1"
+        - name: DATA_LOADER_BOUND
+          type: int
+          value: "2"
+        - name: DATA_LOADER_CREATED
+          type: int
+          value: "3"
+        - name: DATA_LOADER_STARTED
+          type: int
+          value: "4"
+        - name: DATA_LOADER_STOPPED
+          type: int
+          value: "5"
+        - name: DATA_LOADER_IMAGE_READY
+          type: int
+          value: "6"
+        - name: DATA_LOADER_IMAGE_NOT_READY
+          type: int
+          value: "7"
+        - name: DATA_LOADER_UNAVAILABLE
+          type: int
+          value: "8"
+        - name: DATA_LOADER_UNRECOVERABLE
+          type: int
+          value: "9"
+    - name: IDexModuleRegisterCallback
+      descriptor: android.content.pm.IDexModuleRegisterCallback
+      oneway: true
+      methods:
+        - name: onDexModuleRegistered
+          transaction_code_offset: 0
+          params:
+            - name: dexModulePath
+              type:
+                name: String
+              direction: in
+            - name: success
+              type:
+                name: boolean
+              direction: in
+            - name: message
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+    - name: ILauncherApps
+      descriptor: android.content.pm.ILauncherApps
+      methods:
+        - name: addOnAppsChangedListener
+          transaction_code_offset: 0
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: listener
+              type:
+                name: IOnAppsChangedListener
+              direction: in
+          return_type:
+            name: void
+        - name: removeOnAppsChangedListener
+          transaction_code_offset: 1
+          params:
+            - name: listener
+              type:
+                name: IOnAppsChangedListener
+              direction: in
+          return_type:
+            name: void
+        - name: getLauncherActivities
+          transaction_code_offset: 2
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: ParceledListSlice
+        - name: resolveLauncherActivityInternal
+          transaction_code_offset: 3
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: component
+              type:
+                name: ComponentName
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: LauncherActivityInfoInternal
+        - name: startSessionDetailsActivityAsUser
+          transaction_code_offset: 4
+          params:
+            - name: caller
+              type:
+                name: IApplicationThread
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+            - name: sessionInfo
+              type:
+                name: PackageInstaller.SessionInfo
+              direction: in
+            - name: sourceBounds
+              type:
+                name: Rect
+              direction: in
+            - name: opts
+              type:
+                name: Bundle
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: void
+        - name: startActivityAsUser
+          transaction_code_offset: 5
+          params:
+            - name: caller
+              type:
+                name: IApplicationThread
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+            - name: component
+              type:
+                name: ComponentName
+              direction: in
+            - name: sourceBounds
+              type:
+                name: Rect
+              direction: in
+            - name: opts
+              type:
+                name: Bundle
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: void
+        - name: getActivityLaunchIntent
+          transaction_code_offset: 6
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: component
+              type:
+                name: ComponentName
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: PendingIntent
+        - name: getLauncherUserInfo
+          transaction_code_offset: 7
+          params:
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: LauncherUserInfo
+        - name: getPreInstalledSystemPackages
+          transaction_code_offset: 8
+          params:
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getAppMarketActivityIntent
+          transaction_code_offset: 9
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: IntentSender
+        - name: getPrivateSpaceSettingsIntent
+          transaction_code_offset: 10
+          return_type:
+            name: IntentSender
+        - name: showAppDetailsAsUser
+          transaction_code_offset: 11
+          params:
+            - name: caller
+              type:
+                name: IApplicationThread
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+            - name: component
+              type:
+                name: ComponentName
+              direction: in
+            - name: sourceBounds
+              type:
+                name: Rect
+              direction: in
+            - name: opts
+              type:
+                name: Bundle
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: void
+        - name: isPackageEnabled
+          transaction_code_offset: 12
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: boolean
+        - name: getSuspendedPackageLauncherExtras
+          transaction_code_offset: 13
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: Bundle
+        - name: isActivityEnabled
+          transaction_code_offset: 14
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: component
+              type:
+                name: ComponentName
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: boolean
+        - name: getApplicationInfo
+          transaction_code_offset: 15
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: ApplicationInfo
+        - name: getAppUsageLimit
+          transaction_code_offset: 16
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: LauncherApps.AppUsageLimit
+        - name: getShortcuts
+          transaction_code_offset: 17
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: query
+              type:
+                name: ShortcutQueryWrapper
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: ParceledListSlice
+        - name: getShortcutsAsync
+          transaction_code_offset: 18
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: query
+              type:
+                name: ShortcutQueryWrapper
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: cb
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: List
+                      type_args:
+                        - name: ShortcutInfo
+              direction: in
+          return_type:
+            name: void
+        - name: pinShortcuts
+          transaction_code_offset: 19
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: shortcutIds
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: void
+        - name: startShortcut
+          transaction_code_offset: 20
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: featureId
+              type:
+                name: String
+            - name: id
+              type:
+                name: String
+            - name: sourceBounds
+              type:
+                name: Rect
+              direction: in
+            - name: startActivityOptions
+              type:
+                name: Bundle
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getShortcutIconResId
+          transaction_code_offset: 21
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: id
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getShortcutIconFd
+          transaction_code_offset: 22
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: id
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParcelFileDescriptor
+        - name: hasShortcutHostPermission
+          transaction_code_offset: 23
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: shouldHideFromSuggestions
+          transaction_code_offset: 24
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: boolean
+        - name: getShortcutConfigActivities
+          transaction_code_offset: 25
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: ParceledListSlice
+        - name: getShortcutConfigActivityIntent
+          transaction_code_offset: 26
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: component
+              type:
+                name: ComponentName
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: IntentSender
+        - name: getShortcutIntent
+          transaction_code_offset: 27
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: shortcutId
+              type:
+                name: String
+            - name: opts
+              type:
+                name: Bundle
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: PendingIntent
+        - name: registerPackageInstallerCallback
+          transaction_code_offset: 28
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IPackageInstallerCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getAllSessions
+          transaction_code_offset: 29
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+        - name: registerShortcutChangeCallback
+          transaction_code_offset: 30
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: query
+              type:
+                name: ShortcutQueryWrapper
+              direction: in
+            - name: callback
+              type:
+                name: IShortcutChangeCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterShortcutChangeCallback
+          transaction_code_offset: 31
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IShortcutChangeCallback
+              direction: in
+          return_type:
+            name: void
+        - name: cacheShortcuts
+          transaction_code_offset: 32
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: shortcutIds
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: cacheFlags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: uncacheShortcuts
+          transaction_code_offset: 33
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: shortcutIds
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: cacheFlags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getShortcutIconUri
+          transaction_code_offset: 34
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: shortcutId
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: getActivityOverrides
+          transaction_code_offset: 35
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: Map
+            type_args:
+                - name: String
+                - name: LauncherActivityInfoInternal
+        - name: registerDumpCallback
+          transaction_code_offset: 36
+          params:
+            - name: cb
+              type:
+                name: IDumpCallback
+          return_type:
+            name: void
+        - name: unRegisterDumpCallback
+          transaction_code_offset: 37
+          params:
+            - name: cb
+              type:
+                name: IDumpCallback
+          return_type:
+            name: void
+        - name: setArchiveCompatibilityOptions
+          transaction_code_offset: 38
+          params:
+            - name: enableIconOverlay
+              type:
+                name: boolean
+            - name: enableUnarchivalConfirmation
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getUserProfiles
+          transaction_code_offset: 39
+          return_type:
+            name: List
+            type_args:
+                - name: UserHandle
+    - name: IOnAppsChangedListener
+      descriptor: android.content.pm.IOnAppsChangedListener
+      oneway: true
+      methods:
+        - name: onPackageRemoved
+          transaction_code_offset: 0
+          params:
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onPackageAdded
+          transaction_code_offset: 1
+          params:
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onPackageChanged
+          transaction_code_offset: 2
+          params:
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onPackagesAvailable
+          transaction_code_offset: 3
+          params:
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: replacing
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onPackagesUnavailable
+          transaction_code_offset: 4
+          params:
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: replacing
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onPackagesSuspended
+          transaction_code_offset: 5
+          params:
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: launcherExtras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onPackagesUnsuspended
+          transaction_code_offset: 6
+          params:
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onShortcutChanged
+          transaction_code_offset: 7
+          params:
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: shortcuts
+              type:
+                name: ParceledListSlice
+              direction: in
+          return_type:
+            name: void
+        - name: onPackageLoadingProgressChanged
+          transaction_code_offset: 8
+          params:
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: progress
+              type:
+                name: float
+          return_type:
+            name: void
+    - name: IOnChecksumsReadyListener
+      descriptor: android.content.pm.IOnChecksumsReadyListener
+      oneway: true
+      methods:
+        - name: onChecksumsReady
+          transaction_code_offset: 0
+          params:
+            - name: checksums
+              type:
+                name: List
+                type_args:
+                    - name: ApkChecksum
+              direction: in
+          return_type:
+            name: void
+    - name: IOtaDexopt
+      descriptor: android.content.pm.IOtaDexopt
+      methods:
+        - name: prepare
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: cleanup
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: isDone
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+        - name: getProgress
+          transaction_code_offset: 3
+          return_type:
+            name: float
+        - name: dexoptNextPackage
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: nextDexoptCommand
+          transaction_code_offset: 5
+          return_type:
+            name: String
+    - name: IPackageDataObserver
+      descriptor: android.content.pm.IPackageDataObserver
+      oneway: true
+      methods:
+        - name: onRemoveCompleted
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: succeeded
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IPackageDeleteObserver
+      descriptor: android.content.pm.IPackageDeleteObserver
+      oneway: true
+      methods:
+        - name: packageDeleted
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: returnCode
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IPackageDeleteObserver2
+      descriptor: android.content.pm.IPackageDeleteObserver2
+      oneway: true
+      methods:
+        - name: onUserActionRequired
+          transaction_code_offset: 0
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+          return_type:
+            name: void
+        - name: onPackageDeleted
+          transaction_code_offset: 1
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: returnCode
+              type:
+                name: int
+            - name: msg
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IPackageInstallObserver2
+      descriptor: android.content.pm.IPackageInstallObserver2
+      oneway: true
+      methods:
+        - name: onUserActionRequired
+          transaction_code_offset: 0
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onPackageInstalled
+          transaction_code_offset: 1
+          params:
+            - name: basePackageName
+              type:
+                name: String
+            - name: returnCode
+              type:
+                name: int
+            - name: msg
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IPackageInstaller
+      descriptor: android.content.pm.IPackageInstaller
+      methods:
+        - name: createSession
+          transaction_code_offset: 0
+          params:
+            - name: params
+              type:
+                name: PackageInstaller.SessionParams
+              direction: in
+            - name: installerPackageName
+              type:
+                name: String
+            - name: installerAttributionTag
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: updateSessionAppIcon
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: appIcon
+              type:
+                name: Bitmap
+              direction: in
+          return_type:
+            name: void
+        - name: updateSessionAppLabel
+          transaction_code_offset: 2
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: appLabel
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: abandonSession
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: openSession
+          transaction_code_offset: 4
+          params:
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: IPackageInstallerSession
+        - name: getSessionInfo
+          transaction_code_offset: 5
+          params:
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: PackageInstaller.SessionInfo
+        - name: getAllSessions
+          transaction_code_offset: 6
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: getMySessions
+          transaction_code_offset: 7
+          params:
+            - name: installerPackageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: getStagedSessions
+          transaction_code_offset: 8
+          return_type:
+            name: ParceledListSlice
+        - name: registerCallback
+          transaction_code_offset: 9
+          params:
+            - name: callback
+              type:
+                name: IPackageInstallerCallback
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: unregisterCallback
+          transaction_code_offset: 10
+          params:
+            - name: callback
+              type:
+                name: IPackageInstallerCallback
+          return_type:
+            name: void
+        - name: uninstall
+          transaction_code_offset: 11
+          params:
+            - name: versionedPackage
+              type:
+                name: VersionedPackage
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+            - name: statusReceiver
+              type:
+                name: IntentSender
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: uninstallExistingPackage
+          transaction_code_offset: 12
+          params:
+            - name: versionedPackage
+              type:
+                name: VersionedPackage
+              direction: in
+            - name: callerPackageName
+              type:
+                name: String
+            - name: statusReceiver
+              type:
+                name: IntentSender
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: installExistingPackage
+          transaction_code_offset: 13
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: installFlags
+              type:
+                name: int
+            - name: installReason
+              type:
+                name: int
+            - name: statusReceiver
+              type:
+                name: IntentSender
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: whiteListedPermissions
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setPermissionsResult
+          transaction_code_offset: 14
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: accepted
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: bypassNextStagedInstallerCheck
+          transaction_code_offset: 15
+          params:
+            - name: value
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: bypassNextAllowedApexUpdateCheck
+          transaction_code_offset: 16
+          params:
+            - name: value
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: disableVerificationForUid
+          transaction_code_offset: 17
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setAllowUnlimitedSilentUpdates
+          transaction_code_offset: 18
+          params:
+            - name: installerPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setSilentUpdatesThrottleTime
+          transaction_code_offset: 19
+          params:
+            - name: throttleTimeInSeconds
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: checkInstallConstraints
+          transaction_code_offset: 20
+          params:
+            - name: installerPackageName
+              type:
+                name: String
+            - name: packageNames
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: constraints
+              type:
+                name: PackageInstaller.InstallConstraints
+              direction: in
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: waitForInstallConstraints
+          transaction_code_offset: 21
+          params:
+            - name: installerPackageName
+              type:
+                name: String
+            - name: packageNames
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: constraints
+              type:
+                name: PackageInstaller.InstallConstraints
+              direction: in
+            - name: callback
+              type:
+                name: IntentSender
+              direction: in
+            - name: timeout
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: requestArchive
+          transaction_code_offset: 22
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: callerPackageName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+            - name: statusReceiver
+              type:
+                name: IntentSender
+              direction: in
+            - name: userHandle
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: requestUnarchive
+          transaction_code_offset: 23
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: callerPackageName
+              type:
+                name: String
+            - name: statusReceiver
+              type:
+                name: IntentSender
+              direction: in
+            - name: userHandle
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: installPackageArchived
+          transaction_code_offset: 24
+          params:
+            - name: archivedPackageParcel
+              type:
+                name: ArchivedPackageParcel
+              direction: in
+            - name: params
+              type:
+                name: PackageInstaller.SessionParams
+              direction: in
+            - name: statusReceiver
+              type:
+                name: IntentSender
+              direction: in
+            - name: installerPackageName
+              type:
+                name: String
+            - name: userHandle
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: reportUnarchivalStatus
+          transaction_code_offset: 25
+          params:
+            - name: unarchiveId
+              type:
+                name: int
+            - name: status
+              type:
+                name: int
+            - name: requiredStorageBytes
+              type:
+                name: long
+            - name: userActionIntent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: userHandle
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+    - name: IPackageInstallerCallback
+      descriptor: android.content.pm.IPackageInstallerCallback
+      oneway: true
+      methods:
+        - name: onSessionCreated
+          transaction_code_offset: 0
+          params:
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onSessionBadgingChanged
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onSessionActiveChanged
+          transaction_code_offset: 2
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: active
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onSessionProgressChanged
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: progress
+              type:
+                name: float
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onSessionFinished
+          transaction_code_offset: 4
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: success
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IPackageInstallerSession
+      descriptor: android.content.pm.IPackageInstallerSession
+      methods:
+        - name: setClientProgress
+          transaction_code_offset: 0
+          params:
+            - name: progress
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: addClientProgress
+          transaction_code_offset: 1
+          params:
+            - name: progress
+              type:
+                name: float
+          return_type:
+            name: void
+        - name: getNames
+          transaction_code_offset: 2
+          return_type:
+            name: String
+            is_array: true
+        - name: openWrite
+          transaction_code_offset: 3
+          params:
+            - name: name
+              type:
+                name: String
+            - name: offsetBytes
+              type:
+                name: long
+            - name: lengthBytes
+              type:
+                name: long
+          return_type:
+            name: ParcelFileDescriptor
+        - name: openRead
+          transaction_code_offset: 4
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: ParcelFileDescriptor
+        - name: write
+          transaction_code_offset: 5
+          params:
+            - name: name
+              type:
+                name: String
+            - name: offsetBytes
+              type:
+                name: long
+            - name: lengthBytes
+              type:
+                name: long
+            - name: fd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+        - name: stageViaHardLink
+          transaction_code_offset: 6
+          params:
+            - name: target
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setChecksums
+          transaction_code_offset: 7
+          params:
+            - name: name
+              type:
+                name: String
+            - name: checksums
+              type:
+                name: Checksum
+                is_array: true
+              direction: in
+            - name: signature
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: requestChecksums
+          transaction_code_offset: 8
+          params:
+            - name: name
+              type:
+                name: String
+              direction: in
+            - name: optional
+              type:
+                name: int
+            - name: required
+              type:
+                name: int
+            - name: trustedInstallers
+              type:
+                name: List
+              direction: in
+            - name: onChecksumsReadyListener
+              type:
+                name: IOnChecksumsReadyListener
+              direction: in
+          return_type:
+            name: void
+        - name: removeSplit
+          transaction_code_offset: 9
+          params:
+            - name: splitName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 10
+          return_type:
+            name: void
+        - name: commit
+          transaction_code_offset: 11
+          params:
+            - name: statusReceiver
+              type:
+                name: IntentSender
+              direction: in
+            - name: forTransferred
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: transfer
+          transaction_code_offset: 12
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: abandon
+          transaction_code_offset: 13
+          return_type:
+            name: void
+        - name: seal
+          transaction_code_offset: 14
+          return_type:
+            name: void
+        - name: fetchPackageNames
+          transaction_code_offset: 15
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getDataLoaderParams
+          transaction_code_offset: 16
+          return_type:
+            name: DataLoaderParamsParcel
+          annotations:
+            - EnforcePermission
+        - name: addFile
+          transaction_code_offset: 17
+          params:
+            - name: location
+              type:
+                name: int
+            - name: name
+              type:
+                name: String
+            - name: lengthBytes
+              type:
+                name: long
+            - name: metadata
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: signature
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: removeFile
+          transaction_code_offset: 18
+          params:
+            - name: location
+              type:
+                name: int
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: isMultiPackage
+          transaction_code_offset: 19
+          return_type:
+            name: boolean
+        - name: getChildSessionIds
+          transaction_code_offset: 20
+          return_type:
+            name: int
+            is_array: true
+        - name: addChildSessionId
+          transaction_code_offset: 21
+          params:
+            - name: sessionId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: removeChildSessionId
+          transaction_code_offset: 22
+          params:
+            - name: sessionId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getParentSessionId
+          transaction_code_offset: 23
+          return_type:
+            name: int
+        - name: isStaged
+          transaction_code_offset: 24
+          return_type:
+            name: boolean
+        - name: getInstallFlags
+          transaction_code_offset: 25
+          return_type:
+            name: int
+        - name: requestUserPreapproval
+          transaction_code_offset: 26
+          params:
+            - name: details
+              type:
+                name: PackageInstaller.PreapprovalDetails
+              direction: in
+            - name: statusReceiver
+              type:
+                name: IntentSender
+              direction: in
+          return_type:
+            name: void
+        - name: isApplicationEnabledSettingPersistent
+          transaction_code_offset: 27
+          return_type:
+            name: boolean
+        - name: isRequestUpdateOwnership
+          transaction_code_offset: 28
+          return_type:
+            name: boolean
+        - name: getAppMetadataFd
+          transaction_code_offset: 29
+          return_type:
+            name: ParcelFileDescriptor
+        - name: openWriteAppMetadata
+          transaction_code_offset: 30
+          return_type:
+            name: ParcelFileDescriptor
+        - name: removeAppMetadata
+          transaction_code_offset: 31
+          return_type:
+            name: void
+        - name: setPreVerifiedDomains
+          transaction_code_offset: 32
+          params:
+            - name: preVerifiedDomains
+              type:
+                name: DomainSet
+              direction: in
+          return_type:
+            name: void
+        - name: getPreVerifiedDomains
+          transaction_code_offset: 33
+          return_type:
+            name: DomainSet
+    - name: IPackageInstallerSessionFileSystemConnector
+      descriptor: android.content.pm.IPackageInstallerSessionFileSystemConnector
+      methods:
+        - name: writeData
+          transaction_code_offset: 0
+          params:
+            - name: name
+              type:
+                name: String
+            - name: offsetBytes
+              type:
+                name: long
+            - name: lengthBytes
+              type:
+                name: long
+            - name: fd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+    - name: IPackageLoadingProgressCallback
+      descriptor: android.content.pm.IPackageLoadingProgressCallback
+      oneway: true
+      methods:
+        - name: onPackageLoadingProgressChanged
+          transaction_code_offset: 0
+          params:
+            - name: progress
+              type:
+                name: float
+          return_type:
+            name: void
+    - name: IPackageManager
+      descriptor: android.content.pm.IPackageManager
+      methods:
+        - name: checkPackageStartable
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isPackageAvailable
+          transaction_code_offset: 1
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: getPackageInfo
+          transaction_code_offset: 2
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: PackageInfo
+        - name: getPackageInfoVersioned
+          transaction_code_offset: 3
+          params:
+            - name: versionedPackage
+              type:
+                name: VersionedPackage
+              direction: in
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: PackageInfo
+        - name: getPackageUid
+          transaction_code_offset: 4
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getPackageGids
+          transaction_code_offset: 5
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+            is_array: true
+        - name: currentToCanonicalPackageNames
+          transaction_code_offset: 6
+          params:
+            - name: names
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - UnsupportedAppUsage
+        - name: canonicalToCurrentPackageNames
+          transaction_code_offset: 7
+          params:
+            - name: names
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - UnsupportedAppUsage
+        - name: getApplicationInfo
+          transaction_code_offset: 8
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ApplicationInfo
+        - name: getTargetSdkVersion
+          transaction_code_offset: 9
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: getActivityInfo
+          transaction_code_offset: 10
+          params:
+            - name: className
+              type:
+                name: ComponentName
+              direction: in
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ActivityInfo
+        - name: activitySupportsIntentAsUser
+          transaction_code_offset: 11
+          params:
+            - name: className
+              type:
+                name: ComponentName
+              direction: in
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: resolvedType
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getReceiverInfo
+          transaction_code_offset: 12
+          params:
+            - name: className
+              type:
+                name: ComponentName
+              direction: in
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ActivityInfo
+        - name: getServiceInfo
+          transaction_code_offset: 13
+          params:
+            - name: className
+              type:
+                name: ComponentName
+              direction: in
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ServiceInfo
+        - name: getProviderInfo
+          transaction_code_offset: 14
+          params:
+            - name: className
+              type:
+                name: ComponentName
+              direction: in
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ProviderInfo
+        - name: isProtectedBroadcast
+          transaction_code_offset: 15
+          params:
+            - name: actionName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: checkSignatures
+          transaction_code_offset: 16
+          params:
+            - name: pkg1
+              type:
+                name: String
+            - name: pkg2
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: checkUidSignatures
+          transaction_code_offset: 17
+          params:
+            - name: uid1
+              type:
+                name: int
+            - name: uid2
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: getAllPackages
+          transaction_code_offset: 18
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getPackagesForUid
+          transaction_code_offset: 19
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - UnsupportedAppUsage
+        - name: getNameForUid
+          transaction_code_offset: 20
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: String
+          annotations:
+            - UnsupportedAppUsage
+        - name: getNamesForUids
+          transaction_code_offset: 21
+          params:
+            - name: uids
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: String
+            is_array: true
+        - name: getUidForSharedUser
+          transaction_code_offset: 22
+          params:
+            - name: sharedUserName
+              type:
+                name: String
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: getFlagsForUid
+          transaction_code_offset: 23
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: getPrivateFlagsForUid
+          transaction_code_offset: 24
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: isUidPrivileged
+          transaction_code_offset: 25
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: resolveIntent
+          transaction_code_offset: 26
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: resolvedType
+              type:
+                name: String
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ResolveInfo
+        - name: findPersistentPreferredActivity
+          transaction_code_offset: 27
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ResolveInfo
+        - name: canForwardTo
+          transaction_code_offset: 28
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: resolvedType
+              type:
+                name: String
+            - name: sourceUserId
+              type:
+                name: int
+            - name: targetUserId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: queryIntentActivities
+          transaction_code_offset: 29
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: resolvedType
+              type:
+                name: String
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: queryIntentActivityOptions
+          transaction_code_offset: 30
+          params:
+            - name: caller
+              type:
+                name: ComponentName
+              direction: in
+            - name: specifics
+              type:
+                name: Intent
+                is_array: true
+              direction: in
+            - name: specificTypes
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: resolvedType
+              type:
+                name: String
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: queryIntentReceivers
+          transaction_code_offset: 31
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: resolvedType
+              type:
+                name: String
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: resolveService
+          transaction_code_offset: 32
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: resolvedType
+              type:
+                name: String
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ResolveInfo
+        - name: queryIntentServices
+          transaction_code_offset: 33
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: resolvedType
+              type:
+                name: String
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: queryIntentContentProviders
+          transaction_code_offset: 34
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: resolvedType
+              type:
+                name: String
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: getInstalledPackages
+          transaction_code_offset: 35
+          params:
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: ParceledListSlice
+        - name: getAppMetadataFd
+          transaction_code_offset: 36
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParcelFileDescriptor
+          annotations:
+            - EnforcePermission
+            - nullable
+        - name: getPackagesHoldingPermissions
+          transaction_code_offset: 37
+          params:
+            - name: permissions
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: getInstalledApplications
+          transaction_code_offset: 38
+          params:
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: getPersistentApplications
+          transaction_code_offset: 39
+          params:
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: resolveContentProvider
+          transaction_code_offset: 40
+          params:
+            - name: name
+              type:
+                name: String
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ProviderInfo
+        - name: querySyncProviders
+          transaction_code_offset: 41
+          params:
+            - name: outNames
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: inout
+            - name: outInfo
+              type:
+                name: List
+                type_args:
+                    - name: ProviderInfo
+              direction: inout
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: queryContentProviders
+          transaction_code_offset: 42
+          params:
+            - name: processName
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+            - name: flags
+              type:
+                name: long
+            - name: metaDataKey
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+        - name: getInstrumentationInfoAsUser
+          transaction_code_offset: 43
+          params:
+            - name: className
+              type:
+                name: ComponentName
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: InstrumentationInfo
+        - name: queryInstrumentationAsUser
+          transaction_code_offset: 44
+          params:
+            - name: targetPackage
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: finishPackageInstall
+          transaction_code_offset: 45
+          params:
+            - name: token
+              type:
+                name: int
+            - name: didLaunch
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setInstallerPackageName
+          transaction_code_offset: 46
+          params:
+            - name: targetPackage
+              type:
+                name: String
+              direction: in
+            - name: installerPackageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: relinquishUpdateOwnership
+          transaction_code_offset: 47
+          params:
+            - name: targetPackage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setApplicationCategoryHint
+          transaction_code_offset: 48
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: categoryHint
+              type:
+                name: int
+            - name: callerPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: deletePackageAsUser
+          transaction_code_offset: 49
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: versionCode
+              type:
+                name: int
+            - name: observer
+              type:
+                name: IPackageDeleteObserver
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: deletePackageVersioned
+          transaction_code_offset: 50
+          params:
+            - name: versionedPackage
+              type:
+                name: VersionedPackage
+              direction: in
+            - name: observer
+              type:
+                name: IPackageDeleteObserver2
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: deleteExistingPackageAsUser
+          transaction_code_offset: 51
+          params:
+            - name: versionedPackage
+              type:
+                name: VersionedPackage
+              direction: in
+            - name: observer
+              type:
+                name: IPackageDeleteObserver2
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getInstallerPackageName
+          transaction_code_offset: 52
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: String
+          annotations:
+            - UnsupportedAppUsage
+        - name: getInstallSourceInfo
+          transaction_code_offset: 53
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: InstallSourceInfo
+        - name: resetApplicationPreferences
+          transaction_code_offset: 54
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getLastChosenActivity
+          transaction_code_offset: 55
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: resolvedType
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: ResolveInfo
+          annotations:
+            - UnsupportedAppUsage
+        - name: setLastChosenActivity
+          transaction_code_offset: 56
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: resolvedType
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+            - name: filter
+              type:
+                name: IntentFilter
+              direction: in
+            - name: match
+              type:
+                name: int
+            - name: activity
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: addPreferredActivity
+          transaction_code_offset: 57
+          params:
+            - name: filter
+              type:
+                name: IntentFilter
+              direction: in
+            - name: match
+              type:
+                name: int
+            - name: set
+              type:
+                name: ComponentName
+                is_array: true
+              direction: in
+            - name: activity
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: removeExisting
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: replacePreferredActivity
+          transaction_code_offset: 58
+          params:
+            - name: filter
+              type:
+                name: IntentFilter
+              direction: in
+            - name: match
+              type:
+                name: int
+            - name: set
+              type:
+                name: ComponentName
+                is_array: true
+              direction: in
+            - name: activity
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: clearPackagePreferredActivities
+          transaction_code_offset: 59
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: getPreferredActivities
+          transaction_code_offset: 60
+          params:
+            - name: outFilters
+              type:
+                name: List
+                type_args:
+                    - name: IntentFilter
+              direction: out
+            - name: outActivities
+              type:
+                name: List
+                type_args:
+                    - name: ComponentName
+              direction: out
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: addPersistentPreferredActivity
+          transaction_code_offset: 61
+          params:
+            - name: filter
+              type:
+                name: IntentFilter
+              direction: in
+            - name: activity
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: clearPackagePersistentPreferredActivities
+          transaction_code_offset: 62
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: clearPersistentPreferredActivity
+          transaction_code_offset: 63
+          params:
+            - name: filter
+              type:
+                name: IntentFilter
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: addCrossProfileIntentFilter
+          transaction_code_offset: 64
+          params:
+            - name: intentFilter
+              type:
+                name: IntentFilter
+              direction: in
+            - name: ownerPackage
+              type:
+                name: String
+            - name: sourceUserId
+              type:
+                name: int
+            - name: targetUserId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removeCrossProfileIntentFilter
+          transaction_code_offset: 65
+          params:
+            - name: intentFilter
+              type:
+                name: IntentFilter
+              direction: in
+            - name: ownerPackage
+              type:
+                name: String
+            - name: sourceUserId
+              type:
+                name: int
+            - name: targetUserId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: clearCrossProfileIntentFilters
+          transaction_code_offset: 66
+          params:
+            - name: sourceUserId
+              type:
+                name: int
+            - name: ownerPackage
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setDistractingPackageRestrictionsAsUser
+          transaction_code_offset: 67
+          params:
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: restrictionFlags
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+            is_array: true
+        - name: setPackagesSuspendedAsUser
+          transaction_code_offset: 68
+          params:
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: suspended
+              type:
+                name: boolean
+            - name: appExtras
+              type:
+                name: PersistableBundle
+              direction: in
+            - name: launcherExtras
+              type:
+                name: PersistableBundle
+              direction: in
+            - name: dialogInfo
+              type:
+                name: SuspendDialogInfo
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: suspendingPackage
+              type:
+                name: String
+            - name: suspendingUserId
+              type:
+                name: int
+            - name: targetUserId
+              type:
+                name: int
+          return_type:
+            name: String
+            is_array: true
+        - name: getUnsuspendablePackagesForUser
+          transaction_code_offset: 69
+          params:
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+            is_array: true
+        - name: isPackageSuspendedForUser
+          transaction_code_offset: 70
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isPackageQuarantinedForUser
+          transaction_code_offset: 71
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isPackageStoppedForUser
+          transaction_code_offset: 72
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getSuspendedPackageAppExtras
+          transaction_code_offset: 73
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: Bundle
+        - name: getSuspendingPackage
+          transaction_code_offset: 74
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: getPreferredActivityBackup
+          transaction_code_offset: 75
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: byte
+            is_array: true
+        - name: restorePreferredActivities
+          transaction_code_offset: 76
+          params:
+            - name: backup
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getDefaultAppsBackup
+          transaction_code_offset: 77
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: byte
+            is_array: true
+        - name: restoreDefaultApps
+          transaction_code_offset: 78
+          params:
+            - name: backup
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getDomainVerificationBackup
+          transaction_code_offset: 79
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: byte
+            is_array: true
+        - name: restoreDomainVerification
+          transaction_code_offset: 80
+          params:
+            - name: backup
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getHomeActivities
+          transaction_code_offset: 81
+          params:
+            - name: outHomeCandidates
+              type:
+                name: List
+                type_args:
+                    - name: ResolveInfo
+              direction: out
+          return_type:
+            name: ComponentName
+          annotations:
+            - UnsupportedAppUsage
+        - name: setHomeActivity
+          transaction_code_offset: 82
+          params:
+            - name: className
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: overrideLabelAndIcon
+          transaction_code_offset: 83
+          params:
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: nonLocalizedLabel
+              type:
+                name: String
+            - name: icon
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: restoreLabelAndIcon
+          transaction_code_offset: 84
+          params:
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setComponentEnabledSetting
+          transaction_code_offset: 85
+          params:
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: newState
+              type:
+                name: int
+              direction: in
+            - name: flags
+              type:
+                name: int
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setComponentEnabledSettings
+          transaction_code_offset: 86
+          params:
+            - name: settings
+              type:
+                name: List
+                type_args:
+                    - name: ComponentEnabledSetting
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getComponentEnabledSetting
+          transaction_code_offset: 87
+          params:
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: setApplicationEnabledSetting
+          transaction_code_offset: 88
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: newState
+              type:
+                name: int
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: getApplicationEnabledSetting
+          transaction_code_offset: 89
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: logAppProcessStartIfNeeded
+          transaction_code_offset: 90
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: processName
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+            - name: seinfo
+              type:
+                name: String
+            - name: apkFile
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: flushPackageRestrictionsAsUser
+          transaction_code_offset: 91
+          params:
+            - name: userId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setPackageStoppedState
+          transaction_code_offset: 92
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: stopped
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: freeStorageAndNotify
+          transaction_code_offset: 93
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+              direction: in
+            - name: freeStorageSize
+              type:
+                name: long
+              direction: in
+            - name: storageFlags
+              type:
+                name: int
+            - name: observer
+              type:
+                name: IPackageDataObserver
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: freeStorage
+          transaction_code_offset: 94
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+              direction: in
+            - name: freeStorageSize
+              type:
+                name: long
+              direction: in
+            - name: storageFlags
+              type:
+                name: int
+            - name: pi
+              type:
+                name: IntentSender
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: deleteApplicationCacheFiles
+          transaction_code_offset: 95
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: observer
+              type:
+                name: IPackageDataObserver
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: deleteApplicationCacheFilesAsUser
+          transaction_code_offset: 96
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: observer
+              type:
+                name: IPackageDataObserver
+          return_type:
+            name: void
+        - name: clearApplicationUserData
+          transaction_code_offset: 97
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: observer
+              type:
+                name: IPackageDataObserver
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: clearApplicationProfileData
+          transaction_code_offset: 98
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getPackageSizeInfo
+          transaction_code_offset: 99
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userHandle
+              type:
+                name: int
+            - name: observer
+              type:
+                name: IPackageStatsObserver
+          return_type:
+            name: void
+        - name: getSystemSharedLibraryNames
+          transaction_code_offset: 100
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - UnsupportedAppUsage
+        - name: getSystemSharedLibraryNamesAndPaths
+          transaction_code_offset: 101
+          return_type:
+            name: Map
+            type_args:
+                - name: String
+                - name: String
+        - name: getSystemAvailableFeatures
+          transaction_code_offset: 102
+          return_type:
+            name: ParceledListSlice
+        - name: hasSystemFeature
+          transaction_code_offset: 103
+          params:
+            - name: name
+              type:
+                name: String
+            - name: version
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getInitialNonStoppedSystemPackages
+          transaction_code_offset: 104
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: enterSafeMode
+          transaction_code_offset: 105
+          return_type:
+            name: void
+        - name: isSafeMode
+          transaction_code_offset: 106
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: hasSystemUidErrors
+          transaction_code_offset: 107
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: notifyPackageUse
+          transaction_code_offset: 108
+          oneway: true
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyDexLoad
+          transaction_code_offset: 109
+          oneway: true
+          params:
+            - name: loadingPackageName
+              type:
+                name: String
+            - name: classLoaderContextMap
+              type:
+                name: Map
+                type_args:
+                    - name: String
+                    - name: String
+              direction: in
+            - name: loaderIsa
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: registerDexModule
+          transaction_code_offset: 110
+          oneway: true
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: dexModulePath
+              type:
+                name: String
+              direction: in
+            - name: isSharedModule
+              type:
+                name: boolean
+              direction: in
+            - name: callback
+              type:
+                name: IDexModuleRegisterCallback
+          return_type:
+            name: void
+        - name: performDexOptMode
+          transaction_code_offset: 111
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: checkProfiles
+              type:
+                name: boolean
+            - name: targetCompilerFilter
+              type:
+                name: String
+            - name: force
+              type:
+                name: boolean
+            - name: bootComplete
+              type:
+                name: boolean
+            - name: splitName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: performDexOptSecondary
+          transaction_code_offset: 112
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: targetCompilerFilter
+              type:
+                name: String
+            - name: force
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: getMoveStatus
+          transaction_code_offset: 113
+          params:
+            - name: moveId
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: registerMoveCallback
+          transaction_code_offset: 114
+          params:
+            - name: callback
+              type:
+                name: IPackageMoveObserver
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: unregisterMoveCallback
+          transaction_code_offset: 115
+          params:
+            - name: callback
+              type:
+                name: IPackageMoveObserver
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: movePackage
+          transaction_code_offset: 116
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: volumeUuid
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: movePrimaryStorage
+          transaction_code_offset: 117
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: setInstallLocation
+          transaction_code_offset: 118
+          params:
+            - name: loc
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: getInstallLocation
+          transaction_code_offset: 119
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: installExistingPackageAsUser
+          transaction_code_offset: 120
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: installFlags
+              type:
+                name: int
+            - name: installReason
+              type:
+                name: int
+            - name: whiteListedPermissions
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: int
+        - name: verifyPendingInstall
+          transaction_code_offset: 121
+          params:
+            - name: id
+              type:
+                name: int
+            - name: verificationCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: extendVerificationTimeout
+          transaction_code_offset: 122
+          params:
+            - name: id
+              type:
+                name: int
+            - name: verificationCodeAtTimeout
+              type:
+                name: int
+            - name: millisecondsToDelay
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: verifyIntentFilter
+          transaction_code_offset: 123
+          params:
+            - name: id
+              type:
+                name: int
+            - name: verificationCode
+              type:
+                name: int
+            - name: failedDomains
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getIntentVerificationStatus
+          transaction_code_offset: 124
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: updateIntentVerificationStatus
+          transaction_code_offset: 125
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: status
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getIntentFilterVerifications
+          transaction_code_offset: 126
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+        - name: getAllIntentFilters
+          transaction_code_offset: 127
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+        - name: getVerifierDeviceIdentity
+          transaction_code_offset: 128
+          return_type:
+            name: VerifierDeviceIdentity
+          annotations:
+            - EnforcePermission
+        - name: isFirstBoot
+          transaction_code_offset: 129
+          return_type:
+            name: boolean
+        - name: isDeviceUpgrading
+          transaction_code_offset: 130
+          return_type:
+            name: boolean
+        - name: isStorageLow
+          transaction_code_offset: 131
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: setApplicationHiddenSettingAsUser
+          transaction_code_offset: 132
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: hidden
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+            - UnsupportedAppUsage
+        - name: getApplicationHiddenSettingAsUser
+          transaction_code_offset: 133
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setSystemAppHiddenUntilInstalled
+          transaction_code_offset: 134
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: hidden
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setSystemAppInstallState
+          transaction_code_offset: 135
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: installed
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getPackageInstaller
+          transaction_code_offset: 136
+          return_type:
+            name: IPackageInstaller
+          annotations:
+            - UnsupportedAppUsage
+        - name: setBlockUninstallForUser
+          transaction_code_offset: 137
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: blockUninstall
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: getBlockUninstallForUser
+          transaction_code_offset: 138
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: getKeySetByAlias
+          transaction_code_offset: 139
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: KeySet
+        - name: getSigningKeySet
+          transaction_code_offset: 140
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: KeySet
+        - name: isPackageSignedByKeySet
+          transaction_code_offset: 141
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: ks
+              type:
+                name: KeySet
+              direction: in
+          return_type:
+            name: boolean
+        - name: isPackageSignedByKeySetExactly
+          transaction_code_offset: 142
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: ks
+              type:
+                name: KeySet
+              direction: in
+          return_type:
+            name: boolean
+        - name: getPermissionControllerPackageName
+          transaction_code_offset: 143
+          return_type:
+            name: String
+          annotations:
+            - UnsupportedAppUsage
+        - name: getSdkSandboxPackageName
+          transaction_code_offset: 144
+          return_type:
+            name: String
+        - name: getInstantApps
+          transaction_code_offset: 145
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: getInstantAppCookie
+          transaction_code_offset: 146
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: byte
+            is_array: true
+        - name: setInstantAppCookie
+          transaction_code_offset: 147
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: cookie
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getInstantAppIcon
+          transaction_code_offset: 148
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: Bitmap
+        - name: isInstantApp
+          transaction_code_offset: 149
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setRequiredForSystemUser
+          transaction_code_offset: 150
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: systemUserApp
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: setUpdateAvailable
+          transaction_code_offset: 151
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: updateAvaialble
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getServicesSystemSharedLibraryPackageName
+          transaction_code_offset: 152
+          return_type:
+            name: String
+          annotations:
+            - UnsupportedAppUsage
+        - name: getSharedSystemSharedLibraryPackageName
+          transaction_code_offset: 153
+          return_type:
+            name: String
+          annotations:
+            - UnsupportedAppUsage
+        - name: getChangedPackages
+          transaction_code_offset: 154
+          params:
+            - name: sequenceNumber
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ChangedPackages
+        - name: isPackageDeviceAdminOnAnyUser
+          transaction_code_offset: 155
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getInstallReason
+          transaction_code_offset: 156
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getSharedLibraries
+          transaction_code_offset: 157
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: getDeclaredSharedLibraries
+          transaction_code_offset: 158
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: flags
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: canRequestPackageInstalls
+          transaction_code_offset: 159
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: deletePreloadsFileCache
+          transaction_code_offset: 160
+          return_type:
+            name: void
+        - name: getInstantAppResolverComponent
+          transaction_code_offset: 161
+          return_type:
+            name: ComponentName
+        - name: getInstantAppResolverSettingsComponent
+          transaction_code_offset: 162
+          return_type:
+            name: ComponentName
+        - name: getInstantAppInstallerComponent
+          transaction_code_offset: 163
+          return_type:
+            name: ComponentName
+        - name: getInstantAppAndroidId
+          transaction_code_offset: 164
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+          annotations:
+            - EnforcePermission
+        - name: getArtManager
+          transaction_code_offset: 165
+          return_type:
+            name: IArtManager
+        - name: setHarmfulAppWarning
+          transaction_code_offset: 166
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: warning
+              type:
+                name: CharSequence
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getHarmfulAppWarning
+          transaction_code_offset: 167
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: CharSequence
+        - name: hasSigningCertificate
+          transaction_code_offset: 168
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: signingCertificate
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: hasUidSigningCertificate
+          transaction_code_offset: 169
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: signingCertificate
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getDefaultTextClassifierPackageName
+          transaction_code_offset: 170
+          return_type:
+            name: String
+        - name: getSystemTextClassifierPackageName
+          transaction_code_offset: 171
+          return_type:
+            name: String
+        - name: getAttentionServicePackageName
+          transaction_code_offset: 172
+          return_type:
+            name: String
+        - name: getRotationResolverPackageName
+          transaction_code_offset: 173
+          return_type:
+            name: String
+        - name: getWellbeingPackageName
+          transaction_code_offset: 174
+          return_type:
+            name: String
+        - name: getAppPredictionServicePackageName
+          transaction_code_offset: 175
+          return_type:
+            name: String
+        - name: getSystemCaptionsServicePackageName
+          transaction_code_offset: 176
+          return_type:
+            name: String
+        - name: getSetupWizardPackageName
+          transaction_code_offset: 177
+          return_type:
+            name: String
+        - name: getIncidentReportApproverPackageName
+          transaction_code_offset: 178
+          return_type:
+            name: String
+        - name: isPackageStateProtected
+          transaction_code_offset: 179
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: sendDeviceCustomizationReadyBroadcast
+          transaction_code_offset: 180
+          return_type:
+            name: void
+        - name: getInstalledModules
+          transaction_code_offset: 181
+          params:
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: ModuleInfo
+        - name: getModuleInfo
+          transaction_code_offset: 182
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: ModuleInfo
+        - name: getRuntimePermissionsVersion
+          transaction_code_offset: 183
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setRuntimePermissionsVersion
+          transaction_code_offset: 184
+          params:
+            - name: version
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyPackagesReplacedReceived
+          transaction_code_offset: 185
+          params:
+            - name: packages
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: requestPackageChecksums
+          transaction_code_offset: 186
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: includeSplits
+              type:
+                name: boolean
+            - name: optional
+              type:
+                name: int
+            - name: required
+              type:
+                name: int
+            - name: trustedInstallers
+              type:
+                name: List
+              direction: in
+            - name: onChecksumsReadyListener
+              type:
+                name: IOnChecksumsReadyListener
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getLaunchIntentSenderForPackage
+          transaction_code_offset: 187
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+            - name: featureId
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: IntentSender
+        - name: getAppOpPermissionPackages
+          transaction_code_offset: 188
+          params:
+            - name: permissionName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - UnsupportedAppUsage
+        - name: getPermissionGroupInfo
+          transaction_code_offset: 189
+          params:
+            - name: name
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: PermissionGroupInfo
+          annotations:
+            - UnsupportedAppUsage
+        - name: addPermission
+          transaction_code_offset: 190
+          params:
+            - name: info
+              type:
+                name: PermissionInfo
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: addPermissionAsync
+          transaction_code_offset: 191
+          params:
+            - name: info
+              type:
+                name: PermissionInfo
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: removePermission
+          transaction_code_offset: 192
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: checkPermission
+          transaction_code_offset: 193
+          params:
+            - name: permName
+              type:
+                name: String
+            - name: pkgName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: grantRuntimePermission
+          transaction_code_offset: 194
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: permissionName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: checkUidPermission
+          transaction_code_offset: 195
+          params:
+            - name: permName
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setMimeGroup
+          transaction_code_offset: 196
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: group
+              type:
+                name: String
+            - name: mimeTypes
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getSplashScreenTheme
+          transaction_code_offset: 197
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: setSplashScreenTheme
+          transaction_code_offset: 198
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: themeName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getUserMinAspectRatio
+          transaction_code_offset: 199
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setUserMinAspectRatio
+          transaction_code_offset: 200
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: aspectRatio
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getMimeGroup
+          transaction_code_offset: 201
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: group
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: isAutoRevokeWhitelisted
+          transaction_code_offset: 202
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: makeProviderVisible
+          transaction_code_offset: 203
+          params:
+            - name: recipientAppId
+              type:
+                name: int
+            - name: visibleAuthority
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: makeUidVisible
+          transaction_code_offset: 204
+          params:
+            - name: recipientAppId
+              type:
+                name: int
+            - name: visibleUid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: getHoldLockToken
+          transaction_code_offset: 205
+          return_type:
+            name: IBinder
+        - name: holdLock
+          transaction_code_offset: 206
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: durationMs
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getPropertyAsUser
+          transaction_code_offset: 207
+          params:
+            - name: propertyName
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: className
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: PackageManager.Property
+        - name: queryProperty
+          transaction_code_offset: 208
+          params:
+            - name: propertyName
+              type:
+                name: String
+            - name: componentType
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: setKeepUninstalledPackages
+          transaction_code_offset: 209
+          params:
+            - name: packageList
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: canPackageQuery
+          transaction_code_offset: 210
+          params:
+            - name: sourcePackageName
+              type:
+                name: String
+            - name: targetPackageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+            is_array: true
+        - name: waitForHandler
+          transaction_code_offset: 211
+          params:
+            - name: timeoutMillis
+              type:
+                name: long
+            - name: forBackgroundHandler
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: registerPackageMonitorCallback
+          transaction_code_offset: 212
+          params:
+            - name: callback
+              type:
+                name: IRemoteCallback
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: unregisterPackageMonitorCallback
+          transaction_code_offset: 213
+          params:
+            - name: callback
+              type:
+                name: IRemoteCallback
+          return_type:
+            name: void
+        - name: getArchivedPackage
+          transaction_code_offset: 214
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ArchivedPackageParcel
+        - name: getArchivedAppIcon
+          transaction_code_offset: 215
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: callingPackageName
+              type:
+                name: String
+          return_type:
+            name: Bitmap
+        - name: isAppArchivable
+          transaction_code_offset: 216
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: boolean
+        - name: getAppMetadataSource
+          transaction_code_offset: 217
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: getDomainVerificationAgent
+          transaction_code_offset: 218
+          return_type:
+            name: ComponentName
+    - name: IPackageManagerNative
+      descriptor: android.content.pm.IPackageManagerNative
+      methods:
+        - name: getNamesForUids
+          transaction_code_offset: 0
+          params:
+            - name: uids
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - utf8InCpp
+        - name: getInstallerForPackage
+          transaction_code_offset: 1
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: getVersionCodeForPackage
+          transaction_code_offset: 2
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: long
+        - name: isAudioPlaybackCaptureAllowed
+          transaction_code_offset: 3
+          params:
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: boolean
+            is_array: true
+        - name: getLocationFlags
+          transaction_code_offset: 4
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: getTargetSdkVersionForPackage
+          transaction_code_offset: 5
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: getModuleMetadataPackageName
+          transaction_code_offset: 6
+          return_type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: hasSha256SigningCertificate
+          transaction_code_offset: 7
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: certificate
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: boolean
+        - name: isPackageDebuggable
+          transaction_code_offset: 8
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: hasSystemFeature
+          transaction_code_offset: 9
+          params:
+            - name: featureName
+              type:
+                name: String
+              direction: in
+            - name: version
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: registerStagedApexObserver
+          transaction_code_offset: 10
+          params:
+            - name: observer
+              type:
+                name: IStagedApexObserver
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterStagedApexObserver
+          transaction_code_offset: 11
+          params:
+            - name: observer
+              type:
+                name: IStagedApexObserver
+              direction: in
+          return_type:
+            name: void
+        - name: getStagedApexModuleNames
+          transaction_code_offset: 12
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - utf8InCpp
+        - name: getStagedApexInfo
+          transaction_code_offset: 13
+          params:
+            - name: moduleName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: StagedApexInfo
+          annotations:
+            - nullable
+      constants:
+        - name: LOCATION_SYSTEM
+          type: int
+          value: "0x1"
+        - name: LOCATION_VENDOR
+          type: int
+          value: "0x2"
+        - name: LOCATION_PRODUCT
+          type: int
+          value: "0x4"
+    - name: IPackageMoveObserver
+      descriptor: android.content.pm.IPackageMoveObserver
+      oneway: true
+      methods:
+        - name: onCreated
+          transaction_code_offset: 0
+          params:
+            - name: moveId
+              type:
+                name: int
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onStatusChanged
+          transaction_code_offset: 1
+          params:
+            - name: moveId
+              type:
+                name: int
+            - name: status
+              type:
+                name: int
+            - name: estMillis
+              type:
+                name: long
+          return_type:
+            name: void
+    - name: IPackageStatsObserver
+      descriptor: android.content.pm.IPackageStatsObserver
+      oneway: true
+      methods:
+        - name: onGetStatsCompleted
+          transaction_code_offset: 0
+          params:
+            - name: pStats
+              type:
+                name: PackageStats
+              direction: in
+            - name: succeeded
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IPinItemRequest
+      descriptor: android.content.pm.IPinItemRequest
+      methods:
+        - name: isValid
+          transaction_code_offset: 0
+          return_type:
+            name: boolean
+        - name: accept
+          transaction_code_offset: 1
+          params:
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: boolean
+        - name: getShortcutInfo
+          transaction_code_offset: 2
+          return_type:
+            name: ShortcutInfo
+        - name: getAppWidgetProviderInfo
+          transaction_code_offset: 3
+          return_type:
+            name: AppWidgetProviderInfo
+        - name: getExtras
+          transaction_code_offset: 4
+          return_type:
+            name: Bundle
+    - name: IShortcutChangeCallback
+      descriptor: android.content.pm.IShortcutChangeCallback
+      oneway: true
+      methods:
+        - name: onShortcutsAddedOrUpdated
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: shortcuts
+              type:
+                name: List
+                type_args:
+                    - name: ShortcutInfo
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: void
+        - name: onShortcutsRemoved
+          transaction_code_offset: 1
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: shortcuts
+              type:
+                name: List
+                type_args:
+                    - name: ShortcutInfo
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: void
+    - name: IShortcutService
+      descriptor: android.content.pm.IShortcutService
+      methods:
+        - name: setDynamicShortcuts
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: shortcutInfoList
+              type:
+                name: ParceledListSlice
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: addDynamicShortcuts
+          transaction_code_offset: 1
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: shortcutInfoList
+              type:
+                name: ParceledListSlice
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: removeDynamicShortcuts
+          transaction_code_offset: 2
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: shortcutIds
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removeAllDynamicShortcuts
+          transaction_code_offset: 3
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: updateShortcuts
+          transaction_code_offset: 4
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: shortcuts
+              type:
+                name: ParceledListSlice
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: requestPinShortcut
+          transaction_code_offset: 5
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: shortcut
+              type:
+                name: ShortcutInfo
+              direction: in
+            - name: resultIntent
+              type:
+                name: IntentSender
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: ret
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: createShortcutResultIntent
+          transaction_code_offset: 6
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: shortcut
+              type:
+                name: ShortcutInfo
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: ret
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: Intent
+              direction: in
+          return_type:
+            name: void
+        - name: disableShortcuts
+          transaction_code_offset: 7
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: shortcutIds
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: disabledMessage
+              type:
+                name: CharSequence
+            - name: disabledMessageResId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: enableShortcuts
+          transaction_code_offset: 8
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: shortcutIds
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getMaxShortcutCountPerActivity
+          transaction_code_offset: 9
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getRemainingCallCount
+          transaction_code_offset: 10
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getRateLimitResetTime
+          transaction_code_offset: 11
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: long
+        - name: getIconMaxDimensions
+          transaction_code_offset: 12
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: reportShortcutUsed
+          transaction_code_offset: 13
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: shortcutId
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: resetThrottling
+          transaction_code_offset: 14
+          return_type:
+            name: void
+        - name: onApplicationActive
+          transaction_code_offset: 15
+          oneway: true
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getBackupPayload
+          transaction_code_offset: 16
+          params:
+            - name: user
+              type:
+                name: int
+          return_type:
+            name: byte
+            is_array: true
+        - name: applyRestore
+          transaction_code_offset: 17
+          params:
+            - name: payload
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: user
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isRequestPinItemSupported
+          transaction_code_offset: 18
+          params:
+            - name: user
+              type:
+                name: int
+            - name: requestType
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getShareTargets
+          transaction_code_offset: 19
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: filter
+              type:
+                name: IntentFilter
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: hasShareTargets
+          transaction_code_offset: 20
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: packageToCheck
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: removeLongLivedShortcuts
+          transaction_code_offset: 21
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: shortcutIds
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getShortcuts
+          transaction_code_offset: 22
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: matchFlags
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: pushDynamicShortcut
+          transaction_code_offset: 23
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: shortcut
+              type:
+                name: ShortcutInfo
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IStagedApexObserver
+      descriptor: android.content.pm.IStagedApexObserver
+      oneway: true
+      methods:
+        - name: onApexStaged
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: ApexStagedEvent
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: ActivityInfo
+    - name: ApexStagedEvent
+      fields:
+        - name: stagedApexModuleNames
+          type:
+            name: String
+            is_array: true
+          annotations:
+            - utf8InCpp
+    - name: ApkChecksum
+    - name: ApplicationInfo
+    - name: ArchivedActivityParcel
+      fields:
+        - name: title
+          type:
+            name: String
+        - name: originalComponentName
+          type:
+            name: ComponentName
+        - name: iconBitmap
+          type:
+            name: byte
+            is_array: true
+        - name: monochromeIconBitmap
+          type:
+            name: byte
+            is_array: true
+    - name: ArchivedPackageParcel
+      fields:
+        - name: packageName
+          type:
+            name: String
+        - name: signingDetails
+          type:
+            name: SigningDetails
+        - name: versionCode
+          type:
+            name: int
+        - name: versionCodeMajor
+          type:
+            name: int
+        - name: targetSdkVersion
+          type:
+            name: int
+        - name: defaultToDeviceProtectedStorage
+          type:
+            name: String
+        - name: requestLegacyExternalStorage
+          type:
+            name: String
+        - name: userDataFragile
+          type:
+            name: String
+        - name: archivedActivities
+          type:
+            name: ArchivedActivityParcel
+            is_array: true
+    - name: Attribution
+    - name: BasicActivityInfo
+    - name: Capability
+    - name: CapabilityParams
+    - name: ChangedPackages
+    - name: Checksum
+    - name: ConfigurationInfo
+    - name: DataLoaderParamsParcel
+      fields:
+        - name: type
+          type:
+            name: DataLoaderType
+          default_value: DataLoaderType.NONE
+        - name: packageName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: className
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: arguments
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+    - name: FeatureInfo
+    - name: FileSystemControlParcel
+      fields:
+        - name: incremental
+          type:
+            name: IncrementalFileSystemControlParcel
+          annotations:
+            - nullable
+        - name: service
+          type:
+            name: IIncrementalServiceConnector
+          annotations:
+            - nullable
+        - name: callback
+          type:
+            name: IPackageInstallerSessionFileSystemConnector
+          annotations:
+            - nullable
+    - name: IncrementalStatesInfo
+    - name: InstallSourceInfo
+    - name: InstallationFile
+    - name: InstallationFileParcel
+      fields:
+        - name: name
+          type:
+            name: String
+        - name: location
+          type:
+            name: InstallationFileLocation
+          default_value: InstallationFileLocation.UNKNOWN
+        - name: size
+          type:
+            name: long
+        - name: metadata
+          type:
+            name: byte
+            is_array: true
+        - name: signature
+          type:
+            name: byte
+            is_array: true
+    - name: InstantAppInfo
+    - name: InstantAppRequestInfo
+    - name: InstrumentationInfo
+    - name: IntentFilterVerificationInfo
+    - name: KeySet
+    - name: LabeledIntent
+    - name: LauncherActivityInfoInternal
+    - name: LauncherApps.AppUsageLimit
+    - name: LauncherUserInfo
+    - name: ModuleInfo
+    - name: PackageInfo
+    - name: PackageInfoLite
+    - name: PackageInstaller.InstallConstraints
+    - name: PackageInstaller.PreapprovalDetails
+    - name: PackageInstaller.SessionInfo
+    - name: PackageInstaller.SessionParams
+    - name: PackageManager.ComponentEnabledSetting
+    - name: PackageManager.Property
+    - name: PackageStats
+    - name: ParceledListSlice
+    - name: PermissionGroupInfo
+    - name: PermissionInfo
+    - name: ProviderInfo
+    - name: ProviderInfoList
+    - name: ResolveInfo
+    - name: ServiceInfo
+    - name: SharedLibraryInfo
+    - name: ShortcutInfo
+    - name: ShortcutQueryWrapper
+    - name: SignedPackageParcel
+      fields:
+        - name: packageName
+          type:
+            name: String
+        - name: certificateDigest
+          type:
+            name: byte
+            is_array: true
+    - name: SigningDetails
+    - name: StagedApexInfo
+      fields:
+        - name: moduleName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: diskImagePath
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: versionCode
+          type:
+            name: long
+        - name: versionName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: hasClassPathJars
+          type:
+            name: boolean
+    - name: StringParceledListSlice
+    - name: SuspendDialogInfo
+    - name: UserInfo
+    - name: UserProperties
+    - name: VerifierDeviceIdentity
+    - name: VerifierInfo
+    - name: VersionedPackage
+enums:
+    - name: DataLoaderType
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: STREAMING
+          value: "1"
+        - name: INCREMENTAL
+          value: "2"
+      annotations:
+        - Backing
+    - name: InstallationFileLocation
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "-1"
+        - name: DATA_APP
+          value: "0"
+        - name: MEDIA_OBB
+          value: "1"
+        - name: MEDIA_DATA
+          value: "2"
+      annotations:
+        - Backing

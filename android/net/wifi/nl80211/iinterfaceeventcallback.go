@@ -54,6 +54,7 @@ func (p *InterfaceEventCallbackProxy) OnClientInterfaceReady(
 	network_interface IClientInterface,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInterfaceEventCallback)
 	binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
 
@@ -71,6 +72,7 @@ func (p *InterfaceEventCallbackProxy) OnApInterfaceReady(
 	network_interface IApInterface,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInterfaceEventCallback)
 	binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
 
@@ -88,6 +90,7 @@ func (p *InterfaceEventCallbackProxy) OnClientTorndownEvent(
 	network_interface IClientInterface,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInterfaceEventCallback)
 	binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
 
@@ -105,6 +108,7 @@ func (p *InterfaceEventCallbackProxy) OnApTorndownEvent(
 	network_interface IApInterface,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInterfaceEventCallback)
 	binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
 
@@ -120,7 +124,8 @@ func (p *InterfaceEventCallbackProxy) OnApTorndownEvent(
 // InterfaceEventCallbackStub dispatches incoming binder transactions
 // to a typed IInterfaceEventCallback implementation.
 type InterfaceEventCallbackStub struct {
-	Impl IInterfaceEventCallback
+	Impl      IInterfaceEventCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InterfaceEventCallbackStub)(nil)
@@ -134,47 +139,55 @@ func (s *InterfaceEventCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInterfaceEventCallbackOnClientInterfaceReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_network_interface IClientInterface
-		_ = _arg_network_interface
+		{
+			_network_interfaceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_network_interface = NewClientInterfaceProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _network_interfaceHandle))
+		}
 		_err := s.Impl.OnClientInterfaceReady(ctx, _arg_network_interface)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInterfaceEventCallbackOnApInterfaceReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_network_interface IApInterface
-		_ = _arg_network_interface
+		{
+			_network_interfaceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_network_interface = NewApInterfaceProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _network_interfaceHandle))
+		}
 		_err := s.Impl.OnApInterfaceReady(ctx, _arg_network_interface)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInterfaceEventCallbackOnClientTorndownEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_network_interface IClientInterface
-		_ = _arg_network_interface
-		_err := s.Impl.OnClientTorndownEvent(ctx, _arg_network_interface)
-		_ = _err
-		return nil, nil
-	case TransactionIInterfaceEventCallbackOnApTorndownEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_network_interfaceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_network_interface = NewClientInterfaceProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _network_interfaceHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err := s.Impl.OnClientTorndownEvent(ctx, _arg_network_interface)
+		return nil, _err
+	case TransactionIInterfaceEventCallbackOnApTorndownEvent:
 		var _arg_network_interface IApInterface
-		_ = _arg_network_interface
+		{
+			_network_interfaceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_network_interface = NewApInterfaceProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _network_interfaceHandle))
+		}
 		_err := s.Impl.OnApTorndownEvent(ctx, _arg_network_interface)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

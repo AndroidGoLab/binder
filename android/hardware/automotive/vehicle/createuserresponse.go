@@ -34,9 +34,19 @@ func (s *CreateUserResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.RequestId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_statusRaw, _err := p.ReadInt32()
@@ -44,6 +54,11 @@ func (s *CreateUserResponse) UnmarshalParcel(
 		return _err
 	}
 	s.Status = CreateUserStatus(_statusRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.ErrorMessage, _err = p.ReadString16()
 	if _err != nil {

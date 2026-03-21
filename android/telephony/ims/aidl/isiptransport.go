@@ -52,6 +52,7 @@ func (p *SipTransportProxy) CreateSipDelegate(
 	mc ISipDelegateMessageCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipTransport)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -76,6 +77,7 @@ func (p *SipTransportProxy) DestroySipDelegate(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipTransport)
 	binder.WriteBinderToParcel(ctx, _data, delegate.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(reason)
@@ -92,7 +94,8 @@ func (p *SipTransportProxy) DestroySipDelegate(
 // SipTransportStub dispatches incoming binder transactions
 // to a typed ISipTransport implementation.
 type SipTransportStub struct {
-	Impl ISipTransport
+	Impl      ISipTransport
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SipTransportStub)(nil)
@@ -106,11 +109,12 @@ func (s *SipTransportStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISipTransportCreateSipDelegate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -127,29 +131,39 @@ func (s *SipTransportStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_dc ISipDelegateStateCallback
-		_ = _arg_dc
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_mc ISipDelegateMessageCallback
-		_ = _arg_mc
-		_err = s.Impl.CreateSipDelegate(ctx, _arg_subId, _arg_request, _arg_dc, _arg_mc)
-		_ = _err
-		return nil, nil
-	case TransactionISipTransportDestroySipDelegate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_dcHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_dc = NewSipDelegateStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _dcHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_mc ISipDelegateMessageCallback
+		{
+			_mcHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_mc = NewSipDelegateMessageCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _mcHandle))
+		}
+		_err = s.Impl.CreateSipDelegate(ctx, _arg_subId, _arg_request, _arg_dc, _arg_mc)
+		return nil, _err
+	case TransactionISipTransportDestroySipDelegate:
 		var _arg_delegate ISipDelegate
-		_ = _arg_delegate
+		{
+			_delegateHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_delegate = NewSipDelegateProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _delegateHandle))
+		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DestroySipDelegate(ctx, _arg_delegate, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

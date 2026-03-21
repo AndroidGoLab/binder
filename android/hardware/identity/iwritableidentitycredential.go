@@ -68,23 +68,10 @@ func (p *WritableIdentityCredentialProxy) GetAttestationCertificate(
 ) ([]Certificate, error) {
 	var _result []Certificate
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWritableIdentityCredential)
-	if attestationApplicationId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(attestationApplicationId)))
-		for _, _item := range attestationApplicationId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if attestationChallenge == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(attestationChallenge)))
-		for _, _item := range attestationChallenge {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(attestationApplicationId)
+	_data.WriteByteArray(attestationChallenge)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialGetAttestationCertificate)
 	if _err != nil {
@@ -104,6 +91,9 @@ func (p *WritableIdentityCredentialProxy) GetAttestationCertificate(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -126,6 +116,7 @@ func (p *WritableIdentityCredentialProxy) StartPersonalization(
 	entryCounts []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWritableIdentityCredential)
 	_data.WriteInt32(accessControlProfileCount)
 	if entryCounts == nil {
@@ -165,6 +156,7 @@ func (p *WritableIdentityCredentialProxy) AddAccessControlProfile(
 ) (SecureAccessControlProfile, error) {
 	var _result SecureAccessControlProfile
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWritableIdentityCredential)
 	_data.WriteInt32(id)
 	_data.WriteInt32(1)
@@ -210,6 +202,7 @@ func (p *WritableIdentityCredentialProxy) BeginAddEntry(
 	entrySize int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWritableIdentityCredential)
 	if accessControlProfileIds == nil {
 		_data.WriteInt32(-1)
@@ -247,15 +240,9 @@ func (p *WritableIdentityCredentialProxy) AddEntryValue(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWritableIdentityCredential)
-	if content == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(content)))
-		for _, _item := range content {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(content)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialAddEntryValue)
 	if _err != nil {
@@ -272,19 +259,9 @@ func (p *WritableIdentityCredentialProxy) AddEntryValue(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -295,6 +272,7 @@ func (p *WritableIdentityCredentialProxy) FinishAddingEntries(
 	proofOfProvisioningSignature []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWritableIdentityCredential)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialFinishAddingEntries)
@@ -311,31 +289,13 @@ func (p *WritableIdentityCredentialProxy) FinishAddingEntries(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
-	_outCount0, _err := _reply.ReadInt32()
+	credentialData, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _err
 	}
-	if _outCount0 >= 0 {
-		credentialData = make([]byte, _outCount0)
-		for _i := int32(0); _i < _outCount0; _i++ {
-			credentialData[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
-	}
-	_outCount1, _err := _reply.ReadInt32()
+	proofOfProvisioningSignature, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _outCount1 >= 0 {
-		proofOfProvisioningSignature = make([]byte, _outCount1)
-		for _i := int32(0); _i < _outCount1; _i++ {
-			proofOfProvisioningSignature[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	return nil
@@ -346,6 +306,7 @@ func (p *WritableIdentityCredentialProxy) SetExpectedProofOfProvisioningSize(
 	expectedProofOfProvisioningSize int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWritableIdentityCredential)
 	_data.WriteInt32(expectedProofOfProvisioningSize)
 
@@ -373,23 +334,10 @@ func (p *WritableIdentityCredentialProxy) SetRemotelyProvisionedAttestationKey(
 	attestationCertificate []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWritableIdentityCredential)
-	if attestationKeyBlob == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(attestationKeyBlob)))
-		for _, _item := range attestationKeyBlob {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if attestationCertificate == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(attestationCertificate)))
-		for _, _item := range attestationCertificate {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(attestationKeyBlob)
+	_data.WriteByteArray(attestationCertificate)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialSetRemotelyProvisionedAttestationKey)
 	if _err != nil {
@@ -412,7 +360,8 @@ func (p *WritableIdentityCredentialProxy) SetRemotelyProvisionedAttestationKey(
 // WritableIdentityCredentialStub dispatches incoming binder transactions
 // to a typed IWritableIdentityCredential implementation.
 type WritableIdentityCredentialStub struct {
-	Impl IWritableIdentityCredential
+	Impl      IWritableIdentityCredential
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WritableIdentityCredentialStub)(nil)
@@ -426,17 +375,28 @@ func (s *WritableIdentityCredentialStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWritableIdentityCredentialGetAttestationCertificate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_attestationApplicationId []byte
-		_ = _arg_attestationApplicationId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_attestationApplicationId = _bytes
+		}
 		var _arg_attestationChallenge []byte
-		_ = _arg_attestationChallenge
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_attestationChallenge = _bytes
+		}
 		_result, _err := s.Impl.GetAttestationCertificate(ctx, _arg_attestationApplicationId, _arg_attestationChallenge)
 		_reply := parcel.New()
 		if _err != nil {
@@ -444,20 +404,42 @@ func (s *WritableIdentityCredentialStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIWritableIdentityCredentialStartPersonalization:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_accessControlProfileCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_entryCounts []int32
-		_ = _arg_entryCounts
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_entryCounts = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_entryCounts[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.StartPersonalization(ctx, _arg_accessControlProfileCount, _arg_entryCounts)
 		_reply := parcel.New()
 		if _err != nil {
@@ -467,9 +449,6 @@ func (s *WritableIdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWritableIdentityCredentialAddAccessControlProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -511,12 +490,25 @@ func (s *WritableIdentityCredentialStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWritableIdentityCredentialBeginAddEntry:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_accessControlProfileIds []int32
-		_ = _arg_accessControlProfileIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_accessControlProfileIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_accessControlProfileIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_nameSpace, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -538,12 +530,14 @@ func (s *WritableIdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWritableIdentityCredentialAddEntryValue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_content []byte
-		_ = _arg_content
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_content = _bytes
+		}
 		_result, _err := s.Impl.AddEntryValue(ctx, _arg_content)
 		_reply := parcel.New()
 		if _err != nil {
@@ -551,13 +545,9 @@ func (s *WritableIdentityCredentialStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIWritableIdentityCredentialFinishAddingEntries:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_credentialData []byte
 		var _arg_proofOfProvisioningSignature []byte
 		_err := s.Impl.FinishAddingEntries(ctx, _arg_credentialData, _arg_proofOfProvisioningSignature)
@@ -567,11 +557,10 @@ func (s *WritableIdentityCredentialStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		_reply.WriteByteArray(_arg_credentialData)
+		_reply.WriteByteArray(_arg_proofOfProvisioningSignature)
 		return _reply, nil
 	case TransactionIWritableIdentityCredentialSetExpectedProofOfProvisioningSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_expectedProofOfProvisioningSize, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -585,15 +574,22 @@ func (s *WritableIdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWritableIdentityCredentialSetRemotelyProvisionedAttestationKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_attestationKeyBlob []byte
-		_ = _arg_attestationKeyBlob
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_attestationKeyBlob = _bytes
+		}
 		var _arg_attestationCertificate []byte
-		_ = _arg_attestationCertificate
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_attestationCertificate = _bytes
+		}
 		_err := s.Impl.SetRemotelyProvisionedAttestationKey(ctx, _arg_attestationKeyBlob, _arg_attestationCertificate)
 		_reply := parcel.New()
 		if _err != nil {

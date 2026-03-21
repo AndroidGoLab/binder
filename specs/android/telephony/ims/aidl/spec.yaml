@@ -1,0 +1,2377 @@
+package: android.telephony.ims.aidl
+go_package: android/telephony/ims/aidl
+interfaces:
+    - name: ICapabilityExchangeEventListener
+      descriptor: android.telephony.ims.aidl.ICapabilityExchangeEventListener
+      oneway: true
+      methods:
+        - name: onRequestPublishCapabilities
+          transaction_code_offset: 0
+          params:
+            - name: publishTriggerType
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onUnpublish
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onPublishUpdated
+          transaction_code_offset: 2
+          params:
+            - name: details
+              type:
+                name: SipDetails
+              direction: in
+          return_type:
+            name: void
+        - name: onRemoteCapabilityRequest
+          transaction_code_offset: 3
+          params:
+            - name: contactUri
+              type:
+                name: Uri
+              direction: in
+            - name: remoteCapabilities
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: cb
+              type:
+                name: IOptionsRequestCallback
+          return_type:
+            name: void
+    - name: IFeatureProvisioningCallback
+      descriptor: android.telephony.ims.aidl.IFeatureProvisioningCallback
+      oneway: true
+      methods:
+        - name: onFeatureProvisioningChanged
+          transaction_code_offset: 0
+          params:
+            - name: capability
+              type:
+                name: int
+            - name: tech
+              type:
+                name: int
+            - name: isProvisioned
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onRcsFeatureProvisioningChanged
+          transaction_code_offset: 1
+          params:
+            - name: capability
+              type:
+                name: int
+            - name: tech
+              type:
+                name: int
+            - name: isProvisioned
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IImsCallSessionListener
+      descriptor: android.telephony.ims.aidl.IImsCallSessionListener
+      oneway: true
+      methods:
+        - name: callSessionInitiating
+          transaction_code_offset: 0
+          params:
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionInitiatingFailed
+          transaction_code_offset: 1
+          params:
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionProgressing
+          transaction_code_offset: 2
+          params:
+            - name: profile
+              type:
+                name: ImsStreamMediaProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionInitiated
+          transaction_code_offset: 3
+          params:
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionInitiatedFailed
+          transaction_code_offset: 4
+          params:
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionTerminated
+          transaction_code_offset: 5
+          params:
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionHeld
+          transaction_code_offset: 6
+          params:
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionHoldFailed
+          transaction_code_offset: 7
+          params:
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionHoldReceived
+          transaction_code_offset: 8
+          params:
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionResumed
+          transaction_code_offset: 9
+          params:
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionResumeFailed
+          transaction_code_offset: 10
+          params:
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionResumeReceived
+          transaction_code_offset: 11
+          params:
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionMergeStarted
+          transaction_code_offset: 12
+          params:
+            - name: newSession
+              type:
+                name: IImsCallSession
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionMergeComplete
+          transaction_code_offset: 13
+          params:
+            - name: session
+              type:
+                name: IImsCallSession
+          return_type:
+            name: void
+        - name: callSessionMergeFailed
+          transaction_code_offset: 14
+          params:
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionUpdated
+          transaction_code_offset: 15
+          params:
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionUpdateFailed
+          transaction_code_offset: 16
+          params:
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionUpdateReceived
+          transaction_code_offset: 17
+          params:
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionConferenceExtended
+          transaction_code_offset: 18
+          params:
+            - name: newSession
+              type:
+                name: IImsCallSession
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionConferenceExtendFailed
+          transaction_code_offset: 19
+          params:
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionConferenceExtendReceived
+          transaction_code_offset: 20
+          params:
+            - name: newSession
+              type:
+                name: IImsCallSession
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionInviteParticipantsRequestDelivered
+          transaction_code_offset: 21
+          return_type:
+            name: void
+        - name: callSessionInviteParticipantsRequestFailed
+          transaction_code_offset: 22
+          params:
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionRemoveParticipantsRequestDelivered
+          transaction_code_offset: 23
+          return_type:
+            name: void
+        - name: callSessionRemoveParticipantsRequestFailed
+          transaction_code_offset: 24
+          params:
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionConferenceStateUpdated
+          transaction_code_offset: 25
+          params:
+            - name: state
+              type:
+                name: ImsConferenceState
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionUssdMessageReceived
+          transaction_code_offset: 26
+          params:
+            - name: mode
+              type:
+                name: int
+            - name: ussdMessage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: callSessionHandover
+          transaction_code_offset: 27
+          params:
+            - name: srcNetworkType
+              type:
+                name: int
+            - name: targetNetworkType
+              type:
+                name: int
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionHandoverFailed
+          transaction_code_offset: 28
+          params:
+            - name: srcNetworkType
+              type:
+                name: int
+            - name: targetNetworkType
+              type:
+                name: int
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionMayHandover
+          transaction_code_offset: 29
+          params:
+            - name: srcNetworkType
+              type:
+                name: int
+            - name: targetNetworkType
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: callSessionTtyModeReceived
+          transaction_code_offset: 30
+          params:
+            - name: mode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: callSessionMultipartyStateChanged
+          transaction_code_offset: 31
+          params:
+            - name: isMultiParty
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: callSessionSuppServiceReceived
+          transaction_code_offset: 32
+          params:
+            - name: suppSrvNotification
+              type:
+                name: ImsSuppServiceNotification
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionRttModifyRequestReceived
+          transaction_code_offset: 33
+          params:
+            - name: callProfile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionRttModifyResponseReceived
+          transaction_code_offset: 34
+          params:
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: callSessionRttMessageReceived
+          transaction_code_offset: 35
+          params:
+            - name: rttMessage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionRttAudioIndicatorChanged
+          transaction_code_offset: 36
+          params:
+            - name: profile
+              type:
+                name: ImsStreamMediaProfile
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionTransferred
+          transaction_code_offset: 37
+          return_type:
+            name: void
+        - name: callSessionTransferFailed
+          transaction_code_offset: 38
+          params:
+            - name: reasonInfo
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionDtmfReceived
+          transaction_code_offset: 39
+          params:
+            - name: dtmf
+              type:
+                name: char
+          return_type:
+            name: void
+        - name: callQualityChanged
+          transaction_code_offset: 40
+          params:
+            - name: callQuality
+              type:
+                name: CallQuality
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionRtpHeaderExtensionsReceived
+          transaction_code_offset: 41
+          params:
+            - name: extensions
+              type:
+                name: List
+                type_args:
+                    - name: RtpHeaderExtension
+              direction: in
+          return_type:
+            name: void
+        - name: callSessionSendAnbrQuery
+          transaction_code_offset: 42
+          params:
+            - name: mediaType
+              type:
+                name: int
+            - name: direction
+              type:
+                name: int
+            - name: bitsPerSecond
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IImsCapabilityCallback
+      descriptor: android.telephony.ims.aidl.IImsCapabilityCallback
+      oneway: true
+      methods:
+        - name: onQueryCapabilityConfiguration
+          transaction_code_offset: 0
+          params:
+            - name: capability
+              type:
+                name: int
+            - name: radioTech
+              type:
+                name: int
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onChangeCapabilityConfigurationError
+          transaction_code_offset: 1
+          params:
+            - name: capability
+              type:
+                name: int
+            - name: radioTech
+              type:
+                name: int
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCapabilitiesStatusChanged
+          transaction_code_offset: 2
+          params:
+            - name: config
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IImsConfig
+      descriptor: android.telephony.ims.aidl.IImsConfig
+      methods:
+        - name: addImsConfigCallback
+          transaction_code_offset: 0
+          params:
+            - name: c
+              type:
+                name: IImsConfigCallback
+          return_type:
+            name: void
+        - name: removeImsConfigCallback
+          transaction_code_offset: 1
+          params:
+            - name: c
+              type:
+                name: IImsConfigCallback
+          return_type:
+            name: void
+        - name: getConfigInt
+          transaction_code_offset: 2
+          params:
+            - name: item
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getConfigString
+          transaction_code_offset: 3
+          params:
+            - name: item
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: setConfigInt
+          transaction_code_offset: 4
+          params:
+            - name: item
+              type:
+                name: int
+            - name: value
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setConfigString
+          transaction_code_offset: 5
+          params:
+            - name: item
+              type:
+                name: int
+            - name: value
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: updateImsCarrierConfigs
+          transaction_code_offset: 6
+          params:
+            - name: bundle
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+        - name: notifyRcsAutoConfigurationReceived
+          transaction_code_offset: 7
+          params:
+            - name: config
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: isCompressed
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: notifyRcsAutoConfigurationRemoved
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: addRcsConfigCallback
+          transaction_code_offset: 9
+          params:
+            - name: c
+              type:
+                name: IRcsConfigCallback
+          return_type:
+            name: void
+        - name: removeRcsConfigCallback
+          transaction_code_offset: 10
+          params:
+            - name: c
+              type:
+                name: IRcsConfigCallback
+          return_type:
+            name: void
+        - name: triggerRcsReconfiguration
+          transaction_code_offset: 11
+          return_type:
+            name: void
+        - name: setRcsClientConfiguration
+          transaction_code_offset: 12
+          params:
+            - name: rcc
+              type:
+                name: RcsClientConfiguration
+              direction: in
+          return_type:
+            name: void
+        - name: notifyIntImsConfigChanged
+          transaction_code_offset: 13
+          params:
+            - name: item
+              type:
+                name: int
+            - name: value
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyStringImsConfigChanged
+          transaction_code_offset: 14
+          params:
+            - name: item
+              type:
+                name: int
+            - name: value
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IImsConfigCallback
+      descriptor: android.telephony.ims.aidl.IImsConfigCallback
+      oneway: true
+      methods:
+        - name: onIntConfigChanged
+          transaction_code_offset: 0
+          params:
+            - name: item
+              type:
+                name: int
+            - name: value
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onStringConfigChanged
+          transaction_code_offset: 1
+          params:
+            - name: item
+              type:
+                name: int
+            - name: value
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IImsMmTelFeature
+      descriptor: android.telephony.ims.aidl.IImsMmTelFeature
+      methods:
+        - name: setListener
+          transaction_code_offset: 0
+          params:
+            - name: l
+              type:
+                name: IImsMmTelListener
+          return_type:
+            name: void
+        - name: getFeatureState
+          transaction_code_offset: 1
+          return_type:
+            name: int
+        - name: createCallProfile
+          transaction_code_offset: 2
+          params:
+            - name: callSessionType
+              type:
+                name: int
+            - name: callType
+              type:
+                name: int
+          return_type:
+            name: ImsCallProfile
+        - name: changeOfferedRtpHeaderExtensionTypes
+          transaction_code_offset: 3
+          params:
+            - name: types
+              type:
+                name: List
+                type_args:
+                    - name: RtpHeaderExtensionType
+              direction: in
+          return_type:
+            name: void
+        - name: createCallSession
+          transaction_code_offset: 4
+          params:
+            - name: profile
+              type:
+                name: ImsCallProfile
+              direction: in
+          return_type:
+            name: IImsCallSession
+        - name: shouldProcessCall
+          transaction_code_offset: 5
+          params:
+            - name: uris
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: int
+        - name: getUtInterface
+          transaction_code_offset: 6
+          return_type:
+            name: IImsUt
+        - name: getEcbmInterface
+          transaction_code_offset: 7
+          return_type:
+            name: IImsEcbm
+        - name: setUiTtyMode
+          transaction_code_offset: 8
+          params:
+            - name: uiTtyMode
+              type:
+                name: int
+            - name: onCompleteMessage
+              type:
+                name: Message
+              direction: in
+          return_type:
+            name: void
+        - name: getMultiEndpointInterface
+          transaction_code_offset: 9
+          return_type:
+            name: IImsMultiEndpoint
+        - name: queryCapabilityStatus
+          transaction_code_offset: 10
+          return_type:
+            name: int
+        - name: setTerminalBasedCallWaitingStatus
+          transaction_code_offset: 11
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: addCapabilityCallback
+          transaction_code_offset: 12
+          oneway: true
+          params:
+            - name: c
+              type:
+                name: IImsCapabilityCallback
+          return_type:
+            name: void
+        - name: removeCapabilityCallback
+          transaction_code_offset: 13
+          oneway: true
+          params:
+            - name: c
+              type:
+                name: IImsCapabilityCallback
+          return_type:
+            name: void
+        - name: changeCapabilitiesConfiguration
+          transaction_code_offset: 14
+          oneway: true
+          params:
+            - name: request
+              type:
+                name: CapabilityChangeRequest
+              direction: in
+            - name: c
+              type:
+                name: IImsCapabilityCallback
+          return_type:
+            name: void
+        - name: queryCapabilityConfiguration
+          transaction_code_offset: 15
+          oneway: true
+          params:
+            - name: capability
+              type:
+                name: int
+            - name: radioTech
+              type:
+                name: int
+            - name: c
+              type:
+                name: IImsCapabilityCallback
+          return_type:
+            name: void
+        - name: notifySrvccStarted
+          transaction_code_offset: 16
+          oneway: true
+          params:
+            - name: cb
+              type:
+                name: ISrvccStartedCallback
+              direction: in
+          return_type:
+            name: void
+        - name: notifySrvccCompleted
+          transaction_code_offset: 17
+          oneway: true
+          return_type:
+            name: void
+        - name: notifySrvccFailed
+          transaction_code_offset: 18
+          oneway: true
+          return_type:
+            name: void
+        - name: notifySrvccCanceled
+          transaction_code_offset: 19
+          oneway: true
+          return_type:
+            name: void
+        - name: setMediaQualityThreshold
+          transaction_code_offset: 20
+          oneway: true
+          params:
+            - name: mediaSessionType
+              type:
+                name: int
+            - name: threshold
+              type:
+                name: MediaThreshold
+              direction: in
+          return_type:
+            name: void
+        - name: queryMediaQualityStatus
+          transaction_code_offset: 21
+          params:
+            - name: mediaSessionType
+              type:
+                name: int
+          return_type:
+            name: MediaQualityStatus
+        - name: setSmsListener
+          transaction_code_offset: 22
+          params:
+            - name: l
+              type:
+                name: IImsSmsListener
+          return_type:
+            name: void
+        - name: sendSms
+          transaction_code_offset: 23
+          oneway: true
+          params:
+            - name: token
+              type:
+                name: int
+              direction: in
+            - name: messageRef
+              type:
+                name: int
+            - name: format
+              type:
+                name: String
+            - name: smsc
+              type:
+                name: String
+            - name: retry
+              type:
+                name: boolean
+            - name: pdu
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onMemoryAvailable
+          transaction_code_offset: 24
+          oneway: true
+          params:
+            - name: token
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: acknowledgeSms
+          transaction_code_offset: 25
+          oneway: true
+          params:
+            - name: token
+              type:
+                name: int
+            - name: messageRef
+              type:
+                name: int
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: acknowledgeSmsWithPdu
+          transaction_code_offset: 26
+          oneway: true
+          params:
+            - name: token
+              type:
+                name: int
+            - name: messageRef
+              type:
+                name: int
+            - name: result
+              type:
+                name: int
+            - name: pdu
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: acknowledgeSmsReport
+          transaction_code_offset: 27
+          oneway: true
+          params:
+            - name: token
+              type:
+                name: int
+            - name: messageRef
+              type:
+                name: int
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getSmsFormat
+          transaction_code_offset: 28
+          return_type:
+            name: String
+        - name: onSmsReady
+          transaction_code_offset: 29
+          oneway: true
+          return_type:
+            name: void
+    - name: IImsMmTelListener
+      descriptor: android.telephony.ims.aidl.IImsMmTelListener
+      methods:
+        - name: onIncomingCall
+          transaction_code_offset: 0
+          params:
+            - name: c
+              type:
+                name: IImsCallSession
+              direction: in
+            - name: callId
+              type:
+                name: String
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: IImsCallSessionListener
+        - name: onRejectedCall
+          transaction_code_offset: 1
+          params:
+            - name: callProfile
+              type:
+                name: ImsCallProfile
+              direction: in
+            - name: reason
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onVoiceMessageCountUpdate
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: count
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAudioModeIsVoipChanged
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: imsAudioHandler
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onTriggerEpsFallback
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onStartImsTrafficSession
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: token
+              type:
+                name: int
+            - name: trafficType
+              type:
+                name: int
+            - name: accessNetworkType
+              type:
+                name: int
+            - name: trafficDirection
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IImsTrafficSessionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onModifyImsTrafficSession
+          transaction_code_offset: 6
+          oneway: true
+          params:
+            - name: token
+              type:
+                name: int
+            - name: accessNetworkType
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onStopImsTrafficSession
+          transaction_code_offset: 7
+          oneway: true
+          params:
+            - name: token
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onMediaQualityStatusChanged
+          transaction_code_offset: 8
+          oneway: true
+          params:
+            - name: status
+              type:
+                name: MediaQualityStatus
+              direction: in
+          return_type:
+            name: void
+    - name: IImsRcsController
+      descriptor: android.telephony.ims.aidl.IImsRcsController
+      methods:
+        - name: registerImsRegistrationCallback
+          transaction_code_offset: 0
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: c
+              type:
+                name: IImsRegistrationCallback
+          return_type:
+            name: void
+        - name: unregisterImsRegistrationCallback
+          transaction_code_offset: 1
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: c
+              type:
+                name: IImsRegistrationCallback
+          return_type:
+            name: void
+        - name: getImsRcsRegistrationState
+          transaction_code_offset: 2
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: consumer
+              type:
+                name: IIntegerConsumer
+          return_type:
+            name: void
+        - name: getImsRcsRegistrationTransportType
+          transaction_code_offset: 3
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: consumer
+              type:
+                name: IIntegerConsumer
+          return_type:
+            name: void
+        - name: registerRcsAvailabilityCallback
+          transaction_code_offset: 4
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: c
+              type:
+                name: IImsCapabilityCallback
+          return_type:
+            name: void
+        - name: unregisterRcsAvailabilityCallback
+          transaction_code_offset: 5
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: c
+              type:
+                name: IImsCapabilityCallback
+          return_type:
+            name: void
+        - name: isCapable
+          transaction_code_offset: 6
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: capability
+              type:
+                name: int
+            - name: radioTech
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isAvailable
+          transaction_code_offset: 7
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: capability
+              type:
+                name: int
+            - name: radioTech
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: requestCapabilities
+          transaction_code_offset: 8
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+            - name: contactNumbers
+              type:
+                name: List
+                type_args:
+                    - name: Uri
+              direction: in
+            - name: c
+              type:
+                name: IRcsUceControllerCallback
+          return_type:
+            name: void
+        - name: requestAvailability
+          transaction_code_offset: 9
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+            - name: contactNumber
+              type:
+                name: Uri
+              direction: in
+            - name: c
+              type:
+                name: IRcsUceControllerCallback
+          return_type:
+            name: void
+        - name: getUcePublishState
+          transaction_code_offset: 10
+          params:
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: isUceSettingEnabled
+          transaction_code_offset: 11
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: setUceSettingEnabled
+          transaction_code_offset: 12
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: isEnabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: registerUcePublishStateCallback
+          transaction_code_offset: 13
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: c
+              type:
+                name: IRcsUcePublishStateCallback
+          return_type:
+            name: void
+        - name: unregisterUcePublishStateCallback
+          transaction_code_offset: 14
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: c
+              type:
+                name: IRcsUcePublishStateCallback
+          return_type:
+            name: void
+        - name: isSipDelegateSupported
+          transaction_code_offset: 15
+          params:
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: createSipDelegate
+          transaction_code_offset: 16
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: request
+              type:
+                name: DelegateRequest
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: delegateState
+              type:
+                name: ISipDelegateConnectionStateCallback
+            - name: delegateMessage
+              type:
+                name: ISipDelegateMessageCallback
+          return_type:
+            name: void
+        - name: destroySipDelegate
+          transaction_code_offset: 17
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: connection
+              type:
+                name: ISipDelegate
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: triggerNetworkRegistration
+          transaction_code_offset: 18
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: connection
+              type:
+                name: ISipDelegate
+            - name: sipCode
+              type:
+                name: int
+            - name: sipReason
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: registerSipDialogStateCallback
+          transaction_code_offset: 19
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: cb
+              type:
+                name: ISipDialogStateCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: unregisterSipDialogStateCallback
+          transaction_code_offset: 20
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: cb
+              type:
+                name: ISipDialogStateCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: registerRcsFeatureCallback
+          transaction_code_offset: 21
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IImsServiceFeatureCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterImsFeatureCallback
+          transaction_code_offset: 22
+          params:
+            - name: callback
+              type:
+                name: IImsServiceFeatureCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IImsRcsFeature
+      descriptor: android.telephony.ims.aidl.IImsRcsFeature
+      methods:
+        - name: queryCapabilityStatus
+          transaction_code_offset: 0
+          return_type:
+            name: int
+        - name: getFeatureState
+          transaction_code_offset: 1
+          return_type:
+            name: int
+        - name: addCapabilityCallback
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: c
+              type:
+                name: IImsCapabilityCallback
+          return_type:
+            name: void
+        - name: removeCapabilityCallback
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: c
+              type:
+                name: IImsCapabilityCallback
+          return_type:
+            name: void
+        - name: changeCapabilitiesConfiguration
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: r
+              type:
+                name: CapabilityChangeRequest
+              direction: in
+            - name: c
+              type:
+                name: IImsCapabilityCallback
+          return_type:
+            name: void
+        - name: queryCapabilityConfiguration
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: capability
+              type:
+                name: int
+            - name: radioTech
+              type:
+                name: int
+            - name: c
+              type:
+                name: IImsCapabilityCallback
+          return_type:
+            name: void
+        - name: setCapabilityExchangeEventListener
+          transaction_code_offset: 6
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: ICapabilityExchangeEventListener
+          return_type:
+            name: void
+        - name: publishCapabilities
+          transaction_code_offset: 7
+          oneway: true
+          params:
+            - name: pidfXml
+              type:
+                name: String
+              direction: in
+            - name: cb
+              type:
+                name: IPublishResponseCallback
+          return_type:
+            name: void
+        - name: subscribeForCapabilities
+          transaction_code_offset: 8
+          oneway: true
+          params:
+            - name: uris
+              type:
+                name: List
+                type_args:
+                    - name: Uri
+              direction: in
+            - name: cb
+              type:
+                name: ISubscribeResponseCallback
+          return_type:
+            name: void
+        - name: sendOptionsCapabilityRequest
+          transaction_code_offset: 9
+          oneway: true
+          params:
+            - name: contactUri
+              type:
+                name: Uri
+              direction: in
+            - name: myCapabilities
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: cb
+              type:
+                name: IOptionsResponseCallback
+          return_type:
+            name: void
+    - name: IImsRegistration
+      descriptor: android.telephony.ims.aidl.IImsRegistration
+      methods:
+        - name: getRegistrationTechnology
+          transaction_code_offset: 0
+          return_type:
+            name: int
+        - name: addRegistrationCallback
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: c
+              type:
+                name: IImsRegistrationCallback
+          return_type:
+            name: void
+        - name: removeRegistrationCallback
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: c
+              type:
+                name: IImsRegistrationCallback
+          return_type:
+            name: void
+        - name: addEmergencyRegistrationCallback
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: c
+              type:
+                name: IImsRegistrationCallback
+          return_type:
+            name: void
+        - name: removeEmergencyRegistrationCallback
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: c
+              type:
+                name: IImsRegistrationCallback
+          return_type:
+            name: void
+        - name: triggerFullNetworkRegistration
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: sipCode
+              type:
+                name: int
+            - name: sipReason
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: triggerUpdateSipDelegateRegistration
+          transaction_code_offset: 6
+          oneway: true
+          return_type:
+            name: void
+        - name: triggerSipDelegateDeregistration
+          transaction_code_offset: 7
+          oneway: true
+          return_type:
+            name: void
+        - name: triggerDeregistration
+          transaction_code_offset: 8
+          oneway: true
+          params:
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IImsRegistrationCallback
+      descriptor: android.telephony.ims.aidl.IImsRegistrationCallback
+      oneway: true
+      methods:
+        - name: onRegistered
+          transaction_code_offset: 0
+          params:
+            - name: attr
+              type:
+                name: ImsRegistrationAttributes
+              direction: in
+          return_type:
+            name: void
+        - name: onRegistering
+          transaction_code_offset: 1
+          params:
+            - name: attr
+              type:
+                name: ImsRegistrationAttributes
+              direction: in
+          return_type:
+            name: void
+        - name: onDeregistered
+          transaction_code_offset: 2
+          params:
+            - name: info
+              type:
+                name: ImsReasonInfo
+              direction: in
+            - name: suggestedAction
+              type:
+                name: int
+            - name: imsRadioTech
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onDeregisteredWithDetails
+          transaction_code_offset: 3
+          params:
+            - name: info
+              type:
+                name: ImsReasonInfo
+              direction: in
+            - name: suggestedAction
+              type:
+                name: int
+            - name: imsRadioTech
+              type:
+                name: int
+            - name: detail
+              type:
+                name: SipDetails
+              direction: in
+          return_type:
+            name: void
+        - name: onTechnologyChangeFailed
+          transaction_code_offset: 4
+          params:
+            - name: imsRadioTech
+              type:
+                name: int
+            - name: info
+              type:
+                name: ImsReasonInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onSubscriberAssociatedUriChanged
+          transaction_code_offset: 5
+          params:
+            - name: uris
+              type:
+                name: Uri
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IImsServiceController
+      descriptor: android.telephony.ims.aidl.IImsServiceController
+      methods:
+        - name: setListener
+          transaction_code_offset: 0
+          params:
+            - name: l
+              type:
+                name: IImsServiceControllerListener
+          return_type:
+            name: void
+        - name: createMmTelFeature
+          transaction_code_offset: 1
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: IImsMmTelFeature
+        - name: createEmergencyOnlyMmTelFeature
+          transaction_code_offset: 2
+          params:
+            - name: slotId
+              type:
+                name: int
+          return_type:
+            name: IImsMmTelFeature
+        - name: createRcsFeature
+          transaction_code_offset: 3
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: IImsRcsFeature
+        - name: querySupportedImsFeatures
+          transaction_code_offset: 4
+          return_type:
+            name: ImsFeatureConfiguration
+        - name: getImsServiceCapabilities
+          transaction_code_offset: 5
+          return_type:
+            name: long
+        - name: addFeatureStatusCallback
+          transaction_code_offset: 6
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: featureType
+              type:
+                name: int
+            - name: c
+              type:
+                name: IImsFeatureStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: removeFeatureStatusCallback
+          transaction_code_offset: 7
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: featureType
+              type:
+                name: int
+            - name: c
+              type:
+                name: IImsFeatureStatusCallback
+              direction: in
+          return_type:
+            name: void
+        - name: notifyImsServiceReadyForFeatureCreation
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: removeImsFeature
+          transaction_code_offset: 9
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: featureType
+              type:
+                name: int
+            - name: changeSubId
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getConfig
+          transaction_code_offset: 10
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: IImsConfig
+        - name: getRegistration
+          transaction_code_offset: 11
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: IImsRegistration
+        - name: getSipTransport
+          transaction_code_offset: 12
+          params:
+            - name: slotId
+              type:
+                name: int
+          return_type:
+            name: ISipTransport
+        - name: enableIms
+          transaction_code_offset: 13
+          oneway: true
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: disableIms
+          transaction_code_offset: 14
+          oneway: true
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: resetIms
+          transaction_code_offset: 15
+          oneway: true
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IImsServiceControllerListener
+      descriptor: android.telephony.ims.aidl.IImsServiceControllerListener
+      oneway: true
+      methods:
+        - name: onUpdateSupportedImsFeatures
+          transaction_code_offset: 0
+          params:
+            - name: c
+              type:
+                name: ImsFeatureConfiguration
+              direction: in
+          return_type:
+            name: void
+    - name: IImsSmsListener
+      descriptor: android.telephony.ims.aidl.IImsSmsListener
+      oneway: true
+      methods:
+        - name: onSendSmsResult
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: int
+            - name: messageRef
+              type:
+                name: int
+            - name: status
+              type:
+                name: int
+            - name: reason
+              type:
+                name: int
+            - name: networkErrorCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSmsStatusReportReceived
+          transaction_code_offset: 1
+          params:
+            - name: token
+              type:
+                name: int
+            - name: format
+              type:
+                name: String
+              direction: in
+            - name: pdu
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onSmsReceived
+          transaction_code_offset: 2
+          params:
+            - name: token
+              type:
+                name: int
+            - name: format
+              type:
+                name: String
+              direction: in
+            - name: pdu
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onMemoryAvailableResult
+          transaction_code_offset: 3
+          params:
+            - name: token
+              type:
+                name: int
+            - name: status
+              type:
+                name: int
+            - name: networkErrorCode
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IImsTrafficSessionCallback
+      descriptor: android.telephony.ims.aidl.IImsTrafficSessionCallback
+      oneway: true
+      methods:
+        - name: onReady
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 1
+          params:
+            - name: info
+              type:
+                name: ConnectionFailureInfo
+              direction: in
+          return_type:
+            name: void
+    - name: IOptionsRequestCallback
+      descriptor: android.telephony.ims.aidl.IOptionsRequestCallback
+      oneway: true
+      methods:
+        - name: respondToCapabilityRequest
+          transaction_code_offset: 0
+          params:
+            - name: ownCapabilities
+              type:
+                name: RcsContactUceCapability
+              direction: in
+            - name: isBlocked
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: respondToCapabilityRequestWithError
+          transaction_code_offset: 1
+          params:
+            - name: code
+              type:
+                name: int
+            - name: reason
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IOptionsResponseCallback
+      descriptor: android.telephony.ims.aidl.IOptionsResponseCallback
+      oneway: true
+      methods:
+        - name: onCommandError
+          transaction_code_offset: 0
+          params:
+            - name: code
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onNetworkResponse
+          transaction_code_offset: 1
+          params:
+            - name: code
+              type:
+                name: int
+            - name: reason
+              type:
+                name: String
+            - name: theirCaps
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+    - name: IPublishResponseCallback
+      descriptor: android.telephony.ims.aidl.IPublishResponseCallback
+      oneway: true
+      methods:
+        - name: onCommandError
+          transaction_code_offset: 0
+          params:
+            - name: code
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onNetworkResponse
+          transaction_code_offset: 1
+          params:
+            - name: details
+              type:
+                name: SipDetails
+              direction: in
+          return_type:
+            name: void
+    - name: IRcsConfigCallback
+      descriptor: android.telephony.ims.aidl.IRcsConfigCallback
+      oneway: true
+      methods:
+        - name: onConfigurationChanged
+          transaction_code_offset: 0
+          params:
+            - name: config
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onAutoConfigurationErrorReceived
+          transaction_code_offset: 1
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: errorString
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onConfigurationReset
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onRemoved
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: onPreProvisioningReceived
+          transaction_code_offset: 4
+          params:
+            - name: config
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IRcsUceControllerCallback
+      descriptor: android.telephony.ims.aidl.IRcsUceControllerCallback
+      oneway: true
+      methods:
+        - name: onCapabilitiesReceived
+          transaction_code_offset: 0
+          params:
+            - name: contactCapabilities
+              type:
+                name: List
+                type_args:
+                    - name: RcsContactUceCapability
+              direction: in
+          return_type:
+            name: void
+        - name: onComplete
+          transaction_code_offset: 1
+          params:
+            - name: details
+              type:
+                name: SipDetails
+              direction: in
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 2
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: retryAfterMilliseconds
+              type:
+                name: long
+            - name: details
+              type:
+                name: SipDetails
+              direction: in
+          return_type:
+            name: void
+    - name: IRcsUcePublishStateCallback
+      descriptor: android.telephony.ims.aidl.IRcsUcePublishStateCallback
+      oneway: true
+      methods:
+        - name: onPublishUpdated
+          transaction_code_offset: 0
+          params:
+            - name: attributes
+              type:
+                name: PublishAttributes
+              direction: in
+          return_type:
+            name: void
+    - name: ISipDelegate
+      descriptor: android.telephony.ims.aidl.ISipDelegate
+      oneway: true
+      methods:
+        - name: sendMessage
+          transaction_code_offset: 0
+          params:
+            - name: sipMessage
+              type:
+                name: SipMessage
+              direction: in
+            - name: configVersion
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: notifyMessageReceived
+          transaction_code_offset: 1
+          params:
+            - name: viaTransactionId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: notifyMessageReceiveError
+          transaction_code_offset: 2
+          params:
+            - name: viaTransactionId
+              type:
+                name: String
+              direction: in
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: cleanupSession
+          transaction_code_offset: 3
+          params:
+            - name: callId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+    - name: ISipDelegateConnectionStateCallback
+      descriptor: android.telephony.ims.aidl.ISipDelegateConnectionStateCallback
+      oneway: true
+      methods:
+        - name: onCreated
+          transaction_code_offset: 0
+          params:
+            - name: c
+              type:
+                name: ISipDelegate
+          return_type:
+            name: void
+        - name: onFeatureTagStatusChanged
+          transaction_code_offset: 1
+          params:
+            - name: registrationState
+              type:
+                name: DelegateRegistrationState
+              direction: in
+            - name: deniedFeatureTags
+              type:
+                name: List
+                type_args:
+                    - name: FeatureTagState
+              direction: in
+          return_type:
+            name: void
+        - name: onImsConfigurationChanged
+          transaction_code_offset: 2
+          params:
+            - name: registeredSipConfig
+              type:
+                name: SipDelegateImsConfiguration
+              direction: in
+          return_type:
+            name: void
+        - name: onConfigurationChanged
+          transaction_code_offset: 3
+          params:
+            - name: registeredSipConfig
+              type:
+                name: SipDelegateConfiguration
+              direction: in
+          return_type:
+            name: void
+        - name: onDestroyed
+          transaction_code_offset: 4
+          params:
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ISipDelegateMessageCallback
+      descriptor: android.telephony.ims.aidl.ISipDelegateMessageCallback
+      oneway: true
+      methods:
+        - name: onMessageReceived
+          transaction_code_offset: 0
+          params:
+            - name: message
+              type:
+                name: SipMessage
+              direction: in
+          return_type:
+            name: void
+        - name: onMessageSent
+          transaction_code_offset: 1
+          params:
+            - name: viaTransactionId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onMessageSendFailure
+          transaction_code_offset: 2
+          params:
+            - name: viaTransactionId
+              type:
+                name: String
+              direction: in
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ISipDelegateStateCallback
+      descriptor: android.telephony.ims.aidl.ISipDelegateStateCallback
+      oneway: true
+      methods:
+        - name: onCreated
+          transaction_code_offset: 0
+          params:
+            - name: c
+              type:
+                name: ISipDelegate
+            - name: deniedFeatureTags
+              type:
+                name: List
+                type_args:
+                    - name: FeatureTagState
+              direction: in
+          return_type:
+            name: void
+        - name: onFeatureTagRegistrationChanged
+          transaction_code_offset: 1
+          params:
+            - name: registrationState
+              type:
+                name: DelegateRegistrationState
+              direction: in
+          return_type:
+            name: void
+        - name: onImsConfigurationChanged
+          transaction_code_offset: 2
+          params:
+            - name: registeredSipConfig
+              type:
+                name: SipDelegateImsConfiguration
+              direction: in
+          return_type:
+            name: void
+        - name: onConfigurationChanged
+          transaction_code_offset: 3
+          params:
+            - name: registeredSipConfig
+              type:
+                name: SipDelegateConfiguration
+              direction: in
+          return_type:
+            name: void
+        - name: onDestroyed
+          transaction_code_offset: 4
+          params:
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ISipTransport
+      descriptor: android.telephony.ims.aidl.ISipTransport
+      oneway: true
+      methods:
+        - name: createSipDelegate
+          transaction_code_offset: 0
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: request
+              type:
+                name: DelegateRequest
+              direction: in
+            - name: dc
+              type:
+                name: ISipDelegateStateCallback
+            - name: mc
+              type:
+                name: ISipDelegateMessageCallback
+          return_type:
+            name: void
+        - name: destroySipDelegate
+          transaction_code_offset: 1
+          params:
+            - name: delegate
+              type:
+                name: ISipDelegate
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ISrvccStartedCallback
+      descriptor: android.telephony.ims.aidl.ISrvccStartedCallback
+      oneway: true
+      methods:
+        - name: onSrvccCallNotified
+          transaction_code_offset: 0
+          params:
+            - name: profiles
+              type:
+                name: List
+                type_args:
+                    - name: SrvccCall
+              direction: in
+          return_type:
+            name: void
+    - name: ISubscribeResponseCallback
+      descriptor: android.telephony.ims.aidl.ISubscribeResponseCallback
+      oneway: true
+      methods:
+        - name: onCommandError
+          transaction_code_offset: 0
+          params:
+            - name: code
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onNetworkResponse
+          transaction_code_offset: 1
+          params:
+            - name: detail
+              type:
+                name: SipDetails
+              direction: in
+          return_type:
+            name: void
+        - name: onNotifyCapabilitiesUpdate
+          transaction_code_offset: 2
+          params:
+            - name: pidfXmls
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onResourceTerminated
+          transaction_code_offset: 3
+          params:
+            - name: uriTerminatedReason
+              type:
+                name: List
+                type_args:
+                    - name: RcsContactTerminatedReason
+              direction: in
+          return_type:
+            name: void
+        - name: onTerminated
+          transaction_code_offset: 4
+          params:
+            - name: reason
+              type:
+                name: String
+              direction: in
+            - name: retryAfterMilliseconds
+              type:
+                name: long
+          return_type:
+            name: void

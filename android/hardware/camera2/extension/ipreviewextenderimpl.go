@@ -3,6 +3,7 @@ package extension
 import (
 	"context"
 	"fmt"
+	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -45,13 +46,13 @@ const (
 
 type IPreviewExtenderImpl interface {
 	AsBinder() binder.IBinder
-	OnInit(ctx context.Context, token binder.IBinder, cameraId string, cameraCharacteristics interface{}) error
+	OnInit(ctx context.Context, token binder.IBinder, cameraId string, cameraCharacteristics impl.CameraMetadataNative) error
 	OnDeInit(ctx context.Context, token binder.IBinder) error
 	OnPresetSession(ctx context.Context) (CaptureStageImpl, error)
 	OnEnableSession(ctx context.Context) (CaptureStageImpl, error)
 	OnDisableSession(ctx context.Context) (CaptureStageImpl, error)
-	Init(ctx context.Context, cameraId string, chars interface{}) error
-	IsExtensionAvailable(ctx context.Context, cameraId string, chars interface{}) (bool, error)
+	Init(ctx context.Context, cameraId string, chars impl.CameraMetadataNative) error
+	IsExtensionAvailable(ctx context.Context, cameraId string, chars impl.CameraMetadataNative) (bool, error)
 	GetCaptureStage(ctx context.Context) (CaptureStageImpl, error)
 	GetSessionType(ctx context.Context) (int32, error)
 	GetProcessorType(ctx context.Context) (int32, error)
@@ -86,12 +87,17 @@ func (p *PreviewExtenderImplProxy) OnInit(
 	ctx context.Context,
 	token binder.IBinder,
 	cameraId string,
-	cameraCharacteristics interface{},
+	cameraCharacteristics impl.CameraMetadataNative,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewExtenderImpl)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(cameraId)
+	_data.WriteInt32(1)
+	if _err := cameraCharacteristics.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewExtenderImpl, MethodIPreviewExtenderImplOnInit)
 	if _err != nil {
@@ -116,6 +122,7 @@ func (p *PreviewExtenderImplProxy) OnDeInit(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewExtenderImpl)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -142,6 +149,7 @@ func (p *PreviewExtenderImplProxy) OnPresetSession(
 ) (CaptureStageImpl, error) {
 	var _result CaptureStageImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewExtenderImpl, MethodIPreviewExtenderImplOnPresetSession)
@@ -176,6 +184,7 @@ func (p *PreviewExtenderImplProxy) OnEnableSession(
 ) (CaptureStageImpl, error) {
 	var _result CaptureStageImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewExtenderImpl, MethodIPreviewExtenderImplOnEnableSession)
@@ -210,6 +219,7 @@ func (p *PreviewExtenderImplProxy) OnDisableSession(
 ) (CaptureStageImpl, error) {
 	var _result CaptureStageImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewExtenderImpl, MethodIPreviewExtenderImplOnDisableSession)
@@ -242,11 +252,16 @@ func (p *PreviewExtenderImplProxy) OnDisableSession(
 func (p *PreviewExtenderImplProxy) Init(
 	ctx context.Context,
 	cameraId string,
-	chars interface{},
+	chars impl.CameraMetadataNative,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewExtenderImpl)
 	_data.WriteString16(cameraId)
+	_data.WriteInt32(1)
+	if _err := chars.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewExtenderImpl, MethodIPreviewExtenderImplInit)
 	if _err != nil {
@@ -269,12 +284,17 @@ func (p *PreviewExtenderImplProxy) Init(
 func (p *PreviewExtenderImplProxy) IsExtensionAvailable(
 	ctx context.Context,
 	cameraId string,
-	chars interface{},
+	chars impl.CameraMetadataNative,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewExtenderImpl)
 	_data.WriteString16(cameraId)
+	_data.WriteInt32(1)
+	if _err := chars.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewExtenderImpl, MethodIPreviewExtenderImplIsExtensionAvailable)
 	if _err != nil {
@@ -303,6 +323,7 @@ func (p *PreviewExtenderImplProxy) GetCaptureStage(
 ) (CaptureStageImpl, error) {
 	var _result CaptureStageImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewExtenderImpl, MethodIPreviewExtenderImplGetCaptureStage)
@@ -337,6 +358,7 @@ func (p *PreviewExtenderImplProxy) GetSessionType(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewExtenderImpl, MethodIPreviewExtenderImplGetSessionType)
@@ -366,6 +388,7 @@ func (p *PreviewExtenderImplProxy) GetProcessorType(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewExtenderImpl, MethodIPreviewExtenderImplGetProcessorType)
@@ -395,6 +418,7 @@ func (p *PreviewExtenderImplProxy) GetPreviewImageProcessor(
 ) (IPreviewImageProcessorImpl, error) {
 	var _result IPreviewImageProcessorImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewExtenderImpl, MethodIPreviewExtenderImplGetPreviewImageProcessor)
@@ -425,6 +449,7 @@ func (p *PreviewExtenderImplProxy) GetRequestUpdateProcessor(
 ) (IRequestUpdateProcessorImpl, error) {
 	var _result IRequestUpdateProcessorImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewExtenderImpl, MethodIPreviewExtenderImplGetRequestUpdateProcessor)
@@ -455,6 +480,7 @@ func (p *PreviewExtenderImplProxy) GetSupportedResolutions(
 ) ([]SizeList, error) {
 	var _result []SizeList
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPreviewExtenderImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewExtenderImpl, MethodIPreviewExtenderImplGetSupportedResolutions)
@@ -476,6 +502,9 @@ func (p *PreviewExtenderImplProxy) GetSupportedResolutions(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]SizeList, _count)
@@ -494,7 +523,8 @@ func (p *PreviewExtenderImplProxy) GetSupportedResolutions(
 // PreviewExtenderImplStub dispatches incoming binder transactions
 // to a typed IPreviewExtenderImpl implementation.
 type PreviewExtenderImplStub struct {
-	Impl IPreviewExtenderImpl
+	Impl      IPreviewExtenderImpl
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PreviewExtenderImplStub)(nil)
@@ -508,19 +538,36 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPreviewExtenderImplOnInit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_cameraCharacteristics interface{}
+		var _arg_cameraCharacteristics impl.CameraMetadataNative
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cameraCharacteristics.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnInit(ctx, _arg_token, _arg_cameraId, _arg_cameraCharacteristics)
 		_reply := parcel.New()
 		if _err != nil {
@@ -530,12 +577,14 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPreviewExtenderImplOnDeInit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.OnDeInit(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -545,9 +594,6 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPreviewExtenderImplOnPresetSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.OnPresetSession(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -561,9 +607,6 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPreviewExtenderImplOnEnableSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.OnEnableSession(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -577,9 +620,6 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPreviewExtenderImplOnDisableSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.OnDisableSession(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -593,14 +633,22 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPreviewExtenderImplInit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_chars interface{}
+		var _arg_chars impl.CameraMetadataNative
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_chars.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.Init(ctx, _arg_cameraId, _arg_chars)
 		_reply := parcel.New()
 		if _err != nil {
@@ -610,14 +658,22 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPreviewExtenderImplIsExtensionAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_chars interface{}
+		var _arg_chars impl.CameraMetadataNative
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_chars.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.IsExtensionAvailable(ctx, _arg_cameraId, _arg_chars)
 		_reply := parcel.New()
 		if _err != nil {
@@ -628,9 +684,6 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPreviewExtenderImplGetCaptureStage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCaptureStage(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -644,9 +697,6 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPreviewExtenderImplGetSessionType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSessionType(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -657,9 +707,6 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPreviewExtenderImplGetProcessorType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetProcessorType(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -670,9 +717,6 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPreviewExtenderImplGetPreviewImageProcessor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPreviewImageProcessor(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -680,13 +724,9 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIPreviewExtenderImplGetRequestUpdateProcessor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRequestUpdateProcessor(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -694,13 +734,9 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIPreviewExtenderImplGetSupportedResolutions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedResolutions(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -708,8 +744,17 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -720,13 +765,13 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 // provide to NewPreviewExtenderImplStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IPreviewExtenderImplServer interface {
-	OnInit(ctx context.Context, token binder.IBinder, cameraId string, cameraCharacteristics interface{}) error
+	OnInit(ctx context.Context, token binder.IBinder, cameraId string, cameraCharacteristics impl.CameraMetadataNative) error
 	OnDeInit(ctx context.Context, token binder.IBinder) error
 	OnPresetSession(ctx context.Context) (CaptureStageImpl, error)
 	OnEnableSession(ctx context.Context) (CaptureStageImpl, error)
 	OnDisableSession(ctx context.Context) (CaptureStageImpl, error)
-	Init(ctx context.Context, cameraId string, chars interface{}) error
-	IsExtensionAvailable(ctx context.Context, cameraId string, chars interface{}) (bool, error)
+	Init(ctx context.Context, cameraId string, chars impl.CameraMetadataNative) error
+	IsExtensionAvailable(ctx context.Context, cameraId string, chars impl.CameraMetadataNative) (bool, error)
 	GetCaptureStage(ctx context.Context) (CaptureStageImpl, error)
 	GetSessionType(ctx context.Context) (int32, error)
 	GetProcessorType(ctx context.Context) (int32, error)
@@ -748,7 +793,7 @@ func (w *previewExtenderImplStubWrapper) OnInit(
 	ctx context.Context,
 	token binder.IBinder,
 	cameraId string,
-	cameraCharacteristics interface{},
+	cameraCharacteristics impl.CameraMetadataNative,
 ) error {
 	return w.impl.OnInit(ctx, token, cameraId, cameraCharacteristics)
 }
@@ -781,7 +826,7 @@ func (w *previewExtenderImplStubWrapper) OnDisableSession(
 func (w *previewExtenderImplStubWrapper) Init(
 	ctx context.Context,
 	cameraId string,
-	chars interface{},
+	chars impl.CameraMetadataNative,
 ) error {
 	return w.impl.Init(ctx, cameraId, chars)
 }
@@ -789,7 +834,7 @@ func (w *previewExtenderImplStubWrapper) Init(
 func (w *previewExtenderImplStubWrapper) IsExtensionAvailable(
 	ctx context.Context,
 	cameraId string,
-	chars interface{},
+	chars impl.CameraMetadataNative,
 ) (bool, error) {
 	return w.impl.IsExtensionAvailable(ctx, cameraId, chars)
 }

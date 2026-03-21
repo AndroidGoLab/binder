@@ -48,6 +48,7 @@ func (p *AGnssRilCallbackProxy) RequestSetIdCb(
 	setIdflag int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnssRilCallback)
 	_data.WriteInt32(setIdflag)
 
@@ -73,6 +74,7 @@ func (p *AGnssRilCallbackProxy) RequestRefLocCb(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAGnssRilCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnssRilCallback, MethodIAGnssRilCallbackRequestRefLocCb)
@@ -96,7 +98,8 @@ func (p *AGnssRilCallbackProxy) RequestRefLocCb(
 // AGnssRilCallbackStub dispatches incoming binder transactions
 // to a typed IAGnssRilCallback implementation.
 type AGnssRilCallbackStub struct {
-	Impl IAGnssRilCallback
+	Impl      IAGnssRilCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AGnssRilCallbackStub)(nil)
@@ -110,11 +113,12 @@ func (s *AGnssRilCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAGnssRilCallbackRequestSetIdCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_setIdflag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -128,9 +132,6 @@ func (s *AGnssRilCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssRilCallbackRequestRefLocCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RequestRefLocCb(ctx)
 		_reply := parcel.New()
 		if _err != nil {

@@ -46,6 +46,7 @@ func (p *TrustedPresentationListenerProxy) OnTrustedPresentationChanged(
 	exitedTrustedStateIds []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITrustedPresentationListener)
 	if enteredTrustedStateIds == nil {
 		_data.WriteInt32(-1)
@@ -76,7 +77,8 @@ func (p *TrustedPresentationListenerProxy) OnTrustedPresentationChanged(
 // TrustedPresentationListenerStub dispatches incoming binder transactions
 // to a typed ITrustedPresentationListener implementation.
 type TrustedPresentationListenerStub struct {
-	Impl ITrustedPresentationListener
+	Impl      ITrustedPresentationListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TrustedPresentationListenerStub)(nil)
@@ -90,20 +92,52 @@ func (s *TrustedPresentationListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITrustedPresentationListenerOnTrustedPresentationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_enteredTrustedStateIds []int32
-		_ = _arg_enteredTrustedStateIds
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_enteredTrustedStateIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_enteredTrustedStateIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_exitedTrustedStateIds []int32
-		_ = _arg_exitedTrustedStateIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_exitedTrustedStateIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_exitedTrustedStateIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnTrustedPresentationChanged(ctx, _arg_enteredTrustedStateIds, _arg_exitedTrustedStateIds)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

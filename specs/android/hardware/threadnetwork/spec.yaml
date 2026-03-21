@@ -1,0 +1,57 @@
+package: android.hardware.threadnetwork
+go_package: android/hardware/threadnetwork
+interfaces:
+    - name: IThreadChip
+      descriptor: android.hardware.threadnetwork.IThreadChip
+      methods:
+        - name: open
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IThreadChipCallback
+              direction: in
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: hardwareReset
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: sendSpinelFrame
+          transaction_code_offset: 3
+          params:
+            - name: frame
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: ERROR_FAILED
+          type: int
+          value: "1"
+        - name: ERROR_NO_BUFS
+          type: int
+          value: "2"
+        - name: ERROR_BUSY
+          type: int
+          value: "3"
+    - name: IThreadChipCallback
+      descriptor: android.hardware.threadnetwork.IThreadChipCallback
+      methods:
+        - name: onReceiveSpinelFrame
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: frame
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void

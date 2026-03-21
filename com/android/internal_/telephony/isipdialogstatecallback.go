@@ -46,6 +46,7 @@ func (p *SipDialogStateCallbackProxy) OnActiveSipDialogsChanged(
 	dialogs []ims.SipDialogState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISipDialogStateCallback)
 	if dialogs == nil {
 		_data.WriteInt32(-1)
@@ -71,7 +72,8 @@ func (p *SipDialogStateCallbackProxy) OnActiveSipDialogsChanged(
 // SipDialogStateCallbackStub dispatches incoming binder transactions
 // to a typed ISipDialogStateCallback implementation.
 type SipDialogStateCallbackStub struct {
-	Impl ISipDialogStateCallback
+	Impl      ISipDialogStateCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SipDialogStateCallbackStub)(nil)
@@ -85,17 +87,35 @@ func (s *SipDialogStateCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISipDialogStateCallbackOnActiveSipDialogsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_dialogs []ims.SipDialogState
-		_ = _arg_dialogs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_dialogs = make([]ims.SipDialogState, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_dialogs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnActiveSipDialogsChanged(ctx, _arg_dialogs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

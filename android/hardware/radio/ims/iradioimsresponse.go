@@ -64,6 +64,7 @@ func (p *RadioImsResponseProxy) SetSrvccCallInfoResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioImsResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -84,6 +85,7 @@ func (p *RadioImsResponseProxy) UpdateImsRegistrationInfoResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioImsResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -105,12 +107,14 @@ func (p *RadioImsResponseProxy) StartImsTrafficResponse(
 	failureInfo *ConnectionFailureInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioImsResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	if failureInfo != nil {
+		_data.WriteInt32(1)
 		if _err := (*failureInfo).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -132,6 +136,7 @@ func (p *RadioImsResponseProxy) StopImsTrafficResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioImsResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -152,6 +157,7 @@ func (p *RadioImsResponseProxy) TriggerEpsFallbackResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioImsResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -172,6 +178,7 @@ func (p *RadioImsResponseProxy) SendAnbrQueryResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioImsResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -192,6 +199,7 @@ func (p *RadioImsResponseProxy) UpdateImsCallStatusResponse(
 	info radio.RadioResponseInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioImsResponse)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -210,7 +218,8 @@ func (p *RadioImsResponseProxy) UpdateImsCallStatusResponse(
 // RadioImsResponseStub dispatches incoming binder transactions
 // to a typed IRadioImsResponse implementation.
 type RadioImsResponseStub struct {
-	Impl IRadioImsResponse
+	Impl      IRadioImsResponse
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RadioImsResponseStub)(nil)
@@ -224,11 +233,12 @@ func (s *RadioImsResponseStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRadioImsResponseSetSrvccCallInfoResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -242,12 +252,8 @@ func (s *RadioImsResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetSrvccCallInfoResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioImsResponseUpdateImsRegistrationInfoResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -261,12 +267,8 @@ func (s *RadioImsResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.UpdateImsRegistrationInfoResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioImsResponseStartImsTrafficResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -286,18 +288,15 @@ func (s *RadioImsResponseStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_failureInfo = new(ConnectionFailureInfo)
 				if _err = _arg_failureInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		_err := s.Impl.StartImsTrafficResponse(ctx, _arg_info, _arg_failureInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioImsResponseStopImsTrafficResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -311,12 +310,8 @@ func (s *RadioImsResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.StopImsTrafficResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioImsResponseTriggerEpsFallbackResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -330,12 +325,8 @@ func (s *RadioImsResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.TriggerEpsFallbackResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioImsResponseSendAnbrQueryResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -349,12 +340,8 @@ func (s *RadioImsResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SendAnbrQueryResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioImsResponseUpdateImsCallStatusResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info radio.RadioResponseInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -368,8 +355,7 @@ func (s *RadioImsResponseStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.UpdateImsCallStatusResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

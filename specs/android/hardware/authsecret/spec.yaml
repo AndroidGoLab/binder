@@ -1,0 +1,17 @@
+package: android.hardware.authsecret
+go_package: android/hardware/authsecret
+interfaces:
+    - name: IAuthSecret
+      descriptor: android.hardware.authsecret.IAuthSecret
+      methods:
+        - name: setPrimaryUserCredential
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: secret
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void

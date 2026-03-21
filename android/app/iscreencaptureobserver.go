@@ -44,6 +44,7 @@ func (p *ScreenCaptureObserverProxy) OnScreenCaptured(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScreenCaptureObserver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScreenCaptureObserver, MethodIScreenCaptureObserverOnScreenCaptured)
@@ -58,7 +59,8 @@ func (p *ScreenCaptureObserverProxy) OnScreenCaptured(
 // ScreenCaptureObserverStub dispatches incoming binder transactions
 // to a typed IScreenCaptureObserver implementation.
 type ScreenCaptureObserverStub struct {
-	Impl IScreenCaptureObserver
+	Impl      IScreenCaptureObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ScreenCaptureObserverStub)(nil)
@@ -72,14 +74,14 @@ func (s *ScreenCaptureObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIScreenCaptureObserverOnScreenCaptured:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnScreenCaptured(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -3,6 +3,7 @@ package accounts
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -47,19 +48,19 @@ const (
 
 type IAccountAuthenticator interface {
 	AsBinder() binder.IBinder
-	AddAccount(ctx context.Context, response IAccountAuthenticatorResponse, accountType string, authTokenType string, requiredFeatures []string, options interface{}) error
-	ConfirmCredentials(ctx context.Context, response IAccountAuthenticatorResponse, account Account, options interface{}) error
-	GetAuthToken(ctx context.Context, response IAccountAuthenticatorResponse, account Account, authTokenType string, options interface{}) error
+	AddAccount(ctx context.Context, response IAccountAuthenticatorResponse, accountType string, authTokenType string, requiredFeatures []string, options os.Bundle) error
+	ConfirmCredentials(ctx context.Context, response IAccountAuthenticatorResponse, account Account, options os.Bundle) error
+	GetAuthToken(ctx context.Context, response IAccountAuthenticatorResponse, account Account, authTokenType string, options os.Bundle) error
 	GetAuthTokenLabel(ctx context.Context, response IAccountAuthenticatorResponse, authTokenType string) error
-	UpdateCredentials(ctx context.Context, response IAccountAuthenticatorResponse, account Account, authTokenType string, options interface{}) error
+	UpdateCredentials(ctx context.Context, response IAccountAuthenticatorResponse, account Account, authTokenType string, options os.Bundle) error
 	EditProperties(ctx context.Context, response IAccountAuthenticatorResponse, accountType string) error
 	HasFeatures(ctx context.Context, response IAccountAuthenticatorResponse, account Account, features []string) error
 	GetAccountRemovalAllowed(ctx context.Context, response IAccountAuthenticatorResponse, account Account) error
 	GetAccountCredentialsForCloning(ctx context.Context, response IAccountAuthenticatorResponse, account Account) error
-	AddAccountFromCredentials(ctx context.Context, response IAccountAuthenticatorResponse, account Account, accountCredentials interface{}) error
-	StartAddAccountSession(ctx context.Context, response IAccountAuthenticatorResponse, accountType string, authTokenType string, requiredFeatures []string, options interface{}) error
-	StartUpdateCredentialsSession(ctx context.Context, response IAccountAuthenticatorResponse, account Account, authTokenType string, options interface{}) error
-	FinishSession(ctx context.Context, response IAccountAuthenticatorResponse, accountType string, sessionBundle interface{}) error
+	AddAccountFromCredentials(ctx context.Context, response IAccountAuthenticatorResponse, account Account, accountCredentials os.Bundle) error
+	StartAddAccountSession(ctx context.Context, response IAccountAuthenticatorResponse, accountType string, authTokenType string, requiredFeatures []string, options os.Bundle) error
+	StartUpdateCredentialsSession(ctx context.Context, response IAccountAuthenticatorResponse, account Account, authTokenType string, options os.Bundle) error
+	FinishSession(ctx context.Context, response IAccountAuthenticatorResponse, accountType string, sessionBundle os.Bundle) error
 	IsCredentialsUpdateSuggested(ctx context.Context, response IAccountAuthenticatorResponse, account Account, statusToken string) error
 }
 
@@ -85,9 +86,10 @@ func (p *AccountAuthenticatorProxy) AddAccount(
 	accountType string,
 	authTokenType string,
 	requiredFeatures []string,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(accountType)
@@ -99,6 +101,10 @@ func (p *AccountAuthenticatorProxy) AddAccount(
 		for _, _item := range requiredFeatures {
 			_data.WriteString16(_item)
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorAddAccount)
@@ -114,13 +120,18 @@ func (p *AccountAuthenticatorProxy) ConfirmCredentials(
 	ctx context.Context,
 	response IAccountAuthenticatorResponse,
 	account Account,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -138,9 +149,10 @@ func (p *AccountAuthenticatorProxy) GetAuthToken(
 	response IAccountAuthenticatorResponse,
 	account Account,
 	authTokenType string,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -148,6 +160,10 @@ func (p *AccountAuthenticatorProxy) GetAuthToken(
 		return _err
 	}
 	_data.WriteString16(authTokenType)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAuthToken)
 	if _err != nil {
@@ -164,6 +180,7 @@ func (p *AccountAuthenticatorProxy) GetAuthTokenLabel(
 	authTokenType string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(authTokenType)
@@ -182,9 +199,10 @@ func (p *AccountAuthenticatorProxy) UpdateCredentials(
 	response IAccountAuthenticatorResponse,
 	account Account,
 	authTokenType string,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -192,6 +210,10 @@ func (p *AccountAuthenticatorProxy) UpdateCredentials(
 		return _err
 	}
 	_data.WriteString16(authTokenType)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorUpdateCredentials)
 	if _err != nil {
@@ -208,6 +230,7 @@ func (p *AccountAuthenticatorProxy) EditProperties(
 	accountType string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(accountType)
@@ -228,6 +251,7 @@ func (p *AccountAuthenticatorProxy) HasFeatures(
 	features []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -258,6 +282,7 @@ func (p *AccountAuthenticatorProxy) GetAccountRemovalAllowed(
 	account Account,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -280,6 +305,7 @@ func (p *AccountAuthenticatorProxy) GetAccountCredentialsForCloning(
 	account Account,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -300,13 +326,18 @@ func (p *AccountAuthenticatorProxy) AddAccountFromCredentials(
 	ctx context.Context,
 	response IAccountAuthenticatorResponse,
 	account Account,
-	accountCredentials interface{},
+	accountCredentials os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := accountCredentials.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -325,9 +356,10 @@ func (p *AccountAuthenticatorProxy) StartAddAccountSession(
 	accountType string,
 	authTokenType string,
 	requiredFeatures []string,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(accountType)
@@ -339,6 +371,10 @@ func (p *AccountAuthenticatorProxy) StartAddAccountSession(
 		for _, _item := range requiredFeatures {
 			_data.WriteString16(_item)
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorStartAddAccountSession)
@@ -355,9 +391,10 @@ func (p *AccountAuthenticatorProxy) StartUpdateCredentialsSession(
 	response IAccountAuthenticatorResponse,
 	account Account,
 	authTokenType string,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -365,6 +402,10 @@ func (p *AccountAuthenticatorProxy) StartUpdateCredentialsSession(
 		return _err
 	}
 	_data.WriteString16(authTokenType)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorStartUpdateCredentialsSession)
 	if _err != nil {
@@ -379,12 +420,17 @@ func (p *AccountAuthenticatorProxy) FinishSession(
 	ctx context.Context,
 	response IAccountAuthenticatorResponse,
 	accountType string,
-	sessionBundle interface{},
+	sessionBundle os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(accountType)
+	_data.WriteInt32(1)
+	if _err := sessionBundle.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorFinishSession)
 	if _err != nil {
@@ -402,6 +448,7 @@ func (p *AccountAuthenticatorProxy) IsCredentialsUpdateSuggested(
 	statusToken string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -422,7 +469,8 @@ func (p *AccountAuthenticatorProxy) IsCredentialsUpdateSuggested(
 // AccountAuthenticatorStub dispatches incoming binder transactions
 // to a typed IAccountAuthenticator implementation.
 type AccountAuthenticatorStub struct {
-	Impl IAccountAuthenticator
+	Impl      IAccountAuthenticator
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AccountAuthenticatorStub)(nil)
@@ -436,14 +484,20 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAccountAuthenticatorAddAccount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountAuthenticatorResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountAuthenticatorResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -452,20 +506,48 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_requiredFeatures []string
-		_ = _arg_requiredFeatures
-		var _arg_options interface{}
-		_err = s.Impl.AddAccount(ctx, _arg_response, _arg_accountType, _arg_authTokenType, _arg_requiredFeatures, _arg_options)
-		_ = _err
-		return nil, nil
-	case TransactionIAccountAuthenticatorConfirmCredentials:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_requiredFeatures = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_requiredFeatures[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.AddAccount(ctx, _arg_response, _arg_accountType, _arg_authTokenType, _arg_requiredFeatures, _arg_options)
+		return nil, _err
+	case TransactionIAccountAuthenticatorConfirmCredentials:
 		var _arg_response IAccountAuthenticatorResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountAuthenticatorResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -478,17 +560,29 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_options interface{}
-		_err := s.Impl.ConfirmCredentials(ctx, _arg_response, _arg_account, _arg_options)
-		_ = _err
-		return nil, nil
-	case TransactionIAccountAuthenticatorGetAuthToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err := s.Impl.ConfirmCredentials(ctx, _arg_response, _arg_account, _arg_options)
+		return nil, _err
+	case TransactionIAccountAuthenticatorGetAuthToken:
 		var _arg_response IAccountAuthenticatorResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountAuthenticatorResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -505,31 +599,44 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
-		_err = s.Impl.GetAuthToken(ctx, _arg_response, _arg_account, _arg_authTokenType, _arg_options)
-		_ = _err
-		return nil, nil
-	case TransactionIAccountAuthenticatorGetAuthTokenLabel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err = s.Impl.GetAuthToken(ctx, _arg_response, _arg_account, _arg_authTokenType, _arg_options)
+		return nil, _err
+	case TransactionIAccountAuthenticatorGetAuthTokenLabel:
 		var _arg_response IAccountAuthenticatorResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountAuthenticatorResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		_arg_authTokenType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetAuthTokenLabel(ctx, _arg_response, _arg_authTokenType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccountAuthenticatorUpdateCredentials:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountAuthenticatorResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountAuthenticatorResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -546,31 +653,44 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
-		_err = s.Impl.UpdateCredentials(ctx, _arg_response, _arg_account, _arg_authTokenType, _arg_options)
-		_ = _err
-		return nil, nil
-	case TransactionIAccountAuthenticatorEditProperties:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err = s.Impl.UpdateCredentials(ctx, _arg_response, _arg_account, _arg_authTokenType, _arg_options)
+		return nil, _err
+	case TransactionIAccountAuthenticatorEditProperties:
 		var _arg_response IAccountAuthenticatorResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountAuthenticatorResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.EditProperties(ctx, _arg_response, _arg_accountType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccountAuthenticatorHasFeatures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountAuthenticatorResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountAuthenticatorResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -583,19 +703,36 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_features []string
-		_ = _arg_features
-		_err := s.Impl.HasFeatures(ctx, _arg_response, _arg_account, _arg_features)
-		_ = _err
-		return nil, nil
-	case TransactionIAccountAuthenticatorGetAccountRemovalAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_features = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_features[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err := s.Impl.HasFeatures(ctx, _arg_response, _arg_account, _arg_features)
+		return nil, _err
+	case TransactionIAccountAuthenticatorGetAccountRemovalAllowed:
 		var _arg_response IAccountAuthenticatorResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountAuthenticatorResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -609,15 +746,16 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetAccountRemovalAllowed(ctx, _arg_response, _arg_account)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccountAuthenticatorGetAccountCredentialsForCloning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountAuthenticatorResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountAuthenticatorResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -631,15 +769,16 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetAccountCredentialsForCloning(ctx, _arg_response, _arg_account)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccountAuthenticatorAddAccountFromCredentials:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountAuthenticatorResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountAuthenticatorResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -652,17 +791,29 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_accountCredentials interface{}
+		var _arg_accountCredentials os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_accountCredentials.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.AddAccountFromCredentials(ctx, _arg_response, _arg_account, _arg_accountCredentials)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccountAuthenticatorStartAddAccountSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountAuthenticatorResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountAuthenticatorResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -671,20 +822,48 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_requiredFeatures []string
-		_ = _arg_requiredFeatures
-		var _arg_options interface{}
-		_err = s.Impl.StartAddAccountSession(ctx, _arg_response, _arg_accountType, _arg_authTokenType, _arg_requiredFeatures, _arg_options)
-		_ = _err
-		return nil, nil
-	case TransactionIAccountAuthenticatorStartUpdateCredentialsSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_requiredFeatures = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_requiredFeatures[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StartAddAccountSession(ctx, _arg_response, _arg_accountType, _arg_authTokenType, _arg_requiredFeatures, _arg_options)
+		return nil, _err
+	case TransactionIAccountAuthenticatorStartUpdateCredentialsSession:
 		var _arg_response IAccountAuthenticatorResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountAuthenticatorResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -701,32 +880,56 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
-		_err = s.Impl.StartUpdateCredentialsSession(ctx, _arg_response, _arg_account, _arg_authTokenType, _arg_options)
-		_ = _err
-		return nil, nil
-	case TransactionIAccountAuthenticatorFinishSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err = s.Impl.StartUpdateCredentialsSession(ctx, _arg_response, _arg_account, _arg_authTokenType, _arg_options)
+		return nil, _err
+	case TransactionIAccountAuthenticatorFinishSession:
 		var _arg_response IAccountAuthenticatorResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountAuthenticatorResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionBundle interface{}
-		_err = s.Impl.FinishSession(ctx, _arg_response, _arg_accountType, _arg_sessionBundle)
-		_ = _err
-		return nil, nil
-	case TransactionIAccountAuthenticatorIsCredentialsUpdateSuggested:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_sessionBundle os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionBundle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err = s.Impl.FinishSession(ctx, _arg_response, _arg_accountType, _arg_sessionBundle)
+		return nil, _err
+	case TransactionIAccountAuthenticatorIsCredentialsUpdateSuggested:
 		var _arg_response IAccountAuthenticatorResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountAuthenticatorResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -744,8 +947,7 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.IsCredentialsUpdateSuggested(ctx, _arg_response, _arg_account, _arg_statusToken)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -755,19 +957,19 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 // provide to NewAccountAuthenticatorStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAccountAuthenticatorServer interface {
-	AddAccount(ctx context.Context, response IAccountAuthenticatorResponse, accountType string, authTokenType string, requiredFeatures []string, options interface{}) error
-	ConfirmCredentials(ctx context.Context, response IAccountAuthenticatorResponse, account Account, options interface{}) error
-	GetAuthToken(ctx context.Context, response IAccountAuthenticatorResponse, account Account, authTokenType string, options interface{}) error
+	AddAccount(ctx context.Context, response IAccountAuthenticatorResponse, accountType string, authTokenType string, requiredFeatures []string, options os.Bundle) error
+	ConfirmCredentials(ctx context.Context, response IAccountAuthenticatorResponse, account Account, options os.Bundle) error
+	GetAuthToken(ctx context.Context, response IAccountAuthenticatorResponse, account Account, authTokenType string, options os.Bundle) error
 	GetAuthTokenLabel(ctx context.Context, response IAccountAuthenticatorResponse, authTokenType string) error
-	UpdateCredentials(ctx context.Context, response IAccountAuthenticatorResponse, account Account, authTokenType string, options interface{}) error
+	UpdateCredentials(ctx context.Context, response IAccountAuthenticatorResponse, account Account, authTokenType string, options os.Bundle) error
 	EditProperties(ctx context.Context, response IAccountAuthenticatorResponse, accountType string) error
 	HasFeatures(ctx context.Context, response IAccountAuthenticatorResponse, account Account, features []string) error
 	GetAccountRemovalAllowed(ctx context.Context, response IAccountAuthenticatorResponse, account Account) error
 	GetAccountCredentialsForCloning(ctx context.Context, response IAccountAuthenticatorResponse, account Account) error
-	AddAccountFromCredentials(ctx context.Context, response IAccountAuthenticatorResponse, account Account, accountCredentials interface{}) error
-	StartAddAccountSession(ctx context.Context, response IAccountAuthenticatorResponse, accountType string, authTokenType string, requiredFeatures []string, options interface{}) error
-	StartUpdateCredentialsSession(ctx context.Context, response IAccountAuthenticatorResponse, account Account, authTokenType string, options interface{}) error
-	FinishSession(ctx context.Context, response IAccountAuthenticatorResponse, accountType string, sessionBundle interface{}) error
+	AddAccountFromCredentials(ctx context.Context, response IAccountAuthenticatorResponse, account Account, accountCredentials os.Bundle) error
+	StartAddAccountSession(ctx context.Context, response IAccountAuthenticatorResponse, accountType string, authTokenType string, requiredFeatures []string, options os.Bundle) error
+	StartUpdateCredentialsSession(ctx context.Context, response IAccountAuthenticatorResponse, account Account, authTokenType string, options os.Bundle) error
+	FinishSession(ctx context.Context, response IAccountAuthenticatorResponse, accountType string, sessionBundle os.Bundle) error
 	IsCredentialsUpdateSuggested(ctx context.Context, response IAccountAuthenticatorResponse, account Account, statusToken string) error
 }
 
@@ -786,7 +988,7 @@ func (w *accountAuthenticatorStubWrapper) AddAccount(
 	accountType string,
 	authTokenType string,
 	requiredFeatures []string,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.AddAccount(ctx, response, accountType, authTokenType, requiredFeatures, options)
 }
@@ -795,7 +997,7 @@ func (w *accountAuthenticatorStubWrapper) ConfirmCredentials(
 	ctx context.Context,
 	response IAccountAuthenticatorResponse,
 	account Account,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.ConfirmCredentials(ctx, response, account, options)
 }
@@ -805,7 +1007,7 @@ func (w *accountAuthenticatorStubWrapper) GetAuthToken(
 	response IAccountAuthenticatorResponse,
 	account Account,
 	authTokenType string,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.GetAuthToken(ctx, response, account, authTokenType, options)
 }
@@ -823,7 +1025,7 @@ func (w *accountAuthenticatorStubWrapper) UpdateCredentials(
 	response IAccountAuthenticatorResponse,
 	account Account,
 	authTokenType string,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.UpdateCredentials(ctx, response, account, authTokenType, options)
 }
@@ -865,7 +1067,7 @@ func (w *accountAuthenticatorStubWrapper) AddAccountFromCredentials(
 	ctx context.Context,
 	response IAccountAuthenticatorResponse,
 	account Account,
-	accountCredentials interface{},
+	accountCredentials os.Bundle,
 ) error {
 	return w.impl.AddAccountFromCredentials(ctx, response, account, accountCredentials)
 }
@@ -876,7 +1078,7 @@ func (w *accountAuthenticatorStubWrapper) StartAddAccountSession(
 	accountType string,
 	authTokenType string,
 	requiredFeatures []string,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.StartAddAccountSession(ctx, response, accountType, authTokenType, requiredFeatures, options)
 }
@@ -886,7 +1088,7 @@ func (w *accountAuthenticatorStubWrapper) StartUpdateCredentialsSession(
 	response IAccountAuthenticatorResponse,
 	account Account,
 	authTokenType string,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.StartUpdateCredentialsSession(ctx, response, account, authTokenType, options)
 }
@@ -895,7 +1097,7 @@ func (w *accountAuthenticatorStubWrapper) FinishSession(
 	ctx context.Context,
 	response IAccountAuthenticatorResponse,
 	accountType string,
-	sessionBundle interface{},
+	sessionBundle os.Bundle,
 ) error {
 	return w.impl.FinishSession(ctx, response, accountType, sessionBundle)
 }

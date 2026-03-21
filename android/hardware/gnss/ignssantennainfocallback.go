@@ -3,7 +3,6 @@ package gnss
 import (
 	"context"
 	"fmt"
-	gnssIGnssAntennaInfoCallback "github.com/xaionaro-go/binder/android/hardware/gnss/IGnssAntennaInfoCallback"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -22,7 +21,7 @@ const (
 
 type IGnssAntennaInfoCallback interface {
 	AsBinder() binder.IBinder
-	GnssAntennaInfoCb(ctx context.Context, gnssAntennaInfos []gnssIGnssAntennaInfoCallback.GnssAntennaInfo) error
+	GnssAntennaInfoCb(ctx context.Context, gnssAntennaInfos []IGnssAntennaInfoCallbackGnssAntennaInfo) error
 }
 
 type GnssAntennaInfoCallbackProxy struct {
@@ -43,9 +42,10 @@ var _ IGnssAntennaInfoCallback = (*GnssAntennaInfoCallbackProxy)(nil)
 
 func (p *GnssAntennaInfoCallbackProxy) GnssAntennaInfoCb(
 	ctx context.Context,
-	gnssAntennaInfos []gnssIGnssAntennaInfoCallback.GnssAntennaInfo,
+	gnssAntennaInfos []IGnssAntennaInfoCallbackGnssAntennaInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssAntennaInfoCallback)
 	if gnssAntennaInfos == nil {
 		_data.WriteInt32(-1)
@@ -80,7 +80,8 @@ func (p *GnssAntennaInfoCallbackProxy) GnssAntennaInfoCb(
 // GnssAntennaInfoCallbackStub dispatches incoming binder transactions
 // to a typed IGnssAntennaInfoCallback implementation.
 type GnssAntennaInfoCallbackStub struct {
-	Impl IGnssAntennaInfoCallback
+	Impl      IGnssAntennaInfoCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssAntennaInfoCallbackStub)(nil)
@@ -94,14 +95,33 @@ func (s *GnssAntennaInfoCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssAntennaInfoCallbackGnssAntennaInfoCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_gnssAntennaInfos []IGnssAntennaInfoCallbackGnssAntennaInfo
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_gnssAntennaInfos = make([]IGnssAntennaInfoCallbackGnssAntennaInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_gnssAntennaInfos[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_gnssAntennaInfos []gnssIGnssAntennaInfoCallback.GnssAntennaInfo
-		_ = _arg_gnssAntennaInfos
 		_err := s.Impl.GnssAntennaInfoCb(ctx, _arg_gnssAntennaInfos)
 		_reply := parcel.New()
 		if _err != nil {
@@ -119,7 +139,7 @@ func (s *GnssAntennaInfoCallbackStub) OnTransaction(
 // provide to NewGnssAntennaInfoCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IGnssAntennaInfoCallbackServer interface {
-	GnssAntennaInfoCb(ctx context.Context, gnssAntennaInfos []gnssIGnssAntennaInfoCallback.GnssAntennaInfo) error
+	GnssAntennaInfoCb(ctx context.Context, gnssAntennaInfos []IGnssAntennaInfoCallbackGnssAntennaInfo) error
 }
 
 type gnssAntennaInfoCallbackStubWrapper struct {
@@ -133,7 +153,7 @@ func (w *gnssAntennaInfoCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *gnssAntennaInfoCallbackStubWrapper) GnssAntennaInfoCb(
 	ctx context.Context,
-	gnssAntennaInfos []gnssIGnssAntennaInfoCallback.GnssAntennaInfo,
+	gnssAntennaInfos []IGnssAntennaInfoCallbackGnssAntennaInfo,
 ) error {
 	return w.impl.GnssAntennaInfoCb(ctx, gnssAntennaInfos)
 }

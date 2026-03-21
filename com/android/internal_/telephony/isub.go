@@ -156,13 +156,13 @@ type ISub interface {
 	SetDisplayNumber(ctx context.Context, number string, subId int32) (int32, error)
 	SetDataRoaming(ctx context.Context, roaming int32, subId int32) (int32, error)
 	SetOpportunistic(ctx context.Context, opportunistic bool, subId int32) (int32, error)
-	CreateSubscriptionGroup(ctx context.Context, subIdList []int32) (interface{}, error)
+	CreateSubscriptionGroup(ctx context.Context, subIdList []int32) (os.ParcelUuid, error)
 	SetPreferredDataSubscriptionId(ctx context.Context, subId int32, needValidation bool, callback ISetOpportunisticDataCallback) error
 	GetPreferredDataSubscriptionId(ctx context.Context) (int32, error)
 	GetOpportunisticSubscriptions(ctx context.Context) ([]androidTelephony.SubscriptionInfo, error)
-	RemoveSubscriptionsFromGroup(ctx context.Context, subIdList []int32, groupUuid interface{}) error
-	AddSubscriptionsIntoGroup(ctx context.Context, subIdList []int32, groupUuid interface{}) error
-	GetSubscriptionsInGroup(ctx context.Context, groupUuid interface{}) ([]androidTelephony.SubscriptionInfo, error)
+	RemoveSubscriptionsFromGroup(ctx context.Context, subIdList []int32, groupUuid os.ParcelUuid) error
+	AddSubscriptionsIntoGroup(ctx context.Context, subIdList []int32, groupUuid os.ParcelUuid) error
+	GetSubscriptionsInGroup(ctx context.Context, groupUuid os.ParcelUuid) ([]androidTelephony.SubscriptionInfo, error)
 	GetSlotIndex(ctx context.Context, subId int32) (int32, error)
 	GetSubId(ctx context.Context, slotIndex int32) (int32, error)
 	GetDefaultSubId(ctx context.Context) (int32, error)
@@ -222,6 +222,7 @@ func (p *SubProxy) GetAllSubInfoList(
 	var _result []androidTelephony.SubscriptionInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -245,6 +246,9 @@ func (p *SubProxy) GetAllSubInfoList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]androidTelephony.SubscriptionInfo, _count)
@@ -267,6 +271,7 @@ func (p *SubProxy) GetActiveSubscriptionInfo(
 	var _result androidTelephony.SubscriptionInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -306,6 +311,7 @@ func (p *SubProxy) GetActiveSubscriptionInfoForIccId(
 	var _result androidTelephony.SubscriptionInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteString16(iccId)
 	_data.WriteString16(_identity.PackageName)
@@ -345,6 +351,7 @@ func (p *SubProxy) GetActiveSubscriptionInfoForSimSlotIndex(
 	var _result androidTelephony.SubscriptionInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(slotIndex)
 	_data.WriteString16(_identity.PackageName)
@@ -384,6 +391,7 @@ func (p *SubProxy) GetActiveSubscriptionInfoList(
 	var _result []androidTelephony.SubscriptionInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -408,6 +416,9 @@ func (p *SubProxy) GetActiveSubscriptionInfoList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]androidTelephony.SubscriptionInfo, _count)
@@ -430,6 +441,7 @@ func (p *SubProxy) GetActiveSubInfoCount(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -462,6 +474,7 @@ func (p *SubProxy) GetActiveSubInfoCountMax(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISub, MethodISubGetActiveSubInfoCountMax)
@@ -492,6 +505,7 @@ func (p *SubProxy) GetAvailableSubscriptionInfoList(
 	var _result []androidTelephony.SubscriptionInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -515,6 +529,9 @@ func (p *SubProxy) GetAvailableSubscriptionInfoList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]androidTelephony.SubscriptionInfo, _count)
@@ -536,6 +553,7 @@ func (p *SubProxy) GetAccessibleSubscriptionInfoList(
 	var _result []androidTelephony.SubscriptionInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteString16(_identity.PackageName)
 
@@ -558,6 +576,9 @@ func (p *SubProxy) GetAccessibleSubscriptionInfoList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]androidTelephony.SubscriptionInfo, _count)
@@ -578,6 +599,7 @@ func (p *SubProxy) RequestEmbeddedSubscriptionInfoListRefresh(
 	cardId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(cardId)
 
@@ -599,6 +621,7 @@ func (p *SubProxy) AddSubInfo(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteString16(uniqueId)
 	_data.WriteString16(displayName)
@@ -634,6 +657,7 @@ func (p *SubProxy) RemoveSubInfo(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteString16(uniqueId)
 	_data.WriteInt32(subscriptionType)
@@ -667,6 +691,7 @@ func (p *SubProxy) SetIconTint(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(tint)
@@ -701,6 +726,7 @@ func (p *SubProxy) SetDisplayNameUsingSrc(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteString16(displayName)
 	_data.WriteInt32(subId)
@@ -735,6 +761,7 @@ func (p *SubProxy) SetDisplayNumber(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteString16(number)
 	_data.WriteInt32(subId)
@@ -768,6 +795,7 @@ func (p *SubProxy) SetDataRoaming(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(roaming)
 	_data.WriteInt32(subId)
@@ -802,6 +830,7 @@ func (p *SubProxy) SetOpportunistic(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteBool(opportunistic)
 	_data.WriteInt32(subId)
@@ -832,10 +861,11 @@ func (p *SubProxy) SetOpportunistic(
 func (p *SubProxy) CreateSubscriptionGroup(
 	ctx context.Context,
 	subIdList []int32,
-) (interface{}, error) {
-	var _result interface{}
+) (os.ParcelUuid, error) {
+	var _result os.ParcelUuid
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	if subIdList == nil {
 		_data.WriteInt32(-1)
@@ -862,6 +892,15 @@ func (p *SubProxy) CreateSubscriptionGroup(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -872,6 +911,7 @@ func (p *SubProxy) SetPreferredDataSubscriptionId(
 	callback ISetOpportunisticDataCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 	_data.WriteBool(needValidation)
@@ -900,6 +940,7 @@ func (p *SubProxy) GetPreferredDataSubscriptionId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISub, MethodISubGetPreferredDataSubscriptionId)
@@ -930,6 +971,7 @@ func (p *SubProxy) GetOpportunisticSubscriptions(
 	var _result []androidTelephony.SubscriptionInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -953,6 +995,9 @@ func (p *SubProxy) GetOpportunisticSubscriptions(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]androidTelephony.SubscriptionInfo, _count)
@@ -971,10 +1016,11 @@ func (p *SubProxy) GetOpportunisticSubscriptions(
 func (p *SubProxy) RemoveSubscriptionsFromGroup(
 	ctx context.Context,
 	subIdList []int32,
-	groupUuid interface{},
+	groupUuid os.ParcelUuid,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	if subIdList == nil {
 		_data.WriteInt32(-1)
@@ -983,6 +1029,10 @@ func (p *SubProxy) RemoveSubscriptionsFromGroup(
 		for _, _item := range subIdList {
 			_data.WriteInt32(_item)
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := groupUuid.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 	_data.WriteString16(_identity.PackageName)
 
@@ -1007,10 +1057,11 @@ func (p *SubProxy) RemoveSubscriptionsFromGroup(
 func (p *SubProxy) AddSubscriptionsIntoGroup(
 	ctx context.Context,
 	subIdList []int32,
-	groupUuid interface{},
+	groupUuid os.ParcelUuid,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	if subIdList == nil {
 		_data.WriteInt32(-1)
@@ -1019,6 +1070,10 @@ func (p *SubProxy) AddSubscriptionsIntoGroup(
 		for _, _item := range subIdList {
 			_data.WriteInt32(_item)
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := groupUuid.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 	_data.WriteString16(_identity.PackageName)
 
@@ -1042,12 +1097,17 @@ func (p *SubProxy) AddSubscriptionsIntoGroup(
 
 func (p *SubProxy) GetSubscriptionsInGroup(
 	ctx context.Context,
-	groupUuid interface{},
+	groupUuid os.ParcelUuid,
 ) ([]androidTelephony.SubscriptionInfo, error) {
 	var _result []androidTelephony.SubscriptionInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
+	_data.WriteInt32(1)
+	if _err := groupUuid.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
 
@@ -1070,6 +1130,9 @@ func (p *SubProxy) GetSubscriptionsInGroup(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]androidTelephony.SubscriptionInfo, _count)
@@ -1091,6 +1154,7 @@ func (p *SubProxy) GetSlotIndex(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 
@@ -1122,6 +1186,7 @@ func (p *SubProxy) GetSubId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(slotIndex)
 
@@ -1152,6 +1217,7 @@ func (p *SubProxy) GetDefaultSubId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISub, MethodISubGetDefaultSubId)
@@ -1182,6 +1248,7 @@ func (p *SubProxy) GetDefaultSubIdAsUser(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1213,6 +1280,7 @@ func (p *SubProxy) GetPhoneId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 
@@ -1243,6 +1311,7 @@ func (p *SubProxy) GetDefaultDataSubId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISub, MethodISubGetDefaultDataSubId)
@@ -1272,6 +1341,7 @@ func (p *SubProxy) SetDefaultDataSubId(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 
@@ -1298,6 +1368,7 @@ func (p *SubProxy) GetDefaultVoiceSubId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISub, MethodISubGetDefaultVoiceSubId)
@@ -1328,6 +1399,7 @@ func (p *SubProxy) GetDefaultVoiceSubIdAsUser(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1358,6 +1430,7 @@ func (p *SubProxy) SetDefaultVoiceSubId(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 
@@ -1384,6 +1457,7 @@ func (p *SubProxy) GetDefaultSmsSubId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISub, MethodISubGetDefaultSmsSubId)
@@ -1414,6 +1488,7 @@ func (p *SubProxy) GetDefaultSmsSubIdAsUser(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1444,6 +1519,7 @@ func (p *SubProxy) SetDefaultSmsSubId(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 
@@ -1471,6 +1547,7 @@ func (p *SubProxy) GetActiveSubIdList(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteBool(visibleOnly)
 
@@ -1493,6 +1570,9 @@ func (p *SubProxy) GetActiveSubIdList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -1513,6 +1593,7 @@ func (p *SubProxy) SetSubscriptionProperty(
 	propValue string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 	_data.WriteString16(propKey)
@@ -1544,6 +1625,7 @@ func (p *SubProxy) GetSubscriptionProperty(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 	_data.WriteString16(propKey)
@@ -1578,6 +1660,7 @@ func (p *SubProxy) IsSubscriptionEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 
@@ -1609,6 +1692,7 @@ func (p *SubProxy) GetEnabledSubscriptionId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(slotIndex)
 
@@ -1641,6 +1725,7 @@ func (p *SubProxy) IsActiveSubId(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -1673,6 +1758,7 @@ func (p *SubProxy) GetActiveDataSubscriptionId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISub, MethodISubGetActiveDataSubscriptionId)
@@ -1702,6 +1788,7 @@ func (p *SubProxy) CanDisablePhysicalSubscription(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISub, MethodISubCanDisablePhysicalSubscription)
@@ -1732,6 +1819,7 @@ func (p *SubProxy) SetUiccApplicationsEnabled(
 	subscriptionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteBool(enabled)
 	_data.WriteInt32(subscriptionId)
@@ -1761,6 +1849,7 @@ func (p *SubProxy) SetDeviceToDeviceStatusSharing(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(sharing)
 	_data.WriteInt32(subId)
@@ -1794,6 +1883,7 @@ func (p *SubProxy) SetDeviceToDeviceStatusSharingContacts(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteString16(contacts)
 	_data.WriteInt32(subscriptionId)
@@ -1828,6 +1918,7 @@ func (p *SubProxy) GetPhoneNumber(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(source)
@@ -1863,6 +1954,7 @@ func (p *SubProxy) GetPhoneNumberFromFirstAvailableSource(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -1898,6 +1990,7 @@ func (p *SubProxy) SetPhoneNumber(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(source)
@@ -1931,6 +2024,7 @@ func (p *SubProxy) SetUsageSetting(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(usageSetting)
 	_data.WriteInt32(subId)
@@ -1965,6 +2059,7 @@ func (p *SubProxy) SetSubscriptionUserHandle(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
@@ -2000,6 +2095,7 @@ func (p *SubProxy) GetSubscriptionUserHandle(
 ) (os.UserHandle, error) {
 	var _result os.UserHandle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 
@@ -2036,6 +2132,7 @@ func (p *SubProxy) IsSubscriptionAssociatedWithCallingUser(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subscriptionId)
 
@@ -2068,6 +2165,7 @@ func (p *SubProxy) IsSubscriptionAssociatedWithUser(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subscriptionId)
 	_data.WriteInt32(1)
@@ -2103,6 +2201,7 @@ func (p *SubProxy) GetSubscriptionInfoListAssociatedWithUser(
 ) ([]androidTelephony.SubscriptionInfo, error) {
 	var _result []androidTelephony.SubscriptionInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
@@ -2128,6 +2227,9 @@ func (p *SubProxy) GetSubscriptionInfoListAssociatedWithUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]androidTelephony.SubscriptionInfo, _count)
@@ -2148,15 +2250,9 @@ func (p *SubProxy) RestoreAllSimSpecificSettingsFromBackup(
 	data []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISub, MethodISubRestoreAllSimSpecificSettingsFromBackup)
 	if _err != nil {
@@ -2182,6 +2278,7 @@ func (p *SubProxy) SetTransferStatus(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(status)
@@ -2207,7 +2304,8 @@ func (p *SubProxy) SetTransferStatus(
 // SubStub dispatches incoming binder transactions
 // to a typed ISub implementation.
 type SubStub struct {
-	Impl ISub
+	Impl      ISub
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SubStub)(nil)
@@ -2221,11 +2319,12 @@ func (s *SubStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISubGetAllSubInfoList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -2239,13 +2338,19 @@ func (s *SubStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISubGetActiveSubscriptionInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2269,9 +2374,6 @@ func (s *SubStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISubGetActiveSubscriptionInfoForIccId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iccId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2295,9 +2397,6 @@ func (s *SubStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISubGetActiveSubscriptionInfoForSimSlotIndex:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2327,9 +2426,6 @@ func (s *SubStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isForAllProfiles, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2341,13 +2437,19 @@ func (s *SubStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISubGetActiveSubInfoCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -2368,9 +2470,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetActiveSubInfoCountMax:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetActiveSubInfoCountMax(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2387,9 +2486,6 @@ func (s *SubStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAvailableSubscriptionInfoList(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2397,13 +2493,19 @@ func (s *SubStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISubGetAccessibleSubscriptionInfoList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -2414,24 +2516,26 @@ func (s *SubStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISubRequestEmbeddedSubscriptionInfoListRefresh:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RequestEmbeddedSubscriptionInfoListRefresh(ctx, _arg_cardId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISubAddSubInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uniqueId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2458,9 +2562,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubRemoveSubInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uniqueId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2479,9 +2580,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISubSetIconTint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2500,9 +2598,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetDisplayNameUsingSrc:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2525,9 +2620,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetDisplayNumber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2546,9 +2638,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetDataRoaming:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_roaming, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2567,9 +2656,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetOpportunistic:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_opportunistic, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2591,12 +2677,25 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubCreateSubscriptionGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_subIdList []int32
-		_ = _arg_subIdList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_subIdList = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_subIdList[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -2607,12 +2706,12 @@ func (s *SubStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionISubSetPreferredDataSubscriptionId:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionISubSetPreferredDataSubscriptionId:
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2621,9 +2720,14 @@ func (s *SubStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISetOpportunisticDataCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSetOpportunisticDataCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.SetPreferredDataSubscriptionId(ctx, _arg_subId, _arg_needValidation, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2633,9 +2737,6 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubGetPreferredDataSubscriptionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPreferredDataSubscriptionId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2652,9 +2753,6 @@ func (s *SubStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetOpportunisticSubscriptions(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2662,17 +2760,50 @@ func (s *SubStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISubRemoveSubscriptionsFromGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_subIdList []int32
-		_ = _arg_subIdList
-		var _arg_groupUuid interface{}
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_subIdList = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_subIdList[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_groupUuid os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_groupUuid.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -2685,13 +2816,37 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubAddSubscriptionsIntoGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_subIdList []int32
-		_ = _arg_subIdList
-		var _arg_groupUuid interface{}
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_subIdList = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_subIdList[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_groupUuid os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_groupUuid.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -2704,10 +2859,18 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubGetSubscriptionsInGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_groupUuid os.ParcelUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_groupUuid.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_groupUuid interface{}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -2721,13 +2884,19 @@ func (s *SubStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISubGetSlotIndex:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2742,9 +2911,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetSubId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2759,9 +2925,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetDefaultSubId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDefaultSubId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2772,9 +2935,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetDefaultSubIdAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2788,9 +2948,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetPhoneId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2805,9 +2962,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetDefaultDataSubId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDefaultDataSubId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2818,9 +2972,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetDefaultDataSubId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2834,9 +2985,6 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubGetDefaultVoiceSubId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDefaultVoiceSubId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2847,9 +2995,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetDefaultVoiceSubIdAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2863,9 +3008,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetDefaultVoiceSubId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2879,9 +3021,6 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubGetDefaultSmsSubId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDefaultSmsSubId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2892,9 +3031,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetDefaultSmsSubIdAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2908,9 +3044,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetDefaultSmsSubId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2924,9 +3057,6 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubGetActiveSubIdList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_visibleOnly, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2938,13 +3068,16 @@ func (s *SubStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionISubSetSubscriptionProperty:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2966,9 +3099,6 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubGetSubscriptionProperty:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2993,9 +3123,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISubIsSubscriptionEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3010,9 +3137,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISubGetEnabledSubscriptionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3027,9 +3151,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubIsActiveSubId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3050,9 +3171,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISubGetActiveDataSubscriptionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetActiveDataSubscriptionId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3063,9 +3181,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubCanDisablePhysicalSubscription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CanDisablePhysicalSubscription(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3076,9 +3191,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISubSetUiccApplicationsEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3096,9 +3208,6 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubSetDeviceToDeviceStatusSharing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sharing, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3117,9 +3226,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetDeviceToDeviceStatusSharingContacts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_contacts, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3138,9 +3244,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetPhoneNumber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3165,9 +3268,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISubGetPhoneNumberFromFirstAvailableSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3188,9 +3288,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISubSetPhoneNumber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3218,9 +3315,6 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubSetUsageSetting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_usageSetting, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3242,9 +3336,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetSubscriptionUserHandle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_userHandle os.UserHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3271,9 +3362,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetSubscriptionUserHandle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3291,9 +3379,6 @@ func (s *SubStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISubIsSubscriptionAssociatedWithCallingUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3308,9 +3393,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISubIsSubscriptionAssociatedWithUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3337,9 +3419,6 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISubGetSubscriptionInfoListAssociatedWithUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_userHandle os.UserHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3359,16 +3438,27 @@ func (s *SubStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISubRestoreAllSimSpecificSettingsFromBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_err := s.Impl.RestoreAllSimSpecificSettingsFromBackup(ctx, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3378,9 +3468,6 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubSetTransferStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3423,13 +3510,13 @@ type ISubServer interface {
 	SetDisplayNumber(ctx context.Context, number string, subId int32) (int32, error)
 	SetDataRoaming(ctx context.Context, roaming int32, subId int32) (int32, error)
 	SetOpportunistic(ctx context.Context, opportunistic bool, subId int32) (int32, error)
-	CreateSubscriptionGroup(ctx context.Context, subIdList []int32) (interface{}, error)
+	CreateSubscriptionGroup(ctx context.Context, subIdList []int32) (os.ParcelUuid, error)
 	SetPreferredDataSubscriptionId(ctx context.Context, subId int32, needValidation bool, callback ISetOpportunisticDataCallback) error
 	GetPreferredDataSubscriptionId(ctx context.Context) (int32, error)
 	GetOpportunisticSubscriptions(ctx context.Context) ([]androidTelephony.SubscriptionInfo, error)
-	RemoveSubscriptionsFromGroup(ctx context.Context, subIdList []int32, groupUuid interface{}) error
-	AddSubscriptionsIntoGroup(ctx context.Context, subIdList []int32, groupUuid interface{}) error
-	GetSubscriptionsInGroup(ctx context.Context, groupUuid interface{}) ([]androidTelephony.SubscriptionInfo, error)
+	RemoveSubscriptionsFromGroup(ctx context.Context, subIdList []int32, groupUuid os.ParcelUuid) error
+	AddSubscriptionsIntoGroup(ctx context.Context, subIdList []int32, groupUuid os.ParcelUuid) error
+	GetSubscriptionsInGroup(ctx context.Context, groupUuid os.ParcelUuid) ([]androidTelephony.SubscriptionInfo, error)
 	GetSlotIndex(ctx context.Context, subId int32) (int32, error)
 	GetSubId(ctx context.Context, slotIndex int32) (int32, error)
 	GetDefaultSubId(ctx context.Context) (int32, error)
@@ -3604,7 +3691,7 @@ func (w *subStubWrapper) SetOpportunistic(
 func (w *subStubWrapper) CreateSubscriptionGroup(
 	ctx context.Context,
 	subIdList []int32,
-) (interface{}, error) {
+) (os.ParcelUuid, error) {
 	return w.impl.CreateSubscriptionGroup(ctx, subIdList)
 }
 
@@ -3632,7 +3719,7 @@ func (w *subStubWrapper) GetOpportunisticSubscriptions(
 func (w *subStubWrapper) RemoveSubscriptionsFromGroup(
 	ctx context.Context,
 	subIdList []int32,
-	groupUuid interface{},
+	groupUuid os.ParcelUuid,
 ) error {
 	return w.impl.RemoveSubscriptionsFromGroup(ctx, subIdList, groupUuid)
 }
@@ -3640,14 +3727,14 @@ func (w *subStubWrapper) RemoveSubscriptionsFromGroup(
 func (w *subStubWrapper) AddSubscriptionsIntoGroup(
 	ctx context.Context,
 	subIdList []int32,
-	groupUuid interface{},
+	groupUuid os.ParcelUuid,
 ) error {
 	return w.impl.AddSubscriptionsIntoGroup(ctx, subIdList, groupUuid)
 }
 
 func (w *subStubWrapper) GetSubscriptionsInGroup(
 	ctx context.Context,
-	groupUuid interface{},
+	groupUuid os.ParcelUuid,
 ) ([]androidTelephony.SubscriptionInfo, error) {
 	return w.impl.GetSubscriptionsInGroup(ctx, groupUuid)
 }

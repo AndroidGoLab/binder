@@ -61,6 +61,7 @@ func (p *TunerCallbackProxy) OnTuneFailed(
 	selector ProgramSelector,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteInt32(int32(result))
 	_data.WriteInt32(1)
@@ -82,6 +83,7 @@ func (p *TunerCallbackProxy) OnCurrentProgramInfoChanged(
 	info ProgramInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -102,6 +104,7 @@ func (p *TunerCallbackProxy) OnProgramListUpdated(
 	chunk ProgramListChunk,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteInt32(1)
 	if _err := chunk.MarshalParcel(_data); _err != nil {
@@ -122,6 +125,7 @@ func (p *TunerCallbackProxy) OnAntennaStateChange(
 	connected bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteBool(connected)
 
@@ -140,6 +144,7 @@ func (p *TunerCallbackProxy) OnConfigFlagUpdated(
 	value bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteInt32(int32(flag))
 	_data.WriteBool(value)
@@ -158,6 +163,7 @@ func (p *TunerCallbackProxy) OnParametersUpdated(
 	parameters []VendorKeyValue,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	if parameters == nil {
 		_data.WriteInt32(-1)
@@ -183,7 +189,8 @@ func (p *TunerCallbackProxy) OnParametersUpdated(
 // TunerCallbackStub dispatches incoming binder transactions
 // to a typed ITunerCallback implementation.
 type TunerCallbackStub struct {
-	Impl ITunerCallback
+	Impl      ITunerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TunerCallbackStub)(nil)
@@ -197,11 +204,12 @@ func (s *TunerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITunerCallbackOnTuneFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -220,12 +228,8 @@ func (s *TunerCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnTuneFailed(ctx, _arg_result, _arg_selector)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnCurrentProgramInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info ProgramInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -239,12 +243,8 @@ func (s *TunerCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnCurrentProgramInfoChanged(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnProgramListUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_chunk ProgramListChunk
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -258,23 +258,15 @@ func (s *TunerCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnProgramListUpdated(ctx, _arg_chunk)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnAntennaStateChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_connected, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAntennaStateChange(ctx, _arg_connected)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnConfigFlagUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -285,18 +277,31 @@ func (s *TunerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnConfigFlagUpdated(ctx, _arg_flag, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITunerCallbackOnParametersUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_parameters []VendorKeyValue
-		_ = _arg_parameters
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_parameters = make([]VendorKeyValue, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_parameters[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnParametersUpdated(ctx, _arg_parameters)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

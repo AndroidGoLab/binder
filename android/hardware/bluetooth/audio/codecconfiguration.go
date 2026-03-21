@@ -1,7 +1,6 @@
 package audio
 
 import (
-	audioCodecConfiguration "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/CodecConfiguration"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -12,7 +11,7 @@ type CodecConfiguration struct {
 	EncodedAudioBitrate int32
 	PeerMtu             int32
 	IsScmstEnabled      bool
-	Config              audioCodecConfiguration.CodecSpecific
+	Config              CodecConfigurationCodecSpecific
 }
 
 var _ parcel.Parcelable = (*CodecConfiguration)(nil)
@@ -41,15 +40,30 @@ func (s *CodecConfiguration) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_codecTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.CodecType = CodecType(_codecTypeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.EncodedAudioBitrate, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.PeerMtu, _err = p.ReadInt32()
@@ -57,9 +71,19 @@ func (s *CodecConfiguration) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsScmstEnabled, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.Config.UnmarshalParcel(p); _err != nil {

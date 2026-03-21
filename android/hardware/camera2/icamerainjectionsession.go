@@ -44,6 +44,7 @@ func (p *CameraInjectionSessionProxy) StopInjection(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraInjectionSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraInjectionSession, MethodICameraInjectionSessionStopInjection)
@@ -58,7 +59,8 @@ func (p *CameraInjectionSessionProxy) StopInjection(
 // CameraInjectionSessionStub dispatches incoming binder transactions
 // to a typed ICameraInjectionSession implementation.
 type CameraInjectionSessionStub struct {
-	Impl ICameraInjectionSession
+	Impl      ICameraInjectionSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CameraInjectionSessionStub)(nil)
@@ -72,14 +74,14 @@ func (s *CameraInjectionSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICameraInjectionSessionStopInjection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopInjection(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

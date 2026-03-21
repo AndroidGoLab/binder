@@ -57,6 +57,7 @@ func (p *LightsManagerProxy) GetLights(
 ) ([]Light, error) {
 	var _result []Light
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILightsManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILightsManager, MethodILightsManagerGetLights)
@@ -77,6 +78,9 @@ func (p *LightsManagerProxy) GetLights(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -99,6 +103,7 @@ func (p *LightsManagerProxy) GetLightState(
 ) (LightState, error) {
 	var _result LightState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILightsManager)
 	_data.WriteInt32(lightId)
 
@@ -135,6 +140,7 @@ func (p *LightsManagerProxy) OpenSession(
 	priority int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILightsManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(priority)
@@ -162,6 +168,7 @@ func (p *LightsManagerProxy) CloseSession(
 	sessionToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILightsManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 
@@ -190,6 +197,7 @@ func (p *LightsManagerProxy) SetLightStates(
 	states []LightState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILightsManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	if lightIds == nil {
@@ -233,7 +241,8 @@ func (p *LightsManagerProxy) SetLightStates(
 // LightsManagerStub dispatches incoming binder transactions
 // to a typed ILightsManager implementation.
 type LightsManagerStub struct {
-	Impl ILightsManager
+	Impl      ILightsManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LightsManagerStub)(nil)
@@ -247,11 +256,12 @@ func (s *LightsManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILightsManagerGetLights:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLights(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -259,13 +269,19 @@ func (s *LightsManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionILightsManagerGetLightState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_lightId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -283,12 +299,14 @@ func (s *LightsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILightsManagerOpenSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_priority, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -302,12 +320,14 @@ func (s *LightsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILightsManagerCloseSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_err := s.Impl.CloseSession(ctx, _arg_sessionToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -317,18 +337,54 @@ func (s *LightsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILightsManagerSetLightStates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_lightIds []int32
-		_ = _arg_lightIds
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_lightIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_lightIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_states []LightState
-		_ = _arg_states
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_states = make([]LightState, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_states[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetLightStates(ctx, _arg_sessionToken, _arg_lightIds, _arg_states)
 		_reply := parcel.New()
 		if _err != nil {

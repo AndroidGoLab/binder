@@ -1,0 +1,21 @@
+package: com.android.test.binder
+go_package: com/android/test/binder
+interfaces:
+    - name: IFoo
+      descriptor: com.android.test.binder.IFoo
+    - name: IFooProvider
+      descriptor: com.android.test.binder.IFooProvider
+      methods:
+        - name: createFoo
+          transaction_code_offset: 0
+          return_type:
+            name: IFoo
+        - name: isFooGarbageCollected
+          transaction_code_offset: 1
+          return_type:
+            name: boolean
+        - name: killProcess
+          transaction_code_offset: 2
+          oneway: true
+          return_type:
+            name: void

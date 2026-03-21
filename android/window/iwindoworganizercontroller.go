@@ -3,7 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
-	view "github.com/xaionaro-go/binder/android/view"
+	types "github.com/xaionaro-go/binder/android/view/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -48,7 +48,7 @@ type IWindowOrganizerController interface {
 	ApplySyncTransaction(ctx context.Context, t WindowContainerTransaction, callback IWindowContainerTransactionCallback) (int32, error)
 	StartNewTransition(ctx context.Context, type_ int32, t *WindowContainerTransaction) (binder.IBinder, error)
 	StartTransition(ctx context.Context, transitionToken binder.IBinder, t *WindowContainerTransaction) error
-	StartLegacyTransition(ctx context.Context, type_ int32, adapter view.RemoteAnimationAdapter, syncCallback IWindowContainerTransactionCallback, t WindowContainerTransaction) (int32, error)
+	StartLegacyTransition(ctx context.Context, type_ int32, adapter types.RemoteAnimationAdapter, syncCallback IWindowContainerTransactionCallback, t WindowContainerTransaction) (int32, error)
 	FinishTransition(ctx context.Context, transitionToken binder.IBinder, t *WindowContainerTransaction) error
 	GetTaskOrganizerController(ctx context.Context) (ITaskOrganizerController, error)
 	GetDisplayAreaOrganizerController(ctx context.Context) (IDisplayAreaOrganizerController, error)
@@ -79,6 +79,7 @@ func (p *WindowOrganizerControllerProxy) ApplyTransaction(
 	t WindowContainerTransaction,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 	_data.WriteInt32(1)
 	if _err := t.MarshalParcel(_data); _err != nil {
@@ -110,6 +111,7 @@ func (p *WindowOrganizerControllerProxy) ApplySyncTransaction(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 	_data.WriteInt32(1)
 	if _err := t.MarshalParcel(_data); _err != nil {
@@ -146,9 +148,11 @@ func (p *WindowOrganizerControllerProxy) StartNewTransition(
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 	_data.WriteInt32(type_)
 	if t != nil {
+		_data.WriteInt32(1)
 		if _err := (*t).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
@@ -185,9 +189,11 @@ func (p *WindowOrganizerControllerProxy) StartTransition(
 	t *WindowContainerTransaction,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 	binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
 	if t != nil {
+		_data.WriteInt32(1)
 		if _err := (*t).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -216,18 +222,16 @@ func (p *WindowOrganizerControllerProxy) StartTransition(
 func (p *WindowOrganizerControllerProxy) StartLegacyTransition(
 	ctx context.Context,
 	type_ int32,
-	adapter view.RemoteAnimationAdapter,
+	adapter types.RemoteAnimationAdapter,
 	syncCallback IWindowContainerTransactionCallback,
 	t WindowContainerTransaction,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 	_data.WriteInt32(type_)
-	_data.WriteInt32(1)
-	if _err := adapter.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
+	// WARNING: param adapter (type types.RemoteAnimationAdapter) cannot be serialized — type not resolved
 	binder.WriteBinderToParcel(ctx, _data, syncCallback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := t.MarshalParcel(_data); _err != nil {
@@ -262,9 +266,11 @@ func (p *WindowOrganizerControllerProxy) FinishTransition(
 	t *WindowContainerTransaction,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 	binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
 	if t != nil {
+		_data.WriteInt32(1)
 		if _err := (*t).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -295,6 +301,7 @@ func (p *WindowOrganizerControllerProxy) GetTaskOrganizerController(
 ) (ITaskOrganizerController, error) {
 	var _result ITaskOrganizerController
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowOrganizerController, MethodIWindowOrganizerControllerGetTaskOrganizerController)
@@ -325,6 +332,7 @@ func (p *WindowOrganizerControllerProxy) GetDisplayAreaOrganizerController(
 ) (IDisplayAreaOrganizerController, error) {
 	var _result IDisplayAreaOrganizerController
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowOrganizerController, MethodIWindowOrganizerControllerGetDisplayAreaOrganizerController)
@@ -355,6 +363,7 @@ func (p *WindowOrganizerControllerProxy) GetTaskFragmentOrganizerController(
 ) (ITaskFragmentOrganizerController, error) {
 	var _result ITaskFragmentOrganizerController
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowOrganizerController, MethodIWindowOrganizerControllerGetTaskFragmentOrganizerController)
@@ -385,6 +394,7 @@ func (p *WindowOrganizerControllerProxy) RegisterTransitionPlayer(
 	player ITransitionPlayer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 	binder.WriteBinderToParcel(ctx, _data, player.AsBinder(), p.Remote.Transport())
 
@@ -411,6 +421,7 @@ func (p *WindowOrganizerControllerProxy) GetTransitionMetricsReporter(
 ) (ITransitionMetricsReporter, error) {
 	var _result ITransitionMetricsReporter
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowOrganizerController, MethodIWindowOrganizerControllerGetTransitionMetricsReporter)
@@ -441,6 +452,7 @@ func (p *WindowOrganizerControllerProxy) GetApplyToken(
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowOrganizerController, MethodIWindowOrganizerControllerGetApplyToken)
@@ -469,7 +481,8 @@ func (p *WindowOrganizerControllerProxy) GetApplyToken(
 // WindowOrganizerControllerStub dispatches incoming binder transactions
 // to a typed IWindowOrganizerController implementation.
 type WindowOrganizerControllerStub struct {
-	Impl IWindowOrganizerController
+	Impl      IWindowOrganizerController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WindowOrganizerControllerStub)(nil)
@@ -483,11 +496,12 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWindowOrganizerControllerApplyTransaction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_t WindowContainerTransaction
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -509,9 +523,6 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerApplySyncTransaction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_t WindowContainerTransaction
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -524,9 +535,14 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IWindowContainerTransactionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewWindowContainerTransactionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.ApplySyncTransaction(ctx, _arg_t, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -537,9 +553,6 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerStartNewTransition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -551,6 +564,7 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_t = new(WindowContainerTransaction)
 				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -563,16 +577,17 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerStartTransition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transitionToken binder.IBinder
-		_ = _arg_transitionToken
+		{
+			_transitionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transitionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transitionTokenHandle)
+		}
 		var _arg_t *WindowContainerTransaction
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -580,6 +595,7 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_t = new(WindowContainerTransaction)
 				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -594,28 +610,19 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerStartLegacyTransition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_adapter view.RemoteAnimationAdapter
+		var _arg_adapter types.RemoteAnimationAdapter
+		var _arg_syncCallback IWindowContainerTransactionCallback
 		{
-			_nullInd, _err := _data.ReadInt32()
+			_syncCallbackHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			if _nullInd != 0 {
-				if _err = _arg_adapter.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
+			_arg_syncCallback = NewWindowContainerTransactionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _syncCallbackHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_syncCallback IWindowContainerTransactionCallback
-		_ = _arg_syncCallback
 		var _arg_t WindowContainerTransaction
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -638,12 +645,14 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerFinishTransition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transitionToken binder.IBinder
-		_ = _arg_transitionToken
+		{
+			_transitionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transitionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transitionTokenHandle)
+		}
 		var _arg_t *WindowContainerTransaction
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -651,6 +660,7 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_t = new(WindowContainerTransaction)
 				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -665,9 +675,6 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerGetTaskOrganizerController:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetTaskOrganizerController(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -675,13 +682,9 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerGetDisplayAreaOrganizerController:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDisplayAreaOrganizerController(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -689,13 +692,9 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerGetTaskFragmentOrganizerController:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetTaskFragmentOrganizerController(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -703,16 +702,17 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerRegisterTransitionPlayer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_player ITransitionPlayer
-		_ = _arg_player
+		{
+			_playerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_player = NewTransitionPlayerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _playerHandle))
+		}
 		_err := s.Impl.RegisterTransitionPlayer(ctx, _arg_player)
 		_reply := parcel.New()
 		if _err != nil {
@@ -722,9 +722,6 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerGetTransitionMetricsReporter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetTransitionMetricsReporter(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -732,13 +729,9 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerGetApplyToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetApplyToken(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -746,8 +739,7 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -762,7 +754,7 @@ type IWindowOrganizerControllerServer interface {
 	ApplySyncTransaction(ctx context.Context, t WindowContainerTransaction, callback IWindowContainerTransactionCallback) (int32, error)
 	StartNewTransition(ctx context.Context, type_ int32, t *WindowContainerTransaction) (binder.IBinder, error)
 	StartTransition(ctx context.Context, transitionToken binder.IBinder, t *WindowContainerTransaction) error
-	StartLegacyTransition(ctx context.Context, type_ int32, adapter view.RemoteAnimationAdapter, syncCallback IWindowContainerTransactionCallback, t WindowContainerTransaction) (int32, error)
+	StartLegacyTransition(ctx context.Context, type_ int32, adapter types.RemoteAnimationAdapter, syncCallback IWindowContainerTransactionCallback, t WindowContainerTransaction) (int32, error)
 	FinishTransition(ctx context.Context, transitionToken binder.IBinder, t *WindowContainerTransaction) error
 	GetTaskOrganizerController(ctx context.Context) (ITaskOrganizerController, error)
 	GetDisplayAreaOrganizerController(ctx context.Context) (IDisplayAreaOrganizerController, error)
@@ -815,7 +807,7 @@ func (w *windowOrganizerControllerStubWrapper) StartTransition(
 func (w *windowOrganizerControllerStubWrapper) StartLegacyTransition(
 	ctx context.Context,
 	type_ int32,
-	adapter view.RemoteAnimationAdapter,
+	adapter types.RemoteAnimationAdapter,
 	syncCallback IWindowContainerTransactionCallback,
 	t WindowContainerTransaction,
 ) (int32, error) {

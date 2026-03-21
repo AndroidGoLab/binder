@@ -56,6 +56,7 @@ func (p *AmbientContextDetectionServiceProxy) StartDetection(
 	statusCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextDetectionService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -85,6 +86,7 @@ func (p *AmbientContextDetectionServiceProxy) StopDetection(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextDetectionService)
 	_data.WriteString16(packageName)
 
@@ -104,6 +106,7 @@ func (p *AmbientContextDetectionServiceProxy) QueryServiceStatus(
 	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextDetectionService)
 	if eventTypes == nil {
 		_data.WriteInt32(-1)
@@ -131,7 +134,8 @@ func (p *AmbientContextDetectionServiceProxy) QueryServiceStatus(
 // AmbientContextDetectionServiceStub dispatches incoming binder transactions
 // to a typed IAmbientContextDetectionService implementation.
 type AmbientContextDetectionServiceStub struct {
-	Impl IAmbientContextDetectionService
+	Impl      IAmbientContextDetectionService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AmbientContextDetectionServiceStub)(nil)
@@ -145,11 +149,12 @@ func (s *AmbientContextDetectionServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAmbientContextDetectionServiceStartDetection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request appAmbientcontext.AmbientContextEventRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -191,26 +196,34 @@ func (s *AmbientContextDetectionServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StartDetection(ctx, _arg_request, _arg_packageName, _arg_detectionResultCallback, _arg_statusCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAmbientContextDetectionServiceStopDetection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.StopDetection(ctx, _arg_packageName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAmbientContextDetectionServiceQueryServiceStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_eventTypes []int32
-		_ = _arg_eventTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_eventTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_eventTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -228,8 +241,7 @@ func (s *AmbientContextDetectionServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.QueryServiceStatus(ctx, _arg_eventTypes, _arg_packageName, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

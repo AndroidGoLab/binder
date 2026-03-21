@@ -47,6 +47,7 @@ func (p *ContextHubCallbackProxy) OnMessageReceipt(
 	msg ContextHubMessage,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
 	_data.WriteInt32(hubId)
 	_data.WriteInt32(nanoAppId)
@@ -67,7 +68,8 @@ func (p *ContextHubCallbackProxy) OnMessageReceipt(
 // ContextHubCallbackStub dispatches incoming binder transactions
 // to a typed IContextHubCallback implementation.
 type ContextHubCallbackStub struct {
-	Impl IContextHubCallback
+	Impl      IContextHubCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ContextHubCallbackStub)(nil)
@@ -81,11 +83,12 @@ func (s *ContextHubCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIContextHubCallbackOnMessageReceipt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_hubId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -107,8 +110,7 @@ func (s *ContextHubCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnMessageReceipt(ctx, _arg_hubId, _arg_nanoAppId, _arg_msg)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -3,6 +3,8 @@ package accounts
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/content/types"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -120,7 +122,7 @@ type IAccountManager interface {
 	HasFeatures(ctx context.Context, response IAccountManagerResponse, account Account, features []string) error
 	GetAccountByTypeAndFeatures(ctx context.Context, response IAccountManagerResponse, accountType string, features []string) error
 	GetAccountsByFeatures(ctx context.Context, response IAccountManagerResponse, accountType string, features []string) error
-	AddAccountExplicitly(ctx context.Context, account Account, password string, extras interface{}) (bool, error)
+	AddAccountExplicitly(ctx context.Context, account Account, password string, extras os.Bundle) (bool, error)
 	RemoveAccountAsUser(ctx context.Context, response IAccountManagerResponse, account Account, expectActivityLaunch bool) error
 	RemoveAccountExplicitly(ctx context.Context, account Account) (bool, error)
 	CopyAccountToUser(ctx context.Context, response IAccountManagerResponse, account Account, userFrom int32, userTo int32) error
@@ -131,31 +133,31 @@ type IAccountManager interface {
 	ClearPassword(ctx context.Context, account Account) error
 	SetUserData(ctx context.Context, account Account, key string, value string) error
 	UpdateAppPermission(ctx context.Context, account Account, authTokenType string, uid int32, value bool) error
-	GetAuthToken(ctx context.Context, response IAccountManagerResponse, account Account, authTokenType string, notifyOnAuthFailure bool, expectActivityLaunch bool, options interface{}) error
-	AddAccount(ctx context.Context, response IAccountManagerResponse, accountType string, authTokenType string, requiredFeatures []string, expectActivityLaunch bool, options interface{}) error
-	AddAccountAsUser(ctx context.Context, response IAccountManagerResponse, accountType string, authTokenType string, requiredFeatures []string, expectActivityLaunch bool, options interface{}) error
-	UpdateCredentials(ctx context.Context, response IAccountManagerResponse, account Account, authTokenType string, expectActivityLaunch bool, options interface{}) error
+	GetAuthToken(ctx context.Context, response IAccountManagerResponse, account Account, authTokenType string, notifyOnAuthFailure bool, expectActivityLaunch bool, options os.Bundle) error
+	AddAccount(ctx context.Context, response IAccountManagerResponse, accountType string, authTokenType string, requiredFeatures []string, expectActivityLaunch bool, options os.Bundle) error
+	AddAccountAsUser(ctx context.Context, response IAccountManagerResponse, accountType string, authTokenType string, requiredFeatures []string, expectActivityLaunch bool, options os.Bundle) error
+	UpdateCredentials(ctx context.Context, response IAccountManagerResponse, account Account, authTokenType string, expectActivityLaunch bool, options os.Bundle) error
 	EditProperties(ctx context.Context, response IAccountManagerResponse, accountType string, expectActivityLaunch bool) error
-	ConfirmCredentialsAsUser(ctx context.Context, response IAccountManagerResponse, account Account, options interface{}, expectActivityLaunch bool) error
+	ConfirmCredentialsAsUser(ctx context.Context, response IAccountManagerResponse, account Account, options os.Bundle, expectActivityLaunch bool) error
 	AccountAuthenticated(ctx context.Context, account Account) (bool, error)
 	GetAuthTokenLabel(ctx context.Context, response IAccountManagerResponse, accountType string, authTokenType string) error
 	AddSharedAccountsFromParentUser(ctx context.Context, parentUserId int32) error
 	RenameAccount(ctx context.Context, response IAccountManagerResponse, accountToRename Account, newName string) error
 	GetPreviousName(ctx context.Context, account Account) (string, error)
-	StartAddAccountSession(ctx context.Context, response IAccountManagerResponse, accountType string, authTokenType string, requiredFeatures []string, expectActivityLaunch bool, options interface{}) error
-	StartUpdateCredentialsSession(ctx context.Context, response IAccountManagerResponse, account Account, authTokenType string, expectActivityLaunch bool, options interface{}) error
-	FinishSessionAsUser(ctx context.Context, response IAccountManagerResponse, sessionBundle interface{}, expectActivityLaunch bool, appInfo interface{}) error
+	StartAddAccountSession(ctx context.Context, response IAccountManagerResponse, accountType string, authTokenType string, requiredFeatures []string, expectActivityLaunch bool, options os.Bundle) error
+	StartUpdateCredentialsSession(ctx context.Context, response IAccountManagerResponse, account Account, authTokenType string, expectActivityLaunch bool, options os.Bundle) error
+	FinishSessionAsUser(ctx context.Context, response IAccountManagerResponse, sessionBundle os.Bundle, expectActivityLaunch bool, appInfo os.Bundle) error
 	SomeUserHasAccount(ctx context.Context, account Account) (bool, error)
 	IsCredentialsUpdateSuggested(ctx context.Context, response IAccountManagerResponse, account Account, statusToken string) error
-	GetPackagesAndVisibilityForAccount(ctx context.Context, account Account) (map[interface{}]interface{}, error)
-	AddAccountExplicitlyWithVisibility(ctx context.Context, account Account, password string, extras interface{}, visibility map[interface{}]interface{}) (bool, error)
+	GetPackagesAndVisibilityForAccount(ctx context.Context, account Account) (map[any]any, error)
+	AddAccountExplicitlyWithVisibility(ctx context.Context, account Account, password string, extras os.Bundle, visibility map[any]any) (bool, error)
 	SetAccountVisibility(ctx context.Context, a Account, packageName string, newVisibility int32) (bool, error)
 	GetAccountVisibility(ctx context.Context, a Account, packageName string) (int32, error)
-	GetAccountsAndVisibilityForPackage(ctx context.Context, packageName string, accountType string) (map[interface{}]interface{}, error)
+	GetAccountsAndVisibilityForPackage(ctx context.Context, packageName string, accountType string) (map[any]any, error)
 	RegisterAccountListener(ctx context.Context, accountTypes []string) error
 	UnregisterAccountListener(ctx context.Context, accountTypes []string) error
-	HasAccountAccess(ctx context.Context, account Account, packageName string, userHandle interface{}) (bool, error)
-	CreateRequestAccountAccessIntentSenderAsUser(ctx context.Context, account Account, packageName string, userHandle interface{}) (interface{}, error)
+	HasAccountAccess(ctx context.Context, account Account, packageName string, userHandle os.UserHandle) (bool, error)
+	CreateRequestAccountAccessIntentSenderAsUser(ctx context.Context, account Account, packageName string, userHandle os.UserHandle) (types.IntentSender, error)
 	OnAccountAccessed(ctx context.Context, token string) error
 }
 
@@ -181,6 +183,7 @@ func (p *AccountManagerProxy) GetPassword(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -216,6 +219,7 @@ func (p *AccountManagerProxy) GetUserData(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -251,6 +255,7 @@ func (p *AccountManagerProxy) GetAuthenticatorTypes(
 	var _result []AuthenticatorDescription
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -272,6 +277,9 @@ func (p *AccountManagerProxy) GetAuthenticatorTypes(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -296,6 +304,7 @@ func (p *AccountManagerProxy) GetAccountsForPackage(
 	var _result []Account
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(uid)
@@ -320,6 +329,9 @@ func (p *AccountManagerProxy) GetAccountsForPackage(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]Account, _count)
@@ -343,6 +355,7 @@ func (p *AccountManagerProxy) GetAccountsByTypeForPackage(
 	var _result []Account
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteString16(type_)
 	_data.WriteString16(packageName)
@@ -367,6 +380,9 @@ func (p *AccountManagerProxy) GetAccountsByTypeForPackage(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]Account, _count)
@@ -389,6 +405,7 @@ func (p *AccountManagerProxy) GetAccountsAsUser(
 	var _result []Account
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteString16(accountType)
 	_data.WriteInt32(_identity.UserID)
@@ -413,6 +430,9 @@ func (p *AccountManagerProxy) GetAccountsAsUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]Account, _count)
@@ -436,6 +456,7 @@ func (p *AccountManagerProxy) HasFeatures(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -479,6 +500,7 @@ func (p *AccountManagerProxy) GetAccountByTypeAndFeatures(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(accountType)
@@ -518,6 +540,7 @@ func (p *AccountManagerProxy) GetAccountsByFeatures(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(accountType)
@@ -553,17 +576,22 @@ func (p *AccountManagerProxy) AddAccountExplicitly(
 	ctx context.Context,
 	account Account,
 	password string,
-	extras interface{},
+	extras os.Bundle,
 ) (bool, error) {
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteString16(password)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerAddAccountExplicitly)
@@ -596,6 +624,7 @@ func (p *AccountManagerProxy) RemoveAccountAsUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -629,6 +658,7 @@ func (p *AccountManagerProxy) RemoveAccountExplicitly(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -665,6 +695,7 @@ func (p *AccountManagerProxy) CopyAccountToUser(
 	userTo int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -698,6 +729,7 @@ func (p *AccountManagerProxy) InvalidateAuthToken(
 	authToken string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteString16(accountType)
 	_data.WriteString16(authToken)
@@ -727,6 +759,7 @@ func (p *AccountManagerProxy) PeekAuthToken(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -763,6 +796,7 @@ func (p *AccountManagerProxy) SetAuthToken(
 	authToken string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -795,6 +829,7 @@ func (p *AccountManagerProxy) SetPassword(
 	password string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -825,6 +860,7 @@ func (p *AccountManagerProxy) ClearPassword(
 	account Account,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -856,6 +892,7 @@ func (p *AccountManagerProxy) SetUserData(
 	value string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -890,6 +927,7 @@ func (p *AccountManagerProxy) UpdateAppPermission(
 	value bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -924,9 +962,10 @@ func (p *AccountManagerProxy) GetAuthToken(
 	authTokenType string,
 	notifyOnAuthFailure bool,
 	expectActivityLaunch bool,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -936,6 +975,10 @@ func (p *AccountManagerProxy) GetAuthToken(
 	_data.WriteString16(authTokenType)
 	_data.WriteBool(notifyOnAuthFailure)
 	_data.WriteBool(expectActivityLaunch)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerGetAuthToken)
 	if _err != nil {
@@ -962,9 +1005,10 @@ func (p *AccountManagerProxy) AddAccount(
 	authTokenType string,
 	requiredFeatures []string,
 	expectActivityLaunch bool,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(accountType)
@@ -978,6 +1022,10 @@ func (p *AccountManagerProxy) AddAccount(
 		}
 	}
 	_data.WriteBool(expectActivityLaunch)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerAddAccount)
 	if _err != nil {
@@ -1004,10 +1052,11 @@ func (p *AccountManagerProxy) AddAccountAsUser(
 	authTokenType string,
 	requiredFeatures []string,
 	expectActivityLaunch bool,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(accountType)
@@ -1021,6 +1070,10 @@ func (p *AccountManagerProxy) AddAccountAsUser(
 		}
 	}
 	_data.WriteBool(expectActivityLaunch)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerAddAccountAsUser)
@@ -1047,9 +1100,10 @@ func (p *AccountManagerProxy) UpdateCredentials(
 	account Account,
 	authTokenType string,
 	expectActivityLaunch bool,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1058,6 +1112,10 @@ func (p *AccountManagerProxy) UpdateCredentials(
 	}
 	_data.WriteString16(authTokenType)
 	_data.WriteBool(expectActivityLaunch)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerUpdateCredentials)
 	if _err != nil {
@@ -1084,6 +1142,7 @@ func (p *AccountManagerProxy) EditProperties(
 	expectActivityLaunch bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(accountType)
@@ -1111,15 +1170,20 @@ func (p *AccountManagerProxy) ConfirmCredentialsAsUser(
 	ctx context.Context,
 	response IAccountManagerResponse,
 	account Account,
-	options interface{},
+	options os.Bundle,
 	expectActivityLaunch bool,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteBool(expectActivityLaunch)
@@ -1149,6 +1213,7 @@ func (p *AccountManagerProxy) AccountAuthenticated(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -1184,6 +1249,7 @@ func (p *AccountManagerProxy) GetAuthTokenLabel(
 	authTokenType string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(accountType)
@@ -1213,6 +1279,7 @@ func (p *AccountManagerProxy) AddSharedAccountsFromParentUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(parentUserId)
 	_data.WriteInt32(_identity.UserID)
@@ -1243,6 +1310,7 @@ func (p *AccountManagerProxy) RenameAccount(
 	newName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1275,6 +1343,7 @@ func (p *AccountManagerProxy) GetPreviousName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -1310,9 +1379,10 @@ func (p *AccountManagerProxy) StartAddAccountSession(
 	authTokenType string,
 	requiredFeatures []string,
 	expectActivityLaunch bool,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(accountType)
@@ -1326,6 +1396,10 @@ func (p *AccountManagerProxy) StartAddAccountSession(
 		}
 	}
 	_data.WriteBool(expectActivityLaunch)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerStartAddAccountSession)
 	if _err != nil {
@@ -1351,9 +1425,10 @@ func (p *AccountManagerProxy) StartUpdateCredentialsSession(
 	account Account,
 	authTokenType string,
 	expectActivityLaunch bool,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1362,6 +1437,10 @@ func (p *AccountManagerProxy) StartUpdateCredentialsSession(
 	}
 	_data.WriteString16(authTokenType)
 	_data.WriteBool(expectActivityLaunch)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerStartUpdateCredentialsSession)
 	if _err != nil {
@@ -1384,15 +1463,24 @@ func (p *AccountManagerProxy) StartUpdateCredentialsSession(
 func (p *AccountManagerProxy) FinishSessionAsUser(
 	ctx context.Context,
 	response IAccountManagerResponse,
-	sessionBundle interface{},
+	sessionBundle os.Bundle,
 	expectActivityLaunch bool,
-	appInfo interface{},
+	appInfo os.Bundle,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := sessionBundle.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(expectActivityLaunch)
+	_data.WriteInt32(1)
+	if _err := appInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerFinishSessionAsUser)
@@ -1419,6 +1507,7 @@ func (p *AccountManagerProxy) SomeUserHasAccount(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -1454,6 +1543,7 @@ func (p *AccountManagerProxy) IsCredentialsUpdateSuggested(
 	statusToken string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1483,9 +1573,10 @@ func (p *AccountManagerProxy) IsCredentialsUpdateSuggested(
 func (p *AccountManagerProxy) GetPackagesAndVisibilityForAccount(
 	ctx context.Context,
 	account Account,
-) (map[interface{}]interface{}, error) {
-	var _result map[interface{}]interface{}
+) (map[any]any, error) {
+	var _result map[any]any
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
@@ -1507,22 +1598,24 @@ func (p *AccountManagerProxy) GetPackagesAndVisibilityForAccount(
 		return _result, _err
 	}
 
-	_mapCount, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _mapCount >= 0 {
-		_result = make(map[interface{}]interface{}, _mapCount)
-		for _mi := int32(0); _mi < _mapCount; _mi++ {
-			_mk, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
+	{
+		_mapCount, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _mapCount >= 0 {
+			_result = make(map[any]any, _mapCount)
+			for _mi := int32(0); _mi < _mapCount; _mi++ {
+				_mk, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_mv, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_result[_mk] = _mv
 			}
-			_mv, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
-			}
-			_result[_mk] = _mv
 		}
 	}
 	return _result, nil
@@ -1532,18 +1625,23 @@ func (p *AccountManagerProxy) AddAccountExplicitlyWithVisibility(
 	ctx context.Context,
 	account Account,
 	password string,
-	extras interface{},
-	visibility map[interface{}]interface{},
+	extras os.Bundle,
+	visibility map[any]any,
 ) (bool, error) {
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteString16(password)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	if visibility == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -1585,6 +1683,7 @@ func (p *AccountManagerProxy) SetAccountVisibility(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := a.MarshalParcel(_data); _err != nil {
@@ -1622,6 +1721,7 @@ func (p *AccountManagerProxy) GetAccountVisibility(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := a.MarshalParcel(_data); _err != nil {
@@ -1655,9 +1755,10 @@ func (p *AccountManagerProxy) GetAccountsAndVisibilityForPackage(
 	ctx context.Context,
 	packageName string,
 	accountType string,
-) (map[interface{}]interface{}, error) {
-	var _result map[interface{}]interface{}
+) (map[any]any, error) {
+	var _result map[any]any
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(accountType)
@@ -1677,22 +1778,24 @@ func (p *AccountManagerProxy) GetAccountsAndVisibilityForPackage(
 		return _result, _err
 	}
 
-	_mapCount, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _mapCount >= 0 {
-		_result = make(map[interface{}]interface{}, _mapCount)
-		for _mi := int32(0); _mi < _mapCount; _mi++ {
-			_mk, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
+	{
+		_mapCount, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _mapCount >= 0 {
+			_result = make(map[any]any, _mapCount)
+			for _mi := int32(0); _mi < _mapCount; _mi++ {
+				_mk, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_mv, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_result[_mk] = _mv
 			}
-			_mv, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
-			}
-			_result[_mk] = _mv
 		}
 	}
 	return _result, nil
@@ -1704,6 +1807,7 @@ func (p *AccountManagerProxy) RegisterAccountListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	if accountTypes == nil {
 		_data.WriteInt32(-1)
@@ -1739,6 +1843,7 @@ func (p *AccountManagerProxy) UnregisterAccountListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	if accountTypes == nil {
 		_data.WriteInt32(-1)
@@ -1772,16 +1877,21 @@ func (p *AccountManagerProxy) HasAccountAccess(
 	ctx context.Context,
 	account Account,
 	packageName string,
-	userHandle interface{},
+	userHandle os.UserHandle,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := userHandle.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerHasAccountAccess)
 	if _err != nil {
@@ -1809,16 +1919,21 @@ func (p *AccountManagerProxy) CreateRequestAccountAccessIntentSenderAsUser(
 	ctx context.Context,
 	account Account,
 	packageName string,
-	userHandle interface{},
-) (interface{}, error) {
-	var _result interface{}
+	userHandle os.UserHandle,
+) (types.IntentSender, error) {
+	var _result types.IntentSender
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := userHandle.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManager, MethodIAccountManagerCreateRequestAccountAccessIntentSenderAsUser)
 	if _err != nil {
@@ -1835,6 +1950,17 @@ func (p *AccountManagerProxy) CreateRequestAccountAccessIntentSenderAsUser(
 		return _result, _err
 	}
 
+	_nullInd, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -1843,6 +1969,7 @@ func (p *AccountManagerProxy) OnAccountAccessed(
 	token string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteString16(token)
 
@@ -1867,7 +1994,8 @@ func (p *AccountManagerProxy) OnAccountAccessed(
 // AccountManagerStub dispatches incoming binder transactions
 // to a typed IAccountManager implementation.
 type AccountManagerStub struct {
-	Impl IAccountManager
+	Impl      IAccountManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AccountManagerStub)(nil)
@@ -1881,11 +2009,12 @@ func (s *AccountManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAccountManagerGetPassword:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1908,9 +2037,6 @@ func (s *AccountManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIAccountManagerGetUserData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1937,9 +2063,6 @@ func (s *AccountManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIAccountManagerGetAuthenticatorTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1950,13 +2073,19 @@ func (s *AccountManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIAccountManagerGetAccountsForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1975,13 +2104,19 @@ func (s *AccountManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIAccountManagerGetAccountsByTypeForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2000,13 +2135,19 @@ func (s *AccountManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIAccountManagerGetAccountsAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2024,16 +2165,27 @@ func (s *AccountManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIAccountManagerHasFeatures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2046,9 +2198,25 @@ func (s *AccountManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_features []string
-		_ = _arg_features
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_features = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_features[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2064,19 +2232,37 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerGetAccountByTypeAndFeatures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_features []string
-		_ = _arg_features
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_features = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_features[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -2089,19 +2275,37 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerGetAccountsByFeatures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_features []string
-		_ = _arg_features
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_features = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_features[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -2114,9 +2318,6 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerAddAccountExplicitly:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2133,7 +2334,18 @@ func (s *AccountManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -2147,12 +2359,14 @@ func (s *AccountManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccountManagerRemoveAccountAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2181,9 +2395,6 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerRemoveAccountExplicitly:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2206,12 +2417,14 @@ func (s *AccountManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccountManagerCopyAccountToUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2241,9 +2454,6 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerInvalidateAuthToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2261,9 +2471,6 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerPeekAuthToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2290,9 +2497,6 @@ func (s *AccountManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIAccountManagerSetAuthToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2322,9 +2526,6 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerSetPassword:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2350,9 +2551,6 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerClearPassword:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2374,9 +2572,6 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerSetUserData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2406,9 +2601,6 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerUpdateAppPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2442,12 +2634,14 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerGetAuthToken:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2472,7 +2666,18 @@ func (s *AccountManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.GetAuthToken(ctx, _arg_response, _arg_account, _arg_authTokenType, _arg_notifyOnAuthFailure, _arg_expectActivityLaunch, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2482,12 +2687,14 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerAddAccount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2496,14 +2703,41 @@ func (s *AccountManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_requiredFeatures []string
-		_ = _arg_requiredFeatures
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_requiredFeatures = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_requiredFeatures[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_expectActivityLaunch, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.AddAccount(ctx, _arg_response, _arg_accountType, _arg_authTokenType, _arg_requiredFeatures, _arg_expectActivityLaunch, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2513,12 +2747,14 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerAddAccountAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2527,14 +2763,41 @@ func (s *AccountManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_requiredFeatures []string
-		_ = _arg_requiredFeatures
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_requiredFeatures = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_requiredFeatures[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_expectActivityLaunch, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2547,12 +2810,14 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerUpdateCredentials:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2573,7 +2838,18 @@ func (s *AccountManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.UpdateCredentials(ctx, _arg_response, _arg_account, _arg_authTokenType, _arg_expectActivityLaunch, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2583,12 +2859,14 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerEditProperties:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2606,12 +2884,14 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerConfirmCredentialsAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2624,7 +2904,18 @@ func (s *AccountManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_expectActivityLaunch, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2641,9 +2932,6 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerAccountAuthenticated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2666,12 +2954,14 @@ func (s *AccountManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccountManagerGetAuthTokenLabel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2689,9 +2979,6 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerAddSharedAccountsFromParentUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_parentUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2711,12 +2998,14 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerRenameAccount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_accountToRename Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2742,9 +3031,6 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerGetPreviousName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2767,12 +3053,14 @@ func (s *AccountManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIAccountManagerStartAddAccountSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2781,14 +3069,41 @@ func (s *AccountManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_requiredFeatures []string
-		_ = _arg_requiredFeatures
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_requiredFeatures = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_requiredFeatures[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_expectActivityLaunch, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.StartAddAccountSession(ctx, _arg_response, _arg_accountType, _arg_authTokenType, _arg_requiredFeatures, _arg_expectActivityLaunch, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2798,12 +3113,14 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerStartUpdateCredentialsSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2824,7 +3141,18 @@ func (s *AccountManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.StartUpdateCredentialsSession(ctx, _arg_response, _arg_account, _arg_authTokenType, _arg_expectActivityLaunch, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2834,18 +3162,42 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerFinishSessionAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
-		var _arg_sessionBundle interface{}
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
+		var _arg_sessionBundle os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionBundle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_expectActivityLaunch, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_appInfo interface{}
+		var _arg_appInfo os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_appInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2858,9 +3210,6 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerSomeUserHasAccount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2883,12 +3232,14 @@ func (s *AccountManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccountManagerIsCredentialsUpdateSuggested:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountManagerResponse
-		_ = _arg_response
+		{
+			_responseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = NewAccountManagerResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _responseHandle))
+		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2914,9 +3265,6 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerGetPackagesAndVisibilityForAccount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2936,13 +3284,17 @@ func (s *AccountManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: map return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _k, _v := range _result {
+				_reply.WriteString16(_k.(string))
+				_reply.WriteString16(_v.(string))
+			}
+		}
 		return _reply, nil
 	case TransactionIAccountManagerAddAccountExplicitlyWithVisibility:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2959,10 +3311,39 @@ func (s *AccountManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
-		// TODO: map param unmarshaling not yet supported in stubs
-		var _arg_visibility map[interface{}]interface{}
-		_ = _arg_visibility
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_visibility map[any]any
+		{
+			_mapCount, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _mapCount >= 0 {
+				_arg_visibility = make(map[any]any, _mapCount)
+				for _mi := int32(0); _mi < _mapCount; _mi++ {
+					_mk, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_mv, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_visibility[_mk] = _mv
+				}
+			}
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -2976,9 +3357,6 @@ func (s *AccountManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccountManagerSetAccountVisibility:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_a Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3009,9 +3387,6 @@ func (s *AccountManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccountManagerGetAccountVisibility:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_a Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3038,9 +3413,6 @@ func (s *AccountManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAccountManagerGetAccountsAndVisibilityForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3056,16 +3428,36 @@ func (s *AccountManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: map return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _k, _v := range _result {
+				_reply.WriteString16(_k.(string))
+				_reply.WriteString16(_v.(string))
+			}
+		}
 		return _reply, nil
 	case TransactionIAccountManagerRegisterAccountListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_accountTypes []string
-		_ = _arg_accountTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_accountTypes = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_accountTypes[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -3078,12 +3470,25 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerUnregisterAccountListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_accountTypes []string
-		_ = _arg_accountTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_accountTypes = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_accountTypes[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -3096,9 +3501,6 @@ func (s *AccountManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccountManagerHasAccountAccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3115,7 +3517,18 @@ func (s *AccountManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_userHandle interface{}
+		var _arg_userHandle os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.HasAccountAccess(ctx, _arg_account, _arg_packageName, _arg_userHandle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3126,9 +3539,6 @@ func (s *AccountManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccountManagerCreateRequestAccountAccessIntentSenderAsUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_account Account
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3145,7 +3555,18 @@ func (s *AccountManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_userHandle interface{}
+		var _arg_userHandle os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.CreateRequestAccountAccessIntentSenderAsUser(ctx, _arg_account, _arg_packageName, _arg_userHandle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3156,9 +3577,6 @@ func (s *AccountManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccountManagerOnAccountAccessed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3189,7 +3607,7 @@ type IAccountManagerServer interface {
 	HasFeatures(ctx context.Context, response IAccountManagerResponse, account Account, features []string) error
 	GetAccountByTypeAndFeatures(ctx context.Context, response IAccountManagerResponse, accountType string, features []string) error
 	GetAccountsByFeatures(ctx context.Context, response IAccountManagerResponse, accountType string, features []string) error
-	AddAccountExplicitly(ctx context.Context, account Account, password string, extras interface{}) (bool, error)
+	AddAccountExplicitly(ctx context.Context, account Account, password string, extras os.Bundle) (bool, error)
 	RemoveAccountAsUser(ctx context.Context, response IAccountManagerResponse, account Account, expectActivityLaunch bool) error
 	RemoveAccountExplicitly(ctx context.Context, account Account) (bool, error)
 	CopyAccountToUser(ctx context.Context, response IAccountManagerResponse, account Account, userFrom int32, userTo int32) error
@@ -3200,31 +3618,31 @@ type IAccountManagerServer interface {
 	ClearPassword(ctx context.Context, account Account) error
 	SetUserData(ctx context.Context, account Account, key string, value string) error
 	UpdateAppPermission(ctx context.Context, account Account, authTokenType string, uid int32, value bool) error
-	GetAuthToken(ctx context.Context, response IAccountManagerResponse, account Account, authTokenType string, notifyOnAuthFailure bool, expectActivityLaunch bool, options interface{}) error
-	AddAccount(ctx context.Context, response IAccountManagerResponse, accountType string, authTokenType string, requiredFeatures []string, expectActivityLaunch bool, options interface{}) error
-	AddAccountAsUser(ctx context.Context, response IAccountManagerResponse, accountType string, authTokenType string, requiredFeatures []string, expectActivityLaunch bool, options interface{}) error
-	UpdateCredentials(ctx context.Context, response IAccountManagerResponse, account Account, authTokenType string, expectActivityLaunch bool, options interface{}) error
+	GetAuthToken(ctx context.Context, response IAccountManagerResponse, account Account, authTokenType string, notifyOnAuthFailure bool, expectActivityLaunch bool, options os.Bundle) error
+	AddAccount(ctx context.Context, response IAccountManagerResponse, accountType string, authTokenType string, requiredFeatures []string, expectActivityLaunch bool, options os.Bundle) error
+	AddAccountAsUser(ctx context.Context, response IAccountManagerResponse, accountType string, authTokenType string, requiredFeatures []string, expectActivityLaunch bool, options os.Bundle) error
+	UpdateCredentials(ctx context.Context, response IAccountManagerResponse, account Account, authTokenType string, expectActivityLaunch bool, options os.Bundle) error
 	EditProperties(ctx context.Context, response IAccountManagerResponse, accountType string, expectActivityLaunch bool) error
-	ConfirmCredentialsAsUser(ctx context.Context, response IAccountManagerResponse, account Account, options interface{}, expectActivityLaunch bool) error
+	ConfirmCredentialsAsUser(ctx context.Context, response IAccountManagerResponse, account Account, options os.Bundle, expectActivityLaunch bool) error
 	AccountAuthenticated(ctx context.Context, account Account) (bool, error)
 	GetAuthTokenLabel(ctx context.Context, response IAccountManagerResponse, accountType string, authTokenType string) error
 	AddSharedAccountsFromParentUser(ctx context.Context, parentUserId int32) error
 	RenameAccount(ctx context.Context, response IAccountManagerResponse, accountToRename Account, newName string) error
 	GetPreviousName(ctx context.Context, account Account) (string, error)
-	StartAddAccountSession(ctx context.Context, response IAccountManagerResponse, accountType string, authTokenType string, requiredFeatures []string, expectActivityLaunch bool, options interface{}) error
-	StartUpdateCredentialsSession(ctx context.Context, response IAccountManagerResponse, account Account, authTokenType string, expectActivityLaunch bool, options interface{}) error
-	FinishSessionAsUser(ctx context.Context, response IAccountManagerResponse, sessionBundle interface{}, expectActivityLaunch bool, appInfo interface{}) error
+	StartAddAccountSession(ctx context.Context, response IAccountManagerResponse, accountType string, authTokenType string, requiredFeatures []string, expectActivityLaunch bool, options os.Bundle) error
+	StartUpdateCredentialsSession(ctx context.Context, response IAccountManagerResponse, account Account, authTokenType string, expectActivityLaunch bool, options os.Bundle) error
+	FinishSessionAsUser(ctx context.Context, response IAccountManagerResponse, sessionBundle os.Bundle, expectActivityLaunch bool, appInfo os.Bundle) error
 	SomeUserHasAccount(ctx context.Context, account Account) (bool, error)
 	IsCredentialsUpdateSuggested(ctx context.Context, response IAccountManagerResponse, account Account, statusToken string) error
-	GetPackagesAndVisibilityForAccount(ctx context.Context, account Account) (map[interface{}]interface{}, error)
-	AddAccountExplicitlyWithVisibility(ctx context.Context, account Account, password string, extras interface{}, visibility map[interface{}]interface{}) (bool, error)
+	GetPackagesAndVisibilityForAccount(ctx context.Context, account Account) (map[any]any, error)
+	AddAccountExplicitlyWithVisibility(ctx context.Context, account Account, password string, extras os.Bundle, visibility map[any]any) (bool, error)
 	SetAccountVisibility(ctx context.Context, a Account, packageName string, newVisibility int32) (bool, error)
 	GetAccountVisibility(ctx context.Context, a Account, packageName string) (int32, error)
-	GetAccountsAndVisibilityForPackage(ctx context.Context, packageName string, accountType string) (map[interface{}]interface{}, error)
+	GetAccountsAndVisibilityForPackage(ctx context.Context, packageName string, accountType string) (map[any]any, error)
 	RegisterAccountListener(ctx context.Context, accountTypes []string) error
 	UnregisterAccountListener(ctx context.Context, accountTypes []string) error
-	HasAccountAccess(ctx context.Context, account Account, packageName string, userHandle interface{}) (bool, error)
-	CreateRequestAccountAccessIntentSenderAsUser(ctx context.Context, account Account, packageName string, userHandle interface{}) (interface{}, error)
+	HasAccountAccess(ctx context.Context, account Account, packageName string, userHandle os.UserHandle) (bool, error)
+	CreateRequestAccountAccessIntentSenderAsUser(ctx context.Context, account Account, packageName string, userHandle os.UserHandle) (types.IntentSender, error)
 	OnAccountAccessed(ctx context.Context, token string) error
 }
 
@@ -3312,7 +3730,7 @@ func (w *accountManagerStubWrapper) AddAccountExplicitly(
 	ctx context.Context,
 	account Account,
 	password string,
-	extras interface{},
+	extras os.Bundle,
 ) (bool, error) {
 	return w.impl.AddAccountExplicitly(ctx, account, password, extras)
 }
@@ -3409,7 +3827,7 @@ func (w *accountManagerStubWrapper) GetAuthToken(
 	authTokenType string,
 	notifyOnAuthFailure bool,
 	expectActivityLaunch bool,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.GetAuthToken(ctx, response, account, authTokenType, notifyOnAuthFailure, expectActivityLaunch, options)
 }
@@ -3421,7 +3839,7 @@ func (w *accountManagerStubWrapper) AddAccount(
 	authTokenType string,
 	requiredFeatures []string,
 	expectActivityLaunch bool,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.AddAccount(ctx, response, accountType, authTokenType, requiredFeatures, expectActivityLaunch, options)
 }
@@ -3433,7 +3851,7 @@ func (w *accountManagerStubWrapper) AddAccountAsUser(
 	authTokenType string,
 	requiredFeatures []string,
 	expectActivityLaunch bool,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.AddAccountAsUser(ctx, response, accountType, authTokenType, requiredFeatures, expectActivityLaunch, options)
 }
@@ -3444,7 +3862,7 @@ func (w *accountManagerStubWrapper) UpdateCredentials(
 	account Account,
 	authTokenType string,
 	expectActivityLaunch bool,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.UpdateCredentials(ctx, response, account, authTokenType, expectActivityLaunch, options)
 }
@@ -3462,7 +3880,7 @@ func (w *accountManagerStubWrapper) ConfirmCredentialsAsUser(
 	ctx context.Context,
 	response IAccountManagerResponse,
 	account Account,
-	options interface{},
+	options os.Bundle,
 	expectActivityLaunch bool,
 ) error {
 	return w.impl.ConfirmCredentialsAsUser(ctx, response, account, options, expectActivityLaunch)
@@ -3514,7 +3932,7 @@ func (w *accountManagerStubWrapper) StartAddAccountSession(
 	authTokenType string,
 	requiredFeatures []string,
 	expectActivityLaunch bool,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.StartAddAccountSession(ctx, response, accountType, authTokenType, requiredFeatures, expectActivityLaunch, options)
 }
@@ -3525,7 +3943,7 @@ func (w *accountManagerStubWrapper) StartUpdateCredentialsSession(
 	account Account,
 	authTokenType string,
 	expectActivityLaunch bool,
-	options interface{},
+	options os.Bundle,
 ) error {
 	return w.impl.StartUpdateCredentialsSession(ctx, response, account, authTokenType, expectActivityLaunch, options)
 }
@@ -3533,9 +3951,9 @@ func (w *accountManagerStubWrapper) StartUpdateCredentialsSession(
 func (w *accountManagerStubWrapper) FinishSessionAsUser(
 	ctx context.Context,
 	response IAccountManagerResponse,
-	sessionBundle interface{},
+	sessionBundle os.Bundle,
 	expectActivityLaunch bool,
-	appInfo interface{},
+	appInfo os.Bundle,
 ) error {
 	return w.impl.FinishSessionAsUser(ctx, response, sessionBundle, expectActivityLaunch, appInfo)
 }
@@ -3559,7 +3977,7 @@ func (w *accountManagerStubWrapper) IsCredentialsUpdateSuggested(
 func (w *accountManagerStubWrapper) GetPackagesAndVisibilityForAccount(
 	ctx context.Context,
 	account Account,
-) (map[interface{}]interface{}, error) {
+) (map[any]any, error) {
 	return w.impl.GetPackagesAndVisibilityForAccount(ctx, account)
 }
 
@@ -3567,8 +3985,8 @@ func (w *accountManagerStubWrapper) AddAccountExplicitlyWithVisibility(
 	ctx context.Context,
 	account Account,
 	password string,
-	extras interface{},
-	visibility map[interface{}]interface{},
+	extras os.Bundle,
+	visibility map[any]any,
 ) (bool, error) {
 	return w.impl.AddAccountExplicitlyWithVisibility(ctx, account, password, extras, visibility)
 }
@@ -3594,7 +4012,7 @@ func (w *accountManagerStubWrapper) GetAccountsAndVisibilityForPackage(
 	ctx context.Context,
 	packageName string,
 	accountType string,
-) (map[interface{}]interface{}, error) {
+) (map[any]any, error) {
 	return w.impl.GetAccountsAndVisibilityForPackage(ctx, packageName, accountType)
 }
 
@@ -3616,7 +4034,7 @@ func (w *accountManagerStubWrapper) HasAccountAccess(
 	ctx context.Context,
 	account Account,
 	packageName string,
-	userHandle interface{},
+	userHandle os.UserHandle,
 ) (bool, error) {
 	return w.impl.HasAccountAccess(ctx, account, packageName, userHandle)
 }
@@ -3625,8 +4043,8 @@ func (w *accountManagerStubWrapper) CreateRequestAccountAccessIntentSenderAsUser
 	ctx context.Context,
 	account Account,
 	packageName string,
-	userHandle interface{},
-) (interface{}, error) {
+	userHandle os.UserHandle,
+) (types.IntentSender, error) {
 	return w.impl.CreateRequestAccountAccessIntentSenderAsUser(ctx, account, packageName, userHandle)
 }
 

@@ -48,6 +48,7 @@ func (p *ImsEcbmProxy) SetListener(
 	listener IImsEcbmListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsEcbm)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -73,6 +74,7 @@ func (p *ImsEcbmProxy) ExitEmergencyCallbackMode(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsEcbm)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsEcbm, MethodIImsEcbmExitEmergencyCallbackMode)
@@ -96,7 +98,8 @@ func (p *ImsEcbmProxy) ExitEmergencyCallbackMode(
 // ImsEcbmStub dispatches incoming binder transactions
 // to a typed IImsEcbm implementation.
 type ImsEcbmStub struct {
-	Impl IImsEcbm
+	Impl      IImsEcbm
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsEcbmStub)(nil)
@@ -110,14 +113,20 @@ func (s *ImsEcbmStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsEcbmSetListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IImsEcbmListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewImsEcbmListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.SetListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -127,9 +136,6 @@ func (s *ImsEcbmStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsEcbmExitEmergencyCallbackMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ExitEmergencyCallbackMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {

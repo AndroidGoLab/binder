@@ -54,6 +54,7 @@ func (p *AuthGraphKeyExchangeProxy) Create(
 ) (SessionInitiationInfo, error) {
 	var _result SessionInitiationInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthGraphKeyExchange)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthGraphKeyExchange, MethodIAuthGraphKeyExchangeCreate)
@@ -92,6 +93,7 @@ func (p *AuthGraphKeyExchangeProxy) Init(
 ) (KeInitResult, error) {
 	var _result KeInitResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthGraphKeyExchange)
 	_data.WriteInt32(1)
 	if _err := peerPubKey.MarshalParcel(_data); _err != nil {
@@ -101,14 +103,7 @@ func (p *AuthGraphKeyExchangeProxy) Init(
 	if _err := peerId.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	if peerNonce == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(peerNonce)))
-		for _, _item := range peerNonce {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(peerNonce)
 	_data.WriteInt32(peerVersion)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthGraphKeyExchange, MethodIAuthGraphKeyExchangeInit)
@@ -149,6 +144,7 @@ func (p *AuthGraphKeyExchangeProxy) Finish(
 ) (SessionInfo, error) {
 	var _result SessionInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthGraphKeyExchange)
 	_data.WriteInt32(1)
 	if _err := peerPubKey.MarshalParcel(_data); _err != nil {
@@ -162,14 +158,7 @@ func (p *AuthGraphKeyExchangeProxy) Finish(
 	if _err := peerSignature.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	if peerNonce == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(peerNonce)))
-		for _, _item := range peerNonce {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(peerNonce)
 	_data.WriteInt32(peerVersion)
 	_data.WriteInt32(1)
 	if _err := ownKey.MarshalParcel(_data); _err != nil {
@@ -210,6 +199,7 @@ func (p *AuthGraphKeyExchangeProxy) AuthenticationComplete(
 ) ([]Arc, error) {
 	var _result []Arc
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAuthGraphKeyExchange)
 	_data.WriteInt32(1)
 	if _err := peerSignature.MarshalParcel(_data); _err != nil {
@@ -246,6 +236,9 @@ func (p *AuthGraphKeyExchangeProxy) AuthenticationComplete(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]Arc, _count)
@@ -264,7 +257,8 @@ func (p *AuthGraphKeyExchangeProxy) AuthenticationComplete(
 // AuthGraphKeyExchangeStub dispatches incoming binder transactions
 // to a typed IAuthGraphKeyExchange implementation.
 type AuthGraphKeyExchangeStub struct {
-	Impl IAuthGraphKeyExchange
+	Impl      IAuthGraphKeyExchange
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AuthGraphKeyExchangeStub)(nil)
@@ -278,11 +272,12 @@ func (s *AuthGraphKeyExchangeStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAuthGraphKeyExchangeCreate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Create(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -296,9 +291,6 @@ func (s *AuthGraphKeyExchangeStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAuthGraphKeyExchangeInit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_peerPubKey PubKey
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -323,9 +315,14 @@ func (s *AuthGraphKeyExchangeStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_peerNonce []byte
-		_ = _arg_peerNonce
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_peerNonce = _bytes
+		}
 		_arg_peerVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -343,9 +340,6 @@ func (s *AuthGraphKeyExchangeStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAuthGraphKeyExchangeFinish:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_peerPubKey PubKey
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -382,9 +376,14 @@ func (s *AuthGraphKeyExchangeStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_peerNonce []byte
-		_ = _arg_peerNonce
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_peerNonce = _bytes
+		}
 		_arg_peerVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -414,9 +413,6 @@ func (s *AuthGraphKeyExchangeStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAuthGraphKeyExchangeAuthenticationComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_peerSignature SessionIdSignature
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -429,9 +425,27 @@ func (s *AuthGraphKeyExchangeStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sharedKeys []Arc
-		_ = _arg_sharedKeys
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_sharedKeys = make([]Arc, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_sharedKeys[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.AuthenticationComplete(ctx, _arg_peerSignature, _arg_sharedKeys)
 		_reply := parcel.New()
 		if _err != nil {
@@ -439,8 +453,17 @@ func (s *AuthGraphKeyExchangeStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

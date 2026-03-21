@@ -30,6 +30,11 @@ func (s *MacedPublicKey) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.MacedKey, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err

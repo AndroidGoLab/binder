@@ -74,6 +74,7 @@ func (p *SecureElementProxy) CloseChannel(
 	channelNumber byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
 	_data.WritePaddedByte(channelNumber)
 
@@ -100,6 +101,7 @@ func (p *SecureElementProxy) GetAtr(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementGetAtr)
@@ -117,19 +119,9 @@ func (p *SecureElementProxy) GetAtr(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -139,6 +131,7 @@ func (p *SecureElementProxy) Init(
 	clientCallback ISecureElementCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
 	binder.WriteBinderToParcel(ctx, _data, clientCallback.AsBinder(), p.Remote.Transport())
 
@@ -165,6 +158,7 @@ func (p *SecureElementProxy) IsCardPresent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementIsCardPresent)
@@ -196,15 +190,9 @@ func (p *SecureElementProxy) OpenBasicChannel(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
-	if aid == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(aid)))
-		for _, _item := range aid {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(aid)
 	_data.WritePaddedByte(p2)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementOpenBasicChannel)
@@ -222,19 +210,9 @@ func (p *SecureElementProxy) OpenBasicChannel(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -246,15 +224,9 @@ func (p *SecureElementProxy) OpenLogicalChannel(
 ) (LogicalChannelResponse, error) {
 	var _result LogicalChannelResponse
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
-	if aid == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(aid)))
-		for _, _item := range aid {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(aid)
 	_data.WritePaddedByte(p2)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementOpenLogicalChannel)
@@ -288,6 +260,7 @@ func (p *SecureElementProxy) Reset(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementReset)
@@ -314,15 +287,9 @@ func (p *SecureElementProxy) Transmit(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementTransmit)
 	if _err != nil {
@@ -339,19 +306,9 @@ func (p *SecureElementProxy) Transmit(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -359,7 +316,8 @@ func (p *SecureElementProxy) Transmit(
 // SecureElementStub dispatches incoming binder transactions
 // to a typed ISecureElement implementation.
 type SecureElementStub struct {
-	Impl ISecureElement
+	Impl      ISecureElement
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SecureElementStub)(nil)
@@ -373,11 +331,12 @@ func (s *SecureElementStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISecureElementCloseChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_channelNumber, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -391,9 +350,6 @@ func (s *SecureElementStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISecureElementGetAtr:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAtr(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -401,16 +357,17 @@ func (s *SecureElementStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISecureElementInit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientCallback ISecureElementCallback
-		_ = _arg_clientCallback
+		{
+			_clientCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientCallback = NewSecureElementCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientCallbackHandle))
+		}
 		_err := s.Impl.Init(ctx, _arg_clientCallback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -420,9 +377,6 @@ func (s *SecureElementStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISecureElementIsCardPresent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsCardPresent(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -433,12 +387,14 @@ func (s *SecureElementStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISecureElementOpenBasicChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_aid []byte
-		_ = _arg_aid
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_aid = _bytes
+		}
 		_arg_p2, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -450,16 +406,17 @@ func (s *SecureElementStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISecureElementOpenLogicalChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_aid []byte
-		_ = _arg_aid
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_aid = _bytes
+		}
 		_arg_p2, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -477,9 +434,6 @@ func (s *SecureElementStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISecureElementReset:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Reset(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -489,12 +443,14 @@ func (s *SecureElementStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISecureElementTransmit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_result, _err := s.Impl.Transmit(ctx, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -502,8 +458,7 @@ func (s *SecureElementStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

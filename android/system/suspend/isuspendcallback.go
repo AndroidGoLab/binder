@@ -46,6 +46,7 @@ func (p *SuspendCallbackProxy) NotifyWakeup(
 	wakeupReasons []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISuspendCallback)
 	_data.WriteBool(success)
 	if wakeupReasons == nil {
@@ -78,7 +79,8 @@ func (p *SuspendCallbackProxy) NotifyWakeup(
 // SuspendCallbackStub dispatches incoming binder transactions
 // to a typed ISuspendCallback implementation.
 type SuspendCallbackStub struct {
-	Impl ISuspendCallback
+	Impl      ISuspendCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SuspendCallbackStub)(nil)
@@ -92,18 +94,35 @@ func (s *SuspendCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISuspendCallbackNotifyWakeup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_success, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_wakeupReasons []string
-		_ = _arg_wakeupReasons
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_wakeupReasons = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_wakeupReasons[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.NotifyWakeup(ctx, _arg_success, _arg_wakeupReasons)
 		_reply := parcel.New()
 		if _err != nil {

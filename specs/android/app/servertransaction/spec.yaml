@@ -1,0 +1,4 @@
+package: android.app.servertransaction
+go_package: android/app/servertransaction
+parcelables:
+    - name: ClientTransaction

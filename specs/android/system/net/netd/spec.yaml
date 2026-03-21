@@ -1,0 +1,138 @@
+package: android.system.net.netd
+go_package: android/system/net/netd
+interfaces:
+    - name: INetd
+      descriptor: android.system.net.netd.INetd
+      methods:
+        - name: addInterfaceToOemNetwork
+          transaction_code_offset: 0
+          params:
+            - name: networkHandle
+              type:
+                name: long
+              direction: in
+            - name: ifname
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: addRouteToOemNetwork
+          transaction_code_offset: 1
+          params:
+            - name: networkHandle
+              type:
+                name: long
+              direction: in
+            - name: ifname
+              type:
+                name: String
+              direction: in
+            - name: destination
+              type:
+                name: String
+              direction: in
+            - name: nexthop
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: createOemNetwork
+          transaction_code_offset: 2
+          return_type:
+            name: OemNetwork
+        - name: destroyOemNetwork
+          transaction_code_offset: 3
+          params:
+            - name: networkHandle
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+        - name: removeInterfaceFromOemNetwork
+          transaction_code_offset: 4
+          params:
+            - name: networkHandle
+              type:
+                name: long
+              direction: in
+            - name: ifname
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: removeRouteFromOemNetwork
+          transaction_code_offset: 5
+          params:
+            - name: networkHandle
+              type:
+                name: long
+              direction: in
+            - name: ifname
+              type:
+                name: String
+              direction: in
+            - name: destination
+              type:
+                name: String
+              direction: in
+            - name: nexthop
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setForwardingBetweenInterfaces
+          transaction_code_offset: 6
+          params:
+            - name: inputIfName
+              type:
+                name: String
+              direction: in
+            - name: outputIfName
+              type:
+                name: String
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setIpForwardEnable
+          transaction_code_offset: 7
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: STATUS_INVALID_ARGUMENTS
+          type: int
+          value: "1"
+        - name: STATUS_NO_NETWORK
+          type: int
+          value: "2"
+        - name: STATUS_ALREADY_EXISTS
+          type: int
+          value: "3"
+        - name: STATUS_PERMISSION_DENIED
+          type: int
+          value: "4"
+        - name: STATUS_UNKNOWN_ERROR
+          type: int
+          value: "5"
+parcelables:
+    - name: INetd.OemNetwork
+      fields:
+        - name: networkHandle
+          type:
+            name: long
+        - name: packetMark
+          type:
+            name: int

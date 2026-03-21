@@ -51,6 +51,7 @@ func (p *BluetoothFinderProxy) SendEids(
 	eids []Eid,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothFinder)
 	if eids == nil {
 		_data.WriteInt32(-1)
@@ -87,6 +88,7 @@ func (p *BluetoothFinderProxy) SetPoweredOffFinderMode(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothFinder)
 	_data.WriteBool(enable)
 
@@ -113,6 +115,7 @@ func (p *BluetoothFinderProxy) GetPoweredOffFinderMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothFinder)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothFinder, MethodIBluetoothFinderGetPoweredOffFinderMode)
@@ -140,7 +143,8 @@ func (p *BluetoothFinderProxy) GetPoweredOffFinderMode(
 // BluetoothFinderStub dispatches incoming binder transactions
 // to a typed IBluetoothFinder implementation.
 type BluetoothFinderStub struct {
-	Impl IBluetoothFinder
+	Impl      IBluetoothFinder
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothFinderStub)(nil)
@@ -154,14 +158,33 @@ func (s *BluetoothFinderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothFinderSendEids:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_eids []Eid
-		_ = _arg_eids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_eids = make([]Eid, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_eids[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SendEids(ctx, _arg_eids)
 		_reply := parcel.New()
 		if _err != nil {
@@ -171,9 +194,6 @@ func (s *BluetoothFinderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothFinderSetPoweredOffFinderMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -187,9 +207,6 @@ func (s *BluetoothFinderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothFinderGetPoweredOffFinderMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPoweredOffFinderMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {

@@ -46,6 +46,7 @@ func (p *StickyModifierStateListenerProxy) OnStickyModifierStateChanged(
 	lockedModifierState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStickyModifierStateListener)
 	_data.WriteInt32(modifierState)
 	_data.WriteInt32(lockedModifierState)
@@ -62,7 +63,8 @@ func (p *StickyModifierStateListenerProxy) OnStickyModifierStateChanged(
 // StickyModifierStateListenerStub dispatches incoming binder transactions
 // to a typed IStickyModifierStateListener implementation.
 type StickyModifierStateListenerStub struct {
-	Impl IStickyModifierStateListener
+	Impl      IStickyModifierStateListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StickyModifierStateListenerStub)(nil)
@@ -76,11 +78,12 @@ func (s *StickyModifierStateListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStickyModifierStateListenerOnStickyModifierStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modifierState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -90,8 +93,7 @@ func (s *StickyModifierStateListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStickyModifierStateChanged(ctx, _arg_modifierState, _arg_lockedModifierState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -31,8 +31,7 @@ func (u *DemuxAlpFilterSettingsFilterSettings) GetNoinit() (bool, bool) {
 func (u *DemuxAlpFilterSettingsFilterSettings) SetNoinit(
 	v bool,
 ) {
-	u.Tag = DemuxAlpFilterSettingsFilterSettingsTagNoinit
-	u.Noinit = v
+	*u = DemuxAlpFilterSettingsFilterSettings{Tag: DemuxAlpFilterSettingsFilterSettingsTagNoinit, Noinit: v}
 }
 
 func (u *DemuxAlpFilterSettingsFilterSettings) GetSection() (DemuxFilterSectionSettings, bool) {
@@ -46,8 +45,7 @@ func (u *DemuxAlpFilterSettingsFilterSettings) GetSection() (DemuxFilterSectionS
 func (u *DemuxAlpFilterSettingsFilterSettings) SetSection(
 	v DemuxFilterSectionSettings,
 ) {
-	u.Tag = DemuxAlpFilterSettingsFilterSettingsTagSection
-	u.Section = v
+	*u = DemuxAlpFilterSettingsFilterSettings{Tag: DemuxAlpFilterSettingsFilterSettingsTagSection, Section: v}
 }
 
 func (u *DemuxAlpFilterSettingsFilterSettings) MarshalParcel(

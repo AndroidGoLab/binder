@@ -58,6 +58,7 @@ func (p *WapPushManagerProxy) ProcessMessage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWapPushManager)
 	_data.WriteString16(app_id)
 	_data.WriteString16(content_type)
@@ -100,6 +101,7 @@ func (p *WapPushManagerProxy) AddPackage(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWapPushManager)
 	_data.WriteString16(x_app_id)
 	_data.WriteString16(content_type)
@@ -143,6 +145,7 @@ func (p *WapPushManagerProxy) UpdatePackage(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWapPushManager)
 	_data.WriteString16(x_app_id)
 	_data.WriteString16(content_type)
@@ -183,6 +186,7 @@ func (p *WapPushManagerProxy) DeletePackage(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWapPushManager)
 	_data.WriteString16(x_app_id)
 	_data.WriteString16(content_type)
@@ -214,7 +218,8 @@ func (p *WapPushManagerProxy) DeletePackage(
 // WapPushManagerStub dispatches incoming binder transactions
 // to a typed IWapPushManager implementation.
 type WapPushManagerStub struct {
-	Impl IWapPushManager
+	Impl      IWapPushManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WapPushManagerStub)(nil)
@@ -228,11 +233,12 @@ func (s *WapPushManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWapPushManagerProcessMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_app_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -263,9 +269,6 @@ func (s *WapPushManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWapPushManagerAddPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_x_app_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -304,9 +307,6 @@ func (s *WapPushManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWapPushManagerUpdatePackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_x_app_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -345,9 +345,6 @@ func (s *WapPushManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWapPushManagerDeletePackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_x_app_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

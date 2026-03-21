@@ -82,27 +82,29 @@ func TestWriteStatusGenericError_ReadStatus(t *testing.T) {
 
 	var statusErr *aidlerrors.StatusError
 	require.ErrorAs(t, err, &statusErr)
-	assert.Equal(t, aidlerrors.ExceptionTransactionFailed, statusErr.Exception)
+	assert.Equal(t, aidlerrors.ExceptionIllegalState, statusErr.Exception)
 	assert.Equal(t, "something went wrong", statusErr.Message)
 }
 
 func TestReadStatus_TruncatedTraceString(t *testing.T) {
-	// Build a parcel that claims traceSize > 0 but contains no trace
-	// string data. Before the fix, ReadString16 error was silently
-	// discarded, corrupting the read position so that the subsequent
-	// ReadInt32 for ServiceSpecificCode would read garbage instead of
-	// returning an error.
+	// Build a parcel where the trace header claims a size that extends
+	// past the end of the parcel. The self-describing header format uses
+	// int32(headerSize) where headerSize includes the int32 itself, so
+	// we skip headerSize-4 bytes after reading it. A large traceSize
+	// pushes the read position past the parcel end, causing the
+	// subsequent ServiceSpecificCode read to fail rather than reading
+	// garbage.
 	p := parcel.New()
 	p.WriteInt32(int32(aidlerrors.ExceptionServiceSpecific)) // exception code
 	p.WriteString16("service error")                         // message
-	p.WriteInt32(1)                                          // traceSize > 0 (claims a trace exists)
-	// Deliberately omit the trace string data — parcel is truncated here.
+	p.WriteInt32(100)                                        // traceSize: self-describing header claiming 100 bytes
+	// Deliberately omit the trace data — parcel is truncated here.
 
 	p.SetPosition(0)
 
 	err := ReadStatus(p)
 	require.Error(t, err)
-	assert.Contains(t, err.Error(), "reading status trace string")
+	assert.Contains(t, err.Error(), "reading service-specific error code")
 
 	// Must NOT be a StatusError with garbage ServiceSpecificCode.
 	var statusErr *aidlerrors.StatusError

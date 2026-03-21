@@ -54,6 +54,7 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnDetected(
 	audioStream int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback)
 	_data.WriteInt32(1)
 	if _err := hotwordDetectedResult.MarshalParcel(_data); _err != nil {
@@ -79,6 +80,7 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnHotwordDetec
 	hotwordDetectionServiceFailure HotwordDetectionServiceFailure,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback)
 	_data.WriteInt32(1)
 	if _err := hotwordDetectionServiceFailure.MarshalParcel(_data); _err != nil {
@@ -99,6 +101,7 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnRejected(
 	hotwordRejectedResult HotwordRejectedResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback)
 	_data.WriteInt32(1)
 	if _err := hotwordRejectedResult.MarshalParcel(_data); _err != nil {
@@ -117,7 +120,8 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnRejected(
 // MicrophoneHotwordDetectionVoiceInteractionCallbackStub dispatches incoming binder transactions
 // to a typed IMicrophoneHotwordDetectionVoiceInteractionCallback implementation.
 type MicrophoneHotwordDetectionVoiceInteractionCallbackStub struct {
-	Impl IMicrophoneHotwordDetectionVoiceInteractionCallback
+	Impl      IMicrophoneHotwordDetectionVoiceInteractionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MicrophoneHotwordDetectionVoiceInteractionCallbackStub)(nil)
@@ -131,11 +135,12 @@ func (s *MicrophoneHotwordDetectionVoiceInteractionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMicrophoneHotwordDetectionVoiceInteractionCallbackOnDetected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_hotwordDetectedResult HotwordDetectedResult
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -165,12 +170,8 @@ func (s *MicrophoneHotwordDetectionVoiceInteractionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnDetected(ctx, _arg_hotwordDetectedResult, _arg_audioFormat, _arg_audioStream)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMicrophoneHotwordDetectionVoiceInteractionCallbackOnHotwordDetectionServiceFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_hotwordDetectionServiceFailure HotwordDetectionServiceFailure
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -184,12 +185,8 @@ func (s *MicrophoneHotwordDetectionVoiceInteractionCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnHotwordDetectionServiceFailure(ctx, _arg_hotwordDetectionServiceFailure)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMicrophoneHotwordDetectionVoiceInteractionCallbackOnRejected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_hotwordRejectedResult HotwordRejectedResult
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -203,8 +200,7 @@ func (s *MicrophoneHotwordDetectionVoiceInteractionCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnRejected(ctx, _arg_hotwordRejectedResult)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -49,6 +49,7 @@ func (p *ContentProtectionServiceProxy) OnLoginDetected(
 	events pm.ParceledListSlice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentProtectionService)
 	_data.WriteInt32(1)
 	if _err := events.MarshalParcel(_data); _err != nil {
@@ -69,6 +70,7 @@ func (p *ContentProtectionServiceProxy) OnUpdateAllowlistRequest(
 	callback binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentProtectionService)
 	binder.WriteBinderToParcel(ctx, _data, callback, p.Remote.Transport())
 
@@ -84,7 +86,8 @@ func (p *ContentProtectionServiceProxy) OnUpdateAllowlistRequest(
 // ContentProtectionServiceStub dispatches incoming binder transactions
 // to a typed IContentProtectionService implementation.
 type ContentProtectionServiceStub struct {
-	Impl IContentProtectionService
+	Impl      IContentProtectionService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ContentProtectionServiceStub)(nil)
@@ -98,11 +101,12 @@ func (s *ContentProtectionServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIContentProtectionServiceOnLoginDetected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_events pm.ParceledListSlice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -116,18 +120,18 @@ func (s *ContentProtectionServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnLoginDetected(ctx, _arg_events)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentProtectionServiceOnUpdateAllowlistRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback binder.IBinder
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle)
+		}
 		_err := s.Impl.OnUpdateAllowlistRequest(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

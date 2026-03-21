@@ -67,6 +67,7 @@ func (p *CameraExtensionsProxyServiceProxy) RegisterClient(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -97,6 +98,7 @@ func (p *CameraExtensionsProxyServiceProxy) UnregisterClient(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -123,6 +125,7 @@ func (p *CameraExtensionsProxyServiceProxy) AdvancedExtensionsSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceAdvancedExtensionsSupported)
@@ -152,6 +155,7 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeSession(
 	cb IInitializeSessionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
@@ -177,6 +181,7 @@ func (p *CameraExtensionsProxyServiceProxy) ReleaseSession(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceReleaseSession)
@@ -203,6 +208,7 @@ func (p *CameraExtensionsProxyServiceProxy) InitializePreviewExtension(
 ) (IPreviewExtenderImpl, error) {
 	var _result IPreviewExtenderImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
 	_data.WriteInt32(extensionType)
 
@@ -235,6 +241,7 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeImageExtension(
 ) (IImageCaptureExtenderImpl, error) {
 	var _result IImageCaptureExtenderImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
 	_data.WriteInt32(extensionType)
 
@@ -267,6 +274,7 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeAdvancedExtension(
 ) (IAdvancedExtenderImpl, error) {
 	var _result IAdvancedExtenderImpl
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
 	_data.WriteInt32(extensionType)
 
@@ -296,7 +304,8 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeAdvancedExtension(
 // CameraExtensionsProxyServiceStub dispatches incoming binder transactions
 // to a typed ICameraExtensionsProxyService implementation.
 type CameraExtensionsProxyServiceStub struct {
-	Impl ICameraExtensionsProxyService
+	Impl      ICameraExtensionsProxyService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CameraExtensionsProxyServiceStub)(nil)
@@ -310,14 +319,20 @@ func (s *CameraExtensionsProxyServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICameraExtensionsProxyServiceRegisterClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.RegisterClient(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -328,12 +343,14 @@ func (s *CameraExtensionsProxyServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraExtensionsProxyServiceUnregisterClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.UnregisterClient(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -343,9 +360,6 @@ func (s *CameraExtensionsProxyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraExtensionsProxyServiceAdvancedExtensionsSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.AdvancedExtensionsSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -356,12 +370,14 @@ func (s *CameraExtensionsProxyServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraExtensionsProxyServiceInitializeSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IInitializeSessionCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewInitializeSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err := s.Impl.InitializeSession(ctx, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -371,9 +387,6 @@ func (s *CameraExtensionsProxyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraExtensionsProxyServiceReleaseSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ReleaseSession(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -383,9 +396,6 @@ func (s *CameraExtensionsProxyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraExtensionsProxyServiceInitializePreviewExtension:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_extensionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -397,13 +407,9 @@ func (s *CameraExtensionsProxyServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionICameraExtensionsProxyServiceInitializeImageExtension:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_extensionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -415,13 +421,9 @@ func (s *CameraExtensionsProxyServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionICameraExtensionsProxyServiceInitializeAdvancedExtension:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_extensionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -433,8 +435,7 @@ func (s *CameraExtensionsProxyServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

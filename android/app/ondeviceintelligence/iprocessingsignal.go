@@ -3,6 +3,7 @@ package ondeviceintelligence
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ const (
 
 type IProcessingSignal interface {
 	AsBinder() binder.IBinder
-	SendSignal(ctx context.Context, actionParams interface{}) error
+	SendSignal(ctx context.Context, actionParams os.PersistableBundle) error
 }
 
 type ProcessingSignalProxy struct {
@@ -42,10 +43,15 @@ var _ IProcessingSignal = (*ProcessingSignalProxy)(nil)
 
 func (p *ProcessingSignalProxy) SendSignal(
 	ctx context.Context,
-	actionParams interface{},
+	actionParams os.PersistableBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessingSignal)
+	_data.WriteInt32(1)
+	if _err := actionParams.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessingSignal, MethodIProcessingSignalSendSignal)
 	if _err != nil {
@@ -59,7 +65,8 @@ func (p *ProcessingSignalProxy) SendSignal(
 // ProcessingSignalStub dispatches incoming binder transactions
 // to a typed IProcessingSignal implementation.
 type ProcessingSignalStub struct {
-	Impl IProcessingSignal
+	Impl      IProcessingSignal
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ProcessingSignalStub)(nil)
@@ -73,15 +80,26 @@ func (s *ProcessingSignalStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIProcessingSignalSendSignal:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_actionParams os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_actionParams.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_actionParams interface{}
 		_err := s.Impl.SendSignal(ctx, _arg_actionParams)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -91,7 +109,7 @@ func (s *ProcessingSignalStub) OnTransaction(
 // provide to NewProcessingSignalStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IProcessingSignalServer interface {
-	SendSignal(ctx context.Context, actionParams interface{}) error
+	SendSignal(ctx context.Context, actionParams os.PersistableBundle) error
 }
 
 type processingSignalStubWrapper struct {
@@ -105,7 +123,7 @@ func (w *processingSignalStubWrapper) AsBinder() binder.IBinder {
 
 func (w *processingSignalStubWrapper) SendSignal(
 	ctx context.Context,
-	actionParams interface{},
+	actionParams os.PersistableBundle,
 ) error {
 	return w.impl.SendSignal(ctx, actionParams)
 }

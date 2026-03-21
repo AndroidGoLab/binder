@@ -45,6 +45,7 @@ func (p *TextServicesSessionListenerProxy) OnServiceConnected(
 	spellCheckerSession ISpellCheckerSession,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextServicesSessionListener)
 	binder.WriteBinderToParcel(ctx, _data, spellCheckerSession.AsBinder(), p.Remote.Transport())
 
@@ -60,7 +61,8 @@ func (p *TextServicesSessionListenerProxy) OnServiceConnected(
 // TextServicesSessionListenerStub dispatches incoming binder transactions
 // to a typed ITextServicesSessionListener implementation.
 type TextServicesSessionListenerStub struct {
-	Impl ITextServicesSessionListener
+	Impl      ITextServicesSessionListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TextServicesSessionListenerStub)(nil)
@@ -74,17 +76,22 @@ func (s *TextServicesSessionListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITextServicesSessionListenerOnServiceConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_spellCheckerSession ISpellCheckerSession
-		_ = _arg_spellCheckerSession
+		{
+			_spellCheckerSessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_spellCheckerSession = NewSpellCheckerSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _spellCheckerSessionHandle))
+		}
 		_err := s.Impl.OnServiceConnected(ctx, _arg_spellCheckerSession)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

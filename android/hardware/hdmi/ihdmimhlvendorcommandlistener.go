@@ -48,18 +48,12 @@ func (p *HdmiMhlVendorCommandListenerProxy) OnReceived(
 	data []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiMhlVendorCommandListener)
 	_data.WriteInt32(portId)
 	_data.WriteInt32(offset)
 	_data.WriteInt32(length)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiMhlVendorCommandListener, MethodIHdmiMhlVendorCommandListenerOnReceived)
 	if _err != nil {
@@ -73,7 +67,8 @@ func (p *HdmiMhlVendorCommandListenerProxy) OnReceived(
 // HdmiMhlVendorCommandListenerStub dispatches incoming binder transactions
 // to a typed IHdmiMhlVendorCommandListener implementation.
 type HdmiMhlVendorCommandListenerStub struct {
-	Impl IHdmiMhlVendorCommandListener
+	Impl      IHdmiMhlVendorCommandListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HdmiMhlVendorCommandListenerStub)(nil)
@@ -87,11 +82,12 @@ func (s *HdmiMhlVendorCommandListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHdmiMhlVendorCommandListenerOnReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -104,12 +100,16 @@ func (s *HdmiMhlVendorCommandListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_err = s.Impl.OnReceived(ctx, _arg_portId, _arg_offset, _arg_length, _arg_data)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

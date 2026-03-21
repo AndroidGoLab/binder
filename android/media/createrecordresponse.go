@@ -1,6 +1,7 @@
 package media
 
 import (
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -15,12 +16,12 @@ type CreateRecordResponse struct {
 	SessionId              int32
 	SampleRate             int32
 	InputId                int32
-	Cblk                   SharedFileRegion
-	Buffers                SharedFileRegion
+	Cblk                   *SharedFileRegion
+	Buffers                *SharedFileRegion
 	PortId                 int32
 	AudioRecord            IAudioRecord
-	ServerConfig           interface{}
-	HalConfig              interface{}
+	ServerConfig           common.AudioConfigBase
+	HalConfig              common.AudioConfigBase
 }
 
 var _ parcel.Parcelable = (*CreateRecordResponse)(nil)
@@ -36,17 +37,33 @@ func (s *CreateRecordResponse) MarshalParcel(
 	p.WriteInt32(s.SessionId)
 	p.WriteInt32(s.SampleRate)
 	p.WriteInt32(s.InputId)
-	if _err := s.Cblk.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Cblk == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Cblk.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.Buffers.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Buffers == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Buffers.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	p.WriteInt32(s.PortId)
 	if s.AudioRecord == nil {
 		p.WriteNullStrongBinder()
 	} else {
 		p.WriteStrongBinder(s.AudioRecord.AsBinder().Handle())
+	}
+	if _err := s.ServerConfig.MarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _err := s.HalConfig.MarshalParcel(p); _err != nil {
+		return _err
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -61,9 +78,19 @@ func (s *CreateRecordResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Flags, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.FrameCount, _err = p.ReadInt64()
@@ -71,9 +98,19 @@ func (s *CreateRecordResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.NotificationFrameCount, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SelectedDeviceId, _err = p.ReadInt32()
@@ -81,9 +118,19 @@ func (s *CreateRecordResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SessionId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SampleRate, _err = p.ReadInt32()
@@ -91,17 +138,57 @@ func (s *CreateRecordResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.InputId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
-	if _err = s.Cblk.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
-	if _err = s.Buffers.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val SharedFileRegion
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Cblk = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val SharedFileRegion
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Buffers = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.PortId, _err = p.ReadInt32()
@@ -109,11 +196,34 @@ func (s *CreateRecordResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_audioRecordHandle, _err := p.ReadStrongBinder()
 	if _err != nil {
 		return _err
 	}
 	s.AudioRecord = NewAudioRecordProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _audioRecordHandle))
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.ServerConfig.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.HalConfig.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

@@ -81,6 +81,7 @@ func (p *TvInputServiceProxy) RegisterCallback(
 	callback ITvInputServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -98,6 +99,7 @@ func (p *TvInputServiceProxy) UnregisterCallback(
 	callback ITvInputServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -119,6 +121,7 @@ func (p *TvInputServiceProxy) CreateSession(
 	tvAppAttributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
 	_data.WriteInt32(1)
 	if _err := channel.MarshalParcel(_data); _err != nil {
@@ -148,6 +151,7 @@ func (p *TvInputServiceProxy) CreateRecordingSession(
 	sessionId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(inputId)
@@ -167,6 +171,7 @@ func (p *TvInputServiceProxy) GetAvailableExtensionInterfaceNames(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceGetAvailableExtensionInterfaceNames)
@@ -188,6 +193,9 @@ func (p *TvInputServiceProxy) GetAvailableExtensionInterfaceNames(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -207,6 +215,7 @@ func (p *TvInputServiceProxy) GetExtensionInterface(
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
 	_data.WriteString16(name)
 
@@ -239,6 +248,7 @@ func (p *TvInputServiceProxy) GetExtensionInterfacePermission(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
 	_data.WriteString16(name)
 
@@ -269,6 +279,7 @@ func (p *TvInputServiceProxy) NotifyHardwareAdded(
 	hardwareInfo TvInputHardwareInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
 	_data.WriteInt32(1)
 	if _err := hardwareInfo.MarshalParcel(_data); _err != nil {
@@ -289,6 +300,7 @@ func (p *TvInputServiceProxy) NotifyHardwareRemoved(
 	hardwareInfo TvInputHardwareInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
 	_data.WriteInt32(1)
 	if _err := hardwareInfo.MarshalParcel(_data); _err != nil {
@@ -309,6 +321,7 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceAdded(
 	deviceInfo hdmi.HdmiDeviceInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
 	_data.WriteInt32(1)
 	if _err := deviceInfo.MarshalParcel(_data); _err != nil {
@@ -329,6 +342,7 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceRemoved(
 	deviceInfo hdmi.HdmiDeviceInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
 	_data.WriteInt32(1)
 	if _err := deviceInfo.MarshalParcel(_data); _err != nil {
@@ -349,6 +363,7 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceUpdated(
 	deviceInfo hdmi.HdmiDeviceInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
 	_data.WriteInt32(1)
 	if _err := deviceInfo.MarshalParcel(_data); _err != nil {
@@ -367,7 +382,8 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceUpdated(
 // TvInputServiceStub dispatches incoming binder transactions
 // to a typed ITvInputService implementation.
 type TvInputServiceStub struct {
-	Impl ITvInputService
+	Impl      ITvInputService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvInputServiceStub)(nil)
@@ -381,31 +397,34 @@ func (s *TvInputServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvInputServiceRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvInputServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTvInputServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputServiceUnregisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvInputServiceCallback
-		_ = _arg_callback
-		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionITvInputServiceCreateSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTvInputServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)
+		return nil, _err
+	case TransactionITvInputServiceCreateSession:
 		var _arg_channel view.InputChannel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -418,9 +437,14 @@ func (s *TvInputServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvInputSessionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTvInputSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -442,15 +466,16 @@ func (s *TvInputServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.CreateSession(ctx, _arg_channel, _arg_callback, _arg_inputId, _arg_sessionId, _arg_tvAppAttributionSource)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputServiceCreateRecordingSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvInputSessionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTvInputSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -460,12 +485,8 @@ func (s *TvInputServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.CreateRecordingSession(ctx, _arg_callback, _arg_inputId, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputServiceGetAvailableExtensionInterfaceNames:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAvailableExtensionInterfaceNames(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -473,13 +494,16 @@ func (s *TvInputServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITvInputServiceGetExtensionInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -491,13 +515,9 @@ func (s *TvInputServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	case TransactionITvInputServiceGetExtensionInterfacePermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -512,9 +532,6 @@ func (s *TvInputServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITvInputServiceNotifyHardwareAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_hardwareInfo TvInputHardwareInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -528,12 +545,8 @@ func (s *TvInputServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NotifyHardwareAdded(ctx, _arg_hardwareInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputServiceNotifyHardwareRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_hardwareInfo TvInputHardwareInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -547,12 +560,8 @@ func (s *TvInputServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NotifyHardwareRemoved(ctx, _arg_hardwareInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputServiceNotifyHdmiDeviceAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_deviceInfo hdmi.HdmiDeviceInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -566,12 +575,8 @@ func (s *TvInputServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NotifyHdmiDeviceAdded(ctx, _arg_deviceInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputServiceNotifyHdmiDeviceRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_deviceInfo hdmi.HdmiDeviceInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -585,12 +590,8 @@ func (s *TvInputServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NotifyHdmiDeviceRemoved(ctx, _arg_deviceInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputServiceNotifyHdmiDeviceUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_deviceInfo hdmi.HdmiDeviceInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -604,8 +605,7 @@ func (s *TvInputServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NotifyHdmiDeviceUpdated(ctx, _arg_deviceInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

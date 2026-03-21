@@ -1,0 +1,244 @@
+package: android.app.trust
+go_package: android/app/trust
+interfaces:
+    - name: IStrongAuthTracker
+      descriptor: android.app.trust.IStrongAuthTracker
+      oneway: true
+      methods:
+        - name: onStrongAuthRequiredChanged
+          transaction_code_offset: 0
+          params:
+            - name: strongAuthRequired
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onIsNonStrongBiometricAllowedChanged
+          transaction_code_offset: 1
+          params:
+            - name: allowed
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ITrustListener
+      descriptor: android.app.trust.ITrustListener
+      oneway: true
+      methods:
+        - name: onEnabledTrustAgentsChanged
+          transaction_code_offset: 0
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onTrustChanged
+          transaction_code_offset: 1
+          params:
+            - name: enabled
+              type:
+                name: boolean
+            - name: newlyUnlocked
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: trustGrantedMessages
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onTrustManagedChanged
+          transaction_code_offset: 2
+          params:
+            - name: managed
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onTrustError
+          transaction_code_offset: 3
+          params:
+            - name: message
+              type:
+                name: CharSequence
+              direction: in
+          return_type:
+            name: void
+        - name: onIsActiveUnlockRunningChanged
+          transaction_code_offset: 4
+          params:
+            - name: isRunning
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ITrustManager
+      descriptor: android.app.trust.ITrustManager
+      methods:
+        - name: reportUnlockAttempt
+          transaction_code_offset: 0
+          params:
+            - name: successful
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportUserRequestedUnlock
+          transaction_code_offset: 1
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: dismissKeyguard
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: reportUserMayRequestUnlock
+          transaction_code_offset: 2
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportUnlockLockout
+          transaction_code_offset: 3
+          params:
+            - name: timeoutMs
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportEnabledTrustAgentsChanged
+          transaction_code_offset: 4
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: registerTrustListener
+          transaction_code_offset: 5
+          params:
+            - name: trustListener
+              type:
+                name: ITrustListener
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterTrustListener
+          transaction_code_offset: 6
+          params:
+            - name: trustListener
+              type:
+                name: ITrustListener
+              direction: in
+          return_type:
+            name: void
+        - name: reportKeyguardShowingChanged
+          transaction_code_offset: 7
+          return_type:
+            name: void
+        - name: setDeviceLockedForUser
+          transaction_code_offset: 8
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: locked
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isDeviceLocked
+          transaction_code_offset: 9
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isDeviceSecure
+          transaction_code_offset: 10
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isTrustUsuallyManaged
+          transaction_code_offset: 11
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: unlockedByBiometricForUser
+          transaction_code_offset: 12
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: source
+              type:
+                name: BiometricSourceType
+              direction: in
+          return_type:
+            name: void
+        - name: clearAllBiometricRecognized
+          transaction_code_offset: 13
+          params:
+            - name: target
+              type:
+                name: BiometricSourceType
+              direction: in
+            - name: unlockedUser
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isActiveUnlockRunning
+          transaction_code_offset: 14
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean

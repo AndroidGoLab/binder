@@ -167,6 +167,7 @@ func (p *CompanionDeviceManagerProxy) Associate(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -200,6 +201,7 @@ func (p *CompanionDeviceManagerProxy) GetAssociations(
 	var _result []AssociationInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
@@ -223,6 +225,9 @@ func (p *CompanionDeviceManagerProxy) GetAssociations(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]AssociationInfo, _count)
@@ -244,6 +249,7 @@ func (p *CompanionDeviceManagerProxy) GetAllAssociationsForUser(
 	var _result []AssociationInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -266,6 +272,9 @@ func (p *CompanionDeviceManagerProxy) GetAllAssociationsForUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]AssociationInfo, _count)
@@ -287,6 +296,7 @@ func (p *CompanionDeviceManagerProxy) LegacyDisassociate(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(deviceMacAddress)
 	_data.WriteString16(_identity.PackageName)
@@ -315,6 +325,7 @@ func (p *CompanionDeviceManagerProxy) Disassociate(
 	associationId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
 
@@ -342,6 +353,7 @@ func (p *CompanionDeviceManagerProxy) HasNotificationAccess(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(1)
 	if _err := component.MarshalParcel(_data); _err != nil {
@@ -377,6 +389,7 @@ func (p *CompanionDeviceManagerProxy) RequestNotificationAccess(
 	var _result app.PendingIntent
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(1)
 	if _err := component.MarshalParcel(_data); _err != nil {
@@ -419,6 +432,7 @@ func (p *CompanionDeviceManagerProxy) IsDeviceAssociatedForWifiConnection(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(macAddress)
@@ -452,6 +466,7 @@ func (p *CompanionDeviceManagerProxy) RegisterDevicePresenceListenerService(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(deviceAddress)
 	_data.WriteString16(_identity.PackageName)
@@ -481,6 +496,7 @@ func (p *CompanionDeviceManagerProxy) UnregisterDevicePresenceListenerService(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(deviceAddress)
 	_data.WriteString16(_identity.PackageName)
@@ -512,6 +528,7 @@ func (p *CompanionDeviceManagerProxy) CanPairWithoutPrompt(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(deviceMacAddress)
@@ -547,18 +564,12 @@ func (p *CompanionDeviceManagerProxy) CreateAssociation(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(macAddress)
 	_data.WriteInt32(_identity.UserID)
-	if certificate == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(certificate)))
-		for _, _item := range certificate {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(certificate)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerCreateAssociation)
 	if _err != nil {
@@ -584,6 +595,7 @@ func (p *CompanionDeviceManagerProxy) AddOnAssociationsChangedListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -612,6 +624,7 @@ func (p *CompanionDeviceManagerProxy) RemoveOnAssociationsChangedListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -639,6 +652,7 @@ func (p *CompanionDeviceManagerProxy) AddOnTransportsChangedListener(
 	listener IOnTransportsChangedListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -665,6 +679,7 @@ func (p *CompanionDeviceManagerProxy) RemoveOnTransportsChangedListener(
 	listener IOnTransportsChangedListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -693,16 +708,10 @@ func (p *CompanionDeviceManagerProxy) SendMessage(
 	associationIds []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(messageType)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 	if associationIds == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -736,6 +745,7 @@ func (p *CompanionDeviceManagerProxy) AddOnMessageReceivedListener(
 	listener IOnMessageReceivedListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(messageType)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -764,6 +774,7 @@ func (p *CompanionDeviceManagerProxy) RemoveOnMessageReceivedListener(
 	listener IOnMessageReceivedListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(messageType)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -791,6 +802,7 @@ func (p *CompanionDeviceManagerProxy) NotifyDeviceAppeared(
 	associationId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
 
@@ -817,6 +829,7 @@ func (p *CompanionDeviceManagerProxy) NotifyDeviceDisappeared(
 	associationId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
 
@@ -845,6 +858,7 @@ func (p *CompanionDeviceManagerProxy) BuildPermissionTransferUserConsentIntent(
 	var _result app.PendingIntent
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
@@ -884,6 +898,7 @@ func (p *CompanionDeviceManagerProxy) IsPermissionTransferUserConsented(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
@@ -919,6 +934,7 @@ func (p *CompanionDeviceManagerProxy) StartSystemDataTransfer(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -951,6 +967,7 @@ func (p *CompanionDeviceManagerProxy) AttachSystemDataTransport(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -982,6 +999,7 @@ func (p *CompanionDeviceManagerProxy) DetachSystemDataTransport(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -1012,6 +1030,7 @@ func (p *CompanionDeviceManagerProxy) IsCompanionApplicationBound(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -1044,6 +1063,7 @@ func (p *CompanionDeviceManagerProxy) BuildAssociationCancellationIntent(
 	var _result app.PendingIntent
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
@@ -1081,6 +1101,7 @@ func (p *CompanionDeviceManagerProxy) EnableSystemDataSync(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
 	_data.WriteInt32(flags)
@@ -1109,6 +1130,7 @@ func (p *CompanionDeviceManagerProxy) DisableSystemDataSync(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
 	_data.WriteInt32(flags)
@@ -1136,6 +1158,7 @@ func (p *CompanionDeviceManagerProxy) EnablePermissionsSync(
 	associationId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
 
@@ -1162,6 +1185,7 @@ func (p *CompanionDeviceManagerProxy) DisablePermissionsSync(
 	associationId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
 
@@ -1189,6 +1213,7 @@ func (p *CompanionDeviceManagerProxy) GetPermissionSyncRequest(
 ) (datatransfer.PermissionSyncRequest, error) {
 	var _result datatransfer.PermissionSyncRequest
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
 
@@ -1224,6 +1249,7 @@ func (p *CompanionDeviceManagerProxy) EnableSecureTransport(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteBool(enabled)
 
@@ -1251,6 +1277,7 @@ func (p *CompanionDeviceManagerProxy) SetAssociationTag(
 	tag string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
 	_data.WriteString16(tag)
@@ -1278,6 +1305,7 @@ func (p *CompanionDeviceManagerProxy) ClearAssociationTag(
 	associationId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
 
@@ -1305,6 +1333,7 @@ func (p *CompanionDeviceManagerProxy) GetBackupPayload(
 	var _result []byte
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1323,19 +1352,9 @@ func (p *CompanionDeviceManagerProxy) GetBackupPayload(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -1346,15 +1365,9 @@ func (p *CompanionDeviceManagerProxy) ApplyRestoredPayload(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	if payload == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(payload)))
-		for _, _item := range payload {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(payload)
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerApplyRestoredPayload)
@@ -1382,6 +1395,7 @@ func (p *CompanionDeviceManagerProxy) StartObservingDevicePresence(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -1415,6 +1429,7 @@ func (p *CompanionDeviceManagerProxy) StopObservingDevicePresence(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -1444,7 +1459,8 @@ func (p *CompanionDeviceManagerProxy) StopObservingDevicePresence(
 // CompanionDeviceManagerStub dispatches incoming binder transactions
 // to a typed ICompanionDeviceManager implementation.
 type CompanionDeviceManagerStub struct {
-	Impl ICompanionDeviceManager
+	Impl      ICompanionDeviceManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CompanionDeviceManagerStub)(nil)
@@ -1458,11 +1474,12 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICompanionDeviceManagerAssociate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request AssociationRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1475,9 +1492,14 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAssociationRequestCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAssociationRequestCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1496,9 +1518,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1509,13 +1528,19 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionICompanionDeviceManagerGetAllAssociationsForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1526,13 +1551,19 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionICompanionDeviceManagerLegacyDisassociate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceMacAddress, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1552,9 +1583,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerDisassociate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_associationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1568,9 +1596,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerHasNotificationAccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_component content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1593,9 +1618,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerRequestNotificationAccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_component content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1624,9 +1646,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICompanionDeviceManagerIsDeviceAssociatedForWifiConnection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1648,9 +1667,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerRegisterDevicePresenceListenerService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceAddress, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1670,9 +1686,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerUnregisterDevicePresenceListenerService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceAddress, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1692,9 +1705,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerCanPairWithoutPrompt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1716,9 +1726,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerCreateAssociation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1730,9 +1737,14 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_certificate []byte
-		_ = _arg_certificate
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_certificate = _bytes
+		}
 		_err = s.Impl.CreateAssociation(ctx, _arg_packageName, _arg_macAddress, _arg_certificate)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1742,12 +1754,14 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerAddOnAssociationsChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnAssociationsChangedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnAssociationsChangedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1760,12 +1774,14 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerRemoveOnAssociationsChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnAssociationsChangedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnAssociationsChangedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1778,12 +1794,14 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerAddOnTransportsChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnTransportsChangedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnTransportsChangedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddOnTransportsChangedListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1793,12 +1811,14 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerRemoveOnTransportsChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnTransportsChangedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnTransportsChangedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveOnTransportsChangedListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1808,19 +1828,37 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerSendMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_messageType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		var _arg_associationIds []int32
-		_ = _arg_associationIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_associationIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_associationIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.SendMessage(ctx, _arg_messageType, _arg_data, _arg_associationIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1830,16 +1868,18 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerAddOnMessageReceivedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_messageType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnMessageReceivedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnMessageReceivedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.AddOnMessageReceivedListener(ctx, _arg_messageType, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1849,16 +1889,18 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerRemoveOnMessageReceivedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_messageType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnMessageReceivedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewOnMessageReceivedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.RemoveOnMessageReceivedListener(ctx, _arg_messageType, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1868,9 +1910,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerNotifyDeviceAppeared:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_associationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1884,9 +1923,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerNotifyDeviceDisappeared:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_associationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1900,9 +1936,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerBuildPermissionTransferUserConsentIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1929,9 +1962,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1949,9 +1979,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerStartSystemDataTransfer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1963,9 +1990,14 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISystemDataTransferCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSystemDataTransferCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.StartSystemDataTransfer(ctx, _arg_packageName, _arg_associationId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1975,9 +2007,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerAttachSystemDataTransport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2002,9 +2031,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerDetachSystemDataTransport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2025,9 +2051,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerIsCompanionApplicationBound:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2048,9 +2071,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2067,9 +2087,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICompanionDeviceManagerEnableSystemDataSync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_associationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2087,9 +2104,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerDisableSystemDataSync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_associationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2107,9 +2121,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerEnablePermissionsSync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_associationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2123,9 +2134,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerDisablePermissionsSync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_associationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2139,9 +2147,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerGetPermissionSyncRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_associationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2159,9 +2164,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICompanionDeviceManagerEnableSecureTransport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2175,9 +2177,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerSetAssociationTag:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_associationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2195,9 +2194,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerClearAssociationTag:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_associationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2211,9 +2207,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerGetBackupPayload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2224,16 +2217,17 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerApplyRestoredPayload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_payload []byte
-		_ = _arg_payload
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_payload = _bytes
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2246,9 +2240,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerStartObservingDevicePresence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request ObservingDevicePresenceRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2277,9 +2268,6 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICompanionDeviceManagerStopObservingDevicePresence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request ObservingDevicePresenceRequest
 		{
 			_nullInd, _err := _data.ReadInt32()

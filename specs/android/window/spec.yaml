@@ -1,0 +1,945 @@
+package: android.window
+go_package: android/window
+interfaces:
+    - name: IBackAnimationFinishedCallback
+      descriptor: android.window.IBackAnimationFinishedCallback
+      methods:
+        - name: onAnimationFinished
+          transaction_code_offset: 0
+          params:
+            - name: triggerBack
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+    - name: IBackAnimationRunner
+      descriptor: android.window.IBackAnimationRunner
+      oneway: true
+      methods:
+        - name: onAnimationCancelled
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onAnimationStart
+          transaction_code_offset: 1
+          params:
+            - name: apps
+              type:
+                name: RemoteAnimationTarget
+                is_array: true
+              direction: in
+            - name: wallpapers
+              type:
+                name: RemoteAnimationTarget
+                is_array: true
+              direction: in
+            - name: nonApps
+              type:
+                name: RemoteAnimationTarget
+                is_array: true
+              direction: in
+            - name: finishedCallback
+              type:
+                name: IBackAnimationFinishedCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IDisplayAreaOrganizer
+      descriptor: android.window.IDisplayAreaOrganizer
+      oneway: true
+      methods:
+        - name: onDisplayAreaAppeared
+          transaction_code_offset: 0
+          params:
+            - name: displayAreaInfo
+              type:
+                name: DisplayAreaInfo
+              direction: in
+            - name: leash
+              type:
+                name: SurfaceControl
+              direction: in
+          return_type:
+            name: void
+        - name: onDisplayAreaVanished
+          transaction_code_offset: 1
+          params:
+            - name: displayAreaInfo
+              type:
+                name: DisplayAreaInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onDisplayAreaInfoChanged
+          transaction_code_offset: 2
+          params:
+            - name: displayAreaInfo
+              type:
+                name: DisplayAreaInfo
+              direction: in
+          return_type:
+            name: void
+    - name: IDisplayAreaOrganizerController
+      descriptor: android.window.IDisplayAreaOrganizerController
+      methods:
+        - name: registerOrganizer
+          transaction_code_offset: 0
+          params:
+            - name: organizer
+              type:
+                name: IDisplayAreaOrganizer
+              direction: in
+            - name: displayAreaFeature
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+            type_args:
+                - name: DisplayAreaAppearedInfo
+        - name: unregisterOrganizer
+          transaction_code_offset: 1
+          params:
+            - name: organizer
+              type:
+                name: IDisplayAreaOrganizer
+              direction: in
+          return_type:
+            name: void
+        - name: createTaskDisplayArea
+          transaction_code_offset: 2
+          params:
+            - name: organizer
+              type:
+                name: IDisplayAreaOrganizer
+              direction: in
+            - name: displayId
+              type:
+                name: int
+            - name: parentFeatureId
+              type:
+                name: int
+            - name: name
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: DisplayAreaAppearedInfo
+        - name: deleteTaskDisplayArea
+          transaction_code_offset: 3
+          params:
+            - name: taskDisplayArea
+              type:
+                name: WindowContainerToken
+              direction: in
+          return_type:
+            name: void
+    - name: IDumpCallback
+      descriptor: android.window.IDumpCallback
+      methods:
+        - name: onDump
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: outFd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+    - name: IGlobalDragListener
+      descriptor: android.window.IGlobalDragListener
+      oneway: true
+      methods:
+        - name: onCrossWindowDrop
+          transaction_code_offset: 0
+          params:
+            - name: taskInfo
+              type:
+                name: ActivityManager.RunningTaskInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onUnhandledDrop
+          transaction_code_offset: 1
+          params:
+            - name: event
+              type:
+                name: DragEvent
+              direction: in
+            - name: callback
+              type:
+                name: IUnhandledDragCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IOnBackInvokedCallback
+      descriptor: android.window.IOnBackInvokedCallback
+      oneway: true
+      methods:
+        - name: onBackStarted
+          transaction_code_offset: 0
+          params:
+            - name: backMotionEvent
+              type:
+                name: BackMotionEvent
+              direction: in
+          return_type:
+            name: void
+        - name: onBackProgressed
+          transaction_code_offset: 1
+          params:
+            - name: backMotionEvent
+              type:
+                name: BackMotionEvent
+              direction: in
+          return_type:
+            name: void
+        - name: onBackCancelled
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onBackInvoked
+          transaction_code_offset: 3
+          return_type:
+            name: void
+    - name: IRemoteTransition
+      descriptor: android.window.IRemoteTransition
+      oneway: true
+      methods:
+        - name: startAnimation
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: info
+              type:
+                name: TransitionInfo
+              direction: in
+            - name: t
+              type:
+                name: SurfaceControl.Transaction
+              direction: in
+            - name: finishCallback
+              type:
+                name: IRemoteTransitionFinishedCallback
+              direction: in
+          return_type:
+            name: void
+        - name: mergeAnimation
+          transaction_code_offset: 1
+          params:
+            - name: transition
+              type:
+                name: IBinder
+              direction: in
+            - name: info
+              type:
+                name: TransitionInfo
+              direction: in
+            - name: t
+              type:
+                name: SurfaceControl.Transaction
+              direction: in
+            - name: mergeTarget
+              type:
+                name: IBinder
+              direction: in
+            - name: finishCallback
+              type:
+                name: IRemoteTransitionFinishedCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onTransitionConsumed
+          transaction_code_offset: 2
+          params:
+            - name: transition
+              type:
+                name: IBinder
+              direction: in
+            - name: aborted
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+    - name: IRemoteTransitionFinishedCallback
+      descriptor: android.window.IRemoteTransitionFinishedCallback
+      methods:
+        - name: onTransitionFinished
+          transaction_code_offset: 0
+          params:
+            - name: wct
+              type:
+                name: WindowContainerTransaction
+              direction: in
+            - name: sct
+              type:
+                name: SurfaceControl.Transaction
+              direction: in
+          return_type:
+            name: void
+    - name: IScreenRecordingCallback
+      descriptor: android.window.IScreenRecordingCallback
+      oneway: true
+      methods:
+        - name: onScreenRecordingStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: visibleInScreenRecording
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: ISurfaceSyncGroup
+      descriptor: android.window.ISurfaceSyncGroup
+      methods:
+        - name: onAddedToSyncGroup
+          transaction_code_offset: 0
+          params:
+            - name: parentSyncGroupToken
+              type:
+                name: IBinder
+              direction: in
+            - name: parentSyncGroupMerge
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: addToSync
+          transaction_code_offset: 1
+          params:
+            - name: surfaceSyncGroup
+              type:
+                name: ISurfaceSyncGroup
+              direction: in
+            - name: parentSyncGroupMerge
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+    - name: ISurfaceSyncGroupCompletedListener
+      descriptor: android.window.ISurfaceSyncGroupCompletedListener
+      methods:
+        - name: onSurfaceSyncGroupComplete
+          transaction_code_offset: 0
+          oneway: true
+          return_type:
+            name: void
+    - name: ITaskFpsCallback
+      descriptor: android.window.ITaskFpsCallback
+      oneway: true
+      methods:
+        - name: onFpsReported
+          transaction_code_offset: 0
+          params:
+            - name: fps
+              type:
+                name: float
+              direction: in
+          return_type:
+            name: void
+    - name: ITaskFragmentOrganizer
+      descriptor: android.window.ITaskFragmentOrganizer
+      oneway: true
+      methods:
+        - name: onTransactionReady
+          transaction_code_offset: 0
+          params:
+            - name: transaction
+              type:
+                name: TaskFragmentTransaction
+              direction: in
+          return_type:
+            name: void
+    - name: ITaskFragmentOrganizerController
+      descriptor: android.window.ITaskFragmentOrganizerController
+      methods:
+        - name: registerOrganizer
+          transaction_code_offset: 0
+          params:
+            - name: organizer
+              type:
+                name: ITaskFragmentOrganizer
+              direction: in
+            - name: isSystemOrganizer
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: unregisterOrganizer
+          transaction_code_offset: 1
+          params:
+            - name: organizer
+              type:
+                name: ITaskFragmentOrganizer
+              direction: in
+          return_type:
+            name: void
+        - name: registerRemoteAnimations
+          transaction_code_offset: 2
+          params:
+            - name: organizer
+              type:
+                name: ITaskFragmentOrganizer
+              direction: in
+            - name: definition
+              type:
+                name: RemoteAnimationDefinition
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterRemoteAnimations
+          transaction_code_offset: 3
+          params:
+            - name: organizer
+              type:
+                name: ITaskFragmentOrganizer
+              direction: in
+          return_type:
+            name: void
+        - name: isActivityEmbedded
+          transaction_code_offset: 4
+          params:
+            - name: activityToken
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: boolean
+        - name: onTransactionHandled
+          transaction_code_offset: 5
+          params:
+            - name: transactionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: wct
+              type:
+                name: WindowContainerTransaction
+              direction: in
+            - name: transitionType
+              type:
+                name: int
+            - name: shouldApplyIndependently
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: applyTransaction
+          transaction_code_offset: 6
+          params:
+            - name: wct
+              type:
+                name: WindowContainerTransaction
+              direction: in
+            - name: transitionType
+              type:
+                name: int
+            - name: shouldApplyIndependently
+              type:
+                name: boolean
+            - name: remoteTransition
+              type:
+                name: RemoteTransition
+              direction: in
+          return_type:
+            name: void
+    - name: ITaskOrganizer
+      descriptor: android.window.ITaskOrganizer
+      oneway: true
+      methods:
+        - name: addStartingWindow
+          transaction_code_offset: 0
+          params:
+            - name: info
+              type:
+                name: StartingWindowInfo
+              direction: in
+          return_type:
+            name: void
+        - name: removeStartingWindow
+          transaction_code_offset: 1
+          params:
+            - name: removalInfo
+              type:
+                name: StartingWindowRemovalInfo
+              direction: in
+          return_type:
+            name: void
+        - name: copySplashScreenView
+          transaction_code_offset: 2
+          params:
+            - name: taskId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAppSplashScreenViewRemoved
+          transaction_code_offset: 3
+          params:
+            - name: taskId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onTaskAppeared
+          transaction_code_offset: 4
+          params:
+            - name: taskInfo
+              type:
+                name: ActivityManager.RunningTaskInfo
+              direction: in
+            - name: leash
+              type:
+                name: SurfaceControl
+              direction: in
+          return_type:
+            name: void
+        - name: onTaskVanished
+          transaction_code_offset: 5
+          params:
+            - name: taskInfo
+              type:
+                name: ActivityManager.RunningTaskInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onTaskInfoChanged
+          transaction_code_offset: 6
+          params:
+            - name: taskInfo
+              type:
+                name: ActivityManager.RunningTaskInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onBackPressedOnTaskRoot
+          transaction_code_offset: 7
+          params:
+            - name: taskInfo
+              type:
+                name: ActivityManager.RunningTaskInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onImeDrawnOnTask
+          transaction_code_offset: 8
+          params:
+            - name: taskId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ITaskOrganizerController
+      descriptor: android.window.ITaskOrganizerController
+      methods:
+        - name: registerTaskOrganizer
+          transaction_code_offset: 0
+          params:
+            - name: organizer
+              type:
+                name: ITaskOrganizer
+          return_type:
+            name: ParceledListSlice
+            type_args:
+                - name: TaskAppearedInfo
+        - name: unregisterTaskOrganizer
+          transaction_code_offset: 1
+          params:
+            - name: organizer
+              type:
+                name: ITaskOrganizer
+          return_type:
+            name: void
+        - name: createRootTask
+          transaction_code_offset: 2
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: windowingMode
+              type:
+                name: int
+            - name: launchCookie
+              type:
+                name: IBinder
+            - name: removeWithTaskOrganizer
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: deleteRootTask
+          transaction_code_offset: 3
+          params:
+            - name: task
+              type:
+                name: WindowContainerToken
+              direction: in
+          return_type:
+            name: boolean
+        - name: getChildTasks
+          transaction_code_offset: 4
+          params:
+            - name: parent
+              type:
+                name: WindowContainerToken
+              direction: in
+            - name: activityTypes
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: ActivityManager.RunningTaskInfo
+        - name: getRootTasks
+          transaction_code_offset: 5
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: activityTypes
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: ActivityManager.RunningTaskInfo
+        - name: getImeTarget
+          transaction_code_offset: 6
+          params:
+            - name: display
+              type:
+                name: int
+          return_type:
+            name: WindowContainerToken
+        - name: setInterceptBackPressedOnTaskRoot
+          transaction_code_offset: 7
+          params:
+            - name: task
+              type:
+                name: WindowContainerToken
+              direction: in
+            - name: interceptBackPressed
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: restartTaskTopActivityProcessIfVisible
+          transaction_code_offset: 8
+          params:
+            - name: task
+              type:
+                name: WindowContainerToken
+              direction: in
+          return_type:
+            name: void
+        - name: updateCameraCompatControlState
+          transaction_code_offset: 9
+          params:
+            - name: task
+              type:
+                name: WindowContainerToken
+              direction: in
+            - name: state
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ITransactionReadyCallback
+      descriptor: android.window.ITransactionReadyCallback
+      methods:
+        - name: onTransactionReady
+          transaction_code_offset: 0
+          params:
+            - name: t
+              type:
+                name: Transaction
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+    - name: ITransitionMetricsReporter
+      descriptor: android.window.ITransitionMetricsReporter
+      oneway: true
+      methods:
+        - name: reportAnimationStart
+          transaction_code_offset: 0
+          params:
+            - name: transitionToken
+              type:
+                name: IBinder
+            - name: startTime
+              type:
+                name: long
+          return_type:
+            name: void
+    - name: ITransitionPlayer
+      descriptor: android.window.ITransitionPlayer
+      oneway: true
+      methods:
+        - name: onTransitionReady
+          transaction_code_offset: 0
+          params:
+            - name: transitionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: info
+              type:
+                name: TransitionInfo
+              direction: in
+            - name: t
+              type:
+                name: SurfaceControl.Transaction
+              direction: in
+            - name: finishT
+              type:
+                name: SurfaceControl.Transaction
+              direction: in
+          return_type:
+            name: void
+        - name: requestStartTransition
+          transaction_code_offset: 1
+          params:
+            - name: transitionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: request
+              type:
+                name: TransitionRequestInfo
+              direction: in
+          return_type:
+            name: void
+    - name: ITrustedPresentationListener
+      descriptor: android.window.ITrustedPresentationListener
+      oneway: true
+      methods:
+        - name: onTrustedPresentationChanged
+          transaction_code_offset: 0
+          params:
+            - name: enteredTrustedStateIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: exitedTrustedStateIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IUnhandledDragCallback
+      descriptor: android.window.IUnhandledDragCallback
+      oneway: true
+      methods:
+        - name: notifyUnhandledDropComplete
+          transaction_code_offset: 0
+          params:
+            - name: handled
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IWindowContainerToken
+      descriptor: android.window.IWindowContainerToken
+    - name: IWindowContainerTransactionCallback
+      descriptor: android.window.IWindowContainerTransactionCallback
+      oneway: true
+      methods:
+        - name: onTransactionReady
+          transaction_code_offset: 0
+          params:
+            - name: id
+              type:
+                name: int
+            - name: t
+              type:
+                name: SurfaceControl.Transaction
+              direction: in
+          return_type:
+            name: void
+    - name: IWindowOrganizerController
+      descriptor: android.window.IWindowOrganizerController
+      methods:
+        - name: applyTransaction
+          transaction_code_offset: 0
+          params:
+            - name: t
+              type:
+                name: WindowContainerTransaction
+              direction: in
+          return_type:
+            name: void
+        - name: applySyncTransaction
+          transaction_code_offset: 1
+          params:
+            - name: t
+              type:
+                name: WindowContainerTransaction
+              direction: in
+            - name: callback
+              type:
+                name: IWindowContainerTransactionCallback
+              direction: in
+          return_type:
+            name: int
+        - name: startNewTransition
+          transaction_code_offset: 2
+          params:
+            - name: type
+              type:
+                name: int
+            - name: t
+              type:
+                name: WindowContainerTransaction
+                is_nullable: true
+              direction: in
+          return_type:
+            name: IBinder
+        - name: startTransition
+          transaction_code_offset: 3
+          params:
+            - name: transitionToken
+              type:
+                name: IBinder
+            - name: t
+              type:
+                name: WindowContainerTransaction
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: startLegacyTransition
+          transaction_code_offset: 4
+          params:
+            - name: type
+              type:
+                name: int
+            - name: adapter
+              type:
+                name: RemoteAnimationAdapter
+              direction: in
+            - name: syncCallback
+              type:
+                name: IWindowContainerTransactionCallback
+              direction: in
+            - name: t
+              type:
+                name: WindowContainerTransaction
+              direction: in
+          return_type:
+            name: int
+        - name: finishTransition
+          transaction_code_offset: 5
+          params:
+            - name: transitionToken
+              type:
+                name: IBinder
+              direction: in
+            - name: t
+              type:
+                name: WindowContainerTransaction
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: getTaskOrganizerController
+          transaction_code_offset: 6
+          return_type:
+            name: ITaskOrganizerController
+        - name: getDisplayAreaOrganizerController
+          transaction_code_offset: 7
+          return_type:
+            name: IDisplayAreaOrganizerController
+        - name: getTaskFragmentOrganizerController
+          transaction_code_offset: 8
+          return_type:
+            name: ITaskFragmentOrganizerController
+        - name: registerTransitionPlayer
+          transaction_code_offset: 9
+          params:
+            - name: player
+              type:
+                name: ITransitionPlayer
+              direction: in
+          return_type:
+            name: void
+        - name: getTransitionMetricsReporter
+          transaction_code_offset: 10
+          return_type:
+            name: ITransitionMetricsReporter
+        - name: getApplyToken
+          transaction_code_offset: 11
+          return_type:
+            name: IBinder
+    - name: IWindowlessStartingSurfaceCallback
+      descriptor: android.window.IWindowlessStartingSurfaceCallback
+      methods:
+        - name: onSurfaceAdded
+          transaction_code_offset: 0
+          params:
+            - name: addedSurface
+              type:
+                name: SurfaceControl
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: ActivityWindowInfo
+    - name: AddToSurfaceSyncGroupResult
+      fields:
+        - name: mParentSyncGroup
+          type:
+            name: ISurfaceSyncGroup
+        - name: mTransactionReadyCallback
+          type:
+            name: ITransactionReadyCallback
+    - name: BackAnimationAdapter
+    - name: BackMotionEvent
+    - name: BackNavigationInfo
+    - name: ClientWindowFrames
+    - name: DisplayAreaAppearedInfo
+    - name: DisplayAreaInfo
+    - name: ImeOnBackInvokedDispatcher
+    - name: InputTransferToken
+    - name: OnBackInvokedCallbackInfo
+    - name: PictureInPictureSurfaceTransaction
+    - name: RemoteTransition
+    - name: ScreenCapture.CaptureArgs
+    - name: ScreenCapture.ScreenCaptureListener
+    - name: ScreenCapture.ScreenshotHardwareBuffer
+    - name: SizeConfigurationBuckets
+    - name: SplashScreenView.SplashScreenViewParcelable
+    - name: StartingWindowInfo
+    - name: StartingWindowRemovalInfo
+    - name: TaskAppearedInfo
+    - name: TaskFragmentAnimationParams
+    - name: TaskFragmentCreationParams
+    - name: TaskFragmentInfo
+    - name: TaskFragmentOperation
+    - name: TaskFragmentParentInfo
+    - name: TaskFragmentTransaction
+    - name: TaskFragmentTransaction.Change
+    - name: TaskSnapshot
+    - name: TransitionFilter
+    - name: TransitionInfo
+    - name: TransitionInfo.Change
+    - name: TransitionRequestInfo
+    - name: TransitionRequestInfo.DisplayChange
+    - name: TrustedPresentationThresholds
+    - name: WindowContainerToken
+    - name: WindowContainerTransaction
+    - name: WindowContextInfo

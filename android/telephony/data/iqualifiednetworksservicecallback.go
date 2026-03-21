@@ -53,6 +53,7 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnQualifiedNetworkTypesChanged(
 	qualifiedNetworkTypes []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksServiceCallback)
 	_data.WriteInt32(apnTypes)
 	if qualifiedNetworkTypes == nil {
@@ -79,6 +80,7 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnNetworkValidationRequested(
 	callback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksServiceCallback)
 	_data.WriteInt32(networkCapability)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -98,6 +100,7 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnReconnectQualifedNetworkType(
 	qualifiedNetworkType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksServiceCallback)
 	_data.WriteInt32(apnTypes)
 	_data.WriteInt32(qualifiedNetworkType)
@@ -114,7 +117,8 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnReconnectQualifedNetworkType(
 // QualifiedNetworksServiceCallbackStub dispatches incoming binder transactions
 // to a typed IQualifiedNetworksServiceCallback implementation.
 type QualifiedNetworksServiceCallbackStub struct {
-	Impl IQualifiedNetworksServiceCallback
+	Impl      IQualifiedNetworksServiceCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*QualifiedNetworksServiceCallbackStub)(nil)
@@ -128,39 +132,53 @@ func (s *QualifiedNetworksServiceCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIQualifiedNetworksServiceCallbackOnQualifiedNetworkTypesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_apnTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_qualifiedNetworkTypes []int32
-		_ = _arg_qualifiedNetworkTypes
-		_err = s.Impl.OnQualifiedNetworkTypesChanged(ctx, _arg_apnTypes, _arg_qualifiedNetworkTypes)
-		_ = _err
-		return nil, nil
-	case TransactionIQualifiedNetworksServiceCallbackOnNetworkValidationRequested:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_qualifiedNetworkTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_qualifiedNetworkTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.OnQualifiedNetworkTypesChanged(ctx, _arg_apnTypes, _arg_qualifiedNetworkTypes)
+		return nil, _err
+	case TransactionIQualifiedNetworksServiceCallbackOnNetworkValidationRequested:
 		_arg_networkCapability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback telephony.IIntegerConsumer
-		_ = _arg_callback
-		_err = s.Impl.OnNetworkValidationRequested(ctx, _arg_networkCapability, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIQualifiedNetworksServiceCallbackOnReconnectQualifedNetworkType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = telephony.NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.OnNetworkValidationRequested(ctx, _arg_networkCapability, _arg_callback)
+		return nil, _err
+	case TransactionIQualifiedNetworksServiceCallbackOnReconnectQualifedNetworkType:
 		_arg_apnTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -170,8 +188,7 @@ func (s *QualifiedNetworksServiceCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnReconnectQualifedNetworkType(ctx, _arg_apnTypes, _arg_qualifiedNetworkType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

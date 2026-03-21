@@ -65,6 +65,7 @@ func (p *CarrierMessagingServiceProxy) FilterSms(
 	callback ICarrierMessagingCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingService)
 	_data.WriteInt32(1)
 	if _err := pdu.MarshalParcel(_data); _err != nil {
@@ -93,6 +94,7 @@ func (p *CarrierMessagingServiceProxy) SendTextSms(
 	callback ICarrierMessagingCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingService)
 	_data.WriteString16(text)
 	_data.WriteInt32(subId)
@@ -119,15 +121,9 @@ func (p *CarrierMessagingServiceProxy) SendDataSms(
 	callback ICarrierMessagingCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingService)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 	_data.WriteInt32(subId)
 	_data.WriteString16(destAddress)
 	_data.WriteInt32(destPort)
@@ -152,6 +148,7 @@ func (p *CarrierMessagingServiceProxy) SendMultipartTextSms(
 	callback ICarrierMessagingCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingService)
 	if parts == nil {
 		_data.WriteInt32(-1)
@@ -183,6 +180,7 @@ func (p *CarrierMessagingServiceProxy) SendMms(
 	callback ICarrierMessagingCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingService)
 	_data.WriteInt32(1)
 	if _err := pduUri.MarshalParcel(_data); _err != nil {
@@ -212,6 +210,7 @@ func (p *CarrierMessagingServiceProxy) DownloadMms(
 	callback ICarrierMessagingCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingService)
 	_data.WriteInt32(1)
 	if _err := pduUri.MarshalParcel(_data); _err != nil {
@@ -236,7 +235,8 @@ func (p *CarrierMessagingServiceProxy) DownloadMms(
 // CarrierMessagingServiceStub dispatches incoming binder transactions
 // to a typed ICarrierMessagingService implementation.
 type CarrierMessagingServiceStub struct {
-	Impl ICarrierMessagingService
+	Impl      ICarrierMessagingService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CarrierMessagingServiceStub)(nil)
@@ -250,11 +250,12 @@ func (s *CarrierMessagingServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICarrierMessagingServiceFilterSms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_pdu MessagePdu
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -279,16 +280,17 @@ func (s *CarrierMessagingServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICarrierMessagingCallback
-		_ = _arg_callback
-		_err = s.Impl.FilterSms(ctx, _arg_pdu, _arg_format, _arg_destPort, _arg_subId, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionICarrierMessagingServiceSendTextSms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCarrierMessagingCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.FilterSms(ctx, _arg_pdu, _arg_format, _arg_destPort, _arg_subId, _arg_callback)
+		return nil, _err
+	case TransactionICarrierMessagingServiceSendTextSms:
 		_arg_text, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -305,19 +307,25 @@ func (s *CarrierMessagingServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICarrierMessagingCallback
-		_ = _arg_callback
-		_err = s.Impl.SendTextSms(ctx, _arg_text, _arg_subId, _arg_destAddress, _arg_sendSmsFlag, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionICarrierMessagingServiceSendDataSms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCarrierMessagingCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		_err = s.Impl.SendTextSms(ctx, _arg_text, _arg_subId, _arg_destAddress, _arg_sendSmsFlag, _arg_callback)
+		return nil, _err
+	case TransactionICarrierMessagingServiceSendDataSms:
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -334,19 +342,36 @@ func (s *CarrierMessagingServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICarrierMessagingCallback
-		_ = _arg_callback
-		_err = s.Impl.SendDataSms(ctx, _arg_data, _arg_subId, _arg_destAddress, _arg_destPort, _arg_sendSmsFlag, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionICarrierMessagingServiceSendMultipartTextSms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCarrierMessagingCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		_err = s.Impl.SendDataSms(ctx, _arg_data, _arg_subId, _arg_destAddress, _arg_destPort, _arg_sendSmsFlag, _arg_callback)
+		return nil, _err
+	case TransactionICarrierMessagingServiceSendMultipartTextSms:
 		var _arg_parts []string
-		_ = _arg_parts
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_parts = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_parts[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -359,16 +384,17 @@ func (s *CarrierMessagingServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICarrierMessagingCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCarrierMessagingCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.SendMultipartTextSms(ctx, _arg_parts, _arg_subId, _arg_destAddress, _arg_sendSmsFlag, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICarrierMessagingServiceSendMms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_pduUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -397,16 +423,17 @@ func (s *CarrierMessagingServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICarrierMessagingCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCarrierMessagingCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.SendMms(ctx, _arg_pduUri, _arg_subId, _arg_location, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICarrierMessagingServiceDownloadMms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_pduUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -435,12 +462,16 @@ func (s *CarrierMessagingServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICarrierMessagingCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCarrierMessagingCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.DownloadMms(ctx, _arg_pduUri, _arg_subId, _arg_location, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

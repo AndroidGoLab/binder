@@ -83,6 +83,7 @@ func (p *ProtectedProxy) ProtectedByInternet(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByInternet)
@@ -107,6 +108,7 @@ func (p *ProtectedProxy) ProtectedByVibrate(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByVibrate)
@@ -131,6 +133,7 @@ func (p *ProtectedProxy) ProtectedByInternetAndVibrateImplicitly(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByInternetAndVibrateImplicitly)
@@ -155,6 +158,7 @@ func (p *ProtectedProxy) ProtectedByInternetAndAccessNetworkStateImplicitly(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByInternetAndAccessNetworkStateImplicitly)
@@ -179,6 +183,7 @@ func (p *ProtectedProxy) ProtectedByInternetAndReadSyncSettingsImplicitly(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByInternetAndReadSyncSettingsImplicitly)
@@ -203,6 +208,7 @@ func (p *ProtectedProxy) ProtectedByTurnScreenOn(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByTurnScreenOn)
@@ -227,6 +233,7 @@ func (p *ProtectedProxy) ProtectedByReadContacts(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByReadContacts)
@@ -251,6 +258,7 @@ func (p *ProtectedProxy) ProtectedByReadCalendar(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByReadCalendar)
@@ -275,6 +283,7 @@ func (p *ProtectedProxy) ProtectedByInternetAndVibrate(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByInternetAndVibrate)
@@ -299,6 +308,7 @@ func (p *ProtectedProxy) ProtectedByInternetAndReadSyncSettings(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByInternetAndReadSyncSettings)
@@ -323,6 +333,7 @@ func (p *ProtectedProxy) ProtectedByAccessWifiStateOrVibrate(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByAccessWifiStateOrVibrate)
@@ -347,6 +358,7 @@ func (p *ProtectedProxy) ProtectedByInternetOrVibrate(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByInternetOrVibrate)
@@ -371,6 +383,7 @@ func (p *ProtectedProxy) NotProtected(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedNotProtected)
@@ -395,6 +408,7 @@ func (p *ProtectedProxy) ManuallyProtected(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedManuallyProtected)
@@ -418,7 +432,8 @@ func (p *ProtectedProxy) ManuallyProtected(
 // ProtectedStub dispatches incoming binder transactions
 // to a typed IProtected implementation.
 type ProtectedStub struct {
-	Impl IProtected
+	Impl      IProtected
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ProtectedStub)(nil)
@@ -432,11 +447,12 @@ func (s *ProtectedStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIProtectedProtectedByInternet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ProtectedByInternet(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -446,9 +462,6 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByVibrate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ProtectedByVibrate(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -458,9 +471,6 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByInternetAndVibrateImplicitly:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ProtectedByInternetAndVibrateImplicitly(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -470,9 +480,6 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByInternetAndAccessNetworkStateImplicitly:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ProtectedByInternetAndAccessNetworkStateImplicitly(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -482,9 +489,6 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByInternetAndReadSyncSettingsImplicitly:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ProtectedByInternetAndReadSyncSettingsImplicitly(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -494,9 +498,6 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByTurnScreenOn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ProtectedByTurnScreenOn(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -506,9 +507,6 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByReadContacts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ProtectedByReadContacts(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -518,9 +516,6 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByReadCalendar:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ProtectedByReadCalendar(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -530,9 +525,6 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByInternetAndVibrate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ProtectedByInternetAndVibrate(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -542,9 +534,6 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByInternetAndReadSyncSettings:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ProtectedByInternetAndReadSyncSettings(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -554,9 +543,6 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByAccessWifiStateOrVibrate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ProtectedByAccessWifiStateOrVibrate(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -566,9 +552,6 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByInternetOrVibrate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ProtectedByInternetOrVibrate(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -578,9 +561,6 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedNotProtected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NotProtected(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -590,9 +570,6 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedManuallyProtected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ManuallyProtected(ctx)
 		_reply := parcel.New()
 		if _err != nil {

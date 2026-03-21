@@ -46,6 +46,7 @@ func (p *HdmiConnectionCallbackProxy) OnHotplugEvent(
 	portId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiConnectionCallback)
 	_data.WriteBool(connected)
 	_data.WriteInt32(portId)
@@ -62,7 +63,8 @@ func (p *HdmiConnectionCallbackProxy) OnHotplugEvent(
 // HdmiConnectionCallbackStub dispatches incoming binder transactions
 // to a typed IHdmiConnectionCallback implementation.
 type HdmiConnectionCallbackStub struct {
-	Impl IHdmiConnectionCallback
+	Impl      IHdmiConnectionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HdmiConnectionCallbackStub)(nil)
@@ -76,11 +78,12 @@ func (s *HdmiConnectionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHdmiConnectionCallbackOnHotplugEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_connected, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -90,8 +93,7 @@ func (s *HdmiConnectionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnHotplugEvent(ctx, _arg_connected, _arg_portId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

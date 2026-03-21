@@ -43,16 +43,16 @@ const (
 
 type IWifiScannerImpl interface {
 	AsBinder() binder.IBinder
-	GetScanResults(ctx context.Context) ([]interface{}, error)
-	GetPnoScanResults(ctx context.Context) ([]interface{}, error)
+	GetScanResults(ctx context.Context) ([]NativeScanResult, error)
+	GetPnoScanResults(ctx context.Context) ([]NativeScanResult, error)
 	GetMaxSsidsPerScan(ctx context.Context) (int32, error)
-	Scan(ctx context.Context, scanSettings interface{}) (bool, error)
-	ScanRequest(ctx context.Context, scanSettings interface{}) (int32, error)
+	Scan(ctx context.Context, scanSettings SingleScanSettings) (bool, error)
+	ScanRequest(ctx context.Context, scanSettings SingleScanSettings) (int32, error)
 	SubscribeScanEvents(ctx context.Context, handler IScanEvent) error
 	UnsubscribeScanEvents(ctx context.Context) error
 	SubscribePnoScanEvents(ctx context.Context, handler IPnoScanEvent) error
 	UnsubscribePnoScanEvents(ctx context.Context) error
-	StartPnoScan(ctx context.Context, pnoSettings interface{}) (bool, error)
+	StartPnoScan(ctx context.Context, pnoSettings PnoSettings) (bool, error)
 	StopPnoScan(ctx context.Context) (bool, error)
 	AbortScan(ctx context.Context) error
 }
@@ -88,9 +88,10 @@ var _ IWifiScannerImpl = (*WifiScannerImplProxy)(nil)
 
 func (p *WifiScannerImplProxy) GetScanResults(
 	ctx context.Context,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]NativeScanResult, error) {
+	var _result []NativeScanResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplGetScanResults)
@@ -112,10 +113,19 @@ func (p *WifiScannerImplProxy) GetScanResults(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]NativeScanResult, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -123,9 +133,10 @@ func (p *WifiScannerImplProxy) GetScanResults(
 
 func (p *WifiScannerImplProxy) GetPnoScanResults(
 	ctx context.Context,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]NativeScanResult, error) {
+	var _result []NativeScanResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplGetPnoScanResults)
@@ -147,10 +158,19 @@ func (p *WifiScannerImplProxy) GetPnoScanResults(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]NativeScanResult, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -161,6 +181,7 @@ func (p *WifiScannerImplProxy) GetMaxSsidsPerScan(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplGetMaxSsidsPerScan)
@@ -187,11 +208,16 @@ func (p *WifiScannerImplProxy) GetMaxSsidsPerScan(
 
 func (p *WifiScannerImplProxy) Scan(
 	ctx context.Context,
-	scanSettings interface{},
+	scanSettings SingleScanSettings,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
+	_data.WriteInt32(1)
+	if _err := scanSettings.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplScan)
 	if _err != nil {
@@ -217,11 +243,16 @@ func (p *WifiScannerImplProxy) Scan(
 
 func (p *WifiScannerImplProxy) ScanRequest(
 	ctx context.Context,
-	scanSettings interface{},
+	scanSettings SingleScanSettings,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
+	_data.WriteInt32(1)
+	if _err := scanSettings.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplScanRequest)
 	if _err != nil {
@@ -250,6 +281,7 @@ func (p *WifiScannerImplProxy) SubscribeScanEvents(
 	handler IScanEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
 	binder.WriteBinderToParcel(ctx, _data, handler.AsBinder(), p.Remote.Transport())
 
@@ -266,6 +298,7 @@ func (p *WifiScannerImplProxy) UnsubscribeScanEvents(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplUnsubscribeScanEvents)
@@ -282,6 +315,7 @@ func (p *WifiScannerImplProxy) SubscribePnoScanEvents(
 	handler IPnoScanEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
 	binder.WriteBinderToParcel(ctx, _data, handler.AsBinder(), p.Remote.Transport())
 
@@ -298,6 +332,7 @@ func (p *WifiScannerImplProxy) UnsubscribePnoScanEvents(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplUnsubscribePnoScanEvents)
@@ -311,11 +346,16 @@ func (p *WifiScannerImplProxy) UnsubscribePnoScanEvents(
 
 func (p *WifiScannerImplProxy) StartPnoScan(
 	ctx context.Context,
-	pnoSettings interface{},
+	pnoSettings PnoSettings,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
+	_data.WriteInt32(1)
+	if _err := pnoSettings.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplStartPnoScan)
 	if _err != nil {
@@ -344,6 +384,7 @@ func (p *WifiScannerImplProxy) StopPnoScan(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplStopPnoScan)
@@ -372,6 +413,7 @@ func (p *WifiScannerImplProxy) AbortScan(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiScannerImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiScannerImpl, MethodIWifiScannerImplAbortScan)
@@ -395,7 +437,8 @@ func (p *WifiScannerImplProxy) AbortScan(
 // WifiScannerImplStub dispatches incoming binder transactions
 // to a typed IWifiScannerImpl implementation.
 type WifiScannerImplStub struct {
-	Impl IWifiScannerImpl
+	Impl      IWifiScannerImpl
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WifiScannerImplStub)(nil)
@@ -409,11 +452,12 @@ func (s *WifiScannerImplStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWifiScannerImplGetScanResults:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetScanResults(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -421,13 +465,19 @@ func (s *WifiScannerImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIWifiScannerImplGetPnoScanResults:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPnoScanResults(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -435,13 +485,19 @@ func (s *WifiScannerImplStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIWifiScannerImplGetMaxSsidsPerScan:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMaxSsidsPerScan(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -452,10 +508,18 @@ func (s *WifiScannerImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWifiScannerImplScan:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_scanSettings SingleScanSettings
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_scanSettings.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_scanSettings interface{}
 		_result, _err := s.Impl.Scan(ctx, _arg_scanSettings)
 		_reply := parcel.New()
 		if _err != nil {
@@ -466,10 +530,18 @@ func (s *WifiScannerImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWifiScannerImplScanRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_scanSettings SingleScanSettings
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_scanSettings.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_scanSettings interface{}
 		_result, _err := s.Impl.ScanRequest(ctx, _arg_scanSettings)
 		_reply := parcel.New()
 		if _err != nil {
@@ -480,44 +552,46 @@ func (s *WifiScannerImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWifiScannerImplSubscribeScanEvents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_handler IScanEvent
-		_ = _arg_handler
+		{
+			_handlerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_handler = NewScanEventProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _handlerHandle))
+		}
 		_err := s.Impl.SubscribeScanEvents(ctx, _arg_handler)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiScannerImplUnsubscribeScanEvents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.UnsubscribeScanEvents(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiScannerImplSubscribePnoScanEvents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_handler IPnoScanEvent
-		_ = _arg_handler
+		{
+			_handlerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_handler = NewPnoScanEventProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _handlerHandle))
+		}
 		_err := s.Impl.SubscribePnoScanEvents(ctx, _arg_handler)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiScannerImplUnsubscribePnoScanEvents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.UnsubscribePnoScanEvents(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiScannerImplStartPnoScan:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_pnoSettings PnoSettings
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pnoSettings.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_pnoSettings interface{}
 		_result, _err := s.Impl.StartPnoScan(ctx, _arg_pnoSettings)
 		_reply := parcel.New()
 		if _err != nil {
@@ -528,9 +602,6 @@ func (s *WifiScannerImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWifiScannerImplStopPnoScan:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.StopPnoScan(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -541,9 +612,6 @@ func (s *WifiScannerImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWifiScannerImplAbortScan:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.AbortScan(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -561,16 +629,16 @@ func (s *WifiScannerImplStub) OnTransaction(
 // provide to NewWifiScannerImplStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IWifiScannerImplServer interface {
-	GetScanResults(ctx context.Context) ([]interface{}, error)
-	GetPnoScanResults(ctx context.Context) ([]interface{}, error)
+	GetScanResults(ctx context.Context) ([]NativeScanResult, error)
+	GetPnoScanResults(ctx context.Context) ([]NativeScanResult, error)
 	GetMaxSsidsPerScan(ctx context.Context) (int32, error)
-	Scan(ctx context.Context, scanSettings interface{}) (bool, error)
-	ScanRequest(ctx context.Context, scanSettings interface{}) (int32, error)
+	Scan(ctx context.Context, scanSettings SingleScanSettings) (bool, error)
+	ScanRequest(ctx context.Context, scanSettings SingleScanSettings) (int32, error)
 	SubscribeScanEvents(ctx context.Context, handler IScanEvent) error
 	UnsubscribeScanEvents(ctx context.Context) error
 	SubscribePnoScanEvents(ctx context.Context, handler IPnoScanEvent) error
 	UnsubscribePnoScanEvents(ctx context.Context) error
-	StartPnoScan(ctx context.Context, pnoSettings interface{}) (bool, error)
+	StartPnoScan(ctx context.Context, pnoSettings PnoSettings) (bool, error)
 	StopPnoScan(ctx context.Context) (bool, error)
 	AbortScan(ctx context.Context) error
 }
@@ -586,13 +654,13 @@ func (w *wifiScannerImplStubWrapper) AsBinder() binder.IBinder {
 
 func (w *wifiScannerImplStubWrapper) GetScanResults(
 	ctx context.Context,
-) ([]interface{}, error) {
+) ([]NativeScanResult, error) {
 	return w.impl.GetScanResults(ctx)
 }
 
 func (w *wifiScannerImplStubWrapper) GetPnoScanResults(
 	ctx context.Context,
-) ([]interface{}, error) {
+) ([]NativeScanResult, error) {
 	return w.impl.GetPnoScanResults(ctx)
 }
 
@@ -604,14 +672,14 @@ func (w *wifiScannerImplStubWrapper) GetMaxSsidsPerScan(
 
 func (w *wifiScannerImplStubWrapper) Scan(
 	ctx context.Context,
-	scanSettings interface{},
+	scanSettings SingleScanSettings,
 ) (bool, error) {
 	return w.impl.Scan(ctx, scanSettings)
 }
 
 func (w *wifiScannerImplStubWrapper) ScanRequest(
 	ctx context.Context,
-	scanSettings interface{},
+	scanSettings SingleScanSettings,
 ) (int32, error) {
 	return w.impl.ScanRequest(ctx, scanSettings)
 }
@@ -644,7 +712,7 @@ func (w *wifiScannerImplStubWrapper) UnsubscribePnoScanEvents(
 
 func (w *wifiScannerImplStubWrapper) StartPnoScan(
 	ctx context.Context,
-	pnoSettings interface{},
+	pnoSettings PnoSettings,
 ) (bool, error) {
 	return w.impl.StartPnoScan(ctx, pnoSettings)
 }

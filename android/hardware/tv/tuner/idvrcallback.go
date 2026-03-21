@@ -48,6 +48,7 @@ func (p *DvrCallbackProxy) OnPlaybackStatus(
 	status PlaybackStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDvrCallback)
 	_data.WriteInt32(int32(status))
 
@@ -65,6 +66,7 @@ func (p *DvrCallbackProxy) OnRecordStatus(
 	status RecordStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDvrCallback)
 	_data.WritePaddedByte(byte(status))
 
@@ -80,7 +82,8 @@ func (p *DvrCallbackProxy) OnRecordStatus(
 // DvrCallbackStub dispatches incoming binder transactions
 // to a typed IDvrCallback implementation.
 type DvrCallbackStub struct {
-	Impl IDvrCallback
+	Impl      IDvrCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DvrCallbackStub)(nil)
@@ -94,31 +97,27 @@ func (s *DvrCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDvrCallbackOnPlaybackStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_status := PlaybackStatus(_raw_status)
 		_err = s.Impl.OnPlaybackStatus(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDvrCallbackOnRecordStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_status, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_status := RecordStatus(_raw_status)
 		_err = s.Impl.OnRecordStatus(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

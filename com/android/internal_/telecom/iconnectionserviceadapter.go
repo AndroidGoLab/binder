@@ -6,7 +6,6 @@ import (
 	net "github.com/xaionaro-go/binder/android/net"
 	os "github.com/xaionaro-go/binder/android/os"
 	androidTelecom "github.com/xaionaro-go/binder/android/telecom"
-	Logging "github.com/xaionaro-go/binder/android/telecom/Logging"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -105,47 +104,47 @@ const (
 
 type IConnectionServiceAdapter interface {
 	AsBinder() binder.IBinder
-	HandleCreateConnectionComplete(ctx context.Context, callId string, request androidTelecom.ConnectionRequest, connection androidTelecom.ParcelableConnection, sessionInfo Logging.SessionInfo) error
-	HandleCreateConferenceComplete(ctx context.Context, callId string, request androidTelecom.ConnectionRequest, connection androidTelecom.ParcelableConference, sessionInfo Logging.SessionInfo) error
-	SetActive(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	SetRinging(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	SetDialing(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	SetPulling(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	SetDisconnected(ctx context.Context, callId string, disconnectCause androidTelecom.DisconnectCause, sessionInfo Logging.SessionInfo) error
-	SetOnHold(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	SetRingbackRequested(ctx context.Context, callId string, ringing bool, sessionInfo Logging.SessionInfo) error
-	SetConnectionCapabilities(ctx context.Context, callId string, connectionCapabilities int32, sessionInfo Logging.SessionInfo) error
-	SetConnectionProperties(ctx context.Context, callId string, connectionProperties int32, sessionInfo Logging.SessionInfo) error
-	SetIsConferenced(ctx context.Context, callId string, conferenceCallId string, sessionInfo Logging.SessionInfo) error
-	SetConferenceMergeFailed(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	AddConferenceCall(ctx context.Context, callId string, conference androidTelecom.ParcelableConference, sessionInfo Logging.SessionInfo) error
-	RemoveCall(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	OnPostDialWait(ctx context.Context, callId string, remaining string, sessionInfo Logging.SessionInfo) error
-	OnPostDialChar(ctx context.Context, callId string, nextChar uint16, sessionInfo Logging.SessionInfo) error
-	QueryRemoteConnectionServices(ctx context.Context, callback RemoteServiceCallback, sessionInfo Logging.SessionInfo) error
-	SetVideoProvider(ctx context.Context, callId string, videoProvider IVideoProvider, sessionInfo Logging.SessionInfo) error
-	SetVideoState(ctx context.Context, callId string, videoState int32, sessionInfo Logging.SessionInfo) error
-	SetIsVoipAudioMode(ctx context.Context, callId string, isVoip bool, sessionInfo Logging.SessionInfo) error
-	SetStatusHints(ctx context.Context, callId string, statusHints androidTelecom.StatusHints, sessionInfo Logging.SessionInfo) error
-	SetAddress(ctx context.Context, callId string, address net.Uri, presentation int32, sessionInfo Logging.SessionInfo) error
-	SetCallerDisplayName(ctx context.Context, callId string, callerDisplayName string, presentation int32, sessionInfo Logging.SessionInfo) error
-	SetConferenceableConnections(ctx context.Context, callId string, conferenceableCallIds []string, sessionInfo Logging.SessionInfo) error
-	AddExistingConnection(ctx context.Context, callId string, connection androidTelecom.ParcelableConnection, sessionInfo Logging.SessionInfo) error
-	PutExtras(ctx context.Context, callId string, extras os.Bundle, sessionInfo Logging.SessionInfo) error
-	RemoveExtras(ctx context.Context, callId string, keys []string, sessionInfo Logging.SessionInfo) error
-	SetAudioRoute(ctx context.Context, callId string, audioRoute int32, bluetoothAddress string, sessionInfo Logging.SessionInfo) error
-	RequestCallEndpointChange(ctx context.Context, callId string, endpoint androidTelecom.CallEndpoint, callback os.ResultReceiver, sessionInfo Logging.SessionInfo) error
-	OnConnectionEvent(ctx context.Context, callId string, event string, extras os.Bundle, sessionInfo Logging.SessionInfo) error
-	OnRttInitiationSuccess(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	OnRttInitiationFailure(ctx context.Context, callId string, reason int32, sessionInfo Logging.SessionInfo) error
-	OnRttSessionRemotelyTerminated(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	OnRemoteRttRequest(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	OnPhoneAccountChanged(ctx context.Context, callId string, pHandle androidTelecom.PhoneAccountHandle, sessionInfo Logging.SessionInfo) error
-	OnConnectionServiceFocusReleased(ctx context.Context, sessionInfo Logging.SessionInfo) error
-	ResetConnectionTime(ctx context.Context, callIdi string, sessionInfo Logging.SessionInfo) error
-	SetConferenceState(ctx context.Context, callId string, isConference bool, sessionInfo Logging.SessionInfo) error
-	SetCallDirection(ctx context.Context, callId string, direction int32, sessionInfo Logging.SessionInfo) error
-	QueryLocation(ctx context.Context, callId string, timeoutMillis int64, provider string, callback os.ResultReceiver, sessionInfo Logging.SessionInfo) error
+	HandleCreateConnectionComplete(ctx context.Context, callId string, request androidTelecom.ConnectionRequest, connection androidTelecom.ParcelableConnection, sessionInfo SessionInfo) error
+	HandleCreateConferenceComplete(ctx context.Context, callId string, request androidTelecom.ConnectionRequest, connection androidTelecom.ParcelableConference, sessionInfo SessionInfo) error
+	SetActive(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	SetRinging(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	SetDialing(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	SetPulling(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	SetDisconnected(ctx context.Context, callId string, disconnectCause androidTelecom.DisconnectCause, sessionInfo SessionInfo) error
+	SetOnHold(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	SetRingbackRequested(ctx context.Context, callId string, ringing bool, sessionInfo SessionInfo) error
+	SetConnectionCapabilities(ctx context.Context, callId string, connectionCapabilities int32, sessionInfo SessionInfo) error
+	SetConnectionProperties(ctx context.Context, callId string, connectionProperties int32, sessionInfo SessionInfo) error
+	SetIsConferenced(ctx context.Context, callId string, conferenceCallId string, sessionInfo SessionInfo) error
+	SetConferenceMergeFailed(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	AddConferenceCall(ctx context.Context, callId string, conference androidTelecom.ParcelableConference, sessionInfo SessionInfo) error
+	RemoveCall(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	OnPostDialWait(ctx context.Context, callId string, remaining string, sessionInfo SessionInfo) error
+	OnPostDialChar(ctx context.Context, callId string, nextChar uint16, sessionInfo SessionInfo) error
+	QueryRemoteConnectionServices(ctx context.Context, callback RemoteServiceCallback, sessionInfo SessionInfo) error
+	SetVideoProvider(ctx context.Context, callId string, videoProvider IVideoProvider, sessionInfo SessionInfo) error
+	SetVideoState(ctx context.Context, callId string, videoState int32, sessionInfo SessionInfo) error
+	SetIsVoipAudioMode(ctx context.Context, callId string, isVoip bool, sessionInfo SessionInfo) error
+	SetStatusHints(ctx context.Context, callId string, statusHints androidTelecom.StatusHints, sessionInfo SessionInfo) error
+	SetAddress(ctx context.Context, callId string, address net.Uri, presentation int32, sessionInfo SessionInfo) error
+	SetCallerDisplayName(ctx context.Context, callId string, callerDisplayName string, presentation int32, sessionInfo SessionInfo) error
+	SetConferenceableConnections(ctx context.Context, callId string, conferenceableCallIds []string, sessionInfo SessionInfo) error
+	AddExistingConnection(ctx context.Context, callId string, connection androidTelecom.ParcelableConnection, sessionInfo SessionInfo) error
+	PutExtras(ctx context.Context, callId string, extras os.Bundle, sessionInfo SessionInfo) error
+	RemoveExtras(ctx context.Context, callId string, keys []string, sessionInfo SessionInfo) error
+	SetAudioRoute(ctx context.Context, callId string, audioRoute int32, bluetoothAddress string, sessionInfo SessionInfo) error
+	RequestCallEndpointChange(ctx context.Context, callId string, endpoint androidTelecom.CallEndpoint, callback os.ResultReceiver, sessionInfo SessionInfo) error
+	OnConnectionEvent(ctx context.Context, callId string, event string, extras os.Bundle, sessionInfo SessionInfo) error
+	OnRttInitiationSuccess(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	OnRttInitiationFailure(ctx context.Context, callId string, reason int32, sessionInfo SessionInfo) error
+	OnRttSessionRemotelyTerminated(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	OnRemoteRttRequest(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	OnPhoneAccountChanged(ctx context.Context, callId string, pHandle androidTelecom.PhoneAccountHandle, sessionInfo SessionInfo) error
+	OnConnectionServiceFocusReleased(ctx context.Context, sessionInfo SessionInfo) error
+	ResetConnectionTime(ctx context.Context, callIdi string, sessionInfo SessionInfo) error
+	SetConferenceState(ctx context.Context, callId string, isConference bool, sessionInfo SessionInfo) error
+	SetCallDirection(ctx context.Context, callId string, direction int32, sessionInfo SessionInfo) error
+	QueryLocation(ctx context.Context, callId string, timeoutMillis int64, provider string, callback os.ResultReceiver, sessionInfo SessionInfo) error
 }
 
 type ConnectionServiceAdapterProxy struct {
@@ -169,9 +168,10 @@ func (p *ConnectionServiceAdapterProxy) HandleCreateConnectionComplete(
 	callId string,
 	request androidTelecom.ConnectionRequest,
 	connection androidTelecom.ParcelableConnection,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -201,9 +201,10 @@ func (p *ConnectionServiceAdapterProxy) HandleCreateConferenceComplete(
 	callId string,
 	request androidTelecom.ConnectionRequest,
 	connection androidTelecom.ParcelableConference,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -231,9 +232,10 @@ func (p *ConnectionServiceAdapterProxy) HandleCreateConferenceComplete(
 func (p *ConnectionServiceAdapterProxy) SetActive(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -253,9 +255,10 @@ func (p *ConnectionServiceAdapterProxy) SetActive(
 func (p *ConnectionServiceAdapterProxy) SetRinging(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -275,9 +278,10 @@ func (p *ConnectionServiceAdapterProxy) SetRinging(
 func (p *ConnectionServiceAdapterProxy) SetDialing(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -297,9 +301,10 @@ func (p *ConnectionServiceAdapterProxy) SetDialing(
 func (p *ConnectionServiceAdapterProxy) SetPulling(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -320,9 +325,10 @@ func (p *ConnectionServiceAdapterProxy) SetDisconnected(
 	ctx context.Context,
 	callId string,
 	disconnectCause androidTelecom.DisconnectCause,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -346,9 +352,10 @@ func (p *ConnectionServiceAdapterProxy) SetDisconnected(
 func (p *ConnectionServiceAdapterProxy) SetOnHold(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -369,9 +376,10 @@ func (p *ConnectionServiceAdapterProxy) SetRingbackRequested(
 	ctx context.Context,
 	callId string,
 	ringing bool,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteBool(ringing)
@@ -393,9 +401,10 @@ func (p *ConnectionServiceAdapterProxy) SetConnectionCapabilities(
 	ctx context.Context,
 	callId string,
 	connectionCapabilities int32,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(connectionCapabilities)
@@ -417,9 +426,10 @@ func (p *ConnectionServiceAdapterProxy) SetConnectionProperties(
 	ctx context.Context,
 	callId string,
 	connectionProperties int32,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(connectionProperties)
@@ -441,9 +451,10 @@ func (p *ConnectionServiceAdapterProxy) SetIsConferenced(
 	ctx context.Context,
 	callId string,
 	conferenceCallId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteString16(conferenceCallId)
@@ -464,9 +475,10 @@ func (p *ConnectionServiceAdapterProxy) SetIsConferenced(
 func (p *ConnectionServiceAdapterProxy) SetConferenceMergeFailed(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -487,9 +499,10 @@ func (p *ConnectionServiceAdapterProxy) AddConferenceCall(
 	ctx context.Context,
 	callId string,
 	conference androidTelecom.ParcelableConference,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -513,9 +526,10 @@ func (p *ConnectionServiceAdapterProxy) AddConferenceCall(
 func (p *ConnectionServiceAdapterProxy) RemoveCall(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -536,9 +550,10 @@ func (p *ConnectionServiceAdapterProxy) OnPostDialWait(
 	ctx context.Context,
 	callId string,
 	remaining string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteString16(remaining)
@@ -560,9 +575,10 @@ func (p *ConnectionServiceAdapterProxy) OnPostDialChar(
 	ctx context.Context,
 	callId string,
 	nextChar uint16,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(int32(nextChar))
@@ -583,10 +599,11 @@ func (p *ConnectionServiceAdapterProxy) OnPostDialChar(
 func (p *ConnectionServiceAdapterProxy) QueryRemoteConnectionServices(
 	ctx context.Context,
 	callback RemoteServiceCallback,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
@@ -608,9 +625,10 @@ func (p *ConnectionServiceAdapterProxy) SetVideoProvider(
 	ctx context.Context,
 	callId string,
 	videoProvider IVideoProvider,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	binder.WriteBinderToParcel(ctx, _data, videoProvider.AsBinder(), p.Remote.Transport())
@@ -632,9 +650,10 @@ func (p *ConnectionServiceAdapterProxy) SetVideoState(
 	ctx context.Context,
 	callId string,
 	videoState int32,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(videoState)
@@ -656,9 +675,10 @@ func (p *ConnectionServiceAdapterProxy) SetIsVoipAudioMode(
 	ctx context.Context,
 	callId string,
 	isVoip bool,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteBool(isVoip)
@@ -680,9 +700,10 @@ func (p *ConnectionServiceAdapterProxy) SetStatusHints(
 	ctx context.Context,
 	callId string,
 	statusHints androidTelecom.StatusHints,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -708,9 +729,10 @@ func (p *ConnectionServiceAdapterProxy) SetAddress(
 	callId string,
 	address net.Uri,
 	presentation int32,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -737,9 +759,10 @@ func (p *ConnectionServiceAdapterProxy) SetCallerDisplayName(
 	callId string,
 	callerDisplayName string,
 	presentation int32,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteString16(callerDisplayName)
@@ -762,9 +785,10 @@ func (p *ConnectionServiceAdapterProxy) SetConferenceableConnections(
 	ctx context.Context,
 	callId string,
 	conferenceableCallIds []string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	if conferenceableCallIds == nil {
@@ -793,9 +817,10 @@ func (p *ConnectionServiceAdapterProxy) AddExistingConnection(
 	ctx context.Context,
 	callId string,
 	connection androidTelecom.ParcelableConnection,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -820,9 +845,10 @@ func (p *ConnectionServiceAdapterProxy) PutExtras(
 	ctx context.Context,
 	callId string,
 	extras os.Bundle,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -847,9 +873,10 @@ func (p *ConnectionServiceAdapterProxy) RemoveExtras(
 	ctx context.Context,
 	callId string,
 	keys []string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	if keys == nil {
@@ -879,9 +906,10 @@ func (p *ConnectionServiceAdapterProxy) SetAudioRoute(
 	callId string,
 	audioRoute int32,
 	bluetoothAddress string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(audioRoute)
@@ -905,9 +933,10 @@ func (p *ConnectionServiceAdapterProxy) RequestCallEndpointChange(
 	callId string,
 	endpoint androidTelecom.CallEndpoint,
 	callback os.ResultReceiver,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -937,9 +966,10 @@ func (p *ConnectionServiceAdapterProxy) OnConnectionEvent(
 	callId string,
 	event string,
 	extras os.Bundle,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteString16(event)
@@ -964,9 +994,10 @@ func (p *ConnectionServiceAdapterProxy) OnConnectionEvent(
 func (p *ConnectionServiceAdapterProxy) OnRttInitiationSuccess(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -987,9 +1018,10 @@ func (p *ConnectionServiceAdapterProxy) OnRttInitiationFailure(
 	ctx context.Context,
 	callId string,
 	reason int32,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(reason)
@@ -1010,9 +1042,10 @@ func (p *ConnectionServiceAdapterProxy) OnRttInitiationFailure(
 func (p *ConnectionServiceAdapterProxy) OnRttSessionRemotelyTerminated(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -1032,9 +1065,10 @@ func (p *ConnectionServiceAdapterProxy) OnRttSessionRemotelyTerminated(
 func (p *ConnectionServiceAdapterProxy) OnRemoteRttRequest(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -1055,9 +1089,10 @@ func (p *ConnectionServiceAdapterProxy) OnPhoneAccountChanged(
 	ctx context.Context,
 	callId string,
 	pHandle androidTelecom.PhoneAccountHandle,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -1080,9 +1115,10 @@ func (p *ConnectionServiceAdapterProxy) OnPhoneAccountChanged(
 
 func (p *ConnectionServiceAdapterProxy) OnConnectionServiceFocusReleased(
 	ctx context.Context,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
@@ -1101,9 +1137,10 @@ func (p *ConnectionServiceAdapterProxy) OnConnectionServiceFocusReleased(
 func (p *ConnectionServiceAdapterProxy) ResetConnectionTime(
 	ctx context.Context,
 	callIdi string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callIdi)
 	_data.WriteInt32(1)
@@ -1124,9 +1161,10 @@ func (p *ConnectionServiceAdapterProxy) SetConferenceState(
 	ctx context.Context,
 	callId string,
 	isConference bool,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteBool(isConference)
@@ -1148,9 +1186,10 @@ func (p *ConnectionServiceAdapterProxy) SetCallDirection(
 	ctx context.Context,
 	callId string,
 	direction int32,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(direction)
@@ -1174,9 +1213,10 @@ func (p *ConnectionServiceAdapterProxy) QueryLocation(
 	timeoutMillis int64,
 	provider string,
 	callback os.ResultReceiver,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt64(timeoutMillis)
@@ -1202,7 +1242,8 @@ func (p *ConnectionServiceAdapterProxy) QueryLocation(
 // ConnectionServiceAdapterStub dispatches incoming binder transactions
 // to a typed IConnectionServiceAdapter implementation.
 type ConnectionServiceAdapterStub struct {
-	Impl IConnectionServiceAdapter
+	Impl      IConnectionServiceAdapter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ConnectionServiceAdapterStub)(nil)
@@ -1216,11 +1257,12 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIConnectionServiceAdapterHandleCreateConnectionComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1249,7 +1291,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1262,12 +1304,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.HandleCreateConnectionComplete(ctx, _arg_callId, _arg_request, _arg_connection, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterHandleCreateConferenceComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1296,7 +1334,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1309,17 +1347,13 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.HandleCreateConferenceComplete(ctx, _arg_callId, _arg_request, _arg_connection, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1332,17 +1366,13 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetActive(ctx, _arg_callId, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetRinging:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1355,17 +1385,13 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetRinging(ctx, _arg_callId, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetDialing:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1378,17 +1404,13 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetDialing(ctx, _arg_callId, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetPulling:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1401,12 +1423,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetPulling(ctx, _arg_callId, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetDisconnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1423,7 +1441,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1436,17 +1454,13 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetDisconnected(ctx, _arg_callId, _arg_disconnectCause, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetOnHold:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1459,12 +1473,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetOnHold(ctx, _arg_callId, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetRingbackRequested:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1473,7 +1483,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1486,12 +1496,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetRingbackRequested(ctx, _arg_callId, _arg_ringing, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetConnectionCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1500,7 +1506,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1513,12 +1519,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetConnectionCapabilities(ctx, _arg_callId, _arg_connectionCapabilities, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetConnectionProperties:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1527,7 +1529,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1540,12 +1542,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetConnectionProperties(ctx, _arg_callId, _arg_connectionProperties, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetIsConferenced:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1554,7 +1552,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1567,17 +1565,13 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetIsConferenced(ctx, _arg_callId, _arg_conferenceCallId, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetConferenceMergeFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1590,12 +1584,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetConferenceMergeFailed(ctx, _arg_callId, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterAddConferenceCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1612,7 +1602,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1625,17 +1615,13 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.AddConferenceCall(ctx, _arg_callId, _arg_conference, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterRemoveCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1648,12 +1634,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.RemoveCall(ctx, _arg_callId, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterOnPostDialWait:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1662,7 +1644,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1675,12 +1657,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnPostDialWait(ctx, _arg_callId, _arg_remaining, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterOnPostDialChar:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1690,7 +1668,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_nextChar := uint16(_raw_nextChar)
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1703,19 +1681,20 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnPostDialChar(ctx, _arg_callId, _arg_nextChar, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterQueryRemoteConnectionServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback RemoteServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRemoteServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1728,20 +1707,21 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.QueryRemoteConnectionServices(ctx, _arg_callback, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetVideoProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_videoProvider IVideoProvider
-		_ = _arg_videoProvider
-		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_videoProviderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_videoProvider = NewVideoProviderProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _videoProviderHandle))
+		}
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1754,12 +1734,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetVideoProvider(ctx, _arg_callId, _arg_videoProvider, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetVideoState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1768,7 +1744,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1781,12 +1757,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetVideoState(ctx, _arg_callId, _arg_videoState, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetIsVoipAudioMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1795,7 +1767,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1808,12 +1780,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetIsVoipAudioMode(ctx, _arg_callId, _arg_isVoip, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetStatusHints:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1830,7 +1798,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1843,12 +1811,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetStatusHints(ctx, _arg_callId, _arg_statusHints, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetAddress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1869,7 +1833,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1882,12 +1846,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetAddress(ctx, _arg_callId, _arg_address, _arg_presentation, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetCallerDisplayName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1900,7 +1860,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1913,20 +1873,32 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetCallerDisplayName(ctx, _arg_callId, _arg_callerDisplayName, _arg_presentation, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetConferenceableConnections:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_conferenceableCallIds []string
-		_ = _arg_conferenceableCallIds
-		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_conferenceableCallIds = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_conferenceableCallIds[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1939,12 +1911,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetConferenceableConnections(ctx, _arg_callId, _arg_conferenceableCallIds, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterAddExistingConnection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1961,7 +1929,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1974,12 +1942,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.AddExistingConnection(ctx, _arg_callId, _arg_connection, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterPutExtras:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1996,7 +1960,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2009,20 +1973,32 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.PutExtras(ctx, _arg_callId, _arg_extras, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterRemoveExtras:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keys []string
-		_ = _arg_keys
-		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_keys = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_keys[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2035,12 +2011,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.RemoveExtras(ctx, _arg_callId, _arg_keys, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetAudioRoute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2053,7 +2025,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2066,12 +2038,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetAudioRoute(ctx, _arg_callId, _arg_audioRoute, _arg_bluetoothAddress, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterRequestCallEndpointChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2100,7 +2068,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2113,12 +2081,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.RequestCallEndpointChange(ctx, _arg_callId, _arg_endpoint, _arg_callback, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterOnConnectionEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2139,7 +2103,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2152,17 +2116,13 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnConnectionEvent(ctx, _arg_callId, _arg_event, _arg_extras, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterOnRttInitiationSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2175,12 +2135,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnRttInitiationSuccess(ctx, _arg_callId, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterOnRttInitiationFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2189,7 +2145,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2202,17 +2158,13 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnRttInitiationFailure(ctx, _arg_callId, _arg_reason, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterOnRttSessionRemotelyTerminated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2225,17 +2177,13 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnRttSessionRemotelyTerminated(ctx, _arg_callId, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterOnRemoteRttRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2248,12 +2196,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnRemoteRttRequest(ctx, _arg_callId, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterOnPhoneAccountChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2270,7 +2214,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2283,13 +2227,9 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnPhoneAccountChanged(ctx, _arg_callId, _arg_pHandle, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterOnConnectionServiceFocusReleased:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2302,17 +2242,13 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnConnectionServiceFocusReleased(ctx, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterResetConnectionTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callIdi, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2325,12 +2261,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.ResetConnectionTime(ctx, _arg_callIdi, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetConferenceState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2339,7 +2271,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2352,12 +2284,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetConferenceState(ctx, _arg_callId, _arg_isConference, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterSetCallDirection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2366,7 +2294,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2379,12 +2307,8 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetCallDirection(ctx, _arg_callId, _arg_direction, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConnectionServiceAdapterQueryLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2409,7 +2333,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_sessionInfo Logging.SessionInfo
+		var _arg_sessionInfo SessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2422,8 +2346,7 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.QueryLocation(ctx, _arg_callId, _arg_timeoutMillis, _arg_provider, _arg_callback, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -2433,47 +2356,47 @@ func (s *ConnectionServiceAdapterStub) OnTransaction(
 // provide to NewConnectionServiceAdapterStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IConnectionServiceAdapterServer interface {
-	HandleCreateConnectionComplete(ctx context.Context, callId string, request androidTelecom.ConnectionRequest, connection androidTelecom.ParcelableConnection, sessionInfo Logging.SessionInfo) error
-	HandleCreateConferenceComplete(ctx context.Context, callId string, request androidTelecom.ConnectionRequest, connection androidTelecom.ParcelableConference, sessionInfo Logging.SessionInfo) error
-	SetActive(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	SetRinging(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	SetDialing(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	SetPulling(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	SetDisconnected(ctx context.Context, callId string, disconnectCause androidTelecom.DisconnectCause, sessionInfo Logging.SessionInfo) error
-	SetOnHold(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	SetRingbackRequested(ctx context.Context, callId string, ringing bool, sessionInfo Logging.SessionInfo) error
-	SetConnectionCapabilities(ctx context.Context, callId string, connectionCapabilities int32, sessionInfo Logging.SessionInfo) error
-	SetConnectionProperties(ctx context.Context, callId string, connectionProperties int32, sessionInfo Logging.SessionInfo) error
-	SetIsConferenced(ctx context.Context, callId string, conferenceCallId string, sessionInfo Logging.SessionInfo) error
-	SetConferenceMergeFailed(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	AddConferenceCall(ctx context.Context, callId string, conference androidTelecom.ParcelableConference, sessionInfo Logging.SessionInfo) error
-	RemoveCall(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	OnPostDialWait(ctx context.Context, callId string, remaining string, sessionInfo Logging.SessionInfo) error
-	OnPostDialChar(ctx context.Context, callId string, nextChar uint16, sessionInfo Logging.SessionInfo) error
-	QueryRemoteConnectionServices(ctx context.Context, callback RemoteServiceCallback, sessionInfo Logging.SessionInfo) error
-	SetVideoProvider(ctx context.Context, callId string, videoProvider IVideoProvider, sessionInfo Logging.SessionInfo) error
-	SetVideoState(ctx context.Context, callId string, videoState int32, sessionInfo Logging.SessionInfo) error
-	SetIsVoipAudioMode(ctx context.Context, callId string, isVoip bool, sessionInfo Logging.SessionInfo) error
-	SetStatusHints(ctx context.Context, callId string, statusHints androidTelecom.StatusHints, sessionInfo Logging.SessionInfo) error
-	SetAddress(ctx context.Context, callId string, address net.Uri, presentation int32, sessionInfo Logging.SessionInfo) error
-	SetCallerDisplayName(ctx context.Context, callId string, callerDisplayName string, presentation int32, sessionInfo Logging.SessionInfo) error
-	SetConferenceableConnections(ctx context.Context, callId string, conferenceableCallIds []string, sessionInfo Logging.SessionInfo) error
-	AddExistingConnection(ctx context.Context, callId string, connection androidTelecom.ParcelableConnection, sessionInfo Logging.SessionInfo) error
-	PutExtras(ctx context.Context, callId string, extras os.Bundle, sessionInfo Logging.SessionInfo) error
-	RemoveExtras(ctx context.Context, callId string, keys []string, sessionInfo Logging.SessionInfo) error
-	SetAudioRoute(ctx context.Context, callId string, audioRoute int32, bluetoothAddress string, sessionInfo Logging.SessionInfo) error
-	RequestCallEndpointChange(ctx context.Context, callId string, endpoint androidTelecom.CallEndpoint, callback os.ResultReceiver, sessionInfo Logging.SessionInfo) error
-	OnConnectionEvent(ctx context.Context, callId string, event string, extras os.Bundle, sessionInfo Logging.SessionInfo) error
-	OnRttInitiationSuccess(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	OnRttInitiationFailure(ctx context.Context, callId string, reason int32, sessionInfo Logging.SessionInfo) error
-	OnRttSessionRemotelyTerminated(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	OnRemoteRttRequest(ctx context.Context, callId string, sessionInfo Logging.SessionInfo) error
-	OnPhoneAccountChanged(ctx context.Context, callId string, pHandle androidTelecom.PhoneAccountHandle, sessionInfo Logging.SessionInfo) error
-	OnConnectionServiceFocusReleased(ctx context.Context, sessionInfo Logging.SessionInfo) error
-	ResetConnectionTime(ctx context.Context, callIdi string, sessionInfo Logging.SessionInfo) error
-	SetConferenceState(ctx context.Context, callId string, isConference bool, sessionInfo Logging.SessionInfo) error
-	SetCallDirection(ctx context.Context, callId string, direction int32, sessionInfo Logging.SessionInfo) error
-	QueryLocation(ctx context.Context, callId string, timeoutMillis int64, provider string, callback os.ResultReceiver, sessionInfo Logging.SessionInfo) error
+	HandleCreateConnectionComplete(ctx context.Context, callId string, request androidTelecom.ConnectionRequest, connection androidTelecom.ParcelableConnection, sessionInfo SessionInfo) error
+	HandleCreateConferenceComplete(ctx context.Context, callId string, request androidTelecom.ConnectionRequest, connection androidTelecom.ParcelableConference, sessionInfo SessionInfo) error
+	SetActive(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	SetRinging(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	SetDialing(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	SetPulling(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	SetDisconnected(ctx context.Context, callId string, disconnectCause androidTelecom.DisconnectCause, sessionInfo SessionInfo) error
+	SetOnHold(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	SetRingbackRequested(ctx context.Context, callId string, ringing bool, sessionInfo SessionInfo) error
+	SetConnectionCapabilities(ctx context.Context, callId string, connectionCapabilities int32, sessionInfo SessionInfo) error
+	SetConnectionProperties(ctx context.Context, callId string, connectionProperties int32, sessionInfo SessionInfo) error
+	SetIsConferenced(ctx context.Context, callId string, conferenceCallId string, sessionInfo SessionInfo) error
+	SetConferenceMergeFailed(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	AddConferenceCall(ctx context.Context, callId string, conference androidTelecom.ParcelableConference, sessionInfo SessionInfo) error
+	RemoveCall(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	OnPostDialWait(ctx context.Context, callId string, remaining string, sessionInfo SessionInfo) error
+	OnPostDialChar(ctx context.Context, callId string, nextChar uint16, sessionInfo SessionInfo) error
+	QueryRemoteConnectionServices(ctx context.Context, callback RemoteServiceCallback, sessionInfo SessionInfo) error
+	SetVideoProvider(ctx context.Context, callId string, videoProvider IVideoProvider, sessionInfo SessionInfo) error
+	SetVideoState(ctx context.Context, callId string, videoState int32, sessionInfo SessionInfo) error
+	SetIsVoipAudioMode(ctx context.Context, callId string, isVoip bool, sessionInfo SessionInfo) error
+	SetStatusHints(ctx context.Context, callId string, statusHints androidTelecom.StatusHints, sessionInfo SessionInfo) error
+	SetAddress(ctx context.Context, callId string, address net.Uri, presentation int32, sessionInfo SessionInfo) error
+	SetCallerDisplayName(ctx context.Context, callId string, callerDisplayName string, presentation int32, sessionInfo SessionInfo) error
+	SetConferenceableConnections(ctx context.Context, callId string, conferenceableCallIds []string, sessionInfo SessionInfo) error
+	AddExistingConnection(ctx context.Context, callId string, connection androidTelecom.ParcelableConnection, sessionInfo SessionInfo) error
+	PutExtras(ctx context.Context, callId string, extras os.Bundle, sessionInfo SessionInfo) error
+	RemoveExtras(ctx context.Context, callId string, keys []string, sessionInfo SessionInfo) error
+	SetAudioRoute(ctx context.Context, callId string, audioRoute int32, bluetoothAddress string, sessionInfo SessionInfo) error
+	RequestCallEndpointChange(ctx context.Context, callId string, endpoint androidTelecom.CallEndpoint, callback os.ResultReceiver, sessionInfo SessionInfo) error
+	OnConnectionEvent(ctx context.Context, callId string, event string, extras os.Bundle, sessionInfo SessionInfo) error
+	OnRttInitiationSuccess(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	OnRttInitiationFailure(ctx context.Context, callId string, reason int32, sessionInfo SessionInfo) error
+	OnRttSessionRemotelyTerminated(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	OnRemoteRttRequest(ctx context.Context, callId string, sessionInfo SessionInfo) error
+	OnPhoneAccountChanged(ctx context.Context, callId string, pHandle androidTelecom.PhoneAccountHandle, sessionInfo SessionInfo) error
+	OnConnectionServiceFocusReleased(ctx context.Context, sessionInfo SessionInfo) error
+	ResetConnectionTime(ctx context.Context, callIdi string, sessionInfo SessionInfo) error
+	SetConferenceState(ctx context.Context, callId string, isConference bool, sessionInfo SessionInfo) error
+	SetCallDirection(ctx context.Context, callId string, direction int32, sessionInfo SessionInfo) error
+	QueryLocation(ctx context.Context, callId string, timeoutMillis int64, provider string, callback os.ResultReceiver, sessionInfo SessionInfo) error
 }
 
 type connectionServiceAdapterStubWrapper struct {
@@ -2490,7 +2413,7 @@ func (w *connectionServiceAdapterStubWrapper) HandleCreateConnectionComplete(
 	callId string,
 	request androidTelecom.ConnectionRequest,
 	connection androidTelecom.ParcelableConnection,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.HandleCreateConnectionComplete(ctx, callId, request, connection, sessionInfo)
 }
@@ -2500,7 +2423,7 @@ func (w *connectionServiceAdapterStubWrapper) HandleCreateConferenceComplete(
 	callId string,
 	request androidTelecom.ConnectionRequest,
 	connection androidTelecom.ParcelableConference,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.HandleCreateConferenceComplete(ctx, callId, request, connection, sessionInfo)
 }
@@ -2508,7 +2431,7 @@ func (w *connectionServiceAdapterStubWrapper) HandleCreateConferenceComplete(
 func (w *connectionServiceAdapterStubWrapper) SetActive(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetActive(ctx, callId, sessionInfo)
 }
@@ -2516,7 +2439,7 @@ func (w *connectionServiceAdapterStubWrapper) SetActive(
 func (w *connectionServiceAdapterStubWrapper) SetRinging(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetRinging(ctx, callId, sessionInfo)
 }
@@ -2524,7 +2447,7 @@ func (w *connectionServiceAdapterStubWrapper) SetRinging(
 func (w *connectionServiceAdapterStubWrapper) SetDialing(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetDialing(ctx, callId, sessionInfo)
 }
@@ -2532,7 +2455,7 @@ func (w *connectionServiceAdapterStubWrapper) SetDialing(
 func (w *connectionServiceAdapterStubWrapper) SetPulling(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetPulling(ctx, callId, sessionInfo)
 }
@@ -2541,7 +2464,7 @@ func (w *connectionServiceAdapterStubWrapper) SetDisconnected(
 	ctx context.Context,
 	callId string,
 	disconnectCause androidTelecom.DisconnectCause,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetDisconnected(ctx, callId, disconnectCause, sessionInfo)
 }
@@ -2549,7 +2472,7 @@ func (w *connectionServiceAdapterStubWrapper) SetDisconnected(
 func (w *connectionServiceAdapterStubWrapper) SetOnHold(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetOnHold(ctx, callId, sessionInfo)
 }
@@ -2558,7 +2481,7 @@ func (w *connectionServiceAdapterStubWrapper) SetRingbackRequested(
 	ctx context.Context,
 	callId string,
 	ringing bool,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetRingbackRequested(ctx, callId, ringing, sessionInfo)
 }
@@ -2567,7 +2490,7 @@ func (w *connectionServiceAdapterStubWrapper) SetConnectionCapabilities(
 	ctx context.Context,
 	callId string,
 	connectionCapabilities int32,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetConnectionCapabilities(ctx, callId, connectionCapabilities, sessionInfo)
 }
@@ -2576,7 +2499,7 @@ func (w *connectionServiceAdapterStubWrapper) SetConnectionProperties(
 	ctx context.Context,
 	callId string,
 	connectionProperties int32,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetConnectionProperties(ctx, callId, connectionProperties, sessionInfo)
 }
@@ -2585,7 +2508,7 @@ func (w *connectionServiceAdapterStubWrapper) SetIsConferenced(
 	ctx context.Context,
 	callId string,
 	conferenceCallId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetIsConferenced(ctx, callId, conferenceCallId, sessionInfo)
 }
@@ -2593,7 +2516,7 @@ func (w *connectionServiceAdapterStubWrapper) SetIsConferenced(
 func (w *connectionServiceAdapterStubWrapper) SetConferenceMergeFailed(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetConferenceMergeFailed(ctx, callId, sessionInfo)
 }
@@ -2602,7 +2525,7 @@ func (w *connectionServiceAdapterStubWrapper) AddConferenceCall(
 	ctx context.Context,
 	callId string,
 	conference androidTelecom.ParcelableConference,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.AddConferenceCall(ctx, callId, conference, sessionInfo)
 }
@@ -2610,7 +2533,7 @@ func (w *connectionServiceAdapterStubWrapper) AddConferenceCall(
 func (w *connectionServiceAdapterStubWrapper) RemoveCall(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.RemoveCall(ctx, callId, sessionInfo)
 }
@@ -2619,7 +2542,7 @@ func (w *connectionServiceAdapterStubWrapper) OnPostDialWait(
 	ctx context.Context,
 	callId string,
 	remaining string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.OnPostDialWait(ctx, callId, remaining, sessionInfo)
 }
@@ -2628,7 +2551,7 @@ func (w *connectionServiceAdapterStubWrapper) OnPostDialChar(
 	ctx context.Context,
 	callId string,
 	nextChar uint16,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.OnPostDialChar(ctx, callId, nextChar, sessionInfo)
 }
@@ -2636,7 +2559,7 @@ func (w *connectionServiceAdapterStubWrapper) OnPostDialChar(
 func (w *connectionServiceAdapterStubWrapper) QueryRemoteConnectionServices(
 	ctx context.Context,
 	callback RemoteServiceCallback,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.QueryRemoteConnectionServices(ctx, callback, sessionInfo)
 }
@@ -2645,7 +2568,7 @@ func (w *connectionServiceAdapterStubWrapper) SetVideoProvider(
 	ctx context.Context,
 	callId string,
 	videoProvider IVideoProvider,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetVideoProvider(ctx, callId, videoProvider, sessionInfo)
 }
@@ -2654,7 +2577,7 @@ func (w *connectionServiceAdapterStubWrapper) SetVideoState(
 	ctx context.Context,
 	callId string,
 	videoState int32,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetVideoState(ctx, callId, videoState, sessionInfo)
 }
@@ -2663,7 +2586,7 @@ func (w *connectionServiceAdapterStubWrapper) SetIsVoipAudioMode(
 	ctx context.Context,
 	callId string,
 	isVoip bool,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetIsVoipAudioMode(ctx, callId, isVoip, sessionInfo)
 }
@@ -2672,7 +2595,7 @@ func (w *connectionServiceAdapterStubWrapper) SetStatusHints(
 	ctx context.Context,
 	callId string,
 	statusHints androidTelecom.StatusHints,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetStatusHints(ctx, callId, statusHints, sessionInfo)
 }
@@ -2682,7 +2605,7 @@ func (w *connectionServiceAdapterStubWrapper) SetAddress(
 	callId string,
 	address net.Uri,
 	presentation int32,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetAddress(ctx, callId, address, presentation, sessionInfo)
 }
@@ -2692,7 +2615,7 @@ func (w *connectionServiceAdapterStubWrapper) SetCallerDisplayName(
 	callId string,
 	callerDisplayName string,
 	presentation int32,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetCallerDisplayName(ctx, callId, callerDisplayName, presentation, sessionInfo)
 }
@@ -2701,7 +2624,7 @@ func (w *connectionServiceAdapterStubWrapper) SetConferenceableConnections(
 	ctx context.Context,
 	callId string,
 	conferenceableCallIds []string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetConferenceableConnections(ctx, callId, conferenceableCallIds, sessionInfo)
 }
@@ -2710,7 +2633,7 @@ func (w *connectionServiceAdapterStubWrapper) AddExistingConnection(
 	ctx context.Context,
 	callId string,
 	connection androidTelecom.ParcelableConnection,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.AddExistingConnection(ctx, callId, connection, sessionInfo)
 }
@@ -2719,7 +2642,7 @@ func (w *connectionServiceAdapterStubWrapper) PutExtras(
 	ctx context.Context,
 	callId string,
 	extras os.Bundle,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.PutExtras(ctx, callId, extras, sessionInfo)
 }
@@ -2728,7 +2651,7 @@ func (w *connectionServiceAdapterStubWrapper) RemoveExtras(
 	ctx context.Context,
 	callId string,
 	keys []string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.RemoveExtras(ctx, callId, keys, sessionInfo)
 }
@@ -2738,7 +2661,7 @@ func (w *connectionServiceAdapterStubWrapper) SetAudioRoute(
 	callId string,
 	audioRoute int32,
 	bluetoothAddress string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetAudioRoute(ctx, callId, audioRoute, bluetoothAddress, sessionInfo)
 }
@@ -2748,7 +2671,7 @@ func (w *connectionServiceAdapterStubWrapper) RequestCallEndpointChange(
 	callId string,
 	endpoint androidTelecom.CallEndpoint,
 	callback os.ResultReceiver,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.RequestCallEndpointChange(ctx, callId, endpoint, callback, sessionInfo)
 }
@@ -2758,7 +2681,7 @@ func (w *connectionServiceAdapterStubWrapper) OnConnectionEvent(
 	callId string,
 	event string,
 	extras os.Bundle,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.OnConnectionEvent(ctx, callId, event, extras, sessionInfo)
 }
@@ -2766,7 +2689,7 @@ func (w *connectionServiceAdapterStubWrapper) OnConnectionEvent(
 func (w *connectionServiceAdapterStubWrapper) OnRttInitiationSuccess(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.OnRttInitiationSuccess(ctx, callId, sessionInfo)
 }
@@ -2775,7 +2698,7 @@ func (w *connectionServiceAdapterStubWrapper) OnRttInitiationFailure(
 	ctx context.Context,
 	callId string,
 	reason int32,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.OnRttInitiationFailure(ctx, callId, reason, sessionInfo)
 }
@@ -2783,7 +2706,7 @@ func (w *connectionServiceAdapterStubWrapper) OnRttInitiationFailure(
 func (w *connectionServiceAdapterStubWrapper) OnRttSessionRemotelyTerminated(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.OnRttSessionRemotelyTerminated(ctx, callId, sessionInfo)
 }
@@ -2791,7 +2714,7 @@ func (w *connectionServiceAdapterStubWrapper) OnRttSessionRemotelyTerminated(
 func (w *connectionServiceAdapterStubWrapper) OnRemoteRttRequest(
 	ctx context.Context,
 	callId string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.OnRemoteRttRequest(ctx, callId, sessionInfo)
 }
@@ -2800,14 +2723,14 @@ func (w *connectionServiceAdapterStubWrapper) OnPhoneAccountChanged(
 	ctx context.Context,
 	callId string,
 	pHandle androidTelecom.PhoneAccountHandle,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.OnPhoneAccountChanged(ctx, callId, pHandle, sessionInfo)
 }
 
 func (w *connectionServiceAdapterStubWrapper) OnConnectionServiceFocusReleased(
 	ctx context.Context,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.OnConnectionServiceFocusReleased(ctx, sessionInfo)
 }
@@ -2815,7 +2738,7 @@ func (w *connectionServiceAdapterStubWrapper) OnConnectionServiceFocusReleased(
 func (w *connectionServiceAdapterStubWrapper) ResetConnectionTime(
 	ctx context.Context,
 	callIdi string,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.ResetConnectionTime(ctx, callIdi, sessionInfo)
 }
@@ -2824,7 +2747,7 @@ func (w *connectionServiceAdapterStubWrapper) SetConferenceState(
 	ctx context.Context,
 	callId string,
 	isConference bool,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetConferenceState(ctx, callId, isConference, sessionInfo)
 }
@@ -2833,7 +2756,7 @@ func (w *connectionServiceAdapterStubWrapper) SetCallDirection(
 	ctx context.Context,
 	callId string,
 	direction int32,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.SetCallDirection(ctx, callId, direction, sessionInfo)
 }
@@ -2844,7 +2767,7 @@ func (w *connectionServiceAdapterStubWrapper) QueryLocation(
 	timeoutMillis int64,
 	provider string,
 	callback os.ResultReceiver,
-	sessionInfo Logging.SessionInfo,
+	sessionInfo SessionInfo,
 ) error {
 	return w.impl.QueryLocation(ctx, callId, timeoutMillis, provider, callback, sessionInfo)
 }

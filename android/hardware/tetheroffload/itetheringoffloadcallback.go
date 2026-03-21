@@ -48,6 +48,7 @@ func (p *TetheringOffloadCallbackProxy) OnEvent(
 	event OffloadCallbackEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITetheringOffloadCallback)
 	_data.WriteInt32(int32(event))
 
@@ -65,6 +66,7 @@ func (p *TetheringOffloadCallbackProxy) UpdateTimeout(
 	params NatTimeoutUpdate,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITetheringOffloadCallback)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -83,7 +85,8 @@ func (p *TetheringOffloadCallbackProxy) UpdateTimeout(
 // TetheringOffloadCallbackStub dispatches incoming binder transactions
 // to a typed ITetheringOffloadCallback implementation.
 type TetheringOffloadCallbackStub struct {
-	Impl ITetheringOffloadCallback
+	Impl      ITetheringOffloadCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TetheringOffloadCallbackStub)(nil)
@@ -97,23 +100,20 @@ func (s *TetheringOffloadCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITetheringOffloadCallbackOnEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_event := OffloadCallbackEvent(_raw_event)
 		_err = s.Impl.OnEvent(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITetheringOffloadCallbackUpdateTimeout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_params NatTimeoutUpdate
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -127,8 +127,7 @@ func (s *TetheringOffloadCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.UpdateTimeout(ctx, _arg_params)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

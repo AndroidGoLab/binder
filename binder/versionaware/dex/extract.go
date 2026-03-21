@@ -291,6 +291,14 @@ func extractStubTransactions(
 		return nil, nil
 	}
 
+	dataLen := uint32(len(data))
+	if classDataOff >= dataLen {
+		return nil, fmt.Errorf("class_data_off 0x%x out of bounds (data len %d)", classDataOff, dataLen)
+	}
+	if staticValuesOff >= dataLen {
+		return nil, fmt.Errorf("static_values_off 0x%x out of bounds (data len %d)", staticValuesOff, dataLen)
+	}
+
 	// Parse class_data_item header: static_fields_size.
 	pos := classDataOff
 	staticFieldsSize, pos, err := readULEB128(data, pos)

@@ -148,6 +148,7 @@ func (p *AppWidgetServiceProxy) StartListening(
 	var _result pm.ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	binder.WriteBinderToParcel(ctx, _data, host.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
@@ -194,6 +195,7 @@ func (p *AppWidgetServiceProxy) StopListening(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(hostId)
@@ -223,6 +225,7 @@ func (p *AppWidgetServiceProxy) AllocateAppWidgetId(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(hostId)
@@ -255,6 +258,7 @@ func (p *AppWidgetServiceProxy) DeleteAppWidgetId(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(appWidgetId)
@@ -283,6 +287,7 @@ func (p *AppWidgetServiceProxy) DeleteHost(
 	hostId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(hostId)
@@ -309,6 +314,7 @@ func (p *AppWidgetServiceProxy) DeleteAllHosts(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceDeleteAllHosts)
@@ -336,6 +342,7 @@ func (p *AppWidgetServiceProxy) GetAppWidgetViews(
 	var _result widget.RemoteViews
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(appWidgetId)
@@ -374,6 +381,7 @@ func (p *AppWidgetServiceProxy) GetAppWidgetIdsForHost(
 	var _result []int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(hostId)
@@ -397,6 +405,9 @@ func (p *AppWidgetServiceProxy) GetAppWidgetIdsForHost(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -416,6 +427,7 @@ func (p *AppWidgetServiceProxy) SetAppWidgetHidden(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(hostId)
@@ -446,6 +458,7 @@ func (p *AppWidgetServiceProxy) CreateAppWidgetConfigIntentSender(
 	var _result content.IntentSender
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(appWidgetId)
@@ -485,6 +498,7 @@ func (p *AppWidgetServiceProxy) UpdateAppWidgetIds(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	if appWidgetIds == nil {
@@ -525,6 +539,7 @@ func (p *AppWidgetServiceProxy) UpdateAppWidgetOptions(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(appWidgetId)
@@ -558,6 +573,7 @@ func (p *AppWidgetServiceProxy) GetAppWidgetOptions(
 	var _result os.Bundle
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(appWidgetId)
@@ -596,6 +612,7 @@ func (p *AppWidgetServiceProxy) PartiallyUpdateAppWidgetIds(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	if appWidgetIds == nil {
@@ -635,6 +652,7 @@ func (p *AppWidgetServiceProxy) UpdateAppWidgetProvider(
 	views widget.RemoteViews,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteInt32(1)
 	if _err := provider.MarshalParcel(_data); _err != nil {
@@ -669,6 +687,7 @@ func (p *AppWidgetServiceProxy) UpdateAppWidgetProviderInfo(
 	metadataKey string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteInt32(1)
 	if _err := provider.MarshalParcel(_data); _err != nil {
@@ -701,6 +720,7 @@ func (p *AppWidgetServiceProxy) NotifyAppWidgetViewDataChanged(
 	viewId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(packageName)
 	if appWidgetIds == nil {
@@ -739,6 +759,7 @@ func (p *AppWidgetServiceProxy) GetInstalledProvidersForProfile(
 ) (pm.ParceledListSlice, error) {
 	var _result pm.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteInt32(categoryFilter)
 	_data.WriteInt32(profileId)
@@ -778,6 +799,7 @@ func (p *AppWidgetServiceProxy) GetAppWidgetInfo(
 	var _result androidAppwidget.AppWidgetProviderInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(appWidgetId)
@@ -816,6 +838,7 @@ func (p *AppWidgetServiceProxy) HasBindAppWidgetPermission(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -849,6 +872,7 @@ func (p *AppWidgetServiceProxy) SetBindAppWidgetPermission(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -882,6 +906,7 @@ func (p *AppWidgetServiceProxy) BindAppWidgetId(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(appWidgetId)
@@ -929,6 +954,7 @@ func (p *AppWidgetServiceProxy) BindRemoteViewsService(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(appWidgetId)
@@ -968,6 +994,7 @@ func (p *AppWidgetServiceProxy) NotifyProviderInheritance(
 	componentNames []content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	if componentNames == nil {
 		_data.WriteInt32(-1)
@@ -1005,6 +1032,7 @@ func (p *AppWidgetServiceProxy) GetAppWidgetIds(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteInt32(1)
 	if _err := providerComponent.MarshalParcel(_data); _err != nil {
@@ -1030,6 +1058,9 @@ func (p *AppWidgetServiceProxy) GetAppWidgetIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -1050,6 +1081,7 @@ func (p *AppWidgetServiceProxy) IsBoundWidgetPackage(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -1085,6 +1117,7 @@ func (p *AppWidgetServiceProxy) RequestPinAppWidget(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
@@ -1127,6 +1160,7 @@ func (p *AppWidgetServiceProxy) IsRequestPinAppWidgetSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceIsRequestPinAppWidgetSupported)
@@ -1157,6 +1191,7 @@ func (p *AppWidgetServiceProxy) NoteAppWidgetTapped(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(appWidgetId)
@@ -1177,6 +1212,7 @@ func (p *AppWidgetServiceProxy) SetWidgetPreview(
 	preview widget.RemoteViews,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteInt32(1)
 	if _err := providerComponent.MarshalParcel(_data); _err != nil {
@@ -1215,6 +1251,7 @@ func (p *AppWidgetServiceProxy) GetWidgetPreview(
 	var _result widget.RemoteViews
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(1)
@@ -1257,6 +1294,7 @@ func (p *AppWidgetServiceProxy) RemoveWidgetPreview(
 	widgetCategories int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteInt32(1)
 	if _err := providerComponent.MarshalParcel(_data); _err != nil {
@@ -1285,7 +1323,8 @@ func (p *AppWidgetServiceProxy) RemoveWidgetPreview(
 // AppWidgetServiceStub dispatches incoming binder transactions
 // to a typed IAppWidgetService implementation.
 type AppWidgetServiceStub struct {
-	Impl IAppWidgetService
+	Impl      IAppWidgetService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AppWidgetServiceStub)(nil)
@@ -1299,14 +1338,20 @@ func (s *AppWidgetServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAppWidgetServiceStartListening:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_host IAppWidgetHost
-		_ = _arg_host
+		{
+			_hostHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_host = NewAppWidgetHostProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _hostHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1314,9 +1359,25 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_appWidgetIds []int32
-		_ = _arg_appWidgetIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_appWidgetIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_appWidgetIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.StartListening(ctx, _arg_host, _arg_hostId, _arg_appWidgetIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1333,9 +1394,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_hostId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1349,9 +1407,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceAllocateAppWidgetId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1372,9 +1427,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1388,9 +1440,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceDeleteHost:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1408,9 +1457,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceDeleteAllHosts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DeleteAllHosts(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1420,9 +1466,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceGetAppWidgetViews:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1446,9 +1489,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_hostId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1460,13 +1500,16 @@ func (s *AppWidgetServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIAppWidgetServiceSetAppWidgetHidden:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1483,9 +1526,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceCreateAppWidgetConfigIntentSender:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1513,12 +1553,25 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_appWidgetIds []int32
-		_ = _arg_appWidgetIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_appWidgetIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_appWidgetIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_views widget.RemoteViews
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1540,9 +1593,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceUpdateAppWidgetOptions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1574,9 +1624,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1597,12 +1644,25 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_appWidgetIds []int32
-		_ = _arg_appWidgetIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_appWidgetIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_appWidgetIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_views widget.RemoteViews
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1624,9 +1684,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceUpdateAppWidgetProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_provider content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1660,9 +1717,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceUpdateAppWidgetProviderInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_provider content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1688,16 +1742,29 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceNotifyAppWidgetViewDataChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_appWidgetIds []int32
-		_ = _arg_appWidgetIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_appWidgetIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_appWidgetIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_viewId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1711,9 +1778,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceGetInstalledProvidersForProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_categoryFilter, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1742,9 +1806,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1762,9 +1823,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAppWidgetServiceHasBindAppWidgetPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1782,9 +1840,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppWidgetServiceSetBindAppWidgetPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1805,9 +1860,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceBindAppWidgetId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1856,9 +1908,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1875,15 +1924,30 @@ func (s *AppWidgetServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_caller app.IApplicationThread
-		_ = _arg_caller
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_callerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_caller = app.NewApplicationThreadProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callerHandle))
+		}
 		var _arg_token binder.IBinder
-		_ = _arg_token
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_connection app.IServiceConnection
-		_ = _arg_connection
+		{
+			_connectionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_connection = app.NewServiceConnectionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _connectionHandle))
+		}
 		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1898,12 +1962,27 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppWidgetServiceNotifyProviderInheritance:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_componentNames []content.ComponentName
-		_ = _arg_componentNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_componentNames = make([]content.ComponentName, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_componentNames[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.NotifyProviderInheritance(ctx, _arg_componentNames)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1913,9 +1992,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceGetAppWidgetIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_providerComponent content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1935,13 +2011,16 @@ func (s *AppWidgetServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIAppWidgetServiceIsBoundWidgetPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1959,9 +2038,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppWidgetServiceRequestPinAppWidget:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2012,9 +2088,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppWidgetServiceIsRequestPinAppWidgetSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsRequestPinAppWidgetSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2028,20 +2101,13 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NoteAppWidgetTapped(ctx, _arg_appWidgetId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAppWidgetServiceSetWidgetPreview:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_providerComponent content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2082,9 +2148,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_providerComponent content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2118,9 +2181,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAppWidgetServiceRemoveWidgetPreview:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_providerComponent content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()

@@ -60,6 +60,7 @@ func (p *DisplayWindowInsetsControllerProxy) TopFocusedWindowChanged(
 	requestedVisibleTypes int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowInsetsController)
 	_data.WriteInt32(1)
 	if _err := component.MarshalParcel(_data); _err != nil {
@@ -81,6 +82,7 @@ func (p *DisplayWindowInsetsControllerProxy) InsetsChanged(
 	insetsState InsetsState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowInsetsController)
 	_data.WriteInt32(1)
 	if _err := insetsState.MarshalParcel(_data); _err != nil {
@@ -102,6 +104,7 @@ func (p *DisplayWindowInsetsControllerProxy) InsetsControlChanged(
 	activeControls []InsetsSourceControl,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowInsetsController)
 	_data.WriteInt32(1)
 	if _err := insetsState.MarshalParcel(_data); _err != nil {
@@ -135,10 +138,12 @@ func (p *DisplayWindowInsetsControllerProxy) ShowInsets(
 	statsToken *inputmethod.ImeTrackerToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowInsetsController)
 	_data.WriteInt32(types)
 	_data.WriteBool(fromIme)
 	if statsToken != nil {
+		_data.WriteInt32(1)
 		if _err := (*statsToken).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -162,10 +167,12 @@ func (p *DisplayWindowInsetsControllerProxy) HideInsets(
 	statsToken *inputmethod.ImeTrackerToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowInsetsController)
 	_data.WriteInt32(types)
 	_data.WriteBool(fromIme)
 	if statsToken != nil {
+		_data.WriteInt32(1)
 		if _err := (*statsToken).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -185,7 +192,8 @@ func (p *DisplayWindowInsetsControllerProxy) HideInsets(
 // DisplayWindowInsetsControllerStub dispatches incoming binder transactions
 // to a typed IDisplayWindowInsetsController implementation.
 type DisplayWindowInsetsControllerStub struct {
-	Impl IDisplayWindowInsetsController
+	Impl      IDisplayWindowInsetsController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DisplayWindowInsetsControllerStub)(nil)
@@ -199,11 +207,12 @@ func (s *DisplayWindowInsetsControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDisplayWindowInsetsControllerTopFocusedWindowChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_component content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -221,12 +230,8 @@ func (s *DisplayWindowInsetsControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.TopFocusedWindowChanged(ctx, _arg_component, _arg_requestedVisibleTypes)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDisplayWindowInsetsControllerInsetsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_insetsState InsetsState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -240,12 +245,8 @@ func (s *DisplayWindowInsetsControllerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.InsetsChanged(ctx, _arg_insetsState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDisplayWindowInsetsControllerInsetsControlChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_insetsState InsetsState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -258,16 +259,30 @@ func (s *DisplayWindowInsetsControllerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_activeControls []InsetsSourceControl
-		_ = _arg_activeControls
-		_err := s.Impl.InsetsControlChanged(ctx, _arg_insetsState, _arg_activeControls)
-		_ = _err
-		return nil, nil
-	case TransactionIDisplayWindowInsetsControllerShowInsets:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_activeControls = make([]InsetsSourceControl, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_activeControls[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.InsetsControlChanged(ctx, _arg_insetsState, _arg_activeControls)
+		return nil, _err
+	case TransactionIDisplayWindowInsetsControllerShowInsets:
 		_arg_types, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -283,18 +298,15 @@ func (s *DisplayWindowInsetsControllerStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_statsToken = new(inputmethod.ImeTrackerToken)
 				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		_err = s.Impl.ShowInsets(ctx, _arg_types, _arg_fromIme, _arg_statsToken)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDisplayWindowInsetsControllerHideInsets:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_types, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -310,14 +322,14 @@ func (s *DisplayWindowInsetsControllerStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_statsToken = new(inputmethod.ImeTrackerToken)
 				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		_err = s.Impl.HideInsets(ctx, _arg_types, _arg_fromIme, _arg_statsToken)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

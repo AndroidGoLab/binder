@@ -44,6 +44,7 @@ func (p *TimeDetectorListenerProxy) OnChange(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeDetectorListener, MethodITimeDetectorListenerOnChange)
@@ -58,7 +59,8 @@ func (p *TimeDetectorListenerProxy) OnChange(
 // TimeDetectorListenerStub dispatches incoming binder transactions
 // to a typed ITimeDetectorListener implementation.
 type TimeDetectorListenerStub struct {
-	Impl ITimeDetectorListener
+	Impl      ITimeDetectorListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TimeDetectorListenerStub)(nil)
@@ -72,14 +74,14 @@ func (s *TimeDetectorListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITimeDetectorListenerOnChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnChange(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

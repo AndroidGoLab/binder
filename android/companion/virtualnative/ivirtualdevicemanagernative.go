@@ -58,6 +58,7 @@ func (p *VirtualDeviceManagerNativeProxy) GetDeviceIdsForUid(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManagerNative)
 	_data.WriteInt32(uid)
 
@@ -80,6 +81,9 @@ func (p *VirtualDeviceManagerNativeProxy) GetDeviceIdsForUid(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -100,6 +104,7 @@ func (p *VirtualDeviceManagerNativeProxy) GetDevicePolicy(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManagerNative)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(policyType)
@@ -129,7 +134,8 @@ func (p *VirtualDeviceManagerNativeProxy) GetDevicePolicy(
 // VirtualDeviceManagerNativeStub dispatches incoming binder transactions
 // to a typed IVirtualDeviceManagerNative implementation.
 type VirtualDeviceManagerNativeStub struct {
-	Impl IVirtualDeviceManagerNative
+	Impl      IVirtualDeviceManagerNative
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VirtualDeviceManagerNativeStub)(nil)
@@ -143,11 +149,12 @@ func (s *VirtualDeviceManagerNativeStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVirtualDeviceManagerNativeGetDeviceIdsForUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -159,13 +166,16 @@ func (s *VirtualDeviceManagerNativeStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIVirtualDeviceManagerNativeGetDevicePolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

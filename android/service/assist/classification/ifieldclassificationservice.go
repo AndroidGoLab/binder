@@ -52,6 +52,7 @@ func (p *FieldClassificationServiceProxy) OnConnected(
 	verbose bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationService)
 	_data.WriteBool(debug)
 	_data.WriteBool(verbose)
@@ -69,6 +70,7 @@ func (p *FieldClassificationServiceProxy) OnDisconnected(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFieldClassificationService, MethodIFieldClassificationServiceOnDisconnected)
@@ -86,6 +88,7 @@ func (p *FieldClassificationServiceProxy) OnFieldClassificationRequest(
 	callback IFieldClassificationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -105,7 +108,8 @@ func (p *FieldClassificationServiceProxy) OnFieldClassificationRequest(
 // FieldClassificationServiceStub dispatches incoming binder transactions
 // to a typed IFieldClassificationService implementation.
 type FieldClassificationServiceStub struct {
-	Impl IFieldClassificationService
+	Impl      IFieldClassificationService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FieldClassificationServiceStub)(nil)
@@ -119,11 +123,12 @@ func (s *FieldClassificationServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFieldClassificationServiceOnConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_debug, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -133,19 +138,11 @@ func (s *FieldClassificationServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnConnected(ctx, _arg_debug, _arg_verbose)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFieldClassificationServiceOnDisconnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDisconnected(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFieldClassificationServiceOnFieldClassificationRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request FieldClassificationRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -158,12 +155,16 @@ func (s *FieldClassificationServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IFieldClassificationCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewFieldClassificationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.OnFieldClassificationRequest(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

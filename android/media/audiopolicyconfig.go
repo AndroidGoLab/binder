@@ -1,6 +1,7 @@
 package media
 
 import (
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,9 +9,9 @@ import (
 
 type AudioPolicyConfig struct {
 	Modules             []AudioHwModule
-	SupportedModes      []interface{}
+	SupportedModes      []common.AudioMode
 	SurroundSoundConfig SurroundSoundConfig
-	EngineConfig        interface{}
+	EngineConfig        common.AudioHalEngineConfig
 }
 
 var _ parcel.Parcelable = (*AudioPolicyConfig)(nil)
@@ -34,8 +35,14 @@ func (s *AudioPolicyConfig) MarshalParcel(
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.SupportedModes)))
+		for _, _item := range s.SupportedModes {
+			p.WriteInt32(int32(_item))
+		}
 	}
 	if _err := s.SurroundSoundConfig.MarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _err := s.EngineConfig.MarshalParcel(p); _err != nil {
 		return _err
 	}
 
@@ -49,6 +56,11 @@ func (s *AudioPolicyConfig) UnmarshalParcel(
 	_endPos, _err := parcel.ReadParcelableHeader(p)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -68,18 +80,42 @@ func (s *AudioPolicyConfig) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count1 int32
 	_count1, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	if _count1 >= 0 {
-		s.SupportedModes = make([]interface{}, _count1)
+		s.SupportedModes = make([]common.AudioMode, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			_raw, _err := p.ReadInt32()
+			if _err != nil {
+				return _err
+			}
+			s.SupportedModes[_i] = common.AudioMode(_raw)
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.SurroundSoundConfig.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.EngineConfig.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

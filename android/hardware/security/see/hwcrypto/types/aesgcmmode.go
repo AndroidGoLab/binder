@@ -2,7 +2,6 @@ package types
 
 import (
 	"fmt"
-	typesAesGcmMode "github.com/xaionaro-go/binder/android/hardware/security/see/hwcrypto/types/AesGcmMode"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -14,24 +13,23 @@ const (
 
 type AesGcmMode struct {
 	Tag      int32
-	GcmTag16 typesAesGcmMode.AesGcmModeParameters
+	GcmTag16 AesGcmModeAesGcmModeParameters
 }
 
 var _ parcel.Parcelable = (*AesGcmMode)(nil)
 
-func (u *AesGcmMode) GetGcmTag16() (typesAesGcmMode.AesGcmModeParameters, bool) {
+func (u *AesGcmMode) GetGcmTag16() (AesGcmModeAesGcmModeParameters, bool) {
 	if u.Tag != AesGcmModeTagGcmTag16 {
-		var _zero typesAesGcmMode.AesGcmModeParameters
+		var _zero AesGcmModeAesGcmModeParameters
 		return _zero, false
 	}
 	return u.GcmTag16, true
 }
 
 func (u *AesGcmMode) SetGcmTag16(
-	v typesAesGcmMode.AesGcmModeParameters,
+	v AesGcmModeAesGcmModeParameters,
 ) {
-	u.Tag = AesGcmModeTagGcmTag16
-	u.GcmTag16 = v
+	*u = AesGcmMode{Tag: AesGcmModeTagGcmTag16, GcmTag16: v}
 }
 
 func (u *AesGcmMode) MarshalParcel(

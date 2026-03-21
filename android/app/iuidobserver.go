@@ -61,6 +61,7 @@ func (p *UidObserverProxy) OnUidGone(
 	disabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUidObserver)
 	_data.WriteInt32(uid)
 	_data.WriteBool(disabled)
@@ -79,6 +80,7 @@ func (p *UidObserverProxy) OnUidActive(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUidObserver)
 	_data.WriteInt32(uid)
 
@@ -97,6 +99,7 @@ func (p *UidObserverProxy) OnUidIdle(
 	disabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUidObserver)
 	_data.WriteInt32(uid)
 	_data.WriteBool(disabled)
@@ -118,6 +121,7 @@ func (p *UidObserverProxy) OnUidStateChanged(
 	capability int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUidObserver)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(procState)
@@ -139,6 +143,7 @@ func (p *UidObserverProxy) OnUidProcAdjChanged(
 	adj int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUidObserver)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(adj)
@@ -158,6 +163,7 @@ func (p *UidObserverProxy) OnUidCachedChanged(
 	cached bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUidObserver)
 	_data.WriteInt32(uid)
 	_data.WriteBool(cached)
@@ -174,7 +180,8 @@ func (p *UidObserverProxy) OnUidCachedChanged(
 // UidObserverStub dispatches incoming binder transactions
 // to a typed IUidObserver implementation.
 type UidObserverStub struct {
-	Impl IUidObserver
+	Impl      IUidObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UidObserverStub)(nil)
@@ -188,11 +195,12 @@ func (s *UidObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUidObserverOnUidGone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -202,23 +210,15 @@ func (s *UidObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnUidGone(ctx, _arg_uid, _arg_disabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUidObserverOnUidActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnUidActive(ctx, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUidObserverOnUidIdle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -228,12 +228,8 @@ func (s *UidObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnUidIdle(ctx, _arg_uid, _arg_disabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUidObserverOnUidStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -251,12 +247,8 @@ func (s *UidObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnUidStateChanged(ctx, _arg_uid, _arg_procState, _arg_procStateSeq, _arg_capability)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUidObserverOnUidProcAdjChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -266,12 +258,8 @@ func (s *UidObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnUidProcAdjChanged(ctx, _arg_uid, _arg_adj)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUidObserverOnUidCachedChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -281,8 +269,7 @@ func (s *UidObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnUidCachedChanged(ctx, _arg_uid, _arg_cached)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

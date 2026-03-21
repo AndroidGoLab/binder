@@ -1,0 +1,4 @@
+package: android.service.controls.actions
+go_package: android/service/controls/actions
+parcelables:
+    - name: ControlActionWrapper

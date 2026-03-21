@@ -57,6 +57,7 @@ func (p *GpsGeofenceHardwareProxy) IsHardwareGeofenceSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGpsGeofenceHardware)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGpsGeofenceHardware, MethodIGpsGeofenceHardwareIsHardwareGeofenceSupported)
@@ -94,6 +95,7 @@ func (p *GpsGeofenceHardwareProxy) AddCircularHardwareGeofence(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGpsGeofenceHardware)
 	_data.WriteInt32(geofenceId)
 	_data.WriteFloat64(latitude)
@@ -132,6 +134,7 @@ func (p *GpsGeofenceHardwareProxy) RemoveHardwareGeofence(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGpsGeofenceHardware)
 	_data.WriteInt32(geofenceId)
 
@@ -163,6 +166,7 @@ func (p *GpsGeofenceHardwareProxy) PauseHardwareGeofence(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGpsGeofenceHardware)
 	_data.WriteInt32(geofenceId)
 
@@ -195,6 +199,7 @@ func (p *GpsGeofenceHardwareProxy) ResumeHardwareGeofence(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGpsGeofenceHardware)
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(monitorTransition)
@@ -224,7 +229,8 @@ func (p *GpsGeofenceHardwareProxy) ResumeHardwareGeofence(
 // GpsGeofenceHardwareStub dispatches incoming binder transactions
 // to a typed IGpsGeofenceHardware implementation.
 type GpsGeofenceHardwareStub struct {
-	Impl IGpsGeofenceHardware
+	Impl      IGpsGeofenceHardware
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GpsGeofenceHardwareStub)(nil)
@@ -238,11 +244,12 @@ func (s *GpsGeofenceHardwareStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGpsGeofenceHardwareIsHardwareGeofenceSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsHardwareGeofenceSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -253,9 +260,6 @@ func (s *GpsGeofenceHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIGpsGeofenceHardwareAddCircularHardwareGeofence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -298,9 +302,6 @@ func (s *GpsGeofenceHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIGpsGeofenceHardwareRemoveHardwareGeofence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -315,9 +316,6 @@ func (s *GpsGeofenceHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIGpsGeofenceHardwarePauseHardwareGeofence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -332,9 +330,6 @@ func (s *GpsGeofenceHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIGpsGeofenceHardwareResumeHardwareGeofence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

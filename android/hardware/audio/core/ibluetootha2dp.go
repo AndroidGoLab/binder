@@ -54,6 +54,7 @@ func (p *BluetoothA2dpProxy) IsEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpIsEnabled)
@@ -83,6 +84,7 @@ func (p *BluetoothA2dpProxy) SetEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	_data.WriteBool(enabled)
 
@@ -109,6 +111,7 @@ func (p *BluetoothA2dpProxy) SupportsOffloadReconfiguration(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpSupportsOffloadReconfiguration)
@@ -138,6 +141,7 @@ func (p *BluetoothA2dpProxy) ReconfigureOffload(
 	parameters []VendorParameter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	if parameters == nil {
 		_data.WriteInt32(-1)
@@ -172,7 +176,8 @@ func (p *BluetoothA2dpProxy) ReconfigureOffload(
 // BluetoothA2dpStub dispatches incoming binder transactions
 // to a typed IBluetoothA2dp implementation.
 type BluetoothA2dpStub struct {
-	Impl IBluetoothA2dp
+	Impl      IBluetoothA2dp
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothA2dpStub)(nil)
@@ -186,11 +191,12 @@ func (s *BluetoothA2dpStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothA2dpIsEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -201,9 +207,6 @@ func (s *BluetoothA2dpStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothA2dpSetEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -217,9 +220,6 @@ func (s *BluetoothA2dpStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothA2dpSupportsOffloadReconfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.SupportsOffloadReconfiguration(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -230,12 +230,27 @@ func (s *BluetoothA2dpStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothA2dpReconfigureOffload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_parameters []VendorParameter
-		_ = _arg_parameters
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_parameters = make([]VendorParameter, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_parameters[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.ReconfigureOffload(ctx, _arg_parameters)
 		_reply := parcel.New()
 		if _err != nil {

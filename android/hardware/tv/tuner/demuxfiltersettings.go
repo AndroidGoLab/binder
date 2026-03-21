@@ -37,8 +37,7 @@ func (u *DemuxFilterSettings) GetTs() (DemuxTsFilterSettings, bool) {
 func (u *DemuxFilterSettings) SetTs(
 	v DemuxTsFilterSettings,
 ) {
-	u.Tag = DemuxFilterSettingsTagTs
-	u.Ts = v
+	*u = DemuxFilterSettings{Tag: DemuxFilterSettingsTagTs, Ts: v}
 }
 
 func (u *DemuxFilterSettings) GetMmtp() (DemuxMmtpFilterSettings, bool) {
@@ -52,8 +51,7 @@ func (u *DemuxFilterSettings) GetMmtp() (DemuxMmtpFilterSettings, bool) {
 func (u *DemuxFilterSettings) SetMmtp(
 	v DemuxMmtpFilterSettings,
 ) {
-	u.Tag = DemuxFilterSettingsTagMmtp
-	u.Mmtp = v
+	*u = DemuxFilterSettings{Tag: DemuxFilterSettingsTagMmtp, Mmtp: v}
 }
 
 func (u *DemuxFilterSettings) GetIp() (DemuxIpFilterSettings, bool) {
@@ -67,8 +65,7 @@ func (u *DemuxFilterSettings) GetIp() (DemuxIpFilterSettings, bool) {
 func (u *DemuxFilterSettings) SetIp(
 	v DemuxIpFilterSettings,
 ) {
-	u.Tag = DemuxFilterSettingsTagIp
-	u.Ip = v
+	*u = DemuxFilterSettings{Tag: DemuxFilterSettingsTagIp, Ip: v}
 }
 
 func (u *DemuxFilterSettings) GetTlv() (DemuxTlvFilterSettings, bool) {
@@ -82,8 +79,7 @@ func (u *DemuxFilterSettings) GetTlv() (DemuxTlvFilterSettings, bool) {
 func (u *DemuxFilterSettings) SetTlv(
 	v DemuxTlvFilterSettings,
 ) {
-	u.Tag = DemuxFilterSettingsTagTlv
-	u.Tlv = v
+	*u = DemuxFilterSettings{Tag: DemuxFilterSettingsTagTlv, Tlv: v}
 }
 
 func (u *DemuxFilterSettings) GetAlp() (DemuxAlpFilterSettings, bool) {
@@ -97,8 +93,7 @@ func (u *DemuxFilterSettings) GetAlp() (DemuxAlpFilterSettings, bool) {
 func (u *DemuxFilterSettings) SetAlp(
 	v DemuxAlpFilterSettings,
 ) {
-	u.Tag = DemuxFilterSettingsTagAlp
-	u.Alp = v
+	*u = DemuxFilterSettings{Tag: DemuxFilterSettingsTagAlp, Alp: v}
 }
 
 func (u *DemuxFilterSettings) MarshalParcel(

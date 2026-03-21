@@ -25,7 +25,7 @@ const (
 type ISaveCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, intentSender content.IntentSender) error
-	OnFailure(ctx context.Context, message interface{}) error
+	OnFailure(ctx context.Context, message string) error
 }
 
 type SaveCallbackProxy struct {
@@ -49,6 +49,7 @@ func (p *SaveCallbackProxy) OnSuccess(
 	intentSender content.IntentSender,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISaveCallback)
 	_data.WriteInt32(1)
 	if _err := intentSender.MarshalParcel(_data); _err != nil {
@@ -75,10 +76,12 @@ func (p *SaveCallbackProxy) OnSuccess(
 
 func (p *SaveCallbackProxy) OnFailure(
 	ctx context.Context,
-	message interface{},
+	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISaveCallback)
+	_data.WriteString16(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISaveCallback, MethodISaveCallbackOnFailure)
 	if _err != nil {
@@ -101,7 +104,8 @@ func (p *SaveCallbackProxy) OnFailure(
 // SaveCallbackStub dispatches incoming binder transactions
 // to a typed ISaveCallback implementation.
 type SaveCallbackStub struct {
-	Impl ISaveCallback
+	Impl      ISaveCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SaveCallbackStub)(nil)
@@ -115,11 +119,12 @@ func (s *SaveCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISaveCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intentSender content.IntentSender
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -141,11 +146,11 @@ func (s *SaveCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISaveCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_message, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_message interface{}
-		_err := s.Impl.OnFailure(ctx, _arg_message)
+		_err = s.Impl.OnFailure(ctx, _arg_message)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -163,7 +168,7 @@ func (s *SaveCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type ISaveCallbackServer interface {
 	OnSuccess(ctx context.Context, intentSender content.IntentSender) error
-	OnFailure(ctx context.Context, message interface{}) error
+	OnFailure(ctx context.Context, message string) error
 }
 
 type saveCallbackStubWrapper struct {
@@ -184,7 +189,7 @@ func (w *saveCallbackStubWrapper) OnSuccess(
 
 func (w *saveCallbackStubWrapper) OnFailure(
 	ctx context.Context,
-	message interface{},
+	message string,
 ) error {
 	return w.impl.OnFailure(ctx, message)
 }

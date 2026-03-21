@@ -64,6 +64,7 @@ func (p *MbmsStreamingServiceProxy) Initialize(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(subId)
@@ -97,6 +98,7 @@ func (p *MbmsStreamingServiceProxy) RequestUpdateStreamingServices(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingService)
 	_data.WriteInt32(subId)
 	if serviceClasses == nil {
@@ -138,6 +140,7 @@ func (p *MbmsStreamingServiceProxy) StartStreaming(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingService)
 	_data.WriteInt32(subId)
 	_data.WriteString16(serviceId)
@@ -172,6 +175,7 @@ func (p *MbmsStreamingServiceProxy) GetPlaybackUri(
 ) (net.Uri, error) {
 	var _result net.Uri
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingService)
 	_data.WriteInt32(subId)
 	_data.WriteString16(serviceId)
@@ -209,6 +213,7 @@ func (p *MbmsStreamingServiceProxy) StopStreaming(
 	serviceId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingService)
 	_data.WriteInt32(subId)
 	_data.WriteString16(serviceId)
@@ -236,6 +241,7 @@ func (p *MbmsStreamingServiceProxy) Dispose(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingService)
 	_data.WriteInt32(subId)
 
@@ -260,7 +266,8 @@ func (p *MbmsStreamingServiceProxy) Dispose(
 // MbmsStreamingServiceStub dispatches incoming binder transactions
 // to a typed IMbmsStreamingService implementation.
 type MbmsStreamingServiceStub struct {
-	Impl IMbmsStreamingService
+	Impl      IMbmsStreamingService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MbmsStreamingServiceStub)(nil)
@@ -274,14 +281,20 @@ func (s *MbmsStreamingServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMbmsStreamingServiceInitialize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback mbms.IMbmsStreamingSessionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = mbms.NewMbmsStreamingSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -296,16 +309,29 @@ func (s *MbmsStreamingServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsStreamingServiceRequestUpdateStreamingServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_serviceClasses []string
-		_ = _arg_serviceClasses
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_serviceClasses = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_serviceClasses[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.RequestUpdateStreamingServices(ctx, _arg_subId, _arg_serviceClasses)
 		_reply := parcel.New()
 		if _err != nil {
@@ -316,9 +342,6 @@ func (s *MbmsStreamingServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsStreamingServiceStartStreaming:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -327,9 +350,14 @@ func (s *MbmsStreamingServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback mbms.IStreamingServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = mbms.NewStreamingServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.StartStreaming(ctx, _arg_subId, _arg_serviceId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -340,9 +368,6 @@ func (s *MbmsStreamingServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsStreamingServiceGetPlaybackUri:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -364,9 +389,6 @@ func (s *MbmsStreamingServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMbmsStreamingServiceStopStreaming:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -384,9 +406,6 @@ func (s *MbmsStreamingServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMbmsStreamingServiceDispose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

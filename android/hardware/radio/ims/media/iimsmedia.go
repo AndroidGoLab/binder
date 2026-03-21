@@ -51,6 +51,7 @@ func (p *ImsMediaProxy) SetListener(
 	mediaListener IImsMediaListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMedia)
 	binder.WriteBinderToParcel(ctx, _data, mediaListener.AsBinder(), p.Remote.Transport())
 
@@ -70,6 +71,7 @@ func (p *ImsMediaProxy) OpenSession(
 	config RtpConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMedia)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -95,6 +97,7 @@ func (p *ImsMediaProxy) CloseSession(
 	sessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMedia)
 	_data.WriteInt32(sessionId)
 
@@ -110,7 +113,8 @@ func (p *ImsMediaProxy) CloseSession(
 // ImsMediaStub dispatches incoming binder transactions
 // to a typed IImsMedia implementation.
 type ImsMediaStub struct {
-	Impl IImsMedia
+	Impl      IImsMedia
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsMediaStub)(nil)
@@ -124,21 +128,23 @@ func (s *ImsMediaStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsMediaSetListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_mediaListener IImsMediaListener
-		_ = _arg_mediaListener
-		_err := s.Impl.SetListener(ctx, _arg_mediaListener)
-		_ = _err
-		return nil, nil
-	case TransactionIImsMediaOpenSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_mediaListenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_mediaListener = NewImsMediaListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _mediaListenerHandle))
 		}
+		_err := s.Impl.SetListener(ctx, _arg_mediaListener)
+		return nil, _err
+	case TransactionIImsMediaOpenSession:
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -168,19 +174,14 @@ func (s *ImsMediaStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OpenSession(ctx, _arg_sessionId, _arg_localEndPoint, _arg_config)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMediaCloseSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.CloseSession(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

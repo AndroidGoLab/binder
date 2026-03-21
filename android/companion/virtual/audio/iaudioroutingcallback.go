@@ -45,6 +45,7 @@ func (p *AudioRoutingCallbackProxy) OnAppsNeedingAudioRoutingChanged(
 	appUids []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioRoutingCallback)
 	if appUids == nil {
 		_data.WriteInt32(-1)
@@ -67,7 +68,8 @@ func (p *AudioRoutingCallbackProxy) OnAppsNeedingAudioRoutingChanged(
 // AudioRoutingCallbackStub dispatches incoming binder transactions
 // to a typed IAudioRoutingCallback implementation.
 type AudioRoutingCallbackStub struct {
-	Impl IAudioRoutingCallback
+	Impl      IAudioRoutingCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AudioRoutingCallbackStub)(nil)
@@ -81,17 +83,33 @@ func (s *AudioRoutingCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAudioRoutingCallbackOnAppsNeedingAudioRoutingChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_appUids []int32
-		_ = _arg_appUids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_appUids = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_appUids[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnAppsNeedingAudioRoutingChanged(ctx, _arg_appUids)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

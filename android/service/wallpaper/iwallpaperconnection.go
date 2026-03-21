@@ -60,6 +60,7 @@ func (p *WallpaperConnectionProxy) AttachEngine(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperConnection)
 	binder.WriteBinderToParcel(ctx, _data, engine.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(displayId)
@@ -87,6 +88,7 @@ func (p *WallpaperConnectionProxy) EngineShown(
 	engine IWallpaperEngine,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperConnection)
 	binder.WriteBinderToParcel(ctx, _data, engine.AsBinder(), p.Remote.Transport())
 
@@ -114,6 +116,7 @@ func (p *WallpaperConnectionProxy) SetWallpaper(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperConnection)
 	_data.WriteString16(name)
 
@@ -145,6 +148,7 @@ func (p *WallpaperConnectionProxy) OnWallpaperColorsChanged(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperConnection)
 	_data.WriteInt32(1)
 	if _err := colors.MarshalParcel(_data); _err != nil {
@@ -177,6 +181,7 @@ func (p *WallpaperConnectionProxy) OnLocalWallpaperColorsChanged(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWallpaperConnection)
 	_data.WriteInt32(1)
 	if _err := area.MarshalParcel(_data); _err != nil {
@@ -209,7 +214,8 @@ func (p *WallpaperConnectionProxy) OnLocalWallpaperColorsChanged(
 // WallpaperConnectionStub dispatches incoming binder transactions
 // to a typed IWallpaperConnection implementation.
 type WallpaperConnectionStub struct {
-	Impl IWallpaperConnection
+	Impl      IWallpaperConnection
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WallpaperConnectionStub)(nil)
@@ -223,14 +229,20 @@ func (s *WallpaperConnectionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWallpaperConnectionAttachEngine:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_engine IWallpaperEngine
-		_ = _arg_engine
+		{
+			_engineHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_engine = NewWallpaperEngineProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _engineHandle))
+		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -244,12 +256,14 @@ func (s *WallpaperConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWallpaperConnectionEngineShown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_engine IWallpaperEngine
-		_ = _arg_engine
+		{
+			_engineHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_engine = NewWallpaperEngineProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _engineHandle))
+		}
 		_err := s.Impl.EngineShown(ctx, _arg_engine)
 		_reply := parcel.New()
 		if _err != nil {
@@ -259,9 +273,6 @@ func (s *WallpaperConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWallpaperConnectionSetWallpaper:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -276,9 +287,6 @@ func (s *WallpaperConnectionStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIWallpaperConnectionOnWallpaperColorsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_colors app.WallpaperColors
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -304,9 +312,6 @@ func (s *WallpaperConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWallpaperConnectionOnLocalWallpaperColorsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_area graphics.RectF
 		{
 			_nullInd, _err := _data.ReadInt32()

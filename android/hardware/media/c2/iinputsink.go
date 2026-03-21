@@ -45,6 +45,7 @@ func (p *InputSinkProxy) Queue(
 	workBundle WorkBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputSink)
 	_data.WriteInt32(1)
 	if _err := workBundle.MarshalParcel(_data); _err != nil {
@@ -72,7 +73,8 @@ func (p *InputSinkProxy) Queue(
 // InputSinkStub dispatches incoming binder transactions
 // to a typed IInputSink implementation.
 type InputSinkStub struct {
-	Impl IInputSink
+	Impl      IInputSink
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputSinkStub)(nil)
@@ -86,11 +88,12 @@ func (s *InputSinkStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputSinkQueue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_workBundle WorkBundle
 		{
 			_nullInd, _err := _data.ReadInt32()

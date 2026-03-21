@@ -31,8 +31,7 @@ func (u *DemuxPid) GetTPid() (int32, bool) {
 func (u *DemuxPid) SetTPid(
 	v int32,
 ) {
-	u.Tag = DemuxPidTagTPid
-	u.TPid = v
+	*u = DemuxPid{Tag: DemuxPidTagTPid, TPid: v}
 }
 
 func (u *DemuxPid) GetMmtpPid() (int32, bool) {
@@ -46,8 +45,7 @@ func (u *DemuxPid) GetMmtpPid() (int32, bool) {
 func (u *DemuxPid) SetMmtpPid(
 	v int32,
 ) {
-	u.Tag = DemuxPidTagMmtpPid
-	u.MmtpPid = v
+	*u = DemuxPid{Tag: DemuxPidTagMmtpPid, MmtpPid: v}
 }
 
 func (u *DemuxPid) MarshalParcel(

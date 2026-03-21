@@ -54,9 +54,19 @@ func (s *StaScanResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.TimeStampInUs, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Ssid, _err = p.ReadByteArray()
@@ -64,9 +74,19 @@ func (s *StaScanResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Bssid, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Rssi, _err = p.ReadInt32()
@@ -74,9 +94,19 @@ func (s *StaScanResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Frequency, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_beaconPeriodInMsRaw, _err := p.ReadInt32()
@@ -85,11 +115,21 @@ func (s *StaScanResult) UnmarshalParcel(
 	}
 	s.BeaconPeriodInMs = uint16(_beaconPeriodInMsRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_capabilityRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Capability = uint16(_capabilityRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count2 int32
 	_count2, _err = p.ReadInt32()

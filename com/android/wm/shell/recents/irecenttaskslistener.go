@@ -51,6 +51,7 @@ func (p *RecentTasksListenerProxy) OnRecentTasksChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentTasksListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentTasksListener, MethodIRecentTasksListenerOnRecentTasksChanged)
@@ -67,6 +68,7 @@ func (p *RecentTasksListenerProxy) OnRunningTaskAppeared(
 	taskInfo app.ActivityManagerRunningTaskInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentTasksListener)
 	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
@@ -87,6 +89,7 @@ func (p *RecentTasksListenerProxy) OnRunningTaskVanished(
 	taskInfo app.ActivityManagerRunningTaskInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecentTasksListener)
 	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
@@ -105,7 +108,8 @@ func (p *RecentTasksListenerProxy) OnRunningTaskVanished(
 // RecentTasksListenerStub dispatches incoming binder transactions
 // to a typed IRecentTasksListener implementation.
 type RecentTasksListenerStub struct {
-	Impl IRecentTasksListener
+	Impl      IRecentTasksListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RecentTasksListenerStub)(nil)
@@ -119,18 +123,15 @@ func (s *RecentTasksListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRecentTasksListenerOnRecentTasksChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnRecentTasksChanged(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecentTasksListenerOnRunningTaskAppeared:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -144,12 +145,8 @@ func (s *RecentTasksListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnRunningTaskAppeared(ctx, _arg_taskInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecentTasksListenerOnRunningTaskVanished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -163,8 +160,7 @@ func (s *RecentTasksListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnRunningTaskVanished(ctx, _arg_taskInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

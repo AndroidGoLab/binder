@@ -1,0 +1,6 @@
+package: android.hardware.camera2.impl
+go_package: android/hardware/camera2/impl
+parcelables:
+    - name: CameraMetadataNative
+    - name: CaptureResultExtras
+    - name: PhysicalCaptureResultInfo

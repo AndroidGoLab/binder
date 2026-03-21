@@ -53,6 +53,7 @@ func (p *AccessibilityEmbeddedConnectionProxy) AssociateEmbeddedHierarchy(
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityEmbeddedConnection)
 	binder.WriteBinderToParcel(ctx, _data, hostToken, p.Remote.Transport())
 	_data.WriteInt32(sourceId)
@@ -84,6 +85,7 @@ func (p *AccessibilityEmbeddedConnectionProxy) DisassociateEmbeddedHierarchy(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityEmbeddedConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityEmbeddedConnection, MethodIAccessibilityEmbeddedConnectionDisassociateEmbeddedHierarchy)
@@ -109,6 +111,7 @@ func (p *AccessibilityEmbeddedConnectionProxy) SetWindowMatrix(
 	matrixValues []float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityEmbeddedConnection)
 	if matrixValues == nil {
 		_data.WriteInt32(-1)
@@ -131,7 +134,8 @@ func (p *AccessibilityEmbeddedConnectionProxy) SetWindowMatrix(
 // AccessibilityEmbeddedConnectionStub dispatches incoming binder transactions
 // to a typed IAccessibilityEmbeddedConnection implementation.
 type AccessibilityEmbeddedConnectionStub struct {
-	Impl IAccessibilityEmbeddedConnection
+	Impl      IAccessibilityEmbeddedConnection
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AccessibilityEmbeddedConnectionStub)(nil)
@@ -145,14 +149,20 @@ func (s *AccessibilityEmbeddedConnectionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAccessibilityEmbeddedConnectionAssociateEmbeddedHierarchy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_hostToken binder.IBinder
-		_ = _arg_hostToken
+		{
+			_hostTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hostToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _hostTokenHandle)
+		}
 		_arg_sourceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -164,13 +174,9 @@ func (s *AccessibilityEmbeddedConnectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	case TransactionIAccessibilityEmbeddedConnectionDisassociateEmbeddedHierarchy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DisassociateEmbeddedHierarchy(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -180,15 +186,27 @@ func (s *AccessibilityEmbeddedConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityEmbeddedConnectionSetWindowMatrix:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_matrixValues []float32
-		_ = _arg_matrixValues
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_matrixValues = make([]float32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_matrixValues[_i], _err = _data.ReadFloat32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetWindowMatrix(ctx, _arg_matrixValues)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

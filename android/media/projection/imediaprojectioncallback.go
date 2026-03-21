@@ -50,6 +50,7 @@ func (p *MediaProjectionCallbackProxy) OnStop(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionCallback, MethodIMediaProjectionCallbackOnStop)
@@ -67,6 +68,7 @@ func (p *MediaProjectionCallbackProxy) OnCapturedContentResize(
 	height int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionCallback)
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
@@ -85,6 +87,7 @@ func (p *MediaProjectionCallbackProxy) OnCapturedContentVisibilityChanged(
 	isVisible bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionCallback)
 	_data.WriteBool(isVisible)
 
@@ -100,7 +103,8 @@ func (p *MediaProjectionCallbackProxy) OnCapturedContentVisibilityChanged(
 // MediaProjectionCallbackStub dispatches incoming binder transactions
 // to a typed IMediaProjectionCallback implementation.
 type MediaProjectionCallbackStub struct {
-	Impl IMediaProjectionCallback
+	Impl      IMediaProjectionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaProjectionCallbackStub)(nil)
@@ -114,18 +118,15 @@ func (s *MediaProjectionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaProjectionCallbackOnStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnStop(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaProjectionCallbackOnCapturedContentResize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -135,19 +136,14 @@ func (s *MediaProjectionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnCapturedContentResize(ctx, _arg_width, _arg_height)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaProjectionCallbackOnCapturedContentVisibilityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isVisible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnCapturedContentVisibilityChanged(ctx, _arg_isVisible)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

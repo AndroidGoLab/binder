@@ -1,0 +1,33 @@
+package: android.app.time
+go_package: android/app/time
+interfaces:
+    - name: ITimeDetectorListener
+      descriptor: android.app.time.ITimeDetectorListener
+      oneway: true
+      methods:
+        - name: onChange
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: ITimeZoneDetectorListener
+      descriptor: android.app.time.ITimeZoneDetectorListener
+      oneway: true
+      methods:
+        - name: onChange
+          transaction_code_offset: 0
+          return_type:
+            name: void
+parcelables:
+    - name: ExternalTimeSuggestion
+    - name: LocationTimeZoneAlgorithmStatus
+    - name: TelephonyTimeZoneAlgorithmStatus
+    - name: TimeCapabilities
+    - name: TimeCapabilitiesAndConfig
+    - name: TimeConfiguration
+    - name: TimeState
+    - name: TimeZoneCapabilities
+    - name: TimeZoneCapabilitiesAndConfig
+    - name: TimeZoneConfiguration
+    - name: TimeZoneDetectorStatus
+    - name: TimeZoneState
+    - name: UnixEpochTime

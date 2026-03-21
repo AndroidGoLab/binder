@@ -7,6 +7,9 @@ import (
 	cameraDevice "github.com/xaionaro-go/binder/android/hardware/camera/device"
 	provider "github.com/xaionaro-go/binder/android/hardware/camera/provider"
 	camera2 "github.com/xaionaro-go/binder/android/hardware/camera2"
+	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
+	params "github.com/xaionaro-go/binder/android/hardware/camera2/params"
+	utils "github.com/xaionaro-go/binder/android/hardware/camera2/utils"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -78,18 +81,18 @@ const (
 type ICameraService interface {
 	AsBinder() binder.IBinder
 	GetNumberOfCameras(ctx context.Context, type_ int32) (int32, error)
-	GetCameraInfo(ctx context.Context, cameraId int32, overrideToPortrait bool) (interface{}, error)
+	GetCameraInfo(ctx context.Context, cameraId int32, overrideToPortrait bool) (CameraInfo, error)
 	Connect(ctx context.Context, client ICameraClient, cameraId int32, clientUid int32, clientPid int32, targetSdkVersion int32, overrideToPortrait bool, forceSlowJpegMode bool) (ICamera, error)
 	ConnectDevice(ctx context.Context, callbacks camera2.ICameraDeviceCallbacks, cameraId string, featureId string, clientUid int32, oomScoreOffset int32, targetSdkVersion int32, overrideToPortrait bool) (device.ICameraDeviceUser, error)
-	AddListener(ctx context.Context, listener ICameraServiceListener) ([]interface{}, error)
+	AddListener(ctx context.Context, listener ICameraServiceListener) ([]CameraStatus, error)
 	GetConcurrentCameraIds(ctx context.Context) ([]provider.ConcurrentCameraIdCombination, error)
-	IsConcurrentSessionConfigurationSupported(ctx context.Context, sessions []interface{}, targetSdkVersion int32) (bool, error)
+	IsConcurrentSessionConfigurationSupported(ctx context.Context, sessions []utils.CameraIdAndSessionConfiguration, targetSdkVersion int32) (bool, error)
 	RemapCameraIds(ctx context.Context, cameraIdRemapping CameraIdRemapping) error
-	InjectSessionParams(ctx context.Context, cameraId string, sessionParams interface{}) error
+	InjectSessionParams(ctx context.Context, cameraId string, sessionParams impl.CameraMetadataNative) error
 	RemoveListener(ctx context.Context, listener ICameraServiceListener) error
-	GetCameraCharacteristics(ctx context.Context, cameraId string, targetSdkVersion int32, overrideToPortrait bool) (interface{}, error)
-	GetCameraVendorTagDescriptor(ctx context.Context) (interface{}, error)
-	GetCameraVendorTagCache(ctx context.Context) (interface{}, error)
+	GetCameraCharacteristics(ctx context.Context, cameraId string, targetSdkVersion int32, overrideToPortrait bool) (impl.CameraMetadataNative, error)
+	GetCameraVendorTagDescriptor(ctx context.Context) (params.VendorTagDescriptor, error)
+	GetCameraVendorTagCache(ctx context.Context) (params.VendorTagDescriptorCache, error)
 	GetLegacyParameters(ctx context.Context, cameraId int32) (string, error)
 	SupportsCameraApi(ctx context.Context, cameraId string, apiVersion int32) (bool, error)
 	IsHiddenPhysicalCamera(ctx context.Context, cameraId string) (bool, error)
@@ -101,9 +104,9 @@ type ICameraService interface {
 	NotifyDisplayConfigurationChange(ctx context.Context) error
 	NotifyDeviceStateChange(ctx context.Context, newState int64) error
 	ReportExtensionSessionStats(ctx context.Context, stats CameraExtensionSessionStats) (string, error)
-	CreateDefaultRequest(ctx context.Context, cameraId string, templateId int32) (interface{}, error)
+	CreateDefaultRequest(ctx context.Context, cameraId string, templateId int32) (impl.CameraMetadataNative, error)
 	IsSessionConfigurationWithParametersSupported(ctx context.Context, cameraId string, sessionConfiguration device.SessionConfiguration) (bool, error)
-	GetSessionCharacteristics(ctx context.Context, cameraId string, targetSdkVersion int32, overrideToPortrait bool, sessionConfiguration device.SessionConfiguration) (interface{}, error)
+	GetSessionCharacteristics(ctx context.Context, cameraId string, targetSdkVersion int32, overrideToPortrait bool, sessionConfiguration device.SessionConfiguration) (impl.CameraMetadataNative, error)
 }
 
 const (
@@ -156,6 +159,7 @@ func (p *CameraServiceProxy) GetNumberOfCameras(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteInt32(type_)
 
@@ -185,9 +189,10 @@ func (p *CameraServiceProxy) GetCameraInfo(
 	ctx context.Context,
 	cameraId int32,
 	overrideToPortrait bool,
-) (interface{}, error) {
-	var _result interface{}
+) (CameraInfo, error) {
+	var _result CameraInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteInt32(cameraId)
 	_data.WriteBool(overrideToPortrait)
@@ -207,6 +212,15 @@ func (p *CameraServiceProxy) GetCameraInfo(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -223,6 +237,7 @@ func (p *CameraServiceProxy) Connect(
 	var _result ICamera
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(cameraId)
@@ -269,6 +284,7 @@ func (p *CameraServiceProxy) ConnectDevice(
 	var _result device.ICameraDeviceUser
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(cameraId)
@@ -305,9 +321,10 @@ func (p *CameraServiceProxy) ConnectDevice(
 func (p *CameraServiceProxy) AddListener(
 	ctx context.Context,
 	listener ICameraServiceListener,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]CameraStatus, error) {
+	var _result []CameraStatus
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -330,10 +347,19 @@ func (p *CameraServiceProxy) AddListener(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]CameraStatus, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -344,6 +370,7 @@ func (p *CameraServiceProxy) GetConcurrentCameraIds(
 ) ([]provider.ConcurrentCameraIdCombination, error) {
 	var _result []provider.ConcurrentCameraIdCombination
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraService, MethodICameraServiceGetConcurrentCameraIds)
@@ -365,6 +392,9 @@ func (p *CameraServiceProxy) GetConcurrentCameraIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]provider.ConcurrentCameraIdCombination, _count)
@@ -382,16 +412,23 @@ func (p *CameraServiceProxy) GetConcurrentCameraIds(
 
 func (p *CameraServiceProxy) IsConcurrentSessionConfigurationSupported(
 	ctx context.Context,
-	sessions []interface{},
+	sessions []utils.CameraIdAndSessionConfiguration,
 	targetSdkVersion int32,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	if sessions == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(sessions)))
+		for _, _item := range sessions {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 	_data.WriteInt32(targetSdkVersion)
 
@@ -422,6 +459,7 @@ func (p *CameraServiceProxy) RemapCameraIds(
 	cameraIdRemapping CameraIdRemapping,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteInt32(1)
 	if _err := cameraIdRemapping.MarshalParcel(_data); _err != nil {
@@ -449,11 +487,16 @@ func (p *CameraServiceProxy) RemapCameraIds(
 func (p *CameraServiceProxy) InjectSessionParams(
 	ctx context.Context,
 	cameraId string,
-	sessionParams interface{},
+	sessionParams impl.CameraMetadataNative,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteString16(cameraId)
+	_data.WriteInt32(1)
+	if _err := sessionParams.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraService, MethodICameraServiceInjectSessionParams)
 	if _err != nil {
@@ -478,6 +521,7 @@ func (p *CameraServiceProxy) RemoveListener(
 	listener ICameraServiceListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -504,9 +548,10 @@ func (p *CameraServiceProxy) GetCameraCharacteristics(
 	cameraId string,
 	targetSdkVersion int32,
 	overrideToPortrait bool,
-) (interface{}, error) {
-	var _result interface{}
+) (impl.CameraMetadataNative, error) {
+	var _result impl.CameraMetadataNative
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteString16(cameraId)
 	_data.WriteInt32(targetSdkVersion)
@@ -527,14 +572,24 @@ func (p *CameraServiceProxy) GetCameraCharacteristics(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *CameraServiceProxy) GetCameraVendorTagDescriptor(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (params.VendorTagDescriptor, error) {
+	var _result params.VendorTagDescriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraService, MethodICameraServiceGetCameraVendorTagDescriptor)
@@ -552,14 +607,24 @@ func (p *CameraServiceProxy) GetCameraVendorTagDescriptor(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *CameraServiceProxy) GetCameraVendorTagCache(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (params.VendorTagDescriptorCache, error) {
+	var _result params.VendorTagDescriptorCache
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraService, MethodICameraServiceGetCameraVendorTagCache)
@@ -577,6 +642,15 @@ func (p *CameraServiceProxy) GetCameraVendorTagCache(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -586,6 +660,7 @@ func (p *CameraServiceProxy) GetLegacyParameters(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteInt32(cameraId)
 
@@ -618,6 +693,7 @@ func (p *CameraServiceProxy) SupportsCameraApi(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteString16(cameraId)
 	_data.WriteInt32(apiVersion)
@@ -650,6 +726,7 @@ func (p *CameraServiceProxy) IsHiddenPhysicalCamera(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteString16(cameraId)
 
@@ -684,6 +761,7 @@ func (p *CameraServiceProxy) InjectCamera(
 ) (cameraDevice.ICameraInjectionSession, error) {
 	var _result cameraDevice.ICameraInjectionSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteString16(packageName)
 	_data.WriteString16(internalCamId)
@@ -720,6 +798,7 @@ func (p *CameraServiceProxy) SetTorchMode(
 	clientBinder binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteString16(cameraId)
 	_data.WriteBool(enabled)
@@ -750,6 +829,7 @@ func (p *CameraServiceProxy) TurnOnTorchWithStrengthLevel(
 	clientBinder binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteString16(cameraId)
 	_data.WriteInt32(strengthLevel)
@@ -779,6 +859,7 @@ func (p *CameraServiceProxy) GetTorchStrengthLevel(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteString16(cameraId)
 
@@ -810,6 +891,7 @@ func (p *CameraServiceProxy) NotifySystemEvent(
 	args []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteInt32(eventId)
 	if args == nil {
@@ -834,6 +916,7 @@ func (p *CameraServiceProxy) NotifyDisplayConfigurationChange(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraService, MethodICameraServiceNotifyDisplayConfigurationChange)
@@ -850,6 +933,7 @@ func (p *CameraServiceProxy) NotifyDeviceStateChange(
 	newState int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteInt64(newState)
 
@@ -868,6 +952,7 @@ func (p *CameraServiceProxy) ReportExtensionSessionStats(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteInt32(1)
 	if _err := stats.MarshalParcel(_data); _err != nil {
@@ -900,9 +985,10 @@ func (p *CameraServiceProxy) CreateDefaultRequest(
 	ctx context.Context,
 	cameraId string,
 	templateId int32,
-) (interface{}, error) {
-	var _result interface{}
+) (impl.CameraMetadataNative, error) {
+	var _result impl.CameraMetadataNative
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteString16(cameraId)
 	_data.WriteInt32(templateId)
@@ -922,6 +1008,15 @@ func (p *CameraServiceProxy) CreateDefaultRequest(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -932,6 +1027,7 @@ func (p *CameraServiceProxy) IsSessionConfigurationWithParametersSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteString16(cameraId)
 	_data.WriteInt32(1)
@@ -967,9 +1063,10 @@ func (p *CameraServiceProxy) GetSessionCharacteristics(
 	targetSdkVersion int32,
 	overrideToPortrait bool,
 	sessionConfiguration device.SessionConfiguration,
-) (interface{}, error) {
-	var _result interface{}
+) (impl.CameraMetadataNative, error) {
+	var _result impl.CameraMetadataNative
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteString16(cameraId)
 	_data.WriteInt32(targetSdkVersion)
@@ -994,13 +1091,23 @@ func (p *CameraServiceProxy) GetSessionCharacteristics(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 // CameraServiceStub dispatches incoming binder transactions
 // to a typed ICameraService implementation.
 type CameraServiceStub struct {
-	Impl ICameraService
+	Impl      ICameraService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CameraServiceStub)(nil)
@@ -1014,11 +1121,12 @@ func (s *CameraServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICameraServiceGetNumberOfCameras:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1033,9 +1141,6 @@ func (s *CameraServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICameraServiceGetCameraInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1051,15 +1156,20 @@ func (s *CameraServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionICameraServiceConnect:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		return _reply, nil
+	case TransactionICameraServiceConnect:
 		var _arg_client ICameraClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewCameraClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_arg_cameraId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1094,16 +1204,17 @@ func (s *CameraServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionICameraServiceConnectDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks camera2.ICameraDeviceCallbacks
-		_ = _arg_callbacks
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = camera2.NewCameraDeviceCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
+		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1138,16 +1249,17 @@ func (s *CameraServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionICameraServiceAddListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ICameraServiceListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewCameraServiceListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.AddListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1155,13 +1267,19 @@ func (s *CameraServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionICameraServiceGetConcurrentCameraIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetConcurrentCameraIds(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1169,16 +1287,40 @@ func (s *CameraServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionICameraServiceIsConcurrentSessionConfigurationSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_sessions []utils.CameraIdAndSessionConfiguration
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_sessions = make([]utils.CameraIdAndSessionConfiguration, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_sessions[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_sessions []interface{}
-		_ = _arg_sessions
 		_arg_targetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1193,9 +1335,6 @@ func (s *CameraServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraServiceRemapCameraIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_cameraIdRemapping CameraIdRemapping
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1217,14 +1356,22 @@ func (s *CameraServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraServiceInjectSessionParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionParams interface{}
+		var _arg_sessionParams impl.CameraMetadataNative
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionParams.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.InjectSessionParams(ctx, _arg_cameraId, _arg_sessionParams)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1234,12 +1381,14 @@ func (s *CameraServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraServiceRemoveListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ICameraServiceListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewCameraServiceListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1249,9 +1398,6 @@ func (s *CameraServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraServiceGetCameraCharacteristics:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1271,12 +1417,12 @@ func (s *CameraServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionICameraServiceGetCameraVendorTagDescriptor:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionICameraServiceGetCameraVendorTagDescriptor:
 		_result, _err := s.Impl.GetCameraVendorTagDescriptor(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1284,12 +1430,12 @@ func (s *CameraServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionICameraServiceGetCameraVendorTagCache:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionICameraServiceGetCameraVendorTagCache:
 		_result, _err := s.Impl.GetCameraVendorTagCache(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1297,12 +1443,12 @@ func (s *CameraServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionICameraServiceGetLegacyParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionICameraServiceGetLegacyParameters:
 		_arg_cameraId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1317,9 +1463,6 @@ func (s *CameraServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionICameraServiceSupportsCameraApi:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1338,9 +1481,6 @@ func (s *CameraServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraServiceIsHiddenPhysicalCamera:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1355,9 +1495,6 @@ func (s *CameraServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraServiceInjectCamera:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1370,9 +1507,14 @@ func (s *CameraServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_CameraInjectionCallback camera2.ICameraInjectionCallback
-		_ = _arg_CameraInjectionCallback
+		{
+			_CameraInjectionCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_CameraInjectionCallback = camera2.NewCameraInjectionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _CameraInjectionCallbackHandle))
+		}
 		_result, _err := s.Impl.InjectCamera(ctx, _arg_packageName, _arg_internalCamId, _arg_externalCamId, _arg_CameraInjectionCallback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1380,13 +1522,9 @@ func (s *CameraServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionICameraServiceSetTorchMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1395,9 +1533,14 @@ func (s *CameraServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientBinder binder.IBinder
-		_ = _arg_clientBinder
+		{
+			_clientBinderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientBinder = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientBinderHandle)
+		}
 		_err = s.Impl.SetTorchMode(ctx, _arg_cameraId, _arg_enabled, _arg_clientBinder)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1407,9 +1550,6 @@ func (s *CameraServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraServiceTurnOnTorchWithStrengthLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1418,9 +1558,14 @@ func (s *CameraServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientBinder binder.IBinder
-		_ = _arg_clientBinder
+		{
+			_clientBinderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientBinder = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientBinderHandle)
+		}
 		_err = s.Impl.TurnOnTorchWithStrengthLevel(ctx, _arg_cameraId, _arg_strengthLevel, _arg_clientBinder)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1430,9 +1575,6 @@ func (s *CameraServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraServiceGetTorchStrengthLevel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1447,41 +1589,42 @@ func (s *CameraServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICameraServiceNotifySystemEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_eventId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_args []int32
-		_ = _arg_args
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_args = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_args[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.NotifySystemEvent(ctx, _arg_eventId, _arg_args)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICameraServiceNotifyDisplayConfigurationChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NotifyDisplayConfigurationChange(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICameraServiceNotifyDeviceStateChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_newState, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyDeviceStateChange(ctx, _arg_newState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICameraServiceReportExtensionSessionStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_stats CameraExtensionSessionStats
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1504,9 +1647,6 @@ func (s *CameraServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionICameraServiceCreateDefaultRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1522,12 +1662,12 @@ func (s *CameraServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionICameraServiceIsSessionConfigurationWithParametersSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionICameraServiceIsSessionConfigurationWithParametersSupported:
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1554,9 +1694,6 @@ func (s *CameraServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraServiceGetSessionCharacteristics:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1588,7 +1725,10 @@ func (s *CameraServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -1600,18 +1740,18 @@ func (s *CameraServiceStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type ICameraServiceServer interface {
 	GetNumberOfCameras(ctx context.Context, type_ int32) (int32, error)
-	GetCameraInfo(ctx context.Context, cameraId int32, overrideToPortrait bool) (interface{}, error)
+	GetCameraInfo(ctx context.Context, cameraId int32, overrideToPortrait bool) (CameraInfo, error)
 	Connect(ctx context.Context, client ICameraClient, cameraId int32, clientUid int32, clientPid int32, targetSdkVersion int32, overrideToPortrait bool, forceSlowJpegMode bool) (ICamera, error)
 	ConnectDevice(ctx context.Context, callbacks camera2.ICameraDeviceCallbacks, cameraId string, featureId string, clientUid int32, oomScoreOffset int32, targetSdkVersion int32, overrideToPortrait bool) (device.ICameraDeviceUser, error)
-	AddListener(ctx context.Context, listener ICameraServiceListener) ([]interface{}, error)
+	AddListener(ctx context.Context, listener ICameraServiceListener) ([]CameraStatus, error)
 	GetConcurrentCameraIds(ctx context.Context) ([]provider.ConcurrentCameraIdCombination, error)
-	IsConcurrentSessionConfigurationSupported(ctx context.Context, sessions []interface{}, targetSdkVersion int32) (bool, error)
+	IsConcurrentSessionConfigurationSupported(ctx context.Context, sessions []utils.CameraIdAndSessionConfiguration, targetSdkVersion int32) (bool, error)
 	RemapCameraIds(ctx context.Context, cameraIdRemapping CameraIdRemapping) error
-	InjectSessionParams(ctx context.Context, cameraId string, sessionParams interface{}) error
+	InjectSessionParams(ctx context.Context, cameraId string, sessionParams impl.CameraMetadataNative) error
 	RemoveListener(ctx context.Context, listener ICameraServiceListener) error
-	GetCameraCharacteristics(ctx context.Context, cameraId string, targetSdkVersion int32, overrideToPortrait bool) (interface{}, error)
-	GetCameraVendorTagDescriptor(ctx context.Context) (interface{}, error)
-	GetCameraVendorTagCache(ctx context.Context) (interface{}, error)
+	GetCameraCharacteristics(ctx context.Context, cameraId string, targetSdkVersion int32, overrideToPortrait bool) (impl.CameraMetadataNative, error)
+	GetCameraVendorTagDescriptor(ctx context.Context) (params.VendorTagDescriptor, error)
+	GetCameraVendorTagCache(ctx context.Context) (params.VendorTagDescriptorCache, error)
 	GetLegacyParameters(ctx context.Context, cameraId int32) (string, error)
 	SupportsCameraApi(ctx context.Context, cameraId string, apiVersion int32) (bool, error)
 	IsHiddenPhysicalCamera(ctx context.Context, cameraId string) (bool, error)
@@ -1623,9 +1763,9 @@ type ICameraServiceServer interface {
 	NotifyDisplayConfigurationChange(ctx context.Context) error
 	NotifyDeviceStateChange(ctx context.Context, newState int64) error
 	ReportExtensionSessionStats(ctx context.Context, stats CameraExtensionSessionStats) (string, error)
-	CreateDefaultRequest(ctx context.Context, cameraId string, templateId int32) (interface{}, error)
+	CreateDefaultRequest(ctx context.Context, cameraId string, templateId int32) (impl.CameraMetadataNative, error)
 	IsSessionConfigurationWithParametersSupported(ctx context.Context, cameraId string, sessionConfiguration device.SessionConfiguration) (bool, error)
-	GetSessionCharacteristics(ctx context.Context, cameraId string, targetSdkVersion int32, overrideToPortrait bool, sessionConfiguration device.SessionConfiguration) (interface{}, error)
+	GetSessionCharacteristics(ctx context.Context, cameraId string, targetSdkVersion int32, overrideToPortrait bool, sessionConfiguration device.SessionConfiguration) (impl.CameraMetadataNative, error)
 }
 
 type cameraServiceStubWrapper struct {
@@ -1648,7 +1788,7 @@ func (w *cameraServiceStubWrapper) GetCameraInfo(
 	ctx context.Context,
 	cameraId int32,
 	overrideToPortrait bool,
-) (interface{}, error) {
+) (CameraInfo, error) {
 	return w.impl.GetCameraInfo(ctx, cameraId, overrideToPortrait)
 }
 
@@ -1681,7 +1821,7 @@ func (w *cameraServiceStubWrapper) ConnectDevice(
 func (w *cameraServiceStubWrapper) AddListener(
 	ctx context.Context,
 	listener ICameraServiceListener,
-) ([]interface{}, error) {
+) ([]CameraStatus, error) {
 	return w.impl.AddListener(ctx, listener)
 }
 
@@ -1693,7 +1833,7 @@ func (w *cameraServiceStubWrapper) GetConcurrentCameraIds(
 
 func (w *cameraServiceStubWrapper) IsConcurrentSessionConfigurationSupported(
 	ctx context.Context,
-	sessions []interface{},
+	sessions []utils.CameraIdAndSessionConfiguration,
 	targetSdkVersion int32,
 ) (bool, error) {
 	return w.impl.IsConcurrentSessionConfigurationSupported(ctx, sessions, targetSdkVersion)
@@ -1709,7 +1849,7 @@ func (w *cameraServiceStubWrapper) RemapCameraIds(
 func (w *cameraServiceStubWrapper) InjectSessionParams(
 	ctx context.Context,
 	cameraId string,
-	sessionParams interface{},
+	sessionParams impl.CameraMetadataNative,
 ) error {
 	return w.impl.InjectSessionParams(ctx, cameraId, sessionParams)
 }
@@ -1726,19 +1866,19 @@ func (w *cameraServiceStubWrapper) GetCameraCharacteristics(
 	cameraId string,
 	targetSdkVersion int32,
 	overrideToPortrait bool,
-) (interface{}, error) {
+) (impl.CameraMetadataNative, error) {
 	return w.impl.GetCameraCharacteristics(ctx, cameraId, targetSdkVersion, overrideToPortrait)
 }
 
 func (w *cameraServiceStubWrapper) GetCameraVendorTagDescriptor(
 	ctx context.Context,
-) (interface{}, error) {
+) (params.VendorTagDescriptor, error) {
 	return w.impl.GetCameraVendorTagDescriptor(ctx)
 }
 
 func (w *cameraServiceStubWrapper) GetCameraVendorTagCache(
 	ctx context.Context,
-) (interface{}, error) {
+) (params.VendorTagDescriptorCache, error) {
 	return w.impl.GetCameraVendorTagCache(ctx)
 }
 
@@ -1831,7 +1971,7 @@ func (w *cameraServiceStubWrapper) CreateDefaultRequest(
 	ctx context.Context,
 	cameraId string,
 	templateId int32,
-) (interface{}, error) {
+) (impl.CameraMetadataNative, error) {
 	return w.impl.CreateDefaultRequest(ctx, cameraId, templateId)
 }
 
@@ -1849,7 +1989,7 @@ func (w *cameraServiceStubWrapper) GetSessionCharacteristics(
 	targetSdkVersion int32,
 	overrideToPortrait bool,
 	sessionConfiguration device.SessionConfiguration,
-) (interface{}, error) {
+) (impl.CameraMetadataNative, error) {
 	return w.impl.GetSessionCharacteristics(ctx, cameraId, targetSdkVersion, overrideToPortrait, sessionConfiguration)
 }
 

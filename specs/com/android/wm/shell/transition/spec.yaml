@@ -1,0 +1,61 @@
+package: com.android.wm.shell.transition
+go_package: com/android/wm/shell/transition
+interfaces:
+    - name: IHomeTransitionListener
+      descriptor: com.android.wm.shell.transition.IHomeTransitionListener
+      oneway: true
+      methods:
+        - name: onHomeVisibilityChanged
+          transaction_code_offset: 0
+          params:
+            - name: isVisible
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+    - name: IShellTransitions
+      descriptor: com.android.wm.shell.transition.IShellTransitions
+      methods:
+        - name: registerRemote
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: filter
+              type:
+                name: TransitionFilter
+              direction: in
+            - name: remoteTransition
+              type:
+                name: RemoteTransition
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterRemote
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: remoteTransition
+              type:
+                name: RemoteTransition
+              direction: in
+          return_type:
+            name: void
+        - name: getShellApplyToken
+          transaction_code_offset: 2
+          return_type:
+            name: IBinder
+        - name: setHomeTransitionListener
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: IHomeTransitionListener
+              direction: in
+          return_type:
+            name: void
+        - name: getHomeTaskOverlayContainer
+          transaction_code_offset: 4
+          return_type:
+            name: SurfaceControl

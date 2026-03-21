@@ -60,6 +60,7 @@ func (p *LnbProxy) SetCallback(
 	callback ILnbCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILnb)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -86,6 +87,7 @@ func (p *LnbProxy) SetVoltage(
 	voltage LnbVoltage,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILnb)
 	_data.WriteInt32(int32(voltage))
 
@@ -112,6 +114,7 @@ func (p *LnbProxy) SetTone(
 	tone LnbTone,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILnb)
 	_data.WriteInt32(int32(tone))
 
@@ -138,6 +141,7 @@ func (p *LnbProxy) SetSatellitePosition(
 	position LnbPosition,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILnb)
 	_data.WriteInt32(int32(position))
 
@@ -164,15 +168,9 @@ func (p *LnbProxy) SendDiseqcMessage(
 	diseqcMessage []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILnb)
-	if diseqcMessage == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(diseqcMessage)))
-		for _, _item := range diseqcMessage {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(diseqcMessage)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILnb, MethodILnbSendDiseqcMessage)
 	if _err != nil {
@@ -196,6 +194,7 @@ func (p *LnbProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILnb)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILnb, MethodILnbClose)
@@ -219,7 +218,8 @@ func (p *LnbProxy) Close(
 // LnbStub dispatches incoming binder transactions
 // to a typed ILnb implementation.
 type LnbStub struct {
-	Impl ILnb
+	Impl      ILnb
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LnbStub)(nil)
@@ -233,14 +233,20 @@ func (s *LnbStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILnbSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ILnbCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewLnbCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -250,9 +256,6 @@ func (s *LnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILnbSetVoltage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_voltage, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -267,9 +270,6 @@ func (s *LnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILnbSetTone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_tone, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -284,9 +284,6 @@ func (s *LnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILnbSetSatellitePosition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_position, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -301,12 +298,14 @@ func (s *LnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILnbSendDiseqcMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_diseqcMessage []byte
-		_ = _arg_diseqcMessage
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_diseqcMessage = _bytes
+		}
 		_err := s.Impl.SendDiseqcMessage(ctx, _arg_diseqcMessage)
 		_reply := parcel.New()
 		if _err != nil {
@@ -316,9 +315,6 @@ func (s *LnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILnbClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {

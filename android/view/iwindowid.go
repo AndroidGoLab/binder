@@ -51,6 +51,7 @@ func (p *WindowIdProxy) RegisterFocusObserver(
 	observer IWindowFocusObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowId)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
@@ -77,6 +78,7 @@ func (p *WindowIdProxy) UnregisterFocusObserver(
 	observer IWindowFocusObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowId)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
@@ -103,6 +105,7 @@ func (p *WindowIdProxy) IsFocused(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowId, MethodIWindowIdIsFocused)
@@ -130,7 +133,8 @@ func (p *WindowIdProxy) IsFocused(
 // WindowIdStub dispatches incoming binder transactions
 // to a typed IWindowId implementation.
 type WindowIdStub struct {
-	Impl IWindowId
+	Impl      IWindowId
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WindowIdStub)(nil)
@@ -144,14 +148,20 @@ func (s *WindowIdStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWindowIdRegisterFocusObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IWindowFocusObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewWindowFocusObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_err := s.Impl.RegisterFocusObserver(ctx, _arg_observer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -161,12 +171,14 @@ func (s *WindowIdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowIdUnregisterFocusObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IWindowFocusObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewWindowFocusObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_err := s.Impl.UnregisterFocusObserver(ctx, _arg_observer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -176,9 +188,6 @@ func (s *WindowIdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowIdIsFocused:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsFocused(ctx)
 		_reply := parcel.New()
 		if _err != nil {

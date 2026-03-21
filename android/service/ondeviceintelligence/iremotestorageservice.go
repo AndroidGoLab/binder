@@ -52,6 +52,7 @@ func (p *RemoteStorageServiceProxy) GetReadOnlyFileDescriptor(
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteStorageService)
 	_data.WriteString16(filePath)
 	_data.WriteInt32(1)
@@ -74,6 +75,7 @@ func (p *RemoteStorageServiceProxy) GetReadOnlyFeatureFileDescriptorMap(
 	remoteCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteStorageService)
 	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
@@ -96,7 +98,8 @@ func (p *RemoteStorageServiceProxy) GetReadOnlyFeatureFileDescriptorMap(
 // RemoteStorageServiceStub dispatches incoming binder transactions
 // to a typed IRemoteStorageService implementation.
 type RemoteStorageServiceStub struct {
-	Impl IRemoteStorageService
+	Impl      IRemoteStorageService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RemoteStorageServiceStub)(nil)
@@ -110,11 +113,12 @@ func (s *RemoteStorageServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRemoteStorageServiceGetReadOnlyFileDescriptor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_filePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -132,12 +136,8 @@ func (s *RemoteStorageServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.GetReadOnlyFileDescriptor(ctx, _arg_filePath, _arg_future)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRemoteStorageServiceGetReadOnlyFeatureFileDescriptorMap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_feature appOndeviceintelligence.Feature
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -163,8 +163,7 @@ func (s *RemoteStorageServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GetReadOnlyFeatureFileDescriptorMap(ctx, _arg_feature, _arg_remoteCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

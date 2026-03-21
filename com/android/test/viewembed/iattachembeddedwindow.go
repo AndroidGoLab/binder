@@ -59,6 +59,7 @@ func (p *AttachEmbeddedWindowProxy) AttachEmbedded(
 	callback IAttachEmbeddedWindowCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttachEmbeddedWindow)
 	binder.WriteBinderToParcel(ctx, _data, hostToken, p.Remote.Transport())
 	_data.WriteInt32(width)
@@ -88,6 +89,7 @@ func (p *AttachEmbeddedWindowProxy) Relayout(
 	lp view.WindowManagerLayoutParams,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttachEmbeddedWindow)
 	_data.WriteInt32(1)
 	if _err := lp.MarshalParcel(_data); _err != nil {
@@ -119,6 +121,7 @@ func (p *AttachEmbeddedWindowProxy) AttachEmbeddedSurfaceControl(
 	inputTransferToken window.InputTransferToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttachEmbeddedWindow)
 	_data.WriteInt32(1)
 	if _err := parentSurfaceControl.MarshalParcel(_data); _err != nil {
@@ -143,6 +146,7 @@ func (p *AttachEmbeddedWindowProxy) TearDownEmbeddedSurfaceControl(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttachEmbeddedWindow)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttachEmbeddedWindow, MethodIAttachEmbeddedWindowTearDownEmbeddedSurfaceControl)
@@ -157,7 +161,8 @@ func (p *AttachEmbeddedWindowProxy) TearDownEmbeddedSurfaceControl(
 // AttachEmbeddedWindowStub dispatches incoming binder transactions
 // to a typed IAttachEmbeddedWindow implementation.
 type AttachEmbeddedWindowStub struct {
-	Impl IAttachEmbeddedWindow
+	Impl      IAttachEmbeddedWindow
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AttachEmbeddedWindowStub)(nil)
@@ -171,14 +176,20 @@ func (s *AttachEmbeddedWindowStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAttachEmbeddedWindowAttachEmbedded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_hostToken binder.IBinder
-		_ = _arg_hostToken
+		{
+			_hostTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hostToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _hostTokenHandle)
+		}
 		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -187,9 +198,14 @@ func (s *AttachEmbeddedWindowStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAttachEmbeddedWindowCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAttachEmbeddedWindowCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.AttachEmbedded(ctx, _arg_hostToken, _arg_width, _arg_height, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -199,9 +215,6 @@ func (s *AttachEmbeddedWindowStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAttachEmbeddedWindowRelayout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_lp view.WindowManagerLayoutParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -223,9 +236,6 @@ func (s *AttachEmbeddedWindowStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAttachEmbeddedWindowAttachEmbeddedSurfaceControl:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_parentSurfaceControl view.SurfaceControl
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -255,15 +265,10 @@ func (s *AttachEmbeddedWindowStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.AttachEmbeddedSurfaceControl(ctx, _arg_parentSurfaceControl, _arg_displayId, _arg_inputTransferToken)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAttachEmbeddedWindowTearDownEmbeddedSurfaceControl:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.TearDownEmbeddedSurfaceControl(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

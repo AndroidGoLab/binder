@@ -1,0 +1,1137 @@
+package: android.location
+go_package: android/location
+interfaces:
+    - name: ICountryDetector
+      descriptor: android.location.ICountryDetector
+      methods:
+        - name: detectCountry
+          transaction_code_offset: 0
+          return_type:
+            name: Country
+        - name: addCountryListener
+          transaction_code_offset: 1
+          params:
+            - name: listener
+              type:
+                name: ICountryListener
+              direction: in
+          return_type:
+            name: void
+        - name: removeCountryListener
+          transaction_code_offset: 2
+          params:
+            - name: listener
+              type:
+                name: ICountryListener
+              direction: in
+          return_type:
+            name: void
+    - name: ICountryListener
+      descriptor: android.location.ICountryListener
+      oneway: true
+      methods:
+        - name: onCountryDetected
+          transaction_code_offset: 0
+          params:
+            - name: country
+              type:
+                name: Country
+              direction: in
+          return_type:
+            name: void
+    - name: IFusedGeofenceHardware
+      descriptor: android.location.IFusedGeofenceHardware
+      methods:
+        - name: isSupported
+          transaction_code_offset: 0
+          return_type:
+            name: boolean
+        - name: addGeofences
+          transaction_code_offset: 1
+          params:
+            - name: geofenceRequestsArray
+              type:
+                name: GeofenceHardwareRequestParcelable
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: removeGeofences
+          transaction_code_offset: 2
+          params:
+            - name: geofenceIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: pauseMonitoringGeofence
+          transaction_code_offset: 3
+          params:
+            - name: geofenceId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: resumeMonitoringGeofence
+          transaction_code_offset: 4
+          params:
+            - name: geofenceId
+              type:
+                name: int
+              direction: in
+            - name: monitorTransitions
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: modifyGeofenceOptions
+          transaction_code_offset: 5
+          params:
+            - name: geofenceId
+              type:
+                name: int
+              direction: in
+            - name: lastTransition
+              type:
+                name: int
+              direction: in
+            - name: monitorTransitions
+              type:
+                name: int
+              direction: in
+            - name: notificationResponsiveness
+              type:
+                name: int
+              direction: in
+            - name: unknownTimer
+              type:
+                name: int
+              direction: in
+            - name: sourcesToUse
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IGeofenceProvider
+      descriptor: android.location.IGeofenceProvider
+      oneway: true
+      methods:
+        - name: setGeofenceHardware
+          transaction_code_offset: 0
+          params:
+            - name: proxy
+              type:
+                name: IGeofenceHardware
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IGnssAntennaInfoListener
+      descriptor: android.location.IGnssAntennaInfoListener
+      oneway: true
+      methods:
+        - name: onGnssAntennaInfoChanged
+          transaction_code_offset: 0
+          params:
+            - name: antennaInfos
+              type:
+                name: List
+                type_args:
+                    - name: GnssAntennaInfo
+              direction: in
+          return_type:
+            name: void
+    - name: IGnssMeasurementsListener
+      descriptor: android.location.IGnssMeasurementsListener
+      oneway: true
+      methods:
+        - name: onGnssMeasurementsReceived
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: GnssMeasurementsEvent
+              direction: in
+          return_type:
+            name: void
+        - name: onStatusChanged
+          transaction_code_offset: 1
+          params:
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IGnssNavigationMessageListener
+      descriptor: android.location.IGnssNavigationMessageListener
+      oneway: true
+      methods:
+        - name: onGnssNavigationMessageReceived
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: GnssNavigationMessage
+              direction: in
+          return_type:
+            name: void
+        - name: onStatusChanged
+          transaction_code_offset: 1
+          params:
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IGnssNmeaListener
+      descriptor: android.location.IGnssNmeaListener
+      oneway: true
+      methods:
+        - name: onNmeaReceived
+          transaction_code_offset: 0
+          params:
+            - name: timestamp
+              type:
+                name: long
+            - name: nmea
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IGnssStatusListener
+      descriptor: android.location.IGnssStatusListener
+      oneway: true
+      methods:
+        - name: onGnssStarted
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onGnssStopped
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onFirstFix
+          transaction_code_offset: 2
+          params:
+            - name: ttff
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSvStatusChanged
+          transaction_code_offset: 3
+          params:
+            - name: gnssStatus
+              type:
+                name: GnssStatus
+              direction: in
+          return_type:
+            name: void
+    - name: IGpsGeofenceHardware
+      descriptor: android.location.IGpsGeofenceHardware
+      methods:
+        - name: isHardwareGeofenceSupported
+          transaction_code_offset: 0
+          return_type:
+            name: boolean
+        - name: addCircularHardwareGeofence
+          transaction_code_offset: 1
+          params:
+            - name: geofenceId
+              type:
+                name: int
+            - name: latitude
+              type:
+                name: double
+            - name: longitude
+              type:
+                name: double
+            - name: radius
+              type:
+                name: double
+            - name: lastTransition
+              type:
+                name: int
+            - name: monitorTransition
+              type:
+                name: int
+            - name: notificationResponsiveness
+              type:
+                name: int
+            - name: unknownTimer
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: removeHardwareGeofence
+          transaction_code_offset: 2
+          params:
+            - name: geofenceId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: pauseHardwareGeofence
+          transaction_code_offset: 3
+          params:
+            - name: geofenceId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: resumeHardwareGeofence
+          transaction_code_offset: 4
+          params:
+            - name: geofenceId
+              type:
+                name: int
+            - name: monitorTransition
+              type:
+                name: int
+          return_type:
+            name: boolean
+    - name: ILocationCallback
+      descriptor: android.location.ILocationCallback
+      oneway: true
+      methods:
+        - name: onLocation
+          transaction_code_offset: 0
+          params:
+            - name: location
+              type:
+                name: Location
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+    - name: ILocationListener
+      descriptor: android.location.ILocationListener
+      oneway: true
+      methods:
+        - name: onLocationChanged
+          transaction_code_offset: 0
+          params:
+            - name: locations
+              type:
+                name: List
+                type_args:
+                    - name: Location
+              direction: in
+            - name: onCompleteCallback
+              type:
+                name: IRemoteCallback
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: onProviderEnabledChanged
+          transaction_code_offset: 1
+          params:
+            - name: provider
+              type:
+                name: String
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onFlushComplete
+          transaction_code_offset: 2
+          params:
+            - name: requestCode
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ILocationManager
+      descriptor: android.location.ILocationManager
+      methods:
+        - name: getLastLocation
+          transaction_code_offset: 0
+          params:
+            - name: provider
+              type:
+                name: String
+            - name: request
+              type:
+                name: LastLocationRequest
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+          return_type:
+            name: Location
+          annotations:
+            - nullable
+        - name: getCurrentLocation
+          transaction_code_offset: 1
+          params:
+            - name: provider
+              type:
+                name: String
+            - name: request
+              type:
+                name: LocationRequest
+              direction: in
+            - name: callback
+              type:
+                name: ILocationCallback
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+            - name: listenerId
+              type:
+                name: String
+          return_type:
+            name: ICancellationSignal
+          annotations:
+            - nullable
+        - name: registerLocationListener
+          transaction_code_offset: 2
+          params:
+            - name: provider
+              type:
+                name: String
+            - name: request
+              type:
+                name: LocationRequest
+              direction: in
+            - name: listener
+              type:
+                name: ILocationListener
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+            - name: listenerId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: unregisterLocationListener
+          transaction_code_offset: 3
+          params:
+            - name: listener
+              type:
+                name: ILocationListener
+              direction: in
+          return_type:
+            name: void
+        - name: registerLocationPendingIntent
+          transaction_code_offset: 4
+          params:
+            - name: provider
+              type:
+                name: String
+            - name: request
+              type:
+                name: LocationRequest
+              direction: in
+            - name: pendingIntent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+          return_type:
+            name: void
+        - name: unregisterLocationPendingIntent
+          transaction_code_offset: 5
+          params:
+            - name: pendingIntent
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: injectLocation
+          transaction_code_offset: 6
+          params:
+            - name: location
+              type:
+                name: Location
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: requestListenerFlush
+          transaction_code_offset: 7
+          params:
+            - name: provider
+              type:
+                name: String
+            - name: listener
+              type:
+                name: ILocationListener
+              direction: in
+            - name: requestCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: requestPendingIntentFlush
+          transaction_code_offset: 8
+          params:
+            - name: provider
+              type:
+                name: String
+            - name: pendingIntent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: requestCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: requestGeofence
+          transaction_code_offset: 9
+          params:
+            - name: geofence
+              type:
+                name: Geofence
+              direction: in
+            - name: intent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: removeGeofence
+          transaction_code_offset: 10
+          params:
+            - name: intent
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: isGeocodeAvailable
+          transaction_code_offset: 11
+          return_type:
+            name: boolean
+        - name: reverseGeocode
+          transaction_code_offset: 12
+          params:
+            - name: request
+              type:
+                name: ReverseGeocodeRequest
+              direction: in
+            - name: callback
+              type:
+                name: IGeocodeCallback
+              direction: in
+          return_type:
+            name: void
+        - name: forwardGeocode
+          transaction_code_offset: 13
+          params:
+            - name: request
+              type:
+                name: ForwardGeocodeRequest
+              direction: in
+            - name: callback
+              type:
+                name: IGeocodeCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getGnssCapabilities
+          transaction_code_offset: 14
+          return_type:
+            name: GnssCapabilities
+        - name: getGnssYearOfHardware
+          transaction_code_offset: 15
+          return_type:
+            name: int
+        - name: getGnssHardwareModelName
+          transaction_code_offset: 16
+          return_type:
+            name: String
+        - name: getGnssAntennaInfos
+          transaction_code_offset: 17
+          return_type:
+            name: List
+            type_args:
+                - name: GnssAntennaInfo
+          annotations:
+            - nullable
+        - name: registerGnssStatusCallback
+          transaction_code_offset: 18
+          params:
+            - name: callback
+              type:
+                name: IGnssStatusListener
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+            - name: listenerId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: unregisterGnssStatusCallback
+          transaction_code_offset: 19
+          params:
+            - name: callback
+              type:
+                name: IGnssStatusListener
+              direction: in
+          return_type:
+            name: void
+        - name: registerGnssNmeaCallback
+          transaction_code_offset: 20
+          params:
+            - name: callback
+              type:
+                name: IGnssNmeaListener
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+            - name: listenerId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: unregisterGnssNmeaCallback
+          transaction_code_offset: 21
+          params:
+            - name: callback
+              type:
+                name: IGnssNmeaListener
+              direction: in
+          return_type:
+            name: void
+        - name: addGnssMeasurementsListener
+          transaction_code_offset: 22
+          params:
+            - name: request
+              type:
+                name: GnssMeasurementRequest
+              direction: in
+            - name: listener
+              type:
+                name: IGnssMeasurementsListener
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+            - name: listenerId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: removeGnssMeasurementsListener
+          transaction_code_offset: 23
+          params:
+            - name: listener
+              type:
+                name: IGnssMeasurementsListener
+              direction: in
+          return_type:
+            name: void
+        - name: injectGnssMeasurementCorrections
+          transaction_code_offset: 24
+          params:
+            - name: corrections
+              type:
+                name: GnssMeasurementCorrections
+              direction: in
+          return_type:
+            name: void
+        - name: addGnssNavigationMessageListener
+          transaction_code_offset: 25
+          params:
+            - name: listener
+              type:
+                name: IGnssNavigationMessageListener
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+            - name: listenerId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: removeGnssNavigationMessageListener
+          transaction_code_offset: 26
+          params:
+            - name: listener
+              type:
+                name: IGnssNavigationMessageListener
+              direction: in
+          return_type:
+            name: void
+        - name: addGnssAntennaInfoListener
+          transaction_code_offset: 27
+          params:
+            - name: listener
+              type:
+                name: IGnssAntennaInfoListener
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+            - name: listenerId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: removeGnssAntennaInfoListener
+          transaction_code_offset: 28
+          params:
+            - name: listener
+              type:
+                name: IGnssAntennaInfoListener
+              direction: in
+          return_type:
+            name: void
+        - name: addProviderRequestListener
+          transaction_code_offset: 29
+          params:
+            - name: listener
+              type:
+                name: IProviderRequestListener
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: removeProviderRequestListener
+          transaction_code_offset: 30
+          params:
+            - name: listener
+              type:
+                name: IProviderRequestListener
+              direction: in
+          return_type:
+            name: void
+        - name: getGnssBatchSize
+          transaction_code_offset: 31
+          return_type:
+            name: int
+        - name: startGnssBatch
+          transaction_code_offset: 32
+          params:
+            - name: periodNanos
+              type:
+                name: long
+            - name: listener
+              type:
+                name: ILocationListener
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+            - name: listenerId
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: flushGnssBatch
+          transaction_code_offset: 33
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: stopGnssBatch
+          transaction_code_offset: 34
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: hasProvider
+          transaction_code_offset: 35
+          params:
+            - name: provider
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getAllProviders
+          transaction_code_offset: 36
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getProviders
+          transaction_code_offset: 37
+          params:
+            - name: criteria
+              type:
+                name: Criteria
+              direction: in
+            - name: enabledOnly
+              type:
+                name: boolean
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getBestProvider
+          transaction_code_offset: 38
+          params:
+            - name: criteria
+              type:
+                name: Criteria
+              direction: in
+            - name: enabledOnly
+              type:
+                name: boolean
+          return_type:
+            name: String
+        - name: getProviderProperties
+          transaction_code_offset: 39
+          params:
+            - name: provider
+              type:
+                name: String
+          return_type:
+            name: ProviderProperties
+        - name: isProviderPackage
+          transaction_code_offset: 40
+          params:
+            - name: provider
+              type:
+                name: String
+              annotations:
+                - nullable
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: getProviderPackages
+          transaction_code_offset: 41
+          params:
+            - name: provider
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: String
+          annotations:
+            - EnforcePermission
+        - name: setExtraLocationControllerPackage
+          transaction_code_offset: 42
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getExtraLocationControllerPackage
+          transaction_code_offset: 43
+          return_type:
+            name: String
+        - name: setExtraLocationControllerPackageEnabled
+          transaction_code_offset: 44
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: isExtraLocationControllerPackageEnabled
+          transaction_code_offset: 45
+          return_type:
+            name: boolean
+        - name: isProviderEnabledForUser
+          transaction_code_offset: 46
+          params:
+            - name: provider
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isLocationEnabledForUser
+          transaction_code_offset: 47
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setLocationEnabledForUser
+          transaction_code_offset: 48
+          params:
+            - name: enabled
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isAdasGnssLocationEnabledForUser
+          transaction_code_offset: 49
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setAdasGnssLocationEnabledForUser
+          transaction_code_offset: 50
+          params:
+            - name: enabled
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isAutomotiveGnssSuspended
+          transaction_code_offset: 51
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: setAutomotiveGnssSuspended
+          transaction_code_offset: 52
+          params:
+            - name: suspended
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: addTestProvider
+          transaction_code_offset: 53
+          params:
+            - name: name
+              type:
+                name: String
+            - name: properties
+              type:
+                name: ProviderProperties
+              direction: in
+            - name: locationTags
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+          return_type:
+            name: void
+        - name: removeTestProvider
+          transaction_code_offset: 54
+          params:
+            - name: provider
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+          return_type:
+            name: void
+        - name: setTestProviderLocation
+          transaction_code_offset: 55
+          params:
+            - name: provider
+              type:
+                name: String
+            - name: location
+              type:
+                name: Location
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+          return_type:
+            name: void
+        - name: setTestProviderEnabled
+          transaction_code_offset: 56
+          params:
+            - name: provider
+              type:
+                name: String
+            - name: enabled
+              type:
+                name: boolean
+            - name: packageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+          return_type:
+            name: void
+        - name: getGnssTimeMillis
+          transaction_code_offset: 57
+          return_type:
+            name: LocationTime
+        - name: sendExtraCommand
+          transaction_code_offset: 58
+          params:
+            - name: provider
+              type:
+                name: String
+            - name: command
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: inout
+          return_type:
+            name: void
+        - name: getBackgroundThrottlingWhitelist
+          transaction_code_offset: 59
+          return_type:
+            name: String
+            is_array: true
+        - name: getIgnoreSettingsAllowlist
+          transaction_code_offset: 60
+          return_type:
+            name: PackageTagsList
+        - name: getAdasAllowlist
+          transaction_code_offset: 61
+          return_type:
+            name: PackageTagsList
+    - name: INetInitiatedListener
+      descriptor: android.location.INetInitiatedListener
+      methods:
+        - name: sendNiResponse
+          transaction_code_offset: 0
+          params:
+            - name: notifId
+              type:
+                name: int
+            - name: userResponse
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+parcelables:
+    - name: Address
+    - name: Country
+    - name: Criteria
+    - name: FusedBatchOptions
+    - name: Geofence
+    - name: GnssAntennaInfo
+    - name: GnssAutomaticGainControl
+    - name: GnssCapabilities
+    - name: GnssMeasurementCorrections
+    - name: GnssMeasurementRequest
+    - name: GnssMeasurementsEvent
+    - name: GnssNavigationMessage
+    - name: GnssRequest
+    - name: GnssSignalType
+    - name: GnssStatus
+    - name: LastLocationRequest
+    - name: Location
+    - name: LocationRequest
+    - name: LocationResult
+    - name: LocationTime

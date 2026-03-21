@@ -2,7 +2,6 @@ package audio
 
 import (
 	"fmt"
-	audioMetadataLtv "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/MetadataLtv"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -16,56 +15,53 @@ const (
 
 type MetadataLtv struct {
 	Tag                    int32
-	PreferredAudioContexts audioMetadataLtv.PreferredAudioContexts
-	StreamingAudioContexts audioMetadataLtv.StreamingAudioContexts
-	VendorSpecific         audioMetadataLtv.VendorSpecific
+	PreferredAudioContexts MetadataLtvPreferredAudioContexts
+	StreamingAudioContexts MetadataLtvStreamingAudioContexts
+	VendorSpecific         MetadataLtvVendorSpecific
 }
 
 var _ parcel.Parcelable = (*MetadataLtv)(nil)
 
-func (u *MetadataLtv) GetPreferredAudioContexts() (audioMetadataLtv.PreferredAudioContexts, bool) {
+func (u *MetadataLtv) GetPreferredAudioContexts() (MetadataLtvPreferredAudioContexts, bool) {
 	if u.Tag != MetadataLtvTagPreferredAudioContexts {
-		var _zero audioMetadataLtv.PreferredAudioContexts
+		var _zero MetadataLtvPreferredAudioContexts
 		return _zero, false
 	}
 	return u.PreferredAudioContexts, true
 }
 
 func (u *MetadataLtv) SetPreferredAudioContexts(
-	v audioMetadataLtv.PreferredAudioContexts,
+	v MetadataLtvPreferredAudioContexts,
 ) {
-	u.Tag = MetadataLtvTagPreferredAudioContexts
-	u.PreferredAudioContexts = v
+	*u = MetadataLtv{Tag: MetadataLtvTagPreferredAudioContexts, PreferredAudioContexts: v}
 }
 
-func (u *MetadataLtv) GetStreamingAudioContexts() (audioMetadataLtv.StreamingAudioContexts, bool) {
+func (u *MetadataLtv) GetStreamingAudioContexts() (MetadataLtvStreamingAudioContexts, bool) {
 	if u.Tag != MetadataLtvTagStreamingAudioContexts {
-		var _zero audioMetadataLtv.StreamingAudioContexts
+		var _zero MetadataLtvStreamingAudioContexts
 		return _zero, false
 	}
 	return u.StreamingAudioContexts, true
 }
 
 func (u *MetadataLtv) SetStreamingAudioContexts(
-	v audioMetadataLtv.StreamingAudioContexts,
+	v MetadataLtvStreamingAudioContexts,
 ) {
-	u.Tag = MetadataLtvTagStreamingAudioContexts
-	u.StreamingAudioContexts = v
+	*u = MetadataLtv{Tag: MetadataLtvTagStreamingAudioContexts, StreamingAudioContexts: v}
 }
 
-func (u *MetadataLtv) GetVendorSpecific() (audioMetadataLtv.VendorSpecific, bool) {
+func (u *MetadataLtv) GetVendorSpecific() (MetadataLtvVendorSpecific, bool) {
 	if u.Tag != MetadataLtvTagVendorSpecific {
-		var _zero audioMetadataLtv.VendorSpecific
+		var _zero MetadataLtvVendorSpecific
 		return _zero, false
 	}
 	return u.VendorSpecific, true
 }
 
 func (u *MetadataLtv) SetVendorSpecific(
-	v audioMetadataLtv.VendorSpecific,
+	v MetadataLtvVendorSpecific,
 ) {
-	u.Tag = MetadataLtvTagVendorSpecific
-	u.VendorSpecific = v
+	*u = MetadataLtv{Tag: MetadataLtvTagVendorSpecific, VendorSpecific: v}
 }
 
 func (u *MetadataLtv) MarshalParcel(

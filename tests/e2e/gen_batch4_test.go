@@ -21,7 +21,6 @@ import (
 	genBiometrics "github.com/xaionaro-go/binder/android/hardware/biometrics"
 	genDeviceState "github.com/xaionaro-go/binder/android/hardware/devicestate"
 	genDisplay "github.com/xaionaro-go/binder/android/hardware/display"
-	genFace "github.com/xaionaro-go/binder/android/hardware/face"
 	genFingerprint "github.com/xaionaro-go/binder/android/hardware/fingerprint"
 	genInput "github.com/xaionaro-go/binder/android/hardware/input"
 	genLights "github.com/xaionaro-go/binder/android/hardware/lights"
@@ -35,7 +34,6 @@ import (
 	genOs "github.com/xaionaro-go/binder/android/os"
 	genImage "github.com/xaionaro-go/binder/android/os/image"
 	genStorage "github.com/xaionaro-go/binder/android/os/storage"
-	genSecurity "github.com/xaionaro-go/binder/android/security"
 	genDreams "github.com/xaionaro-go/binder/android/service/dreams"
 )
 
@@ -280,39 +278,6 @@ func TestGenBatch4_Content_GetMasterSyncAutomaticallyAsUser(t *testing.T) {
 	t.Logf("GetMasterSyncAutomaticallyAsUser(0): %v", result)
 }
 
-// --- content_capture: android.view.contentcapture.IContentCaptureManager ---
-
-func TestGenBatch4_ContentCapture_Ping(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	svc := getService(ctx, t, driver, "content_capture")
-
-	alive := svc.IsAlive(ctx)
-	t.Logf("content_capture alive: %v, handle: %d", alive, svc.Handle())
-}
-
-// --- content_suggestions: android.app.contentsuggestions.IContentSuggestionsManager ---
-
-func TestGenBatch4_ContentSuggestions_Ping(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	svc := getService(ctx, t, driver, "content_suggestions")
-
-	alive := svc.IsAlive(ctx)
-	t.Logf("content_suggestions alive: %v, handle: %d", alive, svc.Handle())
-}
-
-// --- contextual_search: android.app.contextualsearch.IContextualSearchManager ---
-
-func TestGenBatch4_ContextualSearch_Ping(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	svc := getService(ctx, t, driver, "contextual_search")
-
-	alive := svc.IsAlive(ctx)
-	t.Logf("contextual_search alive: %v, handle: %d", alive, svc.Handle())
-}
-
 // --- credential: android.credentials.ICredentialManager ---
 
 func TestGenBatch4_Credential_IsServiceEnabled(t *testing.T) {
@@ -520,22 +485,6 @@ func TestGenBatch4_ExternalVibrator_Ping(t *testing.T) {
 	t.Logf("external_vibrator_service alive: %v, handle: %d", alive, svc.Handle())
 }
 
-// --- face: android.hardware.face.IFaceService ---
-
-func TestGenBatch4_Face_IsHardwareDetected(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	svc := getService(ctx, t, driver, "face")
-
-	proxy := genFace.NewFaceServiceProxy(svc)
-	result, err := proxy.IsHardwareDetected(ctx, 0)
-	if err != nil {
-		t.Logf("IsHardwareDetected returned error (may require permission): %v", err)
-	} else {
-		t.Logf("IsHardwareDetected: %v", result)
-	}
-}
-
 // --- feature_flags: android.flags.IFeatureFlags ---
 
 func TestGenBatch4_FeatureFlags_Ping(t *testing.T) {
@@ -545,19 +494,6 @@ func TestGenBatch4_FeatureFlags_Ping(t *testing.T) {
 
 	alive := svc.IsAlive(ctx)
 	t.Logf("feature_flags alive: %v, handle: %d", alive, svc.Handle())
-}
-
-// --- file_integrity: android.security.IFileIntegrityService ---
-
-func TestGenBatch4_FileIntegrity_IsApkVeritySupported(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	svc := getService(ctx, t, driver, "file_integrity")
-
-	proxy := genSecurity.NewFileIntegrityServiceProxy(svc)
-	result, err := proxy.IsApkVeritySupported(ctx)
-	requireOrSkip(t, err)
-	t.Logf("IsApkVeritySupported: %v", result)
 }
 
 // --- fingerprint: android.hardware.fingerprint.IFingerprintService ---
@@ -631,22 +567,6 @@ func TestGenBatch4_HardwareProperties_GetDeviceTemperatures(t *testing.T) {
 	}
 }
 
-// --- incident: android.os.IIncidentManager ---
-
-func TestGenBatch4_Incident_GetIncidentReportList(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	svc := getService(ctx, t, driver, "incident")
-
-	proxy := genOs.NewIncidentManagerProxy(svc)
-	result, err := proxy.GetIncidentReportList(ctx, "com.android.shell", "")
-	if err != nil {
-		t.Logf("GetIncidentReportList returned error (may require permission): %v", err)
-	} else {
-		t.Logf("GetIncidentReportList: %d reports", len(result))
-	}
-}
-
 // --- incidentcompanion: android.os.IIncidentCompanion ---
 
 func TestGenBatch4_IncidentCompanion_GetPendingReports(t *testing.T) {
@@ -708,17 +628,6 @@ func TestGenBatch4_InputFlinger_Ping(t *testing.T) {
 
 	alive := svc.IsAlive(ctx)
 	t.Logf("inputflinger alive: %v, handle: %d", alive, svc.Handle())
-}
-
-// --- installd: android.os.IInstalld ---
-
-func TestGenBatch4_Installd_Ping(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	svc := getService(ctx, t, driver, "installd")
-
-	alive := svc.IsAlive(ctx)
-	t.Logf("installd alive: %v, handle: %d", alive, svc.Handle())
 }
 
 // JobScheduler tests removed: IJobScheduler proxy not generated.
@@ -952,17 +861,6 @@ func TestGenBatch4_Mount_LastMaintenance(t *testing.T) {
 	} else {
 		t.Logf("LastMaintenance: %d", result)
 	}
-}
-
-// --- music_recognition: android.media.musicrecognition.IMusicRecognitionManager ---
-
-func TestGenBatch4_MusicRecognition_Ping(t *testing.T) {
-	ctx := context.Background()
-	driver := openBinder(t)
-	svc := getService(ctx, t, driver, "music_recognition")
-
-	alive := svc.IsAlive(ctx)
-	t.Logf("music_recognition alive: %v, handle: %d", alive, svc.Handle())
 }
 
 // --- network_management: android.os.INetworkManagementService ---

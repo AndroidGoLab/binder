@@ -1,0 +1,319 @@
+package: android.telephony.mbms.vendor
+go_package: android/telephony/mbms/vendor
+interfaces:
+    - name: IMbmsDownloadService
+      descriptor: android.telephony.mbms.vendor.IMbmsDownloadService
+      methods:
+        - name: initialize
+          transaction_code_offset: 0
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IMbmsDownloadSessionCallback
+          return_type:
+            name: int
+        - name: requestUpdateFileServices
+          transaction_code_offset: 1
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: serviceClasses
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: int
+        - name: setTempFileRootDirectory
+          transaction_code_offset: 2
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: rootDirectoryPath
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: addServiceAnnouncement
+          transaction_code_offset: 3
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: contents
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: int
+        - name: download
+          transaction_code_offset: 4
+          params:
+            - name: downloadRequest
+              type:
+                name: DownloadRequest
+              direction: in
+          return_type:
+            name: int
+        - name: addStatusListener
+          transaction_code_offset: 5
+          params:
+            - name: downloadRequest
+              type:
+                name: DownloadRequest
+              direction: in
+            - name: listener
+              type:
+                name: IDownloadStatusListener
+          return_type:
+            name: int
+        - name: removeStatusListener
+          transaction_code_offset: 6
+          params:
+            - name: downloadRequest
+              type:
+                name: DownloadRequest
+              direction: in
+            - name: listener
+              type:
+                name: IDownloadStatusListener
+          return_type:
+            name: int
+        - name: addProgressListener
+          transaction_code_offset: 7
+          params:
+            - name: downloadRequest
+              type:
+                name: DownloadRequest
+              direction: in
+            - name: listener
+              type:
+                name: IDownloadProgressListener
+          return_type:
+            name: int
+        - name: removeProgressListener
+          transaction_code_offset: 8
+          params:
+            - name: downloadRequest
+              type:
+                name: DownloadRequest
+              direction: in
+            - name: listener
+              type:
+                name: IDownloadProgressListener
+          return_type:
+            name: int
+        - name: listPendingDownloads
+          transaction_code_offset: 9
+          params:
+            - name: subscriptionId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: DownloadRequest
+        - name: cancelDownload
+          transaction_code_offset: 10
+          params:
+            - name: downloadRequest
+              type:
+                name: DownloadRequest
+              direction: in
+          return_type:
+            name: int
+        - name: requestDownloadState
+          transaction_code_offset: 11
+          params:
+            - name: downloadRequest
+              type:
+                name: DownloadRequest
+              direction: in
+            - name: fileInfo
+              type:
+                name: FileInfo
+              direction: in
+          return_type:
+            name: int
+        - name: resetDownloadKnowledge
+          transaction_code_offset: 12
+          params:
+            - name: downloadRequest
+              type:
+                name: DownloadRequest
+              direction: in
+          return_type:
+            name: int
+        - name: dispose
+          transaction_code_offset: 13
+          params:
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IMbmsGroupCallService
+      descriptor: android.telephony.mbms.vendor.IMbmsGroupCallService
+      methods:
+        - name: initialize
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IMbmsGroupCallSessionCallback
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: stopGroupCall
+          transaction_code_offset: 1
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: tmgi
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: updateGroupCall
+          transaction_code_offset: 2
+          params:
+            - name: subscriptionId
+              type:
+                name: int
+            - name: tmgi
+              type:
+                name: long
+            - name: saiList
+              type:
+                name: List
+              direction: in
+            - name: frequencyList
+              type:
+                name: List
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - SuppressWarnings
+        - name: startGroupCall
+          transaction_code_offset: 3
+          params:
+            - name: subscriptionId
+              type:
+                name: int
+            - name: tmgi
+              type:
+                name: long
+            - name: saiList
+              type:
+                name: List
+              direction: in
+            - name: frequencyList
+              type:
+                name: List
+              direction: in
+            - name: callback
+              type:
+                name: IGroupCallCallback
+          return_type:
+            name: int
+          annotations:
+            - SuppressWarnings
+        - name: dispose
+          transaction_code_offset: 4
+          params:
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IMbmsStreamingService
+      descriptor: android.telephony.mbms.vendor.IMbmsStreamingService
+      methods:
+        - name: initialize
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IMbmsStreamingSessionCallback
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: requestUpdateStreamingServices
+          transaction_code_offset: 1
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: serviceClasses
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: startStreaming
+          transaction_code_offset: 2
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: serviceId
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IStreamingServiceCallback
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: getPlaybackUri
+          transaction_code_offset: 3
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: serviceId
+              type:
+                name: String
+          return_type:
+            name: Uri
+          annotations:
+            - UnsupportedAppUsage
+        - name: stopStreaming
+          transaction_code_offset: 4
+          params:
+            - name: subId
+              type:
+                name: int
+            - name: serviceId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: dispose
+          transaction_code_offset: 5
+          params:
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: void

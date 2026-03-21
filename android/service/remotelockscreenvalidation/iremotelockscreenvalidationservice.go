@@ -46,15 +46,9 @@ func (p *RemoteLockscreenValidationServiceProxy) ValidateLockscreenGuess(
 	callback IRemoteLockscreenValidationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteLockscreenValidationService)
-	if guess == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(guess)))
-		for _, _item := range guess {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(guess)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteLockscreenValidationService, MethodIRemoteLockscreenValidationServiceValidateLockscreenGuess)
@@ -78,7 +72,8 @@ func (p *RemoteLockscreenValidationServiceProxy) ValidateLockscreenGuess(
 // RemoteLockscreenValidationServiceStub dispatches incoming binder transactions
 // to a typed IRemoteLockscreenValidationService implementation.
 type RemoteLockscreenValidationServiceStub struct {
-	Impl IRemoteLockscreenValidationService
+	Impl      IRemoteLockscreenValidationService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RemoteLockscreenValidationServiceStub)(nil)
@@ -92,17 +87,28 @@ func (s *RemoteLockscreenValidationServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRemoteLockscreenValidationServiceValidateLockscreenGuess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_guess []byte
-		_ = _arg_guess
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_guess = _bytes
+		}
 		var _arg_callback IRemoteLockscreenValidationCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRemoteLockscreenValidationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.ValidateLockscreenGuess(ctx, _arg_guess, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

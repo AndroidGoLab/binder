@@ -10,7 +10,7 @@ type StaticDisplayInfo struct {
 	ConnectionType     DisplayConnectionType
 	Density            float32
 	Secure             bool
-	DeviceProductInfo  DeviceProductInfo
+	DeviceProductInfo  *DeviceProductInfo
 	InstallOrientation Rotation
 }
 
@@ -23,8 +23,13 @@ func (s *StaticDisplayInfo) MarshalParcel(
 	p.WriteInt32(int32(s.ConnectionType))
 	p.WriteFloat32(s.Density)
 	p.WriteBool(s.Secure)
-	if _err := s.DeviceProductInfo.MarshalParcel(p); _err != nil {
-		return _err
+	if s.DeviceProductInfo == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.DeviceProductInfo.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	p.WriteInt32(int32(s.InstallOrientation))
 
@@ -40,15 +45,30 @@ func (s *StaticDisplayInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_connectionTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.ConnectionType = DisplayConnectionType(_connectionTypeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Density, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Secure, _err = p.ReadBool()
@@ -56,8 +76,28 @@ func (s *StaticDisplayInfo) UnmarshalParcel(
 		return _err
 	}
 
-	if _err = s.DeviceProductInfo.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val DeviceProductInfo
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.DeviceProductInfo = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_installOrientationRaw, _err := p.ReadInt32()

@@ -48,6 +48,7 @@ func (p *SpatializerHeadTrackingModeCallbackProxy) DispatchSpatializerActualHead
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadTrackingModeCallback)
 	_data.WriteInt32(mode)
 
@@ -65,6 +66,7 @@ func (p *SpatializerHeadTrackingModeCallbackProxy) DispatchSpatializerDesiredHea
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadTrackingModeCallback)
 	_data.WriteInt32(mode)
 
@@ -80,7 +82,8 @@ func (p *SpatializerHeadTrackingModeCallbackProxy) DispatchSpatializerDesiredHea
 // SpatializerHeadTrackingModeCallbackStub dispatches incoming binder transactions
 // to a typed ISpatializerHeadTrackingModeCallback implementation.
 type SpatializerHeadTrackingModeCallbackStub struct {
-	Impl ISpatializerHeadTrackingModeCallback
+	Impl      ISpatializerHeadTrackingModeCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SpatializerHeadTrackingModeCallbackStub)(nil)
@@ -94,29 +97,25 @@ func (s *SpatializerHeadTrackingModeCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISpatializerHeadTrackingModeCallbackDispatchSpatializerActualHeadTrackingModeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DispatchSpatializerActualHeadTrackingModeChanged(ctx, _arg_mode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISpatializerHeadTrackingModeCallbackDispatchSpatializerDesiredHeadTrackingModeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DispatchSpatializerDesiredHeadTrackingModeChanged(ctx, _arg_mode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

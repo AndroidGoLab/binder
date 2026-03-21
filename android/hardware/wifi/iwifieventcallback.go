@@ -54,6 +54,7 @@ func (p *WifiEventCallbackProxy) OnFailure(
 	status WifiStatusCode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiEventCallback)
 	_data.WriteInt32(int32(status))
 
@@ -70,6 +71,7 @@ func (p *WifiEventCallbackProxy) OnStart(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiEventCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiEventCallback, MethodIWifiEventCallbackOnStart)
@@ -85,6 +87,7 @@ func (p *WifiEventCallbackProxy) OnStop(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiEventCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiEventCallback, MethodIWifiEventCallbackOnStop)
@@ -101,6 +104,7 @@ func (p *WifiEventCallbackProxy) OnSubsystemRestart(
 	status WifiStatusCode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiEventCallback)
 	_data.WriteInt32(int32(status))
 
@@ -116,7 +120,8 @@ func (p *WifiEventCallbackProxy) OnSubsystemRestart(
 // WifiEventCallbackStub dispatches incoming binder transactions
 // to a typed IWifiEventCallback implementation.
 type WifiEventCallbackStub struct {
-	Impl IWifiEventCallback
+	Impl      IWifiEventCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WifiEventCallbackStub)(nil)
@@ -130,45 +135,33 @@ func (s *WifiEventCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWifiEventCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_status := WifiStatusCode(_raw_status)
 		_err = s.Impl.OnFailure(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiEventCallbackOnStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnStart(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiEventCallbackOnStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnStop(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiEventCallbackOnSubsystemRestart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_status := WifiStatusCode(_raw_status)
 		_err = s.Impl.OnSubsystemRestart(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

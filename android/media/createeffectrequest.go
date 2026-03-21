@@ -2,6 +2,7 @@ package media
 
 import (
 	content "github.com/xaionaro-go/binder/android/content"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -14,7 +15,7 @@ type CreateEffectRequest struct {
 	Priority              int32
 	Output                int32
 	SessionId             int32
-	Device                interface{}
+	Device                common.AudioDevice
 	AttributionSource     content.AttributionSourceState
 	Probe                 bool
 	NotifyFramesProcessed bool
@@ -37,6 +38,9 @@ func (s *CreateEffectRequest) MarshalParcel(
 	p.WriteInt32(s.Priority)
 	p.WriteInt32(s.Output)
 	p.WriteInt32(s.SessionId)
+	if _err := s.Device.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	if _err := s.AttributionSource.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -55,8 +59,18 @@ func (s *CreateEffectRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Desc.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_clientHandle, _err := p.ReadStrongBinder()
@@ -65,9 +79,19 @@ func (s *CreateEffectRequest) UnmarshalParcel(
 	}
 	s.Client = NewEffectClientProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _clientHandle))
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Priority, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Output, _err = p.ReadInt32()
@@ -75,18 +99,47 @@ func (s *CreateEffectRequest) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SessionId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.Device.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.AttributionSource.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Probe, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.NotifyFramesProcessed, _err = p.ReadBool()

@@ -44,6 +44,7 @@ func (p *TestServiceConnectorServiceProxy) CrashProcess(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITestServiceConnectorService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestServiceConnectorService, MethodITestServiceConnectorServiceCrashProcess)
@@ -67,7 +68,8 @@ func (p *TestServiceConnectorServiceProxy) CrashProcess(
 // TestServiceConnectorServiceStub dispatches incoming binder transactions
 // to a typed ITestServiceConnectorService implementation.
 type TestServiceConnectorServiceStub struct {
-	Impl ITestServiceConnectorService
+	Impl      ITestServiceConnectorService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TestServiceConnectorServiceStub)(nil)
@@ -81,11 +83,12 @@ func (s *TestServiceConnectorServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITestServiceConnectorServiceCrashProcess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CrashProcess(ctx)
 		_reply := parcel.New()
 		if _err != nil {

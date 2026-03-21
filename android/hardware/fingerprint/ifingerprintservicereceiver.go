@@ -76,6 +76,7 @@ func (p *FingerprintServiceReceiverProxy) OnEnrollResult(
 	remaining int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 	_data.WriteInt32(1)
 	if _err := fp.MarshalParcel(_data); _err != nil {
@@ -98,6 +99,7 @@ func (p *FingerprintServiceReceiverProxy) OnAcquired(
 	vendorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 	_data.WriteInt32(acquiredInfo)
 	_data.WriteInt32(vendorCode)
@@ -118,6 +120,7 @@ func (p *FingerprintServiceReceiverProxy) OnAuthenticationSucceeded(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 	_data.WriteInt32(1)
 	if _err := fp.MarshalParcel(_data); _err != nil {
@@ -142,6 +145,7 @@ func (p *FingerprintServiceReceiverProxy) OnFingerprintDetected(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(_identity.UserID)
@@ -160,6 +164,7 @@ func (p *FingerprintServiceReceiverProxy) OnAuthenticationFailed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnAuthenticationFailed)
@@ -177,6 +182,7 @@ func (p *FingerprintServiceReceiverProxy) OnError(
 	vendorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 	_data.WriteInt32(error_)
 	_data.WriteInt32(vendorCode)
@@ -196,6 +202,7 @@ func (p *FingerprintServiceReceiverProxy) OnRemoved(
 	remaining int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 	_data.WriteInt32(1)
 	if _err := fp.MarshalParcel(_data); _err != nil {
@@ -219,6 +226,7 @@ func (p *FingerprintServiceReceiverProxy) OnChallengeGenerated(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(_identity.UserID)
@@ -238,6 +246,7 @@ func (p *FingerprintServiceReceiverProxy) OnUdfpsPointerDown(
 	sensorId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 	_data.WriteInt32(sensorId)
 
@@ -255,6 +264,7 @@ func (p *FingerprintServiceReceiverProxy) OnUdfpsPointerUp(
 	sensorId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 	_data.WriteInt32(sensorId)
 
@@ -271,6 +281,7 @@ func (p *FingerprintServiceReceiverProxy) OnUdfpsOverlayShown(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnUdfpsOverlayShown)
@@ -285,7 +296,8 @@ func (p *FingerprintServiceReceiverProxy) OnUdfpsOverlayShown(
 // FingerprintServiceReceiverStub dispatches incoming binder transactions
 // to a typed IFingerprintServiceReceiver implementation.
 type FingerprintServiceReceiverStub struct {
-	Impl IFingerprintServiceReceiver
+	Impl      IFingerprintServiceReceiver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FingerprintServiceReceiverStub)(nil)
@@ -299,11 +311,12 @@ func (s *FingerprintServiceReceiverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFingerprintServiceReceiverOnEnrollResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_fp Fingerprint
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -321,12 +334,8 @@ func (s *FingerprintServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnEnrollResult(ctx, _arg_fp, _arg_remaining)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFingerprintServiceReceiverOnAcquired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_acquiredInfo, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -336,12 +345,8 @@ func (s *FingerprintServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAcquired(ctx, _arg_acquiredInfo, _arg_vendorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFingerprintServiceReceiverOnAuthenticationSucceeded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_fp Fingerprint
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -362,12 +367,8 @@ func (s *FingerprintServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAuthenticationSucceeded(ctx, _arg_fp, _arg_isStrongBiometric)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFingerprintServiceReceiverOnFingerprintDetected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -380,19 +381,11 @@ func (s *FingerprintServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnFingerprintDetected(ctx, _arg_sensorId, _arg_isStrongBiometric)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFingerprintServiceReceiverOnAuthenticationFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnAuthenticationFailed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFingerprintServiceReceiverOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -402,12 +395,8 @@ func (s *FingerprintServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_error_, _arg_vendorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFingerprintServiceReceiverOnRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_fp Fingerprint
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -425,12 +414,8 @@ func (s *FingerprintServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnRemoved(ctx, _arg_fp, _arg_remaining)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFingerprintServiceReceiverOnChallengeGenerated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -443,37 +428,24 @@ func (s *FingerprintServiceReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnChallengeGenerated(ctx, _arg_sensorId, _arg_challenge)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFingerprintServiceReceiverOnUdfpsPointerDown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnUdfpsPointerDown(ctx, _arg_sensorId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFingerprintServiceReceiverOnUdfpsPointerUp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnUdfpsPointerUp(ctx, _arg_sensorId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFingerprintServiceReceiverOnUdfpsOverlayShown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnUdfpsOverlayShown(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -67,6 +67,7 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInlineSuggestionsUnsupported(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionsRequestCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionsRequestCallback, MethodIInlineSuggestionsRequestCallbackOnInlineSuggestionsUnsupported)
@@ -84,6 +85,7 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInlineSuggestionsRequest(
 	callback IInlineSuggestionsResponseCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionsRequestCallback)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -105,6 +107,7 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInputMethodStartInput(
 	imeFieldId autofill.AutofillId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionsRequestCallback)
 	_data.WriteInt32(1)
 	if _err := imeFieldId.MarshalParcel(_data); _err != nil {
@@ -125,6 +128,7 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInputMethodShowInputRequested(
 	requestResult bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionsRequestCallback)
 	_data.WriteBool(requestResult)
 
@@ -141,6 +145,7 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInputMethodStartInputView(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionsRequestCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionsRequestCallback, MethodIInlineSuggestionsRequestCallbackOnInputMethodStartInputView)
@@ -156,6 +161,7 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInputMethodFinishInputView(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionsRequestCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionsRequestCallback, MethodIInlineSuggestionsRequestCallbackOnInputMethodFinishInputView)
@@ -171,6 +177,7 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInputMethodFinishInput(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionsRequestCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionsRequestCallback, MethodIInlineSuggestionsRequestCallbackOnInputMethodFinishInput)
@@ -186,6 +193,7 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInlineSuggestionsSessionInvali
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionsRequestCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionsRequestCallback, MethodIInlineSuggestionsRequestCallbackOnInlineSuggestionsSessionInvalidated)
@@ -200,7 +208,8 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInlineSuggestionsSessionInvali
 // InlineSuggestionsRequestCallbackStub dispatches incoming binder transactions
 // to a typed IInlineSuggestionsRequestCallback implementation.
 type InlineSuggestionsRequestCallbackStub struct {
-	Impl IInlineSuggestionsRequestCallback
+	Impl      IInlineSuggestionsRequestCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InlineSuggestionsRequestCallbackStub)(nil)
@@ -214,18 +223,15 @@ func (s *InlineSuggestionsRequestCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInlineSuggestionsRequestCallbackOnInlineSuggestionsUnsupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnInlineSuggestionsUnsupported(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineSuggestionsRequestCallbackOnInlineSuggestionsRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request viewInputmethod.InlineSuggestionsRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -238,16 +244,17 @@ func (s *InlineSuggestionsRequestCallbackStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IInlineSuggestionsResponseCallback
-		_ = _arg_callback
-		_err := s.Impl.OnInlineSuggestionsRequest(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIInlineSuggestionsRequestCallbackOnInputMethodStartInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewInlineSuggestionsResponseCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.OnInlineSuggestionsRequest(ctx, _arg_request, _arg_callback)
+		return nil, _err
+	case TransactionIInlineSuggestionsRequestCallbackOnInputMethodStartInput:
 		var _arg_imeFieldId autofill.AutofillId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -261,47 +268,26 @@ func (s *InlineSuggestionsRequestCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnInputMethodStartInput(ctx, _arg_imeFieldId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineSuggestionsRequestCallbackOnInputMethodShowInputRequested:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestResult, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnInputMethodShowInputRequested(ctx, _arg_requestResult)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineSuggestionsRequestCallbackOnInputMethodStartInputView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnInputMethodStartInputView(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineSuggestionsRequestCallbackOnInputMethodFinishInputView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnInputMethodFinishInputView(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineSuggestionsRequestCallbackOnInputMethodFinishInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnInputMethodFinishInput(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineSuggestionsRequestCallbackOnInlineSuggestionsSessionInvalidated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnInlineSuggestionsSessionInvalidated(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

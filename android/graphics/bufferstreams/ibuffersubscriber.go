@@ -57,6 +57,7 @@ func (p *BufferSubscriberProxy) OnSubscribe(
 	subscription IBufferSubscription,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBufferSubscriber)
 	binder.WriteBinderToParcel(ctx, _data, subscription.AsBinder(), p.Remote.Transport())
 
@@ -74,6 +75,7 @@ func (p *BufferSubscriberProxy) OnBufferCacheUpdate(
 	update BufferCacheUpdate,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBufferSubscriber)
 	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
@@ -94,6 +96,7 @@ func (p *BufferSubscriberProxy) OnNext(
 	frame Frame,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBufferSubscriber)
 	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
@@ -113,6 +116,7 @@ func (p *BufferSubscriberProxy) OnError(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBufferSubscriber)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBufferSubscriber, MethodIBufferSubscriberOnError)
@@ -128,6 +132,7 @@ func (p *BufferSubscriberProxy) OnComplete(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBufferSubscriber)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBufferSubscriber, MethodIBufferSubscriberOnComplete)
@@ -142,7 +147,8 @@ func (p *BufferSubscriberProxy) OnComplete(
 // BufferSubscriberStub dispatches incoming binder transactions
 // to a typed IBufferSubscriber implementation.
 type BufferSubscriberStub struct {
-	Impl IBufferSubscriber
+	Impl      IBufferSubscriber
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BufferSubscriberStub)(nil)
@@ -156,21 +162,23 @@ func (s *BufferSubscriberStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBufferSubscriberOnSubscribe:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_subscription IBufferSubscription
-		_ = _arg_subscription
-		_err := s.Impl.OnSubscribe(ctx, _arg_subscription)
-		_ = _err
-		return nil, nil
-	case TransactionIBufferSubscriberOnBufferCacheUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_subscriptionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_subscription = NewBufferSubscriptionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _subscriptionHandle))
 		}
+		_err := s.Impl.OnSubscribe(ctx, _arg_subscription)
+		return nil, _err
+	case TransactionIBufferSubscriberOnBufferCacheUpdate:
 		var _arg_update BufferCacheUpdate
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -184,12 +192,8 @@ func (s *BufferSubscriberStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnBufferCacheUpdate(ctx, _arg_update)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBufferSubscriberOnNext:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_frame Frame
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -203,22 +207,13 @@ func (s *BufferSubscriberStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnNext(ctx, _arg_frame)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBufferSubscriberOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnError(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBufferSubscriberOnComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnComplete(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

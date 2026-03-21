@@ -55,6 +55,7 @@ func (p *PrintSpoolerClientProxy) OnPrintJobQueued(
 	printJob PrintJobInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerClient)
 	_data.WriteInt32(1)
 	if _err := printJob.MarshalParcel(_data); _err != nil {
@@ -75,6 +76,7 @@ func (p *PrintSpoolerClientProxy) OnAllPrintJobsForServiceHandled(
 	printService content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerClient)
 	_data.WriteInt32(1)
 	if _err := printService.MarshalParcel(_data); _err != nil {
@@ -94,6 +96,7 @@ func (p *PrintSpoolerClientProxy) OnAllPrintJobsHandled(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpoolerClient, MethodIPrintSpoolerClientOnAllPrintJobsHandled)
@@ -110,6 +113,7 @@ func (p *PrintSpoolerClientProxy) OnPrintJobStateChanged(
 	printJob PrintJobInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerClient)
 	_data.WriteInt32(1)
 	if _err := printJob.MarshalParcel(_data); _err != nil {
@@ -128,7 +132,8 @@ func (p *PrintSpoolerClientProxy) OnPrintJobStateChanged(
 // PrintSpoolerClientStub dispatches incoming binder transactions
 // to a typed IPrintSpoolerClient implementation.
 type PrintSpoolerClientStub struct {
-	Impl IPrintSpoolerClient
+	Impl      IPrintSpoolerClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PrintSpoolerClientStub)(nil)
@@ -142,11 +147,12 @@ func (s *PrintSpoolerClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPrintSpoolerClientOnPrintJobQueued:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printJob PrintJobInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -160,12 +166,8 @@ func (s *PrintSpoolerClientStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnPrintJobQueued(ctx, _arg_printJob)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintSpoolerClientOnAllPrintJobsForServiceHandled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printService content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -179,19 +181,11 @@ func (s *PrintSpoolerClientStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnAllPrintJobsForServiceHandled(ctx, _arg_printService)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintSpoolerClientOnAllPrintJobsHandled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnAllPrintJobsHandled(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintSpoolerClientOnPrintJobStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printJob PrintJobInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -205,8 +199,7 @@ func (s *PrintSpoolerClientStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnPrintJobStateChanged(ctx, _arg_printJob)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

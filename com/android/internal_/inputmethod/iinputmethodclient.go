@@ -75,6 +75,7 @@ func (p *InputMethodClientProxy) OnBindMethod(
 	res InputBindResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
 	_data.WriteInt32(1)
 	if _err := res.MarshalParcel(_data); _err != nil {
@@ -96,6 +97,7 @@ func (p *InputMethodClientProxy) OnStartInputResult(
 	startInputSeq int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
 	_data.WriteInt32(1)
 	if _err := res.MarshalParcel(_data); _err != nil {
@@ -118,6 +120,7 @@ func (p *InputMethodClientProxy) OnBindAccessibilityService(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
 	_data.WriteInt32(1)
 	if _err := res.MarshalParcel(_data); _err != nil {
@@ -140,6 +143,7 @@ func (p *InputMethodClientProxy) OnUnbindMethod(
 	unbindReason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
 	_data.WriteInt32(sequence)
 	_data.WriteInt32(unbindReason)
@@ -159,6 +163,7 @@ func (p *InputMethodClientProxy) OnUnbindAccessibilityService(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
 	_data.WriteInt32(sequence)
 	_data.WriteInt32(id)
@@ -178,6 +183,7 @@ func (p *InputMethodClientProxy) SetActive(
 	fullscreen bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
 	_data.WriteBool(active)
 	_data.WriteBool(fullscreen)
@@ -197,6 +203,7 @@ func (p *InputMethodClientProxy) SetInteractive(
 	fullscreen bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
 	_data.WriteBool(active)
 	_data.WriteBool(fullscreen)
@@ -215,6 +222,7 @@ func (p *InputMethodClientProxy) ScheduleStartInputIfNecessary(
 	fullscreen bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
 	_data.WriteBool(fullscreen)
 
@@ -232,6 +240,7 @@ func (p *InputMethodClientProxy) ReportFullscreenMode(
 	fullscreen bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
 	_data.WriteBool(fullscreen)
 
@@ -249,6 +258,7 @@ func (p *InputMethodClientProxy) SetImeTraceEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
 	_data.WriteBool(enabled)
 
@@ -266,6 +276,7 @@ func (p *InputMethodClientProxy) ThrowExceptionFromSystem(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
 	_data.WriteString16(message)
 
@@ -281,7 +292,8 @@ func (p *InputMethodClientProxy) ThrowExceptionFromSystem(
 // InputMethodClientStub dispatches incoming binder transactions
 // to a typed IInputMethodClient implementation.
 type InputMethodClientStub struct {
-	Impl IInputMethodClient
+	Impl      IInputMethodClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputMethodClientStub)(nil)
@@ -295,11 +307,12 @@ func (s *InputMethodClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputMethodClientOnBindMethod:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_res InputBindResult
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -313,12 +326,8 @@ func (s *InputMethodClientStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnBindMethod(ctx, _arg_res)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodClientOnStartInputResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_res InputBindResult
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -336,12 +345,8 @@ func (s *InputMethodClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStartInputResult(ctx, _arg_res, _arg_startInputSeq)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodClientOnBindAccessibilityService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_res InputBindResult
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -359,12 +364,8 @@ func (s *InputMethodClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnBindAccessibilityService(ctx, _arg_res, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodClientOnUnbindMethod:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -374,12 +375,8 @@ func (s *InputMethodClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnUnbindMethod(ctx, _arg_sequence, _arg_unbindReason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodClientOnUnbindAccessibilityService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -389,12 +386,8 @@ func (s *InputMethodClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnUnbindAccessibilityService(ctx, _arg_sequence, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodClientSetActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -404,12 +397,8 @@ func (s *InputMethodClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetActive(ctx, _arg_active, _arg_fullscreen)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodClientSetInteractive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -419,52 +408,35 @@ func (s *InputMethodClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetInteractive(ctx, _arg_active, _arg_fullscreen)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodClientScheduleStartInputIfNecessary:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fullscreen, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ScheduleStartInputIfNecessary(ctx, _arg_fullscreen)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodClientReportFullscreenMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fullscreen, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ReportFullscreenMode(ctx, _arg_fullscreen)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodClientSetImeTraceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetImeTraceEnabled(ctx, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputMethodClientThrowExceptionFromSystem:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ThrowExceptionFromSystem(ctx, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

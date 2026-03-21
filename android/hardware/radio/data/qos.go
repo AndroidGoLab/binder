@@ -33,8 +33,7 @@ func (u *Qos) GetNoinit() (bool, bool) {
 func (u *Qos) SetNoinit(
 	v bool,
 ) {
-	u.Tag = QosTagNoinit
-	u.Noinit = v
+	*u = Qos{Tag: QosTagNoinit, Noinit: v}
 }
 
 func (u *Qos) GetEps() (EpsQos, bool) {
@@ -48,8 +47,7 @@ func (u *Qos) GetEps() (EpsQos, bool) {
 func (u *Qos) SetEps(
 	v EpsQos,
 ) {
-	u.Tag = QosTagEps
-	u.Eps = v
+	*u = Qos{Tag: QosTagEps, Eps: v}
 }
 
 func (u *Qos) GetNr() (NrQos, bool) {
@@ -63,8 +61,7 @@ func (u *Qos) GetNr() (NrQos, bool) {
 func (u *Qos) SetNr(
 	v NrQos,
 ) {
-	u.Tag = QosTagNr
-	u.Nr = v
+	*u = Qos{Tag: QosTagNr, Nr: v}
 }
 
 func (u *Qos) MarshalParcel(

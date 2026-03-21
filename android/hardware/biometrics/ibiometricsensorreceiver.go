@@ -55,16 +55,10 @@ func (p *BiometricSensorReceiverProxy) OnAuthenticationSucceeded(
 	token []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSensorReceiver)
 	_data.WriteInt32(sensorId)
-	if token == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(token)))
-		for _, _item := range token {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(token)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnAuthenticationSucceeded)
 	if _err != nil {
@@ -80,6 +74,7 @@ func (p *BiometricSensorReceiverProxy) OnAuthenticationFailed(
 	sensorId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSensorReceiver)
 	_data.WriteInt32(sensorId)
 
@@ -100,6 +95,7 @@ func (p *BiometricSensorReceiverProxy) OnError(
 	vendorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSensorReceiver)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(cookie)
@@ -122,6 +118,7 @@ func (p *BiometricSensorReceiverProxy) OnAcquired(
 	vendorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricSensorReceiver)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(acquiredInfo)
@@ -139,7 +136,8 @@ func (p *BiometricSensorReceiverProxy) OnAcquired(
 // BiometricSensorReceiverStub dispatches incoming binder transactions
 // to a typed IBiometricSensorReceiver implementation.
 type BiometricSensorReceiverStub struct {
-	Impl IBiometricSensorReceiver
+	Impl      IBiometricSensorReceiver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BiometricSensorReceiverStub)(nil)
@@ -153,36 +151,34 @@ func (s *BiometricSensorReceiverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBiometricSensorReceiverOnAuthenticationSucceeded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_token []byte
-		_ = _arg_token
-		_err = s.Impl.OnAuthenticationSucceeded(ctx, _arg_sensorId, _arg_token)
-		_ = _err
-		return nil, nil
-	case TransactionIBiometricSensorReceiverOnAuthenticationFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = _bytes
 		}
+		_err = s.Impl.OnAuthenticationSucceeded(ctx, _arg_sensorId, _arg_token)
+		return nil, _err
+	case TransactionIBiometricSensorReceiverOnAuthenticationFailed:
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAuthenticationFailed(ctx, _arg_sensorId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBiometricSensorReceiverOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -200,12 +196,8 @@ func (s *BiometricSensorReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_sensorId, _arg_cookie, _arg_error_, _arg_vendorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBiometricSensorReceiverOnAcquired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -219,8 +211,7 @@ func (s *BiometricSensorReceiverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAcquired(ctx, _arg_sensorId, _arg_acquiredInfo, _arg_vendorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -32,7 +32,7 @@ type HealthInfo struct {
 	BatteryFullChargeDesignCapacityUah int32
 	ChargingState                      BatteryChargingState
 	ChargingPolicy                     BatteryChargingPolicy
-	BatteryHealthData                  BatteryHealthData
+	BatteryHealthData                  *BatteryHealthData
 }
 
 const (
@@ -90,8 +90,13 @@ func (s *HealthInfo) MarshalParcel(
 	p.WriteInt32(s.BatteryFullChargeDesignCapacityUah)
 	p.WriteInt32(int32(s.ChargingState))
 	p.WriteInt32(int32(s.ChargingPolicy))
-	if _err := s.BatteryHealthData.MarshalParcel(p); _err != nil {
-		return _err
+	if s.BatteryHealthData == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.BatteryHealthData.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -106,9 +111,19 @@ func (s *HealthInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ChargerAcOnline, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ChargerUsbOnline, _err = p.ReadBool()
@@ -116,9 +131,19 @@ func (s *HealthInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ChargerWirelessOnline, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ChargerDockOnline, _err = p.ReadBool()
@@ -126,14 +151,29 @@ func (s *HealthInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.MaxChargingCurrentMicroamps, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.MaxChargingVoltageMicrovolts, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_batteryStatusRaw, _err := p.ReadInt32()
@@ -142,15 +182,30 @@ func (s *HealthInfo) UnmarshalParcel(
 	}
 	s.BatteryStatus = BatteryStatus(_batteryStatusRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_batteryHealthRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.BatteryHealth = BatteryHealth(_batteryHealthRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.BatteryPresent, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.BatteryLevel, _err = p.ReadInt32()
@@ -158,9 +213,19 @@ func (s *HealthInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.BatteryVoltageMillivolts, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.BatteryTemperatureTenthsCelsius, _err = p.ReadInt32()
@@ -168,9 +233,19 @@ func (s *HealthInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.BatteryCurrentMicroamps, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.BatteryCycleCount, _err = p.ReadInt32()
@@ -178,9 +253,19 @@ func (s *HealthInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.BatteryFullChargeUah, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.BatteryChargeCounterUah, _err = p.ReadInt32()
@@ -188,14 +273,29 @@ func (s *HealthInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.BatteryTechnology, _err = p.ReadString16()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.BatteryCurrentAverageMicroamps, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -215,6 +315,11 @@ func (s *HealthInfo) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count1 int32
 	_count1, _err = p.ReadInt32()
 	if _err != nil {
@@ -232,20 +337,40 @@ func (s *HealthInfo) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_batteryCapacityLevelRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.BatteryCapacityLevel = BatteryCapacityLevel(_batteryCapacityLevelRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.BatteryChargeTimeToFullNowSeconds, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.BatteryFullChargeDesignCapacityUah, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_chargingStateRaw, _err := p.ReadInt32()
@@ -254,14 +379,34 @@ func (s *HealthInfo) UnmarshalParcel(
 	}
 	s.ChargingState = BatteryChargingState(_chargingStateRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_chargingPolicyRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.ChargingPolicy = BatteryChargingPolicy(_chargingPolicyRaw)
 
-	if _err = s.BatteryHealthData.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val BatteryHealthData
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.BatteryHealthData = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

@@ -60,6 +60,7 @@ func (p *IvnAndroidDeviceProxy) GetMyDeviceId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIvnAndroidDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetMyDeviceId)
@@ -89,6 +90,7 @@ func (p *IvnAndroidDeviceProxy) GetOtherDeviceIds(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIvnAndroidDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetOtherDeviceIds)
@@ -110,6 +112,9 @@ func (p *IvnAndroidDeviceProxy) GetOtherDeviceIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -129,6 +134,7 @@ func (p *IvnAndroidDeviceProxy) GetDeviceIdForOccupantZone(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIvnAndroidDevice)
 	_data.WriteInt32(zoneId)
 
@@ -160,6 +166,7 @@ func (p *IvnAndroidDeviceProxy) GetOccupantZonesForDevice(
 ) ([]OccupantZoneInfo, error) {
 	var _result []OccupantZoneInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIvnAndroidDevice)
 	_data.WriteInt32(androidDeviceId)
 
@@ -182,6 +189,9 @@ func (p *IvnAndroidDeviceProxy) GetOccupantZonesForDevice(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]OccupantZoneInfo, _count)
@@ -202,6 +212,7 @@ func (p *IvnAndroidDeviceProxy) GetMyEndpointInfo(
 ) (EndpointInfo, error) {
 	var _result EndpointInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIvnAndroidDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetMyEndpointInfo)
@@ -237,6 +248,7 @@ func (p *IvnAndroidDeviceProxy) GetEndpointInfoForDevice(
 ) (EndpointInfo, error) {
 	var _result EndpointInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIvnAndroidDevice)
 	_data.WriteInt32(androidDeviceId)
 
@@ -270,7 +282,8 @@ func (p *IvnAndroidDeviceProxy) GetEndpointInfoForDevice(
 // IvnAndroidDeviceStub dispatches incoming binder transactions
 // to a typed IIvnAndroidDevice implementation.
 type IvnAndroidDeviceStub struct {
-	Impl IIvnAndroidDevice
+	Impl      IIvnAndroidDevice
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*IvnAndroidDeviceStub)(nil)
@@ -284,11 +297,12 @@ func (s *IvnAndroidDeviceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIIvnAndroidDeviceGetMyDeviceId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMyDeviceId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -299,9 +313,6 @@ func (s *IvnAndroidDeviceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIvnAndroidDeviceGetOtherDeviceIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetOtherDeviceIds(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -309,13 +320,16 @@ func (s *IvnAndroidDeviceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIIvnAndroidDeviceGetDeviceIdForOccupantZone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_zoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -330,9 +344,6 @@ func (s *IvnAndroidDeviceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIvnAndroidDeviceGetOccupantZonesForDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_androidDeviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -344,13 +355,19 @@ func (s *IvnAndroidDeviceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIIvnAndroidDeviceGetMyEndpointInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMyEndpointInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -364,9 +381,6 @@ func (s *IvnAndroidDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIIvnAndroidDeviceGetEndpointInfoForDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_androidDeviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

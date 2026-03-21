@@ -48,6 +48,7 @@ func (p *ChooserTargetServiceProxy) GetChooserTargets(
 	result IChooserTargetResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIChooserTargetService)
 	_data.WriteInt32(1)
 	if _err := targetComponentName.MarshalParcel(_data); _err != nil {
@@ -71,7 +72,8 @@ func (p *ChooserTargetServiceProxy) GetChooserTargets(
 // ChooserTargetServiceStub dispatches incoming binder transactions
 // to a typed IChooserTargetService implementation.
 type ChooserTargetServiceStub struct {
-	Impl IChooserTargetService
+	Impl      IChooserTargetService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ChooserTargetServiceStub)(nil)
@@ -85,11 +87,12 @@ func (s *ChooserTargetServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIChooserTargetServiceGetChooserTargets:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_targetComponentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -114,12 +117,16 @@ func (s *ChooserTargetServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result IChooserTargetResult
-		_ = _arg_result
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = NewChooserTargetResultProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
+		}
 		_err := s.Impl.GetChooserTargets(ctx, _arg_targetComponentName, _arg_matchedFilter, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

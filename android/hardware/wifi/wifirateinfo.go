@@ -38,11 +38,21 @@ func (s *WifiRateInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_preambleRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Preamble = WifiRatePreamble(_preambleRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_nssRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -50,15 +60,30 @@ func (s *WifiRateInfo) UnmarshalParcel(
 	}
 	s.Nss = WifiRateNss(_nssRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_bwRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Bw = WifiChannelWidthInMhz(_bwRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.RateMcsIdx, _err = p.ReadPaddedByte()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.BitRateInKbps, _err = p.ReadInt32()

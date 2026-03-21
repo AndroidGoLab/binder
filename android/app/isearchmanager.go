@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
+	types "github.com/xaionaro-go/binder/android/content/pm/types"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -34,10 +36,10 @@ type ISearchManager interface {
 	AsBinder() binder.IBinder
 	GetSearchableInfo(ctx context.Context, launchActivity content.ComponentName) (SearchableInfo, error)
 	GetSearchablesInGlobalSearch(ctx context.Context) ([]SearchableInfo, error)
-	GetGlobalSearchActivities(ctx context.Context) ([]interface{}, error)
+	GetGlobalSearchActivities(ctx context.Context) ([]types.ResolveInfo, error)
 	GetGlobalSearchActivity(ctx context.Context) (content.ComponentName, error)
 	GetWebSearchActivity(ctx context.Context) (content.ComponentName, error)
-	LaunchAssist(ctx context.Context, args interface{}) error
+	LaunchAssist(ctx context.Context, args os.Bundle) error
 }
 
 type SearchManagerProxy struct {
@@ -62,6 +64,7 @@ func (p *SearchManagerProxy) GetSearchableInfo(
 ) (SearchableInfo, error) {
 	var _result SearchableInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 	_data.WriteInt32(1)
 	if _err := launchActivity.MarshalParcel(_data); _err != nil {
@@ -100,6 +103,7 @@ func (p *SearchManagerProxy) GetSearchablesInGlobalSearch(
 ) ([]SearchableInfo, error) {
 	var _result []SearchableInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchManager, MethodISearchManagerGetSearchablesInGlobalSearch)
@@ -121,6 +125,9 @@ func (p *SearchManagerProxy) GetSearchablesInGlobalSearch(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]SearchableInfo, _count)
@@ -138,9 +145,10 @@ func (p *SearchManagerProxy) GetSearchablesInGlobalSearch(
 
 func (p *SearchManagerProxy) GetGlobalSearchActivities(
 	ctx context.Context,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]types.ResolveInfo, error) {
+	var _result []types.ResolveInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchManager, MethodISearchManagerGetGlobalSearchActivities)
@@ -162,10 +170,21 @@ func (p *SearchManagerProxy) GetGlobalSearchActivities(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]types.ResolveInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			_endPos, _err := parcel.ReadParcelableHeader(_reply)
+			if _err != nil {
+				return _result, _err
+			}
+			parcel.SkipToParcelableEnd(_reply, _endPos)
 		}
 	}
 	return _result, nil
@@ -176,6 +195,7 @@ func (p *SearchManagerProxy) GetGlobalSearchActivity(
 ) (content.ComponentName, error) {
 	var _result content.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchManager, MethodISearchManagerGetGlobalSearchActivity)
@@ -210,6 +230,7 @@ func (p *SearchManagerProxy) GetWebSearchActivity(
 ) (content.ComponentName, error) {
 	var _result content.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchManager, MethodISearchManagerGetWebSearchActivity)
@@ -241,12 +262,17 @@ func (p *SearchManagerProxy) GetWebSearchActivity(
 
 func (p *SearchManagerProxy) LaunchAssist(
 	ctx context.Context,
-	args interface{},
+	args os.Bundle,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 	_data.WriteInt32(_identity.UserID)
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchManager, MethodISearchManagerLaunchAssist)
 	if _err != nil {
@@ -269,7 +295,8 @@ func (p *SearchManagerProxy) LaunchAssist(
 // SearchManagerStub dispatches incoming binder transactions
 // to a typed ISearchManager implementation.
 type SearchManagerStub struct {
-	Impl ISearchManager
+	Impl      ISearchManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SearchManagerStub)(nil)
@@ -283,11 +310,12 @@ func (s *SearchManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISearchManagerGetSearchableInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_launchActivity content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -313,9 +341,6 @@ func (s *SearchManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISearchManagerGetSearchablesInGlobalSearch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSearchablesInGlobalSearch(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -323,13 +348,19 @@ func (s *SearchManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISearchManagerGetGlobalSearchActivities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetGlobalSearchActivities(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -337,13 +368,13 @@ func (s *SearchManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	case TransactionISearchManagerGetGlobalSearchActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetGlobalSearchActivity(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -357,9 +388,6 @@ func (s *SearchManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISearchManagerGetWebSearchActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWebSearchActivity(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -373,13 +401,21 @@ func (s *SearchManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISearchManagerLaunchAssist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		var _arg_args interface{}
+		var _arg_args os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.LaunchAssist(ctx, _arg_args)
 		_reply := parcel.New()
 		if _err != nil {
@@ -399,10 +435,10 @@ func (s *SearchManagerStub) OnTransaction(
 type ISearchManagerServer interface {
 	GetSearchableInfo(ctx context.Context, launchActivity content.ComponentName) (SearchableInfo, error)
 	GetSearchablesInGlobalSearch(ctx context.Context) ([]SearchableInfo, error)
-	GetGlobalSearchActivities(ctx context.Context) ([]interface{}, error)
+	GetGlobalSearchActivities(ctx context.Context) ([]types.ResolveInfo, error)
 	GetGlobalSearchActivity(ctx context.Context) (content.ComponentName, error)
 	GetWebSearchActivity(ctx context.Context) (content.ComponentName, error)
-	LaunchAssist(ctx context.Context, args interface{}) error
+	LaunchAssist(ctx context.Context, args os.Bundle) error
 }
 
 type searchManagerStubWrapper struct {
@@ -429,7 +465,7 @@ func (w *searchManagerStubWrapper) GetSearchablesInGlobalSearch(
 
 func (w *searchManagerStubWrapper) GetGlobalSearchActivities(
 	ctx context.Context,
-) ([]interface{}, error) {
+) ([]types.ResolveInfo, error) {
 	return w.impl.GetGlobalSearchActivities(ctx)
 }
 
@@ -447,7 +483,7 @@ func (w *searchManagerStubWrapper) GetWebSearchActivity(
 
 func (w *searchManagerStubWrapper) LaunchAssist(
 	ctx context.Context,
-	args interface{},
+	args os.Bundle,
 ) error {
 	return w.impl.LaunchAssist(ctx, args)
 }

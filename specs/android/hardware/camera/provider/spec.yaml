@@ -1,0 +1,127 @@
+package: android.hardware.camera.provider
+go_package: android/hardware/camera/provider
+interfaces:
+    - name: ICameraProvider
+      descriptor: android.hardware.camera.provider.ICameraProvider
+      methods:
+        - name: setCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: ICameraProviderCallback
+          return_type:
+            name: void
+        - name: getVendorTags
+          transaction_code_offset: 1
+          return_type:
+            name: VendorTagSection
+            is_array: true
+        - name: getCameraIdList
+          transaction_code_offset: 2
+          return_type:
+            name: String
+            is_array: true
+        - name: getCameraDeviceInterface
+          transaction_code_offset: 3
+          params:
+            - name: cameraDeviceName
+              type:
+                name: String
+          return_type:
+            name: ICameraDevice
+        - name: notifyDeviceStateChange
+          transaction_code_offset: 4
+          params:
+            - name: deviceState
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: getConcurrentCameraIds
+          transaction_code_offset: 5
+          return_type:
+            name: ConcurrentCameraIdCombination
+            is_array: true
+        - name: isConcurrentStreamCombinationSupported
+          transaction_code_offset: 6
+          params:
+            - name: configs
+              type:
+                name: CameraIdAndStreamCombination
+                is_array: true
+              direction: in
+          return_type:
+            name: boolean
+      constants:
+        - name: DEVICE_STATE_NORMAL
+          type: long
+          value: "0"
+        - name: DEVICE_STATE_BACK_COVERED
+          type: long
+          value: 1 << 0
+        - name: DEVICE_STATE_FRONT_COVERED
+          type: long
+          value: 1 << 1
+        - name: DEVICE_STATE_FOLDED
+          type: long
+          value: 1 << 2
+    - name: ICameraProviderCallback
+      descriptor: android.hardware.camera.provider.ICameraProviderCallback
+      methods:
+        - name: cameraDeviceStatusChange
+          transaction_code_offset: 0
+          params:
+            - name: cameraDeviceName
+              type:
+                name: String
+            - name: newStatus
+              type:
+                name: CameraDeviceStatus
+          return_type:
+            name: void
+        - name: torchModeStatusChange
+          transaction_code_offset: 1
+          params:
+            - name: cameraDeviceName
+              type:
+                name: String
+            - name: newStatus
+              type:
+                name: TorchModeStatus
+          return_type:
+            name: void
+        - name: physicalCameraDeviceStatusChange
+          transaction_code_offset: 2
+          params:
+            - name: cameraDeviceName
+              type:
+                name: String
+            - name: physicalCameraDeviceName
+              type:
+                name: String
+            - name: newStatus
+              type:
+                name: CameraDeviceStatus
+          return_type:
+            name: void
+parcelables:
+    - name: CameraIdAndStreamCombination
+      fields:
+        - name: cameraId
+          type:
+            name: String
+        - name: streamConfiguration
+          type:
+            name: StreamConfiguration
+      annotations:
+        - VintfStability
+    - name: ConcurrentCameraIdCombination
+      fields:
+        - name: combination
+          type:
+            name: List
+            type_args:
+                - name: String
+      annotations:
+        - VintfStability

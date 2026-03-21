@@ -59,31 +59,11 @@ func (p *MacsecPskPluginProxy) AddTestKey(
 	CKN []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMacsecPskPlugin)
-	if keyId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyId)))
-		for _, _item := range keyId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if CAK == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(CAK)))
-		for _, _item := range CAK {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if CKN == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(CKN)))
-		for _, _item := range CKN {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(keyId)
+	_data.WriteByteArray(CAK)
+	_data.WriteByteArray(CKN)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginAddTestKey)
 	if _err != nil {
@@ -110,23 +90,10 @@ func (p *MacsecPskPluginProxy) CalcIcv(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMacsecPskPlugin)
-	if keyId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyId)))
-		for _, _item := range keyId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(keyId)
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginCalcIcv)
 	if _err != nil {
@@ -143,19 +110,9 @@ func (p *MacsecPskPluginProxy) CalcIcv(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -168,23 +125,10 @@ func (p *MacsecPskPluginProxy) GenerateSak(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMacsecPskPlugin)
-	if keyId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyId)))
-		for _, _item := range keyId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(keyId)
+	_data.WriteByteArray(data)
 	_data.WriteInt32(sakLength)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginGenerateSak)
@@ -202,19 +146,9 @@ func (p *MacsecPskPluginProxy) GenerateSak(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -226,23 +160,10 @@ func (p *MacsecPskPluginProxy) WrapSak(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMacsecPskPlugin)
-	if keyId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyId)))
-		for _, _item := range keyId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if sak == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sak)))
-		for _, _item := range sak {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(keyId)
+	_data.WriteByteArray(sak)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginWrapSak)
 	if _err != nil {
@@ -259,19 +180,9 @@ func (p *MacsecPskPluginProxy) WrapSak(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -283,23 +194,10 @@ func (p *MacsecPskPluginProxy) UnwrapSak(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMacsecPskPlugin)
-	if keyId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyId)))
-		for _, _item := range keyId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if sak == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sak)))
-		for _, _item := range sak {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(keyId)
+	_data.WriteByteArray(sak)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginUnwrapSak)
 	if _err != nil {
@@ -316,19 +214,9 @@ func (p *MacsecPskPluginProxy) UnwrapSak(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -336,7 +224,8 @@ func (p *MacsecPskPluginProxy) UnwrapSak(
 // MacsecPskPluginStub dispatches incoming binder transactions
 // to a typed IMacsecPskPlugin implementation.
 type MacsecPskPluginStub struct {
-	Impl IMacsecPskPlugin
+	Impl      IMacsecPskPlugin
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MacsecPskPluginStub)(nil)
@@ -350,20 +239,36 @@ func (s *MacsecPskPluginStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMacsecPskPluginAddTestKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyId []byte
-		_ = _arg_keyId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyId = _bytes
+		}
 		var _arg_CAK []byte
-		_ = _arg_CAK
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_CAK = _bytes
+		}
 		var _arg_CKN []byte
-		_ = _arg_CKN
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_CKN = _bytes
+		}
 		_err := s.Impl.AddTestKey(ctx, _arg_keyId, _arg_CAK, _arg_CKN)
 		_reply := parcel.New()
 		if _err != nil {
@@ -373,15 +278,22 @@ func (s *MacsecPskPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMacsecPskPluginCalcIcv:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyId []byte
-		_ = _arg_keyId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyId = _bytes
+		}
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_result, _err := s.Impl.CalcIcv(ctx, _arg_keyId, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -389,19 +301,25 @@ func (s *MacsecPskPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIMacsecPskPluginGenerateSak:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyId []byte
-		_ = _arg_keyId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyId = _bytes
+		}
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_arg_sakLength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -413,19 +331,25 @@ func (s *MacsecPskPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIMacsecPskPluginWrapSak:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyId []byte
-		_ = _arg_keyId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyId = _bytes
+		}
 		var _arg_sak []byte
-		_ = _arg_sak
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sak = _bytes
+		}
 		_result, _err := s.Impl.WrapSak(ctx, _arg_keyId, _arg_sak)
 		_reply := parcel.New()
 		if _err != nil {
@@ -433,19 +357,25 @@ func (s *MacsecPskPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIMacsecPskPluginUnwrapSak:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyId []byte
-		_ = _arg_keyId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyId = _bytes
+		}
 		var _arg_sak []byte
-		_ = _arg_sak
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sak = _bytes
+		}
 		_result, _err := s.Impl.UnwrapSak(ctx, _arg_keyId, _arg_sak)
 		_reply := parcel.New()
 		if _err != nil {
@@ -453,8 +383,7 @@ func (s *MacsecPskPluginStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

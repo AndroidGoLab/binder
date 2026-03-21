@@ -54,6 +54,7 @@ func (p *BluetoothManagerCallbackProxy) OnBluetoothServiceUp(
 	bluetoothService IBluetooth,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothManagerCallback)
 	binder.WriteBinderToParcel(ctx, _data, bluetoothService.AsBinder(), p.Remote.Transport())
 
@@ -70,6 +71,7 @@ func (p *BluetoothManagerCallbackProxy) OnBluetoothServiceDown(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothManagerCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManagerCallback, MethodIBluetoothManagerCallbackOnBluetoothServiceDown)
@@ -85,6 +87,7 @@ func (p *BluetoothManagerCallbackProxy) OnBluetoothOn(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothManagerCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManagerCallback, MethodIBluetoothManagerCallbackOnBluetoothOn)
@@ -100,6 +103,7 @@ func (p *BluetoothManagerCallbackProxy) OnBluetoothOff(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothManagerCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManagerCallback, MethodIBluetoothManagerCallbackOnBluetoothOff)
@@ -114,7 +118,8 @@ func (p *BluetoothManagerCallbackProxy) OnBluetoothOff(
 // BluetoothManagerCallbackStub dispatches incoming binder transactions
 // to a typed IBluetoothManagerCallback implementation.
 type BluetoothManagerCallbackStub struct {
-	Impl IBluetoothManagerCallback
+	Impl      IBluetoothManagerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothManagerCallbackStub)(nil)
@@ -128,38 +133,31 @@ func (s *BluetoothManagerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothManagerCallbackOnBluetoothServiceUp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_bluetoothService IBluetooth
-		_ = _arg_bluetoothService
+		{
+			_bluetoothServiceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_bluetoothService = NewBluetoothProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _bluetoothServiceHandle))
+		}
 		_err := s.Impl.OnBluetoothServiceUp(ctx, _arg_bluetoothService)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothManagerCallbackOnBluetoothServiceDown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnBluetoothServiceDown(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothManagerCallbackOnBluetoothOn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnBluetoothOn(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothManagerCallbackOnBluetoothOff:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnBluetoothOff(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

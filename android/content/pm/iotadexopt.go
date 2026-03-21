@@ -59,6 +59,7 @@ func (p *OtaDexoptProxy) Prepare(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOtaDexopt, MethodIOtaDexoptPrepare)
@@ -83,6 +84,7 @@ func (p *OtaDexoptProxy) Cleanup(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOtaDexopt, MethodIOtaDexoptCleanup)
@@ -108,6 +110,7 @@ func (p *OtaDexoptProxy) IsDone(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOtaDexopt, MethodIOtaDexoptIsDone)
@@ -137,6 +140,7 @@ func (p *OtaDexoptProxy) GetProgress(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOtaDexopt, MethodIOtaDexoptGetProgress)
@@ -165,6 +169,7 @@ func (p *OtaDexoptProxy) DexoptNextPackage(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOtaDexopt, MethodIOtaDexoptDexoptNextPackage)
@@ -190,6 +195,7 @@ func (p *OtaDexoptProxy) NextDexoptCommand(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOtaDexopt, MethodIOtaDexoptNextDexoptCommand)
@@ -217,7 +223,8 @@ func (p *OtaDexoptProxy) NextDexoptCommand(
 // OtaDexoptStub dispatches incoming binder transactions
 // to a typed IOtaDexopt implementation.
 type OtaDexoptStub struct {
-	Impl IOtaDexopt
+	Impl      IOtaDexopt
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OtaDexoptStub)(nil)
@@ -231,11 +238,12 @@ func (s *OtaDexoptStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOtaDexoptPrepare:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Prepare(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -245,9 +253,6 @@ func (s *OtaDexoptStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOtaDexoptCleanup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Cleanup(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -257,9 +262,6 @@ func (s *OtaDexoptStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOtaDexoptIsDone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsDone(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -270,9 +272,6 @@ func (s *OtaDexoptStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIOtaDexoptGetProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetProgress(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -283,9 +282,6 @@ func (s *OtaDexoptStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIOtaDexoptDexoptNextPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DexoptNextPackage(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -295,9 +291,6 @@ func (s *OtaDexoptStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOtaDexoptNextDexoptCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.NextDexoptCommand(ctx)
 		_reply := parcel.New()
 		if _err != nil {

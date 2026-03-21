@@ -27,7 +27,7 @@ type IPacProxyManager interface {
 	AsBinder() binder.IBinder
 	AddListener(ctx context.Context, listener IPacProxyInstalledListener) error
 	RemoveListener(ctx context.Context, listener IPacProxyInstalledListener) error
-	SetCurrentProxyScriptUrl(ctx context.Context, proxyInfo interface{}) error
+	SetCurrentProxyScriptUrl(ctx context.Context, proxyInfo ProxyInfo) error
 }
 
 type PacProxyManagerProxy struct {
@@ -51,6 +51,7 @@ func (p *PacProxyManagerProxy) AddListener(
 	listener IPacProxyInstalledListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPacProxyManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -77,6 +78,7 @@ func (p *PacProxyManagerProxy) RemoveListener(
 	listener IPacProxyInstalledListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPacProxyManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -100,10 +102,15 @@ func (p *PacProxyManagerProxy) RemoveListener(
 
 func (p *PacProxyManagerProxy) SetCurrentProxyScriptUrl(
 	ctx context.Context,
-	proxyInfo interface{},
+	proxyInfo ProxyInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPacProxyManager)
+	_data.WriteInt32(1)
+	if _err := proxyInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPacProxyManager, MethodIPacProxyManagerSetCurrentProxyScriptUrl)
 	if _err != nil {
@@ -126,7 +133,8 @@ func (p *PacProxyManagerProxy) SetCurrentProxyScriptUrl(
 // PacProxyManagerStub dispatches incoming binder transactions
 // to a typed IPacProxyManager implementation.
 type PacProxyManagerStub struct {
-	Impl IPacProxyManager
+	Impl      IPacProxyManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PacProxyManagerStub)(nil)
@@ -140,14 +148,20 @@ func (s *PacProxyManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPacProxyManagerAddListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IPacProxyInstalledListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewPacProxyInstalledListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -157,12 +171,14 @@ func (s *PacProxyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPacProxyManagerRemoveListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IPacProxyInstalledListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewPacProxyInstalledListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -172,10 +188,18 @@ func (s *PacProxyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPacProxyManagerSetCurrentProxyScriptUrl:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_proxyInfo ProxyInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_proxyInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_proxyInfo interface{}
 		_err := s.Impl.SetCurrentProxyScriptUrl(ctx, _arg_proxyInfo)
 		_reply := parcel.New()
 		if _err != nil {
@@ -195,7 +219,7 @@ func (s *PacProxyManagerStub) OnTransaction(
 type IPacProxyManagerServer interface {
 	AddListener(ctx context.Context, listener IPacProxyInstalledListener) error
 	RemoveListener(ctx context.Context, listener IPacProxyInstalledListener) error
-	SetCurrentProxyScriptUrl(ctx context.Context, proxyInfo interface{}) error
+	SetCurrentProxyScriptUrl(ctx context.Context, proxyInfo ProxyInfo) error
 }
 
 type pacProxyManagerStubWrapper struct {
@@ -223,7 +247,7 @@ func (w *pacProxyManagerStubWrapper) RemoveListener(
 
 func (w *pacProxyManagerStubWrapper) SetCurrentProxyScriptUrl(
 	ctx context.Context,
-	proxyInfo interface{},
+	proxyInfo ProxyInfo,
 ) error {
 	return w.impl.SetCurrentProxyScriptUrl(ctx, proxyInfo)
 }

@@ -3,7 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
-	view "github.com/xaionaro-go/binder/android/view"
+	types "github.com/xaionaro-go/binder/android/view/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -26,8 +26,8 @@ const (
 
 type IRemoteTransition interface {
 	AsBinder() binder.IBinder
-	StartAnimation(ctx context.Context, token binder.IBinder, info TransitionInfo, t view.SurfaceControlTransaction, finishCallback IRemoteTransitionFinishedCallback) error
-	MergeAnimation(ctx context.Context, transition binder.IBinder, info TransitionInfo, t view.SurfaceControlTransaction, mergeTarget binder.IBinder, finishCallback IRemoteTransitionFinishedCallback) error
+	StartAnimation(ctx context.Context, token binder.IBinder, info TransitionInfo, t types.SurfaceControlTransaction, finishCallback IRemoteTransitionFinishedCallback) error
+	MergeAnimation(ctx context.Context, transition binder.IBinder, info TransitionInfo, t types.SurfaceControlTransaction, mergeTarget binder.IBinder, finishCallback IRemoteTransitionFinishedCallback) error
 	OnTransitionConsumed(ctx context.Context, transition binder.IBinder, aborted bool) error
 }
 
@@ -51,20 +51,18 @@ func (p *RemoteTransitionProxy) StartAnimation(
 	ctx context.Context,
 	token binder.IBinder,
 	info TransitionInfo,
-	t view.SurfaceControlTransaction,
+	t types.SurfaceControlTransaction,
 	finishCallback IRemoteTransitionFinishedCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteTransition)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := t.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param t (type types.SurfaceControlTransaction) cannot be serialized — type not resolved
 	binder.WriteBinderToParcel(ctx, _data, finishCallback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteTransition, MethodIRemoteTransitionStartAnimation)
@@ -80,21 +78,19 @@ func (p *RemoteTransitionProxy) MergeAnimation(
 	ctx context.Context,
 	transition binder.IBinder,
 	info TransitionInfo,
-	t view.SurfaceControlTransaction,
+	t types.SurfaceControlTransaction,
 	mergeTarget binder.IBinder,
 	finishCallback IRemoteTransitionFinishedCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteTransition)
 	binder.WriteBinderToParcel(ctx, _data, transition, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := t.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param t (type types.SurfaceControlTransaction) cannot be serialized — type not resolved
 	binder.WriteBinderToParcel(ctx, _data, mergeTarget, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, finishCallback.AsBinder(), p.Remote.Transport())
 
@@ -113,6 +109,7 @@ func (p *RemoteTransitionProxy) OnTransitionConsumed(
 	aborted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteTransition)
 	binder.WriteBinderToParcel(ctx, _data, transition, p.Remote.Transport())
 	_data.WriteBool(aborted)
@@ -129,7 +126,8 @@ func (p *RemoteTransitionProxy) OnTransitionConsumed(
 // RemoteTransitionStub dispatches incoming binder transactions
 // to a typed IRemoteTransition implementation.
 type RemoteTransitionStub struct {
-	Impl IRemoteTransition
+	Impl      IRemoteTransition
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RemoteTransitionStub)(nil)
@@ -143,14 +141,20 @@ func (s *RemoteTransitionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRemoteTransitionStartAnimation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_info TransitionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -163,31 +167,26 @@ func (s *RemoteTransitionStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_t view.SurfaceControlTransaction
+		var _arg_t types.SurfaceControlTransaction
+		var _arg_finishCallback IRemoteTransitionFinishedCallback
 		{
-			_nullInd, _err := _data.ReadInt32()
+			_finishCallbackHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			if _nullInd != 0 {
-				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
+			_arg_finishCallback = NewRemoteTransitionFinishedCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _finishCallbackHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_finishCallback IRemoteTransitionFinishedCallback
-		_ = _arg_finishCallback
 		_err := s.Impl.StartAnimation(ctx, _arg_token, _arg_info, _arg_t, _arg_finishCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRemoteTransitionMergeAnimation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transition binder.IBinder
-		_ = _arg_transition
+		{
+			_transitionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transition = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transitionHandle)
+		}
 		var _arg_info TransitionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -200,41 +199,40 @@ func (s *RemoteTransitionStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_t view.SurfaceControlTransaction
+		var _arg_t types.SurfaceControlTransaction
+		var _arg_mergeTarget binder.IBinder
 		{
-			_nullInd, _err := _data.ReadInt32()
+			_mergeTargetHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			if _nullInd != 0 {
-				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
+			_arg_mergeTarget = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _mergeTargetHandle)
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_mergeTarget binder.IBinder
-		_ = _arg_mergeTarget
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_finishCallback IRemoteTransitionFinishedCallback
-		_ = _arg_finishCallback
-		_err := s.Impl.MergeAnimation(ctx, _arg_transition, _arg_info, _arg_t, _arg_mergeTarget, _arg_finishCallback)
-		_ = _err
-		return nil, nil
-	case TransactionIRemoteTransitionOnTransitionConsumed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_finishCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_finishCallback = NewRemoteTransitionFinishedCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _finishCallbackHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err := s.Impl.MergeAnimation(ctx, _arg_transition, _arg_info, _arg_t, _arg_mergeTarget, _arg_finishCallback)
+		return nil, _err
+	case TransactionIRemoteTransitionOnTransitionConsumed:
 		var _arg_transition binder.IBinder
-		_ = _arg_transition
+		{
+			_transitionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transition = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transitionHandle)
+		}
 		_arg_aborted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTransitionConsumed(ctx, _arg_transition, _arg_aborted)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -244,8 +242,8 @@ func (s *RemoteTransitionStub) OnTransaction(
 // provide to NewRemoteTransitionStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IRemoteTransitionServer interface {
-	StartAnimation(ctx context.Context, token binder.IBinder, info TransitionInfo, t view.SurfaceControlTransaction, finishCallback IRemoteTransitionFinishedCallback) error
-	MergeAnimation(ctx context.Context, transition binder.IBinder, info TransitionInfo, t view.SurfaceControlTransaction, mergeTarget binder.IBinder, finishCallback IRemoteTransitionFinishedCallback) error
+	StartAnimation(ctx context.Context, token binder.IBinder, info TransitionInfo, t types.SurfaceControlTransaction, finishCallback IRemoteTransitionFinishedCallback) error
+	MergeAnimation(ctx context.Context, transition binder.IBinder, info TransitionInfo, t types.SurfaceControlTransaction, mergeTarget binder.IBinder, finishCallback IRemoteTransitionFinishedCallback) error
 	OnTransitionConsumed(ctx context.Context, transition binder.IBinder, aborted bool) error
 }
 
@@ -262,7 +260,7 @@ func (w *remoteTransitionStubWrapper) StartAnimation(
 	ctx context.Context,
 	token binder.IBinder,
 	info TransitionInfo,
-	t view.SurfaceControlTransaction,
+	t types.SurfaceControlTransaction,
 	finishCallback IRemoteTransitionFinishedCallback,
 ) error {
 	return w.impl.StartAnimation(ctx, token, info, t, finishCallback)
@@ -272,7 +270,7 @@ func (w *remoteTransitionStubWrapper) MergeAnimation(
 	ctx context.Context,
 	transition binder.IBinder,
 	info TransitionInfo,
-	t view.SurfaceControlTransaction,
+	t types.SurfaceControlTransaction,
 	mergeTarget binder.IBinder,
 	finishCallback IRemoteTransitionFinishedCallback,
 ) error {

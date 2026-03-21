@@ -52,6 +52,7 @@ func (p *RemoteAnimationRunnerProxy) OnAnimationStart(
 	finishedCallback IRemoteAnimationFinishedCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAnimationRunner)
 	_data.WriteInt32(transit)
 	if apps == nil {
@@ -102,6 +103,7 @@ func (p *RemoteAnimationRunnerProxy) OnAnimationCancelled(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAnimationRunner)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAnimationRunner, MethodIRemoteAnimationRunnerOnAnimationCancelled)
@@ -116,7 +118,8 @@ func (p *RemoteAnimationRunnerProxy) OnAnimationCancelled(
 // RemoteAnimationRunnerStub dispatches incoming binder transactions
 // to a typed IRemoteAnimationRunner implementation.
 type RemoteAnimationRunnerStub struct {
-	Impl IRemoteAnimationRunner
+	Impl      IRemoteAnimationRunner
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RemoteAnimationRunnerStub)(nil)
@@ -130,37 +133,92 @@ func (s *RemoteAnimationRunnerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRemoteAnimationRunnerOnAnimationStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_transit, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_apps []RemoteAnimationTarget
-		_ = _arg_apps
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_wallpapers []RemoteAnimationTarget
-		_ = _arg_wallpapers
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_nonApps []RemoteAnimationTarget
-		_ = _arg_nonApps
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_finishedCallback IRemoteAnimationFinishedCallback
-		_ = _arg_finishedCallback
-		_err = s.Impl.OnAnimationStart(ctx, _arg_transit, _arg_apps, _arg_wallpapers, _arg_nonApps, _arg_finishedCallback)
-		_ = _err
-		return nil, nil
-	case TransactionIRemoteAnimationRunnerOnAnimationCancelled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_apps = make([]RemoteAnimationTarget, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_apps[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		var _arg_wallpapers []RemoteAnimationTarget
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_wallpapers = make([]RemoteAnimationTarget, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_wallpapers[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_nonApps []RemoteAnimationTarget
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_nonApps = make([]RemoteAnimationTarget, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_nonApps[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_finishedCallback IRemoteAnimationFinishedCallback
+		{
+			_finishedCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_finishedCallback = NewRemoteAnimationFinishedCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _finishedCallbackHandle))
+		}
+		_err = s.Impl.OnAnimationStart(ctx, _arg_transit, _arg_apps, _arg_wallpapers, _arg_nonApps, _arg_finishedCallback)
+		return nil, _err
+	case TransactionIRemoteAnimationRunnerOnAnimationCancelled:
 		_err := s.Impl.OnAnimationCancelled(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

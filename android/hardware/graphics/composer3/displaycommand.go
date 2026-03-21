@@ -10,10 +10,10 @@ type DisplayCommand struct {
 	Display                    int64
 	Layers                     []LayerCommand
 	ColorTransformMatrix       []float32
-	Brightness                 DisplayBrightness
-	ClientTarget               ClientTarget
-	VirtualDisplayOutputBuffer Buffer
-	ExpectedPresentTime        ClockMonotonicTimestamp
+	Brightness                 *DisplayBrightness
+	ClientTarget               *ClientTarget
+	VirtualDisplayOutputBuffer *Buffer
+	ExpectedPresentTime        *ClockMonotonicTimestamp
 	ValidateDisplay            bool
 	AcceptDisplayChanges       bool
 	PresentDisplay             bool
@@ -47,17 +47,37 @@ func (s *DisplayCommand) MarshalParcel(
 			p.WriteFloat32(_item)
 		}
 	}
-	if _err := s.Brightness.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Brightness == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Brightness.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.ClientTarget.MarshalParcel(p); _err != nil {
-		return _err
+	if s.ClientTarget == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.ClientTarget.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.VirtualDisplayOutputBuffer.MarshalParcel(p); _err != nil {
-		return _err
+	if s.VirtualDisplayOutputBuffer == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.VirtualDisplayOutputBuffer.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.ExpectedPresentTime.MarshalParcel(p); _err != nil {
-		return _err
+	if s.ExpectedPresentTime == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.ExpectedPresentTime.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	p.WriteBool(s.ValidateDisplay)
 	p.WriteBool(s.AcceptDisplayChanges)
@@ -77,9 +97,19 @@ func (s *DisplayCommand) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Display, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -99,6 +129,11 @@ func (s *DisplayCommand) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count1 int32
 	_count1, _err = p.ReadInt32()
 	if _err != nil {
@@ -114,20 +149,85 @@ func (s *DisplayCommand) UnmarshalParcel(
 		}
 	}
 
-	if _err = s.Brightness.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
-	if _err = s.ClientTarget.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val DisplayBrightness
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Brightness = &_val
+		}
 	}
 
-	if _err = s.VirtualDisplayOutputBuffer.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
-	if _err = s.ExpectedPresentTime.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val ClientTarget
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.ClientTarget = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val Buffer
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.VirtualDisplayOutputBuffer = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val ClockMonotonicTimestamp
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.ExpectedPresentTime = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ValidateDisplay, _err = p.ReadBool()
@@ -135,9 +235,19 @@ func (s *DisplayCommand) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.AcceptDisplayChanges, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.PresentDisplay, _err = p.ReadBool()
@@ -145,9 +255,19 @@ func (s *DisplayCommand) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PresentOrValidateDisplay, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.FrameIntervalNs, _err = p.ReadInt32()

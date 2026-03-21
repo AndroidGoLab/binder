@@ -87,6 +87,7 @@ func (p *MbmsDownloadServiceProxy) Initialize(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -120,6 +121,7 @@ func (p *MbmsDownloadServiceProxy) RequestUpdateFileServices(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(subId)
 	if serviceClasses == nil {
@@ -160,6 +162,7 @@ func (p *MbmsDownloadServiceProxy) SetTempFileRootDirectory(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(subId)
 	_data.WriteString16(rootDirectoryPath)
@@ -193,16 +196,10 @@ func (p *MbmsDownloadServiceProxy) AddServiceAnnouncement(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(subId)
-	if contents == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(contents)))
-		for _, _item := range contents {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(contents)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceAddServiceAnnouncement)
 	if _err != nil {
@@ -232,6 +229,7 @@ func (p *MbmsDownloadServiceProxy) Download(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(1)
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
@@ -267,6 +265,7 @@ func (p *MbmsDownloadServiceProxy) AddStatusListener(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(1)
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
@@ -303,6 +302,7 @@ func (p *MbmsDownloadServiceProxy) RemoveStatusListener(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(1)
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
@@ -339,6 +339,7 @@ func (p *MbmsDownloadServiceProxy) AddProgressListener(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(1)
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
@@ -375,6 +376,7 @@ func (p *MbmsDownloadServiceProxy) RemoveProgressListener(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(1)
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
@@ -410,6 +412,7 @@ func (p *MbmsDownloadServiceProxy) ListPendingDownloads(
 ) ([]mbms.DownloadRequest, error) {
 	var _result []mbms.DownloadRequest
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(subscriptionId)
 
@@ -432,6 +435,9 @@ func (p *MbmsDownloadServiceProxy) ListPendingDownloads(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]mbms.DownloadRequest, _count)
@@ -453,6 +459,7 @@ func (p *MbmsDownloadServiceProxy) CancelDownload(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(1)
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
@@ -488,6 +495,7 @@ func (p *MbmsDownloadServiceProxy) RequestDownloadState(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(1)
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
@@ -526,6 +534,7 @@ func (p *MbmsDownloadServiceProxy) ResetDownloadKnowledge(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(1)
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
@@ -559,6 +568,7 @@ func (p *MbmsDownloadServiceProxy) Dispose(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(subId)
 
@@ -583,7 +593,8 @@ func (p *MbmsDownloadServiceProxy) Dispose(
 // MbmsDownloadServiceStub dispatches incoming binder transactions
 // to a typed IMbmsDownloadService implementation.
 type MbmsDownloadServiceStub struct {
-	Impl IMbmsDownloadService
+	Impl      IMbmsDownloadService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MbmsDownloadServiceStub)(nil)
@@ -597,18 +608,24 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMbmsDownloadServiceInitialize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener mbms.IMbmsDownloadSessionCallback
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = mbms.NewMbmsDownloadSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.Initialize(ctx, _arg_subId, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -619,16 +636,29 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceRequestUpdateFileServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_serviceClasses []string
-		_ = _arg_serviceClasses
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_serviceClasses = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_serviceClasses[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.RequestUpdateFileServices(ctx, _arg_subId, _arg_serviceClasses)
 		_reply := parcel.New()
 		if _err != nil {
@@ -639,9 +669,6 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceSetTempFileRootDirectory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -660,16 +687,18 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceAddServiceAnnouncement:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_contents []byte
-		_ = _arg_contents
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_contents = _bytes
+		}
 		_result, _err := s.Impl.AddServiceAnnouncement(ctx, _arg_subId, _arg_contents)
 		_reply := parcel.New()
 		if _err != nil {
@@ -680,9 +709,6 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceDownload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_downloadRequest mbms.DownloadRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -705,9 +731,6 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceAddStatusListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_downloadRequest mbms.DownloadRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -720,9 +743,14 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener mbms.IDownloadStatusListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = mbms.NewDownloadStatusListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.AddStatusListener(ctx, _arg_downloadRequest, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -733,9 +761,6 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceRemoveStatusListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_downloadRequest mbms.DownloadRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -748,9 +773,14 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener mbms.IDownloadStatusListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = mbms.NewDownloadStatusListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.RemoveStatusListener(ctx, _arg_downloadRequest, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -761,9 +791,6 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceAddProgressListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_downloadRequest mbms.DownloadRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -776,9 +803,14 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener mbms.IDownloadProgressListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = mbms.NewDownloadProgressListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.AddProgressListener(ctx, _arg_downloadRequest, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -789,9 +821,6 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceRemoveProgressListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_downloadRequest mbms.DownloadRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -804,9 +833,14 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener mbms.IDownloadProgressListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = mbms.NewDownloadProgressListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.RemoveProgressListener(ctx, _arg_downloadRequest, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -817,9 +851,6 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceListPendingDownloads:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -831,13 +862,19 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceCancelDownload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_downloadRequest mbms.DownloadRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -860,9 +897,6 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceRequestDownloadState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_downloadRequest mbms.DownloadRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -897,9 +931,6 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceResetDownloadKnowledge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_downloadRequest mbms.DownloadRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -922,9 +953,6 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceDispose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

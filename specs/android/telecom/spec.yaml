@@ -1,0 +1,31 @@
+package: android.telecom
+go_package: android/telecom
+parcelables:
+    - name: AudioState
+    - name: BluetoothCallQualityReport
+    - name: CallAttributes
+    - name: CallAudioState
+    - name: CallControl
+    - name: CallEndpoint
+    - name: CallEndpointException
+    - name: CallException
+    - name: CallScreeningService.ParcelableCallResponse
+    - name: ConferenceParticipant
+    - name: Connection.CallFilteringCompletionInfo
+    - name: ConnectionRequest
+    - name: DisconnectCause
+    - name: GatewayInfo
+    - name: Logging.Session.Info
+    - name: ParcelableCall
+    - name: ParcelableConference
+    - name: ParcelableConnection
+    - name: ParcelableRttCall
+    - name: PhoneAccount
+    - name: PhoneAccountHandle
+    - name: PhoneAccountSuggestion
+    - name: QueryLocationException
+    - name: StatusHints
+    - name: StreamingCall
+    - name: TelecomAnalytics
+    - name: VideoProfile
+    - name: VideoProfile.CameraCapabilities

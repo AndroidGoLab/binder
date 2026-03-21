@@ -46,6 +46,7 @@ func (p *RemoteVolumeObserverProxy) DispatchRemoteVolumeUpdate(
 	value int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteVolumeObserver)
 	_data.WriteInt32(direction)
 	_data.WriteInt32(value)
@@ -62,7 +63,8 @@ func (p *RemoteVolumeObserverProxy) DispatchRemoteVolumeUpdate(
 // RemoteVolumeObserverStub dispatches incoming binder transactions
 // to a typed IRemoteVolumeObserver implementation.
 type RemoteVolumeObserverStub struct {
-	Impl IRemoteVolumeObserver
+	Impl      IRemoteVolumeObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RemoteVolumeObserverStub)(nil)
@@ -76,11 +78,12 @@ func (s *RemoteVolumeObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRemoteVolumeObserverDispatchRemoteVolumeUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_direction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -90,8 +93,7 @@ func (s *RemoteVolumeObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.DispatchRemoteVolumeUpdate(ctx, _arg_direction, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

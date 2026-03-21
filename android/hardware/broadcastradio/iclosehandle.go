@@ -44,6 +44,7 @@ func (p *CloseHandleProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICloseHandle)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICloseHandle, MethodICloseHandleClose)
@@ -67,7 +68,8 @@ func (p *CloseHandleProxy) Close(
 // CloseHandleStub dispatches incoming binder transactions
 // to a typed ICloseHandle implementation.
 type CloseHandleStub struct {
-	Impl ICloseHandle
+	Impl      ICloseHandle
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CloseHandleStub)(nil)
@@ -81,11 +83,12 @@ func (s *CloseHandleStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICloseHandleClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {

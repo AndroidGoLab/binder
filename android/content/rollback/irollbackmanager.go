@@ -68,6 +68,7 @@ func (p *RollbackManagerProxy) GetAvailableRollbacks(
 ) (pm.ParceledListSlice, error) {
 	var _result pm.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRollbackManager, MethodIRollbackManagerGetAvailableRollbacks)
@@ -102,6 +103,7 @@ func (p *RollbackManagerProxy) GetRecentlyCommittedRollbacks(
 ) (pm.ParceledListSlice, error) {
 	var _result pm.ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRollbackManager, MethodIRollbackManagerGetRecentlyCommittedRollbacks)
@@ -139,6 +141,7 @@ func (p *RollbackManagerProxy) CommitRollback(
 	statusReceiver content.IntentSender,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 	_data.WriteInt32(rollbackId)
 	_data.WriteInt32(1)
@@ -179,6 +182,7 @@ func (p *RollbackManagerProxy) SnapshotAndRestoreUserData(
 	token int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 	_data.WriteString16(packageName)
 	if userIds == nil {
@@ -216,6 +220,7 @@ func (p *RollbackManagerProxy) ReloadPersistedData(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRollbackManager, MethodIRollbackManagerReloadPersistedData)
@@ -241,6 +246,7 @@ func (p *RollbackManagerProxy) ExpireRollbackForPackage(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 	_data.WriteString16(packageName)
 
@@ -268,6 +274,7 @@ func (p *RollbackManagerProxy) NotifyStagedSession(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 	_data.WriteInt32(sessionId)
 
@@ -298,6 +305,7 @@ func (p *RollbackManagerProxy) BlockRollbackManager(
 	millis int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 	_data.WriteInt64(millis)
 
@@ -322,7 +330,8 @@ func (p *RollbackManagerProxy) BlockRollbackManager(
 // RollbackManagerStub dispatches incoming binder transactions
 // to a typed IRollbackManager implementation.
 type RollbackManagerStub struct {
-	Impl IRollbackManager
+	Impl      IRollbackManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RollbackManagerStub)(nil)
@@ -336,11 +345,12 @@ func (s *RollbackManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRollbackManagerGetAvailableRollbacks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAvailableRollbacks(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -354,9 +364,6 @@ func (s *RollbackManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIRollbackManagerGetRecentlyCommittedRollbacks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRecentlyCommittedRollbacks(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -370,9 +377,6 @@ func (s *RollbackManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIRollbackManagerCommitRollback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rollbackId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -414,16 +418,29 @@ func (s *RollbackManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRollbackManagerSnapshotAndRestoreUserData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_userIds []int32
-		_ = _arg_userIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_userIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_userIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_appId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -449,9 +466,6 @@ func (s *RollbackManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRollbackManagerReloadPersistedData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ReloadPersistedData(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -461,9 +475,6 @@ func (s *RollbackManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRollbackManagerExpireRollbackForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -477,9 +488,6 @@ func (s *RollbackManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRollbackManagerNotifyStagedSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -494,9 +502,6 @@ func (s *RollbackManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRollbackManagerBlockRollbackManager:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_millis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err

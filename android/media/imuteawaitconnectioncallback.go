@@ -49,6 +49,7 @@ func (p *MuteAwaitConnectionCallbackProxy) DispatchOnMutedUntilConnection(
 	mutedUsages []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMuteAwaitConnectionCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -79,6 +80,7 @@ func (p *MuteAwaitConnectionCallbackProxy) DispatchOnUnmutedEvent(
 	mutedUsages []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMuteAwaitConnectionCallback)
 	_data.WriteInt32(event)
 	_data.WriteInt32(1)
@@ -106,7 +108,8 @@ func (p *MuteAwaitConnectionCallbackProxy) DispatchOnUnmutedEvent(
 // MuteAwaitConnectionCallbackStub dispatches incoming binder transactions
 // to a typed IMuteAwaitConnectionCallback implementation.
 type MuteAwaitConnectionCallbackStub struct {
-	Impl IMuteAwaitConnectionCallback
+	Impl      IMuteAwaitConnectionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MuteAwaitConnectionCallbackStub)(nil)
@@ -120,11 +123,12 @@ func (s *MuteAwaitConnectionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMuteAwaitConnectionCallbackDispatchOnMutedUntilConnection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device AudioDeviceAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -137,16 +141,28 @@ func (s *MuteAwaitConnectionCallbackStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_mutedUsages []int32
-		_ = _arg_mutedUsages
-		_err := s.Impl.DispatchOnMutedUntilConnection(ctx, _arg_device, _arg_mutedUsages)
-		_ = _err
-		return nil, nil
-	case TransactionIMuteAwaitConnectionCallbackDispatchOnUnmutedEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_mutedUsages = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_mutedUsages[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.DispatchOnMutedUntilConnection(ctx, _arg_device, _arg_mutedUsages)
+		return nil, _err
+	case TransactionIMuteAwaitConnectionCallbackDispatchOnUnmutedEvent:
 		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -163,12 +179,27 @@ func (s *MuteAwaitConnectionCallbackStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_mutedUsages []int32
-		_ = _arg_mutedUsages
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_mutedUsages = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_mutedUsages[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.DispatchOnUnmutedEvent(ctx, _arg_event, _arg_device, _arg_mutedUsages)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

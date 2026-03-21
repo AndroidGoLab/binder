@@ -1,0 +1,111 @@
+package: android.app.search
+go_package: android/app/search
+interfaces:
+    - name: ISearchCallback
+      descriptor: android.app.search.ISearchCallback
+      oneway: true
+      methods:
+        - name: onResult
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: ParceledListSlice
+              direction: in
+          return_type:
+            name: void
+    - name: ISearchUiManager
+      descriptor: android.app.search.ISearchUiManager
+      methods:
+        - name: createSearchSession
+          transaction_code_offset: 0
+          params:
+            - name: context
+              type:
+                name: SearchContext
+              direction: in
+            - name: sessionId
+              type:
+                name: SearchSessionId
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: query
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: SearchSessionId
+              direction: in
+            - name: input
+              type:
+                name: Query
+              direction: in
+            - name: callback
+              type:
+                name: ISearchCallback
+              direction: in
+          return_type:
+            name: void
+        - name: notifyEvent
+          transaction_code_offset: 2
+          params:
+            - name: sessionId
+              type:
+                name: SearchSessionId
+              direction: in
+            - name: input
+              type:
+                name: Query
+              direction: in
+            - name: event
+              type:
+                name: SearchTargetEvent
+              direction: in
+          return_type:
+            name: void
+        - name: registerEmptyQueryResultUpdateCallback
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: SearchSessionId
+              direction: in
+            - name: callback
+              type:
+                name: ISearchCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterEmptyQueryResultUpdateCallback
+          transaction_code_offset: 4
+          params:
+            - name: sessionId
+              type:
+                name: SearchSessionId
+              direction: in
+            - name: callback
+              type:
+                name: ISearchCallback
+              direction: in
+          return_type:
+            name: void
+        - name: destroySearchSession
+          transaction_code_offset: 5
+          params:
+            - name: sessionId
+              type:
+                name: SearchSessionId
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: Query
+    - name: SearchContext
+    - name: SearchSessionId
+    - name: SearchTarget
+    - name: SearchTargetEvent

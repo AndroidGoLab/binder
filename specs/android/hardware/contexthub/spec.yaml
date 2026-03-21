@@ -1,0 +1,511 @@
+package: android.hardware.contexthub
+go_package: android/hardware/contexthub
+interfaces:
+    - name: IContextHub
+      descriptor: android.hardware.contexthub.IContextHub
+      methods:
+        - name: getContextHubs
+          transaction_code_offset: 0
+          return_type:
+            name: List
+            type_args:
+                - name: ContextHubInfo
+        - name: loadNanoapp
+          transaction_code_offset: 1
+          params:
+            - name: contextHubId
+              type:
+                name: int
+              direction: in
+            - name: appBinary
+              type:
+                name: NanoappBinary
+              direction: in
+            - name: transactionId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: unloadNanoapp
+          transaction_code_offset: 2
+          params:
+            - name: contextHubId
+              type:
+                name: int
+              direction: in
+            - name: appId
+              type:
+                name: long
+              direction: in
+            - name: transactionId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: disableNanoapp
+          transaction_code_offset: 3
+          params:
+            - name: contextHubId
+              type:
+                name: int
+              direction: in
+            - name: appId
+              type:
+                name: long
+              direction: in
+            - name: transactionId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: enableNanoapp
+          transaction_code_offset: 4
+          params:
+            - name: contextHubId
+              type:
+                name: int
+              direction: in
+            - name: appId
+              type:
+                name: long
+              direction: in
+            - name: transactionId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onSettingChanged
+          transaction_code_offset: 5
+          params:
+            - name: setting
+              type:
+                name: Setting
+              direction: in
+            - name: enabled
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: queryNanoapps
+          transaction_code_offset: 6
+          params:
+            - name: contextHubId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: registerCallback
+          transaction_code_offset: 7
+          params:
+            - name: contextHubId
+              type:
+                name: int
+              direction: in
+            - name: cb
+              type:
+                name: IContextHubCallback
+              direction: in
+          return_type:
+            name: void
+        - name: sendMessageToHub
+          transaction_code_offset: 8
+          params:
+            - name: contextHubId
+              type:
+                name: int
+              direction: in
+            - name: message
+              type:
+                name: ContextHubMessage
+              direction: in
+          return_type:
+            name: void
+        - name: onHostEndpointConnected
+          transaction_code_offset: 9
+          params:
+            - name: hostEndpointInfo
+              type:
+                name: HostEndpointInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onHostEndpointDisconnected
+          transaction_code_offset: 10
+          params:
+            - name: hostEndpointId
+              type:
+                name: char
+          return_type:
+            name: void
+        - name: getPreloadedNanoappIds
+          transaction_code_offset: 11
+          params:
+            - name: contextHubId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: long
+            is_array: true
+        - name: onNanSessionStateChanged
+          transaction_code_offset: 12
+          params:
+            - name: update
+              type:
+                name: NanSessionStateUpdate
+              direction: in
+          return_type:
+            name: void
+        - name: setTestMode
+          transaction_code_offset: 13
+          params:
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: sendMessageDeliveryStatusToHub
+          transaction_code_offset: 14
+          params:
+            - name: contextHubId
+              type:
+                name: int
+              direction: in
+            - name: messageDeliveryStatus
+              type:
+                name: MessageDeliveryStatus
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: EX_CONTEXT_HUB_UNSPECIFIED
+          type: int
+          value: "-1"
+    - name: IContextHubCallback
+      descriptor: android.hardware.contexthub.IContextHubCallback
+      methods:
+        - name: handleNanoappInfo
+          transaction_code_offset: 0
+          params:
+            - name: appInfo
+              type:
+                name: NanoappInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: handleContextHubMessage
+          transaction_code_offset: 1
+          params:
+            - name: msg
+              type:
+                name: ContextHubMessage
+              direction: in
+            - name: msgContentPerms
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: handleContextHubAsyncEvent
+          transaction_code_offset: 2
+          params:
+            - name: evt
+              type:
+                name: AsyncEventType
+              direction: in
+          return_type:
+            name: void
+        - name: handleTransactionResult
+          transaction_code_offset: 3
+          params:
+            - name: transactionId
+              type:
+                name: int
+              direction: in
+            - name: success
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: handleNanSessionRequest
+          transaction_code_offset: 4
+          params:
+            - name: request
+              type:
+                name: NanSessionRequest
+              direction: in
+          return_type:
+            name: void
+        - name: handleMessageDeliveryStatus
+          transaction_code_offset: 5
+          params:
+            - name: hostEndpointId
+              type:
+                name: char
+              direction: in
+            - name: messageDeliveryStatus
+              type:
+                name: MessageDeliveryStatus
+              direction: in
+          return_type:
+            name: void
+        - name: getUuid
+          transaction_code_offset: 6
+          return_type:
+            name: byte
+            is_array: true
+            fixed_size: "16"
+        - name: getName
+          transaction_code_offset: 7
+          return_type:
+            name: String
+      constants:
+        - name: CONTEXTHUB_NAN_TRANSACTION_TIMEOUT_MS
+          type: int
+          value: "10000"
+parcelables:
+    - name: ContextHubInfo
+      fields:
+        - name: name
+          type:
+            name: String
+        - name: vendor
+          type:
+            name: String
+        - name: toolchain
+          type:
+            name: String
+        - name: id
+          type:
+            name: int
+        - name: peakMips
+          type:
+            name: float
+        - name: maxSupportedMessageLengthBytes
+          type:
+            name: int
+        - name: chrePlatformId
+          type:
+            name: long
+        - name: chreApiMajorVersion
+          type:
+            name: byte
+        - name: chreApiMinorVersion
+          type:
+            name: byte
+        - name: chrePatchVersion
+          type:
+            name: char
+        - name: supportedPermissions
+          type:
+            name: String
+            is_array: true
+        - name: supportsReliableMessages
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: ContextHubMessage
+      fields:
+        - name: nanoappId
+          type:
+            name: long
+        - name: hostEndPoint
+          type:
+            name: char
+        - name: messageType
+          type:
+            name: int
+        - name: messageBody
+          type:
+            name: byte
+            is_array: true
+        - name: permissions
+          type:
+            name: String
+            is_array: true
+        - name: isReliable
+          type:
+            name: boolean
+        - name: messageSequenceNumber
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: HostEndpointInfo
+      fields:
+        - name: hostEndpointId
+          type:
+            name: char
+        - name: type
+          type:
+            name: Type
+        - name: packageName
+          type:
+            name: String
+          annotations:
+            - nullable
+        - name: attributionTag
+          type:
+            name: String
+          annotations:
+            - nullable
+      nested_types:
+        - HostEndpointInfo.Type
+      annotations:
+        - VintfStability
+    - name: MessageDeliveryStatus
+      fields:
+        - name: messageSequenceNumber
+          type:
+            name: int
+        - name: errorCode
+          type:
+            name: ErrorCode
+      annotations:
+        - VintfStability
+    - name: NanSessionRequest
+      fields:
+        - name: enable
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: NanSessionStateUpdate
+      fields:
+        - name: state
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: NanoappBinary
+      fields:
+        - name: nanoappId
+          type:
+            name: long
+        - name: nanoappVersion
+          type:
+            name: int
+        - name: flags
+          type:
+            name: int
+        - name: targetChreApiMajorVersion
+          type:
+            name: byte
+        - name: targetChreApiMinorVersion
+          type:
+            name: byte
+        - name: customBinary
+          type:
+            name: byte
+            is_array: true
+      constants:
+        - name: FLAG_SIGNED
+          type: int
+          value: 1 << 0
+        - name: FLAG_ENCRYPTED
+          type: int
+          value: 1 << 1
+        - name: FLAG_TCM_CAPABLE
+          type: int
+          value: 1 << 2
+      annotations:
+        - VintfStability
+    - name: NanoappInfo
+      fields:
+        - name: nanoappId
+          type:
+            name: long
+        - name: nanoappVersion
+          type:
+            name: int
+        - name: enabled
+          type:
+            name: boolean
+        - name: permissions
+          type:
+            name: String
+            is_array: true
+        - name: rpcServices
+          type:
+            name: NanoappRpcService
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: NanoappRpcService
+      fields:
+        - name: id
+          type:
+            name: long
+        - name: version
+          type:
+            name: int
+      annotations:
+        - VintfStability
+enums:
+    - name: AsyncEventType
+      backing_type: int
+      values:
+        - name: RESTARTED
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ErrorCode
+      backing_type: byte
+      values:
+        - name: OK
+          value: "0"
+        - name: TRANSIENT_ERROR
+          value: ""
+        - name: PERMANENT_ERROR
+          value: ""
+        - name: PERMISSION_DENIED
+          value: ""
+        - name: DESTINATION_NOT_FOUND
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: HostEndpointInfo.Type
+      backing_type: int
+      values:
+        - name: FRAMEWORK
+          value: "1"
+        - name: APP
+          value: "2"
+        - name: NATIVE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Setting
+      backing_type: byte
+      values:
+        - name: LOCATION
+          value: "1"
+        - name: WIFI_MAIN
+          value: ""
+        - name: WIFI_SCANNING
+          value: ""
+        - name: AIRPLANE_MODE
+          value: ""
+        - name: MICROPHONE
+          value: ""
+        - name: BT_MAIN
+          value: ""
+        - name: BT_SCANNING
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing

@@ -1,0 +1,33 @@
+package: com.android.wm.shell.startingsurface
+go_package: com/android/wm/shell/startingsurface
+interfaces:
+    - name: IStartingWindow
+      descriptor: com.android.wm.shell.startingsurface.IStartingWindow
+      methods:
+        - name: setStartingWindowListener
+          transaction_code_offset: 42
+          oneway: true
+          params:
+            - name: listener
+              type:
+                name: IStartingWindowListener
+          return_type:
+            name: void
+    - name: IStartingWindowListener
+      descriptor: com.android.wm.shell.startingsurface.IStartingWindowListener
+      methods:
+        - name: onTaskLaunching
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: taskId
+              type:
+                name: int
+            - name: supportedType
+              type:
+                name: int
+            - name: splashScreenBackgroundColor
+              type:
+                name: int
+          return_type:
+            name: void

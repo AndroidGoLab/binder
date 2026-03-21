@@ -57,6 +57,7 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnInteractiveAppServiceAdded(
 	iAppServiceId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManagerCallback)
 	_data.WriteString16(iAppServiceId)
 
@@ -74,6 +75,7 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnInteractiveAppServiceRemoved(
 	iAppServiceId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManagerCallback)
 	_data.WriteString16(iAppServiceId)
 
@@ -91,6 +93,7 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnInteractiveAppServiceUpdated(
 	iAppServiceId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManagerCallback)
 	_data.WriteString16(iAppServiceId)
 
@@ -108,6 +111,7 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnTvInteractiveAppServiceInfoUpda
 	tvIAppInfo TvInteractiveAppServiceInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManagerCallback)
 	_data.WriteInt32(1)
 	if _err := tvIAppInfo.MarshalParcel(_data); _err != nil {
@@ -131,6 +135,7 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnStateChanged(
 	err int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManagerCallback)
 	_data.WriteString16(iAppServiceId)
 	_data.WriteInt32(type_)
@@ -149,7 +154,8 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnStateChanged(
 // TvInteractiveAppManagerCallbackStub dispatches incoming binder transactions
 // to a typed ITvInteractiveAppManagerCallback implementation.
 type TvInteractiveAppManagerCallbackStub struct {
-	Impl ITvInteractiveAppManagerCallback
+	Impl      ITvInteractiveAppManagerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvInteractiveAppManagerCallbackStub)(nil)
@@ -163,44 +169,33 @@ func (s *TvInteractiveAppManagerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvInteractiveAppManagerCallbackOnInteractiveAppServiceAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iAppServiceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnInteractiveAppServiceAdded(ctx, _arg_iAppServiceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInteractiveAppManagerCallbackOnInteractiveAppServiceRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iAppServiceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnInteractiveAppServiceRemoved(ctx, _arg_iAppServiceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInteractiveAppManagerCallbackOnInteractiveAppServiceUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iAppServiceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnInteractiveAppServiceUpdated(ctx, _arg_iAppServiceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInteractiveAppManagerCallbackOnTvInteractiveAppServiceInfoUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_tvIAppInfo TvInteractiveAppServiceInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -214,12 +209,8 @@ func (s *TvInteractiveAppManagerCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnTvInteractiveAppServiceInfoUpdated(ctx, _arg_tvIAppInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInteractiveAppManagerCallbackOnStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iAppServiceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -237,8 +228,7 @@ func (s *TvInteractiveAppManagerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStateChanged(ctx, _arg_iAppServiceId, _arg_type_, _arg_state, _arg_err)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

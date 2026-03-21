@@ -46,6 +46,7 @@ func (p *PackageStatsObserverProxy) OnGetStatsCompleted(
 	succeeded bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageStatsObserver)
 	_data.WriteInt32(1)
 	if _err := pStats.MarshalParcel(_data); _err != nil {
@@ -65,7 +66,8 @@ func (p *PackageStatsObserverProxy) OnGetStatsCompleted(
 // PackageStatsObserverStub dispatches incoming binder transactions
 // to a typed IPackageStatsObserver implementation.
 type PackageStatsObserverStub struct {
-	Impl IPackageStatsObserver
+	Impl      IPackageStatsObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PackageStatsObserverStub)(nil)
@@ -79,11 +81,12 @@ func (s *PackageStatsObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPackageStatsObserverOnGetStatsCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_pStats PackageStats
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -101,8 +104,7 @@ func (s *PackageStatsObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGetStatsCompleted(ctx, _arg_pStats, _arg_succeeded)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

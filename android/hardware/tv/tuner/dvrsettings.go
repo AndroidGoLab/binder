@@ -31,8 +31,7 @@ func (u *DvrSettings) GetRecord() (RecordSettings, bool) {
 func (u *DvrSettings) SetRecord(
 	v RecordSettings,
 ) {
-	u.Tag = DvrSettingsTagRecord
-	u.Record = v
+	*u = DvrSettings{Tag: DvrSettingsTagRecord, Record: v}
 }
 
 func (u *DvrSettings) GetPlayback() (PlaybackSettings, bool) {
@@ -46,8 +45,7 @@ func (u *DvrSettings) GetPlayback() (PlaybackSettings, bool) {
 func (u *DvrSettings) SetPlayback(
 	v PlaybackSettings,
 ) {
-	u.Tag = DvrSettingsTagPlayback
-	u.Playback = v
+	*u = DvrSettings{Tag: DvrSettingsTagPlayback, Playback: v}
 }
 
 func (u *DvrSettings) MarshalParcel(

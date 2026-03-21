@@ -45,6 +45,7 @@ func (p *OnDoneCallbackProxy) OnDone(
 	success bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDoneCallback)
 	_data.WriteBool(success)
 
@@ -69,7 +70,8 @@ func (p *OnDoneCallbackProxy) OnDone(
 // OnDoneCallbackStub dispatches incoming binder transactions
 // to a typed IOnDoneCallback implementation.
 type OnDoneCallbackStub struct {
-	Impl IOnDoneCallback
+	Impl      IOnDoneCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OnDoneCallbackStub)(nil)
@@ -83,11 +85,12 @@ func (s *OnDoneCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOnDoneCallbackOnDone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_success, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err

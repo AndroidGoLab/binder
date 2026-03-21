@@ -3,6 +3,7 @@ package res
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/os/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ const (
 
 type IResourcesManager interface {
 	AsBinder() binder.IBinder
-	DumpResources(ctx context.Context, process string, fd int32, finishCallback interface{}) (bool, error)
+	DumpResources(ctx context.Context, process string, fd int32, finishCallback types.RemoteCallback) (bool, error)
 }
 
 type ResourcesManagerProxy struct {
@@ -44,13 +45,15 @@ func (p *ResourcesManagerProxy) DumpResources(
 	ctx context.Context,
 	process string,
 	fd int32,
-	finishCallback interface{},
+	finishCallback types.RemoteCallback,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourcesManager)
 	_data.WriteString16(process)
 	_data.WriteFileDescriptor(fd)
+	// WARNING: param finishCallback (type types.RemoteCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourcesManager, MethodIResourcesManagerDumpResources)
 	if _err != nil {
@@ -77,7 +80,8 @@ func (p *ResourcesManagerProxy) DumpResources(
 // ResourcesManagerStub dispatches incoming binder transactions
 // to a typed IResourcesManager implementation.
 type ResourcesManagerStub struct {
-	Impl IResourcesManager
+	Impl      IResourcesManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ResourcesManagerStub)(nil)
@@ -91,11 +95,12 @@ func (s *ResourcesManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIResourcesManagerDumpResources:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_process, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -104,7 +109,7 @@ func (s *ResourcesManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_finishCallback interface{}
+		var _arg_finishCallback types.RemoteCallback
 		_result, _err := s.Impl.DumpResources(ctx, _arg_process, _arg_fd, _arg_finishCallback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -123,7 +128,7 @@ func (s *ResourcesManagerStub) OnTransaction(
 // provide to NewResourcesManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IResourcesManagerServer interface {
-	DumpResources(ctx context.Context, process string, fd int32, finishCallback interface{}) (bool, error)
+	DumpResources(ctx context.Context, process string, fd int32, finishCallback types.RemoteCallback) (bool, error)
 }
 
 type resourcesManagerStubWrapper struct {
@@ -139,7 +144,7 @@ func (w *resourcesManagerStubWrapper) DumpResources(
 	ctx context.Context,
 	process string,
 	fd int32,
-	finishCallback interface{},
+	finishCallback types.RemoteCallback,
 ) (bool, error) {
 	return w.impl.DumpResources(ctx, process, fd, finishCallback)
 }

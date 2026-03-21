@@ -56,14 +56,29 @@ func (s *FrontendDvbsSettings) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Frequency, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.EndFrequency, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_inversionRaw, _err := p.ReadInt32()
@@ -72,19 +87,39 @@ func (s *FrontendDvbsSettings) UnmarshalParcel(
 	}
 	s.Inversion = FrontendSpectralInversion(_inversionRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_modulationRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Modulation = FrontendDvbsModulation(_modulationRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Coderate.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SymbolRate, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_rolloffRaw, _err := p.ReadInt32()
@@ -93,15 +128,30 @@ func (s *FrontendDvbsSettings) UnmarshalParcel(
 	}
 	s.Rolloff = FrontendDvbsRolloff(_rolloffRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_pilotRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Pilot = FrontendDvbsPilot(_pilotRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.InputStreamId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_standardRaw, _err := p.ReadPaddedByte()
@@ -110,17 +160,32 @@ func (s *FrontendDvbsSettings) UnmarshalParcel(
 	}
 	s.Standard = FrontendDvbsStandard(_standardRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_vcmModeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.VcmMode = FrontendDvbsVcmMode(_vcmModeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_scanTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.ScanType = FrontendDvbsScanType(_scanTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.IsDiseqcRxMessage, _err = p.ReadBool()
 	if _err != nil {

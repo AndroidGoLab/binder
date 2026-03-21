@@ -46,6 +46,7 @@ func (p *UidFrozenStateChangedCallbackProxy) OnUidFrozenStateChanged(
 	frozenStates []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUidFrozenStateChangedCallback)
 	if uids == nil {
 		_data.WriteInt32(-1)
@@ -76,7 +77,8 @@ func (p *UidFrozenStateChangedCallbackProxy) OnUidFrozenStateChanged(
 // UidFrozenStateChangedCallbackStub dispatches incoming binder transactions
 // to a typed IUidFrozenStateChangedCallback implementation.
 type UidFrozenStateChangedCallbackStub struct {
-	Impl IUidFrozenStateChangedCallback
+	Impl      IUidFrozenStateChangedCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UidFrozenStateChangedCallbackStub)(nil)
@@ -90,20 +92,52 @@ func (s *UidFrozenStateChangedCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUidFrozenStateChangedCallbackOnUidFrozenStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_uids []int32
-		_ = _arg_uids
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_uids = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_uids[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_frozenStates []int32
-		_ = _arg_frozenStates
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_frozenStates = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_frozenStates[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnUidFrozenStateChanged(ctx, _arg_uids, _arg_frozenStates)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

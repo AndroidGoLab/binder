@@ -18,8 +18,8 @@ func (f *dexFile) readFieldID(idx uint32) (fieldID, error) {
 		return fieldID{}, fmt.Errorf("field index %d out of range (size=%d)", idx, f.fieldIDsSize)
 	}
 
-	off := f.fieldIDsOff + idx*fieldIDItemSize
-	if off+fieldIDItemSize > uint32(len(f.data)) {
+	off := uint64(f.fieldIDsOff) + uint64(idx)*fieldIDItemSize
+	if off+fieldIDItemSize > uint64(len(f.data)) {
 		return fieldID{}, fmt.Errorf("field_id_item at offset 0x%x out of bounds", off)
 	}
 

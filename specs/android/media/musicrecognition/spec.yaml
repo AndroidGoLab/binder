@@ -1,0 +1,118 @@
+package: android.media.musicrecognition
+go_package: android/media/musicrecognition
+interfaces:
+    - name: IMusicRecognitionAttributionTagCallback
+      descriptor: android.media.musicrecognition.IMusicRecognitionAttributionTagCallback
+      oneway: true
+      methods:
+        - name: onAttributionTag
+          transaction_code_offset: 0
+          params:
+            - name: attributionTag
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+    - name: IMusicRecognitionManager
+      descriptor: android.media.musicrecognition.IMusicRecognitionManager
+      methods:
+        - name: beginRecognition
+          transaction_code_offset: 0
+          params:
+            - name: recognitionRequest
+              type:
+                name: RecognitionRequest
+              direction: in
+            - name: callback
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+    - name: IMusicRecognitionManagerCallback
+      descriptor: android.media.musicrecognition.IMusicRecognitionManagerCallback
+      oneway: true
+      methods:
+        - name: onRecognitionSucceeded
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: MediaMetadata
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onRecognitionFailed
+          transaction_code_offset: 1
+          params:
+            - name: failureCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAudioStreamClosed
+          transaction_code_offset: 2
+          return_type:
+            name: void
+    - name: IMusicRecognitionService
+      descriptor: android.media.musicrecognition.IMusicRecognitionService
+      oneway: true
+      methods:
+        - name: onAudioStreamStarted
+          transaction_code_offset: 0
+          params:
+            - name: fd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: audioFormat
+              type:
+                name: AudioFormat
+              direction: in
+            - name: callback
+              type:
+                name: IMusicRecognitionServiceCallback
+              direction: in
+          return_type:
+            name: void
+        - name: getAttributionTag
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IMusicRecognitionAttributionTagCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IMusicRecognitionServiceCallback
+      descriptor: android.media.musicrecognition.IMusicRecognitionServiceCallback
+      oneway: true
+      methods:
+        - name: onRecognitionSucceeded
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: MediaMetadata
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onRecognitionFailed
+          transaction_code_offset: 1
+          params:
+            - name: failureCode
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: RecognitionRequest

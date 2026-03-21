@@ -65,6 +65,7 @@ func (p *PermissionCheckerProxy) CheckPermission(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionChecker)
 	_data.WriteString16(permission)
 	_data.WriteInt32(1)
@@ -106,6 +107,7 @@ func (p *PermissionCheckerProxy) FinishDataDelivery(
 	fromDatasource bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionChecker)
 	_data.WriteInt32(op)
 	_data.WriteInt32(1)
@@ -142,6 +144,7 @@ func (p *PermissionCheckerProxy) CheckOp(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPermissionChecker)
 	_data.WriteInt32(op)
 	_data.WriteInt32(1)
@@ -177,7 +180,8 @@ func (p *PermissionCheckerProxy) CheckOp(
 // PermissionCheckerStub dispatches incoming binder transactions
 // to a typed IPermissionChecker implementation.
 type PermissionCheckerStub struct {
-	Impl IPermissionChecker
+	Impl      IPermissionChecker
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PermissionCheckerStub)(nil)
@@ -191,11 +195,12 @@ func (s *PermissionCheckerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPermissionCheckerCheckPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_permission, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -242,9 +247,6 @@ func (s *PermissionCheckerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPermissionCheckerFinishDataDelivery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_op, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -274,9 +276,6 @@ func (s *PermissionCheckerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPermissionCheckerCheckOp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_op, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

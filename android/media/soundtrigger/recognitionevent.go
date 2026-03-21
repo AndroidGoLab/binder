@@ -1,6 +1,7 @@
 package soundtrigger
 
 import (
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -13,7 +14,7 @@ type RecognitionEvent struct {
 	CaptureDelayMs         int32
 	CapturePreambleMs      int32
 	TriggerInData          bool
-	AudioConfig            interface{}
+	AudioConfig            *common.AudioConfig
 	Data                   []byte
 	RecognitionStillActive bool
 }
@@ -30,6 +31,14 @@ func (s *RecognitionEvent) MarshalParcel(
 	p.WriteInt32(s.CaptureDelayMs)
 	p.WriteInt32(s.CapturePreambleMs)
 	p.WriteBool(s.TriggerInData)
+	if s.AudioConfig == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.AudioConfig.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	}
 	p.WriteByteArray(s.Data)
 	p.WriteBool(s.RecognitionStillActive)
 
@@ -45,11 +54,21 @@ func (s *RecognitionEvent) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_statusRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Status = RecognitionStatus(_statusRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_typeRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -57,9 +76,19 @@ func (s *RecognitionEvent) UnmarshalParcel(
 	}
 	s.Type = SoundModelType(_typeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.CaptureAvailable, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.CaptureDelayMs, _err = p.ReadInt32()
@@ -67,9 +96,19 @@ func (s *RecognitionEvent) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.CapturePreambleMs, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.TriggerInData, _err = p.ReadBool()
@@ -77,9 +116,38 @@ func (s *RecognitionEvent) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val common.AudioConfig
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.AudioConfig = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Data, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.RecognitionStillActive, _err = p.ReadBool()

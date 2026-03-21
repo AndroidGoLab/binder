@@ -4,6 +4,7 @@ import (
 	biometricsCommon "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	common "github.com/xaionaro-go/binder/android/hardware/common"
 	keymaster "github.com/xaionaro-go/binder/android/hardware/keymaster"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -13,9 +14,9 @@ type FaceEnrollOptions struct {
 	HardwareAuthToken   keymaster.HardwareAuthToken
 	EnrollmentType      EnrollmentType
 	Features            []Feature
-	NativeHandlePreview common.NativeHandle
-	SurfacePreview      interface{}
-	Context             biometricsCommon.OperationContext
+	NativeHandlePreview *common.NativeHandle
+	SurfacePreview      *view.Surface
+	Context             *biometricsCommon.OperationContext
 }
 
 var _ parcel.Parcelable = (*FaceEnrollOptions)(nil)
@@ -36,11 +37,29 @@ func (s *FaceEnrollOptions) MarshalParcel(
 			p.WritePaddedByte(byte(_item))
 		}
 	}
-	if _err := s.NativeHandlePreview.MarshalParcel(p); _err != nil {
-		return _err
+	if s.NativeHandlePreview == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.NativeHandlePreview.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.Context.MarshalParcel(p); _err != nil {
-		return _err
+	if s.SurfacePreview == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.SurfacePreview.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	}
+	if s.Context == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Context.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -55,8 +74,18 @@ func (s *FaceEnrollOptions) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.HardwareAuthToken.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_enrollmentTypeRaw, _err := p.ReadPaddedByte()
@@ -64,6 +93,11 @@ func (s *FaceEnrollOptions) UnmarshalParcel(
 		return _err
 	}
 	s.EnrollmentType = EnrollmentType(_enrollmentTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
@@ -81,12 +115,61 @@ func (s *FaceEnrollOptions) UnmarshalParcel(
 		}
 	}
 
-	if _err = s.NativeHandlePreview.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
-	if _err = s.Context.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val common.NativeHandle
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.NativeHandlePreview = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val view.Surface
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.SurfacePreview = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val biometricsCommon.OperationContext
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Context = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

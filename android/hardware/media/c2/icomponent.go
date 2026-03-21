@@ -47,7 +47,7 @@ const (
 type IComponent interface {
 	AsBinder() binder.IBinder
 	ConfigureVideoTunnel(ctx context.Context, avSyncHwId int32) (common.NativeHandle, error)
-	CreateBlockPool(ctx context.Context, allocator interface{}) (interface{}, error)
+	CreateBlockPool(ctx context.Context, allocator IComponentBlockPoolAllocator) (IComponentBlockPool, error)
 	DestroyBlockPool(ctx context.Context, blockPoolId int64) error
 	Drain(ctx context.Context, withEos bool) error
 	Flush(ctx context.Context) (WorkBundle, error)
@@ -83,6 +83,7 @@ func (p *ComponentProxy) ConfigureVideoTunnel(
 ) (common.NativeHandle, error) {
 	var _result common.NativeHandle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 	_data.WriteInt32(avSyncHwId)
 
@@ -115,11 +116,16 @@ func (p *ComponentProxy) ConfigureVideoTunnel(
 
 func (p *ComponentProxy) CreateBlockPool(
 	ctx context.Context,
-	allocator interface{},
-) (interface{}, error) {
-	var _result interface{}
+	allocator IComponentBlockPoolAllocator,
+) (IComponentBlockPool, error) {
+	var _result IComponentBlockPool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
+	_data.WriteInt32(1)
+	if _err := allocator.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentCreateBlockPool)
 	if _err != nil {
@@ -136,6 +142,15 @@ func (p *ComponentProxy) CreateBlockPool(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -144,6 +159,7 @@ func (p *ComponentProxy) DestroyBlockPool(
 	blockPoolId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 	_data.WriteInt64(blockPoolId)
 
@@ -170,6 +186,7 @@ func (p *ComponentProxy) Drain(
 	withEos bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 	_data.WriteBool(withEos)
 
@@ -196,6 +213,7 @@ func (p *ComponentProxy) Flush(
 ) (WorkBundle, error) {
 	var _result WorkBundle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentFlush)
@@ -230,6 +248,7 @@ func (p *ComponentProxy) GetInterface(
 ) (IComponentInterface, error) {
 	var _result IComponentInterface
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentGetInterface)
@@ -260,6 +279,7 @@ func (p *ComponentProxy) Queue(
 	workBundle WorkBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 	_data.WriteInt32(1)
 	if _err := workBundle.MarshalParcel(_data); _err != nil {
@@ -288,6 +308,7 @@ func (p *ComponentProxy) Release(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentRelease)
@@ -312,6 +333,7 @@ func (p *ComponentProxy) Reset(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentReset)
@@ -336,6 +358,7 @@ func (p *ComponentProxy) Start(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentStart)
@@ -360,6 +383,7 @@ func (p *ComponentProxy) Stop(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentStop)
@@ -386,6 +410,7 @@ func (p *ComponentProxy) ConnectToInputSurface(
 ) (IInputSurfaceConnection, error) {
 	var _result IInputSurfaceConnection
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 	binder.WriteBinderToParcel(ctx, _data, inputSurface.AsBinder(), p.Remote.Transport())
 
@@ -417,6 +442,7 @@ func (p *ComponentProxy) AsInputSink(
 ) (IInputSink, error) {
 	var _result IInputSink
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentAsInputSink)
@@ -445,7 +471,8 @@ func (p *ComponentProxy) AsInputSink(
 // ComponentStub dispatches incoming binder transactions
 // to a typed IComponent implementation.
 type ComponentStub struct {
-	Impl IComponent
+	Impl      IComponent
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ComponentStub)(nil)
@@ -459,11 +486,12 @@ func (s *ComponentStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIComponentConfigureVideoTunnel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_avSyncHwId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -481,10 +509,18 @@ func (s *ComponentStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComponentCreateBlockPool:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_allocator IComponentBlockPoolAllocator
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_allocator.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_allocator interface{}
 		_result, _err := s.Impl.CreateBlockPool(ctx, _arg_allocator)
 		_reply := parcel.New()
 		if _err != nil {
@@ -492,12 +528,12 @@ func (s *ComponentStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIComponentDestroyBlockPool:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIComponentDestroyBlockPool:
 		_arg_blockPoolId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -511,9 +547,6 @@ func (s *ComponentStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComponentDrain:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_withEos, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -527,9 +560,6 @@ func (s *ComponentStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComponentFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Flush(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -543,9 +573,6 @@ func (s *ComponentStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComponentGetInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetInterface(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -553,13 +580,9 @@ func (s *ComponentStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIComponentQueue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_workBundle WorkBundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -581,9 +604,6 @@ func (s *ComponentStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComponentRelease:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Release(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -593,9 +613,6 @@ func (s *ComponentStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComponentReset:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Reset(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -605,9 +622,6 @@ func (s *ComponentStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComponentStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Start(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -617,9 +631,6 @@ func (s *ComponentStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComponentStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Stop(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -629,12 +640,14 @@ func (s *ComponentStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComponentConnectToInputSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_inputSurface IInputSurface
-		_ = _arg_inputSurface
+		{
+			_inputSurfaceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_inputSurface = NewInputSurfaceProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _inputSurfaceHandle))
+		}
 		_result, _err := s.Impl.ConnectToInputSurface(ctx, _arg_inputSurface)
 		_reply := parcel.New()
 		if _err != nil {
@@ -642,13 +655,9 @@ func (s *ComponentStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIComponentAsInputSink:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.AsInputSink(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -656,8 +665,7 @@ func (s *ComponentStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -669,7 +677,7 @@ func (s *ComponentStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IComponentServer interface {
 	ConfigureVideoTunnel(ctx context.Context, avSyncHwId int32) (common.NativeHandle, error)
-	CreateBlockPool(ctx context.Context, allocator interface{}) (interface{}, error)
+	CreateBlockPool(ctx context.Context, allocator IComponentBlockPoolAllocator) (IComponentBlockPool, error)
 	DestroyBlockPool(ctx context.Context, blockPoolId int64) error
 	Drain(ctx context.Context, withEos bool) error
 	Flush(ctx context.Context) (WorkBundle, error)
@@ -701,8 +709,8 @@ func (w *componentStubWrapper) ConfigureVideoTunnel(
 
 func (w *componentStubWrapper) CreateBlockPool(
 	ctx context.Context,
-	allocator interface{},
-) (interface{}, error) {
+	allocator IComponentBlockPoolAllocator,
+) (IComponentBlockPool, error) {
 	return w.impl.CreateBlockPool(ctx, allocator)
 }
 

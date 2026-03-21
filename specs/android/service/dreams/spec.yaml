@@ -1,0 +1,254 @@
+package: android.service.dreams
+go_package: android/service/dreams
+interfaces:
+    - name: IDreamManager
+      descriptor: android.service.dreams.IDreamManager
+      methods:
+        - name: dream
+          transaction_code_offset: 0
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: awaken
+          transaction_code_offset: 1
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setDreamComponents
+          transaction_code_offset: 2
+          params:
+            - name: componentNames
+              type:
+                name: ComponentName
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: getDreamComponents
+          transaction_code_offset: 3
+          return_type:
+            name: ComponentName
+            is_array: true
+          annotations:
+            - UnsupportedAppUsage
+        - name: getDefaultDreamComponentForUser
+          transaction_code_offset: 4
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ComponentName
+        - name: testDream
+          transaction_code_offset: 5
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: isDreaming
+          transaction_code_offset: 6
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: isDreamingOrInPreview
+          transaction_code_offset: 7
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: finishSelf
+          transaction_code_offset: 8
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: immediate
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: startDozing
+          transaction_code_offset: 9
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: screenState
+              type:
+                name: int
+            - name: screenBrightness
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: stopDozing
+          transaction_code_offset: 10
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: forceAmbientDisplayEnabled
+          transaction_code_offset: 11
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getDreamComponentsForUser
+          transaction_code_offset: 12
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ComponentName
+            is_array: true
+        - name: setDreamComponentsForUser
+          transaction_code_offset: 13
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: componentNames
+              type:
+                name: ComponentName
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setSystemDreamComponent
+          transaction_code_offset: 14
+          params:
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: registerDreamOverlayService
+          transaction_code_offset: 15
+          params:
+            - name: componentName
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+        - name: startDreamActivity
+          transaction_code_offset: 16
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+          return_type:
+            name: void
+    - name: IDreamOverlay
+      descriptor: android.service.dreams.IDreamOverlay
+      methods:
+        - name: getClient
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IDreamOverlayClientCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IDreamOverlayCallback
+      descriptor: android.service.dreams.IDreamOverlayCallback
+      methods:
+        - name: onExitRequested
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: IDreamOverlayClient
+      descriptor: android.service.dreams.IDreamOverlayClient
+      methods:
+        - name: startDream
+          transaction_code_offset: 0
+          params:
+            - name: params
+              type:
+                name: LayoutParams
+              direction: in
+            - name: callback
+              type:
+                name: IDreamOverlayCallback
+              direction: in
+            - name: dreamComponent
+              type:
+                name: String
+              direction: in
+            - name: shouldShowComplications
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: wakeUp
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: endDream
+          transaction_code_offset: 2
+          return_type:
+            name: void
+    - name: IDreamOverlayClientCallback
+      descriptor: android.service.dreams.IDreamOverlayClientCallback
+      methods:
+        - name: onDreamOverlayClient
+          transaction_code_offset: 0
+          params:
+            - name: client
+              type:
+                name: IDreamOverlayClient
+              direction: in
+          return_type:
+            name: void
+    - name: IDreamService
+      descriptor: android.service.dreams.IDreamService
+      oneway: true
+      methods:
+        - name: attach
+          transaction_code_offset: 0
+          params:
+            - name: windowToken
+              type:
+                name: IBinder
+            - name: canDoze
+              type:
+                name: boolean
+            - name: isPreviewMode
+              type:
+                name: boolean
+            - name: started
+              type:
+                name: IRemoteCallback
+          return_type:
+            name: void
+        - name: detach
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: wakeUp
+          transaction_code_offset: 2
+          return_type:
+            name: void

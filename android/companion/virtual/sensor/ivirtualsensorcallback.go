@@ -58,6 +58,7 @@ func (p *VirtualSensorCallbackProxy) OnConfigurationChanged(
 	batchReportLatencyMicros int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualSensorCallback)
 	_data.WriteInt32(1)
 	if _err := sensor.MarshalParcel(_data); _err != nil {
@@ -82,6 +83,7 @@ func (p *VirtualSensorCallbackProxy) OnDirectChannelCreated(
 	sharedMemory os.SharedMemory,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualSensorCallback)
 	_data.WriteInt32(channelHandle)
 	_data.WriteInt32(1)
@@ -103,6 +105,7 @@ func (p *VirtualSensorCallbackProxy) OnDirectChannelDestroyed(
 	channelHandle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualSensorCallback)
 	_data.WriteInt32(channelHandle)
 
@@ -123,6 +126,7 @@ func (p *VirtualSensorCallbackProxy) OnDirectChannelConfigured(
 	reportToken int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualSensorCallback)
 	_data.WriteInt32(channelHandle)
 	_data.WriteInt32(1)
@@ -144,7 +148,8 @@ func (p *VirtualSensorCallbackProxy) OnDirectChannelConfigured(
 // VirtualSensorCallbackStub dispatches incoming binder transactions
 // to a typed IVirtualSensorCallback implementation.
 type VirtualSensorCallbackStub struct {
-	Impl IVirtualSensorCallback
+	Impl      IVirtualSensorCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VirtualSensorCallbackStub)(nil)
@@ -158,11 +163,12 @@ func (s *VirtualSensorCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVirtualSensorCallbackOnConfigurationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sensor VirtualSensor
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -188,12 +194,8 @@ func (s *VirtualSensorCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnConfigurationChanged(ctx, _arg_sensor, _arg_enabled, _arg_samplingPeriodMicros, _arg_batchReportLatencyMicros)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVirtualSensorCallbackOnDirectChannelCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_channelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -211,23 +213,15 @@ func (s *VirtualSensorCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnDirectChannelCreated(ctx, _arg_channelHandle, _arg_sharedMemory)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVirtualSensorCallbackOnDirectChannelDestroyed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_channelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDirectChannelDestroyed(ctx, _arg_channelHandle)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVirtualSensorCallbackOnDirectChannelConfigured:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_channelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -253,8 +247,7 @@ func (s *VirtualSensorCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnDirectChannelConfigured(ctx, _arg_channelHandle, _arg_sensor, _arg_rateLevel, _arg_reportToken)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

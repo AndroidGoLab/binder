@@ -34,7 +34,8 @@ var _ IMediaExtractor = (*MediaExtractorProxy)(nil)
 // MediaExtractorStub dispatches incoming binder transactions
 // to a typed IMediaExtractor implementation.
 type MediaExtractorStub struct {
-	Impl IMediaExtractor
+	Impl      IMediaExtractor
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaExtractorStub)(nil)
@@ -48,6 +49,10 @@ func (s *MediaExtractorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

@@ -1,0 +1,83 @@
+package: android.security.attestationverification
+go_package: android/security/attestationverification
+interfaces:
+    - name: IAttestationVerificationManagerService
+      descriptor: android.security.attestationverification.IAttestationVerificationManagerService
+      oneway: true
+      methods:
+        - name: verifyAttestation
+          transaction_code_offset: 0
+          params:
+            - name: profile
+              type:
+                name: AttestationProfile
+              direction: in
+            - name: localBindingType
+              type:
+                name: int
+              direction: in
+            - name: requirements
+              type:
+                name: Bundle
+              direction: in
+            - name: attestation
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: resultCallback
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: verifyToken
+          transaction_code_offset: 1
+          params:
+            - name: token
+              type:
+                name: VerificationToken
+              direction: in
+            - name: maximumTokenAge
+              type:
+                name: ParcelDuration
+              direction: in
+            - name: resultCallback
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+    - name: IAttestationVerificationService
+      descriptor: android.security.attestationverification.IAttestationVerificationService
+      oneway: true
+      methods:
+        - name: onVerifyAttestation
+          transaction_code_offset: 0
+          params:
+            - name: requirements
+              type:
+                name: Bundle
+              direction: in
+            - name: attestation
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: callback
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: AttestationProfile
+    - name: IVerificationResult
+      fields:
+        - name: resultCode
+          type:
+            name: int
+        - name: token
+          type:
+            name: VerificationToken
+    - name: VerificationToken

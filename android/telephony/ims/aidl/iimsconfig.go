@@ -3,6 +3,7 @@ package aidl
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -56,7 +57,7 @@ type IImsConfig interface {
 	GetConfigString(ctx context.Context, item int32) (string, error)
 	SetConfigInt(ctx context.Context, item int32, value int32) (int32, error)
 	SetConfigString(ctx context.Context, item int32, value string) (int32, error)
-	UpdateImsCarrierConfigs(ctx context.Context, bundle interface{}) error
+	UpdateImsCarrierConfigs(ctx context.Context, bundle os.PersistableBundle) error
 	NotifyRcsAutoConfigurationReceived(ctx context.Context, config []byte, isCompressed bool) error
 	NotifyRcsAutoConfigurationRemoved(ctx context.Context) error
 	AddRcsConfigCallback(ctx context.Context, c IRcsConfigCallback) error
@@ -88,6 +89,7 @@ func (p *ImsConfigProxy) AddImsConfigCallback(
 	c IImsConfigCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 
@@ -114,6 +116,7 @@ func (p *ImsConfigProxy) RemoveImsConfigCallback(
 	c IImsConfigCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 
@@ -141,6 +144,7 @@ func (p *ImsConfigProxy) GetConfigInt(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 
@@ -172,6 +176,7 @@ func (p *ImsConfigProxy) GetConfigString(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 
@@ -204,6 +209,7 @@ func (p *ImsConfigProxy) SetConfigInt(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 	_data.WriteInt32(value)
@@ -237,6 +243,7 @@ func (p *ImsConfigProxy) SetConfigString(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 	_data.WriteString16(value)
@@ -265,10 +272,15 @@ func (p *ImsConfigProxy) SetConfigString(
 
 func (p *ImsConfigProxy) UpdateImsCarrierConfigs(
 	ctx context.Context,
-	bundle interface{},
+	bundle os.PersistableBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
+	_data.WriteInt32(1)
+	if _err := bundle.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigUpdateImsCarrierConfigs)
 	if _err != nil {
@@ -294,15 +306,9 @@ func (p *ImsConfigProxy) NotifyRcsAutoConfigurationReceived(
 	isCompressed bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
-	if config == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(config)))
-		for _, _item := range config {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(config)
 	_data.WriteBool(isCompressed)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigNotifyRcsAutoConfigurationReceived)
@@ -327,6 +333,7 @@ func (p *ImsConfigProxy) NotifyRcsAutoConfigurationRemoved(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigNotifyRcsAutoConfigurationRemoved)
@@ -352,6 +359,7 @@ func (p *ImsConfigProxy) AddRcsConfigCallback(
 	c IRcsConfigCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 
@@ -378,6 +386,7 @@ func (p *ImsConfigProxy) RemoveRcsConfigCallback(
 	c IRcsConfigCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 
@@ -403,6 +412,7 @@ func (p *ImsConfigProxy) TriggerRcsReconfiguration(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigTriggerRcsReconfiguration)
@@ -428,6 +438,7 @@ func (p *ImsConfigProxy) SetRcsClientConfiguration(
 	rcc ims.RcsClientConfiguration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(1)
 	if _err := rcc.MarshalParcel(_data); _err != nil {
@@ -458,6 +469,7 @@ func (p *ImsConfigProxy) NotifyIntImsConfigChanged(
 	value int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 	_data.WriteInt32(value)
@@ -486,6 +498,7 @@ func (p *ImsConfigProxy) NotifyStringImsConfigChanged(
 	value string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 	_data.WriteString16(value)
@@ -511,7 +524,8 @@ func (p *ImsConfigProxy) NotifyStringImsConfigChanged(
 // ImsConfigStub dispatches incoming binder transactions
 // to a typed IImsConfig implementation.
 type ImsConfigStub struct {
-	Impl IImsConfig
+	Impl      IImsConfig
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsConfigStub)(nil)
@@ -525,14 +539,20 @@ func (s *ImsConfigStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsConfigAddImsConfigCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IImsConfigCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewImsConfigCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err := s.Impl.AddImsConfigCallback(ctx, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -542,12 +562,14 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigRemoveImsConfigCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IImsConfigCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewImsConfigCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err := s.Impl.RemoveImsConfigCallback(ctx, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -557,9 +579,6 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigGetConfigInt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -574,9 +593,6 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsConfigGetConfigString:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -591,9 +607,6 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIImsConfigSetConfigInt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -612,9 +625,6 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsConfigSetConfigString:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -633,10 +643,18 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsConfigUpdateImsCarrierConfigs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_bundle os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bundle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_bundle interface{}
 		_err := s.Impl.UpdateImsCarrierConfigs(ctx, _arg_bundle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -646,12 +664,14 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigNotifyRcsAutoConfigurationReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_config []byte
-		_ = _arg_config
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_config = _bytes
+		}
 		_arg_isCompressed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -665,9 +685,6 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigNotifyRcsAutoConfigurationRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NotifyRcsAutoConfigurationRemoved(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -677,12 +694,14 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigAddRcsConfigCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IRcsConfigCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewRcsConfigCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err := s.Impl.AddRcsConfigCallback(ctx, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -692,12 +711,14 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigRemoveRcsConfigCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c IRcsConfigCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = NewRcsConfigCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err := s.Impl.RemoveRcsConfigCallback(ctx, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -707,9 +728,6 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigTriggerRcsReconfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.TriggerRcsReconfiguration(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -719,9 +737,6 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigSetRcsClientConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_rcc ims.RcsClientConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -743,9 +758,6 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigNotifyIntImsConfigChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -763,9 +775,6 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigNotifyStringImsConfigChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -797,7 +806,7 @@ type IImsConfigServer interface {
 	GetConfigString(ctx context.Context, item int32) (string, error)
 	SetConfigInt(ctx context.Context, item int32, value int32) (int32, error)
 	SetConfigString(ctx context.Context, item int32, value string) (int32, error)
-	UpdateImsCarrierConfigs(ctx context.Context, bundle interface{}) error
+	UpdateImsCarrierConfigs(ctx context.Context, bundle os.PersistableBundle) error
 	NotifyRcsAutoConfigurationReceived(ctx context.Context, config []byte, isCompressed bool) error
 	NotifyRcsAutoConfigurationRemoved(ctx context.Context) error
 	AddRcsConfigCallback(ctx context.Context, c IRcsConfigCallback) error
@@ -863,7 +872,7 @@ func (w *imsConfigStubWrapper) SetConfigString(
 
 func (w *imsConfigStubWrapper) UpdateImsCarrierConfigs(
 	ctx context.Context,
-	bundle interface{},
+	bundle os.PersistableBundle,
 ) error {
 	return w.impl.UpdateImsCarrierConfigs(ctx, bundle)
 }

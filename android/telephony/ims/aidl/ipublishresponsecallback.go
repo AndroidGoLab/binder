@@ -49,6 +49,7 @@ func (p *PublishResponseCallbackProxy) OnCommandError(
 	code int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPublishResponseCallback)
 	_data.WriteInt32(code)
 
@@ -66,6 +67,7 @@ func (p *PublishResponseCallbackProxy) OnNetworkResponse(
 	details ims.SipDetails,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPublishResponseCallback)
 	_data.WriteInt32(1)
 	if _err := details.MarshalParcel(_data); _err != nil {
@@ -84,7 +86,8 @@ func (p *PublishResponseCallbackProxy) OnNetworkResponse(
 // PublishResponseCallbackStub dispatches incoming binder transactions
 // to a typed IPublishResponseCallback implementation.
 type PublishResponseCallbackStub struct {
-	Impl IPublishResponseCallback
+	Impl      IPublishResponseCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PublishResponseCallbackStub)(nil)
@@ -98,22 +101,19 @@ func (s *PublishResponseCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPublishResponseCallbackOnCommandError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnCommandError(ctx, _arg_code)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPublishResponseCallbackOnNetworkResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_details ims.SipDetails
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -127,8 +127,7 @@ func (s *PublishResponseCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnNetworkResponse(ctx, _arg_details)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -15,7 +15,7 @@ import (
 	androidTelephony "github.com/xaionaro-go/binder/android/telephony"
 	gba "github.com/xaionaro-go/binder/android/telephony/gba"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
-	aidl "github.com/xaionaro-go/binder/android/telephony/ims/aidl"
+	types "github.com/xaionaro-go/binder/android/telephony/ims/aidl/types"
 	satellite "github.com/xaionaro-go/binder/android/telephony/satellite"
 	"github.com/xaionaro-go/binder/binder"
 	internal "github.com/xaionaro-go/binder/com/android/ims/internal_"
@@ -884,7 +884,7 @@ type ITelephony interface {
 	SetRadioPower(ctx context.Context, turnOn bool) (bool, error)
 	RequestRadioPowerOffForReason(ctx context.Context, subId int32, reason int32) (bool, error)
 	ClearRadioPowerOffForReason(ctx context.Context, subId int32, reason int32) (bool, error)
-	GetRadioPowerOffReasons(ctx context.Context, subId int32) ([]interface{}, error)
+	GetRadioPowerOffReasons(ctx context.Context, subId int32) ([]any, error)
 	UpdateServiceLocation(ctx context.Context) error
 	UpdateServiceLocationWithPackageName(ctx context.Context, callingPkg string) error
 	EnableLocationUpdates(ctx context.Context) error
@@ -935,7 +935,7 @@ type ITelephony interface {
 	GetLteOnCdmaModeForSubscriber(ctx context.Context, subId int32) (int32, error)
 	GetAllCellInfo(ctx context.Context, callingPkg string) ([]network.CellInfo, error)
 	RequestCellInfoUpdate(ctx context.Context, subId int32, cb androidTelephony.ICellInfoCallback, callingPkg string) error
-	RequestCellInfoUpdateWithWorkSource(ctx context.Context, subId int32, cb androidTelephony.ICellInfoCallback, callingPkg string, ws interface{}) error
+	RequestCellInfoUpdateWithWorkSource(ctx context.Context, subId int32, cb androidTelephony.ICellInfoCallback, callingPkg string, ws os.WorkSource) error
 	SetCellInfoListRate(ctx context.Context, rateInMillis int32, subId int32) error
 	IccOpenLogicalChannel(ctx context.Context, request IccLogicalChannelRequest) (androidTelephony.IccOpenLogicalChannelResponse, error)
 	IccCloseLogicalChannel(ctx context.Context, request IccLogicalChannelRequest) (bool, error)
@@ -957,8 +957,8 @@ type ITelephony interface {
 	ResetIms(ctx context.Context, slotIndex int32) error
 	RegisterMmTelFeatureCallback(ctx context.Context, slotId int32, callback internal.IImsServiceFeatureCallback) error
 	UnregisterImsFeatureCallback(ctx context.Context, callback internal.IImsServiceFeatureCallback) error
-	GetImsRegistration(ctx context.Context, slotId int32, feature int32) (aidl.IImsRegistration, error)
-	GetImsConfig(ctx context.Context, slotId int32, feature int32) (aidl.IImsConfig, error)
+	GetImsRegistration(ctx context.Context, slotId int32, feature int32) (types.IImsRegistration, error)
+	GetImsConfig(ctx context.Context, slotId int32, feature int32) (types.IImsConfig, error)
 	SetBoundImsServiceOverride(ctx context.Context, slotIndex int32, isCarrierService bool, featureTypes []int32, packageName string) (bool, error)
 	ClearCarrierImsServiceOverride(ctx context.Context, slotIndex int32) (bool, error)
 	GetBoundImsServicePackage(ctx context.Context, slotIndex int32, isCarrierImsService bool, featureType int32) (string, error)
@@ -1071,14 +1071,14 @@ type ITelephony interface {
 	GetNetworkSelectionMode(ctx context.Context, subId int32) (int32, error)
 	IsInEmergencySmsMode(ctx context.Context) (bool, error)
 	GetRadioPowerState(ctx context.Context, slotIndex int32) (int32, error)
-	RegisterImsRegistrationCallback(ctx context.Context, subId int32, c aidl.IImsRegistrationCallback) error
-	UnregisterImsRegistrationCallback(ctx context.Context, subId int32, c aidl.IImsRegistrationCallback) error
-	RegisterImsEmergencyRegistrationCallback(ctx context.Context, subId int32, c aidl.IImsRegistrationCallback) error
-	UnregisterImsEmergencyRegistrationCallback(ctx context.Context, subId int32, c aidl.IImsRegistrationCallback) error
+	RegisterImsRegistrationCallback(ctx context.Context, subId int32, c types.IImsRegistrationCallback) error
+	UnregisterImsRegistrationCallback(ctx context.Context, subId int32, c types.IImsRegistrationCallback) error
+	RegisterImsEmergencyRegistrationCallback(ctx context.Context, subId int32, c types.IImsRegistrationCallback) error
+	UnregisterImsEmergencyRegistrationCallback(ctx context.Context, subId int32, c types.IImsRegistrationCallback) error
 	GetImsMmTelRegistrationState(ctx context.Context, subId int32, consumer IIntegerConsumer) error
 	GetImsMmTelRegistrationTransportType(ctx context.Context, subId int32, consumer IIntegerConsumer) error
-	RegisterMmTelCapabilityCallback(ctx context.Context, subId int32, c aidl.IImsCapabilityCallback) error
-	UnregisterMmTelCapabilityCallback(ctx context.Context, subId int32, c aidl.IImsCapabilityCallback) error
+	RegisterMmTelCapabilityCallback(ctx context.Context, subId int32, c types.IImsCapabilityCallback) error
+	UnregisterMmTelCapabilityCallback(ctx context.Context, subId int32, c types.IImsCapabilityCallback) error
 	IsCapable(ctx context.Context, subId int32, capability int32, regTech int32) (bool, error)
 	IsAvailable(ctx context.Context, subId int32, capability int32, regTech int32) (bool, error)
 	IsMmTelCapabilitySupported(ctx context.Context, subId int32, callback IIntegerConsumer, capability int32, transportType int32) error
@@ -1099,13 +1099,13 @@ type ITelephony interface {
 	SetVoWiFiRoamingModeSetting(ctx context.Context, subId int32, mode int32) error
 	SetRttCapabilitySetting(ctx context.Context, subId int32, isEnabled bool) error
 	IsTtyOverVolteEnabled(ctx context.Context, subId int32) (bool, error)
-	GetEmergencyNumberList(ctx context.Context) (map[interface{}]interface{}, error)
+	GetEmergencyNumberList(ctx context.Context) (map[any]any, error)
 	IsEmergencyNumber(ctx context.Context, number string, exactMatch bool) (bool, error)
 	GetCertsFromCarrierPrivilegeAccessRules(ctx context.Context, subId int32) ([]string, error)
-	RegisterImsProvisioningChangedCallback(ctx context.Context, subId int32, callback aidl.IImsConfigCallback) error
-	UnregisterImsProvisioningChangedCallback(ctx context.Context, subId int32, callback aidl.IImsConfigCallback) error
-	RegisterFeatureProvisioningChangedCallback(ctx context.Context, subId int32, callback aidl.IFeatureProvisioningCallback) error
-	UnregisterFeatureProvisioningChangedCallback(ctx context.Context, subId int32, callback aidl.IFeatureProvisioningCallback) error
+	RegisterImsProvisioningChangedCallback(ctx context.Context, subId int32, callback types.IImsConfigCallback) error
+	UnregisterImsProvisioningChangedCallback(ctx context.Context, subId int32, callback types.IImsConfigCallback) error
+	RegisterFeatureProvisioningChangedCallback(ctx context.Context, subId int32, callback types.IFeatureProvisioningCallback) error
+	UnregisterFeatureProvisioningChangedCallback(ctx context.Context, subId int32, callback types.IFeatureProvisioningCallback) error
 	SetImsProvisioningStatusForCapability(ctx context.Context, subId int32, capability int32, tech int32, isProvisioned bool) error
 	GetImsProvisioningStatusForCapability(ctx context.Context, subId int32, capability int32, tech int32) (bool, error)
 	GetRcsProvisioningStatusForCapability(ctx context.Context, subId int32, capability int32, tech int32) (bool, error)
@@ -1166,8 +1166,8 @@ type ITelephony interface {
 	GetGbaReleaseTime(ctx context.Context, subId int32) (int32, error)
 	SetRcsClientConfiguration(ctx context.Context, subId int32, rcc ims.RcsClientConfiguration) error
 	IsRcsVolteSingleRegistrationCapable(ctx context.Context, subId int32) (bool, error)
-	RegisterRcsProvisioningCallback(ctx context.Context, subId int32, callback aidl.IRcsConfigCallback) error
-	UnregisterRcsProvisioningCallback(ctx context.Context, subId int32, callback aidl.IRcsConfigCallback) error
+	RegisterRcsProvisioningCallback(ctx context.Context, subId int32, callback types.IRcsConfigCallback) error
+	UnregisterRcsProvisioningCallback(ctx context.Context, subId int32, callback types.IRcsConfigCallback) error
 	TriggerRcsReconfiguration(ctx context.Context, subId int32) error
 	SetRcsSingleRegistrationTestModeEnabled(ctx context.Context, enabled bool) error
 	GetRcsSingleRegistrationTestModeEnabled(ctx context.Context) (bool, error)
@@ -1249,7 +1249,7 @@ type ITelephony interface {
 	SetDatagramControllerTimeoutDuration(ctx context.Context, reset bool, timeoutType int32, timeoutMillis int64) (bool, error)
 	SetSatelliteControllerTimeoutDuration(ctx context.Context, reset bool, timeoutType int32, timeoutMillis int64) (bool, error)
 	SetEmergencyCallToSatelliteHandoverType(ctx context.Context, handoverType int32, delaySeconds int32) (bool, error)
-	SetCountryCodes(ctx context.Context, reset bool, currentNetworkCountryCodes []string, cachedNetworkCountryCodes map[interface{}]interface{}, locationCountryCode string, locationCountryCodeTimestampNanos int64) (bool, error)
+	SetCountryCodes(ctx context.Context, reset bool, currentNetworkCountryCodes []string, cachedNetworkCountryCodes map[any]any, locationCountryCode string, locationCountryCodeTimestampNanos int64) (bool, error)
 	SetSatelliteAccessControlOverlayConfigs(ctx context.Context, reset bool, isAllowed bool, s2CellFile string, locationFreshDurationNanos int64, satelliteCountryCodes []string) (bool, error)
 	SetOemEnabledSatelliteProvisionStatus(ctx context.Context, reset bool, isProvisioned bool) (bool, error)
 	GetShaIdFromAllowList(ctx context.Context, pkgName string, carrierId int32) ([]string, error)
@@ -1299,6 +1299,7 @@ func (p *TelephonyProxy) Dial(
 	number string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(number)
 
@@ -1326,6 +1327,7 @@ func (p *TelephonyProxy) Call(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(number)
@@ -1354,6 +1356,7 @@ func (p *TelephonyProxy) IsRadioOn(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 
@@ -1385,6 +1388,7 @@ func (p *TelephonyProxy) IsRadioOnWithFeature(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -1418,6 +1422,7 @@ func (p *TelephonyProxy) IsRadioOnForSubscriber(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -1451,6 +1456,7 @@ func (p *TelephonyProxy) IsRadioOnForSubscriberWithFeature(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -1484,6 +1490,7 @@ func (p *TelephonyProxy) SetCallComposerStatus(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(status)
@@ -1512,6 +1519,7 @@ func (p *TelephonyProxy) GetCallComposerStatus(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -1544,6 +1552,7 @@ func (p *TelephonyProxy) SupplyPinForSubscriber(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(pin)
@@ -1578,6 +1587,7 @@ func (p *TelephonyProxy) SupplyPukForSubscriber(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(puk)
@@ -1612,6 +1622,7 @@ func (p *TelephonyProxy) SupplyPinReportResultForSubscriber(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(pin)
@@ -1635,6 +1646,9 @@ func (p *TelephonyProxy) SupplyPinReportResultForSubscriber(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -1656,6 +1670,7 @@ func (p *TelephonyProxy) SupplyPukReportResultForSubscriber(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(puk)
@@ -1680,6 +1695,9 @@ func (p *TelephonyProxy) SupplyPukReportResultForSubscriber(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -1699,6 +1717,7 @@ func (p *TelephonyProxy) HandlePinMmi(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(dialString)
 
@@ -1731,6 +1750,7 @@ func (p *TelephonyProxy) HandleUssdRequest(
 	wrappedCallback os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(ussdRequest)
@@ -1764,6 +1784,7 @@ func (p *TelephonyProxy) HandlePinMmiForSubscriber(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(dialString)
@@ -1794,6 +1815,7 @@ func (p *TelephonyProxy) ToggleRadioOnOff(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyToggleRadioOnOff)
@@ -1819,6 +1841,7 @@ func (p *TelephonyProxy) ToggleRadioOnOffForSubscriber(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -1846,6 +1869,7 @@ func (p *TelephonyProxy) SetRadio(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(turnOn)
 
@@ -1878,6 +1902,7 @@ func (p *TelephonyProxy) SetRadioForSubscriber(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(turnOn)
@@ -1910,6 +1935,7 @@ func (p *TelephonyProxy) SetRadioPower(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(turnOn)
 
@@ -1942,6 +1968,7 @@ func (p *TelephonyProxy) RequestRadioPowerOffForReason(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(reason)
@@ -1975,6 +2002,7 @@ func (p *TelephonyProxy) ClearRadioPowerOffForReason(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(reason)
@@ -2004,10 +2032,11 @@ func (p *TelephonyProxy) ClearRadioPowerOffForReason(
 func (p *TelephonyProxy) GetRadioPowerOffReasons(
 	ctx context.Context,
 	subId int32,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]any, error) {
+	var _result []any
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -2032,9 +2061,12 @@ func (p *TelephonyProxy) GetRadioPowerOffReasons(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]any, _count)
 		for _i := int32(0); _i < _count; _i++ {
 		}
 	}
@@ -2045,6 +2077,7 @@ func (p *TelephonyProxy) UpdateServiceLocation(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUpdateServiceLocation)
@@ -2070,6 +2103,7 @@ func (p *TelephonyProxy) UpdateServiceLocationWithPackageName(
 	callingPkg string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(callingPkg)
 
@@ -2095,6 +2129,7 @@ func (p *TelephonyProxy) EnableLocationUpdates(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyEnableLocationUpdates)
@@ -2119,6 +2154,7 @@ func (p *TelephonyProxy) DisableLocationUpdates(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyDisableLocationUpdates)
@@ -2145,6 +2181,7 @@ func (p *TelephonyProxy) EnableDataConnectivity(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 
@@ -2176,6 +2213,7 @@ func (p *TelephonyProxy) DisableDataConnectivity(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 
@@ -2207,6 +2245,7 @@ func (p *TelephonyProxy) IsDataConnectivityPossible(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -2239,6 +2278,7 @@ func (p *TelephonyProxy) GetCellLocation(
 	var _result network.CellIdentity
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(_identity.AttributionTag)
@@ -2276,6 +2316,7 @@ func (p *TelephonyProxy) GetNetworkCountryIsoForPhone(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(phoneId)
 
@@ -2308,6 +2349,7 @@ func (p *TelephonyProxy) GetNeighboringCellInfo(
 	var _result []androidTelephony.NeighboringCellInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(_identity.AttributionTag)
@@ -2331,6 +2373,9 @@ func (p *TelephonyProxy) GetNeighboringCellInfo(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]androidTelephony.NeighboringCellInfo, _count)
@@ -2351,6 +2396,7 @@ func (p *TelephonyProxy) GetCallState(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCallState)
@@ -2383,6 +2429,7 @@ func (p *TelephonyProxy) GetCallStateForSubscription(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -2415,6 +2462,7 @@ func (p *TelephonyProxy) GetDataActivity(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetDataActivity)
@@ -2445,6 +2493,7 @@ func (p *TelephonyProxy) GetDataActivityForSubId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -2475,6 +2524,7 @@ func (p *TelephonyProxy) GetDataState(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetDataState)
@@ -2505,6 +2555,7 @@ func (p *TelephonyProxy) GetDataStateForSubId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -2535,6 +2586,7 @@ func (p *TelephonyProxy) GetActivePhoneType(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetActivePhoneType)
@@ -2565,6 +2617,7 @@ func (p *TelephonyProxy) GetActivePhoneTypeForSlot(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 
@@ -2596,6 +2649,7 @@ func (p *TelephonyProxy) GetCdmaEriIconIndex(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -2629,6 +2683,7 @@ func (p *TelephonyProxy) GetCdmaEriIconIndexForSubscriber(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -2662,6 +2717,7 @@ func (p *TelephonyProxy) GetCdmaEriIconMode(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -2695,6 +2751,7 @@ func (p *TelephonyProxy) GetCdmaEriIconModeForSubscriber(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -2728,6 +2785,7 @@ func (p *TelephonyProxy) GetCdmaEriText(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -2761,6 +2819,7 @@ func (p *TelephonyProxy) GetCdmaEriTextForSubscriber(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -2793,6 +2852,7 @@ func (p *TelephonyProxy) NeedsOtaServiceProvisioning(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyNeedsOtaServiceProvisioning)
@@ -2825,6 +2885,7 @@ func (p *TelephonyProxy) SetVoiceMailNumber(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(alphaTag)
@@ -2858,6 +2919,7 @@ func (p *TelephonyProxy) SetVoiceActivationState(
 	activationState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(activationState)
@@ -2886,6 +2948,7 @@ func (p *TelephonyProxy) SetDataActivationState(
 	activationState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(activationState)
@@ -2915,6 +2978,7 @@ func (p *TelephonyProxy) GetVoiceActivationState(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -2948,6 +3012,7 @@ func (p *TelephonyProxy) GetDataActivationState(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -2981,6 +3046,7 @@ func (p *TelephonyProxy) GetVoiceMessageCountForSubscriber(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -3014,6 +3080,7 @@ func (p *TelephonyProxy) IsConcurrentVoiceAndDataAllowed(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -3046,6 +3113,7 @@ func (p *TelephonyProxy) GetVisualVoicemailSettings(
 	var _result os.Bundle
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(subId)
@@ -3084,6 +3152,7 @@ func (p *TelephonyProxy) GetVisualVoicemailPackageName(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -3118,6 +3187,7 @@ func (p *TelephonyProxy) EnableVisualVoicemailSmsFilter(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(subId)
@@ -3150,6 +3220,7 @@ func (p *TelephonyProxy) DisableVisualVoicemailSmsFilter(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(subId)
@@ -3170,6 +3241,7 @@ func (p *TelephonyProxy) GetVisualVoicemailSmsFilterSettings(
 	var _result androidTelephony.VisualVoicemailSmsFilterSettings
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(subId)
@@ -3207,6 +3279,7 @@ func (p *TelephonyProxy) GetActiveVisualVoicemailSmsFilterSettings(
 ) (androidTelephony.VisualVoicemailSmsFilterSettings, error) {
 	var _result androidTelephony.VisualVoicemailSmsFilterSettings
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -3248,6 +3321,7 @@ func (p *TelephonyProxy) SendVisualVoicemailSmsForSubscriber(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(callingAttributeTag)
@@ -3284,6 +3358,7 @@ func (p *TelephonyProxy) SendDialerSpecialCode(
 	inputCode string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(callingPackageName)
 	_data.WriteString16(inputCode)
@@ -3313,6 +3388,7 @@ func (p *TelephonyProxy) GetNetworkTypeForSubscriber(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -3346,6 +3422,7 @@ func (p *TelephonyProxy) GetDataNetworkType(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -3379,6 +3456,7 @@ func (p *TelephonyProxy) GetDataNetworkTypeForSubscriber(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -3413,6 +3491,7 @@ func (p *TelephonyProxy) GetVoiceNetworkTypeForSubscriber(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -3445,6 +3524,7 @@ func (p *TelephonyProxy) HasIccCard(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyHasIccCard)
@@ -3475,6 +3555,7 @@ func (p *TelephonyProxy) HasIccCardUsingSlotIndex(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 
@@ -3506,6 +3587,7 @@ func (p *TelephonyProxy) GetLteOnCdmaMode(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -3539,6 +3621,7 @@ func (p *TelephonyProxy) GetLteOnCdmaModeForSubscriber(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -3573,6 +3656,7 @@ func (p *TelephonyProxy) GetAllCellInfo(
 	var _result []network.CellInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(_identity.AttributionTag)
@@ -3595,6 +3679,9 @@ func (p *TelephonyProxy) GetAllCellInfo(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -3619,6 +3706,7 @@ func (p *TelephonyProxy) RequestCellInfoUpdate(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
@@ -3648,15 +3736,20 @@ func (p *TelephonyProxy) RequestCellInfoUpdateWithWorkSource(
 	subId int32,
 	cb androidTelephony.ICellInfoCallback,
 	callingPkg string,
-	ws interface{},
+	ws os.WorkSource,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(_identity.AttributionTag)
+	_data.WriteInt32(1)
+	if _err := ws.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestCellInfoUpdateWithWorkSource)
 	if _err != nil {
@@ -3682,6 +3775,7 @@ func (p *TelephonyProxy) SetCellInfoListRate(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(rateInMillis)
 	_data.WriteInt32(subId)
@@ -3710,6 +3804,7 @@ func (p *TelephonyProxy) IccOpenLogicalChannel(
 ) (androidTelephony.IccOpenLogicalChannelResponse, error) {
 	var _result androidTelephony.IccOpenLogicalChannelResponse
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -3749,6 +3844,7 @@ func (p *TelephonyProxy) IccCloseLogicalChannel(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -3791,6 +3887,7 @@ func (p *TelephonyProxy) IccTransmitApduLogicalChannelByPort(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 	_data.WriteInt32(portIndex)
@@ -3837,6 +3934,7 @@ func (p *TelephonyProxy) IccTransmitApduLogicalChannel(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(channel)
@@ -3883,6 +3981,7 @@ func (p *TelephonyProxy) IccTransmitApduBasicChannelByPort(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 	_data.WriteInt32(portIndex)
@@ -3929,6 +4028,7 @@ func (p *TelephonyProxy) IccTransmitApduBasicChannel(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -3973,6 +4073,7 @@ func (p *TelephonyProxy) IccExchangeSimIO(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(fileID)
@@ -3997,19 +4098,9 @@ func (p *TelephonyProxy) IccExchangeSimIO(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -4021,6 +4112,7 @@ func (p *TelephonyProxy) SendEnvelopeWithStatus(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(content)
@@ -4053,6 +4145,7 @@ func (p *TelephonyProxy) NvReadItem(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(itemID)
 
@@ -4085,6 +4178,7 @@ func (p *TelephonyProxy) NvWriteItem(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(itemID)
 	_data.WriteString16(itemValue)
@@ -4117,15 +4211,9 @@ func (p *TelephonyProxy) NvWriteCdmaPrl(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
-	if preferredRoamingList == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(preferredRoamingList)))
-		for _, _item := range preferredRoamingList {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(preferredRoamingList)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyNvWriteCdmaPrl)
 	if _err != nil {
@@ -4155,6 +4243,7 @@ func (p *TelephonyProxy) ResetModemConfig(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 
@@ -4186,6 +4275,7 @@ func (p *TelephonyProxy) RebootModem(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 
@@ -4217,6 +4307,7 @@ func (p *TelephonyProxy) GetAllowedNetworkTypesBitmask(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -4248,6 +4339,7 @@ func (p *TelephonyProxy) IsTetheringApnRequiredForSubscriber(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -4278,6 +4370,7 @@ func (p *TelephonyProxy) EnableIms(
 	slotId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotId)
 
@@ -4304,6 +4397,7 @@ func (p *TelephonyProxy) DisableIms(
 	slotId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotId)
 
@@ -4330,6 +4424,7 @@ func (p *TelephonyProxy) ResetIms(
 	slotIndex int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 
@@ -4357,6 +4452,7 @@ func (p *TelephonyProxy) RegisterMmTelFeatureCallback(
 	callback internal.IImsServiceFeatureCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -4384,6 +4480,7 @@ func (p *TelephonyProxy) UnregisterImsFeatureCallback(
 	callback internal.IImsServiceFeatureCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -4409,9 +4506,10 @@ func (p *TelephonyProxy) GetImsRegistration(
 	ctx context.Context,
 	slotId int32,
 	feature int32,
-) (aidl.IImsRegistration, error) {
-	var _result aidl.IImsRegistration
+) (types.IImsRegistration, error) {
+	var _result types.IImsRegistration
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(feature)
@@ -4431,11 +4529,17 @@ func (p *TelephonyProxy) GetImsRegistration(
 		return _result, _err
 	}
 
-	_handle, _err := _reply.ReadStrongBinder()
+	_nullInd, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = aidl.NewImsRegistrationProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -4443,9 +4547,10 @@ func (p *TelephonyProxy) GetImsConfig(
 	ctx context.Context,
 	slotId int32,
 	feature int32,
-) (aidl.IImsConfig, error) {
-	var _result aidl.IImsConfig
+) (types.IImsConfig, error) {
+	var _result types.IImsConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(feature)
@@ -4465,11 +4570,17 @@ func (p *TelephonyProxy) GetImsConfig(
 		return _result, _err
 	}
 
-	_handle, _err := _reply.ReadStrongBinder()
+	_nullInd, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = aidl.NewImsConfigProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
+	if _nullInd != 0 {
+		_endPos, _err := parcel.ReadParcelableHeader(_reply)
+		if _err != nil {
+			return _result, _err
+		}
+		parcel.SkipToParcelableEnd(_reply, _endPos)
+	}
 	return _result, nil
 }
 
@@ -4482,6 +4593,7 @@ func (p *TelephonyProxy) SetBoundImsServiceOverride(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 	_data.WriteBool(isCarrierService)
@@ -4523,6 +4635,7 @@ func (p *TelephonyProxy) ClearCarrierImsServiceOverride(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 
@@ -4556,6 +4669,7 @@ func (p *TelephonyProxy) GetBoundImsServicePackage(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 	_data.WriteBool(isCarrierImsService)
@@ -4589,6 +4703,7 @@ func (p *TelephonyProxy) GetImsMmTelFeatureState(
 	callback IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -4616,6 +4731,7 @@ func (p *TelephonyProxy) SetNetworkSelectionModeAutomatic(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -4644,6 +4760,7 @@ func (p *TelephonyProxy) GetCellNetworkScanResults(
 	var _result CellNetworkScanResult
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -4687,6 +4804,7 @@ func (p *TelephonyProxy) RequestNetworkScan(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(renounceFineLocationAccess)
@@ -4730,6 +4848,7 @@ func (p *TelephonyProxy) StopNetworkScan(
 	scanId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(scanId)
@@ -4760,6 +4879,7 @@ func (p *TelephonyProxy) SetNetworkSelectionModeManual(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -4797,6 +4917,7 @@ func (p *TelephonyProxy) GetAllowedNetworkTypesForReason(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(reason)
@@ -4831,6 +4952,7 @@ func (p *TelephonyProxy) SetAllowedNetworkTypesForReason(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(reason)
@@ -4864,6 +4986,7 @@ func (p *TelephonyProxy) GetDataEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -4895,6 +5018,7 @@ func (p *TelephonyProxy) IsUserDataEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -4926,6 +5050,7 @@ func (p *TelephonyProxy) IsDataEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -4959,6 +5084,7 @@ func (p *TelephonyProxy) SetDataEnabledForReason(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(reason)
@@ -4990,6 +5116,7 @@ func (p *TelephonyProxy) IsDataEnabledForReason(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(reason)
@@ -5022,6 +5149,7 @@ func (p *TelephonyProxy) IsManualNetworkSelectionAllowed(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -5052,6 +5180,7 @@ func (p *TelephonyProxy) SetImsRegistrationState(
 	registered bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(registered)
 
@@ -5079,6 +5208,7 @@ func (p *TelephonyProxy) GetCdmaMdn(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -5110,6 +5240,7 @@ func (p *TelephonyProxy) GetCdmaMin(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -5143,6 +5274,7 @@ func (p *TelephonyProxy) RequestNumberVerification(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(1)
 	if _err := range_.MarshalParcel(_data); _err != nil {
@@ -5176,6 +5308,7 @@ func (p *TelephonyProxy) GetCarrierPrivilegeStatus(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -5208,6 +5341,7 @@ func (p *TelephonyProxy) GetCarrierPrivilegeStatusForUid(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(uid)
@@ -5241,6 +5375,7 @@ func (p *TelephonyProxy) CheckCarrierPrivilegesForPackage(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(pkgName)
@@ -5273,6 +5408,7 @@ func (p *TelephonyProxy) CheckCarrierPrivilegesForPackageAnyPhone(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(pkgName)
 
@@ -5305,6 +5441,7 @@ func (p *TelephonyProxy) GetCarrierPackageNamesForIntentAndPhone(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -5331,6 +5468,9 @@ func (p *TelephonyProxy) GetCarrierPackageNamesForIntentAndPhone(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -5352,6 +5492,7 @@ func (p *TelephonyProxy) SetLine1NumberForDisplayForSubscriber(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(alphaTag)
@@ -5386,6 +5527,7 @@ func (p *TelephonyProxy) GetLine1NumberForDisplay(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -5420,6 +5562,7 @@ func (p *TelephonyProxy) GetLine1AlphaTagForDisplay(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -5454,6 +5597,7 @@ func (p *TelephonyProxy) GetMergedSubscriberIds(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -5478,6 +5622,9 @@ func (p *TelephonyProxy) GetMergedSubscriberIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -5498,6 +5645,7 @@ func (p *TelephonyProxy) GetMergedImsisFromGroup(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -5521,6 +5669,9 @@ func (p *TelephonyProxy) GetMergedImsisFromGroup(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -5541,6 +5692,7 @@ func (p *TelephonyProxy) SetOperatorBrandOverride(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(brand)
@@ -5577,6 +5729,7 @@ func (p *TelephonyProxy) SetRoamingOverride(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	if gsmRoamingList == nil {
@@ -5639,6 +5792,7 @@ func (p *TelephonyProxy) NeedMobileRadioShutdown(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyNeedMobileRadioShutdown)
@@ -5667,6 +5821,7 @@ func (p *TelephonyProxy) ShutdownMobileRadios(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyShutdownMobileRadios)
@@ -5694,6 +5849,7 @@ func (p *TelephonyProxy) GetRadioAccessFamily(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(phoneId)
 	_data.WriteString16(_identity.PackageName)
@@ -5729,6 +5885,7 @@ func (p *TelephonyProxy) UploadCallComposerPicture(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subscriptionId)
 	_data.WriteString16(_identity.PackageName)
@@ -5762,6 +5919,7 @@ func (p *TelephonyProxy) EnableVideoCalling(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(enable)
 
@@ -5789,6 +5947,7 @@ func (p *TelephonyProxy) IsVideoCallingEnabled(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -5822,6 +5981,7 @@ func (p *TelephonyProxy) CanChangeDtmfToneLength(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -5856,6 +6016,7 @@ func (p *TelephonyProxy) IsWorldPhone(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -5888,6 +6049,7 @@ func (p *TelephonyProxy) IsTtyModeSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsTtyModeSupported)
@@ -5918,6 +6080,7 @@ func (p *TelephonyProxy) IsRttSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subscriptionId)
 
@@ -5948,6 +6111,7 @@ func (p *TelephonyProxy) IsHearingAidCompatibilitySupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsHearingAidCompatibilitySupported)
@@ -5978,6 +6142,7 @@ func (p *TelephonyProxy) IsImsRegistered(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -6009,6 +6174,7 @@ func (p *TelephonyProxy) IsWifiCallingAvailable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -6040,6 +6206,7 @@ func (p *TelephonyProxy) IsVideoTelephonyAvailable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -6071,6 +6238,7 @@ func (p *TelephonyProxy) GetImsRegTechnologyForMmTel(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -6102,6 +6270,7 @@ func (p *TelephonyProxy) GetDeviceId(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 
@@ -6133,6 +6302,7 @@ func (p *TelephonyProxy) GetDeviceIdWithFeature(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -6166,6 +6336,7 @@ func (p *TelephonyProxy) GetImeiForSlot(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 	_data.WriteString16(_identity.PackageName)
@@ -6199,6 +6370,7 @@ func (p *TelephonyProxy) GetPrimaryImei(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -6231,6 +6403,7 @@ func (p *TelephonyProxy) GetTypeAllocationCodeForSlot(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 
@@ -6263,6 +6436,7 @@ func (p *TelephonyProxy) GetMeidForSlot(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 	_data.WriteString16(_identity.PackageName)
@@ -6296,6 +6470,7 @@ func (p *TelephonyProxy) GetManufacturerCodeForSlot(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 
@@ -6328,6 +6503,7 @@ func (p *TelephonyProxy) GetDeviceSoftwareVersionForSlot(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 	_data.WriteString16(_identity.PackageName)
@@ -6362,6 +6538,7 @@ func (p *TelephonyProxy) GetSubIdForPhoneAccountHandle(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(1)
 	if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
@@ -6398,6 +6575,7 @@ func (p *TelephonyProxy) GetPhoneAccountHandleForSubscriptionId(
 ) (telecom.PhoneAccountHandle, error) {
 	var _result telecom.PhoneAccountHandle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subscriptionId)
 
@@ -6434,6 +6612,7 @@ func (p *TelephonyProxy) FactoryReset(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -6462,6 +6641,7 @@ func (p *TelephonyProxy) GetSimLocaleForSubscriber(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -6492,6 +6672,7 @@ func (p *TelephonyProxy) RequestModemActivityInfo(
 	result os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -6516,6 +6697,7 @@ func (p *TelephonyProxy) GetServiceStateForSlot(
 	var _result androidTelephony.ServiceState
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 	_data.WriteBool(renounceFineLocationAccess)
@@ -6556,6 +6738,7 @@ func (p *TelephonyProxy) GetVoicemailRingtoneUri(
 ) (net.Uri, error) {
 	var _result net.Uri
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(1)
 	if _err := accountHandle.MarshalParcel(_data); _err != nil {
@@ -6596,6 +6779,7 @@ func (p *TelephonyProxy) SetVoicemailRingtoneUri(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(1)
@@ -6631,6 +6815,7 @@ func (p *TelephonyProxy) IsVoicemailVibrationEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(1)
 	if _err := accountHandle.MarshalParcel(_data); _err != nil {
@@ -6666,6 +6851,7 @@ func (p *TelephonyProxy) SetVoicemailVibrationEnabled(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(1)
@@ -6698,6 +6884,7 @@ func (p *TelephonyProxy) GetPackagesWithCarrierPrivileges(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(phoneId)
 
@@ -6720,6 +6907,9 @@ func (p *TelephonyProxy) GetPackagesWithCarrierPrivileges(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -6738,6 +6928,7 @@ func (p *TelephonyProxy) GetPackagesWithCarrierPrivilegesForAllPhones(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetPackagesWithCarrierPrivilegesForAllPhones)
@@ -6759,6 +6950,9 @@ func (p *TelephonyProxy) GetPackagesWithCarrierPrivilegesForAllPhones(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -6779,6 +6973,7 @@ func (p *TelephonyProxy) GetAidForAppType(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(appType)
@@ -6811,6 +7006,7 @@ func (p *TelephonyProxy) GetEsn(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -6842,6 +7038,7 @@ func (p *TelephonyProxy) GetCdmaPrlVersion(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -6872,6 +7069,7 @@ func (p *TelephonyProxy) GetTelephonyHistograms(
 ) ([]androidTelephony.TelephonyHistogram, error) {
 	var _result []androidTelephony.TelephonyHistogram
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetTelephonyHistograms)
@@ -6892,6 +7090,9 @@ func (p *TelephonyProxy) GetTelephonyHistograms(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -6914,6 +7115,7 @@ func (p *TelephonyProxy) SetAllowedCarriers(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(1)
 	if _err := carrierRestrictionRules.MarshalParcel(_data); _err != nil {
@@ -6947,6 +7149,7 @@ func (p *TelephonyProxy) GetAllowedCarriers(
 ) (androidTelephony.CarrierRestrictionRules, error) {
 	var _result androidTelephony.CarrierRestrictionRules
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetAllowedCarriers)
@@ -6982,6 +7185,7 @@ func (p *TelephonyProxy) GetSubscriptionCarrierId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -7013,6 +7217,7 @@ func (p *TelephonyProxy) GetSubscriptionCarrierName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -7044,6 +7249,7 @@ func (p *TelephonyProxy) GetSubscriptionSpecificCarrierId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -7075,6 +7281,7 @@ func (p *TelephonyProxy) GetSubscriptionSpecificCarrierName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -7108,6 +7315,7 @@ func (p *TelephonyProxy) GetCarrierIdFromMccMnc(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 	_data.WriteString16(mccmnc)
@@ -7141,6 +7349,7 @@ func (p *TelephonyProxy) CarrierActionSetRadioEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(enabled)
@@ -7169,6 +7378,7 @@ func (p *TelephonyProxy) CarrierActionReportDefaultNetworkStatus(
 	report bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(report)
@@ -7196,6 +7406,7 @@ func (p *TelephonyProxy) CarrierActionResetAll(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -7224,6 +7435,7 @@ func (p *TelephonyProxy) GetCallForwarding(
 	callback ICallForwardingInfoCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(callForwardingReason)
@@ -7254,6 +7466,7 @@ func (p *TelephonyProxy) SetCallForwarding(
 	callback IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -7286,6 +7499,7 @@ func (p *TelephonyProxy) GetCallWaitingStatus(
 	callback IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -7315,6 +7529,7 @@ func (p *TelephonyProxy) SetCallWaitingStatus(
 	callback IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(enabled)
@@ -7345,6 +7560,7 @@ func (p *TelephonyProxy) GetClientRequestStats(
 	var _result []androidTelephony.ClientRequestStats
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -7369,6 +7585,9 @@ func (p *TelephonyProxy) GetClientRequestStats(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]androidTelephony.ClientRequestStats, _count)
@@ -7390,6 +7609,7 @@ func (p *TelephonyProxy) SetSimPowerStateForSlot(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 	_data.WriteInt32(state)
@@ -7419,6 +7639,7 @@ func (p *TelephonyProxy) SetSimPowerStateForSlotWithCallback(
 	callback IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 	_data.WriteInt32(state)
@@ -7450,6 +7671,7 @@ func (p *TelephonyProxy) GetForbiddenPlmns(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(appType)
@@ -7475,6 +7697,9 @@ func (p *TelephonyProxy) GetForbiddenPlmns(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -7497,6 +7722,7 @@ func (p *TelephonyProxy) SetForbiddenPlmns(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(appType)
@@ -7539,6 +7765,7 @@ func (p *TelephonyProxy) GetEmergencyCallbackMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -7570,6 +7797,7 @@ func (p *TelephonyProxy) GetSignalStrength(
 ) (network.SignalStrength, error) {
 	var _result network.SignalStrength
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -7607,6 +7835,7 @@ func (p *TelephonyProxy) GetCardIdForDefaultEuicc(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -7639,6 +7868,7 @@ func (p *TelephonyProxy) GetUiccCardsInfo(
 	var _result []androidTelephony.UiccCardInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 
@@ -7661,6 +7891,9 @@ func (p *TelephonyProxy) GetUiccCardsInfo(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]androidTelephony.UiccCardInfo, _count)
@@ -7682,6 +7915,7 @@ func (p *TelephonyProxy) GetUiccSlotsInfo(
 	var _result []androidTelephony.UiccSlotInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 
@@ -7704,6 +7938,9 @@ func (p *TelephonyProxy) GetUiccSlotsInfo(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]androidTelephony.UiccSlotInfo, _count)
@@ -7725,6 +7962,7 @@ func (p *TelephonyProxy) SwitchSlots(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	if physicalSlots == nil {
 		_data.WriteInt32(-1)
@@ -7763,6 +8001,7 @@ func (p *TelephonyProxy) SetSimSlotMapping(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	if slotMapping == nil {
 		_data.WriteInt32(-1)
@@ -7804,6 +8043,7 @@ func (p *TelephonyProxy) IsDataRoamingEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -7835,6 +8075,7 @@ func (p *TelephonyProxy) SetDataRoamingEnabled(
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(isEnabled)
@@ -7863,6 +8104,7 @@ func (p *TelephonyProxy) GetCdmaRoamingMode(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -7895,6 +8137,7 @@ func (p *TelephonyProxy) SetCdmaRoamingMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(mode)
@@ -7927,6 +8170,7 @@ func (p *TelephonyProxy) GetCdmaSubscriptionMode(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -7959,6 +8203,7 @@ func (p *TelephonyProxy) SetCdmaSubscriptionMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(mode)
@@ -7999,6 +8244,7 @@ func (p *TelephonyProxy) SetCarrierTestOverride(
 	apn string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(mccmnc)
@@ -8036,6 +8282,7 @@ func (p *TelephonyProxy) SetCarrierServicePackageOverride(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(carrierServicePackage)
@@ -8065,6 +8312,7 @@ func (p *TelephonyProxy) GetCarrierIdListVersion(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -8095,6 +8343,7 @@ func (p *TelephonyProxy) RefreshUiccProfile(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -8123,6 +8372,7 @@ func (p *TelephonyProxy) GetNumberOfModemsWithSimultaneousDataConnections(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -8156,6 +8406,7 @@ func (p *TelephonyProxy) GetNetworkSelectionMode(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -8186,6 +8437,7 @@ func (p *TelephonyProxy) IsInEmergencySmsMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsInEmergencySmsMode)
@@ -8217,6 +8469,7 @@ func (p *TelephonyProxy) GetRadioPowerState(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 	_data.WriteString16(_identity.PackageName)
@@ -8247,12 +8500,13 @@ func (p *TelephonyProxy) GetRadioPowerState(
 func (p *TelephonyProxy) RegisterImsRegistrationCallback(
 	ctx context.Context,
 	subId int32,
-	c aidl.IImsRegistrationCallback,
+	c types.IImsRegistrationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	// WARNING: param c (type types.IImsRegistrationCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterImsRegistrationCallback)
 	if _err != nil {
@@ -8275,12 +8529,13 @@ func (p *TelephonyProxy) RegisterImsRegistrationCallback(
 func (p *TelephonyProxy) UnregisterImsRegistrationCallback(
 	ctx context.Context,
 	subId int32,
-	c aidl.IImsRegistrationCallback,
+	c types.IImsRegistrationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	// WARNING: param c (type types.IImsRegistrationCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterImsRegistrationCallback)
 	if _err != nil {
@@ -8303,12 +8558,13 @@ func (p *TelephonyProxy) UnregisterImsRegistrationCallback(
 func (p *TelephonyProxy) RegisterImsEmergencyRegistrationCallback(
 	ctx context.Context,
 	subId int32,
-	c aidl.IImsRegistrationCallback,
+	c types.IImsRegistrationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	// WARNING: param c (type types.IImsRegistrationCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterImsEmergencyRegistrationCallback)
 	if _err != nil {
@@ -8331,12 +8587,13 @@ func (p *TelephonyProxy) RegisterImsEmergencyRegistrationCallback(
 func (p *TelephonyProxy) UnregisterImsEmergencyRegistrationCallback(
 	ctx context.Context,
 	subId int32,
-	c aidl.IImsRegistrationCallback,
+	c types.IImsRegistrationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	// WARNING: param c (type types.IImsRegistrationCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterImsEmergencyRegistrationCallback)
 	if _err != nil {
@@ -8362,6 +8619,7 @@ func (p *TelephonyProxy) GetImsMmTelRegistrationState(
 	consumer IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, consumer.AsBinder(), p.Remote.Transport())
@@ -8390,6 +8648,7 @@ func (p *TelephonyProxy) GetImsMmTelRegistrationTransportType(
 	consumer IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, consumer.AsBinder(), p.Remote.Transport())
@@ -8415,12 +8674,13 @@ func (p *TelephonyProxy) GetImsMmTelRegistrationTransportType(
 func (p *TelephonyProxy) RegisterMmTelCapabilityCallback(
 	ctx context.Context,
 	subId int32,
-	c aidl.IImsCapabilityCallback,
+	c types.IImsCapabilityCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	// WARNING: param c (type types.IImsCapabilityCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterMmTelCapabilityCallback)
 	if _err != nil {
@@ -8443,12 +8703,13 @@ func (p *TelephonyProxy) RegisterMmTelCapabilityCallback(
 func (p *TelephonyProxy) UnregisterMmTelCapabilityCallback(
 	ctx context.Context,
 	subId int32,
-	c aidl.IImsCapabilityCallback,
+	c types.IImsCapabilityCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
+	// WARNING: param c (type types.IImsCapabilityCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterMmTelCapabilityCallback)
 	if _err != nil {
@@ -8476,6 +8737,7 @@ func (p *TelephonyProxy) IsCapable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(capability)
@@ -8511,6 +8773,7 @@ func (p *TelephonyProxy) IsAvailable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(capability)
@@ -8546,6 +8809,7 @@ func (p *TelephonyProxy) IsMmTelCapabilitySupported(
 	transportType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -8576,6 +8840,7 @@ func (p *TelephonyProxy) IsAdvancedCallingSettingEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -8607,6 +8872,7 @@ func (p *TelephonyProxy) SetAdvancedCallingSettingEnabled(
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(isEnabled)
@@ -8635,6 +8901,7 @@ func (p *TelephonyProxy) IsVtSettingEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -8666,6 +8933,7 @@ func (p *TelephonyProxy) SetVtSettingEnabled(
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(isEnabled)
@@ -8694,6 +8962,7 @@ func (p *TelephonyProxy) IsVoWiFiSettingEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -8725,6 +8994,7 @@ func (p *TelephonyProxy) SetVoWiFiSettingEnabled(
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(isEnabled)
@@ -8753,6 +9023,7 @@ func (p *TelephonyProxy) IsCrossSimCallingEnabledByUser(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -8784,6 +9055,7 @@ func (p *TelephonyProxy) SetCrossSimCallingEnabled(
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(isEnabled)
@@ -8812,6 +9084,7 @@ func (p *TelephonyProxy) IsVoWiFiRoamingSettingEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -8843,6 +9116,7 @@ func (p *TelephonyProxy) SetVoWiFiRoamingSettingEnabled(
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(isEnabled)
@@ -8872,6 +9146,7 @@ func (p *TelephonyProxy) SetVoWiFiNonPersistent(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(isCapable)
@@ -8901,6 +9176,7 @@ func (p *TelephonyProxy) GetVoWiFiModeSetting(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -8932,6 +9208,7 @@ func (p *TelephonyProxy) SetVoWiFiModeSetting(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(mode)
@@ -8960,6 +9237,7 @@ func (p *TelephonyProxy) GetVoWiFiRoamingModeSetting(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -8991,6 +9269,7 @@ func (p *TelephonyProxy) SetVoWiFiRoamingModeSetting(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(mode)
@@ -9019,6 +9298,7 @@ func (p *TelephonyProxy) SetRttCapabilitySetting(
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(isEnabled)
@@ -9047,6 +9327,7 @@ func (p *TelephonyProxy) IsTtyOverVolteEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -9074,10 +9355,11 @@ func (p *TelephonyProxy) IsTtyOverVolteEnabled(
 
 func (p *TelephonyProxy) GetEmergencyNumberList(
 	ctx context.Context,
-) (map[interface{}]interface{}, error) {
-	var _result map[interface{}]interface{}
+) (map[any]any, error) {
+	var _result map[any]any
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -9097,22 +9379,24 @@ func (p *TelephonyProxy) GetEmergencyNumberList(
 		return _result, _err
 	}
 
-	_mapCount, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _mapCount >= 0 {
-		_result = make(map[interface{}]interface{}, _mapCount)
-		for _mi := int32(0); _mi < _mapCount; _mi++ {
-			_mk, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
+	{
+		_mapCount, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _mapCount >= 0 {
+			_result = make(map[any]any, _mapCount)
+			for _mi := int32(0); _mi < _mapCount; _mi++ {
+				_mk, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_mv, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_result[_mk] = _mv
 			}
-			_mv, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
-			}
-			_result[_mk] = _mv
 		}
 	}
 	return _result, nil
@@ -9125,6 +9409,7 @@ func (p *TelephonyProxy) IsEmergencyNumber(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(number)
 	_data.WriteBool(exactMatch)
@@ -9157,6 +9442,7 @@ func (p *TelephonyProxy) GetCertsFromCarrierPrivilegeAccessRules(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -9179,6 +9465,9 @@ func (p *TelephonyProxy) GetCertsFromCarrierPrivilegeAccessRules(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -9195,12 +9484,13 @@ func (p *TelephonyProxy) GetCertsFromCarrierPrivilegeAccessRules(
 func (p *TelephonyProxy) RegisterImsProvisioningChangedCallback(
 	ctx context.Context,
 	subId int32,
-	callback aidl.IImsConfigCallback,
+	callback types.IImsConfigCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	// WARNING: param callback (type types.IImsConfigCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterImsProvisioningChangedCallback)
 	if _err != nil {
@@ -9223,12 +9513,13 @@ func (p *TelephonyProxy) RegisterImsProvisioningChangedCallback(
 func (p *TelephonyProxy) UnregisterImsProvisioningChangedCallback(
 	ctx context.Context,
 	subId int32,
-	callback aidl.IImsConfigCallback,
+	callback types.IImsConfigCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	// WARNING: param callback (type types.IImsConfigCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterImsProvisioningChangedCallback)
 	if _err != nil {
@@ -9251,12 +9542,13 @@ func (p *TelephonyProxy) UnregisterImsProvisioningChangedCallback(
 func (p *TelephonyProxy) RegisterFeatureProvisioningChangedCallback(
 	ctx context.Context,
 	subId int32,
-	callback aidl.IFeatureProvisioningCallback,
+	callback types.IFeatureProvisioningCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	// WARNING: param callback (type types.IFeatureProvisioningCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterFeatureProvisioningChangedCallback)
 	if _err != nil {
@@ -9279,12 +9571,13 @@ func (p *TelephonyProxy) RegisterFeatureProvisioningChangedCallback(
 func (p *TelephonyProxy) UnregisterFeatureProvisioningChangedCallback(
 	ctx context.Context,
 	subId int32,
-	callback aidl.IFeatureProvisioningCallback,
+	callback types.IFeatureProvisioningCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	// WARNING: param callback (type types.IFeatureProvisioningCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterFeatureProvisioningChangedCallback)
 	if _err != nil {
@@ -9312,6 +9605,7 @@ func (p *TelephonyProxy) SetImsProvisioningStatusForCapability(
 	isProvisioned bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(capability)
@@ -9344,6 +9638,7 @@ func (p *TelephonyProxy) GetImsProvisioningStatusForCapability(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(capability)
@@ -9379,6 +9674,7 @@ func (p *TelephonyProxy) GetRcsProvisioningStatusForCapability(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(capability)
@@ -9414,6 +9710,7 @@ func (p *TelephonyProxy) SetRcsProvisioningStatusForCapability(
 	isProvisioned bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(capability)
@@ -9445,6 +9742,7 @@ func (p *TelephonyProxy) GetImsProvisioningInt(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(key)
@@ -9478,6 +9776,7 @@ func (p *TelephonyProxy) GetImsProvisioningString(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(key)
@@ -9512,6 +9811,7 @@ func (p *TelephonyProxy) SetImsProvisioningInt(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(key)
@@ -9547,6 +9847,7 @@ func (p *TelephonyProxy) SetImsProvisioningString(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(key)
@@ -9578,6 +9879,7 @@ func (p *TelephonyProxy) StartEmergencyCallbackMode(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyStartEmergencyCallbackMode)
@@ -9604,6 +9906,7 @@ func (p *TelephonyProxy) UpdateEmergencyNumberListTestMode(
 	num voice.EmergencyNumber,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(action)
 	_data.WriteInt32(1)
@@ -9634,6 +9937,7 @@ func (p *TelephonyProxy) GetEmergencyNumberListTestMode(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetEmergencyNumberListTestMode)
@@ -9655,6 +9959,9 @@ func (p *TelephonyProxy) GetEmergencyNumberListTestMode(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -9674,6 +9981,7 @@ func (p *TelephonyProxy) GetEmergencyNumberDbVersion(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -9703,6 +10011,7 @@ func (p *TelephonyProxy) NotifyOtaEmergencyNumberDbInstalled(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyNotifyOtaEmergencyNumberDbInstalled)
@@ -9728,6 +10037,7 @@ func (p *TelephonyProxy) UpdateOtaEmergencyNumberDbFilePath(
 	otaParcelFileDescriptor int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteFileDescriptor(otaParcelFileDescriptor)
 
@@ -9753,6 +10063,7 @@ func (p *TelephonyProxy) ResetOtaEmergencyNumberDbFilePath(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyResetOtaEmergencyNumberDbFilePath)
@@ -9780,6 +10091,7 @@ func (p *TelephonyProxy) EnableModemForSlot(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 	_data.WriteBool(enable)
@@ -9811,6 +10123,7 @@ func (p *TelephonyProxy) SetMultiSimCarrierRestriction(
 	isMultiSimCarrierRestricted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(isMultiSimCarrierRestricted)
 
@@ -9838,6 +10151,7 @@ func (p *TelephonyProxy) IsMultiSimSupported(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -9869,6 +10183,7 @@ func (p *TelephonyProxy) SwitchMultiSimConfig(
 	numOfSims int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(numOfSims)
 
@@ -9897,6 +10212,7 @@ func (p *TelephonyProxy) DoesSwitchMultiSimConfigTriggerReboot(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -9930,6 +10246,7 @@ func (p *TelephonyProxy) GetSlotsMapping(
 	var _result []androidTelephony.UiccSlotMapping
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 
@@ -9952,6 +10269,9 @@ func (p *TelephonyProxy) GetSlotsMapping(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]androidTelephony.UiccSlotMapping, _count)
@@ -9972,6 +10292,7 @@ func (p *TelephonyProxy) GetRadioHalVersion(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetRadioHalVersion)
@@ -10002,6 +10323,7 @@ func (p *TelephonyProxy) GetHalVersion(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(service)
 
@@ -10032,6 +10354,7 @@ func (p *TelephonyProxy) GetCurrentPackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetCurrentPackageName)
@@ -10063,6 +10386,7 @@ func (p *TelephonyProxy) IsApplicationOnUicc(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(appType)
@@ -10096,6 +10420,7 @@ func (p *TelephonyProxy) IsModemEnabledForSlot(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 	_data.WriteString16(_identity.PackageName)
@@ -10131,6 +10456,7 @@ func (p *TelephonyProxy) IsDataEnabledForApn(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(apnType)
 	_data.WriteInt32(subId)
@@ -10165,6 +10491,7 @@ func (p *TelephonyProxy) IsApnMetered(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(apnType)
 	_data.WriteInt32(subId)
@@ -10198,6 +10525,7 @@ func (p *TelephonyProxy) SetSystemSelectionChannels(
 	resultCallback IBooleanConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	if specifiers == nil {
 		_data.WriteInt32(-1)
@@ -10228,6 +10556,7 @@ func (p *TelephonyProxy) GetSystemSelectionChannels(
 ) ([]network.RadioAccessSpecifier, error) {
 	var _result []network.RadioAccessSpecifier
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -10249,6 +10578,9 @@ func (p *TelephonyProxy) GetSystemSelectionChannels(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -10273,6 +10605,7 @@ func (p *TelephonyProxy) IsMvnoMatched(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 	_data.WriteInt32(mvnoType)
@@ -10307,6 +10640,7 @@ func (p *TelephonyProxy) EnqueueSmsPickResult(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(callingAttributeTag)
@@ -10325,6 +10659,7 @@ func (p *TelephonyProxy) ShowSwitchToManagedProfileDialog(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyShowSwitchToManagedProfileDialog)
@@ -10342,6 +10677,7 @@ func (p *TelephonyProxy) GetMmsUserAgent(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -10373,6 +10709,7 @@ func (p *TelephonyProxy) GetMmsUAProfUrl(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -10405,6 +10742,7 @@ func (p *TelephonyProxy) SetMobileDataPolicyEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subscriptionId)
 	_data.WriteInt32(policy)
@@ -10435,6 +10773,7 @@ func (p *TelephonyProxy) IsMobileDataPolicyEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subscriptionId)
 	_data.WriteInt32(policy)
@@ -10466,6 +10805,7 @@ func (p *TelephonyProxy) SetCepEnabled(
 	isCepEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(isCepEnabled)
 
@@ -10485,16 +10825,10 @@ func (p *TelephonyProxy) NotifyRcsAutoConfigurationReceived(
 	isCompressed bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
-	if config == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(config)))
-		for _, _item := range config {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(config)
 	_data.WriteBool(isCompressed)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyNotifyRcsAutoConfigurationReceived)
@@ -10521,6 +10855,7 @@ func (p *TelephonyProxy) IsIccLockEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -10554,6 +10889,7 @@ func (p *TelephonyProxy) SetIccLockEnabled(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(enabled)
@@ -10589,6 +10925,7 @@ func (p *TelephonyProxy) ChangeIccLockPassword(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(oldPassword)
@@ -10620,6 +10957,7 @@ func (p *TelephonyProxy) RequestUserActivityNotification(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRequestUserActivityNotification)
@@ -10635,6 +10973,7 @@ func (p *TelephonyProxy) UserActivity(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUserActivity)
@@ -10652,6 +10991,7 @@ func (p *TelephonyProxy) GetManualNetworkSelectionPlmn(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -10682,6 +11022,7 @@ func (p *TelephonyProxy) CanConnectTo5GInDsdsMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyCanConnectTo5GInDsdsMode)
@@ -10713,6 +11054,7 @@ func (p *TelephonyProxy) GetEquivalentHomePlmns(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -10737,6 +11079,9 @@ func (p *TelephonyProxy) GetEquivalentHomePlmns(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -10757,6 +11102,7 @@ func (p *TelephonyProxy) SetVoNrEnabled(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(enabled)
@@ -10789,6 +11135,7 @@ func (p *TelephonyProxy) IsVoNrEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -10821,6 +11168,7 @@ func (p *TelephonyProxy) SetNrDualConnectivityState(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(nrDualConnectivityState)
@@ -10853,6 +11201,7 @@ func (p *TelephonyProxy) IsNrDualConnectivityEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -10884,6 +11233,7 @@ func (p *TelephonyProxy) IsRadioInterfaceCapabilitySupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(capability)
 
@@ -10917,6 +11267,7 @@ func (p *TelephonyProxy) SendThermalMitigationRequest(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -10957,6 +11308,7 @@ func (p *TelephonyProxy) BootstrapAuthenticationRequest(
 	callback androidTelephony.IBootstrapAuthenticationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(appType)
@@ -10996,6 +11348,7 @@ func (p *TelephonyProxy) SetBoundGbaServiceOverride(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(packageName)
@@ -11028,6 +11381,7 @@ func (p *TelephonyProxy) GetBoundGbaService(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -11060,6 +11414,7 @@ func (p *TelephonyProxy) SetGbaReleaseTimeOverride(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(interval)
@@ -11092,6 +11447,7 @@ func (p *TelephonyProxy) GetGbaReleaseTime(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -11123,6 +11479,7 @@ func (p *TelephonyProxy) SetRcsClientConfiguration(
 	rcc ims.RcsClientConfiguration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -11154,6 +11511,7 @@ func (p *TelephonyProxy) IsRcsVolteSingleRegistrationCapable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -11182,12 +11540,13 @@ func (p *TelephonyProxy) IsRcsVolteSingleRegistrationCapable(
 func (p *TelephonyProxy) RegisterRcsProvisioningCallback(
 	ctx context.Context,
 	subId int32,
-	callback aidl.IRcsConfigCallback,
+	callback types.IRcsConfigCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	// WARNING: param callback (type types.IRcsConfigCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyRegisterRcsProvisioningCallback)
 	if _err != nil {
@@ -11210,12 +11569,13 @@ func (p *TelephonyProxy) RegisterRcsProvisioningCallback(
 func (p *TelephonyProxy) UnregisterRcsProvisioningCallback(
 	ctx context.Context,
 	subId int32,
-	callback aidl.IRcsConfigCallback,
+	callback types.IRcsConfigCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	// WARNING: param callback (type types.IRcsConfigCallback) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyUnregisterRcsProvisioningCallback)
 	if _err != nil {
@@ -11240,6 +11600,7 @@ func (p *TelephonyProxy) TriggerRcsReconfiguration(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -11266,6 +11627,7 @@ func (p *TelephonyProxy) SetRcsSingleRegistrationTestModeEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(enabled)
 
@@ -11292,6 +11654,7 @@ func (p *TelephonyProxy) GetRcsSingleRegistrationTestModeEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetRcsSingleRegistrationTestModeEnabled)
@@ -11321,6 +11684,7 @@ func (p *TelephonyProxy) SetDeviceSingleRegistrationEnabledOverride(
 	enabled string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(enabled)
 
@@ -11347,6 +11711,7 @@ func (p *TelephonyProxy) GetDeviceSingleRegistrationEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetDeviceSingleRegistrationEnabled)
@@ -11378,6 +11743,7 @@ func (p *TelephonyProxy) SetCarrierSingleRegistrationEnabledOverride(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(enabled)
@@ -11410,6 +11776,7 @@ func (p *TelephonyProxy) SendDeviceToDeviceMessage(
 	value int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(message)
 	_data.WriteInt32(value)
@@ -11437,6 +11804,7 @@ func (p *TelephonyProxy) SetActiveDeviceToDeviceTransport(
 	transport string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(transport)
 
@@ -11463,6 +11831,7 @@ func (p *TelephonyProxy) SetDeviceToDeviceForceEnabled(
 	isForceEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(isForceEnabled)
 
@@ -11490,6 +11859,7 @@ func (p *TelephonyProxy) GetCarrierSingleRegistrationEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -11522,6 +11892,7 @@ func (p *TelephonyProxy) SetImsFeatureValidationOverride(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(enabled)
@@ -11554,6 +11925,7 @@ func (p *TelephonyProxy) GetImsFeatureValidationOverride(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -11584,6 +11956,7 @@ func (p *TelephonyProxy) GetMobileProvisioningUrl(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetMobileProvisioningUrl)
@@ -11615,6 +11988,7 @@ func (p *TelephonyProxy) RemoveContactFromEab(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(contacts)
@@ -11647,6 +12021,7 @@ func (p *TelephonyProxy) GetContactFromEab(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(contact)
 
@@ -11678,6 +12053,7 @@ func (p *TelephonyProxy) GetCapabilityFromEab(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(contact)
 
@@ -11708,6 +12084,7 @@ func (p *TelephonyProxy) GetDeviceUceEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetDeviceUceEnabled)
@@ -11737,6 +12114,7 @@ func (p *TelephonyProxy) SetDeviceUceEnabled(
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(isEnabled)
 
@@ -11765,6 +12143,7 @@ func (p *TelephonyProxy) AddUceRegistrationOverrideShell(
 ) (ims.RcsContactUceCapability, error) {
 	var _result ims.RcsContactUceCapability
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	if featureTags == nil {
@@ -11810,6 +12189,7 @@ func (p *TelephonyProxy) RemoveUceRegistrationOverrideShell(
 ) (ims.RcsContactUceCapability, error) {
 	var _result ims.RcsContactUceCapability
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	if featureTags == nil {
@@ -11854,6 +12234,7 @@ func (p *TelephonyProxy) ClearUceRegistrationOverrideShell(
 ) (ims.RcsContactUceCapability, error) {
 	var _result ims.RcsContactUceCapability
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -11890,6 +12271,7 @@ func (p *TelephonyProxy) GetLatestRcsContactUceCapabilityShell(
 ) (ims.RcsContactUceCapability, error) {
 	var _result ims.RcsContactUceCapability
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -11926,6 +12308,7 @@ func (p *TelephonyProxy) GetLastUcePidfXmlShell(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -11957,6 +12340,7 @@ func (p *TelephonyProxy) RemoveUceRequestDisallowedStatus(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -11989,6 +12373,7 @@ func (p *TelephonyProxy) SetCapabilitiesRequestTimeout(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt64(timeoutAfterMs)
@@ -12022,6 +12407,7 @@ func (p *TelephonyProxy) SetSignalStrengthUpdateRequest(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -12055,6 +12441,7 @@ func (p *TelephonyProxy) ClearSignalStrengthUpdateRequest(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -12086,6 +12473,7 @@ func (p *TelephonyProxy) GetPhoneCapability(
 ) (radioConfig.PhoneCapability, error) {
 	var _result radioConfig.PhoneCapability
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetPhoneCapability)
@@ -12120,6 +12508,7 @@ func (p *TelephonyProxy) PrepareForUnattendedReboot(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyPrepareForUnattendedReboot)
@@ -12149,6 +12538,7 @@ func (p *TelephonyProxy) GetSlicingConfig(
 	callback os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
@@ -12180,6 +12570,7 @@ func (p *TelephonyProxy) IsPremiumCapabilityAvailableForPurchase(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(capability)
 	_data.WriteInt32(subId)
@@ -12213,6 +12604,7 @@ func (p *TelephonyProxy) PurchasePremiumCapability(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(capability)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -12244,6 +12636,7 @@ func (p *TelephonyProxy) RegisterImsStateCallback(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(feature)
@@ -12273,6 +12666,7 @@ func (p *TelephonyProxy) UnregisterImsStateCallback(
 	cb IImsStateCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
@@ -12301,6 +12695,7 @@ func (p *TelephonyProxy) GetLastKnownCellIdentity(
 	var _result network.CellIdentity
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -12339,6 +12734,7 @@ func (p *TelephonyProxy) SetModemService(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(serviceName)
 
@@ -12369,6 +12765,7 @@ func (p *TelephonyProxy) GetModemService(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetModemService)
@@ -12401,6 +12798,7 @@ func (p *TelephonyProxy) IsProvisioningRequiredForCapability(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(capability)
@@ -12436,6 +12834,7 @@ func (p *TelephonyProxy) IsRcsProvisioningRequiredForCapability(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(capability)
@@ -12470,6 +12869,7 @@ func (p *TelephonyProxy) SetVoiceServiceStateOverride(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(hasService)
@@ -12499,6 +12899,7 @@ func (p *TelephonyProxy) GetCarrierServicePackageNameForLogicalSlot(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(logicalSlotIndex)
 
@@ -12530,6 +12931,7 @@ func (p *TelephonyProxy) SetRemovableEsimAsDefaultEuicc(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(isDefault)
 	_data.WriteString16(_identity.PackageName)
@@ -12558,6 +12960,7 @@ func (p *TelephonyProxy) IsRemovableEsimDefaultEuicc(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(_identity.PackageName)
 
@@ -12590,6 +12993,7 @@ func (p *TelephonyProxy) GetDefaultRespondViaMessageApplication(
 ) (androidContent.ComponentName, error) {
 	var _result androidContent.ComponentName
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(updateIfNeeded)
@@ -12627,6 +13031,7 @@ func (p *TelephonyProxy) GetSimStateForSlotIndex(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotIndex)
 
@@ -12661,6 +13066,7 @@ func (p *TelephonyProxy) PersistEmergencyCallDiagnosticData(
 	enableTelephonyDump bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(dropboxTag)
 	_data.WriteBool(enableLogcat)
@@ -12691,6 +13097,7 @@ func (p *TelephonyProxy) SetNullCipherAndIntegrityEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(enabled)
 
@@ -12717,6 +13124,7 @@ func (p *TelephonyProxy) IsNullCipherAndIntegrityPreferenceEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsNullCipherAndIntegrityPreferenceEnabled)
@@ -12747,6 +13155,7 @@ func (p *TelephonyProxy) GetCellBroadcastIdRanges(
 ) ([]androidTelephony.CellBroadcastIdRange, error) {
 	var _result []androidTelephony.CellBroadcastIdRange
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -12768,6 +13177,9 @@ func (p *TelephonyProxy) GetCellBroadcastIdRanges(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -12791,6 +13203,7 @@ func (p *TelephonyProxy) SetCellBroadcastIdRanges(
 	callback IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	if ranges == nil {
@@ -12829,6 +13242,7 @@ func (p *TelephonyProxy) IsDomainSelectionSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsDomainSelectionSupported)
@@ -12859,6 +13273,7 @@ func (p *TelephonyProxy) GetCarrierRestrictionStatus(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	binder.WriteBinderToParcel(ctx, _data, internalCallback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(packageName)
@@ -12890,6 +13305,7 @@ func (p *TelephonyProxy) RequestSatelliteEnabled(
 	callback IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(enableSatellite)
@@ -12921,6 +13337,7 @@ func (p *TelephonyProxy) RequestIsSatelliteEnabled(
 	receiver os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -12952,6 +13369,7 @@ func (p *TelephonyProxy) RequestIsDemoModeEnabled(
 	receiver os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -12983,6 +13401,7 @@ func (p *TelephonyProxy) RequestIsEmergencyModeEnabled(
 	receiver os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -13014,6 +13433,7 @@ func (p *TelephonyProxy) RequestIsSatelliteSupported(
 	receiver os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -13045,6 +13465,7 @@ func (p *TelephonyProxy) RequestSatelliteCapabilities(
 	receiver os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -13077,6 +13498,7 @@ func (p *TelephonyProxy) StartSatelliteTransmissionUpdates(
 	callback satellite.ISatelliteTransmissionUpdateCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
@@ -13107,6 +13529,7 @@ func (p *TelephonyProxy) StopSatelliteTransmissionUpdates(
 	callback satellite.ISatelliteTransmissionUpdateCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
@@ -13139,17 +13562,11 @@ func (p *TelephonyProxy) ProvisionSatelliteService(
 ) (common.ICancellationSignal, error) {
 	var _result common.ICancellationSignal
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(token)
-	if provisionData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(provisionData)))
-		for _, _item := range provisionData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(provisionData)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyProvisionSatelliteService)
@@ -13182,6 +13599,7 @@ func (p *TelephonyProxy) DeprovisionSatelliteService(
 	callback IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(token)
@@ -13212,6 +13630,7 @@ func (p *TelephonyProxy) RegisterForSatelliteProvisionStateChanged(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -13244,6 +13663,7 @@ func (p *TelephonyProxy) UnregisterForSatelliteProvisionStateChanged(
 	callback satellite.ISatelliteProvisionStateCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -13272,6 +13692,7 @@ func (p *TelephonyProxy) RequestIsSatelliteProvisioned(
 	receiver os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -13304,6 +13725,7 @@ func (p *TelephonyProxy) RegisterForSatelliteModemStateChanged(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -13336,6 +13758,7 @@ func (p *TelephonyProxy) UnregisterForModemStateChanged(
 	callback satellite.ISatelliteModemStateCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -13365,6 +13788,7 @@ func (p *TelephonyProxy) RegisterForIncomingDatagram(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -13397,6 +13821,7 @@ func (p *TelephonyProxy) UnregisterForIncomingDatagram(
 	callback satellite.ISatelliteDatagramCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -13425,6 +13850,7 @@ func (p *TelephonyProxy) PollPendingDatagrams(
 	callback IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -13456,6 +13882,7 @@ func (p *TelephonyProxy) SendDatagram(
 	callback IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(datagramType)
@@ -13490,6 +13917,7 @@ func (p *TelephonyProxy) RequestIsCommunicationAllowedForCurrentLocation(
 	receiver os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -13521,6 +13949,7 @@ func (p *TelephonyProxy) RequestTimeForNextSatelliteVisibility(
 	receiver os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -13552,6 +13981,7 @@ func (p *TelephonyProxy) SetDeviceAlignedWithSatellite(
 	isAligned bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(isAligned)
@@ -13580,6 +14010,7 @@ func (p *TelephonyProxy) SetSatelliteServicePackageName(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(servicePackageName)
 
@@ -13611,6 +14042,7 @@ func (p *TelephonyProxy) SetSatelliteGatewayServicePackageName(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(servicePackageName)
 
@@ -13642,6 +14074,7 @@ func (p *TelephonyProxy) SetSatelliteListeningTimeoutDuration(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt64(timeoutMillis)
 
@@ -13674,6 +14107,7 @@ func (p *TelephonyProxy) SetSatellitePointingUiClassName(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(packageName)
 	_data.WriteString16(className)
@@ -13708,6 +14142,7 @@ func (p *TelephonyProxy) SetDatagramControllerTimeoutDuration(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(reset)
 	_data.WriteInt32(timeoutType)
@@ -13743,6 +14178,7 @@ func (p *TelephonyProxy) SetSatelliteControllerTimeoutDuration(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(reset)
 	_data.WriteInt32(timeoutType)
@@ -13777,6 +14213,7 @@ func (p *TelephonyProxy) SetEmergencyCallToSatelliteHandoverType(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(handoverType)
 	_data.WriteInt32(delaySeconds)
@@ -13807,12 +14244,13 @@ func (p *TelephonyProxy) SetCountryCodes(
 	ctx context.Context,
 	reset bool,
 	currentNetworkCountryCodes []string,
-	cachedNetworkCountryCodes map[interface{}]interface{},
+	cachedNetworkCountryCodes map[any]any,
 	locationCountryCode string,
 	locationCountryCodeTimestampNanos int64,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(reset)
 	if currentNetworkCountryCodes == nil {
@@ -13867,6 +14305,7 @@ func (p *TelephonyProxy) SetSatelliteAccessControlOverlayConfigs(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(reset)
 	_data.WriteBool(isAllowed)
@@ -13910,6 +14349,7 @@ func (p *TelephonyProxy) SetOemEnabledSatelliteProvisionStatus(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(reset)
 	_data.WriteBool(isProvisioned)
@@ -13943,6 +14383,7 @@ func (p *TelephonyProxy) GetShaIdFromAllowList(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(pkgName)
 	_data.WriteInt32(carrierId)
@@ -13966,6 +14407,9 @@ func (p *TelephonyProxy) GetShaIdFromAllowList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -13986,6 +14430,7 @@ func (p *TelephonyProxy) AddAttachRestrictionForCarrier(
 	callback IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(reason)
@@ -14016,6 +14461,7 @@ func (p *TelephonyProxy) RemoveAttachRestrictionForCarrier(
 	callback IIntegerConsumer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(reason)
@@ -14045,6 +14491,7 @@ func (p *TelephonyProxy) GetAttachRestrictionReasonsForCarrier(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -14067,6 +14514,9 @@ func (p *TelephonyProxy) GetAttachRestrictionReasonsForCarrier(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -14086,6 +14536,7 @@ func (p *TelephonyProxy) RequestNtnSignalStrength(
 	receiver os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -14117,6 +14568,7 @@ func (p *TelephonyProxy) RegisterForNtnSignalStrengthChanged(
 	callback satellite.INtnSignalStrengthCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -14145,6 +14597,7 @@ func (p *TelephonyProxy) UnregisterForNtnSignalStrengthChanged(
 	callback satellite.INtnSignalStrengthCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -14174,6 +14627,7 @@ func (p *TelephonyProxy) RegisterForCapabilitiesChanged(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -14206,6 +14660,7 @@ func (p *TelephonyProxy) UnregisterForCapabilitiesChanged(
 	callback satellite.ISatelliteCapabilitiesCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -14234,6 +14689,7 @@ func (p *TelephonyProxy) SetShouldSendDatagramToModemInDemoMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(shouldSendToModemInDemoMode)
 
@@ -14265,6 +14721,7 @@ func (p *TelephonyProxy) SetDomainSelectionServiceOverride(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
@@ -14298,6 +14755,7 @@ func (p *TelephonyProxy) ClearDomainSelectionServiceOverride(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyClearDomainSelectionServiceOverride)
@@ -14327,6 +14785,7 @@ func (p *TelephonyProxy) SetEnableCellularIdentifierDisclosureNotifications(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(enable)
 
@@ -14353,6 +14812,7 @@ func (p *TelephonyProxy) IsCellularIdentifierDisclosureNotificationsEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsCellularIdentifierDisclosureNotificationsEnabled)
@@ -14382,6 +14842,7 @@ func (p *TelephonyProxy) SetNullCipherNotificationsEnabled(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(enable)
 
@@ -14408,6 +14869,7 @@ func (p *TelephonyProxy) IsNullCipherNotificationsEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyIsNullCipherNotificationsEnabled)
@@ -14438,6 +14900,7 @@ func (p *TelephonyProxy) GetSatellitePlmnsForCarrier(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 
@@ -14460,6 +14923,9 @@ func (p *TelephonyProxy) GetSatellitePlmnsForCarrier(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -14480,6 +14946,7 @@ func (p *TelephonyProxy) RegisterForSatelliteSupportedStateChanged(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -14512,6 +14979,7 @@ func (p *TelephonyProxy) UnregisterForSatelliteSupportedStateChanged(
 	callback satellite.ISatelliteSupportedStateCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -14541,6 +15009,7 @@ func (p *TelephonyProxy) RegisterForCommunicationAllowedStateChanged(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -14573,6 +15042,7 @@ func (p *TelephonyProxy) UnregisterForCommunicationAllowedStateChanged(
 	callback satellite.ISatelliteCommunicationAllowedStateCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -14603,6 +15073,7 @@ func (p *TelephonyProxy) SetDatagramControllerBooleanConfig(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteBool(reset)
 	_data.WriteInt32(booleanType)
@@ -14636,6 +15107,7 @@ func (p *TelephonyProxy) SetIsSatelliteCommunicationAllowedForCurrentLocationCac
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(state)
 
@@ -14667,6 +15139,7 @@ func (p *TelephonyProxy) RequestSatelliteSessionStats(
 	receiver os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(1)
@@ -14695,7 +15168,8 @@ func (p *TelephonyProxy) RequestSatelliteSessionStats(
 // TelephonyStub dispatches incoming binder transactions
 // to a typed ITelephony implementation.
 type TelephonyStub struct {
-	Impl ITelephony
+	Impl      ITelephony
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TelephonyStub)(nil)
@@ -14709,11 +15183,12 @@ func (s *TelephonyStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITelephonyDial:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -14727,9 +15202,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -14749,9 +15221,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsRadioOn(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -14768,9 +15237,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsRadioOnWithFeature(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -14781,9 +15247,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsRadioOnForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -14801,9 +15264,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsRadioOnForSubscriberWithFeature:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -14824,9 +15284,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetCallComposerStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -14844,9 +15301,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCallComposerStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -14861,9 +15315,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonySupplyPinForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -14882,9 +15333,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySupplyPukForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -14907,9 +15355,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySupplyPinReportResultForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -14925,13 +15370,16 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonySupplyPukReportResultForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -14951,13 +15399,16 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonyHandlePinMmi:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dialString, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -14972,9 +15423,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyHandleUssdRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15004,9 +15452,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyHandlePinMmiForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15025,9 +15470,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyToggleRadioOnOff:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ToggleRadioOnOff(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -15037,9 +15479,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyToggleRadioOnOffForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15053,9 +15492,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetRadio:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_turnOn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -15070,9 +15506,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetRadioForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15091,9 +15524,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetRadioPower:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_turnOn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -15108,9 +15538,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyRequestRadioPowerOffForReason:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15129,9 +15556,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyClearRadioPowerOffForReason:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15150,9 +15574,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetRadioPowerOffReasons:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15170,13 +15591,13 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+		}
 		return _reply, nil
 	case TransactionITelephonyUpdateServiceLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.UpdateServiceLocation(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -15186,9 +15607,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUpdateServiceLocationWithPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -15202,9 +15620,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyEnableLocationUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.EnableLocationUpdates(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -15214,9 +15629,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyDisableLocationUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DisableLocationUpdates(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -15226,9 +15638,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyEnableDataConnectivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -15245,9 +15654,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.DisableDataConnectivity(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -15258,9 +15664,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsDataConnectivityPossible:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15275,9 +15678,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCellLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -15298,9 +15698,6 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetNetworkCountryIsoForPhone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15315,9 +15712,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetNeighboringCellInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -15332,13 +15726,19 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonyGetCallState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCallState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -15349,9 +15749,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCallStateForSubscription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15373,9 +15770,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDataActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDataActivity(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -15386,9 +15780,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDataActivityForSubId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15403,9 +15794,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDataState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDataState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -15416,9 +15804,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDataStateForSubId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15433,9 +15818,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetActivePhoneType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetActivePhoneType(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -15446,9 +15828,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetActivePhoneTypeForSlot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15469,9 +15848,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCdmaEriIconIndex(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -15482,9 +15858,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaEriIconIndexForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15511,9 +15884,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCdmaEriIconMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -15524,9 +15894,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaEriIconModeForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15553,9 +15920,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCdmaEriText(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -15566,9 +15930,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaEriTextForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15589,9 +15950,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyNeedsOtaServiceProvisioning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.NeedsOtaServiceProvisioning(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -15602,9 +15960,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetVoiceMailNumber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15627,9 +15982,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetVoiceActivationState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15647,9 +15999,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetDataActivationState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15667,9 +16016,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetVoiceActivationState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15687,9 +16033,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDataActivationState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15707,9 +16050,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetVoiceMessageCountForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15730,9 +16070,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyIsConcurrentVoiceAndDataAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15747,9 +16084,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetVisualVoicemailSettings:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -15776,9 +16110,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15793,9 +16124,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyEnableVisualVoicemailSmsFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -15827,20 +16155,13 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DisableVisualVoicemailSmsFilter(ctx, _arg_subId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITelephonyGetVisualVoicemailSmsFilterSettings:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -15861,9 +16182,6 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetActiveVisualVoicemailSmsFilterSettings:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15881,9 +16199,6 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonySendVisualVoicemailSmsForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -15928,9 +16243,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySendDialerSpecialCode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -15948,9 +16260,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetNetworkTypeForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -15977,9 +16286,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDataNetworkType(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -15990,9 +16296,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDataNetworkTypeForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16013,9 +16316,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetVoiceNetworkTypeForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16036,9 +16336,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyHasIccCard:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.HasIccCard(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -16049,9 +16346,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyHasIccCardUsingSlotIndex:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16072,9 +16366,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLteOnCdmaMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -16085,9 +16376,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetLteOnCdmaModeForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16108,9 +16396,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetAllCellInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -16125,20 +16410,31 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonyRequestCellInfoUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb androidTelephony.ICellInfoCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = androidTelephony.NewCellInfoCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -16155,16 +16451,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestCellInfoUpdateWithWorkSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb androidTelephony.ICellInfoCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = androidTelephony.NewCellInfoCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -16172,7 +16470,18 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_ws interface{}
+		var _arg_ws os.WorkSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ws.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.RequestCellInfoUpdateWithWorkSource(ctx, _arg_subId, _arg_cb, _arg_callingPkg, _arg_ws)
 		_reply := parcel.New()
 		if _err != nil {
@@ -16182,9 +16491,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetCellInfoListRate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rateInMillis, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16202,9 +16508,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIccOpenLogicalChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request IccLogicalChannelRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16230,9 +16533,6 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyIccCloseLogicalChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request IccLogicalChannelRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -16255,9 +16555,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIccTransmitApduLogicalChannelByPort:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16304,9 +16601,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyIccTransmitApduLogicalChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16349,9 +16643,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyIccTransmitApduBasicChannelByPort:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16397,9 +16688,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyIccTransmitApduBasicChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16441,9 +16729,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyIccExchangeSimIO:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16479,13 +16764,9 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionITelephonySendEnvelopeWithStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16504,9 +16785,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyNvReadItem:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_itemID, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16521,9 +16799,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyNvWriteItem:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_itemID, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16542,12 +16817,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyNvWriteCdmaPrl:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_preferredRoamingList []byte
-		_ = _arg_preferredRoamingList
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_preferredRoamingList = _bytes
+		}
 		_result, _err := s.Impl.NvWriteCdmaPrl(ctx, _arg_preferredRoamingList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -16558,9 +16835,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyResetModemConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16575,9 +16849,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyRebootModem:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16592,9 +16863,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetAllowedNetworkTypesBitmask:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16609,9 +16877,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyIsTetheringApnRequiredForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16626,9 +16891,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyEnableIms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16642,9 +16904,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyDisableIms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16658,9 +16917,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyResetIms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16674,16 +16930,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterMmTelFeatureCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback internal.IImsServiceFeatureCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = internal.NewImsServiceFeatureCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RegisterMmTelFeatureCallback(ctx, _arg_slotId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -16693,12 +16951,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterImsFeatureCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback internal.IImsServiceFeatureCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = internal.NewImsServiceFeatureCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UnregisterImsFeatureCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -16708,9 +16968,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetImsRegistration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16726,13 +16983,9 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyGetImsConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16748,13 +17001,9 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonySetBoundImsServiceOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16763,9 +17012,25 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_featureTypes []int32
-		_ = _arg_featureTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_featureTypes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_featureTypes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -16780,9 +17045,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyClearCarrierImsServiceOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16797,9 +17059,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetBoundImsServicePackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16822,16 +17081,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetImsMmTelFeatureState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetImsMmTelFeatureState(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -16841,9 +17102,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetNetworkSelectionModeAutomatic:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16857,9 +17115,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCellNetworkScanResults:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16883,9 +17138,6 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyRequestNetworkScan:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16918,9 +17170,14 @@ func (s *TelephonyStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_binder_ binder.IBinder
-		_ = _arg_binder_
+		{
+			_binderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_binder_ = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _binderHandle)
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -16937,9 +17194,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyStopNetworkScan:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16957,9 +17211,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetNetworkSelectionModeManual:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -16990,9 +17241,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetAllowedNetworkTypesForReason:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17011,9 +17259,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionITelephonySetAllowedNetworkTypesForReason:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17036,9 +17281,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDataEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17053,9 +17295,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsUserDataEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17070,9 +17309,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsDataEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17087,9 +17323,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetDataEnabledForReason:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17114,9 +17347,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsDataEnabledForReason:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17135,9 +17365,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsManualNetworkSelectionAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17152,9 +17379,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetImsRegistrationState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_registered, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -17168,9 +17392,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaMdn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17185,9 +17406,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaMin:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17202,9 +17420,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyRequestNumberVerification:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_range_ androidTelephony.PhoneNumberRange
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17221,9 +17436,14 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback INumberVerificationCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewNumberVerificationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -17236,9 +17456,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierPrivilegeStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17253,9 +17470,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierPrivilegeStatusForUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17274,9 +17488,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyCheckCarrierPrivilegesForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17295,9 +17506,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyCheckCarrierPrivilegesForPackageAnyPhone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -17312,9 +17520,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierPackageNamesForIntentAndPhone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent androidContent.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17338,13 +17543,16 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonySetLine1NumberForDisplayForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17367,9 +17575,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetLine1NumberForDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17390,9 +17595,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetLine1AlphaTagForDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17413,9 +17615,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetMergedSubscriberIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17433,13 +17632,16 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonyGetMergedImsisFromGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17454,13 +17656,16 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonySetOperatorBrandOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17479,25 +17684,86 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetRoamingOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_gsmRoamingList []string
-		_ = _arg_gsmRoamingList
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_gsmRoamingList = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_gsmRoamingList[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_gsmNonRoamingList []string
-		_ = _arg_gsmNonRoamingList
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_gsmNonRoamingList = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_gsmNonRoamingList[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_cdmaRoamingList []string
-		_ = _arg_cdmaRoamingList
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_cdmaRoamingList = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_cdmaRoamingList[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_cdmaNonRoamingList []string
-		_ = _arg_cdmaNonRoamingList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_cdmaNonRoamingList = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_cdmaNonRoamingList[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.SetRoamingOverride(ctx, _arg_subId, _arg_gsmRoamingList, _arg_gsmNonRoamingList, _arg_cdmaRoamingList, _arg_cdmaNonRoamingList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17508,9 +17774,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyNeedMobileRadioShutdown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.NeedMobileRadioShutdown(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17521,9 +17784,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyShutdownMobileRadios:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ShutdownMobileRadios(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17533,9 +17793,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetRadioAccessFamily:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17553,9 +17810,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyUploadCallComposerPicture:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17592,9 +17846,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyEnableVideoCalling:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -17614,9 +17865,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsVideoCallingEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17627,9 +17875,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyCanChangeDtmfToneLength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17650,9 +17895,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsWorldPhone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17673,9 +17915,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsTtyModeSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsTtyModeSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17686,9 +17925,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsRttSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17703,9 +17939,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsHearingAidCompatibilitySupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsHearingAidCompatibilitySupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17716,9 +17949,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsImsRegistered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17733,9 +17963,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsWifiCallingAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17750,9 +17977,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsVideoTelephonyAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17767,9 +17991,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetImsRegTechnologyForMmTel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17784,9 +18005,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDeviceId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -17806,9 +18024,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDeviceIdWithFeature(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17819,9 +18034,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetImeiForSlot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17848,9 +18060,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPrimaryImei(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -17861,9 +18070,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetTypeAllocationCodeForSlot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17878,9 +18084,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetMeidForSlot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17901,9 +18104,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetManufacturerCodeForSlot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17918,9 +18118,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDeviceSoftwareVersionForSlot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17941,9 +18138,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetSubIdForPhoneAccountHandle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_phoneAccountHandle telecom.PhoneAccountHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -17972,9 +18166,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetPhoneAccountHandleForSubscriptionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -17992,9 +18183,6 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyFactoryReset:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18011,9 +18199,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetSimLocaleForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18028,9 +18213,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyRequestModemActivityInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_result os.ResultReceiver
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18044,12 +18226,8 @@ func (s *TelephonyStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RequestModemActivityInfo(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITelephonyGetServiceStateForSlot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18081,9 +18259,6 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetVoicemailRingtoneUri:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_accountHandle telecom.PhoneAccountHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18109,9 +18284,6 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonySetVoicemailRingtoneUri:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -18148,9 +18320,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsVoicemailVibrationEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_accountHandle telecom.PhoneAccountHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18173,9 +18342,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetVoicemailVibrationEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -18204,9 +18370,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetPackagesWithCarrierPrivileges:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18218,13 +18381,16 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonyGetPackagesWithCarrierPrivilegesForAllPhones:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPackagesWithCarrierPrivilegesForAllPhones(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -18232,13 +18398,16 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonyGetAidForAppType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18257,9 +18426,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetEsn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18274,9 +18440,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaPrlVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18291,9 +18454,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetTelephonyHistograms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetTelephonyHistograms(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -18301,13 +18461,19 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonySetAllowedCarriers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_carrierRestrictionRules androidTelephony.CarrierRestrictionRules
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -18330,9 +18496,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetAllowedCarriers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAllowedCarriers(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -18346,9 +18509,6 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetSubscriptionCarrierId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18363,9 +18523,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetSubscriptionCarrierName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18380,9 +18537,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetSubscriptionSpecificCarrierId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18397,9 +18551,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetSubscriptionSpecificCarrierName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18414,9 +18565,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierIdFromMccMnc:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18439,9 +18587,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyCarrierActionSetRadioEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18459,9 +18604,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyCarrierActionReportDefaultNetworkStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18479,9 +18621,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyCarrierActionResetAll:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18495,9 +18634,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCallForwarding:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18506,9 +18642,14 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICallForwardingInfoCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCallForwardingInfoCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetCallForwarding(ctx, _arg_subId, _arg_callForwardingReason, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -18518,9 +18659,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetCallForwarding:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18537,9 +18675,14 @@ func (s *TelephonyStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.SetCallForwarding(ctx, _arg_subId, _arg_callForwardingInfo, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -18549,16 +18692,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCallWaitingStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.GetCallWaitingStatus(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -18568,9 +18713,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetCallWaitingStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18579,9 +18721,14 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.SetCallWaitingStatus(ctx, _arg_subId, _arg_enabled, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -18591,9 +18738,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetClientRequestStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -18611,13 +18755,19 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonySetSimPowerStateForSlot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18635,9 +18785,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetSimPowerStateForSlotWithCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18646,9 +18793,14 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.SetSimPowerStateForSlotWithCallback(ctx, _arg_slotIndex, _arg_state, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -18658,9 +18810,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetForbiddenPlmns:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18682,13 +18831,16 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonySetForbiddenPlmns:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18697,9 +18849,25 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_fplmns []string
-		_ = _arg_fplmns
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_fplmns = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_fplmns[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -18716,9 +18884,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetEmergencyCallbackMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18733,9 +18898,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetSignalStrength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18753,9 +18915,6 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetCardIdForDefaultEuicc:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18776,9 +18935,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetUiccCardsInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -18786,13 +18942,19 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonyGetUiccSlotsInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -18803,16 +18965,38 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonySwitchSlots:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_physicalSlots []int32
-		_ = _arg_physicalSlots
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_physicalSlots = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_physicalSlots[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.SwitchSlots(ctx, _arg_physicalSlots)
 		_reply := parcel.New()
 		if _err != nil {
@@ -18823,12 +19007,27 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSimSlotMapping:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_slotMapping []androidTelephony.UiccSlotMapping
-		_ = _arg_slotMapping
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_slotMapping = make([]androidTelephony.UiccSlotMapping, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_slotMapping[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.SetSimSlotMapping(ctx, _arg_slotMapping)
 		_reply := parcel.New()
 		if _err != nil {
@@ -18839,9 +19038,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsDataRoamingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18856,9 +19052,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetDataRoamingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18876,9 +19069,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaRoamingMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18893,9 +19083,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonySetCdmaRoamingMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18914,9 +19101,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaSubscriptionMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18931,9 +19115,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonySetCdmaSubscriptionMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -18952,9 +19133,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetCarrierTestOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19004,9 +19182,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetCarrierServicePackageOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19027,9 +19202,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierIdListVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19044,9 +19216,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyRefreshUiccProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19060,9 +19229,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetNumberOfModemsWithSimultaneousDataConnections:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19083,9 +19249,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetNetworkSelectionMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19100,9 +19263,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyIsInEmergencySmsMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsInEmergencySmsMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19113,9 +19273,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetRadioPowerState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19136,16 +19293,11 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyRegisterImsRegistrationCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_c aidl.IImsRegistrationCallback
-		_ = _arg_c
+		var _arg_c types.IImsRegistrationCallback
 		_err = s.Impl.RegisterImsRegistrationCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19155,16 +19307,11 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterImsRegistrationCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_c aidl.IImsRegistrationCallback
-		_ = _arg_c
+		var _arg_c types.IImsRegistrationCallback
 		_err = s.Impl.UnregisterImsRegistrationCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19174,16 +19321,11 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterImsEmergencyRegistrationCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_c aidl.IImsRegistrationCallback
-		_ = _arg_c
+		var _arg_c types.IImsRegistrationCallback
 		_err = s.Impl.RegisterImsEmergencyRegistrationCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19193,16 +19335,11 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterImsEmergencyRegistrationCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_c aidl.IImsRegistrationCallback
-		_ = _arg_c
+		var _arg_c types.IImsRegistrationCallback
 		_err = s.Impl.UnregisterImsEmergencyRegistrationCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19212,16 +19349,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetImsMmTelRegistrationState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_consumer IIntegerConsumer
-		_ = _arg_consumer
+		{
+			_consumerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_consumer = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _consumerHandle))
+		}
 		_err = s.Impl.GetImsMmTelRegistrationState(ctx, _arg_subId, _arg_consumer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19231,16 +19370,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetImsMmTelRegistrationTransportType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_consumer IIntegerConsumer
-		_ = _arg_consumer
+		{
+			_consumerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_consumer = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _consumerHandle))
+		}
 		_err = s.Impl.GetImsMmTelRegistrationTransportType(ctx, _arg_subId, _arg_consumer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19250,16 +19391,11 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterMmTelCapabilityCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_c aidl.IImsCapabilityCallback
-		_ = _arg_c
+		var _arg_c types.IImsCapabilityCallback
 		_err = s.Impl.RegisterMmTelCapabilityCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19269,16 +19405,11 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterMmTelCapabilityCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_c aidl.IImsCapabilityCallback
-		_ = _arg_c
+		var _arg_c types.IImsCapabilityCallback
 		_err = s.Impl.UnregisterMmTelCapabilityCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19288,9 +19419,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsCapable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19313,9 +19441,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19338,16 +19463,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsMmTelCapabilitySupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19365,9 +19492,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsAdvancedCallingSettingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19382,9 +19506,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetAdvancedCallingSettingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19402,9 +19523,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsVtSettingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19419,9 +19537,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetVtSettingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19439,9 +19554,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsVoWiFiSettingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19456,9 +19568,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetVoWiFiSettingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19476,9 +19585,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsCrossSimCallingEnabledByUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19493,9 +19599,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetCrossSimCallingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19513,9 +19616,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsVoWiFiRoamingSettingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19530,9 +19630,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetVoWiFiRoamingSettingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19550,9 +19647,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetVoWiFiNonPersistent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19574,9 +19668,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetVoWiFiModeSetting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19591,9 +19682,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonySetVoWiFiModeSetting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19611,9 +19699,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetVoWiFiRoamingModeSetting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19628,9 +19713,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonySetVoWiFiRoamingModeSetting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19648,9 +19730,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetRttCapabilitySetting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19668,9 +19747,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsTtyOverVolteEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19691,9 +19767,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEmergencyNumberList(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19701,13 +19774,17 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: map return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _k, _v := range _result {
+				_reply.WriteString16(_k.(string))
+				_reply.WriteString16(_v.(string))
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonyIsEmergencyNumber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -19726,9 +19803,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCertsFromCarrierPrivilegeAccessRules:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19740,20 +19814,21 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonyRegisterImsProvisioningChangedCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback aidl.IImsConfigCallback
-		_ = _arg_callback
+		var _arg_callback types.IImsConfigCallback
 		_err = s.Impl.RegisterImsProvisioningChangedCallback(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19763,16 +19838,11 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterImsProvisioningChangedCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback aidl.IImsConfigCallback
-		_ = _arg_callback
+		var _arg_callback types.IImsConfigCallback
 		_err = s.Impl.UnregisterImsProvisioningChangedCallback(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19782,16 +19852,11 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterFeatureProvisioningChangedCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback aidl.IFeatureProvisioningCallback
-		_ = _arg_callback
+		var _arg_callback types.IFeatureProvisioningCallback
 		_err = s.Impl.RegisterFeatureProvisioningChangedCallback(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19801,16 +19866,11 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterFeatureProvisioningChangedCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback aidl.IFeatureProvisioningCallback
-		_ = _arg_callback
+		var _arg_callback types.IFeatureProvisioningCallback
 		_err = s.Impl.UnregisterFeatureProvisioningChangedCallback(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19820,9 +19880,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetImsProvisioningStatusForCapability:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19848,9 +19905,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetImsProvisioningStatusForCapability:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19873,9 +19927,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetRcsProvisioningStatusForCapability:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19898,9 +19949,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetRcsProvisioningStatusForCapability:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19926,9 +19974,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetImsProvisioningInt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19947,9 +19992,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetImsProvisioningString:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19968,9 +20010,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonySetImsProvisioningInt:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -19993,9 +20032,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonySetImsProvisioningString:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20018,9 +20054,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyStartEmergencyCallbackMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StartEmergencyCallbackMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -20030,9 +20063,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUpdateEmergencyNumberListTestMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_action, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20058,9 +20088,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetEmergencyNumberListTestMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEmergencyNumberListTestMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -20068,13 +20095,16 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonyGetEmergencyNumberDbVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20089,9 +20119,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyNotifyOtaEmergencyNumberDbInstalled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NotifyOtaEmergencyNumberDbInstalled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -20101,9 +20128,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUpdateOtaEmergencyNumberDbFilePath:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_otaParcelFileDescriptor, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -20117,9 +20141,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyResetOtaEmergencyNumberDbFilePath:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResetOtaEmergencyNumberDbFilePath(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -20129,9 +20150,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyEnableModemForSlot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20150,9 +20168,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetMultiSimCarrierRestriction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isMultiSimCarrierRestricted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -20172,9 +20187,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsMultiSimSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -20185,9 +20197,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonySwitchMultiSimConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_numOfSims, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20201,9 +20210,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyDoesSwitchMultiSimConfigTriggerReboot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20227,9 +20233,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSlotsMapping(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -20237,13 +20240,19 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonyGetRadioHalVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRadioHalVersion(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -20254,9 +20263,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetHalVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_service, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20271,9 +20277,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCurrentPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentPackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -20284,9 +20287,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyIsApplicationOnUicc:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20305,9 +20305,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsModemEnabledForSlot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20328,9 +20325,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsDataEnabledForApn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_apnType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20352,9 +20346,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsApnMetered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_apnType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20373,26 +20364,42 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSystemSelectionChannels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_specifiers []network.RadioAccessSpecifier
-		_ = _arg_specifiers
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_specifiers = make([]network.RadioAccessSpecifier, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_specifiers[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback IBooleanConsumer
-		_ = _arg_resultCallback
-		_err = s.Impl.SetSystemSelectionChannels(ctx, _arg_specifiers, _arg_subId, _arg_resultCallback)
-		_ = _err
-		return nil, nil
-	case TransactionITelephonyGetSystemSelectionChannels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = NewBooleanConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
 		}
+		_err = s.Impl.SetSystemSelectionChannels(ctx, _arg_specifiers, _arg_subId, _arg_resultCallback)
+		return nil, _err
+	case TransactionITelephonyGetSystemSelectionChannels:
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20404,13 +20411,19 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonyIsMvnoMatched:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20436,30 +20449,24 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingAttributeTag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_subIdResult IIntegerConsumer
-		_ = _arg_subIdResult
+		{
+			_subIdResultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_subIdResult = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _subIdResultHandle))
+		}
 		_err = s.Impl.EnqueueSmsPickResult(ctx, _arg_callingAttributeTag, _arg_subIdResult)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITelephonyShowSwitchToManagedProfileDialog:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ShowSwitchToManagedProfileDialog(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITelephonyGetMmsUserAgent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20474,9 +20481,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetMmsUAProfUrl:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20491,9 +20495,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonySetMobileDataPolicyEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20515,9 +20516,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsMobileDataPolicyEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20536,27 +20534,25 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetCepEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isCepEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetCepEnabled(ctx, _arg_isCepEnabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITelephonyNotifyRcsAutoConfigurationReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_config []byte
-		_ = _arg_config
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_config = _bytes
+		}
 		_arg_isCompressed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -20570,9 +20566,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsIccLockEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20587,9 +20580,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetIccLockEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20612,9 +20602,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyChangeIccLockPassword:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20637,23 +20624,12 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyRequestUserActivityNotification:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RequestUserActivityNotification(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITelephonyUserActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.UserActivity(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITelephonyGetManualNetworkSelectionPlmn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20668,9 +20644,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyCanConnectTo5GInDsdsMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CanConnectTo5GInDsdsMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -20681,9 +20654,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetEquivalentHomePlmns:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20701,13 +20671,16 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonySetVoNrEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20726,9 +20699,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyIsVoNrEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20743,9 +20713,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetNrDualConnectivityState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20764,9 +20731,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyIsNrDualConnectivityEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20781,9 +20745,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsRadioInterfaceCapabilitySupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_capability, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -20798,9 +20759,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySendThermalMitigationRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20830,9 +20788,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyBootstrapAuthenticationRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20869,9 +20824,14 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback androidTelephony.IBootstrapAuthenticationCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = androidTelephony.NewBootstrapAuthenticationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.BootstrapAuthenticationRequest(ctx, _arg_subId, _arg_appType, _arg_nafUrl, _arg_securityProtocol, _arg_forceBootStrapping, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -20881,9 +20841,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetBoundGbaServiceOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20902,9 +20859,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetBoundGbaService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20919,9 +20873,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonySetGbaReleaseTimeOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20940,9 +20891,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetGbaReleaseTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20957,9 +20905,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonySetRcsClientConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -20985,9 +20930,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsRcsVolteSingleRegistrationCapable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21002,16 +20944,11 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyRegisterRcsProvisioningCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback aidl.IRcsConfigCallback
-		_ = _arg_callback
+		var _arg_callback types.IRcsConfigCallback
 		_err = s.Impl.RegisterRcsProvisioningCallback(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21021,16 +20958,11 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterRcsProvisioningCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback aidl.IRcsConfigCallback
-		_ = _arg_callback
+		var _arg_callback types.IRcsConfigCallback
 		_err = s.Impl.UnregisterRcsProvisioningCallback(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21040,9 +20972,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyTriggerRcsReconfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21056,9 +20985,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetRcsSingleRegistrationTestModeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -21072,9 +20998,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetRcsSingleRegistrationTestModeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRcsSingleRegistrationTestModeEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21085,9 +21008,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetDeviceSingleRegistrationEnabledOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -21101,9 +21021,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetDeviceSingleRegistrationEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDeviceSingleRegistrationEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21114,9 +21031,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetCarrierSingleRegistrationEnabledOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21135,9 +21049,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySendDeviceToDeviceMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_message, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21155,9 +21066,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetActiveDeviceToDeviceTransport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_transport, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -21171,9 +21079,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetDeviceToDeviceForceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isForceEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -21187,9 +21092,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierSingleRegistrationEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21204,9 +21106,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetImsFeatureValidationOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21225,9 +21124,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetImsFeatureValidationOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21242,9 +21138,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetMobileProvisioningUrl:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMobileProvisioningUrl(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21255,9 +21148,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyRemoveContactFromEab:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21276,9 +21166,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetContactFromEab:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_contact, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -21293,9 +21180,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCapabilityFromEab:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_contact, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -21310,9 +21194,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDeviceUceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDeviceUceEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21323,9 +21204,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetDeviceUceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -21339,16 +21217,29 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyAddUceRegistrationOverrideShell:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_featureTags []string
-		_ = _arg_featureTags
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_featureTags = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_featureTags[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.AddUceRegistrationOverrideShell(ctx, _arg_subId, _arg_featureTags)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21362,16 +21253,29 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyRemoveUceRegistrationOverrideShell:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_featureTags []string
-		_ = _arg_featureTags
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_featureTags = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_featureTags[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.RemoveUceRegistrationOverrideShell(ctx, _arg_subId, _arg_featureTags)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21385,9 +21289,6 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyClearUceRegistrationOverrideShell:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21405,9 +21306,6 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetLatestRcsContactUceCapabilityShell:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21425,9 +21323,6 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetLastUcePidfXmlShell:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21442,9 +21337,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyRemoveUceRequestDisallowedStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21459,9 +21351,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetCapabilitiesRequestTimeout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21480,9 +21369,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSignalStrengthUpdateRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21511,9 +21397,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyClearSignalStrengthUpdateRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21542,9 +21425,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetPhoneCapability:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPhoneCapability(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21558,9 +21438,6 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyPrepareForUnattendedReboot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.PrepareForUnattendedReboot(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21571,9 +21448,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetSlicingConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_callback os.ResultReceiver
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -21595,9 +21469,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsPremiumCapabilityAvailableForPurchase:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21616,16 +21487,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyPurchasePremiumCapability:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21639,9 +21512,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterImsStateCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21650,9 +21520,14 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IImsStateCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewImsStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -21665,12 +21540,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterImsStateCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IImsStateCallback
-		_ = _arg_cb
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewImsStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+		}
 		_err := s.Impl.UnregisterImsStateCallback(ctx, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21680,9 +21557,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetLastKnownCellIdentity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21706,9 +21580,6 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonySetModemService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -21723,9 +21594,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetModemService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetModemService(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21736,9 +21604,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyIsProvisioningRequiredForCapability:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21761,9 +21626,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsRcsProvisioningRequiredForCapability:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21786,9 +21648,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetVoiceServiceStateOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21809,9 +21668,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierServicePackageNameForLogicalSlot:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_logicalSlotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21826,9 +21682,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonySetRemovableEsimAsDefaultEuicc:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isDefault, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -21848,9 +21701,6 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsRemovableEsimDefaultEuicc(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21861,9 +21711,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDefaultRespondViaMessageApplication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21885,9 +21732,6 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetSimStateForSlotIndex:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21902,9 +21746,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyPersistEmergencyCallDiagnosticData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_dropboxTag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -21934,9 +21775,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetNullCipherAndIntegrityEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -21950,9 +21788,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsNullCipherAndIntegrityPreferenceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsNullCipherAndIntegrityPreferenceEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21963,9 +21798,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCellBroadcastIdRanges:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -21977,23 +21809,52 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonySetCellBroadcastIdRanges:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ranges []androidTelephony.CellBroadcastIdRange
-		_ = _arg_ranges
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ranges = make([]androidTelephony.CellBroadcastIdRange, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_ranges[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_callback IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.SetCellBroadcastIdRanges(ctx, _arg_subId, _arg_ranges, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22003,9 +21864,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsDomainSelectionSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsDomainSelectionSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22016,12 +21874,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierRestrictionStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_internalCallback IIntegerConsumer
-		_ = _arg_internalCallback
+		{
+			_internalCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_internalCallback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _internalCallbackHandle))
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -22035,9 +21895,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestSatelliteEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22054,9 +21911,14 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RequestSatelliteEnabled(ctx, _arg_subId, _arg_enableSatellite, _arg_enableDemoMode, _arg_isEmergency, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22066,9 +21928,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestIsSatelliteEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22094,9 +21953,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestIsDemoModeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22122,9 +21978,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestIsEmergencyModeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22150,9 +22003,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestIsSatelliteSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22178,9 +22028,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestSatelliteCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22206,19 +22053,26 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyStartSatelliteTransmissionUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback IIntegerConsumer
-		_ = _arg_resultCallback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		var _arg_callback satellite.ISatelliteTransmissionUpdateCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = satellite.NewSatelliteTransmissionUpdateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.StartSatelliteTransmissionUpdates(ctx, _arg_subId, _arg_resultCallback, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22228,19 +22082,26 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyStopSatelliteTransmissionUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback IIntegerConsumer
-		_ = _arg_resultCallback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_resultCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_resultCallback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultCallbackHandle))
+		}
 		var _arg_callback satellite.ISatelliteTransmissionUpdateCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = satellite.NewSatelliteTransmissionUpdateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.StopSatelliteTransmissionUpdates(ctx, _arg_subId, _arg_resultCallback, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22250,9 +22111,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyProvisionSatelliteService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22261,12 +22119,22 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_provisionData []byte
-		_ = _arg_provisionData
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_provisionData = _bytes
+		}
 		var _arg_callback IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.ProvisionSatelliteService(ctx, _arg_subId, _arg_token, _arg_provisionData, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22274,13 +22142,9 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionITelephonyDeprovisionSatelliteService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22289,9 +22153,14 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.DeprovisionSatelliteService(ctx, _arg_subId, _arg_token, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22301,16 +22170,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterForSatelliteProvisionStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback satellite.ISatelliteProvisionStateCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = satellite.NewSatelliteProvisionStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.RegisterForSatelliteProvisionStateChanged(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22321,16 +22192,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyUnregisterForSatelliteProvisionStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback satellite.ISatelliteProvisionStateCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = satellite.NewSatelliteProvisionStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.UnregisterForSatelliteProvisionStateChanged(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22340,9 +22213,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestIsSatelliteProvisioned:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22368,16 +22238,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterForSatelliteModemStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback satellite.ISatelliteModemStateCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = satellite.NewSatelliteModemStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.RegisterForSatelliteModemStateChanged(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22388,16 +22260,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyUnregisterForModemStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback satellite.ISatelliteModemStateCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = satellite.NewSatelliteModemStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.UnregisterForModemStateChanged(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22407,16 +22281,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterForIncomingDatagram:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback satellite.ISatelliteDatagramCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = satellite.NewSatelliteDatagramCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.RegisterForIncomingDatagram(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22427,16 +22303,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyUnregisterForIncomingDatagram:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback satellite.ISatelliteDatagramCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = satellite.NewSatelliteDatagramCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.UnregisterForIncomingDatagram(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22446,16 +22324,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyPollPendingDatagrams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.PollPendingDatagrams(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22465,9 +22345,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySendDatagram:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22492,9 +22369,14 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.SendDatagram(ctx, _arg_subId, _arg_datagramType, _arg_datagram, _arg_needFullScreenPointingUI, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22504,9 +22386,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestIsCommunicationAllowedForCurrentLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22532,9 +22411,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestTimeForNextSatelliteVisibility:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22560,9 +22436,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetDeviceAlignedWithSatellite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22580,9 +22453,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetSatelliteServicePackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_servicePackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -22597,9 +22467,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSatelliteGatewayServicePackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_servicePackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -22614,9 +22481,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSatelliteListeningTimeoutDuration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeoutMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -22631,9 +22495,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSatellitePointingUiClassName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -22652,9 +22513,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetDatagramControllerTimeoutDuration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reset, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -22677,9 +22535,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSatelliteControllerTimeoutDuration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reset, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -22702,9 +22557,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetEmergencyCallToSatelliteHandoverType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_handoverType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22723,19 +22575,50 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetCountryCodes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reset, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_currentNetworkCountryCodes []string
-		_ = _arg_currentNetworkCountryCodes
-		// TODO: map param unmarshaling not yet supported in stubs
-		var _arg_cachedNetworkCountryCodes map[interface{}]interface{}
-		_ = _arg_cachedNetworkCountryCodes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_currentNetworkCountryCodes = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_currentNetworkCountryCodes[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_cachedNetworkCountryCodes map[any]any
+		{
+			_mapCount, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _mapCount >= 0 {
+				_arg_cachedNetworkCountryCodes = make(map[any]any, _mapCount)
+				for _mi := int32(0); _mi < _mapCount; _mi++ {
+					_mk, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_mv, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_cachedNetworkCountryCodes[_mk] = _mv
+				}
+			}
+		}
 		_arg_locationCountryCode, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -22754,9 +22637,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSatelliteAccessControlOverlayConfigs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reset, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -22773,9 +22653,25 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_satelliteCountryCodes []string
-		_ = _arg_satelliteCountryCodes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_satelliteCountryCodes = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_satelliteCountryCodes[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.SetSatelliteAccessControlOverlayConfigs(ctx, _arg_reset, _arg_isAllowed, _arg_s2CellFile, _arg_locationFreshDurationNanos, _arg_satelliteCountryCodes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22786,9 +22682,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetOemEnabledSatelliteProvisionStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reset, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -22807,9 +22700,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetShaIdFromAllowList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -22825,13 +22715,16 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonyAddAttachRestrictionForCarrier:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22840,9 +22733,14 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.AddAttachRestrictionForCarrier(ctx, _arg_subId, _arg_reason, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22852,9 +22750,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRemoveAttachRestrictionForCarrier:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22863,9 +22758,14 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IIntegerConsumer
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewIntegerConsumerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RemoveAttachRestrictionForCarrier(ctx, _arg_subId, _arg_reason, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22875,9 +22775,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetAttachRestrictionReasonsForCarrier:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22889,13 +22786,16 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonyRequestNtnSignalStrength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -22921,16 +22821,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterForNtnSignalStrengthChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback satellite.INtnSignalStrengthCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = satellite.NewNtnSignalStrengthCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.RegisterForNtnSignalStrengthChanged(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22940,16 +22842,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterForNtnSignalStrengthChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback satellite.INtnSignalStrengthCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = satellite.NewNtnSignalStrengthCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.UnregisterForNtnSignalStrengthChanged(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22959,16 +22863,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterForCapabilitiesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback satellite.ISatelliteCapabilitiesCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = satellite.NewSatelliteCapabilitiesCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.RegisterForCapabilitiesChanged(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22979,16 +22885,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyUnregisterForCapabilitiesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback satellite.ISatelliteCapabilitiesCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = satellite.NewSatelliteCapabilitiesCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.UnregisterForCapabilitiesChanged(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22998,9 +22906,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetShouldSendDatagramToModemInDemoMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_shouldSendToModemInDemoMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -23015,9 +22920,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetDomainSelectionServiceOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_componentName androidContent.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -23040,9 +22942,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyClearDomainSelectionServiceOverride:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ClearDomainSelectionServiceOverride(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23053,9 +22952,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetEnableCellularIdentifierDisclosureNotifications:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -23069,9 +22965,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsCellularIdentifierDisclosureNotificationsEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsCellularIdentifierDisclosureNotificationsEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23082,9 +22975,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetNullCipherNotificationsEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -23098,9 +22988,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsNullCipherNotificationsEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsNullCipherNotificationsEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23111,9 +22998,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetSatellitePlmnsForCarrier:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -23125,20 +23009,28 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonyRegisterForSatelliteSupportedStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback satellite.ISatelliteSupportedStateCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = satellite.NewSatelliteSupportedStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.RegisterForSatelliteSupportedStateChanged(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23149,16 +23041,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyUnregisterForSatelliteSupportedStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback satellite.ISatelliteSupportedStateCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = satellite.NewSatelliteSupportedStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.UnregisterForSatelliteSupportedStateChanged(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23168,16 +23062,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterForCommunicationAllowedStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback satellite.ISatelliteCommunicationAllowedStateCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = satellite.NewSatelliteCommunicationAllowedStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.RegisterForCommunicationAllowedStateChanged(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23188,16 +23084,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyUnregisterForCommunicationAllowedStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback satellite.ISatelliteCommunicationAllowedStateCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = satellite.NewSatelliteCommunicationAllowedStateCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.UnregisterForCommunicationAllowedStateChanged(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23207,9 +23105,6 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetDatagramControllerBooleanConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reset, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -23232,9 +23127,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetIsSatelliteCommunicationAllowedForCurrentLocationCache:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_state, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -23249,9 +23141,6 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyRequestSatelliteSessionStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -23307,7 +23196,7 @@ type ITelephonyServer interface {
 	SetRadioPower(ctx context.Context, turnOn bool) (bool, error)
 	RequestRadioPowerOffForReason(ctx context.Context, subId int32, reason int32) (bool, error)
 	ClearRadioPowerOffForReason(ctx context.Context, subId int32, reason int32) (bool, error)
-	GetRadioPowerOffReasons(ctx context.Context, subId int32) ([]interface{}, error)
+	GetRadioPowerOffReasons(ctx context.Context, subId int32) ([]any, error)
 	UpdateServiceLocation(ctx context.Context) error
 	UpdateServiceLocationWithPackageName(ctx context.Context, callingPkg string) error
 	EnableLocationUpdates(ctx context.Context) error
@@ -23358,7 +23247,7 @@ type ITelephonyServer interface {
 	GetLteOnCdmaModeForSubscriber(ctx context.Context, subId int32) (int32, error)
 	GetAllCellInfo(ctx context.Context, callingPkg string) ([]network.CellInfo, error)
 	RequestCellInfoUpdate(ctx context.Context, subId int32, cb androidTelephony.ICellInfoCallback, callingPkg string) error
-	RequestCellInfoUpdateWithWorkSource(ctx context.Context, subId int32, cb androidTelephony.ICellInfoCallback, callingPkg string, ws interface{}) error
+	RequestCellInfoUpdateWithWorkSource(ctx context.Context, subId int32, cb androidTelephony.ICellInfoCallback, callingPkg string, ws os.WorkSource) error
 	SetCellInfoListRate(ctx context.Context, rateInMillis int32, subId int32) error
 	IccOpenLogicalChannel(ctx context.Context, request IccLogicalChannelRequest) (androidTelephony.IccOpenLogicalChannelResponse, error)
 	IccCloseLogicalChannel(ctx context.Context, request IccLogicalChannelRequest) (bool, error)
@@ -23380,8 +23269,8 @@ type ITelephonyServer interface {
 	ResetIms(ctx context.Context, slotIndex int32) error
 	RegisterMmTelFeatureCallback(ctx context.Context, slotId int32, callback internal.IImsServiceFeatureCallback) error
 	UnregisterImsFeatureCallback(ctx context.Context, callback internal.IImsServiceFeatureCallback) error
-	GetImsRegistration(ctx context.Context, slotId int32, feature int32) (aidl.IImsRegistration, error)
-	GetImsConfig(ctx context.Context, slotId int32, feature int32) (aidl.IImsConfig, error)
+	GetImsRegistration(ctx context.Context, slotId int32, feature int32) (types.IImsRegistration, error)
+	GetImsConfig(ctx context.Context, slotId int32, feature int32) (types.IImsConfig, error)
 	SetBoundImsServiceOverride(ctx context.Context, slotIndex int32, isCarrierService bool, featureTypes []int32, packageName string) (bool, error)
 	ClearCarrierImsServiceOverride(ctx context.Context, slotIndex int32) (bool, error)
 	GetBoundImsServicePackage(ctx context.Context, slotIndex int32, isCarrierImsService bool, featureType int32) (string, error)
@@ -23494,14 +23383,14 @@ type ITelephonyServer interface {
 	GetNetworkSelectionMode(ctx context.Context, subId int32) (int32, error)
 	IsInEmergencySmsMode(ctx context.Context) (bool, error)
 	GetRadioPowerState(ctx context.Context, slotIndex int32) (int32, error)
-	RegisterImsRegistrationCallback(ctx context.Context, subId int32, c aidl.IImsRegistrationCallback) error
-	UnregisterImsRegistrationCallback(ctx context.Context, subId int32, c aidl.IImsRegistrationCallback) error
-	RegisterImsEmergencyRegistrationCallback(ctx context.Context, subId int32, c aidl.IImsRegistrationCallback) error
-	UnregisterImsEmergencyRegistrationCallback(ctx context.Context, subId int32, c aidl.IImsRegistrationCallback) error
+	RegisterImsRegistrationCallback(ctx context.Context, subId int32, c types.IImsRegistrationCallback) error
+	UnregisterImsRegistrationCallback(ctx context.Context, subId int32, c types.IImsRegistrationCallback) error
+	RegisterImsEmergencyRegistrationCallback(ctx context.Context, subId int32, c types.IImsRegistrationCallback) error
+	UnregisterImsEmergencyRegistrationCallback(ctx context.Context, subId int32, c types.IImsRegistrationCallback) error
 	GetImsMmTelRegistrationState(ctx context.Context, subId int32, consumer IIntegerConsumer) error
 	GetImsMmTelRegistrationTransportType(ctx context.Context, subId int32, consumer IIntegerConsumer) error
-	RegisterMmTelCapabilityCallback(ctx context.Context, subId int32, c aidl.IImsCapabilityCallback) error
-	UnregisterMmTelCapabilityCallback(ctx context.Context, subId int32, c aidl.IImsCapabilityCallback) error
+	RegisterMmTelCapabilityCallback(ctx context.Context, subId int32, c types.IImsCapabilityCallback) error
+	UnregisterMmTelCapabilityCallback(ctx context.Context, subId int32, c types.IImsCapabilityCallback) error
 	IsCapable(ctx context.Context, subId int32, capability int32, regTech int32) (bool, error)
 	IsAvailable(ctx context.Context, subId int32, capability int32, regTech int32) (bool, error)
 	IsMmTelCapabilitySupported(ctx context.Context, subId int32, callback IIntegerConsumer, capability int32, transportType int32) error
@@ -23522,13 +23411,13 @@ type ITelephonyServer interface {
 	SetVoWiFiRoamingModeSetting(ctx context.Context, subId int32, mode int32) error
 	SetRttCapabilitySetting(ctx context.Context, subId int32, isEnabled bool) error
 	IsTtyOverVolteEnabled(ctx context.Context, subId int32) (bool, error)
-	GetEmergencyNumberList(ctx context.Context) (map[interface{}]interface{}, error)
+	GetEmergencyNumberList(ctx context.Context) (map[any]any, error)
 	IsEmergencyNumber(ctx context.Context, number string, exactMatch bool) (bool, error)
 	GetCertsFromCarrierPrivilegeAccessRules(ctx context.Context, subId int32) ([]string, error)
-	RegisterImsProvisioningChangedCallback(ctx context.Context, subId int32, callback aidl.IImsConfigCallback) error
-	UnregisterImsProvisioningChangedCallback(ctx context.Context, subId int32, callback aidl.IImsConfigCallback) error
-	RegisterFeatureProvisioningChangedCallback(ctx context.Context, subId int32, callback aidl.IFeatureProvisioningCallback) error
-	UnregisterFeatureProvisioningChangedCallback(ctx context.Context, subId int32, callback aidl.IFeatureProvisioningCallback) error
+	RegisterImsProvisioningChangedCallback(ctx context.Context, subId int32, callback types.IImsConfigCallback) error
+	UnregisterImsProvisioningChangedCallback(ctx context.Context, subId int32, callback types.IImsConfigCallback) error
+	RegisterFeatureProvisioningChangedCallback(ctx context.Context, subId int32, callback types.IFeatureProvisioningCallback) error
+	UnregisterFeatureProvisioningChangedCallback(ctx context.Context, subId int32, callback types.IFeatureProvisioningCallback) error
 	SetImsProvisioningStatusForCapability(ctx context.Context, subId int32, capability int32, tech int32, isProvisioned bool) error
 	GetImsProvisioningStatusForCapability(ctx context.Context, subId int32, capability int32, tech int32) (bool, error)
 	GetRcsProvisioningStatusForCapability(ctx context.Context, subId int32, capability int32, tech int32) (bool, error)
@@ -23589,8 +23478,8 @@ type ITelephonyServer interface {
 	GetGbaReleaseTime(ctx context.Context, subId int32) (int32, error)
 	SetRcsClientConfiguration(ctx context.Context, subId int32, rcc ims.RcsClientConfiguration) error
 	IsRcsVolteSingleRegistrationCapable(ctx context.Context, subId int32) (bool, error)
-	RegisterRcsProvisioningCallback(ctx context.Context, subId int32, callback aidl.IRcsConfigCallback) error
-	UnregisterRcsProvisioningCallback(ctx context.Context, subId int32, callback aidl.IRcsConfigCallback) error
+	RegisterRcsProvisioningCallback(ctx context.Context, subId int32, callback types.IRcsConfigCallback) error
+	UnregisterRcsProvisioningCallback(ctx context.Context, subId int32, callback types.IRcsConfigCallback) error
 	TriggerRcsReconfiguration(ctx context.Context, subId int32) error
 	SetRcsSingleRegistrationTestModeEnabled(ctx context.Context, enabled bool) error
 	GetRcsSingleRegistrationTestModeEnabled(ctx context.Context) (bool, error)
@@ -23672,7 +23561,7 @@ type ITelephonyServer interface {
 	SetDatagramControllerTimeoutDuration(ctx context.Context, reset bool, timeoutType int32, timeoutMillis int64) (bool, error)
 	SetSatelliteControllerTimeoutDuration(ctx context.Context, reset bool, timeoutType int32, timeoutMillis int64) (bool, error)
 	SetEmergencyCallToSatelliteHandoverType(ctx context.Context, handoverType int32, delaySeconds int32) (bool, error)
-	SetCountryCodes(ctx context.Context, reset bool, currentNetworkCountryCodes []string, cachedNetworkCountryCodes map[interface{}]interface{}, locationCountryCode string, locationCountryCodeTimestampNanos int64) (bool, error)
+	SetCountryCodes(ctx context.Context, reset bool, currentNetworkCountryCodes []string, cachedNetworkCountryCodes map[any]any, locationCountryCode string, locationCountryCodeTimestampNanos int64) (bool, error)
 	SetSatelliteAccessControlOverlayConfigs(ctx context.Context, reset bool, isAllowed bool, s2CellFile string, locationFreshDurationNanos int64, satelliteCountryCodes []string) (bool, error)
 	SetOemEnabledSatelliteProvisionStatus(ctx context.Context, reset bool, isProvisioned bool) (bool, error)
 	GetShaIdFromAllowList(ctx context.Context, pkgName string, carrierId int32) ([]string, error)
@@ -23877,7 +23766,7 @@ func (w *telephonyStubWrapper) ClearRadioPowerOffForReason(
 func (w *telephonyStubWrapper) GetRadioPowerOffReasons(
 	ctx context.Context,
 	subId int32,
-) ([]interface{}, error) {
+) ([]any, error) {
 	return w.impl.GetRadioPowerOffReasons(ctx, subId)
 }
 
@@ -24234,7 +24123,7 @@ func (w *telephonyStubWrapper) RequestCellInfoUpdateWithWorkSource(
 	subId int32,
 	cb androidTelephony.ICellInfoCallback,
 	callingPkg string,
-	ws interface{},
+	ws os.WorkSource,
 ) error {
 	return w.impl.RequestCellInfoUpdateWithWorkSource(ctx, subId, cb, callingPkg, ws)
 }
@@ -24428,7 +24317,7 @@ func (w *telephonyStubWrapper) GetImsRegistration(
 	ctx context.Context,
 	slotId int32,
 	feature int32,
-) (aidl.IImsRegistration, error) {
+) (types.IImsRegistration, error) {
 	return w.impl.GetImsRegistration(ctx, slotId, feature)
 }
 
@@ -24436,7 +24325,7 @@ func (w *telephonyStubWrapper) GetImsConfig(
 	ctx context.Context,
 	slotId int32,
 	feature int32,
-) (aidl.IImsConfig, error) {
+) (types.IImsConfig, error) {
 	return w.impl.GetImsConfig(ctx, slotId, feature)
 }
 
@@ -25282,7 +25171,7 @@ func (w *telephonyStubWrapper) GetRadioPowerState(
 func (w *telephonyStubWrapper) RegisterImsRegistrationCallback(
 	ctx context.Context,
 	subId int32,
-	c aidl.IImsRegistrationCallback,
+	c types.IImsRegistrationCallback,
 ) error {
 	return w.impl.RegisterImsRegistrationCallback(ctx, subId, c)
 }
@@ -25290,7 +25179,7 @@ func (w *telephonyStubWrapper) RegisterImsRegistrationCallback(
 func (w *telephonyStubWrapper) UnregisterImsRegistrationCallback(
 	ctx context.Context,
 	subId int32,
-	c aidl.IImsRegistrationCallback,
+	c types.IImsRegistrationCallback,
 ) error {
 	return w.impl.UnregisterImsRegistrationCallback(ctx, subId, c)
 }
@@ -25298,7 +25187,7 @@ func (w *telephonyStubWrapper) UnregisterImsRegistrationCallback(
 func (w *telephonyStubWrapper) RegisterImsEmergencyRegistrationCallback(
 	ctx context.Context,
 	subId int32,
-	c aidl.IImsRegistrationCallback,
+	c types.IImsRegistrationCallback,
 ) error {
 	return w.impl.RegisterImsEmergencyRegistrationCallback(ctx, subId, c)
 }
@@ -25306,7 +25195,7 @@ func (w *telephonyStubWrapper) RegisterImsEmergencyRegistrationCallback(
 func (w *telephonyStubWrapper) UnregisterImsEmergencyRegistrationCallback(
 	ctx context.Context,
 	subId int32,
-	c aidl.IImsRegistrationCallback,
+	c types.IImsRegistrationCallback,
 ) error {
 	return w.impl.UnregisterImsEmergencyRegistrationCallback(ctx, subId, c)
 }
@@ -25330,7 +25219,7 @@ func (w *telephonyStubWrapper) GetImsMmTelRegistrationTransportType(
 func (w *telephonyStubWrapper) RegisterMmTelCapabilityCallback(
 	ctx context.Context,
 	subId int32,
-	c aidl.IImsCapabilityCallback,
+	c types.IImsCapabilityCallback,
 ) error {
 	return w.impl.RegisterMmTelCapabilityCallback(ctx, subId, c)
 }
@@ -25338,7 +25227,7 @@ func (w *telephonyStubWrapper) RegisterMmTelCapabilityCallback(
 func (w *telephonyStubWrapper) UnregisterMmTelCapabilityCallback(
 	ctx context.Context,
 	subId int32,
-	c aidl.IImsCapabilityCallback,
+	c types.IImsCapabilityCallback,
 ) error {
 	return w.impl.UnregisterMmTelCapabilityCallback(ctx, subId, c)
 }
@@ -25502,7 +25391,7 @@ func (w *telephonyStubWrapper) IsTtyOverVolteEnabled(
 
 func (w *telephonyStubWrapper) GetEmergencyNumberList(
 	ctx context.Context,
-) (map[interface{}]interface{}, error) {
+) (map[any]any, error) {
 	return w.impl.GetEmergencyNumberList(ctx)
 }
 
@@ -25524,7 +25413,7 @@ func (w *telephonyStubWrapper) GetCertsFromCarrierPrivilegeAccessRules(
 func (w *telephonyStubWrapper) RegisterImsProvisioningChangedCallback(
 	ctx context.Context,
 	subId int32,
-	callback aidl.IImsConfigCallback,
+	callback types.IImsConfigCallback,
 ) error {
 	return w.impl.RegisterImsProvisioningChangedCallback(ctx, subId, callback)
 }
@@ -25532,7 +25421,7 @@ func (w *telephonyStubWrapper) RegisterImsProvisioningChangedCallback(
 func (w *telephonyStubWrapper) UnregisterImsProvisioningChangedCallback(
 	ctx context.Context,
 	subId int32,
-	callback aidl.IImsConfigCallback,
+	callback types.IImsConfigCallback,
 ) error {
 	return w.impl.UnregisterImsProvisioningChangedCallback(ctx, subId, callback)
 }
@@ -25540,7 +25429,7 @@ func (w *telephonyStubWrapper) UnregisterImsProvisioningChangedCallback(
 func (w *telephonyStubWrapper) RegisterFeatureProvisioningChangedCallback(
 	ctx context.Context,
 	subId int32,
-	callback aidl.IFeatureProvisioningCallback,
+	callback types.IFeatureProvisioningCallback,
 ) error {
 	return w.impl.RegisterFeatureProvisioningChangedCallback(ctx, subId, callback)
 }
@@ -25548,7 +25437,7 @@ func (w *telephonyStubWrapper) RegisterFeatureProvisioningChangedCallback(
 func (w *telephonyStubWrapper) UnregisterFeatureProvisioningChangedCallback(
 	ctx context.Context,
 	subId int32,
-	callback aidl.IFeatureProvisioningCallback,
+	callback types.IFeatureProvisioningCallback,
 ) error {
 	return w.impl.UnregisterFeatureProvisioningChangedCallback(ctx, subId, callback)
 }
@@ -26010,7 +25899,7 @@ func (w *telephonyStubWrapper) IsRcsVolteSingleRegistrationCapable(
 func (w *telephonyStubWrapper) RegisterRcsProvisioningCallback(
 	ctx context.Context,
 	subId int32,
-	callback aidl.IRcsConfigCallback,
+	callback types.IRcsConfigCallback,
 ) error {
 	return w.impl.RegisterRcsProvisioningCallback(ctx, subId, callback)
 }
@@ -26018,7 +25907,7 @@ func (w *telephonyStubWrapper) RegisterRcsProvisioningCallback(
 func (w *telephonyStubWrapper) UnregisterRcsProvisioningCallback(
 	ctx context.Context,
 	subId int32,
-	callback aidl.IRcsConfigCallback,
+	callback types.IRcsConfigCallback,
 ) error {
 	return w.impl.UnregisterRcsProvisioningCallback(ctx, subId, callback)
 }
@@ -26650,7 +26539,7 @@ func (w *telephonyStubWrapper) SetCountryCodes(
 	ctx context.Context,
 	reset bool,
 	currentNetworkCountryCodes []string,
-	cachedNetworkCountryCodes map[interface{}]interface{},
+	cachedNetworkCountryCodes map[any]any,
 	locationCountryCode string,
 	locationCountryCodeTimestampNanos int64,
 ) (bool, error) {

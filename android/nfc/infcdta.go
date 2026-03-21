@@ -62,6 +62,7 @@ func (p *NfcDtaProxy) EnableDta(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcDta)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcDta, MethodINfcDtaEnableDta)
@@ -86,6 +87,7 @@ func (p *NfcDtaProxy) DisableDta(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcDta)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcDta, MethodINfcDtaDisableDta)
@@ -116,6 +118,7 @@ func (p *NfcDtaProxy) EnableServer(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcDta)
 	_data.WriteString16(serviceName)
 	_data.WriteInt32(serviceSap)
@@ -149,6 +152,7 @@ func (p *NfcDtaProxy) DisableServer(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcDta)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcDta, MethodINfcDtaDisableServer)
@@ -178,6 +182,7 @@ func (p *NfcDtaProxy) EnableClient(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcDta)
 	_data.WriteString16(serviceName)
 	_data.WriteInt32(miu)
@@ -210,6 +215,7 @@ func (p *NfcDtaProxy) DisableClient(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcDta)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcDta, MethodINfcDtaDisableClient)
@@ -236,6 +242,7 @@ func (p *NfcDtaProxy) RegisterMessageService(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfcDta)
 	_data.WriteString16(msgServiceName)
 
@@ -264,7 +271,8 @@ func (p *NfcDtaProxy) RegisterMessageService(
 // NfcDtaStub dispatches incoming binder transactions
 // to a typed INfcDta implementation.
 type NfcDtaStub struct {
-	Impl INfcDta
+	Impl      INfcDta
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NfcDtaStub)(nil)
@@ -278,11 +286,12 @@ func (s *NfcDtaStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINfcDtaEnableDta:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.EnableDta(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -292,9 +301,6 @@ func (s *NfcDtaStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcDtaDisableDta:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DisableDta(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -304,9 +310,6 @@ func (s *NfcDtaStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcDtaEnableServer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -337,9 +340,6 @@ func (s *NfcDtaStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcDtaDisableServer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DisableServer(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -349,9 +349,6 @@ func (s *NfcDtaStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcDtaEnableClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -378,9 +375,6 @@ func (s *NfcDtaStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINfcDtaDisableClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DisableClient(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -390,9 +384,6 @@ func (s *NfcDtaStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcDtaRegisterMessageService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_msgServiceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

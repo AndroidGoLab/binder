@@ -13,12 +13,12 @@ const DescriptorIStorageEventListener = "android.os.storage.IStorageEventListene
 
 const (
 	TransactionIStorageEventListenerOnUsbMassStorageConnectionChanged = binder.FirstCallTransaction + 0
-	TransactionIStorageEventListenerOnStorageStateChanged             = binder.FirstCallTransaction + 0
-	TransactionIStorageEventListenerOnVolumeStateChanged              = binder.FirstCallTransaction + 1
-	TransactionIStorageEventListenerOnVolumeRecordChanged             = binder.FirstCallTransaction + 2
-	TransactionIStorageEventListenerOnVolumeForgotten                 = binder.FirstCallTransaction + 3
-	TransactionIStorageEventListenerOnDiskScanned                     = binder.FirstCallTransaction + 4
-	TransactionIStorageEventListenerOnDiskDestroyed                   = binder.FirstCallTransaction + 5
+	TransactionIStorageEventListenerOnStorageStateChanged             = binder.FirstCallTransaction + 1
+	TransactionIStorageEventListenerOnVolumeStateChanged              = binder.FirstCallTransaction + 2
+	TransactionIStorageEventListenerOnVolumeRecordChanged             = binder.FirstCallTransaction + 3
+	TransactionIStorageEventListenerOnVolumeForgotten                 = binder.FirstCallTransaction + 4
+	TransactionIStorageEventListenerOnDiskScanned                     = binder.FirstCallTransaction + 5
+	TransactionIStorageEventListenerOnDiskDestroyed                   = binder.FirstCallTransaction + 6
 )
 
 const (
@@ -63,6 +63,7 @@ func (p *StorageEventListenerProxy) OnUsbMassStorageConnectionChanged(
 	connected bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
 	_data.WriteBool(connected)
 
@@ -82,6 +83,7 @@ func (p *StorageEventListenerProxy) OnStorageStateChanged(
 	newState string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
 	_data.WriteString16(path)
 	_data.WriteString16(oldState)
@@ -103,6 +105,7 @@ func (p *StorageEventListenerProxy) OnVolumeStateChanged(
 	newState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
 	_data.WriteInt32(1)
 	if _err := vol.MarshalParcel(_data); _err != nil {
@@ -125,6 +128,7 @@ func (p *StorageEventListenerProxy) OnVolumeRecordChanged(
 	rec VolumeRecord,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
 	_data.WriteInt32(1)
 	if _err := rec.MarshalParcel(_data); _err != nil {
@@ -145,6 +149,7 @@ func (p *StorageEventListenerProxy) OnVolumeForgotten(
 	fsUuid string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
 	_data.WriteString16(fsUuid)
 
@@ -163,6 +168,7 @@ func (p *StorageEventListenerProxy) OnDiskScanned(
 	volumeCount int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
 	_data.WriteInt32(1)
 	if _err := disk.MarshalParcel(_data); _err != nil {
@@ -184,6 +190,7 @@ func (p *StorageEventListenerProxy) OnDiskDestroyed(
 	disk DiskInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
 	_data.WriteInt32(1)
 	if _err := disk.MarshalParcel(_data); _err != nil {
@@ -202,7 +209,8 @@ func (p *StorageEventListenerProxy) OnDiskDestroyed(
 // StorageEventListenerStub dispatches incoming binder transactions
 // to a typed IStorageEventListener implementation.
 type StorageEventListenerStub struct {
-	Impl IStorageEventListener
+	Impl      IStorageEventListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StorageEventListenerStub)(nil)
@@ -216,22 +224,34 @@ func (s *StorageEventListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStorageEventListenerOnUsbMassStorageConnectionChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_connected, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnUsbMassStorageConnectionChanged(ctx, _arg_connected)
-		_ = _err
-		return nil, nil
-	case TransactionIStorageEventListenerOnVolumeStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
+		return nil, _err
+	case TransactionIStorageEventListenerOnStorageStateChanged:
+		_arg_path, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
+		_arg_oldState, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newState, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStorageStateChanged(ctx, _arg_path, _arg_oldState, _arg_newState)
+		return nil, _err
+	case TransactionIStorageEventListenerOnVolumeStateChanged:
 		var _arg_vol VolumeInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -253,12 +273,8 @@ func (s *StorageEventListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnVolumeStateChanged(ctx, _arg_vol, _arg_oldState, _arg_newState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStorageEventListenerOnVolumeRecordChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_rec VolumeRecord
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -272,23 +288,15 @@ func (s *StorageEventListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnVolumeRecordChanged(ctx, _arg_rec)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStorageEventListenerOnVolumeForgotten:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fsUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnVolumeForgotten(ctx, _arg_fsUuid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStorageEventListenerOnDiskScanned:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_disk DiskInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -306,12 +314,8 @@ func (s *StorageEventListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnDiskScanned(ctx, _arg_disk, _arg_volumeCount)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStorageEventListenerOnDiskDestroyed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_disk DiskInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -325,8 +329,7 @@ func (s *StorageEventListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDiskDestroyed(ctx, _arg_disk)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

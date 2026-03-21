@@ -59,8 +59,8 @@ type IPrintSpooler interface {
 	CreatePrintJob(ctx context.Context, printJob PrintJobInfo) error
 	SetPrintJobState(ctx context.Context, printJobId PrintJobId, status int32, stateReason string, callback IPrintSpoolerCallbacks, sequence int32) error
 	SetProgress(ctx context.Context, printJobId PrintJobId, progress float32) error
-	SetStatus(ctx context.Context, printJobId PrintJobId, status interface{}) error
-	SetStatusRes(ctx context.Context, printJobId PrintJobId, status int32, appPackageName interface{}) error
+	SetStatus(ctx context.Context, printJobId PrintJobId, status string) error
+	SetStatusRes(ctx context.Context, printJobId PrintJobId, status int32, appPackageName string) error
 	OnCustomPrinterIconLoaded(ctx context.Context, printerId PrinterId, icon drawable.Icon, callbacks IPrintSpoolerCallbacks, sequence int32) error
 	GetCustomPrinterIcon(ctx context.Context, printerId PrinterId, callbacks IPrintSpoolerCallbacks, sequence int32) error
 	ClearCustomPrinterIconCache(ctx context.Context, callbacks IPrintSpoolerCallbacks, sequence int32) error
@@ -91,6 +91,7 @@ func (p *PrintSpoolerProxy) RemoveObsoletePrintJobs(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerRemoveObsoletePrintJobs)
@@ -111,6 +112,7 @@ func (p *PrintSpoolerProxy) GetPrintJobInfos(
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -138,6 +140,7 @@ func (p *PrintSpoolerProxy) GetPrintJobInfo(
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
@@ -161,6 +164,7 @@ func (p *PrintSpoolerProxy) CreatePrintJob(
 	printJob PrintJobInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	_data.WriteInt32(1)
 	if _err := printJob.MarshalParcel(_data); _err != nil {
@@ -185,6 +189,7 @@ func (p *PrintSpoolerProxy) SetPrintJobState(
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
@@ -210,6 +215,7 @@ func (p *PrintSpoolerProxy) SetProgress(
 	progress float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
@@ -229,14 +235,16 @@ func (p *PrintSpoolerProxy) SetProgress(
 func (p *PrintSpoolerProxy) SetStatus(
 	ctx context.Context,
 	printJobId PrintJobId,
-	status interface{},
+	status string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteString16(status)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerSetStatus)
 	if _err != nil {
@@ -251,15 +259,17 @@ func (p *PrintSpoolerProxy) SetStatusRes(
 	ctx context.Context,
 	printJobId PrintJobId,
 	status int32,
-	appPackageName interface{},
+	appPackageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(status)
+	_data.WriteString16(appPackageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpooler, MethodIPrintSpoolerSetStatusRes)
 	if _err != nil {
@@ -278,6 +288,7 @@ func (p *PrintSpoolerProxy) OnCustomPrinterIconLoaded(
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	_data.WriteInt32(1)
 	if _err := printerId.MarshalParcel(_data); _err != nil {
@@ -306,6 +317,7 @@ func (p *PrintSpoolerProxy) GetCustomPrinterIcon(
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	_data.WriteInt32(1)
 	if _err := printerId.MarshalParcel(_data); _err != nil {
@@ -329,6 +341,7 @@ func (p *PrintSpoolerProxy) ClearCustomPrinterIconCache(
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(sequence)
@@ -350,6 +363,7 @@ func (p *PrintSpoolerProxy) SetPrintJobTag(
 	sequence int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
@@ -374,6 +388,7 @@ func (p *PrintSpoolerProxy) WritePrintJobData(
 	printJobId PrintJobId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	_data.WriteFileDescriptor(fd)
 	_data.WriteInt32(1)
@@ -395,6 +410,7 @@ func (p *PrintSpoolerProxy) SetClient(
 	client IPrintSpoolerClient,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
@@ -413,6 +429,7 @@ func (p *PrintSpoolerProxy) SetPrintJobCancelling(
 	cancelling bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
@@ -434,6 +451,7 @@ func (p *PrintSpoolerProxy) PruneApprovedPrintServices(
 	servicesToKeep []content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	if servicesToKeep == nil {
 		_data.WriteInt32(-1)
@@ -459,7 +477,8 @@ func (p *PrintSpoolerProxy) PruneApprovedPrintServices(
 // PrintSpoolerStub dispatches incoming binder transactions
 // to a typed IPrintSpooler implementation.
 type PrintSpoolerStub struct {
-	Impl IPrintSpooler
+	Impl      IPrintSpooler
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PrintSpoolerStub)(nil)
@@ -473,21 +492,23 @@ func (s *PrintSpoolerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPrintSpoolerRemoveObsoletePrintJobs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RemoveObsoletePrintJobs(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintSpoolerGetPrintJobInfos:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPrintSpoolerCallbacks
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPrintSpoolerCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -513,12 +534,8 @@ func (s *PrintSpoolerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.GetPrintJobInfos(ctx, _arg_callback, _arg_componentName, _arg_state, _arg_appId, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintSpoolerGetPrintJobInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printJobId PrintJobId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -531,9 +548,14 @@ func (s *PrintSpoolerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPrintSpoolerCallbacks
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPrintSpoolerCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_appId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -543,12 +565,8 @@ func (s *PrintSpoolerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.GetPrintJobInfo(ctx, _arg_printJobId, _arg_callback, _arg_appId, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintSpoolerCreatePrintJob:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printJob PrintJobInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -562,12 +580,8 @@ func (s *PrintSpoolerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CreatePrintJob(ctx, _arg_printJob)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintSpoolerSetPrintJobState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printJobId PrintJobId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -588,20 +602,21 @@ func (s *PrintSpoolerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPrintSpoolerCallbacks
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPrintSpoolerCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetPrintJobState(ctx, _arg_printJobId, _arg_status, _arg_stateReason, _arg_callback, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintSpoolerSetProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printJobId PrintJobId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -619,12 +634,8 @@ func (s *PrintSpoolerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetProgress(ctx, _arg_printJobId, _arg_progress)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintSpoolerSetStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printJobId PrintJobId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -637,14 +648,13 @@ func (s *PrintSpoolerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_status interface{}
-		_err := s.Impl.SetStatus(ctx, _arg_printJobId, _arg_status)
-		_ = _err
-		return nil, nil
-	case TransactionIPrintSpoolerSetStatusRes:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_status, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
+		_err = s.Impl.SetStatus(ctx, _arg_printJobId, _arg_status)
+		return nil, _err
+	case TransactionIPrintSpoolerSetStatusRes:
 		var _arg_printJobId PrintJobId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -661,14 +671,13 @@ func (s *PrintSpoolerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_appPackageName interface{}
-		_err = s.Impl.SetStatusRes(ctx, _arg_printJobId, _arg_status, _arg_appPackageName)
-		_ = _err
-		return nil, nil
-	case TransactionIPrintSpoolerOnCustomPrinterIconLoaded:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_appPackageName, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
+		_err = s.Impl.SetStatusRes(ctx, _arg_printJobId, _arg_status, _arg_appPackageName)
+		return nil, _err
+	case TransactionIPrintSpoolerOnCustomPrinterIconLoaded:
 		var _arg_printerId PrinterId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -693,20 +702,21 @@ func (s *PrintSpoolerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IPrintSpoolerCallbacks
-		_ = _arg_callbacks
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewPrintSpoolerCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
+		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnCustomPrinterIconLoaded(ctx, _arg_printerId, _arg_icon, _arg_callbacks, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintSpoolerGetCustomPrinterIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printerId PrinterId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -719,34 +729,36 @@ func (s *PrintSpoolerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IPrintSpoolerCallbacks
-		_ = _arg_callbacks
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewPrintSpoolerCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
+		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetCustomPrinterIcon(ctx, _arg_printerId, _arg_callbacks, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintSpoolerClearCustomPrinterIconCache:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IPrintSpoolerCallbacks
-		_ = _arg_callbacks
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewPrintSpoolerCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
+		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ClearCustomPrinterIconCache(ctx, _arg_callbacks, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintSpoolerSetPrintJobTag:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printJobId PrintJobId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -763,20 +775,21 @@ func (s *PrintSpoolerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPrintSpoolerCallbacks
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPrintSpoolerCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetPrintJobTag(ctx, _arg_printJobId, _arg_tag, _arg_callback, _arg_sequence)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintSpoolerWritePrintJobData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
@@ -794,22 +807,19 @@ func (s *PrintSpoolerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.WritePrintJobData(ctx, _arg_fd, _arg_printJobId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintSpoolerSetClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IPrintSpoolerClient
-		_ = _arg_client
-		_err := s.Impl.SetClient(ctx, _arg_client)
-		_ = _err
-		return nil, nil
-	case TransactionIPrintSpoolerSetPrintJobCancelling:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewPrintSpoolerClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
 		}
+		_err := s.Impl.SetClient(ctx, _arg_client)
+		return nil, _err
+	case TransactionIPrintSpoolerSetPrintJobCancelling:
 		var _arg_printJobId PrintJobId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -827,18 +837,31 @@ func (s *PrintSpoolerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetPrintJobCancelling(ctx, _arg_printJobId, _arg_cancelling)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPrintSpoolerPruneApprovedPrintServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_servicesToKeep []content.ComponentName
-		_ = _arg_servicesToKeep
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_servicesToKeep = make([]content.ComponentName, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_servicesToKeep[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.PruneApprovedPrintServices(ctx, _arg_servicesToKeep)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -854,8 +877,8 @@ type IPrintSpoolerServer interface {
 	CreatePrintJob(ctx context.Context, printJob PrintJobInfo) error
 	SetPrintJobState(ctx context.Context, printJobId PrintJobId, status int32, stateReason string, callback IPrintSpoolerCallbacks, sequence int32) error
 	SetProgress(ctx context.Context, printJobId PrintJobId, progress float32) error
-	SetStatus(ctx context.Context, printJobId PrintJobId, status interface{}) error
-	SetStatusRes(ctx context.Context, printJobId PrintJobId, status int32, appPackageName interface{}) error
+	SetStatus(ctx context.Context, printJobId PrintJobId, status string) error
+	SetStatusRes(ctx context.Context, printJobId PrintJobId, status int32, appPackageName string) error
 	OnCustomPrinterIconLoaded(ctx context.Context, printerId PrinterId, icon drawable.Icon, callbacks IPrintSpoolerCallbacks, sequence int32) error
 	GetCustomPrinterIcon(ctx context.Context, printerId PrinterId, callbacks IPrintSpoolerCallbacks, sequence int32) error
 	ClearCustomPrinterIconCache(ctx context.Context, callbacks IPrintSpoolerCallbacks, sequence int32) error
@@ -931,7 +954,7 @@ func (w *printSpoolerStubWrapper) SetProgress(
 func (w *printSpoolerStubWrapper) SetStatus(
 	ctx context.Context,
 	printJobId PrintJobId,
-	status interface{},
+	status string,
 ) error {
 	return w.impl.SetStatus(ctx, printJobId, status)
 }
@@ -940,7 +963,7 @@ func (w *printSpoolerStubWrapper) SetStatusRes(
 	ctx context.Context,
 	printJobId PrintJobId,
 	status int32,
-	appPackageName interface{},
+	appPackageName string,
 ) error {
 	return w.impl.SetStatusRes(ctx, printJobId, status, appPackageName)
 }

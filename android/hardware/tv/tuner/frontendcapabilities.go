@@ -33,7 +33,7 @@ type FrontendCapabilities struct {
 	IsdbsCaps  FrontendIsdbsCapabilities
 	Isdbs3Caps FrontendIsdbs3Capabilities
 	IsdbtCaps  FrontendIsdbtCapabilities
-	IptvCaps   FrontendIptvCapabilities
+	IptvCaps   *FrontendIptvCapabilities
 }
 
 var _ parcel.Parcelable = (*FrontendCapabilities)(nil)
@@ -49,8 +49,7 @@ func (u *FrontendCapabilities) GetAnalogCaps() (FrontendAnalogCapabilities, bool
 func (u *FrontendCapabilities) SetAnalogCaps(
 	v FrontendAnalogCapabilities,
 ) {
-	u.Tag = FrontendCapabilitiesTagAnalogCaps
-	u.AnalogCaps = v
+	*u = FrontendCapabilities{Tag: FrontendCapabilitiesTagAnalogCaps, AnalogCaps: v}
 }
 
 func (u *FrontendCapabilities) GetAtscCaps() (FrontendAtscCapabilities, bool) {
@@ -64,8 +63,7 @@ func (u *FrontendCapabilities) GetAtscCaps() (FrontendAtscCapabilities, bool) {
 func (u *FrontendCapabilities) SetAtscCaps(
 	v FrontendAtscCapabilities,
 ) {
-	u.Tag = FrontendCapabilitiesTagAtscCaps
-	u.AtscCaps = v
+	*u = FrontendCapabilities{Tag: FrontendCapabilitiesTagAtscCaps, AtscCaps: v}
 }
 
 func (u *FrontendCapabilities) GetAtsc3Caps() (FrontendAtsc3Capabilities, bool) {
@@ -79,8 +77,7 @@ func (u *FrontendCapabilities) GetAtsc3Caps() (FrontendAtsc3Capabilities, bool) 
 func (u *FrontendCapabilities) SetAtsc3Caps(
 	v FrontendAtsc3Capabilities,
 ) {
-	u.Tag = FrontendCapabilitiesTagAtsc3Caps
-	u.Atsc3Caps = v
+	*u = FrontendCapabilities{Tag: FrontendCapabilitiesTagAtsc3Caps, Atsc3Caps: v}
 }
 
 func (u *FrontendCapabilities) GetDtmbCaps() (FrontendDtmbCapabilities, bool) {
@@ -94,8 +91,7 @@ func (u *FrontendCapabilities) GetDtmbCaps() (FrontendDtmbCapabilities, bool) {
 func (u *FrontendCapabilities) SetDtmbCaps(
 	v FrontendDtmbCapabilities,
 ) {
-	u.Tag = FrontendCapabilitiesTagDtmbCaps
-	u.DtmbCaps = v
+	*u = FrontendCapabilities{Tag: FrontendCapabilitiesTagDtmbCaps, DtmbCaps: v}
 }
 
 func (u *FrontendCapabilities) GetDvbsCaps() (FrontendDvbsCapabilities, bool) {
@@ -109,8 +105,7 @@ func (u *FrontendCapabilities) GetDvbsCaps() (FrontendDvbsCapabilities, bool) {
 func (u *FrontendCapabilities) SetDvbsCaps(
 	v FrontendDvbsCapabilities,
 ) {
-	u.Tag = FrontendCapabilitiesTagDvbsCaps
-	u.DvbsCaps = v
+	*u = FrontendCapabilities{Tag: FrontendCapabilitiesTagDvbsCaps, DvbsCaps: v}
 }
 
 func (u *FrontendCapabilities) GetDvbcCaps() (FrontendDvbcCapabilities, bool) {
@@ -124,8 +119,7 @@ func (u *FrontendCapabilities) GetDvbcCaps() (FrontendDvbcCapabilities, bool) {
 func (u *FrontendCapabilities) SetDvbcCaps(
 	v FrontendDvbcCapabilities,
 ) {
-	u.Tag = FrontendCapabilitiesTagDvbcCaps
-	u.DvbcCaps = v
+	*u = FrontendCapabilities{Tag: FrontendCapabilitiesTagDvbcCaps, DvbcCaps: v}
 }
 
 func (u *FrontendCapabilities) GetDvbtCaps() (FrontendDvbtCapabilities, bool) {
@@ -139,8 +133,7 @@ func (u *FrontendCapabilities) GetDvbtCaps() (FrontendDvbtCapabilities, bool) {
 func (u *FrontendCapabilities) SetDvbtCaps(
 	v FrontendDvbtCapabilities,
 ) {
-	u.Tag = FrontendCapabilitiesTagDvbtCaps
-	u.DvbtCaps = v
+	*u = FrontendCapabilities{Tag: FrontendCapabilitiesTagDvbtCaps, DvbtCaps: v}
 }
 
 func (u *FrontendCapabilities) GetIsdbsCaps() (FrontendIsdbsCapabilities, bool) {
@@ -154,8 +147,7 @@ func (u *FrontendCapabilities) GetIsdbsCaps() (FrontendIsdbsCapabilities, bool) 
 func (u *FrontendCapabilities) SetIsdbsCaps(
 	v FrontendIsdbsCapabilities,
 ) {
-	u.Tag = FrontendCapabilitiesTagIsdbsCaps
-	u.IsdbsCaps = v
+	*u = FrontendCapabilities{Tag: FrontendCapabilitiesTagIsdbsCaps, IsdbsCaps: v}
 }
 
 func (u *FrontendCapabilities) GetIsdbs3Caps() (FrontendIsdbs3Capabilities, bool) {
@@ -169,8 +161,7 @@ func (u *FrontendCapabilities) GetIsdbs3Caps() (FrontendIsdbs3Capabilities, bool
 func (u *FrontendCapabilities) SetIsdbs3Caps(
 	v FrontendIsdbs3Capabilities,
 ) {
-	u.Tag = FrontendCapabilitiesTagIsdbs3Caps
-	u.Isdbs3Caps = v
+	*u = FrontendCapabilities{Tag: FrontendCapabilitiesTagIsdbs3Caps, Isdbs3Caps: v}
 }
 
 func (u *FrontendCapabilities) GetIsdbtCaps() (FrontendIsdbtCapabilities, bool) {
@@ -184,23 +175,21 @@ func (u *FrontendCapabilities) GetIsdbtCaps() (FrontendIsdbtCapabilities, bool) 
 func (u *FrontendCapabilities) SetIsdbtCaps(
 	v FrontendIsdbtCapabilities,
 ) {
-	u.Tag = FrontendCapabilitiesTagIsdbtCaps
-	u.IsdbtCaps = v
+	*u = FrontendCapabilities{Tag: FrontendCapabilitiesTagIsdbtCaps, IsdbtCaps: v}
 }
 
-func (u *FrontendCapabilities) GetIptvCaps() (FrontendIptvCapabilities, bool) {
+func (u *FrontendCapabilities) GetIptvCaps() (*FrontendIptvCapabilities, bool) {
 	if u.Tag != FrontendCapabilitiesTagIptvCaps {
-		var _zero FrontendIptvCapabilities
+		var _zero *FrontendIptvCapabilities
 		return _zero, false
 	}
 	return u.IptvCaps, true
 }
 
 func (u *FrontendCapabilities) SetIptvCaps(
-	v FrontendIptvCapabilities,
+	v *FrontendIptvCapabilities,
 ) {
-	u.Tag = FrontendCapabilitiesTagIptvCaps
-	u.IptvCaps = v
+	*u = FrontendCapabilities{Tag: FrontendCapabilitiesTagIptvCaps, IptvCaps: v}
 }
 
 func (u *FrontendCapabilities) MarshalParcel(
@@ -261,9 +250,13 @@ func (u *FrontendCapabilities) MarshalParcel(
 			return _err
 		}
 	case FrontendCapabilitiesTagIptvCaps:
-		p.WriteInt32(1)
-		if _err := u.IptvCaps.MarshalParcel(p); _err != nil {
-			return _err
+		if u.IptvCaps == nil {
+			p.WriteInt32(0)
+		} else {
+			p.WriteInt32(1)
+			if _err := u.IptvCaps.MarshalParcel(p); _err != nil {
+				return _err
+			}
 		}
 	default:
 		return fmt.Errorf("unknown union tag %d for FrontendCapabilities", u.Tag)
@@ -358,11 +351,18 @@ func (u *FrontendCapabilities) UnmarshalParcel(
 			return _err
 		}
 	case FrontendCapabilitiesTagIptvCaps:
-		if _, _err = p.ReadInt32(); _err != nil {
-			return _err
-		}
-		if _err = u.IptvCaps.UnmarshalParcel(p); _err != nil {
-			return _err
+		{
+			_nullInd, _nullErr := p.ReadInt32()
+			if _nullErr != nil {
+				return _nullErr
+			}
+			if _nullInd != 0 {
+				var _val FrontendIptvCapabilities
+				if _err = _val.UnmarshalParcel(p); _err != nil {
+					return _err
+				}
+				u.IptvCaps = &_val
+			}
 		}
 	default:
 		return fmt.Errorf("unknown union tag %d for FrontendCapabilities", u.Tag)

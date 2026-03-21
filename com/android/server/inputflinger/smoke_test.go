@@ -18,6 +18,17 @@ func TestSmoke_InputFilterProxy(t *testing.T) {
 	}
 }
 
+func TestSmoke_InputFilterIInputFilterCallbacksProxy(t *testing.T) {
+	mock := testutil.NewMockBinder()
+	proxy := NewInputFilterIInputFilterCallbacksProxy(mock)
+	result := testutil.SmokeTestAllMethods(t, proxy)
+	t.Logf("InputFilterIInputFilterCallbacksProxy: %d/%d passed, %d panicked, %d failed",
+		result.Passed, result.Total, result.Panicked, result.Failed)
+	if result.Failed > 0 {
+		t.Errorf("%d methods failed unexpectedly", result.Failed)
+	}
+}
+
 func TestSmoke_InputFlingerRustProxy(t *testing.T) {
 	mock := testutil.NewMockBinder()
 	proxy := NewInputFlingerRustProxy(mock)
@@ -29,11 +40,33 @@ func TestSmoke_InputFlingerRustProxy(t *testing.T) {
 	}
 }
 
+func TestSmoke_InputFlingerRustIInputFlingerRustBootstrapCallbackProxy(t *testing.T) {
+	mock := testutil.NewMockBinder()
+	proxy := NewInputFlingerRustIInputFlingerRustBootstrapCallbackProxy(mock)
+	result := testutil.SmokeTestAllMethods(t, proxy)
+	t.Logf("InputFlingerRustIInputFlingerRustBootstrapCallbackProxy: %d/%d passed, %d panicked, %d failed",
+		result.Passed, result.Total, result.Panicked, result.Failed)
+	if result.Failed > 0 {
+		t.Errorf("%d methods failed unexpectedly", result.Failed)
+	}
+}
+
 func TestSmoke_InputThreadProxy(t *testing.T) {
 	mock := testutil.NewMockBinder()
 	proxy := NewInputThreadProxy(mock)
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("InputThreadProxy: %d/%d passed, %d panicked, %d failed",
+		result.Passed, result.Total, result.Panicked, result.Failed)
+	if result.Failed > 0 {
+		t.Errorf("%d methods failed unexpectedly", result.Failed)
+	}
+}
+
+func TestSmoke_InputThreadIInputThreadCallbackProxy(t *testing.T) {
+	mock := testutil.NewMockBinder()
+	proxy := NewInputThreadIInputThreadCallbackProxy(mock)
+	result := testutil.SmokeTestAllMethods(t, proxy)
+	t.Logf("InputThreadIInputThreadCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
 	if result.Failed > 0 {
 		t.Errorf("%d methods failed unexpectedly", result.Failed)

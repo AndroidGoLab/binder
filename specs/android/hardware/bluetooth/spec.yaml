@@ -1,0 +1,128 @@
+package: android.hardware.bluetooth
+go_package: android/hardware/bluetooth
+interfaces:
+    - name: IBluetoothHci
+      descriptor: android.hardware.bluetooth.IBluetoothHci
+      methods:
+        - name: close
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: initialize
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IBluetoothHciCallbacks
+              direction: in
+          return_type:
+            name: void
+        - name: sendAclData
+          transaction_code_offset: 2
+          params:
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: sendHciCommand
+          transaction_code_offset: 3
+          params:
+            - name: command
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: sendIsoData
+          transaction_code_offset: 4
+          params:
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: sendScoData
+          transaction_code_offset: 5
+          params:
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IBluetoothHciCallbacks
+      descriptor: android.hardware.bluetooth.IBluetoothHciCallbacks
+      methods:
+        - name: aclDataReceived
+          transaction_code_offset: 0
+          params:
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: hciEventReceived
+          transaction_code_offset: 1
+          params:
+            - name: event
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: initializationComplete
+          transaction_code_offset: 2
+          params:
+            - name: status
+              type:
+                name: Status
+              direction: in
+          return_type:
+            name: void
+        - name: isoDataReceived
+          transaction_code_offset: 3
+          params:
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: scoDataReceived
+          transaction_code_offset: 4
+          params:
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+enums:
+    - name: Status
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: ""
+        - name: ALREADY_INITIALIZED
+          value: ""
+        - name: UNABLE_TO_OPEN_INTERFACE
+          value: ""
+        - name: HARDWARE_INITIALIZATION_ERROR
+          value: ""
+        - name: UNKNOWN
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing

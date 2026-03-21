@@ -57,6 +57,7 @@ func (p *FillCallbackProxy) OnCancellable(
 	cancellation common.ICancellationSignal,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFillCallback)
 	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
 
@@ -85,6 +86,7 @@ func (p *FillCallbackProxy) OnSuccess(
 	showingFillWindow bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFillCallback)
 	if inlineSuggestionsData == nil {
 		_data.WriteInt32(-1)
@@ -98,6 +100,7 @@ func (p *FillCallbackProxy) OnSuccess(
 		}
 	}
 	if clientState != nil {
+		_data.WriteInt32(1)
 		if _err := (*clientState).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -129,6 +132,7 @@ func (p *FillCallbackProxy) IsCompleted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFillCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFillCallback, MethodIFillCallbackIsCompleted)
@@ -157,6 +161,7 @@ func (p *FillCallbackProxy) Cancel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFillCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFillCallback, MethodIFillCallbackCancel)
@@ -180,7 +185,8 @@ func (p *FillCallbackProxy) Cancel(
 // FillCallbackStub dispatches incoming binder transactions
 // to a typed IFillCallback implementation.
 type FillCallbackStub struct {
-	Impl IFillCallback
+	Impl      IFillCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FillCallbackStub)(nil)
@@ -194,14 +200,20 @@ func (s *FillCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFillCallbackOnCancellable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cancellation common.ICancellationSignal
-		_ = _arg_cancellation
+		{
+			_cancellationHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cancellation = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
+		}
 		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
 		_reply := parcel.New()
 		if _err != nil {
@@ -211,12 +223,27 @@ func (s *FillCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFillCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_inlineSuggestionsData []autofill.Dataset
-		_ = _arg_inlineSuggestionsData
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_inlineSuggestionsData = make([]autofill.Dataset, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_inlineSuggestionsData[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_clientState *os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -224,6 +251,7 @@ func (s *FillCallbackStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_clientState = new(os.Bundle)
 				if _err = _arg_clientState.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
@@ -242,9 +270,6 @@ func (s *FillCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFillCallbackIsCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsCompleted(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -255,9 +280,6 @@ func (s *FillCallbackStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFillCallbackCancel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Cancel(ctx)
 		_reply := parcel.New()
 		if _err != nil {

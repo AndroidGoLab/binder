@@ -11,7 +11,7 @@ type VolumeShaperConfiguration struct {
 	Id                 int32
 	OptionFlags        int32
 	DurationMs         float64
-	InterpolatorConfig InterpolatorConfig
+	InterpolatorConfig *InterpolatorConfig
 }
 
 var _ parcel.Parcelable = (*VolumeShaperConfiguration)(nil)
@@ -24,8 +24,13 @@ func (s *VolumeShaperConfiguration) MarshalParcel(
 	p.WriteInt32(s.Id)
 	p.WriteInt32(s.OptionFlags)
 	p.WriteFloat64(s.DurationMs)
-	if _err := s.InterpolatorConfig.MarshalParcel(p); _err != nil {
-		return _err
+	if s.InterpolatorConfig == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.InterpolatorConfig.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -40,15 +45,30 @@ func (s *VolumeShaperConfiguration) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_typeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Type = VolumeShaperConfigurationType(_typeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Id, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.OptionFlags, _err = p.ReadInt32()
@@ -56,13 +76,33 @@ func (s *VolumeShaperConfiguration) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.DurationMs, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
 	}
 
-	if _err = s.InterpolatorConfig.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val InterpolatorConfig
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.InterpolatorConfig = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

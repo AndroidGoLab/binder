@@ -45,6 +45,7 @@ func (p *StartingWindowProxy) SetStartingWindowListener(
 	listener IStartingWindowListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStartingWindow)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -60,7 +61,8 @@ func (p *StartingWindowProxy) SetStartingWindowListener(
 // StartingWindowStub dispatches incoming binder transactions
 // to a typed IStartingWindow implementation.
 type StartingWindowStub struct {
-	Impl IStartingWindow
+	Impl      IStartingWindow
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StartingWindowStub)(nil)
@@ -74,17 +76,22 @@ func (s *StartingWindowStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStartingWindowSetStartingWindowListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IStartingWindowListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewStartingWindowListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.SetStartingWindowListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

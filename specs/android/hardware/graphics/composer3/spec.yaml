@@ -1,0 +1,1590 @@
+package: android.hardware.graphics.composer3
+go_package: android/hardware/graphics/composer3
+interfaces:
+    - name: IComposer
+      descriptor: android.hardware.graphics.composer3.IComposer
+      methods:
+        - name: createClient
+          transaction_code_offset: 0
+          return_type:
+            name: IComposerClient
+        - name: getCapabilities
+          transaction_code_offset: 1
+          return_type:
+            name: Capability
+            is_array: true
+      constants:
+        - name: EX_NO_RESOURCES
+          type: int
+          value: "6"
+    - name: IComposerCallback
+      descriptor: android.hardware.graphics.composer3.IComposerCallback
+      methods:
+        - name: onHotplug
+          transaction_code_offset: 0
+          params:
+            - name: display
+              type:
+                name: long
+            - name: connected
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onRefresh
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onSeamlessPossible
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onVsync
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: display
+              type:
+                name: long
+            - name: timestamp
+              type:
+                name: long
+            - name: vsyncPeriodNanos
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onVsyncPeriodTimingChanged
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: display
+              type:
+                name: long
+            - name: updatedTimeline
+              type:
+                name: VsyncPeriodChangeTimeline
+              direction: in
+          return_type:
+            name: void
+        - name: onVsyncIdle
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onRefreshRateChangedDebug
+          transaction_code_offset: 6
+          oneway: true
+          params:
+            - name: data
+              type:
+                name: RefreshRateChangedDebugData
+              direction: in
+          return_type:
+            name: void
+        - name: onHotplugEvent
+          transaction_code_offset: 7
+          params:
+            - name: display
+              type:
+                name: long
+            - name: event
+              type:
+                name: DisplayHotplugEvent
+          return_type:
+            name: void
+    - name: IComposerClient
+      descriptor: android.hardware.graphics.composer3.IComposerClient
+      methods:
+        - name: createLayer
+          transaction_code_offset: 0
+          params:
+            - name: display
+              type:
+                name: long
+            - name: bufferSlotCount
+              type:
+                name: int
+          return_type:
+            name: long
+        - name: createVirtualDisplay
+          transaction_code_offset: 1
+          params:
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+            - name: formatHint
+              type:
+                name: android.hardware.graphics.common.PixelFormat
+            - name: outputBufferSlotCount
+              type:
+                name: int
+          return_type:
+            name: VirtualDisplay
+        - name: destroyLayer
+          transaction_code_offset: 2
+          params:
+            - name: display
+              type:
+                name: long
+            - name: layer
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: destroyVirtualDisplay
+          transaction_code_offset: 3
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: executeCommands
+          transaction_code_offset: 4
+          params:
+            - name: commands
+              type:
+                name: DisplayCommand
+                is_array: true
+              direction: in
+          return_type:
+            name: CommandResultPayload
+            is_array: true
+        - name: getActiveConfig
+          transaction_code_offset: 5
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: int
+        - name: getColorModes
+          transaction_code_offset: 6
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: ColorMode
+            is_array: true
+        - name: getDataspaceSaturationMatrix
+          transaction_code_offset: 7
+          params:
+            - name: dataspace
+              type:
+                name: android.hardware.graphics.common.Dataspace
+          return_type:
+            name: float
+            is_array: true
+        - name: getDisplayAttribute
+          transaction_code_offset: 8
+          params:
+            - name: display
+              type:
+                name: long
+            - name: config
+              type:
+                name: int
+            - name: attribute
+              type:
+                name: DisplayAttribute
+          return_type:
+            name: int
+        - name: getDisplayCapabilities
+          transaction_code_offset: 9
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: DisplayCapability
+            is_array: true
+        - name: getDisplayConfigs
+          transaction_code_offset: 10
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: int
+            is_array: true
+        - name: getDisplayConnectionType
+          transaction_code_offset: 11
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: DisplayConnectionType
+        - name: getDisplayIdentificationData
+          transaction_code_offset: 12
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: DisplayIdentification
+        - name: getDisplayName
+          transaction_code_offset: 13
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: String
+        - name: getDisplayVsyncPeriod
+          transaction_code_offset: 14
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: int
+        - name: getDisplayedContentSample
+          transaction_code_offset: 15
+          params:
+            - name: display
+              type:
+                name: long
+            - name: maxFrames
+              type:
+                name: long
+            - name: timestamp
+              type:
+                name: long
+          return_type:
+            name: DisplayContentSample
+        - name: getDisplayedContentSamplingAttributes
+          transaction_code_offset: 16
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: DisplayContentSamplingAttributes
+        - name: getDisplayPhysicalOrientation
+          transaction_code_offset: 17
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: Transform
+        - name: getHdrCapabilities
+          transaction_code_offset: 18
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: HdrCapabilities
+        - name: getMaxVirtualDisplayCount
+          transaction_code_offset: 19
+          return_type:
+            name: int
+        - name: getPerFrameMetadataKeys
+          transaction_code_offset: 20
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: PerFrameMetadataKey
+            is_array: true
+        - name: getReadbackBufferAttributes
+          transaction_code_offset: 21
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: ReadbackBufferAttributes
+        - name: getReadbackBufferFence
+          transaction_code_offset: 22
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: ParcelFileDescriptor
+          annotations:
+            - nullable
+        - name: getRenderIntents
+          transaction_code_offset: 23
+          params:
+            - name: display
+              type:
+                name: long
+            - name: mode
+              type:
+                name: ColorMode
+          return_type:
+            name: RenderIntent
+            is_array: true
+        - name: getSupportedContentTypes
+          transaction_code_offset: 24
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: ContentType
+            is_array: true
+        - name: getDisplayDecorationSupport
+          transaction_code_offset: 25
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: DisplayDecorationSupport
+          annotations:
+            - nullable
+        - name: registerCallback
+          transaction_code_offset: 26
+          params:
+            - name: callback
+              type:
+                name: IComposerCallback
+              direction: in
+          return_type:
+            name: void
+        - name: setActiveConfig
+          transaction_code_offset: 27
+          params:
+            - name: display
+              type:
+                name: long
+            - name: config
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setActiveConfigWithConstraints
+          transaction_code_offset: 28
+          params:
+            - name: display
+              type:
+                name: long
+            - name: config
+              type:
+                name: int
+            - name: vsyncPeriodChangeConstraints
+              type:
+                name: VsyncPeriodChangeConstraints
+              direction: in
+          return_type:
+            name: VsyncPeriodChangeTimeline
+        - name: setBootDisplayConfig
+          transaction_code_offset: 29
+          params:
+            - name: display
+              type:
+                name: long
+            - name: config
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: clearBootDisplayConfig
+          transaction_code_offset: 30
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: getPreferredBootDisplayConfig
+          transaction_code_offset: 31
+          params:
+            - name: display
+              type:
+                name: long
+          return_type:
+            name: int
+        - name: setAutoLowLatencyMode
+          transaction_code_offset: 32
+          params:
+            - name: display
+              type:
+                name: long
+            - name: "on"
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setClientTargetSlotCount
+          transaction_code_offset: 33
+          params:
+            - name: display
+              type:
+                name: long
+            - name: clientTargetSlotCount
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setColorMode
+          transaction_code_offset: 34
+          params:
+            - name: display
+              type:
+                name: long
+            - name: mode
+              type:
+                name: ColorMode
+            - name: intent
+              type:
+                name: RenderIntent
+          return_type:
+            name: void
+        - name: setContentType
+          transaction_code_offset: 35
+          params:
+            - name: display
+              type:
+                name: long
+            - name: type
+              type:
+                name: ContentType
+          return_type:
+            name: void
+        - name: setDisplayedContentSamplingEnabled
+          transaction_code_offset: 36
+          params:
+            - name: display
+              type:
+                name: long
+            - name: enable
+              type:
+                name: boolean
+            - name: componentMask
+              type:
+                name: FormatColorComponent
+            - name: maxFrames
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: setPowerMode
+          transaction_code_offset: 37
+          params:
+            - name: display
+              type:
+                name: long
+            - name: mode
+              type:
+                name: PowerMode
+          return_type:
+            name: void
+        - name: setReadbackBuffer
+          transaction_code_offset: 38
+          params:
+            - name: display
+              type:
+                name: long
+            - name: buffer
+              type:
+                name: android.hardware.common.NativeHandle
+              direction: in
+            - name: releaseFence
+              type:
+                name: ParcelFileDescriptor
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: setVsyncEnabled
+          transaction_code_offset: 39
+          params:
+            - name: display
+              type:
+                name: long
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setIdleTimerEnabled
+          transaction_code_offset: 40
+          params:
+            - name: display
+              type:
+                name: long
+            - name: timeoutMs
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getOverlaySupport
+          transaction_code_offset: 41
+          return_type:
+            name: OverlayProperties
+        - name: getHdrConversionCapabilities
+          transaction_code_offset: 42
+          return_type:
+            name: HdrConversionCapability
+            is_array: true
+        - name: setHdrConversionStrategy
+          transaction_code_offset: 43
+          params:
+            - name: conversionStrategy
+              type:
+                name: HdrConversionStrategy
+              direction: in
+          return_type:
+            name: Hdr
+        - name: setRefreshRateChangedCallbackDebugEnabled
+          transaction_code_offset: 44
+          params:
+            - name: display
+              type:
+                name: long
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getDisplayConfigurations
+          transaction_code_offset: 45
+          params:
+            - name: display
+              type:
+                name: long
+            - name: maxFrameIntervalNs
+              type:
+                name: int
+          return_type:
+            name: DisplayConfiguration
+            is_array: true
+        - name: notifyExpectedPresent
+          transaction_code_offset: 46
+          oneway: true
+          params:
+            - name: display
+              type:
+                name: long
+            - name: expectedPresentTime
+              type:
+                name: ClockMonotonicTimestamp
+              direction: in
+            - name: frameIntervalNs
+              type:
+                name: int
+          return_type:
+            name: void
+      constants:
+        - name: EX_BAD_CONFIG
+          type: int
+          value: "1"
+        - name: EX_BAD_DISPLAY
+          type: int
+          value: "2"
+        - name: EX_BAD_LAYER
+          type: int
+          value: "3"
+        - name: EX_BAD_PARAMETER
+          type: int
+          value: "4"
+        - name: EX_RESERVED
+          type: int
+          value: "5"
+        - name: EX_NO_RESOURCES
+          type: int
+          value: "6"
+        - name: EX_NOT_VALIDATED
+          type: int
+          value: "7"
+        - name: EX_UNSUPPORTED
+          type: int
+          value: "8"
+        - name: EX_SEAMLESS_NOT_ALLOWED
+          type: int
+          value: "9"
+        - name: EX_SEAMLESS_NOT_POSSIBLE
+          type: int
+          value: "10"
+        - name: INVALID_CONFIGURATION
+          type: int
+          value: "0x7fffffff"
+parcelables:
+    - name: Buffer
+      fields:
+        - name: slot
+          type:
+            name: int
+        - name: handle
+          type:
+            name: NativeHandle
+          annotations:
+            - nullable
+        - name: fence
+          type:
+            name: ParcelFileDescriptor
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: ChangedCompositionLayer
+      fields:
+        - name: layer
+          type:
+            name: long
+        - name: composition
+          type:
+            name: Composition
+      annotations:
+        - VintfStability
+    - name: ChangedCompositionTypes
+      fields:
+        - name: display
+          type:
+            name: long
+        - name: layers
+          type:
+            name: ChangedCompositionLayer
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: ClientTarget
+      fields:
+        - name: buffer
+          type:
+            name: Buffer
+        - name: dataspace
+          type:
+            name: Dataspace
+        - name: damage
+          type:
+            name: Rect
+            is_array: true
+        - name: hdrSdrRatio
+          type:
+            name: float
+          default_value: 1.0f
+      annotations:
+        - VintfStability
+    - name: ClientTargetProperty
+      fields:
+        - name: pixelFormat
+          type:
+            name: android.hardware.graphics.common.PixelFormat
+        - name: dataspace
+          type:
+            name: android.hardware.graphics.common.Dataspace
+      annotations:
+        - VintfStability
+    - name: ClientTargetPropertyWithBrightness
+      fields:
+        - name: display
+          type:
+            name: long
+        - name: clientTargetProperty
+          type:
+            name: ClientTargetProperty
+        - name: brightness
+          type:
+            name: float
+        - name: dimmingStage
+          type:
+            name: DimmingStage
+      annotations:
+        - VintfStability
+    - name: ClockMonotonicTimestamp
+      fields:
+        - name: timestampNanos
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: Color
+      fields:
+        - name: r
+          type:
+            name: float
+        - name: g
+          type:
+            name: float
+        - name: b
+          type:
+            name: float
+        - name: a
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: CommandError
+      fields:
+        - name: commandIndex
+          type:
+            name: int
+        - name: errorCode
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: DisplayBrightness
+      fields:
+        - name: brightness
+          type:
+            name: float
+        - name: brightnessNits
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: DisplayCommand
+      fields:
+        - name: display
+          type:
+            name: long
+        - name: layers
+          type:
+            name: LayerCommand
+            is_array: true
+        - name: colorTransformMatrix
+          type:
+            name: float
+            is_array: true
+          annotations:
+            - nullable
+        - name: brightness
+          type:
+            name: DisplayBrightness
+          annotations:
+            - nullable
+        - name: clientTarget
+          type:
+            name: ClientTarget
+          annotations:
+            - nullable
+        - name: virtualDisplayOutputBuffer
+          type:
+            name: Buffer
+          annotations:
+            - nullable
+        - name: expectedPresentTime
+          type:
+            name: ClockMonotonicTimestamp
+          annotations:
+            - nullable
+        - name: validateDisplay
+          type:
+            name: boolean
+        - name: acceptDisplayChanges
+          type:
+            name: boolean
+        - name: presentDisplay
+          type:
+            name: boolean
+        - name: presentOrValidateDisplay
+          type:
+            name: boolean
+        - name: frameIntervalNs
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: DisplayConfiguration
+      fields:
+        - name: configId
+          type:
+            name: int
+        - name: width
+          type:
+            name: int
+        - name: height
+          type:
+            name: int
+        - name: dpi
+          type:
+            name: Dpi
+          annotations:
+            - nullable
+        - name: configGroup
+          type:
+            name: int
+        - name: vsyncPeriod
+          type:
+            name: int
+        - name: vrrConfig
+          type:
+            name: VrrConfig
+          annotations:
+            - nullable
+      nested_types:
+        - DisplayConfiguration.Dpi
+      annotations:
+        - VintfStability
+    - name: DisplayConfiguration.Dpi
+      fields:
+        - name: x
+          type:
+            name: float
+        - name: "y"
+          type:
+            name: float
+    - name: DisplayContentSample
+      fields:
+        - name: frameCount
+          type:
+            name: long
+        - name: sampleComponent0
+          type:
+            name: long
+            is_array: true
+        - name: sampleComponent1
+          type:
+            name: long
+            is_array: true
+        - name: sampleComponent2
+          type:
+            name: long
+            is_array: true
+        - name: sampleComponent3
+          type:
+            name: long
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: DisplayContentSamplingAttributes
+      fields:
+        - name: format
+          type:
+            name: android.hardware.graphics.common.PixelFormat
+        - name: dataspace
+          type:
+            name: android.hardware.graphics.common.Dataspace
+        - name: componentMask
+          type:
+            name: FormatColorComponent
+      annotations:
+        - VintfStability
+    - name: DisplayIdentification
+      fields:
+        - name: port
+          type:
+            name: byte
+        - name: data
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: DisplayRequest
+      fields:
+        - name: display
+          type:
+            name: long
+        - name: mask
+          type:
+            name: int
+        - name: layerRequests
+          type:
+            name: LayerRequest
+            is_array: true
+      constants:
+        - name: FLIP_CLIENT_TARGET
+          type: int
+          value: 1 << 0
+        - name: WRITE_CLIENT_TARGET_TO_OUTPUT
+          type: int
+          value: 1 << 1
+      nested_types:
+        - DisplayRequest.LayerRequest
+      annotations:
+        - VintfStability
+    - name: DisplayRequest.LayerRequest
+      fields:
+        - name: layer
+          type:
+            name: long
+        - name: mask
+          type:
+            name: int
+      constants:
+        - name: CLEAR_CLIENT_TARGET
+          type: int
+          value: 1 << 0
+      annotations:
+        - VintfStability
+    - name: HdrCapabilities
+      fields:
+        - name: types
+          type:
+            name: android.hardware.graphics.common.Hdr
+            is_array: true
+        - name: maxLuminance
+          type:
+            name: float
+        - name: maxAverageLuminance
+          type:
+            name: float
+        - name: minLuminance
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: LayerBrightness
+      fields:
+        - name: brightness
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: LayerCommand
+      fields:
+        - name: layer
+          type:
+            name: long
+        - name: cursorPosition
+          type:
+            name: Point
+          annotations:
+            - nullable
+        - name: buffer
+          type:
+            name: Buffer
+          annotations:
+            - nullable
+        - name: damage
+          type:
+            name: Rect
+            is_array: true
+          annotations:
+            - nullable
+        - name: blendMode
+          type:
+            name: ParcelableBlendMode
+          annotations:
+            - nullable
+        - name: color
+          type:
+            name: Color
+          annotations:
+            - nullable
+        - name: composition
+          type:
+            name: ParcelableComposition
+          annotations:
+            - nullable
+        - name: dataspace
+          type:
+            name: ParcelableDataspace
+          annotations:
+            - nullable
+        - name: displayFrame
+          type:
+            name: Rect
+          annotations:
+            - nullable
+        - name: planeAlpha
+          type:
+            name: PlaneAlpha
+          annotations:
+            - nullable
+        - name: sidebandStream
+          type:
+            name: NativeHandle
+          annotations:
+            - nullable
+        - name: sourceCrop
+          type:
+            name: FRect
+          annotations:
+            - nullable
+        - name: transform
+          type:
+            name: ParcelableTransform
+          annotations:
+            - nullable
+        - name: visibleRegion
+          type:
+            name: Rect
+            is_array: true
+          annotations:
+            - nullable
+        - name: z
+          type:
+            name: ZOrder
+          annotations:
+            - nullable
+        - name: colorTransform
+          type:
+            name: float
+            is_array: true
+          annotations:
+            - nullable
+        - name: brightness
+          type:
+            name: LayerBrightness
+          annotations:
+            - nullable
+        - name: perFrameMetadata
+          type:
+            name: PerFrameMetadata
+            is_array: true
+          annotations:
+            - nullable
+        - name: perFrameMetadataBlob
+          type:
+            name: PerFrameMetadataBlob
+            is_array: true
+          annotations:
+            - nullable
+        - name: blockingRegion
+          type:
+            name: Rect
+            is_array: true
+          annotations:
+            - nullable
+        - name: bufferSlotsToClear
+          type:
+            name: int
+            is_array: true
+          annotations:
+            - nullable
+        - name: layerLifecycleBatchCommandType
+          type:
+            name: LayerLifecycleBatchCommandType
+        - name: newBufferSlotCount
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: OverlayProperties
+      fields:
+        - name: combinations
+          type:
+            name: SupportedBufferCombinations
+            is_array: true
+        - name: supportMixedColorSpaces
+          type:
+            name: boolean
+      nested_types:
+        - OverlayProperties.SupportedBufferCombinations
+      annotations:
+        - VintfStability
+    - name: OverlayProperties.SupportedBufferCombinations
+      fields:
+        - name: pixelFormats
+          type:
+            name: android.hardware.graphics.common.PixelFormat
+            is_array: true
+        - name: standards
+          type:
+            name: android.hardware.graphics.common.Dataspace
+            is_array: true
+        - name: transfers
+          type:
+            name: android.hardware.graphics.common.Dataspace
+            is_array: true
+        - name: ranges
+          type:
+            name: android.hardware.graphics.common.Dataspace
+            is_array: true
+    - name: ParcelableBlendMode
+      fields:
+        - name: blendMode
+          type:
+            name: BlendMode
+      annotations:
+        - VintfStability
+    - name: ParcelableComposition
+      fields:
+        - name: composition
+          type:
+            name: Composition
+      annotations:
+        - VintfStability
+    - name: ParcelableDataspace
+      fields:
+        - name: dataspace
+          type:
+            name: Dataspace
+      annotations:
+        - VintfStability
+    - name: ParcelableTransform
+      fields:
+        - name: transform
+          type:
+            name: Transform
+      annotations:
+        - VintfStability
+    - name: PerFrameMetadata
+      fields:
+        - name: key
+          type:
+            name: PerFrameMetadataKey
+        - name: value
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: PerFrameMetadataBlob
+      fields:
+        - name: key
+          type:
+            name: PerFrameMetadataKey
+        - name: blob
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: PlaneAlpha
+      fields:
+        - name: alpha
+          type:
+            name: float
+      annotations:
+        - VintfStability
+    - name: PresentFence
+      fields:
+        - name: display
+          type:
+            name: long
+        - name: fence
+          type:
+            name: ParcelFileDescriptor
+      annotations:
+        - VintfStability
+    - name: PresentOrValidate
+      fields:
+        - name: display
+          type:
+            name: long
+        - name: result
+          type:
+            name: Result
+      nested_types:
+        - PresentOrValidate.Result
+      annotations:
+        - VintfStability
+    - name: ReadbackBufferAttributes
+      fields:
+        - name: format
+          type:
+            name: android.hardware.graphics.common.PixelFormat
+        - name: dataspace
+          type:
+            name: android.hardware.graphics.common.Dataspace
+      annotations:
+        - VintfStability
+    - name: RefreshRateChangedDebugData
+      fields:
+        - name: display
+          type:
+            name: long
+        - name: vsyncPeriodNanos
+          type:
+            name: int
+        - name: refreshPeriodNanos
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: ReleaseFences
+      fields:
+        - name: display
+          type:
+            name: long
+        - name: layers
+          type:
+            name: Layer
+            is_array: true
+      nested_types:
+        - ReleaseFences.Layer
+      annotations:
+        - VintfStability
+    - name: ReleaseFences.Layer
+      fields:
+        - name: layer
+          type:
+            name: long
+        - name: fence
+          type:
+            name: ParcelFileDescriptor
+      annotations:
+        - VintfStability
+    - name: VirtualDisplay
+      fields:
+        - name: display
+          type:
+            name: long
+        - name: format
+          type:
+            name: android.hardware.graphics.common.PixelFormat
+      annotations:
+        - VintfStability
+    - name: VrrConfig
+      fields:
+        - name: minFrameIntervalNs
+          type:
+            name: int
+        - name: frameIntervalPowerHints
+          type:
+            name: FrameIntervalPowerHint
+            is_array: true
+          annotations:
+            - nullable
+        - name: notifyExpectedPresentConfig
+          type:
+            name: NotifyExpectedPresentConfig
+          annotations:
+            - nullable
+      nested_types:
+        - VrrConfig.FrameIntervalPowerHint
+        - VrrConfig.NotifyExpectedPresentConfig
+      annotations:
+        - VintfStability
+    - name: VrrConfig.FrameIntervalPowerHint
+      fields:
+        - name: frameIntervalNs
+          type:
+            name: int
+        - name: averageRefreshPeriodNs
+          type:
+            name: int
+    - name: VrrConfig.NotifyExpectedPresentConfig
+      fields:
+        - name: headsUpNs
+          type:
+            name: int
+        - name: timeoutNs
+          type:
+            name: int
+    - name: VsyncPeriodChangeConstraints
+      fields:
+        - name: desiredTimeNanos
+          type:
+            name: long
+        - name: seamlessRequired
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: VsyncPeriodChangeTimeline
+      fields:
+        - name: newVsyncAppliedTimeNanos
+          type:
+            name: long
+        - name: refreshRequired
+          type:
+            name: boolean
+        - name: refreshTimeNanos
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: ZOrder
+      fields:
+        - name: z
+          type:
+            name: int
+      annotations:
+        - VintfStability
+enums:
+    - name: Capability
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "0"
+        - name: SIDEBAND_STREAM
+          value: "1"
+        - name: SKIP_CLIENT_COLOR_TRANSFORM
+          value: "2"
+        - name: PRESENT_FENCE_IS_NOT_RELIABLE
+          value: "3"
+        - name: SKIP_VALIDATE
+          value: "4"
+        - name: BOOT_DISPLAY_CONFIG
+          value: "5"
+        - name: HDR_OUTPUT_CONVERSION_CONFIG
+          value: "6"
+        - name: REFRESH_RATE_CHANGED_CALLBACK_DEBUG
+          value: "7"
+        - name: LAYER_LIFECYCLE_BATCH_COMMAND
+          value: "8"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ColorMode
+      backing_type: int
+      values:
+        - name: NATIVE
+          value: "0"
+        - name: STANDARD_BT601_625
+          value: "1"
+        - name: STANDARD_BT601_625_UNADJUSTED
+          value: "2"
+        - name: STANDARD_BT601_525
+          value: "3"
+        - name: STANDARD_BT601_525_UNADJUSTED
+          value: "4"
+        - name: STANDARD_BT709
+          value: "5"
+        - name: DCI_P3
+          value: "6"
+        - name: SRGB
+          value: "7"
+        - name: ADOBE_RGB
+          value: "8"
+        - name: DISPLAY_P3
+          value: "9"
+        - name: BT2020
+          value: "10"
+        - name: BT2100_PQ
+          value: "11"
+        - name: BT2100_HLG
+          value: "12"
+        - name: DISPLAY_BT2020
+          value: "13"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Composition
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "0"
+        - name: CLIENT
+          value: "1"
+        - name: DEVICE
+          value: "2"
+        - name: SOLID_COLOR
+          value: "3"
+        - name: CURSOR
+          value: "4"
+        - name: SIDEBAND
+          value: "5"
+        - name: DISPLAY_DECORATION
+          value: "6"
+        - name: REFRESH_RATE_INDICATOR
+          value: "7"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ContentType
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: GRAPHICS
+          value: "1"
+        - name: PHOTO
+          value: "2"
+        - name: CINEMA
+          value: "3"
+        - name: GAME
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DimmingStage
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: LINEAR
+          value: "1"
+        - name: GAMMA_OETF
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DisplayAttribute
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "0"
+        - name: WIDTH
+          value: "1"
+        - name: HEIGHT
+          value: "2"
+        - name: VSYNC_PERIOD
+          value: "3"
+        - name: DPI_X
+          value: "4"
+        - name: DPI_Y
+          value: "5"
+        - name: CONFIG_GROUP
+          value: "7"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DisplayCapability
+      backing_type: int
+      values:
+        - name: INVALID
+          value: "0"
+        - name: SKIP_CLIENT_COLOR_TRANSFORM
+          value: "1"
+        - name: DOZE
+          value: "2"
+        - name: BRIGHTNESS
+          value: "3"
+        - name: PROTECTED_CONTENTS
+          value: "4"
+        - name: AUTO_LOW_LATENCY_MODE
+          value: "5"
+        - name: SUSPEND
+          value: "6"
+        - name: DISPLAY_IDLE_TIMER
+          value: "7"
+        - name: MULTI_THREADED_PRESENT
+          value: "8"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DisplayConnectionType
+      backing_type: int
+      values:
+        - name: INTERNAL
+          value: "0"
+        - name: EXTERNAL
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: FormatColorComponent
+      backing_type: byte
+      values:
+        - name: FORMAT_COMPONENT_0
+          value: 1 << 0
+        - name: FORMAT_COMPONENT_1
+          value: 1 << 1
+        - name: FORMAT_COMPONENT_2
+          value: 1 << 2
+        - name: FORMAT_COMPONENT_3
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LayerLifecycleBatchCommandType
+      backing_type: int
+      values:
+        - name: MODIFY
+          value: "0"
+        - name: CREATE
+          value: "1"
+        - name: DESTROY
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PerFrameMetadataKey
+      backing_type: int
+      values:
+        - name: DISPLAY_RED_PRIMARY_X
+          value: ""
+        - name: DISPLAY_RED_PRIMARY_Y
+          value: ""
+        - name: DISPLAY_GREEN_PRIMARY_X
+          value: ""
+        - name: DISPLAY_GREEN_PRIMARY_Y
+          value: ""
+        - name: DISPLAY_BLUE_PRIMARY_X
+          value: ""
+        - name: DISPLAY_BLUE_PRIMARY_Y
+          value: ""
+        - name: WHITE_POINT_X
+          value: ""
+        - name: WHITE_POINT_Y
+          value: ""
+        - name: MAX_LUMINANCE
+          value: ""
+        - name: MIN_LUMINANCE
+          value: ""
+        - name: MAX_CONTENT_LIGHT_LEVEL
+          value: ""
+        - name: MAX_FRAME_AVERAGE_LIGHT_LEVEL
+          value: ""
+        - name: HDR10_PLUS_SEI
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PowerMode
+      backing_type: int
+      values:
+        - name: "OFF"
+          value: "0"
+        - name: DOZE
+          value: "1"
+        - name: DOZE_SUSPEND
+          value: "3"
+        - name: "ON"
+          value: "2"
+        - name: ON_SUSPEND
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PresentOrValidate.Result
+      backing_type: ""
+      values:
+        - name: Validated
+          value: ""
+        - name: Presented
+          value: ""
+      annotations:
+        - VintfStability
+    - name: RenderIntent
+      backing_type: int
+      values:
+        - name: COLORIMETRIC
+          value: "0"
+        - name: ENHANCE
+          value: "1"
+        - name: TONE_MAP_COLORIMETRIC
+          value: "2"
+        - name: TONE_MAP_ENHANCE
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: CommandResultPayload
+      fields:
+        - name: error
+          type:
+            name: CommandError
+        - name: changedCompositionTypes
+          type:
+            name: ChangedCompositionTypes
+        - name: displayRequest
+          type:
+            name: DisplayRequest
+        - name: presentFence
+          type:
+            name: PresentFence
+        - name: releaseFences
+          type:
+            name: ReleaseFences
+        - name: presentOrValidateResult
+          type:
+            name: PresentOrValidate
+        - name: clientTargetProperty
+          type:
+            name: ClientTargetPropertyWithBrightness
+      annotations:
+        - VintfStability

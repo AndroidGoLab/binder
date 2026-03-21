@@ -51,6 +51,7 @@ func (p *ContentObserverProxy) OnChange(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentObserver)
 	_data.WriteBool(selfUpdate)
 	_data.WriteInt32(1)
@@ -76,6 +77,7 @@ func (p *ContentObserverProxy) OnChangeEtc(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentObserver)
 	_data.WriteBool(selfUpdate)
 	if uri == nil {
@@ -104,7 +106,8 @@ func (p *ContentObserverProxy) OnChangeEtc(
 // ContentObserverStub dispatches incoming binder transactions
 // to a typed IContentObserver implementation.
 type ContentObserverStub struct {
-	Impl IContentObserver
+	Impl      IContentObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ContentObserverStub)(nil)
@@ -118,11 +121,12 @@ func (s *ContentObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIContentObserverOnChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_selfUpdate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -143,19 +147,33 @@ func (s *ContentObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnChange(ctx, _arg_selfUpdate, _arg_uri)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentObserverOnChangeEtc:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_selfUpdate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_uri []net.Uri
-		_ = _arg_uri
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_uri = make([]net.Uri, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_uri[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -164,8 +182,7 @@ func (s *ContentObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnChangeEtc(ctx, _arg_selfUpdate, _arg_uri, _arg_flags)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

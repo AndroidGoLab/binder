@@ -45,6 +45,7 @@ func (p *BluetoothActivityEnergyInfoListenerProxy) OnBluetoothActivityEnergyInfo
 	info BluetoothActivityEnergyInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothActivityEnergyInfoListener)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *BluetoothActivityEnergyInfoListenerProxy) OnBluetoothActivityEnergyInfo
 // BluetoothActivityEnergyInfoListenerStub dispatches incoming binder transactions
 // to a typed IBluetoothActivityEnergyInfoListener implementation.
 type BluetoothActivityEnergyInfoListenerStub struct {
-	Impl IBluetoothActivityEnergyInfoListener
+	Impl      IBluetoothActivityEnergyInfoListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothActivityEnergyInfoListenerStub)(nil)
@@ -77,11 +79,12 @@ func (s *BluetoothActivityEnergyInfoListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothActivityEnergyInfoListenerOnBluetoothActivityEnergyInfoAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info BluetoothActivityEnergyInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *BluetoothActivityEnergyInfoListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnBluetoothActivityEnergyInfoAvailable(ctx, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

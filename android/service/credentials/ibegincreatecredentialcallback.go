@@ -27,7 +27,7 @@ const (
 type IBeginCreateCredentialCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, request BeginCreateCredentialResponse) error
-	OnFailure(ctx context.Context, errorType string, message interface{}) error
+	OnFailure(ctx context.Context, errorType string, message string) error
 	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
 }
 
@@ -52,6 +52,7 @@ func (p *BeginCreateCredentialCallbackProxy) OnSuccess(
 	request BeginCreateCredentialResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBeginCreateCredentialCallback)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -70,11 +71,13 @@ func (p *BeginCreateCredentialCallbackProxy) OnSuccess(
 func (p *BeginCreateCredentialCallbackProxy) OnFailure(
 	ctx context.Context,
 	errorType string,
-	message interface{},
+	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBeginCreateCredentialCallback)
 	_data.WriteString16(errorType)
+	_data.WriteString16(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBeginCreateCredentialCallback, MethodIBeginCreateCredentialCallbackOnFailure)
 	if _err != nil {
@@ -90,6 +93,7 @@ func (p *BeginCreateCredentialCallbackProxy) OnCancellable(
 	cancellation common.ICancellationSignal,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBeginCreateCredentialCallback)
 	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
 
@@ -105,7 +109,8 @@ func (p *BeginCreateCredentialCallbackProxy) OnCancellable(
 // BeginCreateCredentialCallbackStub dispatches incoming binder transactions
 // to a typed IBeginCreateCredentialCallback implementation.
 type BeginCreateCredentialCallbackStub struct {
-	Impl IBeginCreateCredentialCallback
+	Impl      IBeginCreateCredentialCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BeginCreateCredentialCallbackStub)(nil)
@@ -119,11 +124,12 @@ func (s *BeginCreateCredentialCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBeginCreateCredentialCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request BeginCreateCredentialResponse
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -137,30 +143,29 @@ func (s *BeginCreateCredentialCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSuccess(ctx, _arg_request)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBeginCreateCredentialCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_message interface{}
-		_err = s.Impl.OnFailure(ctx, _arg_errorType, _arg_message)
-		_ = _err
-		return nil, nil
-	case TransactionIBeginCreateCredentialCallbackOnCancellable:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_message, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err = s.Impl.OnFailure(ctx, _arg_errorType, _arg_message)
+		return nil, _err
+	case TransactionIBeginCreateCredentialCallbackOnCancellable:
 		var _arg_cancellation common.ICancellationSignal
-		_ = _arg_cancellation
+		{
+			_cancellationHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cancellation = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
+		}
 		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -171,7 +176,7 @@ func (s *BeginCreateCredentialCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IBeginCreateCredentialCallbackServer interface {
 	OnSuccess(ctx context.Context, request BeginCreateCredentialResponse) error
-	OnFailure(ctx context.Context, errorType string, message interface{}) error
+	OnFailure(ctx context.Context, errorType string, message string) error
 	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
 }
 
@@ -194,7 +199,7 @@ func (w *beginCreateCredentialCallbackStubWrapper) OnSuccess(
 func (w *beginCreateCredentialCallbackStubWrapper) OnFailure(
 	ctx context.Context,
 	errorType string,
-	message interface{},
+	message string,
 ) error {
 	return w.impl.OnFailure(ctx, errorType, message)
 }

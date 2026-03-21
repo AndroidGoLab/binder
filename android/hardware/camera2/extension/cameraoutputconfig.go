@@ -1,6 +1,7 @@
 package extension
 
 import (
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type CameraOutputConfig struct {
 	Size                    Size
-	Surface                 interface{}
+	Surface                 view.Surface
 	ImageFormat             int32
 	Capacity                int32
 	Usage                   int64
@@ -33,6 +34,9 @@ func (s *CameraOutputConfig) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	if _err := s.Size.MarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _err := s.Surface.MarshalParcel(p); _err != nil {
 		return _err
 	}
 	p.WriteInt32(s.ImageFormat)
@@ -69,8 +73,27 @@ func (s *CameraOutputConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Size.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.Surface.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ImageFormat, _err = p.ReadInt32()
@@ -78,9 +101,19 @@ func (s *CameraOutputConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Capacity, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Usage, _err = p.ReadInt64()
@@ -88,13 +121,28 @@ func (s *CameraOutputConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Type, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.OutputId.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SurfaceGroupId, _err = p.ReadInt32()
@@ -102,9 +150,19 @@ func (s *CameraOutputConfig) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PhysicalCameraId, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -122,6 +180,11 @@ func (s *CameraOutputConfig) UnmarshalParcel(
 				return _err
 			}
 		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.IsMultiResolutionOutput, _err = p.ReadBool()

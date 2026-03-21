@@ -41,7 +41,8 @@ var _ IDeviceProductInfoConstants = (*DeviceProductInfoConstantsProxy)(nil)
 // DeviceProductInfoConstantsStub dispatches incoming binder transactions
 // to a typed IDeviceProductInfoConstants implementation.
 type DeviceProductInfoConstantsStub struct {
-	Impl IDeviceProductInfoConstants
+	Impl      IDeviceProductInfoConstants
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DeviceProductInfoConstantsStub)(nil)
@@ -55,6 +56,10 @@ func (s *DeviceProductInfoConstantsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

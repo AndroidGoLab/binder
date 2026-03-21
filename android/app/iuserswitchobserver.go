@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -30,7 +31,7 @@ const (
 type IUserSwitchObserver interface {
 	AsBinder() binder.IBinder
 	OnBeforeUserSwitching(ctx context.Context, newUserId int32) error
-	OnUserSwitching(ctx context.Context, newUserId int32, reply interface{}) error
+	OnUserSwitching(ctx context.Context, newUserId int32, reply os.IRemoteCallback) error
 	OnUserSwitchComplete(ctx context.Context, newUserId int32) error
 	OnForegroundProfileSwitch(ctx context.Context, newProfileId int32) error
 	OnLockedBootComplete(ctx context.Context, newUserId int32) error
@@ -57,6 +58,7 @@ func (p *UserSwitchObserverProxy) OnBeforeUserSwitching(
 	newUserId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserSwitchObserver)
 	_data.WriteInt32(newUserId)
 
@@ -72,11 +74,13 @@ func (p *UserSwitchObserverProxy) OnBeforeUserSwitching(
 func (p *UserSwitchObserverProxy) OnUserSwitching(
 	ctx context.Context,
 	newUserId int32,
-	reply interface{},
+	reply os.IRemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserSwitchObserver)
 	_data.WriteInt32(newUserId)
+	binder.WriteBinderToParcel(ctx, _data, reply.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserSwitchObserver, MethodIUserSwitchObserverOnUserSwitching)
 	if _err != nil {
@@ -92,6 +96,7 @@ func (p *UserSwitchObserverProxy) OnUserSwitchComplete(
 	newUserId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserSwitchObserver)
 	_data.WriteInt32(newUserId)
 
@@ -109,6 +114,7 @@ func (p *UserSwitchObserverProxy) OnForegroundProfileSwitch(
 	newProfileId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserSwitchObserver)
 	_data.WriteInt32(newProfileId)
 
@@ -126,6 +132,7 @@ func (p *UserSwitchObserverProxy) OnLockedBootComplete(
 	newUserId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUserSwitchObserver)
 	_data.WriteInt32(newUserId)
 
@@ -141,7 +148,8 @@ func (p *UserSwitchObserverProxy) OnLockedBootComplete(
 // UserSwitchObserverStub dispatches incoming binder transactions
 // to a typed IUserSwitchObserver implementation.
 type UserSwitchObserverStub struct {
-	Impl IUserSwitchObserver
+	Impl      IUserSwitchObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UserSwitchObserverStub)(nil)
@@ -155,63 +163,54 @@ func (s *UserSwitchObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUserSwitchObserverOnBeforeUserSwitching:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_newUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnBeforeUserSwitching(ctx, _arg_newUserId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUserSwitchObserverOnUserSwitching:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_newUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_reply interface{}
-		_err = s.Impl.OnUserSwitching(ctx, _arg_newUserId, _arg_reply)
-		_ = _err
-		return nil, nil
-	case TransactionIUserSwitchObserverOnUserSwitchComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_reply os.IRemoteCallback
+		{
+			_replyHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_reply = os.NewRemoteCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _replyHandle))
 		}
+		_err = s.Impl.OnUserSwitching(ctx, _arg_newUserId, _arg_reply)
+		return nil, _err
+	case TransactionIUserSwitchObserverOnUserSwitchComplete:
 		_arg_newUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnUserSwitchComplete(ctx, _arg_newUserId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUserSwitchObserverOnForegroundProfileSwitch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_newProfileId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnForegroundProfileSwitch(ctx, _arg_newProfileId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIUserSwitchObserverOnLockedBootComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_newUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnLockedBootComplete(ctx, _arg_newUserId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -222,7 +221,7 @@ func (s *UserSwitchObserverStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IUserSwitchObserverServer interface {
 	OnBeforeUserSwitching(ctx context.Context, newUserId int32) error
-	OnUserSwitching(ctx context.Context, newUserId int32, reply interface{}) error
+	OnUserSwitching(ctx context.Context, newUserId int32, reply os.IRemoteCallback) error
 	OnUserSwitchComplete(ctx context.Context, newUserId int32) error
 	OnForegroundProfileSwitch(ctx context.Context, newProfileId int32) error
 	OnLockedBootComplete(ctx context.Context, newUserId int32) error
@@ -247,7 +246,7 @@ func (w *userSwitchObserverStubWrapper) OnBeforeUserSwitching(
 func (w *userSwitchObserverStubWrapper) OnUserSwitching(
 	ctx context.Context,
 	newUserId int32,
-	reply interface{},
+	reply os.IRemoteCallback,
 ) error {
 	return w.impl.OnUserSwitching(ctx, newUserId, reply)
 }

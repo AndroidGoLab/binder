@@ -53,17 +53,11 @@ func (p *CasListenerProxy) OnEvent(
 	data []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICasListener)
 	_data.WriteInt32(event)
 	_data.WriteInt32(arg)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICasListener, MethodICasListenerOnEvent)
 	if _err != nil {
@@ -91,25 +85,12 @@ func (p *CasListenerProxy) OnSessionEvent(
 	data []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICasListener)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 	_data.WriteInt32(event)
 	_data.WriteInt32(arg)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICasListener, MethodICasListenerOnSessionEvent)
 	if _err != nil {
@@ -135,6 +116,7 @@ func (p *CasListenerProxy) OnStatusUpdate(
 	number int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICasListener)
 	_data.WritePaddedByte(byte(event))
 	_data.WriteInt32(number)
@@ -160,7 +142,8 @@ func (p *CasListenerProxy) OnStatusUpdate(
 // CasListenerStub dispatches incoming binder transactions
 // to a typed ICasListener implementation.
 type CasListenerStub struct {
-	Impl ICasListener
+	Impl      ICasListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CasListenerStub)(nil)
@@ -174,11 +157,12 @@ func (s *CasListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICasListenerOnEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -187,9 +171,14 @@ func (s *CasListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_err = s.Impl.OnEvent(ctx, _arg_event, _arg_arg, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -199,12 +188,14 @@ func (s *CasListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasListenerOnSessionEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -213,9 +204,14 @@ func (s *CasListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_err = s.Impl.OnSessionEvent(ctx, _arg_sessionId, _arg_event, _arg_arg, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -225,9 +221,6 @@ func (s *CasListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasListenerOnStatusUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_event, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err

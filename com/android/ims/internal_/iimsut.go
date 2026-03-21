@@ -102,6 +102,7 @@ func (p *ImsUtProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtClose)
@@ -128,6 +129,7 @@ func (p *ImsUtProxy) QueryCallBarring(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 	_data.WriteInt32(cbType)
 
@@ -160,6 +162,7 @@ func (p *ImsUtProxy) QueryCallForward(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 	_data.WriteInt32(condition)
 	_data.WriteString16(number)
@@ -191,6 +194,7 @@ func (p *ImsUtProxy) QueryCallWaiting(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtQueryCallWaiting)
@@ -220,6 +224,7 @@ func (p *ImsUtProxy) QueryCLIR(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtQueryCLIR)
@@ -249,6 +254,7 @@ func (p *ImsUtProxy) QueryCLIP(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtQueryCLIP)
@@ -278,6 +284,7 @@ func (p *ImsUtProxy) QueryCOLR(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtQueryCOLR)
@@ -307,6 +314,7 @@ func (p *ImsUtProxy) QueryCOLP(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUt, MethodIImsUtQueryCOLP)
@@ -337,6 +345,7 @@ func (p *ImsUtProxy) Transact(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 	_data.WriteInt32(1)
 	if _err := ssInfo.MarshalParcel(_data); _err != nil {
@@ -373,6 +382,7 @@ func (p *ImsUtProxy) UpdateCallBarring(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 	_data.WriteInt32(cbType)
 	_data.WriteInt32(action)
@@ -417,6 +427,7 @@ func (p *ImsUtProxy) UpdateCallForward(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 	_data.WriteInt32(action)
 	_data.WriteInt32(condition)
@@ -453,6 +464,7 @@ func (p *ImsUtProxy) UpdateCallWaiting(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 	_data.WriteBool(enable)
 	_data.WriteInt32(serviceClass)
@@ -485,6 +497,7 @@ func (p *ImsUtProxy) UpdateCLIR(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 	_data.WriteInt32(clirMode)
 
@@ -516,6 +529,7 @@ func (p *ImsUtProxy) UpdateCLIP(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 	_data.WriteBool(enable)
 
@@ -547,6 +561,7 @@ func (p *ImsUtProxy) UpdateCOLR(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 	_data.WriteInt32(presentation)
 
@@ -578,6 +593,7 @@ func (p *ImsUtProxy) UpdateCOLP(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 	_data.WriteBool(enable)
 
@@ -608,6 +624,7 @@ func (p *ImsUtProxy) SetListener(
 	listener IImsUtListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -636,6 +653,7 @@ func (p *ImsUtProxy) QueryCallBarringForServiceClass(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 	_data.WriteInt32(cbType)
 	_data.WriteInt32(serviceClass)
@@ -671,6 +689,7 @@ func (p *ImsUtProxy) UpdateCallBarringForServiceClass(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 	_data.WriteInt32(cbType)
 	_data.WriteInt32(action)
@@ -716,6 +735,7 @@ func (p *ImsUtProxy) UpdateCallBarringWithPassword(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
 	_data.WriteInt32(cbType)
 	_data.WriteInt32(action)
@@ -755,7 +775,8 @@ func (p *ImsUtProxy) UpdateCallBarringWithPassword(
 // ImsUtStub dispatches incoming binder transactions
 // to a typed IImsUt implementation.
 type ImsUtStub struct {
-	Impl IImsUt
+	Impl      IImsUt
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsUtStub)(nil)
@@ -769,11 +790,12 @@ func (s *ImsUtStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsUtClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -783,9 +805,6 @@ func (s *ImsUtStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsUtQueryCallBarring:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cbType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -800,9 +819,6 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtQueryCallForward:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_condition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -821,9 +837,6 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtQueryCallWaiting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.QueryCallWaiting(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -834,9 +847,6 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtQueryCLIR:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.QueryCLIR(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -847,9 +857,6 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtQueryCLIP:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.QueryCLIP(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -860,9 +867,6 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtQueryCOLR:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.QueryCOLR(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -873,9 +877,6 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtQueryCOLP:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.QueryCOLP(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -886,9 +887,6 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtTransact:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_ssInfo os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -911,9 +909,6 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtUpdateCallBarring:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cbType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -922,9 +917,25 @@ func (s *ImsUtStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_barrList []string
-		_ = _arg_barrList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_barrList = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_barrList[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.UpdateCallBarring(ctx, _arg_cbType, _arg_action, _arg_barrList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -935,9 +946,6 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtUpdateCallForward:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_action, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -968,9 +976,6 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtUpdateCallWaiting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -989,9 +994,6 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtUpdateCLIR:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_clirMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1006,9 +1008,6 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtUpdateCLIP:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1023,9 +1022,6 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtUpdateCOLR:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_presentation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1040,9 +1036,6 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtUpdateCOLP:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1057,12 +1050,14 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtSetListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IImsUtListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewImsUtListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.SetListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1072,9 +1067,6 @@ func (s *ImsUtStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsUtQueryCallBarringForServiceClass:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cbType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1093,9 +1085,6 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtUpdateCallBarringForServiceClass:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cbType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1104,9 +1093,25 @@ func (s *ImsUtStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_barrList []string
-		_ = _arg_barrList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_barrList = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_barrList[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_serviceClass, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1121,9 +1126,6 @@ func (s *ImsUtStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsUtUpdateCallBarringWithPassword:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cbType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1132,9 +1134,25 @@ func (s *ImsUtStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_barrList []string
-		_ = _arg_barrList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_barrList = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_barrList[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_serviceClass, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

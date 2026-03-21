@@ -1,0 +1,438 @@
+package: android.hardware.input.common
+go_package: android/hardware/input/common
+parcelables:
+    - name: MotionEvent
+      fields:
+        - name: deviceId
+          type:
+            name: int
+        - name: source
+          type:
+            name: Source
+        - name: displayId
+          type:
+            name: int
+        - name: downTime
+          type:
+            name: long
+        - name: eventTime
+          type:
+            name: long
+        - name: action
+          type:
+            name: Action
+        - name: actionIndex
+          type:
+            name: byte
+        - name: actionButton
+          type:
+            name: Button
+        - name: flags
+          type:
+            name: Flag
+        - name: policyFlags
+          type:
+            name: PolicyFlag
+        - name: edgeFlags
+          type:
+            name: EdgeFlag
+        - name: metaState
+          type:
+            name: Meta
+        - name: buttonState
+          type:
+            name: Button
+        - name: xPrecision
+          type:
+            name: float
+        - name: yPrecision
+          type:
+            name: float
+        - name: pointerProperties
+          type:
+            name: PointerProperties
+            is_array: true
+        - name: pointerCoords
+          type:
+            name: PointerCoords
+            is_array: true
+        - name: deviceTimestamp
+          type:
+            name: int
+        - name: frames
+          type:
+            name: VideoFrame
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: PointerCoords
+      fields:
+        - name: bits
+          type:
+            name: long
+        - name: values
+          type:
+            name: float
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: PointerProperties
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: toolType
+          type:
+            name: ToolType
+      annotations:
+        - VintfStability
+    - name: VideoFrame
+      fields:
+        - name: data
+          type:
+            name: char
+            is_array: true
+        - name: height
+          type:
+            name: int
+        - name: width
+          type:
+            name: int
+        - name: timestamp
+          type:
+            name: long
+      annotations:
+        - VintfStability
+enums:
+    - name: Action
+      backing_type: int
+      values:
+        - name: DOWN
+          value: "0"
+        - name: UP
+          value: "1"
+        - name: MOVE
+          value: "2"
+        - name: CANCEL
+          value: "3"
+        - name: OUTSIDE
+          value: "4"
+        - name: POINTER_DOWN
+          value: "5"
+        - name: POINTER_UP
+          value: "6"
+        - name: HOVER_MOVE
+          value: "7"
+        - name: SCROLL
+          value: "8"
+        - name: HOVER_ENTER
+          value: "9"
+        - name: HOVER_EXIT
+          value: "10"
+        - name: BUTTON_PRESS
+          value: "11"
+        - name: BUTTON_RELEASE
+          value: "12"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Axis
+      backing_type: int
+      values:
+        - name: X
+          value: "0"
+        - name: "Y"
+          value: "1"
+        - name: PRESSURE
+          value: "2"
+        - name: SIZE
+          value: "3"
+        - name: TOUCH_MAJOR
+          value: "4"
+        - name: TOUCH_MINOR
+          value: "5"
+        - name: TOOL_MAJOR
+          value: "6"
+        - name: TOOL_MINOR
+          value: "7"
+        - name: ORIENTATION
+          value: "8"
+        - name: VSCROLL
+          value: "9"
+        - name: HSCROLL
+          value: "10"
+        - name: Z
+          value: "11"
+        - name: RX
+          value: "12"
+        - name: RY
+          value: "13"
+        - name: RZ
+          value: "14"
+        - name: HAT_X
+          value: "15"
+        - name: HAT_Y
+          value: "16"
+        - name: LTRIGGER
+          value: "17"
+        - name: RTRIGGER
+          value: "18"
+        - name: THROTTLE
+          value: "19"
+        - name: RUDDER
+          value: "20"
+        - name: WHEEL
+          value: "21"
+        - name: GAS
+          value: "22"
+        - name: BRAKE
+          value: "23"
+        - name: DISTANCE
+          value: "24"
+        - name: TILT
+          value: "25"
+        - name: SCROLL
+          value: "26"
+        - name: RELATIVE_X
+          value: "27"
+        - name: RELATIVE_Y
+          value: "28"
+        - name: GENERIC_1
+          value: "32"
+        - name: GENERIC_2
+          value: "33"
+        - name: GENERIC_3
+          value: "34"
+        - name: GENERIC_4
+          value: "35"
+        - name: GENERIC_5
+          value: "36"
+        - name: GENERIC_6
+          value: "37"
+        - name: GENERIC_7
+          value: "38"
+        - name: GENERIC_8
+          value: "39"
+        - name: GENERIC_9
+          value: "40"
+        - name: GENERIC_10
+          value: "41"
+        - name: GENERIC_11
+          value: "42"
+        - name: GENERIC_12
+          value: "43"
+        - name: GENERIC_13
+          value: "44"
+        - name: GENERIC_14
+          value: "45"
+        - name: GENERIC_15
+          value: "46"
+        - name: GENERIC_16
+          value: "47"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Button
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: PRIMARY
+          value: 1 << 0
+        - name: SECONDARY
+          value: 1 << 1
+        - name: TERTIARY
+          value: 1 << 2
+        - name: BACK
+          value: 1 << 3
+        - name: FORWARD
+          value: 1 << 4
+        - name: STYLUS_PRIMARY
+          value: 1 << 5
+        - name: STYLUS_SECONDARY
+          value: 1 << 6
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Classification
+      backing_type: byte
+      values:
+        - name: NONE
+          value: "0"
+        - name: AMBIGUOUS_GESTURE
+          value: "1"
+        - name: DEEP_PRESS
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: EdgeFlag
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: TOP
+          value: 1 << 0
+        - name: BOTTOM
+          value: 1 << 1
+        - name: LEFT
+          value: 1 << 2
+        - name: RIGHT
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Flag
+      backing_type: int
+      values:
+        - name: WINDOW_IS_OBSCURED
+          value: 1 << 0
+        - name: IS_GENERATED_GESTURE
+          value: 1 << 3
+        - name: TAINTED
+          value: 1 << 31
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Meta
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: ALT_ON
+          value: 1 << 1
+        - name: ALT_LEFT_ON
+          value: 1 << 4
+        - name: ALT_RIGHT_ON
+          value: 1 << 5
+        - name: SHIFT_ON
+          value: 1 << 0
+        - name: SHIFT_LEFT_ON
+          value: 1 << 6
+        - name: SHIFT_RIGHT_ON
+          value: 1 << 7
+        - name: SYM_ON
+          value: 1 << 2
+        - name: FUNCTION_ON
+          value: 1 << 3
+        - name: CTRL_ON
+          value: 1 << 12
+        - name: CTRL_LEFT_ON
+          value: 1 << 13
+        - name: CTRL_RIGHT_ON
+          value: 1 << 14
+        - name: META_ON
+          value: 1 << 16
+        - name: META_LEFT_ON
+          value: 1 << 17
+        - name: META_RIGHT_ON
+          value: 1 << 18
+        - name: CAPS_LOCK_ON
+          value: 1 << 20
+        - name: NUM_LOCK_ON
+          value: 1 << 21
+        - name: SCROLL_LOCK_ON
+          value: 1 << 22
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PolicyFlag
+      backing_type: int
+      values:
+        - name: WAKE
+          value: 1 << 0
+        - name: VIRTUAL
+          value: 1 << 1
+        - name: FUNCTION
+          value: 1 << 2
+        - name: GESTURE
+          value: 1 << 3
+        - name: INJECTED
+          value: 1 << 24
+        - name: TRUSTED
+          value: 1 << 25
+        - name: FILTERED
+          value: 1 << 26
+        - name: DISABLE_KEY_REPEAT
+          value: 1 << 27
+        - name: INTERACTIVE
+          value: 1 << 29
+        - name: PASS_TO_USER
+          value: 1 << 30
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Source
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: KEYBOARD
+          value: 1 << 8 | SourceClass.BUTTON
+        - name: DPAD
+          value: 1 << 9 | SourceClass.BUTTON
+        - name: GAMEPAD
+          value: 1 << 10 | SourceClass.BUTTON
+        - name: TOUCHSCREEN
+          value: 1 << 12 | SourceClass.POINTER
+        - name: MOUSE
+          value: 1 << 13 | SourceClass.POINTER
+        - name: STYLUS
+          value: 1 << 14 | SourceClass.POINTER
+        - name: BLUETOOTH_STYLUS
+          value: 1 << 15 | STYLUS
+        - name: TRACKBALL
+          value: 1 << 16 | SourceClass.NAVIGATION
+        - name: MOUSE_RELATIVE
+          value: 1 << 17 | SourceClass.NAVIGATION
+        - name: TOUCHPAD
+          value: 1 << 20 | SourceClass.POSITION
+        - name: TOUCH_NAVIGATION
+          value: 1 << 21 | SourceClass.NONE
+        - name: ROTARY_ENCODER
+          value: 1 << 22 | SourceClass.NONE
+        - name: JOYSTICK
+          value: 1 << 24 | SourceClass.JOYSTICK
+        - name: HDMI
+          value: 1 << 25 | SourceClass.BUTTON
+        - name: SENSOR
+          value: 1 << 26 | SourceClass.NONE
+        - name: ANY
+          value: "0xFFFFFF00"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SourceClass
+      backing_type: byte
+      values:
+        - name: NONE
+          value: 0 << 0
+        - name: BUTTON
+          value: 1 << 0
+        - name: POINTER
+          value: 1 << 1
+        - name: NAVIGATION
+          value: 1 << 2
+        - name: POSITION
+          value: 1 << 3
+        - name: JOYSTICK
+          value: 1 << 4
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ToolType
+      backing_type: byte
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: FINGER
+          value: "1"
+        - name: STYLUS
+          value: "2"
+        - name: MOUSE
+          value: "3"
+        - name: ERASER
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing

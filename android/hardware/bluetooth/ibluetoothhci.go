@@ -59,6 +59,7 @@ func (p *BluetoothHciProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHci)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHci, MethodIBluetoothHciClose)
@@ -84,6 +85,7 @@ func (p *BluetoothHciProxy) Initialize(
 	callback IBluetoothHciCallbacks,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHci)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -110,15 +112,9 @@ func (p *BluetoothHciProxy) SendAclData(
 	data []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHci)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHci, MethodIBluetoothHciSendAclData)
 	if _err != nil {
@@ -143,15 +139,9 @@ func (p *BluetoothHciProxy) SendHciCommand(
 	command []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHci)
-	if command == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(command)))
-		for _, _item := range command {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(command)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHci, MethodIBluetoothHciSendHciCommand)
 	if _err != nil {
@@ -176,15 +166,9 @@ func (p *BluetoothHciProxy) SendIsoData(
 	data []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHci)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHci, MethodIBluetoothHciSendIsoData)
 	if _err != nil {
@@ -209,15 +193,9 @@ func (p *BluetoothHciProxy) SendScoData(
 	data []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHci)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHci, MethodIBluetoothHciSendScoData)
 	if _err != nil {
@@ -240,7 +218,8 @@ func (p *BluetoothHciProxy) SendScoData(
 // BluetoothHciStub dispatches incoming binder transactions
 // to a typed IBluetoothHci implementation.
 type BluetoothHciStub struct {
-	Impl IBluetoothHci
+	Impl      IBluetoothHci
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothHciStub)(nil)
@@ -254,11 +233,12 @@ func (s *BluetoothHciStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothHciClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -268,12 +248,14 @@ func (s *BluetoothHciStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothHciInitialize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IBluetoothHciCallbacks
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewBluetoothHciCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.Initialize(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -283,12 +265,14 @@ func (s *BluetoothHciStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothHciSendAclData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_err := s.Impl.SendAclData(ctx, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -298,12 +282,14 @@ func (s *BluetoothHciStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothHciSendHciCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_command []byte
-		_ = _arg_command
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_command = _bytes
+		}
 		_err := s.Impl.SendHciCommand(ctx, _arg_command)
 		_reply := parcel.New()
 		if _err != nil {
@@ -313,12 +299,14 @@ func (s *BluetoothHciStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothHciSendIsoData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_err := s.Impl.SendIsoData(ctx, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -328,12 +316,14 @@ func (s *BluetoothHciStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothHciSendScoData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_err := s.Impl.SendScoData(ctx, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {

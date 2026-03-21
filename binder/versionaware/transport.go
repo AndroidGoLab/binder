@@ -102,7 +102,7 @@ func NewTransport(
 
 	// Try loading from cache if configured.
 	if cfg.CachePath != "" {
-		fingerprint := resolvedTableFingerprint(targetAPI)
+		fingerprint := resolvedTableFingerprint(targetAPI, revision)
 		cached := loadCachedTable(cfg.CachePath, fingerprint)
 		if cached != nil {
 			logger.Debugf(ctx, "versionaware: loaded cached transaction codes from %s (%d interfaces, %d scanned JARs)", cfg.CachePath, len(cached.ResolvedTable), len(cached.ScannedJARs))
@@ -149,8 +149,8 @@ func NewTransport(
 
 	// Save to cache if configured.
 	if cfg.CachePath != "" {
-		fingerprint := resolvedTableFingerprint(targetAPI)
-		saveCachedTable(cfg.CachePath, fingerprint, table, nil)
+		fingerprint := resolvedTableFingerprint(targetAPI, revision)
+		saveCachedTable(ctx, cfg.CachePath, fingerprint, table, nil)
 		logger.Debugf(ctx, "versionaware: cached resolved transaction codes to %s", cfg.CachePath)
 	}
 
@@ -210,10 +210,10 @@ func resolveTable(
 
 // resolvedTableFingerprint returns a fingerprint that changes when
 // the device's firmware changes, invalidating cached transaction codes.
-// Combines API level with framework JAR fingerprint (if available).
-func resolvedTableFingerprint(apiLevel int) string {
+// Combines API level, detected revision, and framework JAR fingerprint.
+func resolvedTableFingerprint(apiLevel int, revision Revision) string {
 	fp := frameworkFingerprint()
-	return fmt.Sprintf("api=%d;jars=%s", apiLevel, fp)
+	return fmt.Sprintf("api=%d;rev=%s;jars=%s", apiLevel, revision, fp)
 }
 
 // MergeTable adds entries from extra into the transport's version table.
@@ -383,12 +383,12 @@ func (t *Transport) saveCache(ctx context.Context) {
 	if t.cachePath == "" {
 		return
 	}
-	fingerprint := resolvedTableFingerprint(t.apiLevel)
+	fingerprint := resolvedTableFingerprint(t.apiLevel, t.Revision)
 	scannedJARs := make([]string, 0, len(t.ScannedJARs))
 	for jar := range t.ScannedJARs {
 		scannedJARs = append(scannedJARs, jar)
 	}
-	saveCachedTable(t.cachePath, fingerprint, t.table, scannedJARs)
+	saveCachedTable(ctx, t.cachePath, fingerprint, t.table, scannedJARs)
 	logger.Debugf(ctx, "versionaware: cache updated (%d interfaces, %d scanned JARs)", len(t.table), len(t.ScannedJARs))
 }
 
@@ -472,7 +472,9 @@ func frameworkJARsAvailable() bool {
 func frameworkFingerprint() string {
 	entries, err := os.ReadDir(frameworkJARDir)
 	if err != nil {
-		return ""
+		// Return a distinct marker so off-device caches don't
+		// collide with on-device caches that have real JAR data.
+		return "no-jars"
 	}
 
 	var b strings.Builder
@@ -485,6 +487,9 @@ func frameworkFingerprint() string {
 			continue
 		}
 		fmt.Fprintf(&b, "%s:%d;", entry.Name(), info.Size())
+	}
+	if b.Len() == 0 {
+		return "no-jars"
 	}
 	return b.String()
 }
@@ -527,13 +532,17 @@ func loadCachedTable(
 // saveCachedTable writes a VersionTable and scanned JAR list to the given path.
 // Uses atomic write (temp file + rename) to avoid corrupted reads.
 func saveCachedTable(
+	ctx context.Context,
 	cachePath string,
 	fingerprint string,
 	table VersionTable,
 	scannedJARs []string,
 ) {
 	dir := filepath.Dir(cachePath)
-	_ = os.MkdirAll(dir, 0o755)
+	if err := os.MkdirAll(dir, 0o755); err != nil {
+		logger.Warnf(ctx, "versionaware: saveCachedTable: MkdirAll(%s): %v", dir, err)
+		return
+	}
 
 	raw := make(map[string]map[string]uint32)
 	for desc, methods := range table {
@@ -551,14 +560,18 @@ func saveCachedTable(
 
 	var buf bytes.Buffer
 	if err := gob.NewEncoder(&buf).Encode(cached); err != nil {
+		logger.Warnf(ctx, "versionaware: saveCachedTable: gob encode: %v", err)
 		return
 	}
 
 	tmpPath := cachePath + ".tmp"
 	if err := os.WriteFile(tmpPath, buf.Bytes(), 0o644); err != nil {
+		logger.Warnf(ctx, "versionaware: saveCachedTable: WriteFile(%s): %v", tmpPath, err)
 		return
 	}
-	_ = os.Rename(tmpPath, cachePath)
+	if err := os.Rename(tmpPath, cachePath); err != nil {
+		logger.Warnf(ctx, "versionaware: saveCachedTable: Rename(%s -> %s): %v", tmpPath, cachePath, err)
+	}
 }
 
 // filterRevisionsBySOMethodSet reads BpServiceManager symbols from
@@ -705,13 +718,10 @@ func findMangledMethod(
 		return ""
 	}
 
-	methodName := rest[i : i+nameLen]
-	// Convert to camelCase (first letter lowercase) to match AIDL method names.
-	if len(methodName) > 0 && methodName[0] >= 'A' && methodName[0] <= 'Z' {
-		methodName = string(methodName[0]+32) + methodName[1:]
-	}
-
-	return methodName
+	// Return the method name as-is from the mangled symbol.
+	// AIDL method names may start with uppercase (e.g., "GetApInterfaces",
+	// "SendMgmtFrame", "Continue") so we must not force lowercase.
+	return rest[i : i+nameLen]
 }
 
 // probeRevision determines which revision of the given API level matches
@@ -742,6 +752,11 @@ func probeRevision(
 	if err != nil {
 		return "", fmt.Errorf("cannot look up activity service for probing: %w", err)
 	}
+	defer func() {
+		if releaseErr := inner.ReleaseHandle(ctx, activityHandle); releaseErr != nil {
+			logger.Debugf(ctx, "probeRevision: failed to release activity handle %d: %v", activityHandle, releaseErr)
+		}
+	}()
 
 	// Try each revision's code for isUserAMonkey and check reply size.
 	for _, rev := range revisions {
@@ -757,6 +772,7 @@ func probeRevision(
 		data := parcel.New()
 		data.WriteInterfaceToken(activityManagerDescriptor)
 		reply, err := inner.Transact(ctx, activityHandle, code, 0, data)
+		data.Recycle()
 		if err != nil {
 			logger.Debugf(ctx, "probeRevision: %s code %d: transact error: %v", rev, code, err)
 			continue
@@ -831,9 +847,11 @@ func tryCheckService(
 	data.WriteString16(serviceName)
 
 	reply, err := inner.Transact(ctx, serviceManagerHandle, code, 0, data)
+	data.Recycle()
 	if err != nil {
 		return 0, fmt.Errorf("CheckService(%q): transact: %w", serviceName, err)
 	}
+	defer reply.Recycle()
 
 	if err := binder.ReadStatus(reply); err != nil {
 		return 0, fmt.Errorf("CheckService(%q): status: %w", serviceName, err)

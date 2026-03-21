@@ -1,6 +1,7 @@
 package media
 
 import (
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -11,8 +12,8 @@ type AudioIoDescriptor struct {
 	Patch         AudioPatchFw
 	IsInput       bool
 	SamplingRate  int32
-	Format        interface{}
-	ChannelMask   interface{}
+	Format        common.AudioFormatDescription
+	ChannelMask   common.AudioChannelLayout
 	FrameCount    int64
 	FrameCountHAL int64
 	Latency       int32
@@ -31,6 +32,12 @@ func (s *AudioIoDescriptor) MarshalParcel(
 	}
 	p.WriteBool(s.IsInput)
 	p.WriteInt32(s.SamplingRate)
+	if _err := s.Format.MarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _err := s.ChannelMask.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt64(s.FrameCount)
 	p.WriteInt64(s.FrameCountHAL)
 	p.WriteInt32(s.Latency)
@@ -48,13 +55,28 @@ func (s *AudioIoDescriptor) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IoHandle, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Patch.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.IsInput, _err = p.ReadBool()
@@ -62,9 +84,37 @@ func (s *AudioIoDescriptor) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SamplingRate, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.Format.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.ChannelMask.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.FrameCount, _err = p.ReadInt64()
@@ -72,14 +122,29 @@ func (s *AudioIoDescriptor) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.FrameCountHAL, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Latency, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.PortId, _err = p.ReadInt32()

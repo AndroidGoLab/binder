@@ -48,6 +48,7 @@ func (p *ResourceManagerClientProxy) ReclaimResource(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerClient, MethodIResourceManagerClientReclaimResource)
@@ -77,6 +78,7 @@ func (p *ResourceManagerClientProxy) GetName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerClient, MethodIResourceManagerClientGetName)
@@ -104,7 +106,8 @@ func (p *ResourceManagerClientProxy) GetName(
 // ResourceManagerClientStub dispatches incoming binder transactions
 // to a typed IResourceManagerClient implementation.
 type ResourceManagerClientStub struct {
-	Impl IResourceManagerClient
+	Impl      IResourceManagerClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ResourceManagerClientStub)(nil)
@@ -118,11 +121,12 @@ func (s *ResourceManagerClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIResourceManagerClientReclaimResource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ReclaimResource(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -133,9 +137,6 @@ func (s *ResourceManagerClientStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIResourceManagerClientGetName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetName(ctx)
 		_reply := parcel.New()
 		if _err != nil {

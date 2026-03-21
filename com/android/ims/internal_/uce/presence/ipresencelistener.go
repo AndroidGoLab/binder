@@ -70,6 +70,7 @@ func (p *PresenceListenerProxy) GetVersionCb(
 	version string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
 	_data.WriteString16(version)
 
@@ -96,6 +97,7 @@ func (p *PresenceListenerProxy) ServiceAvailable(
 	statusCode vehicle.StatusCode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
 	_data.WriteInt32(int32(statusCode))
 
@@ -122,6 +124,7 @@ func (p *PresenceListenerProxy) ServiceUnAvailable(
 	statusCode vehicle.StatusCode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
 	_data.WriteInt32(int32(statusCode))
 
@@ -148,6 +151,7 @@ func (p *PresenceListenerProxy) PublishTriggering(
 	publishTrigger PresPublishTriggerType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
 	_data.WriteInt32(1)
 	if _err := publishTrigger.MarshalParcel(_data); _err != nil {
@@ -177,6 +181,7 @@ func (p *PresenceListenerProxy) CmdStatus(
 	cmdStatus PresCmdStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
 	_data.WriteInt32(1)
 	if _err := cmdStatus.MarshalParcel(_data); _err != nil {
@@ -206,6 +211,7 @@ func (p *PresenceListenerProxy) SipResponseReceived(
 	sipResponse PresSipResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
 	_data.WriteInt32(1)
 	if _err := sipResponse.MarshalParcel(_data); _err != nil {
@@ -236,6 +242,7 @@ func (p *PresenceListenerProxy) CapInfoReceived(
 	tupleInfo []PresTupleInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
 	_data.WriteString16(presentityURI)
 	if tupleInfo == nil {
@@ -274,6 +281,7 @@ func (p *PresenceListenerProxy) ListCapInfoReceived(
 	resInfo []PresResInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
 	_data.WriteInt32(1)
 	if _err := rlmiInfo.MarshalParcel(_data); _err != nil {
@@ -313,6 +321,7 @@ func (p *PresenceListenerProxy) UnpublishMessageSent(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceListener, MethodIPresenceListenerUnpublishMessageSent)
@@ -336,7 +345,8 @@ func (p *PresenceListenerProxy) UnpublishMessageSent(
 // PresenceListenerStub dispatches incoming binder transactions
 // to a typed IPresenceListener implementation.
 type PresenceListenerStub struct {
-	Impl IPresenceListener
+	Impl      IPresenceListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PresenceListenerStub)(nil)
@@ -350,11 +360,12 @@ func (s *PresenceListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPresenceListenerGetVersionCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_version, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -368,9 +379,6 @@ func (s *PresenceListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPresenceListenerServiceAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_statusCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -385,9 +393,6 @@ func (s *PresenceListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPresenceListenerServiceUnAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_statusCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -402,9 +407,6 @@ func (s *PresenceListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPresenceListenerPublishTriggering:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_publishTrigger PresPublishTriggerType
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -426,9 +428,6 @@ func (s *PresenceListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPresenceListenerCmdStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_cmdStatus PresCmdStatus
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -450,9 +449,6 @@ func (s *PresenceListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPresenceListenerSipResponseReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sipResponse PresSipResponse
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -474,16 +470,31 @@ func (s *PresenceListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPresenceListenerCapInfoReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_presentityURI, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_tupleInfo []PresTupleInfo
-		_ = _arg_tupleInfo
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_tupleInfo = make([]PresTupleInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_tupleInfo[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.CapInfoReceived(ctx, _arg_presentityURI, _arg_tupleInfo)
 		_reply := parcel.New()
 		if _err != nil {
@@ -493,9 +504,6 @@ func (s *PresenceListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPresenceListenerListCapInfoReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_rlmiInfo PresRlmiInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -508,9 +516,27 @@ func (s *PresenceListenerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_resInfo []PresResInfo
-		_ = _arg_resInfo
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_resInfo = make([]PresResInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_resInfo[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.ListCapInfoReceived(ctx, _arg_rlmiInfo, _arg_resInfo)
 		_reply := parcel.New()
 		if _err != nil {
@@ -520,9 +546,6 @@ func (s *PresenceListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPresenceListenerUnpublishMessageSent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.UnpublishMessageSent(ctx)
 		_reply := parcel.New()
 		if _err != nil {

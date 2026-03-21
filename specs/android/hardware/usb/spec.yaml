@@ -1,0 +1,1208 @@
+package: android.hardware.usb
+go_package: android/hardware/usb
+interfaces:
+    - name: IDisplayPortAltModeInfoListener
+      descriptor: android.hardware.usb.IDisplayPortAltModeInfoListener
+      oneway: true
+      methods:
+        - name: onDisplayPortAltModeInfoChanged
+          transaction_code_offset: 0
+          params:
+            - name: portId
+              type:
+                name: String
+              direction: in
+            - name: DisplayPortAltModeInfo
+              type:
+                name: DisplayPortAltModeInfo
+              direction: in
+          return_type:
+            name: void
+    - name: IUsb
+      descriptor: android.hardware.usb.IUsb
+      oneway: true
+      methods:
+        - name: enableContaminantPresenceDetection
+          transaction_code_offset: 0
+          params:
+            - name: portName
+              type:
+                name: String
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: enableUsbData
+          transaction_code_offset: 1
+          params:
+            - name: portName
+              type:
+                name: String
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: enableUsbDataWhileDocked
+          transaction_code_offset: 2
+          params:
+            - name: portName
+              type:
+                name: String
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: queryPortStatus
+          transaction_code_offset: 3
+          params:
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: setCallback
+          transaction_code_offset: 4
+          params:
+            - name: callback
+              type:
+                name: IUsbCallback
+              direction: in
+          return_type:
+            name: void
+        - name: switchRole
+          transaction_code_offset: 5
+          params:
+            - name: portName
+              type:
+                name: String
+              direction: in
+            - name: role
+              type:
+                name: PortRole
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: limitPowerTransfer
+          transaction_code_offset: 6
+          params:
+            - name: portName
+              type:
+                name: String
+              direction: in
+            - name: limit
+              type:
+                name: boolean
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: resetUsbPort
+          transaction_code_offset: 7
+          params:
+            - name: portName
+              type:
+                name: String
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+    - name: IUsbCallback
+      descriptor: android.hardware.usb.IUsbCallback
+      oneway: true
+      methods:
+        - name: notifyPortStatusChange
+          transaction_code_offset: 0
+          params:
+            - name: currentPortStatus
+              type:
+                name: PortStatus
+                is_array: true
+              direction: in
+            - name: retval
+              type:
+                name: Status
+              direction: in
+          return_type:
+            name: void
+        - name: notifyRoleSwitchStatus
+          transaction_code_offset: 1
+          params:
+            - name: portName
+              type:
+                name: String
+              direction: in
+            - name: newRole
+              type:
+                name: PortRole
+              direction: in
+            - name: retval
+              type:
+                name: Status
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: notifyEnableUsbDataStatus
+          transaction_code_offset: 2
+          params:
+            - name: portName
+              type:
+                name: String
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+            - name: retval
+              type:
+                name: Status
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: notifyEnableUsbDataWhileDockedStatus
+          transaction_code_offset: 3
+          params:
+            - name: portName
+              type:
+                name: String
+              direction: in
+            - name: retval
+              type:
+                name: Status
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: notifyContaminantEnabledStatus
+          transaction_code_offset: 4
+          params:
+            - name: portName
+              type:
+                name: String
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+            - name: retval
+              type:
+                name: Status
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: notifyQueryPortStatus
+          transaction_code_offset: 5
+          params:
+            - name: portName
+              type:
+                name: String
+              direction: in
+            - name: retval
+              type:
+                name: Status
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: notifyLimitPowerTransferStatus
+          transaction_code_offset: 6
+          params:
+            - name: portName
+              type:
+                name: String
+              direction: in
+            - name: limit
+              type:
+                name: boolean
+            - name: retval
+              type:
+                name: Status
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: notifyResetUsbPortStatus
+          transaction_code_offset: 7
+          params:
+            - name: portName
+              type:
+                name: String
+              direction: in
+            - name: retval
+              type:
+                name: Status
+              direction: in
+            - name: transactionId
+              type:
+                name: long
+          return_type:
+            name: void
+    - name: IUsbManager
+      descriptor: android.hardware.usb.IUsbManager
+      methods:
+        - name: getDeviceList
+          transaction_code_offset: 0
+          params:
+            - name: devices
+              type:
+                name: Bundle
+              direction: out
+          return_type:
+            name: void
+        - name: openDevice
+          transaction_code_offset: 1
+          params:
+            - name: deviceName
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: ParcelFileDescriptor
+        - name: getCurrentAccessory
+          transaction_code_offset: 2
+          return_type:
+            name: UsbAccessory
+        - name: openAccessory
+          transaction_code_offset: 3
+          params:
+            - name: accessory
+              type:
+                name: UsbAccessory
+              direction: in
+          return_type:
+            name: ParcelFileDescriptor
+        - name: setDevicePackage
+          transaction_code_offset: 4
+          params:
+            - name: device
+              type:
+                name: UsbDevice
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setAccessoryPackage
+          transaction_code_offset: 5
+          params:
+            - name: accessory
+              type:
+                name: UsbAccessory
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: addDevicePackagesToPreferenceDenied
+          transaction_code_offset: 6
+          params:
+            - name: device
+              type:
+                name: UsbDevice
+              direction: in
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: void
+        - name: addAccessoryPackagesToPreferenceDenied
+          transaction_code_offset: 7
+          params:
+            - name: accessory
+              type:
+                name: UsbAccessory
+              direction: in
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: void
+        - name: removeDevicePackagesFromPreferenceDenied
+          transaction_code_offset: 8
+          params:
+            - name: device
+              type:
+                name: UsbDevice
+              direction: in
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: void
+        - name: removeAccessoryPackagesFromPreferenceDenied
+          transaction_code_offset: 9
+          params:
+            - name: device
+              type:
+                name: UsbAccessory
+              direction: in
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+          return_type:
+            name: void
+        - name: setDevicePersistentPermission
+          transaction_code_offset: 10
+          params:
+            - name: device
+              type:
+                name: UsbDevice
+              direction: in
+            - name: uid
+              type:
+                name: int
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: shouldBeGranted
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setAccessoryPersistentPermission
+          transaction_code_offset: 11
+          params:
+            - name: accessory
+              type:
+                name: UsbAccessory
+              direction: in
+            - name: uid
+              type:
+                name: int
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: shouldBeGranted
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: hasDevicePermission
+          transaction_code_offset: 12
+          params:
+            - name: device
+              type:
+                name: UsbDevice
+              direction: in
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: hasDevicePermissionWithIdentity
+          transaction_code_offset: 13
+          params:
+            - name: device
+              type:
+                name: UsbDevice
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: hasAccessoryPermission
+          transaction_code_offset: 14
+          params:
+            - name: accessory
+              type:
+                name: UsbAccessory
+              direction: in
+          return_type:
+            name: boolean
+        - name: hasAccessoryPermissionWithIdentity
+          transaction_code_offset: 15
+          params:
+            - name: accessory
+              type:
+                name: UsbAccessory
+              direction: in
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: requestDevicePermission
+          transaction_code_offset: 16
+          params:
+            - name: device
+              type:
+                name: UsbDevice
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: pi
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: requestAccessoryPermission
+          transaction_code_offset: 17
+          params:
+            - name: accessory
+              type:
+                name: UsbAccessory
+              direction: in
+            - name: packageName
+              type:
+                name: String
+            - name: pi
+              type:
+                name: PendingIntent
+              direction: in
+          return_type:
+            name: void
+        - name: grantDevicePermission
+          transaction_code_offset: 18
+          params:
+            - name: device
+              type:
+                name: UsbDevice
+              direction: in
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: grantAccessoryPermission
+          transaction_code_offset: 19
+          params:
+            - name: accessory
+              type:
+                name: UsbAccessory
+              direction: in
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: hasDefaults
+          transaction_code_offset: 20
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: clearDefaults
+          transaction_code_offset: 21
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isFunctionEnabled
+          transaction_code_offset: 22
+          params:
+            - name: function
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: setCurrentFunctions
+          transaction_code_offset: 23
+          params:
+            - name: functions
+              type:
+                name: long
+            - name: operationId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setCurrentFunction
+          transaction_code_offset: 24
+          params:
+            - name: function
+              type:
+                name: String
+            - name: usbDataUnlocked
+              type:
+                name: boolean
+            - name: operationId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getCurrentFunctions
+          transaction_code_offset: 25
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: getCurrentUsbSpeed
+          transaction_code_offset: 26
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: getGadgetHalVersion
+          transaction_code_offset: 27
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: setScreenUnlockedFunctions
+          transaction_code_offset: 28
+          params:
+            - name: functions
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getScreenUnlockedFunctions
+          transaction_code_offset: 29
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: resetUsbGadget
+          transaction_code_offset: 30
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: resetUsbPort
+          transaction_code_offset: 31
+          params:
+            - name: portId
+              type:
+                name: String
+              direction: in
+            - name: operationId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IUsbOperationInternal
+              direction: in
+          return_type:
+            name: void
+        - name: enableUsbData
+          transaction_code_offset: 32
+          params:
+            - name: portId
+              type:
+                name: String
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+            - name: operationId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IUsbOperationInternal
+              direction: in
+          return_type:
+            name: boolean
+        - name: enableUsbDataWhileDocked
+          transaction_code_offset: 33
+          params:
+            - name: portId
+              type:
+                name: String
+              direction: in
+            - name: operationId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IUsbOperationInternal
+              direction: in
+          return_type:
+            name: void
+        - name: getUsbHalVersion
+          transaction_code_offset: 34
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: getControlFd
+          transaction_code_offset: 35
+          params:
+            - name: function
+              type:
+                name: long
+          return_type:
+            name: ParcelFileDescriptor
+          annotations:
+            - EnforcePermission
+        - name: getPorts
+          transaction_code_offset: 36
+          return_type:
+            name: List
+            type_args:
+                - name: ParcelableUsbPort
+          annotations:
+            - EnforcePermission
+        - name: getPortStatus
+          transaction_code_offset: 37
+          params:
+            - name: portId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: UsbPortStatus
+        - name: isModeChangeSupported
+          transaction_code_offset: 38
+          params:
+            - name: portId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: setPortRoles
+          transaction_code_offset: 39
+          params:
+            - name: portId
+              type:
+                name: String
+              direction: in
+            - name: powerRole
+              type:
+                name: int
+            - name: dataRole
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: enableLimitPowerTransfer
+          transaction_code_offset: 40
+          params:
+            - name: portId
+              type:
+                name: String
+              direction: in
+            - name: limit
+              type:
+                name: boolean
+            - name: operationId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IUsbOperationInternal
+              direction: in
+          return_type:
+            name: void
+        - name: enableContaminantDetection
+          transaction_code_offset: 41
+          params:
+            - name: portId
+              type:
+                name: String
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setUsbDeviceConnectionHandler
+          transaction_code_offset: 42
+          params:
+            - name: usbDeviceConnectionHandler
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: registerForDisplayPortEvents
+          transaction_code_offset: 43
+          params:
+            - name: listener
+              type:
+                name: IDisplayPortAltModeInfoListener
+          return_type:
+            name: boolean
+          annotations:
+            - JavaPassthrough
+        - name: unregisterForDisplayPortEvents
+          transaction_code_offset: 44
+          params:
+            - name: listener
+              type:
+                name: IDisplayPortAltModeInfoListener
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+    - name: IUsbOperationInternal
+      descriptor: android.hardware.usb.IUsbOperationInternal
+      oneway: true
+      methods:
+        - name: onOperationComplete
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IUsbSerialReader
+      descriptor: android.hardware.usb.IUsbSerialReader
+      methods:
+        - name: getSerial
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: String
+parcelables:
+    - name: AltModeData.DisplayPortAltModeData
+      fields:
+        - name: partnerSinkStatus
+          type:
+            name: DisplayPortAltModeStatus
+          default_value: DisplayPortAltModeStatus.UNKNOWN
+        - name: cableStatus
+          type:
+            name: DisplayPortAltModeStatus
+          default_value: DisplayPortAltModeStatus.UNKNOWN
+        - name: pinAssignment
+          type:
+            name: DisplayPortAltModePinAssignment
+          default_value: DisplayPortAltModePinAssignment.NONE
+        - name: hpd
+          type:
+            name: boolean
+          default_value: "false"
+        - name: linkTrainingStatus
+          type:
+            name: LinkTrainingStatus
+          default_value: LinkTrainingStatus.UNKNOWN
+      annotations:
+        - VintfStability
+    - name: DisplayPortAltModeInfo
+    - name: ParcelableUsbPort
+    - name: PortStatus
+      fields:
+        - name: portName
+          type:
+            name: String
+        - name: currentDataRole
+          type:
+            name: PortDataRole
+          default_value: PortDataRole.NONE
+        - name: currentPowerRole
+          type:
+            name: PortPowerRole
+          default_value: PortPowerRole.NONE
+        - name: currentMode
+          type:
+            name: PortMode
+          default_value: PortMode.NONE
+        - name: canChangeMode
+          type:
+            name: boolean
+        - name: canChangeDataRole
+          type:
+            name: boolean
+        - name: canChangePowerRole
+          type:
+            name: boolean
+        - name: supportedModes
+          type:
+            name: PortMode
+            is_array: true
+        - name: supportedContaminantProtectionModes
+          type:
+            name: ContaminantProtectionMode
+            is_array: true
+        - name: supportsEnableContaminantPresenceProtection
+          type:
+            name: boolean
+        - name: contaminantProtectionStatus
+          type:
+            name: ContaminantProtectionStatus
+          default_value: ContaminantProtectionStatus.NONE
+        - name: supportsEnableContaminantPresenceDetection
+          type:
+            name: boolean
+        - name: contaminantDetectionStatus
+          type:
+            name: ContaminantDetectionStatus
+          default_value: ContaminantDetectionStatus.NOT_SUPPORTED
+        - name: usbDataStatus
+          type:
+            name: UsbDataStatus
+            is_array: true
+        - name: powerTransferLimited
+          type:
+            name: boolean
+        - name: powerBrickStatus
+          type:
+            name: PowerBrickStatus
+        - name: supportsComplianceWarnings
+          type:
+            name: boolean
+          default_value: "false"
+        - name: complianceWarnings
+          type:
+            name: ComplianceWarning
+            is_array: true
+          default_value: '{}'
+        - name: plugOrientation
+          type:
+            name: PlugOrientation
+          default_value: PlugOrientation.UNKNOWN
+        - name: supportedAltModes
+          type:
+            name: AltModeData
+            is_array: true
+          default_value: '{}'
+      annotations:
+        - VintfStability
+    - name: UsbAccessory
+    - name: UsbDevice
+    - name: UsbEndpoint
+    - name: UsbInterface
+    - name: UsbPortStatus
+enums:
+    - name: ComplianceWarning
+      backing_type: int
+      values:
+        - name: OTHER
+          value: "1"
+        - name: DEBUG_ACCESSORY
+          value: "2"
+        - name: BC_1_2
+          value: "3"
+        - name: MISSING_RP
+          value: "4"
+        - name: INPUT_POWER_LIMITED
+          value: "5"
+        - name: MISSING_DATA_LINES
+          value: "6"
+        - name: ENUMERATION_FAIL
+          value: "7"
+        - name: FLAKY_CONNECTION
+          value: "8"
+        - name: UNRELIABLE_IO
+          value: "9"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ContaminantDetectionStatus
+      backing_type: ""
+      values:
+        - name: NOT_SUPPORTED
+          value: "0"
+        - name: DISABLED
+          value: "1"
+        - name: NOT_DETECTED
+          value: "2"
+        - name: DETECTED
+          value: "3"
+      annotations:
+        - VintfStability
+    - name: ContaminantProtectionMode
+      backing_type: ""
+      values:
+        - name: NONE
+          value: "0"
+        - name: FORCE_SINK
+          value: "1"
+        - name: FORCE_SOURCE
+          value: "2"
+        - name: FORCE_DISABLE
+          value: "3"
+      annotations:
+        - VintfStability
+    - name: ContaminantProtectionStatus
+      backing_type: ""
+      values:
+        - name: NONE
+          value: "0"
+        - name: FORCE_SINK
+          value: "1"
+        - name: FORCE_SOURCE
+          value: "2"
+        - name: FORCE_DISABLE
+          value: "3"
+        - name: DISABLED
+          value: "4"
+      annotations:
+        - VintfStability
+    - name: DisplayPortAltModePinAssignment
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: A
+          value: "1"
+        - name: B
+          value: "2"
+        - name: C
+          value: "3"
+        - name: D
+          value: "4"
+        - name: E
+          value: "5"
+        - name: F
+          value: "6"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: DisplayPortAltModeStatus
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: NOT_CAPABLE
+          value: "1"
+        - name: CAPABLE
+          value: "2"
+        - name: ENABLED
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LinkTrainingStatus
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: SUCCESS
+          value: "1"
+        - name: FAILURE
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PlugOrientation
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: UNPLUGGED
+          value: "1"
+        - name: PLUGGED_UNKNOWN
+          value: "2"
+        - name: PLUGGED_NORMAL
+          value: "3"
+        - name: PLUGGED_FLIPPED
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: PortDataRole
+      backing_type: ""
+      values:
+        - name: NONE
+          value: "0"
+        - name: HOST
+          value: "1"
+        - name: DEVICE
+          value: "2"
+      annotations:
+        - VintfStability
+    - name: PortMode
+      backing_type: ""
+      values:
+        - name: NONE
+          value: "0"
+        - name: UFP
+          value: "1"
+        - name: DFP
+          value: "2"
+        - name: DRP
+          value: "3"
+        - name: AUDIO_ACCESSORY
+          value: "4"
+        - name: DEBUG_ACCESSORY
+          value: "5"
+      annotations:
+        - VintfStability
+    - name: PortPowerRole
+      backing_type: ""
+      values:
+        - name: NONE
+          value: "0"
+        - name: SOURCE
+          value: "1"
+        - name: SINK
+          value: "2"
+      annotations:
+        - VintfStability
+    - name: PowerBrickStatus
+      backing_type: ""
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: CONNECTED
+          value: "1"
+        - name: NOT_CONNECTED
+          value: "2"
+      annotations:
+        - VintfStability
+    - name: Status
+      backing_type: int
+      values:
+        - name: SUCCESS
+          value: "0"
+        - name: ERROR
+          value: "1"
+        - name: INVALID_ARGUMENT
+          value: "2"
+        - name: UNRECOGNIZED_ROLE
+          value: "3"
+        - name: NOT_SUPPORTED
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: UsbDataStatus
+      backing_type: ""
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: ENABLED
+          value: "1"
+        - name: DISABLED_OVERHEAT
+          value: "2"
+        - name: DISABLED_CONTAMINANT
+          value: "3"
+        - name: DISABLED_DOCK
+          value: "4"
+        - name: DISABLED_FORCE
+          value: "5"
+        - name: DISABLED_DEBUG
+          value: "6"
+        - name: DISABLED_DOCK_HOST_MODE
+          value: "7"
+        - name: DISABLED_DOCK_DEVICE_MODE
+          value: "8"
+      annotations:
+        - VintfStability
+unions:
+    - name: AltModeData
+      fields:
+        - name: displayPortAltModeData
+          type:
+            name: DisplayPortAltModeData
+      annotations:
+        - VintfStability
+    - name: PortRole
+      fields:
+        - name: powerRole
+          type:
+            name: PortPowerRole
+          default_value: PortPowerRole.NONE
+        - name: dataRole
+          type:
+            name: PortDataRole
+        - name: mode
+          type:
+            name: PortMode
+      annotations:
+        - VintfStability

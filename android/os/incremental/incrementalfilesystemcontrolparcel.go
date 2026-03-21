@@ -36,9 +36,19 @@ func (s *IncrementalFileSystemControlParcel) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Cmd, _err = p.ReadFileDescriptor()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.PendingReads, _err = p.ReadFileDescriptor()
@@ -46,9 +56,19 @@ func (s *IncrementalFileSystemControlParcel) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Log, _err = p.ReadFileDescriptor()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.BlocksWritten, _err = p.ReadFileDescriptor()

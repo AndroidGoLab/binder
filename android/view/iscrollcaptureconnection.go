@@ -29,7 +29,7 @@ const (
 
 type IScrollCaptureConnection interface {
 	AsBinder() binder.IBinder
-	StartCapture(ctx context.Context, surface interface{}, callbacks IScrollCaptureCallbacks) (common.ICancellationSignal, error)
+	StartCapture(ctx context.Context, surface Surface, callbacks IScrollCaptureCallbacks) (common.ICancellationSignal, error)
 	RequestImage(ctx context.Context, captureArea graphics.Rect) (common.ICancellationSignal, error)
 	EndCapture(ctx context.Context) (common.ICancellationSignal, error)
 	Close(ctx context.Context) error
@@ -53,12 +53,17 @@ var _ IScrollCaptureConnection = (*ScrollCaptureConnectionProxy)(nil)
 
 func (p *ScrollCaptureConnectionProxy) StartCapture(
 	ctx context.Context,
-	surface interface{},
+	surface Surface,
 	callbacks IScrollCaptureCallbacks,
 ) (common.ICancellationSignal, error) {
 	var _result common.ICancellationSignal
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScrollCaptureConnection, MethodIScrollCaptureConnectionStartCapture)
@@ -90,6 +95,7 @@ func (p *ScrollCaptureConnectionProxy) RequestImage(
 ) (common.ICancellationSignal, error) {
 	var _result common.ICancellationSignal
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
 	_data.WriteInt32(1)
 	if _err := captureArea.MarshalParcel(_data); _err != nil {
@@ -124,6 +130,7 @@ func (p *ScrollCaptureConnectionProxy) EndCapture(
 ) (common.ICancellationSignal, error) {
 	var _result common.ICancellationSignal
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScrollCaptureConnection, MethodIScrollCaptureConnectionEndCapture)
@@ -153,6 +160,7 @@ func (p *ScrollCaptureConnectionProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScrollCaptureConnection, MethodIScrollCaptureConnectionClose)
@@ -167,7 +175,8 @@ func (p *ScrollCaptureConnectionProxy) Close(
 // ScrollCaptureConnectionStub dispatches incoming binder transactions
 // to a typed IScrollCaptureConnection implementation.
 type ScrollCaptureConnectionStub struct {
-	Impl IScrollCaptureConnection
+	Impl      IScrollCaptureConnection
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ScrollCaptureConnectionStub)(nil)
@@ -181,15 +190,32 @@ func (s *ScrollCaptureConnectionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIScrollCaptureConnectionStartCapture:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_surface Surface
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_surface interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IScrollCaptureCallbacks
-		_ = _arg_callbacks
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewScrollCaptureCallbacksProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
+		}
 		_result, _err := s.Impl.StartCapture(ctx, _arg_surface, _arg_callbacks)
 		_reply := parcel.New()
 		if _err != nil {
@@ -197,13 +223,9 @@ func (s *ScrollCaptureConnectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIScrollCaptureConnectionRequestImage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_captureArea graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -223,13 +245,9 @@ func (s *ScrollCaptureConnectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIScrollCaptureConnectionEndCapture:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.EndCapture(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -237,16 +255,11 @@ func (s *ScrollCaptureConnectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIScrollCaptureConnectionClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -256,7 +269,7 @@ func (s *ScrollCaptureConnectionStub) OnTransaction(
 // provide to NewScrollCaptureConnectionStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IScrollCaptureConnectionServer interface {
-	StartCapture(ctx context.Context, surface interface{}, callbacks IScrollCaptureCallbacks) (common.ICancellationSignal, error)
+	StartCapture(ctx context.Context, surface Surface, callbacks IScrollCaptureCallbacks) (common.ICancellationSignal, error)
 	RequestImage(ctx context.Context, captureArea graphics.Rect) (common.ICancellationSignal, error)
 	EndCapture(ctx context.Context) (common.ICancellationSignal, error)
 	Close(ctx context.Context) error
@@ -273,7 +286,7 @@ func (w *scrollCaptureConnectionStubWrapper) AsBinder() binder.IBinder {
 
 func (w *scrollCaptureConnectionStubWrapper) StartCapture(
 	ctx context.Context,
-	surface interface{},
+	surface Surface,
 	callbacks IScrollCaptureCallbacks,
 ) (common.ICancellationSignal, error) {
 	return w.impl.StartCapture(ctx, surface, callbacks)

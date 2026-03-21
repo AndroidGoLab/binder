@@ -1,0 +1,45 @@
+package: com.android.frameworks.perftests.am.util
+go_package: com/android/frameworks/perftests/am/util
+interfaces:
+    - name: ICommandReceiver
+      descriptor: com.android.frameworks.perftests.am.util.ICommandReceiver
+      methods:
+        - name: sendCommand
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: command
+              type:
+                name: int
+            - name: seq
+              type:
+                name: int
+            - name: sourcePackage
+              type:
+                name: String
+            - name: targetPackage
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+            - name: bundle
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+    - name: ITimeReceiverCallback
+      descriptor: com.android.frameworks.perftests.am.util.ITimeReceiverCallback
+      methods:
+        - name: sendTime
+          transaction_code_offset: 0
+          params:
+            - name: type
+              type:
+                name: String
+            - name: timeNs
+              type:
+                name: long
+          return_type:
+            name: void

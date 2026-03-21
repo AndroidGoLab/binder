@@ -49,6 +49,7 @@ func (p *SidefpsControllerProxy) Show(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISidefpsController)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(reason)
@@ -67,6 +68,7 @@ func (p *SidefpsControllerProxy) Hide(
 	sensorId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISidefpsController)
 	_data.WriteInt32(sensorId)
 
@@ -82,7 +84,8 @@ func (p *SidefpsControllerProxy) Hide(
 // SidefpsControllerStub dispatches incoming binder transactions
 // to a typed ISidefpsController implementation.
 type SidefpsControllerStub struct {
-	Impl ISidefpsController
+	Impl      ISidefpsController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SidefpsControllerStub)(nil)
@@ -96,11 +99,12 @@ func (s *SidefpsControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISidefpsControllerShow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -110,19 +114,14 @@ func (s *SidefpsControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.Show(ctx, _arg_sensorId, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISidefpsControllerHide:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Hide(ctx, _arg_sensorId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

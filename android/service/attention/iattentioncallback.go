@@ -49,6 +49,7 @@ func (p *AttentionCallbackProxy) OnSuccess(
 	timestamp int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttentionCallback)
 	_data.WriteInt32(result)
 	_data.WriteInt64(timestamp)
@@ -67,6 +68,7 @@ func (p *AttentionCallbackProxy) OnFailure(
 	error_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAttentionCallback)
 	_data.WriteInt32(error_)
 
@@ -82,7 +84,8 @@ func (p *AttentionCallbackProxy) OnFailure(
 // AttentionCallbackStub dispatches incoming binder transactions
 // to a typed IAttentionCallback implementation.
 type AttentionCallbackStub struct {
-	Impl IAttentionCallback
+	Impl      IAttentionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AttentionCallbackStub)(nil)
@@ -96,11 +99,12 @@ func (s *AttentionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAttentionCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -110,19 +114,14 @@ func (s *AttentionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSuccess(ctx, _arg_result, _arg_timestamp)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAttentionCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnFailure(ctx, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

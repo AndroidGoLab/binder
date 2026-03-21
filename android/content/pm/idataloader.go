@@ -60,6 +60,7 @@ func (p *DataLoaderProxy) Create(
 	listener IDataLoaderStatusListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataLoader)
 	_data.WriteInt32(id)
 	_data.WriteInt32(1)
@@ -86,6 +87,7 @@ func (p *DataLoaderProxy) Start(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataLoader)
 	_data.WriteInt32(id)
 
@@ -103,6 +105,7 @@ func (p *DataLoaderProxy) Stop(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataLoader)
 	_data.WriteInt32(id)
 
@@ -120,6 +123,7 @@ func (p *DataLoaderProxy) Destroy(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataLoader)
 	_data.WriteInt32(id)
 
@@ -139,6 +143,7 @@ func (p *DataLoaderProxy) PrepareImage(
 	removedFiles []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDataLoader)
 	_data.WriteInt32(id)
 	if addedFiles == nil {
@@ -173,7 +178,8 @@ func (p *DataLoaderProxy) PrepareImage(
 // DataLoaderStub dispatches incoming binder transactions
 // to a typed IDataLoader implementation.
 type DataLoaderStub struct {
-	Impl IDataLoader
+	Impl      IDataLoader
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DataLoaderStub)(nil)
@@ -187,11 +193,12 @@ func (s *DataLoaderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDataLoaderCreate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -220,62 +227,84 @@ func (s *DataLoaderStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDataLoaderStatusListener
-		_ = _arg_listener
-		_err = s.Impl.Create(ctx, _arg_id, _arg_params, _arg_control, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionIDataLoaderStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewDataLoaderStatusListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err = s.Impl.Create(ctx, _arg_id, _arg_params, _arg_control, _arg_listener)
+		return nil, _err
+	case TransactionIDataLoaderStart:
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Start(ctx, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataLoaderStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Stop(ctx, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataLoaderDestroy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Destroy(ctx, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDataLoaderPrepareImage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_addedFiles []InstallationFileParcel
-		_ = _arg_addedFiles
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_addedFiles = make([]InstallationFileParcel, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_addedFiles[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_removedFiles []string
-		_ = _arg_removedFiles
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_removedFiles = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_removedFiles[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.PrepareImage(ctx, _arg_id, _arg_addedFiles, _arg_removedFiles)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

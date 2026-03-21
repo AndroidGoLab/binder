@@ -56,6 +56,7 @@ func (p *BpcTestServiceCmdServiceProxy) ForceGc(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceForceGc)
@@ -82,6 +83,7 @@ func (p *BpcTestServiceCmdServiceProxy) GetBinderProxyCount(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
 	_data.WriteInt32(uid)
 
@@ -113,6 +115,7 @@ func (p *BpcTestServiceCmdServiceProxy) SetBinderProxyWatermarks(
 	low int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
 	_data.WriteInt32(high)
 	_data.WriteInt32(low)
@@ -140,6 +143,7 @@ func (p *BpcTestServiceCmdServiceProxy) EnableBinderProxyLimit(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
 	_data.WriteBool(enable)
 
@@ -166,6 +170,7 @@ func (p *BpcTestServiceCmdServiceProxy) SetBinderProxyCountCallback(
 	observer IBpcCallbackObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
@@ -190,7 +195,8 @@ func (p *BpcTestServiceCmdServiceProxy) SetBinderProxyCountCallback(
 // BpcTestServiceCmdServiceStub dispatches incoming binder transactions
 // to a typed IBpcTestServiceCmdService implementation.
 type BpcTestServiceCmdServiceStub struct {
-	Impl IBpcTestServiceCmdService
+	Impl      IBpcTestServiceCmdService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BpcTestServiceCmdServiceStub)(nil)
@@ -204,11 +210,12 @@ func (s *BpcTestServiceCmdServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBpcTestServiceCmdServiceForceGc:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ForceGc(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -218,9 +225,6 @@ func (s *BpcTestServiceCmdServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBpcTestServiceCmdServiceGetBinderProxyCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -235,9 +239,6 @@ func (s *BpcTestServiceCmdServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBpcTestServiceCmdServiceSetBinderProxyWatermarks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_high, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -255,9 +256,6 @@ func (s *BpcTestServiceCmdServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBpcTestServiceCmdServiceEnableBinderProxyLimit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -271,12 +269,14 @@ func (s *BpcTestServiceCmdServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBpcTestServiceCmdServiceSetBinderProxyCountCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IBpcCallbackObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewBpcCallbackObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_err := s.Impl.SetBinderProxyCountCallback(ctx, _arg_observer)
 		_reply := parcel.New()
 		if _err != nil {

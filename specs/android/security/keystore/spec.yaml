@@ -1,0 +1,44 @@
+package: android.security.keystore
+go_package: android/security/keystore
+interfaces:
+    - name: IKeyAttestationApplicationIdProvider
+      descriptor: android.security.keystore.IKeyAttestationApplicationIdProvider
+      methods:
+        - name: getKeyAttestationApplicationId
+          transaction_code_offset: 0
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: KeyAttestationApplicationId
+      constants:
+        - name: ERROR_GET_ATTESTATION_APPLICATION_ID_FAILED
+          type: int
+          value: "1"
+parcelables:
+    - name: KeyAttestationApplicationId
+      fields:
+        - name: packageInfos
+          type:
+            name: KeyAttestationPackageInfo
+            is_array: true
+    - name: KeyAttestationPackageInfo
+      fields:
+        - name: packageName
+          type:
+            name: String
+        - name: versionCode
+          type:
+            name: long
+        - name: signatures
+          type:
+            name: Signature
+            is_array: true
+    - name: ParcelableKeyGenParameterSpec
+    - name: Signature
+      fields:
+        - name: data
+          type:
+            name: byte
+            is_array: true

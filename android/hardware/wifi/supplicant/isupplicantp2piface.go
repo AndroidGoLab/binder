@@ -247,23 +247,10 @@ func (p *SupplicantP2pIfaceProxy) AddBonjourService(
 	response []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
-	if query == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(query)))
-		for _, _item := range query {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if response == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(response)))
-		for _, _item := range response {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(query)
+	_data.WriteByteArray(response)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceAddBonjourService)
 	if _err != nil {
@@ -289,6 +276,7 @@ func (p *SupplicantP2pIfaceProxy) AddGroup(
 	persistentNetworkId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteBool(persistent)
 	_data.WriteInt32(persistentNetworkId)
@@ -321,26 +309,13 @@ func (p *SupplicantP2pIfaceProxy) AddGroupWithConfig(
 	joinExistingGroup bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
-	if ssid == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(ssid)))
-		for _, _item := range ssid {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(ssid)
 	_data.WriteString16(pskPassphrase)
 	_data.WriteBool(persistent)
 	_data.WriteInt32(freq)
-	if peerAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(peerAddress)))
-		for _, _item := range peerAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(peerAddress)
 	_data.WriteBool(joinExistingGroup)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceAddGroupWithConfig)
@@ -366,6 +341,7 @@ func (p *SupplicantP2pIfaceProxy) AddNetwork(
 ) (ISupplicantP2pNetwork, error) {
 	var _result ISupplicantP2pNetwork
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceAddNetwork)
@@ -397,6 +373,7 @@ func (p *SupplicantP2pIfaceProxy) AddUpnpService(
 	serviceName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(version)
 	_data.WriteString16(serviceName)
@@ -423,6 +400,7 @@ func (p *SupplicantP2pIfaceProxy) CancelConnect(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceCancelConnect)
@@ -448,6 +426,7 @@ func (p *SupplicantP2pIfaceProxy) CancelServiceDiscovery(
 	identifier int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt64(identifier)
 
@@ -474,6 +453,7 @@ func (p *SupplicantP2pIfaceProxy) CancelWps(
 	groupIfName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteString16(groupIfName)
 
@@ -501,6 +481,7 @@ func (p *SupplicantP2pIfaceProxy) ConfigureExtListen(
 	intervalInMillis int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(periodInMillis)
 	_data.WriteInt32(intervalInMillis)
@@ -534,15 +515,9 @@ func (p *SupplicantP2pIfaceProxy) Connect(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
-	if peerAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(peerAddress)))
-		for _, _item := range peerAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(peerAddress)
 	_data.WriteInt32(int32(provisionMethod))
 	_data.WriteString16(preSelectedPin)
 	_data.WriteBool(joinExistingGroup)
@@ -576,6 +551,7 @@ func (p *SupplicantP2pIfaceProxy) CreateNfcHandoverRequestMessage(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceCreateNfcHandoverRequestMessage)
@@ -593,19 +569,9 @@ func (p *SupplicantP2pIfaceProxy) CreateNfcHandoverRequestMessage(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -615,6 +581,7 @@ func (p *SupplicantP2pIfaceProxy) CreateNfcHandoverSelectMessage(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceCreateNfcHandoverSelectMessage)
@@ -632,19 +599,9 @@ func (p *SupplicantP2pIfaceProxy) CreateNfcHandoverSelectMessage(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -654,6 +611,7 @@ func (p *SupplicantP2pIfaceProxy) EnableWfd(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteBool(enable)
 
@@ -680,6 +638,7 @@ func (p *SupplicantP2pIfaceProxy) Find(
 	timeoutInSec int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(timeoutInSec)
 
@@ -705,6 +664,7 @@ func (p *SupplicantP2pIfaceProxy) Flush(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceFlush)
@@ -729,6 +689,7 @@ func (p *SupplicantP2pIfaceProxy) FlushServices(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceFlushServices)
@@ -754,6 +715,7 @@ func (p *SupplicantP2pIfaceProxy) GetDeviceAddress(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceGetDeviceAddress)
@@ -771,19 +733,9 @@ func (p *SupplicantP2pIfaceProxy) GetDeviceAddress(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -793,6 +745,7 @@ func (p *SupplicantP2pIfaceProxy) GetEdmg(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceGetEdmg)
@@ -823,15 +776,9 @@ func (p *SupplicantP2pIfaceProxy) GetGroupCapability(
 ) (P2pGroupCapabilityMask, error) {
 	var _result P2pGroupCapabilityMask
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
-	if peerAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(peerAddress)))
-		for _, _item := range peerAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(peerAddress)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceGetGroupCapability)
 	if _err != nil {
@@ -861,6 +808,7 @@ func (p *SupplicantP2pIfaceProxy) GetName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceGetName)
@@ -891,6 +839,7 @@ func (p *SupplicantP2pIfaceProxy) GetNetwork(
 ) (ISupplicantP2pNetwork, error) {
 	var _result ISupplicantP2pNetwork
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(id)
 
@@ -923,15 +872,9 @@ func (p *SupplicantP2pIfaceProxy) GetSsid(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
-	if peerAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(peerAddress)))
-		for _, _item := range peerAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(peerAddress)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceGetSsid)
 	if _err != nil {
@@ -948,19 +891,9 @@ func (p *SupplicantP2pIfaceProxy) GetSsid(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -970,6 +903,7 @@ func (p *SupplicantP2pIfaceProxy) GetType(
 ) (IfaceType, error) {
 	var _result IfaceType
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceGetType)
@@ -1002,24 +936,11 @@ func (p *SupplicantP2pIfaceProxy) Invite(
 	peerAddress []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteString16(groupIfName)
-	if goDeviceAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(goDeviceAddress)))
-		for _, _item := range goDeviceAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if peerAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(peerAddress)))
-		for _, _item := range peerAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(goDeviceAddress)
+	_data.WriteByteArray(peerAddress)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceInvite)
 	if _err != nil {
@@ -1044,6 +965,7 @@ func (p *SupplicantP2pIfaceProxy) ListNetworks(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceListNetworks)
@@ -1065,6 +987,9 @@ func (p *SupplicantP2pIfaceProxy) ListNetworks(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -1084,15 +1009,9 @@ func (p *SupplicantP2pIfaceProxy) ProvisionDiscovery(
 	provisionMethod WpsProvisionMethod,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
-	if peerAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(peerAddress)))
-		for _, _item := range peerAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(peerAddress)
 	_data.WriteInt32(int32(provisionMethod))
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceProvisionDiscovery)
@@ -1118,6 +1037,7 @@ func (p *SupplicantP2pIfaceProxy) RegisterCallback(
 	callback ISupplicantP2pIfaceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -1145,16 +1065,10 @@ func (p *SupplicantP2pIfaceProxy) Reinvoke(
 	peerAddress []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(persistentNetworkId)
-	if peerAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(peerAddress)))
-		for _, _item := range peerAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(peerAddress)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceReinvoke)
 	if _err != nil {
@@ -1179,15 +1093,9 @@ func (p *SupplicantP2pIfaceProxy) Reject(
 	peerAddress []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
-	if peerAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(peerAddress)))
-		for _, _item := range peerAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(peerAddress)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceReject)
 	if _err != nil {
@@ -1212,15 +1120,9 @@ func (p *SupplicantP2pIfaceProxy) RemoveBonjourService(
 	query []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
-	if query == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(query)))
-		for _, _item := range query {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(query)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceRemoveBonjourService)
 	if _err != nil {
@@ -1245,6 +1147,7 @@ func (p *SupplicantP2pIfaceProxy) RemoveGroup(
 	groupIfName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteString16(groupIfName)
 
@@ -1271,6 +1174,7 @@ func (p *SupplicantP2pIfaceProxy) RemoveNetwork(
 	id int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(id)
 
@@ -1298,6 +1202,7 @@ func (p *SupplicantP2pIfaceProxy) RemoveUpnpService(
 	serviceName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(version)
 	_data.WriteString16(serviceName)
@@ -1325,15 +1230,9 @@ func (p *SupplicantP2pIfaceProxy) ReportNfcHandoverInitiation(
 	select_ []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
-	if select_ == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(select_)))
-		for _, _item := range select_ {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(select_)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceReportNfcHandoverInitiation)
 	if _err != nil {
@@ -1358,15 +1257,9 @@ func (p *SupplicantP2pIfaceProxy) ReportNfcHandoverResponse(
 	request []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
-	if request == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(request)))
-		for _, _item := range request {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(request)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceReportNfcHandoverResponse)
 	if _err != nil {
@@ -1393,23 +1286,10 @@ func (p *SupplicantP2pIfaceProxy) RequestServiceDiscovery(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
-	if peerAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(peerAddress)))
-		for _, _item := range peerAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if query == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(query)))
-		for _, _item := range query {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(peerAddress)
+	_data.WriteByteArray(query)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceRequestServiceDiscovery)
 	if _err != nil {
@@ -1437,6 +1317,7 @@ func (p *SupplicantP2pIfaceProxy) SaveConfig(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceSaveConfig)
@@ -1462,6 +1343,7 @@ func (p *SupplicantP2pIfaceProxy) SetDisallowedFrequencies(
 	ranges []FreqRange,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	if ranges == nil {
 		_data.WriteInt32(-1)
@@ -1498,6 +1380,7 @@ func (p *SupplicantP2pIfaceProxy) SetEdmg(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteBool(enable)
 
@@ -1525,6 +1408,7 @@ func (p *SupplicantP2pIfaceProxy) SetGroupIdle(
 	timeoutInSec int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteString16(groupIfName)
 	_data.WriteInt32(timeoutInSec)
@@ -1553,6 +1437,7 @@ func (p *SupplicantP2pIfaceProxy) SetListenChannel(
 	operatingClass int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(channel)
 	_data.WriteInt32(operatingClass)
@@ -1580,6 +1465,7 @@ func (p *SupplicantP2pIfaceProxy) SetMacRandomization(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteBool(enable)
 
@@ -1606,6 +1492,7 @@ func (p *SupplicantP2pIfaceProxy) SetMiracastMode(
 	mode MiracastMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WritePaddedByte(byte(mode))
 
@@ -1633,6 +1520,7 @@ func (p *SupplicantP2pIfaceProxy) SetPowerSave(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteString16(groupIfName)
 	_data.WriteBool(enable)
@@ -1660,15 +1548,9 @@ func (p *SupplicantP2pIfaceProxy) SetSsidPostfix(
 	postfix []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
-	if postfix == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(postfix)))
-		for _, _item := range postfix {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(postfix)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceSetSsidPostfix)
 	if _err != nil {
@@ -1693,15 +1575,9 @@ func (p *SupplicantP2pIfaceProxy) SetWfdDeviceInfo(
 	info []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
-	if info == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(info)))
-		for _, _item := range info {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(info)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceSetWfdDeviceInfo)
 	if _err != nil {
@@ -1726,15 +1602,9 @@ func (p *SupplicantP2pIfaceProxy) SetWfdR2DeviceInfo(
 	info []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
-	if info == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(info)))
-		for _, _item := range info {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(info)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceSetWfdR2DeviceInfo)
 	if _err != nil {
@@ -1760,15 +1630,9 @@ func (p *SupplicantP2pIfaceProxy) RemoveClient(
 	isLegacyClient bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
-	if peerAddress == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(peerAddress)))
-		for _, _item := range peerAddress {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(peerAddress)
 	_data.WriteBool(isLegacyClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceRemoveClient)
@@ -1794,6 +1658,7 @@ func (p *SupplicantP2pIfaceProxy) SetWpsConfigMethods(
 	configMethods WpsConfigMethods,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(int32(configMethods))
 
@@ -1820,6 +1685,7 @@ func (p *SupplicantP2pIfaceProxy) SetWpsDeviceName(
 	name string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteString16(name)
 
@@ -1846,15 +1712,9 @@ func (p *SupplicantP2pIfaceProxy) SetWpsDeviceType(
 	type_ []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
-	if type_ == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(type_)))
-		for _, _item := range type_ {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(type_)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceSetWpsDeviceType)
 	if _err != nil {
@@ -1879,6 +1739,7 @@ func (p *SupplicantP2pIfaceProxy) SetWpsManufacturer(
 	manufacturer string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteString16(manufacturer)
 
@@ -1905,6 +1766,7 @@ func (p *SupplicantP2pIfaceProxy) SetWpsModelName(
 	modelName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteString16(modelName)
 
@@ -1931,6 +1793,7 @@ func (p *SupplicantP2pIfaceProxy) SetWpsModelNumber(
 	modelNumber string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteString16(modelNumber)
 
@@ -1957,6 +1820,7 @@ func (p *SupplicantP2pIfaceProxy) SetWpsSerialNumber(
 	serialNumber string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteString16(serialNumber)
 
@@ -1984,16 +1848,10 @@ func (p *SupplicantP2pIfaceProxy) StartWpsPbc(
 	bssid []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteString16(groupIfName)
-	if bssid == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(bssid)))
-		for _, _item := range bssid {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(bssid)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceStartWpsPbc)
 	if _err != nil {
@@ -2020,16 +1878,10 @@ func (p *SupplicantP2pIfaceProxy) StartWpsPinDisplay(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteString16(groupIfName)
-	if bssid == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(bssid)))
-		for _, _item := range bssid {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(bssid)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceStartWpsPinDisplay)
 	if _err != nil {
@@ -2059,6 +1911,7 @@ func (p *SupplicantP2pIfaceProxy) StartWpsPinKeypad(
 	pin string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteString16(groupIfName)
 	_data.WriteString16(pin)
@@ -2085,6 +1938,7 @@ func (p *SupplicantP2pIfaceProxy) StopFind(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceStopFind)
@@ -2110,6 +1964,7 @@ func (p *SupplicantP2pIfaceProxy) FindOnSocialChannels(
 	timeoutInSec int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(timeoutInSec)
 
@@ -2137,6 +1992,7 @@ func (p *SupplicantP2pIfaceProxy) FindOnSpecificFrequency(
 	timeoutInSec int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(freqInHz)
 	_data.WriteInt32(timeoutInSec)
@@ -2165,16 +2021,10 @@ func (p *SupplicantP2pIfaceProxy) SetVendorElements(
 	vendorElemBytes []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(int32(frameTypeMask))
-	if vendorElemBytes == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(vendorElemBytes)))
-		for _, _item := range vendorElemBytes {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(vendorElemBytes)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIface, MethodISupplicantP2pIfaceSetVendorElements)
 	if _err != nil {
@@ -2202,6 +2052,7 @@ func (p *SupplicantP2pIfaceProxy) ConfigureEapolIpAddressAllocationParams(
 	ipAddressEnd int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(ipAddressGo)
 	_data.WriteInt32(ipAddressMask)
@@ -2232,6 +2083,7 @@ func (p *SupplicantP2pIfaceProxy) ConnectWithParams(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(1)
 	if _err := connectInfo.MarshalParcel(_data); _err != nil {
@@ -2265,6 +2117,7 @@ func (p *SupplicantP2pIfaceProxy) FindWithParams(
 	discoveryInfo P2pDiscoveryInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(1)
 	if _err := discoveryInfo.MarshalParcel(_data); _err != nil {
@@ -2294,6 +2147,7 @@ func (p *SupplicantP2pIfaceProxy) ConfigureExtListenWithParams(
 	extListenInfo P2pExtListenInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(1)
 	if _err := extListenInfo.MarshalParcel(_data); _err != nil {
@@ -2323,6 +2177,7 @@ func (p *SupplicantP2pIfaceProxy) AddGroupWithConfigurationParams(
 	groupConfigurationParams P2pAddGroupConfigurationParams,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(1)
 	if _err := groupConfigurationParams.MarshalParcel(_data); _err != nil {
@@ -2352,6 +2207,7 @@ func (p *SupplicantP2pIfaceProxy) CreateGroupOwner(
 	groupOwnerInfo P2pCreateGroupOwnerInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
 	_data.WriteInt32(1)
 	if _err := groupOwnerInfo.MarshalParcel(_data); _err != nil {
@@ -2379,7 +2235,8 @@ func (p *SupplicantP2pIfaceProxy) CreateGroupOwner(
 // SupplicantP2pIfaceStub dispatches incoming binder transactions
 // to a typed ISupplicantP2pIface implementation.
 type SupplicantP2pIfaceStub struct {
-	Impl ISupplicantP2pIface
+	Impl      ISupplicantP2pIface
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SupplicantP2pIfaceStub)(nil)
@@ -2393,17 +2250,28 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISupplicantP2pIfaceAddBonjourService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_query []byte
-		_ = _arg_query
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_query = _bytes
+		}
 		var _arg_response []byte
-		_ = _arg_response
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_response = _bytes
+		}
 		_err := s.Impl.AddBonjourService(ctx, _arg_query, _arg_response)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2413,9 +2281,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceAddGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_persistent, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2433,12 +2298,14 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceAddGroupWithConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ssid []byte
-		_ = _arg_ssid
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_ssid = _bytes
+		}
 		_arg_pskPassphrase, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2451,9 +2318,14 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_peerAddress []byte
-		_ = _arg_peerAddress
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_peerAddress = _bytes
+		}
 		_arg_joinExistingGroup, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2467,9 +2339,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceAddNetwork:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.AddNetwork(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2477,13 +2346,9 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceAddUpnpService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_version, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2501,9 +2366,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceCancelConnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CancelConnect(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2513,9 +2375,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceCancelServiceDiscovery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_identifier, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2529,9 +2388,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceCancelWps:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_groupIfName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2545,9 +2401,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceConfigureExtListen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_periodInMillis, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2565,12 +2418,14 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceConnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_peerAddress []byte
-		_ = _arg_peerAddress
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_peerAddress = _bytes
+		}
 		_raw_provisionMethod, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2602,9 +2457,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceCreateNfcHandoverRequestMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CreateNfcHandoverRequestMessage(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2612,13 +2464,9 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceCreateNfcHandoverSelectMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CreateNfcHandoverSelectMessage(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2626,13 +2474,9 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceEnableWfd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2646,9 +2490,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceFind:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeoutInSec, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2662,9 +2503,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Flush(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2674,9 +2512,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceFlushServices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.FlushServices(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2686,9 +2521,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceGetDeviceAddress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDeviceAddress(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2696,13 +2528,9 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceGetEdmg:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetEdmg(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2713,12 +2541,14 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceGetGroupCapability:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_peerAddress []byte
-		_ = _arg_peerAddress
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_peerAddress = _bytes
+		}
 		_result, _err := s.Impl.GetGroupCapability(ctx, _arg_peerAddress)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2729,9 +2559,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceGetName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2742,9 +2569,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceGetNetwork:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2756,16 +2580,17 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceGetSsid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_peerAddress []byte
-		_ = _arg_peerAddress
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_peerAddress = _bytes
+		}
 		_result, _err := s.Impl.GetSsid(ctx, _arg_peerAddress)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2773,13 +2598,9 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceGetType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetType(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2790,19 +2611,26 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceInvite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_groupIfName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_goDeviceAddress []byte
-		_ = _arg_goDeviceAddress
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_goDeviceAddress = _bytes
+		}
 		var _arg_peerAddress []byte
-		_ = _arg_peerAddress
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_peerAddress = _bytes
+		}
 		_err = s.Impl.Invite(ctx, _arg_groupIfName, _arg_goDeviceAddress, _arg_peerAddress)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2812,9 +2640,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceListNetworks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ListNetworks(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2822,16 +2647,24 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceProvisionDiscovery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_peerAddress []byte
-		_ = _arg_peerAddress
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_peerAddress = _bytes
+		}
 		_raw_provisionMethod, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2846,12 +2679,14 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISupplicantP2pIfaceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSupplicantP2pIfaceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2861,16 +2696,18 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceReinvoke:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_persistentNetworkId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_peerAddress []byte
-		_ = _arg_peerAddress
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_peerAddress = _bytes
+		}
 		_err = s.Impl.Reinvoke(ctx, _arg_persistentNetworkId, _arg_peerAddress)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2880,12 +2717,14 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceReject:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_peerAddress []byte
-		_ = _arg_peerAddress
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_peerAddress = _bytes
+		}
 		_err := s.Impl.Reject(ctx, _arg_peerAddress)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2895,12 +2734,14 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceRemoveBonjourService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_query []byte
-		_ = _arg_query
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_query = _bytes
+		}
 		_err := s.Impl.RemoveBonjourService(ctx, _arg_query)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2910,9 +2751,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceRemoveGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_groupIfName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2926,9 +2764,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceRemoveNetwork:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2942,9 +2777,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceRemoveUpnpService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_version, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2962,12 +2794,14 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceReportNfcHandoverInitiation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_select_ []byte
-		_ = _arg_select_
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_select_ = _bytes
+		}
 		_err := s.Impl.ReportNfcHandoverInitiation(ctx, _arg_select_)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2977,12 +2811,14 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceReportNfcHandoverResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_request []byte
-		_ = _arg_request
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_request = _bytes
+		}
 		_err := s.Impl.ReportNfcHandoverResponse(ctx, _arg_request)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2992,15 +2828,22 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceRequestServiceDiscovery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_peerAddress []byte
-		_ = _arg_peerAddress
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_peerAddress = _bytes
+		}
 		var _arg_query []byte
-		_ = _arg_query
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_query = _bytes
+		}
 		_result, _err := s.Impl.RequestServiceDiscovery(ctx, _arg_peerAddress, _arg_query)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3011,9 +2854,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSaveConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SaveConfig(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3023,12 +2863,27 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetDisallowedFrequencies:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ranges []FreqRange
-		_ = _arg_ranges
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ranges = make([]FreqRange, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_ranges[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetDisallowedFrequencies(ctx, _arg_ranges)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3038,9 +2893,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetEdmg:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3054,9 +2906,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetGroupIdle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_groupIfName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3074,9 +2923,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetListenChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_channel, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3094,9 +2940,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetMacRandomization:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3110,9 +2953,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetMiracastMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_mode, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -3127,9 +2967,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetPowerSave:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_groupIfName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3147,12 +2984,14 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetSsidPostfix:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_postfix []byte
-		_ = _arg_postfix
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_postfix = _bytes
+		}
 		_err := s.Impl.SetSsidPostfix(ctx, _arg_postfix)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3162,12 +3001,14 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetWfdDeviceInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_info []byte
-		_ = _arg_info
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_info = _bytes
+		}
 		_err := s.Impl.SetWfdDeviceInfo(ctx, _arg_info)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3177,12 +3018,14 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetWfdR2DeviceInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_info []byte
-		_ = _arg_info
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_info = _bytes
+		}
 		_err := s.Impl.SetWfdR2DeviceInfo(ctx, _arg_info)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3192,12 +3035,14 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceRemoveClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_peerAddress []byte
-		_ = _arg_peerAddress
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_peerAddress = _bytes
+		}
 		_arg_isLegacyClient, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3211,9 +3056,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetWpsConfigMethods:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_configMethods, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3228,9 +3070,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetWpsDeviceName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3244,12 +3083,14 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetWpsDeviceType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_type_ []byte
-		_ = _arg_type_
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_type_ = _bytes
+		}
 		_err := s.Impl.SetWpsDeviceType(ctx, _arg_type_)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3259,9 +3100,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetWpsManufacturer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_manufacturer, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3275,9 +3113,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetWpsModelName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3291,9 +3126,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetWpsModelNumber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelNumber, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3307,9 +3139,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetWpsSerialNumber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serialNumber, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3323,16 +3152,18 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceStartWpsPbc:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_groupIfName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bssid []byte
-		_ = _arg_bssid
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_bssid = _bytes
+		}
 		_err = s.Impl.StartWpsPbc(ctx, _arg_groupIfName, _arg_bssid)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3342,16 +3173,18 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceStartWpsPinDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_groupIfName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bssid []byte
-		_ = _arg_bssid
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_bssid = _bytes
+		}
 		_result, _err := s.Impl.StartWpsPinDisplay(ctx, _arg_groupIfName, _arg_bssid)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3362,9 +3195,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceStartWpsPinKeypad:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_groupIfName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3382,9 +3212,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceStopFind:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopFind(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3394,9 +3221,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceFindOnSocialChannels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeoutInSec, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3410,9 +3234,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceFindOnSpecificFrequency:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_freqInHz, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3430,17 +3251,19 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceSetVendorElements:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_frameTypeMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_frameTypeMask := P2pFrameTypeMask(_raw_frameTypeMask)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_vendorElemBytes []byte
-		_ = _arg_vendorElemBytes
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_vendorElemBytes = _bytes
+		}
 		_err = s.Impl.SetVendorElements(ctx, _arg_frameTypeMask, _arg_vendorElemBytes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3450,9 +3273,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceConfigureEapolIpAddressAllocationParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ipAddressGo, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3478,9 +3298,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceConnectWithParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_connectInfo P2pConnectInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3503,9 +3320,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceFindWithParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_discoveryInfo P2pDiscoveryInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3527,9 +3341,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceConfigureExtListenWithParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_extListenInfo P2pExtListenInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3551,9 +3362,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceAddGroupWithConfigurationParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_groupConfigurationParams P2pAddGroupConfigurationParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3575,9 +3383,6 @@ func (s *SupplicantP2pIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantP2pIfaceCreateGroupOwner:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_groupOwnerInfo P2pCreateGroupOwnerInfo
 		{
 			_nullInd, _err := _data.ReadInt32()

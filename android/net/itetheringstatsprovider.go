@@ -23,7 +23,7 @@ const (
 
 type ITetheringStatsProvider interface {
 	AsBinder() binder.IBinder
-	GetTetherStats(ctx context.Context, how int32) (interface{}, error)
+	GetTetherStats(ctx context.Context, how int32) (NetworkStats, error)
 	SetInterfaceQuota(ctx context.Context, iface string, quotaBytes int64) error
 }
 
@@ -50,9 +50,10 @@ var _ ITetheringStatsProvider = (*TetheringStatsProviderProxy)(nil)
 func (p *TetheringStatsProviderProxy) GetTetherStats(
 	ctx context.Context,
 	how int32,
-) (interface{}, error) {
-	var _result interface{}
+) (NetworkStats, error) {
+	var _result NetworkStats
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITetheringStatsProvider)
 	_data.WriteInt32(how)
 
@@ -71,6 +72,15 @@ func (p *TetheringStatsProviderProxy) GetTetherStats(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -80,6 +90,7 @@ func (p *TetheringStatsProviderProxy) SetInterfaceQuota(
 	quotaBytes int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITetheringStatsProvider)
 	_data.WriteString16(iface)
 	_data.WriteInt64(quotaBytes)
@@ -105,7 +116,8 @@ func (p *TetheringStatsProviderProxy) SetInterfaceQuota(
 // TetheringStatsProviderStub dispatches incoming binder transactions
 // to a typed ITetheringStatsProvider implementation.
 type TetheringStatsProviderStub struct {
-	Impl ITetheringStatsProvider
+	Impl      ITetheringStatsProvider
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TetheringStatsProviderStub)(nil)
@@ -119,11 +131,12 @@ func (s *TetheringStatsProviderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITetheringStatsProviderGetTetherStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_how, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -135,12 +148,12 @@ func (s *TetheringStatsProviderStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionITetheringStatsProviderSetInterfaceQuota:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionITetheringStatsProviderSetInterfaceQuota:
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -166,7 +179,7 @@ func (s *TetheringStatsProviderStub) OnTransaction(
 // provide to NewTetheringStatsProviderStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ITetheringStatsProviderServer interface {
-	GetTetherStats(ctx context.Context, how int32) (interface{}, error)
+	GetTetherStats(ctx context.Context, how int32) (NetworkStats, error)
 	SetInterfaceQuota(ctx context.Context, iface string, quotaBytes int64) error
 }
 
@@ -182,7 +195,7 @@ func (w *tetheringStatsProviderStubWrapper) AsBinder() binder.IBinder {
 func (w *tetheringStatsProviderStubWrapper) GetTetherStats(
 	ctx context.Context,
 	how int32,
-) (interface{}, error) {
+) (NetworkStats, error) {
 	return w.impl.GetTetherStats(ctx, how)
 }
 

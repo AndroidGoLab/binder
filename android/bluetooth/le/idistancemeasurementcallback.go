@@ -3,6 +3,7 @@ package le
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/bluetooth/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -27,10 +28,10 @@ const (
 
 type IDistanceMeasurementCallback interface {
 	AsBinder() binder.IBinder
-	OnStarted(ctx context.Context, device interface{}) error
-	OnStartFail(ctx context.Context, device interface{}, reason int32) error
-	OnStopped(ctx context.Context, device interface{}, reason int32) error
-	OnResult(ctx context.Context, device interface{}, result DistanceMeasurementResult) error
+	OnStarted(ctx context.Context, device types.BluetoothDevice) error
+	OnStartFail(ctx context.Context, device types.BluetoothDevice, reason int32) error
+	OnStopped(ctx context.Context, device types.BluetoothDevice, reason int32) error
+	OnResult(ctx context.Context, device types.BluetoothDevice, result DistanceMeasurementResult) error
 }
 
 type DistanceMeasurementCallbackProxy struct {
@@ -51,10 +52,12 @@ var _ IDistanceMeasurementCallback = (*DistanceMeasurementCallbackProxy)(nil)
 
 func (p *DistanceMeasurementCallbackProxy) OnStarted(
 	ctx context.Context,
-	device interface{},
+	device types.BluetoothDevice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDistanceMeasurementCallback)
+	// WARNING: param device (type types.BluetoothDevice) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDistanceMeasurementCallback, MethodIDistanceMeasurementCallbackOnStarted)
 	if _err != nil {
@@ -67,11 +70,13 @@ func (p *DistanceMeasurementCallbackProxy) OnStarted(
 
 func (p *DistanceMeasurementCallbackProxy) OnStartFail(
 	ctx context.Context,
-	device interface{},
+	device types.BluetoothDevice,
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDistanceMeasurementCallback)
+	// WARNING: param device (type types.BluetoothDevice) cannot be serialized — type not resolved
 	_data.WriteInt32(reason)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDistanceMeasurementCallback, MethodIDistanceMeasurementCallbackOnStartFail)
@@ -85,11 +90,13 @@ func (p *DistanceMeasurementCallbackProxy) OnStartFail(
 
 func (p *DistanceMeasurementCallbackProxy) OnStopped(
 	ctx context.Context,
-	device interface{},
+	device types.BluetoothDevice,
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDistanceMeasurementCallback)
+	// WARNING: param device (type types.BluetoothDevice) cannot be serialized — type not resolved
 	_data.WriteInt32(reason)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDistanceMeasurementCallback, MethodIDistanceMeasurementCallbackOnStopped)
@@ -103,11 +110,13 @@ func (p *DistanceMeasurementCallbackProxy) OnStopped(
 
 func (p *DistanceMeasurementCallbackProxy) OnResult(
 	ctx context.Context,
-	device interface{},
+	device types.BluetoothDevice,
 	result DistanceMeasurementResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDistanceMeasurementCallback)
+	// WARNING: param device (type types.BluetoothDevice) cannot be serialized — type not resolved
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
@@ -125,7 +134,8 @@ func (p *DistanceMeasurementCallbackProxy) OnResult(
 // DistanceMeasurementCallbackStub dispatches incoming binder transactions
 // to a typed IDistanceMeasurementCallback implementation.
 type DistanceMeasurementCallbackStub struct {
-	Impl IDistanceMeasurementCallback
+	Impl      IDistanceMeasurementCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DistanceMeasurementCallbackStub)(nil)
@@ -139,44 +149,33 @@ func (s *DistanceMeasurementCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDistanceMeasurementCallbackOnStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_device interface{}
+		var _arg_device types.BluetoothDevice
 		_err := s.Impl.OnStarted(ctx, _arg_device)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDistanceMeasurementCallbackOnStartFail:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_device interface{}
+		var _arg_device types.BluetoothDevice
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnStartFail(ctx, _arg_device, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDistanceMeasurementCallbackOnStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_device interface{}
+		var _arg_device types.BluetoothDevice
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnStopped(ctx, _arg_device, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDistanceMeasurementCallbackOnResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_device interface{}
+		var _arg_device types.BluetoothDevice
 		var _arg_result DistanceMeasurementResult
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -190,8 +189,7 @@ func (s *DistanceMeasurementCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnResult(ctx, _arg_device, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -201,10 +199,10 @@ func (s *DistanceMeasurementCallbackStub) OnTransaction(
 // provide to NewDistanceMeasurementCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IDistanceMeasurementCallbackServer interface {
-	OnStarted(ctx context.Context, device interface{}) error
-	OnStartFail(ctx context.Context, device interface{}, reason int32) error
-	OnStopped(ctx context.Context, device interface{}, reason int32) error
-	OnResult(ctx context.Context, device interface{}, result DistanceMeasurementResult) error
+	OnStarted(ctx context.Context, device types.BluetoothDevice) error
+	OnStartFail(ctx context.Context, device types.BluetoothDevice, reason int32) error
+	OnStopped(ctx context.Context, device types.BluetoothDevice, reason int32) error
+	OnResult(ctx context.Context, device types.BluetoothDevice, result DistanceMeasurementResult) error
 }
 
 type distanceMeasurementCallbackStubWrapper struct {
@@ -218,14 +216,14 @@ func (w *distanceMeasurementCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *distanceMeasurementCallbackStubWrapper) OnStarted(
 	ctx context.Context,
-	device interface{},
+	device types.BluetoothDevice,
 ) error {
 	return w.impl.OnStarted(ctx, device)
 }
 
 func (w *distanceMeasurementCallbackStubWrapper) OnStartFail(
 	ctx context.Context,
-	device interface{},
+	device types.BluetoothDevice,
 	reason int32,
 ) error {
 	return w.impl.OnStartFail(ctx, device, reason)
@@ -233,7 +231,7 @@ func (w *distanceMeasurementCallbackStubWrapper) OnStartFail(
 
 func (w *distanceMeasurementCallbackStubWrapper) OnStopped(
 	ctx context.Context,
-	device interface{},
+	device types.BluetoothDevice,
 	reason int32,
 ) error {
 	return w.impl.OnStopped(ctx, device, reason)
@@ -241,7 +239,7 @@ func (w *distanceMeasurementCallbackStubWrapper) OnStopped(
 
 func (w *distanceMeasurementCallbackStubWrapper) OnResult(
 	ctx context.Context,
-	device interface{},
+	device types.BluetoothDevice,
 	result DistanceMeasurementResult,
 ) error {
 	return w.impl.OnResult(ctx, device, result)

@@ -62,6 +62,7 @@ func (p *DisplayWindowListenerProxy) OnDisplayAdded(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
 	_data.WriteInt32(displayId)
 
@@ -80,6 +81,7 @@ func (p *DisplayWindowListenerProxy) OnDisplayConfigurationChanged(
 	newConfig res.Configuration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(1)
@@ -101,6 +103,7 @@ func (p *DisplayWindowListenerProxy) OnDisplayRemoved(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
 	_data.WriteInt32(displayId)
 
@@ -119,6 +122,7 @@ func (p *DisplayWindowListenerProxy) OnFixedRotationStarted(
 	newRotation int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(newRotation)
@@ -137,6 +141,7 @@ func (p *DisplayWindowListenerProxy) OnFixedRotationFinished(
 	displayId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
 	_data.WriteInt32(displayId)
 
@@ -156,6 +161,7 @@ func (p *DisplayWindowListenerProxy) OnKeepClearAreasChanged(
 	unrestricted []graphics.Rect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
 	_data.WriteInt32(displayId)
 	if restricted == nil {
@@ -193,7 +199,8 @@ func (p *DisplayWindowListenerProxy) OnKeepClearAreasChanged(
 // DisplayWindowListenerStub dispatches incoming binder transactions
 // to a typed IDisplayWindowListener implementation.
 type DisplayWindowListenerStub struct {
-	Impl IDisplayWindowListener
+	Impl      IDisplayWindowListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DisplayWindowListenerStub)(nil)
@@ -207,22 +214,19 @@ func (s *DisplayWindowListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDisplayWindowListenerOnDisplayAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDisplayAdded(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDisplayWindowListenerOnDisplayConfigurationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -240,23 +244,15 @@ func (s *DisplayWindowListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnDisplayConfigurationChanged(ctx, _arg_displayId, _arg_newConfig)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDisplayWindowListenerOnDisplayRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDisplayRemoved(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDisplayWindowListenerOnFixedRotationStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -266,36 +262,63 @@ func (s *DisplayWindowListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnFixedRotationStarted(ctx, _arg_displayId, _arg_newRotation)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDisplayWindowListenerOnFixedRotationFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnFixedRotationFinished(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDisplayWindowListenerOnKeepClearAreasChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_restricted []graphics.Rect
-		_ = _arg_restricted
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_restricted = make([]graphics.Rect, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_restricted[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_unrestricted []graphics.Rect
-		_ = _arg_unrestricted
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_unrestricted = make([]graphics.Rect, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_unrestricted[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.OnKeepClearAreasChanged(ctx, _arg_displayId, _arg_restricted, _arg_unrestricted)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

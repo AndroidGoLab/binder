@@ -44,6 +44,7 @@ func (p *WindowInfosReportedListenerProxy) OnWindowInfosReported(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindowInfosReportedListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowInfosReportedListener, MethodIWindowInfosReportedListenerOnWindowInfosReported)
@@ -58,7 +59,8 @@ func (p *WindowInfosReportedListenerProxy) OnWindowInfosReported(
 // WindowInfosReportedListenerStub dispatches incoming binder transactions
 // to a typed IWindowInfosReportedListener implementation.
 type WindowInfosReportedListenerStub struct {
-	Impl IWindowInfosReportedListener
+	Impl      IWindowInfosReportedListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WindowInfosReportedListenerStub)(nil)
@@ -72,14 +74,14 @@ func (s *WindowInfosReportedListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWindowInfosReportedListenerOnWindowInfosReported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnWindowInfosReported(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

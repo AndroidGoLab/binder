@@ -76,6 +76,7 @@ func (p *ImsMmTelListenerProxy) OnIncomingCall(
 ) (IImsCallSessionListener, error) {
 	var _result IImsCallSessionListener
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
 	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(callId)
@@ -113,6 +114,7 @@ func (p *ImsMmTelListenerProxy) OnRejectedCall(
 	reason ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
 	_data.WriteInt32(1)
 	if _err := callProfile.MarshalParcel(_data); _err != nil {
@@ -146,6 +148,7 @@ func (p *ImsMmTelListenerProxy) OnVoiceMessageCountUpdate(
 	count int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
 	_data.WriteInt32(count)
 
@@ -163,6 +166,7 @@ func (p *ImsMmTelListenerProxy) OnAudioModeIsVoipChanged(
 	imsAudioHandler int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
 	_data.WriteInt32(imsAudioHandler)
 
@@ -180,6 +184,7 @@ func (p *ImsMmTelListenerProxy) OnTriggerEpsFallback(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
 	_data.WriteInt32(reason)
 
@@ -201,6 +206,7 @@ func (p *ImsMmTelListenerProxy) OnStartImsTrafficSession(
 	callback IImsTrafficSessionCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
 	_data.WriteInt32(token)
 	_data.WriteInt32(trafficType)
@@ -223,6 +229,7 @@ func (p *ImsMmTelListenerProxy) OnModifyImsTrafficSession(
 	accessNetworkType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
 	_data.WriteInt32(token)
 	_data.WriteInt32(accessNetworkType)
@@ -241,6 +248,7 @@ func (p *ImsMmTelListenerProxy) OnStopImsTrafficSession(
 	token int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
 	_data.WriteInt32(token)
 
@@ -258,6 +266,7 @@ func (p *ImsMmTelListenerProxy) OnMediaQualityStatusChanged(
 	status media.MediaQualityStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
 	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
@@ -276,7 +285,8 @@ func (p *ImsMmTelListenerProxy) OnMediaQualityStatusChanged(
 // ImsMmTelListenerStub dispatches incoming binder transactions
 // to a typed IImsMmTelListener implementation.
 type ImsMmTelListenerStub struct {
-	Impl IImsMmTelListener
+	Impl      IImsMmTelListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsMmTelListenerStub)(nil)
@@ -290,14 +300,20 @@ func (s *ImsMmTelListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsMmTelListenerOnIncomingCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c internal.IImsCallSession
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = internal.NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -321,13 +337,9 @@ func (s *ImsMmTelListenerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsMmTelListenerOnRejectedCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_callProfile ims.ImsCallProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -361,42 +373,27 @@ func (s *ImsMmTelListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsMmTelListenerOnVoiceMessageCountUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_count, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnVoiceMessageCountUpdate(ctx, _arg_count)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMmTelListenerOnAudioModeIsVoipChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_imsAudioHandler, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAudioModeIsVoipChanged(ctx, _arg_imsAudioHandler)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMmTelListenerOnTriggerEpsFallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTriggerEpsFallback(ctx, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMmTelListenerOnStartImsTrafficSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -413,16 +410,17 @@ func (s *ImsMmTelListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IImsTrafficSessionCallback
-		_ = _arg_callback
-		_err = s.Impl.OnStartImsTrafficSession(ctx, _arg_token, _arg_trafficType, _arg_accessNetworkType, _arg_trafficDirection, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIImsMmTelListenerOnModifyImsTrafficSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewImsTrafficSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.OnStartImsTrafficSession(ctx, _arg_token, _arg_trafficType, _arg_accessNetworkType, _arg_trafficDirection, _arg_callback)
+		return nil, _err
+	case TransactionIImsMmTelListenerOnModifyImsTrafficSession:
 		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -432,23 +430,15 @@ func (s *ImsMmTelListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnModifyImsTrafficSession(ctx, _arg_token, _arg_accessNetworkType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMmTelListenerOnStopImsTrafficSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnStopImsTrafficSession(ctx, _arg_token)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMmTelListenerOnMediaQualityStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_status media.MediaQualityStatus
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -462,8 +452,7 @@ func (s *ImsMmTelListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnMediaQualityStatusChanged(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

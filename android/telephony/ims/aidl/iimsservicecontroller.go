@@ -92,6 +92,7 @@ func (p *ImsServiceControllerProxy) SetListener(
 	l IImsServiceControllerListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
 	binder.WriteBinderToParcel(ctx, _data, l.AsBinder(), p.Remote.Transport())
 
@@ -120,6 +121,7 @@ func (p *ImsServiceControllerProxy) CreateMmTelFeature(
 ) (IImsMmTelFeature, error) {
 	var _result IImsMmTelFeature
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(subId)
@@ -153,6 +155,7 @@ func (p *ImsServiceControllerProxy) CreateEmergencyOnlyMmTelFeature(
 ) (IImsMmTelFeature, error) {
 	var _result IImsMmTelFeature
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
 	_data.WriteInt32(slotId)
 
@@ -186,6 +189,7 @@ func (p *ImsServiceControllerProxy) CreateRcsFeature(
 ) (IImsRcsFeature, error) {
 	var _result IImsRcsFeature
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(subId)
@@ -218,6 +222,7 @@ func (p *ImsServiceControllerProxy) QuerySupportedImsFeatures(
 ) (stub.ImsFeatureConfiguration, error) {
 	var _result stub.ImsFeatureConfiguration
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceController, MethodIImsServiceControllerQuerySupportedImsFeatures)
@@ -252,6 +257,7 @@ func (p *ImsServiceControllerProxy) GetImsServiceCapabilities(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceController, MethodIImsServiceControllerGetImsServiceCapabilities)
@@ -283,6 +289,7 @@ func (p *ImsServiceControllerProxy) AddFeatureStatusCallback(
 	c internal.IImsFeatureStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(featureType)
@@ -313,6 +320,7 @@ func (p *ImsServiceControllerProxy) RemoveFeatureStatusCallback(
 	c internal.IImsFeatureStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(featureType)
@@ -340,6 +348,7 @@ func (p *ImsServiceControllerProxy) NotifyImsServiceReadyForFeatureCreation(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceController, MethodIImsServiceControllerNotifyImsServiceReadyForFeatureCreation)
@@ -367,6 +376,7 @@ func (p *ImsServiceControllerProxy) RemoveImsFeature(
 	changeSubId bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(featureType)
@@ -397,6 +407,7 @@ func (p *ImsServiceControllerProxy) GetConfig(
 ) (IImsConfig, error) {
 	var _result IImsConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(subId)
@@ -431,6 +442,7 @@ func (p *ImsServiceControllerProxy) GetRegistration(
 ) (IImsRegistration, error) {
 	var _result IImsRegistration
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(subId)
@@ -464,6 +476,7 @@ func (p *ImsServiceControllerProxy) GetSipTransport(
 ) (ISipTransport, error) {
 	var _result ISipTransport
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
 	_data.WriteInt32(slotId)
 
@@ -496,6 +509,7 @@ func (p *ImsServiceControllerProxy) EnableIms(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(subId)
@@ -515,6 +529,7 @@ func (p *ImsServiceControllerProxy) DisableIms(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(subId)
@@ -534,6 +549,7 @@ func (p *ImsServiceControllerProxy) ResetIms(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceController)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(subId)
@@ -550,7 +566,8 @@ func (p *ImsServiceControllerProxy) ResetIms(
 // ImsServiceControllerStub dispatches incoming binder transactions
 // to a typed IImsServiceController implementation.
 type ImsServiceControllerStub struct {
-	Impl IImsServiceController
+	Impl      IImsServiceController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsServiceControllerStub)(nil)
@@ -564,14 +581,20 @@ func (s *ImsServiceControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsServiceControllerSetListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_l IImsServiceControllerListener
-		_ = _arg_l
+		{
+			_lHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_l = NewImsServiceControllerListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _lHandle))
+		}
 		_err := s.Impl.SetListener(ctx, _arg_l)
 		_reply := parcel.New()
 		if _err != nil {
@@ -581,9 +604,6 @@ func (s *ImsServiceControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceControllerCreateMmTelFeature:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -599,13 +619,9 @@ func (s *ImsServiceControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsServiceControllerCreateEmergencyOnlyMmTelFeature:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -617,13 +633,9 @@ func (s *ImsServiceControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsServiceControllerCreateRcsFeature:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -639,13 +651,9 @@ func (s *ImsServiceControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsServiceControllerQuerySupportedImsFeatures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.QuerySupportedImsFeatures(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -659,9 +667,6 @@ func (s *ImsServiceControllerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImsServiceControllerGetImsServiceCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetImsServiceCapabilities(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -672,9 +677,6 @@ func (s *ImsServiceControllerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIImsServiceControllerAddFeatureStatusCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -683,9 +685,14 @@ func (s *ImsServiceControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c internal.IImsFeatureStatusCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = internal.NewImsFeatureStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err = s.Impl.AddFeatureStatusCallback(ctx, _arg_slotId, _arg_featureType, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -695,9 +702,6 @@ func (s *ImsServiceControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceControllerRemoveFeatureStatusCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -706,9 +710,14 @@ func (s *ImsServiceControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c internal.IImsFeatureStatusCallback
-		_ = _arg_c
+		{
+			_cHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_c = internal.NewImsFeatureStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cHandle))
+		}
 		_err = s.Impl.RemoveFeatureStatusCallback(ctx, _arg_slotId, _arg_featureType, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -718,9 +727,6 @@ func (s *ImsServiceControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceControllerNotifyImsServiceReadyForFeatureCreation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NotifyImsServiceReadyForFeatureCreation(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -730,9 +736,6 @@ func (s *ImsServiceControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceControllerRemoveImsFeature:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -754,9 +757,6 @@ func (s *ImsServiceControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceControllerGetConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -772,13 +772,9 @@ func (s *ImsServiceControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsServiceControllerGetRegistration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -794,13 +790,9 @@ func (s *ImsServiceControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsServiceControllerGetSipTransport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -812,13 +804,9 @@ func (s *ImsServiceControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsServiceControllerEnableIms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -828,12 +816,8 @@ func (s *ImsServiceControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.EnableIms(ctx, _arg_slotId, _arg_subId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsServiceControllerDisableIms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -843,12 +827,8 @@ func (s *ImsServiceControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.DisableIms(ctx, _arg_slotId, _arg_subId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsServiceControllerResetIms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -858,8 +838,7 @@ func (s *ImsServiceControllerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ResetIms(ctx, _arg_slotId, _arg_subId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

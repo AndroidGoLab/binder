@@ -78,15 +78,9 @@ func (p *CasProxy) CloseSession(
 	sessionId []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasCloseSession)
 	if _err != nil {
@@ -111,6 +105,7 @@ func (p *CasProxy) OpenSessionDefault(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasOpenSessionDefault)
@@ -128,19 +123,9 @@ func (p *CasProxy) OpenSessionDefault(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -152,6 +137,7 @@ func (p *CasProxy) OpenSession(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
 	_data.WriteInt32(int32(intent))
 	_data.WriteInt32(int32(mode))
@@ -171,19 +157,9 @@ func (p *CasProxy) OpenSession(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -194,23 +170,10 @@ func (p *CasProxy) ProcessEcm(
 	ecm []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if ecm == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(ecm)))
-		for _, _item := range ecm {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
+	_data.WriteByteArray(ecm)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasProcessEcm)
 	if _err != nil {
@@ -235,15 +198,9 @@ func (p *CasProxy) ProcessEmm(
 	emm []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
-	if emm == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(emm)))
-		for _, _item := range emm {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(emm)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasProcessEmm)
 	if _err != nil {
@@ -268,6 +225,7 @@ func (p *CasProxy) Provision(
 	provisionString string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
 	_data.WriteString16(provisionString)
 
@@ -295,16 +253,10 @@ func (p *CasProxy) RefreshEntitlements(
 	refreshData []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
 	_data.WriteInt32(refreshType)
-	if refreshData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(refreshData)))
-		for _, _item := range refreshData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(refreshData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasRefreshEntitlements)
 	if _err != nil {
@@ -328,6 +280,7 @@ func (p *CasProxy) Release(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasRelease)
@@ -355,17 +308,11 @@ func (p *CasProxy) SendEvent(
 	eventData []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
 	_data.WriteInt32(event)
 	_data.WriteInt32(arg)
-	if eventData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(eventData)))
-		for _, _item := range eventData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(eventData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasSendEvent)
 	if _err != nil {
@@ -393,25 +340,12 @@ func (p *CasProxy) SendSessionEvent(
 	eventData []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
 	_data.WriteInt32(event)
 	_data.WriteInt32(arg)
-	if eventData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(eventData)))
-		for _, _item := range eventData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(eventData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasSendSessionEvent)
 	if _err != nil {
@@ -436,15 +370,9 @@ func (p *CasProxy) SetPrivateData(
 	pvtData []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
-	if pvtData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(pvtData)))
-		for _, _item := range pvtData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(pvtData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasSetPrivateData)
 	if _err != nil {
@@ -470,23 +398,10 @@ func (p *CasProxy) SetSessionPrivateData(
 	pvtData []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICas)
-	if sessionId == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(sessionId)))
-		for _, _item := range sessionId {
-			_data.WritePaddedByte(_item)
-		}
-	}
-	if pvtData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(pvtData)))
-		for _, _item := range pvtData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(sessionId)
+	_data.WriteByteArray(pvtData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICas, MethodICasSetSessionPrivateData)
 	if _err != nil {
@@ -509,7 +424,8 @@ func (p *CasProxy) SetSessionPrivateData(
 // CasStub dispatches incoming binder transactions
 // to a typed ICas implementation.
 type CasStub struct {
-	Impl ICas
+	Impl      ICas
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CasStub)(nil)
@@ -523,14 +439,20 @@ func (s *CasStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICasCloseSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		_err := s.Impl.CloseSession(ctx, _arg_sessionId)
 		_reply := parcel.New()
 		if _err != nil {
@@ -540,9 +462,6 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasOpenSessionDefault:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.OpenSessionDefault(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -550,13 +469,9 @@ func (s *CasStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionICasOpenSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_intent, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -574,19 +489,25 @@ func (s *CasStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionICasProcessEcm:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		var _arg_ecm []byte
-		_ = _arg_ecm
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_ecm = _bytes
+		}
 		_err := s.Impl.ProcessEcm(ctx, _arg_sessionId, _arg_ecm)
 		_reply := parcel.New()
 		if _err != nil {
@@ -596,12 +517,14 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasProcessEmm:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_emm []byte
-		_ = _arg_emm
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_emm = _bytes
+		}
 		_err := s.Impl.ProcessEmm(ctx, _arg_emm)
 		_reply := parcel.New()
 		if _err != nil {
@@ -611,9 +534,6 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasProvision:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provisionString, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -627,16 +547,18 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasRefreshEntitlements:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_refreshType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_refreshData []byte
-		_ = _arg_refreshData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_refreshData = _bytes
+		}
 		_err = s.Impl.RefreshEntitlements(ctx, _arg_refreshType, _arg_refreshData)
 		_reply := parcel.New()
 		if _err != nil {
@@ -646,9 +568,6 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasRelease:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Release(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -658,9 +577,6 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasSendEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -669,9 +585,14 @@ func (s *CasStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_eventData []byte
-		_ = _arg_eventData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_eventData = _bytes
+		}
 		_err = s.Impl.SendEvent(ctx, _arg_event, _arg_arg, _arg_eventData)
 		_reply := parcel.New()
 		if _err != nil {
@@ -681,12 +602,14 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasSendSessionEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -695,9 +618,14 @@ func (s *CasStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_eventData []byte
-		_ = _arg_eventData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_eventData = _bytes
+		}
 		_err = s.Impl.SendSessionEvent(ctx, _arg_sessionId, _arg_event, _arg_arg, _arg_eventData)
 		_reply := parcel.New()
 		if _err != nil {
@@ -707,12 +635,14 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasSetPrivateData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pvtData []byte
-		_ = _arg_pvtData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_pvtData = _bytes
+		}
 		_err := s.Impl.SetPrivateData(ctx, _arg_pvtData)
 		_reply := parcel.New()
 		if _err != nil {
@@ -722,15 +652,22 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasSetSessionPrivateData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
-		_ = _arg_sessionId
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionId = _bytes
+		}
 		var _arg_pvtData []byte
-		_ = _arg_pvtData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_pvtData = _bytes
+		}
 		_err := s.Impl.SetSessionPrivateData(ctx, _arg_sessionId, _arg_pvtData)
 		_reply := parcel.New()
 		if _err != nil {

@@ -56,6 +56,7 @@ func (p *TvAdServiceProxy) RegisterCallback(
 	callback ITvAdServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -73,6 +74,7 @@ func (p *TvAdServiceProxy) UnregisterCallback(
 	callback ITvAdServiceCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -93,6 +95,7 @@ func (p *TvAdServiceProxy) CreateSession(
 	type_ string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdService)
 	_data.WriteInt32(1)
 	if _err := channel.MarshalParcel(_data); _err != nil {
@@ -116,6 +119,7 @@ func (p *TvAdServiceProxy) SendAppLinkCommand(
 	command os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdService)
 	_data.WriteInt32(1)
 	if _err := command.MarshalParcel(_data); _err != nil {
@@ -134,7 +138,8 @@ func (p *TvAdServiceProxy) SendAppLinkCommand(
 // TvAdServiceStub dispatches incoming binder transactions
 // to a typed ITvAdService implementation.
 type TvAdServiceStub struct {
-	Impl ITvAdService
+	Impl      ITvAdService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvAdServiceStub)(nil)
@@ -148,31 +153,34 @@ func (s *TvAdServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvAdServiceRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvAdServiceCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTvAdServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdServiceUnregisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvAdServiceCallback
-		_ = _arg_callback
-		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionITvAdServiceCreateSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTvAdServiceCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)
+		return nil, _err
+	case TransactionITvAdServiceCreateSession:
 		var _arg_channel view.InputChannel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -185,9 +193,14 @@ func (s *TvAdServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvAdSessionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTvAdSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_serviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -197,12 +210,8 @@ func (s *TvAdServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.CreateSession(ctx, _arg_channel, _arg_callback, _arg_serviceId, _arg_type_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdServiceSendAppLinkCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_command os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -216,8 +225,7 @@ func (s *TvAdServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SendAppLinkCommand(ctx, _arg_command)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

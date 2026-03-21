@@ -1,7 +1,6 @@
 package supplicant
 
 import (
-	supplicantQosPolicyScsData "github.com/xaionaro-go/binder/android/hardware/wifi/supplicant/QosPolicyScsData"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -11,8 +10,8 @@ type QosPolicyScsData struct {
 	PolicyId           byte
 	UserPriority       byte
 	ClassifierParams   QosPolicyClassifierParams
-	Direction          supplicantQosPolicyScsData.LinkDirection
-	QosCharacteristics QosCharacteristics
+	Direction          QosPolicyScsDataLinkDirection
+	QosCharacteristics *QosCharacteristics
 }
 
 var _ parcel.Parcelable = (*QosPolicyScsData)(nil)
@@ -27,8 +26,13 @@ func (s *QosPolicyScsData) MarshalParcel(
 		return _err
 	}
 	p.WritePaddedByte(byte(s.Direction))
-	if _err := s.QosCharacteristics.MarshalParcel(p); _err != nil {
-		return _err
+	if s.QosCharacteristics == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.QosCharacteristics.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -43,9 +47,19 @@ func (s *QosPolicyScsData) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.PolicyId, _err = p.ReadPaddedByte()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.UserPriority, _err = p.ReadPaddedByte()
@@ -53,18 +67,43 @@ func (s *QosPolicyScsData) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.ClassifierParams.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_directionRaw, _err := p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}
-	s.Direction = supplicantQosPolicyScsData.LinkDirection(_directionRaw)
+	s.Direction = QosPolicyScsDataLinkDirection(_directionRaw)
 
-	if _err = s.QosCharacteristics.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val QosCharacteristics
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.QosCharacteristics = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

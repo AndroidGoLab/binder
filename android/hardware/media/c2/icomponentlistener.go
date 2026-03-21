@@ -3,7 +3,6 @@ package c2
 import (
 	"context"
 	"fmt"
-	c2IComponentListener "github.com/xaionaro-go/binder/android/hardware/media/c2/IComponentListener"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -31,8 +30,8 @@ const (
 type IComponentListener interface {
 	AsBinder() binder.IBinder
 	OnError(ctx context.Context, status Status, errorCode int32) error
-	OnFramesRendered(ctx context.Context, renderedFrames []c2IComponentListener.RenderedFrame) error
-	OnInputBuffersReleased(ctx context.Context, inputBuffers []c2IComponentListener.InputBuffer) error
+	OnFramesRendered(ctx context.Context, renderedFrames []IComponentListenerRenderedFrame) error
+	OnInputBuffersReleased(ctx context.Context, inputBuffers []IComponentListenerInputBuffer) error
 	OnTripped(ctx context.Context, settingResults []SettingResult) error
 	OnWorkDone(ctx context.Context, workBundle WorkBundle) error
 }
@@ -59,6 +58,7 @@ func (p *ComponentListenerProxy) OnError(
 	errorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponentListener)
 	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
@@ -77,9 +77,10 @@ func (p *ComponentListenerProxy) OnError(
 
 func (p *ComponentListenerProxy) OnFramesRendered(
 	ctx context.Context,
-	renderedFrames []c2IComponentListener.RenderedFrame,
+	renderedFrames []IComponentListenerRenderedFrame,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponentListener)
 	if renderedFrames == nil {
 		_data.WriteInt32(-1)
@@ -104,9 +105,10 @@ func (p *ComponentListenerProxy) OnFramesRendered(
 
 func (p *ComponentListenerProxy) OnInputBuffersReleased(
 	ctx context.Context,
-	inputBuffers []c2IComponentListener.InputBuffer,
+	inputBuffers []IComponentListenerInputBuffer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponentListener)
 	if inputBuffers == nil {
 		_data.WriteInt32(-1)
@@ -134,6 +136,7 @@ func (p *ComponentListenerProxy) OnTripped(
 	settingResults []SettingResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponentListener)
 	if settingResults == nil {
 		_data.WriteInt32(-1)
@@ -161,6 +164,7 @@ func (p *ComponentListenerProxy) OnWorkDone(
 	workBundle WorkBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComponentListener)
 	_data.WriteInt32(1)
 	if _err := workBundle.MarshalParcel(_data); _err != nil {
@@ -179,7 +183,8 @@ func (p *ComponentListenerProxy) OnWorkDone(
 // ComponentListenerStub dispatches incoming binder transactions
 // to a typed IComponentListener implementation.
 type ComponentListenerStub struct {
-	Impl IComponentListener
+	Impl      IComponentListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ComponentListenerStub)(nil)
@@ -193,11 +198,12 @@ func (s *ComponentListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIComponentListenerOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_status Status
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -215,42 +221,80 @@ func (s *ComponentListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_status, _arg_errorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIComponentListenerOnFramesRendered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_renderedFrames []IComponentListenerRenderedFrame
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_renderedFrames = make([]IComponentListenerRenderedFrame, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_renderedFrames[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_renderedFrames []c2IComponentListener.RenderedFrame
-		_ = _arg_renderedFrames
 		_err := s.Impl.OnFramesRendered(ctx, _arg_renderedFrames)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIComponentListenerOnInputBuffersReleased:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_inputBuffers []IComponentListenerInputBuffer
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_inputBuffers = make([]IComponentListenerInputBuffer, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_inputBuffers[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_inputBuffers []c2IComponentListener.InputBuffer
-		_ = _arg_inputBuffers
 		_err := s.Impl.OnInputBuffersReleased(ctx, _arg_inputBuffers)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIComponentListenerOnTripped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_settingResults []SettingResult
-		_ = _arg_settingResults
-		_err := s.Impl.OnTripped(ctx, _arg_settingResults)
-		_ = _err
-		return nil, nil
-	case TransactionIComponentListenerOnWorkDone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_settingResults = make([]SettingResult, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_settingResults[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnTripped(ctx, _arg_settingResults)
+		return nil, _err
+	case TransactionIComponentListenerOnWorkDone:
 		var _arg_workBundle WorkBundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -264,8 +308,7 @@ func (s *ComponentListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnWorkDone(ctx, _arg_workBundle)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -276,8 +319,8 @@ func (s *ComponentListenerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IComponentListenerServer interface {
 	OnError(ctx context.Context, status Status, errorCode int32) error
-	OnFramesRendered(ctx context.Context, renderedFrames []c2IComponentListener.RenderedFrame) error
-	OnInputBuffersReleased(ctx context.Context, inputBuffers []c2IComponentListener.InputBuffer) error
+	OnFramesRendered(ctx context.Context, renderedFrames []IComponentListenerRenderedFrame) error
+	OnInputBuffersReleased(ctx context.Context, inputBuffers []IComponentListenerInputBuffer) error
 	OnTripped(ctx context.Context, settingResults []SettingResult) error
 	OnWorkDone(ctx context.Context, workBundle WorkBundle) error
 }
@@ -301,14 +344,14 @@ func (w *componentListenerStubWrapper) OnError(
 
 func (w *componentListenerStubWrapper) OnFramesRendered(
 	ctx context.Context,
-	renderedFrames []c2IComponentListener.RenderedFrame,
+	renderedFrames []IComponentListenerRenderedFrame,
 ) error {
 	return w.impl.OnFramesRendered(ctx, renderedFrames)
 }
 
 func (w *componentListenerStubWrapper) OnInputBuffersReleased(
 	ctx context.Context,
-	inputBuffers []c2IComponentListener.InputBuffer,
+	inputBuffers []IComponentListenerInputBuffer,
 ) error {
 	return w.impl.OnInputBuffersReleased(ctx, inputBuffers)
 }

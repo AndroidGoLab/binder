@@ -1,0 +1,104 @@
+package: android.hardware.boot
+go_package: android/hardware/boot
+interfaces:
+    - name: IBootControl
+      descriptor: android.hardware.boot.IBootControl
+      methods:
+        - name: getActiveBootSlot
+          transaction_code_offset: 0
+          return_type:
+            name: int
+        - name: getCurrentSlot
+          transaction_code_offset: 1
+          return_type:
+            name: int
+        - name: getNumberSlots
+          transaction_code_offset: 2
+          return_type:
+            name: int
+        - name: getSnapshotMergeStatus
+          transaction_code_offset: 3
+          return_type:
+            name: MergeStatus
+        - name: getSuffix
+          transaction_code_offset: 4
+          params:
+            - name: slot
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: String
+        - name: isSlotBootable
+          transaction_code_offset: 5
+          params:
+            - name: slot
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: isSlotMarkedSuccessful
+          transaction_code_offset: 6
+          params:
+            - name: slot
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: markBootSuccessful
+          transaction_code_offset: 7
+          return_type:
+            name: void
+        - name: setActiveBootSlot
+          transaction_code_offset: 8
+          params:
+            - name: slot
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setSlotAsUnbootable
+          transaction_code_offset: 9
+          params:
+            - name: slot
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setSnapshotMergeStatus
+          transaction_code_offset: 10
+          params:
+            - name: status
+              type:
+                name: MergeStatus
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: INVALID_SLOT
+          type: int
+          value: "-1"
+        - name: COMMAND_FAILED
+          type: int
+          value: "-2"
+enums:
+    - name: MergeStatus
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: UNKNOWN
+          value: ""
+        - name: SNAPSHOTTED
+          value: ""
+        - name: MERGING
+          value: ""
+        - name: CANCELLED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing

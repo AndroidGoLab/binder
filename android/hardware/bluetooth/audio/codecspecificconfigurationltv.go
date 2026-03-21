@@ -2,7 +2,6 @@ package audio
 
 import (
 	"fmt"
-	audioCodecSpecificConfigurationLtv "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/CodecSpecificConfigurationLtv"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -18,88 +17,83 @@ const (
 
 type CodecSpecificConfigurationLtv struct {
 	Tag                    int32
-	CodecFrameBlocksPerSDU audioCodecSpecificConfigurationLtv.CodecFrameBlocksPerSDU
-	SamplingFrequency      audioCodecSpecificConfigurationLtv.SamplingFrequency
-	FrameDuration          audioCodecSpecificConfigurationLtv.FrameDuration
-	AudioChannelAllocation audioCodecSpecificConfigurationLtv.AudioChannelAllocation
-	OctetsPerCodecFrame    audioCodecSpecificConfigurationLtv.OctetsPerCodecFrame
+	CodecFrameBlocksPerSDU CodecSpecificConfigurationLtvCodecFrameBlocksPerSDU
+	SamplingFrequency      CodecSpecificConfigurationLtvSamplingFrequency
+	FrameDuration          CodecSpecificConfigurationLtvFrameDuration
+	AudioChannelAllocation CodecSpecificConfigurationLtvAudioChannelAllocation
+	OctetsPerCodecFrame    CodecSpecificConfigurationLtvOctetsPerCodecFrame
 }
 
 var _ parcel.Parcelable = (*CodecSpecificConfigurationLtv)(nil)
 
-func (u *CodecSpecificConfigurationLtv) GetCodecFrameBlocksPerSDU() (audioCodecSpecificConfigurationLtv.CodecFrameBlocksPerSDU, bool) {
+func (u *CodecSpecificConfigurationLtv) GetCodecFrameBlocksPerSDU() (CodecSpecificConfigurationLtvCodecFrameBlocksPerSDU, bool) {
 	if u.Tag != CodecSpecificConfigurationLtvTagCodecFrameBlocksPerSDU {
-		var _zero audioCodecSpecificConfigurationLtv.CodecFrameBlocksPerSDU
+		var _zero CodecSpecificConfigurationLtvCodecFrameBlocksPerSDU
 		return _zero, false
 	}
 	return u.CodecFrameBlocksPerSDU, true
 }
 
 func (u *CodecSpecificConfigurationLtv) SetCodecFrameBlocksPerSDU(
-	v audioCodecSpecificConfigurationLtv.CodecFrameBlocksPerSDU,
+	v CodecSpecificConfigurationLtvCodecFrameBlocksPerSDU,
 ) {
-	u.Tag = CodecSpecificConfigurationLtvTagCodecFrameBlocksPerSDU
-	u.CodecFrameBlocksPerSDU = v
+	*u = CodecSpecificConfigurationLtv{Tag: CodecSpecificConfigurationLtvTagCodecFrameBlocksPerSDU, CodecFrameBlocksPerSDU: v}
 }
 
-func (u *CodecSpecificConfigurationLtv) GetSamplingFrequency() (audioCodecSpecificConfigurationLtv.SamplingFrequency, bool) {
+func (u *CodecSpecificConfigurationLtv) GetSamplingFrequency() (CodecSpecificConfigurationLtvSamplingFrequency, bool) {
 	if u.Tag != CodecSpecificConfigurationLtvTagSamplingFrequency {
-		var _zero audioCodecSpecificConfigurationLtv.SamplingFrequency
+		var _zero CodecSpecificConfigurationLtvSamplingFrequency
 		return _zero, false
 	}
 	return u.SamplingFrequency, true
 }
 
 func (u *CodecSpecificConfigurationLtv) SetSamplingFrequency(
-	v audioCodecSpecificConfigurationLtv.SamplingFrequency,
+	v CodecSpecificConfigurationLtvSamplingFrequency,
 ) {
-	u.Tag = CodecSpecificConfigurationLtvTagSamplingFrequency
-	u.SamplingFrequency = v
+	*u = CodecSpecificConfigurationLtv{Tag: CodecSpecificConfigurationLtvTagSamplingFrequency, SamplingFrequency: v}
 }
 
-func (u *CodecSpecificConfigurationLtv) GetFrameDuration() (audioCodecSpecificConfigurationLtv.FrameDuration, bool) {
+func (u *CodecSpecificConfigurationLtv) GetFrameDuration() (CodecSpecificConfigurationLtvFrameDuration, bool) {
 	if u.Tag != CodecSpecificConfigurationLtvTagFrameDuration {
-		var _zero audioCodecSpecificConfigurationLtv.FrameDuration
+		var _zero CodecSpecificConfigurationLtvFrameDuration
 		return _zero, false
 	}
 	return u.FrameDuration, true
 }
 
 func (u *CodecSpecificConfigurationLtv) SetFrameDuration(
-	v audioCodecSpecificConfigurationLtv.FrameDuration,
+	v CodecSpecificConfigurationLtvFrameDuration,
 ) {
-	u.Tag = CodecSpecificConfigurationLtvTagFrameDuration
-	u.FrameDuration = v
+	*u = CodecSpecificConfigurationLtv{Tag: CodecSpecificConfigurationLtvTagFrameDuration, FrameDuration: v}
 }
 
-func (u *CodecSpecificConfigurationLtv) GetAudioChannelAllocation() (audioCodecSpecificConfigurationLtv.AudioChannelAllocation, bool) {
+func (u *CodecSpecificConfigurationLtv) GetAudioChannelAllocation() (CodecSpecificConfigurationLtvAudioChannelAllocation, bool) {
 	if u.Tag != CodecSpecificConfigurationLtvTagAudioChannelAllocation {
-		var _zero audioCodecSpecificConfigurationLtv.AudioChannelAllocation
+		var _zero CodecSpecificConfigurationLtvAudioChannelAllocation
 		return _zero, false
 	}
 	return u.AudioChannelAllocation, true
 }
 
 func (u *CodecSpecificConfigurationLtv) SetAudioChannelAllocation(
-	v audioCodecSpecificConfigurationLtv.AudioChannelAllocation,
+	v CodecSpecificConfigurationLtvAudioChannelAllocation,
 ) {
-	u.Tag = CodecSpecificConfigurationLtvTagAudioChannelAllocation
-	u.AudioChannelAllocation = v
+	*u = CodecSpecificConfigurationLtv{Tag: CodecSpecificConfigurationLtvTagAudioChannelAllocation, AudioChannelAllocation: v}
 }
 
-func (u *CodecSpecificConfigurationLtv) GetOctetsPerCodecFrame() (audioCodecSpecificConfigurationLtv.OctetsPerCodecFrame, bool) {
+func (u *CodecSpecificConfigurationLtv) GetOctetsPerCodecFrame() (CodecSpecificConfigurationLtvOctetsPerCodecFrame, bool) {
 	if u.Tag != CodecSpecificConfigurationLtvTagOctetsPerCodecFrame {
-		var _zero audioCodecSpecificConfigurationLtv.OctetsPerCodecFrame
+		var _zero CodecSpecificConfigurationLtvOctetsPerCodecFrame
 		return _zero, false
 	}
 	return u.OctetsPerCodecFrame, true
 }
 
 func (u *CodecSpecificConfigurationLtv) SetOctetsPerCodecFrame(
-	v audioCodecSpecificConfigurationLtv.OctetsPerCodecFrame,
+	v CodecSpecificConfigurationLtvOctetsPerCodecFrame,
 ) {
-	u.Tag = CodecSpecificConfigurationLtvTagOctetsPerCodecFrame
-	u.OctetsPerCodecFrame = v
+	*u = CodecSpecificConfigurationLtv{Tag: CodecSpecificConfigurationLtvTagOctetsPerCodecFrame, OctetsPerCodecFrame: v}
 }
 
 func (u *CodecSpecificConfigurationLtv) MarshalParcel(
@@ -162,13 +156,13 @@ func (u *CodecSpecificConfigurationLtv) UnmarshalParcel(
 		if _err != nil {
 			return _err
 		}
-		u.SamplingFrequency = audioCodecSpecificConfigurationLtv.SamplingFrequency(_raw)
+		u.SamplingFrequency = CodecSpecificConfigurationLtvSamplingFrequency(_raw)
 	case CodecSpecificConfigurationLtvTagFrameDuration:
 		_raw, _err := p.ReadPaddedByte()
 		if _err != nil {
 			return _err
 		}
-		u.FrameDuration = audioCodecSpecificConfigurationLtv.FrameDuration(_raw)
+		u.FrameDuration = CodecSpecificConfigurationLtvFrameDuration(_raw)
 	case CodecSpecificConfigurationLtvTagAudioChannelAllocation:
 		if _, _err = p.ReadInt32(); _err != nil {
 			return _err

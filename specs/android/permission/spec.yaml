@@ -1,0 +1,923 @@
+package: android.permission
+go_package: android/permission
+interfaces:
+    - name: ILegacyPermissionManager
+      descriptor: android.permission.ILegacyPermissionManager
+      methods:
+        - name: checkDeviceIdentifierAccess
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: message
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: checkPhoneNumberAccess
+          transaction_code_offset: 1
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: message
+              type:
+                name: String
+            - name: callingFeatureId
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: grantDefaultPermissionsToEnabledCarrierApps
+          transaction_code_offset: 2
+          params:
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: grantDefaultPermissionsToEnabledImsServices
+          transaction_code_offset: 3
+          params:
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: grantDefaultPermissionsToEnabledTelephonyDataServices
+          transaction_code_offset: 4
+          params:
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: revokeDefaultPermissionsFromDisabledTelephonyDataServices
+          transaction_code_offset: 5
+          params:
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: grantDefaultPermissionsToActiveLuiApp
+          transaction_code_offset: 6
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: revokeDefaultPermissionsFromLuiApps
+          transaction_code_offset: 7
+          params:
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: grantDefaultPermissionsToCarrierServiceApp
+          transaction_code_offset: 8
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IOnPermissionsChangeListener
+      descriptor: android.permission.IOnPermissionsChangeListener
+      oneway: true
+      methods:
+        - name: onPermissionsChanged
+          transaction_code_offset: 0
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: persistentDeviceId
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IPermissionChecker
+      descriptor: android.permission.IPermissionChecker
+      methods:
+        - name: checkPermission
+          transaction_code_offset: 0
+          params:
+            - name: permission
+              type:
+                name: String
+            - name: attributionSource
+              type:
+                name: AttributionSourceState
+              direction: in
+            - name: message
+              type:
+                name: String
+              annotations:
+                - nullable
+            - name: forDataDelivery
+              type:
+                name: boolean
+            - name: startDataDelivery
+              type:
+                name: boolean
+            - name: fromDatasource
+              type:
+                name: boolean
+            - name: attributedOp
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: finishDataDelivery
+          transaction_code_offset: 1
+          params:
+            - name: op
+              type:
+                name: int
+            - name: attributionSource
+              type:
+                name: AttributionSourceState
+              direction: in
+            - name: fromDatasource
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: checkOp
+          transaction_code_offset: 2
+          params:
+            - name: op
+              type:
+                name: int
+            - name: attributionSource
+              type:
+                name: AttributionSourceState
+              direction: in
+            - name: message
+              type:
+                name: String
+            - name: forDataDelivery
+              type:
+                name: boolean
+            - name: startDataDelivery
+              type:
+                name: boolean
+          return_type:
+            name: int
+      constants:
+        - name: PERMISSION_GRANTED
+          type: int
+          value: "0"
+        - name: PERMISSION_SOFT_DENIED
+          type: int
+          value: "1"
+        - name: PERMISSION_HARD_DENIED
+          type: int
+          value: "2"
+    - name: IPermissionController
+      descriptor: android.permission.IPermissionController
+      oneway: true
+      methods:
+        - name: revokeRuntimePermissions
+          transaction_code_offset: 0
+          params:
+            - name: request
+              type:
+                name: Bundle
+              direction: in
+            - name: doDryRun
+              type:
+                name: boolean
+            - name: reason
+              type:
+                name: int
+            - name: callerPackageName
+              type:
+                name: String
+            - name: callback
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: getRuntimePermissionBackup
+          transaction_code_offset: 1
+          params:
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: pipe
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+        - name: stageAndApplyRuntimePermissionsBackup
+          transaction_code_offset: 2
+          params:
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: pipe
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+        - name: applyStagedRuntimePermissionBackup
+          transaction_code_offset: 3
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: user
+              type:
+                name: UserHandle
+              direction: in
+            - name: callback
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: getAppPermissions
+          transaction_code_offset: 4
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: callback
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: revokeRuntimePermission
+          transaction_code_offset: 5
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: permissionName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: countPermissionApps
+          transaction_code_offset: 6
+          params:
+            - name: permissionNames
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: callback
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: getPermissionUsages
+          transaction_code_offset: 7
+          params:
+            - name: countSystem
+              type:
+                name: boolean
+            - name: numMillis
+              type:
+                name: long
+            - name: callback
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: setRuntimePermissionGrantStateByDeviceAdminFromParams
+          transaction_code_offset: 8
+          params:
+            - name: callerPackageName
+              type:
+                name: String
+            - name: params
+              type:
+                name: AdminPermissionControlParams
+              direction: in
+            - name: callback
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: grantOrUpgradeDefaultRuntimePermissions
+          transaction_code_offset: 9
+          params:
+            - name: callback
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: notifyOneTimePermissionSessionTimeout
+          transaction_code_offset: 10
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: updateUserSensitiveForApp
+          transaction_code_offset: 11
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: callback
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: getPrivilegesDescriptionStringForProfile
+          transaction_code_offset: 12
+          params:
+            - name: deviceProfileName
+              type:
+                name: String
+              direction: in
+            - name: callback
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getPlatformPermissionsForGroup
+          transaction_code_offset: 13
+          params:
+            - name: permissionGroupName
+              type:
+                name: String
+              direction: in
+            - name: callback
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: List
+                      type_args:
+                        - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getGroupOfPlatformPermission
+          transaction_code_offset: 14
+          params:
+            - name: permissionName
+              type:
+                name: String
+              direction: in
+            - name: callback
+              type:
+                name: AndroidFuture
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getUnusedAppCount
+          transaction_code_offset: 15
+          params:
+            - name: callback
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: getHibernationEligibility
+          transaction_code_offset: 16
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: callback
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+        - name: revokeSelfPermissionsOnKill
+          transaction_code_offset: 17
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: permissions
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: deviceId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+    - name: IPermissionManager
+      descriptor: android.permission.IPermissionManager
+      methods:
+        - name: getAllPermissionGroups
+          transaction_code_offset: 0
+          params:
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: getPermissionGroupInfo
+          transaction_code_offset: 1
+          params:
+            - name: groupName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: PermissionGroupInfo
+        - name: getPermissionInfo
+          transaction_code_offset: 2
+          params:
+            - name: permissionName
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: PermissionInfo
+        - name: queryPermissionsByGroup
+          transaction_code_offset: 3
+          params:
+            - name: groupName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: addPermission
+          transaction_code_offset: 4
+          params:
+            - name: permissionInfo
+              type:
+                name: PermissionInfo
+              direction: in
+            - name: async
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: removePermission
+          transaction_code_offset: 5
+          params:
+            - name: permissionName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getPermissionFlags
+          transaction_code_offset: 6
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: permissionName
+              type:
+                name: String
+            - name: persistentDeviceId
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: updatePermissionFlags
+          transaction_code_offset: 7
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: permissionName
+              type:
+                name: String
+            - name: flagMask
+              type:
+                name: int
+            - name: flagValues
+              type:
+                name: int
+            - name: checkAdjustPolicyFlagPermission
+              type:
+                name: boolean
+            - name: persistentDeviceId
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: updatePermissionFlagsForAllApps
+          transaction_code_offset: 8
+          params:
+            - name: flagMask
+              type:
+                name: int
+            - name: flagValues
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: addOnPermissionsChangeListener
+          transaction_code_offset: 9
+          params:
+            - name: listener
+              type:
+                name: IOnPermissionsChangeListener
+              direction: in
+          return_type:
+            name: void
+        - name: removeOnPermissionsChangeListener
+          transaction_code_offset: 10
+          params:
+            - name: listener
+              type:
+                name: IOnPermissionsChangeListener
+              direction: in
+          return_type:
+            name: void
+        - name: getAllowlistedRestrictedPermissions
+          transaction_code_offset: 11
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: addAllowlistedRestrictedPermission
+          transaction_code_offset: 12
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: permissionName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: removeAllowlistedRestrictedPermission
+          transaction_code_offset: 13
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: permissionName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: grantRuntimePermission
+          transaction_code_offset: 14
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: permissionName
+              type:
+                name: String
+            - name: persistentDeviceId
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: revokeRuntimePermission
+          transaction_code_offset: 15
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: permissionName
+              type:
+                name: String
+            - name: persistentDeviceId
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: reason
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: revokePostNotificationPermissionWithoutKillForTest
+          transaction_code_offset: 16
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: shouldShowRequestPermissionRationale
+          transaction_code_offset: 17
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: permissionName
+              type:
+                name: String
+            - name: deviceId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isPermissionRevokedByPolicy
+          transaction_code_offset: 18
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: permissionName
+              type:
+                name: String
+            - name: deviceId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getSplitPermissions
+          transaction_code_offset: 19
+          return_type:
+            name: List
+            type_args:
+                - name: SplitPermissionInfoParcelable
+        - name: startOneTimePermissionSession
+          transaction_code_offset: 20
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: deviceId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: timeout
+              type:
+                name: long
+            - name: revokeAfterKilledDelay
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: stopOneTimePermissionSession
+          transaction_code_offset: 21
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getAutoRevokeExemptionRequestedPackages
+          transaction_code_offset: 22
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getAutoRevokeExemptionGrantedPackages
+          transaction_code_offset: 23
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: setAutoRevokeExempted
+          transaction_code_offset: 24
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: exempted
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isAutoRevokeExempted
+          transaction_code_offset: 25
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: registerAttributionSource
+          transaction_code_offset: 26
+          params:
+            - name: source
+              type:
+                name: AttributionSourceState
+              direction: in
+          return_type:
+            name: IBinder
+        - name: isRegisteredAttributionSource
+          transaction_code_offset: 27
+          params:
+            - name: source
+              type:
+                name: AttributionSourceState
+              direction: in
+          return_type:
+            name: boolean
+        - name: checkPermission
+          transaction_code_offset: 28
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: permissionName
+              type:
+                name: String
+            - name: persistentDeviceId
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: checkUidPermission
+          transaction_code_offset: 29
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: permissionName
+              type:
+                name: String
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getAllPermissionStates
+          transaction_code_offset: 30
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: persistentDeviceId
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: Map
+            type_args:
+                - name: String
+                - name: PermissionState
+parcelables:
+    - name: AdminPermissionControlParams
+    - name: PermissionGroupUsage
+    - name: PermissionManager.PermissionState
+    - name: RuntimePermissionPresentationInfo
+    - name: RuntimePermissionUsageInfo

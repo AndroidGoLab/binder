@@ -30,6 +30,11 @@ func (s *HardwareConfigSim) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ModemUuid, _err = p.ReadString16()
 	if _err != nil {
 		return _err

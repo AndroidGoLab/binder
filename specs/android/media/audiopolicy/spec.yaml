@@ -1,0 +1,82 @@
+package: android.media.audiopolicy
+go_package: android/media/audiopolicy
+interfaces:
+    - name: IAudioPolicyCallback
+      descriptor: android.media.audiopolicy.IAudioPolicyCallback
+      oneway: true
+      methods:
+        - name: notifyAudioFocusGrant
+          transaction_code_offset: 0
+          params:
+            - name: afi
+              type:
+                name: AudioFocusInfo
+              direction: in
+            - name: requestResult
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyAudioFocusLoss
+          transaction_code_offset: 1
+          params:
+            - name: afi
+              type:
+                name: AudioFocusInfo
+              direction: in
+            - name: wasNotified
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: notifyAudioFocusRequest
+          transaction_code_offset: 2
+          params:
+            - name: afi
+              type:
+                name: AudioFocusInfo
+              direction: in
+            - name: requestResult
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyAudioFocusAbandon
+          transaction_code_offset: 3
+          params:
+            - name: afi
+              type:
+                name: AudioFocusInfo
+              direction: in
+          return_type:
+            name: void
+        - name: notifyMixStateUpdate
+          transaction_code_offset: 4
+          params:
+            - name: regId
+              type:
+                name: String
+              direction: in
+            - name: state
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyVolumeAdjust
+          transaction_code_offset: 5
+          params:
+            - name: adjustment
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: notifyUnregistration
+          transaction_code_offset: 6
+          return_type:
+            name: void
+parcelables:
+    - name: AudioMix
+    - name: AudioMixingRule
+    - name: AudioPolicyConfig
+    - name: AudioProductStrategy
+    - name: AudioVolumeGroup

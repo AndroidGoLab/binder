@@ -7,6 +7,7 @@ import (
 	tv "github.com/xaionaro-go/binder/android/media/tv"
 	net "github.com/xaionaro-go/binder/android/net"
 	os "github.com/xaionaro-go/binder/android/os"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -61,7 +62,7 @@ type ITvAdSession interface {
 	StartAdService(ctx context.Context) error
 	StopAdService(ctx context.Context) error
 	ResetAdService(ctx context.Context) error
-	SetSurface(ctx context.Context, surface interface{}) error
+	SetSurface(ctx context.Context, surface view.Surface) error
 	DispatchSurfaceChanged(ctx context.Context, format int32, width int32, height int32) error
 	SendCurrentVideoBounds(ctx context.Context, bounds graphics.Rect) error
 	SendCurrentChannelUri(ctx context.Context, channelUri net.Uri) error
@@ -96,6 +97,7 @@ func (p *TvAdSessionProxy) Release(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdSession, MethodITvAdSessionRelease)
@@ -111,6 +113,7 @@ func (p *TvAdSessionProxy) StartAdService(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdSession, MethodITvAdSessionStartAdService)
@@ -126,6 +129,7 @@ func (p *TvAdSessionProxy) StopAdService(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdSession, MethodITvAdSessionStopAdService)
@@ -141,6 +145,7 @@ func (p *TvAdSessionProxy) ResetAdService(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdSession, MethodITvAdSessionResetAdService)
@@ -154,10 +159,15 @@ func (p *TvAdSessionProxy) ResetAdService(
 
 func (p *TvAdSessionProxy) SetSurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdSession, MethodITvAdSessionSetSurface)
 	if _err != nil {
@@ -175,6 +185,7 @@ func (p *TvAdSessionProxy) DispatchSurfaceChanged(
 	height int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 	_data.WriteInt32(format)
 	_data.WriteInt32(width)
@@ -194,6 +205,7 @@ func (p *TvAdSessionProxy) SendCurrentVideoBounds(
 	bounds graphics.Rect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
@@ -214,6 +226,7 @@ func (p *TvAdSessionProxy) SendCurrentChannelUri(
 	channelUri net.Uri,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
@@ -234,6 +247,7 @@ func (p *TvAdSessionProxy) SendTrackInfoList(
 	tracks []tv.TvTrackInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 	if tracks == nil {
 		_data.WriteInt32(-1)
@@ -261,6 +275,7 @@ func (p *TvAdSessionProxy) SendCurrentTvInputId(
 	inputId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 	_data.WriteString16(inputId)
 
@@ -279,16 +294,10 @@ func (p *TvAdSessionProxy) SendSigningResult(
 	result []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 	_data.WriteString16(signingId)
-	if result == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(result)))
-		for _, _item := range result {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(result)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdSession, MethodITvAdSessionSendSigningResult)
 	if _err != nil {
@@ -305,6 +314,7 @@ func (p *TvAdSessionProxy) NotifyError(
 	params os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 	_data.WriteString16(errMsg)
 	_data.WriteInt32(1)
@@ -327,6 +337,7 @@ func (p *TvAdSessionProxy) NotifyTvMessage(
 	data os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 	_data.WriteInt32(type_)
 	_data.WriteInt32(1)
@@ -349,6 +360,7 @@ func (p *TvAdSessionProxy) CreateMediaView(
 	frame graphics.Rect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -370,6 +382,7 @@ func (p *TvAdSessionProxy) RelayoutMediaView(
 	frame graphics.Rect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
@@ -389,6 +402,7 @@ func (p *TvAdSessionProxy) RemoveMediaView(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdSession, MethodITvAdSessionRemoveMediaView)
@@ -406,6 +420,7 @@ func (p *TvAdSessionProxy) NotifyTvInputSessionData(
 	data os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 	_data.WriteString16(type_)
 	_data.WriteInt32(1)
@@ -425,7 +440,8 @@ func (p *TvAdSessionProxy) NotifyTvInputSessionData(
 // TvAdSessionStub dispatches incoming binder transactions
 // to a typed ITvAdSession implementation.
 type TvAdSessionStub struct {
-	Impl ITvAdSession
+	Impl      ITvAdSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvAdSessionStub)(nil)
@@ -439,47 +455,39 @@ func (s *TvAdSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvAdSessionRelease:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Release(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdSessionStartAdService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StartAdService(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdSessionStopAdService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopAdService(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdSessionResetAdService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResetAdService(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdSessionSetSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_surface view.Surface
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_surface interface{}
 		_err := s.Impl.SetSurface(ctx, _arg_surface)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdSessionDispatchSurfaceChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_format, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -493,12 +501,8 @@ func (s *TvAdSessionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.DispatchSurfaceChanged(ctx, _arg_format, _arg_width, _arg_height)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdSessionSendCurrentVideoBounds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_bounds graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -512,12 +516,8 @@ func (s *TvAdSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SendCurrentVideoBounds(ctx, _arg_bounds)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdSessionSendCurrentChannelUri:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_channelUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -531,47 +531,54 @@ func (s *TvAdSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SendCurrentChannelUri(ctx, _arg_channelUri)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdSessionSendTrackInfoList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_tracks []tv.TvTrackInfo
-		_ = _arg_tracks
-		_err := s.Impl.SendTrackInfoList(ctx, _arg_tracks)
-		_ = _err
-		return nil, nil
-	case TransactionITvAdSessionSendCurrentTvInputId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_tracks = make([]tv.TvTrackInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_tracks[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.SendTrackInfoList(ctx, _arg_tracks)
+		return nil, _err
+	case TransactionITvAdSessionSendCurrentTvInputId:
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SendCurrentTvInputId(ctx, _arg_inputId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdSessionSendSigningResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_signingId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_result []byte
-		_ = _arg_result
-		_err = s.Impl.SendSigningResult(ctx, _arg_signingId, _arg_result)
-		_ = _err
-		return nil, nil
-	case TransactionITvAdSessionNotifyError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = _bytes
 		}
+		_err = s.Impl.SendSigningResult(ctx, _arg_signingId, _arg_result)
+		return nil, _err
+	case TransactionITvAdSessionNotifyError:
 		_arg_errMsg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -589,12 +596,8 @@ func (s *TvAdSessionStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyError(ctx, _arg_errMsg, _arg_params)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdSessionNotifyTvMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -612,15 +615,16 @@ func (s *TvAdSessionStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyTvMessage(ctx, _arg_type_, _arg_data)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdSessionCreateMediaView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
+		}
 		var _arg_frame graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -634,12 +638,8 @@ func (s *TvAdSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.CreateMediaView(ctx, _arg_windowToken, _arg_frame)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdSessionRelayoutMediaView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_frame graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -653,19 +653,11 @@ func (s *TvAdSessionStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RelayoutMediaView(ctx, _arg_frame)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdSessionRemoveMediaView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RemoveMediaView(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvAdSessionNotifyTvInputSessionData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -683,8 +675,7 @@ func (s *TvAdSessionStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyTvInputSessionData(ctx, _arg_type_, _arg_data)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -698,7 +689,7 @@ type ITvAdSessionServer interface {
 	StartAdService(ctx context.Context) error
 	StopAdService(ctx context.Context) error
 	ResetAdService(ctx context.Context) error
-	SetSurface(ctx context.Context, surface interface{}) error
+	SetSurface(ctx context.Context, surface view.Surface) error
 	DispatchSurfaceChanged(ctx context.Context, format int32, width int32, height int32) error
 	SendCurrentVideoBounds(ctx context.Context, bounds graphics.Rect) error
 	SendCurrentChannelUri(ctx context.Context, channelUri net.Uri) error
@@ -748,7 +739,7 @@ func (w *tvAdSessionStubWrapper) ResetAdService(
 
 func (w *tvAdSessionStubWrapper) SetSurface(
 	ctx context.Context,
-	surface interface{},
+	surface view.Surface,
 ) error {
 	return w.impl.SetSurface(ctx, surface)
 }

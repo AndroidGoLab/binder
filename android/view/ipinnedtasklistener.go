@@ -52,6 +52,7 @@ func (p *PinnedTaskListenerProxy) OnMovementBoundsChanged(
 	fromImeAdjustment bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPinnedTaskListener)
 	_data.WriteBool(fromImeAdjustment)
 
@@ -70,6 +71,7 @@ func (p *PinnedTaskListenerProxy) OnImeVisibilityChanged(
 	imeHeight int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPinnedTaskListener)
 	_data.WriteBool(imeVisible)
 	_data.WriteInt32(imeHeight)
@@ -88,6 +90,7 @@ func (p *PinnedTaskListenerProxy) OnActivityHidden(
 	componentName content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPinnedTaskListener)
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
@@ -106,7 +109,8 @@ func (p *PinnedTaskListenerProxy) OnActivityHidden(
 // PinnedTaskListenerStub dispatches incoming binder transactions
 // to a typed IPinnedTaskListener implementation.
 type PinnedTaskListenerStub struct {
-	Impl IPinnedTaskListener
+	Impl      IPinnedTaskListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PinnedTaskListenerStub)(nil)
@@ -120,22 +124,19 @@ func (s *PinnedTaskListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPinnedTaskListenerOnMovementBoundsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fromImeAdjustment, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnMovementBoundsChanged(ctx, _arg_fromImeAdjustment)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPinnedTaskListenerOnImeVisibilityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_imeVisible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -145,12 +146,8 @@ func (s *PinnedTaskListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnImeVisibilityChanged(ctx, _arg_imeVisible, _arg_imeHeight)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPinnedTaskListenerOnActivityHidden:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -164,8 +161,7 @@ func (s *PinnedTaskListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnActivityHidden(ctx, _arg_componentName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

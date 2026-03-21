@@ -1,6 +1,7 @@
 package extension
 
 import (
+	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type Request struct {
 	TargetOutputConfigIds []OutputConfigId
-	Parameters            interface{}
+	Parameters            impl.CameraMetadataNative
 	TemplateId            int32
 	RequestId             int32
 }
@@ -30,6 +31,9 @@ func (s *Request) MarshalParcel(
 			}
 		}
 	}
+	if _err := s.Parameters.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.TemplateId)
 	p.WriteInt32(s.RequestId)
 
@@ -43,6 +47,11 @@ func (s *Request) UnmarshalParcel(
 	_endPos, _err := parcel.ReadParcelableHeader(p)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -62,9 +71,28 @@ func (s *Request) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.Parameters.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.TemplateId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.RequestId, _err = p.ReadInt32()

@@ -21,7 +21,7 @@ const (
 
 type IScreenCaptureListener interface {
 	AsBinder() binder.IBinder
-	OnScreenCaptureCompleted(ctx context.Context, captureResults interface{}) error
+	OnScreenCaptureCompleted(ctx context.Context, captureResults ScreenCaptureResults) error
 }
 
 type ScreenCaptureListenerProxy struct {
@@ -42,10 +42,15 @@ var _ IScreenCaptureListener = (*ScreenCaptureListenerProxy)(nil)
 
 func (p *ScreenCaptureListenerProxy) OnScreenCaptureCompleted(
 	ctx context.Context,
-	captureResults interface{},
+	captureResults ScreenCaptureResults,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScreenCaptureListener)
+	_data.WriteInt32(1)
+	if _err := captureResults.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScreenCaptureListener, MethodIScreenCaptureListenerOnScreenCaptureCompleted)
 	if _err != nil {
@@ -59,7 +64,8 @@ func (p *ScreenCaptureListenerProxy) OnScreenCaptureCompleted(
 // ScreenCaptureListenerStub dispatches incoming binder transactions
 // to a typed IScreenCaptureListener implementation.
 type ScreenCaptureListenerStub struct {
-	Impl IScreenCaptureListener
+	Impl      IScreenCaptureListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ScreenCaptureListenerStub)(nil)
@@ -73,15 +79,26 @@ func (s *ScreenCaptureListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIScreenCaptureListenerOnScreenCaptureCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_captureResults ScreenCaptureResults
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_captureResults.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_captureResults interface{}
 		_err := s.Impl.OnScreenCaptureCompleted(ctx, _arg_captureResults)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -91,7 +108,7 @@ func (s *ScreenCaptureListenerStub) OnTransaction(
 // provide to NewScreenCaptureListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IScreenCaptureListenerServer interface {
-	OnScreenCaptureCompleted(ctx context.Context, captureResults interface{}) error
+	OnScreenCaptureCompleted(ctx context.Context, captureResults ScreenCaptureResults) error
 }
 
 type screenCaptureListenerStubWrapper struct {
@@ -105,7 +122,7 @@ func (w *screenCaptureListenerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *screenCaptureListenerStubWrapper) OnScreenCaptureCompleted(
 	ctx context.Context,
-	captureResults interface{},
+	captureResults ScreenCaptureResults,
 ) error {
 	return w.impl.OnScreenCaptureCompleted(ctx, captureResults)
 }

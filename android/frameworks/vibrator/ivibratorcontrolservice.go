@@ -57,6 +57,7 @@ func (p *VibratorControlServiceProxy) RegisterVibratorController(
 	controller IVibratorController,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorControlService)
 	binder.WriteBinderToParcel(ctx, _data, controller.AsBinder(), p.Remote.Transport())
 
@@ -74,6 +75,7 @@ func (p *VibratorControlServiceProxy) UnregisterVibratorController(
 	controller IVibratorController,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorControlService)
 	binder.WriteBinderToParcel(ctx, _data, controller.AsBinder(), p.Remote.Transport())
 
@@ -92,6 +94,7 @@ func (p *VibratorControlServiceProxy) SetVibrationParams(
 	token IVibratorController,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorControlService)
 	if params == nil {
 		_data.WriteInt32(-1)
@@ -121,6 +124,7 @@ func (p *VibratorControlServiceProxy) ClearVibrationParams(
 	token IVibratorController,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorControlService)
 	_data.WriteInt32(typesMask)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
@@ -140,6 +144,7 @@ func (p *VibratorControlServiceProxy) OnRequestVibrationParamsComplete(
 	result []VibrationParam,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVibratorControlService)
 	binder.WriteBinderToParcel(ctx, _data, requestToken, p.Remote.Transport())
 	if result == nil {
@@ -166,7 +171,8 @@ func (p *VibratorControlServiceProxy) OnRequestVibrationParamsComplete(
 // VibratorControlServiceStub dispatches incoming binder transactions
 // to a typed IVibratorControlService implementation.
 type VibratorControlServiceStub struct {
-	Impl IVibratorControlService
+	Impl      IVibratorControlService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VibratorControlServiceStub)(nil)
@@ -180,67 +186,112 @@ func (s *VibratorControlServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVibratorControlServiceRegisterVibratorController:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_controller IVibratorController
-		_ = _arg_controller
+		{
+			_controllerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_controller = NewVibratorControllerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _controllerHandle))
+		}
 		_err := s.Impl.RegisterVibratorController(ctx, _arg_controller)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVibratorControlServiceUnregisterVibratorController:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_controller IVibratorController
-		_ = _arg_controller
+		{
+			_controllerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_controller = NewVibratorControllerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _controllerHandle))
+		}
 		_err := s.Impl.UnregisterVibratorController(ctx, _arg_controller)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVibratorControlServiceSetVibrationParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_params []VibrationParam
-		_ = _arg_params
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_token IVibratorController
-		_ = _arg_token
-		_err := s.Impl.SetVibrationParams(ctx, _arg_params, _arg_token)
-		_ = _err
-		return nil, nil
-	case TransactionIVibratorControlServiceClearVibrationParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_params = make([]VibrationParam, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_params[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		var _arg_token IVibratorController
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = NewVibratorControllerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
+		}
+		_err := s.Impl.SetVibrationParams(ctx, _arg_params, _arg_token)
+		return nil, _err
+	case TransactionIVibratorControlServiceClearVibrationParams:
 		_arg_typesMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token IVibratorController
-		_ = _arg_token
-		_err = s.Impl.ClearVibrationParams(ctx, _arg_typesMask, _arg_token)
-		_ = _err
-		return nil, nil
-	case TransactionIVibratorControlServiceOnRequestVibrationParamsComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = NewVibratorControllerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err = s.Impl.ClearVibrationParams(ctx, _arg_typesMask, _arg_token)
+		return nil, _err
+	case TransactionIVibratorControlServiceOnRequestVibrationParamsComplete:
 		var _arg_requestToken binder.IBinder
-		_ = _arg_requestToken
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_requestTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_requestToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _requestTokenHandle)
+		}
 		var _arg_result []VibrationParam
-		_ = _arg_result
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_result = make([]VibrationParam, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_result[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnRequestVibrationParamsComplete(ctx, _arg_requestToken, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

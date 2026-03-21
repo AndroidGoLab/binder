@@ -85,6 +85,7 @@ func (p *BluetoothGattServerCallbackProxy) OnServerRegistered(
 	serverIf int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattServerCallback)
 	_data.WriteInt32(status)
 	_data.WriteInt32(serverIf)
@@ -106,6 +107,7 @@ func (p *BluetoothGattServerCallbackProxy) OnServerConnectionState(
 	address string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattServerCallback)
 	_data.WriteInt32(status)
 	_data.WriteInt32(serverIf)
@@ -127,6 +129,7 @@ func (p *BluetoothGattServerCallbackProxy) OnServiceAdded(
 	service BluetoothGattService,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattServerCallback)
 	_data.WriteInt32(status)
 	_data.WriteInt32(1)
@@ -152,6 +155,7 @@ func (p *BluetoothGattServerCallbackProxy) OnCharacteristicReadRequest(
 	handle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattServerCallback)
 	_data.WriteString16(address)
 	_data.WriteInt32(transId)
@@ -177,6 +181,7 @@ func (p *BluetoothGattServerCallbackProxy) OnDescriptorReadRequest(
 	handle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattServerCallback)
 	_data.WriteString16(address)
 	_data.WriteInt32(transId)
@@ -205,6 +210,7 @@ func (p *BluetoothGattServerCallbackProxy) OnCharacteristicWriteRequest(
 	value []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattServerCallback)
 	_data.WriteString16(address)
 	_data.WriteInt32(transId)
@@ -213,14 +219,7 @@ func (p *BluetoothGattServerCallbackProxy) OnCharacteristicWriteRequest(
 	_data.WriteBool(isPrep)
 	_data.WriteBool(needRsp)
 	_data.WriteInt32(handle)
-	if value == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(value)))
-		for _, _item := range value {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(value)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGattServerCallback, MethodIBluetoothGattServerCallbackOnCharacteristicWriteRequest)
 	if _err != nil {
@@ -243,6 +242,7 @@ func (p *BluetoothGattServerCallbackProxy) OnDescriptorWriteRequest(
 	value []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattServerCallback)
 	_data.WriteString16(address)
 	_data.WriteInt32(transId)
@@ -251,14 +251,7 @@ func (p *BluetoothGattServerCallbackProxy) OnDescriptorWriteRequest(
 	_data.WriteBool(isPrep)
 	_data.WriteBool(needRsp)
 	_data.WriteInt32(handle)
-	if value == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(value)))
-		for _, _item := range value {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(value)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGattServerCallback, MethodIBluetoothGattServerCallbackOnDescriptorWriteRequest)
 	if _err != nil {
@@ -276,6 +269,7 @@ func (p *BluetoothGattServerCallbackProxy) OnExecuteWrite(
 	execWrite bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattServerCallback)
 	_data.WriteString16(address)
 	_data.WriteInt32(transId)
@@ -296,6 +290,7 @@ func (p *BluetoothGattServerCallbackProxy) OnNotificationSent(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattServerCallback)
 	_data.WriteString16(address)
 	_data.WriteInt32(status)
@@ -315,6 +310,7 @@ func (p *BluetoothGattServerCallbackProxy) OnMtuChanged(
 	mtu int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattServerCallback)
 	_data.WriteString16(address)
 	_data.WriteInt32(mtu)
@@ -336,6 +332,7 @@ func (p *BluetoothGattServerCallbackProxy) OnPhyUpdate(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattServerCallback)
 	_data.WriteString16(address)
 	_data.WriteInt32(txPhy)
@@ -359,6 +356,7 @@ func (p *BluetoothGattServerCallbackProxy) OnPhyRead(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattServerCallback)
 	_data.WriteString16(address)
 	_data.WriteInt32(txPhy)
@@ -383,6 +381,7 @@ func (p *BluetoothGattServerCallbackProxy) OnConnectionUpdated(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattServerCallback)
 	_data.WriteString16(address)
 	_data.WriteInt32(interval)
@@ -409,6 +408,7 @@ func (p *BluetoothGattServerCallbackProxy) OnSubrateChange(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGattServerCallback)
 	_data.WriteString16(address)
 	_data.WriteInt32(subrateFactor)
@@ -429,7 +429,8 @@ func (p *BluetoothGattServerCallbackProxy) OnSubrateChange(
 // BluetoothGattServerCallbackStub dispatches incoming binder transactions
 // to a typed IBluetoothGattServerCallback implementation.
 type BluetoothGattServerCallbackStub struct {
-	Impl IBluetoothGattServerCallback
+	Impl      IBluetoothGattServerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothGattServerCallbackStub)(nil)
@@ -443,11 +444,12 @@ func (s *BluetoothGattServerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothGattServerCallbackOnServerRegistered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -457,12 +459,8 @@ func (s *BluetoothGattServerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnServerRegistered(ctx, _arg_status, _arg_serverIf)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothGattServerCallbackOnServerConnectionState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -480,12 +478,8 @@ func (s *BluetoothGattServerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnServerConnectionState(ctx, _arg_status, _arg_serverIf, _arg_connected, _arg_address)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothGattServerCallbackOnServiceAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -503,12 +497,8 @@ func (s *BluetoothGattServerCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnServiceAdded(ctx, _arg_status, _arg_service)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothGattServerCallbackOnCharacteristicReadRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -530,12 +520,8 @@ func (s *BluetoothGattServerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnCharacteristicReadRequest(ctx, _arg_address, _arg_transId, _arg_offset, _arg_isLong, _arg_handle)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothGattServerCallbackOnDescriptorReadRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -557,12 +543,8 @@ func (s *BluetoothGattServerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnDescriptorReadRequest(ctx, _arg_address, _arg_transId, _arg_offset, _arg_isLong, _arg_handle)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothGattServerCallbackOnCharacteristicWriteRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -591,16 +573,17 @@ func (s *BluetoothGattServerCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_value []byte
-		_ = _arg_value
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_value = _bytes
+		}
 		_err = s.Impl.OnCharacteristicWriteRequest(ctx, _arg_address, _arg_transId, _arg_offset, _arg_length, _arg_isPrep, _arg_needRsp, _arg_handle, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothGattServerCallbackOnDescriptorWriteRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -629,16 +612,17 @@ func (s *BluetoothGattServerCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_value []byte
-		_ = _arg_value
-		_err = s.Impl.OnDescriptorWriteRequest(ctx, _arg_address, _arg_transId, _arg_offset, _arg_length, _arg_isPrep, _arg_needRsp, _arg_handle, _arg_value)
-		_ = _err
-		return nil, nil
-	case TransactionIBluetoothGattServerCallbackOnExecuteWrite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_value = _bytes
 		}
+		_err = s.Impl.OnDescriptorWriteRequest(ctx, _arg_address, _arg_transId, _arg_offset, _arg_length, _arg_isPrep, _arg_needRsp, _arg_handle, _arg_value)
+		return nil, _err
+	case TransactionIBluetoothGattServerCallbackOnExecuteWrite:
 		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -652,12 +636,8 @@ func (s *BluetoothGattServerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnExecuteWrite(ctx, _arg_address, _arg_transId, _arg_execWrite)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothGattServerCallbackOnNotificationSent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -667,12 +647,8 @@ func (s *BluetoothGattServerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnNotificationSent(ctx, _arg_address, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothGattServerCallbackOnMtuChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -682,12 +658,8 @@ func (s *BluetoothGattServerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnMtuChanged(ctx, _arg_address, _arg_mtu)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothGattServerCallbackOnPhyUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -705,12 +677,8 @@ func (s *BluetoothGattServerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPhyUpdate(ctx, _arg_address, _arg_txPhy, _arg_rxPhy, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothGattServerCallbackOnPhyRead:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -728,12 +696,8 @@ func (s *BluetoothGattServerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPhyRead(ctx, _arg_address, _arg_txPhy, _arg_rxPhy, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothGattServerCallbackOnConnectionUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -755,12 +719,8 @@ func (s *BluetoothGattServerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnConnectionUpdated(ctx, _arg_address, _arg_interval, _arg_latency, _arg_timeout, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothGattServerCallbackOnSubrateChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -786,8 +746,7 @@ func (s *BluetoothGattServerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSubrateChange(ctx, _arg_address, _arg_subrateFactor, _arg_latency, _arg_contNum, _arg_timeout, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

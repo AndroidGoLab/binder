@@ -1,0 +1,174 @@
+package: android.service.wearable
+go_package: android/service/wearable
+interfaces:
+    - name: IWearableSensingService
+      descriptor: android.service.wearable.IWearableSensingService
+      oneway: true
+      methods:
+        - name: provideSecureConnection
+          transaction_code_offset: 0
+          params:
+            - name: parcelFileDescriptor
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: provideDataStream
+          transaction_code_offset: 1
+          params:
+            - name: parcelFileDescriptor
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: provideData
+          transaction_code_offset: 2
+          params:
+            - name: data
+              type:
+                name: PersistableBundle
+              direction: in
+            - name: sharedMemory
+              type:
+                name: SharedMemory
+              direction: in
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: registerDataRequestObserver
+          transaction_code_offset: 3
+          params:
+            - name: dataType
+              type:
+                name: int
+            - name: dataRequestCallback
+              type:
+                name: RemoteCallback
+              direction: in
+            - name: dataRequestObserverId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: statusCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterDataRequestObserver
+          transaction_code_offset: 4
+          params:
+            - name: dataType
+              type:
+                name: int
+            - name: dataRequestObserverId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: statusCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: startHotwordRecognition
+          transaction_code_offset: 5
+          params:
+            - name: wearableHotwordCallback
+              type:
+                name: RemoteCallback
+              direction: in
+            - name: statusCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: stopHotwordRecognition
+          transaction_code_offset: 6
+          params:
+            - name: statusCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onValidatedByHotwordDetectionService
+          transaction_code_offset: 7
+          return_type:
+            name: void
+        - name: stopActiveHotwordAudio
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: startDetection
+          transaction_code_offset: 9
+          params:
+            - name: request
+              type:
+                name: AmbientContextEventRequest
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: detectionResultCallback
+              type:
+                name: RemoteCallback
+              direction: in
+            - name: statusCallback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: stopDetection
+          transaction_code_offset: 10
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: queryServiceStatus
+          transaction_code_offset: 11
+          params:
+            - name: eventTypes
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: killProcess
+          transaction_code_offset: 12
+          return_type:
+            name: void

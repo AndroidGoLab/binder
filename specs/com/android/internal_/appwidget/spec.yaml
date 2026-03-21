@@ -1,0 +1,508 @@
+package: com.android.internal.appwidget
+go_package: com/android/internal_/appwidget
+interfaces:
+    - name: IAppWidgetHost
+      descriptor: com.android.internal.appwidget.IAppWidgetHost
+      oneway: true
+      methods:
+        - name: updateAppWidget
+          transaction_code_offset: 0
+          params:
+            - name: appWidgetId
+              type:
+                name: int
+            - name: views
+              type:
+                name: RemoteViews
+              direction: in
+          return_type:
+            name: void
+        - name: providerChanged
+          transaction_code_offset: 1
+          params:
+            - name: appWidgetId
+              type:
+                name: int
+            - name: info
+              type:
+                name: AppWidgetProviderInfo
+              direction: in
+          return_type:
+            name: void
+        - name: providersChanged
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: viewDataChanged
+          transaction_code_offset: 3
+          params:
+            - name: appWidgetId
+              type:
+                name: int
+            - name: viewId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: appWidgetRemoved
+          transaction_code_offset: 4
+          params:
+            - name: appWidgetId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IAppWidgetService
+      descriptor: com.android.internal.appwidget.IAppWidgetService
+      methods:
+        - name: startListening
+          transaction_code_offset: 0
+          params:
+            - name: host
+              type:
+                name: IAppWidgetHost
+            - name: callingPackage
+              type:
+                name: String
+            - name: hostId
+              type:
+                name: int
+            - name: appWidgetIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: ParceledListSlice
+        - name: stopListening
+          transaction_code_offset: 1
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: hostId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: allocateAppWidgetId
+          transaction_code_offset: 2
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: hostId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: deleteAppWidgetId
+          transaction_code_offset: 3
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: appWidgetId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: deleteHost
+          transaction_code_offset: 4
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: hostId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: deleteAllHosts
+          transaction_code_offset: 5
+          return_type:
+            name: void
+        - name: getAppWidgetViews
+          transaction_code_offset: 6
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: appWidgetId
+              type:
+                name: int
+          return_type:
+            name: RemoteViews
+          annotations:
+            - UnsupportedAppUsage
+        - name: getAppWidgetIdsForHost
+          transaction_code_offset: 7
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: hostId
+              type:
+                name: int
+          return_type:
+            name: int
+            is_array: true
+        - name: setAppWidgetHidden
+          transaction_code_offset: 8
+          params:
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+            - name: hostId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: createAppWidgetConfigIntentSender
+          transaction_code_offset: 9
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: appWidgetId
+              type:
+                name: int
+            - name: intentFlags
+              type:
+                name: int
+          return_type:
+            name: IntentSender
+        - name: updateAppWidgetIds
+          transaction_code_offset: 10
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: appWidgetIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: views
+              type:
+                name: RemoteViews
+              direction: in
+          return_type:
+            name: void
+        - name: updateAppWidgetOptions
+          transaction_code_offset: 11
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: appWidgetId
+              type:
+                name: int
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: getAppWidgetOptions
+          transaction_code_offset: 12
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: appWidgetId
+              type:
+                name: int
+          return_type:
+            name: Bundle
+        - name: partiallyUpdateAppWidgetIds
+          transaction_code_offset: 13
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: appWidgetIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: views
+              type:
+                name: RemoteViews
+              direction: in
+          return_type:
+            name: void
+        - name: updateAppWidgetProvider
+          transaction_code_offset: 14
+          params:
+            - name: provider
+              type:
+                name: ComponentName
+              direction: in
+            - name: views
+              type:
+                name: RemoteViews
+              direction: in
+          return_type:
+            name: void
+        - name: updateAppWidgetProviderInfo
+          transaction_code_offset: 15
+          params:
+            - name: provider
+              type:
+                name: ComponentName
+              direction: in
+            - name: metadataKey
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: notifyAppWidgetViewDataChanged
+          transaction_code_offset: 16
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: appWidgetIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: viewId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getInstalledProvidersForProfile
+          transaction_code_offset: 17
+          params:
+            - name: categoryFilter
+              type:
+                name: int
+            - name: profileId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+        - name: getAppWidgetInfo
+          transaction_code_offset: 18
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: appWidgetId
+              type:
+                name: int
+          return_type:
+            name: AppWidgetProviderInfo
+        - name: hasBindAppWidgetPermission
+          transaction_code_offset: 19
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setBindAppWidgetPermission
+          transaction_code_offset: 20
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: permission
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: bindAppWidgetId
+          transaction_code_offset: 21
+          params:
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+            - name: appWidgetId
+              type:
+                name: int
+            - name: providerProfileId
+              type:
+                name: int
+            - name: providerComponent
+              type:
+                name: ComponentName
+              direction: in
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: bindRemoteViewsService
+          transaction_code_offset: 22
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: appWidgetId
+              type:
+                name: int
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: caller
+              type:
+                name: IApplicationThread
+            - name: token
+              type:
+                name: IBinder
+            - name: connection
+              type:
+                name: IServiceConnection
+            - name: flags
+              type:
+                name: long
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: notifyProviderInheritance
+          transaction_code_offset: 23
+          params:
+            - name: componentNames
+              type:
+                name: ComponentName
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getAppWidgetIds
+          transaction_code_offset: 24
+          params:
+            - name: providerComponent
+              type:
+                name: ComponentName
+              direction: in
+          return_type:
+            name: int
+            is_array: true
+          annotations:
+            - UnsupportedAppUsage
+        - name: isBoundWidgetPackage
+          transaction_code_offset: 25
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: requestPinAppWidget
+          transaction_code_offset: 26
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: providerComponent
+              type:
+                name: ComponentName
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+            - name: resultIntent
+              type:
+                name: IntentSender
+              direction: in
+          return_type:
+            name: boolean
+        - name: isRequestPinAppWidgetSupported
+          transaction_code_offset: 27
+          return_type:
+            name: boolean
+        - name: noteAppWidgetTapped
+          transaction_code_offset: 28
+          oneway: true
+          params:
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+            - name: appWidgetId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setWidgetPreview
+          transaction_code_offset: 29
+          params:
+            - name: providerComponent
+              type:
+                name: ComponentName
+              direction: in
+            - name: widgetCategories
+              type:
+                name: int
+              direction: in
+            - name: preview
+              type:
+                name: RemoteViews
+              direction: in
+          return_type:
+            name: void
+        - name: getWidgetPreview
+          transaction_code_offset: 30
+          params:
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+            - name: providerComponent
+              type:
+                name: ComponentName
+              direction: in
+            - name: profileId
+              type:
+                name: int
+              direction: in
+            - name: widgetCategory
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: RemoteViews
+          annotations:
+            - nullable
+        - name: removeWidgetPreview
+          transaction_code_offset: 31
+          params:
+            - name: providerComponent
+              type:
+                name: ComponentName
+              direction: in
+            - name: widgetCategories
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void

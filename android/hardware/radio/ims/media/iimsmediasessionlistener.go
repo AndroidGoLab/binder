@@ -67,6 +67,7 @@ func (p *ImsMediaSessionListenerProxy) OnModifySessionResponse(
 	error_ RtpError,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -88,6 +89,7 @@ func (p *ImsMediaSessionListenerProxy) OnFirstMediaPacketReceived(
 	config RtpConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -108,6 +110,7 @@ func (p *ImsMediaSessionListenerProxy) OnHeaderExtensionReceived(
 	extensions []RtpHeaderExtension,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
 	if extensions == nil {
 		_data.WriteInt32(-1)
@@ -135,6 +138,7 @@ func (p *ImsMediaSessionListenerProxy) NotifyMediaQualityStatus(
 	quality MediaQualityStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
 	_data.WriteInt32(1)
 	if _err := quality.MarshalParcel(_data); _err != nil {
@@ -155,6 +159,7 @@ func (p *ImsMediaSessionListenerProxy) TriggerAnbrQuery(
 	config RtpConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -176,6 +181,7 @@ func (p *ImsMediaSessionListenerProxy) OnDtmfReceived(
 	durationMs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
 	_data.WriteInt32(int32(dtmfDigit))
 	_data.WriteInt32(durationMs)
@@ -194,6 +200,7 @@ func (p *ImsMediaSessionListenerProxy) OnCallQualityChanged(
 	callQuality CallQuality,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
 	_data.WriteInt32(1)
 	if _err := callQuality.MarshalParcel(_data); _err != nil {
@@ -214,6 +221,7 @@ func (p *ImsMediaSessionListenerProxy) NotifyRtpReceptionStats(
 	stats RtpReceptionStats,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
 	_data.WriteInt32(1)
 	if _err := stats.MarshalParcel(_data); _err != nil {
@@ -232,7 +240,8 @@ func (p *ImsMediaSessionListenerProxy) NotifyRtpReceptionStats(
 // ImsMediaSessionListenerStub dispatches incoming binder transactions
 // to a typed IImsMediaSessionListener implementation.
 type ImsMediaSessionListenerStub struct {
-	Impl IImsMediaSessionListener
+	Impl      IImsMediaSessionListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsMediaSessionListenerStub)(nil)
@@ -246,11 +255,12 @@ func (s *ImsMediaSessionListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsMediaSessionListenerOnModifySessionResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config RtpConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -269,12 +279,8 @@ func (s *ImsMediaSessionListenerStub) OnTransaction(
 		}
 		_arg_error_ := RtpError(_raw_error_)
 		_err = s.Impl.OnModifySessionResponse(ctx, _arg_config, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMediaSessionListenerOnFirstMediaPacketReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config RtpConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -288,22 +294,32 @@ func (s *ImsMediaSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnFirstMediaPacketReceived(ctx, _arg_config)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMediaSessionListenerOnHeaderExtensionReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_extensions []RtpHeaderExtension
-		_ = _arg_extensions
-		_err := s.Impl.OnHeaderExtensionReceived(ctx, _arg_extensions)
-		_ = _err
-		return nil, nil
-	case TransactionIImsMediaSessionListenerNotifyMediaQualityStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_extensions = make([]RtpHeaderExtension, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_extensions[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnHeaderExtensionReceived(ctx, _arg_extensions)
+		return nil, _err
+	case TransactionIImsMediaSessionListenerNotifyMediaQualityStatus:
 		var _arg_quality MediaQualityStatus
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -317,12 +333,8 @@ func (s *ImsMediaSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NotifyMediaQualityStatus(ctx, _arg_quality)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMediaSessionListenerTriggerAnbrQuery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config RtpConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -336,12 +348,8 @@ func (s *ImsMediaSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.TriggerAnbrQuery(ctx, _arg_config)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMediaSessionListenerOnDtmfReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_dtmfDigit, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -352,12 +360,8 @@ func (s *ImsMediaSessionListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnDtmfReceived(ctx, _arg_dtmfDigit, _arg_durationMs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMediaSessionListenerOnCallQualityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_callQuality CallQuality
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -371,12 +375,8 @@ func (s *ImsMediaSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnCallQualityChanged(ctx, _arg_callQuality)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsMediaSessionListenerNotifyRtpReceptionStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_stats RtpReceptionStats
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -390,8 +390,7 @@ func (s *ImsMediaSessionListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NotifyRtpReceptionStats(ctx, _arg_stats)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

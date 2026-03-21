@@ -216,6 +216,7 @@ func (p *HdmiControlServiceProxy) GetSupportedTypes(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetSupportedTypes)
@@ -237,6 +238,9 @@ func (p *HdmiControlServiceProxy) GetSupportedTypes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -255,6 +259,7 @@ func (p *HdmiControlServiceProxy) GetActiveSource(
 ) (HdmiDeviceInfo, error) {
 	var _result HdmiDeviceInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetActiveSource)
@@ -289,6 +294,7 @@ func (p *HdmiControlServiceProxy) OneTouchPlay(
 	callback IHdmiControlCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -314,6 +320,7 @@ func (p *HdmiControlServiceProxy) ToggleAndFollowTvPower(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceToggleAndFollowTvPower)
@@ -339,6 +346,7 @@ func (p *HdmiControlServiceProxy) ShouldHandleTvPowerKey(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceShouldHandleTvPowerKey)
@@ -368,6 +376,7 @@ func (p *HdmiControlServiceProxy) QueryDisplayStatus(
 	callback IHdmiControlCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -394,6 +403,7 @@ func (p *HdmiControlServiceProxy) AddHdmiControlStatusChangeListener(
 	listener IHdmiControlStatusChangeListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -420,6 +430,7 @@ func (p *HdmiControlServiceProxy) RemoveHdmiControlStatusChangeListener(
 	listener IHdmiControlStatusChangeListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -446,6 +457,7 @@ func (p *HdmiControlServiceProxy) AddHdmiCecVolumeControlFeatureListener(
 	listener IHdmiCecVolumeControlFeatureListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -472,6 +484,7 @@ func (p *HdmiControlServiceProxy) RemoveHdmiCecVolumeControlFeatureListener(
 	listener IHdmiCecVolumeControlFeatureListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -498,6 +511,7 @@ func (p *HdmiControlServiceProxy) AddHotplugEventListener(
 	listener IHdmiHotplugEventListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -524,6 +538,7 @@ func (p *HdmiControlServiceProxy) RemoveHotplugEventListener(
 	listener IHdmiHotplugEventListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -550,6 +565,7 @@ func (p *HdmiControlServiceProxy) AddDeviceEventListener(
 	listener IHdmiDeviceEventListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -577,6 +593,7 @@ func (p *HdmiControlServiceProxy) DeviceSelect(
 	callback IHdmiControlCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(deviceId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -605,6 +622,7 @@ func (p *HdmiControlServiceProxy) PortSelect(
 	callback IHdmiControlCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(portId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -634,6 +652,7 @@ func (p *HdmiControlServiceProxy) SendKeyEvent(
 	isPressed bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(deviceType)
 	_data.WriteInt32(keyCode)
@@ -664,6 +683,7 @@ func (p *HdmiControlServiceProxy) SendVolumeKeyEvent(
 	isPressed bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(deviceType)
 	_data.WriteInt32(keyCode)
@@ -692,6 +712,7 @@ func (p *HdmiControlServiceProxy) GetPortInfo(
 ) ([]HdmiPortInfo, error) {
 	var _result []HdmiPortInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetPortInfo)
@@ -713,6 +734,9 @@ func (p *HdmiControlServiceProxy) GetPortInfo(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]HdmiPortInfo, _count)
@@ -733,6 +757,7 @@ func (p *HdmiControlServiceProxy) CanChangeSystemAudioMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceCanChangeSystemAudioMode)
@@ -762,6 +787,7 @@ func (p *HdmiControlServiceProxy) GetSystemAudioMode(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetSystemAudioMode)
@@ -791,6 +817,7 @@ func (p *HdmiControlServiceProxy) GetPhysicalAddress(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetPhysicalAddress)
@@ -821,6 +848,7 @@ func (p *HdmiControlServiceProxy) SetSystemAudioMode(
 	callback IHdmiControlCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteBool(enabled)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -848,6 +876,7 @@ func (p *HdmiControlServiceProxy) AddSystemAudioModeChangeListener(
 	listener IHdmiSystemAudioModeChangeListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -874,6 +903,7 @@ func (p *HdmiControlServiceProxy) RemoveSystemAudioModeChangeListener(
 	listener IHdmiSystemAudioModeChangeListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -900,6 +930,7 @@ func (p *HdmiControlServiceProxy) SetArcMode(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteBool(enabled)
 
@@ -926,6 +957,7 @@ func (p *HdmiControlServiceProxy) SetProhibitMode(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteBool(enabled)
 
@@ -954,6 +986,7 @@ func (p *HdmiControlServiceProxy) SetSystemAudioVolume(
 	maxIndex int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(oldIndex)
 	_data.WriteInt32(newIndex)
@@ -982,6 +1015,7 @@ func (p *HdmiControlServiceProxy) SetSystemAudioMute(
 	mute bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteBool(mute)
 
@@ -1008,6 +1042,7 @@ func (p *HdmiControlServiceProxy) SetInputChangeListener(
 	listener IHdmiInputChangeListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1034,6 +1069,7 @@ func (p *HdmiControlServiceProxy) GetInputDevices(
 ) ([]HdmiDeviceInfo, error) {
 	var _result []HdmiDeviceInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetInputDevices)
@@ -1055,6 +1091,9 @@ func (p *HdmiControlServiceProxy) GetInputDevices(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]HdmiDeviceInfo, _count)
@@ -1075,6 +1114,7 @@ func (p *HdmiControlServiceProxy) GetDeviceList(
 ) ([]HdmiDeviceInfo, error) {
 	var _result []HdmiDeviceInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetDeviceList)
@@ -1095,6 +1135,9 @@ func (p *HdmiControlServiceProxy) GetDeviceList(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -1117,6 +1160,7 @@ func (p *HdmiControlServiceProxy) PowerOffRemoteDevice(
 	powerStatus int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(logicalAddress)
 	_data.WriteInt32(powerStatus)
@@ -1145,6 +1189,7 @@ func (p *HdmiControlServiceProxy) PowerOnRemoteDevice(
 	powerStatus int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(logicalAddress)
 	_data.WriteInt32(powerStatus)
@@ -1172,6 +1217,7 @@ func (p *HdmiControlServiceProxy) AskRemoteDeviceToBecomeActiveSource(
 	physicalAddress int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(physicalAddress)
 
@@ -1201,17 +1247,11 @@ func (p *HdmiControlServiceProxy) SendVendorCommand(
 	hasVendorId bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(deviceType)
 	_data.WriteInt32(targetAddress)
-	if params == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(params)))
-		for _, _item := range params {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(params)
 	_data.WriteBool(hasVendorId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSendVendorCommand)
@@ -1238,6 +1278,7 @@ func (p *HdmiControlServiceProxy) AddVendorCommandListener(
 	vendorId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(vendorId)
@@ -1266,6 +1307,7 @@ func (p *HdmiControlServiceProxy) SendStandby(
 	deviceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(deviceType)
 	_data.WriteInt32(deviceId)
@@ -1293,6 +1335,7 @@ func (p *HdmiControlServiceProxy) SetHdmiRecordListener(
 	callback IHdmiRecordListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -1320,16 +1363,10 @@ func (p *HdmiControlServiceProxy) StartOneTouchRecord(
 	recordSource []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(recorderAddress)
-	if recordSource == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(recordSource)))
-		for _, _item := range recordSource {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(recordSource)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceStartOneTouchRecord)
 	if _err != nil {
@@ -1354,6 +1391,7 @@ func (p *HdmiControlServiceProxy) StopOneTouchRecord(
 	recorderAddress int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(recorderAddress)
 
@@ -1382,17 +1420,11 @@ func (p *HdmiControlServiceProxy) StartTimerRecording(
 	recordSource []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(recorderAddress)
 	_data.WriteInt32(sourceType)
-	if recordSource == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(recordSource)))
-		for _, _item := range recordSource {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(recordSource)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceStartTimerRecording)
 	if _err != nil {
@@ -1419,17 +1451,11 @@ func (p *HdmiControlServiceProxy) ClearTimerRecording(
 	recordSource []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(recorderAddress)
 	_data.WriteInt32(sourceType)
-	if recordSource == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(recordSource)))
-		for _, _item := range recordSource {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(recordSource)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceClearTimerRecording)
 	if _err != nil {
@@ -1457,18 +1483,12 @@ func (p *HdmiControlServiceProxy) SendMhlVendorCommand(
 	data []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(portId)
 	_data.WriteInt32(offset)
 	_data.WriteInt32(length)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSendMhlVendorCommand)
 	if _err != nil {
@@ -1493,6 +1513,7 @@ func (p *HdmiControlServiceProxy) AddHdmiMhlVendorCommandListener(
 	listener IHdmiMhlVendorCommandListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1519,6 +1540,7 @@ func (p *HdmiControlServiceProxy) SetStandbyMode(
 	isStandbyModeOn bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteBool(isStandbyModeOn)
 
@@ -1548,6 +1570,7 @@ func (p *HdmiControlServiceProxy) ReportAudioStatus(
 	isMute bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(deviceType)
 	_data.WriteInt32(volume)
@@ -1576,6 +1599,7 @@ func (p *HdmiControlServiceProxy) SetSystemAudioModeOnForAudioOnlySource(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceSetSystemAudioModeOnForAudioOnlySource)
@@ -1602,6 +1626,7 @@ func (p *HdmiControlServiceProxy) SetMessageHistorySize(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteInt32(newSize)
 
@@ -1632,6 +1657,7 @@ func (p *HdmiControlServiceProxy) GetMessageHistorySize(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetMessageHistorySize)
@@ -1662,6 +1688,7 @@ func (p *HdmiControlServiceProxy) AddCecSettingChangeListener(
 	listener IHdmiCecSettingChangeListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteString16(name)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -1690,6 +1717,7 @@ func (p *HdmiControlServiceProxy) RemoveCecSettingChangeListener(
 	listener IHdmiCecSettingChangeListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteString16(name)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -1717,6 +1745,7 @@ func (p *HdmiControlServiceProxy) GetUserCecSettings(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlService, MethodIHdmiControlServiceGetUserCecSettings)
@@ -1738,6 +1767,9 @@ func (p *HdmiControlServiceProxy) GetUserCecSettings(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1757,6 +1789,7 @@ func (p *HdmiControlServiceProxy) GetAllowedCecSettingStringValues(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteString16(name)
 
@@ -1779,6 +1812,9 @@ func (p *HdmiControlServiceProxy) GetAllowedCecSettingStringValues(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1798,6 +1834,7 @@ func (p *HdmiControlServiceProxy) GetAllowedCecSettingIntValues(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteString16(name)
 
@@ -1820,6 +1857,9 @@ func (p *HdmiControlServiceProxy) GetAllowedCecSettingIntValues(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -1839,6 +1879,7 @@ func (p *HdmiControlServiceProxy) GetCecSettingStringValue(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteString16(name)
 
@@ -1870,6 +1911,7 @@ func (p *HdmiControlServiceProxy) SetCecSettingStringValue(
 	value string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteString16(name)
 	_data.WriteString16(value)
@@ -1898,6 +1940,7 @@ func (p *HdmiControlServiceProxy) GetCecSettingIntValue(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteString16(name)
 
@@ -1929,6 +1972,7 @@ func (p *HdmiControlServiceProxy) SetCecSettingIntValue(
 	value int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiControlService)
 	_data.WriteString16(name)
 	_data.WriteInt32(value)
@@ -1954,7 +1998,8 @@ func (p *HdmiControlServiceProxy) SetCecSettingIntValue(
 // HdmiControlServiceStub dispatches incoming binder transactions
 // to a typed IHdmiControlService implementation.
 type HdmiControlServiceStub struct {
-	Impl IHdmiControlService
+	Impl      IHdmiControlService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HdmiControlServiceStub)(nil)
@@ -1968,11 +2013,12 @@ func (s *HdmiControlServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHdmiControlServiceGetSupportedTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedTypes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1980,13 +2026,16 @@ func (s *HdmiControlServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetActiveSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetActiveSource(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2000,12 +2049,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIHdmiControlServiceOneTouchPlay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IHdmiControlCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewHdmiControlCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.OneTouchPlay(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2015,9 +2066,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceToggleAndFollowTvPower:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ToggleAndFollowTvPower(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2027,9 +2075,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceShouldHandleTvPowerKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ShouldHandleTvPowerKey(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2040,12 +2085,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIHdmiControlServiceQueryDisplayStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IHdmiControlCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewHdmiControlCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.QueryDisplayStatus(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2055,12 +2102,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAddHdmiControlStatusChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IHdmiControlStatusChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHdmiControlStatusChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddHdmiControlStatusChangeListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2070,12 +2119,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceRemoveHdmiControlStatusChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IHdmiControlStatusChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHdmiControlStatusChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveHdmiControlStatusChangeListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2085,12 +2136,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAddHdmiCecVolumeControlFeatureListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IHdmiCecVolumeControlFeatureListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHdmiCecVolumeControlFeatureListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddHdmiCecVolumeControlFeatureListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2100,12 +2153,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceRemoveHdmiCecVolumeControlFeatureListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IHdmiCecVolumeControlFeatureListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHdmiCecVolumeControlFeatureListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveHdmiCecVolumeControlFeatureListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2115,12 +2170,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAddHotplugEventListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IHdmiHotplugEventListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHdmiHotplugEventListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddHotplugEventListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2130,12 +2187,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceRemoveHotplugEventListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IHdmiHotplugEventListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHdmiHotplugEventListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveHotplugEventListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2145,12 +2204,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAddDeviceEventListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IHdmiDeviceEventListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHdmiDeviceEventListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddDeviceEventListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2160,16 +2221,18 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceDeviceSelect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IHdmiControlCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewHdmiControlCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.DeviceSelect(ctx, _arg_deviceId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2179,16 +2242,18 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServicePortSelect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IHdmiControlCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewHdmiControlCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.PortSelect(ctx, _arg_portId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2198,9 +2263,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSendKeyEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2222,9 +2284,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSendVolumeKeyEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2246,9 +2305,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetPortInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPortInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2256,13 +2312,19 @@ func (s *HdmiControlServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIHdmiControlServiceCanChangeSystemAudioMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CanChangeSystemAudioMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2273,9 +2335,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetSystemAudioMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSystemAudioMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2286,9 +2345,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetPhysicalAddress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPhysicalAddress(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2299,16 +2355,18 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetSystemAudioMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IHdmiControlCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewHdmiControlCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.SetSystemAudioMode(ctx, _arg_enabled, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2318,12 +2376,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAddSystemAudioModeChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IHdmiSystemAudioModeChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHdmiSystemAudioModeChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddSystemAudioModeChangeListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2333,12 +2393,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceRemoveSystemAudioModeChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IHdmiSystemAudioModeChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHdmiSystemAudioModeChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveSystemAudioModeChangeListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2348,9 +2410,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetArcMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2364,9 +2423,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetProhibitMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2380,9 +2436,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetSystemAudioVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_oldIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2404,9 +2457,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetSystemAudioMute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mute, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2420,12 +2470,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetInputChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IHdmiInputChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHdmiInputChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.SetInputChangeListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2435,9 +2487,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetInputDevices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetInputDevices(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2445,13 +2494,19 @@ func (s *HdmiControlServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetDeviceList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDeviceList(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2459,13 +2514,19 @@ func (s *HdmiControlServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIHdmiControlServicePowerOffRemoteDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_logicalAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2483,9 +2544,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServicePowerOnRemoteDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_logicalAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2503,9 +2561,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAskRemoteDeviceToBecomeActiveSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_physicalAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2519,9 +2574,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSendVendorCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2530,9 +2582,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_params []byte
-		_ = _arg_params
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_params = _bytes
+		}
 		_arg_hasVendorId, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2546,12 +2603,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAddVendorCommandListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IHdmiVendorCommandListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHdmiVendorCommandListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_vendorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2565,9 +2624,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSendStandby:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2585,12 +2641,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetHdmiRecordListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IHdmiRecordListener
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewHdmiRecordListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetHdmiRecordListener(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2600,16 +2658,18 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceStartOneTouchRecord:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_recorderAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_recordSource []byte
-		_ = _arg_recordSource
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_recordSource = _bytes
+		}
 		_err = s.Impl.StartOneTouchRecord(ctx, _arg_recorderAddress, _arg_recordSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2619,9 +2679,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceStopOneTouchRecord:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_recorderAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2635,9 +2692,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceStartTimerRecording:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_recorderAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2646,9 +2700,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_recordSource []byte
-		_ = _arg_recordSource
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_recordSource = _bytes
+		}
 		_err = s.Impl.StartTimerRecording(ctx, _arg_recorderAddress, _arg_sourceType, _arg_recordSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2658,9 +2717,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceClearTimerRecording:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_recorderAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2669,9 +2725,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_recordSource []byte
-		_ = _arg_recordSource
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_recordSource = _bytes
+		}
 		_err = s.Impl.ClearTimerRecording(ctx, _arg_recorderAddress, _arg_sourceType, _arg_recordSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2681,9 +2742,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSendMhlVendorCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2696,9 +2754,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_err = s.Impl.SendMhlVendorCommand(ctx, _arg_portId, _arg_offset, _arg_length, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2708,12 +2771,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAddHdmiMhlVendorCommandListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IHdmiMhlVendorCommandListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHdmiMhlVendorCommandListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddHdmiMhlVendorCommandListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2723,9 +2788,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetStandbyMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isStandbyModeOn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2739,9 +2801,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceReportAudioStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2767,9 +2826,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetSystemAudioModeOnForAudioOnlySource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SetSystemAudioModeOnForAudioOnlySource(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2779,9 +2835,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetMessageHistorySize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_newSize, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2796,9 +2849,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetMessageHistorySize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMessageHistorySize(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2809,16 +2859,18 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAddCecSettingChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IHdmiCecSettingChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHdmiCecSettingChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.AddCecSettingChangeListener(ctx, _arg_name, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2828,16 +2880,18 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceRemoveCecSettingChangeListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IHdmiCecSettingChangeListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewHdmiCecSettingChangeListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.RemoveCecSettingChangeListener(ctx, _arg_name, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2847,9 +2901,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetUserCecSettings:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetUserCecSettings(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2857,13 +2908,16 @@ func (s *HdmiControlServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetAllowedCecSettingStringValues:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2875,13 +2929,16 @@ func (s *HdmiControlServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetAllowedCecSettingIntValues:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2893,13 +2950,16 @@ func (s *HdmiControlServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetCecSettingStringValue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2914,9 +2974,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetCecSettingStringValue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2934,9 +2991,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetCecSettingIntValue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2951,9 +3005,6 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetCecSettingIntValue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

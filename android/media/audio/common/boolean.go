@@ -30,6 +30,11 @@ func (s *Boolean) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Value, _err = p.ReadBool()
 	if _err != nil {
 		return _err

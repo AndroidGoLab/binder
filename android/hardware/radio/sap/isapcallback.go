@@ -77,17 +77,11 @@ func (p *SapCallbackProxy) ApduResponse(
 	apduRsp []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(resultCode))
-	if apduRsp == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(apduRsp)))
-		for _, _item := range apduRsp {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(apduRsp)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackApduResponse)
 	if _err != nil {
@@ -105,6 +99,7 @@ func (p *SapCallbackProxy) ConnectResponse(
 	maxMsgSizeBytes int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(sapConnectRsp))
@@ -125,6 +120,7 @@ func (p *SapCallbackProxy) DisconnectIndication(
 	disconnectType SapDisconnectType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(disconnectType))
@@ -143,6 +139,7 @@ func (p *SapCallbackProxy) DisconnectResponse(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
 	_data.WriteInt32(serial)
 
@@ -160,6 +157,7 @@ func (p *SapCallbackProxy) ErrorResponse(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
 	_data.WriteInt32(serial)
 
@@ -178,6 +176,7 @@ func (p *SapCallbackProxy) PowerResponse(
 	resultCode SapResultCode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(resultCode))
@@ -197,6 +196,7 @@ func (p *SapCallbackProxy) ResetSimResponse(
 	resultCode SapResultCode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(resultCode))
@@ -216,6 +216,7 @@ func (p *SapCallbackProxy) StatusIndication(
 	status SapStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(status))
@@ -236,17 +237,11 @@ func (p *SapCallbackProxy) TransferAtrResponse(
 	atr []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(resultCode))
-	if atr == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(atr)))
-		for _, _item := range atr {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(atr)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackTransferAtrResponse)
 	if _err != nil {
@@ -264,6 +259,7 @@ func (p *SapCallbackProxy) TransferCardReaderStatusResponse(
 	cardReaderStatus int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(resultCode))
@@ -284,6 +280,7 @@ func (p *SapCallbackProxy) TransferProtocolResponse(
 	resultCode SapResultCode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISapCallback)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(resultCode))
@@ -300,7 +297,8 @@ func (p *SapCallbackProxy) TransferProtocolResponse(
 // SapCallbackStub dispatches incoming binder transactions
 // to a typed ISapCallback implementation.
 type SapCallbackStub struct {
-	Impl ISapCallback
+	Impl      ISapCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SapCallbackStub)(nil)
@@ -314,11 +312,12 @@ func (s *SapCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISapCallbackApduResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -328,16 +327,17 @@ func (s *SapCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_resultCode := SapResultCode(_raw_resultCode)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_apduRsp []byte
-		_ = _arg_apduRsp
-		_err = s.Impl.ApduResponse(ctx, _arg_serial, _arg_resultCode, _arg_apduRsp)
-		_ = _err
-		return nil, nil
-	case TransactionISapCallbackConnectResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_apduRsp = _bytes
 		}
+		_err = s.Impl.ApduResponse(ctx, _arg_serial, _arg_resultCode, _arg_apduRsp)
+		return nil, _err
+	case TransactionISapCallbackConnectResponse:
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -352,12 +352,8 @@ func (s *SapCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ConnectResponse(ctx, _arg_serial, _arg_sapConnectRsp, _arg_maxMsgSizeBytes)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISapCallbackDisconnectIndication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -368,34 +364,22 @@ func (s *SapCallbackStub) OnTransaction(
 		}
 		_arg_disconnectType := SapDisconnectType(_raw_disconnectType)
 		_err = s.Impl.DisconnectIndication(ctx, _arg_serial, _arg_disconnectType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISapCallbackDisconnectResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DisconnectResponse(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISapCallbackErrorResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ErrorResponse(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISapCallbackPowerResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -406,12 +390,8 @@ func (s *SapCallbackStub) OnTransaction(
 		}
 		_arg_resultCode := SapResultCode(_raw_resultCode)
 		_err = s.Impl.PowerResponse(ctx, _arg_serial, _arg_resultCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISapCallbackResetSimResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -422,12 +402,8 @@ func (s *SapCallbackStub) OnTransaction(
 		}
 		_arg_resultCode := SapResultCode(_raw_resultCode)
 		_err = s.Impl.ResetSimResponse(ctx, _arg_serial, _arg_resultCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISapCallbackStatusIndication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -438,12 +414,8 @@ func (s *SapCallbackStub) OnTransaction(
 		}
 		_arg_status := SapStatus(_raw_status)
 		_err = s.Impl.StatusIndication(ctx, _arg_serial, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISapCallbackTransferAtrResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -453,16 +425,17 @@ func (s *SapCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_resultCode := SapResultCode(_raw_resultCode)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_atr []byte
-		_ = _arg_atr
-		_err = s.Impl.TransferAtrResponse(ctx, _arg_serial, _arg_resultCode, _arg_atr)
-		_ = _err
-		return nil, nil
-	case TransactionISapCallbackTransferCardReaderStatusResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_atr = _bytes
 		}
+		_err = s.Impl.TransferAtrResponse(ctx, _arg_serial, _arg_resultCode, _arg_atr)
+		return nil, _err
+	case TransactionISapCallbackTransferCardReaderStatusResponse:
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -477,12 +450,8 @@ func (s *SapCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.TransferCardReaderStatusResponse(ctx, _arg_serial, _arg_resultCode, _arg_cardReaderStatus)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISapCallbackTransferProtocolResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -493,8 +462,7 @@ func (s *SapCallbackStub) OnTransaction(
 		}
 		_arg_resultCode := SapResultCode(_raw_resultCode)
 		_err = s.Impl.TransferProtocolResponse(ctx, _arg_serial, _arg_resultCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -50,6 +50,7 @@ func (p *OptionsRequestCallbackProxy) RespondToCapabilityRequest(
 	isBlocked bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsRequestCallback)
 	_data.WriteInt32(1)
 	if _err := ownCapabilities.MarshalParcel(_data); _err != nil {
@@ -72,6 +73,7 @@ func (p *OptionsRequestCallbackProxy) RespondToCapabilityRequestWithError(
 	reason string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsRequestCallback)
 	_data.WriteInt32(code)
 	_data.WriteString16(reason)
@@ -88,7 +90,8 @@ func (p *OptionsRequestCallbackProxy) RespondToCapabilityRequestWithError(
 // OptionsRequestCallbackStub dispatches incoming binder transactions
 // to a typed IOptionsRequestCallback implementation.
 type OptionsRequestCallbackStub struct {
-	Impl IOptionsRequestCallback
+	Impl      IOptionsRequestCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OptionsRequestCallbackStub)(nil)
@@ -102,11 +105,12 @@ func (s *OptionsRequestCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOptionsRequestCallbackRespondToCapabilityRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_ownCapabilities ims.RcsContactUceCapability
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -124,12 +128,8 @@ func (s *OptionsRequestCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.RespondToCapabilityRequest(ctx, _arg_ownCapabilities, _arg_isBlocked)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOptionsRequestCallbackRespondToCapabilityRequestWithError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -139,8 +139,7 @@ func (s *OptionsRequestCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.RespondToCapabilityRequestWithError(ctx, _arg_code, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

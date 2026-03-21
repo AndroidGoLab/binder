@@ -1,0 +1,6 @@
+package: com.android.codegentest
+go_package: com/android/codegentest
+parcelables:
+    - name: HierrarchicalDataClassBase
+    - name: HierrarchicalDataClassChild
+    - name: SampleDataClass

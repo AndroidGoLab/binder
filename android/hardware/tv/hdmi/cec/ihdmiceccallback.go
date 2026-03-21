@@ -45,6 +45,7 @@ func (p *HdmiCecCallbackProxy) OnCecMessage(
 	message CecMessage,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiCecCallback)
 	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *HdmiCecCallbackProxy) OnCecMessage(
 // HdmiCecCallbackStub dispatches incoming binder transactions
 // to a typed IHdmiCecCallback implementation.
 type HdmiCecCallbackStub struct {
-	Impl IHdmiCecCallback
+	Impl      IHdmiCecCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HdmiCecCallbackStub)(nil)
@@ -77,11 +79,12 @@ func (s *HdmiCecCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHdmiCecCallbackOnCecMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_message CecMessage
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *HdmiCecCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnCecMessage(ctx, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

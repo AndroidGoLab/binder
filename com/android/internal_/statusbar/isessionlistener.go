@@ -50,6 +50,7 @@ func (p *SessionListenerProxy) OnSessionStarted(
 	instance logging.InstanceId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionListener)
 	_data.WriteInt32(sessionType)
 	_data.WriteInt32(1)
@@ -72,6 +73,7 @@ func (p *SessionListenerProxy) OnSessionEnded(
 	instance logging.InstanceId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionListener)
 	_data.WriteInt32(sessionType)
 	_data.WriteInt32(1)
@@ -91,7 +93,8 @@ func (p *SessionListenerProxy) OnSessionEnded(
 // SessionListenerStub dispatches incoming binder transactions
 // to a typed ISessionListener implementation.
 type SessionListenerStub struct {
-	Impl ISessionListener
+	Impl      ISessionListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SessionListenerStub)(nil)
@@ -105,11 +108,12 @@ func (s *SessionListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISessionListenerOnSessionStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -127,12 +131,8 @@ func (s *SessionListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnSessionStarted(ctx, _arg_sessionType, _arg_instance)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionListenerOnSessionEnded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -150,8 +150,7 @@ func (s *SessionListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnSessionEnded(ctx, _arg_sessionType, _arg_instance)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

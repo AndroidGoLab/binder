@@ -75,7 +75,7 @@ type IVpnManager interface {
 	EstablishVpn(ctx context.Context, config internalNet.VpnConfig) (int32, error)
 	AddVpnAddress(ctx context.Context, address string, prefixLength int32) (bool, error)
 	RemoveVpnAddress(ctx context.Context, address string, prefixLength int32) (bool, error)
-	SetUnderlyingNetworksForVpn(ctx context.Context, networks []interface{}) (bool, error)
+	SetUnderlyingNetworksForVpn(ctx context.Context, networks []Network) (bool, error)
 	ProvisionVpnProfile(ctx context.Context, profile internalNet.VpnProfile, packageName string) (bool, error)
 	DeleteVpnProfile(ctx context.Context, packageName string) error
 	StartVpnProfile(ctx context.Context, packageName string) (string, error)
@@ -121,6 +121,7 @@ func (p *VpnManagerProxy) PrepareVpn(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteString16(oldPackage)
 	_data.WriteString16(newPackage)
@@ -155,6 +156,7 @@ func (p *VpnManagerProxy) SetVpnPackageAuthorization(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
@@ -184,6 +186,7 @@ func (p *VpnManagerProxy) EstablishVpn(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -219,6 +222,7 @@ func (p *VpnManagerProxy) AddVpnAddress(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteString16(address)
 	_data.WriteInt32(prefixLength)
@@ -252,6 +256,7 @@ func (p *VpnManagerProxy) RemoveVpnAddress(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteString16(address)
 	_data.WriteInt32(prefixLength)
@@ -280,15 +285,22 @@ func (p *VpnManagerProxy) RemoveVpnAddress(
 
 func (p *VpnManagerProxy) SetUnderlyingNetworksForVpn(
 	ctx context.Context,
-	networks []interface{},
+	networks []Network,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	if networks == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(networks)))
+		for _, _item := range networks {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerSetUnderlyingNetworksForVpn)
@@ -320,6 +332,7 @@ func (p *VpnManagerProxy) ProvisionVpnProfile(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
@@ -354,6 +367,7 @@ func (p *VpnManagerProxy) DeleteVpnProfile(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteString16(packageName)
 
@@ -381,6 +395,7 @@ func (p *VpnManagerProxy) StartVpnProfile(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteString16(packageName)
 
@@ -411,6 +426,7 @@ func (p *VpnManagerProxy) StopVpnProfile(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteString16(packageName)
 
@@ -438,6 +454,7 @@ func (p *VpnManagerProxy) GetProvisionedVpnProfileState(
 ) (VpnProfileState, error) {
 	var _result VpnProfileState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteString16(packageName)
 
@@ -476,6 +493,7 @@ func (p *VpnManagerProxy) SetAppExclusionList(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(vpnPackage)
@@ -517,6 +535,7 @@ func (p *VpnManagerProxy) GetAppExclusionList(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(vpnPackage)
@@ -540,6 +559,9 @@ func (p *VpnManagerProxy) GetAppExclusionList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -560,6 +582,7 @@ func (p *VpnManagerProxy) IsAlwaysOnVpnPackageSupported(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
@@ -595,6 +618,7 @@ func (p *VpnManagerProxy) SetAlwaysOnVpnPackage(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
@@ -636,6 +660,7 @@ func (p *VpnManagerProxy) GetAlwaysOnVpnPackage(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -667,6 +692,7 @@ func (p *VpnManagerProxy) IsVpnLockdownEnabled(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -698,6 +724,7 @@ func (p *VpnManagerProxy) GetVpnLockdownAllowlist(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -720,6 +747,9 @@ func (p *VpnManagerProxy) GetVpnLockdownAllowlist(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -738,6 +768,7 @@ func (p *VpnManagerProxy) IsCallerCurrentAlwaysOnVpnApp(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerIsCallerCurrentAlwaysOnVpnApp)
@@ -767,6 +798,7 @@ func (p *VpnManagerProxy) IsCallerCurrentAlwaysOnVpnLockdownApp(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerIsCallerCurrentAlwaysOnVpnLockdownApp)
@@ -796,6 +828,7 @@ func (p *VpnManagerProxy) StartLegacyVpn(
 	profile internalNet.VpnProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
@@ -826,6 +859,7 @@ func (p *VpnManagerProxy) GetLegacyVpnInfo(
 	var _result internalNet.LegacyVpnInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -861,6 +895,7 @@ func (p *VpnManagerProxy) UpdateLockdownVpn(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerUpdateLockdownVpn)
@@ -891,6 +926,7 @@ func (p *VpnManagerProxy) GetVpnConfig(
 	var _result internalNet.VpnConfig
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -925,6 +961,7 @@ func (p *VpnManagerProxy) FactoryReset(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerFactoryReset)
@@ -948,7 +985,8 @@ func (p *VpnManagerProxy) FactoryReset(
 // VpnManagerStub dispatches incoming binder transactions
 // to a typed IVpnManager implementation.
 type VpnManagerStub struct {
-	Impl IVpnManager
+	Impl      IVpnManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VpnManagerStub)(nil)
@@ -962,11 +1000,12 @@ func (s *VpnManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVpnManagerPrepareVpn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_oldPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -988,9 +1027,6 @@ func (s *VpnManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVpnManagerSetVpnPackageAuthorization:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1011,9 +1047,6 @@ func (s *VpnManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVpnManagerEstablishVpn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config internalNet.VpnConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1036,9 +1069,6 @@ func (s *VpnManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIVpnManagerAddVpnAddress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1057,9 +1087,6 @@ func (s *VpnManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVpnManagerRemoveVpnAddress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1078,12 +1105,27 @@ func (s *VpnManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVpnManagerSetUnderlyingNetworksForVpn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_networks []Network
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_networks = make([]Network, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_networks[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_networks []interface{}
-		_ = _arg_networks
 		_result, _err := s.Impl.SetUnderlyingNetworksForVpn(ctx, _arg_networks)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1094,9 +1136,6 @@ func (s *VpnManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVpnManagerProvisionVpnProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_profile internalNet.VpnProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1123,9 +1162,6 @@ func (s *VpnManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVpnManagerDeleteVpnProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1139,9 +1175,6 @@ func (s *VpnManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVpnManagerStartVpnProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1156,9 +1189,6 @@ func (s *VpnManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIVpnManagerStopVpnProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1172,9 +1202,6 @@ func (s *VpnManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVpnManagerGetProvisionedVpnProfileState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1192,9 +1219,6 @@ func (s *VpnManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVpnManagerSetAppExclusionList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1202,9 +1226,25 @@ func (s *VpnManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_excludedApps []string
-		_ = _arg_excludedApps
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_excludedApps = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_excludedApps[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.SetAppExclusionList(ctx, _arg_vpnPackage, _arg_excludedApps)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1215,9 +1255,6 @@ func (s *VpnManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVpnManagerGetAppExclusionList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1232,13 +1269,16 @@ func (s *VpnManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIVpnManagerIsAlwaysOnVpnPackageSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1256,9 +1296,6 @@ func (s *VpnManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVpnManagerSetAlwaysOnVpnPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1270,9 +1307,25 @@ func (s *VpnManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_lockdownAllowlist []string
-		_ = _arg_lockdownAllowlist
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_lockdownAllowlist = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_lockdownAllowlist[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.SetAlwaysOnVpnPackage(ctx, _arg_packageName, _arg_lockdown, _arg_lockdownAllowlist)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1283,9 +1336,6 @@ func (s *VpnManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVpnManagerGetAlwaysOnVpnPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1299,9 +1349,6 @@ func (s *VpnManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIVpnManagerIsVpnLockdownEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1315,9 +1362,6 @@ func (s *VpnManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVpnManagerGetVpnLockdownAllowlist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1328,13 +1372,16 @@ func (s *VpnManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIVpnManagerIsCallerCurrentAlwaysOnVpnApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsCallerCurrentAlwaysOnVpnApp(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1345,9 +1392,6 @@ func (s *VpnManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVpnManagerIsCallerCurrentAlwaysOnVpnLockdownApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsCallerCurrentAlwaysOnVpnLockdownApp(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1358,9 +1402,6 @@ func (s *VpnManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVpnManagerStartLegacyVpn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_profile internalNet.VpnProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1382,9 +1423,6 @@ func (s *VpnManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVpnManagerGetLegacyVpnInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1401,9 +1439,6 @@ func (s *VpnManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVpnManagerUpdateLockdownVpn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.UpdateLockdownVpn(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1414,9 +1449,6 @@ func (s *VpnManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVpnManagerGetVpnConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1433,9 +1465,6 @@ func (s *VpnManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVpnManagerFactoryReset:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.FactoryReset(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1458,7 +1487,7 @@ type IVpnManagerServer interface {
 	EstablishVpn(ctx context.Context, config internalNet.VpnConfig) (int32, error)
 	AddVpnAddress(ctx context.Context, address string, prefixLength int32) (bool, error)
 	RemoveVpnAddress(ctx context.Context, address string, prefixLength int32) (bool, error)
-	SetUnderlyingNetworksForVpn(ctx context.Context, networks []interface{}) (bool, error)
+	SetUnderlyingNetworksForVpn(ctx context.Context, networks []Network) (bool, error)
 	ProvisionVpnProfile(ctx context.Context, profile internalNet.VpnProfile, packageName string) (bool, error)
 	DeleteVpnProfile(ctx context.Context, packageName string) error
 	StartVpnProfile(ctx context.Context, packageName string) (string, error)
@@ -1530,7 +1559,7 @@ func (w *vpnManagerStubWrapper) RemoveVpnAddress(
 
 func (w *vpnManagerStubWrapper) SetUnderlyingNetworksForVpn(
 	ctx context.Context,
-	networks []interface{},
+	networks []Network,
 ) (bool, error) {
 	return w.impl.SetUnderlyingNetworksForVpn(ctx, networks)
 }

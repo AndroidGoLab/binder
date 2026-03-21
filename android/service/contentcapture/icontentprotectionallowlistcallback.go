@@ -45,6 +45,7 @@ func (p *ContentProtectionAllowlistCallbackProxy) SetAllowlist(
 	packages []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentProtectionAllowlistCallback)
 	if packages == nil {
 		_data.WriteInt32(-1)
@@ -67,7 +68,8 @@ func (p *ContentProtectionAllowlistCallbackProxy) SetAllowlist(
 // ContentProtectionAllowlistCallbackStub dispatches incoming binder transactions
 // to a typed IContentProtectionAllowlistCallback implementation.
 type ContentProtectionAllowlistCallbackStub struct {
-	Impl IContentProtectionAllowlistCallback
+	Impl      IContentProtectionAllowlistCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ContentProtectionAllowlistCallbackStub)(nil)
@@ -81,17 +83,33 @@ func (s *ContentProtectionAllowlistCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIContentProtectionAllowlistCallbackSetAllowlist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packages []string
-		_ = _arg_packages
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packages = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packages[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetAllowlist(ctx, _arg_packages)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

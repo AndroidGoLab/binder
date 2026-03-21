@@ -31,8 +31,7 @@ func (u *PrimitivePwle) GetActive() (ActivePwle, bool) {
 func (u *PrimitivePwle) SetActive(
 	v ActivePwle,
 ) {
-	u.Tag = PrimitivePwleTagActive
-	u.Active = v
+	*u = PrimitivePwle{Tag: PrimitivePwleTagActive, Active: v}
 }
 
 func (u *PrimitivePwle) GetBraking() (BrakingPwle, bool) {
@@ -46,8 +45,7 @@ func (u *PrimitivePwle) GetBraking() (BrakingPwle, bool) {
 func (u *PrimitivePwle) SetBraking(
 	v BrakingPwle,
 ) {
-	u.Tag = PrimitivePwleTagBraking
-	u.Braking = v
+	*u = PrimitivePwle{Tag: PrimitivePwleTagBraking, Braking: v}
 }
 
 func (u *PrimitivePwle) MarshalParcel(

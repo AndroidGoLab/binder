@@ -1,0 +1,237 @@
+package: android.service.carrier
+go_package: android/service/carrier
+interfaces:
+    - name: IApnSourceService
+      descriptor: android.service.carrier.IApnSourceService
+      methods:
+        - name: getApns
+          transaction_code_offset: 0
+          params:
+            - name: subId
+              type:
+                name: int
+          return_type:
+            name: ContentValues
+            is_array: true
+    - name: ICarrierMessagingCallback
+      descriptor: android.service.carrier.ICarrierMessagingCallback
+      oneway: true
+      methods:
+        - name: onFilterComplete
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSendSmsComplete
+          transaction_code_offset: 1
+          params:
+            - name: result
+              type:
+                name: int
+            - name: messageRef
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSendMultipartSmsComplete
+          transaction_code_offset: 2
+          params:
+            - name: result
+              type:
+                name: int
+            - name: messageRefs
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onSendMmsComplete
+          transaction_code_offset: 3
+          params:
+            - name: result
+              type:
+                name: int
+            - name: sendConfPdu
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onDownloadMmsComplete
+          transaction_code_offset: 4
+          params:
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ICarrierMessagingClientService
+      descriptor: android.service.carrier.ICarrierMessagingClientService
+    - name: ICarrierMessagingService
+      descriptor: android.service.carrier.ICarrierMessagingService
+      oneway: true
+      methods:
+        - name: filterSms
+          transaction_code_offset: 0
+          params:
+            - name: pdu
+              type:
+                name: MessagePdu
+              direction: in
+            - name: format
+              type:
+                name: String
+            - name: destPort
+              type:
+                name: int
+            - name: subId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ICarrierMessagingCallback
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: sendTextSms
+          transaction_code_offset: 1
+          params:
+            - name: text
+              type:
+                name: String
+            - name: subId
+              type:
+                name: int
+            - name: destAddress
+              type:
+                name: String
+            - name: sendSmsFlag
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ICarrierMessagingCallback
+              direction: in
+          return_type:
+            name: void
+        - name: sendDataSms
+          transaction_code_offset: 2
+          params:
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: subId
+              type:
+                name: int
+            - name: destAddress
+              type:
+                name: String
+            - name: destPort
+              type:
+                name: int
+            - name: sendSmsFlag
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ICarrierMessagingCallback
+              direction: in
+          return_type:
+            name: void
+        - name: sendMultipartTextSms
+          transaction_code_offset: 3
+          params:
+            - name: parts
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: subId
+              type:
+                name: int
+            - name: destAddress
+              type:
+                name: String
+            - name: sendSmsFlag
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ICarrierMessagingCallback
+              direction: in
+          return_type:
+            name: void
+        - name: sendMms
+          transaction_code_offset: 4
+          params:
+            - name: pduUri
+              type:
+                name: Uri
+              direction: in
+            - name: subId
+              type:
+                name: int
+            - name: location
+              type:
+                name: Uri
+              direction: in
+            - name: callback
+              type:
+                name: ICarrierMessagingCallback
+              direction: in
+          return_type:
+            name: void
+        - name: downloadMms
+          transaction_code_offset: 5
+          params:
+            - name: pduUri
+              type:
+                name: Uri
+              direction: in
+            - name: subId
+              type:
+                name: int
+            - name: location
+              type:
+                name: Uri
+              direction: in
+            - name: callback
+              type:
+                name: ICarrierMessagingCallback
+              direction: in
+          return_type:
+            name: void
+    - name: ICarrierService
+      descriptor: android.service.carrier.ICarrierService
+      methods:
+        - name: getCarrierConfig
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: phoneId
+              type:
+                name: int
+              direction: in
+            - name: id
+              type:
+                name: CarrierIdentifier
+              direction: in
+            - name: result
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: CarrierIdentifier
+    - name: MessagePdu

@@ -63,6 +63,7 @@ func (p *ActivityRecognitionHardwareProxy) GetSupportedActivities(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareGetSupportedActivities)
@@ -84,6 +85,9 @@ func (p *ActivityRecognitionHardwareProxy) GetSupportedActivities(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -103,6 +107,7 @@ func (p *ActivityRecognitionHardwareProxy) IsActivitySupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
 	_data.WriteString16(activityType)
 
@@ -134,6 +139,7 @@ func (p *ActivityRecognitionHardwareProxy) RegisterSink(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
 	binder.WriteBinderToParcel(ctx, _data, sink.AsBinder(), p.Remote.Transport())
 
@@ -165,6 +171,7 @@ func (p *ActivityRecognitionHardwareProxy) UnregisterSink(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
 	binder.WriteBinderToParcel(ctx, _data, sink.AsBinder(), p.Remote.Transport())
 
@@ -198,6 +205,7 @@ func (p *ActivityRecognitionHardwareProxy) EnableActivityEvent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
 	_data.WriteString16(activityType)
 	_data.WriteInt32(eventType)
@@ -232,6 +240,7 @@ func (p *ActivityRecognitionHardwareProxy) DisableActivityEvent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
 	_data.WriteString16(activityType)
 	_data.WriteInt32(eventType)
@@ -263,6 +272,7 @@ func (p *ActivityRecognitionHardwareProxy) Flush(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareFlush)
@@ -290,7 +300,8 @@ func (p *ActivityRecognitionHardwareProxy) Flush(
 // ActivityRecognitionHardwareStub dispatches incoming binder transactions
 // to a typed IActivityRecognitionHardware implementation.
 type ActivityRecognitionHardwareStub struct {
-	Impl IActivityRecognitionHardware
+	Impl      IActivityRecognitionHardware
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ActivityRecognitionHardwareStub)(nil)
@@ -304,11 +315,12 @@ func (s *ActivityRecognitionHardwareStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIActivityRecognitionHardwareGetSupportedActivities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedActivities(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -316,13 +328,16 @@ func (s *ActivityRecognitionHardwareStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIActivityRecognitionHardwareIsActivitySupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_activityType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -337,12 +352,14 @@ func (s *ActivityRecognitionHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityRecognitionHardwareRegisterSink:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sink IActivityRecognitionHardwareSink
-		_ = _arg_sink
+		{
+			_sinkHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sink = NewActivityRecognitionHardwareSinkProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sinkHandle))
+		}
 		_result, _err := s.Impl.RegisterSink(ctx, _arg_sink)
 		_reply := parcel.New()
 		if _err != nil {
@@ -353,12 +370,14 @@ func (s *ActivityRecognitionHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityRecognitionHardwareUnregisterSink:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sink IActivityRecognitionHardwareSink
-		_ = _arg_sink
+		{
+			_sinkHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sink = NewActivityRecognitionHardwareSinkProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sinkHandle))
+		}
 		_result, _err := s.Impl.UnregisterSink(ctx, _arg_sink)
 		_reply := parcel.New()
 		if _err != nil {
@@ -369,9 +388,6 @@ func (s *ActivityRecognitionHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityRecognitionHardwareEnableActivityEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_activityType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -394,9 +410,6 @@ func (s *ActivityRecognitionHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityRecognitionHardwareDisableActivityEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_activityType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -415,9 +428,6 @@ func (s *ActivityRecognitionHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityRecognitionHardwareFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Flush(ctx)
 		_reply := parcel.New()
 		if _err != nil {

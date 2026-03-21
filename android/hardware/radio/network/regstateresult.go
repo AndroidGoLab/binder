@@ -45,11 +45,21 @@ func (s *RegStateResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_regStateRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.RegState = RegState(_regStateRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_ratRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -57,19 +67,39 @@ func (s *RegStateResult) UnmarshalParcel(
 	}
 	s.Rat = radio.RadioTechnology(_ratRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_reasonForDenialRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.ReasonForDenial = RegistrationFailCause(_reasonForDenialRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.CellIdentity.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.RegisteredPlmn, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.AccessTechnologySpecificInfo.UnmarshalParcel(p); _err != nil {

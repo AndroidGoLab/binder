@@ -112,6 +112,7 @@ func (p *SplitScreenProxy) RegisterSplitScreenListener(
 	listener ISplitScreenListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -129,6 +130,7 @@ func (p *SplitScreenProxy) UnregisterSplitScreenListener(
 	listener ISplitScreenListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -146,6 +148,7 @@ func (p *SplitScreenProxy) RegisterSplitSelectListener(
 	listener ISplitSelectListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -163,6 +166,7 @@ func (p *SplitScreenProxy) UnregisterSplitSelectListener(
 	listener ISplitSelectListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -180,6 +184,7 @@ func (p *SplitScreenProxy) RemoveFromSideStage(
 	taskId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteInt32(taskId)
 
@@ -197,6 +202,7 @@ func (p *SplitScreenProxy) ExitSplitScreen(
 	toTopTaskId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteInt32(toTopTaskId)
 
@@ -214,6 +220,7 @@ func (p *SplitScreenProxy) ExitSplitScreenOnHide(
 	exitSplitScreenOnHide bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteBool(exitSplitScreenOnHide)
 
@@ -233,6 +240,7 @@ func (p *SplitScreenProxy) StartTask(
 	options os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(position)
@@ -260,6 +268,7 @@ func (p *SplitScreenProxy) StartShortcut(
 	instanceId logging.InstanceId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteString16(packageName)
 	_data.WriteString16(shortcutId)
@@ -296,6 +305,7 @@ func (p *SplitScreenProxy) StartIntent(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -337,6 +347,7 @@ func (p *SplitScreenProxy) StartTasks(
 	instanceId logging.InstanceId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteInt32(taskId1)
 	_data.WriteInt32(1)
@@ -381,6 +392,7 @@ func (p *SplitScreenProxy) StartIntentAndTask(
 	instanceId logging.InstanceId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteInt32(1)
 	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
@@ -428,6 +440,7 @@ func (p *SplitScreenProxy) StartShortcutAndTask(
 	instanceId logging.InstanceId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteInt32(1)
 	if _err := shortcutInfo.MarshalParcel(_data); _err != nil {
@@ -474,6 +487,7 @@ func (p *SplitScreenProxy) StartTasksWithLegacyTransition(
 	instanceId logging.InstanceId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteInt32(taskId1)
 	_data.WriteInt32(1)
@@ -518,6 +532,7 @@ func (p *SplitScreenProxy) StartIntentAndTaskWithLegacyTransition(
 	instanceId logging.InstanceId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteInt32(1)
 	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
@@ -565,6 +580,7 @@ func (p *SplitScreenProxy) StartShortcutAndTaskWithLegacyTransition(
 	instanceId logging.InstanceId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteInt32(1)
 	if _err := shortcutInfo.MarshalParcel(_data); _err != nil {
@@ -615,6 +631,7 @@ func (p *SplitScreenProxy) StartIntentsWithLegacyTransition(
 	instanceId logging.InstanceId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteInt32(1)
 	if _err := pendingIntent1.MarshalParcel(_data); _err != nil {
@@ -678,6 +695,7 @@ func (p *SplitScreenProxy) StartIntents(
 	instanceId logging.InstanceId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteInt32(1)
 	if _err := pendingIntent1.MarshalParcel(_data); _err != nil {
@@ -731,6 +749,7 @@ func (p *SplitScreenProxy) OnGoingToRecentsLegacy(
 ) ([]view.RemoteAnimationTarget, error) {
 	var _result []view.RemoteAnimationTarget
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	if appTargets == nil {
 		_data.WriteInt32(-1)
@@ -763,6 +782,9 @@ func (p *SplitScreenProxy) OnGoingToRecentsLegacy(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]view.RemoteAnimationTarget, _count)
@@ -784,6 +806,7 @@ func (p *SplitScreenProxy) OnStartingSplitLegacy(
 ) ([]view.RemoteAnimationTarget, error) {
 	var _result []view.RemoteAnimationTarget
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	if appTargets == nil {
 		_data.WriteInt32(-1)
@@ -816,6 +839,9 @@ func (p *SplitScreenProxy) OnStartingSplitLegacy(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]view.RemoteAnimationTarget, _count)
@@ -835,6 +861,7 @@ func (p *SplitScreenProxy) SwitchSplitPosition(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreen, MethodISplitScreenSwitchSplitPosition)
@@ -849,7 +876,8 @@ func (p *SplitScreenProxy) SwitchSplitPosition(
 // SplitScreenStub dispatches incoming binder transactions
 // to a typed ISplitScreen implementation.
 type SplitScreenStub struct {
-	Impl ISplitScreen
+	Impl      ISplitScreen
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SplitScreenStub)(nil)
@@ -863,84 +891,77 @@ func (s *SplitScreenStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISplitScreenRegisterSplitScreenListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISplitScreenListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewSplitScreenListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterSplitScreenListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenUnregisterSplitScreenListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISplitScreenListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewSplitScreenListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.UnregisterSplitScreenListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenRegisterSplitSelectListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISplitSelectListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewSplitSelectListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterSplitSelectListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenUnregisterSplitSelectListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISplitSelectListener
-		_ = _arg_listener
-		_err := s.Impl.UnregisterSplitSelectListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionISplitScreenRemoveFromSideStage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewSplitSelectListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err := s.Impl.UnregisterSplitSelectListener(ctx, _arg_listener)
+		return nil, _err
+	case TransactionISplitScreenRemoveFromSideStage:
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RemoveFromSideStage(ctx, _arg_taskId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenExitSplitScreen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_toTopTaskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ExitSplitScreen(ctx, _arg_toTopTaskId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenExitSplitScreenOnHide:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_exitSplitScreenOnHide, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ExitSplitScreenOnHide(ctx, _arg_exitSplitScreenOnHide)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenStartTask:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -962,12 +983,8 @@ func (s *SplitScreenStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StartTask(ctx, _arg_taskId, _arg_position, _arg_options)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenStartShortcut:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1017,12 +1034,8 @@ func (s *SplitScreenStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StartShortcut(ctx, _arg_packageName, _arg_shortcutId, _arg_position, _arg_options, _arg_user, _arg_instanceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenStartIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent app.PendingIntent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1079,12 +1092,8 @@ func (s *SplitScreenStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StartIntent(ctx, _arg_intent, _arg_fillInIntent, _arg_position, _arg_options, _arg_instanceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenStartTasks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId1, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1150,12 +1159,8 @@ func (s *SplitScreenStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StartTasks(ctx, _arg_taskId1, _arg_options1, _arg_taskId2, _arg_options2, _arg_splitPosition, _arg_snapPosition, _arg_remoteTransition, _arg_instanceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenStartIntentAndTask:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_pendingIntent app.PendingIntent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1233,12 +1238,8 @@ func (s *SplitScreenStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StartIntentAndTask(ctx, _arg_pendingIntent, _arg_userId1, _arg_options1, _arg_taskId, _arg_options2, _arg_sidePosition, _arg_snapPosition, _arg_remoteTransition, _arg_instanceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenStartShortcutAndTask:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_shortcutInfo pm.ShortcutInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1312,12 +1313,8 @@ func (s *SplitScreenStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StartShortcutAndTask(ctx, _arg_shortcutInfo, _arg_options1, _arg_taskId, _arg_options2, _arg_splitPosition, _arg_snapPosition, _arg_remoteTransition, _arg_instanceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenStartTasksWithLegacyTransition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId1, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1383,12 +1380,8 @@ func (s *SplitScreenStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StartTasksWithLegacyTransition(ctx, _arg_taskId1, _arg_options1, _arg_taskId2, _arg_options2, _arg_splitPosition, _arg_snapPosition, _arg_adapter, _arg_instanceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenStartIntentAndTaskWithLegacyTransition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_pendingIntent app.PendingIntent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1466,12 +1459,8 @@ func (s *SplitScreenStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StartIntentAndTaskWithLegacyTransition(ctx, _arg_pendingIntent, _arg_userId1, _arg_options1, _arg_taskId, _arg_options2, _arg_splitPosition, _arg_snapPosition, _arg_adapter, _arg_instanceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenStartShortcutAndTaskWithLegacyTransition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_shortcutInfo pm.ShortcutInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1545,12 +1534,8 @@ func (s *SplitScreenStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StartShortcutAndTaskWithLegacyTransition(ctx, _arg_shortcutInfo, _arg_options1, _arg_taskId, _arg_options2, _arg_splitPosition, _arg_snapPosition, _arg_adapter, _arg_instanceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenStartIntentsWithLegacyTransition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_pendingIntent1 app.PendingIntent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1664,12 +1649,8 @@ func (s *SplitScreenStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StartIntentsWithLegacyTransition(ctx, _arg_pendingIntent1, _arg_userId1, _arg_shortcutInfo1, _arg_options1, _arg_pendingIntent2, _arg_userId2, _arg_shortcutInfo2, _arg_options2, _arg_splitPosition, _arg_snapPosition, _arg_adapter, _arg_instanceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenStartIntents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_pendingIntent1 app.PendingIntent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1783,15 +1764,29 @@ func (s *SplitScreenStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.StartIntents(ctx, _arg_pendingIntent1, _arg_userId1, _arg_shortcutInfo1, _arg_options1, _arg_pendingIntent2, _arg_userId2, _arg_shortcutInfo2, _arg_options2, _arg_splitPosition, _arg_snapPosition, _arg_remoteTransition, _arg_instanceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISplitScreenOnGoingToRecentsLegacy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_appTargets []view.RemoteAnimationTarget
-		_ = _arg_appTargets
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_appTargets = make([]view.RemoteAnimationTarget, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_appTargets[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.OnGoingToRecentsLegacy(ctx, _arg_appTargets)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1799,16 +1794,40 @@ func (s *SplitScreenStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISplitScreenOnStartingSplitLegacy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_appTargets []view.RemoteAnimationTarget
-		_ = _arg_appTargets
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_appTargets = make([]view.RemoteAnimationTarget, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_appTargets[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.OnStartingSplitLegacy(ctx, _arg_appTargets)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1816,16 +1835,21 @@ func (s *SplitScreenStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISplitScreenSwitchSplitPosition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SwitchSplitPosition(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -1,0 +1,64 @@
+package: android.service.translation
+go_package: android/service/translation
+interfaces:
+    - name: ITranslationCallback
+      descriptor: android.service.translation.ITranslationCallback
+      oneway: true
+      methods:
+        - name: onTranslationResponse
+          transaction_code_offset: 0
+          params:
+            - name: translationResponse
+              type:
+                name: TranslationResponse
+              direction: in
+          return_type:
+            name: void
+    - name: ITranslationService
+      descriptor: android.service.translation.ITranslationService
+      oneway: true
+      methods:
+        - name: onConnected
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: onDisconnected
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onCreateTranslationSession
+          transaction_code_offset: 2
+          params:
+            - name: translationContext
+              type:
+                name: TranslationContext
+              direction: in
+            - name: sessionId
+              type:
+                name: int
+            - name: receiver
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: onTranslationCapabilitiesRequest
+          transaction_code_offset: 3
+          params:
+            - name: sourceFormat
+              type:
+                name: int
+            - name: targetFormat
+              type:
+                name: int
+            - name: receiver
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void

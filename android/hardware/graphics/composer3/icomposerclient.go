@@ -202,6 +202,7 @@ func (p *ComposerClientProxy) CreateLayer(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt32(bufferSlotCount)
@@ -237,6 +238,7 @@ func (p *ComposerClientProxy) CreateVirtualDisplay(
 ) (VirtualDisplay, error) {
 	var _result VirtualDisplay
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
@@ -276,6 +278,7 @@ func (p *ComposerClientProxy) DestroyLayer(
 	layer int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt64(layer)
@@ -303,6 +306,7 @@ func (p *ComposerClientProxy) DestroyVirtualDisplay(
 	display int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -330,6 +334,7 @@ func (p *ComposerClientProxy) ExecuteCommands(
 ) ([]CommandResultPayload, error) {
 	var _result []CommandResultPayload
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	if commands == nil {
 		_data.WriteInt32(-1)
@@ -362,6 +367,9 @@ func (p *ComposerClientProxy) ExecuteCommands(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]CommandResultPayload, _count)
@@ -383,6 +391,7 @@ func (p *ComposerClientProxy) GetActiveConfig(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -414,6 +423,7 @@ func (p *ComposerClientProxy) GetColorModes(
 ) ([]ColorMode, error) {
 	var _result []ColorMode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -436,6 +446,9 @@ func (p *ComposerClientProxy) GetColorModes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]ColorMode, _count)
@@ -456,6 +469,7 @@ func (p *ComposerClientProxy) GetDataspaceSaturationMatrix(
 ) ([]float32, error) {
 	var _result []float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt32(int32(dataspace))
 
@@ -478,6 +492,9 @@ func (p *ComposerClientProxy) GetDataspaceSaturationMatrix(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]float32, _count)
@@ -499,6 +516,7 @@ func (p *ComposerClientProxy) GetDisplayAttribute(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt32(config)
@@ -532,6 +550,7 @@ func (p *ComposerClientProxy) GetDisplayCapabilities(
 ) ([]DisplayCapability, error) {
 	var _result []DisplayCapability
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -554,6 +573,9 @@ func (p *ComposerClientProxy) GetDisplayCapabilities(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]DisplayCapability, _count)
@@ -574,6 +596,7 @@ func (p *ComposerClientProxy) GetDisplayConfigs(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -596,6 +619,9 @@ func (p *ComposerClientProxy) GetDisplayConfigs(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -615,6 +641,7 @@ func (p *ComposerClientProxy) GetDisplayConnectionType(
 ) (DisplayConnectionType, error) {
 	var _result DisplayConnectionType
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -647,6 +674,7 @@ func (p *ComposerClientProxy) GetDisplayIdentificationData(
 ) (DisplayIdentification, error) {
 	var _result DisplayIdentification
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -683,6 +711,7 @@ func (p *ComposerClientProxy) GetDisplayName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -714,6 +743,7 @@ func (p *ComposerClientProxy) GetDisplayVsyncPeriod(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -747,6 +777,7 @@ func (p *ComposerClientProxy) GetDisplayedContentSample(
 ) (DisplayContentSample, error) {
 	var _result DisplayContentSample
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt64(maxFrames)
@@ -785,6 +816,7 @@ func (p *ComposerClientProxy) GetDisplayedContentSamplingAttributes(
 ) (DisplayContentSamplingAttributes, error) {
 	var _result DisplayContentSamplingAttributes
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -821,6 +853,7 @@ func (p *ComposerClientProxy) GetDisplayPhysicalOrientation(
 ) (common.Transform, error) {
 	var _result common.Transform
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -853,6 +886,7 @@ func (p *ComposerClientProxy) GetHdrCapabilities(
 ) (HdrCapabilities, error) {
 	var _result HdrCapabilities
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -888,6 +922,7 @@ func (p *ComposerClientProxy) GetMaxVirtualDisplayCount(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetMaxVirtualDisplayCount)
@@ -918,6 +953,7 @@ func (p *ComposerClientProxy) GetPerFrameMetadataKeys(
 ) ([]PerFrameMetadataKey, error) {
 	var _result []PerFrameMetadataKey
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -940,6 +976,9 @@ func (p *ComposerClientProxy) GetPerFrameMetadataKeys(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]PerFrameMetadataKey, _count)
@@ -960,6 +999,7 @@ func (p *ComposerClientProxy) GetReadbackBufferAttributes(
 ) (ReadbackBufferAttributes, error) {
 	var _result ReadbackBufferAttributes
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -996,6 +1036,7 @@ func (p *ComposerClientProxy) GetReadbackBufferFence(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -1028,6 +1069,7 @@ func (p *ComposerClientProxy) GetRenderIntents(
 ) ([]RenderIntent, error) {
 	var _result []RenderIntent
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt32(int32(mode))
@@ -1051,6 +1093,9 @@ func (p *ComposerClientProxy) GetRenderIntents(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]RenderIntent, _count)
@@ -1071,6 +1116,7 @@ func (p *ComposerClientProxy) GetSupportedContentTypes(
 ) ([]ContentType, error) {
 	var _result []ContentType
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -1093,6 +1139,9 @@ func (p *ComposerClientProxy) GetSupportedContentTypes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]ContentType, _count)
@@ -1113,6 +1162,7 @@ func (p *ComposerClientProxy) GetDisplayDecorationSupport(
 ) (gui.DisplayDecorationSupport, error) {
 	var _result gui.DisplayDecorationSupport
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -1148,6 +1198,7 @@ func (p *ComposerClientProxy) RegisterCallback(
 	callback IComposerCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -1175,6 +1226,7 @@ func (p *ComposerClientProxy) SetActiveConfig(
 	config int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt32(config)
@@ -1205,6 +1257,7 @@ func (p *ComposerClientProxy) SetActiveConfigWithConstraints(
 ) (VsyncPeriodChangeTimeline, error) {
 	var _result VsyncPeriodChangeTimeline
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt32(config)
@@ -1246,6 +1299,7 @@ func (p *ComposerClientProxy) SetBootDisplayConfig(
 	config int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt32(config)
@@ -1273,6 +1327,7 @@ func (p *ComposerClientProxy) ClearBootDisplayConfig(
 	display int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -1300,6 +1355,7 @@ func (p *ComposerClientProxy) GetPreferredBootDisplayConfig(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
@@ -1331,6 +1387,7 @@ func (p *ComposerClientProxy) SetAutoLowLatencyMode(
 	on bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteBool(on)
@@ -1359,6 +1416,7 @@ func (p *ComposerClientProxy) SetClientTargetSlotCount(
 	clientTargetSlotCount int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt32(clientTargetSlotCount)
@@ -1388,6 +1446,7 @@ func (p *ComposerClientProxy) SetColorMode(
 	intent RenderIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt32(int32(mode))
@@ -1417,6 +1476,7 @@ func (p *ComposerClientProxy) SetContentType(
 	type_ ContentType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt32(int32(type_))
@@ -1447,6 +1507,7 @@ func (p *ComposerClientProxy) SetDisplayedContentSamplingEnabled(
 	maxFrames int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteBool(enable)
@@ -1477,6 +1538,7 @@ func (p *ComposerClientProxy) SetPowerMode(
 	mode PowerMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt32(int32(mode))
@@ -1506,6 +1568,7 @@ func (p *ComposerClientProxy) SetReadbackBuffer(
 	releaseFence *int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt32(1)
@@ -1542,6 +1605,7 @@ func (p *ComposerClientProxy) SetVsyncEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteBool(enabled)
@@ -1570,6 +1634,7 @@ func (p *ComposerClientProxy) SetIdleTimerEnabled(
 	timeoutMs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt32(timeoutMs)
@@ -1597,6 +1662,7 @@ func (p *ComposerClientProxy) GetOverlaySupport(
 ) (OverlayProperties, error) {
 	var _result OverlayProperties
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetOverlaySupport)
@@ -1631,6 +1697,7 @@ func (p *ComposerClientProxy) GetHdrConversionCapabilities(
 ) ([]gui.HdrConversionCapability, error) {
 	var _result []gui.HdrConversionCapability
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetHdrConversionCapabilities)
@@ -1651,6 +1718,9 @@ func (p *ComposerClientProxy) GetHdrConversionCapabilities(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -1673,6 +1743,7 @@ func (p *ComposerClientProxy) SetHdrConversionStrategy(
 ) (common.Hdr, error) {
 	var _result common.Hdr
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt32(1)
 	if _err := conversionStrategy.MarshalParcel(_data); _err != nil {
@@ -1708,6 +1779,7 @@ func (p *ComposerClientProxy) SetRefreshRateChangedCallbackDebugEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteBool(enabled)
@@ -1737,6 +1809,7 @@ func (p *ComposerClientProxy) GetDisplayConfigurations(
 ) ([]DisplayConfiguration, error) {
 	var _result []DisplayConfiguration
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt32(maxFrameIntervalNs)
@@ -1760,6 +1833,9 @@ func (p *ComposerClientProxy) GetDisplayConfigurations(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]DisplayConfiguration, _count)
@@ -1782,6 +1858,7 @@ func (p *ComposerClientProxy) NotifyExpectedPresent(
 	frameIntervalNs int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt32(1)
@@ -1802,7 +1879,8 @@ func (p *ComposerClientProxy) NotifyExpectedPresent(
 // ComposerClientStub dispatches incoming binder transactions
 // to a typed IComposerClient implementation.
 type ComposerClientStub struct {
-	Impl IComposerClient
+	Impl      IComposerClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ComposerClientStub)(nil)
@@ -1816,11 +1894,12 @@ func (s *ComposerClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIComposerClientCreateLayer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1839,9 +1918,6 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIComposerClientCreateVirtualDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1872,9 +1948,6 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientDestroyLayer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1892,9 +1965,6 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientDestroyVirtualDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1908,12 +1978,27 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientExecuteCommands:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_commands []DisplayCommand
-		_ = _arg_commands
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_commands = make([]DisplayCommand, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_commands[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.ExecuteCommands(ctx, _arg_commands)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1921,13 +2006,19 @@ func (s *ComposerClientStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIComposerClientGetActiveConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1942,9 +2033,6 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIComposerClientGetColorModes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1956,13 +2044,16 @@ func (s *ComposerClientStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionIComposerClientGetDataspaceSaturationMatrix:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_dataspace, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1975,13 +2066,16 @@ func (s *ComposerClientStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteFloat32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayAttribute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2005,9 +2099,6 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2019,13 +2110,16 @@ func (s *ComposerClientStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayConfigs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2037,13 +2131,16 @@ func (s *ComposerClientStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayConnectionType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2058,9 +2155,6 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayIdentificationData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2078,9 +2172,6 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2095,9 +2186,6 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayVsyncPeriod:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2112,9 +2200,6 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayedContentSample:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2140,9 +2225,6 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayedContentSamplingAttributes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2160,9 +2242,6 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayPhysicalOrientation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2177,9 +2256,6 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIComposerClientGetHdrCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2197,9 +2273,6 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientGetMaxVirtualDisplayCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMaxVirtualDisplayCount(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2210,9 +2283,6 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIComposerClientGetPerFrameMetadataKeys:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2224,13 +2294,16 @@ func (s *ComposerClientStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionIComposerClientGetReadbackBufferAttributes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2248,9 +2321,6 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientGetReadbackBufferFence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2265,9 +2335,6 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIComposerClientGetRenderIntents:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2284,13 +2351,16 @@ func (s *ComposerClientStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionIComposerClientGetSupportedContentTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2302,13 +2372,16 @@ func (s *ComposerClientStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayDecorationSupport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2326,12 +2399,14 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IComposerCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewComposerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2341,9 +2416,6 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetActiveConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2361,9 +2433,6 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetActiveConfigWithConstraints:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2397,9 +2466,6 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientSetBootDisplayConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2417,9 +2483,6 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientClearBootDisplayConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2433,9 +2496,6 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientGetPreferredBootDisplayConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2450,9 +2510,6 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIComposerClientSetAutoLowLatencyMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2470,9 +2527,6 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetClientTargetSlotCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2490,9 +2544,6 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetColorMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2516,9 +2567,6 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetContentType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2537,9 +2585,6 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetDisplayedContentSamplingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2566,9 +2611,6 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetPowerMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2587,9 +2629,6 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetReadbackBuffer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2620,9 +2659,6 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetVsyncEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2640,9 +2676,6 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetIdleTimerEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2660,9 +2693,6 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientGetOverlaySupport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetOverlaySupport(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2676,9 +2706,6 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientGetHdrConversionCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHdrConversionCapabilities(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2686,13 +2713,19 @@ func (s *ComposerClientStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIComposerClientSetHdrConversionStrategy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_conversionStrategy gui.HdrConversionStrategy
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2715,9 +2748,6 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIComposerClientSetRefreshRateChangedCallbackDebugEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2735,9 +2765,6 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayConfigurations:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2753,13 +2780,19 @@ func (s *ComposerClientStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIComposerClientNotifyExpectedPresent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -2781,8 +2814,7 @@ func (s *ComposerClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyExpectedPresent(ctx, _arg_display, _arg_expectedPresentTime, _arg_frameIntervalNs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

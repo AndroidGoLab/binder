@@ -82,15 +82,9 @@ func (p *PersistentDataBlockServiceProxy) Write(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceWrite)
 	if _err != nil {
@@ -119,6 +113,7 @@ func (p *PersistentDataBlockServiceProxy) Read(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceRead)
@@ -136,19 +131,9 @@ func (p *PersistentDataBlockServiceProxy) Read(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -157,6 +142,7 @@ func (p *PersistentDataBlockServiceProxy) Wipe(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceWipe)
@@ -182,6 +168,7 @@ func (p *PersistentDataBlockServiceProxy) GetDataBlockSize(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceGetDataBlockSize)
@@ -211,6 +198,7 @@ func (p *PersistentDataBlockServiceProxy) GetMaximumDataBlockSize(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceGetMaximumDataBlockSize)
@@ -240,6 +228,7 @@ func (p *PersistentDataBlockServiceProxy) SetOemUnlockEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 	_data.WriteBool(enabled)
 
@@ -266,6 +255,7 @@ func (p *PersistentDataBlockServiceProxy) GetOemUnlockEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceGetOemUnlockEnabled)
@@ -295,6 +285,7 @@ func (p *PersistentDataBlockServiceProxy) GetFlashLockState(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceGetFlashLockState)
@@ -324,6 +315,7 @@ func (p *PersistentDataBlockServiceProxy) HasFrpCredentialHandle(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceHasFrpCredentialHandle)
@@ -353,6 +345,7 @@ func (p *PersistentDataBlockServiceProxy) GetPersistentDataPackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceGetPersistentDataPackageName)
@@ -382,6 +375,7 @@ func (p *PersistentDataBlockServiceProxy) IsFactoryResetProtectionActive(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceIsFactoryResetProtectionActive)
@@ -412,15 +406,9 @@ func (p *PersistentDataBlockServiceProxy) DeactivateFactoryResetProtection(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
-	if secret == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(secret)))
-		for _, _item := range secret {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(secret)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceDeactivateFactoryResetProtection)
 	if _err != nil {
@@ -450,15 +438,9 @@ func (p *PersistentDataBlockServiceProxy) SetFactoryResetProtectionSecret(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
-	if secret == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(secret)))
-		for _, _item := range secret {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(secret)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentDataBlockService, MethodIPersistentDataBlockServiceSetFactoryResetProtectionSecret)
 	if _err != nil {
@@ -485,7 +467,8 @@ func (p *PersistentDataBlockServiceProxy) SetFactoryResetProtectionSecret(
 // PersistentDataBlockServiceStub dispatches incoming binder transactions
 // to a typed IPersistentDataBlockService implementation.
 type PersistentDataBlockServiceStub struct {
-	Impl IPersistentDataBlockService
+	Impl      IPersistentDataBlockService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PersistentDataBlockServiceStub)(nil)
@@ -499,14 +482,20 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPersistentDataBlockServiceWrite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_result, _err := s.Impl.Write(ctx, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -517,9 +506,6 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceRead:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Read(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -527,13 +513,9 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceWipe:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Wipe(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -543,9 +525,6 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceGetDataBlockSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDataBlockSize(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -556,9 +535,6 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceGetMaximumDataBlockSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMaximumDataBlockSize(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -569,9 +545,6 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceSetOemUnlockEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -585,9 +558,6 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceGetOemUnlockEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetOemUnlockEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -598,9 +568,6 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceGetFlashLockState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetFlashLockState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -611,9 +578,6 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceHasFrpCredentialHandle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.HasFrpCredentialHandle(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -624,9 +588,6 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceGetPersistentDataPackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPersistentDataPackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -637,9 +598,6 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceIsFactoryResetProtectionActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsFactoryResetProtectionActive(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -650,12 +608,14 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceDeactivateFactoryResetProtection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_secret []byte
-		_ = _arg_secret
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_secret = _bytes
+		}
 		_result, _err := s.Impl.DeactivateFactoryResetProtection(ctx, _arg_secret)
 		_reply := parcel.New()
 		if _err != nil {
@@ -666,12 +626,14 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceSetFactoryResetProtectionSecret:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_secret []byte
-		_ = _arg_secret
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_secret = _bytes
+		}
 		_result, _err := s.Impl.SetFactoryResetProtectionSecret(ctx, _arg_secret)
 		_reply := parcel.New()
 		if _err != nil {

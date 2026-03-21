@@ -879,14 +879,31 @@ func (p *parserState) parseAnnotation() (*Annotation, error) {
 
 			// Determine if this is key=value or a positional value.
 			// If we see an identifier followed by '=', it's key=value.
+			// We must distinguish '=' (assign) from '==' (equality).
+			// peekNextNonWS returns '=' for both, so after consuming
+			// the ident we verify the token is TokenAssign, not TokenEqEq.
 			if p.at(TokenIdent) && p.lex.peekNextNonWS() == '=' {
 				keyTok := p.advance()
-				p.advance() // consume '='
-				val, err := p.parseConstExpr()
-				if err != nil {
-					return nil, err
+				if p.at(TokenAssign) {
+					p.advance() // consume '='
+					val, err := p.parseConstExpr()
+					if err != nil {
+						return nil, err
+					}
+					a.Params[keyTok.Value] = val
+				} else {
+					// It was '==' not '=': push the ident back as
+					// part of a value expression. We already consumed
+					// the ident, so wrap it and parse the rest via
+					// the equality operator in parseConstExpr.
+					p.pushback = &p.cur
+					p.cur = keyTok
+					val, err := p.parseAnnotationValue()
+					if err != nil {
+						return nil, err
+					}
+					a.Params["value"] = val
 				}
-				a.Params[keyTok.Value] = val
 			} else {
 				// Positional value: store under "value" key.
 				val, err := p.parseAnnotationValue()
@@ -1029,7 +1046,12 @@ func (p *parserState) skipTypeParams() error {
 			depth--
 		case TokenRShift:
 			// ">>" counts as two closing angle brackets.
+			// Clamp to zero to avoid underflow when ">>" closes the
+			// last level (depth was 1 before this token).
 			depth -= 2
+			if depth < 0 {
+				depth = 0
+			}
 		}
 		p.advance()
 	}

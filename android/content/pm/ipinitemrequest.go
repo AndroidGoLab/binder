@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	appwidget "github.com/xaionaro-go/binder/android/appwidget"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -31,10 +32,10 @@ const (
 type IPinItemRequest interface {
 	AsBinder() binder.IBinder
 	IsValid(ctx context.Context) (bool, error)
-	Accept(ctx context.Context, options interface{}) (bool, error)
+	Accept(ctx context.Context, options os.Bundle) (bool, error)
 	GetShortcutInfo(ctx context.Context) (ShortcutInfo, error)
 	GetAppWidgetProviderInfo(ctx context.Context) (appwidget.AppWidgetProviderInfo, error)
-	GetExtras(ctx context.Context) (interface{}, error)
+	GetExtras(ctx context.Context) (os.Bundle, error)
 }
 
 type PinItemRequestProxy struct {
@@ -58,6 +59,7 @@ func (p *PinItemRequestProxy) IsValid(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPinItemRequest)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinItemRequest, MethodIPinItemRequestIsValid)
@@ -84,11 +86,16 @@ func (p *PinItemRequestProxy) IsValid(
 
 func (p *PinItemRequestProxy) Accept(
 	ctx context.Context,
-	options interface{},
+	options os.Bundle,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPinItemRequest)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinItemRequest, MethodIPinItemRequestAccept)
 	if _err != nil {
@@ -117,6 +124,7 @@ func (p *PinItemRequestProxy) GetShortcutInfo(
 ) (ShortcutInfo, error) {
 	var _result ShortcutInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPinItemRequest)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinItemRequest, MethodIPinItemRequestGetShortcutInfo)
@@ -151,6 +159,7 @@ func (p *PinItemRequestProxy) GetAppWidgetProviderInfo(
 ) (appwidget.AppWidgetProviderInfo, error) {
 	var _result appwidget.AppWidgetProviderInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPinItemRequest)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinItemRequest, MethodIPinItemRequestGetAppWidgetProviderInfo)
@@ -182,9 +191,10 @@ func (p *PinItemRequestProxy) GetAppWidgetProviderInfo(
 
 func (p *PinItemRequestProxy) GetExtras(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (os.Bundle, error) {
+	var _result os.Bundle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPinItemRequest)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinItemRequest, MethodIPinItemRequestGetExtras)
@@ -202,13 +212,23 @@ func (p *PinItemRequestProxy) GetExtras(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 // PinItemRequestStub dispatches incoming binder transactions
 // to a typed IPinItemRequest implementation.
 type PinItemRequestStub struct {
-	Impl IPinItemRequest
+	Impl      IPinItemRequest
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PinItemRequestStub)(nil)
@@ -222,11 +242,12 @@ func (s *PinItemRequestStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPinItemRequestIsValid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsValid(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -237,10 +258,18 @@ func (s *PinItemRequestStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPinItemRequestAccept:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_options interface{}
 		_result, _err := s.Impl.Accept(ctx, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -251,9 +280,6 @@ func (s *PinItemRequestStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPinItemRequestGetShortcutInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetShortcutInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -267,9 +293,6 @@ func (s *PinItemRequestStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPinItemRequestGetAppWidgetProviderInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAppWidgetProviderInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -283,9 +306,6 @@ func (s *PinItemRequestStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPinItemRequestGetExtras:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetExtras(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -293,7 +313,10 @@ func (s *PinItemRequestStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -305,10 +328,10 @@ func (s *PinItemRequestStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IPinItemRequestServer interface {
 	IsValid(ctx context.Context) (bool, error)
-	Accept(ctx context.Context, options interface{}) (bool, error)
+	Accept(ctx context.Context, options os.Bundle) (bool, error)
 	GetShortcutInfo(ctx context.Context) (ShortcutInfo, error)
 	GetAppWidgetProviderInfo(ctx context.Context) (appwidget.AppWidgetProviderInfo, error)
-	GetExtras(ctx context.Context) (interface{}, error)
+	GetExtras(ctx context.Context) (os.Bundle, error)
 }
 
 type pinItemRequestStubWrapper struct {
@@ -328,7 +351,7 @@ func (w *pinItemRequestStubWrapper) IsValid(
 
 func (w *pinItemRequestStubWrapper) Accept(
 	ctx context.Context,
-	options interface{},
+	options os.Bundle,
 ) (bool, error) {
 	return w.impl.Accept(ctx, options)
 }
@@ -347,7 +370,7 @@ func (w *pinItemRequestStubWrapper) GetAppWidgetProviderInfo(
 
 func (w *pinItemRequestStubWrapper) GetExtras(
 	ctx context.Context,
-) (interface{}, error) {
+) (os.Bundle, error) {
 	return w.impl.GetExtras(ctx)
 }
 

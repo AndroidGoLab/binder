@@ -3,6 +3,7 @@ package ondeviceintelligence
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,7 +25,7 @@ const (
 type IFeatureCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, result Feature) error
-	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams interface{}) error
+	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams os.PersistableBundle) error
 }
 
 type FeatureCallbackProxy struct {
@@ -48,6 +49,7 @@ func (p *FeatureCallbackProxy) OnSuccess(
 	result Feature,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureCallback)
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -76,12 +78,17 @@ func (p *FeatureCallbackProxy) OnFailure(
 	ctx context.Context,
 	errorCode int32,
 	errorMessage string,
-	errorParams interface{},
+	errorParams os.PersistableBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureCallback)
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
+	_data.WriteInt32(1)
+	if _err := errorParams.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureCallback, MethodIFeatureCallbackOnFailure)
 	if _err != nil {
@@ -104,7 +111,8 @@ func (p *FeatureCallbackProxy) OnFailure(
 // FeatureCallbackStub dispatches incoming binder transactions
 // to a typed IFeatureCallback implementation.
 type FeatureCallbackStub struct {
-	Impl IFeatureCallback
+	Impl      IFeatureCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FeatureCallbackStub)(nil)
@@ -118,11 +126,12 @@ func (s *FeatureCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFeatureCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_result Feature
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -144,9 +153,6 @@ func (s *FeatureCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFeatureCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -155,7 +161,18 @@ func (s *FeatureCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_errorParams interface{}
+		var _arg_errorParams os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_errorParams.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnFailure(ctx, _arg_errorCode, _arg_errorMessage, _arg_errorParams)
 		_reply := parcel.New()
 		if _err != nil {
@@ -174,7 +191,7 @@ func (s *FeatureCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IFeatureCallbackServer interface {
 	OnSuccess(ctx context.Context, result Feature) error
-	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams interface{}) error
+	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams os.PersistableBundle) error
 }
 
 type featureCallbackStubWrapper struct {
@@ -197,7 +214,7 @@ func (w *featureCallbackStubWrapper) OnFailure(
 	ctx context.Context,
 	errorCode int32,
 	errorMessage string,
-	errorParams interface{},
+	errorParams os.PersistableBundle,
 ) error {
 	return w.impl.OnFailure(ctx, errorCode, errorMessage, errorParams)
 }

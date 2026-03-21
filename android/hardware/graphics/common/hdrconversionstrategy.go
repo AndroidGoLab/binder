@@ -33,8 +33,7 @@ func (u *HdrConversionStrategy) GetPassthrough() (bool, bool) {
 func (u *HdrConversionStrategy) SetPassthrough(
 	v bool,
 ) {
-	u.Tag = HdrConversionStrategyTagPassthrough
-	u.Passthrough = v
+	*u = HdrConversionStrategy{Tag: HdrConversionStrategyTagPassthrough, Passthrough: v}
 }
 
 func (u *HdrConversionStrategy) GetAutoAllowedHdrTypes() ([]Hdr, bool) {
@@ -48,8 +47,7 @@ func (u *HdrConversionStrategy) GetAutoAllowedHdrTypes() ([]Hdr, bool) {
 func (u *HdrConversionStrategy) SetAutoAllowedHdrTypes(
 	v []Hdr,
 ) {
-	u.Tag = HdrConversionStrategyTagAutoAllowedHdrTypes
-	u.AutoAllowedHdrTypes = v
+	*u = HdrConversionStrategy{Tag: HdrConversionStrategyTagAutoAllowedHdrTypes, AutoAllowedHdrTypes: v}
 }
 
 func (u *HdrConversionStrategy) GetForceHdrConversion() (Hdr, bool) {
@@ -63,8 +61,7 @@ func (u *HdrConversionStrategy) GetForceHdrConversion() (Hdr, bool) {
 func (u *HdrConversionStrategy) SetForceHdrConversion(
 	v Hdr,
 ) {
-	u.Tag = HdrConversionStrategyTagForceHdrConversion
-	u.ForceHdrConversion = v
+	*u = HdrConversionStrategy{Tag: HdrConversionStrategyTagForceHdrConversion, ForceHdrConversion: v}
 }
 
 func (u *HdrConversionStrategy) MarshalParcel(

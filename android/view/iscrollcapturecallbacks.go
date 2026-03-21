@@ -51,6 +51,7 @@ func (p *ScrollCaptureCallbacksProxy) OnCaptureStarted(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureCallbacks)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScrollCaptureCallbacks, MethodIScrollCaptureCallbacksOnCaptureStarted)
@@ -68,6 +69,7 @@ func (p *ScrollCaptureCallbacksProxy) OnImageRequestCompleted(
 	capturedArea graphics.Rect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureCallbacks)
 	_data.WriteInt32(flags)
 	_data.WriteInt32(1)
@@ -88,6 +90,7 @@ func (p *ScrollCaptureCallbacksProxy) OnCaptureEnded(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureCallbacks)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScrollCaptureCallbacks, MethodIScrollCaptureCallbacksOnCaptureEnded)
@@ -102,7 +105,8 @@ func (p *ScrollCaptureCallbacksProxy) OnCaptureEnded(
 // ScrollCaptureCallbacksStub dispatches incoming binder transactions
 // to a typed IScrollCaptureCallbacks implementation.
 type ScrollCaptureCallbacksStub struct {
-	Impl IScrollCaptureCallbacks
+	Impl      IScrollCaptureCallbacks
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ScrollCaptureCallbacksStub)(nil)
@@ -116,18 +120,15 @@ func (s *ScrollCaptureCallbacksStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIScrollCaptureCallbacksOnCaptureStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnCaptureStarted(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIScrollCaptureCallbacksOnImageRequestCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -145,15 +146,10 @@ func (s *ScrollCaptureCallbacksStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnImageRequestCompleted(ctx, _arg_flags, _arg_capturedArea)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIScrollCaptureCallbacksOnCaptureEnded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnCaptureEnded(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

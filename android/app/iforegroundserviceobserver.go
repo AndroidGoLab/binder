@@ -48,6 +48,7 @@ func (p *ForegroundServiceObserverProxy) OnForegroundStateChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIForegroundServiceObserver)
 	binder.WriteBinderToParcel(ctx, _data, serviceToken, p.Remote.Transport())
 	_data.WriteString16(packageName)
@@ -66,7 +67,8 @@ func (p *ForegroundServiceObserverProxy) OnForegroundStateChanged(
 // ForegroundServiceObserverStub dispatches incoming binder transactions
 // to a typed IForegroundServiceObserver implementation.
 type ForegroundServiceObserverStub struct {
-	Impl IForegroundServiceObserver
+	Impl      IForegroundServiceObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ForegroundServiceObserverStub)(nil)
@@ -80,14 +82,20 @@ func (s *ForegroundServiceObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIForegroundServiceObserverOnForegroundStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_serviceToken binder.IBinder
-		_ = _arg_serviceToken
+		{
+			_serviceTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_serviceToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _serviceTokenHandle)
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -100,8 +108,7 @@ func (s *ForegroundServiceObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnForegroundStateChanged(ctx, _arg_serviceToken, _arg_packageName, _arg_isForeground)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

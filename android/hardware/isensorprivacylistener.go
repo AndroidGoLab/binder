@@ -50,6 +50,7 @@ func (p *SensorPrivacyListenerProxy) OnSensorPrivacyChanged(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyListener)
 	_data.WriteInt32(toggleType)
 	_data.WriteInt32(sensor)
@@ -71,6 +72,7 @@ func (p *SensorPrivacyListenerProxy) OnSensorPrivacyStateChanged(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISensorPrivacyListener)
 	_data.WriteInt32(toggleType)
 	_data.WriteInt32(sensor)
@@ -88,7 +90,8 @@ func (p *SensorPrivacyListenerProxy) OnSensorPrivacyStateChanged(
 // SensorPrivacyListenerStub dispatches incoming binder transactions
 // to a typed ISensorPrivacyListener implementation.
 type SensorPrivacyListenerStub struct {
-	Impl ISensorPrivacyListener
+	Impl      ISensorPrivacyListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SensorPrivacyListenerStub)(nil)
@@ -102,11 +105,12 @@ func (s *SensorPrivacyListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISensorPrivacyListenerOnSensorPrivacyChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_toggleType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -120,12 +124,8 @@ func (s *SensorPrivacyListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSensorPrivacyChanged(ctx, _arg_toggleType, _arg_sensor, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISensorPrivacyListenerOnSensorPrivacyStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_toggleType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -139,8 +139,7 @@ func (s *SensorPrivacyListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSensorPrivacyStateChanged(ctx, _arg_toggleType, _arg_sensor, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

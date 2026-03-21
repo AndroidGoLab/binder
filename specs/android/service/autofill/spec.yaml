@@ -1,0 +1,351 @@
+package: android.service.autofill
+go_package: android/service/autofill
+interfaces:
+    - name: IAutoFillService
+      descriptor: android.service.autofill.IAutoFillService
+      oneway: true
+      methods:
+        - name: onConnectedStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: connected
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onFillRequest
+          transaction_code_offset: 1
+          params:
+            - name: request
+              type:
+                name: FillRequest
+              direction: in
+            - name: callback
+              type:
+                name: IFillCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onFillCredentialRequest
+          transaction_code_offset: 2
+          params:
+            - name: request
+              type:
+                name: FillRequest
+              direction: in
+            - name: callback
+              type:
+                name: IFillCallback
+              direction: in
+            - name: client
+              type:
+                name: IAutoFillManagerClient
+              direction: in
+          return_type:
+            name: void
+        - name: onSaveRequest
+          transaction_code_offset: 3
+          params:
+            - name: request
+              type:
+                name: SaveRequest
+              direction: in
+            - name: callback
+              type:
+                name: ISaveCallback
+              direction: in
+          return_type:
+            name: void
+        - name: onSavedPasswordCountRequest
+          transaction_code_offset: 4
+          params:
+            - name: receiver
+              type:
+                name: IResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: onConvertCredentialRequest
+          transaction_code_offset: 5
+          params:
+            - name: convertCredentialRequest
+              type:
+                name: ConvertCredentialRequest
+              direction: in
+            - name: convertCredentialCallback
+              type:
+                name: IConvertCredentialCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IAutofillFieldClassificationService
+      descriptor: android.service.autofill.IAutofillFieldClassificationService
+      oneway: true
+      methods:
+        - name: calculateScores
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+            - name: actualValues
+              type:
+                name: List
+                type_args:
+                    - name: AutofillValue
+              direction: in
+            - name: userDataValues
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: categoryIds
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: defaultAlgorithm
+              type:
+                name: String
+              direction: in
+            - name: defaultArgs
+              type:
+                name: Bundle
+              direction: in
+            - name: algorithms
+              type:
+                name: Map
+              direction: in
+            - name: args
+              type:
+                name: Map
+              direction: in
+          return_type:
+            name: void
+    - name: IConvertCredentialCallback
+      descriptor: android.service.autofill.IConvertCredentialCallback
+      oneway: true
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: convertCredentialResponse
+              type:
+                name: ConvertCredentialResponse
+              direction: in
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 1
+          params:
+            - name: message
+              type:
+                name: CharSequence
+          return_type:
+            name: void
+    - name: IFillCallback
+      descriptor: android.service.autofill.IFillCallback
+      oneway: true
+      methods:
+        - name: onCancellable
+          transaction_code_offset: 0
+          params:
+            - name: cancellation
+              type:
+                name: ICancellationSignal
+              direction: in
+          return_type:
+            name: void
+        - name: onSuccess
+          transaction_code_offset: 1
+          params:
+            - name: response
+              type:
+                name: FillResponse
+              direction: in
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 2
+          params:
+            - name: requestId
+              type:
+                name: int
+            - name: message
+              type:
+                name: CharSequence
+          return_type:
+            name: void
+    - name: IInlineSuggestionRenderService
+      descriptor: android.service.autofill.IInlineSuggestionRenderService
+      oneway: true
+      methods:
+        - name: renderSuggestion
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: IInlineSuggestionUiCallback
+              direction: in
+            - name: presentation
+              type:
+                name: InlinePresentation
+              direction: in
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+            - name: hostInputToken
+              type:
+                name: IBinder
+              direction: in
+            - name: displayId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getInlineSuggestionsRendererInfo
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: destroySuggestionViews
+          transaction_code_offset: 2
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IInlineSuggestionUi
+      descriptor: android.service.autofill.IInlineSuggestionUi
+      oneway: true
+      methods:
+        - name: getSurfacePackage
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: ISurfacePackageResultCallback
+          return_type:
+            name: void
+        - name: releaseSurfaceControlViewHost
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: IInlineSuggestionUiCallback
+      descriptor: android.service.autofill.IInlineSuggestionUiCallback
+      oneway: true
+      methods:
+        - name: onClick
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onLongClick
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onContent
+          transaction_code_offset: 2
+          params:
+            - name: content
+              type:
+                name: IInlineSuggestionUi
+              direction: in
+            - name: surface
+              type:
+                name: SurfaceControlViewHost.SurfacePackage
+              direction: in
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: onTransferTouchFocusToImeWindow
+          transaction_code_offset: 4
+          params:
+            - name: sourceInputToken
+              type:
+                name: IBinder
+              direction: in
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onStartIntentSender
+          transaction_code_offset: 5
+          params:
+            - name: intentSender
+              type:
+                name: IntentSender
+              direction: in
+          return_type:
+            name: void
+    - name: ISaveCallback
+      descriptor: android.service.autofill.ISaveCallback
+      methods:
+        - name: onSuccess
+          transaction_code_offset: 0
+          params:
+            - name: intentSender
+              type:
+                name: IntentSender
+              direction: in
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 1
+          params:
+            - name: message
+              type:
+                name: CharSequence
+          return_type:
+            name: void
+    - name: ISurfacePackageResultCallback
+      descriptor: android.service.autofill.ISurfacePackageResultCallback
+      oneway: true
+      methods:
+        - name: onResult
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: SurfaceControlViewHost.SurfacePackage
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: ConvertCredentialRequest
+    - name: ConvertCredentialResponse
+    - name: Dataset
+    - name: FieldClassification.AlgorithmInfo
+    - name: FillEventHistory
+    - name: FillRequest
+    - name: FillResponse
+    - name: InlinePresentation
+    - name: SaveRequest
+    - name: UserData

@@ -46,6 +46,7 @@ func (p *RotationResolverServiceProxy) ResolveRotation(
 	request RotationResolutionRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRotationResolverService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -65,7 +66,8 @@ func (p *RotationResolverServiceProxy) ResolveRotation(
 // RotationResolverServiceStub dispatches incoming binder transactions
 // to a typed IRotationResolverService implementation.
 type RotationResolverServiceStub struct {
-	Impl IRotationResolverService
+	Impl      IRotationResolverService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RotationResolverServiceStub)(nil)
@@ -79,14 +81,20 @@ func (s *RotationResolverServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRotationResolverServiceResolveRotation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IRotationResolverCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRotationResolverCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_request RotationResolutionRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -100,8 +108,7 @@ func (s *RotationResolverServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.ResolveRotation(ctx, _arg_callback, _arg_request)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

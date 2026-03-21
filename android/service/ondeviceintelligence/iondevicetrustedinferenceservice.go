@@ -60,6 +60,7 @@ func (p *OnDeviceTrustedInferenceServiceProxy) RegisterRemoteStorageService(
 	storageService IRemoteStorageService,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceTrustedInferenceService)
 	binder.WriteBinderToParcel(ctx, _data, storageService.AsBinder(), p.Remote.Transport())
 
@@ -80,6 +81,7 @@ func (p *OnDeviceTrustedInferenceServiceProxy) RequestTokenCount(
 	tokenCountCallback appOndeviceintelligence.ITokenCountCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceTrustedInferenceService)
 	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
@@ -111,6 +113,7 @@ func (p *OnDeviceTrustedInferenceServiceProxy) ProcessRequest(
 	callback appOndeviceintelligence.IResponseCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceTrustedInferenceService)
 	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
@@ -144,6 +147,7 @@ func (p *OnDeviceTrustedInferenceServiceProxy) ProcessRequestStreaming(
 	callback appOndeviceintelligence.IStreamingResponseCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceTrustedInferenceService)
 	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
@@ -173,6 +177,7 @@ func (p *OnDeviceTrustedInferenceServiceProxy) UpdateProcessingState(
 	callback IProcessingUpdateStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceTrustedInferenceService)
 	_data.WriteInt32(1)
 	if _err := processingState.MarshalParcel(_data); _err != nil {
@@ -192,7 +197,8 @@ func (p *OnDeviceTrustedInferenceServiceProxy) UpdateProcessingState(
 // OnDeviceTrustedInferenceServiceStub dispatches incoming binder transactions
 // to a typed IOnDeviceTrustedInferenceService implementation.
 type OnDeviceTrustedInferenceServiceStub struct {
-	Impl IOnDeviceTrustedInferenceService
+	Impl      IOnDeviceTrustedInferenceService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OnDeviceTrustedInferenceServiceStub)(nil)
@@ -206,21 +212,23 @@ func (s *OnDeviceTrustedInferenceServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOnDeviceTrustedInferenceServiceRegisterRemoteStorageService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_storageService IRemoteStorageService
-		_ = _arg_storageService
+		{
+			_storageServiceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_storageService = NewRemoteStorageServiceProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _storageServiceHandle))
+		}
 		_err := s.Impl.RegisterRemoteStorageService(ctx, _arg_storageService)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnDeviceTrustedInferenceServiceRequestTokenCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_feature appOndeviceintelligence.Feature
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -245,19 +253,25 @@ func (s *OnDeviceTrustedInferenceServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cancellationSignal common.ICancellationSignal
-		_ = _arg_cancellationSignal
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_cancellationSignalHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cancellationSignal = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
+		}
 		var _arg_tokenCountCallback appOndeviceintelligence.ITokenCountCallback
-		_ = _arg_tokenCountCallback
+		{
+			_tokenCountCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tokenCountCallback = appOndeviceintelligence.NewTokenCountCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenCountCallbackHandle))
+		}
 		_err := s.Impl.RequestTokenCount(ctx, _arg_feature, _arg_request, _arg_cancellationSignal, _arg_tokenCountCallback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnDeviceTrustedInferenceServiceProcessRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_feature appOndeviceintelligence.Feature
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -286,22 +300,33 @@ func (s *OnDeviceTrustedInferenceServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cancellationSignal common.ICancellationSignal
-		_ = _arg_cancellationSignal
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_cancellationSignalHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cancellationSignal = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
+		}
 		var _arg_processingSignal appOndeviceintelligence.IProcessingSignal
-		_ = _arg_processingSignal
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_processingSignalHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_processingSignal = appOndeviceintelligence.NewProcessingSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _processingSignalHandle))
+		}
 		var _arg_callback appOndeviceintelligence.IResponseCallback
-		_ = _arg_callback
-		_err = s.Impl.ProcessRequest(ctx, _arg_feature, _arg_request, _arg_requestType, _arg_cancellationSignal, _arg_processingSignal, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIOnDeviceTrustedInferenceServiceProcessRequestStreaming:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = appOndeviceintelligence.NewResponseCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.ProcessRequest(ctx, _arg_feature, _arg_request, _arg_requestType, _arg_cancellationSignal, _arg_processingSignal, _arg_callback)
+		return nil, _err
+	case TransactionIOnDeviceTrustedInferenceServiceProcessRequestStreaming:
 		var _arg_feature appOndeviceintelligence.Feature
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -330,22 +355,33 @@ func (s *OnDeviceTrustedInferenceServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cancellationSignal common.ICancellationSignal
-		_ = _arg_cancellationSignal
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_processingSignal appOndeviceintelligence.IProcessingSignal
-		_ = _arg_processingSignal
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback appOndeviceintelligence.IStreamingResponseCallback
-		_ = _arg_callback
-		_err = s.Impl.ProcessRequestStreaming(ctx, _arg_feature, _arg_request, _arg_requestType, _arg_cancellationSignal, _arg_processingSignal, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIOnDeviceTrustedInferenceServiceUpdateProcessingState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_cancellationSignalHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cancellationSignal = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
 		}
+		var _arg_processingSignal appOndeviceintelligence.IProcessingSignal
+		{
+			_processingSignalHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_processingSignal = appOndeviceintelligence.NewProcessingSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _processingSignalHandle))
+		}
+		var _arg_callback appOndeviceintelligence.IStreamingResponseCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = appOndeviceintelligence.NewStreamingResponseCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
+		_err = s.Impl.ProcessRequestStreaming(ctx, _arg_feature, _arg_request, _arg_requestType, _arg_cancellationSignal, _arg_processingSignal, _arg_callback)
+		return nil, _err
+	case TransactionIOnDeviceTrustedInferenceServiceUpdateProcessingState:
 		var _arg_processingState os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -358,12 +394,16 @@ func (s *OnDeviceTrustedInferenceServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IProcessingUpdateStatusCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewProcessingUpdateStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UpdateProcessingState(ctx, _arg_processingState, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

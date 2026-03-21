@@ -49,6 +49,7 @@ func (p *AppClipsServiceProxy) CanLaunchCaptureContentActivityForNote(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppClipsService)
 	_data.WriteInt32(taskId)
 
@@ -80,6 +81,7 @@ func (p *AppClipsServiceProxy) CanLaunchCaptureContentActivityForNoteInternal(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppClipsService)
 	_data.WriteInt32(taskId)
 
@@ -108,7 +110,8 @@ func (p *AppClipsServiceProxy) CanLaunchCaptureContentActivityForNoteInternal(
 // AppClipsServiceStub dispatches incoming binder transactions
 // to a typed IAppClipsService implementation.
 type AppClipsServiceStub struct {
-	Impl IAppClipsService
+	Impl      IAppClipsService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AppClipsServiceStub)(nil)
@@ -122,11 +125,12 @@ func (s *AppClipsServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAppClipsServiceCanLaunchCaptureContentActivityForNote:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -141,9 +145,6 @@ func (s *AppClipsServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppClipsServiceCanLaunchCaptureContentActivityForNoteInternal:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

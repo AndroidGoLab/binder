@@ -67,6 +67,7 @@ func (p *OccupantAwarenessProxy) StartDetection(
 ) (OccupantAwarenessStatus, error) {
 	var _result OccupantAwarenessStatus
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwareness)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOccupantAwareness, MethodIOccupantAwarenessStartDetection)
@@ -97,6 +98,7 @@ func (p *OccupantAwarenessProxy) StopDetection(
 ) (OccupantAwarenessStatus, error) {
 	var _result OccupantAwarenessStatus
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwareness)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOccupantAwareness, MethodIOccupantAwarenessStopDetection)
@@ -128,6 +130,7 @@ func (p *OccupantAwarenessProxy) GetCapabilityForRole(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwareness)
 	_data.WriteInt32(int32(occupantRole))
 
@@ -160,6 +163,7 @@ func (p *OccupantAwarenessProxy) GetState(
 ) (OccupantAwarenessStatus, error) {
 	var _result OccupantAwarenessStatus
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwareness)
 	_data.WriteInt32(int32(occupantRole))
 	_data.WriteInt32(detectionCapability)
@@ -192,6 +196,7 @@ func (p *OccupantAwarenessProxy) SetCallback(
 	callback IOccupantAwarenessClientCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwareness)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -218,6 +223,7 @@ func (p *OccupantAwarenessProxy) GetLatestDetection(
 	detections OccupantDetections,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwareness)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOccupantAwareness, MethodIOccupantAwarenessGetLatestDetection)
@@ -234,8 +240,16 @@ func (p *OccupantAwarenessProxy) GetLatestDetection(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
-	if _err = detections.UnmarshalParcel(_reply); _err != nil {
-		return _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _nullInd != 0 {
+			if _err = detections.UnmarshalParcel(_reply); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	return nil
@@ -244,7 +258,8 @@ func (p *OccupantAwarenessProxy) GetLatestDetection(
 // OccupantAwarenessStub dispatches incoming binder transactions
 // to a typed IOccupantAwareness implementation.
 type OccupantAwarenessStub struct {
-	Impl IOccupantAwareness
+	Impl      IOccupantAwareness
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OccupantAwarenessStub)(nil)
@@ -258,11 +273,12 @@ func (s *OccupantAwarenessStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOccupantAwarenessStartDetection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.StartDetection(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -273,9 +289,6 @@ func (s *OccupantAwarenessStub) OnTransaction(
 		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionIOccupantAwarenessStopDetection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.StopDetection(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -286,9 +299,6 @@ func (s *OccupantAwarenessStub) OnTransaction(
 		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionIOccupantAwarenessGetCapabilityForRole:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_occupantRole, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -304,9 +314,6 @@ func (s *OccupantAwarenessStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIOccupantAwarenessGetState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_occupantRole, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -326,12 +333,14 @@ func (s *OccupantAwarenessStub) OnTransaction(
 		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionIOccupantAwarenessSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IOccupantAwarenessClientCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewOccupantAwarenessClientCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -341,9 +350,6 @@ func (s *OccupantAwarenessStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOccupantAwarenessGetLatestDetection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_detections OccupantDetections
 		_err := s.Impl.GetLatestDetection(ctx, _arg_detections)
 		_reply := parcel.New()
@@ -352,6 +358,10 @@ func (s *OccupantAwarenessStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _arg_detections.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

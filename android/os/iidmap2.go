@@ -74,6 +74,7 @@ func (p *Idmap2Proxy) GetIdmapPath(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
 	_data.WriteString16(overlayApkPath)
 	_data.WriteInt32(_identity.UserID)
@@ -107,6 +108,7 @@ func (p *Idmap2Proxy) RemoveIdmap(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
 	_data.WriteString16(overlayApkPath)
 	_data.WriteInt32(_identity.UserID)
@@ -144,6 +146,7 @@ func (p *Idmap2Proxy) VerifyIdmap(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
 	_data.WriteString16(targetApkPath)
 	_data.WriteString16(overlayApkPath)
@@ -185,6 +188,7 @@ func (p *Idmap2Proxy) CreateIdmap(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
 	_data.WriteString16(targetApkPath)
 	_data.WriteString16(overlayApkPath)
@@ -221,6 +225,7 @@ func (p *Idmap2Proxy) CreateFabricatedOverlay(
 ) (FabricatedOverlayInfo, error) {
 	var _result FabricatedOverlayInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
 	_data.WriteInt32(1)
 	if _err := overlay.MarshalParcel(_data); _err != nil {
@@ -260,6 +265,7 @@ func (p *Idmap2Proxy) DeleteFabricatedOverlay(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
 	_data.WriteString16(path)
 
@@ -290,6 +296,7 @@ func (p *Idmap2Proxy) AcquireFabricatedOverlayIterator(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdmap2, MethodIIdmap2AcquireFabricatedOverlayIterator)
@@ -319,6 +326,7 @@ func (p *Idmap2Proxy) ReleaseFabricatedOverlayIterator(
 	iteratorId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
 	_data.WriteInt32(iteratorId)
 
@@ -346,6 +354,7 @@ func (p *Idmap2Proxy) NextFabricatedOverlayInfos(
 ) ([]FabricatedOverlayInfo, error) {
 	var _result []FabricatedOverlayInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
 	_data.WriteInt32(iteratorId)
 
@@ -368,6 +377,9 @@ func (p *Idmap2Proxy) NextFabricatedOverlayInfos(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]FabricatedOverlayInfo, _count)
@@ -389,6 +401,7 @@ func (p *Idmap2Proxy) DumpIdmap(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
 	_data.WriteString16(overlayApkPath)
 
@@ -417,7 +430,8 @@ func (p *Idmap2Proxy) DumpIdmap(
 // Idmap2Stub dispatches incoming binder transactions
 // to a typed IIdmap2 implementation.
 type Idmap2Stub struct {
-	Impl IIdmap2
+	Impl      IIdmap2
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*Idmap2Stub)(nil)
@@ -431,11 +445,12 @@ func (s *Idmap2Stub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIIdmap2GetIdmapPath:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_overlayApkPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -453,9 +468,6 @@ func (s *Idmap2Stub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIIdmap2RemoveIdmap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_overlayApkPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -473,9 +485,6 @@ func (s *Idmap2Stub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIIdmap2VerifyIdmap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_targetApkPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -509,9 +518,6 @@ func (s *Idmap2Stub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIIdmap2CreateIdmap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_targetApkPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -545,9 +551,6 @@ func (s *Idmap2Stub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIIdmap2CreateFabricatedOverlay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_overlay FabricatedOverlayInternal
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -573,9 +576,6 @@ func (s *Idmap2Stub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIIdmap2DeleteFabricatedOverlay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -590,9 +590,6 @@ func (s *Idmap2Stub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIIdmap2AcquireFabricatedOverlayIterator:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.AcquireFabricatedOverlayIterator(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -603,9 +600,6 @@ func (s *Idmap2Stub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIdmap2ReleaseFabricatedOverlayIterator:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iteratorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -619,9 +613,6 @@ func (s *Idmap2Stub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIdmap2NextFabricatedOverlayInfos:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iteratorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -633,13 +624,19 @@ func (s *Idmap2Stub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIIdmap2DumpIdmap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_overlayApkPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

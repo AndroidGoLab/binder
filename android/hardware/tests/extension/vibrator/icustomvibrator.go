@@ -56,6 +56,7 @@ func (p *CustomVibratorProxy) GetVendorCapabilities(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICustomVibrator)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICustomVibrator, MethodICustomVibratorGetVendorCapabilities)
@@ -85,6 +86,7 @@ func (p *CustomVibratorProxy) SetDirectionality(
 	directionality Directionality,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICustomVibrator)
 	_data.WriteInt32(int32(directionality))
 
@@ -113,6 +115,7 @@ func (p *CustomVibratorProxy) Perform(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICustomVibrator)
 	_data.WriteInt32(int32(effect))
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -142,7 +145,8 @@ func (p *CustomVibratorProxy) Perform(
 // CustomVibratorStub dispatches incoming binder transactions
 // to a typed ICustomVibrator implementation.
 type CustomVibratorStub struct {
-	Impl ICustomVibrator
+	Impl      ICustomVibrator
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CustomVibratorStub)(nil)
@@ -156,11 +160,12 @@ func (s *CustomVibratorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICustomVibratorGetVendorCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVendorCapabilities(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -171,9 +176,6 @@ func (s *CustomVibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICustomVibratorSetDirectionality:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_directionality, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -188,17 +190,19 @@ func (s *CustomVibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICustomVibratorPerform:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_effect, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_effect := VendorEffect(_raw_effect)
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback hardwareVibrator.IVibratorCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = hardwareVibrator.NewVibratorCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.Perform(ctx, _arg_effect, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

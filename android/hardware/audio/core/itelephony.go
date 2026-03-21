@@ -3,7 +3,6 @@ package core
 import (
 	"context"
 	"fmt"
-	coreITelephony "github.com/xaionaro-go/binder/android/hardware/audio/core/ITelephony"
 	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -29,7 +28,7 @@ type ITelephony interface {
 	AsBinder() binder.IBinder
 	GetSupportedAudioModes(ctx context.Context) ([]common.AudioMode, error)
 	SwitchAudioMode(ctx context.Context, mode common.AudioMode) error
-	SetTelecomConfig(ctx context.Context, config coreITelephony.TelecomConfig) (coreITelephony.TelecomConfig, error)
+	SetTelecomConfig(ctx context.Context, config ITelephonyTelecomConfig) (ITelephonyTelecomConfig, error)
 }
 
 type TelephonyProxy struct {
@@ -53,6 +52,7 @@ func (p *TelephonyProxy) GetSupportedAudioModes(
 ) ([]common.AudioMode, error) {
 	var _result []common.AudioMode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetSupportedAudioModes)
@@ -74,6 +74,9 @@ func (p *TelephonyProxy) GetSupportedAudioModes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]common.AudioMode, _count)
@@ -93,6 +96,7 @@ func (p *TelephonyProxy) SwitchAudioMode(
 	mode common.AudioMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(int32(mode))
 
@@ -116,10 +120,11 @@ func (p *TelephonyProxy) SwitchAudioMode(
 
 func (p *TelephonyProxy) SetTelecomConfig(
 	ctx context.Context,
-	config coreITelephony.TelecomConfig,
-) (coreITelephony.TelecomConfig, error) {
-	var _result coreITelephony.TelecomConfig
+	config ITelephonyTelecomConfig,
+) (ITelephonyTelecomConfig, error) {
+	var _result ITelephonyTelecomConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -156,7 +161,8 @@ func (p *TelephonyProxy) SetTelecomConfig(
 // TelephonyStub dispatches incoming binder transactions
 // to a typed ITelephony implementation.
 type TelephonyStub struct {
-	Impl ITelephony
+	Impl      ITelephony
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TelephonyStub)(nil)
@@ -170,11 +176,12 @@ func (s *TelephonyStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITelephonyGetSupportedAudioModes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedAudioModes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -182,13 +189,16 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionITelephonySwitchAudioMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -203,10 +213,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetTelecomConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_config coreITelephony.TelecomConfig
+		var _arg_config ITelephonyTelecomConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -241,7 +248,7 @@ func (s *TelephonyStub) OnTransaction(
 type ITelephonyServer interface {
 	GetSupportedAudioModes(ctx context.Context) ([]common.AudioMode, error)
 	SwitchAudioMode(ctx context.Context, mode common.AudioMode) error
-	SetTelecomConfig(ctx context.Context, config coreITelephony.TelecomConfig) (coreITelephony.TelecomConfig, error)
+	SetTelecomConfig(ctx context.Context, config ITelephonyTelecomConfig) (ITelephonyTelecomConfig, error)
 }
 
 type telephonyStubWrapper struct {
@@ -268,8 +275,8 @@ func (w *telephonyStubWrapper) SwitchAudioMode(
 
 func (w *telephonyStubWrapper) SetTelecomConfig(
 	ctx context.Context,
-	config coreITelephony.TelecomConfig,
-) (coreITelephony.TelecomConfig, error) {
+	config ITelephonyTelecomConfig,
+) (ITelephonyTelecomConfig, error) {
 	return w.impl.SetTelecomConfig(ctx, config)
 }
 

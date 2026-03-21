@@ -77,6 +77,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceTransitionCb(
 	timestampMillis int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofenceCallback)
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(1)
@@ -110,6 +111,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceStatusCb(
 	lastLocation GnssLocation,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofenceCallback)
 	_data.WriteInt32(availability)
 	_data.WriteInt32(1)
@@ -141,6 +143,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceAddCb(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofenceCallback)
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(status)
@@ -169,6 +172,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceRemoveCb(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofenceCallback)
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(status)
@@ -197,6 +201,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofencePauseCb(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofenceCallback)
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(status)
@@ -225,6 +230,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceResumeCb(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofenceCallback)
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(status)
@@ -250,7 +256,8 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceResumeCb(
 // GnssGeofenceCallbackStub dispatches incoming binder transactions
 // to a typed IGnssGeofenceCallback implementation.
 type GnssGeofenceCallbackStub struct {
-	Impl IGnssGeofenceCallback
+	Impl      IGnssGeofenceCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssGeofenceCallbackStub)(nil)
@@ -264,11 +271,12 @@ func (s *GnssGeofenceCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssGeofenceCallbackGnssGeofenceTransitionCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -302,9 +310,6 @@ func (s *GnssGeofenceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGeofenceCallbackGnssGeofenceStatusCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_availability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -330,9 +335,6 @@ func (s *GnssGeofenceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGeofenceCallbackGnssGeofenceAddCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -350,9 +352,6 @@ func (s *GnssGeofenceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGeofenceCallbackGnssGeofenceRemoveCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -370,9 +369,6 @@ func (s *GnssGeofenceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGeofenceCallbackGnssGeofencePauseCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -390,9 +386,6 @@ func (s *GnssGeofenceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGeofenceCallbackGnssGeofenceResumeCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

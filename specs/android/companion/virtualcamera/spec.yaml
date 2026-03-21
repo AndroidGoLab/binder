@@ -1,0 +1,150 @@
+package: android.companion.virtualcamera
+go_package: android/companion/virtualcamera
+interfaces:
+    - name: IVirtualCameraCallback
+      descriptor: android.companion.virtualcamera.IVirtualCameraCallback
+      oneway: true
+      methods:
+        - name: onStreamConfigured
+          transaction_code_offset: 0
+          params:
+            - name: streamId
+              type:
+                name: int
+            - name: surface
+              type:
+                name: Surface
+              direction: in
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+            - name: pixelFormat
+              type:
+                name: Format
+              direction: in
+          return_type:
+            name: void
+        - name: onProcessCaptureRequest
+          transaction_code_offset: 1
+          params:
+            - name: streamId
+              type:
+                name: int
+            - name: frameId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onStreamClosed
+          transaction_code_offset: 2
+          params:
+            - name: streamId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IVirtualCameraService
+      descriptor: android.companion.virtualcamera.IVirtualCameraService
+      methods:
+        - name: registerCamera
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: configuration
+              type:
+                name: VirtualCameraConfiguration
+              direction: in
+          return_type:
+            name: boolean
+        - name: unregisterCamera
+          transaction_code_offset: 1
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: getCameraId
+          transaction_code_offset: 2
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: int
+parcelables:
+    - name: SupportedStreamConfiguration
+      fields:
+        - name: width
+          type:
+            name: int
+        - name: height
+          type:
+            name: int
+        - name: pixelFormat
+          type:
+            name: Format
+          default_value: Format.UNKNOWN
+        - name: maxFps
+          type:
+            name: int
+    - name: VirtualCameraConfiguration
+      fields:
+        - name: supportedStreamConfigs
+          type:
+            name: SupportedStreamConfiguration
+            is_array: true
+        - name: virtualCameraCallback
+          type:
+            name: IVirtualCameraCallback
+        - name: sensorOrientation
+          type:
+            name: SensorOrientation
+          default_value: SensorOrientation.ORIENTATION_0
+        - name: lensFacing
+          type:
+            name: LensFacing
+enums:
+    - name: Format
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: RGBA_8888
+          value: "1"
+        - name: YUV_420_888
+          value: "0x23"
+      annotations:
+        - Backing
+    - name: LensFacing
+      backing_type: int
+      values:
+        - name: FRONT
+          value: "0"
+        - name: BACK
+          value: "1"
+        - name: EXTERNAL
+          value: "2"
+      annotations:
+        - Backing
+    - name: SensorOrientation
+      backing_type: int
+      values:
+        - name: ORIENTATION_0
+          value: "0"
+        - name: ORIENTATION_90
+          value: "90"
+        - name: ORIENTATION_180
+          value: "180"
+        - name: ORIENTATION_270
+          value: "270"
+      annotations:
+        - Backing

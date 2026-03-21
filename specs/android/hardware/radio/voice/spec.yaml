@@ -1,0 +1,2093 @@
+package: android.hardware.radio.voice
+go_package: android/hardware/radio/voice
+interfaces:
+    - name: IRadioVoice
+      descriptor: android.hardware.radio.voice.IRadioVoice
+      oneway: true
+      methods:
+        - name: acceptCall
+          transaction_code_offset: 0
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: cancelPendingUssd
+          transaction_code_offset: 1
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: conference
+          transaction_code_offset: 2
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: dial
+          transaction_code_offset: 3
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: dialInfo
+              type:
+                name: Dial
+              direction: in
+          return_type:
+            name: void
+        - name: emergencyDial
+          transaction_code_offset: 4
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: dialInfo
+              type:
+                name: Dial
+              direction: in
+            - name: categories
+              type:
+                name: int
+              direction: in
+            - name: urns
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: routing
+              type:
+                name: EmergencyCallRouting
+              direction: in
+            - name: hasKnownUserIntentEmergency
+              type:
+                name: boolean
+              direction: in
+            - name: isTesting
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: exitEmergencyCallbackMode
+          transaction_code_offset: 5
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: explicitCallTransfer
+          transaction_code_offset: 6
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getCallForwardStatus
+          transaction_code_offset: 7
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: callInfo
+              type:
+                name: CallForwardInfo
+              direction: in
+          return_type:
+            name: void
+        - name: getCallWaiting
+          transaction_code_offset: 8
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: serviceClass
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getClip
+          transaction_code_offset: 9
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getClir
+          transaction_code_offset: 10
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getCurrentCalls
+          transaction_code_offset: 11
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getLastCallFailCause
+          transaction_code_offset: 12
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getMute
+          transaction_code_offset: 13
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getPreferredVoicePrivacy
+          transaction_code_offset: 14
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getTtyMode
+          transaction_code_offset: 15
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: handleStkCallSetupRequestFromSim
+          transaction_code_offset: 16
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: accept
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: hangup
+          transaction_code_offset: 17
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: gsmIndex
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: hangupForegroundResumeBackground
+          transaction_code_offset: 18
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: hangupWaitingOrBackground
+          transaction_code_offset: 19
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: isVoNrEnabled
+          transaction_code_offset: 20
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: rejectCall
+          transaction_code_offset: 21
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: responseAcknowledgement
+          transaction_code_offset: 22
+          return_type:
+            name: void
+        - name: sendBurstDtmf
+          transaction_code_offset: 23
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: dtmf
+              type:
+                name: String
+              direction: in
+            - name: "on"
+              type:
+                name: int
+              direction: in
+            - name: "off"
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: sendCdmaFeatureCode
+          transaction_code_offset: 24
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: featureCode
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: sendDtmf
+          transaction_code_offset: 25
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: s
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: sendUssd
+          transaction_code_offset: 26
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: ussd
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: separateConnection
+          transaction_code_offset: 27
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: gsmIndex
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setCallForward
+          transaction_code_offset: 28
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: callInfo
+              type:
+                name: CallForwardInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setCallWaiting
+          transaction_code_offset: 29
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+            - name: serviceClass
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setClir
+          transaction_code_offset: 30
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setMute
+          transaction_code_offset: 31
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setPreferredVoicePrivacy
+          transaction_code_offset: 32
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setResponseFunctions
+          transaction_code_offset: 33
+          params:
+            - name: radioVoiceResponse
+              type:
+                name: IRadioVoiceResponse
+              direction: in
+            - name: radioVoiceIndication
+              type:
+                name: IRadioVoiceIndication
+              direction: in
+          return_type:
+            name: void
+        - name: setTtyMode
+          transaction_code_offset: 34
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: mode
+              type:
+                name: TtyMode
+              direction: in
+          return_type:
+            name: void
+        - name: setVoNrEnabled
+          transaction_code_offset: 35
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: startDtmf
+          transaction_code_offset: 36
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+            - name: s
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: stopDtmf
+          transaction_code_offset: 37
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: switchWaitingOrHoldingAndActive
+          transaction_code_offset: 38
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IRadioVoiceIndication
+      descriptor: android.hardware.radio.voice.IRadioVoiceIndication
+      oneway: true
+      methods:
+        - name: callRing
+          transaction_code_offset: 0
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: isGsm
+              type:
+                name: boolean
+              direction: in
+            - name: record
+              type:
+                name: CdmaSignalInfoRecord
+              direction: in
+          return_type:
+            name: void
+        - name: callStateChanged
+          transaction_code_offset: 1
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+          return_type:
+            name: void
+        - name: cdmaCallWaiting
+          transaction_code_offset: 2
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: callWaitingRecord
+              type:
+                name: CdmaCallWaiting
+              direction: in
+          return_type:
+            name: void
+        - name: cdmaInfoRec
+          transaction_code_offset: 3
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: records
+              type:
+                name: CdmaInformationRecord
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: cdmaOtaProvisionStatus
+          transaction_code_offset: 4
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: status
+              type:
+                name: CdmaOtaProvisionStatus
+              direction: in
+          return_type:
+            name: void
+        - name: currentEmergencyNumberList
+          transaction_code_offset: 5
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: emergencyNumberList
+              type:
+                name: EmergencyNumber
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: enterEmergencyCallbackMode
+          transaction_code_offset: 6
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+          return_type:
+            name: void
+        - name: exitEmergencyCallbackMode
+          transaction_code_offset: 7
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+          return_type:
+            name: void
+        - name: indicateRingbackTone
+          transaction_code_offset: 8
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: start
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: onSupplementaryServiceIndication
+          transaction_code_offset: 9
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: ss
+              type:
+                name: StkCcUnsolSsResult
+              direction: in
+          return_type:
+            name: void
+        - name: onUssd
+          transaction_code_offset: 10
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: modeType
+              type:
+                name: UssdModeType
+              direction: in
+            - name: msg
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: resendIncallMute
+          transaction_code_offset: 11
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+          return_type:
+            name: void
+        - name: srvccStateNotify
+          transaction_code_offset: 12
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: state
+              type:
+                name: SrvccState
+              direction: in
+          return_type:
+            name: void
+        - name: stkCallControlAlphaNotify
+          transaction_code_offset: 13
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: alpha
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: stkCallSetup
+          transaction_code_offset: 14
+          params:
+            - name: type
+              type:
+                name: RadioIndicationType
+              direction: in
+            - name: timeout
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: void
+    - name: IRadioVoiceResponse
+      descriptor: android.hardware.radio.voice.IRadioVoiceResponse
+      oneway: true
+      methods:
+        - name: acceptCallResponse
+          transaction_code_offset: 0
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: acknowledgeRequest
+          transaction_code_offset: 1
+          params:
+            - name: serial
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: cancelPendingUssdResponse
+          transaction_code_offset: 2
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: conferenceResponse
+          transaction_code_offset: 3
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: dialResponse
+          transaction_code_offset: 4
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: emergencyDialResponse
+          transaction_code_offset: 5
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: exitEmergencyCallbackModeResponse
+          transaction_code_offset: 6
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: explicitCallTransferResponse
+          transaction_code_offset: 7
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: getCallForwardStatusResponse
+          transaction_code_offset: 8
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: callForwardInfos
+              type:
+                name: CallForwardInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getCallWaitingResponse
+          transaction_code_offset: 9
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+            - name: serviceClass
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getClipResponse
+          transaction_code_offset: 10
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: status
+              type:
+                name: ClipStatus
+              direction: in
+          return_type:
+            name: void
+        - name: getClirResponse
+          transaction_code_offset: 11
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: "n"
+              type:
+                name: int
+              direction: in
+            - name: m
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: getCurrentCallsResponse
+          transaction_code_offset: 12
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: calls
+              type:
+                name: Call
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getLastCallFailCauseResponse
+          transaction_code_offset: 13
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: failCauseinfo
+              type:
+                name: LastCallFailCauseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: getMuteResponse
+          transaction_code_offset: 14
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: getPreferredVoicePrivacyResponse
+          transaction_code_offset: 15
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: getTtyModeResponse
+          transaction_code_offset: 16
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: mode
+              type:
+                name: TtyMode
+              direction: in
+          return_type:
+            name: void
+        - name: handleStkCallSetupRequestFromSimResponse
+          transaction_code_offset: 17
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: hangupConnectionResponse
+          transaction_code_offset: 18
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: hangupForegroundResumeBackgroundResponse
+          transaction_code_offset: 19
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: hangupWaitingOrBackgroundResponse
+          transaction_code_offset: 20
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: isVoNrEnabledResponse
+          transaction_code_offset: 21
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: rejectCallResponse
+          transaction_code_offset: 22
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: sendBurstDtmfResponse
+          transaction_code_offset: 23
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: sendCdmaFeatureCodeResponse
+          transaction_code_offset: 24
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: sendDtmfResponse
+          transaction_code_offset: 25
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: sendUssdResponse
+          transaction_code_offset: 26
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: separateConnectionResponse
+          transaction_code_offset: 27
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setCallForwardResponse
+          transaction_code_offset: 28
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setCallWaitingResponse
+          transaction_code_offset: 29
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setClirResponse
+          transaction_code_offset: 30
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setMuteResponse
+          transaction_code_offset: 31
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setPreferredVoicePrivacyResponse
+          transaction_code_offset: 32
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setTtyModeResponse
+          transaction_code_offset: 33
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: setVoNrEnabledResponse
+          transaction_code_offset: 34
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: startDtmfResponse
+          transaction_code_offset: 35
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: stopDtmfResponse
+          transaction_code_offset: 36
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+        - name: switchWaitingOrHoldingAndActiveResponse
+          transaction_code_offset: 37
+          params:
+            - name: info
+              type:
+                name: RadioResponseInfo
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: Call
+      fields:
+        - name: state
+          type:
+            name: int
+        - name: index
+          type:
+            name: int
+        - name: toa
+          type:
+            name: int
+        - name: isMpty
+          type:
+            name: boolean
+        - name: isMT
+          type:
+            name: boolean
+        - name: als
+          type:
+            name: byte
+        - name: isVoice
+          type:
+            name: boolean
+        - name: isVoicePrivacy
+          type:
+            name: boolean
+        - name: number
+          type:
+            name: String
+        - name: numberPresentation
+          type:
+            name: int
+        - name: name
+          type:
+            name: String
+        - name: namePresentation
+          type:
+            name: int
+        - name: uusInfo
+          type:
+            name: UusInfo
+            is_array: true
+        - name: audioQuality
+          type:
+            name: AudioQuality
+        - name: forwardedNumber
+          type:
+            name: String
+      constants:
+        - name: PRESENTATION_ALLOWED
+          type: int
+          value: "0"
+        - name: PRESENTATION_RESTRICTED
+          type: int
+          value: "1"
+        - name: PRESENTATION_UNKNOWN
+          type: int
+          value: "2"
+        - name: PRESENTATION_PAYPHONE
+          type: int
+          value: "3"
+        - name: STATE_ACTIVE
+          type: int
+          value: "0"
+        - name: STATE_HOLDING
+          type: int
+          value: "1"
+        - name: STATE_DIALING
+          type: int
+          value: "2"
+        - name: STATE_ALERTING
+          type: int
+          value: "3"
+        - name: STATE_INCOMING
+          type: int
+          value: "4"
+        - name: STATE_WAITING
+          type: int
+          value: "5"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CallForwardInfo
+      fields:
+        - name: status
+          type:
+            name: int
+        - name: reason
+          type:
+            name: int
+        - name: serviceClass
+          type:
+            name: int
+        - name: toa
+          type:
+            name: int
+        - name: number
+          type:
+            name: String
+        - name: timeSeconds
+          type:
+            name: int
+      constants:
+        - name: STATUS_DISABLE
+          type: int
+          value: "0"
+        - name: STATUS_ENABLE
+          type: int
+          value: "1"
+        - name: STATUS_INTERROGATE
+          type: int
+          value: "2"
+        - name: STATUS_REGISTRATION
+          type: int
+          value: "3"
+        - name: STATUS_ERASURE
+          type: int
+          value: "4"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CdmaCallWaiting
+      fields:
+        - name: number
+          type:
+            name: String
+        - name: numberPresentation
+          type:
+            name: int
+        - name: name
+          type:
+            name: String
+        - name: signalInfoRecord
+          type:
+            name: CdmaSignalInfoRecord
+        - name: numberType
+          type:
+            name: int
+        - name: numberPlan
+          type:
+            name: int
+      constants:
+        - name: NUMBER_PLAN_UNKNOWN
+          type: int
+          value: "0"
+        - name: NUMBER_PLAN_ISDN
+          type: int
+          value: "1"
+        - name: NUMBER_PLAN_DATA
+          type: int
+          value: "3"
+        - name: NUMBER_PLAN_TELEX
+          type: int
+          value: "4"
+        - name: NUMBER_PLAN_NATIONAL
+          type: int
+          value: "8"
+        - name: NUMBER_PLAN_PRIVATE
+          type: int
+          value: "9"
+        - name: NUMBER_PRESENTATION_ALLOWED
+          type: int
+          value: "0"
+        - name: NUMBER_PRESENTATION_RESTRICTED
+          type: int
+          value: "1"
+        - name: NUMBER_PRESENTATION_UNKNOWN
+          type: int
+          value: "2"
+        - name: NUMBER_TYPE_UNKNOWN
+          type: int
+          value: "0"
+        - name: NUMBER_TYPE_INTERNATIONAL
+          type: int
+          value: "1"
+        - name: NUMBER_TYPE_NATIONAL
+          type: int
+          value: "2"
+        - name: NUMBER_TYPE_NETWORK_SPECIFIC
+          type: int
+          value: "3"
+        - name: NUMBER_TYPE_SUBSCRIBER
+          type: int
+          value: "4"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CdmaDisplayInfoRecord
+      fields:
+        - name: alphaBuf
+          type:
+            name: String
+      constants:
+        - name: CDMA_ALPHA_INFO_BUFFER_LENGTH
+          type: int
+          value: "64"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CdmaInformationRecord
+      fields:
+        - name: name
+          type:
+            name: int
+        - name: display
+          type:
+            name: CdmaDisplayInfoRecord
+            is_array: true
+        - name: number
+          type:
+            name: CdmaNumberInfoRecord
+            is_array: true
+        - name: signal
+          type:
+            name: CdmaSignalInfoRecord
+            is_array: true
+        - name: redir
+          type:
+            name: CdmaRedirectingNumberInfoRecord
+            is_array: true
+        - name: lineCtrl
+          type:
+            name: CdmaLineControlInfoRecord
+            is_array: true
+        - name: clir
+          type:
+            name: CdmaT53ClirInfoRecord
+            is_array: true
+        - name: audioCtrl
+          type:
+            name: CdmaT53AudioControlInfoRecord
+            is_array: true
+      constants:
+        - name: CDMA_MAX_NUMBER_OF_INFO_RECS
+          type: int
+          value: "10"
+        - name: NAME_DISPLAY
+          type: int
+          value: "0"
+        - name: NAME_CALLED_PARTY_NUMBER
+          type: int
+          value: "1"
+        - name: NAME_CALLING_PARTY_NUMBER
+          type: int
+          value: "2"
+        - name: NAME_CONNECTED_NUMBER
+          type: int
+          value: "3"
+        - name: NAME_SIGNAL
+          type: int
+          value: "4"
+        - name: NAME_REDIRECTING_NUMBER
+          type: int
+          value: "5"
+        - name: NAME_LINE_CONTROL
+          type: int
+          value: "6"
+        - name: NAME_EXTENDED_DISPLAY
+          type: int
+          value: "7"
+        - name: NAME_T53_CLIR
+          type: int
+          value: "8"
+        - name: NAME_T53_RELEASE
+          type: int
+          value: "9"
+        - name: NAME_T53_AUDIO_CONTROL
+          type: int
+          value: "10"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CdmaLineControlInfoRecord
+      fields:
+        - name: lineCtrlPolarityIncluded
+          type:
+            name: byte
+        - name: lineCtrlToggle
+          type:
+            name: byte
+        - name: lineCtrlReverse
+          type:
+            name: byte
+        - name: lineCtrlPowerDenial
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CdmaNumberInfoRecord
+      fields:
+        - name: number
+          type:
+            name: String
+        - name: numberType
+          type:
+            name: byte
+        - name: numberPlan
+          type:
+            name: byte
+        - name: pi
+          type:
+            name: byte
+        - name: si
+          type:
+            name: byte
+      constants:
+        - name: CDMA_NUMBER_INFO_BUFFER_LENGTH
+          type: int
+          value: "81"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CdmaRedirectingNumberInfoRecord
+      fields:
+        - name: redirectingNumber
+          type:
+            name: CdmaNumberInfoRecord
+        - name: redirectingReason
+          type:
+            name: int
+      constants:
+        - name: REDIRECTING_REASON_UNKNOWN
+          type: int
+          value: "0"
+        - name: REDIRECTING_REASON_CALL_FORWARDING_BUSY
+          type: int
+          value: "1"
+        - name: REDIRECTING_REASON_CALL_FORWARDING_NO_REPLY
+          type: int
+          value: "2"
+        - name: REDIRECTING_REASON_CALLED_DTE_OUT_OF_ORDER
+          type: int
+          value: "9"
+        - name: REDIRECTING_REASON_CALL_FORWARDING_BY_THE_CALLED_DTE
+          type: int
+          value: "10"
+        - name: REDIRECTING_REASON_CALL_FORWARDING_UNCONDITIONAL
+          type: int
+          value: "15"
+        - name: REDIRECTING_REASON_RESERVED
+          type: int
+          value: "16"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CdmaSignalInfoRecord
+      fields:
+        - name: isPresent
+          type:
+            name: boolean
+        - name: signalType
+          type:
+            name: byte
+        - name: alertPitch
+          type:
+            name: byte
+        - name: signal
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CdmaT53AudioControlInfoRecord
+      fields:
+        - name: upLink
+          type:
+            name: byte
+        - name: downLink
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CdmaT53ClirInfoRecord
+      fields:
+        - name: cause
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CfData
+      fields:
+        - name: cfInfo
+          type:
+            name: CallForwardInfo
+            is_array: true
+      constants:
+        - name: NUM_SERVICE_CLASSES
+          type: int
+          value: "7"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: Dial
+      fields:
+        - name: address
+          type:
+            name: String
+        - name: clir
+          type:
+            name: int
+        - name: uusInfo
+          type:
+            name: UusInfo
+            is_array: true
+      constants:
+        - name: CLIR_DEFAULT
+          type: int
+          value: "0"
+        - name: CLIR_INVOCATION
+          type: int
+          value: "1"
+        - name: CLIR_SUPPRESSION
+          type: int
+          value: "2"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: EmergencyNumber
+      fields:
+        - name: number
+          type:
+            name: String
+        - name: mcc
+          type:
+            name: String
+        - name: mnc
+          type:
+            name: String
+        - name: categories
+          type:
+            name: int
+        - name: urns
+          type:
+            name: String
+            is_array: true
+        - name: sources
+          type:
+            name: int
+      constants:
+        - name: SOURCE_NETWORK_SIGNALING
+          type: int
+          value: 1 << 0
+        - name: SOURCE_SIM
+          type: int
+          value: 1 << 1
+        - name: SOURCE_MODEM_CONFIG
+          type: int
+          value: 1 << 2
+        - name: SOURCE_DEFAULT
+          type: int
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: LastCallFailCauseInfo
+      fields:
+        - name: causeCode
+          type:
+            name: LastCallFailCause
+        - name: vendorCause
+          type:
+            name: String
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: SsInfoData
+      fields:
+        - name: ssInfo
+          type:
+            name: int
+            is_array: true
+      constants:
+        - name: SS_INFO_MAX
+          type: int
+          value: "4"
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: StkCcUnsolSsResult
+      fields:
+        - name: serviceType
+          type:
+            name: int
+        - name: requestType
+          type:
+            name: int
+        - name: teleserviceType
+          type:
+            name: int
+        - name: serviceClass
+          type:
+            name: int
+        - name: result
+          type:
+            name: RadioError
+        - name: ssInfo
+          type:
+            name: SsInfoData
+            is_array: true
+        - name: cfData
+          type:
+            name: CfData
+            is_array: true
+      constants:
+        - name: REQUEST_TYPE_ACTIVATION
+          type: int
+          value: "0"
+        - name: REQUEST_TYPE_DEACTIVATION
+          type: int
+          value: "1"
+        - name: REQUEST_TYPE_INTERROGATION
+          type: int
+          value: "2"
+        - name: REQUEST_TYPE_REGISTRATION
+          type: int
+          value: "3"
+        - name: REQUEST_TYPE_ERASURE
+          type: int
+          value: "4"
+        - name: SERVICE_TYPE_CFU
+          type: int
+          value: "0"
+        - name: SERVICE_TYPE_CF_BUSY
+          type: int
+          value: "1"
+        - name: SERVICE_TYPE_CF_NO_REPLY
+          type: int
+          value: "2"
+        - name: SERVICE_TYPE_CF_NOT_REACHABLE
+          type: int
+          value: "3"
+        - name: SERVICE_TYPE_CF_ALL
+          type: int
+          value: "4"
+        - name: SERVICE_TYPE_CF_ALL_CONDITIONAL
+          type: int
+          value: "5"
+        - name: SERVICE_TYPE_CLIP
+          type: int
+          value: "6"
+        - name: SERVICE_TYPE_CLIR
+          type: int
+          value: "7"
+        - name: SERVICE_TYPE_COLP
+          type: int
+          value: "8"
+        - name: SERVICE_TYPE_COLR
+          type: int
+          value: "9"
+        - name: SERVICE_TYPE_WAIT
+          type: int
+          value: "10"
+        - name: SERVICE_TYPE_BAOC
+          type: int
+          value: "11"
+        - name: SERVICE_TYPE_BAOIC
+          type: int
+          value: "12"
+        - name: SERVICE_TYPE_BAOIC_EXC_HOME
+          type: int
+          value: "13"
+        - name: SERVICE_TYPE_BAIC
+          type: int
+          value: "14"
+        - name: SERVICE_TYPE_BAIC_ROAMING
+          type: int
+          value: "15"
+        - name: SERVICE_TYPE_ALL_BARRING
+          type: int
+          value: "16"
+        - name: SERVICE_TYPE_OUTGOING_BARRING
+          type: int
+          value: "17"
+        - name: SERVICE_TYPE_INCOMING_BARRING
+          type: int
+          value: "18"
+        - name: TELESERVICE_TYPE_ALL_TELE_AND_BEARER_SERVICES
+          type: int
+          value: "0"
+        - name: TELESERVICE_TYPE_ALL_TELESEVICES
+          type: int
+          value: "1"
+        - name: TELESERVICE_TYPE_TELEPHONY
+          type: int
+          value: "2"
+        - name: TELESERVICE_TYPE_ALL_DATA_TELESERVICES
+          type: int
+          value: "3"
+        - name: TELESERVICE_TYPE_SMS_SERVICES
+          type: int
+          value: "4"
+        - name: TELESERVICE_TYPE_ALL_TELESERVICES_EXCEPT_SMS
+          type: int
+          value: "5"
+        - name: SUPP_SERVICE_CLASS_NONE
+          type: int
+          value: "0"
+        - name: SUPP_SERVICE_CLASS_VOICE
+          type: int
+          value: 1 << 0
+        - name: SUPP_SERVICE_CLASS_DATA
+          type: int
+          value: 1 << 1
+        - name: SUPP_SERVICE_CLASS_FAX
+          type: int
+          value: 1 << 2
+        - name: SUPP_SERVICE_CLASS_SMS
+          type: int
+          value: 1 << 3
+        - name: SUPP_SERVICE_CLASS_DATA_SYNC
+          type: int
+          value: 1 << 4
+        - name: SUPP_SERVICE_CLASS_DATA_ASYNC
+          type: int
+          value: 1 << 5
+        - name: SUPP_SERVICE_CLASS_PACKET
+          type: int
+          value: 1 << 6
+        - name: SUPP_SERVICE_CLASS_PAD
+          type: int
+          value: 1 << 7
+        - name: SUPP_SERVICE_CLASS_MAX
+          type: int
+          value: 1 << 7
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: UusInfo
+      fields:
+        - name: uusType
+          type:
+            name: int
+        - name: uusDcs
+          type:
+            name: int
+        - name: uusData
+          type:
+            name: String
+      constants:
+        - name: UUS_DCS_USP
+          type: int
+          value: "0"
+        - name: UUS_DCS_OSIHLP
+          type: int
+          value: "1"
+        - name: UUS_DCS_X244
+          type: int
+          value: "2"
+        - name: UUS_DCS_RMCF
+          type: int
+          value: "3"
+        - name: UUS_DCS_IA5C
+          type: int
+          value: "4"
+        - name: UUS_TYPE_TYPE1_IMPLICIT
+          type: int
+          value: "0"
+        - name: UUS_TYPE_TYPE1_REQUIRED
+          type: int
+          value: "1"
+        - name: UUS_TYPE_TYPE1_NOT_REQUIRED
+          type: int
+          value: "2"
+        - name: UUS_TYPE_TYPE2_REQUIRED
+          type: int
+          value: "3"
+        - name: UUS_TYPE_TYPE2_NOT_REQUIRED
+          type: int
+          value: "4"
+        - name: UUS_TYPE_TYPE3_REQUIRED
+          type: int
+          value: "5"
+        - name: UUS_TYPE_TYPE3_NOT_REQUIRED
+          type: int
+          value: "6"
+      annotations:
+        - VintfStability
+        - JavaDerive
+enums:
+    - name: AudioQuality
+      backing_type: int
+      values:
+        - name: UNSPECIFIED
+          value: ""
+        - name: AMR
+          value: ""
+        - name: AMR_WB
+          value: ""
+        - name: GSM_EFR
+          value: ""
+        - name: GSM_FR
+          value: ""
+        - name: GSM_HR
+          value: ""
+        - name: EVRC
+          value: ""
+        - name: EVRC_B
+          value: ""
+        - name: EVRC_WB
+          value: ""
+        - name: EVRC_NW
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: CdmaOtaProvisionStatus
+      backing_type: int
+      values:
+        - name: SPL_UNLOCKED
+          value: ""
+        - name: SPC_RETRIES_EXCEEDED
+          value: ""
+        - name: A_KEY_EXCHANGED
+          value: ""
+        - name: SSD_UPDATED
+          value: ""
+        - name: NAM_DOWNLOADED
+          value: ""
+        - name: MDN_DOWNLOADED
+          value: ""
+        - name: IMSI_DOWNLOADED
+          value: ""
+        - name: PRL_DOWNLOADED
+          value: ""
+        - name: COMMITTED
+          value: ""
+        - name: OTAPA_STARTED
+          value: ""
+        - name: OTAPA_STOPPED
+          value: ""
+        - name: OTAPA_ABORTED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: ClipStatus
+      backing_type: int
+      values:
+        - name: CLIP_PROVISIONED
+          value: ""
+        - name: CLIP_UNPROVISIONED
+          value: ""
+        - name: UNKNOWN
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: EmergencyCallRouting
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: EMERGENCY
+          value: ""
+        - name: NORMAL
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: EmergencyServiceCategory
+      backing_type: int
+      values:
+        - name: UNSPECIFIED
+          value: "0"
+        - name: POLICE
+          value: 1 << 0
+        - name: AMBULANCE
+          value: 1 << 1
+        - name: FIRE_BRIGADE
+          value: 1 << 2
+        - name: MARINE_GUARD
+          value: 1 << 3
+        - name: MOUNTAIN_RESCUE
+          value: 1 << 4
+        - name: MIEC
+          value: 1 << 5
+        - name: AIEC
+          value: 1 << 6
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: LastCallFailCause
+      backing_type: int
+      values:
+        - name: UNOBTAINABLE_NUMBER
+          value: "1"
+        - name: NO_ROUTE_TO_DESTINATION
+          value: "3"
+        - name: CHANNEL_UNACCEPTABLE
+          value: "6"
+        - name: OPERATOR_DETERMINED_BARRING
+          value: "8"
+        - name: NORMAL
+          value: "16"
+        - name: BUSY
+          value: "17"
+        - name: NO_USER_RESPONDING
+          value: "18"
+        - name: NO_ANSWER_FROM_USER
+          value: "19"
+        - name: CALL_REJECTED
+          value: "21"
+        - name: NUMBER_CHANGED
+          value: "22"
+        - name: PREEMPTION
+          value: "25"
+        - name: DESTINATION_OUT_OF_ORDER
+          value: "27"
+        - name: INVALID_NUMBER_FORMAT
+          value: "28"
+        - name: FACILITY_REJECTED
+          value: "29"
+        - name: RESP_TO_STATUS_ENQUIRY
+          value: "30"
+        - name: NORMAL_UNSPECIFIED
+          value: "31"
+        - name: CONGESTION
+          value: "34"
+        - name: NETWORK_OUT_OF_ORDER
+          value: "38"
+        - name: TEMPORARY_FAILURE
+          value: "41"
+        - name: SWITCHING_EQUIPMENT_CONGESTION
+          value: "42"
+        - name: ACCESS_INFORMATION_DISCARDED
+          value: "43"
+        - name: REQUESTED_CIRCUIT_OR_CHANNEL_NOT_AVAILABLE
+          value: "44"
+        - name: RESOURCES_UNAVAILABLE_OR_UNSPECIFIED
+          value: "47"
+        - name: QOS_UNAVAILABLE
+          value: "49"
+        - name: REQUESTED_FACILITY_NOT_SUBSCRIBED
+          value: "50"
+        - name: INCOMING_CALLS_BARRED_WITHIN_CUG
+          value: "55"
+        - name: BEARER_CAPABILITY_NOT_AUTHORIZED
+          value: "57"
+        - name: BEARER_CAPABILITY_UNAVAILABLE
+          value: "58"
+        - name: SERVICE_OPTION_NOT_AVAILABLE
+          value: "63"
+        - name: BEARER_SERVICE_NOT_IMPLEMENTED
+          value: "65"
+        - name: ACM_LIMIT_EXCEEDED
+          value: "68"
+        - name: REQUESTED_FACILITY_NOT_IMPLEMENTED
+          value: "69"
+        - name: ONLY_DIGITAL_INFORMATION_BEARER_AVAILABLE
+          value: "70"
+        - name: SERVICE_OR_OPTION_NOT_IMPLEMENTED
+          value: "79"
+        - name: INVALID_TRANSACTION_IDENTIFIER
+          value: "81"
+        - name: USER_NOT_MEMBER_OF_CUG
+          value: "87"
+        - name: INCOMPATIBLE_DESTINATION
+          value: "88"
+        - name: INVALID_TRANSIT_NW_SELECTION
+          value: "91"
+        - name: SEMANTICALLY_INCORRECT_MESSAGE
+          value: "95"
+        - name: INVALID_MANDATORY_INFORMATION
+          value: "96"
+        - name: MESSAGE_TYPE_NON_IMPLEMENTED
+          value: "97"
+        - name: MESSAGE_TYPE_NOT_COMPATIBLE_WITH_PROTOCOL_STATE
+          value: "98"
+        - name: INFORMATION_ELEMENT_NON_EXISTENT
+          value: "99"
+        - name: CONDITIONAL_IE_ERROR
+          value: "100"
+        - name: MESSAGE_NOT_COMPATIBLE_WITH_PROTOCOL_STATE
+          value: "101"
+        - name: RECOVERY_ON_TIMER_EXPIRED
+          value: "102"
+        - name: PROTOCOL_ERROR_UNSPECIFIED
+          value: "111"
+        - name: INTERWORKING_UNSPECIFIED
+          value: "127"
+        - name: CALL_BARRED
+          value: "240"
+        - name: FDN_BLOCKED
+          value: "241"
+        - name: IMSI_UNKNOWN_IN_VLR
+          value: "242"
+        - name: IMEI_NOT_ACCEPTED
+          value: "243"
+        - name: DIAL_MODIFIED_TO_USSD
+          value: "244"
+        - name: DIAL_MODIFIED_TO_SS
+          value: "245"
+        - name: DIAL_MODIFIED_TO_DIAL
+          value: "246"
+        - name: RADIO_OFF
+          value: "247"
+        - name: OUT_OF_SERVICE
+          value: "248"
+        - name: NO_VALID_SIM
+          value: "249"
+        - name: RADIO_INTERNAL_ERROR
+          value: "250"
+        - name: NETWORK_RESP_TIMEOUT
+          value: "251"
+        - name: NETWORK_REJECT
+          value: "252"
+        - name: RADIO_ACCESS_FAILURE
+          value: "253"
+        - name: RADIO_LINK_FAILURE
+          value: "254"
+        - name: RADIO_LINK_LOST
+          value: "255"
+        - name: RADIO_UPLINK_FAILURE
+          value: "256"
+        - name: RADIO_SETUP_FAILURE
+          value: "257"
+        - name: RADIO_RELEASE_NORMAL
+          value: "258"
+        - name: RADIO_RELEASE_ABNORMAL
+          value: "259"
+        - name: ACCESS_CLASS_BLOCKED
+          value: "260"
+        - name: NETWORK_DETACH
+          value: "261"
+        - name: CDMA_LOCKED_UNTIL_POWER_CYCLE
+          value: "1000"
+        - name: CDMA_DROP
+          value: "1001"
+        - name: CDMA_INTERCEPT
+          value: "1002"
+        - name: CDMA_REORDER
+          value: "1003"
+        - name: CDMA_SO_REJECT
+          value: "1004"
+        - name: CDMA_RETRY_ORDER
+          value: "1005"
+        - name: CDMA_ACCESS_FAILURE
+          value: "1006"
+        - name: CDMA_PREEMPTED
+          value: "1007"
+        - name: CDMA_NOT_EMERGENCY
+          value: "1008"
+        - name: CDMA_ACCESS_BLOCKED
+          value: "1009"
+        - name: OEM_CAUSE_1
+          value: "0xf001"
+        - name: OEM_CAUSE_2
+          value: "0xf002"
+        - name: OEM_CAUSE_3
+          value: "0xf003"
+        - name: OEM_CAUSE_4
+          value: "0xf004"
+        - name: OEM_CAUSE_5
+          value: "0xf005"
+        - name: OEM_CAUSE_6
+          value: "0xf006"
+        - name: OEM_CAUSE_7
+          value: "0xf007"
+        - name: OEM_CAUSE_8
+          value: "0xf008"
+        - name: OEM_CAUSE_9
+          value: "0xf009"
+        - name: OEM_CAUSE_10
+          value: "0xf00a"
+        - name: OEM_CAUSE_11
+          value: "0xf00b"
+        - name: OEM_CAUSE_12
+          value: "0xf00c"
+        - name: OEM_CAUSE_13
+          value: "0xf00d"
+        - name: OEM_CAUSE_14
+          value: "0xf00e"
+        - name: OEM_CAUSE_15
+          value: "0xf00f"
+        - name: ERROR_UNSPECIFIED
+          value: "0xffff"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: SrvccState
+      backing_type: int
+      values:
+        - name: HANDOVER_STARTED
+          value: ""
+        - name: HANDOVER_COMPLETED
+          value: ""
+        - name: HANDOVER_FAILED
+          value: ""
+        - name: HANDOVER_CANCELED
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: TtyMode
+      backing_type: int
+      values:
+        - name: "OFF"
+          value: ""
+        - name: FULL
+          value: ""
+        - name: HCO
+          value: ""
+        - name: VCO
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: UssdModeType
+      backing_type: int
+      values:
+        - name: NOTIFY
+          value: ""
+        - name: REQUEST
+          value: ""
+        - name: NW_RELEASE
+          value: ""
+        - name: LOCAL_CLIENT
+          value: ""
+        - name: NOT_SUPPORTED
+          value: ""
+        - name: NW_TIMEOUT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive

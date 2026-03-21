@@ -45,6 +45,7 @@ func (p *FingerprintClientActiveCallbackProxy) OnClientActiveChanged(
 	isActive bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFingerprintClientActiveCallback)
 	_data.WriteBool(isActive)
 
@@ -60,7 +61,8 @@ func (p *FingerprintClientActiveCallbackProxy) OnClientActiveChanged(
 // FingerprintClientActiveCallbackStub dispatches incoming binder transactions
 // to a typed IFingerprintClientActiveCallback implementation.
 type FingerprintClientActiveCallbackStub struct {
-	Impl IFingerprintClientActiveCallback
+	Impl      IFingerprintClientActiveCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FingerprintClientActiveCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *FingerprintClientActiveCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFingerprintClientActiveCallbackOnClientActiveChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isActive, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnClientActiveChanged(ctx, _arg_isActive)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -45,6 +45,7 @@ func (p *PrintJobStateChangeListenerProxy) OnPrintJobStateChanged(
 	printJobId PrintJobId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPrintJobStateChangeListener)
 	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *PrintJobStateChangeListenerProxy) OnPrintJobStateChanged(
 // PrintJobStateChangeListenerStub dispatches incoming binder transactions
 // to a typed IPrintJobStateChangeListener implementation.
 type PrintJobStateChangeListenerStub struct {
-	Impl IPrintJobStateChangeListener
+	Impl      IPrintJobStateChangeListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PrintJobStateChangeListenerStub)(nil)
@@ -77,11 +79,12 @@ func (s *PrintJobStateChangeListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPrintJobStateChangeListenerOnPrintJobStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_printJobId PrintJobId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *PrintJobStateChangeListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnPrintJobStateChanged(ctx, _arg_printJobId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

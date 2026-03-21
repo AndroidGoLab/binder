@@ -9,6 +9,8 @@ import (
 	"fmt"
 	"runtime"
 	"sync"
+	"sync/atomic"
+	"time"
 	"unsafe"
 
 	"github.com/xaionaro-go/binder/binder"
@@ -38,12 +40,22 @@ const replyWriteBufSize = 4 + 64
 // 4 bytes (command) + 8 bytes (pointer) = 12.
 const freeBufferBufSize = 4 + 8
 
+// ErrDriverClosed is returned when an operation is attempted on a closed Driver.
+var ErrDriverClosed = errors.New("binder: driver is closed")
+
 // Driver implements binder.Transport using /dev/binder.
 type Driver struct {
 	fd              int
 	mapped          []byte // mmap'd region, kept alive for munmap
 	mapSize         uint32
+	closed          bool
 	mu              sync.Mutex
+	// fdMu protects d.fd and d.mapped from concurrent access during
+	// Close. Read paths (doIoctl, writeCommand, Reply, copyFromMapped,
+	// the read loop ioctl) hold RLock; Close holds Lock when
+	// invalidating the fields, which blocks until all in-flight
+	// syscalls complete.
+	fdMu            sync.RWMutex
 	acquiredHandles map[uint32]bool // tracks handles acquired via BC_INCREFS + BC_ACQUIRE
 
 	// receivers maps cookie values (heap addresses of receiverEntry) to
@@ -62,8 +74,12 @@ type Driver struct {
 	deathRecipientsByHndl map[uint32]*deathRecipientEntry
 	deathRecipientsMu     sync.Mutex
 
-	readLoopOnce sync.Once
-	readLoopDone chan struct{} // closed when the read loop exits
+	// readLoopOnce ensures the read loop goroutine is started at most once.
+	// It is not reset on Close because a closed Driver must not be reused;
+	// Open always creates a new Driver instance.
+	readLoopOnce    sync.Once
+	readLoopDone    chan struct{} // closed when the read loop exits
+	readLoopStarted atomic.Bool  // true after the read loop goroutine is launched
 }
 
 // Compile-time interface check.
@@ -148,22 +164,54 @@ func Open(
 	return d, nil
 }
 
-// Close releases all acquired binder handles, the mmap, and the file descriptor.
+// checkClosed returns ErrDriverClosed if the driver has been closed.
+// The caller must hold d.mu.
+func (d *Driver) checkClosed() error {
+	if d.closed {
+		return ErrDriverClosed
+	}
+	return nil
+}
+
+// Close releases all death notifications, acquired binder handles, the mmap,
+// and the file descriptor.
 func (d *Driver) Close(
 	ctx context.Context,
 ) (_err error) {
 	logger.Tracef(ctx, "Close")
 	defer func() { logger.Tracef(ctx, "/Close: %v", _err) }()
 
-	var errs []error
-
-	// Release all acquired binder handles before closing the fd,
-	// so the kernel does not leak handle references.
 	d.mu.Lock()
+	if d.closed {
+		d.mu.Unlock()
+		return ErrDriverClosed
+	}
+	d.closed = true
 	handles := d.acquiredHandles
 	d.acquiredHandles = nil
 	d.mu.Unlock()
 
+	var errs []error
+
+	// Clear all registered death notifications BEFORE invalidating the
+	// fd, because writeDeathCmd -> writeCommand checks d.fd and returns
+	// ErrDriverClosed when it is -1.
+	d.deathRecipientsMu.Lock()
+	deathEntries := d.deathRecipientsByHndl
+	d.deathRecipients = nil
+	d.deathRecipientsByHndl = nil
+	d.deathRecipientsMu.Unlock()
+
+	for handle, entry := range deathEntries {
+		cookie := uintptr(unsafe.Pointer(entry))
+		logger.Debugf(ctx, "clearing death notification for handle %d on close", handle)
+		if err := d.writeDeathCmd(ctx, bcClearDeathNotif, handle, cookie); err != nil {
+			errs = append(errs, fmt.Errorf("clear death notification handle %d: %w", handle, err))
+		}
+	}
+
+	// Release all acquired binder handles before closing the fd,
+	// so the kernel does not leak handle references.
 	for handle := range handles {
 		logger.Debugf(ctx, "releasing handle %d on close", handle)
 		buf := make([]byte, 16)
@@ -176,26 +224,42 @@ func (d *Driver) Close(
 		}
 	}
 
-	if d.mapped != nil {
-		if err := unix.Munmap(d.mapped); err != nil {
+	// Take fdMu write lock to wait for all in-flight ioctls (which
+	// hold RLock) to finish, then invalidate fd/mapped so no new
+	// operations can use them. The actual munmap and close happen
+	// outside both locks using local copies.
+	d.fdMu.Lock()
+	fd := d.fd
+	mapped := d.mapped
+	d.fd = -1
+	d.mapped = nil
+	d.fdMu.Unlock()
+
+	if mapped != nil {
+		if err := unix.Munmap(mapped); err != nil {
 			errs = append(errs, &aidlerrors.BinderError{Op: "munmap", Err: err})
 		}
-		d.mapped = nil
 	}
 
-	if d.fd >= 0 {
-		if err := unix.Close(d.fd); err != nil {
+	if fd >= 0 {
+		if err := unix.Close(fd); err != nil {
 			errs = append(errs, &aidlerrors.BinderError{Op: "close", Err: err})
 		}
-		d.fd = -1
+	}
+
+	// Wait for the read loop goroutine to exit after closing the fd.
+	// The read loop detects the closed fd via EBADF and returns.
+	// Only wait if the read loop was actually started; otherwise
+	// readLoopDone is never closed and we would block forever.
+	if d.readLoopStarted.Load() {
+		select {
+		case <-d.readLoopDone:
+		case <-time.After(5 * time.Second):
+			logger.Warnf(ctx, "timed out waiting for read loop to exit")
+		}
 	}
 
 	return errors.Join(errs...)
-}
-
-// mapBase returns the base address of the mmap'd region.
-func (d *Driver) mapBase() uintptr {
-	return uintptr(unsafe.Pointer(&d.mapped[0]))
 }
 
 // Transact performs a synchronous binder transaction.
@@ -208,6 +272,13 @@ func (d *Driver) Transact(
 ) (_reply *parcel.Parcel, _err error) {
 	logger.Tracef(ctx, "Transact")
 	defer func() { logger.Tracef(ctx, "/Transact: %v", _err) }()
+
+	d.mu.Lock()
+	err := d.checkClosed()
+	d.mu.Unlock()
+	if err != nil {
+		return nil, err
+	}
 
 	// Binder kernel routes replies by thread ID, so we must pin this goroutine.
 	runtime.LockOSThread()
@@ -264,6 +335,10 @@ func (d *Driver) Transact(
 	if err := d.doIoctl(&bwr); err != nil {
 		return nil, err
 	}
+	runtime.KeepAlive(dataBytes)
+	runtime.KeepAlive(offsetsBuf)
+	runtime.KeepAlive(writeBuf)
+	runtime.KeepAlive(readBuf)
 
 	// Parse the read buffer for BR codes. The kernel may split
 	// BR_TRANSACTION_COMPLETE and BR_REPLY across separate ioctl reads.
@@ -326,6 +401,7 @@ func (d *Driver) parseReadBuffer(
 	offset := 0
 	gotTransactionComplete := false
 	txnSize := int(unsafe.Sizeof(binderTransactionData{}))
+	txnSecctxSize := int(binderTransactionDataSecctxSize)
 	ptrCookieSize := int(binderPtrCookieSize)
 
 	for offset < len(buf) {
@@ -352,15 +428,22 @@ func (d *Driver) parseReadBuffer(
 
 			var txn binderTransactionData
 			copyBytesToStruct(unsafe.Pointer(&txn), buf[offset:], unsafe.Sizeof(txn))
-			offset += txnSize
 
 			logger.Tracef(ctx, "BR_REPLY: flags=0x%x dataSize=%d offsetsSize=%d", txn.flags, txn.dataSize, txn.offsetsSize)
 
 			if txn.dataSize == 0 {
+				// The kernel requires BC_FREE_BUFFER for ALL BR_REPLY
+				// buffers regardless of dataSize.
+				if freeErr := d.freeBuffer(ctx, txn.dataBuffer); freeErr != nil {
+					logger.Warnf(ctx, "failed to free binder buffer: %v", freeErr)
+				}
 				return parcel.New(), true, gotTransactionComplete, nil
 			}
 
-			replyData := d.copyFromMapped(txn.dataBuffer, txn.dataSize)
+			replyData, copyErr := d.copyFromMapped(txn.dataBuffer, txn.dataSize)
+			if copyErr != nil {
+				return nil, true, gotTransactionComplete, copyErr
+			}
 
 			if transactionFlag(txn.flags)&tfStatusCode != 0 {
 				if freeErr := d.freeBuffer(ctx, txn.dataBuffer); freeErr != nil {
@@ -394,6 +477,21 @@ func (d *Driver) parseReadBuffer(
 			offset += txnSize
 
 			// Handle the incoming transaction inline (same as the read loop).
+			d.handleIncomingTransaction(ctx, &txn)
+
+		case brTransactionSecCtx:
+			// BR_TRANSACTION_SEC_CTX carries a binder_transaction_data_secctx:
+			// the normal binder_transaction_data followed by a binder_uintptr_t
+			// security context pointer. We read both but ignore the secctx.
+			logger.Tracef(ctx, "parseReadBuffer: BR_TRANSACTION_SEC_CTX (inline)")
+			if offset+txnSecctxSize > len(buf) {
+				return nil, false, gotTransactionComplete, fmt.Errorf("binder: truncated BR_TRANSACTION_SEC_CTX at offset %d", offset)
+			}
+
+			var txn binderTransactionData
+			copyBytesToStruct(unsafe.Pointer(&txn), buf[offset:], unsafe.Sizeof(txn))
+			offset += txnSecctxSize // consume both txn data and secctx pointer
+
 			d.handleIncomingTransaction(ctx, &txn)
 
 		case brIncRefs:
@@ -436,6 +534,15 @@ func (d *Driver) parseReadBuffer(
 			offset += cookieSize
 			d.handleDeadBinder(ctx, cookie)
 
+		case brClearDeathNotificationDone:
+			logger.Tracef(ctx, "parseReadBuffer: BR_CLEAR_DEATH_NOTIFICATION_DONE")
+			cookieSize := int(unsafe.Sizeof(uintptr(0)))
+			if offset+cookieSize > len(buf) {
+				return nil, false, gotTransactionComplete, fmt.Errorf("binder: truncated BR_CLEAR_DEATH_NOTIFICATION_DONE at offset %d", offset)
+			}
+			// Read and discard the cookie; this is just an acknowledgment.
+			offset += cookieSize
+
 		case brDeadReply:
 			logger.Tracef(ctx, "BR_DEAD_REPLY")
 			return nil, true, gotTransactionComplete, &aidlerrors.TransactionError{
@@ -453,7 +560,6 @@ func (d *Driver) parseReadBuffer(
 				return nil, false, gotTransactionComplete, fmt.Errorf("binder: truncated BR_ERROR data")
 			}
 			errCode := int32(binary.LittleEndian.Uint32(buf[offset:]))
-			offset += 4
 			return nil, false, gotTransactionComplete, fmt.Errorf("binder: BR_ERROR %d", errCode)
 
 		case brSpawnLooper:
@@ -485,7 +591,11 @@ func (d *Driver) acquireReplyHandles(
 	}
 
 	numOffsets := int(offsetsSize / 8)
-	offsetsBuf := d.copyFromMapped(offsetsAddr, offsetsSize)
+	offsetsBuf, err := d.copyFromMapped(offsetsAddr, offsetsSize)
+	if err != nil {
+		logger.Warnf(ctx, "failed to copy offsets from mapped region: %v", err)
+		return
+	}
 
 	for i := 0; i < numOffsets; i++ {
 		objOffset := binary.LittleEndian.Uint64(offsetsBuf[i*8:])
@@ -536,12 +646,23 @@ func (d *Driver) acquireSingleReplyHandle(
 func (d *Driver) copyFromMapped(
 	addr uint64,
 	size uint64,
-) []byte {
-	base := d.mapBase()
+) ([]byte, error) {
+	d.fdMu.RLock()
+	mapped := d.mapped
+	if mapped == nil {
+		d.fdMu.RUnlock()
+		return nil, ErrDriverClosed
+	}
+	base := uintptr(unsafe.Pointer(&mapped[0]))
 	relOffset := uintptr(addr) - base
+	if relOffset+uintptr(size) > uintptr(len(mapped)) {
+		d.fdMu.RUnlock()
+		return nil, fmt.Errorf("binder: mapped buffer access out of range: offset=%d size=%d mapped=%d", relOffset, size, len(mapped))
+	}
 	dst := make([]byte, size)
-	copy(dst, d.mapped[relOffset:relOffset+uintptr(size)])
-	return dst
+	copy(dst, mapped[relOffset:relOffset+uintptr(size)])
+	d.fdMu.RUnlock()
+	return dst, nil
 }
 
 // AcquireHandle increments the strong reference count for a binder handle.
@@ -552,7 +673,22 @@ func (d *Driver) AcquireHandle(
 	logger.Tracef(ctx, "AcquireHandle")
 	defer func() { logger.Tracef(ctx, "/AcquireHandle: %v", _err) }()
 
-	if err := d.writeHandleCommand(ctx, bcAcquire, handle); err != nil {
+	d.mu.Lock()
+	err := d.checkClosed()
+	d.mu.Unlock()
+	if err != nil {
+		return err
+	}
+
+	// Send BC_INCREFS + BC_ACQUIRE in a single write, matching the
+	// protocol used by acquireSingleReplyHandle.
+	buf := make([]byte, 16)
+	binary.LittleEndian.PutUint32(buf[0:4], uint32(bcIncRefs))
+	binary.LittleEndian.PutUint32(buf[4:8], handle)
+	binary.LittleEndian.PutUint32(buf[8:12], uint32(bcAcquire))
+	binary.LittleEndian.PutUint32(buf[12:16], handle)
+
+	if err := d.writeCommand(ctx, buf); err != nil {
 		return err
 	}
 	d.mu.Lock()
@@ -569,7 +705,22 @@ func (d *Driver) ReleaseHandle(
 	logger.Tracef(ctx, "ReleaseHandle")
 	defer func() { logger.Tracef(ctx, "/ReleaseHandle: %v", _err) }()
 
-	if err := d.writeHandleCommand(ctx, bcRelease, handle); err != nil {
+	d.mu.Lock()
+	err := d.checkClosed()
+	d.mu.Unlock()
+	if err != nil {
+		return err
+	}
+
+	// Send BC_RELEASE + BC_DECREFS in a single write to balance the
+	// BC_INCREFS + BC_ACQUIRE sent by AcquireHandle.
+	buf := make([]byte, 16)
+	binary.LittleEndian.PutUint32(buf[0:4], uint32(bcRelease))
+	binary.LittleEndian.PutUint32(buf[4:8], handle)
+	binary.LittleEndian.PutUint32(buf[8:12], uint32(bcDecRefs))
+	binary.LittleEndian.PutUint32(buf[12:16], handle)
+
+	if err := d.writeCommand(ctx, buf); err != nil {
 		return err
 	}
 	d.mu.Lock()
@@ -579,6 +730,8 @@ func (d *Driver) ReleaseHandle(
 }
 
 // RequestDeathNotification registers a death notification for a binder handle.
+// Returns an error if the handle already has a registered death recipient;
+// call ClearDeathNotification first to replace it.
 func (d *Driver) RequestDeathNotification(
 	ctx context.Context,
 	handle uint32,
@@ -586,6 +739,13 @@ func (d *Driver) RequestDeathNotification(
 ) (_err error) {
 	logger.Tracef(ctx, "RequestDeathNotification")
 	defer func() { logger.Tracef(ctx, "/RequestDeathNotification: %v", _err) }()
+
+	d.mu.Lock()
+	err := d.checkClosed()
+	d.mu.Unlock()
+	if err != nil {
+		return err
+	}
 
 	// Heap-allocate an entry so its address (used as the binder cookie)
 	// remains valid after this function returns. The previous code took
@@ -598,6 +758,10 @@ func (d *Driver) RequestDeathNotification(
 	cookie := uintptr(unsafe.Pointer(entry))
 
 	d.deathRecipientsMu.Lock()
+	if existing := d.deathRecipientsByHndl[handle]; existing != nil {
+		d.deathRecipientsMu.Unlock()
+		return fmt.Errorf("binder: death notification already registered for handle %d; clear it first", handle)
+	}
 	d.deathRecipients[cookie] = entry
 	d.deathRecipientsByHndl[handle] = entry
 	d.deathRecipientsMu.Unlock()
@@ -622,38 +786,40 @@ func (d *Driver) ClearDeathNotification(
 	logger.Tracef(ctx, "ClearDeathNotification")
 	defer func() { logger.Tracef(ctx, "/ClearDeathNotification: %v", _err) }()
 
+	d.mu.Lock()
+	err := d.checkClosed()
+	d.mu.Unlock()
+	if err != nil {
+		return err
+	}
+
+	// Hold the lock across lookup, delete, and send to prevent a
+	// concurrent RequestDeathNotification or ClearDeathNotification
+	// from racing on the same handle (TOCTOU). The writeDeathCmd call
+	// is a non-blocking write-only ioctl, so holding the lock is safe.
 	d.deathRecipientsMu.Lock()
 	entry := d.deathRecipientsByHndl[handle]
-	d.deathRecipientsMu.Unlock()
-
 	if entry == nil {
+		d.deathRecipientsMu.Unlock()
 		return fmt.Errorf("binder: no death notification registered for handle %d", handle)
 	}
 
 	cookie := uintptr(unsafe.Pointer(entry))
-	if err := d.writeDeathCmd(ctx, bcClearDeathNotif, handle, cookie); err != nil {
-		return err
-	}
-
-	d.deathRecipientsMu.Lock()
 	delete(d.deathRecipients, cookie)
 	delete(d.deathRecipientsByHndl, handle)
 	d.deathRecipientsMu.Unlock()
 
+	if err := d.writeDeathCmd(ctx, bcClearDeathNotif, handle, cookie); err != nil {
+		// Re-insert on failure so the state remains consistent with
+		// what the kernel believes is registered.
+		d.deathRecipientsMu.Lock()
+		d.deathRecipients[cookie] = entry
+		d.deathRecipientsByHndl[handle] = entry
+		d.deathRecipientsMu.Unlock()
+		return err
+	}
+
 	return nil
-}
-
-// writeHandleCommand writes a BC command that takes a uint32 handle argument.
-func (d *Driver) writeHandleCommand(
-	ctx context.Context,
-	cmd binderCommand,
-	handle uint32,
-) (_err error) {
-	buf := make([]byte, 4+4)
-	binary.LittleEndian.PutUint32(buf[0:4], uint32(cmd))
-	binary.LittleEndian.PutUint32(buf[4:8], handle)
-
-	return d.writeCommand(ctx, buf)
 }
 
 // writeDeathCmd writes a BC death notification command (handle + cookie).
@@ -688,20 +854,31 @@ func (d *Driver) writeCommand(
 	}
 
 	for {
+		d.fdMu.RLock()
+		fd := d.fd
+		if fd < 0 {
+			d.fdMu.RUnlock()
+			runtime.KeepAlive(writeBuf)
+			return ErrDriverClosed
+		}
 		_, _, errno := unix.Syscall(
 			unix.SYS_IOCTL,
-			uintptr(d.fd),
+			uintptr(fd),
 			binderWriteReadIoctl,
 			uintptr(unsafe.Pointer(&bwr)),
 		)
+		d.fdMu.RUnlock()
+
 		switch errno {
 		case 0:
+			runtime.KeepAlive(writeBuf)
 			return nil
 		case unix.EINTR:
 			// The kernel may have partially consumed the write buffer
 			// before the signal arrived. Advance past consumed bytes to
 			// avoid re-sending already-processed commands.
 			if bwr.writeConsumed >= bwr.writeSize {
+				runtime.KeepAlive(writeBuf)
 				return nil // fully consumed
 			}
 			bwr.writeBuffer += bwr.writeConsumed
@@ -709,6 +886,7 @@ func (d *Driver) writeCommand(
 			bwr.writeConsumed = 0
 			continue
 		default:
+			runtime.KeepAlive(writeBuf)
 			return &aidlerrors.BinderError{Op: "ioctl(BINDER_WRITE_READ)", Err: errno}
 		}
 	}
@@ -721,16 +899,29 @@ func (d *Driver) writeCommand(
 // blocking ioctl would deadlock when the kernel needs the read-loop thread
 // to acknowledge BR_INCREFS/BR_ACQUIRE before delivering BR_REPLY to the
 // transacting thread.
+//
+// fdMu.RLock is held across each syscall to prevent Close from
+// invalidating the fd while an ioctl is in progress. Close takes
+// fdMu.Lock (write lock), which blocks until all in-flight ioctls
+// release their RLock.
 func (d *Driver) doIoctl(
 	bwr *binderWriteRead,
 ) error {
 	for {
+		d.fdMu.RLock()
+		fd := d.fd
+		if fd < 0 {
+			d.fdMu.RUnlock()
+			return ErrDriverClosed
+		}
 		_, _, errno := unix.Syscall(
 			unix.SYS_IOCTL,
-			uintptr(d.fd),
+			uintptr(fd),
 			binderWriteReadIoctl,
 			uintptr(unsafe.Pointer(bwr)),
 		)
+		d.fdMu.RUnlock()
+
 		switch errno {
 		case 0:
 			return nil
@@ -753,42 +944,48 @@ func (d *Driver) doIoctl(
 	}
 }
 
-// lookupDeathRecipient returns the DeathRecipient for the given cookie,
-// or nil if none is registered.
-func (d *Driver) lookupDeathRecipient(
-	cookie uintptr,
-) binder.DeathRecipient {
-	d.deathRecipientsMu.Lock()
-	defer d.deathRecipientsMu.Unlock()
-
-	entry := d.deathRecipients[cookie]
-	if entry == nil {
-		return nil
-	}
-	return entry.recipient
-}
-
 // handleDeadBinder processes a BR_DEAD_BINDER event by invoking the
 // registered DeathRecipient's BinderDied callback, then acknowledging
-// with BC_DEAD_BINDER_DONE.
+// with BC_DEAD_BINDER_DONE. The entry is removed from both maps only
+// after BC_DEAD_BINDER_DONE succeeds; if the write fails, the entry
+// is kept so the operation can be retried.
 func (d *Driver) handleDeadBinder(
 	ctx context.Context,
 	cookie uintptr,
 ) {
-	recipient := d.lookupDeathRecipient(cookie)
-	if recipient != nil {
-		recipient.BinderDied()
+	d.deathRecipientsMu.Lock()
+	entry := d.deathRecipients[cookie]
+	d.deathRecipientsMu.Unlock()
+
+	if entry != nil {
+		// Run the callback in a goroutine to avoid blocking the read
+		// loop thread. If BinderDied performs binder operations (e.g.
+		// Transact, RequestDeathNotification) it would deadlock when
+		// called synchronously on the read loop, because those
+		// operations need the read loop to process kernel responses.
+		go entry.recipient.BinderDied()
 	} else {
 		logger.Warnf(ctx, "BR_DEAD_BINDER: no recipient for cookie 0x%x", cookie)
 	}
 
-	// Acknowledge with BC_DEAD_BINDER_DONE so the kernel can clean up.
+	// Acknowledge with BC_DEAD_BINDER_DONE immediately after
+	// dispatching the callback, not after it completes, to avoid
+	// blocking the read loop while the callback runs.
 	buf := make([]byte, 4+8)
 	binary.LittleEndian.PutUint32(buf[0:4], uint32(bcDeadBinderDone))
 	putUintptr(buf[4:], cookie)
 
 	if err := d.writeCommand(ctx, buf); err != nil {
 		logger.Warnf(ctx, "failed to send BC_DEAD_BINDER_DONE: %v", err)
+		return // keep the entry so it can be retried
+	}
+
+	// Remove the entry only after BC_DEAD_BINDER_DONE succeeds.
+	if entry != nil {
+		d.deathRecipientsMu.Lock()
+		delete(d.deathRecipients, cookie)
+		delete(d.deathRecipientsByHndl, entry.handle)
+		d.deathRecipientsMu.Unlock()
 	}
 }
 

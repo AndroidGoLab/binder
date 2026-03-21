@@ -3,6 +3,7 @@ package pm
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -37,15 +38,15 @@ const (
 
 type IOnAppsChangedListener interface {
 	AsBinder() binder.IBinder
-	OnPackageRemoved(ctx context.Context, user interface{}, packageName string) error
-	OnPackageAdded(ctx context.Context, user interface{}, packageName string) error
-	OnPackageChanged(ctx context.Context, user interface{}, packageName string) error
-	OnPackagesAvailable(ctx context.Context, user interface{}, packageNames []string, replacing bool) error
-	OnPackagesUnavailable(ctx context.Context, user interface{}, packageNames []string, replacing bool) error
-	OnPackagesSuspended(ctx context.Context, user interface{}, packageNames []string, launcherExtras interface{}) error
-	OnPackagesUnsuspended(ctx context.Context, user interface{}, packageNames []string) error
-	OnShortcutChanged(ctx context.Context, user interface{}, packageName string, shortcuts ParceledListSlice) error
-	OnPackageLoadingProgressChanged(ctx context.Context, user interface{}, packageName string, progress float32) error
+	OnPackageRemoved(ctx context.Context, user os.UserHandle, packageName string) error
+	OnPackageAdded(ctx context.Context, user os.UserHandle, packageName string) error
+	OnPackageChanged(ctx context.Context, user os.UserHandle, packageName string) error
+	OnPackagesAvailable(ctx context.Context, user os.UserHandle, packageNames []string, replacing bool) error
+	OnPackagesUnavailable(ctx context.Context, user os.UserHandle, packageNames []string, replacing bool) error
+	OnPackagesSuspended(ctx context.Context, user os.UserHandle, packageNames []string, launcherExtras os.Bundle) error
+	OnPackagesUnsuspended(ctx context.Context, user os.UserHandle, packageNames []string) error
+	OnShortcutChanged(ctx context.Context, user os.UserHandle, packageName string, shortcuts ParceledListSlice) error
+	OnPackageLoadingProgressChanged(ctx context.Context, user os.UserHandle, packageName string, progress float32) error
 }
 
 type OnAppsChangedListenerProxy struct {
@@ -66,11 +67,16 @@ var _ IOnAppsChangedListener = (*OnAppsChangedListenerProxy)(nil)
 
 func (p *OnAppsChangedListenerProxy) OnPackageRemoved(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnAppsChangedListener)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(packageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnAppsChangedListener, MethodIOnAppsChangedListenerOnPackageRemoved)
@@ -84,11 +90,16 @@ func (p *OnAppsChangedListenerProxy) OnPackageRemoved(
 
 func (p *OnAppsChangedListenerProxy) OnPackageAdded(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnAppsChangedListener)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(packageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnAppsChangedListener, MethodIOnAppsChangedListenerOnPackageAdded)
@@ -102,11 +113,16 @@ func (p *OnAppsChangedListenerProxy) OnPackageAdded(
 
 func (p *OnAppsChangedListenerProxy) OnPackageChanged(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnAppsChangedListener)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(packageName)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnAppsChangedListener, MethodIOnAppsChangedListenerOnPackageChanged)
@@ -120,12 +136,17 @@ func (p *OnAppsChangedListenerProxy) OnPackageChanged(
 
 func (p *OnAppsChangedListenerProxy) OnPackagesAvailable(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageNames []string,
 	replacing bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnAppsChangedListener)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	if packageNames == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -147,12 +168,17 @@ func (p *OnAppsChangedListenerProxy) OnPackagesAvailable(
 
 func (p *OnAppsChangedListenerProxy) OnPackagesUnavailable(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageNames []string,
 	replacing bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnAppsChangedListener)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	if packageNames == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -174,12 +200,17 @@ func (p *OnAppsChangedListenerProxy) OnPackagesUnavailable(
 
 func (p *OnAppsChangedListenerProxy) OnPackagesSuspended(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageNames []string,
-	launcherExtras interface{},
+	launcherExtras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnAppsChangedListener)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	if packageNames == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -187,6 +218,10 @@ func (p *OnAppsChangedListenerProxy) OnPackagesSuspended(
 		for _, _item := range packageNames {
 			_data.WriteString16(_item)
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := launcherExtras.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnAppsChangedListener, MethodIOnAppsChangedListenerOnPackagesSuspended)
@@ -200,11 +235,16 @@ func (p *OnAppsChangedListenerProxy) OnPackagesSuspended(
 
 func (p *OnAppsChangedListenerProxy) OnPackagesUnsuspended(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageNames []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnAppsChangedListener)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	if packageNames == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -225,12 +265,17 @@ func (p *OnAppsChangedListenerProxy) OnPackagesUnsuspended(
 
 func (p *OnAppsChangedListenerProxy) OnShortcutChanged(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageName string,
 	shortcuts ParceledListSlice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnAppsChangedListener)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
 	if _err := shortcuts.MarshalParcel(_data); _err != nil {
@@ -248,12 +293,17 @@ func (p *OnAppsChangedListenerProxy) OnShortcutChanged(
 
 func (p *OnAppsChangedListenerProxy) OnPackageLoadingProgressChanged(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageName string,
 	progress float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOnAppsChangedListener)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(packageName)
 	_data.WriteFloat32(progress)
 
@@ -269,7 +319,8 @@ func (p *OnAppsChangedListenerProxy) OnPackageLoadingProgressChanged(
 // OnAppsChangedListenerStub dispatches incoming binder transactions
 // to a typed IOnAppsChangedListener implementation.
 type OnAppsChangedListenerStub struct {
-	Impl IOnAppsChangedListener
+	Impl      IOnAppsChangedListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OnAppsChangedListenerStub)(nil)
@@ -283,101 +334,237 @@ func (s *OnAppsChangedListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOnAppsChangedListenerOnPackageRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_user interface{}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnPackageRemoved(ctx, _arg_user, _arg_packageName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnAppsChangedListenerOnPackageAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_user interface{}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnPackageAdded(ctx, _arg_user, _arg_packageName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnAppsChangedListenerOnPackageChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_user interface{}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnPackageChanged(ctx, _arg_user, _arg_packageName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnAppsChangedListenerOnPackagesAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_user interface{}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_replacing, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnPackagesAvailable(ctx, _arg_user, _arg_packageNames, _arg_replacing)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnAppsChangedListenerOnPackagesUnavailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_user interface{}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_replacing, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnPackagesUnavailable(ctx, _arg_user, _arg_packageNames, _arg_replacing)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnAppsChangedListenerOnPackagesSuspended:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_user interface{}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
-		var _arg_launcherExtras interface{}
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_launcherExtras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_launcherExtras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnPackagesSuspended(ctx, _arg_user, _arg_packageNames, _arg_launcherExtras)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnAppsChangedListenerOnPackagesUnsuspended:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_user interface{}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
-		_err := s.Impl.OnPackagesUnsuspended(ctx, _arg_user, _arg_packageNames)
-		_ = _err
-		return nil, nil
-	case TransactionIOnAppsChangedListenerOnShortcutChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		var _arg_user interface{}
+		_err := s.Impl.OnPackagesUnsuspended(ctx, _arg_user, _arg_packageNames)
+		return nil, _err
+	case TransactionIOnAppsChangedListenerOnShortcutChanged:
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -395,13 +582,20 @@ func (s *OnAppsChangedListenerStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnShortcutChanged(ctx, _arg_user, _arg_packageName, _arg_shortcuts)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIOnAppsChangedListenerOnPackageLoadingProgressChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_user interface{}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -411,8 +605,7 @@ func (s *OnAppsChangedListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPackageLoadingProgressChanged(ctx, _arg_user, _arg_packageName, _arg_progress)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -422,15 +615,15 @@ func (s *OnAppsChangedListenerStub) OnTransaction(
 // provide to NewOnAppsChangedListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IOnAppsChangedListenerServer interface {
-	OnPackageRemoved(ctx context.Context, user interface{}, packageName string) error
-	OnPackageAdded(ctx context.Context, user interface{}, packageName string) error
-	OnPackageChanged(ctx context.Context, user interface{}, packageName string) error
-	OnPackagesAvailable(ctx context.Context, user interface{}, packageNames []string, replacing bool) error
-	OnPackagesUnavailable(ctx context.Context, user interface{}, packageNames []string, replacing bool) error
-	OnPackagesSuspended(ctx context.Context, user interface{}, packageNames []string, launcherExtras interface{}) error
-	OnPackagesUnsuspended(ctx context.Context, user interface{}, packageNames []string) error
-	OnShortcutChanged(ctx context.Context, user interface{}, packageName string, shortcuts ParceledListSlice) error
-	OnPackageLoadingProgressChanged(ctx context.Context, user interface{}, packageName string, progress float32) error
+	OnPackageRemoved(ctx context.Context, user os.UserHandle, packageName string) error
+	OnPackageAdded(ctx context.Context, user os.UserHandle, packageName string) error
+	OnPackageChanged(ctx context.Context, user os.UserHandle, packageName string) error
+	OnPackagesAvailable(ctx context.Context, user os.UserHandle, packageNames []string, replacing bool) error
+	OnPackagesUnavailable(ctx context.Context, user os.UserHandle, packageNames []string, replacing bool) error
+	OnPackagesSuspended(ctx context.Context, user os.UserHandle, packageNames []string, launcherExtras os.Bundle) error
+	OnPackagesUnsuspended(ctx context.Context, user os.UserHandle, packageNames []string) error
+	OnShortcutChanged(ctx context.Context, user os.UserHandle, packageName string, shortcuts ParceledListSlice) error
+	OnPackageLoadingProgressChanged(ctx context.Context, user os.UserHandle, packageName string, progress float32) error
 }
 
 type onAppsChangedListenerStubWrapper struct {
@@ -444,7 +637,7 @@ func (w *onAppsChangedListenerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *onAppsChangedListenerStubWrapper) OnPackageRemoved(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageName string,
 ) error {
 	return w.impl.OnPackageRemoved(ctx, user, packageName)
@@ -452,7 +645,7 @@ func (w *onAppsChangedListenerStubWrapper) OnPackageRemoved(
 
 func (w *onAppsChangedListenerStubWrapper) OnPackageAdded(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageName string,
 ) error {
 	return w.impl.OnPackageAdded(ctx, user, packageName)
@@ -460,7 +653,7 @@ func (w *onAppsChangedListenerStubWrapper) OnPackageAdded(
 
 func (w *onAppsChangedListenerStubWrapper) OnPackageChanged(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageName string,
 ) error {
 	return w.impl.OnPackageChanged(ctx, user, packageName)
@@ -468,7 +661,7 @@ func (w *onAppsChangedListenerStubWrapper) OnPackageChanged(
 
 func (w *onAppsChangedListenerStubWrapper) OnPackagesAvailable(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageNames []string,
 	replacing bool,
 ) error {
@@ -477,7 +670,7 @@ func (w *onAppsChangedListenerStubWrapper) OnPackagesAvailable(
 
 func (w *onAppsChangedListenerStubWrapper) OnPackagesUnavailable(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageNames []string,
 	replacing bool,
 ) error {
@@ -486,16 +679,16 @@ func (w *onAppsChangedListenerStubWrapper) OnPackagesUnavailable(
 
 func (w *onAppsChangedListenerStubWrapper) OnPackagesSuspended(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageNames []string,
-	launcherExtras interface{},
+	launcherExtras os.Bundle,
 ) error {
 	return w.impl.OnPackagesSuspended(ctx, user, packageNames, launcherExtras)
 }
 
 func (w *onAppsChangedListenerStubWrapper) OnPackagesUnsuspended(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageNames []string,
 ) error {
 	return w.impl.OnPackagesUnsuspended(ctx, user, packageNames)
@@ -503,7 +696,7 @@ func (w *onAppsChangedListenerStubWrapper) OnPackagesUnsuspended(
 
 func (w *onAppsChangedListenerStubWrapper) OnShortcutChanged(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageName string,
 	shortcuts ParceledListSlice,
 ) error {
@@ -512,7 +705,7 @@ func (w *onAppsChangedListenerStubWrapper) OnShortcutChanged(
 
 func (w *onAppsChangedListenerStubWrapper) OnPackageLoadingProgressChanged(
 	ctx context.Context,
-	user interface{},
+	user os.UserHandle,
 	packageName string,
 	progress float32,
 ) error {

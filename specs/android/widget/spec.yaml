@@ -1,0 +1,6 @@
+package: android.widget
+go_package: android/widget
+parcelables:
+    - name: RemoteViews
+    - name: RemoteViews.DrawInstructions
+    - name: RemoteViews.RemoteCollectionItems

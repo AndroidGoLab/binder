@@ -1,0 +1,146 @@
+package: android.net.wifi.sharedconnectivity.service
+go_package: android/net/wifi/sharedconnectivity/service
+interfaces:
+    - name: ISharedConnectivityCallback
+      descriptor: android.net.wifi.sharedconnectivity.service.ISharedConnectivityCallback
+      methods:
+        - name: onHotspotNetworksUpdated
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: networks
+              type:
+                name: List
+                type_args:
+                    - name: HotspotNetwork
+              direction: in
+          return_type:
+            name: void
+        - name: onHotspotNetworkConnectionStatusChanged
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: status
+              type:
+                name: HotspotNetworkConnectionStatus
+              direction: in
+          return_type:
+            name: void
+        - name: onKnownNetworksUpdated
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: networks
+              type:
+                name: List
+                type_args:
+                    - name: KnownNetwork
+              direction: in
+          return_type:
+            name: void
+        - name: onKnownNetworkConnectionStatusChanged
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: status
+              type:
+                name: KnownNetworkConnectionStatus
+              direction: in
+          return_type:
+            name: void
+        - name: onSharedConnectivitySettingsChanged
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: state
+              type:
+                name: SharedConnectivitySettingsState
+              direction: in
+          return_type:
+            name: void
+        - name: onServiceConnected
+          transaction_code_offset: 5
+          oneway: true
+          return_type:
+            name: void
+    - name: ISharedConnectivityService
+      descriptor: android.net.wifi.sharedconnectivity.service.ISharedConnectivityService
+      methods:
+        - name: registerCallback
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: ISharedConnectivityCallback
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterCallback
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: ISharedConnectivityCallback
+              direction: in
+          return_type:
+            name: void
+        - name: connectHotspotNetwork
+          transaction_code_offset: 2
+          params:
+            - name: network
+              type:
+                name: HotspotNetwork
+              direction: in
+          return_type:
+            name: void
+        - name: disconnectHotspotNetwork
+          transaction_code_offset: 3
+          params:
+            - name: network
+              type:
+                name: HotspotNetwork
+              direction: in
+          return_type:
+            name: void
+        - name: connectKnownNetwork
+          transaction_code_offset: 4
+          params:
+            - name: network
+              type:
+                name: KnownNetwork
+              direction: in
+          return_type:
+            name: void
+        - name: forgetKnownNetwork
+          transaction_code_offset: 5
+          params:
+            - name: network
+              type:
+                name: KnownNetwork
+              direction: in
+          return_type:
+            name: void
+        - name: getHotspotNetworks
+          transaction_code_offset: 6
+          return_type:
+            name: List
+            type_args:
+                - name: HotspotNetwork
+        - name: getKnownNetworks
+          transaction_code_offset: 7
+          return_type:
+            name: List
+            type_args:
+                - name: KnownNetwork
+        - name: getSettingsState
+          transaction_code_offset: 8
+          return_type:
+            name: SharedConnectivitySettingsState
+        - name: getHotspotNetworkConnectionStatus
+          transaction_code_offset: 9
+          return_type:
+            name: HotspotNetworkConnectionStatus
+        - name: getKnownNetworkConnectionStatus
+          transaction_code_offset: 10
+          return_type:
+            name: KnownNetworkConnectionStatus

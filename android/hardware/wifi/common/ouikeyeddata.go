@@ -1,6 +1,7 @@
 package common
 
 import (
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type OuiKeyedData struct {
 	Oui        int32
-	VendorData interface{}
+	VendorData os.PersistableBundle
 }
 
 var _ parcel.Parcelable = (*OuiKeyedData)(nil)
@@ -18,6 +19,9 @@ func (s *OuiKeyedData) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Oui)
+	if _err := s.VendorData.MarshalParcel(p); _err != nil {
+		return _err
+	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -31,8 +35,22 @@ func (s *OuiKeyedData) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Oui, _err = p.ReadInt32()
 	if _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.VendorData.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

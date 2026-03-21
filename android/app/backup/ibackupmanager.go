@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -171,7 +172,7 @@ type IBackupManager interface {
 	AdbRestore(ctx context.Context, fd int32) error
 	AcknowledgeFullBackupOrRestoreForUser(ctx context.Context, token int32, allow bool, curPassword string, encryptionPassword string, observer IFullBackupRestoreObserver) error
 	AcknowledgeFullBackupOrRestore(ctx context.Context, token int32, allow bool, curPassword string, encryptionPassword string, observer IFullBackupRestoreObserver) error
-	UpdateTransportAttributesForUser(ctx context.Context, transportComponent content.ComponentName, name string, configurationIntent content.Intent, currentDestinationString string, dataManagementIntent content.Intent, dataManagementLabel interface{}) error
+	UpdateTransportAttributesForUser(ctx context.Context, transportComponent content.ComponentName, name string, configurationIntent content.Intent, currentDestinationString string, dataManagementIntent content.Intent, dataManagementLabel string) error
 	GetCurrentTransportForUser(ctx context.Context) (string, error)
 	GetCurrentTransport(ctx context.Context) (string, error)
 	GetCurrentTransportComponentForUser(ctx context.Context) (content.ComponentName, error)
@@ -188,7 +189,7 @@ type IBackupManager interface {
 	GetDestinationString(ctx context.Context, transport string) (string, error)
 	GetDataManagementIntentForUser(ctx context.Context, transport string) (content.Intent, error)
 	GetDataManagementIntent(ctx context.Context, transport string) (content.Intent, error)
-	GetDataManagementLabelForUser(ctx context.Context, transport string) (interface{}, error)
+	GetDataManagementLabelForUser(ctx context.Context, transport string) (string, error)
 	BeginRestoreSessionForUser(ctx context.Context, packageName string, transportID string) (IRestoreSession, error)
 	OpCompleteForUser(ctx context.Context, token int32, result int64) error
 	OpComplete(ctx context.Context, token int32, result int64) error
@@ -202,7 +203,7 @@ type IBackupManager interface {
 	RequestBackup(ctx context.Context, packages []string, observer IBackupObserver, monitor IBackupManagerMonitor, flags int32) (int32, error)
 	CancelBackupsForUser(ctx context.Context) error
 	CancelBackups(ctx context.Context) error
-	GetUserForAncestralSerialNumber(ctx context.Context, ancestralSerialNumber int64) (interface{}, error)
+	GetUserForAncestralSerialNumber(ctx context.Context, ancestralSerialNumber int64) (os.UserHandle, error)
 	SetAncestralSerialNumber(ctx context.Context, ancestralSerialNumber int64) error
 	ExcludeKeysFromRestore(ctx context.Context, packageName string, keys []string) error
 	ReportDelayedRestoreResult(ctx context.Context, packageName string, results []BackupRestoreEventLoggerDataTypeResult) error
@@ -230,6 +231,7 @@ func (p *BackupManagerProxy) DataChangedForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
@@ -257,6 +259,7 @@ func (p *BackupManagerProxy) DataChanged(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(packageName)
 
@@ -285,6 +288,7 @@ func (p *BackupManagerProxy) ClearBackupDataForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(transportName)
@@ -314,6 +318,7 @@ func (p *BackupManagerProxy) ClearBackupData(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(transportName)
 	_data.WriteString16(packageName)
@@ -343,6 +348,7 @@ func (p *BackupManagerProxy) InitializeTransportsForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	if transportNames == nil {
@@ -380,6 +386,7 @@ func (p *BackupManagerProxy) AgentConnectedForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
@@ -409,6 +416,7 @@ func (p *BackupManagerProxy) AgentConnected(
 	agent binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(packageName)
 	binder.WriteBinderToParcel(ctx, _data, agent, p.Remote.Transport())
@@ -437,6 +445,7 @@ func (p *BackupManagerProxy) AgentDisconnectedForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
@@ -464,6 +473,7 @@ func (p *BackupManagerProxy) AgentDisconnected(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(packageName)
 
@@ -492,6 +502,7 @@ func (p *BackupManagerProxy) RestoreAtInstallForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
@@ -521,6 +532,7 @@ func (p *BackupManagerProxy) RestoreAtInstall(
 	token int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(token)
@@ -549,6 +561,7 @@ func (p *BackupManagerProxy) SetBackupEnabledForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(isEnabled)
@@ -577,6 +590,7 @@ func (p *BackupManagerProxy) SetFrameworkSchedulingEnabledForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(isEnabled)
@@ -604,6 +618,7 @@ func (p *BackupManagerProxy) SetBackupEnabled(
 	isEnabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteBool(isEnabled)
 
@@ -631,6 +646,7 @@ func (p *BackupManagerProxy) SetAutoRestoreForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(doAutoRestore)
@@ -658,6 +674,7 @@ func (p *BackupManagerProxy) SetAutoRestore(
 	doAutoRestore bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteBool(doAutoRestore)
 
@@ -685,6 +702,7 @@ func (p *BackupManagerProxy) IsBackupEnabledForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -715,6 +733,7 @@ func (p *BackupManagerProxy) IsBackupEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerIsBackupEnabled)
@@ -746,6 +765,7 @@ func (p *BackupManagerProxy) SetBackupPassword(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(currentPw)
 	_data.WriteString16(newPw)
@@ -777,6 +797,7 @@ func (p *BackupManagerProxy) HasBackupPassword(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerHasBackupPassword)
@@ -806,6 +827,7 @@ func (p *BackupManagerProxy) BackupNowForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -831,6 +853,7 @@ func (p *BackupManagerProxy) BackupNow(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerBackupNow)
@@ -866,6 +889,7 @@ func (p *BackupManagerProxy) AdbBackup(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteFileDescriptor(fd)
@@ -910,6 +934,7 @@ func (p *BackupManagerProxy) FullTransportBackupForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	if packageNames == nil {
@@ -945,6 +970,7 @@ func (p *BackupManagerProxy) AdbRestore(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteFileDescriptor(fd)
@@ -977,6 +1003,7 @@ func (p *BackupManagerProxy) AcknowledgeFullBackupOrRestoreForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(token)
@@ -1012,6 +1039,7 @@ func (p *BackupManagerProxy) AcknowledgeFullBackupOrRestore(
 	observer IFullBackupRestoreObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(token)
 	_data.WriteBool(allow)
@@ -1044,10 +1072,11 @@ func (p *BackupManagerProxy) UpdateTransportAttributesForUser(
 	configurationIntent content.Intent,
 	currentDestinationString string,
 	dataManagementIntent content.Intent,
-	dataManagementLabel interface{},
+	dataManagementLabel string,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -1064,6 +1093,7 @@ func (p *BackupManagerProxy) UpdateTransportAttributesForUser(
 	if _err := dataManagementIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteString16(dataManagementLabel)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerUpdateTransportAttributesForUser)
 	if _err != nil {
@@ -1089,6 +1119,7 @@ func (p *BackupManagerProxy) GetCurrentTransportForUser(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1119,6 +1150,7 @@ func (p *BackupManagerProxy) GetCurrentTransport(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetCurrentTransport)
@@ -1149,6 +1181,7 @@ func (p *BackupManagerProxy) GetCurrentTransportComponentForUser(
 	var _result content.ComponentName
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1185,6 +1218,7 @@ func (p *BackupManagerProxy) ListAllTransportsForUser(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1207,6 +1241,9 @@ func (p *BackupManagerProxy) ListAllTransportsForUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1225,6 +1262,7 @@ func (p *BackupManagerProxy) ListAllTransports(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerListAllTransports)
@@ -1246,6 +1284,9 @@ func (p *BackupManagerProxy) ListAllTransports(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1265,6 +1306,7 @@ func (p *BackupManagerProxy) ListAllTransportComponentsForUser(
 	var _result []content.ComponentName
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1287,6 +1329,9 @@ func (p *BackupManagerProxy) ListAllTransportComponentsForUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]content.ComponentName, _count)
@@ -1307,6 +1352,7 @@ func (p *BackupManagerProxy) GetTransportWhitelist(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetTransportWhitelist)
@@ -1328,6 +1374,9 @@ func (p *BackupManagerProxy) GetTransportWhitelist(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1348,6 +1397,7 @@ func (p *BackupManagerProxy) SelectBackupTransportForUser(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(transport)
@@ -1380,6 +1430,7 @@ func (p *BackupManagerProxy) SelectBackupTransport(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(transport)
 
@@ -1412,6 +1463,7 @@ func (p *BackupManagerProxy) SelectBackupTransportAsyncForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(1)
@@ -1445,6 +1497,7 @@ func (p *BackupManagerProxy) GetConfigurationIntentForUser(
 	var _result content.Intent
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(transport)
@@ -1482,6 +1535,7 @@ func (p *BackupManagerProxy) GetConfigurationIntent(
 ) (content.Intent, error) {
 	var _result content.Intent
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(transport)
 
@@ -1519,6 +1573,7 @@ func (p *BackupManagerProxy) GetDestinationStringForUser(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(transport)
@@ -1551,6 +1606,7 @@ func (p *BackupManagerProxy) GetDestinationString(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(transport)
 
@@ -1583,6 +1639,7 @@ func (p *BackupManagerProxy) GetDataManagementIntentForUser(
 	var _result content.Intent
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(transport)
@@ -1620,6 +1677,7 @@ func (p *BackupManagerProxy) GetDataManagementIntent(
 ) (content.Intent, error) {
 	var _result content.Intent
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(transport)
 
@@ -1653,10 +1711,11 @@ func (p *BackupManagerProxy) GetDataManagementIntent(
 func (p *BackupManagerProxy) GetDataManagementLabelForUser(
 	ctx context.Context,
 	transport string,
-) (interface{}, error) {
-	var _result interface{}
+) (string, error) {
+	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(transport)
@@ -1676,6 +1735,10 @@ func (p *BackupManagerProxy) GetDataManagementLabelForUser(
 		return _result, _err
 	}
 
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
 	return _result, nil
 }
 
@@ -1687,6 +1750,7 @@ func (p *BackupManagerProxy) BeginRestoreSessionForUser(
 	var _result IRestoreSession
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
@@ -1722,6 +1786,7 @@ func (p *BackupManagerProxy) OpCompleteForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(token)
@@ -1751,6 +1816,7 @@ func (p *BackupManagerProxy) OpComplete(
 	result int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(token)
 	_data.WriteInt64(result)
@@ -1779,6 +1845,7 @@ func (p *BackupManagerProxy) SetBackupServiceActive(
 	makeActive bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(whichUser)
 	_data.WriteBool(makeActive)
@@ -1807,6 +1874,7 @@ func (p *BackupManagerProxy) IsBackupServiceActive(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(whichUser)
 
@@ -1838,6 +1906,7 @@ func (p *BackupManagerProxy) IsUserReadyForBackup(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1870,6 +1939,7 @@ func (p *BackupManagerProxy) GetAvailableRestoreTokenForUser(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
@@ -1903,6 +1973,7 @@ func (p *BackupManagerProxy) IsAppEligibleForBackupForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
@@ -1936,6 +2007,7 @@ func (p *BackupManagerProxy) FilterAppsEligibleForBackupForUser(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	if packages == nil {
@@ -1966,6 +2038,9 @@ func (p *BackupManagerProxy) FilterAppsEligibleForBackupForUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1989,6 +2064,7 @@ func (p *BackupManagerProxy) RequestBackupForUser(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	if packages == nil {
@@ -2034,6 +2110,7 @@ func (p *BackupManagerProxy) RequestBackup(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	if packages == nil {
 		_data.WriteInt32(-1)
@@ -2074,6 +2151,7 @@ func (p *BackupManagerProxy) CancelBackupsForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -2099,6 +2177,7 @@ func (p *BackupManagerProxy) CancelBackups(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerCancelBackups)
@@ -2122,9 +2201,10 @@ func (p *BackupManagerProxy) CancelBackups(
 func (p *BackupManagerProxy) GetUserForAncestralSerialNumber(
 	ctx context.Context,
 	ancestralSerialNumber int64,
-) (interface{}, error) {
-	var _result interface{}
+) (os.UserHandle, error) {
+	var _result os.UserHandle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt64(ancestralSerialNumber)
 
@@ -2143,6 +2223,15 @@ func (p *BackupManagerProxy) GetUserForAncestralSerialNumber(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -2151,6 +2240,7 @@ func (p *BackupManagerProxy) SetAncestralSerialNumber(
 	ancestralSerialNumber int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt64(ancestralSerialNumber)
 
@@ -2178,6 +2268,7 @@ func (p *BackupManagerProxy) ExcludeKeysFromRestore(
 	keys []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(packageName)
 	if keys == nil {
@@ -2213,6 +2304,7 @@ func (p *BackupManagerProxy) ReportDelayedRestoreResult(
 	results []BackupRestoreEventLoggerDataTypeResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(packageName)
 	if results == nil {
@@ -2248,7 +2340,8 @@ func (p *BackupManagerProxy) ReportDelayedRestoreResult(
 // BackupManagerStub dispatches incoming binder transactions
 // to a typed IBackupManager implementation.
 type BackupManagerStub struct {
-	Impl IBackupManager
+	Impl      IBackupManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BackupManagerStub)(nil)
@@ -2262,11 +2355,12 @@ func (s *BackupManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBackupManagerDataChangedForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2283,9 +2377,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerDataChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2299,9 +2390,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerClearBackupDataForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2322,9 +2410,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerClearBackupData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_transportName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2342,18 +2427,36 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerInitializeTransportsForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_transportNames []string
-		_ = _arg_transportNames
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_transportNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_transportNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_observer IBackupObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewBackupObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_err := s.Impl.InitializeTransportsForUser(ctx, _arg_transportNames, _arg_observer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2363,9 +2466,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerAgentConnectedForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2373,9 +2473,14 @@ func (s *BackupManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_agent binder.IBinder
-		_ = _arg_agent
+		{
+			_agentHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_agent = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _agentHandle)
+		}
 		_err = s.Impl.AgentConnectedForUser(ctx, _arg_packageName, _arg_agent)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2385,16 +2490,18 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerAgentConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_agent binder.IBinder
-		_ = _arg_agent
+		{
+			_agentHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_agent = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _agentHandle)
+		}
 		_err = s.Impl.AgentConnected(ctx, _arg_packageName, _arg_agent)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2404,9 +2511,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerAgentDisconnectedForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2423,9 +2527,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerAgentDisconnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2439,9 +2540,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerRestoreAtInstallForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2462,9 +2560,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerRestoreAtInstall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2482,9 +2577,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerSetBackupEnabledForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2501,9 +2593,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerSetFrameworkSchedulingEnabledForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2520,9 +2609,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerSetBackupEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2536,9 +2622,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerSetAutoRestoreForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2555,9 +2638,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerSetAutoRestore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_doAutoRestore, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2571,9 +2651,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerIsBackupEnabledForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2587,9 +2664,6 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBackupManagerIsBackupEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsBackupEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2600,9 +2674,6 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBackupManagerSetBackupPassword:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_currentPw, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2621,9 +2692,6 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBackupManagerHasBackupPassword:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.HasBackupPassword(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2634,9 +2702,6 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBackupManagerBackupNowForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2649,9 +2714,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerBackupNow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.BackupNow(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2661,9 +2723,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerAdbBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2703,9 +2762,25 @@ func (s *BackupManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.AdbBackup(ctx, _arg_fd, _arg_includeApks, _arg_includeObbs, _arg_includeShared, _arg_doWidgets, _arg_allApps, _arg_allIncludesSystem, _arg_doCompress, _arg_doKeyValue, _arg_packageNames)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2715,15 +2790,28 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerFullTransportBackupForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.FullTransportBackupForUser(ctx, _arg_packageNames)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2733,9 +2821,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerAdbRestore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2752,9 +2837,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerAcknowledgeFullBackupOrRestoreForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2774,9 +2856,14 @@ func (s *BackupManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IFullBackupRestoreObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewFullBackupRestoreObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_err = s.Impl.AcknowledgeFullBackupOrRestoreForUser(ctx, _arg_token, _arg_allow, _arg_curPassword, _arg_encryptionPassword, _arg_observer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2786,9 +2873,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerAcknowledgeFullBackupOrRestore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2805,9 +2889,14 @@ func (s *BackupManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IFullBackupRestoreObserver
-		_ = _arg_observer
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewFullBackupRestoreObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		_err = s.Impl.AcknowledgeFullBackupOrRestore(ctx, _arg_token, _arg_allow, _arg_curPassword, _arg_encryptionPassword, _arg_observer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2817,9 +2906,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerUpdateTransportAttributesForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2867,7 +2953,10 @@ func (s *BackupManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_dataManagementLabel interface{}
+		_arg_dataManagementLabel, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
 		_err = s.Impl.UpdateTransportAttributesForUser(ctx, _arg_transportComponent, _arg_name, _arg_configurationIntent, _arg_currentDestinationString, _arg_dataManagementIntent, _arg_dataManagementLabel)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2877,9 +2966,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerGetCurrentTransportForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2893,9 +2979,6 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBackupManagerGetCurrentTransport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentTransport(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2906,9 +2989,6 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBackupManagerGetCurrentTransportComponentForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2925,9 +3005,6 @@ func (s *BackupManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBackupManagerListAllTransportsForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2938,13 +3015,16 @@ func (s *BackupManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIBackupManagerListAllTransports:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ListAllTransports(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2952,13 +3032,16 @@ func (s *BackupManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIBackupManagerListAllTransportComponentsForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2969,13 +3052,19 @@ func (s *BackupManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIBackupManagerGetTransportWhitelist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetTransportWhitelist(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2983,13 +3072,16 @@ func (s *BackupManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIBackupManagerSelectBackupTransportForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3007,9 +3099,6 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBackupManagerSelectBackupTransport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_transport, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3024,9 +3113,6 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBackupManagerSelectBackupTransportAsyncForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3042,9 +3128,14 @@ func (s *BackupManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISelectBackupTransportCallback
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewSelectBackupTransportCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.SelectBackupTransportAsyncForUser(ctx, _arg_transport, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3054,9 +3145,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerGetConfigurationIntentForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3077,9 +3165,6 @@ func (s *BackupManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBackupManagerGetConfigurationIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_transport, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3097,9 +3182,6 @@ func (s *BackupManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBackupManagerGetDestinationStringForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3117,9 +3199,6 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBackupManagerGetDestinationString:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_transport, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3134,9 +3213,6 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBackupManagerGetDataManagementIntentForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3157,9 +3233,6 @@ func (s *BackupManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBackupManagerGetDataManagementIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_transport, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3177,9 +3250,6 @@ func (s *BackupManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBackupManagerGetDataManagementLabelForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3194,12 +3264,9 @@ func (s *BackupManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBackupManagerBeginRestoreSessionForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3218,13 +3285,9 @@ func (s *BackupManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIBackupManagerOpCompleteForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3245,9 +3308,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerOpComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3265,9 +3325,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerSetBackupServiceActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_whichUser, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3285,9 +3342,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerIsBackupServiceActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_whichUser, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3302,9 +3356,6 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBackupManagerIsUserReadyForBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3318,9 +3369,6 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBackupManagerGetAvailableRestoreTokenForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3338,9 +3386,6 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIBackupManagerIsAppEligibleForBackupForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3358,15 +3403,28 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBackupManagerFilterAppsEligibleForBackupForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packages []string
-		_ = _arg_packages
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packages = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packages[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.FilterAppsEligibleForBackupForUser(ctx, _arg_packages)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3374,25 +3432,54 @@ func (s *BackupManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIBackupManagerRequestBackupForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packages []string
-		_ = _arg_packages
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packages = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packages[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_observer IBackupObserver
-		_ = _arg_observer
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewBackupObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		var _arg_monitor IBackupManagerMonitor
-		_ = _arg_monitor
+		{
+			_monitorHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_monitor = NewBackupManagerMonitorProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _monitorHandle))
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3407,18 +3494,41 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBackupManagerRequestBackup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packages []string
-		_ = _arg_packages
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packages = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packages[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_observer IBackupObserver
-		_ = _arg_observer
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_observerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_observer = NewBackupObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _observerHandle))
+		}
 		var _arg_monitor IBackupManagerMonitor
-		_ = _arg_monitor
+		{
+			_monitorHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_monitor = NewBackupManagerMonitorProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _monitorHandle))
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3433,9 +3543,6 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBackupManagerCancelBackupsForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3448,9 +3555,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerCancelBackups:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CancelBackups(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3460,9 +3564,6 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerGetUserForAncestralSerialNumber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ancestralSerialNumber, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -3474,12 +3575,12 @@ func (s *BackupManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIBackupManagerSetAncestralSerialNumber:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIBackupManagerSetAncestralSerialNumber:
 		_arg_ancestralSerialNumber, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -3493,16 +3594,29 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerExcludeKeysFromRestore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keys []string
-		_ = _arg_keys
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_keys = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_keys[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.ExcludeKeysFromRestore(ctx, _arg_packageName, _arg_keys)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3512,16 +3626,31 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerReportDelayedRestoreResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_results []BackupRestoreEventLoggerDataTypeResult
-		_ = _arg_results
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_results = make([]BackupRestoreEventLoggerDataTypeResult, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_results[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.ReportDelayedRestoreResult(ctx, _arg_packageName, _arg_results)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3566,7 +3695,7 @@ type IBackupManagerServer interface {
 	AdbRestore(ctx context.Context, fd int32) error
 	AcknowledgeFullBackupOrRestoreForUser(ctx context.Context, token int32, allow bool, curPassword string, encryptionPassword string, observer IFullBackupRestoreObserver) error
 	AcknowledgeFullBackupOrRestore(ctx context.Context, token int32, allow bool, curPassword string, encryptionPassword string, observer IFullBackupRestoreObserver) error
-	UpdateTransportAttributesForUser(ctx context.Context, transportComponent content.ComponentName, name string, configurationIntent content.Intent, currentDestinationString string, dataManagementIntent content.Intent, dataManagementLabel interface{}) error
+	UpdateTransportAttributesForUser(ctx context.Context, transportComponent content.ComponentName, name string, configurationIntent content.Intent, currentDestinationString string, dataManagementIntent content.Intent, dataManagementLabel string) error
 	GetCurrentTransportForUser(ctx context.Context) (string, error)
 	GetCurrentTransport(ctx context.Context) (string, error)
 	GetCurrentTransportComponentForUser(ctx context.Context) (content.ComponentName, error)
@@ -3583,7 +3712,7 @@ type IBackupManagerServer interface {
 	GetDestinationString(ctx context.Context, transport string) (string, error)
 	GetDataManagementIntentForUser(ctx context.Context, transport string) (content.Intent, error)
 	GetDataManagementIntent(ctx context.Context, transport string) (content.Intent, error)
-	GetDataManagementLabelForUser(ctx context.Context, transport string) (interface{}, error)
+	GetDataManagementLabelForUser(ctx context.Context, transport string) (string, error)
 	BeginRestoreSessionForUser(ctx context.Context, packageName string, transportID string) (IRestoreSession, error)
 	OpCompleteForUser(ctx context.Context, token int32, result int64) error
 	OpComplete(ctx context.Context, token int32, result int64) error
@@ -3597,7 +3726,7 @@ type IBackupManagerServer interface {
 	RequestBackup(ctx context.Context, packages []string, observer IBackupObserver, monitor IBackupManagerMonitor, flags int32) (int32, error)
 	CancelBackupsForUser(ctx context.Context) error
 	CancelBackups(ctx context.Context) error
-	GetUserForAncestralSerialNumber(ctx context.Context, ancestralSerialNumber int64) (interface{}, error)
+	GetUserForAncestralSerialNumber(ctx context.Context, ancestralSerialNumber int64) (os.UserHandle, error)
 	SetAncestralSerialNumber(ctx context.Context, ancestralSerialNumber int64) error
 	ExcludeKeysFromRestore(ctx context.Context, packageName string, keys []string) error
 	ReportDelayedRestoreResult(ctx context.Context, packageName string, results []BackupRestoreEventLoggerDataTypeResult) error
@@ -3828,7 +3957,7 @@ func (w *backupManagerStubWrapper) UpdateTransportAttributesForUser(
 	configurationIntent content.Intent,
 	currentDestinationString string,
 	dataManagementIntent content.Intent,
-	dataManagementLabel interface{},
+	dataManagementLabel string,
 ) error {
 	return w.impl.UpdateTransportAttributesForUser(ctx, transportComponent, name, configurationIntent, currentDestinationString, dataManagementIntent, dataManagementLabel)
 }
@@ -3942,7 +4071,7 @@ func (w *backupManagerStubWrapper) GetDataManagementIntent(
 func (w *backupManagerStubWrapper) GetDataManagementLabelForUser(
 	ctx context.Context,
 	transport string,
-) (interface{}, error) {
+) (string, error) {
 	return w.impl.GetDataManagementLabelForUser(ctx, transport)
 }
 
@@ -4047,7 +4176,7 @@ func (w *backupManagerStubWrapper) CancelBackups(
 func (w *backupManagerStubWrapper) GetUserForAncestralSerialNumber(
 	ctx context.Context,
 	ancestralSerialNumber int64,
-) (interface{}, error) {
+) (os.UserHandle, error) {
 	return w.impl.GetUserForAncestralSerialNumber(ctx, ancestralSerialNumber)
 }
 

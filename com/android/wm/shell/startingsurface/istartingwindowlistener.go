@@ -47,6 +47,7 @@ func (p *StartingWindowListenerProxy) OnTaskLaunching(
 	splashScreenBackgroundColor int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStartingWindowListener)
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(supportedType)
@@ -64,7 +65,8 @@ func (p *StartingWindowListenerProxy) OnTaskLaunching(
 // StartingWindowListenerStub dispatches incoming binder transactions
 // to a typed IStartingWindowListener implementation.
 type StartingWindowListenerStub struct {
-	Impl IStartingWindowListener
+	Impl      IStartingWindowListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StartingWindowListenerStub)(nil)
@@ -78,11 +80,12 @@ func (s *StartingWindowListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStartingWindowListenerOnTaskLaunching:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -96,8 +99,7 @@ func (s *StartingWindowListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTaskLaunching(ctx, _arg_taskId, _arg_supportedType, _arg_splashScreenBackgroundColor)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

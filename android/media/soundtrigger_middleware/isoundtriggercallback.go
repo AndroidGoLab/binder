@@ -59,6 +59,7 @@ func (p *SoundTriggerCallbackProxy) OnRecognition(
 	captureSession int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerCallback)
 	_data.WriteInt32(modelHandle)
 	_data.WriteInt32(1)
@@ -83,6 +84,7 @@ func (p *SoundTriggerCallbackProxy) OnPhraseRecognition(
 	captureSession int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerCallback)
 	_data.WriteInt32(modelHandle)
 	_data.WriteInt32(1)
@@ -104,6 +106,7 @@ func (p *SoundTriggerCallbackProxy) OnResourcesAvailable(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnResourcesAvailable)
@@ -120,6 +123,7 @@ func (p *SoundTriggerCallbackProxy) OnModelUnloaded(
 	modelHandle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerCallback)
 	_data.WriteInt32(modelHandle)
 
@@ -136,6 +140,7 @@ func (p *SoundTriggerCallbackProxy) OnModuleDied(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnModuleDied)
@@ -150,7 +155,8 @@ func (p *SoundTriggerCallbackProxy) OnModuleDied(
 // SoundTriggerCallbackStub dispatches incoming binder transactions
 // to a typed ISoundTriggerCallback implementation.
 type SoundTriggerCallbackStub struct {
-	Impl ISoundTriggerCallback
+	Impl      ISoundTriggerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SoundTriggerCallbackStub)(nil)
@@ -164,11 +170,12 @@ func (s *SoundTriggerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISoundTriggerCallbackOnRecognition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -190,12 +197,8 @@ func (s *SoundTriggerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnRecognition(ctx, _arg_modelHandle, _arg_event, _arg_captureSession)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundTriggerCallbackOnPhraseRecognition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -217,33 +220,20 @@ func (s *SoundTriggerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPhraseRecognition(ctx, _arg_modelHandle, _arg_event, _arg_captureSession)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundTriggerCallbackOnResourcesAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnResourcesAvailable(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundTriggerCallbackOnModelUnloaded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnModelUnloaded(ctx, _arg_modelHandle)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISoundTriggerCallbackOnModuleDied:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnModuleDied(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

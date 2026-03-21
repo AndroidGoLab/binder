@@ -36,9 +36,19 @@ func (s *SwitchUserResponse) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.RequestId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_messageTypeRaw, _err := p.ReadInt32()
@@ -47,11 +57,21 @@ func (s *SwitchUserResponse) UnmarshalParcel(
 	}
 	s.MessageType = SwitchUserMessageType(_messageTypeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_statusRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Status = SwitchUserStatus(_statusRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.ErrorMessage, _err = p.ReadString16()
 	if _err != nil {

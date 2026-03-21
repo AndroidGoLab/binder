@@ -1,0 +1,67 @@
+package: android.companion.virtual.sensor
+go_package: android/companion/virtual/sensor
+interfaces:
+    - name: IVirtualSensorCallback
+      descriptor: android.companion.virtual.sensor.IVirtualSensorCallback
+      oneway: true
+      methods:
+        - name: onConfigurationChanged
+          transaction_code_offset: 0
+          params:
+            - name: sensor
+              type:
+                name: VirtualSensor
+              direction: in
+            - name: enabled
+              type:
+                name: boolean
+            - name: samplingPeriodMicros
+              type:
+                name: int
+            - name: batchReportLatencyMicros
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onDirectChannelCreated
+          transaction_code_offset: 1
+          params:
+            - name: channelHandle
+              type:
+                name: int
+            - name: sharedMemory
+              type:
+                name: SharedMemory
+              direction: in
+          return_type:
+            name: void
+        - name: onDirectChannelDestroyed
+          transaction_code_offset: 2
+          params:
+            - name: channelHandle
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onDirectChannelConfigured
+          transaction_code_offset: 3
+          params:
+            - name: channelHandle
+              type:
+                name: int
+            - name: sensor
+              type:
+                name: VirtualSensor
+              direction: in
+            - name: rateLevel
+              type:
+                name: int
+            - name: reportToken
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: VirtualSensor
+    - name: VirtualSensorConfig
+    - name: VirtualSensorEvent

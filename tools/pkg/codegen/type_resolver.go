@@ -37,11 +37,14 @@ type TypeRefResolver struct {
 	// matching a parameter would shadow the import within that method body.
 	ReservedNames map[string]bool
 	// ImportGraph is used to detect import cycles. When set, cross-package
-	// type references that would create cycles are replaced with interface{}.
+	// type references that would create cycles are replaced with any.
 	ImportGraph *ImportGraph
-	// CycleBreaks tracks qualified names that were resolved to interface{}
+	// CycleBreaks tracks qualified names that were resolved to any
 	// due to import cycles.
 	CycleBreaks map[string]bool
+	// CycleTypeCallback is called when a type is redirected to a "types"
+	// sub-package to break an import cycle.
+	CycleTypeCallback func(qualifiedName, typesPkg string)
 	// ResolvedTypes caches the Go type string for each AIDL type name to
 	// ensure consistent resolution across multiple calls (avoiding
 	// non-determinism from map iteration in the type registry).
@@ -77,7 +80,14 @@ func (r *TypeRefResolver) GoTypeRef(ts *parser.TypeSpecifier) string {
 
 	if hasAnnotation(ts.Annots, "nullable") && goType != "" && goType != "string" {
 		if goType[0] != '*' && goType[0] != '[' && !strings.HasPrefix(goType, "map[") {
-			goType = "*" + goType
+			// Don't add pointer for interface types — Go interfaces
+			// are inherently nullable (nil-able). This covers both
+			// AIDL interface definitions (checked via registry) and
+			// the built-in IBinder type (a Go interface not in the
+			// registry).
+			if !r.isGoInterfaceType(ts.Name) {
+				goType = "*" + goType
+			}
 		}
 	}
 
@@ -96,15 +106,15 @@ func (r *TypeRefResolver) goTypeRefInner(ts *parser.TypeSpecifier) string {
 
 	switch ts.Name {
 	case "List":
-		elem := "interface{}"
+		elem := "any"
 		if len(ts.TypeArgs) > 0 {
 			elem = r.GoTypeRef(ts.TypeArgs[0])
 		}
 		return "[]" + elem
 
 	case "Map":
-		key := "interface{}"
-		val := "interface{}"
+		key := "any"
+		val := "any"
 		if len(ts.TypeArgs) >= 2 {
 			key = r.GoTypeRef(ts.TypeArgs[0])
 			val = r.GoTypeRef(ts.TypeArgs[1])
@@ -115,7 +125,7 @@ func (r *TypeRefResolver) goTypeRefInner(ts *parser.TypeSpecifier) string {
 	// User-defined type. Try to resolve via the registry.
 	goName := r.resolveUserType(ts.Name)
 	if goName == "" {
-		goName = "interface{}"
+		goName = "any"
 	}
 	if ts.IsArray {
 		return "[]" + goName
@@ -163,8 +173,8 @@ func (r *TypeRefResolver) resolveUserTypeUncached(aidlName string) string {
 		}
 	}
 
-	// Unknown type: fall back to interface{} to avoid compile errors.
-	return "interface{}"
+	// Unknown type: fall back to any to avoid compile errors.
+	return "any"
 }
 
 // resolveNestedType attempts to resolve a dotted AIDL type name by looking up
@@ -223,9 +233,9 @@ func (r *TypeRefResolver) qualifiedGoRef(
 	originalName string,
 ) string {
 	// Check if the definition is a forward-declared parcelable (no fields,
-	// has cpp_header). These produce no generated code, so use interface{}.
+	// has cpp_header). These produce no generated code, so use any.
 	if r.isForwardDeclared(qualifiedName) {
-		return "interface{}"
+		return "any"
 	}
 
 	typePkg, goTypeName := r.splitQualifiedName(qualifiedName)
@@ -236,9 +246,33 @@ func (r *TypeRefResolver) qualifiedGoRef(
 	}
 
 	// Check if importing this package would create an import cycle.
-	if r.ImportGraph != nil && r.ImportGraph.WouldCauseCycle(r.CurrentPkg, typePkg) {
+	// Redirect to a "types" sub-package instead of falling back to
+	// any. The types-only dependency graph is acyclic (cycles
+	// exist only in interface method references), so types sub-packages
+	// can always be safely imported.
+	//
+	// Skip cycle checking when the current package is already a .types
+	// sub-package: these use the strict SCC graph which is already
+	// acyclic, so no further redirection is needed. Without this guard,
+	// a .types package would redirect to foo.types.types which doesn't exist.
+	if r.ImportGraph != nil &&
+		!strings.HasSuffix(r.CurrentPkg, ".types") &&
+		r.ImportGraph.WouldCauseCycle(r.CurrentPkg, typePkg) {
+		// Redirect to a "types" sub-package. For non-interface types
+		// (parcelables, enums, unions), the full definition goes to the
+		// sub-package. For interface types, only the Go interface
+		// definition goes to the sub-package; the proxy/stub stays in
+		// the original package.
+		if !r.isForwardDeclared(qualifiedName) {
+			typesPkg := typePkg + ".types"
+			alias := r.ensureImport(typesPkg)
+			if r.CycleTypeCallback != nil {
+				r.CycleTypeCallback(qualifiedName, typesPkg)
+			}
+			return alias + "." + goTypeName
+		}
 		r.CycleBreaks[qualifiedName] = true
-		return "interface{}"
+		return "any"
 	}
 
 	// Different package: add import and qualify.
@@ -275,7 +309,7 @@ func (r *TypeRefResolver) isForwardDeclared(qualifiedName string) bool {
 }
 
 // isUnresolvableType returns true if the given AIDL type name would resolve
-// to interface{} because it's unknown or forward-declared. This check does
+// to any because it's unknown or forward-declared. This check does
 // not add any imports as a side effect.
 func (r *TypeRefResolver) isUnresolvableType(aidlName string) bool {
 	if r == nil || r.Registry == nil {
@@ -317,8 +351,66 @@ func (r *TypeRefResolver) isUnresolvableType(aidlName string) bool {
 	return r.isForwardDeclared(qualifiedName)
 }
 
+// isGoInterfaceType returns true if the AIDL type name corresponds to a
+// Go interface type — either an AIDL interface definition in the registry,
+// or the built-in IBinder type (which is a Go interface but not an AIDL
+// interface definition).
+func (r *TypeRefResolver) isGoInterfaceType(aidlName string) bool {
+	if aidlName == "IBinder" {
+		return true
+	}
+	return r.isInterfaceType(aidlName)
+}
+
+// resolveQualifiedName resolves an AIDL type name to a fully qualified
+// registry key. It tries direct lookup first, then prepends the current
+// package for unqualified names. Returns "" if not found.
+func (r *TypeRefResolver) resolveQualifiedName(aidlName string) string {
+	if _, ok := r.Registry.Lookup(aidlName); ok {
+		return aidlName
+	}
+
+	// Only prepend the current package for unqualified names.
+	// A dotted name like "android.os.IRemoteCallback" is already
+	// fully qualified; prepending CurrentPkg would produce a wrong
+	// key like "android.location.android.os.IRemoteCallback".
+	if r.CurrentPkg != "" && !strings.Contains(aidlName, ".") {
+		candidate := r.CurrentPkg + "." + aidlName
+		if _, ok := r.Registry.Lookup(candidate); ok {
+			return candidate
+		}
+	}
+
+	return ""
+}
+
+// isInterfaceType returns true if the AIDL type resolves to an interface.
+func (r *TypeRefResolver) isInterfaceType(aidlName string) bool {
+	if r.Registry == nil {
+		return false
+	}
+	// Try to resolve the type name via sequential fallback.
+	qn := r.resolveQualifiedName(aidlName)
+	if qn == "" {
+		if resolved, _, ok := r.Registry.LookupQualifiedByShortName(aidlName); ok {
+			qn = resolved
+		}
+	}
+	if qn == "" {
+		return false
+	}
+	def, ok := r.Registry.Lookup(qn)
+	if !ok {
+		return false
+	}
+	_, isIface := def.(*parser.InterfaceDecl)
+	return isIface
+}
+
+
+
 // IsCycleBroken returns true if the given AIDL type name was resolved
-// to interface{} due to an import cycle.
+// to any due to an import cycle.
 func (r *TypeRefResolver) IsCycleBroken(aidlName string) bool {
 	if r == nil || r.ImportGraph == nil {
 		return false

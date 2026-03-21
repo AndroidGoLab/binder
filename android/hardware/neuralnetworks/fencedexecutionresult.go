@@ -37,11 +37,21 @@ func (s *FencedExecutionResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_callbackHandle, _err := p.ReadStrongBinder()
 	if _err != nil {
 		return _err
 	}
 	s.Callback = NewFencedExecutionCallbackProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _callbackHandle))
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.SyncFence, _err = p.ReadFileDescriptor()
 	if _err != nil {

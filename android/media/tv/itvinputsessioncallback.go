@@ -133,6 +133,7 @@ func (p *TvInputSessionCallbackProxy) OnSessionCreated(
 	hardwareSessionToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, hardwareSessionToken, p.Remote.Transport())
@@ -152,6 +153,7 @@ func (p *TvInputSessionCallbackProxy) OnSessionEvent(
 	args os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteString16(name)
 	_data.WriteInt32(1)
@@ -173,6 +175,7 @@ func (p *TvInputSessionCallbackProxy) OnChannelRetuned(
 	channelUri net.Uri,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
@@ -193,6 +196,7 @@ func (p *TvInputSessionCallbackProxy) OnAudioPresentationsChanged(
 	tvAudioPresentations []tuner.AudioPresentation,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	if tvAudioPresentations == nil {
 		_data.WriteInt32(-1)
@@ -221,6 +225,7 @@ func (p *TvInputSessionCallbackProxy) OnAudioPresentationSelected(
 	programId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt32(presentationId)
 	_data.WriteInt32(programId)
@@ -239,6 +244,7 @@ func (p *TvInputSessionCallbackProxy) OnTracksChanged(
 	tracks []TvTrackInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	if tracks == nil {
 		_data.WriteInt32(-1)
@@ -267,6 +273,7 @@ func (p *TvInputSessionCallbackProxy) OnTrackSelected(
 	trackId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt32(type_)
 	_data.WriteString16(trackId)
@@ -284,6 +291,7 @@ func (p *TvInputSessionCallbackProxy) OnVideoAvailable(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputSessionCallback, MethodITvInputSessionCallbackOnVideoAvailable)
@@ -300,6 +308,7 @@ func (p *TvInputSessionCallbackProxy) OnVideoUnavailable(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt32(reason)
 
@@ -317,6 +326,7 @@ func (p *TvInputSessionCallbackProxy) OnVideoFreezeUpdated(
 	isFrozen bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteBool(isFrozen)
 
@@ -333,6 +343,7 @@ func (p *TvInputSessionCallbackProxy) OnContentAllowed(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputSessionCallback, MethodITvInputSessionCallbackOnContentAllowed)
@@ -349,6 +360,7 @@ func (p *TvInputSessionCallbackProxy) OnContentBlocked(
 	rating string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteString16(rating)
 
@@ -369,6 +381,7 @@ func (p *TvInputSessionCallbackProxy) OnLayoutSurface(
 	bottom int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt32(left)
 	_data.WriteInt32(top)
@@ -389,6 +402,7 @@ func (p *TvInputSessionCallbackProxy) OnTimeShiftStatusChanged(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt32(status)
 
@@ -406,6 +420,7 @@ func (p *TvInputSessionCallbackProxy) OnTimeShiftStartPositionChanged(
 	timeMs int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt64(timeMs)
 
@@ -423,6 +438,7 @@ func (p *TvInputSessionCallbackProxy) OnTimeShiftCurrentPositionChanged(
 	timeMs int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt64(timeMs)
 
@@ -440,6 +456,7 @@ func (p *TvInputSessionCallbackProxy) OnAitInfoUpdated(
 	aitInfo AitInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt32(1)
 	if _err := aitInfo.MarshalParcel(_data); _err != nil {
@@ -460,6 +477,7 @@ func (p *TvInputSessionCallbackProxy) OnSignalStrength(
 	strength int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt32(strength)
 
@@ -477,6 +495,7 @@ func (p *TvInputSessionCallbackProxy) OnCueingMessageAvailability(
 	available bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteBool(available)
 
@@ -494,6 +513,7 @@ func (p *TvInputSessionCallbackProxy) OnTimeShiftMode(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt32(mode)
 
@@ -511,6 +531,7 @@ func (p *TvInputSessionCallbackProxy) OnAvailableSpeeds(
 	speeds []float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	if speeds == nil {
 		_data.WriteInt32(-1)
@@ -535,6 +556,7 @@ func (p *TvInputSessionCallbackProxy) OnTuned(
 	channelUri net.Uri,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
@@ -555,6 +577,7 @@ func (p *TvInputSessionCallbackProxy) OnRecordingStopped(
 	recordedProgramUri net.Uri,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt32(1)
 	if _err := recordedProgramUri.MarshalParcel(_data); _err != nil {
@@ -575,6 +598,7 @@ func (p *TvInputSessionCallbackProxy) OnError(
 	error_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt32(error_)
 
@@ -592,6 +616,7 @@ func (p *TvInputSessionCallbackProxy) OnBroadcastInfoResponse(
 	response BroadcastInfoResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
@@ -612,6 +637,7 @@ func (p *TvInputSessionCallbackProxy) OnAdResponse(
 	response AdResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
@@ -632,6 +658,7 @@ func (p *TvInputSessionCallbackProxy) OnAdBufferConsumed(
 	buffer AdBuffer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt32(1)
 	if _err := buffer.MarshalParcel(_data); _err != nil {
@@ -653,6 +680,7 @@ func (p *TvInputSessionCallbackProxy) OnTvMessage(
 	data os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteInt32(type_)
 	_data.WriteInt32(1)
@@ -675,6 +703,7 @@ func (p *TvInputSessionCallbackProxy) OnTvInputSessionData(
 	data os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputSessionCallback)
 	_data.WriteString16(type_)
 	_data.WriteInt32(1)
@@ -694,7 +723,8 @@ func (p *TvInputSessionCallbackProxy) OnTvInputSessionData(
 // TvInputSessionCallbackStub dispatches incoming binder transactions
 // to a typed ITvInputSessionCallback implementation.
 type TvInputSessionCallbackStub struct {
-	Impl ITvInputSessionCallback
+	Impl      ITvInputSessionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvInputSessionCallbackStub)(nil)
@@ -708,24 +738,31 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvInputSessionCallbackOnSessionCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session ITvInputSession
-		_ = _arg_session
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_hardwareSessionToken binder.IBinder
-		_ = _arg_hardwareSessionToken
-		_err := s.Impl.OnSessionCreated(ctx, _arg_session, _arg_hardwareSessionToken)
-		_ = _err
-		return nil, nil
-	case TransactionITvInputSessionCallbackOnSessionEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_sessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_session = NewTvInputSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionHandle))
 		}
+		var _arg_hardwareSessionToken binder.IBinder
+		{
+			_hardwareSessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hardwareSessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _hardwareSessionTokenHandle)
+		}
+		_err := s.Impl.OnSessionCreated(ctx, _arg_session, _arg_hardwareSessionToken)
+		return nil, _err
+	case TransactionITvInputSessionCallbackOnSessionEvent:
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -743,12 +780,8 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnSessionEvent(ctx, _arg_name, _arg_args)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnChannelRetuned:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_channelUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -762,22 +795,32 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnChannelRetuned(ctx, _arg_channelUri)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnAudioPresentationsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_tvAudioPresentations []tuner.AudioPresentation
-		_ = _arg_tvAudioPresentations
-		_err := s.Impl.OnAudioPresentationsChanged(ctx, _arg_tvAudioPresentations)
-		_ = _err
-		return nil, nil
-	case TransactionITvInputSessionCallbackOnAudioPresentationSelected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_tvAudioPresentations = make([]tuner.AudioPresentation, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_tvAudioPresentations[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnAudioPresentationsChanged(ctx, _arg_tvAudioPresentations)
+		return nil, _err
+	case TransactionITvInputSessionCallbackOnAudioPresentationSelected:
 		_arg_presentationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -787,22 +830,32 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAudioPresentationSelected(ctx, _arg_presentationId, _arg_programId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnTracksChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_tracks []TvTrackInfo
-		_ = _arg_tracks
-		_err := s.Impl.OnTracksChanged(ctx, _arg_tracks)
-		_ = _err
-		return nil, nil
-	case TransactionITvInputSessionCallbackOnTrackSelected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_tracks = make([]TvTrackInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_tracks[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnTracksChanged(ctx, _arg_tracks)
+		return nil, _err
+	case TransactionITvInputSessionCallbackOnTrackSelected:
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -812,59 +865,35 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTrackSelected(ctx, _arg_type_, _arg_trackId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnVideoAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnVideoAvailable(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnVideoUnavailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnVideoUnavailable(ctx, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnVideoFreezeUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isFrozen, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnVideoFreezeUpdated(ctx, _arg_isFrozen)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnContentAllowed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnContentAllowed(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnContentBlocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rating, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnContentBlocked(ctx, _arg_rating)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnLayoutSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_left, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -882,45 +911,29 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnLayoutSurface(ctx, _arg_left, _arg_top, _arg_right, _arg_bottom)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnTimeShiftStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTimeShiftStatusChanged(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnTimeShiftStartPositionChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTimeShiftStartPositionChanged(ctx, _arg_timeMs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnTimeShiftCurrentPositionChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_timeMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTimeShiftCurrentPositionChanged(ctx, _arg_timeMs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnAitInfoUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_aitInfo AitInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -934,55 +947,51 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnAitInfoUpdated(ctx, _arg_aitInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnSignalStrength:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_strength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSignalStrength(ctx, _arg_strength)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnCueingMessageAvailability:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_available, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnCueingMessageAvailability(ctx, _arg_available)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnTimeShiftMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTimeShiftMode(ctx, _arg_mode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnAvailableSpeeds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_speeds []float32
-		_ = _arg_speeds
-		_err := s.Impl.OnAvailableSpeeds(ctx, _arg_speeds)
-		_ = _err
-		return nil, nil
-	case TransactionITvInputSessionCallbackOnTuned:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_speeds = make([]float32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_speeds[_i], _err = _data.ReadFloat32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnAvailableSpeeds(ctx, _arg_speeds)
+		return nil, _err
+	case TransactionITvInputSessionCallbackOnTuned:
 		var _arg_channelUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -996,12 +1005,8 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnTuned(ctx, _arg_channelUri)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnRecordingStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_recordedProgramUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1015,23 +1020,15 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnRecordingStopped(ctx, _arg_recordedProgramUri)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnBroadcastInfoResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_response BroadcastInfoResponse
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1045,12 +1042,8 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnBroadcastInfoResponse(ctx, _arg_response)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnAdResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_response AdResponse
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1064,12 +1057,8 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnAdResponse(ctx, _arg_response)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnAdBufferConsumed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_buffer AdBuffer
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1083,12 +1072,8 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnAdBufferConsumed(ctx, _arg_buffer)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnTvMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1106,12 +1091,8 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnTvMessage(ctx, _arg_type_, _arg_data)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITvInputSessionCallbackOnTvInputSessionData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_type_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1129,8 +1110,7 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnTvInputSessionData(ctx, _arg_type_, _arg_data)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

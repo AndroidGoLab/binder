@@ -1,0 +1,943 @@
+package: android.hardware.fingerprint
+go_package: android/hardware/fingerprint
+interfaces:
+    - name: IFingerprintAuthenticatorsRegisteredCallback
+      descriptor: android.hardware.fingerprint.IFingerprintAuthenticatorsRegisteredCallback
+      oneway: true
+      methods:
+        - name: onAllAuthenticatorsRegistered
+          transaction_code_offset: 0
+          params:
+            - name: sensors
+              type:
+                name: List
+                type_args:
+                    - name: FingerprintSensorPropertiesInternal
+              direction: in
+          return_type:
+            name: void
+    - name: IFingerprintClientActiveCallback
+      descriptor: android.hardware.fingerprint.IFingerprintClientActiveCallback
+      oneway: true
+      methods:
+        - name: onClientActiveChanged
+          transaction_code_offset: 0
+          params:
+            - name: isActive
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IFingerprintService
+      descriptor: android.hardware.fingerprint.IFingerprintService
+      methods:
+        - name: createTestSession
+          transaction_code_offset: 0
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: ITestSessionCallback
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: ITestSession
+          annotations:
+            - EnforcePermission
+        - name: dumpSensorServiceStateProto
+          transaction_code_offset: 1
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: clearSchedulerBuffer
+              type:
+                name: boolean
+          return_type:
+            name: byte
+            is_array: true
+          annotations:
+            - EnforcePermission
+        - name: getSensorPropertiesInternal
+          transaction_code_offset: 2
+          params:
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: FingerprintSensorPropertiesInternal
+        - name: getSensorProperties
+          transaction_code_offset: 3
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: FingerprintSensorPropertiesInternal
+          annotations:
+            - EnforcePermission
+        - name: authenticate
+          transaction_code_offset: 4
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: operationId
+              type:
+                name: long
+            - name: receiver
+              type:
+                name: IFingerprintServiceReceiver
+            - name: options
+              type:
+                name: FingerprintAuthenticateOptions
+              direction: in
+          return_type:
+            name: long
+        - name: detectFingerprint
+          transaction_code_offset: 5
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: receiver
+              type:
+                name: IFingerprintServiceReceiver
+            - name: options
+              type:
+                name: FingerprintAuthenticateOptions
+              direction: in
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: prepareForAuthentication
+          transaction_code_offset: 6
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: operationId
+              type:
+                name: long
+            - name: sensorReceiver
+              type:
+                name: IBiometricSensorReceiver
+            - name: options
+              type:
+                name: FingerprintAuthenticateOptions
+              direction: in
+            - name: requestId
+              type:
+                name: long
+            - name: cookie
+              type:
+                name: int
+            - name: allowBackgroundAuthentication
+              type:
+                name: boolean
+            - name: isForLegacyFingerprintManager
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: startPreparedClient
+          transaction_code_offset: 7
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: cookie
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: cancelAuthentication
+          transaction_code_offset: 8
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: opPackageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+            - name: requestId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: cancelFingerprintDetect
+          transaction_code_offset: 9
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: opPackageName
+              type:
+                name: String
+            - name: requestId
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: cancelAuthenticationFromService
+          transaction_code_offset: 10
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: token
+              type:
+                name: IBinder
+            - name: opPackageName
+              type:
+                name: String
+            - name: requestId
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: enroll
+          transaction_code_offset: 11
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: hardwareAuthToken
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: receiver
+              type:
+                name: IFingerprintServiceReceiver
+            - name: opPackageName
+              type:
+                name: String
+            - name: enrollReason
+              type:
+                name: int
+            - name: options
+              type:
+                name: FingerprintEnrollOptions
+              direction: in
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: cancelEnrollment
+          transaction_code_offset: 12
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: requestId
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: remove
+          transaction_code_offset: 13
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: fingerId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: receiver
+              type:
+                name: IFingerprintServiceReceiver
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: removeAll
+          transaction_code_offset: 14
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: userId
+              type:
+                name: int
+            - name: receiver
+              type:
+                name: IFingerprintServiceReceiver
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: rename
+          transaction_code_offset: 15
+          params:
+            - name: fingerId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getEnrolledFingerprints
+          transaction_code_offset: 16
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: Fingerprint
+        - name: isHardwareDetectedDeprecated
+          transaction_code_offset: 17
+          params:
+            - name: opPackageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: isHardwareDetected
+          transaction_code_offset: 18
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: generateChallenge
+          transaction_code_offset: 19
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: receiver
+              type:
+                name: IFingerprintServiceReceiver
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: revokeChallenge
+          transaction_code_offset: 20
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+            - name: challenge
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: hasEnrolledFingerprintsDeprecated
+          transaction_code_offset: 21
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+            - name: attributionTag
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: hasEnrolledFingerprints
+          transaction_code_offset: 22
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: getLockoutModeForUser
+          transaction_code_offset: 23
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: invalidateAuthenticatorId
+          transaction_code_offset: 24
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IInvalidationCallback
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getAuthenticatorId
+          transaction_code_offset: 25
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: callingUserId
+              type:
+                name: int
+          return_type:
+            name: long
+          annotations:
+            - EnforcePermission
+        - name: resetLockout
+          transaction_code_offset: 26
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: hardwareAuthToken
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: opPackageNAame
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: addLockoutResetCallback
+          transaction_code_offset: 27
+          params:
+            - name: callback
+              type:
+                name: IBiometricServiceLockoutResetCallback
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: isClientActive
+          transaction_code_offset: 28
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: addClientActiveCallback
+          transaction_code_offset: 29
+          params:
+            - name: callback
+              type:
+                name: IFingerprintClientActiveCallback
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: removeClientActiveCallback
+          transaction_code_offset: 30
+          params:
+            - name: callback
+              type:
+                name: IFingerprintClientActiveCallback
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: registerAuthenticatorsLegacy
+          transaction_code_offset: 31
+          params:
+            - name: fingerprintSensorConfigurations
+              type:
+                name: FingerprintSensorConfigurations
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: registerAuthenticators
+          transaction_code_offset: 32
+          params:
+            - name: hidlSensors
+              type:
+                name: List
+                type_args:
+                    - name: FingerprintSensorPropertiesInternal
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: addAuthenticatorsRegisteredCallback
+          transaction_code_offset: 33
+          params:
+            - name: callback
+              type:
+                name: IFingerprintAuthenticatorsRegisteredCallback
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: onPointerDown
+          transaction_code_offset: 34
+          params:
+            - name: requestId
+              type:
+                name: long
+            - name: sensorId
+              type:
+                name: int
+            - name: pc
+              type:
+                name: PointerContext
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: onPointerUp
+          transaction_code_offset: 35
+          params:
+            - name: requestId
+              type:
+                name: long
+            - name: sensorId
+              type:
+                name: int
+            - name: pc
+              type:
+                name: PointerContext
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: onUdfpsUiEvent
+          transaction_code_offset: 36
+          params:
+            - name: event
+              type:
+                name: int
+            - name: requestId
+              type:
+                name: long
+            - name: sensorId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setUdfpsOverlayController
+          transaction_code_offset: 37
+          params:
+            - name: controller
+              type:
+                name: IUdfpsOverlayController
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setSidefpsController
+          transaction_code_offset: 38
+          params:
+            - name: controller
+              type:
+                name: ISidefpsController
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: registerAuthenticationStateListener
+          transaction_code_offset: 39
+          params:
+            - name: listener
+              type:
+                name: AuthenticationStateListener
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: unregisterAuthenticationStateListener
+          transaction_code_offset: 40
+          params:
+            - name: listener
+              type:
+                name: AuthenticationStateListener
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: registerBiometricStateListener
+          transaction_code_offset: 41
+          params:
+            - name: listener
+              type:
+                name: IBiometricStateListener
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: onPowerPressed
+          transaction_code_offset: 42
+          oneway: true
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: scheduleWatchdog
+          transaction_code_offset: 43
+          oneway: true
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+    - name: IFingerprintServiceReceiver
+      descriptor: android.hardware.fingerprint.IFingerprintServiceReceiver
+      oneway: true
+      methods:
+        - name: onEnrollResult
+          transaction_code_offset: 0
+          params:
+            - name: fp
+              type:
+                name: Fingerprint
+              direction: in
+            - name: remaining
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAcquired
+          transaction_code_offset: 1
+          params:
+            - name: acquiredInfo
+              type:
+                name: int
+            - name: vendorCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAuthenticationSucceeded
+          transaction_code_offset: 2
+          params:
+            - name: fp
+              type:
+                name: Fingerprint
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: isStrongBiometric
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onFingerprintDetected
+          transaction_code_offset: 3
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: isStrongBiometric
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onAuthenticationFailed
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 5
+          params:
+            - name: error
+              type:
+                name: int
+            - name: vendorCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRemoved
+          transaction_code_offset: 6
+          params:
+            - name: fp
+              type:
+                name: Fingerprint
+              direction: in
+            - name: remaining
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onChallengeGenerated
+          transaction_code_offset: 7
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: challenge
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onUdfpsPointerDown
+          transaction_code_offset: 8
+          params:
+            - name: sensorId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onUdfpsPointerUp
+          transaction_code_offset: 9
+          params:
+            - name: sensorId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onUdfpsOverlayShown
+          transaction_code_offset: 10
+          return_type:
+            name: void
+    - name: ISidefpsController
+      descriptor: android.hardware.fingerprint.ISidefpsController
+      oneway: true
+      methods:
+        - name: show
+          transaction_code_offset: 0
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: hide
+          transaction_code_offset: 1
+          params:
+            - name: sensorId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IUdfpsOverlayController
+      descriptor: android.hardware.fingerprint.IUdfpsOverlayController
+      oneway: true
+      methods:
+        - name: showUdfpsOverlay
+          transaction_code_offset: 0
+          params:
+            - name: requestId
+              type:
+                name: long
+            - name: sensorId
+              type:
+                name: int
+            - name: reason
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IUdfpsOverlayControllerCallback
+          return_type:
+            name: void
+        - name: hideUdfpsOverlay
+          transaction_code_offset: 1
+          params:
+            - name: sensorId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAcquired
+          transaction_code_offset: 2
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: acquiredInfo
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onEnrollmentProgress
+          transaction_code_offset: 3
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: remaining
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onEnrollmentHelp
+          transaction_code_offset: 4
+          params:
+            - name: sensorId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setDebugMessage
+          transaction_code_offset: 5
+          params:
+            - name: sensorId
+              type:
+                name: int
+            - name: message
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IUdfpsOverlayControllerCallback
+      descriptor: android.hardware.fingerprint.IUdfpsOverlayControllerCallback
+      oneway: true
+      methods:
+        - name: onUserCanceled
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: IUdfpsRefreshRateRequestCallback
+      descriptor: android.hardware.fingerprint.IUdfpsRefreshRateRequestCallback
+      oneway: true
+      methods:
+        - name: onRequestEnabled
+          transaction_code_offset: 0
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestDisabled
+          transaction_code_offset: 1
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAuthenticationPossible
+          transaction_code_offset: 2
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: isPossible
+              type:
+                name: boolean
+          return_type:
+            name: void
+parcelables:
+    - name: Fingerprint
+    - name: FingerprintAuthenticateOptions
+    - name: FingerprintEnrollOptions
+    - name: FingerprintSensorConfigurations
+    - name: FingerprintSensorPropertiesInternal

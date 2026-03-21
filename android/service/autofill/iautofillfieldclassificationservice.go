@@ -3,6 +3,8 @@ package autofill
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
+	types "github.com/xaionaro-go/binder/android/view/autofill/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +23,7 @@ const (
 
 type IAutofillFieldClassificationService interface {
 	AsBinder() binder.IBinder
-	CalculateScores(ctx context.Context, callback interface{}, actualValues []interface{}, userDataValues []string, categoryIds []string, defaultAlgorithm string, defaultArgs interface{}, algorithms map[interface{}]interface{}, args map[interface{}]interface{}) error
+	CalculateScores(ctx context.Context, callback os.RemoteCallback, actualValues []types.AutofillValue, userDataValues []string, categoryIds []string, defaultAlgorithm string, defaultArgs os.Bundle, algorithms map[any]any, args map[any]any) error
 }
 
 type AutofillFieldClassificationServiceProxy struct {
@@ -42,17 +44,22 @@ var _ IAutofillFieldClassificationService = (*AutofillFieldClassificationService
 
 func (p *AutofillFieldClassificationServiceProxy) CalculateScores(
 	ctx context.Context,
-	callback interface{},
-	actualValues []interface{},
+	callback os.RemoteCallback,
+	actualValues []types.AutofillValue,
 	userDataValues []string,
 	categoryIds []string,
 	defaultAlgorithm string,
-	defaultArgs interface{},
-	algorithms map[interface{}]interface{},
-	args map[interface{}]interface{},
+	defaultArgs os.Bundle,
+	algorithms map[any]any,
+	args map[any]any,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutofillFieldClassificationService)
+	_data.WriteInt32(1)
+	if _err := callback.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	if actualValues == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -75,6 +82,10 @@ func (p *AutofillFieldClassificationServiceProxy) CalculateScores(
 		}
 	}
 	_data.WriteString16(defaultAlgorithm)
+	_data.WriteInt32(1)
+	if _err := defaultArgs.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	if algorithms == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -106,7 +117,8 @@ func (p *AutofillFieldClassificationServiceProxy) CalculateScores(
 // AutofillFieldClassificationServiceStub dispatches incoming binder transactions
 // to a typed IAutofillFieldClassificationService implementation.
 type AutofillFieldClassificationServiceStub struct {
-	Impl IAutofillFieldClassificationService
+	Impl      IAutofillFieldClassificationService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AutofillFieldClassificationServiceStub)(nil)
@@ -120,35 +132,135 @@ func (s *AutofillFieldClassificationServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAutofillFieldClassificationServiceCalculateScores:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_callback os.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_callback interface{}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_actualValues []interface{}
-		_ = _arg_actualValues
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_actualValues []types.AutofillValue
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_actualValues = make([]types.AutofillValue, _count)
+			}
+		}
 		var _arg_userDataValues []string
-		_ = _arg_userDataValues
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_userDataValues = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_userDataValues[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_categoryIds []string
-		_ = _arg_categoryIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_categoryIds = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_categoryIds[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_defaultAlgorithm, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_defaultArgs interface{}
-		// TODO: map param unmarshaling not yet supported in stubs
-		var _arg_algorithms map[interface{}]interface{}
-		_ = _arg_algorithms
-		// TODO: map param unmarshaling not yet supported in stubs
-		var _arg_args map[interface{}]interface{}
-		_ = _arg_args
+		var _arg_defaultArgs os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_defaultArgs.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_algorithms map[any]any
+		{
+			_mapCount, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _mapCount >= 0 {
+				_arg_algorithms = make(map[any]any, _mapCount)
+				for _mi := int32(0); _mi < _mapCount; _mi++ {
+					_mk, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_mv, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_algorithms[_mk] = _mv
+				}
+			}
+		}
+		var _arg_args map[any]any
+		{
+			_mapCount, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _mapCount >= 0 {
+				_arg_args = make(map[any]any, _mapCount)
+				for _mi := int32(0); _mi < _mapCount; _mi++ {
+					_mk, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_mv, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_args[_mk] = _mv
+				}
+			}
+		}
 		_err = s.Impl.CalculateScores(ctx, _arg_callback, _arg_actualValues, _arg_userDataValues, _arg_categoryIds, _arg_defaultAlgorithm, _arg_defaultArgs, _arg_algorithms, _arg_args)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -158,7 +270,7 @@ func (s *AutofillFieldClassificationServiceStub) OnTransaction(
 // provide to NewAutofillFieldClassificationServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAutofillFieldClassificationServiceServer interface {
-	CalculateScores(ctx context.Context, callback interface{}, actualValues []interface{}, userDataValues []string, categoryIds []string, defaultAlgorithm string, defaultArgs interface{}, algorithms map[interface{}]interface{}, args map[interface{}]interface{}) error
+	CalculateScores(ctx context.Context, callback os.RemoteCallback, actualValues []types.AutofillValue, userDataValues []string, categoryIds []string, defaultAlgorithm string, defaultArgs os.Bundle, algorithms map[any]any, args map[any]any) error
 }
 
 type autofillFieldClassificationServiceStubWrapper struct {
@@ -172,14 +284,14 @@ func (w *autofillFieldClassificationServiceStubWrapper) AsBinder() binder.IBinde
 
 func (w *autofillFieldClassificationServiceStubWrapper) CalculateScores(
 	ctx context.Context,
-	callback interface{},
-	actualValues []interface{},
+	callback os.RemoteCallback,
+	actualValues []types.AutofillValue,
 	userDataValues []string,
 	categoryIds []string,
 	defaultAlgorithm string,
-	defaultArgs interface{},
-	algorithms map[interface{}]interface{},
-	args map[interface{}]interface{},
+	defaultArgs os.Bundle,
+	algorithms map[any]any,
+	args map[any]any,
 ) error {
 	return w.impl.CalculateScores(ctx, callback, actualValues, userDataValues, categoryIds, defaultAlgorithm, defaultArgs, algorithms, args)
 }

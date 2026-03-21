@@ -50,6 +50,7 @@ func (p *SplitSelectListenerProxy) OnRequestSplitSelect(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISplitSelectListener)
 	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
@@ -86,7 +87,8 @@ func (p *SplitSelectListenerProxy) OnRequestSplitSelect(
 // SplitSelectListenerStub dispatches incoming binder transactions
 // to a typed ISplitSelectListener implementation.
 type SplitSelectListenerStub struct {
-	Impl ISplitSelectListener
+	Impl      ISplitSelectListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SplitSelectListenerStub)(nil)
@@ -100,11 +102,12 @@ func (s *SplitSelectListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISplitSelectListenerOnRequestSplitSelect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
 		{
 			_nullInd, _err := _data.ReadInt32()

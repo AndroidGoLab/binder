@@ -153,6 +153,7 @@ func (p *RadioSimProxy) AreUiccApplicationsEnabled(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 
@@ -173,6 +174,7 @@ func (p *RadioSimProxy) ChangeIccPin2ForApp(
 	aid string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteString16(oldPin2)
@@ -196,6 +198,7 @@ func (p *RadioSimProxy) ChangeIccPinForApp(
 	aid string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteString16(oldPin)
@@ -217,6 +220,7 @@ func (p *RadioSimProxy) EnableUiccApplications(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteBool(enable)
@@ -235,6 +239,7 @@ func (p *RadioSimProxy) GetAllowedCarriers(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 
@@ -252,6 +257,7 @@ func (p *RadioSimProxy) GetCdmaSubscription(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 
@@ -269,6 +275,7 @@ func (p *RadioSimProxy) GetCdmaSubscriptionSource(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 
@@ -290,6 +297,7 @@ func (p *RadioSimProxy) GetFacilityLockForApp(
 	appId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteString16(facility)
@@ -311,6 +319,7 @@ func (p *RadioSimProxy) GetIccCardStatus(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 
@@ -329,6 +338,7 @@ func (p *RadioSimProxy) GetImsiForApp(
 	aid string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteString16(aid)
@@ -347,6 +357,7 @@ func (p *RadioSimProxy) GetSimPhonebookCapacity(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 
@@ -364,6 +375,7 @@ func (p *RadioSimProxy) GetSimPhonebookRecords(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 
@@ -382,6 +394,7 @@ func (p *RadioSimProxy) IccCloseLogicalChannel(
 	channelId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(channelId)
@@ -401,6 +414,7 @@ func (p *RadioSimProxy) IccIoForApp(
 	iccIo IccIo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(1)
@@ -424,6 +438,7 @@ func (p *RadioSimProxy) IccOpenLogicalChannel(
 	p2 int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteString16(aid)
@@ -444,6 +459,7 @@ func (p *RadioSimProxy) IccTransmitApduBasicChannel(
 	message SimApdu,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(1)
@@ -466,6 +482,7 @@ func (p *RadioSimProxy) IccTransmitApduLogicalChannel(
 	message SimApdu,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(1)
@@ -487,6 +504,7 @@ func (p *RadioSimProxy) ReportStkServiceIsRunning(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 
@@ -507,6 +525,7 @@ func (p *RadioSimProxy) RequestIccSimAuthentication(
 	aid string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(authContext)
@@ -526,6 +545,7 @@ func (p *RadioSimProxy) ResponseAcknowledgement(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioSim, MethodIRadioSimResponseAcknowledgement)
@@ -543,6 +563,7 @@ func (p *RadioSimProxy) SendEnvelope(
 	contents string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteString16(contents)
@@ -562,6 +583,7 @@ func (p *RadioSimProxy) SendEnvelopeWithStatus(
 	contents string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteString16(contents)
@@ -581,6 +603,7 @@ func (p *RadioSimProxy) SendTerminalResponseToSim(
 	contents string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteString16(contents)
@@ -601,6 +624,7 @@ func (p *RadioSimProxy) SetAllowedCarriers(
 	multiSimPolicy SimLockMultiSimPolicy,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(1)
@@ -624,6 +648,7 @@ func (p *RadioSimProxy) SetCarrierInfoForImsiEncryption(
 	imsiEncryptionInfo ImsiEncryptionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(1)
@@ -646,6 +671,7 @@ func (p *RadioSimProxy) SetCdmaSubscriptionSource(
 	cdmaSub CdmaSubscriptionSource,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(cdmaSub))
@@ -669,6 +695,7 @@ func (p *RadioSimProxy) SetFacilityLockForApp(
 	appId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteString16(facility)
@@ -692,6 +719,7 @@ func (p *RadioSimProxy) SetResponseFunctions(
 	radioSimIndication IRadioSimIndication,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	binder.WriteBinderToParcel(ctx, _data, radioSimResponse.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, radioSimIndication.AsBinder(), p.Remote.Transport())
@@ -711,6 +739,7 @@ func (p *RadioSimProxy) SetSimCardPower(
 	powerUp CardPowerState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(powerUp))
@@ -730,6 +759,7 @@ func (p *RadioSimProxy) SetUiccSubscription(
 	uiccSub SelectUiccSub,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(1)
@@ -753,6 +783,7 @@ func (p *RadioSimProxy) SupplyIccPin2ForApp(
 	aid string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteString16(pin2)
@@ -774,6 +805,7 @@ func (p *RadioSimProxy) SupplyIccPinForApp(
 	aid string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteString16(pin)
@@ -796,6 +828,7 @@ func (p *RadioSimProxy) SupplyIccPuk2ForApp(
 	aid string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteString16(puk2)
@@ -819,6 +852,7 @@ func (p *RadioSimProxy) SupplyIccPukForApp(
 	aid string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteString16(puk)
@@ -841,6 +875,7 @@ func (p *RadioSimProxy) SupplySimDepersonalization(
 	controlKey string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(persoType))
@@ -861,6 +896,7 @@ func (p *RadioSimProxy) UpdateSimPhonebookRecords(
 	recordInfo PhonebookRecordInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(1)
@@ -883,6 +919,7 @@ func (p *RadioSimProxy) IccCloseLogicalChannelWithSessionInfo(
 	sessionInfo SessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(1)
@@ -902,7 +939,8 @@ func (p *RadioSimProxy) IccCloseLogicalChannelWithSessionInfo(
 // RadioSimStub dispatches incoming binder transactions
 // to a typed IRadioSim implementation.
 type RadioSimStub struct {
-	Impl IRadioSim
+	Impl      IRadioSim
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RadioSimStub)(nil)
@@ -916,22 +954,19 @@ func (s *RadioSimStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRadioSimAreUiccApplicationsEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AreUiccApplicationsEnabled(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimChangeIccPin2ForApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -949,12 +984,8 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ChangeIccPin2ForApp(ctx, _arg_serial, _arg_oldPin2, _arg_newPin2, _arg_aid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimChangeIccPinForApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -972,12 +1003,8 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ChangeIccPinForApp(ctx, _arg_serial, _arg_oldPin, _arg_newPin, _arg_aid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimEnableUiccApplications:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -987,45 +1014,29 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.EnableUiccApplications(ctx, _arg_serial, _arg_enable)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimGetAllowedCarriers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetAllowedCarriers(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimGetCdmaSubscription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetCdmaSubscription(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimGetCdmaSubscriptionSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetCdmaSubscriptionSource(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimGetFacilityLockForApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1047,23 +1058,15 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.GetFacilityLockForApp(ctx, _arg_serial, _arg_facility, _arg_password, _arg_serviceClass, _arg_appId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimGetIccCardStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetIccCardStatus(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimGetImsiForApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1073,34 +1076,22 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.GetImsiForApp(ctx, _arg_serial, _arg_aid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimGetSimPhonebookCapacity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetSimPhonebookCapacity(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimGetSimPhonebookRecords:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetSimPhonebookRecords(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimIccCloseLogicalChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1110,12 +1101,8 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.IccCloseLogicalChannel(ctx, _arg_serial, _arg_channelId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimIccIoForApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1133,12 +1120,8 @@ func (s *RadioSimStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.IccIoForApp(ctx, _arg_serial, _arg_iccIo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimIccOpenLogicalChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1152,12 +1135,8 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.IccOpenLogicalChannel(ctx, _arg_serial, _arg_aid, _arg_p2)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimIccTransmitApduBasicChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1175,12 +1154,8 @@ func (s *RadioSimStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.IccTransmitApduBasicChannel(ctx, _arg_serial, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimIccTransmitApduLogicalChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1198,23 +1173,15 @@ func (s *RadioSimStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.IccTransmitApduLogicalChannel(ctx, _arg_serial, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimReportStkServiceIsRunning:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ReportStkServiceIsRunning(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimRequestIccSimAuthentication:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1232,19 +1199,11 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.RequestIccSimAuthentication(ctx, _arg_serial, _arg_authContext, _arg_authData, _arg_aid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimResponseAcknowledgement:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResponseAcknowledgement(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimSendEnvelope:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1254,12 +1213,8 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SendEnvelope(ctx, _arg_serial, _arg_contents)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimSendEnvelopeWithStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1269,12 +1224,8 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SendEnvelopeWithStatus(ctx, _arg_serial, _arg_contents)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimSendTerminalResponseToSim:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1284,12 +1235,8 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SendTerminalResponseToSim(ctx, _arg_serial, _arg_contents)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimSetAllowedCarriers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1312,12 +1259,8 @@ func (s *RadioSimStub) OnTransaction(
 		}
 		_arg_multiSimPolicy := SimLockMultiSimPolicy(_raw_multiSimPolicy)
 		_err = s.Impl.SetAllowedCarriers(ctx, _arg_serial, _arg_carriers, _arg_multiSimPolicy)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimSetCarrierInfoForImsiEncryption:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1335,12 +1278,8 @@ func (s *RadioSimStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetCarrierInfoForImsiEncryption(ctx, _arg_serial, _arg_imsiEncryptionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimSetCdmaSubscriptionSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1351,12 +1290,8 @@ func (s *RadioSimStub) OnTransaction(
 		}
 		_arg_cdmaSub := CdmaSubscriptionSource(_raw_cdmaSub)
 		_err = s.Impl.SetCdmaSubscriptionSource(ctx, _arg_serial, _arg_cdmaSub)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimSetFacilityLockForApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1382,25 +1317,27 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetFacilityLockForApp(ctx, _arg_serial, _arg_facility, _arg_lockState, _arg_password, _arg_serviceClass, _arg_appId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimSetResponseFunctions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_radioSimResponse IRadioSimResponse
-		_ = _arg_radioSimResponse
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_radioSimIndication IRadioSimIndication
-		_ = _arg_radioSimIndication
-		_err := s.Impl.SetResponseFunctions(ctx, _arg_radioSimResponse, _arg_radioSimIndication)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioSimSetSimCardPower:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_radioSimResponseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_radioSimResponse = NewRadioSimResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _radioSimResponseHandle))
 		}
+		var _arg_radioSimIndication IRadioSimIndication
+		{
+			_radioSimIndicationHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_radioSimIndication = NewRadioSimIndicationProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _radioSimIndicationHandle))
+		}
+		_err := s.Impl.SetResponseFunctions(ctx, _arg_radioSimResponse, _arg_radioSimIndication)
+		return nil, _err
+	case TransactionIRadioSimSetSimCardPower:
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1411,12 +1348,8 @@ func (s *RadioSimStub) OnTransaction(
 		}
 		_arg_powerUp := CardPowerState(_raw_powerUp)
 		_err = s.Impl.SetSimCardPower(ctx, _arg_serial, _arg_powerUp)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimSetUiccSubscription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1434,12 +1367,8 @@ func (s *RadioSimStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetUiccSubscription(ctx, _arg_serial, _arg_uiccSub)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimSupplyIccPin2ForApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1453,12 +1382,8 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SupplyIccPin2ForApp(ctx, _arg_serial, _arg_pin2, _arg_aid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimSupplyIccPinForApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1472,12 +1397,8 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SupplyIccPinForApp(ctx, _arg_serial, _arg_pin, _arg_aid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimSupplyIccPuk2ForApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1495,12 +1416,8 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SupplyIccPuk2ForApp(ctx, _arg_serial, _arg_puk2, _arg_pin2, _arg_aid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimSupplyIccPukForApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1518,12 +1435,8 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SupplyIccPukForApp(ctx, _arg_serial, _arg_puk, _arg_pin, _arg_aid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimSupplySimDepersonalization:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1538,12 +1451,8 @@ func (s *RadioSimStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SupplySimDepersonalization(ctx, _arg_serial, _arg_persoType, _arg_controlKey)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimUpdateSimPhonebookRecords:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1561,12 +1470,8 @@ func (s *RadioSimStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.UpdateSimPhonebookRecords(ctx, _arg_serial, _arg_recordInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioSimIccCloseLogicalChannelWithSessionInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1584,8 +1489,7 @@ func (s *RadioSimStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.IccCloseLogicalChannelWithSessionInfo(ctx, _arg_serial, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

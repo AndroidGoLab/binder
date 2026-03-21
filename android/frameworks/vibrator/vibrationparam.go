@@ -29,8 +29,7 @@ func (u *VibrationParam) GetScale() (ScaleParam, bool) {
 func (u *VibrationParam) SetScale(
 	v ScaleParam,
 ) {
-	u.Tag = VibrationParamTagScale
-	u.Scale = v
+	*u = VibrationParam{Tag: VibrationParamTagScale, Scale: v}
 }
 
 func (u *VibrationParam) MarshalParcel(

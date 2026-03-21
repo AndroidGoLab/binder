@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	device "github.com/xaionaro-go/binder/android/frameworks/cameraservice/device"
+	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -40,7 +41,7 @@ const (
 
 type ISessionProcessorImpl interface {
 	AsBinder() binder.IBinder
-	InitSession(ctx context.Context, token binder.IBinder, cameraId string, charsMap map[string]interface{}, previewSurface OutputSurface, imageCaptureSurface OutputSurface, postviewSurface OutputSurface) (CameraSessionConfig, error)
+	InitSession(ctx context.Context, token binder.IBinder, cameraId string, charsMap map[string]impl.CameraMetadataNative, previewSurface OutputSurface, imageCaptureSurface OutputSurface, postviewSurface OutputSurface) (CameraSessionConfig, error)
 	DeInitSession(ctx context.Context, token binder.IBinder) error
 	OnCaptureSessionStart(ctx context.Context, requestProcessor IRequestProcessorImpl, statsKey string) error
 	OnCaptureSessionEnd(ctx context.Context) error
@@ -72,13 +73,14 @@ func (p *SessionProcessorImplProxy) InitSession(
 	ctx context.Context,
 	token binder.IBinder,
 	cameraId string,
-	charsMap map[string]interface{},
+	charsMap map[string]impl.CameraMetadataNative,
 	previewSurface OutputSurface,
 	imageCaptureSurface OutputSurface,
 	postviewSurface OutputSurface,
 ) (CameraSessionConfig, error) {
 	var _result CameraSessionConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(cameraId)
@@ -86,6 +88,13 @@ func (p *SessionProcessorImplProxy) InitSession(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(charsMap)))
+		for _k, _v := range charsMap {
+			_data.WriteString16(_k)
+			_data.WriteInt32(1)
+			if _err := _v.MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 	_data.WriteInt32(1)
 	if _err := previewSurface.MarshalParcel(_data); _err != nil {
@@ -132,6 +141,7 @@ func (p *SessionProcessorImplProxy) DeInitSession(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -159,6 +169,7 @@ func (p *SessionProcessorImplProxy) OnCaptureSessionStart(
 	statsKey string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
 	binder.WriteBinderToParcel(ctx, _data, requestProcessor.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(statsKey)
@@ -185,6 +196,7 @@ func (p *SessionProcessorImplProxy) OnCaptureSessionEnd(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionProcessorImpl, MethodISessionProcessorImplOnCaptureSessionEnd)
@@ -211,6 +223,7 @@ func (p *SessionProcessorImplProxy) StartRepeating(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -240,6 +253,7 @@ func (p *SessionProcessorImplProxy) StopRepeating(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionProcessorImpl, MethodISessionProcessorImplStopRepeating)
@@ -267,6 +281,7 @@ func (p *SessionProcessorImplProxy) StartCapture(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(isPostviewRequested)
@@ -298,6 +313,7 @@ func (p *SessionProcessorImplProxy) SetParameters(
 	captureRequest device.CaptureRequest,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
 	_data.WriteInt32(1)
 	if _err := captureRequest.MarshalParcel(_data); _err != nil {
@@ -329,6 +345,7 @@ func (p *SessionProcessorImplProxy) StartTrigger(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
 	_data.WriteInt32(1)
 	if _err := captureRequest.MarshalParcel(_data); _err != nil {
@@ -363,6 +380,7 @@ func (p *SessionProcessorImplProxy) GetRealtimeCaptureLatency(
 ) (LatencyPair, error) {
 	var _result LatencyPair
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionProcessorImpl, MethodISessionProcessorImplGetRealtimeCaptureLatency)
@@ -395,7 +413,8 @@ func (p *SessionProcessorImplProxy) GetRealtimeCaptureLatency(
 // SessionProcessorImplStub dispatches incoming binder transactions
 // to a typed ISessionProcessorImpl implementation.
 type SessionProcessorImplStub struct {
-	Impl ISessionProcessorImpl
+	Impl      ISessionProcessorImpl
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SessionProcessorImplStub)(nil)
@@ -409,21 +428,48 @@ func (s *SessionProcessorImplStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISessionProcessorImplInitSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: map param unmarshaling not yet supported in stubs
-		var _arg_charsMap map[string]interface{}
-		_ = _arg_charsMap
+		var _arg_charsMap map[string]impl.CameraMetadataNative
+		{
+			_mapCount, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _mapCount >= 0 {
+				_arg_charsMap = make(map[string]impl.CameraMetadataNative, _mapCount)
+				for _mi := int32(0); _mi < _mapCount; _mi++ {
+					_mk, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					var _mv impl.CameraMetadataNative
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _mv.UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+					_arg_charsMap[_mk] = _mv
+				}
+			}
+		}
 		var _arg_previewSurface OutputSurface
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -473,12 +519,14 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISessionProcessorImplDeInitSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.DeInitSession(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -488,12 +536,14 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionProcessorImplOnCaptureSessionStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_requestProcessor IRequestProcessorImpl
-		_ = _arg_requestProcessor
+		{
+			_requestProcessorHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_requestProcessor = NewRequestProcessorImplProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _requestProcessorHandle))
+		}
 		_arg_statsKey, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -507,9 +557,6 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionProcessorImplOnCaptureSessionEnd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnCaptureSessionEnd(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -519,12 +566,14 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionProcessorImplStartRepeating:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICaptureCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCaptureCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.StartRepeating(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -535,9 +584,6 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISessionProcessorImplStopRepeating:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopRepeating(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -547,12 +593,14 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionProcessorImplStartCapture:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICaptureCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCaptureCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_isPostviewRequested, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -567,9 +615,6 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISessionProcessorImplSetParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_captureRequest device.CaptureRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -591,9 +636,6 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionProcessorImplStartTrigger:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_captureRequest device.CaptureRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -606,9 +648,14 @@ func (s *SessionProcessorImplStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICaptureCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCaptureCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.StartTrigger(ctx, _arg_captureRequest, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -619,9 +666,6 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISessionProcessorImplGetRealtimeCaptureLatency:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRealtimeCaptureLatency(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -643,7 +687,7 @@ func (s *SessionProcessorImplStub) OnTransaction(
 // provide to NewSessionProcessorImplStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ISessionProcessorImplServer interface {
-	InitSession(ctx context.Context, token binder.IBinder, cameraId string, charsMap map[string]interface{}, previewSurface OutputSurface, imageCaptureSurface OutputSurface, postviewSurface OutputSurface) (CameraSessionConfig, error)
+	InitSession(ctx context.Context, token binder.IBinder, cameraId string, charsMap map[string]impl.CameraMetadataNative, previewSurface OutputSurface, imageCaptureSurface OutputSurface, postviewSurface OutputSurface) (CameraSessionConfig, error)
 	DeInitSession(ctx context.Context, token binder.IBinder) error
 	OnCaptureSessionStart(ctx context.Context, requestProcessor IRequestProcessorImpl, statsKey string) error
 	OnCaptureSessionEnd(ctx context.Context) error
@@ -668,7 +712,7 @@ func (w *sessionProcessorImplStubWrapper) InitSession(
 	ctx context.Context,
 	token binder.IBinder,
 	cameraId string,
-	charsMap map[string]interface{},
+	charsMap map[string]impl.CameraMetadataNative,
 	previewSurface OutputSurface,
 	imageCaptureSurface OutputSurface,
 	postviewSurface OutputSurface,

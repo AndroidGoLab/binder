@@ -1,0 +1,16 @@
+package: android.service.wallpapereffectsgeneration
+go_package: android/service/wallpapereffectsgeneration
+interfaces:
+    - name: IWallpaperEffectsGenerationService
+      descriptor: android.service.wallpapereffectsgeneration.IWallpaperEffectsGenerationService
+      oneway: true
+      methods:
+        - name: onGenerateCinematicEffect
+          transaction_code_offset: 0
+          params:
+            - name: request
+              type:
+                name: CinematicEffectRequest
+              direction: in
+          return_type:
+            name: void

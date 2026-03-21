@@ -51,6 +51,7 @@ func (p *GetRegistrationCallbackProxy) OnSuccess(
 	registration IRegistration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetRegistrationCallback)
 	binder.WriteBinderToParcel(ctx, _data, registration.AsBinder(), p.Remote.Transport())
 
@@ -67,6 +68,7 @@ func (p *GetRegistrationCallbackProxy) OnCancel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetRegistrationCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetRegistrationCallback, MethodIGetRegistrationCallbackOnCancel)
@@ -83,6 +85,7 @@ func (p *GetRegistrationCallbackProxy) OnError(
 	error_ string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetRegistrationCallback)
 	_data.WriteString16(error_)
 
@@ -98,7 +101,8 @@ func (p *GetRegistrationCallbackProxy) OnError(
 // GetRegistrationCallbackStub dispatches incoming binder transactions
 // to a typed IGetRegistrationCallback implementation.
 type GetRegistrationCallbackStub struct {
-	Impl IGetRegistrationCallback
+	Impl      IGetRegistrationCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GetRegistrationCallbackStub)(nil)
@@ -112,35 +116,32 @@ func (s *GetRegistrationCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGetRegistrationCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_registration IRegistration
-		_ = _arg_registration
+		{
+			_registrationHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_registration = NewRegistrationProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _registrationHandle))
+		}
 		_err := s.Impl.OnSuccess(ctx, _arg_registration)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGetRegistrationCallbackOnCancel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnCancel(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGetRegistrationCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_error_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

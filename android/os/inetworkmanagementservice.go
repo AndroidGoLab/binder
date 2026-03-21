@@ -163,6 +163,7 @@ func (p *NetworkManagementServiceProxy) RegisterObserver(
 	obs net.INetworkManagementEventObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	binder.WriteBinderToParcel(ctx, _data, obs.AsBinder(), p.Remote.Transport())
 
@@ -189,6 +190,7 @@ func (p *NetworkManagementServiceProxy) UnregisterObserver(
 	obs net.INetworkManagementEventObserver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	binder.WriteBinderToParcel(ctx, _data, obs.AsBinder(), p.Remote.Transport())
 
@@ -215,6 +217,7 @@ func (p *NetworkManagementServiceProxy) ListInterfaces(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementService, MethodINetworkManagementServiceListInterfaces)
@@ -236,6 +239,9 @@ func (p *NetworkManagementServiceProxy) ListInterfaces(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -255,6 +261,7 @@ func (p *NetworkManagementServiceProxy) GetInterfaceConfig(
 ) (net.InterfaceConfiguration, error) {
 	var _result net.InterfaceConfiguration
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
 
@@ -291,6 +298,7 @@ func (p *NetworkManagementServiceProxy) SetInterfaceConfig(
 	cfg net.InterfaceConfiguration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
 	_data.WriteInt32(1)
@@ -321,6 +329,7 @@ func (p *NetworkManagementServiceProxy) ClearInterfaceAddresses(
 	iface string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
 
@@ -347,6 +356,7 @@ func (p *NetworkManagementServiceProxy) SetInterfaceDown(
 	iface string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
 
@@ -373,6 +383,7 @@ func (p *NetworkManagementServiceProxy) SetInterfaceUp(
 	iface string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
 
@@ -400,6 +411,7 @@ func (p *NetworkManagementServiceProxy) SetInterfaceIpv6PrivacyExtensions(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
 	_data.WriteBool(enable)
@@ -427,6 +439,7 @@ func (p *NetworkManagementServiceProxy) DisableIpv6(
 	iface string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
 
@@ -453,6 +466,7 @@ func (p *NetworkManagementServiceProxy) EnableIpv6(
 	iface string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
 
@@ -480,6 +494,7 @@ func (p *NetworkManagementServiceProxy) SetIPv6AddrGenMode(
 	mode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
 	_data.WriteInt32(mode)
@@ -506,6 +521,7 @@ func (p *NetworkManagementServiceProxy) Shutdown(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementService, MethodINetworkManagementServiceShutdown)
@@ -531,6 +547,7 @@ func (p *NetworkManagementServiceProxy) GetIpForwardingEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementService, MethodINetworkManagementServiceGetIpForwardingEnabled)
@@ -560,6 +577,7 @@ func (p *NetworkManagementServiceProxy) SetIpForwardingEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteBool(enabled)
 
@@ -586,6 +604,7 @@ func (p *NetworkManagementServiceProxy) StartTethering(
 	dhcpRanges []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	if dhcpRanges == nil {
 		_data.WriteInt32(-1)
@@ -618,6 +637,7 @@ func (p *NetworkManagementServiceProxy) StopTethering(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementService, MethodINetworkManagementServiceStopTethering)
@@ -643,6 +663,7 @@ func (p *NetworkManagementServiceProxy) IsTetheringStarted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementService, MethodINetworkManagementServiceIsTetheringStarted)
@@ -672,6 +693,7 @@ func (p *NetworkManagementServiceProxy) TetherInterface(
 	iface string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
 
@@ -698,6 +720,7 @@ func (p *NetworkManagementServiceProxy) UntetherInterface(
 	iface string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
 
@@ -724,6 +747,7 @@ func (p *NetworkManagementServiceProxy) ListTetheredInterfaces(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementService, MethodINetworkManagementServiceListTetheredInterfaces)
@@ -745,6 +769,9 @@ func (p *NetworkManagementServiceProxy) ListTetheredInterfaces(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -764,6 +791,7 @@ func (p *NetworkManagementServiceProxy) EnableNat(
 	externalInterface string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(internalInterface)
 	_data.WriteString16(externalInterface)
@@ -792,6 +820,7 @@ func (p *NetworkManagementServiceProxy) DisableNat(
 	externalInterface string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(internalInterface)
 	_data.WriteString16(externalInterface)
@@ -820,6 +849,7 @@ func (p *NetworkManagementServiceProxy) SetInterfaceQuota(
 	quotaBytes int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
 	_data.WriteInt64(quotaBytes)
@@ -847,6 +877,7 @@ func (p *NetworkManagementServiceProxy) RemoveInterfaceQuota(
 	iface string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
 
@@ -874,6 +905,7 @@ func (p *NetworkManagementServiceProxy) SetInterfaceAlert(
 	alertBytes int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
 	_data.WriteInt64(alertBytes)
@@ -901,6 +933,7 @@ func (p *NetworkManagementServiceProxy) RemoveInterfaceAlert(
 	iface string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
 
@@ -928,6 +961,7 @@ func (p *NetworkManagementServiceProxy) SetUidOnMeteredNetworkDenylist(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteInt32(uid)
 	_data.WriteBool(enable)
@@ -956,6 +990,7 @@ func (p *NetworkManagementServiceProxy) SetUidOnMeteredNetworkAllowlist(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteInt32(uid)
 	_data.WriteBool(enable)
@@ -984,6 +1019,7 @@ func (p *NetworkManagementServiceProxy) SetDataSaverModeEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteBool(enable)
 
@@ -1015,6 +1051,7 @@ func (p *NetworkManagementServiceProxy) SetUidCleartextNetworkPolicy(
 	policy int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(policy)
@@ -1042,6 +1079,7 @@ func (p *NetworkManagementServiceProxy) IsBandwidthControlEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementService, MethodINetworkManagementServiceIsBandwidthControlEnabled)
@@ -1071,6 +1109,7 @@ func (p *NetworkManagementServiceProxy) SetFirewallEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteBool(enabled)
 
@@ -1097,6 +1136,7 @@ func (p *NetworkManagementServiceProxy) IsFirewallEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementService, MethodINetworkManagementServiceIsFirewallEnabled)
@@ -1128,6 +1168,7 @@ func (p *NetworkManagementServiceProxy) SetFirewallUidRule(
 	rule int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteInt32(chain)
 	_data.WriteInt32(uid)
@@ -1158,6 +1199,7 @@ func (p *NetworkManagementServiceProxy) SetFirewallUidRules(
 	rules []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteInt32(chain)
 	if uids == nil {
@@ -1201,6 +1243,7 @@ func (p *NetworkManagementServiceProxy) SetFirewallChainEnabled(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteInt32(chain)
 	_data.WriteBool(enable)
@@ -1228,6 +1271,7 @@ func (p *NetworkManagementServiceProxy) AllowProtect(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteInt32(uid)
 
@@ -1254,6 +1298,7 @@ func (p *NetworkManagementServiceProxy) DenyProtect(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteInt32(uid)
 
@@ -1281,6 +1326,7 @@ func (p *NetworkManagementServiceProxy) IsNetworkRestricted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteInt32(uid)
 
@@ -1309,7 +1355,8 @@ func (p *NetworkManagementServiceProxy) IsNetworkRestricted(
 // NetworkManagementServiceStub dispatches incoming binder transactions
 // to a typed INetworkManagementService implementation.
 type NetworkManagementServiceStub struct {
-	Impl INetworkManagementService
+	Impl      INetworkManagementService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NetworkManagementServiceStub)(nil)
@@ -1323,14 +1370,20 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINetworkManagementServiceRegisterObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_obs net.INetworkManagementEventObserver
-		_ = _arg_obs
+		{
+			_obsHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_obs = net.NewNetworkManagementEventObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _obsHandle))
+		}
 		_err := s.Impl.RegisterObserver(ctx, _arg_obs)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1340,12 +1393,14 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceUnregisterObserver:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_obs net.INetworkManagementEventObserver
-		_ = _arg_obs
+		{
+			_obsHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_obs = net.NewNetworkManagementEventObserverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _obsHandle))
+		}
 		_err := s.Impl.UnregisterObserver(ctx, _arg_obs)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1355,9 +1410,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceListInterfaces:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ListInterfaces(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1365,13 +1417,16 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionINetworkManagementServiceGetInterfaceConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1389,9 +1444,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetInterfaceConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1417,9 +1469,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceClearInterfaceAddresses:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1433,9 +1482,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetInterfaceDown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1449,9 +1495,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetInterfaceUp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1465,9 +1508,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetInterfaceIpv6PrivacyExtensions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1485,9 +1525,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceDisableIpv6:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1501,9 +1538,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceEnableIpv6:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1517,9 +1551,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetIPv6AddrGenMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1537,9 +1568,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceShutdown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Shutdown(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1549,9 +1577,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceGetIpForwardingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetIpForwardingEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1562,9 +1587,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetIpForwardingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1578,12 +1600,25 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceStartTethering:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_dhcpRanges []string
-		_ = _arg_dhcpRanges
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_dhcpRanges = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_dhcpRanges[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.StartTethering(ctx, _arg_dhcpRanges)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1593,9 +1628,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceStopTethering:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopTethering(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1605,9 +1637,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceIsTetheringStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsTetheringStarted(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1618,9 +1647,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkManagementServiceTetherInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1634,9 +1660,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceUntetherInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1650,9 +1673,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceListTetheredInterfaces:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ListTetheredInterfaces(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1660,13 +1680,16 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionINetworkManagementServiceEnableNat:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_internalInterface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1684,9 +1707,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceDisableNat:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_internalInterface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1704,9 +1724,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetInterfaceQuota:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1724,9 +1741,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceRemoveInterfaceQuota:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1740,9 +1754,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetInterfaceAlert:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1760,9 +1771,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceRemoveInterfaceAlert:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1776,9 +1784,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetUidOnMeteredNetworkDenylist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1796,9 +1801,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetUidOnMeteredNetworkAllowlist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1816,9 +1818,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetDataSaverModeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1833,9 +1832,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetUidCleartextNetworkPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1853,9 +1849,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceIsBandwidthControlEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsBandwidthControlEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1866,9 +1859,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetFirewallEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1882,9 +1872,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceIsFirewallEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsFirewallEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1895,9 +1882,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetFirewallUidRule:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_chain, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1919,19 +1903,48 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetFirewallUidRules:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_chain, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_uids []int32
-		_ = _arg_uids
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_uids = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_uids[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_rules []int32
-		_ = _arg_rules
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_rules = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_rules[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.SetFirewallUidRules(ctx, _arg_chain, _arg_uids, _arg_rules)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1941,9 +1954,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetFirewallChainEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_chain, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1961,9 +1971,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceAllowProtect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1977,9 +1984,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceDenyProtect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1993,9 +1997,6 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceIsNetworkRestricted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

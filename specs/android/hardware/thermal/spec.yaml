@@ -1,0 +1,295 @@
+package: android.hardware.thermal
+go_package: android/hardware/thermal
+interfaces:
+    - name: ICoolingDeviceChangedCallback
+      descriptor: android.hardware.thermal.ICoolingDeviceChangedCallback
+      methods:
+        - name: notifyCoolingDeviceChanged
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: coolingDevice
+              type:
+                name: CoolingDevice
+              direction: in
+          return_type:
+            name: void
+    - name: IThermal
+      descriptor: android.hardware.thermal.IThermal
+      methods:
+        - name: getCoolingDevices
+          transaction_code_offset: 0
+          return_type:
+            name: CoolingDevice
+            is_array: true
+        - name: getCoolingDevicesWithType
+          transaction_code_offset: 1
+          params:
+            - name: type
+              type:
+                name: CoolingType
+              direction: in
+          return_type:
+            name: CoolingDevice
+            is_array: true
+        - name: getTemperatures
+          transaction_code_offset: 2
+          return_type:
+            name: Temperature
+            is_array: true
+        - name: getTemperaturesWithType
+          transaction_code_offset: 3
+          params:
+            - name: type
+              type:
+                name: TemperatureType
+              direction: in
+          return_type:
+            name: Temperature
+            is_array: true
+        - name: getTemperatureThresholds
+          transaction_code_offset: 4
+          return_type:
+            name: TemperatureThreshold
+            is_array: true
+        - name: getTemperatureThresholdsWithType
+          transaction_code_offset: 5
+          params:
+            - name: type
+              type:
+                name: TemperatureType
+              direction: in
+          return_type:
+            name: TemperatureThreshold
+            is_array: true
+        - name: registerThermalChangedCallback
+          transaction_code_offset: 6
+          params:
+            - name: callback
+              type:
+                name: IThermalChangedCallback
+              direction: in
+          return_type:
+            name: void
+        - name: registerThermalChangedCallbackWithType
+          transaction_code_offset: 7
+          params:
+            - name: callback
+              type:
+                name: IThermalChangedCallback
+              direction: in
+            - name: type
+              type:
+                name: TemperatureType
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterThermalChangedCallback
+          transaction_code_offset: 8
+          params:
+            - name: callback
+              type:
+                name: IThermalChangedCallback
+              direction: in
+          return_type:
+            name: void
+        - name: registerCoolingDeviceChangedCallbackWithType
+          transaction_code_offset: 9
+          params:
+            - name: callback
+              type:
+                name: ICoolingDeviceChangedCallback
+              direction: in
+            - name: type
+              type:
+                name: CoolingType
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterCoolingDeviceChangedCallback
+          transaction_code_offset: 10
+          params:
+            - name: callback
+              type:
+                name: ICoolingDeviceChangedCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IThermalChangedCallback
+      descriptor: android.hardware.thermal.IThermalChangedCallback
+      methods:
+        - name: notifyThrottling
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: temperature
+              type:
+                name: Temperature
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: CoolingDevice
+      fields:
+        - name: type
+          type:
+            name: CoolingType
+        - name: name
+          type:
+            name: String
+        - name: value
+          type:
+            name: long
+        - name: powerLimitMw
+          type:
+            name: long
+        - name: powerMw
+          type:
+            name: long
+        - name: timeWindowMs
+          type:
+            name: long
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: Temperature
+      fields:
+        - name: type
+          type:
+            name: TemperatureType
+        - name: name
+          type:
+            name: String
+        - name: value
+          type:
+            name: float
+        - name: throttlingStatus
+          type:
+            name: ThrottlingSeverity
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: TemperatureThreshold
+      fields:
+        - name: type
+          type:
+            name: TemperatureType
+        - name: name
+          type:
+            name: String
+        - name: hotThrottlingThresholds
+          type:
+            name: float
+            is_array: true
+        - name: coldThrottlingThresholds
+          type:
+            name: float
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+enums:
+    - name: CoolingType
+      backing_type: int
+      values:
+        - name: FAN
+          value: ""
+        - name: BATTERY
+          value: ""
+        - name: CPU
+          value: ""
+        - name: GPU
+          value: ""
+        - name: MODEM
+          value: ""
+        - name: NPU
+          value: ""
+        - name: COMPONENT
+          value: ""
+        - name: TPU
+          value: ""
+        - name: POWER_AMPLIFIER
+          value: ""
+        - name: DISPLAY
+          value: ""
+        - name: SPEAKER
+          value: ""
+        - name: WIFI
+          value: ""
+        - name: CAMERA
+          value: ""
+        - name: FLASHLIGHT
+          value: ""
+        - name: USB_PORT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: TemperatureType
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "-1"
+        - name: CPU
+          value: "0"
+        - name: GPU
+          value: "1"
+        - name: BATTERY
+          value: "2"
+        - name: SKIN
+          value: "3"
+        - name: USB_PORT
+          value: "4"
+        - name: POWER_AMPLIFIER
+          value: "5"
+        - name: BCL_VOLTAGE
+          value: "6"
+        - name: BCL_CURRENT
+          value: "7"
+        - name: BCL_PERCENTAGE
+          value: "8"
+        - name: NPU
+          value: "9"
+        - name: TPU
+          value: "10"
+        - name: DISPLAY
+          value: "11"
+        - name: MODEM
+          value: "12"
+        - name: SOC
+          value: "13"
+        - name: WIFI
+          value: "14"
+        - name: CAMERA
+          value: "15"
+        - name: FLASHLIGHT
+          value: "16"
+        - name: SPEAKER
+          value: "17"
+        - name: AMBIENT
+          value: "18"
+        - name: POGO
+          value: "19"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ThrottlingSeverity
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: LIGHT
+          value: ""
+        - name: MODERATE
+          value: ""
+        - name: SEVERE
+          value: ""
+        - name: CRITICAL
+          value: ""
+        - name: EMERGENCY
+          value: ""
+        - name: SHUTDOWN
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing

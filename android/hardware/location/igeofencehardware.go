@@ -3,6 +3,7 @@ package location
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/location/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -39,8 +40,8 @@ const (
 
 type IGeofenceHardware interface {
 	AsBinder() binder.IBinder
-	SetGpsGeofenceHardware(ctx context.Context, service interface{}) error
-	SetFusedGeofenceHardware(ctx context.Context, service interface{}) error
+	SetGpsGeofenceHardware(ctx context.Context, service types.IGpsGeofenceHardware) error
+	SetFusedGeofenceHardware(ctx context.Context, service types.IFusedGeofenceHardware) error
 	GetMonitoringTypes(ctx context.Context) ([]int32, error)
 	GetStatusOfMonitoringType(ctx context.Context, monitoringType int32) (int32, error)
 	AddCircularFence(ctx context.Context, monitoringType int32, request GeofenceHardwareRequestParcelable, callback IGeofenceHardwareCallback) (bool, error)
@@ -69,10 +70,12 @@ var _ IGeofenceHardware = (*GeofenceHardwareProxy)(nil)
 
 func (p *GeofenceHardwareProxy) SetGpsGeofenceHardware(
 	ctx context.Context,
-	service interface{},
+	service types.IGpsGeofenceHardware,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
+	// WARNING: param service (type types.IGpsGeofenceHardware) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareSetGpsGeofenceHardware)
 	if _err != nil {
@@ -94,10 +97,12 @@ func (p *GeofenceHardwareProxy) SetGpsGeofenceHardware(
 
 func (p *GeofenceHardwareProxy) SetFusedGeofenceHardware(
 	ctx context.Context,
-	service interface{},
+	service types.IFusedGeofenceHardware,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
+	// WARNING: param service (type types.IFusedGeofenceHardware) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareSetFusedGeofenceHardware)
 	if _err != nil {
@@ -122,6 +127,7 @@ func (p *GeofenceHardwareProxy) GetMonitoringTypes(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeofenceHardware, MethodIGeofenceHardwareGetMonitoringTypes)
@@ -143,6 +149,9 @@ func (p *GeofenceHardwareProxy) GetMonitoringTypes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -162,6 +171,7 @@ func (p *GeofenceHardwareProxy) GetStatusOfMonitoringType(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
 	_data.WriteInt32(monitoringType)
 
@@ -195,6 +205,7 @@ func (p *GeofenceHardwareProxy) AddCircularFence(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
 	_data.WriteInt32(monitoringType)
 	_data.WriteInt32(1)
@@ -232,6 +243,7 @@ func (p *GeofenceHardwareProxy) RemoveGeofence(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
 	_data.WriteInt32(id)
 	_data.WriteInt32(monitoringType)
@@ -265,6 +277,7 @@ func (p *GeofenceHardwareProxy) PauseGeofence(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
 	_data.WriteInt32(id)
 	_data.WriteInt32(monitoringType)
@@ -299,6 +312,7 @@ func (p *GeofenceHardwareProxy) ResumeGeofence(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
 	_data.WriteInt32(id)
 	_data.WriteInt32(monitoringType)
@@ -333,6 +347,7 @@ func (p *GeofenceHardwareProxy) RegisterForMonitorStateChangeCallback(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
 	_data.WriteInt32(monitoringType)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -366,6 +381,7 @@ func (p *GeofenceHardwareProxy) UnregisterForMonitorStateChangeCallback(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
 	_data.WriteInt32(monitoringType)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -395,7 +411,8 @@ func (p *GeofenceHardwareProxy) UnregisterForMonitorStateChangeCallback(
 // GeofenceHardwareStub dispatches incoming binder transactions
 // to a typed IGeofenceHardware implementation.
 type GeofenceHardwareStub struct {
-	Impl IGeofenceHardware
+	Impl      IGeofenceHardware
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GeofenceHardwareStub)(nil)
@@ -409,12 +426,13 @@ func (s *GeofenceHardwareStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGeofenceHardwareSetGpsGeofenceHardware:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_service interface{}
+		var _arg_service types.IGpsGeofenceHardware
 		_err := s.Impl.SetGpsGeofenceHardware(ctx, _arg_service)
 		_reply := parcel.New()
 		if _err != nil {
@@ -424,10 +442,7 @@ func (s *GeofenceHardwareStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGeofenceHardwareSetFusedGeofenceHardware:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_service interface{}
+		var _arg_service types.IFusedGeofenceHardware
 		_err := s.Impl.SetFusedGeofenceHardware(ctx, _arg_service)
 		_reply := parcel.New()
 		if _err != nil {
@@ -437,9 +452,6 @@ func (s *GeofenceHardwareStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGeofenceHardwareGetMonitoringTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMonitoringTypes(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -447,13 +459,16 @@ func (s *GeofenceHardwareStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIGeofenceHardwareGetStatusOfMonitoringType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_monitoringType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -468,9 +483,6 @@ func (s *GeofenceHardwareStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIGeofenceHardwareAddCircularFence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_monitoringType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -487,9 +499,14 @@ func (s *GeofenceHardwareStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGeofenceHardwareCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGeofenceHardwareCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.AddCircularFence(ctx, _arg_monitoringType, _arg_request, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -500,9 +517,6 @@ func (s *GeofenceHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIGeofenceHardwareRemoveGeofence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -521,9 +535,6 @@ func (s *GeofenceHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIGeofenceHardwarePauseGeofence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -542,9 +553,6 @@ func (s *GeofenceHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIGeofenceHardwareResumeGeofence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -567,16 +575,18 @@ func (s *GeofenceHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIGeofenceHardwareRegisterForMonitorStateChangeCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_monitoringType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGeofenceHardwareMonitorCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGeofenceHardwareMonitorCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.RegisterForMonitorStateChangeCallback(ctx, _arg_monitoringType, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -587,16 +597,18 @@ func (s *GeofenceHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIGeofenceHardwareUnregisterForMonitorStateChangeCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_monitoringType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGeofenceHardwareMonitorCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGeofenceHardwareMonitorCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.UnregisterForMonitorStateChangeCallback(ctx, _arg_monitoringType, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -615,8 +627,8 @@ func (s *GeofenceHardwareStub) OnTransaction(
 // provide to NewGeofenceHardwareStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IGeofenceHardwareServer interface {
-	SetGpsGeofenceHardware(ctx context.Context, service interface{}) error
-	SetFusedGeofenceHardware(ctx context.Context, service interface{}) error
+	SetGpsGeofenceHardware(ctx context.Context, service types.IGpsGeofenceHardware) error
+	SetFusedGeofenceHardware(ctx context.Context, service types.IFusedGeofenceHardware) error
 	GetMonitoringTypes(ctx context.Context) ([]int32, error)
 	GetStatusOfMonitoringType(ctx context.Context, monitoringType int32) (int32, error)
 	AddCircularFence(ctx context.Context, monitoringType int32, request GeofenceHardwareRequestParcelable, callback IGeofenceHardwareCallback) (bool, error)
@@ -638,14 +650,14 @@ func (w *geofenceHardwareStubWrapper) AsBinder() binder.IBinder {
 
 func (w *geofenceHardwareStubWrapper) SetGpsGeofenceHardware(
 	ctx context.Context,
-	service interface{},
+	service types.IGpsGeofenceHardware,
 ) error {
 	return w.impl.SetGpsGeofenceHardware(ctx, service)
 }
 
 func (w *geofenceHardwareStubWrapper) SetFusedGeofenceHardware(
 	ctx context.Context,
-	service interface{},
+	service types.IFusedGeofenceHardware,
 ) error {
 	return w.impl.SetFusedGeofenceHardware(ctx, service)
 }

@@ -46,6 +46,7 @@ func (p *SrvccStartedCallbackProxy) OnSrvccCallNotified(
 	profiles []ims.SrvccCall,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISrvccStartedCallback)
 	if profiles == nil {
 		_data.WriteInt32(-1)
@@ -71,7 +72,8 @@ func (p *SrvccStartedCallbackProxy) OnSrvccCallNotified(
 // SrvccStartedCallbackStub dispatches incoming binder transactions
 // to a typed ISrvccStartedCallback implementation.
 type SrvccStartedCallbackStub struct {
-	Impl ISrvccStartedCallback
+	Impl      ISrvccStartedCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SrvccStartedCallbackStub)(nil)
@@ -85,17 +87,35 @@ func (s *SrvccStartedCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISrvccStartedCallbackOnSrvccCallNotified:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_profiles []ims.SrvccCall
-		_ = _arg_profiles
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_profiles = make([]ims.SrvccCall, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_profiles[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnSrvccCallNotified(ctx, _arg_profiles)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

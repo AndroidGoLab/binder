@@ -62,6 +62,7 @@ func (p *SearchUiServiceProxy) OnCreateSearchSession(
 	sessionId appSearch.SearchSessionId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchUiService)
 	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
@@ -88,6 +89,7 @@ func (p *SearchUiServiceProxy) OnQuery(
 	callback appSearch.ISearchCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchUiService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -115,6 +117,7 @@ func (p *SearchUiServiceProxy) OnNotifyEvent(
 	event appSearch.SearchTargetEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchUiService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -144,6 +147,7 @@ func (p *SearchUiServiceProxy) OnRegisterEmptyQueryResultUpdateCallback(
 	callback appSearch.ISearchCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchUiService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -166,6 +170,7 @@ func (p *SearchUiServiceProxy) OnUnregisterEmptyQueryResultUpdateCallback(
 	callback appSearch.ISearchCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchUiService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -187,6 +192,7 @@ func (p *SearchUiServiceProxy) OnDestroy(
 	sessionId appSearch.SearchSessionId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISearchUiService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -205,7 +211,8 @@ func (p *SearchUiServiceProxy) OnDestroy(
 // SearchUiServiceStub dispatches incoming binder transactions
 // to a typed ISearchUiService implementation.
 type SearchUiServiceStub struct {
-	Impl ISearchUiService
+	Impl      ISearchUiService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SearchUiServiceStub)(nil)
@@ -219,11 +226,12 @@ func (s *SearchUiServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISearchUiServiceOnCreateSearchSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_context_ appSearch.SearchContext
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -249,12 +257,8 @@ func (s *SearchUiServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnCreateSearchSession(ctx, _arg_context_, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISearchUiServiceOnQuery:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId appSearch.SearchSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -279,16 +283,17 @@ func (s *SearchUiServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback appSearch.ISearchCallback
-		_ = _arg_callback
-		_err := s.Impl.OnQuery(ctx, _arg_sessionId, _arg_input, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionISearchUiServiceOnNotifyEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = appSearch.NewSearchCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.OnQuery(ctx, _arg_sessionId, _arg_input, _arg_callback)
+		return nil, _err
+	case TransactionISearchUiServiceOnNotifyEvent:
 		var _arg_sessionId appSearch.SearchSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -326,12 +331,8 @@ func (s *SearchUiServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnNotifyEvent(ctx, _arg_sessionId, _arg_input, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISearchUiServiceOnRegisterEmptyQueryResultUpdateCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId appSearch.SearchSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -344,16 +345,17 @@ func (s *SearchUiServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback appSearch.ISearchCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = appSearch.NewSearchCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.OnRegisterEmptyQueryResultUpdateCallback(ctx, _arg_sessionId, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISearchUiServiceOnUnregisterEmptyQueryResultUpdateCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId appSearch.SearchSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -366,16 +368,17 @@ func (s *SearchUiServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback appSearch.ISearchCallback
-		_ = _arg_callback
-		_err := s.Impl.OnUnregisterEmptyQueryResultUpdateCallback(ctx, _arg_sessionId, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionISearchUiServiceOnDestroy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = appSearch.NewSearchCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.OnUnregisterEmptyQueryResultUpdateCallback(ctx, _arg_sessionId, _arg_callback)
+		return nil, _err
+	case TransactionISearchUiServiceOnDestroy:
 		var _arg_sessionId appSearch.SearchSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -389,8 +392,7 @@ func (s *SearchUiServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDestroy(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

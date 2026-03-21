@@ -21,7 +21,7 @@ const (
 
 type IThermalEventListener interface {
 	AsBinder() binder.IBinder
-	NotifyThrottling(ctx context.Context, temperature interface{}) error
+	NotifyThrottling(ctx context.Context, temperature Temperature) error
 }
 
 type ThermalEventListenerProxy struct {
@@ -42,10 +42,15 @@ var _ IThermalEventListener = (*ThermalEventListenerProxy)(nil)
 
 func (p *ThermalEventListenerProxy) NotifyThrottling(
 	ctx context.Context,
-	temperature interface{},
+	temperature Temperature,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThermalEventListener)
+	_data.WriteInt32(1)
+	if _err := temperature.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalEventListener, MethodIThermalEventListenerNotifyThrottling)
 	if _err != nil {
@@ -59,7 +64,8 @@ func (p *ThermalEventListenerProxy) NotifyThrottling(
 // ThermalEventListenerStub dispatches incoming binder transactions
 // to a typed IThermalEventListener implementation.
 type ThermalEventListenerStub struct {
-	Impl IThermalEventListener
+	Impl      IThermalEventListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ThermalEventListenerStub)(nil)
@@ -73,15 +79,26 @@ func (s *ThermalEventListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIThermalEventListenerNotifyThrottling:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_temperature Temperature
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_temperature.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_temperature interface{}
 		_err := s.Impl.NotifyThrottling(ctx, _arg_temperature)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -91,7 +108,7 @@ func (s *ThermalEventListenerStub) OnTransaction(
 // provide to NewThermalEventListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IThermalEventListenerServer interface {
-	NotifyThrottling(ctx context.Context, temperature interface{}) error
+	NotifyThrottling(ctx context.Context, temperature Temperature) error
 }
 
 type thermalEventListenerStubWrapper struct {
@@ -105,7 +122,7 @@ func (w *thermalEventListenerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *thermalEventListenerStubWrapper) NotifyThrottling(
 	ctx context.Context,
-	temperature interface{},
+	temperature Temperature,
 ) error {
 	return w.impl.NotifyThrottling(ctx, temperature)
 }

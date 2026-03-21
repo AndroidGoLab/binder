@@ -102,6 +102,7 @@ func (p *TunerProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerClose)
@@ -127,6 +128,7 @@ func (p *TunerProxy) IsClosed(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerIsClosed)
@@ -156,6 +158,7 @@ func (p *TunerProxy) SetConfiguration(
 	config RadioManagerBandConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -185,6 +188,7 @@ func (p *TunerProxy) GetConfiguration(
 ) (RadioManagerBandConfig, error) {
 	var _result RadioManagerBandConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerGetConfiguration)
@@ -219,6 +223,7 @@ func (p *TunerProxy) SetMuted(
 	mute bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteBool(mute)
 
@@ -245,6 +250,7 @@ func (p *TunerProxy) IsMuted(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerIsMuted)
@@ -275,6 +281,7 @@ func (p *TunerProxy) Step(
 	skipSubChannel bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteBool(directionDown)
 	_data.WriteBool(skipSubChannel)
@@ -303,6 +310,7 @@ func (p *TunerProxy) Seek(
 	skipSubChannel bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteBool(directionDown)
 	_data.WriteBool(skipSubChannel)
@@ -330,6 +338,7 @@ func (p *TunerProxy) Tune(
 	selector ProgramSelector,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteInt32(1)
 	if _err := selector.MarshalParcel(_data); _err != nil {
@@ -358,6 +367,7 @@ func (p *TunerProxy) Cancel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerCancel)
@@ -382,6 +392,7 @@ func (p *TunerProxy) CancelAnnouncement(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerCancelAnnouncement)
@@ -408,6 +419,7 @@ func (p *TunerProxy) GetImage(
 ) (graphics.Bitmap, error) {
 	var _result graphics.Bitmap
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteInt32(id)
 
@@ -443,6 +455,7 @@ func (p *TunerProxy) StartBackgroundScan(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerStartBackgroundScan)
@@ -472,6 +485,7 @@ func (p *TunerProxy) StartProgramListUpdates(
 	filter ProgramListFilter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteInt32(1)
 	if _err := filter.MarshalParcel(_data); _err != nil {
@@ -500,6 +514,7 @@ func (p *TunerProxy) StopProgramListUpdates(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerStopProgramListUpdates)
@@ -526,6 +541,7 @@ func (p *TunerProxy) IsConfigFlagSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteInt32(flag)
 
@@ -557,6 +573,7 @@ func (p *TunerProxy) IsConfigFlagSet(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteInt32(flag)
 
@@ -588,6 +605,7 @@ func (p *TunerProxy) SetConfigFlag(
 	value bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteInt32(flag)
 	_data.WriteBool(value)
@@ -616,6 +634,7 @@ func (p *TunerProxy) SetParameters(
 ) (map[string]string, error) {
 	var _result map[string]string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 	if parameters == nil {
 		_data.WriteInt32(-1)
@@ -642,22 +661,24 @@ func (p *TunerProxy) SetParameters(
 		return _result, _err
 	}
 
-	_mapCount, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _mapCount >= 0 {
-		_result = make(map[string]string, _mapCount)
-		for _mi := int32(0); _mi < _mapCount; _mi++ {
-			_mk, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
+	{
+		_mapCount, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _mapCount >= 0 {
+			_result = make(map[string]string, _mapCount)
+			for _mi := int32(0); _mi < _mapCount; _mi++ {
+				_mk, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_mv, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_result[_mk] = _mv
 			}
-			_mv, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
-			}
-			_result[_mk] = _mv
 		}
 	}
 	return _result, nil
@@ -669,6 +690,7 @@ func (p *TunerProxy) GetParameters(
 ) (map[string]string, error) {
 	var _result map[string]string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITuner)
 	if keys == nil {
 		_data.WriteInt32(-1)
@@ -694,22 +716,24 @@ func (p *TunerProxy) GetParameters(
 		return _result, _err
 	}
 
-	_mapCount, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _mapCount >= 0 {
-		_result = make(map[string]string, _mapCount)
-		for _mi := int32(0); _mi < _mapCount; _mi++ {
-			_mk, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
+	{
+		_mapCount, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _mapCount >= 0 {
+			_result = make(map[string]string, _mapCount)
+			for _mi := int32(0); _mi < _mapCount; _mi++ {
+				_mk, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_mv, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_result[_mk] = _mv
 			}
-			_mv, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
-			}
-			_result[_mk] = _mv
 		}
 	}
 	return _result, nil
@@ -718,7 +742,8 @@ func (p *TunerProxy) GetParameters(
 // TunerStub dispatches incoming binder transactions
 // to a typed ITuner implementation.
 type TunerStub struct {
-	Impl ITuner
+	Impl      ITuner
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TunerStub)(nil)
@@ -732,11 +757,12 @@ func (s *TunerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITunerClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -746,9 +772,6 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerIsClosed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsClosed(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -759,9 +782,6 @@ func (s *TunerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerSetConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config RadioManagerBandConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -783,9 +803,6 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerGetConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetConfiguration(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -799,9 +816,6 @@ func (s *TunerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITunerSetMuted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mute, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -815,9 +829,6 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerIsMuted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsMuted(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -828,9 +839,6 @@ func (s *TunerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerStep:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_directionDown, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -848,9 +856,6 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerSeek:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_directionDown, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -868,9 +873,6 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerTune:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_selector ProgramSelector
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -892,9 +894,6 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerCancel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Cancel(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -904,9 +903,6 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerCancelAnnouncement:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CancelAnnouncement(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -916,9 +912,6 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerGetImage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -936,9 +929,6 @@ func (s *TunerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITunerStartBackgroundScan:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.StartBackgroundScan(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -949,9 +939,6 @@ func (s *TunerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerStartProgramListUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_filter ProgramListFilter
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -973,9 +960,6 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerStopProgramListUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopProgramListUpdates(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -985,9 +969,6 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerIsConfigFlagSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1002,9 +983,6 @@ func (s *TunerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerIsConfigFlagSet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1019,9 +997,6 @@ func (s *TunerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerSetConfigFlag:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1039,12 +1014,27 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerSetParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: map param unmarshaling not yet supported in stubs
 		var _arg_parameters map[string]string
-		_ = _arg_parameters
+		{
+			_mapCount, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _mapCount >= 0 {
+				_arg_parameters = make(map[string]string, _mapCount)
+				for _mi := int32(0); _mi < _mapCount; _mi++ {
+					_mk, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_mv, _err := _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_parameters[_mk] = _mv
+				}
+			}
+		}
 		_result, _err := s.Impl.SetParameters(ctx, _arg_parameters)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1052,16 +1042,36 @@ func (s *TunerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: map return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _k, _v := range _result {
+				_reply.WriteString16(_k)
+				_reply.WriteString16(_v)
+			}
+		}
 		return _reply, nil
 	case TransactionITunerGetParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keys []string
-		_ = _arg_keys
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_keys = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_keys[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetParameters(ctx, _arg_keys)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1069,8 +1079,15 @@ func (s *TunerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: map return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _k, _v := range _result {
+				_reply.WriteString16(_k)
+				_reply.WriteString16(_v)
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

@@ -1,0 +1,752 @@
+package: android.hardware.radio.ims.media
+go_package: android/hardware/radio/ims/media
+interfaces:
+    - name: IImsMedia
+      descriptor: android.hardware.radio.ims.media.IImsMedia
+      oneway: true
+      methods:
+        - name: setListener
+          transaction_code_offset: 0
+          params:
+            - name: mediaListener
+              type:
+                name: IImsMediaListener
+              direction: in
+          return_type:
+            name: void
+        - name: openSession
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: localEndPoint
+              type:
+                name: LocalEndPoint
+              direction: in
+            - name: config
+              type:
+                name: RtpConfig
+              direction: in
+          return_type:
+            name: void
+        - name: closeSession
+          transaction_code_offset: 2
+          params:
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IImsMediaListener
+      descriptor: android.hardware.radio.ims.media.IImsMediaListener
+      oneway: true
+      methods:
+        - name: onOpenSessionSuccess
+          transaction_code_offset: 0
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: session
+              type:
+                name: IImsMediaSession
+          return_type:
+            name: void
+        - name: onOpenSessionFailure
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: int
+            - name: error
+              type:
+                name: RtpError
+          return_type:
+            name: void
+        - name: onSessionClosed
+          transaction_code_offset: 2
+          params:
+            - name: sessionId
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IImsMediaSession
+      descriptor: android.hardware.radio.ims.media.IImsMediaSession
+      oneway: true
+      methods:
+        - name: setListener
+          transaction_code_offset: 0
+          params:
+            - name: sessionListener
+              type:
+                name: IImsMediaSessionListener
+              direction: in
+          return_type:
+            name: void
+        - name: modifySession
+          transaction_code_offset: 1
+          params:
+            - name: config
+              type:
+                name: RtpConfig
+              direction: in
+          return_type:
+            name: void
+        - name: sendDtmf
+          transaction_code_offset: 2
+          params:
+            - name: dtmfDigit
+              type:
+                name: char
+            - name: duration
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: startDtmf
+          transaction_code_offset: 3
+          params:
+            - name: dtmfDigit
+              type:
+                name: char
+          return_type:
+            name: void
+        - name: stopDtmf
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: sendHeaderExtension
+          transaction_code_offset: 5
+          params:
+            - name: extensions
+              type:
+                name: List
+                type_args:
+                    - name: RtpHeaderExtension
+              direction: in
+          return_type:
+            name: void
+        - name: setMediaQualityThreshold
+          transaction_code_offset: 6
+          params:
+            - name: threshold
+              type:
+                name: MediaQualityThreshold
+              direction: in
+          return_type:
+            name: void
+        - name: requestRtpReceptionStats
+          transaction_code_offset: 7
+          params:
+            - name: intervalMs
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: adjustDelay
+          transaction_code_offset: 8
+          params:
+            - name: delayMs
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IImsMediaSessionListener
+      descriptor: android.hardware.radio.ims.media.IImsMediaSessionListener
+      oneway: true
+      methods:
+        - name: onModifySessionResponse
+          transaction_code_offset: 0
+          params:
+            - name: config
+              type:
+                name: RtpConfig
+              direction: in
+            - name: error
+              type:
+                name: RtpError
+          return_type:
+            name: void
+        - name: onFirstMediaPacketReceived
+          transaction_code_offset: 1
+          params:
+            - name: config
+              type:
+                name: RtpConfig
+              direction: in
+          return_type:
+            name: void
+        - name: onHeaderExtensionReceived
+          transaction_code_offset: 2
+          params:
+            - name: extensions
+              type:
+                name: List
+                type_args:
+                    - name: RtpHeaderExtension
+              direction: in
+          return_type:
+            name: void
+        - name: notifyMediaQualityStatus
+          transaction_code_offset: 3
+          params:
+            - name: quality
+              type:
+                name: MediaQualityStatus
+              direction: in
+          return_type:
+            name: void
+        - name: triggerAnbrQuery
+          transaction_code_offset: 4
+          params:
+            - name: config
+              type:
+                name: RtpConfig
+              direction: in
+          return_type:
+            name: void
+        - name: onDtmfReceived
+          transaction_code_offset: 5
+          params:
+            - name: dtmfDigit
+              type:
+                name: char
+            - name: durationMs
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCallQualityChanged
+          transaction_code_offset: 6
+          params:
+            - name: callQuality
+              type:
+                name: CallQuality
+              direction: in
+          return_type:
+            name: void
+        - name: notifyRtpReceptionStats
+          transaction_code_offset: 7
+          params:
+            - name: stats
+              type:
+                name: RtpReceptionStats
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: AmrParams
+      fields:
+        - name: amrMode
+          type:
+            name: AmrMode
+        - name: octetAligned
+          type:
+            name: boolean
+        - name: maxRedundancyMillis
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: AnbrMode
+      fields:
+        - name: anbrUplinkMode
+          type:
+            name: CodecMode
+        - name: anbrDownlinkMode
+          type:
+            name: CodecMode
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CallQuality
+      fields:
+        - name: downlinkCallQualityLevel
+          type:
+            name: int
+        - name: uplinkCallQualityLevel
+          type:
+            name: int
+        - name: callDuration
+          type:
+            name: int
+        - name: numRtpPacketsTransmitted
+          type:
+            name: int
+        - name: numRtpPacketsReceived
+          type:
+            name: int
+        - name: numRtpPacketsTransmittedLost
+          type:
+            name: int
+        - name: numRtpPacketsNotReceived
+          type:
+            name: int
+        - name: averageRelativeJitter
+          type:
+            name: int
+        - name: maxRelativeJitter
+          type:
+            name: int
+        - name: averageRoundTripTime
+          type:
+            name: int
+        - name: codecType
+          type:
+            name: int
+        - name: rtpInactivityDetected
+          type:
+            name: boolean
+        - name: rxSilenceDetected
+          type:
+            name: boolean
+        - name: txSilenceDetected
+          type:
+            name: boolean
+        - name: numVoiceFrames
+          type:
+            name: int
+        - name: numNoDataFrames
+          type:
+            name: int
+        - name: numDroppedRtpPackets
+          type:
+            name: int
+        - name: minPlayoutDelayMillis
+          type:
+            name: long
+        - name: maxPlayoutDelayMillis
+          type:
+            name: long
+        - name: numRtpSidPacketsReceived
+          type:
+            name: int
+        - name: numRtpDuplicatePackets
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CodecParams
+      fields:
+        - name: codecType
+          type:
+            name: CodecType
+        - name: rxPayloadTypeNumber
+          type:
+            name: byte
+        - name: txPayloadTypeNumber
+          type:
+            name: byte
+        - name: samplingRateKHz
+          type:
+            name: byte
+        - name: dtxEnabled
+          type:
+            name: boolean
+        - name: codecSpecificParams
+          type:
+            name: CodecSpecificParams
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: DtmfParams
+      fields:
+        - name: rxPayloadTypeNumber
+          type:
+            name: byte
+        - name: txPayloadTypeNumber
+          type:
+            name: byte
+        - name: samplingRateKHz
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: EvsParams
+      fields:
+        - name: bandwidth
+          type:
+            name: EvsBandwidth
+        - name: evsMode
+          type:
+            name: EvsMode
+        - name: channelAwareMode
+          type:
+            name: byte
+        - name: useHeaderFullOnly
+          type:
+            name: boolean
+        - name: useEvsModeSwitch
+          type:
+            name: boolean
+        - name: codecModeRequest
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: LocalEndPoint
+      fields:
+        - name: rtpFd
+          type:
+            name: ParcelFileDescriptor
+        - name: rtcpFd
+          type:
+            name: ParcelFileDescriptor
+        - name: modemId
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: MediaQualityStatus
+      fields:
+        - name: rtpInactivityTimeMillis
+          type:
+            name: int
+        - name: rtcpInactivityTimeMillis
+          type:
+            name: int
+        - name: rtpPacketLossRate
+          type:
+            name: int
+        - name: rtpJitterMillis
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: MediaQualityThreshold
+      fields:
+        - name: rtpInactivityTimerMillis
+          type:
+            name: int
+            is_array: true
+        - name: rtcpInactivityTimerMillis
+          type:
+            name: int
+        - name: rtpPacketLossDurationMillis
+          type:
+            name: int
+        - name: rtpHysteresisTimeInMillis
+          type:
+            name: int
+        - name: rtpPacketLossRate
+          type:
+            name: int
+            is_array: true
+        - name: rtpJitterMillis
+          type:
+            name: int
+            is_array: true
+        - name: notifyCurrentStatus
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: RtcpConfig
+      fields:
+        - name: canonicalName
+          type:
+            name: String
+        - name: transmitPort
+          type:
+            name: int
+        - name: transmitIntervalSec
+          type:
+            name: int
+        - name: rtcpXrBlocks
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: RtpAddress
+      fields:
+        - name: ipAddress
+          type:
+            name: String
+        - name: portNumber
+          type:
+            name: int
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: RtpConfig
+      fields:
+        - name: direction
+          type:
+            name: int
+        - name: accessNetwork
+          type:
+            name: AccessNetwork
+        - name: remoteAddress
+          type:
+            name: RtpAddress
+        - name: sessionParams
+          type:
+            name: RtpSessionParams
+        - name: rtcpConfig
+          type:
+            name: RtcpConfig
+        - name: anbrModeParams
+          type:
+            name: AnbrMode
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: RtpHeaderExtension
+      fields:
+        - name: localId
+          type:
+            name: int
+        - name: data
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: RtpReceptionStats
+      fields:
+        - name: rtpTimestamp
+          type:
+            name: int
+        - name: rtcpSrTimestamp
+          type:
+            name: int
+        - name: rtcpSrNtpTimestamp
+          type:
+            name: long
+        - name: jitterBufferMs
+          type:
+            name: int
+        - name: roundTripTimeMs
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: RtpSessionParams
+      fields:
+        - name: pTimeMillis
+          type:
+            name: byte
+        - name: maxPtimeMillis
+          type:
+            name: int
+        - name: dscp
+          type:
+            name: byte
+        - name: dtmfParams
+          type:
+            name: DtmfParams
+        - name: codecParams
+          type:
+            name: CodecParams
+      annotations:
+        - VintfStability
+        - JavaDerive
+enums:
+    - name: AmrMode
+      backing_type: int
+      values:
+        - name: AMR_MODE_0
+          value: 1 << 0
+        - name: AMR_MODE_1
+          value: 1 << 1
+        - name: AMR_MODE_2
+          value: 1 << 2
+        - name: AMR_MODE_3
+          value: 1 << 3
+        - name: AMR_MODE_4
+          value: 1 << 4
+        - name: AMR_MODE_5
+          value: 1 << 5
+        - name: AMR_MODE_6
+          value: 1 << 6
+        - name: AMR_MODE_7
+          value: 1 << 7
+        - name: AMR_MODE_8
+          value: 1 << 8
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: CodecType
+      backing_type: int
+      values:
+        - name: AMR
+          value: 1 << 0
+        - name: AMR_WB
+          value: 1 << 1
+        - name: EVS
+          value: 1 << 2
+        - name: PCMA
+          value: 1 << 3
+        - name: PCMU
+          value: 1 << 4
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: EvsBandwidth
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: NARROW_BAND
+          value: 1 << 0
+        - name: WIDE_BAND
+          value: 1 << 1
+        - name: SUPER_WIDE_BAND
+          value: 1 << 2
+        - name: FULL_BAND
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: EvsMode
+      backing_type: int
+      values:
+        - name: EVS_MODE_0
+          value: 1 << 0
+        - name: EVS_MODE_1
+          value: 1 << 1
+        - name: EVS_MODE_2
+          value: 1 << 2
+        - name: EVS_MODE_3
+          value: 1 << 3
+        - name: EVS_MODE_4
+          value: 1 << 4
+        - name: EVS_MODE_5
+          value: 1 << 5
+        - name: EVS_MODE_6
+          value: 1 << 6
+        - name: EVS_MODE_7
+          value: 1 << 7
+        - name: EVS_MODE_8
+          value: 1 << 8
+        - name: EVS_MODE_9
+          value: 1 << 9
+        - name: EVS_MODE_10
+          value: 1 << 10
+        - name: EVS_MODE_11
+          value: 1 << 11
+        - name: EVS_MODE_12
+          value: 1 << 12
+        - name: EVS_MODE_13
+          value: 1 << 13
+        - name: EVS_MODE_14
+          value: 1 << 14
+        - name: EVS_MODE_15
+          value: 1 << 15
+        - name: EVS_MODE_16
+          value: 1 << 16
+        - name: EVS_MODE_17
+          value: 1 << 17
+        - name: EVS_MODE_18
+          value: 1 << 18
+        - name: EVS_MODE_19
+          value: 1 << 19
+        - name: EVS_MODE_20
+          value: 1 << 20
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: MediaDirection
+      backing_type: int
+      values:
+        - name: NO_FLOW
+          value: "0"
+        - name: RTP_TX
+          value: 1 << 0
+        - name: RTP_RX
+          value: 1 << 1
+        - name: RTCP_TX
+          value: 1 << 2
+        - name: RTCP_RX
+          value: 1 << 3
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: RtcpXrReportBlockType
+      backing_type: int
+      values:
+        - name: RTCPXR_NONE
+          value: "0"
+        - name: RTCPXR_LOSS_RLE_REPORT_BLOCK
+          value: 1 << 0
+        - name: RTCPXR_DUPLICATE_RLE_REPORT_BLOCK
+          value: 1 << 1
+        - name: RTCPXR_PACKET_RECEIPT_TIMES_REPORT_BLOCK
+          value: 1 << 2
+        - name: RTCPXR_RECEIVER_REFERENCE_TIME_REPORT_BLOCK
+          value: 1 << 3
+        - name: RTCPXR_DLRR_REPORT_BLOCK
+          value: 1 << 4
+        - name: RTCPXR_STATISTICS_SUMMARY_REPORT_BLOCK
+          value: 1 << 5
+        - name: RTCPXR_VOIP_METRICS_REPORT_BLOCK
+          value: 1 << 6
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+    - name: RtpError
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: INVALID_PARAM
+          value: "1"
+        - name: NOT_READY
+          value: "2"
+        - name: NO_MEMORY
+          value: "3"
+        - name: NO_RESOURCES
+          value: "4"
+        - name: PORT_UNAVAILABLE
+          value: "5"
+        - name: NOT_SUPPORTED
+          value: "6"
+      annotations:
+        - VintfStability
+        - Backing
+        - JavaDerive
+unions:
+    - name: CodecMode
+      fields:
+        - name: noinit
+          type:
+            name: boolean
+        - name: amr
+          type:
+            name: AmrMode
+        - name: evs
+          type:
+            name: EvsMode
+      annotations:
+        - VintfStability
+        - JavaDerive
+    - name: CodecSpecificParams
+      fields:
+        - name: amr
+          type:
+            name: AmrParams
+        - name: evs
+          type:
+            name: EvsParams
+      annotations:
+        - VintfStability
+        - JavaDerive

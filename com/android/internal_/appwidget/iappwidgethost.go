@@ -60,6 +60,7 @@ func (p *AppWidgetHostProxy) UpdateAppWidget(
 	views widget.RemoteViews,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetHost)
 	_data.WriteInt32(appWidgetId)
 	_data.WriteInt32(1)
@@ -82,6 +83,7 @@ func (p *AppWidgetHostProxy) ProviderChanged(
 	info androidAppwidget.AppWidgetProviderInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetHost)
 	_data.WriteInt32(appWidgetId)
 	_data.WriteInt32(1)
@@ -102,6 +104,7 @@ func (p *AppWidgetHostProxy) ProvidersChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetHost)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetHost, MethodIAppWidgetHostProvidersChanged)
@@ -119,6 +122,7 @@ func (p *AppWidgetHostProxy) ViewDataChanged(
 	viewId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetHost)
 	_data.WriteInt32(appWidgetId)
 	_data.WriteInt32(viewId)
@@ -137,6 +141,7 @@ func (p *AppWidgetHostProxy) AppWidgetRemoved(
 	appWidgetId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetHost)
 	_data.WriteInt32(appWidgetId)
 
@@ -152,7 +157,8 @@ func (p *AppWidgetHostProxy) AppWidgetRemoved(
 // AppWidgetHostStub dispatches incoming binder transactions
 // to a typed IAppWidgetHost implementation.
 type AppWidgetHostStub struct {
-	Impl IAppWidgetHost
+	Impl      IAppWidgetHost
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AppWidgetHostStub)(nil)
@@ -166,11 +172,12 @@ func (s *AppWidgetHostStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAppWidgetHostUpdateAppWidget:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -188,12 +195,8 @@ func (s *AppWidgetHostStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.UpdateAppWidget(ctx, _arg_appWidgetId, _arg_views)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAppWidgetHostProviderChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -211,19 +214,11 @@ func (s *AppWidgetHostStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.ProviderChanged(ctx, _arg_appWidgetId, _arg_info)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAppWidgetHostProvidersChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ProvidersChanged(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAppWidgetHostViewDataChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -233,19 +228,14 @@ func (s *AppWidgetHostStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ViewDataChanged(ctx, _arg_appWidgetId, _arg_viewId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAppWidgetHostAppWidgetRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AppWidgetRemoved(ctx, _arg_appWidgetId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

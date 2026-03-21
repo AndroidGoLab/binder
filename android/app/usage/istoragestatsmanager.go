@@ -84,6 +84,7 @@ func (p *StorageStatsManagerProxy) IsQuotaSupported(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteString16(_identity.PackageName)
@@ -117,6 +118,7 @@ func (p *StorageStatsManagerProxy) IsReservedSupported(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteString16(_identity.PackageName)
@@ -150,6 +152,7 @@ func (p *StorageStatsManagerProxy) GetTotalBytes(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteString16(_identity.PackageName)
@@ -183,6 +186,7 @@ func (p *StorageStatsManagerProxy) GetFreeBytes(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteString16(_identity.PackageName)
@@ -216,6 +220,7 @@ func (p *StorageStatsManagerProxy) GetCacheBytes(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteString16(_identity.PackageName)
@@ -250,6 +255,7 @@ func (p *StorageStatsManagerProxy) GetCacheQuotaBytes(
 	var _result int64
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(uid)
@@ -285,6 +291,7 @@ func (p *StorageStatsManagerProxy) QueryStatsForPackage(
 	var _result StorageStats
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteString16(packageName)
@@ -326,6 +333,7 @@ func (p *StorageStatsManagerProxy) QueryStatsForUid(
 	var _result StorageStats
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(uid)
@@ -365,6 +373,7 @@ func (p *StorageStatsManagerProxy) QueryStatsForUser(
 	var _result StorageStats
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(_identity.UserID)
@@ -404,6 +413,7 @@ func (p *StorageStatsManagerProxy) QueryExternalStatsForUser(
 	var _result ExternalStorageStats
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(_identity.UserID)
@@ -444,6 +454,7 @@ func (p *StorageStatsManagerProxy) QueryCratesForPackage(
 	var _result pm.ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteString16(packageName)
@@ -485,6 +496,7 @@ func (p *StorageStatsManagerProxy) QueryCratesForUid(
 	var _result pm.ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(uid)
@@ -524,6 +536,7 @@ func (p *StorageStatsManagerProxy) QueryCratesForUser(
 	var _result pm.ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(_identity.UserID)
@@ -559,7 +572,8 @@ func (p *StorageStatsManagerProxy) QueryCratesForUser(
 // StorageStatsManagerStub dispatches incoming binder transactions
 // to a typed IStorageStatsManager implementation.
 type StorageStatsManagerStub struct {
-	Impl IStorageStatsManager
+	Impl      IStorageStatsManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StorageStatsManagerStub)(nil)
@@ -573,11 +587,12 @@ func (s *StorageStatsManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStorageStatsManagerIsQuotaSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -595,9 +610,6 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIStorageStatsManagerIsReservedSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -615,9 +627,6 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIStorageStatsManagerGetTotalBytes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -635,9 +644,6 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageStatsManagerGetFreeBytes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -655,9 +661,6 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageStatsManagerGetCacheBytes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -675,9 +678,6 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageStatsManagerGetCacheQuotaBytes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -699,9 +699,6 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageStatsManagerQueryStatsForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -729,9 +726,6 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIStorageStatsManagerQueryStatsForUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -756,9 +750,6 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIStorageStatsManagerQueryStatsForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -782,9 +773,6 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIStorageStatsManagerQueryExternalStatsForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -808,9 +796,6 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIStorageStatsManagerQueryCratesForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -838,9 +823,6 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIStorageStatsManagerQueryCratesForUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -865,9 +847,6 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIStorageStatsManagerQueryCratesForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

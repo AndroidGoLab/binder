@@ -47,6 +47,7 @@ func (p *FencedExecutionCallbackProxy) GetExecutionInfo(
 ) (ErrorStatus, error) {
 	var _result ErrorStatus
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFencedExecutionCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFencedExecutionCallback, MethodIFencedExecutionCallbackGetExecutionInfo)
@@ -63,11 +64,27 @@ func (p *FencedExecutionCallbackProxy) GetExecutionInfo(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = timingLaunched.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = timingLaunched.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
-	if _err = timingFenced.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = timingFenced.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_raw, _err := _reply.ReadInt32()
@@ -81,7 +98,8 @@ func (p *FencedExecutionCallbackProxy) GetExecutionInfo(
 // FencedExecutionCallbackStub dispatches incoming binder transactions
 // to a typed IFencedExecutionCallback implementation.
 type FencedExecutionCallbackStub struct {
-	Impl IFencedExecutionCallback
+	Impl      IFencedExecutionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FencedExecutionCallbackStub)(nil)
@@ -95,11 +113,12 @@ func (s *FencedExecutionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFencedExecutionCallbackGetExecutionInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_timingLaunched Timing
 		var _arg_timingFenced Timing
 		_result, _err := s.Impl.GetExecutionInfo(ctx, _arg_timingLaunched, _arg_timingFenced)
@@ -110,6 +129,14 @@ func (s *FencedExecutionCallbackStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _arg_timingLaunched.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		_reply.WriteInt32(1)
+		if _err := _arg_timingFenced.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

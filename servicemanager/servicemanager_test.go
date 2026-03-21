@@ -33,7 +33,11 @@ func (m *mockTransport) Transact(
 	m.lastHandle = handle
 	m.lastCode = code
 	m.lastFlags = flags
-	m.lastData = data
+	// Snapshot the data parcel so that tests can inspect it after the
+	// caller recycles the original (defer data.Recycle()).
+	snapshot := make([]byte, len(data.Data()))
+	copy(snapshot, data.Data())
+	m.lastData = parcel.FromBytes(snapshot)
 	if m.err != nil {
 		return nil, m.err
 	}

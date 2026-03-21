@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/app/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ const (
 
 type IAppOpsAsyncNotedCallback interface {
 	AsBinder() binder.IBinder
-	OpNoted(ctx context.Context, op interface{}) error
+	OpNoted(ctx context.Context, op types.AsyncNotedAppOp) error
 }
 
 type AppOpsAsyncNotedCallbackProxy struct {
@@ -42,10 +43,12 @@ var _ IAppOpsAsyncNotedCallback = (*AppOpsAsyncNotedCallbackProxy)(nil)
 
 func (p *AppOpsAsyncNotedCallbackProxy) OpNoted(
 	ctx context.Context,
-	op interface{},
+	op types.AsyncNotedAppOp,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppOpsAsyncNotedCallback)
+	// WARNING: param op (type types.AsyncNotedAppOp) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsAsyncNotedCallback, MethodIAppOpsAsyncNotedCallbackOpNoted)
 	if _err != nil {
@@ -59,7 +62,8 @@ func (p *AppOpsAsyncNotedCallbackProxy) OpNoted(
 // AppOpsAsyncNotedCallbackStub dispatches incoming binder transactions
 // to a typed IAppOpsAsyncNotedCallback implementation.
 type AppOpsAsyncNotedCallbackStub struct {
-	Impl IAppOpsAsyncNotedCallback
+	Impl      IAppOpsAsyncNotedCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AppOpsAsyncNotedCallbackStub)(nil)
@@ -73,15 +77,15 @@ func (s *AppOpsAsyncNotedCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAppOpsAsyncNotedCallbackOpNoted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_op interface{}
+		var _arg_op types.AsyncNotedAppOp
 		_err := s.Impl.OpNoted(ctx, _arg_op)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -91,7 +95,7 @@ func (s *AppOpsAsyncNotedCallbackStub) OnTransaction(
 // provide to NewAppOpsAsyncNotedCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAppOpsAsyncNotedCallbackServer interface {
-	OpNoted(ctx context.Context, op interface{}) error
+	OpNoted(ctx context.Context, op types.AsyncNotedAppOp) error
 }
 
 type appOpsAsyncNotedCallbackStubWrapper struct {
@@ -105,7 +109,7 @@ func (w *appOpsAsyncNotedCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *appOpsAsyncNotedCallbackStubWrapper) OpNoted(
 	ctx context.Context,
-	op interface{},
+	op types.AsyncNotedAppOp,
 ) error {
 	return w.impl.OpNoted(ctx, op)
 }

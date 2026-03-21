@@ -24,7 +24,7 @@ const (
 type IConvertCredentialCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, convertCredentialResponse ConvertCredentialResponse) error
-	OnFailure(ctx context.Context, message interface{}) error
+	OnFailure(ctx context.Context, message string) error
 }
 
 type ConvertCredentialCallbackProxy struct {
@@ -48,6 +48,7 @@ func (p *ConvertCredentialCallbackProxy) OnSuccess(
 	convertCredentialResponse ConvertCredentialResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConvertCredentialCallback)
 	_data.WriteInt32(1)
 	if _err := convertCredentialResponse.MarshalParcel(_data); _err != nil {
@@ -65,10 +66,12 @@ func (p *ConvertCredentialCallbackProxy) OnSuccess(
 
 func (p *ConvertCredentialCallbackProxy) OnFailure(
 	ctx context.Context,
-	message interface{},
+	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConvertCredentialCallback)
+	_data.WriteString16(message)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConvertCredentialCallback, MethodIConvertCredentialCallbackOnFailure)
 	if _err != nil {
@@ -82,7 +85,8 @@ func (p *ConvertCredentialCallbackProxy) OnFailure(
 // ConvertCredentialCallbackStub dispatches incoming binder transactions
 // to a typed IConvertCredentialCallback implementation.
 type ConvertCredentialCallbackStub struct {
-	Impl IConvertCredentialCallback
+	Impl      IConvertCredentialCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ConvertCredentialCallbackStub)(nil)
@@ -96,11 +100,12 @@ func (s *ConvertCredentialCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIConvertCredentialCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_convertCredentialResponse ConvertCredentialResponse
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -114,16 +119,14 @@ func (s *ConvertCredentialCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSuccess(ctx, _arg_convertCredentialResponse)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIConvertCredentialCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_arg_message, _err := _data.ReadString16()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_message interface{}
-		_err := s.Impl.OnFailure(ctx, _arg_message)
-		_ = _err
-		return nil, nil
+		_err = s.Impl.OnFailure(ctx, _arg_message)
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -134,7 +137,7 @@ func (s *ConvertCredentialCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IConvertCredentialCallbackServer interface {
 	OnSuccess(ctx context.Context, convertCredentialResponse ConvertCredentialResponse) error
-	OnFailure(ctx context.Context, message interface{}) error
+	OnFailure(ctx context.Context, message string) error
 }
 
 type convertCredentialCallbackStubWrapper struct {
@@ -155,7 +158,7 @@ func (w *convertCredentialCallbackStubWrapper) OnSuccess(
 
 func (w *convertCredentialCallbackStubWrapper) OnFailure(
 	ctx context.Context,
-	message interface{},
+	message string,
 ) error {
 	return w.impl.OnFailure(ctx, message)
 }

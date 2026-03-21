@@ -48,6 +48,7 @@ func (p *DeviceIdentifiersPolicyServiceProxy) GetSerial(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdentifiersPolicyService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdentifiersPolicyService, MethodIDeviceIdentifiersPolicyServiceGetSerial)
@@ -78,6 +79,7 @@ func (p *DeviceIdentifiersPolicyServiceProxy) GetSerialForPackage(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdentifiersPolicyService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -107,7 +109,8 @@ func (p *DeviceIdentifiersPolicyServiceProxy) GetSerialForPackage(
 // DeviceIdentifiersPolicyServiceStub dispatches incoming binder transactions
 // to a typed IDeviceIdentifiersPolicyService implementation.
 type DeviceIdentifiersPolicyServiceStub struct {
-	Impl IDeviceIdentifiersPolicyService
+	Impl      IDeviceIdentifiersPolicyService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DeviceIdentifiersPolicyServiceStub)(nil)
@@ -121,11 +124,12 @@ func (s *DeviceIdentifiersPolicyServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDeviceIdentifiersPolicyServiceGetSerial:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSerial(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -136,9 +140,6 @@ func (s *DeviceIdentifiersPolicyServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDeviceIdentifiersPolicyServiceGetSerialForPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}

@@ -47,6 +47,7 @@ func (p *BluetoothMidiServiceProxy) AddBluetoothDevice(
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothMidiService)
 	_data.WriteInt32(1)
 	if _err := bluetoothDevice.MarshalParcel(_data); _err != nil {
@@ -79,7 +80,8 @@ func (p *BluetoothMidiServiceProxy) AddBluetoothDevice(
 // BluetoothMidiServiceStub dispatches incoming binder transactions
 // to a typed IBluetoothMidiService implementation.
 type BluetoothMidiServiceStub struct {
-	Impl IBluetoothMidiService
+	Impl      IBluetoothMidiService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothMidiServiceStub)(nil)
@@ -93,11 +95,12 @@ func (s *BluetoothMidiServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothMidiServiceAddBluetoothDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_bluetoothDevice bluetooth.BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -117,8 +120,7 @@ func (s *BluetoothMidiServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

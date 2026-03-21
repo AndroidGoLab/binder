@@ -1,0 +1,132 @@
+package: android.hardware.automotive.ivn
+go_package: android/hardware/automotive/ivn
+interfaces:
+    - name: IIvnAndroidDevice
+      descriptor: android.hardware.automotive.ivn.IIvnAndroidDevice
+      methods:
+        - name: getMyDeviceId
+          transaction_code_offset: 0
+          return_type:
+            name: int
+        - name: getOtherDeviceIds
+          transaction_code_offset: 1
+          return_type:
+            name: int
+            is_array: true
+        - name: getDeviceIdForOccupantZone
+          transaction_code_offset: 2
+          params:
+            - name: zoneId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getOccupantZonesForDevice
+          transaction_code_offset: 3
+          params:
+            - name: androidDeviceId
+              type:
+                name: int
+          return_type:
+            name: OccupantZoneInfo
+            is_array: true
+        - name: getMyEndpointInfo
+          transaction_code_offset: 4
+          return_type:
+            name: EndpointInfo
+        - name: getEndpointInfoForDevice
+          transaction_code_offset: 5
+          params:
+            - name: androidDeviceId
+              type:
+                name: int
+          return_type:
+            name: EndpointInfo
+parcelables:
+    - name: EndpointInfo
+      fields:
+        - name: connectProtocol
+          type:
+            name: ConnectProtocol
+        - name: ipAddress
+          type:
+            name: String
+        - name: portNumber
+          type:
+            name: int
+        - name: hardwareId
+          type:
+            name: HardwareIdentifiers
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: HardwareIdentifiers
+      fields:
+        - name: brandName
+          type:
+            name: String
+          annotations:
+            - nullable
+        - name: deviceName
+          type:
+            name: String
+          annotations:
+            - nullable
+        - name: productName
+          type:
+            name: String
+          annotations:
+            - nullable
+        - name: manufacturerName
+          type:
+            name: String
+          annotations:
+            - nullable
+        - name: modelName
+          type:
+            name: String
+          annotations:
+            - nullable
+        - name: serialNumber
+          type:
+            name: String
+          annotations:
+            - nullable
+      annotations:
+        - JavaDerive
+        - VintfStability
+    - name: OccupantZoneInfo
+      fields:
+        - name: zoneId
+          type:
+            name: int
+        - name: occupantType
+          type:
+            name: OccupantType
+        - name: seat
+          type:
+            name: int
+      annotations:
+        - JavaDerive
+        - VintfStability
+enums:
+    - name: ConnectProtocol
+      backing_type: int
+      values:
+        - name: TCP_IP
+          value: "0"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: OccupantType
+      backing_type: int
+      values:
+        - name: DRIVER
+          value: "1"
+        - name: FRONT_PASSENGER
+          value: "2"
+        - name: REAR_PASSENGER
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing

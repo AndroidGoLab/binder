@@ -58,6 +58,7 @@ func (p *AugmentedAutofillServiceProxy) OnConnected(
 	verbose bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillService)
 	_data.WriteBool(debug)
 	_data.WriteBool(verbose)
@@ -75,6 +76,7 @@ func (p *AugmentedAutofillServiceProxy) OnDisconnected(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAugmentedAutofillService, MethodIAugmentedAutofillServiceOnDisconnected)
@@ -99,6 +101,7 @@ func (p *AugmentedAutofillServiceProxy) OnFillRequest(
 	callback IFillCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillService)
 	_data.WriteInt32(sessionId)
 	binder.WriteBinderToParcel(ctx, _data, autofillManagerClient, p.Remote.Transport())
@@ -135,6 +138,7 @@ func (p *AugmentedAutofillServiceProxy) OnDestroyAllFillWindowsRequest(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAugmentedAutofillService, MethodIAugmentedAutofillServiceOnDestroyAllFillWindowsRequest)
@@ -149,7 +153,8 @@ func (p *AugmentedAutofillServiceProxy) OnDestroyAllFillWindowsRequest(
 // AugmentedAutofillServiceStub dispatches incoming binder transactions
 // to a typed IAugmentedAutofillService implementation.
 type AugmentedAutofillServiceStub struct {
-	Impl IAugmentedAutofillService
+	Impl      IAugmentedAutofillService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AugmentedAutofillServiceStub)(nil)
@@ -163,11 +168,12 @@ func (s *AugmentedAutofillServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAugmentedAutofillServiceOnConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_debug, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -177,26 +183,23 @@ func (s *AugmentedAutofillServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnConnected(ctx, _arg_debug, _arg_verbose)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAugmentedAutofillServiceOnDisconnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnDisconnected(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAugmentedAutofillServiceOnFillRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_autofillManagerClient binder.IBinder
-		_ = _arg_autofillManagerClient
+		{
+			_autofillManagerClientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_autofillManagerClient = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _autofillManagerClientHandle)
+		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -253,19 +256,19 @@ func (s *AugmentedAutofillServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IFillCallback
-		_ = _arg_callback
-		_err = s.Impl.OnFillRequest(ctx, _arg_sessionId, _arg_autofillManagerClient, _arg_taskId, _arg_activityComponent, _arg_focusedId, _arg_focusedValue, _arg_requestTime, _arg_inlineSuggestionsRequest, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIAugmentedAutofillServiceOnDestroyAllFillWindowsRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewFillCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.OnFillRequest(ctx, _arg_sessionId, _arg_autofillManagerClient, _arg_taskId, _arg_activityComponent, _arg_focusedId, _arg_focusedValue, _arg_requestTime, _arg_inlineSuggestionsRequest, _arg_callback)
+		return nil, _err
+	case TransactionIAugmentedAutofillServiceOnDestroyAllFillWindowsRequest:
 		_err := s.Impl.OnDestroyAllFillWindowsRequest(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

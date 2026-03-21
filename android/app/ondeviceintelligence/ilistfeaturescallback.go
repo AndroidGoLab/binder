@@ -3,6 +3,7 @@ package ondeviceintelligence
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,7 +25,7 @@ const (
 type IListFeaturesCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, result []Feature) error
-	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams interface{}) error
+	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams os.PersistableBundle) error
 }
 
 type ListFeaturesCallbackProxy struct {
@@ -48,6 +49,7 @@ func (p *ListFeaturesCallbackProxy) OnSuccess(
 	result []Feature,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIListFeaturesCallback)
 	if result == nil {
 		_data.WriteInt32(-1)
@@ -83,12 +85,17 @@ func (p *ListFeaturesCallbackProxy) OnFailure(
 	ctx context.Context,
 	errorCode int32,
 	errorMessage string,
-	errorParams interface{},
+	errorParams os.PersistableBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIListFeaturesCallback)
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
+	_data.WriteInt32(1)
+	if _err := errorParams.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIListFeaturesCallback, MethodIListFeaturesCallbackOnFailure)
 	if _err != nil {
@@ -111,7 +118,8 @@ func (p *ListFeaturesCallbackProxy) OnFailure(
 // ListFeaturesCallbackStub dispatches incoming binder transactions
 // to a typed IListFeaturesCallback implementation.
 type ListFeaturesCallbackStub struct {
-	Impl IListFeaturesCallback
+	Impl      IListFeaturesCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ListFeaturesCallbackStub)(nil)
@@ -125,14 +133,33 @@ func (s *ListFeaturesCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIListFeaturesCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_result []Feature
-		_ = _arg_result
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_result = make([]Feature, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_result[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.OnSuccess(ctx, _arg_result)
 		_reply := parcel.New()
 		if _err != nil {
@@ -142,9 +169,6 @@ func (s *ListFeaturesCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIListFeaturesCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -153,7 +177,18 @@ func (s *ListFeaturesCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_errorParams interface{}
+		var _arg_errorParams os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_errorParams.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnFailure(ctx, _arg_errorCode, _arg_errorMessage, _arg_errorParams)
 		_reply := parcel.New()
 		if _err != nil {
@@ -172,7 +207,7 @@ func (s *ListFeaturesCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IListFeaturesCallbackServer interface {
 	OnSuccess(ctx context.Context, result []Feature) error
-	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams interface{}) error
+	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams os.PersistableBundle) error
 }
 
 type listFeaturesCallbackStubWrapper struct {
@@ -195,7 +230,7 @@ func (w *listFeaturesCallbackStubWrapper) OnFailure(
 	ctx context.Context,
 	errorCode int32,
 	errorMessage string,
-	errorParams interface{},
+	errorParams os.PersistableBundle,
 ) error {
 	return w.impl.OnFailure(ctx, errorCode, errorMessage, errorParams)
 }

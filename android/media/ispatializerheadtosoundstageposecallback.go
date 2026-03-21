@@ -45,6 +45,7 @@ func (p *SpatializerHeadToSoundStagePoseCallbackProxy) DispatchPoseChanged(
 	pose []float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadToSoundStagePoseCallback)
 	if pose == nil {
 		_data.WriteInt32(-1)
@@ -67,7 +68,8 @@ func (p *SpatializerHeadToSoundStagePoseCallbackProxy) DispatchPoseChanged(
 // SpatializerHeadToSoundStagePoseCallbackStub dispatches incoming binder transactions
 // to a typed ISpatializerHeadToSoundStagePoseCallback implementation.
 type SpatializerHeadToSoundStagePoseCallbackStub struct {
-	Impl ISpatializerHeadToSoundStagePoseCallback
+	Impl      ISpatializerHeadToSoundStagePoseCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SpatializerHeadToSoundStagePoseCallbackStub)(nil)
@@ -81,17 +83,33 @@ func (s *SpatializerHeadToSoundStagePoseCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISpatializerHeadToSoundStagePoseCallbackDispatchPoseChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pose []float32
-		_ = _arg_pose
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_pose = make([]float32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_pose[_i], _err = _data.ReadFloat32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.DispatchPoseChanged(ctx, _arg_pose)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

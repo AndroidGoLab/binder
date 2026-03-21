@@ -1,6 +1,7 @@
 package extension
 
 import (
+	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type CaptureStageImpl struct {
 	Id         int32
-	Parameters interface{}
+	Parameters impl.CameraMetadataNative
 }
 
 var _ parcel.Parcelable = (*CaptureStageImpl)(nil)
@@ -18,6 +19,9 @@ func (s *CaptureStageImpl) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Id)
+	if _err := s.Parameters.MarshalParcel(p); _err != nil {
+		return _err
+	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -31,8 +35,22 @@ func (s *CaptureStageImpl) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Id, _err = p.ReadInt32()
 	if _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.Parameters.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

@@ -40,7 +40,12 @@ func (d *Driver) RegisterReceiver(
 	d.receivers[cookie] = entry
 	d.receiversMu.Unlock()
 
+	// readLoopOnce is not reset on Close. A closed Driver must not be
+	// reused — Open always returns a fresh instance. If RegisterReceiver
+	// is called after Close, the read loop will not start, which is the
+	// intended behavior (the fd is already closed).
 	d.readLoopOnce.Do(func() {
+		d.readLoopStarted.Store(true)
 		// Use a plain goroutine because observability.Go is not available
 		// in this module. TODO: switch to observability.Go when available.
 		go d.runReadLoop(ctx)
@@ -116,11 +121,18 @@ func (d *Driver) runReadLoop(
 			readBuffer: uint64(uintptr(unsafe.Pointer(&readBuf[0]))),
 		}
 
+		d.fdMu.RLock()
+		fd := d.fd
+		if fd < 0 {
+			d.fdMu.RUnlock()
+			logger.Tracef(ctx, "read loop: fd invalidated, exiting")
+			return
+		}
 		var errno unix.Errno
 		for {
 			_, _, errno = unix.Syscall(
 				unix.SYS_IOCTL,
-				uintptr(d.fd),
+				uintptr(fd),
 				binderWriteReadIoctl,
 				uintptr(unsafe.Pointer(&bwr)),
 			)
@@ -129,6 +141,7 @@ func (d *Driver) runReadLoop(
 			}
 			break
 		}
+		d.fdMu.RUnlock()
 
 		if errno != 0 {
 			// If the fd was closed (e.g. during shutdown), stop gracefully.
@@ -168,6 +181,7 @@ func (d *Driver) dispatchReadBuffer(
 ) {
 	offset := 0
 	txnSize := int(unsafe.Sizeof(binderTransactionData{}))
+	txnSecctxSize := int(binderTransactionDataSecctxSize)
 	ptrCookieSize := int(binderPtrCookieSize)
 
 	for offset < len(buf) {
@@ -199,10 +213,39 @@ func (d *Driver) dispatchReadBuffer(
 
 			d.handleIncomingTransaction(ctx, &txn)
 
+		case brTransactionSecCtx:
+			// BR_TRANSACTION_SEC_CTX carries binder_transaction_data +
+			// a binder_uintptr_t security context pointer. We read both
+			// but ignore the secctx, treating it as a normal transaction.
+			logger.Tracef(ctx, "read loop: BR_TRANSACTION_SEC_CTX")
+			if offset+txnSecctxSize > len(buf) {
+				logger.Warnf(ctx, "read loop: truncated BR_TRANSACTION_SEC_CTX at offset %d", offset)
+				return
+			}
+
+			var txn binderTransactionData
+			copyBytesToStruct(unsafe.Pointer(&txn), buf[offset:], unsafe.Sizeof(txn))
+			offset += txnSecctxSize // consume both txn data and secctx pointer
+
+			d.handleIncomingTransaction(ctx, &txn)
+
 		case brReply:
 			// The read loop should not normally receive BR_REPLY;
 			// those are handled by the synchronous Transact path.
 			logger.Warnf(ctx, "read loop: unexpected BR_REPLY")
+			if offset+txnSize > len(buf) {
+				logger.Warnf(ctx, "read loop: truncated BR_REPLY at offset %d", offset)
+				return
+			}
+
+			// Parse the transaction data to extract the kernel buffer address.
+			// The kernel allocates this buffer for every BR_REPLY; failing to
+			// free it leaks kernel mmap'd memory until the fd is closed.
+			var txn binderTransactionData
+			copyBytesToStruct(unsafe.Pointer(&txn), buf[offset:], unsafe.Sizeof(txn))
+			if err := d.freeBuffer(ctx, txn.dataBuffer); err != nil {
+				logger.Warnf(ctx, "failed to free unexpected BR_REPLY buffer: %v", err)
+			}
 			offset += txnSize
 
 		case brIncRefs:
@@ -251,6 +294,16 @@ func (d *Driver) dispatchReadBuffer(
 			cookie := readUintptr(buf[offset:])
 			offset += cookieSize
 			d.handleDeadBinder(ctx, cookie)
+
+		case brClearDeathNotificationDone:
+			logger.Tracef(ctx, "read loop: BR_CLEAR_DEATH_NOTIFICATION_DONE")
+			cookieSize := int(unsafe.Sizeof(uintptr(0)))
+			if offset+cookieSize > len(buf) {
+				logger.Warnf(ctx, "read loop: truncated BR_CLEAR_DEATH_NOTIFICATION_DONE at offset %d", offset)
+				return
+			}
+			// Read and discard the cookie; this is just an acknowledgment.
+			offset += cookieSize
 
 		case brDeadReply:
 			logger.Tracef(ctx, "read loop: BR_DEAD_REPLY")
@@ -346,14 +399,18 @@ func (d *Driver) handleIncomingTransaction(
 	// Copy transaction data from the mmap'd region.
 	var dataBytes []byte
 	if txn.dataSize > 0 {
-		dataBytes = d.copyFromMapped(txn.dataBuffer, txn.dataSize)
+		var copyErr error
+		dataBytes, copyErr = d.copyFromMapped(txn.dataBuffer, txn.dataSize)
+		if copyErr != nil {
+			logger.Warnf(ctx, "failed to copy transaction data: %v", copyErr)
+		}
 	}
 
 	// Free the mmap'd buffer as soon as we have copied the data.
-	if txn.dataSize > 0 {
-		if err := d.freeBuffer(ctx, txn.dataBuffer); err != nil {
-			logger.Warnf(ctx, "failed to free transaction buffer: %v", err)
-		}
+	// The kernel requires BC_FREE_BUFFER for ALL BR_TRANSACTION buffers
+	// regardless of dataSize.
+	if err := d.freeBuffer(ctx, txn.dataBuffer); err != nil {
+		logger.Warnf(ctx, "failed to free transaction buffer: %v", err)
 	}
 
 	receiver := d.lookupReceiver(cookie)
@@ -379,8 +436,11 @@ func (d *Driver) handleIncomingTransaction(
 		// per-frame hot path. Warn-level consumed 20ms in profiling.
 		logger.Tracef(ctx, "OnTransaction(code=%d) failed: %v", code, err)
 		if !isOneway {
-			// Send an empty reply on error so the caller does not hang.
-			d.sendReply(ctx, parcel.New())
+			// Write the error as an AIDL status into the reply so the
+			// caller receives a proper error instead of an empty parcel.
+			errReply := parcel.New()
+			binder.WriteStatus(errReply, err)
+			d.sendReply(ctx, errReply)
 		}
 		return
 	}
@@ -461,12 +521,22 @@ func (d *Driver) Reply(
 	}
 
 	for {
+		d.fdMu.RLock()
+		fd := d.fd
+		if fd < 0 {
+			d.fdMu.RUnlock()
+			runtime.KeepAlive(replyData)
+			runtime.KeepAlive(offsetsBuf)
+			return ErrDriverClosed
+		}
 		_, _, errno := unix.Syscall(
 			unix.SYS_IOCTL,
-			uintptr(d.fd),
+			uintptr(fd),
 			binderWriteReadIoctl,
 			uintptr(unsafe.Pointer(&bwr)),
 		)
+		d.fdMu.RUnlock()
+
 		switch errno {
 		case 0:
 		case unix.EINTR:
@@ -489,6 +559,8 @@ func (d *Driver) Reply(
 		}
 		break
 	}
+	runtime.KeepAlive(replyData)
+	runtime.KeepAlive(offsetsBuf)
 
 	return nil
 }

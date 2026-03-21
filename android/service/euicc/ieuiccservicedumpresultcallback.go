@@ -45,6 +45,7 @@ func (p *EuiccServiceDumpResultCallbackProxy) OnComplete(
 	logs string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEuiccServiceDumpResultCallback)
 	_data.WriteString16(logs)
 
@@ -60,7 +61,8 @@ func (p *EuiccServiceDumpResultCallbackProxy) OnComplete(
 // EuiccServiceDumpResultCallbackStub dispatches incoming binder transactions
 // to a typed IEuiccServiceDumpResultCallback implementation.
 type EuiccServiceDumpResultCallbackStub struct {
-	Impl IEuiccServiceDumpResultCallback
+	Impl      IEuiccServiceDumpResultCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EuiccServiceDumpResultCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *EuiccServiceDumpResultCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEuiccServiceDumpResultCallbackOnComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_logs, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnComplete(ctx, _arg_logs)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

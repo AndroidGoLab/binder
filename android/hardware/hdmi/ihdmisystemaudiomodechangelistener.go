@@ -45,6 +45,7 @@ func (p *HdmiSystemAudioModeChangeListenerProxy) OnStatusChanged(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHdmiSystemAudioModeChangeListener)
 	_data.WriteBool(enabled)
 
@@ -60,7 +61,8 @@ func (p *HdmiSystemAudioModeChangeListenerProxy) OnStatusChanged(
 // HdmiSystemAudioModeChangeListenerStub dispatches incoming binder transactions
 // to a typed IHdmiSystemAudioModeChangeListener implementation.
 type HdmiSystemAudioModeChangeListenerStub struct {
-	Impl IHdmiSystemAudioModeChangeListener
+	Impl      IHdmiSystemAudioModeChangeListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HdmiSystemAudioModeChangeListenerStub)(nil)
@@ -74,18 +76,18 @@ func (s *HdmiSystemAudioModeChangeListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHdmiSystemAudioModeChangeListenerOnStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnStatusChanged(ctx, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

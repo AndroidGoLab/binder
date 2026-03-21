@@ -75,6 +75,7 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingSetStarted(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
 	binder.WriteBinderToParcel(ctx, _data, gattBinder, p.Remote.Transport())
 	_data.WriteInt32(advertiserId)
@@ -97,6 +98,7 @@ func (p *AdvertisingSetCallbackProxy) OnOwnAddressRead(
 	address string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
 	_data.WriteInt32(advertiserId)
 	_data.WriteInt32(addressType)
@@ -116,6 +118,7 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingSetStopped(
 	advertiserId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
 	_data.WriteInt32(advertiserId)
 
@@ -135,6 +138,7 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingEnabled(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
 	_data.WriteInt32(advertiserId)
 	_data.WriteBool(enable)
@@ -155,6 +159,7 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingDataSet(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
 	_data.WriteInt32(advertiserId)
 	_data.WriteInt32(status)
@@ -174,6 +179,7 @@ func (p *AdvertisingSetCallbackProxy) OnScanResponseDataSet(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
 	_data.WriteInt32(advertiserId)
 	_data.WriteInt32(status)
@@ -194,6 +200,7 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingParametersUpdated(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
 	_data.WriteInt32(advertiserId)
 	_data.WriteInt32(tx_power)
@@ -214,6 +221,7 @@ func (p *AdvertisingSetCallbackProxy) OnPeriodicAdvertisingParametersUpdated(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
 	_data.WriteInt32(advertiserId)
 	_data.WriteInt32(status)
@@ -233,6 +241,7 @@ func (p *AdvertisingSetCallbackProxy) OnPeriodicAdvertisingDataSet(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
 	_data.WriteInt32(advertiserId)
 	_data.WriteInt32(status)
@@ -253,6 +262,7 @@ func (p *AdvertisingSetCallbackProxy) OnPeriodicAdvertisingEnabled(
 	status int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
 	_data.WriteInt32(advertiserId)
 	_data.WriteBool(enable)
@@ -270,7 +280,8 @@ func (p *AdvertisingSetCallbackProxy) OnPeriodicAdvertisingEnabled(
 // AdvertisingSetCallbackStub dispatches incoming binder transactions
 // to a typed IAdvertisingSetCallback implementation.
 type AdvertisingSetCallbackStub struct {
-	Impl IAdvertisingSetCallback
+	Impl      IAdvertisingSetCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AdvertisingSetCallbackStub)(nil)
@@ -284,14 +295,20 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAdvertisingSetCallbackOnAdvertisingSetStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_gattBinder binder.IBinder
-		_ = _arg_gattBinder
+		{
+			_gattBinderHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_gattBinder = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _gattBinderHandle)
+		}
 		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -305,12 +322,8 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAdvertisingSetStarted(ctx, _arg_gattBinder, _arg_advertiserId, _arg_tx_power, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAdvertisingSetCallbackOnOwnAddressRead:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -324,23 +337,15 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnOwnAddressRead(ctx, _arg_advertiserId, _arg_addressType, _arg_address)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAdvertisingSetCallbackOnAdvertisingSetStopped:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAdvertisingSetStopped(ctx, _arg_advertiserId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAdvertisingSetCallbackOnAdvertisingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -354,12 +359,8 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAdvertisingEnabled(ctx, _arg_advertiserId, _arg_enable, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAdvertisingSetCallbackOnAdvertisingDataSet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -369,12 +370,8 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAdvertisingDataSet(ctx, _arg_advertiserId, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAdvertisingSetCallbackOnScanResponseDataSet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -384,12 +381,8 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnScanResponseDataSet(ctx, _arg_advertiserId, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAdvertisingSetCallbackOnAdvertisingParametersUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -403,12 +396,8 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAdvertisingParametersUpdated(ctx, _arg_advertiserId, _arg_tx_power, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAdvertisingSetCallbackOnPeriodicAdvertisingParametersUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -418,12 +407,8 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPeriodicAdvertisingParametersUpdated(ctx, _arg_advertiserId, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAdvertisingSetCallbackOnPeriodicAdvertisingDataSet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -433,12 +418,8 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPeriodicAdvertisingDataSet(ctx, _arg_advertiserId, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAdvertisingSetCallbackOnPeriodicAdvertisingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -452,8 +433,7 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPeriodicAdvertisingEnabled(ctx, _arg_advertiserId, _arg_enable, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

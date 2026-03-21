@@ -57,6 +57,7 @@ func (p *ContentCaptureServiceCallbackProxy) SetContentCaptureWhitelist(
 	activities []content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureServiceCallback)
 	if packages == nil {
 		_data.WriteInt32(-1)
@@ -93,6 +94,7 @@ func (p *ContentCaptureServiceCallbackProxy) SetContentCaptureConditions(
 	conditions []viewContentcapture.ContentCaptureCondition,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureServiceCallback)
 	_data.WriteString16(packageName)
 	if conditions == nil {
@@ -120,6 +122,7 @@ func (p *ContentCaptureServiceCallbackProxy) DisableSelf(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureServiceCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureServiceCallback, MethodIContentCaptureServiceCallbackDisableSelf)
@@ -140,6 +143,7 @@ func (p *ContentCaptureServiceCallbackProxy) WriteSessionFlush(
 	flushReason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureServiceCallback)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -168,7 +172,8 @@ func (p *ContentCaptureServiceCallbackProxy) WriteSessionFlush(
 // ContentCaptureServiceCallbackStub dispatches incoming binder transactions
 // to a typed IContentCaptureServiceCallback implementation.
 type ContentCaptureServiceCallbackStub struct {
-	Impl IContentCaptureServiceCallback
+	Impl      IContentCaptureServiceCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ContentCaptureServiceCallbackStub)(nil)
@@ -182,45 +187,86 @@ func (s *ContentCaptureServiceCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIContentCaptureServiceCallbackSetContentCaptureWhitelist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packages []string
-		_ = _arg_packages
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_activities []content.ComponentName
-		_ = _arg_activities
-		_err := s.Impl.SetContentCaptureWhitelist(ctx, _arg_packages, _arg_activities)
-		_ = _err
-		return nil, nil
-	case TransactionIContentCaptureServiceCallbackSetContentCaptureConditions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packages = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packages[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		var _arg_activities []content.ComponentName
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_activities = make([]content.ComponentName, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_activities[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		_err := s.Impl.SetContentCaptureWhitelist(ctx, _arg_packages, _arg_activities)
+		return nil, _err
+	case TransactionIContentCaptureServiceCallbackSetContentCaptureConditions:
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_conditions []viewContentcapture.ContentCaptureCondition
-		_ = _arg_conditions
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_conditions = make([]viewContentcapture.ContentCaptureCondition, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_conditions[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.SetContentCaptureConditions(ctx, _arg_packageName, _arg_conditions)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentCaptureServiceCallbackDisableSelf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DisableSelf(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContentCaptureServiceCallbackWriteSessionFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -266,8 +312,7 @@ func (s *ContentCaptureServiceCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.WriteSessionFlush(ctx, _arg_sessionId, _arg_app, _arg_flushMetrics, _arg_options, _arg_flushReason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

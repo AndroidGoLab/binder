@@ -3,6 +3,7 @@ package ondeviceintelligence
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,7 +25,7 @@ const (
 type IFeatureDetailsCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, result FeatureDetails) error
-	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams interface{}) error
+	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams os.PersistableBundle) error
 }
 
 type FeatureDetailsCallbackProxy struct {
@@ -48,6 +49,7 @@ func (p *FeatureDetailsCallbackProxy) OnSuccess(
 	result FeatureDetails,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureDetailsCallback)
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -76,12 +78,17 @@ func (p *FeatureDetailsCallbackProxy) OnFailure(
 	ctx context.Context,
 	errorCode int32,
 	errorMessage string,
-	errorParams interface{},
+	errorParams os.PersistableBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureDetailsCallback)
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
+	_data.WriteInt32(1)
+	if _err := errorParams.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureDetailsCallback, MethodIFeatureDetailsCallbackOnFailure)
 	if _err != nil {
@@ -104,7 +111,8 @@ func (p *FeatureDetailsCallbackProxy) OnFailure(
 // FeatureDetailsCallbackStub dispatches incoming binder transactions
 // to a typed IFeatureDetailsCallback implementation.
 type FeatureDetailsCallbackStub struct {
-	Impl IFeatureDetailsCallback
+	Impl      IFeatureDetailsCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FeatureDetailsCallbackStub)(nil)
@@ -118,11 +126,12 @@ func (s *FeatureDetailsCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFeatureDetailsCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_result FeatureDetails
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -144,9 +153,6 @@ func (s *FeatureDetailsCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFeatureDetailsCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -155,7 +161,18 @@ func (s *FeatureDetailsCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_errorParams interface{}
+		var _arg_errorParams os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_errorParams.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnFailure(ctx, _arg_errorCode, _arg_errorMessage, _arg_errorParams)
 		_reply := parcel.New()
 		if _err != nil {
@@ -174,7 +191,7 @@ func (s *FeatureDetailsCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IFeatureDetailsCallbackServer interface {
 	OnSuccess(ctx context.Context, result FeatureDetails) error
-	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams interface{}) error
+	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams os.PersistableBundle) error
 }
 
 type featureDetailsCallbackStubWrapper struct {
@@ -197,7 +214,7 @@ func (w *featureDetailsCallbackStubWrapper) OnFailure(
 	ctx context.Context,
 	errorCode int32,
 	errorMessage string,
-	errorParams interface{},
+	errorParams os.PersistableBundle,
 ) error {
 	return w.impl.OnFailure(ctx, errorCode, errorMessage, errorParams)
 }

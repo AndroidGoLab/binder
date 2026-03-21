@@ -50,6 +50,7 @@ func (p *MediaRouterClientProxy) OnStateChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouterClient, MethodIMediaRouterClientOnStateChanged)
@@ -65,6 +66,7 @@ func (p *MediaRouterClientProxy) OnRestoreRoute(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouterClient, MethodIMediaRouterClientOnRestoreRoute)
@@ -81,6 +83,7 @@ func (p *MediaRouterClientProxy) OnGroupRouteSelected(
 	routeId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterClient)
 	_data.WriteString16(routeId)
 
@@ -96,7 +99,8 @@ func (p *MediaRouterClientProxy) OnGroupRouteSelected(
 // MediaRouterClientStub dispatches incoming binder transactions
 // to a typed IMediaRouterClient implementation.
 type MediaRouterClientStub struct {
-	Impl IMediaRouterClient
+	Impl      IMediaRouterClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaRouterClientStub)(nil)
@@ -110,32 +114,24 @@ func (s *MediaRouterClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaRouterClientOnStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnStateChanged(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaRouterClientOnRestoreRoute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnRestoreRoute(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaRouterClientOnGroupRouteSelected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_routeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnGroupRouteSelected(ctx, _arg_routeId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

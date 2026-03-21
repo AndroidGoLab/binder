@@ -1,0 +1,308 @@
+package: android.media.midi
+go_package: android/media/midi
+interfaces:
+    - name: IBluetoothMidiService
+      descriptor: android.media.midi.IBluetoothMidiService
+      methods:
+        - name: addBluetoothDevice
+          transaction_code_offset: 0
+          params:
+            - name: bluetoothDevice
+              type:
+                name: BluetoothDevice
+              direction: in
+          return_type:
+            name: IBinder
+    - name: IMidiDeviceListener
+      descriptor: android.media.midi.IMidiDeviceListener
+      oneway: true
+      methods:
+        - name: onDeviceAdded
+          transaction_code_offset: 0
+          params:
+            - name: device
+              type:
+                name: MidiDeviceInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onDeviceRemoved
+          transaction_code_offset: 1
+          params:
+            - name: device
+              type:
+                name: MidiDeviceInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onDeviceStatusChanged
+          transaction_code_offset: 2
+          params:
+            - name: status
+              type:
+                name: MidiDeviceStatus
+              direction: in
+          return_type:
+            name: void
+    - name: IMidiDeviceOpenCallback
+      descriptor: android.media.midi.IMidiDeviceOpenCallback
+      oneway: true
+      methods:
+        - name: onDeviceOpened
+          transaction_code_offset: 0
+          params:
+            - name: server
+              type:
+                name: IMidiDeviceServer
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+    - name: IMidiDeviceServer
+      descriptor: android.media.midi.IMidiDeviceServer
+      methods:
+        - name: openInputPort
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: portNumber
+              type:
+                name: int
+          return_type:
+            name: FileDescriptor
+        - name: openOutputPort
+          transaction_code_offset: 1
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: portNumber
+              type:
+                name: int
+          return_type:
+            name: FileDescriptor
+        - name: closePort
+          transaction_code_offset: 2
+          params:
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: closeDevice
+          transaction_code_offset: 3
+          oneway: true
+          return_type:
+            name: void
+        - name: connectPorts
+          transaction_code_offset: 4
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: fd
+              type:
+                name: FileDescriptor
+              direction: in
+            - name: outputPortNumber
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getDeviceInfo
+          transaction_code_offset: 5
+          return_type:
+            name: MidiDeviceInfo
+        - name: setDeviceInfo
+          transaction_code_offset: 6
+          oneway: true
+          params:
+            - name: deviceInfo
+              type:
+                name: MidiDeviceInfo
+              direction: in
+          return_type:
+            name: void
+    - name: IMidiManager
+      descriptor: android.media.midi.IMidiManager
+      methods:
+        - name: getDevices
+          transaction_code_offset: 0
+          return_type:
+            name: MidiDeviceInfo
+            is_array: true
+        - name: getDevicesForTransport
+          transaction_code_offset: 1
+          params:
+            - name: transport
+              type:
+                name: int
+          return_type:
+            name: MidiDeviceInfo
+            is_array: true
+        - name: registerListener
+          transaction_code_offset: 2
+          params:
+            - name: clientToken
+              type:
+                name: IBinder
+            - name: listener
+              type:
+                name: IMidiDeviceListener
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterListener
+          transaction_code_offset: 3
+          params:
+            - name: clientToken
+              type:
+                name: IBinder
+            - name: listener
+              type:
+                name: IMidiDeviceListener
+              direction: in
+          return_type:
+            name: void
+        - name: openDevice
+          transaction_code_offset: 4
+          params:
+            - name: clientToken
+              type:
+                name: IBinder
+            - name: device
+              type:
+                name: MidiDeviceInfo
+              direction: in
+            - name: callback
+              type:
+                name: IMidiDeviceOpenCallback
+              direction: in
+          return_type:
+            name: void
+        - name: openBluetoothDevice
+          transaction_code_offset: 5
+          params:
+            - name: clientToken
+              type:
+                name: IBinder
+            - name: bluetoothDevice
+              type:
+                name: BluetoothDevice
+              direction: in
+            - name: callback
+              type:
+                name: IMidiDeviceOpenCallback
+              direction: in
+          return_type:
+            name: void
+        - name: closeDevice
+          transaction_code_offset: 6
+          params:
+            - name: clientToken
+              type:
+                name: IBinder
+            - name: deviceToken
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: registerDeviceServer
+          transaction_code_offset: 7
+          params:
+            - name: server
+              type:
+                name: IMidiDeviceServer
+              direction: in
+            - name: numInputPorts
+              type:
+                name: int
+            - name: numOutputPorts
+              type:
+                name: int
+            - name: inputPortNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: outputPortNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: properties
+              type:
+                name: Bundle
+              direction: in
+            - name: type
+              type:
+                name: int
+            - name: defaultProtocol
+              type:
+                name: int
+          return_type:
+            name: MidiDeviceInfo
+        - name: unregisterDeviceServer
+          transaction_code_offset: 8
+          params:
+            - name: server
+              type:
+                name: IMidiDeviceServer
+              direction: in
+          return_type:
+            name: void
+        - name: getServiceDeviceInfo
+          transaction_code_offset: 9
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: className
+              type:
+                name: String
+          return_type:
+            name: MidiDeviceInfo
+        - name: getDeviceStatus
+          transaction_code_offset: 10
+          params:
+            - name: deviceInfo
+              type:
+                name: MidiDeviceInfo
+              direction: in
+          return_type:
+            name: MidiDeviceStatus
+        - name: setDeviceStatus
+          transaction_code_offset: 11
+          params:
+            - name: server
+              type:
+                name: IMidiDeviceServer
+              direction: in
+            - name: status
+              type:
+                name: MidiDeviceStatus
+              direction: in
+          return_type:
+            name: void
+        - name: updateTotalBytes
+          transaction_code_offset: 12
+          params:
+            - name: server
+              type:
+                name: IMidiDeviceServer
+              direction: in
+            - name: inputBytes
+              type:
+                name: int
+            - name: outputBytes
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: MidiDeviceInfo
+    - name: MidiDeviceStatus

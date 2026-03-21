@@ -3,7 +3,6 @@ package core
 import (
 	"context"
 	"fmt"
-	coreIBluetooth "github.com/xaionaro-go/binder/android/hardware/audio/core/IBluetooth"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,8 +23,8 @@ const (
 
 type IBluetooth interface {
 	AsBinder() binder.IBinder
-	SetScoConfig(ctx context.Context, config coreIBluetooth.ScoConfig) (coreIBluetooth.ScoConfig, error)
-	SetHfpConfig(ctx context.Context, config coreIBluetooth.HfpConfig) (coreIBluetooth.HfpConfig, error)
+	SetScoConfig(ctx context.Context, config IBluetoothScoConfig) (IBluetoothScoConfig, error)
+	SetHfpConfig(ctx context.Context, config IBluetoothHfpConfig) (IBluetoothHfpConfig, error)
 }
 
 type BluetoothProxy struct {
@@ -46,10 +45,11 @@ var _ IBluetooth = (*BluetoothProxy)(nil)
 
 func (p *BluetoothProxy) SetScoConfig(
 	ctx context.Context,
-	config coreIBluetooth.ScoConfig,
-) (coreIBluetooth.ScoConfig, error) {
-	var _result coreIBluetooth.ScoConfig
+	config IBluetoothScoConfig,
+) (IBluetoothScoConfig, error) {
+	var _result IBluetoothScoConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetooth)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -85,10 +85,11 @@ func (p *BluetoothProxy) SetScoConfig(
 
 func (p *BluetoothProxy) SetHfpConfig(
 	ctx context.Context,
-	config coreIBluetooth.HfpConfig,
-) (coreIBluetooth.HfpConfig, error) {
-	var _result coreIBluetooth.HfpConfig
+	config IBluetoothHfpConfig,
+) (IBluetoothHfpConfig, error) {
+	var _result IBluetoothHfpConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetooth)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -125,7 +126,8 @@ func (p *BluetoothProxy) SetHfpConfig(
 // BluetoothStub dispatches incoming binder transactions
 // to a typed IBluetooth implementation.
 type BluetoothStub struct {
-	Impl IBluetooth
+	Impl      IBluetooth
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothStub)(nil)
@@ -139,12 +141,13 @@ func (s *BluetoothStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothSetScoConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_config coreIBluetooth.ScoConfig
+		var _arg_config IBluetoothScoConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -169,10 +172,7 @@ func (s *BluetoothStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBluetoothSetHfpConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_config coreIBluetooth.HfpConfig
+		var _arg_config IBluetoothHfpConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -205,8 +205,8 @@ func (s *BluetoothStub) OnTransaction(
 // provide to NewBluetoothStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothServer interface {
-	SetScoConfig(ctx context.Context, config coreIBluetooth.ScoConfig) (coreIBluetooth.ScoConfig, error)
-	SetHfpConfig(ctx context.Context, config coreIBluetooth.HfpConfig) (coreIBluetooth.HfpConfig, error)
+	SetScoConfig(ctx context.Context, config IBluetoothScoConfig) (IBluetoothScoConfig, error)
+	SetHfpConfig(ctx context.Context, config IBluetoothHfpConfig) (IBluetoothHfpConfig, error)
 }
 
 type bluetoothStubWrapper struct {
@@ -220,15 +220,15 @@ func (w *bluetoothStubWrapper) AsBinder() binder.IBinder {
 
 func (w *bluetoothStubWrapper) SetScoConfig(
 	ctx context.Context,
-	config coreIBluetooth.ScoConfig,
-) (coreIBluetooth.ScoConfig, error) {
+	config IBluetoothScoConfig,
+) (IBluetoothScoConfig, error) {
 	return w.impl.SetScoConfig(ctx, config)
 }
 
 func (w *bluetoothStubWrapper) SetHfpConfig(
 	ctx context.Context,
-	config coreIBluetooth.HfpConfig,
-) (coreIBluetooth.HfpConfig, error) {
+	config IBluetoothHfpConfig,
+) (IBluetoothHfpConfig, error) {
 	return w.impl.SetHfpConfig(ctx, config)
 }
 

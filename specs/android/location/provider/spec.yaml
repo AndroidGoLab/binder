@@ -1,0 +1,179 @@
+package: android.location.provider
+go_package: android/location/provider
+interfaces:
+    - name: IGeocodeCallback
+      descriptor: android.location.provider.IGeocodeCallback
+      oneway: true
+      methods:
+        - name: onError
+          transaction_code_offset: 0
+          params:
+            - name: error
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onResults
+          transaction_code_offset: 1
+          params:
+            - name: results
+              type:
+                name: List
+                type_args:
+                    - name: Address
+              direction: in
+          return_type:
+            name: void
+    - name: IGeocodeProvider
+      descriptor: android.location.provider.IGeocodeProvider
+      oneway: true
+      methods:
+        - name: forwardGeocode
+          transaction_code_offset: 0
+          params:
+            - name: request
+              type:
+                name: ForwardGeocodeRequest
+              direction: in
+            - name: callback
+              type:
+                name: IGeocodeCallback
+              direction: in
+          return_type:
+            name: void
+        - name: reverseGeocode
+          transaction_code_offset: 1
+          params:
+            - name: request
+              type:
+                name: ReverseGeocodeRequest
+              direction: in
+            - name: callback
+              type:
+                name: IGeocodeCallback
+              direction: in
+          return_type:
+            name: void
+    - name: ILocationProvider
+      descriptor: android.location.provider.ILocationProvider
+      methods:
+        - name: setLocationProviderManager
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: manager
+              type:
+                name: ILocationProviderManager
+              direction: in
+          return_type:
+            name: void
+        - name: setRequest
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: request
+              type:
+                name: ProviderRequest
+              direction: in
+          return_type:
+            name: void
+        - name: flush
+          transaction_code_offset: 2
+          oneway: true
+          return_type:
+            name: void
+        - name: sendExtraCommand
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: command
+              type:
+                name: String
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+    - name: ILocationProviderManager
+      descriptor: android.location.provider.ILocationProviderManager
+      methods:
+        - name: onInitialize
+          transaction_code_offset: 0
+          params:
+            - name: allowed
+              type:
+                name: boolean
+            - name: properties
+              type:
+                name: ProviderProperties
+              direction: in
+            - name: attributionTag
+              type:
+                name: String
+              annotations:
+                - nullable
+          return_type:
+            name: void
+        - name: onSetAllowed
+          transaction_code_offset: 1
+          params:
+            - name: allowed
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onSetProperties
+          transaction_code_offset: 2
+          params:
+            - name: properties
+              type:
+                name: ProviderProperties
+              direction: in
+          return_type:
+            name: void
+        - name: onReportLocation
+          transaction_code_offset: 3
+          params:
+            - name: location
+              type:
+                name: Location
+              direction: in
+          return_type:
+            name: void
+        - name: onReportLocations
+          transaction_code_offset: 4
+          params:
+            - name: locations
+              type:
+                name: List
+                type_args:
+                    - name: Location
+              direction: in
+          return_type:
+            name: void
+        - name: onFlushComplete
+          transaction_code_offset: 5
+          return_type:
+            name: void
+    - name: IProviderRequestListener
+      descriptor: android.location.provider.IProviderRequestListener
+      oneway: true
+      methods:
+        - name: onProviderRequestChanged
+          transaction_code_offset: 0
+          params:
+            - name: provider
+              type:
+                name: String
+            - name: request
+              type:
+                name: ProviderRequest
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: ForwardGeocodeRequest
+    - name: ProviderProperties
+    - name: ProviderRequest
+    - name: ReverseGeocodeRequest

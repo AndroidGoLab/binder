@@ -52,6 +52,7 @@ func (p *RecognitionServiceManagerProxy) CreateSession(
 	callback IRecognitionServiceManagerCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionServiceManager)
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
@@ -75,6 +76,7 @@ func (p *RecognitionServiceManagerProxy) SetTemporaryComponent(
 	componentName content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionServiceManager)
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
@@ -93,7 +95,8 @@ func (p *RecognitionServiceManagerProxy) SetTemporaryComponent(
 // RecognitionServiceManagerStub dispatches incoming binder transactions
 // to a typed IRecognitionServiceManager implementation.
 type RecognitionServiceManagerStub struct {
-	Impl IRecognitionServiceManager
+	Impl      IRecognitionServiceManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RecognitionServiceManagerStub)(nil)
@@ -107,11 +110,12 @@ func (s *RecognitionServiceManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRecognitionServiceManagerCreateSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -124,23 +128,29 @@ func (s *RecognitionServiceManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientToken binder.IBinder
-		_ = _arg_clientToken
+		{
+			_clientTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientTokenHandle)
+		}
 		_arg_onDevice, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IRecognitionServiceManagerCallback
-		_ = _arg_callback
-		_err = s.Impl.CreateSession(ctx, _arg_componentName, _arg_clientToken, _arg_onDevice, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIRecognitionServiceManagerSetTemporaryComponent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRecognitionServiceManagerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.CreateSession(ctx, _arg_componentName, _arg_clientToken, _arg_onDevice, _arg_callback)
+		return nil, _err
+	case TransactionIRecognitionServiceManagerSetTemporaryComponent:
 		var _arg_componentName content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -154,8 +164,7 @@ func (s *RecognitionServiceManagerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.SetTemporaryComponent(ctx, _arg_componentName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

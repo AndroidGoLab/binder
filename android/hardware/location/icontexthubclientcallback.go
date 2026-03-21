@@ -66,6 +66,7 @@ func (p *ContextHubClientCallbackProxy) OnMessageFromNanoApp(
 	message NanoAppMessage,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
 	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
@@ -85,6 +86,7 @@ func (p *ContextHubClientCallbackProxy) OnHubReset(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnHubReset)
@@ -102,6 +104,7 @@ func (p *ContextHubClientCallbackProxy) OnNanoAppAborted(
 	abortCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
 	_data.WriteInt64(nanoAppId)
 	_data.WriteInt32(abortCode)
@@ -120,6 +123,7 @@ func (p *ContextHubClientCallbackProxy) OnNanoAppLoaded(
 	nanoAppId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
 	_data.WriteInt64(nanoAppId)
 
@@ -137,6 +141,7 @@ func (p *ContextHubClientCallbackProxy) OnNanoAppUnloaded(
 	nanoAppId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
 	_data.WriteInt64(nanoAppId)
 
@@ -154,6 +159,7 @@ func (p *ContextHubClientCallbackProxy) OnNanoAppEnabled(
 	nanoAppId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
 	_data.WriteInt64(nanoAppId)
 
@@ -171,6 +177,7 @@ func (p *ContextHubClientCallbackProxy) OnNanoAppDisabled(
 	nanoAppId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
 	_data.WriteInt64(nanoAppId)
 
@@ -189,6 +196,7 @@ func (p *ContextHubClientCallbackProxy) OnClientAuthorizationChanged(
 	authorization int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
 	_data.WriteInt64(nanoAppId)
 	_data.WriteInt32(authorization)
@@ -205,7 +213,8 @@ func (p *ContextHubClientCallbackProxy) OnClientAuthorizationChanged(
 // ContextHubClientCallbackStub dispatches incoming binder transactions
 // to a typed IContextHubClientCallback implementation.
 type ContextHubClientCallbackStub struct {
-	Impl IContextHubClientCallback
+	Impl      IContextHubClientCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ContextHubClientCallbackStub)(nil)
@@ -219,11 +228,12 @@ func (s *ContextHubClientCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIContextHubClientCallbackOnMessageFromNanoApp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_message NanoAppMessage
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -237,19 +247,11 @@ func (s *ContextHubClientCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnMessageFromNanoApp(ctx, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContextHubClientCallbackOnHubReset:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnHubReset(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContextHubClientCallbackOnNanoAppAborted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -259,56 +261,36 @@ func (s *ContextHubClientCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnNanoAppAborted(ctx, _arg_nanoAppId, _arg_abortCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContextHubClientCallbackOnNanoAppLoaded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnNanoAppLoaded(ctx, _arg_nanoAppId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContextHubClientCallbackOnNanoAppUnloaded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnNanoAppUnloaded(ctx, _arg_nanoAppId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContextHubClientCallbackOnNanoAppEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnNanoAppEnabled(ctx, _arg_nanoAppId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContextHubClientCallbackOnNanoAppDisabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnNanoAppDisabled(ctx, _arg_nanoAppId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIContextHubClientCallbackOnClientAuthorizationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -318,8 +300,7 @@ func (s *ContextHubClientCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnClientAuthorizationChanged(ctx, _arg_nanoAppId, _arg_authorization)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

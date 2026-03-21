@@ -1,0 +1,121 @@
+package: android.hardware.secure_element
+go_package: android/hardware/secure_element
+interfaces:
+    - name: ISecureElement
+      descriptor: android.hardware.secure_element.ISecureElement
+      methods:
+        - name: closeChannel
+          transaction_code_offset: 0
+          params:
+            - name: channelNumber
+              type:
+                name: byte
+              direction: in
+          return_type:
+            name: void
+        - name: getAtr
+          transaction_code_offset: 1
+          return_type:
+            name: byte
+            is_array: true
+        - name: init
+          transaction_code_offset: 2
+          params:
+            - name: clientCallback
+              type:
+                name: ISecureElementCallback
+              direction: in
+          return_type:
+            name: void
+        - name: isCardPresent
+          transaction_code_offset: 3
+          return_type:
+            name: boolean
+        - name: openBasicChannel
+          transaction_code_offset: 4
+          params:
+            - name: aid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: p2
+              type:
+                name: byte
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: openLogicalChannel
+          transaction_code_offset: 5
+          params:
+            - name: aid
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: p2
+              type:
+                name: byte
+              direction: in
+          return_type:
+            name: LogicalChannelResponse
+        - name: reset
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: transmit
+          transaction_code_offset: 7
+          params:
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+      constants:
+        - name: FAILED
+          type: int
+          value: "1"
+        - name: CHANNEL_NOT_AVAILABLE
+          type: int
+          value: "2"
+        - name: NO_SUCH_ELEMENT_ERROR
+          type: int
+          value: "3"
+        - name: UNSUPPORTED_OPERATION
+          type: int
+          value: "4"
+        - name: IOERROR
+          type: int
+          value: "5"
+    - name: ISecureElementCallback
+      descriptor: android.hardware.secure_element.ISecureElementCallback
+      methods:
+        - name: onStateChange
+          transaction_code_offset: 0
+          params:
+            - name: connected
+              type:
+                name: boolean
+              direction: in
+            - name: debugReason
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: LogicalChannelResponse
+      fields:
+        - name: channelNumber
+          type:
+            name: byte
+        - name: selectResponse
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability

@@ -45,6 +45,7 @@ func (p *GnssPsdsCallbackProxy) DownloadRequestCb(
 	psdsType PsdsType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssPsdsCallback)
 	_data.WriteInt32(int32(psdsType))
 
@@ -69,7 +70,8 @@ func (p *GnssPsdsCallbackProxy) DownloadRequestCb(
 // GnssPsdsCallbackStub dispatches incoming binder transactions
 // to a typed IGnssPsdsCallback implementation.
 type GnssPsdsCallbackStub struct {
-	Impl IGnssPsdsCallback
+	Impl      IGnssPsdsCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssPsdsCallbackStub)(nil)
@@ -83,11 +85,12 @@ func (s *GnssPsdsCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssPsdsCallbackDownloadRequestCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_psdsType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

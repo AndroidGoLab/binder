@@ -85,6 +85,7 @@ func (p *TunerFrontendProxy) SetCallback(
 	tunerFrontendCallback ITunerFrontendCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 	binder.WriteBinderToParcel(ctx, _data, tunerFrontendCallback.AsBinder(), p.Remote.Transport())
 
@@ -111,6 +112,7 @@ func (p *TunerFrontendProxy) Tune(
 	settings tvTuner.FrontendSettings,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 	_data.WriteInt32(1)
 	if _err := settings.MarshalParcel(_data); _err != nil {
@@ -139,6 +141,7 @@ func (p *TunerFrontendProxy) StopTune(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendStopTune)
@@ -165,6 +168,7 @@ func (p *TunerFrontendProxy) Scan(
 	frontendScanType tvTuner.FrontendScanType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 	_data.WriteInt32(1)
 	if _err := settings.MarshalParcel(_data); _err != nil {
@@ -194,6 +198,7 @@ func (p *TunerFrontendProxy) StopScan(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendStopScan)
@@ -219,6 +224,7 @@ func (p *TunerFrontendProxy) SetLnb(
 	lnb ITunerLnb,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 	binder.WriteBinderToParcel(ctx, _data, lnb.AsBinder(), p.Remote.Transport())
 
@@ -246,6 +252,7 @@ func (p *TunerFrontendProxy) LinkCiCamToFrontend(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 	_data.WriteInt32(ciCamId)
 
@@ -276,6 +283,7 @@ func (p *TunerFrontendProxy) UnlinkCiCamToFrontend(
 	ciCamId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 	_data.WriteInt32(ciCamId)
 
@@ -301,6 +309,7 @@ func (p *TunerFrontendProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendClose)
@@ -327,6 +336,7 @@ func (p *TunerFrontendProxy) GetStatus(
 ) ([]tvTuner.FrontendStatus, error) {
 	var _result []tvTuner.FrontendStatus
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 	if statusTypes == nil {
 		_data.WriteInt32(-1)
@@ -356,6 +366,9 @@ func (p *TunerFrontendProxy) GetStatus(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]tvTuner.FrontendStatus, _count)
@@ -376,6 +389,7 @@ func (p *TunerFrontendProxy) GetFrontendId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendGetFrontendId)
@@ -405,6 +419,7 @@ func (p *TunerFrontendProxy) GetHardwareInfo(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendGetHardwareInfo)
@@ -434,6 +449,7 @@ func (p *TunerFrontendProxy) RemoveOutputPid(
 	pid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 	_data.WriteInt32(pid)
 
@@ -461,6 +477,7 @@ func (p *TunerFrontendProxy) GetFrontendStatusReadiness(
 ) ([]tvTuner.FrontendStatusReadiness, error) {
 	var _result []tvTuner.FrontendStatusReadiness
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 	if statusTypes == nil {
 		_data.WriteInt32(-1)
@@ -490,6 +507,9 @@ func (p *TunerFrontendProxy) GetFrontendStatusReadiness(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]tvTuner.FrontendStatusReadiness, _count)
@@ -507,7 +527,8 @@ func (p *TunerFrontendProxy) GetFrontendStatusReadiness(
 // TunerFrontendStub dispatches incoming binder transactions
 // to a typed ITunerFrontend implementation.
 type TunerFrontendStub struct {
-	Impl ITunerFrontend
+	Impl      ITunerFrontend
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TunerFrontendStub)(nil)
@@ -521,14 +542,20 @@ func (s *TunerFrontendStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITunerFrontendSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_tunerFrontendCallback ITunerFrontendCallback
-		_ = _arg_tunerFrontendCallback
+		{
+			_tunerFrontendCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tunerFrontendCallback = NewTunerFrontendCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tunerFrontendCallbackHandle))
+		}
 		_err := s.Impl.SetCallback(ctx, _arg_tunerFrontendCallback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -538,9 +565,6 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendTune:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_settings tvTuner.FrontendSettings
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -562,9 +586,6 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendStopTune:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopTune(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -574,9 +595,6 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendScan:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_settings tvTuner.FrontendSettings
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -603,9 +621,6 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendStopScan:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopScan(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -615,12 +630,14 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendSetLnb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_lnb ITunerLnb
-		_ = _arg_lnb
+		{
+			_lnbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_lnb = NewTunerLnbProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _lnbHandle))
+		}
 		_err := s.Impl.SetLnb(ctx, _arg_lnb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -630,9 +647,6 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendLinkCiCamToFrontend:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ciCamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -647,9 +661,6 @@ func (s *TunerFrontendStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITunerFrontendUnlinkCiCamToFrontend:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ciCamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -663,9 +674,6 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -675,12 +683,26 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendGetStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_statusTypes []tvTuner.FrontendStatusType
-		_ = _arg_statusTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_statusTypes = make([]tvTuner.FrontendStatusType, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_raw, _err := _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_statusTypes[_i] = tvTuner.FrontendStatusType(_raw)
+				}
+			}
+		}
 		_result, _err := s.Impl.GetStatus(ctx, _arg_statusTypes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -688,13 +710,19 @@ func (s *TunerFrontendStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITunerFrontendGetFrontendId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetFrontendId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -705,9 +733,6 @@ func (s *TunerFrontendStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITunerFrontendGetHardwareInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHardwareInfo(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -718,9 +743,6 @@ func (s *TunerFrontendStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITunerFrontendRemoveOutputPid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -734,12 +756,26 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendGetFrontendStatusReadiness:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_statusTypes []tvTuner.FrontendStatusType
-		_ = _arg_statusTypes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_statusTypes = make([]tvTuner.FrontendStatusType, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_raw, _err := _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+					_arg_statusTypes[_i] = tvTuner.FrontendStatusType(_raw)
+				}
+			}
+		}
 		_result, _err := s.Impl.GetFrontendStatusReadiness(ctx, _arg_statusTypes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -747,8 +783,14 @@ func (s *TunerFrontendStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

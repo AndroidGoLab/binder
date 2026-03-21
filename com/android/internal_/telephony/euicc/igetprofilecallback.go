@@ -47,6 +47,7 @@ func (p *GetProfileCallbackProxy) OnComplete(
 	profile serviceEuicc.EuiccProfileInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetProfileCallback)
 	_data.WriteInt32(resultCode)
 	_data.WriteInt32(1)
@@ -66,7 +67,8 @@ func (p *GetProfileCallbackProxy) OnComplete(
 // GetProfileCallbackStub dispatches incoming binder transactions
 // to a typed IGetProfileCallback implementation.
 type GetProfileCallbackStub struct {
-	Impl IGetProfileCallback
+	Impl      IGetProfileCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GetProfileCallbackStub)(nil)
@@ -80,11 +82,12 @@ func (s *GetProfileCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGetProfileCallbackOnComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -102,8 +105,7 @@ func (s *GetProfileCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnComplete(ctx, _arg_resultCode, _arg_profile)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

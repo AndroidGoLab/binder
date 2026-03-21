@@ -45,6 +45,7 @@ func (p *CaptureStateListenerProxy) SetCaptureState(
 	active bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICaptureStateListener)
 	_data.WriteBool(active)
 
@@ -60,7 +61,8 @@ func (p *CaptureStateListenerProxy) SetCaptureState(
 // CaptureStateListenerStub dispatches incoming binder transactions
 // to a typed ICaptureStateListener implementation.
 type CaptureStateListenerStub struct {
-	Impl ICaptureStateListener
+	Impl      ICaptureStateListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CaptureStateListenerStub)(nil)
@@ -74,18 +76,18 @@ func (s *CaptureStateListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICaptureStateListenerSetCaptureState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetCaptureState(ctx, _arg_active)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

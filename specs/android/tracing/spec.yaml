@@ -1,0 +1,46 @@
+package: android.tracing
+go_package: android/tracing
+interfaces:
+    - name: ITracingServiceProxy
+      descriptor: android.tracing.ITracingServiceProxy
+      methods:
+        - name: notifyTraceSessionEnded
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: sessionStolen
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: reportTrace
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: params
+              type:
+                name: TraceReportParams
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: TraceReportParams
+      fields:
+        - name: reporterPackageName
+          type:
+            name: String
+        - name: reporterClassName
+          type:
+            name: String
+        - name: fd
+          type:
+            name: ParcelFileDescriptor
+        - name: uuidLsb
+          type:
+            name: long
+        - name: uuidMsb
+          type:
+            name: long
+        - name: usePipeForTesting
+          type:
+            name: boolean

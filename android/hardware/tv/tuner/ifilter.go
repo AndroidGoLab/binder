@@ -89,6 +89,7 @@ func (p *FilterProxy) GetQueueDesc(
 	queue fmq.MQDescriptor,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterGetQueueDesc)
@@ -105,8 +106,16 @@ func (p *FilterProxy) GetQueueDesc(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
-	if _err = queue.UnmarshalParcel(_reply); _err != nil {
-		return _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _nullInd != 0 {
+			if _err = queue.UnmarshalParcel(_reply); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	return nil
@@ -116,6 +125,7 @@ func (p *FilterProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterClose)
@@ -141,6 +151,7 @@ func (p *FilterProxy) Configure(
 	settings DemuxFilterSettings,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 	_data.WriteInt32(1)
 	if _err := settings.MarshalParcel(_data); _err != nil {
@@ -170,6 +181,7 @@ func (p *FilterProxy) ConfigureAvStreamType(
 	avStreamType AvStreamType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 	_data.WriteInt32(1)
 	if _err := avStreamType.MarshalParcel(_data); _err != nil {
@@ -199,6 +211,7 @@ func (p *FilterProxy) ConfigureIpCid(
 	ipCid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 	_data.WriteInt32(ipCid)
 
@@ -225,6 +238,7 @@ func (p *FilterProxy) ConfigureMonitorEvent(
 	monitorEventTypes int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 	_data.WriteInt32(monitorEventTypes)
 
@@ -250,6 +264,7 @@ func (p *FilterProxy) Start(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterStart)
@@ -274,6 +289,7 @@ func (p *FilterProxy) Stop(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterStop)
@@ -298,6 +314,7 @@ func (p *FilterProxy) Flush(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterFlush)
@@ -324,6 +341,7 @@ func (p *FilterProxy) GetAvSharedHandle(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterGetAvSharedHandle)
@@ -340,8 +358,16 @@ func (p *FilterProxy) GetAvSharedHandle(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = avMemory.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = avMemory.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadInt64()
@@ -356,6 +382,7 @@ func (p *FilterProxy) GetId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterGetId)
@@ -385,6 +412,7 @@ func (p *FilterProxy) GetId64Bit(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterGetId64Bit)
@@ -415,6 +443,7 @@ func (p *FilterProxy) ReleaseAvHandle(
 	avDataId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 	_data.WriteInt32(1)
 	if _err := avMemory.MarshalParcel(_data); _err != nil {
@@ -445,6 +474,7 @@ func (p *FilterProxy) SetDataSource(
 	filter IFilter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.Remote.Transport())
 
@@ -471,6 +501,7 @@ func (p *FilterProxy) SetDelayHint(
 	hint FilterDelayHint,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 	_data.WriteInt32(1)
 	if _err := hint.MarshalParcel(_data); _err != nil {
@@ -498,7 +529,8 @@ func (p *FilterProxy) SetDelayHint(
 // FilterStub dispatches incoming binder transactions
 // to a typed IFilter implementation.
 type FilterStub struct {
-	Impl IFilter
+	Impl      IFilter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FilterStub)(nil)
@@ -512,11 +544,12 @@ func (s *FilterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFilterGetQueueDesc:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_queue fmq.MQDescriptor
 		_err := s.Impl.GetQueueDesc(ctx, _arg_queue)
 		_reply := parcel.New()
@@ -525,11 +558,12 @@ func (s *FilterStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIFilterClose:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_queue.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIFilterClose:
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -539,9 +573,6 @@ func (s *FilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFilterConfigure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_settings DemuxFilterSettings
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -563,9 +594,6 @@ func (s *FilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFilterConfigureAvStreamType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_avStreamType AvStreamType
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -587,9 +615,6 @@ func (s *FilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFilterConfigureIpCid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ipCid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -603,9 +628,6 @@ func (s *FilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFilterConfigureMonitorEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_monitorEventTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -619,9 +641,6 @@ func (s *FilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFilterStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Start(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -631,9 +650,6 @@ func (s *FilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFilterStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Stop(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -643,9 +659,6 @@ func (s *FilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFilterFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Flush(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -655,9 +668,6 @@ func (s *FilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFilterGetAvSharedHandle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_avMemory common.NativeHandle
 		_result, _err := s.Impl.GetAvSharedHandle(ctx, _arg_avMemory)
 		_reply := parcel.New()
@@ -667,11 +677,12 @@ func (s *FilterStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt64(_result)
-		return _reply, nil
-	case TransactionIFilterGetId:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_avMemory.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIFilterGetId:
 		_result, _err := s.Impl.GetId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -682,9 +693,6 @@ func (s *FilterStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIFilterGetId64Bit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetId64Bit(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -695,9 +703,6 @@ func (s *FilterStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFilterReleaseAvHandle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_avMemory common.NativeHandle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -723,12 +728,14 @@ func (s *FilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFilterSetDataSource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_filter IFilter
-		_ = _arg_filter
+		{
+			_filterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_filter = NewFilterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _filterHandle))
+		}
 		_err := s.Impl.SetDataSource(ctx, _arg_filter)
 		_reply := parcel.New()
 		if _err != nil {
@@ -738,9 +745,6 @@ func (s *FilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFilterSetDelayHint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_hint FilterDelayHint
 		{
 			_nullInd, _err := _data.ReadInt32()

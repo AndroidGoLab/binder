@@ -54,15 +54,30 @@ func (s *GnssSignalType) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_constellationRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Constellation = GnssConstellationType(_constellationRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.CarrierFrequencyHz, _err = p.ReadFloat64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.CodeType, _err = p.ReadString16()

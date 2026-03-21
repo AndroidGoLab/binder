@@ -54,6 +54,7 @@ func (p *SecureElementReaderProxy) IsSecureElementPresent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementReader)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementReader, MethodISecureElementReaderIsSecureElementPresent)
@@ -83,6 +84,7 @@ func (p *SecureElementReaderProxy) OpenSession(
 ) (ISecureElementSession, error) {
 	var _result ISecureElementSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementReader)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementReader, MethodISecureElementReaderOpenSession)
@@ -112,6 +114,7 @@ func (p *SecureElementReaderProxy) CloseSessions(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementReader)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementReader, MethodISecureElementReaderCloseSessions)
@@ -137,6 +140,7 @@ func (p *SecureElementReaderProxy) Reset(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISecureElementReader)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementReader, MethodISecureElementReaderReset)
@@ -164,7 +168,8 @@ func (p *SecureElementReaderProxy) Reset(
 // SecureElementReaderStub dispatches incoming binder transactions
 // to a typed ISecureElementReader implementation.
 type SecureElementReaderStub struct {
-	Impl ISecureElementReader
+	Impl      ISecureElementReader
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SecureElementReaderStub)(nil)
@@ -178,11 +183,12 @@ func (s *SecureElementReaderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISecureElementReaderIsSecureElementPresent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsSecureElementPresent(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -193,9 +199,6 @@ func (s *SecureElementReaderStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISecureElementReaderOpenSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.OpenSession(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -203,13 +206,9 @@ func (s *SecureElementReaderStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionISecureElementReaderCloseSessions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CloseSessions(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -219,9 +218,6 @@ func (s *SecureElementReaderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISecureElementReaderReset:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Reset(ctx)
 		_reply := parcel.New()
 		if _err != nil {

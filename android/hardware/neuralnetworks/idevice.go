@@ -85,6 +85,7 @@ func (p *DeviceProxy) Allocate(
 ) (DeviceBuffer, error) {
 	var _result DeviceBuffer
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevice)
 	_data.WriteInt32(1)
 	if _err := desc.MarshalParcel(_data); _err != nil {
@@ -156,6 +157,7 @@ func (p *DeviceProxy) GetCapabilities(
 ) (Capabilities, error) {
 	var _result Capabilities
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevice, MethodIDeviceGetCapabilities)
@@ -190,6 +192,7 @@ func (p *DeviceProxy) GetNumberOfCacheFilesNeeded(
 ) (NumberOfCacheFiles, error) {
 	var _result NumberOfCacheFiles
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevice, MethodIDeviceGetNumberOfCacheFilesNeeded)
@@ -224,6 +227,7 @@ func (p *DeviceProxy) GetSupportedExtensions(
 ) ([]Extension, error) {
 	var _result []Extension
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevice, MethodIDeviceGetSupportedExtensions)
@@ -244,6 +248,9 @@ func (p *DeviceProxy) GetSupportedExtensions(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -266,6 +273,7 @@ func (p *DeviceProxy) GetSupportedOperations(
 ) ([]bool, error) {
 	var _result []bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevice)
 	_data.WriteInt32(1)
 	if _err := model.MarshalParcel(_data); _err != nil {
@@ -291,6 +299,9 @@ func (p *DeviceProxy) GetSupportedOperations(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]bool, _count)
@@ -309,6 +320,7 @@ func (p *DeviceProxy) GetType(
 ) (DeviceType, error) {
 	var _result DeviceType
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevice, MethodIDeviceGetType)
@@ -339,6 +351,7 @@ func (p *DeviceProxy) GetVersionString(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevice, MethodIDeviceGetVersionString)
@@ -375,6 +388,7 @@ func (p *DeviceProxy) PrepareModel(
 	callback IPreparedModelCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevice)
 	_data.WriteInt32(1)
 	if _err := model.MarshalParcel(_data); _err != nil {
@@ -399,14 +413,7 @@ func (p *DeviceProxy) PrepareModel(
 			_data.WriteFileDescriptor(_item)
 		}
 	}
-	if token == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(token)))
-		for _, _item := range token {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(token)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevice, MethodIDevicePrepareModel)
@@ -436,6 +443,7 @@ func (p *DeviceProxy) PrepareModelFromCache(
 	callback IPreparedModelCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevice)
 	_data.WriteInt64(deadlineNs)
 	if modelCache == nil {
@@ -454,14 +462,7 @@ func (p *DeviceProxy) PrepareModelFromCache(
 			_data.WriteFileDescriptor(_item)
 		}
 	}
-	if token == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(token)))
-		for _, _item := range token {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(token)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevice, MethodIDevicePrepareModelFromCache)
@@ -489,6 +490,7 @@ func (p *DeviceProxy) PrepareModelWithConfig(
 	callback IPreparedModelCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDevice)
 	_data.WriteInt32(1)
 	if _err := model.MarshalParcel(_data); _err != nil {
@@ -521,7 +523,8 @@ func (p *DeviceProxy) PrepareModelWithConfig(
 // DeviceStub dispatches incoming binder transactions
 // to a typed IDevice implementation.
 type DeviceStub struct {
-	Impl IDevice
+	Impl      IDevice
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DeviceStub)(nil)
@@ -535,11 +538,12 @@ func (s *DeviceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDeviceAllocate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_desc BufferDesc
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -552,15 +556,69 @@ func (s *DeviceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_preparedModels []IPreparedModelParcel
-		_ = _arg_preparedModels
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_preparedModels = make([]IPreparedModelParcel, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_preparedModels[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_inputRoles []BufferRole
-		_ = _arg_inputRoles
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_inputRoles = make([]BufferRole, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_inputRoles[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_outputRoles []BufferRole
-		_ = _arg_outputRoles
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_outputRoles = make([]BufferRole, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_outputRoles[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.Allocate(ctx, _arg_desc, _arg_preparedModels, _arg_inputRoles, _arg_outputRoles)
 		_reply := parcel.New()
 		if _err != nil {
@@ -574,9 +632,6 @@ func (s *DeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDeviceGetCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCapabilities(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -590,9 +645,6 @@ func (s *DeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDeviceGetNumberOfCacheFilesNeeded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetNumberOfCacheFilesNeeded(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -606,9 +658,6 @@ func (s *DeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDeviceGetSupportedExtensions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedExtensions(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -616,13 +665,19 @@ func (s *DeviceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIDeviceGetSupportedOperations:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_model Model
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -642,13 +697,16 @@ func (s *DeviceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteBool(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIDeviceGetType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetType(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -659,9 +717,6 @@ func (s *DeviceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIDeviceGetVersionString:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVersionString(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -672,9 +727,6 @@ func (s *DeviceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePrepareModel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_model Model
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -701,18 +753,60 @@ func (s *DeviceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_modelCache []int32
-		_ = _arg_modelCache
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_modelCache = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_modelCache[_i], _err = _data.ReadFileDescriptor()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_dataCache []int32
-		_ = _arg_dataCache
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_dataCache = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_dataCache[_i], _err = _data.ReadFileDescriptor()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_token []byte
-		_ = _arg_token
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = _bytes
+		}
 		var _arg_callback IPreparedModelCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPreparedModelCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.PrepareModel(ctx, _arg_model, _arg_preference, _arg_priority, _arg_deadlineNs, _arg_modelCache, _arg_dataCache, _arg_token, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -722,25 +816,64 @@ func (s *DeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePrepareModelFromCache:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deadlineNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_modelCache []int32
-		_ = _arg_modelCache
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_modelCache = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_modelCache[_i], _err = _data.ReadFileDescriptor()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_dataCache []int32
-		_ = _arg_dataCache
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_dataCache = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_dataCache[_i], _err = _data.ReadFileDescriptor()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_token []byte
-		_ = _arg_token
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = _bytes
+		}
 		var _arg_callback IPreparedModelCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPreparedModelCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.PrepareModelFromCache(ctx, _arg_deadlineNs, _arg_modelCache, _arg_dataCache, _arg_token, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -750,9 +883,6 @@ func (s *DeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePrepareModelWithConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_model Model
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -777,9 +907,14 @@ func (s *DeviceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPreparedModelCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPreparedModelCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.PrepareModelWithConfig(ctx, _arg_model, _arg_config, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

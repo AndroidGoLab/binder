@@ -92,6 +92,7 @@ func (p *MmsProxy) SendMessage(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
@@ -141,6 +142,7 @@ func (p *MmsProxy) DownloadMessage(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
@@ -190,6 +192,7 @@ func (p *MmsProxy) ImportTextMessage(
 ) (net.Uri, error) {
 	var _result net.Uri
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(address)
@@ -237,6 +240,7 @@ func (p *MmsProxy) ImportMultimediaMessage(
 ) (net.Uri, error) {
 	var _result net.Uri
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteString16(callingPkg)
 	_data.WriteInt32(1)
@@ -282,6 +286,7 @@ func (p *MmsProxy) DeleteStoredMessage(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteString16(callingPkg)
 	_data.WriteInt32(1)
@@ -318,6 +323,7 @@ func (p *MmsProxy) DeleteStoredConversation(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteString16(callingPkg)
 	_data.WriteInt64(conversationId)
@@ -352,6 +358,7 @@ func (p *MmsProxy) UpdateStoredMessageStatus(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteString16(callingPkg)
 	_data.WriteInt32(1)
@@ -393,6 +400,7 @@ func (p *MmsProxy) ArchiveStoredConversation(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteString16(callingPkg)
 	_data.WriteInt64(conversationId)
@@ -428,6 +436,7 @@ func (p *MmsProxy) AddTextMessageDraft(
 ) (net.Uri, error) {
 	var _result net.Uri
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(address)
@@ -467,6 +476,7 @@ func (p *MmsProxy) AddMultimediaMessageDraft(
 ) (net.Uri, error) {
 	var _result net.Uri
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteString16(callingPkg)
 	_data.WriteInt32(1)
@@ -510,6 +520,7 @@ func (p *MmsProxy) SendStoredMessage(
 	sentIntent app.PendingIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
@@ -550,6 +561,7 @@ func (p *MmsProxy) SetAutoPersisting(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteString16(callingPkg)
 	_data.WriteBool(enabled)
@@ -577,6 +589,7 @@ func (p *MmsProxy) GetAutoPersisting(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMms)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsGetAutoPersisting)
@@ -604,7 +617,8 @@ func (p *MmsProxy) GetAutoPersisting(
 // MmsStub dispatches incoming binder transactions
 // to a typed IMms implementation.
 type MmsStub struct {
-	Impl IMms
+	Impl      IMms
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MmsStub)(nil)
@@ -618,11 +632,12 @@ func (s *MmsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMmsSendMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -687,9 +702,6 @@ func (s *MmsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMmsDownloadMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -754,9 +766,6 @@ func (s *MmsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMmsImportTextMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -798,9 +807,6 @@ func (s *MmsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMmsImportMultimediaMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -846,9 +852,6 @@ func (s *MmsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMmsDeleteStoredMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -875,9 +878,6 @@ func (s *MmsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMmsDeleteStoredConversation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -896,9 +896,6 @@ func (s *MmsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMmsUpdateStoredMessageStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -937,9 +934,6 @@ func (s *MmsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMmsArchiveStoredConversation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -962,9 +956,6 @@ func (s *MmsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMmsAddTextMessageDraft:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -990,9 +981,6 @@ func (s *MmsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMmsAddMultimediaMessageDraft:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1022,9 +1010,6 @@ func (s *MmsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMmsSendStoredMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1078,9 +1063,6 @@ func (s *MmsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMmsSetAutoPersisting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1098,9 +1080,6 @@ func (s *MmsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMmsGetAutoPersisting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAutoPersisting(ctx)
 		_reply := parcel.New()
 		if _err != nil {

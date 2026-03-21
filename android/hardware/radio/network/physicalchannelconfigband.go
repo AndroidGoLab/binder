@@ -37,8 +37,7 @@ func (u *PhysicalChannelConfigBand) GetNoinit() (bool, bool) {
 func (u *PhysicalChannelConfigBand) SetNoinit(
 	v bool,
 ) {
-	u.Tag = PhysicalChannelConfigBandTagNoinit
-	u.Noinit = v
+	*u = PhysicalChannelConfigBand{Tag: PhysicalChannelConfigBandTagNoinit, Noinit: v}
 }
 
 func (u *PhysicalChannelConfigBand) GetGeranBand() (GeranBands, bool) {
@@ -52,8 +51,7 @@ func (u *PhysicalChannelConfigBand) GetGeranBand() (GeranBands, bool) {
 func (u *PhysicalChannelConfigBand) SetGeranBand(
 	v GeranBands,
 ) {
-	u.Tag = PhysicalChannelConfigBandTagGeranBand
-	u.GeranBand = v
+	*u = PhysicalChannelConfigBand{Tag: PhysicalChannelConfigBandTagGeranBand, GeranBand: v}
 }
 
 func (u *PhysicalChannelConfigBand) GetUtranBand() (UtranBands, bool) {
@@ -67,8 +65,7 @@ func (u *PhysicalChannelConfigBand) GetUtranBand() (UtranBands, bool) {
 func (u *PhysicalChannelConfigBand) SetUtranBand(
 	v UtranBands,
 ) {
-	u.Tag = PhysicalChannelConfigBandTagUtranBand
-	u.UtranBand = v
+	*u = PhysicalChannelConfigBand{Tag: PhysicalChannelConfigBandTagUtranBand, UtranBand: v}
 }
 
 func (u *PhysicalChannelConfigBand) GetEutranBand() (EutranBands, bool) {
@@ -82,8 +79,7 @@ func (u *PhysicalChannelConfigBand) GetEutranBand() (EutranBands, bool) {
 func (u *PhysicalChannelConfigBand) SetEutranBand(
 	v EutranBands,
 ) {
-	u.Tag = PhysicalChannelConfigBandTagEutranBand
-	u.EutranBand = v
+	*u = PhysicalChannelConfigBand{Tag: PhysicalChannelConfigBandTagEutranBand, EutranBand: v}
 }
 
 func (u *PhysicalChannelConfigBand) GetNgranBand() (NgranBands, bool) {
@@ -97,8 +93,7 @@ func (u *PhysicalChannelConfigBand) GetNgranBand() (NgranBands, bool) {
 func (u *PhysicalChannelConfigBand) SetNgranBand(
 	v NgranBands,
 ) {
-	u.Tag = PhysicalChannelConfigBandTagNgranBand
-	u.NgranBand = v
+	*u = PhysicalChannelConfigBand{Tag: PhysicalChannelConfigBandTagNgranBand, NgranBand: v}
 }
 
 func (u *PhysicalChannelConfigBand) MarshalParcel(

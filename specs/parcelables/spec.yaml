@@ -1,0 +1,63 @@
+package: parcelables
+go_package: parcelables
+parcelables:
+    - name: EmptyParcelable
+    - name: GenericDataParcelable
+      fields:
+        - name: data
+          type:
+            name: int
+        - name: majorVersion
+          type:
+            name: float
+        - name: minorVersion
+          type:
+            name: float
+        - name: binder
+          type:
+            name: IBinder
+        - name: fileDescriptor
+          type:
+            name: ParcelFileDescriptor
+        - name: array
+          type:
+            name: int
+            is_array: true
+        - name: greatString
+          type:
+            name: String
+        - name: greaterString
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: nullableString
+          type:
+            name: String
+          annotations:
+            - nullable
+        - name: gretEnum
+          type:
+            name: JustSomeEnum
+          default_value: JustSomeEnum.ANOTHER_ENUMERATOR
+      constants:
+        - name: COOL_CONSTANT
+          type: int
+          value: "0x1234"
+      nested_types:
+        - GenericDataParcelable.JustSomeEnum
+    - name: SingleDataParcelable
+      fields:
+        - name: data
+          type:
+            name: int
+enums:
+    - name: GenericDataParcelable.JustSomeEnum
+      backing_type: ""
+      values:
+        - name: ONE_ENUMERATOR
+          value: ""
+        - name: ANOTHER_ENUMERATOR
+          value: ""
+        - name: MAYBE_ONE_MORE_ENUMERATOR
+          value: ""

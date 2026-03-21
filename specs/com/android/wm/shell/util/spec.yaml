@@ -1,0 +1,4 @@
+package: com.android.wm.shell.util
+go_package: com/android/wm/shell/util
+parcelables:
+    - name: GroupedRecentTaskInfo

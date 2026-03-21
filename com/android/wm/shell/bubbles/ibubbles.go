@@ -67,6 +67,7 @@ func (p *BubblesProxy) RegisterBubbleListener(
 	listener IBubblesListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -84,6 +85,7 @@ func (p *BubblesProxy) UnregisterBubbleListener(
 	listener IBubblesListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -102,6 +104,7 @@ func (p *BubblesProxy) ShowBubble(
 	bubbleBarBounds graphics.Rect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 	_data.WriteString16(key)
 	_data.WriteInt32(1)
@@ -123,6 +126,7 @@ func (p *BubblesProxy) RemoveBubble(
 	key string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 	_data.WriteString16(key)
 
@@ -139,6 +143,7 @@ func (p *BubblesProxy) RemoveAllBubbles(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubbles, MethodIBubblesRemoveAllBubbles)
@@ -154,6 +159,7 @@ func (p *BubblesProxy) CollapseBubbles(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubbles, MethodIBubblesCollapseBubbles)
@@ -171,6 +177,7 @@ func (p *BubblesProxy) OnBubbleDrag(
 	isBeingDragged bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 	_data.WriteString16(key)
 	_data.WriteBool(isBeingDragged)
@@ -190,6 +197,7 @@ func (p *BubblesProxy) ShowUserEducation(
 	positionY int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 	_data.WriteInt32(positionX)
 	_data.WriteInt32(positionY)
@@ -206,7 +214,8 @@ func (p *BubblesProxy) ShowUserEducation(
 // BubblesStub dispatches incoming binder transactions
 // to a typed IBubbles implementation.
 type BubblesStub struct {
-	Impl IBubbles
+	Impl      IBubbles
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BubblesStub)(nil)
@@ -220,31 +229,34 @@ func (s *BubblesStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBubblesRegisterBubbleListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IBubblesListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewBubblesListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterBubbleListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBubblesUnregisterBubbleListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IBubblesListener
-		_ = _arg_listener
-		_err := s.Impl.UnregisterBubbleListener(ctx, _arg_listener)
-		_ = _err
-		return nil, nil
-	case TransactionIBubblesShowBubble:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewBubblesListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
 		}
+		_err := s.Impl.UnregisterBubbleListener(ctx, _arg_listener)
+		return nil, _err
+	case TransactionIBubblesShowBubble:
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -262,37 +274,21 @@ func (s *BubblesStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.ShowBubble(ctx, _arg_key, _arg_bubbleBarBounds)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBubblesRemoveBubble:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RemoveBubble(ctx, _arg_key)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBubblesRemoveAllBubbles:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RemoveAllBubbles(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBubblesCollapseBubbles:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CollapseBubbles(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBubblesOnBubbleDrag:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -302,12 +298,8 @@ func (s *BubblesStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnBubbleDrag(ctx, _arg_key, _arg_isBeingDragged)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBubblesShowUserEducation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_positionX, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -317,8 +309,7 @@ func (s *BubblesStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ShowUserEducation(ctx, _arg_positionX, _arg_positionY)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -54,6 +54,7 @@ func (p *WwanSelectorCallbackProxy) OnRequestEmergencyNetworkScan(
 	cb IWwanSelectorResultCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWwanSelectorCallback)
 	if preferredNetworks == nil {
 		_data.WriteInt32(-1)
@@ -82,6 +83,7 @@ func (p *WwanSelectorCallbackProxy) OnDomainSelected(
 	useEmergencyPdn bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWwanSelectorCallback)
 	_data.WriteInt32(domain)
 	_data.WriteBool(useEmergencyPdn)
@@ -99,6 +101,7 @@ func (p *WwanSelectorCallbackProxy) OnCancel(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWwanSelectorCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWwanSelectorCallback, MethodIWwanSelectorCallbackOnCancel)
@@ -113,7 +116,8 @@ func (p *WwanSelectorCallbackProxy) OnCancel(
 // WwanSelectorCallbackStub dispatches incoming binder transactions
 // to a typed IWwanSelectorCallback implementation.
 type WwanSelectorCallbackStub struct {
-	Impl IWwanSelectorCallback
+	Impl      IWwanSelectorCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WwanSelectorCallbackStub)(nil)
@@ -127,14 +131,31 @@ func (s *WwanSelectorCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWwanSelectorCallbackOnRequestEmergencyNetworkScan:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_preferredNetworks []int32
-		_ = _arg_preferredNetworks
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_preferredNetworks = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_preferredNetworks[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_scanType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -143,16 +164,17 @@ func (s *WwanSelectorCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IWwanSelectorResultCallback
-		_ = _arg_cb
-		_err = s.Impl.OnRequestEmergencyNetworkScan(ctx, _arg_preferredNetworks, _arg_scanType, _arg_resetScan, _arg_cb)
-		_ = _err
-		return nil, nil
-	case TransactionIWwanSelectorCallbackOnDomainSelected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewWwanSelectorResultCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
 		}
+		_err = s.Impl.OnRequestEmergencyNetworkScan(ctx, _arg_preferredNetworks, _arg_scanType, _arg_resetScan, _arg_cb)
+		return nil, _err
+	case TransactionIWwanSelectorCallbackOnDomainSelected:
 		_arg_domain, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -162,15 +184,10 @@ func (s *WwanSelectorCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnDomainSelected(ctx, _arg_domain, _arg_useEmergencyPdn)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWwanSelectorCallbackOnCancel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnCancel(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -49,6 +49,7 @@ func (p *NonStandardCertCallbackProxy) GetBlob(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINonStandardCertCallback)
 	_data.WriteString16(alias)
 
@@ -67,19 +68,9 @@ func (p *NonStandardCertCallbackProxy) GetBlob(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -90,6 +81,7 @@ func (p *NonStandardCertCallbackProxy) ListAliases(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINonStandardCertCallback)
 	_data.WriteString16(prefix)
 
@@ -112,6 +104,9 @@ func (p *NonStandardCertCallbackProxy) ListAliases(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -128,7 +123,8 @@ func (p *NonStandardCertCallbackProxy) ListAliases(
 // NonStandardCertCallbackStub dispatches incoming binder transactions
 // to a typed INonStandardCertCallback implementation.
 type NonStandardCertCallbackStub struct {
-	Impl INonStandardCertCallback
+	Impl      INonStandardCertCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NonStandardCertCallbackStub)(nil)
@@ -142,11 +138,12 @@ func (s *NonStandardCertCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINonStandardCertCallbackGetBlob:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -158,13 +155,9 @@ func (s *NonStandardCertCallbackStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionINonStandardCertCallbackListAliases:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_prefix, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -176,8 +169,14 @@ func (s *NonStandardCertCallbackStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

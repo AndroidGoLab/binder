@@ -45,8 +45,7 @@ func (u *FrontendModulation) GetDvbc() (FrontendDvbcModulation, bool) {
 func (u *FrontendModulation) SetDvbc(
 	v FrontendDvbcModulation,
 ) {
-	u.Tag = FrontendModulationTagDvbc
-	u.Dvbc = v
+	*u = FrontendModulation{Tag: FrontendModulationTagDvbc, Dvbc: v}
 }
 
 func (u *FrontendModulation) GetDvbs() (FrontendDvbsModulation, bool) {
@@ -60,8 +59,7 @@ func (u *FrontendModulation) GetDvbs() (FrontendDvbsModulation, bool) {
 func (u *FrontendModulation) SetDvbs(
 	v FrontendDvbsModulation,
 ) {
-	u.Tag = FrontendModulationTagDvbs
-	u.Dvbs = v
+	*u = FrontendModulation{Tag: FrontendModulationTagDvbs, Dvbs: v}
 }
 
 func (u *FrontendModulation) GetDvbt() (FrontendDvbtConstellation, bool) {
@@ -75,8 +73,7 @@ func (u *FrontendModulation) GetDvbt() (FrontendDvbtConstellation, bool) {
 func (u *FrontendModulation) SetDvbt(
 	v FrontendDvbtConstellation,
 ) {
-	u.Tag = FrontendModulationTagDvbt
-	u.Dvbt = v
+	*u = FrontendModulation{Tag: FrontendModulationTagDvbt, Dvbt: v}
 }
 
 func (u *FrontendModulation) GetIsdbs() (FrontendIsdbsModulation, bool) {
@@ -90,8 +87,7 @@ func (u *FrontendModulation) GetIsdbs() (FrontendIsdbsModulation, bool) {
 func (u *FrontendModulation) SetIsdbs(
 	v FrontendIsdbsModulation,
 ) {
-	u.Tag = FrontendModulationTagIsdbs
-	u.Isdbs = v
+	*u = FrontendModulation{Tag: FrontendModulationTagIsdbs, Isdbs: v}
 }
 
 func (u *FrontendModulation) GetIsdbs3() (FrontendIsdbs3Modulation, bool) {
@@ -105,8 +101,7 @@ func (u *FrontendModulation) GetIsdbs3() (FrontendIsdbs3Modulation, bool) {
 func (u *FrontendModulation) SetIsdbs3(
 	v FrontendIsdbs3Modulation,
 ) {
-	u.Tag = FrontendModulationTagIsdbs3
-	u.Isdbs3 = v
+	*u = FrontendModulation{Tag: FrontendModulationTagIsdbs3, Isdbs3: v}
 }
 
 func (u *FrontendModulation) GetIsdbt() (FrontendIsdbtModulation, bool) {
@@ -120,8 +115,7 @@ func (u *FrontendModulation) GetIsdbt() (FrontendIsdbtModulation, bool) {
 func (u *FrontendModulation) SetIsdbt(
 	v FrontendIsdbtModulation,
 ) {
-	u.Tag = FrontendModulationTagIsdbt
-	u.Isdbt = v
+	*u = FrontendModulation{Tag: FrontendModulationTagIsdbt, Isdbt: v}
 }
 
 func (u *FrontendModulation) GetAtsc() (FrontendAtscModulation, bool) {
@@ -135,8 +129,7 @@ func (u *FrontendModulation) GetAtsc() (FrontendAtscModulation, bool) {
 func (u *FrontendModulation) SetAtsc(
 	v FrontendAtscModulation,
 ) {
-	u.Tag = FrontendModulationTagAtsc
-	u.Atsc = v
+	*u = FrontendModulation{Tag: FrontendModulationTagAtsc, Atsc: v}
 }
 
 func (u *FrontendModulation) GetAtsc3() (FrontendAtsc3Modulation, bool) {
@@ -150,8 +143,7 @@ func (u *FrontendModulation) GetAtsc3() (FrontendAtsc3Modulation, bool) {
 func (u *FrontendModulation) SetAtsc3(
 	v FrontendAtsc3Modulation,
 ) {
-	u.Tag = FrontendModulationTagAtsc3
-	u.Atsc3 = v
+	*u = FrontendModulation{Tag: FrontendModulationTagAtsc3, Atsc3: v}
 }
 
 func (u *FrontendModulation) GetDtmb() (FrontendDtmbModulation, bool) {
@@ -165,8 +157,7 @@ func (u *FrontendModulation) GetDtmb() (FrontendDtmbModulation, bool) {
 func (u *FrontendModulation) SetDtmb(
 	v FrontendDtmbModulation,
 ) {
-	u.Tag = FrontendModulationTagDtmb
-	u.Dtmb = v
+	*u = FrontendModulation{Tag: FrontendModulationTagDtmb, Dtmb: v}
 }
 
 func (u *FrontendModulation) MarshalParcel(

@@ -61,6 +61,7 @@ func (p *OptionsListenerProxy) GetVersionCb(
 	version string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsListener)
 	_data.WriteString16(version)
 
@@ -87,6 +88,7 @@ func (p *OptionsListenerProxy) ServiceAvailable(
 	statusCode vehicle.StatusCode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsListener)
 	_data.WriteInt32(int32(statusCode))
 
@@ -113,6 +115,7 @@ func (p *OptionsListenerProxy) ServiceUnavailable(
 	statusCode vehicle.StatusCode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsListener)
 	_data.WriteInt32(int32(statusCode))
 
@@ -141,6 +144,7 @@ func (p *OptionsListenerProxy) SipResponseReceived(
 	capInfo OptionsCapInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsListener)
 	_data.WriteString16(uri)
 	_data.WriteInt32(1)
@@ -175,6 +179,7 @@ func (p *OptionsListenerProxy) CmdStatus(
 	cmdStatus OptionsCmdStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsListener)
 	_data.WriteInt32(1)
 	if _err := cmdStatus.MarshalParcel(_data); _err != nil {
@@ -206,6 +211,7 @@ func (p *OptionsListenerProxy) IncomingOptions(
 	tID int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsListener)
 	_data.WriteString16(uri)
 	_data.WriteInt32(1)
@@ -235,7 +241,8 @@ func (p *OptionsListenerProxy) IncomingOptions(
 // OptionsListenerStub dispatches incoming binder transactions
 // to a typed IOptionsListener implementation.
 type OptionsListenerStub struct {
-	Impl IOptionsListener
+	Impl      IOptionsListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*OptionsListenerStub)(nil)
@@ -249,11 +256,12 @@ func (s *OptionsListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIOptionsListenerGetVersionCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_version, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -267,9 +275,6 @@ func (s *OptionsListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOptionsListenerServiceAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_statusCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -284,9 +289,6 @@ func (s *OptionsListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOptionsListenerServiceUnavailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_statusCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -301,9 +303,6 @@ func (s *OptionsListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOptionsListenerSipResponseReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -341,9 +340,6 @@ func (s *OptionsListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOptionsListenerCmdStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_cmdStatus OptionsCmdStatus
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -365,9 +361,6 @@ func (s *OptionsListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOptionsListenerIncomingOptions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

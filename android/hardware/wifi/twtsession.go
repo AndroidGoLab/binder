@@ -1,7 +1,6 @@
 package wifi
 
 import (
-	wifiTwtSession "github.com/xaionaro-go/binder/android/hardware/wifi/TwtSession"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -12,7 +11,7 @@ type TwtSession struct {
 	MloLinkId                int32
 	WakeDurationUs           int32
 	WakeIntervalUs           int64
-	NegotiationType          wifiTwtSession.TwtNegotiationType
+	NegotiationType          TwtSessionTwtNegotiationType
 	IsTriggerEnabled         bool
 	IsAnnounced              bool
 	IsImplicit               bool
@@ -53,9 +52,19 @@ func (s *TwtSession) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SessionId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.MloLinkId, _err = p.ReadInt32()
@@ -63,9 +72,19 @@ func (s *TwtSession) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.WakeDurationUs, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.WakeIntervalUs, _err = p.ReadInt64()
@@ -73,15 +92,30 @@ func (s *TwtSession) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_negotiationTypeRaw, _err := p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}
-	s.NegotiationType = wifiTwtSession.TwtNegotiationType(_negotiationTypeRaw)
+	s.NegotiationType = TwtSessionTwtNegotiationType(_negotiationTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.IsTriggerEnabled, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.IsAnnounced, _err = p.ReadBool()
@@ -89,9 +123,19 @@ func (s *TwtSession) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsImplicit, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.IsProtected, _err = p.ReadBool()
@@ -99,14 +143,29 @@ func (s *TwtSession) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsUpdatable, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.IsSuspendable, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.IsResponderPmModeEnabled, _err = p.ReadBool()

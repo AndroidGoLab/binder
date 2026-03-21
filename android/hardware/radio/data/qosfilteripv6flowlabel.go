@@ -31,8 +31,7 @@ func (u *QosFilterIpv6FlowLabel) GetNoinit() (bool, bool) {
 func (u *QosFilterIpv6FlowLabel) SetNoinit(
 	v bool,
 ) {
-	u.Tag = QosFilterIpv6FlowLabelTagNoinit
-	u.Noinit = v
+	*u = QosFilterIpv6FlowLabel{Tag: QosFilterIpv6FlowLabelTagNoinit, Noinit: v}
 }
 
 func (u *QosFilterIpv6FlowLabel) GetValue() (int32, bool) {
@@ -46,8 +45,7 @@ func (u *QosFilterIpv6FlowLabel) GetValue() (int32, bool) {
 func (u *QosFilterIpv6FlowLabel) SetValue(
 	v int32,
 ) {
-	u.Tag = QosFilterIpv6FlowLabelTagValue
-	u.Value = v
+	*u = QosFilterIpv6FlowLabel{Tag: QosFilterIpv6FlowLabelTagValue, Value: v}
 }
 
 func (u *QosFilterIpv6FlowLabel) MarshalParcel(

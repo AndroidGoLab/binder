@@ -47,6 +47,7 @@ func (p *TransientNotificationCallbackProxy) OnToastShown(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransientNotificationCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransientNotificationCallback, MethodITransientNotificationCallbackOnToastShown)
@@ -62,6 +63,7 @@ func (p *TransientNotificationCallbackProxy) OnToastHidden(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITransientNotificationCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransientNotificationCallback, MethodITransientNotificationCallbackOnToastHidden)
@@ -76,7 +78,8 @@ func (p *TransientNotificationCallbackProxy) OnToastHidden(
 // TransientNotificationCallbackStub dispatches incoming binder transactions
 // to a typed ITransientNotificationCallback implementation.
 type TransientNotificationCallbackStub struct {
-	Impl ITransientNotificationCallback
+	Impl      ITransientNotificationCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TransientNotificationCallbackStub)(nil)
@@ -90,21 +93,17 @@ func (s *TransientNotificationCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITransientNotificationCallbackOnToastShown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnToastShown(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITransientNotificationCallbackOnToastHidden:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnToastHidden(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

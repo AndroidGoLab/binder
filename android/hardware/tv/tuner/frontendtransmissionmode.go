@@ -33,8 +33,7 @@ func (u *FrontendTransmissionMode) GetDvbt() (FrontendDvbtTransmissionMode, bool
 func (u *FrontendTransmissionMode) SetDvbt(
 	v FrontendDvbtTransmissionMode,
 ) {
-	u.Tag = FrontendTransmissionModeTagDvbt
-	u.Dvbt = v
+	*u = FrontendTransmissionMode{Tag: FrontendTransmissionModeTagDvbt, Dvbt: v}
 }
 
 func (u *FrontendTransmissionMode) GetIsdbt() (FrontendIsdbtMode, bool) {
@@ -48,8 +47,7 @@ func (u *FrontendTransmissionMode) GetIsdbt() (FrontendIsdbtMode, bool) {
 func (u *FrontendTransmissionMode) SetIsdbt(
 	v FrontendIsdbtMode,
 ) {
-	u.Tag = FrontendTransmissionModeTagIsdbt
-	u.Isdbt = v
+	*u = FrontendTransmissionMode{Tag: FrontendTransmissionModeTagIsdbt, Isdbt: v}
 }
 
 func (u *FrontendTransmissionMode) GetDtmb() (FrontendDtmbTransmissionMode, bool) {
@@ -63,8 +61,7 @@ func (u *FrontendTransmissionMode) GetDtmb() (FrontendDtmbTransmissionMode, bool
 func (u *FrontendTransmissionMode) SetDtmb(
 	v FrontendDtmbTransmissionMode,
 ) {
-	u.Tag = FrontendTransmissionModeTagDtmb
-	u.Dtmb = v
+	*u = FrontendTransmissionMode{Tag: FrontendTransmissionModeTagDtmb, Dtmb: v}
 }
 
 func (u *FrontendTransmissionMode) MarshalParcel(

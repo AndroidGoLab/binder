@@ -76,6 +76,7 @@ func (p *NetworkScoreServiceProxy) UpdateScores(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 	if networks == nil {
 		_data.WriteInt32(-1)
@@ -116,6 +117,7 @@ func (p *NetworkScoreServiceProxy) ClearScores(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceClearScores)
@@ -146,6 +148,7 @@ func (p *NetworkScoreServiceProxy) SetActiveScorer(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 	_data.WriteString16(packageName)
 
@@ -175,6 +178,7 @@ func (p *NetworkScoreServiceProxy) DisableScoring(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceDisableScoring)
@@ -202,6 +206,7 @@ func (p *NetworkScoreServiceProxy) RegisterNetworkScoreCache(
 	filterType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 	_data.WriteInt32(networkType)
 	binder.WriteBinderToParcel(ctx, _data, scoreCache.AsBinder(), p.Remote.Transport())
@@ -231,6 +236,7 @@ func (p *NetworkScoreServiceProxy) UnregisterNetworkScoreCache(
 	scoreCache INetworkScoreCache,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 	_data.WriteInt32(networkType)
 	binder.WriteBinderToParcel(ctx, _data, scoreCache.AsBinder(), p.Remote.Transport())
@@ -259,6 +265,7 @@ func (p *NetworkScoreServiceProxy) RequestScores(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 	if networks == nil {
 		_data.WriteInt32(-1)
@@ -300,6 +307,7 @@ func (p *NetworkScoreServiceProxy) IsCallerActiveScorer(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 	_data.WriteInt32(_identity.UID)
 
@@ -330,6 +338,7 @@ func (p *NetworkScoreServiceProxy) GetActiveScorerPackage(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceGetActiveScorerPackage)
@@ -359,6 +368,7 @@ func (p *NetworkScoreServiceProxy) GetActiveScorer(
 ) (NetworkScorerAppData, error) {
 	var _result NetworkScorerAppData
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceGetActiveScorer)
@@ -393,6 +403,7 @@ func (p *NetworkScoreServiceProxy) GetAllValidScorers(
 ) ([]NetworkScorerAppData, error) {
 	var _result []NetworkScorerAppData
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceGetAllValidScorers)
@@ -414,6 +425,9 @@ func (p *NetworkScoreServiceProxy) GetAllValidScorers(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]NetworkScorerAppData, _count)
@@ -432,7 +446,8 @@ func (p *NetworkScoreServiceProxy) GetAllValidScorers(
 // NetworkScoreServiceStub dispatches incoming binder transactions
 // to a typed INetworkScoreService implementation.
 type NetworkScoreServiceStub struct {
-	Impl INetworkScoreService
+	Impl      INetworkScoreService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NetworkScoreServiceStub)(nil)
@@ -446,14 +461,33 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINetworkScoreServiceUpdateScores:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_networks []ScoredNetwork
-		_ = _arg_networks
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_networks = make([]ScoredNetwork, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_networks[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.UpdateScores(ctx, _arg_networks)
 		_reply := parcel.New()
 		if _err != nil {
@@ -464,9 +498,6 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkScoreServiceClearScores:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ClearScores(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -477,9 +508,6 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkScoreServiceSetActiveScorer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -494,9 +522,6 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkScoreServiceDisableScoring:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DisableScoring(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -506,16 +531,18 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkScoreServiceRegisterNetworkScoreCache:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_networkType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_scoreCache INetworkScoreCache
-		_ = _arg_scoreCache
+		{
+			_scoreCacheHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_scoreCache = NewNetworkScoreCacheProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _scoreCacheHandle))
+		}
 		_arg_filterType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -529,16 +556,18 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkScoreServiceUnregisterNetworkScoreCache:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_networkType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_scoreCache INetworkScoreCache
-		_ = _arg_scoreCache
+		{
+			_scoreCacheHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_scoreCache = NewNetworkScoreCacheProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _scoreCacheHandle))
+		}
 		_err = s.Impl.UnregisterNetworkScoreCache(ctx, _arg_networkType, _arg_scoreCache)
 		_reply := parcel.New()
 		if _err != nil {
@@ -548,12 +577,27 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkScoreServiceRequestScores:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_networks []NetworkKey
-		_ = _arg_networks
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_networks = make([]NetworkKey, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_networks[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.RequestScores(ctx, _arg_networks)
 		_reply := parcel.New()
 		if _err != nil {
@@ -564,9 +608,6 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkScoreServiceIsCallerActiveScorer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -580,9 +621,6 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkScoreServiceGetActiveScorerPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetActiveScorerPackage(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -593,9 +631,6 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionINetworkScoreServiceGetActiveScorer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetActiveScorer(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -609,9 +644,6 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINetworkScoreServiceGetAllValidScorers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAllValidScorers(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -619,8 +651,17 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

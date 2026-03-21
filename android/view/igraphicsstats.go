@@ -47,6 +47,7 @@ func (p *GraphicsStatsProxy) RequestBufferForProcess(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGraphicsStats)
 	_data.WriteString16(packageName)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -76,7 +77,8 @@ func (p *GraphicsStatsProxy) RequestBufferForProcess(
 // GraphicsStatsStub dispatches incoming binder transactions
 // to a typed IGraphicsStats implementation.
 type GraphicsStatsStub struct {
-	Impl IGraphicsStats
+	Impl      IGraphicsStats
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GraphicsStatsStub)(nil)
@@ -90,18 +92,24 @@ func (s *GraphicsStatsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGraphicsStatsRequestBufferForProcess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGraphicsStatsCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGraphicsStatsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.RequestBufferForProcess(ctx, _arg_packageName, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

@@ -1,0 +1,250 @@
+package: com.android.ims.internal.uce.presence
+go_package: com/android/ims/internal_/uce/presence
+interfaces:
+    - name: IPresenceListener
+      descriptor: com.android.ims.internal.uce.presence.IPresenceListener
+      methods:
+        - name: getVersionCb
+          transaction_code_offset: 0
+          params:
+            - name: version
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: serviceAvailable
+          transaction_code_offset: 1
+          params:
+            - name: statusCode
+              type:
+                name: StatusCode
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: serviceUnAvailable
+          transaction_code_offset: 2
+          params:
+            - name: statusCode
+              type:
+                name: StatusCode
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: publishTriggering
+          transaction_code_offset: 3
+          params:
+            - name: publishTrigger
+              type:
+                name: PresPublishTriggerType
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: cmdStatus
+          transaction_code_offset: 4
+          params:
+            - name: cmdStatus
+              type:
+                name: PresCmdStatus
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: sipResponseReceived
+          transaction_code_offset: 5
+          params:
+            - name: sipResponse
+              type:
+                name: PresSipResponse
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: capInfoReceived
+          transaction_code_offset: 6
+          params:
+            - name: presentityURI
+              type:
+                name: String
+              direction: in
+            - name: tupleInfo
+              type:
+                name: PresTupleInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: listCapInfoReceived
+          transaction_code_offset: 7
+          params:
+            - name: rlmiInfo
+              type:
+                name: PresRlmiInfo
+              direction: in
+            - name: resInfo
+              type:
+                name: PresResInfo
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: unpublishMessageSent
+          transaction_code_offset: 8
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: IPresenceService
+      descriptor: com.android.ims.internal.uce.presence.IPresenceService
+      methods:
+        - name: getVersion
+          transaction_code_offset: 0
+          params:
+            - name: presenceServiceHdl
+              type:
+                name: int
+          return_type:
+            name: StatusCode
+          annotations:
+            - UnsupportedAppUsage
+        - name: addListener
+          transaction_code_offset: 1
+          params:
+            - name: presenceServiceHdl
+              type:
+                name: int
+            - name: presenceServiceListener
+              type:
+                name: IPresenceListener
+            - name: presenceServiceListenerHdl
+              type:
+                name: UceLong
+              direction: inout
+          return_type:
+            name: StatusCode
+          annotations:
+            - UnsupportedAppUsage
+        - name: removeListener
+          transaction_code_offset: 2
+          params:
+            - name: presenceServiceHdl
+              type:
+                name: int
+            - name: presenceServiceListenerHdl
+              type:
+                name: UceLong
+              direction: in
+          return_type:
+            name: StatusCode
+          annotations:
+            - UnsupportedAppUsage
+        - name: reenableService
+          transaction_code_offset: 3
+          params:
+            - name: presenceServiceHdl
+              type:
+                name: int
+            - name: userData
+              type:
+                name: int
+          return_type:
+            name: StatusCode
+          annotations:
+            - UnsupportedAppUsage
+        - name: publishMyCap
+          transaction_code_offset: 4
+          params:
+            - name: presenceServiceHdl
+              type:
+                name: int
+            - name: myCapInfo
+              type:
+                name: PresCapInfo
+              direction: in
+            - name: userData
+              type:
+                name: int
+          return_type:
+            name: StatusCode
+          annotations:
+            - UnsupportedAppUsage
+        - name: getContactCap
+          transaction_code_offset: 5
+          params:
+            - name: presenceServiceHdl
+              type:
+                name: int
+            - name: remoteUri
+              type:
+                name: String
+            - name: userData
+              type:
+                name: int
+          return_type:
+            name: StatusCode
+          annotations:
+            - UnsupportedAppUsage
+        - name: getContactListCap
+          transaction_code_offset: 6
+          params:
+            - name: presenceServiceHdl
+              type:
+                name: int
+            - name: remoteUriList
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: userData
+              type:
+                name: int
+          return_type:
+            name: StatusCode
+          annotations:
+            - UnsupportedAppUsage
+        - name: setNewFeatureTag
+          transaction_code_offset: 7
+          params:
+            - name: presenceServiceHdl
+              type:
+                name: int
+            - name: featureTag
+              type:
+                name: String
+            - name: serviceInfo
+              type:
+                name: PresServiceInfo
+              direction: in
+            - name: userData
+              type:
+                name: int
+          return_type:
+            name: StatusCode
+          annotations:
+            - UnsupportedAppUsage
+parcelables:
+    - name: PresCapInfo
+    - name: PresCmdID
+    - name: PresCmdStatus
+    - name: PresPublishTriggerType
+    - name: PresResInfo
+    - name: PresResInstanceInfo
+    - name: PresRlmiInfo
+    - name: PresServiceInfo
+    - name: PresSipResponse
+    - name: PresSubscriptionState
+    - name: PresTupleInfo

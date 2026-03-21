@@ -1,0 +1,46 @@
+package: android.database
+go_package: android/database
+interfaces:
+    - name: IContentObserver
+      descriptor: android.database.IContentObserver
+      methods:
+        - name: onChange
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: selfUpdate
+              type:
+                name: boolean
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onChangeEtc
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: selfUpdate
+              type:
+                name: boolean
+            - name: uri
+              type:
+                name: Uri
+                is_array: true
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: CursorWindow

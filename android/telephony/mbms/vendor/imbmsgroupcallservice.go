@@ -32,8 +32,8 @@ type IMbmsGroupCallService interface {
 	AsBinder() binder.IBinder
 	Initialize(ctx context.Context, callback mbms.IMbmsGroupCallSessionCallback, subId int32) (int32, error)
 	StopGroupCall(ctx context.Context, subId int32, tmgi int64) error
-	UpdateGroupCall(ctx context.Context, subscriptionId int32, tmgi int64, saiList []interface{}, frequencyList []interface{}) error
-	StartGroupCall(ctx context.Context, subscriptionId int32, tmgi int64, saiList []interface{}, frequencyList []interface{}, callback mbms.IGroupCallCallback) (int32, error)
+	UpdateGroupCall(ctx context.Context, subscriptionId int32, tmgi int64, saiList []any, frequencyList []any) error
+	StartGroupCall(ctx context.Context, subscriptionId int32, tmgi int64, saiList []any, frequencyList []any, callback mbms.IGroupCallCallback) (int32, error)
 	Dispose(ctx context.Context, subId int32) error
 }
 
@@ -60,6 +60,7 @@ func (p *MbmsGroupCallServiceProxy) Initialize(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(subId)
@@ -92,6 +93,7 @@ func (p *MbmsGroupCallServiceProxy) StopGroupCall(
 	tmgi int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallService)
 	_data.WriteInt32(subId)
 	_data.WriteInt64(tmgi)
@@ -118,10 +120,11 @@ func (p *MbmsGroupCallServiceProxy) UpdateGroupCall(
 	ctx context.Context,
 	subscriptionId int32,
 	tmgi int64,
-	saiList []interface{},
-	frequencyList []interface{},
+	saiList []any,
+	frequencyList []any,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallService)
 	_data.WriteInt32(subscriptionId)
 	_data.WriteInt64(tmgi)
@@ -158,12 +161,13 @@ func (p *MbmsGroupCallServiceProxy) StartGroupCall(
 	ctx context.Context,
 	subscriptionId int32,
 	tmgi int64,
-	saiList []interface{},
-	frequencyList []interface{},
+	saiList []any,
+	frequencyList []any,
 	callback mbms.IGroupCallCallback,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallService)
 	_data.WriteInt32(subscriptionId)
 	_data.WriteInt64(tmgi)
@@ -206,6 +210,7 @@ func (p *MbmsGroupCallServiceProxy) Dispose(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallService)
 	_data.WriteInt32(subId)
 
@@ -230,7 +235,8 @@ func (p *MbmsGroupCallServiceProxy) Dispose(
 // MbmsGroupCallServiceStub dispatches incoming binder transactions
 // to a typed IMbmsGroupCallService implementation.
 type MbmsGroupCallServiceStub struct {
-	Impl IMbmsGroupCallService
+	Impl      IMbmsGroupCallService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MbmsGroupCallServiceStub)(nil)
@@ -244,14 +250,20 @@ func (s *MbmsGroupCallServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMbmsGroupCallServiceInitialize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback mbms.IMbmsGroupCallSessionCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = mbms.NewMbmsGroupCallSessionCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -266,9 +278,6 @@ func (s *MbmsGroupCallServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsGroupCallServiceStopGroupCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -286,9 +295,6 @@ func (s *MbmsGroupCallServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMbmsGroupCallServiceUpdateGroupCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -297,12 +303,32 @@ func (s *MbmsGroupCallServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_saiList []interface{}
-		_ = _arg_saiList
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_frequencyList []interface{}
-		_ = _arg_frequencyList
+		var _arg_saiList []any
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_saiList = make([]any, _count)
+			}
+		}
+		var _arg_frequencyList []any
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_frequencyList = make([]any, _count)
+			}
+		}
 		_err = s.Impl.UpdateGroupCall(ctx, _arg_subscriptionId, _arg_tmgi, _arg_saiList, _arg_frequencyList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -312,9 +338,6 @@ func (s *MbmsGroupCallServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMbmsGroupCallServiceStartGroupCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -323,15 +346,40 @@ func (s *MbmsGroupCallServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_saiList []interface{}
-		_ = _arg_saiList
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_frequencyList []interface{}
-		_ = _arg_frequencyList
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_saiList []any
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_saiList = make([]any, _count)
+			}
+		}
+		var _arg_frequencyList []any
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_frequencyList = make([]any, _count)
+			}
+		}
 		var _arg_callback mbms.IGroupCallCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = mbms.NewGroupCallCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.StartGroupCall(ctx, _arg_subscriptionId, _arg_tmgi, _arg_saiList, _arg_frequencyList, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -342,9 +390,6 @@ func (s *MbmsGroupCallServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsGroupCallServiceDispose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -368,8 +413,8 @@ func (s *MbmsGroupCallServiceStub) OnTransaction(
 type IMbmsGroupCallServiceServer interface {
 	Initialize(ctx context.Context, callback mbms.IMbmsGroupCallSessionCallback, subId int32) (int32, error)
 	StopGroupCall(ctx context.Context, subId int32, tmgi int64) error
-	UpdateGroupCall(ctx context.Context, subscriptionId int32, tmgi int64, saiList []interface{}, frequencyList []interface{}) error
-	StartGroupCall(ctx context.Context, subscriptionId int32, tmgi int64, saiList []interface{}, frequencyList []interface{}, callback mbms.IGroupCallCallback) (int32, error)
+	UpdateGroupCall(ctx context.Context, subscriptionId int32, tmgi int64, saiList []any, frequencyList []any) error
+	StartGroupCall(ctx context.Context, subscriptionId int32, tmgi int64, saiList []any, frequencyList []any, callback mbms.IGroupCallCallback) (int32, error)
 	Dispose(ctx context.Context, subId int32) error
 }
 
@@ -402,8 +447,8 @@ func (w *mbmsGroupCallServiceStubWrapper) UpdateGroupCall(
 	ctx context.Context,
 	subscriptionId int32,
 	tmgi int64,
-	saiList []interface{},
-	frequencyList []interface{},
+	saiList []any,
+	frequencyList []any,
 ) error {
 	return w.impl.UpdateGroupCall(ctx, subscriptionId, tmgi, saiList, frequencyList)
 }
@@ -412,8 +457,8 @@ func (w *mbmsGroupCallServiceStubWrapper) StartGroupCall(
 	ctx context.Context,
 	subscriptionId int32,
 	tmgi int64,
-	saiList []interface{},
-	frequencyList []interface{},
+	saiList []any,
+	frequencyList []any,
 	callback mbms.IGroupCallCallback,
 ) (int32, error) {
 	return w.impl.StartGroupCall(ctx, subscriptionId, tmgi, saiList, frequencyList, callback)

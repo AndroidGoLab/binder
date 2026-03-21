@@ -45,6 +45,7 @@ func (p *BpcCallbackObserverProxy) OnCallback(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBpcCallbackObserver)
 	_data.WriteInt32(uid)
 
@@ -69,7 +70,8 @@ func (p *BpcCallbackObserverProxy) OnCallback(
 // BpcCallbackObserverStub dispatches incoming binder transactions
 // to a typed IBpcCallbackObserver implementation.
 type BpcCallbackObserverStub struct {
-	Impl IBpcCallbackObserver
+	Impl      IBpcCallbackObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BpcCallbackObserverStub)(nil)
@@ -83,11 +85,12 @@ func (s *BpcCallbackObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBpcCallbackObserverOnCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

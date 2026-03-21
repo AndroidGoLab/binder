@@ -31,8 +31,7 @@ func (u *DemuxIpAddressIpAddress) GetV4() ([]byte, bool) {
 func (u *DemuxIpAddressIpAddress) SetV4(
 	v []byte,
 ) {
-	u.Tag = DemuxIpAddressIpAddressTagV4
-	u.V4 = v
+	*u = DemuxIpAddressIpAddress{Tag: DemuxIpAddressIpAddressTagV4, V4: v}
 }
 
 func (u *DemuxIpAddressIpAddress) GetV6() ([]byte, bool) {
@@ -46,8 +45,7 @@ func (u *DemuxIpAddressIpAddress) GetV6() ([]byte, bool) {
 func (u *DemuxIpAddressIpAddress) SetV6(
 	v []byte,
 ) {
-	u.Tag = DemuxIpAddressIpAddressTagV6
-	u.V6 = v
+	*u = DemuxIpAddressIpAddress{Tag: DemuxIpAddressIpAddressTagV6, V6: v}
 }
 
 func (u *DemuxIpAddressIpAddress) MarshalParcel(

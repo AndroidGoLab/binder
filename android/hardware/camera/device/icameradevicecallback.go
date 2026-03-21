@@ -54,6 +54,7 @@ func (p *CameraDeviceCallbackProxy) Notify(
 	msgs []NotifyMsg,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceCallback)
 	if msgs == nil {
 		_data.WriteInt32(-1)
@@ -90,6 +91,7 @@ func (p *CameraDeviceCallbackProxy) ProcessCaptureResult(
 	results []CaptureResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceCallback)
 	if results == nil {
 		_data.WriteInt32(-1)
@@ -128,6 +130,7 @@ func (p *CameraDeviceCallbackProxy) RequestStreamBuffers(
 ) (BufferRequestStatus, error) {
 	var _result BufferRequestStatus
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceCallback)
 	if bufReqs == nil {
 		_data.WriteInt32(-1)
@@ -159,6 +162,9 @@ func (p *CameraDeviceCallbackProxy) RequestStreamBuffers(
 	if _err != nil {
 		return _result, _err
 	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		buffers = make([]StreamBufferRet, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -184,6 +190,7 @@ func (p *CameraDeviceCallbackProxy) ReturnStreamBuffers(
 	buffers []StreamBuffer,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceCallback)
 	if buffers == nil {
 		_data.WriteInt32(-1)
@@ -218,7 +225,8 @@ func (p *CameraDeviceCallbackProxy) ReturnStreamBuffers(
 // CameraDeviceCallbackStub dispatches incoming binder transactions
 // to a typed ICameraDeviceCallback implementation.
 type CameraDeviceCallbackStub struct {
-	Impl ICameraDeviceCallback
+	Impl      ICameraDeviceCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CameraDeviceCallbackStub)(nil)
@@ -232,14 +240,33 @@ func (s *CameraDeviceCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICameraDeviceCallbackNotify:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_msgs []NotifyMsg
-		_ = _arg_msgs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_msgs = make([]NotifyMsg, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_msgs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.Notify(ctx, _arg_msgs)
 		_reply := parcel.New()
 		if _err != nil {
@@ -249,12 +276,27 @@ func (s *CameraDeviceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceCallbackProcessCaptureResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_results []CaptureResult
-		_ = _arg_results
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_results = make([]CaptureResult, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_results[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.ProcessCaptureResult(ctx, _arg_results)
 		_reply := parcel.New()
 		if _err != nil {
@@ -264,12 +306,27 @@ func (s *CameraDeviceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceCallbackRequestStreamBuffers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bufReqs []BufferRequest
-		_ = _arg_bufReqs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_bufReqs = make([]BufferRequest, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_bufReqs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_buffers []StreamBufferRet
 		_result, _err := s.Impl.RequestStreamBuffers(ctx, _arg_bufReqs, _arg_buffers)
 		_reply := parcel.New()
@@ -279,14 +336,40 @@ func (s *CameraDeviceCallbackStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(int32(_result))
+		if _arg_buffers == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_buffers)))
+			for _, _item := range _arg_buffers {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionICameraDeviceCallbackReturnStreamBuffers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_buffers []StreamBuffer
-		_ = _arg_buffers
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_buffers = make([]StreamBuffer, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_buffers[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.ReturnStreamBuffers(ctx, _arg_buffers)
 		_reply := parcel.New()
 		if _err != nil {

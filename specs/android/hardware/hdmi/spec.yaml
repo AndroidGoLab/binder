@@ -1,0 +1,747 @@
+package: android.hardware.hdmi
+go_package: android/hardware/hdmi
+interfaces:
+    - name: IHdmiCecSettingChangeListener
+      descriptor: android.hardware.hdmi.IHdmiCecSettingChangeListener
+      oneway: true
+      methods:
+        - name: onChange
+          transaction_code_offset: 0
+          params:
+            - name: setting
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+    - name: IHdmiCecVolumeControlFeatureListener
+      descriptor: android.hardware.hdmi.IHdmiCecVolumeControlFeatureListener
+      oneway: true
+      methods:
+        - name: onHdmiCecVolumeControlFeature
+          transaction_code_offset: 0
+          params:
+            - name: hdmiCecVolumeControl
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IHdmiControlCallback
+      descriptor: android.hardware.hdmi.IHdmiControlCallback
+      oneway: true
+      methods:
+        - name: onComplete
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IHdmiControlService
+      descriptor: android.hardware.hdmi.IHdmiControlService
+      methods:
+        - name: getSupportedTypes
+          transaction_code_offset: 0
+          return_type:
+            name: int
+            is_array: true
+        - name: getActiveSource
+          transaction_code_offset: 1
+          return_type:
+            name: HdmiDeviceInfo
+        - name: oneTouchPlay
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: IHdmiControlCallback
+          return_type:
+            name: void
+        - name: toggleAndFollowTvPower
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: shouldHandleTvPowerKey
+          transaction_code_offset: 4
+          return_type:
+            name: boolean
+        - name: queryDisplayStatus
+          transaction_code_offset: 5
+          params:
+            - name: callback
+              type:
+                name: IHdmiControlCallback
+          return_type:
+            name: void
+        - name: addHdmiControlStatusChangeListener
+          transaction_code_offset: 6
+          params:
+            - name: listener
+              type:
+                name: IHdmiControlStatusChangeListener
+          return_type:
+            name: void
+        - name: removeHdmiControlStatusChangeListener
+          transaction_code_offset: 7
+          params:
+            - name: listener
+              type:
+                name: IHdmiControlStatusChangeListener
+          return_type:
+            name: void
+        - name: addHdmiCecVolumeControlFeatureListener
+          transaction_code_offset: 8
+          params:
+            - name: listener
+              type:
+                name: IHdmiCecVolumeControlFeatureListener
+          return_type:
+            name: void
+        - name: removeHdmiCecVolumeControlFeatureListener
+          transaction_code_offset: 9
+          params:
+            - name: listener
+              type:
+                name: IHdmiCecVolumeControlFeatureListener
+          return_type:
+            name: void
+        - name: addHotplugEventListener
+          transaction_code_offset: 10
+          params:
+            - name: listener
+              type:
+                name: IHdmiHotplugEventListener
+          return_type:
+            name: void
+        - name: removeHotplugEventListener
+          transaction_code_offset: 11
+          params:
+            - name: listener
+              type:
+                name: IHdmiHotplugEventListener
+          return_type:
+            name: void
+        - name: addDeviceEventListener
+          transaction_code_offset: 12
+          params:
+            - name: listener
+              type:
+                name: IHdmiDeviceEventListener
+          return_type:
+            name: void
+        - name: deviceSelect
+          transaction_code_offset: 13
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IHdmiControlCallback
+          return_type:
+            name: void
+        - name: portSelect
+          transaction_code_offset: 14
+          params:
+            - name: portId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IHdmiControlCallback
+          return_type:
+            name: void
+        - name: sendKeyEvent
+          transaction_code_offset: 15
+          params:
+            - name: deviceType
+              type:
+                name: int
+            - name: keyCode
+              type:
+                name: int
+            - name: isPressed
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: sendVolumeKeyEvent
+          transaction_code_offset: 16
+          params:
+            - name: deviceType
+              type:
+                name: int
+            - name: keyCode
+              type:
+                name: int
+            - name: isPressed
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getPortInfo
+          transaction_code_offset: 17
+          return_type:
+            name: List
+            type_args:
+                - name: HdmiPortInfo
+        - name: canChangeSystemAudioMode
+          transaction_code_offset: 18
+          return_type:
+            name: boolean
+        - name: getSystemAudioMode
+          transaction_code_offset: 19
+          return_type:
+            name: boolean
+        - name: getPhysicalAddress
+          transaction_code_offset: 20
+          return_type:
+            name: int
+        - name: setSystemAudioMode
+          transaction_code_offset: 21
+          params:
+            - name: enabled
+              type:
+                name: boolean
+            - name: callback
+              type:
+                name: IHdmiControlCallback
+          return_type:
+            name: void
+        - name: addSystemAudioModeChangeListener
+          transaction_code_offset: 22
+          params:
+            - name: listener
+              type:
+                name: IHdmiSystemAudioModeChangeListener
+          return_type:
+            name: void
+        - name: removeSystemAudioModeChangeListener
+          transaction_code_offset: 23
+          params:
+            - name: listener
+              type:
+                name: IHdmiSystemAudioModeChangeListener
+          return_type:
+            name: void
+        - name: setArcMode
+          transaction_code_offset: 24
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setProhibitMode
+          transaction_code_offset: 25
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setSystemAudioVolume
+          transaction_code_offset: 26
+          params:
+            - name: oldIndex
+              type:
+                name: int
+            - name: newIndex
+              type:
+                name: int
+            - name: maxIndex
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setSystemAudioMute
+          transaction_code_offset: 27
+          params:
+            - name: mute
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setInputChangeListener
+          transaction_code_offset: 28
+          params:
+            - name: listener
+              type:
+                name: IHdmiInputChangeListener
+          return_type:
+            name: void
+        - name: getInputDevices
+          transaction_code_offset: 29
+          return_type:
+            name: List
+            type_args:
+                - name: HdmiDeviceInfo
+        - name: getDeviceList
+          transaction_code_offset: 30
+          return_type:
+            name: List
+            type_args:
+                - name: HdmiDeviceInfo
+        - name: powerOffRemoteDevice
+          transaction_code_offset: 31
+          params:
+            - name: logicalAddress
+              type:
+                name: int
+            - name: powerStatus
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: powerOnRemoteDevice
+          transaction_code_offset: 32
+          params:
+            - name: logicalAddress
+              type:
+                name: int
+            - name: powerStatus
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: askRemoteDeviceToBecomeActiveSource
+          transaction_code_offset: 33
+          params:
+            - name: physicalAddress
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendVendorCommand
+          transaction_code_offset: 34
+          params:
+            - name: deviceType
+              type:
+                name: int
+            - name: targetAddress
+              type:
+                name: int
+            - name: params
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: hasVendorId
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: addVendorCommandListener
+          transaction_code_offset: 35
+          params:
+            - name: listener
+              type:
+                name: IHdmiVendorCommandListener
+            - name: vendorId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: sendStandby
+          transaction_code_offset: 36
+          params:
+            - name: deviceType
+              type:
+                name: int
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setHdmiRecordListener
+          transaction_code_offset: 37
+          params:
+            - name: callback
+              type:
+                name: IHdmiRecordListener
+          return_type:
+            name: void
+        - name: startOneTouchRecord
+          transaction_code_offset: 38
+          params:
+            - name: recorderAddress
+              type:
+                name: int
+            - name: recordSource
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: stopOneTouchRecord
+          transaction_code_offset: 39
+          params:
+            - name: recorderAddress
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: startTimerRecording
+          transaction_code_offset: 40
+          params:
+            - name: recorderAddress
+              type:
+                name: int
+            - name: sourceType
+              type:
+                name: int
+            - name: recordSource
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: clearTimerRecording
+          transaction_code_offset: 41
+          params:
+            - name: recorderAddress
+              type:
+                name: int
+            - name: sourceType
+              type:
+                name: int
+            - name: recordSource
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: sendMhlVendorCommand
+          transaction_code_offset: 42
+          params:
+            - name: portId
+              type:
+                name: int
+            - name: offset
+              type:
+                name: int
+            - name: length
+              type:
+                name: int
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: addHdmiMhlVendorCommandListener
+          transaction_code_offset: 43
+          params:
+            - name: listener
+              type:
+                name: IHdmiMhlVendorCommandListener
+          return_type:
+            name: void
+        - name: setStandbyMode
+          transaction_code_offset: 44
+          params:
+            - name: isStandbyModeOn
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: reportAudioStatus
+          transaction_code_offset: 45
+          params:
+            - name: deviceType
+              type:
+                name: int
+            - name: volume
+              type:
+                name: int
+            - name: maxVolume
+              type:
+                name: int
+            - name: isMute
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setSystemAudioModeOnForAudioOnlySource
+          transaction_code_offset: 46
+          return_type:
+            name: void
+        - name: setMessageHistorySize
+          transaction_code_offset: 47
+          params:
+            - name: newSize
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getMessageHistorySize
+          transaction_code_offset: 48
+          return_type:
+            name: int
+        - name: addCecSettingChangeListener
+          transaction_code_offset: 49
+          params:
+            - name: name
+              type:
+                name: String
+            - name: listener
+              type:
+                name: IHdmiCecSettingChangeListener
+          return_type:
+            name: void
+        - name: removeCecSettingChangeListener
+          transaction_code_offset: 50
+          params:
+            - name: name
+              type:
+                name: String
+            - name: listener
+              type:
+                name: IHdmiCecSettingChangeListener
+          return_type:
+            name: void
+        - name: getUserCecSettings
+          transaction_code_offset: 51
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getAllowedCecSettingStringValues
+          transaction_code_offset: 52
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getAllowedCecSettingIntValues
+          transaction_code_offset: 53
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: int
+            is_array: true
+        - name: getCecSettingStringValue
+          transaction_code_offset: 54
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: String
+        - name: setCecSettingStringValue
+          transaction_code_offset: 55
+          params:
+            - name: name
+              type:
+                name: String
+            - name: value
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getCecSettingIntValue
+          transaction_code_offset: 56
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: setCecSettingIntValue
+          transaction_code_offset: 57
+          params:
+            - name: name
+              type:
+                name: String
+            - name: value
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IHdmiControlStatusChangeListener
+      descriptor: android.hardware.hdmi.IHdmiControlStatusChangeListener
+      oneway: true
+      methods:
+        - name: onStatusChange
+          transaction_code_offset: 0
+          params:
+            - name: isCecEnabled
+              type:
+                name: int
+            - name: isCecAvailable
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IHdmiDeviceEventListener
+      descriptor: android.hardware.hdmi.IHdmiDeviceEventListener
+      oneway: true
+      methods:
+        - name: onStatusChanged
+          transaction_code_offset: 0
+          params:
+            - name: deviceInfo
+              type:
+                name: HdmiDeviceInfo
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IHdmiHotplugEventListener
+      descriptor: android.hardware.hdmi.IHdmiHotplugEventListener
+      oneway: true
+      methods:
+        - name: onReceived
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: HdmiHotplugEvent
+              direction: in
+          return_type:
+            name: void
+    - name: IHdmiInputChangeListener
+      descriptor: android.hardware.hdmi.IHdmiInputChangeListener
+      oneway: true
+      methods:
+        - name: onChanged
+          transaction_code_offset: 0
+          params:
+            - name: device
+              type:
+                name: HdmiDeviceInfo
+              direction: in
+          return_type:
+            name: void
+    - name: IHdmiMhlVendorCommandListener
+      descriptor: android.hardware.hdmi.IHdmiMhlVendorCommandListener
+      oneway: true
+      methods:
+        - name: onReceived
+          transaction_code_offset: 0
+          params:
+            - name: portId
+              type:
+                name: int
+            - name: offset
+              type:
+                name: int
+            - name: length
+              type:
+                name: int
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IHdmiRecordListener
+      descriptor: android.hardware.hdmi.IHdmiRecordListener
+      methods:
+        - name: getOneTouchRecordSource
+          transaction_code_offset: 0
+          params:
+            - name: recorderAddress
+              type:
+                name: int
+          return_type:
+            name: byte
+            is_array: true
+        - name: onOneTouchRecordResult
+          transaction_code_offset: 1
+          params:
+            - name: recorderAddress
+              type:
+                name: int
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onTimerRecordingResult
+          transaction_code_offset: 2
+          params:
+            - name: recorderAddress
+              type:
+                name: int
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onClearTimerRecordingResult
+          transaction_code_offset: 3
+          params:
+            - name: recorderAddress
+              type:
+                name: int
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IHdmiSystemAudioModeChangeListener
+      descriptor: android.hardware.hdmi.IHdmiSystemAudioModeChangeListener
+      oneway: true
+      methods:
+        - name: onStatusChanged
+          transaction_code_offset: 0
+          params:
+            - name: enabled
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+    - name: IHdmiVendorCommandListener
+      descriptor: android.hardware.hdmi.IHdmiVendorCommandListener
+      oneway: true
+      methods:
+        - name: onReceived
+          transaction_code_offset: 0
+          params:
+            - name: logicalAddress
+              type:
+                name: int
+            - name: destAddress
+              type:
+                name: int
+            - name: operands
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: hasVendorId
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onControlStateChanged
+          transaction_code_offset: 1
+          params:
+            - name: enabled
+              type:
+                name: boolean
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: HdmiDeviceInfo
+    - name: HdmiHotplugEvent
+    - name: HdmiPortInfo

@@ -53,6 +53,7 @@ func (p *InlineContentProviderProxy) ProvideContent(
 	callback IInlineContentCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineContentProvider)
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
@@ -71,6 +72,7 @@ func (p *InlineContentProviderProxy) RequestSurfacePackage(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineContentProvider)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineContentProvider, MethodIInlineContentProviderRequestSurfacePackage)
@@ -86,6 +88,7 @@ func (p *InlineContentProviderProxy) OnSurfacePackageReleased(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInlineContentProvider)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineContentProvider, MethodIInlineContentProviderOnSurfacePackageReleased)
@@ -100,7 +103,8 @@ func (p *InlineContentProviderProxy) OnSurfacePackageReleased(
 // InlineContentProviderStub dispatches incoming binder transactions
 // to a typed IInlineContentProvider implementation.
 type InlineContentProviderStub struct {
-	Impl IInlineContentProvider
+	Impl      IInlineContentProvider
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InlineContentProviderStub)(nil)
@@ -114,11 +118,12 @@ func (s *InlineContentProviderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInlineContentProviderProvideContent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -127,26 +132,22 @@ func (s *InlineContentProviderStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IInlineContentCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewInlineContentCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err = s.Impl.ProvideContent(ctx, _arg_width, _arg_height, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineContentProviderRequestSurfacePackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RequestSurfacePackage(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInlineContentProviderOnSurfacePackageReleased:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnSurfacePackageReleased(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

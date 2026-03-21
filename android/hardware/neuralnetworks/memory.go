@@ -2,6 +2,7 @@ package neuralnetworks
 
 import (
 	"fmt"
+	hardware "github.com/xaionaro-go/binder/android/hardware"
 	common "github.com/xaionaro-go/binder/android/hardware/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,7 +19,7 @@ type Memory struct {
 	Tag            int32
 	Ashmem         common.Ashmem
 	MappableFile   common.MappableFile
-	HardwareBuffer interface{}
+	HardwareBuffer hardware.HardwareBuffer
 }
 
 var _ parcel.Parcelable = (*Memory)(nil)
@@ -34,8 +35,7 @@ func (u *Memory) GetAshmem() (common.Ashmem, bool) {
 func (u *Memory) SetAshmem(
 	v common.Ashmem,
 ) {
-	u.Tag = MemoryTagAshmem
-	u.Ashmem = v
+	*u = Memory{Tag: MemoryTagAshmem, Ashmem: v}
 }
 
 func (u *Memory) GetMappableFile() (common.MappableFile, bool) {
@@ -49,23 +49,21 @@ func (u *Memory) GetMappableFile() (common.MappableFile, bool) {
 func (u *Memory) SetMappableFile(
 	v common.MappableFile,
 ) {
-	u.Tag = MemoryTagMappableFile
-	u.MappableFile = v
+	*u = Memory{Tag: MemoryTagMappableFile, MappableFile: v}
 }
 
-func (u *Memory) GetHardwareBuffer() (interface{}, bool) {
+func (u *Memory) GetHardwareBuffer() (hardware.HardwareBuffer, bool) {
 	if u.Tag != MemoryTagHardwareBuffer {
-		var _zero interface{}
+		var _zero hardware.HardwareBuffer
 		return _zero, false
 	}
 	return u.HardwareBuffer, true
 }
 
 func (u *Memory) SetHardwareBuffer(
-	v interface{},
+	v hardware.HardwareBuffer,
 ) {
-	u.Tag = MemoryTagHardwareBuffer
-	u.HardwareBuffer = v
+	*u = Memory{Tag: MemoryTagHardwareBuffer, HardwareBuffer: v}
 }
 
 func (u *Memory) MarshalParcel(
@@ -86,6 +84,10 @@ func (u *Memory) MarshalParcel(
 			return _err
 		}
 	case MemoryTagHardwareBuffer:
+		p.WriteInt32(1)
+		if _err := u.HardwareBuffer.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for Memory", u.Tag)
 	}
@@ -123,6 +125,12 @@ func (u *Memory) UnmarshalParcel(
 			return _err
 		}
 	case MemoryTagHardwareBuffer:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
+		if _err = u.HardwareBuffer.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for Memory", u.Tag)
 	}

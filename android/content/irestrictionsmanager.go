@@ -3,6 +3,7 @@ package content
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -31,11 +32,11 @@ const (
 
 type IRestrictionsManager interface {
 	AsBinder() binder.IBinder
-	GetApplicationRestrictions(ctx context.Context, packageName string) (interface{}, error)
-	GetApplicationRestrictionsPerAdminForUser(ctx context.Context, packageName string) ([]interface{}, error)
+	GetApplicationRestrictions(ctx context.Context, packageName string) (os.Bundle, error)
+	GetApplicationRestrictionsPerAdminForUser(ctx context.Context, packageName string) ([]os.Bundle, error)
 	HasRestrictionsProvider(ctx context.Context) (bool, error)
-	RequestPermission(ctx context.Context, packageName string, requestType string, requestId string, requestData interface{}) error
-	NotifyPermissionResponse(ctx context.Context, packageName string, response interface{}) error
+	RequestPermission(ctx context.Context, packageName string, requestType string, requestId string, requestData os.PersistableBundle) error
+	NotifyPermissionResponse(ctx context.Context, packageName string, response os.PersistableBundle) error
 	CreateLocalApprovalIntent(ctx context.Context) (Intent, error)
 }
 
@@ -58,9 +59,10 @@ var _ IRestrictionsManager = (*RestrictionsManagerProxy)(nil)
 func (p *RestrictionsManagerProxy) GetApplicationRestrictions(
 	ctx context.Context,
 	packageName string,
-) (interface{}, error) {
-	var _result interface{}
+) (os.Bundle, error) {
+	var _result os.Bundle
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestrictionsManager)
 	_data.WriteString16(packageName)
 
@@ -79,16 +81,26 @@ func (p *RestrictionsManagerProxy) GetApplicationRestrictions(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *RestrictionsManagerProxy) GetApplicationRestrictionsPerAdminForUser(
 	ctx context.Context,
 	packageName string,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]os.Bundle, error) {
+	var _result []os.Bundle
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestrictionsManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
@@ -112,10 +124,19 @@ func (p *RestrictionsManagerProxy) GetApplicationRestrictionsPerAdminForUser(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]os.Bundle, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -126,6 +147,7 @@ func (p *RestrictionsManagerProxy) HasRestrictionsProvider(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestrictionsManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerHasRestrictionsProvider)
@@ -155,13 +177,18 @@ func (p *RestrictionsManagerProxy) RequestPermission(
 	packageName string,
 	requestType string,
 	requestId string,
-	requestData interface{},
+	requestData os.PersistableBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestrictionsManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(requestType)
 	_data.WriteString16(requestId)
+	_data.WriteInt32(1)
+	if _err := requestData.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerRequestPermission)
 	if _err != nil {
@@ -184,11 +211,16 @@ func (p *RestrictionsManagerProxy) RequestPermission(
 func (p *RestrictionsManagerProxy) NotifyPermissionResponse(
 	ctx context.Context,
 	packageName string,
-	response interface{},
+	response os.PersistableBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestrictionsManager)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := response.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerNotifyPermissionResponse)
 	if _err != nil {
@@ -213,6 +245,7 @@ func (p *RestrictionsManagerProxy) CreateLocalApprovalIntent(
 ) (Intent, error) {
 	var _result Intent
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRestrictionsManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerCreateLocalApprovalIntent)
@@ -245,7 +278,8 @@ func (p *RestrictionsManagerProxy) CreateLocalApprovalIntent(
 // RestrictionsManagerStub dispatches incoming binder transactions
 // to a typed IRestrictionsManager implementation.
 type RestrictionsManagerStub struct {
-	Impl IRestrictionsManager
+	Impl      IRestrictionsManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RestrictionsManagerStub)(nil)
@@ -259,11 +293,12 @@ func (s *RestrictionsManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRestrictionsManagerGetApplicationRestrictions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -275,12 +310,12 @@ func (s *RestrictionsManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIRestrictionsManagerGetApplicationRestrictionsPerAdminForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIRestrictionsManagerGetApplicationRestrictionsPerAdminForUser:
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -295,13 +330,19 @@ func (s *RestrictionsManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIRestrictionsManagerHasRestrictionsProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.HasRestrictionsProvider(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -312,9 +353,6 @@ func (s *RestrictionsManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRestrictionsManagerRequestPermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -327,7 +365,18 @@ func (s *RestrictionsManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_requestData interface{}
+		var _arg_requestData os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_requestData.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.RequestPermission(ctx, _arg_packageName, _arg_requestType, _arg_requestId, _arg_requestData)
 		_reply := parcel.New()
 		if _err != nil {
@@ -337,14 +386,22 @@ func (s *RestrictionsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRestrictionsManagerNotifyPermissionResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_response interface{}
+		var _arg_response os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_response.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.NotifyPermissionResponse(ctx, _arg_packageName, _arg_response)
 		_reply := parcel.New()
 		if _err != nil {
@@ -354,9 +411,6 @@ func (s *RestrictionsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRestrictionsManagerCreateLocalApprovalIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.CreateLocalApprovalIntent(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -378,11 +432,11 @@ func (s *RestrictionsManagerStub) OnTransaction(
 // provide to NewRestrictionsManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IRestrictionsManagerServer interface {
-	GetApplicationRestrictions(ctx context.Context, packageName string) (interface{}, error)
-	GetApplicationRestrictionsPerAdminForUser(ctx context.Context, packageName string) ([]interface{}, error)
+	GetApplicationRestrictions(ctx context.Context, packageName string) (os.Bundle, error)
+	GetApplicationRestrictionsPerAdminForUser(ctx context.Context, packageName string) ([]os.Bundle, error)
 	HasRestrictionsProvider(ctx context.Context) (bool, error)
-	RequestPermission(ctx context.Context, packageName string, requestType string, requestId string, requestData interface{}) error
-	NotifyPermissionResponse(ctx context.Context, packageName string, response interface{}) error
+	RequestPermission(ctx context.Context, packageName string, requestType string, requestId string, requestData os.PersistableBundle) error
+	NotifyPermissionResponse(ctx context.Context, packageName string, response os.PersistableBundle) error
 	CreateLocalApprovalIntent(ctx context.Context) (Intent, error)
 }
 
@@ -398,14 +452,14 @@ func (w *restrictionsManagerStubWrapper) AsBinder() binder.IBinder {
 func (w *restrictionsManagerStubWrapper) GetApplicationRestrictions(
 	ctx context.Context,
 	packageName string,
-) (interface{}, error) {
+) (os.Bundle, error) {
 	return w.impl.GetApplicationRestrictions(ctx, packageName)
 }
 
 func (w *restrictionsManagerStubWrapper) GetApplicationRestrictionsPerAdminForUser(
 	ctx context.Context,
 	packageName string,
-) ([]interface{}, error) {
+) ([]os.Bundle, error) {
 	return w.impl.GetApplicationRestrictionsPerAdminForUser(ctx, packageName)
 }
 
@@ -420,7 +474,7 @@ func (w *restrictionsManagerStubWrapper) RequestPermission(
 	packageName string,
 	requestType string,
 	requestId string,
-	requestData interface{},
+	requestData os.PersistableBundle,
 ) error {
 	return w.impl.RequestPermission(ctx, packageName, requestType, requestId, requestData)
 }
@@ -428,7 +482,7 @@ func (w *restrictionsManagerStubWrapper) RequestPermission(
 func (w *restrictionsManagerStubWrapper) NotifyPermissionResponse(
 	ctx context.Context,
 	packageName string,
-	response interface{},
+	response os.PersistableBundle,
 ) error {
 	return w.impl.NotifyPermissionResponse(ctx, packageName, response)
 }

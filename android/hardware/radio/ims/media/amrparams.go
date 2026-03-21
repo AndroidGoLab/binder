@@ -34,15 +34,30 @@ func (s *AmrParams) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_amrModeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.AmrMode = AmrMode(_amrModeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.OctetAligned, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.MaxRedundancyMillis, _err = p.ReadInt32()

@@ -66,14 +66,24 @@ func parseELFAndroidAPILevel(path string) int {
 		// noteType := binary.LittleEndian.Uint32(data[8:12])
 
 		nameOff := uint32(12)
+		// Guard against overflow: if namesz is large enough that
+		// nameOff+namesz wraps around uint32, stop parsing.
+		if namesz > uint32(len(data))-nameOff {
+			break
+		}
 		nameEnd := nameOff + namesz
 		// Align to 4 bytes.
 		descOff := (nameEnd + 3) &^ 3
+		if descOff < nameEnd {
+			break // overflow from alignment
+		}
+		if descsz > uint32(len(data))-descOff {
+			break // descEnd would exceed data
+		}
 		descEnd := descOff + descsz
 		nextOff := (descEnd + 3) &^ 3
-
-		if uint32(len(data)) < descEnd {
-			break
+		if nextOff < descEnd {
+			break // overflow from alignment
 		}
 
 		name := strings.TrimRight(string(data[nameOff:nameEnd]), "\x00")
@@ -82,6 +92,9 @@ func parseELFAndroidAPILevel(path string) int {
 			return int(apiLevel)
 		}
 
+		if nextOff == 0 || int(nextOff) > len(data) {
+			break
+		}
 		data = data[nextOff:]
 	}
 
@@ -139,7 +152,11 @@ func parseBuildFlags(path string) int {
 	}
 
 	// Merge both arrays — one will be empty depending on the schema.
-	entries := append(file.Flags, file.FlagArtifacts...)
+	// Use a fresh slice to avoid mutating file.Flags's backing array,
+	// which could corrupt data if Flags has spare capacity.
+	entries := make([]buildFlagEntry, 0, len(file.Flags)+len(file.FlagArtifacts))
+	entries = append(entries, file.Flags...)
+	entries = append(entries, file.FlagArtifacts...)
 
 	for _, f := range entries {
 		if f.Declaration.Name != "RELEASE_PLATFORM_SDK_VERSION" {

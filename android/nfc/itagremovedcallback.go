@@ -44,6 +44,7 @@ func (p *TagRemovedCallbackProxy) OnTagRemoved(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITagRemovedCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITagRemovedCallback, MethodITagRemovedCallbackOnTagRemoved)
@@ -58,7 +59,8 @@ func (p *TagRemovedCallbackProxy) OnTagRemoved(
 // TagRemovedCallbackStub dispatches incoming binder transactions
 // to a typed ITagRemovedCallback implementation.
 type TagRemovedCallbackStub struct {
-	Impl ITagRemovedCallback
+	Impl      ITagRemovedCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TagRemovedCallbackStub)(nil)
@@ -72,14 +74,14 @@ func (s *TagRemovedCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITagRemovedCallbackOnTagRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnTagRemoved(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

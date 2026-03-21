@@ -45,6 +45,7 @@ func (p *ConversationListenerProxy) OnConversationUpdate(
 	conversation ConversationChannel,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConversationListener)
 	_data.WriteInt32(1)
 	if _err := conversation.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *ConversationListenerProxy) OnConversationUpdate(
 // ConversationListenerStub dispatches incoming binder transactions
 // to a typed IConversationListener implementation.
 type ConversationListenerStub struct {
-	Impl IConversationListener
+	Impl      IConversationListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ConversationListenerStub)(nil)
@@ -77,11 +79,12 @@ func (s *ConversationListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIConversationListenerOnConversationUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_conversation ConversationChannel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *ConversationListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnConversationUpdate(ctx, _arg_conversation)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

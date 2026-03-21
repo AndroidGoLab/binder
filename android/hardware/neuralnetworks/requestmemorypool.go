@@ -31,8 +31,7 @@ func (u *RequestMemoryPool) GetPool() (Memory, bool) {
 func (u *RequestMemoryPool) SetPool(
 	v Memory,
 ) {
-	u.Tag = RequestMemoryPoolTagPool
-	u.Pool = v
+	*u = RequestMemoryPool{Tag: RequestMemoryPoolTagPool, Pool: v}
 }
 
 func (u *RequestMemoryPool) GetToken() (int32, bool) {
@@ -46,8 +45,7 @@ func (u *RequestMemoryPool) GetToken() (int32, bool) {
 func (u *RequestMemoryPool) SetToken(
 	v int32,
 ) {
-	u.Tag = RequestMemoryPoolTagToken
-	u.Token = v
+	*u = RequestMemoryPool{Tag: RequestMemoryPoolTagToken, Token: v}
 }
 
 func (u *RequestMemoryPool) MarshalParcel(

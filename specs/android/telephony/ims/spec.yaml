@@ -1,0 +1,32 @@
+package: android.telephony.ims
+go_package: android/telephony/ims
+parcelables:
+    - name: AudioCodecAttributes
+    - name: DelegateRegistrationState
+    - name: DelegateRequest
+    - name: FeatureTagState
+    - name: ImsCallForwardInfo
+    - name: ImsCallProfile
+    - name: ImsConferenceState
+    - name: ImsExternalCallState
+    - name: ImsReasonInfo
+    - name: ImsRegistrationAttributes
+    - name: ImsSsData
+    - name: ImsSsInfo
+    - name: ImsStreamMediaProfile
+    - name: ImsSuppServiceNotification
+    - name: MediaQualityStatus
+    - name: MediaThreshold
+    - name: PublishAttributes
+    - name: RcsClientConfiguration
+    - name: RcsContactPresenceTuple
+    - name: RcsContactTerminatedReason
+    - name: RcsContactUceCapability
+    - name: RtpHeaderExtension
+    - name: RtpHeaderExtensionType
+    - name: SipDelegateConfiguration
+    - name: SipDelegateImsConfiguration
+    - name: SipDetails
+    - name: SipDialogState
+    - name: SipMessage
+    - name: SrvccCall

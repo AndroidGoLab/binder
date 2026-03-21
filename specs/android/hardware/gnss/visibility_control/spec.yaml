@@ -1,0 +1,119 @@
+package: android.hardware.gnss.visibility_control
+go_package: android/hardware/gnss/visibility_control
+interfaces:
+    - name: IGnssVisibilityControl
+      descriptor: android.hardware.gnss.visibility_control.IGnssVisibilityControl
+      methods:
+        - name: enableNfwLocationAccess
+          transaction_code_offset: 0
+          params:
+            - name: proxyApps
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setCallback
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IGnssVisibilityControlCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IGnssVisibilityControlCallback
+      descriptor: android.hardware.gnss.visibility_control.IGnssVisibilityControlCallback
+      methods:
+        - name: nfwNotifyCb
+          transaction_code_offset: 0
+          params:
+            - name: notification
+              type:
+                name: NfwNotification
+              direction: in
+          return_type:
+            name: void
+        - name: isInEmergencySession
+          transaction_code_offset: 1
+          return_type:
+            name: boolean
+parcelables:
+    - name: IGnssVisibilityControlCallback.NfwNotification
+      fields:
+        - name: proxyAppPackageName
+          type:
+            name: String
+        - name: protocolStack
+          type:
+            name: NfwProtocolStack
+        - name: otherProtocolStackName
+          type:
+            name: String
+        - name: requestor
+          type:
+            name: NfwRequestor
+        - name: requestorId
+          type:
+            name: String
+        - name: responseType
+          type:
+            name: NfwResponseType
+        - name: inEmergencyMode
+          type:
+            name: boolean
+        - name: isCachedLocation
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+enums:
+    - name: IGnssVisibilityControlCallback.NfwProtocolStack
+      backing_type: int
+      values:
+        - name: CTRL_PLANE
+          value: "0"
+        - name: SUPL
+          value: "1"
+        - name: IMS
+          value: "10"
+        - name: SIM
+          value: "11"
+        - name: OTHER_PROTOCOL_STACK
+          value: "100"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IGnssVisibilityControlCallback.NfwRequestor
+      backing_type: int
+      values:
+        - name: CARRIER
+          value: "0"
+        - name: OEM
+          value: "10"
+        - name: MODEM_CHIPSET_VENDOR
+          value: "11"
+        - name: GNSS_CHIPSET_VENDOR
+          value: "12"
+        - name: OTHER_CHIPSET_VENDOR
+          value: "13"
+        - name: AUTOMOBILE_CLIENT
+          value: "20"
+        - name: OTHER_REQUESTOR
+          value: "100"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IGnssVisibilityControlCallback.NfwResponseType
+      backing_type: int
+      values:
+        - name: REJECTED
+          value: "0"
+        - name: ACCEPTED_NO_LOCATION_PROVIDED
+          value: "1"
+        - name: ACCEPTED_LOCATION_PROVIDED
+          value: "2"
+      annotations:
+        - VintfStability
+        - Backing

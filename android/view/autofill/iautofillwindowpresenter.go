@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,7 +25,7 @@ const (
 
 type IAutofillWindowPresenter interface {
 	AsBinder() binder.IBinder
-	Show(ctx context.Context, p_ interface{}, transitionEpicenter graphics.Rect, fitsSystemWindows bool, layoutDirection int32) error
+	Show(ctx context.Context, p_ view.WindowManagerLayoutParams, transitionEpicenter graphics.Rect, fitsSystemWindows bool, layoutDirection int32) error
 	Hide(ctx context.Context, transitionEpicenter graphics.Rect) error
 }
 
@@ -46,13 +47,18 @@ var _ IAutofillWindowPresenter = (*AutofillWindowPresenterProxy)(nil)
 
 func (p *AutofillWindowPresenterProxy) Show(
 	ctx context.Context,
-	p_ interface{},
+	p_ view.WindowManagerLayoutParams,
 	transitionEpicenter graphics.Rect,
 	fitsSystemWindows bool,
 	layoutDirection int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutofillWindowPresenter)
+	_data.WriteInt32(1)
+	if _err := p_.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := transitionEpicenter.MarshalParcel(_data); _err != nil {
 		return _err
@@ -74,6 +80,7 @@ func (p *AutofillWindowPresenterProxy) Hide(
 	transitionEpicenter graphics.Rect,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutofillWindowPresenter)
 	_data.WriteInt32(1)
 	if _err := transitionEpicenter.MarshalParcel(_data); _err != nil {
@@ -92,7 +99,8 @@ func (p *AutofillWindowPresenterProxy) Hide(
 // AutofillWindowPresenterStub dispatches incoming binder transactions
 // to a typed IAutofillWindowPresenter implementation.
 type AutofillWindowPresenterStub struct {
-	Impl IAutofillWindowPresenter
+	Impl      IAutofillWindowPresenter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AutofillWindowPresenterStub)(nil)
@@ -106,12 +114,24 @@ func (s *AutofillWindowPresenterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAutofillWindowPresenterShow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_p_ view.WindowManagerLayoutParams
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_p_.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_p_ interface{}
 		var _arg_transitionEpicenter graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -133,12 +153,8 @@ func (s *AutofillWindowPresenterStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.Show(ctx, _arg_p_, _arg_transitionEpicenter, _arg_fitsSystemWindows, _arg_layoutDirection)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutofillWindowPresenterHide:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_transitionEpicenter graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -152,8 +168,7 @@ func (s *AutofillWindowPresenterStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.Hide(ctx, _arg_transitionEpicenter)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -163,7 +178,7 @@ func (s *AutofillWindowPresenterStub) OnTransaction(
 // provide to NewAutofillWindowPresenterStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAutofillWindowPresenterServer interface {
-	Show(ctx context.Context, p_ interface{}, transitionEpicenter graphics.Rect, fitsSystemWindows bool, layoutDirection int32) error
+	Show(ctx context.Context, p_ view.WindowManagerLayoutParams, transitionEpicenter graphics.Rect, fitsSystemWindows bool, layoutDirection int32) error
 	Hide(ctx context.Context, transitionEpicenter graphics.Rect) error
 }
 
@@ -178,7 +193,7 @@ func (w *autofillWindowPresenterStubWrapper) AsBinder() binder.IBinder {
 
 func (w *autofillWindowPresenterStubWrapper) Show(
 	ctx context.Context,
-	p_ interface{},
+	p_ view.WindowManagerLayoutParams,
 	transitionEpicenter graphics.Rect,
 	fitsSystemWindows bool,
 	layoutDirection int32,

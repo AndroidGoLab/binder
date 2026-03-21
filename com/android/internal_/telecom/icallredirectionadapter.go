@@ -52,6 +52,7 @@ func (p *CallRedirectionAdapterProxy) CancelCall(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallRedirectionAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallRedirectionAdapter, MethodICallRedirectionAdapterCancelCall)
@@ -67,6 +68,7 @@ func (p *CallRedirectionAdapterProxy) PlaceCallUnmodified(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallRedirectionAdapter)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallRedirectionAdapter, MethodICallRedirectionAdapterPlaceCallUnmodified)
@@ -85,6 +87,7 @@ func (p *CallRedirectionAdapterProxy) RedirectCall(
 	confirmFirst bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallRedirectionAdapter)
 	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
@@ -108,7 +111,8 @@ func (p *CallRedirectionAdapterProxy) RedirectCall(
 // CallRedirectionAdapterStub dispatches incoming binder transactions
 // to a typed ICallRedirectionAdapter implementation.
 type CallRedirectionAdapterStub struct {
-	Impl ICallRedirectionAdapter
+	Impl      ICallRedirectionAdapter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CallRedirectionAdapterStub)(nil)
@@ -122,25 +126,18 @@ func (s *CallRedirectionAdapterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICallRedirectionAdapterCancelCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CancelCall(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallRedirectionAdapterPlaceCallUnmodified:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.PlaceCallUnmodified(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICallRedirectionAdapterRedirectCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_handle net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -170,8 +167,7 @@ func (s *CallRedirectionAdapterStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.RedirectCall(ctx, _arg_handle, _arg_targetPhoneAccount, _arg_confirmFirst)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

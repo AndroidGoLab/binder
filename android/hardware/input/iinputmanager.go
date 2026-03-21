@@ -196,7 +196,7 @@ type IInputManager interface {
 	GetKeyboardLayoutListForInputDevice(ctx context.Context, identifier InputDeviceIdentifier, imeInfo inputmethod.InputMethodInfo, imeSubtype inputmethod.InputMethodSubtype) ([]KeyboardLayout, error)
 	RemapModifierKey(ctx context.Context, fromKey int32, toKey int32) error
 	ClearAllModifierKeyRemappings(ctx context.Context) error
-	GetModifierKeyRemapping(ctx context.Context) (map[interface{}]interface{}, error)
+	GetModifierKeyRemapping(ctx context.Context) (map[any]any, error)
 	RegisterInputDevicesChangedListener(ctx context.Context, listener IInputDevicesChangedListener) error
 	IsInTabletMode(ctx context.Context) (int32, error)
 	RegisterTabletModeChangedListener(ctx context.Context, listener ITabletModeChangedListener) error
@@ -262,6 +262,7 @@ func (p *InputManagerProxy) GetVelocityTrackerStrategy(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetVelocityTrackerStrategy)
@@ -292,6 +293,7 @@ func (p *InputManagerProxy) GetInputDevice(
 ) (view.InputDevice, error) {
 	var _result view.InputDevice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
@@ -327,6 +329,7 @@ func (p *InputManagerProxy) GetInputDeviceIds(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetInputDeviceIds)
@@ -348,6 +351,9 @@ func (p *InputManagerProxy) GetInputDeviceIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -367,6 +373,7 @@ func (p *InputManagerProxy) IsInputDeviceEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
@@ -397,6 +404,7 @@ func (p *InputManagerProxy) EnableInputDevice(
 	deviceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
@@ -423,6 +431,7 @@ func (p *InputManagerProxy) DisableInputDevice(
 	deviceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
@@ -453,6 +462,7 @@ func (p *InputManagerProxy) HasKeys(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(sourceMask)
@@ -483,6 +493,9 @@ func (p *InputManagerProxy) HasKeys(
 	if _err != nil {
 		return _result, _err
 	}
+	if _outCount0 > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _outCount0)
+	}
 	if _outCount0 >= 0 {
 		keyExists = make([]bool, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
@@ -507,6 +520,7 @@ func (p *InputManagerProxy) GetKeyCodeForKeyLocation(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(locationKeyCode)
@@ -539,6 +553,7 @@ func (p *InputManagerProxy) GetKeyCharacterMap(
 ) (view.KeyCharacterMap, error) {
 	var _result view.KeyCharacterMap
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteString16(layoutDescriptor)
 
@@ -574,6 +589,7 @@ func (p *InputManagerProxy) GetMousePointerSpeed(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetMousePointerSpeed)
@@ -603,6 +619,7 @@ func (p *InputManagerProxy) TryPointerSpeed(
 	speed int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(speed)
 
@@ -631,6 +648,7 @@ func (p *InputManagerProxy) InjectInputEvent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
 	if _err := ev.MarshalParcel(_data); _err != nil {
@@ -668,6 +686,7 @@ func (p *InputManagerProxy) InjectInputEventToTarget(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
 	if _err := ev.MarshalParcel(_data); _err != nil {
@@ -704,6 +723,7 @@ func (p *InputManagerProxy) VerifyInputEvent(
 ) (view.VerifiedInputEvent, error) {
 	var _result view.VerifiedInputEvent
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
 	if _err := ev.MarshalParcel(_data); _err != nil {
@@ -744,6 +764,7 @@ func (p *InputManagerProxy) GetTouchCalibrationForInputDevice(
 ) (TouchCalibration, error) {
 	var _result TouchCalibration
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteString16(inputDeviceDescriptor)
 	_data.WriteInt32(rotation)
@@ -782,6 +803,7 @@ func (p *InputManagerProxy) SetTouchCalibrationForInputDevice(
 	calibration TouchCalibration,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteString16(inputDeviceDescriptor)
 	_data.WriteInt32(rotation)
@@ -813,6 +835,7 @@ func (p *InputManagerProxy) GetKeyboardLayouts(
 ) ([]KeyboardLayout, error) {
 	var _result []KeyboardLayout
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetKeyboardLayouts)
@@ -833,6 +856,9 @@ func (p *InputManagerProxy) GetKeyboardLayouts(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -855,6 +881,7 @@ func (p *InputManagerProxy) GetKeyboardLayoutsForInputDevice(
 ) ([]KeyboardLayout, error) {
 	var _result []KeyboardLayout
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
 	if _err := identifier.MarshalParcel(_data); _err != nil {
@@ -880,6 +907,9 @@ func (p *InputManagerProxy) GetKeyboardLayoutsForInputDevice(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]KeyboardLayout, _count)
@@ -901,6 +931,7 @@ func (p *InputManagerProxy) GetKeyboardLayout(
 ) (KeyboardLayout, error) {
 	var _result KeyboardLayout
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteString16(keyboardLayoutDescriptor)
 
@@ -937,6 +968,7 @@ func (p *InputManagerProxy) GetCurrentKeyboardLayoutForInputDevice(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
 	if _err := identifier.MarshalParcel(_data); _err != nil {
@@ -971,6 +1003,7 @@ func (p *InputManagerProxy) SetCurrentKeyboardLayoutForInputDevice(
 	keyboardLayoutDescriptor string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
 	if _err := identifier.MarshalParcel(_data); _err != nil {
@@ -1002,6 +1035,7 @@ func (p *InputManagerProxy) GetEnabledKeyboardLayoutsForInputDevice(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
 	if _err := identifier.MarshalParcel(_data); _err != nil {
@@ -1027,6 +1061,9 @@ func (p *InputManagerProxy) GetEnabledKeyboardLayoutsForInputDevice(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1046,6 +1083,7 @@ func (p *InputManagerProxy) AddKeyboardLayoutForInputDevice(
 	keyboardLayoutDescriptor string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
 	if _err := identifier.MarshalParcel(_data); _err != nil {
@@ -1077,6 +1115,7 @@ func (p *InputManagerProxy) RemoveKeyboardLayoutForInputDevice(
 	keyboardLayoutDescriptor string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
 	if _err := identifier.MarshalParcel(_data); _err != nil {
@@ -1111,6 +1150,7 @@ func (p *InputManagerProxy) GetKeyboardLayoutForInputDevice(
 	var _result KeyboardLayoutSelectionResult
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
 	if _err := identifier.MarshalParcel(_data); _err != nil {
@@ -1162,6 +1202,7 @@ func (p *InputManagerProxy) SetKeyboardLayoutForInputDevice(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
 	if _err := identifier.MarshalParcel(_data); _err != nil {
@@ -1205,6 +1246,7 @@ func (p *InputManagerProxy) GetKeyboardLayoutListForInputDevice(
 	var _result []KeyboardLayout
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
 	if _err := identifier.MarshalParcel(_data); _err != nil {
@@ -1239,6 +1281,9 @@ func (p *InputManagerProxy) GetKeyboardLayoutListForInputDevice(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]KeyboardLayout, _count)
@@ -1260,6 +1305,7 @@ func (p *InputManagerProxy) RemapModifierKey(
 	toKey int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(fromKey)
 	_data.WriteInt32(toKey)
@@ -1286,6 +1332,7 @@ func (p *InputManagerProxy) ClearAllModifierKeyRemappings(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerClearAllModifierKeyRemappings)
@@ -1308,9 +1355,10 @@ func (p *InputManagerProxy) ClearAllModifierKeyRemappings(
 
 func (p *InputManagerProxy) GetModifierKeyRemapping(
 	ctx context.Context,
-) (map[interface{}]interface{}, error) {
-	var _result map[interface{}]interface{}
+) (map[any]any, error) {
+	var _result map[any]any
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetModifierKeyRemapping)
@@ -1328,22 +1376,24 @@ func (p *InputManagerProxy) GetModifierKeyRemapping(
 		return _result, _err
 	}
 
-	_mapCount, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _mapCount >= 0 {
-		_result = make(map[interface{}]interface{}, _mapCount)
-		for _mi := int32(0); _mi < _mapCount; _mi++ {
-			_mk, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
+	{
+		_mapCount, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _mapCount >= 0 {
+			_result = make(map[any]any, _mapCount)
+			for _mi := int32(0); _mi < _mapCount; _mi++ {
+				_mk, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_mv, _err := _reply.ReadString16()
+				if _err != nil {
+					return _result, _err
+				}
+				_result[_mk] = _mv
 			}
-			_mv, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
-			}
-			_result[_mk] = _mv
 		}
 	}
 	return _result, nil
@@ -1354,6 +1404,7 @@ func (p *InputManagerProxy) RegisterInputDevicesChangedListener(
 	listener IInputDevicesChangedListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1380,6 +1431,7 @@ func (p *InputManagerProxy) IsInTabletMode(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerIsInTabletMode)
@@ -1409,6 +1461,7 @@ func (p *InputManagerProxy) RegisterTabletModeChangedListener(
 	listener ITabletModeChangedListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1435,6 +1488,7 @@ func (p *InputManagerProxy) IsMicMuted(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerIsMicMuted)
@@ -1466,6 +1520,7 @@ func (p *InputManagerProxy) Vibrate(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(1)
@@ -1499,6 +1554,7 @@ func (p *InputManagerProxy) VibrateCombined(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(1)
@@ -1531,6 +1587,7 @@ func (p *InputManagerProxy) CancelVibrate(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -1559,6 +1616,7 @@ func (p *InputManagerProxy) GetVibratorIds(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
@@ -1581,6 +1639,9 @@ func (p *InputManagerProxy) GetVibratorIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -1600,6 +1661,7 @@ func (p *InputManagerProxy) IsVibrating(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
@@ -1632,6 +1694,7 @@ func (p *InputManagerProxy) RegisterVibratorStateListener(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -1665,6 +1728,7 @@ func (p *InputManagerProxy) UnregisterVibratorStateListener(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -1697,6 +1761,7 @@ func (p *InputManagerProxy) GetBatteryState(
 ) (IInputDeviceBatteryState, error) {
 	var _result IInputDeviceBatteryState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
@@ -1732,6 +1797,7 @@ func (p *InputManagerProxy) SetPointerIconType(
 	typeId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(typeId)
 
@@ -1758,6 +1824,7 @@ func (p *InputManagerProxy) SetCustomPointerIcon(
 	icon view.PointerIcon,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
@@ -1792,6 +1859,7 @@ func (p *InputManagerProxy) SetPointerIcon(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
@@ -1830,6 +1898,7 @@ func (p *InputManagerProxy) RequestPointerCapture(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	binder.WriteBinderToParcel(ctx, _data, inputChannelToken, p.Remote.Transport())
 	_data.WriteBool(enabled)
@@ -1851,6 +1920,7 @@ func (p *InputManagerProxy) MonitorGestureInput(
 ) (view.InputMonitor, error) {
 	var _result view.InputMonitor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(name)
@@ -1889,6 +1959,7 @@ func (p *InputManagerProxy) AddPortAssociation(
 	displayPort int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteString16(inputPort)
 	_data.WriteInt32(displayPort)
@@ -1916,6 +1987,7 @@ func (p *InputManagerProxy) RemovePortAssociation(
 	inputPort string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteString16(inputPort)
 
@@ -1943,6 +2015,7 @@ func (p *InputManagerProxy) AddUniqueIdAssociation(
 	displayUniqueId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteString16(inputPort)
 	_data.WriteString16(displayUniqueId)
@@ -1970,6 +2043,7 @@ func (p *InputManagerProxy) RemoveUniqueIdAssociation(
 	inputPort string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteString16(inputPort)
 
@@ -1997,6 +2071,7 @@ func (p *InputManagerProxy) GetSensorList(
 ) ([]InputSensorInfo, error) {
 	var _result []InputSensorInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
@@ -2019,6 +2094,9 @@ func (p *InputManagerProxy) GetSensorList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]InputSensorInfo, _count)
@@ -2040,6 +2118,7 @@ func (p *InputManagerProxy) RegisterSensorListener(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -2070,6 +2149,7 @@ func (p *InputManagerProxy) UnregisterSensorListener(
 	listener IInputSensorEventListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -2100,6 +2180,7 @@ func (p *InputManagerProxy) EnableSensor(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(sensorType)
@@ -2134,6 +2215,7 @@ func (p *InputManagerProxy) DisableSensor(
 	sensorType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(sensorType)
@@ -2163,6 +2245,7 @@ func (p *InputManagerProxy) FlushSensor(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(sensorType)
@@ -2195,6 +2278,7 @@ func (p *InputManagerProxy) GetLights(
 ) ([]lights.Light, error) {
 	var _result []lights.Light
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
@@ -2216,6 +2300,9 @@ func (p *InputManagerProxy) GetLights(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -2239,6 +2326,7 @@ func (p *InputManagerProxy) GetLightState(
 ) (lights.LightState, error) {
 	var _result lights.LightState
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(lightId)
@@ -2278,6 +2366,7 @@ func (p *InputManagerProxy) SetLightStates(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	if lightIds == nil {
@@ -2326,6 +2415,7 @@ func (p *InputManagerProxy) OpenLightSession(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	_data.WriteString16(opPkg)
@@ -2355,6 +2445,7 @@ func (p *InputManagerProxy) CloseLightSession(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
@@ -2381,6 +2472,7 @@ func (p *InputManagerProxy) CancelCurrentTouch(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerCancelCurrentTouch)
@@ -2407,6 +2499,7 @@ func (p *InputManagerProxy) RegisterBatteryListener(
 	listener IInputDeviceBatteryListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -2435,6 +2528,7 @@ func (p *InputManagerProxy) UnregisterBatteryListener(
 	listener IInputDeviceBatteryListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -2463,6 +2557,7 @@ func (p *InputManagerProxy) GetInputDeviceBluetoothAddress(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
@@ -2493,6 +2588,7 @@ func (p *InputManagerProxy) PilferPointers(
 	inputChannelToken binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	binder.WriteBinderToParcel(ctx, _data, inputChannelToken, p.Remote.Transport())
 
@@ -2519,6 +2615,7 @@ func (p *InputManagerProxy) RegisterKeyboardBacklightListener(
 	listener IKeyboardBacklightListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -2545,6 +2642,7 @@ func (p *InputManagerProxy) UnregisterKeyboardBacklightListener(
 	listener IKeyboardBacklightListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -2572,6 +2670,7 @@ func (p *InputManagerProxy) GetHostUsiVersionFromDisplayConfig(
 ) (HostUsiVersion, error) {
 	var _result HostUsiVersion
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(displayId)
 
@@ -2607,6 +2706,7 @@ func (p *InputManagerProxy) RegisterStickyModifierStateListener(
 	listener IStickyModifierStateListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -2633,6 +2733,7 @@ func (p *InputManagerProxy) UnregisterStickyModifierStateListener(
 	listener IStickyModifierStateListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -2657,7 +2758,8 @@ func (p *InputManagerProxy) UnregisterStickyModifierStateListener(
 // InputManagerStub dispatches incoming binder transactions
 // to a typed IInputManager implementation.
 type InputManagerStub struct {
-	Impl IInputManager
+	Impl      IInputManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputManagerStub)(nil)
@@ -2671,11 +2773,12 @@ func (s *InputManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputManagerGetVelocityTrackerStrategy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVelocityTrackerStrategy(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2686,9 +2789,6 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIInputManagerGetInputDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2706,9 +2806,6 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerGetInputDeviceIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetInputDeviceIds(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2716,13 +2813,16 @@ func (s *InputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIInputManagerIsInputDeviceEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2737,9 +2837,6 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerEnableInputDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2753,9 +2850,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerDisableInputDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2769,9 +2863,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerHasKeys:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2780,9 +2871,25 @@ func (s *InputManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyCodes []int32
-		_ = _arg_keyCodes
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_keyCodes = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_keyCodes[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_keyExists []bool
 		_result, _err := s.Impl.HasKeys(ctx, _arg_deviceId, _arg_sourceMask, _arg_keyCodes, _arg_keyExists)
 		_reply := parcel.New()
@@ -2792,11 +2899,16 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
+		if _arg_keyExists == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_arg_keyExists)))
+			for _, _item := range _arg_keyExists {
+				_reply.WriteBool(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIInputManagerGetKeyCodeForKeyLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2815,9 +2927,6 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIInputManagerGetKeyCharacterMap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_layoutDescriptor, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2835,9 +2944,6 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerGetMousePointerSpeed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMousePointerSpeed(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2848,9 +2954,6 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIInputManagerTryPointerSpeed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_speed, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2864,9 +2967,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerInjectInputEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_ev view.InputEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2893,9 +2993,6 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerInjectInputEventToTarget:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_ev view.InputEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2926,9 +3023,6 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerVerifyInputEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_ev view.InputEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2954,9 +3048,6 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerGetTouchCalibrationForInputDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputDeviceDescriptor, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2978,9 +3069,6 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerSetTouchCalibrationForInputDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputDeviceDescriptor, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3010,9 +3098,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetKeyboardLayouts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetKeyboardLayouts(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3020,13 +3105,19 @@ func (s *InputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIInputManagerGetKeyboardLayoutsForInputDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_identifier InputDeviceIdentifier
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3046,13 +3137,19 @@ func (s *InputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIInputManagerGetKeyboardLayout:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_keyboardLayoutDescriptor, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3070,9 +3167,6 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerGetCurrentKeyboardLayoutForInputDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_identifier InputDeviceIdentifier
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3095,9 +3189,6 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIInputManagerSetCurrentKeyboardLayoutForInputDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_identifier InputDeviceIdentifier
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3123,9 +3214,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetEnabledKeyboardLayoutsForInputDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_identifier InputDeviceIdentifier
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3145,13 +3233,16 @@ func (s *InputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIInputManagerAddKeyboardLayoutForInputDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_identifier InputDeviceIdentifier
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3177,9 +3268,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerRemoveKeyboardLayoutForInputDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_identifier InputDeviceIdentifier
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3205,9 +3293,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetKeyboardLayoutForInputDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_identifier InputDeviceIdentifier
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3260,9 +3345,6 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerSetKeyboardLayoutForInputDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_identifier InputDeviceIdentifier
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3315,9 +3397,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetKeyboardLayoutListForInputDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_identifier InputDeviceIdentifier
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3364,13 +3443,19 @@ func (s *InputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIInputManagerRemapModifierKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fromKey, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3388,9 +3473,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerClearAllModifierKeyRemappings:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ClearAllModifierKeyRemappings(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3400,9 +3482,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetModifierKeyRemapping:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetModifierKeyRemapping(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3410,16 +3489,25 @@ func (s *InputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: map return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _k, _v := range _result {
+				_reply.WriteString16(_k.(string))
+				_reply.WriteString16(_v.(string))
+			}
+		}
 		return _reply, nil
 	case TransactionIInputManagerRegisterInputDevicesChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IInputDevicesChangedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewInputDevicesChangedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterInputDevicesChangedListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3429,9 +3517,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerIsInTabletMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsInTabletMode(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3442,12 +3527,14 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIInputManagerRegisterTabletModeChangedListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ITabletModeChangedListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewTabletModeChangedListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterTabletModeChangedListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3457,9 +3544,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerIsMicMuted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsMicMuted(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3470,9 +3554,6 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIInputManagerVibrate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3489,9 +3570,14 @@ func (s *InputManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err = s.Impl.Vibrate(ctx, _arg_deviceId, _arg_effect, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3501,9 +3587,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerVibrateCombined:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3520,9 +3603,14 @@ func (s *InputManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err = s.Impl.VibrateCombined(ctx, _arg_deviceId, _arg_vibration, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3532,16 +3620,18 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerCancelVibrate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err = s.Impl.CancelVibrate(ctx, _arg_deviceId, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3551,9 +3641,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetVibratorIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3565,13 +3652,16 @@ func (s *InputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIInputManagerIsVibrating:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3586,16 +3676,18 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerRegisterVibratorStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener os.IVibratorStateListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = os.NewVibratorStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.RegisterVibratorStateListener(ctx, _arg_deviceId, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3606,16 +3698,18 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerUnregisterVibratorStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener os.IVibratorStateListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = os.NewVibratorStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.UnregisterVibratorStateListener(ctx, _arg_deviceId, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3626,9 +3720,6 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerGetBatteryState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3646,9 +3737,6 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerSetPointerIconType:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_typeId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3662,9 +3750,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerSetCustomPointerIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_icon view.PointerIcon
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3686,9 +3771,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerSetPointerIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_icon view.PointerIcon
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3713,9 +3795,14 @@ func (s *InputManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_inputToken binder.IBinder
-		_ = _arg_inputToken
+		{
+			_inputTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_inputToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _inputTokenHandle)
+		}
 		_result, _err := s.Impl.SetPointerIcon(ctx, _arg_icon, _arg_displayId, _arg_deviceId, _arg_pointerId, _arg_inputToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3726,26 +3813,29 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerRequestPointerCapture:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_inputChannelToken binder.IBinder
-		_ = _arg_inputChannelToken
+		{
+			_inputChannelTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_inputChannelToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _inputChannelTokenHandle)
+		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RequestPointerCapture(ctx, _arg_inputChannelToken, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInputManagerMonitorGestureInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3767,9 +3857,6 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerAddPortAssociation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputPort, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3787,9 +3874,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerRemovePortAssociation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputPort, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3803,9 +3887,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerAddUniqueIdAssociation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputPort, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3823,9 +3904,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerRemoveUniqueIdAssociation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputPort, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3839,9 +3917,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetSensorList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3853,16 +3928,27 @@ func (s *InputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIInputManagerRegisterSensorListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IInputSensorEventListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewInputSensorEventListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.RegisterSensorListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3873,12 +3959,14 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerUnregisterSensorListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IInputSensorEventListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewInputSensorEventListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.UnregisterSensorListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3888,9 +3976,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerEnableSensor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3917,9 +4002,6 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerDisableSensor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3937,9 +4019,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerFlushSensor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3958,9 +4037,6 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerGetLights:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3972,13 +4048,19 @@ func (s *InputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIInputManagerGetLightState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4000,22 +4082,58 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerSetLightStates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_lightIds []int32
-		_ = _arg_lightIds
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_lightIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_lightIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_states []lights.LightState
-		_ = _arg_states
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_states = make([]lights.LightState, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_states[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err = s.Impl.SetLightStates(ctx, _arg_deviceId, _arg_lightIds, _arg_states, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4025,9 +4143,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerOpenLightSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4036,9 +4151,14 @@ func (s *InputManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err = s.Impl.OpenLightSession(ctx, _arg_deviceId, _arg_opPkg, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4048,16 +4168,18 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerCloseLightSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err = s.Impl.CloseLightSession(ctx, _arg_deviceId, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4067,9 +4189,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerCancelCurrentTouch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CancelCurrentTouch(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4079,16 +4198,18 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerRegisterBatteryListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IInputDeviceBatteryListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewInputDeviceBatteryListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.RegisterBatteryListener(ctx, _arg_deviceId, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4098,16 +4219,18 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerUnregisterBatteryListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IInputDeviceBatteryListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewInputDeviceBatteryListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.UnregisterBatteryListener(ctx, _arg_deviceId, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4117,9 +4240,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetInputDeviceBluetoothAddress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4134,12 +4254,14 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIInputManagerPilferPointers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_inputChannelToken binder.IBinder
-		_ = _arg_inputChannelToken
+		{
+			_inputChannelTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_inputChannelToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _inputChannelTokenHandle)
+		}
 		_err := s.Impl.PilferPointers(ctx, _arg_inputChannelToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4149,12 +4271,14 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerRegisterKeyboardBacklightListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IKeyboardBacklightListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewKeyboardBacklightListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterKeyboardBacklightListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4164,12 +4288,14 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerUnregisterKeyboardBacklightListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IKeyboardBacklightListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewKeyboardBacklightListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.UnregisterKeyboardBacklightListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4179,9 +4305,6 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetHostUsiVersionFromDisplayConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4199,12 +4322,14 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerRegisterStickyModifierStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IStickyModifierStateListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewStickyModifierStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RegisterStickyModifierStateListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4214,12 +4339,14 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerUnregisterStickyModifierStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IStickyModifierStateListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewStickyModifierStateListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.UnregisterStickyModifierStateListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4266,7 +4393,7 @@ type IInputManagerServer interface {
 	GetKeyboardLayoutListForInputDevice(ctx context.Context, identifier InputDeviceIdentifier, imeInfo inputmethod.InputMethodInfo, imeSubtype inputmethod.InputMethodSubtype) ([]KeyboardLayout, error)
 	RemapModifierKey(ctx context.Context, fromKey int32, toKey int32) error
 	ClearAllModifierKeyRemappings(ctx context.Context) error
-	GetModifierKeyRemapping(ctx context.Context) (map[interface{}]interface{}, error)
+	GetModifierKeyRemapping(ctx context.Context) (map[any]any, error)
 	RegisterInputDevicesChangedListener(ctx context.Context, listener IInputDevicesChangedListener) error
 	IsInTabletMode(ctx context.Context) (int32, error)
 	RegisterTabletModeChangedListener(ctx context.Context, listener ITabletModeChangedListener) error
@@ -4541,7 +4668,7 @@ func (w *inputManagerStubWrapper) ClearAllModifierKeyRemappings(
 
 func (w *inputManagerStubWrapper) GetModifierKeyRemapping(
 	ctx context.Context,
-) (map[interface{}]interface{}, error) {
+) (map[any]any, error) {
 	return w.impl.GetModifierKeyRemapping(ctx)
 }
 

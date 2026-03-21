@@ -78,6 +78,7 @@ func (p *QSServiceProxy) GetTile(
 ) (Tile, error) {
 	var _result Tile
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSService)
 	binder.WriteBinderToParcel(ctx, _data, tile, p.Remote.Transport())
 
@@ -114,6 +115,7 @@ func (p *QSServiceProxy) UpdateQsTile(
 	service binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSService)
 	_data.WriteInt32(1)
 	if _err := tile.MarshalParcel(_data); _err != nil {
@@ -146,6 +148,7 @@ func (p *QSServiceProxy) UpdateStatusIcon(
 	contentDescription string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSService)
 	binder.WriteBinderToParcel(ctx, _data, tile, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -177,6 +180,7 @@ func (p *QSServiceProxy) OnShowDialog(
 	tile binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSService)
 	binder.WriteBinderToParcel(ctx, _data, tile, p.Remote.Transport())
 
@@ -203,6 +207,7 @@ func (p *QSServiceProxy) OnStartActivity(
 	tile binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSService)
 	binder.WriteBinderToParcel(ctx, _data, tile, p.Remote.Transport())
 
@@ -230,6 +235,7 @@ func (p *QSServiceProxy) StartActivity(
 	pendingIntent app.PendingIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSService)
 	binder.WriteBinderToParcel(ctx, _data, tile, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -260,6 +266,7 @@ func (p *QSServiceProxy) IsLocked(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSService, MethodIQSServiceIsLocked)
@@ -289,6 +296,7 @@ func (p *QSServiceProxy) IsSecure(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSService, MethodIQSServiceIsSecure)
@@ -318,6 +326,7 @@ func (p *QSServiceProxy) StartUnlockAndRun(
 	tile binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSService)
 	binder.WriteBinderToParcel(ctx, _data, tile, p.Remote.Transport())
 
@@ -344,6 +353,7 @@ func (p *QSServiceProxy) OnDialogHidden(
 	tile binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSService)
 	binder.WriteBinderToParcel(ctx, _data, tile, p.Remote.Transport())
 
@@ -370,6 +380,7 @@ func (p *QSServiceProxy) OnStartSuccessful(
 	tile binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIQSService)
 	binder.WriteBinderToParcel(ctx, _data, tile, p.Remote.Transport())
 
@@ -394,7 +405,8 @@ func (p *QSServiceProxy) OnStartSuccessful(
 // QSServiceStub dispatches incoming binder transactions
 // to a typed IQSService implementation.
 type QSServiceStub struct {
-	Impl IQSService
+	Impl      IQSService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*QSServiceStub)(nil)
@@ -408,14 +420,20 @@ func (s *QSServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIQSServiceGetTile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_tile binder.IBinder
-		_ = _arg_tile
+		{
+			_tileHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tile = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tileHandle)
+		}
 		_result, _err := s.Impl.GetTile(ctx, _arg_tile)
 		_reply := parcel.New()
 		if _err != nil {
@@ -429,9 +447,6 @@ func (s *QSServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIQSServiceUpdateQsTile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_tile Tile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -444,9 +459,14 @@ func (s *QSServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_service binder.IBinder
-		_ = _arg_service
+		{
+			_serviceHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_service = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _serviceHandle)
+		}
 		_err := s.Impl.UpdateQsTile(ctx, _arg_tile, _arg_service)
 		_reply := parcel.New()
 		if _err != nil {
@@ -456,12 +476,14 @@ func (s *QSServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIQSServiceUpdateStatusIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_tile binder.IBinder
-		_ = _arg_tile
+		{
+			_tileHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tile = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tileHandle)
+		}
 		var _arg_icon drawable.Icon
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -487,12 +509,14 @@ func (s *QSServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIQSServiceOnShowDialog:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_tile binder.IBinder
-		_ = _arg_tile
+		{
+			_tileHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tile = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tileHandle)
+		}
 		_err := s.Impl.OnShowDialog(ctx, _arg_tile)
 		_reply := parcel.New()
 		if _err != nil {
@@ -502,12 +526,14 @@ func (s *QSServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIQSServiceOnStartActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_tile binder.IBinder
-		_ = _arg_tile
+		{
+			_tileHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tile = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tileHandle)
+		}
 		_err := s.Impl.OnStartActivity(ctx, _arg_tile)
 		_reply := parcel.New()
 		if _err != nil {
@@ -517,12 +543,14 @@ func (s *QSServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIQSServiceStartActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_tile binder.IBinder
-		_ = _arg_tile
+		{
+			_tileHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tile = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tileHandle)
+		}
 		var _arg_pendingIntent app.PendingIntent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -544,9 +572,6 @@ func (s *QSServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIQSServiceIsLocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsLocked(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -557,9 +582,6 @@ func (s *QSServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIQSServiceIsSecure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsSecure(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -570,12 +592,14 @@ func (s *QSServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIQSServiceStartUnlockAndRun:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_tile binder.IBinder
-		_ = _arg_tile
+		{
+			_tileHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tile = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tileHandle)
+		}
 		_err := s.Impl.StartUnlockAndRun(ctx, _arg_tile)
 		_reply := parcel.New()
 		if _err != nil {
@@ -585,12 +609,14 @@ func (s *QSServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIQSServiceOnDialogHidden:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_tile binder.IBinder
-		_ = _arg_tile
+		{
+			_tileHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tile = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tileHandle)
+		}
 		_err := s.Impl.OnDialogHidden(ctx, _arg_tile)
 		_reply := parcel.New()
 		if _err != nil {
@@ -600,12 +626,14 @@ func (s *QSServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIQSServiceOnStartSuccessful:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_tile binder.IBinder
-		_ = _arg_tile
+		{
+			_tileHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tile = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tileHandle)
+		}
 		_err := s.Impl.OnStartSuccessful(ctx, _arg_tile)
 		_reply := parcel.New()
 		if _err != nil {

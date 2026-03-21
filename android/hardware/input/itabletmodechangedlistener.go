@@ -46,6 +46,7 @@ func (p *TabletModeChangedListenerProxy) OnTabletModeChanged(
 	inTabletMode bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITabletModeChangedListener)
 	_data.WriteInt64(whenNanos)
 	_data.WriteBool(inTabletMode)
@@ -62,7 +63,8 @@ func (p *TabletModeChangedListenerProxy) OnTabletModeChanged(
 // TabletModeChangedListenerStub dispatches incoming binder transactions
 // to a typed ITabletModeChangedListener implementation.
 type TabletModeChangedListenerStub struct {
-	Impl ITabletModeChangedListener
+	Impl      ITabletModeChangedListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TabletModeChangedListenerStub)(nil)
@@ -76,11 +78,12 @@ func (s *TabletModeChangedListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITabletModeChangedListenerOnTabletModeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_whenNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -90,8 +93,7 @@ func (s *TabletModeChangedListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnTabletModeChanged(ctx, _arg_whenNanos, _arg_inTabletMode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

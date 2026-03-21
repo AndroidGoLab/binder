@@ -1,0 +1,143 @@
+package: android.service.controls
+go_package: android/service/controls
+interfaces:
+    - name: IControlsActionCallback
+      descriptor: android.service.controls.IControlsActionCallback
+      oneway: true
+      methods:
+        - name: accept
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: controlId
+              type:
+                name: String
+              direction: in
+            - name: response
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IControlsProvider
+      descriptor: android.service.controls.IControlsProvider
+      oneway: true
+      methods:
+        - name: load
+          transaction_code_offset: 0
+          params:
+            - name: subscriber
+              type:
+                name: IControlsSubscriber
+          return_type:
+            name: void
+        - name: loadSuggested
+          transaction_code_offset: 1
+          params:
+            - name: subscriber
+              type:
+                name: IControlsSubscriber
+          return_type:
+            name: void
+        - name: subscribe
+          transaction_code_offset: 2
+          params:
+            - name: controlIds
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: subscriber
+              type:
+                name: IControlsSubscriber
+          return_type:
+            name: void
+        - name: action
+          transaction_code_offset: 3
+          params:
+            - name: controlId
+              type:
+                name: String
+              direction: in
+            - name: action
+              type:
+                name: ControlActionWrapper
+              direction: in
+            - name: cb
+              type:
+                name: IControlsActionCallback
+          return_type:
+            name: void
+    - name: IControlsSubscriber
+      descriptor: android.service.controls.IControlsSubscriber
+      oneway: true
+      methods:
+        - name: onSubscribe
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: cs
+              type:
+                name: IControlsSubscription
+              direction: in
+          return_type:
+            name: void
+        - name: onNext
+          transaction_code_offset: 1
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: c
+              type:
+                name: Control
+              direction: in
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 2
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: s
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onComplete
+          transaction_code_offset: 3
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+    - name: IControlsSubscription
+      descriptor: android.service.controls.IControlsSubscription
+      oneway: true
+      methods:
+        - name: request
+          transaction_code_offset: 0
+          params:
+            - name: "n"
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: cancel
+          transaction_code_offset: 1
+          return_type:
+            name: void
+parcelables:
+    - name: Control

@@ -10,7 +10,7 @@ type GnssData struct {
 	Measurements    []GnssMeasurement
 	Clock           GnssClock
 	ElapsedRealtime ElapsedRealtime
-	GnssAgcs        []interface{}
+	GnssAgcs        []GnssDataGnssAgc
 	IsFullTracking  bool
 }
 
@@ -41,6 +41,12 @@ func (s *GnssData) MarshalParcel(
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.GnssAgcs)))
+		for _, _item := range s.GnssAgcs {
+			p.WriteInt32(1)
+			if _err := _item.MarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
 	}
 	p.WriteBool(s.IsFullTracking)
 
@@ -54,6 +60,11 @@ func (s *GnssData) UnmarshalParcel(
 	_endPos, _err := parcel.ReadParcelableHeader(p)
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -73,12 +84,27 @@ func (s *GnssData) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Clock.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.ElapsedRealtime.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count1 int32
@@ -87,9 +113,20 @@ func (s *GnssData) UnmarshalParcel(
 		return _err
 	}
 	if _count1 >= 0 {
-		s.GnssAgcs = make([]interface{}, _count1)
+		s.GnssAgcs = make([]GnssDataGnssAgc, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
+			if _err = s.GnssAgcs[_i].UnmarshalParcel(p); _err != nil {
+				return _err
+			}
 		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.IsFullTracking, _err = p.ReadBool()

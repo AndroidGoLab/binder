@@ -3,6 +3,7 @@ package pm
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -23,8 +24,8 @@ const (
 
 type IShortcutChangeCallback interface {
 	AsBinder() binder.IBinder
-	OnShortcutsAddedOrUpdated(ctx context.Context, packageName string, shortcuts []ShortcutInfo, user interface{}) error
-	OnShortcutsRemoved(ctx context.Context, packageName string, shortcuts []ShortcutInfo, user interface{}) error
+	OnShortcutsAddedOrUpdated(ctx context.Context, packageName string, shortcuts []ShortcutInfo, user os.UserHandle) error
+	OnShortcutsRemoved(ctx context.Context, packageName string, shortcuts []ShortcutInfo, user os.UserHandle) error
 }
 
 type ShortcutChangeCallbackProxy struct {
@@ -47,9 +48,10 @@ func (p *ShortcutChangeCallbackProxy) OnShortcutsAddedOrUpdated(
 	ctx context.Context,
 	packageName string,
 	shortcuts []ShortcutInfo,
-	user interface{},
+	user os.UserHandle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutChangeCallback)
 	_data.WriteString16(packageName)
 	if shortcuts == nil {
@@ -62,6 +64,10 @@ func (p *ShortcutChangeCallbackProxy) OnShortcutsAddedOrUpdated(
 				return _err
 			}
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutChangeCallback, MethodIShortcutChangeCallbackOnShortcutsAddedOrUpdated)
@@ -77,9 +83,10 @@ func (p *ShortcutChangeCallbackProxy) OnShortcutsRemoved(
 	ctx context.Context,
 	packageName string,
 	shortcuts []ShortcutInfo,
-	user interface{},
+	user os.UserHandle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIShortcutChangeCallback)
 	_data.WriteString16(packageName)
 	if shortcuts == nil {
@@ -92,6 +99,10 @@ func (p *ShortcutChangeCallbackProxy) OnShortcutsRemoved(
 				return _err
 			}
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutChangeCallback, MethodIShortcutChangeCallbackOnShortcutsRemoved)
@@ -106,7 +117,8 @@ func (p *ShortcutChangeCallbackProxy) OnShortcutsRemoved(
 // ShortcutChangeCallbackStub dispatches incoming binder transactions
 // to a typed IShortcutChangeCallback implementation.
 type ShortcutChangeCallbackStub struct {
-	Impl IShortcutChangeCallback
+	Impl      IShortcutChangeCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ShortcutChangeCallbackStub)(nil)
@@ -120,37 +132,91 @@ func (s *ShortcutChangeCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIShortcutChangeCallbackOnShortcutsAddedOrUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_shortcuts []ShortcutInfo
-		_ = _arg_shortcuts
-		var _arg_user interface{}
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_shortcuts = make([]ShortcutInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_shortcuts[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnShortcutsAddedOrUpdated(ctx, _arg_packageName, _arg_shortcuts, _arg_user)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIShortcutChangeCallbackOnShortcutsRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_shortcuts []ShortcutInfo
-		_ = _arg_shortcuts
-		var _arg_user interface{}
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_shortcuts = make([]ShortcutInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_shortcuts[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnShortcutsRemoved(ctx, _arg_packageName, _arg_shortcuts, _arg_user)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -160,8 +226,8 @@ func (s *ShortcutChangeCallbackStub) OnTransaction(
 // provide to NewShortcutChangeCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IShortcutChangeCallbackServer interface {
-	OnShortcutsAddedOrUpdated(ctx context.Context, packageName string, shortcuts []ShortcutInfo, user interface{}) error
-	OnShortcutsRemoved(ctx context.Context, packageName string, shortcuts []ShortcutInfo, user interface{}) error
+	OnShortcutsAddedOrUpdated(ctx context.Context, packageName string, shortcuts []ShortcutInfo, user os.UserHandle) error
+	OnShortcutsRemoved(ctx context.Context, packageName string, shortcuts []ShortcutInfo, user os.UserHandle) error
 }
 
 type shortcutChangeCallbackStubWrapper struct {
@@ -177,7 +243,7 @@ func (w *shortcutChangeCallbackStubWrapper) OnShortcutsAddedOrUpdated(
 	ctx context.Context,
 	packageName string,
 	shortcuts []ShortcutInfo,
-	user interface{},
+	user os.UserHandle,
 ) error {
 	return w.impl.OnShortcutsAddedOrUpdated(ctx, packageName, shortcuts, user)
 }
@@ -186,7 +252,7 @@ func (w *shortcutChangeCallbackStubWrapper) OnShortcutsRemoved(
 	ctx context.Context,
 	packageName string,
 	shortcuts []ShortcutInfo,
-	user interface{},
+	user os.UserHandle,
 ) error {
 	return w.impl.OnShortcutsRemoved(ctx, packageName, shortcuts, user)
 }

@@ -59,6 +59,7 @@ func (p *FileProxy) Read(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFile)
 	_data.WriteInt64(size)
 	_data.WriteInt64(offset)
@@ -78,19 +79,9 @@ func (p *FileProxy) Read(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -102,16 +93,10 @@ func (p *FileProxy) Write(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFile)
 	_data.WriteInt64(offset)
-	if buffer == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(buffer)))
-		for _, _item := range buffer {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(buffer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFile, MethodIFileWrite)
 	if _err != nil {
@@ -140,6 +125,7 @@ func (p *FileProxy) GetSize(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFile)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFile, MethodIFileGetSize)
@@ -169,6 +155,7 @@ func (p *FileProxy) SetSize(
 	newSize int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFile)
 	_data.WriteInt64(newSize)
 
@@ -196,6 +183,7 @@ func (p *FileProxy) Rename(
 	destCreateMode CreationMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFile)
 	_data.WriteString16(destPath)
 	_data.WriteInt32(int32(destCreateMode))
@@ -221,7 +209,8 @@ func (p *FileProxy) Rename(
 // FileStub dispatches incoming binder transactions
 // to a typed IFile implementation.
 type FileStub struct {
-	Impl IFile
+	Impl      IFile
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FileStub)(nil)
@@ -235,11 +224,12 @@ func (s *FileStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFileRead:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_size, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -255,20 +245,21 @@ func (s *FileStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionIFileWrite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_offset, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_buffer []byte
-		_ = _arg_buffer
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_buffer = _bytes
+		}
 		_result, _err := s.Impl.Write(ctx, _arg_offset, _arg_buffer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -279,9 +270,6 @@ func (s *FileStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFileGetSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSize(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -292,9 +280,6 @@ func (s *FileStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFileSetSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_newSize, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -308,9 +293,6 @@ func (s *FileStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFileRename:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_destPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

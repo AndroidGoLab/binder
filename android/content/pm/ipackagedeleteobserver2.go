@@ -49,6 +49,7 @@ func (p *PackageDeleteObserver2Proxy) OnUserActionRequired(
 	intent content.Intent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageDeleteObserver2)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -71,6 +72,7 @@ func (p *PackageDeleteObserver2Proxy) OnPackageDeleted(
 	msg string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageDeleteObserver2)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(returnCode)
@@ -88,7 +90,8 @@ func (p *PackageDeleteObserver2Proxy) OnPackageDeleted(
 // PackageDeleteObserver2Stub dispatches incoming binder transactions
 // to a typed IPackageDeleteObserver2 implementation.
 type PackageDeleteObserver2Stub struct {
-	Impl IPackageDeleteObserver2
+	Impl      IPackageDeleteObserver2
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PackageDeleteObserver2Stub)(nil)
@@ -102,11 +105,12 @@ func (s *PackageDeleteObserver2Stub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPackageDeleteObserver2OnUserActionRequired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -120,12 +124,8 @@ func (s *PackageDeleteObserver2Stub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnUserActionRequired(ctx, _arg_intent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIPackageDeleteObserver2OnPackageDeleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -139,8 +139,7 @@ func (s *PackageDeleteObserver2Stub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPackageDeleted(ctx, _arg_packageName, _arg_returnCode, _arg_msg)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

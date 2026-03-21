@@ -46,6 +46,7 @@ func (p *GetDefaultSmdpAddressCallbackProxy) OnComplete(
 	address string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGetDefaultSmdpAddressCallback)
 	_data.WriteInt32(resultCode)
 	_data.WriteString16(address)
@@ -62,7 +63,8 @@ func (p *GetDefaultSmdpAddressCallbackProxy) OnComplete(
 // GetDefaultSmdpAddressCallbackStub dispatches incoming binder transactions
 // to a typed IGetDefaultSmdpAddressCallback implementation.
 type GetDefaultSmdpAddressCallbackStub struct {
-	Impl IGetDefaultSmdpAddressCallback
+	Impl      IGetDefaultSmdpAddressCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GetDefaultSmdpAddressCallbackStub)(nil)
@@ -76,11 +78,12 @@ func (s *GetDefaultSmdpAddressCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGetDefaultSmdpAddressCallbackOnComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -90,8 +93,7 @@ func (s *GetDefaultSmdpAddressCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnComplete(ctx, _arg_resultCode, _arg_address)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

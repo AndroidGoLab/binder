@@ -3,6 +3,7 @@ package credentials
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/app/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -25,7 +26,7 @@ const (
 
 type ICreateCredentialCallback interface {
 	AsBinder() binder.IBinder
-	OnPendingIntent(ctx context.Context, pendingIntent interface{}) error
+	OnPendingIntent(ctx context.Context, pendingIntent types.PendingIntent) error
 	OnResponse(ctx context.Context, response CreateCredentialResponse) error
 	OnError(ctx context.Context, errorType string, message string) error
 }
@@ -48,10 +49,12 @@ var _ ICreateCredentialCallback = (*CreateCredentialCallbackProxy)(nil)
 
 func (p *CreateCredentialCallbackProxy) OnPendingIntent(
 	ctx context.Context,
-	pendingIntent interface{},
+	pendingIntent types.PendingIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICreateCredentialCallback)
+	// WARNING: param pendingIntent (type types.PendingIntent) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICreateCredentialCallback, MethodICreateCredentialCallbackOnPendingIntent)
 	if _err != nil {
@@ -67,6 +70,7 @@ func (p *CreateCredentialCallbackProxy) OnResponse(
 	response CreateCredentialResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICreateCredentialCallback)
 	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
@@ -88,6 +92,7 @@ func (p *CreateCredentialCallbackProxy) OnError(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICreateCredentialCallback)
 	_data.WriteString16(errorType)
 	_data.WriteString16(message)
@@ -104,7 +109,8 @@ func (p *CreateCredentialCallbackProxy) OnError(
 // CreateCredentialCallbackStub dispatches incoming binder transactions
 // to a typed ICreateCredentialCallback implementation.
 type CreateCredentialCallbackStub struct {
-	Impl ICreateCredentialCallback
+	Impl      ICreateCredentialCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CreateCredentialCallbackStub)(nil)
@@ -118,19 +124,16 @@ func (s *CreateCredentialCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICreateCredentialCallbackOnPendingIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_pendingIntent interface{}
+		var _arg_pendingIntent types.PendingIntent
 		_err := s.Impl.OnPendingIntent(ctx, _arg_pendingIntent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICreateCredentialCallbackOnResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_response CreateCredentialResponse
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -144,12 +147,8 @@ func (s *CreateCredentialCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnResponse(ctx, _arg_response)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionICreateCredentialCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -159,8 +158,7 @@ func (s *CreateCredentialCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_errorType, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -170,7 +168,7 @@ func (s *CreateCredentialCallbackStub) OnTransaction(
 // provide to NewCreateCredentialCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ICreateCredentialCallbackServer interface {
-	OnPendingIntent(ctx context.Context, pendingIntent interface{}) error
+	OnPendingIntent(ctx context.Context, pendingIntent types.PendingIntent) error
 	OnResponse(ctx context.Context, response CreateCredentialResponse) error
 	OnError(ctx context.Context, errorType string, message string) error
 }
@@ -186,7 +184,7 @@ func (w *createCredentialCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *createCredentialCallbackStubWrapper) OnPendingIntent(
 	ctx context.Context,
-	pendingIntent interface{},
+	pendingIntent types.PendingIntent,
 ) error {
 	return w.impl.OnPendingIntent(ctx, pendingIntent)
 }

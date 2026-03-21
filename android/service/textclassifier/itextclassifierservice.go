@@ -75,6 +75,7 @@ func (p *TextClassifierServiceProxy) OnSuggestSelection(
 	callback ITextClassifierCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -102,6 +103,7 @@ func (p *TextClassifierServiceProxy) OnClassifyText(
 	callback ITextClassifierCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -129,6 +131,7 @@ func (p *TextClassifierServiceProxy) OnGenerateLinks(
 	callback ITextClassifierCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -155,6 +158,7 @@ func (p *TextClassifierServiceProxy) OnSelectionEvent(
 	event viewTextclassifier.SelectionEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -180,6 +184,7 @@ func (p *TextClassifierServiceProxy) OnTextClassifierEvent(
 	event viewTextclassifier.TextClassifierEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -205,6 +210,7 @@ func (p *TextClassifierServiceProxy) OnCreateTextClassificationSession(
 	sessionId viewTextclassifier.TextClassificationSessionId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
 	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
@@ -229,6 +235,7 @@ func (p *TextClassifierServiceProxy) OnDestroyTextClassificationSession(
 	sessionId viewTextclassifier.TextClassificationSessionId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -251,6 +258,7 @@ func (p *TextClassifierServiceProxy) OnDetectLanguage(
 	callback ITextClassifierCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -278,6 +286,7 @@ func (p *TextClassifierServiceProxy) OnSuggestConversationActions(
 	callback ITextClassifierCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
 	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
@@ -303,6 +312,7 @@ func (p *TextClassifierServiceProxy) OnConnectedStateChanged(
 	connected int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
 	_data.WriteInt32(connected)
 
@@ -318,7 +328,8 @@ func (p *TextClassifierServiceProxy) OnConnectedStateChanged(
 // TextClassifierServiceStub dispatches incoming binder transactions
 // to a typed ITextClassifierService implementation.
 type TextClassifierServiceStub struct {
-	Impl ITextClassifierService
+	Impl      ITextClassifierService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TextClassifierServiceStub)(nil)
@@ -332,11 +343,12 @@ func (s *TextClassifierServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITextClassifierServiceOnSuggestSelection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId viewTextclassifier.TextClassificationSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -361,16 +373,17 @@ func (s *TextClassifierServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITextClassifierCallback
-		_ = _arg_callback
-		_err := s.Impl.OnSuggestSelection(ctx, _arg_sessionId, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionITextClassifierServiceOnClassifyText:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTextClassifierCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.OnSuggestSelection(ctx, _arg_sessionId, _arg_request, _arg_callback)
+		return nil, _err
+	case TransactionITextClassifierServiceOnClassifyText:
 		var _arg_sessionId viewTextclassifier.TextClassificationSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -395,16 +408,17 @@ func (s *TextClassifierServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITextClassifierCallback
-		_ = _arg_callback
-		_err := s.Impl.OnClassifyText(ctx, _arg_sessionId, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionITextClassifierServiceOnGenerateLinks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTextClassifierCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.OnClassifyText(ctx, _arg_sessionId, _arg_request, _arg_callback)
+		return nil, _err
+	case TransactionITextClassifierServiceOnGenerateLinks:
 		var _arg_sessionId viewTextclassifier.TextClassificationSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -429,16 +443,17 @@ func (s *TextClassifierServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITextClassifierCallback
-		_ = _arg_callback
-		_err := s.Impl.OnGenerateLinks(ctx, _arg_sessionId, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionITextClassifierServiceOnSelectionEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTextClassifierCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.OnGenerateLinks(ctx, _arg_sessionId, _arg_request, _arg_callback)
+		return nil, _err
+	case TransactionITextClassifierServiceOnSelectionEvent:
 		var _arg_sessionId viewTextclassifier.TextClassificationSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -464,12 +479,8 @@ func (s *TextClassifierServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSelectionEvent(ctx, _arg_sessionId, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITextClassifierServiceOnTextClassifierEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId viewTextclassifier.TextClassificationSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -495,12 +506,8 @@ func (s *TextClassifierServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnTextClassifierEvent(ctx, _arg_sessionId, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITextClassifierServiceOnCreateTextClassificationSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_context_ viewTextclassifier.TextClassificationContext
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -526,12 +533,8 @@ func (s *TextClassifierServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnCreateTextClassificationSession(ctx, _arg_context_, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITextClassifierServiceOnDestroyTextClassificationSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId viewTextclassifier.TextClassificationSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -545,12 +548,8 @@ func (s *TextClassifierServiceStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDestroyTextClassificationSession(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITextClassifierServiceOnDetectLanguage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_sessionId viewTextclassifier.TextClassificationSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -575,16 +574,17 @@ func (s *TextClassifierServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITextClassifierCallback
-		_ = _arg_callback
-		_err := s.Impl.OnDetectLanguage(ctx, _arg_sessionId, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionITextClassifierServiceOnSuggestConversationActions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTextClassifierCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.OnDetectLanguage(ctx, _arg_sessionId, _arg_request, _arg_callback)
+		return nil, _err
+	case TransactionITextClassifierServiceOnSuggestConversationActions:
 		var _arg_sessionId viewTextclassifier.TextClassificationSessionId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -609,23 +609,23 @@ func (s *TextClassifierServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITextClassifierCallback
-		_ = _arg_callback
-		_err := s.Impl.OnSuggestConversationActions(ctx, _arg_sessionId, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionITextClassifierServiceOnConnectedStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTextClassifierCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.OnSuggestConversationActions(ctx, _arg_sessionId, _arg_request, _arg_callback)
+		return nil, _err
+	case TransactionITextClassifierServiceOnConnectedStateChanged:
 		_arg_connected, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnConnectedStateChanged(ctx, _arg_connected)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

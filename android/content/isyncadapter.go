@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	accounts "github.com/xaionaro-go/binder/android/accounts"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -27,7 +28,7 @@ const (
 type ISyncAdapter interface {
 	AsBinder() binder.IBinder
 	OnUnsyncableAccount(ctx context.Context, cb ISyncAdapterUnsyncableAccountCallback) error
-	StartSync(ctx context.Context, syncContext ISyncContext, authority string, account accounts.Account, extras interface{}) error
+	StartSync(ctx context.Context, syncContext ISyncContext, authority string, account accounts.Account, extras os.Bundle) error
 	CancelSync(ctx context.Context, syncContext ISyncContext) error
 }
 
@@ -52,6 +53,7 @@ func (p *SyncAdapterProxy) OnUnsyncableAccount(
 	cb ISyncAdapterUnsyncableAccountCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISyncAdapter)
 	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
@@ -69,14 +71,19 @@ func (p *SyncAdapterProxy) StartSync(
 	syncContext ISyncContext,
 	authority string,
 	account accounts.Account,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISyncAdapter)
 	binder.WriteBinderToParcel(ctx, _data, syncContext.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(authority)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -94,6 +101,7 @@ func (p *SyncAdapterProxy) CancelSync(
 	syncContext ISyncContext,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISyncAdapter)
 	binder.WriteBinderToParcel(ctx, _data, syncContext.AsBinder(), p.Remote.Transport())
 
@@ -109,7 +117,8 @@ func (p *SyncAdapterProxy) CancelSync(
 // SyncAdapterStub dispatches incoming binder transactions
 // to a typed ISyncAdapter implementation.
 type SyncAdapterStub struct {
-	Impl ISyncAdapter
+	Impl      ISyncAdapter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SyncAdapterStub)(nil)
@@ -123,24 +132,31 @@ func (s *SyncAdapterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISyncAdapterOnUnsyncableAccount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb ISyncAdapterUnsyncableAccountCallback
-		_ = _arg_cb
-		_err := s.Impl.OnUnsyncableAccount(ctx, _arg_cb)
-		_ = _err
-		return nil, nil
-	case TransactionISyncAdapterStartSync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_cbHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cb = NewSyncAdapterUnsyncableAccountCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err := s.Impl.OnUnsyncableAccount(ctx, _arg_cb)
+		return nil, _err
+	case TransactionISyncAdapterStartSync:
 		var _arg_syncContext ISyncContext
-		_ = _arg_syncContext
+		{
+			_syncContextHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_syncContext = NewSyncContextProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _syncContextHandle))
+		}
 		_arg_authority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -157,20 +173,31 @@ func (s *SyncAdapterStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_extras interface{}
-		_err = s.Impl.StartSync(ctx, _arg_syncContext, _arg_authority, _arg_account, _arg_extras)
-		_ = _err
-		return nil, nil
-	case TransactionISyncAdapterCancelSync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		_err = s.Impl.StartSync(ctx, _arg_syncContext, _arg_authority, _arg_account, _arg_extras)
+		return nil, _err
+	case TransactionISyncAdapterCancelSync:
 		var _arg_syncContext ISyncContext
-		_ = _arg_syncContext
+		{
+			_syncContextHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_syncContext = NewSyncContextProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _syncContextHandle))
+		}
 		_err := s.Impl.CancelSync(ctx, _arg_syncContext)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -181,7 +208,7 @@ func (s *SyncAdapterStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type ISyncAdapterServer interface {
 	OnUnsyncableAccount(ctx context.Context, cb ISyncAdapterUnsyncableAccountCallback) error
-	StartSync(ctx context.Context, syncContext ISyncContext, authority string, account accounts.Account, extras interface{}) error
+	StartSync(ctx context.Context, syncContext ISyncContext, authority string, account accounts.Account, extras os.Bundle) error
 	CancelSync(ctx context.Context, syncContext ISyncContext) error
 }
 
@@ -206,7 +233,7 @@ func (w *syncAdapterStubWrapper) StartSync(
 	syncContext ISyncContext,
 	authority string,
 	account accounts.Account,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.StartSync(ctx, syncContext, authority, account, extras)
 }

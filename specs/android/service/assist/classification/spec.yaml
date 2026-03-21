@@ -1,0 +1,72 @@
+package: android.service.assist.classification
+go_package: android/service/assist/classification
+interfaces:
+    - name: IFieldClassificationCallback
+      descriptor: android.service.assist.classification.IFieldClassificationCallback
+      methods:
+        - name: onCancellable
+          transaction_code_offset: 0
+          params:
+            - name: cancellation
+              type:
+                name: ICancellationSignal
+              direction: in
+          return_type:
+            name: void
+        - name: onSuccess
+          transaction_code_offset: 1
+          params:
+            - name: response
+              type:
+                name: FieldClassificationResponse
+              direction: in
+          return_type:
+            name: void
+        - name: onFailure
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: isCompleted
+          transaction_code_offset: 3
+          return_type:
+            name: boolean
+        - name: cancel
+          transaction_code_offset: 4
+          return_type:
+            name: void
+    - name: IFieldClassificationService
+      descriptor: android.service.assist.classification.IFieldClassificationService
+      oneway: true
+      methods:
+        - name: onConnected
+          transaction_code_offset: 0
+          params:
+            - name: debug
+              type:
+                name: boolean
+            - name: verbose
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onDisconnected
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onFieldClassificationRequest
+          transaction_code_offset: 2
+          params:
+            - name: request
+              type:
+                name: FieldClassificationRequest
+              direction: in
+            - name: callback
+              type:
+                name: IFieldClassificationCallback
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: FieldClassification
+    - name: FieldClassificationRequest
+    - name: FieldClassificationResponse

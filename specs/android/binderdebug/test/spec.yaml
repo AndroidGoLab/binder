@@ -1,0 +1,10 @@
+package: android.binderdebug.test
+go_package: android/binderdebug/test
+interfaces:
+    - name: IControl
+      descriptor: android.binderdebug.test.IControl
+      methods:
+        - name: Continue
+          transaction_code_offset: 0
+          return_type:
+            name: void

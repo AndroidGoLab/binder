@@ -66,6 +66,7 @@ func (p *SatelliteListenerProxy) OnSatelliteProvisionStateChanged(
 	provisioned bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
 	_data.WriteBool(provisioned)
 
@@ -84,6 +85,7 @@ func (p *SatelliteListenerProxy) OnSatelliteDatagramReceived(
 	pendingCount int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
 	_data.WriteInt32(1)
 	if _err := datagram.MarshalParcel(_data); _err != nil {
@@ -104,6 +106,7 @@ func (p *SatelliteListenerProxy) OnPendingDatagrams(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteListener, MethodISatelliteListenerOnPendingDatagrams)
@@ -120,6 +123,7 @@ func (p *SatelliteListenerProxy) OnSatellitePositionChanged(
 	pointingInfo PointingInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
 	_data.WriteInt32(1)
 	if _err := pointingInfo.MarshalParcel(_data); _err != nil {
@@ -140,6 +144,7 @@ func (p *SatelliteListenerProxy) OnSatelliteModemStateChanged(
 	state SatelliteModemState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
 	_data.WriteInt32(int32(state))
 
@@ -157,6 +162,7 @@ func (p *SatelliteListenerProxy) OnNtnSignalStrengthChanged(
 	ntnSignalStrength NtnSignalStrength,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
 	_data.WriteInt32(1)
 	if _err := ntnSignalStrength.MarshalParcel(_data); _err != nil {
@@ -177,6 +183,7 @@ func (p *SatelliteListenerProxy) OnSatelliteCapabilitiesChanged(
 	capabilities SatelliteCapabilities,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
 	_data.WriteInt32(1)
 	if _err := capabilities.MarshalParcel(_data); _err != nil {
@@ -197,6 +204,7 @@ func (p *SatelliteListenerProxy) OnSatelliteSupportedStateChanged(
 	supported bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
 	_data.WriteBool(supported)
 
@@ -212,7 +220,8 @@ func (p *SatelliteListenerProxy) OnSatelliteSupportedStateChanged(
 // SatelliteListenerStub dispatches incoming binder transactions
 // to a typed ISatelliteListener implementation.
 type SatelliteListenerStub struct {
-	Impl ISatelliteListener
+	Impl      ISatelliteListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SatelliteListenerStub)(nil)
@@ -226,22 +235,19 @@ func (s *SatelliteListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISatelliteListenerOnSatelliteProvisionStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provisioned, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSatelliteProvisionStateChanged(ctx, _arg_provisioned)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteListenerOnSatelliteDatagramReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_datagram SatelliteDatagram
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -259,19 +265,11 @@ func (s *SatelliteListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSatelliteDatagramReceived(ctx, _arg_datagram, _arg_pendingCount)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteListenerOnPendingDatagrams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnPendingDatagrams(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteListenerOnSatellitePositionChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_pointingInfo PointingInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -285,24 +283,16 @@ func (s *SatelliteListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSatellitePositionChanged(ctx, _arg_pointingInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteListenerOnSatelliteModemStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_state := SatelliteModemState(_raw_state)
 		_err = s.Impl.OnSatelliteModemStateChanged(ctx, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteListenerOnNtnSignalStrengthChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_ntnSignalStrength NtnSignalStrength
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -316,12 +306,8 @@ func (s *SatelliteListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnNtnSignalStrengthChanged(ctx, _arg_ntnSignalStrength)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteListenerOnSatelliteCapabilitiesChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_capabilities SatelliteCapabilities
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -335,19 +321,14 @@ func (s *SatelliteListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSatelliteCapabilitiesChanged(ctx, _arg_capabilities)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISatelliteListenerOnSatelliteSupportedStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_supported, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSatelliteSupportedStateChanged(ctx, _arg_supported)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

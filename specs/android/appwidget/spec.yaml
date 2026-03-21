@@ -1,0 +1,4 @@
+package: android.appwidget
+go_package: android/appwidget
+parcelables:
+    - name: AppWidgetProviderInfo

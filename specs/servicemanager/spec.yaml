@@ -1,0 +1,219 @@
+package: android.os
+go_package: servicemanager
+services:
+    - service_name: account
+      constant_name: ACCOUNT_SERVICE
+      descriptor: android.accounts.IAccountManager
+    - service_name: adb
+      constant_name: ADB_SERVICE
+      descriptor: android.debug.IAdbManager
+    - service_name: alarm
+      constant_name: ALARM_SERVICE
+      descriptor: IAlarmManager
+    - service_name: ambient_context
+      constant_name: AMBIENT_CONTEXT_SERVICE
+      descriptor: android.app.ambientcontext.IAmbientContextManager
+    - service_name: app_integrity
+      constant_name: APP_INTEGRITY_SERVICE
+      descriptor: android.content.integrity.IAppIntegrityManager
+    - service_name: appops
+      constant_name: APP_OPS_SERVICE
+      descriptor: com.android.internal.app.IAppOpsService
+    - service_name: appwidget
+      constant_name: APPWIDGET_SERVICE
+      descriptor: com.android.internal.appwidget.IAppWidgetService
+    - service_name: attestation_verification
+      constant_name: ATTESTATION_VERIFICATION_SERVICE
+      descriptor: android.security.attestationverification.IAttestationVerificationManagerService
+    - service_name: autofill
+      constant_name: AUTOFILL_MANAGER_SERVICE
+      descriptor: android.view.autofill.IAutoFillManager
+    - service_name: batterymanager
+      constant_name: BATTERY_SERVICE
+      descriptor: com.android.internal.app.IBatteryStats
+    - service_name: batterystats
+      constant_name: BATTERY_STATS_SERVICE
+      descriptor: com.android.internal.app.IBatteryStats
+    - service_name: biometric
+      constant_name: BIOMETRIC_SERVICE
+      descriptor: android.hardware.biometrics.IAuthService
+    - service_name: bugreport
+      constant_name: BUGREPORT_SERVICE
+      descriptor: android.os.IDumpstate
+    - service_name: companiondevice
+      constant_name: COMPANION_DEVICE_SERVICE
+      descriptor: android.companion.ICompanionDeviceManager
+    - service_name: content_capture
+      constant_name: CONTENT_CAPTURE_MANAGER_SERVICE
+      descriptor: android.view.contentcapture.IContentCaptureManager
+    - service_name: content_suggestions
+      constant_name: CONTENT_SUGGESTIONS_SERVICE
+      descriptor: android.app.contentsuggestions.IContentSuggestionsManager
+    - service_name: contexthub
+      constant_name: CONTEXTHUB_SERVICE
+      descriptor: android.hardware.location.IContextHubService
+    - service_name: credential
+      constant_name: CREDENTIAL_SERVICE
+      descriptor: android.credentials.ICredentialManager
+    - service_name: crossprofileapps
+      constant_name: CROSS_PROFILE_APPS_SERVICE
+      descriptor: android.content.pm.ICrossProfileApps
+    - service_name: dataloader_manager
+      constant_name: DATA_LOADER_MANAGER_SERVICE
+      descriptor: android.content.pm.IDataLoaderManager
+    - service_name: device_policy
+      constant_name: DEVICE_POLICY_SERVICE
+      descriptor: android.app.admin.IDevicePolicyManager
+    - service_name: domain_verification
+      constant_name: DOMAIN_VERIFICATION_SERVICE
+      descriptor: android.content.pm.verify.domain.IDomainVerificationManager
+    - service_name: dropbox
+      constant_name: DROPBOX_SERVICE
+      descriptor: com.android.internal.os.IDropBoxManagerService
+    - service_name: dynamic_system
+      constant_name: DYNAMIC_SYSTEM_SERVICE
+      descriptor: android.os.image.IDynamicSystemService
+    - service_name: face
+      constant_name: FACE_SERVICE
+      descriptor: android.hardware.face.IFaceService
+    - service_name: file_integrity
+      constant_name: FILE_INTEGRITY_SERVICE
+      descriptor: android.security.IFileIntegrityService
+    - service_name: fingerprint
+      constant_name: FINGERPRINT_SERVICE
+      descriptor: android.hardware.fingerprint.IFingerprintService
+    - service_name: font
+      constant_name: FONT_SERVICE
+      descriptor: com.android.internal.graphics.fonts.IFontManager
+    - service_name: grammatical_inflection
+      constant_name: GRAMMATICAL_INFLECTION_SERVICE
+      descriptor: IGrammaticalInflectionManager
+    - service_name: hardware_properties
+      constant_name: HARDWARE_PROPERTIES_SERVICE
+      descriptor: android.os.IHardwarePropertiesManager
+    - service_name: hdmi_control
+      constant_name: HDMI_CONTROL_SERVICE
+      descriptor: android.hardware.hdmi.IHdmiControlService
+    - service_name: incremental
+      constant_name: INCREMENTAL_SERVICE
+      descriptor: android.os.incremental.IIncrementalService
+    - service_name: iris
+      constant_name: IRIS_SERVICE
+      descriptor: android.hardware.iris.IIrisService
+    - service_name: locale
+      constant_name: LOCALE_SERVICE
+      descriptor: ILocaleManager
+    - service_name: location
+      constant_name: LOCATION_SERVICE
+      descriptor: android.location.ILocationManager
+    - service_name: media_metrics
+      constant_name: MEDIA_METRICS_SERVICE
+      descriptor: android.media.metrics.IMediaMetricsManager
+    - service_name: midi
+      constant_name: MIDI_SERVICE
+      descriptor: android.media.midi.IMidiManager
+    - service_name: music_recognition
+      constant_name: MUSIC_RECOGNITION_SERVICE
+      descriptor: android.media.musicrecognition.IMusicRecognitionManager
+    - service_name: netpolicy
+      constant_name: NETWORK_POLICY_SERVICE
+      descriptor: android.net.INetworkPolicyManager
+    - service_name: network_watchlist
+      constant_name: NETWORK_WATCHLIST_SERVICE
+      descriptor: com.android.internal.net.INetworkWatchlistManager
+    - service_name: oem_lock
+      constant_name: OEM_LOCK_SERVICE
+      descriptor: android.service.oemlock.IOemLockService
+    - service_name: overlay
+      constant_name: OVERLAY_SERVICE
+      descriptor: android.content.om.IOverlayManager
+    - service_name: pac_proxy
+      constant_name: PAC_PROXY_SERVICE
+      descriptor: android.net.IPacProxyManager
+    - service_name: persistent_data_block
+      constant_name: PERSISTENT_DATA_BLOCK_SERVICE
+      descriptor: android.service.persistentdata.IPersistentDataBlockService
+    - service_name: power
+      constant_name: POWER_SERVICE
+      descriptor: android.os.IPowerManager
+    - service_name: print
+      constant_name: PRINT_SERVICE
+      descriptor: android.print.IPrintManager
+    - service_name: recovery
+      constant_name: RECOVERY_SERVICE
+      descriptor: android.os.IRecoverySystem
+    - service_name: restrictions
+      constant_name: RESTRICTIONS_SERVICE
+      descriptor: android.content.IRestrictionsManager
+    - service_name: security_state
+      constant_name: SECURITY_STATE_SERVICE
+      descriptor: android.os.ISecurityStateManager
+    - service_name: serial
+      constant_name: SERIAL_SERVICE
+      descriptor: android.hardware.ISerialManager
+    - service_name: shortcut
+      constant_name: SHORTCUT_SERVICE
+      descriptor: android.content.pm.IShortcutService
+    - service_name: soundtrigger
+      constant_name: SOUND_TRIGGER_SERVICE
+      descriptor: com.android.internal.app.ISoundTriggerService
+    - service_name: storagestats
+      constant_name: STORAGE_STATS_SERVICE
+      descriptor: android.app.usage.IStorageStatsManager
+    - service_name: system_update
+      constant_name: SYSTEM_UPDATE_SERVICE
+      descriptor: android.os.ISystemUpdateManager
+    - service_name: systemhealth
+      constant_name: SYSTEM_HEALTH_SERVICE
+      descriptor: com.android.internal.app.IBatteryStats
+    - service_name: translation
+      constant_name: TRANSLATION_MANAGER_SERVICE
+      descriptor: android.view.translation.ITranslationManager
+    - service_name: transparency
+      constant_name: BINARY_TRANSPARENCY_SERVICE
+      descriptor: com.android.internal.os.IBinaryTransparencyService
+    - service_name: tv_ad
+      constant_name: TV_AD_SERVICE
+      descriptor: android.media.tv.ad.ITvAdManager
+    - service_name: tv_input
+      constant_name: TV_INPUT_SERVICE
+      descriptor: android.media.tv.ITvInputManager
+    - service_name: tv_interactive_app
+      constant_name: TV_INTERACTIVE_APP_SERVICE
+      descriptor: android.media.tv.interactive.ITvInteractiveAppManager
+    - service_name: tv_tuner_resource_mgr
+      constant_name: TV_TUNER_RESOURCE_MGR_SERVICE
+      descriptor: android.media.tv.tunerresourcemanager.ITunerResourceManager
+    - service_name: ui_translation
+      constant_name: UI_TRANSLATION_SERVICE
+      descriptor: android.view.translation.ITranslationManager
+    - service_name: usagestats
+      constant_name: USAGE_STATS_SERVICE
+      descriptor: android.app.usage.IUsageStatsManager
+    - service_name: usb
+      constant_name: USB_SERVICE
+      descriptor: android.hardware.usb.IUsbManager
+    - service_name: user
+      constant_name: USER_SERVICE
+      descriptor: android.os.IUserManager
+    - service_name: vcn_management
+      constant_name: VCN_MANAGEMENT_SERVICE
+      descriptor: android.net.vcn.IVcnManagementService
+    - service_name: virtualdevice
+      constant_name: VIRTUAL_DEVICE_SERVICE
+      descriptor: android.companion.virtual.IVirtualDeviceManager
+    - service_name: vpn_management
+      constant_name: VPN_MANAGEMENT_SERVICE
+      descriptor: android.net.IVpnManager
+    - service_name: vrmanager
+      constant_name: VR_SERVICE
+      descriptor: android.service.vr.IVrManager
+    - service_name: wallpaper
+      constant_name: WALLPAPER_SERVICE
+      descriptor: IWallpaperManager
+    - service_name: wallpaper_effects_generation
+      constant_name: WALLPAPER_EFFECTS_GENERATION_SERVICE
+      descriptor: android.app.wallpapereffectsgeneration.IWallpaperEffectsGenerationManager
+    - service_name: wearable_sensing
+      constant_name: WEARABLE_SENSING_SERVICE
+      descriptor: android.app.wearable.IWearableSensingManager

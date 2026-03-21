@@ -1,0 +1,2612 @@
+package: android.hardware.bluetooth.audio
+go_package: android/hardware/bluetooth/audio
+interfaces:
+    - name: IBluetoothAudioPort
+      descriptor: android.hardware.bluetooth.audio.IBluetoothAudioPort
+      methods:
+        - name: getPresentationPosition
+          transaction_code_offset: 0
+          return_type:
+            name: PresentationPosition
+        - name: startStream
+          transaction_code_offset: 1
+          params:
+            - name: isLowLatency
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: stopStream
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: suspendStream
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: updateSourceMetadata
+          transaction_code_offset: 4
+          params:
+            - name: sourceMetadata
+              type:
+                name: SourceMetadata
+              direction: in
+          return_type:
+            name: void
+        - name: updateSinkMetadata
+          transaction_code_offset: 5
+          params:
+            - name: sinkMetadata
+              type:
+                name: SinkMetadata
+              direction: in
+          return_type:
+            name: void
+        - name: setLatencyMode
+          transaction_code_offset: 6
+          params:
+            - name: latencyMode
+              type:
+                name: LatencyMode
+              direction: in
+          return_type:
+            name: void
+    - name: IBluetoothAudioProvider
+      descriptor: android.hardware.bluetooth.audio.IBluetoothAudioProvider
+      methods:
+        - name: endSession
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: startSession
+          transaction_code_offset: 1
+          params:
+            - name: hostIf
+              type:
+                name: IBluetoothAudioPort
+              direction: in
+            - name: audioConfig
+              type:
+                name: AudioConfiguration
+              direction: in
+            - name: supportedLatencyModes
+              type:
+                name: LatencyMode
+                is_array: true
+              direction: in
+          return_type:
+            name: MQDescriptor
+            type_args:
+                - name: byte
+                - name: SynchronizedReadWrite
+        - name: streamStarted
+          transaction_code_offset: 2
+          params:
+            - name: status
+              type:
+                name: BluetoothAudioStatus
+              direction: in
+          return_type:
+            name: void
+        - name: streamSuspended
+          transaction_code_offset: 3
+          params:
+            - name: status
+              type:
+                name: BluetoothAudioStatus
+              direction: in
+          return_type:
+            name: void
+        - name: updateAudioConfiguration
+          transaction_code_offset: 4
+          params:
+            - name: audioConfig
+              type:
+                name: AudioConfiguration
+              direction: in
+          return_type:
+            name: void
+        - name: setLowLatencyModeAllowed
+          transaction_code_offset: 5
+          params:
+            - name: allowed
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: parseA2dpConfiguration
+          transaction_code_offset: 6
+          params:
+            - name: codecId
+              type:
+                name: CodecId
+              direction: in
+            - name: configuration
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: codecParameters
+              type:
+                name: CodecParameters
+              direction: out
+          return_type:
+            name: A2dpStatus
+        - name: getA2dpConfiguration
+          transaction_code_offset: 7
+          params:
+            - name: remoteA2dpCapabilities
+              type:
+                name: A2dpRemoteCapabilities
+                is_array: true
+              direction: in
+            - name: hint
+              type:
+                name: A2dpConfigurationHint
+              direction: in
+          return_type:
+            name: A2dpConfiguration
+          annotations:
+            - nullable
+        - name: setCodecPriority
+          transaction_code_offset: 8
+          params:
+            - name: codecId
+              type:
+                name: CodecId
+              direction: in
+            - name: priority
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getLeAudioAseConfiguration
+          transaction_code_offset: 9
+          params:
+            - name: remoteSinkAudioCapabilities
+              type:
+                name: LeAudioDeviceCapabilities
+                is_array: true
+                is_nullable: true
+              direction: in
+            - name: remoteSourceAudioCapabilities
+              type:
+                name: LeAudioDeviceCapabilities
+                is_array: true
+                is_nullable: true
+              direction: in
+            - name: requirements
+              type:
+                name: LeAudioConfigurationRequirement
+                is_array: true
+              direction: in
+          return_type:
+            name: LeAudioAseConfigurationSetting
+            is_array: true
+        - name: getLeAudioAseQosConfiguration
+          transaction_code_offset: 10
+          params:
+            - name: qosRequirement
+              type:
+                name: LeAudioAseQosConfigurationRequirement
+              direction: in
+          return_type:
+            name: LeAudioAseQosConfigurationPair
+        - name: getLeAudioAseDatapathConfiguration
+          transaction_code_offset: 11
+          params:
+            - name: sinkConfig
+              type:
+                name: StreamConfig
+                is_nullable: true
+              direction: in
+            - name: sourceConfig
+              type:
+                name: StreamConfig
+                is_nullable: true
+              direction: in
+          return_type:
+            name: LeAudioDataPathConfigurationPair
+        - name: onSinkAseMetadataChanged
+          transaction_code_offset: 12
+          params:
+            - name: state
+              type:
+                name: AseState
+              direction: in
+            - name: cigId
+              type:
+                name: int
+            - name: cisId
+              type:
+                name: int
+            - name: metadata
+              type:
+                name: MetadataLtv
+                is_array: true
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: onSourceAseMetadataChanged
+          transaction_code_offset: 13
+          params:
+            - name: state
+              type:
+                name: AseState
+              direction: in
+            - name: cigId
+              type:
+                name: int
+            - name: cisId
+              type:
+                name: int
+            - name: metadata
+              type:
+                name: MetadataLtv
+                is_array: true
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: getLeAudioBroadcastConfiguration
+          transaction_code_offset: 14
+          params:
+            - name: remoteSinkAudioCapabilities
+              type:
+                name: LeAudioDeviceCapabilities
+                is_array: true
+                is_nullable: true
+              direction: in
+            - name: requirement
+              type:
+                name: LeAudioBroadcastConfigurationRequirement
+              direction: in
+          return_type:
+            name: LeAudioBroadcastConfigurationSetting
+        - name: getLeAudioBroadcastDatapathConfiguration
+          transaction_code_offset: 15
+          params:
+            - name: audioContext
+              type:
+                name: AudioContext
+              direction: in
+            - name: streamMap
+              type:
+                name: BroadcastStreamMap
+                is_array: true
+              direction: in
+          return_type:
+            name: LeAudioDataPathConfiguration
+      constants:
+        - name: CODEC_PRIORITY_DISABLED
+          type: int
+          value: "-1"
+        - name: CODEC_PRIORITY_NONE
+          type: int
+          value: "0"
+    - name: IBluetoothAudioProviderFactory
+      descriptor: android.hardware.bluetooth.audio.IBluetoothAudioProviderFactory
+      methods:
+        - name: getProviderCapabilities
+          transaction_code_offset: 0
+          params:
+            - name: sessionType
+              type:
+                name: SessionType
+              direction: in
+          return_type:
+            name: AudioCapabilities
+            is_array: true
+        - name: openProvider
+          transaction_code_offset: 1
+          params:
+            - name: sessionType
+              type:
+                name: SessionType
+              direction: in
+          return_type:
+            name: IBluetoothAudioProvider
+        - name: getProviderInfo
+          transaction_code_offset: 2
+          params:
+            - name: sessionType
+              type:
+                name: SessionType
+              direction: in
+          return_type:
+            name: ProviderInfo
+          annotations:
+            - nullable
+parcelables:
+    - name: A2dpConfiguration
+      fields:
+        - name: remoteSeid
+          type:
+            name: int
+        - name: id
+          type:
+            name: CodecId
+        - name: parameters
+          type:
+            name: CodecParameters
+        - name: configuration
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: A2dpConfigurationHint
+      fields:
+        - name: bdAddr
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: audioContext
+          type:
+            name: AudioContext
+        - name: codecId
+          type:
+            name: CodecId
+          annotations:
+            - nullable
+        - name: codecParameters
+          type:
+            name: CodecParameters
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: A2dpRemoteCapabilities
+      fields:
+        - name: seid
+          type:
+            name: int
+        - name: id
+          type:
+            name: CodecId
+        - name: capabilities
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: A2dpStreamConfiguration
+      fields:
+        - name: peerMtu
+          type:
+            name: int
+        - name: cpHeaderScmst
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "1"
+          annotations:
+            - nullable
+        - name: codecId
+          type:
+            name: CodecId
+        - name: configuration
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: AacCapabilities
+      fields:
+        - name: objectType
+          type:
+            name: AacObjectType
+            is_array: true
+        - name: sampleRateHz
+          type:
+            name: int
+            is_array: true
+        - name: channelMode
+          type:
+            name: ChannelMode
+            is_array: true
+        - name: variableBitRateSupported
+          type:
+            name: boolean
+        - name: bitsPerSample
+          type:
+            name: byte
+            is_array: true
+        - name: adaptiveBitRateSupported
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: AacConfiguration
+      fields:
+        - name: objectType
+          type:
+            name: AacObjectType
+        - name: sampleRateHz
+          type:
+            name: int
+        - name: channelMode
+          type:
+            name: ChannelMode
+        - name: variableBitRateEnabled
+          type:
+            name: boolean
+        - name: bitsPerSample
+          type:
+            name: byte
+        - name: adaptiveBitRateSupported
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: AptxAdaptiveCapabilities
+      fields:
+        - name: sampleRateHz
+          type:
+            name: int
+            is_array: true
+        - name: channelMode
+          type:
+            name: AptxAdaptiveChannelMode
+            is_array: true
+        - name: bitsPerSample
+          type:
+            name: byte
+            is_array: true
+        - name: aptxMode
+          type:
+            name: AptxMode
+            is_array: true
+        - name: sinkBufferingMs
+          type:
+            name: AptxSinkBuffering
+        - name: ttp
+          type:
+            name: AptxAdaptiveTimeToPlay
+        - name: inputMode
+          type:
+            name: AptxAdaptiveInputMode
+        - name: inputFadeDurationMs
+          type:
+            name: int
+        - name: aptxAdaptiveConfigStream
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: AptxAdaptiveConfiguration
+      fields:
+        - name: sampleRateHz
+          type:
+            name: int
+        - name: channelMode
+          type:
+            name: AptxAdaptiveChannelMode
+        - name: bitsPerSample
+          type:
+            name: byte
+        - name: aptxMode
+          type:
+            name: AptxMode
+        - name: sinkBufferingMs
+          type:
+            name: AptxSinkBuffering
+        - name: ttp
+          type:
+            name: AptxAdaptiveTimeToPlay
+        - name: inputMode
+          type:
+            name: AptxAdaptiveInputMode
+        - name: inputFadeDurationMs
+          type:
+            name: int
+        - name: aptxAdaptiveConfigStream
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: AptxAdaptiveLeCapabilities
+      fields:
+        - name: pcmBitDepth
+          type:
+            name: byte
+            is_array: true
+        - name: samplingFrequencyHz
+          type:
+            name: int
+            is_array: true
+        - name: frameDurationUs
+          type:
+            name: int
+            is_array: true
+        - name: octetsPerFrame
+          type:
+            name: int
+            is_array: true
+        - name: blocksPerSdu
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: AptxAdaptiveLeConfiguration
+      fields:
+        - name: pcmBitDepth
+          type:
+            name: byte
+        - name: samplingFrequencyHz
+          type:
+            name: int
+        - name: frameDurationUs
+          type:
+            name: int
+        - name: octetsPerFrame
+          type:
+            name: int
+        - name: blocksPerSdu
+          type:
+            name: byte
+        - name: codecMode
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: AptxAdaptiveTimeToPlay
+      fields:
+        - name: lowLowLatency
+          type:
+            name: byte
+        - name: highLowLatency
+          type:
+            name: byte
+        - name: lowHighQuality
+          type:
+            name: byte
+        - name: highHighQuality
+          type:
+            name: byte
+        - name: lowTws
+          type:
+            name: byte
+        - name: highTws
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+    - name: AptxCapabilities
+      fields:
+        - name: sampleRateHz
+          type:
+            name: int
+            is_array: true
+        - name: channelMode
+          type:
+            name: ChannelMode
+            is_array: true
+        - name: bitsPerSample
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: AptxConfiguration
+      fields:
+        - name: sampleRateHz
+          type:
+            name: int
+        - name: channelMode
+          type:
+            name: ChannelMode
+        - name: bitsPerSample
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+    - name: AptxSinkBuffering
+      fields:
+        - name: minLowLatency
+          type:
+            name: byte
+        - name: maxLowLatency
+          type:
+            name: byte
+        - name: minHighQuality
+          type:
+            name: byte
+        - name: maxHighQuality
+          type:
+            name: byte
+        - name: minTws
+          type:
+            name: byte
+        - name: maxTws
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+    - name: AudioContext
+      fields:
+        - name: bitmask
+          type:
+            name: int
+      constants:
+        - name: UNSPECIFIED
+          type: int
+          value: "0x0001"
+        - name: CONVERSATIONAL
+          type: int
+          value: "0x0002"
+        - name: MEDIA
+          type: int
+          value: "0x0004"
+        - name: GAME
+          type: int
+          value: "0x0008"
+        - name: INSTRUCTIONAL
+          type: int
+          value: "0x0010"
+        - name: VOICE_ASSISTANTS
+          type: int
+          value: "0x0020"
+        - name: LIVE_AUDIO
+          type: int
+          value: "0x0040"
+        - name: SOUND_EFFECTS
+          type: int
+          value: "0x0080"
+        - name: NOTIFICATIONS
+          type: int
+          value: "0x0100"
+        - name: RINGTONE_ALERTS
+          type: int
+          value: "0x0200"
+        - name: ALERTS
+          type: int
+          value: "0x0400"
+        - name: EMERGENCY_ALARM
+          type: int
+          value: "0x0800"
+      annotations:
+        - VintfStability
+    - name: BroadcastCapability
+      fields:
+        - name: codecType
+          type:
+            name: CodecType
+        - name: supportedChannel
+          type:
+            name: AudioLocation
+        - name: channelCountPerStream
+          type:
+            name: int
+        - name: leAudioCodecCapabilities
+          type:
+            name: LeAudioCodecCapabilities
+      nested_types:
+        - BroadcastCapability.VendorCapabilities
+        - BroadcastCapability.LeAudioCodecCapabilities
+      annotations:
+        - VintfStability
+    - name: BroadcastCapability.VendorCapabilities
+      fields:
+        - name: extension
+          type:
+            name: ParcelableHolder
+      annotations:
+        - VintfStability
+    - name: CodecCapabilities
+      fields:
+        - name: codecType
+          type:
+            name: CodecType
+        - name: capabilities
+          type:
+            name: Capabilities
+      nested_types:
+        - CodecCapabilities.VendorCapabilities
+        - CodecCapabilities.Capabilities
+      annotations:
+        - VintfStability
+    - name: CodecCapabilities.VendorCapabilities
+      fields:
+        - name: extension
+          type:
+            name: ParcelableHolder
+      annotations:
+        - VintfStability
+    - name: CodecConfiguration
+      fields:
+        - name: codecType
+          type:
+            name: CodecType
+        - name: encodedAudioBitrate
+          type:
+            name: int
+        - name: peerMtu
+          type:
+            name: int
+        - name: isScmstEnabled
+          type:
+            name: boolean
+        - name: config
+          type:
+            name: CodecSpecific
+      nested_types:
+        - CodecConfiguration.VendorConfiguration
+        - CodecConfiguration.CodecSpecific
+      annotations:
+        - VintfStability
+    - name: CodecConfiguration.VendorConfiguration
+      fields:
+        - name: vendorId
+          type:
+            name: int
+        - name: codecId
+          type:
+            name: char
+        - name: codecConfig
+          type:
+            name: ParcelableHolder
+      annotations:
+        - VintfStability
+    - name: CodecId.Vendor
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: codecId
+          type:
+            name: int
+    - name: CodecInfo
+      fields:
+        - name: id
+          type:
+            name: CodecId
+        - name: name
+          type:
+            name: String
+        - name: transport
+          type:
+            name: Transport
+      nested_types:
+        - CodecInfo.A2dp
+        - CodecInfo.Hfp
+        - CodecInfo.LeAudio
+        - CodecInfo.Transport
+      annotations:
+        - VintfStability
+    - name: CodecInfo.A2dp
+      fields:
+        - name: capabilities
+          type:
+            name: byte
+            is_array: true
+        - name: channelMode
+          type:
+            name: ChannelMode
+            is_array: true
+        - name: samplingFrequencyHz
+          type:
+            name: int
+            is_array: true
+        - name: bitdepth
+          type:
+            name: int
+            is_array: true
+        - name: lossless
+          type:
+            name: boolean
+    - name: CodecInfo.Hfp
+      fields:
+        - name: inputDataPath
+          type:
+            name: int
+          default_value: "1"
+        - name: outputDataPath
+          type:
+            name: int
+          default_value: "1"
+        - name: useControllerCodec
+          type:
+            name: boolean
+          default_value: "true"
+    - name: CodecInfo.LeAudio
+      fields:
+        - name: channelMode
+          type:
+            name: ChannelMode
+            is_array: true
+        - name: samplingFrequencyHz
+          type:
+            name: int
+            is_array: true
+        - name: frameDurationUs
+          type:
+            name: int
+            is_array: true
+        - name: bitdepth
+          type:
+            name: int
+            is_array: true
+        - name: flags
+          type:
+            name: ConfigurationFlags
+          annotations:
+            - nullable
+    - name: CodecParameters
+      fields:
+        - name: channelMode
+          type:
+            name: ChannelMode
+        - name: samplingFrequencyHz
+          type:
+            name: int
+        - name: bitdepth
+          type:
+            name: int
+        - name: minBitrate
+          type:
+            name: int
+        - name: maxBitrate
+          type:
+            name: int
+        - name: lowLatency
+          type:
+            name: boolean
+          default_value: "false"
+        - name: lossless
+          type:
+            name: boolean
+          default_value: "false"
+        - name: vendorSpecificParameters
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: CodecSpecificCapabilitiesLtv.SupportedAudioChannelCounts
+      fields:
+        - name: bitmask
+          type:
+            name: int
+      constants:
+        - name: ONE
+          type: int
+          value: "0x01"
+        - name: TWO
+          type: int
+          value: "0x02"
+        - name: THREE
+          type: int
+          value: "0x04"
+        - name: FOUR
+          type: int
+          value: "0x08"
+        - name: FIVE
+          type: int
+          value: "0x10"
+        - name: SIX
+          type: int
+          value: "0x20"
+        - name: SEVEN
+          type: int
+          value: "0x40"
+        - name: EIGHT
+          type: int
+          value: "0x80"
+    - name: CodecSpecificCapabilitiesLtv.SupportedFrameDurations
+      fields:
+        - name: bitmask
+          type:
+            name: int
+      constants:
+        - name: US7500
+          type: int
+          value: "0x01"
+        - name: US10000
+          type: int
+          value: "0x02"
+        - name: US7500PREFERRED
+          type: int
+          value: "0x10"
+        - name: US10000PREFERRED
+          type: int
+          value: "0x20"
+    - name: CodecSpecificCapabilitiesLtv.SupportedMaxCodecFramesPerSDU
+      fields:
+        - name: value
+          type:
+            name: int
+    - name: CodecSpecificCapabilitiesLtv.SupportedOctetsPerCodecFrame
+      fields:
+        - name: min
+          type:
+            name: int
+        - name: max
+          type:
+            name: int
+    - name: CodecSpecificCapabilitiesLtv.SupportedSamplingFrequencies
+      fields:
+        - name: bitmask
+          type:
+            name: int
+      constants:
+        - name: HZ8000
+          type: int
+          value: "0x0001"
+        - name: HZ11025
+          type: int
+          value: "0x0002"
+        - name: HZ16000
+          type: int
+          value: "0x0004"
+        - name: HZ22050
+          type: int
+          value: "0x0008"
+        - name: HZ24000
+          type: int
+          value: "0x0010"
+        - name: HZ32000
+          type: int
+          value: "0x0020"
+        - name: HZ44100
+          type: int
+          value: "0x0040"
+        - name: HZ48000
+          type: int
+          value: "0x0080"
+        - name: HZ88200
+          type: int
+          value: "0x0100"
+        - name: HZ96000
+          type: int
+          value: "0x0200"
+        - name: HZ176400
+          type: int
+          value: "0x0400"
+        - name: HZ192000
+          type: int
+          value: "0x0800"
+        - name: HZ384000
+          type: int
+          value: "0x1000"
+    - name: CodecSpecificConfigurationLtv.AudioChannelAllocation
+      fields:
+        - name: bitmask
+          type:
+            name: int
+      constants:
+        - name: NOT_ALLOWED
+          type: int
+          value: "0x00000000"
+        - name: FRONT_LEFT
+          type: int
+          value: "0x00000001"
+        - name: FRONT_RIGHT
+          type: int
+          value: "0x00000002"
+        - name: FRONT_CENTER
+          type: int
+          value: "0x00000004"
+        - name: LOW_FREQUENCY_EFFECTS_1
+          type: int
+          value: "0x00000008"
+        - name: BACK_LEFT
+          type: int
+          value: "0x00000010"
+        - name: BACK_RIGHT
+          type: int
+          value: "0x00000020"
+        - name: FRONT_LEFT_OF_CENTER
+          type: int
+          value: "0x00000040"
+        - name: FRONT_RIGHT_OF_CENTER
+          type: int
+          value: "0x00000080"
+        - name: BACK_CENTER
+          type: int
+          value: "0x00000100"
+        - name: LOW_FREQUENCY_EFFECTS_2
+          type: int
+          value: "0x00000200"
+        - name: SIDE_LEFT
+          type: int
+          value: "0x00000400"
+        - name: SIDE_RIGHT
+          type: int
+          value: "0x00000800"
+        - name: TOP_FRONT_LEFT
+          type: int
+          value: "0x00001000"
+        - name: TOP_FRONT_RIGHT
+          type: int
+          value: "0x00002000"
+        - name: TOP_FRONT_CENTER
+          type: int
+          value: "0x00004000"
+        - name: TOP_CENTER
+          type: int
+          value: "0x00008000"
+        - name: TOP_BACK_LEFT
+          type: int
+          value: "0x00010000"
+        - name: TOP_BACK_RIGHT
+          type: int
+          value: "0x00020000"
+        - name: TOP_SIDE_LEFT
+          type: int
+          value: "0x00040000"
+        - name: TOP_SIDE_RIGHT
+          type: int
+          value: "0x00080000"
+        - name: TOP_BACK_CENTER
+          type: int
+          value: "0x00100000"
+        - name: BOTTOM_FRONT_CENTER
+          type: int
+          value: "0x00200000"
+        - name: BOTTOM_FRONT_LEFT
+          type: int
+          value: "0x00400000"
+        - name: BOTTOM_FRONT_RIGHT
+          type: int
+          value: "0x00800000"
+        - name: FRONT_LEFT_WIDE
+          type: int
+          value: "0x01000000"
+        - name: FRONT_RIGHT_WIDE
+          type: int
+          value: "0x02000000"
+        - name: LEFT_SURROUND
+          type: int
+          value: "0x04000000"
+        - name: RIGHT_SURROUND
+          type: int
+          value: "0x08000000"
+    - name: CodecSpecificConfigurationLtv.CodecFrameBlocksPerSDU
+      fields:
+        - name: value
+          type:
+            name: int
+    - name: CodecSpecificConfigurationLtv.OctetsPerCodecFrame
+      fields:
+        - name: value
+          type:
+            name: int
+    - name: ConfigurationFlags
+      fields:
+        - name: bitmask
+          type:
+            name: int
+      constants:
+        - name: NONE
+          type: int
+          value: "0x0000"
+        - name: LOSSLESS
+          type: int
+          value: "0x0001"
+        - name: LOW_LATENCY
+          type: int
+          value: "0x0002"
+        - name: ALLOW_ASYMMETRIC_CONFIGURATIONS
+          type: int
+          value: "0x0004"
+        - name: SPATIAL_AUDIO
+          type: int
+          value: "0x0008"
+        - name: PROVIDE_ASE_METADATA
+          type: int
+          value: "0x0010"
+        - name: MONO_MIC_CONFIGURATION
+          type: int
+          value: "0x0020"
+      annotations:
+        - VintfStability
+    - name: HfpConfiguration
+      fields:
+        - name: codecId
+          type:
+            name: CodecId
+        - name: connectionHandle
+          type:
+            name: int
+        - name: nrec
+          type:
+            name: boolean
+        - name: controllerCodec
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioAseConfigurationSetting
+      fields:
+        - name: audioContext
+          type:
+            name: AudioContext
+        - name: packing
+          type:
+            name: Packing
+        - name: sinkAseConfiguration
+          type:
+            name: AseDirectionConfiguration
+            is_array: true
+          annotations:
+            - nullable
+        - name: sourceAseConfiguration
+          type:
+            name: AseDirectionConfiguration
+            is_array: true
+          annotations:
+            - nullable
+        - name: flags
+          type:
+            name: ConfigurationFlags
+          annotations:
+            - nullable
+      nested_types:
+        - IBluetoothAudioProvider.LeAudioAseConfigurationSetting.AseDirectionConfiguration
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioAseConfigurationSetting.AseDirectionConfiguration
+      fields:
+        - name: aseConfiguration
+          type:
+            name: LeAudioAseConfiguration
+        - name: qosConfiguration
+          type:
+            name: LeAudioAseQosConfiguration
+          annotations:
+            - nullable
+        - name: dataPathConfiguration
+          type:
+            name: LeAudioDataPathConfiguration
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioAseQosConfiguration
+      fields:
+        - name: sduIntervalUs
+          type:
+            name: int
+        - name: framing
+          type:
+            name: Framing
+        - name: phy
+          type:
+            name: Phy
+            is_array: true
+        - name: maxTransportLatencyMs
+          type:
+            name: int
+        - name: maxSdu
+          type:
+            name: int
+        - name: retransmissionNum
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioAseQosConfigurationPair
+      fields:
+        - name: sinkQosConfiguration
+          type:
+            name: LeAudioAseQosConfiguration
+          annotations:
+            - nullable
+        - name: sourceQosConfiguration
+          type:
+            name: LeAudioAseQosConfiguration
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioAseQosConfigurationRequirement
+      fields:
+        - name: audioContext
+          type:
+            name: AudioContext
+        - name: sinkAseQosRequirement
+          type:
+            name: AseQosDirectionRequirement
+          annotations:
+            - nullable
+        - name: sourceAseQosRequirement
+          type:
+            name: AseQosDirectionRequirement
+          annotations:
+            - nullable
+        - name: flags
+          type:
+            name: ConfigurationFlags
+          annotations:
+            - nullable
+      nested_types:
+        - IBluetoothAudioProvider.LeAudioAseQosConfigurationRequirement.AseQosDirectionRequirement
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioAseQosConfigurationRequirement.AseQosDirectionRequirement
+      fields:
+        - name: framing
+          type:
+            name: Framing
+        - name: preferredPhy
+          type:
+            name: Phy
+            is_array: true
+        - name: preferredRetransmissionNum
+          type:
+            name: int
+        - name: maxTransportLatencyMs
+          type:
+            name: int
+        - name: presentationDelayMinUs
+          type:
+            name: int
+        - name: presentationDelayMaxUs
+          type:
+            name: int
+        - name: preferredPresentationDelayMinUs
+          type:
+            name: int
+        - name: preferredPresentationDelayMaxUs
+          type:
+            name: int
+        - name: aseConfiguration
+          type:
+            name: LeAudioAseConfiguration
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioBroadcastConfigurationRequirement
+      fields:
+        - name: subgroupConfigurationRequirements
+          type:
+            name: LeAudioBroadcastSubgroupConfigurationRequirement
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioBroadcastConfigurationSetting
+      fields:
+        - name: sduIntervalUs
+          type:
+            name: int
+        - name: numBis
+          type:
+            name: int
+        - name: maxSduOctets
+          type:
+            name: int
+        - name: maxTransportLatencyMs
+          type:
+            name: int
+        - name: retransmitionNum
+          type:
+            name: int
+        - name: phy
+          type:
+            name: Phy
+            is_array: true
+        - name: packing
+          type:
+            name: Packing
+        - name: framing
+          type:
+            name: Framing
+        - name: dataPathConfiguration
+          type:
+            name: LeAudioDataPathConfiguration
+          annotations:
+            - nullable
+        - name: subgroupsConfigurations
+          type:
+            name: LeAudioBroadcastSubgroupConfiguration
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioBroadcastSubgroupConfiguration
+      fields:
+        - name: bisConfigurations
+          type:
+            name: LeAudioSubgroupBisConfiguration
+            is_array: true
+        - name: vendorCodecConfiguration
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioBroadcastSubgroupConfigurationRequirement
+      fields:
+        - name: audioContext
+          type:
+            name: AudioContext
+        - name: quality
+          type:
+            name: BroadcastQuality
+        - name: bisNumPerSubgroup
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioConfigurationRequirement
+      fields:
+        - name: audioContext
+          type:
+            name: AudioContext
+        - name: sinkAseRequirement
+          type:
+            name: AseDirectionRequirement
+            is_array: true
+          annotations:
+            - nullable
+        - name: sourceAseRequirement
+          type:
+            name: AseDirectionRequirement
+            is_array: true
+          annotations:
+            - nullable
+        - name: flags
+          type:
+            name: ConfigurationFlags
+          annotations:
+            - nullable
+      nested_types:
+        - IBluetoothAudioProvider.LeAudioConfigurationRequirement.AseDirectionRequirement
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioConfigurationRequirement.AseDirectionRequirement
+      fields:
+        - name: aseConfiguration
+          type:
+            name: LeAudioAseConfiguration
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioDataPathConfiguration
+      fields:
+        - name: dataPathId
+          type:
+            name: int
+        - name: dataPathConfiguration
+          type:
+            name: DataPathConfiguration
+        - name: isoDataPathConfiguration
+          type:
+            name: IsoDataPathConfiguration
+      nested_types:
+        - IBluetoothAudioProvider.LeAudioDataPathConfiguration.IsoDataPathConfiguration
+        - IBluetoothAudioProvider.LeAudioDataPathConfiguration.DataPathConfiguration
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioDataPathConfiguration.DataPathConfiguration
+      fields:
+        - name: configuration
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioDataPathConfiguration.IsoDataPathConfiguration
+      fields:
+        - name: codecId
+          type:
+            name: CodecId
+        - name: isTransparent
+          type:
+            name: boolean
+        - name: controllerDelayUs
+          type:
+            name: int
+        - name: configuration
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioDataPathConfigurationPair
+      fields:
+        - name: inputConfig
+          type:
+            name: LeAudioDataPathConfiguration
+          annotations:
+            - nullable
+        - name: outputConfig
+          type:
+            name: LeAudioDataPathConfiguration
+          annotations:
+            - nullable
+    - name: IBluetoothAudioProvider.LeAudioDeviceCapabilities
+      fields:
+        - name: codecId
+          type:
+            name: CodecId
+        - name: codecSpecificCapabilities
+          type:
+            name: CodecSpecificCapabilitiesLtv
+            is_array: true
+        - name: vendorCodecSpecificCapabilities
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+        - name: metadata
+          type:
+            name: MetadataLtv
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.LeAudioSubgroupBisConfiguration
+      fields:
+        - name: numBis
+          type:
+            name: int
+        - name: bisConfiguration
+          type:
+            name: LeAudioBisConfiguration
+      annotations:
+        - VintfStability
+    - name: IBluetoothAudioProvider.StreamConfig
+      fields:
+        - name: audioContext
+          type:
+            name: AudioContext
+        - name: streamMap
+          type:
+            name: StreamMap
+            is_array: true
+    - name: IBluetoothAudioProviderFactory.ProviderInfo
+      fields:
+        - name: name
+          type:
+            name: String
+        - name: codecInfos
+          type:
+            name: CodecInfo
+            is_array: true
+        - name: supportsMultidirectionalCapabilities
+          type:
+            name: boolean
+      annotations:
+        - VintfStability
+    - name: Lc3Capabilities
+      fields:
+        - name: pcmBitDepth
+          type:
+            name: byte
+            is_array: true
+        - name: samplingFrequencyHz
+          type:
+            name: int
+            is_array: true
+        - name: frameDurationUs
+          type:
+            name: int
+            is_array: true
+        - name: octetsPerFrame
+          type:
+            name: int
+            is_array: true
+        - name: blocksPerSdu
+          type:
+            name: byte
+            is_array: true
+        - name: channelMode
+          type:
+            name: ChannelMode
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: Lc3Configuration
+      fields:
+        - name: pcmBitDepth
+          type:
+            name: byte
+        - name: samplingFrequencyHz
+          type:
+            name: int
+        - name: frameDurationUs
+          type:
+            name: int
+        - name: octetsPerFrame
+          type:
+            name: int
+        - name: blocksPerSdu
+          type:
+            name: byte
+        - name: channelMode
+          type:
+            name: ChannelMode
+      annotations:
+        - VintfStability
+    - name: LdacCapabilities
+      fields:
+        - name: sampleRateHz
+          type:
+            name: int
+            is_array: true
+        - name: channelMode
+          type:
+            name: LdacChannelMode
+            is_array: true
+        - name: qualityIndex
+          type:
+            name: LdacQualityIndex
+            is_array: true
+        - name: bitsPerSample
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: LdacConfiguration
+      fields:
+        - name: sampleRateHz
+          type:
+            name: int
+        - name: channelMode
+          type:
+            name: LdacChannelMode
+        - name: qualityIndex
+          type:
+            name: LdacQualityIndex
+        - name: bitsPerSample
+          type:
+            name: byte
+      annotations:
+        - VintfStability
+    - name: LeAudioAseConfiguration
+      fields:
+        - name: targetLatency
+          type:
+            name: TargetLatency
+        - name: targetPhy
+          type:
+            name: Phy
+        - name: codecId
+          type:
+            name: CodecId
+          annotations:
+            - nullable
+        - name: codecConfiguration
+          type:
+            name: CodecSpecificConfigurationLtv
+            is_array: true
+        - name: vendorCodecConfiguration
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+        - name: metadata
+          type:
+            name: MetadataLtv
+            is_array: true
+          annotations:
+            - nullable
+      nested_types:
+        - LeAudioAseConfiguration.TargetLatency
+      annotations:
+        - VintfStability
+    - name: LeAudioBisConfiguration
+      fields:
+        - name: codecId
+          type:
+            name: CodecId
+        - name: codecConfiguration
+          type:
+            name: CodecSpecificConfigurationLtv
+            is_array: true
+        - name: vendorCodecConfiguration
+          type:
+            name: byte
+            is_array: true
+        - name: metadata
+          type:
+            name: MetadataLtv
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: LeAudioBroadcastConfiguration
+      fields:
+        - name: codecType
+          type:
+            name: CodecType
+        - name: streamMap
+          type:
+            name: BroadcastStreamMap
+            is_array: true
+      nested_types:
+        - LeAudioBroadcastConfiguration.BroadcastStreamMap
+      annotations:
+        - VintfStability
+    - name: LeAudioBroadcastConfiguration.BroadcastStreamMap
+      fields:
+        - name: streamHandle
+          type:
+            name: char
+        - name: audioChannelAllocation
+          type:
+            name: int
+        - name: leAudioCodecConfig
+          type:
+            name: LeAudioCodecConfiguration
+        - name: pcmStreamId
+          type:
+            name: char
+        - name: bisConfiguration
+          type:
+            name: LeAudioBisConfiguration
+          annotations:
+            - nullable
+        - name: flags
+          type:
+            name: ConfigurationFlags
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: LeAudioCodecCapabilitiesSetting
+      fields:
+        - name: unicastEncodeCapability
+          type:
+            name: UnicastCapability
+        - name: unicastDecodeCapability
+          type:
+            name: UnicastCapability
+        - name: broadcastCapability
+          type:
+            name: BroadcastCapability
+      annotations:
+        - VintfStability
+    - name: LeAudioCodecConfiguration.VendorConfiguration
+      fields:
+        - name: extension
+          type:
+            name: ParcelableHolder
+      annotations:
+        - VintfStability
+    - name: LeAudioConfiguration
+      fields:
+        - name: codecType
+          type:
+            name: CodecType
+        - name: streamMap
+          type:
+            name: StreamMap
+            is_array: true
+        - name: peerDelayUs
+          type:
+            name: int
+        - name: leAudioCodecConfig
+          type:
+            name: LeAudioCodecConfiguration
+        - name: vendorSpecificMetadata
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+      nested_types:
+        - LeAudioConfiguration.StreamMap
+      annotations:
+        - VintfStability
+    - name: LeAudioConfiguration.StreamMap
+      fields:
+        - name: streamHandle
+          type:
+            name: char
+        - name: audioChannelAllocation
+          type:
+            name: int
+        - name: isStreamActive
+          type:
+            name: boolean
+        - name: aseConfiguration
+          type:
+            name: LeAudioAseConfiguration
+          annotations:
+            - nullable
+        - name: flags
+          type:
+            name: ConfigurationFlags
+          annotations:
+            - nullable
+        - name: bluetoothDeviceAddress
+          type:
+            name: BluetoothDeviceAddress
+          annotations:
+            - nullable
+      nested_types:
+        - LeAudioConfiguration.StreamMap.BluetoothDeviceAddress
+      annotations:
+        - VintfStability
+    - name: LeAudioConfiguration.StreamMap.BluetoothDeviceAddress
+      fields:
+        - name: deviceAddress
+          type:
+            name: byte
+            is_array: true
+            fixed_size: "6"
+        - name: deviceAddressType
+          type:
+            name: DeviceAddressType
+      nested_types:
+        - LeAudioConfiguration.StreamMap.BluetoothDeviceAddress.DeviceAddressType
+    - name: MetadataLtv.PreferredAudioContexts
+      fields:
+        - name: values
+          type:
+            name: AudioContext
+    - name: MetadataLtv.StreamingAudioContexts
+      fields:
+        - name: values
+          type:
+            name: AudioContext
+    - name: MetadataLtv.VendorSpecific
+      fields:
+        - name: companyId
+          type:
+            name: int
+        - name: opaqueValue
+          type:
+            name: byte
+            is_array: true
+    - name: OpusCapabilities
+      fields:
+        - name: pcmBitDepth
+          type:
+            name: byte
+            is_array: true
+        - name: samplingFrequencyHz
+          type:
+            name: int
+            is_array: true
+        - name: frameDurationUs
+          type:
+            name: int
+            is_array: true
+        - name: octetsPerFrame
+          type:
+            name: int
+            is_array: true
+        - name: blocksPerSdu
+          type:
+            name: byte
+            is_array: true
+        - name: channelMode
+          type:
+            name: ChannelMode
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: OpusConfiguration
+      fields:
+        - name: pcmBitDepth
+          type:
+            name: byte
+        - name: samplingFrequencyHz
+          type:
+            name: int
+        - name: frameDurationUs
+          type:
+            name: int
+        - name: octetsPerFrame
+          type:
+            name: int
+        - name: blocksPerSdu
+          type:
+            name: byte
+        - name: channelMode
+          type:
+            name: ChannelMode
+      annotations:
+        - VintfStability
+    - name: PcmCapabilities
+      fields:
+        - name: sampleRateHz
+          type:
+            name: int
+            is_array: true
+        - name: channelMode
+          type:
+            name: ChannelMode
+            is_array: true
+        - name: bitsPerSample
+          type:
+            name: byte
+            is_array: true
+        - name: dataIntervalUs
+          type:
+            name: int
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: PcmConfiguration
+      fields:
+        - name: sampleRateHz
+          type:
+            name: int
+        - name: channelMode
+          type:
+            name: ChannelMode
+        - name: bitsPerSample
+          type:
+            name: byte
+        - name: dataIntervalUs
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: PresentationPosition
+      fields:
+        - name: remoteDeviceAudioDelayNanos
+          type:
+            name: long
+        - name: transmittedOctets
+          type:
+            name: long
+        - name: transmittedOctetsTimestamp
+          type:
+            name: TimeSpec
+      nested_types:
+        - PresentationPosition.TimeSpec
+      annotations:
+        - VintfStability
+    - name: PresentationPosition.TimeSpec
+      fields:
+        - name: tvSec
+          type:
+            name: long
+        - name: tvNSec
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: SbcCapabilities
+      fields:
+        - name: sampleRateHz
+          type:
+            name: int
+            is_array: true
+        - name: channelMode
+          type:
+            name: SbcChannelMode
+            is_array: true
+        - name: blockLength
+          type:
+            name: byte
+            is_array: true
+        - name: numSubbands
+          type:
+            name: byte
+            is_array: true
+        - name: allocMethod
+          type:
+            name: SbcAllocMethod
+            is_array: true
+        - name: bitsPerSample
+          type:
+            name: byte
+            is_array: true
+        - name: minBitpool
+          type:
+            name: int
+        - name: maxBitpool
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: SbcConfiguration
+      fields:
+        - name: sampleRateHz
+          type:
+            name: int
+        - name: channelMode
+          type:
+            name: SbcChannelMode
+        - name: blockLength
+          type:
+            name: byte
+        - name: numSubbands
+          type:
+            name: byte
+        - name: allocMethod
+          type:
+            name: SbcAllocMethod
+        - name: bitsPerSample
+          type:
+            name: byte
+        - name: minBitpool
+          type:
+            name: int
+        - name: maxBitpool
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: UnicastCapability
+      fields:
+        - name: codecType
+          type:
+            name: CodecType
+        - name: supportedChannel
+          type:
+            name: AudioLocation
+        - name: deviceCount
+          type:
+            name: int
+        - name: channelCountPerDevice
+          type:
+            name: int
+        - name: leAudioCodecCapabilities
+          type:
+            name: LeAudioCodecCapabilities
+      nested_types:
+        - UnicastCapability.VendorCapabilities
+        - UnicastCapability.LeAudioCodecCapabilities
+      annotations:
+        - VintfStability
+    - name: UnicastCapability.VendorCapabilities
+      fields:
+        - name: extension
+          type:
+            name: ParcelableHolder
+      annotations:
+        - VintfStability
+enums:
+    - name: A2dpStatus
+      backing_type: byte
+      values:
+        - name: OK
+          value: "0"
+        - name: BAD_LENGTH
+          value: 0x11u8
+        - name: BAD_PAYLOAD_FORMAT
+          value: 0x18u8
+        - name: INVALID_CODEC_TYPE
+          value: 0xC1u8
+        - name: NOT_SUPPORTED_CODEC_TYPE
+          value: 0xC2u8
+        - name: INVALID_SAMPLING_FREQUENCY
+          value: 0xC3u8
+        - name: NOT_SUPPORTED_SAMPLING_FREQUENCY
+          value: 0xC4u8
+        - name: INVALID_CHANNEL_MODE
+          value: 0xC5u8
+        - name: NOT_SUPPORTED_CHANNEL_MODE
+          value: 0xC6u8
+        - name: INVALID_SUBBANDS
+          value: 0xC7u8
+        - name: NOT_SUPPORTED_SUBBANDS
+          value: 0xC8u8
+        - name: INVALID_ALLOCATION_METHOD
+          value: 0xC9u8
+        - name: NOT_SUPPORTED_ALLOCATION_METHOD
+          value: 0xCAu8
+        - name: INVALID_MINIMUM_BITPOOL_VALUE
+          value: 0xCBu8
+        - name: NOT_SUPPORTED_MINIMUM_BITPOOL_VALUE
+          value: 0xCCu8
+        - name: INVALID_MAXIMUM_BITPOOL_VALUE
+          value: 0xCDu8
+        - name: NOT_SUPPORTED_MAXIMUM_BITPOOL_VALUE
+          value: 0xCEu8
+        - name: NOT_SUPPORTED_VBR
+          value: 0xD3u8
+        - name: NOT_SUPPORTED_BIT_RATE
+          value: 0xD5u8
+        - name: INVALID_OBJECT_TYPE
+          value: 0xD6u8
+        - name: NOT_SUPPORTED_OBJECT_TYPE
+          value: 0xD7u8
+        - name: INVALID_CHANNELS
+          value: 0xD8u8
+        - name: NOT_SUPPORTED_CHANNELS
+          value: 0xD9u8
+        - name: INVALID_BLOCK_LENGTH
+          value: 0xDDu8
+        - name: INVALID_CODEC_PARAMETER
+          value: 0xE2u8
+        - name: NOT_SUPPORTED_CODEC_PARAMETER
+          value: 0xE3u8
+        - name: INVALID_DRC
+          value: 0xE4u8
+        - name: NOT_SUPPORTED_DRC
+          value: 0xE5u8
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AacObjectType
+      backing_type: byte
+      values:
+        - name: MPEG2_LC
+          value: ""
+        - name: MPEG4_LC
+          value: ""
+        - name: MPEG4_LTP
+          value: ""
+        - name: MPEG4_SCALABLE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AptxAdaptiveChannelMode
+      backing_type: int
+      values:
+        - name: JOINT_STEREO
+          value: "0"
+        - name: MONO
+          value: "1"
+        - name: DUAL_MONO
+          value: "2"
+        - name: TWS_STEREO
+          value: "4"
+        - name: UNKNOWN
+          value: "0xFF"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AptxAdaptiveInputMode
+      backing_type: int
+      values:
+        - name: STEREO
+          value: "0x00"
+        - name: DUAL_MONO
+          value: "0x01"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AptxMode
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0x00"
+        - name: HIGH_QUALITY
+          value: "0x1000"
+        - name: LOW_LATENCY
+          value: "0x2000"
+        - name: ULTRA_LOW_LATENCY
+          value: "0x4000"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: AudioLocation
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "1"
+        - name: FRONT_LEFT
+          value: 1 << 1
+        - name: FRONT_RIGHT
+          value: 1 << 2
+      annotations:
+        - VintfStability
+        - Backing
+    - name: BluetoothAudioStatus
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: "0"
+        - name: SUCCESS
+          value: "1"
+        - name: UNSUPPORTED_CODEC_CONFIGURATION
+          value: "2"
+        - name: FAILURE
+          value: "3"
+        - name: RECONFIGURATION
+          value: "4"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: ChannelMode
+      backing_type: byte
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: MONO
+          value: ""
+        - name: STEREO
+          value: ""
+        - name: DUALMONO
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CodecId.A2dp
+      backing_type: ""
+      values:
+        - name: SBC
+          value: "0"
+        - name: AAC
+          value: "2"
+    - name: CodecId.Core
+      backing_type: ""
+      values:
+        - name: CVSD
+          value: "2"
+        - name: MSBC
+          value: "5"
+        - name: LC3
+          value: "6"
+    - name: CodecSpecificConfigurationLtv.FrameDuration
+      backing_type: byte
+      values:
+        - name: US7500
+          value: "0x00"
+        - name: US10000
+          value: "0x01"
+      annotations:
+        - Backing
+    - name: CodecSpecificConfigurationLtv.SamplingFrequency
+      backing_type: byte
+      values:
+        - name: HZ8000
+          value: "0x01"
+        - name: HZ11025
+          value: "0x02"
+        - name: HZ16000
+          value: "0x03"
+        - name: HZ22050
+          value: "0x04"
+        - name: HZ24000
+          value: "0x05"
+        - name: HZ32000
+          value: "0x06"
+        - name: HZ44100
+          value: "0x07"
+        - name: HZ48000
+          value: "0x08"
+        - name: HZ88200
+          value: "0x09"
+        - name: HZ96000
+          value: "0x0A"
+        - name: HZ176400
+          value: "0x0B"
+        - name: HZ192000
+          value: "0x0C"
+        - name: HZ384000
+          value: "0x0D"
+      annotations:
+        - Backing
+    - name: CodecType
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: SBC
+          value: ""
+        - name: AAC
+          value: ""
+        - name: APTX
+          value: ""
+        - name: APTX_HD
+          value: ""
+        - name: LDAC
+          value: ""
+        - name: LC3
+          value: ""
+        - name: VENDOR
+          value: ""
+        - name: APTX_ADAPTIVE
+          value: ""
+        - name: OPUS
+          value: ""
+        - name: APTX_ADAPTIVE_LE
+          value: ""
+        - name: APTX_ADAPTIVE_LEX
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IBluetoothAudioProvider.AseState
+      backing_type: byte
+      values:
+        - name: ENABLING
+          value: "0x00"
+        - name: STREAMING
+          value: "0x01"
+        - name: DISABLING
+          value: "0x02"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IBluetoothAudioProvider.BroadcastQuality
+      backing_type: byte
+      values:
+        - name: STANDARD
+          value: ""
+        - name: HIGH
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IBluetoothAudioProvider.Framing
+      backing_type: byte
+      values:
+        - name: UNFRAMED
+          value: "0x00"
+        - name: FRAMED
+          value: "0x01"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: IBluetoothAudioProvider.Packing
+      backing_type: byte
+      values:
+        - name: SEQUENTIAL
+          value: "0x00"
+        - name: INTERLEAVED
+          value: "0x01"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LatencyMode
+      backing_type: int
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: LOW_LATENCY
+          value: ""
+        - name: FREE
+          value: ""
+        - name: DYNAMIC_SPATIAL_AUDIO_SOFTWARE
+          value: ""
+        - name: DYNAMIC_SPATIAL_AUDIO_HARDWARE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LdacChannelMode
+      backing_type: byte
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: STEREO
+          value: ""
+        - name: DUAL
+          value: ""
+        - name: MONO
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LdacQualityIndex
+      backing_type: byte
+      values:
+        - name: HIGH
+          value: ""
+        - name: MID
+          value: ""
+        - name: LOW
+          value: ""
+        - name: ABR
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LeAudioAseConfiguration.TargetLatency
+      backing_type: byte
+      values:
+        - name: UNDEFINED
+          value: "0x00"
+        - name: LOWER
+          value: "0x01"
+        - name: BALANCED_LATENCY_RELIABILITY
+          value: "0x02"
+        - name: HIGHER_RELIABILITY
+          value: "0x03"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: LeAudioConfiguration.StreamMap.BluetoothDeviceAddress.DeviceAddressType
+      backing_type: ""
+      values:
+        - name: BLE_ADDRESS_PUBLIC
+          value: "0x00"
+        - name: BLE_ADDRESS_RANDOM
+          value: "0x01"
+    - name: Phy
+      backing_type: byte
+      values:
+        - name: UNDEFINED
+          value: "0x00"
+        - name: ONE_M
+          value: "0x01"
+        - name: TWO_M
+          value: "0x02"
+        - name: CODED
+          value: "0x03"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SbcAllocMethod
+      backing_type: byte
+      values:
+        - name: ALLOC_MD_S
+          value: ""
+        - name: ALLOC_MD_L
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SbcChannelMode
+      backing_type: byte
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: JOINT_STEREO
+          value: ""
+        - name: STEREO
+          value: ""
+        - name: DUAL
+          value: ""
+        - name: MONO
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SessionType
+      backing_type: byte
+      values:
+        - name: UNKNOWN
+          value: ""
+        - name: A2DP_SOFTWARE_ENCODING_DATAPATH
+          value: ""
+        - name: A2DP_HARDWARE_OFFLOAD_ENCODING_DATAPATH
+          value: ""
+        - name: HEARING_AID_SOFTWARE_ENCODING_DATAPATH
+          value: ""
+        - name: LE_AUDIO_SOFTWARE_ENCODING_DATAPATH
+          value: ""
+        - name: LE_AUDIO_SOFTWARE_DECODING_DATAPATH
+          value: ""
+        - name: LE_AUDIO_HARDWARE_OFFLOAD_ENCODING_DATAPATH
+          value: ""
+        - name: LE_AUDIO_HARDWARE_OFFLOAD_DECODING_DATAPATH
+          value: ""
+        - name: LE_AUDIO_BROADCAST_SOFTWARE_ENCODING_DATAPATH
+          value: ""
+        - name: LE_AUDIO_BROADCAST_HARDWARE_OFFLOAD_ENCODING_DATAPATH
+          value: ""
+        - name: A2DP_SOFTWARE_DECODING_DATAPATH
+          value: ""
+        - name: A2DP_HARDWARE_OFFLOAD_DECODING_DATAPATH
+          value: ""
+        - name: HFP_SOFTWARE_ENCODING_DATAPATH
+          value: ""
+        - name: HFP_SOFTWARE_DECODING_DATAPATH
+          value: ""
+        - name: HFP_HARDWARE_OFFLOAD_DATAPATH
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: AudioCapabilities
+      fields:
+        - name: pcmCapabilities
+          type:
+            name: PcmCapabilities
+        - name: a2dpCapabilities
+          type:
+            name: CodecCapabilities
+        - name: leAudioCapabilities
+          type:
+            name: LeAudioCodecCapabilitiesSetting
+      annotations:
+        - VintfStability
+    - name: AudioConfiguration
+      fields:
+        - name: pcmConfig
+          type:
+            name: PcmConfiguration
+        - name: a2dpConfig
+          type:
+            name: CodecConfiguration
+        - name: leAudioConfig
+          type:
+            name: LeAudioConfiguration
+        - name: leAudioBroadcastConfig
+          type:
+            name: LeAudioBroadcastConfiguration
+        - name: hfpConfig
+          type:
+            name: HfpConfiguration
+        - name: a2dp
+          type:
+            name: A2dpStreamConfiguration
+      annotations:
+        - VintfStability
+    - name: BroadcastCapability.LeAudioCodecCapabilities
+      fields:
+        - name: lc3Capabilities
+          type:
+            name: Lc3Capabilities
+            is_array: true
+          annotations:
+            - nullable
+        - name: vendorCapabillities
+          type:
+            name: VendorCapabilities
+            is_array: true
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: CodecCapabilities.Capabilities
+      fields:
+        - name: sbcCapabilities
+          type:
+            name: SbcCapabilities
+        - name: aacCapabilities
+          type:
+            name: AacCapabilities
+        - name: ldacCapabilities
+          type:
+            name: LdacCapabilities
+        - name: aptxCapabilities
+          type:
+            name: AptxCapabilities
+        - name: aptxAdaptiveCapabilities
+          type:
+            name: AptxAdaptiveCapabilities
+        - name: lc3Capabilities
+          type:
+            name: Lc3Capabilities
+        - name: vendorCapabilities
+          type:
+            name: VendorCapabilities
+        - name: opusCapabilities
+          type:
+            name: OpusCapabilities
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: CodecConfiguration.CodecSpecific
+      fields:
+        - name: sbcConfig
+          type:
+            name: SbcConfiguration
+        - name: aacConfig
+          type:
+            name: AacConfiguration
+        - name: ldacConfig
+          type:
+            name: LdacConfiguration
+        - name: aptxConfig
+          type:
+            name: AptxConfiguration
+        - name: aptxAdaptiveConfig
+          type:
+            name: AptxAdaptiveConfiguration
+        - name: lc3Config
+          type:
+            name: Lc3Configuration
+        - name: vendorConfig
+          type:
+            name: VendorConfiguration
+        - name: opusConfig
+          type:
+            name: OpusConfiguration
+          annotations:
+            - nullable
+      annotations:
+        - VintfStability
+    - name: CodecId
+      fields:
+        - name: a2dp
+          type:
+            name: A2dp
+          default_value: A2dp.SBC
+        - name: core
+          type:
+            name: Core
+        - name: vendor
+          type:
+            name: Vendor
+      annotations:
+        - VintfStability
+    - name: CodecInfo.Transport
+      fields:
+        - name: leAudio
+          type:
+            name: LeAudio
+        - name: a2dp
+          type:
+            name: A2dp
+        - name: hfp
+          type:
+            name: Hfp
+    - name: CodecSpecificCapabilitiesLtv
+      fields:
+        - name: supportedSamplingFrequencies
+          type:
+            name: SupportedSamplingFrequencies
+        - name: supportedFrameDurations
+          type:
+            name: SupportedFrameDurations
+        - name: supportedAudioChannelCounts
+          type:
+            name: SupportedAudioChannelCounts
+        - name: supportedOctetsPerCodecFrame
+          type:
+            name: SupportedOctetsPerCodecFrame
+        - name: supportedMaxCodecFramesPerSDU
+          type:
+            name: SupportedMaxCodecFramesPerSDU
+      annotations:
+        - VintfStability
+    - name: CodecSpecificConfigurationLtv
+      fields:
+        - name: codecFrameBlocksPerSDU
+          type:
+            name: CodecFrameBlocksPerSDU
+        - name: samplingFrequency
+          type:
+            name: SamplingFrequency
+        - name: frameDuration
+          type:
+            name: FrameDuration
+        - name: audioChannelAllocation
+          type:
+            name: AudioChannelAllocation
+        - name: octetsPerCodecFrame
+          type:
+            name: OctetsPerCodecFrame
+      annotations:
+        - VintfStability
+    - name: LeAudioCodecConfiguration
+      fields:
+        - name: lc3Config
+          type:
+            name: Lc3Configuration
+        - name: vendorConfig
+          type:
+            name: VendorConfiguration
+        - name: aptxAdaptiveLeConfig
+          type:
+            name: AptxAdaptiveLeConfiguration
+      annotations:
+        - VintfStability
+    - name: MetadataLtv
+      fields:
+        - name: preferredAudioContexts
+          type:
+            name: PreferredAudioContexts
+        - name: streamingAudioContexts
+          type:
+            name: StreamingAudioContexts
+        - name: vendorSpecific
+          type:
+            name: VendorSpecific
+      annotations:
+        - VintfStability
+    - name: UnicastCapability.LeAudioCodecCapabilities
+      fields:
+        - name: lc3Capabilities
+          type:
+            name: Lc3Capabilities
+        - name: vendorCapabillities
+          type:
+            name: VendorCapabilities
+        - name: aptxAdaptiveLeCapabilities
+          type:
+            name: AptxAdaptiveLeCapabilities
+      annotations:
+        - VintfStability

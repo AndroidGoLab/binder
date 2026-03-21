@@ -45,6 +45,7 @@ func (p *TaskFpsCallbackProxy) OnFpsReported(
 	fps float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFpsCallback)
 	_data.WriteFloat32(fps)
 
@@ -60,7 +61,8 @@ func (p *TaskFpsCallbackProxy) OnFpsReported(
 // TaskFpsCallbackStub dispatches incoming binder transactions
 // to a typed ITaskFpsCallback implementation.
 type TaskFpsCallbackStub struct {
-	Impl ITaskFpsCallback
+	Impl      ITaskFpsCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TaskFpsCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *TaskFpsCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITaskFpsCallbackOnFpsReported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_fps, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnFpsReported(ctx, _arg_fps)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

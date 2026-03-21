@@ -34,9 +34,19 @@ func (s *CompositeEffect) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.DelayMs, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_primitiveRaw, _err := p.ReadInt32()
@@ -44,6 +54,11 @@ func (s *CompositeEffect) UnmarshalParcel(
 		return _err
 	}
 	s.Primitive = CompositePrimitive(_primitiveRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.Scale, _err = p.ReadFloat32()
 	if _err != nil {

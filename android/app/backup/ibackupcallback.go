@@ -45,6 +45,7 @@ func (p *BackupCallbackProxy) OperationComplete(
 	result int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackupCallback)
 	_data.WriteInt64(result)
 
@@ -60,7 +61,8 @@ func (p *BackupCallbackProxy) OperationComplete(
 // BackupCallbackStub dispatches incoming binder transactions
 // to a typed IBackupCallback implementation.
 type BackupCallbackStub struct {
-	Impl IBackupCallback
+	Impl      IBackupCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BackupCallbackStub)(nil)
@@ -74,18 +76,18 @@ func (s *BackupCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBackupCallbackOperationComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_result, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OperationComplete(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

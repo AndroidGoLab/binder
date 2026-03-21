@@ -3,6 +3,7 @@ package ondeviceintelligence
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,7 +25,7 @@ const (
 type ITokenCountCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, tokenCount int64) error
-	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams interface{}) error
+	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams os.PersistableBundle) error
 }
 
 type TokenCountCallbackProxy struct {
@@ -48,6 +49,7 @@ func (p *TokenCountCallbackProxy) OnSuccess(
 	tokenCount int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITokenCountCallback)
 	_data.WriteInt64(tokenCount)
 
@@ -73,12 +75,17 @@ func (p *TokenCountCallbackProxy) OnFailure(
 	ctx context.Context,
 	errorCode int32,
 	errorMessage string,
-	errorParams interface{},
+	errorParams os.PersistableBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITokenCountCallback)
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
+	_data.WriteInt32(1)
+	if _err := errorParams.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITokenCountCallback, MethodITokenCountCallbackOnFailure)
 	if _err != nil {
@@ -101,7 +108,8 @@ func (p *TokenCountCallbackProxy) OnFailure(
 // TokenCountCallbackStub dispatches incoming binder transactions
 // to a typed ITokenCountCallback implementation.
 type TokenCountCallbackStub struct {
-	Impl ITokenCountCallback
+	Impl      ITokenCountCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TokenCountCallbackStub)(nil)
@@ -115,11 +123,12 @@ func (s *TokenCountCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITokenCountCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_tokenCount, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -133,9 +142,6 @@ func (s *TokenCountCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITokenCountCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -144,7 +150,18 @@ func (s *TokenCountCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_errorParams interface{}
+		var _arg_errorParams os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_errorParams.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnFailure(ctx, _arg_errorCode, _arg_errorMessage, _arg_errorParams)
 		_reply := parcel.New()
 		if _err != nil {
@@ -163,7 +180,7 @@ func (s *TokenCountCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type ITokenCountCallbackServer interface {
 	OnSuccess(ctx context.Context, tokenCount int64) error
-	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams interface{}) error
+	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams os.PersistableBundle) error
 }
 
 type tokenCountCallbackStubWrapper struct {
@@ -186,7 +203,7 @@ func (w *tokenCountCallbackStubWrapper) OnFailure(
 	ctx context.Context,
 	errorCode int32,
 	errorMessage string,
-	errorParams interface{},
+	errorParams os.PersistableBundle,
 ) error {
 	return w.impl.OnFailure(ctx, errorCode, errorMessage, errorParams)
 }

@@ -48,6 +48,7 @@ func (p *RecognitionSupportCallbackProxy) OnSupportResult(
 	recognitionSupport RecognitionSupport,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionSupportCallback)
 	_data.WriteInt32(1)
 	if _err := recognitionSupport.MarshalParcel(_data); _err != nil {
@@ -68,6 +69,7 @@ func (p *RecognitionSupportCallbackProxy) OnError(
 	error_ int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRecognitionSupportCallback)
 	_data.WriteInt32(error_)
 
@@ -83,7 +85,8 @@ func (p *RecognitionSupportCallbackProxy) OnError(
 // RecognitionSupportCallbackStub dispatches incoming binder transactions
 // to a typed IRecognitionSupportCallback implementation.
 type RecognitionSupportCallbackStub struct {
-	Impl IRecognitionSupportCallback
+	Impl      IRecognitionSupportCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RecognitionSupportCallbackStub)(nil)
@@ -97,11 +100,12 @@ func (s *RecognitionSupportCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRecognitionSupportCallbackOnSupportResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_recognitionSupport RecognitionSupport
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -115,19 +119,14 @@ func (s *RecognitionSupportCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSupportResult(ctx, _arg_recognitionSupport)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRecognitionSupportCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_error_)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

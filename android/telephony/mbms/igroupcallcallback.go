@@ -52,6 +52,7 @@ func (p *GroupCallCallbackProxy) OnError(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGroupCallCallback)
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(message)
@@ -71,6 +72,7 @@ func (p *GroupCallCallbackProxy) OnGroupCallStateChanged(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGroupCallCallback)
 	_data.WriteInt32(state)
 	_data.WriteInt32(reason)
@@ -89,6 +91,7 @@ func (p *GroupCallCallbackProxy) OnBroadcastSignalStrengthUpdated(
 	signalStrength int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGroupCallCallback)
 	_data.WriteInt32(signalStrength)
 
@@ -104,7 +107,8 @@ func (p *GroupCallCallbackProxy) OnBroadcastSignalStrengthUpdated(
 // GroupCallCallbackStub dispatches incoming binder transactions
 // to a typed IGroupCallCallback implementation.
 type GroupCallCallbackStub struct {
-	Impl IGroupCallCallback
+	Impl      IGroupCallCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GroupCallCallbackStub)(nil)
@@ -118,11 +122,12 @@ func (s *GroupCallCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGroupCallCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -132,12 +137,8 @@ func (s *GroupCallCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_errorCode, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGroupCallCallbackOnGroupCallStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -147,19 +148,14 @@ func (s *GroupCallCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGroupCallStateChanged(ctx, _arg_state, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIGroupCallCallbackOnBroadcastSignalStrengthUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_signalStrength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnBroadcastSignalStrengthUpdated(ctx, _arg_signalStrength)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -51,8 +51,8 @@ type INetworkManagementEventObserver interface {
 	LimitReached(ctx context.Context, limitName string, iface string) error
 	InterfaceClassDataActivityChanged(ctx context.Context, label int32, active bool, tsNanos int64, uid int32) error
 	InterfaceDnsServerInfo(ctx context.Context, iface string, lifetime int64, servers []string) error
-	RouteUpdated(ctx context.Context, route interface{}) error
-	RouteRemoved(ctx context.Context, route interface{}) error
+	RouteUpdated(ctx context.Context, route RouteInfo) error
+	RouteRemoved(ctx context.Context, route RouteInfo) error
 }
 
 type NetworkManagementEventObserverProxy struct {
@@ -77,6 +77,7 @@ func (p *NetworkManagementEventObserverProxy) InterfaceStatusChanged(
 	up bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
 	_data.WriteString16(iface)
 	_data.WriteBool(up)
@@ -96,6 +97,7 @@ func (p *NetworkManagementEventObserverProxy) InterfaceLinkStateChanged(
 	up bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
 	_data.WriteString16(iface)
 	_data.WriteBool(up)
@@ -114,6 +116,7 @@ func (p *NetworkManagementEventObserverProxy) InterfaceAdded(
 	iface string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
 	_data.WriteString16(iface)
 
@@ -131,6 +134,7 @@ func (p *NetworkManagementEventObserverProxy) InterfaceRemoved(
 	iface string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
 	_data.WriteString16(iface)
 
@@ -149,6 +153,7 @@ func (p *NetworkManagementEventObserverProxy) AddressUpdated(
 	address data.LinkAddress,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
 	_data.WriteString16(iface)
 	_data.WriteInt32(1)
@@ -171,6 +176,7 @@ func (p *NetworkManagementEventObserverProxy) AddressRemoved(
 	address data.LinkAddress,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
 	_data.WriteString16(iface)
 	_data.WriteInt32(1)
@@ -193,6 +199,7 @@ func (p *NetworkManagementEventObserverProxy) LimitReached(
 	iface string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
 	_data.WriteString16(limitName)
 	_data.WriteString16(iface)
@@ -214,6 +221,7 @@ func (p *NetworkManagementEventObserverProxy) InterfaceClassDataActivityChanged(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
 	_data.WriteInt32(label)
 	_data.WriteBool(active)
@@ -236,6 +244,7 @@ func (p *NetworkManagementEventObserverProxy) InterfaceDnsServerInfo(
 	servers []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
 	_data.WriteString16(iface)
 	_data.WriteInt64(lifetime)
@@ -259,10 +268,15 @@ func (p *NetworkManagementEventObserverProxy) InterfaceDnsServerInfo(
 
 func (p *NetworkManagementEventObserverProxy) RouteUpdated(
 	ctx context.Context,
-	route interface{},
+	route RouteInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
+	_data.WriteInt32(1)
+	if _err := route.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverRouteUpdated)
 	if _err != nil {
@@ -275,10 +289,15 @@ func (p *NetworkManagementEventObserverProxy) RouteUpdated(
 
 func (p *NetworkManagementEventObserverProxy) RouteRemoved(
 	ctx context.Context,
-	route interface{},
+	route RouteInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
+	_data.WriteInt32(1)
+	if _err := route.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverRouteRemoved)
 	if _err != nil {
@@ -292,7 +311,8 @@ func (p *NetworkManagementEventObserverProxy) RouteRemoved(
 // NetworkManagementEventObserverStub dispatches incoming binder transactions
 // to a typed INetworkManagementEventObserver implementation.
 type NetworkManagementEventObserverStub struct {
-	Impl INetworkManagementEventObserver
+	Impl      INetworkManagementEventObserver
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NetworkManagementEventObserverStub)(nil)
@@ -306,11 +326,12 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINetworkManagementEventObserverInterfaceStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -320,12 +341,8 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.InterfaceStatusChanged(ctx, _arg_iface, _arg_up)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkManagementEventObserverInterfaceLinkStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -335,34 +352,22 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.InterfaceLinkStateChanged(ctx, _arg_iface, _arg_up)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkManagementEventObserverInterfaceAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.InterfaceAdded(ctx, _arg_iface)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkManagementEventObserverInterfaceRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.InterfaceRemoved(ctx, _arg_iface)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkManagementEventObserverAddressUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -380,12 +385,8 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.AddressUpdated(ctx, _arg_iface, _arg_address)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkManagementEventObserverAddressRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -403,12 +404,8 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.AddressRemoved(ctx, _arg_iface, _arg_address)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkManagementEventObserverLimitReached:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_limitName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -418,12 +415,8 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.LimitReached(ctx, _arg_limitName, _arg_iface)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkManagementEventObserverInterfaceClassDataActivityChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_label, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -441,12 +434,8 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.InterfaceClassDataActivityChanged(ctx, _arg_label, _arg_active, _arg_tsNanos, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkManagementEventObserverInterfaceDnsServerInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -455,28 +444,57 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_servers []string
-		_ = _arg_servers
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_servers = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_servers[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.InterfaceDnsServerInfo(ctx, _arg_iface, _arg_lifetime, _arg_servers)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkManagementEventObserverRouteUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_route RouteInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_route.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_route interface{}
 		_err := s.Impl.RouteUpdated(ctx, _arg_route)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionINetworkManagementEventObserverRouteRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_route RouteInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_route.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_route interface{}
 		_err := s.Impl.RouteRemoved(ctx, _arg_route)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -495,8 +513,8 @@ type INetworkManagementEventObserverServer interface {
 	LimitReached(ctx context.Context, limitName string, iface string) error
 	InterfaceClassDataActivityChanged(ctx context.Context, label int32, active bool, tsNanos int64, uid int32) error
 	InterfaceDnsServerInfo(ctx context.Context, iface string, lifetime int64, servers []string) error
-	RouteUpdated(ctx context.Context, route interface{}) error
-	RouteRemoved(ctx context.Context, route interface{}) error
+	RouteUpdated(ctx context.Context, route RouteInfo) error
+	RouteRemoved(ctx context.Context, route RouteInfo) error
 }
 
 type networkManagementEventObserverStubWrapper struct {
@@ -583,14 +601,14 @@ func (w *networkManagementEventObserverStubWrapper) InterfaceDnsServerInfo(
 
 func (w *networkManagementEventObserverStubWrapper) RouteUpdated(
 	ctx context.Context,
-	route interface{},
+	route RouteInfo,
 ) error {
 	return w.impl.RouteUpdated(ctx, route)
 }
 
 func (w *networkManagementEventObserverStubWrapper) RouteRemoved(
 	ctx context.Context,
-	route interface{},
+	route RouteInfo,
 ) error {
 	return w.impl.RouteRemoved(ctx, route)
 }

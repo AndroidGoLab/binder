@@ -1,0 +1,149 @@
+package: android.service.media
+go_package: android/service/media
+interfaces:
+    - name: IMediaBrowserService
+      descriptor: android.service.media.IMediaBrowserService
+      oneway: true
+      methods:
+        - name: connect
+          transaction_code_offset: 0
+          params:
+            - name: pkg
+              type:
+                name: String
+            - name: rootHints
+              type:
+                name: Bundle
+              direction: in
+            - name: callbacks
+              type:
+                name: IMediaBrowserServiceCallbacks
+          return_type:
+            name: void
+        - name: disconnect
+          transaction_code_offset: 1
+          params:
+            - name: callbacks
+              type:
+                name: IMediaBrowserServiceCallbacks
+          return_type:
+            name: void
+        - name: addSubscriptionDeprecated
+          transaction_code_offset: 2
+          params:
+            - name: uri
+              type:
+                name: String
+            - name: callbacks
+              type:
+                name: IMediaBrowserServiceCallbacks
+          return_type:
+            name: void
+        - name: removeSubscriptionDeprecated
+          transaction_code_offset: 3
+          params:
+            - name: uri
+              type:
+                name: String
+            - name: callbacks
+              type:
+                name: IMediaBrowserServiceCallbacks
+          return_type:
+            name: void
+        - name: getMediaItem
+          transaction_code_offset: 4
+          params:
+            - name: uri
+              type:
+                name: String
+            - name: cb
+              type:
+                name: ResultReceiver
+              direction: in
+            - name: callbacks
+              type:
+                name: IMediaBrowserServiceCallbacks
+          return_type:
+            name: void
+        - name: addSubscription
+          transaction_code_offset: 5
+          params:
+            - name: uri
+              type:
+                name: String
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+            - name: callbacks
+              type:
+                name: IMediaBrowserServiceCallbacks
+          return_type:
+            name: void
+        - name: removeSubscription
+          transaction_code_offset: 6
+          params:
+            - name: uri
+              type:
+                name: String
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: callbacks
+              type:
+                name: IMediaBrowserServiceCallbacks
+          return_type:
+            name: void
+    - name: IMediaBrowserServiceCallbacks
+      descriptor: android.service.media.IMediaBrowserServiceCallbacks
+      oneway: true
+      methods:
+        - name: onConnect
+          transaction_code_offset: 0
+          params:
+            - name: root
+              type:
+                name: String
+            - name: session
+              type:
+                name: MediaSession.Token
+              direction: in
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onConnectFailed
+          transaction_code_offset: 1
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onLoadChildren
+          transaction_code_offset: 2
+          params:
+            - name: mediaId
+              type:
+                name: String
+            - name: list
+              type:
+                name: ParceledListSlice
+              direction: in
+            - name: options
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onDisconnect
+          transaction_code_offset: 3
+          return_type:
+            name: void

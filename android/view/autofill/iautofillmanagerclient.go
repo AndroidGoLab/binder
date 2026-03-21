@@ -6,6 +6,7 @@ import (
 	androidContent "github.com/xaionaro-go/binder/android/content"
 	credentials "github.com/xaionaro-go/binder/android/credentials"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
@@ -78,7 +79,7 @@ type IAutoFillManagerClient interface {
 	NotifyNoFillUi(ctx context.Context, sessionId int32, id AutofillId, sessionFinishedState int32) error
 	NotifyFillUiShown(ctx context.Context, sessionId int32, id AutofillId) error
 	NotifyFillUiHidden(ctx context.Context, sessionId int32, id AutofillId) error
-	DispatchUnhandledKey(ctx context.Context, sessionId int32, id AutofillId, keyEvent interface{}) error
+	DispatchUnhandledKey(ctx context.Context, sessionId int32, id AutofillId, keyEvent view.KeyEvent) error
 	StartIntentSender(ctx context.Context, intentSender androidContent.IntentSender, intent androidContent.Intent) error
 	SetSaveUiState(ctx context.Context, sessionId int32, shown bool) error
 	SetSessionFinished(ctx context.Context, newState int32, autofillableIds []AutofillId) error
@@ -109,6 +110,7 @@ func (p *AutoFillManagerClientProxy) SetState(
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(flags)
 
@@ -129,6 +131,7 @@ func (p *AutoFillManagerClientProxy) Autofill(
 	hideHighlight bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
 	if ids == nil {
@@ -171,6 +174,7 @@ func (p *AutoFillManagerClientProxy) OnGetCredentialResponse(
 	response credentials.GetCredentialResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -199,6 +203,7 @@ func (p *AutoFillManagerClientProxy) OnGetCredentialException(
 	errorMsg string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -224,6 +229,7 @@ func (p *AutoFillManagerClientProxy) AutofillContent(
 	content androidContent.ClipData,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -253,6 +259,7 @@ func (p *AutoFillManagerClientProxy) Authenticate(
 	authenticateInline bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(authenticationId)
@@ -285,6 +292,7 @@ func (p *AutoFillManagerClientProxy) SetTrackedViews(
 	saveTriggerId AutofillId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
 	if savableIds == nil {
@@ -335,6 +343,7 @@ func (p *AutoFillManagerClientProxy) RequestShowFillUi(
 	presenter IAutofillWindowPresenter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -364,6 +373,7 @@ func (p *AutoFillManagerClientProxy) RequestHideFillUi(
 	id AutofillId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -386,6 +396,7 @@ func (p *AutoFillManagerClientProxy) RequestHideFillUiWhenDestroyed(
 	id AutofillId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -409,6 +420,7 @@ func (p *AutoFillManagerClientProxy) NotifyNoFillUi(
 	sessionFinishedState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -432,6 +444,7 @@ func (p *AutoFillManagerClientProxy) NotifyFillUiShown(
 	id AutofillId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -454,6 +467,7 @@ func (p *AutoFillManagerClientProxy) NotifyFillUiHidden(
 	id AutofillId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -474,13 +488,18 @@ func (p *AutoFillManagerClientProxy) DispatchUnhandledKey(
 	ctx context.Context,
 	sessionId int32,
 	id AutofillId,
-	keyEvent interface{},
+	keyEvent view.KeyEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := keyEvent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -499,6 +518,7 @@ func (p *AutoFillManagerClientProxy) StartIntentSender(
 	intent androidContent.Intent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(1)
 	if _err := intentSender.MarshalParcel(_data); _err != nil {
@@ -524,6 +544,7 @@ func (p *AutoFillManagerClientProxy) SetSaveUiState(
 	shown bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
 	_data.WriteBool(shown)
@@ -543,6 +564,7 @@ func (p *AutoFillManagerClientProxy) SetSessionFinished(
 	autofillableIds []AutofillId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(newState)
 	if autofillableIds == nil {
@@ -571,6 +593,7 @@ func (p *AutoFillManagerClientProxy) GetAugmentedAutofillClient(
 	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
@@ -589,6 +612,7 @@ func (p *AutoFillManagerClientProxy) NotifyDisableAutofill(
 	componentName androidContent.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt64(disableDuration)
 	_data.WriteInt32(1)
@@ -610,6 +634,7 @@ func (p *AutoFillManagerClientProxy) RequestShowSoftInput(
 	id AutofillId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
@@ -630,6 +655,7 @@ func (p *AutoFillManagerClientProxy) NotifyFillDialogTriggerIds(
 	ids []AutofillId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	if ids == nil {
 		_data.WriteInt32(-1)
@@ -655,7 +681,8 @@ func (p *AutoFillManagerClientProxy) NotifyFillDialogTriggerIds(
 // AutoFillManagerClientStub dispatches incoming binder transactions
 // to a typed IAutoFillManagerClient implementation.
 type AutoFillManagerClientStub struct {
-	Impl IAutoFillManagerClient
+	Impl      IAutoFillManagerClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AutoFillManagerClientStub)(nil)
@@ -669,43 +696,72 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAutoFillManagerClientSetState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetState(ctx, _arg_flags)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientAutofill:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ids []AutofillId
-		_ = _arg_ids
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ids = make([]AutofillId, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_ids[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_values []AutofillValue
-		_ = _arg_values
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_values = make([]AutofillValue, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_values[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_hideHighlight, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Autofill(ctx, _arg_sessionId, _arg_ids, _arg_values, _arg_hideHighlight)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientOnGetCredentialResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -735,12 +791,8 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnGetCredentialResponse(ctx, _arg_sessionId, _arg_id, _arg_response)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientOnGetCredentialException:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -766,12 +818,8 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnGetCredentialException(ctx, _arg_sessionId, _arg_id, _arg_errorType, _arg_errorMsg)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientAutofillContent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -801,12 +849,8 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.AutofillContent(ctx, _arg_sessionId, _arg_id, _arg_content)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientAuthenticate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -844,19 +888,33 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.Authenticate(ctx, _arg_sessionId, _arg_authenticationId, _arg_intent, _arg_fillInIntent, _arg_authenticateInline)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientSetTrackedViews:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_savableIds []AutofillId
-		_ = _arg_savableIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_savableIds = make([]AutofillId, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_savableIds[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_saveOnAllViewsInvisible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -865,9 +923,27 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_fillableIds []AutofillId
-		_ = _arg_fillableIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_fillableIds = make([]AutofillId, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_fillableIds[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_saveTriggerId AutofillId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -881,12 +957,8 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetTrackedViews(ctx, _arg_sessionId, _arg_savableIds, _arg_saveOnAllViewsInvisible, _arg_saveOnFinish, _arg_fillableIds, _arg_saveTriggerId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientRequestShowFillUi:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -923,16 +995,17 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_presenter IAutofillWindowPresenter
-		_ = _arg_presenter
-		_err = s.Impl.RequestShowFillUi(ctx, _arg_sessionId, _arg_id, _arg_width, _arg_height, _arg_anchorBounds, _arg_presenter)
-		_ = _err
-		return nil, nil
-	case TransactionIAutoFillManagerClientRequestHideFillUi:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_presenterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_presenter = NewAutofillWindowPresenterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _presenterHandle))
 		}
+		_err = s.Impl.RequestShowFillUi(ctx, _arg_sessionId, _arg_id, _arg_width, _arg_height, _arg_anchorBounds, _arg_presenter)
+		return nil, _err
+	case TransactionIAutoFillManagerClientRequestHideFillUi:
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -950,12 +1023,8 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.RequestHideFillUi(ctx, _arg_sessionId, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientRequestHideFillUiWhenDestroyed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -973,12 +1042,8 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.RequestHideFillUiWhenDestroyed(ctx, _arg_sessionId, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientNotifyNoFillUi:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1000,12 +1065,8 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyNoFillUi(ctx, _arg_sessionId, _arg_id, _arg_sessionFinishedState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientNotifyFillUiShown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1023,12 +1084,8 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyFillUiShown(ctx, _arg_sessionId, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientNotifyFillUiHidden:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1046,12 +1103,8 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyFillUiHidden(ctx, _arg_sessionId, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientDispatchUnhandledKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1068,14 +1121,21 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_keyEvent interface{}
-		_err = s.Impl.DispatchUnhandledKey(ctx, _arg_sessionId, _arg_id, _arg_keyEvent)
-		_ = _err
-		return nil, nil
-	case TransactionIAutoFillManagerClientStartIntentSender:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_keyEvent view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_keyEvent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		_err = s.Impl.DispatchUnhandledKey(ctx, _arg_sessionId, _arg_id, _arg_keyEvent)
+		return nil, _err
+	case TransactionIAutoFillManagerClientStartIntentSender:
 		var _arg_intentSender androidContent.IntentSender
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1101,12 +1161,8 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.StartIntentSender(ctx, _arg_intentSender, _arg_intent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientSetSaveUiState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1116,36 +1172,47 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetSaveUiState(ctx, _arg_sessionId, _arg_shown)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientSetSessionFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_newState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_autofillableIds []AutofillId
-		_ = _arg_autofillableIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_autofillableIds = make([]AutofillId, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_autofillableIds[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.SetSessionFinished(ctx, _arg_newState, _arg_autofillableIds)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientGetAugmentedAutofillClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
-		_ = _arg_result
-		_err := s.Impl.GetAugmentedAutofillClient(ctx, _arg_result)
-		_ = _err
-		return nil, nil
-	case TransactionIAutoFillManagerClientNotifyDisableAutofill:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_resultHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_result = os.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _resultHandle))
 		}
+		_err := s.Impl.GetAugmentedAutofillClient(ctx, _arg_result)
+		return nil, _err
+	case TransactionIAutoFillManagerClientNotifyDisableAutofill:
 		_arg_disableDuration, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1163,12 +1230,8 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifyDisableAutofill(ctx, _arg_disableDuration, _arg_componentName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientRequestShowSoftInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_id AutofillId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1182,18 +1245,31 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.RequestShowSoftInput(ctx, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAutoFillManagerClientNotifyFillDialogTriggerIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ids []AutofillId
-		_ = _arg_ids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ids = make([]AutofillId, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_ids[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.NotifyFillDialogTriggerIds(ctx, _arg_ids)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1216,7 +1292,7 @@ type IAutoFillManagerClientServer interface {
 	NotifyNoFillUi(ctx context.Context, sessionId int32, id AutofillId, sessionFinishedState int32) error
 	NotifyFillUiShown(ctx context.Context, sessionId int32, id AutofillId) error
 	NotifyFillUiHidden(ctx context.Context, sessionId int32, id AutofillId) error
-	DispatchUnhandledKey(ctx context.Context, sessionId int32, id AutofillId, keyEvent interface{}) error
+	DispatchUnhandledKey(ctx context.Context, sessionId int32, id AutofillId, keyEvent view.KeyEvent) error
 	StartIntentSender(ctx context.Context, intentSender androidContent.IntentSender, intent androidContent.Intent) error
 	SetSaveUiState(ctx context.Context, sessionId int32, shown bool) error
 	SetSessionFinished(ctx context.Context, newState int32, autofillableIds []AutofillId) error
@@ -1360,7 +1436,7 @@ func (w *autoFillManagerClientStubWrapper) DispatchUnhandledKey(
 	ctx context.Context,
 	sessionId int32,
 	id AutofillId,
-	keyEvent interface{},
+	keyEvent view.KeyEvent,
 ) error {
 	return w.impl.DispatchUnhandledKey(ctx, sessionId, id, keyEvent)
 }

@@ -30,6 +30,11 @@ func (s *CameraMetadata) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Metadata, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err

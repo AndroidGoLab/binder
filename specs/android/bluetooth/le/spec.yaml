@@ -1,0 +1,358 @@
+package: android.bluetooth.le
+go_package: android/bluetooth/le
+interfaces:
+    - name: IAdvertisingSetCallback
+      descriptor: android.bluetooth.le.IAdvertisingSetCallback
+      oneway: true
+      methods:
+        - name: onAdvertisingSetStarted
+          transaction_code_offset: 0
+          params:
+            - name: gattBinder
+              type:
+                name: IBinder
+              direction: in
+            - name: advertiserId
+              type:
+                name: int
+              direction: in
+            - name: tx_power
+              type:
+                name: int
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onOwnAddressRead
+          transaction_code_offset: 1
+          params:
+            - name: advertiserId
+              type:
+                name: int
+              direction: in
+            - name: addressType
+              type:
+                name: int
+              direction: in
+            - name: address
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onAdvertisingSetStopped
+          transaction_code_offset: 2
+          params:
+            - name: advertiserId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onAdvertisingEnabled
+          transaction_code_offset: 3
+          params:
+            - name: advertiserId
+              type:
+                name: int
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onAdvertisingDataSet
+          transaction_code_offset: 4
+          params:
+            - name: advertiserId
+              type:
+                name: int
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onScanResponseDataSet
+          transaction_code_offset: 5
+          params:
+            - name: advertiserId
+              type:
+                name: int
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onAdvertisingParametersUpdated
+          transaction_code_offset: 6
+          params:
+            - name: advertiserId
+              type:
+                name: int
+              direction: in
+            - name: tx_power
+              type:
+                name: int
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onPeriodicAdvertisingParametersUpdated
+          transaction_code_offset: 7
+          params:
+            - name: advertiserId
+              type:
+                name: int
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onPeriodicAdvertisingDataSet
+          transaction_code_offset: 8
+          params:
+            - name: advertiserId
+              type:
+                name: int
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onPeriodicAdvertisingEnabled
+          transaction_code_offset: 9
+          params:
+            - name: advertiserId
+              type:
+                name: int
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IDistanceMeasurementCallback
+      descriptor: android.bluetooth.le.IDistanceMeasurementCallback
+      oneway: true
+      methods:
+        - name: onStarted
+          transaction_code_offset: 0
+          params:
+            - name: device
+              type:
+                name: BluetoothDevice
+              direction: in
+          return_type:
+            name: void
+        - name: onStartFail
+          transaction_code_offset: 1
+          params:
+            - name: device
+              type:
+                name: BluetoothDevice
+              direction: in
+            - name: reason
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onStopped
+          transaction_code_offset: 2
+          params:
+            - name: device
+              type:
+                name: BluetoothDevice
+              direction: in
+            - name: reason
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onResult
+          transaction_code_offset: 3
+          params:
+            - name: device
+              type:
+                name: BluetoothDevice
+              direction: in
+            - name: result
+              type:
+                name: DistanceMeasurementResult
+              direction: in
+          return_type:
+            name: void
+    - name: IPeriodicAdvertisingCallback
+      descriptor: android.bluetooth.le.IPeriodicAdvertisingCallback
+      oneway: true
+      methods:
+        - name: onSyncEstablished
+          transaction_code_offset: 0
+          params:
+            - name: syncHandle
+              type:
+                name: int
+              direction: in
+            - name: device
+              type:
+                name: BluetoothDevice
+              direction: in
+            - name: advertisingSid
+              type:
+                name: int
+              direction: in
+            - name: skip
+              type:
+                name: int
+              direction: in
+            - name: timeout
+              type:
+                name: int
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onPeriodicAdvertisingReport
+          transaction_code_offset: 1
+          params:
+            - name: report
+              type:
+                name: PeriodicAdvertisingReport
+              direction: in
+          return_type:
+            name: void
+        - name: onSyncLost
+          transaction_code_offset: 2
+          params:
+            - name: syncHandle
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onSyncTransferred
+          transaction_code_offset: 3
+          params:
+            - name: device
+              type:
+                name: BluetoothDevice
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onBigInfoAdvertisingReport
+          transaction_code_offset: 4
+          params:
+            - name: syncHandle
+              type:
+                name: int
+              direction: in
+            - name: encrypted
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+    - name: IScannerCallback
+      descriptor: android.bluetooth.le.IScannerCallback
+      oneway: true
+      methods:
+        - name: onScannerRegistered
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: int
+              direction: in
+            - name: scannerId
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: onScanResult
+          transaction_code_offset: 1
+          params:
+            - name: scanResult
+              type:
+                name: ScanResult
+              direction: in
+          return_type:
+            name: void
+        - name: onBatchScanResults
+          transaction_code_offset: 2
+          params:
+            - name: batchResults
+              type:
+                name: List
+                type_args:
+                    - name: ScanResult
+              direction: in
+          return_type:
+            name: void
+        - name: onFoundOrLost
+          transaction_code_offset: 3
+          params:
+            - name: onFound
+              type:
+                name: boolean
+              direction: in
+            - name: scanResult
+              type:
+                name: ScanResult
+              direction: in
+          return_type:
+            name: void
+        - name: onScanManagerErrorCallback
+          transaction_code_offset: 4
+          params:
+            - name: errorCode
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: AdvertiseData
+    - name: AdvertiseSettings
+    - name: AdvertisingSetParameters
+    - name: DistanceMeasurementMethod
+    - name: DistanceMeasurementParams
+    - name: DistanceMeasurementResult
+    - name: PeriodicAdvertisingParameters
+    - name: PeriodicAdvertisingReport
+    - name: ResultStorageDescriptor
+    - name: ScanFilter
+    - name: ScanResult
+    - name: ScanSettings

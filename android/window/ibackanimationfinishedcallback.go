@@ -45,6 +45,7 @@ func (p *BackAnimationFinishedCallbackProxy) OnAnimationFinished(
 	triggerBack bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackAnimationFinishedCallback)
 	_data.WriteBool(triggerBack)
 
@@ -69,7 +70,8 @@ func (p *BackAnimationFinishedCallbackProxy) OnAnimationFinished(
 // BackAnimationFinishedCallbackStub dispatches incoming binder transactions
 // to a typed IBackAnimationFinishedCallback implementation.
 type BackAnimationFinishedCallbackStub struct {
-	Impl IBackAnimationFinishedCallback
+	Impl      IBackAnimationFinishedCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BackAnimationFinishedCallbackStub)(nil)
@@ -83,11 +85,12 @@ func (s *BackAnimationFinishedCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBackAnimationFinishedCallbackOnAnimationFinished:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_triggerBack, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err

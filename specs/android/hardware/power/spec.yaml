@@ -1,0 +1,436 @@
+package: android.hardware.power
+go_package: android/hardware/power
+interfaces:
+    - name: IPower
+      descriptor: android.hardware.power.IPower
+      methods:
+        - name: setMode
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: type
+              type:
+                name: Mode
+              direction: in
+            - name: enabled
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: isModeSupported
+          transaction_code_offset: 1
+          params:
+            - name: type
+              type:
+                name: Mode
+              direction: in
+          return_type:
+            name: boolean
+        - name: setBoost
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: type
+              type:
+                name: Boost
+              direction: in
+            - name: durationMs
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: isBoostSupported
+          transaction_code_offset: 3
+          params:
+            - name: type
+              type:
+                name: Boost
+              direction: in
+          return_type:
+            name: boolean
+        - name: createHintSession
+          transaction_code_offset: 4
+          params:
+            - name: tgid
+              type:
+                name: int
+              direction: in
+            - name: uid
+              type:
+                name: int
+              direction: in
+            - name: threadIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: durationNanos
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: IPowerHintSession
+        - name: getHintSessionPreferredRate
+          transaction_code_offset: 5
+          return_type:
+            name: long
+        - name: createHintSessionWithConfig
+          transaction_code_offset: 6
+          params:
+            - name: tgid
+              type:
+                name: int
+              direction: in
+            - name: uid
+              type:
+                name: int
+              direction: in
+            - name: threadIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: durationNanos
+              type:
+                name: long
+              direction: in
+            - name: tag
+              type:
+                name: SessionTag
+              direction: in
+            - name: config
+              type:
+                name: SessionConfig
+              direction: out
+          return_type:
+            name: IPowerHintSession
+        - name: getSessionChannel
+          transaction_code_offset: 7
+          params:
+            - name: tgid
+              type:
+                name: int
+              direction: in
+            - name: uid
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: ChannelConfig
+        - name: closeSessionChannel
+          transaction_code_offset: 8
+          oneway: true
+          params:
+            - name: tgid
+              type:
+                name: int
+              direction: in
+            - name: uid
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+    - name: IPowerHintSession
+      descriptor: android.hardware.power.IPowerHintSession
+      methods:
+        - name: updateTargetWorkDuration
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: targetDurationNanos
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: reportActualWorkDuration
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: durations
+              type:
+                name: WorkDuration
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: pause
+          transaction_code_offset: 2
+          oneway: true
+          return_type:
+            name: void
+        - name: resume
+          transaction_code_offset: 3
+          oneway: true
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 4
+          oneway: true
+          return_type:
+            name: void
+        - name: sendHint
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: hint
+              type:
+                name: SessionHint
+          return_type:
+            name: void
+        - name: setThreads
+          transaction_code_offset: 6
+          params:
+            - name: threadIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setMode
+          transaction_code_offset: 7
+          oneway: true
+          params:
+            - name: type
+              type:
+                name: SessionMode
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getSessionConfig
+          transaction_code_offset: 8
+          return_type:
+            name: SessionConfig
+parcelables:
+    - name: ChannelConfig
+      fields:
+        - name: channelDescriptor
+          type:
+            name: MQDescriptor
+            type_args:
+                - name: ChannelMessage
+                - name: SynchronizedReadWrite
+        - name: eventFlagDescriptor
+          type:
+            name: MQDescriptor
+            type_args:
+                - name: byte
+                - name: SynchronizedReadWrite
+          annotations:
+            - nullable
+        - name: readFlagBitmask
+          type:
+            name: int
+        - name: writeFlagBitmask
+          type:
+            name: int
+      annotations:
+        - VintfStability
+    - name: ChannelMessage
+      fields:
+        - name: sessionID
+          type:
+            name: int
+        - name: timeStampNanos
+          type:
+            name: long
+        - name: data
+          type:
+            name: ChannelMessageContents
+      nested_types:
+        - ChannelMessage.ChannelMessageContents
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: ChannelMessage.ChannelMessageContents.SessionModeSetter
+      fields:
+        - name: modeInt
+          type:
+            name: SessionMode
+        - name: enabled
+          type:
+            name: boolean
+      annotations:
+        - FixedSize
+        - VintfStability
+    - name: SessionConfig
+      fields:
+        - name: id
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: WorkDuration
+      fields:
+        - name: timeStampNanos
+          type:
+            name: long
+        - name: durationNanos
+          type:
+            name: long
+        - name: workPeriodStartTimestampNanos
+          type:
+            name: long
+        - name: cpuDurationNanos
+          type:
+            name: long
+        - name: gpuDurationNanos
+          type:
+            name: long
+      annotations:
+        - VintfStability
+    - name: WorkDurationFixedV1
+      fields:
+        - name: durationNanos
+          type:
+            name: long
+        - name: workPeriodStartTimestampNanos
+          type:
+            name: long
+        - name: cpuDurationNanos
+          type:
+            name: long
+        - name: gpuDurationNanos
+          type:
+            name: long
+      annotations:
+        - FixedSize
+        - VintfStability
+enums:
+    - name: Boost
+      backing_type: int
+      values:
+        - name: INTERACTION
+          value: ""
+        - name: DISPLAY_UPDATE_IMMINENT
+          value: ""
+        - name: ML_ACC
+          value: ""
+        - name: AUDIO_LAUNCH
+          value: ""
+        - name: CAMERA_LAUNCH
+          value: ""
+        - name: CAMERA_SHOT
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Mode
+      backing_type: int
+      values:
+        - name: DOUBLE_TAP_TO_WAKE
+          value: ""
+        - name: LOW_POWER
+          value: ""
+        - name: SUSTAINED_PERFORMANCE
+          value: ""
+        - name: FIXED_PERFORMANCE
+          value: ""
+        - name: VR
+          value: ""
+        - name: LAUNCH
+          value: ""
+        - name: EXPENSIVE_RENDERING
+          value: ""
+        - name: INTERACTIVE
+          value: ""
+        - name: DEVICE_IDLE
+          value: ""
+        - name: DISPLAY_INACTIVE
+          value: ""
+        - name: AUDIO_STREAMING_LOW_LATENCY
+          value: ""
+        - name: CAMERA_STREAMING_SECURE
+          value: ""
+        - name: CAMERA_STREAMING_LOW
+          value: ""
+        - name: CAMERA_STREAMING_MID
+          value: ""
+        - name: CAMERA_STREAMING_HIGH
+          value: ""
+        - name: GAME
+          value: ""
+        - name: GAME_LOADING
+          value: ""
+        - name: DISPLAY_CHANGE
+          value: ""
+        - name: AUTOMOTIVE_PROJECTION
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SessionHint
+      backing_type: int
+      values:
+        - name: CPU_LOAD_UP
+          value: "0"
+        - name: CPU_LOAD_DOWN
+          value: "1"
+        - name: CPU_LOAD_RESET
+          value: "2"
+        - name: CPU_LOAD_RESUME
+          value: "3"
+        - name: POWER_EFFICIENCY
+          value: "4"
+        - name: GPU_LOAD_UP
+          value: "5"
+        - name: GPU_LOAD_DOWN
+          value: "6"
+        - name: GPU_LOAD_RESET
+          value: "7"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SessionMode
+      backing_type: int
+      values:
+        - name: POWER_EFFICIENCY
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SessionTag
+      backing_type: int
+      values:
+        - name: OTHER
+          value: ""
+        - name: SURFACEFLINGER
+          value: ""
+        - name: HWUI
+          value: ""
+        - name: GAME
+          value: ""
+        - name: APP
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing
+unions:
+    - name: ChannelMessage.ChannelMessageContents
+      fields:
+        - name: reserved
+          type:
+            name: long
+            is_array: true
+            fixed_size: "16"
+          default_value: 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0
+        - name: targetDuration
+          type:
+            name: long
+        - name: hint
+          type:
+            name: SessionHint
+        - name: mode
+          type:
+            name: SessionModeSetter
+        - name: workDuration
+          type:
+            name: WorkDurationFixedV1
+      annotations:
+        - FixedSize
+        - VintfStability

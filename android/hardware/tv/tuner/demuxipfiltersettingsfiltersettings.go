@@ -33,8 +33,7 @@ func (u *DemuxIpFilterSettingsFilterSettings) GetNoinit() (bool, bool) {
 func (u *DemuxIpFilterSettingsFilterSettings) SetNoinit(
 	v bool,
 ) {
-	u.Tag = DemuxIpFilterSettingsFilterSettingsTagNoinit
-	u.Noinit = v
+	*u = DemuxIpFilterSettingsFilterSettings{Tag: DemuxIpFilterSettingsFilterSettingsTagNoinit, Noinit: v}
 }
 
 func (u *DemuxIpFilterSettingsFilterSettings) GetSection() (DemuxFilterSectionSettings, bool) {
@@ -48,8 +47,7 @@ func (u *DemuxIpFilterSettingsFilterSettings) GetSection() (DemuxFilterSectionSe
 func (u *DemuxIpFilterSettingsFilterSettings) SetSection(
 	v DemuxFilterSectionSettings,
 ) {
-	u.Tag = DemuxIpFilterSettingsFilterSettingsTagSection
-	u.Section = v
+	*u = DemuxIpFilterSettingsFilterSettings{Tag: DemuxIpFilterSettingsFilterSettingsTagSection, Section: v}
 }
 
 func (u *DemuxIpFilterSettingsFilterSettings) GetBPassthrough() (bool, bool) {
@@ -63,8 +61,7 @@ func (u *DemuxIpFilterSettingsFilterSettings) GetBPassthrough() (bool, bool) {
 func (u *DemuxIpFilterSettingsFilterSettings) SetBPassthrough(
 	v bool,
 ) {
-	u.Tag = DemuxIpFilterSettingsFilterSettingsTagBPassthrough
-	u.BPassthrough = v
+	*u = DemuxIpFilterSettingsFilterSettings{Tag: DemuxIpFilterSettingsFilterSettingsTagBPassthrough, BPassthrough: v}
 }
 
 func (u *DemuxIpFilterSettingsFilterSettings) MarshalParcel(

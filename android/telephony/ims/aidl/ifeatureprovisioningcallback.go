@@ -50,6 +50,7 @@ func (p *FeatureProvisioningCallbackProxy) OnFeatureProvisioningChanged(
 	isProvisioned bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureProvisioningCallback)
 	_data.WriteInt32(capability)
 	_data.WriteInt32(tech)
@@ -71,6 +72,7 @@ func (p *FeatureProvisioningCallbackProxy) OnRcsFeatureProvisioningChanged(
 	isProvisioned bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFeatureProvisioningCallback)
 	_data.WriteInt32(capability)
 	_data.WriteInt32(tech)
@@ -88,7 +90,8 @@ func (p *FeatureProvisioningCallbackProxy) OnRcsFeatureProvisioningChanged(
 // FeatureProvisioningCallbackStub dispatches incoming binder transactions
 // to a typed IFeatureProvisioningCallback implementation.
 type FeatureProvisioningCallbackStub struct {
-	Impl IFeatureProvisioningCallback
+	Impl      IFeatureProvisioningCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FeatureProvisioningCallbackStub)(nil)
@@ -102,11 +105,12 @@ func (s *FeatureProvisioningCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFeatureProvisioningCallbackOnFeatureProvisioningChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -120,12 +124,8 @@ func (s *FeatureProvisioningCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnFeatureProvisioningChanged(ctx, _arg_capability, _arg_tech, _arg_isProvisioned)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFeatureProvisioningCallbackOnRcsFeatureProvisioningChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -139,8 +139,7 @@ func (s *FeatureProvisioningCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnRcsFeatureProvisioningChanged(ctx, _arg_capability, _arg_tech, _arg_isProvisioned)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

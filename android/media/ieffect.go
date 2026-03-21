@@ -60,6 +60,7 @@ func (p *EffectProxy) Enable(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectEnable)
@@ -89,6 +90,7 @@ func (p *EffectProxy) Disable(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectDisable)
@@ -122,16 +124,10 @@ func (p *EffectProxy) Command(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 	_data.WriteInt32(cmdCode)
-	if cmdData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(cmdData)))
-		for _, _item := range cmdData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(cmdData)
 	_data.WriteInt32(maxResponseSize)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectCommand)
@@ -148,18 +144,9 @@ func (p *EffectProxy) Command(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	_outCount0, _err := _reply.ReadInt32()
+	response, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-	if _outCount0 >= 0 {
-		response = make([]byte, _outCount0)
-		for _i := int32(0); _i < _outCount0; _i++ {
-			response[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 
 	_result, _err = _reply.ReadInt32()
@@ -173,6 +160,7 @@ func (p *EffectProxy) Disconnect(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectDisconnect)
@@ -198,6 +186,7 @@ func (p *EffectProxy) GetCblk(
 ) (SharedFileRegion, error) {
 	var _result SharedFileRegion
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectGetCblk)
@@ -233,6 +222,7 @@ func (p *EffectProxy) GetConfig(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectGetConfig)
@@ -249,8 +239,16 @@ func (p *EffectProxy) GetConfig(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = config.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _result, _err
+		}
+		if _nullInd != 0 {
+			if _err = config.UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_result, _err = _reply.ReadInt32()
@@ -263,7 +261,8 @@ func (p *EffectProxy) GetConfig(
 // EffectStub dispatches incoming binder transactions
 // to a typed IEffect implementation.
 type EffectStub struct {
-	Impl IEffect
+	Impl      IEffect
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*EffectStub)(nil)
@@ -277,11 +276,12 @@ func (s *EffectStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIEffectEnable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Enable(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -292,9 +292,6 @@ func (s *EffectStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIEffectDisable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Disable(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -305,16 +302,18 @@ func (s *EffectStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIEffectCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_cmdCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_cmdData []byte
-		_ = _arg_cmdData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_cmdData = _bytes
+		}
 		_arg_maxResponseSize, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -328,11 +327,9 @@ func (s *EffectStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
+		_reply.WriteByteArray(_arg_response)
 		return _reply, nil
 	case TransactionIEffectDisconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Disconnect(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -342,9 +339,6 @@ func (s *EffectStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEffectGetCblk:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCblk(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -358,9 +352,6 @@ func (s *EffectStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEffectGetConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config EffectConfig
 		_result, _err := s.Impl.GetConfig(ctx, _arg_config)
 		_reply := parcel.New()
@@ -370,6 +361,10 @@ func (s *EffectStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
+		_reply.WriteInt32(1)
+		if _err := _arg_config.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

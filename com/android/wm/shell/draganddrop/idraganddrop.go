@@ -45,6 +45,7 @@ func (p *DragAndDropProxy) IsReadyToHandleDrag(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDragAndDrop)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDragAndDrop, MethodIDragAndDropIsReadyToHandleDrag)
@@ -72,7 +73,8 @@ func (p *DragAndDropProxy) IsReadyToHandleDrag(
 // DragAndDropStub dispatches incoming binder transactions
 // to a typed IDragAndDrop implementation.
 type DragAndDropStub struct {
-	Impl IDragAndDrop
+	Impl      IDragAndDrop
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DragAndDropStub)(nil)
@@ -86,11 +88,12 @@ func (s *DragAndDropStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDragAndDropIsReadyToHandleDrag:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsReadyToHandleDrag(ctx)
 		_reply := parcel.New()
 		if _err != nil {

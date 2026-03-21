@@ -52,6 +52,7 @@ func (p *RcsUceControllerCallbackProxy) OnCapabilitiesReceived(
 	contactCapabilities []ims.RcsContactUceCapability,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRcsUceControllerCallback)
 	if contactCapabilities == nil {
 		_data.WriteInt32(-1)
@@ -79,6 +80,7 @@ func (p *RcsUceControllerCallbackProxy) OnComplete(
 	details ims.SipDetails,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRcsUceControllerCallback)
 	_data.WriteInt32(1)
 	if _err := details.MarshalParcel(_data); _err != nil {
@@ -101,6 +103,7 @@ func (p *RcsUceControllerCallbackProxy) OnError(
 	details ims.SipDetails,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRcsUceControllerCallback)
 	_data.WriteInt32(errorCode)
 	_data.WriteInt64(retryAfterMilliseconds)
@@ -121,7 +124,8 @@ func (p *RcsUceControllerCallbackProxy) OnError(
 // RcsUceControllerCallbackStub dispatches incoming binder transactions
 // to a typed IRcsUceControllerCallback implementation.
 type RcsUceControllerCallbackStub struct {
-	Impl IRcsUceControllerCallback
+	Impl      IRcsUceControllerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RcsUceControllerCallbackStub)(nil)
@@ -135,21 +139,36 @@ func (s *RcsUceControllerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRcsUceControllerCallbackOnCapabilitiesReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_contactCapabilities []ims.RcsContactUceCapability
-		_ = _arg_contactCapabilities
-		_err := s.Impl.OnCapabilitiesReceived(ctx, _arg_contactCapabilities)
-		_ = _err
-		return nil, nil
-	case TransactionIRcsUceControllerCallbackOnComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_contactCapabilities = make([]ims.RcsContactUceCapability, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_contactCapabilities[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnCapabilitiesReceived(ctx, _arg_contactCapabilities)
+		return nil, _err
+	case TransactionIRcsUceControllerCallbackOnComplete:
 		var _arg_details ims.SipDetails
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -163,12 +182,8 @@ func (s *RcsUceControllerCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnComplete(ctx, _arg_details)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRcsUceControllerCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -190,8 +205,7 @@ func (s *RcsUceControllerCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnError(ctx, _arg_errorCode, _arg_retryAfterMilliseconds, _arg_details)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

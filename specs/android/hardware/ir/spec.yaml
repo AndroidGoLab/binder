@@ -1,0 +1,36 @@
+package: android.hardware.ir
+go_package: android/hardware/ir
+interfaces:
+    - name: IConsumerIr
+      descriptor: android.hardware.ir.IConsumerIr
+      methods:
+        - name: getCarrierFreqs
+          transaction_code_offset: 0
+          return_type:
+            name: ConsumerIrFreqRange
+            is_array: true
+        - name: transmit
+          transaction_code_offset: 1
+          params:
+            - name: carrierFreqHz
+              type:
+                name: int
+              direction: in
+            - name: pattern
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: ConsumerIrFreqRange
+      fields:
+        - name: minHz
+          type:
+            name: int
+        - name: maxHz
+          type:
+            name: int
+      annotations:
+        - VintfStability

@@ -61,6 +61,7 @@ func (p *TunerLnbProxy) SetCallback(
 	tunerLnbCallback ITunerLnbCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerLnb)
 	binder.WriteBinderToParcel(ctx, _data, tunerLnbCallback.AsBinder(), p.Remote.Transport())
 
@@ -87,6 +88,7 @@ func (p *TunerLnbProxy) SetVoltage(
 	voltage tvTuner.LnbVoltage,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerLnb)
 	_data.WriteInt32(int32(voltage))
 
@@ -113,6 +115,7 @@ func (p *TunerLnbProxy) SetTone(
 	tone tvTuner.LnbTone,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerLnb)
 	_data.WriteInt32(int32(tone))
 
@@ -139,6 +142,7 @@ func (p *TunerLnbProxy) SetSatellitePosition(
 	position tvTuner.LnbPosition,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerLnb)
 	_data.WriteInt32(int32(position))
 
@@ -165,15 +169,9 @@ func (p *TunerLnbProxy) SendDiseqcMessage(
 	diseqcMessage []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerLnb)
-	if diseqcMessage == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(diseqcMessage)))
-		for _, _item := range diseqcMessage {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(diseqcMessage)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnb, MethodITunerLnbSendDiseqcMessage)
 	if _err != nil {
@@ -197,6 +195,7 @@ func (p *TunerLnbProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerLnb)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnb, MethodITunerLnbClose)
@@ -220,7 +219,8 @@ func (p *TunerLnbProxy) Close(
 // TunerLnbStub dispatches incoming binder transactions
 // to a typed ITunerLnb implementation.
 type TunerLnbStub struct {
-	Impl ITunerLnb
+	Impl      ITunerLnb
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TunerLnbStub)(nil)
@@ -234,14 +234,20 @@ func (s *TunerLnbStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITunerLnbSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_tunerLnbCallback ITunerLnbCallback
-		_ = _arg_tunerLnbCallback
+		{
+			_tunerLnbCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_tunerLnbCallback = NewTunerLnbCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tunerLnbCallbackHandle))
+		}
 		_err := s.Impl.SetCallback(ctx, _arg_tunerLnbCallback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -251,9 +257,6 @@ func (s *TunerLnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerLnbSetVoltage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_voltage, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -268,9 +271,6 @@ func (s *TunerLnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerLnbSetTone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_tone, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -285,9 +285,6 @@ func (s *TunerLnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerLnbSetSatellitePosition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_position, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -302,12 +299,14 @@ func (s *TunerLnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerLnbSendDiseqcMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_diseqcMessage []byte
-		_ = _arg_diseqcMessage
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_diseqcMessage = _bytes
+		}
 		_err := s.Impl.SendDiseqcMessage(ctx, _arg_diseqcMessage)
 		_reply := parcel.New()
 		if _err != nil {
@@ -317,9 +316,6 @@ func (s *TunerLnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerLnbClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {

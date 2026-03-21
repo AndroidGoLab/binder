@@ -2,7 +2,9 @@ package app
 
 import (
 	content "github.com/xaionaro-go/binder/android/content"
+	types "github.com/xaionaro-go/binder/android/content/pm/types"
 	res "github.com/xaionaro-go/binder/android/content/res"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -12,7 +14,7 @@ import (
 type ReceiverInfo struct {
 	Intent          content.Intent
 	Data            string
-	Extras          interface{}
+	Extras          os.Bundle
 	AssumeDelivered bool
 	SendingUser     int32
 	ProcessState    int32
@@ -23,7 +25,7 @@ type ReceiverInfo struct {
 	Receiver        content.IIntentReceiver
 	Ordered         bool
 	Sticky          bool
-	ActivityInfo    interface{}
+	ActivityInfo    types.ActivityInfo
 	CompatInfo      res.CompatibilityInfo
 	Sync            bool
 }
@@ -38,6 +40,9 @@ func (s *ReceiverInfo) MarshalParcel(
 		return _err
 	}
 	p.WriteString16(s.Data)
+	if _err := s.Extras.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteBool(s.AssumeDelivered)
 	p.WriteInt32(s.SendingUser)
 	p.WriteInt32(s.ProcessState)
@@ -69,8 +74,18 @@ func (s *ReceiverInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Intent.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Data, _err = p.ReadString16()
@@ -78,9 +93,28 @@ func (s *ReceiverInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.Extras.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.AssumeDelivered, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SendingUser, _err = p.ReadInt32()
@@ -88,9 +122,19 @@ func (s *ReceiverInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ProcessState, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ResultCode, _err = p.ReadInt32()
@@ -98,9 +142,19 @@ func (s *ReceiverInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SendingUid, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.SendingPackage, _err = p.ReadString16()
@@ -108,9 +162,19 @@ func (s *ReceiverInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Registered, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_receiverHandle, _err := p.ReadStrongBinder()
@@ -119,9 +183,19 @@ func (s *ReceiverInfo) UnmarshalParcel(
 	}
 	s.Receiver = content.NewIntentReceiverProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _receiverHandle))
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Ordered, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Sticky, _err = p.ReadBool()
@@ -129,8 +203,23 @@ func (s *ReceiverInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.CompatInfo.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Sync, _err = p.ReadBool()

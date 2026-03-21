@@ -3,6 +3,7 @@ package media
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ const (
 
 type ILoudnessCodecUpdatesDispatcher interface {
 	AsBinder() binder.IBinder
-	DispatchLoudnessCodecParameterChange(ctx context.Context, sessionId int32, params interface{}) error
+	DispatchLoudnessCodecParameterChange(ctx context.Context, sessionId int32, params os.PersistableBundle) error
 }
 
 type LoudnessCodecUpdatesDispatcherProxy struct {
@@ -43,11 +44,16 @@ var _ ILoudnessCodecUpdatesDispatcher = (*LoudnessCodecUpdatesDispatcherProxy)(n
 func (p *LoudnessCodecUpdatesDispatcherProxy) DispatchLoudnessCodecParameterChange(
 	ctx context.Context,
 	sessionId int32,
-	params interface{},
+	params os.PersistableBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILoudnessCodecUpdatesDispatcher)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
+	if _err := params.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILoudnessCodecUpdatesDispatcher, MethodILoudnessCodecUpdatesDispatcherDispatchLoudnessCodecParameterChange)
 	if _err != nil {
@@ -61,7 +67,8 @@ func (p *LoudnessCodecUpdatesDispatcherProxy) DispatchLoudnessCodecParameterChan
 // LoudnessCodecUpdatesDispatcherStub dispatches incoming binder transactions
 // to a typed ILoudnessCodecUpdatesDispatcher implementation.
 type LoudnessCodecUpdatesDispatcherStub struct {
-	Impl ILoudnessCodecUpdatesDispatcher
+	Impl      ILoudnessCodecUpdatesDispatcher
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LoudnessCodecUpdatesDispatcherStub)(nil)
@@ -75,19 +82,30 @@ func (s *LoudnessCodecUpdatesDispatcherStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILoudnessCodecUpdatesDispatcherDispatchLoudnessCodecParameterChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_params interface{}
+		var _arg_params os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.DispatchLoudnessCodecParameterChange(ctx, _arg_sessionId, _arg_params)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -97,7 +115,7 @@ func (s *LoudnessCodecUpdatesDispatcherStub) OnTransaction(
 // provide to NewLoudnessCodecUpdatesDispatcherStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ILoudnessCodecUpdatesDispatcherServer interface {
-	DispatchLoudnessCodecParameterChange(ctx context.Context, sessionId int32, params interface{}) error
+	DispatchLoudnessCodecParameterChange(ctx context.Context, sessionId int32, params os.PersistableBundle) error
 }
 
 type loudnessCodecUpdatesDispatcherStubWrapper struct {
@@ -112,7 +130,7 @@ func (w *loudnessCodecUpdatesDispatcherStubWrapper) AsBinder() binder.IBinder {
 func (w *loudnessCodecUpdatesDispatcherStubWrapper) DispatchLoudnessCodecParameterChange(
 	ctx context.Context,
 	sessionId int32,
-	params interface{},
+	params os.PersistableBundle,
 ) error {
 	return w.impl.DispatchLoudnessCodecParameterChange(ctx, sessionId, params)
 }

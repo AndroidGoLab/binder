@@ -3,7 +3,6 @@ package bufferpool2
 import (
 	"context"
 	"fmt"
-	bufferpool2IClientManager "github.com/xaionaro-go/binder/android/hardware/media/bufferpool2/IClientManager"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,8 +23,8 @@ const (
 
 type IClientManager interface {
 	AsBinder() binder.IBinder
-	RegisterSender(ctx context.Context, bufferPool IAccessor) (bufferpool2IClientManager.Registration, error)
-	RegisterPassiveSender(ctx context.Context, bufferPool IAccessor) (bufferpool2IClientManager.Registration, error)
+	RegisterSender(ctx context.Context, bufferPool IAccessor) (IClientManagerRegistration, error)
+	RegisterPassiveSender(ctx context.Context, bufferPool IAccessor) (IClientManagerRegistration, error)
 }
 
 type ClientManagerProxy struct {
@@ -47,9 +46,10 @@ var _ IClientManager = (*ClientManagerProxy)(nil)
 func (p *ClientManagerProxy) RegisterSender(
 	ctx context.Context,
 	bufferPool IAccessor,
-) (bufferpool2IClientManager.Registration, error) {
-	var _result bufferpool2IClientManager.Registration
+) (IClientManagerRegistration, error) {
+	var _result IClientManagerRegistration
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClientManager)
 	binder.WriteBinderToParcel(ctx, _data, bufferPool.AsBinder(), p.Remote.Transport())
 
@@ -83,9 +83,10 @@ func (p *ClientManagerProxy) RegisterSender(
 func (p *ClientManagerProxy) RegisterPassiveSender(
 	ctx context.Context,
 	bufferPool IAccessor,
-) (bufferpool2IClientManager.Registration, error) {
-	var _result bufferpool2IClientManager.Registration
+) (IClientManagerRegistration, error) {
+	var _result IClientManagerRegistration
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIClientManager)
 	binder.WriteBinderToParcel(ctx, _data, bufferPool.AsBinder(), p.Remote.Transport())
 
@@ -119,7 +120,8 @@ func (p *ClientManagerProxy) RegisterPassiveSender(
 // ClientManagerStub dispatches incoming binder transactions
 // to a typed IClientManager implementation.
 type ClientManagerStub struct {
-	Impl IClientManager
+	Impl      IClientManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ClientManagerStub)(nil)
@@ -133,14 +135,20 @@ func (s *ClientManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIClientManagerRegisterSender:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_bufferPool IAccessor
-		_ = _arg_bufferPool
+		{
+			_bufferPoolHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_bufferPool = NewAccessorProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _bufferPoolHandle))
+		}
 		_result, _err := s.Impl.RegisterSender(ctx, _arg_bufferPool)
 		_reply := parcel.New()
 		if _err != nil {
@@ -154,12 +162,14 @@ func (s *ClientManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIClientManagerRegisterPassiveSender:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_bufferPool IAccessor
-		_ = _arg_bufferPool
+		{
+			_bufferPoolHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_bufferPool = NewAccessorProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _bufferPoolHandle))
+		}
 		_result, _err := s.Impl.RegisterPassiveSender(ctx, _arg_bufferPool)
 		_reply := parcel.New()
 		if _err != nil {
@@ -181,8 +191,8 @@ func (s *ClientManagerStub) OnTransaction(
 // provide to NewClientManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IClientManagerServer interface {
-	RegisterSender(ctx context.Context, bufferPool IAccessor) (bufferpool2IClientManager.Registration, error)
-	RegisterPassiveSender(ctx context.Context, bufferPool IAccessor) (bufferpool2IClientManager.Registration, error)
+	RegisterSender(ctx context.Context, bufferPool IAccessor) (IClientManagerRegistration, error)
+	RegisterPassiveSender(ctx context.Context, bufferPool IAccessor) (IClientManagerRegistration, error)
 }
 
 type clientManagerStubWrapper struct {
@@ -197,14 +207,14 @@ func (w *clientManagerStubWrapper) AsBinder() binder.IBinder {
 func (w *clientManagerStubWrapper) RegisterSender(
 	ctx context.Context,
 	bufferPool IAccessor,
-) (bufferpool2IClientManager.Registration, error) {
+) (IClientManagerRegistration, error) {
 	return w.impl.RegisterSender(ctx, bufferPool)
 }
 
 func (w *clientManagerStubWrapper) RegisterPassiveSender(
 	ctx context.Context,
 	bufferPool IAccessor,
-) (bufferpool2IClientManager.Registration, error) {
+) (IClientManagerRegistration, error) {
 	return w.impl.RegisterPassiveSender(ctx, bufferPool)
 }
 

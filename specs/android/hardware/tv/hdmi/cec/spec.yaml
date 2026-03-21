@@ -1,0 +1,394 @@
+package: android.hardware.tv.hdmi.cec
+go_package: android/hardware/tv/hdmi/cec
+interfaces:
+    - name: IHdmiCec
+      descriptor: android.hardware.tv.hdmi.cec.IHdmiCec
+      methods:
+        - name: addLogicalAddress
+          transaction_code_offset: 0
+          params:
+            - name: addr
+              type:
+                name: CecLogicalAddress
+              direction: in
+          return_type:
+            name: Result
+        - name: clearLogicalAddress
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: enableAudioReturnChannel
+          transaction_code_offset: 2
+          params:
+            - name: portId
+              type:
+                name: int
+              direction: in
+            - name: enable
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: getCecVersion
+          transaction_code_offset: 3
+          return_type:
+            name: int
+        - name: getPhysicalAddress
+          transaction_code_offset: 4
+          return_type:
+            name: int
+        - name: getVendorId
+          transaction_code_offset: 5
+          return_type:
+            name: int
+        - name: sendMessage
+          transaction_code_offset: 6
+          params:
+            - name: message
+              type:
+                name: CecMessage
+              direction: in
+          return_type:
+            name: SendMessageResult
+        - name: setCallback
+          transaction_code_offset: 7
+          params:
+            - name: callback
+              type:
+                name: IHdmiCecCallback
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+        - name: setLanguage
+          transaction_code_offset: 8
+          params:
+            - name: language
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: enableWakeupByOtp
+          transaction_code_offset: 9
+          params:
+            - name: value
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: enableCec
+          transaction_code_offset: 10
+          params:
+            - name: value
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: enableSystemCecControl
+          transaction_code_offset: 11
+          params:
+            - name: value
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+    - name: IHdmiCecCallback
+      descriptor: android.hardware.tv.hdmi.cec.IHdmiCecCallback
+      oneway: true
+      methods:
+        - name: onCecMessage
+          transaction_code_offset: 0
+          params:
+            - name: message
+              type:
+                name: CecMessage
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: CecMessage
+      fields:
+        - name: initiator
+          type:
+            name: CecLogicalAddress
+        - name: destination
+          type:
+            name: CecLogicalAddress
+        - name: body
+          type:
+            name: byte
+            is_array: true
+      constants:
+        - name: MAX_MESSAGE_BODY_LENGTH
+          type: int
+          value: "15"
+      annotations:
+        - VintfStability
+enums:
+    - name: AbortReason
+      backing_type: int
+      values:
+        - name: UNRECOGNIZED_MODE
+          value: "0"
+        - name: NOT_IN_CORRECT_MODE
+          value: "1"
+        - name: CANNOT_PROVIDE_SOURCE
+          value: "2"
+        - name: INVALID_OPERAND
+          value: "3"
+        - name: REFUSED
+          value: "4"
+        - name: UNABLE_TO_DETERMINE
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CecDeviceType
+      backing_type: byte
+      values:
+        - name: INACTIVE
+          value: "-1"
+        - name: TV
+          value: "0"
+        - name: RECORDER
+          value: "1"
+        - name: TUNER
+          value: "3"
+        - name: PLAYBACK
+          value: "4"
+        - name: AUDIO_SYSTEM
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CecLogicalAddress
+      backing_type: byte
+      values:
+        - name: TV
+          value: "0"
+        - name: RECORDER_1
+          value: "1"
+        - name: RECORDER_2
+          value: "2"
+        - name: TUNER_1
+          value: "3"
+        - name: PLAYBACK_1
+          value: "4"
+        - name: AUDIO_SYSTEM
+          value: "5"
+        - name: TUNER_2
+          value: "6"
+        - name: TUNER_3
+          value: "7"
+        - name: PLAYBACK_2
+          value: "8"
+        - name: RECORDER_3
+          value: "9"
+        - name: TUNER_4
+          value: "10"
+        - name: PLAYBACK_3
+          value: "11"
+        - name: BACKUP_1
+          value: "12"
+        - name: BACKUP_2
+          value: "13"
+        - name: FREE_USE
+          value: "14"
+        - name: BROADCAST
+          value: "15"
+        - name: UNREGISTERED
+          value: "15"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: CecMessageType
+      backing_type: int
+      values:
+        - name: FEATURE_ABORT
+          value: "0x00"
+        - name: IMAGE_VIEW_ON
+          value: "0x04"
+        - name: TUNER_STEP_INCREMENT
+          value: "0x05"
+        - name: TUNER_STEP_DECREMENT
+          value: "0x06"
+        - name: TUNER_DEVICE_STATUS
+          value: "0x07"
+        - name: GIVE_TUNER_DEVICE_STATUS
+          value: "0x08"
+        - name: RECORD_ON
+          value: "0x09"
+        - name: RECORD_STATUS
+          value: "0x0A"
+        - name: RECORD_OFF
+          value: "0x0B"
+        - name: TEXT_VIEW_ON
+          value: "0x0D"
+        - name: RECORD_TV_SCREEN
+          value: "0x0F"
+        - name: GIVE_DECK_STATUS
+          value: "0x1A"
+        - name: DECK_STATUS
+          value: "0x1B"
+        - name: SET_MENU_LANGUAGE
+          value: "0x32"
+        - name: CLEAR_ANALOG_TIMER
+          value: "0x33"
+        - name: SET_ANALOG_TIMER
+          value: "0x34"
+        - name: TIMER_STATUS
+          value: "0x35"
+        - name: STANDBY
+          value: "0x36"
+        - name: PLAY
+          value: "0x41"
+        - name: DECK_CONTROL
+          value: "0x42"
+        - name: TIMER_CLEARED_STATUS
+          value: "0x43"
+        - name: USER_CONTROL_PRESSED
+          value: "0x44"
+        - name: USER_CONTROL_RELEASED
+          value: "0x45"
+        - name: GIVE_OSD_NAME
+          value: "0x46"
+        - name: SET_OSD_NAME
+          value: "0x47"
+        - name: SET_OSD_STRING
+          value: "0x64"
+        - name: SET_TIMER_PROGRAM_TITLE
+          value: "0x67"
+        - name: SYSTEM_AUDIO_MODE_REQUEST
+          value: "0x70"
+        - name: GIVE_AUDIO_STATUS
+          value: "0x71"
+        - name: SET_SYSTEM_AUDIO_MODE
+          value: "0x72"
+        - name: REPORT_AUDIO_STATUS
+          value: "0x7A"
+        - name: GIVE_SYSTEM_AUDIO_MODE_STATUS
+          value: "0x7D"
+        - name: SYSTEM_AUDIO_MODE_STATUS
+          value: "0x7E"
+        - name: ROUTING_CHANGE
+          value: "0x80"
+        - name: ROUTING_INFORMATION
+          value: "0x81"
+        - name: ACTIVE_SOURCE
+          value: "0x82"
+        - name: GIVE_PHYSICAL_ADDRESS
+          value: "0x83"
+        - name: REPORT_PHYSICAL_ADDRESS
+          value: "0x84"
+        - name: REQUEST_ACTIVE_SOURCE
+          value: "0x85"
+        - name: SET_STREAM_PATH
+          value: "0x86"
+        - name: DEVICE_VENDOR_ID
+          value: "0x87"
+        - name: VENDOR_COMMAND
+          value: "0x89"
+        - name: VENDOR_REMOTE_BUTTON_DOWN
+          value: "0x8A"
+        - name: VENDOR_REMOTE_BUTTON_UP
+          value: "0x8B"
+        - name: GIVE_DEVICE_VENDOR_ID
+          value: "0x8C"
+        - name: MENU_REQUEST
+          value: "0x8D"
+        - name: MENU_STATUS
+          value: "0x8E"
+        - name: GIVE_DEVICE_POWER_STATUS
+          value: "0x8F"
+        - name: REPORT_POWER_STATUS
+          value: "0x90"
+        - name: GET_MENU_LANGUAGE
+          value: "0x91"
+        - name: SELECT_ANALOG_SERVICE
+          value: "0x92"
+        - name: SELECT_DIGITAL_SERVICE
+          value: "0x93"
+        - name: SET_DIGITAL_TIMER
+          value: "0x97"
+        - name: CLEAR_DIGITAL_TIMER
+          value: "0x99"
+        - name: SET_AUDIO_RATE
+          value: "0x9A"
+        - name: INACTIVE_SOURCE
+          value: "0x9D"
+        - name: CEC_VERSION
+          value: "0x9E"
+        - name: GET_CEC_VERSION
+          value: "0x9F"
+        - name: VENDOR_COMMAND_WITH_ID
+          value: "0xA0"
+        - name: CLEAR_EXTERNAL_TIMER
+          value: "0xA1"
+        - name: SET_EXTERNAL_TIMER
+          value: "0xA2"
+        - name: REPORT_SHORT_AUDIO_DESCRIPTOR
+          value: "0xA3"
+        - name: REQUEST_SHORT_AUDIO_DESCRIPTOR
+          value: "0xA4"
+        - name: INITIATE_ARC
+          value: "0xC0"
+        - name: REPORT_ARC_INITIATED
+          value: "0xC1"
+        - name: REPORT_ARC_TERMINATED
+          value: "0xC2"
+        - name: REQUEST_ARC_INITIATION
+          value: "0xC3"
+        - name: REQUEST_ARC_TERMINATION
+          value: "0xC4"
+        - name: TERMINATE_ARC
+          value: "0xC5"
+        - name: ABORT
+          value: "0xFF"
+        - name: GIVE_FEATURES
+          value: "0xA5"
+        - name: REPORT_FEATURES
+          value: "0xA6"
+        - name: REQUEST_CURRENT_LATENCY
+          value: "0xA7"
+        - name: REPORT_CURRENT_LATENCY
+          value: "0xA8"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: Result
+      backing_type: byte
+      values:
+        - name: SUCCESS
+          value: "0"
+        - name: FAILURE_UNKNOWN
+          value: "1"
+        - name: FAILURE_INVALID_ARGS
+          value: "2"
+        - name: FAILURE_INVALID_STATE
+          value: "3"
+        - name: FAILURE_NOT_SUPPORTED
+          value: "4"
+        - name: FAILURE_BUSY
+          value: "5"
+      annotations:
+        - VintfStability
+        - Backing
+    - name: SendMessageResult
+      backing_type: byte
+      values:
+        - name: SUCCESS
+          value: "0"
+        - name: NACK
+          value: "1"
+        - name: BUSY
+          value: "2"
+        - name: FAIL
+          value: "3"
+      annotations:
+        - VintfStability
+        - Backing

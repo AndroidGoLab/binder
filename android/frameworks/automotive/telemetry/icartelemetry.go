@@ -51,6 +51,7 @@ func (p *CarTelemetryProxy) Write(
 	dataList []CarData,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarTelemetry)
 	if dataList == nil {
 		_data.WriteInt32(-1)
@@ -88,6 +89,7 @@ func (p *CarTelemetryProxy) AddCallback(
 	callback ICarTelemetryCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarTelemetry)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -118,6 +120,7 @@ func (p *CarTelemetryProxy) RemoveCallback(
 	callback ICarTelemetryCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarTelemetry)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -142,7 +145,8 @@ func (p *CarTelemetryProxy) RemoveCallback(
 // CarTelemetryStub dispatches incoming binder transactions
 // to a typed ICarTelemetry implementation.
 type CarTelemetryStub struct {
-	Impl ICarTelemetry
+	Impl      ICarTelemetry
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CarTelemetryStub)(nil)
@@ -156,14 +160,33 @@ func (s *CarTelemetryStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICarTelemetryWrite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_dataList []CarData
-		_ = _arg_dataList
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_dataList = make([]CarData, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_dataList[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.Write(ctx, _arg_dataList)
 		_reply := parcel.New()
 		if _err != nil {
@@ -173,9 +196,6 @@ func (s *CarTelemetryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarTelemetryAddCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config CallbackConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -188,9 +208,14 @@ func (s *CarTelemetryStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICarTelemetryCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCarTelemetryCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.AddCallback(ctx, _arg_config, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -200,12 +225,14 @@ func (s *CarTelemetryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarTelemetryRemoveCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICarTelemetryCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCarTelemetryCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RemoveCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

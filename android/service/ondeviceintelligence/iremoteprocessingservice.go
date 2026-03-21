@@ -47,6 +47,7 @@ func (p *RemoteProcessingServiceProxy) UpdateProcessingState(
 	callback IProcessingUpdateStatusCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteProcessingService)
 	_data.WriteInt32(1)
 	if _err := processingState.MarshalParcel(_data); _err != nil {
@@ -66,7 +67,8 @@ func (p *RemoteProcessingServiceProxy) UpdateProcessingState(
 // RemoteProcessingServiceStub dispatches incoming binder transactions
 // to a typed IRemoteProcessingService implementation.
 type RemoteProcessingServiceStub struct {
-	Impl IRemoteProcessingService
+	Impl      IRemoteProcessingService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RemoteProcessingServiceStub)(nil)
@@ -80,11 +82,12 @@ func (s *RemoteProcessingServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRemoteProcessingServiceUpdateProcessingState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_processingState os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -97,12 +100,16 @@ func (s *RemoteProcessingServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IProcessingUpdateStatusCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewProcessingUpdateStatusCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UpdateProcessingState(ctx, _arg_processingState, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

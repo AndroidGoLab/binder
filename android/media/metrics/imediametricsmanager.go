@@ -3,6 +3,7 @@ package metrics
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -56,7 +57,7 @@ type IMediaMetricsManager interface {
 	GetTranscodingSessionId(ctx context.Context) (string, error)
 	GetEditingSessionId(ctx context.Context) (string, error)
 	GetBundleSessionId(ctx context.Context) (string, error)
-	ReportBundleMetrics(ctx context.Context, sessionId string, metrics interface{}) error
+	ReportBundleMetrics(ctx context.Context, sessionId string, metrics os.PersistableBundle) error
 	ReleaseSessionId(ctx context.Context, sessionId string) error
 }
 
@@ -83,6 +84,7 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackMetrics(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(1)
@@ -115,6 +117,7 @@ func (p *MediaMetricsManagerProxy) GetPlaybackSessionId(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -146,6 +149,7 @@ func (p *MediaMetricsManagerProxy) GetRecordingSessionId(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -178,6 +182,7 @@ func (p *MediaMetricsManagerProxy) ReportNetworkEvent(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(1)
@@ -211,6 +216,7 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackErrorEvent(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(1)
@@ -244,6 +250,7 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackStateEvent(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(1)
@@ -277,6 +284,7 @@ func (p *MediaMetricsManagerProxy) ReportTrackChangeEvent(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(1)
@@ -310,6 +318,7 @@ func (p *MediaMetricsManagerProxy) ReportEditingEndedEvent(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(1)
@@ -342,6 +351,7 @@ func (p *MediaMetricsManagerProxy) GetTranscodingSessionId(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -373,6 +383,7 @@ func (p *MediaMetricsManagerProxy) GetEditingSessionId(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -404,6 +415,7 @@ func (p *MediaMetricsManagerProxy) GetBundleSessionId(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -432,12 +444,17 @@ func (p *MediaMetricsManagerProxy) GetBundleSessionId(
 func (p *MediaMetricsManagerProxy) ReportBundleMetrics(
 	ctx context.Context,
 	sessionId string,
-	metrics interface{},
+	metrics os.PersistableBundle,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
+	_data.WriteInt32(1)
+	if _err := metrics.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportBundleMetrics)
@@ -464,6 +481,7 @@ func (p *MediaMetricsManagerProxy) ReleaseSessionId(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(_identity.UserID)
@@ -489,7 +507,8 @@ func (p *MediaMetricsManagerProxy) ReleaseSessionId(
 // MediaMetricsManagerStub dispatches incoming binder transactions
 // to a typed IMediaMetricsManager implementation.
 type MediaMetricsManagerStub struct {
-	Impl IMediaMetricsManager
+	Impl      IMediaMetricsManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaMetricsManagerStub)(nil)
@@ -503,11 +522,12 @@ func (s *MediaMetricsManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaMetricsManagerReportPlaybackMetrics:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -536,9 +556,6 @@ func (s *MediaMetricsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaMetricsManagerGetPlaybackSessionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -552,9 +569,6 @@ func (s *MediaMetricsManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIMediaMetricsManagerGetRecordingSessionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -568,9 +582,6 @@ func (s *MediaMetricsManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIMediaMetricsManagerReportNetworkEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -599,9 +610,6 @@ func (s *MediaMetricsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaMetricsManagerReportPlaybackErrorEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -630,9 +638,6 @@ func (s *MediaMetricsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaMetricsManagerReportPlaybackStateEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -661,9 +666,6 @@ func (s *MediaMetricsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaMetricsManagerReportTrackChangeEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -692,9 +694,6 @@ func (s *MediaMetricsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaMetricsManagerReportEditingEndedEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -723,9 +722,6 @@ func (s *MediaMetricsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaMetricsManagerGetTranscodingSessionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -739,9 +735,6 @@ func (s *MediaMetricsManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIMediaMetricsManagerGetEditingSessionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -755,9 +748,6 @@ func (s *MediaMetricsManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIMediaMetricsManagerGetBundleSessionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -771,14 +761,22 @@ func (s *MediaMetricsManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIMediaMetricsManagerReportBundleMetrics:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_metrics interface{}
+		var _arg_metrics os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_metrics.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -791,9 +789,6 @@ func (s *MediaMetricsManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaMetricsManagerReleaseSessionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -829,7 +824,7 @@ type IMediaMetricsManagerServer interface {
 	GetTranscodingSessionId(ctx context.Context) (string, error)
 	GetEditingSessionId(ctx context.Context) (string, error)
 	GetBundleSessionId(ctx context.Context) (string, error)
-	ReportBundleMetrics(ctx context.Context, sessionId string, metrics interface{}) error
+	ReportBundleMetrics(ctx context.Context, sessionId string, metrics os.PersistableBundle) error
 	ReleaseSessionId(ctx context.Context, sessionId string) error
 }
 
@@ -923,7 +918,7 @@ func (w *mediaMetricsManagerStubWrapper) GetBundleSessionId(
 func (w *mediaMetricsManagerStubWrapper) ReportBundleMetrics(
 	ctx context.Context,
 	sessionId string,
-	metrics interface{},
+	metrics os.PersistableBundle,
 ) error {
 	return w.impl.ReportBundleMetrics(ctx, sessionId, metrics)
 }

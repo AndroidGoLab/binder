@@ -2,6 +2,7 @@ package servicemanager
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/xaionaro-go/binder/logger"
@@ -17,6 +18,11 @@ const (
 	// DUMP_FLAG_PRIORITY_CRITICAL (1) | DUMP_FLAG_PRIORITY_HIGH (2)
 	// | DUMP_FLAG_PRIORITY_NORMAL (4) | DUMP_FLAG_PRIORITY_DEFAULT (8).
 	dumpFlagPriorityAll = int32(1 | 2 | 4 | 8)
+
+	// maxServiceCount is the maximum number of services we accept from
+	// ListServices replies. Guards against corrupted or malicious parcels
+	// causing excessive allocations.
+	maxServiceCount = int32(10000)
 )
 
 // ServiceManager provides access to Android's ServiceManager via Binder IPC.
@@ -51,6 +57,7 @@ func (sm *ServiceManager) GetService(
 	}
 
 	data := parcel.New()
+	defer data.Recycle()
 	data.WriteInterfaceToken(serviceManagerDescriptor)
 	data.WriteString16(string(name))
 
@@ -58,17 +65,27 @@ func (sm *ServiceManager) GetService(
 	if err != nil {
 		return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
 	}
+	defer reply.Recycle()
 
 	if err := binder.ReadStatus(reply); err != nil {
 		return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
 	}
 
-	handle, err := reply.ReadStrongBinder()
+	handle, ok, err := reply.ReadNullableStrongBinder()
 	if err != nil {
 		return nil, fmt.Errorf("servicemanager: GetService(%q): reading binder: %w", name, err)
 	}
 
-	return binder.NewProxyBinder(sm.transport(), sm.identity, handle), nil
+	if !ok {
+		return nil, fmt.Errorf("servicemanager: GetService(%q): service not found", name)
+	}
+
+	transport, err := sm.transport()
+	if err != nil {
+		return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
+	}
+
+	return binder.NewProxyBinder(transport, sm.identity, handle), nil
 }
 
 // CheckService checks if a service is registered without blocking.
@@ -86,6 +103,7 @@ func (sm *ServiceManager) CheckService(
 	}
 
 	data := parcel.New()
+	defer data.Recycle()
 	data.WriteInterfaceToken(serviceManagerDescriptor)
 	data.WriteString16(string(name))
 
@@ -93,6 +111,7 @@ func (sm *ServiceManager) CheckService(
 	if err != nil {
 		return nil, fmt.Errorf("servicemanager: CheckService(%q): %w", name, err)
 	}
+	defer reply.Recycle()
 
 	if err := binder.ReadStatus(reply); err != nil {
 		return nil, fmt.Errorf("servicemanager: CheckService(%q): %w", name, err)
@@ -107,7 +126,12 @@ func (sm *ServiceManager) CheckService(
 		return nil, nil
 	}
 
-	return binder.NewProxyBinder(sm.transport(), sm.identity, handle), nil
+	transport, err := sm.transport()
+	if err != nil {
+		return nil, fmt.Errorf("servicemanager: CheckService(%q): %w", name, err)
+	}
+
+	return binder.NewProxyBinder(transport, sm.identity, handle), nil
 }
 
 // ListServices returns the names of all registered services.
@@ -123,6 +147,7 @@ func (sm *ServiceManager) ListServices(
 	}
 
 	data := parcel.New()
+	defer data.Recycle()
 	data.WriteInterfaceToken(serviceManagerDescriptor)
 	data.WriteInt32(dumpFlagPriorityAll)
 
@@ -130,6 +155,7 @@ func (sm *ServiceManager) ListServices(
 	if err != nil {
 		return nil, fmt.Errorf("servicemanager: ListServices: %w", err)
 	}
+	defer reply.Recycle()
 
 	if err := binder.ReadStatus(reply); err != nil {
 		return nil, fmt.Errorf("servicemanager: ListServices: %w", err)
@@ -138,6 +164,14 @@ func (sm *ServiceManager) ListServices(
 	count, err := reply.ReadInt32()
 	if err != nil {
 		return nil, fmt.Errorf("servicemanager: ListServices: reading count: %w", err)
+	}
+
+	if count < 0 {
+		return nil, fmt.Errorf("servicemanager: ListServices: invalid service count: %d", count)
+	}
+
+	if count > maxServiceCount {
+		return nil, fmt.Errorf("servicemanager: ListServices: service count %d exceeds maximum (%d)", count, maxServiceCount)
 	}
 
 	services := make([]ServiceName, 0, count)
@@ -166,6 +200,7 @@ func (sm *ServiceManager) IsDeclared(
 	}
 
 	data := parcel.New()
+	defer data.Recycle()
 	data.WriteInterfaceToken(serviceManagerDescriptor)
 	data.WriteString16(string(name))
 
@@ -173,6 +208,7 @@ func (sm *ServiceManager) IsDeclared(
 	if err != nil {
 		return false, fmt.Errorf("servicemanager: IsDeclared(%q): %w", name, err)
 	}
+	defer reply.Recycle()
 
 	if err := binder.ReadStatus(reply); err != nil {
 		return false, fmt.Errorf("servicemanager: IsDeclared(%q): %w", name, err)
@@ -198,7 +234,10 @@ func (sm *ServiceManager) AddService(
 	logger.Tracef(ctx, "AddService(%q)", name)
 	defer func() { logger.Tracef(ctx, "/AddService(%q): %v", name, _err) }()
 
-	transport := sm.transport()
+	transport, err := sm.transport()
+	if err != nil {
+		return fmt.Errorf("servicemanager: AddService(%q): %w", name, err)
+	}
 
 	stub := binder.NewStubBinder(service)
 	stub.RegisterWithTransport(ctx, transport)
@@ -209,6 +248,7 @@ func (sm *ServiceManager) AddService(
 	}
 
 	data := parcel.New()
+	defer data.Recycle()
 	data.WriteInterfaceToken(serviceManagerDescriptor)
 	data.WriteString16(string(name))
 	binder.WriteBinderToParcel(ctx, data, stub, transport)
@@ -224,6 +264,7 @@ func (sm *ServiceManager) AddService(
 	if err != nil {
 		return fmt.Errorf("servicemanager: AddService(%q): %w", name, err)
 	}
+	defer reply.Recycle()
 
 	if err := binder.ReadStatus(reply); err != nil {
 		return fmt.Errorf("servicemanager: AddService(%q): %w", name, err)
@@ -232,11 +273,15 @@ func (sm *ServiceManager) AddService(
 	return nil
 }
 
+// ErrNotProxyBinder is returned when the ServiceManager's remote IBinder
+// is not a *binder.ProxyBinder, which prevents extracting the transport.
+var ErrNotProxyBinder = errors.New("servicemanager: remote is not a *binder.ProxyBinder")
+
 // transport extracts the VersionAwareTransport from the ProxyBinder.
-func (sm *ServiceManager) transport() binder.VersionAwareTransport {
+func (sm *ServiceManager) transport() (binder.VersionAwareTransport, error) {
 	pb, ok := sm.remote.(*binder.ProxyBinder)
 	if !ok {
-		panic("servicemanager: remote is not a *binder.ProxyBinder")
+		return nil, ErrNotProxyBinder
 	}
-	return pb.Transport()
+	return pb.Transport(), nil
 }

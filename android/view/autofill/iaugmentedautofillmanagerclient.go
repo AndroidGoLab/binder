@@ -63,6 +63,7 @@ func (p *AugmentedAutofillManagerClientProxy) GetViewCoordinates(
 ) (graphics.Rect, error) {
 	var _result graphics.Rect
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillManagerClient)
 	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
@@ -102,6 +103,7 @@ func (p *AugmentedAutofillManagerClientProxy) GetViewNodeParcelable(
 ) (assist.AssistStructureViewNodeParcelable, error) {
 	var _result assist.AssistStructureViewNodeParcelable
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillManagerClient)
 	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
@@ -143,6 +145,7 @@ func (p *AugmentedAutofillManagerClientProxy) Autofill(
 	hideHighlight bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillManagerClient)
 	_data.WriteInt32(sessionId)
 	if ids == nil {
@@ -197,6 +200,7 @@ func (p *AugmentedAutofillManagerClientProxy) RequestShowFillUi(
 	presenter IAutofillWindowPresenter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillManagerClient)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -235,6 +239,7 @@ func (p *AugmentedAutofillManagerClientProxy) RequestHideFillUi(
 	id AutofillId,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillManagerClient)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -267,6 +272,7 @@ func (p *AugmentedAutofillManagerClientProxy) RequestAutofill(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillManagerClient)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -299,7 +305,8 @@ func (p *AugmentedAutofillManagerClientProxy) RequestAutofill(
 // AugmentedAutofillManagerClientStub dispatches incoming binder transactions
 // to a typed IAugmentedAutofillManagerClient implementation.
 type AugmentedAutofillManagerClientStub struct {
-	Impl IAugmentedAutofillManagerClient
+	Impl      IAugmentedAutofillManagerClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AugmentedAutofillManagerClientStub)(nil)
@@ -313,11 +320,12 @@ func (s *AugmentedAutofillManagerClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAugmentedAutofillManagerClientGetViewCoordinates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_id AutofillId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -343,9 +351,6 @@ func (s *AugmentedAutofillManagerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAugmentedAutofillManagerClientGetViewNodeParcelable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_id AutofillId
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -371,19 +376,52 @@ func (s *AugmentedAutofillManagerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAugmentedAutofillManagerClientAutofill:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ids []AutofillId
-		_ = _arg_ids
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_ids = make([]AutofillId, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_ids[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_values []AutofillValue
-		_ = _arg_values
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_values = make([]AutofillValue, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_values[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_hideHighlight, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -397,9 +435,6 @@ func (s *AugmentedAutofillManagerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAugmentedAutofillManagerClientRequestShowFillUi:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -436,9 +471,14 @@ func (s *AugmentedAutofillManagerClientStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_presenter IAutofillWindowPresenter
-		_ = _arg_presenter
+		{
+			_presenterHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_presenter = NewAutofillWindowPresenterProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _presenterHandle))
+		}
 		_err = s.Impl.RequestShowFillUi(ctx, _arg_sessionId, _arg_id, _arg_width, _arg_height, _arg_anchorBounds, _arg_presenter)
 		_reply := parcel.New()
 		if _err != nil {
@@ -448,9 +488,6 @@ func (s *AugmentedAutofillManagerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAugmentedAutofillManagerClientRequestHideFillUi:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -476,9 +513,6 @@ func (s *AugmentedAutofillManagerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAugmentedAutofillManagerClientRequestAutofill:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

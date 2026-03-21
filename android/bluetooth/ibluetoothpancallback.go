@@ -48,6 +48,7 @@ func (p *BluetoothPanCallbackProxy) OnAvailable(
 	iface string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothPanCallback)
 	_data.WriteString16(iface)
 
@@ -64,6 +65,7 @@ func (p *BluetoothPanCallbackProxy) OnUnavailable(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothPanCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPanCallback, MethodIBluetoothPanCallbackOnUnavailable)
@@ -78,7 +80,8 @@ func (p *BluetoothPanCallbackProxy) OnUnavailable(
 // BluetoothPanCallbackStub dispatches incoming binder transactions
 // to a typed IBluetoothPanCallback implementation.
 type BluetoothPanCallbackStub struct {
-	Impl IBluetoothPanCallback
+	Impl      IBluetoothPanCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothPanCallbackStub)(nil)
@@ -92,25 +95,21 @@ func (s *BluetoothPanCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothPanCallbackOnAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnAvailable(ctx, _arg_iface)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothPanCallbackOnUnavailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnUnavailable(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

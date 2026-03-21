@@ -48,6 +48,7 @@ func (p *ScreenshotProxyProxy) IsNotificationShadeExpanded(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScreenshotProxy)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScreenshotProxy, MethodIScreenshotProxyIsNotificationShadeExpanded)
@@ -77,6 +78,7 @@ func (p *ScreenshotProxyProxy) DismissKeyguard(
 	callback IOnDoneCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScreenshotProxy)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -101,7 +103,8 @@ func (p *ScreenshotProxyProxy) DismissKeyguard(
 // ScreenshotProxyStub dispatches incoming binder transactions
 // to a typed IScreenshotProxy implementation.
 type ScreenshotProxyStub struct {
-	Impl IScreenshotProxy
+	Impl      IScreenshotProxy
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ScreenshotProxyStub)(nil)
@@ -115,11 +118,12 @@ func (s *ScreenshotProxyStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIScreenshotProxyIsNotificationShadeExpanded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsNotificationShadeExpanded(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -130,12 +134,14 @@ func (s *ScreenshotProxyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIScreenshotProxyDismissKeyguard:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IOnDoneCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewOnDoneCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.DismissKeyguard(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

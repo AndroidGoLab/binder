@@ -78,6 +78,7 @@ func (p *SoundTriggerHwProxy) GetProperties(
 ) (broadcastradio.Properties, error) {
 	var _result broadcastradio.Properties
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHw)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerHw, MethodISoundTriggerHwGetProperties)
@@ -112,6 +113,7 @@ func (p *SoundTriggerHwProxy) RegisterGlobalCallback(
 	callback ISoundTriggerHwGlobalCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHw)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -140,6 +142,7 @@ func (p *SoundTriggerHwProxy) LoadSoundModel(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHw)
 	_data.WriteInt32(1)
 	if _err := soundModel.MarshalParcel(_data); _err != nil {
@@ -176,6 +179,7 @@ func (p *SoundTriggerHwProxy) LoadPhraseSoundModel(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHw)
 	_data.WriteInt32(1)
 	if _err := soundModel.MarshalParcel(_data); _err != nil {
@@ -210,6 +214,7 @@ func (p *SoundTriggerHwProxy) UnloadSoundModel(
 	modelHandle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHw)
 	_data.WriteInt32(modelHandle)
 
@@ -239,6 +244,7 @@ func (p *SoundTriggerHwProxy) StartRecognition(
 	config hardwareSoundtrigger.SoundTriggerRecognitionConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHw)
 	_data.WriteInt32(modelHandle)
 	_data.WriteInt32(deviceHandle)
@@ -271,6 +277,7 @@ func (p *SoundTriggerHwProxy) StopRecognition(
 	modelHandle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHw)
 	_data.WriteInt32(modelHandle)
 
@@ -297,6 +304,7 @@ func (p *SoundTriggerHwProxy) ForceRecognitionEvent(
 	modelHandle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHw)
 	_data.WriteInt32(modelHandle)
 
@@ -325,6 +333,7 @@ func (p *SoundTriggerHwProxy) QueryParameter(
 ) (soundtrigger.ModelParameterRange, error) {
 	var _result soundtrigger.ModelParameterRange
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHw)
 	_data.WriteInt32(modelHandle)
 	_data.WriteInt32(int32(modelParam))
@@ -363,6 +372,7 @@ func (p *SoundTriggerHwProxy) GetParameter(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHw)
 	_data.WriteInt32(modelHandle)
 	_data.WriteInt32(int32(modelParam))
@@ -396,6 +406,7 @@ func (p *SoundTriggerHwProxy) SetParameter(
 	value int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHw)
 	_data.WriteInt32(modelHandle)
 	_data.WriteInt32(int32(modelParam))
@@ -422,7 +433,8 @@ func (p *SoundTriggerHwProxy) SetParameter(
 // SoundTriggerHwStub dispatches incoming binder transactions
 // to a typed ISoundTriggerHw implementation.
 type SoundTriggerHwStub struct {
-	Impl ISoundTriggerHw
+	Impl      ISoundTriggerHw
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SoundTriggerHwStub)(nil)
@@ -436,11 +448,12 @@ func (s *SoundTriggerHwStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISoundTriggerHwGetProperties:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetProperties(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -454,12 +467,14 @@ func (s *SoundTriggerHwStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISoundTriggerHwRegisterGlobalCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISoundTriggerHwGlobalCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSoundTriggerHwGlobalCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.RegisterGlobalCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -469,9 +484,6 @@ func (s *SoundTriggerHwStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundTriggerHwLoadSoundModel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_soundModel soundtrigger.SoundModel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -484,9 +496,14 @@ func (s *SoundTriggerHwStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISoundTriggerHwCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSoundTriggerHwCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.LoadSoundModel(ctx, _arg_soundModel, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -497,9 +514,6 @@ func (s *SoundTriggerHwStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerHwLoadPhraseSoundModel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_soundModel soundtrigger.PhraseSoundModel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -512,9 +526,14 @@ func (s *SoundTriggerHwStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISoundTriggerHwCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSoundTriggerHwCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.LoadPhraseSoundModel(ctx, _arg_soundModel, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -525,9 +544,6 @@ func (s *SoundTriggerHwStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerHwUnloadSoundModel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -541,9 +557,6 @@ func (s *SoundTriggerHwStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundTriggerHwStartRecognition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -577,9 +590,6 @@ func (s *SoundTriggerHwStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundTriggerHwStopRecognition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -593,9 +603,6 @@ func (s *SoundTriggerHwStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundTriggerHwForceRecognitionEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -609,9 +616,6 @@ func (s *SoundTriggerHwStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundTriggerHwQueryParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -634,9 +638,6 @@ func (s *SoundTriggerHwStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISoundTriggerHwGetParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -656,9 +657,6 @@ func (s *SoundTriggerHwStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerHwSetParameter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

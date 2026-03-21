@@ -48,6 +48,7 @@ func (p *BluetoothConnectionCallbackProxy) OnDeviceConnected(
 	device BluetoothDevice,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothConnectionCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -69,6 +70,7 @@ func (p *BluetoothConnectionCallbackProxy) OnDeviceDisconnected(
 	hciReason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothConnectionCallback)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
@@ -88,7 +90,8 @@ func (p *BluetoothConnectionCallbackProxy) OnDeviceDisconnected(
 // BluetoothConnectionCallbackStub dispatches incoming binder transactions
 // to a typed IBluetoothConnectionCallback implementation.
 type BluetoothConnectionCallbackStub struct {
-	Impl IBluetoothConnectionCallback
+	Impl      IBluetoothConnectionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothConnectionCallbackStub)(nil)
@@ -102,11 +105,12 @@ func (s *BluetoothConnectionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothConnectionCallbackOnDeviceConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -120,12 +124,8 @@ func (s *BluetoothConnectionCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnDeviceConnected(ctx, _arg_device)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBluetoothConnectionCallbackOnDeviceDisconnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_device BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -143,8 +143,7 @@ func (s *BluetoothConnectionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnDeviceDisconnected(ctx, _arg_device, _arg_hciReason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

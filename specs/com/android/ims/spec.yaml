@@ -1,0 +1,64 @@
+package: com.android.ims
+go_package: com/android/ims
+interfaces:
+    - name: ImsConfigListener
+      descriptor: com.android.ims.ImsConfigListener
+      oneway: true
+      methods:
+        - name: onGetFeatureResponse
+          transaction_code_offset: 0
+          params:
+            - name: feature
+              type:
+                name: int
+            - name: network
+              type:
+                name: int
+            - name: value
+              type:
+                name: int
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSetFeatureResponse
+          transaction_code_offset: 1
+          params:
+            - name: feature
+              type:
+                name: int
+            - name: network
+              type:
+                name: int
+            - name: value
+              type:
+                name: int
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: onGetVideoQuality
+          transaction_code_offset: 2
+          params:
+            - name: status
+              type:
+                name: int
+            - name: quality
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSetVideoQuality
+          transaction_code_offset: 3
+          params:
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: ImsFeatureContainer

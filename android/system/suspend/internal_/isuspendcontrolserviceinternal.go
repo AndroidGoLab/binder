@@ -58,6 +58,7 @@ func (p *SuspendControlServiceInternalProxy) EnableAutosuspend(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -88,6 +89,7 @@ func (p *SuspendControlServiceInternalProxy) ForceSuspend(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuspendControlServiceInternal, MethodISuspendControlServiceInternalForceSuspend)
@@ -117,6 +119,7 @@ func (p *SuspendControlServiceInternalProxy) GetWakeLockStats(
 ) ([]WakeLockInfo, error) {
 	var _result []WakeLockInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuspendControlServiceInternal, MethodISuspendControlServiceInternalGetWakeLockStats)
@@ -138,6 +141,9 @@ func (p *SuspendControlServiceInternalProxy) GetWakeLockStats(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]WakeLockInfo, _count)
@@ -158,6 +164,7 @@ func (p *SuspendControlServiceInternalProxy) GetWakeupStats(
 ) ([]WakeupInfo, error) {
 	var _result []WakeupInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuspendControlServiceInternal, MethodISuspendControlServiceInternalGetWakeupStats)
@@ -179,6 +186,9 @@ func (p *SuspendControlServiceInternalProxy) GetWakeupStats(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]WakeupInfo, _count)
@@ -199,6 +209,7 @@ func (p *SuspendControlServiceInternalProxy) GetSuspendStats(
 ) (SuspendInfo, error) {
 	var _result SuspendInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuspendControlServiceInternal, MethodISuspendControlServiceInternalGetSuspendStats)
@@ -231,7 +242,8 @@ func (p *SuspendControlServiceInternalProxy) GetSuspendStats(
 // SuspendControlServiceInternalStub dispatches incoming binder transactions
 // to a typed ISuspendControlServiceInternal implementation.
 type SuspendControlServiceInternalStub struct {
-	Impl ISuspendControlServiceInternal
+	Impl      ISuspendControlServiceInternal
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SuspendControlServiceInternalStub)(nil)
@@ -245,14 +257,20 @@ func (s *SuspendControlServiceInternalStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISuspendControlServiceInternalEnableAutosuspend:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.EnableAutosuspend(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -263,9 +281,6 @@ func (s *SuspendControlServiceInternalStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISuspendControlServiceInternalForceSuspend:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.ForceSuspend(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -276,9 +291,6 @@ func (s *SuspendControlServiceInternalStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISuspendControlServiceInternalGetWakeLockStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWakeLockStats(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -286,13 +298,19 @@ func (s *SuspendControlServiceInternalStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISuspendControlServiceInternalGetWakeupStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWakeupStats(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -300,13 +318,19 @@ func (s *SuspendControlServiceInternalStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISuspendControlServiceInternalGetSuspendStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSuspendStats(ctx)
 		_reply := parcel.New()
 		if _err != nil {

@@ -49,6 +49,7 @@ func (p *RemoteLockscreenValidationCallbackProxy) OnSuccess(
 	result app.RemoteLockscreenValidationResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteLockscreenValidationCallback)
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -69,6 +70,7 @@ func (p *RemoteLockscreenValidationCallbackProxy) OnFailure(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteLockscreenValidationCallback)
 	_data.WriteString16(message)
 
@@ -84,7 +86,8 @@ func (p *RemoteLockscreenValidationCallbackProxy) OnFailure(
 // RemoteLockscreenValidationCallbackStub dispatches incoming binder transactions
 // to a typed IRemoteLockscreenValidationCallback implementation.
 type RemoteLockscreenValidationCallbackStub struct {
-	Impl IRemoteLockscreenValidationCallback
+	Impl      IRemoteLockscreenValidationCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RemoteLockscreenValidationCallbackStub)(nil)
@@ -98,11 +101,12 @@ func (s *RemoteLockscreenValidationCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRemoteLockscreenValidationCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_result app.RemoteLockscreenValidationResult
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -116,19 +120,14 @@ func (s *RemoteLockscreenValidationCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSuccess(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRemoteLockscreenValidationCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnFailure(ctx, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

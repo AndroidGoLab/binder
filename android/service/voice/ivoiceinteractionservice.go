@@ -3,7 +3,9 @@ package voice
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
+	app "github.com/xaionaro-go/binder/com/android/internal_/app"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -39,9 +41,9 @@ type IVoiceInteractionService interface {
 	SoundModelsChanged(ctx context.Context) error
 	Shutdown(ctx context.Context) error
 	LaunchVoiceAssistFromKeyguard(ctx context.Context) error
-	GetActiveServiceSupportedActions(ctx context.Context, voiceActions []string, callback interface{}) error
-	PrepareToShowSession(ctx context.Context, args interface{}, flags int32) error
-	ShowSessionFailed(ctx context.Context, args interface{}) error
+	GetActiveServiceSupportedActions(ctx context.Context, voiceActions []string, callback app.IVoiceActionCheckCallback) error
+	PrepareToShowSession(ctx context.Context, args os.Bundle, flags int32) error
+	ShowSessionFailed(ctx context.Context, args os.Bundle) error
 	DetectorRemoteExceptionOccurred(ctx context.Context, token binder.IBinder, detectorType int32) error
 }
 
@@ -65,6 +67,7 @@ func (p *VoiceInteractionServiceProxy) Ready(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceReady)
@@ -80,6 +83,7 @@ func (p *VoiceInteractionServiceProxy) SoundModelsChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceSoundModelsChanged)
@@ -95,6 +99,7 @@ func (p *VoiceInteractionServiceProxy) Shutdown(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceShutdown)
@@ -110,6 +115,7 @@ func (p *VoiceInteractionServiceProxy) LaunchVoiceAssistFromKeyguard(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceLaunchVoiceAssistFromKeyguard)
@@ -124,9 +130,10 @@ func (p *VoiceInteractionServiceProxy) LaunchVoiceAssistFromKeyguard(
 func (p *VoiceInteractionServiceProxy) GetActiveServiceSupportedActions(
 	ctx context.Context,
 	voiceActions []string,
-	callback interface{},
+	callback app.IVoiceActionCheckCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 	if voiceActions == nil {
 		_data.WriteInt32(-1)
@@ -136,6 +143,7 @@ func (p *VoiceInteractionServiceProxy) GetActiveServiceSupportedActions(
 			_data.WriteString16(_item)
 		}
 	}
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceGetActiveServiceSupportedActions)
 	if _err != nil {
@@ -148,11 +156,16 @@ func (p *VoiceInteractionServiceProxy) GetActiveServiceSupportedActions(
 
 func (p *VoiceInteractionServiceProxy) PrepareToShowSession(
 	ctx context.Context,
-	args interface{},
+	args os.Bundle,
 	flags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(flags)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionService, MethodIVoiceInteractionServicePrepareToShowSession)
@@ -166,10 +179,15 @@ func (p *VoiceInteractionServiceProxy) PrepareToShowSession(
 
 func (p *VoiceInteractionServiceProxy) ShowSessionFailed(
 	ctx context.Context,
-	args interface{},
+	args os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceShowSessionFailed)
 	if _err != nil {
@@ -186,6 +204,7 @@ func (p *VoiceInteractionServiceProxy) DetectorRemoteExceptionOccurred(
 	detectorType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(detectorType)
@@ -202,7 +221,8 @@ func (p *VoiceInteractionServiceProxy) DetectorRemoteExceptionOccurred(
 // VoiceInteractionServiceStub dispatches incoming binder transactions
 // to a typed IVoiceInteractionService implementation.
 type VoiceInteractionServiceStub struct {
-	Impl IVoiceInteractionService
+	Impl      IVoiceInteractionService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VoiceInteractionServiceStub)(nil)
@@ -216,80 +236,102 @@ func (s *VoiceInteractionServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVoiceInteractionServiceReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Ready(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVoiceInteractionServiceSoundModelsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SoundModelsChanged(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVoiceInteractionServiceShutdown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Shutdown(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVoiceInteractionServiceLaunchVoiceAssistFromKeyguard:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.LaunchVoiceAssistFromKeyguard(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVoiceInteractionServiceGetActiveServiceSupportedActions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_voiceActions []string
-		_ = _arg_voiceActions
-		var _arg_callback interface{}
-		_err := s.Impl.GetActiveServiceSupportedActions(ctx, _arg_voiceActions, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIVoiceInteractionServicePrepareToShowSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_voiceActions = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_voiceActions[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		var _arg_args interface{}
+		var _arg_callback app.IVoiceActionCheckCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = app.NewVoiceActionCheckCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
+		_err := s.Impl.GetActiveServiceSupportedActions(ctx, _arg_voiceActions, _arg_callback)
+		return nil, _err
+	case TransactionIVoiceInteractionServicePrepareToShowSession:
+		var _arg_args os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.PrepareToShowSession(ctx, _arg_args, _arg_flags)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVoiceInteractionServiceShowSessionFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_args os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_args interface{}
 		_err := s.Impl.ShowSessionFailed(ctx, _arg_args)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIVoiceInteractionServiceDetectorRemoteExceptionOccurred:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_detectorType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DetectorRemoteExceptionOccurred(ctx, _arg_token, _arg_detectorType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -303,9 +345,9 @@ type IVoiceInteractionServiceServer interface {
 	SoundModelsChanged(ctx context.Context) error
 	Shutdown(ctx context.Context) error
 	LaunchVoiceAssistFromKeyguard(ctx context.Context) error
-	GetActiveServiceSupportedActions(ctx context.Context, voiceActions []string, callback interface{}) error
-	PrepareToShowSession(ctx context.Context, args interface{}, flags int32) error
-	ShowSessionFailed(ctx context.Context, args interface{}) error
+	GetActiveServiceSupportedActions(ctx context.Context, voiceActions []string, callback app.IVoiceActionCheckCallback) error
+	PrepareToShowSession(ctx context.Context, args os.Bundle, flags int32) error
+	ShowSessionFailed(ctx context.Context, args os.Bundle) error
 	DetectorRemoteExceptionOccurred(ctx context.Context, token binder.IBinder, detectorType int32) error
 }
 
@@ -345,14 +387,14 @@ func (w *voiceInteractionServiceStubWrapper) LaunchVoiceAssistFromKeyguard(
 func (w *voiceInteractionServiceStubWrapper) GetActiveServiceSupportedActions(
 	ctx context.Context,
 	voiceActions []string,
-	callback interface{},
+	callback app.IVoiceActionCheckCallback,
 ) error {
 	return w.impl.GetActiveServiceSupportedActions(ctx, voiceActions, callback)
 }
 
 func (w *voiceInteractionServiceStubWrapper) PrepareToShowSession(
 	ctx context.Context,
-	args interface{},
+	args os.Bundle,
 	flags int32,
 ) error {
 	return w.impl.PrepareToShowSession(ctx, args, flags)
@@ -360,7 +402,7 @@ func (w *voiceInteractionServiceStubWrapper) PrepareToShowSession(
 
 func (w *voiceInteractionServiceStubWrapper) ShowSessionFailed(
 	ctx context.Context,
-	args interface{},
+	args os.Bundle,
 ) error {
 	return w.impl.ShowSessionFailed(ctx, args)
 }

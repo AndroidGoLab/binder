@@ -4,7 +4,9 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
+	types "github.com/xaionaro-go/binder/android/media/types"
 	net "github.com/xaionaro-go/binder/android/net"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -69,17 +71,17 @@ const (
 
 type ISessionCallback interface {
 	AsBinder() binder.IBinder
-	OnCommand(ctx context.Context, packageName string, pid int32, uid int32, command string, args interface{}, cb interface{}) error
-	OnMediaButton(ctx context.Context, packageName string, pid int32, uid int32, mediaButtonIntent content.Intent, sequenceNumber int32, cb interface{}) error
+	OnCommand(ctx context.Context, packageName string, pid int32, uid int32, command string, args os.Bundle, cb os.ResultReceiver) error
+	OnMediaButton(ctx context.Context, packageName string, pid int32, uid int32, mediaButtonIntent content.Intent, sequenceNumber int32, cb os.ResultReceiver) error
 	OnMediaButtonFromController(ctx context.Context, packageName string, pid int32, uid int32, mediaButtonIntent content.Intent) error
 	OnPrepare(ctx context.Context, packageName string, pid int32, uid int32) error
-	OnPrepareFromMediaId(ctx context.Context, packageName string, pid int32, uid int32, mediaId string, extras interface{}) error
-	OnPrepareFromSearch(ctx context.Context, packageName string, pid int32, uid int32, query string, extras interface{}) error
-	OnPrepareFromUri(ctx context.Context, packageName string, pid int32, uid int32, uri net.Uri, extras interface{}) error
+	OnPrepareFromMediaId(ctx context.Context, packageName string, pid int32, uid int32, mediaId string, extras os.Bundle) error
+	OnPrepareFromSearch(ctx context.Context, packageName string, pid int32, uid int32, query string, extras os.Bundle) error
+	OnPrepareFromUri(ctx context.Context, packageName string, pid int32, uid int32, uri net.Uri, extras os.Bundle) error
 	OnPlay(ctx context.Context, packageName string, pid int32, uid int32) error
-	OnPlayFromMediaId(ctx context.Context, packageName string, pid int32, uid int32, mediaId string, extras interface{}) error
-	OnPlayFromSearch(ctx context.Context, packageName string, pid int32, uid int32, query string, extras interface{}) error
-	OnPlayFromUri(ctx context.Context, packageName string, pid int32, uid int32, uri net.Uri, extras interface{}) error
+	OnPlayFromMediaId(ctx context.Context, packageName string, pid int32, uid int32, mediaId string, extras os.Bundle) error
+	OnPlayFromSearch(ctx context.Context, packageName string, pid int32, uid int32, query string, extras os.Bundle) error
+	OnPlayFromUri(ctx context.Context, packageName string, pid int32, uid int32, uri net.Uri, extras os.Bundle) error
 	OnSkipToTrack(ctx context.Context, packageName string, pid int32, uid int32, id int64) error
 	OnPause(ctx context.Context, packageName string, pid int32, uid int32) error
 	OnStop(ctx context.Context, packageName string, pid int32, uid int32) error
@@ -88,9 +90,9 @@ type ISessionCallback interface {
 	OnFastForward(ctx context.Context, packageName string, pid int32, uid int32) error
 	OnRewind(ctx context.Context, packageName string, pid int32, uid int32) error
 	OnSeekTo(ctx context.Context, packageName string, pid int32, uid int32, pos int64) error
-	OnRate(ctx context.Context, packageName string, pid int32, uid int32, rating interface{}) error
+	OnRate(ctx context.Context, packageName string, pid int32, uid int32, rating types.Rating) error
 	OnSetPlaybackSpeed(ctx context.Context, packageName string, pid int32, uid int32, speed float32) error
-	OnCustomAction(ctx context.Context, packageName string, pid int32, uid int32, action string, args interface{}) error
+	OnCustomAction(ctx context.Context, packageName string, pid int32, uid int32, action string, args os.Bundle) error
 	OnAdjustVolume(ctx context.Context, packageName string, pid int32, uid int32, direction int32) error
 	OnSetVolumeTo(ctx context.Context, packageName string, pid int32, uid int32, value int32) error
 }
@@ -117,15 +119,24 @@ func (p *SessionCallbackProxy) OnCommand(
 	pid int32,
 	uid int32,
 	command string,
-	args interface{},
-	cb interface{},
+	args os.Bundle,
+	cb os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
 	_data.WriteString16(command)
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := cb.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnCommand)
 	if _err != nil {
@@ -143,9 +154,10 @@ func (p *SessionCallbackProxy) OnMediaButton(
 	uid int32,
 	mediaButtonIntent content.Intent,
 	sequenceNumber int32,
-	cb interface{},
+	cb os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
@@ -155,6 +167,10 @@ func (p *SessionCallbackProxy) OnMediaButton(
 		return _err
 	}
 	_data.WriteInt32(sequenceNumber)
+	_data.WriteInt32(1)
+	if _err := cb.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnMediaButton)
 	if _err != nil {
@@ -173,6 +189,7 @@ func (p *SessionCallbackProxy) OnMediaButtonFromController(
 	mediaButtonIntent content.Intent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
@@ -198,6 +215,7 @@ func (p *SessionCallbackProxy) OnPrepare(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
@@ -218,14 +236,19 @@ func (p *SessionCallbackProxy) OnPrepareFromMediaId(
 	pid int32,
 	uid int32,
 	mediaId string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
 	_data.WriteString16(mediaId)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnPrepareFromMediaId)
 	if _err != nil {
@@ -242,14 +265,19 @@ func (p *SessionCallbackProxy) OnPrepareFromSearch(
 	pid int32,
 	uid int32,
 	query string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
 	_data.WriteString16(query)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnPrepareFromSearch)
 	if _err != nil {
@@ -266,15 +294,20 @@ func (p *SessionCallbackProxy) OnPrepareFromUri(
 	pid int32,
 	uid int32,
 	uri net.Uri,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -294,6 +327,7 @@ func (p *SessionCallbackProxy) OnPlay(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
@@ -314,14 +348,19 @@ func (p *SessionCallbackProxy) OnPlayFromMediaId(
 	pid int32,
 	uid int32,
 	mediaId string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
 	_data.WriteString16(mediaId)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnPlayFromMediaId)
 	if _err != nil {
@@ -338,14 +377,19 @@ func (p *SessionCallbackProxy) OnPlayFromSearch(
 	pid int32,
 	uid int32,
 	query string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
 	_data.WriteString16(query)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnPlayFromSearch)
 	if _err != nil {
@@ -362,15 +406,20 @@ func (p *SessionCallbackProxy) OnPlayFromUri(
 	pid int32,
 	uid int32,
 	uri net.Uri,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -391,6 +440,7 @@ func (p *SessionCallbackProxy) OnSkipToTrack(
 	id int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
@@ -413,6 +463,7 @@ func (p *SessionCallbackProxy) OnPause(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
@@ -434,6 +485,7 @@ func (p *SessionCallbackProxy) OnStop(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
@@ -455,6 +507,7 @@ func (p *SessionCallbackProxy) OnNext(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
@@ -476,6 +529,7 @@ func (p *SessionCallbackProxy) OnPrevious(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
@@ -497,6 +551,7 @@ func (p *SessionCallbackProxy) OnFastForward(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
@@ -518,6 +573,7 @@ func (p *SessionCallbackProxy) OnRewind(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
@@ -540,6 +596,7 @@ func (p *SessionCallbackProxy) OnSeekTo(
 	pos int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
@@ -560,13 +617,15 @@ func (p *SessionCallbackProxy) OnRate(
 	packageName string,
 	pid int32,
 	uid int32,
-	rating interface{},
+	rating types.Rating,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
+	// WARNING: param rating (type types.Rating) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnRate)
 	if _err != nil {
@@ -585,6 +644,7 @@ func (p *SessionCallbackProxy) OnSetPlaybackSpeed(
 	speed float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
@@ -606,14 +666,19 @@ func (p *SessionCallbackProxy) OnCustomAction(
 	pid int32,
 	uid int32,
 	action string,
-	args interface{},
+	args os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
 	_data.WriteString16(action)
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionCallback, MethodISessionCallbackOnCustomAction)
 	if _err != nil {
@@ -632,6 +697,7 @@ func (p *SessionCallbackProxy) OnAdjustVolume(
 	direction int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
@@ -655,6 +721,7 @@ func (p *SessionCallbackProxy) OnSetVolumeTo(
 	value int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(pid)
@@ -673,7 +740,8 @@ func (p *SessionCallbackProxy) OnSetVolumeTo(
 // SessionCallbackStub dispatches incoming binder transactions
 // to a typed ISessionCallback implementation.
 type SessionCallbackStub struct {
-	Impl ISessionCallback
+	Impl      ISessionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SessionCallbackStub)(nil)
@@ -687,11 +755,12 @@ func (s *SessionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISessionCallbackOnCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -708,15 +777,33 @@ func (s *SessionCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_args interface{}
-		var _arg_cb interface{}
-		_err = s.Impl.OnCommand(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_command, _arg_args, _arg_cb)
-		_ = _err
-		return nil, nil
-	case TransactionISessionCallbackOnMediaButton:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_args os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		var _arg_cb os.ResultReceiver
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cb.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnCommand(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_command, _arg_args, _arg_cb)
+		return nil, _err
+	case TransactionISessionCallbackOnMediaButton:
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -745,14 +832,21 @@ func (s *SessionCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_cb interface{}
-		_err = s.Impl.OnMediaButton(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_mediaButtonIntent, _arg_sequenceNumber, _arg_cb)
-		_ = _err
-		return nil, nil
-	case TransactionISessionCallbackOnMediaButtonFromController:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_cb os.ResultReceiver
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cb.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		_err = s.Impl.OnMediaButton(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_mediaButtonIntent, _arg_sequenceNumber, _arg_cb)
+		return nil, _err
+	case TransactionISessionCallbackOnMediaButtonFromController:
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -778,12 +872,8 @@ func (s *SessionCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnMediaButtonFromController(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_mediaButtonIntent)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionCallbackOnPrepare:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -797,12 +887,8 @@ func (s *SessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPrepare(ctx, _arg_packageName, _arg_pid, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionCallbackOnPrepareFromMediaId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -819,14 +905,21 @@ func (s *SessionCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
-		_err = s.Impl.OnPrepareFromMediaId(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_mediaId, _arg_extras)
-		_ = _err
-		return nil, nil
-	case TransactionISessionCallbackOnPrepareFromSearch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		_err = s.Impl.OnPrepareFromMediaId(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_mediaId, _arg_extras)
+		return nil, _err
+	case TransactionISessionCallbackOnPrepareFromSearch:
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -843,14 +936,21 @@ func (s *SessionCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
-		_err = s.Impl.OnPrepareFromSearch(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_query, _arg_extras)
-		_ = _err
-		return nil, nil
-	case TransactionISessionCallbackOnPrepareFromUri:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		_err = s.Impl.OnPrepareFromSearch(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_query, _arg_extras)
+		return nil, _err
+	case TransactionISessionCallbackOnPrepareFromUri:
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -875,14 +975,21 @@ func (s *SessionCallbackStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_extras interface{}
-		_err = s.Impl.OnPrepareFromUri(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_uri, _arg_extras)
-		_ = _err
-		return nil, nil
-	case TransactionISessionCallbackOnPlay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		_err = s.Impl.OnPrepareFromUri(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_uri, _arg_extras)
+		return nil, _err
+	case TransactionISessionCallbackOnPlay:
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -896,12 +1003,8 @@ func (s *SessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPlay(ctx, _arg_packageName, _arg_pid, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionCallbackOnPlayFromMediaId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -918,14 +1021,21 @@ func (s *SessionCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
-		_err = s.Impl.OnPlayFromMediaId(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_mediaId, _arg_extras)
-		_ = _err
-		return nil, nil
-	case TransactionISessionCallbackOnPlayFromSearch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		_err = s.Impl.OnPlayFromMediaId(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_mediaId, _arg_extras)
+		return nil, _err
+	case TransactionISessionCallbackOnPlayFromSearch:
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -942,14 +1052,21 @@ func (s *SessionCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
-		_err = s.Impl.OnPlayFromSearch(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_query, _arg_extras)
-		_ = _err
-		return nil, nil
-	case TransactionISessionCallbackOnPlayFromUri:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		_err = s.Impl.OnPlayFromSearch(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_query, _arg_extras)
+		return nil, _err
+	case TransactionISessionCallbackOnPlayFromUri:
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -974,14 +1091,21 @@ func (s *SessionCallbackStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_extras interface{}
-		_err = s.Impl.OnPlayFromUri(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_uri, _arg_extras)
-		_ = _err
-		return nil, nil
-	case TransactionISessionCallbackOnSkipToTrack:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		_err = s.Impl.OnPlayFromUri(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_uri, _arg_extras)
+		return nil, _err
+	case TransactionISessionCallbackOnSkipToTrack:
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -999,12 +1123,8 @@ func (s *SessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSkipToTrack(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_id)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionCallbackOnPause:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1018,12 +1138,8 @@ func (s *SessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPause(ctx, _arg_packageName, _arg_pid, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionCallbackOnStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1037,12 +1153,8 @@ func (s *SessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStop(ctx, _arg_packageName, _arg_pid, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionCallbackOnNext:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1056,12 +1168,8 @@ func (s *SessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnNext(ctx, _arg_packageName, _arg_pid, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionCallbackOnPrevious:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1075,12 +1183,8 @@ func (s *SessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnPrevious(ctx, _arg_packageName, _arg_pid, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionCallbackOnFastForward:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1094,12 +1198,8 @@ func (s *SessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnFastForward(ctx, _arg_packageName, _arg_pid, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionCallbackOnRewind:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1113,12 +1213,8 @@ func (s *SessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnRewind(ctx, _arg_packageName, _arg_pid, _arg_uid)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionCallbackOnSeekTo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1136,12 +1232,8 @@ func (s *SessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSeekTo(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_pos)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionCallbackOnRate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1154,14 +1246,10 @@ func (s *SessionCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_rating interface{}
+		var _arg_rating types.Rating
 		_err = s.Impl.OnRate(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_rating)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionCallbackOnSetPlaybackSpeed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1179,12 +1267,8 @@ func (s *SessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSetPlaybackSpeed(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_speed)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionCallbackOnCustomAction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1201,14 +1285,21 @@ func (s *SessionCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_args interface{}
-		_err = s.Impl.OnCustomAction(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_action, _arg_args)
-		_ = _err
-		return nil, nil
-	case TransactionISessionCallbackOnAdjustVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_args os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
+		_err = s.Impl.OnCustomAction(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_action, _arg_args)
+		return nil, _err
+	case TransactionISessionCallbackOnAdjustVolume:
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1226,12 +1317,8 @@ func (s *SessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnAdjustVolume(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_direction)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISessionCallbackOnSetVolumeTo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1249,8 +1336,7 @@ func (s *SessionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSetVolumeTo(ctx, _arg_packageName, _arg_pid, _arg_uid, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1260,17 +1346,17 @@ func (s *SessionCallbackStub) OnTransaction(
 // provide to NewSessionCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ISessionCallbackServer interface {
-	OnCommand(ctx context.Context, packageName string, pid int32, uid int32, command string, args interface{}, cb interface{}) error
-	OnMediaButton(ctx context.Context, packageName string, pid int32, uid int32, mediaButtonIntent content.Intent, sequenceNumber int32, cb interface{}) error
+	OnCommand(ctx context.Context, packageName string, pid int32, uid int32, command string, args os.Bundle, cb os.ResultReceiver) error
+	OnMediaButton(ctx context.Context, packageName string, pid int32, uid int32, mediaButtonIntent content.Intent, sequenceNumber int32, cb os.ResultReceiver) error
 	OnMediaButtonFromController(ctx context.Context, packageName string, pid int32, uid int32, mediaButtonIntent content.Intent) error
 	OnPrepare(ctx context.Context, packageName string, pid int32, uid int32) error
-	OnPrepareFromMediaId(ctx context.Context, packageName string, pid int32, uid int32, mediaId string, extras interface{}) error
-	OnPrepareFromSearch(ctx context.Context, packageName string, pid int32, uid int32, query string, extras interface{}) error
-	OnPrepareFromUri(ctx context.Context, packageName string, pid int32, uid int32, uri net.Uri, extras interface{}) error
+	OnPrepareFromMediaId(ctx context.Context, packageName string, pid int32, uid int32, mediaId string, extras os.Bundle) error
+	OnPrepareFromSearch(ctx context.Context, packageName string, pid int32, uid int32, query string, extras os.Bundle) error
+	OnPrepareFromUri(ctx context.Context, packageName string, pid int32, uid int32, uri net.Uri, extras os.Bundle) error
 	OnPlay(ctx context.Context, packageName string, pid int32, uid int32) error
-	OnPlayFromMediaId(ctx context.Context, packageName string, pid int32, uid int32, mediaId string, extras interface{}) error
-	OnPlayFromSearch(ctx context.Context, packageName string, pid int32, uid int32, query string, extras interface{}) error
-	OnPlayFromUri(ctx context.Context, packageName string, pid int32, uid int32, uri net.Uri, extras interface{}) error
+	OnPlayFromMediaId(ctx context.Context, packageName string, pid int32, uid int32, mediaId string, extras os.Bundle) error
+	OnPlayFromSearch(ctx context.Context, packageName string, pid int32, uid int32, query string, extras os.Bundle) error
+	OnPlayFromUri(ctx context.Context, packageName string, pid int32, uid int32, uri net.Uri, extras os.Bundle) error
 	OnSkipToTrack(ctx context.Context, packageName string, pid int32, uid int32, id int64) error
 	OnPause(ctx context.Context, packageName string, pid int32, uid int32) error
 	OnStop(ctx context.Context, packageName string, pid int32, uid int32) error
@@ -1279,9 +1365,9 @@ type ISessionCallbackServer interface {
 	OnFastForward(ctx context.Context, packageName string, pid int32, uid int32) error
 	OnRewind(ctx context.Context, packageName string, pid int32, uid int32) error
 	OnSeekTo(ctx context.Context, packageName string, pid int32, uid int32, pos int64) error
-	OnRate(ctx context.Context, packageName string, pid int32, uid int32, rating interface{}) error
+	OnRate(ctx context.Context, packageName string, pid int32, uid int32, rating types.Rating) error
 	OnSetPlaybackSpeed(ctx context.Context, packageName string, pid int32, uid int32, speed float32) error
-	OnCustomAction(ctx context.Context, packageName string, pid int32, uid int32, action string, args interface{}) error
+	OnCustomAction(ctx context.Context, packageName string, pid int32, uid int32, action string, args os.Bundle) error
 	OnAdjustVolume(ctx context.Context, packageName string, pid int32, uid int32, direction int32) error
 	OnSetVolumeTo(ctx context.Context, packageName string, pid int32, uid int32, value int32) error
 }
@@ -1301,8 +1387,8 @@ func (w *sessionCallbackStubWrapper) OnCommand(
 	pid int32,
 	uid int32,
 	command string,
-	args interface{},
-	cb interface{},
+	args os.Bundle,
+	cb os.ResultReceiver,
 ) error {
 	return w.impl.OnCommand(ctx, packageName, pid, uid, command, args, cb)
 }
@@ -1314,7 +1400,7 @@ func (w *sessionCallbackStubWrapper) OnMediaButton(
 	uid int32,
 	mediaButtonIntent content.Intent,
 	sequenceNumber int32,
-	cb interface{},
+	cb os.ResultReceiver,
 ) error {
 	return w.impl.OnMediaButton(ctx, packageName, pid, uid, mediaButtonIntent, sequenceNumber, cb)
 }
@@ -1344,7 +1430,7 @@ func (w *sessionCallbackStubWrapper) OnPrepareFromMediaId(
 	pid int32,
 	uid int32,
 	mediaId string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.OnPrepareFromMediaId(ctx, packageName, pid, uid, mediaId, extras)
 }
@@ -1355,7 +1441,7 @@ func (w *sessionCallbackStubWrapper) OnPrepareFromSearch(
 	pid int32,
 	uid int32,
 	query string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.OnPrepareFromSearch(ctx, packageName, pid, uid, query, extras)
 }
@@ -1366,7 +1452,7 @@ func (w *sessionCallbackStubWrapper) OnPrepareFromUri(
 	pid int32,
 	uid int32,
 	uri net.Uri,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.OnPrepareFromUri(ctx, packageName, pid, uid, uri, extras)
 }
@@ -1386,7 +1472,7 @@ func (w *sessionCallbackStubWrapper) OnPlayFromMediaId(
 	pid int32,
 	uid int32,
 	mediaId string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.OnPlayFromMediaId(ctx, packageName, pid, uid, mediaId, extras)
 }
@@ -1397,7 +1483,7 @@ func (w *sessionCallbackStubWrapper) OnPlayFromSearch(
 	pid int32,
 	uid int32,
 	query string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.OnPlayFromSearch(ctx, packageName, pid, uid, query, extras)
 }
@@ -1408,7 +1494,7 @@ func (w *sessionCallbackStubWrapper) OnPlayFromUri(
 	pid int32,
 	uid int32,
 	uri net.Uri,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.OnPlayFromUri(ctx, packageName, pid, uid, uri, extras)
 }
@@ -1492,7 +1578,7 @@ func (w *sessionCallbackStubWrapper) OnRate(
 	packageName string,
 	pid int32,
 	uid int32,
-	rating interface{},
+	rating types.Rating,
 ) error {
 	return w.impl.OnRate(ctx, packageName, pid, uid, rating)
 }
@@ -1513,7 +1599,7 @@ func (w *sessionCallbackStubWrapper) OnCustomAction(
 	pid int32,
 	uid int32,
 	action string,
-	args interface{},
+	args os.Bundle,
 ) error {
 	return w.impl.OnCustomAction(ctx, packageName, pid, uid, action, args)
 }

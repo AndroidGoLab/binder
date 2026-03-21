@@ -9,8 +9,8 @@ import (
 type QosFilter struct {
 	LocalAddresses  []string
 	RemoteAddresses []string
-	LocalPort       PortRange
-	RemotePort      PortRange
+	LocalPort       *PortRange
+	RemotePort      *PortRange
 	Protocol        byte
 	Tos             QosFilterTypeOfService
 	FlowLabel       QosFilterIpv6FlowLabel
@@ -52,11 +52,21 @@ func (s *QosFilter) MarshalParcel(
 			p.WriteString16(_item)
 		}
 	}
-	if _err := s.LocalPort.MarshalParcel(p); _err != nil {
-		return _err
+	if s.LocalPort == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.LocalPort.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
-	if _err := s.RemotePort.MarshalParcel(p); _err != nil {
-		return _err
+	if s.RemotePort == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.RemotePort.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	p.WritePaddedByte(s.Protocol)
 	if _err := s.Tos.MarshalParcel(p); _err != nil {
@@ -83,6 +93,11 @@ func (s *QosFilter) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count0 int32
 	_count0, _err = p.ReadInt32()
 	if _err != nil {
@@ -96,6 +111,11 @@ func (s *QosFilter) UnmarshalParcel(
 				return _err
 			}
 		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count1 int32
@@ -113,12 +133,47 @@ func (s *QosFilter) UnmarshalParcel(
 		}
 	}
 
-	if _err = s.LocalPort.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
-	if _err = s.RemotePort.UnmarshalParcel(p); _err != nil {
-		return _err
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val PortRange
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.LocalPort = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val PortRange
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.RemotePort = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Protocol, _err = p.ReadPaddedByte()
@@ -126,21 +181,46 @@ func (s *QosFilter) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Tos.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.FlowLabel.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Spi.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Direction, _err = p.ReadPaddedByte()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Precedence, _err = p.ReadInt32()

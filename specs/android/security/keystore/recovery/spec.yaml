@@ -1,0 +1,8 @@
+package: android.security.keystore.recovery
+go_package: android/security/keystore/recovery
+parcelables:
+    - name: KeyChainProtectionParams
+    - name: KeyChainSnapshot
+    - name: KeyDerivationParams
+    - name: RecoveryCertPath
+    - name: WrappedApplicationKey

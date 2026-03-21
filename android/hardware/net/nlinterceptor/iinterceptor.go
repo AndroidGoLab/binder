@@ -57,6 +57,7 @@ func (p *InterceptorProxy) CreateSocket(
 ) (InterceptedSocket, error) {
 	var _result InterceptedSocket
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInterceptor)
 	_data.WriteInt32(nlFamily)
 	_data.WriteInt32(clientNlPid)
@@ -94,6 +95,7 @@ func (p *InterceptorProxy) CloseSocket(
 	handle InterceptedSocket,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInterceptor)
 	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
@@ -124,6 +126,7 @@ func (p *InterceptorProxy) SubscribeGroup(
 	nlGroup int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInterceptor)
 	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
@@ -155,6 +158,7 @@ func (p *InterceptorProxy) UnsubscribeGroup(
 	nlGroup int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInterceptor)
 	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
@@ -183,7 +187,8 @@ func (p *InterceptorProxy) UnsubscribeGroup(
 // InterceptorStub dispatches incoming binder transactions
 // to a typed IInterceptor implementation.
 type InterceptorStub struct {
-	Impl IInterceptor
+	Impl      IInterceptor
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InterceptorStub)(nil)
@@ -197,11 +202,12 @@ func (s *InterceptorStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInterceptorCreateSocket:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_nlFamily, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -227,9 +233,6 @@ func (s *InterceptorStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInterceptorCloseSocket:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_handle InterceptedSocket
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -251,9 +254,6 @@ func (s *InterceptorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInterceptorSubscribeGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_handle InterceptedSocket
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -279,9 +279,6 @@ func (s *InterceptorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInterceptorUnsubscribeGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_handle InterceptedSocket
 		{
 			_nullInd, _err := _data.ReadInt32()

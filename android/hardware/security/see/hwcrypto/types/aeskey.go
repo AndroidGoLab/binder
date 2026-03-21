@@ -31,8 +31,7 @@ func (u *AesKey) GetAes128() ([]byte, bool) {
 func (u *AesKey) SetAes128(
 	v []byte,
 ) {
-	u.Tag = AesKeyTagAes128
-	u.Aes128 = v
+	*u = AesKey{Tag: AesKeyTagAes128, Aes128: v}
 }
 
 func (u *AesKey) GetAes256() ([]byte, bool) {
@@ -46,8 +45,7 @@ func (u *AesKey) GetAes256() ([]byte, bool) {
 func (u *AesKey) SetAes256(
 	v []byte,
 ) {
-	u.Tag = AesKeyTagAes256
-	u.Aes256 = v
+	*u = AesKey{Tag: AesKeyTagAes256, Aes256: v}
 }
 
 func (u *AesKey) MarshalParcel(

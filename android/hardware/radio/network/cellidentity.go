@@ -41,8 +41,7 @@ func (u *CellIdentity) GetNoinit() (bool, bool) {
 func (u *CellIdentity) SetNoinit(
 	v bool,
 ) {
-	u.Tag = CellIdentityTagNoinit
-	u.Noinit = v
+	*u = CellIdentity{Tag: CellIdentityTagNoinit, Noinit: v}
 }
 
 func (u *CellIdentity) GetGsm() (CellIdentityGsm, bool) {
@@ -56,8 +55,7 @@ func (u *CellIdentity) GetGsm() (CellIdentityGsm, bool) {
 func (u *CellIdentity) SetGsm(
 	v CellIdentityGsm,
 ) {
-	u.Tag = CellIdentityTagGsm
-	u.Gsm = v
+	*u = CellIdentity{Tag: CellIdentityTagGsm, Gsm: v}
 }
 
 func (u *CellIdentity) GetWcdma() (CellIdentityWcdma, bool) {
@@ -71,8 +69,7 @@ func (u *CellIdentity) GetWcdma() (CellIdentityWcdma, bool) {
 func (u *CellIdentity) SetWcdma(
 	v CellIdentityWcdma,
 ) {
-	u.Tag = CellIdentityTagWcdma
-	u.Wcdma = v
+	*u = CellIdentity{Tag: CellIdentityTagWcdma, Wcdma: v}
 }
 
 func (u *CellIdentity) GetTdscdma() (CellIdentityTdscdma, bool) {
@@ -86,8 +83,7 @@ func (u *CellIdentity) GetTdscdma() (CellIdentityTdscdma, bool) {
 func (u *CellIdentity) SetTdscdma(
 	v CellIdentityTdscdma,
 ) {
-	u.Tag = CellIdentityTagTdscdma
-	u.Tdscdma = v
+	*u = CellIdentity{Tag: CellIdentityTagTdscdma, Tdscdma: v}
 }
 
 func (u *CellIdentity) GetCdma() (CellIdentityCdma, bool) {
@@ -101,8 +97,7 @@ func (u *CellIdentity) GetCdma() (CellIdentityCdma, bool) {
 func (u *CellIdentity) SetCdma(
 	v CellIdentityCdma,
 ) {
-	u.Tag = CellIdentityTagCdma
-	u.Cdma = v
+	*u = CellIdentity{Tag: CellIdentityTagCdma, Cdma: v}
 }
 
 func (u *CellIdentity) GetLte() (CellIdentityLte, bool) {
@@ -116,8 +111,7 @@ func (u *CellIdentity) GetLte() (CellIdentityLte, bool) {
 func (u *CellIdentity) SetLte(
 	v CellIdentityLte,
 ) {
-	u.Tag = CellIdentityTagLte
-	u.Lte = v
+	*u = CellIdentity{Tag: CellIdentityTagLte, Lte: v}
 }
 
 func (u *CellIdentity) GetNr() (CellIdentityNr, bool) {
@@ -131,8 +125,7 @@ func (u *CellIdentity) GetNr() (CellIdentityNr, bool) {
 func (u *CellIdentity) SetNr(
 	v CellIdentityNr,
 ) {
-	u.Tag = CellIdentityTagNr
-	u.Nr = v
+	*u = CellIdentity{Tag: CellIdentityTagNr, Nr: v}
 }
 
 func (u *CellIdentity) MarshalParcel(

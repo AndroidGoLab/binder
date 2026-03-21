@@ -1,0 +1,970 @@
+package: android.hardware.input
+go_package: android/hardware/input
+interfaces:
+    - name: IInputDeviceBatteryListener
+      descriptor: android.hardware.input.IInputDeviceBatteryListener
+      oneway: true
+      methods:
+        - name: onBatteryStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: batteryState
+              type:
+                name: IInputDeviceBatteryState
+              direction: in
+          return_type:
+            name: void
+    - name: IInputDevicesChangedListener
+      descriptor: android.hardware.input.IInputDevicesChangedListener
+      methods:
+        - name: onInputDevicesChanged
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: deviceIdAndGeneration
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IInputManager
+      descriptor: android.hardware.input.IInputManager
+      methods:
+        - name: getVelocityTrackerStrategy
+          transaction_code_offset: 0
+          return_type:
+            name: String
+        - name: getInputDevice
+          transaction_code_offset: 1
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: InputDevice
+        - name: getInputDeviceIds
+          transaction_code_offset: 2
+          return_type:
+            name: int
+            is_array: true
+        - name: isInputDeviceEnabled
+          transaction_code_offset: 3
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: enableInputDevice
+          transaction_code_offset: 4
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: disableInputDevice
+          transaction_code_offset: 5
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: hasKeys
+          transaction_code_offset: 6
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: sourceMask
+              type:
+                name: int
+            - name: keyCodes
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: keyExists
+              type:
+                name: boolean
+                is_array: true
+              direction: out
+          return_type:
+            name: boolean
+        - name: getKeyCodeForKeyLocation
+          transaction_code_offset: 7
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: locationKeyCode
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: int
+        - name: getKeyCharacterMap
+          transaction_code_offset: 8
+          params:
+            - name: layoutDescriptor
+              type:
+                name: String
+          return_type:
+            name: KeyCharacterMap
+        - name: getMousePointerSpeed
+          transaction_code_offset: 9
+          return_type:
+            name: int
+        - name: tryPointerSpeed
+          transaction_code_offset: 10
+          params:
+            - name: speed
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: injectInputEvent
+          transaction_code_offset: 11
+          params:
+            - name: ev
+              type:
+                name: InputEvent
+              direction: in
+            - name: mode
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: injectInputEventToTarget
+          transaction_code_offset: 12
+          params:
+            - name: ev
+              type:
+                name: InputEvent
+              direction: in
+            - name: mode
+              type:
+                name: int
+            - name: targetUid
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: verifyInputEvent
+          transaction_code_offset: 13
+          params:
+            - name: ev
+              type:
+                name: InputEvent
+              direction: in
+          return_type:
+            name: VerifiedInputEvent
+        - name: getTouchCalibrationForInputDevice
+          transaction_code_offset: 14
+          params:
+            - name: inputDeviceDescriptor
+              type:
+                name: String
+            - name: rotation
+              type:
+                name: int
+          return_type:
+            name: TouchCalibration
+        - name: setTouchCalibrationForInputDevice
+          transaction_code_offset: 15
+          params:
+            - name: inputDeviceDescriptor
+              type:
+                name: String
+            - name: rotation
+              type:
+                name: int
+            - name: calibration
+              type:
+                name: TouchCalibration
+              direction: in
+          return_type:
+            name: void
+        - name: getKeyboardLayouts
+          transaction_code_offset: 16
+          return_type:
+            name: KeyboardLayout
+            is_array: true
+        - name: getKeyboardLayoutsForInputDevice
+          transaction_code_offset: 17
+          params:
+            - name: identifier
+              type:
+                name: InputDeviceIdentifier
+              direction: in
+          return_type:
+            name: KeyboardLayout
+            is_array: true
+        - name: getKeyboardLayout
+          transaction_code_offset: 18
+          params:
+            - name: keyboardLayoutDescriptor
+              type:
+                name: String
+          return_type:
+            name: KeyboardLayout
+        - name: getCurrentKeyboardLayoutForInputDevice
+          transaction_code_offset: 19
+          params:
+            - name: identifier
+              type:
+                name: InputDeviceIdentifier
+              direction: in
+          return_type:
+            name: String
+        - name: setCurrentKeyboardLayoutForInputDevice
+          transaction_code_offset: 20
+          params:
+            - name: identifier
+              type:
+                name: InputDeviceIdentifier
+              direction: in
+            - name: keyboardLayoutDescriptor
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: getEnabledKeyboardLayoutsForInputDevice
+          transaction_code_offset: 21
+          params:
+            - name: identifier
+              type:
+                name: InputDeviceIdentifier
+              direction: in
+          return_type:
+            name: String
+            is_array: true
+        - name: addKeyboardLayoutForInputDevice
+          transaction_code_offset: 22
+          params:
+            - name: identifier
+              type:
+                name: InputDeviceIdentifier
+              direction: in
+            - name: keyboardLayoutDescriptor
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: removeKeyboardLayoutForInputDevice
+          transaction_code_offset: 23
+          params:
+            - name: identifier
+              type:
+                name: InputDeviceIdentifier
+              direction: in
+            - name: keyboardLayoutDescriptor
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: getKeyboardLayoutForInputDevice
+          transaction_code_offset: 24
+          params:
+            - name: identifier
+              type:
+                name: InputDeviceIdentifier
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: imeInfo
+              type:
+                name: InputMethodInfo
+              direction: in
+            - name: imeSubtype
+              type:
+                name: InputMethodSubtype
+              direction: in
+          return_type:
+            name: KeyboardLayoutSelectionResult
+        - name: setKeyboardLayoutForInputDevice
+          transaction_code_offset: 25
+          params:
+            - name: identifier
+              type:
+                name: InputDeviceIdentifier
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: imeInfo
+              type:
+                name: InputMethodInfo
+              direction: in
+            - name: imeSubtype
+              type:
+                name: InputMethodSubtype
+              direction: in
+            - name: keyboardLayoutDescriptor
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: getKeyboardLayoutListForInputDevice
+          transaction_code_offset: 26
+          params:
+            - name: identifier
+              type:
+                name: InputDeviceIdentifier
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: imeInfo
+              type:
+                name: InputMethodInfo
+              direction: in
+            - name: imeSubtype
+              type:
+                name: InputMethodSubtype
+              direction: in
+          return_type:
+            name: KeyboardLayout
+            is_array: true
+        - name: remapModifierKey
+          transaction_code_offset: 27
+          params:
+            - name: fromKey
+              type:
+                name: int
+            - name: toKey
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: clearAllModifierKeyRemappings
+          transaction_code_offset: 28
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: getModifierKeyRemapping
+          transaction_code_offset: 29
+          return_type:
+            name: Map
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: registerInputDevicesChangedListener
+          transaction_code_offset: 30
+          params:
+            - name: listener
+              type:
+                name: IInputDevicesChangedListener
+          return_type:
+            name: void
+        - name: isInTabletMode
+          transaction_code_offset: 31
+          return_type:
+            name: int
+        - name: registerTabletModeChangedListener
+          transaction_code_offset: 32
+          params:
+            - name: listener
+              type:
+                name: ITabletModeChangedListener
+          return_type:
+            name: void
+        - name: isMicMuted
+          transaction_code_offset: 33
+          return_type:
+            name: int
+        - name: vibrate
+          transaction_code_offset: 34
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: effect
+              type:
+                name: VibrationEffect
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: vibrateCombined
+          transaction_code_offset: 35
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: vibration
+              type:
+                name: CombinedVibration
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: cancelVibrate
+          transaction_code_offset: 36
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: getVibratorIds
+          transaction_code_offset: 37
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: int
+            is_array: true
+        - name: isVibrating
+          transaction_code_offset: 38
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: registerVibratorStateListener
+          transaction_code_offset: 39
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IVibratorStateListener
+              direction: in
+          return_type:
+            name: boolean
+        - name: unregisterVibratorStateListener
+          transaction_code_offset: 40
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IVibratorStateListener
+              direction: in
+          return_type:
+            name: boolean
+        - name: getBatteryState
+          transaction_code_offset: 41
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: IInputDeviceBatteryState
+        - name: setPointerIconType
+          transaction_code_offset: 42
+          params:
+            - name: typeId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setCustomPointerIcon
+          transaction_code_offset: 43
+          params:
+            - name: icon
+              type:
+                name: PointerIcon
+              direction: in
+          return_type:
+            name: void
+        - name: setPointerIcon
+          transaction_code_offset: 44
+          params:
+            - name: icon
+              type:
+                name: PointerIcon
+              direction: in
+            - name: displayId
+              type:
+                name: int
+            - name: deviceId
+              type:
+                name: int
+            - name: pointerId
+              type:
+                name: int
+            - name: inputToken
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: boolean
+        - name: requestPointerCapture
+          transaction_code_offset: 45
+          oneway: true
+          params:
+            - name: inputChannelToken
+              type:
+                name: IBinder
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: monitorGestureInput
+          transaction_code_offset: 46
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: name
+              type:
+                name: String
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: InputMonitor
+        - name: addPortAssociation
+          transaction_code_offset: 47
+          params:
+            - name: inputPort
+              type:
+                name: String
+              direction: in
+            - name: displayPort
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removePortAssociation
+          transaction_code_offset: 48
+          params:
+            - name: inputPort
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: addUniqueIdAssociation
+          transaction_code_offset: 49
+          params:
+            - name: inputPort
+              type:
+                name: String
+              direction: in
+            - name: displayUniqueId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: removeUniqueIdAssociation
+          transaction_code_offset: 50
+          params:
+            - name: inputPort
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getSensorList
+          transaction_code_offset: 51
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: InputSensorInfo
+            is_array: true
+        - name: registerSensorListener
+          transaction_code_offset: 52
+          params:
+            - name: listener
+              type:
+                name: IInputSensorEventListener
+          return_type:
+            name: boolean
+        - name: unregisterSensorListener
+          transaction_code_offset: 53
+          params:
+            - name: listener
+              type:
+                name: IInputSensorEventListener
+          return_type:
+            name: void
+        - name: enableSensor
+          transaction_code_offset: 54
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: sensorType
+              type:
+                name: int
+            - name: samplingPeriodUs
+              type:
+                name: int
+            - name: maxBatchReportLatencyUs
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: disableSensor
+          transaction_code_offset: 55
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: sensorType
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: flushSensor
+          transaction_code_offset: 56
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: sensorType
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getLights
+          transaction_code_offset: 57
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: Light
+        - name: getLightState
+          transaction_code_offset: 58
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: lightId
+              type:
+                name: int
+          return_type:
+            name: LightState
+        - name: setLightStates
+          transaction_code_offset: 59
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: lightIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: states
+              type:
+                name: LightState
+                is_array: true
+              direction: in
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: openLightSession
+          transaction_code_offset: 60
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: opPkg
+              type:
+                name: String
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: closeLightSession
+          transaction_code_offset: 61
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: cancelCurrentTouch
+          transaction_code_offset: 62
+          return_type:
+            name: void
+        - name: registerBatteryListener
+          transaction_code_offset: 63
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IInputDeviceBatteryListener
+          return_type:
+            name: void
+        - name: unregisterBatteryListener
+          transaction_code_offset: 64
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IInputDeviceBatteryListener
+          return_type:
+            name: void
+        - name: getInputDeviceBluetoothAddress
+          transaction_code_offset: 65
+          params:
+            - name: deviceId
+              type:
+                name: int
+          return_type:
+            name: String
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: pilferPointers
+          transaction_code_offset: 66
+          params:
+            - name: inputChannelToken
+              type:
+                name: IBinder
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: registerKeyboardBacklightListener
+          transaction_code_offset: 67
+          params:
+            - name: listener
+              type:
+                name: IKeyboardBacklightListener
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: unregisterKeyboardBacklightListener
+          transaction_code_offset: 68
+          params:
+            - name: listener
+              type:
+                name: IKeyboardBacklightListener
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: getHostUsiVersionFromDisplayConfig
+          transaction_code_offset: 69
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: HostUsiVersion
+        - name: registerStickyModifierStateListener
+          transaction_code_offset: 70
+          params:
+            - name: listener
+              type:
+                name: IStickyModifierStateListener
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+        - name: unregisterStickyModifierStateListener
+          transaction_code_offset: 71
+          params:
+            - name: listener
+              type:
+                name: IStickyModifierStateListener
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+            - JavaPassthrough
+    - name: IInputSensorEventListener
+      descriptor: android.hardware.input.IInputSensorEventListener
+      methods:
+        - name: onInputSensorChanged
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: sensorId
+              type:
+                name: int
+            - name: accuracy
+              type:
+                name: int
+            - name: timestamp
+              type:
+                name: long
+            - name: values
+              type:
+                name: float
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onInputSensorAccuracyChanged
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: sensorId
+              type:
+                name: int
+            - name: accuracy
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IKeyboardBacklightListener
+      descriptor: android.hardware.input.IKeyboardBacklightListener
+      oneway: true
+      methods:
+        - name: onBrightnessChanged
+          transaction_code_offset: 0
+          params:
+            - name: deviceId
+              type:
+                name: int
+            - name: state
+              type:
+                name: IKeyboardBacklightState
+              direction: in
+            - name: isTriggeredByKeyPress
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IStickyModifierStateListener
+      descriptor: android.hardware.input.IStickyModifierStateListener
+      oneway: true
+      methods:
+        - name: onStickyModifierStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: modifierState
+              type:
+                name: int
+            - name: lockedModifierState
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ITabletModeChangedListener
+      descriptor: android.hardware.input.ITabletModeChangedListener
+      methods:
+        - name: onTabletModeChanged
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: whenNanos
+              type:
+                name: long
+            - name: inTabletMode
+              type:
+                name: boolean
+          return_type:
+            name: void
+parcelables:
+    - name: HostUsiVersion
+    - name: IInputDeviceBatteryState
+      fields:
+        - name: deviceId
+          type:
+            name: int
+        - name: updateTime
+          type:
+            name: long
+        - name: isPresent
+          type:
+            name: boolean
+        - name: status
+          type:
+            name: int
+          annotations:
+            - JavaPassthrough
+        - name: capacity
+          type:
+            name: float
+      annotations:
+        - JavaDerive
+    - name: IKeyboardBacklightState
+      fields:
+        - name: brightnessLevel
+          type:
+            name: int
+        - name: maxBrightnessLevel
+          type:
+            name: int
+      annotations:
+        - JavaDerive
+    - name: InputDeviceIdentifier
+    - name: InputSensorInfo
+    - name: KeyboardLayout
+    - name: KeyboardLayoutSelectionResult
+    - name: TouchCalibration
+    - name: VirtualDpadConfig
+    - name: VirtualKeyEvent
+    - name: VirtualKeyboardConfig
+    - name: VirtualMouseButtonEvent
+    - name: VirtualMouseConfig
+    - name: VirtualMouseRelativeEvent
+    - name: VirtualMouseScrollEvent
+    - name: VirtualNavigationTouchpadConfig
+    - name: VirtualStylusButtonEvent
+    - name: VirtualStylusConfig
+    - name: VirtualStylusMotionEvent
+    - name: VirtualTouchEvent
+    - name: VirtualTouchscreenConfig

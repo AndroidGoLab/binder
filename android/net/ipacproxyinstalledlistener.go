@@ -21,7 +21,7 @@ const (
 
 type IPacProxyInstalledListener interface {
 	AsBinder() binder.IBinder
-	OnPacProxyInstalled(ctx context.Context, network interface{}, proxy interface{}) error
+	OnPacProxyInstalled(ctx context.Context, network Network, proxy ProxyInfo) error
 }
 
 type PacProxyInstalledListenerProxy struct {
@@ -42,11 +42,20 @@ var _ IPacProxyInstalledListener = (*PacProxyInstalledListenerProxy)(nil)
 
 func (p *PacProxyInstalledListenerProxy) OnPacProxyInstalled(
 	ctx context.Context,
-	network interface{},
-	proxy interface{},
+	network Network,
+	proxy ProxyInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPacProxyInstalledListener)
+	_data.WriteInt32(1)
+	if _err := network.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := proxy.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPacProxyInstalledListener, MethodIPacProxyInstalledListenerOnPacProxyInstalled)
 	if _err != nil {
@@ -60,7 +69,8 @@ func (p *PacProxyInstalledListenerProxy) OnPacProxyInstalled(
 // PacProxyInstalledListenerStub dispatches incoming binder transactions
 // to a typed IPacProxyInstalledListener implementation.
 type PacProxyInstalledListenerStub struct {
-	Impl IPacProxyInstalledListener
+	Impl      IPacProxyInstalledListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PacProxyInstalledListenerStub)(nil)
@@ -74,16 +84,38 @@ func (s *PacProxyInstalledListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPacProxyInstalledListenerOnPacProxyInstalled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_network Network
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_network.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_network interface{}
-		var _arg_proxy interface{}
+		var _arg_proxy ProxyInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_proxy.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnPacProxyInstalled(ctx, _arg_network, _arg_proxy)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -93,7 +125,7 @@ func (s *PacProxyInstalledListenerStub) OnTransaction(
 // provide to NewPacProxyInstalledListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IPacProxyInstalledListenerServer interface {
-	OnPacProxyInstalled(ctx context.Context, network interface{}, proxy interface{}) error
+	OnPacProxyInstalled(ctx context.Context, network Network, proxy ProxyInfo) error
 }
 
 type pacProxyInstalledListenerStubWrapper struct {
@@ -107,8 +139,8 @@ func (w *pacProxyInstalledListenerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *pacProxyInstalledListenerStubWrapper) OnPacProxyInstalled(
 	ctx context.Context,
-	network interface{},
-	proxy interface{},
+	network Network,
+	proxy ProxyInfo,
 ) error {
 	return w.impl.OnPacProxyInstalled(ctx, network, proxy)
 }

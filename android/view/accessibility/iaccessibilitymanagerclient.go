@@ -54,6 +54,7 @@ func (p *AccessibilityManagerClientProxy) SetState(
 	stateFlags int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManagerClient)
 	_data.WriteInt32(stateFlags)
 
@@ -71,6 +72,7 @@ func (p *AccessibilityManagerClientProxy) NotifyServicesStateChanged(
 	updatedUiTimeout int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManagerClient)
 	_data.WriteInt64(updatedUiTimeout)
 
@@ -88,6 +90,7 @@ func (p *AccessibilityManagerClientProxy) SetRelevantEventTypes(
 	eventTypes int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManagerClient)
 	_data.WriteInt32(eventTypes)
 
@@ -106,6 +109,7 @@ func (p *AccessibilityManagerClientProxy) SetFocusAppearance(
 	color int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManagerClient)
 	_data.WriteInt32(strokeWidth)
 	_data.WriteInt32(color)
@@ -122,7 +126,8 @@ func (p *AccessibilityManagerClientProxy) SetFocusAppearance(
 // AccessibilityManagerClientStub dispatches incoming binder transactions
 // to a typed IAccessibilityManagerClient implementation.
 type AccessibilityManagerClientStub struct {
-	Impl IAccessibilityManagerClient
+	Impl      IAccessibilityManagerClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AccessibilityManagerClientStub)(nil)
@@ -136,44 +141,33 @@ func (s *AccessibilityManagerClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAccessibilityManagerClientSetState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_stateFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetState(ctx, _arg_stateFlags)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityManagerClientNotifyServicesStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_updatedUiTimeout, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyServicesStateChanged(ctx, _arg_updatedUiTimeout)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityManagerClientSetRelevantEventTypes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_eventTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetRelevantEventTypes(ctx, _arg_eventTypes)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAccessibilityManagerClientSetFocusAppearance:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_strokeWidth, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -183,8 +177,7 @@ func (s *AccessibilityManagerClientStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetFocusAppearance(ctx, _arg_strokeWidth, _arg_color)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

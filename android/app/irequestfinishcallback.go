@@ -44,6 +44,7 @@ func (p *RequestFinishCallbackProxy) RequestFinish(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRequestFinishCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestFinishCallback, MethodIRequestFinishCallbackRequestFinish)
@@ -58,7 +59,8 @@ func (p *RequestFinishCallbackProxy) RequestFinish(
 // RequestFinishCallbackStub dispatches incoming binder transactions
 // to a typed IRequestFinishCallback implementation.
 type RequestFinishCallbackStub struct {
-	Impl IRequestFinishCallback
+	Impl      IRequestFinishCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RequestFinishCallbackStub)(nil)
@@ -72,14 +74,14 @@ func (s *RequestFinishCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRequestFinishCallbackRequestFinish:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.RequestFinish(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

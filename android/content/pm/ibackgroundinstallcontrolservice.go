@@ -3,6 +3,7 @@ package pm
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -26,8 +27,8 @@ const (
 type IBackgroundInstallControlService interface {
 	AsBinder() binder.IBinder
 	GetBackgroundInstalledPackages(ctx context.Context, flags int64) (ParceledListSlice, error)
-	RegisterBackgroundInstallCallback(ctx context.Context, callback interface{}) error
-	UnregisterBackgroundInstallCallback(ctx context.Context, callback interface{}) error
+	RegisterBackgroundInstallCallback(ctx context.Context, callback os.IRemoteCallback) error
+	UnregisterBackgroundInstallCallback(ctx context.Context, callback os.IRemoteCallback) error
 }
 
 type BackgroundInstallControlServiceProxy struct {
@@ -53,6 +54,7 @@ func (p *BackgroundInstallControlServiceProxy) GetBackgroundInstalledPackages(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackgroundInstallControlService)
 	_data.WriteInt64(flags)
 	_data.WriteInt32(_identity.UserID)
@@ -86,10 +88,12 @@ func (p *BackgroundInstallControlServiceProxy) GetBackgroundInstalledPackages(
 
 func (p *BackgroundInstallControlServiceProxy) RegisterBackgroundInstallCallback(
 	ctx context.Context,
-	callback interface{},
+	callback os.IRemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackgroundInstallControlService)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackgroundInstallControlService, MethodIBackgroundInstallControlServiceRegisterBackgroundInstallCallback)
 	if _err != nil {
@@ -111,10 +115,12 @@ func (p *BackgroundInstallControlServiceProxy) RegisterBackgroundInstallCallback
 
 func (p *BackgroundInstallControlServiceProxy) UnregisterBackgroundInstallCallback(
 	ctx context.Context,
-	callback interface{},
+	callback os.IRemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBackgroundInstallControlService)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackgroundInstallControlService, MethodIBackgroundInstallControlServiceUnregisterBackgroundInstallCallback)
 	if _err != nil {
@@ -137,7 +143,8 @@ func (p *BackgroundInstallControlServiceProxy) UnregisterBackgroundInstallCallba
 // BackgroundInstallControlServiceStub dispatches incoming binder transactions
 // to a typed IBackgroundInstallControlService implementation.
 type BackgroundInstallControlServiceStub struct {
-	Impl IBackgroundInstallControlService
+	Impl      IBackgroundInstallControlService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BackgroundInstallControlServiceStub)(nil)
@@ -151,11 +158,12 @@ func (s *BackgroundInstallControlServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBackgroundInstallControlServiceGetBackgroundInstalledPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -176,10 +184,14 @@ func (s *BackgroundInstallControlServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBackgroundInstallControlServiceRegisterBackgroundInstallCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_callback os.IRemoteCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = os.NewRemoteCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		var _arg_callback interface{}
 		_err := s.Impl.RegisterBackgroundInstallCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -189,10 +201,14 @@ func (s *BackgroundInstallControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackgroundInstallControlServiceUnregisterBackgroundInstallCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_callback os.IRemoteCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = os.NewRemoteCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		var _arg_callback interface{}
 		_err := s.Impl.UnregisterBackgroundInstallCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -211,8 +227,8 @@ func (s *BackgroundInstallControlServiceStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IBackgroundInstallControlServiceServer interface {
 	GetBackgroundInstalledPackages(ctx context.Context, flags int64) (ParceledListSlice, error)
-	RegisterBackgroundInstallCallback(ctx context.Context, callback interface{}) error
-	UnregisterBackgroundInstallCallback(ctx context.Context, callback interface{}) error
+	RegisterBackgroundInstallCallback(ctx context.Context, callback os.IRemoteCallback) error
+	UnregisterBackgroundInstallCallback(ctx context.Context, callback os.IRemoteCallback) error
 }
 
 type backgroundInstallControlServiceStubWrapper struct {
@@ -233,14 +249,14 @@ func (w *backgroundInstallControlServiceStubWrapper) GetBackgroundInstalledPacka
 
 func (w *backgroundInstallControlServiceStubWrapper) RegisterBackgroundInstallCallback(
 	ctx context.Context,
-	callback interface{},
+	callback os.IRemoteCallback,
 ) error {
 	return w.impl.RegisterBackgroundInstallCallback(ctx, callback)
 }
 
 func (w *backgroundInstallControlServiceStubWrapper) UnregisterBackgroundInstallCallback(
 	ctx context.Context,
-	callback interface{},
+	callback os.IRemoteCallback,
 ) error {
 	return w.impl.UnregisterBackgroundInstallCallback(ctx, callback)
 }

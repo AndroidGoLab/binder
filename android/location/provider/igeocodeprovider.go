@@ -49,6 +49,7 @@ func (p *GeocodeProviderProxy) ForwardGeocode(
 	callback IGeocodeCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeocodeProvider)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -71,6 +72,7 @@ func (p *GeocodeProviderProxy) ReverseGeocode(
 	callback IGeocodeCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGeocodeProvider)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -90,7 +92,8 @@ func (p *GeocodeProviderProxy) ReverseGeocode(
 // GeocodeProviderStub dispatches incoming binder transactions
 // to a typed IGeocodeProvider implementation.
 type GeocodeProviderStub struct {
-	Impl IGeocodeProvider
+	Impl      IGeocodeProvider
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GeocodeProviderStub)(nil)
@@ -104,11 +107,12 @@ func (s *GeocodeProviderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGeocodeProviderForwardGeocode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request ForwardGeocodeRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -121,16 +125,17 @@ func (s *GeocodeProviderStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGeocodeCallback
-		_ = _arg_callback
-		_err := s.Impl.ForwardGeocode(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIGeocodeProviderReverseGeocode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGeocodeCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err := s.Impl.ForwardGeocode(ctx, _arg_request, _arg_callback)
+		return nil, _err
+	case TransactionIGeocodeProviderReverseGeocode:
 		var _arg_request ReverseGeocodeRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -143,12 +148,16 @@ func (s *GeocodeProviderStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGeocodeCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGeocodeCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.ReverseGeocode(ctx, _arg_request, _arg_callback)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

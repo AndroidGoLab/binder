@@ -1,6 +1,7 @@
 package extension
 
 import (
+	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +10,7 @@ import (
 type CaptureBundle struct {
 	Stage         int32
 	SequenceId    int32
-	CaptureResult interface{}
+	CaptureResult impl.CameraMetadataNative
 	CaptureImage  ParcelImage
 }
 
@@ -21,6 +22,9 @@ func (s *CaptureBundle) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Stage)
 	p.WriteInt32(s.SequenceId)
+	if _err := s.CaptureResult.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	if _err := s.CaptureImage.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -37,14 +41,38 @@ func (s *CaptureBundle) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Stage, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SequenceId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	if _err = s.CaptureResult.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.CaptureImage.UnmarshalParcel(p); _err != nil {

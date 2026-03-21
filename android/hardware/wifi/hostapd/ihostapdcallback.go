@@ -51,6 +51,7 @@ func (p *HostapdCallbackProxy) OnApInstanceInfoChanged(
 	apInfo ApInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapdCallback)
 	_data.WriteInt32(1)
 	if _err := apInfo.MarshalParcel(_data); _err != nil {
@@ -71,6 +72,7 @@ func (p *HostapdCallbackProxy) OnConnectedClientsChanged(
 	clientInfo ClientInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapdCallback)
 	_data.WriteInt32(1)
 	if _err := clientInfo.MarshalParcel(_data); _err != nil {
@@ -92,6 +94,7 @@ func (p *HostapdCallbackProxy) OnFailure(
 	instanceName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHostapdCallback)
 	_data.WriteString16(ifaceName)
 	_data.WriteString16(instanceName)
@@ -108,7 +111,8 @@ func (p *HostapdCallbackProxy) OnFailure(
 // HostapdCallbackStub dispatches incoming binder transactions
 // to a typed IHostapdCallback implementation.
 type HostapdCallbackStub struct {
-	Impl IHostapdCallback
+	Impl      IHostapdCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HostapdCallbackStub)(nil)
@@ -122,11 +126,12 @@ func (s *HostapdCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHostapdCallbackOnApInstanceInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_apInfo ApInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -140,12 +145,8 @@ func (s *HostapdCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnApInstanceInfoChanged(ctx, _arg_apInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHostapdCallbackOnConnectedClientsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_clientInfo ClientInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -159,12 +160,8 @@ func (s *HostapdCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnConnectedClientsChanged(ctx, _arg_clientInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIHostapdCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ifaceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -174,8 +171,7 @@ func (s *HostapdCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnFailure(ctx, _arg_ifaceName, _arg_instanceName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

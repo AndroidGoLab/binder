@@ -56,6 +56,7 @@ func (p *ImsServiceFeatureCallbackProxy) ImsFeatureCreated(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceFeatureCallback)
 	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
@@ -77,6 +78,7 @@ func (p *ImsServiceFeatureCallbackProxy) ImsFeatureRemoved(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceFeatureCallback)
 	_data.WriteInt32(reason)
 
@@ -95,6 +97,7 @@ func (p *ImsServiceFeatureCallbackProxy) ImsStatusChanged(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceFeatureCallback)
 	_data.WriteInt32(status)
 	_data.WriteInt32(subId)
@@ -113,6 +116,7 @@ func (p *ImsServiceFeatureCallbackProxy) UpdateCapabilities(
 	capabilities int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsServiceFeatureCallback)
 	_data.WriteInt64(capabilities)
 
@@ -128,7 +132,8 @@ func (p *ImsServiceFeatureCallbackProxy) UpdateCapabilities(
 // ImsServiceFeatureCallbackStub dispatches incoming binder transactions
 // to a typed IImsServiceFeatureCallback implementation.
 type ImsServiceFeatureCallbackStub struct {
-	Impl IImsServiceFeatureCallback
+	Impl      IImsServiceFeatureCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsServiceFeatureCallbackStub)(nil)
@@ -142,11 +147,12 @@ func (s *ImsServiceFeatureCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsServiceFeatureCallbackImsFeatureCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_feature ims.ImsFeatureContainer
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -164,23 +170,15 @@ func (s *ImsServiceFeatureCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ImsFeatureCreated(ctx, _arg_feature, _arg_subId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsServiceFeatureCallbackImsFeatureRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ImsFeatureRemoved(ctx, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsServiceFeatureCallbackImsStatusChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -190,19 +188,14 @@ func (s *ImsServiceFeatureCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ImsStatusChanged(ctx, _arg_status, _arg_subId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIImsServiceFeatureCallbackUpdateCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_capabilities, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.UpdateCapabilities(ctx, _arg_capabilities)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

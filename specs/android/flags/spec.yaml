@@ -1,0 +1,81 @@
+package: android.flags
+go_package: android/flags
+interfaces:
+    - name: IFeatureFlags
+      descriptor: android.flags.IFeatureFlags
+      methods:
+        - name: syncFlags
+          transaction_code_offset: 0
+          params:
+            - name: flagList
+              type:
+                name: List
+                type_args:
+                    - name: SyncableFlag
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: SyncableFlag
+        - name: registerCallback
+          transaction_code_offset: 1
+          params:
+            - name: callback
+              type:
+                name: IFeatureFlagsCallback
+          return_type:
+            name: void
+        - name: unregisterCallback
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: IFeatureFlagsCallback
+          return_type:
+            name: void
+        - name: queryFlags
+          transaction_code_offset: 3
+          params:
+            - name: flagList
+              type:
+                name: List
+                type_args:
+                    - name: SyncableFlag
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: SyncableFlag
+        - name: overrideFlag
+          transaction_code_offset: 4
+          params:
+            - name: flag
+              type:
+                name: SyncableFlag
+              direction: in
+          return_type:
+            name: void
+        - name: resetFlag
+          transaction_code_offset: 5
+          params:
+            - name: flag
+              type:
+                name: SyncableFlag
+              direction: in
+          return_type:
+            name: void
+    - name: IFeatureFlagsCallback
+      descriptor: android.flags.IFeatureFlagsCallback
+      oneway: true
+      methods:
+        - name: onFlagChange
+          transaction_code_offset: 0
+          params:
+            - name: flag
+              type:
+                name: SyncableFlag
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: SyncableFlag

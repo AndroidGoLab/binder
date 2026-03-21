@@ -53,6 +53,7 @@ func (p *TranslationDirectManagerProxy) OnTranslationRequest(
 	callback serviceTranslation.ITranslationCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranslationDirectManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -76,6 +77,7 @@ func (p *TranslationDirectManagerProxy) OnFinishTranslationSession(
 	sessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITranslationDirectManager)
 	_data.WriteInt32(sessionId)
 
@@ -91,7 +93,8 @@ func (p *TranslationDirectManagerProxy) OnFinishTranslationSession(
 // TranslationDirectManagerStub dispatches incoming binder transactions
 // to a typed ITranslationDirectManager implementation.
 type TranslationDirectManagerStub struct {
-	Impl ITranslationDirectManager
+	Impl      ITranslationDirectManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TranslationDirectManagerStub)(nil)
@@ -105,11 +108,12 @@ func (s *TranslationDirectManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITranslationDirectManagerOnTranslationRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request TranslationRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -126,26 +130,31 @@ func (s *TranslationDirectManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transport common.ICancellationSignal
-		_ = _arg_transport
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback serviceTranslation.ITranslationCallback
-		_ = _arg_callback
-		_err = s.Impl.OnTranslationRequest(ctx, _arg_request, _arg_sessionId, _arg_transport, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionITranslationDirectManagerOnFinishTranslationSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_transportHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transport = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transportHandle))
 		}
+		var _arg_callback serviceTranslation.ITranslationCallback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = serviceTranslation.NewTranslationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
+		_err = s.Impl.OnTranslationRequest(ctx, _arg_request, _arg_sessionId, _arg_transport, _arg_callback)
+		return nil, _err
+	case TransactionITranslationDirectManagerOnFinishTranslationSession:
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnFinishTranslationSession(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

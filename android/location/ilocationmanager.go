@@ -3,7 +3,7 @@ package location
 import (
 	"context"
 	"fmt"
-	app "github.com/xaionaro-go/binder/android/app"
+	types "github.com/xaionaro-go/binder/android/app/types"
 	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	locationProvider "github.com/xaionaro-go/binder/android/location/provider"
 	os "github.com/xaionaro-go/binder/android/os"
@@ -151,13 +151,13 @@ type ILocationManager interface {
 	GetCurrentLocation(ctx context.Context, provider string, request LocationRequest, callback ILocationCallback, packageName string, listenerId string) (common.ICancellationSignal, error)
 	RegisterLocationListener(ctx context.Context, provider string, request LocationRequest, listener ILocationListener, packageName string, listenerId string) error
 	UnregisterLocationListener(ctx context.Context, listener ILocationListener) error
-	RegisterLocationPendingIntent(ctx context.Context, provider string, request LocationRequest, pendingIntent app.PendingIntent, packageName string) error
-	UnregisterLocationPendingIntent(ctx context.Context, pendingIntent app.PendingIntent) error
+	RegisterLocationPendingIntent(ctx context.Context, provider string, request LocationRequest, pendingIntent types.PendingIntent, packageName string) error
+	UnregisterLocationPendingIntent(ctx context.Context, pendingIntent types.PendingIntent) error
 	InjectLocation(ctx context.Context, location Location) error
 	RequestListenerFlush(ctx context.Context, provider string, listener ILocationListener, requestCode int32) error
-	RequestPendingIntentFlush(ctx context.Context, provider string, pendingIntent app.PendingIntent, requestCode int32) error
-	RequestGeofence(ctx context.Context, geofence Geofence, intent app.PendingIntent, packageName string) error
-	RemoveGeofence(ctx context.Context, intent app.PendingIntent) error
+	RequestPendingIntentFlush(ctx context.Context, provider string, pendingIntent types.PendingIntent, requestCode int32) error
+	RequestGeofence(ctx context.Context, geofence Geofence, intent types.PendingIntent, packageName string) error
+	RemoveGeofence(ctx context.Context, intent types.PendingIntent) error
 	IsGeocodeAvailable(ctx context.Context) (bool, error)
 	ReverseGeocode(ctx context.Context, request locationProvider.ReverseGeocodeRequest, callback locationProvider.IGeocodeCallback) error
 	ForwardGeocode(ctx context.Context, request locationProvider.ForwardGeocodeRequest, callback locationProvider.IGeocodeCallback) error
@@ -236,6 +236,7 @@ func (p *LocationManagerProxy) GetLastLocation(
 	var _result Location
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
 	_data.WriteInt32(1)
@@ -283,6 +284,7 @@ func (p *LocationManagerProxy) GetCurrentLocation(
 	var _result common.ICancellationSignal
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
 	_data.WriteInt32(1)
@@ -327,6 +329,7 @@ func (p *LocationManagerProxy) RegisterLocationListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
 	_data.WriteInt32(1)
@@ -361,6 +364,7 @@ func (p *LocationManagerProxy) UnregisterLocationListener(
 	listener ILocationListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -386,21 +390,19 @@ func (p *LocationManagerProxy) RegisterLocationPendingIntent(
 	ctx context.Context,
 	provider string,
 	request LocationRequest,
-	pendingIntent app.PendingIntent,
+	pendingIntent types.PendingIntent,
 	packageName string,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param pendingIntent (type types.PendingIntent) cannot be serialized — type not resolved
 	_data.WriteString16(packageName)
 	_data.WriteString16(_identity.AttributionTag)
 
@@ -424,14 +426,12 @@ func (p *LocationManagerProxy) RegisterLocationPendingIntent(
 
 func (p *LocationManagerProxy) UnregisterLocationPendingIntent(
 	ctx context.Context,
-	pendingIntent app.PendingIntent,
+	pendingIntent types.PendingIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
-	_data.WriteInt32(1)
-	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param pendingIntent (type types.PendingIntent) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerUnregisterLocationPendingIntent)
 	if _err != nil {
@@ -456,6 +456,7 @@ func (p *LocationManagerProxy) InjectLocation(
 	location Location,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteInt32(1)
 	if _err := location.MarshalParcel(_data); _err != nil {
@@ -487,6 +488,7 @@ func (p *LocationManagerProxy) RequestListenerFlush(
 	requestCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -513,16 +515,14 @@ func (p *LocationManagerProxy) RequestListenerFlush(
 func (p *LocationManagerProxy) RequestPendingIntentFlush(
 	ctx context.Context,
 	provider string,
-	pendingIntent app.PendingIntent,
+	pendingIntent types.PendingIntent,
 	requestCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
-	_data.WriteInt32(1)
-	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param pendingIntent (type types.PendingIntent) cannot be serialized — type not resolved
 	_data.WriteInt32(requestCode)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerRequestPendingIntentFlush)
@@ -546,20 +546,18 @@ func (p *LocationManagerProxy) RequestPendingIntentFlush(
 func (p *LocationManagerProxy) RequestGeofence(
 	ctx context.Context,
 	geofence Geofence,
-	intent app.PendingIntent,
+	intent types.PendingIntent,
 	packageName string,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteInt32(1)
 	if _err := geofence.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param intent (type types.PendingIntent) cannot be serialized — type not resolved
 	_data.WriteString16(packageName)
 	_data.WriteString16(_identity.AttributionTag)
 
@@ -583,14 +581,12 @@ func (p *LocationManagerProxy) RequestGeofence(
 
 func (p *LocationManagerProxy) RemoveGeofence(
 	ctx context.Context,
-	intent app.PendingIntent,
+	intent types.PendingIntent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param intent (type types.PendingIntent) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerRemoveGeofence)
 	if _err != nil {
@@ -615,6 +611,7 @@ func (p *LocationManagerProxy) IsGeocodeAvailable(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerIsGeocodeAvailable)
@@ -645,6 +642,7 @@ func (p *LocationManagerProxy) ReverseGeocode(
 	callback locationProvider.IGeocodeCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -676,6 +674,7 @@ func (p *LocationManagerProxy) ForwardGeocode(
 	callback locationProvider.IGeocodeCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -706,6 +705,7 @@ func (p *LocationManagerProxy) GetGnssCapabilities(
 ) (GnssCapabilities, error) {
 	var _result GnssCapabilities
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerGetGnssCapabilities)
@@ -740,6 +740,7 @@ func (p *LocationManagerProxy) GetGnssYearOfHardware(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerGetGnssYearOfHardware)
@@ -769,6 +770,7 @@ func (p *LocationManagerProxy) GetGnssHardwareModelName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerGetGnssHardwareModelName)
@@ -798,6 +800,7 @@ func (p *LocationManagerProxy) GetGnssAntennaInfos(
 ) ([]GnssAntennaInfo, error) {
 	var _result []GnssAntennaInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerGetGnssAntennaInfos)
@@ -818,6 +821,9 @@ func (p *LocationManagerProxy) GetGnssAntennaInfos(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -842,6 +848,7 @@ func (p *LocationManagerProxy) RegisterGnssStatusCallback(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(packageName)
@@ -871,6 +878,7 @@ func (p *LocationManagerProxy) UnregisterGnssStatusCallback(
 	callback IGnssStatusListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -900,6 +908,7 @@ func (p *LocationManagerProxy) RegisterGnssNmeaCallback(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(packageName)
@@ -929,6 +938,7 @@ func (p *LocationManagerProxy) UnregisterGnssNmeaCallback(
 	callback IGnssNmeaListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -959,6 +969,7 @@ func (p *LocationManagerProxy) AddGnssMeasurementsListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -992,6 +1003,7 @@ func (p *LocationManagerProxy) RemoveGnssMeasurementsListener(
 	listener IGnssMeasurementsListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1018,6 +1030,7 @@ func (p *LocationManagerProxy) InjectGnssMeasurementCorrections(
 	corrections GnssMeasurementCorrections,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteInt32(1)
 	if _err := corrections.MarshalParcel(_data); _err != nil {
@@ -1050,6 +1063,7 @@ func (p *LocationManagerProxy) AddGnssNavigationMessageListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(packageName)
@@ -1079,6 +1093,7 @@ func (p *LocationManagerProxy) RemoveGnssNavigationMessageListener(
 	listener IGnssNavigationMessageListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1108,6 +1123,7 @@ func (p *LocationManagerProxy) AddGnssAntennaInfoListener(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(packageName)
@@ -1137,6 +1153,7 @@ func (p *LocationManagerProxy) RemoveGnssAntennaInfoListener(
 	listener IGnssAntennaInfoListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1163,6 +1180,7 @@ func (p *LocationManagerProxy) AddProviderRequestListener(
 	listener locationProvider.IProviderRequestListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1189,6 +1207,7 @@ func (p *LocationManagerProxy) RemoveProviderRequestListener(
 	listener locationProvider.IProviderRequestListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -1215,6 +1234,7 @@ func (p *LocationManagerProxy) GetGnssBatchSize(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerGetGnssBatchSize)
@@ -1248,6 +1268,7 @@ func (p *LocationManagerProxy) StartGnssBatch(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteInt64(periodNanos)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -1277,6 +1298,7 @@ func (p *LocationManagerProxy) FlushGnssBatch(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerFlushGnssBatch)
@@ -1301,6 +1323,7 @@ func (p *LocationManagerProxy) StopGnssBatch(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerStopGnssBatch)
@@ -1327,6 +1350,7 @@ func (p *LocationManagerProxy) HasProvider(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
 
@@ -1357,6 +1381,7 @@ func (p *LocationManagerProxy) GetAllProviders(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerGetAllProviders)
@@ -1378,6 +1403,9 @@ func (p *LocationManagerProxy) GetAllProviders(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1398,6 +1426,7 @@ func (p *LocationManagerProxy) GetProviders(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteInt32(1)
 	if _err := criteria.MarshalParcel(_data); _err != nil {
@@ -1424,6 +1453,9 @@ func (p *LocationManagerProxy) GetProviders(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1444,6 +1476,7 @@ func (p *LocationManagerProxy) GetBestProvider(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteInt32(1)
 	if _err := criteria.MarshalParcel(_data); _err != nil {
@@ -1479,6 +1512,7 @@ func (p *LocationManagerProxy) GetProviderProperties(
 ) (locationProvider.ProviderProperties, error) {
 	var _result locationProvider.ProviderProperties
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
 
@@ -1517,6 +1551,7 @@ func (p *LocationManagerProxy) IsProviderPackage(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
 	_data.WriteString16(packageName)
@@ -1550,6 +1585,7 @@ func (p *LocationManagerProxy) GetProviderPackages(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
 
@@ -1572,6 +1608,9 @@ func (p *LocationManagerProxy) GetProviderPackages(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1590,6 +1629,7 @@ func (p *LocationManagerProxy) SetExtraLocationControllerPackage(
 	packageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(packageName)
 
@@ -1616,6 +1656,7 @@ func (p *LocationManagerProxy) GetExtraLocationControllerPackage(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerGetExtraLocationControllerPackage)
@@ -1645,6 +1686,7 @@ func (p *LocationManagerProxy) SetExtraLocationControllerPackageEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteBool(enabled)
 
@@ -1671,6 +1713,7 @@ func (p *LocationManagerProxy) IsExtraLocationControllerPackageEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerIsExtraLocationControllerPackageEnabled)
@@ -1702,6 +1745,7 @@ func (p *LocationManagerProxy) IsProviderEnabledForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
 	_data.WriteInt32(_identity.UserID)
@@ -1734,6 +1778,7 @@ func (p *LocationManagerProxy) IsLocationEnabledForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1765,6 +1810,7 @@ func (p *LocationManagerProxy) SetLocationEnabledForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteBool(enabled)
 	_data.WriteInt32(_identity.UserID)
@@ -1793,6 +1839,7 @@ func (p *LocationManagerProxy) IsAdasGnssLocationEnabledForUser(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1824,6 +1871,7 @@ func (p *LocationManagerProxy) SetAdasGnssLocationEnabledForUser(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteBool(enabled)
 	_data.WriteInt32(_identity.UserID)
@@ -1851,6 +1899,7 @@ func (p *LocationManagerProxy) IsAutomotiveGnssSuspended(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerIsAutomotiveGnssSuspended)
@@ -1880,6 +1929,7 @@ func (p *LocationManagerProxy) SetAutomotiveGnssSuspended(
 	suspended bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteBool(suspended)
 
@@ -1910,6 +1960,7 @@ func (p *LocationManagerProxy) AddTestProvider(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(name)
 	_data.WriteInt32(1)
@@ -1952,6 +2003,7 @@ func (p *LocationManagerProxy) RemoveTestProvider(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
 	_data.WriteString16(packageName)
@@ -1983,6 +2035,7 @@ func (p *LocationManagerProxy) SetTestProviderLocation(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
 	_data.WriteInt32(1)
@@ -2018,6 +2071,7 @@ func (p *LocationManagerProxy) SetTestProviderEnabled(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
 	_data.WriteBool(enabled)
@@ -2047,6 +2101,7 @@ func (p *LocationManagerProxy) GetGnssTimeMillis(
 ) (LocationTime, error) {
 	var _result LocationTime
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerGetGnssTimeMillis)
@@ -2083,6 +2138,7 @@ func (p *LocationManagerProxy) SendExtraCommand(
 	extras os.Bundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
 	_data.WriteString16(command)
@@ -2105,8 +2161,16 @@ func (p *LocationManagerProxy) SendExtraCommand(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
-	if _err = extras.UnmarshalParcel(_reply); _err != nil {
-		return _err
+	{
+		_nullInd, _err := _reply.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		if _nullInd != 0 {
+			if _err = extras.UnmarshalParcel(_reply); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	return nil
@@ -2117,6 +2181,7 @@ func (p *LocationManagerProxy) GetBackgroundThrottlingWhitelist(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerGetBackgroundThrottlingWhitelist)
@@ -2138,6 +2203,9 @@ func (p *LocationManagerProxy) GetBackgroundThrottlingWhitelist(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -2156,6 +2224,7 @@ func (p *LocationManagerProxy) GetIgnoreSettingsAllowlist(
 ) (os.PackageTagsList, error) {
 	var _result os.PackageTagsList
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerGetIgnoreSettingsAllowlist)
@@ -2190,6 +2259,7 @@ func (p *LocationManagerProxy) GetAdasAllowlist(
 ) (os.PackageTagsList, error) {
 	var _result os.PackageTagsList
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationManager, MethodILocationManagerGetAdasAllowlist)
@@ -2222,7 +2292,8 @@ func (p *LocationManagerProxy) GetAdasAllowlist(
 // LocationManagerStub dispatches incoming binder transactions
 // to a typed ILocationManager implementation.
 type LocationManagerStub struct {
-	Impl ILocationManager
+	Impl      ILocationManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LocationManagerStub)(nil)
@@ -2236,11 +2307,12 @@ func (s *LocationManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILocationManagerGetLastLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2277,9 +2349,6 @@ func (s *LocationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILocationManagerGetCurrentLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2296,9 +2365,14 @@ func (s *LocationManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ILocationCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewLocationCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2317,13 +2391,9 @@ func (s *LocationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionILocationManagerRegisterLocationListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2340,9 +2410,14 @@ func (s *LocationManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ILocationListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewLocationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2363,12 +2438,14 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerUnregisterLocationListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ILocationListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewLocationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.UnregisterLocationListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2378,9 +2455,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRegisterLocationPendingIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2397,18 +2471,7 @@ func (s *LocationManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_pendingIntent app.PendingIntent
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_pendingIntent.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_pendingIntent types.PendingIntent
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2425,21 +2488,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerUnregisterLocationPendingIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_pendingIntent app.PendingIntent
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_pendingIntent.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_pendingIntent types.PendingIntent
 		_err := s.Impl.UnregisterLocationPendingIntent(ctx, _arg_pendingIntent)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2449,9 +2498,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerInjectLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_location Location
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2473,16 +2519,18 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRequestListenerFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ILocationListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewLocationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_requestCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2496,25 +2544,11 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRequestPendingIntentFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_pendingIntent app.PendingIntent
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_pendingIntent.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_pendingIntent types.PendingIntent
 		_arg_requestCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2528,9 +2562,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRequestGeofence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_geofence Geofence
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2543,18 +2574,7 @@ func (s *LocationManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_intent app.PendingIntent
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_intent types.PendingIntent
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2571,21 +2591,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRemoveGeofence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_intent app.PendingIntent
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_intent types.PendingIntent
 		_err := s.Impl.RemoveGeofence(ctx, _arg_intent)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2595,9 +2601,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerIsGeocodeAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsGeocodeAvailable(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2608,9 +2611,6 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILocationManagerReverseGeocode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request locationProvider.ReverseGeocodeRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2623,9 +2623,14 @@ func (s *LocationManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback locationProvider.IGeocodeCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = locationProvider.NewGeocodeCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.ReverseGeocode(ctx, _arg_request, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2635,9 +2640,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerForwardGeocode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request locationProvider.ForwardGeocodeRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2650,9 +2652,14 @@ func (s *LocationManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback locationProvider.IGeocodeCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = locationProvider.NewGeocodeCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.ForwardGeocode(ctx, _arg_request, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2662,9 +2669,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerGetGnssCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetGnssCapabilities(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2678,9 +2682,6 @@ func (s *LocationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILocationManagerGetGnssYearOfHardware:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetGnssYearOfHardware(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2691,9 +2692,6 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionILocationManagerGetGnssHardwareModelName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetGnssHardwareModelName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2704,9 +2702,6 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILocationManagerGetGnssAntennaInfos:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetGnssAntennaInfos(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2714,16 +2709,27 @@ func (s *LocationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionILocationManagerRegisterGnssStatusCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGnssStatusListener
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGnssStatusListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2744,12 +2750,14 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerUnregisterGnssStatusCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGnssStatusListener
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGnssStatusListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UnregisterGnssStatusCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2759,12 +2767,14 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRegisterGnssNmeaCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGnssNmeaListener
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGnssNmeaListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2785,12 +2795,14 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerUnregisterGnssNmeaCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGnssNmeaListener
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGnssNmeaListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UnregisterGnssNmeaCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2800,9 +2812,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerAddGnssMeasurementsListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request GnssMeasurementRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2815,9 +2824,14 @@ func (s *LocationManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IGnssMeasurementsListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewGnssMeasurementsListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2838,12 +2852,14 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRemoveGnssMeasurementsListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IGnssMeasurementsListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewGnssMeasurementsListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveGnssMeasurementsListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2853,9 +2869,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerInjectGnssMeasurementCorrections:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_corrections GnssMeasurementCorrections
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2877,12 +2890,14 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerAddGnssNavigationMessageListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IGnssNavigationMessageListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewGnssNavigationMessageListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2903,12 +2918,14 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRemoveGnssNavigationMessageListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IGnssNavigationMessageListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewGnssNavigationMessageListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveGnssNavigationMessageListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2918,12 +2935,14 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerAddGnssAntennaInfoListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IGnssAntennaInfoListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewGnssAntennaInfoListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2944,12 +2963,14 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRemoveGnssAntennaInfoListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IGnssAntennaInfoListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewGnssAntennaInfoListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveGnssAntennaInfoListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2959,12 +2980,14 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerAddProviderRequestListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener locationProvider.IProviderRequestListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = locationProvider.NewProviderRequestListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.AddProviderRequestListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2974,12 +2997,14 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRemoveProviderRequestListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener locationProvider.IProviderRequestListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = locationProvider.NewProviderRequestListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.RemoveProviderRequestListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2989,9 +3014,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerGetGnssBatchSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetGnssBatchSize(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3002,16 +3024,18 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionILocationManagerStartGnssBatch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_periodNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ILocationListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewLocationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3032,9 +3056,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerFlushGnssBatch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.FlushGnssBatch(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3044,9 +3065,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerStopGnssBatch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopGnssBatch(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3056,9 +3074,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerHasProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3073,9 +3088,6 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILocationManagerGetAllProviders:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAllProviders(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3083,13 +3095,16 @@ func (s *LocationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionILocationManagerGetProviders:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_criteria Criteria
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3113,13 +3128,16 @@ func (s *LocationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionILocationManagerGetBestProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_criteria Criteria
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3146,9 +3164,6 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILocationManagerGetProviderProperties:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3166,9 +3181,6 @@ func (s *LocationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILocationManagerIsProviderPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3190,9 +3202,6 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILocationManagerGetProviderPackages:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3204,13 +3213,16 @@ func (s *LocationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionILocationManagerSetExtraLocationControllerPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3224,9 +3236,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerGetExtraLocationControllerPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetExtraLocationControllerPackage(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3237,9 +3246,6 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILocationManagerSetExtraLocationControllerPackageEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3253,9 +3259,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerIsExtraLocationControllerPackageEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsExtraLocationControllerPackageEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3266,9 +3269,6 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILocationManagerIsProviderEnabledForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3286,9 +3286,6 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILocationManagerIsLocationEnabledForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3302,9 +3299,6 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILocationManagerSetLocationEnabledForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3321,9 +3315,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerIsAdasGnssLocationEnabledForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3337,9 +3328,6 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILocationManagerSetAdasGnssLocationEnabledForUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3356,9 +3344,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerIsAutomotiveGnssSuspended:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsAutomotiveGnssSuspended(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3369,9 +3354,6 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILocationManagerSetAutomotiveGnssSuspended:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_suspended, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3385,9 +3367,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerAddTestProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3404,9 +3383,25 @@ func (s *LocationManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_locationTags []string
-		_ = _arg_locationTags
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_locationTags = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_locationTags[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3423,9 +3418,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRemoveTestProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3446,9 +3438,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerSetTestProviderLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3481,9 +3470,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerSetTestProviderEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3508,9 +3494,6 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerGetGnssTimeMillis:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetGnssTimeMillis(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3524,9 +3507,6 @@ func (s *LocationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILocationManagerSendExtraCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3554,11 +3534,12 @@ func (s *LocationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionILocationManagerGetBackgroundThrottlingWhitelist:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _arg_extras.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionILocationManagerGetBackgroundThrottlingWhitelist:
 		_result, _err := s.Impl.GetBackgroundThrottlingWhitelist(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3566,13 +3547,16 @@ func (s *LocationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionILocationManagerGetIgnoreSettingsAllowlist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetIgnoreSettingsAllowlist(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3586,9 +3570,6 @@ func (s *LocationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILocationManagerGetAdasAllowlist:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAdasAllowlist(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3614,13 +3595,13 @@ type ILocationManagerServer interface {
 	GetCurrentLocation(ctx context.Context, provider string, request LocationRequest, callback ILocationCallback, packageName string, listenerId string) (common.ICancellationSignal, error)
 	RegisterLocationListener(ctx context.Context, provider string, request LocationRequest, listener ILocationListener, packageName string, listenerId string) error
 	UnregisterLocationListener(ctx context.Context, listener ILocationListener) error
-	RegisterLocationPendingIntent(ctx context.Context, provider string, request LocationRequest, pendingIntent app.PendingIntent, packageName string) error
-	UnregisterLocationPendingIntent(ctx context.Context, pendingIntent app.PendingIntent) error
+	RegisterLocationPendingIntent(ctx context.Context, provider string, request LocationRequest, pendingIntent types.PendingIntent, packageName string) error
+	UnregisterLocationPendingIntent(ctx context.Context, pendingIntent types.PendingIntent) error
 	InjectLocation(ctx context.Context, location Location) error
 	RequestListenerFlush(ctx context.Context, provider string, listener ILocationListener, requestCode int32) error
-	RequestPendingIntentFlush(ctx context.Context, provider string, pendingIntent app.PendingIntent, requestCode int32) error
-	RequestGeofence(ctx context.Context, geofence Geofence, intent app.PendingIntent, packageName string) error
-	RemoveGeofence(ctx context.Context, intent app.PendingIntent) error
+	RequestPendingIntentFlush(ctx context.Context, provider string, pendingIntent types.PendingIntent, requestCode int32) error
+	RequestGeofence(ctx context.Context, geofence Geofence, intent types.PendingIntent, packageName string) error
+	RemoveGeofence(ctx context.Context, intent types.PendingIntent) error
 	IsGeocodeAvailable(ctx context.Context) (bool, error)
 	ReverseGeocode(ctx context.Context, request locationProvider.ReverseGeocodeRequest, callback locationProvider.IGeocodeCallback) error
 	ForwardGeocode(ctx context.Context, request locationProvider.ForwardGeocodeRequest, callback locationProvider.IGeocodeCallback) error
@@ -3725,7 +3706,7 @@ func (w *locationManagerStubWrapper) RegisterLocationPendingIntent(
 	ctx context.Context,
 	provider string,
 	request LocationRequest,
-	pendingIntent app.PendingIntent,
+	pendingIntent types.PendingIntent,
 	packageName string,
 ) error {
 	return w.impl.RegisterLocationPendingIntent(ctx, provider, request, pendingIntent, packageName)
@@ -3733,7 +3714,7 @@ func (w *locationManagerStubWrapper) RegisterLocationPendingIntent(
 
 func (w *locationManagerStubWrapper) UnregisterLocationPendingIntent(
 	ctx context.Context,
-	pendingIntent app.PendingIntent,
+	pendingIntent types.PendingIntent,
 ) error {
 	return w.impl.UnregisterLocationPendingIntent(ctx, pendingIntent)
 }
@@ -3757,7 +3738,7 @@ func (w *locationManagerStubWrapper) RequestListenerFlush(
 func (w *locationManagerStubWrapper) RequestPendingIntentFlush(
 	ctx context.Context,
 	provider string,
-	pendingIntent app.PendingIntent,
+	pendingIntent types.PendingIntent,
 	requestCode int32,
 ) error {
 	return w.impl.RequestPendingIntentFlush(ctx, provider, pendingIntent, requestCode)
@@ -3766,7 +3747,7 @@ func (w *locationManagerStubWrapper) RequestPendingIntentFlush(
 func (w *locationManagerStubWrapper) RequestGeofence(
 	ctx context.Context,
 	geofence Geofence,
-	intent app.PendingIntent,
+	intent types.PendingIntent,
 	packageName string,
 ) error {
 	return w.impl.RequestGeofence(ctx, geofence, intent, packageName)
@@ -3774,7 +3755,7 @@ func (w *locationManagerStubWrapper) RequestGeofence(
 
 func (w *locationManagerStubWrapper) RemoveGeofence(
 	ctx context.Context,
-	intent app.PendingIntent,
+	intent types.PendingIntent,
 ) error {
 	return w.impl.RemoveGeofence(ctx, intent)
 }

@@ -50,6 +50,7 @@ func (p *TimeZoneProviderProxy) StartUpdates(
 	eventFilteringAgeThresholdMillis int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneProvider)
 	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(initializationTimeoutMillis)
@@ -68,6 +69,7 @@ func (p *TimeZoneProviderProxy) StopUpdates(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneProvider)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneProvider, MethodITimeZoneProviderStopUpdates)
@@ -82,7 +84,8 @@ func (p *TimeZoneProviderProxy) StopUpdates(
 // TimeZoneProviderStub dispatches incoming binder transactions
 // to a typed ITimeZoneProvider implementation.
 type TimeZoneProviderStub struct {
-	Impl ITimeZoneProvider
+	Impl      ITimeZoneProvider
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TimeZoneProviderStub)(nil)
@@ -96,14 +99,20 @@ func (s *TimeZoneProviderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITimeZoneProviderStartUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager ITimeZoneProviderManager
-		_ = _arg_manager
+		{
+			_managerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_manager = NewTimeZoneProviderManagerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _managerHandle))
+		}
 		_arg_initializationTimeoutMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -113,15 +122,10 @@ func (s *TimeZoneProviderStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.StartUpdates(ctx, _arg_manager, _arg_initializationTimeoutMillis, _arg_eventFilteringAgeThresholdMillis)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITimeZoneProviderStopUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopUpdates(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

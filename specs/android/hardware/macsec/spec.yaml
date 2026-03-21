@@ -1,0 +1,94 @@
+package: android.hardware.macsec
+go_package: android/hardware/macsec
+interfaces:
+    - name: IMacsecPskPlugin
+      descriptor: android.hardware.macsec.IMacsecPskPlugin
+      methods:
+        - name: addTestKey
+          transaction_code_offset: 0
+          params:
+            - name: keyId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: CAK
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: CKN
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: calcIcv
+          transaction_code_offset: 1
+          params:
+            - name: keyId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: generateSak
+          transaction_code_offset: 2
+          params:
+            - name: keyId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: data
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: sakLength
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: wrapSak
+          transaction_code_offset: 3
+          params:
+            - name: keyId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: sak
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: unwrapSak
+          transaction_code_offset: 4
+          params:
+            - name: keyId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: sak
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true

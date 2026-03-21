@@ -45,6 +45,7 @@ func (p *AppTransitionAnimationSpecsFutureProxy) Get(
 ) ([]AppTransitionAnimationSpec, error) {
 	var _result []AppTransitionAnimationSpec
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAppTransitionAnimationSpecsFuture)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppTransitionAnimationSpecsFuture, MethodIAppTransitionAnimationSpecsFutureGet)
@@ -66,6 +67,9 @@ func (p *AppTransitionAnimationSpecsFutureProxy) Get(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]AppTransitionAnimationSpec, _count)
@@ -84,7 +88,8 @@ func (p *AppTransitionAnimationSpecsFutureProxy) Get(
 // AppTransitionAnimationSpecsFutureStub dispatches incoming binder transactions
 // to a typed IAppTransitionAnimationSpecsFuture implementation.
 type AppTransitionAnimationSpecsFutureStub struct {
-	Impl IAppTransitionAnimationSpecsFuture
+	Impl      IAppTransitionAnimationSpecsFuture
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AppTransitionAnimationSpecsFutureStub)(nil)
@@ -98,11 +103,12 @@ func (s *AppTransitionAnimationSpecsFutureStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAppTransitionAnimationSpecsFutureGet:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Get(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -110,8 +116,17 @@ func (s *AppTransitionAnimationSpecsFutureStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

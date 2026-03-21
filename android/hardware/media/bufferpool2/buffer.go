@@ -1,6 +1,7 @@
 package bufferpool2
 
 import (
+	hardware "github.com/xaionaro-go/binder/android/hardware"
 	common "github.com/xaionaro-go/binder/android/hardware/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -9,8 +10,8 @@ import (
 
 type Buffer struct {
 	Id        int32
-	Buffer    common.NativeHandle
-	HwbBuffer interface{}
+	Buffer    *common.NativeHandle
+	HwbBuffer *hardware.HardwareBuffer
 }
 
 var _ parcel.Parcelable = (*Buffer)(nil)
@@ -20,8 +21,21 @@ func (s *Buffer) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Id)
-	if _err := s.Buffer.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Buffer == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Buffer.MarshalParcel(p); _err != nil {
+			return _err
+		}
+	}
+	if s.HwbBuffer == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.HwbBuffer.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -36,13 +50,52 @@ func (s *Buffer) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Id, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
-	if _err = s.Buffer.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val common.NativeHandle
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Buffer = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val hardware.HardwareBuffer
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.HwbBuffer = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

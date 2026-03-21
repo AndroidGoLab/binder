@@ -44,14 +44,29 @@ func (s *FrontendIptvSettings) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_protocolRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Protocol = FrontendIptvSettingsProtocol(_protocolRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.Fec.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_igmpRaw, _err := p.ReadInt32()
@@ -60,13 +75,28 @@ func (s *FrontendIptvSettings) UnmarshalParcel(
 	}
 	s.Igmp = FrontendIptvSettingsIgmp(_igmpRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Bitrate, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.IpAddr.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.ContentUrl, _err = p.ReadString16()

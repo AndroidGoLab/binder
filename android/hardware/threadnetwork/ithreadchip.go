@@ -60,6 +60,7 @@ func (p *ThreadChipProxy) Open(
 	callback IThreadChipCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThreadChip)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -85,6 +86,7 @@ func (p *ThreadChipProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThreadChip)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThreadChip, MethodIThreadChipClose)
@@ -109,6 +111,7 @@ func (p *ThreadChipProxy) HardwareReset(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThreadChip)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThreadChip, MethodIThreadChipHardwareReset)
@@ -134,15 +137,9 @@ func (p *ThreadChipProxy) SendSpinelFrame(
 	frame []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThreadChip)
-	if frame == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(frame)))
-		for _, _item := range frame {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(frame)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThreadChip, MethodIThreadChipSendSpinelFrame)
 	if _err != nil {
@@ -165,7 +162,8 @@ func (p *ThreadChipProxy) SendSpinelFrame(
 // ThreadChipStub dispatches incoming binder transactions
 // to a typed IThreadChip implementation.
 type ThreadChipStub struct {
-	Impl IThreadChip
+	Impl      IThreadChip
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ThreadChipStub)(nil)
@@ -179,14 +177,20 @@ func (s *ThreadChipStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIThreadChipOpen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IThreadChipCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewThreadChipCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.Open(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -196,9 +200,6 @@ func (s *ThreadChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIThreadChipClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -208,9 +209,6 @@ func (s *ThreadChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIThreadChipHardwareReset:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.HardwareReset(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -220,12 +218,14 @@ func (s *ThreadChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIThreadChipSendSpinelFrame:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_frame []byte
-		_ = _arg_frame
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_frame = _bytes
+		}
 		_err := s.Impl.SendSpinelFrame(ctx, _arg_frame)
 		_reply := parcel.New()
 		if _err != nil {

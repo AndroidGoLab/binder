@@ -47,20 +47,14 @@ func (p *BluetoothMetadataListenerProxy) OnMetadataChanged(
 	value []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothMetadataListener)
 	_data.WriteInt32(1)
 	if _err := devices.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(key)
-	if value == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(value)))
-		for _, _item := range value {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(value)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothMetadataListener, MethodIBluetoothMetadataListenerOnMetadataChanged)
 	if _err != nil {
@@ -74,7 +68,8 @@ func (p *BluetoothMetadataListenerProxy) OnMetadataChanged(
 // BluetoothMetadataListenerStub dispatches incoming binder transactions
 // to a typed IBluetoothMetadataListener implementation.
 type BluetoothMetadataListenerStub struct {
-	Impl IBluetoothMetadataListener
+	Impl      IBluetoothMetadataListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BluetoothMetadataListenerStub)(nil)
@@ -88,11 +83,12 @@ func (s *BluetoothMetadataListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBluetoothMetadataListenerOnMetadataChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_devices BluetoothDevice
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -109,12 +105,16 @@ func (s *BluetoothMetadataListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_value []byte
-		_ = _arg_value
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_value = _bytes
+		}
 		_err = s.Impl.OnMetadataChanged(ctx, _arg_devices, _arg_key, _arg_value)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

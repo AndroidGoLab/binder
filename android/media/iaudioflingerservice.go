@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	tuner "github.com/xaionaro-go/binder/android/hardware/tv/tuner"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -171,7 +172,7 @@ type IAudioFlingerService interface {
 	CreateTrack(ctx context.Context, request CreateTrackRequest) (CreateTrackResponse, error)
 	CreateRecord(ctx context.Context, request CreateRecordRequest) (CreateRecordResponse, error)
 	SampleRate(ctx context.Context, ioHandle int32) (int32, error)
-	Format(ctx context.Context, output int32) (interface{}, error)
+	Format(ctx context.Context, output int32) (common.AudioFormatDescription, error)
 	FrameCount(ctx context.Context, ioHandle int32) (int64, error)
 	Latency(ctx context.Context, output int32) (int32, error)
 	SetMasterVolume(ctx context.Context, value float32) error
@@ -184,14 +185,14 @@ type IAudioFlingerService interface {
 	SetStreamMute(ctx context.Context, stream tuner.AudioStreamType, muted bool) error
 	StreamVolume(ctx context.Context, stream tuner.AudioStreamType, output int32) (float32, error)
 	StreamMute(ctx context.Context, stream tuner.AudioStreamType) (bool, error)
-	SetMode(ctx context.Context, mode interface{}) error
+	SetMode(ctx context.Context, mode common.AudioMode) error
 	SetMicMute(ctx context.Context, state bool) error
 	GetMicMute(ctx context.Context) (bool, error)
 	SetRecordSilenced(ctx context.Context, portId int32, silenced bool) error
 	SetParameters(ctx context.Context, ioHandle int32, keyValuePairs string) error
 	GetParameters(ctx context.Context, ioHandle int32, keys string) (string, error)
 	RegisterClient(ctx context.Context, client IAudioFlingerClient) error
-	GetInputBufferSize(ctx context.Context, sampleRate int32, format interface{}, channelMask interface{}) (int64, error)
+	GetInputBufferSize(ctx context.Context, sampleRate int32, format common.AudioFormatDescription, channelMask common.AudioChannelLayout) (int64, error)
 	OpenOutput(ctx context.Context, request OpenOutputRequest) (OpenOutputResponse, error)
 	OpenDuplicateOutput(ctx context.Context, output1 int32, output2 int32) (int32, error)
 	CloseOutput(ctx context.Context, output int32) error
@@ -207,7 +208,7 @@ type IAudioFlingerService interface {
 	ReleaseAudioSessionId(ctx context.Context, audioSession int32, pid int32) error
 	QueryNumberEffects(ctx context.Context) (int32, error)
 	QueryEffect(ctx context.Context, index int32) (EffectDescriptor, error)
-	GetEffectDescriptor(ctx context.Context, effectUUID interface{}, typeUUID interface{}, preferredTypeFlag int32) (EffectDescriptor, error)
+	GetEffectDescriptor(ctx context.Context, effectUUID common.AudioUuid, typeUUID common.AudioUuid, preferredTypeFlag int32) (EffectDescriptor, error)
 	CreateEffect(ctx context.Context, request CreateEffectRequest) (CreateEffectResponse, error)
 	MoveEffects(ctx context.Context, session int32, srcOutput int32, dstOutput int32) error
 	SetEffectSuspended(ctx context.Context, effectId int32, sessionId int32, suspended bool) error
@@ -228,13 +229,13 @@ type IAudioFlingerService interface {
 	SetAudioHalPids(ctx context.Context, pids []int32) error
 	SetVibratorInfos(ctx context.Context, vibratorInfos []AudioVibratorInfo) error
 	UpdateSecondaryOutputs(ctx context.Context, trackSecondaryOutputInfos []TrackSecondaryOutputInfo) error
-	GetMmapPolicyInfos(ctx context.Context, policyType interface{}) ([]interface{}, error)
+	GetMmapPolicyInfos(ctx context.Context, policyType common.AudioMMapPolicyType) ([]common.AudioMMapPolicyInfo, error)
 	GetAAudioMixerBurstCount(ctx context.Context) (int32, error)
 	GetAAudioHardwareBurstMinUsec(ctx context.Context) (int32, error)
 	SetDeviceConnectedState(ctx context.Context, devicePort AudioPortFw, state DeviceConnectedState) error
 	SetSimulateDeviceConnections(ctx context.Context, enabled bool) error
-	SetRequestedLatencyMode(ctx context.Context, output int32, latencyMode interface{}) error
-	GetSupportedLatencyModes(ctx context.Context, output int32) ([]interface{}, error)
+	SetRequestedLatencyMode(ctx context.Context, output int32, latencyMode common.AudioLatencyMode) error
+	GetSupportedLatencyModes(ctx context.Context, output int32) ([]common.AudioLatencyMode, error)
 	SupportsBluetoothVariableLatency(ctx context.Context) (bool, error)
 	SetBluetoothVariableLatencyEnabled(ctx context.Context, enabled bool) error
 	IsBluetoothVariableLatencyEnabled(ctx context.Context) (bool, error)
@@ -266,6 +267,7 @@ func (p *AudioFlingerServiceProxy) CreateTrack(
 ) (CreateTrackResponse, error) {
 	var _result CreateTrackResponse
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -305,6 +307,7 @@ func (p *AudioFlingerServiceProxy) CreateRecord(
 ) (CreateRecordResponse, error) {
 	var _result CreateRecordResponse
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -344,6 +347,7 @@ func (p *AudioFlingerServiceProxy) SampleRate(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(ioHandle)
 
@@ -372,9 +376,10 @@ func (p *AudioFlingerServiceProxy) SampleRate(
 func (p *AudioFlingerServiceProxy) Format(
 	ctx context.Context,
 	output int32,
-) (interface{}, error) {
-	var _result interface{}
+) (common.AudioFormatDescription, error) {
+	var _result common.AudioFormatDescription
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(output)
 
@@ -393,6 +398,15 @@ func (p *AudioFlingerServiceProxy) Format(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -402,6 +416,7 @@ func (p *AudioFlingerServiceProxy) FrameCount(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(ioHandle)
 
@@ -433,6 +448,7 @@ func (p *AudioFlingerServiceProxy) Latency(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(output)
 
@@ -463,6 +479,7 @@ func (p *AudioFlingerServiceProxy) SetMasterVolume(
 	value float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteFloat32(value)
 
@@ -489,6 +506,7 @@ func (p *AudioFlingerServiceProxy) SetMasterMute(
 	muted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteBool(muted)
 
@@ -515,6 +533,7 @@ func (p *AudioFlingerServiceProxy) MasterVolume(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceMasterVolume)
@@ -544,6 +563,7 @@ func (p *AudioFlingerServiceProxy) MasterMute(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceMasterMute)
@@ -573,6 +593,7 @@ func (p *AudioFlingerServiceProxy) SetMasterBalance(
 	balance float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteFloat32(balance)
 
@@ -599,6 +620,7 @@ func (p *AudioFlingerServiceProxy) GetMasterBalance(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceGetMasterBalance)
@@ -630,6 +652,7 @@ func (p *AudioFlingerServiceProxy) SetStreamVolume(
 	output int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(int32(stream))
 	_data.WriteFloat32(value)
@@ -659,6 +682,7 @@ func (p *AudioFlingerServiceProxy) SetStreamMute(
 	muted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(int32(stream))
 	_data.WriteBool(muted)
@@ -688,6 +712,7 @@ func (p *AudioFlingerServiceProxy) StreamVolume(
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(int32(stream))
 	_data.WriteInt32(output)
@@ -720,6 +745,7 @@ func (p *AudioFlingerServiceProxy) StreamMute(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(int32(stream))
 
@@ -747,10 +773,12 @@ func (p *AudioFlingerServiceProxy) StreamMute(
 
 func (p *AudioFlingerServiceProxy) SetMode(
 	ctx context.Context,
-	mode interface{},
+	mode common.AudioMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
+	_data.WriteInt32(int32(mode))
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceSetMode)
 	if _err != nil {
@@ -775,6 +803,7 @@ func (p *AudioFlingerServiceProxy) SetMicMute(
 	state bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteBool(state)
 
@@ -801,6 +830,7 @@ func (p *AudioFlingerServiceProxy) GetMicMute(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceGetMicMute)
@@ -831,6 +861,7 @@ func (p *AudioFlingerServiceProxy) SetRecordSilenced(
 	silenced bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(portId)
 	_data.WriteBool(silenced)
@@ -859,6 +890,7 @@ func (p *AudioFlingerServiceProxy) SetParameters(
 	keyValuePairs string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(ioHandle)
 	_data.WriteString16(keyValuePairs)
@@ -888,6 +920,7 @@ func (p *AudioFlingerServiceProxy) GetParameters(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(ioHandle)
 	_data.WriteString16(keys)
@@ -919,6 +952,7 @@ func (p *AudioFlingerServiceProxy) RegisterClient(
 	client IAudioFlingerClient,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
@@ -943,13 +977,22 @@ func (p *AudioFlingerServiceProxy) RegisterClient(
 func (p *AudioFlingerServiceProxy) GetInputBufferSize(
 	ctx context.Context,
 	sampleRate int32,
-	format interface{},
-	channelMask interface{},
+	format common.AudioFormatDescription,
+	channelMask common.AudioChannelLayout,
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(sampleRate)
+	_data.WriteInt32(1)
+	if _err := format.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := channelMask.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceGetInputBufferSize)
 	if _err != nil {
@@ -979,6 +1022,7 @@ func (p *AudioFlingerServiceProxy) OpenOutput(
 ) (OpenOutputResponse, error) {
 	var _result OpenOutputResponse
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -1019,6 +1063,7 @@ func (p *AudioFlingerServiceProxy) OpenDuplicateOutput(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(output1)
 	_data.WriteInt32(output2)
@@ -1050,6 +1095,7 @@ func (p *AudioFlingerServiceProxy) CloseOutput(
 	output int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(output)
 
@@ -1076,6 +1122,7 @@ func (p *AudioFlingerServiceProxy) SuspendOutput(
 	output int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(output)
 
@@ -1102,6 +1149,7 @@ func (p *AudioFlingerServiceProxy) RestoreOutput(
 	output int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(output)
 
@@ -1129,6 +1177,7 @@ func (p *AudioFlingerServiceProxy) OpenInput(
 ) (OpenInputResponse, error) {
 	var _result OpenInputResponse
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -1167,6 +1216,7 @@ func (p *AudioFlingerServiceProxy) CloseInput(
 	input int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(input)
 
@@ -1193,6 +1243,7 @@ func (p *AudioFlingerServiceProxy) SetVoiceVolume(
 	volume float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteFloat32(volume)
 
@@ -1220,6 +1271,7 @@ func (p *AudioFlingerServiceProxy) GetRenderPosition(
 ) (RenderPosition, error) {
 	var _result RenderPosition
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(output)
 
@@ -1256,6 +1308,7 @@ func (p *AudioFlingerServiceProxy) GetInputFramesLost(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(ioHandle)
 
@@ -1287,6 +1340,7 @@ func (p *AudioFlingerServiceProxy) NewAudioUniqueId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(int32(use))
 
@@ -1319,6 +1373,7 @@ func (p *AudioFlingerServiceProxy) AcquireAudioSessionId(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(audioSession)
 	_data.WriteInt32(pid)
@@ -1348,6 +1403,7 @@ func (p *AudioFlingerServiceProxy) ReleaseAudioSessionId(
 	pid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(audioSession)
 	_data.WriteInt32(pid)
@@ -1375,6 +1431,7 @@ func (p *AudioFlingerServiceProxy) QueryNumberEffects(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceQueryNumberEffects)
@@ -1405,6 +1462,7 @@ func (p *AudioFlingerServiceProxy) QueryEffect(
 ) (EffectDescriptor, error) {
 	var _result EffectDescriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(index)
 
@@ -1437,13 +1495,22 @@ func (p *AudioFlingerServiceProxy) QueryEffect(
 
 func (p *AudioFlingerServiceProxy) GetEffectDescriptor(
 	ctx context.Context,
-	effectUUID interface{},
-	typeUUID interface{},
+	effectUUID common.AudioUuid,
+	typeUUID common.AudioUuid,
 	preferredTypeFlag int32,
 ) (EffectDescriptor, error) {
 	var _result EffectDescriptor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
+	_data.WriteInt32(1)
+	if _err := effectUUID.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := typeUUID.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(preferredTypeFlag)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceGetEffectDescriptor)
@@ -1479,6 +1546,7 @@ func (p *AudioFlingerServiceProxy) CreateEffect(
 ) (CreateEffectResponse, error) {
 	var _result CreateEffectResponse
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
@@ -1519,6 +1587,7 @@ func (p *AudioFlingerServiceProxy) MoveEffects(
 	dstOutput int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(session)
 	_data.WriteInt32(srcOutput)
@@ -1549,6 +1618,7 @@ func (p *AudioFlingerServiceProxy) SetEffectSuspended(
 	suspended bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(effectId)
 	_data.WriteInt32(sessionId)
@@ -1578,6 +1648,7 @@ func (p *AudioFlingerServiceProxy) LoadHwModule(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteString16(name)
 
@@ -1608,6 +1679,7 @@ func (p *AudioFlingerServiceProxy) GetPrimaryOutputSamplingRate(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceGetPrimaryOutputSamplingRate)
@@ -1637,6 +1709,7 @@ func (p *AudioFlingerServiceProxy) GetPrimaryOutputFrameCount(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceGetPrimaryOutputFrameCount)
@@ -1667,6 +1740,7 @@ func (p *AudioFlingerServiceProxy) SetLowRamDevice(
 	totalMemory int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteBool(isLowRamDevice)
 	_data.WriteInt64(totalMemory)
@@ -1695,6 +1769,7 @@ func (p *AudioFlingerServiceProxy) GetAudioPort(
 ) (AudioPortFw, error) {
 	var _result AudioPortFw
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(1)
 	if _err := port.MarshalParcel(_data); _err != nil {
@@ -1734,6 +1809,7 @@ func (p *AudioFlingerServiceProxy) CreateAudioPatch(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(1)
 	if _err := patch.MarshalParcel(_data); _err != nil {
@@ -1767,6 +1843,7 @@ func (p *AudioFlingerServiceProxy) ReleaseAudioPatch(
 	handle int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(handle)
 
@@ -1794,6 +1871,7 @@ func (p *AudioFlingerServiceProxy) ListAudioPatches(
 ) ([]AudioPatchFw, error) {
 	var _result []AudioPatchFw
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(maxCount)
 
@@ -1816,6 +1894,9 @@ func (p *AudioFlingerServiceProxy) ListAudioPatches(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]AudioPatchFw, _count)
@@ -1836,6 +1917,7 @@ func (p *AudioFlingerServiceProxy) SetAudioPortConfig(
 	config AudioPortConfigFw,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -1866,6 +1948,7 @@ func (p *AudioFlingerServiceProxy) GetAudioHwSyncForSession(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(sessionId)
 
@@ -1895,6 +1978,7 @@ func (p *AudioFlingerServiceProxy) SystemReady(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceSystemReady)
@@ -1910,6 +1994,7 @@ func (p *AudioFlingerServiceProxy) AudioPolicyReady(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceAudioPolicyReady)
@@ -1927,6 +2012,7 @@ func (p *AudioFlingerServiceProxy) FrameCountHAL(
 ) (int64, error) {
 	var _result int64
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(ioHandle)
 
@@ -1957,6 +2043,7 @@ func (p *AudioFlingerServiceProxy) GetMicrophones(
 ) ([]MicrophoneInfoFw, error) {
 	var _result []MicrophoneInfoFw
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceGetMicrophones)
@@ -1978,6 +2065,9 @@ func (p *AudioFlingerServiceProxy) GetMicrophones(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]MicrophoneInfoFw, _count)
@@ -1998,6 +2088,7 @@ func (p *AudioFlingerServiceProxy) SetAudioHalPids(
 	pids []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	if pids == nil {
 		_data.WriteInt32(-1)
@@ -2031,6 +2122,7 @@ func (p *AudioFlingerServiceProxy) SetVibratorInfos(
 	vibratorInfos []AudioVibratorInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	if vibratorInfos == nil {
 		_data.WriteInt32(-1)
@@ -2067,6 +2159,7 @@ func (p *AudioFlingerServiceProxy) UpdateSecondaryOutputs(
 	trackSecondaryOutputInfos []TrackSecondaryOutputInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	if trackSecondaryOutputInfos == nil {
 		_data.WriteInt32(-1)
@@ -2100,11 +2193,13 @@ func (p *AudioFlingerServiceProxy) UpdateSecondaryOutputs(
 
 func (p *AudioFlingerServiceProxy) GetMmapPolicyInfos(
 	ctx context.Context,
-	policyType interface{},
-) ([]interface{}, error) {
-	var _result []interface{}
+	policyType common.AudioMMapPolicyType,
+) ([]common.AudioMMapPolicyInfo, error) {
+	var _result []common.AudioMMapPolicyInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
+	_data.WriteInt32(int32(policyType))
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceGetMmapPolicyInfos)
 	if _err != nil {
@@ -2125,10 +2220,19 @@ func (p *AudioFlingerServiceProxy) GetMmapPolicyInfos(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]common.AudioMMapPolicyInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -2139,6 +2243,7 @@ func (p *AudioFlingerServiceProxy) GetAAudioMixerBurstCount(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceGetAAudioMixerBurstCount)
@@ -2168,6 +2273,7 @@ func (p *AudioFlingerServiceProxy) GetAAudioHardwareBurstMinUsec(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceGetAAudioHardwareBurstMinUsec)
@@ -2198,6 +2304,7 @@ func (p *AudioFlingerServiceProxy) SetDeviceConnectedState(
 	state DeviceConnectedState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(1)
 	if _err := devicePort.MarshalParcel(_data); _err != nil {
@@ -2228,6 +2335,7 @@ func (p *AudioFlingerServiceProxy) SetSimulateDeviceConnections(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteBool(enabled)
 
@@ -2252,11 +2360,13 @@ func (p *AudioFlingerServiceProxy) SetSimulateDeviceConnections(
 func (p *AudioFlingerServiceProxy) SetRequestedLatencyMode(
 	ctx context.Context,
 	output int32,
-	latencyMode interface{},
+	latencyMode common.AudioLatencyMode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(output)
+	_data.WritePaddedByte(byte(latencyMode))
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceSetRequestedLatencyMode)
 	if _err != nil {
@@ -2279,9 +2389,10 @@ func (p *AudioFlingerServiceProxy) SetRequestedLatencyMode(
 func (p *AudioFlingerServiceProxy) GetSupportedLatencyModes(
 	ctx context.Context,
 	output int32,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]common.AudioLatencyMode, error) {
+	var _result []common.AudioLatencyMode
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(output)
 
@@ -2304,10 +2415,18 @@ func (p *AudioFlingerServiceProxy) GetSupportedLatencyModes(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]common.AudioLatencyMode, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			_raw, _err := _reply.ReadPaddedByte()
+			if _err != nil {
+				return _result, _err
+			}
+			_result[_i] = common.AudioLatencyMode(_raw)
 		}
 	}
 	return _result, nil
@@ -2318,6 +2437,7 @@ func (p *AudioFlingerServiceProxy) SupportsBluetoothVariableLatency(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceSupportsBluetoothVariableLatency)
@@ -2347,6 +2467,7 @@ func (p *AudioFlingerServiceProxy) SetBluetoothVariableLatencyEnabled(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteBool(enabled)
 
@@ -2373,6 +2494,7 @@ func (p *AudioFlingerServiceProxy) IsBluetoothVariableLatencyEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceIsBluetoothVariableLatencyEnabled)
@@ -2403,6 +2525,7 @@ func (p *AudioFlingerServiceProxy) GetSoundDoseInterface(
 ) (ISoundDose, error) {
 	var _result ISoundDose
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -2434,6 +2557,7 @@ func (p *AudioFlingerServiceProxy) InvalidateTracks(
 	portIds []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	if portIds == nil {
 		_data.WriteInt32(-1)
@@ -2467,6 +2591,7 @@ func (p *AudioFlingerServiceProxy) GetAudioPolicyConfig(
 ) (AudioPolicyConfig, error) {
 	var _result AudioPolicyConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerService, MethodIAudioFlingerServiceGetAudioPolicyConfig)
@@ -2503,6 +2628,7 @@ func (p *AudioFlingerServiceProxy) GetAudioMixPort(
 ) (AudioPortFw, error) {
 	var _result AudioPortFw
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerService)
 	_data.WriteInt32(1)
 	if _err := devicePort.MarshalParcel(_data); _err != nil {
@@ -2543,7 +2669,8 @@ func (p *AudioFlingerServiceProxy) GetAudioMixPort(
 // AudioFlingerServiceStub dispatches incoming binder transactions
 // to a typed IAudioFlingerService implementation.
 type AudioFlingerServiceStub struct {
-	Impl IAudioFlingerService
+	Impl      IAudioFlingerService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AudioFlingerServiceStub)(nil)
@@ -2557,11 +2684,12 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAudioFlingerServiceCreateTrack:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request CreateTrackRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2587,9 +2715,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioFlingerServiceCreateRecord:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request CreateRecordRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2615,9 +2740,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSampleRate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ioHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2632,9 +2754,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceFormat:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_output, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2646,12 +2765,12 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionIAudioFlingerServiceFrameCount:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIAudioFlingerServiceFrameCount:
 		_arg_ioHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2666,9 +2785,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceLatency:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_output, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2683,9 +2799,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetMasterVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_value, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -2699,9 +2812,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetMasterMute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_muted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2715,9 +2825,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceMasterVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.MasterVolume(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2728,9 +2835,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceMasterMute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.MasterMute(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2741,9 +2845,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetMasterBalance:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_balance, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -2757,9 +2858,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetMasterBalance:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMasterBalance(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2770,9 +2868,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetStreamVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_stream, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2795,9 +2890,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetStreamMute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_stream, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2816,9 +2908,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceStreamVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_stream, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2838,9 +2927,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceStreamMute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_stream, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2856,11 +2942,12 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetMode:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_raw_mode, _err := _data.ReadInt32()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_mode interface{}
-		_err := s.Impl.SetMode(ctx, _arg_mode)
+		_arg_mode := common.AudioMode(_raw_mode)
+		_err = s.Impl.SetMode(ctx, _arg_mode)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -2869,9 +2956,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetMicMute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_state, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2885,9 +2969,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetMicMute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMicMute(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2898,9 +2979,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetRecordSilenced:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2918,9 +2996,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ioHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2938,9 +3013,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ioHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2959,12 +3031,14 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceRegisterClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IAudioFlingerClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewAudioFlingerClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_err := s.Impl.RegisterClient(ctx, _arg_client)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2974,15 +3048,34 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetInputBufferSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sampleRate, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_format interface{}
-		var _arg_channelMask interface{}
+		var _arg_format common.AudioFormatDescription
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_format.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_channelMask common.AudioChannelLayout
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_channelMask.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetInputBufferSize(ctx, _arg_sampleRate, _arg_format, _arg_channelMask)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2993,9 +3086,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceOpenOutput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request OpenOutputRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3021,9 +3111,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioFlingerServiceOpenDuplicateOutput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_output1, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3042,9 +3129,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceCloseOutput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_output, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3058,9 +3142,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSuspendOutput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_output, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3074,9 +3155,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceRestoreOutput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_output, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3090,9 +3168,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceOpenInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request OpenInputRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3118,9 +3193,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioFlingerServiceCloseInput:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_input, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3134,9 +3206,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetVoiceVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_volume, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -3150,9 +3219,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetRenderPosition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_output, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3170,9 +3236,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetInputFramesLost:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ioHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3187,9 +3250,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceNewAudioUniqueId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_use, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3205,9 +3265,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceAcquireAudioSessionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_audioSession, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3229,9 +3286,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceReleaseAudioSessionId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_audioSession, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3249,9 +3303,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceQueryNumberEffects:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.QueryNumberEffects(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3262,9 +3313,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceQueryEffect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3282,11 +3330,30 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetEffectDescriptor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_effectUUID common.AudioUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_effectUUID.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_effectUUID interface{}
-		var _arg_typeUUID interface{}
+		var _arg_typeUUID common.AudioUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_typeUUID.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_preferredTypeFlag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3304,9 +3371,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioFlingerServiceCreateEffect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_request CreateEffectRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3332,9 +3396,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioFlingerServiceMoveEffects:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_session, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3356,9 +3417,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetEffectSuspended:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_effectId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3380,9 +3438,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceLoadHwModule:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3397,9 +3452,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetPrimaryOutputSamplingRate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPrimaryOutputSamplingRate(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3410,9 +3462,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetPrimaryOutputFrameCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPrimaryOutputFrameCount(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3423,9 +3472,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetLowRamDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isLowRamDevice, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3443,9 +3489,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetAudioPort:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_port AudioPortFw
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3471,9 +3514,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioFlingerServiceCreateAudioPatch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_patch AudioPatchFw
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3496,9 +3536,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceReleaseAudioPatch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_handle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3512,9 +3549,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceListAudioPatches:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_maxCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3526,13 +3560,19 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetAudioPortConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config AudioPortConfigFw
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3554,9 +3594,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetAudioHwSyncForSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3571,23 +3608,12 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSystemReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SystemReady(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioFlingerServiceAudioPolicyReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.AudioPolicyReady(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioFlingerServiceFrameCountHAL:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ioHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3602,9 +3628,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetMicrophones:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMicrophones(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3612,16 +3635,38 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetAudioHalPids:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pids []int32
-		_ = _arg_pids
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_pids = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_pids[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetAudioHalPids(ctx, _arg_pids)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3631,12 +3676,27 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetVibratorInfos:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_vibratorInfos []AudioVibratorInfo
-		_ = _arg_vibratorInfos
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_vibratorInfos = make([]AudioVibratorInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_vibratorInfos[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SetVibratorInfos(ctx, _arg_vibratorInfos)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3646,12 +3706,27 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceUpdateSecondaryOutputs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_trackSecondaryOutputInfos []TrackSecondaryOutputInfo
-		_ = _arg_trackSecondaryOutputInfos
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_trackSecondaryOutputInfos = make([]TrackSecondaryOutputInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_trackSecondaryOutputInfos[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.UpdateSecondaryOutputs(ctx, _arg_trackSecondaryOutputInfos)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3661,10 +3736,11 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetMmapPolicyInfos:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_raw_policyType, _err := _data.ReadInt32()
+		if _err != nil {
 			return nil, _err
 		}
-		var _arg_policyType interface{}
+		_arg_policyType := common.AudioMMapPolicyType(_raw_policyType)
 		_result, _err := s.Impl.GetMmapPolicyInfos(ctx, _arg_policyType)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3672,13 +3748,19 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetAAudioMixerBurstCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAAudioMixerBurstCount(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3689,9 +3771,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetAAudioHardwareBurstMinUsec:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAAudioHardwareBurstMinUsec(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3702,9 +3781,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetDeviceConnectedState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_devicePort AudioPortFw
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3731,9 +3807,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetSimulateDeviceConnections:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3747,14 +3820,15 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetRequestedLatencyMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_output, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_latencyMode interface{}
+		_raw_latencyMode, _err := _data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_latencyMode := common.AudioLatencyMode(_raw_latencyMode)
 		_err = s.Impl.SetRequestedLatencyMode(ctx, _arg_output, _arg_latencyMode)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3764,9 +3838,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetSupportedLatencyModes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_output, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3778,13 +3849,16 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WritePaddedByte(byte(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSupportsBluetoothVariableLatency:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.SupportsBluetoothVariableLatency(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3795,9 +3869,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceSetBluetoothVariableLatencyEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3811,9 +3882,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceIsBluetoothVariableLatencyEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsBluetoothVariableLatencyEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3824,12 +3892,14 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetSoundDoseInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISoundDoseCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewSoundDoseCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_result, _err := s.Impl.GetSoundDoseInterface(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3837,16 +3907,28 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceInvalidateTracks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_portIds []int32
-		_ = _arg_portIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_portIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_portIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.InvalidateTracks(ctx, _arg_portIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3856,9 +3938,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetAudioPolicyConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAudioPolicyConfig(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3872,9 +3951,6 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioFlingerServiceGetAudioMixPort:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_devicePort AudioPortFw
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3923,7 +3999,7 @@ type IAudioFlingerServiceServer interface {
 	CreateTrack(ctx context.Context, request CreateTrackRequest) (CreateTrackResponse, error)
 	CreateRecord(ctx context.Context, request CreateRecordRequest) (CreateRecordResponse, error)
 	SampleRate(ctx context.Context, ioHandle int32) (int32, error)
-	Format(ctx context.Context, output int32) (interface{}, error)
+	Format(ctx context.Context, output int32) (common.AudioFormatDescription, error)
 	FrameCount(ctx context.Context, ioHandle int32) (int64, error)
 	Latency(ctx context.Context, output int32) (int32, error)
 	SetMasterVolume(ctx context.Context, value float32) error
@@ -3936,14 +4012,14 @@ type IAudioFlingerServiceServer interface {
 	SetStreamMute(ctx context.Context, stream tuner.AudioStreamType, muted bool) error
 	StreamVolume(ctx context.Context, stream tuner.AudioStreamType, output int32) (float32, error)
 	StreamMute(ctx context.Context, stream tuner.AudioStreamType) (bool, error)
-	SetMode(ctx context.Context, mode interface{}) error
+	SetMode(ctx context.Context, mode common.AudioMode) error
 	SetMicMute(ctx context.Context, state bool) error
 	GetMicMute(ctx context.Context) (bool, error)
 	SetRecordSilenced(ctx context.Context, portId int32, silenced bool) error
 	SetParameters(ctx context.Context, ioHandle int32, keyValuePairs string) error
 	GetParameters(ctx context.Context, ioHandle int32, keys string) (string, error)
 	RegisterClient(ctx context.Context, client IAudioFlingerClient) error
-	GetInputBufferSize(ctx context.Context, sampleRate int32, format interface{}, channelMask interface{}) (int64, error)
+	GetInputBufferSize(ctx context.Context, sampleRate int32, format common.AudioFormatDescription, channelMask common.AudioChannelLayout) (int64, error)
 	OpenOutput(ctx context.Context, request OpenOutputRequest) (OpenOutputResponse, error)
 	OpenDuplicateOutput(ctx context.Context, output1 int32, output2 int32) (int32, error)
 	CloseOutput(ctx context.Context, output int32) error
@@ -3959,7 +4035,7 @@ type IAudioFlingerServiceServer interface {
 	ReleaseAudioSessionId(ctx context.Context, audioSession int32, pid int32) error
 	QueryNumberEffects(ctx context.Context) (int32, error)
 	QueryEffect(ctx context.Context, index int32) (EffectDescriptor, error)
-	GetEffectDescriptor(ctx context.Context, effectUUID interface{}, typeUUID interface{}, preferredTypeFlag int32) (EffectDescriptor, error)
+	GetEffectDescriptor(ctx context.Context, effectUUID common.AudioUuid, typeUUID common.AudioUuid, preferredTypeFlag int32) (EffectDescriptor, error)
 	CreateEffect(ctx context.Context, request CreateEffectRequest) (CreateEffectResponse, error)
 	MoveEffects(ctx context.Context, session int32, srcOutput int32, dstOutput int32) error
 	SetEffectSuspended(ctx context.Context, effectId int32, sessionId int32, suspended bool) error
@@ -3980,13 +4056,13 @@ type IAudioFlingerServiceServer interface {
 	SetAudioHalPids(ctx context.Context, pids []int32) error
 	SetVibratorInfos(ctx context.Context, vibratorInfos []AudioVibratorInfo) error
 	UpdateSecondaryOutputs(ctx context.Context, trackSecondaryOutputInfos []TrackSecondaryOutputInfo) error
-	GetMmapPolicyInfos(ctx context.Context, policyType interface{}) ([]interface{}, error)
+	GetMmapPolicyInfos(ctx context.Context, policyType common.AudioMMapPolicyType) ([]common.AudioMMapPolicyInfo, error)
 	GetAAudioMixerBurstCount(ctx context.Context) (int32, error)
 	GetAAudioHardwareBurstMinUsec(ctx context.Context) (int32, error)
 	SetDeviceConnectedState(ctx context.Context, devicePort AudioPortFw, state DeviceConnectedState) error
 	SetSimulateDeviceConnections(ctx context.Context, enabled bool) error
-	SetRequestedLatencyMode(ctx context.Context, output int32, latencyMode interface{}) error
-	GetSupportedLatencyModes(ctx context.Context, output int32) ([]interface{}, error)
+	SetRequestedLatencyMode(ctx context.Context, output int32, latencyMode common.AudioLatencyMode) error
+	GetSupportedLatencyModes(ctx context.Context, output int32) ([]common.AudioLatencyMode, error)
 	SupportsBluetoothVariableLatency(ctx context.Context) (bool, error)
 	SetBluetoothVariableLatencyEnabled(ctx context.Context, enabled bool) error
 	IsBluetoothVariableLatencyEnabled(ctx context.Context) (bool, error)
@@ -4029,7 +4105,7 @@ func (w *audioFlingerServiceStubWrapper) SampleRate(
 func (w *audioFlingerServiceStubWrapper) Format(
 	ctx context.Context,
 	output int32,
-) (interface{}, error) {
+) (common.AudioFormatDescription, error) {
 	return w.impl.Format(ctx, output)
 }
 
@@ -4120,7 +4196,7 @@ func (w *audioFlingerServiceStubWrapper) StreamMute(
 
 func (w *audioFlingerServiceStubWrapper) SetMode(
 	ctx context.Context,
-	mode interface{},
+	mode common.AudioMode,
 ) error {
 	return w.impl.SetMode(ctx, mode)
 }
@@ -4172,8 +4248,8 @@ func (w *audioFlingerServiceStubWrapper) RegisterClient(
 func (w *audioFlingerServiceStubWrapper) GetInputBufferSize(
 	ctx context.Context,
 	sampleRate int32,
-	format interface{},
-	channelMask interface{},
+	format common.AudioFormatDescription,
+	channelMask common.AudioChannelLayout,
 ) (int64, error) {
 	return w.impl.GetInputBufferSize(ctx, sampleRate, format, channelMask)
 }
@@ -4288,8 +4364,8 @@ func (w *audioFlingerServiceStubWrapper) QueryEffect(
 
 func (w *audioFlingerServiceStubWrapper) GetEffectDescriptor(
 	ctx context.Context,
-	effectUUID interface{},
-	typeUUID interface{},
+	effectUUID common.AudioUuid,
+	typeUUID common.AudioUuid,
 	preferredTypeFlag int32,
 ) (EffectDescriptor, error) {
 	return w.impl.GetEffectDescriptor(ctx, effectUUID, typeUUID, preferredTypeFlag)
@@ -4437,8 +4513,8 @@ func (w *audioFlingerServiceStubWrapper) UpdateSecondaryOutputs(
 
 func (w *audioFlingerServiceStubWrapper) GetMmapPolicyInfos(
 	ctx context.Context,
-	policyType interface{},
-) ([]interface{}, error) {
+	policyType common.AudioMMapPolicyType,
+) ([]common.AudioMMapPolicyInfo, error) {
 	return w.impl.GetMmapPolicyInfos(ctx, policyType)
 }
 
@@ -4472,7 +4548,7 @@ func (w *audioFlingerServiceStubWrapper) SetSimulateDeviceConnections(
 func (w *audioFlingerServiceStubWrapper) SetRequestedLatencyMode(
 	ctx context.Context,
 	output int32,
-	latencyMode interface{},
+	latencyMode common.AudioLatencyMode,
 ) error {
 	return w.impl.SetRequestedLatencyMode(ctx, output, latencyMode)
 }
@@ -4480,7 +4556,7 @@ func (w *audioFlingerServiceStubWrapper) SetRequestedLatencyMode(
 func (w *audioFlingerServiceStubWrapper) GetSupportedLatencyModes(
 	ctx context.Context,
 	output int32,
-) ([]interface{}, error) {
+) ([]common.AudioLatencyMode, error) {
 	return w.impl.GetSupportedLatencyModes(ctx, output)
 }
 

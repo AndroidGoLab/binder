@@ -1,0 +1,160 @@
+package: android.debug
+go_package: android/debug
+interfaces:
+    - name: IAdbCallback
+      descriptor: android.debug.IAdbCallback
+      oneway: true
+      methods:
+        - name: onDebuggingChanged
+          transaction_code_offset: 0
+          params:
+            - name: enabled
+              type:
+                name: boolean
+            - name: type
+              type:
+                name: AdbTransportType
+          return_type:
+            name: void
+    - name: IAdbManager
+      descriptor: android.debug.IAdbManager
+      methods:
+        - name: allowDebugging
+          transaction_code_offset: 0
+          params:
+            - name: alwaysAllow
+              type:
+                name: boolean
+            - name: publicKey
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: denyDebugging
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: clearDebuggingKeys
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: allowWirelessDebugging
+          transaction_code_offset: 3
+          params:
+            - name: alwaysAllow
+              type:
+                name: boolean
+            - name: bssid
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: denyWirelessDebugging
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: getPairedDevices
+          transaction_code_offset: 5
+          return_type:
+            name: FingerprintAndPairDevice
+            is_array: true
+        - name: unpairDevice
+          transaction_code_offset: 6
+          params:
+            - name: fingerprint
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: enablePairingByPairingCode
+          transaction_code_offset: 7
+          return_type:
+            name: void
+        - name: enablePairingByQrCode
+          transaction_code_offset: 8
+          params:
+            - name: serviceName
+              type:
+                name: String
+            - name: password
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getAdbWirelessPort
+          transaction_code_offset: 9
+          return_type:
+            name: int
+        - name: disablePairing
+          transaction_code_offset: 10
+          return_type:
+            name: void
+        - name: isAdbWifiSupported
+          transaction_code_offset: 11
+          return_type:
+            name: boolean
+        - name: isAdbWifiQrSupported
+          transaction_code_offset: 12
+          return_type:
+            name: boolean
+        - name: registerCallback
+          transaction_code_offset: 13
+          params:
+            - name: callback
+              type:
+                name: IAdbCallback
+          return_type:
+            name: void
+        - name: unregisterCallback
+          transaction_code_offset: 14
+          params:
+            - name: callback
+              type:
+                name: IAdbCallback
+          return_type:
+            name: void
+    - name: IAdbTransport
+      descriptor: android.debug.IAdbTransport
+      methods:
+        - name: onAdbEnabled
+          transaction_code_offset: 0
+          params:
+            - name: enabled
+              type:
+                name: boolean
+            - name: type
+              type:
+                name: AdbTransportType
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: FingerprintAndPairDevice
+      fields:
+        - name: keyFingerprint
+          type:
+            name: String
+        - name: device
+          type:
+            name: PairDevice
+    - name: PairDevice
+      fields:
+        - name: name
+          type:
+            name: String
+        - name: guid
+          type:
+            name: String
+        - name: connected
+          type:
+            name: boolean
+enums:
+    - name: AdbTransportType
+      backing_type: byte
+      values:
+        - name: USB
+          value: ""
+        - name: WIFI
+          value: ""
+      annotations:
+        - Backing

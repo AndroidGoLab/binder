@@ -1,0 +1,559 @@
+package: android.hardware.identity
+go_package: android/hardware/identity
+interfaces:
+    - name: IIdentityCredential
+      descriptor: android.hardware.identity.IIdentityCredential
+      methods:
+        - name: deleteCredential
+          transaction_code_offset: 0
+          return_type:
+            name: byte
+            is_array: true
+        - name: createEphemeralKeyPair
+          transaction_code_offset: 1
+          return_type:
+            name: byte
+            is_array: true
+        - name: setReaderEphemeralPublicKey
+          transaction_code_offset: 2
+          params:
+            - name: publicKey
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: createAuthChallenge
+          transaction_code_offset: 3
+          return_type:
+            name: long
+        - name: startRetrieval
+          transaction_code_offset: 4
+          params:
+            - name: accessControlProfiles
+              type:
+                name: SecureAccessControlProfile
+                is_array: true
+              direction: in
+            - name: authToken
+              type:
+                name: HardwareAuthToken
+              direction: in
+            - name: itemsRequest
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: signingKeyBlob
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: sessionTranscript
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: readerSignature
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: requestCounts
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: startRetrieveEntryValue
+          transaction_code_offset: 5
+          params:
+            - name: nameSpace
+              type:
+                name: String
+              direction: in
+            - name: name
+              type:
+                name: String
+              direction: in
+            - name: entrySize
+              type:
+                name: int
+              direction: in
+            - name: accessControlProfileIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: retrieveEntryValue
+          transaction_code_offset: 6
+          params:
+            - name: encryptedContent
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: finishRetrieval
+          transaction_code_offset: 7
+          params:
+            - name: mac
+              type:
+                name: byte
+                is_array: true
+              direction: out
+            - name: deviceNameSpaces
+              type:
+                name: byte
+                is_array: true
+              direction: out
+          return_type:
+            name: void
+          annotations:
+            - SuppressWarnings
+        - name: generateSigningKeyPair
+          transaction_code_offset: 8
+          params:
+            - name: signingKeyBlob
+              type:
+                name: byte
+                is_array: true
+              direction: out
+          return_type:
+            name: Certificate
+          annotations:
+            - SuppressWarnings
+        - name: setRequestedNamespaces
+          transaction_code_offset: 9
+          params:
+            - name: requestNamespaces
+              type:
+                name: RequestNamespace
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setVerificationToken
+          transaction_code_offset: 10
+          params:
+            - name: verificationToken
+              type:
+                name: VerificationToken
+              direction: in
+          return_type:
+            name: void
+        - name: deleteCredentialWithChallenge
+          transaction_code_offset: 11
+          params:
+            - name: challenge
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: proveOwnership
+          transaction_code_offset: 12
+          params:
+            - name: challenge
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: updateCredential
+          transaction_code_offset: 13
+          return_type:
+            name: IWritableIdentityCredential
+        - name: finishRetrievalWithSignature
+          transaction_code_offset: 14
+          params:
+            - name: mac
+              type:
+                name: byte
+                is_array: true
+              direction: out
+            - name: deviceNameSpaces
+              type:
+                name: byte
+                is_array: true
+              direction: out
+            - name: ecdsaSignature
+              type:
+                name: byte
+                is_array: true
+              direction: out
+          return_type:
+            name: void
+          annotations:
+            - SuppressWarnings
+    - name: IIdentityCredentialStore
+      descriptor: android.hardware.identity.IIdentityCredentialStore
+      methods:
+        - name: getHardwareInformation
+          transaction_code_offset: 0
+          return_type:
+            name: HardwareInformation
+        - name: createCredential
+          transaction_code_offset: 1
+          params:
+            - name: docType
+              type:
+                name: String
+              direction: in
+            - name: testCredential
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: IWritableIdentityCredential
+        - name: getCredential
+          transaction_code_offset: 2
+          params:
+            - name: cipherSuite
+              type:
+                name: CipherSuite
+              direction: in
+            - name: credentialData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: IIdentityCredential
+        - name: createPresentationSession
+          transaction_code_offset: 3
+          params:
+            - name: cipherSuite
+              type:
+                name: CipherSuite
+              direction: in
+          return_type:
+            name: IPresentationSession
+        - name: getRemotelyProvisionedComponent
+          transaction_code_offset: 4
+          return_type:
+            name: IRemotelyProvisionedComponent
+      constants:
+        - name: STATUS_OK
+          type: int
+          value: "0"
+        - name: STATUS_FAILED
+          type: int
+          value: "1"
+        - name: STATUS_CIPHER_SUITE_NOT_SUPPORTED
+          type: int
+          value: "2"
+        - name: STATUS_INVALID_DATA
+          type: int
+          value: "3"
+        - name: STATUS_INVALID_AUTH_TOKEN
+          type: int
+          value: "4"
+        - name: STATUS_INVALID_ITEMS_REQUEST_MESSAGE
+          type: int
+          value: "5"
+        - name: STATUS_READER_SIGNATURE_CHECK_FAILED
+          type: int
+          value: "6"
+        - name: STATUS_EPHEMERAL_PUBLIC_KEY_NOT_FOUND
+          type: int
+          value: "7"
+        - name: STATUS_USER_AUTHENTICATION_FAILED
+          type: int
+          value: "8"
+        - name: STATUS_READER_AUTHENTICATION_FAILED
+          type: int
+          value: "9"
+        - name: STATUS_NO_ACCESS_CONTROL_PROFILES
+          type: int
+          value: "10"
+        - name: STATUS_NOT_IN_REQUEST_MESSAGE
+          type: int
+          value: "11"
+        - name: STATUS_SESSION_TRANSCRIPT_MISMATCH
+          type: int
+          value: "12"
+    - name: IPresentationSession
+      descriptor: android.hardware.identity.IPresentationSession
+      methods:
+        - name: getEphemeralKeyPair
+          transaction_code_offset: 0
+          return_type:
+            name: byte
+            is_array: true
+        - name: getAuthChallenge
+          transaction_code_offset: 1
+          return_type:
+            name: long
+        - name: setReaderEphemeralPublicKey
+          transaction_code_offset: 2
+          params:
+            - name: publicKey
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setSessionTranscript
+          transaction_code_offset: 3
+          params:
+            - name: sessionTranscript
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getCredential
+          transaction_code_offset: 4
+          params:
+            - name: credentialData
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: IIdentityCredential
+    - name: IWritableIdentityCredential
+      descriptor: android.hardware.identity.IWritableIdentityCredential
+      methods:
+        - name: getAttestationCertificate
+          transaction_code_offset: 0
+          params:
+            - name: attestationApplicationId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: attestationChallenge
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: Certificate
+            is_array: true
+        - name: startPersonalization
+          transaction_code_offset: 1
+          params:
+            - name: accessControlProfileCount
+              type:
+                name: int
+              direction: in
+            - name: entryCounts
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: addAccessControlProfile
+          transaction_code_offset: 2
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+            - name: readerCertificate
+              type:
+                name: Certificate
+              direction: in
+            - name: userAuthenticationRequired
+              type:
+                name: boolean
+              direction: in
+            - name: timeoutMillis
+              type:
+                name: long
+              direction: in
+            - name: secureUserId
+              type:
+                name: long
+              direction: in
+          return_type:
+            name: SecureAccessControlProfile
+        - name: beginAddEntry
+          transaction_code_offset: 3
+          params:
+            - name: accessControlProfileIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: nameSpace
+              type:
+                name: String
+              direction: in
+            - name: name
+              type:
+                name: String
+              direction: in
+            - name: entrySize
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: addEntryValue
+          transaction_code_offset: 4
+          params:
+            - name: content
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: finishAddingEntries
+          transaction_code_offset: 5
+          params:
+            - name: credentialData
+              type:
+                name: byte
+                is_array: true
+              direction: out
+            - name: proofOfProvisioningSignature
+              type:
+                name: byte
+                is_array: true
+              direction: out
+          return_type:
+            name: void
+          annotations:
+            - SuppressWarnings
+        - name: setExpectedProofOfProvisioningSize
+          transaction_code_offset: 6
+          params:
+            - name: expectedProofOfProvisioningSize
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+        - name: setRemotelyProvisionedAttestationKey
+          transaction_code_offset: 7
+          params:
+            - name: attestationKeyBlob
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: attestationCertificate
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: Certificate
+      fields:
+        - name: encodedCertificate
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: HardwareInformation
+      fields:
+        - name: credentialStoreName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: credentialStoreAuthorName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: dataChunkSize
+          type:
+            name: int
+        - name: isDirectAccess
+          type:
+            name: boolean
+        - name: supportedDocTypes
+          type:
+            name: String
+            is_array: true
+          annotations:
+            - utf8InCpp
+        - name: isRemoteKeyProvisioningSupported
+          type:
+            name: boolean
+          default_value: "false"
+      annotations:
+        - VintfStability
+    - name: RequestDataItem
+      fields:
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: size
+          type:
+            name: long
+        - name: accessControlProfileIds
+          type:
+            name: int
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: RequestNamespace
+      fields:
+        - name: namespaceName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: items
+          type:
+            name: RequestDataItem
+            is_array: true
+      annotations:
+        - VintfStability
+    - name: SecureAccessControlProfile
+      fields:
+        - name: id
+          type:
+            name: int
+        - name: readerCertificate
+          type:
+            name: Certificate
+        - name: userAuthenticationRequired
+          type:
+            name: boolean
+        - name: timeoutMillis
+          type:
+            name: long
+        - name: secureUserId
+          type:
+            name: long
+        - name: mac
+          type:
+            name: byte
+            is_array: true
+      annotations:
+        - VintfStability
+enums:
+    - name: CipherSuite
+      backing_type: int
+      values:
+        - name: CIPHERSUITE_ECDHE_HKDF_ECDSA_WITH_AES_256_GCM_SHA256
+          value: "1"
+      annotations:
+        - VintfStability
+        - Backing

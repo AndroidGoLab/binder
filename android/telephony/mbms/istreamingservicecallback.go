@@ -58,6 +58,7 @@ func (p *StreamingServiceCallbackProxy) OnError(
 	message string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamingServiceCallback)
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(message)
@@ -77,6 +78,7 @@ func (p *StreamingServiceCallbackProxy) OnStreamStateUpdated(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamingServiceCallback)
 	_data.WriteInt32(state)
 	_data.WriteInt32(reason)
@@ -94,6 +96,7 @@ func (p *StreamingServiceCallbackProxy) OnMediaDescriptionUpdated(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamingServiceCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnMediaDescriptionUpdated)
@@ -110,6 +113,7 @@ func (p *StreamingServiceCallbackProxy) OnBroadcastSignalStrengthUpdated(
 	signalStrength int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamingServiceCallback)
 	_data.WriteInt32(signalStrength)
 
@@ -127,6 +131,7 @@ func (p *StreamingServiceCallbackProxy) OnStreamMethodUpdated(
 	methodType int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamingServiceCallback)
 	_data.WriteInt32(methodType)
 
@@ -142,7 +147,8 @@ func (p *StreamingServiceCallbackProxy) OnStreamMethodUpdated(
 // StreamingServiceCallbackStub dispatches incoming binder transactions
 // to a typed IStreamingServiceCallback implementation.
 type StreamingServiceCallbackStub struct {
-	Impl IStreamingServiceCallback
+	Impl      IStreamingServiceCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StreamingServiceCallbackStub)(nil)
@@ -156,11 +162,12 @@ func (s *StreamingServiceCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStreamingServiceCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -170,12 +177,8 @@ func (s *StreamingServiceCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_errorCode, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStreamingServiceCallbackOnStreamStateUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -185,37 +188,24 @@ func (s *StreamingServiceCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStreamStateUpdated(ctx, _arg_state, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStreamingServiceCallbackOnMediaDescriptionUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnMediaDescriptionUpdated(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStreamingServiceCallbackOnBroadcastSignalStrengthUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_signalStrength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnBroadcastSignalStrengthUpdated(ctx, _arg_signalStrength)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIStreamingServiceCallbackOnStreamMethodUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_methodType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnStreamMethodUpdated(ctx, _arg_methodType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

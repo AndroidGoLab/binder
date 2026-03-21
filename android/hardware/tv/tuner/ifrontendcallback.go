@@ -48,6 +48,7 @@ func (p *FrontendCallbackProxy) OnEvent(
 	frontendEventType FrontendEventType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFrontendCallback)
 	_data.WriteInt32(int32(frontendEventType))
 
@@ -66,6 +67,7 @@ func (p *FrontendCallbackProxy) OnScanMessage(
 	message FrontendScanMessage,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIFrontendCallback)
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(1)
@@ -85,7 +87,8 @@ func (p *FrontendCallbackProxy) OnScanMessage(
 // FrontendCallbackStub dispatches incoming binder transactions
 // to a typed IFrontendCallback implementation.
 type FrontendCallbackStub struct {
-	Impl IFrontendCallback
+	Impl      IFrontendCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*FrontendCallbackStub)(nil)
@@ -99,23 +102,20 @@ func (s *FrontendCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIFrontendCallbackOnEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_frontendEventType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_frontendEventType := FrontendEventType(_raw_frontendEventType)
 		_err = s.Impl.OnEvent(ctx, _arg_frontendEventType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIFrontendCallbackOnScanMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -134,8 +134,7 @@ func (s *FrontendCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnScanMessage(ctx, _arg_type_, _arg_message)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

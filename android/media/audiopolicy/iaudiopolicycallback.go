@@ -3,6 +3,7 @@ package audiopolicy
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/media/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -33,10 +34,10 @@ const (
 
 type IAudioPolicyCallback interface {
 	AsBinder() binder.IBinder
-	NotifyAudioFocusGrant(ctx context.Context, afi interface{}, requestResult int32) error
-	NotifyAudioFocusLoss(ctx context.Context, afi interface{}, wasNotified bool) error
-	NotifyAudioFocusRequest(ctx context.Context, afi interface{}, requestResult int32) error
-	NotifyAudioFocusAbandon(ctx context.Context, afi interface{}) error
+	NotifyAudioFocusGrant(ctx context.Context, afi types.AudioFocusInfo, requestResult int32) error
+	NotifyAudioFocusLoss(ctx context.Context, afi types.AudioFocusInfo, wasNotified bool) error
+	NotifyAudioFocusRequest(ctx context.Context, afi types.AudioFocusInfo, requestResult int32) error
+	NotifyAudioFocusAbandon(ctx context.Context, afi types.AudioFocusInfo) error
 	NotifyMixStateUpdate(ctx context.Context, regId string, state int32) error
 	NotifyVolumeAdjust(ctx context.Context, adjustment int32) error
 	NotifyUnregistration(ctx context.Context) error
@@ -60,11 +61,13 @@ var _ IAudioPolicyCallback = (*AudioPolicyCallbackProxy)(nil)
 
 func (p *AudioPolicyCallbackProxy) NotifyAudioFocusGrant(
 	ctx context.Context,
-	afi interface{},
+	afi types.AudioFocusInfo,
 	requestResult int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
+	// WARNING: param afi (type types.AudioFocusInfo) cannot be serialized — type not resolved
 	_data.WriteInt32(requestResult)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusGrant)
@@ -78,11 +81,13 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusGrant(
 
 func (p *AudioPolicyCallbackProxy) NotifyAudioFocusLoss(
 	ctx context.Context,
-	afi interface{},
+	afi types.AudioFocusInfo,
 	wasNotified bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
+	// WARNING: param afi (type types.AudioFocusInfo) cannot be serialized — type not resolved
 	_data.WriteBool(wasNotified)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusLoss)
@@ -96,11 +101,13 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusLoss(
 
 func (p *AudioPolicyCallbackProxy) NotifyAudioFocusRequest(
 	ctx context.Context,
-	afi interface{},
+	afi types.AudioFocusInfo,
 	requestResult int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
+	// WARNING: param afi (type types.AudioFocusInfo) cannot be serialized — type not resolved
 	_data.WriteInt32(requestResult)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusRequest)
@@ -114,10 +121,12 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusRequest(
 
 func (p *AudioPolicyCallbackProxy) NotifyAudioFocusAbandon(
 	ctx context.Context,
-	afi interface{},
+	afi types.AudioFocusInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
+	// WARNING: param afi (type types.AudioFocusInfo) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusAbandon)
 	if _err != nil {
@@ -134,6 +143,7 @@ func (p *AudioPolicyCallbackProxy) NotifyMixStateUpdate(
 	state int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
 	_data.WriteString16(regId)
 	_data.WriteInt32(state)
@@ -152,6 +162,7 @@ func (p *AudioPolicyCallbackProxy) NotifyVolumeAdjust(
 	adjustment int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
 	_data.WriteInt32(adjustment)
 
@@ -168,6 +179,7 @@ func (p *AudioPolicyCallbackProxy) NotifyUnregistration(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyUnregistration)
@@ -182,7 +194,8 @@ func (p *AudioPolicyCallbackProxy) NotifyUnregistration(
 // AudioPolicyCallbackStub dispatches incoming binder transactions
 // to a typed IAudioPolicyCallback implementation.
 type AudioPolicyCallbackStub struct {
-	Impl IAudioPolicyCallback
+	Impl      IAudioPolicyCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*AudioPolicyCallbackStub)(nil)
@@ -196,55 +209,40 @@ func (s *AudioPolicyCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIAudioPolicyCallbackNotifyAudioFocusGrant:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_afi interface{}
+		var _arg_afi types.AudioFocusInfo
 		_arg_requestResult, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyAudioFocusGrant(ctx, _arg_afi, _arg_requestResult)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioPolicyCallbackNotifyAudioFocusLoss:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_afi interface{}
+		var _arg_afi types.AudioFocusInfo
 		_arg_wasNotified, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyAudioFocusLoss(ctx, _arg_afi, _arg_wasNotified)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioPolicyCallbackNotifyAudioFocusRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_afi interface{}
+		var _arg_afi types.AudioFocusInfo
 		_arg_requestResult, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyAudioFocusRequest(ctx, _arg_afi, _arg_requestResult)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioPolicyCallbackNotifyAudioFocusAbandon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_afi interface{}
+		var _arg_afi types.AudioFocusInfo
 		_err := s.Impl.NotifyAudioFocusAbandon(ctx, _arg_afi)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioPolicyCallbackNotifyMixStateUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_regId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -254,26 +252,17 @@ func (s *AudioPolicyCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyMixStateUpdate(ctx, _arg_regId, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioPolicyCallbackNotifyVolumeAdjust:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_adjustment, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyVolumeAdjust(ctx, _arg_adjustment)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIAudioPolicyCallbackNotifyUnregistration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.NotifyUnregistration(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -283,10 +272,10 @@ func (s *AudioPolicyCallbackStub) OnTransaction(
 // provide to NewAudioPolicyCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAudioPolicyCallbackServer interface {
-	NotifyAudioFocusGrant(ctx context.Context, afi interface{}, requestResult int32) error
-	NotifyAudioFocusLoss(ctx context.Context, afi interface{}, wasNotified bool) error
-	NotifyAudioFocusRequest(ctx context.Context, afi interface{}, requestResult int32) error
-	NotifyAudioFocusAbandon(ctx context.Context, afi interface{}) error
+	NotifyAudioFocusGrant(ctx context.Context, afi types.AudioFocusInfo, requestResult int32) error
+	NotifyAudioFocusLoss(ctx context.Context, afi types.AudioFocusInfo, wasNotified bool) error
+	NotifyAudioFocusRequest(ctx context.Context, afi types.AudioFocusInfo, requestResult int32) error
+	NotifyAudioFocusAbandon(ctx context.Context, afi types.AudioFocusInfo) error
 	NotifyMixStateUpdate(ctx context.Context, regId string, state int32) error
 	NotifyVolumeAdjust(ctx context.Context, adjustment int32) error
 	NotifyUnregistration(ctx context.Context) error
@@ -303,7 +292,7 @@ func (w *audioPolicyCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *audioPolicyCallbackStubWrapper) NotifyAudioFocusGrant(
 	ctx context.Context,
-	afi interface{},
+	afi types.AudioFocusInfo,
 	requestResult int32,
 ) error {
 	return w.impl.NotifyAudioFocusGrant(ctx, afi, requestResult)
@@ -311,7 +300,7 @@ func (w *audioPolicyCallbackStubWrapper) NotifyAudioFocusGrant(
 
 func (w *audioPolicyCallbackStubWrapper) NotifyAudioFocusLoss(
 	ctx context.Context,
-	afi interface{},
+	afi types.AudioFocusInfo,
 	wasNotified bool,
 ) error {
 	return w.impl.NotifyAudioFocusLoss(ctx, afi, wasNotified)
@@ -319,7 +308,7 @@ func (w *audioPolicyCallbackStubWrapper) NotifyAudioFocusLoss(
 
 func (w *audioPolicyCallbackStubWrapper) NotifyAudioFocusRequest(
 	ctx context.Context,
-	afi interface{},
+	afi types.AudioFocusInfo,
 	requestResult int32,
 ) error {
 	return w.impl.NotifyAudioFocusRequest(ctx, afi, requestResult)
@@ -327,7 +316,7 @@ func (w *audioPolicyCallbackStubWrapper) NotifyAudioFocusRequest(
 
 func (w *audioPolicyCallbackStubWrapper) NotifyAudioFocusAbandon(
 	ctx context.Context,
-	afi interface{},
+	afi types.AudioFocusInfo,
 ) error {
 	return w.impl.NotifyAudioFocusAbandon(ctx, afi)
 }

@@ -39,7 +39,7 @@ type IWifiChipEventCallback interface {
 	OnDebugRingBufferDataAvailable(ctx context.Context, status WifiDebugRingBufferStatus, data []byte) error
 	OnIfaceAdded(ctx context.Context, type_ IfaceType, name string) error
 	OnIfaceRemoved(ctx context.Context, type_ IfaceType, name string) error
-	OnRadioModeChange(ctx context.Context, radioModeInfos []interface{}) error
+	OnRadioModeChange(ctx context.Context, radioModeInfos []IWifiChipEventCallbackRadioModeInfo) error
 }
 
 type WifiChipEventCallbackProxy struct {
@@ -63,6 +63,7 @@ func (p *WifiChipEventCallbackProxy) OnChipReconfigureFailure(
 	status WifiStatusCode,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
 	_data.WriteInt32(int32(status))
 
@@ -80,6 +81,7 @@ func (p *WifiChipEventCallbackProxy) OnChipReconfigured(
 	modeId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
 	_data.WriteInt32(modeId)
 
@@ -98,16 +100,10 @@ func (p *WifiChipEventCallbackProxy) OnDebugErrorAlert(
 	debugData []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
 	_data.WriteInt32(errorCode)
-	if debugData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(debugData)))
-		for _, _item := range debugData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(debugData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiChipEventCallback, MethodIWifiChipEventCallbackOnDebugErrorAlert)
 	if _err != nil {
@@ -124,19 +120,13 @@ func (p *WifiChipEventCallbackProxy) OnDebugRingBufferDataAvailable(
 	data []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
 	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiChipEventCallback, MethodIWifiChipEventCallbackOnDebugRingBufferDataAvailable)
 	if _err != nil {
@@ -153,6 +143,7 @@ func (p *WifiChipEventCallbackProxy) OnIfaceAdded(
 	name string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
 	_data.WriteInt32(int32(type_))
 	_data.WriteString16(name)
@@ -172,6 +163,7 @@ func (p *WifiChipEventCallbackProxy) OnIfaceRemoved(
 	name string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
 	_data.WriteInt32(int32(type_))
 	_data.WriteString16(name)
@@ -187,14 +179,21 @@ func (p *WifiChipEventCallbackProxy) OnIfaceRemoved(
 
 func (p *WifiChipEventCallbackProxy) OnRadioModeChange(
 	ctx context.Context,
-	radioModeInfos []interface{},
+	radioModeInfos []IWifiChipEventCallbackRadioModeInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
 	if radioModeInfos == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(radioModeInfos)))
+		for _, _item := range radioModeInfos {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiChipEventCallback, MethodIWifiChipEventCallbackOnRadioModeChange)
@@ -209,7 +208,8 @@ func (p *WifiChipEventCallbackProxy) OnRadioModeChange(
 // WifiChipEventCallbackStub dispatches incoming binder transactions
 // to a typed IWifiChipEventCallback implementation.
 type WifiChipEventCallbackStub struct {
-	Impl IWifiChipEventCallback
+	Impl      IWifiChipEventCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WifiChipEventCallbackStub)(nil)
@@ -223,48 +223,42 @@ func (s *WifiChipEventCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWifiChipEventCallbackOnChipReconfigureFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_status := WifiStatusCode(_raw_status)
 		_err = s.Impl.OnChipReconfigureFailure(ctx, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiChipEventCallbackOnChipReconfigured:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_modeId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnChipReconfigured(ctx, _arg_modeId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiChipEventCallbackOnDebugErrorAlert:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_debugData []byte
-		_ = _arg_debugData
-		_err = s.Impl.OnDebugErrorAlert(ctx, _arg_errorCode, _arg_debugData)
-		_ = _err
-		return nil, nil
-	case TransactionIWifiChipEventCallbackOnDebugRingBufferDataAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_debugData = _bytes
 		}
+		_err = s.Impl.OnDebugErrorAlert(ctx, _arg_errorCode, _arg_debugData)
+		return nil, _err
+	case TransactionIWifiChipEventCallbackOnDebugRingBufferDataAvailable:
 		var _arg_status WifiDebugRingBufferStatus
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -277,16 +271,17 @@ func (s *WifiChipEventCallbackStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
-		_err := s.Impl.OnDebugRingBufferDataAvailable(ctx, _arg_status, _arg_data)
-		_ = _err
-		return nil, nil
-	case TransactionIWifiChipEventCallbackOnIfaceAdded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
 		}
+		_err := s.Impl.OnDebugRingBufferDataAvailable(ctx, _arg_status, _arg_data)
+		return nil, _err
+	case TransactionIWifiChipEventCallbackOnIfaceAdded:
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -297,12 +292,8 @@ func (s *WifiChipEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnIfaceAdded(ctx, _arg_type_, _arg_name)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiChipEventCallbackOnIfaceRemoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -313,18 +304,31 @@ func (s *WifiChipEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnIfaceRemoved(ctx, _arg_type_, _arg_name)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWifiChipEventCallbackOnRadioModeChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_radioModeInfos []IWifiChipEventCallbackRadioModeInfo
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_radioModeInfos = make([]IWifiChipEventCallbackRadioModeInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_radioModeInfos[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_radioModeInfos []interface{}
-		_ = _arg_radioModeInfos
 		_err := s.Impl.OnRadioModeChange(ctx, _arg_radioModeInfos)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -340,7 +344,7 @@ type IWifiChipEventCallbackServer interface {
 	OnDebugRingBufferDataAvailable(ctx context.Context, status WifiDebugRingBufferStatus, data []byte) error
 	OnIfaceAdded(ctx context.Context, type_ IfaceType, name string) error
 	OnIfaceRemoved(ctx context.Context, type_ IfaceType, name string) error
-	OnRadioModeChange(ctx context.Context, radioModeInfos []interface{}) error
+	OnRadioModeChange(ctx context.Context, radioModeInfos []IWifiChipEventCallbackRadioModeInfo) error
 }
 
 type wifiChipEventCallbackStubWrapper struct {
@@ -400,7 +404,7 @@ func (w *wifiChipEventCallbackStubWrapper) OnIfaceRemoved(
 
 func (w *wifiChipEventCallbackStubWrapper) OnRadioModeChange(
 	ctx context.Context,
-	radioModeInfos []interface{},
+	radioModeInfos []IWifiChipEventCallbackRadioModeInfo,
 ) error {
 	return w.impl.OnRadioModeChange(ctx, radioModeInfos)
 }

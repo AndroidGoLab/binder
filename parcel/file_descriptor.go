@@ -45,6 +45,9 @@ func (p *Parcel) ReadFileDescriptor() (int32, error) {
 	}
 
 	fd := int32(binary.LittleEndian.Uint32(b[8:]))
+	if fd < 0 {
+		return 0, fmt.Errorf("parcel: invalid file descriptor: %d", fd)
+	}
 	return fd, nil
 }
 

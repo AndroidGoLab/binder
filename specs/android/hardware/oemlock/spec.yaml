@@ -1,0 +1,54 @@
+package: android.hardware.oemlock
+go_package: android/hardware/oemlock
+interfaces:
+    - name: IOemLock
+      descriptor: android.hardware.oemlock.IOemLock
+      methods:
+        - name: getName
+          transaction_code_offset: 0
+          return_type:
+            name: String
+        - name: isOemUnlockAllowedByCarrier
+          transaction_code_offset: 1
+          return_type:
+            name: boolean
+        - name: isOemUnlockAllowedByDevice
+          transaction_code_offset: 2
+          return_type:
+            name: boolean
+        - name: setOemUnlockAllowedByCarrier
+          transaction_code_offset: 3
+          params:
+            - name: allowed
+              type:
+                name: boolean
+              direction: in
+            - name: signature
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: OemLockSecureStatus
+        - name: setOemUnlockAllowedByDevice
+          transaction_code_offset: 4
+          params:
+            - name: allowed
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+enums:
+    - name: OemLockSecureStatus
+      backing_type: int
+      values:
+        - name: OK
+          value: ""
+        - name: FAILED
+          value: ""
+        - name: INVALID_SIGNATURE
+          value: ""
+      annotations:
+        - VintfStability
+        - Backing

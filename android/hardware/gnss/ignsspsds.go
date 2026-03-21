@@ -49,16 +49,10 @@ func (p *GnssPsdsProxy) InjectPsdsData(
 	psdsData []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssPsds)
 	_data.WriteInt32(int32(psdsType))
-	if psdsData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(psdsData)))
-		for _, _item := range psdsData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(psdsData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssPsds, MethodIGnssPsdsInjectPsdsData)
 	if _err != nil {
@@ -83,6 +77,7 @@ func (p *GnssPsdsProxy) SetCallback(
 	callback IGnssPsdsCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssPsds)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -107,7 +102,8 @@ func (p *GnssPsdsProxy) SetCallback(
 // GnssPsdsStub dispatches incoming binder transactions
 // to a typed IGnssPsds implementation.
 type GnssPsdsStub struct {
-	Impl IGnssPsds
+	Impl      IGnssPsds
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssPsdsStub)(nil)
@@ -121,19 +117,25 @@ func (s *GnssPsdsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssPsdsInjectPsdsData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_psdsType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_psdsType := PsdsType(_raw_psdsType)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_psdsData []byte
-		_ = _arg_psdsData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_psdsData = _bytes
+		}
 		_err = s.Impl.InjectPsdsData(ctx, _arg_psdsType, _arg_psdsData)
 		_reply := parcel.New()
 		if _err != nil {
@@ -143,12 +145,14 @@ func (s *GnssPsdsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssPsdsSetCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGnssPsdsCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGnssPsdsCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

@@ -1,0 +1,517 @@
+package: android.os.incremental
+go_package: android/os/incremental
+interfaces:
+    - name: IIncrementalService
+      descriptor: android.os.incremental.IIncrementalService
+      methods:
+        - name: openStorage
+          transaction_code_offset: 0
+          params:
+            - name: path
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: createStorage
+          transaction_code_offset: 1
+          params:
+            - name: path
+              type:
+                name: String
+              direction: in
+            - name: params
+              type:
+                name: DataLoaderParamsParcel
+              direction: in
+            - name: createMode
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: createLinkedStorage
+          transaction_code_offset: 2
+          params:
+            - name: path
+              type:
+                name: String
+              direction: in
+            - name: otherStorageId
+              type:
+                name: int
+            - name: createMode
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: startLoading
+          transaction_code_offset: 3
+          params:
+            - name: storageId
+              type:
+                name: int
+            - name: params
+              type:
+                name: DataLoaderParamsParcel
+              direction: in
+            - name: statusListener
+              type:
+                name: IDataLoaderStatusListener
+              direction: in
+            - name: healthCheckParams
+              type:
+                name: StorageHealthCheckParams
+              direction: in
+            - name: healthListener
+              type:
+                name: IStorageHealthListener
+              direction: in
+            - name: perUidReadTimeouts
+              type:
+                name: PerUidReadTimeouts
+                is_array: true
+              direction: in
+          return_type:
+            name: boolean
+        - name: onInstallationComplete
+          transaction_code_offset: 4
+          params:
+            - name: storageId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: makeBindMount
+          transaction_code_offset: 5
+          params:
+            - name: storageId
+              type:
+                name: int
+            - name: sourcePath
+              type:
+                name: String
+              direction: in
+            - name: targetFullPath
+              type:
+                name: String
+              direction: in
+            - name: bindType
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: deleteBindMount
+          transaction_code_offset: 6
+          params:
+            - name: storageId
+              type:
+                name: int
+            - name: targetFullPath
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: makeDirectory
+          transaction_code_offset: 7
+          params:
+            - name: storageId
+              type:
+                name: int
+            - name: path
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: makeDirectories
+          transaction_code_offset: 8
+          params:
+            - name: storageId
+              type:
+                name: int
+            - name: path
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: makeFile
+          transaction_code_offset: 9
+          params:
+            - name: storageId
+              type:
+                name: int
+            - name: path
+              type:
+                name: String
+              direction: in
+            - name: mode
+              type:
+                name: int
+            - name: params
+              type:
+                name: IncrementalNewFileParams
+              direction: in
+            - name: content
+              type:
+                name: byte
+                is_array: true
+                is_nullable: true
+              direction: in
+          return_type:
+            name: int
+        - name: makeFileFromRange
+          transaction_code_offset: 10
+          params:
+            - name: storageId
+              type:
+                name: int
+            - name: targetPath
+              type:
+                name: String
+              direction: in
+            - name: sourcePath
+              type:
+                name: String
+              direction: in
+            - name: start
+              type:
+                name: long
+            - name: end
+              type:
+                name: long
+          return_type:
+            name: int
+        - name: makeLink
+          transaction_code_offset: 11
+          params:
+            - name: sourceStorageId
+              type:
+                name: int
+            - name: sourcePath
+              type:
+                name: String
+              direction: in
+            - name: destStorageId
+              type:
+                name: int
+            - name: destPath
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: unlink
+          transaction_code_offset: 12
+          params:
+            - name: storageId
+              type:
+                name: int
+            - name: path
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: isFileFullyLoaded
+          transaction_code_offset: 13
+          params:
+            - name: storageId
+              type:
+                name: int
+            - name: path
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: isFullyLoaded
+          transaction_code_offset: 14
+          params:
+            - name: storageId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getLoadingProgress
+          transaction_code_offset: 15
+          params:
+            - name: storageId
+              type:
+                name: int
+          return_type:
+            name: float
+        - name: getMetadataByPath
+          transaction_code_offset: 16
+          params:
+            - name: storageId
+              type:
+                name: int
+            - name: path
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: getMetadataById
+          transaction_code_offset: 17
+          params:
+            - name: storageId
+              type:
+                name: int
+            - name: fileId
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: byte
+            is_array: true
+        - name: deleteStorage
+          transaction_code_offset: 18
+          params:
+            - name: storageId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: disallowReadLogs
+          transaction_code_offset: 19
+          params:
+            - name: storageId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: configureNativeBinaries
+          transaction_code_offset: 20
+          params:
+            - name: storageId
+              type:
+                name: int
+            - name: apkFullPath
+              type:
+                name: String
+              direction: in
+            - name: libDirRelativePath
+              type:
+                name: String
+              direction: in
+            - name: abi
+              type:
+                name: String
+              direction: in
+            - name: extractNativeLibs
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: waitForNativeBinariesExtraction
+          transaction_code_offset: 21
+          params:
+            - name: storageId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: registerLoadingProgressListener
+          transaction_code_offset: 22
+          params:
+            - name: storageId
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IStorageLoadingProgressListener
+          return_type:
+            name: boolean
+        - name: unregisterLoadingProgressListener
+          transaction_code_offset: 23
+          params:
+            - name: storageId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getMetrics
+          transaction_code_offset: 24
+          params:
+            - name: storageId
+              type:
+                name: int
+          return_type:
+            name: PersistableBundle
+      constants:
+        - name: CREATE_MODE_TEMPORARY_BIND
+          type: int
+          value: "1"
+        - name: CREATE_MODE_PERMANENT_BIND
+          type: int
+          value: "2"
+        - name: CREATE_MODE_CREATE
+          type: int
+          value: "4"
+        - name: CREATE_MODE_OPEN_EXISTING
+          type: int
+          value: "8"
+        - name: BIND_TEMPORARY
+          type: int
+          value: "0"
+        - name: BIND_PERMANENT
+          type: int
+          value: "1"
+        - name: METRICS_MILLIS_SINCE_OLDEST_PENDING_READ
+          type: String
+          value: '"millisSinceOldestPendingRead"'
+        - name: METRICS_READ_LOGS_ENABLED
+          type: String
+          value: '"readLogsEnabled"'
+        - name: METRICS_STORAGE_HEALTH_STATUS_CODE
+          type: String
+          value: '"storageHealthStatusCode"'
+        - name: METRICS_DATA_LOADER_STATUS_CODE
+          type: String
+          value: '"dataLoaderStatusCode"'
+        - name: METRICS_MILLIS_SINCE_LAST_DATA_LOADER_BIND
+          type: String
+          value: '"millisSinceLastDataLoaderBind"'
+        - name: METRICS_DATA_LOADER_BIND_DELAY_MILLIS
+          type: String
+          value: '"dataLoaderBindDelayMillis"'
+        - name: METRICS_TOTAL_DELAYED_READS
+          type: String
+          value: '"totalDelayedReads"'
+        - name: METRICS_TOTAL_DELAYED_READS_MILLIS
+          type: String
+          value: '"totalDelayedReadsMillis"'
+        - name: METRICS_TOTAL_FAILED_READS
+          type: String
+          value: '"totalFailedReads"'
+        - name: METRICS_LAST_READ_ERROR_UID
+          type: String
+          value: '"lastReadErrorUid"'
+        - name: METRICS_MILLIS_SINCE_LAST_READ_ERROR
+          type: String
+          value: '"millisSinceLastReadError"'
+        - name: METRICS_LAST_READ_ERROR_NUMBER
+          type: String
+          value: '"lastReadErrorNo"'
+    - name: IIncrementalServiceConnector
+      descriptor: android.os.incremental.IIncrementalServiceConnector
+      methods:
+        - name: setStorageParams
+          transaction_code_offset: 0
+          params:
+            - name: enableReadLogs
+              type:
+                name: boolean
+          return_type:
+            name: int
+    - name: IStorageHealthListener
+      descriptor: android.os.incremental.IStorageHealthListener
+      oneway: true
+      methods:
+        - name: onHealthStatus
+          transaction_code_offset: 0
+          params:
+            - name: storageId
+              type:
+                name: int
+              direction: in
+            - name: status
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: HEALTH_STATUS_OK
+          type: int
+          value: "0"
+        - name: HEALTH_STATUS_READS_PENDING
+          type: int
+          value: "1"
+        - name: HEALTH_STATUS_BLOCKED
+          type: int
+          value: "2"
+        - name: HEALTH_STATUS_UNHEALTHY
+          type: int
+          value: "3"
+    - name: IStorageLoadingProgressListener
+      descriptor: android.os.incremental.IStorageLoadingProgressListener
+      oneway: true
+      methods:
+        - name: onStorageLoadingProgressChanged
+          transaction_code_offset: 0
+          params:
+            - name: storageId
+              type:
+                name: int
+            - name: progress
+              type:
+                name: float
+          return_type:
+            name: void
+parcelables:
+    - name: IncrementalFileSystemControlParcel
+      fields:
+        - name: cmd
+          type:
+            name: ParcelFileDescriptor
+        - name: pendingReads
+          type:
+            name: ParcelFileDescriptor
+        - name: log
+          type:
+            name: ParcelFileDescriptor
+        - name: blocksWritten
+          type:
+            name: ParcelFileDescriptor
+          annotations:
+            - nullable
+    - name: IncrementalNewFileParams
+      fields:
+        - name: size
+          type:
+            name: long
+        - name: fileId
+          type:
+            name: byte
+            is_array: true
+        - name: metadata
+          type:
+            name: byte
+            is_array: true
+        - name: signature
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+    - name: PerUidReadTimeouts
+      fields:
+        - name: uid
+          type:
+            name: int
+        - name: minTimeUs
+          type:
+            name: long
+        - name: minPendingTimeUs
+          type:
+            name: long
+        - name: maxPendingTimeUs
+          type:
+            name: long
+    - name: StorageHealthCheckParams
+      fields:
+        - name: blockedTimeoutMs
+          type:
+            name: int
+        - name: unhealthyTimeoutMs
+          type:
+            name: int
+        - name: unhealthyMonitoringMs
+          type:
+            name: int

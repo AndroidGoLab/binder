@@ -34,9 +34,19 @@ func (s *SupportedContentType) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Mime, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_minLevelRaw, _err := p.ReadInt32()
@@ -44,6 +54,11 @@ func (s *SupportedContentType) UnmarshalParcel(
 		return _err
 	}
 	s.MinLevel = SecurityLevel(_minLevelRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_maxLevelRaw, _err := p.ReadInt32()
 	if _err != nil {

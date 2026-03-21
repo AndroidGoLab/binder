@@ -1,0 +1,421 @@
+package: android.telephony.data
+go_package: android/telephony/data
+interfaces:
+    - name: IDataService
+      descriptor: android.telephony.data.IDataService
+      oneway: true
+      methods:
+        - name: createDataServiceProvider
+          transaction_code_offset: 0
+          params:
+            - name: slotId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removeDataServiceProvider
+          transaction_code_offset: 1
+          params:
+            - name: slotId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setupDataCall
+          transaction_code_offset: 2
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: accessNetwork
+              type:
+                name: int
+            - name: dataProfile
+              type:
+                name: DataProfile
+              direction: in
+            - name: isRoaming
+              type:
+                name: boolean
+            - name: allowRoaming
+              type:
+                name: boolean
+            - name: reason
+              type:
+                name: int
+            - name: linkProperties
+              type:
+                name: LinkProperties
+              direction: in
+            - name: pduSessionId
+              type:
+                name: int
+            - name: sliceInfo
+              type:
+                name: NetworkSliceInfo
+              direction: in
+            - name: trafficDescriptor
+              type:
+                name: TrafficDescriptor
+              direction: in
+            - name: matchAllRuleAllowed
+              type:
+                name: boolean
+            - name: callback
+              type:
+                name: IDataServiceCallback
+          return_type:
+            name: void
+        - name: deactivateDataCall
+          transaction_code_offset: 3
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: cid
+              type:
+                name: int
+            - name: reason
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IDataServiceCallback
+          return_type:
+            name: void
+        - name: setInitialAttachApn
+          transaction_code_offset: 4
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: dataProfile
+              type:
+                name: DataProfile
+              direction: in
+            - name: isRoaming
+              type:
+                name: boolean
+            - name: callback
+              type:
+                name: IDataServiceCallback
+          return_type:
+            name: void
+        - name: setDataProfile
+          transaction_code_offset: 5
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: dps
+              type:
+                name: List
+                type_args:
+                    - name: DataProfile
+              direction: in
+            - name: isRoaming
+              type:
+                name: boolean
+            - name: callback
+              type:
+                name: IDataServiceCallback
+          return_type:
+            name: void
+        - name: requestDataCallList
+          transaction_code_offset: 6
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IDataServiceCallback
+          return_type:
+            name: void
+        - name: registerForDataCallListChanged
+          transaction_code_offset: 7
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IDataServiceCallback
+          return_type:
+            name: void
+        - name: unregisterForDataCallListChanged
+          transaction_code_offset: 8
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IDataServiceCallback
+          return_type:
+            name: void
+        - name: startHandover
+          transaction_code_offset: 9
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: cid
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IDataServiceCallback
+          return_type:
+            name: void
+        - name: cancelHandover
+          transaction_code_offset: 10
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: cid
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IDataServiceCallback
+          return_type:
+            name: void
+        - name: registerForUnthrottleApn
+          transaction_code_offset: 11
+          params:
+            - name: slotIndex
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IDataServiceCallback
+          return_type:
+            name: void
+        - name: unregisterForUnthrottleApn
+          transaction_code_offset: 12
+          params:
+            - name: slotIndex
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IDataServiceCallback
+          return_type:
+            name: void
+        - name: requestNetworkValidation
+          transaction_code_offset: 13
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: cid
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IIntegerConsumer
+          return_type:
+            name: void
+    - name: IDataServiceCallback
+      descriptor: android.telephony.data.IDataServiceCallback
+      oneway: true
+      methods:
+        - name: onSetupDataCallComplete
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: int
+            - name: dataCallResponse
+              type:
+                name: DataCallResponse
+              direction: in
+          return_type:
+            name: void
+        - name: onDeactivateDataCallComplete
+          transaction_code_offset: 1
+          params:
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSetInitialAttachApnComplete
+          transaction_code_offset: 2
+          params:
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onSetDataProfileComplete
+          transaction_code_offset: 3
+          params:
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onRequestDataCallListComplete
+          transaction_code_offset: 4
+          params:
+            - name: result
+              type:
+                name: int
+            - name: dataCallList
+              type:
+                name: List
+                type_args:
+                    - name: DataCallResponse
+              direction: in
+          return_type:
+            name: void
+        - name: onDataCallListChanged
+          transaction_code_offset: 5
+          params:
+            - name: dataCallList
+              type:
+                name: List
+                type_args:
+                    - name: DataCallResponse
+              direction: in
+          return_type:
+            name: void
+        - name: onHandoverStarted
+          transaction_code_offset: 6
+          params:
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onHandoverCancelled
+          transaction_code_offset: 7
+          params:
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onApnUnthrottled
+          transaction_code_offset: 8
+          params:
+            - name: apn
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onDataProfileUnthrottled
+          transaction_code_offset: 9
+          params:
+            - name: dp
+              type:
+                name: DataProfile
+              direction: in
+          return_type:
+            name: void
+    - name: IQualifiedNetworksService
+      descriptor: android.telephony.data.IQualifiedNetworksService
+      methods:
+        - name: createNetworkAvailabilityProvider
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IQualifiedNetworksServiceCallback
+          return_type:
+            name: void
+        - name: removeNetworkAvailabilityProvider
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: slotId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportThrottleStatusChanged
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: statuses
+              type:
+                name: List
+                type_args:
+                    - name: ThrottleStatus
+              direction: in
+          return_type:
+            name: void
+        - name: reportEmergencyDataNetworkPreferredTransportChanged
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: slotId
+              type:
+                name: int
+            - name: transportType
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IQualifiedNetworksServiceCallback
+      descriptor: android.telephony.data.IQualifiedNetworksServiceCallback
+      oneway: true
+      methods:
+        - name: onQualifiedNetworkTypesChanged
+          transaction_code_offset: 0
+          params:
+            - name: apnTypes
+              type:
+                name: int
+            - name: qualifiedNetworkTypes
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onNetworkValidationRequested
+          transaction_code_offset: 1
+          params:
+            - name: networkCapability
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IIntegerConsumer
+          return_type:
+            name: void
+        - name: onReconnectQualifedNetworkType
+          transaction_code_offset: 2
+          params:
+            - name: apnTypes
+              type:
+                name: int
+            - name: qualifiedNetworkType
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: ApnSetting
+    - name: DataCallResponse
+    - name: DataProfile
+    - name: EpsBearerQosSessionAttributes
+    - name: NetworkSliceInfo
+    - name: NetworkSlicingConfig
+    - name: NrQosSessionAttributes
+    - name: RouteSelectionDescriptor
+    - name: ThrottleStatus
+    - name: TrafficDescriptor
+    - name: UrspRule

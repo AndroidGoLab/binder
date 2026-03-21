@@ -1,0 +1,501 @@
+package: android.service.voice
+go_package: android/service/voice
+interfaces:
+    - name: IDetectorSessionStorageService
+      descriptor: android.service.voice.IDetectorSessionStorageService
+      oneway: true
+      methods:
+        - name: openFile
+          transaction_code_offset: 0
+          params:
+            - name: filename
+              type:
+                name: String
+              direction: in
+            - name: future
+              type:
+                name: AndroidFuture
+              direction: in
+          return_type:
+            name: void
+    - name: IDetectorSessionVisualQueryDetectionCallback
+      descriptor: android.service.voice.IDetectorSessionVisualQueryDetectionCallback
+      oneway: true
+      methods:
+        - name: onAttentionGained
+          transaction_code_offset: 0
+          params:
+            - name: attentionResult
+              type:
+                name: VisualQueryAttentionResult
+              direction: in
+          return_type:
+            name: void
+        - name: onAttentionLost
+          transaction_code_offset: 1
+          params:
+            - name: interactionIntention
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onQueryDetected
+          transaction_code_offset: 2
+          params:
+            - name: partialQuery
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onResultDetected
+          transaction_code_offset: 3
+          params:
+            - name: partialResult
+              type:
+                name: VisualQueryDetectedResult
+              direction: in
+          return_type:
+            name: void
+        - name: onQueryFinished
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: onQueryRejected
+          transaction_code_offset: 5
+          return_type:
+            name: void
+    - name: IDspHotwordDetectionCallback
+      descriptor: android.service.voice.IDspHotwordDetectionCallback
+      oneway: true
+      methods:
+        - name: onDetected
+          transaction_code_offset: 0
+          params:
+            - name: hotwordDetectedResult
+              type:
+                name: HotwordDetectedResult
+              direction: in
+          return_type:
+            name: void
+        - name: onRejected
+          transaction_code_offset: 1
+          params:
+            - name: result
+              type:
+                name: HotwordRejectedResult
+              direction: in
+          return_type:
+            name: void
+    - name: IMicrophoneHotwordDetectionVoiceInteractionCallback
+      descriptor: android.service.voice.IMicrophoneHotwordDetectionVoiceInteractionCallback
+      oneway: true
+      methods:
+        - name: onDetected
+          transaction_code_offset: 0
+          params:
+            - name: hotwordDetectedResult
+              type:
+                name: HotwordDetectedResult
+              direction: in
+            - name: audioFormat
+              type:
+                name: AudioFormat
+              direction: in
+            - name: audioStream
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+        - name: onHotwordDetectionServiceFailure
+          transaction_code_offset: 1
+          params:
+            - name: hotwordDetectionServiceFailure
+              type:
+                name: HotwordDetectionServiceFailure
+              direction: in
+          return_type:
+            name: void
+        - name: onRejected
+          transaction_code_offset: 2
+          params:
+            - name: hotwordRejectedResult
+              type:
+                name: HotwordRejectedResult
+              direction: in
+          return_type:
+            name: void
+    - name: ISandboxedDetectionService
+      descriptor: android.service.voice.ISandboxedDetectionService
+      oneway: true
+      methods:
+        - name: detectFromDspSource
+          transaction_code_offset: 0
+          params:
+            - name: event
+              type:
+                name: SoundTrigger.KeyphraseRecognitionEvent
+              direction: in
+            - name: audioFormat
+              type:
+                name: AudioFormat
+              direction: in
+            - name: timeoutMillis
+              type:
+                name: long
+            - name: callback
+              type:
+                name: IDspHotwordDetectionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: detectFromMicrophoneSource
+          transaction_code_offset: 1
+          params:
+            - name: audioStream
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: audioSource
+              type:
+                name: int
+            - name: audioFormat
+              type:
+                name: AudioFormat
+              direction: in
+            - name: options
+              type:
+                name: PersistableBundle
+              direction: in
+            - name: callback
+              type:
+                name: IDspHotwordDetectionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: detectWithVisualSignals
+          transaction_code_offset: 2
+          params:
+            - name: callback
+              type:
+                name: IDetectorSessionVisualQueryDetectionCallback
+              direction: in
+          return_type:
+            name: void
+        - name: updateState
+          transaction_code_offset: 3
+          params:
+            - name: options
+              type:
+                name: PersistableBundle
+              direction: in
+            - name: sharedMemory
+              type:
+                name: SharedMemory
+              direction: in
+            - name: callback
+              type:
+                name: IRemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: updateAudioFlinger
+          transaction_code_offset: 4
+          params:
+            - name: audioFlinger
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: updateContentCaptureManager
+          transaction_code_offset: 5
+          params:
+            - name: contentCaptureManager
+              type:
+                name: IContentCaptureManager
+              direction: in
+            - name: options
+              type:
+                name: ContentCaptureOptions
+              direction: in
+          return_type:
+            name: void
+        - name: updateRecognitionServiceManager
+          transaction_code_offset: 6
+          params:
+            - name: recognitionServiceManager
+              type:
+                name: IRecognitionServiceManager
+              direction: in
+          return_type:
+            name: void
+        - name: ping
+          transaction_code_offset: 7
+          params:
+            - name: callback
+              type:
+                name: IRemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: stopDetection
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: registerRemoteStorageService
+          transaction_code_offset: 9
+          params:
+            - name: detectorSessionStorageService
+              type:
+                name: IDetectorSessionStorageService
+              direction: in
+          return_type:
+            name: void
+    - name: IVisualQueryDetectionVoiceInteractionCallback
+      descriptor: android.service.voice.IVisualQueryDetectionVoiceInteractionCallback
+      oneway: true
+      methods:
+        - name: onQueryDetected
+          transaction_code_offset: 0
+          params:
+            - name: partialQuery
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: onResultDetected
+          transaction_code_offset: 1
+          params:
+            - name: partialResult
+              type:
+                name: VisualQueryDetectedResult
+              direction: in
+          return_type:
+            name: void
+        - name: onQueryFinished
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onQueryRejected
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: onVisualQueryDetectionServiceFailure
+          transaction_code_offset: 4
+          params:
+            - name: visualQueryDetectionServiceFailure
+              type:
+                name: VisualQueryDetectionServiceFailure
+              direction: in
+          return_type:
+            name: void
+    - name: IVoiceInteractionService
+      descriptor: android.service.voice.IVoiceInteractionService
+      oneway: true
+      methods:
+        - name: ready
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: soundModelsChanged
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: shutdown
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: launchVoiceAssistFromKeyguard
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: getActiveServiceSupportedActions
+          transaction_code_offset: 4
+          params:
+            - name: voiceActions
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+            - name: callback
+              type:
+                name: IVoiceActionCheckCallback
+              direction: in
+          return_type:
+            name: void
+        - name: prepareToShowSession
+          transaction_code_offset: 5
+          params:
+            - name: args
+              type:
+                name: Bundle
+              direction: in
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: showSessionFailed
+          transaction_code_offset: 6
+          params:
+            - name: args
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: detectorRemoteExceptionOccurred
+          transaction_code_offset: 7
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: detectorType
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IVoiceInteractionSession
+      descriptor: android.service.voice.IVoiceInteractionSession
+      oneway: true
+      methods:
+        - name: show
+          transaction_code_offset: 0
+          params:
+            - name: sessionArgs
+              type:
+                name: Bundle
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: showCallback
+              type:
+                name: IVoiceInteractionSessionShowCallback
+          return_type:
+            name: void
+        - name: hide
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: handleAssist
+          transaction_code_offset: 2
+          params:
+            - name: taskId
+              type:
+                name: int
+            - name: activityId
+              type:
+                name: IBinder
+              direction: in
+            - name: assistData
+              type:
+                name: Bundle
+              direction: in
+            - name: structure
+              type:
+                name: AssistStructure
+              direction: in
+            - name: content
+              type:
+                name: AssistContent
+              direction: in
+            - name: index
+              type:
+                name: int
+            - name: count
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: handleScreenshot
+          transaction_code_offset: 3
+          params:
+            - name: screenshot
+              type:
+                name: Bitmap
+              direction: in
+          return_type:
+            name: void
+        - name: taskStarted
+          transaction_code_offset: 4
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: taskId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: taskFinished
+          transaction_code_offset: 5
+          params:
+            - name: intent
+              type:
+                name: Intent
+              direction: in
+            - name: taskId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: closeSystemDialogs
+          transaction_code_offset: 6
+          return_type:
+            name: void
+        - name: onLockscreenShown
+          transaction_code_offset: 7
+          return_type:
+            name: void
+        - name: destroy
+          transaction_code_offset: 8
+          return_type:
+            name: void
+        - name: notifyVisibleActivityInfoChanged
+          transaction_code_offset: 9
+          params:
+            - name: visibleActivityInfo
+              type:
+                name: VisibleActivityInfo
+              direction: in
+            - name: type
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IVoiceInteractionSessionService
+      descriptor: android.service.voice.IVoiceInteractionSessionService
+      oneway: true
+      methods:
+        - name: newSession
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: args
+              type:
+                name: Bundle
+              direction: in
+            - name: startFlags
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: HotwordAudioStream
+    - name: HotwordDetectedResult
+    - name: HotwordDetectionServiceFailure
+    - name: HotwordRejectedResult
+    - name: SoundTriggerFailure
+    - name: VisibleActivityInfo
+    - name: VisualQueryAttentionResult
+    - name: VisualQueryDetectedResult
+    - name: VisualQueryDetectionServiceFailure

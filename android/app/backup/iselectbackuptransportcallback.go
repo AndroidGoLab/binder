@@ -48,6 +48,7 @@ func (p *SelectBackupTransportCallbackProxy) OnSuccess(
 	transportName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISelectBackupTransportCallback)
 	_data.WriteString16(transportName)
 
@@ -65,6 +66,7 @@ func (p *SelectBackupTransportCallbackProxy) OnFailure(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISelectBackupTransportCallback)
 	_data.WriteInt32(reason)
 
@@ -80,7 +82,8 @@ func (p *SelectBackupTransportCallbackProxy) OnFailure(
 // SelectBackupTransportCallbackStub dispatches incoming binder transactions
 // to a typed ISelectBackupTransportCallback implementation.
 type SelectBackupTransportCallbackStub struct {
-	Impl ISelectBackupTransportCallback
+	Impl      ISelectBackupTransportCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SelectBackupTransportCallbackStub)(nil)
@@ -94,29 +97,25 @@ func (s *SelectBackupTransportCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISelectBackupTransportCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_transportName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSuccess(ctx, _arg_transportName)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionISelectBackupTransportCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnFailure(ctx, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

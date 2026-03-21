@@ -63,6 +63,7 @@ func (p *TextToSpeechCallbackProxy) OnStart(
 	utteranceId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
 	_data.WriteString16(utteranceId)
 
@@ -80,6 +81,7 @@ func (p *TextToSpeechCallbackProxy) OnSuccess(
 	utteranceId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
 	_data.WriteString16(utteranceId)
 
@@ -98,6 +100,7 @@ func (p *TextToSpeechCallbackProxy) OnStop(
 	isStarted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
 	_data.WriteString16(utteranceId)
 	_data.WriteBool(isStarted)
@@ -117,6 +120,7 @@ func (p *TextToSpeechCallbackProxy) OnError(
 	errorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
 	_data.WriteString16(utteranceId)
 	_data.WriteInt32(errorCode)
@@ -138,6 +142,7 @@ func (p *TextToSpeechCallbackProxy) OnBeginSynthesis(
 	channelCount int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
 	_data.WriteString16(utteranceId)
 	_data.WriteInt32(sampleRateInHz)
@@ -159,16 +164,10 @@ func (p *TextToSpeechCallbackProxy) OnAudioAvailable(
 	audio []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
 	_data.WriteString16(utteranceId)
-	if audio == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(audio)))
-		for _, _item := range audio {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(audio)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnAudioAvailable)
 	if _err != nil {
@@ -187,6 +186,7 @@ func (p *TextToSpeechCallbackProxy) OnRangeStart(
 	frame int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
 	_data.WriteString16(utteranceId)
 	_data.WriteInt32(start)
@@ -205,7 +205,8 @@ func (p *TextToSpeechCallbackProxy) OnRangeStart(
 // TextToSpeechCallbackStub dispatches incoming binder transactions
 // to a typed ITextToSpeechCallback implementation.
 type TextToSpeechCallbackStub struct {
-	Impl ITextToSpeechCallback
+	Impl      ITextToSpeechCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TextToSpeechCallbackStub)(nil)
@@ -219,33 +220,26 @@ func (s *TextToSpeechCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITextToSpeechCallbackOnStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnStart(ctx, _arg_utteranceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITextToSpeechCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnSuccess(ctx, _arg_utteranceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITextToSpeechCallbackOnStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -255,12 +249,8 @@ func (s *TextToSpeechCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnStop(ctx, _arg_utteranceId, _arg_isStarted)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITextToSpeechCallbackOnError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -270,12 +260,8 @@ func (s *TextToSpeechCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnError(ctx, _arg_utteranceId, _arg_errorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITextToSpeechCallbackOnBeginSynthesis:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -293,26 +279,23 @@ func (s *TextToSpeechCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnBeginSynthesis(ctx, _arg_utteranceId, _arg_sampleRateInHz, _arg_audioFormat, _arg_channelCount)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionITextToSpeechCallbackOnAudioAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_audio []byte
-		_ = _arg_audio
-		_err = s.Impl.OnAudioAvailable(ctx, _arg_utteranceId, _arg_audio)
-		_ = _err
-		return nil, nil
-	case TransactionITextToSpeechCallbackOnRangeStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_audio = _bytes
 		}
+		_err = s.Impl.OnAudioAvailable(ctx, _arg_utteranceId, _arg_audio)
+		return nil, _err
+	case TransactionITextToSpeechCallbackOnRangeStart:
 		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -330,8 +313,7 @@ func (s *TextToSpeechCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnRangeStart(ctx, _arg_utteranceId, _arg_start, _arg_end, _arg_frame)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

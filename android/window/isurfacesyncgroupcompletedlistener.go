@@ -44,6 +44,7 @@ func (p *SurfaceSyncGroupCompletedListenerProxy) OnSurfaceSyncGroupComplete(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISurfaceSyncGroupCompletedListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceSyncGroupCompletedListener, MethodISurfaceSyncGroupCompletedListenerOnSurfaceSyncGroupComplete)
@@ -58,7 +59,8 @@ func (p *SurfaceSyncGroupCompletedListenerProxy) OnSurfaceSyncGroupComplete(
 // SurfaceSyncGroupCompletedListenerStub dispatches incoming binder transactions
 // to a typed ISurfaceSyncGroupCompletedListener implementation.
 type SurfaceSyncGroupCompletedListenerStub struct {
-	Impl ISurfaceSyncGroupCompletedListener
+	Impl      ISurfaceSyncGroupCompletedListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SurfaceSyncGroupCompletedListenerStub)(nil)
@@ -72,14 +74,14 @@ func (s *SurfaceSyncGroupCompletedListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISurfaceSyncGroupCompletedListenerOnSurfaceSyncGroupComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnSurfaceSyncGroupComplete(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

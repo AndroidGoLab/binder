@@ -38,9 +38,19 @@ func (s *PlaybackSettings) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.StatusMask, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.LowThreshold, _err = p.ReadInt64()
@@ -48,9 +58,19 @@ func (s *PlaybackSettings) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.HighThreshold, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_dataFormatRaw, _err := p.ReadInt32()
@@ -58,6 +78,11 @@ func (s *PlaybackSettings) UnmarshalParcel(
 		return _err
 	}
 	s.DataFormat = DataFormat(_dataFormatRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.PacketSize, _err = p.ReadInt64()
 	if _err != nil {

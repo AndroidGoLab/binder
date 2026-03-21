@@ -9,7 +9,7 @@ import (
 type GetValueResult struct {
 	RequestId int64
 	Status    StatusCode
-	Prop      VehiclePropValue
+	Prop      *VehiclePropValue
 }
 
 var _ parcel.Parcelable = (*GetValueResult)(nil)
@@ -20,8 +20,13 @@ func (s *GetValueResult) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt64(s.RequestId)
 	p.WriteInt32(int32(s.Status))
-	if _err := s.Prop.MarshalParcel(p); _err != nil {
-		return _err
+	if s.Prop == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.Prop.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -36,9 +41,19 @@ func (s *GetValueResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.RequestId, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_statusRaw, _err := p.ReadInt32()
@@ -47,8 +62,23 @@ func (s *GetValueResult) UnmarshalParcel(
 	}
 	s.Status = StatusCode(_statusRaw)
 
-	if _err = s.Prop.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val VehiclePropValue
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.Prop = &_val
+		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

@@ -50,11 +50,21 @@ func (s *QosPolicyClassifierParams) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_ipVersionRaw, _err := p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}
 	s.IpVersion = IpVersion(_ipVersionRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_classifierParamMaskRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -62,9 +72,19 @@ func (s *QosPolicyClassifierParams) UnmarshalParcel(
 	}
 	s.ClassifierParamMask = QosPolicyClassifierParamsMask(_classifierParamMaskRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SrcIp, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.DstIp, _err = p.ReadByteArray()
@@ -72,13 +92,28 @@ func (s *QosPolicyClassifierParams) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SrcPort, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.DstPortRange.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_protocolNextHdrRaw, _err := p.ReadPaddedByte()
@@ -87,14 +122,29 @@ func (s *QosPolicyClassifierParams) UnmarshalParcel(
 	}
 	s.ProtocolNextHdr = ProtocolNextHeader(_protocolNextHdrRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.FlowLabelIpv6, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.DomainName, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Dscp, _err = p.ReadPaddedByte()

@@ -3,7 +3,6 @@ package bufferpool2
 import (
 	"context"
 	"fmt"
-	bufferpool2IConnection "github.com/xaionaro-go/binder/android/hardware/media/bufferpool2/IConnection"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,7 +23,7 @@ const (
 
 type IConnection interface {
 	AsBinder() binder.IBinder
-	Fetch(ctx context.Context, fetchInfos []bufferpool2IConnection.FetchInfo) ([]bufferpool2IConnection.FetchResult, error)
+	Fetch(ctx context.Context, fetchInfos []IConnectionFetchInfo) ([]IConnectionFetchResult, error)
 	Sync(ctx context.Context) error
 }
 
@@ -46,10 +45,11 @@ var _ IConnection = (*ConnectionProxy)(nil)
 
 func (p *ConnectionProxy) Fetch(
 	ctx context.Context,
-	fetchInfos []bufferpool2IConnection.FetchInfo,
-) ([]bufferpool2IConnection.FetchResult, error) {
-	var _result []bufferpool2IConnection.FetchResult
+	fetchInfos []IConnectionFetchInfo,
+) ([]IConnectionFetchResult, error) {
+	var _result []IConnectionFetchResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnection)
 	if fetchInfos == nil {
 		_data.WriteInt32(-1)
@@ -82,9 +82,12 @@ func (p *ConnectionProxy) Fetch(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
-		_result = make([]bufferpool2IConnection.FetchResult, _count)
+		_result = make([]IConnectionFetchResult, _count)
 		for _i := int32(0); _i < _count; _i++ {
 			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
@@ -101,6 +104,7 @@ func (p *ConnectionProxy) Sync(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnection, MethodIConnectionSync)
@@ -124,7 +128,8 @@ func (p *ConnectionProxy) Sync(
 // ConnectionStub dispatches incoming binder transactions
 // to a typed IConnection implementation.
 type ConnectionStub struct {
-	Impl IConnection
+	Impl      IConnection
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ConnectionStub)(nil)
@@ -138,14 +143,33 @@ func (s *ConnectionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIConnectionFetch:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_fetchInfos []IConnectionFetchInfo
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_fetchInfos = make([]IConnectionFetchInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_fetchInfos[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_fetchInfos []bufferpool2IConnection.FetchInfo
-		_ = _arg_fetchInfos
 		_result, _err := s.Impl.Fetch(ctx, _arg_fetchInfos)
 		_reply := parcel.New()
 		if _err != nil {
@@ -153,13 +177,19 @@ func (s *ConnectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIConnectionSync:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Sync(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -177,7 +207,7 @@ func (s *ConnectionStub) OnTransaction(
 // provide to NewConnectionStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IConnectionServer interface {
-	Fetch(ctx context.Context, fetchInfos []bufferpool2IConnection.FetchInfo) ([]bufferpool2IConnection.FetchResult, error)
+	Fetch(ctx context.Context, fetchInfos []IConnectionFetchInfo) ([]IConnectionFetchResult, error)
 	Sync(ctx context.Context) error
 }
 
@@ -192,8 +222,8 @@ func (w *connectionStubWrapper) AsBinder() binder.IBinder {
 
 func (w *connectionStubWrapper) Fetch(
 	ctx context.Context,
-	fetchInfos []bufferpool2IConnection.FetchInfo,
-) ([]bufferpool2IConnection.FetchResult, error) {
+	fetchInfos []IConnectionFetchInfo,
+) ([]IConnectionFetchResult, error) {
 	return w.impl.Fetch(ctx, fetchInfos)
 }
 

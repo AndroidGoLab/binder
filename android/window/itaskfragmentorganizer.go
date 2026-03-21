@@ -45,6 +45,7 @@ func (p *TaskFragmentOrganizerProxy) OnTransactionReady(
 	transaction TaskFragmentTransaction,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizer)
 	_data.WriteInt32(1)
 	if _err := transaction.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *TaskFragmentOrganizerProxy) OnTransactionReady(
 // TaskFragmentOrganizerStub dispatches incoming binder transactions
 // to a typed ITaskFragmentOrganizer implementation.
 type TaskFragmentOrganizerStub struct {
-	Impl ITaskFragmentOrganizer
+	Impl      ITaskFragmentOrganizer
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TaskFragmentOrganizerStub)(nil)
@@ -77,11 +79,12 @@ func (s *TaskFragmentOrganizerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITaskFragmentOrganizerOnTransactionReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_transaction TaskFragmentTransaction
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *TaskFragmentOrganizerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnTransactionReady(ctx, _arg_transaction)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

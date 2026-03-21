@@ -49,6 +49,7 @@ func (p *TunerDvrCallbackProxy) OnRecordStatus(
 	status tvTuner.RecordStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDvrCallback)
 	_data.WritePaddedByte(byte(status))
 
@@ -75,6 +76,7 @@ func (p *TunerDvrCallbackProxy) OnPlaybackStatus(
 	status tvTuner.PlaybackStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITunerDvrCallback)
 	_data.WriteInt32(int32(status))
 
@@ -99,7 +101,8 @@ func (p *TunerDvrCallbackProxy) OnPlaybackStatus(
 // TunerDvrCallbackStub dispatches incoming binder transactions
 // to a typed ITunerDvrCallback implementation.
 type TunerDvrCallbackStub struct {
-	Impl ITunerDvrCallback
+	Impl      ITunerDvrCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TunerDvrCallbackStub)(nil)
@@ -113,11 +116,12 @@ func (s *TunerDvrCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITunerDvrCallbackOnRecordStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_status, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
@@ -132,9 +136,6 @@ func (s *TunerDvrCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerDvrCallbackOnPlaybackStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

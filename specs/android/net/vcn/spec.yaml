@@ -1,0 +1,148 @@
+package: android.net.vcn
+go_package: android/net/vcn
+interfaces:
+    - name: IVcnManagementService
+      descriptor: android.net.vcn.IVcnManagementService
+      methods:
+        - name: setVcnConfig
+          transaction_code_offset: 0
+          params:
+            - name: subscriptionGroup
+              type:
+                name: ParcelUuid
+              direction: in
+            - name: config
+              type:
+                name: VcnConfig
+              direction: in
+            - name: opPkgName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: clearVcnConfig
+          transaction_code_offset: 1
+          params:
+            - name: subscriptionGroup
+              type:
+                name: ParcelUuid
+              direction: in
+            - name: opPkgName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getConfiguredSubscriptionGroups
+          transaction_code_offset: 2
+          params:
+            - name: opPkgName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: ParcelUuid
+        - name: addVcnUnderlyingNetworkPolicyListener
+          transaction_code_offset: 3
+          params:
+            - name: listener
+              type:
+                name: IVcnUnderlyingNetworkPolicyListener
+              direction: in
+          return_type:
+            name: void
+        - name: removeVcnUnderlyingNetworkPolicyListener
+          transaction_code_offset: 4
+          params:
+            - name: listener
+              type:
+                name: IVcnUnderlyingNetworkPolicyListener
+              direction: in
+          return_type:
+            name: void
+        - name: getUnderlyingNetworkPolicy
+          transaction_code_offset: 5
+          params:
+            - name: nc
+              type:
+                name: NetworkCapabilities
+              direction: in
+            - name: lp
+              type:
+                name: LinkProperties
+              direction: in
+          return_type:
+            name: VcnUnderlyingNetworkPolicy
+        - name: registerVcnStatusCallback
+          transaction_code_offset: 6
+          params:
+            - name: subscriptionGroup
+              type:
+                name: ParcelUuid
+              direction: in
+            - name: callback
+              type:
+                name: IVcnStatusCallback
+              direction: in
+            - name: opPkgName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterVcnStatusCallback
+          transaction_code_offset: 7
+          params:
+            - name: callback
+              type:
+                name: IVcnStatusCallback
+              direction: in
+          return_type:
+            name: void
+    - name: IVcnStatusCallback
+      descriptor: android.net.vcn.IVcnStatusCallback
+      oneway: true
+      methods:
+        - name: onVcnStatusChanged
+          transaction_code_offset: 0
+          params:
+            - name: statusCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onGatewayConnectionError
+          transaction_code_offset: 1
+          params:
+            - name: gatewayConnectionName
+              type:
+                name: String
+              direction: in
+            - name: errorCode
+              type:
+                name: int
+            - name: exceptionClass
+              type:
+                name: String
+              direction: in
+            - name: exceptionMessage
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+    - name: IVcnUnderlyingNetworkPolicyListener
+      descriptor: android.net.vcn.IVcnUnderlyingNetworkPolicyListener
+      oneway: true
+      methods:
+        - name: onPolicyChanged
+          transaction_code_offset: 0
+          return_type:
+            name: void
+parcelables:
+    - name: VcnConfig
+    - name: VcnNetworkPolicyResult
+    - name: VcnUnderlyingNetworkPolicy

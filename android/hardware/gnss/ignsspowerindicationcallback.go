@@ -57,6 +57,7 @@ func (p *GnssPowerIndicationCallbackProxy) SetCapabilitiesCb(
 	capabilities int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssPowerIndicationCallback)
 	_data.WriteInt32(capabilities)
 
@@ -83,6 +84,7 @@ func (p *GnssPowerIndicationCallbackProxy) GnssPowerStatsCb(
 	gnssPowerStats GnssPowerStats,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssPowerIndicationCallback)
 	_data.WriteInt32(1)
 	if _err := gnssPowerStats.MarshalParcel(_data); _err != nil {
@@ -101,7 +103,8 @@ func (p *GnssPowerIndicationCallbackProxy) GnssPowerStatsCb(
 // GnssPowerIndicationCallbackStub dispatches incoming binder transactions
 // to a typed IGnssPowerIndicationCallback implementation.
 type GnssPowerIndicationCallbackStub struct {
-	Impl IGnssPowerIndicationCallback
+	Impl      IGnssPowerIndicationCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssPowerIndicationCallbackStub)(nil)
@@ -115,11 +118,12 @@ func (s *GnssPowerIndicationCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssPowerIndicationCallbackSetCapabilitiesCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_capabilities, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -133,9 +137,6 @@ func (s *GnssPowerIndicationCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssPowerIndicationCallbackGnssPowerStatsCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_gnssPowerStats GnssPowerStats
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -149,8 +150,7 @@ func (s *GnssPowerIndicationCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.GnssPowerStatsCb(ctx, _arg_gnssPowerStats)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

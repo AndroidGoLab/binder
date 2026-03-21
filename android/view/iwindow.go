@@ -3,10 +3,12 @@ package view
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	util "github.com/xaionaro-go/binder/android/util"
 	inputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
+	window "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
-	os "github.com/xaionaro-go/binder/com/android/internal_/os"
+	internalOs "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -55,7 +57,7 @@ const (
 type IWindow interface {
 	AsBinder() binder.IBinder
 	ExecuteCommand(ctx context.Context, command string, parameters string, descriptor int32) error
-	Resized(ctx context.Context, frames interface{}, reportDraw bool, newMergedConfiguration util.MergedConfiguration, insetsState InsetsState, forceLayout bool, alwaysConsumeSystemBars bool, displayId int32, syncSeqId int32, dragResizing bool) error
+	Resized(ctx context.Context, frames window.ClientWindowFrames, reportDraw bool, newMergedConfiguration util.MergedConfiguration, insetsState InsetsState, forceLayout bool, alwaysConsumeSystemBars bool, displayId int32, syncSeqId int32, dragResizing bool) error
 	InsetsControlChanged(ctx context.Context, insetsState InsetsState, activeControls []InsetsSourceControl) error
 	ShowInsets(ctx context.Context, types int32, fromIme bool, statsToken *inputmethod.ImeTrackerToken) error
 	HideInsets(ctx context.Context, types int32, fromIme bool, statsToken *inputmethod.ImeTrackerToken) error
@@ -64,11 +66,11 @@ type IWindow interface {
 	DispatchGetNewSurface(ctx context.Context) error
 	CloseSystemDialogs(ctx context.Context, reason string) error
 	DispatchWallpaperOffsets(ctx context.Context, x float32, y float32, xStep float32, yStep float32, zoom float32, sync bool) error
-	DispatchWallpaperCommand(ctx context.Context, action string, x int32, y int32, z int32, extras interface{}, sync bool) error
+	DispatchWallpaperCommand(ctx context.Context, action string, x int32, y int32, z int32, extras os.Bundle, sync bool) error
 	DispatchDragEvent(ctx context.Context, event DragEvent) error
 	UpdatePointerIcon(ctx context.Context, x float32, y float32) error
 	DispatchWindowShown(ctx context.Context) error
-	RequestAppKeyboardShortcuts(ctx context.Context, receiver os.IResultReceiver, deviceId int32) error
+	RequestAppKeyboardShortcuts(ctx context.Context, receiver internalOs.IResultReceiver, deviceId int32) error
 	RequestScrollCapture(ctx context.Context, callbacks IScrollCaptureResponseListener) error
 }
 
@@ -95,6 +97,7 @@ func (p *WindowProxy) ExecuteCommand(
 	descriptor int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 	_data.WriteString16(command)
 	_data.WriteString16(parameters)
@@ -111,7 +114,7 @@ func (p *WindowProxy) ExecuteCommand(
 
 func (p *WindowProxy) Resized(
 	ctx context.Context,
-	frames interface{},
+	frames window.ClientWindowFrames,
 	reportDraw bool,
 	newMergedConfiguration util.MergedConfiguration,
 	insetsState InsetsState,
@@ -122,7 +125,12 @@ func (p *WindowProxy) Resized(
 	dragResizing bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindow)
+	_data.WriteInt32(1)
+	if _err := frames.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(reportDraw)
 	_data.WriteInt32(1)
 	if _err := newMergedConfiguration.MarshalParcel(_data); _err != nil {
@@ -153,6 +161,7 @@ func (p *WindowProxy) InsetsControlChanged(
 	activeControls []InsetsSourceControl,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 	_data.WriteInt32(1)
 	if _err := insetsState.MarshalParcel(_data); _err != nil {
@@ -186,10 +195,12 @@ func (p *WindowProxy) ShowInsets(
 	statsToken *inputmethod.ImeTrackerToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 	_data.WriteInt32(types)
 	_data.WriteBool(fromIme)
 	if statsToken != nil {
+		_data.WriteInt32(1)
 		if _err := (*statsToken).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -213,10 +224,12 @@ func (p *WindowProxy) HideInsets(
 	statsToken *inputmethod.ImeTrackerToken,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 	_data.WriteInt32(types)
 	_data.WriteBool(fromIme)
 	if statsToken != nil {
+		_data.WriteInt32(1)
 		if _err := (*statsToken).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -239,6 +252,7 @@ func (p *WindowProxy) Moved(
 	newY int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 	_data.WriteInt32(newX)
 	_data.WriteInt32(newY)
@@ -257,6 +271,7 @@ func (p *WindowProxy) DispatchAppVisibility(
 	visible bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 	_data.WriteBool(visible)
 
@@ -273,6 +288,7 @@ func (p *WindowProxy) DispatchGetNewSurface(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowDispatchGetNewSurface)
@@ -289,6 +305,7 @@ func (p *WindowProxy) CloseSystemDialogs(
 	reason string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 	_data.WriteString16(reason)
 
@@ -311,6 +328,7 @@ func (p *WindowProxy) DispatchWallpaperOffsets(
 	sync bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 	_data.WriteFloat32(x)
 	_data.WriteFloat32(y)
@@ -334,15 +352,20 @@ func (p *WindowProxy) DispatchWallpaperCommand(
 	x int32,
 	y int32,
 	z int32,
-	extras interface{},
+	extras os.Bundle,
 	sync bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 	_data.WriteString16(action)
 	_data.WriteInt32(x)
 	_data.WriteInt32(y)
 	_data.WriteInt32(z)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(sync)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowDispatchWallpaperCommand)
@@ -359,6 +382,7 @@ func (p *WindowProxy) DispatchDragEvent(
 	event DragEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
@@ -380,6 +404,7 @@ func (p *WindowProxy) UpdatePointerIcon(
 	y float32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 	_data.WriteFloat32(x)
 	_data.WriteFloat32(y)
@@ -397,6 +422,7 @@ func (p *WindowProxy) DispatchWindowShown(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowDispatchWindowShown)
@@ -410,10 +436,11 @@ func (p *WindowProxy) DispatchWindowShown(
 
 func (p *WindowProxy) RequestAppKeyboardShortcuts(
 	ctx context.Context,
-	receiver os.IResultReceiver,
+	receiver internalOs.IResultReceiver,
 	deviceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(deviceId)
@@ -432,6 +459,7 @@ func (p *WindowProxy) RequestScrollCapture(
 	callbacks IScrollCaptureResponseListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
@@ -447,7 +475,8 @@ func (p *WindowProxy) RequestScrollCapture(
 // WindowStub dispatches incoming binder transactions
 // to a typed IWindow implementation.
 type WindowStub struct {
-	Impl IWindow
+	Impl      IWindow
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*WindowStub)(nil)
@@ -461,11 +490,12 @@ func (s *WindowStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIWindowExecuteCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_command, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -479,13 +509,20 @@ func (s *WindowStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.ExecuteCommand(ctx, _arg_command, _arg_parameters, _arg_descriptor)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowResized:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_frames window.ClientWindowFrames
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_frames.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_frames interface{}
 		_arg_reportDraw, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -535,12 +572,8 @@ func (s *WindowStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.Resized(ctx, _arg_frames, _arg_reportDraw, _arg_newMergedConfiguration, _arg_insetsState, _arg_forceLayout, _arg_alwaysConsumeSystemBars, _arg_displayId, _arg_syncSeqId, _arg_dragResizing)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowInsetsControlChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_insetsState InsetsState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -553,16 +586,30 @@ func (s *WindowStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_activeControls []InsetsSourceControl
-		_ = _arg_activeControls
-		_err := s.Impl.InsetsControlChanged(ctx, _arg_insetsState, _arg_activeControls)
-		_ = _err
-		return nil, nil
-	case TransactionIWindowShowInsets:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_activeControls = make([]InsetsSourceControl, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_activeControls[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.InsetsControlChanged(ctx, _arg_insetsState, _arg_activeControls)
+		return nil, _err
+	case TransactionIWindowShowInsets:
 		_arg_types, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -578,18 +625,15 @@ func (s *WindowStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_statsToken = new(inputmethod.ImeTrackerToken)
 				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		_err = s.Impl.ShowInsets(ctx, _arg_types, _arg_fromIme, _arg_statsToken)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowHideInsets:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_types, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -605,18 +649,15 @@ func (s *WindowStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_statsToken = new(inputmethod.ImeTrackerToken)
 				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		_err = s.Impl.HideInsets(ctx, _arg_types, _arg_fromIme, _arg_statsToken)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowMoved:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_newX, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -626,41 +667,25 @@ func (s *WindowStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.Moved(ctx, _arg_newX, _arg_newY)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowDispatchAppVisibility:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DispatchAppVisibility(ctx, _arg_visible)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowDispatchGetNewSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DispatchGetNewSurface(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowCloseSystemDialogs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.CloseSystemDialogs(ctx, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowDispatchWallpaperOffsets:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_x, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -686,12 +711,8 @@ func (s *WindowStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.DispatchWallpaperOffsets(ctx, _arg_x, _arg_y, _arg_xStep, _arg_yStep, _arg_zoom, _arg_sync)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowDispatchWallpaperCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_action, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -708,18 +729,25 @@ func (s *WindowStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_sync, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DispatchWallpaperCommand(ctx, _arg_action, _arg_x, _arg_y, _arg_z, _arg_extras, _arg_sync)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowDispatchDragEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_event DragEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -733,12 +761,8 @@ func (s *WindowStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.DispatchDragEvent(ctx, _arg_event)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowUpdatePointerIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_x, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -748,39 +772,36 @@ func (s *WindowStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.UpdatePointerIcon(ctx, _arg_x, _arg_y)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowDispatchWindowShown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DispatchWindowShown(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowRequestAppKeyboardShortcuts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_receiver internalOs.IResultReceiver
+		{
+			_receiverHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_receiver = internalOs.NewResultReceiverProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _receiverHandle))
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_receiver os.IResultReceiver
-		_ = _arg_receiver
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RequestAppKeyboardShortcuts(ctx, _arg_receiver, _arg_deviceId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIWindowRequestScrollCapture:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IScrollCaptureResponseListener
-		_ = _arg_callbacks
+		{
+			_callbacksHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callbacks = NewScrollCaptureResponseListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbacksHandle))
+		}
 		_err := s.Impl.RequestScrollCapture(ctx, _arg_callbacks)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -791,7 +812,7 @@ func (s *WindowStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IWindowServer interface {
 	ExecuteCommand(ctx context.Context, command string, parameters string, descriptor int32) error
-	Resized(ctx context.Context, frames interface{}, reportDraw bool, newMergedConfiguration util.MergedConfiguration, insetsState InsetsState, forceLayout bool, alwaysConsumeSystemBars bool, displayId int32, syncSeqId int32, dragResizing bool) error
+	Resized(ctx context.Context, frames window.ClientWindowFrames, reportDraw bool, newMergedConfiguration util.MergedConfiguration, insetsState InsetsState, forceLayout bool, alwaysConsumeSystemBars bool, displayId int32, syncSeqId int32, dragResizing bool) error
 	InsetsControlChanged(ctx context.Context, insetsState InsetsState, activeControls []InsetsSourceControl) error
 	ShowInsets(ctx context.Context, types int32, fromIme bool, statsToken *inputmethod.ImeTrackerToken) error
 	HideInsets(ctx context.Context, types int32, fromIme bool, statsToken *inputmethod.ImeTrackerToken) error
@@ -800,11 +821,11 @@ type IWindowServer interface {
 	DispatchGetNewSurface(ctx context.Context) error
 	CloseSystemDialogs(ctx context.Context, reason string) error
 	DispatchWallpaperOffsets(ctx context.Context, x float32, y float32, xStep float32, yStep float32, zoom float32, sync bool) error
-	DispatchWallpaperCommand(ctx context.Context, action string, x int32, y int32, z int32, extras interface{}, sync bool) error
+	DispatchWallpaperCommand(ctx context.Context, action string, x int32, y int32, z int32, extras os.Bundle, sync bool) error
 	DispatchDragEvent(ctx context.Context, event DragEvent) error
 	UpdatePointerIcon(ctx context.Context, x float32, y float32) error
 	DispatchWindowShown(ctx context.Context) error
-	RequestAppKeyboardShortcuts(ctx context.Context, receiver os.IResultReceiver, deviceId int32) error
+	RequestAppKeyboardShortcuts(ctx context.Context, receiver internalOs.IResultReceiver, deviceId int32) error
 	RequestScrollCapture(ctx context.Context, callbacks IScrollCaptureResponseListener) error
 }
 
@@ -828,7 +849,7 @@ func (w *windowStubWrapper) ExecuteCommand(
 
 func (w *windowStubWrapper) Resized(
 	ctx context.Context,
-	frames interface{},
+	frames window.ClientWindowFrames,
 	reportDraw bool,
 	newMergedConfiguration util.MergedConfiguration,
 	insetsState InsetsState,
@@ -913,7 +934,7 @@ func (w *windowStubWrapper) DispatchWallpaperCommand(
 	x int32,
 	y int32,
 	z int32,
-	extras interface{},
+	extras os.Bundle,
 	sync bool,
 ) error {
 	return w.impl.DispatchWallpaperCommand(ctx, action, x, y, z, extras, sync)
@@ -942,7 +963,7 @@ func (w *windowStubWrapper) DispatchWindowShown(
 
 func (w *windowStubWrapper) RequestAppKeyboardShortcuts(
 	ctx context.Context,
-	receiver os.IResultReceiver,
+	receiver internalOs.IResultReceiver,
 	deviceId int32,
 ) error {
 	return w.impl.RequestAppKeyboardShortcuts(ctx, receiver, deviceId)

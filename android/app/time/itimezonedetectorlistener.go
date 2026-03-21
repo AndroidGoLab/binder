@@ -44,6 +44,7 @@ func (p *TimeZoneDetectorListenerProxy) OnChange(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorListener)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorListener, MethodITimeZoneDetectorListenerOnChange)
@@ -58,7 +59,8 @@ func (p *TimeZoneDetectorListenerProxy) OnChange(
 // TimeZoneDetectorListenerStub dispatches incoming binder transactions
 // to a typed ITimeZoneDetectorListener implementation.
 type TimeZoneDetectorListenerStub struct {
-	Impl ITimeZoneDetectorListener
+	Impl      ITimeZoneDetectorListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TimeZoneDetectorListenerStub)(nil)
@@ -72,14 +74,14 @@ func (s *TimeZoneDetectorListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITimeZoneDetectorListenerOnChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnChange(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

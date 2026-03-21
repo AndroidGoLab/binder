@@ -1,0 +1,242 @@
+package: android.telephony.mbms
+go_package: android/telephony/mbms
+interfaces:
+    - name: IDownloadProgressListener
+      descriptor: android.telephony.mbms.IDownloadProgressListener
+      methods:
+        - name: onProgressUpdated
+          transaction_code_offset: 0
+          params:
+            - name: request
+              type:
+                name: DownloadRequest
+              direction: in
+            - name: fileInfo
+              type:
+                name: FileInfo
+              direction: in
+            - name: currentDownloadSize
+              type:
+                name: int
+            - name: fullDownloadSize
+              type:
+                name: int
+            - name: currentDecodedSize
+              type:
+                name: int
+            - name: fullDecodedSize
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IDownloadStatusListener
+      descriptor: android.telephony.mbms.IDownloadStatusListener
+      methods:
+        - name: onStatusUpdated
+          transaction_code_offset: 0
+          params:
+            - name: request
+              type:
+                name: DownloadRequest
+              direction: in
+            - name: fileInfo
+              type:
+                name: FileInfo
+              direction: in
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IGroupCallCallback
+      descriptor: android.telephony.mbms.IGroupCallCallback
+      oneway: true
+      methods:
+        - name: onError
+          transaction_code_offset: 0
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: message
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onGroupCallStateChanged
+          transaction_code_offset: 1
+          params:
+            - name: state
+              type:
+                name: int
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onBroadcastSignalStrengthUpdated
+          transaction_code_offset: 2
+          params:
+            - name: signalStrength
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IMbmsDownloadSessionCallback
+      descriptor: android.telephony.mbms.IMbmsDownloadSessionCallback
+      oneway: true
+      methods:
+        - name: onError
+          transaction_code_offset: 0
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: message
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onFileServicesUpdated
+          transaction_code_offset: 1
+          params:
+            - name: services
+              type:
+                name: List
+                type_args:
+                    - name: FileServiceInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onMiddlewareReady
+          transaction_code_offset: 2
+          return_type:
+            name: void
+    - name: IMbmsGroupCallSessionCallback
+      descriptor: android.telephony.mbms.IMbmsGroupCallSessionCallback
+      oneway: true
+      methods:
+        - name: onError
+          transaction_code_offset: 0
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: message
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onAvailableSaisUpdated
+          transaction_code_offset: 1
+          params:
+            - name: currentSai
+              type:
+                name: List
+              direction: in
+            - name: availableSais
+              type:
+                name: List
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - SuppressWarnings
+        - name: onServiceInterfaceAvailable
+          transaction_code_offset: 2
+          params:
+            - name: interfaceName
+              type:
+                name: String
+            - name: index
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onMiddlewareReady
+          transaction_code_offset: 3
+          return_type:
+            name: void
+    - name: IMbmsStreamingSessionCallback
+      descriptor: android.telephony.mbms.IMbmsStreamingSessionCallback
+      oneway: true
+      methods:
+        - name: onError
+          transaction_code_offset: 0
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: message
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onStreamingServicesUpdated
+          transaction_code_offset: 1
+          params:
+            - name: services
+              type:
+                name: List
+                type_args:
+                    - name: StreamingServiceInfo
+              direction: in
+          return_type:
+            name: void
+        - name: onMiddlewareReady
+          transaction_code_offset: 2
+          return_type:
+            name: void
+    - name: IStreamingServiceCallback
+      descriptor: android.telephony.mbms.IStreamingServiceCallback
+      oneway: true
+      methods:
+        - name: onError
+          transaction_code_offset: 0
+          params:
+            - name: errorCode
+              type:
+                name: int
+            - name: message
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onStreamStateUpdated
+          transaction_code_offset: 1
+          params:
+            - name: state
+              type:
+                name: int
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onMediaDescriptionUpdated
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onBroadcastSignalStrengthUpdated
+          transaction_code_offset: 3
+          params:
+            - name: signalStrength
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onStreamMethodUpdated
+          transaction_code_offset: 4
+          params:
+            - name: methodType
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: DownloadRequest
+    - name: FileInfo
+    - name: FileServiceInfo
+    - name: ServiceInfo
+    - name: StreamingServiceInfo
+    - name: UriPathPair

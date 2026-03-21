@@ -48,6 +48,7 @@ func (p *UwbProxy) GetChips(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUwb)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwb, MethodIUwbGetChips)
@@ -69,6 +70,9 @@ func (p *UwbProxy) GetChips(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -88,6 +92,7 @@ func (p *UwbProxy) GetChip(
 ) (IUwbChip, error) {
 	var _result IUwbChip
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIUwb)
 	_data.WriteString16(name)
 
@@ -117,7 +122,8 @@ func (p *UwbProxy) GetChip(
 // UwbStub dispatches incoming binder transactions
 // to a typed IUwb implementation.
 type UwbStub struct {
-	Impl IUwb
+	Impl      IUwb
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*UwbStub)(nil)
@@ -131,11 +137,12 @@ func (s *UwbStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIUwbGetChips:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetChips(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -143,13 +150,16 @@ func (s *UwbStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIUwbGetChip:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -161,8 +171,7 @@ func (s *UwbStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

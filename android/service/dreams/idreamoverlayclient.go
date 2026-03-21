@@ -55,6 +55,7 @@ func (p *DreamOverlayClientProxy) StartDream(
 	shouldShowComplications bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamOverlayClient)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -86,6 +87,7 @@ func (p *DreamOverlayClientProxy) WakeUp(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamOverlayClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamOverlayClient, MethodIDreamOverlayClientWakeUp)
@@ -110,6 +112,7 @@ func (p *DreamOverlayClientProxy) EndDream(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDreamOverlayClient)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamOverlayClient, MethodIDreamOverlayClientEndDream)
@@ -133,7 +136,8 @@ func (p *DreamOverlayClientProxy) EndDream(
 // DreamOverlayClientStub dispatches incoming binder transactions
 // to a typed IDreamOverlayClient implementation.
 type DreamOverlayClientStub struct {
-	Impl IDreamOverlayClient
+	Impl      IDreamOverlayClient
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DreamOverlayClientStub)(nil)
@@ -147,11 +151,12 @@ func (s *DreamOverlayClientStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDreamOverlayClientStartDream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_params view.WindowManagerLayoutParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -164,9 +169,14 @@ func (s *DreamOverlayClientStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDreamOverlayCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewDreamOverlayCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_dreamComponent, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -184,9 +194,6 @@ func (s *DreamOverlayClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamOverlayClientWakeUp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.WakeUp(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -196,9 +203,6 @@ func (s *DreamOverlayClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamOverlayClientEndDream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.EndDream(ctx)
 		_reply := parcel.New()
 		if _err != nil {

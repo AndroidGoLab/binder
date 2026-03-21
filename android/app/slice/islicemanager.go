@@ -79,6 +79,7 @@ func (p *SliceManagerProxy) PinSlice(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(1)
@@ -123,6 +124,7 @@ func (p *SliceManagerProxy) UnpinSlice(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteString16(pkg)
 	_data.WriteInt32(1)
@@ -155,6 +157,7 @@ func (p *SliceManagerProxy) HasSliceAccess(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteString16(pkg)
 
@@ -187,6 +190,7 @@ func (p *SliceManagerProxy) GetPinnedSpecs(
 ) ([]SliceSpec, error) {
 	var _result []SliceSpec
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
@@ -213,6 +217,9 @@ func (p *SliceManagerProxy) GetPinnedSpecs(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]SliceSpec, _count)
@@ -234,6 +241,7 @@ func (p *SliceManagerProxy) GetPinnedSlices(
 ) ([]net.Uri, error) {
 	var _result []net.Uri
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteString16(pkg)
 
@@ -256,6 +264,9 @@ func (p *SliceManagerProxy) GetPinnedSlices(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]net.Uri, _count)
@@ -277,6 +288,7 @@ func (p *SliceManagerProxy) GetBackupPayload(
 ) ([]byte, error) {
 	var _result []byte
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteInt32(user)
 
@@ -295,19 +307,9 @@ func (p *SliceManagerProxy) GetBackupPayload(
 		return _result, _err
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_result, _err = _reply.ReadByteArray()
 	if _err != nil {
 		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -318,15 +320,9 @@ func (p *SliceManagerProxy) ApplyRestore(
 	user int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
-	if payload == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(payload)))
-		for _, _item := range payload {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(payload)
 	_data.WriteInt32(user)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISliceManager, MethodISliceManagerApplyRestore)
@@ -354,6 +350,7 @@ func (p *SliceManagerProxy) GrantSlicePermission(
 	uri net.Uri,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(toPkg)
@@ -387,6 +384,7 @@ func (p *SliceManagerProxy) RevokeSlicePermission(
 	uri net.Uri,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(toPkg)
@@ -423,6 +421,7 @@ func (p *SliceManagerProxy) CheckSlicePermission(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
@@ -470,6 +469,7 @@ func (p *SliceManagerProxy) GrantPermissionFromUser(
 	allSlices bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
@@ -500,7 +500,8 @@ func (p *SliceManagerProxy) GrantPermissionFromUser(
 // SliceManagerStub dispatches incoming binder transactions
 // to a typed ISliceManager implementation.
 type SliceManagerStub struct {
-	Impl ISliceManager
+	Impl      ISliceManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*SliceManagerStub)(nil)
@@ -514,11 +515,12 @@ func (s *SliceManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionISliceManagerPinSlice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -535,12 +537,35 @@ func (s *SliceManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_specs []SliceSpec
-		_ = _arg_specs
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_specs = make([]SliceSpec, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_specs[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err = s.Impl.PinSlice(ctx, _arg_pkg, _arg_uri, _arg_specs, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -550,9 +575,6 @@ func (s *SliceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISliceManagerUnpinSlice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -569,9 +591,14 @@ func (s *SliceManagerStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err = s.Impl.UnpinSlice(ctx, _arg_pkg, _arg_uri, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -581,9 +608,6 @@ func (s *SliceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISliceManagerHasSliceAccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -598,9 +622,6 @@ func (s *SliceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISliceManagerGetPinnedSpecs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_uri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -624,13 +645,19 @@ func (s *SliceManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISliceManagerGetPinnedSlices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -642,13 +669,19 @@ func (s *SliceManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionISliceManagerGetBackupPayload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_user, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -660,16 +693,17 @@ func (s *SliceManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		_reply.WriteByteArray(_result)
 		return _reply, nil
 	case TransactionISliceManagerApplyRestore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_payload []byte
-		_ = _arg_payload
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_payload = _bytes
+		}
 		_arg_user, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -683,9 +717,6 @@ func (s *SliceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISliceManagerGrantSlicePermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -715,9 +746,6 @@ func (s *SliceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISliceManagerRevokeSlicePermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -747,9 +775,6 @@ func (s *SliceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISliceManagerCheckSlicePermission:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_uri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -774,9 +799,25 @@ func (s *SliceManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_autoGrantPermissions []string
-		_ = _arg_autoGrantPermissions
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_autoGrantPermissions = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_autoGrantPermissions[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.CheckSlicePermission(ctx, _arg_uri, _arg_callingPkg, _arg_pid, _arg_uid, _arg_autoGrantPermissions)
 		_reply := parcel.New()
 		if _err != nil {
@@ -787,9 +828,6 @@ func (s *SliceManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISliceManagerGrantPermissionFromUser:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_uri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()

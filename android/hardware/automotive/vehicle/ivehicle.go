@@ -68,6 +68,7 @@ func (p *VehicleProxy) GetAllPropConfigs(
 ) (VehiclePropConfigs, error) {
 	var _result VehiclePropConfigs
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicle, MethodIVehicleGetAllPropConfigs)
@@ -103,6 +104,7 @@ func (p *VehicleProxy) GetPropConfigs(
 ) (VehiclePropConfigs, error) {
 	var _result VehiclePropConfigs
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
 	if props == nil {
 		_data.WriteInt32(-1)
@@ -146,6 +148,7 @@ func (p *VehicleProxy) GetValues(
 	requests GetValueRequests,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -177,6 +180,7 @@ func (p *VehicleProxy) SetValues(
 	requests SetValueRequests,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -209,6 +213,7 @@ func (p *VehicleProxy) Subscribe(
 	maxSharedMemoryFileCount int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	if options == nil {
@@ -248,6 +253,7 @@ func (p *VehicleProxy) Unsubscribe(
 	propIds []int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	if propIds == nil {
@@ -283,6 +289,7 @@ func (p *VehicleProxy) ReturnSharedMemory(
 	sharedMemoryId int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(sharedMemoryId)
@@ -308,7 +315,8 @@ func (p *VehicleProxy) ReturnSharedMemory(
 // VehicleStub dispatches incoming binder transactions
 // to a typed IVehicle implementation.
 type VehicleStub struct {
-	Impl IVehicle
+	Impl      IVehicle
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VehicleStub)(nil)
@@ -322,11 +330,12 @@ func (s *VehicleStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVehicleGetAllPropConfigs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAllPropConfigs(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -340,12 +349,25 @@ func (s *VehicleStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVehicleGetPropConfigs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_props []int32
-		_ = _arg_props
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_props = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_props[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetPropConfigs(ctx, _arg_props)
 		_reply := parcel.New()
 		if _err != nil {
@@ -359,12 +381,14 @@ func (s *VehicleStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVehicleGetValues:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IVehicleCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewVehicleCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_requests GetValueRequests
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -386,12 +410,14 @@ func (s *VehicleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVehicleSetValues:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IVehicleCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewVehicleCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_requests SetValueRequests
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -413,15 +439,35 @@ func (s *VehicleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVehicleSubscribe:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IVehicleCallback
-		_ = _arg_callback
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewVehicleCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_options []SubscribeOptions
-		_ = _arg_options
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_options = make([]SubscribeOptions, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_options[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_maxSharedMemoryFileCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -435,15 +481,33 @@ func (s *VehicleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVehicleUnsubscribe:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IVehicleCallback
-		_ = _arg_callback
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewVehicleCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_propIds []int32
-		_ = _arg_propIds
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_propIds = make([]int32, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_propIds[_i], _err = _data.ReadInt32()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.Unsubscribe(ctx, _arg_callback, _arg_propIds)
 		_reply := parcel.New()
 		if _err != nil {
@@ -453,12 +517,14 @@ func (s *VehicleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVehicleReturnSharedMemory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IVehicleCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewVehicleCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_arg_sharedMemoryId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err

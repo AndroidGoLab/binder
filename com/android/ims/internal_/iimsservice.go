@@ -97,6 +97,7 @@ func (p *ImsServiceProxy) Open(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(serviceClass)
@@ -133,6 +134,7 @@ func (p *ImsServiceProxy) Close(
 	serviceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 
@@ -162,6 +164,7 @@ func (p *ImsServiceProxy) IsConnected(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 	_data.WriteInt32(serviceType)
@@ -195,6 +198,7 @@ func (p *ImsServiceProxy) IsOpened(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 
@@ -226,6 +230,7 @@ func (p *ImsServiceProxy) SetRegistrationListener(
 	listener IImsRegistrationListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
@@ -255,6 +260,7 @@ func (p *ImsServiceProxy) AddRegistrationListener(
 	listener IImsRegistrationListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(serviceClass)
@@ -286,6 +292,7 @@ func (p *ImsServiceProxy) CreateCallProfile(
 ) (ims.ImsCallProfile, error) {
 	var _result ims.ImsCallProfile
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 	_data.WriteInt32(serviceType)
@@ -326,6 +333,7 @@ func (p *ImsServiceProxy) CreateCallSession(
 ) (IImsCallSession, error) {
 	var _result IImsCallSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 	_data.WriteInt32(1)
@@ -364,6 +372,7 @@ func (p *ImsServiceProxy) GetPendingCallSession(
 ) (IImsCallSession, error) {
 	var _result IImsCallSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 	_data.WriteString16(callId)
@@ -397,6 +406,7 @@ func (p *ImsServiceProxy) GetUtInterface(
 ) (IImsUt, error) {
 	var _result IImsUt
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 
@@ -429,6 +439,7 @@ func (p *ImsServiceProxy) GetConfigInterface(
 ) (IImsConfig, error) {
 	var _result IImsConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(phoneId)
 
@@ -460,6 +471,7 @@ func (p *ImsServiceProxy) TurnOnIms(
 	phoneId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(phoneId)
 
@@ -486,6 +498,7 @@ func (p *ImsServiceProxy) TurnOffIms(
 	phoneId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(phoneId)
 
@@ -513,6 +526,7 @@ func (p *ImsServiceProxy) GetEcbmInterface(
 ) (IImsEcbm, error) {
 	var _result IImsEcbm
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 
@@ -546,6 +560,7 @@ func (p *ImsServiceProxy) SetUiTTYMode(
 	onComplete os.Message,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 	_data.WriteInt32(uiTtyMode)
@@ -578,6 +593,7 @@ func (p *ImsServiceProxy) GetMultiEndpointInterface(
 ) (IImsMultiEndpoint, error) {
 	var _result IImsMultiEndpoint
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 
@@ -607,7 +623,8 @@ func (p *ImsServiceProxy) GetMultiEndpointInterface(
 // ImsServiceStub dispatches incoming binder transactions
 // to a typed IImsService implementation.
 type ImsServiceStub struct {
-	Impl IImsService
+	Impl      IImsService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsServiceStub)(nil)
@@ -621,11 +638,12 @@ func (s *ImsServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsServiceOpen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -646,9 +664,14 @@ func (s *ImsServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IImsRegistrationListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewImsRegistrationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.Open(ctx, _arg_phoneId, _arg_serviceClass, _arg_incomingCallIntent, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -659,9 +682,6 @@ func (s *ImsServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsServiceClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -675,9 +695,6 @@ func (s *ImsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceIsConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -700,9 +717,6 @@ func (s *ImsServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsServiceIsOpened:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -717,16 +731,18 @@ func (s *ImsServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsServiceSetRegistrationListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IImsRegistrationListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewImsRegistrationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.SetRegistrationListener(ctx, _arg_serviceId, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -736,9 +752,6 @@ func (s *ImsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceAddRegistrationListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -747,9 +760,14 @@ func (s *ImsServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IImsRegistrationListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewImsRegistrationListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err = s.Impl.AddRegistrationListener(ctx, _arg_phoneId, _arg_serviceClass, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -759,9 +777,6 @@ func (s *ImsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceCreateCallProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -787,9 +802,6 @@ func (s *ImsServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImsServiceCreateCallSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -806,9 +818,14 @@ func (s *ImsServiceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IImsCallSessionListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewImsCallSessionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_result, _err := s.Impl.CreateCallSession(ctx, _arg_serviceId, _arg_profile, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -816,13 +833,9 @@ func (s *ImsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsServiceGetPendingCallSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -838,13 +851,9 @@ func (s *ImsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsServiceGetUtInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -856,13 +865,9 @@ func (s *ImsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsServiceGetConfigInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -874,13 +879,9 @@ func (s *ImsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsServiceTurnOnIms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -894,9 +895,6 @@ func (s *ImsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceTurnOffIms:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -910,9 +908,6 @@ func (s *ImsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceGetEcbmInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -924,13 +919,9 @@ func (s *ImsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsServiceSetUiTTYMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -960,9 +951,6 @@ func (s *ImsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceGetMultiEndpointInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -974,8 +962,7 @@ func (s *ImsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

@@ -40,11 +40,21 @@ func (s *EvsParams) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_bandwidthRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Bandwidth = EvsBandwidth(_bandwidthRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_evsModeRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -52,9 +62,19 @@ func (s *EvsParams) UnmarshalParcel(
 	}
 	s.EvsMode = EvsMode(_evsModeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.ChannelAwareMode, _err = p.ReadPaddedByte()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.UseHeaderFullOnly, _err = p.ReadBool()
@@ -62,9 +82,19 @@ func (s *EvsParams) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.UseEvsModeSwitch, _err = p.ReadBool()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.CodecModeRequest, _err = p.ReadPaddedByte()

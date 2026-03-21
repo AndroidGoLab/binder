@@ -3,6 +3,7 @@ package ondeviceintelligence
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -23,7 +24,7 @@ const (
 
 type IProcessingUpdateStatusCallback interface {
 	AsBinder() binder.IBinder
-	OnSuccess(ctx context.Context, statusParams interface{}) error
+	OnSuccess(ctx context.Context, statusParams os.PersistableBundle) error
 	OnFailure(ctx context.Context, errorCode int32, errorMessage string) error
 }
 
@@ -45,10 +46,15 @@ var _ IProcessingUpdateStatusCallback = (*ProcessingUpdateStatusCallbackProxy)(n
 
 func (p *ProcessingUpdateStatusCallbackProxy) OnSuccess(
 	ctx context.Context,
-	statusParams interface{},
+	statusParams os.PersistableBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessingUpdateStatusCallback)
+	_data.WriteInt32(1)
+	if _err := statusParams.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessingUpdateStatusCallback, MethodIProcessingUpdateStatusCallbackOnSuccess)
 	if _err != nil {
@@ -74,6 +80,7 @@ func (p *ProcessingUpdateStatusCallbackProxy) OnFailure(
 	errorMessage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIProcessingUpdateStatusCallback)
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
@@ -99,7 +106,8 @@ func (p *ProcessingUpdateStatusCallbackProxy) OnFailure(
 // ProcessingUpdateStatusCallbackStub dispatches incoming binder transactions
 // to a typed IProcessingUpdateStatusCallback implementation.
 type ProcessingUpdateStatusCallbackStub struct {
-	Impl IProcessingUpdateStatusCallback
+	Impl      IProcessingUpdateStatusCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ProcessingUpdateStatusCallbackStub)(nil)
@@ -113,12 +121,24 @@ func (s *ProcessingUpdateStatusCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIProcessingUpdateStatusCallbackOnSuccess:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_statusParams os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusParams.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_statusParams interface{}
 		_err := s.Impl.OnSuccess(ctx, _arg_statusParams)
 		_reply := parcel.New()
 		if _err != nil {
@@ -128,9 +148,6 @@ func (s *ProcessingUpdateStatusCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProcessingUpdateStatusCallbackOnFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -156,7 +173,7 @@ func (s *ProcessingUpdateStatusCallbackStub) OnTransaction(
 // provide to NewProcessingUpdateStatusCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IProcessingUpdateStatusCallbackServer interface {
-	OnSuccess(ctx context.Context, statusParams interface{}) error
+	OnSuccess(ctx context.Context, statusParams os.PersistableBundle) error
 	OnFailure(ctx context.Context, errorCode int32, errorMessage string) error
 }
 
@@ -171,7 +188,7 @@ func (w *processingUpdateStatusCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *processingUpdateStatusCallbackStubWrapper) OnSuccess(
 	ctx context.Context,
-	statusParams interface{},
+	statusParams os.PersistableBundle,
 ) error {
 	return w.impl.OnSuccess(ctx, statusParams)
 }

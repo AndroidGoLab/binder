@@ -1,0 +1,967 @@
+package: android.hardware
+go_package: android/hardware
+interfaces:
+    - name: ICamera
+      descriptor: android.hardware.ICamera
+      methods:
+        - name: disconnect
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: ICameraClient
+      descriptor: android.hardware.ICameraClient
+    - name: ICameraService
+      descriptor: android.hardware.ICameraService
+      methods:
+        - name: getNumberOfCameras
+          transaction_code_offset: 0
+          params:
+            - name: type
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getCameraInfo
+          transaction_code_offset: 1
+          params:
+            - name: cameraId
+              type:
+                name: int
+            - name: overrideToPortrait
+              type:
+                name: boolean
+          return_type:
+            name: CameraInfo
+        - name: connect
+          transaction_code_offset: 2
+          params:
+            - name: client
+              type:
+                name: ICameraClient
+            - name: cameraId
+              type:
+                name: int
+            - name: opPackageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: clientUid
+              type:
+                name: int
+            - name: clientPid
+              type:
+                name: int
+            - name: targetSdkVersion
+              type:
+                name: int
+            - name: overrideToPortrait
+              type:
+                name: boolean
+            - name: forceSlowJpegMode
+              type:
+                name: boolean
+          return_type:
+            name: ICamera
+        - name: connectDevice
+          transaction_code_offset: 3
+          params:
+            - name: callbacks
+              type:
+                name: ICameraDeviceCallbacks
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: opPackageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: featureId
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: clientUid
+              type:
+                name: int
+            - name: oomScoreOffset
+              type:
+                name: int
+            - name: targetSdkVersion
+              type:
+                name: int
+            - name: overrideToPortrait
+              type:
+                name: boolean
+          return_type:
+            name: ICameraDeviceUser
+        - name: addListener
+          transaction_code_offset: 4
+          params:
+            - name: listener
+              type:
+                name: ICameraServiceListener
+          return_type:
+            name: CameraStatus
+            is_array: true
+        - name: getConcurrentCameraIds
+          transaction_code_offset: 5
+          return_type:
+            name: ConcurrentCameraIdCombination
+            is_array: true
+        - name: isConcurrentSessionConfigurationSupported
+          transaction_code_offset: 6
+          params:
+            - name: sessions
+              type:
+                name: CameraIdAndSessionConfiguration
+                is_array: true
+              direction: in
+            - name: targetSdkVersion
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: remapCameraIds
+          transaction_code_offset: 7
+          params:
+            - name: cameraIdRemapping
+              type:
+                name: CameraIdRemapping
+              direction: in
+          return_type:
+            name: void
+        - name: injectSessionParams
+          transaction_code_offset: 8
+          params:
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: sessionParams
+              type:
+                name: CameraMetadataNative
+              direction: in
+          return_type:
+            name: void
+        - name: removeListener
+          transaction_code_offset: 9
+          params:
+            - name: listener
+              type:
+                name: ICameraServiceListener
+          return_type:
+            name: void
+        - name: getCameraCharacteristics
+          transaction_code_offset: 10
+          params:
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: targetSdkVersion
+              type:
+                name: int
+            - name: overrideToPortrait
+              type:
+                name: boolean
+          return_type:
+            name: CameraMetadataNative
+        - name: getCameraVendorTagDescriptor
+          transaction_code_offset: 11
+          return_type:
+            name: VendorTagDescriptor
+        - name: getCameraVendorTagCache
+          transaction_code_offset: 12
+          return_type:
+            name: VendorTagDescriptorCache
+        - name: getLegacyParameters
+          transaction_code_offset: 13
+          params:
+            - name: cameraId
+              type:
+                name: int
+          return_type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: supportsCameraApi
+          transaction_code_offset: 14
+          params:
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: apiVersion
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isHiddenPhysicalCamera
+          transaction_code_offset: 15
+          params:
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: boolean
+        - name: injectCamera
+          transaction_code_offset: 16
+          params:
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: internalCamId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: externalCamId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: CameraInjectionCallback
+              type:
+                name: ICameraInjectionCallback
+              direction: in
+          return_type:
+            name: ICameraInjectionSession
+        - name: setTorchMode
+          transaction_code_offset: 17
+          params:
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: enabled
+              type:
+                name: boolean
+            - name: clientBinder
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: turnOnTorchWithStrengthLevel
+          transaction_code_offset: 18
+          params:
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: strengthLevel
+              type:
+                name: int
+            - name: clientBinder
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: getTorchStrengthLevel
+          transaction_code_offset: 19
+          params:
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: int
+        - name: notifySystemEvent
+          transaction_code_offset: 20
+          oneway: true
+          params:
+            - name: eventId
+              type:
+                name: int
+            - name: args
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: notifyDisplayConfigurationChange
+          transaction_code_offset: 21
+          oneway: true
+          return_type:
+            name: void
+        - name: notifyDeviceStateChange
+          transaction_code_offset: 22
+          oneway: true
+          params:
+            - name: newState
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: reportExtensionSessionStats
+          transaction_code_offset: 23
+          params:
+            - name: stats
+              type:
+                name: CameraExtensionSessionStats
+              direction: in
+          return_type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: createDefaultRequest
+          transaction_code_offset: 24
+          params:
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: templateId
+              type:
+                name: int
+          return_type:
+            name: CameraMetadataNative
+        - name: isSessionConfigurationWithParametersSupported
+          transaction_code_offset: 25
+          params:
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: sessionConfiguration
+              type:
+                name: SessionConfiguration
+              direction: in
+          return_type:
+            name: boolean
+        - name: getSessionCharacteristics
+          transaction_code_offset: 26
+          params:
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: targetSdkVersion
+              type:
+                name: int
+            - name: overrideToPortrait
+              type:
+                name: boolean
+            - name: sessionConfiguration
+              type:
+                name: SessionConfiguration
+              direction: in
+          return_type:
+            name: CameraMetadataNative
+      constants:
+        - name: ERROR_PERMISSION_DENIED
+          type: int
+          value: "1"
+        - name: ERROR_ALREADY_EXISTS
+          type: int
+          value: "2"
+        - name: ERROR_ILLEGAL_ARGUMENT
+          type: int
+          value: "3"
+        - name: ERROR_DISCONNECTED
+          type: int
+          value: "4"
+        - name: ERROR_TIMED_OUT
+          type: int
+          value: "5"
+        - name: ERROR_DISABLED
+          type: int
+          value: "6"
+        - name: ERROR_CAMERA_IN_USE
+          type: int
+          value: "7"
+        - name: ERROR_MAX_CAMERAS_IN_USE
+          type: int
+          value: "8"
+        - name: ERROR_DEPRECATED_HAL
+          type: int
+          value: "9"
+        - name: ERROR_INVALID_OPERATION
+          type: int
+          value: "10"
+        - name: CAMERA_TYPE_BACKWARD_COMPATIBLE
+          type: int
+          value: "0"
+        - name: CAMERA_TYPE_ALL
+          type: int
+          value: "1"
+        - name: USE_CALLING_UID
+          type: int
+          value: "-1"
+        - name: USE_CALLING_PID
+          type: int
+          value: "-1"
+        - name: API_VERSION_1
+          type: int
+          value: "1"
+        - name: API_VERSION_2
+          type: int
+          value: "2"
+        - name: EVENT_NONE
+          type: int
+          value: "0"
+        - name: EVENT_USER_SWITCHED
+          type: int
+          value: "1"
+        - name: EVENT_USB_DEVICE_ATTACHED
+          type: int
+          value: "2"
+        - name: EVENT_USB_DEVICE_DETACHED
+          type: int
+          value: "3"
+        - name: DEVICE_STATE_NORMAL
+          type: int
+          value: "0"
+        - name: DEVICE_STATE_BACK_COVERED
+          type: int
+          value: "1"
+        - name: DEVICE_STATE_FRONT_COVERED
+          type: int
+          value: "2"
+        - name: DEVICE_STATE_FOLDED
+          type: int
+          value: "4"
+        - name: DEVICE_STATE_LAST_FRAMEWORK_BIT
+          type: int
+          value: "0x80000000"
+    - name: ICameraServiceListener
+      descriptor: android.hardware.ICameraServiceListener
+      methods:
+        - name: onStatusChanged
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: status
+              type:
+                name: int
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: onPhysicalCameraStatusChanged
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: status
+              type:
+                name: int
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: physicalCameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: onTorchStatusChanged
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: status
+              type:
+                name: int
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: onTorchStrengthLevelChanged
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: newTorchStrength
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onCameraAccessPrioritiesChanged
+          transaction_code_offset: 4
+          oneway: true
+          return_type:
+            name: void
+        - name: onCameraOpened
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: clientPackageId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: onCameraClosed
+          transaction_code_offset: 6
+          oneway: true
+          params:
+            - name: cameraId
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+      constants:
+        - name: STATUS_NOT_PRESENT
+          type: int
+          value: "0"
+        - name: STATUS_PRESENT
+          type: int
+          value: "1"
+        - name: STATUS_ENUMERATING
+          type: int
+          value: "2"
+        - name: STATUS_NOT_AVAILABLE
+          type: int
+          value: "-2"
+        - name: STATUS_UNKNOWN
+          type: int
+          value: "-1"
+        - name: TORCH_STATUS_NOT_AVAILABLE
+          type: int
+          value: "0"
+        - name: TORCH_STATUS_AVAILABLE_OFF
+          type: int
+          value: "1"
+        - name: TORCH_STATUS_AVAILABLE_ON
+          type: int
+          value: "2"
+        - name: TORCH_STATUS_UNKNOWN
+          type: int
+          value: "-1"
+    - name: ICameraServiceProxy
+      descriptor: android.hardware.ICameraServiceProxy
+      methods:
+        - name: pingForUserUpdate
+          transaction_code_offset: 0
+          oneway: true
+          return_type:
+            name: void
+        - name: notifyCameraState
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: cameraSessionStats
+              type:
+                name: CameraSessionStats
+              direction: in
+          return_type:
+            name: void
+        - name: getRotateAndCropOverride
+          transaction_code_offset: 2
+          params:
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: lensFacing
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getAutoframingOverride
+          transaction_code_offset: 3
+          params:
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: int
+        - name: isCameraDisabled
+          transaction_code_offset: 4
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+    - name: IConsumerIrService
+      descriptor: android.hardware.IConsumerIrService
+      methods:
+        - name: hasIrEmitter
+          transaction_code_offset: 0
+          return_type:
+            name: boolean
+          annotations:
+            - RequiresNoPermission
+        - name: transmit
+          transaction_code_offset: 1
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: carrierFrequency
+              type:
+                name: int
+            - name: pattern
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getCarrierFrequencies
+          transaction_code_offset: 2
+          return_type:
+            name: int
+            is_array: true
+          annotations:
+            - EnforcePermission
+    - name: ISensorPrivacyListener
+      descriptor: android.hardware.ISensorPrivacyListener
+      oneway: true
+      methods:
+        - name: onSensorPrivacyChanged
+          transaction_code_offset: 0
+          params:
+            - name: toggleType
+              type:
+                name: int
+            - name: sensor
+              type:
+                name: int
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onSensorPrivacyStateChanged
+          transaction_code_offset: 1
+          params:
+            - name: toggleType
+              type:
+                name: int
+            - name: sensor
+              type:
+                name: int
+            - name: state
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ISensorPrivacyManager
+      descriptor: android.hardware.ISensorPrivacyManager
+      methods:
+        - name: supportsSensorToggle
+          transaction_code_offset: 0
+          params:
+            - name: toggleType
+              type:
+                name: int
+            - name: sensor
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: addSensorPrivacyListener
+          transaction_code_offset: 1
+          params:
+            - name: listener
+              type:
+                name: ISensorPrivacyListener
+              direction: in
+          return_type:
+            name: void
+        - name: addToggleSensorPrivacyListener
+          transaction_code_offset: 2
+          params:
+            - name: listener
+              type:
+                name: ISensorPrivacyListener
+              direction: in
+          return_type:
+            name: void
+        - name: removeSensorPrivacyListener
+          transaction_code_offset: 3
+          params:
+            - name: listener
+              type:
+                name: ISensorPrivacyListener
+              direction: in
+          return_type:
+            name: void
+        - name: removeToggleSensorPrivacyListener
+          transaction_code_offset: 4
+          params:
+            - name: listener
+              type:
+                name: ISensorPrivacyListener
+              direction: in
+          return_type:
+            name: void
+        - name: isSensorPrivacyEnabled
+          transaction_code_offset: 5
+          return_type:
+            name: boolean
+        - name: isCombinedToggleSensorPrivacyEnabled
+          transaction_code_offset: 6
+          params:
+            - name: sensor
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isToggleSensorPrivacyEnabled
+          transaction_code_offset: 7
+          params:
+            - name: toggleType
+              type:
+                name: int
+            - name: sensor
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setSensorPrivacy
+          transaction_code_offset: 8
+          params:
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setToggleSensorPrivacy
+          transaction_code_offset: 9
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: source
+              type:
+                name: int
+            - name: sensor
+              type:
+                name: int
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setToggleSensorPrivacyForProfileGroup
+          transaction_code_offset: 10
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: source
+              type:
+                name: int
+            - name: sensor
+              type:
+                name: int
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getCameraPrivacyAllowlist
+          transaction_code_offset: 11
+          return_type:
+            name: List
+            type_args:
+                - name: CameraPrivacyAllowlistEntry
+        - name: getToggleSensorPrivacyState
+          transaction_code_offset: 12
+          params:
+            - name: toggleType
+              type:
+                name: int
+            - name: sensor
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setToggleSensorPrivacyState
+          transaction_code_offset: 13
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: source
+              type:
+                name: int
+            - name: sensor
+              type:
+                name: int
+            - name: state
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setToggleSensorPrivacyStateForProfileGroup
+          transaction_code_offset: 14
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: source
+              type:
+                name: int
+            - name: sensor
+              type:
+                name: int
+            - name: state
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isCameraPrivacyEnabled
+          transaction_code_offset: 15
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+    - name: ISerialManager
+      descriptor: android.hardware.ISerialManager
+      methods:
+        - name: getSerialPorts
+          transaction_code_offset: 0
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - EnforcePermission
+        - name: openSerialPort
+          transaction_code_offset: 1
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: ParcelFileDescriptor
+          annotations:
+            - EnforcePermission
+parcelables:
+    - name: CameraExtensionSessionStats
+      fields:
+        - name: key
+          type:
+            name: String
+        - name: cameraId
+          type:
+            name: String
+        - name: clientName
+          type:
+            name: String
+        - name: type
+          type:
+            name: Type
+          default_value: Type.EXTENSION_NONE
+        - name: isAdvanced
+          type:
+            name: boolean
+          default_value: "false"
+      nested_types:
+        - CameraExtensionSessionStats.Type
+    - name: CameraIdRemapping
+      fields:
+        - name: packageIdRemappings
+          type:
+            name: List
+            type_args:
+                - name: PackageIdRemapping
+      nested_types:
+        - CameraIdRemapping.PackageIdRemapping
+    - name: CameraIdRemapping.PackageIdRemapping
+      fields:
+        - name: packageName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: cameraIdsToReplace
+          type:
+            name: List
+            type_args:
+                - name: String
+          annotations:
+            - utf8InCpp
+        - name: updatedCameraIds
+          type:
+            name: List
+            type_args:
+                - name: String
+          annotations:
+            - utf8InCpp
+    - name: CameraInfo
+    - name: CameraPrivacyAllowlistEntry
+      fields:
+        - name: packageName
+          type:
+            name: String
+        - name: isMandatory
+          type:
+            name: boolean
+    - name: CameraSessionStats
+    - name: CameraStatus
+    - name: HardwareBuffer
+      annotations:
+        - JavaOnlyStableParcelable
+        - NdkOnlyStableParcelable
+        - RustOnlyStableParcelable
+    - name: OverlayProperties
+enums:
+    - name: CameraExtensionSessionStats.Type
+      backing_type: int
+      values:
+        - name: EXTENSION_NONE
+          value: "-1"
+        - name: EXTENSION_AUTOMATIC
+          value: "0"
+        - name: EXTENSION_FACE_RETOUCH
+          value: "1"
+        - name: EXTENSION_BOKEH
+          value: "2"
+        - name: EXTENSION_HDR
+          value: "3"
+        - name: EXTENSION_NIGHT
+          value: "4"
+      annotations:
+        - Backing

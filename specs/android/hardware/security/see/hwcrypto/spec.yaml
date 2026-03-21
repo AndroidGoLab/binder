@@ -1,0 +1,318 @@
+package: android.hardware.security.see.hwcrypto
+go_package: android/hardware/security/see/hwcrypto
+interfaces:
+    - name: IHwCryptoKey
+      descriptor: android.hardware.security.see.hwcrypto.IHwCryptoKey
+      methods:
+        - name: deriveCurrentDicePolicyBoundKey
+          transaction_code_offset: 0
+          params:
+            - name: derivationKey
+              type:
+                name: IHwCryptoKey.DiceBoundDerivationKey
+              direction: in
+          return_type:
+            name: IHwCryptoKey.DiceCurrendBoundKeyResult
+        - name: deriveDicePolicyBoundKey
+          transaction_code_offset: 1
+          params:
+            - name: derivationKey
+              type:
+                name: IHwCryptoKey.DiceBoundDerivationKey
+              direction: in
+            - name: dicePolicyForKeyVersion
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: IHwCryptoKey.DiceBoundKeyResult
+        - name: deriveKey
+          transaction_code_offset: 2
+          params:
+            - name: parameters
+              type:
+                name: IHwCryptoKey.DerivedKeyParameters
+              direction: in
+          return_type:
+            name: IHwCryptoKey.DerivedKey
+        - name: getHwCryptoOperations
+          transaction_code_offset: 3
+          return_type:
+            name: IHwCryptoOperations
+        - name: importClearKey
+          transaction_code_offset: 4
+          params:
+            - name: keyMaterial
+              type:
+                name: ExplicitKeyMaterial
+              direction: in
+            - name: newKeyPolicy
+              type:
+                name: KeyPolicy
+              direction: in
+          return_type:
+            name: IOpaqueKey
+        - name: getCurrentDicePolicy
+          transaction_code_offset: 5
+          return_type:
+            name: byte
+            is_array: true
+        - name: keyTokenImport
+          transaction_code_offset: 6
+          params:
+            - name: requestedKey
+              type:
+                name: OpaqueKeyToken
+              direction: in
+            - name: sealingDicePolicy
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: IOpaqueKey
+        - name: getKeyslotData
+          transaction_code_offset: 7
+          params:
+            - name: slotId
+              type:
+                name: IHwCryptoKey.KeySlot
+          return_type:
+            name: IOpaqueKey
+    - name: IOpaqueKey
+      descriptor: android.hardware.security.see.hwcrypto.IOpaqueKey
+      methods:
+        - name: exportWrappedKey
+          transaction_code_offset: 0
+          params:
+            - name: wrappingKey
+              type:
+                name: IOpaqueKey
+          return_type:
+            name: byte
+            is_array: true
+        - name: getKeyPolicy
+          transaction_code_offset: 1
+          return_type:
+            name: KeyPolicy
+        - name: getPublicKey
+          transaction_code_offset: 2
+          return_type:
+            name: byte
+            is_array: true
+        - name: getShareableToken
+          transaction_code_offset: 3
+          params:
+            - name: sealingDicePolicy
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: OpaqueKeyToken
+        - name: setProtectionId
+          transaction_code_offset: 4
+          params:
+            - name: protectionId
+              type:
+                name: ProtectionId
+            - name: allowedOperations
+              type:
+                name: OperationType
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IHwCryptoOperations
+      descriptor: android.hardware.security.see.hwcrypto.IHwCryptoOperations
+      methods:
+        - name: processCommandList
+          transaction_code_offset: 0
+          params:
+            - name: operations
+              type:
+                name: CryptoOperationSet
+                is_array: true
+              direction: in
+          return_type:
+            name: CryptoOperationResult
+            is_array: true
+    - name: ICryptoOperationContext
+      descriptor: android.hardware.security.see.hwcrypto.ICryptoOperationContext
+      methods: []
+parcelables:
+    - name: IHwCryptoKey.DiceCurrendBoundKeyResult
+      fields:
+        - name: diceBoundKey
+          type:
+            name: IOpaqueKey
+        - name: dicePolicyForKeyVersion
+          type:
+            name: byte
+            is_array: true
+    - name: IHwCryptoKey.DiceBoundKeyResult
+      fields:
+        - name: diceBoundKey
+          type:
+            name: IOpaqueKey
+        - name: dicePolicyWasCurrent
+          type:
+            name: boolean
+    - name: IHwCryptoKey.ClearKeyPolicy
+      fields:
+        - name: keySizeBytes
+          type:
+            name: int
+    - name: IHwCryptoKey.DerivedKeyParameters
+      fields:
+        - name: derivationKey
+          type:
+            name: IOpaqueKey
+        - name: keyPolicy
+          type:
+            name: IHwCryptoKey.DerivedKeyPolicy
+        - name: context
+          type:
+            name: byte
+            is_array: true
+    - name: KeyPolicy
+      fields:
+        - name: usage
+          type:
+            name: KeyUse
+        - name: keyLifetime
+          type:
+            name: KeyLifetime
+        - name: keyPermissions
+          type:
+            name: KeyPermissions
+            is_array: true
+        - name: keyManagementKey
+          type:
+            name: boolean
+        - name: keyType
+          type:
+            name: KeyType
+    - name: CryptoOperationSet
+      fields:
+        - name: context
+          type:
+            name: ICryptoOperationContext
+        - name: operations
+          type:
+            name: CryptoOperation
+            is_array: true
+    - name: CryptoOperationResult
+      fields:
+        - name: context
+          type:
+            name: ICryptoOperationContext
+    - name: CryptoOperationErrorAdditionalInfo
+      fields:
+        - name: failingCommandIndex
+          type:
+            name: long
+    - name: MemoryBufferParameter
+      fields:
+        - name: bufferHandle
+          type:
+            name: MemoryBufferParameter.MemoryBuffer
+        - name: sizeBytes
+          type:
+            name: int
+    - name: PatternParameters
+      fields:
+        - name: numberBlocksProcess
+          type:
+            name: long
+        - name: numberBlocksCopy
+          type:
+            name: long
+    - name: OpaqueKeyToken
+unions:
+    - name: IHwCryptoKey.DiceBoundDerivationKey
+      fields:
+        - name: opaqueKey
+          type:
+            name: IOpaqueKey
+        - name: keyId
+          type:
+            name: IHwCryptoKey.DeviceKeyId
+    - name: IHwCryptoKey.DerivedKeyPolicy
+      fields:
+        - name: clearKeyPolicy
+          type:
+            name: IHwCryptoKey.ClearKeyPolicy
+        - name: opaqueKey
+          type:
+            name: byte
+            is_array: true
+    - name: IHwCryptoKey.DerivedKey
+      fields:
+        - name: explicitKey
+          type:
+            name: byte
+            is_array: true
+        - name: opaque
+          type:
+            name: IOpaqueKey
+    - name: CryptoOperation
+      fields:
+        - name: setMemoryBuffer
+          type:
+            name: MemoryBufferParameter
+        - name: setOperationParameters
+          type:
+            name: OperationParameters
+        - name: setPattern
+          type:
+            name: PatternParameters
+        - name: copyData
+          type:
+            name: OperationData
+        - name: aadInput
+          type:
+            name: OperationData
+        - name: dataInput
+          type:
+            name: OperationData
+        - name: dataOutput
+          type:
+            name: OperationData
+        - name: finish
+          type:
+            name: Void
+        - name: destroyContext
+          type:
+            name: Void
+    - name: OperationParameters
+      fields:
+        - name: symmetricAuthCrypto
+          type:
+            name: SymmetricAuthOperationParameters
+        - name: symmetricCrypto
+          type:
+            name: SymmetricOperationParameters
+        - name: hmac
+          type:
+            name: HmacOperationParameters
+    - name: MemoryBufferParameter.MemoryBuffer
+      fields:
+        - name: input
+          type:
+            name: int
+        - name: output
+          type:
+            name: int
+enums:
+    - name: IHwCryptoKey.DeviceKeyId
+      backing_type: int
+      values:
+        - name: DEVICE_BOUND_KEY
+          value: "0"
+    - name: IHwCryptoKey.KeySlot
+      backing_type: int
+      values:
+        - name: KEYMINT_SHARED_HMAC_KEY
+          value: "0"

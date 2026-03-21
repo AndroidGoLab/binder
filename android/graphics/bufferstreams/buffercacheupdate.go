@@ -2,7 +2,6 @@ package bufferstreams
 
 import (
 	"fmt"
-	bufferstreamsBufferCacheUpdate "github.com/xaionaro-go/binder/android/graphics/bufferstreams/BufferCacheUpdate"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -15,40 +14,38 @@ const (
 
 type BufferCacheUpdate struct {
 	Tag           int32
-	CacheBuffers  bufferstreamsBufferCacheUpdate.CacheBuffers
-	ForgetBuffers bufferstreamsBufferCacheUpdate.ForgetBuffers
+	CacheBuffers  BufferCacheUpdateCacheBuffers
+	ForgetBuffers BufferCacheUpdateForgetBuffers
 }
 
 var _ parcel.Parcelable = (*BufferCacheUpdate)(nil)
 
-func (u *BufferCacheUpdate) GetCacheBuffers() (bufferstreamsBufferCacheUpdate.CacheBuffers, bool) {
+func (u *BufferCacheUpdate) GetCacheBuffers() (BufferCacheUpdateCacheBuffers, bool) {
 	if u.Tag != BufferCacheUpdateTagCacheBuffers {
-		var _zero bufferstreamsBufferCacheUpdate.CacheBuffers
+		var _zero BufferCacheUpdateCacheBuffers
 		return _zero, false
 	}
 	return u.CacheBuffers, true
 }
 
 func (u *BufferCacheUpdate) SetCacheBuffers(
-	v bufferstreamsBufferCacheUpdate.CacheBuffers,
+	v BufferCacheUpdateCacheBuffers,
 ) {
-	u.Tag = BufferCacheUpdateTagCacheBuffers
-	u.CacheBuffers = v
+	*u = BufferCacheUpdate{Tag: BufferCacheUpdateTagCacheBuffers, CacheBuffers: v}
 }
 
-func (u *BufferCacheUpdate) GetForgetBuffers() (bufferstreamsBufferCacheUpdate.ForgetBuffers, bool) {
+func (u *BufferCacheUpdate) GetForgetBuffers() (BufferCacheUpdateForgetBuffers, bool) {
 	if u.Tag != BufferCacheUpdateTagForgetBuffers {
-		var _zero bufferstreamsBufferCacheUpdate.ForgetBuffers
+		var _zero BufferCacheUpdateForgetBuffers
 		return _zero, false
 	}
 	return u.ForgetBuffers, true
 }
 
 func (u *BufferCacheUpdate) SetForgetBuffers(
-	v bufferstreamsBufferCacheUpdate.ForgetBuffers,
+	v BufferCacheUpdateForgetBuffers,
 ) {
-	u.Tag = BufferCacheUpdateTagForgetBuffers
-	u.ForgetBuffers = v
+	*u = BufferCacheUpdate{Tag: BufferCacheUpdateTagForgetBuffers, ForgetBuffers: v}
 }
 
 func (u *BufferCacheUpdate) MarshalParcel(

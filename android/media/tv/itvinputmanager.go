@@ -8,6 +8,7 @@ import (
 	media "github.com/xaionaro-go/binder/android/media"
 	net "github.com/xaionaro-go/binder/android/net"
 	os "github.com/xaionaro-go/binder/android/os"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -178,7 +179,7 @@ type ITvInputManager interface {
 	GetClientPid(ctx context.Context, sessionId string) (int32, error)
 	GetClientPriority(ctx context.Context, useCase int32, sessionId string) (int32, error)
 	SetMainSession(ctx context.Context, sessionToken binder.IBinder) error
-	SetSurface(ctx context.Context, sessionToken binder.IBinder, surface interface{}) error
+	SetSurface(ctx context.Context, sessionToken binder.IBinder, surface view.Surface) error
 	DispatchSurfaceChanged(ctx context.Context, sessionToken binder.IBinder, format int32, width int32, height int32) error
 	SetVolume(ctx context.Context, sessionToken binder.IBinder, volume float32) error
 	Tune(ctx context.Context, sessionToken binder.IBinder, channelUri net.Uri, params os.Bundle) error
@@ -215,7 +216,7 @@ type ITvInputManager interface {
 	AcquireTvInputHardware(ctx context.Context, deviceId int32, callback ITvInputHardwareCallback, info TvInputInfo, tvInputSessionId string, priorityHint int32) (ITvInputHardware, error)
 	ReleaseTvInputHardware(ctx context.Context, deviceId int32, hardware ITvInputHardware) error
 	GetAvailableTvStreamConfigList(ctx context.Context, inputId string) ([]TvStreamConfig, error)
-	CaptureFrame(ctx context.Context, inputId string, surface interface{}, config TvStreamConfig) (bool, error)
+	CaptureFrame(ctx context.Context, inputId string, surface view.Surface, config TvStreamConfig) (bool, error)
 	IsSingleSessionActive(ctx context.Context) (bool, error)
 	GetDvbDeviceList(ctx context.Context) ([]DvbDeviceInfo, error)
 	OpenDvbDevice(ctx context.Context, info DvbDeviceInfo, device int32) (int32, error)
@@ -249,6 +250,7 @@ func (p *TvInputManagerProxy) GetTvInputList(
 	var _result []TvInputInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -270,6 +272,9 @@ func (p *TvInputManagerProxy) GetTvInputList(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -293,6 +298,7 @@ func (p *TvInputManagerProxy) GetTvInputInfo(
 	var _result TvInputInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteString16(inputId)
 	_data.WriteInt32(_identity.UserID)
@@ -330,6 +336,7 @@ func (p *TvInputManagerProxy) UpdateTvInputInfo(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteInt32(1)
 	if _err := inputInfo.MarshalParcel(_data); _err != nil {
@@ -362,6 +369,7 @@ func (p *TvInputManagerProxy) GetTvInputState(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteString16(inputId)
 	_data.WriteInt32(_identity.UserID)
@@ -395,6 +403,7 @@ func (p *TvInputManagerProxy) GetAvailableExtensionInterfaceNames(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteString16(inputId)
 	_data.WriteInt32(_identity.UserID)
@@ -418,6 +427,9 @@ func (p *TvInputManagerProxy) GetAvailableExtensionInterfaceNames(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -439,6 +451,7 @@ func (p *TvInputManagerProxy) GetExtensionInterface(
 	var _result binder.IBinder
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteString16(inputId)
 	_data.WriteString16(name)
@@ -473,6 +486,7 @@ func (p *TvInputManagerProxy) GetTvContentRatingSystemList(
 	var _result []TvContentRatingSystemInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -495,6 +509,9 @@ func (p *TvInputManagerProxy) GetTvContentRatingSystemList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]TvContentRatingSystemInfo, _count)
@@ -516,6 +533,7 @@ func (p *TvInputManagerProxy) RegisterCallback(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -544,6 +562,7 @@ func (p *TvInputManagerProxy) UnregisterCallback(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -572,6 +591,7 @@ func (p *TvInputManagerProxy) IsParentalControlsEnabled(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -603,6 +623,7 @@ func (p *TvInputManagerProxy) SetParentalControlsEnabled(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteBool(enabled)
 	_data.WriteInt32(_identity.UserID)
@@ -632,6 +653,7 @@ func (p *TvInputManagerProxy) IsRatingBlocked(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteString16(rating)
 	_data.WriteInt32(_identity.UserID)
@@ -664,6 +686,7 @@ func (p *TvInputManagerProxy) GetBlockedRatings(
 	var _result []string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -686,6 +709,9 @@ func (p *TvInputManagerProxy) GetBlockedRatings(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -705,6 +731,7 @@ func (p *TvInputManagerProxy) AddBlockedRating(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteString16(rating)
 	_data.WriteInt32(_identity.UserID)
@@ -733,6 +760,7 @@ func (p *TvInputManagerProxy) RemoveBlockedRating(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteString16(rating)
 	_data.WriteInt32(_identity.UserID)
@@ -765,6 +793,7 @@ func (p *TvInputManagerProxy) CreateSession(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(inputId)
@@ -800,6 +829,7 @@ func (p *TvInputManagerProxy) ReleaseSession(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -828,6 +858,7 @@ func (p *TvInputManagerProxy) GetClientPid(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteString16(sessionId)
 
@@ -860,6 +891,7 @@ func (p *TvInputManagerProxy) GetClientPriority(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteInt32(useCase)
 	_data.WriteString16(sessionId)
@@ -892,6 +924,7 @@ func (p *TvInputManagerProxy) SetMainSession(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -917,12 +950,17 @@ func (p *TvInputManagerProxy) SetMainSession(
 func (p *TvInputManagerProxy) SetSurface(
 	ctx context.Context,
 	sessionToken binder.IBinder,
-	surface interface{},
+	surface view.Surface,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputManager, MethodITvInputManagerSetSurface)
@@ -952,6 +990,7 @@ func (p *TvInputManagerProxy) DispatchSurfaceChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(format)
@@ -984,6 +1023,7 @@ func (p *TvInputManagerProxy) SetVolume(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteFloat32(volume)
@@ -1015,6 +1055,7 @@ func (p *TvInputManagerProxy) Tune(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1052,6 +1093,7 @@ func (p *TvInputManagerProxy) SetCaptionEnabled(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteBool(enabled)
@@ -1083,6 +1125,7 @@ func (p *TvInputManagerProxy) SelectTrack(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(type_)
@@ -1115,6 +1158,7 @@ func (p *TvInputManagerProxy) SelectAudioPresentation(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(presentationId)
@@ -1146,6 +1190,7 @@ func (p *TvInputManagerProxy) SetInteractiveAppNotificationEnabled(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteBool(enabled)
@@ -1177,6 +1222,7 @@ func (p *TvInputManagerProxy) SendAppPrivateCommand(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteString16(action)
@@ -1212,6 +1258,7 @@ func (p *TvInputManagerProxy) CreateOverlayView(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
@@ -1246,6 +1293,7 @@ func (p *TvInputManagerProxy) RelayoutOverlayView(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1278,6 +1326,7 @@ func (p *TvInputManagerProxy) RemoveOverlayView(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -1307,6 +1356,7 @@ func (p *TvInputManagerProxy) UnblockContent(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteString16(unblockedRating)
@@ -1337,6 +1387,7 @@ func (p *TvInputManagerProxy) TimeShiftPlay(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1369,6 +1420,7 @@ func (p *TvInputManagerProxy) TimeShiftPause(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -1397,6 +1449,7 @@ func (p *TvInputManagerProxy) TimeShiftResume(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -1426,6 +1479,7 @@ func (p *TvInputManagerProxy) TimeShiftSeekTo(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt64(timeMs)
@@ -1456,6 +1510,7 @@ func (p *TvInputManagerProxy) TimeShiftSetPlaybackParams(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1489,6 +1544,7 @@ func (p *TvInputManagerProxy) TimeShiftSetMode(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(mode)
@@ -1519,6 +1575,7 @@ func (p *TvInputManagerProxy) TimeShiftEnablePositionTracking(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteBool(enable)
@@ -1548,6 +1605,7 @@ func (p *TvInputManagerProxy) GetCurrentTunedInfos(
 	var _result []TunedInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1569,6 +1627,9 @@ func (p *TvInputManagerProxy) GetCurrentTunedInfos(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -1593,6 +1654,7 @@ func (p *TvInputManagerProxy) StartRecording(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1629,6 +1691,7 @@ func (p *TvInputManagerProxy) StopRecording(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -1658,6 +1721,7 @@ func (p *TvInputManagerProxy) PauseRecording(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1691,6 +1755,7 @@ func (p *TvInputManagerProxy) ResumeRecording(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1723,6 +1788,7 @@ func (p *TvInputManagerProxy) ResumePlayback(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -1752,6 +1818,7 @@ func (p *TvInputManagerProxy) StopPlayback(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(mode)
@@ -1782,6 +1849,7 @@ func (p *TvInputManagerProxy) RequestBroadcastInfo(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1815,6 +1883,7 @@ func (p *TvInputManagerProxy) RemoveBroadcastInfo(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(id)
@@ -1845,6 +1914,7 @@ func (p *TvInputManagerProxy) RequestAd(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1878,6 +1948,7 @@ func (p *TvInputManagerProxy) NotifyAdBufferReady(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1912,6 +1983,7 @@ func (p *TvInputManagerProxy) NotifyTvMessage(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(type_)
@@ -1947,6 +2019,7 @@ func (p *TvInputManagerProxy) SetTvMessageEnabled(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(type_)
@@ -1976,6 +2049,7 @@ func (p *TvInputManagerProxy) GetHardwareList(
 ) ([]TvInputHardwareInfo, error) {
 	var _result []TvInputHardwareInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputManager, MethodITvInputManagerGetHardwareList)
@@ -1996,6 +2070,9 @@ func (p *TvInputManagerProxy) GetHardwareList(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -2023,6 +2100,7 @@ func (p *TvInputManagerProxy) AcquireTvInputHardware(
 	var _result ITvInputHardware
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteInt32(deviceId)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -2064,6 +2142,7 @@ func (p *TvInputManagerProxy) ReleaseTvInputHardware(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteInt32(deviceId)
 	binder.WriteBinderToParcel(ctx, _data, hardware.AsBinder(), p.Remote.Transport())
@@ -2094,6 +2173,7 @@ func (p *TvInputManagerProxy) GetAvailableTvStreamConfigList(
 	var _result []TvStreamConfig
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteString16(inputId)
 	_data.WriteInt32(_identity.UserID)
@@ -2117,6 +2197,9 @@ func (p *TvInputManagerProxy) GetAvailableTvStreamConfigList(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]TvStreamConfig, _count)
@@ -2135,14 +2218,19 @@ func (p *TvInputManagerProxy) GetAvailableTvStreamConfigList(
 func (p *TvInputManagerProxy) CaptureFrame(
 	ctx context.Context,
 	inputId string,
-	surface interface{},
+	surface view.Surface,
 	config TvStreamConfig,
 ) (bool, error) {
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteString16(inputId)
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -2177,6 +2265,7 @@ func (p *TvInputManagerProxy) IsSingleSessionActive(
 	var _result bool
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteInt32(_identity.UserID)
 
@@ -2207,6 +2296,7 @@ func (p *TvInputManagerProxy) GetDvbDeviceList(
 ) ([]DvbDeviceInfo, error) {
 	var _result []DvbDeviceInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputManager, MethodITvInputManagerGetDvbDeviceList)
@@ -2227,6 +2317,9 @@ func (p *TvInputManagerProxy) GetDvbDeviceList(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -2250,6 +2343,7 @@ func (p *TvInputManagerProxy) OpenDvbDevice(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
@@ -2285,6 +2379,7 @@ func (p *TvInputManagerProxy) SendTvInputNotifyIntent(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
@@ -2316,6 +2411,7 @@ func (p *TvInputManagerProxy) RequestChannelBrowsable(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
@@ -2346,6 +2442,7 @@ func (p *TvInputManagerProxy) AddHardwareDevice(
 	deviceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteInt32(deviceId)
 
@@ -2372,6 +2469,7 @@ func (p *TvInputManagerProxy) RemoveHardwareDevice(
 	deviceId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteInt32(deviceId)
 
@@ -2400,6 +2498,7 @@ func (p *TvInputManagerProxy) SetVideoFrozen(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteBool(isFrozen)
@@ -2431,6 +2530,7 @@ func (p *TvInputManagerProxy) NotifyTvAdSessionData(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteString16(type_)
@@ -2461,7 +2561,8 @@ func (p *TvInputManagerProxy) NotifyTvAdSessionData(
 // TvInputManagerStub dispatches incoming binder transactions
 // to a typed ITvInputManager implementation.
 type TvInputManagerStub struct {
-	Impl ITvInputManager
+	Impl      ITvInputManager
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*TvInputManagerStub)(nil)
@@ -2475,11 +2576,12 @@ func (s *TvInputManagerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionITvInputManagerGetTvInputList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2490,13 +2592,19 @@ func (s *TvInputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITvInputManagerGetTvInputInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2517,9 +2625,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITvInputManagerUpdateTvInputInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_inputInfo TvInputInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2544,9 +2649,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerGetTvInputState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2564,9 +2666,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITvInputManagerGetAvailableExtensionInterfaceNames:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2581,13 +2680,16 @@ func (s *TvInputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITvInputManagerGetExtensionInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2606,13 +2708,9 @@ func (s *TvInputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result, s.Transport)
 		return _reply, nil
 	case TransactionITvInputManagerGetTvContentRatingSystemList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2623,16 +2721,27 @@ func (s *TvInputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITvInputManagerRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvInputManagerCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTvInputManagerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2645,12 +2754,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerUnregisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvInputManagerCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTvInputManagerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2663,9 +2774,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerIsParentalControlsEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2679,9 +2787,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITvInputManagerSetParentalControlsEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2698,9 +2803,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerIsRatingBlocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rating, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2718,9 +2820,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITvInputManagerGetBlockedRatings:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2731,13 +2830,16 @@ func (s *TvInputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionITvInputManagerAddBlockedRating:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rating, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2754,9 +2856,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerRemoveBlockedRating:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rating, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2773,12 +2872,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerCreateSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client ITvInputClient
-		_ = _arg_client
+		{
+			_clientHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_client = NewTvInputClientProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientHandle))
+		}
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2815,12 +2916,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerReleaseSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2833,9 +2936,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerGetClientPid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2850,9 +2950,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITvInputManagerGetClientPriority:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_useCase, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2871,12 +2968,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITvInputManagerSetMainSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2889,13 +2988,26 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerSetSurface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
-		var _arg_surface interface{}
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
+		var _arg_surface view.Surface
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -2908,12 +3020,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerDispatchSurfaceChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_format, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2938,12 +3052,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerSetVolume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_volume, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -2960,12 +3076,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerTune:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_channelUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3002,12 +3120,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerSetCaptionEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3024,12 +3144,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerSelectTrack:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3050,12 +3172,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerSelectAudioPresentation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_presentationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3076,12 +3200,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerSetInteractiveAppNotificationEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3098,12 +3224,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerSendAppPrivateCommand:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_action, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3132,15 +3260,22 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerCreateOverlayView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_windowToken binder.IBinder
-		_ = _arg_windowToken
+		{
+			_windowTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_windowToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _windowTokenHandle)
+		}
 		var _arg_frame graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3165,12 +3300,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerRelayoutOverlayView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_frame graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3195,12 +3332,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerRemoveOverlayView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3213,12 +3352,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerUnblockContent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_unblockedRating, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3235,12 +3376,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerTimeShiftPlay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_recordedProgramUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3265,12 +3408,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerTimeShiftPause:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3283,12 +3428,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerTimeShiftResume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3301,12 +3448,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerTimeShiftSeekTo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_timeMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -3323,12 +3472,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerTimeShiftSetPlaybackParams:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_params media.PlaybackParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3353,12 +3504,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerTimeShiftSetMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3375,12 +3528,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerTimeShiftEnablePositionTracking:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3397,9 +3552,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerGetCurrentTunedInfos:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3410,16 +3562,27 @@ func (s *TvInputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITvInputManagerStartRecording:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_programUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3456,12 +3619,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerStopRecording:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3474,12 +3639,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerPauseRecording:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_params os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3504,12 +3671,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerResumeRecording:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_params os.Bundle
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3534,12 +3703,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerResumePlayback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3552,12 +3723,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerStopPlayback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3574,12 +3747,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerRequestBroadcastInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_request BroadcastInfoRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3604,12 +3779,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerRemoveBroadcastInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3626,12 +3803,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerRequestAd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_request AdRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3656,12 +3835,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerNotifyAdBufferReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		var _arg_buffer AdBuffer
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3686,12 +3867,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerNotifyTvMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3720,12 +3903,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerSetTvMessageEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3746,9 +3931,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerGetHardwareList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetHardwareList(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3756,20 +3938,31 @@ func (s *TvInputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITvInputManagerAcquireTvInputHardware:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvInputHardwareCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewTvInputHardwareCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_info TvInputInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3800,20 +3993,21 @@ func (s *TvInputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionITvInputManagerReleaseTvInputHardware:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_hardware ITvInputHardware
-		_ = _arg_hardware
+		{
+			_hardwareHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_hardware = NewTvInputHardwareProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _hardwareHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3826,9 +4020,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerGetAvailableTvStreamConfigList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3843,18 +4034,35 @@ func (s *TvInputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITvInputManagerCaptureFrame:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_surface interface{}
+		var _arg_surface view.Surface
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_config TvStreamConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3880,9 +4088,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITvInputManagerIsSingleSessionActive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3896,9 +4101,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITvInputManagerGetDvbDeviceList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDvbDeviceList(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3906,13 +4108,19 @@ func (s *TvInputManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionITvInputManagerOpenDvbDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_info DvbDeviceInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3939,9 +4147,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionITvInputManagerSendTvInputNotifyIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_intent content.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3966,9 +4171,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerRequestChannelBrowsable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_channelUri net.Uri
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -3993,9 +4195,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerAddHardwareDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4009,9 +4208,6 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerRemoveHardwareDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4025,12 +4221,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerSetVideoFrozen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_isFrozen, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -4047,12 +4245,14 @@ func (s *TvInputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputManagerNotifyTvAdSessionData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
-		_ = _arg_sessionToken
+		{
+			_sessionTokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_sessionToken = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _sessionTokenHandle)
+		}
 		_arg_type_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -4109,7 +4309,7 @@ type ITvInputManagerServer interface {
 	GetClientPid(ctx context.Context, sessionId string) (int32, error)
 	GetClientPriority(ctx context.Context, useCase int32, sessionId string) (int32, error)
 	SetMainSession(ctx context.Context, sessionToken binder.IBinder) error
-	SetSurface(ctx context.Context, sessionToken binder.IBinder, surface interface{}) error
+	SetSurface(ctx context.Context, sessionToken binder.IBinder, surface view.Surface) error
 	DispatchSurfaceChanged(ctx context.Context, sessionToken binder.IBinder, format int32, width int32, height int32) error
 	SetVolume(ctx context.Context, sessionToken binder.IBinder, volume float32) error
 	Tune(ctx context.Context, sessionToken binder.IBinder, channelUri net.Uri, params os.Bundle) error
@@ -4146,7 +4346,7 @@ type ITvInputManagerServer interface {
 	AcquireTvInputHardware(ctx context.Context, deviceId int32, callback ITvInputHardwareCallback, info TvInputInfo, tvInputSessionId string, priorityHint int32) (ITvInputHardware, error)
 	ReleaseTvInputHardware(ctx context.Context, deviceId int32, hardware ITvInputHardware) error
 	GetAvailableTvStreamConfigList(ctx context.Context, inputId string) ([]TvStreamConfig, error)
-	CaptureFrame(ctx context.Context, inputId string, surface interface{}, config TvStreamConfig) (bool, error)
+	CaptureFrame(ctx context.Context, inputId string, surface view.Surface, config TvStreamConfig) (bool, error)
 	IsSingleSessionActive(ctx context.Context) (bool, error)
 	GetDvbDeviceList(ctx context.Context) ([]DvbDeviceInfo, error)
 	OpenDvbDevice(ctx context.Context, info DvbDeviceInfo, device int32) (int32, error)
@@ -4312,7 +4512,7 @@ func (w *tvInputManagerStubWrapper) SetMainSession(
 func (w *tvInputManagerStubWrapper) SetSurface(
 	ctx context.Context,
 	sessionToken binder.IBinder,
-	surface interface{},
+	surface view.Surface,
 ) error {
 	return w.impl.SetSurface(ctx, sessionToken, surface)
 }
@@ -4611,7 +4811,7 @@ func (w *tvInputManagerStubWrapper) GetAvailableTvStreamConfigList(
 func (w *tvInputManagerStubWrapper) CaptureFrame(
 	ctx context.Context,
 	inputId string,
-	surface interface{},
+	surface view.Surface,
 	config TvStreamConfig,
 ) (bool, error) {
 	return w.impl.CaptureFrame(ctx, inputId, surface, config)

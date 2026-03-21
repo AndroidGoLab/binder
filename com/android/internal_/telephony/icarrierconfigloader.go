@@ -3,6 +3,7 @@ package telephony
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -33,13 +34,13 @@ const (
 
 type ICarrierConfigLoader interface {
 	AsBinder() binder.IBinder
-	GetConfigForSubId(ctx context.Context, subId int32) (interface{}, error)
-	GetConfigForSubIdWithFeature(ctx context.Context, subId int32) (interface{}, error)
-	OverrideConfig(ctx context.Context, subId int32, overrides interface{}, persistent bool) error
+	GetConfigForSubId(ctx context.Context, subId int32) (os.PersistableBundle, error)
+	GetConfigForSubIdWithFeature(ctx context.Context, subId int32) (os.PersistableBundle, error)
+	OverrideConfig(ctx context.Context, subId int32, overrides os.PersistableBundle, persistent bool) error
 	NotifyConfigChangedForSubId(ctx context.Context, subId int32) error
 	UpdateConfigForPhoneId(ctx context.Context, phoneId int32, simState string) error
 	GetDefaultCarrierServicePackageName(ctx context.Context) (string, error)
-	GetConfigSubsetForSubIdWithFeature(ctx context.Context, subId int32, carrierConfigs []string) (interface{}, error)
+	GetConfigSubsetForSubIdWithFeature(ctx context.Context, subId int32, carrierConfigs []string) (os.PersistableBundle, error)
 }
 
 type CarrierConfigLoaderProxy struct {
@@ -61,10 +62,11 @@ var _ ICarrierConfigLoader = (*CarrierConfigLoaderProxy)(nil)
 func (p *CarrierConfigLoaderProxy) GetConfigForSubId(
 	ctx context.Context,
 	subId int32,
-) (interface{}, error) {
-	var _result interface{}
+) (os.PersistableBundle, error) {
+	var _result os.PersistableBundle
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -84,16 +86,26 @@ func (p *CarrierConfigLoaderProxy) GetConfigForSubId(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *CarrierConfigLoaderProxy) GetConfigForSubIdWithFeature(
 	ctx context.Context,
 	subId int32,
-) (interface{}, error) {
-	var _result interface{}
+) (os.PersistableBundle, error) {
+	var _result os.PersistableBundle
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -114,18 +126,32 @@ func (p *CarrierConfigLoaderProxy) GetConfigForSubIdWithFeature(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *CarrierConfigLoaderProxy) OverrideConfig(
 	ctx context.Context,
 	subId int32,
-	overrides interface{},
+	overrides os.PersistableBundle,
 	persistent bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
+	if _err := overrides.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(persistent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderOverrideConfig)
@@ -151,6 +177,7 @@ func (p *CarrierConfigLoaderProxy) NotifyConfigChangedForSubId(
 	subId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
 	_data.WriteInt32(subId)
 
@@ -178,6 +205,7 @@ func (p *CarrierConfigLoaderProxy) UpdateConfigForPhoneId(
 	simState string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
 	_data.WriteInt32(phoneId)
 	_data.WriteString16(simState)
@@ -205,6 +233,7 @@ func (p *CarrierConfigLoaderProxy) GetDefaultCarrierServicePackageName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderGetDefaultCarrierServicePackageName)
@@ -233,10 +262,11 @@ func (p *CarrierConfigLoaderProxy) GetConfigSubsetForSubIdWithFeature(
 	ctx context.Context,
 	subId int32,
 	carrierConfigs []string,
-) (interface{}, error) {
-	var _result interface{}
+) (os.PersistableBundle, error) {
+	var _result os.PersistableBundle
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -265,13 +295,23 @@ func (p *CarrierConfigLoaderProxy) GetConfigSubsetForSubIdWithFeature(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 // CarrierConfigLoaderStub dispatches incoming binder transactions
 // to a typed ICarrierConfigLoader implementation.
 type CarrierConfigLoaderStub struct {
-	Impl ICarrierConfigLoader
+	Impl      ICarrierConfigLoader
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CarrierConfigLoaderStub)(nil)
@@ -285,11 +325,12 @@ func (s *CarrierConfigLoaderStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICarrierConfigLoaderGetConfigForSubId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -304,12 +345,12 @@ func (s *CarrierConfigLoaderStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionICarrierConfigLoaderGetConfigForSubIdWithFeature:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionICarrierConfigLoaderGetConfigForSubIdWithFeature:
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -327,17 +368,28 @@ func (s *CarrierConfigLoaderStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
-	case TransactionICarrierConfigLoaderOverrideConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionICarrierConfigLoaderOverrideConfig:
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_overrides interface{}
+		var _arg_overrides os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_overrides.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_persistent, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -351,9 +403,6 @@ func (s *CarrierConfigLoaderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarrierConfigLoaderNotifyConfigChangedForSubId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -367,9 +416,6 @@ func (s *CarrierConfigLoaderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarrierConfigLoaderUpdateConfigForPhoneId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -387,9 +433,6 @@ func (s *CarrierConfigLoaderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarrierConfigLoaderGetDefaultCarrierServicePackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDefaultCarrierServicePackageName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -400,9 +443,6 @@ func (s *CarrierConfigLoaderStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionICarrierConfigLoaderGetConfigSubsetForSubIdWithFeature:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -413,9 +453,25 @@ func (s *CarrierConfigLoaderStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_carrierConfigs []string
-		_ = _arg_carrierConfigs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_carrierConfigs = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_carrierConfigs[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.GetConfigSubsetForSubIdWithFeature(ctx, _arg_subId, _arg_carrierConfigs)
 		_reply := parcel.New()
 		if _err != nil {
@@ -423,7 +479,10 @@ func (s *CarrierConfigLoaderStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -434,13 +493,13 @@ func (s *CarrierConfigLoaderStub) OnTransaction(
 // provide to NewCarrierConfigLoaderStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ICarrierConfigLoaderServer interface {
-	GetConfigForSubId(ctx context.Context, subId int32) (interface{}, error)
-	GetConfigForSubIdWithFeature(ctx context.Context, subId int32) (interface{}, error)
-	OverrideConfig(ctx context.Context, subId int32, overrides interface{}, persistent bool) error
+	GetConfigForSubId(ctx context.Context, subId int32) (os.PersistableBundle, error)
+	GetConfigForSubIdWithFeature(ctx context.Context, subId int32) (os.PersistableBundle, error)
+	OverrideConfig(ctx context.Context, subId int32, overrides os.PersistableBundle, persistent bool) error
 	NotifyConfigChangedForSubId(ctx context.Context, subId int32) error
 	UpdateConfigForPhoneId(ctx context.Context, phoneId int32, simState string) error
 	GetDefaultCarrierServicePackageName(ctx context.Context) (string, error)
-	GetConfigSubsetForSubIdWithFeature(ctx context.Context, subId int32, carrierConfigs []string) (interface{}, error)
+	GetConfigSubsetForSubIdWithFeature(ctx context.Context, subId int32, carrierConfigs []string) (os.PersistableBundle, error)
 }
 
 type carrierConfigLoaderStubWrapper struct {
@@ -455,21 +514,21 @@ func (w *carrierConfigLoaderStubWrapper) AsBinder() binder.IBinder {
 func (w *carrierConfigLoaderStubWrapper) GetConfigForSubId(
 	ctx context.Context,
 	subId int32,
-) (interface{}, error) {
+) (os.PersistableBundle, error) {
 	return w.impl.GetConfigForSubId(ctx, subId)
 }
 
 func (w *carrierConfigLoaderStubWrapper) GetConfigForSubIdWithFeature(
 	ctx context.Context,
 	subId int32,
-) (interface{}, error) {
+) (os.PersistableBundle, error) {
 	return w.impl.GetConfigForSubIdWithFeature(ctx, subId)
 }
 
 func (w *carrierConfigLoaderStubWrapper) OverrideConfig(
 	ctx context.Context,
 	subId int32,
-	overrides interface{},
+	overrides os.PersistableBundle,
 	persistent bool,
 ) error {
 	return w.impl.OverrideConfig(ctx, subId, overrides, persistent)
@@ -500,7 +559,7 @@ func (w *carrierConfigLoaderStubWrapper) GetConfigSubsetForSubIdWithFeature(
 	ctx context.Context,
 	subId int32,
 	carrierConfigs []string,
-) (interface{}, error) {
+) (os.PersistableBundle, error) {
 	return w.impl.GetConfigSubsetForSubIdWithFeature(ctx, subId, carrierConfigs)
 }
 

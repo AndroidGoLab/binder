@@ -30,6 +30,11 @@ func (s *Eid) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Bytes, _err = p.ReadFixedByteArray(20)
 	if _err != nil {
 		return _err

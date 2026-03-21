@@ -48,6 +48,7 @@ func (p *ExternalVibrationControllerProxy) Mute(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExternalVibrationController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalVibrationController, MethodIExternalVibrationControllerMute)
@@ -77,6 +78,7 @@ func (p *ExternalVibrationControllerProxy) Unmute(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIExternalVibrationController)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalVibrationController, MethodIExternalVibrationControllerUnmute)
@@ -104,7 +106,8 @@ func (p *ExternalVibrationControllerProxy) Unmute(
 // ExternalVibrationControllerStub dispatches incoming binder transactions
 // to a typed IExternalVibrationController implementation.
 type ExternalVibrationControllerStub struct {
-	Impl IExternalVibrationController
+	Impl      IExternalVibrationController
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ExternalVibrationControllerStub)(nil)
@@ -118,11 +121,12 @@ func (s *ExternalVibrationControllerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIExternalVibrationControllerMute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Mute(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -133,9 +137,6 @@ func (s *ExternalVibrationControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIExternalVibrationControllerUnmute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.Unmute(ctx)
 		_reply := parcel.New()
 		if _err != nil {

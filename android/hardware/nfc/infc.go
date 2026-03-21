@@ -72,6 +72,7 @@ func (p *NfcProxy) Open(
 	clientCallback INfcClientCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfc)
 	binder.WriteBinderToParcel(ctx, _data, clientCallback.AsBinder(), p.Remote.Transport())
 
@@ -98,6 +99,7 @@ func (p *NfcProxy) Close(
 	type_ NfcCloseType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfc)
 	_data.WriteInt32(int32(type_))
 
@@ -123,6 +125,7 @@ func (p *NfcProxy) CoreInitialized(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfc)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcCoreInitialized)
@@ -147,6 +150,7 @@ func (p *NfcProxy) FactoryReset(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfc)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcFactoryReset)
@@ -172,6 +176,7 @@ func (p *NfcProxy) GetConfig(
 ) (NfcConfig, error) {
 	var _result NfcConfig
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfc)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcGetConfig)
@@ -205,6 +210,7 @@ func (p *NfcProxy) PowerCycle(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfc)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcPowerCycle)
@@ -229,6 +235,7 @@ func (p *NfcProxy) PreDiscover(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfc)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcPreDiscover)
@@ -255,15 +262,9 @@ func (p *NfcProxy) Write(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfc)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(data)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcWrite)
 	if _err != nil {
@@ -292,6 +293,7 @@ func (p *NfcProxy) SetEnableVerboseLogging(
 	enable bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfc)
 	_data.WriteBool(enable)
 
@@ -318,6 +320,7 @@ func (p *NfcProxy) IsVerboseLoggingEnabled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINfc)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcIsVerboseLoggingEnabled)
@@ -345,7 +348,8 @@ func (p *NfcProxy) IsVerboseLoggingEnabled(
 // NfcStub dispatches incoming binder transactions
 // to a typed INfc implementation.
 type NfcStub struct {
-	Impl INfc
+	Impl      INfc
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NfcStub)(nil)
@@ -359,14 +363,20 @@ func (s *NfcStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINfcOpen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientCallback INfcClientCallback
-		_ = _arg_clientCallback
+		{
+			_clientCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_clientCallback = NewNfcClientCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _clientCallbackHandle))
+		}
 		_err := s.Impl.Open(ctx, _arg_clientCallback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -376,9 +386,6 @@ func (s *NfcStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -393,9 +400,6 @@ func (s *NfcStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcCoreInitialized:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.CoreInitialized(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -405,9 +409,6 @@ func (s *NfcStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcFactoryReset:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.FactoryReset(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -417,9 +418,6 @@ func (s *NfcStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcGetConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetConfig(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -433,9 +431,6 @@ func (s *NfcStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINfcPowerCycle:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.PowerCycle(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -445,9 +440,6 @@ func (s *NfcStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcPreDiscover:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.PreDiscover(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -457,12 +449,14 @@ func (s *NfcStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcWrite:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
-		_ = _arg_data
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_data = _bytes
+		}
 		_result, _err := s.Impl.Write(ctx, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -473,9 +467,6 @@ func (s *NfcStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINfcSetEnableVerboseLogging:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -489,9 +480,6 @@ func (s *NfcStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINfcIsVerboseLoggingEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsVerboseLoggingEnabled(ctx)
 		_reply := parcel.New()
 		if _err != nil {

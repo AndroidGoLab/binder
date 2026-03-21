@@ -1,7 +1,6 @@
 package network
 
 import (
-	networkEutranRegistrationInfo "github.com/xaionaro-go/binder/android/hardware/radio/network/EutranRegistrationInfo"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,7 +9,7 @@ import (
 type EutranRegistrationInfo struct {
 	LteVopsInfo         LteVopsInfo
 	NrIndicators        NrIndicators
-	LteAttachResultType networkEutranRegistrationInfo.AttachResultType
+	LteAttachResultType EutranRegistrationInfoAttachResultType
 	ExtraInfo           int32
 }
 
@@ -46,19 +45,39 @@ func (s *EutranRegistrationInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.LteVopsInfo.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.NrIndicators.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_lteAttachResultTypeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.LteAttachResultType = networkEutranRegistrationInfo.AttachResultType(_lteAttachResultTypeRaw)
+	s.LteAttachResultType = EutranRegistrationInfoAttachResultType(_lteAttachResultTypeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.ExtraInfo, _err = p.ReadInt32()
 	if _err != nil {

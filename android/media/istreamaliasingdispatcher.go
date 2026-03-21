@@ -44,6 +44,7 @@ func (p *StreamAliasingDispatcherProxy) DispatchStreamAliasingChanged(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStreamAliasingDispatcher)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamAliasingDispatcher, MethodIStreamAliasingDispatcherDispatchStreamAliasingChanged)
@@ -58,7 +59,8 @@ func (p *StreamAliasingDispatcherProxy) DispatchStreamAliasingChanged(
 // StreamAliasingDispatcherStub dispatches incoming binder transactions
 // to a typed IStreamAliasingDispatcher implementation.
 type StreamAliasingDispatcherStub struct {
-	Impl IStreamAliasingDispatcher
+	Impl      IStreamAliasingDispatcher
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*StreamAliasingDispatcherStub)(nil)
@@ -72,14 +74,14 @@ func (s *StreamAliasingDispatcherStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIStreamAliasingDispatcherDispatchStreamAliasingChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.DispatchStreamAliasingChanged(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

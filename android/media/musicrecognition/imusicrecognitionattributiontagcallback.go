@@ -45,6 +45,7 @@ func (p *MusicRecognitionAttributionTagCallbackProxy) OnAttributionTag(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionAttributionTagCallback)
 	_data.WriteString16(_identity.AttributionTag)
 
@@ -60,7 +61,8 @@ func (p *MusicRecognitionAttributionTagCallbackProxy) OnAttributionTag(
 // MusicRecognitionAttributionTagCallbackStub dispatches incoming binder transactions
 // to a typed IMusicRecognitionAttributionTagCallback implementation.
 type MusicRecognitionAttributionTagCallbackStub struct {
-	Impl IMusicRecognitionAttributionTagCallback
+	Impl      IMusicRecognitionAttributionTagCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MusicRecognitionAttributionTagCallbackStub)(nil)
@@ -74,17 +76,17 @@ func (s *MusicRecognitionAttributionTagCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMusicRecognitionAttributionTagCallbackOnAttributionTag:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnAttributionTag(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

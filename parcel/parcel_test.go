@@ -210,6 +210,41 @@ func TestString16Null(t *testing.T) {
 	assert.Equal(t, 4, p.Len())
 }
 
+func TestNullableString16Null(t *testing.T) {
+	p := New()
+	p.WriteNullString16()
+
+	p.SetPosition(0)
+
+	s, err := p.ReadNullableString16()
+	require.NoError(t, err)
+	assert.Nil(t, s, "ReadNullableString16 should return nil for null string")
+}
+
+func TestNullableString16Empty(t *testing.T) {
+	p := New()
+	p.WriteString16("")
+
+	p.SetPosition(0)
+
+	s, err := p.ReadNullableString16()
+	require.NoError(t, err)
+	require.NotNil(t, s, "ReadNullableString16 should return non-nil for empty string")
+	assert.Equal(t, "", *s)
+}
+
+func TestNullableString16Value(t *testing.T) {
+	p := New()
+	p.WriteString16("hello")
+
+	p.SetPosition(0)
+
+	s, err := p.ReadNullableString16()
+	require.NoError(t, err)
+	require.NotNil(t, s)
+	assert.Equal(t, "hello", *s)
+}
+
 func TestStringUTF8RoundTrip(t *testing.T) {
 	tests := []string{
 		"hello world",
@@ -257,6 +292,41 @@ func TestStringUTF8Null(t *testing.T) {
 
 	// Null string writes only -1 as length (4 bytes).
 	assert.Equal(t, 4, p.Len())
+}
+
+func TestNullableStringNull(t *testing.T) {
+	p := New()
+	p.WriteNullString()
+
+	p.SetPosition(0)
+
+	s, err := p.ReadNullableString()
+	require.NoError(t, err)
+	assert.Nil(t, s, "ReadNullableString should return nil for null string")
+}
+
+func TestNullableStringEmpty(t *testing.T) {
+	p := New()
+	p.WriteString("")
+
+	p.SetPosition(0)
+
+	s, err := p.ReadNullableString()
+	require.NoError(t, err)
+	require.NotNil(t, s, "ReadNullableString should return non-nil for empty string")
+	assert.Equal(t, "", *s)
+}
+
+func TestNullableStringValue(t *testing.T) {
+	p := New()
+	p.WriteString("hello")
+
+	p.SetPosition(0)
+
+	s, err := p.ReadNullableString()
+	require.NoError(t, err)
+	require.NotNil(t, s)
+	assert.Equal(t, "hello", *s)
 }
 
 func TestInterfaceTokenRoundTrip(t *testing.T) {

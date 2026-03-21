@@ -1,0 +1,6219 @@
+package: android.os
+go_package: android/os
+interfaces:
+    - name: IAidlTest
+      descriptor: android.os.IAidlTest
+      methods:
+        - name: intMethod
+          transaction_code_offset: 0
+          params:
+            - name: a
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: parcelableIn
+          transaction_code_offset: 1
+          params:
+            - name: p
+              type:
+                name: AidlTest.TestParcelable
+              direction: in
+          return_type:
+            name: AidlTest.TestParcelable
+        - name: parcelableOut
+          transaction_code_offset: 2
+          params:
+            - name: p
+              type:
+                name: AidlTest.TestParcelable
+              direction: out
+          return_type:
+            name: AidlTest.TestParcelable
+        - name: parcelableInOut
+          transaction_code_offset: 3
+          params:
+            - name: p
+              type:
+                name: AidlTest.TestParcelable
+              direction: inout
+          return_type:
+            name: AidlTest.TestParcelable
+        - name: listParcelableLonger
+          transaction_code_offset: 4
+          params:
+            - name: list
+              type:
+                name: List
+                type_args:
+                    - name: AidlTest.TestParcelable
+              direction: inout
+            - name: index
+              type:
+                name: int
+          return_type:
+            name: AidlTest.TestParcelable
+        - name: listParcelableShorter
+          transaction_code_offset: 5
+          params:
+            - name: list
+              type:
+                name: List
+                type_args:
+                    - name: AidlTest.TestParcelable
+              direction: inout
+            - name: index
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: booleanArray
+          transaction_code_offset: 6
+          params:
+            - name: a0
+              type:
+                name: boolean
+                is_array: true
+              direction: in
+            - name: a1
+              type:
+                name: boolean
+                is_array: true
+              direction: out
+            - name: a2
+              type:
+                name: boolean
+                is_array: true
+              direction: inout
+          return_type:
+            name: boolean
+            is_array: true
+        - name: charArray
+          transaction_code_offset: 7
+          params:
+            - name: a0
+              type:
+                name: char
+                is_array: true
+              direction: in
+            - name: a1
+              type:
+                name: char
+                is_array: true
+              direction: out
+            - name: a2
+              type:
+                name: char
+                is_array: true
+              direction: inout
+          return_type:
+            name: char
+            is_array: true
+        - name: intArray
+          transaction_code_offset: 8
+          params:
+            - name: a0
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: a1
+              type:
+                name: int
+                is_array: true
+              direction: out
+            - name: a2
+              type:
+                name: int
+                is_array: true
+              direction: inout
+          return_type:
+            name: int
+            is_array: true
+        - name: longArray
+          transaction_code_offset: 9
+          params:
+            - name: a0
+              type:
+                name: long
+                is_array: true
+              direction: in
+            - name: a1
+              type:
+                name: long
+                is_array: true
+              direction: out
+            - name: a2
+              type:
+                name: long
+                is_array: true
+              direction: inout
+          return_type:
+            name: long
+            is_array: true
+        - name: floatArray
+          transaction_code_offset: 10
+          params:
+            - name: a0
+              type:
+                name: float
+                is_array: true
+              direction: in
+            - name: a1
+              type:
+                name: float
+                is_array: true
+              direction: out
+            - name: a2
+              type:
+                name: float
+                is_array: true
+              direction: inout
+          return_type:
+            name: float
+            is_array: true
+        - name: doubleArray
+          transaction_code_offset: 11
+          params:
+            - name: a0
+              type:
+                name: double
+                is_array: true
+              direction: in
+            - name: a1
+              type:
+                name: double
+                is_array: true
+              direction: out
+            - name: a2
+              type:
+                name: double
+                is_array: true
+              direction: inout
+          return_type:
+            name: double
+            is_array: true
+        - name: stringArray
+          transaction_code_offset: 12
+          params:
+            - name: a0
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: a1
+              type:
+                name: String
+                is_array: true
+              direction: out
+            - name: a2
+              type:
+                name: String
+                is_array: true
+              direction: inout
+          return_type:
+            name: String
+            is_array: true
+        - name: parcelableArray
+          transaction_code_offset: 13
+          params:
+            - name: a0
+              type:
+                name: AidlTest.TestParcelable
+                is_array: true
+              direction: in
+            - name: a1
+              type:
+                name: AidlTest.TestParcelable
+                is_array: true
+              direction: out
+            - name: a2
+              type:
+                name: AidlTest.TestParcelable
+                is_array: true
+              direction: inout
+          return_type:
+            name: AidlTest.TestParcelable
+            is_array: true
+        - name: voidSecurityException
+          transaction_code_offset: 14
+          return_type:
+            name: void
+        - name: intSecurityException
+          transaction_code_offset: 15
+          return_type:
+            name: int
+    - name: IBatteryPropertiesRegistrar
+      descriptor: android.os.IBatteryPropertiesRegistrar
+      methods:
+        - name: getProperty
+          transaction_code_offset: 0
+          params:
+            - name: id
+              type:
+                name: int
+              direction: in
+            - name: prop
+              type:
+                name: BatteryProperty
+              direction: out
+          return_type:
+            name: int
+        - name: scheduleUpdate
+          transaction_code_offset: 1
+          oneway: true
+          return_type:
+            name: void
+    - name: IBinderThreadPriorityService
+      descriptor: android.os.IBinderThreadPriorityService
+      methods:
+        - name: getThreadPriority
+          transaction_code_offset: 0
+          return_type:
+            name: int
+        - name: getThreadSchedulerGroup
+          transaction_code_offset: 1
+          return_type:
+            name: String
+        - name: callBack
+          transaction_code_offset: 2
+          params:
+            - name: recurse
+              type:
+                name: IBinderThreadPriorityService
+          return_type:
+            name: void
+        - name: setPriorityAndCallBack
+          transaction_code_offset: 3
+          params:
+            - name: priority
+              type:
+                name: int
+            - name: recurse
+              type:
+                name: IBinderThreadPriorityService
+          return_type:
+            name: void
+    - name: IBinderWorkSourceNestedService
+      descriptor: android.os.IBinderWorkSourceNestedService
+      methods:
+        - name: nestedCallWithWorkSourceToSet
+          transaction_code_offset: 0
+          params:
+            - name: uidToBlame
+              type:
+                name: int
+          return_type:
+            name: int
+            is_array: true
+        - name: nestedCall
+          transaction_code_offset: 1
+          return_type:
+            name: int
+            is_array: true
+    - name: IBinderWorkSourceService
+      descriptor: android.os.IBinderWorkSourceService
+      methods:
+        - name: getIncomingWorkSourceUid
+          transaction_code_offset: 0
+          return_type:
+            name: int
+        - name: getBinderCallingUid
+          transaction_code_offset: 1
+          return_type:
+            name: int
+        - name: getThreadLocalWorkSourceUid
+          transaction_code_offset: 2
+          return_type:
+            name: int
+        - name: setWorkSourceProvider
+          transaction_code_offset: 3
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: clearWorkSourceProvider
+          transaction_code_offset: 4
+          return_type:
+            name: void
+    - name: ICancellationSignal
+      descriptor: android.os.ICancellationSignal
+      methods:
+        - name: cancel
+          transaction_code_offset: 0
+          oneway: true
+          return_type:
+            name: void
+    - name: IClientCallback
+      descriptor: android.os.IClientCallback
+      oneway: true
+      methods:
+        - name: onClients
+          transaction_code_offset: 0
+          params:
+            - name: registered
+              type:
+                name: IBinder
+            - name: hasClients
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IDeviceIdentifiersPolicyService
+      descriptor: android.os.IDeviceIdentifiersPolicyService
+      methods:
+        - name: getSerial
+          transaction_code_offset: 0
+          return_type:
+            name: String
+        - name: getSerialForPackage
+          transaction_code_offset: 1
+          params:
+            - name: callingPackage
+              type:
+                name: String
+              direction: in
+            - name: callingFeatureId
+              type:
+                name: String
+          return_type:
+            name: String
+    - name: IDeviceIdleController
+      descriptor: android.os.IDeviceIdleController
+      methods:
+        - name: addPowerSaveWhitelistApp
+          transaction_code_offset: 0
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: addPowerSaveWhitelistApps
+          transaction_code_offset: 1
+          params:
+            - name: packageNames
+              type:
+                name: List
+                type_args:
+                    - name: String
+              direction: in
+          return_type:
+            name: int
+        - name: removePowerSaveWhitelistApp
+          transaction_code_offset: 2
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: removeSystemPowerWhitelistApp
+          transaction_code_offset: 3
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: restoreSystemPowerWhitelistApp
+          transaction_code_offset: 4
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getRemovedSystemPowerWhitelistApps
+          transaction_code_offset: 5
+          return_type:
+            name: String
+            is_array: true
+        - name: getSystemPowerWhitelistExceptIdle
+          transaction_code_offset: 6
+          return_type:
+            name: String
+            is_array: true
+        - name: getSystemPowerWhitelist
+          transaction_code_offset: 7
+          return_type:
+            name: String
+            is_array: true
+        - name: getUserPowerWhitelist
+          transaction_code_offset: 8
+          return_type:
+            name: String
+            is_array: true
+        - name: getFullPowerWhitelistExceptIdle
+          transaction_code_offset: 9
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - UnsupportedAppUsage
+        - name: getFullPowerWhitelist
+          transaction_code_offset: 10
+          return_type:
+            name: String
+            is_array: true
+        - name: getAppIdWhitelistExceptIdle
+          transaction_code_offset: 11
+          return_type:
+            name: int
+            is_array: true
+        - name: getAppIdWhitelist
+          transaction_code_offset: 12
+          return_type:
+            name: int
+            is_array: true
+        - name: getAppIdUserWhitelist
+          transaction_code_offset: 13
+          return_type:
+            name: int
+            is_array: true
+        - name: getAppIdTempWhitelist
+          transaction_code_offset: 14
+          return_type:
+            name: int
+            is_array: true
+          annotations:
+            - UnsupportedAppUsage
+        - name: isPowerSaveWhitelistExceptIdleApp
+          transaction_code_offset: 15
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: isPowerSaveWhitelistApp
+          transaction_code_offset: 16
+          params:
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: addPowerSaveTempWhitelistApp
+          transaction_code_offset: 17
+          params:
+            - name: name
+              type:
+                name: String
+            - name: duration
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+            - name: reasonCode
+              type:
+                name: int
+            - name: reason
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: addPowerSaveTempWhitelistAppForMms
+          transaction_code_offset: 18
+          params:
+            - name: name
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: reasonCode
+              type:
+                name: int
+            - name: reason
+              type:
+                name: String
+          return_type:
+            name: long
+        - name: addPowerSaveTempWhitelistAppForSms
+          transaction_code_offset: 19
+          params:
+            - name: name
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: reasonCode
+              type:
+                name: int
+            - name: reason
+              type:
+                name: String
+          return_type:
+            name: long
+        - name: whitelistAppTemporarily
+          transaction_code_offset: 20
+          params:
+            - name: name
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: reasonCode
+              type:
+                name: int
+            - name: reason
+              type:
+                name: String
+          return_type:
+            name: long
+        - name: exitIdle
+          transaction_code_offset: 21
+          params:
+            - name: reason
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+    - name: IDumpstate
+      descriptor: android.os.IDumpstate
+      methods:
+        - name: preDumpUiData
+          transaction_code_offset: 0
+          params:
+            - name: callingPackage
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: startBugreport
+          transaction_code_offset: 1
+          params:
+            - name: callingUid
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: bugreportFd
+              type:
+                name: FileDescriptor
+            - name: screenshotFd
+              type:
+                name: FileDescriptor
+            - name: bugreportMode
+              type:
+                name: int
+            - name: bugreportFlags
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IDumpstateListener
+            - name: isScreenshotRequested
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: cancelBugreport
+          transaction_code_offset: 2
+          params:
+            - name: callingUid
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: retrieveBugreport
+          transaction_code_offset: 3
+          params:
+            - name: callingUid
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+            - name: bugreportFd
+              type:
+                name: FileDescriptor
+            - name: bugreportFile
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: keepBugreportOnRetrieval
+              type:
+                name: boolean
+            - name: listener
+              type:
+                name: IDumpstateListener
+          return_type:
+            name: void
+      constants:
+        - name: BUGREPORT_MODE_FULL
+          type: int
+          value: "0"
+        - name: BUGREPORT_MODE_INTERACTIVE
+          type: int
+          value: "1"
+        - name: BUGREPORT_MODE_REMOTE
+          type: int
+          value: "2"
+        - name: BUGREPORT_MODE_WEAR
+          type: int
+          value: "3"
+        - name: BUGREPORT_MODE_TELEPHONY
+          type: int
+          value: "4"
+        - name: BUGREPORT_MODE_WIFI
+          type: int
+          value: "5"
+        - name: BUGREPORT_MODE_DEFAULT
+          type: int
+          value: "6"
+        - name: BUGREPORT_MODE_ONBOARDING
+          type: int
+          value: "7"
+        - name: BUGREPORT_FLAG_USE_PREDUMPED_UI_DATA
+          type: int
+          value: "0x1"
+        - name: BUGREPORT_FLAG_DEFER_CONSENT
+          type: int
+          value: "0x2"
+        - name: BUGREPORT_FLAG_KEEP_BUGREPORT_ON_RETRIEVAL
+          type: int
+          value: "0x4"
+    - name: IDumpstateListener
+      descriptor: android.os.IDumpstateListener
+      methods:
+        - name: onProgress
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: progress
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: errorCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onFinished
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: bugreportFile
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: onScreenshotTaken
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: success
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onUiIntensiveBugreportDumpsFinished
+          transaction_code_offset: 4
+          oneway: true
+          return_type:
+            name: void
+      constants:
+        - name: BUGREPORT_ERROR_INVALID_INPUT
+          type: int
+          value: "1"
+        - name: BUGREPORT_ERROR_RUNTIME_ERROR
+          type: int
+          value: "2"
+        - name: BUGREPORT_ERROR_USER_DENIED_CONSENT
+          type: int
+          value: "3"
+        - name: BUGREPORT_ERROR_USER_CONSENT_TIMED_OUT
+          type: int
+          value: "4"
+        - name: BUGREPORT_ERROR_ANOTHER_REPORT_IN_PROGRESS
+          type: int
+          value: "5"
+        - name: BUGREPORT_ERROR_NO_BUGREPORT_TO_RETRIEVE
+          type: int
+          value: "6"
+    - name: IExternalVibrationController
+      descriptor: android.os.IExternalVibrationController
+      methods:
+        - name: mute
+          transaction_code_offset: 0
+          return_type:
+            name: boolean
+        - name: unmute
+          transaction_code_offset: 1
+          return_type:
+            name: boolean
+    - name: IExternalVibratorService
+      descriptor: android.os.IExternalVibratorService
+      methods:
+        - name: onExternalVibrationStart
+          transaction_code_offset: 0
+          params:
+            - name: vib
+              type:
+                name: ExternalVibration
+              direction: in
+          return_type:
+            name: ExternalVibrationScale
+        - name: onExternalVibrationStop
+          transaction_code_offset: 1
+          params:
+            - name: vib
+              type:
+                name: ExternalVibration
+              direction: in
+          return_type:
+            name: void
+    - name: IHardwarePropertiesManager
+      descriptor: android.os.IHardwarePropertiesManager
+      methods:
+        - name: getDeviceTemperatures
+          transaction_code_offset: 0
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: type
+              type:
+                name: int
+            - name: source
+              type:
+                name: int
+          return_type:
+            name: float
+            is_array: true
+        - name: getCpuUsages
+          transaction_code_offset: 1
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: CpuUsageInfo
+            is_array: true
+        - name: getFanSpeeds
+          transaction_code_offset: 2
+          params:
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: float
+            is_array: true
+    - name: IHintManager
+      descriptor: android.os.IHintManager
+      methods:
+        - name: createHintSession
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: tids
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: durationNanos
+              type:
+                name: long
+          return_type:
+            name: IHintSession
+        - name: getHintSessionPreferredRate
+          transaction_code_offset: 1
+          return_type:
+            name: long
+        - name: setHintSessionThreads
+          transaction_code_offset: 2
+          params:
+            - name: hintSession
+              type:
+                name: IHintSession
+              direction: in
+            - name: tids
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: getHintSessionThreadIds
+          transaction_code_offset: 3
+          params:
+            - name: hintSession
+              type:
+                name: IHintSession
+              direction: in
+          return_type:
+            name: int
+            is_array: true
+    - name: IHintSession
+      descriptor: android.os.IHintSession
+      oneway: true
+      methods:
+        - name: updateTargetWorkDuration
+          transaction_code_offset: 0
+          params:
+            - name: targetDurationNanos
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: reportActualWorkDuration
+          transaction_code_offset: 1
+          params:
+            - name: actualDurationNanos
+              type:
+                name: long
+                is_array: true
+              direction: in
+            - name: timeStampNanos
+              type:
+                name: long
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: close
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: sendHint
+          transaction_code_offset: 3
+          params:
+            - name: hint
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setMode
+          transaction_code_offset: 4
+          params:
+            - name: mode
+              type:
+                name: int
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: reportActualWorkDuration2
+          transaction_code_offset: 5
+          params:
+            - name: workDurations
+              type:
+                name: WorkDuration
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+    - name: IIdmap2
+      descriptor: android.os.IIdmap2
+      methods:
+        - name: getIdmapPath
+          transaction_code_offset: 0
+          params:
+            - name: overlayApkPath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: removeIdmap
+          transaction_code_offset: 1
+          params:
+            - name: overlayApkPath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: verifyIdmap
+          transaction_code_offset: 2
+          params:
+            - name: targetApkPath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: overlayApkPath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: overlayName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: fulfilledPolicies
+              type:
+                name: int
+            - name: enforceOverlayable
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: createIdmap
+          transaction_code_offset: 3
+          params:
+            - name: targetApkPath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: overlayApkPath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: overlayName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: fulfilledPolicies
+              type:
+                name: int
+            - name: enforceOverlayable
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+          annotations:
+            - nullable
+            - utf8InCpp
+        - name: createFabricatedOverlay
+          transaction_code_offset: 4
+          params:
+            - name: overlay
+              type:
+                name: FabricatedOverlayInternal
+              direction: in
+          return_type:
+            name: FabricatedOverlayInfo
+          annotations:
+            - nullable
+        - name: deleteFabricatedOverlay
+          transaction_code_offset: 5
+          params:
+            - name: path
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: boolean
+        - name: acquireFabricatedOverlayIterator
+          transaction_code_offset: 6
+          return_type:
+            name: int
+        - name: releaseFabricatedOverlayIterator
+          transaction_code_offset: 7
+          params:
+            - name: iteratorId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: nextFabricatedOverlayInfos
+          transaction_code_offset: 8
+          params:
+            - name: iteratorId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: FabricatedOverlayInfo
+        - name: dumpIdmap
+          transaction_code_offset: 9
+          params:
+            - name: overlayApkPath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: String
+          annotations:
+            - utf8InCpp
+    - name: IIncidentAuthListener
+      descriptor: android.os.IIncidentAuthListener
+      oneway: true
+      methods:
+        - name: onReportApproved
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onReportDenied
+          transaction_code_offset: 1
+          return_type:
+            name: void
+    - name: IIncidentCompanion
+      descriptor: android.os.IIncidentCompanion
+      methods:
+        - name: authorizeReport
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: callingUid
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+            - name: receiverClass
+              type:
+                name: String
+            - name: reportId
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IIncidentAuthListener
+          return_type:
+            name: void
+        - name: cancelAuthorization
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: callback
+              type:
+                name: IIncidentAuthListener
+          return_type:
+            name: void
+        - name: sendReportReadyBroadcast
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: pkg
+              type:
+                name: String
+            - name: cls
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getPendingReports
+          transaction_code_offset: 3
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: approveReport
+          transaction_code_offset: 4
+          params:
+            - name: uri
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: denyReport
+          transaction_code_offset: 5
+          params:
+            - name: uri
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getIncidentReportList
+          transaction_code_offset: 6
+          params:
+            - name: pkg
+              type:
+                name: String
+            - name: cls
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getIncidentReport
+          transaction_code_offset: 7
+          params:
+            - name: pkg
+              type:
+                name: String
+            - name: cls
+              type:
+                name: String
+            - name: id
+              type:
+                name: String
+          return_type:
+            name: IncidentManager.IncidentReport
+        - name: deleteIncidentReports
+          transaction_code_offset: 8
+          params:
+            - name: pkg
+              type:
+                name: String
+            - name: cls
+              type:
+                name: String
+            - name: id
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: deleteAllIncidentReports
+          transaction_code_offset: 9
+          params:
+            - name: pkg
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IIncidentDumpCallback
+      descriptor: android.os.IIncidentDumpCallback
+      oneway: true
+      methods:
+        - name: onDumpSection
+          transaction_code_offset: 0
+          params:
+            - name: fd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: void
+    - name: IIncidentManager
+      descriptor: android.os.IIncidentManager
+      methods:
+        - name: reportIncident
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: args
+              type:
+                name: IncidentReportArgs
+              direction: in
+          return_type:
+            name: void
+        - name: reportIncidentToStream
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: args
+              type:
+                name: IncidentReportArgs
+              direction: in
+            - name: listener
+              type:
+                name: IIncidentReportStatusListener
+              annotations:
+                - nullable
+            - name: stream
+              type:
+                name: FileDescriptor
+          return_type:
+            name: void
+        - name: reportIncidentToDumpstate
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: stream
+              type:
+                name: FileDescriptor
+            - name: listener
+              type:
+                name: IIncidentReportStatusListener
+              annotations:
+                - nullable
+          return_type:
+            name: void
+        - name: registerSection
+          transaction_code_offset: 3
+          oneway: true
+          params:
+            - name: id
+              type:
+                name: int
+            - name: name
+              type:
+                name: String
+            - name: callback
+              type:
+                name: IIncidentDumpCallback
+          return_type:
+            name: void
+        - name: unregisterSection
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: id
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: systemRunning
+          transaction_code_offset: 5
+          oneway: true
+          return_type:
+            name: void
+        - name: getIncidentReportList
+          transaction_code_offset: 6
+          params:
+            - name: pkg
+              type:
+                name: String
+            - name: cls
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getIncidentReport
+          transaction_code_offset: 7
+          params:
+            - name: pkg
+              type:
+                name: String
+            - name: cls
+              type:
+                name: String
+            - name: id
+              type:
+                name: String
+          return_type:
+            name: IncidentManager.IncidentReport
+        - name: deleteIncidentReports
+          transaction_code_offset: 8
+          params:
+            - name: pkg
+              type:
+                name: String
+            - name: cls
+              type:
+                name: String
+            - name: id
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: deleteAllIncidentReports
+          transaction_code_offset: 9
+          params:
+            - name: pkg
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IIncidentReportStatusListener
+      descriptor: android.os.IIncidentReportStatusListener
+      oneway: true
+      methods:
+        - name: onReportStarted
+          transaction_code_offset: 0
+          return_type:
+            name: void
+        - name: onReportSectionStatus
+          transaction_code_offset: 1
+          params:
+            - name: section
+              type:
+                name: int
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onReportFinished
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: onReportFailed
+          transaction_code_offset: 3
+          return_type:
+            name: void
+      constants:
+        - name: STATUS_STARTING
+          type: int
+          value: "1"
+        - name: STATUS_FINISHED
+          type: int
+          value: "2"
+    - name: IInputConstants
+      descriptor: android.os.IInputConstants
+      constants:
+        - name: UNMULTIPLIED_DEFAULT_DISPATCHING_TIMEOUT_MILLIS
+          type: int
+          value: "5000"
+        - name: INVALID_BATTERY_CAPACITY
+          type: int
+          value: "-1"
+        - name: INVALID_INPUT_EVENT_ID
+          type: int
+          value: "0"
+        - name: INVALID_INPUT_DEVICE_ID
+          type: int
+          value: "-2"
+        - name: POLICY_FLAG_INJECTED_FROM_ACCESSIBILITY
+          type: int
+          value: "0x20000"
+        - name: INPUT_EVENT_FLAG_IS_ACCESSIBILITY_EVENT
+          type: int
+          value: "0x800"
+        - name: DEFAULT_POINTER_ACCELERATION
+          type: int
+          value: "3"
+        - name: VELOCITY_TRACKER_STRATEGY_DEFAULT
+          type: int
+          value: "-1"
+        - name: VELOCITY_TRACKER_STRATEGY_IMPULSE
+          type: int
+          value: "0"
+        - name: VELOCITY_TRACKER_STRATEGY_LSQ1
+          type: int
+          value: "1"
+        - name: VELOCITY_TRACKER_STRATEGY_LSQ2
+          type: int
+          value: "2"
+        - name: VELOCITY_TRACKER_STRATEGY_LSQ3
+          type: int
+          value: "3"
+        - name: VELOCITY_TRACKER_STRATEGY_WLSQ2_DELTA
+          type: int
+          value: "4"
+        - name: VELOCITY_TRACKER_STRATEGY_WLSQ2_CENTRAL
+          type: int
+          value: "5"
+        - name: VELOCITY_TRACKER_STRATEGY_WLSQ2_RECENT
+          type: int
+          value: "6"
+        - name: VELOCITY_TRACKER_STRATEGY_INT1
+          type: int
+          value: "7"
+        - name: VELOCITY_TRACKER_STRATEGY_INT2
+          type: int
+          value: "8"
+        - name: VELOCITY_TRACKER_STRATEGY_LEGACY
+          type: int
+          value: "9"
+    - name: IInputFlinger
+      descriptor: android.os.IInputFlinger
+      methods:
+        - name: createInputChannel
+          transaction_code_offset: 0
+          params:
+            - name: name
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: InputChannelCore
+        - name: removeInputChannel
+          transaction_code_offset: 1
+          params:
+            - name: connectionToken
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: setFocusedWindow
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: request
+              type:
+                name: FocusRequest
+              direction: in
+          return_type:
+            name: void
+    - name: IInstalld
+      descriptor: android.os.IInstalld
+      methods:
+        - name: createUserData
+          transaction_code_offset: 0
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+            - name: userSerial
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: destroyUserData
+          transaction_code_offset: 1
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setFirstBoot
+          transaction_code_offset: 2
+          return_type:
+            name: void
+        - name: createAppData
+          transaction_code_offset: 3
+          params:
+            - name: args
+              type:
+                name: android.os.CreateAppDataArgs
+              direction: in
+          return_type:
+            name: android.os.CreateAppDataResult
+        - name: createAppDataBatched
+          transaction_code_offset: 4
+          params:
+            - name: args
+              type:
+                name: android.os.CreateAppDataArgs
+                is_array: true
+              direction: in
+          return_type:
+            name: android.os.CreateAppDataResult
+            is_array: true
+        - name: reconcileSdkData
+          transaction_code_offset: 5
+          params:
+            - name: args
+              type:
+                name: android.os.ReconcileSdkDataArgs
+              direction: in
+          return_type:
+            name: void
+        - name: restoreconAppData
+          transaction_code_offset: 6
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: appId
+              type:
+                name: int
+            - name: seInfo
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: migrateAppData
+          transaction_code_offset: 7
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: clearAppData
+          transaction_code_offset: 8
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: ceDataInode
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: destroyAppData
+          transaction_code_offset: 9
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: ceDataInode
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: fixupAppData
+          transaction_code_offset: 10
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getAppSize
+          transaction_code_offset: 11
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: appId
+              type:
+                name: int
+            - name: ceDataInodes
+              type:
+                name: long
+                is_array: true
+              direction: in
+            - name: codePaths
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: long
+            is_array: true
+        - name: getUserSize
+          transaction_code_offset: 12
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: appIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: long
+            is_array: true
+        - name: getExternalSize
+          transaction_code_offset: 13
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+            - name: appIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: long
+            is_array: true
+        - name: getAppCrates
+          transaction_code_offset: 14
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: packageNames
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: android.os.storage.CrateMetadata
+            is_array: true
+          annotations:
+            - nullable
+        - name: getUserCrates
+          transaction_code_offset: 15
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: android.os.storage.CrateMetadata
+            is_array: true
+          annotations:
+            - nullable
+        - name: setAppQuota
+          transaction_code_offset: 16
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+            - name: appId
+              type:
+                name: int
+            - name: cacheQuota
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: moveCompleteApp
+          transaction_code_offset: 17
+          params:
+            - name: fromUuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: toUuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: appId
+              type:
+                name: int
+            - name: seInfo
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: targetSdkVersion
+              type:
+                name: int
+            - name: fromCodePath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: dexopt
+          transaction_code_offset: 18
+          params:
+            - name: apkPath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: instructionSet
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: dexoptNeeded
+              type:
+                name: int
+            - name: outputPath
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: dexFlags
+              type:
+                name: int
+            - name: compilerFilter
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: sharedLibraries
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: seInfo
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: downgrade
+              type:
+                name: boolean
+            - name: targetSdkVersion
+              type:
+                name: int
+            - name: profileName
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: dexMetadataPath
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: compilationReason
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+          return_type:
+            name: boolean
+        - name: controlDexOptBlocking
+          transaction_code_offset: 19
+          params:
+            - name: block
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: rmdex
+          transaction_code_offset: 20
+          params:
+            - name: codePath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: instructionSet
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: mergeProfiles
+          transaction_code_offset: 21
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: profileName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: int
+        - name: dumpProfiles
+          transaction_code_offset: 22
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: profileName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: codePath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: dumpClassesAndMethods
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: copySystemProfile
+          transaction_code_offset: 23
+          params:
+            - name: systemProfile
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: profileName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: boolean
+        - name: clearAppProfiles
+          transaction_code_offset: 24
+          params:
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: profileName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: destroyAppProfiles
+          transaction_code_offset: 25
+          params:
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: deleteReferenceProfile
+          transaction_code_offset: 26
+          params:
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: profileName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: createProfileSnapshot
+          transaction_code_offset: 27
+          params:
+            - name: appId
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: profileName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: classpath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: boolean
+        - name: destroyProfileSnapshot
+          transaction_code_offset: 28
+          params:
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: profileName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: rmPackageDir
+          transaction_code_offset: 29
+          params:
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: packageDir
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: freeCache
+          transaction_code_offset: 30
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: targetFreeBytes
+              type:
+                name: long
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: linkNativeLibraryDirectory
+          transaction_code_offset: 31
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: nativeLibPath32
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: createOatDir
+          transaction_code_offset: 32
+          params:
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: oatDir
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: instructionSet
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: linkFile
+          transaction_code_offset: 33
+          params:
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: relativePath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: fromBase
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: toBase
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: moveAb
+          transaction_code_offset: 34
+          params:
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: apkPath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: instructionSet
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: outputPath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: deleteOdex
+          transaction_code_offset: 35
+          params:
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: apkPath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: instructionSet
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: outputPath
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+          return_type:
+            name: long
+        - name: reconcileSecondaryDexFile
+          transaction_code_offset: 36
+          params:
+            - name: dexPath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: pkgName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: uid
+              type:
+                name: int
+            - name: isas
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: volume_uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: storage_flag
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: hashSecondaryDexFile
+          transaction_code_offset: 37
+          params:
+            - name: dexPath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: pkgName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: uid
+              type:
+                name: int
+            - name: volumeUuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: storageFlag
+              type:
+                name: int
+          return_type:
+            name: byte
+            is_array: true
+        - name: invalidateMounts
+          transaction_code_offset: 38
+          return_type:
+            name: void
+        - name: isQuotaSupported
+          transaction_code_offset: 39
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+          return_type:
+            name: boolean
+        - name: prepareAppProfile
+          transaction_code_offset: 40
+          params:
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+            - name: appId
+              type:
+                name: int
+            - name: profileName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: codePath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: dexMetadata
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+          return_type:
+            name: boolean
+        - name: snapshotAppData
+          transaction_code_offset: 41
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: snapshotId
+              type:
+                name: int
+            - name: storageFlags
+              type:
+                name: int
+          return_type:
+            name: long
+        - name: restoreAppDataSnapshot
+          transaction_code_offset: 42
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: appId
+              type:
+                name: int
+            - name: seInfo
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: user
+              type:
+                name: int
+            - name: snapshotId
+              type:
+                name: int
+            - name: storageflags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: destroyAppDataSnapshot
+          transaction_code_offset: 43
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+            - name: ceSnapshotInode
+              type:
+                name: long
+            - name: snapshotId
+              type:
+                name: int
+            - name: storageFlags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: destroyCeSnapshotsNotSpecified
+          transaction_code_offset: 44
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+            - name: retainSnapshotIds
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: tryMountDataMirror
+          transaction_code_offset: 45
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: onPrivateVolumeRemoved
+          transaction_code_offset: 46
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+          return_type:
+            name: void
+        - name: migrateLegacyObbData
+          transaction_code_offset: 47
+          return_type:
+            name: void
+        - name: cleanupInvalidPackageDirs
+          transaction_code_offset: 48
+          params:
+            - name: uuid
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+            - name: userId
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getOdexVisibility
+          transaction_code_offset: 49
+          params:
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: apkPath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: instructionSet
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: outputPath
+              type:
+                name: String
+              annotations:
+                - nullable
+                - utf8InCpp
+          return_type:
+            name: int
+        - name: createFsveritySetupAuthToken
+          transaction_code_offset: 50
+          params:
+            - name: authFd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: IFsveritySetupAuthToken
+        - name: enableFsverity
+          transaction_code_offset: 51
+          params:
+            - name: authToken
+              type:
+                name: IFsveritySetupAuthToken
+              direction: in
+            - name: filePath
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: packageName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: int
+      constants:
+        - name: FLAG_STORAGE_DE
+          type: int
+          value: "0x1"
+        - name: FLAG_STORAGE_CE
+          type: int
+          value: "0x2"
+        - name: FLAG_STORAGE_EXTERNAL
+          type: int
+          value: "0x4"
+        - name: FLAG_STORAGE_SDK
+          type: int
+          value: "0x8"
+        - name: FLAG_CLEAR_CACHE_ONLY
+          type: int
+          value: "0x10"
+        - name: FLAG_CLEAR_CODE_CACHE_ONLY
+          type: int
+          value: "0x20"
+        - name: FLAG_FREE_CACHE_V2
+          type: int
+          value: "0x100"
+        - name: FLAG_FREE_CACHE_V2_DEFY_QUOTA
+          type: int
+          value: "0x200"
+        - name: FLAG_FREE_CACHE_NOOP
+          type: int
+          value: "0x400"
+        - name: FLAG_FREE_CACHE_DEFY_TARGET_FREE_BYTES
+          type: int
+          value: "0x800"
+        - name: FLAG_USE_QUOTA
+          type: int
+          value: "0x1000"
+        - name: FLAG_FORCE
+          type: int
+          value: "0x2000"
+        - name: FLAG_CLEAR_APP_DATA_KEEP_ART_PROFILES
+          type: int
+          value: "0x20000"
+    - name: IInstalld.IFsveritySetupAuthToken
+      descriptor: android.os.IInstalld.IFsveritySetupAuthToken
+    - name: IMessenger
+      descriptor: android.os.IMessenger
+      oneway: true
+      methods:
+        - name: send
+          transaction_code_offset: 0
+          params:
+            - name: msg
+              type:
+                name: Message
+              direction: in
+          return_type:
+            name: void
+    - name: INetworkManagementService
+      descriptor: android.os.INetworkManagementService
+      methods:
+        - name: registerObserver
+          transaction_code_offset: 0
+          params:
+            - name: obs
+              type:
+                name: INetworkManagementEventObserver
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: unregisterObserver
+          transaction_code_offset: 1
+          params:
+            - name: obs
+              type:
+                name: INetworkManagementEventObserver
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: listInterfaces
+          transaction_code_offset: 2
+          return_type:
+            name: String
+            is_array: true
+        - name: getInterfaceConfig
+          transaction_code_offset: 3
+          params:
+            - name: iface
+              type:
+                name: String
+          return_type:
+            name: InterfaceConfiguration
+          annotations:
+            - UnsupportedAppUsage
+        - name: setInterfaceConfig
+          transaction_code_offset: 4
+          params:
+            - name: iface
+              type:
+                name: String
+            - name: cfg
+              type:
+                name: InterfaceConfiguration
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: clearInterfaceAddresses
+          transaction_code_offset: 5
+          params:
+            - name: iface
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setInterfaceDown
+          transaction_code_offset: 6
+          params:
+            - name: iface
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setInterfaceUp
+          transaction_code_offset: 7
+          params:
+            - name: iface
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setInterfaceIpv6PrivacyExtensions
+          transaction_code_offset: 8
+          params:
+            - name: iface
+              type:
+                name: String
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: disableIpv6
+          transaction_code_offset: 9
+          params:
+            - name: iface
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: enableIpv6
+          transaction_code_offset: 10
+          params:
+            - name: iface
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setIPv6AddrGenMode
+          transaction_code_offset: 11
+          params:
+            - name: iface
+              type:
+                name: String
+            - name: mode
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: shutdown
+          transaction_code_offset: 12
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getIpForwardingEnabled
+          transaction_code_offset: 13
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: setIpForwardingEnabled
+          transaction_code_offset: 14
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: startTethering
+          transaction_code_offset: 15
+          params:
+            - name: dhcpRanges
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: stopTethering
+          transaction_code_offset: 16
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: isTetheringStarted
+          transaction_code_offset: 17
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: tetherInterface
+          transaction_code_offset: 18
+          params:
+            - name: iface
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: untetherInterface
+          transaction_code_offset: 19
+          params:
+            - name: iface
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: listTetheredInterfaces
+          transaction_code_offset: 20
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - UnsupportedAppUsage
+        - name: enableNat
+          transaction_code_offset: 21
+          params:
+            - name: internalInterface
+              type:
+                name: String
+            - name: externalInterface
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: disableNat
+          transaction_code_offset: 22
+          params:
+            - name: internalInterface
+              type:
+                name: String
+            - name: externalInterface
+              type:
+                name: String
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: setInterfaceQuota
+          transaction_code_offset: 23
+          params:
+            - name: iface
+              type:
+                name: String
+            - name: quotaBytes
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: removeInterfaceQuota
+          transaction_code_offset: 24
+          params:
+            - name: iface
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setInterfaceAlert
+          transaction_code_offset: 25
+          params:
+            - name: iface
+              type:
+                name: String
+            - name: alertBytes
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: removeInterfaceAlert
+          transaction_code_offset: 26
+          params:
+            - name: iface
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setUidOnMeteredNetworkDenylist
+          transaction_code_offset: 27
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setUidOnMeteredNetworkAllowlist
+          transaction_code_offset: 28
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setDataSaverModeEnabled
+          transaction_code_offset: 29
+          params:
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: setUidCleartextNetworkPolicy
+          transaction_code_offset: 30
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: policy
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isBandwidthControlEnabled
+          transaction_code_offset: 31
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: setFirewallEnabled
+          transaction_code_offset: 32
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isFirewallEnabled
+          transaction_code_offset: 33
+          return_type:
+            name: boolean
+        - name: setFirewallUidRule
+          transaction_code_offset: 34
+          params:
+            - name: chain
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+            - name: rule
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setFirewallUidRules
+          transaction_code_offset: 35
+          params:
+            - name: chain
+              type:
+                name: int
+            - name: uids
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: rules
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setFirewallChainEnabled
+          transaction_code_offset: 36
+          params:
+            - name: chain
+              type:
+                name: int
+            - name: enable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: allowProtect
+          transaction_code_offset: 37
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: denyProtect
+          transaction_code_offset: 38
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: isNetworkRestricted
+          transaction_code_offset: 39
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+    - name: IPermissionController
+      descriptor: android.os.IPermissionController
+      methods:
+        - name: checkPermission
+          transaction_code_offset: 0
+          params:
+            - name: permission
+              type:
+                name: String
+            - name: pid
+              type:
+                name: int
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: noteOp
+          transaction_code_offset: 1
+          params:
+            - name: op
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: getPackagesForUid
+          transaction_code_offset: 2
+          params:
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: String
+            is_array: true
+        - name: isRuntimePermission
+          transaction_code_offset: 3
+          params:
+            - name: permission
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getPackageUid
+          transaction_code_offset: 4
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: int
+    - name: IPowerManager
+      descriptor: android.os.IPowerManager
+      methods:
+        - name: acquireWakeLock
+          transaction_code_offset: 0
+          params:
+            - name: lock
+              type:
+                name: IBinder
+            - name: flags
+              type:
+                name: int
+            - name: tag
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+            - name: historyTag
+              type:
+                name: String
+            - name: displayId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IWakeLockCallback
+          return_type:
+            name: void
+        - name: acquireWakeLockWithUid
+          transaction_code_offset: 1
+          params:
+            - name: lock
+              type:
+                name: IBinder
+            - name: flags
+              type:
+                name: int
+            - name: tag
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: uidtoblame
+              type:
+                name: int
+            - name: displayId
+              type:
+                name: int
+            - name: callback
+              type:
+                name: IWakeLockCallback
+          return_type:
+            name: void
+        - name: releaseWakeLock
+          transaction_code_offset: 2
+          params:
+            - name: lock
+              type:
+                name: IBinder
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: updateWakeLockUids
+          transaction_code_offset: 3
+          params:
+            - name: lock
+              type:
+                name: IBinder
+            - name: uids
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: setPowerBoost
+          transaction_code_offset: 4
+          oneway: true
+          params:
+            - name: boost
+              type:
+                name: int
+            - name: durationMs
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setPowerMode
+          transaction_code_offset: 5
+          oneway: true
+          params:
+            - name: mode
+              type:
+                name: int
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: setPowerModeChecked
+          transaction_code_offset: 6
+          params:
+            - name: mode
+              type:
+                name: int
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: updateWakeLockWorkSource
+          transaction_code_offset: 7
+          params:
+            - name: lock
+              type:
+                name: IBinder
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+            - name: historyTag
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: updateWakeLockCallback
+          transaction_code_offset: 8
+          params:
+            - name: lock
+              type:
+                name: IBinder
+            - name: callback
+              type:
+                name: IWakeLockCallback
+          return_type:
+            name: void
+        - name: isWakeLockLevelSupported
+          transaction_code_offset: 9
+          params:
+            - name: level
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: userActivity
+          transaction_code_offset: 10
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: time
+              type:
+                name: long
+            - name: event
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: wakeUp
+          transaction_code_offset: 11
+          params:
+            - name: time
+              type:
+                name: long
+            - name: reason
+              type:
+                name: int
+            - name: details
+              type:
+                name: String
+            - name: opPackageName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: goToSleep
+          transaction_code_offset: 12
+          params:
+            - name: time
+              type:
+                name: long
+            - name: reason
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: goToSleepWithDisplayId
+          transaction_code_offset: 13
+          params:
+            - name: displayId
+              type:
+                name: int
+            - name: time
+              type:
+                name: long
+            - name: reason
+              type:
+                name: int
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: nap
+          transaction_code_offset: 14
+          params:
+            - name: time
+              type:
+                name: long
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: getBrightnessConstraint
+          transaction_code_offset: 15
+          params:
+            - name: constraint
+              type:
+                name: int
+          return_type:
+            name: float
+        - name: isInteractive
+          transaction_code_offset: 16
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: isDisplayInteractive
+          transaction_code_offset: 17
+          params:
+            - name: displayId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: areAutoPowerSaveModesEnabled
+          transaction_code_offset: 18
+          return_type:
+            name: boolean
+        - name: isPowerSaveMode
+          transaction_code_offset: 19
+          return_type:
+            name: boolean
+        - name: getPowerSaveState
+          transaction_code_offset: 20
+          params:
+            - name: serviceType
+              type:
+                name: int
+          return_type:
+            name: PowerSaveState
+        - name: setPowerSaveModeEnabled
+          transaction_code_offset: 21
+          params:
+            - name: mode
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: isBatterySaverSupported
+          transaction_code_offset: 22
+          return_type:
+            name: boolean
+        - name: getFullPowerSavePolicy
+          transaction_code_offset: 23
+          return_type:
+            name: BatterySaverPolicyConfig
+        - name: setFullPowerSavePolicy
+          transaction_code_offset: 24
+          params:
+            - name: config
+              type:
+                name: BatterySaverPolicyConfig
+              direction: in
+          return_type:
+            name: boolean
+        - name: setDynamicPowerSaveHint
+          transaction_code_offset: 25
+          params:
+            - name: powerSaveHint
+              type:
+                name: boolean
+            - name: disableThreshold
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setAdaptivePowerSavePolicy
+          transaction_code_offset: 26
+          params:
+            - name: config
+              type:
+                name: BatterySaverPolicyConfig
+              direction: in
+          return_type:
+            name: boolean
+        - name: setAdaptivePowerSaveEnabled
+          transaction_code_offset: 27
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: getPowerSaveModeTrigger
+          transaction_code_offset: 28
+          return_type:
+            name: int
+        - name: setBatteryDischargePrediction
+          transaction_code_offset: 29
+          params:
+            - name: timeRemaining
+              type:
+                name: ParcelDuration
+              direction: in
+            - name: isCustomized
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getBatteryDischargePrediction
+          transaction_code_offset: 30
+          return_type:
+            name: ParcelDuration
+        - name: isBatteryDischargePredictionPersonalized
+          transaction_code_offset: 31
+          return_type:
+            name: boolean
+        - name: isDeviceIdleMode
+          transaction_code_offset: 32
+          return_type:
+            name: boolean
+        - name: isLightDeviceIdleMode
+          transaction_code_offset: 33
+          return_type:
+            name: boolean
+        - name: isLowPowerStandbySupported
+          transaction_code_offset: 34
+          return_type:
+            name: boolean
+          annotations:
+            - JavaPassthrough
+        - name: isLowPowerStandbyEnabled
+          transaction_code_offset: 35
+          return_type:
+            name: boolean
+        - name: setLowPowerStandbyEnabled
+          transaction_code_offset: 36
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: setLowPowerStandbyActiveDuringMaintenance
+          transaction_code_offset: 37
+          params:
+            - name: activeDuringMaintenance
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: forceLowPowerStandbyActive
+          transaction_code_offset: 38
+          params:
+            - name: active
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: setLowPowerStandbyPolicy
+          transaction_code_offset: 39
+          params:
+            - name: policy
+              type:
+                name: LowPowerStandbyPolicy
+                is_nullable: true
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: getLowPowerStandbyPolicy
+          transaction_code_offset: 40
+          return_type:
+            name: LowPowerStandbyPolicy
+          annotations:
+            - JavaPassthrough
+        - name: isExemptFromLowPowerStandby
+          transaction_code_offset: 41
+          return_type:
+            name: boolean
+        - name: isReasonAllowedInLowPowerStandby
+          transaction_code_offset: 42
+          params:
+            - name: reason
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isFeatureAllowedInLowPowerStandby
+          transaction_code_offset: 43
+          params:
+            - name: feature
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: acquireLowPowerStandbyPorts
+          transaction_code_offset: 44
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+            - name: ports
+              type:
+                name: List
+                type_args:
+                    - name: LowPowerStandbyPortDescription
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: releaseLowPowerStandbyPorts
+          transaction_code_offset: 45
+          params:
+            - name: token
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: getActiveLowPowerStandbyPorts
+          transaction_code_offset: 46
+          return_type:
+            name: List
+            type_args:
+                - name: LowPowerStandbyPortDescription
+          annotations:
+            - JavaPassthrough
+        - name: reboot
+          transaction_code_offset: 47
+          params:
+            - name: confirm
+              type:
+                name: boolean
+            - name: reason
+              type:
+                name: String
+            - name: wait
+              type:
+                name: boolean
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: rebootSafeMode
+          transaction_code_offset: 48
+          params:
+            - name: confirm
+              type:
+                name: boolean
+            - name: wait
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: shutdown
+          transaction_code_offset: 49
+          params:
+            - name: confirm
+              type:
+                name: boolean
+            - name: reason
+              type:
+                name: String
+            - name: wait
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: crash
+          transaction_code_offset: 50
+          params:
+            - name: message
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getLastShutdownReason
+          transaction_code_offset: 51
+          return_type:
+            name: int
+        - name: getLastSleepReason
+          transaction_code_offset: 52
+          return_type:
+            name: int
+        - name: setStayOnSetting
+          transaction_code_offset: 53
+          params:
+            - name: val
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: boostScreenBrightness
+          transaction_code_offset: 54
+          params:
+            - name: time
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: acquireWakeLockAsync
+          transaction_code_offset: 55
+          oneway: true
+          params:
+            - name: lock
+              type:
+                name: IBinder
+            - name: flags
+              type:
+                name: int
+            - name: tag
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: ws
+              type:
+                name: WorkSource
+              direction: in
+            - name: historyTag
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: releaseWakeLockAsync
+          transaction_code_offset: 56
+          oneway: true
+          params:
+            - name: lock
+              type:
+                name: IBinder
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: updateWakeLockUidsAsync
+          transaction_code_offset: 57
+          oneway: true
+          params:
+            - name: lock
+              type:
+                name: IBinder
+            - name: uids
+              type:
+                name: int
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: isScreenBrightnessBoosted
+          transaction_code_offset: 58
+          return_type:
+            name: boolean
+        - name: setAttentionLight
+          transaction_code_offset: 59
+          params:
+            - name: "on"
+              type:
+                name: boolean
+            - name: color
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setDozeAfterScreenOff
+          transaction_code_offset: 60
+          params:
+            - name: "on"
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isAmbientDisplayAvailable
+          transaction_code_offset: 61
+          return_type:
+            name: boolean
+        - name: suppressAmbientDisplay
+          transaction_code_offset: 62
+          params:
+            - name: token
+              type:
+                name: String
+            - name: suppress
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: isAmbientDisplaySuppressedForToken
+          transaction_code_offset: 63
+          params:
+            - name: token
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: isAmbientDisplaySuppressed
+          transaction_code_offset: 64
+          return_type:
+            name: boolean
+        - name: isAmbientDisplaySuppressedForTokenByApp
+          transaction_code_offset: 65
+          params:
+            - name: token
+              type:
+                name: String
+            - name: appUid
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: forceSuspend
+          transaction_code_offset: 66
+          return_type:
+            name: boolean
+      constants:
+        - name: LOCATION_MODE_NO_CHANGE
+          type: int
+          value: "0"
+        - name: LOCATION_MODE_GPS_DISABLED_WHEN_SCREEN_OFF
+          type: int
+          value: "1"
+        - name: LOCATION_MODE_ALL_DISABLED_WHEN_SCREEN_OFF
+          type: int
+          value: "2"
+        - name: LOCATION_MODE_FOREGROUND_ONLY
+          type: int
+          value: "3"
+        - name: LOCATION_MODE_THROTTLE_REQUESTS_WHEN_SCREEN_OFF
+          type: int
+          value: "4"
+        - name: MIN_LOCATION_MODE
+          type: int
+          value: "0"
+        - name: MAX_LOCATION_MODE
+          type: int
+          value: "4"
+        - name: GO_TO_SLEEP_REASON_MIN
+          type: int
+          value: "0"
+        - name: GO_TO_SLEEP_REASON_APPLICATION
+          type: int
+          value: "0"
+        - name: GO_TO_SLEEP_REASON_TIMEOUT
+          type: int
+          value: "2"
+        - name: GO_TO_SLEEP_REASON_LID_SWITCH
+          type: int
+          value: "3"
+        - name: GO_TO_SLEEP_REASON_POWER_BUTTON
+          type: int
+          value: "4"
+        - name: GO_TO_SLEEP_REASON_HDMI
+          type: int
+          value: "5"
+        - name: GO_TO_SLEEP_REASON_SLEEP_BUTTON
+          type: int
+          value: "6"
+        - name: GO_TO_SLEEP_REASON_ACCESSIBILITY
+          type: int
+          value: "7"
+        - name: GO_TO_SLEEP_REASON_FORCE_SUSPEND
+          type: int
+          value: "8"
+        - name: GO_TO_SLEEP_REASON_INATTENTIVE
+          type: int
+          value: "9"
+        - name: GO_TO_SLEEP_REASON_QUIESCENT
+          type: int
+          value: "10"
+        - name: GO_TO_SLEEP_REASON_MAX
+          type: int
+          value: "10"
+        - name: GO_TO_SLEEP_FLAG_NO_DOZE
+          type: int
+          value: 1 << 0
+    - name: IPowerStatsService
+      descriptor: android.os.IPowerStatsService
+      methods:
+        - name: getSupportedPowerMonitors
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: resultReceiver
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+        - name: getPowerMonitorReadings
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: powerMonitorIndices
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: resultReceiver
+              type:
+                name: ResultReceiver
+              direction: in
+          return_type:
+            name: void
+      constants:
+        - name: KEY_MONITORS
+          type: String
+          value: '"monitors"'
+        - name: KEY_ENERGY
+          type: String
+          value: '"energy"'
+        - name: KEY_TIMESTAMPS
+          type: String
+          value: '"timestamps"'
+        - name: RESULT_SUCCESS
+          type: int
+          value: "0"
+        - name: RESULT_UNSUPPORTED_POWER_MONITOR
+          type: int
+          value: "1"
+    - name: IProcessInfoService
+      descriptor: android.os.IProcessInfoService
+      methods:
+        - name: getProcessStatesFromPids
+          transaction_code_offset: 0
+          params:
+            - name: pids
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: states
+              type:
+                name: int
+                is_array: true
+              direction: out
+          return_type:
+            name: void
+        - name: getProcessStatesAndOomScoresFromPids
+          transaction_code_offset: 1
+          params:
+            - name: pids
+              type:
+                name: int
+                is_array: true
+              direction: in
+            - name: states
+              type:
+                name: int
+                is_array: true
+              direction: out
+            - name: scores
+              type:
+                name: int
+                is_array: true
+              direction: out
+          return_type:
+            name: void
+    - name: IProgressListener
+      descriptor: android.os.IProgressListener
+      oneway: true
+      methods:
+        - name: onStarted
+          transaction_code_offset: 0
+          params:
+            - name: id
+              type:
+                name: int
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onProgress
+          transaction_code_offset: 1
+          params:
+            - name: id
+              type:
+                name: int
+            - name: progress
+              type:
+                name: int
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: onFinished
+          transaction_code_offset: 2
+          params:
+            - name: id
+              type:
+                name: int
+            - name: extras
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+    - name: IRecoverySystem
+      descriptor: android.os.IRecoverySystem
+      methods:
+        - name: allocateSpaceForUpdate
+          transaction_code_offset: 0
+          params:
+            - name: packageFilePath
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: uncrypt
+          transaction_code_offset: 1
+          params:
+            - name: packageFile
+              type:
+                name: String
+              direction: in
+            - name: listener
+              type:
+                name: IRecoverySystemProgressListener
+          return_type:
+            name: boolean
+        - name: setupBcb
+          transaction_code_offset: 2
+          params:
+            - name: command
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: clearBcb
+          transaction_code_offset: 3
+          return_type:
+            name: boolean
+        - name: rebootRecoveryWithCommand
+          transaction_code_offset: 4
+          params:
+            - name: command
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: requestLskf
+          transaction_code_offset: 5
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: sender
+              type:
+                name: IntentSender
+              direction: in
+          return_type:
+            name: boolean
+        - name: clearLskf
+          transaction_code_offset: 6
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: isLskfCaptured
+          transaction_code_offset: 7
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: rebootWithLskfAssumeSlotSwitch
+          transaction_code_offset: 8
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: reason
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+          annotations:
+            - EnforcePermission
+        - name: rebootWithLskf
+          transaction_code_offset: 9
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: reason
+              type:
+                name: String
+              direction: in
+            - name: slotSwitch
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: int
+    - name: IRecoverySystemProgressListener
+      descriptor: android.os.IRecoverySystemProgressListener
+      oneway: true
+      methods:
+        - name: onProgress
+          transaction_code_offset: 0
+          params:
+            - name: progress
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IRemoteCallback
+      descriptor: android.os.IRemoteCallback
+      oneway: true
+      methods:
+        - name: sendResult
+          transaction_code_offset: 0
+          params:
+            - name: data
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+    - name: ISchedulingPolicyService
+      descriptor: android.os.ISchedulingPolicyService
+      methods:
+        - name: requestPriority
+          transaction_code_offset: 0
+          params:
+            - name: pid
+              type:
+                name: int
+            - name: tid
+              type:
+                name: int
+            - name: prio
+              type:
+                name: int
+            - name: isForApp
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: requestCpusetBoost
+          transaction_code_offset: 1
+          params:
+            - name: enable
+              type:
+                name: boolean
+            - name: client
+              type:
+                name: IBinder
+          return_type:
+            name: int
+    - name: ISecurityStateManager
+      descriptor: android.os.ISecurityStateManager
+      methods:
+        - name: getGlobalSecurityState
+          transaction_code_offset: 0
+          return_type:
+            name: Bundle
+    - name: IServiceCallback
+      descriptor: android.os.IServiceCallback
+      oneway: true
+      methods:
+        - name: onRegistration
+          transaction_code_offset: 0
+          params:
+            - name: name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: binder
+              type:
+                name: IBinder
+          return_type:
+            name: void
+    - name: IServiceManager
+      descriptor: android.os.IServiceManager
+      methods:
+        - name: getService
+          transaction_code_offset: 0
+          params:
+            - name: name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: IBinder
+          annotations:
+            - UnsupportedAppUsage
+            - nullable
+        - name: checkService
+          transaction_code_offset: 1
+          params:
+            - name: name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: IBinder
+          annotations:
+            - UnsupportedAppUsage
+            - nullable
+        - name: addService
+          transaction_code_offset: 2
+          params:
+            - name: name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: service
+              type:
+                name: IBinder
+            - name: allowIsolated
+              type:
+                name: boolean
+            - name: dumpPriority
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: listServices
+          transaction_code_offset: 3
+          params:
+            - name: dumpPriority
+              type:
+                name: int
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - utf8InCpp
+        - name: registerForNotifications
+          transaction_code_offset: 4
+          params:
+            - name: name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: callback
+              type:
+                name: IServiceCallback
+          return_type:
+            name: void
+        - name: unregisterForNotifications
+          transaction_code_offset: 5
+          params:
+            - name: name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: callback
+              type:
+                name: IServiceCallback
+          return_type:
+            name: void
+        - name: isDeclared
+          transaction_code_offset: 6
+          params:
+            - name: name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: boolean
+        - name: getDeclaredInstances
+          transaction_code_offset: 7
+          params:
+            - name: iface
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - utf8InCpp
+        - name: updatableViaApex
+          transaction_code_offset: 8
+          params:
+            - name: name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: String
+          annotations:
+            - nullable
+            - utf8InCpp
+        - name: getUpdatableNames
+          transaction_code_offset: 9
+          params:
+            - name: apexName
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: String
+            is_array: true
+          annotations:
+            - utf8InCpp
+        - name: getConnectionInfo
+          transaction_code_offset: 10
+          params:
+            - name: name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+          return_type:
+            name: ConnectionInfo
+          annotations:
+            - nullable
+        - name: registerClientCallback
+          transaction_code_offset: 11
+          params:
+            - name: name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: service
+              type:
+                name: IBinder
+            - name: callback
+              type:
+                name: IClientCallback
+          return_type:
+            name: void
+        - name: tryUnregisterService
+          transaction_code_offset: 12
+          params:
+            - name: name
+              type:
+                name: String
+              annotations:
+                - utf8InCpp
+            - name: service
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: getServiceDebugInfo
+          transaction_code_offset: 13
+          return_type:
+            name: ServiceDebugInfo
+            is_array: true
+      constants:
+        - name: DUMP_FLAG_PRIORITY_CRITICAL
+          type: int
+          value: 1 << 0
+        - name: DUMP_FLAG_PRIORITY_HIGH
+          type: int
+          value: 1 << 1
+        - name: DUMP_FLAG_PRIORITY_NORMAL
+          type: int
+          value: 1 << 2
+        - name: DUMP_FLAG_PRIORITY_DEFAULT
+          type: int
+          value: 1 << 3
+        - name: DUMP_FLAG_PRIORITY_ALL
+          type: int
+          value: DUMP_FLAG_PRIORITY_CRITICAL | DUMP_FLAG_PRIORITY_HIGH | DUMP_FLAG_PRIORITY_NORMAL | DUMP_FLAG_PRIORITY_DEFAULT
+        - name: DUMP_FLAG_PROTO
+          type: int
+          value: 1 << 4
+    - name: ISomeService
+      descriptor: android.os.ISomeService
+      methods:
+        - name: readDisk
+          transaction_code_offset: 0
+          params:
+            - name: times
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IStatsBootstrapAtomService
+      descriptor: android.os.IStatsBootstrapAtomService
+      oneway: true
+      methods:
+        - name: reportBootstrapAtom
+          transaction_code_offset: 0
+          params:
+            - name: atom
+              type:
+                name: StatsBootstrapAtom
+              direction: in
+          return_type:
+            name: void
+    - name: ISystemConfig
+      descriptor: android.os.ISystemConfig
+      methods:
+        - name: getDisabledUntilUsedPreinstalledCarrierApps
+          transaction_code_offset: 0
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getDisabledUntilUsedPreinstalledCarrierAssociatedApps
+          transaction_code_offset: 1
+          return_type:
+            name: Map
+        - name: getDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries
+          transaction_code_offset: 2
+          return_type:
+            name: Map
+        - name: getSystemPermissionUids
+          transaction_code_offset: 3
+          params:
+            - name: permissionName
+              type:
+                name: String
+          return_type:
+            name: int
+            is_array: true
+        - name: getEnabledComponentOverrides
+          transaction_code_offset: 4
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: List
+            type_args:
+                - name: ComponentName
+        - name: getDefaultVrComponents
+          transaction_code_offset: 5
+          return_type:
+            name: List
+            type_args:
+                - name: ComponentName
+        - name: getPreventUserDisablePackages
+          transaction_code_offset: 6
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: getEnhancedConfirmationTrustedPackages
+          transaction_code_offset: 7
+          return_type:
+            name: List
+            type_args:
+                - name: SignedPackageParcel
+        - name: getEnhancedConfirmationTrustedInstallers
+          transaction_code_offset: 8
+          return_type:
+            name: List
+            type_args:
+                - name: SignedPackageParcel
+    - name: ISystemUpdateManager
+      descriptor: android.os.ISystemUpdateManager
+      methods:
+        - name: retrieveSystemUpdateInfo
+          transaction_code_offset: 0
+          return_type:
+            name: Bundle
+        - name: updateSystemUpdateInfo
+          transaction_code_offset: 1
+          params:
+            - name: data
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+    - name: IThermalEventListener
+      descriptor: android.os.IThermalEventListener
+      oneway: true
+      methods:
+        - name: notifyThrottling
+          transaction_code_offset: 0
+          params:
+            - name: temperature
+              type:
+                name: Temperature
+              direction: in
+          return_type:
+            name: void
+    - name: IThermalService
+      descriptor: android.os.IThermalService
+      methods:
+        - name: registerThermalEventListener
+          transaction_code_offset: 0
+          params:
+            - name: listener
+              type:
+                name: IThermalEventListener
+              direction: in
+          return_type:
+            name: boolean
+        - name: registerThermalEventListenerWithType
+          transaction_code_offset: 1
+          params:
+            - name: listener
+              type:
+                name: IThermalEventListener
+              direction: in
+            - name: type
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: boolean
+        - name: unregisterThermalEventListener
+          transaction_code_offset: 2
+          params:
+            - name: listener
+              type:
+                name: IThermalEventListener
+              direction: in
+          return_type:
+            name: boolean
+        - name: getCurrentTemperatures
+          transaction_code_offset: 3
+          return_type:
+            name: Temperature
+            is_array: true
+        - name: getCurrentTemperaturesWithType
+          transaction_code_offset: 4
+          params:
+            - name: type
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: Temperature
+            is_array: true
+        - name: registerThermalStatusListener
+          transaction_code_offset: 5
+          params:
+            - name: listener
+              type:
+                name: IThermalStatusListener
+              direction: in
+          return_type:
+            name: boolean
+        - name: unregisterThermalStatusListener
+          transaction_code_offset: 6
+          params:
+            - name: listener
+              type:
+                name: IThermalStatusListener
+              direction: in
+          return_type:
+            name: boolean
+        - name: getCurrentThermalStatus
+          transaction_code_offset: 7
+          return_type:
+            name: int
+        - name: getCurrentCoolingDevices
+          transaction_code_offset: 8
+          return_type:
+            name: CoolingDevice
+            is_array: true
+        - name: getCurrentCoolingDevicesWithType
+          transaction_code_offset: 9
+          params:
+            - name: type
+              type:
+                name: int
+              direction: in
+          return_type:
+            name: CoolingDevice
+            is_array: true
+        - name: getThermalHeadroom
+          transaction_code_offset: 10
+          params:
+            - name: forecastSeconds
+              type:
+                name: int
+          return_type:
+            name: float
+        - name: getThermalHeadroomThresholds
+          transaction_code_offset: 11
+          return_type:
+            name: float
+            is_array: true
+    - name: IThermalStatusListener
+      descriptor: android.os.IThermalStatusListener
+      oneway: true
+      methods:
+        - name: onStatusChange
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IUpdateLock
+      descriptor: android.os.IUpdateLock
+      methods:
+        - name: acquireUpdateLock
+          transaction_code_offset: 0
+          params:
+            - name: token
+              type:
+                name: IBinder
+            - name: tag
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: releaseUpdateLock
+          transaction_code_offset: 1
+          params:
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+    - name: IUserManager
+      descriptor: android.os.IUserManager
+      methods:
+        - name: getCredentialOwnerProfile
+          transaction_code_offset: 0
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getProfileParentId
+          transaction_code_offset: 1
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: createUserWithThrow
+          transaction_code_offset: 2
+          params:
+            - name: name
+              type:
+                name: String
+              direction: in
+            - name: userType
+              type:
+                name: String
+              direction: in
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: UserInfo
+        - name: preCreateUserWithThrow
+          transaction_code_offset: 3
+          params:
+            - name: userType
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: UserInfo
+        - name: createProfileForUserWithThrow
+          transaction_code_offset: 4
+          params:
+            - name: name
+              type:
+                name: String
+              direction: in
+            - name: userType
+              type:
+                name: String
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: disallowedPackages
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: UserInfo
+        - name: createRestrictedProfileWithThrow
+          transaction_code_offset: 5
+          params:
+            - name: name
+              type:
+                name: String
+            - name: parentUserHandle
+              type:
+                name: int
+          return_type:
+            name: UserInfo
+        - name: getPreInstallableSystemPackages
+          transaction_code_offset: 6
+          params:
+            - name: userType
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: String
+            is_array: true
+        - name: setUserEnabled
+          transaction_code_offset: 7
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setUserAdmin
+          transaction_code_offset: 8
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: revokeUserAdmin
+          transaction_code_offset: 9
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: evictCredentialEncryptionKey
+          transaction_code_offset: 10
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: removeUser
+          transaction_code_offset: 11
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: removeUserEvenWhenDisallowed
+          transaction_code_offset: 12
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: setUserName
+          transaction_code_offset: 13
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: name
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: setUserIcon
+          transaction_code_offset: 14
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: icon
+              type:
+                name: Bitmap
+              direction: in
+          return_type:
+            name: void
+        - name: getUserIcon
+          transaction_code_offset: 15
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParcelFileDescriptor
+        - name: getPrimaryUser
+          transaction_code_offset: 16
+          return_type:
+            name: UserInfo
+        - name: getMainUserId
+          transaction_code_offset: 17
+          return_type:
+            name: int
+        - name: getCommunalProfileId
+          transaction_code_offset: 18
+          return_type:
+            name: int
+        - name: getPreviousFullUserToEnterForeground
+          transaction_code_offset: 19
+          return_type:
+            name: int
+        - name: getUsers
+          transaction_code_offset: 20
+          params:
+            - name: excludePartial
+              type:
+                name: boolean
+            - name: excludeDying
+              type:
+                name: boolean
+            - name: excludePreCreated
+              type:
+                name: boolean
+          return_type:
+            name: List
+            type_args:
+                - name: UserInfo
+        - name: getProfiles
+          transaction_code_offset: 21
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: enabledOnly
+              type:
+                name: boolean
+          return_type:
+            name: List
+            type_args:
+                - name: UserInfo
+        - name: getProfileIds
+          transaction_code_offset: 22
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: enabledOnly
+              type:
+                name: boolean
+          return_type:
+            name: int
+            is_array: true
+        - name: isUserTypeEnabled
+          transaction_code_offset: 23
+          params:
+            - name: userType
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: canAddMoreUsersOfType
+          transaction_code_offset: 24
+          params:
+            - name: userType
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: getRemainingCreatableUserCount
+          transaction_code_offset: 25
+          params:
+            - name: userType
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: getRemainingCreatableProfileCount
+          transaction_code_offset: 26
+          params:
+            - name: userType
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: canAddMoreProfilesToUser
+          transaction_code_offset: 27
+          params:
+            - name: userType
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: allowedToRemoveOne
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: canAddMoreManagedProfiles
+          transaction_code_offset: 28
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: allowedToRemoveOne
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: getProfileParent
+          transaction_code_offset: 29
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: UserInfo
+        - name: isSameProfileGroup
+          transaction_code_offset: 30
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: otherUserHandle
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isHeadlessSystemUserMode
+          transaction_code_offset: 31
+          return_type:
+            name: boolean
+        - name: isUserOfType
+          transaction_code_offset: 32
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: userType
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: getUserInfo
+          transaction_code_offset: 33
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: UserInfo
+          annotations:
+            - UnsupportedAppUsage
+        - name: getUserPropertiesCopy
+          transaction_code_offset: 34
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: UserProperties
+        - name: getUserAccount
+          transaction_code_offset: 35
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: setUserAccount
+          transaction_code_offset: 36
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: accountName
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getUserCreationTime
+          transaction_code_offset: 37
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: long
+        - name: getUserSwitchability
+          transaction_code_offset: 38
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: isUserSwitcherEnabled
+          transaction_code_offset: 39
+          params:
+            - name: showEvenIfNotActionable
+              type:
+                name: boolean
+            - name: mUserId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isRestricted
+          transaction_code_offset: 40
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: canHaveRestrictedProfile
+          transaction_code_offset: 41
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getUserSerialNumber
+          transaction_code_offset: 42
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getUserHandle
+          transaction_code_offset: 43
+          params:
+            - name: userSerialNumber
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getUserRestrictionSource
+          transaction_code_offset: 44
+          params:
+            - name: restrictionKey
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getUserRestrictionSources
+          transaction_code_offset: 45
+          params:
+            - name: restrictionKey
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: UserManager.EnforcingUser
+        - name: getUserRestrictions
+          transaction_code_offset: 46
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: Bundle
+        - name: hasBaseUserRestriction
+          transaction_code_offset: 47
+          params:
+            - name: restrictionKey
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: hasUserRestriction
+          transaction_code_offset: 48
+          params:
+            - name: restrictionKey
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: hasUserRestrictionOnAnyUser
+          transaction_code_offset: 49
+          params:
+            - name: restrictionKey
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: isSettingRestrictedForUser
+          transaction_code_offset: 50
+          params:
+            - name: setting
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+            - name: value
+              type:
+                name: String
+              direction: in
+            - name: callingUid
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: addUserRestrictionsListener
+          transaction_code_offset: 51
+          params:
+            - name: listener
+              type:
+                name: IUserRestrictionsListener
+          return_type:
+            name: void
+        - name: setUserRestriction
+          transaction_code_offset: 52
+          params:
+            - name: key
+              type:
+                name: String
+            - name: value
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: setApplicationRestrictions
+          transaction_code_offset: 53
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: restrictions
+              type:
+                name: Bundle
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: getApplicationRestrictions
+          transaction_code_offset: 54
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: Bundle
+        - name: getApplicationRestrictionsForUser
+          transaction_code_offset: 55
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: Bundle
+        - name: setDefaultGuestRestrictions
+          transaction_code_offset: 56
+          params:
+            - name: restrictions
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+        - name: getDefaultGuestRestrictions
+          transaction_code_offset: 57
+          return_type:
+            name: Bundle
+        - name: removeUserWhenPossible
+          transaction_code_offset: 58
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: overrideDevicePolicy
+              type:
+                name: boolean
+          return_type:
+            name: int
+        - name: markGuestForDeletion
+          transaction_code_offset: 59
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getGuestUsers
+          transaction_code_offset: 60
+          return_type:
+            name: List
+            type_args:
+                - name: UserInfo
+        - name: isQuietModeEnabled
+          transaction_code_offset: 61
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: createUserWithAttributes
+          transaction_code_offset: 62
+          params:
+            - name: userName
+              type:
+                name: String
+              direction: in
+            - name: userType
+              type:
+                name: String
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: userIcon
+              type:
+                name: Bitmap
+              direction: in
+            - name: accountName
+              type:
+                name: String
+              direction: in
+            - name: accountType
+              type:
+                name: String
+              direction: in
+            - name: accountOptions
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: UserHandle
+        - name: setSeedAccountData
+          transaction_code_offset: 63
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: accountName
+              type:
+                name: String
+              direction: in
+            - name: accountType
+              type:
+                name: String
+              direction: in
+            - name: accountOptions
+              type:
+                name: PersistableBundle
+              direction: in
+            - name: persist
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: getSeedAccountName
+          transaction_code_offset: 64
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: getSeedAccountType
+          transaction_code_offset: 65
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: getSeedAccountOptions
+          transaction_code_offset: 66
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: PersistableBundle
+        - name: clearSeedAccountData
+          transaction_code_offset: 67
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: someUserHasSeedAccount
+          transaction_code_offset: 68
+          params:
+            - name: accountName
+              type:
+                name: String
+              direction: in
+            - name: accountType
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: someUserHasAccount
+          transaction_code_offset: 69
+          params:
+            - name: accountName
+              type:
+                name: String
+              direction: in
+            - name: accountType
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: getProfileType
+          transaction_code_offset: 70
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: String
+        - name: isDemoUser
+          transaction_code_offset: 71
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isAdminUser
+          transaction_code_offset: 72
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isPreCreated
+          transaction_code_offset: 73
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: createProfileForUserEvenWhenDisallowedWithThrow
+          transaction_code_offset: 74
+          params:
+            - name: name
+              type:
+                name: String
+              direction: in
+            - name: userType
+              type:
+                name: String
+              direction: in
+            - name: flags
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+            - name: disallowedPackages
+              type:
+                name: String
+                is_array: true
+              direction: in
+          return_type:
+            name: UserInfo
+        - name: isUserUnlockingOrUnlocked
+          transaction_code_offset: 75
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getUserIconBadgeResId
+          transaction_code_offset: 76
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getUserBadgeResId
+          transaction_code_offset: 77
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getUserBadgeNoBackgroundResId
+          transaction_code_offset: 78
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getUserBadgeLabelResId
+          transaction_code_offset: 79
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getUserBadgeColorResId
+          transaction_code_offset: 80
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getUserBadgeDarkColorResId
+          transaction_code_offset: 81
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: getUserStatusBarIconResId
+          transaction_code_offset: 82
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: hasBadge
+          transaction_code_offset: 83
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getProfileLabelResId
+          transaction_code_offset: 84
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: isUserUnlocked
+          transaction_code_offset: 85
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isUserRunning
+          transaction_code_offset: 86
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isUserForeground
+          transaction_code_offset: 87
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: isUserVisible
+          transaction_code_offset: 88
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getVisibleUsers
+          transaction_code_offset: 89
+          return_type:
+            name: int
+            is_array: true
+        - name: getMainDisplayIdAssignedToUser
+          transaction_code_offset: 90
+          return_type:
+            name: int
+        - name: isForegroundUserAdmin
+          transaction_code_offset: 91
+          return_type:
+            name: boolean
+        - name: isUserNameSet
+          transaction_code_offset: 92
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: hasRestrictedProfiles
+          transaction_code_offset: 93
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: requestQuietModeEnabled
+          transaction_code_offset: 94
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: enableQuietMode
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+            - name: target
+              type:
+                name: IntentSender
+              direction: in
+            - name: flags
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: getUserName
+          transaction_code_offset: 95
+          return_type:
+            name: String
+        - name: getUserStartRealtime
+          transaction_code_offset: 96
+          return_type:
+            name: long
+        - name: getUserUnlockRealtime
+          transaction_code_offset: 97
+          return_type:
+            name: long
+        - name: setUserEphemeral
+          transaction_code_offset: 98
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: enableEphemeral
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: setBootUser
+          transaction_code_offset: 99
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: getBootUser
+          transaction_code_offset: 100
+          return_type:
+            name: int
+          annotations:
+            - JavaPassthrough
+        - name: getProfileIdsExcludingHidden
+          transaction_code_offset: 101
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: enabledOnly
+              type:
+                name: boolean
+          return_type:
+            name: int
+            is_array: true
+    - name: IUserRestrictionsListener
+      descriptor: android.os.IUserRestrictionsListener
+      oneway: true
+      methods:
+        - name: onUserRestrictionsChanged
+          transaction_code_offset: 0
+          params:
+            - name: userId
+              type:
+                name: int
+            - name: newRestrictions
+              type:
+                name: Bundle
+              direction: in
+            - name: prevRestrictions
+              type:
+                name: Bundle
+              direction: in
+          return_type:
+            name: void
+    - name: IVibratorManagerService
+      descriptor: android.os.IVibratorManagerService
+      methods:
+        - name: getVibratorIds
+          transaction_code_offset: 0
+          return_type:
+            name: int
+            is_array: true
+        - name: getVibratorInfo
+          transaction_code_offset: 1
+          params:
+            - name: vibratorId
+              type:
+                name: int
+          return_type:
+            name: VibratorInfo
+        - name: isVibrating
+          transaction_code_offset: 2
+          params:
+            - name: vibratorId
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: registerVibratorStateListener
+          transaction_code_offset: 3
+          params:
+            - name: vibratorId
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IVibratorStateListener
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: unregisterVibratorStateListener
+          transaction_code_offset: 4
+          params:
+            - name: vibratorId
+              type:
+                name: int
+            - name: listener
+              type:
+                name: IVibratorStateListener
+              direction: in
+          return_type:
+            name: boolean
+          annotations:
+            - EnforcePermission
+        - name: setAlwaysOnEffect
+          transaction_code_offset: 5
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: opPkg
+              type:
+                name: String
+            - name: alwaysOnId
+              type:
+                name: int
+            - name: vibration
+              type:
+                name: CombinedVibration
+              direction: in
+            - name: attributes
+              type:
+                name: VibrationAttributes
+              direction: in
+          return_type:
+            name: boolean
+        - name: vibrate
+          transaction_code_offset: 6
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: deviceId
+              type:
+                name: int
+            - name: opPkg
+              type:
+                name: String
+            - name: vibration
+              type:
+                name: CombinedVibration
+              direction: in
+            - name: attributes
+              type:
+                name: VibrationAttributes
+              direction: in
+            - name: reason
+              type:
+                name: String
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: cancelVibrate
+          transaction_code_offset: 7
+          params:
+            - name: usageFilter
+              type:
+                name: int
+            - name: token
+              type:
+                name: IBinder
+          return_type:
+            name: void
+        - name: performHapticFeedback
+          transaction_code_offset: 8
+          oneway: true
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: deviceId
+              type:
+                name: int
+            - name: opPkg
+              type:
+                name: String
+            - name: constant
+              type:
+                name: int
+            - name: always
+              type:
+                name: boolean
+            - name: reason
+              type:
+                name: String
+            - name: fromIme
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IVibratorStateListener
+      descriptor: android.os.IVibratorStateListener
+      oneway: true
+      methods:
+        - name: onVibrating
+          transaction_code_offset: 0
+          params:
+            - name: vibrating
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+    - name: IVoldTaskListener
+      descriptor: android.os.IVoldTaskListener
+      oneway: true
+      methods:
+        - name: onStatus
+          transaction_code_offset: 0
+          params:
+            - name: status
+              type:
+                name: int
+              direction: in
+            - name: extras
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+        - name: onFinished
+          transaction_code_offset: 1
+          params:
+            - name: status
+              type:
+                name: int
+              direction: in
+            - name: extras
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+    - name: IWakeLockCallback
+      descriptor: android.os.IWakeLockCallback
+      oneway: true
+      methods:
+        - name: onStateChanged
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: enabled
+              type:
+                name: boolean
+          return_type:
+            name: void
+parcelables:
+    - name: AidlTest.TestParcelable
+    - name: BatteryProperty
+    - name: BatterySaverPolicyConfig
+    - name: BatteryUsageStats
+    - name: BatteryUsageStatsQuery
+    - name: BluetoothBatteryStats
+    - name: Bundle
+    - name: CarrierAssociatedAppEntry
+    - name: CombinedVibration
+    - name: ConnectionInfo
+      fields:
+        - name: ipAddress
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: port
+          type:
+            name: int
+    - name: CoolingDevice
+    - name: CpuUsageInfo
+    - name: CreateAppDataArgs
+      fields:
+        - name: uuid
+          type:
+            name: String
+          annotations:
+            - nullable
+            - utf8InCpp
+        - name: packageName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: userId
+          type:
+            name: int
+        - name: flags
+          type:
+            name: int
+        - name: appId
+          type:
+            name: int
+        - name: previousAppId
+          type:
+            name: int
+        - name: seInfo
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: targetSdkVersion
+          type:
+            name: int
+    - name: CreateAppDataResult
+      fields:
+        - name: ceDataInode
+          type:
+            name: long
+        - name: deDataInode
+          type:
+            name: long
+        - name: exceptionCode
+          type:
+            name: int
+        - name: exceptionMessage
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+    - name: Debug.MemoryInfo
+    - name: DropBoxManager.Entry
+    - name: ExternalVibration
+    - name: ExternalVibrationScale
+      fields:
+        - name: scaleLevel
+          type:
+            name: ScaleLevel
+          default_value: ScaleLevel.SCALE_NONE
+        - name: adaptiveHapticsScale
+          type:
+            name: float
+          default_value: 1f
+      nested_types:
+        - ExternalVibrationScale.ScaleLevel
+    - name: FabricatedOverlayInfo
+      fields:
+        - name: path
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: packageName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: overlayName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: targetPackageName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: targetOverlayable
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+    - name: FabricatedOverlayInternal
+      fields:
+        - name: packageName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: overlayName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: targetPackageName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: targetOverlayable
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: entries
+          type:
+            name: List
+            type_args:
+                - name: FabricatedOverlayInternalEntry
+    - name: FabricatedOverlayInternalEntry
+      fields:
+        - name: resourceName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: dataType
+          type:
+            name: int
+        - name: data
+          type:
+            name: int
+        - name: stringData
+          type:
+            name: String
+          annotations:
+            - nullable
+            - utf8InCpp
+        - name: binaryData
+          type:
+            name: ParcelFileDescriptor
+          annotations:
+            - nullable
+        - name: configuration
+          type:
+            name: String
+          annotations:
+            - nullable
+            - utf8InCpp
+        - name: binaryDataOffset
+          type:
+            name: long
+        - name: binaryDataSize
+          type:
+            name: long
+        - name: isNinePatch
+          type:
+            name: boolean
+    - name: IPowerManager.LowPowerStandbyPolicy
+      fields:
+        - name: identifier
+          type:
+            name: String
+        - name: exemptPackages
+          type:
+            name: List
+            type_args:
+                - name: String
+        - name: allowedReasons
+          type:
+            name: int
+        - name: allowedFeatures
+          type:
+            name: List
+            type_args:
+                - name: String
+    - name: IPowerManager.LowPowerStandbyPortDescription
+      fields:
+        - name: protocol
+          type:
+            name: int
+        - name: portMatcher
+          type:
+            name: int
+        - name: portNumber
+          type:
+            name: int
+        - name: localAddress
+          type:
+            name: byte
+            is_array: true
+          annotations:
+            - nullable
+    - name: IncidentManager.IncidentReport
+    - name: IncidentReportArgs
+    - name: InputChannelCore
+      fields:
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: fd
+          type:
+            name: ParcelFileDescriptor
+        - name: token
+          type:
+            name: IBinder
+    - name: LocaleList
+    - name: Message
+    - name: Messenger
+    - name: PackageTagsList
+    - name: ParcelDuration
+    - name: ParcelUuid
+    - name: ParcelableException
+    - name: ParcelableHolder
+    - name: ParcelableParcel
+    - name: PatternMatcher
+    - name: PersistableBundle
+      annotations:
+        - JavaOnlyStableParcelable
+        - NdkOnlyStableParcelable
+    - name: PowerMonitor
+      annotations:
+        - JavaOnlyStableParcelable
+    - name: PowerSaveState
+    - name: ReconcileSdkDataArgs
+      fields:
+        - name: uuid
+          type:
+            name: String
+          annotations:
+            - nullable
+            - utf8InCpp
+        - name: packageName
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: subDirNames
+          type:
+            name: List
+            type_args:
+                - name: String
+          annotations:
+            - utf8InCpp
+        - name: userId
+          type:
+            name: int
+        - name: appId
+          type:
+            name: int
+        - name: previousAppId
+          type:
+            name: int
+        - name: seInfo
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: flags
+          type:
+            name: int
+    - name: RemoteCallback
+    - name: ResultReceiver
+      annotations:
+        - JavaOnlyStableParcelable
+    - name: ServiceDebugInfo
+      fields:
+        - name: name
+          type:
+            name: String
+          annotations:
+            - utf8InCpp
+        - name: debugPid
+          type:
+            name: int
+    - name: SharedMemory
+    - name: StatsBootstrapAtom
+      fields:
+        - name: atomId
+          type:
+            name: int
+        - name: values
+          type:
+            name: StatsBootstrapAtomValue
+            is_array: true
+    - name: StrictMode.ViolationInfo
+    - name: SynchronousResultReceiver
+    - name: Temperature
+    - name: UserHandle
+    - name: UserManager.EnforcingUser
+    - name: VibrationAttributes
+    - name: VibrationEffect
+    - name: VibratorInfo
+    - name: WakeLockStats
+    - name: WorkDuration
+    - name: WorkSource
+enums:
+    - name: ExternalVibrationScale.ScaleLevel
+      backing_type: int
+      values:
+        - name: SCALE_MUTE
+          value: "-100"
+        - name: SCALE_VERY_LOW
+          value: "-2"
+        - name: SCALE_LOW
+          value: "-1"
+        - name: SCALE_NONE
+          value: "0"
+        - name: SCALE_HIGH
+          value: "1"
+        - name: SCALE_VERY_HIGH
+          value: "2"
+      annotations:
+        - Backing
+    - name: InputConfig
+      backing_type: int
+      values:
+        - name: DEFAULT
+          value: "0"
+        - name: NO_INPUT_CHANNEL
+          value: 1 << 0
+        - name: NOT_VISIBLE
+          value: 1 << 1
+        - name: NOT_FOCUSABLE
+          value: 1 << 2
+        - name: NOT_TOUCHABLE
+          value: 1 << 3
+        - name: PREVENT_SPLITTING
+          value: 1 << 4
+        - name: DUPLICATE_TOUCH_TO_WALLPAPER
+          value: 1 << 5
+        - name: IS_WALLPAPER
+          value: 1 << 6
+        - name: PAUSE_DISPATCHING
+          value: 1 << 7
+        - name: TRUSTED_OVERLAY
+          value: 1 << 8
+        - name: WATCH_OUTSIDE_TOUCH
+          value: 1 << 9
+        - name: SLIPPERY
+          value: 1 << 10
+        - name: DISABLE_USER_ACTIVITY
+          value: 1 << 11
+        - name: DROP_INPUT
+          value: 1 << 12
+        - name: DROP_INPUT_IF_OBSCURED
+          value: 1 << 13
+        - name: SPY
+          value: 1 << 14
+        - name: INTERCEPTS_STYLUS
+          value: 1 << 15
+        - name: CLONE
+          value: 1 << 16
+        - name: GLOBAL_STYLUS_BLOCKS_TOUCH
+          value: 1 << 17
+      annotations:
+        - Backing
+    - name: InputEventInjectionResult
+      backing_type: int
+      values:
+        - name: PENDING
+          value: "-1"
+        - name: SUCCEEDED
+          value: "0"
+        - name: TARGET_MISMATCH
+          value: "1"
+        - name: FAILED
+          value: "2"
+        - name: TIMED_OUT
+          value: "3"
+        - name: ftl_first
+          value: PENDING
+        - name: ftl_last
+          value: TIMED_OUT
+      annotations:
+        - Backing
+    - name: InputEventInjectionSync
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0"
+        - name: WAIT_FOR_RESULT
+          value: "1"
+        - name: WAIT_FOR_FINISHED
+          value: "2"
+        - name: ftl_first
+          value: NONE
+        - name: ftl_last
+          value: WAIT_FOR_FINISHED
+      annotations:
+        - Backing
+    - name: OverlayablePolicy
+      backing_type: int
+      values:
+        - name: NONE
+          value: "0x00000000"
+        - name: PUBLIC
+          value: "0x00000001"
+        - name: SYSTEM_PARTITION
+          value: "0x00000002"
+        - name: VENDOR_PARTITION
+          value: "0x00000004"
+        - name: PRODUCT_PARTITION
+          value: "0x00000008"
+        - name: SIGNATURE
+          value: "0x00000010"
+        - name: ODM_PARTITION
+          value: "0x00000020"
+        - name: OEM_PARTITION
+          value: "0x00000040"
+        - name: ACTOR_SIGNATURE
+          value: "0x00000080"
+        - name: CONFIG_SIGNATURE
+          value: "0x0000100"
+      annotations:
+        - Backing
+unions:
+    - name: StatsBootstrapAtomValue
+      fields:
+        - name: boolValue
+          type:
+            name: boolean
+        - name: intValue
+          type:
+            name: int
+        - name: longValue
+          type:
+            name: long
+        - name: floatValue
+          type:
+            name: float
+        - name: stringValue
+          type:
+            name: String
+        - name: bytesValue
+          type:
+            name: byte
+            is_array: true

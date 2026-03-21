@@ -53,6 +53,7 @@ func (p *VirtualCameraServiceProxy) RegisterCamera(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualCameraService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -87,6 +88,7 @@ func (p *VirtualCameraServiceProxy) UnregisterCamera(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualCameraService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -114,6 +116,7 @@ func (p *VirtualCameraServiceProxy) GetCameraId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualCameraService)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -142,7 +145,8 @@ func (p *VirtualCameraServiceProxy) GetCameraId(
 // VirtualCameraServiceStub dispatches incoming binder transactions
 // to a typed IVirtualCameraService implementation.
 type VirtualCameraServiceStub struct {
-	Impl IVirtualCameraService
+	Impl      IVirtualCameraService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VirtualCameraServiceStub)(nil)
@@ -156,14 +160,20 @@ func (s *VirtualCameraServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVirtualCameraServiceRegisterCamera:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_configuration VirtualCameraConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -186,12 +196,14 @@ func (s *VirtualCameraServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVirtualCameraServiceUnregisterCamera:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.UnregisterCamera(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -201,12 +213,14 @@ func (s *VirtualCameraServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualCameraServiceGetCameraId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.GetCameraId(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {

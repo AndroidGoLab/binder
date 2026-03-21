@@ -1,7 +1,6 @@
 package common
 
 import (
-	commonAudioPlaybackRate "github.com/xaionaro-go/binder/android/media/audio/common/AudioPlaybackRate"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,8 +9,8 @@ import (
 type AudioPlaybackRate struct {
 	Speed           float32
 	Pitch           float32
-	TimestretchMode commonAudioPlaybackRate.TimestretchMode
-	FallbackMode    commonAudioPlaybackRate.TimestretchFallbackMode
+	TimestretchMode AudioPlaybackRateTimestretchMode
+	FallbackMode    AudioPlaybackRateTimestretchFallbackMode
 }
 
 var _ parcel.Parcelable = (*AudioPlaybackRate)(nil)
@@ -37,9 +36,19 @@ func (s *AudioPlaybackRate) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Speed, _err = p.ReadFloat32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Pitch, _err = p.ReadFloat32()
@@ -47,17 +56,27 @@ func (s *AudioPlaybackRate) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_timestretchModeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.TimestretchMode = commonAudioPlaybackRate.TimestretchMode(_timestretchModeRaw)
+	s.TimestretchMode = AudioPlaybackRateTimestretchMode(_timestretchModeRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_fallbackModeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.FallbackMode = commonAudioPlaybackRate.TimestretchFallbackMode(_fallbackModeRaw)
+	s.FallbackMode = AudioPlaybackRateTimestretchFallbackMode(_fallbackModeRaw)
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

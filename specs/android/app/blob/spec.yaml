@@ -1,0 +1,259 @@
+package: android.app.blob
+go_package: android/app/blob
+interfaces:
+    - name: IBlobCommitCallback
+      descriptor: android.app.blob.IBlobCommitCallback
+      oneway: true
+      methods:
+        - name: onResult
+          transaction_code_offset: 0
+          params:
+            - name: result
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IBlobStoreManager
+      descriptor: android.app.blob.IBlobStoreManager
+      methods:
+        - name: createSession
+          transaction_code_offset: 0
+          params:
+            - name: handle
+              type:
+                name: BlobHandle
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: long
+        - name: openSession
+          transaction_code_offset: 1
+          params:
+            - name: sessionId
+              type:
+                name: long
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: IBlobStoreSession
+        - name: openBlob
+          transaction_code_offset: 2
+          params:
+            - name: handle
+              type:
+                name: BlobHandle
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: ParcelFileDescriptor
+        - name: abandonSession
+          transaction_code_offset: 3
+          params:
+            - name: sessionId
+              type:
+                name: long
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: acquireLease
+          transaction_code_offset: 4
+          params:
+            - name: handle
+              type:
+                name: BlobHandle
+              direction: in
+            - name: descriptionResId
+              type:
+                name: int
+            - name: description
+              type:
+                name: CharSequence
+              direction: in
+            - name: leaseTimeoutMillis
+              type:
+                name: long
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: releaseLease
+          transaction_code_offset: 5
+          params:
+            - name: handle
+              type:
+                name: BlobHandle
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: releaseAllLeases
+          transaction_code_offset: 6
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: getRemainingLeaseQuotaBytes
+          transaction_code_offset: 7
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: long
+        - name: waitForIdle
+          transaction_code_offset: 8
+          params:
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+        - name: queryBlobsForUser
+          transaction_code_offset: 9
+          params:
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: List
+            type_args:
+                - name: BlobInfo
+        - name: deleteBlob
+          transaction_code_offset: 10
+          params:
+            - name: blobId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: getLeasedBlobs
+          transaction_code_offset: 11
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: List
+            type_args:
+                - name: BlobHandle
+        - name: getLeaseInfo
+          transaction_code_offset: 12
+          params:
+            - name: blobHandle
+              type:
+                name: BlobHandle
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: LeaseInfo
+    - name: IBlobStoreSession
+      descriptor: android.app.blob.IBlobStoreSession
+      methods:
+        - name: openWrite
+          transaction_code_offset: 0
+          params:
+            - name: offsetBytes
+              type:
+                name: long
+            - name: lengthBytes
+              type:
+                name: long
+          return_type:
+            name: ParcelFileDescriptor
+        - name: openRead
+          transaction_code_offset: 1
+          return_type:
+            name: ParcelFileDescriptor
+        - name: allowPackageAccess
+          transaction_code_offset: 2
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: certificate
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: allowSameSignatureAccess
+          transaction_code_offset: 3
+          return_type:
+            name: void
+        - name: allowPublicAccess
+          transaction_code_offset: 4
+          return_type:
+            name: void
+        - name: isPackageAccessAllowed
+          transaction_code_offset: 5
+          params:
+            - name: packageName
+              type:
+                name: String
+              direction: in
+            - name: certificate
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: boolean
+        - name: isSameSignatureAccessAllowed
+          transaction_code_offset: 6
+          return_type:
+            name: boolean
+        - name: isPublicAccessAllowed
+          transaction_code_offset: 7
+          return_type:
+            name: boolean
+        - name: getSize
+          transaction_code_offset: 8
+          return_type:
+            name: long
+        - name: close
+          transaction_code_offset: 9
+          return_type:
+            name: void
+        - name: abandon
+          transaction_code_offset: 10
+          return_type:
+            name: void
+        - name: commit
+          transaction_code_offset: 11
+          params:
+            - name: callback
+              type:
+                name: IBlobCommitCallback
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: BlobHandle
+    - name: BlobInfo
+    - name: LeaseInfo

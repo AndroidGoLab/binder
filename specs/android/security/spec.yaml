@@ -1,0 +1,339 @@
+package: android.security
+go_package: android/security
+interfaces:
+    - name: IFileIntegrityService
+      descriptor: android.security.IFileIntegrityService
+      methods:
+        - name: isApkVeritySupported
+          transaction_code_offset: 0
+          return_type:
+            name: boolean
+        - name: isAppSourceCertificateTrusted
+          transaction_code_offset: 1
+          params:
+            - name: certificateBytes
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: boolean
+        - name: createAuthToken
+          transaction_code_offset: 2
+          params:
+            - name: authFd
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+          return_type:
+            name: IInstalld.IFsveritySetupAuthToken
+        - name: setupFsverity
+          transaction_code_offset: 3
+          params:
+            - name: authToken
+              type:
+                name: IInstalld.IFsveritySetupAuthToken
+            - name: filePath
+              type:
+                name: String
+              direction: in
+            - name: packageName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+    - name: IKeyChainAliasCallback
+      descriptor: android.security.IKeyChainAliasCallback
+      oneway: true
+      methods:
+        - name: alias
+          transaction_code_offset: 0
+          params:
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: void
+    - name: IKeyChainService
+      descriptor: android.security.IKeyChainService
+      methods:
+        - name: requestPrivateKey
+          transaction_code_offset: 0
+          params:
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: String
+          annotations:
+            - UnsupportedAppUsage
+        - name: getCertificate
+          transaction_code_offset: 1
+          params:
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: byte
+            is_array: true
+        - name: getCaCertificates
+          transaction_code_offset: 2
+          params:
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: byte
+            is_array: true
+        - name: isUserSelectable
+          transaction_code_offset: 3
+          params:
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: setUserSelectable
+          transaction_code_offset: 4
+          params:
+            - name: alias
+              type:
+                name: String
+            - name: isUserSelectable
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: generateKeyPair
+          transaction_code_offset: 5
+          params:
+            - name: algorithm
+              type:
+                name: String
+              direction: in
+            - name: spec
+              type:
+                name: ParcelableKeyGenParameterSpec
+              direction: in
+          return_type:
+            name: int
+        - name: setKeyPairCertificate
+          transaction_code_offset: 6
+          params:
+            - name: alias
+              type:
+                name: String
+            - name: userCert
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: certChain
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: boolean
+        - name: installCaCertificate
+          transaction_code_offset: 7
+          params:
+            - name: caCertificate
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: String
+        - name: installKeyPair
+          transaction_code_offset: 8
+          params:
+            - name: privateKey
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: userCert
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: certChain
+              type:
+                name: byte
+                is_array: true
+              direction: in
+            - name: alias
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+          return_type:
+            name: boolean
+        - name: removeKeyPair
+          transaction_code_offset: 9
+          params:
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: containsKeyPair
+          transaction_code_offset: 10
+          params:
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getGrants
+          transaction_code_offset: 11
+          params:
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: int
+            is_array: true
+        - name: deleteCaCertificate
+          transaction_code_offset: 12
+          params:
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: reset
+          transaction_code_offset: 13
+          return_type:
+            name: boolean
+        - name: getUserCaAliases
+          transaction_code_offset: 14
+          return_type:
+            name: StringParceledListSlice
+        - name: getSystemCaAliases
+          transaction_code_offset: 15
+          return_type:
+            name: StringParceledListSlice
+        - name: containsCaAlias
+          transaction_code_offset: 16
+          params:
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getEncodedCaCertificate
+          transaction_code_offset: 17
+          params:
+            - name: alias
+              type:
+                name: String
+            - name: includeDeletedSystem
+              type:
+                name: boolean
+          return_type:
+            name: byte
+            is_array: true
+        - name: getCaCertificateChainAliases
+          transaction_code_offset: 18
+          params:
+            - name: rootAlias
+              type:
+                name: String
+            - name: includeDeletedSystem
+              type:
+                name: boolean
+          return_type:
+            name: List
+            type_args:
+                - name: String
+        - name: setCredentialManagementApp
+          transaction_code_offset: 19
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: policy
+              type:
+                name: AppUriAuthenticationPolicy
+              direction: in
+          return_type:
+            name: void
+        - name: hasCredentialManagementApp
+          transaction_code_offset: 20
+          return_type:
+            name: boolean
+        - name: getCredentialManagementAppPackageName
+          transaction_code_offset: 21
+          return_type:
+            name: String
+        - name: getCredentialManagementAppPolicy
+          transaction_code_offset: 22
+          return_type:
+            name: AppUriAuthenticationPolicy
+        - name: getPredefinedAliasForPackageAndUri
+          transaction_code_offset: 23
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: uri
+              type:
+                name: Uri
+              direction: in
+          return_type:
+            name: String
+        - name: removeCredentialManagementApp
+          transaction_code_offset: 24
+          return_type:
+            name: void
+        - name: isCredentialManagementApp
+          transaction_code_offset: 25
+          params:
+            - name: packageName
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: setGrant
+          transaction_code_offset: 26
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: alias
+              type:
+                name: String
+            - name: value
+              type:
+                name: boolean
+          return_type:
+            name: boolean
+        - name: hasGrant
+          transaction_code_offset: 27
+          params:
+            - name: uid
+              type:
+                name: int
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getWifiKeyGrantAsUser
+          transaction_code_offset: 28
+          params:
+            - name: alias
+              type:
+                name: String
+          return_type:
+            name: String
+parcelables:
+    - name: AppUriAuthenticationPolicy

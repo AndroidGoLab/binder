@@ -47,6 +47,7 @@ func (p *InputSurfaceConnectionProxy) Disconnect(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputSurfaceConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputSurfaceConnection, MethodIInputSurfaceConnectionDisconnect)
@@ -71,6 +72,7 @@ func (p *InputSurfaceConnectionProxy) SignalEndOfStream(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInputSurfaceConnection)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputSurfaceConnection, MethodIInputSurfaceConnectionSignalEndOfStream)
@@ -94,7 +96,8 @@ func (p *InputSurfaceConnectionProxy) SignalEndOfStream(
 // InputSurfaceConnectionStub dispatches incoming binder transactions
 // to a typed IInputSurfaceConnection implementation.
 type InputSurfaceConnectionStub struct {
-	Impl IInputSurfaceConnection
+	Impl      IInputSurfaceConnection
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InputSurfaceConnectionStub)(nil)
@@ -108,11 +111,12 @@ func (s *InputSurfaceConnectionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInputSurfaceConnectionDisconnect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Disconnect(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -122,9 +126,6 @@ func (s *InputSurfaceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputSurfaceConnectionSignalEndOfStream:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.SignalEndOfStream(ctx)
 		_reply := parcel.New()
 		if _err != nil {

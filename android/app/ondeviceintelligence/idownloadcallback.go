@@ -3,6 +3,7 @@ package ondeviceintelligence
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -29,8 +30,8 @@ type IDownloadCallback interface {
 	AsBinder() binder.IBinder
 	OnDownloadStarted(ctx context.Context, bytesToDownload int64) error
 	OnDownloadProgress(ctx context.Context, bytesDownloaded int64) error
-	OnDownloadFailed(ctx context.Context, failureStatus int32, errorMessage string, errorParams interface{}) error
-	OnDownloadCompleted(ctx context.Context, downloadParams interface{}) error
+	OnDownloadFailed(ctx context.Context, failureStatus int32, errorMessage string, errorParams os.PersistableBundle) error
+	OnDownloadCompleted(ctx context.Context, downloadParams os.PersistableBundle) error
 }
 
 type DownloadCallbackProxy struct {
@@ -54,6 +55,7 @@ func (p *DownloadCallbackProxy) OnDownloadStarted(
 	bytesToDownload int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDownloadCallback)
 	_data.WriteInt64(bytesToDownload)
 
@@ -71,6 +73,7 @@ func (p *DownloadCallbackProxy) OnDownloadProgress(
 	bytesDownloaded int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDownloadCallback)
 	_data.WriteInt64(bytesDownloaded)
 
@@ -87,12 +90,17 @@ func (p *DownloadCallbackProxy) OnDownloadFailed(
 	ctx context.Context,
 	failureStatus int32,
 	errorMessage string,
-	errorParams interface{},
+	errorParams os.PersistableBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDownloadCallback)
 	_data.WriteInt32(failureStatus)
 	_data.WriteString16(errorMessage)
+	_data.WriteInt32(1)
+	if _err := errorParams.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadFailed)
 	if _err != nil {
@@ -105,10 +113,15 @@ func (p *DownloadCallbackProxy) OnDownloadFailed(
 
 func (p *DownloadCallbackProxy) OnDownloadCompleted(
 	ctx context.Context,
-	downloadParams interface{},
+	downloadParams os.PersistableBundle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDownloadCallback)
+	_data.WriteInt32(1)
+	if _err := downloadParams.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadCompleted)
 	if _err != nil {
@@ -122,7 +135,8 @@ func (p *DownloadCallbackProxy) OnDownloadCompleted(
 // DownloadCallbackStub dispatches incoming binder transactions
 // to a typed IDownloadCallback implementation.
 type DownloadCallbackStub struct {
-	Impl IDownloadCallback
+	Impl      IDownloadCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DownloadCallbackStub)(nil)
@@ -136,33 +150,26 @@ func (s *DownloadCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDownloadCallbackOnDownloadStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_bytesToDownload, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDownloadStarted(ctx, _arg_bytesToDownload)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDownloadCallbackOnDownloadProgress:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_bytesDownloaded, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnDownloadProgress(ctx, _arg_bytesDownloaded)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIDownloadCallbackOnDownloadFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_failureStatus, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -171,18 +178,35 @@ func (s *DownloadCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_errorParams interface{}
-		_err = s.Impl.OnDownloadFailed(ctx, _arg_failureStatus, _arg_errorMessage, _arg_errorParams)
-		_ = _err
-		return nil, nil
-	case TransactionIDownloadCallbackOnDownloadCompleted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_errorParams os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_errorParams.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_downloadParams interface{}
+		_err = s.Impl.OnDownloadFailed(ctx, _arg_failureStatus, _arg_errorMessage, _arg_errorParams)
+		return nil, _err
+	case TransactionIDownloadCallbackOnDownloadCompleted:
+		var _arg_downloadParams os.PersistableBundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_downloadParams.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnDownloadCompleted(ctx, _arg_downloadParams)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -194,8 +218,8 @@ func (s *DownloadCallbackStub) OnTransaction(
 type IDownloadCallbackServer interface {
 	OnDownloadStarted(ctx context.Context, bytesToDownload int64) error
 	OnDownloadProgress(ctx context.Context, bytesDownloaded int64) error
-	OnDownloadFailed(ctx context.Context, failureStatus int32, errorMessage string, errorParams interface{}) error
-	OnDownloadCompleted(ctx context.Context, downloadParams interface{}) error
+	OnDownloadFailed(ctx context.Context, failureStatus int32, errorMessage string, errorParams os.PersistableBundle) error
+	OnDownloadCompleted(ctx context.Context, downloadParams os.PersistableBundle) error
 }
 
 type downloadCallbackStubWrapper struct {
@@ -225,14 +249,14 @@ func (w *downloadCallbackStubWrapper) OnDownloadFailed(
 	ctx context.Context,
 	failureStatus int32,
 	errorMessage string,
-	errorParams interface{},
+	errorParams os.PersistableBundle,
 ) error {
 	return w.impl.OnDownloadFailed(ctx, failureStatus, errorMessage, errorParams)
 }
 
 func (w *downloadCallbackStubWrapper) OnDownloadCompleted(
 	ctx context.Context,
-	downloadParams interface{},
+	downloadParams os.PersistableBundle,
 ) error {
 	return w.impl.OnDownloadCompleted(ctx, downloadParams)
 }

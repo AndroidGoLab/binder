@@ -97,6 +97,7 @@ func (p *RadioModemProxy) EnableModem(
 	on bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 	_data.WriteBool(on)
@@ -115,6 +116,7 @@ func (p *RadioModemProxy) GetBasebandVersion(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 
@@ -132,6 +134,7 @@ func (p *RadioModemProxy) GetDeviceIdentity(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 
@@ -149,6 +152,7 @@ func (p *RadioModemProxy) GetHardwareConfig(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 
@@ -166,6 +170,7 @@ func (p *RadioModemProxy) GetModemActivityInfo(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 
@@ -183,6 +188,7 @@ func (p *RadioModemProxy) GetModemStackStatus(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 
@@ -200,6 +206,7 @@ func (p *RadioModemProxy) GetRadioCapability(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 
@@ -218,6 +225,7 @@ func (p *RadioModemProxy) NvReadItem(
 	itemId NvItem,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(itemId))
@@ -237,6 +245,7 @@ func (p *RadioModemProxy) NvResetConfig(
 	resetType ResetNvType,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(resetType))
@@ -256,16 +265,10 @@ func (p *RadioModemProxy) NvWriteCdmaPrl(
 	prl []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
-	if prl == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(prl)))
-		for _, _item := range prl {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(prl)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModem, MethodIRadioModemNvWriteCdmaPrl)
 	if _err != nil {
@@ -282,6 +285,7 @@ func (p *RadioModemProxy) NvWriteItem(
 	item NvWriteItem,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(1)
@@ -303,6 +307,7 @@ func (p *RadioModemProxy) RequestShutdown(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 
@@ -319,6 +324,7 @@ func (p *RadioModemProxy) ResponseAcknowledgement(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModem, MethodIRadioModemResponseAcknowledgement)
@@ -337,6 +343,7 @@ func (p *RadioModemProxy) SendDeviceState(
 	state bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(deviceStateType))
@@ -357,6 +364,7 @@ func (p *RadioModemProxy) SetRadioCapability(
 	rc RadioCapability,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(1)
@@ -381,6 +389,7 @@ func (p *RadioModemProxy) SetRadioPower(
 	preferredForEmergencyCall bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 	_data.WriteBool(powerOn)
@@ -402,6 +411,7 @@ func (p *RadioModemProxy) SetResponseFunctions(
 	radioModemIndication IRadioModemIndication,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	binder.WriteBinderToParcel(ctx, _data, radioModemResponse.AsBinder(), p.Remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, radioModemIndication.AsBinder(), p.Remote.Transport())
@@ -420,6 +430,7 @@ func (p *RadioModemProxy) GetImei(
 	serial int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 
@@ -435,7 +446,8 @@ func (p *RadioModemProxy) GetImei(
 // RadioModemStub dispatches incoming binder transactions
 // to a typed IRadioModem implementation.
 type RadioModemStub struct {
-	Impl IRadioModem
+	Impl      IRadioModem
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RadioModemStub)(nil)
@@ -449,11 +461,12 @@ func (s *RadioModemStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRadioModemEnableModem:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -463,78 +476,50 @@ func (s *RadioModemStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.EnableModem(ctx, _arg_serial, _arg_on)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemGetBasebandVersion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetBasebandVersion(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemGetDeviceIdentity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetDeviceIdentity(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemGetHardwareConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetHardwareConfig(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemGetModemActivityInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetModemActivityInfo(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemGetModemStackStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetModemStackStatus(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemGetRadioCapability:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetRadioCapability(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemNvReadItem:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -545,12 +530,8 @@ func (s *RadioModemStub) OnTransaction(
 		}
 		_arg_itemId := NvItem(_raw_itemId)
 		_err = s.Impl.NvReadItem(ctx, _arg_serial, _arg_itemId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemNvResetConfig:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -561,26 +542,23 @@ func (s *RadioModemStub) OnTransaction(
 		}
 		_arg_resetType := ResetNvType(_raw_resetType)
 		_err = s.Impl.NvResetConfig(ctx, _arg_serial, _arg_resetType)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemNvWriteCdmaPrl:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_prl []byte
-		_ = _arg_prl
-		_err = s.Impl.NvWriteCdmaPrl(ctx, _arg_serial, _arg_prl)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioModemNvWriteItem:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_prl = _bytes
 		}
+		_err = s.Impl.NvWriteCdmaPrl(ctx, _arg_serial, _arg_prl)
+		return nil, _err
+	case TransactionIRadioModemNvWriteItem:
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -598,30 +576,18 @@ func (s *RadioModemStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NvWriteItem(ctx, _arg_serial, _arg_item)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemRequestShutdown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RequestShutdown(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemResponseAcknowledgement:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ResponseAcknowledgement(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemSendDeviceState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -636,12 +602,8 @@ func (s *RadioModemStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SendDeviceState(ctx, _arg_serial, _arg_deviceStateType, _arg_state)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemSetRadioCapability:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -659,12 +621,8 @@ func (s *RadioModemStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SetRadioCapability(ctx, _arg_serial, _arg_rc)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemSetRadioPower:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -682,32 +640,33 @@ func (s *RadioModemStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.SetRadioPower(ctx, _arg_serial, _arg_powerOn, _arg_forEmergencyCall, _arg_preferredForEmergencyCall)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioModemSetResponseFunctions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_radioModemResponse IRadioModemResponse
-		_ = _arg_radioModemResponse
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_radioModemIndication IRadioModemIndication
-		_ = _arg_radioModemIndication
-		_err := s.Impl.SetResponseFunctions(ctx, _arg_radioModemResponse, _arg_radioModemIndication)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioModemGetImei:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_radioModemResponseHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_radioModemResponse = NewRadioModemResponseProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _radioModemResponseHandle))
 		}
+		var _arg_radioModemIndication IRadioModemIndication
+		{
+			_radioModemIndicationHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_radioModemIndication = NewRadioModemIndicationProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _radioModemIndicationHandle))
+		}
+		_err := s.Impl.SetResponseFunctions(ctx, _arg_radioModemResponse, _arg_radioModemIndication)
+		return nil, _err
+	case TransactionIRadioModemGetImei:
 		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetImei(ctx, _arg_serial)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

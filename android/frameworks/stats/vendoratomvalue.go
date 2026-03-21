@@ -49,8 +49,7 @@ func (u *VendorAtomValue) GetIntValue() (int32, bool) {
 func (u *VendorAtomValue) SetIntValue(
 	v int32,
 ) {
-	u.Tag = VendorAtomValueTagIntValue
-	u.IntValue = v
+	*u = VendorAtomValue{Tag: VendorAtomValueTagIntValue, IntValue: v}
 }
 
 func (u *VendorAtomValue) GetLongValue() (int64, bool) {
@@ -64,8 +63,7 @@ func (u *VendorAtomValue) GetLongValue() (int64, bool) {
 func (u *VendorAtomValue) SetLongValue(
 	v int64,
 ) {
-	u.Tag = VendorAtomValueTagLongValue
-	u.LongValue = v
+	*u = VendorAtomValue{Tag: VendorAtomValueTagLongValue, LongValue: v}
 }
 
 func (u *VendorAtomValue) GetFloatValue() (float32, bool) {
@@ -79,8 +77,7 @@ func (u *VendorAtomValue) GetFloatValue() (float32, bool) {
 func (u *VendorAtomValue) SetFloatValue(
 	v float32,
 ) {
-	u.Tag = VendorAtomValueTagFloatValue
-	u.FloatValue = v
+	*u = VendorAtomValue{Tag: VendorAtomValueTagFloatValue, FloatValue: v}
 }
 
 func (u *VendorAtomValue) GetStringValue() (string, bool) {
@@ -94,8 +91,7 @@ func (u *VendorAtomValue) GetStringValue() (string, bool) {
 func (u *VendorAtomValue) SetStringValue(
 	v string,
 ) {
-	u.Tag = VendorAtomValueTagStringValue
-	u.StringValue = v
+	*u = VendorAtomValue{Tag: VendorAtomValueTagStringValue, StringValue: v}
 }
 
 func (u *VendorAtomValue) GetBoolValue() (bool, bool) {
@@ -109,8 +105,7 @@ func (u *VendorAtomValue) GetBoolValue() (bool, bool) {
 func (u *VendorAtomValue) SetBoolValue(
 	v bool,
 ) {
-	u.Tag = VendorAtomValueTagBoolValue
-	u.BoolValue = v
+	*u = VendorAtomValue{Tag: VendorAtomValueTagBoolValue, BoolValue: v}
 }
 
 func (u *VendorAtomValue) GetRepeatedIntValue() ([]int32, bool) {
@@ -124,8 +119,7 @@ func (u *VendorAtomValue) GetRepeatedIntValue() ([]int32, bool) {
 func (u *VendorAtomValue) SetRepeatedIntValue(
 	v []int32,
 ) {
-	u.Tag = VendorAtomValueTagRepeatedIntValue
-	u.RepeatedIntValue = v
+	*u = VendorAtomValue{Tag: VendorAtomValueTagRepeatedIntValue, RepeatedIntValue: v}
 }
 
 func (u *VendorAtomValue) GetRepeatedLongValue() ([]int64, bool) {
@@ -139,8 +133,7 @@ func (u *VendorAtomValue) GetRepeatedLongValue() ([]int64, bool) {
 func (u *VendorAtomValue) SetRepeatedLongValue(
 	v []int64,
 ) {
-	u.Tag = VendorAtomValueTagRepeatedLongValue
-	u.RepeatedLongValue = v
+	*u = VendorAtomValue{Tag: VendorAtomValueTagRepeatedLongValue, RepeatedLongValue: v}
 }
 
 func (u *VendorAtomValue) GetRepeatedFloatValue() ([]float32, bool) {
@@ -154,8 +147,7 @@ func (u *VendorAtomValue) GetRepeatedFloatValue() ([]float32, bool) {
 func (u *VendorAtomValue) SetRepeatedFloatValue(
 	v []float32,
 ) {
-	u.Tag = VendorAtomValueTagRepeatedFloatValue
-	u.RepeatedFloatValue = v
+	*u = VendorAtomValue{Tag: VendorAtomValueTagRepeatedFloatValue, RepeatedFloatValue: v}
 }
 
 func (u *VendorAtomValue) GetRepeatedStringValue() ([]string, bool) {
@@ -169,8 +161,7 @@ func (u *VendorAtomValue) GetRepeatedStringValue() ([]string, bool) {
 func (u *VendorAtomValue) SetRepeatedStringValue(
 	v []string,
 ) {
-	u.Tag = VendorAtomValueTagRepeatedStringValue
-	u.RepeatedStringValue = v
+	*u = VendorAtomValue{Tag: VendorAtomValueTagRepeatedStringValue, RepeatedStringValue: v}
 }
 
 func (u *VendorAtomValue) GetRepeatedBoolValue() ([]bool, bool) {
@@ -184,8 +175,7 @@ func (u *VendorAtomValue) GetRepeatedBoolValue() ([]bool, bool) {
 func (u *VendorAtomValue) SetRepeatedBoolValue(
 	v []bool,
 ) {
-	u.Tag = VendorAtomValueTagRepeatedBoolValue
-	u.RepeatedBoolValue = v
+	*u = VendorAtomValue{Tag: VendorAtomValueTagRepeatedBoolValue, RepeatedBoolValue: v}
 }
 
 func (u *VendorAtomValue) GetByteArrayValue() ([]byte, bool) {
@@ -199,8 +189,7 @@ func (u *VendorAtomValue) GetByteArrayValue() ([]byte, bool) {
 func (u *VendorAtomValue) SetByteArrayValue(
 	v []byte,
 ) {
-	u.Tag = VendorAtomValueTagByteArrayValue
-	u.ByteArrayValue = v
+	*u = VendorAtomValue{Tag: VendorAtomValueTagByteArrayValue, ByteArrayValue: v}
 }
 
 func (u *VendorAtomValue) MarshalParcel(

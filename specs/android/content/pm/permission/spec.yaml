@@ -1,0 +1,21 @@
+package: android.content.pm.permission
+go_package: android/content/pm/permission
+interfaces:
+    - name: IRuntimePermissionPresenter
+      descriptor: android.content.pm.permission.IRuntimePermissionPresenter
+      oneway: true
+      methods:
+        - name: getAppPermissions
+          transaction_code_offset: 0
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: SplitPermissionInfoParcelable

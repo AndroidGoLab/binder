@@ -81,6 +81,7 @@ func (p *RemoteAccessProxy) GetVehicleId(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccess, MethodIRemoteAccessGetVehicleId)
@@ -110,6 +111,7 @@ func (p *RemoteAccessProxy) GetWakeupServiceName(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccess, MethodIRemoteAccessGetWakeupServiceName)
@@ -139,6 +141,7 @@ func (p *RemoteAccessProxy) GetProcessorId(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccess, MethodIRemoteAccessGetProcessorId)
@@ -168,6 +171,7 @@ func (p *RemoteAccessProxy) SetRemoteTaskCallback(
 	callback IRemoteTaskCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -193,6 +197,7 @@ func (p *RemoteAccessProxy) ClearRemoteTaskCallback(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccess, MethodIRemoteAccessClearRemoteTaskCallback)
@@ -218,6 +223,7 @@ func (p *RemoteAccessProxy) NotifyApStateChange(
 	state ApState,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
 	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
@@ -247,6 +253,7 @@ func (p *RemoteAccessProxy) IsTaskScheduleSupported(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccess, MethodIRemoteAccessIsTaskScheduleSupported)
@@ -276,6 +283,7 @@ func (p *RemoteAccessProxy) GetSupportedTaskTypesForScheduling(
 ) ([]TaskType, error) {
 	var _result []TaskType
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAccess, MethodIRemoteAccessGetSupportedTaskTypesForScheduling)
@@ -297,6 +305,9 @@ func (p *RemoteAccessProxy) GetSupportedTaskTypesForScheduling(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]TaskType, _count)
@@ -316,6 +327,7 @@ func (p *RemoteAccessProxy) ScheduleTask(
 	scheduleInfo ScheduleInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
 	_data.WriteInt32(1)
 	if _err := scheduleInfo.MarshalParcel(_data); _err != nil {
@@ -346,6 +358,7 @@ func (p *RemoteAccessProxy) UnscheduleTask(
 	scheduleId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
 	_data.WriteString16(clientId)
 	_data.WriteString16(scheduleId)
@@ -373,6 +386,7 @@ func (p *RemoteAccessProxy) UnscheduleAllTasks(
 	clientId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
 	_data.WriteString16(clientId)
 
@@ -401,6 +415,7 @@ func (p *RemoteAccessProxy) IsTaskScheduled(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
 	_data.WriteString16(clientId)
 	_data.WriteString16(scheduleId)
@@ -433,6 +448,7 @@ func (p *RemoteAccessProxy) GetAllPendingScheduledTasks(
 ) ([]ScheduleInfo, error) {
 	var _result []ScheduleInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
 	_data.WriteString16(clientId)
 
@@ -455,6 +471,9 @@ func (p *RemoteAccessProxy) GetAllPendingScheduledTasks(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]ScheduleInfo, _count)
@@ -473,7 +492,8 @@ func (p *RemoteAccessProxy) GetAllPendingScheduledTasks(
 // RemoteAccessStub dispatches incoming binder transactions
 // to a typed IRemoteAccess implementation.
 type RemoteAccessStub struct {
-	Impl IRemoteAccess
+	Impl      IRemoteAccess
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RemoteAccessStub)(nil)
@@ -487,11 +507,12 @@ func (s *RemoteAccessStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRemoteAccessGetVehicleId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVehicleId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -502,9 +523,6 @@ func (s *RemoteAccessStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIRemoteAccessGetWakeupServiceName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetWakeupServiceName(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -515,9 +533,6 @@ func (s *RemoteAccessStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIRemoteAccessGetProcessorId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetProcessorId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -528,12 +543,14 @@ func (s *RemoteAccessStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIRemoteAccessSetRemoteTaskCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IRemoteTaskCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewRemoteTaskCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.SetRemoteTaskCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -543,9 +560,6 @@ func (s *RemoteAccessStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRemoteAccessClearRemoteTaskCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.ClearRemoteTaskCallback(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -555,9 +569,6 @@ func (s *RemoteAccessStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRemoteAccessNotifyApStateChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_state ApState
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -579,9 +590,6 @@ func (s *RemoteAccessStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRemoteAccessIsTaskScheduleSupported:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsTaskScheduleSupported(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -592,9 +600,6 @@ func (s *RemoteAccessStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRemoteAccessGetSupportedTaskTypesForScheduling:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSupportedTaskTypesForScheduling(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -602,13 +607,16 @@ func (s *RemoteAccessStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(int32(_item))
+			}
+		}
 		return _reply, nil
 	case TransactionIRemoteAccessScheduleTask:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_scheduleInfo ScheduleInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -630,9 +638,6 @@ func (s *RemoteAccessStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRemoteAccessUnscheduleTask:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_clientId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -650,9 +655,6 @@ func (s *RemoteAccessStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRemoteAccessUnscheduleAllTasks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_clientId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -666,9 +668,6 @@ func (s *RemoteAccessStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRemoteAccessIsTaskScheduled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_clientId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -687,9 +686,6 @@ func (s *RemoteAccessStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRemoteAccessGetAllPendingScheduledTasks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_clientId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -701,8 +697,17 @@ func (s *RemoteAccessStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

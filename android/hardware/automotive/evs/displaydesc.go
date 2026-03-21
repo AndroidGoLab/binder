@@ -38,9 +38,19 @@ func (s *DisplayDesc) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Id, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Width, _err = p.ReadInt32()
@@ -48,9 +58,19 @@ func (s *DisplayDesc) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Height, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_orientationRaw, _err := p.ReadInt32()
@@ -58,6 +78,11 @@ func (s *DisplayDesc) UnmarshalParcel(
 		return _err
 	}
 	s.Orientation = Rotation(_orientationRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.VendorFlags, _err = p.ReadInt32()
 	if _err != nil {

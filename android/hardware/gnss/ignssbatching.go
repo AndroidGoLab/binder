@@ -3,7 +3,6 @@ package gnss
 import (
 	"context"
 	"fmt"
-	gnssIGnssBatching "github.com/xaionaro-go/binder/android/hardware/gnss/IGnssBatching"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -34,7 +33,7 @@ type IGnssBatching interface {
 	AsBinder() binder.IBinder
 	Init(ctx context.Context, callback IGnssBatchingCallback) error
 	GetBatchSize(ctx context.Context) (int32, error)
-	Start(ctx context.Context, options gnssIGnssBatching.Options) error
+	Start(ctx context.Context, options IGnssBatchingOptions) error
 	Flush(ctx context.Context) error
 	Stop(ctx context.Context) error
 	Cleanup(ctx context.Context) error
@@ -65,6 +64,7 @@ func (p *GnssBatchingProxy) Init(
 	callback IGnssBatchingCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssBatching)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -91,6 +91,7 @@ func (p *GnssBatchingProxy) GetBatchSize(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssBatching)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssBatching, MethodIGnssBatchingGetBatchSize)
@@ -117,9 +118,10 @@ func (p *GnssBatchingProxy) GetBatchSize(
 
 func (p *GnssBatchingProxy) Start(
 	ctx context.Context,
-	options gnssIGnssBatching.Options,
+	options IGnssBatchingOptions,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssBatching)
 	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
@@ -148,6 +150,7 @@ func (p *GnssBatchingProxy) Flush(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssBatching)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssBatching, MethodIGnssBatchingFlush)
@@ -172,6 +175,7 @@ func (p *GnssBatchingProxy) Stop(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssBatching)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssBatching, MethodIGnssBatchingStop)
@@ -196,6 +200,7 @@ func (p *GnssBatchingProxy) Cleanup(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssBatching)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssBatching, MethodIGnssBatchingCleanup)
@@ -219,7 +224,8 @@ func (p *GnssBatchingProxy) Cleanup(
 // GnssBatchingStub dispatches incoming binder transactions
 // to a typed IGnssBatching implementation.
 type GnssBatchingStub struct {
-	Impl IGnssBatching
+	Impl      IGnssBatching
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssBatchingStub)(nil)
@@ -233,14 +239,20 @@ func (s *GnssBatchingStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssBatchingInit:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGnssBatchingCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewGnssBatchingCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.Init(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -250,9 +262,6 @@ func (s *GnssBatchingStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssBatchingGetBatchSize:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetBatchSize(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -263,10 +272,7 @@ func (s *GnssBatchingStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIGnssBatchingStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_options gnssIGnssBatching.Options
+		var _arg_options IGnssBatchingOptions
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -287,9 +293,6 @@ func (s *GnssBatchingStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssBatchingFlush:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Flush(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -299,9 +302,6 @@ func (s *GnssBatchingStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssBatchingStop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Stop(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -311,9 +311,6 @@ func (s *GnssBatchingStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssBatchingCleanup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Cleanup(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -333,7 +330,7 @@ func (s *GnssBatchingStub) OnTransaction(
 type IGnssBatchingServer interface {
 	Init(ctx context.Context, callback IGnssBatchingCallback) error
 	GetBatchSize(ctx context.Context) (int32, error)
-	Start(ctx context.Context, options gnssIGnssBatching.Options) error
+	Start(ctx context.Context, options IGnssBatchingOptions) error
 	Flush(ctx context.Context) error
 	Stop(ctx context.Context) error
 	Cleanup(ctx context.Context) error
@@ -363,7 +360,7 @@ func (w *gnssBatchingStubWrapper) GetBatchSize(
 
 func (w *gnssBatchingStubWrapper) Start(
 	ctx context.Context,
-	options gnssIGnssBatching.Options,
+	options IGnssBatchingOptions,
 ) error {
 	return w.impl.Start(ctx, options)
 }

@@ -47,6 +47,7 @@ func (p *ControlsActionCallbackProxy) Accept(
 	response int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIControlsActionCallback)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(controlId)
@@ -64,7 +65,8 @@ func (p *ControlsActionCallbackProxy) Accept(
 // ControlsActionCallbackStub dispatches incoming binder transactions
 // to a typed IControlsActionCallback implementation.
 type ControlsActionCallbackStub struct {
-	Impl IControlsActionCallback
+	Impl      IControlsActionCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ControlsActionCallbackStub)(nil)
@@ -78,14 +80,20 @@ func (s *ControlsActionCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIControlsActionCallbackAccept:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_arg_controlId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -95,8 +103,7 @@ func (s *ControlsActionCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.Accept(ctx, _arg_token, _arg_controlId, _arg_response)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

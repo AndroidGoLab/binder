@@ -68,6 +68,7 @@ func (p *KeystoreSecurityLevelProxy) CreateOperation(
 ) (CreateOperationResponse, error) {
 	var _result CreateOperationResponse
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
 	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
@@ -123,12 +124,14 @@ func (p *KeystoreSecurityLevelProxy) GenerateKey(
 ) (KeyMetadata, error) {
 	var _result KeyMetadata
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
 	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	if attestationKey != nil {
+		_data.WriteInt32(1)
 		if _err := (*attestationKey).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
@@ -147,14 +150,7 @@ func (p *KeystoreSecurityLevelProxy) GenerateKey(
 		}
 	}
 	_data.WriteInt32(flags)
-	if entropy == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(entropy)))
-		for _, _item := range entropy {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(entropy)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelGenerateKey)
 	if _err != nil {
@@ -193,12 +189,14 @@ func (p *KeystoreSecurityLevelProxy) ImportKey(
 ) (KeyMetadata, error) {
 	var _result KeyMetadata
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
 	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	if attestationKey != nil {
+		_data.WriteInt32(1)
 		if _err := (*attestationKey).MarshalParcel(_data); _err != nil {
 			return _result, _err
 		}
@@ -217,14 +215,7 @@ func (p *KeystoreSecurityLevelProxy) ImportKey(
 		}
 	}
 	_data.WriteInt32(flags)
-	if keyData == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(keyData)))
-		for _, _item := range keyData {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(keyData)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelImportKey)
 	if _err != nil {
@@ -263,6 +254,7 @@ func (p *KeystoreSecurityLevelProxy) ImportWrappedKey(
 ) (KeyMetadata, error) {
 	var _result KeyMetadata
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
 	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
@@ -272,14 +264,7 @@ func (p *KeystoreSecurityLevelProxy) ImportWrappedKey(
 	if _err := wrappingKey.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	if maskingKey == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(maskingKey)))
-		for _, _item := range maskingKey {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(maskingKey)
 	if params == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -336,6 +321,7 @@ func (p *KeystoreSecurityLevelProxy) ConvertStorageKeyToEphemeral(
 ) (EphemeralStorageKeyResponse, error) {
 	var _result EphemeralStorageKeyResponse
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
 	_data.WriteInt32(1)
 	if _err := storageKey.MarshalParcel(_data); _err != nil {
@@ -374,6 +360,7 @@ func (p *KeystoreSecurityLevelProxy) DeleteKey(
 	key KeyDescriptor,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
 	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
@@ -401,7 +388,8 @@ func (p *KeystoreSecurityLevelProxy) DeleteKey(
 // KeystoreSecurityLevelStub dispatches incoming binder transactions
 // to a typed IKeystoreSecurityLevel implementation.
 type KeystoreSecurityLevelStub struct {
-	Impl IKeystoreSecurityLevel
+	Impl      IKeystoreSecurityLevel
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*KeystoreSecurityLevelStub)(nil)
@@ -415,11 +403,12 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIKeystoreSecurityLevelCreateOperation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_key KeyDescriptor
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -432,9 +421,27 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_operationParameters []keymint.KeyParameter
-		_ = _arg_operationParameters
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_operationParameters = make([]keymint.KeyParameter, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_operationParameters[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_forced, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -452,9 +459,6 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeystoreSecurityLevelGenerateKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_key KeyDescriptor
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -474,21 +478,45 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_attestationKey = new(KeyDescriptor)
 				if _err = _arg_attestationKey.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_params []keymint.KeyParameter
-		_ = _arg_params
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_params = make([]keymint.KeyParameter, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_params[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_entropy []byte
-		_ = _arg_entropy
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_entropy = _bytes
+		}
 		_result, _err := s.Impl.GenerateKey(ctx, _arg_key, _arg_attestationKey, _arg_params, _arg_flags, _arg_entropy)
 		_reply := parcel.New()
 		if _err != nil {
@@ -502,9 +530,6 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeystoreSecurityLevelImportKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_key KeyDescriptor
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -524,21 +549,45 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_attestationKey = new(KeyDescriptor)
 				if _err = _arg_attestationKey.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_params []keymint.KeyParameter
-		_ = _arg_params
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_params = make([]keymint.KeyParameter, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_params[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyData []byte
-		_ = _arg_keyData
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_keyData = _bytes
+		}
 		_result, _err := s.Impl.ImportKey(ctx, _arg_key, _arg_attestationKey, _arg_params, _arg_flags, _arg_keyData)
 		_reply := parcel.New()
 		if _err != nil {
@@ -552,9 +601,6 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeystoreSecurityLevelImportWrappedKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_key KeyDescriptor
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -579,15 +625,56 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_maskingKey []byte
-		_ = _arg_maskingKey
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_maskingKey = _bytes
+		}
 		var _arg_params []keymint.KeyParameter
-		_ = _arg_params
-		// TODO: array/list param unmarshaling not yet supported in stubs
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_params = make([]keymint.KeyParameter, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_params[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_authenticators []AuthenticatorSpec
-		_ = _arg_authenticators
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_authenticators = make([]AuthenticatorSpec, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_authenticators[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.ImportWrappedKey(ctx, _arg_key, _arg_wrappingKey, _arg_maskingKey, _arg_params, _arg_authenticators)
 		_reply := parcel.New()
 		if _err != nil {
@@ -601,9 +688,6 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeystoreSecurityLevelConvertStorageKeyToEphemeral:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_storageKey KeyDescriptor
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -629,9 +713,6 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeystoreSecurityLevelDeleteKey:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_key KeyDescriptor
 		{
 			_nullInd, _err := _data.ReadInt32()

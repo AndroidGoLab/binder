@@ -49,6 +49,7 @@ func (p *CallScreeningAdapterProxy) OnScreeningResponse(
 	response androidTelecom.CallScreeningServiceParcelableCallResponse,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICallScreeningAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
@@ -72,7 +73,8 @@ func (p *CallScreeningAdapterProxy) OnScreeningResponse(
 // CallScreeningAdapterStub dispatches incoming binder transactions
 // to a typed ICallScreeningAdapter implementation.
 type CallScreeningAdapterStub struct {
-	Impl ICallScreeningAdapter
+	Impl      ICallScreeningAdapter
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CallScreeningAdapterStub)(nil)
@@ -86,11 +88,12 @@ func (s *CallScreeningAdapterStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICallScreeningAdapterOnScreeningResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -120,8 +123,7 @@ func (s *CallScreeningAdapterStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnScreeningResponse(ctx, _arg_callId, _arg_componentName, _arg_response)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

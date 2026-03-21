@@ -164,6 +164,7 @@ func (p *VirtualDeviceProxy) GetAssociationId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDevice, MethodIVirtualDeviceGetAssociationId)
@@ -193,6 +194,7 @@ func (p *VirtualDeviceProxy) GetDeviceId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDevice, MethodIVirtualDeviceGetDeviceId)
@@ -222,6 +224,7 @@ func (p *VirtualDeviceProxy) GetPersistentDeviceId(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDevice, MethodIVirtualDeviceGetPersistentDeviceId)
@@ -251,6 +254,7 @@ func (p *VirtualDeviceProxy) GetDisplayIds(
 ) ([]int32, error) {
 	var _result []int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDevice, MethodIVirtualDeviceGetDisplayIds)
@@ -272,6 +276,9 @@ func (p *VirtualDeviceProxy) GetDisplayIds(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]int32, _count)
@@ -291,6 +298,7 @@ func (p *VirtualDeviceProxy) GetDevicePolicy(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(policyType)
 
@@ -320,6 +328,7 @@ func (p *VirtualDeviceProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDevice, MethodIVirtualDeviceClose)
@@ -346,6 +355,7 @@ func (p *VirtualDeviceProxy) SetDevicePolicy(
 	devicePolicy int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(policyType)
 	_data.WriteInt32(devicePolicy)
@@ -373,6 +383,7 @@ func (p *VirtualDeviceProxy) AddActivityPolicyExemption(
 	exemption content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(1)
 	if _err := exemption.MarshalParcel(_data); _err != nil {
@@ -402,6 +413,7 @@ func (p *VirtualDeviceProxy) RemoveActivityPolicyExemption(
 	exemption content.ComponentName,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(1)
 	if _err := exemption.MarshalParcel(_data); _err != nil {
@@ -433,6 +445,7 @@ func (p *VirtualDeviceProxy) OnAudioSessionStarting(
 	configChangedCallback audio.IAudioConfigChangedCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(displayId)
 	binder.WriteBinderToParcel(ctx, _data, routingCallback.AsBinder(), p.Remote.Transport())
@@ -460,6 +473,7 @@ func (p *VirtualDeviceProxy) OnAudioSessionEnded(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDevice, MethodIVirtualDeviceOnAudioSessionEnded)
@@ -486,6 +500,7 @@ func (p *VirtualDeviceProxy) CreateVirtualDpad(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -517,6 +532,7 @@ func (p *VirtualDeviceProxy) CreateVirtualKeyboard(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -548,6 +564,7 @@ func (p *VirtualDeviceProxy) CreateVirtualMouse(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -579,6 +596,7 @@ func (p *VirtualDeviceProxy) CreateVirtualTouchscreen(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -610,6 +628,7 @@ func (p *VirtualDeviceProxy) CreateVirtualNavigationTouchpad(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -641,6 +660,7 @@ func (p *VirtualDeviceProxy) CreateVirtualStylus(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
@@ -671,6 +691,7 @@ func (p *VirtualDeviceProxy) UnregisterInputDevice(
 	token binder.IBinder,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -698,6 +719,7 @@ func (p *VirtualDeviceProxy) GetInputDeviceId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -730,6 +752,7 @@ func (p *VirtualDeviceProxy) SendDpadKeyEvent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -766,6 +789,7 @@ func (p *VirtualDeviceProxy) SendKeyEvent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -802,6 +826,7 @@ func (p *VirtualDeviceProxy) SendButtonEvent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -838,6 +863,7 @@ func (p *VirtualDeviceProxy) SendRelativeEvent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -874,6 +900,7 @@ func (p *VirtualDeviceProxy) SendScrollEvent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -910,6 +937,7 @@ func (p *VirtualDeviceProxy) SendTouchEvent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -946,6 +974,7 @@ func (p *VirtualDeviceProxy) SendStylusMotionEvent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -982,6 +1011,7 @@ func (p *VirtualDeviceProxy) SendStylusButtonEvent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1016,6 +1046,7 @@ func (p *VirtualDeviceProxy) GetVirtualSensorList(
 ) ([]sensor.VirtualSensor, error) {
 	var _result []sensor.VirtualSensor
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDevice, MethodIVirtualDeviceGetVirtualSensorList)
@@ -1036,6 +1067,9 @@ func (p *VirtualDeviceProxy) GetVirtualSensorList(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -1059,6 +1093,7 @@ func (p *VirtualDeviceProxy) SendSensorEvent(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1095,6 +1130,7 @@ func (p *VirtualDeviceProxy) LaunchPendingIntent(
 	resultReceiver os.ResultReceiver,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(1)
@@ -1130,6 +1166,7 @@ func (p *VirtualDeviceProxy) GetCursorPosition(
 ) (graphics.PointF, error) {
 	var _result graphics.PointF
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
@@ -1165,6 +1202,7 @@ func (p *VirtualDeviceProxy) SetShowPointerIcon(
 	showPointerIcon bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteBool(showPointerIcon)
 
@@ -1192,6 +1230,7 @@ func (p *VirtualDeviceProxy) SetDisplayImePolicy(
 	policy int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(policy)
@@ -1220,6 +1259,7 @@ func (p *VirtualDeviceProxy) RegisterIntentInterceptor(
 	filter content.IntentFilter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	binder.WriteBinderToParcel(ctx, _data, intentInterceptor.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -1250,6 +1290,7 @@ func (p *VirtualDeviceProxy) UnregisterIntentInterceptor(
 	intentInterceptor IVirtualDeviceIntentInterceptor,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	binder.WriteBinderToParcel(ctx, _data, intentInterceptor.AsBinder(), p.Remote.Transport())
 
@@ -1276,6 +1317,7 @@ func (p *VirtualDeviceProxy) RegisterVirtualCamera(
 	camera virtualCamera.VirtualCameraConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(1)
 	if _err := camera.MarshalParcel(_data); _err != nil {
@@ -1305,6 +1347,7 @@ func (p *VirtualDeviceProxy) UnregisterVirtualCamera(
 	camera virtualCamera.VirtualCameraConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(1)
 	if _err := camera.MarshalParcel(_data); _err != nil {
@@ -1335,6 +1378,7 @@ func (p *VirtualDeviceProxy) GetVirtualCameraId(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(1)
 	if _err := camera.MarshalParcel(_data); _err != nil {
@@ -1366,7 +1410,8 @@ func (p *VirtualDeviceProxy) GetVirtualCameraId(
 // VirtualDeviceStub dispatches incoming binder transactions
 // to a typed IVirtualDevice implementation.
 type VirtualDeviceStub struct {
-	Impl IVirtualDevice
+	Impl      IVirtualDevice
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VirtualDeviceStub)(nil)
@@ -1380,11 +1425,12 @@ func (s *VirtualDeviceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVirtualDeviceGetAssociationId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetAssociationId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1395,9 +1441,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVirtualDeviceGetDeviceId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDeviceId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1408,9 +1451,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVirtualDeviceGetPersistentDeviceId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetPersistentDeviceId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1421,9 +1461,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIVirtualDeviceGetDisplayIds:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDisplayIds(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1431,13 +1468,16 @@ func (s *VirtualDeviceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIVirtualDeviceGetDevicePolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_policyType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1452,9 +1492,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVirtualDeviceClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1464,9 +1501,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceSetDevicePolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_policyType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1484,9 +1518,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceAddActivityPolicyExemption:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_exemption content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1508,9 +1539,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceRemoveActivityPolicyExemption:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_exemption content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1532,19 +1560,26 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceOnAudioSessionStarting:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_routingCallback audio.IAudioRoutingCallback
-		_ = _arg_routingCallback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		{
+			_routingCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_routingCallback = audio.NewAudioRoutingCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _routingCallbackHandle))
+		}
 		var _arg_configChangedCallback audio.IAudioConfigChangedCallback
-		_ = _arg_configChangedCallback
+		{
+			_configChangedCallbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_configChangedCallback = audio.NewAudioConfigChangedCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _configChangedCallbackHandle))
+		}
 		_err = s.Impl.OnAudioSessionStarting(ctx, _arg_displayId, _arg_routingCallback, _arg_configChangedCallback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1554,9 +1589,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceOnAudioSessionEnded:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.OnAudioSessionEnded(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1566,9 +1598,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceCreateVirtualDpad:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config input.VirtualDpadConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1581,9 +1610,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.CreateVirtualDpad(ctx, _arg_config, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1593,9 +1627,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceCreateVirtualKeyboard:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config input.VirtualKeyboardConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1608,9 +1639,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.CreateVirtualKeyboard(ctx, _arg_config, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1620,9 +1656,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceCreateVirtualMouse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config input.VirtualMouseConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1635,9 +1668,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.CreateVirtualMouse(ctx, _arg_config, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1647,9 +1685,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceCreateVirtualTouchscreen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config input.VirtualTouchscreenConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1662,9 +1697,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.CreateVirtualTouchscreen(ctx, _arg_config, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1674,9 +1714,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceCreateVirtualNavigationTouchpad:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config input.VirtualNavigationTouchpadConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1689,9 +1726,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.CreateVirtualNavigationTouchpad(ctx, _arg_config, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1701,9 +1743,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceCreateVirtualStylus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_config input.VirtualStylusConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1716,9 +1755,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 				}
 			}
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.CreateVirtualStylus(ctx, _arg_config, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1728,12 +1772,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceUnregisterInputDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_err := s.Impl.UnregisterInputDevice(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1743,12 +1789,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceGetInputDeviceId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.GetInputDeviceId(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1759,12 +1807,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVirtualDeviceSendDpadKeyEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_event input.VirtualKeyEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1787,12 +1837,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVirtualDeviceSendKeyEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_event input.VirtualKeyEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1815,12 +1867,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVirtualDeviceSendButtonEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_event input.VirtualMouseButtonEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1843,12 +1897,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVirtualDeviceSendRelativeEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_event input.VirtualMouseRelativeEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1871,12 +1927,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVirtualDeviceSendScrollEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_event input.VirtualMouseScrollEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1899,12 +1957,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVirtualDeviceSendTouchEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_event input.VirtualTouchEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1927,12 +1987,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVirtualDeviceSendStylusMotionEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_event input.VirtualStylusMotionEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1955,12 +2017,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVirtualDeviceSendStylusButtonEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_event input.VirtualStylusButtonEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1983,9 +2047,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVirtualDeviceGetVirtualSensorList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVirtualSensorList(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1993,16 +2054,27 @@ func (s *VirtualDeviceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIVirtualDeviceSendSensorEvent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		var _arg_event sensor.VirtualSensorEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2025,9 +2097,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVirtualDeviceLaunchPendingIntent:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2065,12 +2134,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceGetCursorPosition:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
-		_ = _arg_token
+		{
+			_tokenHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_token = binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _tokenHandle)
+		}
 		_result, _err := s.Impl.GetCursorPosition(ctx, _arg_token)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2084,9 +2155,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVirtualDeviceSetShowPointerIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_showPointerIcon, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2100,9 +2168,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceSetDisplayImePolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2120,12 +2185,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceRegisterIntentInterceptor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_intentInterceptor IVirtualDeviceIntentInterceptor
-		_ = _arg_intentInterceptor
+		{
+			_intentInterceptorHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_intentInterceptor = NewVirtualDeviceIntentInterceptorProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _intentInterceptorHandle))
+		}
 		var _arg_filter content.IntentFilter
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2147,12 +2214,14 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceUnregisterIntentInterceptor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_intentInterceptor IVirtualDeviceIntentInterceptor
-		_ = _arg_intentInterceptor
+		{
+			_intentInterceptorHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_intentInterceptor = NewVirtualDeviceIntentInterceptorProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _intentInterceptorHandle))
+		}
 		_err := s.Impl.UnregisterIntentInterceptor(ctx, _arg_intentInterceptor)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2162,9 +2231,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceRegisterVirtualCamera:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_camera virtualCamera.VirtualCameraConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2186,9 +2252,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceUnregisterVirtualCamera:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_camera virtualCamera.VirtualCameraConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -2210,9 +2273,6 @@ func (s *VirtualDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualDeviceGetVirtualCameraId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_camera virtualCamera.VirtualCameraConfig
 		{
 			_nullInd, _err := _data.ReadInt32()

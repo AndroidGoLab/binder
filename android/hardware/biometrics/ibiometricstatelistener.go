@@ -51,6 +51,7 @@ func (p *BiometricStateListenerProxy) OnStateChanged(
 	newState int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricStateListener)
 	_data.WriteInt32(newState)
 
@@ -68,6 +69,7 @@ func (p *BiometricStateListenerProxy) OnBiometricAction(
 	action int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricStateListener)
 	_data.WriteInt32(action)
 
@@ -87,6 +89,7 @@ func (p *BiometricStateListenerProxy) OnEnrollmentsChanged(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBiometricStateListener)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(sensorId)
@@ -104,7 +107,8 @@ func (p *BiometricStateListenerProxy) OnEnrollmentsChanged(
 // BiometricStateListenerStub dispatches incoming binder transactions
 // to a typed IBiometricStateListener implementation.
 type BiometricStateListenerStub struct {
-	Impl IBiometricStateListener
+	Impl      IBiometricStateListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*BiometricStateListenerStub)(nil)
@@ -118,33 +122,26 @@ func (s *BiometricStateListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIBiometricStateListenerOnStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_newState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnStateChanged(ctx, _arg_newState)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBiometricStateListenerOnBiometricAction:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_action, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnBiometricAction(ctx, _arg_action)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIBiometricStateListenerOnEnrollmentsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -157,8 +154,7 @@ func (s *BiometricStateListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnEnrollmentsChanged(ctx, _arg_sensorId, _arg_hasEnrollments)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

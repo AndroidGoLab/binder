@@ -9,7 +9,7 @@ import (
 type TranscodingSessionParcel struct {
 	SessionId             int32
 	Request               TranscodingRequestParcel
-	VideoTrackFormat      TranscodingVideoTrackFormat
+	VideoTrackFormat      *TranscodingVideoTrackFormat
 	AwaitNumberOfSessions int32
 }
 
@@ -23,8 +23,13 @@ func (s *TranscodingSessionParcel) MarshalParcel(
 	if _err := s.Request.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if _err := s.VideoTrackFormat.MarshalParcel(p); _err != nil {
-		return _err
+	if s.VideoTrackFormat == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.VideoTrackFormat.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	p.WriteInt32(s.AwaitNumberOfSessions)
 
@@ -40,17 +45,47 @@ func (s *TranscodingSessionParcel) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SessionId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	if _err = s.Request.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
-	if _err = s.VideoTrackFormat.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val TranscodingVideoTrackFormat
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.VideoTrackFormat = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.AwaitNumberOfSessions, _err = p.ReadInt32()

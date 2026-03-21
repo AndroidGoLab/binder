@@ -58,6 +58,7 @@ func (p *ScannerCallbackProxy) OnScannerRegistered(
 	scannerId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScannerCallback)
 	_data.WriteInt32(status)
 	_data.WriteInt32(scannerId)
@@ -76,6 +77,7 @@ func (p *ScannerCallbackProxy) OnScanResult(
 	scanResult ScanResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScannerCallback)
 	_data.WriteInt32(1)
 	if _err := scanResult.MarshalParcel(_data); _err != nil {
@@ -96,6 +98,7 @@ func (p *ScannerCallbackProxy) OnBatchScanResults(
 	batchResults []ScanResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScannerCallback)
 	if batchResults == nil {
 		_data.WriteInt32(-1)
@@ -124,6 +127,7 @@ func (p *ScannerCallbackProxy) OnFoundOrLost(
 	scanResult ScanResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScannerCallback)
 	_data.WriteBool(onFound)
 	_data.WriteInt32(1)
@@ -145,6 +149,7 @@ func (p *ScannerCallbackProxy) OnScanManagerErrorCallback(
 	errorCode int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScannerCallback)
 	_data.WriteInt32(errorCode)
 
@@ -160,7 +165,8 @@ func (p *ScannerCallbackProxy) OnScanManagerErrorCallback(
 // ScannerCallbackStub dispatches incoming binder transactions
 // to a typed IScannerCallback implementation.
 type ScannerCallbackStub struct {
-	Impl IScannerCallback
+	Impl      IScannerCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ScannerCallbackStub)(nil)
@@ -174,11 +180,12 @@ func (s *ScannerCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIScannerCallbackOnScannerRegistered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -188,12 +195,8 @@ func (s *ScannerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnScannerRegistered(ctx, _arg_status, _arg_scannerId)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIScannerCallbackOnScanResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_scanResult ScanResult
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -207,22 +210,32 @@ func (s *ScannerCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnScanResult(ctx, _arg_scanResult)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIScannerCallbackOnBatchScanResults:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_batchResults []ScanResult
-		_ = _arg_batchResults
-		_err := s.Impl.OnBatchScanResults(ctx, _arg_batchResults)
-		_ = _err
-		return nil, nil
-	case TransactionIScannerCallbackOnFoundOrLost:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_batchResults = make([]ScanResult, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_batchResults[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.OnBatchScanResults(ctx, _arg_batchResults)
+		return nil, _err
+	case TransactionIScannerCallbackOnFoundOrLost:
 		_arg_onFound, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -240,19 +253,14 @@ func (s *ScannerCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OnFoundOrLost(ctx, _arg_onFound, _arg_scanResult)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIScannerCallbackOnScanManagerErrorCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnScanManagerErrorCallback(ctx, _arg_errorCode)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

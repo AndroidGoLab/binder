@@ -45,15 +45,9 @@ func (p *ThreadChipCallbackProxy) OnReceiveSpinelFrame(
 	frame []byte,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIThreadChipCallback)
-	if frame == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(frame)))
-		for _, _item := range frame {
-			_data.WritePaddedByte(_item)
-		}
-	}
+	_data.WriteByteArray(frame)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThreadChipCallback, MethodIThreadChipCallbackOnReceiveSpinelFrame)
 	if _err != nil {
@@ -67,7 +61,8 @@ func (p *ThreadChipCallbackProxy) OnReceiveSpinelFrame(
 // ThreadChipCallbackStub dispatches incoming binder transactions
 // to a typed IThreadChipCallback implementation.
 type ThreadChipCallbackStub struct {
-	Impl IThreadChipCallback
+	Impl      IThreadChipCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ThreadChipCallbackStub)(nil)
@@ -81,17 +76,22 @@ func (s *ThreadChipCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIThreadChipCallbackOnReceiveSpinelFrame:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_frame []byte
-		_ = _arg_frame
+		{
+			_bytes, _err := _data.ReadByteArray()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_frame = _bytes
+		}
 		_err := s.Impl.OnReceiveSpinelFrame(ctx, _arg_frame)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

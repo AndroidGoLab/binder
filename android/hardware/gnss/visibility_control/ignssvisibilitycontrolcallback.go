@@ -3,7 +3,6 @@ package visibility_control
 import (
 	"context"
 	"fmt"
-	visibility_controlIGnssVisibilityControlCallback "github.com/xaionaro-go/binder/android/hardware/gnss/visibility_control/IGnssVisibilityControlCallback"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,7 +23,7 @@ const (
 
 type IGnssVisibilityControlCallback interface {
 	AsBinder() binder.IBinder
-	NfwNotifyCb(ctx context.Context, notification visibility_controlIGnssVisibilityControlCallback.NfwNotification) error
+	NfwNotifyCb(ctx context.Context, notification IGnssVisibilityControlCallbackNfwNotification) error
 	IsInEmergencySession(ctx context.Context) (bool, error)
 }
 
@@ -46,9 +45,10 @@ var _ IGnssVisibilityControlCallback = (*GnssVisibilityControlCallbackProxy)(nil
 
 func (p *GnssVisibilityControlCallbackProxy) NfwNotifyCb(
 	ctx context.Context,
-	notification visibility_controlIGnssVisibilityControlCallback.NfwNotification,
+	notification IGnssVisibilityControlCallbackNfwNotification,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssVisibilityControlCallback)
 	_data.WriteInt32(1)
 	if _err := notification.MarshalParcel(_data); _err != nil {
@@ -78,6 +78,7 @@ func (p *GnssVisibilityControlCallbackProxy) IsInEmergencySession(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIGnssVisibilityControlCallback)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssVisibilityControlCallback, MethodIGnssVisibilityControlCallbackIsInEmergencySession)
@@ -105,7 +106,8 @@ func (p *GnssVisibilityControlCallbackProxy) IsInEmergencySession(
 // GnssVisibilityControlCallbackStub dispatches incoming binder transactions
 // to a typed IGnssVisibilityControlCallback implementation.
 type GnssVisibilityControlCallbackStub struct {
-	Impl IGnssVisibilityControlCallback
+	Impl      IGnssVisibilityControlCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*GnssVisibilityControlCallbackStub)(nil)
@@ -119,12 +121,13 @@ func (s *GnssVisibilityControlCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIGnssVisibilityControlCallbackNfwNotifyCb:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_notification visibility_controlIGnssVisibilityControlCallback.NfwNotification
+		var _arg_notification IGnssVisibilityControlCallbackNfwNotification
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -145,9 +148,6 @@ func (s *GnssVisibilityControlCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssVisibilityControlCallbackIsInEmergencySession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsInEmergencySession(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -166,7 +166,7 @@ func (s *GnssVisibilityControlCallbackStub) OnTransaction(
 // provide to NewGnssVisibilityControlCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IGnssVisibilityControlCallbackServer interface {
-	NfwNotifyCb(ctx context.Context, notification visibility_controlIGnssVisibilityControlCallback.NfwNotification) error
+	NfwNotifyCb(ctx context.Context, notification IGnssVisibilityControlCallbackNfwNotification) error
 	IsInEmergencySession(ctx context.Context) (bool, error)
 }
 
@@ -181,7 +181,7 @@ func (w *gnssVisibilityControlCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *gnssVisibilityControlCallbackStubWrapper) NfwNotifyCb(
 	ctx context.Context,
-	notification visibility_controlIGnssVisibilityControlCallback.NfwNotification,
+	notification IGnssVisibilityControlCallbackNfwNotification,
 ) error {
 	return w.impl.NfwNotifyCb(ctx, notification)
 }

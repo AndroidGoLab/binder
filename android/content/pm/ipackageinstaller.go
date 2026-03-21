@@ -3,7 +3,10 @@ package pm
 import (
 	"context"
 	"fmt"
+	app "github.com/xaionaro-go/binder/android/app"
+	content "github.com/xaionaro-go/binder/android/content"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -83,21 +86,21 @@ type IPackageInstaller interface {
 	GetStagedSessions(ctx context.Context) (ParceledListSlice, error)
 	RegisterCallback(ctx context.Context, callback IPackageInstallerCallback) error
 	UnregisterCallback(ctx context.Context, callback IPackageInstallerCallback) error
-	Uninstall(ctx context.Context, versionedPackage VersionedPackage, callerPackageName string, flags int32, statusReceiver interface{}) error
-	UninstallExistingPackage(ctx context.Context, versionedPackage VersionedPackage, callerPackageName string, statusReceiver interface{}) error
-	InstallExistingPackage(ctx context.Context, packageName string, installFlags int32, installReason int32, statusReceiver interface{}, whiteListedPermissions []string) error
+	Uninstall(ctx context.Context, versionedPackage VersionedPackage, callerPackageName string, flags int32, statusReceiver content.IntentSender) error
+	UninstallExistingPackage(ctx context.Context, versionedPackage VersionedPackage, callerPackageName string, statusReceiver content.IntentSender) error
+	InstallExistingPackage(ctx context.Context, packageName string, installFlags int32, installReason int32, statusReceiver content.IntentSender, whiteListedPermissions []string) error
 	SetPermissionsResult(ctx context.Context, sessionId int32, accepted bool) error
 	BypassNextStagedInstallerCheck(ctx context.Context, value bool) error
 	BypassNextAllowedApexUpdateCheck(ctx context.Context, value bool) error
 	DisableVerificationForUid(ctx context.Context, uid int32) error
 	SetAllowUnlimitedSilentUpdates(ctx context.Context, installerPackageName string) error
 	SetSilentUpdatesThrottleTime(ctx context.Context, throttleTimeInSeconds int64) error
-	CheckInstallConstraints(ctx context.Context, installerPackageName string, packageNames []string, constraints PackageInstallerInstallConstraints, callback interface{}) error
-	WaitForInstallConstraints(ctx context.Context, installerPackageName string, packageNames []string, constraints PackageInstallerInstallConstraints, callback interface{}, timeout int64) error
-	RequestArchive(ctx context.Context, packageName string, callerPackageName string, flags int32, statusReceiver interface{}, userHandle interface{}) error
-	RequestUnarchive(ctx context.Context, packageName string, callerPackageName string, statusReceiver interface{}, userHandle interface{}) error
-	InstallPackageArchived(ctx context.Context, archivedPackageParcel ArchivedPackageParcel, params PackageInstallerSessionParams, statusReceiver interface{}, installerPackageName string, userHandle interface{}) error
-	ReportUnarchivalStatus(ctx context.Context, unarchiveId int32, status int32, requiredStorageBytes int64, userActionIntent interface{}, userHandle interface{}) error
+	CheckInstallConstraints(ctx context.Context, installerPackageName string, packageNames []string, constraints PackageInstallerInstallConstraints, callback os.RemoteCallback) error
+	WaitForInstallConstraints(ctx context.Context, installerPackageName string, packageNames []string, constraints PackageInstallerInstallConstraints, callback content.IntentSender, timeout int64) error
+	RequestArchive(ctx context.Context, packageName string, callerPackageName string, flags int32, statusReceiver content.IntentSender, userHandle os.UserHandle) error
+	RequestUnarchive(ctx context.Context, packageName string, callerPackageName string, statusReceiver content.IntentSender, userHandle os.UserHandle) error
+	InstallPackageArchived(ctx context.Context, archivedPackageParcel ArchivedPackageParcel, params PackageInstallerSessionParams, statusReceiver content.IntentSender, installerPackageName string, userHandle os.UserHandle) error
+	ReportUnarchivalStatus(ctx context.Context, unarchiveId int32, status int32, requiredStorageBytes int64, userActionIntent app.PendingIntent, userHandle os.UserHandle) error
 }
 
 type PackageInstallerProxy struct {
@@ -125,6 +128,7 @@ func (p *PackageInstallerProxy) CreateSession(
 	var _result int32
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -162,6 +166,7 @@ func (p *PackageInstallerProxy) UpdateSessionAppIcon(
 	appIcon graphics.Bitmap,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(1)
@@ -193,6 +198,7 @@ func (p *PackageInstallerProxy) UpdateSessionAppLabel(
 	appLabel string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteInt32(sessionId)
 	_data.WriteString16(appLabel)
@@ -220,6 +226,7 @@ func (p *PackageInstallerProxy) AbandonSession(
 	sessionId int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteInt32(sessionId)
 
@@ -247,6 +254,7 @@ func (p *PackageInstallerProxy) OpenSession(
 ) (IPackageInstallerSession, error) {
 	var _result IPackageInstallerSession
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteInt32(sessionId)
 
@@ -279,6 +287,7 @@ func (p *PackageInstallerProxy) GetSessionInfo(
 ) (PackageInstallerSessionInfo, error) {
 	var _result PackageInstallerSessionInfo
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteInt32(sessionId)
 
@@ -315,6 +324,7 @@ func (p *PackageInstallerProxy) GetAllSessions(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteInt32(_identity.UserID)
 
@@ -352,6 +362,7 @@ func (p *PackageInstallerProxy) GetMySessions(
 	var _result ParceledListSlice
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteString16(installerPackageName)
 	_data.WriteInt32(_identity.UserID)
@@ -388,6 +399,7 @@ func (p *PackageInstallerProxy) GetStagedSessions(
 ) (ParceledListSlice, error) {
 	var _result ParceledListSlice
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstaller, MethodIPackageInstallerGetStagedSessions)
@@ -423,6 +435,7 @@ func (p *PackageInstallerProxy) RegisterCallback(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
@@ -450,6 +463,7 @@ func (p *PackageInstallerProxy) UnregisterCallback(
 	callback IPackageInstallerCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -476,10 +490,11 @@ func (p *PackageInstallerProxy) Uninstall(
 	versionedPackage VersionedPackage,
 	callerPackageName string,
 	flags int32,
-	statusReceiver interface{},
+	statusReceiver content.IntentSender,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteInt32(1)
 	if _err := versionedPackage.MarshalParcel(_data); _err != nil {
@@ -487,6 +502,10 @@ func (p *PackageInstallerProxy) Uninstall(
 	}
 	_data.WriteString16(callerPackageName)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
+	if _err := statusReceiver.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstaller, MethodIPackageInstallerUninstall)
@@ -511,16 +530,21 @@ func (p *PackageInstallerProxy) UninstallExistingPackage(
 	ctx context.Context,
 	versionedPackage VersionedPackage,
 	callerPackageName string,
-	statusReceiver interface{},
+	statusReceiver content.IntentSender,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteInt32(1)
 	if _err := versionedPackage.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(callerPackageName)
+	_data.WriteInt32(1)
+	if _err := statusReceiver.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstaller, MethodIPackageInstallerUninstallExistingPackage)
@@ -546,15 +570,20 @@ func (p *PackageInstallerProxy) InstallExistingPackage(
 	packageName string,
 	installFlags int32,
 	installReason int32,
-	statusReceiver interface{},
+	statusReceiver content.IntentSender,
 	whiteListedPermissions []string,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(installFlags)
 	_data.WriteInt32(installReason)
+	_data.WriteInt32(1)
+	if _err := statusReceiver.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 	if whiteListedPermissions == nil {
 		_data.WriteInt32(-1)
@@ -589,6 +618,7 @@ func (p *PackageInstallerProxy) SetPermissionsResult(
 	accepted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteInt32(sessionId)
 	_data.WriteBool(accepted)
@@ -616,6 +646,7 @@ func (p *PackageInstallerProxy) BypassNextStagedInstallerCheck(
 	value bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteBool(value)
 
@@ -642,6 +673,7 @@ func (p *PackageInstallerProxy) BypassNextAllowedApexUpdateCheck(
 	value bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteBool(value)
 
@@ -668,6 +700,7 @@ func (p *PackageInstallerProxy) DisableVerificationForUid(
 	uid int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteInt32(uid)
 
@@ -694,6 +727,7 @@ func (p *PackageInstallerProxy) SetAllowUnlimitedSilentUpdates(
 	installerPackageName string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteString16(installerPackageName)
 
@@ -720,6 +754,7 @@ func (p *PackageInstallerProxy) SetSilentUpdatesThrottleTime(
 	throttleTimeInSeconds int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteInt64(throttleTimeInSeconds)
 
@@ -746,9 +781,10 @@ func (p *PackageInstallerProxy) CheckInstallConstraints(
 	installerPackageName string,
 	packageNames []string,
 	constraints PackageInstallerInstallConstraints,
-	callback interface{},
+	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteString16(installerPackageName)
 	if packageNames == nil {
@@ -761,6 +797,10 @@ func (p *PackageInstallerProxy) CheckInstallConstraints(
 	}
 	_data.WriteInt32(1)
 	if _err := constraints.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -787,10 +827,11 @@ func (p *PackageInstallerProxy) WaitForInstallConstraints(
 	installerPackageName string,
 	packageNames []string,
 	constraints PackageInstallerInstallConstraints,
-	callback interface{},
+	callback content.IntentSender,
 	timeout int64,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteString16(installerPackageName)
 	if packageNames == nil {
@@ -803,6 +844,10 @@ func (p *PackageInstallerProxy) WaitForInstallConstraints(
 	}
 	_data.WriteInt32(1)
 	if _err := constraints.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt64(timeout)
@@ -830,14 +875,23 @@ func (p *PackageInstallerProxy) RequestArchive(
 	packageName string,
 	callerPackageName string,
 	flags int32,
-	statusReceiver interface{},
-	userHandle interface{},
+	statusReceiver content.IntentSender,
+	userHandle os.UserHandle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteString16(packageName)
 	_data.WriteString16(callerPackageName)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
+	if _err := statusReceiver.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := userHandle.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstaller, MethodIPackageInstallerRequestArchive)
 	if _err != nil {
@@ -861,13 +915,22 @@ func (p *PackageInstallerProxy) RequestUnarchive(
 	ctx context.Context,
 	packageName string,
 	callerPackageName string,
-	statusReceiver interface{},
-	userHandle interface{},
+	statusReceiver content.IntentSender,
+	userHandle os.UserHandle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteString16(packageName)
 	_data.WriteString16(callerPackageName)
+	_data.WriteInt32(1)
+	if _err := statusReceiver.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := userHandle.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstaller, MethodIPackageInstallerRequestUnarchive)
 	if _err != nil {
@@ -891,11 +954,12 @@ func (p *PackageInstallerProxy) InstallPackageArchived(
 	ctx context.Context,
 	archivedPackageParcel ArchivedPackageParcel,
 	params PackageInstallerSessionParams,
-	statusReceiver interface{},
+	statusReceiver content.IntentSender,
 	installerPackageName string,
-	userHandle interface{},
+	userHandle os.UserHandle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteInt32(1)
 	if _err := archivedPackageParcel.MarshalParcel(_data); _err != nil {
@@ -905,7 +969,15 @@ func (p *PackageInstallerProxy) InstallPackageArchived(
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
+	if _err := statusReceiver.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(installerPackageName)
+	_data.WriteInt32(1)
+	if _err := userHandle.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstaller, MethodIPackageInstallerInstallPackageArchived)
 	if _err != nil {
@@ -930,14 +1002,23 @@ func (p *PackageInstallerProxy) ReportUnarchivalStatus(
 	unarchiveId int32,
 	status int32,
 	requiredStorageBytes int64,
-	userActionIntent interface{},
-	userHandle interface{},
+	userActionIntent app.PendingIntent,
+	userHandle os.UserHandle,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteInt32(unarchiveId)
 	_data.WriteInt32(status)
 	_data.WriteInt64(requiredStorageBytes)
+	_data.WriteInt32(1)
+	if _err := userActionIntent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := userHandle.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstaller, MethodIPackageInstallerReportUnarchivalStatus)
 	if _err != nil {
@@ -960,7 +1041,8 @@ func (p *PackageInstallerProxy) ReportUnarchivalStatus(
 // PackageInstallerStub dispatches incoming binder transactions
 // to a typed IPackageInstaller implementation.
 type PackageInstallerStub struct {
-	Impl IPackageInstaller
+	Impl      IPackageInstaller
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PackageInstallerStub)(nil)
@@ -974,11 +1056,12 @@ func (s *PackageInstallerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPackageInstallerCreateSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_params PackageInstallerSessionParams
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1012,9 +1095,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerUpdateSessionAppIcon:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1040,9 +1120,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerUpdateSessionAppLabel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1060,9 +1137,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerAbandonSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1076,9 +1150,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerOpenSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1090,13 +1161,9 @@ func (s *PackageInstallerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIPackageInstallerGetSessionInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1114,9 +1181,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageInstallerGetAllSessions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1133,9 +1197,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageInstallerGetMySessions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_installerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1156,9 +1217,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageInstallerGetStagedSessions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetStagedSessions(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1172,12 +1230,14 @@ func (s *PackageInstallerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageInstallerRegisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPackageInstallerCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPackageInstallerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1190,12 +1250,14 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerUnregisterCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPackageInstallerCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewPackageInstallerCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1205,9 +1267,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerUninstall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_versionedPackage VersionedPackage
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1228,7 +1287,18 @@ func (s *PackageInstallerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_statusReceiver interface{}
+		var _arg_statusReceiver content.IntentSender
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusReceiver.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1241,9 +1311,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerUninstallExistingPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_versionedPackage VersionedPackage
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1260,7 +1327,18 @@ func (s *PackageInstallerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_statusReceiver interface{}
+		var _arg_statusReceiver content.IntentSender
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusReceiver.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1273,9 +1351,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerInstallExistingPackage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1288,13 +1363,40 @@ func (s *PackageInstallerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_statusReceiver interface{}
+		var _arg_statusReceiver content.IntentSender
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusReceiver.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_whiteListedPermissions []string
-		_ = _arg_whiteListedPermissions
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_whiteListedPermissions = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_whiteListedPermissions[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err = s.Impl.InstallExistingPackage(ctx, _arg_packageName, _arg_installFlags, _arg_installReason, _arg_statusReceiver, _arg_whiteListedPermissions)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1304,9 +1406,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSetPermissionsResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1324,9 +1423,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerBypassNextStagedInstallerCheck:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_value, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1340,9 +1436,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerBypassNextAllowedApexUpdateCheck:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_value, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1356,9 +1449,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerDisableVerificationForUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1372,9 +1462,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSetAllowUnlimitedSilentUpdates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_installerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1388,9 +1475,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSetSilentUpdatesThrottleTime:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_throttleTimeInSeconds, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1404,16 +1488,29 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerCheckInstallConstraints:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_installerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_constraints PackageInstallerInstallConstraints
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1426,7 +1523,18 @@ func (s *PackageInstallerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_callback interface{}
+		var _arg_callback os.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.CheckInstallConstraints(ctx, _arg_installerPackageName, _arg_packageNames, _arg_constraints, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1436,16 +1544,29 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerWaitForInstallConstraints:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_installerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
-		_ = _arg_packageNames
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_packageNames = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_packageNames[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_constraints PackageInstallerInstallConstraints
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1458,7 +1579,18 @@ func (s *PackageInstallerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_callback interface{}
+		var _arg_callback content.IntentSender
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_timeout, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1472,9 +1604,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerRequestArchive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1487,8 +1616,30 @@ func (s *PackageInstallerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_statusReceiver interface{}
-		var _arg_userHandle interface{}
+		var _arg_statusReceiver content.IntentSender
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusReceiver.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_userHandle os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.RequestArchive(ctx, _arg_packageName, _arg_callerPackageName, _arg_flags, _arg_statusReceiver, _arg_userHandle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1498,9 +1649,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerRequestUnarchive:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1509,8 +1657,30 @@ func (s *PackageInstallerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_statusReceiver interface{}
-		var _arg_userHandle interface{}
+		var _arg_statusReceiver content.IntentSender
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusReceiver.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_userHandle os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.RequestUnarchive(ctx, _arg_packageName, _arg_callerPackageName, _arg_statusReceiver, _arg_userHandle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1520,9 +1690,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerInstallPackageArchived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_archivedPackageParcel ArchivedPackageParcel
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1547,12 +1714,34 @@ func (s *PackageInstallerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_statusReceiver interface{}
+		var _arg_statusReceiver content.IntentSender
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusReceiver.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_installerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_userHandle interface{}
+		var _arg_userHandle os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.InstallPackageArchived(ctx, _arg_archivedPackageParcel, _arg_params, _arg_statusReceiver, _arg_installerPackageName, _arg_userHandle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1562,9 +1751,6 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerReportUnarchivalStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_unarchiveId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1577,8 +1763,30 @@ func (s *PackageInstallerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_userActionIntent interface{}
-		var _arg_userHandle interface{}
+		var _arg_userActionIntent app.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userActionIntent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_userHandle os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.ReportUnarchivalStatus(ctx, _arg_unarchiveId, _arg_status, _arg_requiredStorageBytes, _arg_userActionIntent, _arg_userHandle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1607,21 +1815,21 @@ type IPackageInstallerServer interface {
 	GetStagedSessions(ctx context.Context) (ParceledListSlice, error)
 	RegisterCallback(ctx context.Context, callback IPackageInstallerCallback) error
 	UnregisterCallback(ctx context.Context, callback IPackageInstallerCallback) error
-	Uninstall(ctx context.Context, versionedPackage VersionedPackage, callerPackageName string, flags int32, statusReceiver interface{}) error
-	UninstallExistingPackage(ctx context.Context, versionedPackage VersionedPackage, callerPackageName string, statusReceiver interface{}) error
-	InstallExistingPackage(ctx context.Context, packageName string, installFlags int32, installReason int32, statusReceiver interface{}, whiteListedPermissions []string) error
+	Uninstall(ctx context.Context, versionedPackage VersionedPackage, callerPackageName string, flags int32, statusReceiver content.IntentSender) error
+	UninstallExistingPackage(ctx context.Context, versionedPackage VersionedPackage, callerPackageName string, statusReceiver content.IntentSender) error
+	InstallExistingPackage(ctx context.Context, packageName string, installFlags int32, installReason int32, statusReceiver content.IntentSender, whiteListedPermissions []string) error
 	SetPermissionsResult(ctx context.Context, sessionId int32, accepted bool) error
 	BypassNextStagedInstallerCheck(ctx context.Context, value bool) error
 	BypassNextAllowedApexUpdateCheck(ctx context.Context, value bool) error
 	DisableVerificationForUid(ctx context.Context, uid int32) error
 	SetAllowUnlimitedSilentUpdates(ctx context.Context, installerPackageName string) error
 	SetSilentUpdatesThrottleTime(ctx context.Context, throttleTimeInSeconds int64) error
-	CheckInstallConstraints(ctx context.Context, installerPackageName string, packageNames []string, constraints PackageInstallerInstallConstraints, callback interface{}) error
-	WaitForInstallConstraints(ctx context.Context, installerPackageName string, packageNames []string, constraints PackageInstallerInstallConstraints, callback interface{}, timeout int64) error
-	RequestArchive(ctx context.Context, packageName string, callerPackageName string, flags int32, statusReceiver interface{}, userHandle interface{}) error
-	RequestUnarchive(ctx context.Context, packageName string, callerPackageName string, statusReceiver interface{}, userHandle interface{}) error
-	InstallPackageArchived(ctx context.Context, archivedPackageParcel ArchivedPackageParcel, params PackageInstallerSessionParams, statusReceiver interface{}, installerPackageName string, userHandle interface{}) error
-	ReportUnarchivalStatus(ctx context.Context, unarchiveId int32, status int32, requiredStorageBytes int64, userActionIntent interface{}, userHandle interface{}) error
+	CheckInstallConstraints(ctx context.Context, installerPackageName string, packageNames []string, constraints PackageInstallerInstallConstraints, callback os.RemoteCallback) error
+	WaitForInstallConstraints(ctx context.Context, installerPackageName string, packageNames []string, constraints PackageInstallerInstallConstraints, callback content.IntentSender, timeout int64) error
+	RequestArchive(ctx context.Context, packageName string, callerPackageName string, flags int32, statusReceiver content.IntentSender, userHandle os.UserHandle) error
+	RequestUnarchive(ctx context.Context, packageName string, callerPackageName string, statusReceiver content.IntentSender, userHandle os.UserHandle) error
+	InstallPackageArchived(ctx context.Context, archivedPackageParcel ArchivedPackageParcel, params PackageInstallerSessionParams, statusReceiver content.IntentSender, installerPackageName string, userHandle os.UserHandle) error
+	ReportUnarchivalStatus(ctx context.Context, unarchiveId int32, status int32, requiredStorageBytes int64, userActionIntent app.PendingIntent, userHandle os.UserHandle) error
 }
 
 type packageInstallerStubWrapper struct {
@@ -1717,7 +1925,7 @@ func (w *packageInstallerStubWrapper) Uninstall(
 	versionedPackage VersionedPackage,
 	callerPackageName string,
 	flags int32,
-	statusReceiver interface{},
+	statusReceiver content.IntentSender,
 ) error {
 	return w.impl.Uninstall(ctx, versionedPackage, callerPackageName, flags, statusReceiver)
 }
@@ -1726,7 +1934,7 @@ func (w *packageInstallerStubWrapper) UninstallExistingPackage(
 	ctx context.Context,
 	versionedPackage VersionedPackage,
 	callerPackageName string,
-	statusReceiver interface{},
+	statusReceiver content.IntentSender,
 ) error {
 	return w.impl.UninstallExistingPackage(ctx, versionedPackage, callerPackageName, statusReceiver)
 }
@@ -1736,7 +1944,7 @@ func (w *packageInstallerStubWrapper) InstallExistingPackage(
 	packageName string,
 	installFlags int32,
 	installReason int32,
-	statusReceiver interface{},
+	statusReceiver content.IntentSender,
 	whiteListedPermissions []string,
 ) error {
 	return w.impl.InstallExistingPackage(ctx, packageName, installFlags, installReason, statusReceiver, whiteListedPermissions)
@@ -1790,7 +1998,7 @@ func (w *packageInstallerStubWrapper) CheckInstallConstraints(
 	installerPackageName string,
 	packageNames []string,
 	constraints PackageInstallerInstallConstraints,
-	callback interface{},
+	callback os.RemoteCallback,
 ) error {
 	return w.impl.CheckInstallConstraints(ctx, installerPackageName, packageNames, constraints, callback)
 }
@@ -1800,7 +2008,7 @@ func (w *packageInstallerStubWrapper) WaitForInstallConstraints(
 	installerPackageName string,
 	packageNames []string,
 	constraints PackageInstallerInstallConstraints,
-	callback interface{},
+	callback content.IntentSender,
 	timeout int64,
 ) error {
 	return w.impl.WaitForInstallConstraints(ctx, installerPackageName, packageNames, constraints, callback, timeout)
@@ -1811,8 +2019,8 @@ func (w *packageInstallerStubWrapper) RequestArchive(
 	packageName string,
 	callerPackageName string,
 	flags int32,
-	statusReceiver interface{},
-	userHandle interface{},
+	statusReceiver content.IntentSender,
+	userHandle os.UserHandle,
 ) error {
 	return w.impl.RequestArchive(ctx, packageName, callerPackageName, flags, statusReceiver, userHandle)
 }
@@ -1821,8 +2029,8 @@ func (w *packageInstallerStubWrapper) RequestUnarchive(
 	ctx context.Context,
 	packageName string,
 	callerPackageName string,
-	statusReceiver interface{},
-	userHandle interface{},
+	statusReceiver content.IntentSender,
+	userHandle os.UserHandle,
 ) error {
 	return w.impl.RequestUnarchive(ctx, packageName, callerPackageName, statusReceiver, userHandle)
 }
@@ -1831,9 +2039,9 @@ func (w *packageInstallerStubWrapper) InstallPackageArchived(
 	ctx context.Context,
 	archivedPackageParcel ArchivedPackageParcel,
 	params PackageInstallerSessionParams,
-	statusReceiver interface{},
+	statusReceiver content.IntentSender,
 	installerPackageName string,
-	userHandle interface{},
+	userHandle os.UserHandle,
 ) error {
 	return w.impl.InstallPackageArchived(ctx, archivedPackageParcel, params, statusReceiver, installerPackageName, userHandle)
 }
@@ -1843,8 +2051,8 @@ func (w *packageInstallerStubWrapper) ReportUnarchivalStatus(
 	unarchiveId int32,
 	status int32,
 	requiredStorageBytes int64,
-	userActionIntent interface{},
-	userHandle interface{},
+	userActionIntent app.PendingIntent,
+	userHandle os.UserHandle,
 ) error {
 	return w.impl.ReportUnarchivalStatus(ctx, unarchiveId, status, requiredStorageBytes, userActionIntent, userHandle)
 }

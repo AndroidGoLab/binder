@@ -45,8 +45,10 @@ func (p *LocationCallbackProxy) OnLocation(
 	location *Location,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorILocationCallback)
 	if location != nil {
+		_data.WriteInt32(1)
 		if _err := (*location).MarshalParcel(_data); _err != nil {
 			return _err
 		}
@@ -66,7 +68,8 @@ func (p *LocationCallbackProxy) OnLocation(
 // LocationCallbackStub dispatches incoming binder transactions
 // to a typed ILocationCallback implementation.
 type LocationCallbackStub struct {
-	Impl ILocationCallback
+	Impl      ILocationCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*LocationCallbackStub)(nil)
@@ -80,11 +83,12 @@ func (s *LocationCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionILocationCallbackOnLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_location *Location
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -92,14 +96,14 @@ func (s *LocationCallbackStub) OnTransaction(
 				return nil, _err
 			}
 			if _nullInd != 0 {
+				_arg_location = new(Location)
 				if _err = _arg_location.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		_err := s.Impl.OnLocation(ctx, _arg_location)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -1,0 +1,372 @@
+package: android.speech.tts
+go_package: android/speech/tts
+interfaces:
+    - name: ITextToSpeechCallback
+      descriptor: android.speech.tts.ITextToSpeechCallback
+      oneway: true
+      methods:
+        - name: onStart
+          transaction_code_offset: 0
+          params:
+            - name: utteranceId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onSuccess
+          transaction_code_offset: 1
+          params:
+            - name: utteranceId
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: onStop
+          transaction_code_offset: 2
+          params:
+            - name: utteranceId
+              type:
+                name: String
+            - name: isStarted
+              type:
+                name: boolean
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 3
+          params:
+            - name: utteranceId
+              type:
+                name: String
+            - name: errorCode
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onBeginSynthesis
+          transaction_code_offset: 4
+          params:
+            - name: utteranceId
+              type:
+                name: String
+            - name: sampleRateInHz
+              type:
+                name: int
+            - name: audioFormat
+              type:
+                name: int
+            - name: channelCount
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onAudioAvailable
+          transaction_code_offset: 5
+          params:
+            - name: utteranceId
+              type:
+                name: String
+            - name: audio
+              type:
+                name: byte
+                is_array: true
+              direction: in
+          return_type:
+            name: void
+        - name: onRangeStart
+          transaction_code_offset: 6
+          params:
+            - name: utteranceId
+              type:
+                name: String
+            - name: start
+              type:
+                name: int
+            - name: end
+              type:
+                name: int
+            - name: frame
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: ITextToSpeechManager
+      descriptor: android.speech.tts.ITextToSpeechManager
+      oneway: true
+      methods:
+        - name: createSession
+          transaction_code_offset: 0
+          params:
+            - name: engine
+              type:
+                name: String
+              direction: in
+            - name: managerCallback
+              type:
+                name: ITextToSpeechSessionCallback
+              direction: in
+          return_type:
+            name: void
+    - name: ITextToSpeechService
+      descriptor: android.speech.tts.ITextToSpeechService
+      methods:
+        - name: speak
+          transaction_code_offset: 0
+          params:
+            - name: callingInstance
+              type:
+                name: IBinder
+              direction: in
+            - name: text
+              type:
+                name: CharSequence
+              direction: in
+            - name: queueMode
+              type:
+                name: int
+              direction: in
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+            - name: utteranceId
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: synthesizeToFileDescriptor
+          transaction_code_offset: 1
+          params:
+            - name: callingInstance
+              type:
+                name: IBinder
+              direction: in
+            - name: text
+              type:
+                name: CharSequence
+              direction: in
+            - name: fileDescriptor
+              type:
+                name: ParcelFileDescriptor
+              direction: in
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+            - name: utteranceId
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: playAudio
+          transaction_code_offset: 2
+          params:
+            - name: callingInstance
+              type:
+                name: IBinder
+              direction: in
+            - name: audioUri
+              type:
+                name: Uri
+              direction: in
+            - name: queueMode
+              type:
+                name: int
+              direction: in
+            - name: params
+              type:
+                name: Bundle
+              direction: in
+            - name: utteranceId
+              type:
+                name: String
+          return_type:
+            name: int
+        - name: playSilence
+          transaction_code_offset: 3
+          params:
+            - name: callingInstance
+              type:
+                name: IBinder
+              direction: in
+            - name: duration
+              type:
+                name: long
+              direction: in
+            - name: queueMode
+              type:
+                name: int
+              direction: in
+            - name: utteranceId
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: isSpeaking
+          transaction_code_offset: 4
+          return_type:
+            name: boolean
+        - name: stop
+          transaction_code_offset: 5
+          params:
+            - name: callingInstance
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: int
+        - name: getLanguage
+          transaction_code_offset: 6
+          return_type:
+            name: String
+            is_array: true
+        - name: getClientDefaultLanguage
+          transaction_code_offset: 7
+          return_type:
+            name: String
+            is_array: true
+        - name: isLanguageAvailable
+          transaction_code_offset: 8
+          params:
+            - name: lang
+              type:
+                name: String
+              direction: in
+            - name: country
+              type:
+                name: String
+              direction: in
+            - name: variant
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: getFeaturesForLanguage
+          transaction_code_offset: 9
+          params:
+            - name: lang
+              type:
+                name: String
+              direction: in
+            - name: country
+              type:
+                name: String
+              direction: in
+            - name: variant
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: String
+            is_array: true
+        - name: loadLanguage
+          transaction_code_offset: 10
+          params:
+            - name: caller
+              type:
+                name: IBinder
+              direction: in
+            - name: lang
+              type:
+                name: String
+              direction: in
+            - name: country
+              type:
+                name: String
+              direction: in
+            - name: variant
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: setCallback
+          transaction_code_offset: 11
+          params:
+            - name: caller
+              type:
+                name: IBinder
+              direction: in
+            - name: cb
+              type:
+                name: ITextToSpeechCallback
+          return_type:
+            name: void
+        - name: getVoices
+          transaction_code_offset: 12
+          return_type:
+            name: List
+            type_args:
+                - name: Voice
+        - name: loadVoice
+          transaction_code_offset: 13
+          params:
+            - name: caller
+              type:
+                name: IBinder
+              direction: in
+            - name: voiceName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: int
+        - name: getDefaultVoiceNameFor
+          transaction_code_offset: 14
+          params:
+            - name: lang
+              type:
+                name: String
+              direction: in
+            - name: country
+              type:
+                name: String
+              direction: in
+            - name: variant
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: String
+    - name: ITextToSpeechSession
+      descriptor: android.speech.tts.ITextToSpeechSession
+      oneway: true
+      methods:
+        - name: disconnect
+          transaction_code_offset: 0
+          return_type:
+            name: void
+    - name: ITextToSpeechSessionCallback
+      descriptor: android.speech.tts.ITextToSpeechSessionCallback
+      oneway: true
+      methods:
+        - name: onConnected
+          transaction_code_offset: 0
+          params:
+            - name: session
+              type:
+                name: ITextToSpeechSession
+              direction: in
+            - name: serviceBinder
+              type:
+                name: IBinder
+              direction: in
+          return_type:
+            name: void
+        - name: onDisconnected
+          transaction_code_offset: 1
+          return_type:
+            name: void
+        - name: onError
+          transaction_code_offset: 2
+          params:
+            - name: errorInfo
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+parcelables:
+    - name: Voice

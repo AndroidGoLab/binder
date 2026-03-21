@@ -31,8 +31,7 @@ func (u *ExplicitKeyMaterial) GetAes() (AesKey, bool) {
 func (u *ExplicitKeyMaterial) SetAes(
 	v AesKey,
 ) {
-	u.Tag = ExplicitKeyMaterialTagAes
-	u.Aes = v
+	*u = ExplicitKeyMaterial{Tag: ExplicitKeyMaterialTagAes, Aes: v}
 }
 
 func (u *ExplicitKeyMaterial) GetHmac() (HmacKey, bool) {
@@ -46,8 +45,7 @@ func (u *ExplicitKeyMaterial) GetHmac() (HmacKey, bool) {
 func (u *ExplicitKeyMaterial) SetHmac(
 	v HmacKey,
 ) {
-	u.Tag = ExplicitKeyMaterialTagHmac
-	u.Hmac = v
+	*u = ExplicitKeyMaterial{Tag: ExplicitKeyMaterialTagHmac, Hmac: v}
 }
 
 func (u *ExplicitKeyMaterial) MarshalParcel(

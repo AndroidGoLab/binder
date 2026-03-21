@@ -23,7 +23,7 @@ type SetupDataCallResult struct {
 	QosSessions         []QosSession
 	HandoverFailureMode byte
 	PduSessionId        int32
-	SliceInfo           SliceInfo
+	SliceInfo           *SliceInfo
 	TrafficDescriptors  []TrafficDescriptor
 }
 
@@ -102,8 +102,13 @@ func (s *SetupDataCallResult) MarshalParcel(
 	}
 	p.WritePaddedByte(s.HandoverFailureMode)
 	p.WriteInt32(s.PduSessionId)
-	if _err := s.SliceInfo.MarshalParcel(p); _err != nil {
-		return _err
+	if s.SliceInfo == nil {
+		p.WriteInt32(0)
+	} else {
+		p.WriteInt32(1)
+		if _err := s.SliceInfo.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	}
 	if s.TrafficDescriptors == nil {
 		p.WriteInt32(-1)
@@ -129,15 +134,30 @@ func (s *SetupDataCallResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_causeRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Cause = DataCallFailCause(_causeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.SuggestedRetryTime, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.Cid, _err = p.ReadInt32()
@@ -145,9 +165,19 @@ func (s *SetupDataCallResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Active, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	_typeRaw, _err := p.ReadInt32()
@@ -156,9 +186,19 @@ func (s *SetupDataCallResult) UnmarshalParcel(
 	}
 	s.Type = PdpProtocolType(_typeRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Ifname, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -178,6 +218,11 @@ func (s *SetupDataCallResult) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count1 int32
 	_count1, _err = p.ReadInt32()
 	if _err != nil {
@@ -191,6 +236,11 @@ func (s *SetupDataCallResult) UnmarshalParcel(
 				return _err
 			}
 		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count2 int32
@@ -208,6 +258,11 @@ func (s *SetupDataCallResult) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	var _count3 int32
 	_count3, _err = p.ReadInt32()
 	if _err != nil {
@@ -223,9 +278,19 @@ func (s *SetupDataCallResult) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.MtuV4, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.MtuV6, _err = p.ReadInt32()
@@ -233,8 +298,18 @@ func (s *SetupDataCallResult) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	if _err = s.DefaultQos.UnmarshalParcel(p); _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count4 int32
@@ -254,9 +329,19 @@ func (s *SetupDataCallResult) UnmarshalParcel(
 		}
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.HandoverFailureMode, _err = p.ReadPaddedByte()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	s.PduSessionId, _err = p.ReadInt32()
@@ -264,8 +349,28 @@ func (s *SetupDataCallResult) UnmarshalParcel(
 		return _err
 	}
 
-	if _err = s.SliceInfo.UnmarshalParcel(p); _err != nil {
-		return _err
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
+	{
+		_nullInd, _nullErr := p.ReadInt32()
+		if _nullErr != nil {
+			return _nullErr
+		}
+		if _nullInd != 0 {
+			var _val SliceInfo
+			if _err = _val.UnmarshalParcel(p); _err != nil {
+				return _err
+			}
+			s.SliceInfo = &_val
+		}
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count5 int32

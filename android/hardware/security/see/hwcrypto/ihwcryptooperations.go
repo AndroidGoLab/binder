@@ -46,6 +46,7 @@ func (p *HwCryptoOperationsProxy) ProcessCommandList(
 ) ([]CryptoOperationResult, error) {
 	var _result []CryptoOperationResult
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIHwCryptoOperations)
 	if operations == nil {
 		_data.WriteInt32(-1)
@@ -73,25 +74,13 @@ func (p *HwCryptoOperationsProxy) ProcessCommandList(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	_outCount0, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _outCount0 >= 0 {
-		operations = make([]CryptoOperationSet, _outCount0)
-		for _i := int32(0); _i < _outCount0; _i++ {
-			if _, _err = _reply.ReadInt32(); _err != nil {
-				return _result, _err
-			}
-			if _err = operations[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
 
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -111,7 +100,8 @@ func (p *HwCryptoOperationsProxy) ProcessCommandList(
 // HwCryptoOperationsStub dispatches incoming binder transactions
 // to a typed IHwCryptoOperations implementation.
 type HwCryptoOperationsStub struct {
-	Impl IHwCryptoOperations
+	Impl      IHwCryptoOperations
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*HwCryptoOperationsStub)(nil)
@@ -125,14 +115,33 @@ func (s *HwCryptoOperationsStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIHwCryptoOperationsProcessCommandList:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_operations []CryptoOperationSet
-		_ = _arg_operations
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_operations = make([]CryptoOperationSet, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_operations[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_result, _err := s.Impl.ProcessCommandList(ctx, _arg_operations)
 		_reply := parcel.New()
 		if _err != nil {
@@ -140,8 +149,17 @@ func (s *HwCryptoOperationsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

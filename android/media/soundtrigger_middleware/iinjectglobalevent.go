@@ -50,6 +50,7 @@ func (p *InjectGlobalEventProxy) TriggerRestart(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInjectGlobalEvent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInjectGlobalEvent, MethodIInjectGlobalEventTriggerRestart)
@@ -67,6 +68,7 @@ func (p *InjectGlobalEventProxy) SetResourceContention(
 	callback IAcknowledgeEvent,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInjectGlobalEvent)
 	_data.WriteBool(isContended)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
@@ -84,6 +86,7 @@ func (p *InjectGlobalEventProxy) TriggerOnResourcesAvailable(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIInjectGlobalEvent)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInjectGlobalEvent, MethodIInjectGlobalEventTriggerOnResourcesAvailable)
@@ -98,7 +101,8 @@ func (p *InjectGlobalEventProxy) TriggerOnResourcesAvailable(
 // InjectGlobalEventStub dispatches incoming binder transactions
 // to a typed IInjectGlobalEvent implementation.
 type InjectGlobalEventStub struct {
-	Impl IInjectGlobalEvent
+	Impl      IInjectGlobalEvent
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*InjectGlobalEventStub)(nil)
@@ -112,35 +116,32 @@ func (s *InjectGlobalEventStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIInjectGlobalEventTriggerRestart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.TriggerRestart(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIInjectGlobalEventSetResourceContention:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_isContended, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IAcknowledgeEvent
-		_ = _arg_callback
-		_err = s.Impl.SetResourceContention(ctx, _arg_isContended, _arg_callback)
-		_ = _err
-		return nil, nil
-	case TransactionIInjectGlobalEventTriggerOnResourcesAvailable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewAcknowledgeEventProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
+		_err = s.Impl.SetResourceContention(ctx, _arg_isContended, _arg_callback)
+		return nil, _err
+	case TransactionIInjectGlobalEventTriggerOnResourcesAvailable:
 		_err := s.Impl.TriggerOnResourcesAvailable(ctx)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

@@ -47,6 +47,7 @@ func (p *DetectorSessionStorageServiceProxy) OpenFile(
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDetectorSessionStorageService)
 	_data.WriteString16(filename)
 	_data.WriteInt32(1)
@@ -66,7 +67,8 @@ func (p *DetectorSessionStorageServiceProxy) OpenFile(
 // DetectorSessionStorageServiceStub dispatches incoming binder transactions
 // to a typed IDetectorSessionStorageService implementation.
 type DetectorSessionStorageServiceStub struct {
-	Impl IDetectorSessionStorageService
+	Impl      IDetectorSessionStorageService
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*DetectorSessionStorageServiceStub)(nil)
@@ -80,11 +82,12 @@ func (s *DetectorSessionStorageServiceStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIDetectorSessionStorageServiceOpenFile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_filename, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -102,8 +105,7 @@ func (s *DetectorSessionStorageServiceStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.OpenFile(ctx, _arg_filename, _arg_future)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

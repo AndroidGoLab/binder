@@ -59,6 +59,7 @@ func (p *RadioDataIndicationProxy) DataCallListChanged(
 	dcList []SetupDataCallResult,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioDataIndication)
 	_data.WriteInt32(int32(type_))
 	if dcList == nil {
@@ -88,6 +89,7 @@ func (p *RadioDataIndicationProxy) KeepaliveStatus(
 	status KeepaliveStatus,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioDataIndication)
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(1)
@@ -110,6 +112,7 @@ func (p *RadioDataIndicationProxy) PcoData(
 	pco PcoDataInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioDataIndication)
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(1)
@@ -132,6 +135,7 @@ func (p *RadioDataIndicationProxy) UnthrottleApn(
 	dataProfileInfo DataProfileInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioDataIndication)
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(1)
@@ -154,6 +158,7 @@ func (p *RadioDataIndicationProxy) SlicingConfigChanged(
 	slicingConfig SlicingConfig,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIRadioDataIndication)
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(1)
@@ -173,7 +178,8 @@ func (p *RadioDataIndicationProxy) SlicingConfigChanged(
 // RadioDataIndicationStub dispatches incoming binder transactions
 // to a typed IRadioDataIndication implementation.
 type RadioDataIndicationStub struct {
-	Impl IRadioDataIndication
+	Impl      IRadioDataIndication
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*RadioDataIndicationStub)(nil)
@@ -187,26 +193,41 @@ func (s *RadioDataIndicationStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIRadioDataIndicationDataCallListChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_dcList []SetupDataCallResult
-		_ = _arg_dcList
-		_err = s.Impl.DataCallListChanged(ctx, _arg_type_, _arg_dcList)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioDataIndicationKeepaliveStatus:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_dcList = make([]SetupDataCallResult, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_dcList[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err = s.Impl.DataCallListChanged(ctx, _arg_type_, _arg_dcList)
+		return nil, _err
+	case TransactionIRadioDataIndicationKeepaliveStatus:
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -225,12 +246,8 @@ func (s *RadioDataIndicationStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.KeepaliveStatus(ctx, _arg_type_, _arg_status)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioDataIndicationPcoData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -249,12 +266,8 @@ func (s *RadioDataIndicationStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.PcoData(ctx, _arg_type_, _arg_pco)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioDataIndicationUnthrottleApn:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -273,12 +286,8 @@ func (s *RadioDataIndicationStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.UnthrottleApn(ctx, _arg_type_, _arg_dataProfileInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIRadioDataIndicationSlicingConfigChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -297,8 +306,7 @@ func (s *RadioDataIndicationStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.SlicingConfigChanged(ctx, _arg_type_, _arg_slicingConfig)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

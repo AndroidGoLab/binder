@@ -45,6 +45,7 @@ func (p *VrStateCallbacksProxy) OnVrStateChanged(
 	enabled bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVrStateCallbacks)
 	_data.WriteBool(enabled)
 
@@ -60,7 +61,8 @@ func (p *VrStateCallbacksProxy) OnVrStateChanged(
 // VrStateCallbacksStub dispatches incoming binder transactions
 // to a typed IVrStateCallbacks implementation.
 type VrStateCallbacksStub struct {
-	Impl IVrStateCallbacks
+	Impl      IVrStateCallbacks
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*VrStateCallbacksStub)(nil)
@@ -74,18 +76,18 @@ func (s *VrStateCallbacksStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIVrStateCallbacksOnVrStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnVrStateChanged(ctx, _arg_enabled)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

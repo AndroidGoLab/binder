@@ -1,7 +1,6 @@
 package common
 
 import (
-	commonMicrophoneDynamicInfo "github.com/xaionaro-go/binder/android/media/audio/common/MicrophoneDynamicInfo"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +8,7 @@ import (
 
 type MicrophoneDynamicInfo struct {
 	Id             string
-	ChannelMapping []commonMicrophoneDynamicInfo.ChannelMapping
+	ChannelMapping []MicrophoneDynamicInfoChannelMapping
 }
 
 var _ parcel.Parcelable = (*MicrophoneDynamicInfo)(nil)
@@ -40,9 +39,19 @@ func (s *MicrophoneDynamicInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	s.Id, _err = p.ReadString16()
 	if _err != nil {
 		return _err
+	}
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
 	}
 
 	var _count0 int32
@@ -51,13 +60,13 @@ func (s *MicrophoneDynamicInfo) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.ChannelMapping = make([]commonMicrophoneDynamicInfo.ChannelMapping, _count0)
+		s.ChannelMapping = make([]MicrophoneDynamicInfoChannelMapping, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
 			_raw, _err := p.ReadInt32()
 			if _err != nil {
 				return _err
 			}
-			s.ChannelMapping[_i] = commonMicrophoneDynamicInfo.ChannelMapping(_raw)
+			s.ChannelMapping[_i] = MicrophoneDynamicInfoChannelMapping(_raw)
 		}
 	}
 

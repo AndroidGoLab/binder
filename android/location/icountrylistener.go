@@ -45,6 +45,7 @@ func (p *CountryListenerProxy) OnCountryDetected(
 	country Country,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICountryListener)
 	_data.WriteInt32(1)
 	if _err := country.MarshalParcel(_data); _err != nil {
@@ -63,7 +64,8 @@ func (p *CountryListenerProxy) OnCountryDetected(
 // CountryListenerStub dispatches incoming binder transactions
 // to a typed ICountryListener implementation.
 type CountryListenerStub struct {
-	Impl ICountryListener
+	Impl      ICountryListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CountryListenerStub)(nil)
@@ -77,11 +79,12 @@ func (s *CountryListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICountryListenerOnCountryDetected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_country Country
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -95,8 +98,7 @@ func (s *CountryListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnCountryDetected(ctx, _arg_country)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

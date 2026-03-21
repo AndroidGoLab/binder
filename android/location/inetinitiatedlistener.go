@@ -47,6 +47,7 @@ func (p *NetInitiatedListenerProxy) SendNiResponse(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetInitiatedListener)
 	_data.WriteInt32(notifId)
 	_data.WriteInt32(userResponse)
@@ -76,7 +77,8 @@ func (p *NetInitiatedListenerProxy) SendNiResponse(
 // NetInitiatedListenerStub dispatches incoming binder transactions
 // to a typed INetInitiatedListener implementation.
 type NetInitiatedListenerStub struct {
-	Impl INetInitiatedListener
+	Impl      INetInitiatedListener
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*NetInitiatedListenerStub)(nil)
@@ -90,11 +92,12 @@ func (s *NetInitiatedListenerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionINetInitiatedListenerSendNiResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_notifId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

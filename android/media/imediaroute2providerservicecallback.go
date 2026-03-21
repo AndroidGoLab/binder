@@ -57,6 +57,7 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifyProviderUpdated(
 	providerInfo MediaRoute2ProviderInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderServiceCallback)
 	_data.WriteInt32(1)
 	if _err := providerInfo.MarshalParcel(_data); _err != nil {
@@ -78,6 +79,7 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifySessionCreated(
 	sessionInfo RoutingSessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderServiceCallback)
 	_data.WriteInt64(requestId)
 	_data.WriteInt32(1)
@@ -99,6 +101,7 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifySessionsUpdated(
 	sessionInfo []RoutingSessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderServiceCallback)
 	if sessionInfo == nil {
 		_data.WriteInt32(-1)
@@ -126,6 +129,7 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifySessionReleased(
 	sessionInfo RoutingSessionInfo,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderServiceCallback)
 	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
@@ -147,6 +151,7 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifyRequestFailed(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderServiceCallback)
 	_data.WriteInt64(requestId)
 	_data.WriteInt32(reason)
@@ -163,7 +168,8 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifyRequestFailed(
 // MediaRoute2ProviderServiceCallbackStub dispatches incoming binder transactions
 // to a typed IMediaRoute2ProviderServiceCallback implementation.
 type MediaRoute2ProviderServiceCallbackStub struct {
-	Impl IMediaRoute2ProviderServiceCallback
+	Impl      IMediaRoute2ProviderServiceCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*MediaRoute2ProviderServiceCallbackStub)(nil)
@@ -177,11 +183,12 @@ func (s *MediaRoute2ProviderServiceCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIMediaRoute2ProviderServiceCallbackNotifyProviderUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_providerInfo MediaRoute2ProviderInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -195,12 +202,8 @@ func (s *MediaRoute2ProviderServiceCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NotifyProviderUpdated(ctx, _arg_providerInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaRoute2ProviderServiceCallbackNotifySessionCreated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -218,22 +221,32 @@ func (s *MediaRoute2ProviderServiceCallbackStub) OnTransaction(
 			}
 		}
 		_err = s.Impl.NotifySessionCreated(ctx, _arg_requestId, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaRoute2ProviderServiceCallbackNotifySessionsUpdated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionInfo []RoutingSessionInfo
-		_ = _arg_sessionInfo
-		_err := s.Impl.NotifySessionsUpdated(ctx, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
-	case TransactionIMediaRoute2ProviderServiceCallbackNotifySessionReleased:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_sessionInfo = make([]RoutingSessionInfo, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_sessionInfo[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
 		}
+		_err := s.Impl.NotifySessionsUpdated(ctx, _arg_sessionInfo)
+		return nil, _err
+	case TransactionIMediaRoute2ProviderServiceCallbackNotifySessionReleased:
 		var _arg_sessionInfo RoutingSessionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -247,12 +260,8 @@ func (s *MediaRoute2ProviderServiceCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.NotifySessionReleased(ctx, _arg_sessionInfo)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIMediaRoute2ProviderServiceCallbackNotifyRequestFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -262,8 +271,7 @@ func (s *MediaRoute2ProviderServiceCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyRequestFailed(ctx, _arg_requestId, _arg_reason)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

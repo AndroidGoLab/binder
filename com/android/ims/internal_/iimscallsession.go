@@ -152,6 +152,7 @@ func (p *ImsCallSessionProxy) Close(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionClose)
@@ -177,6 +178,7 @@ func (p *ImsCallSessionProxy) GetCallId(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionGetCallId)
@@ -206,6 +208,7 @@ func (p *ImsCallSessionProxy) GetCallProfile(
 ) (ims.ImsCallProfile, error) {
 	var _result ims.ImsCallProfile
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionGetCallProfile)
@@ -240,6 +243,7 @@ func (p *ImsCallSessionProxy) GetLocalCallProfile(
 ) (ims.ImsCallProfile, error) {
 	var _result ims.ImsCallProfile
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionGetLocalCallProfile)
@@ -274,6 +278,7 @@ func (p *ImsCallSessionProxy) GetRemoteCallProfile(
 ) (ims.ImsCallProfile, error) {
 	var _result ims.ImsCallProfile
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionGetRemoteCallProfile)
@@ -309,6 +314,7 @@ func (p *ImsCallSessionProxy) GetProperty(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteString16(name)
 
@@ -339,6 +345,7 @@ func (p *ImsCallSessionProxy) GetState(
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionGetState)
@@ -368,6 +375,7 @@ func (p *ImsCallSessionProxy) IsInCall(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionIsInCall)
@@ -397,6 +405,7 @@ func (p *ImsCallSessionProxy) SetListener(
 	listener IImsCallSessionListener,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
@@ -423,6 +432,7 @@ func (p *ImsCallSessionProxy) SetMute(
 	muted bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteBool(muted)
 
@@ -450,6 +460,7 @@ func (p *ImsCallSessionProxy) Start(
 	profile ims.ImsCallProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteString16(callee)
 	_data.WriteInt32(1)
@@ -481,6 +492,7 @@ func (p *ImsCallSessionProxy) StartConference(
 	profile ims.ImsCallProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	if participants == nil {
 		_data.WriteInt32(-1)
@@ -519,6 +531,7 @@ func (p *ImsCallSessionProxy) Accept(
 	profile ims.ImsStreamMediaProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteInt32(callType)
 	_data.WriteInt32(1)
@@ -549,6 +562,7 @@ func (p *ImsCallSessionProxy) Deflect(
 	deflectNumber string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteString16(deflectNumber)
 
@@ -575,6 +589,7 @@ func (p *ImsCallSessionProxy) Reject(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteInt32(reason)
 
@@ -602,6 +617,7 @@ func (p *ImsCallSessionProxy) Transfer(
 	isConfirmationRequired bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteString16(number)
 	_data.WriteBool(isConfirmationRequired)
@@ -629,6 +645,7 @@ func (p *ImsCallSessionProxy) ConsultativeTransfer(
 	transferToSession IImsCallSession,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	binder.WriteBinderToParcel(ctx, _data, transferToSession.AsBinder(), p.Remote.Transport())
 
@@ -655,6 +672,7 @@ func (p *ImsCallSessionProxy) Terminate(
 	reason int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteInt32(reason)
 
@@ -681,6 +699,7 @@ func (p *ImsCallSessionProxy) Hold(
 	profile ims.ImsStreamMediaProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
@@ -710,6 +729,7 @@ func (p *ImsCallSessionProxy) Resume(
 	profile ims.ImsStreamMediaProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
@@ -738,6 +758,7 @@ func (p *ImsCallSessionProxy) Merge(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionMerge)
@@ -764,6 +785,7 @@ func (p *ImsCallSessionProxy) Update(
 	profile ims.ImsStreamMediaProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteInt32(callType)
 	_data.WriteInt32(1)
@@ -794,6 +816,7 @@ func (p *ImsCallSessionProxy) ExtendToConference(
 	participants []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	if participants == nil {
 		_data.WriteInt32(-1)
@@ -827,6 +850,7 @@ func (p *ImsCallSessionProxy) InviteParticipants(
 	participants []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	if participants == nil {
 		_data.WriteInt32(-1)
@@ -860,6 +884,7 @@ func (p *ImsCallSessionProxy) RemoveParticipants(
 	participants []string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	if participants == nil {
 		_data.WriteInt32(-1)
@@ -894,6 +919,7 @@ func (p *ImsCallSessionProxy) SendDtmf(
 	result os.Message,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteInt32(int32(c))
 	_data.WriteInt32(1)
@@ -924,6 +950,7 @@ func (p *ImsCallSessionProxy) StartDtmf(
 	c uint16,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteInt32(int32(c))
 
@@ -949,6 +976,7 @@ func (p *ImsCallSessionProxy) StopDtmf(
 	ctx context.Context,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionStopDtmf)
@@ -974,6 +1002,7 @@ func (p *ImsCallSessionProxy) SendUssd(
 	ussdMessage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteString16(ussdMessage)
 
@@ -1000,6 +1029,7 @@ func (p *ImsCallSessionProxy) GetVideoCallProvider(
 ) (IImsVideoCallProvider, error) {
 	var _result IImsVideoCallProvider
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionGetVideoCallProvider)
@@ -1030,6 +1060,7 @@ func (p *ImsCallSessionProxy) IsMultiparty(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionIsMultiparty)
@@ -1059,6 +1090,7 @@ func (p *ImsCallSessionProxy) SendRttModifyRequest(
 	toProfile ims.ImsCallProfile,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteInt32(1)
 	if _err := toProfile.MarshalParcel(_data); _err != nil {
@@ -1088,6 +1120,7 @@ func (p *ImsCallSessionProxy) SendRttModifyResponse(
 	status bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteBool(status)
 
@@ -1114,6 +1147,7 @@ func (p *ImsCallSessionProxy) SendRttMessage(
 	rttMessage string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteString16(rttMessage)
 
@@ -1140,6 +1174,7 @@ func (p *ImsCallSessionProxy) SendRtpHeaderExtensions(
 	extensions []media.RtpHeaderExtension,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	if extensions == nil {
 		_data.WriteInt32(-1)
@@ -1178,6 +1213,7 @@ func (p *ImsCallSessionProxy) CallSessionNotifyAnbr(
 	bitsPerSecond int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteInt32(mediaType)
 	_data.WriteInt32(direction)
@@ -1204,7 +1240,8 @@ func (p *ImsCallSessionProxy) CallSessionNotifyAnbr(
 // ImsCallSessionStub dispatches incoming binder transactions
 // to a typed IImsCallSession implementation.
 type ImsCallSessionStub struct {
-	Impl IImsCallSession
+	Impl      IImsCallSession
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ImsCallSessionStub)(nil)
@@ -1218,11 +1255,12 @@ func (s *ImsCallSessionStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIImsCallSessionClose:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Close(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1232,9 +1270,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionGetCallId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCallId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1245,9 +1280,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIImsCallSessionGetCallProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCallProfile(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1261,9 +1293,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImsCallSessionGetLocalCallProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLocalCallProfile(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1277,9 +1306,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImsCallSessionGetRemoteCallProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetRemoteCallProfile(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1293,9 +1319,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImsCallSessionGetProperty:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1310,9 +1333,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIImsCallSessionGetState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetState(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1323,9 +1343,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsCallSessionIsInCall:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsInCall(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1336,12 +1353,14 @@ func (s *ImsCallSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsCallSessionSetListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IImsCallSessionListener
-		_ = _arg_listener
+		{
+			_listenerHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_listener = NewImsCallSessionListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
+		}
 		_err := s.Impl.SetListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1351,9 +1370,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionSetMute:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_muted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1367,9 +1383,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callee, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1395,12 +1408,25 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionStartConference:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_participants []string
-		_ = _arg_participants
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_participants = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_participants[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		var _arg_profile ims.ImsCallProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1422,9 +1448,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionAccept:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1450,9 +1473,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionDeflect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_deflectNumber, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1466,9 +1486,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionReject:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1482,9 +1499,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionTransfer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1502,12 +1516,14 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionConsultativeTransfer:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transferToSession IImsCallSession
-		_ = _arg_transferToSession
+		{
+			_transferToSessionHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_transferToSession = NewImsCallSessionProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transferToSessionHandle))
+		}
 		_err := s.Impl.ConsultativeTransfer(ctx, _arg_transferToSession)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1517,9 +1533,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionTerminate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1533,9 +1546,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionHold:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_profile ims.ImsStreamMediaProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1557,9 +1567,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionResume:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_profile ims.ImsStreamMediaProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1581,9 +1588,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionMerge:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.Merge(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1593,9 +1597,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_callType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1621,12 +1622,25 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionExtendToConference:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_participants []string
-		_ = _arg_participants
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_participants = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_participants[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.ExtendToConference(ctx, _arg_participants)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1636,12 +1650,25 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionInviteParticipants:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_participants []string
-		_ = _arg_participants
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_participants = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_participants[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.InviteParticipants(ctx, _arg_participants)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1651,12 +1678,25 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionRemoveParticipants:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_participants []string
-		_ = _arg_participants
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_participants = make([]string, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					_arg_participants[_i], _err = _data.ReadString16()
+					if _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.RemoveParticipants(ctx, _arg_participants)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1666,9 +1706,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionSendDtmf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_c, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1695,9 +1732,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionStartDtmf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_c, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1712,9 +1746,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionStopDtmf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_err := s.Impl.StopDtmf(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1724,9 +1755,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionSendUssd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_ussdMessage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1740,9 +1768,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionGetVideoCallProvider:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVideoCallProvider(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1750,13 +1775,9 @@ func (s *ImsCallSessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
+		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIImsCallSessionIsMultiparty:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.IsMultiparty(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1767,9 +1788,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsCallSessionSendRttModifyRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		var _arg_toProfile ims.ImsCallProfile
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1791,9 +1809,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionSendRttModifyResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_status, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1807,9 +1822,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionSendRttMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_rttMessage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1823,12 +1835,27 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionSendRtpHeaderExtensions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_extensions []media.RtpHeaderExtension
-		_ = _arg_extensions
+		{
+			_count, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _count > 1000000 {
+				return nil, fmt.Errorf("array count too large: %d", _count)
+			}
+			if _count >= 0 {
+				_arg_extensions = make([]media.RtpHeaderExtension, _count)
+				for _i := int32(0); _i < _count; _i++ {
+					if _, _err = _data.ReadInt32(); _err != nil {
+						return nil, _err
+					}
+					if _err = _arg_extensions[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
+				}
+			}
+		}
 		_err := s.Impl.SendRtpHeaderExtensions(ctx, _arg_extensions)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1838,9 +1865,6 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionCallSessionNotifyAnbr:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_mediaType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

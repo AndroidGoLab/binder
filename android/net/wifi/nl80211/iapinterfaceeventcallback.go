@@ -23,7 +23,7 @@ const (
 
 type IApInterfaceEventCallback interface {
 	AsBinder() binder.IBinder
-	OnConnectedClientsChanged(ctx context.Context, client interface{}, isConnected bool) error
+	OnConnectedClientsChanged(ctx context.Context, client NativeWifiClient, isConnected bool) error
 	OnSoftApChannelSwitched(ctx context.Context, frequency int32, bandwidth int32) error
 }
 
@@ -56,11 +56,16 @@ var _ IApInterfaceEventCallback = (*ApInterfaceEventCallbackProxy)(nil)
 
 func (p *ApInterfaceEventCallbackProxy) OnConnectedClientsChanged(
 	ctx context.Context,
-	client interface{},
+	client NativeWifiClient,
 	isConnected bool,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApInterfaceEventCallback)
+	_data.WriteInt32(1)
+	if _err := client.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(isConnected)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApInterfaceEventCallback, MethodIApInterfaceEventCallbackOnConnectedClientsChanged)
@@ -78,6 +83,7 @@ func (p *ApInterfaceEventCallbackProxy) OnSoftApChannelSwitched(
 	bandwidth int32,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApInterfaceEventCallback)
 	_data.WriteInt32(frequency)
 	_data.WriteInt32(bandwidth)
@@ -94,7 +100,8 @@ func (p *ApInterfaceEventCallbackProxy) OnSoftApChannelSwitched(
 // ApInterfaceEventCallbackStub dispatches incoming binder transactions
 // to a typed IApInterfaceEventCallback implementation.
 type ApInterfaceEventCallbackStub struct {
-	Impl IApInterfaceEventCallback
+	Impl      IApInterfaceEventCallback
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*ApInterfaceEventCallbackStub)(nil)
@@ -108,23 +115,31 @@ func (s *ApInterfaceEventCallbackStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIApInterfaceEventCallbackOnConnectedClientsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		var _arg_client NativeWifiClient
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_client.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		var _arg_client interface{}
 		_arg_isConnected, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnConnectedClientsChanged(ctx, _arg_client, _arg_isConnected)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	case TransactionIApInterfaceEventCallbackOnSoftApChannelSwitched:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_frequency, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -134,8 +149,7 @@ func (s *ApInterfaceEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnSoftApChannelSwitched(ctx, _arg_frequency, _arg_bandwidth)
-		_ = _err
-		return nil, nil
+		return nil, _err
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -145,7 +159,7 @@ func (s *ApInterfaceEventCallbackStub) OnTransaction(
 // provide to NewApInterfaceEventCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IApInterfaceEventCallbackServer interface {
-	OnConnectedClientsChanged(ctx context.Context, client interface{}, isConnected bool) error
+	OnConnectedClientsChanged(ctx context.Context, client NativeWifiClient, isConnected bool) error
 	OnSoftApChannelSwitched(ctx context.Context, frequency int32, bandwidth int32) error
 }
 
@@ -160,7 +174,7 @@ func (w *apInterfaceEventCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *apInterfaceEventCallbackStubWrapper) OnConnectedClientsChanged(
 	ctx context.Context,
-	client interface{},
+	client NativeWifiClient,
 	isConnected bool,
 ) error {
 	return w.impl.OnConnectedClientsChanged(ctx, client, isConnected)

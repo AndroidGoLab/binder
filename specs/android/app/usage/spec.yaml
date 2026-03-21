@@ -1,0 +1,790 @@
+package: android.app.usage
+go_package: android/app/usage
+interfaces:
+    - name: ICacheQuotaService
+      descriptor: android.app.usage.ICacheQuotaService
+      oneway: true
+      methods:
+        - name: computeCacheQuotaHints
+          transaction_code_offset: 0
+          params:
+            - name: callback
+              type:
+                name: RemoteCallback
+              direction: in
+            - name: requests
+              type:
+                name: List
+                type_args:
+                    - name: CacheQuotaHint
+              direction: in
+          return_type:
+            name: void
+    - name: IStorageStatsManager
+      descriptor: android.app.usage.IStorageStatsManager
+      methods:
+        - name: isQuotaSupported
+          transaction_code_offset: 0
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: isReservedSupported
+          transaction_code_offset: 1
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: boolean
+        - name: getTotalBytes
+          transaction_code_offset: 2
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: long
+        - name: getFreeBytes
+          transaction_code_offset: 3
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: long
+        - name: getCacheBytes
+          transaction_code_offset: 4
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: long
+        - name: getCacheQuotaBytes
+          transaction_code_offset: 5
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: long
+        - name: queryStatsForPackage
+          transaction_code_offset: 6
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: StorageStats
+        - name: queryStatsForUid
+          transaction_code_offset: 7
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: StorageStats
+        - name: queryStatsForUser
+          transaction_code_offset: 8
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: StorageStats
+        - name: queryExternalStatsForUser
+          transaction_code_offset: 9
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: ExternalStorageStats
+        - name: queryCratesForPackage
+          transaction_code_offset: 10
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+        - name: queryCratesForUid
+          transaction_code_offset: 11
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: uid
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+        - name: queryCratesForUser
+          transaction_code_offset: 12
+          params:
+            - name: volumeUuid
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+    - name: IUsageStatsManager
+      descriptor: android.app.usage.IUsageStatsManager
+      methods:
+        - name: queryUsageStats
+          transaction_code_offset: 0
+          params:
+            - name: bucketType
+              type:
+                name: int
+            - name: beginTime
+              type:
+                name: long
+            - name: endTime
+              type:
+                name: long
+            - name: callingPackage
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+          annotations:
+            - UnsupportedAppUsage
+        - name: queryConfigurationStats
+          transaction_code_offset: 1
+          params:
+            - name: bucketType
+              type:
+                name: int
+            - name: beginTime
+              type:
+                name: long
+            - name: endTime
+              type:
+                name: long
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+          annotations:
+            - UnsupportedAppUsage
+        - name: queryEventStats
+          transaction_code_offset: 2
+          params:
+            - name: bucketType
+              type:
+                name: int
+            - name: beginTime
+              type:
+                name: long
+            - name: endTime
+              type:
+                name: long
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: ParceledListSlice
+        - name: queryEvents
+          transaction_code_offset: 3
+          params:
+            - name: beginTime
+              type:
+                name: long
+            - name: endTime
+              type:
+                name: long
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: UsageEvents
+        - name: queryEventsForPackage
+          transaction_code_offset: 4
+          params:
+            - name: beginTime
+              type:
+                name: long
+            - name: endTime
+              type:
+                name: long
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: UsageEvents
+        - name: queryEventsForUser
+          transaction_code_offset: 5
+          params:
+            - name: beginTime
+              type:
+                name: long
+            - name: endTime
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: UsageEvents
+        - name: queryEventsForPackageForUser
+          transaction_code_offset: 6
+          params:
+            - name: beginTime
+              type:
+                name: long
+            - name: endTime
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+            - name: pkg
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: UsageEvents
+        - name: queryEventsWithFilter
+          transaction_code_offset: 7
+          params:
+            - name: query
+              type:
+                name: UsageEventsQuery
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: UsageEvents
+          annotations:
+            - JavaPassthrough
+        - name: setAppInactive
+          transaction_code_offset: 8
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: inactive
+              type:
+                name: boolean
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - UnsupportedAppUsage
+        - name: isAppStandbyEnabled
+          transaction_code_offset: 9
+          return_type:
+            name: boolean
+        - name: isAppInactive
+          transaction_code_offset: 10
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: onCarrierPrivilegedAppsChanged
+          transaction_code_offset: 11
+          return_type:
+            name: void
+        - name: reportChooserSelection
+          transaction_code_offset: 12
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: contentType
+              type:
+                name: String
+            - name: annotations
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: action
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: getAppStandbyBucket
+          transaction_code_offset: 13
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setAppStandbyBucket
+          transaction_code_offset: 14
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: bucket
+              type:
+                name: int
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getAppStandbyBuckets
+          transaction_code_offset: 15
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: ParceledListSlice
+        - name: setAppStandbyBuckets
+          transaction_code_offset: 16
+          params:
+            - name: appBuckets
+              type:
+                name: ParceledListSlice
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: getAppMinStandbyBucket
+          transaction_code_offset: 17
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: int
+        - name: setEstimatedLaunchTime
+          transaction_code_offset: 18
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: estimatedLaunchTime
+              type:
+                name: long
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: setEstimatedLaunchTimes
+          transaction_code_offset: 19
+          params:
+            - name: appLaunchTimes
+              type:
+                name: ParceledListSlice
+              direction: in
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - EnforcePermission
+        - name: registerAppUsageObserver
+          transaction_code_offset: 20
+          params:
+            - name: observerId
+              type:
+                name: int
+            - name: packages
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: timeLimitMs
+              type:
+                name: long
+            - name: callback
+              type:
+                name: PendingIntent
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: unregisterAppUsageObserver
+          transaction_code_offset: 21
+          params:
+            - name: observerId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: registerUsageSessionObserver
+          transaction_code_offset: 22
+          params:
+            - name: sessionObserverId
+              type:
+                name: int
+            - name: observed
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: timeLimitMs
+              type:
+                name: long
+            - name: sessionThresholdTimeMs
+              type:
+                name: long
+            - name: limitReachedCallbackIntent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: sessionEndCallbackIntent
+              type:
+                name: PendingIntent
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: unregisterUsageSessionObserver
+          transaction_code_offset: 23
+          params:
+            - name: sessionObserverId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: registerAppUsageLimitObserver
+          transaction_code_offset: 24
+          params:
+            - name: observerId
+              type:
+                name: int
+            - name: packages
+              type:
+                name: String
+                is_array: true
+              direction: in
+            - name: timeLimitMs
+              type:
+                name: long
+            - name: timeUsedMs
+              type:
+                name: long
+            - name: callback
+              type:
+                name: PendingIntent
+              direction: in
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: unregisterAppUsageLimitObserver
+          transaction_code_offset: 25
+          params:
+            - name: observerId
+              type:
+                name: int
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: reportUsageStart
+          transaction_code_offset: 26
+          params:
+            - name: activity
+              type:
+                name: IBinder
+              direction: in
+            - name: token
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: reportPastUsageStart
+          transaction_code_offset: 27
+          params:
+            - name: activity
+              type:
+                name: IBinder
+              direction: in
+            - name: token
+              type:
+                name: String
+            - name: timeAgoMs
+              type:
+                name: long
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: reportUsageStop
+          transaction_code_offset: 28
+          params:
+            - name: activity
+              type:
+                name: IBinder
+              direction: in
+            - name: token
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: void
+        - name: reportUserInteraction
+          transaction_code_offset: 29
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: reportUserInteractionWithBundle
+          transaction_code_offset: 30
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+            - name: eventExtras
+              type:
+                name: PersistableBundle
+              direction: in
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: getUsageSource
+          transaction_code_offset: 31
+          return_type:
+            name: int
+        - name: forceUsageSourceSettingRead
+          transaction_code_offset: 32
+          return_type:
+            name: void
+        - name: getLastTimeAnyComponentUsed
+          transaction_code_offset: 33
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: callingPackage
+              type:
+                name: String
+          return_type:
+            name: long
+        - name: queryBroadcastResponseStats
+          transaction_code_offset: 34
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: id
+              type:
+                name: long
+            - name: callingPackage
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: BroadcastResponseStatsList
+          annotations:
+            - JavaPassthrough
+        - name: clearBroadcastResponseStats
+          transaction_code_offset: 35
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: id
+              type:
+                name: long
+            - name: callingPackage
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: clearBroadcastEvents
+          transaction_code_offset: 36
+          params:
+            - name: callingPackage
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: void
+          annotations:
+            - JavaPassthrough
+        - name: isPackageExemptedFromBroadcastResponseStats
+          transaction_code_offset: 37
+          params:
+            - name: packageName
+              type:
+                name: String
+            - name: userId
+              type:
+                name: int
+          return_type:
+            name: boolean
+          annotations:
+            - JavaPassthrough
+        - name: getAppStandbyConstant
+          transaction_code_offset: 38
+          params:
+            - name: key
+              type:
+                name: String
+          return_type:
+            name: String
+          annotations:
+            - JavaPassthrough
+parcelables:
+    - name: BroadcastResponseStats
+    - name: BroadcastResponseStatsList
+    - name: CacheQuotaHint
+    - name: ExternalStorageStats
+    - name: PackageUsageStats
+    - name: ParcelableUsageEventList
+    - name: StorageStats
+    - name: UsageEvents
+    - name: UsageEventsQuery

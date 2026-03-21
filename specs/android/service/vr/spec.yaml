@@ -1,0 +1,138 @@
+package: android.service.vr
+go_package: android/service/vr
+interfaces:
+    - name: IPersistentVrStateCallbacks
+      descriptor: android.service.vr.IPersistentVrStateCallbacks
+      oneway: true
+      methods:
+        - name: onPersistentVrStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: enabled
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+    - name: IVrListener
+      descriptor: android.service.vr.IVrListener
+      oneway: true
+      methods:
+        - name: focusedActivityChanged
+          transaction_code_offset: 0
+          params:
+            - name: component
+              type:
+                name: ComponentName
+              direction: in
+            - name: running2dInVr
+              type:
+                name: boolean
+            - name: pid
+              type:
+                name: int
+          return_type:
+            name: void
+    - name: IVrManager
+      descriptor: android.service.vr.IVrManager
+      methods:
+        - name: registerListener
+          transaction_code_offset: 0
+          params:
+            - name: cb
+              type:
+                name: IVrStateCallbacks
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterListener
+          transaction_code_offset: 1
+          params:
+            - name: cb
+              type:
+                name: IVrStateCallbacks
+              direction: in
+          return_type:
+            name: void
+        - name: registerPersistentVrStateListener
+          transaction_code_offset: 2
+          params:
+            - name: cb
+              type:
+                name: IPersistentVrStateCallbacks
+              direction: in
+          return_type:
+            name: void
+        - name: unregisterPersistentVrStateListener
+          transaction_code_offset: 3
+          params:
+            - name: cb
+              type:
+                name: IPersistentVrStateCallbacks
+              direction: in
+          return_type:
+            name: void
+        - name: getVrModeState
+          transaction_code_offset: 4
+          return_type:
+            name: boolean
+          annotations:
+            - UnsupportedAppUsage
+        - name: getPersistentVrModeEnabled
+          transaction_code_offset: 5
+          return_type:
+            name: boolean
+        - name: setPersistentVrModeEnabled
+          transaction_code_offset: 6
+          params:
+            - name: enabled
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void
+        - name: setVr2dDisplayProperties
+          transaction_code_offset: 7
+          params:
+            - name: vr2dDisplayProperties
+              type:
+                name: Vr2dDisplayProperties
+              direction: in
+          return_type:
+            name: void
+        - name: getVr2dDisplayId
+          transaction_code_offset: 8
+          return_type:
+            name: int
+          annotations:
+            - UnsupportedAppUsage
+        - name: setAndBindCompositor
+          transaction_code_offset: 9
+          params:
+            - name: componentName
+              type:
+                name: String
+              direction: in
+          return_type:
+            name: void
+        - name: setStandbyEnabled
+          transaction_code_offset: 10
+          params:
+            - name: standby
+              type:
+                name: boolean
+          return_type:
+            name: void
+    - name: IVrStateCallbacks
+      descriptor: android.service.vr.IVrStateCallbacks
+      oneway: true
+      methods:
+        - name: onVrStateChanged
+          transaction_code_offset: 0
+          params:
+            - name: enabled
+              type:
+                name: boolean
+              direction: in
+          return_type:
+            name: void

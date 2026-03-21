@@ -60,6 +60,7 @@ func (p *CarPowerPolicyServerProxy) GetCurrentPowerPolicy(
 ) (CarPowerPolicy, error) {
 	var _result CarPowerPolicy
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerGetCurrentPowerPolicy)
@@ -95,6 +96,7 @@ func (p *CarPowerPolicyServerProxy) GetPowerComponentState(
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
 	_data.WriteInt32(int32(componentId))
 
@@ -126,6 +128,7 @@ func (p *CarPowerPolicyServerProxy) RegisterPowerPolicyChangeCallback(
 	filter CarPowerPolicyFilter,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
@@ -156,6 +159,7 @@ func (p *CarPowerPolicyServerProxy) UnregisterPowerPolicyChangeCallback(
 	callback ICarPowerPolicyChangeCallback,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
 	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
@@ -182,6 +186,7 @@ func (p *CarPowerPolicyServerProxy) ApplyPowerPolicy(
 	policyId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
 	_data.WriteString16(policyId)
 
@@ -208,6 +213,7 @@ func (p *CarPowerPolicyServerProxy) SetPowerPolicyGroup(
 	policyGroupId string,
 ) error {
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
 	_data.WriteString16(policyGroupId)
 
@@ -232,7 +238,8 @@ func (p *CarPowerPolicyServerProxy) SetPowerPolicyGroup(
 // CarPowerPolicyServerStub dispatches incoming binder transactions
 // to a typed ICarPowerPolicyServer implementation.
 type CarPowerPolicyServerStub struct {
-	Impl ICarPowerPolicyServer
+	Impl      ICarPowerPolicyServer
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*CarPowerPolicyServerStub)(nil)
@@ -246,11 +253,12 @@ func (s *CarPowerPolicyServerStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionICarPowerPolicyServerGetCurrentPowerPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetCurrentPowerPolicy(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -264,9 +272,6 @@ func (s *CarPowerPolicyServerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICarPowerPolicyServerGetPowerComponentState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_raw_componentId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -282,12 +287,14 @@ func (s *CarPowerPolicyServerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICarPowerPolicyServerRegisterPowerPolicyChangeCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICarPowerPolicyChangeCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCarPowerPolicyChangeCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		var _arg_filter CarPowerPolicyFilter
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -309,12 +316,14 @@ func (s *CarPowerPolicyServerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarPowerPolicyServerUnregisterPowerPolicyChangeCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICarPowerPolicyChangeCallback
-		_ = _arg_callback
+		{
+			_callbackHandle, _err := _data.ReadStrongBinder()
+			if _err != nil {
+				return nil, _err
+			}
+			_arg_callback = NewCarPowerPolicyChangeCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+		}
 		_err := s.Impl.UnregisterPowerPolicyChangeCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -324,9 +333,6 @@ func (s *CarPowerPolicyServerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarPowerPolicyServerApplyPowerPolicy:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_policyId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -340,9 +346,6 @@ func (s *CarPowerPolicyServerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarPowerPolicyServerSetPowerPolicyGroup:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_policyGroupId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

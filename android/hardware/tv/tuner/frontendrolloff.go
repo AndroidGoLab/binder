@@ -33,8 +33,7 @@ func (u *FrontendRollOff) GetDvbs() (FrontendDvbsRolloff, bool) {
 func (u *FrontendRollOff) SetDvbs(
 	v FrontendDvbsRolloff,
 ) {
-	u.Tag = FrontendRollOffTagDvbs
-	u.Dvbs = v
+	*u = FrontendRollOff{Tag: FrontendRollOffTagDvbs, Dvbs: v}
 }
 
 func (u *FrontendRollOff) GetIsdbs() (FrontendIsdbsRolloff, bool) {
@@ -48,8 +47,7 @@ func (u *FrontendRollOff) GetIsdbs() (FrontendIsdbsRolloff, bool) {
 func (u *FrontendRollOff) SetIsdbs(
 	v FrontendIsdbsRolloff,
 ) {
-	u.Tag = FrontendRollOffTagIsdbs
-	u.Isdbs = v
+	*u = FrontendRollOff{Tag: FrontendRollOffTagIsdbs, Isdbs: v}
 }
 
 func (u *FrontendRollOff) GetIsdbs3() (FrontendIsdbs3Rolloff, bool) {
@@ -63,8 +61,7 @@ func (u *FrontendRollOff) GetIsdbs3() (FrontendIsdbs3Rolloff, bool) {
 func (u *FrontendRollOff) SetIsdbs3(
 	v FrontendIsdbs3Rolloff,
 ) {
-	u.Tag = FrontendRollOffTagIsdbs3
-	u.Isdbs3 = v
+	*u = FrontendRollOff{Tag: FrontendRollOffTagIsdbs3, Isdbs3: v}
 }
 
 func (u *FrontendRollOff) MarshalParcel(

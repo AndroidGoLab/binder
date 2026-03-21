@@ -1,0 +1,6 @@
+package: android.app.assist
+go_package: android/app/assist
+parcelables:
+    - name: AssistContent
+    - name: AssistStructure
+    - name: AssistStructure.ViewNodeParcelable

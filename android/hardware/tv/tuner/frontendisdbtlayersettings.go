@@ -36,11 +36,21 @@ func (s *FrontendIsdbtLayerSettings) UnmarshalParcel(
 		return _err
 	}
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_modulationRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.Modulation = FrontendIsdbtModulation(_modulationRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	_coderateRaw, _err := p.ReadInt32()
 	if _err != nil {
@@ -48,11 +58,21 @@ func (s *FrontendIsdbtLayerSettings) UnmarshalParcel(
 	}
 	s.Coderate = FrontendIsdbtCoderate(_coderateRaw)
 
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
+
 	_timeInterleaveRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	s.TimeInterleave = FrontendIsdbtTimeInterleaveMode(_timeInterleaveRaw)
+
+	if p.Position() >= _endPos {
+		parcel.SkipToParcelableEnd(p, _endPos)
+		return nil
+	}
 
 	s.NumOfSegment, _err = p.ReadInt32()
 	if _err != nil {

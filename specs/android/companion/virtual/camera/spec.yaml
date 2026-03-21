@@ -1,0 +1,51 @@
+package: android.companion.virtual.camera
+go_package: android/companion/virtual/camera
+interfaces:
+    - name: IVirtualCameraCallback
+      descriptor: android.companion.virtual.camera.IVirtualCameraCallback
+      methods:
+        - name: onStreamConfigured
+          transaction_code_offset: 0
+          oneway: true
+          params:
+            - name: streamId
+              type:
+                name: int
+            - name: surface
+              type:
+                name: Surface
+              direction: in
+            - name: width
+              type:
+                name: int
+            - name: height
+              type:
+                name: int
+            - name: format
+              type:
+                name: int
+          return_type:
+            name: void
+        - name: onProcessCaptureRequest
+          transaction_code_offset: 1
+          oneway: true
+          params:
+            - name: streamId
+              type:
+                name: int
+            - name: frameId
+              type:
+                name: long
+          return_type:
+            name: void
+        - name: onStreamClosed
+          transaction_code_offset: 2
+          oneway: true
+          params:
+            - name: streamId
+              type:
+                name: int
+          return_type:
+            name: void
+parcelables:
+    - name: VirtualCameraConfig

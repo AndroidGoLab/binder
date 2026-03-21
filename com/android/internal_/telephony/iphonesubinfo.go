@@ -156,6 +156,7 @@ func (p *PhoneSubInfoProxy) GetDeviceId(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteString16(_identity.PackageName)
 
@@ -187,6 +188,7 @@ func (p *PhoneSubInfoProxy) GetDeviceIdWithFeature(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -220,6 +222,7 @@ func (p *PhoneSubInfoProxy) GetNaiForSubscriber(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -254,6 +257,7 @@ func (p *PhoneSubInfoProxy) GetDeviceIdForPhone(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(phoneId)
 	_data.WriteString16(_identity.PackageName)
@@ -288,6 +292,7 @@ func (p *PhoneSubInfoProxy) GetImeiForSubscriber(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -321,6 +326,7 @@ func (p *PhoneSubInfoProxy) GetDeviceSvn(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -354,6 +360,7 @@ func (p *PhoneSubInfoProxy) GetDeviceSvnUsingSubId(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -387,6 +394,7 @@ func (p *PhoneSubInfoProxy) GetSubscriberId(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteString16(_identity.PackageName)
 
@@ -419,6 +427,7 @@ func (p *PhoneSubInfoProxy) GetSubscriberIdWithFeature(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(callingComponenId)
@@ -452,6 +461,7 @@ func (p *PhoneSubInfoProxy) GetSubscriberIdForSubscriber(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -486,6 +496,7 @@ func (p *PhoneSubInfoProxy) GetGroupIdLevel1ForSubscriber(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -519,6 +530,7 @@ func (p *PhoneSubInfoProxy) GetIccSerialNumber(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteString16(_identity.PackageName)
 
@@ -550,6 +562,7 @@ func (p *PhoneSubInfoProxy) GetIccSerialNumberWithFeature(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -583,6 +596,7 @@ func (p *PhoneSubInfoProxy) GetIccSerialNumberForSubscriber(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -616,6 +630,7 @@ func (p *PhoneSubInfoProxy) GetLine1Number(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -649,6 +664,7 @@ func (p *PhoneSubInfoProxy) GetLine1NumberForSubscriber(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -682,6 +698,7 @@ func (p *PhoneSubInfoProxy) GetLine1AlphaTag(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -715,6 +732,7 @@ func (p *PhoneSubInfoProxy) GetLine1AlphaTagForSubscriber(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -748,6 +766,7 @@ func (p *PhoneSubInfoProxy) GetMsisdn(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -781,6 +800,7 @@ func (p *PhoneSubInfoProxy) GetMsisdnForSubscriber(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -814,6 +834,7 @@ func (p *PhoneSubInfoProxy) GetVoiceMailNumber(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -847,6 +868,7 @@ func (p *PhoneSubInfoProxy) GetVoiceMailNumberForSubscriber(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -882,6 +904,7 @@ func (p *PhoneSubInfoProxy) GetCarrierInfoForImsiEncryption(
 	var _result sim.ImsiEncryptionInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(keyType)
@@ -921,6 +944,7 @@ func (p *PhoneSubInfoProxy) SetCarrierInfoForImsiEncryption(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -953,6 +977,7 @@ func (p *PhoneSubInfoProxy) ResetCarrierKeysForImsiEncryption(
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -981,6 +1006,7 @@ func (p *PhoneSubInfoProxy) GetVoiceMailAlphaTag(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
@@ -1014,6 +1040,7 @@ func (p *PhoneSubInfoProxy) GetVoiceMailAlphaTagForSubscriber(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -1047,6 +1074,7 @@ func (p *PhoneSubInfoProxy) GetIsimImpi(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 
@@ -1079,6 +1107,7 @@ func (p *PhoneSubInfoProxy) GetImsPrivateUserIdentity(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -1112,6 +1141,7 @@ func (p *PhoneSubInfoProxy) GetIsimDomain(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 
@@ -1143,6 +1173,7 @@ func (p *PhoneSubInfoProxy) GetIsimImpu(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 
@@ -1165,6 +1196,9 @@ func (p *PhoneSubInfoProxy) GetIsimImpu(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]string, _count)
@@ -1185,6 +1219,7 @@ func (p *PhoneSubInfoProxy) GetImsPublicUserIdentities(
 	var _result []net.Uri
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
@@ -1209,6 +1244,9 @@ func (p *PhoneSubInfoProxy) GetImsPublicUserIdentities(
 	if _err != nil {
 		return _result, _err
 	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
+	}
 
 	if _count >= 0 {
 		_result = make([]net.Uri, _count)
@@ -1230,6 +1268,7 @@ func (p *PhoneSubInfoProxy) GetIsimIst(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 
@@ -1261,6 +1300,7 @@ func (p *PhoneSubInfoProxy) GetIsimPcscf(
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 
@@ -1282,6 +1322,9 @@ func (p *PhoneSubInfoProxy) GetIsimPcscf(
 	_count, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
+	}
+	if _count > 1000000 {
+		return _result, fmt.Errorf("array count too large: %d", _count)
 	}
 
 	if _count >= 0 {
@@ -1306,6 +1349,7 @@ func (p *PhoneSubInfoProxy) GetIccSimChallengeResponse(
 	var _result string
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(appType)
@@ -1343,6 +1387,7 @@ func (p *PhoneSubInfoProxy) GetSmscIdentity(
 ) (net.Uri, error) {
 	var _result net.Uri
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(appType)
@@ -1381,6 +1426,7 @@ func (p *PhoneSubInfoProxy) GetSimServiceTable(
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
+	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(appType)
@@ -1410,7 +1456,8 @@ func (p *PhoneSubInfoProxy) GetSimServiceTable(
 // PhoneSubInfoStub dispatches incoming binder transactions
 // to a typed IPhoneSubInfo implementation.
 type PhoneSubInfoStub struct {
-	Impl IPhoneSubInfo
+	Impl      IPhoneSubInfo
+	Transport binder.VersionAwareTransport
 }
 
 var _ binder.TransactionReceiver = (*PhoneSubInfoStub)(nil)
@@ -1424,11 +1471,12 @@ func (s *PhoneSubInfoStub) OnTransaction(
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
+	if _, _err := _data.ReadInterfaceToken(); _err != nil {
+		return nil, _err
+	}
+
 	switch code {
 	case TransactionIPhoneSubInfoGetDeviceId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1448,9 +1496,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDeviceIdWithFeature(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1461,9 +1506,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetNaiForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1484,9 +1526,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetDeviceIdForPhone:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1507,9 +1546,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetImeiForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1536,9 +1572,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetDeviceSvn(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1549,9 +1582,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetDeviceSvnUsingSubId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1575,9 +1605,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetSubscriberId(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1588,9 +1615,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetSubscriberIdWithFeature:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1608,9 +1632,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetSubscriberIdForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1631,9 +1652,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetGroupIdLevel1ForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1657,9 +1675,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetIccSerialNumber(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1676,9 +1691,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetIccSerialNumberWithFeature(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1689,9 +1701,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetIccSerialNumberForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1718,9 +1727,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLine1Number(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1731,9 +1737,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetLine1NumberForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1760,9 +1763,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetLine1AlphaTag(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1773,9 +1773,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetLine1AlphaTagForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1802,9 +1799,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetMsisdn(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1815,9 +1809,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetMsisdnForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1844,9 +1835,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVoiceMailNumber(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1857,9 +1845,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetVoiceMailNumberForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1880,9 +1865,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetCarrierInfoForImsiEncryption:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1907,9 +1889,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPhoneSubInfoSetCarrierInfoForImsiEncryption:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1938,9 +1917,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPhoneSubInfoResetCarrierKeysForImsiEncryption:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1963,9 +1939,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_result, _err := s.Impl.GetVoiceMailAlphaTag(ctx)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1976,9 +1949,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetVoiceMailAlphaTagForSubscriber:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1999,9 +1969,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetIsimImpi:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2016,9 +1983,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetImsPrivateUserIdentity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2039,9 +2003,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetIsimDomain:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2056,9 +2017,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetIsimImpu:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2070,13 +2028,16 @@ func (s *PhoneSubInfoStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetImsPublicUserIdentities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2094,13 +2055,19 @@ func (s *PhoneSubInfoStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteInt32(1)
+				if _err := _item.MarshalParcel(_reply); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetIsimIst:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2115,9 +2082,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetIsimPcscf:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2129,13 +2093,16 @@ func (s *PhoneSubInfoStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
+		if _result == nil {
+			_reply.WriteInt32(-1)
+		} else {
+			_reply.WriteInt32(int32(len(_result)))
+			for _, _item := range _result {
+				_reply.WriteString16(_item)
+			}
+		}
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetIccSimChallengeResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2168,9 +2135,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetSmscIdentity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2192,9 +2156,6 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPhoneSubInfoGetSimServiceTable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
 		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
